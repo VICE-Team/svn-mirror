@@ -29,7 +29,7 @@
  */
 
 /* A *big* thank goes to Andreas Boose (boose@rzgw.rz.fh-hannover.de) for
-   helping me to find bugs and improve the emulation. */
+   helping me to find bugs and improve the emulation.  */
 
 /* TODO: - speed optimizations;
          - faster sprites and registers. */
@@ -41,12 +41,10 @@
      only paint it completely in idle or display mode (we choose the most
      likely one, though);
 
-   - sprite memory pointers are always incremented by 3;
-
    - sprite colors (and other attributes) cannot change in the middle of the
      rasterline;
 
-   - changes within one line are probably not always correctly handled;
+   - changes of $D016 within one line are not always correctly handled;
 
    - g-accesses and c-accesses are not 100% emulated.
 
@@ -122,86 +120,93 @@ static void update_sprite_collisions(void);
    (bauec002@goofy.zdv.uni-mainz.de).  Thanks Christian!
    Note: we measure cycles from 0 to 62, not from 1 to 63 as he does. */
 
-/* Cycle # at which the VIC takes the bus in a bad line (BA goes low). */
+/* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
 #define	FETCH_CYCLE		11
 
-/* Cycle # at which sprite DMA is set. */
+/* Cycle # at which sprite DMA is set.  */
 #define SPRITE_FETCH_CYCLE	54
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `CYCLES_PER_LINE', so this actually happens at the very beginning
-   (i.e. cycle 0) of the next line. */
+   (i.e. cycle 0) of the next line.  */
 #define DRAW_CYCLE		CYCLES_PER_LINE
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510 that
-   needs at least 2 cycles to detect it. */
+   needs at least 2 cycles to detect it.  */
 #define RASTER_INT_DELAY	2
 
-/* Current char being drawn by the raster.
-   < 0 or >= SCREEN_TEXTCOLS if outside the visible range. */
+/* Current char being drawn by the raster.  < 0 or >= SCREEN_TEXTCOLS if
+   outside the visible range.  */
 #define RASTER_CHAR(cycle)	((cycle) - 15)
 
-/* Current horizontal position (in pixels) of the raster.
-   < 0 or >= SCREEN_WIDTH if outside the visible range. */
+/* Current horizontal position (in pixels) of the raster.  < 0 or >=
+   SCREEN_WIDTH if outside the visible range. */
 #define RASTER_X(cycle)		(((cycle) - 13) * 8)
 
+/* Current vertical position of the raster.  Unlike `rasterline', which is
+   only accurate if a pending `A_RASTERDRAW' event has been served, this is
+   guarranteed to be always correct.  It is a bit slow, though.  */
 #define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
+
+/* Cycle # within the current line.  */
 #define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
+
+/* `clk' value for the beginning of the current line.  */
 #define LINE_START_CLK	((clk / CYCLES_PER_LINE) * CYCLES_PER_LINE)
 
-/* # of the previous and next raster line. */
+/* # of the previous and next raster line.  Handles wrap over.  */
 #define PREVIOUS_LINE(line)   (((line) > 0) \
 			       ? (line) - 1 : VIC_II_SCREEN_HEIGHT - 1)
 #define NEXT_LINE(line)	      (((line) + 1) % VIC_II_SCREEN_HEIGHT)
 
-/* Bad line range. */
+/* Bad line range.  */
 #define FIRST_DMA_LINE	0x30
 #define LAST_DMA_LINE   0xf7
 
 /* ------------------------------------------------------------------------- */
 
-/* VIC-II registers. */
+/* VIC-II registers.  */
 static int vic[64];
 
-/* Interrupt register. */
+/* Interrupt register.  */
 static int videoint = 0;
 
-/* Line for raster compare IRQ. */
+/* Line for raster compare IRQ.  */
 static int int_raster_line = 0;
 /* Clock value for raster compare IRQ. */
 static CLOCK int_raster_clk;
 
-/* Internal color memory. */
+/* Internal color memory.  */
 static BYTE color_ram[0x400];
 
-/* Video memory pointers. */
+/* Video memory pointers.  */
 static BYTE *screen_ptr;
 static BYTE *chargen_ptr;
 static BYTE *bitmap_ptr;
 static BYTE * const color_ptr = color_ram;
 
-/* Screen memory buffers (chars and color). */
+/* Screen memory buffers (chars and color).  */
 static BYTE vbuf[SCREEN_TEXTCOLS];
 static BYTE cbuf[SCREEN_TEXTCOLS];
 
 /* If this flag is set, bad lines (DMA's) can happen.  */
 static int allow_bad_lines;
 
-/* Sprite-sprite and sprite-background collision registers. */
+/* Sprite-sprite and sprite-background collision registers.  */
 static BYTE ss_collmask = 0;
 static BYTE sb_collmask = 0;
 
-/* Extended background colors. (1, 2 and 3) */
+/* Extended background colors (1, 2 and 3).  */
 static int ext_background_color[3];
 
-/* Tick when int_rasterfetch() is called. */
+/* Tick when int_rasterfetch() is called.  */
 CLOCK vic_ii_fetch_clk;
 
-/* Tick when int_rasterdraw() is called. */
+/* Tick when int_rasterdraw() is called.  */
 CLOCK vic_ii_draw_clk;
 
-/* What do we do when the fetch event happens? */
+/* What do we do when the `A_RASTERFETCH' event happens?  */
 static enum {
     FETCH_MATRIX,
     CHECK_SPRITE_DMA,
@@ -2468,6 +2473,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
     for (i = start_char; i <= end_char; i++, p += 8) {
 	BYTE b = char_ptr[vbuf[i] * 8];
 	PIXEL f = PIXEL(cbuf[i]);
+	
 	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
 	DRAW_STD_TEXT_BYTE(p, b, f);
     }
@@ -2484,6 +2490,7 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
     for (i = start_char; i <= end_char; i++, p += 8) {
 	BYTE b = char_ptr[vbuf[i] * 8];
 	PIXEL2 f = PIXEL2(cbuf[i]);
+	
 	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
 	/* Notice that we are always aligned on 2-bytes boundaries here. */
 	DRAW_STD_TEXT_BYTE(p, b, f);
@@ -3004,12 +3011,16 @@ inline static void _draw_ext_text(PIXEL *p, int xs, int xe,
     int i;
 
     for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = (hr_table + (cbuf[i] << 8)
-		       + (vic[0x21 + (vbuf[i] >> 6)] << 4));
-	int d = *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i)
-	    = *(char_ptr + (vbuf[i] & 0x3f) * 8);
+	PIXEL4 *ptr = hr_table + (cbuf[i] << 8);
+	int bg_idx = vbuf[i] >> 6;
+	int d = *(char_ptr + (vbuf[i] & 0x3f) * 8);
 
-	*((PIXEL4 *)p + 2 * i) = *(ptr + (d >> 4));
+	if (bg_idx == 0)
+	    ptr += background_color << 4;
+	else
+	    ptr += ext_background_color[bg_idx - 1] << 4;
+        *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = d;
+        *((PIXEL4 *)p + 2 * i) = *(ptr + (d >> 4));
 	*((PIXEL4 *)p + 2 * i + 1) = *(ptr + (d & 0xf));
     }
 }
@@ -3033,17 +3044,21 @@ static void draw_ext_text_cached(struct line_cache *l, int xs, int xe)
 #ifdef NEED_2x
 
 inline static void _draw_ext_text_2x(PIXEL *p, int xs, int xe,
-					 BYTE *gfx_msk_ptr)
+				     BYTE *gfx_msk_ptr)
 {
     BYTE *char_ptr = chargen_ptr + ycounter;
     int i;
 
     for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = (hr_table_2x + (cbuf[i] << 9)
-		       + (vic[0x21 + (vbuf[i] >> 6)] << 5));
-	int d = *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i)
-	    = *(char_ptr + (vbuf[i] & 0x3f) * 8);
+	PIXEL4 *ptr = hr_table_2x + (cbuf[i] << 9);
+	int bg_idx = vbuf[i] >> 6;
+	int d = *(char_ptr + (vbuf[i] & 0x3f) * 8);
 
+	if (bg_idx == 0)
+	    ptr += background_color << 5;
+	else
+	    ptr += ext_background_color[bg_idx - 1] << 5;
+        *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = d;
 	*((PIXEL4 *)p + 4 * i) = *(ptr + (d >> 4));
 	*((PIXEL4 *)p + 4 * i + 1) = *(ptr + 0x10 + (d >> 4));
 	*((PIXEL4 *)p + 4 * i + 2) = *(ptr + (d & 0xf));
@@ -3067,17 +3082,63 @@ static void draw_ext_text_2x(void)
     draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
 }
 
-#endif /* NEED_2x
-	*/
+#endif /* NEED_2x */
+
+/* FIXME: This is *slow* and might not 100% correct.  */
 static void draw_ext_text_foreground(int start_char, int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text, start_char, end_char, gfx_msk, 1);
+    int i;
+
+    BYTE *char_ptr = chargen_ptr + ycounter;
+    PIXEL *p = (frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
+		+ 8 * start_char);
+
+    for (i = start_char; i <= end_char; i++, p += 8) {
+	BYTE b = char_ptr[(vbuf[i] & 0x3f) * 8];
+	PIXEL f = PIXEL(cbuf[i]);
+	int bg_idx = vbuf[i] >> 6;
+
+	if (bg_idx > 0) {
+#ifdef ALLOW_UNALIGNED_ACCESS
+	    *((PIXEL4 *)p) = *((PIXEL4 *)p + 1) =
+		PIXEL4(ext_background_color[bg_idx - 1]);
+#else
+	    p[0] = p[1] = p[2] = p[3] = p[4] = p[5] = p[6] = p[7] =
+		PIXEL(ext_background_color[bg_idx - 1]);
+#endif
+	}
+	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
+	DRAW_STD_TEXT_BYTE(p, b, f);
+    }
 }
 
 #ifdef NEED_2x
 static void draw_ext_text_foreground_2x(int start_char, int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text_2x, start_char, end_char, gfx_msk, 2);
+    int i;
+
+    BYTE *char_ptr = chargen_ptr + ycounter;
+    PIXEL2 *p = (PIXEL2 *)(frame_buffer_ptr + 2 * SCREEN_BORDERWIDTH
+			   + 2 * xsmooth) + 8 * start_char;
+
+    for (i = start_char; i <= end_char; i++, p += 8) {
+	BYTE b = char_ptr[(vbuf[i] & 0x3f) * 8];
+	PIXEL2 f = PIXEL2(cbuf[i]);
+	int bg_idx = vbuf[i] >> 6;
+
+	if (bg_idx > 0) {
+#ifdef ALLOW_UNALIGNED_ACCESS
+	    *((PIXEL4 *)p) = *((PIXEL4 *)p + 1)
+		= *((PIXEL4 *)p + 2) = *((PIXEL4 *)p + 3)
+		= PIXEL4(ext_background_color[bg_idx - 1]);
+#else
+	    p[0] = p[1] = p[2] = p[3] = p[4] = p[5] = p[6] = p[7] =
+		PIXEL2(ext_background_color[bg_idx - 1]);
+#endif
+	}
+	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
+	DRAW_STD_TEXT_BYTE(p, b, f);
+    }
 }
 #endif
 
