@@ -1,0 +1,26 @@
+// ACIA specific resources.
+//
+
+IDD_ACIA_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ACIA Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Enable ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "ACIA device",
+                    IDC_STATIC,9,24,50,8
+    COMBOBOX        IDC_ACIA_DEVICE,65,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA location",
+                    IDC_STATIC,9,44,50,8
+    COMBOBOX        IDC_ACIA_LOCATION,65,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA interrupt",
+                    IDC_STATIC,9,64,50,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,65,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
