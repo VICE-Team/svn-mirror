@@ -1,0 +1,1715 @@
+
+ Commodore compatible Disk Drives
+
+
+ This table is from  Transactor's Inner Space Anthology, the books "Anatomy of
+ the 1541 disk drive", and the 1581 and OC-118N disk drives user's guides,
+ with additions from the Commodore Products List by Jim Brain.
+
+
+
+Model
+			2031	2040	2041	4040
+			4031	3040
+------------------------------------------------------------------------------
+Drives			1	2	1	2
+			
+Disk Size	(inch)	5.25	5.25	5.25	5.25
+
+Storage Capacity	170K	170K	170K	170K
+	SEQ Files	168K	?	?	168K
+	REL Files	167K	?	?	167K
+
+
+DOS version(s)		2.6	1.0/1.2	1.2	2.1/2.7
+Encoding Method		GCR	GCR	GCR	GCR
+Disk Format		A	?	?	A
+File Types Supported	?	?	?	?
+
+Heads per Drive		1	1	1	1
+Tracks			35	35	35	35
+Track of BAM/Directory	18	18	18	18
+Directory Entries	144	152	?	144
+Sectors per Track	17-21	17-21	17-21	17-21
+Bytes per Block		256	256	256	256
+Free Blocks		664	690	?	664
+
+Buffer Storage (K)	2	4	?	4
+Interface		IEEE488	IEEE488	IEEE488	IEEE488
+Transfer Rate (Kb/s)	1.8	?	?	1.8
+
+
+Notes:
+ On some sources the values for dual drives are for drives 0: and 1: combined.
+
+
+Model
+			8050	8060	8061	8250	SFD1001	8280
+
+------------------------------------------------------------------------------
+Drives			2	2	2	2	1	2
+			
+Disk Size	(inch)	5.25	8	8	5.25	5.25	8
+
+Storage Capacity	512K	750K	***	1.05MB	1MB	?
+	SEQ Files	512K	?	?	1.05Mb	?	?
+	REL Files     183K/518K	?	?	1.04Mb	?	?
+
+
+DOS version(s)		2.5/2.7   2.5/2.7	2.7	?	?
+Encoding Method		GCR	GCR	GCR	GCR	GCR	GCR
+Disk Format		?	?	?	?	?	?
+File Types Supported	?	?	?	?	?	?
+
+Heads per Drive		1	?	?	2	2	?
+Tracks			77	?	?	2*77	2*77	?
+Track of BAM/Directory	38/39	?	?	38/39	38/39	?
+Directory Entries	224	?	?	224	224	?
+Sectors per Track	23-29	?	?	23-29	23-29	?
+Bytes per Block		256	?	?	256	256	?
+Free Blocks		2052	?	?	4133	4133	?
+
+Buffer Storage (K)	4	?	?	4	?	?
+Interface		IEEE488	IEEE488	IEEE488	IEEE488	IEEE488	IEEE488
+Transfer Rate (Kb/s)	1.8	?	?	1.8	?	?
+
+
+  * 8250 dual disk drive (stores 1MB on each disk)
+  * 8050 dual disk drive (stores 512KB on each disk)
+
+
+
+Model			1540
+			1541	1551	1570	1571	1581	1563
+			1542	SFS481		1572*
+------------------------------------------------------------------------------
+Drives			1	1	1	1 /2*	1	1
+
+Disk Size	(inch)	5.25	5.25	5.25	5.25	3.5	3.5
+
+Storage Capacity	170K	170K	170K	340K	800K	?
+	SEQ Files	168K	?	?	?	?	?
+	REL Files	167K	?	?	?	?	?
+
+DOS version(s)		2.6	2.6T	?	3.0	10.0	?
+Encoding Method		GCR	GCR	GCR	GCR	?	?
+Disk Format		A	A	A	?	D	?
+File Types Supported	DSPU	?	?	?	?	?
+
+Heads per Drive		 1	1	1	2	1/2	?
+Tracks			35	35	35	2*35	80/80	?
+Track of BAM/Directory	18	18	18	18	40-41	?
+Directory Entries	144	144	144	144 	296	?
+
+Sectors per Track	17-21	17-21	17-21	17-21	40/2*10	?
+Bytes per Block		256	256	256	256	256/512	?
+Free Blocks		664	664	664	1328	?	?
+
+Buffer Storage (K)	 2	2	?	?	?	?
+Interface		Serial	TED	Serial	Serial	Serial	?
+Transfer Rate (Kb/s)	??/0.4	?	?	?	?	?
+Burst Load (Kb/s)	-	-	?	?	?	?
+
+
+Notes:
+ The 1571 has 1541 mode, with the 1541 characteristics.
+ 1570 is single-sided 1571. The 1570 actualy has a 1571 board modified to
+	single sided.
+ 1572 is Dual 1571.
+
+
+ 1563 3.5 Disk Drive	[12 Nov 1995]
+ I have a 128 Portable (European model) with a 1563 3.5 disk drive installed.
+ It came from Fred Bowens office, says CMD where I got it from. This has to be
+ the most hacked board I have ever seen. Daughter boards everwhere.
+ If anyone wants to help me figure out whats in it, I'll post more about it.
+	-- Wile E. Coyote (coyote@gil.net)
+
+
+ The 1581 was physically a 2 head 80 track, 10 sector, 512 byte/sector drive.
+ Commodore mapped each logical 40 sector, 256 byte/sector track to the two
+ tracks on front and back of disk.  So, the logical drive was single sided,
+ 80 tracks, 40 sectors.
+
+ ----
+
+ GCR = Group Coded Recording
+
+ File Types: D = Deleted, S = SEQ, P = PRG, U = USR, R = Relative
+
+
+
+CMD Hard Drives 
+
+ Model    Capacity
+-------   --------
+HD-40       40 MB
+HD-170     170 MB
+HD-340.    340 MB
+HD-500     500 MB
+HD-1000      1 GB
+HD-2000      2 GB
+
+
+  7.1 Serial bus
+
+   CBM Serial Bus Control Codes
+
+	20	Talk
+	3F	Untalk
+	40	Listen
+	5F	Unlisten
+	60	Open Channel
+	70	-
+	80	-
+	90	-
+	A0	-
+	B0	-
+	C0	-
+	D0	-
+	E0	Close
+	F0	Open
+
+
+
+    How the C1541 is called by the C64:
+
+	   read (drive 8)
+		/28 /f0 filename /3f
+		/48 /60 read data /5f
+		/28 /e0 /3f
+
+	   write (drive 8)
+		/28 /f0 filename /3f
+		/28 /60 send data /3f
+		/28 /e0 /3f
+
+    I used '/' to denote bytes sent under Attention (ATN low).
+
+	28 == LISTEN command + device number 8
+	f0 == secondary addres for OPEN file on channel 0
+
+  Note that there's no acknowledge bit, but timeout/EOI handshake for each
+  byte. Check the C64 Kernel for exact description...
+
+ 
+
+	NUMBER	DESCRIPTION
+	00	OK
+	01	FILES SCRATCHED	Track number shows how many files were removed
+	20	READ ERROR (Block Header Not Found)
+	21	READ ERROR (No Sync Character)
+	22	READ ERROR (Data Block not Present)
+	23	READ ERROR (Checksum Error in Data Block)
+	24	READ ERROR (Byte Decoding Error)
+	25	WRITE ERROR (Write/Verify Error)
+	26	WRITE PROTECT ON
+	27	READ ERROR (Checksum Error in Header)
+	28	WRITE ERROR (Long Data Block)
+	29	DISK ID MISMATCH
+	30	SYNTAX ERROR (General)
+	31	SYNTAX ERROR (Invalid Command)
+	32	SYNTAX ERROR (Command Line > 58 Characters)
+	33	SYNTAX ERROR (Invalid Filename)
+	34	SYNTAX ERROR (No File Given)
+	39	SYNTAX ERROR (Invalid Command)
+	50	RECORD NOT PRESENT
+	51	OVERFLOW IN RECORD
+	52	FILE TOO LARGE
+	60	WRITE FILE OPEN
+	61	FILE NOT OPEN
+	62	FILE NOT FOUND
+	63	FILE EXISTS
+	64	FILE TYPE MISMATCH
+	65	NO BLOCK
+	66	ILLEGAL TRACK AND SECTOR
+	67	ILLEGAL SYSTEM T OR S
+	70	NO CHANNEL AVAILABLE
+	71	DIRECTORY ERROR
+	72	DISK FULL
+	73	DOS MISMATCH (Returns DOS Version)
+	74	DRIVE NOT READY
+
+
+
+		FIRST/NORMAL SECTORS
+		
+			
+BYTE	DEFINITION
+		0,1	Track and Sector of next block in file
+		2-255	Next 254 bytes of data.
+		
+		FINAL SECTOR
+BYTE	DEFINITION
+		0,1	A null followed by the number of program bytes in block
+		2-???	Final bytes of data.   Any excess bytes are ignored.
+			USR (User Files)
+See PRG (Program Files); User defined structure but generally follows the Program structure.
+	DEL (Deleted Files)
+Usually a dummy entry to help organize the directory listing.   Many times it's simply a horizontal “line”.
+REL (Relative Files)
+
+		DATA BLOCK
+BYTE	DEFINITION
+		0,1	Track and Sector of next data block.
+		2-255	Next 254 bytes of data.  Empty records contain $FF  in the first byte followed by nulls to the end of the record.  Partially filled records are also padded with nulls.
+		
+
+
+		SIDE SECTOR BLOCK
+BYTE	DEFINITION
+		0,1	Track and Sector of the next side sector block
+		2	Side Sector Number (0-5)
+		3	Record Length
+		4-5	Track and Sector of Side Sector 0
+		6-7	Track and Sector of Side Sector 1
+		8-9	Track and Sector of Side Sector 2
+		10-11	Track and Sector of Side Sector 3
+		12-13	Track and Sector of Side Sector 4
+		14-15	Track and Sector of Side Sector 5
+		16-255	Track and Sector Pointers to 120 data blocks
+		BETWEEN SECTORS: THE 1541/4040 FORMAT
+			Sync Mark
+			Header Block ID
+			Header Block Checksum
+			Sector Number
+			Track Number
+			ID Character Number 2
+			ID Character Number 1
+			Byte: $0F
+			Byte: $0F
+			Header Gap
+			Sync Mark
+			Data Block ID
+			256 Data Bytes (User-Readable Area)
+			Data Block Checksum
+			Byte: $00
+			Byte: $00
+			Inter-Sector Gap
+
+
+
+
+From: m9944@abc.se (Peter Karlsson)
+Subject: Re: How do I UNscratch a geos file on a 1581?
+Date: 3 May 1996 13:37:50 +0200
+
+
+ TM> I scratched a Geos file by mistake. A file that took me days to make.
+ TM> How do I unscratch it on a 1581 disk?
+
+Change the directory entry back to the normal file type (it should probably
+be 83h for USR file typ), and validate from GEOS. Hopefully the info sector
+is not gone.
+
+I'm not sure whether the directory structure on a 1581 is the same as on a
+1541/1571, but on those it's like this:
+
+File entry starts at byte 2 + (file entry# * 32) (where file entry# is 0-7).
+
+The offsets in the file entry are:
+
+0	File type (0x = scratched/splat, 8x = alive, Cx = locked
+	           where x: 0=DEL, 1=SEQ, 2=PRG, 3=USR, 4=REL)
+1-2	File starting track and sector
+3-18	File name padded with shift-space
+19-20	REL files: side sector
+	GEOS files: information sector
+21	REL files: record length
+	GEOS files: unknown to me
+22	Unused
+23	Unused
+	GEOS files: Creation year
+24	Unused
+	GEOS files: Creation month
+25	Unused
+	GEOS files: Creation date
+26	Temporary storage of track during @SAVE
+	GEOS files: Creation hour
+27	Temporary storage of sector during @SAVE
+	GEOS files: Creation minute
+28-29	Number of blocks in file
+
+Hope this helps!
+
+\\//
+Peter - 2:204/145.42 - dat95pkn@idt.mdh.se
+
+From: fox@metronet.com (Fuzzy Fox)
+
+
+>I scratched a Geos file by mistake. A file that took me days to make.
+>How do I unscratch it on a 1581 disk?
+
+Get out your sector editor and edit the directory entry for the file. 
+Change the file type from '00' to '83'.  Then do a GEOS Validate of the
+disk.
+-- 
+David DeSimone == Fuzzy Fox == fox@metronet.com == http://www.metronet.com/~fox
+ (PGP: 768/29DAD4E1 1996/02/12 == FP: 5B47 349F 3B9A B00D  ABA6 15F1 BBBE 8C44)
+The inevitable result of improved and enlarged communications between different
+ levels in a hierarchy is a vastly increased area of misunderstanding.
+
+
+-------------------------------------------------------------------------------
+
+From: fs1@aixcomp2.urz.uni-heidelberg.de (Andre Fachat)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM 2031 drive?
+Date: 11 Oct 1995 16:25:36 GMT
+
+: interface and your programs don't argue for the same slot in memory.  I 
+
+This is mostly because the Commodore IEEE488 interface for the C64 
+occupies the RAM address $c000-$d000. I wrote a patched kernel to
+a) use the IEEE488 interface together with the serial interface, i.e.
+use a poke to define which device number belongs to which of the two busses.
+b) Of course the $c000-$d000 area is free then.
+
+The only used hardware addresses are in the I/O expansion area in $de** or
+$df**, as far as I remember, so they don't disturb anything.
+
+I used this interface to use my 'patched' 1541 with IEEE488 interface 
+- which is faster than serial and more standard than anything else -
+and my Atari with selfbuilt IEEE488 interface both as storage media :-)
+
+See my WWW page (below) for the kernel (it has some more nice features
+as well).
+
+Andre
+
+
+--
+Andre Fachat	      mail me!	     fachat@galileo.rhein-neckar.de
+	       http://ix.urz.uni-heidelberg.de/~fs1
+
+
+
+ok here is a table I found in a book once.. (Anatomy of the 1541 disk drive
+I think)
+
+Model			1541	    2031	 4040	     8050	8250
+==============================================================================
+DOS Version(s)          2.6         2.6          2.1/2.7     2.5/2.7    2.7
+# of drives             1           1            2           2          2
+Heads per drive         1           1            1           1          2
+
+Capacity	        170K        170K         340K        1.05 Mb    2.12Mb
+Seq Files	        168K        168K         168K        512K       1.05Mb
+Rel Files	        167K        167K         167K        183K/518K  1.04Mb
+
+Buffer Size             2K          2K           4K          4K         4K
+
+# of tracks             35          35           35          77         77
+Sectors per track       17-21       17-21        17-21       23-29      23-29
+Bytes per Sector        256         256          256         256        256
+free sectors            664         664          1328        4104       8266
+Track of Bam/Directory  18          18           18          38/39      38/39
+# of directory entries  144         144          144         224        224
+
+Transfer rates (Kb/s)   
+Internal                40          40           40          40         40
+extern (serial/IEEE)    0.4         1.8          1.8         1.8        1.8
+
+Access time    (ms)
+Track to Track          30          30           30          5          5
+Average Time            360         360          360         125        125
+
+Revolutions per Minute  300         300          300         300        300
+
+Track / Sectors
+1541/4040			     8050/8250              
+===================================================================
+ 1 - 17  : 21 (0 - 20)		 1 - 39,  78 - 116 : 29 (0 - 28)
+18 - 24  : 19 (0 - 18)		40 - 53, 117 - 130 : 27 (0 - 26)
+25 - 30  : 18 (0 - 17)		54 - 64, 131 - 141 : 25 (0 - 24)
+31 - 35  : 17 (0 - 16)		65 - 77, 142 - 154 : 23 (0 - 22)
+
+Note: 8250 tracks 78 to 154 correspond to the reverse side of the disk...
+      therefore track 78 has 29 sectors .. 117 has 27 sectors etc etc.
+
+
+
+Romulis.	s887212@minyos.xx.rmit.oz.au
+
+
+
+1540, 1541, 1571 (in 1541 mode), 2031, 2040, 4040:
+--------------------------------------------------
+>  Format byte: "ASCII character A indicating 4040 format" (p.24 VIC-1541 
+>  manual, Dec/82 ed.)
+
+>the 1541 is the same as the 1540, 2040, 4040 & 2031 (except for the power-on
+> message)
+
+  1 side
+  35 tracks
+    trks 1-17:  21 sectors/trk
+    trks 18-24: 19 sectors/trk
+    trks 25-30: 18 sectors/trk
+    trks 31-35: 17 sectors/trk
+  Directory header at t18 s0
+  BAM starts at t18 s0  (pointer to start of directory at bytes 0 & 1)
+  BAM takes up 1 sector
+  Directory starts at t18 s1
+  Directory takes up 18 sectors
+  Free blocks: 664
+  Power-on message (for 1541): CBM DOS V2.6 1541
+  Power-on message (for 1540): ?
+  Power-on message (for 1571): ?
+  Power-on message (for 2031): ?
+  Power-on message (for 2040): ?
+  Power-on message (for 4040): CBM DOS V2.1
+
+
+1581:
+--------------------------------------------------
+  1 logical side (2 physical sides)
+  80 tracks
+    trks 1-80: 40 logical sectors/trk (sectors 20-39 are on physical side 2)
+  Directory header at t40 s0 (pointer to start of directory at bytes 0 & 1)
+  BAM starts at t40 s1
+  BAM takes up 2 sectors
+  Directory starts at t40 s3
+  Directory takes up 37 sectors
+  Free blocks: 3160
+  Power-on message: COPYRIGHT CBM DOS V10 1581
+
+
+Taken from the 1581 user's guide:
+
+t40 s0 (Directory Header)
+- bytes 00 & 01 are the t & s of the 1st directory block
+- ...
+
+t40 s1 (BAM1)
+- bytes 00 & 01 point to the t & s of the next BAM block (t40 s2)
+- bytes 02-0f misc.
+- bytes 10-ff are the BAM image for logical tracks 1-40 (6 bytes per track)
+
+t40 s2 (BAM2)
+- bytes 00 & 01 are 00 and ff
+- bytes 02-0f misc.
+- bytes 10-ff are the BAM image for logical tracks 41-80 (6 bytes per track)
+
+the 6 BAM bytes for each track are:
+	Offset	description
+	 0	 Number of free sectors on this track
+	 1	 MSB is flag for s7, LSB is flag for s0
+	 2	 MSB is flag for s15, LSB is flag for s8
+	 3	 MSB is flag for s23, LSB is flag for s16
+	 4	 MSB is flag for s31, LSB is flag for s24
+	 5	 MSB is flag for s39, LSB is flag for s32
+
+
+8050:
+--------------------------------------------------
+  1 side
+  77 tracks
+    trks 1-39:  29 sectors/trk
+    trks 40-53: 27 sectors/trk
+    trks 54-64: 25 sectors/trk
+    trks 65-77: 23 sectors/trk
+  Directory header at ?
+  BAM starts at t38 s?
+  BAM takes up ? sectors
+  Directory starts at t39 s?
+  Directory takes up ? sectors
+  Free blocks: 2052
+  Power-on message: CBM DOS V2.5
+
+
+8250, SFD-1001 (?):
+--------------------------------------------------
+  1 logical side (2 physical sides)
+  154 tracks (77 tracks/side x 2 sides)
+    trks 1-39:    29 sectors/trk  (on physical side 1)
+    trks 40-53:   27 sectors/trk   "     "       "  "
+    trks 54-64:   25 sectors/trk   "     "       "  "
+    trks 65-77:   23 sectors/trk   "     "       "  "
+    trks 78-116:  29 sectors/trk  (on physical side 2)
+    trks 117-130: 27 sectors/trk   "     "       "  "
+    trks 131-141: 25 sectors/trk   "     "       "  "  
+    trks 142-154: 23 sectors/trk   "     "       "  "
+  Directory header at ?
+  BAM starts at t38 s?
+  BAM takes up ? sectors
+  Directory starts at t39 s1
+  Directory takes up ? sectors
+  Free blocks: 4133
+  Power-on message (for 8250): CBM DOS V2.7
+  Power-on message (for SFD-1001): ?
+
+
+
+#: 22833 S10/Hacker's Corner
+    01-Mar-90  18:25:34
+Sb: #C= drive specs
+Fm: Anthony Marsh 72127,2301
+
+
+ I found a few more facts in Transactor's Inner Space Anthology.
+
+Briefly I noticed a few things such as:
+  2040 has 690 blocks, 152 directory entries in 19 sectors.
+  4040 has 683 blocks, 144 entries, 18 sectors.
+ Its power-on message as seen in the 8250 is almost the same as the 8050.
+
+ Directory at 39,0. BAM at 38,0. Directory at 39,1. 224 entries in 28 sectors.
+
+
+-------------------------------------------------------------------------------
+
+	1571
+
+From: dan@fch.wimsey.bc.ca (Dan Fandrich)
+Subject: Re: New fvcbm
+Date: Fri, 3 Nov 1995 17:00:21 -0800 (PST)
+
+
+>  Hmm...finally managed to locate some documents on the 1571.
+>  It claims this filler should be 5 bytes instead of 2 ?
+
+I'll make a comment in the code to this effect, but I'd like to see an actual
+disk image before I code it.  Unfortunately, Commodore's documentation can
+never be taken verbatim.
+
+>  Also, any idea which way the 1571 counts the tracks on the second side ?
+
+I don't know.  I've never seen any documentation on it.  Ask me about 1581
+instead! ;)  I've at least seen some for it.
+
+>  Can you tell more about the 1581 disk format ?
+
+Sure, I'll send you a 1581 disk image in .X64 format and I'll attach some
+text files here.  I've written a 1581 filesystem driver for Linux that might
+help somewhat as well.  Let me know if you'd like a copy.
+
+>>> Dan
+dan@fch.wimsey.bc.ca / MIME email ok / face & pgp key: finger danf@wimsey.com
+
+
+
+-------------------------------------------------------------------------------
+
+	1581
+
+Content-Name: /usr/local/text/cbm/1581-disk-info
+
+From: Bruce Gingery <bruce@TotSysSoft.com>
+Newsgroups: comp.sys.cbm
+Subject: 1581 info (was Re: c64 & 1581 (in)compatibilities)
+Date: 3 May 1995 05:28:58 GMT
+
+
+  From my web page that I haven't had the chance to finish up enough
+to send to Jim Brain for his C= Web references, yet....
+
+                     COMMODORE 1581 DISK DRIVE INFORMATION
+     _________________________________________________________________ 
+
+Physical Description
+
+    Housed in an off-white plastic case with an external power supply,
+   one power-jack, two serial jacks, and two toggle switches (for drive
+   number).
+   
+                Height ...................  63mm
+                Width  ................... 140mm
+                Depth  ................... 230mm
+                Weight ................... 1.4kg
+   
+Electrical Requirements
+   
+   Power Supply Voltage  - North America ......... 100-120 VAC 60Hz
+                         - Europe/Australia ...... 220-240 VAC 50Hz
+   Consumption ...................................  10 watts
+
+Media
+
+    Standard 3.5 double-sided double-density diskette. Formats to 800k,
+   but able to operate read/write compatible with MS-DOS 720k Diskettes.
+   Not compatible with MacIntosh and Amiga 880k Diskettes
+
+NORMAL Storage
+   
+   
+   Total unformatted capacity   .................	 1 megabyte
+   Total formatted capacity .....................  808,960 bytes
+   Maximum sequential file ......................  802,640 bytes
+   Maximum relative file ........................     ~800 kilobytes
+   Records per file .............................   65,535
+   Files per single-partition diskette ..........      296
+   Cylinders per diskette .......................       80
+   Logical sectors per cylinder .................       40 (0..39)
+   Physical sectors per cylinder ................       20 (1..20)
+   Free blocks per diskette .....................    3,120 
+   Bytes per logical sector .....................      256 
+   Bytes per physical sector ....................      512  
+
+Logical Data Arrangement
+
+  DIRECTORY HEADER - TRACK 40, SECTOR 0
+   
+    Offset (decimal)	Definition
+       00 - 01		Track and sector of first DIRECTORY block
+       02		Disk Version Number
+       03		$00
+       04 - 21		Disk Name
+       22 - 23		Disk ID characters
+       24		$A0
+       25		CBM-DOS Version Number
+       26		Disk Version Number
+       27 - 28		$A0 $A0
+       29 -255		Filled with $00
+   
+  BAM TRACKS 1-40 - TRACK 40, SECTOR 1
+   
+    Offset (decimal)	Definition
+       00 - 01		Track and sector of next BAM block   
+       02		Disk Version Number
+       03		Complement of Version Number
+       04 - 05		Disk ID characters
+       06		I/O flag marker.
+			Bit 7 = Verify ON/OFF
+			Bit-6 - Check Header CRC ON/OFF
+       07		Auto-Loader flag
+       08 - 15		Reserved
+       15 -255		Block Availability Map for logical tracks 1..40
+   
+   
+       
+  BAM TRACKS 41-80 - TRACK 40, SECTOR 2
+       
+    Offset (decimal)	Definition 
+       00		$00 
+       01		$FF
+       02	        Disk Version Number
+       03	        Complement of Version Number
+       04 - 05	        Disk ID characters
+       06		I/O flag marker.
+			Bit 7 = Verify ON/OFF
+			Bit-6 - Check Header CRC ON/OFF
+       07		Auto-Loader flag
+       08 - 15		Reserved
+       15 -255		Block Availability Map for logical tracks 41..80
+
+	Bruce
+
+
+--%#%record%#%
+Content-Name: /usr/local/text/cbm/1581-partitions
+
+From: dan@fch.wimsey.bc.ca (Dan Fandrich)
+Subject: Re: Info on 1581 needed
+Date: Fri, 15 Sep 1995 13:36:12 -0700 (PDT)
+
+> I just bought a CBM1581 DiskDrive, but without manual.
+> 
+> So i am searching for information, especially about the partition/directory
+> features.
+
+Here is the command to create a partition:
+
+OPEN15,8,15
+PRINT#15,"/0:partition name,"+CHR$(starting track)+CHR$(starting sector)+
+CHR$(< # sectors)+CHR$(> # sectors)+",C"
+
+A new partition must be formatted with the "N" command before it can be used
+as a subdirectory.  A partition used in this way must be at least 120 sectors
+long, must start on sector 0 and end on a multiple of 40. 
+
+This command will select a partition:
+
+PRINT#15,"/0:partition name"
+
+That's the executive summary.
+
+>>> Dan
+
+
+
+From: Bruce Gingery <bruce@TotSysSoft.com>
+Newsgroups: comp.sys.cbm
+Subject: Mapping the 1581 (long) (was Re: Concerning the 1581!)
+Date: 28 Apr 1995 03:52:42 GMT
+
+In Usenet newsgroup comp.sys.cbm posting <04616162405991/280605@RHK>, you  
+(Pontus Berg <pbg@hk.mobitel.telia.se>) wrote:
+
+:>  I'm, with a friend in the group, currently working with
+:>  the 1581 and for this reason I need more information
+:>  about the OS in it. For copy protections and speedloaders
+:>  we need a better memory map. (Knowing you can set adress
+:>  $30 doesn't cover all the needs ;-)
+
+  
+  The 1581 is a 3.5" drive accepting 1meg unformatted size
+  diskettes.  MS-DOS and many other systems use this diskette
+  for a formatted capacity of 720k.  The Amiga uses this same
+  diskette formatted to 880k, and the C= 1581 drive formats
+  it to 80 tracks of 20 512-byte sectors each for a total 
+  of 800k formatted capacity.
+  
+  It usess an 8520 CIA chip for serial bus communications
+  mapped at address 16384 ($4000).
+  
+  For diskette operations, it uses a Western Digital WD177x 
+  FDC (Floppy Disk Controller) chip, mapped at 24576 ($6000)
+  
+  The read/write system is quite comparable to that of the 1541
+  as described in Mapping the 1541, which is why I labelled this
+  message mapping the 1581.
+  
+     Controller
+     Job Code     Name     Action
+     ---------- ---------  ----------------------------------------
+	80	 READ	   Read Logical Sector
+	90	 WRITE     Write Logical Sector
+	A0	 VERIFY    Compare Cache buffer to Logical Sector
+	B0	 SEEK/ClatterTrack Log in disk read FIRST header
+	B8	 SEEK      Seek to TT/SS
+	C0	 BUMP	   True clatter track (really clatters 1541s)
+	D0	 JUMP	   Jump to buffer
+	E0	 EXEC	   Jump to buffer after motor on and seek
+	82	 RESET     Reset Controller
+	84	 Motor-ON  Turn ON drive motor
+	86	 Motor-OFF Turn OFF drive motor
+	88	 Immed-ON  Turn ON drive motor NOW!
+	8A	 Immed-OFF Turn OFF drive motor NOW!
+	8C	 SEEKP     Seek to PHYSICAL track
+	8E	 FORMAT    Format physical track under head
+	92	 DISK-IN   Test diskette present
+	94	 LED-ON    Turn ON (solid) Error/Active LED
+	96	 LED-OFF   Turn OFF Error/Active LED
+	98	 LED-Flash Set Error-flash switch for LED flash
+	9A	 LED-Stop  Clear Error-flash switch for LED
+	9C	 Set SIOS  Set Side to SIDS
+	9E	 BUF-MOVE  Move to/from Cache
+	A2	 TRKWRT    Dump cache to diskette if dirty
+	A4	 SPREAD    Physical read to $300 and up
+	A6	 SPWRITE   Physical write from $300 and up
+	A8	 PSEEK     Seek physical track
+	AA	 TREAD     Read logical address (no BUFMOVE)
+	AC	 TWRIT     Write logical address (no BUFMOVE)
+	B2	 TPREAD    Read PHYSICAL address (no BUFMOVE)
+	B4	 TPWRIT    Write PHYSICAL address (no BUFMOVE)
+	B6	 DETWP     Check disk write-protect (08=unwritable)
+	F0	 FORMAT    (Re-)format disk using ROM DEFAULTS.
+	
+Some Selected ROM routines
+	$8032	32818   Dispatch Commands
+	$804C	32844   ENDCMD
+	$8099	32921   PRSCLN
+	$80A7	32935   Command Syntax Error
+	$811C	33052   PARSE
+	$81E5	33253   Reset Error LED
+	$81F1	33265   Set Error LED (enable flash)
+	$8688	34440   SCRATCH
+	$876E	34670   COPY / DSKCPY
+	$88C5	35013   RENAME
+	$8954	35156   m-r
+	$8983	35203   m-w
+	$8996	35222   u0
+	$8B23	35619   b-f
+	$8B2F	35631   b-a
+	$8B85	35717   b-r
+	$8B8E	36726   b-R
+	$8B9A	36738   u1
+	$8BAE	35758   b-w
+	$8BD1	35793   b-W
+	$8BD7	35799   b-e
+	$8BFA	35834   b-p
+	$8EC5	36549   INITDR
+	$9145	37189   DEJAVU
+	$959D	38301   Strobe Controller
+	$9678	38520   OPEN
+	$A938	43320   CBM-BOOT
+	$A94C	43340   Disable CBM-BOOT
+	$A956	43350   UTLODR
+	$AB1D	43805   Disk signature analysis
+	$ACD4	44244   SPOUT
+	$AD5C	44380   TALK
+	$AEB8	44728   LISTEN
+	$AEEA	44778   SPINSPOUT
+	$AF24	44836   Cold Start (u: or uj)
+	$B262	45666   COLLECT
+	$B781	46977   PART
+	$B8D5	47317   u0 Fastload
+	$C765-$C7FF     Patch area ($FF)
+	$D00D	53261   Hackers note (PetSCII)
+			 explains reason for massive ROM waste
+	$D549	54601   Hackers note 2 (PetSCII) - and I agree
+	$DB90	56208   Command Dispatch Table
+	$FF00	65280   Command JUMP table (of course)
+	
+Selected Low-Memory locations
+	  $02	JOBS    Jobqueue
+	  $0B	HDRS    Jobqueue TT/SS (Logical)
+	  $77	LSTN    Listen address
+	  $78	TLKA    Talk address
+	  $9F	CACHSW  Jobqueue Cache switches
+	  
+	$1BC	HDRS2   Jobqueue TT/SS (Physical)
+	$1CE	SIDS    Jobqueue Sides (Physical)
+	$2AB	FLRATE  Error-LED Flash Rate
+	
+	
+	File Types
+	  0	DEL
+	  1	SEQ
+	  2	PRG
+	  3	USR
+	  4	REL
+	  5	CBM (Partition)
+	  6	E<null>(
+	  7	E?C
+	    
+   That should give you a good start - enough to get ya in trouble..
+   
+   Lemme know if you need more.
+   
++-+
+	Bruce Gingery    Total System Software   Cheyenne, WY USA
+     Bruce Gingery <bgingery@Wyoming.COM> OR <bruce@TotSysSoft.com>
+Multimedia: NeXTmail(tm) preferred      MIME-mail welcome
+
+
+
+I should mention the format of the 1581 disks.  They are physically 512 byte
+sectors, 10 sectors per track, 2 sides, 80 cylinders.  Logically, the disks
+are 256 byte sectors, 40 sectors per track, 80 tracks.  The disk metablock is
+on track 40 sector 0, the BAM starts on t40 s1 and takes two sectors, and the
+directory starts on t40 s3 (I think I got all that right).  
+
+I'm attaching an OCRred portion of the 1581 manual that someone mailed me
+along with a genuine 1581 disk.  That should help explain how the partitions
+work.  The sample .X64 image I sent you has several formatted partitions.
+
+>>> Dan
+dan@fch.wimsey.bc.ca / MIME email ok / face & pgp key: finger danf@wimsey.com
+
+
+--%#%record%#%
+Content-Name: /usr/local/text/cbm/1581-partitions
+
+(from the Commodore 1581 User Manual)
+
+PARTITIONS and SUB-DIRECTORIES
+
+  The 1581 allows the user to create partition areas on the disk.
+Partitions were originally implemented to provide a mechanism for
+easily protecting a particular section of the disk. That is useful for
+permanently allocating part of the disk for things such as BOOT
+sectors, CP/M work area, or reserving space for user defined random
+files.
+  Normally, sectors on the disk can be marked as used by setting
+the appropriate bit in the BAM (most easily done with the BLOCK-
+ALLOCATE command). That prevents them from being overwritten. A
+VALIDATE command, however, will de-allocate this area. To protect
+these special blocks from being de-allocated during a VALIDATE, place
+them in a user defined partition area. The VALIDATE command in the
+1581 automatically skips over file entries that are partition files (file
+type = CBM), which guarantees the intended area is, and remains,
+allocated.
+  Partition areas are given names by the user when first created.
+They appear in the main directory as file type CBM.
+  A partition area is created by the following command (file#
+should be opened to the command channel):
+
+  PRINT#file#,"/0:partition name," + CHR$(starting track)+ CHR-
+  $(starting sector)+CHR$(< # of sectors)+CHR$(> # of sec-
+  tors) + ",C"
+
+  Large enough partitions can also be used as sub-directories.
+There are, however, certain limitations if a partition area is to be used
+as a sub-directory area:
+
+  1) The partition area must be at least 120 sectors in size.
+  2) The starting sector must be 0.
+  3) The ending sector must be a multiple of 40.
+  4) The area to be allocated cannot contain track 40 (the original
+     system track).
+
+  Partitions can also be created with a partition. This means that
+sub-sub-directories can be created if their partitions meet the above
+rules. Graphically, it looks like this:
+
+       ROOT (/)
+	 |
+--------------------------- ..... ----------
+/0:PART1 /0:PART2 /0:PART3  .....  /0:PARTn
+	      |
+   ---------------------
+	|	 |
+    /0:PART2   /0:PART2
+    /0:PART21  /0:PART22
+
+  Partition areas which meet the qualifications of being a subdirec-
+tory can then be selected by the following command.
+
+
+  PRINT#file#,"/0:partition name"
+
+ Once selected, the partition area cannot be used as a sub-directo-
+ry until it is formatted. The HEADER or NEW commands are used to
+format this sub-disk area. Make sure that you have successfully select-
+ed this partition area before formatting. If not, the wrong directory
+area will be reformatted. You can check if the area was successfully 
+selected by checking the error channel. If everything went OK, the
+error channel would read:
+
+  02,SELECTED PARTITION,first track #,last track #
+
+  If the area you attempt to select does not meet the qualifications
+of a sub-directory, then the error channel would return:
+
+  77,SELECTED PARTITION ILLEGAL,00,00
+
+  Only one level of subdirectory can be selected at a time. To get
+from the ROOT to PART21 you would have to execute the command
+twice.
+
+  PRINT#file#,"/0:PART2"
+  PRINT#file#,/0:PART21"
+
+  Directories can only be traversed in the forward direction. To get
+to a sub-directory which is on a node above the presently selected
+node of the tree, you must select the ROOT directory and work your
+way down the tree, selecting a branch at a time. To get to the ROOT
+directory directly from any node type:
+
+  PRINT#file#,"/"
+
+   When the user selects a particular sub-directory area, it then
+becomes the default working area. Accesses to the disk for directories,
+loading files, saving files, etc., will all be done within this area. Files
+outside of the selected area are effectively invisible.
+  File and local BAM information for sub-directories are stored
+within the sub-directory areas themselves. The information is stored
+on the first allocated track of the partition area, and has the same
+format as track 40. When creating partitions and sub-directories within
+sub-directories it is the responsibility of the user to make sure that he
+doesn't overwrite this information! The DOS only checks to make sure
+that you don't attempt to overwrite this information for the ROOT
+directory (track 40). It is up to the user to make sure that this
+information isn't corrupted in the sub-directories.
+ Partitioned areas can be freed up simply by SCRATCHING the
+partition file entry in the appropriate directory. If the partition was
+being used as a sub-directory, all of the files in that sub-directory will
+be lost.
+
+
+ BAM Layout
+
+Location	Description
+
+ 0		First Track (18)
+ 1		First Sector (1)
+ 2		Format
+		    'A' = 1540/1541/1551/1571/4040/2030 format
+		    'D' = 1581 format
+
+ 3		Double Sided flag
+		  1541	0
+		  1571	128
+		  1581	0
+
+------------------------------------------------------------------------------
+
+		1541 and 1571
+
+ 4-143		BAM Bitmap
+144-159		Disk Name
+160-161		$A0
+162-163		Disk ID
+164		$A0
+165		DOS Version ('2')
+166		Format Type ('A')
+167-170		$A0
+171-220		$00
+
+------------------------------------------------------------------------------
+
+		1571
+
+ On a 1541 these bytes are 00.
+
+221-237		Number of Sectors on tracks 36-52
+238		Number of Sectors on track 53 (0, as 53 not supported)
+239-255		Number of Sectors on tracks 54-70
+
+ Track 53 Sector 0
+
+ 1-104		BAM Bitmap for tracks 36-70
+105-255		$00
+
+------------------------------------------------------------------------------
+
+	1581
+
+ 4-20		Disk Name
+21-22		$A0
+23-24		Disk ID
+25		$A0
+26		DOS Version (?)
+27		Format Type ('D')
+
+
+******************************************************************************
+
+	DOS Bugs
+
+
+Newsgroups: comp.sys.cbm
+From: dfevans@bbcr.uwaterloo.ca (David Evans)
+Subject: Re: Various Commodore Computers (please read)
+Date: Fri, 5 Jan 1996 16:28:12 GMT
+
+In article <30e9b7a3.185sn@fch.wimsey.bc.ca>,
+Dan Fandrich <dan@fch.wimsey.bc.ca> wrote:
+
+>The October 1985 Compute! (Vol.7,No.10) contains a program which
+>demonstrates the bug, and the September 1986 Transactor (Vol.7,Iss.2)
+>discusses the causes (at the assembly language level) and provides code to
+>fix that bug and several others in the ROM.
+
+
+  That's it.  The bug basically went like this, although I'm sure I've left
+some things out:
+  Buffers are reserved for the BAM from drives 0 and 1 and the BAMs are read
+in.  Obviously the one for drive 1 gets an error (drive not ready, likely.)  As
+things go along, buffers are moved about; SWAPBUF is called to swap the
+contents of two buffers if required and STLBUF is called to "steal" a buffer
+that is marked used but is no longer needed.  Two tracks-worth of the BAM is
+copied from its buffer to somehwere in zero page (as I recall) in order to ease
+work with it.  If buffer space becomes tight, STLBUF will be called.  However,
+STLBUF will never steal a buffer which incurred an error.  Thus, the buffer
+holding the phantom drive 1 BAM will never be stolen.
+  Under certain circumstances, the buffer holding the drive 0 BAM will be
+stolen by STLBUF.  Once the drive has finished with its "image" of the BAM in
+zero page, it realises it doesn't have the BAM elsewhere and reads it back in
+from track 18 sector 0.  This BAM is then updated with the BAM images, another
+two tracks of BAM is transferred to the image locations, and things continue.
+  The bug strikes if the BAM in the stolen buffer was dirty when it was stolen;
+blocks allocated for the newely-save@'d file will no longer be allocated, and
+may be clobbered at any time.
+  Phillip A. Slaymaker was the guy who wrote the articles in The T. and 
+Compute!  He suggested several modifications, including modifying STLBUF to
+never steal the drive 0 BAM, modifying STLBUF to be able to steal a buffer with
+a "drive not ready" error, and adding aditional buffer space to the drive.
+  I know there's more, but I can't remember it all.  :-)
+
+-- 
+David Evans	      (NeXTMail OK)	      dfevans@bbcr.uwaterloo.ca
+Computer/Synth Junkie		      http://bbcr.uwaterloo.ca/~dfevans/
+
+
+
+From: ckaiser@sdcc13.ucsd.edu (Po-Ching Lives!)
+Newsgroups: comp.sys.cbm
+Subject: Save-replace bug (was Re: Various Commodore Computers (please read))
+Date: 25 Jan 1996 16:00:24 GMT
+
+In <577469@363.chatlink.com> Bios@sys363.chatlink.com writes:
+
+[ NA> = included from a previous article ]
+
+>NA>As I recall (which is probably not entirely correct) is something with
+>NA>un-ready drives (such as drive #1 which isn't there) and a shortage of
+>NA>buffers (another 1540 problem, since the single drives are half a
+>NA>double drive in every respect: half the mechanics, half the processors
+>NA>and half the memory).
+
+A popular way of putting this is that the 15xx drives, and I think
+early 1571's, with the exception of the 1581, spend most of their
+time convincing themselves they're really drive 0, and not drive 1.
+So, you get a ghost phenomenon where in certain isolated
+circumstances, you have a drive with multiple personalities that
+writes to this ghost drive 1 (the theory goes) and makes a mess.
+
+>NA>There was apparently a program published that reliably demonstrated the
+>NA>bug (even though it took a while). I'd like to see that program and
+>NA>the related article (Transactor?).
+>     Yes, I have an article in my transactor magazine which actually
+>     demonstrates this bug.  Never tried the program though but it seems
+>     to prove that there is a bug with the save and replace feature.
+
+The save and replace feature's problem is that it attempts to keep
+two copies of the file on the disk at the same time. Normally, this
+is not a problem and is in fact a GOOD thing because if something
+happens to one copy, or the other, there's still an image of one of
+the files on the disk. However, should the ghosting problem happen
+to occur while one of these copies is being dealt with, hell breaks
+loose. 
+
+I have in fact encountered the @0: bug many times myself and
+it has wrecked untold hours of work, which is why I now scratch and
+save instead. It is *supposed* to go away if you specify the drive
+number (save"@0:file",8 instead of save"@:file",8) but I have not
+found any increase in reliability with this method. Where there's
+smoke, there's usually fire. Anyone know if the emulators also have
+this problem?
+
+Cameron Kaiser
+ckaiser@ucsd.edu
+visit the CWI home page at http://www.armory.com/~spectre/cwi.html
+
+
+-------------------------------------------------------------------------------
+
+	1571
+
+From: slimy@junkmailer.go.away! (Mike Neus)
+Newsgroups: comp.sys.cbm
+Subject: Re: C-128D PROBLEMS (Please Read) :(
+Date: 20 Dec 1995 15:59:57 GMT
+
+In article <4b85cd$8rp@ruby.ucc.nau.edu>, pap@dana.ucc.nau.edu says...
+>
+>Ok, folks. This one is baffling...
+>My C-128D seems to be functioning properly, except for the fact that 
+>almost ALL of my C-64 software that works *perfectly* on my C-64 and 
+>1541, does NOT load correctly on my C-128D's built-in 1571 disk drive.
+
+I had this problem too when I first got my machine.  The problem is any game 
+that uses a fast loader has to reprogram the drive.  Their are one of two 
+problems that can cause the game not to load (your post is not clear on what 
+the problem is).
+
+1)  The drive is in 1571 mode.  If so, almost no copy protected or fast load 
+games will work.  Easiest way to fix this is to hit reset and C= key.  You 
+will boot right to C64/1541 mode.  When you switch modes with "GO64" the 
+drive will remain in 1571 mode.
+
+2)  The ROM's that came in the "1571D" were updates from most 1571 drives at 
+the time which fixed a number of bugs.  Problem is, buy fixing the bugs, they 
+introduced more bugs that caused incompatabilities with the 1541, even if the 
+drive is in 1541 mode.  The symptom is the same (copy protected/fast load 
+games don't load).  Solution:  Get JiffyDOS.  At the time I bought my JD ROM, 
+the CMD ad stated their ROMs incorporated all CBM's bug fixes plus fixes for 
+CBMs new 1541 compatability problem.  I'll be darned, but they were right.  
+Since I have installed JD, I have not ran into anything that will not load.
+
+ -Mike Neus
+
+
+-------------------------------------------------------------------------------
+
+	1581
+
+From: umcwikla@cc.umanitoba.ca (Tom Cwikla)
+Newsgroups: comp.sys.cbm
+Subject: Re: 1581 problem
+Date: 13 Feb 96 23:21:59 GMT
+
+>Alan Jones (alan.jones@qcs.org) wrote:
+
+>> I have an intermintent problem with my 1581 drive.  It is still my most
+>> reliable drive, but the problem seems to be getting worse.  Sometimes
+>> when I change diskettes I get the directory from the old diskette.
+
+This is because once the 1581 reads the directory of a disk, it stores this
+directory in its RAM, and doesn't access the disk again until senses that a
+new disk has been put in. If you look inside your 1581, where the disk goes
+in, on the left side you will see two small white pins that stick up. These
+are actually tiny little switches that get pressed down when a disk gets 
+put in. One of the switches detects the disk itself, the other one detects
+the write protect tab. Your problem is that one of these pins "sticks" in
+the down position when the disk is ejected and this makes the 1581 think
+that the same disk is still in the drive. To verify this, try ejecting a
+disk, and then check the directory with NO disk in the drive. 
+
+>> and is there a cheap or simple fix?
+
+You can probably try to clean the switches with contact cleaner. I have
+never actually taken apart the switch assembly, I don't even know if it is
+possible. Another simple fix (although not so cheap) is to go down to your
+local PC store, and buy a regular IBM 720K drive, and simply swap it with
+the drive inside your 1581. You can also swap it with the drive out of an
+Amiga 500. I have actually done this and it does work. Of course opening up
+your 1581 voids the warranty but I assume its warranty is long over! :)
+
+--Tom.
+
+
+From: Dallas Legan <dlegan@engr.csulb.edu>
+Newsgroups: comp.sys.cbm
+Subject: UI- vrs. SYS 64490
+Date: Sat, 6 Apr 1996 02:04:46 -0800
+
+I've inquired periodically here about a problem I've had
+trying to use 1581 disk drives with VIC-20's, the system
+simply refusing to save all of the program when it decides
+to go into a fit of this misbehaviour.
+At least one other person (who's name I don't recall) reported
+a similar problem, and several expressed curiosity about the
+phenomenon.
+
+The problem might be characterized as the 1581 not being able
+to keep up with the data sent it by the VIC, and quitting
+when it seems to hit the apparent end of the data.
+
+The 1581 apparently does not have the "UI-" command of the 1541
+the command documented in the 1581 manual, the seeming nearest to this ,
+"UI" being merely to "jump to ($fffa) reset tables". 
+(Commodore 1581 Disk Drive User's Manual, p.87).
+
+Run Special Issue, Vol.1, #1, p.122, "VIC and the 1526 Printer"
+reports a SYS 64490 reset to change the timing on the serial
+port of the VIC-20 to match the C=64, preventing printer lockups.
+
+This seems to solve the problem, but it has been so erratic in 
+the past I am extremely reluctant to declare an end to it,
+wanting to see if this jives with the experience, knowledge
+or opinions of anyone else who may have reason to check this.
+
+It would seem to indicate that "SYS 64490" could be used as 
+an alternative to 'open15,8,15,"UI-":close 15' - can it? 
+
+Does anyone out there know anything about this reset?
+
+Any ideas?
+
+Regards
+Dallas E. Legan
+P.O. Box 2099
+Downey, CA 90242
+U.S.A.
+(310) 862 - 4854
+dlegan@heart.engr.csulb.edu
+aw585@lafn.org
+delii@sc.liberty.com
+
+
+From: damborn@hutchtel.net (Dan Amborn)
+Subject: 1541 Rom 251968-02
+Newsgroups: comp.sys.cbm
+Date: Sun, 16 Jun 1996 06:10:31 GMT
+
+Thanks to Tony Postmayer I received a copy of the old Vic 1540 Rom
+code.  It doesn't stop there.  I'm also after the rom code number
+251968-02.  This could be in either a 1541B or 1541C drive.   Again
+I'm asking this for a friend who doesn't have internet access.  Here
+is a message from Fred Bowen of Commodore mentioning this rom:
+
+
+
+>From: cbmvax.cbm!fred (Fred Bowen)
+>Subject: 1541B ROM update
+>Date: 12 Dec 86 23:14:51 GMT
+>To: Commodore users
+>
+>
+>1541B DOS ROM RELEASE NOTES
+>Commodore Electronics, LTD.                     5 December 1986
+>
+>1541B ROM RELEASE NOTES: 251968-02   (16K byte, 300ns, checksum=$1A69)
+>
+>THE FOLLOWING MODIFICATIONS HAVE BEEN MADE TO THE  251968-01  ROM  CODE  TO
+>CREATE A NEW ROM  RELEASED  ON  12/05/86.  THIS  RELEASE IS MADE TO  CREATE
+>MASKED ROMS FOR PRODUCTION OF THE 1541B/C MODEL DISK DRIVE ONLY.
+>
+>1.  The interrupt rate change from 15 to 8ms for slightly better
+>performance caused compatibility problems with some software that used that
+>timing for its own purposes. It is now 15ms.
+>
+>2.  The 1541B  board  has  troubles  accessing tracks beyond 35
+>attributable to the new data separator, although the problem always existed
+>(wrong bit cell densities because TRKNUM only listed up to track 35).
+>TRKNUM has been extended.
+>
+>3.  SAVE-@ (SAVE with replace) is fixed.  The variable  NODRV is now a
+>16-bit addressable var,  and the STLBUF routine steals the buffer locked by
+>drive one.
+>
+>4.  Relative File fixes (unspecified).
+>
+>5.  Serial bus (DEVICE NOT PRESENT) fix.  TSTATN now clears IRQ.
+>
+>6.  Block read fix (unspecified).
+>
+>7.  Write to stack area bug (unspecified).
+>
+>8.  Set decimal mode (SED) before disabling IRQ (SEI) fixed.
+>
+>9.  Disk full bug (unspecified).
+>
+>10.  Add copyright notice for legal types and thieves.
+>
+>11.  The ROM checksum adjustment byte at $C001 is now $46.
+>
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>  PLEASE NOTE:  THIS ROM WILL _NOT_ WORK IN EARLIER 1541 PCB'S, WHICH
+>REQUIRE DIFFERENT SIZED ROMS (8K),  AMONG OTHER BOARD DIFFERENCES!
+>  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>--
+>Fred Bowen
+>
+>Commodore Electronics, Ltd.,  1200 Wilson Drive,  West Chester,  PA,  19380
+
+
+   
+
+
+From: Radioactive Warrior <radwar@acc.net>
+Subject: Re: disk commands
+Newsgroups: comp.sys.cbm
+Date: 23 Jun 1996 07:29:09 GMT
+
+m.deming@genie.com (MICHAEL I DEMING) wrote:
+>To clarify about my questions, the problem is not in assembly,the code
+>assembles fine, the problem comes when I sys to the object code, in both
+>cases the error light would start flashing, I would access the error channel
+>with the @ ,I use Jiffy dos, that is when I get the syntax error. I think
+>that the error lies in the waay the U1 command is sent.
+> Both the burst routines and the program form Gazzett were similar in that they
+>both used U0 or U1 commands. I am interested in how to do this in ml.
+
+Hmmm. if you are getting a 30,SYNTAX ERROR,00,00 error I can guarantee your
+problem is the string that you are attempting to send to the drive is missing
+one or more parameters... The best way to send a string in ML to a device-
+like, "U1 2 0 18 1" is to open the device with a JSR $FFBA (SETLFS) then
+JSR $FFC0 (OPEN).  Now any bytes can be sent to the device using JSR $FFD2,
+just as you would in basic (ie. print#15,"U1 2 8 18 1")
+Just remember that for the U1 command to work, you need to have two channels
+open at once-
+OPEN2,8,2,"#1"
+OPEN15,8,15,"U1 2 0 18 1"
+CLOSE15:CLOSE2
+
+BTW, that only causes the block T18, S01 to be read into the drive RAM, $0500.
+The task to get the data to the c64 is another beast entirely...
+
+good luck,
+Radioactive Warrior
+
+
+
+From: Corey Cooper <cooper@oak.tivoli.com>
+Subject: Re: Can someone explain the 1541's BAM?
+Newsgroups: comp.emulators.cbm
+Date: Mon, 1 Jul 1996 12:49:09 -0500
+
+Here's a little diagram I drew for myself long ago when I did the same 
+thing you're doing.  Hope it helps.
+
+   BAM Format:
+   35 groups of 4 bytes:
+   +-------------------------------------------+
+   |     0    |     1    |     2    |     3    |
+   | 00000000 | 00000000 | 00000000 | xxx00000 |
+   |# of free | ^      ^ | ^      ^ |    ^   ^ |
+   | sectors  | s7    s0 | s15   s8 |  s20 s16 |
+   +-------------------------------------------+
+
+The format isn't entirely self-explanatory, so here goes.  Each track 
+gets a 4-byte description, as above.  If the above were the first 4 bytes 
+of the BAM, for track 1, then track 2 would come next, using bytes 4-7, 
+then track 3 using bytes 8-11, etc.  The 1st byte is number of free 
+sectors on that track.  The labels s0 through s20 are the bits 
+representing that sector.  I forget if a 1 represents a free or a used 
+sector... shouldn't be too hard to figure out with some experimentation.
+
+-Corey
+
+On Fri, 28 Jun 1996, Steve Krulewitz wrote:
+
+> Hey all,
+> 
+>    I am writing a (yet another) program to convert between the various
+> image formats for the C64 emulators.  I have run into a problem with the
+> 1541's BAM -- with the limited documentation I have found (C64 emulation
+> FAQ and the 1541 Manual from funet) I still can't make much sence of it.
+> The part the puzzles me is that, according to the 1541 manual, there are
+> 140 bytes in the directory header for the BAM bitmap.  This is 1120
+> bits.  A 35 track 1541 disk only has 683 blocks... so what are the
+> extras for?
+> 
+> Actually I have a few questions concerning the various formats -- if
+> anyone out there has written a conversion program, and if you feel like
+> answering a few questions, please e-mail me!
+> 
+> - Steve
+> 
+> 
+
+From: rhustak@essex1.com (Randy Hustak)
+Subject: Re: Help me!!  1571 questions.
+Newsgroups: comp.sys.cbm
+Date: 30 Jun 96 22:00:25 GMT
+
+In article <4r11ee$7l6@dfw-ixnews10.ix.netcom.com>, From 
+jonart@ix.netcom.com (InS@Ne DoM@iN), the following was written:
+> Hi there....  I have just picked up a 1571 floppy drive and 
+> desperately need a manual.  What are the two micro-switches on the 
+> back of the drive? Are there any special commands to access both sides
+  > of the disk? >  
+The micro switches set the device number as follows
+ 
+    Left    Right    Device#
+     UP      UP         8
+    Down     UP         9
+     UP     Down        10
+    Down    Down        11
+
+Open 1,8,15,"U0>M1"  puts the drive in 1571 mode
+Open 1,8,15,"U0>M0"  puts the drive in 1541 mode
+
+
+From: bman@netcom.ca(Byron L Gracey)
+Subject: Re: JiffyDOS 128
+Newsgroups: comp.sys.cbm
+Date: 11 Jul 1996 05:47:52 GMT
+
+In <Pine.OSF.3.93.960708131126.14364C-100000@spartacus.hula.net> Joesph
+>> no time (well 41 seconds to be exact).  I signed on and did what I
+wanted 
+>> to and signed off with this question in my mind.  Why was it so slow
+when 
+>> I switched from 128 mode to 64 mode?  The screen still showed
+JiffyDOS 
+>
+>I cant answer the first part of your question except to say possibly
+the
+>Jiffy Dos got disabled somehow.  You could have recalled it with the 
+>proper sys call for your version.   The other part on 128.  When you
+>reset the old 128's by holding down logo key and reset, you are 
+>activating a function called "de ja vu" which means things will be
+still
+>in memory and not be lost upon resetting.  All you have to do is hit
+>an x and (cr) to get out of the m/l monitor you find yourself in after
+>a "de ja vu" reset.
+>                    ***** kilroy *****
+>
+>
+
+What is happening is not a computer problem, is a mismatched disk
+format between a typical 1541 disk and a typical 1571 disk.  Normally
+on a 1541, programs on disks are interleaved 10 sectors apart.  That
+means, when a sector is full, the next sector the drive will write to
+is ten sectors away on the same track, until the track is full
+whereupon it switches to another track and repeats the process.  On a
+1571 drive when used in 1571 (128) mode, the interleave is not ten, it
+is around 7 or 4 or 5... I don't remember the number to be exact, but
+that's not the issue.
+
+What happens next is when you try to read a 1541 disk in 1571 mode or
+vice versa, the drive has to seek the next sector longer because it
+isn't where it should be according to how it normally operates.  With
+JiffyDOS, all the numbers change, but the principal is still the same,
+and in most cases, there is still a difference in sector interleave
+between 1541 and 1571 modes, even on single sided disks.
+
+So what is happening in the above scenario?  Well, if you turn on your
+128 and 1571, the 1571 is actually NOT yet in 1571 mode.  It takes a
+true 1571 command request to switch the drive over to 1571 mode.  After
+that, the drive forever stays in 1571 mode unless you turn the power
+off, or issue a change mode command to the drive... I think a reset
+works as well.
+
+So knowing that the drive is now in 1571 mode after using a 128 mode
+program, you can see that entering 64 mode without changing the status
+of the drive via a command or reset will yield a 64 computer running a
+1571 drive in 1571 mode.  This of course means that the drive and the
+disk usually will not agree on how far apart sequential data sectors
+shoudl be stored on the disk and therefore the drive in 1571 mode will
+generally take longer to load programs from a 1541 disk than if you
+were to change the drive mode back as well.
+
+The reason it works fine after booting in 128 mode then going to 64
+mode immediately all relates back to the fact that a 1571 drive starts
+in 1541 mode and needs to be told to change to 1571 mode before it will
+do so.  Something as simple as a directory command should change it to
+1571 mode.  to change between modes, probably using the reset button is
+your safest bet without powering down.
+
+From: Radioactive Warrior <radwar@orl.mindspring.com>
+Subject: Re: JiffyDOS 128
+Newsgroups: comp.sys.cbm
+Date: Thu, 11 Jul 1996 16:01:09 +0000
+
+> What is happening is not a computer problem, is a mismatched disk
+> format between a typical 1541 disk and a typical 1571 disk.  Normally
+> on a 1541, programs on disks are interleaved 10 sectors apart.  That
+> means, when a sector is full, the next sector the drive will write to
+> is ten sectors away on the same track, until the track is full
+> whereupon it switches to another track and repeats the process.  On a
+> 1571 drive when used in 1571 (128) mode, the interleave is not ten, it
+> is around 7 or 4 or 5... I don't remember the number to be exact, but
+> that's not the issue.
+> 
+> What happens next is when you try to read a 1541 disk in 1571 mode or
+> vice versa, the drive has to seek the next sector longer because it
+> isn't where it should be according to how it normally operates.  With
+> JiffyDOS, all the numbers change, but the principal is still the same,
+> and in most cases, there is still a difference in sector interleave
+> between 1541 and 1571 modes, even on single sided disks.
+
+I think you are completely wrong on this point...
+normal 1541 DOS uses 10-sector interleave.  Using j-dos to read a 1541
+disk should only take the time of two MAX. sectors to go by so even in
+1541 mode (j-dos on) it would have plenty of time to set up for the next
+sector even if it was written on a 1571 using an interleave of four...
+1571 interleave DOES NOT EQUAL fastloading... At least, not exclusively.
+Now, if j-dos was disabled, then the smaller interleave value would cause
+normal 1541 DOS to read solwer than normal cause it would need to wait for
+13 unnecessary sectors to pass by, but I have done this and it dosen't
+really add up to more than 15% longer so interleave isn't the critical
+speed hinge.
+
+Much more likely that the j-dos vector ($0330)was reset to use the stock
+load routine, this would have caused the fastloader to be bypassed...
+Or, the drive needed to be reset- enter:
+@uj
+and see if that cures it...
+
+From: fox@popi.net (Fuzzy Fox)
+Subject: Re: JiffyDOS 128
+Newsgroups: comp.sys.cbm
+Date: 11 Jul 96 06:48:15 GMT
+
+rbthomas@freenet.edmonton.ab.ca () writes:
+
+> If you start your 128 in 128 mode and DO NOT ACCESS THE DISK DRIVE you
+> can use GO64 and not suffer and performance loss in your drive.
+
+This is true.  The reason is that accessing the 1571 using burst-mode
+protocol (which only a 128 can do) will switch the drive into 1571 mode.
+In 1571 mode, the drive is double-sided by default, and the internal CPU
+steps up to a speed of 2 MHz.
+
+If you enter C64 mode without resetting the drive or sending it a
+command to force it into 1541 mode, it will remain in 1571 mode, and
+most fast-loader programs will fail, because they cannot stay in sync
+due to the 1571's 2 MHz rate.  Programs will usually pretend the drive
+is non-1541-compatible, and just use the slow serial bus methods.
+
+It is surprising that even a JiffyDOS-loaded drive will do this, but
+Commodore equipment is always full of surprises.  :)
+
+-- 
+David DeSimone == Fuzzy Fox == fox@metronet.com == http://www.metronet.com/~fox
+ (PGP: 768/29DAD4E1 1996/02/12 == FP: 5B47 349F 3B9A B00D  ABA6 15F1 BBBE 8C44)
+   Foxes are people too!   |  "My shoes are too tight," he said.  "But it
+     (And vice versa)      |   doesn't matter.  I have forgotten how to dance."
+
+From: egotrip@lesol1.dseg.ti.com (Mike Neus)
+Newsgroups: comp.sys.cbm
+Subject: Re: CMD Hard Drive replacement
+Date: 5 Aug 1996 18:01:13 GMT
+
+In article <01bb7f35$3f24ef40$b52060cc@amazon.channel1.com>, 
+amazon@user1.channel1.com says...
+>
+>
+>Has anyone replaced the hard drive in a CMD hard drive?
+>
+>I have a 20 meg CMD hard drive and would like to upgrade the megs to about
+>100 megs. 
+>
+>It seems I have a selection of these drives to buy
+>
+>3.5 Quantum
+>3.5 Maxtor
+>3.5 Connor
+>3.5 Seagate
+>
+>I have replaced an IDE hard drive before, is it similiar to this and what
+>brand name of drive would you recommend that I purchase?
+>
+>- Paul MacArthur
+
+Replacing the drive is easy.  If you want you can even dasy chain the new 
+drive off the back of your HD.  If you really want to replace it though, the 
+new drive must be device 0.  Just drop it in, turn it on.  After a few 
+seconds the error light flashes (because there is no OS).  Run the install 
+DOS program (forget the exact name) from the floppy that came with your 
+drive.  When thats complete use the HD tools to create your partitions.
+
+As far as brand goes...if Seacrate hadn't bought out Connor I would whole 
+heartedly recommend one.  I have three Connors spread across two computers 
+(CBM and IBM) and have never had a lick of trouble with any of them.  In 
+fact, the Connor in my IBM survived a rather chilling drop from about four 
+feet onto pavement.  Ruined the floppy disks and cracked the case, but the 
+hard disk keeps going.  I'd bet the Connor line was dropped the day Seacrate 
+took over, so if you buy a Connor today it is actually a Seacrate in 
+disquise.  My only experience with Seacrate was fairly negative.  I've heard 
+better reports from newer drives though.
+
+My brother likes Quantum and I know somebody who has a 540 disk in his CMD 
+which has been working good.  Maxtor would probably be the last choice of 
+those you listed primarilly because I know there are lots of compatibility 
+problems with their IDE drives (which may or may not be a problem for SCSI).
+
+
+From: j.brain@ieee.org (Jim Brain)
+Newsgroups: comp.sys.cbm
+Subject: Re: CSG/MOS Chip Identification Quest
+Date: 5 Sep 1996 01:35:50 -0400
+
+
+
+In article <50g3si$s65@barad-dur.nas.com>,
+waveform@anna.az.com (Waveform) wrote:
+>I'm undertaking a little project mostly for personal knowledge and 
+>benefit. The project is to generate a list of all the CSG/MOS chips that 
+>were used in the C64 and C128 series and also the major peripherals like 
+>the 1541 and 1571, by the identification numbers stamped on the chips.
+>
+>For instance we all know and love the 6581 SID. I am trying to list all 
+>the revisions also.
+>
+>I'm also working on listing the revisions of the ROMS and such. Like I 
+>believe there are at least three revisions of the 1541 rom, with numbers 
+>like:
+>
+>1541 Kernal ($e000-$ffff) ROM
+>-----------------------------
+>original: 901229-3
+>revised:  901229-5 (revised sometime around 1984?)
+>sx-64:    ??????-? (will have this one later this week)
+>
+>If anyone would like to help me out I'd be extremely happy. =) Also, I 
+>dunno if someone has compiled a list like this before... maybe I/we can 
+>save some time by locating it? =)
+
+UI think there is a list at funet.fi.
+
+Anyway, from CW #11, pages 22-23:
+
+1541:
+
+ROM 1 = 325302-01
+
+ROM 2 (e000-ffff)
+
+      = 901229-01 (most similar to 1540 DOS
+      =       -02 
+               03
+               05
+
+1541C 16 kB ROM = 257968-01
+
+after taking "enhancements out"
+
+                = 257968-02  Dec 5, 1986 (from CBM memo... Very interesting
+memo, BTW)
+
+1571
+ 
+
+
+
+               310654-03  original ROM
+                      05  update ROM (put out on 12-5-85).... Same day as above.
+
+
+
+-- 
+Jim Brain, Embedded System Designer, Brain Innovations, Inc. (BII)(offline sig)
+j.brain@ieee.org   "Above views DO reflect my employer, since I'm my employer"
+Dabbling in WWW, Embedded Systems, VR, Old CBM computers, and Good Times!  -Me-
+<a href=http://www.msen.com/~brain/>Jim Brain: BII, VR, and CBM info</a>
+
+

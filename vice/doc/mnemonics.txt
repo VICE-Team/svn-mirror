@@ -1,0 +1,117 @@
+
+    Table 4. G65SC802 and G65SC816 Instruction Set -- Alphabetical Sequence
+
+	ADC	Add Memory to Accumulator with Carry
+	AND	"AND" Memory with Accumulator
+	ASL	Shift One Bit Left, Memory or Accumulator
+	BCC*	Branch on Carry Clear (Pe = O)
+	BCS*	Branch on Carry Set (Pe = 1)
+	BEQ	Branch if Equal (Pz = 1)
+	BIT	Bit Test
+	BMI	Branch if Result Minus (PN = 1)
+	BNE	Branch if Not Equal (Pz = 0)
+	BPL	Branch if Result Plus (PN = 0)
+	BRA	Branch Always
+	BRK	Force Break
+	BRL	Branch Always Long
+	BVC	Branch on Overflow Clear (Pv = 0)
+	BVS	Branch on Overflow Set (Pv = 1)
+	CLC	Clear Carry Flag
+	CLD	Clear Decimal Mode
+	CLI	Clear Interrupt Disable Bit
+	CLV	Clear Overflow Flag
+	CMP*	Compare Memory and Accumulator
+	COP	Coprocessor
+	CPX	Compare Memory and Index X
+	CPY	Compare Memory and Index Y
+	DEC*	Decrement Memory or Accumulator by One
+	DEX	Decrement Index X by One
+	DEY	Decrement Index Y by One
+	EOR	Exclusive "OR" Memory with Accumulator
+	INC*	Increment Memory or Accumulator by One
+	INX	Increment Index X by One
+	INY	Increment Index Y by One
+	JML**	Jump Long
+	JMP	Jump to New Location
+	JSL**	Jump Subroutine Long
+	JSR	Jump to New Location Saving Return Address
+	LDA	Load Accumulator with Memory
+	LDX	Load Index X with Memory
+	LDY	Load Index Y with Memory
+	LSR	Shift One Bit Right (Memory or Accumulator)
+	MVN	Block Move Negative
+	MVP	Block Move Positive
+	NOP	No Operation
+	ORA	"OR" Memory with Accumulator
+	PEA	Push Effective Absolute Address on Stack (or Push Immediate Data on Stack)
+	PEI	Push Effective Indirect Address on Stack (add one cycle if DL f 0)
+	PER	Push Effective Program Counter Relative Address on Stack
+	PHA	Push Accumulator on Stack
+	PHB	Push Data Bank Register on Stack
+	PHD	Push Direct Register on Stack
+	PHK	Push Program Bank Register on Stack
+	PHP	Push Processor Status on Stack
+	PHX	Push Index X on Stack
+	PHY	Push index Y on Stack
+	PLA	Pull Accumulator from Stack
+	PLB	Pull Data Bank Register from Stack
+	PLD	Pull Direct Register from Stack
+	PLP	Pull Processor Status from Stack
+	PLX	Pull Index X from Stack
+	PLY	Pull Index Y form Stack
+	REP	Reset Status Bits
+	ROL	Rotate One Bit Left (Memory or Accumulator)
+	ROR	Rotate One Bit Right (Memory or Accumulator)
+	RTI	Return from Interrupt
+	RTL	Return from Subroutine Long
+	RTS	Return from Subroutine
+	SBC	Subtract Memory from Accumulator with Borrow
+	SEC	Set Carry Flag
+	SED	Set Decimal Mode
+	SEI	Set Interrupt Disable Status
+	SEP	Set Processor Status Bits
+	STA	Store Accumulator in Memory
+	STP	Stop the Clock
+	STX	Store Index X in Memory
+	STY	Store Index Y in Memory
+	STZ	Store Zero in Memory
+	TAX	Transfer Accumulator to Index X
+	TAY	Transfer Accumulator to Index Y
+	TCD*	Transfer Accumulator to Direct Register
+	TCS*	Transfer Accumulator to Stack Pointer Register
+	TDC*	Transfer Direct Register to Accumulator
+	TRB	Test and Reset Bit
+	TSB	Test and Set Bit
+	TSC*	Transfer Stack Pointer Register to Accumulator
+	TSX	Transfer Stack Pointer Register to Index X
+	TXA	Transfer Index X to Accumulator
+	TXS	Transfer Index X to Stack Polnter Register
+	TXY	Transfer Index X to Index Y
+	TYA	Transfer Index Y to Accumulator
+	TYX	Transfer Index Y to Index X
+	WAI	Wait for Interrupt
+	XBA*	Exchange AH and AL
+	XCE	Exchange Carry and Emulation Bits
+
+
+	*) Common Mnemonic Aliases
+
+		Mnemonic	Alias
+		BCC		BLT
+		BCS		BGE
+		CMP		CPA
+		DEC A		DEA
+		INC A		INA
+		TCD		TAD
+		TCS		TAS
+		TDC		TDA
+		TSC		TSA
+		XBA		SWA
+
+	**)	JSL should be recognized as equivalent to JSR
+			when it is specified with long absolute addresses.
+		JML is equivalent to JMP with long addressing forced.
+
+
+
+				-13-
