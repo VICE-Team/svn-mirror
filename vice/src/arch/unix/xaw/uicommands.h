@@ -1,5 +1,5 @@
 /*
- * commands.h - Implementation of common UI commands.
+ * uicommands.h - Implementation of common UI commands.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)

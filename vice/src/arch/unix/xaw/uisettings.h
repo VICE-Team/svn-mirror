@@ -1,5 +1,5 @@
 /*
- * settings.h - Implementation of common UI settings.
+ * uisettings.h - Implementation of common UI settings.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
