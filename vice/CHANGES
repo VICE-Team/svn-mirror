@@ -14,16 +14,21 @@ list of all the changes in the code.
 ** C64 changes
 --------------
 
-- A couple of VIC-II/6510 timing bugs have been fixed.
+- A few VIC-II and CIA timing bugs have been fixed.
 
 - The "sprite crunch" effect should now be emulated properly.
 
-- Changes in $3FFF/$39FF in the middle of one raster line do not
-  affect the whole line anymore.
+- Changes to $3FFF/$39FF in the video bank in the middle of one raster
+  line do not affect the whole line anymore.
 
-- Color of forced DMA characters is now correct.
+- Color of forced $FF DMA characters is now correct.
 
-- The SpeedDOS parallel cable can now be emulated.
+- The SpeedDOS parallel cable is now emulated.
+
+- More accurate SID filter parameters when the sampling frequency is
+  different from 44.1 KHz.
+
+- The `TapeName' resouce has been removed.
 
 ** VIC20 changes
 ----------------
@@ -31,6 +36,8 @@ list of all the changes in the code.
 - An annoying bug that prevented BASIC from working has been fixed;
 
 - True 1541 emulation works again.
+
+- The `TapeName' resouce has been removed.
 
 ** PET changes
 --------------
@@ -43,8 +50,22 @@ list of all the changes in the code.
 - The "change working directory" command displays the current working
   directory as default.
 
+- A new status bar on the bottom of the emulation window displays the
+  current speed and frame rate, and the status (i.e. LED + R/W head
+  position) of the disk drive when the true 1541 emulation is turned
+  on.
+
+** MS-DOS changes
+-----------------
+
+- A bug that caused sprites to appear near the screen when the
+  640x480 resolution was used has been fixed.
+
 ** Miscellaneous changes
 ------------------------
+
+- A little timing error in the 6510 RMW instructions using absolute
+  indexed addressing has been corrected.
 
 - Much improved 1541 emulation: most custom write routines should now
   work.

@@ -15,10 +15,6 @@ These are the most important known problems with VICE 0.14.0:
   name (with the P00 extension) instead of the one specified in the
   P00 format, or attach them as tape images.
 
-- GCR writes to disk images in full 1541 emulation mode are not 100%
-  emulated (the provided emulation should be enough for most purposes,
-  though).
-
 - There is no support for wildcards on the FS drive access, but they
   can be used when reading the directory (eg. LOAD"$:gamez/*.p00",8).
 
@@ -29,7 +25,7 @@ These are the most important known problems with VICE 0.14.0:
   under construction.
 
 - Unlike the CIAs in the C64, the VIAs in the PET, VIC20 and 1541
-  emulators are _not_ cycle-exact.
+  emulators are *not* cycle-exact.
 
 - xvic and xpet do not support tape images.
 
@@ -48,4 +44,4 @@ These are the most important known problems with VICE 0.14.0:
   = Shift + F1, F4 = Shift + F3 and so on); this also works with other
   keys.
 
-- Adaptive sound speed is not supported on MS-DOS.
+- Adaptive sound playback is not supported on MS-DOS.

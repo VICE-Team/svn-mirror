@@ -14,7 +14,8 @@ Emulator, whose name was chosen independently.)
 * General improvements
 ----------------------
 
-  - More ports!  (E.g. MacOS, Win32, PSX, N64...)  Any volunteers?
+  - More ports!  (E.g. MacOS, Win32, BeOS, PSX, N64...)  Any
+    volunteers?
 
   - Better built-in monitor and improved XDebugger.  These two
     could/should also be integrated.
@@ -38,24 +39,25 @@ Emulator, whose name was chosen independently.)
   - Convert all the documentation to texinfo, so that it can be
     translated to different formats more easily.
 
-  - Write the MS-DOS documentation (any volunteers?).
+  - Write real MS-DOS documentation (any volunteers?).
 
   - FS-based drive emulation on any serial device, not just #11.
 
   - Allow tape loading without the virtually pressed "Play" button,
     which can break some programs that do not like this.
 
-  - Allow tape loading without the virtually pressed "Play" button,
-    which can break some programs that do not like this.
-
   - Better mapping from OS/language specific keyboard drivers to the
-    emulator keyboard.  Probably configurable at runtime.
+    emulator keyboard.  Possibly configurable at runtime.
+
+  - Emulate shifted keys more accurately by delaying the shifted key
+    after the shift.
+
+  - Emulate the RESTORE key more accurately.
+
+  - Better support for alternative ROM sets.
 
 * C64 improvements
 ------------------
-
-  - Fix the few weird timing bugs in the VIC-II chip (mmmh...  they
-    should almost all be gone now).
 
   - Faster and (maybe) cycle-exact SID (the current version is
     sample-accurate).
@@ -63,7 +65,7 @@ Emulator, whose name was chosen independently.)
   - Better handling for REU load/save.  It would be nice to have a few
     menu entries to do this.
 
-  - More accurate REU emulation (maybe, also add a 16 Mbyte mode).
+  - More accurate REU emulation, with 16 Mbyte mode.
 
   - 1351 mouse emulation, at least on MS-DOS.
 
@@ -85,26 +87,21 @@ Emulator, whose name was chosen independently.)
 * PET improvements
 ------------------
 
-  - More accurate CRTC (timing) emulation, 9 rasterlines per character.
+  - Complete CRTC emulation.
 
   - Support for different models at runtime.
 
-  - Complete CRTC emulation.
-
   - More accurate VIA chip emulation.
+
+  - Better sound emulation.
 
   - Tape support.
 
 * 1541 improvements
 -------------------
 
-  - More accurate emulation of GCR writes, to allow both standard and
-    custom format routines to work (half of the needed work has
-    already been done).
-
   - More accurate VIA chip emulation.
 
   - Emulate more than just one 1541 drive with the "true" emulation.
 
-  - Emulate the parallel cable used in Speed DOS, so that Speed DOS
-    ROMs can be used.
+  - Support for 40-track formatting.
