@@ -186,6 +186,25 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                 }
                 return;
             }
+        } else {
+            switch (depth) {
+              case 8:
+                render_08_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 16:
+                render_16_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 24:
+                render_24_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+              case 32:
+                render_32_2x2_04(colortab, src, trg, width, height,
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                return;
+            }
         }
     }
 }
