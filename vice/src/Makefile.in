@@ -144,8 +144,8 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h $(INCLUDEDIR)/asm.h \
 
 VICEMISC = $(SRCDIR)/Makefile.in $(SRCDIR)/configure $(SRCDIR)/configure.in \
 	$(SRCDIR)/config.guess $(SRCDIR)/config.sub $(SRCDIR)/install-sh \
-	$(SRCDIR)/convio $(SRCDIR)/mkinstalldirs \
-	$(SRCDIR)/mkdep $(SRCDIR)/ChangeLog
+	$(SRCDIR)/convio $(SRCDIR)/mkinstalldirs $(SRCDIR)/mkdep \
+	$(SRCDIR)/ChangeLog
 
 VICEDIST = $(VICEMISC) $(VICESRC) $(VICEHDR) $(C64SRC) $(VICSRC) $(PETSRC)
 

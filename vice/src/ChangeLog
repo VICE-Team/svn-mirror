@@ -1,3 +1,10 @@
+Sat Mar 21 14:54:10 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1 released.
+
+	* cia-tmpl.c (update_mycia): Do not check `myciardi' when setting
+ 	`myciaint'.
+
 Thu Mar 19 19:08:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.0 released.
@@ -1420,7 +1427,7 @@ Sat Jan 31 15:51:16 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	the pending interrupts anymore.
 	* cia-tmpl.c (my_set_int): Removed calls to
  	`force_interrupt_check'.
-	* vicii.c (vic_ii_trigger_light_pen): Likewise.
+	* c64/vicii.c (vic_ii_trigger_light_pen): Likewise.
 
 Fri Jan 30 11:51:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
@@ -1524,7 +1531,7 @@ Sat Jan 10 14:11:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
 	* include/interrupt.h (steal_cycles, maincpu_steal_cycles): New
  	parameter `start_clk'.  Calculate `last_stolen_cycles_clk' from
         it.
-	* vicii.c (do_memory_fetch, int_rasterfetch): Callers updated.
+	* c64/vicii.c (do_memory_fetch, int_rasterfetch): Callers updated.
 
 Fri Jan  9 23:50:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

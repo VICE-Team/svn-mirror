@@ -120,7 +120,7 @@ struct cpu_int_status maincpu_int_status;
 /* Global clock counter.  */
 CLOCK clk = 0L;
 
-/* This is set to nonzero each time a Read-Modify-Write instructions that
+/* This is flag is set to 1 each time a Read-Modify-Write instructions that
    accesses memory is executed.  We can emulate the RMW bug of the 6510 this
    way.  VERY important notice: Always assign 1 for true, 0 for false!  Some
    functions depend on this to do some optimization.  */

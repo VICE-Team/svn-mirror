@@ -1,5 +1,5 @@
 
-  VICE  0.14.0     						  March 1998
+  VICE  0.14.1     						  March 1998
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ------------------------------------------------------------------------------
 
 
- This is version 0.14.0 of VICE, the multi-platform PET/VIC20/C64
+ This is version 0.14.1 of VICE, the multi-platform PET/VIC20/C64
  emulator.  This version can be compiled both for MS-DOS and for most
  Unix system provided with the X Window System version 11, R5 or
  later.

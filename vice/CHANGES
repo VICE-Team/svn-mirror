@@ -8,6 +8,12 @@ official VICE release.  See `src/ChangeLog' for a more detailed list
 of all the changes in the code.
 
 
+* Changes in VICE 0.14.1
+========================
+
+- A nasty CIA-related bug has been fixed.
+
+
 * Changes in VICE 0.14.0
 ========================
 
