@@ -8,7 +8,7 @@ official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
 
-* Changes in VICE 0.14.3
+* Changes in VICE 0.15.0
 ========================
 
 ** C64 changes
@@ -17,10 +17,23 @@ list of all the changes in the code.
 - "4064" and "SX" are now valid ROM patch IDs (the same as "100" and
   "67" respectively).
 
+- A couple of little but annoying bugs in the VIC-II emulation have
+  been fixed.
+
+** C128 changes
+---------------
+
+- YES!  The one and only free C128 emulator (x128) is back into
+  operation!  No VDC, though.  No, don't ask us to implement it
+  because we are not going to.  But of course contributions are
+  (still) welcome.
+
 ** VIC20 changes
 ----------------
 
 - The VIA emulation is now cycle-exact.
+
+- Autostart is now implemented and works as in the C64 emulator.
 
 ** PET changes
 --------------
@@ -33,6 +46,15 @@ list of all the changes in the code.
 - The VIA emulation is now cycle-exact.
 
 - Support for 40-track disk images has been added.
+
+- Support for a new GCR-coded disk format has been added.
+
+** Monitor changes
+------------------
+
+- The old monitor has been replaced by a completely new one, written
+  by Daniel Sladic.  It also allows access to the CPU in the 1541
+  drive.
 
 ** Unix changes
 ---------------
@@ -50,20 +72,27 @@ list of all the changes in the code.
   troubles on GNU/Linux systems with both GNU libc 2 and 1, such as
   RedHat 5.0 or greater).
 
+** MS-DOS changes
+-----------------
+
+- Support for two "hardware" joysticks has been added.
+
 ** Miscellaneous changes
 ------------------------
 
-- A major cleanup of the code has been done.
+- A major cleanup of the code has been done (this is what took the
+  most time between 0.14.2 and 0.15.0).  Porting and adding features
+  or emulators is now /much/ easier.
 
-- A brand new monitor with watchpoints and breakpoint has been added.
-  It now allows access to the 1541 CPU, too.
+- Support for C64 cartridges has been added--a special Action Replay
+  mode is available too.
 
 - "On the fly" Lynx and Zipcode support has been added.
 
 - A couple of bugs in the fast serial emulation have been fixed
   (courtesy of Peter Andrew Felvegi <petschy@derceto.sch.bme.hu>).
 
-- Sound output can now be oversampled.
+- Sound output can now be oversampled up to 4 times.
 
 - The `Directory' resource is now a list of paths.  The separator is
   `;' on MS-DOS and `:' on Unix.
