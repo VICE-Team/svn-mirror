@@ -194,18 +194,21 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int channel,
 
 log_debug("rec_len %i", rec_len);
 
+    position = (position == 0) ? 0 : position - 1;
+
     if (position >= rec_len) {
         log_debug("Position larger than record!?");
         return 66;
     }
 
     record = rec_lo + (rec_hi << 8);
+    record = (record == 0) ? 0 : record - 1;
     record_max = vdrive_rel_record_max(vdrive);
 
 log_debug("record %i", record);
 log_debug("record_max %i", record_max);
 
-    if (record > record_max) {
+    if (record >= record_max) {
         log_error(vdrive_rel_log, "Enlarging REL files is not supported.");
         return 70;
     }
@@ -240,6 +243,7 @@ log_debug("copy_start %i", copy_start);
 log_debug("copy_len %i", copy_len);
 
     memcpy(p->buffer, &recdata[copy_start], copy_len);
+    p->length = copy_len;
     free(recdata);
 
     p->bufptr = 0;
