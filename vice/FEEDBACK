@@ -1,0 +1,40 @@
+It's always nice to receive feedback and/or bugreports about VICE, but
+please read these few notes before sending mail to anybody in the
+team.
+
+- Please don't send any HTML mail (we really hate that!).  If you use
+  M$ Outlook or Netscape Communicator, make sure you turn off the
+  "enriched" text feature.
+
+- Please don't send any uuencoded binaries without asking first.
+
+- Please read the following documents carefully before reporting a bug
+  or a problem you cannot solve:
+
+   - the VICE documentation (you should have received it with the main
+     distribution--if not, tell us);
+
+   - the VICE FAQ (available from the VICE homepage at
+     http://www.tu-chemnitz.de/~fachat/vice);
+
+   - the comp.emulators.cbm and comp.sys.cbm FAQs (available from many
+     places; one famous repository is at ftp://rtfm.mit.edu).
+
+- Please don't ask us how to transfer original C64 disk or tapes to
+  your PC.  To transfer disks, you can use the Star Commander
+  (http://ludens.elte.hu/~sta/sc.html); to transfer tapes, you'll have
+  to write your own tool (and of course make it available as /free/
+  software with sources, so that other people can enjoy it as much as
+  you do).
+
+- Please don't ask us where to find games for the emulator on the
+  Internet.
+
+- Please don't ask us when the next version will be out, because we
+  really don't know.
+
+- Please write in English, or in the native language of the person you
+  are writing to (Ettore is Italian, André and Andreas are German,
+  Teemu is Finnish, Daniel is from Canada).
+
+Thanks!
