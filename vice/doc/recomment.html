@@ -1,0 +1,392 @@
+<html><head><title>Recomment Documentation</title>
+<link rev=made href="mailto:fachat@physik.tu-chemnitz.de">
+</head><body bgcolor="#ffffff">
+<h1>Recomment Documentation</h1>
+<P>
+<CODE>recomment</CODE> is a small 6502 disassembler utility originally written
+by <a href="http://stekt.oulu.fi/~jopi/">Jouko Valta</a> in 1994. 
+In 1998 A. Fachat introduced some patches
+to nice the output, improve table detection and more. The utility
+is written in PERL, so you need this one.
+The reassembler is under the <a href="COPYING">GNU public license</a>.
+<!---
+</p><p>
+Source is in <a href="recomment-4.07a.tar.gz">recomment-4.07a.tar.gz</a>.
+</p><P>
+What's new with 4.07a:
+<ul>
+<li>Even more Improved html output
+<li>label range definition, to allow "LDA label+1,x"
+<li>comment relative address definition
+</ul>
+--->
+</p>
+<pre>
+Options:
+
+  recomment [-sym sym_outfile] [-hdr headerfile] [-html] [-noaddr]
+         [-long] [-p1|-p2|-p3|-p4] [-addr start_address]
+         [-mail mailaddress] [-verbose] [-quiet] [-labels] [-hints] 
+         programfile [outfile]
+</pre>
+<p>
+<CODE>recomment</CODE> takes the original 6502 binary file and produces a 
+human-readable assembler source file. The output can be customized and
+even be put into html format. 
+</p>
+<h2>Code detection and interpretation</h2>
+<p>
+Code detection and interpretation is done in several passes. 
+<CODE>recomment</CODE> takes the header file given, and produces another, new
+header file (the symbol file). In the run it adds additional information.
+This symbol file can then be given to recomment
+in another run as header file.
+</p><p>
+If an opcode with a data address is encountered, this address is saved as
+data  label. If a JMP, JSR or branch opcode is encountered the jump address is 
+saved as execution label. These labels are used to switch between 
+interpretation of data and text. It normally doesn't really work in the 
+first run, but quite well in the second. But then still stray calls
+from the earlier run may produce warnings. Thus in the second run only 
+labels that are really used are saved in the symbol file, to reduce those
+warnings in the third run. 
+<ul>
+<li><CODE>-addr addr</CODE> <br>
+Use start address addr (must be hex, without leading 0x or $).
+If the file starts with this address, it is skipped.
+<li><CODE>-hdr file</CODE> <br>
+Header file
+<li><CODE>-sym file</CODE> <br>
+symbol output file
+<li><CODE>-hints</CODE>
+produce table start hints: when an illegal opcode is encountered, it sets a 
+hint behind the last JMP where no execution label followed to interprete
+the stuff as data from the earlier point in the next run.
+Not useful in the first run, as stray jump labels may jump to illegal 
+opcodes and produce false hints
+<li><CODE>-second</CODE> <br>
+Only save really used labels in the symbol file, no stray labels from earlier
+runs.
+<li><CODE>-p1</CODE> - <CODE>-p4</CODE> <br>
+Adjust number of passes. Default is 2.
+</ul>
+</p>
+<h2>Output customization</h2>
+<p>
+Output can be customized in several ways. The major goals of recomment is
+to add comments back to a binary file and save them in a more readable
+form. Thus it can produce text or html output. The text output can be 
+customized for usage with a 6502 assembler.
+<ul>
+<li><CODE>-noaddr</CODE><br>
+normally the address is printed before every line. This option suppresses that.
+<li><CODE>-html</CODE><br> 
+switches to output mode
+<li><CODE>-long</CODE><br>
+Also prints the 1-3 bytes each opcode is made of before the mnemonic
+<li><CODE>-labels</CODE><br>
+Add a list of (otherwise undefined) labels in front of the source
+<li><CODE>-o file</CODE><br>
+determine the output file. If none given, STDOUT is used.
+<li><CODE>-mail mailaddress</CODE><br>
+When in html mode use the given mail address instead of USER@HOST.
+</ul>
+You normally would want <CODE>-html -long</CODE> to produce html output, and
+<CODE>-noaddr -labels</CODE> to produce an assembler input file.
+</p>
+<h2>Header File Format</h2>
+<p>
+The header file consists of label definitions and comments (that include
+reassembler mode switches)
+<ul>
+<li>Label definitions are simply "label=value". The value is in hex without
+leading 0x but possibly leading "$". A "&" before the label indicates that 
+the label is 
+a data label, i.e. a table start for example.
+<br>
+If the label address is followed by a "+offset1" and/or "-offset2" then 
+all addresses in the range "[addr-offset2, addr+offset1]" are referenced
+relative to the label. For example one wants the address $e4 referenced
+to label "LADDR=$e3", then one would change the label definition to 
+"LADDR=$e3+1". Hint: the "+" offset must come before the "-" offset.
+<li>Comments start with the (hex) address at the beginning of the line.
+The rest of the line is used and printed as comment behind the 
+opcode at the given address.
+The addresses of the comments (as well as mode switches) have to be 
+ascending order in the header file!
+<br>
+If the line starts with a "+", then the following hex address is taken
+as an offset to the previous comment address. I.e. "c000 Start of basic"
+followed by "+0046 function addresses" will put the first comment
+to $c000 and the second to $c046. If you now change the first address
+to $b000, then automagically the second comment is placed at $b046.
+<li>Mode switches start with an asterisk followed by the (hex) adress
+The rest of the line contains one of the keywords for mode switching.
+</ul>
+Normally the reassembler determines the mode (code or data) itself. But
+sometimes it needs some help, which is taken from the comment.
+The different modes with their keywords the reassembler can be in are
+<ul>
+<li><CODE>CODE</CODE> code follows
+<li><CODE>DATA</CODE> data follows
+<li><CODE>WORD</CODE> word data follows
+<li><CODE>ADDR</CODE> address words follow. The words are registered as 
+execution labels as well.
+<li><CODE>RETA</CODE> return address tables follows. Same as ADDR, only that 
+not the words but the words+1 are used as address.
+<li><CODE>UNKNOWN</CODE> returns to automatic mode, reassembler determines
+its mode itself.
+</ul>
+In addition to the modes some hints can be given, that not exactly
+determine the mode until the next mode switch, but just switch - in 
+automatic mode - to code or data
+<ul>
+<li><CODE>DHINT</CODE> switch to data mode until opcode found
+<li><CODE>CHINT</CODE> switch to code mode until illegal opcode or data found
+</ul>
+<h2>Example</h2>
+<p>For an example which is not included here, please look at the 
+<a href="http://www.tu-chemnitz.de/~fachat/8bit/cross/recomment/recomment.html">recomment homepage</a>.
+
+<!---
+
+<p> An example recomment file is included as 
+<a href="petrom-1.hdr">petrom-1.hdr</a>. 
+It produces output like <a href="petrom-1.html">petrom-1.html</a>
+(only the I/O area has been cut manually, to reduce the size).
+Most comments are in the IEEE section, starting with 
+<a href="petrom-1.html#F0B6">TALK</a>.
+</p>
+
+---> 
+
+<hr>
+<h2>Theory</h2> 
+<p> [ Here follows a text by the original author that describes a bit the
+theory behind the reassembler. I have removed the outdated parts, though.
+Comments in [] brackets by A. Fachat. ]
+</p>
+<pre>
+ ReComment V 4.03                                               3 Dec 1995
+
+        Recomment -- an iterative database driven reassembler
+
+
+  1. Theory of A Learning Database Driven Reassembler
+
+When studying available machine language programs or in case a program
+originally written directly in machine code needs to be rewritten with
+assembler, a reassembler can be of great help. Of course, reassemblers have
+been available for ages, but they get easily perturbed upon encountering a
+piece of code by any advanced programmer, let alone other defects.
+
+In '93 Marko M&auml;kel&auml; developed an ultimate, fully recursive reassembler, namely
+the "d65". Me, in turn, digged up my own reassembler I had written to study
+and print programs contaminated with undocumented opcodes, and used it as the
+basis when I needed a disassembler for this program.
+Actually, ReComment still is a comment generator rather than a reassembler.
+
+One special feature included on both ReComment, and on it's predecessor, is
+recognising references to routines like PRIMM or "Print Text Immediate", which
+is peculiar to C128 and some other of the latest Commodore models.
+Another one I had never seen before is separating routines by underlining all
+JMP's and RTS's (on both C128 80 col and printer), whereas ReComment prefers
+printing blank lines after them.
+
+It was also intended from the very beginning to implement searching for
+conditional braches that always brach, and then handle them like JMP's, but it
+had to be dropped because the amount of work involved was too much for the C128
+to handle ...
+
+To make it even worse, 6502 machine language allows a wide variety of ways to
+misuse the opcodes. Complete istructions can be hidden in the operand to other
+ -- non-effective -- instruction, or modified while the program is running.
+[ Parts of those tricks have been addressed in the current version. ]
+There are also so called undocumented opcodes (See file '64doc' for complete
+details.), most of which are completely valid instructions, however.
+
+Data blocks can be easily detected by Absolute and Absolute Indexed references
+to them, and -- whenever the undocumented opcodes are forbidden -- by the
+first unknown opcode encountered. In addition, BRK and JAM are quite unusable,
+and thus they are always suspicious.
+Any call to address with one of those (unsusable or forbidden) instructions can
+be for sure determined invalid, and have data mode activated.
+
+As a matter of fact, handling the "Print Text Immediate" mentioned earlier, is
+the easiest task, as it always starts with certain JSR call, while the data is
+terminated with a 00 byte.
+
+If ingenious use of conditional branches sometimes confuses anyone studying the
+code, it can be said that a reassembler gets perturbed by his code for good.
+The most pessimistic reassembler might give up and declare everything as data
+if e.g. BNE is immediately folloved by random data.
+The easiest cases can be detected by keeping track on any Immediate LDA, LDX,
+LDY, AND and ORA instructions. If any of these is not folloved by any label or
+other command affecting the flags in any way, the branch may actually be
+unconditional.
+
+The way an ordinary two-pass disassembler (TPR) works, it that it just collects
+any jump, brach and read/write references. The main disadvantage in this method
+is, however, that data segments can be mistaken as executable program code,
+whereas any entry point only called indirectly will not be found. Thus, errors
+in the interpretation are inevitable, causing in the worst case more incorrect
+references to be produced.
+
+M&auml;kel&auml;'s idea to solve this problem was the following:
+Each branch is tested by checking the code it refers to. If any error is
+encountered there, the whole segment being tested is marked invalid as well,
+and any references found on it are rejected.
+Naturally, this method provides independependency of any external database.
+However, excessive testing is required in order to obtain 100% confidence.
+
+
+ Implementation
+
+The main goal of this program is adding comments to the system disassembly
+listings, mainly by using the variety of memory maps available.
+
+Thus, it was intentional choice to use the opposite way as in d65, and only
+make an ordinary reassembler. Instead of running the code on a CPU emulator,
+ReComment just wanders trough the code in order, collecting any references
+to subroutines and data segments.
+[ However, saving the references found and using them in a second pass
+gives quite some impressive results, esp. when more than two passes with 
+the appropriate options are used. ]
+
+Fortunately, the power requirement problems of earlier versions were solved by
+the power of the average Unix machine and the invincible flexibility of PERL
+programming language.
+
+The main difference to any other reassemble is the way of using the database;
+it's the pivot of ReComment. This makes it possible to produce commented
+disassembly very quickly (assuming you have the data available), but on the
+other hand, ReComment won't work very well without the exact memory maps.
+[ This has been improved, though. ]
+This also allows disassembling only one version of the program per one header
+file.  ):
+
+Alas, the "misassembler", like any other reassembler has one typical problem
+which is not present on the recursive reassembler: the Indirect Addressing
+modes. When thew origin of an array has offset greater than zero, the refence
+may be created within a valid subroutine, whereas the real data block won't be
+marked at all.
+
+There is still one more factor that has not been utilised yet. References of a
+certain type can be forbidden on some areas of memory. E.g. jumping to the
+screen memory or I/O area doesn't belong to the characteristics of an average
+program. However, this has very little significance in practice.
+
+[ Section 2., "Usage" has been outdated by the above text ]
+[ Section 3., "File Formats" has been outdated by the above text ]
+
+  4. Reasoning System
+
+
+        Separating Different Routines
+
+        If an unconditional jump instruction (JMP, BRA, RTS, RTI) is
+        encountered, and there isn't any conditional branch over it,
+        it most probably is the end of current routine.
+        In this case, a blank line is printed.
+
+
+        Forbidden Instructions
+
+                BRK
+                JAM
+                Branch *-1
+                Branch *-2
+
+
+
+        DATA segments
+
+        There are 5 types of data recognised by recomment. Each can have
+        different formatting rule to increase readability.
+
+
+        EMPTY segments
+
+        EMPTY marks unused or non-existent memory area. Usually these areas
+        are filled with FF, AA or sometimes 00. Non-existent memory locations
+        return the high byte of their address on most 65xx processors.
+
+        It is also possible to have patch code on some of these areas on
+        later revisions. Recomment wants the change made in the header file
+        according to whether the pach code exists or not.
+
+
+  5. Error Messages
+
+        [ Overworked to the new version ]
+	
+        Message                         Type            Reason
+        -----------------------------------------------------------------------
+
+        You don't exist. Go away!       Fatal           $USER undefined
+        No host. Where are you?         Fatal           $HOST undefined
+
+        Cannot locate comments/headers.                 Unused
+        Can't open program file '...'   Syntax          Binary file missing or
+                                                         unreadable
+
+        Can't open header file '...'    Syntax          Map file missing or
+                                                         unreadable
+        Warning: Duplicate header/Hint: '...'
+                                        Auto            recomment cannot handle
+                                                         more than 1 title or
+							 mode switch per
+                                                         address.
+
+    Notes in the output
+
+
+        Invalid reference XXXX ignored. Informational	execution reference on
+							 an illegal opcode.
+
+        Reference mismatch for XXXX.    Informational   DATA reference into
+                                                         current instruction or
+                                                        CODE reference to DATA.
+
+        XXXX: Endless loop.             Informational   Branch with offset -1
+                                                         encountered in code.
+
+        XXXX: Ignored CALL reference.   Informational   Branch to forbidden
+                                                        instruction encountered
+
+        XXXX: CODE TO DATA attempted.   Informational
+
+        XXXX: Illegal instruction.      Auto            Illegal instruction
+                                                         encountered in code.
+
+        XXXX: TEXT immediate            Auto            Encountered text string
+                                                         within program.
+
+        XXXX: ADDRESS DIFFER. This may indicate misassembly
+                                        Error           While in WORD mode,
+                                                         the next reference is
+                                                         not WORD-aligned.
+
+
+        define label: sss = XXXX        Debug/Verbose
+        XXXX: autodefine label: XXXX    Debug/Verbose
+
+
+        ; *** ERROR: Descending address: XXXX ***
+                The input Memory map must be in strictly ascending order.
+
+        ; *** XXXX: CALL ADDRESS ALIGNMENT. This may indicate misassembly ***
+                General error. Either it's Bad programming style, i.e.
+                using command masked out, or recomment is confused.
+
+        ; *** Resyncing ***";
+                'ADDRESS DIFFER' is replaced with this message whenever there
+                is a Memory Map entry provided for the offending address.
+
+
+The above part is by Jouko Valta.
+
+</pre>
+<hr>
+17 Feb 1998 <address>A. Fachat (a.fachat@physik.tu-chemnitz.de)</address>
+</body></html>

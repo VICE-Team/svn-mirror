@@ -1,0 +1,1909 @@
+#!/usr/bin/perl
+#
+#	A little database driven misassebler script to add headers, labels
+#	and comments in disassembled 6502 ML programs. Easy to modify.
+#	Most useful in documenting the operating system with on-line
+#	memory maps.
+#	This program is based on the idea of "monstar", a 8502 ML
+#	disassembler with printer support.
+#
+#	C-compiler (cpp) is used to nicely handle includes and conditionals.
+#	It's used if the Documentfile name is supplied with extension ``.c''.
+#
+    $Version= "4.07a 21 Feb 1998";
+#
+#   Written by
+#	jopi@zombie.oulu.fi
+#
+#   Patches by
+#       a.fachat@physik.tu-chemnitz.de
+#
+#
+#	Version: 1.0   29 Apr 1994  14:49
+#		Uses disassembly output from x64. Addresses in string format.
+#	Version: 2.0   17 May 1994  19:23
+#		Separated comment reading and data processing.
+#		Produces Symbol Table for second run.
+#		Warns about masked commands.
+#	Version: 3.0   21 May 1994
+#		Disassembles now directly from binary file.
+#		'Print Text Immediate' is detected, and TEXT mode selected.
+#		Added HEX to DEC conversion, addresses now internally in DEC.
+#	Version: 3.1   16 July 1994
+#		Added bit for undocumented opcodes. Selects autom. DATA mode.
+#		Repositions when entry point is masked out.
+#		Cleaned output format a bit. Now format v1.2.
+#	Version: 3.2    4 Aug 1994
+#		Inhibit 'BIT' from setting DATA label.
+#		HTML mode and commandline arg parser.
+#	Version: 3.3   10 Nov 1994
+#		Added some variations in input and output formatting.
+#		Made R65CE02 version too.
+#	Version: 4.0   15 Feb 1995
+#		Split disassembler into subroutines.
+#		Prints blank lines after jump instructions.
+#		Added WORD format. Now format v1.3.
+#	Version: 4.1   08 Jun 1995
+#		Added calling GCC for include files and conditional map blocks
+#		Finds descriptions for references linked via JMP commands.
+#		Skip default load address in the binary.
+#	Version: 4.2   26 Jun 1995
+#		Introduced FLPT data type.
+#		Bug fix: JAM is a forbidden instruction.
+#	Version: 4.3   16 Nov 1995
+#		Divided disassembler further.
+#		Converts screen codes to printable characters.
+#		Options to select CPU on command line.
+#		Separated SymbolType and SymbolName arrays.
+#		Limited array sizes and made more active search for code.
+#	Version: 4.3b    7 Jun 1996
+#		Identify source on symbol table file.
+#	Version: 4.4	10 Feb 1998 (AF)
+#		added -long and -noaddr option. 
+#		added detection of .BYT $2c/$24 constructs
+#		Now default to two-pass operation
+#		-a switch is now optional - then reads the file load address 
+#		fixed a bug that added linewise comments when $oper was 0.
+#		Added two labels on the command line
+#		Never forget this one: Aaaarrrgh, Perl belongs to the trashcan!
+#	Version: 4.4a	10 Feb 1998 (AF)
+#		niced output of zeropage labels
+#	Version: 4.5	11 Feb 1998 (AF)
+#		usage of label definitions improved
+#		added -label option to print the undef'd label list
+#		as assembler defs.
+#		changed DATSYMBOL
+#	Version: 4.6	12 Feb 1998 (AF)
+#		Added lastcode/lasttype stuff to save last recognized code
+#		which is used to set DHINTs for data table starts
+#		Added -hints option to switch automatic DHINT generation on
+#		Added -hdr option for header file. Keep -m for compat.
+#	Version: 4.7	17 Feb 1998 (AF)
+#		Fixed html output, and added "+offset" address for comments
+#		Added "label=value[+offset][-offset]" syntax for the header
+#		file to produce "LDA label+1" syntax.
+#		Moved Hints to "*addr HINT" in symbol file
+#	Version: 4.7a	21 Feb 1998 (AF)
+#		Further fixed html ouput. Added "-mail addr" command line 
+#		option for html mode.
+#
+#   Restrictions:
+#	no more than 1 label per address supported yet (too lazy to split them)
+#	addresses are always supposed to be in HEX
+#
+
+#
+# Options
+#
+
+$COMPILER = "gcc -E";			### Default C Compiler Preprocessor
+
+$EXESYMBOL = "i";
+$DATSYMBOL = "x";	# sEC and sBC etc give errors as misinterpreted opcodes
+
+$LT_EXE = 1;
+$LT_BRA = 2;
+$LT_DAT = 4;
+$LT_ARY = 8;
+
+$LIMIT_IMPL_ARY = 256;
+
+$BYTESPERLINE = 8;
+$WORDSPERLINE = 4;
+$MIN_SUGG_CE  = 4;		### Min # of Calls to suggest new code header
+$CPUMODEL = 1;
+
+$pass = 2;			# defaults to two-pass run 
+
+opt: while ($_ = $ARGV[0], /^-/) {
+	shift;
+	if (/^-a/)	{ $addr = hex($ARGV[0]); shift; next opt; }
+	if (/^-cpp/)	{ $COMPILER = $ARGV[0]; shift; next opt; }
+	if (/^-mail/)	{ $MAILADDRESS = $ARGV[0]; shift; next opt; }
+	if (/^-m/)	{ $HDRFILE = $ARGV[0]; shift; next opt; }
+	if (/^-hdr/)	{ $HDRFILE = $ARGV[0]; shift; next opt; }
+	if (/^-o/)	{ $OUTFILE = $ARGV[0]; shift; next opt; }
+	if (/^-second/) { $second++; next opt; }
+	if (/^-sym/)	{ $SYMFILE = $ARGV[0]; shift; next opt; }
+	if (/^-d/)	{ $dontref = hex($ARGV[0]); shift;
+			  print "skip: $dontref"; next opt; }
+
+	if (/^-g/)	{ $debug++; next opt; }
+	if (/^-html/)	{ $HTML++; next opt; }
+#	if (/^-i/)	{ $inherit++; next opt; }	# not used
+	if (/^-p1/)	{ $pass = 1; next opt; }
+	if (/^-p2/)	{ $pass = 2; next opt; }
+	if (/^-p3/)	{ $pass = 3; next opt; }
+	if (/^-p4/)	{ $pass = 4; next opt; }
+	if (/^-q/)	{ $verbose = 0; next opt; }
+	if (/^-v/)	{ $verbose++; next opt; }
+	if (/^-w/)	{ $vectors++; next opt; }
+	if (/^-labels/)	{ $labels++; next opt; }
+	if (/^-hints/)	{ $hints++; next opt; }
+	if (/^-noaddr/)	{ $noaddr = 1; next opt; }
+	if (/^-long/)	{ $long = 1; next opt; }
+	if (/^-6502/)	{ $CPUMODEL = 1; next opt; }
+	if (/^-65ce02/)	{ $CPUMODEL = 0; next opt; }
+	if (/^-/)	{ print STDERR "recomment: Unknown option '$_'\n\n";
+			  exit 1; }
+    }
+
+# addr is kept intact all processing time
+
+$PRGFILE=$ARGV[0];
+$OUTFILE=$ARGV[1];
+
+$Usage="\nUsage: $0 [-sym sym_outfile] [-m headerfile] [-html] [-noaddr]".
+         "\n\t [-long] [-p1] [-addr start_address] [-verbose]".
+	 "\n\t [-quiet] [-labels] [-hints] programfile [outfile]\n\n";
+
+if (!$ARGV[0]) {
+    print STDERR "recomment: Too few arguments.\n";
+    print STDERR $Usage;
+    exit 1;
+}
+if ($ARGV[2]) {
+    print STDERR "recomment: Too many arguments.\n\n";
+    print STDERR $Usage;
+    exit 1;
+}
+
+$orighdr = $HDRFILE;
+if(!$HDRFILE) {
+    $HDRFILE="/dev/null";
+}
+
+$USER = $ENV{USER} || die "You don't exist. Go away!\n";
+$HOST = `uname -n` || die "No host. Where are you?\n";
+chop $HOST;
+$prgname = `basename $0`;
+chop $prgname;
+
+if(!length($MAILADDRESS)) {
+    $MAILADDRESS="$USER\@$HOST";
+}
+
+# Two pass operation works that we call ourselves with the appropriate
+# options to produce a symbol file and use this symbol file as input 
+# for the current run
+if ($pass == 4) {
+	$i = 0;
+	$tmpfile4 = "/tmp/recomment.$$.$<.4";
+	$P2ARGS[$i++] = $0;
+	$P2ARGS[$i++] = "-p1";
+	$P2ARGS[$i++] = "-sym";
+	$P2ARGS[$i++] = $tmpfile4;
+	if($addr) {
+	  $P2ARGS[$i++] = "-addr";
+	  $P2ARGS[$i++] = sprintf("%04X",$addr);
+	}
+	if($second) {
+	  $P2ARGS[$i++] = "-second";
+	}
+	$P2ARGS[$i++] = "-m";
+	$P2ARGS[$i++] = $HDRFILE;
+	$P2ARGS[$i++] = $PRGFILE;
+	$P2ARGS[$i++] = "/dev/null";
+
+	system "@P2ARGS";
+
+	$HDRFILE = $tmpfile4;
+}
+
+if ($pass >= 3) {
+	$i = 0;
+	$tmpfile3 = "/tmp/recomment.$$.$<.3";
+	$P2ARGS[$i++] = $0;
+	$P2ARGS[$i++] = "-p1";
+	$P2ARGS[$i++] = "-sym";
+	$P2ARGS[$i++] = $tmpfile3;
+	if($addr) {
+	  $P2ARGS[$i++] = "-addr";
+	  $P2ARGS[$i++] = sprintf("%04X",$addr);
+	}
+	if($second) {
+	  $P2ARGS[$i++] = "-second";
+	}
+	if($hints) {
+	  $P2ARGS[$i++] = "-hints";
+	}
+	$P2ARGS[$i++] = "-m";
+	$P2ARGS[$i++] = $HDRFILE;
+	$P2ARGS[$i++] = $PRGFILE;
+	$P2ARGS[$i++] = "/dev/null";
+
+	system "@P2ARGS";
+
+	$HDRFILE = $tmpfile3;
+
+	$second = 1;
+}
+
+# Two pass operation works that we call ourselves with the appropriate
+# options to produce a symbol file and use this symbol file as input 
+# for the current run
+if ($pass >= 2) {
+	$i = 0;
+	$tmpfile2 = "/tmp/recomment.$$.$<.2";
+	$P2ARGS[$i++] = $0;
+	$P2ARGS[$i++] = "-p1";
+	$P2ARGS[$i++] = "-sym";
+	$P2ARGS[$i++] = $tmpfile2;
+	if($addr) {
+	  $P2ARGS[$i++] = "-addr";
+	  $P2ARGS[$i++] = sprintf("%04X",$addr);
+	}
+	if($hints) {
+	  $P2ARGS[$i++] = "-hints";
+	}
+	if($second) {
+	  $P2ARGS[$i++] = "-second";
+	}
+	$P2ARGS[$i++] = "-m";
+	$P2ARGS[$i++] = $HDRFILE;
+	$P2ARGS[$i++] = $PRGFILE;
+	$P2ARGS[$i++] = "/dev/null";
+
+	system "@P2ARGS";
+
+	$HDRFILE = $tmpfile2;
+
+	$second = 1;	# only let detected labels change to CODE
+}
+
+
+#
+#  Constants and Internal Variables
+#
+
+$, = ' ';
+$\ = "\n";
+
+
+# Mode constants
+$NONE = 0;
+$REM  = 1;
+$CODE = 2;
+$TEXT = 3;
+$DATA = 4;
+$WORD = 5;
+$RETA = 6;
+$ADDR = 7;
+
+$ILLEG = 64;			# flag: illegal or undocumented instruction
+
+
+# -----------------------------------------------------------------------------
+
+if ($CPUMODEL) {
+    $IMMEDIATE = 1;
+    $ZERO_PAGE = 2;
+    $ABSINDIRECT = 8;
+    $RELATIVE = 11;
+    $RELATIVE_LONG = 17;
+    $ZERO_RELATIVE = 18;
+
+#  Too cryptic ?  Nah, just compiled (gcc -E) from table.c ...
+@modes = (
+ 64,  9, 64, 73, 66,  2,  2, 66,  0,  1, 12, 65, 69,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+  5,  9, 64, 73,  2,  2,  2, 66,  0,  1, 12, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+  0,  9, 64, 73, 66,  2,  2, 66,  0,  1, 12, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+  0,  9, 64, 73, 66,  2,  2, 66,  0,  1, 12, 65,  8,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+ 65,  9, 65, 73,  2,  2,  2, 66,  0, 65,  0, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74,  3,  3,  4, 68,  0,  7,  0, 71, 70,  6, 71, 71,
+  1,  9,  1, 74,  2,  2,  2, 66,  0,  1,  0, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74,  3,  3,  4, 68,  0,  7,  0, 71,  6,  6,  7, 71,
+  1,  9, 65, 73,  2,  2,  2, 66,  0,  1,  0, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+  1,  9, 65, 73,  2,  2,  2, 66,  0,  1,  0, 65,  5,  5,  5, 69,
+ 11, 10, 64, 74, 67,  3,  3, 67,  0,  7, 64, 71, 70,  6,  6, 70,
+);
+
+@tk = (
+  "BRK",  "ORA",  "JAM",  "SLO",  "NOOP", "ORA",  "ASL",  "SLO",
+  "PHP",  "ORA",  "ASL",  "ANC",  "NOOP", "ORA",  "ASL",  "SLO",
+  "BPL",  "ORA",  "JAM",  "SLO",  "NOOP", "ORA",  "ASL",  "SLO",
+  "CLC",  "ORA",  "NOOP", "SLO",  "NOOP", "ORA",  "ASL",  "SLO",
+
+  "JSR",  "AND",  "JAM",  "RLA",  "BIT",  "AND",  "ROL",  "RLA",
+  "PLP",  "AND",  "ROL",  "ANC",  "BIT",  "AND",  "ROL",  "RLA",
+  "BMI",  "AND",  "JAM",  "RLA",  "NOOP", "AND",  "ROL",  "RLA",
+  "SEC",  "AND",  "NOOP", "RLA",  "NOOP", "AND",  "ROL",  "RLA",
+
+  "RTI",  "EOR",  "JAM",  "SRE",  "NOOP", "EOR",  "LSR",  "SRE",
+  "PHA",  "EOR",  "LSR",  "ASR",  "JMP",  "EOR",  "LSR",  "SRE",
+  "BVC",  "EOR",  "JAM",  "SRE",  "NOOP", "EOR",  "LSR",  "SRE",
+  "CLI",  "EOR",  "NOOP", "SRE",  "NOOP", "EOR",  "LSR",  "SRE",
+
+  "RTS",  "ADC",  "JAM",  "RRA",  "NOOP", "ADC",  "ROR",  "RRA",
+  "PLA",  "ADC",  "ROR",  "ARR",  "JMP",  "ADC",  "ROR",  "RRA",
+  "BVS",  "ADC",  "JAM",  "RRA",  "NOOP", "ADC",  "ROR",  "RRA",
+  "SEI",  "ADC",  "NOOP", "RRA",  "NOOP", "ADC",  "ROR",  "RRA",
+
+  "NOOP", "STA",  "NOOP", "SAX",  "STY",  "STA",  "STX",  "SAX",
+  "DEY",  "NOOP", "TXA",  "ANE",  "STY",  "STA",  "STX",  "SAX",
+  "BCC",  "STA",  "JAM",  "SHA",  "STY",  "STA",  "STX",  "SAX",
+  "TYA",  "STA",  "TXS",  "SHS",  "SHY",  "STA",  "SHX",  "SHA",
+
+  "LDY",  "LDA",  "LDX",  "LAX",  "LDY",  "LDA",  "LDX",  "LAX",
+  "TAY",  "LDA",  "TAX",  "LXA",  "LDY",  "LDA",  "LDX",  "LAX",
+  "BCS",  "LDA",  "JAM",  "LAX",  "LDY",  "LDA",  "LDX",  "LAX",
+  "CLV",  "LDA",  "TSX",  "LAS",  "LDY",  "LDA",  "LDX",  "LAX",
+
+  "CPY",  "CMP",  "NOOP", "DCP",  "CPY",  "CMP",  "DEC",  "DCP",
+  "INY",  "CMP",  "DEX",  "SBX",  "CPY",  "CMP",  "DEC",  "DCP",
+  "BNE",  "CMP",  "JAM",  "DCP",  "NOOP", "CMP",  "DEC",  "DCP",
+  "CLD",  "CMP",  "NOOP", "DCP",  "NOOP", "CMP",  "DEC",  "DCP",
+
+  "CPX",  "SBC",  "NOOP", "ISB",  "CPX",  "SBC",  "INC",  "ISB",
+  "INX",  "SBC",  "NOP",  "USBC", "CPX",  "SBC",  "INC",  "ISB",
+  "BEQ",  "SBC",  "JAM",  "ISB",  "NOOP", "SBC",  "INC",  "ISB",
+  "SED",  "SBC",  "NOOP", "ISB",  "NOOP", "SBC",  "INC",  "ISB"
+);
+
+@cl = (1, 2, 2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 1, 0);
+@pe = ( "", "#", "",  "",   "",   "", "",   "",   "(", "(",  "(",   "",  "", "");
+@pj = ( "", "",  "",  ",X", ",Y", "", ",X", ",Y", ")", ",X)", "),Y", "", "", "");
+
+@jump = (
+ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+);
+
+# -----------------------------------------------------------------------------
+} else {
+# -----------------------------------------------------------------------------
+
+# 65 CE 02
+
+    $ZERO_PAGE = 4;
+    $RELATIVE = 16;
+    $RELATIVE_LONG = 17;
+    $ZERO_RELATIVE = 18;
+
+@modes = (
+ 64,  8,  0,  0,  4,  4,  4,  4,  0,  2,  1,  0, 11, 11, 11, 18,
+ 16,  9, 10, 17,  4,  5,  5,  4,  0, 13,  1,  0, 11, 12, 12, 18,
+ 11,  8,  7,  8,  4,  4,  4,  4,  0,  2,  1,  0, 11, 11, 11, 18,
+ 16,  9, 10, 17,  5,  5,  5,  4,  0, 13,  1,  0, 12, 12, 12, 18,
+  0,  8,  1,  1,  4,  4,  4,  4,  0,  2,  1,  0, 11, 11, 11, 18,
+ 16,  9, 10, 17,  5,  5,  5,  4,  0, 13,  0,  0,  0, 12, 12, 18,
+  0,  8,  2, 11,  4,  4,  4,  4,  0,  2,  1,  0, 14, 11, 11, 18,
+ 16,  9, 10, 17,  5,  5,  5,  4,  0, 13,  0,  0, 15, 12, 12, 18,
+
+ 16,  8, 19, 17,  4,  4,  4,  4,  0,  2,  0, 12, 11, 11, 11, 18,
+ 16,  9, 10, 17,  5,  5,  6,  4,  0, 13,  0, 13, 11, 12, 12, 18,
+  2,  8,  2,  4,  4,  4,  4,  4,  0,  2,  0, 11, 11, 11, 11, 18,
+ 16,  9, 10, 17,  5,  5,  6,  4,  0, 13,  0, 12, 12, 12, 13, 18,
+  2,  8,  2,  4,  4,  4,  4,  4,  0,  2,  0, 11, 11, 11, 11, 18,
+ 16,  9, 10, 17,  4,  5,  5,  4,  0, 13,  0,  0, 11, 12, 12, 18,
+  2,  8, 19,  4,  4,  4,  4,  4,  0,  2,  0, 11, 11, 11, 11, 18,
+ 16,  9, 10, 17,  3,  5,  5,  4,  0, 13,  0,  0, 11, 12, 12, 18
+);
+
+@tk = (
+ "BRK", "ORA", "CLE", "SEE", "TSB", "ORA", "ASL", "RMB0",
+ "PHP", "ORA", "ASL", "TSY", "TSB", "ORA", "ASL", "BBR0",
+ "BPL", "ORA", "ORA", "BPL", "TRB", "ORA", "ASL", "RMB1",
+ "CLC", "ORA", "INC", "INZ", "TRB", "ORA", "ASL", "BBR1",
+
+ "JSR", "AND", "JSR", "JSR", "BIT", "AND", "ROL", "RMB2",
+ "PLP", "AND", "ROL", "TYS", "BIT", "AND", "ROL", "BBR2",
+ "BMI", "AND", "AND", "BMI", "BIT", "AND", "ROL", "RMB3",
+ "SEC", "AND", "DEC", "DEZ", "BIT", "AND", "ROL", "BBR3",
+
+ "RTI", "EOR", "NEG", "ASR", "ASR", "EOR", "LSR", "RMB4",
+ "PHA", "EOR", "LSR", "TAZ", "JMP", "EOR", "LSR", "BBR4",
+ "BVC", "EOR", "EOR", "BVC", "ASR", "EOR", "LSR", "RMB5",
+ "CLI", "EOR", "PHY", "TAB", "MAP", "EOR", "LSR", "BBR5",
+
+ "RTS", "ADC", "RTS", "BSR", "STZ", "ADC", "ROR", "RMB6",
+ "PLA", "ADC", "ROR", "TZA", "JMP", "ADC", "ROR", "BBR6",
+ "BVS", "ADC", "ADC", "BPL", "STZ", "ADC", "ROR", "RMB7",
+ "SEI", "ADC", "PLY", "TBA", "JMP", "ADC", "ROR", "BBR7",
+
+ "BRA", "STA", "STA", "BRA", "STY", "STA", "STX", "SMB0",
+ "DEY", "BIT", "TXA", "STY", "STY", "STA", "STX", "BBS0",
+ "BCC", "STA", "STA", "BCC", "STY", "STA", "STX", "SMB1",
+ "TYA", "STA", "TXS", "STX", "STZ", "STA", "STZ", "BBS1",
+
+ "LDY", "LDA", "LDX", "LDZ", "LDY", "LDA", "LDX", "SMB2",
+ "TAY", "LDA", "TAX", "LDZ", "LDY", "LDA", "LDX", "BBS2",
+ "BCS", "LDA", "LDA", "BCS", "LDY", "LDA", "LDX", "SMB3",
+ "CLV", "LDA", "TSX", "LDZ", "LDY", "LDA", "LDX", "BBS3",
+
+ "CPY", "CMP", "CPZ", "DEW", "CPY", "CMP", "DEC", "SMB4",
+ "INY", "CMP", "DEX", "ASW", "CPY", "CMP", "DEC", "BBS4",
+ "BNE", "CMP", "CMP", "BNE", "CPZ", "CMP", "DEC", "SMB5",
+ "CLD", "CMP", "PHX", "PHZ", "CPZ", "CMP", "DEC", "BBS5",
+
+ "CPX", "SBC", "LDA", "INW", "CPX", "SBC", "INC", "SMB6",
+ "INX", "SBC", "NOP", "ROW", "CPX", "SBC", "INC", "BBS6",
+ "BEQ", "SBC", "SBC", "BPL", "PHW", "SBC", "INC", "SMB7",
+ "SED", "SBC", "PLX", "PLZ", "PHW", "SBC", "INC", "BBS7"
+);
+
+@jump = (
+ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 2, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1,
+
+ 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+);
+
+@cl = (
+1, 1, 2, 3,  2, 2, 2,  2, 2, 2, 2,  3, 3, 3, 3, 3,  2, 3, 3, 2, 0
+);
+
+@pe = (
+ "", "A", "#", "#", "", "", "",
+ "(", "(", "(", "(", "", "", "",
+ "(", "(", "", "", "", "(", ""
+);
+
+@pj = (
+ "", "", "", "", "", ",X", ",Y",
+ ")", ",X)", "),Y", "),Z", "", ",X", ",Y",
+ ")", ",X)", "", "", "", ",SP),Y", ""
+);
+
+# -----------------------------------------------------------------------------
+} # 65 CE 02
+# -----------------------------------------------------------------------------
+
+
+$sn = 0;
+$i = 0;
+$n = 0;
+$flg = 0;
+$ca = 0000;
+$pca = "";
+
+
+# Identify
+
+if($verbose) { print STDERR "\nReComment $Version\n"; }
+
+
+#
+# Process
+#
+
+if (open (OUT, ">$OUTFILE")) {
+    if($verbose) { print STDERR "\n Writing to $OUTFILE"; }
+    select(OUT);
+}
+
+do print_headers();
+
+# Read the headers, symbols, and comments from document file
+
+do read_comments();
+
+# if (!$flg) {
+#	if (!$n) { printf STDERR "Cannot locate comments/headers.\n"; exit;}
+#	for (i=0; i<n; i++) print comment[i]; i=0;
+#	flg++;
+# }
+
+# ...and if they can start at $0000
+# if (!$addr) {				### 65xx programs CANNOT start at 0000
+#     die "\nNo start address specified";
+# }
+
+
+#
+# Read the program disassembly
+#
+
+
+open(prg,"$PRGFILE") || die "\nCan't open program file $PRGFILE$Usage";
+
+if($verbose) { printf STDERR "\nProcessing $PRGFILE\n\n"; }
+
+#
+# Check for Load Address
+#
+read (prg, $_, 1); $op = ord($_);
+read (prg, $_, 1); $op |= (ord($_) <<8);
+
+if(!$addr) {
+  $addr = $op;
+    printf (" .word \$%04X\n",$addr);
+} else {
+  if ($addr == $op) {
+    printf "; Skipped load address %04x\n\n", $op;
+    printf (" .word \$%04X\n",$addr);
+  }
+  else {
+    seek prg, -2, 1;
+  }
+}
+
+if($labels) {
+    $oldout = select(); 
+    $tmpfile1 = "/tmp/recomment.$$.$<.1";
+    open (NEWOUT, ">$tmpfile1");
+    select(NEWOUT);
+}
+
+printf "\n; *** text follows ***\n";
+printf ("\n *=\$%04X\n\n\n", $addr) ;
+
+do reassemble();
+
+
+if($labels) {
+    select($oldout);
+    close(NEWOUT);
+
+    printf("\n; *** Symbol table  follows ***\n");
+    foreach $key (sort {$a <=> $b} (keys %SymbolType)) {
+	if( $SymbolUsed{$key} && !$SymbolDefd{$key}) {
+	  $aname=$SymbolName{$key};
+	  if($aname) {
+	    printf(" %-10s =\$%04X\n",$aname,$key);
+	  } else {
+	   if($key & 0xff00) {
+	    if($SymbolType{$key} & $LT_EXE) {
+	      printf(" %s%04X      =\$%04X\n",$EXESYMBOL, $key,$key);
+	    }
+	    if($SymbolType{$key} & $LT_DAT) {
+	      printf(" %s%04X      =\$%04X\n",$DATSYMBOL, $key,$key);
+	    }
+	   } else {
+	    if($SymbolType{$key} & $LT_EXE) {
+	      printf(" %s%02X        =\$%02X\n",$EXESYMBOL, $key,$key);
+	    }
+	    if($SymbolType{$key} & $LT_DAT) {
+	      printf(" %s%02X        =\$%02X\n",$DATSYMBOL, $key,$key);
+	    }
+	   }
+	  }
+	}
+    }
+
+    $|=1;
+    open (NEWOUT, "<$tmpfile1");
+    while ($n = read (NEWOUT, $buf, 4096)) {
+      syswrite($oldout, $buf, $n);
+    }
+    close($NEWOUT);
+
+    unlink "$tmpfile1";
+}
+
+#
+#  Summary
+#
+
+if ($SYMFILE) {
+    open(SYM,">$SYMFILE");
+
+    printf (SYM "! Symbol Table for '$PRGFILE'   %s\n\n", `/bin/date`);
+
+    if($verbose) { printf STDERR "\nWriting Comment Table\n"; }
+    printf SYM "\n\n! Comment Table\n\n";
+    foreach $key (sort {$a <=> $b} (keys %subrtitle)) {
+	printf SYM "_%04x\t%s\n", $key, $subrtitle{$key};
+    }
+
+    if($verbose) { printf STDERR "Writing Address Table\n"; }
+    printf SYM "\n\n! Suggest adding the following addresses:\n\n";
+    foreach $key (sort {$a <=> $b} (keys %calls)) {
+	($calls{$key} >= $MIN_SUGG_CE && !$title{$key}) &&
+	    printf SYM "!\t%04x\t%d\n", $key, $calls{$key};
+    }
+
+    if($verbose) { printf STDERR "Writing Symbol Table\n\n"; }
+    printf SYM "\n\n";
+    foreach $key (sort {$a <=> $b} (keys %SymbolType)) {
+
+      $aname=$SymbolName{$key};
+      $offset=$SymbolOffset{$key};
+      if ( $aname || !$second || $SymbolUsed{$key} ) {
+       if((!$offset) || (!$SymbolUsed{$key-$offset}) ) {
+	$stype = $SymbolType{$key};
+	if ($stype == $LT_EXE) {
+		$aname = "@".$aname;
+	}
+	elsif ($stype == $LT_DAT + $LT_EXE
+			|| $stype == $LT_DAT + $LT_EXE + $LT_ARY) {
+		$aname = "/".$aname;
+	} else {
+		$aname = "&".$aname;
+	}
+
+	printf SYM "%s=%04x", $aname, $key;
+
+	$hi = 0;
+	while($SymbolOffset{($key+$hi+1) & 65535} == $hi+1) {
+	  $hi++;
+	}
+	if($hi) { printf SYM "+%x", $hi; }
+	$lo = 0;
+	while($SymbolOffset{($key+$lo-1) & 65535} == $lo-1) {
+	  $lo--;
+	}
+	if($lo) { printf SYM "-%x", -$lo; }
+
+ 	printf SYM "\n";
+       }
+      }
+    }
+    foreach $key (sort {$a <=> $b} (keys %title)) {
+#      if(length($title{$key})) {
+	if($titleoffset{$key}) {
+	  printf SYM ("+%04X \t%s\n",$titleoffset{$key}, $title{$key});
+	} else {
+	  printf SYM ("%04X \t%s\n",$key, $title{$key});
+	}
+#      }
+    }
+    foreach $key (sort {$a <=> $b} (keys %Hints)) {
+	if($Hintsoffset{$key}) {
+	  printf SYM ("*+%04X \t%s\n",$Hintsoffset{$key}, $Hints{$key});
+	} else {
+	  printf SYM ("*%04X \t%s\n",$key, $Hints{$key});
+	}
+    }
+
+    close(SYM);
+}
+
+do print_footers();
+close(OUT);
+
+if ($pass >= 2) {
+  unlink($tmpfile2);
+  if ($pass >= 3) {
+    unlink($tmpfile3);
+    if ($pass >= 4) {
+      unlink($tmpfile4);
+    }
+  }
+}
+
+printf ("\n");
+exit 0;
+
+
+# ----------------------------------------------------------------------------
+
+sub reassemble {
+
+$ca = $pca = $addr;
+$n1=0;
+$outmode = $hdrmode = $NONE;			### No headers given
+
+
+
+# Do leading comments
+
+while ($n1 < $nr && $remadr{$n1} < $addr) {
+    print "$remark{$n1++}";			### program description
+    ++$flg;
+}
+
+
+#
+# Print straight from the binary
+#
+
+$padr = $addr;
+$bytes = 0;
+$op = 0x4c; 	# This allows to start with a data label definition.
+$Lastcode = 0;	#
+
+ code: while (read (prg, $_, 1)) {
+    $prev = $op;
+    $op = ord($_);
+
+
+# ----------------------------------------------------------------------------
+
+#
+# Analyze Input
+#
+
+# Insert headers and function-wise comments
+
+    if ($Hints{$padr}) {
+	if (grep(/ADDR|RETA|WORD|FLPT|DATA|CHIP|UNKNOWN/, $Hints{$padr})) {
+
+	    if (grep(/WORD/, $Hints{$padr})) {
+		$hdrmode = $WORD;
+	    } elsif (grep(/RETA/, $Hints{$padr})) {
+		$hdrmode = $RETA;
+	    } elsif (grep(/ADDR/, $Hints{$padr})) {
+		$hdrmode = $ADDR;
+	    } elsif (grep(/UNKNOWN/, $Hints{$padr})) {
+		if($SymbolType{$padr} & $LT_EXE) {
+		  $hdrmode = $CODE;
+		} elsif ($SymbolType{$padr} & $LT_DAT) {
+		  $hdrmode = $DATA;
+		} else {
+		  $hdrmode = $NONE;
+		}
+	    } else {
+		$hdrmode = $DATA;
+	    }
+
+	    $branchflg = 0;
+
+	    if(!$wasblank) {
+	      if(($hdrmode == $DATA) && $bytes) {
+	 	do finish_line();
+		$bytes=0;
+	      } else {
+	        printf "\n";
+	      }
+	    }
+#	    print "\n; $title{$padr}\n";	### routine name
+
+	    if ($SymbolType{$padr} == $LT_EXE) {
+		$SymbolType{$padr} = 0;
+		$SymbolName{$padr} = "";
+		printf "; %04x: Ignored CALL reference.\n", $padr;
+	    }
+	    $outmode = $hdrmode;
+	}
+	elsif (grep(/TEXT/, $Hints{$padr})) {
+	    $hdrmode = $TEXT;
+	    $outmode = $hdrmode;
+	}
+	elsif (grep(/DHINT|CHINT/, $Hints{$padr})) {
+	    if (grep(/DHINT/, $Hints{$padr})) {
+		$outmode = $DATA;
+		$hdrmode = $NONE;
+	    }
+	    elsif (grep(/CHINT/, $Hints{$padr})) {
+		$outmode = $CODE;
+		$hdrmode = $NONE;
+	    }
+	}
+    }
+
+    if ((length($title{$padr})>0) && $outmode != $CODE  || $SymbolType{$padr} & $LT_DAT) {
+	    # $hdrmode = $outmode;
+	    $branchflg = 0;
+# printf STDERR ("mark0: title addr=$padr, left=$left, outmode=$outmode, hdrmode=$hdrmode title=$title{$padr}, type=$SymbolType{$padr} len=%d\n",
+#			length($title{$padr}));
+	    if(length($title{$padr})) {
+	      (!$wasblank) && printf "\n";
+	      printf ("\n; $title{$padr}\n\n");	### routine name
+	    }
+
+#	    if ($SymbolType{$padr} == $LT_DAT 
+#			|| $SymbolType{$padr} == ($LT_DAT | $LT_ARY)) {
+#		$SymbolType{$padr} = 0;
+#		$SymbolName{$padr} = "";
+#		printf "; %04x: Ignored DATA reference.\n", $padr;
+#	    }
+#	    $outmode = $hdrmode;
+#	}
+#else {
+#printf STDERR ("code title addr=$padr, title=$title{$padr}, type=$SymbolType{$padr}\n");
+#}
+#	$outmode = $hdrmode;
+    } # if title 
+
+    $flg= 0;
+
+    while ($n1 < $nr && $remadr{$n1} <= $padr) {
+	print "$remark{$n1++}";			### routine description
+	++$flg;
+    }
+    if ($flg) {
+	printf "\n$flg";
+	++$wasblank;
+    }
+
+# if($padr==49744) { printf STDERR ("mark 2: padr=$padr, outmode=$outmode hdrmode=$hdrmode\n") }
+
+#
+# Switch between asm/hex modes
+#
+
+    if ($SymbolType{$padr} == $LT_EXE) {
+        # found text label
+	if ($outmode > $CODE) {
+	    ++$wasblank;
+	    printf "\n";
+	}
+	$outmode = $CODE;
+    }
+    elsif ($SymbolType{$padr} & $LT_DAT) {
+        # found data label
+	if ($outmode <= $CODE && !($jump[$prev])) {
+	    if($verbose) { printf "; %04X: CODE TO DATA attempted.\n", $padr; }
+	}
+	else {
+	    if ($outmode != $WORD && $outmode != $RETA && $outmode != $ADDR) {
+		$outmode = $DATA;
+
+		if ($SymbolType{$padr} & $LT_ARY) {
+		    $left = $LIMIT_IMPL_ARY;	### It all cannot be ONE array.
+		}
+
+	    }
+	}
+    }
+
+
+    if ($modes[$op] & $ILLEG) {
+	if ($SymbolType{$padr} == $LT_EXE) {
+	    printf "; *** Invalid reference %04X ignored.\n", $padr;
+	}
+	elsif ($outmode <= $CODE) {
+	    printf "\n; %04X: Illegal instruction.\n", $padr;
+	    if ( $hints && $lastcode && !$Hints{$lastcode} ) {
+		$Hints{$lastcode} = "DHINT";
+	    }
+	}
+
+	if ($outmode <= $CODE) {
+	    $outmode = $DATA;
+	    if ( $hints && $lastcode && !$Hints{$lastcode} ) {
+		$Hints{$lastcode} = "DHINT";
+	    }
+	    printf "\n";
+	}
+    } # illeg
+
+# ----------------------------------------------------------------------------
+
+if ($outmode != $CODE) {
+	$lastcode = $lasttype = 0;
+}
+
+if ($outmode == $WORD || $outmode == $ADDR) {
+
+#
+# WORD FORMAT
+#
+
+    if (!$bytes++) {				### Addres
+	do print_address($padr);
+
+	printf (" .word");
+    } else {
+	printf(",");
+    } # if bytes
+
+    $op2 = ord(getc(prg));
+
+#    printf(" \$%02X%02X", $op2, $op);		### Word LO/HI
+    $wsa = ($op2 << 8) | $op;
+    if( $outmode == $ADDR ) {
+	$SymbolType{$wsa} |= $LT_EXE;
+    }
+    do get_wsymbol();
+    printf(" %-8s", $ps);
+
+    # test for misplaced label
+    if ($SymbolType{$padr +1}) {
+	printf("\n");
+	if(!$SymbolType{$padr}) { 
+	  printf ("; *** %04X: ADDRESS DIFFER. This may indicate misassembly ***\n", $padr);
+	}
+	$padr +=1;
+	print_asymbol();
+	$padr -=1;
+	printf (" = * - 1 ;   referenced;\n");
+	$bytes = 0;
+    }
+
+    $padr += 2;
+
+    if ($bytes >= $WORDSPERLINE || $title{$padr} || $SymbolType{$padr} ) {
+	printf "\n";				### Newline
+	$bytes = 0;
+    }
+
+    if ($title{$padr+1}) {			### test misalignment
+	seek(prg, -1, 1);
+	--$padr;
+	printf "\n; *** Resyncing -1 ***\n";
+    }
+
+   next code;
+
+} 
+elsif ($outmode == $RETA) {
+
+#
+# Return address FORMAT
+#
+
+    if (!$bytes++) {				### Addres
+	do print_address($padr);
+
+	printf (" .word");
+    } else {
+	printf(",");
+    } # if bytes
+
+    $op2 = ord(getc(prg));
+
+#    printf(" \$%02X%02X", $op2, $op);		### Word LO/HI
+    $wsa = ($op2 << 8) | $op + 1;
+    $SymbolType{$wsa} |= $LT_EXE;
+    do get_wsymbol();
+    printf(" %-8s-1", $ps);
+
+    # test for misplaced label
+    if ($SymbolType{$padr +1}) {
+	printf("\n");
+	if(!$SymbolType{$padr}) { 
+	  printf ("; *** %04X: ADDRESS DIFFER. This may indicate misassembly ***\n", $padr);
+	}
+	$padr +=1;
+	print_asymbol();
+	$padr -=1;
+	printf (" = * - 1 ;   referenced;\n");
+	$bytes = 0;
+    }
+
+
+    $padr += 2;
+
+    if ($bytes >= $WORDSPERLINE || $title{$padr} || $SymbolType{$padr} ) {
+	printf "\n";				### Newline
+	$bytes = 0;
+    }
+
+    if ($title{$padr+1}) {			### test misalignment
+	seek(prg, -1, 1);
+	--$padr;
+	printf "\n; *** Resyncing ***\n";
+    }
+
+   next code;
+
+# ----------------------------------------------------------------------------
+} elsif ($outmode > $CODE) {
+# ----------------------------------------------------------------------------
+
+# if($padr==49744) { printf STDERR ("mark a: padr=$padr, tk=$tk[$op], outmode=$outmode hdrmode=$hdrmode\n") }
+# if($padr==49815) { printf STDERR ("mark a: padr=$padr, tk=$tk[$op], outmode=$outmode hdrmode=$hdrmode\n") }
+
+# Test for code
+
+    if ($left) {				### Max bytes per array
+	if (! --$left) { $hdrmode = $NONE; }
+    }
+
+    if(!$second) {
+      if ($hdrmode == $NONE && grep (/LDA|LDX|LDY|JMP|BRA|JSR/, $tk[$op])) {
+# should test a few commands ...
+	if($bytes) {
+	  do finish_line();
+	}
+	$outmode = $NONE;
+	(!$wasblank) && printf("\n");
+	goto disasm;
+      }
+    }
+
+
+#
+# BYTE FORMAT
+#
+
+    if (!$bytes++) {				### Addres
+	do print_address($padr);
+
+	printf (" .byte");
+	$ps = "";
+    } else {
+	printf(",");
+    } # if bytes
+
+    printf(" \$%02X", $op);			### Bytes
+    $ps .= $_;
+    ++$padr;
+
+
+    if ( ($outmode == $TEXT && !$op) ||
+	$bytes >= $BYTESPERLINE || $title{$padr} || $SymbolType{$padr} ) {
+
+	do finish_line();
+# if($title{$padr}) { printf STDERR ("byte 0: padr=$padr, outmode=$outmode hdrmode=$hdrmode, , op=$op, title=$title{$padr}\n"); }
+	$bytes = 0;
+
+	if ($outmode == $TEXT && !$op) {
+	    $outmode = $CODE;
+	    printf "\n";
+	    ++$wasblank;
+	}
+    }
+# if($title{$padr}) { printf STDERR ("byte 1: outmode=$outmode, hdrmode=$hdrmode, op=$op, title=$title{$padr}\n"); }
+
+   next code;
+
+# ----------------------------------------------------------------------------
+
+} else {		# outmode
+
+# ----------------------------------------------------------------------------
+
+disasm:
+
+# The main part of this disassembler routine is grabbed directly from
+# "monstar v1.85", a 8502 disassembler written in Basic 7.0 and 2.0.
+#
+    $ps = "";
+ 
+    $am = $modes[$op] & 31;			### mode and type
+    $bytes = $cl[$am];
+
+    if( $SymbolType{$padr} & $LT_EXE) {
+	$lastcode = $padr + $bytes;
+	$lasttype = 1;
+    }
+    if ( $jump[$op] && $lasttype ) {
+	$lastcode = $padr + $bytes;
+	if ( $jump[$op] == 2) {
+	  $lasttype = 0;	# jmp and rts clean symbol
+	}
+    } 
+    if ($bytes == 2) {
+	$oper = ord(getc(prg));
+	$lobyte = $oper;
+	if ($am == $RELATIVE) {			### Relative
+	    do calc_disp($oper);
+
+	    $oper += 2 + $padr;
+	    do get_ps4();	#$ps = sprintf( " \$%04X", $oper);
+	}
+	else {
+	    do get_ps2();	#$ps = sprintf( " $pe[$am]\$%02X$pj[$am]", $oper);
+	}
+    }
+    elsif ($bytes == 3) {
+	if ($am == $ZERO_RELATIVE) {		### Relative Depending On Byte
+	    $cc = ord(getc(prg));
+	    $lobyte = $cc;
+	    $oper = ord(getc(prg));
+	    $hibyte = $oper;
+
+	    do calc_disp($oper);
+
+	    $oper += 3 + $padr;
+	    # FIXME: no check for label 
+	    $ps = sprintf(" \$%02X,\$%04X", $cc, $oper);
+	}
+	else {
+	    $oper = ord(getc(prg));
+	    $lobyte = $oper;
+	    $hibyte = ord(getc(prg));
+	    $oper |= ($hibyte << 8);
+
+	    if ($am == $RELATIVE_LONG) {	### Relative Long
+		$oper = ($oper + 2 + $padr) & 0xffff;
+	    }
+	    do get_ps4();	#$ps = sprintf(" $pe[$am]\$%04X$pj[$am]", $oper);
+	}
+    }
+
+#printf ("DEBUG: (%d) %04x  %02x\t%3s$ps\n",
+#	$bytes, $padr, ord($_),  $tk[$op], $oper); 
+
+#   ($oper = $ps) =~ y/a-z\(\)\$\ /A-Z/d;	### operand field
+
+
+
+# -----------------------------------------------------------------------------
+
+#
+# Find new references
+#
+    do makerefer($oper, $ps);
+
+} # outmode
+
+
+#
+# FORMAT OUTPUT
+# 
+# Finally, format the output
+# and add symbols where used
+#
+
+#	do print_iaddress($padr);
+#	do print_instruction();
+
+
+# ----------------------------------------------------------------------------
+
+#
+# Some reasoning ...
+#
+# This part checks that given memory map entries do exist, and
+# separates consecutive ML routines with a blank line.
+#
+
+	if ($bytes > 1) {
+	    if (($title{$padr+1} || $SymbolType{$padr+1}) ||
+		(($bytes > 2) && ($title{$padr+2} || $SymbolType{$padr+2})) ) {
+
+		if ($title{$padr+1}) {
+		    $off = 1;
+
+#		    if (($modes[$op] & $ILLEG) && $SymbolType{$padr} == $LT_EXE) {
+#			printf STDERR "Invalid title %04X ignored.\n", $padr;
+#		    }
+#		    else {
+			seek(prg, 1-$bytes, 1);
+			printf "\n; *** Resyncing ***\n";
+			$bytes = 1;
+#		    }
+
+		}
+		elsif ($title{$padr+2}) {
+		    $off = 2;
+		    seek(prg, 2-$bytes, 1);
+		    printf "\n; *** Resyncing ***\n";
+		    $bytes = $off;
+		}
+		else {
+		    # TODO: those hacks should actually be some resync?
+		    if( ($op == 0x2c) && ($SymbolType{$padr+1} == $LT_EXE)
+			  && ( $cl[$modes[$oper & 0xff]&31] == 2)) {
+			if ($verbose) {
+			  printf("; *** %04X: Warning: .byte \$2C  or ", $padr);
+			  do print_instruction();
+			}
+			do print_iaddress();
+			printf(" .byte \$2C\n");
+			$padr++;
+			$op = $oper & 0xff;
+			$oper = ($oper >> 8) & 0xff;
+			$lobyte = $oper;
+			$am = $modes[$op] & 31;
+			if ($am == $RELATIVE) {
+			  do calc_disp($oper);
+			  $oper += 2+$padr;
+			}
+			$bytes = $cl[$am];
+	    		do get_ps2();	
+		    } else {
+		     if( ($op == 0x24) && ($SymbolType{$padr+1} == $LT_EXE) 
+			  && ( $cl[$modes[$oper & 0xff]&31] == 1)) {
+			if ($verbose) {
+			  printf("; *** %04X: Warning: .byte \$24  or ", $padr);
+			  do print_instruction();
+			}
+			do print_iaddress();
+			printf(" .byte \$24\n");
+			$padr++;
+			$op = $oper & 0xff;
+			$oper = 0;
+			$am = $modes[$op] & 31;
+			$bytes = $cl[$am];
+	    		$ps = ""; 
+		     } else {
+		      if (($SymbolType{$padr+1} == $LT_EXE) 
+				&& $jump[$prev]
+				&& !$SymbolType{$padr} 
+				&& ($cl[$modes[$oper & 0xff]&31] == $bytes-1)
+			    ) {
+			$bytes = 1;
+			do print_iaddress();
+			printf(" .byte \$%02X\n",$op);
+			$padr++;
+			$op = $oper & 0xff;
+			$oper = ($oper >> 8) & 0xff;
+			$am = $modes[$op] & 31;
+			$bytes = $cl[$am];
+			$lobyte = $oper;
+	    		if($bytes==2) {
+			  do get_ps2();
+			} else {
+			  $ps = ""; 
+			}
+		      }
+		      elsif (($SymbolType{$padr+1} == $LT_EXE) ||
+			(($bytes > 2) && $SymbolType{$padr+2} == $LT_EXE) ) {
+			printf ("; *** %04X: CALL ADDRESS ALIGNMENT. This may indicate misassembly ***\n", $padr);
+# printf("; padr=\$%04X ($padr), bytes=$bytes, $SymbolType{$padr+1}\n",$padr);
+			if($SymbolType{$padr+1} & $LT_EXE) {
+			  $padr +=1;
+			  print_asymbol();
+			  $padr -=1;
+			  printf("= * + 1 ;   referenced\n");
+			}
+			if($bytes>2 && $SymbolType{$padr+2} & $LT_EXE) {
+			  $padr +=2;
+			  print_asymbol();
+			  $padr -=2;
+			  printf("= * + 2 ;   referenced\n");
+			}
+		      }
+		      else {
+			printf ("; *** %04X: Warning: Possibly modifyable opcode. ***\n\n", $padr);
+		      }
+		     }
+		    }
+		} # else
+	    } # differ
+	}
+
+	do print_iaddress($padr);
+	do print_instruction();
+
+	$padr += $bytes;
+	$bytes = 0;
+
+	if ($branchflg < $padr &&		### End of routine
+	    ($tk[$op] eq "JMP" || $tk[$op] eq "BRA" ||
+	     $tk[$op] eq "RTS" || $tk[$op] eq "RTI")) {
+	    printf "\n";
+	    ++$wasblank;
+	}
+
+
+# ----------------------------------------------------------------------------
+
+    } # while code
+
+# Did we encounter EOF in the middle of a ML routine ?
+
+if ($outmode <= $CODE && !($jump[$prev])) {
+    if($verbose) { 
+	printf STDERR "%04X: Premature end of input file.\n", $padr; 
+    }
+}
+
+if( $hints && $lastcode && !$Hints{$lastcode}) {
+    $Hints{$lastcode} = "DHINT";
+}
+} # sub reassemble
+
+
+# ----------------------------------------------------------------------------
+
+#
+# Find new references
+#
+# From disassembly: $oper holds the operand address once found
+# from binary: $oper is the operand.
+
+sub makerefer {
+
+    $flg = 0;
+
+    if( $am == $ABSINDIRECT && $tk[$op] eq "JMP" ) { ### jump indirect
+	$flg++;
+	$SymbolType{$oper} |= $LT_DAT;		### store symbol table
+	($debug) && printf STDERR "%04X: autodefine label: %04X\n", $padr, $oper;
+    }
+    elsif ($am == $RELATIVE || $am == $RELATIVE_LONG || $am == $ZERO_RELATIVE ||
+      $tk[$op] eq "JMP" || $tk[$op] eq "JSR") {	### test mnemonic field
+	$flg++;
+#	if (!$SymbolType{$oper}) {
+	if (1) {
+	    $SymbolType{$oper} |= $LT_EXE;		### store symbol table
+	    ($debug) && printf STDERR "%04X: autodefine label: %04X\n", $padr, $oper;
+	} # symbol
+	elsif ($SymbolType{$oper} & $LT_DAT) {
+	    if($verbose) { printf STDERR "Reference mismatch for %04X.\n", $oper; }
+	}
+
+
+	### test mnemonic and operand fields
+
+	if ($am == $RELATIVE || $am == $ZERO_RELATIVE) {
+	    if ($oper > $branchflg) {
+		$branchflg = $oper;		### prune logic tree
+	    }
+	}
+
+	elsif ($tk[$op] eq "JMP") {		### copy indirect header
+	    if ($SymbolName{$padr} && !$title{$padr} && $title{$oper}) {
+		$subrtitle{$padr} = $title{$oper};
+	    }
+	}
+
+	# For C128 and C65: Print Immediate
+
+	elsif ($tk[$op] eq "JSR") {	### test mnemonic and operand fields
+	    if ($oper == hex(FF7D) ||
+
+		($CPUMODEL && (
+			$oper == hex(9281) || $oper == hex(FA17) ||	# C128
+			$oper == hex("8DFD") || $oper == hex("C01B") ||	# C64 ARC
+			$oper == hex("FF4F")				# Plus4
+				) ) ||
+		(!$CPUMODEL && $oper == hex(FA37))			# C65
+	    ) {
+		printf STDERR "%04X: TEXT immediate\n", $padr;
+		$outmode = $TEXT;
+		(!$wasblank) && printf "\n";	### Blank before JSR _PRIMM
+	    }
+	    ++$calls{$oper};			### Find new subroutines
+	}
+    } # JMP, JSR
+
+    elsif ($bytes > 1 && $tk[$op] ne "BIT" &&	### Filter out 'BIT'
+#	   (substr($ps,1,1) eq "\$" || substr($ps,1,2) eq "(\$") ) 
+	1 ) {
+						### Zeropage and Absolute modes
+	if (!$SymbolType{$oper}) {
+	    $SymbolType{$oper} = $LT_DAT;		### store symbol table
+
+	    ($debug) &&
+		printf STDERR "%04X: autodefine label: %04X\n", $padr, $oper;
+	}
+	elsif (! ($SymbolType{$oper} & $LT_DAT)) {
+	    if($verbose) { printf STDERR "Reference mismatch for %04X.\n", $oper; }
+	}
+
+	if (grep (/X|Y|Z|SP/, $ps)) {
+	    $SymbolType{$oper} |= $LT_ARY;		### array flag
+	}
+
+	$flg++;
+    } # BIT
+}
+
+
+# -----------------------------------------------------------------------------
+
+sub calc_disp {
+    if ($oper == 255) {
+	$outmode = $DATA;
+        if ( $hints && $lastcode && $Hints{$lastcode} ) {
+	  $Hints{$lastcode} = "DHINT";
+	}
+	return;
+    }
+
+    if ($oper > 127) {
+	if ($oper == 254) {			### offset == 0
+	    printf "; %04x: Endless loop.\n", $padr;
+	}
+
+	$oper -= 256;
+    }
+}
+
+sub get_wsymbol {
+   $offset = $SymbolOffset{$wsa};
+if($offset) { printf STDERR ("offset=$offset, symbol=$wsa, $SymbolName{$wsa+$offset}\n"); }
+   if ( $SymbolName{$wsa} ) {
+	$ps = sprintf ("%s", $SymbolName{$wsa});
+        $SymbolUsed{$wsa} = 1;
+    }
+    elsif ( $offset && $SymbolName{$wsa-$offset} ) {
+	if($offset > 0) {
+	  $ps = sprintf ("%s+%d", $SymbolName{$wsa-$offset}, $offset);
+	} else {
+	  $ps = sprintf ("%s%d", $SymbolName{$wsa-$offset}, $offset);
+	}
+    }
+    elsif ( $wsa && $SymbolType{$wsa} & $LT_EXE ) {
+	if($wsa & 0xff00) {
+	  $ps = sprintf ("%s%04X", $EXESYMBOL, $wsa);
+	} else {
+	  $ps = sprintf ("%s%02X", $EXESYMBOL, $wsa);
+	}
+        $SymbolUsed{$wsa} = 1;
+    } else {
+      if ( $wsa && $SymbolType{$wsa} & $LT_DAT ) {
+	  if($wsa & 0xff00) {
+	    $ps = sprintf ("%s%04X", $DATSYMBOL, $wsa);
+	  } else {
+  	    $ps = sprintf ("%s%02X", $DATSYMBOL, $wsa);
+	  }
+          $SymbolUsed{$wsa} = 1;
+      } else {
+	$ps = sprintf( "\$%04X", $wsa);
+      }
+    }
+
+    if ($HTML && $SymbolType{$wsa} &&
+	($wsa >= $addr) &&  (grep( !/CHIP/, $title{$wsa})) &&
+	(!$dontref || $wsa < $dontref || $wsa > ($dontref + 0xfff))) {
+	$ps = sprintf ("<A HREF=\"#%04X\">%s</A>%s", $wsa, $ps,
+		substr("                ", 0, 8-length($ps)));
+    } else {
+        $ps = sprintf("%-6s ",$ps);
+    }
+}
+
+sub get_ps4 {
+    $offset = $SymbolOffset{$oper};
+    if ( $SymbolName{$oper} ) {
+	$ps = sprintf ("$pe[$am]%s$pj[$am]", $SymbolName{$oper});
+        $SymbolUsed{$oper} = 1;
+    }
+    elsif ( $offset && $SymbolName{$oper-$offset} ) {
+	if($offset > 0) {
+	  $ps = sprintf ("$pe[$am]%s+%d$pj[$am]", $SymbolName{$oper-$offset}, $offset);
+	} else {
+	  $ps = sprintf ("$pe[$am]%s%d$pj[$am]", $SymbolName{$oper-$offset}, $offset);
+	}
+    }
+    elsif ( $SymbolType{$oper} & $LT_EXE ) {
+	if($oper & 0xff00) {
+	  $ps = sprintf ("$pe[$am]%s%04X$pj[$am]", $EXESYMBOL, $oper);
+	} else {
+	  $ps = sprintf ("$pe[$am]%s%02X$pj[$am]", $EXESYMBOL, $oper);
+	}
+        $SymbolUsed{$oper} = 1;
+    } else {
+      if ( $SymbolType{$oper} & $LT_DAT ) {
+	  if($oper & 0xff00) {
+	    $ps = sprintf ("$pe[$am]%s%04X$pj[$am]", $DATSYMBOL, $oper);
+	  } else {
+  	    $ps = sprintf ("$pe[$am]%s%02X$pj[$am]", $DATSYMBOL, $oper);
+	  }
+          $SymbolUsed{$oper} = 1;
+      } else {
+	$ps = sprintf( "$pe[$am]\$%04X$pj[$am]", $oper);
+      }
+    }
+}
+
+sub get_ps2 {
+    if( $am != $IMMEDIATE ) {
+      $offset = $SymbolOffset{$oper};
+      if ( $SymbolName{$oper} ) {
+	$ps = sprintf ("$pe[$am]%s$pj[$am]", $SymbolName{$oper});
+        $SymbolUsed{$oper} = 1;
+      }
+      elsif ( $offset && $SymbolName{$oper-$offset} ) {
+	if($offset > 0) {
+	  $ps = sprintf ("$pe[$am]%s+%d$pj[$am]", $SymbolName{$oper-$offset}, $offset);
+	} else {
+	  $ps = sprintf ("$pe[$am]%s%d$pj[$am]", $SymbolName{$oper-$offset}, $offset);
+	}
+      }
+      elsif ( $SymbolType{$oper} & $LT_EXE ) {
+	if($oper & 0xff00) {
+	  $ps = sprintf ("$pe[$am]%s%04X$pj[$am]", $EXESYMBOL, $oper);
+	} else {
+	  $ps = sprintf ("$pe[$am]%s%02X$pj[$am]", $EXESYMBOL, $oper);
+	}
+        $SymbolUsed{$oper} = 1;
+      } else {
+        if ( $SymbolType{$oper} & $LT_DAT ) {
+	  if($oper & 0xff00) {
+  	    $ps = sprintf ("$pe[$am]%s%04X$pj[$am]", $DATSYMBOL, $oper);
+	  } else {
+  	    $ps = sprintf ("$pe[$am]%s%02X$pj[$am]", $DATSYMBOL, $oper);
+	  }
+          $SymbolUsed{$oper} = 1;
+        } else {
+	  $ps = sprintf( "$pe[$am]\$%02X$pj[$am]", $oper);
+        }
+      }
+    } else {
+      $ps = sprintf( "$pe[$am]\$%02X$pj[$am]", $oper);
+    }
+}
+
+sub print_iaddress {
+
+    $addrloop = 0;
+    do {
+
+     if(! $noaddr) {
+      printf(" %04X  ", $padr);
+     }
+
+     if($long) {
+      printf("%02X ", $op);
+      if($bytes==1) {
+        printf("       ");
+      }
+      if($bytes==2) {
+        printf("%02X     ", $lobyte);
+      }
+      if($bytes==3) {
+        printf("%02X %02X  ", $lobyte, $hibyte);
+      }
+     }
+
+     do print_asymbol();
+    } while($addrloop);
+}
+
+sub print_address {
+
+# DEBUG / Memory dump: print all addresses
+
+    $addrloop = 0;
+    do {
+     if(! $noaddr) {
+      printf(" %04X  ", $padr);
+     }
+
+     do print_asymbol();
+    } while($addrloop);
+}
+
+sub print_asymbol {
+    $wasblank = 0;
+
+    if(!$addrloop) {
+      $addrloop = $SymbolType{$padr};
+    }
+
+    if ($addrloop) {			### test for label
+
+	if ($HTML) {				### HTML Anchor
+	  printf ("<A NAME=\"%04X\">", $padr);
+	}
+
+	if ($SymbolName{$padr}) {
+	    $symstr=$SymbolName{$padr}; 
+	    # printf ("%-10s", $SymbolName{$padr});
+	    $addrloop = 0;
+	    $SymbolDefd{$padr} = 1;
+	}
+	else {
+	    if ($addrloop & $LT_EXE) {
+		$symstr=sprintf("%s%04X", $EXESYMBOL, $padr);
+		# printf ("%s%04X     ", $EXESYMBOL, $padr);
+		$addrloop = $addrloop - $LT_EXE;
+	        $SymbolDefd{$padr} = 1;
+	    }
+	    else {
+		$symstr=sprintf("%s%04X", $DATSYMBOL, $padr);
+		# printf ("%s%04X     ", $DATSYMBOL, $padr);
+	        $addrloop = 0;
+	        $SymbolDefd{$padr} = 1;
+	    }
+	}
+	printf ("%s", $symstr);
+	if ($HTML) {				### HTML Anchor
+	    printf ("</A>");
+	}
+	printf(substr("           ",0,10-length($symstr)));
+    } else {
+        printf("          ");
+    }
+    if($addrloop) {
+	printf("\n");
+    }
+}
+
+
+# -----------------------------------------------------------------------------
+
+#
+# Print Instruction
+#
+
+sub  print_instruction {
+
+    ### Refer to HTML Anchor if $oper points to ROM
+
+    if ($HTML && $flg && $SymbolType{$oper} &&
+	($oper >= $addr) &&  (grep( !/CHIP/, $title{$oper})) &&
+	(!$dontref || $oper < $dontref || $oper > ($dontref + 0xfff))) {
+
+	$htmloper = $oper;
+	$offset = $SymbolOffset{$oper};
+	if($offset && $SymbolName{$oper-$offset}) {
+	    $htmloper = $oper-$offset;
+	}
+	printf (" %s <A HREF=\"#%04X\">%s</A>%s", $tk[$op], $htmloper, $ps,
+		substr("                ", 0, 10-length($ps)));
+#	printf (" %s <A HREF=\"#%04X\">%-16s</A>%s", $tk[$op], $oper, $ps);
+    }
+    else {
+	printf (" %s %-10s", $tk[$op], $ps);	### adjust this to suit
+    }
+
+    if ($flg && $title{$padr}) {		### add line-wise comments
+	@tmp = split(/\\/, $title{$padr});
+	printf (" ; %s\n", $tmp[0]);	### print the first header
+    }
+    elsif ($flg && $subrtitle{$padr}) {
+	printf (" ; Do %s\n", $subrtitle{$padr});	### print the subheader
+    }
+    else {
+	printf ("\n");
+    }
+}
+
+# 
+# sub adjust_oper {	### 3 or less characters in operand
+#     if ( (($am & 31) <= 1 || ($am & 31) == $ZERO_PAGE) &&
+# 	length($tk[$op]) < 4 ) {
+# 	printf ("\t");
+#     }
+# }
+# 
+
+# -----------------------------------------------------------------------------
+
+sub print_headers {
+    $date = `/bin/date`;
+    chop $date;
+
+    if ($HTML) {
+	printf ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n");
+	printf ("<HTML>\n<HEAD>\n");
+	printf ("<LINK REV=MADE HREF=\"mailto:$MAILADDRESS\">");
+	printf ("<TITLE>$PRGFILE</TITLE>\n</HEAD>\n");
+	printf ("<!-- $prgname $Version. -->\n");
+	printf ("<!-- Formatted to HTML for $USER@$HOST  $date. -->\n");
+	printf ("<BODY>\n");
+	printf ("<H1>Automatic Generated Disassembly of `$PRGFILE'</H1>\n");
+	printf ("<HR><PRE>\n");
+    }
+}
+
+sub print_footers {
+    printf("\n\n\n; Misassembly source $Version   Generated  %s\n\n", `/bin/date`);
+
+    if ($HTML) {
+	printf ("</PRE>\n<P><HR>\n");
+	printf ("<P>Formatted to HTML by <EM>$prgname $Version</EM> reassembler.</P>\n");
+	printf ("<P>Misassembled from <EM>$PRGFILE</EM> by <EM>$MAILADDRESS</EM>");
+	if($orighdr) {
+	  printf(" using header file <EM>$orighdr</EM>");
+	}
+	printf (" in a $pass-pass run at %s.</P>\n",`/bin/date`);
+	printf ("</BODY></HTML>\n");
+    }
+}
+
+
+#
+# Read the headers, symbols, and comments from document file
+# If the Documentfile name is supplied with extension ``.c'',
+# C Prerocessor is called to check it out first.
+#
+
+sub read_comments {
+    if (grep(/\.c$/, $HDRFILE) > 0) {
+	open(doc,"$COMPILER $HDRFILE |") ||
+	    die "\n$COMPILER: Can't open header file $HDRFILE$Usage";
+    } else {
+	open(doc,"$HDRFILE") || die "\nCan't open header file $HDRFILE$Usage";
+    }
+
+  com: while (<doc>) {
+      chop;
+
+      if (/^\s*$/ || /^#/) {			### Empty or C Compiler line
+	  next com;
+      }
+
+#
+# Control
+#
+#      if (/^;\!\s*FORMAT\s+/) {		### Define Map Fields used
+#	  @Fld = split(' ', $_, 99);
+#
+#	  printf STDERR"%s\n", $_;
+#	  for ($i = 0; ++$i < $#Fld; ) { $Complex{$Fld[$i]} = $Fld[$#Fld]; }
+#
+#	  next com;
+#     }
+
+
+#
+# Language (CPU Model)
+#
+
+      if (/^;\!\s*CPU\s*(\S+)/) {
+	  if ($1 == "6502" || $1 == "6510" || $1 == "8500" || $1 == "8502") {
+	      $CPUMODEL = 1;
+	  }
+	  elsif ($1 == "65ce02" || $1 == "65CE02") {
+	      $CPUMODEL = 0;
+	  }
+
+	  next com;
+      }
+
+
+#
+# EQU
+#
+#      if (/^\s*EQU\s*\=\s*(\S+)/) {		### Start address
+#	  $h = $1;
+#	  $h =~ y/\$\ //d;
+#	  $addr = hex($h);			### Use it
+#	  next com;
+#      }
+
+      if (/^\s*(\S+)\s*\=\s*(\S+)/) {		### no EQUs between code
+	  $n = $1;
+	  $h = $2;
+	  $lo=0;
+	  $hi=0;
+	  if(($p=index($h,"-"))>=0) {
+	    $lo = substr($h,$p+1);
+	    $lo =~ y/\$\ //d;
+	    $lo = hex($lo);
+	    $h = substr($h,0, $p);
+	  }
+	  if(($p=index($h,"+"))>=0) {
+	    $hi = substr($h,$p+1);
+	    $hi =~ y/\$\ //d;
+	    $hi = hex($hi);
+	    $h = substr($h,0, $p);
+	  }
+	  $h =~ y/\$\ //d;
+	  $a = hex($h);
+
+	  for($i=-$lo; $i<=$hi; $i++) {
+	    if(!$SymbolOffset{$a+$i} && !$SymbolName{$a+$i}) {
+	      $SymbolOffset{$a+$i} = $i;
+	    } else {
+	      printf("; *** HDR error: multiple offsets for \$%04x\n",$a+$i);
+	    }
+	  }
+	  if(length($n)>1) {
+	    $tt=substr($n,0,1);
+	    if( ($tt eq "@") || ($tt eq "/") || ($tt eq "&") ) {
+	      $SymbolName{$a} = substr($n,1);
+	      $n = $tt;
+	    } else {
+	      $SymbolName{$a} = $n;
+	      $n = "@";
+	    }
+	  }
+	  if ($n eq "&") {
+	      $SymbolType{$a} = $LT_DAT;
+	  } elsif ($n eq "@") { 
+	      $SymbolType{$a} = $LT_EXE;
+	  } else {
+	      $SymbolType{$a} = $LT_EXE + $LT_DAT;
+	  }
+
+	  if ($verbose) {
+	      printf STDERR "define label: %8s = %04X\n", $1, $a;
+	  }
+	  next com;
+      }
+
+      if ($HTML) {				### Protect special characters
+	  s/&/&amp;/g;
+	  s/</&lt;/g;
+	  s/>/&gt;/g;
+      }
+
+#
+# Comment
+#
+      if (/^\;/) {
+	  if (!$pca) {				### 0 == array base
+	      print $_;
+	  }
+	  else {
+	      $remadr{$nr}   = $pca;		### routine explanation
+	      $remark{$nr++} = $_;		### save it until addr reached
+printf STDERR ("nr=$nr-1: remadr=$remadr{$nr-1}, rem=$remake{$nr-1}\n");
+	  }
+	  next com;
+      }
+
+#
+# Memory Map Entry
+#
+      if (/^\*\s*(\S+)\s*(.+)/) {	### memory map line: hint
+	  $ca = $1;
+	  $ctext = $2;
+# printf STDERR ("hint ca=$ca, ctext=$ctext\n");
+	  if(substr($ca,0,1) eq "+") {
+	    $ca = hex(substr($ca,1));
+	    $offset = $ca;
+	    $ca += $hca;
+	  } else {
+	    $ca = hex($ca);
+	  }
+	  if($offset) {
+	      $Hintsoffset{$hca} = $offset;
+	  }
+	  if($Hints{$ca}) {
+	      if($verbose) { print STDERR "Warning: Duplicate Hint: $_\n"; }
+	      $Hints{$ca} .= '\\' . $ctext;
+	  } else {
+	      $Hints{$ca} = $ctext;
+	      if($verbose>1) { print STDERR "def Hints{$ca}=$Hints{$ca}\n"; }
+	  }
+	  $hca = $ca;
+
+      } else {
+
+	  ($ca, $ctext) = /^\s*(\S+)\-*\S*\s*(.+)/;
+
+	  $offset = 0;
+	  if(substr($ca,0,1) eq "+") {
+	    $ca = hex(substr($ca,1));
+	    $ca += $pca;
+	    $titleoffset{$ca} = $offset;
+	  } else {
+	    $ca = hex($ca);
+	  }
+
+	  if ($ca < $pca) {
+	      print "; *** ERROR: Descending address: $_ ***\n";
+	      next com;
+	  }
+
+	  if ($title{$ca}) {
+	      if($verbose) { print STDERR "Warning: Duplicate header: $_\n"; }
+	      $title{$ca} .= '\\' . $ctext;
+	  }
+	  else {
+	      $title{$ca}   = $ctext;		### save it for use
+	      if($verbose>1) { print STDERR "def title{$ca}=$title{$ca}\n"; }
+	  }
+	  $pca = $ca;
+      }
+  }
+}
+
+sub finish_line {
+	for ($i = $bytes; $i < $BYTESPERLINE ; $i++) { printf "     "; }
+
+	$ps =~ y/\001-\037A-Za-z\240-\277\301-\332/a-z\[\\\]^_a-zA-Z\040-\077A-Z/;	# to ascii
+	$ps =~ y/\040-\176/\./c;		### Filter out special chars
+	if($HTML) {
+	  $ps =~ s/>/&gt;/g;
+	  $ps =~ s/</&lt;/g;
+	}
+	print "  ;$ps";				### Text and Newline
+}
+
