@@ -1,0 +1,112 @@
+							-*- Outline -*-
+
+What are we going to do next
+============================
+
+Important notice: we are sorry but we really cannot keep up with the
+x128 development.  x128 (the C128 emulator, that was included in VICE
+0.10.0 and 0.11.0) will not be maintained any longer, though we would
+like it to be.  If you feel like you can help the project and keep
+x128 alive, you are of course welcome to send your contributions.
+(Notice that `our' x128 has nothing to do with the X128 ZX-Spectrum
+Emulator, whose name was chosen independently.)
+
+* General improvements
+----------------------
+
+  - More ports!  (E.g. MacOS, Win32, PSX, N64...)  Any volunteers?
+
+  - Better built-in monitor and improved XDebugger.  These two
+    could/should also be integrated.
+
+  - Snapshot format to freeze the emulators' state.  The main issue is
+    to make it as implementation-independent as possible, so that
+    snapshots made with the current versions will still run on the
+    future ones.
+
+  - "True" P00 support with the real names.
+
+  - Support for cartridges.
+
+  - Ability to emulate key presses e.g. via cut & paste, command-line
+    options, or menus.  This can be done by writing to the keyboard
+    buffer or by changing the values in the keyboard port.
+
+  - Code cleanup (work is in progress, but it's still a bit
+    ugly-looking in several places).
+
+  - Convert all the documentation to texinfo, so that it can be
+    translated to different formats more easily.
+
+  - Write the MS-DOS documentation (any volunteers?).
+
+  - FS-based drive emulation on any serial device, not just #11.
+
+  - Allow tape loading without the virtually pressed "Play" button,
+    which can break some programs that do not like this.
+
+  - Allow tape loading without the virtually pressed "Play" button,
+    which can break some programs that do not like this.
+
+  - Better mapping from OS/language specific keyboard drivers to the
+    emulator keyboard.  Probably configurable at runtime.
+
+* C64 improvements
+------------------
+
+  - Fix the few weird timing bugs in the VIC-II chip (mmmh...  they
+    should almost all be gone now).
+
+  - Faster and (maybe) cycle-exact SID (the current version is
+    sample-accurate).
+
+  - Better handling for REU load/save.  It would be nice to have a few
+    menu entries to do this.
+
+  - More accurate REU emulation (maybe, also add a 16 Mbyte mode).
+
+  - 1351 mouse emulation, at least on MS-DOS.
+
+* VIC20 improvements
+--------------------
+
+  - Ability to change the memory configuration at Run-time.
+
+  - Warn about disabling/enabling true1541 in the middle of loading.
+
+  - Better, possibly cycle-based, emulation of the VIC-I chip.
+
+  - More accurate VIA chip emulation.
+
+  - Improve the accuracy of the audio emulation.
+
+  - Tape support.
+
+* PET improvements
+------------------
+
+  - More accurate CRTC (timing) emulation, 9 rasterlines per character.
+
+  - Support for different models at runtime.
+
+  - Complete CRTC emulation.
+
+  - More accurate VIA chip emulation.
+
+  - Tape support.
+
+  - Joystick support.
+
+* 1541 improvements
+-------------------
+
+  - More accurate emulation of GCR writes, to allow both standard and
+    custom format routines to work (half of the needed work has
+    already been done).
+
+  - More accurate VIA chip emulation.
+
+  - Emulate more than just one 1541 drive with the "true" emulation.
+
+  - Emulate the parallel cable used in Speed DOS, so that Speed DOS
+    ROMs can be used.

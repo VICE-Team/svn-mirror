@@ -1,0 +1,336 @@
+
+Installation notes for VICE 0.14.0
+**********************************
+
+
+This version of VICE can be compiled and installed both under
+Unix/X-Window and MS-DOS, and this file explains how this can be done.
+
+
+1. What you will need
+=====================
+
+
+  1.1. Unix
+  ---------
+
+    To compile VICE under Unix, you basically need a Unix machine
+    running the X-Window system version 11 R5 or better, with the
+    standard Xt and Xaw libraries.  If you want to use joysticks under
+    Linux, you must install the proper joystick module
+    (`joystick-0.8.0.tar.gz' or more recent), which is available from
+    `sunsite.unc.edu'.  You can also use a customized
+    `joystick-0.8.0.1.tar.gz' that has support for digital joysticks
+    connected to the parallel port.  This is available from the VICE
+    home page (see the `README' file).
+
+    Unlike previous (pre-0.12) versions that only worked with 8-bit
+    displays, this release will work with all depths, though 8-bit is
+    still highly recommended for best performance.
+
+    VICE has been compiled successfully on the following Unix systems:
+
+      - Various i486/Pentium/Pentium Pro PCs running Linux 2.0.x and
+        XFree86 3.2/3.3
+
+      - Some HP9000 (712, 715, 735, 800) machines running HP-UX 9.x
+        and 10.x;
+
+      - SUN SPARC 5, 10 and Ultra running Solaris 2.3 or 2.4 (using
+        gcc);
+
+      - SUN SPARC 10 running SunOS 4.1 with both X11R4 and X11R5
+        (using gcc);
+
+      - SUN SPARC 20 running Linux (2.0.30, RedHat 4.2);
+
+      - SGI Indy R5000 and R4600 running Irix 5.3 and 6.2;
+
+      - AlphaStation 500/533 with Digital Unix 3.2;
+
+      - IBM RS6000 running AIX4.1 (using gcc);
+
+      - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound);
+
+    If you compile under a Unix system that is not listed here, please
+    tell us.
+
+    If you are compiling on a Pentium machine under Linux or FreeBSD,
+    you might consider using the Pentium-specific GCC compiler, which
+    is available at `http://www.goof.com/pcg'.  Each time we have
+    tried it, and the performance was always at least 20% better (even
+    with just `-O2' or `-O3').  Important notice: if you use the
+    Pentium-specific GCC, remove all the optimization options (the
+    ones that start with `-f') from `CFLAGS' in Makefile and just keep
+    a `-On' where `n' is the level of optimization you want.  In fact,
+    some of those options are broken and might silently produce wrong
+    code!  If you still have troubles, try to #define `NO_REGPARM' to
+    avoid passing parameters in the registers to certain functions
+    (you can do this by adding `-DNO_REGPARM' to the `CFLAGS', via
+    configure or by editing the Makefile by hand).
+
+    Warning: you might need quite a lot of memory to compile VICE with
+    full optimizations on some platforms (in particular, this happens
+    with the Pentium-specific GCC).  Moreover, archaic versions of GCC
+    (e.g. 2.5.x and older) are known to cause trouble.  In that case,
+    it is a good idea to upgrade the compiler to a more recent
+    version.
+
+
+  1.2. MS-DOS
+  -----------
+
+    The MS-DOS port requires the Allegro library by Shawn Hargreaves
+    (`http://talula.demon.co.uk/allegro') and the MIDAS Digital Audio
+    System by Petteri Kangaslampi and Jarno Paananen
+    (`http://www.s2.org/midas') to be compiled.  Moreover, you also
+    need DJGPP, the MS-DOS port of GCC (`http://www.delorie.com').
+
+    Anyway, the current source distribution is only suitable for
+    cross-compilation from a Unix system.  This might change in future
+    versions.  Help is welcome.
+
+
+2. Configuring and compiling
+============================
+
+
+  2.1. Compiling under Unix, for Unix or MS-DOS
+  ---------------------------------------------
+
+    The release comes with an auto-configuring script created using
+    the GNU autoconf package; this script must be executed before
+    compiling VICE to detect the characteristics of your machine and
+    specify certain features you might want to enable or disable.
+
+    To execute the configuration script, enter the `src' directory of
+    the distribution and type:
+
+      ./configure <options>
+
+    There are several options available, and some of them are not
+    necessary for the configuration. The important ones are:
+
+      --prefix=PREFIX (default is `/usr/local/')
+      --bindir=DIR (default is `PREFIX/bin')
+      --mandir=DIR (default is `PREFIX/man')
+
+        Specify the place where the VICE executable and support files
+        will be installed.
+
+      --host=HOST
+
+        Specify the host for which the executable will be produced.
+        If you want to compile for MS-DOS from a Unix machine using
+        GCC, use `--host=i386-go32-gnu'.  If not specified, the
+        configure script tries to guess it by itself, so you normally
+        don't need to use this option.
+
+      --x-includes=DIR
+      --x-libraries=DIR
+
+        Specify the paths for X11 include files and libraries.  The
+        configure script is usually smart enough to find them by
+        itself if the setup is not too odd; use these option if it is
+        not.
+
+      --enable-autobpp
+      --enable-8bpp
+      --enable-16bpp
+      --enable-24bpp
+
+        Specify the bit depth of your X11 display.  The default is
+        `autobpp', that enables support for all bit depths (the
+        emulator tries to find the ones your server supports by itself
+        at runtime).  If you think you are going to use only one type
+        of display, specifying this might give you (very) slightly
+        better performance.
+
+      --disable-textfield
+
+        Disable Robert W. McMullen's text widget; if you experience
+        problems with the text or file manager widgets, you can enable
+        the standard Athena one by using this option.  This can also
+        be useful if you are using a non-standard Athena-compatible
+        library that provides a better looking text widget; it that
+        case, using this option will give you that one (this is true
+        for neXtaw, for example).
+        Problems are known to occur on DEC Alpha systems running
+        Digital Unix.
+
+      --with-xaw3d
+
+        Use Xaw3d (instead of plain Xaw) if present.
+
+    (to obtain a complete list of the available options with a
+    description, use `./configure --help')
+
+    By default, VICE will be compiled by passing the following options
+    to the C compiler:
+
+      `-g -Wall -O5 -fomit-frame-pointer -funroll-loops
+       -finline-functions -fno-strength-reduce'
+          on Intel-based x86 Unix systems that have gcc installed;
+
+      `-g -Wall -O5 -finline-functions'
+          on other systems that have gcc installed;
+
+      `-g'
+          on systems that do not have gcc installed.
+
+    If these options do not fit your needs, you can specify what
+    options you want by simply passing them in the `CFLAGS' variable,
+    e.g. this is something you might want to do on HP-UX:
+
+      CFLAGS="-Ae -g +O3" ./configure
+
+    In the same way, you can force usage of a specific C compiler by
+    passing the `CC' variable, e.g.:
+
+      CC="cc" CFLAGS="-Ae -g +O3" ./configure
+
+    If you are running on a Linux system and the joystick module is
+    installed properly, the configure script will auto-detect it and
+    support for it will be enabled.  Otherwise, the joystick will be
+    only emulated with the numeric keypad.
+
+    In case the `configure' script fails or complains about missing
+    libraries and you cannot explain this, please send the
+    `config.log' file to us together with a precise description of
+    your setup; otherwise, we cannot guess what is wrong with it.
+
+    When the configure script has finished, the necessary Makefiles
+    will be produced and you can simply type
+
+      make
+
+    to build all the emulators and utilities (`x64', `xvic', `xpet',
+    `petcat', `c1541') under the `bin' directory.  It is possible that
+    `configure' is not able to find all the needed libraries
+    automatically (this is usually due to weird setup); if this
+    happens, the script will report a warning message but the
+    `Makefile' will be produced anyway.  In this case, you can try to
+    re-run `configure' with different options or edit the `Makefile's
+    by hand to add the missing options.
+
+    If you are cross-compiling for MS-DOS, check that all the DJGPP
+    libraries and include files, together with Allegro, are in the
+    right places.
+
+    If you want to install the emulators and utilities, together with
+    the documentation and ROM files, just type
+
+      make install
+
+    The binaries and support files will all go under PREFIX/lib/vice;
+    in order to provide multiple architectures and versions to be
+    installed at once, some links will be created as follows:
+
+      PREFIX/X11/bin/x64 -> PREFIX/lib/vice/ARCH/x64-VERSION
+
+    Where `ARCH' is the autoconf identification string for the
+    architecture of the machine you have compiled binaries for
+    (e.g. `i586-pc-linux-gnu'), and `VERSION' is the version number
+    (in this case, 0.14.0).  Use `strip(1)' on the binary files if you
+    like.
+
+    If you want to provide site-specific defaults, you can build a
+    `PREFIX/lib/vice/vicerc' resource file that will be loaded by
+    default.  Consult the documentation in `doc/MANUAL.html' to see
+    how this works.
+
+    If you want to remove VICE from your system, you can use
+
+      make uninstall
+
+    If you want to re-compile with different options, you should do a
+
+      make mrproper
+
+    This will also remove the cache of the `configure' script,
+    assuring that all the tests are performed from scratch.
+
+
+  2.2. Compiling under MS-DOS, for MS-DOS
+  ---------------------------------------
+
+    Sorry, no Makefile is currently provided for native MS-DOS
+    compilation, mostly because none of us really uses MS-DOS for
+    developing.  Volunteers, anyone?  :-)
+
+
+  2.3. Configuring for multiple architectures
+  -------------------------------------------
+
+    As with most packages using GNU autoconf, you can compile VICE for
+    multiple architectures from the same source tree.
+
+    To do so, simply create a build directory:
+
+      mkdir {build-dir}
+
+    Then run `configure' from the VICE source tree:
+
+      {vice-source-path}/src/configure
+
+    Of course, you can specify options, flags, etc. as explained on
+    par. 2.1.
+
+    After you have configured VICE this way, you can simply compile
+    VICE as you would normally do, by typing `make'.
+
+    For example, you might want to do something like this to produce
+    and MS-DOS executable of X64 (let's suppose a cross-compiling GCC
+    is installed as `gcc-dos' somewhere in your `$PATH'):
+
+      cd sources/vice-0.14.0
+      mkdir i386-go32-msdos
+      cd i386-go32-msdos
+      CC="gcc-dos" CFLAGS="-O5" ../src/configure --host=i386-go32-msdos
+      make x64
+
+
+3. Hints
+========
+
+  On Unix, if you are using alternative Xaw libraries (e.g. neXtaw,
+  Xaw95, Xaw3d) and you are having troubles with the GUI, try to use
+  the standard Xaw first.  There are some incompatibilities that can
+  cause them to crash or not to work properly.  Xaw3d should work, but
+  in any case please try to use the standard Xaw library before
+  reporting bugs.
+
+  If you can, please use GCC (or EGCS) instead of the vendor's CC
+  supplied with your machine: it is usually less buggy and produces
+  better code.  On certain systems (most notably SunOS), configure
+  might completely refuse to use the standard CC.
+
+  Some versions of GCC seem to have troubles with `-funroll-loops' on
+  certain architectures; on an Alpha and a SPARC we have tried to
+  compile VICE on, the compiler died while trying to optimize the code
+  when this option was specified (GCC version 2.7.2).  If you
+  experience such a problem, edit Makefile by hand and remove that
+  option or reconfigure by specifying the `CFLAGS' as explained above.
+
+  SunOS 4.1.x systems running X11R4 can cause a couple of troubles.
+  The first one is that `configure' might not find `-lXmu' and `-lXaw'
+  properly, because of some issues related to dynamic libraries.  This
+  would need some custom `configure' checks, which might be made
+  available in future versions.  For now, just edit the `Makefile'
+  after it has been created by `configure' and add `-lXaw -lXmu' (in
+  this order) before `-lXt' on the `LIBS=...' line.  Moreover, you
+  might get undefined references to
+
+    _get_wmShellWidgetClass
+    _get_applicationShellWidgetClass
+
+  when linking `x64', `xvic' or `xpet'.  In that case you have to link
+  `-lXmu' statically (default is dynamically).  This can be done by
+  editing the `Makefile' by hand and replacing `-lXmu' with `-Bstatic
+  -lXmu -Bdynamic' in the `LIBS=...'  line.  A simplier way is to link
+  *everything* statically; this can be achieved by running `configure'
+  like this:
+
+    LDFLAGS="-static" ./configure
+
+  This will build much bigger executables, though.
