@@ -539,7 +539,7 @@ static void update_via1ta(int force)
 #endif
       via1ta = via1[VIA_T1CL] + (via1[VIA_T1CH] << 8);
       via1tau = clk;
-      maincpu_set_alarm(A_VIA1T1, via1ta);
+      maincpu_set_alarm(A_VIA1T1, via1ta + 1);
     }
 }
 
@@ -548,7 +548,7 @@ static void update_via1tb(int force)
     if(force) {
       via1tb = via1[VIA_T2CL] + (via1[VIA_T2CH] << 8);
       via1tbu = clk;
-      maincpu_set_alarm(A_VIA1T2, via1tb);
+      maincpu_set_alarm(A_VIA1T2, via1tb + 1);
     }
 }
 
