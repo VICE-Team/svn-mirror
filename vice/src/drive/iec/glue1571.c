@@ -31,22 +31,22 @@
 #include "rotation.h"
 
 
-void glue1571_side_set(unsigned int side, unsigned int dnr)
+void glue1571_side_set(unsigned int side, struct drive_s *drive)
 {
     unsigned int num;
 
-    num = drive[dnr].current_half_track;
+    num = drive->current_half_track;
 
-    if (drive[dnr].byte_ready_active == 0x06)
-        rotation_rotate_disk(&drive[dnr]);
+    if (drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(drive);
 
-    drive_gcr_data_writeback(dnr);
+    drive_gcr_data_writeback(drive);
 
-    drive[dnr].side = side;
+    drive->side = side;
     if (num > 70)
         num -= 70;
     num += side * 70;
 
-    drive_set_half_track(num, &drive[dnr]);
+    drive_set_half_track(num, drive);
 }
 
