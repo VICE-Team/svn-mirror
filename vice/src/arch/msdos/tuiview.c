@@ -31,57 +31,14 @@
 #include <keys.h>
 
 #include "tui.h"
-
-
-static const char *find_next_line(const char *text, const char *pos)
-{
-    const char *p = strchr(pos, '\n');
-
-    return p == NULL ? pos : p + 1;
-}
-
-static const char *find_prev_line(const char *text, const char *pos)
-{
-    const char *p;
-
-    if (pos - text <= 2)
-	return text;
-    
-    for (p = pos - 2; p != text; p--)
-	if (*p == '\n')
-	    break;
-    
-    if (*p == '\n')
-	p++;
-
-    return p;
-}
-
-static void update(int x, int y, int width, int height, const char *text)
-{
-    const char *p = text;
-    int i, j;
-
-    for (j = 0; j < height; j++) {
-	for (i = 0; i < width; i++) {
-	    if (*p != '\n' && *p != '\0') {
-		tui_put_char(x + i, y + j, *p);
-		p++;
-	    } else {
-		tui_put_char(x + i, y + j, ' ');
-	    }
-	}
-	if (*p == '\n')
-	    p++;
-    }
-}
+#include "utils.h"
 
 void tui_view_text(int width, int height, const char *title, const char *text)
 {
     const char *p;
-    tui_area_t backing_store = NULL;
     int x, y, i;
     int need_update = 1;
+    tui_area_t backing_store = NULL;
 
     x = CENTER_X(width);
     y = CENTER_Y(height);
@@ -101,7 +58,7 @@ void tui_view_text(int width, int height, const char *title, const char *text)
 	int key;
 
 	if (need_update) {
-	    update(x + 2, y + 1, width - 4, height - 2, p);
+	    tui_display_text(x + 2, y + 1, width - 4, height - 2, p);
 	    need_update = 0;
 	}
 	
