@@ -3,12 +3,10 @@
  *
  * Written by
  *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *  Teemu Rantanen (tvr@cs.hut.fi)
- *
- * Patches by
- *  Andreas Boose (boose@rzgw.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,10 +28,15 @@
  *
  */
 
-/* TODO: - format trap;
-         - fix disk sync;
-	 - exact emulation of disk rotation;
-	 - serial bus handling might be faster. */
+/* TODO:
+	- more accurate emulation of disk rotation.
+	- different speeds within one track.
+	- support for more than 35 tracks.
+	- support for .d64 images with attached error code.
+	- support for GCR encoded image files.
+	- check for byte ready *within* `BVC', `BVS' and `PHP'.
+	- 8 bit handshaked parallel cable.
+	- serial bus handling might be faster. */
 
 #define __1541__
 
@@ -69,7 +72,8 @@
 #endif
 
 #define NOT(x) ((x)^1)
-#define NUM_BYTES_SECTOR_GCR 353
+#define NUM_BYTES_SECTOR_GCR 360
+#define NUM_MAX_BYTES_TRACK 7693
 
 extern void set_atn(BYTE state);
 
@@ -120,7 +124,7 @@ static int GCR_dirty_track = 0;
 static BYTE GCR_write_value = 0x55;
 
 /* Raw GCR image of the disk.  */
-static BYTE GCR_data[MAX_TRACKS_1541 * 21 * NUM_BYTES_SECTOR_GCR];
+static BYTE GCR_data[MAX_TRACKS_1541 * NUM_MAX_BYTES_TRACK];
 
 /* Pointer to the start of the GCR data for this track.  */
 static BYTE *GCR_track_start_ptr = GCR_data;
@@ -134,6 +138,14 @@ static int GCR_head_offset;
 /* Speed (in bps) of the disk in the 4 disk areas.  */
 static int rot_speed_bps[4] = { 250000, 266667, 285714, 307692 };
 
+/* Speed zone of each track.  This should be removed in the future.  */
+static int speed_map[35] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                             3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1,
+                             1, 1, 0, 0, 0, 0, 0 };
+
+/* Number of bytes per track size.  */
+static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+
 static int read_write_mode;
 static int byte_ready_active;
 
@@ -145,7 +157,7 @@ enum true1541_warnings { WARN_GCRWRITE };
 #define TRUE1541_NUM_WARNINGS (WARN_GCRWRITE + 1)
 static warn_t *true1541_warn;
 
-#define GCR_OFFSET(track, sector)  ((track - 1) * 21 * NUM_BYTES_SECTOR_GCR \
+#define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
 				    + sector * NUM_BYTES_SECTOR_GCR)
 
 static void GCR_data_writeback(void);
@@ -242,8 +254,8 @@ static void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track,
     convert_4bytes_to_GCR(buf, ptr);
     ptr += 5;
 
-    memset(ptr, 0x55, 8);	/* Header Gap */
-    ptr += 8;
+    memset(ptr, 0x55, 9);	/* Header Gap */
+    ptr += 9;
 
     memset(ptr, 0xff, 5);	/* Sync */
     ptr += 5;
@@ -253,30 +265,27 @@ static void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, int track,
 	buffer += 4;
 	ptr += 5;
     }
+    /* FIXME: This is approximated.  */
+    memset(ptr, 0x55, 6);	/* Gap before next sector.  */
+    ptr += 6;
+
 }
 
 static void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr)
 {
-    BYTE *from, *end;
-    int i;
-
-    from = ptr;
-    end = ptr + NUM_BYTES_SECTOR_GCR - 65*5;
-
-    while (*from != 0xff && from <= end) from++;
-    while (*from == 0xff && from <= end) from++;
-    while (*from != 0xff && from <= end) from++;
-    while (*from == 0xff && from <= end) from++;
-
-    if (from > end) {
-	memset(buffer, 0, 260);
-	return;
-    }
+    BYTE *offset = ptr;
+    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_track_size;
+    char GCR_header[5];
+    int i, j;
 
     for (i = 0; i < 65; i++) {
-	convert_GCR_to_4bytes(from, buffer);
+	for (j = 0; j < 5; j++) {
+	    GCR_header[j] = *(offset++);
+	    if (offset >= GCR_track_end)
+		offset = GCR_track_start_ptr;
+	}
+	convert_GCR_to_4bytes(GCR_header, buffer);
 	buffer += 4;
-	from += 5;
     }
 }
 
@@ -293,8 +302,11 @@ static void read_image_GCR(void)
     buffer[258] = buffer[259] = 0;
 
     for (track = 1; track <= 35; track++) {
+	ptr = GCR_data + GCR_OFFSET(track, 0);
+	memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
 	for (sector = 0; sector < sector_map[track]; sector++) {
 	    ptr = GCR_data + GCR_OFFSET(track, sector);
+
 	    rc = floppy_read_block(true1541_floppy->ActiveFd,
 				   true1541_floppy->ImageFormat,
 				   buffer + 1, track, sector,
@@ -333,6 +345,79 @@ static int setID(void)
     }
 
     return rc;
+}
+
+static BYTE *GCR_find_sector_header(int track, int sector)
+{
+    BYTE *offset = GCR_track_start_ptr;
+    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_track_size;
+    char GCR_header[5], header_data[4];
+    int i, sync_count = 0, wrap_over = 0;
+
+    while ((offset < GCR_track_end) && !wrap_over)
+    {
+	while (*offset != 0xff)
+	{
+	    offset++;
+	    if (offset >= GCR_track_end)
+		return NULL;
+	}
+
+	while (*offset == 0xff)
+	{
+	    offset++;
+	    if (offset == GCR_track_end) {
+		offset = GCR_track_start_ptr;
+		wrap_over = 1;
+	    }
+	    /* Check for killer tracks.  */
+	    if((++sync_count) >= GCR_track_size)
+		return NULL;
+	}
+
+	for (i=0; i < 5; i++)
+	{
+	    GCR_header[i] = *(offset++);
+	    if (offset >= GCR_track_end) {
+		offset = GCR_track_start_ptr;
+		wrap_over = 1;
+	    }
+	}
+
+	convert_GCR_to_4bytes(GCR_header, header_data);
+
+	if (header_data[0] == 0x08) {
+	    /* FIXME: Add some sanity checks here.  */
+	    if (header_data[2] == sector && header_data[3] == track)
+		return offset;
+	}
+    }
+    return NULL;
+}
+
+static BYTE *GCR_find_sector_data(BYTE *offset)
+{
+    BYTE *GCR_track_end = GCR_track_start_ptr + GCR_track_size;
+    int header = 0;
+
+    while (*offset != 0xff)
+    {
+	offset++;
+	if (offset >= GCR_track_end)
+	    offset = GCR_track_start_ptr;
+	header++;
+	if (header >= 500)
+	    return NULL;
+
+    }
+
+    while (*offset == 0xff)
+    {
+	offset++;
+	if (offset == GCR_track_end)
+	    offset = GCR_track_start_ptr;
+    }
+    return offset;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -690,8 +775,10 @@ int true1541_sync_found(void)
 	if (GCR_track_start_ptr[next_head_offset] != 0xff)
 	    return 0;
 
-        bits_moved = 0;
-        return 1;
+	/* As the current rotation code cannot cope with non byte aligned
+	   writes, do not change `bits_moved'!  */
+	/* bits_moved = 0; */
+	return 1;
     }
 #endif
 }
@@ -705,23 +792,21 @@ void true1541_set_half_track(int num)
 	num = 2;
 
     cur_ht = num;
-
-    GCR_data_writeback();
-
     GCR_track_start_ptr = (GCR_data +
-			   (cur_ht / 2 - 1) * 21 * NUM_BYTES_SECTOR_GCR);
+			(cur_ht / 2 - 1) * NUM_MAX_BYTES_TRACK);
 
-    GCR_track_size = sector_map[cur_ht / 2] * NUM_BYTES_SECTOR_GCR;
+    GCR_track_size = raw_track_size[speed_map[cur_ht / 2 - 1]];
 
     GCR_head_offset = 0;
 }
 
-/* Increment the head position by `step' half-tracks.  */
+/* Increment the head position by `step' half-tracks. Valid values
+   for `step' are `+1' and `-1'.  */
 void true1541_move_head(int step)
 {
+    GCR_data_writeback();
     true1541_set_half_track(cur_ht + step);
-    if (step)
-	printf("1541: head on track %.1f\n", (double)cur_ht / 2);
+    printf("1541: head on track %.1f\n", (double)cur_ht / 2);
 }
 
 /* Write one GCR byte to the disk. */
@@ -770,27 +855,54 @@ int true1541_write_protect_sense(void)
 
 static void GCR_data_writeback(void)
 {
-     int rc, track, sector;
-     BYTE buffer[260], *ptr;
+    int rc, track, sector;
+    BYTE buffer[260], *ptr, *offset;
 
-     if (!GCR_dirty_track)
+    if (!GCR_dirty_track)
         return;
 
-     GCR_dirty_track = 0;
-     track = cur_ht / 2;
-     for (sector = 0; sector < sector_map[track]; sector++) {
-	 ptr = GCR_data + GCR_OFFSET(track, sector);
-         convert_GCR_to_sector(buffer, ptr);
-         rc = floppy_write_block(true1541_floppy->ActiveFd,
-	    		         true1541_floppy->ImageFormat,
-			         buffer + 1, track, sector,
-			         true1541_floppy->D64_Header);
-         if (rc < 0) {
-            fprintf(stderr,
-		    "1541: Could not update T:%d S:%d on disk image.\n",
-		    track, sector);
-         }
-     }
+    GCR_dirty_track = 0;
+    track = cur_ht / 2;
+
+    for (sector = 0; sector < sector_map[track]; sector++) {
+	offset = GCR_find_sector_header(track, sector);
+
+	if (offset == NULL) {
+	    fprintf(stderr,
+                    "1541: Could not find header of T:%d S:%d.\n",
+                    track, sector);
+	    return;
+	}
+
+	offset = GCR_find_sector_data(offset);
+
+	if (offset == NULL) {
+	    fprintf(stderr,
+                    "1541: Could not find data sync of T:%d S:%d.\n",
+                    track, sector);
+	    return;
+        }
+
+	ptr = offset;
+
+	convert_GCR_to_sector(buffer, ptr);
+
+	if (buffer[0] != 0x7) {
+	    fprintf(stderr,
+                    "1541: Could not find data block id of T:%d S:%d.\n",
+                    track, sector);
+	    return;
+	}
+
+	rc = floppy_write_block(true1541_floppy->ActiveFd,
+                                true1541_floppy->ImageFormat,
+                                buffer + 1, track, sector,
+                                true1541_floppy->D64_Header);
+	if (rc < 0) {
+	    fprintf(stderr,
+                    "1541: Could not update T:%d S:%d.\n", track, sector);
+	}
+    }
 }
 
 void true1541_update_zone_bits(int zone)
