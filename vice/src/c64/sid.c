@@ -101,6 +101,9 @@ static warn_t *pwarn;
 /* argh */
 static sound_t *psid;
 
+/* sid running? */
+static int hassid = 0;
+
 /* use wavetables (sampled waveforms) */
 #define WAVETABLES
 
@@ -354,10 +357,7 @@ inline static DWORD doosc(voice_t *pv)
 {
     if (pv->noise)
 	return ((DWORD)NVALUE(NSHIFT(pv->rv, pv->f >> 28))) << 7;
-    if (pv->wt)
-        return pv->wt[(pv->f + pv->wtpf) >> pv->wtl] ^ pv->wtr[pv->vprev->f >> 31];
-    else
-        return 0;
+    return pv->wt[(pv->f + pv->wtpf) >> pv->wtl] ^ pv->wtr[pv->vprev->f >> 31];
 }
 #else
 static DWORD doosc(voice_t *pv)
@@ -900,11 +900,13 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     }
     for (i = 0; i < 9; i++)
 	sidreadclocks[i] = 13;
+    hassid = 1;
     return psid;
 }
 
 void sound_machine_close(sound_t *psid)
 {
+    hassid = 0;
 }
 
 
@@ -912,13 +914,17 @@ void sound_machine_close(sound_t *psid)
 BYTE REGPARM1 read_sid(ADDRESS addr)
 {
     BYTE		ret;
+    WORD		ffix;
+    register WORD	rvstore;
     register CLOCK	tmp;
 
     sound_run_sound();
     addr &= 0x1f;
     /* XXX: this is not correct, but what can we do without a running sid? */
-    if (!psid && addr != 0x19 && addr != 0x1a)
+    if (!hassid)
     {
+	if (addr == 0x19 || addr == 0x1a)
+	    return 0xff;
 	warn(pwarn, 5, "program reading sid-registers (no sound)");
 	if (addr == 0x1b || addr == 0x1c)
 	    return rand();
@@ -937,7 +943,22 @@ BYTE REGPARM1 read_sid(ADDRESS addr)
 	break;
     case 0x1b:
 	/* osc3 / random */
+	ffix = sound_sample_position()*psid->v[2].fs;
+	rvstore = psid->v[2].rv;
+	if (
+#ifdef WAVETABLES
+	    psid->v[2].noise
+#else
+	    psid->v[2].fm == NOISEWAVE
+#endif
+	    && psid->v[2].f + ffix < psid->v[2].f)
+	{
+	    psid->v[2].rv = NSHIFT(psid->v[2].rv, 16);
+	}
+	psid->v[2].f += ffix;
 	ret = doosc(&psid->v[2]) >> 7;
+	psid->v[2].f -= ffix;
+	psid->v[2].rv = rvstore;
 	warn(pwarn, 6, "program reading osc3 register");
 	break;
     case 0x1c:
@@ -997,6 +1018,9 @@ void sid_reset(void)
     for (i = 0; i < 64; i++)
 	store_sid(i, 0);
     warn_reset(pwarn);
+    sound_run_sound();
+    sid_prevent_clk_overflow(clk);
+    sound_prevent_clk_overflow(clk);
 }
 
 void sound_machine_init(void)

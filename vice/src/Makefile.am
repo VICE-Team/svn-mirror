@@ -8,6 +8,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-DPREFIX=\"@prefix@\"
 
+YFLAGS = -t
+
 noinst_HEADERS = \
 	6510core.h \
 	asm.h \
