@@ -16,6 +16,8 @@ libc64cart_a_SOURCES = \
 	c64cartmem.h \
 	crt.c \
 	crt.h \
+	epyxfastload.c \
+	epyxfastload.h \
 	expert.c \
 	expert.h \
 	final.c \
@@ -26,5 +28,9 @@ libc64cart_a_SOURCES = \
 	kcs.h \
 	retroreplay.c \
 	retroreplay.h \
+	supergames.c \
+	supergames.h \
 	supersnapshot.c \
-	supersnapshot.h
+	supersnapshot.h \
+	zaxxon.c \
+	zaxxon.h
