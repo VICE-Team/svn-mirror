@@ -1,0 +1,154 @@
+/* -*- C -*-
+ *
+ * cia1.def - Definitions for the first MOS6526 (CIA) chip in the CBM-II
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ * */
+
+#define mycpu maincpu
+
+#define myclk clk
+
+#define mycia cia1
+
+#define MYCIA CIA1
+
+#define	CIA1_INT			IK_IRQ
+
+/* #define CIA1_TIMER_DEBUG */
+
+INCLUDES()
+{
+#include "pruser.h"
+#include "kbd.h"
+#include "parallel.h"
+#include "drive.h"
+#include "c610cia.h"
+#include "c610tpi.h"
+
+#define cia1_set_int_clk(a,b,c)      tpi1_set_int(2,(b))
+#define	cia1_restore_int(c)	     tpi1_restore_int(2,(c))
+#define	cycles_per_sec		     machine_get_cycles_per_second()
+}
+
+#define	PRE_STORE_CIA
+#define	PRE_READ_CIA
+#define	PRE_PEEK_CIA
+
+PRE_CIA_FUNCS()
+{
+
+static int cia1_ieee_is_output;
+
+void cia1_set_ieee_dir(int isout)
+{
+    cia1_ieee_is_output = isout;
+    if(isout) {
+	parallel_cpu_set_bus(~oldpa);
+    } else {
+	parallel_cpu_set_bus(0);
+    }
+}
+
+}
+
+RESET_CIA()
+{
+#ifdef HAVE_PRINTER
+    pruser_write_strobe(1);
+    pruser_write_data(0xff);
+#endif
+}
+
+#define	READ_SDR
+
+STORE_CIAPA()
+{
+	/* FIXME: PA0 and PA1 are used as selector for the 
+	   Paddle 1/2 selection for the A/D converter. */
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
+}
+
+UNDUMP_CIAPA()
+{
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
+}
+
+STORE_SDR()
+{
+}
+
+UNDUMP_CIAPB()
+{
+}
+
+STORE_CIAPB()
+{
+#ifdef HAVE_PRINTER
+    pruser_write_data(byte);
+    pruser_write_strobe(0);
+    pruser_write_strobe(1);
+#endif
+}
+
+READ_CIAPA()
+{
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
+
+    /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
+       can pull down inputs pa6 and pa7 resp. */
+    byte = parallel_bus;
+    if(parallel_debug) {
+        printf("read: parallel_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
+		parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
+    }
+    byte = ((byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]))
+		& ~( ((joy[1] & 0x10) ? 0x40 : 0) 
+		| ((joy[2] & 0x10) ? 0x80 : 0) );
+}
+
+READ_CIAPB()
+{
+    byte = ((0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]))
+		& ~( (joy[1] & 0x0f) | ((joy[2] & 0x0f) << 4) );
+}
+
+#define READ_CIAICR
+
+POST_CIA_FUNCS()
+{
+
+#ifdef HAVE_PRINTER
+void pruser_set_busy(int flank)
+{
+    if(!flank) {
+        cia1_set_flag();
+    }
+}
+#endif
+
+}
+
+

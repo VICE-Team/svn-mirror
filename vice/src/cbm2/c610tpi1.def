@@ -1,0 +1,137 @@
+/*
+ * c610tpi1.def - TPI 1 for CBM-II
+ *
+ * Written by
+ *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#define	mytpi 	tpi1
+
+#define	MYIRQ	IK_IRQ
+
+#define	MYTPI	TPI1
+
+INCLUDES()
+{
+#include "parallel.h"
+#include "drive.h"
+#include "c610cia.h"
+#include "crtc.h"
+
+#define	mycpu_set_int(a,b)	maincpu_set_irq((a),(b))
+#define	mycpu_restore_int(a,b)	set_int_noclk(&maincpu_int_status,(a),(b))
+
+#define	TPI_SET_CA(a)		crtc_set_char((a))
+#define	TPI_SET_CB(a)
+
+}
+
+RESET()
+{
+        /* assuming input after reset */
+        parallel_cpu_set_atn(0);
+        parallel_cpu_set_ndac(0);
+        parallel_cpu_set_nrfd(0);
+        parallel_cpu_set_dav(0);
+        parallel_cpu_set_eoi(0);
+        parallel_cpu_set_bus(0);
+	cia1_set_ieee_dir(0);
+}
+
+STORE_PA()
+{
+	if (byte != oldpa)
+	{
+	    BYTE tmp = ~byte;
+	    cia1_set_ieee_dir(byte & 2);
+	    if (byte & 2) {
+		parallel_cpu_set_ndac(0);
+		parallel_cpu_set_nrfd(0);
+                parallel_cpu_set_atn( tmp & 0x08 );
+                parallel_cpu_set_dav( tmp & 0x10 );
+                parallel_cpu_set_eoi( tmp & 0x20 );
+	    } else {
+		/* order is important */
+                parallel_cpu_set_nrfd( tmp & 0x80 );
+                parallel_cpu_set_ndac( tmp & 0x40 );
+		parallel_cpu_set_atn(0);
+		parallel_cpu_set_dav(0);
+		parallel_cpu_set_eoi(0);
+	    }
+	}
+}
+
+UNDUMP_PA()
+{
+	{
+	    BYTE tmp = ~byte;
+	    cia1_set_ieee_dir(byte & 2);
+	    if (byte & 2) {
+		parallel_cpu_set_ndac(0);
+		parallel_cpu_set_nrfd(0);
+                parallel_cpu_set_atn( tmp & 0x08 );
+                parallel_cpu_set_dav( tmp & 0x10 );
+                parallel_cpu_set_eoi( tmp & 0x20 );
+	    } else {
+		/* order is important */
+                parallel_cpu_set_nrfd( tmp & 0x80 );
+                parallel_cpu_set_ndac( tmp & 0x40 );
+		parallel_cpu_set_atn(0);
+		parallel_cpu_set_dav(0);
+		parallel_cpu_set_eoi(0);
+	    }
+	}
+}
+
+#define	STORE_PB
+#define	STORE_PC
+
+#define	UNDUMP_PB
+#define	UNDUMP_PC
+
+READ_PA()
+{
+	        if (drive[0].enable)
+	            drive0_cpu_execute();
+	        if (drive[1].enable)
+	            drive1_cpu_execute();
+
+		byte = 0x07;
+                byte += parallel_atn ? 0 : 8;
+                byte += parallel_dav ? 0 : 16;
+                byte += parallel_eoi ? 0 : 32;
+                byte += parallel_ndac ? 0 : 64;
+                byte += parallel_nrfd ? 0 : 128;
+
+	        byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
+}
+
+READ_PB()
+{
+        byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+}
+
+READ_PC()
+{
+        byte = (0xff & ~tpi[TPI_DDPC]) | (tpi[TPI_PC] & tpi[TPI_DDPC]);
+}
+
