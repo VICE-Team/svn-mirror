@@ -107,13 +107,14 @@
 #include <string.h>
 #endif
 
-#include "patchlevel.h"
 #include "charsets.h"		/* ctrl1, ctrl2, cbmkeys */
 
 #ifndef SEEK_SET
 #define SEEK_SET 0
 #endif
 
+#define PETCATVERSION	2.02
+#define PETCATLEVEL	1
 
 #define B_1		 1
 #define B_2		 2
@@ -349,7 +350,7 @@ char   *speechkwcc[] = {
 };
 
 
-/* @Basic (Atbasic) Keywords (Tokens CC - F6) -- Andre Fachat */
+/* @Basic (Atbasic) Keywords (Tokens CC - F6) -- André Fachat */
 
 char   *atbasickwcc[] = {
     "trace", "delete",  "auto", "old", "dump", "find", "renumber", "dload",
