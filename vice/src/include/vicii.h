@@ -175,6 +175,8 @@ extern void REGPARM2 store_vic(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_colorram(ADDRESS addr);
 extern void REGPARM2 store_colorram(ADDRESS addr, BYTE value);
 extern void REGPARM2 store_vbank(ADDRESS addr, BYTE value);
+extern void REGPARM2 store_vbank_39xx(ADDRESS addr, BYTE value);
+extern void REGPARM2 store_vbank_3fxx(ADDRESS addr, BYTE value);
 extern void video_resize(void);
 extern void video_free(void);
 extern int int_rasterdraw(long offset);
