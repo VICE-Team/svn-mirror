@@ -7,6 +7,10 @@ INCLUDES = \
 noinst_LIBRARIES = libimagecontents.a
 
 libimagecontents_a_SOURCES = \
+	diskcontents-block.c \
+	diskcontents-block.h \
+	diskcontents-iec.c \
+	diskcontents-iec.h \
 	diskcontents.c \
 	diskcontents.h \
 	imagecontents.c \
