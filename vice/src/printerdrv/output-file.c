@@ -45,11 +45,11 @@ static FILE *fd[3] = { NULL, NULL, NULL };
 
 static int set_printer_device(resource_value_t v, void *param)
 {
-    util_string_set(&PrinterDev[(int)param], (const char*)v);
+    util_string_set(&PrinterDev[(int)param], (const char *)v);
     return 0;
 }
 
-resource_t resources[] = {
+static resource_t resources[] = {
     {"PrinterDevice1", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV1,
       (resource_value_t *)&PrinterDev[0], set_printer_device, (void *)0 },
     {"PrinterDevice2", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV2,
@@ -122,11 +122,6 @@ int output_file_putc(int fi, BYTE b)
         return -1;
     fputc(b, fd[fi]);
 
-#if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
-    if (b == 13)
-        fputc(10, fd[fi]);
-#endif
-
     return 0;
 }
 
@@ -145,6 +140,7 @@ int output_file_flush(int fi)
     if (fd[fi] == NULL)
         return -1;
     fflush(fd[fi]);
+
     return 0;
 }
 
