@@ -51,8 +51,9 @@
 #include "mem.h"
 #include "info.h"
 #include "resources.h"
-#include "patchlevel.h"
 #include "xdebug.h"
+#include "machine.h"
+#include "utils.h"
 
 static UI_CALLBACK(attach_disk)
 {
@@ -307,23 +308,26 @@ static UI_CALLBACK(toggle_pause)
 static UI_CALLBACK(do_exit)
 {
     ui_button_t b;
+    char *s = concat ("Exit ", machine_name, "emulator", NULL);
 
-    b = ui_ask_confirmation("Exit " EMULATOR " emulator",
-			    "Do you really want to exit?");
+    b = ui_ask_confirmation(s, "Do you really want to exit?");
 
     if (b == UI_BUTTON_YES) {
 	if (_ui_resources.save_resources_on_exit) {
-	    b = ui_ask_confirmation("Exit " EMULATOR " emulator",
-				    "Save the current settings?");
+	    b = ui_ask_confirmation(s, "Save the current settings?");
 	    if (b == UI_BUTTON_YES) {
 		if (resources_save(NULL) < 0)
 		    ui_error("Cannot save settings.");
-	    } else if (b == UI_BUTTON_CANCEL)
+	    } else if (b == UI_BUTTON_CANCEL) {
+                free(s);
 		return;
+            }
 	}
 	ui_autorepeat_on();
 	exit(-1);
     }
+
+    free(s);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -401,13 +405,17 @@ static UI_CALLBACK(about)
     if (!info_dialog) {
 	info_dialog = build_info_dialog
 	    (_ui_top_level, &is_closed,
-	     "", "V I C E", "the Versatile Commodore Emulator", "",
+	     "",
+             "V I C E",
+             "the Versatile Commodore Emulator",
+             "",
 	     "Version " VERSION,
 #ifdef UNSTABLE
 	     "(unstable)",
 #endif
              "",
-             "Copyright © 1996-1998 Ettore Perazzoli, André Fachat",
+             "Copyright © 1996-1998 Ettore Perazzoli",
+             "Copyright © 1996-1998 André Fachat",
              "Copyright © 1993-1994, 1997-1998 Teemu Rantanen",
              "Copyright © 1997-1998 Daniel Sladic",
              "Copyright © 1998 Andreas Boose",
@@ -415,7 +423,9 @@ static UI_CALLBACK(about)
              "Copyright © 1993-1994 Jarkko Sonninen",
              "",
 	     "Official VICE homepage:",
-	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html", "", NULL);
+	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html",
+             "",
+             NULL);
     }
     suspend_speed_eval();
     ui_popup(XtParent(info_dialog), "VICE Information", False);
@@ -518,7 +528,7 @@ ui_menu_entry_t ui_run_commands_menu[] = {
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
-    { "Exit " EMULATOR " emulator",
+    { "Exit emulator",
       (ui_callback_t) do_exit, NULL, NULL },
     { NULL }
 };
