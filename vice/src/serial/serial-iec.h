@@ -27,5 +27,16 @@
 #ifndef _SERIAL_IEC_H
 #define _SERIAL_IEC_H
 
+#include "types.h"
+
+extern int serial_iec_open(unsigned int unit, unsigned int secondary,
+                           const char *name, unsigned int length);
+extern int serial_iec_close(unsigned int unit, unsigned int secondary);
+extern int serial_iec_read(unsigned int unit, unsigned int secondary,
+                           BYTE *data);
+extern int serial_iec_write(unsigned int unit, unsigned int secondary,
+                            BYTE data);
+extern int serial_iec_flush(unsigned int unit, unsigned int secondary);
+
 #endif
 
