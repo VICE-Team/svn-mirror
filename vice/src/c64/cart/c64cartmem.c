@@ -30,16 +30,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "archdep.h"
+#include "actionreplay.h"
+#include "atomicpower.h"
 #include "c64cart.h"
 #include "c64mem.h"
 #include "c64tpi.h"
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "expert.h"
+#include "final.h"
+#include "generic.h"
 #include "interrupt.h"
+#include "kcs.h"
 #include "log.h"
 #include "machine.h"
+#include "retroreplay.h"
+#include "supersnapshot.h"
 #include "types.h"
 
 /* #define DEBUG */
@@ -59,26 +66,11 @@ int roml_bank = 0, romh_bank = 0, export_ram = 0;
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 int ultimax = 0;
 
-/* Super Snapshot configuration flags.  */
-static BYTE ramconfig = 0xff, romconfig = 9;
-static int ram_bank = 0;        /* Version 5 supports 4 - 8Kb RAM banks. */
-
-/* Atomic Power RAM hack.  */
-static int export_ram_at_a000 = 0;
-
 /* Type of the cartridge attached.  */
 int mem_cartridge_type = CARTRIDGE_NONE;
 
-/* Cartridge mode. Expert cartridge only (at the moment..) */
-extern int cartmode;
 
-/*
- * Remember whether or not the cartridge should be activated or not.
- */
-static int enable_trigger = 0;          /* Needed by Expert cartridge... */
-
-
-static void cartridge_config_changed(BYTE mode)
+void cartridge_config_changed(BYTE mode)
 {
     export.game = mode & 1;
     export.exrom = ((mode >> 1) & 1) ^ 1;
@@ -91,51 +83,6 @@ static void cartridge_config_changed(BYTE mode)
     machine_update_memory_ptrs();
 }
 
-/*
- * This function is CARTRIDGE_EXPERT specific!
- */
-inline void REGPARM1 cartridge_decode_address(ADDRESS addr)
-{
-    /* Default: disable ~GAME, export_ram and enable ~EXROM */
-    BYTE config = (1 << 1);
-
-    switch (cartmode) {
-      case CARTRIDGE_MODE_ON:
-        {
-            /*
-             * Mask A15-A13.
-             */
-            addr = addr & 0xe000;
-
-            if (enable_trigger &&
-                ((addr == 0x8000) || (addr = 0xe000))) {
-                config = (1 << 0);              /* Enable ~GAME */
-                config |= (1 << 1);             /* Disable ~EXROM */
-                config |= (1 << 5);             /* Enable export_ram */
-            }
-            break;
-        }
-
-      case CARTRIDGE_MODE_PRG:
-        {
-            /*
-             * Mask A15-A13.
-             */
-            if ((addr & 0xe000) == 0x8000) {
-                config = (1 << 0);              /* Enable ~GAME */
-                config |= (1 << 1);             /* Disable ~EXROM */
-                config |= (1 << 5);             /* Enable export_ram */
-            }
-            break;
-        }
-    }
-
-    if (ramconfig != config) {
-        cartridge_config_changed(config);
-        ramconfig = config;
-    }
-}
-
 BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 {
 #ifdef DEBUG
@@ -143,16 +90,17 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
 #endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+        return atomicpower_io1_read(addr);
       case CARTRIDGE_ATOMIC_POWER:
-        return rand();
+        return actionreplay_io1_read(addr);
+      case CARTRIDGE_RETRO_REPLAY:
+        return retroreplay_io1_read(addr);
       case CARTRIDGE_KCS_POWER:
-        cartridge_config_changed(0);
-        return roml_banks[0x1e00 + (addr & 0xff)];
+        return kcs_io1_read(addr);
       case CARTRIDGE_FINAL_III:
-        return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
+        return final_v3_io1_read(addr);
       case CARTRIDGE_FINAL_I:
-        cartridge_config_changed(0x42);
-        return roml_banks[0x1e00 + (addr & 0xff)];
+        return final_v1_io1_read(addr);
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GS:
         cartridge_config_changed(0);
@@ -163,60 +111,39 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         roml_bank = (addr & 0x0f);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        return export_ram0[0x1e00 + (addr & 0xff)];
+        return supersnapshot_v4_io1_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        switch (roml_bank) {
-          case 0:
-            return roml_banks[0x1e00 + (addr & 0xff)];
-          case 1:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
-          case 2:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
-          case 3:
-            return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
-        }
+        return supersnapshot_v5_io1_read(addr);
       case CARTRIDGE_EXPERT:
-        switch (cartmode) {
-          case CARTRIDGE_MODE_PRG:
-          case CARTRIDGE_MODE_OFF:
-            return 0;
-          case CARTRIDGE_MODE_ON:
-            /*
-             * Reset the nmi/reset trigger.
-             */
-            enable_trigger = 0;
-            return 0;
-        }
+        return expert_io1_read(addr);
     }
     return rand();
 }
 
 void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
 {
-    int banknr;
-
 #ifdef DEBUG
     log_debug("Store IO1 %02x <- %02x.", addr, value);
 #endif
 
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
-        cartridge_config_changed(value);
+        actionreplay_io1_store(addr, value);
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_io1_store(addr, value);
         break;
       case CARTRIDGE_ATOMIC_POWER:
-        if (value == 0x22) {
-            value = 0x03;
-            export_ram_at_a000 = 1;
-        } else {
-            export_ram_at_a000 = 0;
-        }
-        cartridge_config_changed(value);
+        atomicpower_io1_store(addr, value);
         break;
       case CARTRIDGE_KCS_POWER:
-        cartridge_config_changed(1);
+        kcs_io1_store(addr, value);
         break;
       case CARTRIDGE_FINAL_I:
-        cartridge_config_changed(0x42);
+        final_v1_io1_store(addr, value);
+        break;
+      case CARTRIDGE_FINAL_III:
+        final_v3_io1_store(addr, value);
         break;
       case CARTRIDGE_SIMONS_BASIC:
         cartridge_config_changed(1);
@@ -225,35 +152,10 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        export_ram0[0x1e00 + (addr & 0xff)] = value;
+        supersnapshot_v4_io1_store(addr, value);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        if (((addr & 0xff) == 0)
-            || ((addr & 0xff) == 1)) {
-
-            if ((value & 1) == 1) {
-                cartridge_release_freeze();
-            }
-
-            /* D0 = ~GAME */
-            romconfig = ((value & 1) ^ 1);
-
-            /* Calc RAM/ROM bank nr. */
-            banknr = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
-
-            /* ROM ~OE set? */
-            if (((value >> 3) & 1) == 0) {
-                romconfig |= (banknr << 3); /* Select ROM banknr. */
-            }
-
-            /* RAM ~OE set? */
-            if (((value >> 1) & 1) == 0) {
-                ram_bank = banknr;          /* Select RAM banknr. */
-                romconfig |= (1 << 5);      /* export_ram */
-                romconfig |= (1 << 1);      /* exrom */
-            }
-            cartridge_config_changed(romconfig);
-        }
+        supersnapshot_v5_io1_store(addr, value);
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
@@ -275,17 +177,8 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         export.exrom = 1;
         break;
       case CARTRIDGE_EXPERT:
-        switch (cartmode) {
-          case CARTRIDGE_MODE_PRG:
-          case CARTRIDGE_MODE_OFF:
-            break;
-          case CARTRIDGE_MODE_ON:
-            /*
-             * Reset the nmi/reset trigger (= cartridge disabled).
-             */
-            enable_trigger = 0;
-            break;
-        }
+        expert_io1_store(addr, value);
+        break;
     }
     return;
 }
@@ -297,33 +190,21 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
 #endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+        return atomicpower_io2_read(addr);
       case CARTRIDGE_ATOMIC_POWER:
+        return actionreplay_io2_read(addr);
+      case CARTRIDGE_RETRO_REPLAY:
+        return retroreplay_io2_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT:
+        return supersnapshot_v4_io2_read(addr);
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        return supersnapshot_v5_io2_read(addr);
       case CARTRIDGE_FINAL_III:
-        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
-                               && (addr & 0xff) == 1)
-            return ramconfig;
-        if (export_ram && (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY
-            || mem_cartridge_type == CARTRIDGE_ATOMIC_POWER))
-            return export_ram0[0x1f00 + (addr & 0xff)];
-        switch (roml_bank) {
-          case 0:
-            return roml_banks[addr & 0x1fff];
-          case 1:
-            return roml_banks[(addr & 0x1fff) + 0x2000];
-          case 2:
-            return roml_banks[(addr & 0x1fff) + 0x4000];
-          case 3:
-            return roml_banks[(addr & 0x1fff) + 0x6000];
-        }
-        break;
+        return final_v3_io2_read(addr);
       case CARTRIDGE_FINAL_I:
-        cartridge_config_changed(1);
-        return roml_banks[0x1f00 + (addr & 0xff)];
+        return final_v1_io2_read(addr);
       case CARTRIDGE_KCS_POWER:
-        if (addr & 0x80)
-            cartridge_config_changed(0x43);
-        return export_ram0[0x1f00 + (addr & 0xff)];
+        return kcs_io2_read(addr);
       case CARTRIDGE_IEEE488:
         return tpi_read((ADDRESS)(addr & 0x07));
       case CARTRIDGE_EPYX_FASTLOAD:
@@ -343,6 +224,8 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
         return 0;
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1f00 + (addr & 0xff)];
+      case CARTRIDGE_EXPERT:
+        return expert_io2_read(addr);
     }
     return rand();
 }
@@ -354,62 +237,31 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
 #endif
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+        atomicpower_io2_store(addr, value);
+        break;
       case CARTRIDGE_ATOMIC_POWER:
-        if (export_ram)
-            export_ram0[0x1f00 + (addr & 0xff)] = value;
+        actionreplay_io2_store(addr, value);
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_io2_store(addr, value);
         break;
       case CARTRIDGE_FINAL_I:
-        cartridge_config_changed(1);
+        final_v1_io2_store(addr, value);
         break;
       case CARTRIDGE_KCS_POWER:
-        if (!ultimax)
-            cartridge_config_changed(1);
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
+        kcs_io2_store(addr, value);
         break;
       case CARTRIDGE_WARPSPEED:
         cartridge_config_changed(2);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        if ((addr & 0xff) == 0) {
-            romconfig = (value == 2) ? 1 : 9;
-            romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
-            if ((value & 0x7f) == 0)
-                romconfig = 35;
-            if ((value & 0x7f) == 1 || (value & 0x7f) == 3)
-                romconfig = 0;
-            if ((value & 0x7f) == 6) {
-                romconfig = 9;
-                cartridge_release_freeze();
-            }
-            if ((value & 0x7f) == 9)
-                romconfig = 6;
-            cartridge_config_changed(romconfig);
-        }
-        if ((addr & 0xff) == 1) {
-            if(((ramconfig - 1) & 0xff) == value) {
-                ramconfig = value;
-                romconfig |= 35;
-            }
-            if(((ramconfig + 1) & 0xff) == value) {
-                ramconfig = value;
-                romconfig &= 0xdd;
-            }
-            cartridge_config_changed(romconfig);
-        }
+        supersnapshot_v4_io2_store(addr, value);
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        supersnapshot_v5_io2_store(addr, value);
         break;
       case CARTRIDGE_FINAL_III:
-        if ((addr & 0xff) == 0xff)  {
-            /* FIXME: Change this to call `cartridge_config_changed'.  */
-            romh_bank = roml_bank = value & 3;
-            export.game = ((value >> 5) & 1) ^ 1;
-            export.exrom = ((value >> 4) & 1) ^ 1;
-            pla_config_changed();
-            ultimax = export.game & (export.exrom ^ 1);
-            if ((value & 0x30) == 0x10)
-                maincpu_set_nmi(I_FREEZE, IK_NMI);
-            if (value & 0x40)
-                cartridge_release_freeze();
-        }
+        final_v3_io2_store(addr, value);
         break;
       case CARTRIDGE_SUPER_GAMES:
         romh_bank = roml_bank = value & 3;
@@ -426,91 +278,160 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
       case CARTRIDGE_IEEE488:
         tpi_store((ADDRESS)(addr & 0x07), value);
         break;
+      case CARTRIDGE_EXPERT:
+        expert_io2_store(addr, value);
+        break;
     }
     return;
 }
 
 BYTE REGPARM1 roml_read(ADDRESS addr)
 {
-    if (mem_cartridge_type == CARTRIDGE_ZAXXON)
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ZAXXON:
         romh_bank = (addr & 0x1000) ? 1 : 0;
-    if (export_ram) {
-        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
-            return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
-        else
-            return export_ram0[addr & 0x1fff];
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT:
+        return supersnapshot_v4_roml_read(addr);
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        return supersnapshot_v5_roml_read(addr);
+      case CARTRIDGE_ACTION_REPLAY:
+        return actionreplay_roml_read(addr);
+      case CARTRIDGE_RETRO_REPLAY:
+        return retroreplay_roml_read(addr);
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_roml_read(addr);
+      case CARTRIDGE_EXPERT:
+        return expert_roml_read(addr);
+      case CARTRIDGE_FINAL_I:
+        return final_v1_roml_read(addr);
+      case CARTRIDGE_FINAL_III:
+        return final_v3_roml_read(addr);
     }
+
+    if (export_ram)
+        return export_ram0[addr & 0x1fff];
+
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 BYTE REGPARM1 romh_read(ADDRESS addr)
 {
-    /*
-     * CARTRIDGE_EXPERT: Mirror $8000-$9FFF at $E000-$FFFF in ultimax mode.
-     */
-    if ((mem_cartridge_type == CARTRIDGE_EXPERT) || export_ram_at_a000)
-        return export_ram0[addr & 0x1fff];
-    else if (mem_cartridge_type == CARTRIDGE_OCEAN)
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_romh_read(addr);
+      case CARTRIDGE_EXPERT:
+        return expert_romh_read(addr);
+      case CARTRIDGE_OCEAN:
         /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
         return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+    }
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
 void REGPARM2 roml_store(ADDRESS addr, BYTE value)
 {
-    if (export_ram) {
-        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
-            export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
-        else
-            export_ram0[addr & 0x1fff] = value;
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_SUPER_SNAPSHOT:
+        supersnapshot_v4_roml_store(addr, value);
+        return;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        supersnapshot_v5_roml_store(addr, value);
+        return;
+      case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_roml_store(addr, value);
+        return;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_roml_store(addr, value);
+        return;
+      case CARTRIDGE_ATOMIC_POWER:
+        atomicpower_roml_store(addr, value);
+        return;
+      case CARTRIDGE_EXPERT:
+        expert_roml_store(addr, value);
+        return;
+      case CARTRIDGE_FINAL_I:
+        final_v1_roml_store(addr, value);
+        return;
+      case CARTRIDGE_FINAL_III:
+        final_v3_roml_store(addr, value);
+        return;
     }
+
+    if (export_ram)
+        export_ram0[addr & 0x1fff] = value;
+
     return;
 }
 
 BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
 {
-    if (export_ram_at_a000)
-        return export_ram0[addr & 0x1fff];
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_a000_bfff_read(addr);
+    }
     return 0x55;
 }
 
 void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
 {
-    if (export_ram_at_a000)
-        export_ram0[addr & 0x1fff] = value;
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ATOMIC_POWER:
+        atomicpower_a000_bfff_store(addr, value);
+    }
     return;
+}
+
+void REGPARM1 cartridge_decode_address(ADDRESS addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_EXPERT:
+        expert_decode_address(addr);
+    }
 }
 
 void cartridge_init_config(void)
 {
-    export_ram_at_a000 = 0;
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_config_init();
+        break;
       case CARTRIDGE_ATOMIC_POWER:
+        atomicpower_config_init();
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_config_init();
+        break;
       case CARTRIDGE_KCS_POWER:
+        kcs_config_init();
+        break;
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_SUPER_GAMES:
       case CARTRIDGE_EPYX_FASTLOAD:
       case CARTRIDGE_REX:
-        cartridge_config_changed(0);
+        generic_8kb_config_init();
         break;
       case CARTRIDGE_FINAL_I:
+        final_v1_config_init();
+        break;
       case CARTRIDGE_FINAL_III:
+        final_v3_config_init();
+        break;
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_WARPSPEED:
       case CARTRIDGE_ZAXXON:
-        cartridge_config_changed(1);
+        generic_16kb_config_init();
         break;
       case CARTRIDGE_ULTIMAX:
         cartridge_config_changed(3);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        cartridge_config_changed(9);
+        supersnapshot_v4_config_init();
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        cartridge_store_io1((ADDRESS)0xde00, 2);
+        supersnapshot_v5_config_init();
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
@@ -530,20 +451,7 @@ void cartridge_init_config(void)
         /* FIXME: Insert interface init here.  */
         break;
       case CARTRIDGE_EXPERT:
-        /*
-         * Initialize nmi/reset trap functions.
-         */
-        interrupt_set_nmi_trap_func(&maincpu_int_status,
-                                    cartridge_ack_nmi_reset);
-        interrupt_set_reset_trap_func(&maincpu_int_status,
-                                      cartridge_ack_nmi_reset);
-
-        /*
-         * Set the nmi/reset trigger (= cartridge enabled).
-         */
-        enable_trigger = 1;
-        ramconfig = (1 << 1);       /* Disable ~EXROM */
-        cartridge_config_changed(ramconfig);
+        expert_config_init();
         break;
     }
 }
@@ -557,57 +465,37 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_IEEE488:
       case CARTRIDGE_EPYX_FASTLOAD:
       case CARTRIDGE_REX:
-        memcpy(roml_banks, rawcart, 0x2000);
-        cartridge_config_changed(0);
+        generic_8kb_config_setup(rawcart);
         break;
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_WESTERMANN:
-      case CARTRIDGE_FINAL_I:
       case CARTRIDGE_WARPSPEED:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(1);
+        generic_16kb_config_setup(rawcart);
+        break;
+      case CARTRIDGE_FINAL_I:
+        final_v1_config_setup(rawcart);
         break;
       case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_config_setup(rawcart);
+        break;
       case CARTRIDGE_ATOMIC_POWER:
-        memcpy(roml_banks, rawcart, 0x8000);
-        memcpy(romh_banks, rawcart, 0x8000);
-        cartridge_config_changed(0);
+        atomicpower_config_setup(rawcart);
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_config_setup(rawcart);
         break;
       case CARTRIDGE_KCS_POWER:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(0);
+        kcs_config_setup(rawcart);
         break;
       case CARTRIDGE_FINAL_III:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
-        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
-        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
-        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-        cartridge_config_changed(1);
+        final_v3_config_setup(rawcart);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        cartridge_config_changed(9);
+        supersnapshot_v4_config_setup(rawcart);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
-        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
-        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
-        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-        cartridge_store_io1((ADDRESS)0xde00, 2);
+        supersnapshot_v5_config_setup(rawcart);
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
@@ -635,10 +523,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         cartridge_config_changed(0);
         break;
       case CARTRIDGE_EXPERT:
-        memcpy(export_ram0, rawcart, 0x2000);
-        ramconfig = (1 << 1);       /* Disable ~EXROM */
-        enable_trigger = 0;
-        cartridge_config_changed(ramconfig);
+        expert_config_setup(rawcart);
         break;
       case CARTRIDGE_ZAXXON:
         memcpy(roml_banks, rawcart, 0x2000);
@@ -665,28 +550,38 @@ void cartridge_detach(int type)
 
 void cartridge_freeze(int type)
 {
-    if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_ATOMIC_POWER
-        || type == CARTRIDGE_SUPER_SNAPSHOT
-        || type == CARTRIDGE_SUPER_SNAPSHOT_V5)
-        cartridge_config_changed(35);
-    if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III
-        || type == CARTRIDGE_FINAL_I)
-        cartridge_config_changed(3);
+    switch (type) {
+      case CARTRIDGE_SUPER_SNAPSHOT:
+        supersnapshot_v4_freeze();
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        supersnapshot_v5_freeze();
+        break;
+      case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_freeze();
+        break;
+      case CARTRIDGE_ATOMIC_POWER:
+        atomicpower_freeze();
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_freeze();
+        break;
+      case CARTRIDGE_KCS_POWER:
+        kcs_freeze();
+        break;
+      case CARTRIDGE_FINAL_I:
+        final_v1_freeze();
+        break;
+      case CARTRIDGE_FINAL_III:
+        final_v3_freeze();
+        break;
+    }
 }
 
 void cartridge_ack_nmi_reset(void)
 {
-    if (mem_cartridge_type == CARTRIDGE_EXPERT) {
-        switch (cartmode) {
-          case CARTRIDGE_MODE_PRG:
-          case CARTRIDGE_MODE_OFF:
-            break;
-
-          case CARTRIDGE_MODE_ON:
-            enable_trigger = 1;
-            break;
-        }
-    }
+    if (mem_cartridge_type == CARTRIDGE_EXPERT)
+        expert_ack_nmi_reset();
 }
 
 /*
