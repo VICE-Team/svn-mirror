@@ -34,9 +34,6 @@
 #include "uireu.h"
 
 
-static tui_menu_t ui_reu_submenu;
-
-
 TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_RADIO(REUsize)
 
@@ -107,17 +104,17 @@ static tui_menu_item_def_t reu_menu_items[] = {
     { NULL }
 };
 
-void uireu_init(struct tui_menu *io_submenu)
+void uireu_init(struct tui_menu *parent_submenu)
 {
+    tui_menu_t ui_reu_submenu;
+
     ui_reu_submenu = tui_menu_create("REU settings", 1);
 
     tui_menu_add(ui_reu_submenu, reu_menu_items);
 
-    tui_menu_add_submenu(io_submenu, "_REU settings...",
+    tui_menu_add_submenu(parent_submenu, "_REU settings...",
                          "REU settings",
                          ui_reu_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
-
-    /*tui_menu_add(io_submenu, reu_menu_items);*/
 }
 
