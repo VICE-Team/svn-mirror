@@ -1,0 +1,28 @@
+The x64run/x128run utility for the x64/xvic/xpet emulators.
+===========================================================
+
+The files in this directory are:
+
+	README.RUN
+	cbm16.bdf
+	cbm8.bdf
+	fonts.dir
+	x64run
+	xpetrun
+	xvicrun
+
+x64run/xpetrun/xvicrun are small scripts which which will display the
+output of the emulators monitor's in an xterm using a custom font and
+colours.
+
+To use these programs, just copy all the files into the same directory
+as the x64 and x128 emulators and type x64run or x128run.
+
+If you would like a monitor screen *twice* the current size then edit the
+two scripts and replace "cbm8" with "cbm16".
+
+The scripts and the fonts were designed by
+Peter Weighill (stuce@csv.warwick.ac.uk).
+Feel free to modify them as you wish.
+
+[Modified by ettore@comm2000.it for version 0.12.0 of VICE]

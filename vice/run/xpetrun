@@ -1,0 +1,4 @@
+#!/bin/sh
+
+xset fp+ `pwd`
+xterm -fn cbm8 -bg "#000000" -fg "#00ff00" -cr "#0000ff" -geometry 80x32 -sb -title "PET Monitor" -name "PET Monitor" -e xpet $* &

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+xset fp+ `pwd`
+xterm -fn cbm8 -bg "#211bae" -fg "#5f53fe" -cr "#5f53fe" -geometry 80x32 -sb -title "C64 Monitor" -name "C64 Monitor" -e x64 $* &

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+xset fp+ `pwd`
+xterm -fn cbm8 -bg "#ffffff" -fg "#0000ff" -cr "#0000ff" -geometry 80x32 -sb -title "VIC20 Monitor" -name "VIC20 Monitor" -e xvic $* &
