@@ -1,0 +1,584 @@
+
+PETCAT version 2.02 PL 1					12 Dec 1996
+
+
+  Listed below are keywords and token codes for all CBM Basic versions
+  supported on petcat v2.02 PL 1. They include the following:
+ 
+	Basic 1.0
+	Basic 2.0
+	Basic 2.0 with Super Expander
+	Basic 2.0 and Simon's Basic
+	Basic 2.0 with Speech Basic v2.7
+	Basic 2.0 with AtBasic
+	Basic 4.0
+	Basic 4.0 extension for C64
+	Basic 3.5
+	Basic 7.0
+	Basic 10.0
+
+
+	COMMODORE BASIC KEYWORDS
+
+  Common Keywords (Tokens 80 - CB)
+
+  Tokens 80 to A2 represent action keywords, while codes B4 trough CA
+  are function keywords. AA - B3 are BASIC operators.
+
+  There is no GO (CB) on Basic 1.0.
+
+
+Token	Keyword
+
+80	end
+81	for
+82	next
+83	data
+84	input#
+85	input
+86	dim
+87	read
+
+88	let
+89	goto
+8a	run
+8b	if
+8c	restore
+8d	gosub
+8e	return
+8f	rem
+
+90	stop
+91	on
+92	wait
+93	load
+94	save
+95	verify
+96	def
+97	poke
+
+98	print#
+99	print
+9a	cont
+9b	list
+9c	clr
+9d	cmd
+9e	sys
+9f	open
+
+a0	close
+a1	get
+a2	new
+------------------ misc functions
+a3	tab(
+a4	to
+a5	fn
+a6	spc(
+a7	then
+
+a8	not
+a9	step
+------------------ operators
+aa	+
+ab	-
+ac	*
+ad	/
+ae	^
+af	and
+
+b0	or
+b1	>
+b2	=
+b3	<
+------------------ functions
+b4	sgn
+b5	int
+b6	abs
+b7	usr
+
+b8	fre
+b9	pos
+ba	sqr
+bb	rnd
+bc	log
+bd	exp
+be	cos
+bf	sin
+
+c0	tan
+c1	atn
+c2	peek
+c3	len
+c4	str$
+c5	val
+c6	asc
+c7	chr$
+
+c8	left$
+c9	right$
+ca	mid$
+------------------
+cb	go	(Basic 2.0 and higher only)
+
+ff	pi
+
+
+
+  Extension Keywords (Tokens CC - FE)
+
+  The following codes are defined differently in each Basic version.
+  The leftmost column shows VIC Super Expander commands (CC trough DD).
+  Basic 3.5 and 7.0 differ in codes CE and FE, which are prefixes in 7.0,
+  whereas in 3.5 CE = rlum and FE is unused.
+
+  Codes CC to D4 (3.5, 7.0 and 10.0) are function keywords, and D5 trough
+  FA are action keywords.
+
+
+Token	Keyword
+	2.0 Super	4.0		3.5/7.0		10.0
+
+cc	key		concat		rgr		rgr  2)
+cd	graphic		dopen		rclr		rclr 2)
+ce	scnclr		dclose		rlum/*prefix*	*prefix*
+cf	circle		record		joy		joy
+
+d0	draw		header		rdot		rdot 2)
+d1	region		collect		dec		dec
+d2	color		backup		hex$		hex$
+d3	point		copy		err$		err$
+d4	sound		append		instr		instr
+d5	char		dsave		else		else
+d6	paint		dload		resume		resume
+d7	rpot		catalog		trap		trap
+
+d8	rpen		rename		tron		tron
+d9	rsnd		scratch		troff		troff
+da	rcolr		directory	sound		sound
+db	rgr				vol		vol
+dc	rjoy				auto		auto
+dd	rdot				pudef		pudef
+de					graphic		graphic
+df					paint		paint 2)
+
+e0					char		char
+e1					box		box
+e2					circle		circle
+e3					gshape		paste 2)
+e4					sshape		cut  2)
+e5					draw		line
+e6					locate		locate 2)
+e7					color		color
+
+e8					scnclr		scnclr
+e9					scale		scale 2)
+ea					help		help
+eb					do		do
+ec					loop		loop
+ed					exit		exit
+ee					directory 4)	dir
+ef					dsave		dsave 4)
+
+f0					dload		dload 4)
+f1					header		header 4)
+f2					scratch		scratch 4)
+f3					collect 4)	collect 4)
+f4					copy		copy 4)
+f5					rename		rename 4)
+f6					backup		backup 4)
+f7					delete		delete
+
+f8					renumber	renumber
+f9					key		key
+fa					monitor		monitor
+					--------------------------
+fb					using		using
+fc					until		until
+fd					while		while
+fe					*prefix* 	*prefix*
+
+
+
+  Prefixed Extension Keywords (Tokens CE02 - CE0A)
+
+  The following codes implement function keywords. Basics 7.0 and 10.0 only.
+
+
+Token	Keyword
+
+ce00
+ce01
+ce02	pot
+ce03	bump
+ce04	pen
+ce05	rsppos
+ce06	rsprite
+ce07	rspcolor
+
+ce08	xor
+ce09	rwindow
+ce0a	pointer
+
+
+
+  Prefixed Extension Keywords (Tokens FE02 - FE26)
+
+  The following codes are for 7.0 and 10.0 only. Keywords in the
+  middle are commom.
+
+
+Token		Keyword
+	 7.0		   10.0
+
+fe00
+fe01
+fe02		bank
+fe03		filter
+fe04		play
+fe05		tempo
+fe06		movspr
+fe07		sprite
+
+fe08		sprcolor
+fe09		rreg
+fe0a		envelope
+fe0b		sleep
+fe0c		catalog 4)
+fe0d		dopen 4)
+fe0e		append 4)
+fe0f		dclose 4)
+
+fe10		bsave
+fe11		bload
+fe12		record 4)
+fe13		concat 4)
+fe14		dverify
+fe15		dclear
+fe16		sprsav
+fe17		collision
+
+fe18		begin
+fe19		bend
+fe1a		window
+fe1b		boot
+fe1c		width  2)
+fe1d		sprdef 2)
+fe1e		quit 1) 2)
+fe1f	 stash		 dma
+
+fe20
+fe21	 fetch		 dma
+fe22
+fe23	 swap		 dma
+fe24		off 1) 2)
+fe25		fast
+fe26		slow
+fe27			 type
+
+fe28			 bverify
+fe29			 ectory (diRectorY)
+fe2a			 erase
+fe2b			 find
+fe2c			 change
+fe2d			 set  3)
+fe2e			 screen
+fe2f			 polygon
+
+fe30			 ellipse
+fe31			 viewport 2)
+fe32			 gcopy 2)
+fe33			 pen
+fe34			 palette
+fe35			 dmode
+fe36			 dpat
+fe37			 pic  2)
+
+fe38			 genlock
+fe39			 foreground
+fe3a
+fe3b			 background
+fe3c			 border
+fe3d			 highlight
+
+
+ Notes:
+  1)	Gives "unimplemented command error" on BASIC 7.0
+  2)	Gives "unimplemented command error" on BASIC 10.0 v0.9
+  3)	Only 'set def' is implemented.
+  4)	Command also available on PET Basic 4.0, but the Token Code is
+	 different from that of V3.5, 7.0 and 10.0.
+
+ -----------------------------------------------------------------------------
+
+ Third party products for VIC-20
+
+
+ Turtle Basic v1.0 Keywords
+
+cc	graphic
+cd	old
+ce	turn
+cf	pen
+
+d0	draw
+d1	move
+d2	point
+d3	kill
+d4	write
+d5	repeat
+d6	screen
+d7	doke
+
+d8	reloc
+d9	fill
+da	rtime
+db	base
+dc	pause
+dd	pop
+de	color
+df	merge
+
+e0	char
+e1	take
+e2	sound
+e3	vol
+e4	put
+e5	place
+e6	cls
+e7	accept
+
+e8	reset
+e9	grab
+ea	rdot
+eb	plr$
+ec	deek
+ed	joy
+
+
+ -----------------------------------------------------------------------------
+
+ Third party products for C=64
+
+
+  Basic 4.0 Expansion for C64 defines codes CC trough DA like 4.0 above,
+  but also a few more:
+
+Token	Keyword
+
+db	color
+dc	cold
+dd	key
+de	dverify
+df	delete
+e0	auto
+e1	merge
+e2	old
+e3	monitor
+
+
+
+  Speech Basic v2.7 Keywords (Tokens CC - E6)
+  @Basic (Atbasic)  Keywords (Tokens CC - F6)
+
+
+Token	Speech		AtBasic
+
+cc	reset		trace
+cd	basic		delete
+ce	help		auto
+cf	key		old
+
+d0	himem		dump
+d1	disk		find
+d2	dir		renumber
+d3	bload		dload
+d4	bsave		dsave
+d5	map		dverify
+d6	mem		directory
+d7	pause		catalog
+
+d8	block		scratch
+d9	hear		collect
+da	record		rename
+db	play		copy
+dc	voldef		backup
+dd	coldef		disk
+de	hex		header
+df	dez		append
+
+e0	screen		merge
+e1	exec		mload
+e2	mon		mverify
+e3	<-		msave
+e4	from		key
+e5	speed		basic
+e6	off		reset
+e7			exit
+
+e8			enter
+e9			doke
+ea			set
+eb			help
+ec			screen
+ed			lomem
+ee			himem
+ef			colour
+
+f0			type
+f1			time
+f2			deek
+f3			hex$
+f4			bin$
+f5			off
+f6			alarm
+
+
+
+ Simon's Basic Keywords
+
+Token	Keyword
+
+6400
+6401	hires
+6402	plot
+6403	line
+6404	block
+6405	fchr
+6406	fcol
+6407	fill
+
+6408	rec
+6409	rot
+640a	draw
+640b	char
+640c	hi col
+640d	inv
+640e	frac
+640f	move
+
+6410	place
+6411	upb
+6412	upw
+6413	leftw
+6414	leftb
+6415	downb
+6416	downw
+6417	rightb
+
+6418	rightw
+6419	multi
+641a	colour
+641b	mmob
+641c	bflash
+641d	mob set
+641e	music
+641f	flash
+
+6420	repeat
+6421	play
+6422	>>
+6423	centre
+6424	envelope
+6425	cgoto
+6426	wave
+6427	fetch
+
+6428	at(
+6429	until
+642a	>>
+642b	>>
+642c	use
+642d	>>
+642e	global
+642f	>>
+
+6430	reset
+6431	proc
+6432	call
+6433	exec
+6434	end proc
+6435	exit
+6436	end loop
+6437	on key
+
+6438	disable
+6439	resume
+643a	loop
+643b	delay
+643c	>>
+643d	>>
+643e	>>
+643f	>>
+
+6440	secure
+6441	disapa
+6442	circle
+6443	on error
+6444	no error
+6445	local
+6446	rcomp
+6447	else
+
+6448	retrace
+6449	trace
+644a	dir
+644b	page
+644c	dump
+644d	find
+644e	option
+644f	auto
+
+6450	old
+6451	joy
+6452	mod
+6453	div
+6454	>>
+6455	dup
+6456	inkey
+6457	inst
+
+6458	test
+6459	lin
+645a	exor
+645b	insert
+645c	pot
+645d	penx
+645e	>>
+645f	peny
+
+6460	sound
+6461	graphics
+6462	design
+6463	rlocmob
+6464	cmob
+6465	bckgnds
+6466	pause
+6467	nrm
+
+6468	mob off
+6469	off
+646a	angl
+646b	arc
+646c	cold
+646d	scrsv
+646e	scrld
+646f	text
+
+6470	cset
+6471	vol
+6472	disk
+6473	hrdcpy
+6474	key
+6475	paint
+6476	low col
+6477	copy
+
+6478	merge
+6479	renumber
+647a	mem
+647b	detect
+647c	check
+647d	display
+647e	err
+647f	out
+
