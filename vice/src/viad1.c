@@ -533,7 +533,7 @@ static void update_viaD1ta(int force)
 #endif
       viaD1ta = viaD1[VIA_T1CL] + (viaD1[VIA_T1CH] << 8);
       viaD1tau = true1541_clk;
-      true1541_set_alarm(A_VIAD1T1, viaD1ta);
+      true1541_set_alarm(A_VIAD1T1, viaD1ta + 1);
     }
 }
 
@@ -542,7 +542,7 @@ static void update_viaD1tb(int force)
     if(force) {
       viaD1tb = viaD1[VIA_T2CL] + (viaD1[VIA_T2CH] << 8);
       viaD1tbu = true1541_clk;
-      true1541_set_alarm(A_VIAD1T2, viaD1tb);
+      true1541_set_alarm(A_VIAD1T2, viaD1tb + 1);
     }
 }
 
