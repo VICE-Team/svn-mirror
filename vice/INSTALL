@@ -1,5 +1,5 @@
 
-Installation notes for VICE 0.14.2
+Installation notes for VICE 0.15.0
 **********************************
 
 
@@ -28,10 +28,11 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     displays, this release will work with all depths, though 8-bit is
     still highly recommended for best performance.
 
-    VICE has been compiled successfully on the following Unix systems:
+    VICE has been compiled successfully on the following Unix systems
+    in the past:
 
       - Various i486/Pentium/Pentium Pro PCs running Linux 2.0.x and
-        XFree86 3.2/3.3
+        XFree86 3.2/3.3, with both libc 5 and glibc 2;
 
       - Some HP9000 (712, 715, 735, 800) machines running HP-UX 9.x
         and 10.x;
@@ -50,24 +51,16 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       - IBM RS6000 running AIX4.1 (using gcc);
 
-      - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound);
+      - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
-    If you compile under a Unix system that is not listed here, please
-    tell us.
+    Unluckily, not all of these systems have been tested with 0.15.
+    Success/failure reports are welcome at any time.
 
     If you are compiling on a Pentium machine under Linux or FreeBSD,
     you might consider using the Pentium-specific GCC compiler, which
     is available at `http://www.goof.com/pcg'.  Each time we have
     tried it, and the performance was always at least 20% better (even
-    with just `-O2' or `-O3').  Important notice: if you use the
-    Pentium-specific GCC, remove all the optimization options (the
-    ones that start with `-f') from `CFLAGS' in Makefile and just keep
-    a `-On' where `n' is the level of optimization you want.  In fact,
-    some of those options are broken and might silently produce wrong
-    code!  If you still have troubles, try to #define `NO_REGPARM' to
-    avoid passing parameters in the registers to certain functions
-    (you can do this by adding `-DNO_REGPARM' to the `CFLAGS', via
-    configure or by editing the Makefile by hand).
+    with just `-O2' or `-O3').
 
     Warning: you might need quite a lot of memory to compile VICE with
     full optimizations on some platforms (in particular, this happens
@@ -81,10 +74,9 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
   -----------
 
     The MS-DOS port requires the Allegro library by Shawn Hargreaves
-    (`http://talula.demon.co.uk/allegro') and the MIDAS Digital Audio
-    System by Petteri Kangaslampi and Jarno Paananen
-    (`http://www.s2.org/midas') to be compiled.  Moreover, you also
-    need DJGPP, the MS-DOS port of GCC (`http://www.delorie.com').
+    (`http://www.talula.demon.co.uk/allegro') to be compiled.
+    Moreover, you also need DJGPP, the MS-DOS port of GCC
+    (`http://www.delorie.com').
 
     Anyway, the current source distribution is only suitable for
     cross-compilation from a Unix system.  This might change in future
@@ -189,6 +181,16 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       CC="cc" CFLAGS="-Ae -g +O3" ./configure
 
+    Important notice: if you use the Pentium-specific GCC, some
+    optimizations might have to be disabled.  The best way to make
+    sure everything works is
+
+      CFLAGS="-mpentium -O5 -DNO_REGPARM" ./configure
+
+    `-DNO_REGPARM' may also be needed with versions of GCC that have
+    buggy implementations of regparms.  Unluckily, we have no way of
+    finding about all of them, so you might have to play a bit.
+
     If you are running on a Linux system and the joystick module is
     installed properly, the configure script will auto-detect it and
     support for it will be enabled.  Otherwise, the joystick will be
@@ -205,10 +207,10 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
       make
 
     to build all the emulators and utilities (`x64', `xvic', `xpet',
-    `petcat', `c1541') under the `bin' directory.  It is possible that
-    `configure' is not able to find all the needed libraries
-    automatically (this is usually due to weird setup); if this
-    happens, the script will report a warning message but the
+    `x128', `petcat', `c1541') under the `src' directory.  It is
+    possible that `configure' is not able to find all the needed
+    libraries automatically (this is usually due to weird setup); if
+    this happens, the script will report a warning message but the
     `Makefile' will be produced anyway.  In this case, you can try to
     re-run `configure' with different options or edit the `Makefile's
     by hand to add the missing options.
@@ -222,22 +224,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       make install
 
-    The binaries and support files will all go under PREFIX/lib/vice;
-    in order to provide multiple architectures and versions to be
-    installed at once, some links will be created as follows:
-
-      PREFIX/X11/bin/x64 -> PREFIX/lib/vice/ARCH/x64-VERSION
-
-    Where `ARCH' is the autoconf identification string for the
-    architecture of the machine you have compiled binaries for
-    (e.g. `i586-pc-linux-gnu'), and `VERSION' is the version number
-    (in this case, 0.14.2).  Use `strip(1)' on the binary files if you
-    like.
-
-    If you want to provide site-specific defaults, you can build a
-    `PREFIX/lib/vice/vicerc' resource file that will be loaded by
-    default.  Consult the documentation in `doc/MANUAL.html' to see
-    how this works.
+    The binaries and support files will all go under PREFIX/lib/vice.
 
     If you want to remove VICE from your system, you can use
 
@@ -305,18 +292,23 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
   better code.  On certain systems (most notably SunOS), configure
   might completely refuse to use the standard CC.
 
+  Some version of the HP-UX 10.x linker was also reported to fail
+  linking `x128'.  Unluckily, we believe it's a bug in the system and
+  we don't know a way to fix this problem (and we did not try very
+  hard, either).  If you know how, please let us know.
+
   Some versions of GCC seem to have troubles with `-funroll-loops' on
   certain architectures; on an Alpha and a SPARC we have tried to
   compile VICE on, the compiler died while trying to optimize the code
   when this option was specified (GCC version 2.7.2).  If you
-  experience such a problem, edit Makefile by hand and remove that
-  option or reconfigure by specifying the `CFLAGS' as explained above.
+  experience such a problem reconfigure by specifying the `CFLAGS' as
+  explained above, removing `-funroll-loops'.
 
   SunOS 4.1.x systems running X11R4 can cause a couple of troubles.
   The first one is that `configure' might not find `-lXmu' and `-lXaw'
   properly, because of some issues related to dynamic libraries.  This
   would need some custom `configure' checks, which might be made
-  available in future versions.  For now, just edit the `Makefile'
+  available in future versions.  For now, just edit `src/Makefile'
   after it has been created by `configure' and add `-lXaw -lXmu' (in
   this order) before `-lXt' on the `LIBS=...' line.  Moreover, you
   might get undefined references to
@@ -333,4 +325,5 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
     LDFLAGS="-static" ./configure
 
-  This will build much bigger executables, though.
+  This will build much bigger executables, though.  We are sorry, but
+  that is not our fault.
