@@ -30,22 +30,62 @@
 #include <time.h>
 
 #ifndef PET
-#define	PET		/* to get PET definitions in include files as 
+#define	PET		/* to get PET definitions in include files as
 			   pia.c is non of the files that are different
-			   for different platforms - it just exists in 
+			   for different platforms - it just exists in
 			   xpet only...! */
 #endif
 
 #include "vice.h"
 
 #include "types.h"
+#include "pia.h"
 #include "vmachine.h"
 #include "parallel.h"
 #include "kbd.h"
-#include "resources.h"
-#include "pia.h"
 #include "interrupt.h"
 #include "pets.h"
+#include "resources.h"
+#include "cmdline.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* PIA resources.  */
+
+/* Flag: is the diagnostic pin enabled?  */
+static int diagnostic_pin_enabled;
+
+static int set_diagnostic_pin_enabled(resource_value_t v)
+{
+    diagnostic_pin_enabled = (int) v;
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "DiagPin", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &diagnostic_pin_enabled, set_diagnostic_pin_enabled },
+    { NULL }
+};
+
+int pia_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t) 1,
+      NULL, "Enable userport diagnostic pin" },
+    { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t) 1,
+      NULL, "Disable userport diagnostic pin" },
+    { NULL }
+};
+
+int pia_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -113,10 +153,10 @@ void	reset_pia2(void)
 }
 
 static void pia1_update_irq(void) {
-    if( ((pia1.ctrl_a & 0x81) == 0x81) 
-	    || ((pia1.ctrl_a & 0x68) == 0x48) 
-	    || ((pia1.ctrl_b & 0x81) == 0x81) 
-	    || ((pia1.ctrl_b & 0x68) == 0x48) 
+    if( ((pia1.ctrl_a & 0x81) == 0x81)
+	    || ((pia1.ctrl_a & 0x68) == 0x48)
+	    || ((pia1.ctrl_b & 0x81) == 0x81)
+	    || ((pia1.ctrl_b & 0x68) == 0x48)
 	) {
         maincpu_set_irq(I_PIA1, IK_IRQ);
     } else {
@@ -125,10 +165,10 @@ static void pia1_update_irq(void) {
 }
 
 static void pia2_update_irq(void) {
-    if( ((pia2.ctrl_a & 0x81) == 0x81) 
-	    || ((pia2.ctrl_a & 0x68) == 0x48) 
-	    || ((pia2.ctrl_b & 0x81) == 0x81) 
-	    || ((pia2.ctrl_b & 0x68) == 0x48) 
+    if( ((pia2.ctrl_a & 0x81) == 0x81)
+	    || ((pia2.ctrl_a & 0x68) == 0x48)
+	    || ((pia2.ctrl_b & 0x81) == 0x81)
+	    || ((pia2.ctrl_b & 0x68) == 0x48)
 	) {
         maincpu_set_irq(I_PIA2, IK_IRQ);
     } else {
@@ -160,16 +200,16 @@ void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
 {
 
     addr &= 3;
-    
-    if (app_resources.debugFlag)
-	printf("store pia1 [%x] %x\n", (int) addr, (int) byte);
 
+#if 0
+    printf("store pia1 [%x] %x\n", (int) addr, (int) byte);
+#endif
 
     switch (addr) {
 
       case P_PORT_A: /* port A */
 	if (pia1.ctrl_a & 4) {
-	    pia1.port_a = byte; 
+	    pia1.port_a = byte;
 		/*(pia1.port_a & ~pia1.ddr_a) | (byte & pia1.ddr_a);*/
 	} else
 	    pia1.ddr_a = byte;
@@ -177,7 +217,7 @@ void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
 
       case P_PORT_B: /* port B */
 	if (pia1.ctrl_b & 4)
-	    pia1.port_b = byte; 
+	    pia1.port_b = byte;
 		/*(pia1.port_b & ~pia1.ddr_b) | (byte & pia1.ddr_b);*/
 	else
 	    pia1.ddr_b = byte;
@@ -249,13 +289,13 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
     static BYTE inbyte;
 
     addr &= 3;
-    
-    if (app_resources.debugFlag)
-	printf("read pia1 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
-	       addr,
-	       pia1.port_a, pia1.ddr_a, pia1.ctrl_a,
-	       pia1.port_b, pia1.ddr_b, pia1.ctrl_b);
 
+#if 0
+    printf("read pia1 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
+           addr,
+           pia1.port_a, pia1.ddr_a, pia1.ctrl_a,
+           pia1.port_b, pia1.ddr_b, pia1.ctrl_b);
+#endif
 
     switch (addr) {
 
@@ -265,8 +305,8 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	    pia1_update_irq();
 
 	    inbyte = 0xff
-			- (par_eoi ? 64 : 0) 
-			- (app_resources.petdiag ? 128 : 0);
+			- (par_eoi ? 64 : 0)
+			- (diagnostic_pin_enabled ? 128 : 0);
 	    return ((inbyte & ~pia1.ddr_a) | (pia1.port_a & pia1.ddr_a));
 	}
 	return (pia1.ddr_a);
@@ -294,19 +334,19 @@ E812	PORT B	7-0 Contents of keyboard row
 	    if (row < KBD_ROWS)
 		j = ~keyarr[row];
 
-	    if (app_resources.debugFlag) {
-		printf("read pia1 port B %d\n", j);
-		printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-		       (int) pia1.port_a, (int) j,
-		       (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
+#if 0
+            printf("read pia1 port B %d\n", j);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) pia1.port_a, (int) j,
+                   (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
+#endif
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
 	    if (j < 255)
-	    printf("%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
-		   keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
-		   keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
-		   row, j);
+                printf("%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
+                       keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
+                       keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
+                       row, j);
 #endif
-	    }
 
 	    return (j);
 	}
@@ -334,9 +374,10 @@ E812	PORT B	7-0 Contents of keyboard row
 void REGPARM2 store_pia2(ADDRESS addr, BYTE byte)
 {
     addr &= 3;
-    
-    if (app_resources.debugFlag)
-	printf("store pia2 [%x] %x\n", (int) addr, (int) byte);
+
+#if 0
+    printf("store pia2 [%x] %x\n", (int) addr, (int) byte);
+#endif
 
 /*
 E820	PORT A	    Input buffer for IEEE data lines
@@ -360,7 +401,7 @@ E823	CB2	    IEEE DAV out
       case P_PORT_B: /* port B */
 	if (pia2.ctrl_b & 4) {
 if(pardebug) printf("write pia2.port_b(%x)\n",byte);
-	    par_set_bus(byte^255); /* ignoring ddr_b, hmm... */  
+	    par_set_bus(byte^255); /* ignoring ddr_b, hmm... */
 	    pia2.port_b = byte;
 		/*(pia2.port_b & ~pia2.ddr_b) | (byte & pia2.ddr_b);*/
 	} else
@@ -399,10 +440,10 @@ if(pardebug) printf("write pia2.ctrl_b(%x)\n",byte);
 BYTE REGPARM1 read_pia2(ADDRESS addr)
 {
     addr &= 3;
-    
-    if (app_resources.debugFlag)
-	printf("read pia2 [%d]\n", addr);
 
+#if 0
+    printf("read pia2 [%d]\n", addr);
+#endif
 
     switch (addr) {
 
@@ -412,11 +453,10 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	    pia2_update_irq();
 
 	    if (pardebug)
-		printf("read pia2 port A %x, par_bus=%x, gives %x\n", 
+		printf("read pia2 port A %x, par_bus=%x, gives %x\n",
 			pia2.port_a, par_bus,
 			(par_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
 
-/*	    return ((0xff & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a));*/
 	    return (par_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a);
 	}
 	return (pia2.ddr_a);
@@ -427,11 +467,10 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	    pia2_update_irq();
 
 	    if (pardebug)
-		printf("read pia2 port B %x, par_bus=%x, gives %x\n", 
+		printf("read pia2 port B %x, par_bus=%x, gives %x\n",
 			pia2.port_b, par_bus,
 			(~(par_bus|pia2.ddr_b)) |(pia2.port_b & pia2.ddr_b));
 
-/*	    return (pia2.port_b & pia2.ddr_b);*/
 	    return (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
 	}
 	else
