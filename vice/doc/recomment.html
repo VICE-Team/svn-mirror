@@ -4,7 +4,7 @@
 <h1>Recomment Documentation</h1>
 <P>
 <CODE>recomment</CODE> is a small 6502 disassembler utility originally written
-by <a href="http://stekt.oulu.fi/~jopi/">Jouko Valta</a> in 1994. 
+by <a href="http://stekt.oulu.fi/~jopi/">Jouko Valta</a> in 1994.
 In 1998 A. Fachat introduced some patches
 to nice the output, improve table detection and more. The utility
 is written in PERL, so you need this one.
@@ -26,30 +26,30 @@ Options:
 
   recomment [-sym sym_outfile] [-hdr headerfile] [-html] [-noaddr]
          [-long] [-p1|-p2|-p3|-p4] [-addr start_address]
-         [-mail mailaddress] [-verbose] [-quiet] [-labels] [-hints] 
+         [-mail mailaddress] [-verbose] [-quiet] [-labels] [-hints]
          programfile [outfile]
 </pre>
 <p>
-<CODE>recomment</CODE> takes the original 6502 binary file and produces a 
+<CODE>recomment</CODE> takes the original 6502 binary file and produces a
 human-readable assembler source file. The output can be customized and
-even be put into html format. 
+even be put into html format.
 </p>
 <h2>Code detection and interpretation</h2>
 <p>
-Code detection and interpretation is done in several passes. 
+Code detection and interpretation is done in several passes.
 <CODE>recomment</CODE> takes the header file given, and produces another, new
 header file (the symbol file). In the run it adds additional information.
 This symbol file can then be given to recomment
 in another run as header file.
 </p><p>
 If an opcode with a data address is encountered, this address is saved as
-data  label. If a JMP, JSR or branch opcode is encountered the jump address is 
-saved as execution label. These labels are used to switch between 
-interpretation of data and text. It normally doesn't really work in the 
+data  label. If a JMP, JSR or branch opcode is encountered the jump address is
+saved as execution label. These labels are used to switch between
+interpretation of data and text. It normally doesn't really work in the
 first run, but quite well in the second. But then still stray calls
-from the earlier run may produce warnings. Thus in the second run only 
+from the earlier run may produce warnings. Thus in the second run only
 labels that are really used are saved in the symbol file, to reduce those
-warnings in the third run. 
+warnings in the third run.
 <ul>
 <li><CODE>-addr addr</CODE> <br>
 Use start address addr (must be hex, without leading 0x or $).
@@ -59,10 +59,10 @@ Header file
 <li><CODE>-sym file</CODE> <br>
 symbol output file
 <li><CODE>-hints</CODE>
-produce table start hints: when an illegal opcode is encountered, it sets a 
+produce table start hints: when an illegal opcode is encountered, it sets a
 hint behind the last JMP where no execution label followed to interprete
 the stuff as data from the earlier point in the next run.
-Not useful in the first run, as stray jump labels may jump to illegal 
+Not useful in the first run, as stray jump labels may jump to illegal
 opcodes and produce false hints
 <li><CODE>-second</CODE> <br>
 Only save really used labels in the symbol file, no stray labels from earlier
@@ -75,12 +75,12 @@ Adjust number of passes. Default is 2.
 <p>
 Output can be customized in several ways. The major goals of recomment is
 to add comments back to a binary file and save them in a more readable
-form. Thus it can produce text or html output. The text output can be 
+form. Thus it can produce text or html output. The text output can be
 customized for usage with a 6502 assembler.
 <ul>
 <li><CODE>-noaddr</CODE><br>
 normally the address is printed before every line. This option suppresses that.
-<li><CODE>-html</CODE><br> 
+<li><CODE>-html</CODE><br>
 switches to output mode
 <li><CODE>-long</CODE><br>
 Also prints the 1-3 bytes each opcode is made of before the mnemonic
@@ -100,19 +100,19 @@ The header file consists of label definitions and comments (that include
 reassembler mode switches)
 <ul>
 <li>Label definitions are simply "label=value". The value is in hex without
-leading 0x but possibly leading "$". A "&" before the label indicates that 
-the label is 
+leading 0x but possibly leading "$". A "&" before the label indicates that
+the label is
 a data label, i.e. a table start for example.
 <br>
-If the label address is followed by a "+offset1" and/or "-offset2" then 
+If the label address is followed by a "+offset1" and/or "-offset2" then
 all addresses in the range "[addr-offset2, addr+offset1]" are referenced
 relative to the label. For example one wants the address $e4 referenced
-to label "LADDR=$e3", then one would change the label definition to 
+to label "LADDR=$e3", then one would change the label definition to
 "LADDR=$e3+1". Hint: the "+" offset must come before the "-" offset.
 <li>Comments start with the (hex) address at the beginning of the line.
-The rest of the line is used and printed as comment behind the 
+The rest of the line is used and printed as comment behind the
 opcode at the given address.
-The addresses of the comments (as well as mode switches) have to be 
+The addresses of the comments (as well as mode switches) have to be
 ascending order in the header file!
 <br>
 If the line starts with a "+", then the following hex address is taken
@@ -130,38 +130,38 @@ The different modes with their keywords the reassembler can be in are
 <li><CODE>CODE</CODE> code follows
 <li><CODE>DATA</CODE> data follows
 <li><CODE>WORD</CODE> word data follows
-<li><CODE>ADDR</CODE> address words follow. The words are registered as 
+<li><CODE>ADDR</CODE> address words follow. The words are registered as
 execution labels as well.
-<li><CODE>RETA</CODE> return address tables follows. Same as ADDR, only that 
+<li><CODE>RETA</CODE> return address tables follows. Same as ADDR, only that
 not the words but the words+1 are used as address.
 <li><CODE>UNKNOWN</CODE> returns to automatic mode, reassembler determines
 its mode itself.
 </ul>
 In addition to the modes some hints can be given, that not exactly
-determine the mode until the next mode switch, but just switch - in 
+determine the mode until the next mode switch, but just switch - in
 automatic mode - to code or data
 <ul>
 <li><CODE>DHINT</CODE> switch to data mode until opcode found
 <li><CODE>CHINT</CODE> switch to code mode until illegal opcode or data found
 </ul>
 <h2>Example</h2>
-<p>For an example which is not included here, please look at the 
+<p>For an example which is not included here, please look at the
 <a href="http://www.tu-chemnitz.de/~fachat/8bit/cross/recomment/recomment.html">recomment homepage</a>.
 
 <!---
 
-<p> An example recomment file is included as 
-<a href="petrom-1.hdr">petrom-1.hdr</a>. 
+<p> An example recomment file is included as
+<a href="petrom-1.hdr">petrom-1.hdr</a>.
 It produces output like <a href="petrom-1.html">petrom-1.html</a>
 (only the I/O area has been cut manually, to reduce the size).
-Most comments are in the IEEE section, starting with 
+Most comments are in the IEEE section, starting with
 <a href="petrom-1.html#F0B6">TALK</a>.
 </p>
 
----> 
+--->
 
 <hr>
-<h2>Theory</h2> 
+<h2>Theory</h2>
 <p> [ Here follows a text by the original author that describes a bit the
 theory behind the reassembler. I have removed the outdated parts, though.
 Comments in [] brackets by A. Fachat. ]
@@ -250,7 +250,7 @@ make an ordinary reassembler. Instead of running the code on a CPU emulator,
 ReComment just wanders trough the code in order, collecting any references
 to subroutines and data segments.
 [ However, saving the references found and using them in a second pass
-gives quite some impressive results, esp. when more than two passes with 
+gives quite some impressive results, esp. when more than two passes with
 the appropriate options are used. ]
 
 Fortunately, the power requirement problems of earlier versions were solved by
@@ -319,7 +319,7 @@ program. However, this has very little significance in practice.
   5. Error Messages
 
         [ Overworked to the new version ]
-	
+
         Message                         Type            Reason
         -----------------------------------------------------------------------
 
