@@ -60,22 +60,22 @@
    - doc/MANUAL.html, the complete documentation for x64, xvic, xpet,
      petcat and c1541 in HTML format;
 
-   - doc/recomment, documentation for the recomment utility;
+   - doc/recomment.html, documentation for the recomment utility;
 
-   - doc/64doc, documentation about the C64 internals;
+   - doc/64doc.txt, documentation about the C64 internals;
 
-   - doc/PETdoc, documentation about the PET internals;
+   - doc/PETdoc.txt, documentation about the PET internals;
 
-   - doc/cbm_basic_tokens, a list of the CBM BASIC tokens, as
+   - doc/cbm_basic_tokens.txt, a list of the CBM BASIC tokens, as
      supported by the petcat utility;
 
-   - doc/serial, description of the IEC serial bus used on the C64,
+   - doc/serial.txt, description of the IEC serial bus used on the C64,
      VIC20 and C128;
 
-   - doc/mnemonics, alphabetical list of all the G65SC802 and G65SC816
+   - doc/mnemonics.txt, alphabetical list of all the G65SC802 and G65SC816
      opcodes;
 
-   - doc/drive_info, information about the CBM disk drives;
+   - doc/drive_info.txt, information about the CBM disk drives;
 
    - doc/Evaluation, VICE evaluation query form: please fill this in
      and send it to tell us what you think about this project.
