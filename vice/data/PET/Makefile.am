@@ -13,7 +13,7 @@ roms = \
 	edit4.b40 \
 	pet3032
 
-keymaps =
+keymaps = \
 	busi_uk.vkm \
 	graphics.vkm \
 	posg_de.vkm
