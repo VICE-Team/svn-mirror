@@ -24,7 +24,9 @@
  *
  */
 
-/* FIXME: This code does not work yet.  */
+/* This implements a pseudo-streaming device using the Allegro library.  It
+   is not real streaming, though, as it basically cannot tell underflowing
+   from overflowing.  */
 
 #include "vice.h"
 
@@ -56,18 +58,18 @@ static unsigned int fragment_size;
 /* Write position in the buffer.  */
 static unsigned int buffer_offset;
 
+/* Flag: have we been suspended?  */
+static int been_suspended;
+
+/* Number of samples already written; if this value is greater than the
+   buffer size, it's equal to the buffer size.  This is a hack for the first
+   few writes.  */
+static int written_samples;
+
 /* ------------------------------------------------------------------------- */
 
 static int allegro_startup(unsigned int freq)
 {
-#if 0
-    if (allegro_startup_done)
-        return 0;
-
-    /* In any case, we will not try another time.  */
-    allegro_startup_done = 1;
-#endif
-
     printf("Starting up Allegro sound...  ");
 
     remove_sound();
@@ -82,6 +84,8 @@ static int allegro_startup(unsigned int freq)
         return -1;
     }
 
+    /* This is not a good idea, as the user might want to specify this from the
+       setup program.  */
     /* set_volume(255, 0); */
 
     printf("OK: %s, %s\n", digi_driver->name, digi_driver->desc);
@@ -126,19 +130,23 @@ static int allegro_init_sound(warn_t *w, char *param, int *speed,
     }
 
     buffer_offset = 0;
+    been_suspended = 1;
+    written_samples = 0;
 
     voice_set_playmode(voice, PLAYMODE_LOOP);
     voice_set_volume(voice, 255);
     voice_set_pan(voice, 128);
-    voice_start(voice);
 
     return 0;
 }
 
 static int allegro_write(warn_t *w, SWORD *pbuf, int nr)
 {
+    static int counter;
     unsigned int i, count;
     unsigned int write_size;
+
+    counter++;
 
     /* XXX: Assumes `nr' is multiple of `fragment_size'.  This is always the
        case with the current implementation.  */
@@ -146,29 +154,30 @@ static int allegro_write(warn_t *w, SWORD *pbuf, int nr)
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++, pbuf += fragment_size / sizeof(SWORD)) {
-        unsigned int write_end;
+        if (!been_suspended) {
+            unsigned int write_end;
 
-        /* XXX: We do not use module here because we assume we always write
-           full fragments.  */
-        write_end = buffer_offset + fragment_size - 1;
+            /* XXX: We do not use module here because we assume we always write
+               full fragments.  */
+            write_end = buffer_offset + fragment_size - 1;
 
-        /* Block if we are at the position the soundcard is playing.  Notice
-           that we also assume that the part of the buffer we are going to
-           lock is small enough to fit in the safe space.  */
-        while (1) {
-            int pos = sizeof(SWORD) * voice_get_position(voice);
-            int pos2 = pos + fragment_size;
+            /* Block if we are at the position the soundcard is playing.
+               Notice that we also assume that the part of the buffer we are
+               going to lock is small enough to fit in the safe space.  */
+            while (1) {
+                int pos = sizeof(SWORD) * voice_get_position(voice);
+                int pos2 = pos + fragment_size;
 
-            if (pos2 < buffer_len) {
-                if (buffer_offset >= pos2 || write_end < pos)
-                    break;
-            } else {
-                pos2 -= buffer_len;
-                if (write_end < pos && buffer_offset >= pos2)
-                    break;
+                if (pos2 < buffer_len) {
+                    if (buffer_offset >= pos2 || write_end < pos)
+                        break;
+                } else {
+                    pos2 -= buffer_len;
+                    if (write_end < pos && buffer_offset >= pos2)
+                        break;
+                }
             }
         }
-
 
         /* Write fragment.  */
 	{
@@ -184,7 +193,17 @@ static int allegro_write(warn_t *w, SWORD *pbuf, int nr)
 	buffer_offset += fragment_size;
         if (buffer_offset >= buffer_len)
             buffer_offset = 0;
+
+	if (been_suspended) {
+	    been_suspended = 0;
+	    voice_set_position(voice, 0);
+	    voice_start(voice);
+	}
     }
+
+    written_samples += nr;
+    if (written_samples > buffer_len)
+        written_samples = buffer_len;
 
     return 0;
 }
@@ -201,7 +220,12 @@ static int allegro_bufferstatus(warn_t *s, int first)
     if (ret < 0)
         ret += buffer_len;
 
-    return ret / sizeof(SWORD);
+    ret /= sizeof(SWORD);
+
+    if (ret > written_samples)
+        ret = written_samples;
+
+    return ret;
 }
 
 static void allegro_close(warn_t *w)
@@ -214,14 +238,14 @@ static void allegro_close(warn_t *w)
 static int allegro_suspend(warn_t *w)
 {
     voice_stop(voice);
+    been_suspended = 1;
     return 0;
 }
 
 static int allegro_resume(warn_t *w)
 {
     buffer_offset = 0;
-    voice_set_position(voice, 0);
-    voice_start(voice);
+    written_samples = 0;
     return 0;
 }
 
