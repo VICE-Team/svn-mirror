@@ -1,3 +1,41 @@
+Mon Mar 30 11:01:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.4.
+
+	* maincpu.c [AUTOSTART]: #include "autostart.h".
+
+	* true1541.c: #include "ui.h".
+	(true1541_disable, true1541_enable): Call `UiToggleDriveStatus' to
+ 	update the status line.
+	(true1541_update_zone_bits): Removed debugging message.
+	(true1541_move_head): Display the current position of the head
+ 	with `UiDisplayDriveTrack()'
+	(parallel_cable_drive_write, parallel_cable_drive_read) [!CBM64]:
+ 	Dummy functions to make the 1541 happy.
+
+	* ui_xaw.h: New prototypes for `UiDisplayDriveTrack',
+ 	`UiToggleDriveStatus', `UiDisplayDriveLed'.
+
+	* arch/unix/ui_xaw.c: Added member `speed_label' to `AppShells'.
+	[HAVE_TRUE1541] Added members `drive_track_label' and `drive_led'
+ 	to `AppShells'.  New variables `drive_led_on_pixel',
+ 	`drive_led_off_pixel'.  Added new fallback resources to
+ 	`fallback_resources'.
+	(UiOpenCanvasWindow): Create the speed `speedStatus' label.
+	[HAVE_TRUE1541] Create the `driveTrack' and `driveLed' widgets.
+	(UiDoAllocColors) [HAVE_TRUE1541]: Allocate colors for the
+ 	`driveLed'.
+	(UiDisplaySpeed): Use `speedStatus' instead of the title bar.
+	(UiToggleDriveStatus, UiDisplayDriveTrack, UiDisplayDriveLed): New
+ 	functions.
+	(UiResizeCanvasWindow): (Temporarily?) do nothing.
+
+	* resources.c [HAVE_TRUE1541]: Fixed name of the
+ 	`True1541ParallelCable' resource.
+
+	* cia-tmpl.c (read_mycia): `A_CIA2TA' -> `A_MYCIATA', `A_CIA2TB'
+	-> `A_MYCIATB'.
+
 Sun Mar 29 21:08:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.3.

@@ -72,6 +72,10 @@
 #include "via.h"
 #endif
 
+#ifdef AUTOSTART
+#include "autostart.h"
+#endif
+
 #include "6510core.h"
 
 /* ------------------------------------------------------------------------- */

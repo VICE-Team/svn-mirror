@@ -61,6 +61,7 @@
 #include "viad.h"
 #include "via.h"
 #include "cia.h"
+#include "ui.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -506,6 +507,7 @@ int true1541_enable(void)
     app_resources.true1541 = 1;
     true1541_cpu_wake_up();
 
+    UiToggleDriveStatus(1);
     return 0;
 }
 
@@ -523,6 +525,8 @@ void true1541_disable(void)
     true1541_cpu_sleep();
 
     GCR_data_writeback();
+
+    UiToggleDriveStatus(0);
 }
 
 /* This is called when the true1541 resource is changed, to acknowledge the new
@@ -800,8 +804,7 @@ void true1541_set_half_track(int num)
 	num = 2;
 
     cur_ht = num;
-    GCR_track_start_ptr = (GCR_data +
-			(cur_ht / 2 - 1) * NUM_MAX_BYTES_TRACK);
+    GCR_track_start_ptr = GCR_data + (cur_ht / 2 - 1) * NUM_MAX_BYTES_TRACK;
 
     GCR_track_size = raw_track_size[speed_map[cur_ht / 2 - 1]];
 
@@ -814,7 +817,8 @@ void true1541_move_head(int step)
 {
     GCR_data_writeback();
     true1541_set_half_track(cur_ht + step);
-    printf("1541: head on track %.1f\n", (double)cur_ht / 2);
+    /* printf("1541: head on track %.1f\n", (double)cur_ht / 2); */
+    UiDisplayDriveTrack((double)cur_ht / 2.0);
 }
 
 /* Write one GCR byte to the disk. */
@@ -911,7 +915,7 @@ void true1541_update_zone_bits(int zone)
 {
     rotation_table_ptr = rotation_table[zone];
 #ifdef TRUE1541_ROTATE
-    printf("1541: zone %d, %d bps\n", zone, rot_speed_bps[zone]);
+    /* printf("1541: zone %d, %d bps\n", zone, rot_speed_bps[zone]); */
 #endif
 }
 
@@ -1315,4 +1319,17 @@ BYTE parallel_cable_drive_read(int handshake)
     return parallel_cable_cpu_value & parallel_cable_drive_value;
 }
 
-#endif
+#else  /* defined CBM64 */
+
+/* These are dummies to make the other true1541-aware machines happy.  */
+
+void parallel_cable_drive_write(BYTE data, int handshake)
+{
+}
+
+BYTE parallel_cable_drive_read(int handshake)
+{
+    return 0;
+}
+
+#endif /* defined CBM64 */
