@@ -261,17 +261,7 @@ static void update_drive_led(void)
 	my_status = 0;
 
     if (my_status != old_status) {
-#if 0
-	/* FIXME: this does not seem to work with all X11 servers.
-	   It does not work with XFree86 3.3, but some people reported that
-	   it worked with older XFree86 versions.  Does anybody know why? */
-	static XKeyboardControl kbd_control;
-	kbd_control.led_mode = my_status ? LedModeOn : LedModeOff;
-	kbd_control.led = 16;
-	XChangeKeyboardControl(display, KBLedMode | KBLed, &kbd_control);
-#else
-	printf("1541: LED %s\n", my_status ? "On" : "Off");
-#endif
+        UiDisplayDriveLed(my_status);
 	old_status = my_status;
     }
 }
