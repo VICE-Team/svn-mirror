@@ -121,7 +121,6 @@ typedef char * XPointer;
 #include <X11/Xaw/Text.h>
 #include <X11/Xaw/Paned.h>
 
-#include "macro.h"
 #include "vmachine.h"
 #include "misc.h"
 #include "video.h"
@@ -246,7 +245,7 @@ static void XDebugEnableTrap(ADDRESS addr)
     XtUnrealizeWidget(stepButton);
     XtUnrealizeWidget(skipButton);
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
     UpdateStatus(DS_Halt);
     maincpu_trigger_trap(StopTrap);
 }
@@ -269,39 +268,42 @@ static void UpdateRegisters (void)
 {
     int eff;
 
-    sprintf (buf, "$%02X", AC);
+    sprintf (buf, "$%02X", maincpu_regs.a);
     XtVaSetValues (registers [R_AC],
 		   XtNstring, buf,
 		   NULL);
 
-    sprintf (buf, "$%02X", XR);
+    sprintf (buf, "$%02X", maincpu_regs.x);
     XtVaSetValues (registers [R_XR],
                    XtNstring, buf,
 		   NULL);
 
-    sprintf (buf, "$%02X", YR);
+    sprintf (buf, "$%02X", maincpu_regs.y);
     XtVaSetValues (registers [R_YR],
                    XtNstring, buf,
 		   NULL);
 
-    sprintf (buf, "$%02X", SP);
+    sprintf (buf, "$%02X", maincpu_regs.sp);
     XtVaSetValues (registers [R_SP],
                    XtNstring, buf,
 		   NULL);
 
-    sprintf (buf, "$%04X", PC);
+    sprintf (buf, "$%04X", maincpu_regs.pc);
     XtVaSetValues (registers [R_PC],
                    XtNstring, buf,
 		   NULL);
 
+#if 0
+    /* FIXME!  */
     sprintf (buf, "$%02X", GET_SR());
     XtVaSetValues (registers [R_SR],
                    XtNstring, buf,
 		   NULL);
+#endif
 
     /* Memory */
 
-    eff = eff_address(PC, 1);
+    eff = eff_address(maincpu_regs.pc, 1);
     if (eff >= 0)
 	sprintf (buf, "$%04X", eff);
     else
@@ -405,7 +407,7 @@ static void UpdateStatus (enum DState dst)
 static void RunTrap(ADDRESS a)
 {
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
 }
 
 static void RunCb(Widget w, XtPointer clientData, XtPointer callData)
@@ -419,7 +421,7 @@ static void StopTrap(ADDRESS addr)
 {
     UpdateStatus(DS_Halt);
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
 
     UiDisplayPaused(1);
     suspend_speed_eval();
@@ -445,7 +447,7 @@ static void StopCb(Widget w, XtPointer clientData, XtPointer callData)
 static void TraceTrap(ADDRESS addr)
 {
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
     UiDispatchEvents();
     if (trace) {
 	maincpu_trigger_trap(TraceTrap);
@@ -466,24 +468,24 @@ static void TraceCb(Widget w, XtPointer clientData, XtPointer callData)
 static void SkipCb(Widget w, XtPointer clientData, XtPointer callData)
 {
     int addr_mode;
-    addr_mode= lookup[LOAD(PC)].addr_mode;
+    addr_mode= lookup[LOAD(maincpu_regs.pc)].addr_mode;
 
     switch(addr_mode) {
-      case IMPLIED: 	PC+=1; break;
-      case IMMEDIATE: 	PC+=2; break;
-      case ZERO_PAGE: 	PC+=2; break;
-      case ZERO_PAGE_X:	PC+=2; break;
-      case ZERO_PAGE_Y:	PC+=2; break;
-      case ABSOLUTE:	PC+=3; break;
-      case ABSOLUTE_X:	PC+=3; break;
-      case ABSOLUTE_Y:	PC+=3; break;
-      case INDIRECT_X:	PC+=2; break;
-      case INDIRECT_Y:	PC+=2; break;
-      case ABS_INDIRECT:PC+=3; break;
-      case RELATIVE:	PC+=2; break;
+      case IMPLIED: 	maincpu_regs.pc+=1; break;
+      case IMMEDIATE: 	maincpu_regs.pc+=2; break;
+      case ZERO_PAGE: 	maincpu_regs.pc+=2; break;
+      case ZERO_PAGE_X:	maincpu_regs.pc+=2; break;
+      case ZERO_PAGE_Y:	maincpu_regs.pc+=2; break;
+      case ABSOLUTE:	maincpu_regs.pc+=3; break;
+      case ABSOLUTE_X:	maincpu_regs.pc+=3; break;
+      case ABSOLUTE_Y:	maincpu_regs.pc+=3; break;
+      case INDIRECT_X:	maincpu_regs.pc+=2; break;
+      case INDIRECT_Y:	maincpu_regs.pc+=2; break;
+      case ABS_INDIRECT:maincpu_regs.pc+=3; break;
+      case RELATIVE:	maincpu_regs.pc+=2; break;
     }
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
     UpdateStatus(DS_Halt);
 
 }
@@ -499,7 +501,7 @@ static BYTE next_sp = 0xFF;
 #if 0
 static void NextTrap(void)
 {
-    BYTE  src  = LOAD(PC +1);
+    BYTE  src  = LOAD(maincpu_regs.pc +1);
 
 
    /*
@@ -513,7 +515,7 @@ static void NextTrap(void)
     */
 
     if (halt) {					/* Halted */
-	switch (LOAD(PC)) {
+	switch (LOAD(maincpu_regs.pc)) {
 	  case 0x20:	/* JSR */
 	    next_sp = SP;
 	    next = 1;
@@ -570,7 +572,7 @@ static void NextTrap(void)
     }
 
     UpdateRegisters();
-    set_asm(PC);
+    set_asm(maincpu_regs.pc);
     UiDispatchEvents();
     maincpu_trigger_trap(NextTrap);
 }
@@ -595,20 +597,20 @@ static void NextCb(Widget w, XtPointer clientData, XtPointer callData)
 
 int  check_next (void)
 {
-    BYTE  src  = LOAD(PC +1);
+    BYTE  src  = LOAD(maincpu_regs.pc +1);
 
 
-    switch (LOAD(PC)) {
+    switch (LOAD(maincpu_regs.pc)) {
 
       case 0x40:	/* RTI */
       case 0x60:	/* RTS */
       case 0x68:	/* PLA */
-	if (SP > next_sp)
+	if (maincpu_regs.sp > next_sp)
 	    next = 0;
 	break;
 
       case 0x9A:	/* TXS */
-	if (XR > next_sp)
+	if (maincpu_regs.x > next_sp)
 	    next = 0;
 	break;
 
@@ -616,35 +618,35 @@ int  check_next (void)
 	/* BRANCH instructions. */
 
       case 0x10:	/* BPL */
-	loop_test (!IF_SIGN(), src, 0);
+	loop_test (!maincpu_regs.psp.n, src, 0);
 	break;
 
       case 0x30:	/* BMI */
-	loop_test (IF_SIGN(), src, 0);
+	loop_test (maincpu_regs.psp.n, src, 0);
 	break;
 
       case 0x50:	/* BVC */
-	loop_test (!IF_OVERFLOW(), src, 0);
+	loop_test (!maincpu_regs.psp.v, src, 0);
 	break;
 
       case 0x70:	/* BVS */
-	loop_test (IF_OVERFLOW(), src, 0);
+	loop_test (maincpu_regs.psp.v, src, 0);
 	break;
 
       case 0x90:	/* BCC */
-	loop_test (!IF_CARRY(), src, 0);
+	loop_test (!maincpu_regs.psp.c, src, 0);
 	break;
 
       case 0xB0:	/* BCS */
-	loop_test (IF_CARRY(), src, 0);
+	loop_test (maincpu_regs.psp.c, src, 0);
 	break;
 
       case 0xD0:	/* BNE */
-	loop_test (!IF_ZERO(), src, 0);
+	loop_test (!maincpu_regs.psp.z, src, 0);
 	break;
 
       case 0xF0:	/* BEQ */
-	loop_test (IF_ZERO(), src, 0);
+	loop_test (maincpu_regs.psp.z, src, 0);
 
     }  /* switch */
 
@@ -663,19 +665,19 @@ void loop_test (int cc, BYTE src, int set)
 
 	if (set) {
 	    if (cc) {
-		next_begin = REL_ADDR(PC, src);
-		next_end   = PC;
+		next_begin = maincpu_regs.pc + (signed char)src;
+		next_end   = maincpu_regs.pc;
 		next_cnt = 0;
 		++next;
 #ifdef DEBUG
 		printf ("pc %04x  cc %d  -- set %d loop %04x %04x  SET LOOP\n",
-			PC, cc, set, next_begin, next_end);
+			maincpu_regs.pc, cc, set, next_begin, next_end);
 #endif
 	    }
 
 	    trace = 1;			/* Excute instruction */
 	}
-	else if (PC == next_end) {	/* Don't set but test only */
+	else if (maincpu_regs.pc == next_end) {	/* Don't set but test only */
 	    if (cc) {
 		++next_cnt;
 	    }
