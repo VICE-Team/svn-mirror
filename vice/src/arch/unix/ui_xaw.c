@@ -247,16 +247,18 @@ CallbackFunc(UiDetachTape);
 CallbackFunc(UiSmartAttach);
 CallbackFunc(UiToggleSpriteToSpriteCollisions);
 CallbackFunc(UiToggleSpriteToBackgroundCollisions);
+CallbackFunc(UiToggleEmuID);
+CallbackFunc(UiToggleIEEE488);
+CallbackFunc(UiToggleREU);
+#endif
+#if defined(CBM64) || defined(C128) || defined(PET)
+CallbackFunc(UiSwapJoystickPorts);
 #ifdef HAS_JOYSTICK
 CallbackFunc(UiSetJoystickDevice1);
 CallbackFunc(UiSetJoystickDevice2);
 #else
 CallbackFunc(UiSetNumpadJoystickPort);
 #endif
-CallbackFunc(UiSwapJoystickPorts);
-CallbackFunc(UiToggleEmuID);
-CallbackFunc(UiToggleIEEE488);
-CallbackFunc(UiToggleREU);
 #endif
 
 #ifdef HAVE_TRUE1541
@@ -279,6 +281,7 @@ CallbackFunc(UiSetSidModel);
 #endif /* SOUND */
 
 #ifdef PET
+CallbackFunc(UiToggleNumpadJoystick);
 CallbackFunc(UiTogglePetDiag);
 #endif
 
@@ -2250,7 +2253,7 @@ CallbackFunc(UiToggleTurbo)
 
 /* C64/128 specific menu items. */
 
-#if defined(CBM64) || defined(C128)
+#if defined(CBM64) || defined(C128) || defined(PET)
 
 DEFINE_TOGGLE(UiToggleSpriteToSpriteCollisions, checkSsColl, NULL)
 DEFINE_TOGGLE(UiToggleSpriteToBackgroundCollisions, checkSbColl, NULL)
@@ -2322,6 +2325,9 @@ CallbackFunc(UiSwapJoystickPorts)
 }
 
 #endif
+
+#endif
+#if defined(CBM64) || defined(C128)
 
 DEFINE_TOGGLE(UiToggleEmuID, emuID, NULL)
 
@@ -2438,9 +2444,10 @@ CallbackFunc(UiSet1541IdleMethod)
 
 /* ------------------------------------------------------------------------- */
 
+/* PET stuff */
+
 #ifdef PET
 
-/* PET stuff */
 CallbackFunc(UiTogglePetDiag)
 {
     if (!call_data) {
@@ -2450,6 +2457,18 @@ CallbackFunc(UiTogglePetDiag)
     } else {
 	XtVaSetValues(w, XtNleftBitmap,
 		      app_resources.petdiag ? CheckmarkBitmap : 0, NULL);
+    }
+}
+
+CallbackFunc(UiToggleNumpadJoystick)
+{
+    if (!call_data) {
+        app_resources.numpadJoystick = !app_resources.numpadJoystick;
+	resources_have_changed = 1;
+	UiUpdateMenus();
+    } else {
+	XtVaSetValues(w, XtNleftBitmap, app_resources.numpadJoystick
+		? CheckmarkBitmap : 0, NULL);
     }
 }
 

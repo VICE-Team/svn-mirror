@@ -1,7 +1,7 @@
 
 /*
- * ./pet/viap.c
- * This file is generated from ./via-tmpl.c and ./pet/viap.def,
+ * viap.c
+ * This file is generated from ../via-tmpl.c and viap.def,
  * Do not edit!
  */
 /*
@@ -400,7 +400,17 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 
         {
             BYTE    j = 255;
-            /* nothing to read yet */
+            /* VIA PA is connected to the userport pins C-L */
+	    j &= (joy[1] & 1) ? ~0x80 : 0xff;
+	    j &= (joy[1] & 2) ? ~0x40 : 0xff;
+	    j &= (joy[1] & 4) ? ~0x20 : 0xff;
+	    j &= (joy[1] & 8) ? ~0x10 : 0xff;
+	    j &= (joy[1] & 16)? ~0xc0 : 0xff;
+	    j &= (joy[2] & 1) ? ~0x08 : 0xff;
+	    j &= (joy[2] & 2) ? ~0x04 : 0xff;
+	    j &= (joy[2] & 4) ? ~0x02 : 0xff;
+	    j &= (joy[2] & 8) ? ~0x01 : 0xff;
+	    j &= (joy[2] & 16)? ~0x0c : 0xff;
             if (app_resources.debugFlag) {
                 printf("read port A %d\n", j);
                 printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",

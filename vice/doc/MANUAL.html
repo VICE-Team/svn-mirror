@@ -302,6 +302,11 @@ INSERT                     INS
       two direction keys together or use the <tt>7</tt>, <tt>9</tt>,
       <tt>1</tt> and <tt>3</tt> keys. </p>
 
+    <p> One catch for the PET, though. Because the PET do have a
+      numerical keyboard and the joysticks are rarely used, the joystick
+      emulation can be switched on and off via menu, resource and
+      the command line option <code>-npjoystick</code>.
+
     <p> There are also some keys that perform frequently used
       commands: </p>
 
@@ -755,10 +760,15 @@ INSERT                     INS
 	      Joystick 1'', ``Digital Joystick 0'', ``Digital Joystick
 	      1'', ``Numpad''.  These are only available if the
 	      configure script detected a supported joystick
-	      driver. <p>
+	      driver. </p>
 
-	  <li> <b>Numpad joystick port</b> <em> (x64, non-Linux systems
-	      or Linux systems without joystick support only) </em>
+	  <li> <b>Enable Numpad Joystick</b> <em> (xpet only) </em>
+
+	    <p> Enables and Disables the numeric keypad joystick emulation
+	      for the PET emulator.</p>
+
+	  <li> <b>Numpad joystick port</b> <em> (x64, xpet, non-Linux
+	      systems or Linux systems without joystick support only) </em>
 
 	    <p> If no joystick support is available on your machine (or
 	      was not available when the executable was built, or VICE
@@ -767,7 +777,7 @@ INSERT                     INS
 	      four directions, while the 0 and right Ctrl emulate the
 	      Fire button. </p>
 
-	  <li> <b>Swap joystick ports</b> <em> (x64 only) </em>
+	  <li> <b>Swap joystick ports</b> <em> (x64, xpet) </em>
 
 	    <p> This swaps the two joystick devices.  It can also be
 	      done by pressing <tt>F11</tt>. </p>

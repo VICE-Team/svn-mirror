@@ -103,6 +103,7 @@ typedef struct _AppResources {
     int petram9;	/* PET 8296 RAM mapping for $9*** */
     int petramA;	/* PET 8296 RAM mapping for $A*** */
     int petdiag;	/* PET diagnostic pin (PIA1 PB7) */
+    int numpadJoystick;/* joystick emulation via numpad (currently PET-only) */
 
     int video80;
     int video40;

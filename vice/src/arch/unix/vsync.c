@@ -313,7 +313,7 @@ int do_vsync(int been_skipped)
 
     UiDispatchEvents();
 
-#if defined(HAS_JOYSTICK) && !defined(PET)
+#if defined(HAS_JOYSTICK) /* && !defined(PET) */
     /* Handle `real' joystick. */
     joystick();
 #endif

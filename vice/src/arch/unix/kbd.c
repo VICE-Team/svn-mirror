@@ -74,7 +74,7 @@ static short kbd_rshiftrow = 6;
 static short kbd_rshiftcol = 4;
 #endif
 
-#ifndef PET
+#if 1 /* ndef PET */
 /* Each element in this array is set to 0 if the corresponding key in the
    numeric keypad is pressed. */
 static int numpad_status[10];
@@ -115,7 +115,7 @@ void set40key(void)
 
 /* Joystick emulation via numeric keypad. VIC20 has one single joystick
    port. */
-#ifndef PET
+#if 1
 
 static int handle_joy_emu(KeySym key, int event_type)
 {
@@ -329,9 +329,14 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
-#ifndef PET
+#if defined(PET)
+    if (app_resources.numpadJoystick && handle_joy_emu(key, report->type))
+#else
     if (handle_joy_emu(key, report->type))
+#endif
 	return;
+
+#ifndef PET
     if (key == XK_Tab) {	/* Restore */
 	if (report->type == KeyPress)
 	    maincpu_set_nmi(I_RESTORE, 1);

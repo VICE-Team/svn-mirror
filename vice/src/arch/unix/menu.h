@@ -155,7 +155,7 @@ MenuEntry SetMaximumSpeedSubmenu[] = {
     { NULL }
 };
 
-#if defined (CBM64) || defined (C128)
+#if defined (CBM64) || defined (C128) || defined(PET)
 
 #ifndef HAS_JOYSTICK
 
@@ -203,7 +203,7 @@ MenuEntry SetJoystickDevice2Submenu[] = {
 
 #endif /* HAS_JOYSTICK */
 
-#endif /* CBM64 || C128 */
+#endif /* CBM64 || C128 || PET */
 
 #ifdef HAVE_TRUE1541
 
@@ -331,8 +331,17 @@ MenuEntry SpecialFeaturesSubmenu[] = {
     { NULL }
 };
 
+#endif /* CBM64 || C128 */
+
+#if defined(CBM64) || defined(C128) || defined(PET)
+
 MenuEntry JoystickSubmenu[] = {
 #ifndef HAS_JOYSTICK
+#ifdef PET
+    { "*Enable Numpad Joystick",
+      (UiMenuCallback) UiToggleNumpadJoystick, NULL, NULL },
+    { "--" },
+#endif
     { "*Numpad joystick in port 1",
       (UiMenuCallback) UiSetNumpadJoystickPort, (UiCallbackDataPtr) 1, NULL },
     { "*Numpad joystick in port 2",
@@ -349,7 +358,7 @@ MenuEntry JoystickSubmenu[] = {
     { NULL }
 };
 
-#endif /* CBM64 || C128 */
+#endif /* CBM64 || C128 || PET */
 
 #ifdef HAVE_TRUE1541
 MenuEntry True1541Submenu[] = {
@@ -386,6 +395,8 @@ MenuEntry VideoSubmenu[] = {
 MenuEntry PetUserportSubmenu[] = {
     { "*PET Userport Diagnostic Pin",
       (UiMenuCallback) UiTogglePetDiag, NULL, NULL },
+    { "Joystick settings",
+      NULL, NULL, JoystickSubmenu },
     { NULL }
 };
 #endif

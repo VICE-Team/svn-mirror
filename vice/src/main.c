@@ -334,7 +334,7 @@ int main(int argc, char **argv)
 
     putchar ('\n');
 
-#if defined(HAS_JOYSTICK) && !defined(PET)
+#if defined(HAS_JOYSTICK) /* && !defined(PET) */
     /* Initialize real joystick. */
     joyini();
 #endif
@@ -411,7 +411,7 @@ static void exit64(void)
 	remove_serial(-1);
 #endif
 
-#if defined(HAS_JOYSTICK) && !defined(PET)
+#if defined(HAS_JOYSTICK) /* && !defined(PET) */
     joyclose();
 #endif
 

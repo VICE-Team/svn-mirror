@@ -152,6 +152,7 @@ static struct resource resources[] = {
     { "PetRam9", &app_resources.petram9, RES_INTEGER, NULL },
     { "PetRamA", &app_resources.petramA, RES_INTEGER, NULL },
     { "PetDiag", &app_resources.petdiag, RES_INTEGER, NULL },
+    { "NumpadJoystick", &app_resources.numpadJoystick, RES_INTEGER, NULL },
 #endif
 #ifdef VIC20
     { "MemoryExp", &app_resources.memoryExp, RES_STRING, NULL },
@@ -195,7 +196,7 @@ static struct resource resources[] = {
     { "PrivateColormap", &app_resources.privateColormap, RES_INTEGER, NULL },
     { "Mitshm", &app_resources.mitshm, RES_INTEGER, NULL },
     { "UseXSync", &app_resources.useXSync, RES_INTEGER, NULL },
-#if defined(HAS_JOYSTICK) && !defined(PET)
+#if defined(HAS_JOYSTICK) /* && !defined(PET) */
     { "JoyDevice1", &app_resources.joyDevice1, RES_INTEGER, joyset },
     { "JoyDevice2", &app_resources.joyDevice2, RES_INTEGER, joyset },
 #endif
@@ -350,6 +351,10 @@ struct cmd_line_option options[] = {
       &app_resources.petdiag, RES_INTEGER, ARG_NONE, "1", NULL },
     { "+petdiag",	"clear PET userport diagnostic pin (PIA1 PA7)",
       &app_resources.petdiag, RES_INTEGER, ARG_NONE, "0", NULL },
+    { "-npjoystick",	"enable Numpad joystick emulation",
+      &app_resources.numpadJoystick, RES_INTEGER, ARG_NONE, "1", NULL },
+    { "+npjoystick",	"disable Numpad joystick emulation",
+      &app_resources.numpadJoystick, RES_INTEGER, ARG_NONE, "0", NULL },
 #endif
 #if defined(CBM64) || defined(C128)
     { "-checksb",	"Enable sprite-background collision registers",
@@ -364,7 +369,7 @@ struct cmd_line_option options[] = {
     { "-kernalrev",	"Patch the ROM to a different revision (0, 1, 67 or 100)",
       &app_resources.kernalRev, RES_STRING, ARG_REQUIRED, NULL, NULL },
 #endif
-#if defined(HAS_JOYSTICK) && !defined(PET)
+#if defined(HAS_JOYSTICK) /* && !defined(PET) */
     { "-joydev1",       "Specify joystick device for port 1",
       &app_resources.joyDevice1, RES_INTEGER, ARG_REQUIRED, NULL, NULL },
     { "-joydev2",       "Specify joystick device for port 2",
@@ -516,6 +521,7 @@ void resources_set_defaults(void)
     app_resources.petram9 = 0;
     app_resources.petramA = 0;
     app_resources.petdiag = 0;
+    app_resources.numpadJoystick = 0;
 #endif
 #ifdef __MSDOS__
     /* On MS-DOS, always save the REU contents in the directory in which the
