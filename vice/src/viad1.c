@@ -409,12 +409,7 @@ BYTE REGPARM1 read_viaD1(ADDRESS addr)
         update_viaD1irq();
 #endif
 
-#if 0				/* !FAST_BUS */
-        return ((viaD1[VIA_PRB] & viaD1[VIA_DDRB]) | ((serial_bus_drive_read()) & ~viaD1[VIA_DDRB]));
-#else
-	return ((viaD1[VIA_PRB] & 0x1a)
-		| serial_bus_drive_read()) ^ 0x85;
-#endif
+	return ((viaD1[VIA_PRB] & 0x1a) | serial_bus_drive_read()) ^ 0x85;
 
 	/* Timers */
 

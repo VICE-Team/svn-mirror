@@ -374,6 +374,19 @@ static char *change_true1541_idle_method_callback(int been_activated,
 	return "(Unknown)";
     }
 }
+
+#ifdef CBM64
+static char *toggle_true1541_parallel_cable_callback(int been_activated,
+						     void *param_unused)
+{
+    if (been_activated)
+	app_resources.true1541ParallelCable =
+	    !app_resources.true1541ParallelCable;
+
+    return app_resources.true1541ParallelCable ? "On" : "Off";
+}
+#endif
+
 #endif
 
 static char *toggle_sound_callback(int been_activated, void *param_unused)
@@ -943,6 +956,13 @@ int UiInitFinish(void)
 		      "Select method for disk drive idle",
 		      change_true1541_idle_method_callback, NULL, 11,
 		      TUI_MENU_BEH_CONTINUE);
+#ifdef CBM64
+    tui_menu_add_item(drive_submenu, "Enable _Parallel Cable:",
+		      "Enable a SpeedDOS-compatible parallel cable.",
+		      toggle_true1541_parallel_cable_callback, NULL, 3,
+		      TUI_MENU_BEH_CONTINUE);
+#endif
+	
 #endif /* HAVE_TRUE1541 */
 
     sound_submenu = tui_menu_create("Audio Settings", 1);

@@ -1034,6 +1034,7 @@ void serial_bus_drive_write(BYTE data)
 
 #ifndef FAST_BUS
 
+    data = ~data;
     drive_data = ((data & 2) >> 1);
     drive_clock = ((data & 8) >> 3);
     drive_atna = ((data & 16) >> 4);
@@ -1061,8 +1062,8 @@ BYTE serial_bus_drive_read(void)
 
 #ifndef FAST_BUS
 
-    drive_bus_val = ((NOT(bus_data)) | (NOT(bus_clock) << 2)
-		     | (NOT(bus_atn) << 7));
+    drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
+    
 #if BUS_DBG
     printf("SB: drive read  data:%d clock:%d atn:%d\n",
 	   (~bus_data) & 1, (~bus_clock) & 1, (cpu_atn) & 1);

@@ -23,6 +23,15 @@ list of all the changes in the code.
 
 - Color of forced DMA characters is now correct.
 
+- The SpeedDOS parallel cable can now be emulated.
+
+** VIC20 changes
+----------------
+
+- An annoying bug that prevented BASIC from working has been fixed;
+
+- True 1541 emulation works again.
+
 ** PET changes
 --------------
 
