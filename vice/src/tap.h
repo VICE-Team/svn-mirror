@@ -42,6 +42,9 @@ typedef struct tap_s {
     /* File descriptor.  */
     FILE *fd;
 
+    /* Size of the image.  */
+    int size;
+
     /* The TAP version byte.  */
     BYTE version;
 
@@ -50,6 +53,9 @@ typedef struct tap_s {
 
     /* Tape counter.  */
     int counter;
+
+    /* Which mode is activated?  */
+    int mode;
 } tap_t;
 
 tap_t *tap_open(const char *name);

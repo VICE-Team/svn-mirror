@@ -28,6 +28,7 @@
 
 #include <string.h>
 
+#include "datasette.h"
 #include "tap.h"
 #include "utils.h"
 #include "zfile.h"
@@ -68,6 +69,12 @@ tap_t *tap_open(const char *name)
     new->fd = fd;
     new->file_name = stralloc(name);
     new->counter = 0;
+    new->current_file_seek_position = 0;
+    new->mode = DATASETTE_CONTROL_STOP;
+
+    fseek(fd, 0, SEEK_END);
+    new->size = ftell(fd);
+    rewind(fd);
 
     return new;
 }
