@@ -1221,13 +1221,19 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 
       case 0x1d:		/* $D01D: Sprite X-expand */
 	if (value != vic[0x1d]) {
+            int raster_x = RASTER_X(RASTER_CYCLE);
 	    int i;
 	    BYTE b;
 
 	    vic[0x1d] = value;
 	    /* FIXME: how is this handled in the middle of one line?  */
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++)
-		sprites[i].x_expanded = value & b ? 1 : 0;
+	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
+                if (1 || raster_x < sprites[i].x) {
+                    sprites[i].x_expanded = value & b ? 1 : 0;
+                } else {
+                    /* FIXME */  /* We are in trouble! */
+                }
+            }
 	}
 	DEBUG_REGISTER(("\tSprite X Expand register: $%02X\n", value));
 	return;
@@ -2473,7 +2479,7 @@ static void draw_std_text_foreground(int start_char, int end_char)
     for (i = start_char; i <= end_char; i++, p += 8) {
 	BYTE b = char_ptr[vbuf[i] * 8];
 	PIXEL f = PIXEL(cbuf[i]);
-	
+
 	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
 	DRAW_STD_TEXT_BYTE(p, b, f);
     }
@@ -2490,7 +2496,7 @@ static void draw_std_text_foreground_2x(int start_char, int end_char)
     for (i = start_char; i <= end_char; i++, p += 8) {
 	BYTE b = char_ptr[vbuf[i] * 8];
 	PIXEL2 f = PIXEL2(cbuf[i]);
-	
+
 	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
 	/* Notice that we are always aligned on 2-bytes boundaries here. */
 	DRAW_STD_TEXT_BYTE(p, b, f);
