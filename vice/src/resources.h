@@ -61,6 +61,7 @@ int resources_init(const char *machine);
 int resources_register(const resource_t *r);
 int resources_set_value(const char *name, resource_value_t value);
 int resources_set_value_string(const char *name, const char *value);
+int resources_toggle(const char *name, resource_value_t *new_value_return);
 int resources_get_value(const char *name, resource_value_t *value_return);
 resource_type_t resources_query_type(const char *name);
 int resources_save(const char *fname);
