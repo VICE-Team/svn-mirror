@@ -8,6 +8,8 @@ noinst_LIBRARIES = libimagecontents.a
 
 libimagecontents_a_SOURCES = \
 	diskcontents.c \
+	diskcontents.h \
 	imagecontents.c \
-	tapecontents.c
+	tapecontents.c \
+	tapecontents.h
 
