@@ -26,10 +26,14 @@
 
 #include "vice.h"
 
-#include "asm.h"
+#include <stdio.h>
+#include <string.h>
+
 #include "log.h"
 #include "mon.h"
+#include "mon_register.h"
 #include "uimon.h"
+#include "utils.h"
 #include "z80regs.h"
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
@@ -168,10 +172,141 @@ static void mon_register_print(int mem)
               mon_register_get_val(mem, e_HL2));
 }
 
+static mon_reg_list_t *mon_register_list_get(int mem)
+{
+    mon_reg_list_t *mon_reg_list;
+
+    mon_reg_list = (mon_reg_list_t *)xmalloc(sizeof(mon_reg_list_t) * 14);
+
+    mon_reg_list[0].name = "PC";
+    mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
+    mon_reg_list[0].size = 16;
+    mon_reg_list[0].flags = 0;
+    mon_reg_list[0].next = &mon_reg_list[1];
+
+    mon_reg_list[1].name = "AF";
+    mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_AF);
+    mon_reg_list[1].size = 16;
+    mon_reg_list[1].flags = 0;
+    mon_reg_list[1].next = &mon_reg_list[2];
+
+    mon_reg_list[2].name = "BC";
+    mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_BC);
+    mon_reg_list[2].size = 16;
+    mon_reg_list[2].flags = 0;
+    mon_reg_list[2].next = &mon_reg_list[3];
+
+    mon_reg_list[3].name = "DE";
+    mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_DE);
+    mon_reg_list[3].size = 16;
+    mon_reg_list[3].flags = 0;
+    mon_reg_list[3].next = &mon_reg_list[4];
+
+    mon_reg_list[4].name = "HL";
+    mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_HL);
+    mon_reg_list[4].size = 16;
+    mon_reg_list[4].flags = 0;
+    mon_reg_list[4].next = &mon_reg_list[5];
+
+    mon_reg_list[5].name = "IX";
+    mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_IX);
+    mon_reg_list[5].size = 16;
+    mon_reg_list[5].flags = 0;
+    mon_reg_list[5].next = &mon_reg_list[6];
+
+    mon_reg_list[6].name = "IY";
+    mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_IY);
+    mon_reg_list[6].size = 16;
+    mon_reg_list[6].flags = 0;
+    mon_reg_list[6].next = &mon_reg_list[7];
+
+    mon_reg_list[7].name = "SP";
+    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_SP);
+    mon_reg_list[7].size = 16;
+    mon_reg_list[7].flags = 0;
+    mon_reg_list[7].next = &mon_reg_list[8];
+
+    mon_reg_list[8].name = "I";
+    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_I);
+    mon_reg_list[8].size = 8;
+    mon_reg_list[8].flags = 0;
+    mon_reg_list[8].next = &mon_reg_list[9];
+
+    mon_reg_list[9].name = "R";
+    mon_reg_list[9].val = (unsigned int)mon_register_get_val(mem, e_R);
+    mon_reg_list[9].size = 8;
+    mon_reg_list[9].flags = 0;
+    mon_reg_list[9].next = &mon_reg_list[10];
+
+    mon_reg_list[10].name = "AF'";
+    mon_reg_list[10].val = (unsigned int)mon_register_get_val(mem, e_AF2);
+    mon_reg_list[10].size = 16;
+    mon_reg_list[10].flags = 0;
+    mon_reg_list[10].next = &mon_reg_list[11];
+
+    mon_reg_list[11].name = "BC'";
+    mon_reg_list[11].val = (unsigned int)mon_register_get_val(mem, e_BC2);
+    mon_reg_list[11].size = 16;
+    mon_reg_list[11].flags = 0;
+    mon_reg_list[11].next = &mon_reg_list[12];
+
+    mon_reg_list[12].name = "DE'";
+    mon_reg_list[12].val = (unsigned int)mon_register_get_val(mem, e_DE2);
+    mon_reg_list[12].size = 16;
+    mon_reg_list[12].flags = 0;
+    mon_reg_list[12].next = &mon_reg_list[13];
+
+    mon_reg_list[13].name = "HL'";
+    mon_reg_list[13].val = (unsigned int)mon_register_get_val(mem, e_HL2);
+    mon_reg_list[13].size = 16;
+    mon_reg_list[13].flags = 0;
+    mon_reg_list[13].next = NULL;
+
+    return mon_reg_list;
+}
+
+static void mon_register_list_set(mon_reg_list_t *reg_list, int mem)
+{
+    do {
+        if (!strcmp(reg_list->name, "PC"))
+            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "AF"))
+            mon_register_set_val(mem, e_AF, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "BC"))
+            mon_register_set_val(mem, e_BC, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "DE"))
+            mon_register_set_val(mem, e_DE, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "HL"))
+            mon_register_set_val(mem, e_HL, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "IX"))
+            mon_register_set_val(mem, e_IX, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "IY"))
+            mon_register_set_val(mem, e_IY, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "SP"))
+            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "I"))
+            mon_register_set_val(mem, e_I, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "R"))
+            mon_register_set_val(mem, e_R, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "AF'"))
+            mon_register_set_val(mem, e_AF2, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "BC'"))
+            mon_register_set_val(mem, e_BC2, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "DE'"))
+            mon_register_set_val(mem, e_DE2, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "HL'"))
+            mon_register_set_val(mem, e_HL2, (WORD)(reg_list->val));
+
+        reg_list = reg_list->next;
+    } while (reg_list != NULL);
+}
+
 void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
     monitor_cpu_type->mon_register_set_val = mon_register_set_val;
     monitor_cpu_type->mon_register_print = mon_register_print;
+    monitor_cpu_type->mon_register_list_get = mon_register_list_get;
+    monitor_cpu_type->mon_register_list_set = mon_register_list_set;
 }
 
