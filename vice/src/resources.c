@@ -163,7 +163,9 @@ static struct resource resources[] = {
 #endif
 #ifdef HAVE_TRUE1541
     { "True1541", &app_resources.true1541, RES_INTEGER, true1541_ack_switch },
+#ifdef CBM64
     { "True1541ParallelCable", &app_resources.true1541ParallelCable, RES_INTEGER, NULL },
+#endif
     { "True1541IdleMethod", &app_resources.true1541IdleMethod, RES_INTEGER,
       NULL },
     { "True1541SyncFactor", &app_resources.true1541SyncFactor, RES_INTEGER,
@@ -875,21 +877,20 @@ int parse_cmd_line(int *argc, char **argv)
     return err;
 }
 
+#ifdef __MSDOS__
 static void wait_user(FILE *f)
 {
     if (isatty(fileno(f)) && isatty(fileno(stdin))) {
-#ifdef __MSDOS__
 	int old_mode = setmode(fileno(f), O_TEXT);
-#endif
+
 	fprintf(f, "Press RETURN to go on...");
 	fflush(f);
 	while (getchar() != '\n')
 	    ;
-#ifdef __MSDOS__
 	setmode(fileno(f), old_mode);
-#endif
     }
 }
+#endif
 
 void describe_cmd_line_options(void)
 {

@@ -1,3 +1,85 @@
+Tue Mar 31 13:06:25 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.5.
+
+	* resources.c [!CBM64]: Removed `True1541ParallelCable' resource.
+
+	* resources.c [!__MSDOS__] (wait_user): Removed.
+
+	* true1541.c (initialize_true1541): Position the R/W head on track
+	18.
+
+	* vic20/vic20mem.c, vic20/vic20mem.h: Removed variables
+ 	`kernal_rom' and `basic_rom'.  New variable `rom' which includes
+ 	both Kernal and Basic.  New macros `kernal_rom' and `basic_rom' to
+ 	access the two parts.
+
+	* arch/unix/ui_xaw.c (UiToggleDriveStatus, UiDisplayDriveLed):
+	Removed when true1541 emulation is not available.
+ 	(UiDisplayDriveTrack): Likewise.
+
+	* raster.c (refresh_all): Fixed behavior with windows bigger than
+	the screen image.
+
+	* arch/unix/ui_xaw.c: Do not #include <X11/IntrinsicP.h> anymore.
+
+	* arch/unix/ui_xaw.c: Removed member `widget' and added members
+	`shell' and `canvas' to `AppShells'.
+	(UiDisplayPaused, UiPopup, UiCloseAction): Updated accordingly.
+	(UiResizeCanvasWindow): Resize the canvas widget in the UiWindow.
+
+	* raster.c (refresh_all) [RASTER_DEBUG_PUTIMAGE_CALLS]: Updated
+ 	debugging message.
+	(resize): Calculate `window_last_line' correctly when the window
+	is higher than the screen.
+
+	* serial.c (serial_select_file): Call `true1541_detach_floppy()'
+	only if attaching to drive 8.
+
+	* c64/autostart.c (autostart_advance): Do not turn true1541 off if
+ 	the `noTraps' resource is set.  In case `AUTOSTART_HASDISK', do
+ 	not load the program before 1 virtual second.
+
+	* arch/unix/ui_xaw.c (UiDisplayDriveLed, UiDisplayDriveTrack): If
+	the widget is not realized, realize it automagically.
+
+	* arch/unix/vsync.c (update_drive_led): Renamed to
+ 	`update_drive_status'.
+	(update_drive_status): Display the current track too.  If true
+ 	1541 is disabled, remove the drive status widget.
+
+	* true1541.c: Removed variable `cur_ht', replaced with an extern
+ 	one `true1541_current_half_track'.
+
+Mon Mar 30 22:47:30 1998  Michael Schwendt  <sidplay@geocities.com>
+
+	* sid.c: Changed filter parameters to depend on the sample
+ 	frequency.
+
+Mon Mar 30 22:27:28 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* sid.c (update_sid): Removed volume check optimization.
+
+	* sid.c (reset_sid): Changed to use `store_sid()' instead of
+ 	clearing register -values directly.
+
+	* sid.c (flush_sound): When click happens, send buffer advancing
+ 	from zero level to next sample.
+
+	* include/sid.h: New protos: `suspend_sound()' and
+ 	`resume_sound()'.
+
+	* sid.c (sid_device_t): New fields suspend and resume.
+
+	* sid.c (suspend_sound, resume_sound): New functions.
+
+	* sid.c (uss_suspend): Implemented suspend -feature for	the USS
+	-device.
+
+	* arch/unix/vsync.c (suspend_speed_eval): Call `suspend_sound()'.
+
+	* sid.c (flush_sound): `Call resume_sound()'.
+
 Mon Mar 30 11:01:41 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.4.
