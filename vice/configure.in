@@ -1,0 +1,380 @@
+dnl
+dnl This file is part of VICE, the Versatile Commodore Emulator.
+dnl See README for copyright notice.
+dnl
+dnl Process this file with GNU autoconf to produce a configure script.
+dnl
+
+AC_INIT(src/maincpu.c)
+AM_INIT_AUTOMAKE(vice, 0.14.2.26)
+AC_SUBST(VERSION PACKAGE)
+AM_CONFIG_HEADER(src/config.h)
+
+dnl Try to find out which system we are on...
+AC_CANONICAL_HOST
+
+dnl Command-line options
+
+AC_ARG_ENABLE(autobpp,[  --enable-autobpp        enable dynamic display depth support (default)])
+AC_ARG_ENABLE(8bpp,[  --enable-8bpp           enable 8-bit only display depth support])
+AC_ARG_ENABLE(16bpp,[  --enable-16bpp          enable 16-bit only display depth support])
+AC_ARG_ENABLE(24bpp,[  --enable-24bpp          enable 24-bit only display depth support])
+AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
+AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
+AC_ARG_WITH(readline, [ --without-readline       do not try to use the system's readline library])
+
+if test x"$enable_autobpp" = "xyes"; then
+  AC_DEFINE(X_DISPLAY_DEPTH, 0)
+elif test x"$enable_8bpp" = "xyes" ; then
+  AC_DEFINE(X_DISPLAY_DEPTH, 8)
+elif test x"$enable_16bpp" = "xyes" ; then
+  AC_DEFINE(X_DISPLAY_DEPTH, 16)
+elif test x"$enable_24bpp" = "xyes" ; then
+  AC_DEFINE(X_DISPLAY_DEPTH, 24)
+else
+  echo "no display depth specified; assuming dynamic support."
+  AC_DEFINE(X_DISPLAY_DEPTH, 0)
+fi
+
+if test x"$enable_textfield" != "xno"; then
+  AC_DEFINE(ENABLE_TEXTFIELD)
+  echo "using TextField widget."
+else
+  echo "using ugly Athena text widget."
+fi
+
+dnl Setup go32 crosscompiling.
+
+if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos"; then
+
+  dnl Some GCC cross-compilers are installed with a different name
+  dnl instead of using the GCC architecture targeting features.
+  dnl Check for the most common ones.
+  AC_CHECK_PROG(CC, gcc-dos, gcc-dos, gcc)
+
+  if test "x$CC" = "xgcc" ; then
+    CFLAGS="-b i386-go32"
+    LDFLAGS="-b i386-go32"
+  fi
+  CFLAGS="$CFLAGS -g -Wall -O5 -fomit-frame-pointer -funroll-loops -finline-functions -fno-strength-reduce"
+
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+
+else
+
+  if test -z "$CFLAGS" ; then
+
+    dnl Check for the type of compiler first.
+    AC_PROG_CC
+
+    if test x"$GCC" = "xyes" ; then
+
+      dnl Set appropriate optimization options (better than the default -g -O)
+      dnl if using GCC.
+      dnl `-pipe' is broken on some Alpha systems, and also `-funroll-loops'
+      dnl gives troubles on both Alpha and SPARC.  That's why we use the fancy
+      dnl options on x86 only.
+      dnl If the user has specified her own `CFLAGS', we do not override them.
+
+      if test "x$host_cpu" = "xi586" -o x"$host_cpu" = "xi486" -o x"$host_cpu" = "xi686" -o x"$host_cpu" = "xi386"; then
+
+        echo using x86-specific optimizing options
+        CFLAGS="-g -Wall -O5 -fomit-frame-pointer -funroll-loops -finline-functions -fno-strength-reduce"
+
+      else
+
+        dnl Use -g if available.
+        if test x"$ac_cv_prog_cc_g" = "xyes" ; then
+           CFLAGS="-g -Wall -O5 -finline-functions"
+        else
+           CFLAGS="-Wall -O5 -finline-functions"
+        fi
+
+      fi
+
+      dnl Check whether the options are OK.
+      AC_PROG_CC
+
+    fi
+
+    dnl (If not on GCC, just keep the defaults, which are very conservative).
+
+  else
+
+    dnl The user has specified some `CFLAGS', just keep them.
+    AC_PROG_CC
+
+  fi
+
+fi
+
+dnl Check for needed external programs.
+
+AC_PROG_CPP
+AC_CHECK_PROG(AR, ar, ar, ar)
+AC_PROG_RANLIB
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_YACC
+AM_PROG_LEX
+
+dnl Check for a perl interpreter.
+
+AC_PATH_PROG(PERL, perl)
+AC_SUBST(PERL)
+
+dnl Check for typedefs, structures, and compiler characteristics.
+
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+
+dnl Check whether inline functions are available.
+
+AC_C_INLINE
+if test x"$ac_cv_c_inline" = "xno" ; then
+  CFLAGS="$CFLAGS -DNO_INLINE"
+fi
+
+dnl Define the type sizes.
+
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+  AC_C_BIGENDIAN
+  AC_CHECK_SIZEOF(unsigned short)
+  AC_CHECK_SIZEOF(unsigned int)
+  AC_CHECK_SIZEOF(unsigned long)
+else
+  dnl if cross-compiling, we have to do this by hand
+  AC_DEFINE(SIZEOF_UNSIGNED_SHORT, 2)
+  AC_DEFINE(SIZEOF_UNSIGNED_INT, 4)
+  AC_DEFINE(SIZEOF_UNSIGNED_LONG, 4)
+fi
+
+dnl Check whether gcc needs -traditional.
+
+AC_PROG_GCC_TRADITIONAL
+
+dnl Check for header files.
+
+AC_HEADER_DIRENT
+AC_CHECK_HEADERS(fcntl.h limits.h sgtty.h regexp.h systeminfo.h)
+AC_CHECK_HEADERS(sys/param.h sys/file.h sys/ioctl.h sys/time.h sys/dirent.h)
+
+AC_DECL_SYS_SIGLIST
+
+dnl Check for system-specific header files.
+
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+  AC_CHECK_HEADER(linux/joystick.h,
+                  [ JOYSTICK="-DHAS_JOYSTICK -DLINUX_JOYSTICK";
+		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
+  if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
+    AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
+    AC_TRY_COMPILE([ #include <linux/joystick.h> ],
+		   [ struct DJS_DATA_TYPE djs; ],
+		   [ JOYSTICK="$JOYSTICK -DHAS_DIGITAL_JOYSTICK"
+		     AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
+  fi
+  AC_CHECK_HEADER(machine/joystick.h,
+                  [ JOYSTICK="-DHAS_JOYSTICK -DBSD_JOYSTICK";
+		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
+  AC_SUBST(JOYSTICK)
+  AC_SUBST(JOY_OBJS)
+
+fi
+
+# FIXME: MIDAS missing.
+
+tmp=""
+AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_USS, test ! -z "$tmp")
+
+tmp=""
+AC_CHECK_HEADER(dmedia/audio.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_SGI, test ! -z "$tmp")
+
+tmp=""
+AC_CHECK_HEADERS(SDL_audio.h SDL_sleep.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_SDL, test ! -z "$tmp")
+
+tmp=""
+AC_CHECK_HEADERS(sys/audioio.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_SUN, test ! -z "$tmp")
+
+tmp=""
+AC_CHECK_HEADERS(sys/audio.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_HPUX, test ! -z "$tmp")
+
+tmp=""
+AC_CHECK_HEADERS(UMS/UMSAudioDevice.h, [tmp="yes"; break])
+AM_CONDITIONAL(SOUND_AIX, test ! -z "$tmp")
+
+AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
+AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,,,$SOUND_LIBS)
+AC_CHECK_LIB(SDL, SDL_OpenAudio,,,$SOUND_LIBS)
+
+AC_SUBST(SOUND_LIBS)
+AC_SUBST(SOUND_DRIVERS)
+
+dnl Check for library functions
+
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+  AC_FUNC_MEMCMP
+fi
+AC_TYPE_SIGNAL
+AC_FUNC_VFORK
+AC_CHECK_FUNCS(gettimeofday memmove atexit)
+
+AC_SUBST(LIBS)
+
+dnl if usleep is not defined, compile our own version for it (usleep.o)
+AC_REPLACE_FUNCS(usleep)
+
+dnl Check time.h.
+
+AC_HEADER_TIME
+AC_STRUCT_TM
+
+dnl Check whether we have GNU readline.  If not, use our replacement.
+dnl The user can force us to use the replacement with `--without-readline'.
+
+if test x"$with_readline" != "xno" ; then
+  AC_CHECK_LIB(readline, readline,
+               [ READLINE="" LIBS="-lreadline $LIBS"],
+               [ READLINE="\$(READLINEODIR)/readline.a" ],,)
+else
+  READLINE="\$(READLINEODIR)/readline.a"
+fi
+AC_SUBST(READLINE)
+
+dnl Check for X11 libraries and header files
+
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+
+  AC_PATH_XTRA
+
+  dnl This is necessary because CPP tests use `CPPFLAGS' instead.
+  dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11
+  dnl include paths in?  Let's hope so.
+  CPPFLAGS="$CPPFLAGS $X_CFLAGS"
+
+  MISSING_X_LIBS=""
+
+  AC_CHECK_LIB(socket, gethostbyname,,,$X_LIBS -lnsl)
+
+  AC_CHECK_LIB(ICE, IceConnectionNumber,,,$X_LIBS)
+
+  AC_CHECK_LIB(X11, XCreateWindow,,
+               [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
+
+  AC_CHECK_LIB(Xext, XQueryExtension,,,$X_LIBS)
+
+  AC_CHECK_LIB(Xt, XtToolkitInitialize,,
+    	       [ MISSING_X_LIBS="$MISSING_X_LIBS Xt" ],$X_LIBS)
+
+  AC_CHECK_LIB(Xmu, XInternAtom,,
+               [ MISSING_X_LIBS="$MISSING_X_LIBS Xmu" ],$X_LIBS)
+
+  dnl Check for Xaw.  Use Xaw3d if requested.
+  if test x"$with_xaw3d" != "xyes" ; then
+    AC_CHECK_LIB(Xaw, XawFormDoLayout,, [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw" ],$X_LIBS $X_PRE_LIBS)
+  else
+    AC_CHECK_LIB(Xaw3d, XawFormDoLayout,, [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d" ],$X_LIBS $X_PRE_LIBS)
+  fi
+
+  dnl FIXME: This should probably be done with `AC_CHECK_FUNC' instead.
+  AC_CHECK_LIB(Xext, XShmPutImage,[ AC_DEFINE(HAVE_XSHMPUTIMAGE) ],,$X_LIBS)
+
+  AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,,,$X_LIBS)
+
+  if test x"$MISSING_X_LIBS" != "x"; then
+    echo
+    echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
+    echo "+++ You might have to edit the Makefile by hand to compile properly"
+    echo
+  fi
+
+  AC_CHECK_HEADERS(X11/extensions/XShm.h X11/Sunkeysym.h X11/xpm.h)
+
+else
+
+  dnl On go32, we already know what we want.
+
+  LIBS="-lalleg -lmidas"
+  AC_SUBST(LDFLAGS)
+
+fi
+
+dnl Setup the system-specific object files.
+
+if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
+  ARCH_LIBS="\$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
+  AM_CONDITIONAL(UNIX_COMPILE, true)
+else
+  ARCH_INCLUDES=
+  AM_CONDITIONAL(MSDOS_COMPILE, true)
+fi
+
+AC_SUBST(ARCH_INCLUDES)
+AC_SUBST(ARCH_LIBS)
+AC_SUBST(LIBOBJS)
+AC_SUBST(SUBDIRS)
+AC_SUBST(SOUND_USS_OBJ)
+AC_SUBST(SOUND_SGI_OBJ)
+AC_SUBST(SOUND_HPUX_OBJ)
+AC_SUBST(SOUND_AIX_OBJ)
+AC_SUBST(SOUND_MIDAS_OBJ)
+AC_SUBST(SOUND_SDL_OBJ)
+
+if false ; then
+    dnl Now produce the directories & Makefiles.
+
+    mkdir -p arch/msdos
+    mkdir -p arch/unix/widgets
+    mkdir -p arch/unix/readline
+    mkdir -p arch/unix/xaw
+    mkdir -p c64
+    mkdir -p pet
+    mkdir -p vic20
+
+    if test x"$srcdir" != "x." ; then
+        BINDIR="./bin"
+        mkdir -p "$BINDIR"
+        rm -f "$BINDIR/C64" "$BINDIR/PET" "$BINDIR/VIC20"
+        $LN_S "../$srcdir/../bin/C64" "$BINDIR/C64"
+        $LN_S "../$srcdir/../bin/PET" "$BINDIR/PET"
+        $LN_S "../$srcdir/../bin/VIC20" "$BINDIR/VIC20"
+    else
+        BINDIR="../bin"
+    fi
+
+    AC_SUBST(BINDIR)
+fi
+
+AC_OUTPUT(Makefile
+          src/Makefile \
+          src/sounddrv/Makefile \
+          src/arch/Makefile \
+          src/arch/unix/Makefile \
+          src/arch/unix/xaw/Makefile \
+          src/arch/unix/xaw/widgets/Makefile \
+          src/true1541/Makefile \
+          src/c64/Makefile \
+          src/c128/Makefile \
+          src/vic20/Makefile \
+          src/pet/Makefile \
+          doc/Makefile \
+          man/Makefile \
+          data/Makefile \
+          data/C64/Makefile \
+          data/C128/Makefile \
+          data/VIC20/Makefile \
+          data/PET/Makefile)
+
+dnl Local Variables:
+dnl mode: autoconf
+dnl compile-command: "autoconf"
+dnl End:
