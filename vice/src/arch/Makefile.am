@@ -4,7 +4,7 @@ SUBDIRS = unix
 
 else
 
-SUBDIRS = # msdos
+SUBDIRS = msdos
 
 endif
 

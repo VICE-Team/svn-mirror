@@ -28,8 +28,6 @@ libarch_a_SOURCES = \
 	vsync.c \
 	vsync.h
 
-libarch_a_LIBADD = xaw/libxawui.a
-
 .PHONY: xaw
 xaw:
 	(cd xaw; $(MAKE))
