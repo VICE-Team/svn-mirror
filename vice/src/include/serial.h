@@ -29,6 +29,7 @@
 #define _SERIAL_H
 
 #include "types.h"
+#include "traps.h"
 
 #define MAXDEVICES		16
 
@@ -125,7 +126,7 @@ extern void serial_reset(void);
 extern int parallelattention(int b);
 extern int parallelsendbyte(int data);
 extern int parallelreceivebyte(BYTE *data, int fake);
-extern void initialize_serial(int notraps);
+extern int initialize_serial(const trap_t *trap_list);
 extern int install_serial_traps(void);
 extern int remove_serial_traps(void);
 extern int attach_serial_device(int device, char *var, char *name,
@@ -137,5 +138,10 @@ extern int attach_serial_device(int device, char *var, char *name,
 extern int serial_select_file(int type, int number, const char *file);
 extern int remove_serial(int number);
 extern char *image_file_name(int number);
+
+extern void serialattention();
+extern void serialsendbyte();
+extern void serialreceivebyte();
+extern void trap_serial_ready( void );
 
 #endif  /* _SERIAL_H */
