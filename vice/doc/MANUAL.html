@@ -60,6 +60,11 @@
 
 	      <li> 2.1.2. <a href="#usage-emulators-menus">The menus</a>
 
+	      <ul>
+	        <li> 2.1.2.1. <a href="#usage-emulators-menus-command">Command menu </a>
+		<li> 2.1.2.2. <a href="#usage-emulators-menus-option">Option menu </a>
+	      </ul>
+
 	      <li> 2.1.3. <a href="#usage-emulators-resources"> The
 		  <tt>.vicerc</tt> configuration file and the command-line
 		  options</a>
@@ -241,6 +246,16 @@
     <p> Using the keyboard is quite straightforward, as each key is mapped
       to its usual character.  VICE will press and release the Shift
       keys automatically to make everything work as expected. </p>
+
+    <ul>
+      <strong> WARNING: </strong> Unlike the real C64, VICE presses
+       the shift <em>together</em> with the key to shift.  In most cases this
+       should work fine, but some keyboard routines are quite picky and tend
+       not to recognize the shift key because of this.  For instance,
+       <tt>F6</tt> (which on the real C64 is obtained with <tt>Shift +
+       F5</tt>) could be recognized as <tt>F5</tt>.  In that case, use the
+       shift key manually (i.e. type <tt>Shift + F5</tt> in the example).
+    </ul>
 
     <p> Special keys are mapped differently for the VIC20 and C64
       emulators and the PET emulator. </p>
@@ -552,209 +567,201 @@ INSERT                     INS
       commands, while the `right' menu can be used to change emulation
       settings. </p>
 
+    <b>2.1.2.1. <a name="usage-emulators-menus-command">Command Menu</a> </b> (left button) <p>
+
     <ul>
 
-      <li> <b>Command Menu:</b> (left button) <p>
+      <li> <b>Attach Disk Image</b>
+      <li> <b>Detach Disk Image</b>
+      <li> <b>Attach Tape Image...</b> <em> (x64 only) </em>
+      <li> <b>Detach Tape Image</b> <em> (x64 only) </em>
 
-	<ul>
+        <p> These commands can be used to insert or remove virtual
+            disks and cassette tapes from the emulated units.
+            Supported formats are <tt>D64</tt> and <tt>X64</tt> for
+            disk images (devices 8, 9 and 10) and <tt>T64</tt> for
+            tape images.<br> Notice that <tt>T64</tt> support is
+            <em>read-only</em>, and that the cassette is automatically
+            rewound from the start when you reach the end.<br> Disk
+            images can also be attached to unit 8 by pressing the
+            <tt>F10</tt> key. </p>
 
-	  <li> <b>Attach Disk Image</b>
-	  <li> <b>Detach Disk Image</b>
-	  <li> <b>Attach Tape Image...</b> <em> (x64 only) </em>
-	  <li> <b>Detach Tape Image</b> <em> (x64 only) </em>
+      	<p> Another important feature is that raw Commodore BASIC
+      	    binary files and <tt>.P00</tt> files can be attached as
+      	    tapes.  As you can autostart a tape image when it is
+      	    attached (as explained below), this allows you to
+      	    autostart these particular files as well.  </p>
+  
+      	<p> When one of these options is selected, a file selector
+      	    dialog is popped up.  On the left, there is a list of
+      	    ancestor directories of the current one: by clicking on
+      	    them, you can go up the directory tree.  On the right,
+      	    there is a list of the files in the current directory,
+      	    which can be selected by clicking on them.  If you click
+      	    on a directory, that directory becomes the current one; if
+      	    you click on an ordinary file, it becomes active.  On the
+      	    bottom there are three buttons: `OK' attaches the selected
+      	    file as a disk/tape image, `Contents' shows its directory
+      	    and `Cancel' abandons the file selector without any
+      	    changes.  Another `Autostart' button (only available on
+      	    <tt>x64</tt>) allows you to attach the disk or tape image
+      	    and then automagically run the first program on it; this
+      	    button is not available when attaching disk images to
+      	    drives 9 and 10.  Also notice that this might not work
+      	    with all the programs, and that, even if the true 1541
+      	    emulation is turned on, the first program is always loaded
+      	    in fast 1541 emulation mode.  </p>
+      	
+      	<p> Since version 0.12.0.8, you can attach a disk image
+      	  even if it is on a read-only file system or you do not
+      	  have write permissions for it.  When this happens, the
+      	  1541 emulator will emulate a write-protected disk.  This
+      	  is also useful if you want to preserve certain disk image
+      	  from being written to; in the latter case, just remove the
+      	  write permission for that file, e.g. doing a <tt>chmod
+      	    a-w</tt>. </p>
+      	
+      	<p> It is also possible to attach compressed disk or tape
+      	  images; the compression format is recognized from the file
+      	  extension.  The following formats are supported (the
+      	  expected file name extension is in parenthesis): </p>
+      
+        <ul>
 
-            <p> These commands can be used to insert or remove virtual
-              disks and cassette tapes from the emulated units.
-              Supported formats are <tt>D64</tt> and <tt>X64</tt> for
-              disk images (devices 8, 9 and 10) and <tt>T64</tt> for
-              tape images.<br> Notice that <tt>T64</tt> support is
-              <em>read-only</em>, and that the cassette is automatically
-              rewound from the start when you reach the end.<br> Disk
-              images can also be attached to unit 8 by pressing the
-              <tt>F10</tt> key. </p>
+	  <li> GNU Zip (<tt>.gz</tt> or <tt>.z</tt>);
+	
+	  <li> BZip version 2 (<tt>.bz2</tt>);
+	
+	  <li> PkZip (<tt>.zip</tt>);
+	
+          <li> GNU Zipped TAR archives (<tt>.tar.gz</tt>,
+            <tt>.tgz</tt>);
+	
+          <li> Zoo (<tt>.zoo</tt>).
 
-            <p> Another important feature is that raw Commodore BASIC
-              binary files and <tt>.P00</tt> files can be attached as
-              tapes.  As you can autostart a tape image when it is
-              attached (as explained below), this allows you to
-              autostart these particular files as well.  </p>
+	</ul> <p> PkZip, <tt>tar.gz</tt>, <tt>lha</tt> and
+          <tt>zoo</tt> support is <em>read-only</em> and always
+          uses the <em>first</em> <tt>T64</tt> or <tt>D64</tt>
+          file in the archive.  So archives containing multiple
+          files will always be handled as if they contained one
+          single file. </p>
 
-            <p> When one of these options is selected, a file selector
-              dialog is popped up.  On the left, there is a list of
-              ancestor directories of the current one: by clicking on
-              them, you can go up the directory tree.  On the right,
-              there is a list of the files in the current directory,
-              which can be selected by clicking on them.  If you click
-              on a directory, that directory becomes the current one; if
-              you click on an ordinary file, it becomes active.  On the
-              bottom there are three buttons: `OK' attaches the selected
-              file as a disk/tape image, `Contents' shows its directory
-              and `Cancel' abandons the file selector without any
-              changes.  Another `Autostart' button (only available on
-              <tt>x64</tt>) allows you to attach the disk or tape image
-              and then automagically run the first program on it; this
-              button is not available when attaching disk images to
-              drives 9 and 10.  Also notice that this might not work
-              with all the programs, and that, even if the true 1541
-              emulation is turned on, the first program is always loaded
-              in fast 1541 emulation mode.  </p>
+      <li> <b>Change Working Directory...</b>
 
-            <p> Since version 0.12.0.8, you can attach a disk image
-              even if it is on a read-only file system or you do not
-              have write permissions for it.  When this happens, the
-              1541 emulator will emulate a write-protected disk.  This
-              is also useful if you want to preserve certain disk image
-              from being written to; in the latter case, just remove the
-              write permission for that file, e.g. doing a <tt>chmod
-                a-w</tt>. </p>
+	<p> While devices 8, 9 and 10 are connected to virtual 1541
+	  disk drives that are suitable for use with disk images,
+	  device 11 is always connected to a virtual drive that
+	  accesses the standard (UNIX) file system.  By using this
+	  option, you can specify the path where the files are
+	  read or written. </p>
 
-            <p> It is also possible to attach compressed disk or tape
-              images; the compression format is recognized from the file
-              extension.  The following formats are supported (the
-              expected file name extension is in parenthesis): </p>
+      <li> <b>Activate the Monitor</b>
 
-	    <ul>
+	 <p> The VICE emulators all have a built-in ML monitor, and
+	   this option activates it.  See
+	   <a href="#usage-emulators-monitor">below</a> for a complete
+	   description of the monitor commands. </p>
 
-	      <li> GNU Zip (<tt>.gz</tt> or <tt>.z</tt>);
+      <li> <b>Activate the XDebugger</b>
 
-	      <li> BZip version 2 (<tt>.bz2</tt>);
+	 <p> The XDebugger is a simple X11-based tool that allows
+	   you to examine and disassemble the memory contents (still
+	   under construction, see
+	   <a href="#usage-emulators-xdebugger">below</a> for a complete
+	   description of the XDebugger). </p>
 
-	      <li> PkZip (<tt>.zip</tt>);
+	<li> <b>Run C1541</b>
 
-              <li> GNU Zipped TAR archives (<tt>.tar.gz</tt>,
-                <tt>.tgz</tt>);
+	  <p> Run the stand-alone <tt>c1541</tt> utility, that must be
+	    found somewhere in your <tt>$PATH</tt> (see
+	    <a href="#usage-c1541">below</a> for a complete description of
+	    <tt>c1541</tt>). </p>
 
-              <li> Zoo (<tt>.zoo</tt>).
+	<li> <b>Browse manuals</b>
 
-	    </ul> <p> PkZip, <tt>tar.gz</tt>, <tt>lha</tt> and
-              <tt>zoo</tt> support is <em>read-only</em> and always
-              uses the <em>first</em> <tt>T64</tt> or <tt>D64</tt>
-              file in the archive.  So archives containing multiple
-              files will always be handled as if they contained one
-              single file. </p>
+	  <p> View the documentation using the browser specified in the
+	    <tt>HTMLBrowserCommand</tt> resource, whose default value is
+	    <tt>netscape %s</tt> (see
+	    <a href="#usage-emulators-resources">below</a> to know how this
+	    can be changed). </p>
 
-	  <li> <b>Change Working Directory...</b>
+	<li> <b>Reset</b>
 
-	    <p> While devices 8, 9 and 10 are connected to virtual 1541
-	      disk drives that are suitable for use with disk images,
-	      device 11 is always connected to a virtual drive that
-	      accesses the standard (UNIX) file system.  By using this
-	      option, you can specify the path where the files are
-	      read or written. </p>
+	  <p> This submenu allows you to reset the emulated
+	    machine.  There are two commands in the submenu: ``Soft
+	    Reset'' simply resets the machine by bringing the RESET
+	    line down (as a "standard" hardware Reset switch would
+	    do), while ``Hard Reset'' also resets the RAM as after a
+	    power-up.  A hard reset can also be performed anytime
+	    by pressing <tt>F12</tt>. </p>
 
-	  <li> <b>Activate the Monitor</b>
+	  <p> Notice that some programs are designed to ignore a
+	    simple reset and that some games <em>might not work</em>
+	    if the RAM is not completely initialized (eg. ``Q*Bert'').
+	    In such cases, you <em>must</em> use the ``Power-On
+	    Reset'' function instead of just a ``Reset''. </p>
 
-	    <p> The VICE emulators all have a built-in ML monitor, and
-	      this option activates it.  See
-	      <a href="#usage-emulators-monitor">below</a> for a complete
-	      description of the monitor commands. </p>
+	<li> <b>Exit</b>
 
-	  <li> <b>Activate the XDebugger</b>
+	  <p> Exit the emulator.  If the <em> save settings on exit
+	    </em> option is set and settings have changed, it will ask
+	    you whether you want to save them. </p>
+	    
+	<li> <b>Pause</b>
 
-	    <p> The XDebugger is a simple X11-based tool that allows
-	      you to examine and disassemble the memory contents (still
-	      under construction, see
-	      <a href="#usage-emulators-xdebugger">below</a> for a complete
-	      description of the XDebugger). </p>
+	  <p> Pause the emulation.  Select this option again to
+	    restart. </p>
 
-	  <li> <b>Run C1541</b>
+	<li> <b>About...</b>
 
-	    <p> Run the stand-alone <tt>c1541</tt> utility, that must be
-	      found somewhere in your <tt>$PATH</tt> (see
-	      <a href="#usage-c1541">below</a> for a complete description of
-	      <tt>c1541</tt>). </p>
+	  <p> Show copyright information, contributors, and
+	    copying license. </p>
 
-	  <li> <b>Browse manuals</b>
+      </ul>
 
-	    <p> View the documentation using the browser specified in the
-	      <tt>HTMLBrowserCommand</tt> resource, whose default value is
-	      <tt>netscape %s</tt> (see
-	      <a href="#usage-emulators-resources">below</a> to know how this
-	      can be changed). </p>
+      <b>2.1.2.2. <a name="usage-emulators-menus-option">Option menu</a> </b> (right button) <p>
 
-	  <li> <b>Reset</b>
+      <ul>
 
-	    <p> This submenu allows you to reset the emulated
-	      machine.  There are two commands in the submenu: ``Soft
-	      Reset'' simply resets the machine by bringing the RESET
-	      line down (as a "standard" hardware Reset switch would
-	      do), while ``Hard Reset'' also resets the RAM as after a
-	      power-up.  A hard reset can also be performed anytime
-	      by pressing <tt>F12</tt>. </p>
+	<li> <b>Refresh Rate</b>
 
-	    <p> Notice that some programs are designed to ignore a
-	      simple reset and that some games <em>might not work</em>
-	      if the RAM is not completely initialized (eg. ``Q*Bert'').
-	      In such cases, you <em>must</em> use the ``Power-On
-	      Reset'' function instead of just a ``Reset''. </p>
+	  <p> With this settings, you can control whether the emulator
+	    repaints all the frames or not.  With the 1/1 setting,
+	    all frames are repainted and animations are rendered as
+	    accurately as possible, but this can be too slow for
+	    certain machines.  Lower settings such as <tt>1/2</tt>
+	    or <tt>1/3</tt> make animations less smooth but also
+	    need much less computing power. </p>
 
-	  <li> <b>Exit</b>
+	  <p> If a maximum speed limit has been specified, you can use
+	    the ``auto'' setting that makes the emulator dynamically
+	    adapt to the speed of the host machine, trying to reach
+	    the specified speed limit and skipping frames only if
+	    necessary.  If this setting is enabled, the emulator
+	    will never skip more than 10 consecutive frames, so the
+	    result will never be worse than using the <tt>1/10</tt>
+	    setting. </p>
 
-	    <p> Exit the emulator.  If the <em> save settings on exit
-	      </em> option is set and settings have changed, it will ask
-	      you whether you want to save them. </p>
+	  <p> Warning: it is possible that the actual refresh rate you
+	    get with the ``auto'' setting is worse than the one you
+	    could get with a fixed refresh rate setting and 100%
+            speed. </p>
+	    
+	<li> <b>Maximum Speed</b>
 
-	  <li> <b>Pause</b>
+	  <p> Specify the maximum emulation speed, relative to the
+	    real machine.  You can also enable full speed operation
+	    (i.e. the emulator runs as fast as possible), but this
+	    will make the `auto' refresh setting no longer
+	    available. </p>
 
-	    <p> Pause the emulation.  Select this option again to
-	      restart. </p>
+	<li> <b>Joystick Settings</b> 
 
-	  <li> <b>About...</b>
+	  <p> <ul>
 
-	    <p> Show copyright information, contributors, and
-	      copying license. </p>
-
-	</ul>
-
-      <li> <b>Option menu:</b> (right button)
-
-	<p>
-	<ul>
-
-	  <li> <b>Refresh Rate</b>
-
-	    <p> With this settings, you can control whether the emulator
-	      repaints all the frames or not.  With the 1/1 setting,
-	      all frames are repainted and animations are rendered as
-	      accurately as possible, but this can be too slow for
-	      certain machines.  Lower settings such as <tt>1/2</tt>
-	      or <tt>1/3</tt> make animations less smooth but also
-	      need much less computing power. </p>
-
-	    <p> If a maximum speed limit has been specified, you can use
-	      the ``auto'' setting that makes the emulator dynamically
-	      adapt to the speed of the host machine, trying to reach
-	      the specified speed limit and skipping frames only if
-	      necessary.  If this setting is enabled, the emulator
-	      will never skip more than 10 consecutive frames, so the
-	      result will never be worse than using the <tt>1/10</tt>
-	      setting. </p>
-
-	    <p> Warning: it is possible that the actual refresh rate you
-	      get with the ``auto'' setting is worse than the one you
-	      could get with a fixed refresh rate setting and 100%
-	      speed. </p>
-
-	  <li> <b>Maximum Speed</b>
-
-	    <p> Specify the maximum emulation speed, relative to the
-	      real machine.  You can also enable full speed operation
-	      (i.e. the emulator runs as fast as possible), but this
-	      will make the `auto' refresh setting no longer
-	      available. </p>
-
-	  <li> <b>Sprite-Sprite Collisions</b> <em> (x64 only) </em>
-	  <li> <b>Sprite-Background Collisions</b> <em> (x64 only) </em>
-
-	    <p> These can be used to enable or disable the internal
-	      sprite-sprite and sprite-background collision registers.
-	      Disabling these registers will make you invincible in
-	      some games (but sometimes also your enemies become
-	      invincible <tt>:-)</tt>). </p>
-
-	  <li> <b>Joystick device in port 1</b> <em> (x64, Linux with
+	    <li> <b>Joystick device in port 1</b> <em> (x64, Linux with
 	      joystick support only) </em>
-	  <li> <b>Joystick device in port 2</b> <em> (x64, Linux with
+	    <li> <b>Joystick device in port 2</b> <em> (x64, Linux with
 	      joystick support only) </em>
 
 	    <p>With these options, you can specify which devices should
@@ -765,27 +772,33 @@ INSERT                     INS
 	      configure script detected a supported joystick
 	      driver. </p>
 
-	  <li> <b>Enable Numpad Joystick</b> <em> (xpet only) </em>
+	    <li> <b>Enable Numpad Joystick</b> <em> (xpet only) </em>
 
-	    <p> Enables and Disables the numeric keypad joystick emulation
-	      for the PET emulator.</p>
+	      <p> Enables and Disables the numeric keypad joystick emulation
+	        for the PET emulator.</p>
 
-	  <li> <b>Numpad joystick port</b> <em> (x64, xpet, non-Linux
-	      systems or Linux systems without joystick support only) </em>
+	    <li> <b>Numpad joystick port</b> <em> (x64, xpet, non-Linux
+	        systems or Linux systems without joystick support only) </em>
 
-	    <p> If no joystick support is available on your machine (or
-	      was not available when the executable was built, or VICE
-	      does not support it), you can only emulate joysticks
-	      using the numeric keypad.  The arrow keys emulate the
-	      four directions, while the 0 and right Ctrl emulate the
-	      Fire button. </p>
+	      <p> If no joystick support is available on your machine (or
+	        was not available when the executable was built, or VICE
+	      	does not support it), you can only emulate joysticks
+	      	using the numeric keypad.  The arrow keys emulate the
+	      	four directions, while the 0 and right Ctrl emulate the
+	      	Fire button. </p>
+	    
+	    <li> <b>Swap joystick ports</b> <em> (x64, xpet) </em>
 
-	  <li> <b>Swap joystick ports</b> <em> (x64, xpet) </em>
+	      <p> This swaps the two joystick devices.  It can also be
+	        done by pressing <tt>F11</tt>. </p>
 
-	    <p> This swaps the two joystick devices.  It can also be
-	      done by pressing <tt>F11</tt>. </p>
+	  </ul> </p>
 
-	  <li> <b>Video Cache</b>
+	<li> <b>Video Settings</b>
+
+	  <p> <ul>
+
+	    <li> <b>Video Cache</b>
 
 	    <p> Enable/disable the video cache.  The video cache is used
 	      to avoid recalculating those parts of the screen that
@@ -798,197 +811,226 @@ INSERT                     INS
 	      running on a networked X-terminal), you should probably
 	      always keep this enabled. </p>
 
-	  <li> <b>Double Size</b>
+	    <li> <b>Double Size</b>
 
-	    <p> This option increases the size of the emulation window.
-	      It can slow things down a lot, so beware!  If you have a
-	      slow machine running Linux and XFree, you can probably
-	      achieve better results by changing the XFree screen size
-	      with <tt>Ctrl-Alt-+</tt> and <tt>Ctrl-Alt--</tt>.  If
-	      you use double size, you will probably have to turn the
-	      video cache on to obtain decent performance. </p>
+	      <p> This option increases the size of the emulation window.
+	  	It can slow things down a lot, so beware!  If you have a
+	  	slow machine running Linux and XFree, you can probably
+	  	achieve better results by changing the XFree screen size
+	  	with <tt>Ctrl-Alt-+</tt> and <tt>Ctrl-Alt--</tt>.  If
+	  	you use double size, you will probably have to turn the
+	  	video cache on to obtain decent performance. </p>
+	    
+              <p> When emulating any of the 80-column PET models, only
+                the height is doubled, thus giving the a more correct
+                aspect ratio to the PET screen. </p>
 
-	    <p> On the PET 8032 emulator, only the height is doubled,
-	      thus giving the a more correct aspect ratio to the PET
-	      screen. </p>
+	      <p> You have to enable double size to obtain dithering
+	        when you are running on a monochrome X11 display. </p>
 
-	    <p> You have to enable double size to obtain dithering
-	      when you are running on a monochrome X11 display. </p>
+	    <li> <b>Double Scan</b>
+    
+	      <p> If this option is disabled and double size is enabled,
+		only half of the lines are painted and the rest is kept
+		black.  This makes the emulator faster, and gives an
+		old-stylish look to the window, but is also uglier to
+		see. </p>
 
-	  <li> <b>Double Scan</b>
+	    <li> <b>Use XSync()</b>
+    
+	      <p> If this option is enabled, when the emulation window is
+		updated the emulator will always wait for the X server
+		to complete the operation by using the <tt>XSync()</tt>
+		call.  Otherwise, it will simply perform the request and
+		go on without waiting for the server to do its job, and
+		the emulator and the X11 server processes will be
+		executed in parallel for a short period of time.
+		Keeping this option disabled can give a speed boost, but
+		can also cause bad responsiveness to keyboard and mouse
+		events as the X server is being constantly flooded (with
+		double size windows, you might even have troubles
+		opening the pop-up menus, especially if the X server is
+		not very fast).  The effect of this option is
+		particularly noticeable when the video cache is
+		disabled. </p>
 
-	    <p> If this option is disabled and double size is enabled,
-	      only half of the lines are painted and the rest is kept
-	      black.  This makes the emulator faster, and gives an
-	      old-stylish look to the window, but is also uglier to
-	      see. </p>
+	    <li> <b>Sprite-Sprite Collisions</b> <em> (x64 only) </em>
+	    <li> <b>Sprite-Background Collisions</b> <em> (x64 only) </em>
+    
+	      <p> These can be used to enable or disable the internal
+		sprite-sprite and sprite-background collision registers.
+		Disabling these registers will make you invincible in
+		some games (but sometimes also your enemies become
+		invincible <tt>:-)</tt>). </p>
 
-	  <li> <b>Use XSync()</b>
+	  </p> </ul>
 
-	    <p> If this option is enabled, when the emulation window is
-	      updated the emulator will always wait for the X server
-	      to complete the operation by using the <tt>XSync()</tt>
-	      call.  Otherwise, it will simply perform the request and
-	      go on without waiting for the server to do its job, and
-	      the emulator and the X11 server processes will be
-	      executed in parallel for a short period of time.
-	      Keeping this option disabled can give a speed boost, but
-	      can also cause bad responsiveness to keyboard and mouse
-	      events as the X server is being constantly flooded (with
-	      double size windows, you might even have troubles
-	      opening the pop-up menus, especially if the X server is
-	      not very fast).  The effect of this option is
-	      particularly noticeable when the video cache is
-	      disabled. </p>
+	<li> <b>Sound Settings</b>
 
-	  <li> <b>True 1541 emulation</b> <em> (x64 and xvic only) </em>
+	  <p> <ul>
+	    
+	    <li> <b>Sound</b>
+    
+	      <p> This can be used to enable or disable the sound
+	  	support. </p>
+    
+	      <p> <strong> Important notice: </strong> The VIC20 and
+                PET sound emulations are still at the experimental
+		stage. </p>
+    
+	    <li> <b>Sound Sample Rate</b>
+    
+	      <p> Specify the sample rate, in Hz, for the sound
+	  	emulation.  Standard values are <tt>8000</tt>,
+	  	<tt>11025</tt>, <tt>22050</tt>, <tt>44100</tt> and
+	  	<tt>48000</tt>.  Higher values are obviously slower, so
+	  	don't try to use the 48KHz setting unless your machine can
+	  	really handle it. </p>
+    
+	      <li> <b>Sound Buffer Size</b>
+    
+	  	<p> Specify the sound buffer size in seconds.  The optimal
+	  	  sound buffer size depends greatly on the system
+	  	  performance, system load and the program running in the
+	  	  emulator.  Using a higher value gives a longer delay but
+	  	  can be handled better by slower machines. </p>
+    
+	      <li> <b>Sound Speed Adjustment</b>
+    
+	  	<p> Enables/disables the automatic sound speed adjustment.
+	  	  When this feture is turned on, the sound driver tries to
+	  	  adapt the speed of the sound output to the speed of the
+	  	  emulator, slowing it down or speeding it up if the
+	  	  relative speed is not 100%.  Although this allows you to
+	  	  run the emulator at most speeds without clicking, it can
+	  	  interfere with the automatic refresh rate setting and
+	  	  give irregular frame skipping if the speed is less than
+	  	  100%.  On the other hand, disabling it gives clicks if the
+	  	  speed is less than 100% and the emulator can never run
+	  	  above 100% speed. </p>
+    
+	      <li> <b>Sound Suspend Time</b>
+    
+	  	<p> The possible values for this setting are <tt>keep
+          	  going</tt> or <tt>1</tt>, <tt>2</tt>, <tt>5</tt> or <tt>10
+	  	  second suspend</tt>.  With <tt>keep going</tt>, the sound
+	  	  driver always produces output even if the emulator is too
+	  	  slow and it `clicks'.  If you select one of the other
+	  	  options, instead, sound is temporarily turned off for the
+	  	  specified amount of seconds if clicks occur. </p>
 
-	    <p> This option toggles the <em>hardware-level</em> 1541
-	      disk drive emulation, as explained in the <a
-	      href="#overview-diskdrive">overview</a> section.  Be
-	      sure to use this option only if necessary, as keeping it
-	      disabled makes things much faster.  Notice that with
-	      this option turned on, only drive 8 is emulated, while
-	      devices 9, 10 and 11 are disabled completely. </p>
+	    </ul> </p>
 
-	  <li> <b>True 1541 sync factor</b> <em> (x64 and xvic only) </em>
+	  <li> <b>1541 Settings</b> <em> (x64 and xvic only) </em>
 
-	    <p> On the real C64/VIC20, the drive clock frequency is
-	      different from the one of the computer and VICE takes
-	      account of this.  You can select if you want PAL,
-	      NTSC or a custom frequency ratio.  The sync value is
-	      calculated as follows: </p>
+	    <p> <ul>
+	    
+	      <li> <b>Enable true 1541 emulation</b>
 
-	    <ul>
-		<samp>
+	    	<p> This option toggles the <em>hardware-level</em> 1541
+	    	  disk drive emulation, as explained in the <a
+	    	  href="#overview-diskdrive">overview</a> section.  Be
+	    	  sure to use this option only if necessary, as keeping it
+	    	  disabled makes things much faster.  Notice that with
+	    	  this option turned on, only drive 8 is emulated, while
+	    	  devices 9, 10 and 11 are disabled completely. </p>
 
-		  <tt> True1541SyncFactor = 65536 * clk_1541 /
-		  clk_[c64|vic20] </tt>
+              <li> <b>Enable parallel cable</b>
 
-		</samp>
-	    </ul>
+	        <p> With this option, you can enable a
+                  SpeedDOS-compatible parallel cable.  If you have the
+		  SpeedDOS ROMs in a suitable format, you can use them
+		  instead of the original Commodore ones and use this cable
+		  to speed up disk accesses when the true 1541 emulation is
+		  turned on.  </p>
 
-	    <p> where <tt>clk_1541</tt> is the 1541 clock (about 1 MHz),
-	      while <tt>clk_c64</tt> and <tt>clk_vic20</tt> depend on
-	      the model being used (PAL or NTSC). For example,
-	      <tt>65536</tt> makes the drive run as fast as the
-	      computer, <tt>65540</tt> makes the drive faster,
-	      <tt>65530</tt> makes the computer faster. </p>
+	      <li> <b>True 1541 sync factor</b>
 
-	    <p> The standard values are: </p>
+	    	<p> On the real C64/VIC20, the drive clock frequency is
+	    	  different from the one of the computer and VICE takes
+	    	  account of this.  You can select if you want PAL,
+	    	  NTSC or a custom frequency ratio.  The sync value is
+	    	  calculated as follows: </p>
 
-	    <p>
-	    <ul>
+	    	<ul>
+		  <samp>
+		    <tt> True1541SyncFactor = 65536 * clk_1541 /
+		    clk_[c64|vic20] </tt>
+		  </samp>
+	    	</ul>
 
-		<li> VIC20: <tt> 59126 </tt> (PAL) or <tt> 64079 </tt>
-		(NTSC)
+	    	<p> where <tt>clk_1541</tt> is the 1541 clock (about 1 MHz),
+	    	  while <tt>clk_c64</tt> and <tt>clk_vic20</tt> depend on
+	    	  the model being used (PAL or NTSC). For example,
+	    	  <tt>65536</tt> makes the drive run as fast as the
+	    	  computer, <tt>65540</tt> makes the drive faster,
+	    	  <tt>65530</tt> makes the computer faster. </p>
 
-		<li> C64: <tt> 65516 </tt> (PAL) or <tt> 64094 </tt>
-		(NTSC)
+	    	<p> The standard values are: </p>
+    
+	    	<p> <ul>
+    
+		  <li> VIC20: <tt> 59126 </tt> (PAL) or <tt> 64079 </tt>
+		  (NTSC)
+    
+		  <li> C64: <tt> 65516 </tt> (PAL) or <tt> 64094 </tt>
+		  (NTSC)
+    
+	    	</ul> </p>
+    
+	    	<p> Though the VICE emulators emulate only PAL (European)
+	    	  machines, the NTSC setting can sometimes make many
+	    	  fast-loaders that are designed for NTSC machines
+	    	  work. </p>
 
-	    </ul>
-	    </p>
+	      <li> <b>True 1541 idle method</b>
+    
+	  	<p> In order to save CPU resources, the 1541 drive emulation
+	  	  is disabled when not strictly necessary.  With this
+	  	  option you can select <em>when</em> it is disabled. </p>
+    
+	  	<p>
+	  	<ul>
+    
+	  	  <p> <li> <b>Skip Cycles</b>: Each time the serial line is
+		    accessed by the C64, the drive executes all the cycles
+		    since the last time it was running.  If the number of
+		    elapsed cycles is larger than a certain value, the drive
+		    discards part of them. </p>
+    
+	  	  <p> <li> <b>Trap Idle</b>: The disk drive is still emulated
+	  	    upon serial line accesses as with the previous option,
+	  	    but it is also always emulated at the end of each screen
+		    frame.  If the drive gets into the DOS idle loop, only
+		    pending interrupts are emulated to save time. </p>
+    
+	  	</ul>
+	  	</p>
+    
+	  	<p> The first option (``Skip cycles'') is usually better
+	  	  for performance, as the drive is emulated as little as
+	  	  possible; on the other hand, you can notice sudden
+	  	  slowdowns (when the drive executes several cycles at once)
+	  	  and you never know the LED status correctly.  Moreover, if
+	  	  the drive tries to get in sync with the computer in some
+	  	  weird way and the computer does not access the serial line
+	  	  for a long time, it is possible that some cycles are
+	  	  discarded and the sync is lost.  Notice that this hack can
+	  	  have no effect on performance if one program continuously
+	  	  reads the CIA ports, as the drive will have to be emulated
+	  	  in any case. </p>
+    
+	  	<p> The second option (``Trap idle'') is usually a bit slower,
+	  	  as at least interrupts are always emulated, but allows the
+	  	  LED state to be always updated correctly and always keeps
+	  	  the 1541 and the computer in sync.  On the other hand, if
+	  	  a program installs a non-standard idle loop in the drive,
+	  	  the 1541 CPU has to be emulated even when not necessary
+	  	  and the global emulation speed is then <em>much</em>
+	  	  slower. </p>
 
-	    <p> Though the VICE emulators emulate only PAL (European)
-	      machines, the NTSC setting can sometimes make many
-	      fast-loaders that are designed for NTSC machines
-	      work. </p>
-
-	  <li> <b>True 1541 idle method</b> <em> (x64 and xvic only) </em>
-
-	    <p> In order to save CPU resources, the 1541 drive emulation
-	      is disabled when not strictly necessary.  With this
-	      option you can select <em>when</em> it is disabled. </p>
-
-	    <p>
-	    <ul>
-
-	      <p> <li> <b>Skip Cycles</b>: Each time the serial line is
-		accessed by the C64, the drive executes all the cycles
-		since the last time it was running.  If the number of
-		elapsed cycles is larger than a certain value, the drive
-		discards part of them. </p>
-
-	      <p> <li> <b>Trap Idle</b>: The disk drive is still emulated
-	        upon serial line accesses as with the previous option,
-	        but it is also always emulated at the end of each screen
-		frame.  If the drive gets into the DOS idle loop, only
-		pending interrupts are emulated to save time. </p>
-
-	    </ul>
-	    </p>
-
-	    <p> The first option (``Skip cycles'') is usually better
-	      for performance, as the drive is emulated as little as
-	      possible; on the other hand, you can notice sudden
-	      slowdowns (when the drive executes several cycles at once)
-	      and you never know the LED status correctly.  Moreover, if
-	      the drive tries to get in sync with the computer in some
-	      weird way and the computer does not access the serial line
-	      for a long time, it is possible that some cycles are
-	      discarded and the sync is lost.  Notice that this hack can
-	      have no effect on performance if one program continuously
-	      reads the CIA ports, as the drive will have to be emulated
-	      in any case. </p>
-
-	    <p> The second option (``Trap idle'') is usually a bit slower,
-	      as at least interrupts are always emulated, but allows the
-	      LED state to be always updated correctly and always keeps
-	      the 1541 and the computer in sync.  On the other hand, if
-	      a program installs a non-standard idle loop in the drive,
-	      the 1541 CPU has to be emulated even when not necessary
-	      and the global emulation speed is then <em>much</em>
-	      slower. </p>
-
-	  <li> <b>Sound</b>
-
-	    <p> This can be used to enable or disable the sound
-	      support. </p>
-
-	    <p> <strong> Important notice: </strong> The VIC20 and PET sound
-	      emulations are still at the experimental stage. </p>
-
-	  <li> <b>Sound Sample Rate</b>
-
-	    <p> Specify the sample rate, in Hz, for the sound
-	      emulation.  Standard values are <tt>8000</tt>,
-	      <tt>11025</tt>, <tt>22050</tt>, <tt>44100</tt> and
-	      <tt>48000</tt>.  Higher values are obviously slower, so
-	      don't try to use the 48KHz setting unless your machine can
-	      really handle it. </p>
-
-	  <li> <b>Sound Buffer Size</b>
-
-	    <p> Specify the sound buffer size in seconds.  The optimal
-	      sound buffer size depends greatly on the system
-	      performance, system load and the program running in the
-	      emulator.  Using a higher value gives a longer delay but
-	      can be handled better by slower machines. </p>
-
-	  <li> <b>Sound Speed Adjustment</b>
-
-	    <p> Enables/disables the automatic sound speed adjustment.
-	      When this feture is turned on, the sound driver tries to
-	      adapt the speed of the sound output to the speed of the
-	      emulator, slowing it down or speeding it up if the
-	      relative speed is not 100%.  Although this allows you to
-	      run the emulator at most speeds without clicking, it can
-	      interfere with the automatic refresh rate setting and
-	      give irregular frame skipping if the speed is less than
-	      100%.  On the other hand, disabling it gives clicks if the
-	      speed is less than 100% and the emulator can never run
-	      above 100% speed. </p>
-
-	  <li> <b>Sound Suspend Time</b>
-
-	    <p> The possible values for this setting are <tt>keep
-              going</tt> or <tt>1</tt>, <tt>2</tt>, <tt>5</tt> or <tt>10
-	      second suspend</tt>.  With <tt>keep going</tt>, the sound
-	      driver always produces output even if the emulator is too
-	      slow and it `clicks'.  If you select one of the other
-	      options, instead, sound is temporarily turned off for the
-	      specified amount of seconds if clicks occur. </p>
-
+	    </ul> </p>
+	  
 	  <li> <b>I/O Extensions at $DF00</b> <em> (x64 only) </em>
 
 	    <p> There are 3 available extensions: </p>
@@ -1019,6 +1061,22 @@ INSERT                     INS
 	    <p> Notice that you cannot enable more than one option at
 	    once in this case, as they could cause conflicts. </p>
 
+	  <li> <b>Userport Settings</b> <em> (xpet only) </em>
+
+	    <p> <ul>
+
+	      <li> <b> PET Userport Diagnostic Pin </b>
+
+	        <p> This enables/disables the emulation of the PET
+		  diagnostic PIN on the userport. </p>
+
+              <li> <b> Joystick settings </b>
+
+	        <p> This submenu contains the joystick settings for
+                  the PET </p>
+	    
+	    </ul> </p>
+	    
 	  <li> <b>Save Settings</b>
 	  <li> <b>Load Settings</b>
 	  <li> <b>Restore Default Settings</b>
@@ -1038,8 +1096,6 @@ INSERT                     INS
 
 	</ul>
       </p>
-
-    </ul>
 
     <h4> <a name="usage-emulators-resources"> 2.1.3. The <tt> .vicerc
 	</tt> configuration file and the command-line options </a> </h4>
@@ -1080,10 +1136,11 @@ INSERT                     INS
       If you want to force them, you must put the ResourceValue
       between double quotes (<tt>"..."</tt>). </p>
 
-    <p> All the resources have command-line counterparts, but some command-line
-      options are not available as resources.  Here is a list of all the
-      command-line options (in parenthesis, you'll find the name of the
-      corresponding resource specification if available): </p>
+    <p> All the resources have command-line counterparts, but some
+      command-line options are not available as resources.
+      Here is a list of all the command-line options (in parenthesis,
+      you'll find the name of the corresponding resource specification
+      if available): </p>
 
     <ul>
 
@@ -1102,8 +1159,8 @@ INSERT                     INS
       <li> <tt> -tape FILENAME </tt> <em> (x64 only) </em>
       <li> <tt> -1 FILENAME </tt> <em> (x64 only) </em>
 
-	<p> Specify a tape image in T64 format to attach at startup (device 1).
-        </p>
+	<p> Specify a tape image in T64 format to attach at startup
+	  (device 1). </p>
 
       <li> <tt> -autostart FILENAME </tt> <em> (x64 only) </em>
 
@@ -1321,6 +1378,12 @@ INSERT                     INS
           values are <tt>66516</tt> for PAL and <tt>64094</tt> for NTSC on the
           C64, <tt>59126</tt> for PAL and <tt>64079</tt> for NTSC on the
           VIC20.  The default setting is PAL. </p>
+
+      <li> <tt> -parallel (True1541ParallelCable=1) </tt> <em> (x64 only) </em>
+      <li> <tt> +parallel (True1541ParallelCable=0) </tt> <em> (x64 only) </em>
+
+	<p> Enable(<tt>-</tt>)/disable(<tt>+</tt>) emulation of the
+          SpeedDOS parallel cable.  Default is disabled. </p>
 
       <li> <tt> -htmlbrowser COMMAND (HTMLBrowserCommand=COMMAND) </tt>
 
@@ -2011,6 +2074,27 @@ INSERT                     INS
 	  VIA emulation, serial code improvements, IEEE488 interface,
 	  serial bus for VIC20 and tons of bug fixes. </p>
 
+      <li> <p> <b>Daniel Sladic</b> <tt> (<a href="mailto:sladic@eecg.toronto.edu">sladic@eecg.toronto.edu</a>) </tt> <br>
+
+	  Hardware-level 1541 emulation.  </p>
+
+      <li> <p>  <b>Andreas Boose</b> <tt> (<a href="mailto:boose@unixserv.rz.fh-hannover.de">boose@unixserv.rz.fh-hannover.de</a>) </tt>
+	  <br>
+
+          Gave lots of information and bug reports about the VIC-II, the
+          6510 and the CIAs; moreover, he wrote several test-routines
+          that were used to improve the emulation.  Also contributed
+          some important patches, fixed several problems in the 1541
+          emulation, implemented SpeedDOS parallel cable emulation, and
+          added BZIP v2 support.\n
+
+    </ul>
+    </p>
+
+    <p> Former team members: </p>
+
+    <ul>
+
       <li> <p> <b><a href="http://stekt.oulu.fi/~jopi/">Jouko
 	    Valta</a></b> <tt> (<a href="mailto:jopi@stekt.oulu.fi">jopi@stekt.oulu.fi</a>) </tt> <br>
 
@@ -2019,10 +2103,6 @@ INSERT                     INS
 	  maintenance (most of the work in x64 0.3.x was made by
 	  him). <br> Retired from the project in July 96, after VICE
 	  0.10.0. </p>
-
-      <li> <p> <b>Daniel Sladic</b> <tt> (<a href="mailto:sladic@eecg.toronto.edu">sladic@eecg.toronto.edu</a>) </tt> <br>
-
-	  Hardware-level 1541 emulation.  </p>
 
       <li> <p> <b> <a href="http://www.lut.fi/~sonninen/">Jarkko
 	      Sonninen</a> </b> <tt> (<a href="mailto:sonninen@lut.fi">sonninen@lut.fi</a>) </tt> <br>
@@ -2036,15 +2116,6 @@ INSERT                     INS
     <p> External contributors: </p>
 
     <ul>
-
-      <li> <p>  <b>Andreas Boose</b> <tt> (<a href="mailto:boose@unixserv.rz.fh-hannover.de">boose@unixserv.rz.fh-hannover.de</a>) </tt>
-	  <br>
-
-	  Gave lots of information and bug reports about the VIC-II,
-	  the 6510 and the CIAs; moreover, he wrote several
-	  test-routines that were used to improve the emulation.  Also
-	  contributed some important patches, fixed some problems in
-	  the 1541 emulation and added BZIP v2 support. <p>
 
       <li> <p> <b>Michael Schwendt</b> <tt> (<a href="mailto:sidplay@geocities.com">sidplay@geocities.com</a>) </tt> <br>
 
@@ -2368,7 +2439,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
     <hr>
 
 <!-- hhmts start -->
-Last modified: Sun Mar 29 21:23:31 CEST 1998
+Last modified: Fri Apr 3 13:06:32 CEST 1998
 <!-- hhmts end -->
 
   </body>
