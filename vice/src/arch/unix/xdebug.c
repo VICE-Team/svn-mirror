@@ -16,7 +16,6 @@
  *   Ettore Perazzoli (ettore@comm2000.it)
  *   Teemu Rantanen   (tvr@cs.hut.fi)
  *
- *
  * $Log: xdebug.c,v $
  * Revision 2.0  1997/05/23 07:29:55  ettore
  * Code cleaned up and popup menu removed.
@@ -788,7 +787,7 @@ static void RegisterBar (Widget parent)
 	registers[i] = XtVaCreateManagedWidget (
 	     "value",asciiTextWidgetClass, form,
 	     XtNtype,XawAsciiString,
-	     XtNeditType,XawtextEdit,
+	     XtNeditType, XawtextRead,
 	     XtNfromHoriz, label,
 	     XtNfromVert, lastlabel,
 	     NULL);
