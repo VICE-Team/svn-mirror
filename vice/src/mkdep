@@ -1,0 +1,78 @@
+#! /bin/sh
+#
+# This is a simple script to build the dependencies.  They are put at
+# the end of Makefile, after a magic string.
+#
+# The arguments are a list of files:
+#
+#  *.o files are handled by calling cpp as usual on the corresponding .c
+#  file
+#
+#  *_VIC20.o files are considered VIC20-specific objects and create
+#  the dependence with the corresponding .c file with `VIC20' defined
+#
+#  *_PET.o files are considered VIC20-specific objects and create
+#  the dependence with the corresponding .c file with `PET' defined
+#
+#  other files are ignored
+#
+
+# Magic string: dependencies are put after this line.
+magic="# DO NOT DELETE"
+
+# Makefile name
+# makefile="Makefile.in"
+makefile="Makefile"
+
+# Put the magic string at the very start of the new dependencies.
+echo $magic > .depend
+
+for a in $* ; do
+
+  pref=${SRCDIR}
+  case $a in
+
+    *_VIC20.o )
+      src="$SRCDIR"/`echo $a | sed 's/_VIC20\.o$/.c/'`
+      if [ ! -f "$src" ] ; then
+	  continue
+      fi
+      defines="-DVIC20" ;;
+
+    *_PET.o )
+      src="$SRCDIR"/`echo $a | sed 's/_PET\.o$/.c/'`
+      if [ ! -f "$src" ] ; then
+          continue
+      fi
+      defines="-DPET" ;;
+
+    *.o )
+      src="$SRCDIR"/`echo $a | sed 's/\.o$/.c/'`
+      if [ ! -f "$src" ] ; then
+          continue
+      fi
+      defines="" ;;
+    
+    * )
+      # echo "Warning: I don't know what to do with $a"
+      continue ;;
+          
+  esac
+
+  # Build the dependence correcting the object file name with the
+  # proper one.
+
+  obj=`basename $src | sed 's/\.c$/.o/' | sed 's/\//\\\\\//g' | sed 's/\./\\\\./'`
+  nobj=`echo $a | sed 's/\//\\\\\//g' | sed 's/\./\\\\./'`
+  ( $CPP $INCLUDES $defines -M $src | sed "s/$obj/$nobj/" ) >> .depend
+    
+done
+
+# The .depend file has been built, now create the new makefile.
+mv $makefile ${makefile}.old
+
+# Remove everything from the magic string to the end of the file,
+# and add the new dependencies to the end.
+( sed -e "/^$magic/,\$d" < ${makefile}.old | cat - .depend ) > $makefile
+
+rm -f .depend
