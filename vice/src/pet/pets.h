@@ -27,6 +27,14 @@
 #ifndef _PETS_H
 #define _PETS_H
 
+#define PET_KERNAL2001NAME  "pet2001"
+#define PET_KERNAL3032NAME  "pet3032"
+#define PET_KERNAL4032NAME  "pet4032"
+#define PET_EDITOR2B40NAME  "edit2.b"
+#define PET_EDITOR4B40NAME  "edit4.b40"
+#define PET_EDITOR4B80NAME  "edit4.b80"
+#define PET_COLS	80
+
 typedef struct PetInfo {
 	char		*model;
 	char 		*kernalName;
@@ -41,14 +49,11 @@ typedef struct PetInfo {
 					/* 2 = 8296 mapping */
 	int		vmask;		/* valid CRTC address bits */
 	int		video;		/* 0 = autodetect, 40, or 80 */
-	char		*keyb;		/* 0 is graphics, 1 is business */
+	char		*keyb;		/* keymap name */
 } PetInfo;
 
 extern PetInfo pet;
 
-void pet_set_model(void);
-/* void pet_set_kernal(void); */
-void pet_set_video_width(void);
-void pet_set_keyboard_type(void);
+extern int pet_set_model(const char *model_name);
 
 #endif /* _PETS_H */
