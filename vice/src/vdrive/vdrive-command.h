@@ -37,6 +37,7 @@
 #define IPE_UNIMPL                      3
 #define IPE_MEMORY_READ                 4
 
+#define IPE_WRITE_ERROR                 25
 #define IPE_WRITE_PROTECT_ON            26
 #define IPE_SYNTAX                      30
 #define IPE_INVAL                       31
