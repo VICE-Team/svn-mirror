@@ -51,6 +51,9 @@ typedef struct tap_s {
     /* Position in the current file.  */
     int current_file_seek_position;
 
+    /* Header offset.  */
+    int offset;
+
     /* Tape counter.  */
     int counter;
 
