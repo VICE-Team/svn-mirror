@@ -1,5 +1,5 @@
 /*
- * mem.h -- Generic memory handling.
+ * mem.h - Memory interface.
  *
  * Written by
  *  André Fachat (fachat@physik.tu-chemnitz.de)
@@ -28,12 +28,49 @@
 #ifndef _MEM_H_
 #define _MEM_H_
 
-#if defined(CBM64)
-#include "c64/c64mem.h"
-#elif defined(VIC20)
-#include "vic20/vic20mem.h"
-#elif defined(PET)
-#include "pet/petmem.h"
-#endif
+typedef BYTE REGPARM1 read_func_t(ADDRESS addr);
+typedef read_func_t *read_func_ptr_t;
+typedef void REGPARM2 store_func_t(ADDRESS addr, BYTE value);
+typedef store_func_t *store_func_ptr_t;
+
+extern read_func_ptr_t *_mem_read_tab_ptr;
+extern store_func_ptr_t *_mem_write_tab_ptr;
+extern BYTE **_mem_read_base_tab_ptr;
+
+extern BYTE ram[];
+extern int ram_size;
+extern BYTE chargen_rom[];
+extern int rom_loaded;		/* FIXME: ugly! */
+
+extern void initialize_memory(void);
+extern void mem_powerup(void);
+extern int mem_load(void);
+extern void mem_get_basic_text(ADDRESS *start, ADDRESS *end);
+extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
+extern void mem_set_tape_sense(int value);
+
+extern void maincpu_turn_watchpoints_on();
+extern void maincpu_turn_watchpoints_off();
+
+/* ------------------------------------------------------------------------- */
+
+#define STORE(addr, value)  (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
+
+#define LOAD(addr)	    (*_mem_read_tab_ptr[(addr) >> 8])((addr))
+
+#define STORE_ZERO(addr, value)	store_zero((addr), (value))
+#define LOAD_ZERO(addr)		ram[(addr) & 0xff]
+#define LOAD_ADDR(addr)		((LOAD((addr) + 1) << 8) | LOAD(addr))
+#define LOAD_ZERO_ADDR(addr)	((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
+
+inline static BYTE *mem_read_base(int addr)
+{
+    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+
+    if (p == 0)
+	return p;
+    
+    return p - (addr & 0xff00);
+}
 
 #endif
