@@ -1,0 +1,49 @@
+Changes in reSID version 0.5
+----------------------------
+
+Emulation of MOS8580 combined waveforms.
+
+Version string resid_version_string provided for e.g. Autoconf tests.
+The string has C linkage.
+
+
+Changes in reSID version 0.4
+----------------------------
+
+The implementation of the ADSR delay bug has been refined and should now be
+cycle exact.
+
+The patch for VICE has been removed since VICE 0.15 will include reSID support.
+
+
+Changes in reSID version 0.3
+----------------------------
+
+The reSID library has changed name from libmos6581.a to libresid.a
+
+The pulse+sawtooth combined waveform has been corrected.
+
+Pulse+test bit samples are implemented.
+
+The envelope rate periods have finally been exactly determined.
+
+A new SID bug, the ADSR boundary bug, has been discovered and implemented.
+This bug makes it possible to step from envelope level 0x00 to 0xff or from
+0xff to 0x00 in one step.
+
+One-cycle optimized overloads of the clock() functions have been implemented
+to facilitate sampling at 1MHz.
+
+The code has been further optimized for speed.
+
+
+Changes in reSID version 0.2
+----------------------------
+
+The implementation of the Envelope Generator has been rewritten to handle
+the infamous ADSR delay bug. All known envelope related bugs have been
+corrected.
+
+The maximum filter resonance is lowered to keep the filter stable.
+
+The reSID API has been simplified. Reading write only registers is allowed.

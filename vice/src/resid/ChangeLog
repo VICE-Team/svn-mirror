@@ -1,0 +1,65 @@
+1998-09-06  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.5 released.
+
+	* version.cc (resid_version_string): Version string with C linkage.
+	
+	* wave.cc (WaveformGenerator::set_chip_model): Emulation of MOS8580
+	combined waveforms.
+
+1998-08-28  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.4 released.
+
+	* envelope.h (EnvelopeGenerator::clock): Count up to rate_period twice
+	during ADSR delay bug, and add one extra rate counter step.
+
+	* filter.cc (Filter::bsd_copysign): Renamed copysign function for
+	compilation on platforms where copysign is implemented as a macro.
+	
+1998-08-23  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.3 released.
+
+	* envelope.h (EnvelopeGenerator::clock): Handle ADSR boundary bug.
+	
+	* envelope.cc (EnvelopeGenerator::rate_counter_period,
+	EnvelopeGenerator::exponential_counter_period): Corrected counter
+	periods.
+
+	* filter.h (Filter::clock): Optimized for speed (division by shifting).
+	
+	* sid.h (SID::clock): New one-cycle optimized overload of the clock()
+	function.
+	
+	* wave.h (WaveformGenerator::output_P_T): Combined waveform
+	pulse+triangle indexing corrected.
+	(WaveformGenerator::output_P__): Check for test bit to handle
+	pulse+test bit samples.
+	(WaveformGenerator::output): Optimized for speed (inlining).
+
+1998-07-28  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.2 released.
+
+	* envelope.h (EnvelopeGenerator::clock): Start decay cycle immediately
+	at envelope counter 0xff. New sustain value is zero if the sustain
+	level is raised above the current envelope counter value.
+	(EnvelopeGenerator::step_envelope): Handle ADSR delay bug.
+	
+	* envelope.cc (EnvelopeGenerator::rate_counter_period,
+	EnvelopeGenerator::exponential_counter_period): Corrected counter
+	periods.
+	(EnvelopeGenerator::writeCONTROL_REG): Do not modify rate counter.
+
+	* filter.cc (Filter::set_Q): Constrain Q to keep filter stable.
+	
+	* sid.h (SID::read, SID::write, SID::bypass_filter): Simplified API
+	routing register access through the SID class.
+
+	* sid.cc (SID::output): Corrected variable-bit audio output return.
+	(SID::read, SID::write): Allow read of write only registers.
+
+1998-06-09  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.1 released.
