@@ -15,10 +15,11 @@
  * 	University Of Illinois at Urbana-Champaign
  *	1304 West Springfield Avenue
  * 	Urbana, IL 61801
- * 
+ *
  * 	totty@cs.uiuc.edu
  *
- */ 
+ * Small fix by Ettore Perazzoli (ettore@comm2000.it), search for [EP].
+ */
 
 #include <stdio.h>
 #include <X11/Xos.h>
@@ -165,7 +166,7 @@ XfwfScrolledListClassRec xfwfScrolledListClassRec =
 		/* insert_child         */	XtInheritInsertChild,
 		/* delete_child         */	XtInheritDeleteChild,
 		/* extension            */	NULL
-	}, /* Composite Part */		
+	}, /* Composite Part */
 	{
 		/* no extra class data  */	0
 	}  /* XfwfScrolledList Part */
@@ -322,11 +323,14 @@ XSetWindowAttributes *attrs;
 static void Destroy(gw)
 Widget gw;
 {
+        /* Removed by [EP] on 98-06-20.  */
+#if 0
 	XfwfScrolledListWidget w;
 
 	w = (XfwfScrolledListWidget)gw;
-	XtDestroyWidget(MyData(w).viewport);
+        XtDestroyWidget(MyData(w).viewport);
 	XtDestroyWidget(MyData(w).list);
+#endif
 } /* End Destroy */
 
 
@@ -339,7 +343,7 @@ Widget gw;
 
  *---------------------------------------------------------------*/
 
-static void Resize(gw) 
+static void Resize(gw)
 Widget gw;
 {
 	XfwfScrolledListWidget w;
@@ -427,7 +431,7 @@ XtWidgetGeometry *parent_idea,*our_idea;
 {
 	Arg multilist_args[2],slist_args[2];
 	Dimension col_width,row_height,num_rows,current_width,current_height;
-    
+
 	if (!XtIsRealized((Widget)slw)) return(XtGeometryYes);
 
 	XtSetArg(multilist_args[0],XtNrowHeight,&row_height);
