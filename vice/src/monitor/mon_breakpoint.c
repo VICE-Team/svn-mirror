@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "asm.h"
 #include "interrupt.h"
 #include "log.h"
 #include "mon.h"
@@ -40,7 +39,32 @@
 #include "uimon.h"
 #include "utils.h"
 
+#define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
+
+struct breakpoint_s {
+   int brknum;
+   MON_ADDR start_addr;
+   MON_ADDR end_addr;
+   int hit_count;
+   int ignore_count;
+   cond_node_t *condition;
+   char *command;
+   bool trace;
+   bool enabled;
+   bool watch_load;
+   bool watch_store;
+   bool temporary;
+};
+typedef struct breakpoint_s breakpoint_t;
+
+struct break_list_s {
+   breakpoint_t *brkpt;
+   struct break_list_s *next;
+};
+typedef struct break_list_s break_list_t;
+
 static int breakpoint_count;
+break_list_t *breakpoints[NUM_MEMSPACES];
 
 extern void parse_and_execute_line(char *input);
 
@@ -49,9 +73,9 @@ void mon_breakpoint_init(void)
     breakpoint_count = 1;
 }
 
-static void remove_checkpoint_from_list(BREAK_LIST **head, breakpoint *bp)
+static void remove_checkpoint_from_list(break_list_t **head, breakpoint_t *bp)
 {
-    BREAK_LIST *cur_entry, *prev_entry;
+    break_list_t *cur_entry, *prev_entry;
 
     cur_entry = *head;
     prev_entry = NULL;
@@ -77,9 +101,9 @@ static void remove_checkpoint_from_list(BREAK_LIST **head, breakpoint *bp)
     }
 }
 
-static breakpoint *find_checkpoint(int brknum)
+static breakpoint_t *find_checkpoint(int brknum)
 {
-    BREAK_LIST *ptr;
+    break_list_t *ptr;
     int i;
 
     for (i = e_comp_space; i < LAST_SPACE; i++) {
@@ -110,7 +134,7 @@ static breakpoint *find_checkpoint(int brknum)
 
 void mon_breakpoint_switch_checkpoint(int op, int breakpt_num)
 {
-    breakpoint *bp;
+    breakpoint_t *bp;
     bp = find_checkpoint(breakpt_num);
 
     if (!bp) {
@@ -124,7 +148,7 @@ void mon_breakpoint_switch_checkpoint(int op, int breakpt_num)
 
 void mon_breakpoint_set_ignore_count(int breakpt_num, int count)
 {
-    breakpoint *bp;
+    breakpoint_t *bp;
     bp = find_checkpoint(breakpt_num);
 
     if (!bp)
@@ -137,7 +161,7 @@ void mon_breakpoint_set_ignore_count(int breakpt_num, int count)
     }
 }
 
-static void print_checkpoint_info(breakpoint *bp)
+static void print_checkpoint_info(breakpoint_t *bp)
 {
     if (bp->trace) {
         uimon_out("TRACE: ");
@@ -172,7 +196,7 @@ static void print_checkpoint_info(breakpoint *bp)
 void mon_breakpoint_print_checkpoints(void)
 {
     int i, any_set = 0;
-    breakpoint *bp;
+    breakpoint_t *bp;
 
     for (i = 1; i < breakpoint_count; i++) {
         if ((bp = find_checkpoint(i))) {
@@ -188,7 +212,7 @@ void mon_breakpoint_print_checkpoints(void)
 void mon_breakpoint_delete_checkpoint(int brknum)
 {
     int i;
-    breakpoint *bp = NULL;
+    breakpoint_t *bp = NULL;
     MEMSPACE mem;
 
     if (brknum == -1) {
@@ -236,9 +260,9 @@ void mon_breakpoint_delete_checkpoint(int brknum)
 }
 
 void mon_breakpoint_set_checkpoint_condition(int brk_num,
-                                             CONDITIONAL_NODE *cnode)
+                                             cond_node_t *cnode)
 {
-    breakpoint *bp;
+    breakpoint_t *bp;
     bp = find_checkpoint(brk_num);
 
     if (!bp) {
@@ -255,7 +279,7 @@ void mon_breakpoint_set_checkpoint_condition(int brk_num,
 
 void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd)
 {
-    breakpoint *bp;
+    breakpoint_t *bp;
     bp = find_checkpoint(brk_num);
 
     if (!bp) {
@@ -267,9 +291,9 @@ void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd)
     }
 }
 
-static BREAK_LIST *search_checkpoint_list(BREAK_LIST *head, unsigned loc)
+static break_list_t *search_checkpoint_list(break_list_t *head, unsigned loc)
 {
-    BREAK_LIST *cur_entry;
+    break_list_t *cur_entry;
 
     cur_entry = head;
 
@@ -287,7 +311,7 @@ static BREAK_LIST *search_checkpoint_list(BREAK_LIST *head, unsigned loc)
     return NULL;
 }
 
-static int compare_checkpoints(breakpoint *bp1, breakpoint *bp2)
+static int compare_checkpoints(breakpoint_t *bp1, breakpoint_t *bp2)
 {
     unsigned addr1, addr2;
     /* Returns < 0 if bp1 < bp2
@@ -308,10 +332,10 @@ static int compare_checkpoints(breakpoint *bp1, breakpoint *bp2)
 }
 
 bool mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
-                                     BREAK_LIST *list)
+                                     break_list_t *list)
 {
-    BREAK_LIST *ptr;
-    breakpoint *bp;
+    break_list_t *ptr;
+    breakpoint_t *bp;
     bool result = FALSE;
     MON_ADDR temp;
     const char *type;
@@ -368,11 +392,11 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
     return result;
 }
 
-static void add_to_checkpoint_list(BREAK_LIST **head, breakpoint *bp)
+static void add_to_checkpoint_list(break_list_t **head, breakpoint_t *bp)
 {
-    BREAK_LIST *new_entry, *cur_entry, *prev_entry;
+    break_list_t *new_entry, *cur_entry, *prev_entry;
 
-    new_entry = (BREAK_LIST *)xmalloc(sizeof(BREAK_LIST));
+    new_entry = (break_list_t *)xmalloc(sizeof(break_list_t));
     new_entry->brkpt = bp;
 
     cur_entry = *head;
@@ -403,12 +427,12 @@ int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                   bool is_trace, bool is_load, bool is_store,
                                   bool is_temp)
 {
-    breakpoint *new_bp;
+    breakpoint_t *new_bp;
     MEMSPACE mem;
     long len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
-    new_bp = (breakpoint *)xmalloc(sizeof(breakpoint));
+    new_bp = (breakpoint_t *)xmalloc(sizeof(breakpoint_t));
 
     new_bp->brknum = breakpoint_count++;
     new_bp->start_addr = start_addr;
