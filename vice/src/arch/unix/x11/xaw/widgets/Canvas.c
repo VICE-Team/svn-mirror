@@ -42,10 +42,12 @@ static XtResource resources[] = {
 };
 
 
-static void CanvasRealize();
-static void Redisplay();
-static void Resize();
-static Boolean SetValues();
+static void CanvasRealize(Widget widget, XtValueMask *value_mask,
+                          XSetWindowAttributes *attributes);
+static void Redisplay(Widget w, XExposeEvent *event, Region region);
+static void Resize(CanvasWidget cw);
+static Boolean SetValues(CanvasWidget current, CanvasWidget request,
+                         CanvasWidget new, ArgList args, Cardinal *nargs);
 
 
 CanvasClassRec canvasClassRec = {

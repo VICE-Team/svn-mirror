@@ -43,6 +43,8 @@
 #define	dirent direct
 #endif
 
+#define NeedFunctionPrototypes 1
+
 #ifndef NAME_MAX  /* was _SYS_NAME_MAX, but doesn't compile with `gcc -ansi' */
 
 #ifndef MAXNAMLEN
