@@ -1,3 +1,109 @@
+Sun Mar 29 21:08:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.3.
+
+	* Makefile.in: Updated `DOCS' according to André's documentation
+	changes.
+
+Sat Mar 28 17:35:49 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/ui_xaw.c (UiToggleParallelCable): New function to
+ 	toggle parallel cable emulation.
+
+	* include/menu.h: Added new entry to toggle parallel cable
+ 	emulation.
+
+	* resources.c: New resource `true1541ParallelCable'.
+
+	* cia-tmpl.c (read_mycia): New macro `READ_CIAICR'.
+	(mycia_set_flag): New function to set the flag bit.
+
+	* cia2.def (READ_CIAICR): Call `true1541_cpu_execute()' whenever
+ 	the ICR is read to update the flag bit.
+	(STORE_CIAPB, READ_CIAPB): Changed to new parallel cable handling.
+
+	* viad1.def: (STORE_PRA, READ_PRA): Changed likewise.
+
+	* true1541.c: New variables `parallel_cable_cpu_value' and
+ 	`parallel_cable_drive_value'.
+ 	(parallel_cable_cpu_read, parallel_cable_cpu_write): New function
+ 	for parallel cable handling.
+	(parallel_cable_drive_read, parallel_cable_drive_write): More new
+ 	functions.
+
+	* cia.h: Updated prototypes.
+	* true1541.h: Likewise.
+
+Sun Mar 29 15:05:56 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* raster.c (resize): Use the same resizing policy for MS-DOS and
+ 	Unix.
+
+	* c64/vicii.c (store_vic): When writing to $D017, removed special
+ 	hack for cycle 54.
+
+	* c64/vicii.c (store_vic): If CSEL changes from 0 to 1 at cycle
+	17, set `blank_this_line' to 1.
+
+	* raster.c (emulate_line): If `blank_this_line' is nonzero, draw
+ 	this line as a blank one.  Set `blank_this_line' to zero before
+	returning.
+
+	* include/raster.h: New variable `blank_this_line'.
+
+	* c64/vicii.c: New variables `idle_data', `idle_data_location'.
+  	Removed old variables `vbank_39ff', `vbank_3fff', `idle_data_ptr'.
+	(int_rasterdraw): Update `idle_data_location' and `idle_data'
+ 	according to the current values of $D011 and `idle_state'.
+	(store_d011): When changing `draw_idle_state', set
+ 	`idle_data_location' accordingly.
+	(store_vbank_39xx, store_vbank_3fxx): New method, use
+ 	`idle_data_location' and `idle_data'.
+	(get_idle): Use `idle_data'.
+	(_draw_idle, draw_idle_foreground, draw_idle_foreground_2x):
+ 	Likewise.
+	(set_video_mode): When setting a new video mode, add changes for
+ 	`idle_data' according to bit 6 in $D011 if needed.
+	(set_memory_ptrs): If necessary, update `idle_data' when changing
+	video bank.
+
+Sat Mar 28 11:53:51 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/vicii.c (store_vic): Cycle for 38/40 column mode switch in
+ 	the right border decremented by 1.
+
+	* c64/vicii.c (store_d011): The color memory buffer fetches the 4
+ 	lowmost bits from `ram[reg_pc]'.
+
+	* 6510core.c: `ASL', `DCP', `DCP_IND_Y', `ISB', `RLA',
+ 	`RLA_IND_Y', `ROL', ROR `SHA_ABS_Y', `SHA_IND_Y', `SHX_ABS_Y',
+ 	`SHY_ABS_X', `SHS_ABS_Y', `SLO', `SLO_IND_Y', `SRE', `SRE_IND_Y',
+ 	`STA', `STA_ZERO', `STA_IND_Y', `STX', `STX_ZERO', `STY',
+ 	`STY_ZERO' increment PC before doing the write access.
+
+	* maincpu.c: Avoid #undefining or #defining `EXTERN_PC' if already
+ 	#defined.
+
+	* include/maincpu.h [CBM64]: #define `EXTERN_PC' and declare
+ 	`reg_pc'.
+
+	* arch/unix/ui_xaw.c (UiChangeWorkingDir): The default value in
+ 	the text widget is now the path of the current working directory.
+
+	* 6510core.c (STORE_ABS_X, STORE_ABS_Y): Fixed increments of
+ 	`CLK'.
+
+Fri Mar 27 17:35:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xdebug.c (RegisterBar): XtNeditType of `registers'
+ 	changed into `XawtextRead' so that they cannot be changed
+	(changing them had no effect anyway, so it could just confuse
+ 	users).
+
+Wed Mar 25 21:40:01 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.in: Added `$(JOY_OBJS)' to `PET_DEPS'.
+
 Wed Mar 25 00:25:03 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.2.
@@ -91,7 +197,7 @@ Fri Mar 20 17:03:00 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
   	Print error messages whenever non-standard GCR data cannot be
  	written back to the disk image.
 
-Tue Mar 17 12:44:55 MET 1998  Andre Fachat (a.fachat@physik.tu-chemnitz.de)
+Tue Mar 17 12:44:55 MET 1998  Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/kbd.c: Changed some joystick-related `#ifdef PET's to
  	include PET joystick emulation.
