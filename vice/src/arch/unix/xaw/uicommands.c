@@ -55,6 +55,8 @@
 #include "machine.h"
 #include "utils.h"
 
+/* ------------------------------------------------------------------------- */
+
 static UI_CALLBACK(attach_disk)
 {
     int unit = (int)client_data;
