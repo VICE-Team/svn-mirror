@@ -236,6 +236,26 @@ void rotation_rotate_disk(drive_t *dptr)
     } /* if (rptr->shifter >= 8) */
 }
 
+inline static unsigned int count_sync_from_left(BYTE gcr_byte)
+{
+    unsigned int num;
+
+    for (num = 0; (gcr_byte & 0x80) != 0; gcr_byte <<= 1)
+        num++;
+
+    return num;
+}
+
+inline static unsigned int count_sync_from_right(BYTE gcr_byte)
+{
+    unsigned int num;
+
+    for (num = 0; (gcr_byte & 0x01) != 0; gcr_byte >>= 1)
+        num++;
+
+    return num;
+}
+
 /* Return non-zero if the Sync mark is found.  It is required to
    call rotation_rotate_disk() to update drive[].GCR_head_offset first.
    The return value corresponds to bit#7 of VIA2 PRB. This means 0x0
@@ -245,38 +265,42 @@ BYTE rotation_sync_found(drive_t *dptr)
 {
     unsigned int dnr;
     BYTE val;
+    unsigned int previous_head_offset;
+    unsigned int next_head_offset;
+    unsigned int sync_bits;
+    unsigned int num;
 
     dnr = dptr->mynumber;
     val = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
 
-    if (val != 0xff || rotation[dnr].last_mode == 0
-        || dptr->attach_clk != (CLOCK)0) {
+    if (rotation[dnr].last_mode == 0 || dptr->attach_clk != (CLOCK)0)
         return 0x80;
-    } else {
-        unsigned int previous_head_offset;
 
-        previous_head_offset = (dptr->GCR_head_offset > 0
-                               ? dptr->GCR_head_offset - 1
-                               : dptr->GCR_current_track_size - 1);
+    previous_head_offset = (dptr->GCR_head_offset > 0
+                           ? dptr->GCR_head_offset - 1
+                           : dptr->GCR_current_track_size - 1);
 
-        if ((dptr->GCR_track_start_ptr[previous_head_offset] & 3) != 3) {
-            if (rotation[dnr].shifter >= 2) {
-                unsigned int next_head_offset;
+    sync_bits = count_sync_from_right(dptr->GCR_track_start_ptr[previous_head_offset])
+              + count_sync_from_left(val);
 
-                next_head_offset = ((dptr->GCR_head_offset
-                                   < (dptr->GCR_current_track_size - 1))
-                                   ? dptr->GCR_head_offset + 1 : 0);
+    if (sync_bits >= 10)
+        return 0; /* found! */
 
-                if ((dptr->GCR_track_start_ptr[next_head_offset] & 0xc0)
-                    == 0xc0)
-                    return 0;
-            }
-            return 0x80;
-        }
-        /* As the current rotation code cannot cope with non byte aligned
-           writes, do not change `drive[].bits_moved'!  */
-        /* dptr->bits_moved = 0; */
-        return 0;
-    }
+    if (val != 0xff) /* need to count sync bits from the right */
+        sync_bits = count_sync_from_right(val);        
+
+    next_head_offset = ((dptr->GCR_head_offset
+                        < (dptr->GCR_current_track_size - 1))
+                        ? dptr->GCR_head_offset + 1 : 0);
+
+    num = count_sync_from_left(dptr->GCR_track_start_ptr[next_head_offset]);
+
+    sync_bits += (num < rotation[dnr].shifter) ? num : rotation[dnr].shifter;
+
+    return (sync_bits >= 10) ? 0 : 0x80;
+
+    /* As the current rotation code cannot cope with non byte aligned
+       writes, do not change `drive[].bits_moved'!  */
+    /* dptr->bits_moved = 0; */
 }
 
