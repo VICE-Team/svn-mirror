@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "drivetypes.h"
+#include "iecdrive.h"
 #include "log.h"
 #include "types.h"
 
@@ -42,6 +43,8 @@ typedef struct tia1551_s {
     BYTE ddrc;
     BYTE datac;
 } tia1551_t;
+
+BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
 
 static tia1551_t tia1551[2];
 static log_t tia1551_log = LOG_ERR;
@@ -90,22 +93,23 @@ void tia1551_reset(drive_context_t *drv)
 
 inline void tia1551_porta_update(unsigned int dnr)
 {
-    static BYTE old_output = 0;
+    static BYTE old_output[2];
     BYTE output, input;
 
     output = (tia1551[dnr].dataa & tia1551[dnr].ddra)
              | ~tia1551[dnr].ddra;
-
-    input = 0;
+    tia1551_outputa[dnr] = output;
+    tcbm_update_bus();
+    input = tcbm_busa[dnr];
 
     tia1551[dnr].dataa = (tia1551[dnr].dataa & tia1551[dnr].ddra)
-                             | (input & ~tia1551[dnr].ddra);
-    old_output = output;
+                         | (input & ~tia1551[dnr].ddra);
+    old_output[dnr] = output;
 }
 
 inline void tia1551_portb_update(unsigned int dnr)
 {
-    static BYTE old_output = 0;
+    static BYTE old_output[2];
     BYTE output, input;
 
     output = (tia1551[dnr].datab & tia1551[dnr].ddrb)
@@ -114,19 +118,23 @@ inline void tia1551_portb_update(unsigned int dnr)
     input = 0;
 
     tia1551[dnr].datab = (tia1551[dnr].datab & tia1551[dnr].ddrb)
-                             | (input & ~tia1551[dnr].ddrb);
-    old_output = output;
+                         | (input & ~tia1551[dnr].ddrb);
+    old_output[dnr] = output;
 }
 
 inline void tia1551_portc_update(unsigned int dnr)
 {
-    static BYTE old_output = 0;
+    static BYTE old_output[2];
     BYTE output, input;
 
     output = (tia1551[dnr].datac & tia1551[dnr].ddrc)
              | ~tia1551[dnr].ddrc;
 
-    input = dnr << 5;
+    tia1551_outputb[dnr] = output & 3;
+    tia1551_outputc[dnr] = ((output >> 1) & 0x40)| ((output << 4) & 0x80);
+    tcbm_update_bus();
+    input = (dnr << 5) | (tcbm_busb[dnr] & 3) | ((tcbm_busc[dnr] & 0x40) << 1)
+            | ((tcbm_busc[dnr] & 0x80) >> 4);
 
     if (dnr == 0)
         input |= drive_sync_found(drive0_context.drive_ptr) ? 0x40 : 0;
@@ -134,22 +142,9 @@ inline void tia1551_portc_update(unsigned int dnr)
         input |= drive_sync_found(drive1_context.drive_ptr) ? 0x40 : 0;
 
     tia1551[dnr].datac = (tia1551[dnr].datac & tia1551[dnr].ddrc)
-                             | (input & ~tia1551[dnr].ddrc);
-    old_output = output;
+                         | (input & ~tia1551[dnr].ddrc);
+    old_output[dnr] = output;
 }
-
-#if 0
-    BYTE out;
-
-    if (dnr == 0)
-        out = drive_sync_found(drive0_context.drive_ptr) ? 0x40 : 0;
-    else
-        out = (drive_sync_found(drive1_context.drive_ptr) ? 0x40 : 0) | 0x20;
-/*
-    return (out & ~tia1551[dnr].ddrc)
-           | (tia1551[dnr].datac & tia1551[dnr].ddrc);
-*/
-#endif
 
 inline static BYTE dataa_read(unsigned int dnr)
 {
