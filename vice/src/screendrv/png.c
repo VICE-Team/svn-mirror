@@ -26,10 +26,33 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "screenshot.h"
+#include "types.h"
+#include "utils.h"
 
 int png_save(screenshot_t *screenshot, const char *filename)
 {
+    unsigned int line, x;
+    BYTE *data;
+
+    data = (BYTE *)xmalloc(screenshot->width * 4);
+
+    for (line = 0; line < screenshot->height; line++) {
+
+        printf("LINE %03i\n", line);
+
+        screenshot_line_data(screenshot, data, line, SCREENSHOT_MODE_RGB32);
+
+        for (x = 0; x < screenshot->width * 4; x++) {
+            printf("%02x ", data[x]);
+        }
+        printf("\n");
+    }
+
+    free(data);
     return 0;
 }
 
