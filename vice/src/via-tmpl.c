@@ -493,7 +493,7 @@ static void update_myviata(int force)
 #endif
       myviata = myvia[VIA_T1CL] + (myvia[VIA_T1CH] << 8);
       myviatau = myclk;
-      mycpu_set_alarm(A_MYVIAT1, myviata);
+      mycpu_set_alarm(A_MYVIAT1, myviata + 1);
     }
 }
 
@@ -502,7 +502,7 @@ static void update_myviatb(int force)
     if(force) {
       myviatb = myvia[VIA_T2CL] + (myvia[VIA_T2CH] << 8);
       myviatbu = myclk;
-      mycpu_set_alarm(A_MYVIAT2, myviatb);
+      mycpu_set_alarm(A_MYVIAT2, myviatb + 1);
     }
 }
 
