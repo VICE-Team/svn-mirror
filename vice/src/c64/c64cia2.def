@@ -1,0 +1,99 @@
+/* -*- C -*-
+ *
+ * cia2.def - Definitions for the second MOS6526 (CIA) chip in the C64 ($DD00).
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+/* Header for building cia2.c (CIA #2 emulation in the C64). */
+
+
+#define mycpu maincpu
+
+#define myclk maincpu_clk
+
+#define mycia cia2
+
+#define MYCIA CIA2
+
+
+/* #define CIA2_TIMER_DEBUG */
+
+#define	cia2_set_int_clk		maincpu_set_nmi_clk
+#define	CIA2_INT			IK_NMI
+
+INCLUDES()
+{
+    #include "true1541.h"
+    #include "c64mem.h"
+    #include "c64iec.h"
+    #include "c64cia.h"
+}
+
+#define	PRE_CIA_FUNCS
+#define	POST_CIA_FUNCS
+
+STORE_CIAPA()
+{
+    if (cia2[addr] != byte) {
+	 BYTE tmp;
+
+	 cia2[addr] = byte;
+	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
+	 mem_set_vbank(tmp & 3);
+	 iec_cpu_write(tmp);
+    }
+}
+
+STORE_CIAPB()
+{
+    cia2[addr] = byte;
+    if (true1541_parallel_cable_enabled)
+	parallel_cable_cpu_write(cia2[CIA_PRB] | ~cia2[CIA_DDRB],
+                                 ((addr == CIA_PRB) ? 1 : 0));
+}
+
+READ_CIAPA()
+{
+#if 1				/* FAST_BUS */
+    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_cpu_read();
+#else
+    byte= ((cia2[CIA_PRA] & cia2[CIA_DDRA]) | ((0x3f | iec_cpu_read(	)) & ~cia2[CIA_DDRA]));
+#endif
+}
+
+READ_CIAPB()
+{
+    byte = (true1541_parallel_cable_enabled
+            ? parallel_cable_cpu_read()
+            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
+
+}
+
+READ_CIAICR()
+{
+    if (true1541_parallel_cable_enabled)
+	true1541_cpu_execute();
+}
+

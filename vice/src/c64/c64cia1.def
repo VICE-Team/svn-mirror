@@ -1,0 +1,120 @@
+/* -*- C -*-
+ *
+ * cia1.def - Definitions for the first MOS6526 (CIA) chip in the C64 ($DC00).
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#define mycpu maincpu
+
+#define myclk maincpu_clk
+
+#define mycia cia1
+
+#define MYCIA CIA1
+
+
+#define	cia1_set_int_clk		maincpu_set_irq_clk
+#define	CIA1_INT			IK_IRQ
+
+/* #define CIA1_TIMER_DEBUG */
+
+INCLUDES()
+{
+#include "kbd.h"
+#include "c64cia.h"
+}
+
+#define PRE_CIA_FUNCS
+
+#define STORE_CIAPA 		cia1[addr] = byte;
+
+STORE_CIAPB()
+{
+    {
+        static int old_lp = 0x10;
+        int new_lp;
+
+        cia1[addr] = byte;
+
+	/* Handle software-triggered light pen. */
+        new_lp = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & 0x10;
+        if (new_lp != old_lp) {
+            vic_ii_trigger_light_pen(rclk);
+	    old_lp = new_lp;
+        }
+    }
+}
+
+READ_CIAPA()
+{
+	{
+	    BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
+	    BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]);
+	    BYTE joy1 = joy[1];
+	    int m, i;
+
+	    msk &= ~joy1;
+	    for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+		if (!(msk & m))
+		    val &= ~rev_keyarr[i];
+	    byte= val & ~joy[2];
+	}
+}
+
+READ_CIAPB()
+{
+	{
+	    BYTE val = ~cia1[CIA_DDRB];
+	    BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[2];
+	    BYTE joy1 = joy[1];
+	    BYTE m;
+	    int i;
+
+	    for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
+		if (!(msk & m))
+		    val &= ~keyarr[i];
+	    byte= (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy1;
+	}
+}
+
+#define READ_CIAICR
+
+POST_CIA_FUNCS()
+{
+
+int     show_keyarr(void)
+{
+    int     i, j;
+    for (j = 0; j < KBD_ROWS; j++) {
+	printf("%d:", j);
+	for (i = 0x80; i; i >>= 1)
+	    printf(" %d", keyarr[j] & i);
+	printf("\n");
+    }
+    return (0);
+}
+
+}
+
