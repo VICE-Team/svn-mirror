@@ -2,7 +2,7 @@
  * maincpu.h - Emulation of the main 6510 processor.
  *
  * Written by
- *   Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,6 +33,28 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* Information about the last opcode executed by the CPU.  */
+extern int last_opcode_info;
+
+/* The lowest 8 bits are the opcode number.  */
+#define OPINFO_NUMBER_MASK	       	(last_opcode_info & 0xff)
+
+/* If this is set to 1, the opcode has delayed interrupts by one more cycle
+   (this happens with conditional jumps when jump is taken.  */
+#define OPINFO_DELAYS_INTERRUPT_MASK	(last_opcode_info & 0x100)
+
+/* The VIC-II emulation needs this.  */
+#if defined CBM64
+#define EXTERN_PC
+extern unsigned int reg_pc;
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+/* 6510 Registers.  */
+/* FIXME: This must be removed some day.  It is only used to make the old
+   code happy.  */
+
 extern ADDRESS program_counter;
 extern BYTE accumulator;
 extern BYTE x_register, y_register, stack_pointer;
@@ -45,25 +67,6 @@ extern int interrupt_flag;
 extern int carry_flag;
 extern int rmw_flag;
 extern CLOCK clk;
-
-/* ------------------------------------------------------------------------- */
-
-/* Information about the last opcode executed by the CPU.  */
-
-extern int last_opcode_info;
-
-/* The lowest 8 bits are the opcode number.  */
-#define OPINFO_NUMBER_MASK	       	(last_opcode_info & 0xff)
-
-/* If this is set to 1, the opcode has delayed interrupts by one more cycle
-   (this happens with conditional jumps when jump is taken.  */
-#define OPINFO_DELAYS_INTERRUPT_MASK	(last_opcode_info & 0x100)
-
-/* ------------------------------------------------------------------------- */
-
-/* 6510 Registers.  */
-/* FIXME: This must be removed some day.  It is only used to make the old
-   code happy.  */
 
 #define AC	accumulator
 #define XR	x_register
@@ -81,8 +84,8 @@ extern int last_opcode_info;
 #define IF	interrupt_flag
 #define CF	carry_flag
 
-/* These define the position of the status flags in the P (`status') 
-   register. */
+/* These define the position of the status flags in the P (`status')
+   register.  */
 #define S_SIGN		0x80
 #define S_OVERFLOW	0x40
 #define S_UNUSED	0x20
