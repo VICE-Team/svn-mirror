@@ -762,9 +762,9 @@ BYTE read_mycia_(ADDRESS addr)
 
 	    myciardi = rclk;
 
-            if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TA])
+            if (rclk >= maincpu_int_status.alarm_clk[A_MYCIATA])
                 int_myciata(rclk - maincpu_int_status.alarm_clk[A_MYCIATA]);
-            if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TB])
+            if (rclk >= maincpu_int_status.alarm_clk[A_MYCIATB])
                 int_myciatb(rclk - maincpu_int_status.alarm_clk[A_MYCIATB]);
 
 	    update_mycia(rclk);

@@ -806,9 +806,9 @@ BYTE read_cia1_(ADDRESS addr)
 
 	    cia1rdi = rclk;
 
-            if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TA])
+            if (rclk >= maincpu_int_status.alarm_clk[A_CIA1TA])
                 int_cia1ta(rclk - maincpu_int_status.alarm_clk[A_CIA1TA]);
-            if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TB])
+            if (rclk >= maincpu_int_status.alarm_clk[A_CIA1TB])
                 int_cia1tb(rclk - maincpu_int_status.alarm_clk[A_CIA1TB]);
 
 	    update_cia1(rclk);
