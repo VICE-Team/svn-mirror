@@ -68,6 +68,7 @@
 #include "vicii.h"
 
 #include "alarm.h"
+#include "c64.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "cmdline.h"
@@ -720,6 +721,18 @@ inline static void update_int_raster(void)
 		  int_raster_clk, int_raster_line, vic[0x1a] & 1));
 }
 
+/* ------------------------------------------------------------------------ */
+
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
+{
+    int_raster_clk -= sub;
+    oldclk -= sub;
+    vic_ii_fetch_clk -= sub;
+    vic_ii_draw_clk -= sub;
+}
+
+/* ------------------------------------------------------------------------ */
+
 /* Initialize the VIC-II emulation. */
 canvas_t vic_ii_init(void)
 {
@@ -780,6 +793,16 @@ canvas_t vic_ii_init(void)
 
     init_drawing_tables();
     refresh_all();
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
+    if (clk_guard_get_clk_base(&maincpu_clk_guard) == 0) {
+        clk_guard_set_clk_base(&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
+    } else {
+        /* Safety measure.  */
+        log_error(vic_ii_log,
+                  "Trying to override clk base!?  Code is broken.");
+    }
 
     vic_ii_powerup();
     
@@ -3951,14 +3974,6 @@ void video_resize(void)
 	frame_buffer_clear(&frame_buffer, PIXEL(0));
 	refresh_all();
     }
-}
-
-void vic_ii_prevent_clk_overflow(CLOCK sub)
-{
-    int_raster_clk -= sub;
-    oldclk -= sub;
-    vic_ii_fetch_clk -= sub;
-    vic_ii_draw_clk -= sub;
 }
 
 /* ------------------------------------------------------------------------- */
