@@ -1,0 +1,264 @@
+
+
+
+petcat(1)	     C64 Program Development		petcat(1)
+
+
+NAME
+       petcat - convert and display PETSCII or BASIC files
+
+SYNOPSIS
+       petcat  [ -text | -<version> | -w<version> | -k<version> ]
+       [ -l hexaddr ] [ -c | -nc ] [ -o outfile ] [ -skip  offset
+       ] [ -- ] [ file list ]
+
+DESCRIPTION
+       petcat  converts input files from the most common CBM file
+       formats into printable ASCII form and writes  to	 standard
+       output.	The  type  of  input file is determined automati-
+       cally, if possible, and	appropriate  conversion	 is  per-
+       formed.	 Since	a few of the BASIC versions have keywords
+       defined	differently,  the  right  conversion  has  to  be
+       selected on the command line.  Where such confusion cannot
+       happen, automatical recognition of input is used. This  is
+       useful when expanding several files at once or if the pro-
+       gram contains code for several versions, selected  accord-
+       ing to the hardware; eg. Simon's Basic vs. Basic 7.0.
+       Please  note  that  each input file is converted individu-
+       ally, but the output is produced as continuous flow. Also,
+       all  input files that are read trough a pipe, are concate-
+       nated before they reach petcat  so  any	machine	 language
+       section	in between the BASIC programs causes all consecu-
+       tive files to be taken as one  machine  language	 program.
+       For  that  reason  files containing machine language parts
+       attached to them must be input separately,  otherwise  the
+       remaining files won't be expanded.  petcat recognizes nor-
+       mal PETSCII text files  (SEQ),  program	files  containing
+       directory  listing,  and BASIC programs. Both the original
+       CBM files and files with a PC64 `P00' header are accepted.
+       The different BASIC versions are not automatically distin-
+       quished, but standard C64 and C128 versions  are	 used  as
+       default.
+       In  order to tokenize a text file into a BASIC binary file
+       the desired BASIC version must be exclusively specified so
+       that  correct  set of keywords will be used.  If line num-
+       bers are not found in the beginning of each program  line,
+       the  cruncher creates the missing line numbers by adding 2
+       to the numeric value of previous	 one.	Since  also  line
+       numbers	 deviating  from  strictly  ascendind  order  are
+       accepted, care must be taken when editing such  a  program
+       on a C64 again.
+
+   Clarification
+       Since CBM programs usually contain unprintable characters,
+       a way to spesify them has been created.	Normally,  petcat
+       uses  the  same codes as most printers, but for tokenizing
+       programs scanned from magazines, it can use the	following
+       convention:
+
+       <DOWN>	   stands for single control code
+
+
+
+
+VICE			   12 Dec 1996				1
+
+
+
+
+
+petcat(1)	     C64 Program Development		petcat(1)
+
+
+       <6 RIGHT>   contains amout of consecutive codes
+
+       List of valid mnemonics:
+		   <wht>   <dish>  <ensh>  <swlc>  <down>  <rvon>
+		   <home> <del> <esc> <red>  <rght>  <grn>  <blu>
+		   <orng> <F1> <F3> <F5> <F7> <F2> <F4> <F6> <F8>
+		   <sret> <swuc> <blk> <up> <rvof>  <clr>  <inst>
+		   <brn>   <lred>  <gry1>  <gry2>  <lgrn>  <lblu>
+		   <gry3> <pur> <left> <yel> <cyn>
+
+       List of alternate mnemonics:
+		   <wht>  <up/lo  lock	on>  <up/lo   lock   off>
+		   <return>  <lower  case> <down> <rvs on> <home>
+		   <delete>  <esc>  <red>  <right>  <grn>   <blu>
+		   <orange>  <f1>  <f3>	 <f5> <f7> <f2> <f4> <f6>
+		   <f8> <shift return> <upper  case>  <blk>  <up>
+		   <rvs	 off>  <clr>  <insert>	<brown>	 <lt red>
+		   <grey1> <grey2> <lt green> <lt  blue>  <grey3>
+		   <pur> <left> <yel> <cyn>
+
+OPTIONS
+       -a load_address
+	       Specify load_address for tokenized program.
+
+       -c      Causes  petcat  to  interpret also control charac-
+	       ters.  By default, these strings are the	 same  as
+	       used  by	 printers.  However,  an alternate set is
+	       attempted whenever none	within	the  primary  set
+	       matches.	 Default  is  ON,  unless  text	 mode  is
+	       selected.
+
+       -nc     Suppress control codes.
+
+       -f      Force overwrite of existing output  file.  Default
+	       true.
+
+       -h      Print  filename	and  start address for each Basic
+	       file expanded. Default true.
+
+       -nh     Suppress file header in printout.
+
+       -o file Redirect output to the specified file. This option
+	       overrules  -h.  When file has extension `.P00' and
+	       also -w option is specified, the PC64 file  header
+	       is  written  automatically.  .P00  file	cannot be
+	       written on stdout but to a file only.
+
+       -skip offset
+	       Skip offset bytes in the beginning of input  file.
+
+       -text   Force  text mode even if the input file looks like
+	       a Basic program, i.e.  the first byte in	 file  is
+	       01.
+
+
+
+
+VICE			   12 Dec 1996				2
+
+
+
+
+
+petcat(1)	     C64 Program Development		petcat(1)
+
+
+       -k<version>
+	       Just  prints  all valid keywords for the specified
+	       Basic version.  Without any version, all names  of
+	       supported BASIC versions are listed instead.
+
+       -w<version>
+	       Tokenise	 program  listing using keywords set from
+	       the specified Basic version.
+
+       -<version>
+	       Changes the set	of  keywords  for  the	specified
+	       Basic  version  and  expands tokenized input file.
+	       Without this option petcat uses V7.0  keywords  in
+	       expanding.
+
+   Versions
+       1	     Basic 1.0
+
+       2	     Basic 2.0
+
+       a	     Basic 2.0 with AtBasic
+
+       t	     Basic 2.0 with Turtle Basic
+
+       super su se   Basic 2.0 with Super Expander
+
+       simon si	     Basic 2.0 and Simon's Basic
+
+       speech sp     Basic 2.0 with Speech Basic v2.7
+
+       4	     Basic 4.0
+
+       4e	     Basic 4.0 Extension
+
+       3	     Basic 3.5
+
+       7	     Basic 7.0
+
+       10	     Basic 10.0
+
+RESTRICTIONS
+       Line numbers must be less than 65536.  Maximum line length
+       is 255 bytes. Leading white space is ignored.  Blank lines
+       and  line  numbers  not followed by any text are rejected.
+       While expanding, Machine Language section concatenated  to
+       a  BASIC	 program  is  ignored.	 While crunching, control
+       codes that appear outside quotes are not interpreted.  The
+       low order byte of load address must be "01".
+
+SEE ALSO
+       cat(1),	tr(1),	sed(1),	 fvcbm(1),  petlp(1), cbmconvert,
+       iso2asc(1), ASCII(7), CBM Tokens Documentation, CBM's Pro-
+       grammers' Reference Guide series
+
+
+
+
+VICE			   12 Dec 1996				3
+
+
+
+
+
+petcat(1)	     C64 Program Development		petcat(1)
+
+
+AUTHOR
+	 Jouko Valta	(jopi@stekt.oulu.fi)
+
+Thanks to
+	 Frederik Ekman (d91fe@lelle.pt.hk-r.se)
+	 Marko Makela	(msmakela@nic.funet.fi)
+	 Russell Alphey (r.alphey@dce.vic.gov.au)
+	 Andre Fachat	(a.fachat@physik.tu-chemnitz.de)
+	 Onno Ebbinge	(ebbin200@hio.tem.NHL.NL)
+	 Frank Kontros	(jeno@kontr.uzhgorod.ua)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VICE			   12 Dec 1996				4
+
+
