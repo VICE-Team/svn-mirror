@@ -29,8 +29,13 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "drive.h"
+#include "drivecpu.h"
+#include "iecdrive.h"
 #include "log.h"
+#include "maincpu.h"
 #include "mon.h"
+#include "plus4iec.h"
 #include "plus4mem.h"
 #include "plus4memlimit.h"
 #include "plus4tia1.h"
@@ -92,8 +97,45 @@ static unsigned int mem_config;
 /* Logging goes here.  */
 static log_t plus4_mem_log = LOG_ERR;
 
+/* Pointer to the IEC structure.  */
+static iec_info_t *iec_info;
+
+static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
+    iec_cpu_write_conf0, iec_cpu_write_conf1,
+    iec_cpu_write_conf2, iec_cpu_write_conf3
+};
+
 inline void pla_config_changed(void)
 {
+}
+
+static void mem_proc_port_store(void)
+{
+    BYTE tmp;
+/*printf("WR\n");*/
+    tmp = ~(pport.data | ~pport.dir);
+
+    iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
+}
+
+static BYTE mem_proc_port_read(ADDRESS addr)
+{
+/*printf("RD\n");*/
+    if (addr == 0) {
+        return pport.dir;
+    } else {
+        BYTE byte;
+        if (!drive[0].enable && !drive[1].enable)
+            return ((pport.data | ~pport.dir) & 0x3f) |
+                (iec_info->iec_fast_1541 & 0x30) << 2;
+        if (drive[0].enable)
+            drive0_cpu_execute(clk);
+        if (drive[1].enable)
+            drive1_cpu_execute(clk);
+
+        byte = ((pport.data | ~pport.dir) & 0x3f) | iec_info->cpu_port;
+        return byte;
+    }
 }
 
 void mem_config_set(unsigned int config)
@@ -150,6 +192,13 @@ void mem_toggle_watchpoints(int flag)
 
 BYTE REGPARM1 read_zero(ADDRESS addr)
 {
+    addr &= 0xff;
+
+    switch ((BYTE)addr) {
+      case 0:
+      case 1:
+        return mem_proc_port_read(addr);
+    }
     return ram[addr & 0xff];
 }
 
@@ -157,17 +206,17 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
 
-    switch ((BYTE) addr) {
+    switch ((BYTE)addr) {
       case 0:
         if (pport.dir != value) {
             pport.dir = value;
-            pla_config_changed();
+            mem_proc_port_store();
         }
         break;
       case 1:
         if (pport.data != value) {
             pport.data = value;
-            pla_config_changed();
+            mem_proc_port_store();
         }
         break;
       default:
@@ -209,7 +258,7 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
 
 void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
-    switch (addr & 0xf000) {
+    switch (addr & 0xc000) {
       case 0x8000:
         basic_rom[addr & 0x3fff] = value;
         break;
@@ -301,6 +350,8 @@ static void set_write_hook(int config, int page, store_func_t *f)
 void mem_initialize_memory(void)
 {
     int i, j, k;
+
+    iec_info = iec_get_drive_port();
 
     mem_limit_init(mem_read_limit_tab);
 
@@ -492,7 +543,7 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 
 int mem_rom_trap_allowed(ADDRESS addr)
 {
-    return 0;
+    return addr >= 0x8000 && (mem_config & 0x1);
 }
 
 /* ------------------------------------------------------------------------- */
