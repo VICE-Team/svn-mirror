@@ -308,7 +308,7 @@ if test "$host_vendor" != "go32" -a "$host_vendor" != "msdos"; then
 else
   ARCHDIR="\$(MSDOSDIR)"
   ARCHODIR="\$(MSDOSODIR)"
-  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/vmidas.o \$(ARCHODIR)/tuimenu.o \$(ARCHODIR)/tui.o \$(ARCHODIR)/tuifs.o \$(ARCHODIR)/tuiview.o \$(ARCHODIR)/video.o \$(ARCHODIR)/joystick.o"
+  SYSPEC_OBJS="$SYSPEC_OBJS \$(ARCHODIR)/vmidas.o \$(ARCHODIR)/tuimenu.o \$(ARCHODIR)/tui.o \$(ARCHODIR)/tui_backend.o \$(ARCHODIR)/tuifs.o \$(ARCHODIR)/tuiview.o \$(ARCHODIR)/video.o \$(ARCHODIR)/joystick.o"
   COMMON_LIBS=""
   X64_SYSPEC_OBJS="\$(ARCHODIR)/ui.o \$(ARCHODIR)/vsync.o \$(ARCHODIR)/kbd.o"
   XVIC_SYSPEC_OBJS="\$(ARCHODIR)/ui_VIC20.o \$(ARCHODIR)/vsync_VIC20.o \$(ARCHODIR)/kbd_VIC20.o"
