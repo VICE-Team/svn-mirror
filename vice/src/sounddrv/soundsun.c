@@ -35,6 +35,11 @@
 
 #include <sys/audioio.h>
 
+#ifdef __NetBSD__
+#include <sys/ioctl.h>       /* For ioctl and _IOWR */
+#include <string.h>          /* For memset */
+#endif
+
 #include "vice.h"
 #include "sound.h"
 
