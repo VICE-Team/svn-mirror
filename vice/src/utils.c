@@ -249,8 +249,8 @@ char *subst(const char *s, const char *string, const char *replacement)
         memcpy(dp, sp, f - sp);
         memcpy(dp + (f - sp), replacement, replacement_len);
         dp += (f - sp) + replacement_len;
-        sp = f + string_len;
         s_len -= (f - sp) + string_len;
+        sp = f + string_len;
         num_occurrences--;
     } while (num_occurrences != 0);
 
