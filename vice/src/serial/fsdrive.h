@@ -31,13 +31,13 @@
 
 extern void fsdrive_init(void);
 extern void fsdrive_reset(void);
-extern void fsdrive_open(BYTE b);
-extern void fsdrive_close(BYTE b);
-extern void fsdrive_listentalk(BYTE b);
-extern void fsdrive_unlisten(void);
-extern void fsdrive_untalk(void);
-extern void fsdrive_write(BYTE data);
-extern BYTE fsdrive_read(void);
+extern void fsdrive_open(unsigned int device, BYTE secondary);
+extern void fsdrive_close(unsigned int device, BYTE secondary);
+extern void fsdrive_listentalk(unsigned int device, BYTE secondary);
+extern void fsdrive_unlisten(unsigned int device, BYTE secondary);
+extern void fsdrive_untalk(unsigned int device, BYTE secondary);
+extern void fsdrive_write(unsigned int device, BYTE secondary, BYTE data);
+extern BYTE fsdrive_read(unsigned int device, BYTE secondary);
 
 #endif
 

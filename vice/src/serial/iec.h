@@ -31,13 +31,13 @@
 
 extern void iec_init(void);
 extern void iec_reset(void);
-extern void iec_open(unsigned int device, BYTE b);
-extern void iec_close(unsigned int device, BYTE b);
-extern void iec_listentalk(unsigned int device, BYTE b);
-extern void iec_unlisten(unsigned int device);
-extern void iec_untalk(unsigned int device);
-extern void iec_write(unsigned int device, BYTE data);
-extern BYTE iec_read(unsigned int device);
+extern void iec_open(unsigned int device, BYTE secondary);
+extern void iec_close(unsigned int device, BYTE secondary);
+extern void iec_listentalk(unsigned int device, BYTE secondary);
+extern void iec_unlisten(unsigned int device, BYTE secondary);
+extern void iec_untalk(unsigned int device, BYTE secondary);
+extern void iec_write(unsigned int device, BYTE secondary, BYTE data);
+extern BYTE iec_read(unsigned int device, BYTE secondary);
 
 #endif
 
