@@ -29,10 +29,15 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "actionreplay.h"
+#include "atomicpower.h"
 #include "archdep.h"
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "expert.h"
+#include "final.h"
+#include "kcs.h"
 #include "resources.h"
 #include "types.h"
 
@@ -49,12 +54,12 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 int crt_attach(const char *filename, BYTE *rawcart)
 {
     BYTE header[0x40], chipheader[0x10];
-    int i;
+    int i, rc;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
 
-    if (!fd)
+    if (fd == NULL)
         return -1;
 
     if (fread(header, 0x40, 1, fd) < 1) {
@@ -102,75 +107,37 @@ int crt_attach(const char *filename, BYTE *rawcart)
         fclose(fd);
         return -1;
       case CARTRIDGE_WESTERMANN:
-      case CARTRIDGE_FINAL_I:
       case CARTRIDGE_WARPSPEED:
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
-        if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40) {
-            fclose(fd);
-            return -1;
-        }
-
-        if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
+      case CARTRIDGE_FINAL_I:
+        rc = final_v1_crt_attach(fd, rawcart);
         fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_ACTION_REPLAY:
-      case CARTRIDGE_ATOMIC_POWER:
-        for (i = 0; i <= 3; i++) {
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            if (chipheader[0xb] > 3) {
-                fclose(fd);
-                return -1;
-            }
-            if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {                                        fclose(fd);
-                return -1;
-            }
-        }
+        rc = actionreplay_crt_attach(fd, rawcart);
         fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_ATOMIC_POWER:
+        rc = atomicpower_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_SIMONS_BASIC:
-        for (i = 0; i <= 1; i++) {
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
-                fclose(fd);
-                return -1;
-            }
-            if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000,
-                      1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
+        rc = kcs_crt_attach(fd, rawcart);
         fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_FINAL_III:
-        for (i = 0; i <= 3; i++) {
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            if (chipheader[0xb] > 3) {
-                fclose(fd);
-                return -1;
-            }
-            if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
+        rc = final_v3_crt_attach(fd, rawcart);
         fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_GS:
@@ -227,7 +194,6 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
       case CARTRIDGE_REX:
-      case CARTRIDGE_EXPERT:
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             fclose(fd);
             return -1;
@@ -236,10 +202,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
             fclose(fd);
             return -1;
         }
-        if (crttype == CARTRIDGE_EXPERT) {
-            resources_set_value("CartridgeMode",
-                                (resource_value_t)CARTRIDGE_MODE_ON);
-        }
+        break;
+      case CARTRIDGE_EXPERT:
+        rc = expert_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_ZAXXON:
         /* first CHIP header holds $8000-$a000 data */
@@ -289,7 +257,7 @@ int crt_save(const char *filename)
 
     fd = fopen(filename, MODE_WRITE);
 
-    if (!fd)
+    if (fd == NULL)
         return -1;
 
     /*
