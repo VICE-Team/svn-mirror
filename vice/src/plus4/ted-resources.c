@@ -137,20 +137,7 @@ static int set_pal_emulation(resource_value_t v, void *param)
     return vic_ii_activate_palette();
 }
 
-static int set_sprite_sprite_collisions_enabled(resource_value_t v, void *param)
-{
-    vic_ii_resources.sprite_sprite_collisions_enabled = (int)v;
-    return 0;
-}
-
-static int set_sprite_background_collisions_enabled(resource_value_t v,
-                                                    void *param)
-{
-    vic_ii_resources.sprite_background_collisions_enabled = (int)v;
-    return 0;
-}
-
-static int set_video_cache_enabled (resource_value_t v, void *param)
+static int set_video_cache_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.video_cache_enabled = (int)v;
     if (vic_ii.initialized)
@@ -192,12 +179,6 @@ static resource_t resources[] =
     { "PALEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&vic_ii_resources.pal_emulation,
       set_pal_emulation, NULL },
-    { "CheckSsColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.sprite_sprite_collisions_enabled,
-      set_sprite_sprite_collisions_enabled, NULL },
-    { "CheckSbColl", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.sprite_background_collisions_enabled,
-      set_sprite_background_collisions_enabled, NULL },
     { "PaletteFile", RES_STRING, (resource_value_t)"default",
       (resource_value_t *)&vic_ii_resources.palette_file_name,
       set_palette_file_name, NULL },

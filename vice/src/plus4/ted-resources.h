@@ -47,13 +47,6 @@ struct vic_ii_resources_s
     /* Flag: External palette used? */
     int ext_palette;
 
-    /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
-    int sprite_sprite_collisions_enabled;
-
-    /* Flag: Do we emulate the sprite-background collision register and
-       IRQ?  */
-    int sprite_background_collisions_enabled;
-
     /* Name of palette file.  */
     char *palette_file_name;
 
