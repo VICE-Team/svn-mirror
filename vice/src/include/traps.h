@@ -34,6 +34,7 @@ typedef struct trap_s
 {
     char        *name;
     ADDRESS      address;
+    ADDRESS      resume_address;
     BYTE         check[3];
 #ifdef __STDC__
     void       (*func)(void);
@@ -44,8 +45,8 @@ typedef struct trap_s
 
 
 extern void initialize_traps(void);
-extern int set_trap(trap_t *t);
-extern int remove_trap(trap_t *t);
+extern int set_trap(const trap_t *t);
+extern int remove_trap(const trap_t *t);
 extern int trap_handler(void);
 
 #endif
