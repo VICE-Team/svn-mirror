@@ -30,6 +30,8 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "cartridge.h"
+#include "crt.h"
 #include "generic.h"
 #include "types.h"
 #include "utils.h"
@@ -44,6 +46,11 @@ void generic_16kb_config_init(void)
     cartridge_config_changed(1);
 }
 
+void generic_ultimax_config_init(void)
+{
+    cartridge_config_changed(3);
+}
+
 void generic_8kb_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
@@ -55,6 +62,13 @@ void generic_16kb_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     cartridge_config_changed(1);
+}
+
+void generic_ultimax_config_setup(BYTE *rawcart)
+{
+    memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+    memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+    cartridge_config_changed(3);
 }
 
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
@@ -73,5 +87,37 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
 
     return 0;
+}
+
+int generic_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, 0x10, 1, fd) < 1)
+        return -1;
+
+    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
+        && chipheader[0xe] <= 0x40) {
+        if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
+            return -1;
+
+        crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
+                  : CARTRIDGE_GENERIC_16KB;
+        /* try to read next CHIP header in case of 16k Ultimax cart */
+        if (fread(chipheader, 0x10, 1, fd) < 1)
+            return 0;
+    }
+
+    if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0
+        && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
+        if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff),
+            chipheader[0xe] << 8, 1, fd) < 1)
+            return -1;
+
+        crttype = CARTRIDGE_ULTIMAX;
+        return 0;
+    }
+
+    return -1;
 }
 

@@ -27,14 +27,19 @@
 #ifndef _GENERIC_H
 #define _GENERIC_H
 
+#include <stdio.h>
+
 #include "types.h"
 
 extern void generic_8kb_config_init(void);
 extern void generic_16kb_config_init(void);
+extern void generic_ultimax_config_init(void);
 extern void generic_8kb_config_setup(BYTE *rawcart);
 extern void generic_16kb_config_setup(BYTE *rawcart);
+extern void generic_ultimax_config_setup(BYTE *rawcart);
 extern int generic_8kb_bin_attach(const char *filename, BYTE *rawcart);
 extern int generic_16kb_bin_attach(const char *filename, BYTE *rawcart);
+extern int generic_crt_attach(FILE *fd, BYTE *rawcart);
 
 #endif
 
