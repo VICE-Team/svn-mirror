@@ -6,7 +6,7 @@
 
 /* include the autoconf-created header file [EP] */
 #if	defined(HAVE_CONFIG_H)
-#include "autoconf.h"
+#include "config.h"
 #endif
 
 #include <stdio.h>
