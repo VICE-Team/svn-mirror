@@ -26,52 +26,52 @@
 
 #include "vice.h"
 
-#include <stdio.h>
+#include <string.h>
 
-#include "archdep.h"
+#include "c64cart.h"
+#include "c64cartmem.h"
 #include "generic.h"
 #include "types.h"
 #include "utils.h"
 
-int generic_8kb_attach(const char *filename, BYTE *rawcart)
+void generic_8kb_config_init(void)
 {
-    FILE *fd;
+    cartridge_config_changed(0);
+}
 
-    fd = fopen(filename, MODE_READ);
+void generic_16kb_config_init(void)
+{
+    cartridge_config_changed(1);
+}
 
-    if (!fd)
+void generic_8kb_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    cartridge_config_changed(0);
+}
+
+void generic_16kb_config_setup(BYTE *rawcart)
+{
+    memcpy(roml_banks, rawcart, 0x2000);
+    memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    cartridge_config_changed(1);
+}
+
+int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
+{
+    if (util_file_load(filename, rawcart, 0x2000,
+        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
-    if (util_file_length(fd) == 0x2002)
-        fread(rawcart, 2, 1, fd);
-
-    if (fread(rawcart, 0x2000, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-
-    fclose(fd);
     return 0;
 }
 
-int generic_16kb_attach(const char *filename, BYTE *rawcart)
+int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
 {
-    FILE *fd;
-
-    fd = fopen(filename, MODE_READ);
-
-    if (!fd)
+    if (util_file_load(filename, rawcart, 0x4000,
+        UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
-    if (util_file_length(fd) == 0x4002)
-        fread(rawcart, 2, 1, fd);
-
-    if (fread(rawcart, 0x4000, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-
-    fclose(fd);
     return 0;
 }
 

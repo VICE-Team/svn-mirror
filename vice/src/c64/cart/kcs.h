@@ -1,5 +1,5 @@
 /*
- * generic.h - Cartridge handling, generic carts.
+ * kcs.h - Cartridge handling, KCS cart.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,17 +24,23 @@
  *
  */
 
-#ifndef _GENERIC_H
-#define _GENERIC_H
+#ifndef _KCS_H
+#define _KCS_H
+
+#include <stdio.h>
 
 #include "types.h"
 
-extern void generic_8kb_config_init(void);
-extern void generic_16kb_config_init(void);
-extern void generic_8kb_config_setup(BYTE *rawcart);
-extern void generic_16kb_config_setup(BYTE *rawcart);
-extern int generic_8kb_bin_attach(const char *filename, BYTE *rawcart);
-extern int generic_16kb_bin_attach(const char *filename, BYTE *rawcart);
+extern BYTE REGPARM1 kcs_io1_read(ADDRESS addr);
+extern void REGPARM2 kcs_io1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 kcs_io2_read(ADDRESS addr);
+extern void REGPARM2 kcs_io2_store(ADDRESS addr, BYTE value);
+
+extern void kcs_freeze(void);
+
+extern void kcs_config_init(void);
+extern void kcs_config_setup(BYTE *rawcart);
+extern int kcs_crt_attach(FILE *fd, BYTE *rawcart);
 
 #endif
 
