@@ -4,7 +4,7 @@
 #
 # Changed to a patch to busi_uk.vkm by AF
 #
-!INCLUDE busi_uk.vkm
+!INCLUDE x11_buks.vkm
 #
 # Changes to PET graphics mapping
 #

@@ -3,7 +3,7 @@
 #
 # use PET graphics mapping as base
 #
-!INCLUDE graphics.vkm
+!INCLUDE x11_bgrs.vkm
 #
 # Changes to PET graphics mapping
 #
