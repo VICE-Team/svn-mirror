@@ -2,8 +2,8 @@
  * grc.h - GCR handling.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose <boose@unixserv.rz.fh-hannover.de>
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,6 +30,24 @@
 
 #include "types.h"
 
+/* Number of bytes in one raw track.  */
+#define NUM_MAX_BYTES_TRACK 7928
+
+/* Number of tracks we emulate.  */
+#define MAX_GCR_TRACKS 70
+
+typedef struct {
+    /* Raw GCR image of the disk.  */
+    BYTE data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
+
+    /* Speed zone image of the disk.  */
+    BYTE speed_zone[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
+
+    /* Size of the GCR data of each track.  */
+    int track_size[MAX_GCR_TRACKS];
+
+} gcr_t;
+
 extern void convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr);
 extern void convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr);
 extern void convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
@@ -39,4 +57,16 @@ extern void convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
 				  BYTE *GCR_track_start_ptr,
 				  int GCR_current_track_size);
 
+extern BYTE *gcr_find_sector_header(int track, int sector,
+                                    BYTE *gcr_track_start_ptr,
+                                    int gcr_current_track_size);
+extern BYTE *gcr_find_sector_data(BYTE *offset,
+                                  BYTE *gcr_track_start_ptr,
+                                  int gcr_current_track_size);
+extern int gcr_read_sector(gcr_t *gcr, BYTE *readdata, int track, int sector);
+extern int gcr_write_sector(gcr_t *gcr, BYTE *writedata, int track, int sector);
+
+extern gcr_t *gcr_create_image(void);
+extern void gcr_destroy_image(gcr_t *gcr);
 #endif
+
