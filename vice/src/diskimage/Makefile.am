@@ -9,7 +9,13 @@ libdiskimage_a_SOURCES = \
 	createdisk.c \
 	createdisk.h \
 	diskimage.c \
-	probe.c \
-	probe.h \
+	fsimage-gcr.c \
+	fsimage-gcr.h \
+	fsimage-probe.c \
+	fsimage-probe.h \
+	fsimage.c \
+	fsimage.h \
+	rawimage.c \
+	rawimage.h \
 	x64.h
 
