@@ -40,9 +40,9 @@
 
 void autostart_init(void);
 void autostart_advance(void);
-int autostart_tape(const char *file_name);
-int autostart_disk(const char *file_name);
-int autostart_autodetect(const char *file_name);
+int autostart_tape(const char *file_name, const char *program_name);
+int autostart_disk(const char *file_name, const char *program_name);
+int autostart_autodetect(const char *file_name, const char *program_name);
 int autostart_device(int num);
 void autostart_reset(void);
 

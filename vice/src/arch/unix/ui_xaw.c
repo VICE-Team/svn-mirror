@@ -1938,7 +1938,7 @@ CallbackFunc(UiAttachDisk)
 	break;
 #ifdef AUTOSTART
       case Button_Autostart:
-	if (autostart_disk(filename) < 0)
+	if (autostart_disk(filename, NULL) < 0)
 	    UiError("Invalid Disk Image");
 	break;
 #endif
@@ -1981,7 +1981,7 @@ CallbackFunc(UiAttachTape)
 	break;
 #ifdef AUTOSTART
       case Button_Autostart:
-	if (autostart_tape(filename) < 0)
+	if (autostart_tape(filename, NULL) < 0)
 	    UiError("Invalid Tape Image");
 	break;
 #endif
@@ -2026,7 +2026,7 @@ CallbackFunc(UiSmartAttach)
 	break;
 #ifdef AUTOSTART
       case Button_Autostart:
-	if (autostart_autodetect(filename) < 0)
+	if (autostart_autodetect(filename, NULL) < 0)
 	    UiError("Unknown image type");
 	break;
 #endif
