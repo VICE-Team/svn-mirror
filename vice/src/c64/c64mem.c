@@ -280,10 +280,20 @@ void initialize_memory(void)
 	    mem_read_tab[i][j] = read_ram;
 	    mem_read_base_tab[i][j] = ram + (j << 8);
 	    for (k = 0; k < NUM_VBANKS; k++) {
-		if ((j & 0xc0) == (k << 6))
-		    mem_write_tab[k][i][j] = store_vbank;
-		else
+		if ((j & 0xc0) == (k << 6)) {
+                    switch (j & 0x3fff) {
+                      case 0x39:
+                        mem_write_tab[k][i][j] = store_vbank_39xx;
+                        break;
+                      case 0x3f:
+                        mem_write_tab[k][i][j] = store_vbank_3fxx;
+                        break;
+                      default:
+                        mem_write_tab[k][i][j] = store_vbank;
+                    }
+		} else {
 		    mem_write_tab[k][i][j] = store_ram;
+                }
 	    }
 	}
 	mem_read_tab[i][0xff] = read_ram;
