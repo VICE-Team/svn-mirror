@@ -1,5 +1,5 @@
 /*
- * probe.c - Probe disk images.
+ * fsimage-probe.c - Probe disk images.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -50,9 +50,13 @@ static log_t disk_image_probe_log = LOG_ERR;
 
 static void disk_image_check_log(disk_image_t *image, const char *type)
 {
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
     log_message(disk_image_probe_log,
                 "%s disk image recognised: %s, %d tracks%s",
-                type, image->name, image->tracks,
+                type, fsimage->name, image->tracks,
                 image->read_only ? " (read only)." : ".");
 }
 
@@ -74,9 +78,12 @@ static int disk_image_check_for_d64(disk_image_t *image)
 
     int checkimage_tracks, checkimage_errorinfo;
     size_t countbytes, checkimage_blocks, checkimage_realsize;
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
 
     checkimage_errorinfo = 0;
-    checkimage_realsize = util_file_length(image->fd);
+    checkimage_realsize = util_file_length(fsimage->fd);
     checkimage_tracks = NUM_TRACKS_1541; /* start at track 35 */
     checkimage_blocks = D64_FILE_SIZE_35 / 256;
 
@@ -105,9 +112,9 @@ static int disk_image_check_for_d64(disk_image_t *image)
 
     /*** test image file: read it (fgetc is pretty fast).
          further size checks are no longer necessary (done during detection) */
-    rewind(image->fd);
+    rewind(fsimage->fd);
     for (countbytes = 0; countbytes < checkimage_realsize; countbytes++) {
-        if (fgetc(image->fd) == EOF) {
+        if (fgetc(fsimage->fd) == EOF) {
             log_error(disk_image_probe_log, "Cannot read D64 image.");
             return 0;
         }
@@ -118,9 +125,9 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->tracks = checkimage_tracks;
     if (checkimage_errorinfo) {
         image->error_info = (BYTE *)xcalloc(1, MAX_BLOCKS_1541);
-        if (fseek(image->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0)
+        if (fseek(fsimage->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0)
             return 0;
-        if (fread(image->error_info, 1, checkimage_blocks, image->fd)
+        if (fread(image->error_info, 1, checkimage_blocks, fsimage->fd)
             < checkimage_blocks)
             return 0;
     }
@@ -136,16 +143,19 @@ static int disk_image_check_for_d67(disk_image_t *image)
     unsigned int blk = 0;
     size_t len;
     BYTE block[256];
+    fsimage_t *fsimage;
 
-    if (!(IS_D67_LEN(util_file_length(image->fd))))
+    fsimage = (fsimage_t *)(image->media);
+
+    if (!(IS_D67_LEN(util_file_length(fsimage->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D67;
     image->tracks = NUM_TRACKS_2040;
 
-    rewind(image->fd);
+    rewind(fsimage->fd);
 
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
         /* FIXME */
         if (++blk > (NUM_BLOCKS_2040)) {
             log_error(disk_image_probe_log, "Disk image too large");
@@ -172,16 +182,19 @@ static int disk_image_check_for_d71(disk_image_t *image)
     unsigned int blk = 0;
     size_t len;
     BYTE block[256];
+    fsimage_t *fsimage;
 
-    if (!(IS_D71_LEN(util_file_length(image->fd))))
+    fsimage = (fsimage_t *)(image->media);
+
+    if (!(IS_D71_LEN(util_file_length(fsimage->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D71;
     image->tracks = NUM_TRACKS_1571;
 
-    rewind(image->fd);
+    rewind(fsimage->fd);
 
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
         if (++blk > 1372) {
             log_error(disk_image_probe_log, "Disk image too large.");
             break;
@@ -207,16 +220,19 @@ static int disk_image_check_for_d81(disk_image_t *image)
     unsigned int blk = 0;
     size_t len;
     BYTE block[256];
+    fsimage_t *fsimage;
 
-    if (!(IS_D81_LEN(util_file_length(image->fd))))
+    fsimage = (fsimage_t *)(image->media);
+
+    if (!(IS_D81_LEN(util_file_length(fsimage->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D81;
     image->tracks = NUM_TRACKS_1581;
 
-    rewind(image->fd);
+    rewind(fsimage->fd);
 
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
         if (++blk > 3213) {
             log_error(disk_image_probe_log, "Disk image too large.");
             break;
@@ -242,16 +258,19 @@ static int disk_image_check_for_d80(disk_image_t *image)
     unsigned int blk = 0;
     size_t len;
     BYTE block[256];
+    fsimage_t *fsimage;
 
-    if (!(IS_D80_LEN(util_file_length(image->fd))))
+    fsimage = (fsimage_t *)(image->media);
+
+    if (!(IS_D80_LEN(util_file_length(fsimage->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D80;
     image->tracks = NUM_TRACKS_8050;
 
-    rewind(image->fd);
+    rewind(fsimage->fd);
 
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8050 + 6) {
             log_error(disk_image_probe_log, "Disk image too large.");
             break;
@@ -277,16 +296,19 @@ static int disk_image_check_for_d82(disk_image_t *image)
     unsigned int blk = 0;
     size_t len;
     BYTE block[256];
+    fsimage_t *fsimage;
 
-    if (!(IS_D82_LEN(util_file_length(image->fd))))
+    fsimage = (fsimage_t *)(image->media);
+
+    if (!(IS_D82_LEN(util_file_length(fsimage->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D82;
     image->tracks = NUM_TRACKS_8250;
 
-    rewind(image->fd);
+    rewind(fsimage->fd);
 
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
         if (++blk > NUM_BLOCKS_8250 + 6) {
             log_error(disk_image_probe_log, "Disk image too large.");
             break;
@@ -310,10 +332,13 @@ static int disk_image_check_for_d82(disk_image_t *image)
 static int disk_image_check_for_x64(disk_image_t *image)
 {
     BYTE header[X64_HEADER_LENGTH];
+    fsimage_t *fsimage;
 
-    rewind(image->fd);
+    fsimage = (fsimage_t *)(image->media);
 
-    if (fread(header, X64_HEADER_LENGTH, 1, image->fd) < 1)
+    rewind(fsimage->fd);
+
+    if (fread(header, X64_HEADER_LENGTH, 1, fsimage->fd) < 1)
         return 0;
 
     if (header[X64_HEADER_MAGIC_OFFSET + 0] != X64_HEADER_MAGIC_1 ||
@@ -336,9 +361,12 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 {
     int trackfield;
     BYTE header[32];
+    fsimage_t *fsimage;
 
-    fseek(image->fd, 0, SEEK_SET);
-    if (fread((BYTE *)header, sizeof (header), 1, image->fd) < 1) {
+    fsimage = (fsimage_t *)(image->media);
+
+    fseek(fsimage->fd, 0, SEEK_SET);
+    if (fread((BYTE *)header, sizeof (header), 1, fsimage->fd) < 1) {
         log_error(disk_image_probe_log, "Cannot read image header.");
         return 0;
     }

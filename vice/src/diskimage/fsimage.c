@@ -45,42 +45,50 @@ static log_t fsimage_log = LOG_ERR;
 
 int fsimage_open(disk_image_t *image)
 {
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
     if (image->read_only) {
-        image->fd = zfopen(image->name, MODE_READ);
+        fsimage->fd = zfopen(fsimage->name, MODE_READ);
     } else  {
-        image->fd = zfopen(image->name, MODE_READ_WRITE);
+        fsimage->fd = zfopen(fsimage->name, MODE_READ_WRITE);
 
         /* If we cannot open the image read/write, try to open it read only. */
-        if (image->fd == NULL) {
-            image->fd = zfopen(image->name, MODE_READ);
+        if (fsimage->fd == NULL) {
+            fsimage->fd = zfopen(fsimage->name, MODE_READ);
             image->read_only = 1;
         }
     }
 
     image->error_info = NULL;
 
-    if (image->fd == NULL) {
-        log_error(fsimage_log, "Cannot open file `%s'.", image->name);
+    if (fsimage->fd == NULL) {
+        log_error(fsimage_log, "Cannot open file `%s'.", fsimage->name);
         return -1;
     }
 
     if (fsimage_probe(image) == 0)
         return 0;
 
-    zfclose(image->fd);
-    log_message(fsimage_log, "Unknown disk image `%s'.", image->name);
+    zfclose(fsimage->fd);
+    log_message(fsimage_log, "Unknown disk image `%s'.", fsimage->name);
     return -1;
 }
 
 int fsimage_close(disk_image_t *image)
 {
-    if (image->fd == NULL)
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
+    if (fsimage->fd == NULL)
         return -1;
 
-    zfclose(image->fd);
+    zfclose(fsimage->fd);
 
-    free(image->name);
-    image->name = NULL;
+    free(fsimage->name);
+    fsimage->name = NULL;
     if (image->error_info != NULL) {
         free(image->error_info);
         image->error_info = NULL;
@@ -96,8 +104,11 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 {
     int sectors;
     long offset;
+    fsimage_t *fsimage;
 
-    if (image->fd == NULL) {
+    fsimage = (fsimage_t *)(image->media);
+
+    if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to read without disk image.");
         return 74;
     }
@@ -123,9 +134,9 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         if (image->type == DISK_IMAGE_TYPE_X64)
             offset += X64_HEADER_LENGTH;
 
-        fseek(image->fd, offset, SEEK_SET);
+        fseek(fsimage->fd, offset, SEEK_SET);
 
-        if (fread((char *)buf, 256, 1, image->fd) < 1) {
+        if (fread((char *)buf, 256, 1, fsimage->fd) < 1) {
             log_error(fsimage_log,
                       "Error reading T:%i S:%i from disk image.",
                       track, sector);
@@ -182,8 +193,11 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 {
     int sectors;
     long offset;
+    fsimage_t *fsimage;
 
-    if (image->fd == NULL) {
+    fsimage = (fsimage_t *)(image->media);
+
+    if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to write without disk image.");
         return -1;
     }
@@ -213,9 +227,9 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         if (image->type == DISK_IMAGE_TYPE_X64)
             offset += X64_HEADER_LENGTH;
 
-        fseek(image->fd, offset, SEEK_SET);
+        fseek(fsimage->fd, offset, SEEK_SET);
 
-        if (fwrite((char *)buf, 256, 1, image->fd) < 1) {
+        if (fwrite((char *)buf, 256, 1, fsimage->fd) < 1) {
             log_error(fsimage_log, "Error writing T:%i S:%i to disk image.",
                       track, sector);
             return -1;
