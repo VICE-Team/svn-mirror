@@ -133,19 +133,19 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h $(INCLUDEDIR)/asm.h \
 	$(INCLUDEDIR)/patchrom.h $(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h \
 	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
 	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
-	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/tape.h \
-	$(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h \
-	$(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h \
-	$(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h \
-	$(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
-	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
+	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/sprcrunch.h \
+	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
+	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
+	$(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h \
+	$(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h \
+	$(INCLUDEDIR)/warn.h $(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
 	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/acconfig.h \
 	$(INCLUDEDIR)/autoconf.h.in
 
 VICEMISC = $(SRCDIR)/Makefile.in $(SRCDIR)/configure $(SRCDIR)/configure.in \
 	$(SRCDIR)/config.guess $(SRCDIR)/config.sub $(SRCDIR)/install-sh \
 	$(SRCDIR)/convio $(SRCDIR)/mkinstalldirs $(SRCDIR)/mkdep \
-	$(SRCDIR)/ChangeLog
+	$(SRCDIR)/ChangeLog $(SRCDIR)/ChangeLog.1
 
 VICEDIST = $(VICEMISC) $(VICESRC) $(VICEHDR) $(C64SRC) $(VICSRC) $(PETSRC)
 
