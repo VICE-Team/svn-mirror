@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+extern void cartridge_config_changed(BYTE mode);
+
 extern BYTE export_ram0[];
 
 #endif
