@@ -261,6 +261,7 @@ void    xdebug_disable (void)
 {
     /*XtUnrealizeWidget (XDebugger);*/
     UpdateStatus(DS_Run);
+    UiDisplayPaused(0);
 }
 
 
@@ -411,6 +412,7 @@ static void RunCb(Widget w, XtPointer clientData, XtPointer callData)
 {
     UpdateStatus(DS_Run);
     maincpu_trigger_trap(RunTrap);
+    UiDisplayPaused(0);
 }
 
 static void StopTrap(ADDRESS addr)
@@ -419,7 +421,7 @@ static void StopTrap(ADDRESS addr)
     UpdateRegisters();
     set_asm(PC);
 
-    UiDisplayPaused();
+    UiDisplayPaused(1);
     suspend_speed_eval();
 
     while (halt && !step)
