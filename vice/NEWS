@@ -1,0 +1,520 @@
+                                                       -*- outline -*-
+
+* About this file
+=================
+
+This file lists the most important user-visible changes for each
+official release of VICE.  See `src/ChangeLog' for a more detailed
+list of all the changes in the code.
+
+
+* Changes in VICE 0.14.3
+========================
+
+** C64 changes
+--------------
+
+- "4064" and "SX" are now valid ROM patch IDs (the same as "100" and
+  "67" respectively).
+
+** VIC20 changes
+----------------
+
+- The VIA emulation is now cycle-exact.
+
+** PET changes
+--------------
+
+- The VIA emulation is now cycle-exact.
+
+** 1541 changes
+---------------
+
+- The VIA emulation is now cycle-exact.
+
+- Support for 40-track disk images has been added.
+
+** Unix changes
+---------------
+
+- Sound and joystick are now supported on NetBSD (courtesy of Krister
+  Walfridsson <cato@df.lth.se>).
+
+- Support for multiple keyboard layouts has been added.
+
+- The emulators and c1541 now use the real, full-featured GNU readline
+  library if found.  Use `./configure --without-readline' for the old
+  behavior.
+
+- `-lICE' is now explicitly linked if found (the old way could cause
+  troubles on GNU/Linux systems with both GNU libc 2 and 1, such as
+  RedHat 5.0 or greater).
+
+** Miscellaneous changes
+------------------------
+
+- A major cleanup of the code has been done.
+
+- A brand new monitor with watchpoints and breakpoint has been added.
+  It now allows access to the 1541 CPU, too.
+
+- "On the fly" Lynx and Zipcode support has been added.
+
+- A couple of bugs in the fast serial emulation have been fixed
+  (courtesy of Peter Andrew Felvegi <petschy@derceto.sch.bme.hu>).
+
+- Sound output can now be oversampled.
+
+- The `Directory' resource is now a list of paths.  The separator is
+  `;' on MS-DOS and `:' on Unix.
+
+- Serial traps can be enabled/disabled at runtime.
+
+
+* Changes in VICE 0.14.2
+========================
+
+** C64 changes
+--------------
+
+- A few VIC-II and CIA timing bugs have been fixed.
+
+- The "sprite crunch" effect should now be emulated properly.
+
+- Changes to $3FFF/$39FF in the video bank in the middle of one raster
+  line do not affect the whole line anymore.
+
+- Color of forced $FF DMA characters is now correct.
+
+- The SpeedDOS parallel cable is now emulated.
+
+- More accurate SID filter parameters when the sampling frequency is
+  different from 44.1 KHz.
+
+- The `TapeName' resource has been removed.
+
+** VIC20 changes
+----------------
+
+- An annoying bug that prevented BASIC from working has been fixed;
+
+- True 1541 emulation works again.
+
+- The `TapeName' resource has been removed.
+
+** PET changes
+--------------
+
+- Emulation of joysticks connected to the user port has been added.
+
+** Unix changes
+---------------
+
+- The "change working directory" command displays the current working
+  directory as default.
+
+- A new status bar on the bottom of the emulation window displays the
+  current speed and frame rate, and the status (i.e. LED + R/W head
+  position) of the disk drive when the true 1541 emulation is turned
+  on.
+
+** MS-DOS changes
+-----------------
+
+- A bug that caused sprites to appear near the screen when the
+  640x480 resolution was used has been fixed.
+
+** Miscellaneous changes
+------------------------
+
+- A little timing error in the 6510 RMW instructions using absolute
+  indexed addressing has been corrected.
+
+- Much improved 1541 emulation: most custom write routines should now
+  work.
+
+
+* Changes in VICE 0.14.1
+========================
+
+** C64 changes
+--------------
+
+- A nasty CIA-related bug has been fixed.
+
+
+* Changes in VICE 0.14.0
+========================
+
+** 6502/6510 changes
+--------------------
+
+- Several mostly timing-related 6510 bugs have been fixed (thanks to
+  Andreas Boose's test suites).
+
+** C64 changes
+--------------
+
+- Better SID (audio chip) emulation.  Now filters are emulated and
+  waveforms are more accurate.  (Many thanks go to Michael Schwendt,
+  author of SIDplay, for helping out with this and for providing the
+  filter code and the SID wave tables.)
+
+- Some CIA bugs have been fixed (big thanks to Andreas Boose for
+  reporting them).
+
+- The IEC bus recalculation has been made slightly faster (but you
+  will probably not notice this, also because the true 1541
+  compatibility improvements have made the emulation a bit slower).
+
+- Some VIC-II bugs have been fixed (more big thanks to Andreas for his
+  invaluable test suite).
+
+- Disk/tape images can be "autostarted" from the command-line (with
+  the new `-autostart' option) or at runtime (i.e. you can attach the
+  image and let the emulator run and execute the first program on it
+  for you).  This also works with `P00' and raw CBM binary files.
+
+** VIC20 changes
+----------------
+
+- Fixed a small resizing-related bug.
+
+** PET changes
+--------------
+
+- Improved/fixed keyboards on X11.
+
+- New `PetModel', `VideoWidth' and `KeyboardType' resources.
+
+- Added support for 2001, 4032B and 8096 PETs.
+
+- Better CRTC emulation: R01 (line width) and R12 (control register)
+  are honoured now.
+
+** Unix changes
+---------------
+
+- Dispatching of Xt events fixed (there was a very stupid bug that
+  caused event loops to do busy waits--argh!).
+
+- Made WindowMaker-compliant (x64, xvic and xpet can now be docked).
+  Now, could anybody please contribute cool NeXTish truecolor icons?
+  :-)
+
+- Better handling of window resizing.
+
+- `configure' now uses Xaw3d only if `--with-xaw3d' is specified on
+  the command line.
+
+- The pop-up menus now work also if NumLock or CapsLock are activated.
+
+- A private colormap is automatically used (even if `-install' has not
+  been specified on the command line) if the emulator cannot allocate
+  all the colors at startup.
+
+- Increased portability: now compiles successfully on SunOS 4.x.
+
+- Improved automatic frame skipping algorithm; it now gives a higher
+  average frame rate.
+
+- Different, possibly more usable, menu layout.
+
+** MS-DOS changes
+-----------------
+
+- The contents of disk and tape images can be inspected before
+  attaching them.
+
+** Miscellaneous changes
+------------------------
+
+- The 1541 emulation is now more accurate (disk rotation is taken into
+  account, but hardware formatting still does not work although we are
+  not far from it).
+
+- Safer handling for 1541 ROMs: a checksum is calculated, and turning
+  full 1541 emulation on when no ROM is available does not make the
+  emulator crash anymore.
+
+- BZIP v2 support has been added (from Andreas Boose).
+
+- Read-only support for various archiving formats (`.tar.gz', `.zip',
+  `.lzh', `.zoo') has been added.
+
+- The character ROMs are no longer built-in.
+
+- Removed `.doc' extension from certain files in the documentation, as
+  it confused HTML browsers.
+
+- Useless Makefile target that caused problems with newer versions of
+  GNU make removed.
+
+- C1541 can now create disk images from Zipcoded files (`zcreate'),
+  import Lynx archives (`unlynx') and execute DOS or UNIX commands
+  (`system').  (`unlynx' and `system' have been contributed by Ricardo
+  Ferreira.)
+
+- Wrapping around $FFFF in monitor commands works now (beware: not for
+  all of them, yet!).
+
+- New, more usable, version of the `recomment' utility.
+
+- Support for Simple DirectMedia Layer has been added.
+
+- Character generator ROMs are not built-in anymore.
+
+
+* Changes in VICE 0.13.0
+========================
+
+- Improved (now cycle-exact!) VIC-II emulation (big thanks go to
+  Andreas Boose for helping me to improve it).
+
+- More accurate 6510 emulation (emulates extra unused read accesses).
+
+- Lower memory requirements.
+
+- Complete MS-DOS port.
+
+- Several CIA fixes.
+
+- The VIC-I chip now emulates the reverse mode.
+
+- Loading from tape handles the memory pointers correctly.
+
+- Joystick emulation in the VIC20 emulator.
+
+- Slightly better source code organization.
+
+
+* Changes in VICE-0.12.1
+========================
+
+- The CIAs have been rewritten and are now more compatible and much
+  faster (most of the games that ran much more slowly than usual with
+  0.12.0 should now run at normal speed).
+
+- VIC-II screen updates are now a little faster and also eat less
+  memory.
+
+- Disk images can now be attached in read-only mode.
+
+- Gzip-compressed disk and tape images can be attached directly,
+  without uncompressing them.
+
+- The hardware-level 1541 emulation now supports writing to the disk
+  through the VIAs, so that write patches to the drive ROM are not
+  needed any longer. [please notice that this might not work with
+  everything, as the emulation is not 100% exact]
+
+- VICE can now be compiled also with the standard (0.8.0) joystick
+  module (without digital joystick support, obviously).
+
+- A little bug related to the right Shift key has been solved
+  (courtesy of Bernhard Schwall).
+
+- The numeric keypad can now be used to emulate diagonal directions
+  too.
+
+- The Linux audio driver also works on 8-bit sound cards.
+
+- When a CPU jam happens (illegal opcode), the user can now choose
+  between entering the monitor, enabling the XDebugger or resetting the
+  machine.
+
+- Implemented the new `skip' button in the XDebugger.
+
+- Some little annoying bugs in the SID emulation have been fixed and
+  combined pulse/sawtooth and pulse/triangle waveforms have been
+  implemented.
+
+- The automatic refresh rate setting works better when sound is
+  enabled.
+
+- The adaptive playback speed in the sound driver can now be disabled.
+
+- Sound can now be turned off automatically when buffer overruns
+  happen, and is automatically turned on again after a specified
+  interval.
+
+- AIX audio support has been implemented (courtesy of Chris Sharp
+  (sharpc@hursley.ibm.com)).
+
+- The sprite collision interrupts are more correctly triggered.
+
+- A bad bug related to the sprite expansion register has been fixed.
+
+- The video cache now handles sprite-background collisions correctly.
+
+- A nasty bug that could cause VICE to hang has been fixed.
+
+- Attaching floppy images to drive 9 or 10 no longer makes them appear
+  in drive 8 when full 1541 emulation is enabled.
+
+- Solved some problems with systems that do not have regexp.h (at
+  least we hope so).
+
+- GNU make is no longer needed to compile the PET and VIC20 emulators.
+
+- The documentation has been updated.
+
+- The `tounix' and `toiso' utilities have been added.
+
+- The problem that made VICE die with an `alarm clock' signal on very
+  slow or overloaded machines should now be gone.
+
+- The file selector no longer dies if you type `~' with no `/' in the
+  directory field.
+
+- The file selector now has a "contents" button with which you can see
+  the contents of a disk or tape image before attaching it.
+
+- The X11 video driver automatically disables usage of the MITSHM
+  extensions if they are not supported by the X11 server (even if the
+  `mitshm' resource is non-zero).
+
+- Some annoying REU-related bugs have been fixed.
+
+- The MS-DOS version uses the Scroll Lock LED to emulate the drive LED.
+
+
+* Changes in VICE-0.12.0
+========================
+
+Well, almost 90% of the emulation code has been rewritten (that's why
+it took so long to have this release out), so it would be quite long
+to list everything here.  Anyway, here are the most important new
+features:
+
+- New 6510 emulation, which is much faster and has (hopefully) correct
+  memory fetch timings and exact emulation for all the opcodes.
+
+- Completely rewritten video emulations, now much faster and more
+  versatile: the window size can be doubled at run-time and the video
+  cache can be disabled when not necessary.
+
+- (Much) better VIC-II (C64 video chip) emulation, mostly rewritten
+  from scratch: it can now handle most $D011 tricks such as VSP
+  (Creatures and Mayhem in Monsterland work) and FLI; [yes, the silly
+  sprite priority problems are gone]
+
+- (Slightly) better VIC-I (VIC20 video chip) emulation (still
+  incomplete).
+
+- New SID emulator by Teemu Rantanen, with support for Linux, FreeBSD,
+  Solaris and HP-UX (not all of these are stable, though).
+
+- New CIA emulation with correct timing.
+
+- Faster interrupt handling.
+
+- Xaw-based GUI with popup menus and interactive file selector from
+  the Free Widget Foundation.
+
+- Hardware-based 1541 disk-drive emulation, that works with many
+  custom loading routines.
+
+- New resource handling that allows saving and loading of settings.
+
+- MS-DOS port (no sound yet, UI almost non-existent).
+
+- Better T64 handling (still buggy).
+
+- Removed C128 emulator and RAM tester (sorry, we had no time to work
+  at them).
+
+- Much better Linux joystick support, that works with digital and
+  analog joysticks with auto-calibration (courtesy of Bernhard Kuhn
+  <kuhn@eikon.e-technik.tu-muenchen.de>); [it should compile out of the
+  box now]
+
+- Support for all possible VIC20 memory configurations on the command
+  line (courtesy of Alexander Lehmann <alex@mathematik.th-darmstadt.de>).
+
+- Added `extract' command to c1541 (courtesy of Gerhard Wesp
+  <gwesp@cosy.sbg.ac.at>).
+
+- Added configure script for easier configuration and installation.
+
+- Overall better source code organization, that should make porting
+  much easier; [volunteers, you are welcome!]
+
+- Better keyboard handling (reverse polling is correct now).
+
+- The REU works.
+
+- Several other bugs fixes and improvements we have lost track of.
+
+
+* Changes in VICE-0.11.0
+========================
+
+- The CPU in x64, xvic and xpet is now 2 times faster on average; :->
+
+- The VIC-II steals the correct number of cycles for bad lines and
+  sprites, and correctly fetches the video RAM, so that FLD and other
+  effects involving bad lines are now emulated correctly.
+
+- The interrupt handling and the CIA/VIA emulations have been almost
+  completely rewritten, thus dramatically increasing compatibility and
+  reliability.
+
+- The VIC-II sprite-sprite and sprite-background collision register
+  emulation is (much) faster.
+
+- The Read-Modify-Write bug of the CPU is correctly emulated when
+  accessing the VIC-II register $D011.
+
+- D64 and T64 can be directly attached (T64 in x64 and x128 only).
+
+- A bad bug in the handling of the I/O registers of the 6510 has been
+  fixed.
+
+- The ADC and SBC decimal mode has been fixed.
+
+- Various bugs in the 1541 error channel emulation have been fixed.
+
+- The 1541 emulator and the standalone c1541 program support the Rx:
+  (Rename) command and the Sx: (Scratch, delete) command now handles
+  wildcards correctly.
+
+- The infamous keyboard problem which caused key events to be lost
+  when refresh was > 1 has been fixed.
+
+- A IEEE-488 interface emulator has been introduced (emulates the
+  original Commodore one) in x64, x128 and xvic.
+
+- The xdebugger functionality has been improved (this part is still in
+  the experimental stage, though).
+
+- The `-8' and `-9' options allow to attach diskimages as drive #9 too.
+
+- The Unix FS driver (Unit 11) has been improved, so that it supports
+  the command/error channel and wildcards properly; moreover, new
+  FS-specific commands (mkdir, rmdir, chdir) and errors (`permission
+  denied' and `directory not empty') have been added.
+
+- The VDC emulation in x128 supports variable character and screen
+  size and bitmap mode as well (monochrome only and still under
+  development).
+
+- Some minor bugs in the VDC emulator have been fixed.
+
+- The MMU implementation in x128 is much more complete, with true (not
+  hard-coded) shared RAM and memory configuration support.
+
+- A nasty bug which caused x128 to crash when changing speed and
+  enabling/disabling the video emulators at runtime has been fixed.
+
+- The Linux joystick has been fixed (it did not work at all in 0.10.0).
+
+- The monitor `set' command no longer accepts ambiguous variable names.
+
+- A new `hjoyport' variable/resource allows the user to choose the port
+  for the hardware joystick (Linux only).
+
+- Sun64 is no longer supported (if you need it, download x64-0.3.1).
+
+- One thousand other little bugs have been fixed.
+
