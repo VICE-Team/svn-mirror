@@ -8,12 +8,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = libsounddrv.a
 
-if SOUND_USS
-SOUNDUSS = sounduss.c
-else
-SOUNDUSS =
-endif
-
 # These sources are linked only under certain circumstances.
 EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
@@ -23,10 +17,19 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundsun.c \
 	sounduss.c
 
-# These sources are always (inconditionally) built.
+# These sources are always built.
 libsounddrv_a_SOURCES = \
-	$(SOUNDUSS) \
 	sounddummy.c \
 	sounddump.c \
 	soundfs.c \
 	soundspeed.c
+
+libsounddrv_a_DEPENDENCIES = \
+	@SOUND_DRIVERS@ \
+	sounddummy.o \
+	sounddump.o \
+	soundfs.o \
+	soundspeed.o
+
+libsounddrv_a_LIBADD = \
+	@SOUND_DRIVERS@
