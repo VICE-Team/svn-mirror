@@ -22,6 +22,8 @@ libplus4_a_SOURCES = \
 	plus4mem.h \
 	plus4memlimit.c \
 	plus4memlimit.h \
+	plus4tia1.c \
+	plus4tia1.h \
 	ted-cmdline-options.c \
 	ted-cmdline-options.h \
 	ted-color.c \
@@ -34,8 +36,6 @@ libplus4_a_SOURCES = \
 	ted-resources.h \
 	ted-snapshot.c \
 	ted-snapshot.h \
-	ted-sprites.c \
-	ted-sprites.h \
 	ted-sound.c \
 	ted-sound.h \
 	ted.c \
