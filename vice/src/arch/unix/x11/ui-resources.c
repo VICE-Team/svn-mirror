@@ -29,12 +29,19 @@
 #include "vice.h"
 
 #include "resources.h"
-#include "ui.h"
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
-ui_resources_t _ui_resources;
+struct ui_resources_s {
+    char *html_browser_command;
+    int use_private_colormap;
+    int save_resources_on_exit;
+    int depth;
+};
+typedef struct ui_resources_s ui_resources_t;
+
+static ui_resources_t ui_resources;
 
 #ifdef USE_VIDMODE_EXTENSION
 extern int set_bestmode(resource_value_t v);
@@ -52,40 +59,40 @@ static int set_depth(resource_value_t v)
     if (d < 0 || d > 32)
         return -1;
 
-    _ui_resources.depth = d;
+    ui_resources.depth = d;
     return 0;
 }
 
 static int set_html_browser_command(resource_value_t v)
 {
-    string_set(&_ui_resources.html_browser_command, (char *)v);
+    string_set(&ui_resources.html_browser_command, (char *)v);
     return 0;
 }
 
 static int set_use_private_colormap(resource_value_t v)
 {
-    _ui_resources.use_private_colormap = (int) v;
+    ui_resources.use_private_colormap = (int) v;
     return 0;
 }
 
 static int set_save_resources_on_exit(resource_value_t v)
 {
-    _ui_resources.save_resources_on_exit = (int) v;
+    ui_resources.save_resources_on_exit = (int) v;
     return 0;
 }
 
 static resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t) "netscape %s",
-      (resource_value_t *) &_ui_resources.html_browser_command,
+      (resource_value_t *) &ui_resources.html_browser_command,
       set_html_browser_command },
     { "PrivateColormap", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.use_private_colormap,
+      (resource_value_t *) &ui_resources.use_private_colormap,
       set_use_private_colormap },
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.save_resources_on_exit,
+      (resource_value_t *) &ui_resources.save_resources_on_exit,
       set_save_resources_on_exit },
     { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &_ui_resources.depth,
+      (resource_value_t *) &ui_resources.depth,
       set_depth },
 #ifdef USE_VIDMODE_EXTENSION
     { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
