@@ -59,6 +59,8 @@
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 
+#include "utils.h"              /* [AB] 2000-07-18 Use xmalloc */
+
 #include "MultiListP.h"
 #include "TabString.h"
 
@@ -87,7 +89,7 @@ extern void XawInitializeWidgetSet();
 #define min(a,b)		((a) < (b) ? (a) : (b))
 #define XtStrlen(s)		((s) ? strlen(s) : 0)
 
-#define	TypeAlloc(t,n)		(t *)malloc(sizeof(t) * n)
+#define	TypeAlloc(t,n)		(t *)xmalloc(sizeof(t) * n)
 #define	StrCopy(s)		strcpy(TypeAlloc(char,strlen(s)+1),s)
 #define	StrCopyRetLength(s,lp)	strcpy(TypeAlloc(char,(*lp=(strlen(s)+1))),s)
 
@@ -106,6 +108,7 @@ extern void XawInitializeWidgetSet();
 static void			Initialize();
 static void			Redisplay();
 static XtGeometryResult		PreferredGeometry();
+static void                     Destroy();
 static void			Resize();
 static Boolean			SetValues();
 
@@ -135,6 +138,7 @@ static void			Notify();
 #else
 
 static void		Initialize(Widget request, Widget new);
+static void             Destroy(XfwfMultiListWidget mlw);
 static void 		Redisplay(XfwfMultiListWidget mlw,
 				XEvent *event, Region rectangle_union);
 static XtGeometryResult PreferredGeometry(XfwfMultiListWidget mlw,
@@ -295,7 +299,7 @@ XfwfMultiListClassRec xfwfMultiListClassRec =
 		/* compress_exposure	*/	FALSE,
 		/* compress_enterleave	*/	TRUE,
 		/* visible_interest	*/	FALSE,
-		/* destroy		*/	NULL,
+                /* destroy              */      (XtWidgetProc)Destroy,
 		/* resize		*/	(XtWidgetProc)Resize,
 		/* expose		*/	(XtExposeProc)Redisplay,
 		/* set_values		*/	(XtSetValuesFunc)SetValues,
@@ -348,6 +352,12 @@ Widget request,new;
 		     (MultiListHeight(mlw) == 0));
 } /* Initialize */
 
+/* [AB] 2000-07-19 Destroy list on exit */
+static void Destroy(mlw)
+XfwfMultiListWidget mlw;
+{
+    DestroyOldData(mlw);
+} /* End Destroy */
 
 /*---------------------------------------------------------------------------*
 
@@ -1442,7 +1452,7 @@ Cardinal *num_params;
 				item_index));
 			byte_count = byte_count + strlen(string) + 1;
 		}
-		buffer = (char *)malloc(byte_count);
+		buffer = (char *)xmalloc(byte_count);
 		buffer[0] = '\0';
 		for (i = 0; i < MultiListNumSelected(mlw); i++)
 		{
