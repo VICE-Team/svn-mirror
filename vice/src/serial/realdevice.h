@@ -31,9 +31,9 @@
 
 extern void realdevice_init(void);
 extern void realdevice_reset(void);
-extern void realdevice_open(unsigned int device, BYTE b);
-extern void realdevice_close(unsigned int device, BYTE b);
-extern void realdevice_listentalk(unsigned int device, BYTE b);
+extern void realdevice_open(unsigned int device, BYTE secondary);
+extern void realdevice_close(unsigned int device, BYTE secondary);
+extern void realdevice_listentalk(unsigned int device, BYTE secondary);
 extern void realdevice_unlisten(void);
 extern void realdevice_untalk(void);
 extern void realdevice_write(BYTE data);
