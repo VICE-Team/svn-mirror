@@ -103,6 +103,11 @@
 #include "vicii.h"
 #endif
 
+#ifdef AUTOSTART
+#include "utils.h"
+#include "charsets.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 const char *progname;
@@ -157,6 +162,12 @@ static void set_boot_path(const char *prg_path)
 
 int main(int argc, char **argv)
 {
+#ifdef AUTOSTART
+    FILE		*autostartfd;
+    char		*autostartprg;
+    char		*autostartfile;
+    char		*tmp;
+#endif
     ADDRESS start_addr;
 
     if (atexit (exit64) < 0) {
@@ -314,7 +325,28 @@ int main(int argc, char **argv)
 
 #ifdef AUTOSTART
     autostart_init();
-    autostart_autodetect(app_resources.autostartName);
+    
+    /* Check for image:prg -format.  */
+    if (app_resources.autostartName != NULL) {
+	tmp = strrchr(app_resources.autostartName, ':');
+	if (tmp) {
+	    autostartfile = stralloc(app_resources.autostartName);
+	    autostartprg = strrchr(autostartfile, ':');
+	    *autostartprg++ = '\0';
+	    autostartfd = fopen(autostartfile, "r");
+	    /* image exists? */
+	    if (autostartfd) {
+		fclose(autostartfd);
+		petconvstring(autostartprg, 0);
+		autostart_autodetect(autostartfile, autostartprg);
+	    }
+	    else
+		autostart_autodetect(app_resources.autostartName, NULL);
+	    free(autostartfile);
+	} else {
+	    autostart_autodetect(app_resources.autostartName, NULL);
+	}
+    }
 #endif
 
 #endif  /* NO_SERIAL */
