@@ -369,8 +369,8 @@ static String fallback_resources[] = {
     "*Form.background:				     gray80",
     "*Label.background:				     gray80",
     "*Canvas.background:                             black",
-    "*driveTrack.font:                          -*-helvetica-medium-r-*-*-10-*",
-    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-10-*",
+    "*driveTrack.font:                          -*-lucida-medium-r-*-*-12-*",
+    "*speedStatus.font:                         -*-lucida-medium-r-*-*-12-*",
 
     XDEBUG_FALLBACK_RESOURCES,
     NULL
