@@ -144,8 +144,18 @@ static Widget LastVisitedAppShell = NULL;
 static struct {
     Widget widget;
     String title;
+    Widget speed_label;
+#ifdef HAVE_TRUE1541
+    Widget drive_track_label;
+    Widget drive_led;
+#endif
 } AppShells[MAX_APP_SHELLS];
 static int NumAppShells = 0;
+
+#ifdef HAVE_TRUE1541
+/* Pixels for updating the drive LED's state.  */
+Pixel drive_led_on_pixel, drive_led_off_pixel;
+#endif
 
 /* This is for our home-made menu implementation.  Not very clever, but it
    works. */
@@ -263,6 +273,7 @@ CallbackFunc(UiSetNumpadJoystickPort);
 
 #ifdef HAVE_TRUE1541
 CallbackFunc(UiToggleTrue1541);
+CallbackFunc(UiToggleParallelCable);
 CallbackFunc(UiSet1541SyncFactor);
 CallbackFunc(UiSet1541IdleMethod);
 CallbackFunc(UiSetCustom1541SyncFactor);
@@ -356,6 +367,10 @@ static String fallback_resources[] = {
     "*Menubutton.background:		             gray80",
     "*Scrollbar.background:		             gray80",
     "*Form.background:				     gray80",
+    "*DriveStatus.background:                        gray80",
+    "*Canvas.background:                             black",
+    "*driveTrack.font:                          -*-helvetica-medium-r-*-*-10-*",
+    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-10-*",
 
     XDEBUG_FALLBACK_RESOURCES,
     NULL
@@ -552,7 +567,10 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     /* Note: this is correct because we never destroy CanvasWindows. */
     static int menus_created = 0;
     XtTranslations translations;
-    Widget canvas, w;
+    Widget shell, canvas, pane, speed_label;
+#ifdef HAVE_TRUE1541
+    Widget drive_track_label, drive_led;
+#endif
     XSetWindowAttributes attr;
 
     if (UiAllocColors(num_colors, colors, pixel_return) == -1)
@@ -575,18 +593,86 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
 		"\n");
 	return NULL;
     }
-    w = XtVaCreatePopupShell(title, applicationShellWidgetClass,
-			     TopLevel, XtNinput, True, XtNtitle, title,
-			     XtNiconName, title, NULL);
 
+    shell = XtVaCreatePopupShell(title, applicationShellWidgetClass,
+                                 TopLevel, XtNinput, True, XtNtitle, title,
+                                 XtNiconName, title, NULL);
 
 #ifdef XPM
-    XtVaSetValues(w, XtNiconPixmap, IconPixmap, NULL);
+    XtVaSetValues(shell, XtNiconPixmap, IconPixmap, NULL);
 #endif
 
-    canvas = XtVaCreateManagedWidget("Canvas", xfwfcanvasWidgetClass,
-				     w, XtNwidth, width, XtNheight, height,
-				     NULL);
+    pane = XtVaCreateManagedWidget("Form", formWidgetClass, shell,
+                                   XtNdefaultDistance, 2,
+                                   NULL);
+
+    canvas = XtVaCreateManagedWidget("Canvas", xfwfcanvasWidgetClass, pane,
+                                     XtNwidth, width,
+                                     XtNheight, height,
+                                     XtNresizable, True,
+                                     XtNbottom, XawChainBottom,
+                                     XtNtop, XawChainTop,
+                                     XtNleft, XawChainLeft,
+                                     XtNright, XawChainRight,
+                                     XtNborderWidth, 1,
+                                     NULL);
+
+    /* Create the status bar on the bottom.  */
+    {
+        Dimension height;
+        Dimension led_width = 12, led_height = 5;
+        Dimension w1 = width - led_width - 2;
+
+        speed_label = XtVaCreateManagedWidget("SpeedStatus",
+                                              labelWidgetClass, pane,
+                                              XtNlabel, "",
+                                              XtNwidth, w1 - w1 /3,
+                                              XtNfromVert, canvas,
+                                              XtNtop, XawChainBottom,
+                                              XtNbottom, XawChainBottom,
+                                              XtNleft, XawChainLeft,
+                                              XtNright, XawChainRight,
+                                              XtNjustify, XtJustifyLeft,
+                                              XtNborderWidth, 0,
+                                              NULL);
+
+
+#ifdef HAVE_TRUE1541
+        drive_track_label = XtVaCreateManagedWidget("driveTrack",
+                                                    labelWidgetClass, pane,
+                                                    XtNlabel, "",
+                                                    XtNwidth, w1 / 3,
+                                                    XtNfromVert, canvas,
+                                                    XtNfromHoriz, speed_label,
+                                                    XtNhorizDistance, 0,
+                                                    XtNtop, XawChainBottom,
+                                                    XtNbottom, XawChainBottom,
+                                                    XtNleft, XawChainRight,
+                                                    XtNright, XawChainRight,
+                                                    XtNjustify, XtJustifyRight,
+                                                    XtNborderWidth, 0,
+                                                    NULL);
+
+        XtVaGetValues(speed_label, XtNheight, &height, NULL);
+
+        drive_led = XtVaCreateManagedWidget("driveLed",
+                                            xfwfcanvasWidgetClass, pane,
+                                            XtNwidth, led_width,
+                                            XtNheight, led_height,
+                                            XtNfromVert, canvas,
+                                            XtNfromHoriz, drive_track_label,
+                                            XtNhorizDistance, 0,
+                                            XtNvertDistance,
+                                            (height - led_height) / 2 + 1,
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNleft, XawChainRight,
+                                            XtNright, XawChainRight,
+                                            XtNjustify, XtJustifyRight,
+                                            XtNborderWidth, 1,
+                                            NULL);
+#endif
+    }
 
     /* Assign proper translations to open the menus. */
 
@@ -606,31 +692,39 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
 			  (XtEventHandler) UiAutoRepeatOff, NULL);
 	XtAddEventHandler(canvas, LeaveWindowMask, False,
 			  (XtEventHandler) UiAutoRepeatOn, NULL);
-	XtAddEventHandler(w, KeyPressMask, False,
+	XtAddEventHandler(shell, KeyPressMask, False,
 			  (XtEventHandler) UiHandleSpecialKeys, NULL);
 	XtAddEventHandler(canvas, KeyPressMask, False,
 			  (XtEventHandler) UiHandleSpecialKeys, NULL);
     }
-    XtAddEventHandler(w, EnterWindowMask, False,
+    XtAddEventHandler(shell, EnterWindowMask, False,
 		      (XtEventHandler) UiEnterWindowCallback, NULL);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
 		      (XtEventHandler) UiExposureCallback, exposure_proc);
 
-    XtRealizeWidget(w);
-    XtPopup(w, XtGrabNone);
+    XtRealizeWidget(shell);
+    XtPopup(shell, XtGrabNone);
 
     attr.backing_store = Always;
     XChangeWindowAttributes(display, XtWindow(canvas),
     	 		    CWBackingStore, &attr);
 
-    XSetWMProtocols(display, XtWindow(w), &WM_delete_window, 1);
-    XtOverrideTranslations(w, XtParseTranslationTable
-			        ("<Message>WM_PROTOCOLS: Close()"));
+    XSetWMProtocols(display, XtWindow(shell), &WM_delete_window, 1);
+    XtOverrideTranslations(shell, XtParseTranslationTable
+                                      ("<Message>WM_PROTOCOLS: Close()"));
 
-    AppShells[NumAppShells - 1].widget = w;
-    AppShells[NumAppShells - 1].title = XtMalloc(strlen(title) + 1);
-    strcpy(AppShells[NumAppShells - 1].title, title);
+    AppShells[NumAppShells - 1].widget = shell;
+    AppShells[NumAppShells - 1].title = stralloc(title);
+    AppShells[NumAppShells - 1].speed_label = speed_label;
 
+#ifdef HAVE_TRUE1541
+    AppShells[NumAppShells - 1].drive_track_label = drive_track_label;
+    AppShells[NumAppShells - 1].drive_led = drive_led;
+    if (!app_resources.true1541) {
+        XtUnrealizeWidget(drive_track_label);
+        XtUnrealizeWidget(drive_led);
+    }
+#endif
 
     return canvas;
 }
@@ -711,6 +805,7 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
 	pixel_return[i] = *data;
 #endif
     }
+
     if (releasefl && failed && (--i)) {
         if (colormap != DefaultColormap(display, screen))
             XFreeColors(display, colormap, xpixels, i, 0);
@@ -719,6 +814,24 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
 
     free(xpixels);
     XDestroyImage(im);
+
+#ifdef HAVE_TRUE1541
+    if (!failed) {
+        XColor screen, exact;
+
+        if (!XAllocNamedColor(display, colormap, "black", &screen, &exact))
+            failed = 1;
+        else
+            drive_led_off_pixel = screen.pixel;
+
+        if (!failed) {
+            if (!XAllocNamedColor(display, colormap, "red", &screen, &exact))
+                failed = 1;
+            else
+                drive_led_on_pixel = screen.pixel;
+        }
+    }
+#endif
 
     return failed;
 }
@@ -763,29 +876,63 @@ Window UiCanvasDrawable(UiWindow w)
     return XtWindow(w);
 }
 
-/* Show the speed index to the user.  For Xaw, this is simply done by putting
-   a proper string on the title bar. */
+/* Show the speed index to the user.  */
 void UiDisplaySpeed(float percent, float framerate)
 {
     int i;
-    char str[1024];
+    char str[256];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
 
     for (i = 0; i < NumAppShells; i++) {
-	if (!percent)
-	    XtVaSetValues(AppShells[i].widget, XtNtitle, AppShells[i].title,
+	if (!percent) {
+	    XtVaSetValues(AppShells[i].speed_label, XtNlabel, "",
 			  NULL);
-	else {
-	    sprintf(str, "%s at %d%% speed, %d fps",
-		    AppShells[i].title, percent_int, framerate_int);
-	    XtVaSetValues(AppShells[i].widget, XtNtitle, str, NULL);
+	} else {
+	    sprintf(str, "%d%%, %d fps", percent_int, framerate_int);
+	    XtVaSetValues(AppShells[i].speed_label, XtNlabel, str, NULL);
 	}
     }
 }
 
-/* Display a message indicating that the emulation is paused.  As with speed,
-   this is displayed on the title bar. */
+void UiToggleDriveStatus(int state)
+{
+    int i;
+
+    for (i = 0; i < NumAppShells; i++) {
+        if (state) {
+            XtRealizeWidget(AppShells[i].drive_track_label);
+            XtManageChild(AppShells[i].drive_track_label);
+            XtRealizeWidget(AppShells[i].drive_led);
+            XtManageChild(AppShells[i].drive_led);
+        } else{
+            XtUnrealizeWidget(AppShells[i].drive_track_label);
+            XtUnrealizeWidget(AppShells[i].drive_led);
+        }
+    }
+}
+
+void UiDisplayDriveTrack(double track_number)
+{
+    int i;
+    char str[256];
+
+    sprintf(str, "Track %.1f", (double)track_number);
+    for (i = 0; i < NumAppShells; i++)
+        XtVaSetValues(AppShells[i].drive_track_label, XtNlabel, str, NULL);
+}
+
+void UiDisplayDriveLed(int status)
+{
+    Pixel pixel = status ? drive_led_on_pixel : drive_led_off_pixel;
+    int i;
+
+    for (i = 0; i < NumAppShells; i++)
+        XtVaSetValues(AppShells[i].drive_led, XtNbackground, pixel, NULL);
+}
+
+/* Display a message in the title bar indicating that the emulation is
+   paused.  */
 void UiDisplayPaused(void)
 {
     int i;
@@ -816,6 +963,8 @@ void UiDispatchEvents(void)
 /* Resize one window. */
 void UiResizeCanvasWindow(UiWindow w, int width, int height)
 {
+    /* FIXME */
+    return;
     XtResizeWidget(XtParent(w), width, height, 0);
 }
 
@@ -1031,9 +1180,9 @@ char *UiFileSelect(const char *title,
     FileSelector = UiBuildFileSelector(TopLevel, &button);
 #else
     /* Unluckily, this does not work on Alpha (segfault when the widget is
-       popped down).  There is probably something wrong in some widget, but we
-       have no time to check this...  FIXME: Then Alpha user could then get the
-       "disappearing list" bug.  Grpmf.  */
+       popped down).  There is probably something wrong in some widget, but
+       we have no time to check this...  FIXME: Then Alpha users could get
+       the "disappearing list" bug.  Grpmf.  */
     if (FileSelector == NULL)
 	FileSelector = UiBuildFileSelector(TopLevel, &button);
 #endif
@@ -1819,7 +1968,8 @@ CallbackFunc(UiDetachTape)
 
 static char *read_disk_or_tape_image_contents(const char *fname)
 {
-    char		*tmp;
+    char *tmp;
+
     tmp = read_disk_image_contents(fname);
     if (tmp)
 	return tmp;
@@ -2376,6 +2526,8 @@ CallbackFunc(UiToggleREU)
 #ifdef HAVE_TRUE1541
 
 DEFINE_TOGGLE(UiToggleTrue1541, true1541, true1541_ack_switch)
+
+DEFINE_TOGGLE(UiToggleParallelCable, true1541ParallelCable, NULL)
 
 CallbackFunc(UiSetCustom1541SyncFactor)
 {
