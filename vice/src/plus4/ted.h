@@ -40,10 +40,8 @@ extern struct canvas_s *vic_ii_get_canvas(void);
 
 extern void ted_reset(void);
 extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
-extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);
-extern void vic_ii_enable_extended_keyboard_rows(int flag);
 extern void vic_ii_prepare_for_snapshot(void);
 extern void vic_ii_powerup(void);
 extern void vic_ii_resize(void);
@@ -65,10 +63,6 @@ void vic_ii_set_phi1_vbank(int num_vbank);
 void vic_ii_set_phi2_vbank(int num_vbank);
 void vic_ii_set_phi1_ram_base(BYTE *base);
 void vic_ii_set_phi2_ram_base(BYTE *base);
-void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
-void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
 
 #endif
 
