@@ -1,0 +1,116 @@
+
+  VICE  0.14.0     						  March 1998
+
+
+		 _______________
+		|      ||      ||
+		|      ||      ||____________________________
+		|      ||      ||    ||         ||          ||
+		|      ||      ||    ||    |    ||    ______||
+		|      ||      ||    ||    |----||          ||
+		|      ||      ||    ||    |    ||    ------||
+		|              ||____||_________||__________||
+		 \            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		  \          //
+		   \________//   Versatile Commodore 8-bit Emulator
+
+
+
+ ------------------------------------------------------------------------------
+
+
+ This is version 0.14.0 of VICE, the multi-platform PET/VIC20/C64
+ emulator.  This version can be compiled both for MS-DOS and for most
+ Unix system provided with the X Window System version 11, R5 or
+ later.
+
+ The following programs are included:
+
+   - x64, a C64 emulator;
+
+   - xvic, a VIC20 emulator;
+
+   - xpet, a PET emulator;
+
+   - c1541, a stand-alone disk image maintenance utility;
+
+   - petcat, a CBM BASIC de-tokenizer;
+
+   - recomment, an iterative database driven reassembler;
+
+   - x64run/xvicrun/xpetrun, simple utilities for running the VICE
+     emulators in customized xterms.
+
+ Moreover, the following documents are provided:
+
+   - README, this file;
+
+   - COPYING, the GNU General Public License under which VICE is
+     distributed;
+
+   - INSTALL, installation instructions;
+
+   - CHANGES, changes between this and older versions of VICE;
+
+   - BUGS, a list of the most important known bugs of this release
+     (please read this before reporting bugs);
+
+   - TODO, a list of what we would like to do next;
+
+   - doc/MANUAL.html, the complete documentation for x64, xvic, xpet,
+     petcat and c1541 in HTML format;
+
+   - doc/recomment, documentation for the recomment utility;
+
+   - doc/64doc, documentation about the C64 internals;
+
+   - doc/PETdoc, documentation about the PET internals;
+
+   - doc/cbm_basic_tokens, a list of the CBM BASIC tokens, as
+     supported by the petcat utility;
+
+   - doc/serial, description of the IEC serial bus used on the C64,
+     VIC20 and C128;
+
+   - doc/mnemonics, alphabetical list of all the G65SC802 and G65SC816
+     opcodes;
+
+   - doc/drive_info, information about the CBM disk drives;
+
+   - doc/Evaluation, VICE evaluation query form: please fill this in
+     and send it to tell us what you think about this project.
+
+ For the latest news, have a look at the VICE home page:
+
+     http://www.tu-chemnitz.de/~fachat/vice/vice.html
+
+ Patches and new versions are made available quite often, so please
+ stay tuned.
+
+
+ Have fun!
+
+
+ Copyright notice
+ ----------------
+
+ VICE is Copyright (c) 1993-1998 Ettore Perazzoli, Teemu Rantanen,
+ André Fachat, Jouko Valta, Jarkko Sonninen and Daniel Sladic.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+    02111-1307  USA
+
+ The ROM files in the `C64', `PET' and `VIC20' directories are
+ Copyright (c) by Commodore Business Machines.
