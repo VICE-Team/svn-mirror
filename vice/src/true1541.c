@@ -856,7 +856,7 @@ int true1541_write_protect_sense(void)
 static void GCR_data_writeback(void)
 {
     int rc, track, sector;
-    BYTE buffer[260], *ptr, *offset;
+    BYTE buffer[260], *offset;
 
     if (!GCR_dirty_track)
         return;
@@ -865,42 +865,36 @@ static void GCR_data_writeback(void)
     track = cur_ht / 2;
 
     for (sector = 0; sector < sector_map[track]; sector++) {
-	offset = GCR_find_sector_header(track, sector);
 
-	if (offset == NULL) {
+	offset = GCR_find_sector_header(track, sector);
+	if (offset == NULL)
 	    fprintf(stderr,
                     "1541: Could not find header of T:%d S:%d.\n",
                     track, sector);
-	    return;
-	}
+	else {
 
-	offset = GCR_find_sector_data(offset);
+	    offset = GCR_find_sector_data(offset);
+	    if (offset == NULL)
+		fprintf(stderr,
+		"1541: Could not find data sync of T:%d S:%d.\n",
+		track, sector);
+	    else {
 
-	if (offset == NULL) {
-	    fprintf(stderr,
-                    "1541: Could not find data sync of T:%d S:%d.\n",
-                    track, sector);
-	    return;
-        }
-
-	ptr = offset;
-
-	convert_GCR_to_sector(buffer, ptr);
-
-	if (buffer[0] != 0x7) {
-	    fprintf(stderr,
-                    "1541: Could not find data block id of T:%d S:%d.\n",
-                    track, sector);
-	    return;
-	}
-
-	rc = floppy_write_block(true1541_floppy->ActiveFd,
+		convert_GCR_to_sector(buffer, offset);
+		if (buffer[0] != 0x7)
+		    fprintf(stderr,
+			"1541: Could not find data block id of T:%d S:%d.\n",
+			track, sector);
+		else {
+		    rc = floppy_write_block(true1541_floppy->ActiveFd,
                                 true1541_floppy->ImageFormat,
                                 buffer + 1, track, sector,
                                 true1541_floppy->D64_Header);
-	if (rc < 0) {
-	    fprintf(stderr,
-                    "1541: Could not update T:%d S:%d.\n", track, sector);
+		    if (rc < 0)
+			fprintf(stderr,
+			"1541: Could not update T:%d S:%d.\n", track, sector);
+		}
+	    }
 	}
     }
 }
@@ -1014,7 +1008,9 @@ inline static void update_ports(void)
 
 void serial_bus_drive_write(BYTE data)
 {
+#ifndef FAST_BUS
     static int last_write = 0;
+#endif
 
     if (!app_resources.true1541)
 	return;
@@ -1075,7 +1071,9 @@ BYTE serial_bus_drive_read(void)
 
 void serial_bus_cpu_write(BYTE data)
 {
+#ifndef FAST_BUS
     static int last_write = 0;
+#endif
 
     if (!app_resources.true1541)
 	return;
