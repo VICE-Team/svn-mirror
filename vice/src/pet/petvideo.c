@@ -1,5 +1,5 @@
 /*
- * petvideo.c -- Machine specific video handling.
+ * petvideo.c - Machine specific video handling.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -32,6 +32,11 @@
 #include "machine-video.h"
 #include "video.h"
 
+
+void machine_video_init(void)
+{
+    video_render_1x2_init();
+}
 
 int machine_video_resources_init(void)
 {
