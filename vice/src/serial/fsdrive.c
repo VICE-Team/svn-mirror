@@ -31,9 +31,6 @@
 #include "attach.h"
 #include "fsdrive.h"
 #include "log.h"
-#include "maincpu.h"
-#include "mem.h"
-#include "mos6510.h"
 #include "serial.h"
 #include "types.h"
 #include "vdrive.h"
@@ -41,19 +38,12 @@
 
 static log_t fsdrive_log = LOG_ERR;
 
-/* Initialized serial devices.  */
-serial_t serialdevices[SERIAL_MAXDEVICES];
-
 BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 int SerialPtr;
 
-/* On which channel did listen happen to?  */
-BYTE TrapDevice;
-BYTE TrapSecondary;
-
 
 /* Handle Serial Bus Commands under Attention.  */
-static BYTE serialcommand(void)
+static BYTE serialcommand(unsigned int device, BYTE secondary)
 {
     serial_t *p;
     void *vdrive;
@@ -64,19 +54,19 @@ static BYTE serialcommand(void)
     /*
      * which device ?
      */
-    p = &serialdevices[TrapDevice & 0x0f];
-    channel = TrapSecondary & 0x0f;
+    p = serial_get_device(device & 0x0f);
+    channel = secondary & 0x0f;
 
-    if ((TrapDevice & 0x0f) >= 8)
-        vdrive = (vdrive_t *)file_system_get_vdrive(TrapDevice & 0x0f);
+    if ((device & 0x0f) >= 8)
+        vdrive = (vdrive_t *)file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
     /* if command on a channel, reset output buffer... */
-    if ((TrapSecondary & 0xf0) != 0x60) {
+    if ((secondary & 0xf0) != 0x60) {
         p->nextok[channel] = 0;
     }
-    switch (TrapSecondary & 0xf0) {
+    switch (secondary & 0xf0) {
         /*
          * Open Channel
          */
@@ -127,107 +117,103 @@ static BYTE serialcommand(void)
         break;
 
       default:
-        log_error(fsdrive_log, "Unknown command %02X.", TrapSecondary & 0xff);
+        log_error(fsdrive_log, "Unknown command %02X.", secondary & 0xff);
     }
 
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
     return st;
 }
 
 /* ------------------------------------------------------------------------- */
 
-void fsdrive_open(BYTE b)
+void fsdrive_open(unsigned int device, BYTE secondary)
 {
     serial_t *p;
     void *vdrive;
 
-    TrapSecondary = b;
-    p = &(serialdevices[TrapDevice & 0x0f]);
-    if (p->isopen[b & 0x0f] == 2) {
-        if ((TrapDevice & 0x0f) >= 8)
-            vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    p = serial_get_device(device & 0x0f);
+    if (p->isopen[secondary & 0x0f] == 2) {
+        if ((device & 0x0f) >= 8)
+            vdrive = file_system_get_vdrive(device & 0x0f);
         else
             vdrive = NULL;
-        (*(p->closef))(vdrive, b & 0x0f);
+        (*(p->closef))(vdrive, secondary & 0x0f);
     }
-    p->isopen[b & 0x0f] = 1;
+    p->isopen[secondary & 0x0f] = 1;
 }
 
-void fsdrive_close(BYTE b)
+void fsdrive_close(unsigned int device, BYTE secondary)
 {
     BYTE st;
 
-    TrapSecondary = b;
-    st = serialcommand();
-    SERIAL_SET_ST(st);
+    st = serialcommand(device, secondary);
+    serial_set_st(st);
 }
 
-void fsdrive_listentalk(BYTE b)
+void fsdrive_listentalk(unsigned int device, BYTE secondary)
 {
     BYTE st;
 
-    TrapSecondary = b;
-    st = serialcommand();
-    SERIAL_SET_ST(st);
+    st = serialcommand(device, secondary);
+    serial_set_st(st);
 }
 
-void fsdrive_unlisten(void)
+void fsdrive_unlisten(unsigned int device, BYTE secondary)
 {
     BYTE st;
     serial_t *p;
 
-    if ((TrapSecondary & 0xf0) == 0xf0
-        || (TrapSecondary & 0x0f) == 0x0f) {
-        st = serialcommand();
-        SERIAL_SET_ST(st);
+    if ((secondary & 0xf0) == 0xf0
+        || (secondary & 0x0f) == 0x0f) {
+        st = serialcommand(device, secondary);
+        serial_set_st(st);
         /* Flush serial read ahead buffer too.  */
-        p = &(serialdevices[TrapDevice & 0x0f]);
-        p->nextok[TrapSecondary & 0x0f] = 0;
+        p = serial_get_device(device & 0x0f);
+        p->nextok[secondary & 0x0f] = 0;
     }
 }
 
-void fsdrive_untalk(void)
+void fsdrive_untalk(unsigned int device, BYTE secondary)
 {
 
 }
 
-void fsdrive_write(BYTE data)
+void fsdrive_write(unsigned int device, BYTE secondary, BYTE data)
 {
     BYTE st;
     serial_t *p;
     void *vdrive;
 
-    p = &serialdevices[TrapDevice & 0x0f];
-    if ((TrapDevice & 0x0f) >= 8)
-        vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    p = serial_get_device(device & 0x0f);
+    if ((device & 0x0f) >= 8)
+        vdrive = file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
     if (p->inuse) {
-        if (p->isopen[TrapSecondary & 0x0f] == 1) {
+        if (p->isopen[secondary & 0x0f] == 1) {
             /* Store name here */
             if (SerialPtr < SERIAL_NAMELENGTH)
                 SerialBuffer[SerialPtr++] = data;
         } else {
             /* Send to device */
-            st = (*(p->putf))(vdrive, data, (int)(TrapSecondary & 0x0f));
-            SERIAL_SET_ST(st);
+            st = (*(p->putf))(vdrive, data, (int)(secondary & 0x0f));
+            serial_set_st(st);
         }
     } else {                    /* Not present */
-        SERIAL_SET_ST(0x83);
+        serial_set_st(0x83);
     }
 }
 
-BYTE fsdrive_read(void)
+BYTE fsdrive_read(unsigned int device, BYTE secondary)
 {
-    int st = 0, secadr = TrapSecondary & 0x0f;
+    int st = 0, secadr = secondary & 0x0f;
     BYTE data;
     serial_t *p;
     void *vdrive;
 
-    p = &serialdevices[TrapDevice & 0x0f];
-    if ((TrapDevice & 0x0f) >= 8)
-        vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    p = serial_get_device(device & 0x0f);
+    if ((device & 0x0f) >= 8)
+        vdrive = file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
@@ -247,7 +233,7 @@ BYTE fsdrive_read(void)
 
     /* Set up serial success / data.  */
     if (st)
-        SERIAL_SET_ST(st);
+        serial_set_st(st);
 
     return data;
 }
@@ -259,8 +245,8 @@ void fsdrive_reset(void)
     void *vdrive;
 
     for (i = 0; i < SERIAL_MAXDEVICES; i++) {
-        if (serialdevices[i].inuse) {
-            p = &serialdevices[i];
+        p = serial_get_device(i);
+        if (p->inuse) {
             for (j = 0; j < 16; j++) {
                 if (p->isopen[j]) {
                     vdrive = file_system_get_vdrive(i);
