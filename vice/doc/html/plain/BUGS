@@ -1,0 +1,67 @@
+These are the most important known problems with VICE 1.7:
+
+- Some basic features of the VDC are missing. In the MS-DOS port you
+  have to save the configuration and restart the emulator when
+  changing VDC double size mode.
+
+- In the C128 emulation VIC-II and VDC palette can not coexist
+  currently in some ports.
+
+- The Z80 emulation is not complete.  Some CP/M applications and ZP/M
+  may not work.
+
+- The VIC-II implementation lacks proper cycle exact $D016 x smooth
+  scroll support.
+
+- The CBM-II emulation is not fully supported in all ports.
+
+- When loading a snapshot, the monitor break/watchpoints break.
+  (at least in xpet)
+
+- The German translation doesn't work properly under
+  Solaris/gettext. The menus are just partially filled, other entries
+  are blanked and some are wrong.
+
+- The custom TextField widget is buggy and can cause crashes on
+  DEC/Alpha machines, and possibly on other systems too.  If you get
+  weird X protocol errors or the file selector makes the emulator die
+  when you close it, this might be the cause.  In that case, recompile
+  with the `--disable-textfield' option.  If it still does not work,
+  please tell us.
+
+- Some DEC/Alpha machines crash due to the XAW implementation.  Compile
+  VICE with GNOME support `--enable-gnomeui' instead.
+
+- The VIC-I chip in xvic still lacks important features and is still
+  under construction.
+
+- Changing the REU image name via resource files has no effect until
+  exiting.
+
+- Dithering on monochrome X11 servers is *very* (VERY!) slow.
+
+- When a key which is shifted on the real machine but unshifted on the
+  PC or Unix keyboard you are using is pressed, the virtual shift is
+  pressed together (i.e. at the same clock cycle) with the main key;
+  this could not work with some keyboard routines.  If you have to
+  use the function keys, press the (real) shift key manually (e.g. F2
+  = Shift + F1, F4 = Shift + F3 and so on); this also works with other
+  keys.
+
+- The CBM-II emulator, when the execution bank is set to an open memory
+  bank, sets the zeropage and stack access to unmapped, but actually
+  existing memory. This is a bug but cannot be avoided with the current
+  CPU code architecture.
+
+- When running the burn-in and diagnostics test of the 8296 system disk
+  on "xpet -model 8296" a lot of stuff fails.
+
+- Although both are emulated in the xcbm2 emulator, switching between
+  C510 and C6x0/7x0 is not possible at runtime. Use command line option
+  "xcbm -model 510".
+
+- Dual disk drive 2040/3040 support (DOS1, 670 blocks free) is not working 
+
+- In the C510 emulation the VIC-II timing is not exact, i.e. the
+  stopping of the CPU during bad lines is wrong.
+
