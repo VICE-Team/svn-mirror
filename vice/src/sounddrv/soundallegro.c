@@ -58,15 +58,21 @@ static unsigned int buffer_offset;
 
 /* ------------------------------------------------------------------------- */
 
-static int allegro_startup(void)
+static int allegro_startup(unsigned int freq)
 {
+#if 0
     if (allegro_startup_done)
         return 0;
 
-    printf("Starting up Allegro sound...  ");
-
     /* In any case, we will not try another time.  */
     allegro_startup_done = 1;
+#endif
+
+    printf("Starting up Allegro sound...  ");
+
+    remove_sound();
+
+    set_config_int("sound", "sb_freq", (int) freq);
 
     detect_digi_driver(DIGI_AUTODETECT);
     reserve_voices(1, 0);
@@ -76,9 +82,9 @@ static int allegro_startup(void)
         return -1;
     }
 
-    set_volume(255, 0);
+    /* set_volume(255, 0); */
 
-    printf("OK.\n");
+    printf("OK: %s, %s\n", digi_driver->name, digi_driver->desc);
     return 0;
 }
 
@@ -88,7 +94,7 @@ static int allegro_init_sound(warn_t *w, char *param, int *speed,
 {
     int i;
 
-    if (allegro_startup() < 0)
+    if (allegro_startup(*speed) < 0)
         return 1;
 
     fragment_size = *fragsize * sizeof(SWORD);
@@ -205,6 +211,20 @@ static void allegro_close(warn_t *w)
     destroy_sample(buffer);
 }
 
+static int allegro_suspend(warn_t *w)
+{
+    voice_stop(voice);
+    return 0;
+}
+
+static int allegro_resume(warn_t *w)
+{
+    buffer_offset = 0;
+    voice_set_position(voice, 0);
+    voice_start(voice);
+    return 0;
+}
+
 static sound_device_t allegro_device =
 {
     "allegro",
@@ -214,8 +234,8 @@ static sound_device_t allegro_device =
     NULL,
     allegro_bufferstatus,
     allegro_close,
-    NULL,
-    NULL
+    allegro_suspend,
+    allegro_resume
 };
 
 int sound_init_allegro_device(void)
