@@ -104,15 +104,14 @@
 
     <ul>
 
-	<p> <u><strong> Important notice </strong></u> <br>
-
-	  If you have no idea about what a Commodore 8-bit computer is,
-	  or have questions about how these machines are used, how the
-	  file formats work or everything else that is not strictly
-	  related to VICE, you should read the appropriate FAQs
-	  <em>first</em>, as this kind of information is not available
-	  here.  See the ``<a href="#contacts">contacts</a>'' section
-	  for more information. </p>
+	<p> <strong> Important notice: </strong> If you have no idea
+          about what a Commodore 8-bit computer is, or have questions
+          about how these machines are used, how the file formats work
+          or everything else that is not strictly related to VICE, you
+          should read the appropriate FAQs <em>first</em>, as this kind
+          of information is not available here.  See the
+          ``<a href="#contacts">contacts</a>'' section for more
+          information. </p>
 
     </ul>
 
@@ -248,13 +247,14 @@
       keys automatically to make everything work as expected. </p>
 
     <ul>
-      <strong> WARNING: </strong> Unlike the real C64, VICE presses
-       the shift <em>together</em> with the key to shift.  In most cases this
-       should work fine, but some keyboard routines are quite picky and tend
-       not to recognize the shift key because of this.  For instance,
-       <tt>F6</tt> (which on the real C64 is obtained with <tt>Shift +
-       F5</tt>) could be recognized as <tt>F5</tt>.  In that case, use the
-       shift key manually (i.e. type <tt>Shift + F5</tt> in the example).
+        <p> <strong> WARNING: </strong> Unlike the real C64, VICE
+          presses the shift key <em>together</em> with the key to shift.
+          In most cases this should work fine, but some keyboard routines
+          are quite picky and tend not to recognize the shift key because
+          of this.  For instance, <tt>F6</tt> (which on the real C64 is
+          obtained with <tt>Shift + F5</tt>) could be recognized as
+          <tt>F5</tt>.  In that case, use the shift key manually
+          (i.e. type <tt>Shift + F5</tt> in the example). </p>
     </ul>
 
     <p> Special keys are mapped differently for the VIC20 and C64
@@ -288,7 +288,7 @@ X11 key                    PET key
 
 LEFT ALT                   REVERSE
 LEFT CTRL		   STOP
-RIGHT CTRL	           RPT (8032 only)
+RIGHT CTRL	           RPT (8xxx only)
 BACKSPACE                  DEL
 INSERT                     INS
 
@@ -591,7 +591,7 @@ INSERT                     INS
       	    tapes.  As you can autostart a tape image when it is
       	    attached (as explained below), this allows you to
       	    autostart these particular files as well.  </p>
-  
+
       	<p> When one of these options is selected, a file selector
       	    dialog is popped up.  On the left, there is a list of
       	    ancestor directories of the current one: by clicking on
@@ -611,7 +611,7 @@ INSERT                     INS
       	    with all the programs, and that, even if the true 1541
       	    emulation is turned on, the first program is always loaded
       	    in fast 1541 emulation mode.  </p>
-      	
+
       	<p> Since version 0.12.0.8, you can attach a disk image
       	  even if it is on a read-only file system or you do not
       	  have write permissions for it.  When this happens, the
@@ -620,23 +620,23 @@ INSERT                     INS
       	  from being written to; in the latter case, just remove the
       	  write permission for that file, e.g. doing a <tt>chmod
       	    a-w</tt>. </p>
-      	
+
       	<p> It is also possible to attach compressed disk or tape
       	  images; the compression format is recognized from the file
       	  extension.  The following formats are supported (the
       	  expected file name extension is in parenthesis): </p>
-      
+
         <ul>
 
 	  <li> GNU Zip (<tt>.gz</tt> or <tt>.z</tt>);
-	
+
 	  <li> BZip version 2 (<tt>.bz2</tt>);
-	
+
 	  <li> PkZip (<tt>.zip</tt>);
-	
+
           <li> GNU Zipped TAR archives (<tt>.tar.gz</tt>,
             <tt>.tgz</tt>);
-	
+
           <li> Zoo (<tt>.zoo</tt>).
 
 	</ul> <p> PkZip, <tt>tar.gz</tt>, <tt>lha</tt> and
@@ -706,7 +706,7 @@ INSERT                     INS
 	  <p> Exit the emulator.  If the <em> save settings on exit
 	    </em> option is set and settings have changed, it will ask
 	    you whether you want to save them. </p>
-	    
+
 	<li> <b>Pause</b>
 
 	  <p> Pause the emulation.  Select this option again to
@@ -746,7 +746,7 @@ INSERT                     INS
 	    get with the ``auto'' setting is worse than the one you
 	    could get with a fixed refresh rate setting and 100%
             speed. </p>
-	    
+
 	<li> <b>Maximum Speed</b>
 
 	  <p> Specify the maximum emulation speed, relative to the
@@ -755,7 +755,7 @@ INSERT                     INS
 	    will make the `auto' refresh setting no longer
 	    available. </p>
 
-	<li> <b>Joystick Settings</b> 
+	<li> <b>Joystick Settings</b>
 
 	  <p> <ul>
 
@@ -786,7 +786,7 @@ INSERT                     INS
 	      	using the numeric keypad.  The arrow keys emulate the
 	      	four directions, while the 0 and right Ctrl emulate the
 	      	Fire button. </p>
-	    
+
 	    <li> <b>Swap joystick ports</b> <em> (x64, xpet) </em>
 
 	      <p> This swaps the two joystick devices.  It can also be
@@ -820,7 +820,7 @@ INSERT                     INS
 	  	with <tt>Ctrl-Alt-+</tt> and <tt>Ctrl-Alt--</tt>.  If
 	  	you use double size, you will probably have to turn the
 	  	video cache on to obtain decent performance. </p>
-	    
+
               <p> When emulating any of the 80-column PET models, only
                 the height is doubled, thus giving the a more correct
                 aspect ratio to the PET screen. </p>
@@ -829,7 +829,7 @@ INSERT                     INS
 	        when you are running on a monochrome X11 display. </p>
 
 	    <li> <b>Double Scan</b>
-    
+
 	      <p> If this option is disabled and double size is enabled,
 		only half of the lines are painted and the rest is kept
 		black.  This makes the emulator faster, and gives an
@@ -837,7 +837,7 @@ INSERT                     INS
 		see. </p>
 
 	    <li> <b>Use XSync()</b>
-    
+
 	      <p> If this option is enabled, when the emulation window is
 		updated the emulator will always wait for the X server
 		to complete the operation by using the <tt>XSync()</tt>
@@ -856,47 +856,47 @@ INSERT                     INS
 
 	    <li> <b>Sprite-Sprite Collisions</b> <em> (x64 only) </em>
 	    <li> <b>Sprite-Background Collisions</b> <em> (x64 only) </em>
-    
+
 	      <p> These can be used to enable or disable the internal
 		sprite-sprite and sprite-background collision registers.
 		Disabling these registers will make you invincible in
 		some games (but sometimes also your enemies become
 		invincible <tt>:-)</tt>). </p>
 
-	  </p> </ul>
+	  </ul> </p>
 
 	<li> <b>Sound Settings</b>
 
 	  <p> <ul>
-	    
+
 	    <li> <b>Sound</b>
-    
+
 	      <p> This can be used to enable or disable the sound
 	  	support. </p>
-    
+
 	      <p> <strong> Important notice: </strong> The VIC20 and
                 PET sound emulations are still at the experimental
 		stage. </p>
-    
+
 	    <li> <b>Sound Sample Rate</b>
-    
+
 	      <p> Specify the sample rate, in Hz, for the sound
 	  	emulation.  Standard values are <tt>8000</tt>,
 	  	<tt>11025</tt>, <tt>22050</tt>, <tt>44100</tt> and
 	  	<tt>48000</tt>.  Higher values are obviously slower, so
 	  	don't try to use the 48KHz setting unless your machine can
 	  	really handle it. </p>
-    
+
 	      <li> <b>Sound Buffer Size</b>
-    
+
 	  	<p> Specify the sound buffer size in seconds.  The optimal
 	  	  sound buffer size depends greatly on the system
 	  	  performance, system load and the program running in the
 	  	  emulator.  Using a higher value gives a longer delay but
 	  	  can be handled better by slower machines. </p>
-    
+
 	      <li> <b>Sound Speed Adjustment</b>
-    
+
 	  	<p> Enables/disables the automatic sound speed adjustment.
 	  	  When this feture is turned on, the sound driver tries to
 	  	  adapt the speed of the sound output to the speed of the
@@ -908,9 +908,9 @@ INSERT                     INS
 	  	  100%.  On the other hand, disabling it gives clicks if the
 	  	  speed is less than 100% and the emulator can never run
 	  	  above 100% speed. </p>
-    
+
 	      <li> <b>Sound Suspend Time</b>
-    
+
 	  	<p> The possible values for this setting are <tt>keep
           	  going</tt> or <tt>1</tt>, <tt>2</tt>, <tt>5</tt> or <tt>10
 	  	  second suspend</tt>.  With <tt>keep going</tt>, the sound
@@ -924,7 +924,7 @@ INSERT                     INS
 	  <li> <b>1541 Settings</b> <em> (x64 and xvic only) </em>
 
 	    <p> <ul>
-	    
+
 	      <li> <b>Enable true 1541 emulation</b>
 
 	    	<p> This option toggles the <em>hardware-level</em> 1541
@@ -967,46 +967,46 @@ INSERT                     INS
 	    	  <tt>65530</tt> makes the computer faster. </p>
 
 	    	<p> The standard values are: </p>
-    
+
 	    	<p> <ul>
-    
+
 		  <li> VIC20: <tt> 59126 </tt> (PAL) or <tt> 64079 </tt>
 		  (NTSC)
-    
+
 		  <li> C64: <tt> 65516 </tt> (PAL) or <tt> 64094 </tt>
 		  (NTSC)
-    
+
 	    	</ul> </p>
-    
+
 	    	<p> Though the VICE emulators emulate only PAL (European)
 	    	  machines, the NTSC setting can sometimes make many
 	    	  fast-loaders that are designed for NTSC machines
 	    	  work. </p>
 
 	      <li> <b>True 1541 idle method</b>
-    
+
 	  	<p> In order to save CPU resources, the 1541 drive emulation
 	  	  is disabled when not strictly necessary.  With this
 	  	  option you can select <em>when</em> it is disabled. </p>
-    
+
 	  	<p>
 	  	<ul>
-    
+
 	  	  <p> <li> <b>Skip Cycles</b>: Each time the serial line is
 		    accessed by the C64, the drive executes all the cycles
 		    since the last time it was running.  If the number of
 		    elapsed cycles is larger than a certain value, the drive
 		    discards part of them. </p>
-    
+
 	  	  <p> <li> <b>Trap Idle</b>: The disk drive is still emulated
 	  	    upon serial line accesses as with the previous option,
 	  	    but it is also always emulated at the end of each screen
 		    frame.  If the drive gets into the DOS idle loop, only
 		    pending interrupts are emulated to save time. </p>
-    
+
 	  	</ul>
 	  	</p>
-    
+
 	  	<p> The first option (``Skip cycles'') is usually better
 	  	  for performance, as the drive is emulated as little as
 	  	  possible; on the other hand, you can notice sudden
@@ -1019,7 +1019,7 @@ INSERT                     INS
 	  	  have no effect on performance if one program continuously
 	  	  reads the CIA ports, as the drive will have to be emulated
 	  	  in any case. </p>
-    
+
 	  	<p> The second option (``Trap idle'') is usually a bit slower,
 	  	  as at least interrupts are always emulated, but allows the
 	  	  LED state to be always updated correctly and always keeps
@@ -1030,7 +1030,7 @@ INSERT                     INS
 	  	  slower. </p>
 
 	    </ul> </p>
-	  
+
 	  <li> <b>I/O Extensions at $DF00</b> <em> (x64 only) </em>
 
 	    <p> There are 3 available extensions: </p>
@@ -1074,9 +1074,9 @@ INSERT                     INS
 
 	        <p> This submenu contains the joystick settings for
                   the PET </p>
-	    
+
 	    </ul> </p>
-	    
+
 	  <li> <b>Save Settings</b>
 	  <li> <b>Load Settings</b>
 	  <li> <b>Restore Default Settings</b>
@@ -2093,7 +2093,7 @@ INSERT                     INS
 
     <p> Former team members: </p>
 
-    <ul>
+    <p> <ul>
 
       <li> <p> <b><a href="http://stekt.oulu.fi/~jopi/">Jouko
 	    Valta</a></b> <tt> (<a href="mailto:jopi@stekt.oulu.fi">jopi@stekt.oulu.fi</a>) </tt> <br>
@@ -2300,6 +2300,7 @@ INSERT                     INS
 	<li> Salvatore Valente <tt> (<a href="mailto:svalente@mit.edu">svalente@mit.edu</a>) </tt>
 	<li> Arthur Hagen <tt> (<a href="mailto:art@broomstick.com">art@broomstick.com</a>) </tt>
 	<li> Douglas Carmichael <tt> (<a href="mailto:dcarmich@mcs.com">dcarmich@mcs.com</a>) </tt>
+        <li> Ferenc Veres <tt> (<a href="mailto:lion@c64.rulez.org">lion@c64.rulez.org</a>) </tt>
 
     </ul>
     </p>
@@ -2439,7 +2440,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
     <hr>
 
 <!-- hhmts start -->
-Last modified: Fri Apr 3 13:06:32 CEST 1998
+Last modified: Sat Apr  4 23:05:41 CEST 1998
 <!-- hhmts end -->
 
   </body>
