@@ -343,7 +343,7 @@ void true1541_turn_watchpoints_off(void)
 void true1541_cpu_reset(void)
 {
     true1541_clk = 0;
-    last_clk = clk;
+    last_clk = 0;
     last_exc_cycles = 0;
     cpu_int_status_init(&true1541_int_status,
 			TRUE1541_NUMOFALRM, TRUE1541_NUMOFINT,
