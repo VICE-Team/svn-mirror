@@ -60,6 +60,14 @@ extern store_func_t mem_store;
 
 /* ------------------------------------------------------------------------- */
 
+/* Memory access macros.  */
+
+/* We don't want "normal" modules to use them: they should use the
+   higher-level function instead.  The CPU code does need them for speed,
+   though.  */
+
+#ifdef _MAINCPU_C
+
 #define STORE(addr, value) \
     (*_mem_write_tab_ptr[(addr) >> 8])((addr), (value))
 
@@ -87,5 +95,7 @@ inline static BYTE *mem_read_base(int addr)
 
     return p - (addr & 0xff00);
 }
+
+#endif
 
 #endif
