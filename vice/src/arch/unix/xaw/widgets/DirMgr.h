@@ -17,15 +17,16 @@
  * 	University Of Illinois at Urbana-Champaign
  *	1304 West Springfield Avenue
  * 	Urbana, IL 61801
- * 
+ *
  * 	totty@cs.uiuc.edu
- * 	
- */ 
+ *
+ */
 
 #ifndef _FWF_DIRECTORY_MGR_H_
 #define	_FWF_DIRECTORY_MGR_H_
 
 #include "Directory.h"
+#include "RegExp.h"
 
 /*---------------------------------------------------------------------------*
 
@@ -101,7 +102,7 @@ typedef struct
 	int total_count;
 	int filtered_count;
 	PFI filter_func;
-	char *filter_data;
+	fwf_regex_t filter_data;
 	int free_filter_data;
 	PFI comp_func;
 	int current_index;
@@ -128,41 +129,6 @@ typedef	DIRECTORY_MGR DirectoryMgr;
 #define	DirectoryMgrFilteredCount(dm)	((dm)->filtered_count)
 #define	DirectoryMgrCurrentIndex(dm)	((dm)->current_index)
 
-#if (!NeedFunctionPrototypes)
-
-DirectoryMgr *	DirectoryMgrSimpleOpen();
-int		DirectoryMgrSimpleRefilter();
-int		DirectoryMgrSimpleResort();
-
-int		DirectoryMgrCanOpen();
-DirectoryMgr *	DirectoryMgrOpen();
-void		DirectoryMgrClose();
-int		DirectoryMgrRefilter();
-int		DirectoryMgrRefresh();
-void		DirectoryMgrResort();
-
-int		DirectoryMgrGotoItem();
-int		DirectoryMgrGotoNamedItem();
-void		DirectoryMgrRestart();
-int		DirectoryMgrGetIndex();
-DirEntry *	DirectoryMgrCurrentEntry();
-DirEntry *	DirectoryMgrNextEntry();
-DirEntry *	DirectoryMgrPrevEntry();
-
-int		DirectoryMgrSimpleFilterFunc();
-int		DirectoryMgrSimpleSortingFunc();
-
-int		DirectoryMgrCompareName();
-int		DirectoryMgrCompareNameDirsFirst();
-int		DirectoryMgrCompareSizeAscending();
-int		DirectoryMgrCompareSizeDescending();
-int		DirectoryMgrCompareLastAccessAscending();
-int		DirectoryMgrCompareLastAccessDescending();
-
-int		DirectoryMgrFilterName();
-
-#else
-
 DirectoryMgr *	DirectoryMgrSimpleOpen(char *path, int sort_type,
 			char *pattern);
 int		DirectoryMgrSimpleRefilter(DirectoryMgr *dm, char *pattern);
@@ -170,10 +136,10 @@ int		DirectoryMgrSimpleResort(DirectoryMgr *dm, int sort_type);
 
 int		DirectoryMgrCanOpen(char *path);
 DirectoryMgr *	DirectoryMgrOpen(char *path, PFI c_func, PFI f_func,
-			char *f_data, int free_data);
+			fwf_regex_t *f_data, int free_data);
 void		DirectoryMgrClose(DirectoryMgr *dm);
 int		DirectoryMgrRefilter(DirectoryMgr *dm, PFI f_func,
-			char *f_data, int f_free);
+			fwf_regex_t *f_data, int f_free);
 int		DirectoryMgrRefresh(DirectoryMgr *dm);
 void		DirectoryMgrResort(DirectoryMgr *dm, PFI c_func);
 
@@ -185,7 +151,7 @@ DirEntry *	DirectoryMgrNextEntry(DirectoryMgr *dm);
 DirEntry *	DirectoryMgrPrevEntry(DirectoryMgr *dm);
 
 int		DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr,
-			char **fd_ptr);
+			fwf_regex_t *fd_ptr);
 int		DirectoryMgrSimpleSortingFunc(int sort_type, PFI *sf_ptr);
 
 int		DirectoryMgrCompareName(DirEntry **e1p, DirEntry **e2p);
@@ -200,8 +166,6 @@ int		DirectoryMgrCompareLastAccessAscending(DirEntry **e1p,
 int		DirectoryMgrCompareLastAccessDescending(DirEntry **e1p,
 			DirEntry **e2p);
 
-int		DirectoryMgrFilterName(DirEntry *de, char *fsm);
-
-#endif
+int		DirectoryMgrFilterName(DirEntry *de, fwf_regex_t *fsm);
 
 #endif
