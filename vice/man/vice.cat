@@ -1,0 +1,66 @@
+
+
+
+VICE(1)							  VICE(1)
+
+
+NAME
+       VICE  - Versatile Commodore Emulator and Virtual Commodore
+       Environment (Version 0.14.0)
+
+DESCRIPTION
+       VICE is a multi-platform emulator  of  the  Commodore  PET
+       3032/4032/8032, VIC20 and C64 8-bit computers.  The emula-
+       tors run as separate programs,  but  have  the  same  user
+       interface,  share  the  same settings and support the same
+       file formats.  Also some external utilities are	provided.
+
+       VICE is made up of the following programs:
+
+       x64     a Commodore 64 emulator for the X Window System
+
+       xvic    a Commodore VIC20 emulator for the X Window System
+
+       xpet    a Commodore PET 3032/4032/8032 emulator for the	X
+	       Window System
+
+       c1541   a stand-alone disk image maintenance utility;
+
+       petcat  a Commodore BASIC de-tokenizer;
+
+       recomment
+	       an iterative database driven reassembler.
+
+       The whole documentation for these programs is available in
+       HTML format; the main file should  be  installed	 on  your
+       system as /usr/local/lib/VICE/doc/MANUAL.html.
+
+       For  up	to date news about VICE, have a look at the offi-
+       cial home page at
+
+	      http://www.tu-chemnitz.de/~fachat/vice/vice.html
+
+SEE ALSO
+       petcat(1), c1541(1)
+
+AUTHORS
+       Ettore Perazzoli (ettore@comm2000.it)
+       Teemu Rantanen (tvr@cs.hut.fi)
+       Andre' Fachat (fachat@physik.tu-chemnitz.de)
+       Jouko Valta (jopi@stekt.oulu.fi)
+       Daniel Sladic (sladic@eecg.toronto.edu)
+       Jarkko Sonninen (sonninen@lut.fi)
+
+       with several contributions from other  people  around  the
+       world; see the HTML documentation for more information.
+
+
+
+
+
+
+
+
+VICE			     May 1997				1
+
+
