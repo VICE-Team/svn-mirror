@@ -30,9 +30,9 @@
 
 #include "types.h"
 
-extern void REGPARM2 vic_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 vic_read(ADDRESS addr);
-extern BYTE REGPARM1 vic_peek(ADDRESS addr);
+extern void REGPARM2 ted_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ted_read(ADDRESS addr);
+extern BYTE REGPARM1 ted_peek(ADDRESS addr);
 extern BYTE REGPARM1 colorram_read(ADDRESS addr);
 extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
 extern void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);
