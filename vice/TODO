@@ -103,5 +103,3 @@ Emulator, whose name was chosen independently.)
   - More accurate VIA chip emulation.
 
   - Emulate more than just one 1541 drive with the "true" emulation.
-
-  - Support for 40-track formatting.
