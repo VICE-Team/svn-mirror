@@ -407,8 +407,7 @@ static void exit64(void)
     video_free ();
 
 #ifndef NO_SERIAL
-    if (!app_resources.noTraps)
-	remove_serial(-1);
+    remove_serial(-1);
 #endif
 
 #if defined(HAS_JOYSTICK) /* && !defined(PET) */
