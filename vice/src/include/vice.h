@@ -317,10 +317,10 @@ extern unsigned int get_path_max();
 /* ------------------------------------------------------------------------- */
 
 /* Generic globals. */
+
 extern const char *progname;
 
-#ifdef __MSDOS__
-extern char boot_path[];
-#endif
+/* Path to the directory of our executable.  */
+extern const char *boot_path;
 
 #endif  /* _VICE_H */
