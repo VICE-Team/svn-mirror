@@ -367,7 +367,7 @@ const char contrib_text[] =
 "    Gave lots of information and bug reports about the VIC-II, the\n"
 "    6510 and the CIAs; moreover, he wrote several test-routines\n"
 "    that were used to improve the emulation.  Also contributed\n"
-"    some important patches, fixed some problems in the 1541\n"
+"    some important patches, fixed several problems in the 1541\n"
 "    emulation, implemented SpeedDOS parallel cable emulation, and\n"
 "    added BZIP v2 support.\n"
 "\n"
