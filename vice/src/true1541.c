@@ -502,6 +502,10 @@ int true1541_enable(void)
     if (rom_loaded) {
 	remove_serial_traps();
     }
+
+    if (true1541_floppy != NULL)
+        true1541_attach_floppy(true1541_floppy);
+
     app_resources.true1541 = 1;
     true1541_cpu_wake_up();
 
@@ -1057,7 +1061,7 @@ BYTE serial_bus_drive_read(void)
 #ifndef FAST_BUS
 
     drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
-    
+
 #if BUS_DBG
     printf("SB: drive read  data:%d clock:%d atn:%d\n",
 	   (~bus_data) & 1, (~bus_clock) & 1, (cpu_atn) & 1);
