@@ -69,7 +69,7 @@ static int crtc_cols = 40;
 #define CRTC_SCREEN_FIRST_DISPLAYED_LINE 0x10
 #define CRTC_SCREEN_LAST_DISPLAYED_LINE  0x11f
 
-#define CRTC_WINDOW_TITLE		"PET emulator"
+#define CRTC_WINDOW_TITLE		"VICE: PET emulator"
 
 #define CRTC_NUM_COLORS 2
 

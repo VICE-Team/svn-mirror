@@ -121,7 +121,7 @@ static color_def_t color_defs[VIC_II_NUM_COLORS] =
 #define VIC_II_IS_BITMAP_MODE(x)	((x) & 0x02)
 
 #ifndef C128
-#define VIC_II_WINDOW_TITLE		"C64 emulator"
+#define VIC_II_WINDOW_TITLE		"VICE: C64 emulator"
 #else
 #define VIC_II_WINDOW_TITLE		"C128 emulator (40 column)"
 #endif

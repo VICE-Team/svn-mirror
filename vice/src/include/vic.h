@@ -65,7 +65,7 @@ static int text_lines = 23;
 #endif
 #define VIC_NUM_SPRITES		 0
 
-#define VIC_WINDOW_TITLE	 "VIC20 emulator"
+#define VIC_WINDOW_TITLE	 "VICE: VIC20 emulator"
 
 /* Color definitions. */
 
