@@ -1860,13 +1860,15 @@ CallbackFunc(UiSmartAttach)
 
 CallbackFunc(UiChangeWorkingDir)
 {
-    static char buf[2048];
+    PATH_VAR(wd);
+    int path_max = GET_PATH_MAX;
 
+    getcwd(wd, path_max);
     suspend_speed_eval();
     if (UiInputString("VICE setting", "Change current working directory",
-		      buf, 2047) != Button_Ok)
+		      wd, path_max) != Button_Ok)
 	return;
-    else if (chdir(buf) < 0)
+    else if (chdir(wd) < 0)
 	UiError("Directory not found");
 }
 
