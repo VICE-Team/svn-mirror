@@ -59,6 +59,8 @@ Emulator, whose name was chosen independently.)
   - Some more kernal patches, for instance for changing colors and
     patching the reset routine to make it faster (maybe configurable)?
 
+  - Reorganize the sound emulation.
+
 * C64 improvements
 ------------------
 
