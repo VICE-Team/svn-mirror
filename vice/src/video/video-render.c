@@ -57,6 +57,11 @@ void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
 {
 	int doublesize,doublescan,delayloop;
 
+#if 0
+printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
+        width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
+#endif
+
 #ifndef VIDEO_REMOVE_2X
 	doublesize=0;
 	doublescan=0;
