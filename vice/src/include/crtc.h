@@ -124,5 +124,6 @@ extern void REGPARM2 store_crtc(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_crtc(ADDRESS addr);
 extern void crtc_set_char(int crom);
 extern int crtc_offscreen(void);
+extern void crtc_screen_enable(int);
 
 #endif				/* _CRTC_H */

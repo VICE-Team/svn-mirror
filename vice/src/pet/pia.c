@@ -45,6 +45,7 @@
 #include "resources.h"
 #include "pia.h"
 #include "interrupt.h"
+#include "pets.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -86,6 +87,7 @@ void    reset_pia1(void)
    pia1.port_b = 255;	/* PIA 1 Port B input; nothing to read from keyboard */
 
    par_set_eoi(0);	/* CA2 input mode -> pin goes high -> EOI not set */
+   crtc_screen_enable(1);
 
    maincpu_set_irq(I_PIA1, IK_NONE);
 }
@@ -190,8 +192,13 @@ void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
 	pia1_update_irq();
 
 if(pardebug) printf("write pia1.ctrl_a(%x)\n",byte);
-	if( (byte & 0x38) == 0x30 ) par_set_eoi(1);
-	else par_set_eoi(0);	/* toggle mode still to be implemented */
+	if( (byte & 0x38) == 0x30 ) {
+	  par_set_eoi(1);
+	  if(pet.pet2k) crtc_screen_enable(0);
+	} else {
+	  par_set_eoi(0);	/* toggle mode still to be implemented */
+	  if(pet.pet2k) crtc_screen_enable(1);
+	}
 	break;
 
       case P_CTRL_B: /* Control B */

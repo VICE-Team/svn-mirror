@@ -359,6 +359,8 @@ void reset_crtc(void)
 
 int crtc_offscreen(void)
 {
+/* printf("crtc_offscreen: rasterline=%d, YPIX=%d -> %d\n", 
+				rasterline, YPIX, rasterline>=YPIX); */
     return rasterline >= YPIX;
 }
 
@@ -383,6 +385,12 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
 	crtc_arrange_window(w, h);
 	video_resize();
     }
+}
+
+void crtc_screen_enable(int en) {
+    en = en ? 0 : 1;
+    blank = en;
+    blank_enabled = en;
 }
 
 static void crtc_update_memory_ptrs(void)

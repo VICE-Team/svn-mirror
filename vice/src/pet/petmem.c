@@ -401,14 +401,14 @@ void initialize_memory(void)
 
     l = (pet.ramSize >> 8) & 0xff;
 
-    /* Setup RAM at $0000 - pet.ramSize */
+    /* Setup RAM from $0000 to pet.ramSize */
     for (i = 0x00; i < l; i++) {
 	_mem_read_tab[i] = read_ram;
 	_mem_write_tab[i] = store_ram;
 	_mem_read_base_tab[i] = ram + (i << 8);
     }
 
-    /* Setup unused at pet.ramSize - $7fff */
+    /* Setup unused from pet.ramSize to $7fff */
     for (i = l; i < 0x80; i++) {
 	_mem_read_tab[i] = read_unused;
 	_mem_write_tab[i] = store_dummy;
@@ -417,18 +417,27 @@ void initialize_memory(void)
 
     l = ((0x8000 + pet.videoSize) >> 8) & 0xff;
 
-    /* Setup RAM at $8000 - $8000 + pet.videoSize */
+    /* Setup RAM from $8000 to $8000 + pet.videoSize */
     for (i = 0x80; i < l; i++) {
 	_mem_read_tab[i] = read_ram;
 	_mem_write_tab[i] = store_ram;
 	_mem_read_base_tab[i] = ram + (i << 8);
     }
 
-    /* Setup unused at $8000 + pet.videoSize - $8fff */
-    for (i = l; i < 0x90; i++) {
+    /* Setup unused from $8000 + pet.videoSize to $87ff */
+    /* falls through if videoSize >= 0x800 */
+    for (; i < 0x88; i++) {
 	_mem_read_tab[i] = read_vmirror;
 	_mem_write_tab[i] = store_vmirror;
 	_mem_read_base_tab[i] = ram + 0x8000 + ((i << 8) & (pet.videoSize - 1));
+    }
+
+    /* Setup unused from $8800 to $8fff */
+    /* falls through if videoSize >= 0x1000 */
+    for (; i < 0x90; i++) {
+	_mem_read_tab[i] = read_unused;
+	_mem_write_tab[i] = store_dummy;
+	_mem_read_base_tab[i] = NULL;
     }
 
     set_std_9tof();
@@ -503,6 +512,8 @@ void patch_2001(void)
     rom[0x76f5] = ((rp >> 8) & 0xff) | 0x80;
     for (i = 0; i < 6; i++)
 	rom[rp++] = dat6[i];
+
+    strcpy(rom+rp,"vice pet2001 rom patch $ef00-$efff");
 }
 
 void mem_powerup(void)

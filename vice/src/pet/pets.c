@@ -66,7 +66,7 @@ static PetInfo pet_table[] = {
 	{ "8032",  KERNAL4032NAME,  EDITOR4B80NAME,
 		0x8000, 0x5000, 0x800, 0x800, 0, 1, 0, 0x7ff, 80, "business" },
 	{ "8096",  KERNAL4032NAME,  EDITOR4B80NAME,
-		0x8000, 0x5000, 0x800, 0x100, 0, 1, 1, 0x7ff, 80, "business" },
+		0x8000, 0x5000, 0x800, 0x800, 0, 1, 1, 0x7ff, 80, "business" },
 	{ "8296",  KERNAL4032NAME,  EDITOR4B80NAME,
 		0x8000, 0x5000, 0x1000,0x100, 0, 1, 2, 0x1fff,80, "business" },
 	{ NULL }
