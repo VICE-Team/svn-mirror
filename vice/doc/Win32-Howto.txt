@@ -1,0 +1,48 @@
+Compiling VICE on Win32 with Mingw32
+====================================
+
+To build VICE on Windows95/98/NT with the free GNU compiler, you have to set up
+your environment right.  To make use of the VICE configure script which
+generates the required Makefiles, it is necessary to install Cygwin32, which
+can be obtained from the following URL: http://sourceware.cygnus.com/cygwin/
+
+In this distribution there are all the valuable tool which are needed to build
+VICE.  The Cygwin32 package comes with it's own compilers, but I don't
+recommend to build VICE with them, because the generated executables are bound
+to the Cygwin.dll, which tries to emulate a POSIX conform layer.  Good if you
+have to port some UNIX code to Windows, but not necessary to compile VICE -
+VICE is already configured to build a native Win32 application when used with
+Mingw32.
+
+To make use of this feature, you need the Mingw32 distribution:
+http://www.xraylith.wisc.edu/~khan/software/gnu-win32/gcc.html
+This is a set of the GNU compilers, and header-files, which produce native
+Win32 executables.  These executables are linked against the Microsoft Windows
+.dll's, which can be found on any Windows system.
+
+After installing Mingw32 it is impotant, that the Mingw32 binaries (compiler,
+linker, utilities, ...) are found *before* those of Cygwin32.  This can be
+achieved by setting the PATH environment variable in such a way, that the
+mingw32/bin/ directory is located before the Cygnus bin/ directory.
+
+The last thing needed for a successful VICE compilation is DirectX for Mingw32.
+Because VICE makes use of DirectX and Mingw32 doesn't come with DirectX
+included, you have to download and install it yourself.  It can be found for
+example at http://www.ozemail.com.au/~peterhawkins/directx.html
+
+I recommend extracting only the required headerfiles and libraries out of the
+.zip archive to prevent the replacement of already existing ones in Mingw32.
+To do so start the compilation of VICE and add the required headerfile /
+library after the build process stopped.  An error message will be prompted
+which complains about the missing file.
+
+When all this is set up correctly, you can change-dir into the VICE directory
+and type './configure'.  After configure has finished, you can initiate the
+build process by simply typing 'make'.  This should hopefully be enough to
+produce all of the VICE emulators on your Windows system.
+
+
+Questions related to the described set-up of the Cygnus/Mingw32/DirectX
+environment can be sent to 'gritsch@iue.tuwien.ac.at'
+
+Have fun!
