@@ -171,7 +171,7 @@ void t64_destroy(t64_t *t64)
     free(t64);
 }
 
-t64_t *t64_open(const char *name)
+t64_t *t64_open(const char *name, unsigned int *read_only)
 {
     FILE *fd;
     t64_t *new;
@@ -180,6 +180,8 @@ t64_t *t64_open(const char *name)
     fd = zfopen(name, MODE_READ);
     if (fd == NULL)
         return NULL;
+
+    *read_only = 1;
 
     new = t64_new();
     new->fd = fd;
@@ -218,6 +220,8 @@ int t64_close(t64_t *t64)
     return retval;
 }
 
+/* ------------------------------------------------------------------------- */
+
 int t64_rewind(t64_t *t64)
 {
     return t64_seek_to_file(t64, 0);
@@ -235,7 +239,7 @@ int t64_seek_to_file(t64_t *t64, int file_number)
     return 0;
 }
 
-int t64_seek_to_next_file(t64_t *t64, int allow_rewind)
+int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind)
 {
     int n;
 
@@ -328,3 +332,9 @@ int t64_read_byte(t64_t *t64)
     else
         return EOF;
 }
+
+void t64_get_header(t64_t *t64, BYTE *name)
+{
+    memcpy(name, t64->header.description, T64_REC_CBMNAME_LEN);
+}
+
