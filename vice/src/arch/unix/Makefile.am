@@ -2,7 +2,11 @@
 
 # Makefile.am for the Unix version of `libarch.a'.
 
+if NEED_READLINE
 SUBDIRS = xaw
+else
+SUBDIRS = xaw readline
+endif
 
 INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
