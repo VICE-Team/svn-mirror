@@ -480,7 +480,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
     BYTE *p, *linkp;
     char fsname[MAXPATHLEN];
     char fsname2[MAXPATHLEN];
-#ifdef 0			/* Old P00 support.  */
+#if 0			/* Old P00 support.  */
     char realname[32];
 #endif
     char *mask;
@@ -677,7 +677,7 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	}
 	fs_info[secondary].fd = fd;
 
-#ifdef 0			/* Old P00 support.  */
+#if 0			/* Old P00 support.  */
 	/* P00 header */
 
 	if (fs_info[secondary].mode == Read) {
