@@ -64,7 +64,7 @@
 /* Package name.  */
 #define PACKAGE ""
 
-/* Package version.  */
+/* Version number.  */
 #define VERSION ""
 
 /* The number of bytes in a unsigned int.  */
