@@ -61,6 +61,9 @@
 /* Does libXext have XShmPutImage?  */
 #undef HAVE_XSHMPUTIMAGE
 
+/* Are we using the `readline' library or one replacement?  */
+#undef HAVE_READLINE
+
 /* Package name.  */
 #define PACKAGE ""
 
@@ -120,6 +123,9 @@
 
 /* Define if you have the <machine/soundcard.h> header file.  */
 #undef HAVE_MACHINE_SOUNDCARD_H
+
+/* Define if you have the <midasdll.h> header file.  */
+#undef HAVE_MIDASDLL_H
 
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
