@@ -126,10 +126,13 @@ static int close_rawimage(vdrive_t *vdrive)
 
 int vdrive_internal_close_disk_image(vdrive_t *vdrive)
 {
-    switch (vdrive->image->device) {
-      case DISK_IMAGE_DEVICE_FS:
+    switch (vdrive->unit) {
+      case 0:
         return close_fsimage(vdrive);
-      case DISK_IMAGE_DEVICE_RAW:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
         return close_rawimage(vdrive);
     }
 
