@@ -29,6 +29,8 @@
 #include "vice.h"
 #include "sound.h"
 
+#include <stdio.h>
+
 #include "vmidas.h"
 
 static int midas_bufferstatus(warn_t *w, int first);
@@ -119,7 +121,7 @@ static int midas_bufferstatus(warn_t *s, int first)
     return (int)((double)nr/midas_maxsize*midas_bufsize);
 }
 
-static void midas_close(void)
+static void midas_close(warn_t *w)
 {
     BOOL		st;
 
