@@ -1,19 +1,35 @@
 /*
- * $Id: info.h,v 1.1 1997/05/22 21:18:57 ettore Exp $
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
- *
- * Info about the VICE project.
+ * info.h - Info about the VICE project, including the GPL.
  *
  * Written by
- *   Ettore Perazzoli	(ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
- * $Log: info.h,v $
- * Revision 1.1  1997/05/22 21:18:57  ettore
- * Initial revision
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
  *
  */
+
+#ifndef _INFO_H
+#define _INFO_H
 
 extern const char license_text[];
 extern const char contrib_text[];
 extern const char warranty_text[];
+
+#endif
+
