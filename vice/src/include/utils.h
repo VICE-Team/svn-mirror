@@ -47,7 +47,9 @@ extern int save_file(const char *name, const void *src, int size);
 
 int string_to_long(const char *str, char **endptr, int base,
 		   long *result);
-    
+char *subst(const char *s, const char *string, const char *replacement);
+void string_set(char **str, const char *new_value);
+
 #if !defined HAVE_MEMMOVE
 extern void *memmove(void *target, const void *source, unsigned int length);
 #endif

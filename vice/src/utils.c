@@ -169,6 +169,21 @@ void remove_spaces(char *s)
     }
 }
 
+/* Set a new value to the dynamically allocated string *str.  */
+void string_set(char **str, const char *new_value)
+{
+    if (*str == NULL) {
+        if (new_value != NULL)
+            *str = stralloc(new_value);
+    } else if (new_value == NULL) {
+        free(*str);
+        *str = NULL;
+    } else {
+        *str = xrealloc(*str, strlen(new_value) + 1);
+        strcpy(*str, new_value);
+    }
+}
+
 int string_to_long(const char *str, char **endptr, int base,
 		   long *result)
 {
@@ -177,7 +192,7 @@ int string_to_long(const char *str, char **endptr, int base,
 
     if (!isspace((int)*str) && !isdigit((int)*str))
 	return -1;
-	
+
     for (sp = str; isspace((int)*sp); sp++)
 	;
 
@@ -186,17 +201,62 @@ int string_to_long(const char *str, char **endptr, int base,
 
     if (ep == sp)
 	return -1;
-    
+
     if (endptr != NULL)
 	*endptr = (char *)ep;
 
     ep--;
-    
+
     for (value = 0, weight = 1; ep >= sp; weight *= base, ep--)
 	value += weight * (int)(*ep - '0');
 
     *result = value;
     return 0;
+}
+
+/* Replace every occurrence of `string' in `s' with `replacement' and return
+   the result as a malloc'ed string.  */
+char *subst(const char *s, const char *string, const char *replacement)
+{
+    int num_occurrences;
+    int total_size;
+    int s_len = strlen(s);
+    int string_len = strlen(string);
+    int replacement_len = strlen(replacement);
+    const char *sp;
+    char *dp;
+    char *result;
+
+    /* First, count the occurrences so that we avoid re-allocating every
+       time.  */
+    for (num_occurrences = 0, sp = s;
+         (sp = strstr(sp, string)) != NULL;
+         num_occurrences++)
+        sp += string_len;
+
+    total_size = s_len - (string_len - replacement_len) * num_occurrences + 1;
+
+    result = (char *) xmalloc(total_size);
+
+    sp = s;
+    dp = result;
+    do {
+        char *f = strstr(sp, string);
+
+        if (f == NULL)
+            break;
+
+        memcpy(dp, sp, f - sp);
+        memcpy(dp + (f - sp), replacement, replacement_len);
+        dp += (f - sp) + replacement_len;
+        sp = f + string_len;
+        s_len -= (f - sp) + string_len;
+        num_occurrences--;
+    } while (num_occurrences != 0);
+
+    memcpy(dp, sp, s_len + 1);
+
+    return result;
 }
 
 /* ------------------------------------------------------------------------- */
