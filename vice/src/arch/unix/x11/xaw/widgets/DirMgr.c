@@ -34,6 +34,8 @@
 
 #include <stdlib.h>		/* [EP] 05/04/97 */
 
+#include "utils.h"              /* [AB] 2000-07-18 Use xmalloc */
+
 #include "DirMgr.h"
 
 #include "RegExp.h"
@@ -125,14 +127,9 @@ int free_data;
 {
 	DirectoryMgr *dm;
 
-	dm = (DirectoryMgr *)calloc(1,sizeof(DirectoryMgr));
-	if (dm == NULL)
-	{
-		fprintf(stderr,"DirectoryMgrOpen: out of memory\n");
-		if (free_data)
-                    RegExpFree(f_data);
-		return(NULL);
-	}
+	dm = (DirectoryMgr *)xmalloc(sizeof(DirectoryMgr));
+	memset(dm, 0, sizeof(DirectoryMgr));
+
 	if (DirectoryOpen(path,DirectoryMgrDir(dm)) == FALSE)
 	{
 		fprintf(stderr,"DirectoryMgrOpen: can't open dir '%s'\n",
@@ -199,13 +196,9 @@ DirectoryMgr *dm;
 	f_data = &DirectoryMgrFilterData(dm);
 	while (1)
 	{
-		cons = (DirEntryCons *)malloc(sizeof(DirEntryCons));
-		if (cons == NULL)
-		{
-			fprintf(stderr,
-				"DirectoryMgrRefresh: Can't Alloc Cons\n");
-			exit(-1);
-		}
+		cons = (DirEntryCons *)xmalloc(sizeof(DirEntryCons));
+                memset(cons, 0, sizeof(DirEntryCons));
+
 		err = DirectoryReadNextEntry(DirectoryMgrDir(dm),
 					     &(cons->dir_entry));
 		if (err == FALSE)
@@ -236,19 +229,9 @@ DirectoryMgr *dm;
 
 	data_size = sizeof(DirEntry) * DirectoryMgrFilteredCount(dm);
 	ptrs_size = sizeof(DirEntry *) * DirectoryMgrFilteredCount(dm);
-	dm_data = (DirEntry *)malloc(data_size);
-	dm_ptrs = (DirEntry **)malloc(ptrs_size);
-	/*
-	 * BUGFIX: Next line changed from:
-	 * if ((dm_data == NULL) || (dm_ptrs == NULL))
-	 * after a bug report by Andrew Robinson, Feb 13, '95 [BB]
-	 */
-	if (((dm_data == NULL) && (data_size > 0))
-	    || ((dm_ptrs == NULL) && (ptrs_size > 0)))
-	{
-		fprintf(stderr,"DirectoryMgrRefresh: Out of memory\n");
-		exit(1);
-	}
+	dm_data = (DirEntry *)xmalloc(data_size);
+	dm_ptrs = (DirEntry **)xmalloc(ptrs_size);
+
 	DirectoryMgrData(dm) = dm_data;
 	DirectoryMgrSortedPtrs(dm) = dm_ptrs;
 
