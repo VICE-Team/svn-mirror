@@ -221,9 +221,10 @@ WIDGETDIST = $(WIDGETMISC) $(WIDGETSRC) $(WIDGETHDR)
 
 ## Documentation
 
-DOCS = $(DOCDIR)/64doc $(DOCDIR)/cbm_basic_tokens $(DOCDIR)/recomment.html \
-	$(DOCDIR)/Evaluation $(DOCDIR)/PETdoc $(DOCDIR)/drive_info \
-	$(DOCDIR)/serial $(DOCDIR)/mnemonics $(DOCDIR)/MANUAL.html
+DOCS = $(DOCDIR)/64doc.txt $(DOCDIR)/cbm_basic_tokens.txt \
+        $(DOCDIR)/recomment.html $(DOCDIR)/Evaluation $(DOCDIR)/PETdoc.txt \
+	$(DOCDIR)/drive_info.txt $(DOCDIR)/serial.txt $(DOCDIR)/mnemonics.txt \
+	$(DOCDIR)/MANUAL.html
 
 MANPAGES = $(MANDIR)/vice.man $(MANDIR)/c1541.man $(MANDIR)/petcat.man
 
@@ -312,7 +313,7 @@ VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) \
 	$(COMMON_OBJS) $(VIC20_LOBJS) $(COMMON_LIBS)
 
 PET_DEPS = $(PET_OBJS) $(PARALLEL_OBJS) $(COMMON_OBJS) $(PET_LOBJS) \
-	$(COMMON_LIBS)
+	$(COMMON_LIBS) $(JOY_OBJS)
 
 C1541_OBJS = c1541.o
 
