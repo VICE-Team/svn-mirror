@@ -24,9 +24,6 @@ These are the most important known problems with VICE 0.14.0:
 - The CRTC chip in xpet only supports the basic features and is still
   under construction.
 
-- Unlike the CIAs in the C64, the VIAs in the PET, VIC20 and 1541
-  emulators are *not* cycle-exact.
-
 - xvic and xpet do not support tape images.
 
 - The C64 and VIC20 cartridge ROMs are not emulated.
@@ -34,7 +31,7 @@ These are the most important known problems with VICE 0.14.0:
 - Changing the REU image name via resource files has no effect until
   exiting.
 
-- Dithering on monochrome X11 servers is *very* slow.
+- Dithering on monochrome X11 servers is *very* (VERY!) slow.
 
 - When a key which is shifted on the real machine but unshifted on the
   PC or Unix keyboard you are using is pressed, the virtual shift is
