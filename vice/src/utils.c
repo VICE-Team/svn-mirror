@@ -34,6 +34,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
@@ -166,6 +167,36 @@ void remove_spaces(char *s)
             ;
         *(p + 1) = '\0';
     }
+}
+
+int string_to_long(const char *str, char **endptr, int base,
+		   long *result)
+{
+    const char *sp, *ep;
+    long weight, value;
+
+    if (!isspace((int)*str) && !isdigit((int)*str))
+	return -1;
+	
+    for (sp = str; isspace((int)*sp); sp++)
+	;
+
+    for (ep = sp; isdigit((int)*ep); ep++)
+	;
+
+    if (ep == sp)
+	return -1;
+    
+    if (endptr != NULL)
+	*endptr = (char *)ep;
+
+    ep--;
+    
+    for (value = 0, weight = 1; ep >= sp; weight *= base, ep--)
+	value += weight * (int)(*ep - '0');
+
+    *result = value;
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
