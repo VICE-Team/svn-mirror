@@ -223,11 +223,7 @@ void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte)
 
     if (byte != viaD1[addr]) {
         viaD1[addr] = byte;
-#if 0				/* !FAST_BUS */
-	serial_bus_drive_write(~viaD1[VIA_DDRB] | viaD1[VIA_PRB]);
-#else
  	serial_bus_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
-#endif
     }
 	break;
 
