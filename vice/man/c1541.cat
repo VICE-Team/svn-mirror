@@ -1,0 +1,132 @@
+
+
+
+c1541(1)						 c1541(1)
+
+
+NAME
+       c1541 - a stand alone disk image maintenance program
+
+SYNOPSIS
+       c1541 [options] [image]
+
+DESCRIPTION
+       c1541  is  a  stand alone program that can be used for X64
+       and D64 disk image file maintenance.  It is  part  of  the
+       VICE emulator.
+
+       c1541  can be used both in interactive and batch mode.  It
+       will start in interactive mode if no images and no options
+       are  specified  or if one image is specified; when started
+       in interactive mode, command line editing and command his-
+       tory are available.
+
+       Each  command  line  option  for	 use in batch mode has an
+       interactive mode counterpart, that is shown  in	parenthe-
+       sis.
+
+       -attach image (attach image)
+	       attach  image for use.  All consequent commands in
+	       interactive mode will refer to this image.
+
+       -detach image (detach image)
+	       detach image from c1541.
+
+
+       -format image (format image 'name,id')
+	      format the disk  image  image  with  the	specified
+	      label.  image is created if it does not exist.
+
+       -delete image files... (delete files...)
+	      delete files from image
+
+       -list image (list)
+	      list directory of image.
+
+       -validate image (validate)
+	      validate mage.
+
+       -copy  image  oldname1 [oldname2...] newname (copy
+	      oldname1 [old- name2...] newname)
+	      concatenate  oldname1,  oldname2... into newname on
+	      image (can be used to copy files).
+
+       -create image dump ['descr'] (create image dump ['descr']
+	      build image from raw dump file dump  (i.e.  convert
+	      from D64 to X64 file).
+
+       -tape   image   tapeimage   [files...]	(tape	image
+	      tapeimage [files...])
+	      transfer	files from tapeimage to image (default is
+
+
+
+VICE			     May 1997				1
+
+
+
+
+
+c1541(1)						 c1541(1)
+
+
+	      all files).
+
+       -read image 1541name [fsname] (read 1541name [fsname])
+	      extract 1541name from the disk  image  into  fsname
+	      (1541name by default) from image.
+
+       -extract image (extract).
+	      extract all files from image.
+
+       -write image fsname [1541name] (write fsname [1541name])
+	      write  fsname  to	 image	as  1541name  (fsname  by
+	      default).	 (works with P00 files as well).
+
+       -block [drive:] [track] [sector] [disp] (block  [drive:]
+	      [track] [sector] [disp])
+	      show disk blocks in hex format.
+
+       -info image ['descr'] (info ['descr'])
+	      show version information about image.
+
+       When more than one command is specified in batch mode, all
+       of  them	 are  executed in the same order they have on the
+       command line.
+
+       If you use - as a file name, it stands for stdin	 or  std-
+       out.
+
+SEE ALSO
+       VICE(1), petcat(1)
+
+AUTHORS
+       Teemu Rantanen (tvr@cs.hut.fi)
+       Jouko Valta (jopi@stekt.oulu.fi)
+
+       with improvements by
+
+       Ettore Perazzoli (ettore@comm2000.it)
+       Olaf Seibert (rhialto@mbfys.kun.nl)
+       Gerhard Wesp (gwesp@cosy.sbg.ac.at)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VICE			     May 1997				2
+
+
