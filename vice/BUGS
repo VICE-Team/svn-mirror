@@ -1,5 +1,4 @@
-
-These are the most important known problems with VICE 0.14.0:
+These are the most important known problems with VICE 0.15.0:
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
@@ -11,10 +10,6 @@ These are the most important known problems with VICE 0.14.0:
 - Setting a maximum speed limit does not always work because of
   limited timer resolution on many systems.
 
-- P00 file name handling is not exact, as you must use the file system
-  name (with the P00 extension) instead of the one specified in the
-  P00 format, or attach them as tape images.
-
 - There is no support for wildcards on the FS drive access, but they
   can be used when reading the directory (eg. LOAD"$:gamez/*.p00",8).
 
@@ -24,9 +19,7 @@ These are the most important known problems with VICE 0.14.0:
 - The CRTC chip in xpet only supports the basic features and is still
   under construction.
 
-- xvic and xpet do not support tape images.
-
-- The C64 and VIC20 cartridge ROMs are not emulated.
+- VIC20 cartridge ROMs are not emulated.
 
 - Changing the REU image name via resource files has no effect until
   exiting.
