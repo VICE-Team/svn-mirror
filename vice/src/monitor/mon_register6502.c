@@ -28,17 +28,18 @@
 
 #include "vice.h"
 
-#include "asm.h"
 #include "log.h"
 #include "mon.h"
+#include "mon_register.h"
 #include "mos6510.h"
 #include "uimon.h"
+#include "utils.h"
 
 #define TEST(x) ((x)!=0)
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
-    mos6510_regs_t *reg_ptr = NULL;
+    mos6510_regs_t *reg_ptr;
 
     if (mem == e_disk8_space) {
         if (!check_drive_emu_level_ok(8))
@@ -63,9 +64,9 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
       case e_SP:
         return MOS6510_REGS_GET_SP(reg_ptr);
       case e_FLAGS:
-          return MOS6510_REGS_GET_FLAGS(reg_ptr)|
-              MOS6510_REGS_GET_SIGN(reg_ptr)|
-              MOS6510_REGS_GET_ZERO(reg_ptr)<<1;
+          return MOS6510_REGS_GET_FLAGS(reg_ptr)
+              | MOS6510_REGS_GET_SIGN(reg_ptr)
+              | (MOS6510_REGS_GET_ZERO(reg_ptr) << 1);
       default:
         log_error(LOG_ERR, "Unknown register!");
     }
@@ -74,7 +75,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 
 static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
-    mos6510_regs_t *reg_ptr = NULL;
+    mos6510_regs_t *reg_ptr;
 
     if (mem == e_disk8_space) {
         if (!check_drive_emu_level_ok(8))
@@ -147,10 +148,104 @@ static void mon_register_print(int mem)
               TEST(MOS6510_REGS_GET_CARRY(regs)));
 }
 
+static mon_reg_list_t *mon_register_list_get(int mem)
+{
+    mon_reg_list_t *mon_reg_list;
+
+    mon_reg_list = (mon_reg_list_t *)xmalloc(sizeof(mon_reg_list_t) * 8);
+
+    mon_reg_list[0].name = "PC";
+    mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_PC);
+    mon_reg_list[0].size = 16;
+    mon_reg_list[0].flags = 0;
+    mon_reg_list[0].next = &mon_reg_list[1];
+
+    mon_reg_list[1].name = "AC";
+    mon_reg_list[1].val = (unsigned int)mon_register_get_val(mem, e_A);
+    mon_reg_list[1].size = 8;
+    mon_reg_list[1].flags = 0;
+    mon_reg_list[1].next = &mon_reg_list[2];
+
+    mon_reg_list[2].name = "XR";
+    mon_reg_list[2].val = (unsigned int)mon_register_get_val(mem, e_X);
+    mon_reg_list[2].size = 8;
+    mon_reg_list[2].flags = 0;
+    mon_reg_list[2].next = &mon_reg_list[3];
+
+    mon_reg_list[3].name = "YR";
+    mon_reg_list[3].val = (unsigned int)mon_register_get_val(mem, e_Y);
+    mon_reg_list[3].size = 8;
+    mon_reg_list[3].flags = 0;
+    mon_reg_list[3].next = &mon_reg_list[4];
+
+    mon_reg_list[4].name = "SP";
+    mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
+    mon_reg_list[4].size = 16;
+    mon_reg_list[4].flags = 0;
+    mon_reg_list[4].next = &mon_reg_list[5];
+
+    /* FIXME: This is not elegant. The destinction between 6502/6510
+       should not be done by the memory space.  This will change once
+       we have completely separated 6502, 6509, 6510 and Z80. */
+    if (mem == e_comp_space) {
+        mon_reg_list[5].name = "00";
+        mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
+        mon_reg_list[5].size = 8;
+        mon_reg_list[5].flags = 0;
+        mon_reg_list[5].next = &mon_reg_list[6];
+
+        mon_reg_list[6].name = "01";
+        mon_reg_list[6].val = (unsigned int)mon_get_mem_val(mem, 1);
+        mon_reg_list[6].size = 8;
+        mon_reg_list[6].flags = 0;
+        mon_reg_list[6].next = &mon_reg_list[7];
+
+        mon_reg_list[7].name = "NV-BDIZC";
+        mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
+        mon_reg_list[7].size = 8;
+        mon_reg_list[7].flags = 1;
+        mon_reg_list[7].next = NULL;
+    } else {
+        mon_reg_list[5].name = "NV-BDIZC";
+        mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_FLAGS);
+        mon_reg_list[5].size = 8;
+        mon_reg_list[5].flags = 1;
+        mon_reg_list[5].next = NULL;
+    }
+
+    return mon_reg_list;
+}
+
+static void mon_register_list_set(mon_reg_list_t *reg_list, int mem)
+{
+    do {
+        if (!strcmp(reg_list->name, "PC"))
+            mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "AC"))
+            mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "XR"))
+            mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "YR"))
+            mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "SP"))
+            mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
+        if (!strcmp(reg_list->name, "00"))
+            mon_set_mem_val(mem, 0, (BYTE)(reg_list->val));
+        if (!strcmp(reg_list->name, "01"))
+            mon_set_mem_val(mem, 1, (BYTE)(reg_list->val));
+        if (!strcmp(reg_list->name, "NV-BDIZC"))
+            mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
+
+        reg_list = reg_list->next;
+    } while (reg_list != NULL);
+}
+
 void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
     monitor_cpu_type->mon_register_set_val = mon_register_set_val;
     monitor_cpu_type->mon_register_print = mon_register_print;
+    monitor_cpu_type->mon_register_list_get = mon_register_list_get;
+    monitor_cpu_type->mon_register_list_set = mon_register_list_set;
 }
 
