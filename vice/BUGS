@@ -33,5 +33,3 @@ These are the most important known problems with VICE 0.15.0:
   use the function keys, press the (real) shift key manually (e.g. F2
   = Shift + F1, F4 = Shift + F3 and so on); this also works with other
   keys.
-
-- Adaptive sound playback is not supported on MS-DOS.
