@@ -184,19 +184,45 @@ void string_set(char **str, const char *new_value)
     }
 }
 
-int string_to_long(const char *str, char **endptr, int base,
+/* ------------------------------------------------------------------------- */
+
+int string_to_long(const char *str, const char **endptr, int base,
 		   long *result)
 {
     const char *sp, *ep;
     long weight, value;
+    long sign;
+    char last_letter;
+    char c;
 
-    if (!isspace((int)*str) && !isdigit((int)*str))
-	return -1;
+    if (base > 10)
+        last_letter = 'A' + base - 11;
+
+    c = toupper((int) *str);
+
+    if (!isspace((int)c)
+        && !isdigit((int)c)
+        && (base <= 10 || c > last_letter || c < 'A')
+        && c != '+' && c != '-')
+        return -1;
+
+    if (*str == '+') {
+        sign = +1;
+        str++;
+    } else if (*str == '-') {
+        str++;
+        sign = -1;
+    } else
+        sign = +1;
 
     for (sp = str; isspace((int)*sp); sp++)
 	;
 
-    for (ep = sp; isdigit((int)*ep); ep++)
+    for (ep = sp;
+         (isdigit((int)*ep)
+          || (base > 10
+              && toupper((int)*ep) <= last_letter
+              && toupper((int)*ep) >= 'A')); ep++)
 	;
 
     if (ep == sp)
@@ -207,10 +233,14 @@ int string_to_long(const char *str, char **endptr, int base,
 
     ep--;
 
-    for (value = 0, weight = 1; ep >= sp; weight *= base, ep--)
-	value += weight * (int)(*ep - '0');
+    for (value = 0, weight = 1; ep >= sp; weight *= base, ep--) {
+        if (base > 10 && toupper((int) *ep) >= 'A')
+            value += weight * (toupper((int)*ep) - 'A' + 10);
+	else
+            value += weight * (int)(*ep - '0');
+    }
 
-    *result = value;
+    *result = value * sign;
     return 0;
 }
 
@@ -376,6 +406,38 @@ int save_file(const char *name, const void *src, int size)
 	close(fd);
 	return 0;
     }
+}
+
+/* Input one line from the file descriptor `f'.  FIXME: we need something
+   better, line GNU `getline()'.  */
+int get_line(char *buf, int bufsize, FILE *f)
+{
+    char *r;
+    int len;
+
+    r = fgets(buf, bufsize, f);
+    if (r == NULL)
+	return -1;
+
+    len = strlen(buf);
+
+    if (len > 0) {
+	char *p;
+
+	/* Remove trailing newline character.  */
+	if (*(buf + len - 1) == '\n')
+	    len--;
+
+	/* Remove useless spaces.  */
+	while (*(buf + len - 1) == ' ')
+	    len--;
+	for (p = buf; *p == ' '; p++, len--)
+	    ;
+	memmove(buf, p, len + 1);
+	*(buf + len) = '\0';
+    }
+
+    return len;
 }
 
 /* ------------------------------------------------------------------------- */
