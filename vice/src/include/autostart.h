@@ -30,15 +30,8 @@
 
 #ifdef AUTOSTART
 
-#define AUTOSTART_NONE			0
-#define AUTOSTART_ERROR			1
-#define AUTOSTART_HASTAPE		100
-#define AUTOSTART_LOADINGTAPE		101
-#define AUTOSTART_HASDISK		800
-#define AUTOSTART_LOADINGDISK		801
-#define AUTOSTART_DONE			9999
-
-void autostart_init(void);
+int autostart_init(void);
+void autostart_disable(void);
 void autostart_advance(void);
 int autostart_tape(const char *file_name, const char *program_name);
 int autostart_disk(const char *file_name, const char *program_name);
