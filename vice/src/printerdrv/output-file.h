@@ -32,13 +32,14 @@
 extern int output_file_init_resources(void);
 extern int output_file_init_cmdline_options(void);
 extern void output_file_init(void);
+
 extern void output_file_reset(void);
 
-extern int output_file_open(int device);
-extern void output_file_close(int fi);
-extern int output_file_putc(int fi, BYTE b);
-extern int output_file_getc(int fi, BYTE *b);
-extern int output_file_flush(int fi);
+extern int output_file_open(unsigned int prnr);
+extern void output_file_close(unsigned int prnr);
+extern int output_file_putc(unsigned int prnr, BYTE b);
+extern int output_file_getc(unsigned int prnr, BYTE *b);
+extern int output_file_flush(unsigned int prnr);
 
 #endif
 
