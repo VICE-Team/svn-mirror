@@ -1,3 +1,25 @@
+Wed Mar 25 00:25:03 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.1.2.
+
+	* c64/vicii.c (int_rasterfetch): Set `sprite_fetch_clk' using
+ 	`LINE_START_CLK' and `SPRITE_FETCH_CYCLE' instead of
+ 	`vic_ii_fetch_clk'.
+
+Tue Mar 24 21:18:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c (handle_joy_emu): `K_KP5' moves the joystick
+ 	down.
+
+	* arch/unix/kbd.c (handle_joy_emu): `XK_KP_5' moves the joystick
+ 	down.
+
+Mon Mar 23 21:30:49 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* true1541.c (GCR_data_writeback): Convert all sectors from GCR to
+ 	the D64 image even if there are invalid sectors.
+	(serial_bus_drive_write): Added #ifdef to make the compiler quiet.
+
 Mon Mar 23 11:29:01 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.1.1.

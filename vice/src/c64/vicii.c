@@ -1806,9 +1806,8 @@ int int_rasterfetch(long offset)
 
 	    check_sprite_dma();
 
-	    /* Remember when this happened, so that all the sprite fetch
-               event ticks can be computed from this one. */
-	    sprite_fetch_clk = vic_ii_fetch_clk;
+            /* FIXME?  Slow!  */
+	    sprite_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE;
 
 	    fetch_msk = new_dma_msk;
 
