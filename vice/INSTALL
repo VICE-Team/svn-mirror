@@ -1,5 +1,5 @@
 
-Installation notes for VICE 0.14.1
+Installation notes for VICE 0.14.2
 **********************************
 
 
@@ -231,7 +231,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     Where `ARCH' is the autoconf identification string for the
     architecture of the machine you have compiled binaries for
     (e.g. `i586-pc-linux-gnu'), and `VERSION' is the version number
-    (in this case, 0.14.1).  Use `strip(1)' on the binary files if you
+    (in this case, 0.14.2).  Use `strip(1)' on the binary files if you
     like.
 
     If you want to provide site-specific defaults, you can build a
@@ -283,7 +283,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     and MS-DOS executable of X64 (let's suppose a cross-compiling GCC
     is installed as `gcc-dos' somewhere in your `$PATH'):
 
-      cd sources/vice-0.14.1
+      cd sources/vice-0.14.2
       mkdir i386-go32-msdos
       cd i386-go32-msdos
       CC="gcc-dos" CFLAGS="-O5" ../src/configure --host=i386-go32-msdos
