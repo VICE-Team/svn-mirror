@@ -217,7 +217,7 @@ void    reu_dma(int immed)
 	       host_step ? "" : " (fixed)", len, len);
 #endif
 	for (; len--; host_addr = (host_addr + host_step) & 0xffff, reu_addr += reu_step) {
-	    BYTE value = LOAD(host_addr);
+	    BYTE value = mem_read(host_addr);
 	    reuram[reu_addr % ReuSize] = value;
 	}
 	break;
@@ -229,7 +229,7 @@ void    reu_dma(int immed)
 	       host_step ? "" : " (fixed)", len, len);
 #endif
 	for (; len--; host_addr += host_step, reu_addr += reu_step )
-	    STORE((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
+	    mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
 	break;
 
       case 2: /* swap */
@@ -242,8 +242,8 @@ void    reu_dma(int immed)
 #endif
 	for (; len--; host_addr += host_step, reu_addr += reu_step ) {
 	    c = reuram[reu_addr % ReuSize];
-	    reuram[reu_addr % ReuSize] = LOAD(host_addr & 0xffff);
-	    STORE((host_addr & 0xffff), c);
+	    reuram[reu_addr % ReuSize] = mem_read(host_addr & 0xffff);
+	    mem_store((host_addr & 0xffff), c);
 	}
 	break;
 
@@ -254,7 +254,7 @@ void    reu_dma(int immed)
 	       host_step ? "" : " (fixed)", len, len);
 #endif
 	while (len--) {
-	    if (reuram[reu_addr % ReuSize] != LOAD(host_addr & 0xffff)) {
+	    if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
 		reu[0] |= 0x20; /* FAULT */
 		break;
 	    }
