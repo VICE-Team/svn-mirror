@@ -30,16 +30,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "actionreplay.h"
+#include "atomicpower.h"
 #include "alarm.h"
 #include "archdep.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "crt.h"
+#include "expert.h"
 #include "generic.h"
 #include "interrupt.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
+#include "retroreplay.h"
+#include "supersnapshot.h"
 #include "utils.h"
 
 static int cartridge_type;
@@ -120,6 +125,9 @@ static cmdline_option_t cmdline_options[] =
     {"-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
      "<name>", "Attach raw 32KB Action Replay cartridge image"},
+    {"-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
+     "<name>", "Attach raw 64KB Retro Replay cartridge image"},
     {"-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
      "<name>", "Attach raw 32KB Atomic Power cartridge image"},
@@ -175,52 +183,38 @@ int cartridge_attach_image(int type, const char *filename)
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_EPYX_FASTLOAD:
-        if (generic_8kb_attach(filename, rawcart) < 0)
+        if (generic_8kb_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_WARPSPEED:
-        if (generic_16kb_attach(filename, rawcart) < 0)
+        if (generic_16kb_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_ACTION_REPLAY:
+        if (atomicpower_bin_attach(filename, rawcart) < 0)
+            goto done;
+        break;
       case CARTRIDGE_ATOMIC_POWER:
-        fd = fopen(filename, MODE_READ);
-        if (!fd)
+        if (actionreplay_bin_attach(filename, rawcart) < 0)
             goto done;
-        if (fread(rawcart, 0x8000, 1, fd) < 1) {
-            fclose(fd);
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        if (retroreplay_bin_attach(filename, rawcart) < 0)
             goto done;
-        }
-        fclose(fd);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-        fd = fopen(filename, MODE_READ);
-        if (!fd)
+        if (supersnapshot_v4_bin_attach(filename, rawcart) < 0)
             goto done;
-        if (fread(rawcart, 0x8000, 1, fd) < 1) {
-            fclose(fd);
-            goto done;
-        }
-        fclose(fd);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        fd = fopen(filename, MODE_READ);
-        if (!fd)
+        if (supersnapshot_v5_bin_attach(filename, rawcart) < 0)
             goto done;
-        if (fread(rawcart, 0x10000, 1, fd) < 1) {
-            fclose(fd);
-            goto done;
-        }
-        fclose(fd);
         break;
       case CARTRIDGE_EXPERT:
-        /* Clear initial RAM */
-        memset(rawcart, 0xff, 0x2000);
-        /* Set default mode */
-        resources_set_value("CartridgeMode",
-                            (resource_value_t)CARTRIDGE_MODE_PRG);
+        if (expert_bin_attach(filename, rawcart) < 0)
+            goto done;
         break;
       case CARTRIDGE_IEEE488:
         /* FIXME: ROM removed? */
@@ -288,18 +282,24 @@ void cartridge_trigger_freeze(void)
 {
     int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 
-    if (type != CARTRIDGE_ACTION_REPLAY
-        && type != CARTRIDGE_KCS_POWER
-        && type != CARTRIDGE_FINAL_III
-        && type != CARTRIDGE_SUPER_SNAPSHOT
-        && type != CARTRIDGE_SUPER_SNAPSHOT_V5
-        && type != CARTRIDGE_ATOMIC_POWER
-        && type != CARTRIDGE_FINAL_I)
-        return;
-
-    maincpu_set_nmi(I_FREEZE, IK_NMI);
-
-    alarm_set(&cartridge_alarm, clk + 3);
+    switch (type) {
+      case CARTRIDGE_ACTION_REPLAY:
+      case CARTRIDGE_KCS_POWER:
+      case CARTRIDGE_FINAL_III:
+      case CARTRIDGE_SUPER_SNAPSHOT:
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+      case CARTRIDGE_ATOMIC_POWER:
+      case CARTRIDGE_FINAL_I:
+        maincpu_set_nmi(I_FREEZE, IK_NMI);
+        alarm_set(&cartridge_alarm, clk + 3);
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        if (retroreplay_freeze_allowed()) {
+            maincpu_set_nmi(I_FREEZE, IK_NMI);
+            alarm_set(&cartridge_alarm, clk + 3);
+        }
+        break;
+    }
 }
 
 void cartridge_release_freeze(void)
