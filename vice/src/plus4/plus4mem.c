@@ -33,9 +33,11 @@
 #include "mon.h"
 #include "plus4mem.h"
 #include "plus4memlimit.h"
+#include "plus4tia1.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
+#include "ted-mem.h"
 #include "types.h"
 #include "utils.h"
 
@@ -79,22 +81,43 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
-static store_func_ptr_t mem_write_tab_orig[NUM_VBANKS][NUM_CONFIGS][0x101];
-static read_func_ptr_t mem_read_tab_orig[NUM_CONFIGS][0x101];
-
 /* Processor port.  */
 static struct {
     BYTE dir, data, data_out;
 } pport;
 
 /* Current memory configuration.  */
-static int mem_config;
+static unsigned int mem_config;
 
 /* Logging goes here.  */
 static log_t plus4_mem_log = LOG_ERR;
 
 inline void pla_config_changed(void)
 {
+}
+
+void mem_config_set(unsigned int config)
+{
+    mem_config = config;
+
+    if (any_watchpoints(e_comp_space)) {
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[0][mem_config];
+    }
+
+    _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
+
+    if (bank_limit != NULL) {
+        *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+        if (*bank_base != 0)
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8]
+                         - (old_reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -212,7 +235,61 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_write_hook(int config, int page, store_func_t * f)
+static BYTE REGPARM1 fdxx_read(ADDRESS addr)
+{
+    if (addr >= 0xfd30 && addr <= 0xfd3f)
+        return tia1_read(addr);
+
+    return 0;
+}
+
+static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
+{
+    if (addr >= 0xfd30 && addr <= 0xfd3f) {
+        tia1_store(addr, value);
+        return;
+    }
+}
+
+static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
+{
+    if (addr >= 0xff20)
+        return ram_read(addr);
+
+    return ted_read(addr);
+}
+
+static void REGPARM2 ram_ffxx_store(ADDRESS addr, BYTE value)
+{
+    if (addr >= 0xff40 || (addr >= 0xff20 && addr <= 0xff3d)) {
+        ram_store(addr, value);
+        return;
+    }
+
+    ted_store(addr, value);
+}
+
+static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
+{
+    if (addr >= 0xff20)
+        return rom_read(addr);
+
+    return ted_read(addr);
+}
+
+static void REGPARM2 rom_ffxx_store(ADDRESS addr, BYTE value)
+{
+    if (addr >= 0xff40 || (addr >= 0xff20 && addr <= 0xff3d)) {
+        ram_store(addr, value);
+        return;
+    }
+
+    ted_store(addr, value);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
 
@@ -267,7 +344,7 @@ void mem_initialize_memory(void)
     }
 
     /* Setup BASIC ROM at $8000-$BFFF (memory config 1).  */
-    for (i = 0xa0; i <= 0xbf; i++) {
+    for (i = 0x80; i <= 0xbf; i++) {
         mem_read_tab[1][i] = basic_read;
         mem_read_base_tab[1][i] = basic_rom + ((i & 0x3f) << 8);
     }
@@ -278,10 +355,26 @@ void mem_initialize_memory(void)
         mem_read_base_tab[1][i] = kernal_rom + ((i & 0x3f) << 8);
     }
 
-    _mem_read_tab_ptr = mem_read_tab[1];
-    _mem_write_tab_ptr = mem_write_tab[0][1];
-    _mem_read_base_tab_ptr = mem_read_base_tab[1];
-    mem_read_limit_tab_ptr = mem_read_limit_tab[1];
+    mem_read_tab[0][0xfd] = fdxx_read;
+    mem_write_tab[0][0][0xfd] = fdxx_store;
+    mem_read_base_tab[0][0xfd] = NULL;
+    mem_read_tab[1][0xfd] = fdxx_read;
+    mem_write_tab[0][1][0xfd] = fdxx_store;
+    mem_read_base_tab[1][0xfd] = NULL;
+
+    mem_read_tab[0][0xff] = ram_ffxx_read;
+    mem_write_tab[0][0][0xff] = ram_ffxx_store;
+    mem_read_base_tab[0][0xff] = NULL;
+    mem_read_tab[1][0xff] = rom_ffxx_read;
+    mem_write_tab[0][1][0xff] = rom_ffxx_store;
+    mem_read_base_tab[1][0xff] = NULL;
+
+
+    mem_config = 1;
+    _mem_read_tab_ptr = mem_read_tab[mem_config];
+    _mem_write_tab_ptr = mem_write_tab[0][mem_config];
+    _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
+    mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -346,9 +439,9 @@ int mem_load(void)
 {
 
     char *rom_name = NULL;
-/*
+
     mem_powerup();
-*/
+
     if (plus4_mem_log == LOG_ERR)
         plus4_mem_log = log_open("PLUS4MEM");
 
@@ -379,7 +472,7 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 
 /* FIXME: this part needs to be checked.  */
 
-void mem_get_basic_text(ADDRESS * start, ADDRESS * end)
+void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {
     if (start != NULL)
         *start = ram[0x2b] | (ram[0x2c] << 8);
@@ -436,6 +529,20 @@ int mem_bank_from_name(const char *name)
 
 BYTE mem_bank_read(int bank, ADDRESS addr)
 {
+    switch (bank) {
+      case 0:                   /* current */
+        return mem_read(addr);
+        break;
+      case 2:                   /* rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return basic_rom[addr & 0x3fff];
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return kernal_rom[addr & 0x3fff];
+        }
+      case 1:                   /* ram */
+        break;
+    }
     return ram[addr];
 }
 
@@ -446,6 +553,20 @@ BYTE mem_bank_peek(int bank, ADDRESS addr)
 
 void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 {
+    switch (bank) {
+      case 0:                   /* current */
+        mem_store(addr, byte);
+        return;
+      case 2:                   /* rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return;
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return;
+        }
+      case 1:                   /* ram */
+        break;
+    }
     ram[addr] = byte;
 }
 
