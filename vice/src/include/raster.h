@@ -346,6 +346,10 @@ static int overscan_background_color;
    border_color. */
 static int blank_enabled;
 
+/* If this is != 0, the current raster line is blank.  The value of this
+   variable is set to zero again after the current line is updated.  */
+static int blank_this_line;
+
 /* Open border flags. */
 static int open_right_border, open_left_border;
 
