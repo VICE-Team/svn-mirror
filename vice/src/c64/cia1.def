@@ -98,6 +98,8 @@ READ_CIAPB()
 	}
 }
 
+#define READ_CIAICR
+
 POST_CIA_FUNCS() 
 {
 
@@ -114,6 +116,4 @@ int     show_keyarr(void)
 }
 
 }
-
-
 

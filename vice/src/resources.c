@@ -163,6 +163,7 @@ static struct resource resources[] = {
 #endif
 #ifdef HAVE_TRUE1541
     { "True1541", &app_resources.true1541, RES_INTEGER, true1541_ack_switch },
+    { "True1541", &app_resources.true1541ParallelCable, RES_INTEGER, NULL },
     { "True1541IdleMethod", &app_resources.true1541IdleMethod, RES_INTEGER,
       NULL },
     { "True1541SyncFactor", &app_resources.true1541SyncFactor, RES_INTEGER,

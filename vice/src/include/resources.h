@@ -152,6 +152,8 @@ typedef struct _AppResources {
     char *htmlBrowserCommand;
 
     int useXSync;
+
+    int true1541ParallelCable;
 } AppResources;
 
 extern AppResources app_resources;

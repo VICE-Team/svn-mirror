@@ -108,6 +108,10 @@ extern int initialize_true1541(void);
 #if defined(CBM64) || defined(C128)
 extern void serial_bus_cpu_write(BYTE data);
 extern BYTE serial_bus_cpu_read(void);
+extern void parallel_cable_cpu_write(BYTE data, int handshake);
+extern BYTE parallel_cable_cpu_read(void);
+extern void parallel_cable_drive_write(BYTE data, int handshake);
+extern BYTE parallel_cable_drive_read(int handshake);
 #endif
 #if defined(VIC20)
 extern void serial_bus_pa_write(BYTE data);

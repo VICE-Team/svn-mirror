@@ -159,6 +159,8 @@ static char cia1todstopped;
 static char cia1todlatched;
 static int cia1todticks = 100000;	/* approx. a 1/10 sec. */
 
+static BYTE cia1flag = 0;
+
 /* ------------------------------------------------------------------------- */
 /* CIA1 */
 
@@ -800,6 +802,8 @@ BYTE read_cia1_(ADDRESS addr)
 	{
 	    BYTE t = 0;
 
+	    
+
 	    cia1rdi = rclk;
 
             if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TA])
@@ -808,7 +812,7 @@ BYTE read_cia1_(ADDRESS addr)
                 int_cia1tb(rclk - maincpu_int_status.alarm_clk[A_CIA1TB]);
 
 	    update_cia1(rclk);
-	    t = cia1int;
+	    t = cia1int | cia1flag;
 
 #ifdef DEBUG
 	    if (app_resources.debugFlag)
@@ -817,6 +821,7 @@ BYTE read_cia1_(ADDRESS addr)
 		       cia1int, t, PC, cia1sr_bits, clk, readta(), readtb());
 #endif
 
+	    cia1flag = 0;
 	    cia1int = 0;
 	    my_set_int(I_CIA1FL, 0, rclk);
 
@@ -970,6 +975,13 @@ int int_cia1tb(long offset)
     }
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void cia1_set_flag(void)
+{
+    cia1flag = CIA_IM_FLG;
 }
 
 /* ------------------------------------------------------------------------- */

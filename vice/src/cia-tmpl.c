@@ -152,6 +152,8 @@ static char myciatodstopped;
 static char myciatodlatched;
 static int myciatodticks = 100000;	/* approx. a 1/10 sec. */
 
+static BYTE myciaflag = 0;
+
 /* ------------------------------------------------------------------------- */
 /* MYCIA */
 
@@ -756,6 +758,8 @@ BYTE read_mycia_(ADDRESS addr)
 	{
 	    BYTE t = 0;
 
+	    READ_CIAICR
+
 	    myciardi = rclk;
 
             if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TA])
@@ -764,7 +768,7 @@ BYTE read_mycia_(ADDRESS addr)
                 int_myciatb(rclk - maincpu_int_status.alarm_clk[A_MYCIATB]);
 
 	    update_mycia(rclk);
-	    t = myciaint;
+	    t = myciaint | myciaflag;
 
 #ifdef DEBUG
 	    if (app_resources.debugFlag)
@@ -773,6 +777,7 @@ BYTE read_mycia_(ADDRESS addr)
 		       myciaint, t, PC, myciasr_bits, clk, readta(), readtb());
 #endif
 
+	    myciaflag = 0;
 	    myciaint = 0;
 	    my_set_int(I_MYCIAFL, 0, rclk);
 
@@ -926,6 +931,13 @@ int int_myciatb(long offset)
     }
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void mycia_set_flag(void)
+{
+    myciaflag = CIA_IM_FLG;
 }
 
 /* ------------------------------------------------------------------------- */

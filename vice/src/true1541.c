@@ -58,6 +58,9 @@
 #include "mem.h"
 #include "resources.h"
 #include "memutils.h"
+#include "viad.h"
+#include "via.h"
+#include "cia.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -100,6 +103,11 @@ static BYTE bus_atn = 0;
 static BYTE drive_bus, drive_data, cpu_bus; /* FIXME: ugly name `drive_data'. */
 /* This is the IEC line status as seen by the CIA and VIA ports.  */
 static BYTE drive_port, cpu_port;
+#endif
+
+#ifdef CBM64
+static BYTE parallel_cable_cpu_value = 0xff;
+static BYTE parallel_cable_drive_value = 0xff;
 #endif
 
 static int init_complete = 0;
@@ -1272,3 +1280,39 @@ void true1541_ack_sync_factor(void)
     true1541_set_sync_factor(app_resources.true1541SyncFactor);
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* C64-specific parallel cable handling.  */
+
+#ifdef CBM64
+
+void parallel_cable_cpu_write(BYTE data, int handshake)
+{
+    true1541_cpu_execute();
+    if (handshake)
+	viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    parallel_cable_cpu_value = data;
+}
+
+BYTE parallel_cable_cpu_read(void)
+{
+    true1541_cpu_execute();
+    viaD1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
+    return parallel_cable_cpu_value & parallel_cable_drive_value;
+}
+
+void parallel_cable_drive_write(BYTE data, int handshake)
+{
+    if (handshake)
+	cia2_set_flag();
+    parallel_cable_drive_value = data;
+}
+
+BYTE parallel_cable_drive_read(int handshake)
+{
+    if (handshake)
+	cia2_set_flag();
+    return parallel_cable_cpu_value & parallel_cable_drive_value;
+}
+
+#endif

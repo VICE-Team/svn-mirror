@@ -158,6 +158,8 @@ static char cia2todstopped;
 static char cia2todlatched;
 static int cia2todticks = 100000;	/* approx. a 1/10 sec. */
 
+static BYTE cia2flag = 0;
+
 /* ------------------------------------------------------------------------- */
 /* CIA2 */
 
@@ -398,6 +400,9 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	}
 
     cia2[addr] = byte;
+    if (app_resources.true1541ParallelCable)
+	parallel_cable_cpu_write(cia2[CIA_PRB] | ~cia2[CIA_DDRB],
+	((addr == CIA_PRB) ? 1 : 0));
 	break;
 
 	/* This handles the timer latches.  The kludgy stuff is an attempt
@@ -703,11 +708,10 @@ BYTE read_cia2_(ADDRESS addr)
 
       case CIA_PRB:		/* port B */
 
-#if 0
-    byte= ((cia2[CIA_PRB] & cia2[CIA_DDRB]) | (0xff & ~cia2[CIA_DDRB]));
-#else
-    byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
-#endif
+    byte = app_resources.true1541ParallelCable ?
+	parallel_cable_cpu_read() :
+	cia2[CIA_PRB] | ~cia2[CIA_DDRB];
+
         if ((cia2[CIA_CRA] | cia2[CIA_CRB]) & 0x02) {
 	    update_cia2(rclk);
 	    if (cia2[CIA_CRA] & 0x02) {
@@ -781,6 +785,10 @@ BYTE read_cia2_(ADDRESS addr)
 	{
 	    BYTE t = 0;
 
+
+    if (app_resources.true1541ParallelCable)
+	true1541_cpu_execute();
+
 	    cia2rdi = rclk;
 
             if (rclk >= maincpu_int_status.alarm_clk[A_CIA2TA])
@@ -789,7 +797,7 @@ BYTE read_cia2_(ADDRESS addr)
                 int_cia2tb(rclk - maincpu_int_status.alarm_clk[A_CIA2TB]);
 
 	    update_cia2(rclk);
-	    t = cia2int;
+	    t = cia2int | cia2flag;
 
 #ifdef DEBUG
 	    if (app_resources.debugFlag)
@@ -798,6 +806,7 @@ BYTE read_cia2_(ADDRESS addr)
 		       cia2int, t, PC, cia2sr_bits, clk, readta(), readtb());
 #endif
 
+	    cia2flag = 0;
 	    cia2int = 0;
 	    my_set_int(I_CIA2FL, 0, rclk);
 
@@ -951,6 +960,13 @@ int int_cia2tb(long offset)
     }
 
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+void cia2_set_flag(void)
+{
+    cia2flag = CIA_IM_FLG;
 }
 
 /* ------------------------------------------------------------------------- */
