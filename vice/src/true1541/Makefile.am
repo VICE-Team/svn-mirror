@@ -1,3 +1,5 @@
+SUFFIXES = .def
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -12,4 +14,6 @@ libtrue1541_a_SOURCES = \
 	true1541.h \
 	viad.h \
 	viad1.c \
-	viad2.c
+	viad1.def \
+	viad2.c \
+	viad2.def
