@@ -35,7 +35,6 @@
 	- support for .d64 images with attached error code.
 	- support for GCR encoded image files.
 	- check for byte ready *within* `BVC', `BVS' and `PHP'.
-	- 8 bit handshaked parallel cable.
 	- serial bus handling might be faster. */
 
 #define __1541__
@@ -499,11 +498,6 @@ int initialize_true1541(void)
 /* Activate full 1541 emulation. */
 int true1541_enable(void)
 {
-    if (initialize_true1541() < 0) {
-	app_resources.true1541 = 0;
-	return -1;
-    }
-
     /* Always disable kernal traps. */
     if (rom_loaded) {
 	remove_serial_traps();
