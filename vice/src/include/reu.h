@@ -32,10 +32,11 @@
 #define _REU_H
 
 #include "types.h"
+#include "resources.h"
 
-extern int reset_reu(const char *file_name, int size);
+extern int reset_reu(int size);
 extern void activate_reu(void);
-extern void close_reu(const char *file_name);
+extern void close_reu(void);
 extern BYTE REGPARM1 read_reu(ADDRESS addr);
 extern void REGPARM2 store_reu(ADDRESS addr, BYTE byte);
 extern void reu_dma(int immed);
