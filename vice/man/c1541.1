@@ -1,0 +1,94 @@
+.TH c1541 1 "May 1997" "VICE"
+.SH NAME
+c1541 \- a stand alone disk image maintenance program
+.SH SYNOPSIS
+.IR c1541
+[options] [image]
+.SH DESCRIPTION
+.IR c1541
+is a stand alone program that can be used for X64 and D64 disk image
+file maintenance.  It is part of the
+.IR VICE
+emulator.
+.P
+.IR c1541
+can be used both in interactive and batch mode.  It will start in interactive
+mode if no images and no options are specified or if one image is specified;
+when started in interactive mode, command line editing and command history
+are available.
+.P
+Each command line option for use in batch mode has an interactive mode
+counterpart, that is shown in parenthesis.
+.TP 8
+.B \-attach \fIimage\fR (attach \fIimage\fR)
+attach \fIimage\fR for use.  All consequent commands in interactive mode will
+refer to this image.
+.TP
+.B \-detach \fIimage\fR (detach \fIimage\fR)
+detach \fIimage\fR from
+.IR c1541.
+.P
+.TP
+.B \-format \fIimage\fR (format \fIimage\fR '\fIname,id\fR')
+format the disk image \fIimage\fR with the specified label.  \fIimage\fR is
+created if it does not exist.
+.TP
+.B \-delete \fIimage\fR \fIfiles...\fR (delete \fIfiles...\fR)
+delete \fIfiles\fR from \fIimage\fR
+.TP
+.B \-list \fIimage\fR (list)
+list directory of \fIimage\fR.
+.TP
+.B \-validate \fIimage\fR (validate)
+validate \fImage\fR.
+.TP
+.B \-copy \fIimage\fR \fIoldname1\fR \fI[oldname2...]\fR \fInewname\fR (copy \fIoldname1\fR \fI[oldname2...]\fR \fInewname\fR)
+concatenate \fIoldname1\fR, \fIoldname2\fR... into \fInewname\fR on \fIimage\fR
+(can be used to copy files).
+.TP
+.B \-create \fIimage\fR \fIdump\fR \fI['descr']\fR (create \fIimage\fR \fIdump\fR \fI['descr']\fR
+build \fIimage\fR from raw dump file \fIdump\fR (i.e. convert from \fID64\fR
+to \fIX64\fR file).
+.TP
+.B \-tape \fIimage\fR \fItapeimage\fR \fI[files...]\fR (tape \fIimage\fR \fItapeimage\fR \fI[files...]\fR)
+transfer \fIfiles\fR from \fItapeimage\fR to \fIimage\fR (default is all files).
+.TP
+.B \-read \fIimage\fR \fI1541name\fR \fI[fsname]\fR (read \fI1541name\fR \fI[fsname]\fR)
+extract \fI1541name\fR from the disk image into \fIfsname\fR (\fI1541name\fR
+by default) from \fIimage\fR.
+.TP
+.B \-extract \fIimage\fR (extract).
+extract all files from \fIimage\fR.
+.TP
+.B \-write \fIimage\fR \fIfsname\fR \fI[1541name]\fR (write \fIfsname\fR \fI[1541name]\fR)
+write \fIfsname\fR to \fIimage\fR as \fI1541name\fR (\fIfsname\fR by default).
+(works with \fIP00\fR files as well).
+.TP
+.B \-block \fI[drive:]\fR \fI[track]\fR \fI[sector]\fR \fI[disp]\fR (block \fI[drive:]\fR \fI[track]\fR \fI[sector]\fR \fI[disp]\fR)
+show disk blocks in hex format.
+.TP
+.B \-info \fIimage\fR \fI['descr']\fR (info \fI['descr']\fR)
+show version information about image.
+.P
+When more than one command is specified in batch mode, all of them are
+executed in the same order they have on the command line.
+.P
+If you use
+.B \-
+as a file name, it stands for \fIstdin\fR or \fIstdout\fR.
+.SH SEE ALSO
+.BR VICE (1),
+.BR petcat (1)
+.SH AUTHORS
+Teemu Rantanen (tvr@cs.hut.fi)
+.br
+Jouko Valta (jopi@stekt.oulu.fi)
+.P
+with improvements by
+.P
+.br
+Ettore Perazzoli (ettore@comm2000.it)
+.br
+Olaf Seibert (rhialto@mbfys.kun.nl)
+.br
+Gerhard Wesp (gwesp@cosy.sbg.ac.at)
