@@ -64,8 +64,7 @@
    - FEEDBACK, something you should read before sending mail to
      any of the authors;
 
-   - doc/MANUAL.html, the complete documentation for x64, xvic, xpet,
-     petcat and c1541 in HTML format;
+   - doc/vice.texi, the complete documentation;
 
    - doc/recomment.html, documentation for the recomment utility;
 
