@@ -1,0 +1,1907 @@
+#
+# $Id: PETdoc $
+#
+# This file is part of Commodore PET emulator
+#      and Program Development System.
+#
+#
+#   Copyright 1995 Olaf 'Rhialto' Seibert. All Rights Reserved.
+#   You are not allowed to read this using any kind of Micro$oft product.
+#
+#
+# This file contains some documentation for Commodore PET systems.
+#
+#
+# Written by
+#   Olaf Seibert     (rhialto@mbfys.kun.nl)
+#   Jouko Valta      (jopi@stekt.oulu.fi)
+#   Andre Fachat     (a.fachat@physik.tu-chemnitz.de)
+#
+# Thanks to
+#   Brian Heyboer    (bjheyboer@space.honeywell.com)
+# And
+#   Mitch B. Parker  (mbpark@planetx.bloomu.edu)
+#   Dave Tickle      (aiu214@freenet.mb.ca)
+#   RICHARD WHITE    (richwhite2@mci.newscorp.com)
+#   Veit Laule       (UKAH@ibm3090.rz.uni-karlsruhe.de)
+#   Byron Gracey     (bgracey@freenet.niagara.com)
+#   Dale DePriest    (daled@cds9172.Cadence.COM)
+#   David Evans      (devans@ccubb.com), (dfevans@bbcr.uwaterloo.ca)
+#   Martijn van Buul (martijnb@stack.urc.tue.nl)
+#   Michael Brown    (mbrown@ersys.edmonton.ab.ca)
+#   Simon Rowe       (srowe@ftel.co.uk)
+#   Tracy M Nelson   (tnelson@fluorite.telesciences.com)
+#   Dorian Garson    (doriang@microsoft.com)
+#
+#
+# $Log$
+#
+#
+
+
+General PET info (by A. Fachat)
+-------------------------------
+
+When talking about the PET 30xx, 40xx, or 8032, no memory management
+is involved. With the 8096 and the 8296 Commodore then introduced 
+some kind of bank switching to handle up to 128kByte RAM. 
+The older ones have up to 32 kByte RAM from $0000 to $7fff, which
+is available for normal program operation. From $8000 on the 
+video memory is mapped. Early PETs have 1 kByte video RAM for 40 column
+display, the newer ones have 2 kByte video RAM for 80 column display.
+
+The PETs up to and including 3032 don't have a 6545 CRTC (Cathode Ray
+Tube Controller - located at $e880 in the memory) and they even produce
+'snow' when directly writing to the video RAM. The video circuitry
+is implemented with discrete ICs. The RAM used to be so slow
+that at one CPU cycle only one of the CPU or the video logic can access
+it. Therefore, when the CPU accesses the RAM chip, there is no way for 
+the video logic to get the screen data in time, thus displaying invalid
+data - snow. The 4032 then already uses time sharing, where the video access 
+is hidden during Phi 2 CPU clock low. Interestingly the 8032 also
+sets the number of displayed characters per line in the CRTC to 40
+as well, although the screen output is 80 column. From the timing viewpoint
+it is also very unlikely that during the 1 MHz clock two characters
+to display are fetched. Well, they are, but not one after another which
+would be logical for an 8 bit system, but in parallel. This is the same
+thing that happens nowadays with the high end 32 and 64 bit graphic 
+cards - widening the bus to improve memory throughput...
+This way the timing did not have to be changed when going from 40 to 80 
+columns, just a new video RAM chip (and of course some glue chips) 
+had to be added.  The newest one, i.e. the 8296 uses normal CPU 
+memory for screen output.
+
+Above the screen area, there are two (Basic 4.0) resp. three (older PETs)
+4 kByte ROM areas that could be used for a ROM expansion. In hardware,
+there are two (three) ROM sockets on the motherboard where one can
+put the expansion ROMs. The sockets map to $9xxx, $Axxx, and $Bxxx,
+Above $B000 (Basic 4.0) resp. $C000 the system ROM starts. 
+Older PETs have the I/O area, where the interface chips are mapped,
+between $e800 and $f000. Some newer PETs, starting with some 
+8032 (?) models, have the I/O area between $e800 and $e900 only. This gave
+more place for an extended (nationalized) screen editor.
+
+The PET came with several different keyboard layouts (see below). 
+The most common are the graphics keyboard used on the 3032 and the
+4032 and the business keyboard as used for the 8032. 
+
+The normal PET have - not counting the CRTC - three I/O chips.
+Two PIA 6520/6820/6521 (they are compatible to each other) are used
+for keyboard resp. IEEE488 interfacing. The VIA 6522 provides a
+timer and a shift register - which is used to play 'music' on newer
+PETs. The standard IRQ that is used for clock incrementing, cursor
+blinking and keyboard input is not procduced by a timer on any of those 
+chips, though. Instead a vertical retrace signal is generated directly 
+by the hardware. This is then fed into a PIA1 CB1, which is set to 
+trigger an interrupt.
+
+Some of the newer PETs are reported to have an ACIA 6551 serial port
+interface chip. This may probably be the SuperPET 9000 as well as
+(this is fact) the business models CBM 600/610/700/710. All of those are
+not covered here.
+
+And, well the older 2xxx PETs only seem to differ from the 3032 in ROM 
+version, RAM size and keyboard layout. Some of them had a builtin tape 
+recoder. May of them have been upgraded to the `upgrade' ROMs or
+Basic 2 ROMs like the 3032 has. Some of these (3032) machines have been 
+said to be upgraded with Basic 4 ROMs even.
+
+Andre
+
+------------------------------
+
+The following is from the PET FAQ http://www.goldrush.com/~foxnhare/petfaq.html
+and covers the PET joystick handling more to detail.
+This also coincides with the article about joysticks below, if you 
+say that the port is VIA PA, which is connected to user port pins C-L.
+								Andre
+
+I HAVE A PET PROGRAM THAT CAN USE JOYSTICKS, HOW DO I MAKE AN INTERFACE?
+
+  The PET was not initially designed for joysticks but a determined user had
+  devised a dual-joystick interface employing the parallel port.  This interface
+  allows you to plug in standard Atari/Commodore compatible joysticks....
+
+  Interface Diagram  (use mono-spaced font to view properly)
+
+  Looking at back of user port         1  1  1
+            1  2  3  4  5  6  7  8  9  0  1  2
+            =  =  =  =  =  =  =  =  =  =  =  =
+           ### ######################### ######
+            =  =  =  =  =  =  =  =  =  =  =  =
+            A  B  C  D  E  F  H  J  K  L  M  N
+            !     !  !  !  !  !  !  !  !     !
+            !     !  !  !  !  !  !  !  !     !
+  port 1->  8     1  2  3  4  !  !  !  !     !
+                              !  !  !  !     !
+                   port 2->   1  2  3  4     8
+
+
+  Joystick pin diagram =>  5  [4] [3] [2] [1]
+  looking at back of                    \ /
+  male connector             9  [8]  7  [6]
+
+  The 'fire' button (pin 6) is added by connecting joystick port pins 1 & 2
+  to pin 6 with diodes, solder each diode from (already wired) pins 1 & 2
+  to pin 6 (with the banded ends to pin 6).
+
+
+------------------------------
+
+I/O lines
+---------
+
+PIA1: $e810
+	Port A: Bit 0-3 - keyboard row select lines (decoded with a 4 to 10
+			  bit decoder)
+		Bit 4   - Cassette #1 sense 
+		Bit 5   - Cassette #2 sense 
+	        Bit 6   - IEEE488 EOI input line
+		Bit 7   - Diagnostic sense input line. Pull it low and
+			  the PET comes up in the builtin machine language
+			  monitor. Bit 5 on the userport.
+	CA1		- Cassette #1 read line
+	CA2		- very old PETs can blank the screen with it. Newer
+			  ones have this as IEEE488 EOI output.
+        Port B: Bit 0-7 - Contents of Keyboard row
+	CB1		- screen retrace detection in.
+	CB2		- Cassette #1 motor on
+
+PIA2: $e820
+	Port A:	Bit 0-7 - IEEE488 Data 1-8 Input Lines 
+	CA1		- IEEE488 ATN in
+	CA2		- IEEE488 NDAC out
+	Port B: Bit 0-7 - IEEE488 Data 1-8 output lines
+	CB1		- IEEE488 SRQ in
+	CB2		- IEEE488 DAV out
+
+VIA: $e840
+	Port A: Bit 0-7	- Userport
+	Port B:	Bit 0	- IEEE488 NDAC in
+		Bit 1	- IEEE488 NRFD out
+		Bit 2	- IEEE488 ATN out
+		Bit 3	- ???
+		Bit 4	- Cassette #2 Motor on
+		Bit 5	- vertical retrace detect
+		Bit 6   - IEEE488 NRFD in
+		Bit 7   - IEEE488 DAV in
+	CA1		- ???
+	CA2		- screen character ROM switch (graphics/text)
+	CB1		- ???
+	CB2 (SR out)	- Shift register plays music on userport
+
+------------------------------
+
+ The PET 3032,4032 Keyboard Matrix -- Graphics Keyboard
+
+  e810  e812
+   0	Right	Home	_	[	&	%	#	!
+   1	BSpace	Down		]	|	\	$	
+   2	9	7		o	u	t	e	q
+   3	/	8		p	i	y	r	w
+   4	6	4		l	j	g	d	a
+   5	*	5		:	k	h	f	s
+   6		1	Return	m			
+   7	+	2		?	,	n		x
+   8								
+   9	.	.	.	.	.	.	.	.
+
+
+ Values	128	64	32	16	8	4	2	1
+	 7F	BF	DF	EF	F7	FB	FD	FE
+
+
+  The PET 8032 Keyboard Matrix  -- Business Keyboard
+
+  e810  e812
+   0    <05>	Right		KP_8	-	8	5	2
+   1	KP_9	UpArr		KP_7	0	7	4	1
+   2	KP_5	\	k	;	h	f	s	Esc
+   3	KP_6	[	l	Return	j	g	d	a
+   4	Del	p	i	@	y	r	w	Tab
+   5	KP_4	]	o	Down	u	t	e	q
+   6	KP_3	Shift_R	Down	KP_Dot	.	b	c	Shift_L
+   7	KP_2	Repeat		KP_0	,	n	v	z
+   8	KP_1	/		Home	m	Space	x	RVS
+   9	<16>	<04>	: *	Stop	9	6	3	<-
+
+
+ Values	128	64	32	16	8	4	2	1
+	 7F	BF	DF	EF	F7	FB	FD	FE
+
+
+
+Here is the 8032 keyboard matrix, as it appears on the keyboard connector.
+Note that the columns are scanned in the opposite order.
+
+       A        B        C        D        E        F        G        H
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1  |   2        5        8        -        8*     Right     {14}     {5}
+2  |   1        4        7        0        7*       ^       {6}       9*
+3  |  ESC       S        F        H        ]        K        ;        5*
+4  |   A        D        G        J       Return    L        @        6*
+5  |  Tab       W        R        Y        \        I        P       Del
+6  |   Q        E        T        U       Down      O        [        4*
+7  |  Shift_L   C        B        .        .*      {25}    Shift_R    3*
+8  |   Z        V        N        ,        0*      {15}     {16}      2*
+9  |  Rvs       X      Space      M       Home     {21}      /        1*
+10 |   <-       3        6        9       Stop      :        {4}     {22}
+
+
+
+
+ The PET 8032 Business Keyboard Matrix
+
+  e810	e812
+   0	<-	3 #	6 &	9 )	Stop	: *	<04>	<16>
+   1	RVS	x	Space	m	Home	<15>	/ ?	KP_1
+   2	z	v	n	, <	KP_0	<0F>	Repeat	KP_2
+   3	Shift	c	b	. >	KP_Dot	<19>	Shift	KP_3
+   4	q	e	t	u	Down	o	]	KP_4
+   5	Tab	w	r	y	@	i	p	Del
+   6	a	d	g	j	Return	l	[	KP_6
+   7	Esc	s	f	h	; +	k	\	KP_5
+   8	1 !	4 $	7 '	0	KP_7	^	<06>	KP_9
+   9	2 "	5 %	8 (	- =	KP_8	Right	<0E>	<05>
+
+
+ Values	128	64	32	16	8	4	2	1
+	7F	BF	DF	EF	F7	FB	FD	FE
+
+    Unlike normally, ^ cannot be shifted.
+
+ 03 = Stop
+
+
+----
+
+From the PetIO.doc text file (v1.2 of 08.01.95 by Olaf Seibert) 
+from ftp.funet.fi:
+
+64 K RAM expansion in 8096 and 8296
+-----------------------------------
+From: UKAH@ibm3090.rz.uni-karlsruhe.de (Veit Laule)
+Newsgroups: comp.sys.cbm
+Date: Tue, 22 Nov 1994 16:38
+Organization: University of Karlsruhe, Germany
+Message-ID: <19941122163828UKAH@ibm3090.rz.uni-karlsruhe.de>
+
+8096 exp-mem (64K):
+The control register is at $FFF0/65520
+You have 4 16K-banks, 0...3
+
+$8000     $9000               $C000           $E800    $F000     $FFFF
+!----------------------------!!--------------------------------------!
+        Bank 0 or 2                     Bank 1 or 3
+!--------!                                    !-------!
+  screen                                        io
+
+Control Register $FFF0:
+bit 7:  0 normal 8032 configuration (screen, ROMs, IO, ROMs)
+       80 expansion memory
+bit 6:  0 RAM $E800-$EFFF (only when bit7=1)
+       40 IO peek through
+bit 5:  0 exp-mem $8000-$8FFF (-"-)
+       20 screen peek through
+bit 4: 10 not used
+bit 3:  0 bank 1 $C000-$FFFF
+       08 bank 3
+bit 2:  0 bank 0 $8000-$BFFF
+       04 bank 2
+bit 1: 02 write protect bank 1/3
+bit 0: 01 write protect bank 0/2
+when bit7=0, all other bits are ignored
+
+The missing 32K can't be accessed witout hardware modifications.
+You can only use the 2K "behind" the screen $8800-$8FFF (exact: 34768-
+36863), available in the normal configuration.
+The register is write-only, and the value is written through to the
+previously selected ram bank.
+
+
+----
+From rhialto@mbfys.kun.nl Wed May 31 04:01 EET 1995
+From: Olaf Seibert <rhialto@mbfys.kun.nl>
+
+If that is from the same set of photos that I have, then none of them
+shows the "Business" keyboard. It has no gfx chars on the keycaps and
+no way to type them except those that are the upper case letters.
+
+>  This is the picture, few keycaps are missing:
+
+ 	PET  N keyboard (normal)
+                                                 CLR/ UP/ LFT/ INS/
+  |  !  "  #  $  %  '  &  \  (  )  <-  ??  |    |HOME DWN RGHT DEL  ?? |
+  _|  q  w  e  r  t  y  u  i  o  p    ^~   |__  |  7   8    9   /  SPACE
+ |RVS  a  s  d  f  g  h  j  k  l  :  Return  |  |  4   5    6   *  Ret-|
+  |SHFT z  x  c  v  b  n  m  ,  ;  ?  Shift _|  |  1   2    3   +   urn|
+   | @  [  ]        Space       <  >  Shift|    |  0   .    -   =  SHIFT
+   ----------------------------------------      ----------------------
+	'~' is 'pi'
+
+
+ This picture must be from the machine with
+the clone keyboard; a real N keyboard has nothing to the right of
+INS/DEL /*+=.
+
+Also a rectangular (non-tilted) as well as a business version exist.
+
+
+ Each key, shifted, produces the
+PETSCII code that is 128 higher than unshifted. The codes for the gfx
+chars are such that they are arranged "easily" on the keys. For
+instance the 8 horizontal lines are on #edc@fr$ (from top to bottom).
+The original square keyboard was even better in this respect - the
+space key was the width of 2 normal keys so left of it are SHIFT, RVS,
+@[] and right are <> STOP and shift.
+
+
+	PET  B keyboard
+
+No 8032 were made with N keyboards (officially, at least). They all have
+B keyboards that look like this
+
+      !  "  #  $  %  &  '  (  )     *  =     LEFT  RUN/
+  <-  1  2  3  4  5  6  7  8  9  0  :  -  ^  RGHT  STOP        7  8  9
+
+  TAB  q  w  e  r  t  y  u  i  o  p  [  \  UP/DN INST/DEL      4  5  6
+
+ ESC LOCKa s  d  f  g  h  j  k  l +;  @  ]  RETURN             1  2  3
+
+ RVS SHIFTz x  c  v  b  n  m  <, >. ?/ SHIFT RPT HOME            0   .
+
+           S  P  A  C  E .............
+
+RPT = repeat
+ESC = escape
+
+All keys, when shifted, give the same character as unshifted except
+letters and those with 2 symbols on them as shown here.
+Supposedly it is to prevent frightening secretaries.
+
+This adds the amount of the code for the digit and :,./ keys which get their
+shifted value calculated (E550).
+
+One nasty thing is that 4.0 was supposed to get the scan codes in
+address 151 the same for both keyboards (they differ under 1.0 and 2.0
+because the keyboard matrices are different for N and B keyboards), by
+putting the petscii value there.  However, to get different codes for
+the B numeric keypad, those keys have different codes, and some keys
+don't get the petscii value after all ([]\^ <- esc, because those are
+the unshiftable keys of course), and funny stuff like that. (On the B
+keyboard).  And if I recall right, the 4.0 upgrade roms still use the
+hard scancodes there. So the chaos became worse instead of less.
+ 
+up, and as said, the N and B keyboards differ here..
+
+
+The keyboard decoding is slightly different that on the 64: the row
+number is output on the port and goes through a 4-to-10 decoder
+to select the appropriate row, unlike the 64 where the rows from the
+matrix are directly connected to the port.
+
+
+---
+
+  PETSCII
+
+PETSCII table is the ame as the 64, except that the pound character is a
+backslash.
+The character generation ROMs are not identical though, since C=
+doubled vertical lines for the 64 to compensate for bad tv output.
+
+--
+
+This differs by ROM version, of course.
+
+In basic 1.0 and 2.0 there are
+	cursor movements,
+	clr/home,
+	inst/del,
+	(shift) return,
+	off/rvs.
+   Same codes as on the 64 of course.
+
+4.0 adds (in the 8032)
+	^g,^G: bell ^i TAB,
+	^I set TAB,
+	^n text mode,
+	^N graphics mode,
+	^o set top of window (scroll region, in vt-100 words), (8032 only)
+	^O set bottom of window (8032 only),
+	^p (erase to end of line) (fat40 only - bug!),
+	^u insert line (8032 only)
+	^U delete line (8032 only)
+	^v erase to end of line (8032),
+	^V erase begin of line,
+	^y scroll up  (8032 only),
+	^Y scroll down (8032 only),
+	^[ ESCAPE: turn off quote mode and insert mode and rvs.
+
+The 4.0 upgrade roms for 3032s misses even some 4032 codes.
+The ^v vs ^p confusion: ^v=16 and ^p=0x16. Must be a typo in the
+sources...
+
+Conflicts with 64 codes are ^i, ^U, ^V and ^Y.
+
+
+ [ Form PetIo.doc  by Olaf Seibert ]
+
+Keyboard matrix
+===============
+
+There are two different keyboards: the graphics keyboard and the
+business keyboard.
+
+After analysis of the 50 and 60 Hz versions of the 8032 business
+roms, there are apparently even difference between the keyboards of
+those versions. The 60 Hz values are listed below the 50 Hz ones,
+if they differ.
+
+In Basic 4.0 CRTC the (PETSCII) values listed in the table below are
+recorded in location 151 [this makes distinguishing between the normal 0
+key and the one on the numeric keypad impossible]; in older versions (and
+4.0 without CRTC) the position in the table is recorded. The position is
+8 * (9 - row) + (7 - column) + 1, i.e. starting at 1, incrementing left to
+right and top to bottom.
+
+The keyboard is scanned by writing the row number into the row select port
+($E810), then reading the column bits ($E812). Each bit that reads 0
+represents a pressed key.
+
+; 00 = Shift
+; 10 = Repeat
+; 80   flags unshiftable key
+; FF = No key
+
+Business keyboard decoding table:
+
+----+------------------------
+row |  7  6  5  4  3  2  1  0
+----+------------------------
+ 9  | 16 04 3A 03 39 36 33 DF
+    | ^V --  : ^C  9  6  3 <-	^V = TAB + <- + DEL, ^C = STOP,
+    |				 <- = left arrow
+ 8  | B1 2F 15 13 4D 20 58 12
+    | k1  / ^U ^S  m sp  x ^R	k9 = keypad 9, ^U = RVS + A + L,
+    |				^S = HOME, sp = space, ^R = RVS
+ 7  | B2 10 0F B0 2C 4E 56 5A	^O = Z + A + L, rp = repeat
+    | k2 rp ^O k0  ,  n  v  z
+    |
+ 6  | B3 00 19 AE 2E 42 43 00
+    | k3 rs ^Y k.  .  b  c ls	^Y = left shift + TAB + I, k. = keypad .
+    |				ls = left shift, rs = right shift
+ 5  | B4 DB 4F 11 55 54 45 51	^Q = cursor down
+    | k4  [  o ^Q  u  t  e  q
+    |    5D]
+ 4  | 14 50 49 DC 59 52 57 09
+    | ^T  p  i  \  y  r  w ^I	^T = DEL, ^I = TAB
+    |          C0@
+ 3  | B6 C0 4C 0D 4A 47 44 41
+    | k6  @  l ^M  j  g  d  a	^M = return
+    |    5B[
+ 2  | B5 3B 4B DD 48 46 53 9B
+    | k5  ;  k  ]  h  f  s ^[	^[ = ESC
+    |    5C\   3B;
+ 1  | B9 06 DE B7 B0 37 34 31
+    | k9 --  ^ k7  0  7  4  1
+    |
+ 0  | 05 0E 1D B8 2D 38 35 32
+    |  . ^N ^] k8  -  8  5  2	^N = both shifts + 2, ^] = cursor right
+----+------------------------
+
+Graphics keyboard decoding table:
+
+----+------------------------
+row |  7  6  5  4  3  2  1  0
+----+------------------------
+ 9  | 3D 2E FF 03 3C 20 5B 12
+    |  =  . -- ^C  < sp  [ ^S	^C = STOP, ^S = HOME
+    |
+ 8  | 2D 30 00 3E FF 5D 40 00
+    |  -  0 rs  > --  ] @  ls	rs = right shift, ls = left shift
+    |
+ 7  | 2B 32 FF 3F 2C 4E 56 58
+    |  +  2 --  ?  ,  n  v  x
+    |
+ 6  | 33 31 0D 3B 4D 42 43 5A
+    |  3  1 ^M  ;  m  b  c  z	^M = return
+    |
+ 5  | 2A 35 FF 3A 4B 48 46 53
+    |  *  5 --  :  k  h  f  s
+    |
+ 4  | 36 34 FF 4C 4A 47 44 41
+    |  6  4 --  l  j  g  d  a
+    |
+ 3  | 2F 38 FF 50 49 59 52 57
+    |  /  8 --  p  i  y  r  w
+    |
+ 2  | 39 37 5E 4F 55 54 45 51
+    |  9  7  ^  o  u  t  e  q
+    |
+ 1  | 14 11 FF 29 5C 27 24 22
+    | ^T ^Q --  )  \  '  $  "	^T = DEL, ^Q = cursor down
+    |
+ 0  | 1d 13 5F 28 26 25 23 21
+    | ^] ^S <-  (  &  %  #  !	^] = cursor right, ^S = home
+----+------------------------
+
+The original gfx keyboard reflects the matrix perfectly:
+
+	  !  "  #  $  %  '  &  \  (  )  <-     ^s ^q ^] ^t
+	  q  w  e  r  t  y  u  i  o  p  ^       7  8  9  /
+	  a  s  d  f  g  h  j  k  l  : ^m       4  5  6  *
+	  z  x  c  v  b  n  m  ,  ;  ? ^m       1  2  3  +
+	 LS ^r  @  [  ]  SPACE <  > ^c  RS      0  .  -  =
+
+The shift key always set the high bit, producing a graphic character.
+
+-
+CONTROL CODES
+=============
+
+F: only on 4.0 fat-40, i.e. NOT on upgrade 4.0 roms.
+8: only on 4.0 80 columns.
+4B: only on 4.0 upgrade, B keyboard (maybe also on N keybd but I don't
+    have a ROM to verify this)
+
++------+------------------------------+------------------------------------+
+|ctrl- | unshifted                    | shifted (unshifted + 128)          |
++------+------------------------------+------------------------------------+
+| C  3 | stop                         | load/run, dload"*/run, or dL"*/run |
+| G  7 | bell                         | double bell                        |
+| I  9 | tab (4B,F,8)                 | set/clear tab (4B,F,8)             |
+| M 13 | return                       | fake return                        |
+| N 14 | text mode (F,8)              | graphics mode (F,8)                |
+| O 15 | set top of window (8)        | set bottom of window (8)           |
+| P 16 | erase end of line (F)        | see note (no function)             |
+| Q 17 | cursor down                  | cursor up                          |
+| R 18 | reverse field on             | reverse field off                  |
+| S 19 | cursor home                  | clear screen                       |
+| T 20 | delete char left of cursor   | insert space at cursor             |
+| U 21 | delete line (8)              | insert line (8)                    |
+| V 22 | erase end of line (8)        | erase begin of line (F,8)          |
+| Y 25 | scroll up (8)                | scroll down (8)                    |
+| [ 26 | escape: end inst & quote mode| (no function)                      |
+| ] 28 | cursor right                 | cursor left                        |
+|      |                              | 255 pi (converted to 94)           |
++------+------------------------------+------------------------------------+
+
+Note: on the 4.0-40-crtc version the code for "erase end of line" is
+different from the 4.0-80 code. Note that the decimal notation of the
+former (16, or $10) equals the hex notation of the latter ($16, or 22).
+This suggests a typo while editing the assembly source for the other
+version.
+
+
+
+  PET 8032 I/O decoding
+
+
+ Address	Chip    Minterms (A7..A4)
+	--------------------
+ E800	00	-
+		PIA 1	xxx1
+		PIA 2	xx1x
+		d
+	------------------
+ E840	01	VIA	x1xx
+		d
+		d
+		d
+	--------------------
+ E880	10	CRTC	1?xx
+		d
+		d
+		d
+	--------------------
+ E8C0	11	d
+		d
+		d
+		d
+	--------------------
+	d = don't care
+
+
+    Images at E8xx
+
+	Chip	/CS   E800 10 20 30 40 50 60 70 80 90 A0 B0 C0 D0 E0 F0
+	---------------------------------------------------------------
+	PIA 1	xxx1	    X     x     x     x     x     x     x     x
+	PIA 2	xx1x	       X  x        x  x        x  x        x  x
+	VIA	x1xx	             X  x  x  x              x  x  x  x
+	CRTC	1?xx	                         X  x  x  x  ?  ?  ?  ?
+
+
+E800-0F not connected (reads E8)
+  10-1F PIA 1, 4 times
+  20-2F PIA 2, 4 times
+  30-3F the AND of E81x and E82x
+  40-4F VIA
+  50-5F 4x AND 1x
+  60-6F 4x AND 2x
+  70-7F 4x AND 2x AND 1x, approximately
+  80-8F CRTC (most registers are write-only so readouts are not very
+        definitive)
+  90-FF This is not exactly explainable as the AND of 8x, 4x, 2x and 1x
+        (there are too many non-00 values),
+        nor of the AND of only 4x, 2x amd 1x (then everything should be
+        the same as in the 10-7F range but some is and some isn't).
+        Especially the Fx addresses resemble the 7x addresses.
+        80-BF read either 00 or 20, seemingly depending on timing.
+
+ 
+The official base addresses of PIA, PIA, VIA and CRTC are E810,
+E820, E840 and E880. The register number in the chip is added
+to the address.
+
+----
+
+ 
+But: things like these are not 100% the same in all models. From the
+4032/8032 on, I understand that the address range reserved for any I/O
+chips has shrunk from E800-EFFF to E800-E8FF. This was to allow bigger
+Editor roms (usually at E000-E800) with localized (read: German)
+support from E900 onwards.
+ 
+>  This turns to be very interesting.  First, it saves one OR gate. Secondly,
+>  I used that OR for the CRTC as well. Hmmm...
+> 
+> 	PIA1  CS= A4, /CS= I/O select
+> 	PIA2  CS= A5, /CS= I/O select
+> 	VIA   CS= A6, /CS= I/O select
+> 	CRTC /CS= NOT A7 OR I/O select
+
+
+I am not sure if older models echoed for instance E8xx addresses at
+E9xx as well...
+ 
+Something you probably also want to know is screen memory (8000-).
+Originally this was 1K, doubled to 2K for the 80 column models.  The
+original 2001 had 4 images of the screen memory, later models only 2
+(8000 and 8400); the 80-columns, I think, always had only one images.
+My 8296 definitely has only one image, since it was redesigned to use
+the screen memory in a "normal" ram chip also containing system memory;
+all older models must have used an extra 1K RAM separate from other
+ram.
+ 
+In fact some of the basic lessons I uploaded to ftp.funet.fi use
+these addresses that worked on the 2001 but not on my 8296. This
+can be noticed by the program promising to display certain things
+but you never get to see them.
+
+For the 80-colums you need of course 2000 bytes of screen memory.
+But it is not really that easy to determine from the CRTC table if
+the machine is 40 or 80 cols. In both machines it writes 40 to CRTC
+reg. 1, but the 80 cols version is clocked at 2 MHz (or so I heard)
+and therefore produces 80 characters per line. I think the best way
+to identity the # of cols from software is to look at the Editor rom
+and compare "your" version with the ones I put on ftp.funet.fi. You
+can look at the first 10s of bytes to identity the right one.
+
+------
+
+But whatever screen memory images there are, they are always
+within the 8xxx range, since 9xxx, Axxx (and Bxxx on < 4.0 models)
+are for expansion EPROMs. If no EPROM is present, it reads out as
+the high byte of the address. If that doesn't happen in E900-EFFF,
+then perhaps the editor EPROM is already 4K and could be swapped for
+one with more code in it.
+
+
+No, device 2 on the PET is cassette #2. As on later computers, devices
+4 and up are considered on the IEEE bus. I suppose the IEEE modem had
+a device number 5 or 7 or something like that.
+
+-rhialto
+
+----
+
+In general, PEts don't have RS-232 port. Exceptions do exist, however.
+PET710 has got a RS232C port, as well as the SP9000.  It has a real UART and
+RS-232 port, but it's only available in 6809 mode (at least according to the
+documentation).
+
+----
+
+
+	PET serial
+
+From: Dave Tickle <aiu214@freenet.mb.ca>
+Newsgroups: comp.sys.cbm
+Subject: Re: Do PETs have serial ports?
+Date: Fri, 5 Jan 1996 01:36:38 -0600
+
+
+
+On 2 Jan 1996, Olaf Seibert wrote:
+
+> PETs, with the exception of the SuperPET, do NOT have serial ports.
+> You could however transplant and adapt the C64 software serial
+> port for this purpose.
+
+
+Just a few minutes ago, I took a look inside a SuperPET, and on the upper
+board there is a female DB25 connector (just sitting at the inside edge of
+the board, not adjacent to the outer case of the computer).  Not too far
+away from this connector are a 6551, a 1488, and a 1489 chip, which almost
+definitely means there is some kind of serial port there using RS-232
+voltages. 
+
+Now, the problem is I don't have a clue how to actually access it.  For 
+all I know, it may only be accessible from the 6809 side of the machine.  
+But, if that were true, then it wouldn't make sense for Commodore to have 
+advertised the 8000 series as having an RS-232 port.
+
+Anybody know how to access this port?
+
+
+Newsgroups: comp.sys.cbm
+From: dfevans@bbcr.uwaterloo.ca (David Evans)
+Subject: Re: Do PETs have serial ports?
+Date: Fri, 5 Jan 1996 16:18:49 GMT
+
+
+>Anybody know how to access this port?
+
+  No, but in Volume 4 Issue 1 (I think) of The Transactor a terminal program
+for the SP9000 was included; I have Vol. 4 Iss. 2 and in the Transbloopers
+section they have the "tables that follow", which look a lot like everyone's
+favourite control/command setups for VIC/64 serial device 2.  I have no idea
+how to use this, though.
+  I believe a terminal program for the SP9000 was also included in their
+"Networking and Communications" issue (V6I3? can't recalll.)  I'll look on the
+disk for this issue when I next get the chance.
+
+-- 
+David Evans              (NeXTMail OK)              dfevans@bbcr.uwaterloo.ca
+Computer/Synth Junkie                      http://bbcr.uwaterloo.ca/~dfevans/
+
+
+From: Dave Tickle <aiu214@freenet.mb.ca>
+Newsgroups: comp.sys.cbm
+Subject: Re: Do PETs have serial ports?
+Date: Mon, 8 Jan 1996 01:58:28 -0600
+
+
+I decided to poke around with a logic probe and found that pin 2 (Chip
+Select 0) on the 6551 gets toggled when accessing memory locations 59424
+through 59431.  I suppose that means that the 6551's registers may be
+located in that range somewhere.  Some locations in that range are also 
+used by the IEEE-488 bus, so I guess you can't use both ports at the same 
+time.  I'll have to investigate further.  (It's actually kind of fun!)
+
+
+From: Dave Tickle <aiu214@freenet.mb.ca>
+Subject: Re: Do PETs have serial ports?
+Date: Thu, 11 Jan 1996 00:16:17 -0600
+
+
+
+On Fri, 5 Jan 1996, Jim Brain wrote:
+
+> As far as I know, my PET 8032 does not have the required serial code
+> in the ROMs.
+
+Thanks for that info.  I haven't yet had time to look thoroughly through 
+the SP9000 ROMs, but I imagine it's pretty similar to what you've got.  I 
+vaguely recall, though, that it was only the 8096 and SP9000 that had 
+this serial port.  I could be wrong, though.  I'm not quite sure what I 
+should be looking for.  I haven't positively located the 6551 registers yet.
+
+Speaking of ROMs, I found something occupying A000-AFFF that apparently 
+is something called "wordpro 4 plus".  Anyone out there know if this is 
+something I can use (just out of curiosity and not any practical need), 
+or would I need some program to run along with it?
+
+
+
+
+From: UKAH@ibm3090.rz.uni-karlsruhe.de (Veit Laule)
+Newsgroups: comp.sys.cbm
+Subject: Re: Do PETs have serial ports?
+Date: Thu, 11 Jan 1996 13:21
+
+
+Dave Tickle <aiu214@freenet.mb.ca> writes:
+
+>Speaking of ROMs, I found something occupying A000-AFFF that apparently
+>is something called "wordpro 4 plus".  Anyone out there know if this is
+>something I can use (just out of curiosity and not any practical need),
+>or would I need some program to run along with it?
+>
+Yes, you need the "wordpro 4 plus"-program (a WORDPROcessor).
+The ROM is the copy-protection.
+
+Veit Laule
+
+From: devans@ccubb.com (David Evans)
+Newsgroups: comp.sys.cbm
+Subject: Re: Do PETs have serial ports?
+Date: Mon, 15 Jan 96 06:36:37
+
+Pets have a serial port just like the C64 does.  The pets however don't have
+kernal support for the serial routines.  You need to "roll your own".  The
+serial port on the standard Pet is called the "User port".  It requires a
+special connector be built and then its basically "normal" from that point.
+Heck Compuserve used to sell a package with software which contained
+instructions on how to build it!  (I don't have a copy anymore..)
+
+-------------------------------------------------------------------------------
+
+	PET -I/F
+
+From: tnelson@fluorite.telesciences.com (Tracy M Nelson)
+Newsgroups: alt.folklore.computers,comp.sys.cbm
+Subject: Re: PET GPIB-serial interface box
+Date: 11 Dec 1995 18:46:01 GMT
+
+Hans-Christian Becker (hcb@phc.chalmers.se) wrote:
+: Hi everyone!
+: I have a magic box that used to interface a commodore PET to a serial
+: printer (or so I'm told!). It is made by TNW Corporation and is called
+: TNW-2000. The board is (c) 1979. This box has a standard GPIB connector
+: together with a PET User Port card connector, and a standard RS 232
+: connector.
+: The design seems to be centered around a "AY-5-1013A" 40-pin chip, with
+: some TTL circuitry around. 
+: Unfortunately, the manuals seem to have been thrown out, together with
+: the PETs. Does anyone know *anything* about this thing??? If it is a
+: full GPIB-serial converter, it would be very useful to me - if it is
+: not, it will have to go back into the bookshelf again (sniff).
+
+Be warned that some PETs (the SuperPET, for sure) used a bastardized GPIB-type
+interconnection for connecting to peripherals.  I don't think it was 100%
+GPIB-compatible, so be forewarned that you may not be able to interface it with
+a "real" GPIB-type device.
+--
+Tracy Nelson (tnelson@telesciences.com)
+// WARNING: May contain code which is too intense for young programmers...
+
+Newsgroups: comp.sys.cbm
+From: srowe@ftel.co.uk (Simon Rowe)
+Subject: Re: Routine for easy SEQ file read:
+Date: Tue, 12 Dec 1995 12:39:37 GMT
+
+
+pap@dana.ucc.nau.edu (Paul Allen Panks) writes:
+> 8 F=VAL(F$): IF F>16 THEN PRINT"FILENAME TOO LONG! MUST BE LESS THAN
+
+First bug. I think you mean LEN() not VAL()
+
+		Simon.
+
+...............................................................................
+
+From: "Mitch B. Parker" <mbpark@planetx.bloomu.edu>
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 2001N-16
+Date: Thu, 18 Jan 1996 23:12:01 -0500
+
+On 10 Jan 1996, Eric R. Eckert wrote:
+
+> Is anyone aware of information which would allow me to convert my PET 2001N-16 to a PET 2001N-32? I am trying to help out my kids classroom run their one-and-only program on their one-and-only PET.
+
+
+First check the chips on your MB.  From what I remember from my 4016, 
+commodore drilled holes through several important connections to prevent 
+a 32K upgrade from occurring.  If this is not the case, good luck hunting 
+down 16K 200ns chips!  I believe you just stick in these chips (4116?), 
+and you are good to go...that is if you have sockets.  If you do not, 
+then you need those too ;(.
+
+
+From: daled@cds9172.Cadence.COM (Dale DePriest)
+Subject: Re: PET 2001N-16
+Date: Tue, 16 Jan 1996 20:12:36 GMT
+
+rhialto@mbfys.kun.nl (Olaf Seibert) writes:
+
+|> First, please be aware that your email address is set wrong.
+|> 
+|> In <4d18u2$99o@newdelph.cig.mot.com> Eric R. Eckert <eeckert@shelf> writes:
+|> >Is anyone aware of information which would allow me to convert my PET 2001N-16 to a PET 2001N-32? I am trying to help out my kids classroom run their one-and-only program on their one-and-only PET.
+|> 
+|> AFAIK, there have been lots of ram configs in various PET models. It
+|> was typical that you could use various sizes of ram chips, but if you
+|> chose a small size you would not have enough sockets (or spaces for
+|> sockets) to max out the full 32K. If you were unlucky you had to throw
+|> out all your current ram chips and replace them with bigger ones. Much
+|> like the current situation with SIMMs, really. On top of that, some
+|> boards were filled with the bigger ram chips but the space for the
+|> required additional sockets was made unusable, requiring you to buy a
+|> new machine to get more memory.
+ 
+Actually it was common practice for commodore to punch holes in the board
+so you couldn't upgrade it.  At one time I upgraded one by piggy-backing
+the new chips on top of the old ones.  If I remember correctly only one pin
+had to be bent straight as it was a select line. then I tied all of the
+select pins together and jumped it to the correct place on the board.
+I don't remember the details anymore but it can be done.  Get a set of
+chips like the ones in the machine and a data book.
+
+
+--
+    _      _     Dale DePriest  		San Jose, California
+   /`) _  //     daled@Cadence.COM		voice: (408) 428-5249
+
+
+------------------------------------------------------------------------------
+
+From rhialto@mbfys.kun.nl Wed May 31 04:01 EET 1995
+From: Olaf Seibert <rhialto@mbfys.kun.nl>
+
+
+If you would like to see my 8296-D (a truely
+impressive thing - looks like the B-128, whith monitor, and with the
+floppy drives built-in) feel fee to drop by :)
+
+------------------------------------------------------------------------------
+
+
+>With its 8kb of memory it was barely usable.
+
+I remember the days that we told each other that you'd never write
+a program so big that you'd need more than 8K! (Soon after that,
+a fellow computer club member wrote such a program).
+
+>It was call the PET 2001 which stood for Personal Electronic Transactor.
+>The IEEE Interface was not working at all.
+
+The printers worked fine with it, but the support for disk drives
+was buggy. I haven't tried yet but I suppose one could still open
+and read/write files with it, but not load/save.
+
+However, Commodore's idea about IEEE-488 is not identical to the official
+view, i.e. it is not really compatible with real IEEE devices.
+
+>The CBM 3040 (1980) was a unit containing two 160kb floppy disks. This unit was 
+>connected to the CBM3032 with an IEEE488 cable.
+
+Before the 3040 there was the 2040, but they were identical. Both had
+DOS 1.0, which had a few features less than DOS 2.0 which was introduced
+in the 4040 (and later cut down for the 1540). The most significant
+addition for 2.0 was REL files. An incompatibility was that disk capacity
+was REDUCED by using one sector less in one of the 4 density bands
+(I forget which, but perhaps I could look it up). 2.0 drives would read
+but not write 1.0 disks. The 2.0 capacity is about 170 K (like
+the 1540/41/etc), 1.0 was probably around 180 K.
+
+
+>I have a CBM 3040 Dual floppy drive, but unfortunately I have no papers 
+>about it. I have a IEEE-488 interface too.
+>My question is: can I use this drive with my C64 and what type of cable 
+>and software I need?
+
+You say you have an IEEE-488 interface; I assume you mean it's one for
+the 64. If this is right, then you can use the drive with the 64.  You
+should not need any additional software, since the interface should
+probably contain it already. It won't be compatible with fastloaders
+and stuff like that but everything else works about the same as a 1541.
+
+As for the cable, the interface probably has a card-edge connector.
+Get a connector for that, and one that fits in the 3040, and solder a
+cable between them that is just straight-through connected.  I.e., pins
+1-12 on the 64 to 1-12 of the 3040, pins A-M (the bottom pins usually)
+to 13-24.
+
+
+Subject: Re: Question: MSD SD-2 Super Disk Drive
+
+>You use the drive number in the commands as appropriate.
+>
+>To save to disk 0:  SAVE"0:filename",8
+>To save to disk 1:  SAVE"1:filename",8
+
+Commdore's double drives have drive 0 right and 1 left.
+
+To copy a whole disk: DUPLICATE 1=0  (or D1=0)	(copies drive 0 to 1)
+
+
+From: mbrown@ersys.edmonton.ab.ca (Michael Brown)
+Newsgroups: comp.sys.cbm
+Subject: Help with CBM 8032
+
+Hello. I'm in the market for 
+instructions for making, or a source for buying (cheap), a cable to hook
+a CBM 8050M dual disk drive to a CBM 8032.
+The 8050M appears to have a small 'cartridge-edge' connector (the 
+cable would need to be a male cartridge type on the disk drive end of 
+things). Any help would be appreaciated. I can build it if someone could 
+like the connections the cable would require. Thanks again.
+--
+
+The computer end of things can be bought at Jameco or anywhere that sells
+the connector most people know of the VIC/64/128 user port connector.
+
+Dunno about the IEEE-4888 24 pin dsub.
+--
+
+Subject: Re: Has Anyone Heard of the CBM 4040 Disk Drive ?
+
+You just found the disk drive for the CBM series computers...
+It fits eg. to the CBM 8082. But it's not compatible with the C64 disk format at all :(
+
+-Gerd
+
+
+From rhialto@mbfys.kun.nl Thu Jun 29 15:33 EET 1995
+Date: Thu, 29 Jun 1995 14:33:18 +0200
+From: Olaf Seibert <rhialto@mbfys.kun.nl>
+Subject: Re:  PET
+
+Hi, you wrote:
+>  I've encountered one very strange problem:
+> 
+>  E60F	iE60F	LDA #$7F
+>  E611		STA $E84E
+>  E614		LDX #$6D
+>  E616		LDA #$00
+> 
+>  The above code appears on both Basic 2 and basic 4 ROMs. Do you happen to
+>  know why ?  There is no command to turn on interrupts anywhere...
+
+I made a quick look trhough the source and you seem to be correct.
+I assume then that the IRQ must come then directly from the video retrace
+line, not through any I/O chip. That is consistent with the 50/60 Hz
+difference in European/USA models.
+
+
+
+From: bgracey@freenet.niagara.com (Byron Gracey)
+Subject: Re: Has Anyone Heard of the CBM 4040 Disk Drive ?
+Date: Thu, 6 Jul 1995 05:20:41 GMT
+
+
+: It fits eg. to the CBM 8082. But it's not compatible with the C64 disk format at all :(
+
+Ahh yes, the 4040 - also can be used with a 64 or 128 if you have an IEEE 
+interface such as IEEE Flash for the 64!  35 tracks per disk, single 
+sided (flip for side two like a 1541) 256 bytes per sector, 683 sectors 
+(blocks) formatted, 664 of which are free to use normally.
+
+Uses a 6504 processor on the controller, a 6502 on the interface and 
+these both share 4x1K of RAM.  Made of 18 guage steel, weighs plenty and 
+has large footprint, requires about 50 watts to run.
+
+I happen to have manuals for it (and others in the series) if anyone is 
+interested.
+
+And if ya need more info, such as how it works (mine works peachy), how 
+to change device numbers (permanently, that is) etc, just holler.  ttyl
+
+Byron
+
+bgracey@freenet.niagara.com
+
+-- 
+Byron Gracey
+Fido: 1:247/105
+bgracey@freenet.niagara.com
+
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM PET 3032 information wanted
+Date: 5 Sep 1995 13:07:44 GMT
+
+In <421bvb$3ij@tuegate.tue.nl> martijnb@stack.urc.tue.nl (Martijn van Buul) writes:
+>I've bought an old CBM PET 3032 last weekend, but I don't have any kind of
+>information on it. If anybody can provide me some information, I would be
+>very pleased. For example :
+...
+>2) A kernal jumptable (the jumptable from the C64 (from the Programmers
+>   Guide) isn't the same. I can't find SETFLS, SETNAM etc., needed to open a
+>   file)
+
+The top part of the jumptable is mostly the same, but I don't think
+SETNAM and SETLFS are in that part. There are also other differences
+that are quite annoying (meaning: they corrected some earlier design
+mistakes in the VIC kernel). For instance, LOAD and SAVE are meant
+to be called from BASIC. The first thing they do is  use BASIC routines
+to fetch the file name and device number. To use them from ML you must
+either set up CHRGET correctly or jump directly into ROM (where exactly
+differs with each ROM version :-( ). OPEN however should be usable.
+
+-Olaf.
+--
+___              Copyright 1995 Olaf 'Rhialto' Seibert. All Rights Reserved.
+\X/    You are not allowed to read this using any kind of Micro$oft product.
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM PET 3032 information wanted
+Date: 5 Sep 1995 13:07:44 GMT
+
+
+>2) A kernal jumptable (the jumptable from the C64 (from the Programmers
+>   Guide) isn't the same. I can't find SETFLS, SETNAM etc., needed to open a
+>   file)
+
+The top part of the jumptable is mostly the same, but I don't think
+SETNAM and SETLFS are in that part. There are also other differences
+that are quite annoying (meaning: they corrected some earlier design
+mistakes in the VIC kernel). For instance, LOAD and SAVE are meant
+to be called from BASIC. The first thing they do is  use BASIC routines
+to fetch the file name and device number. To use them from ML you must
+either set up CHRGET correctly or jump directly into ROM (where exactly
+differs with each ROM version :-( ). OPEN however should be usable.
+
+-Olaf.
+--
+___              Copyright 1995 Olaf 'Rhialto' Seibert. All Rights Reserved.
+\X/    You are not allowed to read this using any kind of Micro$oft product.
+
+
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM PET 3032 information wanted
+Date: 9 Sep 1995 02:05:40 GMT
+
+> Once you find the hardware way to do the reset, I seem to recall that the PET
+>reset sequence destructively tests memory.  Poke something recognizable
+>someplace and do sys 64790.  My PET's not near me, so I can't test it for
+>myself.
+
+This is true, but there is help. If you hold down the diagnostic
+sense line (user port pin 5), you'll end up in the monitor instead
+of doing the full reset thingie. A PET at our school's computer club
+had a smart thing with a switch wired to reset, and diag through a
+condensator. If you flicked it quicky it would reset; if you kept the
+switch in the alternate position a few seconds it would decharge the
+condensator, pull down diag, and when switched back you came back in
+the monitor.
+
+-Olaf.
+--
+___              Copyright 1995 Olaf 'Rhialto' Seibert. All Rights Reserved.
+\X/    You are not allowed to read this using any kind of Micro$oft product.
+
+From: martijnb@stack.urc.tue.nl (Martijn van Buul)
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 2001 ?
+Date: 29 Sep 1995 12:26:07 GMT
+
+Tony Jewell (tony@ns.cityscape.co.uk) wrote:
+
+> I think you're right. Shifted keys produce graphics, unshifted produce 
+> upper case. There appears to be no lower case characters.
+
+Try  poke 59500,72     or
+     poke 59468,14
+
+That should do..
+
+> Tony.
+
+You're welcome!
+Martijn.
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 2001 ?
+Date: 29 Sep 1995 14:15:25 GMT
+
+
+>hermit@cats.UCSC.EDU (William R. Ward) writes:
+> tony@ns.cityscape.co.uk (Tony Jewell) writes:
+>) 	We've just got a CBM PET 2001 for our little computer collection 
+>) in the CB1 Cybercafe, Cambridge (UK). However, I know very little about 
+>) these machines. It's an 8K model (which I think is the rarer), and in 
+>) fineworking order (except the '1' key is broke). Am I right in thinking 
+>) it's the first Pet ? Does anyone know what the ports on the back and side 
+>) or for ? Does anyone have documentation for it, or just any interesting 
+
+From right to left: IEEE, User port, cassette.
+
+>) information about it ? And is there any chance of finding any software 
+>) for it ?
+
+There is some at ftp.funet.fi:/pub/cbm/pet.
+
+>Is this the *really* early PET with the internal tape drive and the
+>impossible keyboard, or the slightly newer one with a "real" keyboard
+>and external tape deck?
+>
+>If the former, and it's in good working order, you've got a pretty
+>rare find, those are hard to come by these days.  It runs BASIC 2.0,
+>which is the same BASIC as the C64, so *simple* programs should run on
+>it.  I think though that some of the early PET's used a form of ASCII
+>where the upper case and lower case letters were reversed, so it might
+>look funny if you run them.
+
+The character generator ROM had them swapped, yes. Many machines upgraded
+from Basic 1.0 to 2.0 at the same time as they got a new char rom,
+but definitely not all. There were lots of machines with 2.0 Basic but
+old char roms.
+
+The reason why the chars were swapped originally does make sense.
+If you switch to lower case more, text already on screen remains as
+it is. I guess that having to keep shift depressed to get lower case
+characters was considered too inconvenient. The result was new
+programs looking funny on old machines, and vice versa. I have a few
+programs that were obviously meant for the old char roms.
+
+>--Bill.
+-Olaf.
+--
+___              Copyright 1995 Olaf 'Rhialto' Seibert. All Rights Reserved.
+\X/    You are not allowed to read this using any kind of Micro$oft product.
+
+From: martijnb@stack.urc.tue.nl (Martijn van Buul)
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 2001 ?
+Date: 29 Sep 1995 12:21:32 GMT
+
+Tony Jewell (tony@ns.cityscape.co.uk) wrote:
+> Hi all,
+
+> 	We've just got a CBM PET 2001 for our little computer collection 
+> in the CB1 Cybercafe, Cambridge (UK). However, I know very little about 
+> these machines. It's an 8K model (which I think is the rarer), and in 
+> fineworking order (except the '1' key is broke). Am I right in thinking 
+> it's the first Pet ? Does anyone know what the ports on the back and side 
+> or for ? Does anyone have documentation for it, or just any interesting 
+> information about it ? And is there any chance of finding any software 
+> for it ?
+
+There are several good books about the PET. "Osbourne's Guide To The Pet" 
+seems to be a good one, but I haven't read it.
+The PET 2001 is nearly equal to the CBM 30xx computers. The major difference 
+is, that the PET has a built-in cassette-recorder, and the CBM 30xx hasn't. 
+(There seems to be a minor bugfix to, but I'm bot so sure about that..)
+So nearly evry information for the CBM 30** is fine with the PET too
+
+Oh yes : If you want to have software : check out 
+  ftp.funet.fi/pub/cbm/pet (I'm not so sure about these subdirs..)
+
+BTW: The PET 2001 with 8 K RAM was the only 2001 available in Europe (at least
+that's what this book I'm currently reading (dutch) says).
+
+
+Martijn van Buul
+martijnb@stack.urc.tue.nl
+
+
+From: RICHARD WHITE <richwhite2@mci.newscorp.com>
+Newsgroups: comp.sys.cbm
+Subject: It's Alive!  (The 8032)
+Date: 17 Feb 1996 02:59:30 GMT
+
+Hi all...
+
+After several hours of poking and prodding around my 8032, 
+I finally got the thing working!  (Complete with little 
+piezo startup sound!)  
+
+The problem was the IC socket on the main motherboard where 
+the 6502 (or expansion cable in my case) would plug in 
+to...  I simply whipped out the 'ol desoldering and 
+soldering irons, and had a new 40-pin IC socket installed 
+in no time!    
+
+So if there are dead 8032's out there... and you're sure 
+the power supply is good... chances are those cheap white 
+IC-sockets are going bad.....  (The ones for the EPROMS 
+aren't much better)...  Press down on the IC's and try 
+booting the system...  Thats what I did... (of course, 
+don't touch any pins <G>)
+
+Thanks for everyone's help...
+I now have a nice 8032 w/96k (so its a 8096 then, right?) 
+complete with 8050 Dual drive, MSD-1 SuperDrive, 300baud 
+modem, and even a Commodore IEEE printer!
+
+They're quite handsome computers, aren't they?  I love how 
+crisp the green-screen is....
+
+
+Rich
+
+
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: MSD-1 w/ PET...8032 w/ 96K
+Date: 19 Feb 1996 15:52:09 GMT
+
+dfevans@bbcr.uwaterloo.ca (David Evans) writes:
+>  8096s were sold as such, but I think you could get the upgrade board on its
+>own as well.  Is there any indication that CBM made the upper board?
+
+As for programming info, look in PetIO.doc on x2ftp.oulu.fi. There
+is also LOS-96, the Loadable Operating System.
+
+
+>RICHARD WHITE  <richwhite2@mci.newscorp.com> wrote:
+>>Still curious as to why I have the EPROM "Spacemaker" thinge though...
+>
+>  Hard to say what's in there...you could hunt through memory for nifty
+>things, I suppose.
+
+The EPROM sockets are for addresses 9xxx and Axxx, so that is where to
+look. Pre-4.0 machines also had Bxxx free as an EPROM socket.
+
+>David Evans              (NeXTMail OK)              dfevans@bbcr.uwaterloo.ca
+
+-Olaf.
+___ Olaf 'Rhialto' Seibert      rhialto@mbfys.kun.nl
+
+
+
+From: doriang@microsoft.com (Dorian Garson)
+Newsgroups: comp.sys.cbm
+Subject: Kermit for CBM SuperPET 9000?
+Date: 7 Feb 1996 00:11:46 GMT
+
+I've finally opened up my CBM SuperPET 9000, and discovered a 25-pin 
+female port on the edge of the "middle" board.
+
+Even better, a yellowed copy of SuperPET Gazette specs out a project for 
+creating a serial line driver for long runs, and it has a diagram that 
+indicates that what I've found really *is* a serial port!
+
+So, the next logical question is: where can I find a copy of Kermit that's 
+been ported to the SuperPET?  It would be so cool to be able to use it as 
+a terminal!
+
+ -Dorian
+
+--
+Newsgroups: comp.sys.cbm
+From: fachat@galileo.rhein-neckar.de (Andre Fachat)
+Subject: Re: PET 8296-D info sought
+Date: Fri, 2 Dec 1994 10:23:13 GMT
+
+Received subspace message from Olaf Seibert:
+<many interesting things deleted>
+> >>- What is the completely unlabeled 40-pen chip at UC9? The Video Display
+> >>Controller? Does someone have a register list of the VDC?
+> >It's a 6545 CRT, 99.9% compatible with the 6845.
+
+> I'll try to find out about that one. I expected it to be switchable between
+> 40 and 80 columns, so they could use the same chip in the 4032 and 8032.
+> Apparently not, according to my ROM listings... weird.
+
+Actually it is. And they used the Chip in both, 4032 and 8032 and, AFAIK
+also in the old 3032.
+The only thing to change is the Character Clock frequency. But if you have
+the video access synchronised with the CPU memory access, it is not that
+easy to simply switch the frequency. Ok, you only have to fetch a byte
+in two CPU memory accesses, but without you just don't care:
+CPU Phi2 hi, Video Phi2 lo...
+
+I used the Chip to build myself a video interface for my selfbuilt
+small 6502 (which is mostly 3032 compatible in emulator mode ;-)))))
+and this one runs with 1MHz (40 Col) or 2MHz (80 Col)
+
+Andre
+
+-- 
+Andre Fachat                 mail me!          fachat@galileo.rhein-neckar.de
+FIDO: Andre Fachat@2:2468/6020.4           GERNET: Andre Fachat@21:100/3338.4
+              Why use Windows, since there is a door?
+--
+
+Newsgroups: comp.sys.cbm
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Subject: Re: PET 8296-D info sought
+Date: Sun, 4 Dec 1994 00:48:35 GMT
+
+In <1994Dec2.102313.473@galileo.rhein-neckar.de> fachat@galileo.rhein-neckar.de (Andre Fachat) writes:
+>Received subspace message from Olaf Seibert:
+><many interesting things deleted>
+>> >>- What is the completely unlabeled 40-pen chip at UC9? The Video Display
+>> >>Controller? Does someone have a register list of the VDC?
+>> >It's a 6545 CRT, 99.9% compatible with the 6845.
+>
+>> I'll try to find out about that one. I expected it to be switchable between
+>> 40 and 80 columns, so they could use the same chip in the 4032 and 8032.
+>> Apparently not, according to my ROM listings... weird.
+>
+>Actually it is. And they used the Chip in both, 4032 and 8032 and, AFAIK
+>also in the old 3032.
+
+Not in the old 3032 (with the small screens), AFAIK. There were different
+ROM sets for upgrading small screens to Basic 4.0 and for the "native"
+FAT-40 models.
+
+>The only thing to change is the Character Clock frequency. But if you have
+>the video access synchronised with the CPU memory access, it is not that
+>easy to simply switch the frequency. Ok, you only have to fetch a byte
+>in two CPU memory accesses, but without you just don't care:
+>CPU Phi2 hi, Video Phi2 lo...
+
+The motherboard I have claims to be "40/80 columns", and there seems to
+be some location where you can change some connections to switch between
+40 and 80 columns. Mine is set for 80 columns, obviously.
+
+Through experimenting I have found the working of about half the registers,
+and I noticed that the one that apparently sets the base address of the
+screen memory works by twos: if I change it by 1 the screen contents shift
+by two characters. And the register that determines the number of characters
+per line also is effectively multiplied by two.
+
+I must try to find out what memory is actually displayed when I change the
+screen memory base address from the default. I suppose most of it will
+simply be non-existent.
+
+>I used the Chip to build myself a video interface for my selfbuilt
+>small 6502 (which is mostly 3032 compatible in emulator mode ;-)))))
+>and this one runs with 1MHz (40 Col) or 2MHz (80 Col)
+
+And now for something completely different: I was very annoyed that I
+couldn't type the graphics characters on the 8296D's business
+keyboard.  So I hacked something up: (all numbers approximations since
+I don't have the machine in this room)
+
+Insert the following code into the "print to screen" vector at $00EB.
+This vector is only present on the 80 column version of Basic 4.0.
+Fortunately, I think there aren't many 40 column machines with business
+keyboard around.
+
+	.: 027a  ldy $cd	; # of inserts outstanding
+                 beq end
+                 lda $d9	; character to print
+                 eor #$80	; toggle shift bit
+                 sta $d9
+           end:  jmp $e206	; normal vector
+
+(I'll repost this correctly when I write it down)
+
+Now when I'm in "insert mode" I can type all the graphics characters
+that I want, because they too go through this function when input is
+being gathered.  There are some funny side effects, but if they are
+unwanted you can easily cancel them with the ESC key. One of those is
+that after 1 INST, the second one is actually a DEL, and an UP becomes
+DOWN - everything is shifted.  So to insert multiple spaces you must
+first type INST and then DEL for each additional space.
+
+In earlier versions I used the RVS flag and the quote mode flag for the
+modification, but those had much more annoying side effects.
+
+>Andre
+-Olaf.
+--
+___ Olaf 'Rhialto' Seibert    rhialto@mbfys.kun.nl     Ooey-Gooey-Fluffy-Barfie
+\X/ I'm not weird, I'm differently perceived. D787B44DFC896063 4CBB95A5BD1DAA96
+--
+From: UKAH@ibm3090.rz.uni-karlsruhe.de (Veit Laule)
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 8296-D info sought
+Date: Tue, 06 Dec 1994 17:12
+
+
+I'll write something about the CRT-programming next week.
+(e.g. the 50-line mode on the 8296....)
+
+> And now for something completely different: I was very annoyed that I
+> couldn't type the graphics characters on the 8296D's business keyboard.
+
+I modified the EDITOR to do this. Like the ALT-mechanism on PCs. While
+pressing the REPEAT-key, you can type the PETASCII-number of the character.
+ REPEAT--6--5  --> "a"
+
+
+Veit
+--
+
+Newsgroups: comp.sys.cbm
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Subject: Re: PET 8296-D info sought
+Date: Wed, 7 Dec 1994 12:21:16 GMT
+
+>UKAH@ibm3090.rz.uni-karlsruhe.de (Veit Laule) writes:
+> REPEAT--6--5  --> "a"
+
+Cute! I sent in my little hack to Commodore Hacking, but I think the
+small listing I gave in my post was correct. (If not a real hacker
+would correct it anyway). Your solution is a bit neater. Mine does not
+work on any other rom version, since it is the only one that has that
+vector.
+
+Something else: At the secondary school that I visited we had a couple
+of 4032s connected with a network called Hydra. Unfortunately this
+network was rather unsafe.  One time after a holiday I came into the
+room of the computer club to use a computer, and found they were not
+working: not plugged in. So I plugged one in, and heard a terrible
+noise. And soon after that, a horrible smell. Apparently, this network
+card could not stand being plugged in while the power switch was on,
+and I had completely fried one 4032. Literally. And worse, there had
+been power spikes through the network cables to the two directly
+connecting PETs which were also broken (but fried a bit less :)
+
+That's when the 4032 got a 8032 motherboad. But since it still had the
+graphics keyboard, so the keyboard decoding table had to be fixed for that.
+As it turned out later, when the eproms were already made, some correction
+should also have been made for the number keys, because when shifted they
+still produced !@#$ etc.. I suppose we must have had one of the very few
+existing 8032s with graphics keyboard.
+
+From that moment on I made sure all my programs worked properly both on
+40 and 80 column PETs. How to detect 80 columns? The standard trick
+was to do
+
+    print "[clr][down][shift-space]"
+    wd = 40
+    if peek(32768 + 80) = 96 then wd = 80;
+
+This can be generalised to find any screen width, of course.
+
+-Olaf.
+--
+___ Olaf 'Rhialto' Seibert    rhialto@mbfys.kun.nl     Ooey-Gooey-Fluffy-Barfie
+\X/ I'm not weird, I'm differently perceived. D787B44DFC896063 4CBB95A5BD1DAA96
+--
+Newsgroups: comp.sys.cbm
+From: fachat@galileo.rhein-neckar.de (Andre Fachat)
+Subject: Re: PET 8296-D info sought
+Date: Mon, 5 Dec 1994 09:18:34 GMT
+
+> The only thing to change is the Character Clock frequency. But if you have
+> the video access synchronised with the CPU memory access, it is not that
+> easy to simply switch the frequency. Ok, you only have to fetch a byte
+> in two CPU memory accesses, but without you just don't care:
+> CPU Phi2 hi, Video Phi2 lo...
+Of course you could also just set the Register 1, i.e. "Horizontal Displayed
+Characters" to 40 instead of 80. But then the machine only uses half of the 
+screen and the characters have the same width as before.
+
+Andre
+-- 
+Andre Fachat                 mail me!          fachat@galileo.rhein-neckar.de
+FIDO: Andre Fachat@2:2468/6020.4           GERNET: Andre Fachat@21:100/3338.4
+              Why use Windows, since there is a door?
+--
+From: UKAH@ibm3090.rz.uni-karlsruhe.de (Veit Laule)
+Newsgroups: comp.sys.cbm
+Subject: Re: PET 8296-D info sought
+Date: Tue, 06 Dec 1994 17:00
+
+
+rhialto@mbfys.kun.nl (Olaf Seibert) writes:
+
+>Right. There is another ROM labeled EDITOR inside. But there are still two
+>more sockets filled with something ROM like. I'll write down the
+>part numbers, perhaps that is useful.
+Two PLAs (82S100), doing the master-timing and the (complex) memory-
+managment.
+
+>There used to be a program that made a 80xx into a 40xx (i.e. 40 column
+>screen) by reprogramming the CRTC, and re-implementing the
+>logical-screen-line stuff (where you glue two 40-col lines into a
+>single logical linei - on the VIC-20 you could glue up to 4 lines of 22
+>columns).
+Yes, I have it.
+
+>-Olaf.
+>--
+>___ Olaf 'Rhialto' Seibert    rhialto@mbfys.kun.nl     Ooey-Gooey-Fluffy-Barfie
+>\X/ I'm not weird, I'm differently perceived. D787B44DFC896063 4CBB95A5BD1DAA96
+
+Veit
+
+
+From: bjheyboer@space.honeywell.com (Brian Heyboer)
+Newsgroups: comp.sys.cbm
+Subject: Re: 8032 Questions...
+Date: 19 Feb 1996 17:20:44 GMT
+
+
+RICHARD WHITE <richwhite2@mci.newscorp.com> writes:
+
+>Picked up a PET (CBM) 8032 system today.
+>Also, there are two add-on boards inside the unit:
+>
+>The first is plugged into the main motherboard IC socket 
+>UD-11...  it has a small cable extension and terminates to 
+>a small board with 2 IC's on it...  One IC is labeled 
+>"JiniMicro", the other just bears the MOS #80357.
+>
+>The second board it plugged into UD-12 directly...  Its 
+>labeled:  MICROTECH "Spacemaker II", has four IC sockets 
+>(A,B,C,&D) with two of the four sockets filled with MOS 
+>chips (A: "8032" and B: #901472-04), and also has a 
+>three-conductor wire that comes off it and terminates to a 
+>switch pasted on the outside of the case....
+>
+>What do these two boards do?  
+
+UD11 and UD 12 are the "Option ROMs".  They were used by various pieces of
+software either simply copy-protection "keys" or to contain all/part of the
+program code.  The problem was, you could only have one in each slot.  The
+SpaceMaker I am familiar with, and the switch selects which of the ROMs is
+enabled.
+
+The other one sounds similar, but since it has no switch may have another way
+of accessing the two ROMs.
+
+Now, you only need to figure out which ROMs they are.  UD11 maps at A000-AFFF
+and UD12 maps at 9000-9FFF.  Look through the ROM code with the ML monitor and
+see if you can figure out what they are for.  Some third-party companies did
+have MOS make thier ROMs for them (my Visicalc ROM has an MOS part number, for
+example), so that's not a hint unless someone recognizes the number.  
+
+From: Rich White II <rwhite2@postoffice.ptd.net>
+Newsgroups: comp.sys.cbm
+Subject: Manuals for PETs!
+Date: Thu, 07 Mar 1996 11:29:38 -0800
+
+Hi!
+
+Just got back from the guy I bought my PET from, and he located all the 
+MANUALS for me!
+
+I've got everything... including the Commodore manuals for the 8032, 
+Basic 4.0, 4022 Printer, 8050 drive (its for a bunch of drives really), 
+and the 8010 modem!
+
+I also found a manual for one of those EPROMS I was trying to figure 
+out. Turns out the thing is entitled:
+       "COMMAND..0" (by Skyles), and is an EPROM that seats in UD3 on a 
+4000 or UD12 on an 8000.  If you type SYS36864, it turns the thing on an 
+gives you a few more BASIC commands.  (like auto line numbering, merge 
+commands, BEEP, Execute, etc).  Pretty cool!
+
+I also got a bunch of books dealing with BASIC, and documentations for 
+the following software packages (haven't located all the disks yet 
+though):
+    FONTRIX,  VERSICALC,  WordPro 4,  Jinsam
+
+Also located the manual, installation instructions, and programming 
+instructions on the 64k MEMORY EXPANSION board.  Turns out it was a "kit" 
+after all...   I have everything except the "TEST" disk that came with 
+it.  But at any rate, I've got the whole box and all (shipped direct from 
+Commodore on 3/82!)  
+
+Needless to say... I'm a happy camper right now.  I'd like to stick some 
+of this info online (maybe on a web page) some day for others to see.
+Some impressive stuff, IMHO.  PET documentation seems to be quite hard to 
+find anymore, too!
+
+TTFN...
+-- 
+ //      Rich White II <*> rwhite2@postoffice.ptd.net <*> Reading, PA
+
+
+From: brain@mail.msen.com (Jim Brain)
+Newsgroups: comp.sys.cbm
+Subject: Re: Manuals for PETs!
+Date: 12 Mar 1996 21:52:24 -0500
+
+
+Bjarke Johannesen <thygesen@datashopper.dk> wrote:
+>> Needless to say... I'm a happy camper right now.  I'd like to stick some
+>> of this info online (maybe on a web page) some day for others to see.
+>> Some impressive stuff, IMHO.  PET documentation seems to be quite hard to
+>> find anymore, too!
+
+I was going to copy the docs at one point (I have 80XX stuff), but Ron Snyder
+called and said he still sold the manuals.  Find his name in the list of
+suppliers as US Commodore Support.  Just thought I would warn you.
+
+
+-- 
+Jim Brain, Embedded System Designer, Brain Innovations, Inc. (BII)(offline sig)
+brain@mail.msen.com "Above views DO reflect my employer, since I'm my employer"
+Dabbling in WWW, Embedded Systems, VR, Old CBM computers, and Good Times!  -Me-
+<a href=http://www.msen.com/~brain/>Jim Brain: BII, VR, and CBM info</a>
+
+
+From: crs0794@inforamp.net (Geoffrey Welsh)
+Subject: Re: Sigh!  No PET schematics in existence?
+Newsgroups: comp.sys.cbm
+Date: 23 Mar 1996 21:54:32 GMT
+
+Markus!  Long time no see...
+
+I have a book called "The PET revealed" (somewhere... I think) and it includes 
+the schematics for the original PET 2001 (9" _white_ screen, snow, no CRT 
+controller, etc.)  It doesn't sound like the machine that you've got, but the 
+book _might_ be of some help...
+
+In article <4ifqh0$f0h@bcarh8ab.bnr.ca>, mwandel@bnr.ca (Markus Wandel) wrote:
+>Someone gave me a PET that doesn't work.  Old 9" screen model, 4008, upgraded
+>to 32K, pre-8032 motherboard with discrete TTL video.  I've already tried
+>swapping all the LSI parts and the DRAMs.  Sometimes (one out of twenty)
+>when powered on it drops into the machine language monitor, so quite a bit
+>of it works, but the memory is partially corrupt -- the "AA" pattern has
+>occasional other values in it.  The corruption pattern is ALWAYS the same
+>and "G FD16" from the monitor restores it.  Visual inspection shows nothing
+>wrong with the board, supply voltages are OK.  I'd like to debug it but it's
+>hopeless without a schematic.
+>
+>Surely these schematics can't be completely extinct?  I mean, there had to
+>be a service manual at some point.
+>
+
+--
+            Geoffrey Welsh, Developer, InSystems Technologies Inc.
+        Temporary: crs0794@inforamp.net; At work: insystem@pathcom.com
+  At home: geoff@zswamp.uucp or [xenitec.on.ca|m2xenix.psg.com]!zswamp!geoff
+
+
+From: crs0794@inforamp.net (Geoffrey Welsh)
+Subject: Re: CBM PET documentation
+Date: 24 Mar 1996 18:20:48 GMT
+
+
+strigl@sxb.bsf.alcatel.fr (Dominique STRIGL) wrote:
+
+>A friend of me got a PET and want to use the IEEE interface on it.
+>Where can he find some documentation about the port Adresses ?
+>Is there a FAQ somewhere ??
+
+I used to have a book titled "PET and the IEEE-488 (GPIB) Interface", which 
+gave all the details.  I'll try to look for it.
+
+--
+            Geoffrey Welsh, Developer, InSystems Technologies Inc.
+        Temporary: crs0794@inforamp.net; At work: insystem@pathcom.com
+  At home: geoff@zswamp.uucp or [xenitec.on.ca|m2xenix.psg.com]!zswamp!geoff
+
+
+From: Dave Tickle <aiu214@freenet.mb.ca>
+Subject: Re: 2 joysticks on a PET--how?
+Newsgroups: comp.sys.cbm
+Date: Fri, 28 Jun 1996 21:24:59 -0500
+
+
+
+On 27 Jun 1996, Radioactive Warrior wrote:
+
+> Not sure how they did it but a 4X4 bit matrix gives 16 keys...
+> Or, at least, that's the way I'd do it...
+
+I looked a little closer at the byte values one is supposed to get when 
+reading the port, and it looks like it's set up like this:
+
+           Joystick 1       |      Joystick 2
+      up  down  left  right | up  down  left  right    
+bit:   7    6     5     4      3    2     1     0
+
+The fire button for either stick appears to be indicated by selection of 
+'up' and 'down' simeltaneously, which unfortunately means you can't have 
+up/down control while pressing the button.
+
+By the way, this information comes from Compute's First Book of PET/CBM, 
+which makes reference to the Kilobaud Microcomputing article instead of 
+providing the circuit diagram.  Sheesh.  I'm thinking that the diodes 
+must have something to do with the fact that the up/down/button lines are 
+shared.
+
+The book mentions that there are other joystick configurations for the 
+parallel port out there; if anyone knows what they are, I'd like to hear 
+about it.  (I might be able to figure them out by looking at some old 
+programs.)  Personally, I would have done it either the way you (RW) 
+suggested, or by using three bits for direction and one for the button.
+
+Thanks for the reply,
+
+Dave
+
+From: vmuikku@yrttis.ratol.fi
+Subject: Re: PET 200
+Newsgroups: comp.sys.cbm
+Date: 2 Jul 1996 09:33:22 GMT
+
+In article <381.6749T793T178@academy.bastad.se>,                           
+   anderse@academy.bastad.se (Anders Erlandsson) wrote:           
+>What is this machine PET 200? How old? Built in basic?
+>Is it a one piece machine or is there separate monitor?
+>
+>Is it worth anything?
+
+  I have one of these. It says "Commodore Model 200" on the front panel.
+But on the backside it says 8032-SK, and by this name it is listed in
+Jim Brain's Canonical List of Commodore Computers.
+  This machine has basic 4.0 and 32 kB of RAM. Basically it is just
+CBM8032 in a new case. It has a built-in monitor and a separate keyboard.
+  To my knowledge, there were also models 210 and 220. Most likely these
+were not sold as 200 series machines in USA.
+
+Ville
+
+
+From: rhialto@mbfys.kun.nl (Olaf Seibert)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM 80xx
+Date: 8 Aug 1996 19:14:20 GMT
+
+In <4u7bl2$li5@tuegate.tue.nl> martijnb@mud.stack.urc.tue.nl (Martijn van Buul) writes:
+>My PET doesn't have an internal tapedrive. As the matter affect, I use the
+>same tapedrive for both PET and C64. However, the PET seems to have problems
+>reading the C64 tapes ( I can't even transfer data bytewise. The PET reads
+>the file header, but that's about it.). I *do* have a scheme how to turn
+>my 1541 into a 2031 (== IEEE port), but that hack requires an EPROMmer, wich
+>I haven't got...
+
+Remember that the PET does not have a relocating loader. It expects
+Basic programs to be at $0401 and it does not move them if they aren't.
+
+Also the PET does not understand C64 files saved with SAVE "x",1,1.
+It does not know that type of file headers and just moves on to the
+next one.
+
+>Martijn
+-Olaf.
+--
+___ Olaf 'Rhialto' Seibert      rhialto@mbfys.kun.nl      The only excuse
+\X/    for making a useless thing is that one admires it intensely. -O.W.
+
+
+From: martijnb@mud.stack.urc.tue.nl (Martijn van Buul)
+Newsgroups: comp.sys.cbm
+Subject: Re: CBM 80xx
+Date: 14 Aug 1996 07:27:51 GMT
+
+James Tousignant (jtous@pcpros.net) wrote:
+: Mike Neus wrote:
+<Snippety snip>
+: > 
+: > I seem to remember hearing these types of problems from other PET users.  I
+: > don't know exactly why it is, but timing sticks in my mind.  Does the PET run
+: > at exactly 1MHz?  It might be a simple difference in CPU speeds as this will
+: > affect software timing delays...
+
+
+: The PET-C64 tape differences have nothing to do with timing. The PET
+: does not
+: support relocatable loaders. This means at will always load a program
+: from 
+: the memory area that it was saved from.
+: In other words, if you try and load a C64 BASIC program into a PET the 
+: program will load at the C64's start of BASIC address not the PET's.
+: If you move the PET's start of BASIC (if memory serves me, it's at
+: $0400) to
+: where the C64's start of BASIC is, your programs will load just fine.
+: You do this by POKEing the start of BASIC address on the zero page.
+Yes. I'm aware of that. But! If you're correct, transfer of >>data<<
+files (via put# and get#) shouldn't be a problem, since this has
+absolutely nothing to do with BASIC start. However, I didn't even
+manage THAT. (and YES, I know how to program in Basic :)
+
+However, Mike's answer might be the clue to the problem. Remember : 
+I'm talking about an european C64 (hey! I'm dutch :), while most of you
+have an American (NTSC) C64. The PAL version isn't timed exactly the
+same as the NTSC one. (If I recall correctly, the PAL version clocks
+at 985 Khz, while the NTSC version clocks at about 1.12 Mhz.) I don't
+think that a PET (with it's built-in CRT) has different versions. If
+tapetransfer should work with american C64's, it probably won't with
+European C64s (since the looped delays are different.) I know there's
+a jumper somewhere inside the C64, to turn an PAL machine to a 
+NTSC machine (as far as the CPU speed is concerned). I haven't been able
+to try fiddling with that jumper. It might work...
+
+
+Thanks for your help, all of you :)
+
+
+: 			JT
+Martijn
+
+-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-
+          Martijn ('PINO') van Buul, martijnb@stack.urc.tue.nl
+-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-=+=-
+
