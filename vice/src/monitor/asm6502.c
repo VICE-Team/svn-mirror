@@ -325,12 +325,12 @@ static asm_opcode_info_t opcode_list[] = {
     /* ff */ { "ISB",	ASM_ADDR_MODE_ABSOLUTE_X }
 };
 
-asm_opcode_info_t *asm_opcode_info_get_6502(BYTE number)
+asm_opcode_info_t *asm_opcode_info_get_6502(BYTE p0, BYTE p1, BYTE p2)
 {
-    return opcode_list + (unsigned int) number;
+    return opcode_list + (unsigned int) p0;
 }
 
-unsigned int asm_addr_mode_get_size_6502(asm_addr_mode_t mode)
+unsigned int asm_addr_mode_get_size_6502(asm_addr_mode_t mode, BYTE p0, BYTE p1)
 {
     return addr_mode_size[(unsigned int) mode];
 }
