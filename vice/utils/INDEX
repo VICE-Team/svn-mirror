@@ -1,0 +1,11 @@
+Here are some utilities you might find useful when using VICE:
+
+  - dsk2infocom.c: a simple program to extract Infocom adventure data files
+    from disk images for use on other computers;
+
+  - recomment: a useful reassembler;
+
+  - rmshm and rmshm.linux (Linux version of rmshm): remove all shared memory
+    segments from your machine;
+
+  - xkeymaped.tar.Z: keymap editor for X11 by Hannu Helminen.
