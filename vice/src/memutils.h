@@ -5,7 +5,7 @@
  *  Jarkko Sonninen (sonninen@lut.fi)
  *  Teemu Rantanen (tvr@cs.hut.fi)
  *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

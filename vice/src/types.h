@@ -5,7 +5,7 @@
  *  Jarkko Sonninen  (sonninen@lut.fi)
  *  Jouko Valta      (jopi@stekt.oulu.fi)
  *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andre Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
  *  Teemu Rantanen   (tvr@cs.hut.fi)
  *
  *
