@@ -48,8 +48,9 @@
 
 /* The VIC20 memory. */
 BYTE ram[RAM_SIZE];
-BYTE basic_rom[BASIC_ROM_SIZE];
-BYTE kernal_rom[KERNAL_ROM_SIZE];
+BYTE rom[BASIC_ROM_SIZE + KERNAL_ROM_SIZE];
+#define kernal_rom (rom + BASIC_ROM_SIZE)
+#define basic_rom (rom)
 BYTE chargen_rom[CHARGEN_ROM_SIZE];
 
 /* Memory read and write tables. */

@@ -50,8 +50,7 @@ extern store_func_ptr_t _mem_write_tab[0x101];
 extern BYTE *_mem_read_base_tab[0x101];
 
 extern BYTE ram[RAM_SIZE];
-extern BYTE kernal_rom[KERNAL_ROM_SIZE];
-extern BYTE basic_rom[BASIC_ROM_SIZE];
+extern BYTE rom[BASIC_ROM_SIZE + KERNAL_ROM_SIZE];
 extern BYTE chargen_rom[CHARGEN_ROM_SIZE];
 
 extern void initialize_memory(void);
@@ -83,7 +82,7 @@ inline static BYTE *mem_read_base(int addr)
 
     if (p == 0)
 	return p;
-    
+
     return p - (addr & 0xff00);
 }
 
