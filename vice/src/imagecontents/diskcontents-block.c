@@ -91,7 +91,7 @@ static int circular_check(unsigned int track, unsigned int sector)
 image_contents_t *diskcontents_block_read(const char *file_name,
                                           unsigned int unit)
 {
-    image_contents_t *new;
+    image_contents_t *contents;
     vdrive_t *vdrive;
     BYTE buffer[256];
     int retval;
@@ -109,21 +109,22 @@ image_contents_t *diskcontents_block_read(const char *file_name,
         return NULL;
     }
 
-    new = image_contents_new();
+    contents = image_contents_new();
 
-    memcpy(new->name, vdrive->bam + vdrive->bam_name, IMAGE_CONTENTS_NAME_LEN);
-    new->name[IMAGE_CONTENTS_NAME_LEN] = 0;
+    memcpy(contents->name, vdrive->bam + vdrive->bam_name,
+           IMAGE_CONTENTS_NAME_LEN);
+    contents->name[IMAGE_CONTENTS_NAME_LEN] = 0;
 
-    memcpy(new->id, vdrive->bam + vdrive->bam_id, IMAGE_CONTENTS_ID_LEN);
-    new->id[IMAGE_CONTENTS_ID_LEN] = 0;
+    memcpy(contents->id, vdrive->bam + vdrive->bam_id, IMAGE_CONTENTS_ID_LEN);
+    contents->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
-    new->blocks_free = (int)vdrive_bam_free_block_count(vdrive);
+    contents->blocks_free = (int)vdrive_bam_free_block_count(vdrive);
 
     vdrive->Curr_track = vdrive->Dir_Track;
     vdrive->Curr_sector = vdrive->Dir_Sector;
 
     lp = NULL;
-    new->file_list = NULL;
+    contents->file_list = NULL;
 
     circular_check_init();
 
@@ -137,7 +138,7 @@ image_contents_t *diskcontents_block_read(const char *file_name,
 
         if (retval != 0
             || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
-            image_contents_destroy(new);
+            image_contents_destroy(contents);
             vdrive_internal_close_disk_image(vdrive);
             return NULL;
         }
@@ -147,10 +148,10 @@ image_contents_t *diskcontents_block_read(const char *file_name,
                 image_contents_file_list_t *new_list;
                 int i;
 
-                new_list = (image_contents_file_list_t*)xmalloc(
+                new_list = (image_contents_file_list_t *)xmalloc(
                            sizeof(image_contents_file_list_t));
-                new_list->size = ((int) p[SLOT_NR_BLOCKS]
-                                  + ((int) p[SLOT_NR_BLOCKS + 1] << 8));
+                new_list->size = ((int)p[SLOT_NR_BLOCKS]
+                                  + ((int)p[SLOT_NR_BLOCKS + 1] << 8));
 
                 for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++)
                         new_list->name[i] = p[SLOT_NAME_OFFSET + i];
@@ -168,8 +169,8 @@ image_contents_t *diskcontents_block_read(const char *file_name,
 
                 if (lp == NULL) {
                     new_list->prev = NULL;
-                    new->file_list = new_list;
-                    lp = new->file_list;
+                    contents->file_list = new_list;
+                    lp = contents->file_list;
                 } else {
                     new_list->prev = lp;
                     lp->next = new_list;
@@ -185,6 +186,6 @@ image_contents_t *diskcontents_block_read(const char *file_name,
     }
 
     vdrive_internal_close_disk_image(vdrive);
-    return new;
+    return contents;
 }
 
