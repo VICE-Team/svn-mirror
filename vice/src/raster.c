@@ -290,7 +290,7 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 static void resize(unsigned int width, unsigned int height)
 {
     if (width >= SCREEN_WIDTH * pixel_width) {
-#ifdef __MSDOS__
+#if 1 /* def __MSDOS__ */
 	window_x_offset = (width - SCREEN_WIDTH * pixel_width) / 2;
 #else
 	width = SCREEN_WIDTH * pixel_width;
@@ -311,7 +311,7 @@ static void resize(unsigned int width, unsigned int height)
     }
 
     if (height >= SCREEN_HEIGHT * pixel_height) {
-#ifdef __MSDOS__
+#if 1 /* def __MSDOS__ */
 	window_y_offset = (height - SCREEN_HEIGHT * pixel_height) / 2;
 #else
 	height = SCREEN_HEIGHT * pixel_height;
@@ -1180,7 +1180,7 @@ inline static void emulate_line(void)
 	if (!skip_next_frame && !asleep
             && (rasterline >= window_first_line
                 && rasterline <= window_last_line)) {
-	    if (blank_enabled && !open_left_border)
+	    if ((blank_this_line || blank_enabled) && !open_left_border)
 		handle_blank_line();
 	    else
 		handle_visible_line();
@@ -1271,6 +1271,7 @@ inline static void emulate_line(void)
 
     memory_fetch_done = 0;
 
+    blank_this_line = 0;
 }
 
 /* Disable all the caching for the next frame. */
