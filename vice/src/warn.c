@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "warn.h"
+#include "utils.h"
 
 struct warn_s
 {
@@ -41,11 +42,12 @@ struct warn_s
 
 static warn_t *warnlist = NULL;
 
-warn_t *warn_init(char *name, int nrwarnings)
+warn_t *warn_init(const char *name, int nrwarnings)
 {
     warn_t		*p;
+
     p = malloc(sizeof(*p));
-    p->name = name;
+    p->name = stralloc(name);
     p->pnext = warnlist;
     warnlist = p;
     p->nrwarn = nrwarnings;
