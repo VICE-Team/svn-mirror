@@ -43,11 +43,11 @@ extern void video_resize(void);
 
 /*
  * table with ModelName, KernalFile, RAM size, ROM size, video RAM size,
- * I/O size, ieee flag, crtc flag, map flag, relevant crtc address bits, 
+ * I/O size, ieee flag, crtc flag, map flag, relevant crtc address bits,
  * screen width and keyboard type
  */
 static PetInfo pet_table[] = {
-	{ "2001",  KERNAL2001NAME,  NULL,      
+	{ "2001",  KERNAL2001NAME,  NULL,
 		0x2000, 0x4000, 0x400, 0x800, 1, 0, 0, 0x3ff, 40, "graphics" },
 	{ "3008",  KERNAL3032NAME,  NULL,
 		0x2000, 0x4000, 0x400, 0x800, 0, 0, 0, 0x3ff, 40, "graphics" },
@@ -102,14 +102,6 @@ void pet_set_model(void) {
 	  exit(1);
 	}
 }
-
-#if 0
-void pet_set_kernal(void) {
-#ifdef DEBUG
-	printf("PET: setting kernal ROM to %s.\n",app_resources.kernalName);
-#endif
-}
-#endif
 
 void pet_set_video_width(void) {
 	int v = app_resources.videoWidth;
