@@ -38,6 +38,7 @@
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
 #include "generic.h"
@@ -46,8 +47,10 @@
 #include "log.h"
 #include "machine.h"
 #include "retroreplay.h"
+#include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
+#include "zaxxon.h"
 
 /* #define DEBUG */
 
@@ -208,11 +211,7 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_IEEE488:
         return tpi_read((ADDRESS)(addr & 0x07));
       case CARTRIDGE_EPYX_FASTLOAD:
-        if (addr == 0xdf18)
-            cartridge_config_changed(0);
-        if (addr == 0xdf38)
-            cartridge_config_changed(2);
-        return roml_banks[0x1f00 + (addr & 0xff)];
+        return epyxfastload_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
         cartridge_config_changed(0);
         return rand();
@@ -264,16 +263,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         final_v3_io2_store(addr, value);
         break;
       case CARTRIDGE_SUPER_GAMES:
-        romh_bank = roml_bank = value & 3;
-        if (value & 0x4) {
-            export.game = 0;
-            export.exrom = 1;
-        } else {
-            export.game = export.exrom = 1;
-        }
-        if (value == 0xc)
-            export.game = export.exrom = 0;
-        pla_config_changed();
+        supergames_io2_store(addr, value);
         break;
       case CARTRIDGE_IEEE488:
         tpi_store((ADDRESS)(addr & 0x07), value);
@@ -289,8 +279,7 @@ BYTE REGPARM1 roml_read(ADDRESS addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_ZAXXON:
-        romh_bank = (addr & 0x1000) ? 1 : 0;
-        break;
+        return zaxxon_roml_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT:
         return supersnapshot_v4_roml_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
@@ -405,11 +394,15 @@ void cartridge_init_config(void)
       case CARTRIDGE_KCS_POWER:
         kcs_config_init();
         break;
-      case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_SUPER_GAMES:
-      case CARTRIDGE_EPYX_FASTLOAD:
+        supergames_config_init();
+        break;
+      case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_REX:
         generic_8kb_config_init();
+        break;
+      case CARTRIDGE_EPYX_FASTLOAD:
+        epyxfastload_config_init();
         break;
       case CARTRIDGE_FINAL_I:
         final_v1_config_init();
@@ -421,11 +414,13 @@ void cartridge_init_config(void)
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_WARPSPEED:
-      case CARTRIDGE_ZAXXON:
         generic_16kb_config_init();
         break;
+      case CARTRIDGE_ZAXXON:
+        zaxxon_config_init();
+        break;
       case CARTRIDGE_ULTIMAX:
-        cartridge_config_changed(3);
+        generic_ultimax_config_init();
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_config_init();
@@ -463,9 +458,11 @@ void cartridge_attach(int type, BYTE *rawcart)
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
       case CARTRIDGE_IEEE488:
-      case CARTRIDGE_EPYX_FASTLOAD:
       case CARTRIDGE_REX:
         generic_8kb_config_setup(rawcart);
+        break;
+      case CARTRIDGE_EPYX_FASTLOAD:
+        epyxfastload_config_setup(rawcart);
         break;
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_SIMONS_BASIC:
@@ -507,28 +504,16 @@ void cartridge_attach(int type, BYTE *rawcart)
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_ULTIMAX:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(3);
+        generic_ultimax_config_setup(rawcart);
         break;
       case CARTRIDGE_SUPER_GAMES:
-        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-        memcpy(&roml_banks[0x4000], &rawcart[0x8000], 0x2000);
-        memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
-        memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
-        memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-        cartridge_config_changed(0);
+        supergames_config_setup(rawcart);
         break;
       case CARTRIDGE_EXPERT:
         expert_config_setup(rawcart);
         break;
       case CARTRIDGE_ZAXXON:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x4000);
-        cartridge_config_changed(1);
+        zaxxon_config_setup(rawcart);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

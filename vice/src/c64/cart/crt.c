@@ -35,11 +35,16 @@
 #include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
+#include "epyxfastload.h"
 #include "expert.h"
 #include "final.h"
+#include "generic.h"
 #include "kcs.h"
 #include "resources.h"
+#include "supergames.h"
 #include "types.h"
+#include "zaxxon.h"
+
 
 int crttype = 0;
 
@@ -54,7 +59,7 @@ static const char STRING_EXPERT[] = "Expert Cartridge";
 int crt_attach(const char *filename, BYTE *rawcart)
 {
     BYTE header[0x40], chipheader[0x10];
-    int i, rc;
+    int rc;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
@@ -75,37 +80,11 @@ int crt_attach(const char *filename, BYTE *rawcart)
     crttype = header[0x17] + header[0x16] * 256;
     switch (crttype) {
       case CARTRIDGE_CRT:
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
-        if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
-            && chipheader[0xe] <= 0x40) {
-            if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
-                      : CARTRIDGE_GENERIC_16KB;
-            /* try to read next CHIP header in case of 16k Ultimax cart */
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                break;
-            }
-        }
-        if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0
-            && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
-            if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff),
-                chipheader[0xe] << 8, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            crttype = CARTRIDGE_ULTIMAX;
-            fclose(fd);
-            break;
-        }
+        rc = generic_crt_attach(fd, rawcart);
         fclose(fd);
-        return -1;
+        if (rc < 0)
+            return -1;
+        break;
       case CARTRIDGE_WESTERMANN:
       case CARTRIDGE_WARPSPEED:
       case CARTRIDGE_FINAL_I:
@@ -176,32 +155,17 @@ int crt_attach(const char *filename, BYTE *rawcart)
         }
         break;
       case CARTRIDGE_SUPER_GAMES:
-        while (1) {
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                break;
-            }
-            if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40
-                && chipheader[0xb] > 3) {
-                fclose(fd);
-                return -1;
-            }
-            if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
+        rc = supergames_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
       case CARTRIDGE_REX:
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
-            fclose(fd);
+        rc = epyxfastload_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
             return -1;
-        }
-        if (fread(rawcart, 0x2000, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
         break;
       case CARTRIDGE_EXPERT:
         rc = expert_crt_attach(fd, rawcart);
@@ -210,35 +174,10 @@ int crt_attach(const char *filename, BYTE *rawcart)
             return -1;
         break;
       case CARTRIDGE_ZAXXON:
-        /* first CHIP header holds $8000-$a000 data */
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
-        if (chipheader[0xc] != 0x80
-            || (chipheader[0xe] != 0x10 && chipheader[0xe] != 0x20)
-            || fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
-            fclose(fd);
-            return -1;
-        }
-        /* 4kB ROM is mirrored to $9000 */
-        if (chipheader[0xe] == 0x10)
-            memcpy(&rawcart[0x1000], &rawcart[0x0000], 0x1000);
-
-        /* second/third CHIP headers hold $a000-$c000 banked data */
-        for (i = 0; i <= 1; i++) {
-            if (fread(chipheader, 0x10, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-            if (chipheader[0xc] != 0xa0 || chipheader[0xe] != 0x20
-                || fread(&rawcart[0x2000+(chipheader[0xb] << 13)],
-                         0x2000, 1, fd) < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
+        rc = zaxxon_crt_attach(fd, rawcart);
         fclose(fd);
+        if (rc < 0)
+            return -1;
         break;
       default:
         fclose(fd);
