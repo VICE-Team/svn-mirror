@@ -366,6 +366,7 @@ MenuEntry True1541Submenu[] = {
       (UiMenuCallback) UiToggleTrue1541, NULL, NULL },
     { "*Enable parallel cable",
       (UiMenuCallback) UiToggleParallelCable, NULL, NULL },
+    { "--" },
     { "True 1541 sync factor",
       NULL, NULL, Change1541SyncFactorSubmenu },
     { "True 1541 idle method",
@@ -430,7 +431,7 @@ MenuEntry RightMenu[] = {
 #if defined(PET)
     { "Userport Settings",
       NULL, NULL, PetUserportSubmenu },
-#endif    
+#endif
     { "--" },
     { "Save settings",
       (UiMenuCallback) UiSaveResources, NULL, NULL },
