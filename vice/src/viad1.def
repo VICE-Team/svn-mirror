@@ -1,10 +1,11 @@
 /* -*- C -*-
  *
- * viad1.def - Definitions for the VIA1 emulation in the 1541 disk drive. 
+ * viad1.def - Definitions for the VIA1 emulation in the 1541 disk drive.
  *
  * Written by
  *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -96,7 +97,7 @@ STORE_PRB()
 
 #define	RESET_VIA
 
-READ_PRA() 
+READ_PRA()
 {
     return app_resources.true1541ParallelCable ?
 	parallel_cable_drive_read((((addr == VIA_PRA) &&
@@ -105,7 +106,7 @@ READ_PRA()
 
 }
 
-READ_PRB() 
+READ_PRB()
 {
 #if 0				/* !FAST_BUS */
         return ((viaD1[VIA_PRB] & viaD1[VIA_DDRB]) | ((serial_bus_drive_read()) & ~viaD1[VIA_DDRB]));
