@@ -58,8 +58,8 @@ typedef struct rotation_s rotation_t;
 static rotation_t rotation[2];
 
 /* Speed (in bps) of the disk in the 4 disk areas.  */
-static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
-                                   { 125000, 133333, 142857, 153846 } };
+static const int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
+                                         { 125000, 133333, 142857, 153846 } };
 
 
 void rotation_init(int freq, unsigned int dnr)
