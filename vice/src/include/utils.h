@@ -45,6 +45,9 @@ extern int spawn(const char *name, char **argv, const char *stdout_redir,
 extern int load_file(const char *name, void *dest, int size);
 extern int save_file(const char *name, const void *src, int size);
 
+int string_to_long(const char *str, char **endptr, int base,
+		   long *result);
+    
 #if !defined HAVE_MEMMOVE
 extern void *memmove(void *target, const void *source, unsigned int length);
 #endif
