@@ -81,10 +81,17 @@
 
 extern void set_atn(BYTE state);
 
+/* RAM/ROM.  */
 BYTE true1541_rom[TRUE1541_ROM_SIZE];
 BYTE true1541_ram[TRUE1541_RAM_SIZE];
+
+/* LED status (zero = off).  */
 int true1541_led_status;
 
+/* Current half track on which the R/W head is positioned.  */
+int true1541_current_half_track = 36;
+
+/* If nonzero, the 1541 ROM has already been loaded.  */
 static int true1541_rom_loaded = 0;
 
 #ifndef FAST_BUS
@@ -122,9 +129,6 @@ static BYTE diskID1, diskID2;
 
 /* Map of the sector sizes.  */
 extern char sector_map[43];
-
-/* Current half track on which the R/W head is positioned.  */
-static unsigned int cur_ht = 2;
 
 /* Flag: does the current need to be written out to disk?  */
 static int GCR_dirty_track = 0;
@@ -483,8 +487,8 @@ int initialize_true1541(void)
     true1541_rom[0xf597 - 0xc000] = 0x00;
 #endif
 
-    /* Position the R/W head on the first track.  */
-    true1541_set_half_track(2);
+    /* Position the R/W head on the directory track.  */
+    true1541_set_half_track(36);
 
     initialize_rotation();
 
@@ -803,10 +807,12 @@ void true1541_set_half_track(int num)
     else if (num < 2)
 	num = 2;
 
-    cur_ht = num;
-    GCR_track_start_ptr = GCR_data + (cur_ht / 2 - 1) * NUM_MAX_BYTES_TRACK;
+    true1541_current_half_track = num;
+    GCR_track_start_ptr = (GCR_data
+			   + ((true1541_current_half_track / 2 - 1)
+			      * NUM_MAX_BYTES_TRACK));
 
-    GCR_track_size = raw_track_size[speed_map[cur_ht / 2 - 1]];
+    GCR_track_size = raw_track_size[speed_map[true1541_current_half_track / 2 - 1]];
 
     GCR_head_offset = 0;
 }
@@ -816,9 +822,8 @@ void true1541_set_half_track(int num)
 void true1541_move_head(int step)
 {
     GCR_data_writeback();
-    true1541_set_half_track(cur_ht + step);
-    /* printf("1541: head on track %.1f\n", (double)cur_ht / 2); */
-    UiDisplayDriveTrack((double)cur_ht / 2.0);
+    true1541_set_half_track(true1541_current_half_track + step);
+    UiDisplayDriveTrack((double)true1541_current_half_track / 2.0);
 }
 
 /* Write one GCR byte to the disk. */
@@ -874,7 +879,7 @@ static void GCR_data_writeback(void)
         return;
 
     GCR_dirty_track = 0;
-    track = cur_ht / 2;
+    track = true1541_current_half_track / 2;
 
     for (sector = 0; sector < sector_map[track]; sector++) {
 

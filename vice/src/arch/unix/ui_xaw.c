@@ -43,7 +43,6 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
-#include <X11/IntrinsicP.h>	/* XtResizeWidget() */
 #include <X11/Shell.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
@@ -142,8 +141,9 @@ static int NumCheckmarkMenuItems = 0;
 static Widget LastVisitedAppShell = NULL;
 #define MAX_APP_SHELLS 10
 static struct {
-    Widget widget;
     String title;
+    Widget shell;
+    Widget canvas;
     Widget speed_label;
 #ifdef HAVE_TRUE1541
     Widget drive_track_label;
@@ -367,7 +367,7 @@ static String fallback_resources[] = {
     "*Menubutton.background:		             gray80",
     "*Scrollbar.background:		             gray80",
     "*Form.background:				     gray80",
-    "*DriveStatus.background:                        gray80",
+    "*Label.background:				     gray80",
     "*Canvas.background:                             black",
     "*driveTrack.font:                          -*-helvetica-medium-r-*-*-10-*",
     "*speedStatus.font:                         -*-helvetica-medium-r-*-*-10-*",
@@ -617,13 +617,18 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
                                      XtNborderWidth, 1,
                                      NULL);
 
+    XtAddEventHandler(shell, EnterWindowMask, False,
+		      (XtEventHandler) UiEnterWindowCallback, NULL);
+    XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
+		      (XtEventHandler) UiExposureCallback, exposure_proc);
+
     /* Create the status bar on the bottom.  */
     {
         Dimension height;
         Dimension led_width = 12, led_height = 5;
         Dimension w1 = width - led_width - 2;
 
-        speed_label = XtVaCreateManagedWidget("SpeedStatus",
+        speed_label = XtVaCreateManagedWidget("speedStatus",
                                               labelWidgetClass, pane,
                                               XtNlabel, "",
                                               XtNwidth, w1 - w1 /3,
@@ -697,10 +702,6 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
 	XtAddEventHandler(canvas, KeyPressMask, False,
 			  (XtEventHandler) UiHandleSpecialKeys, NULL);
     }
-    XtAddEventHandler(shell, EnterWindowMask, False,
-		      (XtEventHandler) UiEnterWindowCallback, NULL);
-    XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-		      (XtEventHandler) UiExposureCallback, exposure_proc);
 
     XtRealizeWidget(shell);
     XtPopup(shell, XtGrabNone);
@@ -713,17 +714,14 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     XtOverrideTranslations(shell, XtParseTranslationTable
                                       ("<Message>WM_PROTOCOLS: Close()"));
 
-    AppShells[NumAppShells - 1].widget = shell;
+    AppShells[NumAppShells - 1].shell = shell;
+    AppShells[NumAppShells - 1].canvas = canvas;
     AppShells[NumAppShells - 1].title = stralloc(title);
     AppShells[NumAppShells - 1].speed_label = speed_label;
 
 #ifdef HAVE_TRUE1541
     AppShells[NumAppShells - 1].drive_track_label = drive_track_label;
     AppShells[NumAppShells - 1].drive_led = drive_led;
-    if (!app_resources.true1541) {
-        XtUnrealizeWidget(drive_track_label);
-        XtUnrealizeWidget(drive_led);
-    }
 #endif
 
     return canvas;
@@ -895,6 +893,7 @@ void UiDisplaySpeed(float percent, float framerate)
     }
 }
 
+#ifdef HAVE_TRUE1541
 void UiToggleDriveStatus(int state)
 {
     int i;
@@ -918,8 +917,15 @@ void UiDisplayDriveTrack(double track_number)
     char str[256];
 
     sprintf(str, "Track %.1f", (double)track_number);
-    for (i = 0; i < NumAppShells; i++)
-        XtVaSetValues(AppShells[i].drive_track_label, XtNlabel, str, NULL);
+    for (i = 0; i < NumAppShells; i++) {
+	Widget w = AppShells[i].drive_track_label;
+
+	if (!XtIsRealized(w)) {
+	    XtRealizeWidget(w);
+	    XtManageChild(w);
+	}
+        XtVaSetValues(w, XtNlabel, str, NULL);
+    }
 }
 
 void UiDisplayDriveLed(int status)
@@ -927,9 +933,17 @@ void UiDisplayDriveLed(int status)
     Pixel pixel = status ? drive_led_on_pixel : drive_led_off_pixel;
     int i;
 
-    for (i = 0; i < NumAppShells; i++)
-        XtVaSetValues(AppShells[i].drive_led, XtNbackground, pixel, NULL);
+    for (i = 0; i < NumAppShells; i++) {
+	Widget w = AppShells[i].drive_led;
+
+	if (!XtIsRealized(w)) {
+	    XtRealizeWidget(w);
+	    XtManageChild(w);
+	}
+        XtVaSetValues(w, XtNbackground, pixel, NULL);
+    }
 }
+#endif
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
@@ -940,7 +954,7 @@ void UiDisplayPaused(void)
 
     for (i = 0; i < NumAppShells; i++) {
 	sprintf(str, "%s (paused)", AppShells[i].title);
-	XtVaSetValues(AppShells[i].widget, XtNtitle, str, NULL);
+	XtVaSetValues(AppShells[i].shell, XtNtitle, str, NULL);
     }
 }
 
@@ -963,9 +977,25 @@ void UiDispatchEvents(void)
 /* Resize one window. */
 void UiResizeCanvasWindow(UiWindow w, int width, int height)
 {
-    /* FIXME */
+    Dimension canvas_width, canvas_height;
+    Dimension form_width, form_height;
+
+    /* Ok, form widgets are stupid animals; in a perfect world, I should be
+       allowed to resize the canvas and let the Form do the rest.  Unluckily,
+       this does not happen, so let's do things the dirty way then.  This
+       code sucks badly.  */
+
+    XtVaGetValues((Widget)w, XtNwidth, &canvas_width, XtNheight,
+		  &canvas_height, NULL);
+    XtVaGetValues(XtParent(XtParent((Widget)w)), XtNwidth, &form_width,
+		  XtNheight, &form_height, NULL);
+
+    XtVaSetValues(XtParent(XtParent((Widget)w)),
+		  XtNwidth, form_width + width - canvas_width,
+		  XtNheight, form_height + height - canvas_height,
+		  NULL);
+
     return;
-    XtResizeWidget(XtParent(w), width, height, 0);
 }
 
 /* Map one window. */
@@ -1331,8 +1361,8 @@ static void UiPopup(Widget w, const char *title, Boolean wait_popdown)
 	/* Choose one realized shell. */
 	int i;
 	for (i = 0; i < NumAppShells; i++)
-	    if (XtIsRealized(AppShells[i].widget)) {
-		s = AppShells[i].widget;
+	    if (XtIsRealized(AppShells[i].shell)) {
+		s = AppShells[i].shell;
 		break;
 	    }
     }
@@ -1768,7 +1798,7 @@ static void UiCloseAction(Widget w, XEvent * event, String * params,
     } else {
 	int i;
 	for (i = 0; i < NumAppShells; i++)
-	    if (AppShells[i].widget == w)
+	    if (AppShells[i].shell == w)
 		UiExit(w, NULL, NULL);
 	LastVisitedAppShell = NULL;
     }
