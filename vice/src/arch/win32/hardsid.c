@@ -27,13 +27,12 @@
 
 #include "vice.h"
 
-#ifdef HAVE_HARDSID
-
 #include <stdio.h>
 #include <windows.h>
 
 #include "hardsid.h"
 #include "log.h"
+#include "sid-resources.h"
 #include "types.h"
 
 
@@ -53,9 +52,10 @@ static SetDebug_t              SetDebug;
 static WriteToHardSID_t        WriteToHardSID;
 
 static HINSTANCE dll = NULL;
+static unsigned int device_map[2] = { 0, 0 };
 
 
-int hardsid_open(void)
+static int init_interface(void)
 {
     if (dll == NULL) {
         dll = LoadLibrary("HARDSID.DLL");
@@ -80,6 +80,11 @@ int hardsid_open(void)
     return 0;
 }
 
+int hardsid_open(void)
+{
+    return init_interface();
+}
+
 int hardsid_close(void)
 {
     if (dll != NULL) {
@@ -88,7 +93,7 @@ int hardsid_close(void)
 
        for (chipno = 0; chipno < 2; chipno++) {
            for (addr = 0; addr < 24; addr++)
-               hardsid_read(addr, chipno);
+               hardsid_store(addr, 0, chipno);
        }
     }
 
@@ -97,34 +102,32 @@ int hardsid_close(void)
 
 int hardsid_read(WORD addr, int chipno)
 {
-    if (dll != NULL) {
-        switch (chipno) {
-          case 0:
-            return ReadFromHardSID(0, (UCHAR)(addr & 0x1f));
-          case 1:
-            return ReadFromHardSID(1, (UCHAR)(addr & 0x1f));
-        }
-    }
+    if (dll != NULL)
+        return ReadFromHardSID(device_map[chipno], (UCHAR)(addr & 0x1f));
 
     return 0;
 }
 
 void hardsid_store(WORD addr, BYTE val, int chipno)
 {
-    if (dll != NULL) {
-        switch (chipno) {
-          case 0:
-            WriteToHardSID(0, (UCHAR)(addr & 0x1f), val);
-            break;
-          case 1:
-            WriteToHardSID(1, (UCHAR)(addr & 0x1f), val);
-            break;
-        }
-    }
+    if (dll != NULL)
+        WriteToHardSID(device_map[chipno], (UCHAR)(addr & 0x1f), val);
 }
 
 void hardsid_set_machine_parameter(long cycles_per_sec)
 {
 }
 
-#endif
+unsigned int hardsid_available(void)
+{
+    if (init_interface() < 0)
+        return 0;
+
+    return (unsigned int)GetHardSIDCount();
+}
+
+void hardsid_set_device(unsigned int chipno, unsigned int device)
+{
+    device_map[chipno] = device;
+}
+
