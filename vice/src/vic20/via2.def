@@ -1,0 +1,116 @@
+/* -*- C -*-
+ *
+ * via2.def - Definitions for the VIA2 emulation in the VIC20. 
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ * Patches by
+ *   Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+
+#define mycpu maincpu
+
+#define myclk clk
+
+#define myvia via2
+
+#define MYVIA VIA2
+
+
+INCLUDES()
+{
+#include "true1541.h"
+#include "kbd.h"
+}
+
+
+#define	GLOBALS
+
+#define	via_set_int		maincpu_set_nmi
+#define	VIA2_INT		IK_NMI
+
+/* #define VIA2_TIMER_DEBUG */
+
+#define	PRE_VIA_FUNCS
+
+
+#define STORE_PRB 	via2[addr] = byte;
+
+#define	STORE_PCR
+#define	STORE_ACR
+#define	STORE_SR
+#define	STORE_T2L
+
+RESET_VIA()
+{
+     serial_bus_pa_write(0xff);
+}
+
+
+STORE_PRA()
+{
+     via2[addr] = byte;
+     serial_bus_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+}
+
+READ_PRA() 
+{
+     {
+	  BYTE joy_bits;
+
+	  /*
+	     Port A is connected this way:
+	     
+	     bit 0  IEC clock
+	     bit 1  IEC data
+	     bit 2  joystick switch 0 (up)
+	     bit 3  joystick switch 1 (down)
+	     bit 4  joystick switch 2 (left)
+	     bit 5  joystick switch 4 (fire)
+	     bit 6  IEC ATN
+
+	  */
+
+	  /* Setup joy bits (2 through 5).  Use the `or' of the values
+             of both joysticks so that it works with every joystick
+             setting.  This is a bit slow... we might think of a
+             faster method.  */
+	  joy_bits = ~(joy[1] | joy[2]);
+	  joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+
+	  /* We assume `serial_bus_pa_read()' returns the non-IEC bits
+             as zeroes. */
+	  return ((via2[VIA_PRA] & via2[VIA_DDRA]) 
+		  | ((serial_bus_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+     }
+}
+
+READ_PRB() 
+{
+     return (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+}
+
+#define POST_VIA_FUNCS
+
+
+

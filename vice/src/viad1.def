@@ -1,0 +1,111 @@
+/* -*- C -*-
+ *
+ * viad1.def - Definitions for the VIA1 emulation in the 1541 disk drive. 
+ *
+ * Written by
+ *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+
+#define mycpu true1541
+
+#define myclk true1541_clk
+
+#define myvia viaD1
+
+#define MYVIA VIAD1
+
+
+INCLUDES()
+{
+    #include "true1541.h"
+    #include "viad.h"
+}
+
+#define	GLOBALS
+
+#define	via_set_int		true1541_set_irq
+#define	VIAD1_INT		IK_IRQ
+
+
+/* #define VIAD1_TIMER_DEBUG */
+
+PRE_VIA_FUNCS()
+{
+
+void set_atn(BYTE state)
+{
+#ifdef OLDIRQ
+   if (state) {
+      viaD1ifr |= 2;
+   } else {
+      viaD1ifr &= 0xfe;
+   }
+#else
+   viaD1_signal(VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);
+#endif
+}
+
+}
+
+#define STORE_PRA 	viaD1[addr] = byte;
+
+STORE_PRB()
+{
+    if (byte != viaD1[addr]) {
+        viaD1[addr] = byte;
+#if 0				/* !FAST_BUS */
+	serial_bus_drive_write(~viaD1[VIA_DDRB] | viaD1[VIA_PRB]);
+#else
+ 	serial_bus_drive_write(viaD1[VIA_DDRB] & ~viaD1[VIA_PRB]);
+#endif
+    }
+}
+
+#define	STORE_PCR
+#define	STORE_ACR
+#define	STORE_SR
+#define	STORE_T2L
+
+#define	RESET_VIA
+
+READ_PRA() 
+{
+        return ((viaD1[VIA_PRA] & viaD1[VIA_DDRA]) | (0xff & ~viaD1[VIA_DDRA]));
+
+}
+
+READ_PRB() 
+{
+#if 0				/* !FAST_BUS */
+        return ((viaD1[VIA_PRB] & viaD1[VIA_DDRB]) | ((serial_bus_drive_read()) & ~viaD1[VIA_DDRB]));
+#else
+	return ((viaD1[VIA_PRB] & 0x1a)
+		| serial_bus_drive_read()) ^ 0x85;
+#endif
+}
+
+#define POST_VIA_FUNCS
+
+

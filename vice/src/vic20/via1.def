@@ -1,0 +1,134 @@
+/* -*- C -*-
+ *
+ * via1.def - Definitions for the VIA1 emulation in the VIC20.
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ * Patches by
+ *   Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+
+#define mycpu maincpu
+
+#define myclk clk
+
+#define myvia via1
+
+#define MYVIA VIA1
+
+
+INCLUDES()
+{
+#include "true1541.h"
+#include "kbd.h"
+}
+
+#define	via_set_int		maincpu_set_irq
+#define	VIA1_INT		IK_IRQ
+
+#define	GLOBALS                 extern int keyarr[KBD_ROWS];
+
+/* #define VIA1_TIMER_DEBUG */
+
+#define	PRE_VIA_FUNCS
+
+#define STORE_PRA 	via1[addr] = byte;
+#define STORE_PRB 	via1[addr] = byte;
+
+#define STORE_ACR
+#define STORE_SR
+#define STORE_T2L
+
+RESET_VIA()
+{
+	serial_bus_pcr_write(0x22);
+}
+
+
+STORE_PCR()
+{
+	if(byte != via1[VIA_PCR]) {
+	  register BYTE tmp = byte;
+	  /* first set bit 1 and 5 to the real output values */
+	  if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+	  if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+	  serial_bus_pcr_write(tmp);
+	}
+}
+
+READ_PRA()
+{
+    {
+	/* FIXME: not 100% sure about this... */
+	BYTE val = ~via1[VIA_DDRA];
+	BYTE msk = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	BYTE m;
+	int i;
+
+	for (m = 0x1, i = 0; i < KBD_ROWS; m <<= 1, i++)
+	    if (!(msk & m))
+		val &= ~rev_keyarr[i];
+
+	return val | (via1[VIA_PRA] & via1[VIA_DDRA]);
+    }
+}
+
+READ_PRB()
+{
+    {
+	/* FIXME: not 100% sure about this... */
+        BYTE val = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	int m, i;
+
+	for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+	    if (!(msk & m))
+	        val &= ~keyarr[i];
+
+	/* Bit 7 is mapped to the right direction of the joystick (bit
+	   3 in `joy[]'). */
+	if ((joy[1] | joy[2]) & 0x8)
+	    val &= 0x7f;
+
+	return val;
+    }
+}
+
+POST_VIA_FUNCS()
+{
+
+int show_keyarr(void)
+{
+    int     i, j;
+    for (j = 0; j < KBD_ROWS; j++) {
+        printf("%d:", j);
+        for (i = 0x80; i; i >>= 1)
+            printf(" %d", keyarr[j] & i);
+        printf("\n");
+    }
+    return (0);
+}
+
+}
+
+
