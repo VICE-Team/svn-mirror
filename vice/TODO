@@ -56,6 +56,9 @@ Emulator, whose name was chosen independently.)
 
   - Better support for alternative ROM sets.
 
+  - Some more kernal patches, for instance for changing colors and
+    patching the reset routine to make it faster (maybe configurable)?
+
 * C64 improvements
 ------------------
 
