@@ -632,6 +632,9 @@ void resources_set_defaults(void)
     app_resources.true1541 = 0;
     app_resources.true1541IdleMethod = TRUE1541_IDLE_TRAP_IDLE;
     app_resources.true1541SyncFactor = TRUE1541_PAL_SYNC_FACTOR;
+#ifdef CBM64
+    app_resources.true1541ParallelCable = 0;
+#endif
 #endif
 
 #ifdef IEEE488
