@@ -1,6 +1,6 @@
 # Makefile.am for the OS2 version of `libarch.a'.
 
-SUBDIRS = pm
+SUBDIRS = pm Snippets
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -16,13 +16,20 @@ libarch_a_SOURCES = \
 	c64kbd.c \
 	c64ui.c \
 	c64ui.h \
+        config.h \
 	joystick.c \
 	joystick.h \
 	kbd.c \
 	kbd.h \
-	types_new.h \
+        types.h \
 	ui.c \
 	ui.h \
+        ui_status.c \
+        ui_status.h \
+        uicmdline.c \
+        uicmdline.h \
+        pm_cmdline.c \
+        pm_cmdline.h \
 	video.c \
 	video.h \
 	vsync.c \
