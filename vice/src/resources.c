@@ -159,7 +159,6 @@ static struct resource resources[] = {
 #endif
 #ifdef CBM64
     { "EmuID", &app_resources.emuID, RES_INTEGER, NULL },
-    { "TapeName", &app_resources.tapeName, RES_STRING, NULL },
 #endif
 #ifdef HAVE_TRUE1541
     { "True1541", &app_resources.true1541, RES_INTEGER, true1541_ack_switch },
@@ -397,7 +396,13 @@ struct cmd_line_option options[] = {
       &app_resources.true1541SyncFactor, RES_INTEGER, ARG_NONE, STR(TRUE1541_NTSC_SYNC_FACTOR), NULL },
     { "-dosname",	"Specify a 1541 ROM image",
       &app_resources.dosName, RES_STRING, ARG_REQUIRED, NULL, NULL },
+#ifdef CBM64
+    { "-parallel",	"Emulate a SpeedDOS-compatible parallel cable",
+      &app_resources.true1541ParallelCable, RES_INTEGER, ARG_NONE, "1", NULL },
+    { "+parallel",	"Disable the SpeedDOS-compatible parallel cable",
+      &app_resources.true1541ParallelCable, RES_INTEGER, ARG_NONE, "0", NULL },
 #endif
+#endif /* HAVE_TRUE1541 */
 #ifdef VIC20
     { "-memory",	"Specify a memory expansion unit",
       &app_resources.memoryExp, RES_STRING, ARG_REQUIRED, NULL, NULL },
