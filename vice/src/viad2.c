@@ -1,7 +1,7 @@
 
 /*
- * ./viad2.c
- * This file is generated from ./via-tmpl.c and ./viad2.def,
+ * ../viad2.c
+ * This file is generated from ../via-tmpl.c and ../viad2.def,
  * Do not edit!
  */
 /*
