@@ -33,7 +33,7 @@
 #include "log.h"
 #include "resources.h"
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#if 0
 #define CHECK_DGA_V2
 
 #else  /* DGA2 support is in dga2.c; FIXME */
