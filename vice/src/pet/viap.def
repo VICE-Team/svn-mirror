@@ -1,0 +1,157 @@
+/* -*- C -*-
+ *
+ * viap.def - Definitions for VIA emulation in the PET.
+ *
+ * Written by
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#define mycpu maincpu
+
+#define myclk clk
+
+#define myvia via
+
+#define MYVIA VIA
+
+#define	via_set_int		maincpu_set_irq
+#define	VIA_INT			IK_IRQ
+
+/* #define VIA_TIMER_DEBUG */
+
+INCLUDES()
+{
+#include "parallel.h"
+#include "sid.h"
+#include "kbd.h"
+#include "crtc.h"
+}
+
+#define GLOBALS()
+
+#define	PRE_VIA_FUNCS
+
+#define STORE_PRA 	via[addr] = byte;
+
+STORE_PRB()
+{
+	via[addr] = byte;
+	byte = via[VIA_PRB] | ~via[VIA_DDRB];
+        par_set_nrfd(!(byte & 0x02));
+        par_set_atn(!(byte & 0x04));
+}
+
+STORE_PCR()
+{
+        if(byte != via[VIA_PCR]) {
+          register BYTE tmp = byte;
+          /* first set bit 1 and 5 to the real output values */
+          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
+          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+          crtc_set_char( byte & 2 ); /* switching PET charrom */
+	}
+}
+
+STORE_ACR()
+{
+#ifdef SOUND
+	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
+#endif
+}
+
+STORE_SR()
+{
+#ifdef SOUND
+	store_petsnd_sample(byte);
+#endif
+}
+
+STORE_T2L()
+{
+#ifdef SOUND
+        store_petsnd_rate(2*byte+4);
+	if(!byte) {
+	  store_petsnd_onoff(0);
+	} else {
+	  store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
+	}
+#endif
+}
+
+RESET_VIA()
+{
+    /* set IEC output lines */
+    par_set_atn(0);
+    par_set_nrfd(0);
+}
+
+
+READ_PRA()
+{
+        {
+            BYTE    j = 255;
+            /* nothing to read yet */
+            if (app_resources.debugFlag) {
+                printf("read port A %d\n", j);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) j, (int) via[VIA_PRB],
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+            }
+            return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));
+        }
+}
+
+READ_PRB()
+{
+        {
+            BYTE    j;
+            /* read parallel IEC interface line states */
+            j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
+            /* vertical retrace */
+            j -= crtc_offscreen() ? 32:0;
+            if (0 /*pardebug*/) {
+                printf("read port B %d\n", j);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) j,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+            }
+            return ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+}
+
+POST_VIA_FUNCS()
+{
+int     show_keyarr(void)
+{
+    int     i, j;
+    for (j = 0; j < KBD_ROWS; j++) {
+        printf("%d:", j);
+        for (i = 0x80; i; i >>= 1)
+            printf(" %d", keyarr[j] & i);
+        printf("\n");
+    }
+    return (0);
+}
+}
+
+
+
