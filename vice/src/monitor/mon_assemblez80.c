@@ -43,18 +43,21 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     bool found = FALSE;
     MEMSPACE mem;
     unsigned loc;
-    BYTE prefix[4] = { 0x00, 0xdd, 0xed, 0xfd };
+    BYTE prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
 
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
 
-    for (j = 0; j < 4; j++) {
+    for (j = 0; j < 5; j++) {
         for (i = 0; i <= 0xff; i++) {
             asm_opcode_info_t *opinfo = NULL;
 
             switch (prefix[j]) {
               case 0x00:
                 opinfo = (monitor_cpu_type.asm_opcode_info_get)(i, 0, 0);
+                break;
+              case 0xcb:
+                opinfo = (monitor_cpu_type.asm_opcode_info_get)(0xcb, i, 0);
                 break;
               case 0xdd:
                 opinfo = (monitor_cpu_type.asm_opcode_info_get)(0xdd, i, 0);
