@@ -359,16 +359,16 @@ BYTE REGPARM1 read_ram(ADDRESS address)
 {
   return (ram[(address > 0xffff - shared_size && shared_hi
                ? address : (address < shared_size && shared_lo
-                            ? address : (((long) mmu[0] & 0x40) << 10)
-                            + address))]);
+                            ? address
+                            : (((long) mmu[0] & 0x40) << 10) + address))]);
 }
 
 void REGPARM2 store_ram(ADDRESS address, BYTE value)
 {
     ram[(address > 0xffff - shared_size && shared_hi
 	 ? address : (address < shared_size && shared_lo
-		      ? address : (((long) mmu[0] & 0x40) << 10)
-		      + address))] = value;
+		      ? address
+                      : (((long) mmu[0] & 0x40) << 10) + address))] = value;
 }
 
 void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
@@ -532,10 +532,17 @@ void initialize_memory(void)
     else
         shared_size = 0x1000 << (mmu[6] & 0x3);
 
+    printf("%s: shared_size = %d", __FUNCTION__, shared_size);
+    if (shared_lo)
+      printf(", LO");
+    if (shared_hi)
+      printf(", HI");
+    putchar('\n');
+
     mem_read_tab[0] = mem_read_tab[0x100] = read_zero;
     mem_write_tab[0] = mem_write_tab[0x100] = store_zero;
-    mem_read_tab[1] = read_zero;
-    mem_write_tab[1] = store_zero;
+    mem_read_tab[1] = read_one;
+    mem_write_tab[1] = store_one;
 
     for (i = 0x2; i < 0x10; i++) {
 	mem_read_tab[i] = read_ram;
