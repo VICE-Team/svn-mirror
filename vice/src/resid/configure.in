@@ -1,0 +1,55 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(sid.h)
+
+dnl Use Automake
+AM_INIT_AUTOMAKE(resid, 0.5)
+
+dnl Use C++ for tests.
+AC_LANG_CPLUSPLUS
+
+dnl Enable inlining.
+AC_ARG_ENABLE(inline,
+[  --enable-inline         enable inlining of functions (default)])
+
+if test "$enable_inline" != no; then
+  RESID_INLINE=1
+else
+  RESID_INLINE=0
+fi
+
+AC_SUBST(RESID_INLINE)
+
+dnl Hack to allow "disabling" installation of reSID by setting cache variable.
+if test "$ac_cv_install_resid" = no; then
+  exec_prefix=$srcdir/tmp
+  includedir=$srcdir/tmp/include
+fi
+
+dnl Checks for programs.
+AC_PROG_CXX
+
+dnl Set CXXFLAGS for G++.
+if test "$GXX" = yes; then
+  if test "$ac_test_CXXFLAGS" != set; then
+    CXXFLAGS="-g -Wall -O2 -funroll-loops -fomit-frame-pointer"
+    AC_PROG_CXX
+  fi
+fi
+
+AC_PROG_RANLIB
+AC_PATH_PROG(PERL, perl)
+
+dnl Checks for libraries.
+
+dnl Checks for header files.
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_SIZEOF(int, 4)
+
+if test $ac_cv_sizeof_int -lt 4; then
+  AC_MSG_ERROR([only 32 bit or better CPUs are supported])
+fi
+
+dnl Checks for library functions.
+
+AC_OUTPUT(Makefile siddefs.h)
