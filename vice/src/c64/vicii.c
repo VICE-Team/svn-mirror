@@ -79,6 +79,7 @@ static void update_sprite_collisions(void);
 #include "raster.h"
 #include "sprites.h"
 #include "sprcycles.h"
+#include "sprcrunch.h"
 
 #if defined (C128)
 #include "vdc.h"
@@ -139,7 +140,7 @@ static void update_sprite_collisions(void);
 
 /* Current char being drawn by the raster.
    < 0 or >= SCREEN_TEXTCOLS if outside the visible range. */
-#define RASTER_CHAR(cycle)	((cycle) - 17)
+#define RASTER_CHAR(cycle)	((cycle) - 15)
 
 /* Current horizontal position (in pixels) of the raster.
    < 0 or >= SCREEN_WIDTH if outside the visible range. */
@@ -230,6 +231,14 @@ static struct {
 /* Start of the memory bank seen by the VIC-II. */
 static int vbank = 0;
 
+/* Contents of the memory locations at $39FF and $3FFF in the current memory
+   bank (used when in idle state).  */
+static int vbank_39ff, vbank_3fff;
+
+/* Pointer to the data to display when in idle mode.  Can point to either
+   `vbank_39ff' or `vbank_3fff', according to bit 6 in $D011.  */
+static int *idle_data_ptr;
+
 #include "raster.c"
 
 static void init_drawing_tables(void);
@@ -264,8 +273,19 @@ inline static void set_video_mode(int cycle)
 	    force_black_overscan_background_color = 0;
 	}
 
-	add_int_change_foreground(RASTER_CHAR(cycle) + 2,
-				  &video_mode, new_video_mode);
+        {
+            int pos = RASTER_CHAR(cycle);
+
+            add_int_change_foreground(pos, &video_mode, new_video_mode);
+
+            if (vic[0x11] & 0x40)
+                add_ptr_change_foreground(pos, (void **)&idle_data_ptr,
+                                          (void *)&vbank_39ff);
+            else
+                add_ptr_change_foreground(pos, (void **)&idle_data_ptr,
+                                          (void *)&vbank_3fff);
+        }
+
 	old_video_mode = new_video_mode;
    }
 
@@ -340,7 +360,14 @@ static void set_memory_ptrs(int cycle)
 			tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
-    tmp = cycle - 15;		/* FIXME: exact? */
+    tmp = RASTER_CHAR(cycle);
+
+    if (old_vbank != vbank) {
+        add_int_change_foreground(RASTER_CHAR(cycle), &vbank_39ff,
+                                  ram[vbank + 0x39ff]);
+        add_int_change_foreground(RASTER_CHAR(cycle), &vbank_3fff,
+                                  ram[vbank + 0x3fff]);
+    }
 
     if (skip_next_frame || (tmp <= 0 && clk < vic_ii_draw_clk)) {
         old_screen_ptr = screen_ptr = screenbase;
@@ -747,14 +774,14 @@ inline static void store_d011(BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-/* Store a value in the video bank (it is assumed to be in RAM). */
-void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
+/* Store a value in the video bank (it is assumed to be in RAM).  */
+inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
 {
     /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible. */
+       the current frame will not be visible.  */
     if (!skip_next_frame) {
 	/* Argh... this is a dirty kludge!  We should probably find a cleaner
-	   solution. */
+	   solution.  */
 	int f;
 	CLOCK mclk;
 
@@ -776,6 +803,24 @@ void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
     }
 
     ram[addr] = value;
+}
+
+/* As `store_vbank()', but for the $3900...$39FF address range.  */
+void REGPARM2 store_vbank_39xx(ADDRESS addr, BYTE value)
+{
+    store_vbank(addr, value);
+    if ((addr & 0x3fff) == 0x39ff)
+        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &vbank_39ff,
+                                  value);
+}
+
+/* As `store_vbank()', but for the $3F00...$3FFF address range.  */
+void REGPARM2 store_vbank_3fxx(ADDRESS addr, BYTE value)
+{
+    store_vbank(addr, value);
+    if ((addr & 0x3fff) == 0x3fff)
+        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &vbank_3fff,
+                                  value);
 }
 
 /* Helper function for `store_vic()': set the X coordinate of the `num'th
@@ -1006,7 +1051,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 			display_xstop = VIC_II_40COL_STOP_PIXEL;
 		    else
 			add_int_change_next_line(&display_xstop,
-					     VIC_II_40COL_STOP_PIXEL);
+                                                 VIC_II_40COL_STOP_PIXEL);
 		    DEBUG_REGISTER(("\t40 column mode enabled\n"));
 
 		    /* FIXME: If CSEL changes from 0 to 1 at cycle 17, the
@@ -1041,29 +1086,32 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 
       case 0x17:		/* $D017: Sprite Y-expand */
 	if (value != vic[0x17]) {
+	    int cycle = RASTER_CYCLE;
 	    int i;
 	    BYTE b;
-	    int cycle = RASTER_CYCLE;
 
 	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
+
+                /* FIXME? */
+                if (!(value & b) && cycle == 54 && sprites[i].y_expanded) {
+                    sprites[i].memptr = (sprites[i].memptr
+                                         + sprites[i].memptr_inc) & 0x3f;
+                    if (sprites[i].memptr == 63) {
+                        sprites[i].dma_flag = 0;
+                        new_dma_msk &= ~b;
+                        if ((visible_sprite_msk & b)
+                            && sprites[i].y == (rasterline & 0xff))
+                            turn_sprite_dma_on(i);
+                    }
+                }
+
 		sprites[i].y_expanded = value & b ? 1 : 0;
 
 		if (!sprites[i].y_expanded && !sprites[i].exp_flag) {
 
-		    /* Disabling the sprite Y-expansion sets the expansion
-                       flag (`exp_flag') to 1, and this causes the sprite
-                       pointers to be incremented.  Sprite pointers are
-                       incremented by 2 at cycle 14, and by 1 at cycle 15.
-                       The consequence is that if the expansion bit switches
-                       from 0 to 1 in cycle 15, sprite pointers are only
-                       incremented by 1, while if this happens in a cycle <
-                       15 the sprite pointers are incremented by 3 as they
-                       would do with a normal Y-unexpanded sprite.  If cycle
-                       is > 15, then the operation does not have any effect
-                       on the current line.  */
-
+                    /* Sprite crunch!  */
 		    if (cycle == 15)
-			sprites[i].memptr_inc = 1;
+			sprites[i].memptr_inc = sprite_crunch_table[sprites[i].memptr];
 		    else if (cycle < 15)
 			sprites[i].memptr_inc = 3;
 		    sprites[i].exp_flag = 1;
@@ -1073,6 +1121,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 		/* (Enabling sprite Y-expansion never causes side effects.)  */
 
 	    }
+
 	    vic[0x17] = value;
 	}
 	DEBUG_REGISTER(("\tSprite Y Expand register: $%02X\n", value));
@@ -1540,8 +1589,7 @@ inline static int do_memory_fetch(CLOCK sub)
 	    draw_idle_state = idle_state = ycounter = 0;
 	    ycounter_reset_checked = 1;
 	    memory_fetch_done = 2;
-
-	    maincpu_steal_cycles(vic_ii_fetch_clk, SCREEN_TEXTCOLS + 3 - sub);
+            maincpu_steal_cycles(vic_ii_fetch_clk, SCREEN_TEXTCOLS + 3 - sub);
 
 	    bad_line = 1;
 	    return 1;
@@ -1647,44 +1695,52 @@ int int_rasterfetch(long offset)
     static CLOCK sprite_fetch_clk = 0;
     static int sprite_fetch_idx = 0;
     static int fetch_msk;
-    CLOCK sub;
+    CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
     /* This kludgy thing is used to emulate the behavior of the 6510 when BA
        goes low.  When BA goes low, every read access stops the processor
-       until BA is high again; write accesses happen as usual instead. */
+       until BA is high again; write accesses happen as usual instead.  */
 
     if (offset > 0) {
 	switch (OPINFO_NUMBER(last_opcode_info)) {
 	  case 0:
 	    /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
 	       accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-	    if (offset >= 3 && offset <= 5)
-		sub = offset - 2;
-	    else
-		sub = 0;
+            last_opcode_first_write_clk = clk - 5;
+            last_opcode_last_write_clk = clk - 3;
 	    break;
 	  case 0x20:
 	    /* In JSR, the 4th and 5th cycles are write accesses, while the
 	       1st, 2nd, 3rd and 6th are read accesses.  */
-	    if (offset >= 2 && offset <= 3)
-		sub = offset - 1;
-	    else
-		sub = 0;
+            last_opcode_first_write_clk = clk - 3;
+            last_opcode_last_write_clk = clk - 2;
 	    break;
 	  default:
 	    /* In all the other opcodes, all the write accesses are the last
 	       ones.  */
-	    if ((CLOCK)offset > maincpu_num_write_cycles())
-		sub = 0;
-	    else
-		sub = offset;
+            if (maincpu_num_write_cycles() != 0) {
+                last_opcode_last_write_clk = clk - 1;
+                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
+            } else {
+                last_opcode_first_write_clk = (CLOCK) 0;
+                last_opcode_last_write_clk = last_opcode_first_write_clk;
+            }
 	    break;
 	}
     } else {			/* offset <= 0, i.e. offset == 0 */
-	sub = 0;
+        /* If we are called with no offset, we don't have to care about write
+           accesses.  */
+	last_opcode_first_write_clk = last_opcode_last_write_clk = 0;
     }
 
     while (1) {
+        CLOCK sub;
+
+        if (vic_ii_fetch_clk < last_opcode_first_write_clk
+            || vic_ii_fetch_clk > last_opcode_last_write_clk)
+            sub = 0;
+        else
+            sub = last_opcode_last_write_clk - vic_ii_fetch_clk + 1;
 
 	switch (fetch_idx) {
 
@@ -1716,7 +1772,7 @@ int int_rasterfetch(long offset)
 
 	    } else {	 /* visible_sprite_msk != 0 || dma_msk != 0 */
 
-		int matrix_fetch_done = do_memory_fetch(sub);
+		int memory_fetch_done = do_memory_fetch(sub);
 
 		/* Sprites might be turned on, check for sprite DMA next
                    time. */
@@ -1725,20 +1781,18 @@ int int_rasterfetch(long offset)
 		/* Calculate time for next event. */
 		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE;
 
-		if (!matrix_fetch_done) {
+		if (vic_ii_fetch_clk > clk || offset == 0) {
 		    /* Prepare the next fetch event. */
 		    maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
 		    return 0;
 		}
 
-		/* If we have done a DMA access, we are at SPRITE_FETCH_CYCLE
-	           so we can handle sprite DMA without the need for another
-	           alarm.  Set `sub' to 0 as we have already considered write
-	           accesses. */
-		sub = 0;
+                if (memory_fetch_done && sub == 0) {
+                    last_opcode_first_write_clk += SCREEN_TEXTCOLS + 3;
+                    last_opcode_last_write_clk += SCREEN_TEXTCOLS + 3;
+                }
 	    }
-
-	    /* Fall through. */
+            break;
 
 	  case CHECK_SPRITE_DMA:
 
@@ -1776,12 +1830,12 @@ int int_rasterfetch(long offset)
 				    + sprite_fetch_tab[fetch_msk][0].cycle);
 	    }
 
-	    if (vic_ii_fetch_clk > clk) {
-  	        maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
-		return 0;
-	    }
+            if (vic_ii_fetch_clk > clk || offset == 0) {
+                maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
+                return 0;
+            }
 
-	    /* Fall through.  */
+            break;
 
 	  case FETCH_SPRITE:
 
@@ -1814,6 +1868,11 @@ int int_rasterfetch(long offset)
 
 		maincpu_steal_cycles(vic_ii_fetch_clk, sf->num - sub);
 
+                if (sub == 0) {
+                    last_opcode_first_write_clk += sf->num;
+                    last_opcode_last_write_clk += sf->num;
+                }
+
 		next_cycle = (sf + 1)->cycle;
 		sprite_fetch_idx++;
 
@@ -1843,13 +1902,11 @@ int int_rasterfetch(long offset)
 
                 if (clk >= int_raster_clk)
                     int_raster(clk - int_raster_clk);
-
-		sub = 0;
 	    }
 
 	    break;
 
-	}
+	} /* switch (fetch_idx) */
 
     } /* while (1) */
 
@@ -3091,11 +3148,11 @@ static void draw_black_foreground(int start_char, int end_char)
 
 static int get_idle(struct line_cache *l, int *xs, int *xe, int rr)
 {
-    BYTE *p = vbank_ptr + (vic[0x11] & 0x40 ? 0x39ff : 0x3fff);
-
-    if (rr || background_color != l->colordata1[0] || *p != l->fgdata[0]) {
+    if (rr
+        || background_color != l->colordata1[0]
+        || (BYTE)*idle_data_ptr != l->fgdata[0]) {
 	l->colordata1[0] = background_color;
-	l->fgdata[0] = *p;
+	l->fgdata[0] = (BYTE)*idle_data_ptr;
 	*xs = 0;
 	*xe = VIC_II_SCREEN_TEXTCOLS - 1;
 	return 1;
@@ -3107,7 +3164,7 @@ inline static void _draw_idle(int xs, int xe, int _pixel_width,
 			      BYTE *gfx_msk_ptr)
 {
     PIXEL *p;
-    BYTE d = vbank_ptr[vic[0x11] & 0x40 ? 0x39ff : 0x3fff];
+    BYTE d = (BYTE)*idle_data_ptr;
     int i;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
@@ -3195,7 +3252,7 @@ static void draw_idle_foreground(int start_char, int end_char)
 {
     PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
     PIXEL c = PIXEL(0);
-    BYTE d = vbank_ptr[vic[0x11] & 0x40 ? 0x39ff : 0x3fff];
+    BYTE d = (BYTE)*idle_data_ptr;
     int i;
 
     for (i = start_char; i <= end_char; i++) {
@@ -3209,7 +3266,7 @@ static void draw_idle_foreground_2x(int start_char, int end_char)
 {
     PIXEL2 *p = (PIXEL2 *)frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
     PIXEL2 c = PIXEL2(0);
-    BYTE d = vbank_ptr[vic[0x11] & 0x40 ? 0x39ff : 0x3fff];
+    BYTE d = (BYTE)*idle_data_ptr;
     int i;
 
     for (i = start_char; i <= end_char; i++) {
