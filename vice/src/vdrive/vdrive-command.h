@@ -64,6 +64,7 @@
 extern void vdrive_command_init(void);
 extern int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf,
                                   unsigned int length);
+extern int vdrive_command_format(vdrive_t *vdrive, const char *disk_name);
 extern int vdrive_command_validate(vdrive_t *vdrive);
 extern void vdrive_command_set_error(vdrive_t *vdrive, int code,
                                      unsigned int track, unsigned int sector);
