@@ -354,7 +354,10 @@ inline static DWORD doosc(voice_t *pv)
 {
     if (pv->noise)
 	return ((DWORD)NVALUE(NSHIFT(pv->rv, pv->f >> 28))) << 7;
-    return pv->wt[(pv->f + pv->wtpf) >> pv->wtl] ^ pv->wtr[pv->vprev->f >> 31];
+    if (pv->wt)
+        return pv->wt[(pv->f + pv->wtpf) >> pv->wtl] ^ pv->wtr[pv->vprev->f >> 31];
+    else
+        return 0;
 }
 #else
 static DWORD doosc(voice_t *pv)
@@ -988,7 +991,7 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
     psid->laststoreclk = clk;
 }
 
-void reset_sid(void)
+void sid_reset(void)
 {
     int				i;
     for (i = 0; i < 64; i++)
