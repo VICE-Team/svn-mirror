@@ -36,12 +36,37 @@
 #include "fsimage.h"
 #include "log.h"
 #include "types.h"
+#include "utils.h"
 #include "x64.h"
 #include "zfile.h"
 
 
 static log_t fsimage_log = LOG_ERR;
 
+
+void fsimage_media_create(disk_image_t *image)
+{
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
+
+    fsimage->name = NULL;
+
+    image->media = (void *)fsimage;
+}
+
+void fsimage_media_destroy(disk_image_t *image)
+{
+    fsimage_t *fsimage;
+
+    fsimage = (fsimage_t *)(image->media);
+
+    free(fsimage->name);
+
+    free(fsimage);
+}
+
+/*-----------------------------------------------------------------------*/
 
 int fsimage_open(disk_image_t *image)
 {
@@ -82,13 +107,13 @@ int fsimage_close(disk_image_t *image)
 
     fsimage = (fsimage_t *)(image->media);
 
-    if (fsimage->fd == NULL)
+    if (fsimage->fd == NULL) {
+        log_error(fsimage_log, "Cannot close file `%s'.",  fsimage->name);
         return -1;
+    }
 
     zfclose(fsimage->fd);
 
-    free(fsimage->name);
-    fsimage->name = NULL;
     if (image->error_info != NULL) {
         free(image->error_info);
         image->error_info = NULL;
