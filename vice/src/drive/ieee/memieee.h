@@ -1,5 +1,5 @@
 /*
- * mem1551.h - 1551 memory.
+ * memieee.h - IEEE drive memory.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef _MEM1551_H
-#define _MEM1551_H
+#ifndef _MEMIEEE_H
+#define _MEMIEEE_H
 
 struct drive_context_s;
 
-extern void mem1551_init(struct drive_context_s *drv, unsigned int type);
+extern void memieee_init(struct drive_context_s *drv, unsigned int type);
 
 #endif
 
