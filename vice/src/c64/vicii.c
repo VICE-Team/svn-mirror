@@ -222,22 +222,21 @@ static int force_black_overscan_background_color;
 extern BYTE mmu[];
 #endif
 
-/* Light pen. */
+/* Light pen.  */
 static struct {
     int triggered;
     int x, y;
 } light_pen;
 
-/* Start of the memory bank seen by the VIC-II. */
+/* Start of the memory bank seen by the VIC-II.  */
 static int vbank = 0;
 
-/* Contents of the memory locations at $39FF and $3FFF in the current memory
-   bank (used when in idle state).  */
-static int vbank_39ff, vbank_3fff;
+/* Data to display in idle state.  */
+static int idle_data;
 
-/* Pointer to the data to display when in idle mode.  Can point to either
-   `vbank_39ff' or `vbank_3fff', according to bit 6 in $D011.  */
-static int *idle_data_ptr;
+/* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are not
+   in idle state and thus do not need to update `idle_data'.  */
+static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
 
 #include "raster.c"
 
@@ -278,12 +277,14 @@ inline static void set_video_mode(int cycle)
 
             add_int_change_foreground(pos, &video_mode, new_video_mode);
 
-            if (vic[0x11] & 0x40)
-                add_ptr_change_foreground(pos, (void **)&idle_data_ptr,
-                                          (void *)&vbank_39ff);
-            else
-                add_ptr_change_foreground(pos, (void **)&idle_data_ptr,
-                                          (void *)&vbank_3fff);
+            if (idle_data_location != IDLE_NONE) {
+                if (vic[0x11] & 0x40)
+                    add_int_change_foreground(pos, (void *) &idle_data,
+                                              ram[vbank + 0x39ff]);
+                else
+                    add_int_change_foreground(pos, (void *) &idle_data,
+                                              ram[vbank + 0x3fff]);
+            }
         }
 
 	old_video_mode = new_video_mode;
@@ -362,11 +363,13 @@ static void set_memory_ptrs(int cycle)
 
     tmp = RASTER_CHAR(cycle);
 
-    if (old_vbank != vbank) {
-        add_int_change_foreground(RASTER_CHAR(cycle), &vbank_39ff,
-                                  ram[vbank + 0x39ff]);
-        add_int_change_foreground(RASTER_CHAR(cycle), &vbank_3fff,
-                                  ram[vbank + 0x3fff]);
+    if (idle_data_location != IDLE_NONE && old_vbank != vbank) {
+        if (idle_data_location == IDLE_39FF)
+            add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
+                                      ram[vbank + 0x39ff]);
+        else
+            add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
+                                      ram[vbank + 0x3fff]);
     }
 
     if (skip_next_frame || (tmp <= 0 && clk < vic_ii_draw_clk)) {
@@ -612,6 +615,7 @@ inline static void store_d011(BYTE value)
 	       cycle > 0, though; otherwise, the line never becomes bad.  */
 	    if (cycle > 0) {
 		draw_idle_state = idle_state = 0;
+                idle_data_location = IDLE_NONE;
 		if (cycle > FETCH_CYCLE + 2 && !ycounter_reset_checked) {
 		    ycounter = 0;
 		    ycounter_reset_checked = 1;
@@ -674,10 +678,10 @@ inline static void store_d011(BYTE value)
 		   we force 0xf instead. */
 		if (num_chars <= num_0xff_fetches) {
 		    memset(vbuf + pos, 0xff, num_chars);
-		    memset(cbuf + pos, 0x0f, num_chars);
+		    memset(cbuf + pos, ram[reg_pc] & 0xf, num_chars);
 		} else {
 		    memset(vbuf + pos, 0xff, num_0xff_fetches);
-		    memset(cbuf + pos, 0x0f, num_0xff_fetches);
+		    memset(cbuf + pos, ram[reg_pc] & 0xf, num_0xff_fetches);
 		    fetch_matrix(pos + num_0xff_fetches,
 				 num_chars - num_0xff_fetches);
 		}
@@ -697,8 +701,10 @@ inline static void store_d011(BYTE value)
 
 	        /* Try to display things correctly.  This is not exact,
 	           but should be OK for most cases (FIXME?). */
-		if (inc == SCREEN_TEXTCOLS)
+		if (inc == SCREEN_TEXTCOLS) {
 	            draw_idle_state = 0;
+                    idle_data_location = IDLE_NONE;
+                }
 
 	    } else if (cycle <= FETCH_CYCLE + SCREEN_TEXTCOLS + 6) {
 
@@ -715,6 +721,7 @@ inline static void store_d011(BYTE value)
 		/* This is not 100% correct, but should be OK for most cases.
                    (FIXME?)  */
 		draw_idle_state = idle_state = 0;
+                idle_data_location = IDLE_NONE;
 
 	    } else {
 
@@ -809,8 +816,8 @@ inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
 void REGPARM2 store_vbank_39xx(ADDRESS addr, BYTE value)
 {
     store_vbank(addr, value);
-    if ((addr & 0x3fff) == 0x39ff)
-        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &vbank_39ff,
+    if (idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
+        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &idle_data,
                                   value);
 }
 
@@ -818,8 +825,8 @@ void REGPARM2 store_vbank_39xx(ADDRESS addr, BYTE value)
 void REGPARM2 store_vbank_3fxx(ADDRESS addr, BYTE value)
 {
     store_vbank(addr, value);
-    if ((addr & 0x3fff) == 0x3fff)
-        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &vbank_3fff,
+    if (idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
+        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &idle_data,
                                   value);
 }
 
@@ -849,6 +856,16 @@ static void set_sprite_x(int num, int new_x, int raster_x)
 	    sprites[num].x = new_x;
 	add_int_change_next_line(&sprites[num].x, new_x);
     }
+}
+
+/* Enable DMA for sprite `num'.  */
+inline static void turn_sprite_dma_on(int num)
+{
+    new_dma_msk |= 1 << num;
+    sprites[num].dma_flag = 1;
+    sprites[num].memptr = 0;
+    sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
+    sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
 }
 
 /* Store a value in a VIC-II register. */
@@ -1028,43 +1045,47 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 
 	    DEBUG_REGISTER(("\tControl register: $%02X\n", value));
 
-	    /* FIXME: what is the exact behavior if this happens in the
-               middle of the line? */
+	    /* FIXME: Line-based emulation!  */
 	    if ((value & 7) != (vic[0x16] & 7)) {
+#if 1
 		if (skip_next_frame || RASTER_CHAR(cycle) <= 0)
 		    xsmooth = value & 0x7;
 		else
 		    add_int_change_next_line(&xsmooth, value & 0x7);
+#else
+                add_int_change_foreground(RASTER_CHAR(cycle), &xsmooth,
+                                          value & 7);
+#endif /* 0 */
 	    }
 
-	    /* Bit 4 (CSEL) selects 38/40 column mode.
-	       FIXME! This is not exact. */
+	    /* Bit 4 (CSEL) selects 38/40 column mode.  */
 	    if ((value & 0x8) != (vic[0x16] & 0x8)) {
 		if (value & 0x8) {
-		    /* 40 column mode. */
+		    /* 40 column mode.  */
 		    if (cycle <= 17)
 			display_xstart = VIC_II_40COL_START_PIXEL;
 		    else
 			add_int_change_next_line(&display_xstart,
 						 VIC_II_40COL_START_PIXEL);
-		    if (cycle <= 57)
+		    if (cycle <= 56)
 			display_xstop = VIC_II_40COL_STOP_PIXEL;
 		    else
 			add_int_change_next_line(&display_xstop,
                                                  VIC_II_40COL_STOP_PIXEL);
 		    DEBUG_REGISTER(("\t40 column mode enabled\n"));
 
-		    /* FIXME: If CSEL changes from 0 to 1 at cycle 17, the
-		       border is not turned off and the graphics is not
-		       visible. */
+		    /* If CSEL changes from 0 to 1 at cycle 17, the border is
+		       not turned off and this line is blank.  */
+                    if (cycle == 17 && !(vic[0x16] & 0x8))
+                        blank_this_line = 1;
 		} else {
-		    /* 38 column mode. */
+		    /* 38 column mode.  */
 		    if (cycle <= 17)
 			display_xstart = VIC_II_38COL_START_PIXEL;
 		    else
 			add_int_change_next_line(&display_xstart,
 						 VIC_II_38COL_START_PIXEL);
-		    if (cycle <= 57)
+		    if (cycle <= 56)
 			display_xstop = VIC_II_38COL_STOP_PIXEL;
 		    else
 			add_int_change_next_line(&display_xstop,
@@ -1072,8 +1093,8 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 		    DEBUG_REGISTER(("\t38 column mode enabled\n"));
 
 		    /* If CSEL changes from 1 to 0 at cycle 56, the lateral
-		       border is open. */
-		    if ((vic[0x16] & 0x8) && cycle == 56
+		       border is open.  */
+		    if (cycle == 56 && (vic[0x16] & 0x8)
                         && (!blank_enabled || open_left_border))
 			open_right_border = 1;
 		}
@@ -1091,20 +1112,6 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	    BYTE b;
 
 	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-
-                /* FIXME? */
-                if (!(value & b) && cycle == 54 && sprites[i].y_expanded) {
-                    sprites[i].memptr = (sprites[i].memptr
-                                         + sprites[i].memptr_inc) & 0x3f;
-                    if (sprites[i].memptr == 63) {
-                        sprites[i].dma_flag = 0;
-                        new_dma_msk &= ~b;
-                        if ((visible_sprite_msk & b)
-                            && sprites[i].y == (rasterline & 0xff))
-                            turn_sprite_dma_on(i);
-                    }
-                }
-
 		sprites[i].y_expanded = value & b ? 1 : 0;
 
 		if (!sprites[i].y_expanded && !sprites[i].exp_flag) {
@@ -1573,7 +1580,7 @@ BYTE REGPARM1 read_colorram(ADDRESS addr)
 /* ------------------------------------------------------------------------- */
 
 /* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
-   stolen. */
+   stolen.  */
 inline static int do_memory_fetch(CLOCK sub)
 {
     if (!memory_fetch_done) {
@@ -1587,6 +1594,7 @@ inline static int do_memory_fetch(CLOCK sub)
 
 	    fetch_matrix(0, SCREEN_TEXTCOLS);
 	    draw_idle_state = idle_state = ycounter = 0;
+            idle_data_location = IDLE_NONE;
 	    ycounter_reset_checked = 1;
 	    memory_fetch_done = 2;
             maincpu_steal_cycles(vic_ii_fetch_clk, SCREEN_TEXTCOLS + 3 - sub);
@@ -1597,16 +1605,6 @@ inline static int do_memory_fetch(CLOCK sub)
     }
 
     return 0;
-}
-
-/* Enable DMA for sprite `num'.  */
-inline static void turn_sprite_dma_on(int num)
-{
-    new_dma_msk |= 1 << num;
-    sprites[num].dma_flag = 1;
-    sprites[num].memptr = 0;
-    sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
-    sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
 }
 
 /* Check for sprite DMA. */
@@ -1677,6 +1675,16 @@ int int_rasterdraw(long offset)
     oldclk += CYCLES_PER_LINE;
 
 #endif
+
+    if (idle_state) {
+        idle_data_location = (vic[0x11] & 0x40) ? IDLE_39FF : IDLE_3FFF;
+        if (idle_data_location == IDLE_39FF)
+            idle_data = ram[vbank + 0x39ff];
+        else
+            idle_data = ram[vbank + 0x3fff];
+    } else {
+        idle_data_location = IDLE_NONE;
+    }
 
     /* Set the next RASTERDRAW event. */
     vic_ii_draw_clk = oldclk + DRAW_CYCLE;
@@ -3149,9 +3157,9 @@ static int get_idle(struct line_cache *l, int *xs, int *xe, int rr)
 {
     if (rr
         || background_color != l->colordata1[0]
-        || (BYTE)*idle_data_ptr != l->fgdata[0]) {
+        || idle_data != l->fgdata[0]) {
 	l->colordata1[0] = background_color;
-	l->fgdata[0] = (BYTE)*idle_data_ptr;
+	l->fgdata[0] = (BYTE)idle_data;
 	*xs = 0;
 	*xe = VIC_II_SCREEN_TEXTCOLS - 1;
 	return 1;
@@ -3163,7 +3171,7 @@ inline static void _draw_idle(int xs, int xe, int _pixel_width,
 			      BYTE *gfx_msk_ptr)
 {
     PIXEL *p;
-    BYTE d = (BYTE)*idle_data_ptr;
+    BYTE d = (BYTE) idle_data;
     int i;
 
 #ifdef ALLOW_UNALIGNED_ACCESS
@@ -3251,7 +3259,7 @@ static void draw_idle_foreground(int start_char, int end_char)
 {
     PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
     PIXEL c = PIXEL(0);
-    BYTE d = (BYTE)*idle_data_ptr;
+    BYTE d = (BYTE) idle_data;
     int i;
 
     for (i = start_char; i <= end_char; i++) {
@@ -3265,7 +3273,7 @@ static void draw_idle_foreground_2x(int start_char, int end_char)
 {
     PIXEL2 *p = (PIXEL2 *)frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
     PIXEL2 c = PIXEL2(0);
-    BYTE d = (BYTE)*idle_data_ptr;
+    BYTE d = (BYTE) idle_data;
     int i;
 
     for (i = start_char; i <= end_char; i++) {
