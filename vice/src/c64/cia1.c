@@ -193,8 +193,6 @@ static int update_cia1(CLOCK rclk)
 	    cia1_tac = cia1_tau - rclk;
 	    tmp = 0;
 	} else {
-            if (cia1rdi < cia1_tau)
-                cia1int |= CIA_IM_TA;
 	    if (cia1[CIA_CRA] & 0x08) {
 		tmp = 1;
 		if ((cia1ier & CIA_IM_TA)
@@ -228,6 +226,8 @@ static int update_cia1(CLOCK rclk)
 
 	    if (cia1_tac == cia1_tal)
 		ista = 1;
+
+            cia1int |= CIA_IM_TA;
 	}
     }
 #ifdef CIA1_TIMER_DEBUG
@@ -246,8 +246,6 @@ static int update_cia1(CLOCK rclk)
 	if (rclk < cia1_tbu + 1) {
 	    cia1_tbc = cia1_tbu - rclk;
 	} else {
-            if (cia1rdi < cia1_tbu)
-                cia1int |= CIA_IM_TB;
 	    if (cia1[CIA_CRB] & 0x08) {
 		tmp = 1;
 		if ((cia1ier & CIA_IM_TB) && (cia1_tbu < added_int_clk))
@@ -267,6 +265,7 @@ static int update_cia1(CLOCK rclk)
 	    }
 	    if (!cia1_tbc)
 		cia1_tbc = cia1_tbl;
+            cia1int |= CIA_IM_TB;
 	}
     } else if (cia1_tbs == CIAT_COUNTTA) {
 	/* missing: set added_int */

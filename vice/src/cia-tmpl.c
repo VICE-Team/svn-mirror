@@ -186,8 +186,6 @@ static int update_mycia(CLOCK rclk)
 	    mycia_tac = mycia_tau - rclk;
 	    tmp = 0;
 	} else {
-            if (myciardi < mycia_tau)
-                myciaint |= CIA_IM_TA;
 	    if (mycia[CIA_CRA] & 0x08) {
 		tmp = 1;
 		if ((myciaier & CIA_IM_TA)
@@ -221,6 +219,8 @@ static int update_mycia(CLOCK rclk)
 
 	    if (mycia_tac == mycia_tal)
 		ista = 1;
+
+            myciaint |= CIA_IM_TA;
 	}
     }
 #ifdef MYCIA_TIMER_DEBUG
@@ -239,8 +239,6 @@ static int update_mycia(CLOCK rclk)
 	if (rclk < mycia_tbu + 1) {
 	    mycia_tbc = mycia_tbu - rclk;
 	} else {
-            if (myciardi < mycia_tbu)
-                myciaint |= CIA_IM_TB;
 	    if (mycia[CIA_CRB] & 0x08) {
 		tmp = 1;
 		if ((myciaier & CIA_IM_TB) && (mycia_tbu < added_int_clk))
@@ -260,6 +258,7 @@ static int update_mycia(CLOCK rclk)
 	    }
 	    if (!mycia_tbc)
 		mycia_tbc = mycia_tbl;
+            myciaint |= CIA_IM_TB;
 	}
     } else if (mycia_tbs == CIAT_COUNTTA) {
 	/* missing: set added_int */
