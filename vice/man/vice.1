@@ -1,11 +1,11 @@
-.TH VICE 1 "May 1997" VICE
+.TH VICE 1 "January 1999" VICE
 .SH NAME
 VICE \- Versatile Commodore Emulator and Virtual Commodore Environment
-(Version 0.14.0)
+(Version 0.16.0)
 .SH DESCRIPTION
 .I VICE
-is a multi\-platform emulator of the Commodore PET 3032/4032/8032,
-VIC20 and C64 8\-bit computers.  The emulators run as separate
+is a multi\-platform emulator of the Commodore PET, CBM-II (C610),
+VIC20, C64 and C128 8\-bit computers.  The emulators run as separate
 programs, but have the same user interface, share the same settings
 and support the same file formats.  Also some external utilities are
 provided.
@@ -19,20 +19,20 @@ a Commodore 64 emulator for the X Window System
 a Commodore VIC20 emulator for the X Window System
 .TP
 .B xpet
-a Commodore PET 3032/4032/8032 emulator for the X Window System
+a Commodore PET emulator for the X Window System
+.TP
+.B xcbm2
+a Commodore CBM-II (C610) emulator for the X Window System
 .TP
 .B c1541
 a stand-alone disk image maintenance utility;
 .TP
 .B petcat
 a Commodore BASIC de-tokenizer;
-.TP
-.B recomment
-an iterative database driven reassembler.
 .PP
 The whole documentation for these programs is available in HTML
 format; the main file should be installed on your system as
-/usr/local/lib/VICE/doc/MANUAL.html.
+/usr/local/lib/VICE/doc/vice_toc.html.
 .P
 For up to date news about VICE, have a look at the official home page
 at
@@ -43,17 +43,23 @@ http://www.tu\-chemnitz.de/~fachat/vice/vice.html
 .BR petcat (1),
 .BR c1541 (1)
 .SH AUTHORS
-Ettore Perazzoli (ettore@comm2000.it)
+Ettore Perazzoli <ettore@comm2000.it>
 .br
-Teemu Rantanen (tvr@cs.hut.fi)
+Teemu Rantanen <tvr@cs.hut.fi>
 .br
-Andre' Fachat (fachat@physik.tu-chemnitz.de)
+Andre' Fachat <fachat@physik.tu-chemnitz.de>
 .br
-Jouko Valta (jopi@stekt.oulu.fi)
+Daniel Sladic <sladic@eecg.toronto.edu>
 .br
-Daniel Sladic (sladic@eecg.toronto.edu)
+Andreas Boose <boose@linux.rz.fh-hannover.de>
 .br
-Jarkko Sonninen (sonninen@lut.fi)
+Dag Lem <resid@nimrod.no>
+.br
+Tibor Biczo <crown@mail.matav.hu>
+.br
+Jouko Valta <jopi@stekt.oulu.fi>
+.br
+Jarkko Sonninen <sonninen@lut.fi>
 
 with several contributions from other people around the world; see the
 HTML documentation for more information.
