@@ -1,0 +1,46 @@
+#
+# This file is part of VICE, the Versatile Commodore Emulator.
+# See README for copyright notice.
+#
+# Makefile for building the readline library using the VICE
+# `configure' script.
+#
+# Written by Ettore Perazzoli (ettore@comm2000.it)
+#
+
+BASEDIR		= @srcdir@
+SRCDIR		= $(BASEDIR)
+
+CC		= @CC@
+CFLAGS		= @CFLAGS@
+DEFS		= @DEFS@ -DANSI_ARROWS -DHAVE_TCGETATTR -DHIDE -DUSE_DIRENT -DSYS_UNIX -DHAVE_STDLIB
+
+RANLIB		= @RANLIB@
+AR		= @AR@
+ARFLAGS		= rv
+
+readline.a: complete.o editline2.o sysunix.o
+	$(AR) $(ARFLAGS) $@ complete.o editline2.o sysunix.o
+	$(RANLIB) $@
+
+%.o:
+	$(CC) $(DEFS) $(CFLAGS)	-I. -c ${SRCDIR}/$*.c -o $@
+
+.c.o:
+	$(CC) $(DEFS) $(CFLAGS)	-I. -c ${SRCDIR}/$*.c -o $@
+
+clean:
+	rm -f *.o core readline.a
+
+mrproper: clean
+	rm -f Makefile autoconf.h
+
+# Dependencies.
+
+complete.o: $(SRCDIR)/complete.c $(SRCDIR)/editline.h
+editline.o: $(SRCDIR)/editline.c $(SRCDIR)/editline.h
+editline2.o: $(SRCDIR)/editline2.c $(SRCDIR)/editline.h
+sysos9.o: $(SRCDIR)/sysos9.c $(SRCDIR)/editline.h
+sysunix.o: $(SRCDIR)/sysunix.c $(SRCDIR)/editline.h
+testit.o: $(SRCDIR)/testit.c
+version.o: $(SRCDIR)/version.c

@@ -1,0 +1,66 @@
+#
+# This file is part of VICE, the Versatile Commodore Emulator.
+#
+# See README for Copyright notice.
+#
+# Makefile template for building the widget set.
+# The actual Makefile is built from this one when you execute
+# the `configure' script.
+#
+# Written by
+#   Ettore Perazzoli	(ettore@comm2000.it)
+#
+
+SRCDIR		= @srcdir@
+BASEDIR		= $(SRCDIR)
+
+CC 	= @CC@
+CFLAGS	= @CFLAGS@ @X_CFLAGS@
+DEFS 	= @DEFS@ -DVICE
+LN_S 	= @LN_S@
+MKDEP 	= @MKDEP@
+X_COPTS = @X_CFLAGS@
+RANLIB  = @RANLIB@
+AR	= @AR@
+ARFLAGS = rv
+
+OBJS= Canvas.o DirMgr.o Directory.o DrawImageString.o DrawString.o \
+	FileSel.o MultiList.o RegExp.o ScrList.o Tablist2Tabs.o \
+	TextField.o TextWidth.o strnchr.o
+
+widgets.a: $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(OBJS)
+	$(RANLIB) $@
+
+%.o:
+	$(CC) $(DEFS) $(CFLAGS) -I. -o $@ -c ${SRCDIR}/$*.c
+
+.c.o:
+	$(CC) $(DEFS) $(CFLAGS) -I. -o $@ -c ${SRCDIR}/$*.c
+
+clean:
+	rm -f *.o *.a
+
+mrproper: clean
+	rm -f Makefile autoconf.h
+
+# Dependencies.
+
+Canvas.o: $(SRCDIR)/Canvas.c $(SRCDIR)/CanvasP.h $(SRCDIR)/Canvas.h
+DirMgr.o: $(SRCDIR)/DirMgr.c ./autoconf.h $(SRCDIR)/DirMgr.h \
+	$(SRCDIR)/Directory.h $(SRCDIR)/RegExp.h
+Directory.o: $(SRCDIR)/Directory.c $(SRCDIR)/Directory.h $(SRCDIR)/RegExp.h
+DrawImageString.o: $(SRCDIR)/DrawImageString.c $(SRCDIR)/TabString.h
+DrawString.o: $(SRCDIR)/DrawString.c $(SRCDIR)/TabString.h
+FileSel.o: $(SRCDIR)/FileSel.c ./autoconf.h $(SRCDIR)/ScrListP.h \
+	$(SRCDIR)/ScrList.h $(SRCDIR)/FileSelP.h $(SRCDIR)/DirMgr.h \
+	$(SRCDIR)/Directory.h $(SRCDIR)/FileSel.h $(SRCDIR)/TextField.h
+MultiList.o: $(SRCDIR)/MultiList.c $(SRCDIR)/MultiListP.h \
+	$(SRCDIR)/MultiList.h $(SRCDIR)/TabString.h
+RegExp.o: $(SRCDIR)/RegExp.c ./autoconf.h $(SRCDIR)/RegExp.h
+ScrList.o: $(SRCDIR)/ScrList.c $(SRCDIR)/MultiListP.h $(SRCDIR)/MultiList.h \
+	$(SRCDIR)/ScrListP.h $(SRCDIR)/ScrList.h
+Tablist2Tabs.o: $(SRCDIR)/Tablist2Tabs.c $(SRCDIR)/TabString.h
+TextField.o: $(SRCDIR)/TextField.c $(SRCDIR)/TextFieldP.h $(SRCDIR)/TextField.h
+TextWidth.o: $(SRCDIR)/TextWidth.c $(SRCDIR)/TabString.h
+strnchr.o: $(SRCDIR)/strnchr.c $(SRCDIR)/TabString.h
