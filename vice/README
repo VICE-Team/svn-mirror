@@ -1,5 +1,5 @@
 
-  VICE  0.14.2     						  April 1998
+  Vice  0.15.0     						  August 1998
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 0.14.2 of VICE, the multi-platform PET/VIC20/C64
+ This is version 0.15.0 of VICE, the multi-platform PET/VIC20/C64/C128
  emulator.  This version can be compiled both for MS-DOS and for most
  Unix system provided with the X Window System version 11, R5 or
  later.
@@ -48,16 +48,18 @@
    - README, this file;
 
    - COPYING, the GNU General Public License under which VICE is
-     distributed;
+     distributed -- *please read it before using the program*;
 
    - INSTALL, installation instructions;
 
-   - CHANGES, changes between this and older versions of VICE;
+   - NEWS, list of user-visible changes between this and older
+     versions of VICE;
 
    - BUGS, a list of the most important known bugs of this release
-     (please read this before reporting bugs);
+     (please read it before reporting bugs);
 
-   - TODO, a list of what we would like to do next;
+   - TODO, a list of what we would like to do next (this is no
+     promise!);
 
    - FEEDBACK, something you should read before sending mail to
      any of the authors;
