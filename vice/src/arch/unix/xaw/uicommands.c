@@ -1,5 +1,5 @@
 /*
- * commands.c - Implementation of common UI commands.
+ * uicommands.c - Implementation of common UI commands.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -46,12 +46,10 @@
 #include "tapeunit.h"
 #include "attach.h"
 #include "autostart.h"
-#include "xdebug.h"
 #include "mon.h"
 #include "mem.h"
 #include "info.h"
 #include "resources.h"
-#include "xdebug.h"
 #include "machine.h"
 #include "utils.h"
 
@@ -174,12 +172,6 @@ static UI_CALLBACK(change_working_directory)
 	ui_error("Directory not found");
 }
 
-static UI_CALLBACK(activate_xdebugger)
-{
-    suspend_speed_eval();
-    activate_xdebug_window();
-}
-
 static UI_CALLBACK(activate_monitor)
 {
     suspend_speed_eval();
@@ -227,7 +219,7 @@ static UI_CALLBACK(browse_manual)
 	/* Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
 	char buf[BROWSE_CMD_BUF_MAX];
-	static const char manual_path[] = LIBDIR "/" DOCDIR "/MANUAL.html";
+	static const char manual_path[] = DOCDIR "/MANUAL.html";
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
@@ -310,7 +302,7 @@ static UI_CALLBACK(toggle_pause)
 static UI_CALLBACK(do_exit)
 {
     ui_button_t b;
-    char *s = concat ("Exit ", machine_name, "emulator", NULL);
+    char *s = concat ("Exit ", machine_name, " emulator", NULL);
 
     b = ui_ask_confirmation(s, "Do you really want to exit?");
 
@@ -442,7 +434,8 @@ static UI_CALLBACK(about)
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #8...",
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL },
+      (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
+      XK_F10,  UI_HOTMOD_NONE },
     { "Unit #9...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL },
     { "Unit #10...",
@@ -469,9 +462,9 @@ static ui_menu_entry_t detach_disk_image_submenu[] = {
 
 static ui_menu_entry_t reset_submenu[] = {
     { "Soft",
-      (ui_callback_t) reset, NULL, NULL },
+      (ui_callback_t) reset, NULL, NULL, XK_F12, UI_HOTMOD_NONE },
     { "Hard",
-      (ui_callback_t) powerup_reset, NULL, NULL },
+      (ui_callback_t) powerup_reset, NULL, NULL, XK_F12, UI_HOTMOD_CTRL },
     { NULL }
 };
 
@@ -506,8 +499,6 @@ ui_menu_entry_t ui_directory_commands_menu[] = {
 ui_menu_entry_t ui_tool_commands_menu[] = {
     { "Activate the Monitor",
       (ui_callback_t) activate_monitor, NULL, NULL },
-    { "Activate the XDebugger",
-      (ui_callback_t) activate_xdebugger, NULL, NULL },
     { "Run C1541",
       (ui_callback_t) run_c1541, NULL, NULL },
     { NULL }
