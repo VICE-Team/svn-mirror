@@ -1,0 +1,677 @@
+#
+# This file is part of VICE, the Versatile Commodore Emulator.
+# See README for Copyright notice.
+#
+# Makefile template for building VICE.
+# The real Makefile is built from this one when you execute
+# the `configure' script.
+#
+# Written by
+#  Ettore Perazzoli	(ettore@comm2000.it)
+#  André Fachat		(a.fachat@physik.tu-chemnitz.de)
+#
+#
+# This needs some cleanup to separate machine-specific things better.
+# Moreover, it might not be 100% portable as we want it to be.
+# So far, it has worked fine with both GNU and BSD `make's.
+#
+
+BASEDIR	        = @srcdir@
+TOPDIR	        = $(BASEDIR)/..
+
+SRCDIR	        = $(BASEDIR)
+UNIXDIR		= $(SRCDIR)/arch/unix
+UNIXODIR	= ./arch/unix
+READLINEDIR     = $(UNIXDIR)/readline
+WIDGETDIR	= $(UNIXDIR)/widgets
+READLINEODIR    = $(UNIXODIR)/readline
+WIDGETODIR      = $(UNIXODIR)/widgets
+MSDOSDIR	= $(SRCDIR)/arch/msdos
+MSDOSODIR	= ./arch/msdos
+ARCHDIR		= @ARCHDIR@
+ARCHODIR	= @ARCHODIR@
+
+C64DIR		= $(SRCDIR)/c64
+C64ODIR		= ./c64
+VICDIR		= $(SRCDIR)/vic20
+VICODIR		= ./vic20
+PETDIR		= $(SRCDIR)/pet
+PETODIR		= ./pet
+
+READLINE        = $(READLINEODIR)/readline.a
+WIDGETS		= $(WIDGETODIR)/widgets.a
+
+BINDIR	        = @BINDIR@
+DOCDIR	        = $(TOPDIR)/doc
+MANDIR	        = $(TOPDIR)/man
+UTILDIR	        = $(TOPDIR)/utils
+RUNDIR	        = $(TOPDIR)/run
+INCLUDEDIR	= $(SRCDIR)/include
+
+SHELL           = /bin/sh
+CC 	        = @CC@
+CPP		= @CPP@
+PERL		= @PERL@
+
+prefix		= @prefix@
+PREFIX		= $(prefix)
+exec_prefix	= @exec_prefix@
+ARCH		= @host@
+
+LDFLAGS         = @X_LIBS@ @LDFLAGS@
+DEFS 	        = @DEFS@ @LINUXJOYSTICK@ -DPREFIX=\"@prefix@\"
+MKDEP 	        = @MKDEP@
+CFLAGS          = @X_CFLAGS@ @CFLAGS@
+INCLUDES	= -I$(SRCDIR) -I./include -I$(ARCHDIR) -I$(INCLUDEDIR)
+LIBS	        = @LIBS@
+
+LN_S 	        = @LN_S@
+
+INSTALL		= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA	= @INSTALL_DATA@
+INSTALL_BINS_TO = @bindir@
+
+
+### Installation settings
+
+# Root directory during installation
+# (e.g. /mnt for installation under /mnt/usr/local/)
+INSTALLROOT	=
+
+# All the executables go here
+INSTALL_BINDIR	= $(INSTALLROOT)$(INSTALL_BINS_TO)
+# ROMs and support files go into the lib dir $PREFIX/lib/vice
+# (also defined in vice.h)
+INSTALL_LIBDIR	= $(INSTALLROOT)$(PREFIX)/lib/vice
+INSTALL_DOCDIR  = $(INSTALL_LIBDIR)/doc
+
+# Manual page installation
+INSTALL_MANEXT = 1
+INSTALL_MANPREFIX = $(INSTALLROOT)$(PREFIX)
+INSTALL_MANDIR = $(INSTALL_MANPREFIX)/man/man$(INSTALL_MANEXT)
+
+### Distribution files
+
+## VICE sources
+
+C64SRC = $(C64DIR)/cia1.c $(C64DIR)/cia2.c $(C64DIR)/c64mem.c \
+	$(C64DIR)/vicii.c $(C64DIR)/cia1.def $(C64DIR)/cia2.def \
+	$(C64DIR)/autostart.c $(C64DIR)/c64mem.h
+
+VICSRC = $(VICDIR)/via1.c $(VICDIR)/via2.c $(VICDIR)/vic20mem.c \
+	$(VICDIR)/vic.c $(VICDIR)/via1.def $(VICDIR)/via2.def \
+	$(VICDIR)/vic20mem.h
+
+PETSRC = $(PETDIR)/viap.c $(PETDIR)/petmem.c $(PETDIR)/crtc.c \
+	$(PETDIR)/viap.def $(PETDIR)/pets.c $(PETDIR)/pia.c \
+	$(PETDIR)/petmem.h $(PETDIR)/pets.h
+
+VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
+	$(SRCDIR)/c1541.c $(SRCDIR)/charsets.c $(SRCDIR)/cia-tmpl.c \
+	$(SRCDIR)/drive.c $(SRCDIR)/info.c $(SRCDIR)/main.c \
+	$(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c $(SRCDIR)/memutils.c \
+	$(SRCDIR)/misc.c $(SRCDIR)/mon.c $(SRCDIR)/mshell.c \
+	$(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c \
+	$(SRCDIR)/raster.c $(SRCDIR)/resources.c $(SRCDIR)/reu.c \
+	$(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/tape.c \
+	$(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c $(SRCDIR)/traps.c \
+	$(SRCDIR)/true1541.c $(SRCDIR)/usleep.c $(SRCDIR)/utils.c \
+	$(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c $(SRCDIR)/viad2.c \
+	$(SRCDIR)/viad1.def $(SRCDIR)/viad2.def	$(SRCDIR)/warn.c \
+	$(SRCDIR)/zfile.c
+
+VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h $(INCLUDEDIR)/asm.h \
+	$(INCLUDEDIR)/autostart.h $(INCLUDEDIR)/c1541.h \
+	$(INCLUDEDIR)/charsets.h $(INCLUDEDIR)/cia.h $(INCLUDEDIR)/vice.h \
+	$(INCLUDEDIR)/crtc.h $(INCLUDEDIR)/drive.h $(INCLUDEDIR)/file.h \
+	$(INCLUDEDIR)/fs_cbm.h $(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h \
+	$(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/macro.h \
+	$(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h \
+	$(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mshell.h \
+	$(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h $(INCLUDEDIR)/patchlevel.h \
+	$(INCLUDEDIR)/patchrom.h $(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h \
+	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
+	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
+	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/tape.h \
+	$(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h \
+	$(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h \
+	$(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h \
+	$(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
+	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
+	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/acconfig.h \
+	$(INCLUDEDIR)/autoconf.h.in
+
+VICEMISC = $(SRCDIR)/Makefile.in $(SRCDIR)/configure $(SRCDIR)/configure.in \
+	$(SRCDIR)/config.guess $(SRCDIR)/config.sub $(SRCDIR)/install-sh \
+	$(SRCDIR)/convio $(SRCDIR)/mkinstalldirs \
+	$(SRCDIR)/mkdep $(SRCDIR)/ChangeLog
+
+VICEDIST = $(VICEMISC) $(VICESRC) $(VICEHDR) $(C64SRC) $(VICSRC) $(PETSRC)
+
+# Unix-specific sources.
+
+UNIXSRC =  $(UNIXDIR)/joystick.c $(UNIXDIR)/kbd.c $(UNIXDIR)/ui_xaw.c \
+	$(UNIXDIR)/video.c $(UNIXDIR)/vsync.c $(UNIXDIR)/xdebug.c
+
+UNIXHDR = $(UNIXDIR)/joystick.h $(UNIXDIR)/kbd.h $(UNIXDIR)/kbdef.h \
+	$(UNIXDIR)/menu.h $(UNIXDIR)/ui_xaw.h $(UNIXDIR)/ui.h \
+	$(UNIXDIR)/video.h $(UNIXDIR)/vsync.h $(UNIXDIR)/xdebug.h
+
+UNIXMISC = $(UNIXDIR)/x64_icon.xpm $(UNIXDIR)/checkmark.xbm \
+	$(UNIXDIR)/xpet_icon.xpm $(UNIXDIR)/right_arrow.xbm \
+	$(UNIXDIR)/xvic_icon.xpm
+
+UNIXDIST = $(UNIXSRC) $(UNIXHDR) $(UNIXMISC)
+
+
+# MS-DOS-specific sources.
+
+MSDOSSRC = $(MSDOSDIR)/joystick.c $(MSDOSDIR)/kbd.c $(MSDOSDIR)/vmidas.c \
+	$(MSDOSDIR)/tuimenu.c $(MSDOSDIR)/tui.c $(MSDOSDIR)/tuifs.c \
+	$(MSDOSDIR)/ui.c $(MSDOSDIR)/video.c $(MSDOSDIR)/vsync.c \
+	$(MSDOSDIR)/tuiview.c
+
+MSDOSHDR = $(MSDOSDIR)/joystick.h $(MSDOSDIR)/kbd.h $(MSDOSDIR)/vmidas.h \
+	$(MSDOSDIR)/kbdef.h $(MSDOSDIR)/tuimenu.h $(MSDOSDIR)/tui.h \
+	$(MSDOSDIR)/tuifs.h $(MSDOSDIR)/ui.h $(MSDOSDIR)/video.h \
+	$(MSDOSDIR)/vsync.h $(MSDOSDIR)/tuiview.h
+
+MSDOSDIST = $(MSDOSSRC) $(MSDOSHDR)
+
+
+### Libraries.
+
+## Readline sources
+
+READLINESRC = $(READLINEDIR)/complete.c $(READLINEDIR)/editline.c \
+	$(READLINEDIR)/editline2.c $(READLINEDIR)/sysos9.c \
+	$(READLINEDIR)/sysunix.c $(READLINEDIR)/testit.c \
+	$(READLINEDIR)/version.c
+
+READLINEHDR = $(READLINEDIR)/editline.h $(READLINEDIR)/os9.h \
+	$(READLINEDIR)/unix.h
+
+READLINEMISC = $(READLINEDIR)/Makefile.in $(READLINEDIR)/README \
+	$(READLINEDIR)/autoconf.h.in
+
+READLINEDIST = $(READLINEMISC) $(READLINESRC) $(READLINEHDR)
+
+## Widget sources
+
+WIDGETSRC = $(WIDGETDIR)/Canvas.c $(WIDGETDIR)/DirMgr.c \
+	$(WIDGETDIR)/Directory.c $(WIDGETDIR)/DrawImageString.c \
+	$(WIDGETDIR)/DrawString.c $(WIDGETDIR)/FileSel.c \
+	$(WIDGETDIR)/MultiList.c $(WIDGETDIR)/RegExp.c $(WIDGETDIR)/ScrList.c \
+	$(WIDGETDIR)/Tablist2Tabs.c $(WIDGETDIR)/TextField.c \
+	$(WIDGETDIR)/TextWidth.c $(WIDGETDIR)/strnchr.c
+
+WIDGETHDR = $(WIDGETDIR)/Canvas.h $(WIDGETDIR)/CanvasP.h \
+	$(WIDGETDIR)/DirMgr.h $(WIDGETDIR)/Directory.h $(WIDGETDIR)/FileSel.h \
+	$(WIDGETDIR)/FileSelP.h $(WIDGETDIR)/MultiList.h \
+	$(WIDGETDIR)/MultiListP.h $(WIDGETDIR)/RegExp.h \
+	$(WIDGETDIR)/ScrList.h $(WIDGETDIR)/ScrListP.h \
+	$(WIDGETDIR)/TabString.h $(WIDGETDIR)/TextField.h \
+	$(WIDGETDIR)/TextFieldP.h
+
+WIDGETMISC = $(WIDGETDIR)/Makefile.in $(WIDGETDIR)/autoconf.h.in
+
+WIDGETDIST = $(WIDGETMISC) $(WIDGETSRC) $(WIDGETHDR)
+
+
+## Documentation
+
+DOCS = $(DOCDIR)/64doc $(DOCDIR)/cbm_basic_tokens $(DOCDIR)/recomment.html \
+	$(DOCDIR)/Evaluation $(DOCDIR)/PETdoc $(DOCDIR)/drive_info \
+	$(DOCDIR)/serial $(DOCDIR)/mnemonics $(DOCDIR)/MANUAL.html
+
+MANPAGES = $(MANDIR)/vice.man $(MANDIR)/c1541.man $(MANDIR)/petcat.man
+
+CATPAGES = $(MANDIR)/vice.cat $(MANDIR)/c1541.cat $(MANDIR)/petcat.cat
+
+README	= $(TOPDIR)/README $(TOPDIR)/COPYING $(TOPDIR)/BUGS $(TOPDIR)/CHANGES \
+	$(TOPDIR)/TODO $(TOPDIR)/INSTALL
+
+## Utilities
+
+UTILS = $(UTILDIR)/INDEX $(UTILDIR)/dsk2infocom.c $(UTILDIR)/recomment \
+	$(UTILDIR)/xkeymaped.tar.Z $(UTILDIR)/rmshm $(UTILDIR)/rmshm.linux \
+	$(UTILDIR)/tounix $(UTILDIR)/toiso
+
+## x64run utility
+
+RUN = $(RUNDIR)/README.RUN $(RUNDIR)/cbm16.bdf $(RUNDIR)/cbm8.bdf \
+	$(RUNDIR)/fonts.dir $(RUNDIR)/x64run $(RUNDIR)/xvicrun \
+	$(RUNDIR)/xpetrun
+
+## ROMs
+
+C64ROMDIR = $(TOPDIR)/bin/C64
+VIC20ROMDIR = $(TOPDIR)/bin/VIC20
+PETROMDIR = $(TOPDIR)/bin/PET
+
+C64ROMS = $(C64ROMDIR)/basic $(C64ROMDIR)/kernal $(C64ROMDIR)/dos1541 \
+	$(C64ROMDIR)/chargen
+
+VIC20ROMS = $(VIC20ROMDIR)/basic $(VIC20ROMDIR)/kernal $(VIC20ROMDIR)/dos1541 \
+	$(VIC20ROMDIR)/chargen
+
+PETROMS = $(PETROMDIR)/pet2001 $(PETROMDIR)/pet3032 $(PETROMDIR)/pet4032 \
+	$(PETROMDIR)/edit2.b $(PETROMDIR)/edit4.b40 $(PETROMDIR)/edit4.b80 \
+	$(PETROMDIR)/chargen
+
+
+### Object files
+#
+# Common objects are produced in the obj directory
+# x64/xvic/xpet (l)objects are produced in the obj/{c64|vic20|pet} dir.
+#
+
+X64_SYSPEC_OBJS  = @X64_SYSPEC_OBJS@
+XVIC_SYSPEC_OBJS = @XVIC_SYSPEC_OBJS@
+XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
+
+JOY_OBJS = @JOY_OBJS@
+
+COMMON_OBJS = charsets.o info.o mshell.o tape.o warn.o utils.o zfile.o \
+	memutils.o drive.o asm.o @SYSPEC_OBJS@ @LIBOBJS@
+
+COMMON_LIBS = @COMMON_LIBS@
+
+TRUE1541_OBJS =  viad1.o viad2.o 1541cpu.o
+
+PARALLEL_OBJS = parallel.o
+
+C64_OBJS = main.o maincpu.o misc.o mon.o patchrom.o \
+	reu.o resources.o serial.o tapeunit.o tpi.o traps.o true1541.o sid.o \
+	$(X64_SYSPEC_OBJS)
+
+C64_LOBJS = $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o $(C64ODIR)/c64mem.o \
+	$(C64ODIR)/vicii.o $(C64ODIR)/autostart.o
+
+VIC20_OBJS = maincpu_VIC20.o main_VIC20.o \
+	misc_VIC20.o mon_VIC20.o resources_VIC20.o \
+	serial_VIC20.o tapeunit_VIC20.o true1541_VIC20.o \
+	sid_VIC20.o traps_VIC20.o $(XVIC_SYSPEC_OBJS)
+
+VIC20_LOBJS = $(VICODIR)/via1.o $(VICODIR)/via2.o $(VICODIR)/vic20mem.o \
+	$(VICODIR)/vic.o
+
+PET_OBJS = maincpu_PET.o main_PET.o \
+	misc_PET.o mon_PET.o resources_PET.o \
+	serial_PET.o sid_PET.o traps_PET.o \
+	$(XPET_SYSPEC_OBJS)
+
+PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
+	$(PETODIR)/pets.o $(PETODIR)/pia.o
+
+C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
+	$(COMMON_OBJS) $(C64_LOBJS) $(COMMON_LIBS)
+
+VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) \
+	$(COMMON_OBJS) $(VIC20_LOBJS) $(COMMON_LIBS)
+
+PET_DEPS = $(PET_OBJS) $(PARALLEL_OBJS) $(COMMON_OBJS) $(PET_LOBJS) \
+	$(COMMON_LIBS)
+
+C1541_OBJS = c1541.o
+
+C1541_DEPS = $(C1541_OBJS) stddrive.o tape.o mshell.o charsets.o utils.o \
+	zfile.o $(READLINE)
+
+PETCAT_OBJS = petcat.o
+
+PETCAT_DEPS = $(PETCAT_OBJS) charsets.o tape.o utils.o zfile.o
+
+VICEOBJS = $(COMMON_OBJS) $(C64_OBJS) $(VIC20_OBJS) $(PET_OBJS) $(C1541_OBJS) \
+	$(PETCAT_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(JOY_OBJS) \
+	$(C64_LOBJS) $(VIC20_LOBJS) $(PET_LOBJS)
+
+EMUBIN = $(BINDIR)/x64 $(BINDIR)/xvic $(BINDIR)/xpet
+
+UTILBIN = $(BINDIR)/c1541 $(BINDIR)/petcat
+
+TARGET = $(EMUBIN) $(UTILBIN)
+
+
+### Default target (build everything)
+
+.PHONY: all
+all: $(EMUBIN) $(UTILBIN)
+
+
+### Default rule for building C object files.
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $<
+
+.c.o:
+	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $<
+
+$(COMMON_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(C1541_OBJS) $(PETCAT_OBJS):
+	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+
+### `widget' and `readline' libraries
+
+$(READLINE):
+	cd $(READLINEODIR); $(MAKE)
+
+$(WIDGETS):
+	cd $(WIDGETODIR); $(MAKE)
+
+
+### x64
+
+.PHONY: x64
+x64:	$(BINDIR)/x64
+
+$(BINDIR)/x64: $(C64_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(C64_DEPS) $(LIBS) -lm
+#	rm -f ./x64; $(LN_S) $(BINDIR)/x64 ./x64
+
+$(C64_OBJS):
+	$(CC) $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+
+$(C64_LOBJS):
+	$(CC) -DCBM64 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+
+$(C64DIR)/cia1.c: $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia1.def $(SRCDIR)/convio
+	if [ -x $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia1.def $(C64DIR)/cia1.c; fi
+
+$(C64DIR)/cia2.c: $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia2.def $(SRCDIR)/convio
+	if [ -x $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/cia-tmpl.c $(C64DIR)/cia2.def $(C64DIR)/cia2.c; fi
+
+
+### xvic
+
+.PHONY: xvic
+xvic:	$(BINDIR)/xvic
+
+$(BINDIR)/xvic: $(VIC_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(VIC_DEPS) $(LIBS) -lm
+#	rm -f ./xvic; $(LN_S) $(BINDIR)/xvic ./xvic
+
+$(VIC20_OBJS):
+	$(CC) -DVIC20 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_VIC20.o=.c)
+
+$(VIC20_LOBJS):
+	$(CC) -DVIC20 $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+
+$(VICDIR)/via1.c: $(SRCDIR)/via-tmpl.c $(VICDIR)/via1.def $(SRCDIR)/convio
+	if [ -s $(PERL) ]; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(VICDIR)/via1.def $(VICDIR)/via1.c; fi
+
+$(VICDIR)/via2.c: $(SRCDIR)/via-tmpl.c $(VICDIR)/via2.def $(SRCDIR)/convio
+	if [ -s $(PERL) ]; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(VICDIR)/via2.def $(VICDIR)/via2.c; fi
+
+
+### xpet
+
+.PHONY: xpet
+xpet: $(BINDIR)/xpet
+
+$(BINDIR)/xpet: $(PET_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(PET_DEPS) $(LIBS) -lm
+#	rm -rf ./xpet; $(LN_S) $(BINDIR)/xpet ./xpet
+
+$(PET_OBJS):
+	$(CC) -DPET $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:_PET.o=.c)
+
+$(PET_LOBJS):
+	$(CC) -DPET $(CFLAGS) $(DEFS) $(INCLUDES) -o $@ -c $(SRCDIR)/$(@:.o=.c)
+
+$(PETDIR)/viap.c: $(SRCDIR)/via-tmpl.c $(PETDIR)/viap.def $(SRCDIR)/convio
+	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(PETDIR)/viap.def $(PETDIR)/viap.c; fi
+
+
+### 1541
+
+$(SRCDIR)/viad1.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.def $(SRCDIR)/convio
+	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.def $(SRCDIR)/viad1.c; fi
+
+$(SRCDIR)/viad2.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/convio
+	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/viad2.c; fi
+
+
+### Utilities: c1541 and petcat
+
+.PHONY: utils
+utils: c1541 petcat
+
+.PHONY: c1541
+c1541: $(BINDIR)/c1541
+
+$(BINDIR)/c1541: $(C1541_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(C1541_DEPS)
+#	rm -f ./c1541; 	$(LN_S) $(BINDIR)/c1541 ./c1541
+
+.PHONY: petcat
+petcat: $(BINDIR)/petcat
+
+$(BINDIR)/petcat: $(PETCAT_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(PETCAT_DEPS)
+#	rm -f ./petcat; $(LN_S) $(BINDIR)/petcat ./petcat
+
+stddrive.o: $(SRCDIR)/drive.c
+	$(CC) -c $(CFLAGS) $(DEFS) $(INCLUDES) -DSTANDALONE_1541 -o stddrive.o $(SRCDIR)/drive.c
+
+stdprinter.o: $(SRCDIR)/printer.c
+	$(CC) -c $(CFLAGS) $(DEFS) $(INCLUDES) -DSTANDALONE_PRINTER -o stdprinter.o $(SRCDIR)/printer.c
+
+
+### Pre-formatted man pages
+
+.PHONY: catpages
+catpages: $(CATPAGES)
+
+$(MANDIR)/vice.cat: $(MANDIR)/vice.man
+	nroff -man $(MANDIR)/vice.man | col -b   > $(MANDIR)/vice.cat
+
+$(MANDIR)/petcat.cat: $(MANDIR)/petcat.man
+	nroff -man $(MANDIR)/petcat.man | col -b > $(MANDIR)/petcat.cat
+
+$(MANDIR)/c1541.cat: $(MANDIR)/c1541.man
+	nroff -man $(MANDIR)/c1541.man | col -b   > $(MANDIR)/c1541.cat
+
+### Installation
+
+## Extract version ID from patchlevel.h
+VERSION: $(INCLUDEDIR)/patchlevel.h
+	@( sed -e '/ VERSION/!d' $(INCLUDEDIR)/patchlevel.h | sed -e 's/.*"\([0-9.]*\) *\([A-Za-z]*\) *\([0-9.]*\)"/\1-\2\3/' | sed -e 's/-$$//' ) > VERSION ;
+	@echo VICE version is \``cat VERSION`\'.
+
+## Install VICE fully
+.PHONY: install
+install: all VERSION install.roms install.docs install.bin
+
+## Install VICE fully, but clean directories before that.
+.PHONY: cleaninstall
+cleaninstall: all VERSION cleandirs install.roms install.docs install.bin
+
+## clean installation directories (except man...)
+.PHONY: cleandirs
+cleandirs:
+	@( 								\
+	   echo Cleaning up bin directory ;			\
+	   $(RM) -f $(INSTALL_LIBDIR)/$(ARCH)/*;			\
+	)
+
+## Install VICE binaries
+.PHONY: install.bin
+install.bin: all VERSION
+	@( VERSION=`cat VERSION`;			                      \
+           echo Installing VICE binaries under $(INSTALL_LIBDIR)/$(ARCH) ... ;\
+	   $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_LIBDIR) 	              \
+		$(INSTALL_BINDIR) $(INSTALL_LIBDIR)/$(ARCH);                  \
+           for a in x64 xvic xpet petcat c1541 ; do			      \
+               $(RM) -f $(INSTALL_BINDIR)/$$a;				      \
+               $(INSTALL_PROGRAM) $(BINDIR)/$$a                               \
+                   $(INSTALL_LIBDIR)/$(ARCH)/$$a-$$VERSION;                   \
+               $(LN_S) $(INSTALL_LIBDIR)/$(ARCH)/$$a-$$VERSION		      \
+	           $(INSTALL_BINDIR)/$$a;				      \
+	   done;							      \
+           $(RM) -f $(INSTALL_BINDIR)/recomment;			      \
+	   $(INSTALL_PROGRAM) $(UTILDIR)/recomment			      \
+	       $(INSTALL_LIBDIR)/$(ARCH)/recomment-$$VERSION;		      \
+	   $(LN_S) $(INSTALL_LIBDIR)/$(ARCH)/recomment-$$VERSION	      \
+	       $(INSTALL_BINDIR)/recomment )
+
+## Install VICE ROMs
+.PHONY: install.roms
+install.roms: $(C64ROMS) $(PETROMS) $(VIC20ROMS)
+	@( $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_LIBDIR)/C64          \
+		$(INSTALL_LIBDIR)/VIC20 $(INSTALL_LIBDIR)/PET ;		   \
+           echo Installing C64 ROMs under $(INSTALL_LIBDIR)/C64 ... ;	   \
+	   for a in $(C64ROMS) ; do					   \
+		$(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/C64 ;	   \
+           done;				                  	   \
+           echo Installing VIC20 ROMs under $(INSTALL_LIBDIR)/VIC20 ... ;  \
+	   for a in $(VIC20ROMS) ; do		                  	   \
+                $(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/VIC20 ;    \
+           done;				                  	   \
+           echo Installing PET ROMs under $(INSTALL_LIBDIR)/PET ... ;	   \
+	   for a in $(PETROMS) ; do		                  	   \
+		$(INSTALL_DATA) $$a $(INSTALL_LIBDIR)/PET ;      \
+           done )
+
+## Install VICE documentation
+.PHONY: install.docs
+install.docs: $(DOCS) $(README)
+	@( echo Installing VICE documentation under $(INSTALL_DOCDIR) ...;    \
+	   $(SHELL) $(SRCDIR)/mkinstalldirs $(INSTALL_DOCDIR) ;		      \
+	   for a in $(DOCS) ; do				              \
+	     $(INSTALL_DATA) $$a $(INSTALL_DOCDIR) ;			      \
+           done;							      \
+	   for a in $(README) ; do					      \
+	     $(INSTALL_DATA) $$a $(INSTALL_DOCDIR) ;			      \
+           done;							      \
+           $(RM) -f $(INSTALL_DOCDIR)/index.html;		  	      \
+	   $(LN_S) $(INSTALL_DOCDIR)/MANUAL.html			      \
+	     	$(INSTALL_DOCDIR)/index.html				      \
+	)
+
+## Install manual pages
+.PHONY: install.man
+install.man: $(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT)	\
+	$(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT)	\
+	$(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT)
+
+$(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT): $(MANDIR)/vice.man
+	@echo Installing VICE manual page under $(INSTALL_MANDIR)
+	@$(INSTALL_DATA) $(MANDIR)/vice.man $@
+
+$(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT): $(MANDIR)/petcat.man
+	@echo Installing petcat manual page under $(INSTALL_MANDIR)
+	@$(INSTALL_DATA) $(MANDIR)/petcat.man $@
+
+$(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT): $(MANDIR)/c1541.man
+	@echo Installing c1541 manual page under $(INSTALL_MANDIR)
+	@$(INSTALL_DATA) $(MANDIR)/c1541.man $@
+
+
+## Uninstall VICE
+.PHONY: uninstall
+uninstall: VERSION
+	@( set -e;							\
+	   VERSION=`cat VERSION`;					\
+	   echo Removing VICE from $(INSTALL_LIBDIR) ... ;		\
+	   $(RM) -rf $(INSTALL_LIBDIR);					\
+	   $(RM) $(INSTALL_BINDIR)/x64;				        \
+           $(RM) $(INSTALL_BINDIR)/xvic;				\
+	   $(RM) $(INSTALL_BINDIR)/xpet;				\
+           $(RM) $(INSTALL_BINDIR)/c1541;				\
+           $(RM) $(INSTALL_BINDIR)/petcat;				\
+           $(RM) $(INSTALL_BINDIR)/recomment;				\
+	   echo Removing VICE manual pages from $(INSTALL_MANDIR) ... ;	\
+	   $(RM) $(INSTALL_MANDIR)/vice.$(INSTALL_MANEXT);		\
+	   $(RM) $(INSTALL_MANDIR)/petcat.$(INSTALL_MANEXT);		\
+	   $(RM) $(INSTALL_MANDIR)/c1541.$(INSTALL_MANEXT) )
+
+### Servicing...
+
+.PHONY: clean
+clean:
+	(cd $(READLINEODIR); $(MAKE) clean)
+	(cd $(WIDGETODIR); $(MAKE) clean)
+	rm -f *~ *.bak TAGS *.o
+	(cd $(UNIXODIR); rm -f *~ *.bak TAGS *.o)
+	(cd $(MSDOSODIR); rm -f *~ *.bak TAGS *.o)
+	(cd $(C64ODIR); rm -f *~ *.bak TAGS *.o)
+	(cd $(PETODIR); rm -f *~ *.bak TAGS *.o)
+	(cd $(VICODIR); rm -f *~ *.bak TAGS *.o)
+	rm -f $(TARGET)
+
+.PHONY: mrproper
+mrproper: clean
+	(cd $(WIDGETODIR); $(MAKE) mrproper)
+	(cd $(READLINEODIR); $(MAKE) mrproper)
+	rm -f config.cache config.log config.status Makefile Makefile.old \
+	      include/autoconf.h VERSION
+	rm -f c1541 petcat x64 xpet xvic
+
+configure: configure.in
+	autoconf
+
+.PHONY: dist
+dist: catpages VERSION configure $(C64ROMS) $(VIC20ROMS) $(PETROMS)
+	@( DISTNAME=vice-`cat VERSION`;			  	\
+           echo Making distribution \`$$DISTNAME\' ... ;  	\
+	   mkdir $$DISTNAME;				  	\
+	   ln $(README) $$DISTNAME;			  	\
+	   mkdir $$DISTNAME/src;			  	\
+	   ln $(VICESRC) $$DISTNAME/src;		  	\
+	   ln $(VICEMISC) $$DISTNAME/src;		  	\
+	   mkdir $$DISTNAME/src/c64;				\
+	   ln $(C64SRC) $$DISTNAME/src/c64;			\
+	   mkdir $$DISTNAME/src/vic20;				\
+	   ln $(VICSRC) $$DISTNAME/src/vic20;			\
+	   mkdir $$DISTNAME/src/pet;				\
+	   ln $(PETSRC) $$DISTNAME/src/pet;			\
+	   mkdir $$DISTNAME/src/include;		  	\
+	   ln $(VICEHDR) $$DISTNAME/src/include;	  	\
+           mkdir -p $$DISTNAME/src/arch/unix;		  	\
+	   ln $(UNIXDIST) $$DISTNAME/src/arch/unix;	  	\
+	   mkdir $$DISTNAME/src/arch/unix/widgets;	  	\
+	   ln $(WIDGETDIST) $$DISTNAME/src/arch/unix/widgets;	\
+	   mkdir $$DISTNAME/src/arch/unix/readline;		\
+	   ln $(READLINEDIST) $$DISTNAME/src/arch/unix/readline;\
+           mkdir -p $$DISTNAME/src/arch/msdos;		  	\
+	   ln $(MSDOSDIST) $$DISTNAME/src/arch/msdos;	  	\
+	   mkdir $$DISTNAME/doc;			  	\
+	   ln $(DOCS) $$DISTNAME/doc;			  	\
+	   mkdir $$DISTNAME/man;			  	\
+	   ln $(MANPAGES) $$DISTNAME/man;		  	\
+	   ln $(CATPAGES) $$DISTNAME/man;		  	\
+	   mkdir $$DISTNAME/utils;			  	\
+	   ln $(UTILS) $$DISTNAME/utils;                  	\
+	   mkdir $$DISTNAME/run;                          	\
+	   ln $(RUN) $$DISTNAME/run;			  	\
+	   mkdir $$DISTNAME/bin;			  	\
+	   mkdir $$DISTNAME/bin/$(C64ROMDIR);		  	\
+	   ln $(C64ROMS) $$DISTNAME/bin/$(C64ROMDIR);	  	\
+	   mkdir $$DISTNAME/bin/$(VIC20ROMDIR);		  	\
+	   ln $(VIC20ROMS) $$DISTNAME/bin/$(VIC20ROMDIR); 	\
+	   mkdir $$DISTNAME/bin/$(PETROMDIR);		  	\
+	   ln $(PETROMS) $$DISTNAME/bin/$(PETROMDIR);	  	\
+	   tar cfh $(TOPDIR)/$$DISTNAME.tar $$DISTNAME;	  	\
+	   gzip -9 $(TOPDIR)/$$DISTNAME.tar;		  	\
+	   rm -rf $$DISTNAME )
+
+.PHONY: depend
+depend: $(VICESRC)
+	@( if test "@MKDEP@"; then                        \
+	     echo building dependencies ... ;             \
+             INCLUDES="$(INCLUDES) $(CFLAGS)";            \
+	     SRCDIR=$(SRCDIR);                            \
+	     export INCLUDES SRCDIR;                      \
+	     CPP="$(CPP)"; export CPP;                    \
+	     $(SHELL) $(SRCDIR)/mkdep $(VICEOBJS);        \
+           else						  \
+	     echo 'warning!  Cannot build dependencies!'; \
+	   fi; )
+
+
+### Automatically generated dependencies.
+### This part of Makefile is updated automatically by the `mkdep'
+### script.
+
+# DO NOT DELETE
