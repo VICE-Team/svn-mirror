@@ -105,8 +105,11 @@
 #undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
-   makes debugging easier.  */
+   makes debugging easier.  This is needed by the VIC-II emulation, so avoid
+   #undefining or #defining it in case it is already #defined.  */
+#if !defined EXTERN_PC
 #undef EXTERN_PC
+#endif
 
 /* Force `TRACE' in unstable versions.  */
 #if defined UNSTABLE && !defined TRACE
