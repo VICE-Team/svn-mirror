@@ -38,17 +38,9 @@
 static cmdline_option_t cmdline_options[] =
 {
     { "-vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-    (resource_value_t) 1, NULL, "Enable the video cache"},
+    (resource_value_t)1, NULL, "Enable the video cache"},
     { "+vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-    (resource_value_t) 0, NULL, "Disable the video cache"},
-    { "-checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
-    (resource_value_t) 1, NULL, "Enable sprite-background collision registers"},
-    { "+checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
-    (resource_value_t) 0, NULL, "Disable sprite-background collision registers"},
-    { "-checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
-    (resource_value_t) 1, NULL, "Enable sprite-sprite collision registers"},
-    { "+checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
-    (resource_value_t) 0, NULL, "Disable sprite-sprite collision registers"},
+    (resource_value_t)0, NULL, "Disable the video cache"},
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
     "<0-2000>", "Set saturation of internal calculated palette [1000]"},
     { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
@@ -100,3 +92,4 @@ int ted_cmdline_options_init(void)
 
     return cmdline_register_options(cmdline_options);
 }
+
