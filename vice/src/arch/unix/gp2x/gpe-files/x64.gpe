@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export PATH=.:$PATH
+mount /mnt/sd -o remount,sync
+./x64 -directory data/c64:data/drives -sidengine 0 -refresh 2 &>vice_log.txt
+#dmesg>dmesg.txt
+rm -f tmp/*
+mount /mnt/sd -o remount,async
+
+cd /usr/gp2x
+exec ./gp2xmenu
+

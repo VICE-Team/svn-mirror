@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export PATH=.:$PATH
+mount /mnt/sd -o remount,sync
+./x64 -directory data/c64:data/drives -vsid Wizball.sid &>vice_log.txt
+dmesg>dmesg.txt
+mount /mnt/sd -o remount,async
+
+cd /usr/gp2x
+exec ./gp2xmenu
+

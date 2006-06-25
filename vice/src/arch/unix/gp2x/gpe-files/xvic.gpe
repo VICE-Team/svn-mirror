@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export PATH=.:$PATH
+mount /mnt/sd -o remount,sync
+./xvic -refresh 2 -directory data/vic20:data/drives &>vice_log.txt
+mount /mnt/sd -o remount,async
+
+cd /usr/gp2x
+exec ./gp2xmenu
+
