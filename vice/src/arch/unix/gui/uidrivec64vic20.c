@@ -36,14 +36,7 @@
 #include "uiromset.h"
 
 
-UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive10ParallelCable)
-UI_MENU_DEFINE_TOGGLE(Drive11ParallelCable)
-
-
-static ui_menu_entry_t set_drive0_type_submenu[] = {
+ui_menu_entry_t uidrivec64vic20_set_drive0_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive8Type,
@@ -73,7 +66,7 @@ static ui_menu_entry_t set_drive0_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive1_type_submenu[] = {
+ui_menu_entry_t uidrivec64vic20_set_drive1_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive9Type,
@@ -93,7 +86,7 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive2_type_submenu[] = {
+ui_menu_entry_t uidrivec64vic20_set_drive2_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive10Type,
@@ -113,7 +106,7 @@ static ui_menu_entry_t set_drive2_type_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_drive3_type_submenu[] = {
+ui_menu_entry_t uidrivec64vic20_set_drive3_type_submenu[] = {
     { N_("*None"), (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
     { "*1541", (ui_callback_t)radio_Drive11Type,
@@ -130,64 +123,6 @@ static ui_menu_entry_t set_drive3_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
     { "*1001", (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-static ui_menu_entry_t drivec64vic20_settings_submenu[] = {
-    { N_("*Enable true drive emulation"),
-      (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
-    { "--" },
-    { N_("Drive #8 model"),
-      NULL, NULL, set_drive0_type_submenu },
-    { N_("Drive #8 RAM expansion"),
-      NULL, NULL, set_drive0_expansion_submenu },
-    { N_("*Drive #8 enable parallel cable"),
-      (ui_callback_t)toggle_Drive8ParallelCable, NULL, NULL },
-    { N_("Drive #8 40-track image support"),
-      NULL, NULL, set_drive0_extend_image_policy_submenu },
-    { N_("Drive #8 idle method"),
-      NULL, NULL, set_drive0_idle_method_submenu },
-    { "--" },
-    { N_("Drive #9 model"),
-      NULL, NULL, set_drive1_type_submenu },
-    { N_("Drive #9 RAM expansion"),
-      NULL, NULL, set_drive1_expansion_submenu },
-    { N_("*Drive #9 enable parallel cable"),
-      (ui_callback_t)toggle_Drive9ParallelCable, NULL, NULL },
-    { N_("Drive #9 40-track image support"),
-      NULL, NULL, set_drive1_extend_image_policy_submenu },
-    { N_("Drive #9 idle method"),
-      NULL, NULL, set_drive1_idle_method_submenu },
-    { "--" },
-    { N_("Drive #10 model"),
-      NULL, NULL, set_drive2_type_submenu },
-    { N_("Drive #10 RAM expansion"),
-      NULL, NULL, set_drive2_expansion_submenu },
-    { N_("*Drive #10 enable parallel cable"),
-      (ui_callback_t)toggle_Drive10ParallelCable, NULL, NULL },
-    { N_("Drive #10 40-track image support"),
-      NULL, NULL, set_drive2_extend_image_policy_submenu },
-    { N_("Drive #10 idle method"),
-      NULL, NULL, set_drive2_idle_method_submenu },
-    { "--" },
-    { N_("Drive #11 model"),
-      NULL, NULL, set_drive3_type_submenu },
-    { N_("Drive #11 RAM expansion"),
-      NULL, NULL, set_drive3_expansion_submenu },
-    { N_("*Drive #11 enable parallel cable"),
-      (ui_callback_t)toggle_Drive11ParallelCable, NULL, NULL },
-    { N_("Drive #11 40-track image support"),
-      NULL, NULL, set_drive3_extend_image_policy_submenu },
-    { N_("Drive #11 idle method"),
-      NULL, NULL, set_drive3_idle_method_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t ui_drivec64vic20_settings_menu[] = {
-    { N_("Drive settings"),
-      NULL, NULL, drivec64vic20_settings_submenu },
     { NULL }
 };
 
@@ -212,6 +147,18 @@ ui_menu_entry_t ui_drivec64vic20_romset_submenu[] = {
     { N_("Load new 2031 ROM"),
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2031", NULL },
+    { N_("Load new 2040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName2040", NULL },
+    { N_("Load new 3040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName3040", NULL },
+    { N_("Load new 4040 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName4040", NULL },
+    { N_("Load new 1001 ROM"),
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName1001", NULL },
     { NULL }
 };
 
