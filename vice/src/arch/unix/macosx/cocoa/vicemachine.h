@@ -1,0 +1,67 @@
+/*
+ * vicemachine.h - VICEMachine - the emulatated machine main thread/class
+ *
+ * Written by
+ *  Christian Vogelgsang <chris@vogelgsang.org>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#import <Cocoa/Cocoa.h>
+#import "vicemachineprotocol.h"
+#import "viceapplicationprotocol.h"
+#import "vicemachinecontroller.h"
+#import "vicemachinenotifier.h"
+
+@interface VICEMachine : NSObject <VICEMachineProtocol>
+{
+  id<VICEApplicationProtocol > app;
+  NSAutoreleasePool *pool;
+  BOOL shallIDie;
+  BOOL isPaused;
+  VICEMachineController *machineController;
+  VICEMachineNotifier *machineNotifier;
+}
+
+// start the machine thread and establish connection
++(void)startConnected:(NSArray *)portArray;
+
+// start the machine with established connection
+-(void)startMachineWithArgs:(NSArray *)args
+                        app:(id<VICEApplicationProtocol>)myApp 
+                       pool:(NSAutoreleasePool *)myPool;
+
+// trigger the machine thread's run loop and terminate thread if shallIDie is set
+-(void)triggerRunLoop;
+
+// return the application
+-(id<VICEApplicationProtocol>)app;
+
+// machine specific *ui.m sets its machine controller
+-(void)setMachineController:(VICEMachineController *)controller;
+
+// access the notifier
+-(VICEMachineNotifier *)machineNotifier;
+
+@end
+
+// the global machine thread's machine
+extern VICEMachine *theVICEMachine;
+
