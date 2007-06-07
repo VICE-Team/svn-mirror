@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changeJoystick1Mode = id; 
+                changeJoystick2Mode = id; 
+                defineKeysetAButton = id; 
+                defineKeysetBButton = id; 
+            }; 
+            CLASS = JoystickSettingsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                buttonAEast = NSButton; 
+                buttonAFire = NSButton; 
+                buttonANorth = NSButton; 
+                buttonANorthEast = NSButton; 
+                buttonANorthWest = NSButton; 
+                buttonASouth = NSButton; 
+                buttonASouthEast = NSButton; 
+                buttonASouthWest = NSButton; 
+                buttonAWest = NSButton; 
+                buttonBEast = NSButton; 
+                buttonBFire = NSButton; 
+                buttonBNorth = NSButton; 
+                buttonBNorthEast = NSButton; 
+                buttonBNorthWest = NSButton; 
+                buttonBSouth = NSButton; 
+                buttonBSouthEast = NSButton; 
+                buttonBSouthWest = NSButton; 
+                buttonBWest = NSButton; 
+                joystick1Mode = NSPopUpButton; 
+                joystick2Mode = NSPopUpButton; 
+                keyPressView = KeyPressView; 
+            }; 
+            SUPERCLASS = VICEResourceWindowController; 
+        }, 
+        {CLASS = KeyPressView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = VICEResourceWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

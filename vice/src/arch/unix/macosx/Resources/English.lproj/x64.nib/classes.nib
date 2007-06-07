@@ -1,0 +1,86 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                attachCartridge = id; 
+                attachExpertCartridge = id; 
+                controlExpertCartridge = id; 
+                detachCartridge = id; 
+                freezeCartridge = id; 
+                toggleMouseEmulation = id; 
+            }; 
+            CLASS = C64Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                cartridgeFreezeMenuItem = NSMenuItem; 
+                expertCartridgeModeMenu = NSMenu; 
+                mouseEmulationMenuItem = NSMenuItem; 
+            }; 
+            SUPERCLASS = VICEAppController; 
+        }, 
+        {
+            ACTIONS = {
+                resizeToCanvasSize = id; 
+                toggleConsoleWindow = id; 
+                toggleFullscreen = id; 
+                toggleMonitorWindow = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                activateMonitor = id; 
+                attachDiskImage = id; 
+                attachTapeImage = id; 
+                createAndAttachDiskImage = id; 
+                detachDiskImage = id; 
+                detachTapeImage = id; 
+                fliplistAddCurrentImage = id; 
+                fliplistAttachNextImage = id; 
+                fliplistAttachPrevImage = id; 
+                fliplistLoad = id; 
+                fliplistRemoveCurrentImage = id; 
+                fliplistSave = id; 
+                loadResources = id; 
+                pickCustomMaximumSpeed = id; 
+                pickMaximumSpeed = id; 
+                pickRefreshRate = id; 
+                resetDrive = id; 
+                resetMachine = id; 
+                resetResources = id; 
+                saveResources = id; 
+                showDriveSettings = id; 
+                showInformation = id; 
+                showJoystickSettings = id; 
+                smartAttachImage = id; 
+                swapJoysticks = id; 
+                toggleConfirmOnExit = id; 
+                toggleEmuID = id; 
+                togglePause = id; 
+                toggleSaveResourcesOnExit = id; 
+                toggleSoundPlayback = id; 
+                toggleTrueDriveEmulation = id; 
+                toggleVirtualDevices = id; 
+                toggleWarpMode = id; 
+                updateResources = id; 
+            }; 
+            CLASS = VICEAppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                confirmOnExitMenuItem = NSMenuItem; 
+                emuIDMenuItem = NSMenuItem; 
+                maximumSpeedMenu = NSMenu; 
+                refreshRateMenu = NSMenu; 
+                saveResourcesOnExitMenuItem = NSMenuItem; 
+                soundPlaybackMenuItem = NSMenuItem; 
+                trueDriveEmulationMenuItem = NSMenuItem; 
+                virtualDevicesMenuItem = NSMenuItem; 
+                warpModeMenuItem = NSMenuItem; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
