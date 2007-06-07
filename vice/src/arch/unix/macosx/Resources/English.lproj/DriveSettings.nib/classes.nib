@@ -1,0 +1,66 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                changedDriveExpansion2000 = id; 
+                changedDriveExpansion4000 = id; 
+                changedDriveExpansion6000 = id; 
+                changedDriveExpansion8000 = id; 
+                changedDriveExpansionA000 = id; 
+                changedDriveType = id; 
+                changedIdleMethod = id; 
+                changedTrackHandling = id; 
+                toggledParallelCable = id; 
+            }; 
+            CLASS = DriveSettingsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "driveExpansion0_2000" = NSButton; 
+                "driveExpansion0_4000" = NSButton; 
+                "driveExpansion0_6000" = NSButton; 
+                "driveExpansion0_8000" = NSButton; 
+                "driveExpansion0_A000" = NSButton; 
+                "driveExpansion1_2000" = NSButton; 
+                "driveExpansion1_4000" = NSButton; 
+                "driveExpansion1_6000" = NSButton; 
+                "driveExpansion1_8000" = NSButton; 
+                "driveExpansion1_A000" = NSButton; 
+                "driveExpansion2_2000" = NSButton; 
+                "driveExpansion2_4000" = NSButton; 
+                "driveExpansion2_6000" = NSButton; 
+                "driveExpansion2_8000" = NSButton; 
+                "driveExpansion2_A000" = NSButton; 
+                "driveExpansion3_2000" = NSButton; 
+                "driveExpansion3_4000" = NSButton; 
+                "driveExpansion3_6000" = NSButton; 
+                "driveExpansion3_8000" = NSButton; 
+                "driveExpansion3_A000" = NSButton; 
+                driveType0 = NSMatrix; 
+                driveType1 = NSMatrix; 
+                driveType2 = NSMatrix; 
+                driveType3 = NSMatrix; 
+                idleMethod0 = NSMatrix; 
+                idleMethod1 = NSMatrix; 
+                idleMethod2 = NSMatrix; 
+                idleMethod3 = NSMatrix; 
+                parallelCable0 = NSButton; 
+                parallelCable1 = NSButton; 
+                parallelCable2 = NSButton; 
+                parallelCable3 = NSButton; 
+                tabView = NSTabView; 
+                trackHandling0 = NSMatrix; 
+                trackHandling1 = NSMatrix; 
+                trackHandling2 = NSMatrix; 
+                trackHandling3 = NSMatrix; 
+            }; 
+            SUPERCLASS = VICEResourceWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = VICEResourceWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
