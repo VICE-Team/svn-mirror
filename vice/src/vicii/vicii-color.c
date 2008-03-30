@@ -77,79 +77,83 @@
 
 static char vic_ii_color_dither[16]=
 {
-	0x00,0x0E,0x04,0x0C,
-	0x08,0x04,0x04,0x0C,
-	0x04,0x04,0x08,0x04,
-	0x08,0x08,0x08,0x0C
+    0x00,0x0E,0x04,0x0C,
+    0x08,0x04,0x04,0x0C,
+    0x04,0x04,0x08,0x04,
+    0x08,0x08,0x08,0x0C
 };
 
 /* very old vic-ii palette with less luminances */
 
 static video_cbm_color_t vic_ii_colors_old[VIC_II_NUM_COLORS]=
 {
-	{ LUMO0, ANGLE_ORN, -0, "Black"       },
-	{ LUMO4, ANGLE_BRN,  0, "White"       },
-	{ LUMO1, ANGLE_RED,  1, "Red"         },
-	{ LUMO3, ANGLE_RED, -1, "Cyan"        },
-	{ LUMO2, ANGLE_GRN, -1, "Purple"      },
+    { LUMO0, ANGLE_ORN, -0, "Black"       },
+    { LUMO4, ANGLE_BRN,  0, "White"       },
+    { LUMO1, ANGLE_RED,  1, "Red"         },
+    { LUMO3, ANGLE_RED, -1, "Cyan"        },
+    { LUMO2, ANGLE_GRN, -1, "Purple"      },
     { LUMO2, ANGLE_GRN,  1, "Green"       },
-	{ LUMO1, ANGLE_BLU,  1, "Blue"        },
-	{ LUMO3, ANGLE_BLU, -1, "Yellow"      },
-	{ LUMO2, ANGLE_ORN, -1, "Orange"      },
-	{ LUMO1, ANGLE_BRN,  1, "Brown"       },
-	{ LUMO2, ANGLE_RED,  1, "Light Red"   },
-	{ LUMO1, ANGLE_RED, -0, "Dark Grey"   },
-	{ LUMO2, ANGLE_GRN, -0, "Medium Grey" },
-	{ LUMO3, ANGLE_GRN,  1, "Light Green" },
-	{ LUMO2, ANGLE_BLU,  1, "Light Blue"  },
-	{ LUMO3, ANGLE_BLU, -0, "Light Grey"  }
+    { LUMO1, ANGLE_BLU,  1, "Blue"        },
+    { LUMO3, ANGLE_BLU, -1, "Yellow"      },
+    { LUMO2, ANGLE_ORN, -1, "Orange"      },
+    { LUMO1, ANGLE_BRN,  1, "Brown"       },
+    { LUMO2, ANGLE_RED,  1, "Light Red"   },
+    { LUMO1, ANGLE_RED, -0, "Dark Grey"   },
+    { LUMO2, ANGLE_GRN, -0, "Medium Grey" },
+    { LUMO3, ANGLE_GRN,  1, "Light Green" },
+    { LUMO2, ANGLE_BLU,  1, "Light Blue"  },
+    { LUMO3, ANGLE_BLU, -0, "Light Grey"  }
 };
 
 static video_cbm_palette_t vic_ii_palette_old=
 {
-	VIC_II_NUM_COLORS,
-	vic_ii_colors_old,
-	VIC_II_SATURATION,
-	VIC_II_PHASE,
+    VIC_II_NUM_COLORS,
+    vic_ii_colors_old,
+    VIC_II_SATURATION,
+    VIC_II_PHASE,
 };
 
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
 
 static video_cbm_color_t vic_ii_colors[VIC_II_NUM_COLORS]=
 {
-	{ LUMN0, ANGLE_ORN, -0, "Black"       },
-	{ LUMN8, ANGLE_BRN,  0, "White"       },
-	{ LUMN2, ANGLE_RED,  1, "Red"         },
-	{ LUMN6, ANGLE_RED, -1, "Cyan"        },
-	{ LUMN3, ANGLE_GRN, -1, "Purple"      },
+    { LUMN0, ANGLE_ORN, -0, "Black"       },
+    { LUMN8, ANGLE_BRN,  0, "White"       },
+    { LUMN2, ANGLE_RED,  1, "Red"         },
+    { LUMN6, ANGLE_RED, -1, "Cyan"        },
+    { LUMN3, ANGLE_GRN, -1, "Purple"      },
     { LUMN5, ANGLE_GRN,  1, "Green"       },
-	{ LUMN1, ANGLE_BLU,  1, "Blue"        },
-	{ LUMN7, ANGLE_BLU, -1, "Yellow"      },
-	{ LUMN3, ANGLE_ORN, -1, "Orange"      },
-	{ LUMN1, ANGLE_BRN,  1, "Brown"       },
-	{ LUMN5, ANGLE_RED,  1, "Light Red"   },
-	{ LUMN2, ANGLE_RED, -0, "Dark Grey"   },
-	{ LUMN4, ANGLE_GRN, -0, "Medium Grey" },
-	{ LUMN7, ANGLE_GRN,  1, "Light Green" },
-	{ LUMN4, ANGLE_BLU,  1, "Light Blue"  },
-	{ LUMN6, ANGLE_BLU, -0, "Light Grey"  }
+    { LUMN1, ANGLE_BLU,  1, "Blue"        },
+    { LUMN7, ANGLE_BLU, -1, "Yellow"      },
+    { LUMN3, ANGLE_ORN, -1, "Orange"      },
+    { LUMN1, ANGLE_BRN,  1, "Brown"       },
+    { LUMN5, ANGLE_RED,  1, "Light Red"   },
+    { LUMN2, ANGLE_RED, -0, "Dark Grey"   },
+    { LUMN4, ANGLE_GRN, -0, "Medium Grey" },
+    { LUMN7, ANGLE_GRN,  1, "Light Green" },
+    { LUMN4, ANGLE_BLU,  1, "Light Blue"  },
+    { LUMN6, ANGLE_BLU, -0, "Light Grey"  }
 };
 
 static video_cbm_palette_t vic_ii_palette=
 {
-	VIC_II_NUM_COLORS,
-	vic_ii_colors,
-	VIC_II_SATURATION,
-	VIC_II_PHASE,
+    VIC_II_NUM_COLORS,
+    vic_ii_colors,
+    VIC_II_SATURATION,
+    VIC_II_PHASE,
 };
 
 int vic_ii_update_palette(void)
 {
-	video_cbm_palette_t *cp;
+    video_cbm_palette_t *cp;
 
-	if (vic_ii_resources.new_luminances) cp=&vic_ii_palette;
-	else cp=&vic_ii_palette_old;
+    if (vic_ii_resources.new_luminances)
+        cp=&vic_ii_palette;
+    else
+        cp=&vic_ii_palette_old;
 
-	video_color_set_palette(cp);
-	return video_color_update_palette();
+    video_color_set_palette(cp);
+
+    return video_color_update_palette();
 }
+
