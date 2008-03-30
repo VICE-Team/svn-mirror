@@ -200,6 +200,7 @@ static TUI_MENU_CALLBACK(load_snapshot_callback)
                 tui_error("Cannot load snapshot.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
+			free(name);
         }
     }
 

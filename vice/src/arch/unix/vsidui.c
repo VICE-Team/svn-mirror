@@ -110,6 +110,18 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(VideoStandard)
+
+static ui_menu_entry_t set_video_standard_submenu[] = {
+    { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+    { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+    { N_("*Old NTSC-M"), (ui_callback_t) radio_VideoStandard,
+      (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
@@ -148,6 +160,8 @@ static ui_menu_entry_t ui_sound_settings_menu[] = {
 static ui_menu_entry_t psid_menu[] = {
   { N_("SID settings"),
     NULL, NULL, sid_submenu },
+  { N_("Video standard"),
+    NULL, NULL, set_video_standard_submenu },
   { NULL }
 };
 

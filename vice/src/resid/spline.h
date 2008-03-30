@@ -35,8 +35,7 @@
 // including all interpolation points must be solved before any point on the
 // curve can be calculated. The lack of local control makes the splines
 // more difficult to handle than e.g. Catmull-Rom splines, and real-time
-// interpolation of a stream of data points, e.g. digital audio data, is
-// not possible.
+// interpolation of a stream of data points is not possible.
 // For a discussion of natural cubic splines, see e.g. Kreyszig, E., "Advanced
 // Engineering Mathematics".
 //
@@ -199,7 +198,7 @@ double y(PointIter p)
 // Evaluation of complete interpolating function.
 // An end point will be interpolated by a curve segment if the pointer to the
 // end point is repeated, e.g. to interpolate the first point but not the last:
-//   c1_curve(p, p, p + 10, p + 11, plot, res);
+//   interpolate(p, p, p + 10, p + 11, plot, res);
 // ----------------------------------------------------------------------------
 template<class PointIter, class PointPlotter>
 inline

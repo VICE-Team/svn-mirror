@@ -107,7 +107,7 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
     shift_register = 0x7ffff8;
   }
 
-  test = test_next;
+  test = static_cast<bool>(test_next);
 
   // The gate bit is handled by the EnvelopeGenerator.
 }

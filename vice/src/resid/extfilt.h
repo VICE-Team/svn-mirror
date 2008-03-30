@@ -124,19 +124,31 @@ void ExternalFilter::clock(cycle_count delta_t,
     return;
   }
 
-  // delta_t is converted to seconds given a 1MHz clock by dividing
-  // with 1 000 000.
+  // Maximum delta cycles for the external filter to work satisfactorily
+  // is approximately 8.
+  cycle_count delta_t_flt = 8;
 
-  // Calculate filter outputs.
-  // Vo  = Vlp - Vhp;
-  // Vlp = Vlp + w0lp*(Vi - Vlp)*delta_t;
-  // Vhp = Vhp + w0hp*(Vlp - Vhp)*delta_t;
+  while (delta_t) {
+    if (delta_t < delta_t_flt) {
+      delta_t_flt = delta_t;
+    }
 
-  sound_sample dVlp = (w0lp*delta_t >> 8)*(Vi - Vlp) >> 12;
-  sound_sample dVhp = w0hp*delta_t*(Vlp - Vhp) >> 20;
-  Vo = Vlp - Vhp;
-  Vlp += dVlp;
-  Vhp += dVhp;
+    // delta_t is converted to seconds given a 1MHz clock by dividing
+    // with 1 000 000.
+
+    // Calculate filter outputs.
+    // Vo  = Vlp - Vhp;
+    // Vlp = Vlp + w0lp*(Vi - Vlp)*delta_t;
+    // Vhp = Vhp + w0hp*(Vlp - Vhp)*delta_t;
+
+    sound_sample dVlp = (w0lp*delta_t_flt >> 8)*(Vi - Vlp) >> 12;
+    sound_sample dVhp = w0hp*delta_t_flt*(Vlp - Vhp) >> 20;
+    Vo = Vlp - Vhp;
+    Vlp += dVlp;
+    Vhp += dVhp;
+
+    delta_t -= delta_t_flt;
+  }
 }
 
 

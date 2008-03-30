@@ -1,12 +1,27 @@
+Changes in reSID version 0.10
+-----------------------------
+
+Libtool is now used to build the library.
+
+To keep the filters stable it is necessary to clock them at above
+sample rate. The chip clocking code has been modified to only
+"overclock" the filters, not the whole chip. This yields a
+considerable speedup without noticeably lowering sound quality. Note
+that this is aimed at slow hardware, if possible the 1 cycle clock
+interface should be used to eliminate sampling noise.
+
+
 Changes in reSID version 0.9
 ----------------------------
 
 The sum of the filter outputs is no longer weighted.
 
+
 Changes in reSID version 0.8
 ----------------------------
 
 voice3off has no effect if voice 3 is routed through the filter.
+
 
 Changes in reSID version 0.7
 ----------------------------

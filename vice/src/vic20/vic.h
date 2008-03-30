@@ -41,14 +41,14 @@
 #include "vic20.h"
 #include "video.h"
 
-#define VIC_SCREEN_WIDTH                233
+#define VIC_SCREEN_WIDTH                272
 #define VIC_SCREEN_HEIGHT               312
 
 #define VIC_SCREEN_MAX_TEXT_COLS        31
-#define VIC_SCREEN_MAX_TEXT_LINES       30
+#define VIC_SCREEN_MAX_TEXT_LINES       32
 
 #define VIC_FIRST_DISPLAYED_LINE        28
-#define VIC_LAST_DISPLAYED_LINE         293
+#define VIC_LAST_DISPLAYED_LINE         303
 
 #define VIC_NUM_SPRITES 0
 

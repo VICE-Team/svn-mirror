@@ -297,6 +297,7 @@ extern void mon_print_convert(int val);
 extern void mon_change_dir(char *path);
 extern void mon_execute_disk_command(char *cmd);
 extern void mon_print_help(char *cmd);
+extern void mon_cpu_type(char *cpu_type);
 extern void mon_bank(MEMSPACE mem, char *bank);
 extern void mon_display_io_regs(void);
 

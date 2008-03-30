@@ -36,8 +36,8 @@ playvec	.word 0
 playmax	.byte 0
 playnum	.byte 0
 speed	.word 0, 0
-volume	.byte 0
-portval	.byte 0
+	.byte 0
+iomap	.byte 0
 
 retusr	.word irqret
 	
@@ -87,24 +87,7 @@ ciainit	lda #$81
 	sta $dc0d
 	stx $dc0e
 
-	; init psid
-	lda #$2f
-	sta $00
-	lda initvec+1
-	cmp #$e0
-	bcc kernal
-	lda #$35
-	bne set01
-kernal	cmp #$c0
-	bcs basic
-	cmp #$a0
-	bcc basic
-	lda #$36
-	bne set01
-basic	lda #$37
-set01	sta $01
-	
-	lda volume
+	lda #$0f
 	sta $d418
 
 	; get song number
@@ -130,8 +113,8 @@ shftset	lda #$00
 	sec
 shift	rol
 	bcc nxtshft
-	inx
 	rol
+	inx
 nxtshft	dey
 	bpl shift
 	and speed,x
@@ -143,16 +126,42 @@ nxtshft	dey
 	lda #$81
 	sta $d01a
 
-	; call song init routine
-doinit	pla
+	; set I/O map and call song init routine
+doinit	lda #$2f
+	sta $00
+	lda initvec+1
+	jsr getmap
+	sta $01
+	lda playvec+1
+	jsr getmap
+	sta iomap
+	pla
 	jsr init
 
 run	cli
 idle	jmp idle
 
-	; Init/play PSID
+	; init/play PSID
 init	jmp (initvec)
 play	jmp (playvec)
+
+	; get required I/O map to reach address
+getmap	cmp #$e0
+	bcc kern_on
+	lda #$35
+	rts
+kern_on	cmp #$d0
+	bcc io_on
+	lda #$34
+	rts
+io_on	cmp #$c0
+	bcs bas_on
+	cmp #$a0
+	bcc bas_on
+	lda #$36
+	rts
+bas_on	lda #$37
+	rts
 
 	; IRQ handler
 irq	pha
@@ -168,7 +177,11 @@ irq	pha
 irqjmp	jmp (irqusr)
 irqjob	lda playvec+1
 	beq noplay
+	lda iomap
+	sta $01
 	jsr play
+	lda #$37
+	sta $01
 noplay	lda $d019
 	sta $d019
 irqret	lda $dc0d

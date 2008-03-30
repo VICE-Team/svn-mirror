@@ -419,81 +419,63 @@ void SID::clock(cycle_count delta_t)
     bus_value_ttl = 0;
   }
 
-  // Clock filter.
-
-  // Enable filter on/off.
-  // This is not really part of SID, but is useful for testing.
-  // On slow CPU's it may be necessary to bypass the filter to lower the CPU
-  // load.
-  // Maximum delta cycles for filters to work satisfactorily under current
-  // cutoff frequency and resonance constraints is approximately 8.
-  cycle_count delta_t_flt = (filter.enabled || extfilt.enabled) ? 8 : delta_t;
-
-  while (delta_t) {
-    if (delta_t < delta_t_flt) {
-      delta_t_flt = delta_t;
-    }
-
-    // Clock amplitude modulators.
-    for (i = 0; i < 3; i++) {
-      voice[i]->envelope.clock(delta_t_flt);
-    }
-
-    // Clock and synchronize oscillators.
-    // Loop until we reach the current cycle.
-    cycle_count delta_t_osc = delta_t_flt;
-    while (delta_t_osc) {
-      cycle_count delta_t_min = delta_t_osc;
-
-      // Find minimum number of cycles to an oscillator accumulator MSB toggle.
-      // We have to clock on each MSB on / MSB off for hard sync to operate
-      // correctly.
-      for (i = 0; i < 3; i++) {
-	WaveformGenerator& wave = voice[i]->wave;
-
-	// It is only necessary to clock on the MSB of an oscillator that is
-	// a sync source and has freq != 0.
-	if (!(wave.sync_dest->sync && wave.freq)) {
-	  continue;
-	}
-
-	reg16 freq = wave.freq;
-	reg24 accumulator = wave.accumulator;
-
-	// Clock on MSB off if MSB is on, clock on MSB on if MSB is off.
-	reg24 delta_accumulator =
-	  (accumulator & 0x800000 ? 0x1000000 : 0x800000) - accumulator;
-
-	cycle_count delta_t_next = delta_accumulator/freq;
-	if (delta_accumulator%freq) {
-	  ++delta_t_next;
-	}
-
-	if (delta_t_next < delta_t_min) {
-	  delta_t_min = delta_t_next;
-	}
-      }
-
-      // Clock oscillators.
-      for (i = 0; i < 3; i++) {
-	voice[i]->wave.clock(delta_t_min);
-      }
-
-      // Synchronize oscillators.
-      for (i = 0; i < 3; i++) {
-	voice[i]->wave.synchronize();
-      }
-
-      delta_t_osc -= delta_t_min;
-    }
-
-    // Clock filter.
-    filter.clock(delta_t_flt,
-		 voice1.output(), voice2.output(), voice3.output());
-
-    // Clock external filter.
-    extfilt.clock(delta_t_flt, filter.output());
-
-    delta_t -= delta_t_flt;
+  // Clock amplitude modulators.
+  for (i = 0; i < 3; i++) {
+    voice[i]->envelope.clock(delta_t);
   }
+
+  // Clock and synchronize oscillators.
+  // Loop until we reach the current cycle.
+  cycle_count delta_t_osc = delta_t;
+  while (delta_t_osc) {
+    cycle_count delta_t_min = delta_t_osc;
+
+    // Find minimum number of cycles to an oscillator accumulator MSB toggle.
+    // We have to clock on each MSB on / MSB off for hard sync to operate
+    // correctly.
+    for (i = 0; i < 3; i++) {
+      WaveformGenerator& wave = voice[i]->wave;
+
+      // It is only necessary to clock on the MSB of an oscillator that is
+      // a sync source and has freq != 0.
+      if (!(wave.sync_dest->sync && wave.freq)) {
+	continue;
+      }
+
+      reg16 freq = wave.freq;
+      reg24 accumulator = wave.accumulator;
+
+      // Clock on MSB off if MSB is on, clock on MSB on if MSB is off.
+      reg24 delta_accumulator =
+	(accumulator & 0x800000 ? 0x1000000 : 0x800000) - accumulator;
+
+      cycle_count delta_t_next = delta_accumulator/freq;
+      if (delta_accumulator%freq) {
+	++delta_t_next;
+      }
+
+      if (delta_t_next < delta_t_min) {
+	delta_t_min = delta_t_next;
+      }
+    }
+
+    // Clock oscillators.
+    for (i = 0; i < 3; i++) {
+      voice[i]->wave.clock(delta_t_min);
+    }
+
+    // Synchronize oscillators.
+    for (i = 0; i < 3; i++) {
+      voice[i]->wave.synchronize();
+    }
+
+    delta_t_osc -= delta_t_min;
+  }
+
+  // Clock filter.
+  filter.clock(delta_t,
+	       voice1.output(), voice2.output(), voice3.output());
+
+  // Clock external filter.
+  extfilt.clock(delta_t, filter.output());
 }

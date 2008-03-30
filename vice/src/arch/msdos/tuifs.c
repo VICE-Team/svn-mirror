@@ -421,9 +421,6 @@ char *tui_file_selector(const char *title, const char *directory,
     if (browse_file_number_return != NULL)
         *browse_file_number_return = 0;
 
-    if (return_path != NULL)
-        free(return_path);
-
     if (directory != NULL)
         return_path = stralloc(directory);
     else

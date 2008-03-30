@@ -1,3 +1,16 @@
+2000-11-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.20.
+
+2000-11-25  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Link with non-libtool reSID
+
+2000-11-23  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Removed reSID install "disable" hack. Link
+	with reSID 0.10.
+
 2000-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.19.

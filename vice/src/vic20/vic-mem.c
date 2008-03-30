@@ -49,10 +49,12 @@ vic_store(ADDRESS addr, BYTE value)
     {
     case 0:                     /* $9000  Screen X Location. */
       value &= 0x7f;
+/*
       if (value > 8)
         value = 8;
       if (value < 1)
         value = 1;
+*/
       vic.raster.display_xstart = value * 4;
       vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8;
       if (vic.raster.display_xstop >= VIC_SCREEN_WIDTH)

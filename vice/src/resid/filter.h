@@ -300,7 +300,10 @@ void Filter::clock(cycle_count delta_t,
     voice3 >>= 7;
   }
 
-  // This is handy for testing.
+  // Enable filter on/off.
+  // This is not really part of SID, but is useful for testing.
+  // On slow CPUs it may be necessary to bypass the filter to lower the CPU
+  // load.
   if (!enabled) {
     Vnf = voice1 + voice2 + voice3;
     Vhp = Vbp = Vlp = 0;
@@ -351,21 +354,33 @@ void Filter::clock(cycle_count delta_t,
     break;
   }
 
-  // delta_t is converted to seconds given a 1MHz clock by dividing
-  // with 1 000 000. This is done in two operations to avoid integer
-  // multiplication overflow.
+  // Maximum delta cycles for the filter to work satisfactorily under current
+  // cutoff frequency and resonance constraints is approximately 8.
+  cycle_count delta_t_flt = 8;
 
-  // Calculate filter outputs.
-  // Vhp = Vbp/Q - Vlp + Vi;
-  // dVbp = -w0*Vhp*dt;
-  // dVlp = -w0*Vbp*dt;
-  sound_sample w0_delta_t = w0*delta_t >> 6;
+  while (delta_t) {
+    if (delta_t < delta_t_flt) {
+      delta_t_flt = delta_t;
+    }
 
-  sound_sample dVbp = (w0_delta_t*Vhp >> 14);
-  sound_sample dVlp = (w0_delta_t*Vbp >> 14);
-  Vbp -= dVbp;
-  Vlp -= dVlp;
-  Vhp = (Vbp*_1024_div_Q >> 10) + Vi - Vlp;
+    // delta_t is converted to seconds given a 1MHz clock by dividing
+    // with 1 000 000. This is done in two operations to avoid integer
+    // multiplication overflow.
+
+    // Calculate filter outputs.
+    // Vhp = Vbp/Q - Vlp + Vi;
+    // dVbp = -w0*Vhp*dt;
+    // dVlp = -w0*Vbp*dt;
+    sound_sample w0_delta_t = w0*delta_t_flt >> 6;
+
+    sound_sample dVbp = (w0_delta_t*Vhp >> 14);
+    sound_sample dVlp = (w0_delta_t*Vbp >> 14);
+    Vbp -= dVbp;
+    Vlp -= dVlp;
+    Vhp = (Vbp*_1024_div_Q >> 10) + Vi - Vlp;
+
+    delta_t -= delta_t_flt;
+  }
 }
 
 

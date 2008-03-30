@@ -1,4 +1,23 @@
+2000-11-22  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.10 released.
+	
+	* configure.in, Makefile.am: Use libtool to build library. The
+	hack to "disable" install is removed.
+
+	* extfilt.h, filter.h: Moved filter stability code from sid.cc.
+
+	* sid.cc (SID::clock): Moved filter stability code to
+	extfilt.h/filter.h. Don't clock the rest of the chip more
+	frequently than necessary.
+
+	* wave.cc: Typecast for pedantic (and probably incorrect)
+	compilers.
+
 2000-05-18  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.9 released.
+	
 	* filter.h (Filter::output): The sum of the filter outputs is no
 	longer weighted.
 	

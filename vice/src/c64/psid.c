@@ -104,11 +104,21 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
-      NULL, "SID player mode" },
-    { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
-      "<number>", "Specify PSID tune <number>" },
-    { NULL }
+  /* The Video Standard options are copied from drive-cmdline-options.c */
+  { "-pal", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
+    (resource_value_t) DRIVE_SYNC_PAL,
+    NULL, "Use PAL sync factor" },
+  { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
+    (resource_value_t) DRIVE_SYNC_NTSC,
+    NULL, "Use NTSC sync factor" },
+  { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
+    (resource_value_t) DRIVE_SYNC_NTSCOLD,
+    NULL, "Use old NTSC sync factor" },
+  { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
+    NULL, "SID player mode" },
+  { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
+    "<number>", "Specify PSID tune <number>" },
+  { NULL }
 };
 
 int psid_init_cmdline_options(void)
@@ -228,7 +238,6 @@ fail:
 
 void psid_init_tune(void)
 {
-  BYTE volume = 0x0f;
   int start_song = psid_tune;
   resource_value_t sync;
   int i;
@@ -292,7 +301,6 @@ void psid_init_tune(void)
   ram_store(0x030d, (BYTE)((psid->speed >> 8) & 0x0f));
   ram_store(0x030e, (BYTE)((psid->speed >> 16) & 0x0f));
   ram_store(0x030f, (BYTE)(psid->speed >> 24));
-  ram_store(0x0310, volume);
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
