@@ -60,6 +60,7 @@ noinst_HEADERS = \
 	ciatimer.h \
 	cmdline.h \
 	config.h.in \
+	console.h \
 	datasette.h \
 	diskimage.h \
 	emuid.h \
