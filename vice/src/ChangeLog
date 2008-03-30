@@ -1,4 +1,57 @@
+1998-11-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.30.
+
+	* vdrive.c (allocate_sector): (Temporarily?) replace
+	`BAM_EXT_BIT_MAP_1541' with `BAM_EXT_BIT_MAP' to make Andreas'
+	previous patches compile.
+
+1998-11-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Makefile.am: Added `vdrive-iec.h' to `noinst_HEADERS'.
+	Added `vdrive-iec.c' to `base_sources' and `c1541_SOURCES'.
+
+	* arch/win32/Makefile.am: Applied Martin's `windres' fix.
+
+	* c1541.c: Changed `*_1541' functions to `vdrive_*' as the
+	functions are no longer 1541 specific.
+	* vdrive.c: Likewise.
+
+	* fsdevice.c: Removed #include <assert.h>.
+	* vdrive.c: Likewise.
+
+	* fsdevice.h: Rewrote prototypes.
+	* vdrive.h: Likewise.
+
+	* vdrive-iec.c: New file.
+	* vdrive-iec.h: New file.
+
+	* vdrive.c: Removed some cruft from the past.
+	Moved IEC functions to `vdrive-iec.c'.
+	(vdrive_calculate_disk_half, vdrive_get_max_sectors): New 
+	functions.
+	(alloc_first_free_sector, alloc_next_free_sector): Made 1571 and
+	1581 aware.
+
+	* vdrive.h: Set `DIR_MAXBUF' to max 1581 directory size.
+
+1998-11-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Update
+ 	`visible_sprite_msk'.
+
+1998-11-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/vicii.c (turn_sprite_dma_on): Removed check for DMA.
+	(check_sprite_dma): Do not reset DMA if already turned on, but
+ 	still do DMA on this line.
+
 1998-11-22  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c (kbd_flush_commands): Removed debugging
+ 	message for the menu trap.
+
+	* Version 0.15.0.29.
 
 	* imagecontents.c (circular_check, circular_check_init): New
 	functions to check for a circular block chain.

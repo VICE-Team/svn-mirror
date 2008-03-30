@@ -39,13 +39,6 @@
 #include "vice.h"
 
 /* #define DEBUG_DRIVE */
-/* #define DEBUG_FS */		/* Unix FS driver command/error channel */
-
-#ifdef __hpux
-#ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE
-#endif
-#endif
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
@@ -63,25 +56,23 @@
 #include <dirent.h>
 #include <memory.h>
 #endif
-#include <assert.h>
 #include <errno.h>
 #endif
 
-#include "serial.h"
-#include "vdrive.h"
-#include "file.h"
-#include "zfile.h"
-#include "utils.h"
 #include "charsets.h"
+#include "file.h"
 #include "fsdevice.h"
+#include "serial.h"
+#include "utils.h"
+#include "vdrive.h"
+#include "vdrive-iec.h"
+#include "zfile.h"
 
 #ifdef STANDALONE_1541
 #include "c1541.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-#define DIR_MAXBUF	8192
 
 /* FIXME: `drive.c' needs this arrays too.  */
 char sector_map_1541[43] =
@@ -132,10 +123,10 @@ static char pet_sector_map[78] =
     23, 23, 23, 23, 23, 23, 23			/* 71 - 77 */
 };
 
-int deleted_files;/* Keeps the number of entries deleted with the `S' command */
+/* Keeps the number of entries deleted with the `S' command */
+int deleted_files;
 
 /* PC64 files need this too */
-
 char *slot_type[] =
 {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
@@ -147,34 +138,10 @@ static int  do_block_command ( DRIVE *floppy, char command, char *buffer );
 static int  do_memory_command ( DRIVE *floppy, BYTE *buffer, int length );
 static int  do_initialize ( DRIVE *floppy );
 static int  do_format ( DRIVE *floppy, char *name, BYTE *id, BYTE *minus );
-
-#if defined(__GNUC__) && defined(DEBUG_DRIVE)
-static void floppy_error_ ( bufferinfo_t *p, int code, int track, int sector,
-						char *fromfunc );
-#define	floppy_error(a,b,c,d)	floppy_error_((a),(b),(c),(d),__FUNCTION__)
-#else
-static void floppy_error ( bufferinfo_t *p, int code, int track, int sector );
-#endif
-
-static void floppy_close_all_channels ( DRIVE * );
-
-static int  floppy_create_directory ( DRIVE *floppy, char *name, int length, int filetype, int secondary, BYTE *outputptr );
-
 static int  do_copy ( DRIVE *floppy, char *dest, int length );
 static int  do_rename ( DRIVE *floppy, char *dest, int length );
-
-static void set_find_first_slot ( DRIVE *floppy, char *name, int length, int type );
-static BYTE *find_next_slot ( DRIVE *floppy );
-
-static void remove_slot ( DRIVE *floppy, BYTE *slot );
-static int  write_sequential_buffer ( DRIVE *floppy, bufferinfo_t *bi, int length );
-
-static int  alloc_first_free_sector ( BYTE *bam, int *track, int *sector );
-static int  alloc_next_free_sector ( BYTE *bam, int *track, int *sector );
 static int  floppy_name_match ( BYTE *slot, char *name, int length, int type );
-
 static int  floppy_read_bam (DRIVE *floppy);
-static int  floppy_write_bam (DRIVE *floppy);
 
 static int  mystrncpy ( BYTE *d, BYTE *s, int n );
 
@@ -190,7 +157,7 @@ errortext_t floppy_error_messages[] =
 {
     { 0, "OK"},
     { 1, "FILES SCRATCHED"},
-    { 2, "SELECTED PARTITION"},			/* 1581 */
+    { 2, "SELECTED PARTITION"},           /* 1581 */
     { 3, "UNIMPLEMENTED"},
     {26, "WRITE PROTECT ON"},
     {30, "SYNTAX ERROR"},
@@ -208,9 +175,9 @@ errortext_t floppy_error_messages[] =
     {67, "ILLEGAL SYSTEM T OR S"},
     {70, "NO CHANNEL"},
     {72, "DISK FULL"},
-    {73, "TVR 1541 EMULATOR V2.1"},		/* The program version */
+    {73, "VIRTUAL DRIVE EMULATION V2.2"}, /* The program version */
     {74, "DRIVE NOT READY"},
-    {77, "SELECTED PARTITION ILLEGAL"},		/* 1581 */
+    {77, "SELECTED PARTITION ILLEGAL"},   /* 1581 */
     {80, "DIRECTORY NOT EMPTY"},
     {81, "PERMISSION DENIED"},
     {-1, 0}
@@ -226,8 +193,8 @@ int initialize_1541(int dev, int type,
                     drive_detach_func_t detach_func,
                     DRIVE *oldinfo)
 {
-    DRIVE  *floppy;
-    int     i;
+    DRIVE *floppy;
+    int i;
 
     floppy = oldinfo;
 
@@ -245,7 +212,7 @@ int initialize_1541(int dev, int type,
         floppy->buffers[i].mode = BUFFER_NOT_IN_USE;
 
     floppy->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    floppy->buffers[15].buffer = (BYTE *) malloc(256);
+    floppy->buffers[15].buffer = (BYTE *)xmalloc(256);
 
     /* Initialise format constants.  */
     set_disk_geometry(floppy, type);
@@ -256,7 +223,8 @@ int initialize_1541(int dev, int type,
 
     if (!(type & DT_FS)) {
         if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
-            read_1541, write_1541, open_1541, close_1541, flush_1541)) {
+            vdrive_read, vdrive_write, vdrive_open, vdrive_close,
+            vdrive_flush)) {
             fprintf(logfile, "VDRIVE#%i: Could not initialize virtual drive"
                     "emulation.\n", floppy->unit);
             return(-1);
@@ -303,599 +271,13 @@ int  find_devno(int dev, const char *name)
     return (dev);	/* Default drive */
 }
 
-
 /* ------------------------------------------------------------------------- */
-
-/*
- * Serial Bus Interface
- */
-
-/*
- * Open a file on the disk image, and store the information on the
- * directory slot.
- */
-
-int     open_1541(void *flp, char *name, int length, int secondary)
-{
-    DRIVE *floppy = (DRIVE *)flp;
-    bufferinfo_t *p = &(floppy->buffers[secondary]);
-    char    realname[256];
-    int     reallength;
-    int     readmode;
-    int     filetype, rl;
-    int     track, sector;
-    BYTE   *slot;		/* Current directory entry */
-
-    if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
-	return SERIAL_NO_DEVICE;	/* Routine was called incorrectly. */
-
-    /*
-     * No floppy in drive ?
-     *
-     * On systems with limited memory it may save resources not to keep
-     * the image file open all the time.
-     * If ActiveName exists, the file may have been temporarily closed.
-     */
-
-   if (floppy->ActiveFd == ILLEGAL_FILE_DESC
-       && p->mode != BUFFER_COMMAND_CHANNEL
-       && secondary != 15
-       && *name != '#') {
-       floppy_error(&floppy->buffers[15], IPE_NOT_READY, 18, 0);
-       fprintf(logfile, "Drive not ready.\n");
-       return SERIAL_ERROR;
-   }
-
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "OPEN 1541: FD = %d - Name '%s' (%d) on ch %d\n",
-	   (int)(floppy->ActiveFd), name, length, secondary);
-#endif
-#ifdef __riscos
-    ui_set_drive_leds(floppy->unit - 8, 1);
-#endif
-
-    /*
-     * If channel is command channel, name will be used as write. Return only
-     * status of last write ...
-     */
-    if (p->mode == BUFFER_COMMAND_CHANNEL) {
-	int     n;
-	int     status = SERIAL_OK;
-
-	for (n = 0; n < length; n++)
-	    status = write_1541(floppy, name[n], secondary);
-	if (length)
-            p->readmode = FAM_WRITE;
-	else
-            p->readmode = FAM_READ;
-	return status;
-    }
-
-    /*
-     * Clear error flag
-     */
-    floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
-
-    /*
-     * In use ?
-     */
-    if (p->mode != BUFFER_NOT_IN_USE) {
-#ifdef DEBUG_DRIVE
-	printf (logfile, "Cannot open channel %d. Mode is %d.\n", secondary, p->mode);
-#endif
-	floppy_error(&floppy->buffers[15], IPE_NO_CHANNEL, 0, 0);
-	return SERIAL_ERROR;
-    }
-
-    /*
-     * Filemode / type
-     */
-    if (secondary == 1)
-	readmode = FAM_WRITE;
-    else
-	readmode = FAM_READ;
-
-    filetype = 0;
-    rl = 0;  /* REL */
-
-    if (floppy_parse_name(name, length, realname, &reallength,
-                          &readmode, &filetype, &rl) != SERIAL_OK)
-	return SERIAL_ERROR;
-
-    /* Limit file name to 16 chars.  */
-    reallength = (reallength > 16) ? 16 : reallength;
-
-    /*
-     * Internal buffer ?
-     */
-    if (*name == '#') {
-	p->mode = BUFFER_MEMORY_BUFFER;
-	p->buffer = (BYTE *) malloc(256);
-	p->bufptr = 0;
-	return SERIAL_OK;
-    }
-
-    /*
-     * Directory read
-     * A little-known feature of the 1541: open 1,8,2,"$" (or even 1,8,1).
-     * It gives you the BAM+DIR as a sequential file, containing the data
-     * just as it appears on disk.  -Olaf Seibert
-     */
-
-    if (*name == '$') {
-	if (secondary > 0) {
-	    track = floppy->Dir_Track;
-	    sector = 0;
-	    goto as_if_sequential;
-	}
-
-	p->mode = BUFFER_DIRECTORY_READ;
-
-	/* XXX assumes this is enough -Rhialto */
-	p->buffer = (BYTE *) xmalloc(DIR_MAXBUF);
-
-	p->length = floppy_create_directory(floppy,
-					    realname, reallength, filetype,
-					    secondary, p->buffer);
-
-	if (p->length < 0) {
-	    /* Directory not valid. */
-	    p->mode = BUFFER_NOT_IN_USE;
-	    free(p->buffer);
-	    p->length = 0;
-	    floppy_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
-	    return SERIAL_ERROR;
-	}
-
-	p->bufptr = 0;
-	return SERIAL_OK;
-    }
-
-
-    /*
-     * Now, set filetype according secondary address, if it was not specified
-     * on filename
-     */
-
-    if (!filetype)
-	filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
-
-    /*
-     * Check that there is room on directory.
-     */
-    set_find_first_slot(floppy, realname, reallength, 0);
-
-    /*
-     * Find the first non-DEL entry in the directory (if it exists).
-     */
-    do
-        slot = find_next_slot(floppy);
-    while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == FT_DEL));
-
-    p->readmode = readmode;
-    p->slot = slot;
-
-
-    /*
-     * Open file for reading
-     */
-
-    if (readmode == FAM_READ) {
-	int     type;
-	int     status;
-
-	if (!slot) {
-	    close_1541(floppy, secondary);
-	    floppy_error(&floppy->buffers[15], IPE_NOT_FOUND, 0, 0);
-	    return SERIAL_ERROR;
-	}
-
-	type = slot[SLOT_TYPE_OFFSET] & 0x07;
-
-        /*  I don't think that this one is needed - EP
-	if (filetype && type != filetype) {
-	    floppy_error(&floppy->buffers[15], IPE_BAD_TYPE, 0, 0);
-	    return SERIAL_ERROR;
-	}
-        */
-
-	filetype = type;  /* EP */
-
-	track = (int) slot[SLOT_FIRST_TRACK];
-	sector = (int) slot[SLOT_FIRST_SECTOR];
-
-
-	/*
-	 * Del, Seq, Prg, Usr (Rel not yet supported)
-	 */
-	if (type != FT_REL) {
-	  as_if_sequential:
-	    p->mode = BUFFER_SEQUENTIAL;
-	    p->bufptr = 2;
-	    p->buffer = (BYTE *) malloc(256);
-
-	    status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-				       p->buffer, track, sector,
-					floppy->D64_Header);
-
-	    if (status < 0) {
-		close_1541(floppy, secondary);
-		return SERIAL_ERROR;
-	    }
-	    return SERIAL_OK;
-	}
-	/*
-	 * Unsupported filetype
-	 */
-	return SERIAL_ERROR;
-    }
-
-
-    /*
-     * Write
-     */
-
-    if (floppy->ReadOnly) {
-	floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
-	return SERIAL_ERROR;
-    }
-
-    if (slot) {
-	if (*name == '@')
-	    remove_slot(floppy, slot);
-	else {
-	    close_1541(floppy, secondary);
-	    floppy_error(&floppy->buffers[15], IPE_FILE_EXISTS, 0, 0);
-	    return SERIAL_ERROR;
-	}
-    }
-
-
-    /*
-     * Create slot information.
-     * Different front-ends can fetch the real filename from slot info.
-     */
-
-    p->slot = (BYTE *) malloc(32);
-    memset(p->slot, 0, 32);
-    memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
-    memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DIR: name (%d) '%s'\n", reallength, realname);
-#endif
-    p->slot[SLOT_TYPE_OFFSET] = filetype;	/* unclosed */
-
-    p->buffer = (BYTE *) malloc(256);
-    p->mode = BUFFER_SEQUENTIAL;
-    p->bufptr = 2;
-
-#if 0
-    /* XXX keeping entry until close not implemented */
-    /* Write the directory entry to disk as an UNCLOSED file. */
-
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
-#endif
-
-    set_find_first_slot(floppy, NULL, -1, 0);
-    e = find_next_slot(floppy);
-
-    if (!e) {
-	p->mode = BUFFER_NOT_IN_USE;
-	free((char *)p->buffer);
-	p->buffer = NULL;
-
-	floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
-	return SERIAL_ERROR;
-    }
-
-    memcpy(&floppy->Dir_buffer[floppy->SlotNumber * 32 + 2],
-	   p->slot + 2, 30);
-
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: create, write DIR slot (%d %d).\n",
-	   floppy->Curr_track, floppy->Curr_sector);
-#endif
-    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-		       floppy->Dir_buffer,
-		       floppy->Curr_track,
-		       floppy->Curr_sector,
-		       floppy->D64_Header);
-
-    /*floppy_write_bam(floppy);*/
-
-#endif  /* BAM write */
-
-    return SERIAL_OK;
-}
-
-
-int     close_1541(void *flp, int secondary)
-{
-    DRIVE *floppy = (DRIVE *)flp;
-    BYTE   *e;
-    bufferinfo_t *p = &(floppy->buffers[secondary]);
-
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG: closing file #%d.\n", secondary);
-#endif
-#ifdef __riscos
-    ui_set_drive_leds(floppy->unit - 8, 0);
-#endif
-
-    switch (p->mode) {
-      case BUFFER_NOT_IN_USE:
-	return SERIAL_OK;	/* FIXME: Is this correct? */
-
-      case BUFFER_MEMORY_BUFFER:
-      case BUFFER_DIRECTORY_READ:
-	free((char *)p->buffer);
-	p->mode = BUFFER_NOT_IN_USE;
-	p->buffer = NULL;
-	p->slot = NULL;
-	break;
-
-      case BUFFER_SEQUENTIAL:
-	if (p->readmode & (FAM_WRITE | FAM_APPEND)) {
-	    /*
-	     * Flush bytes and write slot to directory
-	     */
-
-	    if (floppy->ReadOnly) {
-		floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0,
-			     0);
-		return SERIAL_ERROR;
-	    }
-
-#ifdef DEBUG_DRIVE
-	    fprintf(logfile, "DEBUG: flush.\n");
-#endif
-	    write_sequential_buffer(floppy, p, p->bufptr);
-
-#ifdef DEBUG_DRIVE
-	    fprintf(logfile, "DEBUG: find empty DIR slot.\n");
-#endif
-	    set_find_first_slot(floppy, NULL, -1, 0);
-	    e = find_next_slot(floppy);
-
-	    if (!e) {
-		p->mode = BUFFER_NOT_IN_USE;
-		free((char *)p->buffer);
-		p->buffer = NULL;
-
-		floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
-		return SERIAL_ERROR;
-	    }
-	    p->slot[SLOT_TYPE_OFFSET] |= 0x80;		/* Closed */
-
-	    memcpy(&floppy->Dir_buffer[floppy->SlotNumber * 32 + 2],
-		p->slot + 2, 30);
-
-#ifdef DEBUG_DRIVE
-	    fprintf(logfile, "DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
-		   floppy->Curr_track, floppy->Curr_sector);
-#endif
-	    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-			       floppy->Dir_buffer,
-			       floppy->Curr_track,
-			       floppy->Curr_sector,
-			       floppy->D64_Header);
-
-	    floppy_write_bam(floppy);
-	}
-	p->mode = BUFFER_NOT_IN_USE;
-	free((char *)p->buffer);
-	p->buffer = NULL;
-	break;
-
-      case BUFFER_COMMAND_CHANNEL:
-	/* I'm not sure if this is correct, but really closing the buffer
-	   should reset the read pointer to the beginning for the next
-	   write! */
-        floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
-	floppy_close_all_channels(floppy);
-	break;
-
-      default:
-        fprintf(errfile, "\nFatal: unknown floppy-close-mode: %i\n", p->mode);
-        exit (-1);
-    }
-
-    return SERIAL_OK;
-}
-
-
-int     read_1541(void *flp, BYTE *data, int secondary)
-{
-    DRIVE *floppy = (DRIVE *)flp;
-    bufferinfo_t *p = &(floppy->buffers[secondary]);
-
-#ifdef DEBUG_DRIVE
-    if (p->mode == BUFFER_COMMAND_CHANNEL)
-	fprintf(logfile, "Disk read  %d [%02d %02d]\n", p->mode, 0, 0);
-#endif
-
-    switch (p->mode) {
-      case BUFFER_NOT_IN_USE:
-	floppy_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
-	return SERIAL_ERROR;
-
-      case BUFFER_DIRECTORY_READ:
-	/*printf("read %d/%d [%02X]\n", p->bufptr, p->length, p->buffer[p->bufptr]);*/
-	if (p->bufptr >= p->length) {
-            *data = 0xc7;
-	    return SERIAL_EOF;
-        }
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
-
-      case BUFFER_MEMORY_BUFFER:
-	if (p->bufptr >= 256) {
-            *data = 0xc7;
-	    return SERIAL_EOF;
-        }
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
-
-      case BUFFER_SEQUENTIAL:
-	if (p->readmode != FAM_READ)
-	    return SERIAL_ERROR;
-
-	/*
-	 * Read next block if needed
-	 */
-	if (p->buffer[0]) {
-	    if (p->bufptr >= 256) {
-		floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-				  p->buffer,
-				  (int) p->buffer[0],
-				  (int) p->buffer[1],
-				  floppy->D64_Header);
-		p->bufptr = 2;
-	    }
-	} else {
-	    if (p->bufptr > p->buffer[1]) {
-                *data = 0xc7;
-		return SERIAL_EOF;
-            }
-	}
-
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
-
-      case BUFFER_COMMAND_CHANNEL:
-	if (p->bufptr > p->length) {
-	    floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
-#ifdef DEBUG_DRIVE
-	    fprintf(logfile, "end of buffer in command channel\n" );
-#endif
-            *data = 0xc7;
-	    return SERIAL_EOF;
-	}
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
-
-      default:
-	fprintf (errfile, "\nFatal: unknown buffermode on floppy-read\n");
-	exit(-1);
-    }
-
-    return SERIAL_OK;
-}
-
-
-int     write_1541(void *flp, BYTE data, int secondary)
-{
-    DRIVE *floppy = (DRIVE *)flp;
-    bufferinfo_t *p = &(floppy->buffers[secondary]);
-
-    if (floppy->ReadOnly && p->mode != BUFFER_COMMAND_CHANNEL) {
-	floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
-	return SERIAL_ERROR;
-    }
-
-#ifdef DEBUG_DRIVE
-    if (p -> mode == BUFFER_COMMAND_CHANNEL)
-	printf("Disk write %d [%02d %02d] data %02x (%c)\n",
-	       p->mode, 0, 0, data, (isprint(data) ? data : '.') );
-#endif
-
-    switch (p->mode) {
-      case BUFFER_NOT_IN_USE:
-	floppy_error(&floppy->buffers[15], IPE_NOT_OPEN, 0, 0);
-	return SERIAL_ERROR;
-
-      case BUFFER_DIRECTORY_READ:
-	floppy_error(&floppy->buffers[15], IPE_NOT_WRITE, 0, 0);
-	return SERIAL_ERROR;
-
-      case BUFFER_MEMORY_BUFFER:
-	if (p->bufptr >= 256)
-	    return SERIAL_ERROR;
-	p->buffer[p->bufptr] = data;
-	p->bufptr++;
-	return SERIAL_OK;
-
-      case BUFFER_SEQUENTIAL:
-	if (p->readmode == FAM_READ)
-	    return SERIAL_ERROR;
-
-	if (p->bufptr >= 256) {
-	    p->bufptr = 2;
-	    if (write_sequential_buffer(floppy, p, WRITE_BLOCK) < 0)
-		return SERIAL_ERROR;
-	}
-	p->buffer[p->bufptr] = data;
-	p->bufptr++;
-	break;
-
-      case BUFFER_COMMAND_CHANNEL:
-	if (p->readmode == FAM_READ) {
-	    p->bufptr = 0;
-	    p->readmode = FAM_WRITE;
-	}
-	if (p->bufptr >= 256)		/* Limits checked later */
-	    return SERIAL_ERROR;
-	p->buffer[p->bufptr] = data;
-	p->bufptr++;
-	break;
-
-      default:
-	fprintf (errfile, "\nFatal: Unknown write mode\n");
-	exit(-1);
-    }
-
-    return SERIAL_OK;
-}
-
-
-void    flush_1541(void *flp, int secondary)
-{
-    DRIVE *floppy = (DRIVE *)flp;
-    bufferinfo_t *p = &(floppy->buffers[secondary]);
-    int status;
-
-#ifdef DEBUG_DRIVE
-printf("flush_1541, secondary = %d, buffer=%s\n   bufptr=%d, length=%d, "
-		"read?=%d\n", secondary, p->buffer, p->bufptr, p->length,
-		p->readmode==FAM_READ);
-#endif
-
-    if (p->mode != BUFFER_COMMAND_CHANNEL)
-	return;
-
-    if (p->readmode == FAM_READ) return;
-
-    if (p->length) {		/* if no command, do nothing - esp. keep
-				   error code. */
-      status = ip_execute(floppy, p->buffer, p->bufptr);
-
-      p->bufptr = 0;
-
-      if (status == IPE_OK)
-	  floppy_error(&floppy->buffers[15], IPE_OK, 0, 0);
-    }
-
-}
-
-
-/* ------------------------------------------------------------------------- */
-
 
 /*
  * Should set values to somewhere so that they could be read from
  * command channel
  */
-#if defined(__GNUC__) && defined(DEBUG_DRIVE)
-static void floppy_error_(bufferinfo_t *p, int code, int track, int sector,
-			char *fromfunc)
-#else
-static void floppy_error(bufferinfo_t *p, int code, int track, int sector)
-#endif
+void floppy_error(bufferinfo_t *p, int code, int track, int sector)
 {
     char   *message;
     errortext_t *e;
@@ -1222,7 +604,7 @@ static int  do_block_command(DRIVE *floppy, char command, char *buffer)
   		 * higher tracks and can return sectors in the directory
   		 * track.
   		 */
-  		if (alloc_next_free_sector(floppy->bam, &track, &sector) >= 0) {
+  		if (alloc_next_free_sector(floppy, floppy->bam, &track, &sector) >= 0) {
   		    /* Deallocate it and merely suggest it */
   		    free_sector(floppy->bam, track, sector);
   		} else {
@@ -1514,188 +896,6 @@ int  floppy_free_block_count (DRIVE *floppy)
     return blocks;
 }
 
-/*
- * Create directory listing. (called from open_1541)
- * If filetype is 0, match for all files.
- * Return the length in bytes if successful, -1 if the directory is not
- * valid.
- */
-
-static int floppy_create_directory(DRIVE *floppy, char *name,
-                                   int length, int filetype, int secondary,
-                                   BYTE *outputptr)
-{
-    BYTE *l, *p;
-    BYTE *origptr = outputptr;
-    int blocks, addr, i;
-
-    if (length) {
-        if (*name == '$') { 
-            ++name; 
-            --length;
-        }
-        if (*name == ':') { 
-            ++name; 
-            --length;
-        }
-    }
-    if (!*name || length < 1) {
-        name = "*\0";
-        length = 1;
-    }
-
-    /*
-     * Start Address, Line Link and Line number 0
-     */
-
-    l = outputptr;
-    addr = 0x401;
-    SET_LO_HI(l, addr);
-
-    l += 2;			/* Leave space for Next Line Link */
-    *l++ = 0;
-    *l++ = 0;
-
-    *l++ = (BYTE) 0x12;		/* Reverse on */
-
-    *l++ = '"';
-
-    memcpy(l, &floppy->bam[floppy->bam_name], 16);
-    no_a0_pads(l, 16);
-    l += 16;
-    *l++ = '"';
-    *l++ = ' ';
-    memcpy(l, &floppy->bam[floppy->bam_id], 5);
-    no_a0_pads(l, 5);
-    l += 5;
-
-    *l++ = 0;
-
-
-    /*
-     * Pointer to the next line
-     */
-
-    addr += ((l - outputptr) - 2);
-
-    outputptr[2] = 1;	/* addr & 0xff; */
-    outputptr[3] = 1;	/* (addr >>8) & 0xff; */
-    outputptr = l;
-
-
-    /*
-     * Now, list files that match the pattern.
-     * Wildcards can be used too.
-     */
-
-    set_find_first_slot(floppy, name, length, filetype);
-
-    while ((p = find_next_slot(floppy))) {
-        BYTE *tl;
-
-        /* Check whether the directory exceeds the malloced memory.  We make
-           sure there is enough space for two lines because we also have to
-           add the final ``...BLOCKS FREE'' line.  */
-        if ((l - origptr) >= DIR_MAXBUF - 64) {
-            fprintf(errfile, "Directory too long: giving up.\n");
-            return -1;
-        }
-
-        if (p[SLOT_TYPE_OFFSET]) {
-
-            tl = l;
-            l += 2;
-
-            /*
-             * Length and spaces
-             */
-
-            blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
-            SET_LO_HI(l, blocks);
-
-            if (blocks < 10)
-                *l++ = ' ';
-            if (blocks < 100)
-                *l++ = ' ';
-            /*
-             * Filename
-             */
-
-            *l++ = ' ';
-            *l++ = '"';
-
-            memcpy(l, &p[SLOT_NAME_OFFSET], 16);
-
-            for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
-                i++;
-
-            no_a0_pads(l, 16);
-
-            l[16] = ' ';
-            l[i] = '"';
-            l += 17;
-
-            /*
-             * Type + End
-             * There are 3 spaces or < and 2 spaces after the filetype.
-             * Well, not exactly - the whole directory entry is 32 byte long
-             * (including nullbyte).
-             * Depending on the file size, there are more or less spaces
-             */
-
-            sprintf ((char *)l, "%c%s%c%c",
-                    (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
-                    slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
-                    (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '),
-                    0);
-            l += 5;
-            i = l - tl;
-
-            while (i < 31) {
-                *l++ = ' ';
-                i++;
-            }
-
-            *l++ = '\0';
-
-            /*
-             * New address
-             */
-
-            addr += l - outputptr;
-            outputptr[0] = 1;	/* addr & 0xff; */
-            outputptr[1] = 1;	/* (addr >> 8) & 0xff; */
-            outputptr = l;
-        }
-    }
-
-    blocks = floppy_free_block_count(floppy);
-
-    *l++ = 0;
-    *l++ = 0;
-    SET_LO_HI(l, blocks);
-    memcpy(l, "BLOCKS FREE.", 12);
-    l += 12;
-    memset(l, ' ', 13);
-    l += 13;
-    *l++ = (char) 0;
-
-    /* Line Address */
-    addr += l - outputptr;
-    outputptr[0] = 1;	/* addr & 0xff; */
-    outputptr[1] = 1;	/* (addr / 256) & 0xff; */
-
-    /*
-     * end
-     */
-    *l++ = (char) 0;
-    *l++ = (char) 0;
-    *l   = (char) 0;
-
-    return (l - origptr);
-}
-
-
 /* ------------------------------------------------------------------------- */
 
 
@@ -1718,7 +918,7 @@ static int  do_copy( DRIVE *floppy, char *dest, int length)
     fprintf(logfile, "COPY: dest= '%s'\n      orig= '%s'\n", dest, files);
 #endif
 
-    if (open_1541(floppy, dest, strlen(dest), 1))
+    if (vdrive_open(floppy, dest, strlen(dest), 1))
 	return (IPE_FILE_EXISTS);
 
     p = name = files;
@@ -1733,24 +933,24 @@ static int  do_copy( DRIVE *floppy, char *dest, int length)
 #ifdef DEBUG_DRIVE
 	fprintf(logfile, "searching for file '%s'\n", name);
 #endif
-	if (open_1541(floppy, name, strlen(name), 0)) {
-	    close_1541(floppy, 1);
+	if (vdrive_open(floppy, name, strlen(name), 0)) {
+	    vdrive_close(floppy, 1);
 	    return (IPE_NOT_FOUND);
 	}
 
-	while (!read_1541(floppy, (BYTE *)&c, 0)) {
-	    if (write_1541(floppy, c, 1)) {
-		close_1541(floppy, 0);		/* no space on disk */
-		close_1541(floppy, 1);
+	while (!vdrive_read(floppy, (BYTE *)&c, 0)) {
+	    if (vdrive_write(floppy, c, 1)) {
+		vdrive_close(floppy, 0); /* no space on disk */
+		vdrive_close(floppy, 1);
 		return (IPE_DISK_FULL);
 	    }
 	}
 
-	close_1541(floppy, 0);
+	vdrive_close(floppy, 0);
 	name = p;				/* next file */
     } /* while */
 
-    close_1541(floppy, 1);
+    vdrive_close(floppy, 1);
     return(IPE_OK);
 }
 
@@ -1831,7 +1031,7 @@ static int do_rename( DRIVE *floppy, char *dest, int length)
  * channel close.
  */
 
-static void floppy_close_all_channels(DRIVE *floppy)
+void floppy_close_all_channels(DRIVE *floppy)
 {
     int     i;
     bufferinfo_t *p;
@@ -1841,7 +1041,7 @@ static void floppy_close_all_channels(DRIVE *floppy)
 	p = &(floppy->buffers[i]);
 
 	if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
-	    close_1541(floppy, i);
+	    vdrive_close(floppy, i);
     }
 }
 
@@ -2044,8 +1244,7 @@ static int  set_error_data(DRIVE *floppy, int flags)
 
 
     if (!(floppy->ErrData)) {
-	floppy->ErrData = (char *)malloc((size_t)MAX_BLOCKS_ANY);
-	assert (floppy->ErrData);
+	floppy->ErrData = (char *)xmalloc((size_t)MAX_BLOCKS_ANY);
 	memset(floppy->ErrData, 0x01, MAX_BLOCKS_ANY);
     }
     else if (flags & 1)		/* clear error data */
@@ -2267,65 +1466,6 @@ int  floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
     return 0;
 }
 
-
-static int  write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
-				    int length )
-{
-    int     t_new, s_new;
-    int     e;
-    BYTE   *buf = bi->buffer;
-    BYTE   *slot = bi->slot;
-
-    /*
-     * First block of a file ?
-     */
-    if (slot[SLOT_FIRST_TRACK] == 0) {
-	e = alloc_first_free_sector(floppy->bam, &t_new, &s_new);
-	if (e < 0) {
-	    floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
-	    return -1;
-	}
-	slot[SLOT_FIRST_TRACK]  = bi->track  = t_new;
-	slot[SLOT_FIRST_SECTOR] = bi->sector = s_new;
-    }
-
-    if (length == WRITE_BLOCK) {
-	/*
-	 * Write current sector and allocate next
-	 */
-	t_new = bi->track;
-	s_new = bi->sector;
-	e = alloc_next_free_sector(floppy->bam, &t_new, &s_new);
-	if (e < 0) {
-	    floppy_error(&floppy->buffers[15], IPE_DISK_FULL, 0, 0);
-	    return -1;
-	}
-	buf[0] = t_new;
-	buf[1] = s_new;
-
-	floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-				bi->track, bi->sector, floppy->D64_Header);
-
-	bi->track = t_new;
-	bi->sector = s_new;
-    } else {
-	/*
-	 * Write last block
-	 */
-	buf[0] = 0;
-	buf[1] = length - 1;
-
-	floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-				bi->track, bi->sector, floppy->D64_Header);
-    }
-
-    if (!(++slot[SLOT_NR_BLOCKS]))
-	++slot[SLOT_NR_BLOCKS + 1];
-
-    return 0;
-}
-
-
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -2337,7 +1477,7 @@ static int  write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
  * Initialize Directory Slot find
  */
 
-static void set_find_first_slot(DRIVE *floppy, char *name, int length, int type)
+void set_find_first_slot(DRIVE *floppy, char *name, int length, int type)
 {
     floppy->find_name   = name;
     floppy->find_type   = type;
@@ -2367,7 +1507,7 @@ static void set_find_first_slot(DRIVE *floppy, char *name, int length, int type)
 }
 
 
-static BYTE *find_next_slot(DRIVE *floppy)
+BYTE *find_next_slot(DRIVE *floppy)
 {
     static BYTE return_slot[32];
     int     status;
@@ -2501,10 +1641,9 @@ static void free_chain(DRIVE *floppy, int t, int s)
  * and from ip_execute() for 'SCRATCH'.
  */
 
-static void remove_slot(DRIVE *floppy, BYTE *slot)
+void remove_slot(DRIVE *floppy, BYTE *slot)
 {
-    int     tmp;
-    int     t, s;
+    int tmp, t, s;
 
     /*
      * Find slot
@@ -2554,62 +1693,80 @@ static void remove_slot(DRIVE *floppy, BYTE *slot)
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef MAX
-#define MAX(a, b)	((a) > (b)? (a) : (b))
-#endif
-
-/* XXX warning XXX
- * These BAM functions ignore formats other than 1541 because
- * in their current form they could not possibly support the
- * 1571/8050/8250/etc: DIR_TRACK_1541 is different, they have multiple
- * BAM sectors, 8250 allocation strategy is different, etc.
- */
-
-/* How many tracks there can be at one side of the directory track */
 
 #define DSK_HALF_MAX_TRACKS	MAX(DIR_TRACK_1541-1, MAX_TRACKS_1541-DIR_TRACK_1541)
 
-/*
- * This algorithm is used to select a free first sector
- */
-static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
+static int vdrive_calculate_disk_half(int type)
 {
-    int     t, s;
-    int     d;
+    switch (type) {
+      case 1541:
+        return 17;
+      case 1571:
+        return 17;
+      case 1581:
+        return 40;
+    }
+    return -1;
+}
+ 
+static int vdrive_get_max_sectors(int type, int track)
+{
+    switch (type) {
+      case 1541:
+        return sector_map_1541[track];
+      case 1571:
+        return sector_map_1571[track];
+      case 1581:
+        return 40;
+    }
+    return -1;
+}
+ 
+/*
+ * Select a free first sector
+ */
+int  alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
+{
+    int t, s, d, max_tracks;
 
-    for (d = 1; d <= DSK_HALF_MAX_TRACKS; d++) {
-	t = DIR_TRACK_1541 - d;
+    max_tracks = vdrive_calculate_disk_half(floppy->ImageFormat);
+
+    for (d = 1; d <= max_tracks; d++) {
+        int max_sector;
+        t = floppy->Bam_Track - d;
 #ifdef DEBUG_DRIVE
-	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
+        fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
-	if (t < 1)
-	    continue;
-	for (s = 0; s < sector_map_1541[t]; s++) {
-	    if (allocate_sector(bam, t, s)) {
-		*track = t;
-		*sector = s;
+        if (t < 1)
+            continue;
+        max_sector = vdrive_get_max_sectors(floppy->ImageFormat, t);
+        for (s = 0; s < max_sector; s++) {
+            if (allocate_sector(bam, t, s)) {
+                *track = t;
+                *sector = s;
 #ifdef DEBUG_DRIVE
-		fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
+                fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
 #endif
-		return 0;
-	    }
-	}
-	t = DIR_TRACK_1541 + d;
+                return 0;
+            }
+        }
+        t = floppy->Bam_Track + d;
 #ifdef DEBUG_DRIVE
-	fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
+        fprintf(logfile, "alloc_first_free_sector on track %d?\n", t);
 #endif
-	if (t > MAX_TRACKS_1541)
-	    continue;
-	for (s = 0; s < sector_map_1541[t]; s++) {
-	    if (allocate_sector(bam, t, s)) {
-		*track = t;
-		*sector = s;
+        if (t > floppy->NumTracks)
+            continue;
+        max_sector = vdrive_get_max_sectors(floppy->ImageFormat, t);
+        for (s = 0; s < max_sector; s++) {
+            if (allocate_sector(bam, t, s)) {
+                *track = t;
+                *sector = s;
 #ifdef DEBUG_DRIVE
-		fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
+                fprintf(logfile, "alloc_first_free_sector: %d,%d\n", t, s);
 #endif
-		return 0;
-	    }
-	}
+                return 0;
+            }
+        }
     }
     return -1;
 }
@@ -2620,38 +1777,39 @@ static int  alloc_first_free_sector(BYTE *bam, int *track, int *sector)
  * track and sector must be given.
  * XXX the interleave is not taken into account yet.
  */
-static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
+int  alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track, int *sector)
 {
-    int     t, s;
-    int     d;
-    int     dir;
-    int     diskhalf;
+    int t, s, d;
+    int dir, diskhalf;
 
     if (*track < DIR_TRACK_1541) {
-	dir = -1;
-	d = DIR_TRACK_1541 - *track;
+        dir = -1;
+        d = floppy->Bam_Track - *track;
     } else {
-	dir = 1;
-	d = *track - DIR_TRACK_1541;
+        dir = 1;
+        d = *track - floppy->Bam_Track;
     }
 
     for (diskhalf = 0; diskhalf < 2; diskhalf++) {
-	for (; d <= DSK_HALF_MAX_TRACKS; d++) {
-	    t = DIR_TRACK_1541 + dir * d;
+        int max_track = vdrive_calculate_disk_half(floppy->ImageFormat);
+        for (; d <= max_track; d++) {
+            int max_sector;
+            t = floppy->Bam_Track + dir * d;
 #ifdef DEBUG_DRIVE
-	    fprintf(logfile, "alloc_next_free_sector on track %d?\n", t);
+            fprintf(logfile, "alloc_next_free_sector on track %d?\n", t);
 #endif
-	    if (t < 1 || t > MAX_TRACKS_1541) {
-		dir = -dir;
-		d = 1;
-		break;
-	    }
-	    for (s = 0; s < sector_map_1541[t]; s++) {
-		if (allocate_sector(bam, t, s)) {
-		    *track = t;
-		    *sector = s;
+            if (t < 1 || t > floppy->NumTracks) {
+                dir = -dir;
+                d = 1;
+                break;
+            }
+            max_sector = vdrive_get_max_sectors(floppy->ImageFormat, t);
+            for (s = 0; s < max_sector; s++) {
+                if (allocate_sector(bam, t, s)) {
+                    *track = t;
+                    *sector = s;
 #ifdef DEBUG_DRIVE
-		    fprintf(logfile, "alloc_next_free_sector: %d,%d\n", t, s);
+                    fprintf(logfile, "alloc_next_free_sector: %d,%d\n", t, s);
 #endif
 		    return 0;
 		}
@@ -2661,25 +1819,24 @@ static int  alloc_next_free_sector(BYTE *bam, int *track, int *sector)
     return -1;
 }
 
-int  allocate_sector(BYTE *bam, int track, int sector)
+int allocate_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;	/* Macros use this */
 
     bamp = (track <= NUM_TRACKS_1541) ?
-	&bam[BAM_BIT_MAP + 4 * (track - 1)] :
-	&bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
+               &bam[BAM_BIT_MAP + 4 * (track - 1)] :
+               &bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
 
     if (BAM_ISSET(sector)) {
-	(*bamp)--;
-	BAM_CLR(sector);
-
-	return 1;
+        (*bamp)--;
+        BAM_CLR(sector);
+        return 1;
     }
     return 0;
 }
 
 
-int  free_sector(BYTE *bam, int track, int sector)
+int free_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;
 
@@ -2738,13 +1895,12 @@ static int floppy_read_bam(DRIVE *floppy)
 }
 
 
-static int floppy_write_bam(DRIVE *floppy)
+int floppy_write_bam(DRIVE *floppy)
 {
-  return floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-			    floppy->bam, BAM_TRACK_1541, BAM_SECTOR_1541,
-			    floppy->D64_Header);
+    return floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
+                              floppy->bam, BAM_TRACK_1541, BAM_SECTOR_1541,
+                              floppy->D64_Header);
 }
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -3417,7 +2573,7 @@ char *floppy_read_directory(DRIVE *floppy, const char *pattern)
 	sprintf(line, "$:%s", pattern);
     else
 	sprintf(line, "$");
-    if (open_1541(floppy, line, 1, 0) != SERIAL_OK)
+    if (vdrive_open(floppy, line, 1, 0) != SERIAL_OK)
 	return NULL;
 
     /* Allocate a buffer. */
@@ -3437,7 +2593,7 @@ char *floppy_read_directory(DRIVE *floppy, const char *pattern)
 	line[len++] = '\n';
 	bufcat(outbuf, &outbuf_size, &max_outbuf_size, line, len);
     }
-    close_1541(floppy, 0);
+    vdrive_close(floppy, 0);
 
     bufcat(outbuf, &outbuf_size, &max_outbuf_size, "\n", 1);
 

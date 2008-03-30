@@ -415,8 +415,8 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 resc64.o : resc64.r resc64.h
-	windres -i $< -o $@ --include-dir $(top_srcdir)/src/arch/win32 \
-		--include-dir $(top_srcdir)/src
+	windres -i $< -o $@ --include-dir $(top_builddir)/src \
+		--include-dir $(top_srcdir)/src/arch/win32
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

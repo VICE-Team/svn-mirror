@@ -175,6 +175,7 @@ noinst_HEADERS = \
 	types.h \
 	utils.h \
 	vdrive.h \
+	vdrive-iec.h\
 	via.h \
 	vice.h \
 	vmachine.h \
@@ -215,6 +216,7 @@ base_sources = \
 	traps.c \
 	utils.c \
 	vdrive.c \
+	vdrive-iec.c \
 	warn.c \
 	zfile.c \
 	zipcode.c
@@ -319,6 +321,7 @@ c1541_SOURCES = \
 	c1541.c \
 	charsets.c \
 	vdrive.c \
+	vdrive-iec.c \
 	gcr.c \
 	mshell.c \
 	tape.c \
@@ -352,29 +355,34 @@ x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
-tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
+tapeunit.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
+zipcode.o maincpu.o
 x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
-tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
+tapeunit.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
+zipcode.o
 xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
-tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
+tapeunit.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
+zipcode.o maincpu.o
 xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
-tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
+tapeunit.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
+zipcode.o maincpu.o
 xcbm2_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
-tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
-c1541_OBJECTS =  c1541.o charsets.o vdrive.o gcr.o mshell.o tape.o \
-utils.o zfile.o zipcode.o
+tapeunit.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
+zipcode.o
+c1541_OBJECTS =  c1541.o charsets.o vdrive.o vdrive-iec.o gcr.o mshell.o \
+tape.o utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES = 
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o petcat.o tape.o utils.o zfile.o zipcode.o
