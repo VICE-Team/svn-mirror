@@ -38,7 +38,8 @@ libarch_a_SOURCES = \
 	video_gpi.c \
 	video_gpi.h \
 	video.c \
-	video.h \
+	videoarch.h \
+	vsidui.c \
 	vsync.c \
         vsync_old.c \
         vsync_old.h

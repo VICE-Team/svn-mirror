@@ -74,7 +74,8 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
-	video.h \
+	videoarch.h \
+	vsidui.c \
 	vsync.c
 
 EXTRA_DIST = \
