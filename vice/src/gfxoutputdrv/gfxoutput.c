@@ -87,6 +87,9 @@ int gfxoutput_early_init(void)
 #if 1
     gfxoutput_init_bmp();
 #endif
+#ifdef HAVE_GIF
+    gfxoutput_init_gif();
+#endif
 #ifdef HAVE_PNG
     gfxoutput_init_png();
 #endif

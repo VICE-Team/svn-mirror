@@ -1,3 +1,9 @@
+2005-11-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.1.
+
+	* configure.in: Define `UNSTABLE'.
+
 2005-11-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.

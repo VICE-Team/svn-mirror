@@ -106,9 +106,27 @@ static const resource_t resources[] = {
     { NULL }
 };
 
+void vsyncarch_init(void)
+{
+}
+
+unsigned long vsyncarch_gettime(void)
+{
+    struct timeval now;
+
+    gettimeofday(&now, NULL);
+
+    return 1000000UL*now.tv_sec + now.tv_usec;
+}
+
 int vsync_resources_init(void)
 {
     return resources_register(resources);
+}
+
+signed long vsyncarch_frequency(void)
+{
+    return 1000000;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -143,6 +161,11 @@ static long cycles_per_sec;
 static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
+
+double vsync_get_refresh_frequency(void)
+{
+    return refresh_frequency;
+}
 
 static volatile int timer_patch = 0;
 static volatile int elapsed_frames = 0;

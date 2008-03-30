@@ -401,6 +401,7 @@ void keyboard_key_released(signed long key)
         }
         else
         {
+            machine_set_restore_key(0);
             event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, 
                 sizeof(DWORD));
         }

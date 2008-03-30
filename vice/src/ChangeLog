@@ -1,3 +1,41 @@
+2005-11-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.1.
+
+	* util.c, util.h (util_le_buf_to_dword): New function.
+
+	* network.c (network_create_event_buffer,
+	network_create_event_list): Use helper functions to avoid ugly
+	pointer castings, use `BYTE' instead of `char'.
+	(network_hook): Fixed some warnings.
+
+	* pet/petmem.c (set_std_9tof): Fixed some warnings.
+
+	* c64/plus60k.c (set_plus60k_base): Likewise.
+
+	* arch/unix/x11/xaw/widgets/MultiList.c (Unselect, Extend,
+	RedrawRowColumn, RedrawItem, Select, Toggle): Likewise.
+
+	* c1541.c (attach_cmd): Likewise.
+
+	* arch/unix/x11/vidmode.c, arch/unix/x11/vidmode.h,
+	arch/unix/x11/dga1.c [vm_mode_count]: Likewise.
+
+2005-11-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/uiscreenshot.c, gfxoutputdrv/Makefile.am,
+	gfxoutputdrv/gfxoutput.c, gfxoutputdrv/gifdrv.c,
+	gfxoutputdrv/gifdrv.h: Added gif format screenshot support.
+
+	* arch/msdos/vsync.c: Added needed functions for netplay.
+
+	* main.c: Added myself to the standard log startup.
+
+2005-11-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* keyboard.c (keyboard_key_released): Added missing call of
+	machine_set_restore_key.
+
 2005-11-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.

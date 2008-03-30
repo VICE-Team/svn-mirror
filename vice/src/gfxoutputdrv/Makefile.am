@@ -4,7 +4,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@VICE_LIBPNG_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \
-        -I$(top_builddir)/src \
+	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libgfxoutputdrv.a
@@ -14,6 +14,8 @@ EXTRA_libgfxoutputdrv_a_SOURCES = \
 	ffmpegdrv.c \
 	ffmpegdrv.h \
 	ffmpeglib.h \
+	gifdrv.c \
+	gifdrv.h \
 	pngdrv.c \
 	pngdrv.h
 
