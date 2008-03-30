@@ -32,16 +32,20 @@
 
 #include "ciad.h"
 #include "drive.h"
+#include "driverom.h"
 #include "drivetypes.h"
 #include "fdc.h"
 #include "log.h"
 #include "mem.h"
 #include "mon.h"
+#include "glue1551.h"
 #include "riotd.h"
+#include "tia1551.h"
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
 #include "wd1770.h"
+
 
 /* ------------------------------------------------------------------------- */
 /* SFD1001 specific memory.  */
@@ -120,6 +124,47 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address,
                                       BYTE value)
 {
     return;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Zero page access.  */
+
+static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, ADDRESS address)
+{
+    return drv->cpud.drive_ram[address & 0xff];
+}
+
+static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, ADDRESS address)
+{
+    switch (address & 0xff) {
+      case 0:
+        return glue1551_port0_read(drv);
+      case 1:
+        return glue1551_port1_read(drv);
+    }
+
+    return drv->cpud.drive_ram[address & 0xff];
+}
+
+static void REGPARM3 drive_store_zero(drive_context_t *drv, ADDRESS address,
+                                      BYTE value)
+{
+    drv->cpud.drive_ram[address & 0xff] = value;
+}
+
+static void REGPARM3 drive_store_1551zero(drive_context_t *drv, ADDRESS address,
+                                          BYTE value)
+{
+    switch (address & 0xff) {
+      case 0:
+        glue1551_port0_store(drv, value);
+        return;
+      case 1:
+        glue1551_port1_store(drv, value);
+        return;
+    }
+
+    drv->cpud.drive_ram[address & 0xff] = value;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -215,7 +260,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
 
     /* FIXME: ROM mirrors! */
     /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541II
+    if (type == DRIVE_TYPE_1541II || type == DRIVE_TYPE_1551
         || type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
         || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250)
         for (i = 0xC0; i < 0x100; i++)
@@ -235,16 +280,26 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581
-        || type == DRIVE_TYPE_2031) {
+        || type == DRIVE_TYPE_1551 || type == DRIVE_TYPE_1571
+        || type == DRIVE_TYPE_1581 || type == DRIVE_TYPE_2031) {
 
         drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
 
+        /* Setup zero page access.  */
+        if (type == DRIVE_TYPE_1551) {
+            drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
+            drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
+        } else {
+            drv->cpud.read_func_nowatch[0] = drive_read_zero;
+            drv->cpud.store_func_nowatch[0] = drive_store_zero;
+        }
+
         /* Setup drive RAM.  */
-        for (i = 0x00; i < 0x08; i++) {
+        for (i = 0x01; i < 0x08; i++) {
             drv->cpud.read_func_nowatch[i] = drive_read_ram;
             drv->cpud.store_func_nowatch[i] = drive_store_ram;
         }
+
         if (type == DRIVE_TYPE_1581)
             for (i = 0x08; i < 0x20; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram;
@@ -293,6 +348,15 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
             drv->cpud.store_func_nowatch[i] = via2d_store;
         }
     }
+
+    /* Setup 1551 TIA.  */
+    if (type == DRIVE_TYPE_1551) {
+        for (i = 0x40; i < 0x7f; i++) {
+            drv->cpud.read_func_nowatch[i] = tia1551_read;
+            drv->cpud.store_func_nowatch[i] = tia1551_store;
+        }
+    }
+
     /* Setup 1571 CIA.  */
     if (type == DRIVE_TYPE_1571) {
         for (i = 0x40; i < 0x44; i++) {
@@ -384,6 +448,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         drv->drive_ptr->rom_start = 0xd000;
         break;
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1551:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
@@ -422,6 +487,14 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
         drive_ioreg_list[1].start = 0x1c00;
         drive_ioreg_list[1].end = 0x1c0f;
         drive_ioreg_list[1].next = NULL;
+        break;
+      case DRIVE_TYPE_1551:
+        drive_ioreg_list
+            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 1);
+        drive_ioreg_list[0].name = "TIA";
+        drive_ioreg_list[0].start = 0x4000;
+        drive_ioreg_list[0].end = 0x4007;
+        drive_ioreg_list[0].next = NULL;
         break;
       case DRIVE_TYPE_1571:
         drive_ioreg_list
