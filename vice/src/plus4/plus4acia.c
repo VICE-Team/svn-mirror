@@ -32,14 +32,12 @@
 
 #define myacia acia
 
-#define I_MYACIA I_ACIA1
-
 /* resource defaults */
-#define MYACIA          "Acia"
-#define MyDevice        0
-#define MyIrq           IK_IRQ
+#define MYACIA   "Acia"
+#define MyDevice 0
+#define MyIrq    IK_IRQ
 
-#define myaciadev       acia1dev
+#define myaciadev acia1dev
 
 #define myacia_init acia_init
 #define myacia_init_cmdline_options acia_cmdline_options_init
@@ -55,7 +53,7 @@
 
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_set_int maincpu_set_int
-#define mycpu_set_int_noclk maincpu_set_int_noclk
+#define mycpu_set_int_noclk maincpu_set_int
 
 #include "aciacore.c"
 

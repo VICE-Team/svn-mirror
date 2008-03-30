@@ -31,14 +31,12 @@
 
 #define myacia acia1
 
-#define I_MYACIA I_ACIA1
-
 /* resource defaults */
-#define        MYACIA          "Acia1"
-#define        MyDevice        0
-#define        MyIrq           IK_IRQ
+#define MYACIA   "Acia1"
+#define MyDevice 0
+#define MyIrq    IK_IRQ
 
-#define myaciadev       acia1dev
+#define myaciadev acia1dev
 
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_cmdline_options_init

@@ -37,11 +37,11 @@
  * 24jan97 a.fachat
  * new interrupt handling, hopefully according to the specs now.
  * All interrupts (note: not timer events (i.e. alarms) are put
- * into one interrupt flag, I_MYVIAFL.
+ * into one interrupt flag.
  * if an interrupt condition changes, the function (i.e. cpp macro)
  * update_myviairq() id called, that checks the IRQ line state.
  * This is now possible, as ettore has decoupled A_* alarm events
- * from I_* interrupts for performance reasons.
+ * from interrupts for performance reasons.
  *
  * A new function for signaling rising/falling edges on the
  * control lines is introduced:
@@ -168,9 +168,8 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 
 #ifndef via_restore_int /* if VIA reports to other chip (TPI) for IRQ */
-#define via_restore_int(a)                                       \
-        interrupt_set_int_noclk(mycpu_int_status, myvia_int_num, \
-        (a) ? MYVIA_INT : 0)
+#define via_restore_int(a) \
+    via_set_int(myvia_int_num, (a) ? MYVIA_INT : 0)
 #endif
 
 static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);
