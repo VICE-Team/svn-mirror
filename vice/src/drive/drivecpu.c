@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "6510core.h"
@@ -306,7 +307,8 @@ void drive_cpu_early_init(drive_context_t *drv)
     clk_guard_init(&(drv->cpu.clk_guard), drv->clk_ptr,
                    CLOCK_MAX - 0x100000);
 
-    alarm_context_init(&(drv->cpu.alarm_context), drv->cpu.identification_string);
+    alarm_context_init(&(drv->cpu.alarm_context),
+                       drv->cpu.identification_string);
 
     via1d_init(drv);
     via2d_init(drv);
@@ -315,7 +317,8 @@ void drive_cpu_early_init(drive_context_t *drv)
     wd1770d_init(drv);
     riot1_init(drv);
     riot2_init(drv);
-    fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100, &(drv->drive_ptr->rom[0x4000]));
+    fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100,
+             &(drv->drive_ptr->rom[0x4000]));
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -349,7 +352,10 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
         if (drv->drive_ptr->enable) {
             if (drv->cpu.last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
-                drive_cpu_execute(clk + sub);
+                if (drive[0].enable)
+                    drive0_cpu_execute(clk + sub);
+                if (drive[1].enable)
+                    drive1_cpu_execute(clk + sub);
             }
             drv->cpu.last_clk -= sub;
         } else {

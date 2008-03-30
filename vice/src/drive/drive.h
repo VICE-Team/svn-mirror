@@ -344,7 +344,6 @@ extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int new_sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
-extern void drive_cpu_execute(CLOCK clk_value);
 extern void drive_gcr_data_writeback(unsigned int dnr);
 extern void drive_setup_rom_image(int dnr);
 extern void drive_initialize_rom_traps(int dnr);
