@@ -62,5 +62,6 @@ ui_menu_entry_t rs232user_baudrate_submenu[] = {
       (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)4800, NULL },
     { N_("*9600 baud"),
       (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)9600, NULL },
+    { NULL }
 };
 

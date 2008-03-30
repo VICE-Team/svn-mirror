@@ -106,14 +106,18 @@ static image_contents_t *ui_image_contents_read_dir(const char *dir_name)
 
   while ((de = readdir(dirp)) != NULL)
   {
+    struct stat st;
+    
     image_contents_file_list_t *new_list;
 
     new_list = (image_contents_file_list_t*)lib_malloc(sizeof(image_contents_file_list_t));
-    new_list->size = (de->d_reclen) / 254;
     strncpy(new_list->name, de->d_name, maxlen);
     (new_list->name)[maxlen] = '\0';
     strcpy(new_list->type, "PRG");
 
+    stat(de->d_name, &st);
+    new_list->size = st.st_size / 254;
+    
     new_list->next = NULL;
 
     if (lp == NULL)
