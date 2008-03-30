@@ -189,7 +189,6 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 
 /* ------------------------------------------------------------------------ */
 
-#if 0
 static TUI_MENU_CALLBACK(change_workdir_callback)
 {
     char s[256];
@@ -212,7 +211,6 @@ static TUI_MENU_CALLBACK(change_workdir_callback)
 
     return NULL;
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -1396,12 +1394,10 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
                          ui_detach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-#if 0
     tui_menu_add_item(ui_main_menu, "_Change Working Directory...",
 		      "Change the current working directory",
 		      change_workdir_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
-#endif
 
     tui_menu_add_separator(ui_main_menu);
 
