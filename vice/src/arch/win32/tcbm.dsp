@@ -108,5 +108,9 @@ SOURCE=..\..\drive\tcbm\tcbmrom.c
 
 SOURCE=..\..\drive\tcbm\tia1551.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\tcbm\tpid.c
+# End Source File
 # End Target
 # End Project

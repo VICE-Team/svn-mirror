@@ -2,7 +2,7 @@
  * tpicore.h - TPI 6525 template
  *
  * Written by
- *   André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,6 +32,22 @@
 #include "tpi.h"
 #include "types.h"
 
+#ifdef TPI_SHARED_CODE
+#define TPI_CONTEXT_PARAM       TPICONTEXT *ctxptr,
+#define TPI_CONTEXT_PARVOID     TPICONTEXT *ctxptr
+#define TPI_CONTEXT_CALL        ctxptr,
+#define TPI_CONTEXT_CALLVOID    ctxptr
+#define TPIRPARM1               REGPARM2
+#define TPIRPARM2               REGPARM3
+#else
+#define TPI_CONTEXT_PARAM
+#define TPI_CONTEXT_PARVOID     void
+#define TPI_CONTEXT_CALL
+#define TPI_CONTEXT_CALLVOID
+#define TPIRPARM1               REGPARM1
+#define TPIRPARM2               REGPARM2
+#endif
+
 #if defined(NO_INLINE)
 #define _TPI_FUNC       static
 #else
@@ -39,9 +55,6 @@
 #endif
 
 static const BYTE pow2[] = { 1, 2, 4, 8, 16 };
-
-static BYTE irq_previous;
-static BYTE irq_stack;
 
 #define irq_active      tpi[TPI_AIR]
 #define irq_latches     tpi[TPI_PC]
@@ -56,7 +69,14 @@ static BYTE irq_stack;
 #define IS_CB_PULSE_MODE()      ((tpi[TPI_CREG] & 0xc0) == 0x40)
 #define IS_CB_TOGGLE_MODE()     ((tpi[TPI_CREG] & 0xc0) == 0x00)
 
+#ifndef TPI_SHARED_CODE
+
+static BYTE irq_previous;
+static BYTE irq_stack;
+
 static BYTE tpi[8];
+
+#endif
 
 static BYTE oldpa;
 static BYTE oldpb;
