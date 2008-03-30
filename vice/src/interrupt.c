@@ -171,7 +171,7 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 /* ------------------------------------------------------------------------- */
 
 /* Trigger a RESET.  This resets the machine.  */
-void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK clk)
+void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_RESET;
 }
@@ -186,7 +186,7 @@ void interrupt_ack_reset(cpu_int_status_t *cs)
    debugging.  `trap_func' will be called with PC as the argument when this
    condition is detected.  */
 void interrupt_trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS,
-                  void *data), void *data, CLOCK clk)
+                  void *data), void *data, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_TRAP;
     cs->trap_func = trap_func;
@@ -194,10 +194,10 @@ void interrupt_trigger_trap(cpu_int_status_t *cs, void (*trap_func)(ADDRESS,
 }
 
 /* Dispatch the TRAP condition.  */
-void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS reg_pc)
+void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS address)
 {
     cs->global_pending_int &= ~IK_TRAP;
-    cs->trap_func(((ADDRESS)reg_pc), cs->trap_data);
+    cs->trap_func(address, cs->trap_data);
 }
 
 void interrupt_monitor_trap_on(cpu_int_status_t *cs)
