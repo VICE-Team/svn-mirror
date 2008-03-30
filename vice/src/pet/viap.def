@@ -146,7 +146,7 @@ READ_PRB()
                        (int) via[VIA_PRA], (int) j,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
             }
-            return ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+            byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
 }
 

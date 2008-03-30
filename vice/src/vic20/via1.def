@@ -112,7 +112,7 @@ READ_PRB()
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	return val;
+	byte = val;
     }
 }
 

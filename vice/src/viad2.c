@@ -94,11 +94,20 @@
 #define	viaD2tb() \
 	(viaD2tbu-true1541_clk-2)
 
+/* printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,viaD2tau,nuf,viaD2tal,viaD2pb7); */
+/* printf(" pb7=%d, pb7x=%d\n",viaD2pb7, viaD2pb7x); */
+
 /* the next two are used in store_viaD2() */
 #define	update_viaD2tal() \
+	viaD2pb7x = 0; \
 	if(rclk>viaD2tau) { \
+	  int nuf = 1+(rclk-viaD2tau)/(viaD2tal+2); \
+	  if(viaD2[VIA_ACR] & 0x40) { viaD2pb7 ^= (nuf & 1); } \
+	  else { viaD2pb7 = 1; }\
+	\
 	  viaD2tau=viaD2tal+2+(rclk-(rclk-viaD2tau)%(viaD2tal+2)); \
 	}\
+	if((viaD2[VIA_ACR]&0x40) && (viaD2tau == rclk+1)) viaD2pb7x = 1;\
 	viaD2tal = viaD2[VIA_T1LL] + (viaD2[VIA_T1LH] << 8)
 
 #define	update_viaD2tbl() \
@@ -120,6 +129,11 @@
 #include "interrupt.h"
 
 /*#define VIAD2_TIMER_DEBUG */
+/*#define VIAD2_NEED_PB7 */	/* when PB7 is really used, set this
+				   to enable pulse output from the timer.
+				   Otherwise PB7 state is computed only
+				   when port B is read -
+				not yet implemented */
 
 /* global */
 
@@ -146,6 +160,8 @@ static CLOCK 		viaD2tbu;   /* time when viaD2 timer B is updated */
 static CLOCK 		viaD2tai;   /* time when next timer A alarm is */
 static CLOCK 		viaD2tbi;   /* time when next timer A alarm is */
 
+static int 		viaD2pb7;   /* state of PB7 for pulse output... */
+static int 		viaD2pb7x;  /* to be xored herewith  */
 
 /* ------------------------------------------------------------------------- */
 /* VIAD2 */
@@ -303,6 +319,9 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
 	viaD2tai = rclk + viaD2tal + 2;
         true1541_set_alarm_clk(A_VIAD2T1, viaD2tai);
 
+	/* set pb7 state */
+	viaD2pb7 = 0;
+
         /* Clear T1 interrupt */
         viaD2ifr &= ~VIA_IM_T1;
         update_viaD2irq();
@@ -360,12 +379,21 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
 	/* Control */
 
       case VIA_ACR:
+	/* bit 7 timer 1 output to PB7 */
+	if((viaD2[VIA_ACR] & 0x80)==0 && (byte & 0x80)) {
+	  update_viaD2tal();
+	  viaD2pb7 = 1;
+	}
+	if((viaD2[VIA_ACR] ^ byte) & 0x40) {
+	  update_viaD2tal();
+	  viaD2pb7 ^= viaD2pb7x;
+	  if((rclk + viaD2tal + 2 == viaD2tau) && (byte & 0x40)) {
+	    viaD2pb7 ^= 1;
+	  }
+	}
 	viaD2[addr] = byte;
 
 	
-
-	/* bit 7 timer 1 output to PB7 */
-	/* bit 6 timer 1 run mode -- default seems to be continuous */
 
 	/* bit 5 timer 2 count mode */
 	if (byte & 32) {
@@ -425,13 +453,15 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
     BYTE read_viaD2_(ADDRESS);
     BYTE retv = read_viaD2_(addr);
     addr &= 0x0f;
-    if(app_resources.debugFlag || (addr>3 && addr <10))
+    if((addr>3 && addr<10) || app_resources.debugFlag)
 	printf("read_viaD2(%x) -> %02x, clk=%d\n",addr,retv,true1541_clk);
     return retv;
 }
 BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 {
 #endif
+    CLOCK rclk = true1541_clk;
+
     addr &= 0xf;
 
     if(viaD2tai && (viaD2tai <= true1541_clk)) int_viaD2t1(true1541_clk - viaD2tai);
@@ -457,17 +487,22 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
           viaD2ifr &= ~VIA_IM_CB2;
         }
         update_viaD2irq();
-
 	{
 	  BYTE byte;
+
 #ifdef TRUE1541_ROTATE
-	  true1541_rotate_disk(0);
+	true1541_rotate_disk(0);
 #endif
-	  /* I hope I got the polarities right */
-	  byte = (true1541_sync_found() ? 0 : 0x80)
-			| (true1541_write_protect_sense() ? 0 : 0x10);
-	  return (byte & ~viaD2[VIA_DDRB])
+	/* I hope I got the polarities right */
+	byte = (true1541_sync_found() ? 0 : 0x80)
+		| (true1541_write_protect_sense() ? 0 : 0x10);
+	byte = (byte & ~viaD2[VIA_DDRB])
 			| (viaD2[VIA_PRB] & viaD2[VIA_DDRB]);
+	  if(viaD2[VIA_ACR] & 0x80) {
+	    update_viaD2tal();
+	    byte = (byte & 0x7f) | ((viaD2pb7 ^ viaD2pb7x) ? 0x80 : 0);
+	  }
+	  return byte;
 	}
 
 	/* Timers */
@@ -514,7 +549,7 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 
 int    int_viaD2t1(long offset)
 {
-    CLOCK rclk = true1541_clk - offset;
+/*    CLOCK rclk = true1541_clk - offset; */
 #ifdef VIAD2_TIMER_DEBUG
     if (app_resources.debugFlag)
 	printf("viaD2 timer A interrupt\n");

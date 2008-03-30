@@ -109,7 +109,7 @@ READ_PRA()
 
 READ_PRB() 
 {
-     return (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+     byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 }
 
 #define POST_VIA_FUNCS

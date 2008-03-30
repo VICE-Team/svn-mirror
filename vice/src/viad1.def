@@ -106,7 +106,7 @@ READ_PRA()
 
 READ_PRB()
 {
-	return ((viaD1[VIA_PRB] & 0x1a) | serial_bus_drive_read()) ^ 0x85;
+	byte = ((viaD1[VIA_PRB] & 0x1a) | serial_bus_drive_read()) ^ 0x85;
 }
 
 #define POST_VIA_FUNCS

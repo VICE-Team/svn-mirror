@@ -94,11 +94,20 @@
 #define	via1tb() \
 	(via1tbu-clk-2)
 
+/* printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,via1tau,nuf,via1tal,via1pb7); */
+/* printf(" pb7=%d, pb7x=%d\n",via1pb7, via1pb7x); */
+
 /* the next two are used in store_via1() */
 #define	update_via1tal() \
+	via1pb7x = 0; \
 	if(rclk>via1tau) { \
+	  int nuf = 1+(rclk-via1tau)/(via1tal+2); \
+	  if(via1[VIA_ACR] & 0x40) { via1pb7 ^= (nuf & 1); } \
+	  else { via1pb7 = 1; }\
+	\
 	  via1tau=via1tal+2+(rclk-(rclk-via1tau)%(via1tal+2)); \
 	}\
+	if((via1[VIA_ACR]&0x40) && (via1tau == rclk+1)) via1pb7x = 1;\
 	via1tal = via1[VIA_T1LL] + (via1[VIA_T1LH] << 8)
 
 #define	update_via1tbl() \
@@ -120,6 +129,11 @@
 #include "interrupt.h"
 
 /*#define VIA1_TIMER_DEBUG */
+/*#define VIA1_NEED_PB7 */	/* when PB7 is really used, set this
+				   to enable pulse output from the timer.
+				   Otherwise PB7 state is computed only
+				   when port B is read -
+				not yet implemented */
 
 /* global */
 
@@ -146,6 +160,8 @@ static CLOCK 		via1tbu;   /* time when via1 timer B is updated */
 static CLOCK 		via1tai;   /* time when next timer A alarm is */
 static CLOCK 		via1tbi;   /* time when next timer A alarm is */
 
+static int 		via1pb7;   /* state of PB7 for pulse output... */
+static int 		via1pb7x;  /* to be xored herewith  */
 
 /* ------------------------------------------------------------------------- */
 /* VIA1 */
@@ -278,6 +294,9 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
 	via1tai = rclk + via1tal + 2;
         maincpu_set_alarm_clk(A_VIA1T1, via1tai);
 
+	/* set pb7 state */
+	via1pb7 = 0;
+
         /* Clear T1 interrupt */
         via1ifr &= ~VIA_IM_T1;
         update_via1irq();
@@ -335,12 +354,21 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
 	/* Control */
 
       case VIA_ACR:
+	/* bit 7 timer 1 output to PB7 */
+	if((via1[VIA_ACR] & 0x80)==0 && (byte & 0x80)) {
+	  update_via1tal();
+	  via1pb7 = 1;
+	}
+	if((via1[VIA_ACR] ^ byte) & 0x40) {
+	  update_via1tal();
+	  via1pb7 ^= via1pb7x;
+	  if((rclk + via1tal + 2 == via1tau) && (byte & 0x40)) {
+	    via1pb7 ^= 1;
+	  }
+	}
 	via1[addr] = byte;
 
 	
-
-	/* bit 7 timer 1 output to PB7 */
-	/* bit 6 timer 1 run mode -- default seems to be continuous */
 
 	/* bit 5 timer 2 count mode */
 	if (byte & 32) {
@@ -389,13 +417,15 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
     BYTE read_via1_(ADDRESS);
     BYTE retv = read_via1_(addr);
     addr &= 0x0f;
-    if(app_resources.debugFlag || (addr>3 && addr <10))
+    if((addr>3 && addr<10) || app_resources.debugFlag)
 	printf("read_via1(%x) -> %02x, clk=%d\n",addr,retv,clk);
     return retv;
 }
 BYTE REGPARM1 read_via1_(ADDRESS addr)
 {
 #endif
+    CLOCK rclk = clk;
+
     addr &= 0xf;
 
     if(via1tai && (via1tai <= clk)) int_via1t1(clk - via1tai);
@@ -432,6 +462,8 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
           via1ifr &= ~VIA_IM_CB2;
         }
         update_via1irq();
+	{
+	  BYTE byte;
 
     {
 	/* FIXME: not 100% sure about this... */
@@ -448,8 +480,14 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	return val;
+	byte = val;
     }
+	  if(via1[VIA_ACR] & 0x80) {
+	    update_via1tal();
+	    byte = (byte & 0x7f) | ((via1pb7 ^ via1pb7x) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
 
 	/* Timers */
 
@@ -495,7 +533,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 
 int    int_via1t1(long offset)
 {
-    CLOCK rclk = clk - offset;
+/*    CLOCK rclk = clk - offset; */
 #ifdef VIA1_TIMER_DEBUG
     if (app_resources.debugFlag)
 	printf("via1 timer A interrupt\n");
