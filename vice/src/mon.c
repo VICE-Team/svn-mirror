@@ -1089,20 +1089,12 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
 
    len = clength[operand_mode];
 
-#if 0
-   ram[loc] = opcode;
-   if (len >= 2)
-      ram[loc+1] = operand_value & 0xff;
-   if (len >= 3)
-      ram[loc+2] = (operand_value >> 8) & 0xff;
-#else
    /* EP 98.08.23 use correct memspace for assembling.  */
    set_mem_val(mem, loc, opcode);
    if (len >= 2)
       set_mem_val(mem, loc + 1, operand_value & 0xff);
    if (len >= 3)
       set_mem_val(mem, loc + 2, (operand_value >> 8) & 0xff);
-#endif
 
    if (len >= 0) {
       inc_addr_location(&asm_mode_addr, len);

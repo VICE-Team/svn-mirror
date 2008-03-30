@@ -1,43 +1,36 @@
 /*
- * $Id: mshell.h,v 1.4 1997/05/22 21:28:02 ettore Exp $
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
- * See README for copyright notice
- *
- * Defaults for the Monitor shell.
- *
+ * mshell.c - Simple command-line handling.
  *
  * Written by
- *   Jarkko Sonninen (sonninen@lut.fi)
- *   Jouko Valta     (jopi@zombie.oulu.fi)
+ *  Jarkko Sonninen (sonninen@lut.fi)
+ *  Jouko Valta     (jopi@stekt.oulu.fi)
  *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
- * $Log: mshell.h,v $
- * Revision 1.4  1997/05/22 21:28:02  ettore
- * *** empty log message ***
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * Revision 1.3  1996/04/01  09:01:41  jopi
- * MODE declarations and struct for variable manipulation
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * Revision 1.2  1995/04/01  07:54:09  jopi
- * X64 0.3 PL 0
- * Prototypes.
- *
- * Revision 1.1  1994/12/12  16:59:44  jopi
- * Initial revision
- *
- *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
  *
  */
 
-#ifndef X64_MSHELL_H
-#define X64_MSHELL_H
-
+#ifndef _MSHELL_H
+#define _MSHELL_H
 
 #define T_QUOTED 1
 #define T_NUMBER 2
 #define T_OTHER  3
-
 
  /*
   * Define 'mode'
@@ -90,4 +83,4 @@ int     eval_command ( char *, int , struct ms_table * );
 int     sconv ( char *, int, int );
 
 
-#endif  /* X64_MSHELL_H */
+#endif  /* _MSHELL_H */
