@@ -112,8 +112,6 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @HAVE_RS232_TRUE@rs232_libadd = vic20rsuser.o
 @HAVE_RS232_FALSE@rs232_libadd =
 
-SUFFIXES = .def
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -137,7 +135,7 @@ libvic20_a_SOURCES = \
 	vic-resources.h \
 	vic-snapshot.c \
 	vic-snapshot.h \
-        vic20.c \
+	vic20.c \
 	vic20.h \
 	vic20datasette.c \
 	vic20iec.c \
@@ -151,8 +149,6 @@ libvic20_a_SOURCES = \
 	vic20via.h \
 	vic20via1.c \
 	vic20via2.c
-
-EXTRA_DIST =
 
 libvic20_a_LIBADD = $(rs232_libadd)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -189,7 +185,7 @@ OBJECTS = $(libvic20_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .def .o .s
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/vic20/Makefile
 
@@ -408,20 +404,20 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h
 vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/arch/unix/types.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/log.h ../../src/snapshot.h ../../src/autostart.h \
-	../../src/cartridge.h ../../src/clkguard.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/autostart.h ../../src/cartridge.h \
+	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/datasette.h ../../src/tap.h ../../src/drive/drive.h \
+	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/tape.h \
-	../../src/utils.h vic.h vic20.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
-	../../src/raster/raster.h ../../src/raster/raster-cache.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/serial.h \
+	../../src/traps.h ../../src/tape.h ../../src/utils.h vic.h \
+	vic20.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/raster/raster.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -438,12 +434,11 @@ vic20datasette.o: vic20datasette.c ../../src/vice.h ../../src/config.h \
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/drive/drive.h \
-	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
-	../../src/traps.h ../../src/log.h ../../src/drive/drivecpu.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/iecdrive.h ../../src/maincpu.h \
-	../../src/resources.h ../../src/drive/viad.h ../../src/via.h
+	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/iecdrive.h ../../src/maincpu.h ../../src/resources.h \
+	../../src/drive/viad.h ../../src/via.h
 vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/arch/unix/types.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/cartridge.h ../../src/cmdline.h \
@@ -478,8 +473,7 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h ../../src/maincpu.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/arch/unix/kbd.h ../../src/keyboard.h vic20iec.h \
 	../../src/iecdrive.h vic20via.h ../../src/viacore.c
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
@@ -488,8 +482,7 @@ vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/resources.h \
 	../../src/via.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/arch/unix/kbd.h \
 	../../src/maincpu.h vic20iec.h ../../src/iecdrive.h vic20via.h \
 	../../src/pruser.h ../../src/rsuser.h ../../src/viacore.c

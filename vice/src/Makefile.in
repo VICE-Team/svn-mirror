@@ -118,6 +118,7 @@ SUBDIRS = \
 	@RESID_DIR@ \
 	sounddrv \
 	drive \
+	vdrive \
 	raster \
 	vicii \
 	crtc \
@@ -133,7 +134,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/vdrive
 
 YFLAGS = -dt
 
@@ -157,7 +159,6 @@ noinst_HEADERS = \
 	emuid.h \
 	fixpoint.h \
 	findpath.h \
-	fs_cbm.h \
 	fsdevice.h \
 	fliplist.h \
 	gcr.h \
@@ -197,8 +198,6 @@ noinst_HEADERS = \
 	uiapi.h \
 	usleep.h \
 	utils.h \
-	vdrive.h \
-	vdrive-iec.h\
 	via.h \
 	viacore.h \
 	vice.h \
@@ -245,8 +244,6 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
-	vdrive.c \
-	vdrive-iec.c \
 	warn.c \
 	zfile.c \
 	zipcode.c
@@ -293,6 +290,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
@@ -309,6 +307,7 @@ x64_libs =  \
 	@X64_WINRES@ \
 	$(c64_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
@@ -326,6 +325,7 @@ x128_libs =  \
 	$(c128_lib) \
 	$(c64c128_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
@@ -342,6 +342,7 @@ xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sounddrv_lib) \
 	$(raster_lib) \
 	$(common_libs)
@@ -355,6 +356,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 xpet_libs =  \
 	@XPET_WINRES@ \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(pet_lib) \
 	$(sounddrv_lib) \
 	$(crtc_lib) \
@@ -370,6 +372,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(xcbm2_lib) \
 	$(sounddrv_lib) \
 	$(sid_lib) \
@@ -395,15 +398,13 @@ c1541_SOURCES = \
 	resources.c \
 	t64.c \
 	utils.c \
-	vdrive-iec.c \
-	vdrive.c \
 	zfile.c \
 	zipcode.c
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
-c1541_LDADD = @ARCH_DIR@/archdep.o @READLINE@
+c1541_LDADD = @ARCH_DIR@/archdep.o $(vdrive_lib) @READLINE@
 
 # petcat
 petcat_SOURCES = \
@@ -436,39 +437,35 @@ clkguard.o cmdline.o datasette.o emuid.o findpath.o fsdevice.o \
 fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o keyboard.o \
 log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o parallel.o \
 resources.o romset.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o \
-tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o zipcode.o \
-maincpu.o
+tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 x128_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o emuid.o findpath.o fsdevice.o \
 fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o keyboard.o \
 log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o parallel.o \
 resources.o romset.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o \
-tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o zipcode.o
+tape.o traps.o utils.o warn.o zfile.o zipcode.o
 xvic_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o emuid.o findpath.o fsdevice.o \
 fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o keyboard.o \
 log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o parallel.o \
 resources.o romset.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o \
-tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o zipcode.o \
-maincpu.o
+tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o emuid.o findpath.o fsdevice.o \
 fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o keyboard.o \
 log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o parallel.o \
 resources.o romset.o serial.o snapshot.o sound.o sysfile.o t64.o tap.o \
-tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o zipcode.o \
-maincpu.o
+tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xcbm2_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o \
 ciatimer.o clkguard.o cmdline.o datasette.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o
+t64.o tap.o tape.o traps.o utils.o warn.o zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o findpath.o gcr.o info.o \
-log.o p00.o resources.o t64.o utils.o vdrive-iec.o vdrive.o zfile.o \
-zipcode.o
-c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o
+log.o p00.o resources.o t64.o utils.o zfile.o zipcode.o
+c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o \
+$(top_builddir)/src/vdrive/libvdrive.a
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o cmdline.o findpath.o log.o p00.o petcat.o \
 resources.o utils.o zfile.o zipcode.o
@@ -691,19 +688,20 @@ distdir: $(DISTFILES)
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
-attach.o: attach.c vice.h config.h attach.h arch/unix/types.h vdrive.h \
-	fs_cbm.h serial.h traps.h log.h snapshot.h fliplist.h \
-	resources.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h
+attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
+	fliplist.h resources.h serial.h traps.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h uiapi.h vdrive/vdrive.h log.h
 autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
-	arch/unix/archdep.h archapi.h attach.h vdrive.h fs_cbm.h \
-	serial.h traps.h log.h snapshot.h charsets.h datasette.h tap.h \
-	fsdevice.h interrupt.h 6510core.h mem.h kbdbuf.h machine.h \
-	p00.h resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	palette.h uiapi.h utils.h zfile.h
+	arch/unix/archdep.h archapi.h attach.h snapshot.h charsets.h \
+	datasette.h tap.h fsdevice.h interrupt.h 6510core.h mem.h \
+	kbdbuf.h log.h machine.h p00.h resources.h serial.h traps.h \
+	tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h \
+	utils.h vdrive/vdrive.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
 	charsets.h arch/unix/types.h gcr.h info.h p00.h serial.h \
-	traps.h t64.h utils.h vdrive-iec.h vdrive.h fs_cbm.h log.h \
-	zipcode.h
+	traps.h t64.h utils.h vdrive/vdrive-bam.h vdrive/vdrive.h \
+	attach.h snapshot.h log.h vdrive/vdrive-dir.h \
+	vdrive/vdrive-iec.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h arch/unix/types.h
 ciatimer.o: ciatimer.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	interrupt.h 6510core.h mem.h snapshot.h ciatimer.h
@@ -718,15 +716,16 @@ emuid.o: emuid.c vice.h config.h arch/unix/types.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
 	findpath.h utils.h arch/unix/types.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h arch/unix/types.h \
-	fliplist.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
-	snapshot.h
+	fliplist.h attach.h snapshot.h
 fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 	charsets.h arch/unix/types.h cmdline.h resources.h fsdevice.h \
-	log.h p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
+	log.h p00.h serial.h traps.h utils.h vdrive/vdrive.h attach.h \
+	snapshot.h
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h
 imagecontents.o: imagecontents.c vice.h config.h imagecontents.h \
 	arch/unix/types.h arch/unix/archdep.h archapi.h charsets.h \
-	log.h t64.h utils.h vdrive.h fs_cbm.h serial.h traps.h zfile.h
+	log.h t64.h utils.h vdrive/vdrive-bam.h vdrive/vdrive.h \
+	attach.h snapshot.h vdrive/vdrive-dir.h zfile.h
 info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
 	6510core.h mem.h snapshot.h
@@ -740,41 +739,40 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h log.h \
 log.o: log.c vice.h config.h log.h cmdline.h resources.h \
 	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
-	arch/unix/types.h vdrive.h fs_cbm.h serial.h traps.h log.h \
-	snapshot.h autostart.h cartridge.h charsets.h cmdline.h \
-	resources.h drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h \
-	mem.h interrupt.h 6510core.h fsdevice.h arch/unix/joystick.h \
-	arch/unix/kbd.h kbdbuf.h keyboard.h machine.h maincpu.h sound.h \
-	warn.h sysfile.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	palette.h uiapi.h utils.h arch/unix/video.h arch/unix/vsync.h \
-	arch/unix/mouse.h
+	arch/unix/types.h snapshot.h autostart.h cartridge.h charsets.h \
+	cmdline.h resources.h drive/drivecpu.h alarm.h log.h clkguard.h \
+	mos6510.h mon.h mem.h interrupt.h 6510core.h fsdevice.h \
+	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
+	machine.h maincpu.h serial.h traps.h sound.h warn.h sysfile.h \
+	tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h \
+	utils.h arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
 	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
 	mos6510.h interrupt.h datasette.h tap.h machine.h resources.h \
-	traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h \
-	vdrive.h fs_cbm.h serial.h 6510core.c
+	serial.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
+	uiapi.h 6510core.c
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h asm.h \
 	arch/unix/types.h charsets.h drive/drivecpu.h alarm.h log.h \
 	clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
-	6510core.h mon_parse.h resources.h utils.h vdrive.h fs_cbm.h \
-	serial.h traps.h arch/unix/vsync.h
+	6510core.h mon_parse.h resources.h serial.h traps.h utils.h \
+	vdrive/vdrive.h attach.h arch/unix/vsync.h
 mon_lex.o: mon_lex.c vice.h config.h arch/unix/types.h mon.h mos6510.h \
 	mem.h snapshot.h interrupt.h 6510core.h mon_parse.h utils.h
 mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \
 	machine.h mon.h mos6510.h mem.h snapshot.h interrupt.h \
 	6510core.h utils.h
-p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive.h fs_cbm.h \
-	serial.h traps.h log.h
+p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h \
+	attach.h snapshot.h log.h
 palette.o: palette.c vice.h config.h log.h utils.h arch/unix/types.h \
 	palette.h sysfile.h
 parallel.o: parallel.c vice.h config.h arch/unix/types.h parallel.h \
-	serial.h traps.h drive/drive.h vdrive.h fs_cbm.h log.h \
-	drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h mem.h \
-	snapshot.h interrupt.h 6510core.h
+	serial.h traps.h drive/drive.h drive/drivecpu.h alarm.h log.h \
+	clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
+	6510core.h
 petcat.o: petcat.c vice.h config.h charsets.h arch/unix/types.h p00.h
-prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
-	arch/unix/types.h fs_cbm.h serial.h traps.h log.h charsets.h \
-	utils.h prdevice.h print.h
+prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h \
+	vdrive/vdrive.h attach.h arch/unix/types.h snapshot.h log.h \
+	charsets.h utils.h prdevice.h print.h serial.h traps.h
 pruser.o: pruser.c vice.h config.h arch/unix/types.h print.h pruser.h \
 	resources.h cmdline.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
@@ -785,9 +783,9 @@ rsuser.o: rsuser.c vice.h config.h arch/unix/types.h alarm.h log.h \
 	clkguard.h cmdline.h resources.h interrupt.h 6510core.h mem.h \
 	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h drive/drive.h arch/unix/types.h \
-	vdrive.h fs_cbm.h serial.h traps.h log.h drive/drivecpu.h \
-	alarm.h clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
-	6510core.h maincpu.h parallel.h tape.h utils.h prdevice.h
+	drive/drivecpu.h alarm.h log.h clkguard.h mos6510.h mon.h mem.h \
+	snapshot.h interrupt.h 6510core.h maincpu.h parallel.h serial.h \
+	traps.h tape.h utils.h vdrive/vdrive.h attach.h prdevice.h
 snapshot.o: snapshot.c vice.h config.h log.h snapshot.h \
 	arch/unix/types.h utils.h zfile.h
 sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \
@@ -810,13 +808,6 @@ traps.o: traps.c vice.h config.h traps.h arch/unix/types.h log.h \
 	mos6510.h interrupt.h resources.h cmdline.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
-vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h arch/unix/types.h \
-	fs_cbm.h serial.h traps.h log.h vdrive-iec.h utils.h
-vdrive.o: vdrive.c vice.h config.h arch/unix/archdep.h archapi.h \
-	charsets.h arch/unix/types.h drive/drive.h vdrive.h fs_cbm.h \
-	serial.h traps.h log.h drive/drivecpu.h alarm.h clkguard.h \
-	mos6510.h mon.h mem.h snapshot.h interrupt.h 6510core.h \
-	fsdevice.h utils.h vdrive-iec.h zfile.h
 warn.o: warn.c vice.h config.h warn.h log.h utils.h arch/unix/types.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
@@ -914,6 +905,7 @@ x64-all: \
 	@RESID_DEP@ \
 	libc64 \
 	libdrive \
+	libvdrive \
 	libraster \
 	libsid \
 	libsounddrv \
@@ -922,21 +914,23 @@ x64-all: \
 	x64
 
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
+x128-all: libc128 libc64c128 libsounddrv libdrive libvdrive libarch libsid \
 	libvicii @RESID_DEP@ x128
 
 .PHONY: xvic-all
 xvic-all: \
 	libdrive \
+	libvdrive \
 	libraster \
 	libsounddrv \
 	libvic20 \
 	libarch \
-    	xvic
+	xvic
 
 .PHONY: xpet-all
 xpet-all: \
 	libdrive \
+	libvdrive \
 	libraster \
 	libcrtc \
 	libsounddrv \
@@ -952,14 +946,15 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	libdrive \
+	libvdrive \
 	libraster \
 	libcrtc \
 	xcbm2
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libvicii libsid libcrtc @RESID_DEP@
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive libsounddrv \
+	libarch libvicii libsid libcrtc @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -983,6 +978,8 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
+libvdrive:
+	(cd vdrive && $(MAKE))
 libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:

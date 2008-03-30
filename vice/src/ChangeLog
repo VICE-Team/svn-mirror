@@ -1,3 +1,42 @@
+1999-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.29.
+
+	* Makefile.am: Added `libvdrive.a'.
+
+	* c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, cbm2/Makefile.am: Added vdrive directory.
+
+	* vdrive.c, vdrive.h, vdrive-iec.c, vdrive-iec.h: Moved into
+	separate directory.  Removed old cruft.
+
+	* drive/drive.c, drive/drive.h: Do not mix drive and vdrive
+	related varibales anymore.
+	(drive_attach_floppy, drive_detach_floppy): Call ...
+
+	* drive/fdc.c, drive/fdc.h (fdc_attach_disk, fdc_detach_disk):
+	New functions.  Use own vdrive struct instead of using the one of
+	the drive emulation.
+	* drive/wd1770.c, drive/wd1770.h: Changed likewise.
+
+	* attach.c: Fixed type of attach/detach functions.
+
+	* arch/unix/xaw/uicommands.c, arch/msdos/menudefs.c, maincpu.c,
+	pet/pet.c: Do not #include "vdrive.h".
+
+	* fs_cbm.h: Removed.
+
+	* vic20/vic20.c, pet/pet.c, cbm2/c610.c, vdrive/vdrive-iec.c,
+	attach.c, fsdevice.c, mon.c: #include "serial.h".
+
+	* vdrive/vdrive-dir.c, vdrive/vdrive-dir.h, vdrive/vdrive-bam.c,
+	vdrive/vdrive-bam.h: New files.
+
+	* imagecontents.c, c1541.c: #include "vdrive-dir.h".
+
+	* c1541.c, drive/fdc.c, drive/drive.c, imagecontents.c:
+	vdrive/vdrive-iec.c, vdrive/vdrive-dir.c: #include "vdrive-bam.h"
+
 1999-05-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.28.

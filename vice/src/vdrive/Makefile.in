@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -93,6 +93,7 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 WINDRES = @WINDRES@
 X128_WINRES = @X128_WINRES@
@@ -108,69 +109,37 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = widgets
-
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/cbm2
+	-I$(top_srcdir)/src/drive
 
-noinst_LIBRARIES = libxawui.a
+noinst_LIBRARIES = libvdrive.a
 
-libxawui_a_SOURCES = \
-	c128icon.xpm \
-	c128ui.c \
-	c128ui.h \
-	c610icon.xpm \
-	c610ui.c \
-	c610ui.h \
-	c64icon.xpm \
-	c64ui.c \
-	c64ui.h \
-	checkmark.xbm \
-	peticon.xpm \
-	petui.c \
-	petui.h \
-	right_arrow.xbm \
-	ui.c \
-	ui.h \
-	uicommands.c \
-	uicommands.h \
-	uiedisk.c \
-	uiedisk.h \
-	uihotkey.c \
-	uihotkey.h \
-	uimenu.c \
-	uimenu.h \
-	uisettings.c \
-	uisettings.h \
-	uisnapshot.c \
-	uisnapshot.h \
-	vic20icon.xpm \
-	vic20ui.c \
-	vic20ui.h
+libvdrive_a_SOURCES = \
+	vdrive-bam.c \
+	vdrive-bam.h \
+	vdrive-dir.c \
+	vdrive-dir.h \
+	vdrive-iec.c \
+	vdrive-iec.h \
+	vdrive.c \
+	vdrive.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uiedisk.o uihotkey.o uimenu.o uisettings.o uisnapshot.o \
-vic20ui.o
+libvdrive_a_LIBADD = 
+libvdrive_a_OBJECTS =  vdrive-bam.o vdrive-dir.o vdrive-iec.o vdrive.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -181,15 +150,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libxawui_a_SOURCES)
-OBJECTS = $(libxawui_a_OBJECTS)
+SOURCES = $(libvdrive_a_SOURCES)
+OBJECTS = $(libvdrive_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/vdrive/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -224,10 +193,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libxawui.a: $(libxawui_a_OBJECTS) $(libxawui_a_DEPENDENCIES)
-	-rm -f libxawui.a
-	$(AR) cru libxawui.a $(libxawui_a_OBJECTS) $(libxawui_a_LIBADD)
-	$(RANLIB) libxawui.a
+libvdrive.a: $(libvdrive_a_OBJECTS) $(libvdrive_a_DEPENDENCIES)
+	-rm -f libvdrive.a
+	$(AR) cru libvdrive.a $(libvdrive_a_OBJECTS) $(libvdrive_a_LIBADD)
+	$(RANLIB) libvdrive.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -296,7 +265,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw
+subdir = src/vdrive
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -313,110 +282,29 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-c128ui.o: c128ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/joystick.h \
-	../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/palette.h \
-	../../../../src/uiapi.h uimenu.h uihotkey.h uisettings.h \
-	../../../../src/arch/unix/vsync.h c128icon.xpm
-c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/cbm2/c610mem.h \
-	../../../../src/arch/unix/types.h ../../../../src/datasette.h \
-	../../../../src/tap.h ../../../../src/arch/unix/joystick.h \
-	petui.h ../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/arch/unix/vsync.h \
-	c610icon.xpm
-c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/cartridge.h ../../../../src/arch/unix/types.h \
-	../../../../src/datasette.h ../../../../src/tap.h \
-	../../../../src/arch/unix/joystick.h \
-	../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/c64/c64mem.h \
-	../../../../src/mem.h ../../../../src/snapshot.h c64icon.xpm
-petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/datasette.h ../../../../src/tap.h \
-	../../../../src/arch/unix/types.h \
-	../../../../src/arch/unix/joystick.h ../../../../src/pet/pets.h \
-	petui.h ../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/arch/unix/vsync.h \
-	peticon.xpm
-ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
-	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
-	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
-	widgets/TextField.h ui.h ../../../../src/arch/unix/types.h \
-	../../../../src/palette.h ../../../../src/uiapi.h \
-	../../../../src/cmdline.h ../../../../src/resources.h \
-	../../../../src/drive/drive.h ../../../../src/drive/drivecpu.h \
-	../../../../src/alarm.h ../../../../src/log.h \
-	../../../../src/clkguard.h ../../../../src/mos6510.h \
-	../../../../src/mon.h ../../../../src/mem.h \
-	../../../../src/snapshot.h ../../../../src/interrupt.h \
-	../../../../src/6510core.h ../../../../src/machine.h \
-	../../../../src/maincpu.h ../../../../src/arch/unix/mouse.h \
-	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h
-uicommands.o: uicommands.c ../../../../src/vice.h \
-	../../../../src/config.h uicommands.h ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/palette.h \
-	../../../../src/uiapi.h uimenu.h uihotkey.h \
-	../../../../src/arch/unix/archdep.h ../../../../src/archapi.h \
-	../../../../src/attach.h ../../../../src/snapshot.h \
-	../../../../src/autostart.h ../../../../src/imagecontents.h \
-	../../../../src/info.h ../../../../src/interrupt.h \
-	../../../../src/6510core.h ../../../../src/mem.h \
-	../../../../src/machine.h ../../../../src/maincpu.h \
-	../../../../src/alarm.h ../../../../src/log.h \
-	../../../../src/clkguard.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/resources.h \
-	../../../../src/sound.h ../../../../src/warn.h \
-	../../../../src/tape.h ../../../../src/traps.h uiedisk.h \
-	uisnapshot.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
-uiedisk.o: uiedisk.c ../../../../src/vice.h ../../../../src/config.h \
-	widgets/TextField.h uiedisk.h ../../../../src/machine.h \
-	../../../../src/arch/unix/types.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h \
-	../../../../src/utils.h
-uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
-	uihotkey.h ui.h ../../../../src/arch/unix/types.h \
-	../../../../src/palette.h ../../../../src/uiapi.h \
-	../../../../src/utils.h
-uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
-	checkmark.xbm right_arrow.xbm ../../../../src/resources.h \
-	../../../../src/utils.h ../../../../src/arch/unix/types.h \
-	../../../../src/arch/unix/vsync.h uimenu.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h uihotkey.h
-uisettings.o: uisettings.c ../../../../src/vice.h \
-	../../../../src/config.h uisettings.h ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/palette.h \
-	../../../../src/uiapi.h uimenu.h uihotkey.h \
-	../../../../src/fsdevice.h ../../../../src/arch/unix/kbd.h \
-	../../../../src/resources.h ../../../../src/sound.h \
-	../../../../src/warn.h ../../../../src/drive/drive.h \
-	../../../../src/drive/drivecpu.h ../../../../src/alarm.h \
-	../../../../src/log.h ../../../../src/clkguard.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
-	../../../../src/mem.h ../../../../src/snapshot.h \
-	../../../../src/interrupt.h ../../../../src/6510core.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \
-	../../../../src/iecdrive.h ../../../../src/romset.h \
-	../../../../src/prdevice.h
-uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
-	../../../../src/config.h widgets/TextField.h uisnapshot.h \
-	../../../../src/machine.h ../../../../src/arch/unix/types.h \
-	ui.h ../../../../src/palette.h ../../../../src/uiapi.h
-vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/cartridge.h ../../../../src/arch/unix/types.h \
-	../../../../src/datasette.h ../../../../src/tap.h \
-	../../../../src/arch/unix/joystick.h \
-	../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/arch/unix/vsync.h \
-	vic20icon.xpm
+vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
+	vdrive-bam.h vdrive.h ../../src/attach.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/log.h
+vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
+	vdrive-bam.h vdrive.h ../../src/attach.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/log.h vdrive-dir.h
+vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
+	../../src/serial.h ../../src/arch/unix/types.h \
+	../../src/traps.h ../../src/utils.h vdrive-bam.h vdrive.h \
+	../../src/attach.h ../../src/snapshot.h ../../src/log.h \
+	vdrive-dir.h vdrive-iec.h
+vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/charsets.h ../../src/arch/unix/types.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/fsdevice.h ../../src/serial.h ../../src/traps.h \
+	../../src/utils.h vdrive-bam.h vdrive.h ../../src/attach.h \
+	vdrive-dir.h vdrive-iec.h ../../src/zfile.h
 
 info: info-recursive
 dvi: dvi-recursive
