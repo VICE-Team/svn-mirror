@@ -261,35 +261,6 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef __MSDOS__
-
-/* Return a malloced string with the name of the backup file corresponding to
-   `fname'.  */
-static char *make_backup_file_name(const char *fname)
-{
-    return concat(fname, "~", NULL);
-}
-
-#else  /* __MSDOS__ */
-
-/* Return a malloced string with the name of the backup file corresponding to
-   `fname'.  FIXME: Only works with 8+3 names.  */
-static char *make_backup_file_name(const char *fname)
-{
-    static char backup_name[MAXPATH];
-    char drive[MAXDRIVE];
-    char dir[MAXDIR];
-    char name[MAXFILE];
-    char ext[MAXEXT];
-
-    fnsplit(fname, drive, dir, name, ext);
-    fnmerge(backup_name, drive, dir, name, "BAK");
-
-    return stralloc(backup_name);
-}
-
-#endif /* __MSDOS__ */
-
 /* Check whether `buf' is the emulator ID for the machine we are emulating.  */
 static int check_emu_id(const char *buf)
 {
@@ -398,11 +369,7 @@ int resources_load(const char *fname)
     if (fname == NULL)
 	fname = archdep_default_resource_file_name();
 
-#ifdef __MSDOS__
-    f = fopen(fname, "rt");
-#else
-    f = fopen(fname, "r");
-#endif
+    f = fopen(fname, MODE_READ_TEXT);
 
     if (f == NULL)
 	return RESERR_FILE_NOT_FOUND;
@@ -483,7 +450,7 @@ int resources_save(const char *fname)
 	fname = archdep_default_save_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */
-    backup_name = make_backup_file_name(fname);
+    backup_name = make_backup_filename(fname);
     if (rename(fname, backup_name) == 0)
 	have_old = 1;
     else
@@ -491,11 +458,7 @@ int resources_save(const char *fname)
 
     log_message(LOG_DEFAULT, "Writing configuration file `%s'.", fname);
 
-#ifdef __MSDOS__
-    out_file = fopen(fname, "wt");
-#else
-    out_file = fopen(fname, "w");
-#endif
+    out_file = fopen(fname, MODE_WRITE_TEXT);
 
     if (!out_file) {
 	free (backup_name);
@@ -503,11 +466,7 @@ int resources_save(const char *fname)
     }
 
     if (have_old) {
-#ifdef __MSDOS__
-	in_file = fopen(backup_name, "rt");
-#else
-	in_file = fopen(backup_name, "r");
-#endif
+        in_file = fopen(backup_name, MODE_READ_TEXT);
 
 	if (!in_file) {
 	    fclose(out_file);
