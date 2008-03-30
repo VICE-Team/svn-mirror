@@ -77,12 +77,22 @@ struct asm_opcode_info {
 };
 typedef struct asm_opcode_info asm_opcode_info_t;
 
-extern asm_opcode_info_t *asm_opcode_info_get_6502(BYTE p0, BYTE p1, BYTE p2);
-extern unsigned int asm_addr_mode_get_size_6502(asm_addr_mode_t mode,
-                                                BYTE p0, BYTE p1);
-extern asm_opcode_info_t *asm_opcode_info_get_z80(BYTE p0, BYTE p1, BYTE p2);
-extern unsigned int asm_addr_mode_get_size_z80(asm_addr_mode_t mode,
-                                               BYTE p0, BYTE p1);
+enum CPU_TYPE_s {
+    CPU_6502,
+    CPU_Z80
+};
+typedef enum CPU_TYPE_s CPU_TYPE_t;
+
+struct monitor_cpu_type_s {
+    CPU_TYPE_t cpu_type;
+    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode, BYTE p0,
+                  BYTE p1);
+    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
+};
+typedef struct monitor_cpu_type_s monitor_cpu_type_t;
+
+extern void asm6502_init(monitor_cpu_type_t *monitor_cpu_type);
+extern void asmz80_init(monitor_cpu_type_t *monitor_cpu_type);
 
 #endif  /* _ASM_H */
 

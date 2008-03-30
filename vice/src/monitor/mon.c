@@ -179,15 +179,15 @@ static void playback_commands(char *filename);
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
 
-struct monitor_cpu_type_s {
-    CPU_TYPE_t cpu_type;
-    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode, BYTE p0,
-                  BYTE p1);
-    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
-};
-typedef struct monitor_cpu_type_s monitor_cpu_type_t;
+static monitor_cpu_type_t monitor_cpu_type;
 
-monitor_cpu_type_t monitor_cpu_type;
+struct monitor_cpu_type_list_s {
+    monitor_cpu_type_t monitor_cpu_type;
+    struct monitor_cpu_type_list_s *next_monitor_cpu_type;
+};
+typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
+
+static monitor_cpu_type_list_t *monitor_cpu_type_list;
 
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
@@ -570,7 +570,7 @@ static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
       return FALSE;
 
    if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
-       (addr_memspace(start_addr) != e_default_space) &&
+       (addr_memspace(start_addr) != e_default_space) ||
         (addr_memspace(end_addr) != e_default_space)) {
       return FALSE;
    }
@@ -637,7 +637,7 @@ static long evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr, boo
       else
          evaluate_default_addr(start_addr);
 
-      assert(!is_valid_addr(*end_addr));
+      /* assert(!is_valid_addr(*end_addr)); */
       *end_addr = *start_addr;
       inc_addr_location(end_addr, len);
    }
@@ -679,23 +679,36 @@ static bool check_drive_emu_level_ok(int drive_num)
 
 void mon_cpu_type(char *cpu_type)
 {
-   /* FIXME: Make this dynamic. */
+    CPU_TYPE_t serchcpu;
+    monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
 
-   if (!strcasecmp(cpu_type, "6502")) {
-       monitor_cpu_type.cpu_type = CPU_6502;
-       monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_6502;
-       monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_6502;
-       return;
-   }
-   if (!strcasecmp(cpu_type, "z80")) {
-       monitor_cpu_type.cpu_type = CPU_Z80;
-       monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_z80;
-       monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_z80;
-       return;
-   }
+    if (!strcasecmp(cpu_type, "6502")) {
+        serchcpu = CPU_6502;
+    } else {
+        if (!strcasecmp(cpu_type, "z80")) {
+            serchcpu = CPU_Z80;
+        } else {
+            uimon_out("Unknown CPU type `%s'\n", cpu_type);
+            return;
+        }
+    }
 
-   uimon_out("Unknown CPU type `%s'\n", cpu_type);
-   return;
+    monitor_cpu_type_list_ptr = monitor_cpu_type_list;
+    while(monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type != serchcpu) {
+        monitor_cpu_type_list_ptr 
+            = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
+        if (monitor_cpu_type_list_ptr == NULL) {
+            uimon_out("Unknown CPU type `%s'\n", cpu_type);
+            return;
+        }
+    }
+
+    monitor_cpu_type.cpu_type
+        = monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type;
+    monitor_cpu_type.asm_addr_mode_get_size
+        = monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size;
+    monitor_cpu_type.asm_opcode_info_get
+        = monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get;
 }
 
 void mon_bank(MEMSPACE mem, char *bankname)
@@ -970,9 +983,11 @@ static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr, unsigned len
 
 void monitor_init(monitor_interface_t *maincpu_interface_init,
                   monitor_interface_t *drive8_interface_init,
-                  monitor_interface_t *drive9_interface_init)
+                  monitor_interface_t *drive9_interface_init,
+                  monitor_cpu_type_t **asmarray)
 {
    int i, j;
+   monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
 
    yydebug = 0;
    sidefx = e_OFF;
@@ -987,9 +1002,29 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
    next_or_step_stop = 0;
    recording = FALSE;
    playback = FALSE;
-   monitor_cpu_type.cpu_type = CPU_6502;
-   monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_6502;
-   monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_6502;
+
+   monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+   monitor_cpu_type_list_ptr = monitor_cpu_type_list; 
+
+   i = 0;
+   while(asmarray[i] != NULL) {
+       monitor_cpu_type_list_ptr->monitor_cpu_type.cpu_type
+           = asmarray[i]->cpu_type;
+       monitor_cpu_type_list_ptr->monitor_cpu_type.asm_addr_mode_get_size
+           = asmarray[i]->asm_addr_mode_get_size;
+       monitor_cpu_type_list_ptr->monitor_cpu_type.asm_opcode_info_get
+           = asmarray[i]->asm_opcode_info_get;
+       monitor_cpu_type_list_ptr->next_monitor_cpu_type 
+           = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+       monitor_cpu_type_list_ptr 
+           = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
+       monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
+       i++;
+   }
+
+   monitor_cpu_type.cpu_type = asmarray[0]->cpu_type;
+   monitor_cpu_type.asm_addr_mode_get_size = asmarray[0]->asm_addr_mode_get_size;
+   monitor_cpu_type.asm_opcode_info_get = asmarray[0]->asm_opcode_info_get;
 
    watch_load_occurred = FALSE;
    watch_store_occurred = FALSE;
@@ -1237,20 +1272,10 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace,
 
     buffp = buff;
 
-    if (memspace == e_comp_space)
-    {
-        opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
-        string = opinfo->mnemonic;
-        addr_mode = opinfo->addr_mode;
-        opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode, x, p1);
-    }
-    else
-    {
-        opinfo = asm_opcode_info_get_6502(x, p1, p2);
-        string = opinfo->mnemonic;
-        addr_mode = opinfo->addr_mode;
-        opc_size = asm_addr_mode_get_size_6502(addr_mode, x, p1);
-    }
+    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x, p1, p2);
+    string = opinfo->mnemonic;
+    addr_mode = opinfo->addr_mode;
+    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode, x, p1);
 
     if (opc_size_p)
         *opc_size_p = opc_size;
