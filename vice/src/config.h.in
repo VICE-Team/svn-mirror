@@ -123,6 +123,9 @@
 /* Is only one canvas supported?  */
 #undef HAS_SINGLE_CANVAS
 
+/* Is the GUID lib of DX SDK present? */
+#undef HAVE_GUIDLIB
+
 /* The number of bytes in a unsigned int.  */
 #undef SIZEOF_UNSIGNED_INT
 
