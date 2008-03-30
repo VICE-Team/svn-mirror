@@ -31,7 +31,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #include "archdep.h"
 #include "attach.h"
@@ -281,7 +280,7 @@ static UI_CALLBACK(change_working_directory)
     char *wd;
     wd = xmalloc(MAXPATHLEN);
 
-    getcwd(wd, MAXPATHLEN);
+    ioutil_getcwd(wd, MAXPATHLEN);
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"),
                         _("Change current working directory"),

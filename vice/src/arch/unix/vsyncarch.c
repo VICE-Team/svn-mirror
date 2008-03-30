@@ -57,12 +57,12 @@ unsigned long vsyncarch_gettime(void)
 
     gettimeofday(&now, NULL);
 
-    return 1000000UL*now.tv_sec + now.tv_usec;
+    return 1000000UL * now.tv_sec + now.tv_usec;
 }
 
 void vsyncarch_init(void)
 {
-    (void) vsync_set_event_dispatcher(ui_dispatch_events);
+    (void)vsync_set_event_dispatcher(ui_dispatch_events);
 }
 
 /* Display speed (percentage) and frame rate (frames per second). */
@@ -86,7 +86,7 @@ void vsyncarch_presync(void)
 #endif
 }
 
-void_hook_t vsync_set_event_dispatcher (void_hook_t hook)
+void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 {
     void_hook_t t = ui_dispatch_hook;
     ui_dispatch_hook = hook;

@@ -32,11 +32,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #include "archapi.h"
 #include "debug.h"
 #include "fliplist.h"
+#include "ioutil.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "mem.h"
@@ -326,7 +326,7 @@ static UI_CALLBACK(dump_keymap)
     char *wd;
     wd = xmalloc(MAXPATHLEN);
 
-    getcwd(wd, MAXPATHLEN);
+    ioutil_getcwd(wd, MAXPATHLEN);
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
                         wd, MAXPATHLEN) == UI_BUTTON_OK) {
