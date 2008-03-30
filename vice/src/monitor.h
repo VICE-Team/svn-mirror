@@ -106,6 +106,8 @@ struct monitor_interface_s {
 
     /* Update bank base (used for drives).  */
     void (*set_bank_base)(void);
+
+    void (*get_line_cycle)(unsigned int *line, unsigned int *cycle);
 };
 typedef struct monitor_interface_s monitor_interface_t;
 
