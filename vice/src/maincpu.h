@@ -47,9 +47,6 @@ extern unsigned int reg_pc;
 struct mos6510_regs_s;
 extern struct mos6510_regs_s maincpu_regs;
 
-struct monitor_interface_s;
-extern struct monitor_interface_s maincpu_monitor_interface;
-
 extern int maincpu_rmw_flag;
 extern CLOCK maincpu_clk;
 
@@ -58,10 +55,12 @@ extern CLOCK maincpu_clk;
 struct alarm_context_s;
 struct snapshot_s;
 struct clk_guard_s;
+struct monitor_interface_s;
 
 extern CLOCK _maincpu_opcode_write_cycles[];
 extern struct alarm_context_s *maincpu_alarm_context;
 extern struct clk_guard_s *maincpu_clk_guard;
+extern struct monitor_interface_s *maincpu_monitor_interface;
 
 /* Return the number of write accesses in the last opcode emulated. */
 inline static CLOCK maincpu_num_write_cycles(void)
@@ -72,6 +71,7 @@ inline static CLOCK maincpu_num_write_cycles(void)
 extern void maincpu_init(void);
 extern void maincpu_reset(void);
 extern void maincpu_mainloop(void);
+extern struct monitor_interface_s *maincpu_monitor_interface_get(void);
 extern int maincpu_snapshot_read_module(struct snapshot_s *s);
 extern int maincpu_snapshot_write_module(struct snapshot_s *s);
 
