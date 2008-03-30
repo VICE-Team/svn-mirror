@@ -651,18 +651,23 @@ static int t64_find_next(TAPE *tape, char *pattern, int type, BYTE *cbuf)
     char asciiname[20], newname[20];
     BYTE *dirp;
     long loc;
-
+    int start_entry = -1;
 
     if (tape->entry >= tape->entries) {
 	return -1;
     }
+
     while (1) {
 
-	if (tape->entry < tape->entries - 1) {
+	if (tape->entry < tape->entries - 1)
 	    tape->entry++;
-	} else {
+	else
 	    tape->entry = 0;
-	}
+
+        if (start_entry < 0)
+            start_entry = tape->entry;
+        else if (start_entry == tape->entry)
+            break;
 
 	dirp = tape->directory + TAPE_DIR_SIZE * tape->entry;
 
