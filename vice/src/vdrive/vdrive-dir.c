@@ -342,7 +342,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
 {
     BYTE *l, *p;
     BYTE *origptr = outputptr;
-    int blocks, addr, i;
+    int blocks, i;
 
     if (length) {
         if (*name == '$') {
@@ -364,14 +364,14 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
      */
 
     l = outputptr;
-    addr = 0x401;
-    SET_LO_HI(l, addr);
+    *l++ = 1;
+    *l++ = 4;
 
     l += 2;                     /* Leave space for Next Line Link */
     *l++ = 0;
     *l++ = 0;
 
-    *l++ = (BYTE) 0x12;         /* Reverse on */
+    *l++ = (BYTE)0x12;          /* Reverse on */
 
     *l++ = '"';
 
@@ -389,10 +389,8 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
      * Pointer to the next line
      */
 
-    addr += ((l - outputptr) - 2);
-
-    outputptr[2] = 1;   /* addr & 0xff; */
-    outputptr[3] = 1;   /* (addr >>8) & 0xff; */
+    outputptr[2] = 1;
+    outputptr[3] = 1;
     outputptr = l;
 
     /*
@@ -472,9 +470,8 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
              * New address
              */
 
-            addr += l - outputptr;
-            outputptr[0] = 1;   /* addr & 0xff; */
-            outputptr[1] = 1;   /* (addr >> 8) & 0xff; */
+            outputptr[0] = 1;
+            outputptr[1] = 1;
             outputptr = l;
         }
     }
@@ -491,9 +488,8 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
     *l++ = (char) 0;
 
     /* Line Address */
-    addr += l - outputptr;
-    outputptr[0] = 1;   /* addr & 0xff; */
-    outputptr[1] = 1;   /* (addr / 256) & 0xff; */
+    outputptr[0] = 1;
+    outputptr[1] = 1;
 
     /*
      * end
