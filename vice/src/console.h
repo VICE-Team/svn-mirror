@@ -27,27 +27,37 @@
 #ifndef _CONSOLE_H
 #define _CONSOLE_H
 
+struct console_private_s;
+
 typedef struct console_s {
     /* Console geometry.  */
-    /* Be careful - geometry might change at run-time!  */
+    /* Be careful - geometry might change at run-time! */
     unsigned int console_xres;
     unsigned int console_yres;
 
     /* It is allowed to leave the console open atfer control is given back
        to the emulation.  */
     int console_can_stay_open;
-} console_t;
 
-extern int console_init(void);
+    struct console_private_s *private;
+
+} console_t;
 
 extern console_t *console_open(const char *id);
 extern int console_close(console_t *log);
 
-/* The following should be called when quitting VICE.  */
-extern int console_close_all(void);
+/* the following must be called before any other 
+  console_...() function is used */
+extern int console_init( void );
+
+/* The following should be called when quitting VICE 
+ after calling console_close_all(), the console_...()
+ functions cannot be accessed unless console_init()
+ is called again.
+*/
+extern int console_close_all( void );
 
 extern int console_out(console_t *log, const char *format, ...);
 extern char *console_in(console_t *log);
 
 #endif
-
