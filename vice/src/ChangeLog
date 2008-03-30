@@ -1,3 +1,38 @@
+2003-07-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.19.
+
+	* drive/drive.c, c64/c64mem.c, c128/c128mem.c: Removed
+	#include "parallel.h".
+
+	* traps.c, machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, cbm2/cbm2.c, plus4/plus4.c (machine_traps_enable):
+	New function.
+
+	* parallel/Makefile.am, parallel/parallel-trap.c,
+	parallel/parallel-trap.h, arch/win32/parallel.dsp: New files.
+
+	* serial/serial.c, serial.h, serial/serial-trap.h: Separated
+	parallel interface specific code.
+
+	* Makefile.am, arch/win32/Makefile.am, arch/win32/base.dsp,
+	arch/win32/vice.dsw: Updated.
+
+	* drive/tcbm/tcbm.c: Removed stubs.
+
+	* arch/unix/x11/video.c (set_aspect_ratio): Fixed bug.
+
+2003-07-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.h: Added new member max_text_cols to vic_t.
+	Replaced VIC_SCREEN_MAX_TEXT_COLS with 6560/6561 specific
+	constants.
+
+	* vic20/vic-mem.c: Replaced constant VIC_SCREEN_MAX_TEXT_COLS
+	with vic.max_text_cols.
+
+	* vic20/vic.c (vic_change_timing): Set vic.max_text_cols.
+
 2003-07-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.18.

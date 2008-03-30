@@ -230,6 +230,7 @@ SUBDIRS = \
 	fsdevice \
 	diskimage \
 	serial \
+	parallel \
 	tape \
 	imagecontents \
 	video \
@@ -384,7 +385,6 @@ base_sources = \
 	main.c \
 	p00.c \
 	palette.c \
-	parallel.c \
 	ram.c \
 	resources.c \
 	romset.c \
@@ -436,6 +436,7 @@ fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
+parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
@@ -472,6 +473,7 @@ x64_libs = \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -495,6 +497,7 @@ x128_libs = \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(driver_libs) \
@@ -517,6 +520,7 @@ xvic_libs = \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
@@ -535,6 +539,7 @@ xpet_libs = \
 	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
@@ -573,6 +578,7 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
+	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
@@ -688,10 +694,10 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	interrupt.$(OBJEXT) ioutil.$(OBJEXT) joystick.$(OBJEXT) \
 	kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) lib.$(OBJEXT) log.$(OBJEXT) \
 	machine.$(OBJEXT) main.$(OBJEXT) p00.$(OBJEXT) \
-	palette.$(OBJEXT) parallel.$(OBJEXT) ram.$(OBJEXT) \
-	resources.$(OBJEXT) romset.$(OBJEXT) screenshot.$(OBJEXT) \
-	snapshot.$(OBJEXT) sound.$(OBJEXT) sysfile.$(OBJEXT) \
-	traps.$(OBJEXT) utils.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	palette.$(OBJEXT) ram.$(OBJEXT) resources.$(OBJEXT) \
+	romset.$(OBJEXT) screenshot.$(OBJEXT) snapshot.$(OBJEXT) \
+	sound.$(OBJEXT) sysfile.$(OBJEXT) traps.$(OBJEXT) \
+	utils.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
 	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
@@ -727,13 +733,13 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/machine.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/maincpu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/p00.Po ./$(DEPDIR)/palette.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/parallel.Po ./$(DEPDIR)/petcat.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ram.Po ./$(DEPDIR)/resources.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/romset.Po ./$(DEPDIR)/screenshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/snapshot.Po ./$(DEPDIR)/sound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sysfile.Po ./$(DEPDIR)/traps.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/utils.Po ./$(DEPDIR)/vsync.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/zfile.Po ./$(DEPDIR)/zipcode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/petcat.Po ./$(DEPDIR)/ram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/resources.Po ./$(DEPDIR)/romset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/screenshot.Po ./$(DEPDIR)/snapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sound.Po ./$(DEPDIR)/sysfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/traps.Po ./$(DEPDIR)/utils.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po ./$(DEPDIR)/zfile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/zipcode.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -871,7 +877,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/maincpu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/p00.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/palette.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parallel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petcat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/resources.Po@am__quote@
@@ -1180,6 +1185,7 @@ x64-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libsid \
@@ -1212,6 +1218,7 @@ x128-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libarch \
 	libsid \
@@ -1235,6 +1242,7 @@ xvic-all: \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libsounddrv \
@@ -1258,6 +1266,7 @@ xpet-all: \
 	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -1314,6 +1323,7 @@ xcbm2-all: \
 	libdrive \
 	libdriveiecieee \
 	libdriveieee \
+	libparallel \
 	libvdrive \
 	libraster \
 	libcrtc \
@@ -1333,7 +1343,7 @@ xcbm2-all: \
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
 	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
-	libvideo libserial libcore @RESID_DEP@
+	libvideo libserial libparallel libcore @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1371,6 +1381,8 @@ libimagecontents:
 	(cd imagecontents && $(MAKE))
 libmonitor:
 	(cd monitor && $(MAKE))
+libparallel:
+	(cd parallel && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
 libplus4:

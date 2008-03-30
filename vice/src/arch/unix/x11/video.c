@@ -72,6 +72,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
+#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
@@ -123,27 +124,30 @@ static int set_fourcc(resource_value_t v, void *param)
 }
 
 static double aspect_ratio;
-static const char *aspect_ratio_s;
+static const char *aspect_ratio_s = NULL;
+
 static int set_aspect_ratio(resource_value_t v, void *param)
 {
     if (v) {
-        char* endptr;
-        aspect_ratio_s = (char*)v;
-        aspect_ratio = strtod((char*)v, &endptr);
-	if ((char*)v == endptr) {
-	    aspect_ratio = 1.0;
-	}
-	else if (aspect_ratio < 0.8) {
-	    aspect_ratio = 0.8;
-	}
-	else if (aspect_ratio > 1.2) {
-	    aspect_ratio = 1.2;
-	}
-    }
-    else {
+        char *endptr;
+
+        util_string_set(&aspect_ratio_s, (const char *)v);
+
+        aspect_ratio = strtod((char *)v, &endptr);
+        if ((char *)v == endptr) {
+            aspect_ratio = 1.0;
+        }
+        else if (aspect_ratio < 0.8) {
+            aspect_ratio = 0.8;
+        }
+        else if (aspect_ratio > 1.2) {
+            aspect_ratio = 1.2;
+        }
+    } else {
+        util_string_set(&aspect_ratio_s, "1.0");
         aspect_ratio = 1.0;
     }
-    
+
     return 0;
 }
 
@@ -167,7 +171,6 @@ static const resource_t resources[] = {
 
 int video_arch_init_resources(void)
 {
-
     return resources_register(resources);
 }
 
