@@ -275,7 +275,7 @@ c128kbd.o: c128kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	c128ui.h res.h ../../../src/resources.h ui.h \
 	../../../src/uiapi.h ../../../src/video.h types.h videoarch.h \
-	uivicii.h
+	uivicii.h ../../../src/vsync.h
 c610kbd.o: c610kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	kbd.h types.h
 c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h lose32.h \
@@ -286,7 +286,8 @@ c64kbd.o: c64kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	../../../src/uiapi.h ../../../src/video.h types.h videoarch.h \
 	c64ui.h ../../../src/cartridge.h kbd.h ../../../src/keyboard.h \
-	res.h ../../../src/resources.h uilib.h uivicii.h winmain.h
+	res.h ../../../src/resources.h uilib.h uivicii.h \
+	../../../src/vsync.h winmain.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/console.h fullscreen.h res.h ui.h \
 	../../../src/uiapi.h ../../../src/video.h types.h videoarch.h \

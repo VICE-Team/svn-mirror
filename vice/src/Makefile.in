@@ -597,8 +597,9 @@ keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
 	keyboard.h maincpu.h 6510core.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
-machine.o: machine.c machine.h arch/unix/ui.h vice.h config.h \
-	arch/unix/types.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h
+machine.o: machine.c machine.h mem.h arch/unix/types.h vice.h config.h \
+	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
+	vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
 	resources.h console.h diskimage.h drive/drive.h log.h \
@@ -611,7 +612,7 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	version.h video.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
-	monitor/mon.h mos6510.h snapshot.h traps.h vsync.h 6510core.c
+	monitor/mon.h mos6510.h snapshot.h traps.h 6510core.c
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
@@ -648,7 +649,7 @@ sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	sound.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
 	utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
-	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
+	cmdline.h resources.h findpath.h log.h sysfile.h \
 	arch/unix/types.h utils.h
 t64.o: t64.c vice.h config.h arch/unix/archdep.h archapi.h log.h t64.h \
 	arch/unix/types.h utils.h zfile.h
