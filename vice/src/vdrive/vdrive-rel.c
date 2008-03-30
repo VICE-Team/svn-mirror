@@ -581,7 +581,7 @@ static int vdrive_rel_grow(vdrive_t *vdrive, unsigned int secondary,
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     unsigned int track, sector;
-    int j;
+    int j = 0;
 
     /* Add a sector to the rel file until we meet the required
         records. */
@@ -713,7 +713,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 }
 
 static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
-                               cbmdos_cmd_parse_t *cmd_parse, const char *name)
+                               cbmdos_cmd_parse_t *cmd_parse, const BYTE *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     BYTE *slot;
@@ -789,7 +789,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
 }
 
 int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
-                    cbmdos_cmd_parse_t *cmd_parse, const char *name)
+                    cbmdos_cmd_parse_t *cmd_parse, const BYTE *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int newrelfile = 0;
@@ -1156,7 +1156,7 @@ int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
      */
     if (p->buffer[0]) {
         if (p->bufptr >= 256) {
-            int status;
+            int status = 0;
             unsigned int track, sector;
 
             track = (unsigned int)p->buffer[0];
@@ -1309,7 +1309,7 @@ int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
      */
     if (p->buffer[0]) {
         if (p->bufptr >= 256) {
-            int status;
+            int status = 0;
             unsigned int track, sector;
 
             track = (unsigned int)p->buffer[0];

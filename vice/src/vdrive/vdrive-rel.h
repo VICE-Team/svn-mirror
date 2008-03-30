@@ -28,23 +28,23 @@
 #ifndef _VDRIVE_REL_H
 #define _VDRIVE_REL_H
 
+#include "types.h"
+
 struct vdrive_s;
 
 extern void vdrive_rel_init(void);
 extern int vdrive_rel_open(struct vdrive_s *vdrive, unsigned int secondary,
-                           cbmdos_cmd_parse_t *cmd_parse, const char *name);
+                           cbmdos_cmd_parse_t *cmd_parse, const BYTE *name);
 extern int vdrive_rel_position(struct vdrive_s *vdrive, unsigned int channel,
                                unsigned int rec_lo, unsigned int rec_hi,
                                unsigned int position);
 extern int vdrive_rel_read(struct vdrive_s *vdrive, BYTE *data,
-						   unsigned int secondary);
+                           unsigned int secondary);
 extern int vdrive_rel_write(struct vdrive_s *vdrive, BYTE data,
-							unsigned int secondary);
+                            unsigned int secondary);
 extern int vdrive_rel_close(struct vdrive_s *vdrive, unsigned int secondary);
 extern void vdrive_rel_listen(struct vdrive_s *vdrive,
-							  unsigned int secondary);
-
-
+                              unsigned int secondary);
 
 #endif
 

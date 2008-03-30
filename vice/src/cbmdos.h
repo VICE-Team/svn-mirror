@@ -85,7 +85,7 @@
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
 struct cbmdos_cmd_parse_s {
-    const char *cmd;
+    const BYTE *cmd;
     unsigned int cmdlength;
     char *parsecmd;
     unsigned int secondary;

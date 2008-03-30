@@ -156,7 +156,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
 }
 
 static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
-                          cbmdos_cmd_parse_t *cmd_parse, const char *name)
+                          cbmdos_cmd_parse_t *cmd_parse, const BYTE *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     unsigned int track, sector;
@@ -461,7 +461,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
        }
        /* At this point the record lengths are the same (or will be), so set
            them equal. */
-       if (slot) cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
+       if (slot)
+           cmd_parse.recordlength = slot[SLOT_RECORD_LENGTH];
        status = vdrive_rel_open(vdrive, secondary, &cmd_parse, name);
        goto out;
     }
@@ -553,7 +554,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
 static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    unsigned int track = 0, sector;
+    unsigned int track = 0, sector = 0;
 
     if (p->readmode & (CBMDOS_FAM_WRITE | CBMDOS_FAM_APPEND)) {
         /*

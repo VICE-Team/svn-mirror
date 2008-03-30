@@ -219,7 +219,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     tape = &(fs_info[secondary].tape);
     tape->name = util_concat(fsdevice_get_path(vdrive->unit), 
                              FSDEV_DIR_SEP_STR, rname, NULL);
-    charset_petconvstring(tape->name + 
+    charset_petconvstring((BYTE *)(tape->name) + 
                           strlen(fsdevice_get_path(vdrive->unit))+
                           strlen(FSDEV_DIR_SEP_STR), 1);
     tape->read_only = 1;
