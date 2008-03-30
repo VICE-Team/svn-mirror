@@ -105,6 +105,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "monitor"=".\monitor.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "pet"=".\pet.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -302,6 +314,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name vdc
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -340,6 +355,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
     End Project Dependency
 }}}
 
@@ -380,6 +398,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name vdrive
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -413,6 +434,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name vdrive
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -442,6 +466,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
     End Project Dependency
 }}}
 

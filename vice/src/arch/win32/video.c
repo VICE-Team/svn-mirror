@@ -498,7 +498,7 @@ static int set_physical_colors(canvas_t c)
         SetPixel(hdc, 0, 0, PALETTERGB(c->palette->entries[i].red,
                                        c->palette->entries[i].green,
                                        c->palette->entries[i].blue));
-        IDirectDrawSurface_ReleaseDC(c->temporary_surface, &hdc);
+        IDirectDrawSurface_ReleaseDC(c->temporary_surface, hdc);
 
         ddsd.dwSize = sizeof(ddsd);
         while ((result

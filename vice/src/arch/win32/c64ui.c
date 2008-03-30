@@ -4,6 +4,7 @@
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@mail.matav.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -66,6 +67,87 @@ ui_res_value_list c64_ui_res_values[] = {
     {NULL,NULL}
 };
 
+static ui_cartridge_params c64_ui_cartridges[]={
+    {
+    IDM_CART_ATTACH_CRT,
+    CARTRIDGE_CRT,
+    "Attach CRT cartridge image",
+    "CRT cartridge image files (*.crt)\0*.crt\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_8KB,
+    CARTRIDGE_GENERIC_8KB,
+    "Attach raw 8KB cartridge image",
+    "Raw 8KB cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_16KB,
+    CARTRIDGE_GENERIC_16KB,
+    "Attach raw 16KB cartridge image",
+    "Raw 16KB cartrdige image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_AR,
+    CARTRIDGE_ACTION_REPLAY,
+    "Attach Action Replay cartridge image",
+    "Raw AR cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_AT,
+    CARTRIDGE_ATOMIC_POWER,
+    "Attach Atomic Power cartridge image",
+    "Raw AT cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_EPYX,
+    CARTRIDGE_EPYX_FASTLOAD,
+    "Attach Epyx fastload cartridge image",
+    "Raw Epxy cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_IEEE488,
+    CARTRIDGE_IEEE488,
+    "Attach IEEE interface cartridge image",
+    "Raw IEEE488 interface cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    IDM_CART_ATTACH_SS4,
+    CARTRIDGE_SUPER_SNAPSHOT,
+    "Attach Super Snapshot 4 cartridge image",
+    "Raw SS4 cartridge image files (*.bin)\0*.bin\0"
+    "All files (*.*)\0*.*\0"
+    },
+    {
+    0,0,NULL,NULL
+    }
+};
+
+void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd, ui_cartridge_params *cartridges)
+{
+int     i;
+char    *s;
+
+    i=0;
+    while ((cartridges[i].wparam!=wparam) && (cartridges[i].wparam!=0)) i++;
+    if (cartridges[i].wparam==0) {
+        ui_error("Bad cartridge config in UI!");
+        return;
+    }
+    if ((s = ui_select_file(hwnd,cartridges[i].title,
+        cartridges[i].filter,FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
+        if (cartridge_attach_image(cartridges[i].type, s) < 0)
+            ui_error("Invalid cartridge image");
+        free(s);
+    }
+}
+
 void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
 char    *s;
@@ -73,84 +155,14 @@ int     type;
 
     switch (wparam) {
         case IDM_CART_ATTACH_CRT:
-            type = CARTRIDGE_CRT;
-            if ((s = ui_select_file("Attach CRT cartridge image",
-                "CRT cartridge image files (*.crt)\0*.crt\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_8KB:
-            type = CARTRIDGE_GENERIC_8KB;
-            if ((s = ui_select_file("Attach raw 8KB cartridge image",
-                "Raw 8KB cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_16KB:
-            type = CARTRIDGE_GENERIC_16KB;
-            if ((s = ui_select_file("Attach raw 16KB cartridge image",
-                "Raw 16KB cartrdige image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_AR:
-            type = CARTRIDGE_ACTION_REPLAY;
-            if ((s = ui_select_file("Attach Action Replay cartridge image",
-                "Raw AR cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_AT:
-            type = CARTRIDGE_ATOMIC_POWER;
-            if ((s = ui_select_file("Attach Atomic Power cartridge image",
-                "Raw AT cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_EPYX:
-            type = CARTRIDGE_EPYX_FASTLOAD;
-            if ((s = ui_select_file("Attach Epyx fastload cartridge image",
-                "Raw Epxy cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_IEEE488:
-            type = CARTRIDGE_IEEE488;
-            if ((s = ui_select_file("Attach IEEE interface cartridge image",
-                "Raw IEEE488 interface cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
-            break;
         case IDM_CART_ATTACH_SS4:
-            type = CARTRIDGE_SUPER_SNAPSHOT;
-            if ((s = ui_select_file("Attach Super Snapshot 4 cartridge image",
-                "Raw SS4 cartridge image files (*.bin)\0*.bin\0"
-                "All files (*.*)\0*.*\0", NULL, hwnd)) != NULL) {
-                if (cartridge_attach_image(type, s) < 0)
-                    ui_error("Invalid cartridge image");
-                free(s);
-            }
+            c64_ui_attach_cartridge(wparam,hwnd,c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:
             cartridge_set_default();

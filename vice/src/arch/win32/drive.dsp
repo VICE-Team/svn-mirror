@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\drive\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /I "..\..\monitor" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\drive\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\vdrive" /I "..\..\monitor" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -90,7 +90,23 @@ SOURCE=..\..\drive\cia1581d.c
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\drive\drive-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\drive\drive-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\drive\drive-snapshot.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\drive.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\drivecpu.c
 # End Source File
 # Begin Source File
 
@@ -110,14 +126,6 @@ SOURCE=..\..\drive\riot2d.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\wd1770.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\drivecpu.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\via1d.c
 # End Source File
 # Begin Source File
@@ -126,15 +134,7 @@ SOURCE=..\..\drive\via2d.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\drive-snapshot.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\drive-resources.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\drive-cmdline-options.c
+SOURCE=..\..\drive\wd1770.c
 # End Source File
 # End Target
 # End Project
