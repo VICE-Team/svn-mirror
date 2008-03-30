@@ -15,8 +15,6 @@ list of all the changes in the code.
 
 - Fixed NMI line emulation bug.
 
-- Event recording can start with reset.
-
 ** C64 changes
 --------------
 

@@ -1,3 +1,50 @@
+2003-09-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.29.
+
+	* c64/cart/ide64.c (ide_seek_sector, ide64_io1_store): Fixed
+	some warnings.
+
+	* arch/win32/tfearch.c: Fixed nested comments.
+
+2003-09-02  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/{res.h,restfe.rc,tfearch.c,uitfe.c,uitfe.h,
+	tfe.c}: Some work to be able to select the interface for TFE.
+	(Not yet finished).
+
+2003-09-02  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uic128.c: MSVC did not compile because a variable
+	was defined in "C++-style" (not at start of a block); fixed.
+
+	* arch/win32/msvc/wpcap/{ip6_misc.h, pcap-stdinc.h, PCAP.H,
+	NET/bpf.h}: New files (from wpcap).
+
+	* arch/win32/{arch.dsp, x64.dsp, x128.dsp}: Removed dependancy
+	from a development system of WinPCAP.
+
+	* arch/win32/{c128ui.c,c64ui.c,res.h,resc128.rc,
+	resc64.rc,restfe.rc,uitfe.c,uitfe.h}: Added new menuitem and
+	dialog box for TFE.
+	The dialog box is prepared for selecting the interface, but it
+	is not implemented yet!
+
+	* arch/win32/msvc/config.h: Re-enabled TFE as default.
+
+	* arch/win32/tfearch: PCAP is now loaded dynamically if it is
+	installed on the system; else, ethernet is disabled.
+
+	* arch/win32/ui.c: Menu items can be grayed out.
+
+	* c64/tfe.c: Now, we can select between RR-Net and TFE.
+
+2003-08-31  Kajtar Zsolt  <soci@c64.rulez.org>
+
+	* c64/cart/ide64.c: LBA support, cartconfig register,
+	multisector read/write, latch fix, geometry detection
+	for CFS filesystem
+
 2003-08-31  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.28.
