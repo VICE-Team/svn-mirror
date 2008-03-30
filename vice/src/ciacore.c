@@ -567,6 +567,8 @@ BYTE cia_read_(CIA_CONTEXT_PARAM ADDRESS addr)
 
     addr &= 0xf;
 
+    PRE_READ_CIA
+
     /* Hack for opcode fetch, where the clock does not change */
     if (myclk <= cia_read_clk) {
 	rclk = cia_read_clk + (++cia_read_offset) - READ_OFFSET;
