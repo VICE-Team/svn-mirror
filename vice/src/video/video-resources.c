@@ -503,7 +503,7 @@ int video_resources_chip_init(const char *chipname,
             return -1;
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
-            resource_chip_mode = (video_resource_chip_mode_t *)malloc(
+            resource_chip_mode = (video_resource_chip_mode_t *)xmalloc(
                                  sizeof(video_resource_chip_mode_t));
             resource_chip_mode->resource_chip = resource_chip;
             resource_chip_mode->device = i;
