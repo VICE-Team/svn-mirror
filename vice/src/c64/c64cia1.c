@@ -65,10 +65,10 @@
 #define	mycpu_rmw_flag	rmw_flag
 
 #define cia_set_int_clk(value,clk) \
-                set_int(&maincpu_int_status,(I_CIA1FL),(value),(clk))
+                interrupt_set_int(&maincpu_int_status,(I_CIA1FL),(value),(clk))
 
 #define cia_restore_int(value) \
-                set_int_noclk(&maincpu_int_status,(I_CIA1FL),(value))
+                interrupt_set_int_noclk(&maincpu_int_status,(I_CIA1FL),(value))
 
 #define mycpu_alarm_context maincpu_alarm_context
 
@@ -107,13 +107,13 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
 static inline void pulse_ciapc(CLOCK rclk) { }
 
 #define	PRE_STORE_CIA	\
-    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
 #define	PRE_READ_CIA	\
-    vic_ii_handle_pending_alarms(0);
+    vic_ii_handle_pending_alarms_external(0);
 
 #define	PRE_PEEK_CIA	\
-    vic_ii_handle_pending_alarms(0);
+    vic_ii_handle_pending_alarms_external(0);
 
 static inline void do_reset_cia(void) {}
 static inline void store_ciapa(CLOCK rclk, BYTE b) {}

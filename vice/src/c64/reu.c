@@ -426,9 +426,9 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (reu[0] & 0x80)
-        set_irq_noclk(&maincpu_int_status, I_REU, 1);
+        interrupt_set_irq_noclk(&maincpu_int_status, I_REU, 1);
     else
-        set_irq_noclk(&maincpu_int_status, I_REU, 0);
+        interrupt_set_irq_noclk(&maincpu_int_status, I_REU, 0);
 
     snapshot_module_close(m);
     return 0;

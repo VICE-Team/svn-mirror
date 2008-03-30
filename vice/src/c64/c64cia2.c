@@ -66,10 +66,10 @@
 #define	mycpu_rmw_flag	rmw_flag
 
 #define cia_set_int_clk(value,clk) \
-                set_int(&maincpu_int_status,(I_CIA2FL),(value),(clk))
+                interrupt_set_int(&maincpu_int_status,(I_CIA2FL),(value),(clk))
 
 #define cia_restore_int(value) \
-                set_int_noclk(&maincpu_int_status,(I_CIA2FL),(value))
+                interrupt_set_int_noclk(&maincpu_int_status,(I_CIA2FL),(value))
 
 #define mycpu_alarm_context maincpu_alarm_context
 
@@ -129,13 +129,13 @@ static inline void do_reset_cia(void)
 
 
 #define PRE_STORE_CIA \
-    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
 #define PRE_READ_CIA \
-    vic_ii_handle_pending_alarms(0);
+    vic_ii_handle_pending_alarms_external(0);
 
 #define PRE_PEEK_CIA \
-    vic_ii_handle_pending_alarms(0);
+    vic_ii_handle_pending_alarms_external(0);
 
 static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {

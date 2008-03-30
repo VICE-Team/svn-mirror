@@ -100,10 +100,10 @@ struct drive_context_s;
 
 
 #define cia_set_int_clk(value,clk) \
-                set_int(&(ctxptr->cpu.int_status),(I_CIA1FL),(value),(clk))
+        interrupt_set_int(&(ctxptr->cpu.int_status),(I_CIA1FL),(value),(clk))
 
 #define cia_restore_int(value) \
-                set_int_noclk(&(ctxptr->cpu.int_status),(I_CIA1FL),(value))
+        interrupt_set_int_noclk(&(ctxptr->cpu.int_status),(I_CIA1FL),(value))
 
 
 

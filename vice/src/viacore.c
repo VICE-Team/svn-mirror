@@ -156,8 +156,9 @@ static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 
 #ifndef via_restore_int	/* if VIA reports to other chip (TPI) for IRQ */
-#define	via_restore_int(a)  set_int_noclk(&mycpu_int_status, I_MYVIAFL, \
-		(a) ? MYVIA_INT : 0)
+#define	via_restore_int(a)                                    \
+        interrupt_set_int_noclk(&mycpu_int_status, I_MYVIAFL, \
+        (a) ? MYVIA_INT : 0)
 #endif
 
 static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);

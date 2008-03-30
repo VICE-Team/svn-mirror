@@ -52,8 +52,9 @@
 /*----------------------------------------------------------------------*/
 /* CPU binding */
 
-#define	mycpu_set_int(a,b)	maincpu_set_irq((a),(b))
-#define	mycpu_restore_int(a,b)	set_int_noclk(&maincpu_int_status,(a),(b))
+#define	mycpu_set_int(a,b) maincpu_set_irq((a),(b))
+#define	mycpu_restore_int(a,b) \
+        interrupt_set_int_noclk(&maincpu_int_status,(a),(b))
 
 #define mycpu_rmw_flag  rmw_flag
 #define myclk           clk

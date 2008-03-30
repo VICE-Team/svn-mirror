@@ -44,7 +44,8 @@
 
 
 /* see interrupt.h; ugly, but more efficient... */
-#define via_set_int(a,b) set_irq(&(ctxptr->cpu.int_status), a, b, *(ctxptr->clk_ptr))
+#define via_set_int(a,b) \
+        interrupt_set_irq(&(ctxptr->cpu.int_status), a, b, *(ctxptr->clk_ptr))
 
 #define myclk		(*(ctxptr->clk_ptr))
 #define myvia		(ctxptr->via1.via)

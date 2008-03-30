@@ -59,17 +59,22 @@ struct drive_context_s;
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 
 /*
-#define my_set_irq(fl, clk)	\
-	do { \
-	printf("set_int_d0(%d)\n",(fl)); \
-        set_int(&(ctxptr->cpu.int_status),(ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0, (clk)) \
+#define my_set_irq(fl, clk)                          \
+	do {                                         \
+	printf("set_int_d0(%d)\n",(fl));             \
+        interrupt_set_int(&(ctxptr->cpu.int_status), \
+                          (ctxptr->riot2p.irq_type), \
+                          (fl) ? IK_IRQ : 0, (clk))  \
 	; } while(0)
 */
-#define my_set_irq(fl, clk)	\
-        set_int(&(ctxptr->cpu.int_status),(ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0, (clk))
+#define my_set_irq(fl, clk)                          \
+        interrupt_set_int(&(ctxptr->cpu.int_status), \
+                          (ctxptr->riot2p.irq_type), \
+                          (fl) ? IK_IRQ : 0, (clk))
 
-#define my_restore_irq(fl)	\
-        set_int_noclk(&(ctxptr->cpu.int_status),(ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0)
+#define my_restore_irq(fl)                                 \
+        interrupt_set_int_noclk(&(ctxptr->cpu.int_status), \
+                                (ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0)
 
 /*************************************************************************
  * I/O
