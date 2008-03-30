@@ -72,9 +72,9 @@ void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup)
 
 void c64pla_pport_reset(void)
 {
-    pport.data = 0xff;
-    pport.data_out = 0xff;
-    pport.data_read = 0xff;
+    pport.data = 0x3f;
+    pport.data_out = 0x3f;
+    pport.data_read = 0x3f;
     pport.dir = 0;
     pport.dir_read = 0;
 }
