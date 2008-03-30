@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-#include "raster.h" /* Temorary */
 #include "types.h"
 #include "utils.h"
 #include "video-render.h"
@@ -34,13 +33,14 @@
 #include "videoarch.h"
 
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+video_canvas_t *video_canvas_init(void)
 {
     video_canvas_t *canvas;
 
     canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
 
-    canvas->videoconfig = videoconfig;
+    canvas->videoconfig = (video_render_config_t *)xcalloc(1,
+        sizeof(video_render_config_t));
     canvas->draw_buffer = (draw_buffer_t *)xcalloc(1, sizeof(draw_buffer_t));
     canvas->viewport = (viewport_t *)xcalloc(1, sizeof(viewport_t));
     canvas->geometry = (geometry_t *)xcalloc(1, sizeof(geometry_t));
@@ -71,9 +71,6 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
 {
     viewport_t *viewport;
     geometry_t *geometry;
-
-    if (canvas->draw_buffer == NULL)
-        return;
 
     viewport = canvas->viewport;
     geometry = canvas->geometry;
