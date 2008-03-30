@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "attach.h"
 #include "ciad.h"
 #include "drive.h"
 #include "drivemem.h"
@@ -42,6 +43,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
+#include "vdrive-snapshot.h"
 #include "vdrive.h"
 #include "viad.h"
 #include "wd1770.h"
@@ -105,7 +107,7 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
     resources_get_value("DriveTrueEmulation",
                         (resource_value_t *)&drive_true_emulation);
 
-    if (vdrive_write_snapshot_module(s, drive_true_emulation ? 10 : 8) < 0)
+    if (vdrive_snapshot_module_write(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;
 
     if (!drive_true_emulation)
@@ -468,7 +470,7 @@ int drive_read_snapshot_module(snapshot_t *s)
     resources_get_value("DriveTrueEmulation",
                         (resource_value_t *)&drive_true_emulation);
 
-    if (vdrive_read_snapshot_module(s, drive_true_emulation ? 10 : 8) < 0)
+    if (vdrive_snapshot_module_read(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;
 
     return 0;

@@ -1,6 +1,6 @@
 
 /*
- * attach.h - File system attach management.
+ * vdrive-snapshot.h - Virtual disk-drive implementation. Snapshot handling.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -25,15 +25,15 @@
  *
  */
 
-#ifndef _ATTACH_H
-#define _ATTACH_H
+#ifndef _VDRIVE_SNAPSHOT_H
+#define _VDRIVE_SNAPSHOT_H
 
-extern int file_system_init_resources(void);
-extern void file_system_init(void);
-extern char *file_system_get_disk_name(int unit);
-extern int file_system_attach_disk(int unit, const char *filename);
-extern void file_system_detach_disk(int unit);
-extern void *file_system_get_vdrive(int unit);
+#include "snapshot.h"
+
+extern void vdrive_snapshot_init(void);
+
+extern int vdrive_snapshot_module_write(snapshot_t *s, int start);
+extern int vdrive_snapshot_module_read(snapshot_t *s, int start);
 
 #endif
 

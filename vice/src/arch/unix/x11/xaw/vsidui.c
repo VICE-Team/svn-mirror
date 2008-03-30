@@ -33,6 +33,7 @@
 #include <stdlib.h>
 
 #include "attach.h"
+#include "c64mem.h"
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
@@ -41,7 +42,6 @@
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
-#include "c64mem.h"
 
 #ifdef XPM
 #include <X11/xpm.h>

@@ -47,7 +47,6 @@
 
 #include "archdep.h"
 #include "charsets.h"
-#include "drive.h"
 #include "fsdevice.h"
 #include "log.h"
 #include "serial.h"
@@ -57,6 +56,7 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-snapshot.h"
 #include "vdrive.h"
 
 /* ------------------------------------------------------------------------- */
@@ -92,6 +92,7 @@ void vdrive_init(void)
     vdrive_command_init();
     vdrive_dir_init();
     vdrive_iec_init();
+    vdrive_snapshot_init();
 }
 
 int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
