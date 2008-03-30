@@ -70,10 +70,10 @@
 /*#define MYVIA_NEED_LATCHING */
 
 #ifdef VIA_SHARED_CODE
-#define VIA_CONTEXT_PARAM       VIACONTEXT *ctxptr,
-#define VIA_CONTEXT_PARVOID     VIACONTEXT *ctxptr
-#define VIA_CONTEXT_CALL        ctxptr,
-#define VIA_CONTEXT_CALLVOID    ctxptr
+#define VIA_CONTEXT_PARAM       via_context_t *via_context,
+#define VIA_CONTEXT_PARVOID     via_context_t *via_context
+#define VIA_CONTEXT_CALL        via_context,
+#define VIA_CONTEXT_CALLVOID    via_context
 #define VIARPARM1               REGPARM2
 #define VIARPARM2               REGPARM3
 #else
@@ -169,7 +169,7 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 #ifndef via_restore_int /* if VIA reports to other chip (TPI) for IRQ */
 #define via_restore_int(a) \
-    via_set_int(myvia_int_num, (a) ? MYVIA_INT : 0)
+    via_set_int(VIA_CONTEXT_CALL myvia_int_num, (a) ? MYVIA_INT : 0)
 #endif
 
 static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);
@@ -177,7 +177,8 @@ static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);
 
 inline static void update_myviairq(VIA_CONTEXT_PARVOID)
 {
-    via_set_int(myvia_int_num, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
+    via_set_int(VIA_CONTEXT_CALL myvia_int_num,
+                (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
 }
 
 /* the next two are used in myvia_read() */
@@ -288,8 +289,8 @@ void myvia_reset(VIA_CONTEXT_PARVOID)
 
     ca2_state = 1;
     cb2_state = 1;
-    VIA_SET_CA2(ca2_state)      /* input = high */
-    VIA_SET_CB2(cb2_state)      /* input = high */
+    via_set_ca2(ca2_state);      /* input = high */
+    via_set_cb2(cb2_state);      /* input = high */
 
     res_via(VIA_CONTEXT_CALLVOID);
 }
@@ -298,10 +299,10 @@ void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
 {
     switch (line) {
       case VIA_SIG_CA1:
-        if ( (edge ? 1 : 0) == (myvia[VIA_PCR] & 0x01) ) {
+        if ((edge ? 1 : 0) == (myvia[VIA_PCR] & 0x01)) {
             if (IS_CA2_TOGGLE_MODE() && !ca2_state) {
                 ca2_state = 1;
-                VIA_SET_CA2( ca2_state )
+                via_set_ca2(ca2_state);
             }
             myviaifr |= VIA_IM_CA1;
             update_myviairq(VIA_CONTEXT_CALLVOID);
@@ -323,7 +324,7 @@ void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
         if ( (edge ? 0x10 : 0) == (myvia[VIA_PCR] & 0x10) ) {
             if (IS_CB2_TOGGLE_MODE() && !cb2_state) {
                 cb2_state = 1;
-                VIA_SET_CB2( cb2_state )
+                via_set_cb2(cb2_state);
             }
             myviaifr |= VIA_IM_CB1;
             update_myviairq(VIA_CONTEXT_CALLVOID);
@@ -369,10 +370,10 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM WORD addr, BYTE byte)
         }
         if(IS_CA2_HANDSHAKE()) {
             ca2_state = 0;
-            VIA_SET_CA2(ca2_state)
+            via_set_ca2(ca2_state);
             if (IS_CA2_PULSE_MODE()) {
                 ca2_state = 1;
-                VIA_SET_CA2(ca2_state)
+                via_set_ca2(ca2_state);
             }
         }
         if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
@@ -395,10 +396,10 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM WORD addr, BYTE byte)
         }
         if (IS_CB2_HANDSHAKE()) {
             cb2_state = 0;
-            VIA_SET_CB2( cb2_state )
+            via_set_cb2(cb2_state);
             if (IS_CB2_PULSE_MODE()) {
                 cb2_state = 1;
-                VIA_SET_CB2(cb2_state)
+                via_set_cb2(cb2_state);
             }
         }
         if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
@@ -546,27 +547,27 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM WORD addr, BYTE byte)
         /* bit 3, 2, 1  CA2 handshake/interrupt control */
         /* bit 0  CA1 interrupt control */
 
-        if ( (byte & 0x0e) == 0x0c ) {  /* set output low */
+        if ((byte & 0x0e) == 0x0c) {  /* set output low */
             ca2_state = 0;
         } else
-        if ( (byte & 0x0e) == 0x0e ) {  /* set output high */
+        if ((byte & 0x0e) == 0x0e) {  /* set output high */
             ca2_state = 1;
         } else {                        /* set to toggle/pulse/input */
             /* FIXME: is this correct if handshake is already active? */
             ca2_state = 1;
         }
-        VIA_SET_CA2( ca2_state )
+        via_set_ca2(ca2_state);
 
-        if ( (byte & 0xe0) == 0xc0 ) {  /* set output low */
+        if ((byte & 0xe0) == 0xc0) {  /* set output low */
             cb2_state = 0;
         } else
-        if ( (byte & 0xe0) == 0xe0 ) {  /* set output high */
+        if ((byte & 0xe0) == 0xe0) {  /* set output high */
             cb2_state = 1;
         } else {                        /* set to toggle/pulse/input */
             /* FIXME: is this correct if handshake is already active? */
             cb2_state = 1;
         }
-        VIA_SET_CB2( cb2_state )
+        via_set_cb2(cb2_state);
 
         store_pcr(VIA_CONTEXT_CALL byte, addr);
 
@@ -627,10 +628,10 @@ BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM WORD addr)
         }
         if(IS_CA2_HANDSHAKE()) {
             ca2_state = 0;
-            VIA_SET_CA2(ca2_state)
+            via_set_ca2(ca2_state);
             if(IS_CA2_PULSE_MODE()) {
                 ca2_state = 1;
-                VIA_SET_CA2(ca2_state)
+                via_set_ca2(ca2_state);
             }
         }
         if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
@@ -1015,7 +1016,7 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t *p)
     cb2_state = byte & 0x40;
 
     /* undump_pcr also restores the ca2_state/cb2_state effects if necessary;
-       i.e. calls VIA_SET_C*2( c*2_state ) if necessary */
+       i.e. calls via_set_c*2(c*2_state) if necessary */
     {
         addr = VIA_PCR;
         byte = myvia[addr];
