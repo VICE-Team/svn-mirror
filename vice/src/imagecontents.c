@@ -31,15 +31,30 @@
 
 #include "imagecontents.h"
 
+#include "charsets.h"
 #include "log.h"
-#include "tape.h"
+#include "t64.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
 
-void image_contents_free(image_contents_t *contents)
+image_contents_t *image_contents_new(void)
+{
+    image_contents_t *new;
+
+    new = xmalloc(sizeof(image_contents_t));
+
+    memset(new->name, 0, sizeof(new->name));
+    memset(new->id, 0, sizeof(new->id));
+    new->blocks_free = -1;
+    new->file_list = NULL;
+
+    return new;
+}
+
+void image_contents_destroy(image_contents_t *contents)
 {
     image_contents_file_list_t *p;
 
@@ -49,12 +64,62 @@ void image_contents_free(image_contents_t *contents)
     free(contents);
 }
 
+char *image_contents_to_string(image_contents_t *contents)
+{
+    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN] = "                ";
+    image_contents_file_list_t *p;
+    char line_buf[256];
+    char *buf;
+    int buf_size, max_buf_size;
+    int len;
+
+#define BUFCAT(s, n) bufcat(buf, &buf_size, &max_buf_size, (s), (n))
+
+    max_buf_size = 4096;
+    buf = xmalloc(max_buf_size);
+    buf_size = 0;
+
+    BUFCAT("0 \"", 3);
+    BUFCAT(contents->name, strlen(contents->name));
+    BUFCAT("\" ", 2);
+    BUFCAT(contents->id, strlen(contents->id));
+
+    if (contents->file_list == NULL) {
+        char *s = "\n(eMPTY IMAGE.)";
+
+        BUFCAT(s, strlen(s));
+    }
+
+    for (p = contents->file_list; p != NULL; p = p->next) {
+        int name_len;
+
+        len = sprintf(line_buf, "\n%-5d \"%s\" ", p->size, p->name);
+        BUFCAT(line_buf, len);
+
+        name_len = strlen(p->name);
+        if (name_len < IMAGE_CONTENTS_FILE_NAME_LEN)
+            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN - strlen(p->name));
+        BUFCAT(p->type, strlen(p->type));
+    }
+
+    if (contents->blocks_free >= 0) {
+        len = sprintf(line_buf, "\n%d blocks free.\n", contents->blocks_free);
+        BUFCAT(line_buf, len);
+    }
+
+    BUFCAT("\n", 2);              /* With a closing zero.  */
+
+    petconvstring(buf, 1);
+
+    return buf;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* This code is used to check whether the directory is circular.  It should
    be replaced by a more simple check that just stops if the number of
    entries is bigger than expected, but this needs some support in `vdrive.c'
-   which we currently do not have (yet).  */
+   which we do not have yet.  */
 
 static struct {
     unsigned int track;
@@ -97,12 +162,12 @@ static int circular_check(unsigned int track, unsigned int sector)
 /* ------------------------------------------------------------------------ */
 
 /* Disk contents.  */
+/* FIXME: When we will have a module for disk image handling in the style of
+   `t64.c', this will be moved into it.  */
 
 /* Argh!  Really ugly!  FIXME!  */
 extern char *slot_type[];
 
-/* FIXME: This is duplicated code from `read_disk_image_contents()' in
-   `vdrive.c', which should be removed some day.  */
 static DRIVE *open_image(const char *name)
 {
     static BYTE fake_command_buffer[256];
@@ -153,9 +218,6 @@ static DRIVE *open_image(const char *name)
     return floppy;
 }
 
-/* FIXME: some day this should completely replace
-   `read_disk_image_contents()' in `vdrive.c'.  */
-/* FIXME: loop detection.  */
 image_contents_t *image_contents_read_disk(const char *file_name)
 {
     image_contents_t *new;
@@ -177,7 +239,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         return NULL;
     }
 
-    new = xmalloc(sizeof(image_contents_t));
+    new = image_contents_new();
 
     memcpy(new->name, floppy->bam + BAM_NAME_1541, IMAGE_CONTENTS_NAME_LEN);
     new->name[IMAGE_CONTENTS_NAME_LEN] = 0;
@@ -208,7 +270,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 
         if (retval < 0
             || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
-            image_contents_free(new);
+            image_contents_destroy(new);
             zclose(floppy->ActiveFd);
             free(floppy);
             return NULL;
@@ -264,106 +326,58 @@ image_contents_t *image_contents_read_disk(const char *file_name)
 /* ------------------------------------------------------------------------- */
 
 /* Tape contents.  */
+/* FIXME: When we will have a module for disk image handling in the style of
+   `t64.c', this will be moved to `t64.c'.  */
 
-/* FIXME: this should completely replace `read_tape_image_contents()' from
-   `tape.c'.  */
 image_contents_t *image_contents_read_tape(const char *file_name)
 {
-    BYTE inbuf[TAPE_HDR_SIZE + 1];
-    FILE *fd;
+    t64_t *t64;
     image_contents_t *new;
     image_contents_file_list_t *lp;
-    int i;
-    int num_entries, max_entries;
 
-    fd = zfopen(file_name, "r");
-    if (fd == NULL)
+    t64 = t64_open(file_name);
+    if (t64 == NULL)
         return NULL;
 
-    /* Check whether this really looks like a tape image. */
-    if (fread(inbuf, TAPE_HDR_SIZE, 1, fd) != 1 || !check_t64_header(fd)) {
-	zfclose(fd);
-	return NULL;
-    }
+    new = image_contents_new();
 
-    max_entries = (unsigned int)inbuf[34] + (unsigned int)inbuf[35] * 256;
-    num_entries = (unsigned int)inbuf[36] + (unsigned int)inbuf[37] * 256;
-
-    /* Check a little bit...  */
-    if (num_entries > max_entries) {
-	zfclose(fd);
-	return NULL;
-    }
-
-    /* Many T64 images are broken...  */
-    if (!num_entries)
-	num_entries = 1;
-
-    /* Seek to start of file records.  */
-    if (fseek (fd, 64, SEEK_SET) < 0) {
-	log_error(LOG_DEFAULT, "lseek to file records failed: %s",
-                  strerror(errno));
-	zfclose(fd);
-	return NULL;
-    }
-
-    new = xmalloc(sizeof(image_contents_t));
-
-    memcpy(new->name, inbuf + 40, 24);
-    new->name[24] = 0;
+    memcpy(new->name, t64->header.description, T64_REC_CBMNAME_LEN);
     *new->id = 0;
     new->blocks_free = -1;
 
     lp = NULL;
     new->file_list = NULL;
 
-    for (i = 0; i < num_entries; i++) {
-        image_contents_file_list_t *new_list;
-        int start_addr, end_addr;
-        int blocks;
-        int res;
+    while (t64_seek_to_next_file(t64, 0) >= 0) {
+        t64_file_record_t *rec;
 
-        res = fread(inbuf, 32, 1, fd);
-        if (res != 1) {
-            zfclose(fd);
-            image_contents_free(new);
-            return NULL;
-        }
+        rec = t64_get_current_file_record(t64);
+        if (rec->entry_type != T64_FILE_RECORD_FREE) {
+            image_contents_file_list_t *new_list;
 
-	if (inbuf[0] == 0)
-	    /* Free slot.  */
-	    continue;
+            new_list = xmalloc(sizeof(image_contents_file_list_t));
+            memcpy(new_list->name, rec->cbm_name, T64_REC_CBMNAME_LEN);
+            new_list->name[IMAGE_CONTENTS_FILE_NAME_LEN] = 0;
 
-        start_addr = (unsigned int)inbuf[2] + (unsigned int)inbuf[3] * 256;
-        end_addr = (unsigned int)inbuf[4] + (unsigned int)inbuf[5] * 256;
-
-        if (end_addr > start_addr)
-            blocks = (end_addr - start_addr) / 256 + 1;
-        else
-            blocks = 0;
-
-        new_list = xmalloc(sizeof(image_contents_file_list_t));
-
-        memcpy(new_list->name, inbuf + 16, 16);
-        new_list->name[16] = 0;
-        if (inbuf[0] == 1)
+            /* XXX: Not quite true, but this is what the tape emulation
+               will do anyway.  */
             strcpy(new_list->type, " PRG ");
-        else
-            strcpy(new_list->type, " ??? ");
-        new_list->size = blocks;
 
-        new_list->next = NULL;
-        if (lp == NULL) {
-            new_list->prev = NULL;
-            new->file_list = new_list;
-            lp = new->file_list;
-        } else {
-            new_list->prev = lp;
-            lp->next = new_list;
-            lp = new_list;
+            new_list->size = (rec->end_addr - rec->start_addr) / 254;
+            new_list->next = NULL;
+
+            if (lp == NULL) {
+                new_list->prev = NULL;
+                new->file_list = new_list;
+                lp = new->file_list;
+            } else {
+                new_list->prev = lp;
+                lp->next = new_list;
+                lp = new_list;
+            }
         }
     }
 
-    zfclose(fd);
+    t64_close(t64);
     return new;
 }

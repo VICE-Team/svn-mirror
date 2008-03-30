@@ -1,4 +1,200 @@
+1998-12-06  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.36.
+
+	* imagecontents.c (image_contents_read_tape): Rewritten to use
+ 	`t64.c'.
+
+1998-12-05  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* imagecontents.c (image_contents_new): New function.
+	(image_contents_read_disk): Use it.
+	(image_contents_read_tape): Use it.
+	(image_contents_free): Renamed to `image_contents_destroy()'.
+	Callers updated.
+
+	* t64.c (t64_header_read): Silently accept T64 images with zero
+ 	entries as if they declared to have one.  *Sigh!*
+
+	* main.c [__hpux]: Removed some lovely HP cruft.
+
+	* main.c (cmdline_attach): Argh.  Fixed wrong `free()' call.
+
+	* utils.c (fname_split) [__MSDOS__ || WIN32]: Fixed bug with `/'
+	and `\' handling: the last `/' or `\' is what counts for splitting 
+	the file name.
+
+	* c1541.c (system_cmd): Removed.
+	(main): All the lines starting with '!' are passed to the shell
+ 	via `system()' after removing the '!', without any other parsing.
+
+	* maincpu.def (CPU_LOOP_STUFF) [IO_AREA_WARNING]: Use
+ 	`log_debug()'.
+	(evaluate_speed) [!EVALUATE_SPEED]: Removed.
+
+	* mon.c (disassemble_instr): Always disassemble in hex mode.
+
+	* vdrive.c (read_disk_image_contents): Removed.
+
+	* tape.c (read_tape_image_contents): Removed.
+
+	* imagecontents.c (image_contents_to_string):  New function.
+
+	* main.c (MAIN_PROGRAM): Use `tape_attach_image()' instead of
+ 	`serial_select_file()'.
+	* arch/unix/xaw/uicommands.c (attach_tape): Likewise.
+	(smart_attach): Likewise.
+	* autostart.c (autostart_tape): Likewise.
+	* arch/msdos/menudefs.c (attach_tape_callback): Likewise.
+
+	* serial.c: Removed all the tape-related stuff.
+
+	* tape.c (tape_detach_image): Removed args.  Return value made
+ 	`int'.
+	(tape_attach_image): Only one `name' arg.
+
+	* sound.c: Default value of resource `SoundDeviceName' reverted to 
+	NULL as it should be.
+
+	* c1541.c (tape_cmd): Rewritten to use `t64.c'.
+	(main): Execute interactive commands only if there is at least one
+ 	argument (the command name).
+
+	* t64.c (t64_read_byte): New function.
+
+	* tape.c (tape_init): Do not install tape as a serial device.
+	(tapereceive): Renamed to `tape_receive_trap'.
+	(findheader): Renamed to `tape_find_header_trap'.
+
+	* c1541.c: Fixed number of arguments for the `unlynx' command.
+
+1998-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/c64mem.c (mem_attach_cartridge, initialize_memory): Added
+	support for Ultimax carts.
+	* c64/cartridge.c (cartridge_attach_image): Likewise.
+	* cartridge.h: Likewise.
+
+	* c64/vicii.c (set_memory_ptrs): If Ultimax is enabled calculate
+	`charbase' according to the Ultimax memory layout.
+
+1998-12-03  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* tape.c (read_tape_image_contents): Made temporarily not-working
+	to let it compile.
+
+	* imagecontents.c (image_contents_read_tape): Temporarily made
+	not-working by removing usage of `TAPE_HDR_SIZE'.
+
+	* serial.c (serial_get_file_name): Temporarily do nothing for
+ 	tapes.
+
+	* tape.c: Massive rewrite to take advantage of `t64.c' and get rid
+ 	of lots of cruft.  P00 and PRG files cannot be attached as tapes
+ 	anymore (but they can be put back in rather easily if we really
+	want them to be).
+	(tape_init): Changed order of parameters.  Callers updated.
+
+	* t64.c, t64.h: New files.
+
+1998-12-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+	
+	* arch/win32/vic20ui.c (vic20_ui_specific): Corrected cartridge
+	names.
+
+	* vdrive.c (get_std71_header): Set flag for 2 sides.
+	(get_std81_header): Likewise.
+
+1998-12-02  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/ui.c (ui_init): Changed bogus log_error calls to
+ 	log_debug calls.
+
+	* arch/win32/video.c (frame_buffer_free): Check if memory we are
+ 	trying to free is really allocated.
+
+	* maincpu.def (evaluate_speed): Replaced fprintf call to
+ 	log_debug.
+
 1998-12-02  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* petcat.c: Removed some crufty prototypes.
+
+	* Makefile.am (c1541_SOURCES): Added `tape.c'.
+	(petcat_SOURCES): Likewise.
+
+	* tape.c (read_tape_image_contents): Moved here from old
+	`tape.c'.  Make it use stdio files instead of Unix files.
+
+	* tapeunit.c: Renamed to `tape.c'.
+	* tapeunit.h: Renamed to `tape.h'.
+
+	* tapeunit.c: (Temporarily?) removed support for attached P00
+ 	files.
+
+	* vdrive.c (read_disk_image_contents): Removed.
+
+	* tapeunit.c (check_t64_header): New function, derived from older
+ 	`check_t64_header()' in `tape.c'.
+	(check_tape): Removed (cruft).
+
+	* tape.c: Removed several functions.  Functions formerly using
+ 	them now use the ones from `p00.c'.
+	(is_pc64name): Removed.
+	(read_pc64header): Likewise.
+	(write_pc64header): Likewise.
+	(pc_get_cbmname): Likewise.
+	(is_t64name): Likewise.
+	(check_t64_header): Likewise.
+
+	* Makefile.am (c1541_SOURCES, petcat_SOURCES): Added `p00.c'.
+
+	* p00.h: New file.
+
+	* p00.c: New file.  This replaces lots of cruft from `tape.c' and
+	also makes P00 support 100% portable.
+	(p00_check_name): New function, derived from `is_pc64name()' in
+ 	`tape.c'.
+	(p00_read_header):  New function, derived from `read_pc64header()' 
+	in `tape.c'.
+	(p00_write_header): New function, derived from
+	`write_pc64header()' in `tape.c'.
+
+	* c1541.c (write_cmd): Do not use `pc_get_cbmname()' anymore:
+ 	`read_pc64header()' is more than enough.
+
+	* mon.c: Adapted to the new `asm.c'/`asm.h'.
+	(mon_disassemble_to_string): New function.
+	(mon): Print `\n' at EOF.
+
+	* asm.c, asm.h: Removed lots of cruft and restyled.
+	(asm_opcode_info_get): New function.
+	(asm_addr_mode_get_size): New function.
+
+	* misc.c, misc.h: Removed.
+
+	* asm.c: Removed declaration of `ram'.
+
+	* arch/msdos/tuimenu.h (TUI_MENU_DEFINE_TOGGLE): Use
+ 	`_tui_menu_toggle_helper()'.
+	(TUI_MENU_DEFINE_RADIO): Use `_tui_menu_radio_helper()'.
+
+	* arch/msdos/tuimenu.c (_tui_menu_toggle_helper): New function.
+	(_tui_menu_radio_helper): New function.
+
+	* c1541.c: Added `exit' command (same as `quit').
+
+	* arch/unix/xaw/uimenu.h (UI_MENU_DEFINE_TOGGLE): Use
+ 	`_ui_menu_toggle_helper()'.
+	(UI_MENU_DEFINE_RADIO): Use `_ui_menu_radio_helper()'.
+	(UI_MENU_DEFINE_STRING_RADIO): Use
+ 	`_ui_menu_string_radio_helper()'.
+
+	* arch/unix/xaw/uimenu.c (_ui_menu_toggle_helper): New function.
+	(_ui_menu_radio_helper): New function.
+	(_ui_menu_string_radio_helper): New function.
+
+	* Version 0.15.0.35.
 
 	* misc.c (sprint_binary): Removed `HEX' constant.
 	(sprint_disassembled): Parameter `base' renamed to `hex_mode'.  If 

@@ -338,11 +338,11 @@ c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/types.h ../../src/snapshot.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/log.h ../../src/machine.h ../../src/misc.h \
-	../../src/resources.h ../../src/traps.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/6510core.c
+	../../src/log.h ../../src/machine.h ../../src/resources.h \
+	../../src/traps.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/6510core.c
 c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
@@ -361,9 +361,8 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/log.h ../../src/maincpu.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/memutils.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/warn.h ../../src/tapeunit.h \
-	../../src/tape.h ../../src/traps.h ../../src/utils.h \
-	../../src/arch/unix/vsync.h
+	../../src/sound.h ../../src/warn.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/arch/unix/vsync.h
 c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/types.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \

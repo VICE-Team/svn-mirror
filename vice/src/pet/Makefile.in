@@ -353,9 +353,8 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/maincpu.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/memutils.h pet.h \
-	petacia.h petmem.h petpia.h pets.h petvia.h \
-	../../src/tapeunit.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h
+	petacia.h petmem.h petpia.h pets.h petvia.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \

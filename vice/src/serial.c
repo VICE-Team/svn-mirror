@@ -41,6 +41,8 @@
  *
  */
 
+/* FIXME: The `parallel*()' functions definitely need to get outta here!  */
+
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -54,7 +56,6 @@
 #include "parallel.h"
 #include "serial.h"
 #include "tape.h"
-#include "tapeunit.h"
 #include "traps.h"
 #include "utils.h"
 #include "vdrive.h"
@@ -90,7 +91,7 @@ static log_t serial_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
-/* This is just a kludge for the autostart code (see `autostart.c'.  */
+/* This is just a kludge for the autostart code (see `autostart.c').  */
 
 /* Function to call when EOF happens in `serialreceivebyte()'.  */
 static void (*eof_callback_func)(void);
@@ -562,7 +563,6 @@ int serial_install_traps(void)
     return 0;
 }
 
-
 int serial_remove_traps(void)
 {
     if (traps_installed && serial_traps != NULL) {
@@ -574,7 +574,6 @@ int serial_remove_traps(void)
     }
     return 0;
 }
-
 
 int serial_attach_device(int device, char *var, char *name,
 			 int (*getf) (void *, BYTE *, int),
@@ -616,7 +615,6 @@ int serial_attach_device(int device, char *var, char *name,
     return 0;
 }
 
-
 /* Attach a file for use to specified peripheral.  The device numbed is
    searched in filename if device # == -1.  Note that tape and RS-232 are
    handled here as well.  */
@@ -625,13 +623,12 @@ int serial_select_file(int type, int number, const char *file)
     serial_t *p;
 
     if (number < 0 && type) {
-	if (type & DT_TAPE)
-	    number = 1;
 #ifdef PRINTER
 	if (type & DT_PRINTER)
 	    number = 4;
+        else
 #endif
-	else if (type & DT_DISK)
+	if (type & DT_DISK)
 	    number = 8;
     }
     if (number < 0 || number >= MAXDEVICES) {
@@ -648,13 +645,10 @@ int serial_select_file(int type, int number, const char *file)
 	log_error(serial_log, "No device for #%d.", number);
 	return -1;
     }
+
     /* should be based on p -> info.type */
 
     switch (number) {
-
-      case 1:
-	  return (tape_attach_image((TAPE *) p->info, file, 0));
-
 #ifdef PRINTER
       case 4:
       case 5:
@@ -665,7 +659,7 @@ int serial_select_file(int type, int number, const char *file)
       case 9:
       case 10:
       case 11:
-	  return attach_floppy_image((DRIVE *) (p->info), file, 0);
+	  return attach_floppy_image((DRIVE *) p->info, file, 0);
 
       default:
 	  return -1;
@@ -707,9 +701,6 @@ int serial_remove(int number)
 	    log_error(serial_log, "Attempting to remove empty device #%d.", number);
 	} else
 	    switch (number) {	/* should be based on actual type ... */
-	      case 1:
-		  tape_detach_image((TAPE *) p->info);
-		  break;
 #ifdef PRINTER
 	      case 4:
 	      case 5:
@@ -747,12 +738,6 @@ char *serial_get_file_name(int number)
 	return NULL;
 
     switch (number) {
-      case 1:
-	  p = ((TAPE *) serialdevices[number].info)->ActiveName;
-	  if (*p != 0)
-	      return p;
-	  else
-	      return NULL;
       case 8:
       case 9:
       case 10:

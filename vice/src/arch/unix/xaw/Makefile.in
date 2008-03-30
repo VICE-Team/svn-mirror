@@ -351,20 +351,21 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/snapshot.h ../../../../src/autostart.h \
-	../../../../src/info.h ../../../../src/interrupt.h \
-	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/mem.h ../../../../src/machine.h \
-	../../../../src/mon.h ../../../../src/mos6510.h \
-	../../../../src/resources.h ../../../../src/tapeunit.h \
+	../../../../src/imagecontents.h ../../../../src/info.h \
+	../../../../src/interrupt.h ../../../../src/vmachine.h \
+	../../../../src/6510core.h ../../../../src/mem.h \
+	../../../../src/machine.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/resources.h \
 	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
 	../../../../src/arch/unix/vsync.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
-	checkmark.xbm right_arrow.xbm uimenu.h ui.h \
-	../../../../src/types.h ../../../../src/palette.h uihotkey.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/utils.h
+	checkmark.xbm right_arrow.xbm ../../../../src/resources.h \
+	../../../../src/utils.h ../../../../src/types.h \
+	../../../../src/arch/unix/vsync.h uimenu.h ui.h \
+	../../../../src/palette.h uihotkey.h
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \

@@ -361,23 +361,25 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/palette.h ../../src/utils.h ../../src/via.h viad.h \
 	../../src/warn.h wd1770.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/traps.h ../../src/log.h drivecpu.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/via.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/resources.h viad.h ciad.h ../../src/cia.h wd1770.h \
-	../../src/misc.h ../../src/6510core.c
+	../../src/6510core.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ciad.h ../../src/cia.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/resources.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/via.h viad.h wd1770.h \
+	../../src/6510core.c
 drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
-	../../src/types.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
-	../../src/serial.h ../../src/traps.h ../../src/log.h drivecpu.h \
-	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
-	../../src/6510core.h ../../src/via.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
-	../../src/resources.h viad.h ciad.h ../../src/cia.h wd1770.h \
-	../../src/misc.h ../../src/6510core.c
+	../../src/6510core.h ../../src/mem.h ../../src/types.h \
+	../../src/snapshot.h ciad.h ../../src/cia.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/log.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/resources.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/palette.h ../../src/via.h viad.h wd1770.h \
+	../../src/6510core.c
 via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/types.h ../../src/via.h ../../src/vmachine.h drive.h \
