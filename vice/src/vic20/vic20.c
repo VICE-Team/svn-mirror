@@ -261,7 +261,7 @@ int machine_init(void)
 
     /* Initialize serial traps.  If user does not want them, or if the
        ``drive'' emulation is used, do not install them.  */
-    if (serial_init(vic20_serial_traps) < 0)
+    if (serial_init(vic20_serial_traps, 0xa4) < 0)
         return -1;
 
     /* Initialize drives. */

@@ -123,7 +123,7 @@ static resource_t resources_2x[] =
       (resource_value_t *)&vic_resources.fullscreen_double_scan_enabled,
       set_fullscreen_double_scan_enabled, NULL },
 #endif
-    NULL
+    { NULL }
 };
 
 #endif /* VIC_NEED_2X */

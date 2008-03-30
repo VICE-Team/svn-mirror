@@ -239,7 +239,7 @@ int machine_init(void)
         return -1;
 
     /* No traps installed on the CBM-II.  */
-    if (serial_init(NULL) < 0)
+    if (serial_init(NULL, 0xa4) < 0)
         return -1;
 
     /* Initialize drives. */

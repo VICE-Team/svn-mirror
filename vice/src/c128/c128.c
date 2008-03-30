@@ -374,7 +374,7 @@ int machine_init(void)
     traps_init();
 
     /* Initialize serial traps.  */
-    if (serial_init(c128_serial_traps) < 0)
+    if (serial_init(c128_serial_traps, 0xa4) < 0)
         return -1;
 
     /* Initialize drives. */

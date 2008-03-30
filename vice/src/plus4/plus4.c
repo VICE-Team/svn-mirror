@@ -80,27 +80,27 @@ static void machine_vsync_hook(void);
 static trap_t plus4_serial_traps[] = {
     {
         "SerialListen",
-        0xEE2C,
+        0xE16B,
         0xE1E7,
-        { 0x20, 0xA9, 0xED },
+        { 0x20, 0xC6, 0xE2 },
         serialattention,
         kernal_read,
         kernal_store
     },
     {
         "SerialSaListen",
-        0xEE4D,
+        0xE177,
         0xE1E7,
-        { 0x24, 0xF9, 0x30 },
+        { 0x78, 0x20, 0xBF },
         serialattention,
         kernal_read,
         kernal_store
     },
     {
         "SerialSendByte",
-        0xECDF,
+        0xE181,
         0xE1E7,
-        { 0x24, 0xF9, 0x30 },
+        { 0x78, 0x20, 0xC6 },
         serialsendbyte,
         kernal_read,
         kernal_store
@@ -118,15 +118,24 @@ static trap_t plus4_serial_traps[] = {
 */
     {
         "SerialReceiveByte",
-        0xEC8B,
+        0xE252,
         0xE1E7,
-        { 0x86, 0xBA, 0x24 },
+        { 0x78, 0xA9, 0x00 },
         serialreceivebyte,
         kernal_read,
         kernal_store
     },
     {
         "SerialReady",
+        0xE216,
+        0xE1E7,
+        { 0x24, 0x01, 0x70 },
+        trap_serial_ready,
+        kernal_read,
+        kernal_store
+    },
+    {
+        "SerialReady2",
         0xE2D4,
         0xE1E7,
         { 0xA5, 0x01, 0xC5 },
@@ -232,7 +241,7 @@ int machine_init(void)
     traps_init();
 
     /* Initialize serial traps.  */
-    if (serial_init(plus4_serial_traps) < 0)
+    if (serial_init(plus4_serial_traps, 0xa8) < 0)
         return -1;
 
     /* Initialize drives. */

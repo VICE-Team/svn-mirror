@@ -242,7 +242,7 @@ int machine_init(void)
     log_message(pet_log, "Initializing IEEE488 bus...");
 
     /* No traps installed on the PET.  */
-    if (serial_init(NULL) < 0)
+    if (serial_init(NULL, 0xa4) < 0)
         return -1;
 
     /* Initialize drives. */
@@ -394,7 +394,7 @@ void machine_set_cycles_per_frame(long cpf)
 
     f = modf(pet_rfsh_per_sec, &i)*1000;
 
-    log_message(pet_log, "cycles per frame set to %ld, refresh to %d.%dHz",
+    log_message(pet_log, "cycles per frame set to %ld, refresh to %d.%03dHz",
                 cpf, (int)i, (int)f);
 
     vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
