@@ -1041,7 +1041,7 @@ char    text[256];
                 led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
                 led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
                 led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,CreateSolidBrush(status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? 0xff00 : 0x00));
+                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,CreateSolidBrush(status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? 0xff00 : 0xff ) : 0x00));
             }
             return 0;
       case WM_COMMAND:

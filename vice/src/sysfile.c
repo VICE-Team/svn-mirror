@@ -28,6 +28,7 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
+#include <string.h>
 #endif
 
 #include "sysfile.h"
@@ -53,12 +54,60 @@ static char *expanded_system_path;
 
 static int set_system_path(resource_value_t v)
 {
+    char *tmp_path, *tmp_path_save, *p, *s, *current_dir;
+
     string_set(&system_path, (char *) v);
 
-    if (expanded_system_path != NULL)
+    if (expanded_system_path != NULL) {
         free(expanded_system_path);
+    }
 
-    expanded_system_path = subst(system_path, "$$", default_path);
+    expanded_system_path = NULL;	/* will subsequently be replaced */
+
+    tmp_path_save = subst(system_path, "$$", default_path);	/* malloc'd */
+
+    current_dir = get_current_dir();				/* malloc'd */
+
+    tmp_path = tmp_path_save;	/* tmp_path points into tmp_path_save */
+    do {
+	p=strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
+
+        /* printf("tmp_p='%s'\np='%s'\nexp_p='%s'\n",
+					tmp_path, p, expanded_system_path); */
+	if (p!=NULL) {
+	    *p = 0;
+	}
+	if (*tmp_path == FSDEV_DIR_SEP_CHR) {	/* absolute path */
+	    if (expanded_system_path == NULL) {
+	        s = concat(tmp_path, NULL );	/* concat allocs a new str. */
+	    } else {
+	        s = concat(expanded_system_path, 
+			FINDPATH_SEPARATOR_STRING, 
+			tmp_path, NULL );
+	    }
+	} else {				/* relative path */
+	    if (expanded_system_path == NULL) {
+	        s = concat(current_dir, 
+			FSDEV_DIR_SEP_STR,
+			tmp_path, NULL );
+	    } else {
+	        s = concat(expanded_system_path, 
+			FINDPATH_SEPARATOR_STRING, 
+			current_dir,
+			FSDEV_DIR_SEP_STR,
+			tmp_path, NULL );
+	    }
+	}
+	free(expanded_system_path);
+	expanded_system_path = s;
+
+	tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
+    } while(p!=NULL);
+    
+    /* printf("p='%s'\nexp_p='%s'\n",p, expanded_system_path); */
+
+    free(current_dir);
+    free(tmp_path_save);
 
     return 0;
 }

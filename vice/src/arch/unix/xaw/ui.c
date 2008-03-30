@@ -145,28 +145,28 @@ void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
                        Boolean *ctd) {
   if(report->type == LeaveNotify)
     no_cursor_blank = 1;
-  else 
+  else
     no_cursor_blank = 0;
 
-  XUndefineCursor(display,XtWindow(canvas));  
+  XUndefineCursor(display,XtWindow(canvas));
   if(no_cursor_blank == 0) {
     if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
       return;
     alarm(5);
   }
-} 
+}
 
 void initBlankCursor() {
     static unsigned char no_data[] = { 0,0,0,0, 0,0,0,0 };
     static Pixmap blank;
-    XColor trash, dummy; 
+    XColor trash, dummy;
 
     XAllocNamedColor(display,
 		     DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
 		     "black",&trash,&dummy);
 
     blank = XCreateBitmapFromData(display, XtWindow(canvas),
-                                  no_data, 8,8); 
+                                  no_data, 8,8);
 
     blankCursor = XCreatePixmapCursor(display,
 				      blank,
@@ -204,11 +204,11 @@ int vidmode_available(void)
         log_error(ui_log, "Error getting video mode information");
         return 0;
     }
-    
+
     log_message(LOG_DEFAULT, "Available fullscreen video modes: ");
 
     for (i = 0; i < vidmodecount; i++) {
-        if(allmodes[i]->hdisplay <= 800 && 
+        if(allmodes[i]->hdisplay <= 800 &&
 	   allmodes[i]->hdisplay >= 320 &&
 	   allmodes[i]->vdisplay <= 600  &&
 	   allmodes[i]->hdisplay >= 200) {
@@ -225,7 +225,7 @@ int vidmode_available(void)
 			  hz);
 	      bestmode_counter++;
 	      if (bestmode_counter == 10) break;
-	} 
+	}
     }
     return 1;
 }
@@ -272,14 +272,14 @@ static int set_fullscreen(resource_value_t v)
     if( selected_videomode_index == -1) {
 	return 0;
     }
-    
-    if(v && !use_fullscreen) {    
+
+    if(v && !use_fullscreen) {
         log_message(LOG_DEFAULT, "Switch to fullscreen %ix%i",
 		    allmodes[selected_videomode_index]->hdisplay,
 		    allmodes[selected_videomode_index]->vdisplay);
-    
+
 	XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
-	
+
 	XF86VidModeLockModeSwitch(display, screen, 1);
 	XtVaGetValues(XtParent(XtParent(canvas)),
 		      XtNx,          &x,
@@ -321,7 +321,7 @@ static int set_fullscreen(resource_value_t v)
 	{
 	    Window root, child;
 	    int mask;
-	    
+
 	    XQueryPointer(display, XtWindow(canvas),
 			  &root, &child, &root_x, &root_y,
 			  &win_x, &win_y, &mask);
@@ -341,7 +341,7 @@ static int set_fullscreen(resource_value_t v)
 		     GrabModeAsync, GrabModeAsync,
 		     XtWindow(canvas),
 		     None, CurrentTime);
-	
+
 	XGetScreenSaver(display,&timeout,&interval,
 			&prefer_blanking,&allow_exposures);
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
@@ -370,7 +370,7 @@ static int set_fullscreen(resource_value_t v)
 			  (XtEventHandler) mouse_handler, NULL);
 	XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
 	ui_set_mouse_timeout();
-    } else if((int) v == 2) {	
+    } else if((int) v == 2) {
         int troot_x, troot_y;
         int twin_x,twin_y;
 
@@ -387,7 +387,7 @@ static int set_fullscreen(resource_value_t v)
 	{
 	    Window root, child;
 	    int mask;
-	    
+
 	    XQueryPointer(display, XtWindow(canvas),
 			  &root, &child, &troot_x, &troot_y,
 			  &twin_x, &twin_y, &mask);
@@ -442,7 +442,7 @@ static int set_fullscreen(resource_value_t v)
 	}
 
 	video_setfullscreen(0,0,0);
-	
+
 	if(use_fullscreen_at_start) {
 	    XtVaSetValues(XtParent(XtParent(canvas)),
 			  XtNx, 30,
@@ -478,7 +478,7 @@ static int set_fullscreen(resource_value_t v)
 	XWarpPointer(display, None,
 		     RootWindowOfScreen(XtScreen(canvas)),
 		     0, 0, 0, 0, root_x, root_y);
-	
+
     }
 
     return 1;
@@ -497,12 +497,12 @@ static int set_bestmode(resource_value_t v)
 	    selected_videomode_index = bestmodes[i].modeindex;
 	    if(use_fullscreen) set_fullscreen((resource_value_t) 2);
 	    return(0);
-	}                             
-    }                             	
+	}
+    }
     if(bestmode_counter > 0) {
       selected_videomode_index = bestmodes[0].modeindex;
       selected_videomode = bestmodes[0].name;
-    }    
+    }
     return(0);
 }
 
@@ -661,7 +661,7 @@ static struct {
 static int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
-Pixel drive_led_on_pixel, drive_led_off_pixel;
+Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
 
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
@@ -1153,7 +1153,7 @@ void ui_create_dynamic_menues()
 	      (ui_callback_data_t) stralloc(buf);
 	    resolutions_submenu[i].callback =
 	      (ui_callback_t) radio_SelectedFullscreenMode;
-	    resolutions_submenu[i].callback_data = 
+	    resolutions_submenu[i].callback_data =
 	      (ui_callback_data_t) bestmodes[i].name;
 	    resolutions_submenu[i].sub_menu = NULL;
 	    resolutions_submenu[i].hotkey_keysym = 0;
@@ -1352,17 +1352,26 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
             failed = 1;
         else {
             drive_led_off_pixel = screen.pixel;
-	    allocated_pixels[n_allocated_pixels++] = screen.pixel;
-	}
+            allocated_pixels[n_allocated_pixels++] = screen.pixel;
+        }
 
         if (!failed) {
             if (!XAllocNamedColor(display, colormap, "red", &screen, &exact))
                 failed = 1;
             else {
-                drive_led_on_pixel = screen.pixel;
-	        allocated_pixels[n_allocated_pixels++] = screen.pixel;
-	    }
+                drive_led_on_red_pixel = screen.pixel;
+                allocated_pixels[n_allocated_pixels++] = screen.pixel;
+            }
+            if (!failed) {
+                if (!XAllocNamedColor(display, colormap, "green", &screen, &exact))
+                    failed = 1;
+                else {
+                    drive_led_on_green_pixel = screen.pixel;
+                    allocated_pixels[n_allocated_pixels++] = screen.pixel;
+                }
+            }
         }
+
     }
 
     return failed;
@@ -1536,7 +1545,7 @@ void ui_display_drive_track(int drive_number, double track_number)
 
 void ui_display_drive_led(int drive_number, int status)
 {
-    Pixel pixel = status ? drive_led_on_pixel : drive_led_off_pixel;
+    Pixel pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
     int i;
 
     for (i = 0; i < num_app_shells; i++) {
@@ -1804,6 +1813,14 @@ char *ui_select_file(const char *title,
     static char *ret = NULL;
     static Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
+    static char *filesel_dir = NULL;
+    char *current_dir = NULL;
+
+    /* we preserve the current directory over the invocations */
+    current_dir = get_current_dir();	/* might be changed elsewhere */
+    if (filesel_dir != NULL) {
+	chdir(filesel_dir);
+    }
 
     /* We always rebuild the file selector from scratch (which is slow),
        because there seems to be a bug in the XfwfScrolledList that causes
@@ -1870,6 +1887,15 @@ char *ui_select_file(const char *title,
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
     XtDestroyWidget(XtParent(file_selector));
 #endif
+
+    if (filesel_dir != NULL) {
+	free(filesel_dir);
+    }
+    filesel_dir = get_current_dir();
+    if (current_dir != NULL) {
+	chdir(current_dir);
+	free(current_dir);
+    }
 
     *button_return = button;
     if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART)
@@ -2291,7 +2317,7 @@ int ui_set_fullscreenmode(void)
 void ui_set_fullscreenmode_init(void)
 {
     set_bestmode(selected_videomode_at_start);
-    if( selected_videomode_index == -1 && 
+    if( selected_videomode_index == -1 &&
 	bestmode_counter > 0) {
         selected_videomode_index = bestmodes[0].modeindex;
     }
@@ -2313,4 +2339,3 @@ int ui_is_fullscreen_available() {
 }
 
 #endif
-
