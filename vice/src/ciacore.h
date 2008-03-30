@@ -90,7 +90,9 @@ static unsigned int cia_tbt;	/* timer B toggle bit */
 
 static CLOCK cia_todclk;	/* when is the next TOD alarm scheduled? */
 
-static int ciasr_bits;	/* number of bits still to send * 2 */
+static int ciasr_bits;		/* number of bits still to send */
+static BYTE cia_shifter;	/* actual shifter */
+static int cia_sdr_valid;	/* when set, SDR contains new data to send */
 
 static BYTE oldpa;              /* the actual output on PA (input = high) */
 static BYTE oldpb;              /* the actual output on PB (input = high) */

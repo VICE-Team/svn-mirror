@@ -93,7 +93,7 @@ static inline void pulse_ciapc(CLOCK rclk) { }
 
 static inline void store_sdr(BYTE byte)
 {
-    iec_fast_drive_write(cia[CIA_SDR]);
+    iec_fast_drive_write(cia_shifter);
 }
 
 static inline void undump_ciapa(CLOCK rclk, BYTE b)

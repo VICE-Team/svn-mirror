@@ -260,8 +260,19 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libvdrive libarch libsid \
-	libvicii libvdc @RESID_DEP@ x128
+x128-all: \
+	libc128 \
+	libc64c128 \
+	libsounddrv \
+	libdrive \
+	libvdrive \
+	libarch \
+	libsid \
+	libvicii \
+	libvdc \
+	libraster \
+	@RESID_DEP@ \
+	x128
 
 # xvic
 xvic_libs =  \
