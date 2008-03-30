@@ -27,8 +27,11 @@
 #ifndef _VDRIVEIEC_H
 #define _VDRIVEIEC_H
 
+#include "vdrive.h"
+
 /* Generic IEC interface.  */
-extern int vdrive_open(void *floppy, char *name, int length, int secondary);
+extern int vdrive_open(void *floppy, const char *name, int length,
+                       int secondary);
 extern int vdrive_close(void *floppy, int secondary);
 extern int vdrive_read(void *floppy, BYTE *data, int secondary);
 extern int vdrive_write(void *floppy, BYTE data, int secondary);
