@@ -1,3 +1,12 @@
+2005-05-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.10.
+
+2005-05-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added wrc as the prefered win32 resource
+	compiler.
+
 2005-04-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.9.

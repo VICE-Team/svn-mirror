@@ -53,10 +53,14 @@ extern int joystick_port_map[2];
 #define JOYDEV_CUSTOM_KEYS  2
 #define JOYDEV_ANALOG_0     3
 #define JOYDEV_ANALOG_1     4
-#define JOYDEV_DIGITAL_0    5
-#define JOYDEV_DIGITAL_1    6
-#define JOYDEV_USB_0        7
-#define JOYDEV_USB_1        8
+#define JOYDEV_ANALOG_2     5
+#define JOYDEV_ANALOG_3     6
+#define JOYDEV_ANALOG_4     7
+#define JOYDEV_ANALOG_5     8
+#define JOYDEV_DIGITAL_0    9
+#define JOYDEV_DIGITAL_1    10
+#define JOYDEV_USB_0        11
+#define JOYDEV_USB_1        12
 
 #endif
 

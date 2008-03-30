@@ -322,10 +322,18 @@ static sound_device_t *sound_devices[32];
 
 int sound_register_device(sound_device_t *pdevice)
 {
+    const int max=sizeof(sound_devices)/sizeof(sound_devices[0]);
     int i;
 
-    for (i = 0; sound_devices[i]; i++);
-    sound_devices[i] = pdevice;
+    for (i = 0; sound_devices[i] && i<max; i++);
+    if(i<max)
+      {
+	sound_devices[i] = pdevice;
+	log_message(sound_log, "Device: %s", pdevice->name);
+      }
+    else
+      log_error(sound_log, "available sound devices exceed VICEs storage");
+
     return 0;
 }
 
@@ -1106,6 +1114,8 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     clk_guard_add_callback(maincpu_clk_guard, prevent_clk_overflow_callback,
                            NULL);
+
+    log_message(sound_log, "available Sound Devices:");
 
 #if defined(USE_ARTS)
     sound_init_arts_device();

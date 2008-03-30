@@ -123,7 +123,9 @@ int     use_old_api=1;
 #error Unknown Joystick
 #endif
 
-static int ajoyfd[2] = { -1, -1 };
+#define ANALOG_JOY_NUM (JOYDEV_ANALOG_5-JOYDEV_ANALOG_0+1)
+
+static int ajoyfd[ANALOG_JOY_NUM] = { -1, -1, -1, -1, -1, -1 };
 static int djoyfd[2] = { -1, -1 };
 
 #define JOYCALLOOPS 100
@@ -347,9 +349,13 @@ void new_joystick_init(void)
     char name[60];
     struct JS_DATA_TYPE js;
 
-    const char *joydevs[2][2] = {
+    const char *joydevs[ANALOG_JOY_NUM][2] = {
         { "/dev/js0", "/dev/input/js0" },
-        { "/dev/js1", "/dev/input/js1" }
+        { "/dev/js1", "/dev/input/js1" },
+        { "/dev/js2", "/dev/input/js2" },
+        { "/dev/js3", "/dev/input/js3" },
+        { "/dev/js4", "/dev/input/js4" },
+        { "/dev/js5", "/dev/input/js5" }
     };
 
     if (joystick_log == LOG_ERR)
@@ -357,14 +363,14 @@ void new_joystick_init(void)
 
     log_message(joystick_log, _("Linux joystick interface initialization..."));
     /* close all device files */
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ANALOG_JOY_NUM; i++) {
         if (ajoyfd[i] != -1)
             close (ajoyfd[i]);
     }
 
     /* open analog device files */
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ANALOG_JOY_NUM; i++) {
         const char *dev;
         int j;
         for(j = 0; j < 2; j++) {
@@ -414,10 +420,10 @@ void new_joystick_init(void)
 
 void new_joystick_close(void)
 {
-    if (ajoyfd[0] > 0)
-        close (ajoyfd[0]);
-    if (ajoyfd[1] > 0)
-        close (ajoyfd[1]);
+    int i;
+    for(i=0; i<ANALOG_JOY_NUM; ++i)
+      if (ajoyfd[i] > 0)
+        close (ajoyfd[i]);
 }
 
 void new_joystick(void)
@@ -429,7 +435,7 @@ void new_joystick(void)
     for (i = 1; i <= 2; i++) {
         int joyport = joystick_port_map[i - 1];
 
-        if (joyport != JOYDEV_ANALOG_0 && joyport != JOYDEV_ANALOG_1)
+        if ((joyport < JOYDEV_ANALOG_0) || (joyport > JOYDEV_ANALOG_5))
             continue;
 
         ajoyport = joyport - JOYDEV_ANALOG_0;
