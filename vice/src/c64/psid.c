@@ -276,10 +276,11 @@ void psid_init_tune(void)
   irq = psid->speed & speedbit ? "CIA 1" : "VICII";
 
   if (psid->play_addr) {
-    log_message(LOG_DEFAULT, "Using %s interrupt", irq);
+      /*vsid_ui_display_irqtype(irq);*/
+      log_message(LOG_DEFAULT, "Using %s interrupt", irq);
   }
   else {
-    log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
+      log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
   }
   
   /*
