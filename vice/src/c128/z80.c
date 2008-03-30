@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 
+#include "6510core.h"
 #include "alarm.h"
 #include "daa.h"
 #include "interrupt.h"

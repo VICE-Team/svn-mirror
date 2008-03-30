@@ -1,5 +1,25 @@
 2002-06-20  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.38.
+
+	* vicii/vicii-snapshot.c (vic_ii_snapshot_read_module): Set
+	sprite fetch clock.
+
+	* c64/cart/retroreplay.c (retroreplay_io1_store): Fixed phi1
+	Ultimax configuration.
+
+	* vicii/vicii.c, vicii/vicii-mem.c: Modified debugging output.
+
+	* drive/driverom.c (drive_new_rom_image_loaded): Changed name.
+	(drive_rom_setup_image): Added 1541 ROM mirror.
+
+	* interrupt.c, 6510core.h, interrupt.h, drive/drivetypes.h:
+	Removed special opcode info type.
+
+	* interrupt.h, 6510core.c: Moved interrupt delay functions.
+
+2002-06-20  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.37.
 
 	* raster/raster-resources.c (raster_resources_chip_init):

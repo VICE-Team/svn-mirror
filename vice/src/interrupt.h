@@ -29,7 +29,6 @@
 #ifndef _INTERRUPT_H
 #define _INTERRUPT_H
 
-#include "6510core.h"
 #include "types.h"
 
 /* This handles the interrupt lines and the CPU alarms (i.e. events that happen
@@ -113,7 +112,7 @@ struct cpu_int_status_s {
     void *trap_data;
 
     /* Pointer to the last executed opcode information.  */
-    DWORD /*opcode_info_t*/ *last_opcode_info_ptr;
+    DWORD *last_opcode_info_ptr;
 
     /* Number of cycles we have stolen to the processor last time.  */
     int num_last_stolen_cycles;
@@ -233,44 +232,6 @@ inline static enum cpu_int interrupt_check_pending_interrupt(
     return cs->global_pending_int;
 }
 
-/* Return nonzero if a pending NMI should be dispatched now.  This takes
-   account for the internal delays of the 6510, but does not actually check
-   the status of the NMI line.  */
-inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
-{
-    CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
-
-    /* Branch instructions delay IRQs and NMI by one cycle if branch
-       is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
-        nmi_clk++;
-
-    if (cpu_clk >= nmi_clk)
-        return 1;
-
-    return 0;
-}
-
-/* Return nonzero if a pending IRQ should be dispatched now.  This takes
-   account for the internal delays of the 6510, but does not actually check
-   the status of the IRQ line.  */
-inline static int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
-{
-    CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
-
-    /* Branch instructions delay IRQs and NMI by one cycle if branch
-       is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
-        irq_clk++;
-
-    /* If an opcode changes the I flag from 1 to 0, the 6510 needs
-       one more opcode before it triggers the IRQ routine.  */
-    if (cpu_clk >= irq_clk && !OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
-        return 1;
-
-    return 0;
-}
-
 /* This function must be called by the CPU emulator when a pending NMI
    request is served.  */
 inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
@@ -318,7 +279,7 @@ extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
 extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);
 
 extern void interrupt_cpu_status_init(cpu_int_status_t *cs, int num_ints,
-                                      opcode_info_t *last_opcode_info_ptr);
+                                      DWORD *last_opcode_info_ptr);
 extern void interrupt_cpu_status_time_warp(cpu_int_status_t *cs,
                                            CLOCK warp_amount,
                                            int warp_direction);
