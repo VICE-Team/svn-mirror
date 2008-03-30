@@ -130,12 +130,12 @@ void mem_toggle_emu_id(int flag)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_zero(ADDRESS addr)
+BYTE REGPARM1 zero_read(ADDRESS addr)
 {
     return mem_ram[addr & 0xff];
 }
 
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 {
     mem_ram[addr & 0xff] = value;
 }

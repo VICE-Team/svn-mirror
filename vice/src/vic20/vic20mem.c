@@ -127,12 +127,12 @@ BYTE REGPARM1 chargen_read(ADDRESS addr)
     return mem_chargen_rom[0x400 + (addr & 0xfff)];
 }
 
-BYTE REGPARM1 read_zero(ADDRESS addr)
+BYTE REGPARM1 zero_read(ADDRESS addr)
 {
     return mem_ram[addr & 0xff];
 }
 
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 {
     mem_ram[addr & 0xff] = value;
 }

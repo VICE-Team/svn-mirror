@@ -285,7 +285,7 @@ static void mem_toggle_caps_key(void)
                 (caps_sense) ? "released" : "pressed");
 }
 
-BYTE REGPARM1 read_zero(ADDRESS addr)
+BYTE REGPARM1 zero_read(ADDRESS addr)
 {
     addr &= 0xff;
 
@@ -299,11 +299,11 @@ BYTE REGPARM1 read_zero(ADDRESS addr)
     return mem_page_zero[addr];
 }
 
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
 
-    switch ((BYTE) addr) {
+    switch ((BYTE)addr) {
       case 0:
         if (0 /*vbank == 0*/) {
             vicii_mem_vbank_store((ADDRESS)0, vicii_read_phi1());
@@ -511,12 +511,12 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
                                   : (ram_bank[(addr)] = (value)))
 
 
-static BYTE REGPARM1 read_one(ADDRESS addr)
+static BYTE REGPARM1 one_read(ADDRESS addr)
 {
     return mem_page_one[addr - 0x100];
 }
 
-static void REGPARM2 store_one(ADDRESS addr, BYTE value)
+static void REGPARM2 one_store(ADDRESS addr, BYTE value)
 {
     mem_page_one[addr - 0x100] = value;
 }
@@ -658,10 +658,10 @@ void mem_initialize_memory(void)
             mem_read_base_tab[j][i] = NULL;
         }
 
-        mem_read_tab[j][0] = read_zero;
-        mem_write_tab[j][0] = store_zero;
-        mem_read_tab[j][1] = read_one;
-        mem_write_tab[j][1] = store_one;
+        mem_read_tab[j][0] = zero_read;
+        mem_write_tab[j][0] = zero_store;
+        mem_read_tab[j][1] = one_read;
+        mem_write_tab[j][1] = one_store;
     }
 
 

@@ -51,9 +51,6 @@
 /* Z80 boot BIOS.  */
 BYTE z80bios_rom[0x1000];
 
-/* Name of the character ROM.  */
-static char *z80bios_rom_name = NULL;
-
 /* Logging.  */
 static log_t z80mem_log = LOG_ERR;
 
@@ -146,7 +143,7 @@ static BYTE REGPARM1 read_one(ADDRESS addr)
     return mem_page_one[addr - 0x100];
 }
 
-static void REGPARM2 store_one(ADDRESS addr, BYTE value)
+static void REGPARM2 one_store(ADDRESS addr, BYTE value)
 {
     mem_page_one[addr - 0x100] = value;
 }
@@ -197,21 +194,21 @@ void z80mem_initialize(void)
     mem_write_tab[7][0] = z80_store_zero;
  
     mem_read_tab[0][1] = bios_read;
-    mem_write_tab[0][1] = store_one;
+    mem_write_tab[0][1] = one_store;
     mem_read_tab[1][1] = bios_read;
-    mem_write_tab[1][1] = store_one;
+    mem_write_tab[1][1] = one_store;
     mem_read_tab[2][1] = read_one;
-    mem_write_tab[2][1] = store_one;
+    mem_write_tab[2][1] = one_store;
     mem_read_tab[3][1] = read_one;
-    mem_write_tab[3][1] = store_one;
+    mem_write_tab[3][1] = one_store;
     mem_read_tab[4][1] = read_one;
-    mem_write_tab[4][1] = store_one;
+    mem_write_tab[4][1] = one_store;
     mem_read_tab[5][1] = read_one;
-    mem_write_tab[5][1] = store_one;
+    mem_write_tab[5][1] = one_store;
     mem_read_tab[6][1] = read_one;
-    mem_write_tab[6][1] = store_one;
+    mem_write_tab[6][1] = one_store;
     mem_read_tab[7][1] = read_one;
-    mem_write_tab[7][1] = store_one;
+    mem_write_tab[7][1] = one_store;
 
     for (i = 2; i < 0x10; i++) {
         mem_read_tab[0][i] = bios_read;

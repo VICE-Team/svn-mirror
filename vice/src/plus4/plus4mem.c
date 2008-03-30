@@ -214,7 +214,7 @@ void mem_proc_port_trigger_flux_change(unsigned int on)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_zero(ADDRESS addr)
+BYTE REGPARM1 zero_read(ADDRESS addr)
 {
     addr &= 0xff;
 
@@ -226,7 +226,7 @@ BYTE REGPARM1 read_zero(ADDRESS addr)
     return mem_ram[addr];
 }
 
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 {
     addr &= 0xff;
 
@@ -658,8 +658,8 @@ void mem_initialize_memory(void)
     }
 
     for (i = 0; i < NUM_CONFIGS; i++) {
-        set_write_hook(i, 0, store_zero);
-        mem_read_tab[i][0] = read_zero;
+        set_write_hook(i, 0, zero_store);
+        mem_read_tab[i][0] = zero_read;
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {

@@ -63,8 +63,8 @@ extern void mem_set_bank_pointer(BYTE **base, int *limit);
 extern void mem_color_ram_to_snapshot(BYTE *color_ram);
 extern void mem_color_ram_from_snapshot(BYTE *color_ram);
 
-extern read_func_t rom_read, read_zero;
-extern store_func_t rom_store, store_zero;
+extern read_func_t rom_read, zero_read;
+extern store_func_t rom_store, zero_store;
 
 extern read_func_t mem_read;
 extern store_func_t mem_store;

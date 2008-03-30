@@ -357,7 +357,7 @@ void cbm2mem_set_bank_ind(int val)
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 store_zero(ADDRESS addr, BYTE value)
+void REGPARM2 zero_store(ADDRESS addr, BYTE value)
 {
     if (addr == 0)
         cbm2mem_set_bank_exec(value);

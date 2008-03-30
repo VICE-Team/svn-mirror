@@ -86,12 +86,12 @@
 
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
-    store_zero((ADDRESS)(addr), (BYTE)(value))
+    zero_store((ADDRESS)(addr), (BYTE)(value))
 #endif
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    read_zero((ADDRESS)(addr))
+    zero_read((ADDRESS)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \
