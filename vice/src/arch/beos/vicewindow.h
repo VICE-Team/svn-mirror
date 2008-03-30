@@ -44,8 +44,8 @@ class ViceWindow : public BDirectWindow {
 						ViceWindow(BRect frame, char const *title);
 						~ViceWindow();
 		void 			Resize(unsigned int width, unsigned int height);
-//		void			DrawBitmap(BBitmap *framebitmap, 
-//				int xs, int ys, int xi, int yi, int w, int h);
+		void			DrawBitmap(BBitmap *framebitmap, 
+				int xs, int ys, int xi, int yi, int w, int h);
 		
 		void			Update_Menus(		
 							ui_menu_toggle *toggle_list,
@@ -56,7 +56,7 @@ class ViceWindow : public BDirectWindow {
 
 		BMenuBar		*menubar;
 
-//		BBitmap			*bitmap;
+		BBitmap			*bitmap;
 		BView			*view;
 		ViceStatusbar	*statusbar;
 		ViceFilePanel	*filepanel;	
@@ -72,6 +72,7 @@ class ViceWindow : public BDirectWindow {
 		bool			fconnectiondisabled;
 		int				menubar_offset;
 		void			*canvas;
+		int 			use_direct_window;
 };
 
 extern void about_vice(void);

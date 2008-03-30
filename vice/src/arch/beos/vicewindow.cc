@@ -128,7 +128,7 @@ void ViceWindow::Update_Menus(
 class ViceView : public BView {
 	public:
 		ViceView(BRect rect);
-//		virtual void Draw(BRect rect);
+		virtual void Draw(BRect rect);
 		virtual void MouseDown(BPoint point);
 		virtual void MouseUp(BPoint point);
 };
@@ -138,15 +138,13 @@ ViceView::ViceView(BRect rect)
 {
 }
 
-#if 0
 void ViceView::Draw(BRect rect) {
 	ViceWindow *wnd = (ViceWindow *)Window();
 
-	if (wnd->bitmap) {
+	if (wnd->bitmap && !wnd->use_direct_window) {
 		DrawBitmap(wnd->bitmap, rect, rect);
 	}
 }
-#endif
 
 /* some hooks for the 1351 mouse emulation */
 void ViceView::MouseDown(BPoint point) {
@@ -182,7 +180,7 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	/* create the menubar; key events reserved for the emu */
 	menubar = menu_create(machine_class);
 	AddChild(menubar);
-	menubar_offset = (int)menubar->Frame().Height();
+	menubar_offset = (int)menubar->Frame().Height() + 1;
 	SetKeyMenuBar(NULL);
 
 	/* create the File Panel */
@@ -194,15 +192,13 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 				B_FILE_NODE, false);
 		
 	/* the view for the canvas */
-	view = new ViceView(BRect(frame.left,frame.top+menubar_offset+2,
-						frame.right,frame.bottom+menubar_offset+2));
+	view = new ViceView(BRect(frame.left,frame.top+menubar_offset,
+						frame.right,frame.bottom+menubar_offset-1));
 						
-	/* Set it transparent since we're using DirectWindow API */
-	view->SetViewColor(B_TRANSPARENT_32_BIT);
 	AddChild(view);
 
 	/* bitmap is NULL; will be registered by canvas_refresh */
-//	bitmap = NULL;
+	bitmap = NULL;
 	
 	/* the statusbar is created in Resize() */
 	statusbar = NULL;
@@ -210,13 +206,20 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	/* register the window */
 	windowlist[window_count++] = this;
 
+	/* stuff for direct drawing */
 	fconnected = false;
 	fconnectiondisabled = false;
 	locker = new BLocker();
 	fclip_list = NULL;
 	fcliplist_count = 0;
+
+	/* use the resource to initialize stuff */
+	resources_get_value("DirectWindow",
+		(resource_value_t *) &use_direct_window);
 	if (!SupportsWindowMode())
-		SetFullScreen(true);
+		use_direct_window = 0;
+	resources_set_value("DirectWindow",
+		(resource_value_t) use_direct_window);
 
 	/* finally display the window */
 	Resize(frame.Width(), frame.Height());
@@ -283,8 +286,8 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 			delete statusbar;
 			statusbar = NULL;
 		}
-		statusbar_frame.top = view->Frame().bottom-1;
-		statusbar_frame.bottom = view->Frame().bottom+41;
+		statusbar_frame.top = view->Frame().bottom + 1;
+		statusbar_frame.bottom = view->Frame().bottom + 41;
 		statusbar_frame.left = 0;
 		statusbar_frame.right = view->Frame().right;
 		statusbar = new ViceStatusbar(statusbar_frame);
@@ -299,7 +302,6 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 	}
 }
 
-#if 0
 void ViceWindow::DrawBitmap(BBitmap *bitmap, 
 	int xs, int ys, int xi, int yi, int w, int h) {
 	if	(BWindow::Lock()) {
@@ -309,7 +311,6 @@ void ViceWindow::DrawBitmap(BBitmap *bitmap,
 		BWindow::Unlock();
 	} 
 }
-#endif
 	
 void ViceWindow::DirectConnected(direct_buffer_info *info)
 {
@@ -317,7 +318,7 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 	
 	if (!fconnected && fconnectiondisabled)
 		return;
-	
+		
 	locker->Lock();
 	
 	switch(info->buffer_state & B_DIRECT_MODE_MASK) {
@@ -346,6 +347,7 @@ void ViceWindow::DirectConnected(direct_buffer_info *info)
 	}
 
 	locker->Unlock();
-	if (isdirty)
+
+	if (isdirty && use_direct_window)
 		video_refresh_all((struct video_canvas_s *)canvas);
 }

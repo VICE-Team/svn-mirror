@@ -56,16 +56,26 @@ extern "C" {
 
 void video_resize(void);
 
-/* Main Objects */
-int number_of_canvas = 0;
+static int number_of_canvas = 0;
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
 
-/* Flag: are we in fullscreen mode?  */
-int fullscreen_enabled;
+int use_direct_window;
+
+static int set_direct_window(resource_value_t v, void *param)
+{
+	/* first set the new value; ui_set_window_mode need's it */
+	use_direct_window = (int)v;
+	/* test if we can really use the mode */
+	use_direct_window = ui_set_window_mode(use_direct_window);
+	return 0;
+}
 
 static resource_t resources[] = {
+    { "DirectWindow", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&use_direct_window,
+      set_direct_window, NULL },
     { NULL }
 };
 
@@ -74,9 +84,19 @@ int video_arch_init_resources(void)
     return resources_register(resources);
 }
 
+
+static cmdline_option_t cmdline_options[] =
+{
+    { "-directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
+      (resource_value_t) 1, NULL, "Enable BeOS DirectWindow API"},
+    { "+directwindow", SET_RESOURCE, 0, NULL, NULL, "DirectWindow",
+      (resource_value_t) 0, NULL, "Disable BeOS DirectWindow API"},
+	{ NULL }
+};
+
 int video_init_cmdline_options(void)
 {
-    return 0;
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -89,7 +109,6 @@ int video_init(void)
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 
-#if 0
 static void canvas_create_bitmap(video_canvas_t *c,
 							     unsigned int width,
 							     unsigned int height)
@@ -111,7 +130,6 @@ static void canvas_create_bitmap(video_canvas_t *c,
 	c->vicewindow->bitmap = new BBitmap(BRect(0,0,width-1,height-1),
 			use_colorspace,false,true);
 }    
-#endif
 
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
@@ -154,7 +172,7 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 		
 	new_canvas->vicewindow->canvas = new_canvas;
 		
-//	canvas_create_bitmap(new_canvas, *width, *height);
+	canvas_create_bitmap(new_canvas, *width, *height);
 
 	number_of_canvas++;
 	new_canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
@@ -169,7 +187,7 @@ void video_canvas_destroy(video_canvas_t *c)
 	if (c == NULL)
 		return;
 
-//	delete c->vicewindow->bitmap;
+	delete c->vicewindow->bitmap;
 	delete c->vicewindow;
 	free(c->title);
 	free(c);
@@ -183,8 +201,8 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 	if (c->width == width && c->height == height)
 		return;
 
-//	delete c->vicewindow->bitmap;
-//	canvas_create_bitmap(c, width, height);
+	delete c->vicewindow->bitmap;
+	canvas_create_bitmap(c, width, height);
     
 	c->vicewindow->Resize(width,height);
 	c->width = width;
@@ -267,11 +285,12 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 	clipping_rect *clip;
 	ViceWindow *vw = c->vicewindow;
 
-#if 0
-	w = MIN(w, c->width - xi);
-	h = MIN(h, c->height - yi);
+	if (!use_direct_window)
+	{
+		w = MIN(w, c->width - xi);
+		h = MIN(h, c->height - yi);
 
-	video_render_main(&c->videoconfig,
+		video_render_main(&c->videoconfig,
                           draw_buffer,
                           (BYTE *)(c->vicewindow->bitmap->Bits()),
                           w, h,
@@ -281,56 +300,56 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           c->vicewindow->bitmap->BytesPerRow(),
                           c->depth);
 
-	c->vicewindow->DrawBitmap(c->vicewindow->bitmap,xi,yi,xi,yi,w,h);
-#endif
+		c->vicewindow->DrawBitmap(c->vicewindow->bitmap,xi,yi,xi,yi,w,h);
+	} else {
 	
-	vw->locker->Lock();
-	if (vw->fconnected)
-	{
-		x_offset = vw->fbounds.left;
-		y_offset = vw->fbounds.top + vw->menubar_offset;
+		vw->locker->Lock();
+		if (vw->fconnected)
+		{
+			x_offset = vw->fbounds.left;
+			y_offset = vw->fbounds.top + vw->menubar_offset;
 
-		p = vw->fbits 
+			p = vw->fbits 
 				+ y_offset * vw->fbytes_per_row 
 				+ x_offset * (vw->fbits_per_pixel >> 3);
 
-		for (i = 0; i < vw->fcliplist_count; i++)
-		{
-			clip = &(vw->fclip_list[i]);
-
-			hh = h;	ww = w;
-			xxi = xi; yyi = yi;	xxs = xs; yys = ys;
-
-			/* cut left */
-			if (clip->left > xxi + x_offset)
+			for (i = 0; i < vw->fcliplist_count; i++)
 			{
-				xxs = xxs + clip->left - xxi - x_offset;
-				ww = ww - clip->left + xxi + x_offset;
-				xxi = clip->left - x_offset;
-			}
+				clip = &(vw->fclip_list[i]);
 
-			/* cut right */
-			if (clip->right + 1 < xxi + x_offset + ww)
-			{
-				ww = clip->right + 1 - xxi - x_offset;
-			}
+				hh = h;	ww = w;
+				xxi = xi; yyi = yi;	xxs = xs; yys = ys;
+
+				/* cut left */
+				if (clip->left > xxi + x_offset)
+				{
+					xxs = xxs + clip->left - xxi - x_offset;
+					ww = ww - clip->left + xxi + x_offset;
+					xxi = clip->left - x_offset;
+				}
+
+				/* cut right */
+				if (clip->right + 1 < xxi + x_offset + ww)
+				{
+					ww = clip->right + 1 - xxi - x_offset;
+				}
 			
-			/* cut top */
-			if (clip->top > yyi + y_offset)
-			{
-				yys = yys + clip->top - yyi - y_offset;
-				hh = hh - clip->top + yyi + y_offset;
-				yyi = clip->top - y_offset;
-			}
+				/* cut top */
+				if (clip->top > yyi + y_offset)
+				{
+					yys = yys + clip->top - yyi - y_offset;
+					hh = hh - clip->top + yyi + y_offset;
+					yyi = clip->top - y_offset;
+				}
 
-			/* cut bottom */
-			if (clip->bottom + 1 < yyi + y_offset + hh)
-			{
-				hh = clip->bottom + 1 - yyi - y_offset;
-			}
-			
-			if (ww > 0 && hh > 0)
-				video_render_main(&c->videoconfig,
+				/* cut bottom */
+				if (clip->bottom + 1 < yyi + y_offset + hh)
+				{
+					hh = clip->bottom + 1 - yyi - y_offset;
+				}
+		
+				if (ww > 0 && hh > 0)
+					video_render_main(&c->videoconfig,
                           draw_buffer,
                           p,
                           ww, hh,
@@ -339,9 +358,9 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           draw_buffer_line_size,
                           vw->fbytes_per_row,
                           c->depth);
+			}
 		}
+	
+		vw->locker->Unlock();			
 	}
-	
-	vw->locker->Unlock();			
-	
 }

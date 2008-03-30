@@ -327,11 +327,14 @@ int resources_set_value_string(const char *name, const char *value)
     switch (r->type) {
       case RES_INTEGER:
         status = (*r->set_func)((resource_value_t)atoi(value), r->param);
+	break;
       case RES_STRING:
         status = (*r->set_func)((resource_value_t)value, r->param);
+	break;
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
         status = -1;
+	break;
     }
 
     if (status != 0)
@@ -534,6 +537,7 @@ int resources_read_item_from_file(FILE *f)
             log_error(LOG_DEFAULT, "Unknown resource type for `%s'.",
                       r->name);
             result = -1;
+	    break;
         }
 
         if (result < 0) {
@@ -626,6 +630,7 @@ static void write_resource_item(FILE *f, int num)
       default:
         log_error(LOG_DEFAULT, "Unknown value type for resource `%s'.",
                   resources[num].name);
+	break;
     }
     fputc('\n', f);
 }

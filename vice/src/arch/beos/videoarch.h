@@ -32,6 +32,7 @@
 #endif
 
 #include "types.h"
+#include "video.h"
 
 typedef void (*canvas_redraw_t)();
 

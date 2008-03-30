@@ -58,22 +58,22 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright C 1998-2002 Andreas Boose
-Copyright C 1998-2002 Dag Lem
-Copyright C 1998-2002 Tibor Biczo
-Copyright C 1999-2002 Andreas Dehmel
-Copyright C 1999-2002 Thomas Bretz
-Copyright C 1999-2002 Andreas Matthies
-Copyright C 1999-2002 Martin Pottendorfer
-Copyright C 2000-2002 Markus Brenner
-Copyright C 2000-2002 Spiro Trikaliotis
+Copyright @copyright{} 1998-2002 Andreas Boose
+Copyright @copyright{} 1998-2002 Dag Lem
+Copyright @copyright{} 1998-2002 Tibor Biczo
+Copyright @copyright{} 1999-2002 Andreas Dehmel
+Copyright @copyright{} 1999-2002 Thomas Bretz
+Copyright @copyright{} 1999-2002 Andreas Matthies
+Copyright @copyright{} 1999-2002 Martin Pottendorfer
+Copyright @copyright{} 2000-2002 Markus Brenner
+Copyright @copyright{} 2000-2002 Spiro Trikaliotis
 
-Copyright C 1997-2001 Daniel Sladic
-Copyright C 1996-1999 Ettore Perazzoli
-Copyright C 1996-1999 André Fachat
-Copyright C 1993-1994, 1997-1999 Teemu Rantanen
-Copyright C 1993-1996 Jouko Valta
-Copyright C 1993-1994 Jarkko Sonninen
+Copyright @copyright{} 1997-2001 Daniel Sladic
+Copyright @copyright{} 1996-1999 Ettore Perazzoli
+Copyright @copyright{} 1996-1999 André Fachat
+Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
+Copyright @copyright{} 1993-1996 Jouko Valta
+Copyright @copyright{} 1993-1994 Jarkko Sonninen
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -543,7 +543,7 @@ file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or anything else that is not strictly
 related to VICE, you should read the appropriate FAQs @emph{first}, as
-that kind of information is not available here.  @xref{Contacts} for
+that kind of information is not available here.  @xref{Contacts}. for
 information about how to retrieve the FAQs.
 
 All the emulators provide an accurate 6502/6510 emulator, with emulation
@@ -951,7 +951,7 @@ UNIX @code{dd} command:
 dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 @end example
 
-@xref{File formats} for a technical description of the supported file
+@xref{File formats}. for a technical description of the supported file
 formats.
 
 @node Common problems,  , Supported file formats, Preface
@@ -1172,7 +1172,7 @@ directory containing the file first.  This is a very convenient way to
 start multi-file programs stored in file system directories and not
 requiring ``true'' drive emulation.
 
-@xref{Disk and tape images} for more information about images and
+@xref{Disk and tape images}. for more information about images and
 autostart.
 
 
@@ -1686,7 +1686,7 @@ the settings menu is that, while commands have only effect on the
 current session, settings can be saved and later used with the ``Save
 settings'' and ``Load settings'' right-button menu items, respectively.
 ``Restore default settings'' restores the factory defaults.
-@xref{Settings and resources} for more information about how settings
+@xref{Settings and resources}. for more information about how settings
 work in VICE.
 
 Sometimes commands can be reached via @dfn{shortcuts} or @dfn{hotkeys},
@@ -2715,7 +2715,7 @@ images should be supported.  There are three possible ways:
 to write tracks beyond the 35th, it is not allowed to do so);
 @item
 ``Ask on extend'' prompts the user as soon as a program tries to write
-tracks beyond the 35th, and the user can then choose whether she wants
+tracks beyond the 35th, and the user can then choose whether he wants
 the disk image to be extended or not;
 @item
 ``Extend on access'' simply extends the disk image as soon the program
@@ -3428,7 +3428,7 @@ Notice that the middle entry points to a default location in
 the user's home directory. Here private ROM versions (e.g. 
 speeddos or JiffyDos) can be stored for example.
 
-@xref{System files} for a description of the method used to load the
+@xref{System files}. for a description of the method used to load the
 emulator's system files.
 
 @vindex HTMLBrowserCommand
@@ -3532,7 +3532,7 @@ X64 and X128 allow you to attach the following kinds of cartridges:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per H@^akan Sundell;
+@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell;
 @item
 generic raw dumps of 8K and 16K images;
 @item
@@ -3597,7 +3597,7 @@ being used by choosing one of the available predefined color sets:
 emulator by Miha Peternel.
 @item
 @file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64
-emulator by Per H@^akan Sundell.
+emulator by Per Håkan Sundell.
 @item
 @file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator
 by Christian Bauer
@@ -5592,7 +5592,7 @@ Version numbers: Major 0, Minor 0.
 @node SID 6581 module, ACIA 6551 module, RIOT 6532 module, Module formats
 @subsubsection SID module
 
-TODO
+@b{Warning:} This module is still under construction.
 
 @node ACIA 6551 module, VIC-I module, SID 6581 module, Module formats
 @subsubsection ACIA module
@@ -5636,12 +5636,12 @@ Version numbers: Major 1, Minor 0.
 @node VIC-I module, VIC-II module, ACIA 6551 module, Module formats
 @subsubsection VIC-I module
 
-TODO 
+@b{Warning:} This module is still under construction.
 
 @node VIC-II module, CRTC module, VIC-I module, Module formats
 @subsubsection VIC-II module
 
-TODO 
+@b{Warning:} This module is still under construction.
 
 @node CRTC module, C64 memory module, VIC-II module, Module formats
 @subsubsection CRTC module
@@ -5797,7 +5797,7 @@ Version numbers: Major 0, Minor 0.
 @node C64 memory module, C128 memory module, CRTC module, Module formats
 @subsubsection C64 memory module
 
-The C64 memory module actually consists of two modules.  The "C128MEM" module
+The C64 memory module actually consists of two modules.  The "C64MEM" module
 is mandatory and contains the RAM dump.  The "C64ROM" module is optional
 and contains a dump of the ROM images.
 
@@ -6473,8 +6473,8 @@ when the condition is set.
 Delete the specified checkpoint.
 
 @item ignore <checknum> [<count>]
-Ignore a checkpoint a given number of crossings.  If no count is given,
-the default value is 1.
+Ignore a checkpoint after a given number of crossings.  If no count is
+given, the default value is 1.
 
 @item trace [address [address]]
 This command is similar to the @code{break} command except that it
@@ -6993,7 +6993,7 @@ are rarely  used).
 Perazzoli (@email{ettore@@comm2000.it}).)
 
 This format was defined in 1998 as a cooperative effort between several
-emulator people, mainly Per Hakan Sundell, author of the CCS64 C64
+emulator people, mainly Per Håkan Sundell, author of the CCS64 C64
 emulator, Andreas Boose of the VICE CBM emulator team and Joe
 Forster/STA, the author of Star Commander.  It was the first real public
 attempt to create a format for the emulator community which removed
@@ -7362,7 +7362,7 @@ Former team members:
 
 @item
 @b{Ettore Perazzoli} (@email{ettore@@comm2000.it})
-Copyright (c) 1996-1999
+Copyright @copyright{} 1996-1999
 Made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
 hardware-level 1541 emulation, speed optimizations, bug fixes,
 the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI
@@ -7372,29 +7372,29 @@ port and the initial MS-Windows port (well, somebody had to do
 it).
 
 @item
-@b{Andre' Fachat} (@email{fachat@@physik.tu-chemnitz.de})
-Copyright (c) 1996-2001
+@b{André Fachat} (@email{fachat@@physik.tu-chemnitz.de})
+Copyright @copyright{} 1996-2001
 Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
 the IEEE488 interface, implemented the IEC serial bus in `xvic'
 and made tons of bug fixes.
 
 @item
 @b{Teemu Rantanen} (@email{tvr@@cs.hut.fi})
-Copyright (c) 1993-1994, 1997-1999
+Copyright @copyright{} 1993-1994, 1997-1999
 Implemented the SID emulation and the trap-based disk drive and
 serial bus implementation; added support for multiple display
 depths under X11.  Also wrote `c1541'
 
 @item
 @b{Jouko Valta} (@email{jopi@@stekt.oulu.fi})
-Copyright (c) 1993-1996
+Copyright @copyright{} 1993-1996
 Wrote `petcat' and `c1541', `T64' handling, user service and
 maintenance (most of the work in x64 0.3.x was made by him);
 retired from the project in July 96, after VICE 0.10.0.
 
 @item
 @b{Jarkko Sonninen} (@email{sonninen@@lut.fi})
-Copyright (c) 1993-1994
+Copyright @copyright{} 1993-1994
 He was the founder of the project, wrote the old version of the
 6502 emulation and the XDebugger, and retired from the project
 after x64 0.2.1.
@@ -7427,7 +7427,7 @@ of the VICE @code{deb} package for the Debian distribution, and also
 helped proofreading the documentation.
 
 @item
-@b{Marko M@"akel@"a} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
+@b{Marko Mäkelä} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
 documentation.
 
 @item
@@ -7439,7 +7439,7 @@ driver.
 and sound support for NetBSD.
 
 @item
-@b{Mattias Engdeg@^ard} (@email{f91-men@@nada.kth.se}) got non-default
+@b{Mattias Engdegård} (@email{f91-men@@nada.kth.se}) got non-default
 depths to work.
 
 @item
@@ -7619,7 +7619,7 @@ drop support
 
 Last but not least, a very special thank to Andreas Arens, Lutz Sammer,
 Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel and Per
-H@^akan Sundell for writing cool emulators to compete with.  @t{:-)}
+Håkan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 
 @node Copyright, Contacts, Acknowledgments, Top
@@ -7627,36 +7627,36 @@ H@^akan Sundell for writing cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright C 1998-2002 Andreas Boose
+Copyright @copyright{} 1998-2002 Andreas Boose
 @item
-Copyright C 1998-2002 Dag Lem
+Copyright @copyright{} 1998-2002 Dag Lem
 @item
-Copyright C 1998-2002 Tibor Biczo
+Copyright @copyright{} 1998-2002 Tibor Biczo
 @item
-Copyright C 1999-2002 Andreas Dehmel
+Copyright @copyright{} 1999-2002 Andreas Dehmel
 @item
-Copyright C 1999-2002 Thomas Bretz
+Copyright @copyright{} 1999-2002 Thomas Bretz
 @item
-Copyright C 1999-2002 Andreas Matthies
+Copyright @copyright{} 1999-2002 Andreas Matthies
 @item
-Copyright C 1999-2002 Martin Pottendorfer
+Copyright @copyright{} 1999-2002 Martin Pottendorfer
 @item
-Copyright C 2000-2002 Markus Brenner
+Copyright @copyright{} 2000-2002 Markus Brenner
 @item
-Copyright C 2000-2002 Spiro Trikaliotis
+Copyright @copyright{} 2000-2002 Spiro Trikaliotis
 
 @item
-Copyright C 1997-2001 Daniel Sladic
+Copyright @copyright{} 1997-2001 Daniel Sladic
 @item
-Copyright C 1996-1999 Ettore Perazzoli
+Copyright @copyright{} 1996-1999 Ettore Perazzoli
 @item
-Copyright C 1996-1999 André Fachat
+Copyright @copyright{} 1996-1999 André Fachat
 @item
-Copyright C 1993-1994, 1997-1999 Teemu Rantanen
+Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 @item
-Copyright C 1993-1996 Jouko Valta
+Copyright @copyright{} 1993-1996 Jouko Valta
 @item
-Copyright C 1993-1994 Jarkko Sonninen
+Copyright @copyright{} 1993-1994 Jarkko Sonninen
 @end itemize
 
 
@@ -7719,7 +7719,7 @@ Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for disk drive,
 tape, cartridge and Z80 emulation;
 
 @item
-Andr@'e Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs
+André Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs
 and CBM-II;
 
 @end itemize
@@ -7770,8 +7770,8 @@ using as well as the version of it.
 Please don't ask us how to transfer original C64 disk or tapes to your
 PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
-(@uref{http://sta.c64.org/sc.html}).  And no, you cannot read
-C64 disks with your old 5"1/4 PC drive.
+(@uref{http://sta.c64.org/sc.html}).  And no, you cannot read C64 disks
+with your old 5"1/4 PC drive.
 
 @item
 Please don't ask us where to find games for the emulator on the

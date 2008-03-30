@@ -24,8 +24,10 @@
  *
  */
 
-/* The Xv probing and allocation code is loosely based on testxv.c
-   (by André Werthmann) and VideoLAN. */
+
+/* The PAL Y/C and PAL Composite emulation is based on work by John
+   Selck <graham@cruise.de>. The Xv probing and allocation code is
+   loosely based on testxv.c (by André Werthmann) and VideoLAN. */
 
 #include "vice.h"
 
@@ -287,7 +289,6 @@ void render_4_2_2(XvImage* image,
 		  int dest_x, int dest_y)
 {
   int x, y;
-  unsigned int YUV0, YUV1;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
@@ -308,8 +309,8 @@ void render_4_2_2(XvImage* image,
   /* Render 2x1 blocks, YUV 4:2:2 */
   for (y = 0; y < src_h; y++) {
     for (x = 0; x < src_w; x += 2) {
-      YUV0 = src_color[*src++];
-      YUV1 = src_color[*src++];
+      unsigned int YUV0 = src_color[*src++];
+      unsigned int YUV1 = src_color[*src++];
       *dest++ =
 	(Y(YUV0) << shift_y0)
 	| (((U(YUV0) + U(YUV1)) >> 1) << shift_u)
@@ -718,7 +719,6 @@ void render_4_1_1(XvImage* image,
 		  int dest_x, int dest_y)
 {
   int x, y;
-  unsigned int YUV0, YUV1, YUV2, YUV3;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -753,10 +753,10 @@ void render_4_1_1(XvImage* image,
   /* Render 2x2 blocks, YUV 4:1:1 */
   for (y = 0; y < src_h; y += 2) {
     for (x = 0; x < src_w; x += 2) {
-      YUV0 = src_color[*src];
-      YUV1 = src_color[*(src + 1)];
-      YUV2 = src_color[*(src + src_pitch)];
-      YUV3 = src_color[*(src + src_pitch + 1)];
+      unsigned int YUV0 = src_color[*src];
+      unsigned int YUV1 = src_color[*(src + 1)];
+      unsigned int YUV2 = src_color[*(src + src_pitch)];
+      unsigned int YUV3 = src_color[*(src + src_pitch + 1)];
       src += 2;
       *Yptr = Y(YUV0);
       *(Yptr + 1) = Y(YUV1);
@@ -786,7 +786,6 @@ void render2x_4_1_1(XvImage* image,
 		    int double_scan, int pal_scanline_shade)
 {
   int x, y;
-  unsigned int YUV, Y0;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -805,8 +804,8 @@ void render2x_4_1_1(XvImage* image,
   /* Render 2x2 blocks, YUV 4:1:1 */
   for (y = 0; y < src_h; y++) {
     for (x = 0; x < src_w; x++) {
-      YUV = src_color[*src++];
-      Y0 = Y(YUV);
+      unsigned int YUV = src_color[*src++];
+      unsigned int Y0 = Y(YUV);
       *Yptr = Y0;
       *(Yptr + 1) = Y0;
       if (!double_scan) {
@@ -970,7 +969,7 @@ void render_4_1_1_pal(XvImage* image,
 }
 
 
-/* Render planar YUV 4:1:1 formats - PAL Y/C emulation, double size. */
+/* Render planar YUV 4:1:1 formats - PAL emulation, double size. */
 void render2x_4_1_1_pal(XvImage* image,
 			int plane_y, int plane_u, int plane_v,
 			unsigned char* src,

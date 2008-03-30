@@ -80,6 +80,7 @@ extern "C" {
 #include "version.h"
 #include "vsync.h"
 #include "vicewindow.h"
+#include "video.h"
 }
 
 /* sometimes we may need pointers to the ViceWindows */
@@ -92,6 +93,7 @@ ui_menu_toggle  toggle_list[] = {
     { "Sound", MENU_TOGGLE_SOUND },
     { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
     { "EmuID", MENU_TOGGLE_EMUID },
+    { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
     { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },
     { "SaveResourcesOnExit", MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT },
@@ -644,7 +646,7 @@ void ui_dispatch_events(void)
 						resources_set_value(res_name, 
 							(resource_value_t) res_val_str);
 				break;
-			}				
+			}
 
 			default:
 				if (message_queue[i].what >= 'M000' &&
@@ -1105,3 +1107,33 @@ void ui_statusbar_update()
 	ui_enable_joyport();
 }	
 
+int ui_set_window_mode(int use_direct_window)
+{
+	int i;
+	ViceWindow *w;
+	
+	for (i=0; i<window_count; i++) {
+		w = windowlist[i];
+		if (w != NULL) {
+			
+			w->Lock();
+			
+			/* only use DirectWindow if Window Mode is supported */
+			if (!w->SupportsWindowMode())
+				use_direct_window = 0;
+			
+			w->use_direct_window = use_direct_window;
+			
+			if (use_direct_window)
+			{
+				w->view->SetViewColor(B_TRANSPARENT_32_BIT);
+			} else {
+				w->view->SetViewColor(255,255,255);
+			}
+			
+			w->Unlock();
+			video_refresh_all((struct video_canvas_s *)(w->canvas));
+		}
+	}
+	return use_direct_window;
+}

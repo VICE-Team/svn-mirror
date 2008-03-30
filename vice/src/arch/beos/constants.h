@@ -102,6 +102,7 @@ const uint32 MENU_TOGGLE_DOUBLESCAN				= 'M107';
 const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
 const uint32 MENU_TOGGLE_REU					= 'M109';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
+const uint32 MENU_TOGGLE_DIRECTWINDOW			= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';
 const uint32 MENU_TOGGLE_VDC_64KB				= 'M113';
 const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';

@@ -132,10 +132,12 @@ static resource_t resources[] = {
       /* turn MITSHM on by default */
     { "MITSHM", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&try_mitshm, set_try_mitshm, NULL },
+#ifdef HAVE_XVIDEO
     { "XVIDEO", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&use_xvideo, set_use_xvideo, NULL },
     { "FOURCC", RES_STRING, (resource_value_t)"",
       (resource_value_t *)&fourcc, set_fourcc, NULL },
+#endif
     { NULL }
 };
 

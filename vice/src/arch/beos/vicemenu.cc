@@ -265,6 +265,8 @@ BMenuBar *menu_create(int machine_class) {
 		menu->AddItem(new BMenuItem("Warp Mode", 
 			new BMessage(MENU_TOGGLE_WARP_MODE),'W'));
 		menu->AddSeparatorItem();
+		menu->AddItem(new BMenuItem("DirectWindow", 
+			new BMessage(MENU_TOGGLE_DIRECTWINDOW)));
 		menu->AddItem(new BMenuItem("Video Cache", 
 			new BMessage(MENU_TOGGLE_VIDEOCACHE)));
 		menu->AddItem(new BMenuItem("Double Size", 
@@ -274,7 +276,7 @@ BMenuBar *menu_create(int machine_class) {
 		if (machine_class == VICE_MACHINE_C64
 			|| machine_class == VICE_MACHINE_C128
 			|| machine_class == VICE_MACHINE_VIC20) {
-			menu->AddItem(new BMenuItem("Fast PAL", 
+			menu->AddItem(new BMenuItem("PAL emulation", 
 				new BMessage(MENU_TOGGLE_FASTPAL), 'P', B_CONTROL_KEY));
 		}
 		if (machine_class == VICE_MACHINE_C128) {

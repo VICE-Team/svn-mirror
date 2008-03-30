@@ -249,8 +249,8 @@ void raster_update_canvas_all(raster_t *raster)
 #ifdef __OS2__
                          raster->draw_buffer_height,
 #endif
-                         (viewport->first_x * viewport->pixel_size.width
-                         + raster->geometry.extra_offscreen_border_left),
+                         viewport->pixel_size.width * (viewport->first_x 
+                         	+ raster->geometry.extra_offscreen_border_left),
                          viewport->first_line * viewport->pixel_size.height,
                          viewport->x_offset,
                          viewport->y_offset,
