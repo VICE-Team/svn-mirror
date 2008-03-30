@@ -55,11 +55,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Intrinsic.h>
-
 #include <X11/cursorfont.h>
-#ifdef XPM
-#include <X11/xpm.h>
-#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,10 +64,8 @@
 
 #include "color.h"
 #include "cmdline.h"
-#include "kbd.h"
 #include "log.h"
 #include "machine.h"
-#include "palette.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -80,6 +75,11 @@
 #include "videoarch.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
+#endif
+#ifdef HAVE_XVIDEO
+#include "raster/raster.h"
+#include "renderXv.h"
+extern DWORD yuv_table[128];
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -102,6 +102,12 @@ static int set_try_mitshm(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_use_xvideo(resource_value_t v, void *param)
+{
+    use_xvideo = (int)v;
+    return 0;
+}
+
 /* Video-related resources.  */
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t)1,
@@ -109,6 +115,8 @@ static resource_t resources[] = {
       /* turn MITSHM on by default */
     { "MITSHM", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&try_mitshm, set_try_mitshm, NULL },
+    { "XVIDEO", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&use_xvideo, set_use_xvideo, NULL },
     { NULL }
 };
 
@@ -130,6 +138,9 @@ static cmdline_option_t cmdline_options[] = {
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
       NULL, N_("Never use shared memory (slower)") },
+    { "-xvideo", SET_RESOURCE, 0, NULL, NULL,
+      "XVIDEO", (resource_value_t) 1,
+      NULL, N_("Use X Video Extension (hardware scaling)") },
     { NULL }
 };
 
@@ -146,6 +157,9 @@ static void (*_refresh_func)();
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
 
+/* This is set to 1 if the X Video Extension is used. */
+int use_xvideo = 0;
+
 /* The RootWindow of our screen. */
 /* static Window root_window; */
 
@@ -161,13 +175,12 @@ static void (*_convert_func) (BYTE *draw_buffer,
 static BYTE shade_table[256];
 
 void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
-                               unsigned int bits_per_pixel,
                                unsigned int dither, long col,
                                video_canvas_t *c)
 {
     *pixel_return = (BYTE)i;
 
-    switch (bits_per_pixel) {
+    switch (c->depth) {
       case 8:
         video_render_setphysicalcolor(&c->videoconfig, i,
                                       (DWORD)(*(BYTE *)data), 8);
@@ -180,10 +193,10 @@ void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
         break;
       default:
         video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col),
-                                      bits_per_pixel);
+                                      c->depth);
     }
 
-    if (bits_per_pixel == 1)
+    if (c->depth == 1)
         shade_table[i] = dither;
 }
 
@@ -273,24 +286,14 @@ static void convert_8toall(BYTE *draw_buffer,
 }
 
 
-int video_convert_func(video_canvas_t *canvas, int depth, unsigned int width,
+int video_convert_func(video_canvas_t *canvas, unsigned int width,
                        unsigned int height)
 {
-#if VIDEO_DISPLAY_DEPTH != 0
-    unsigned int sup_depth = VIDEO_DISPLAY_DEPTH;
-    if (sup_depth != canvas->x_image->bits_per_pixel) {
-        log_error(video_log,
-                  _("Only %ibpp supported by this emulator."), sup_depth);
-        log_error(video_log,
-                  _("Current X server depth is %ibpp."),
-                  canvas->x_image->bits_per_pixel);
-        log_error(video_log,
-                  _("Switch X server depth or recompile with --enable-autobpp."));
-        return -1;
+    if (use_xvideo) {
+        return 0;
     }
 
-#endif
-    switch (canvas->x_image->bits_per_pixel) {
+    switch (canvas->depth) {
       case 1:
         _convert_func = convert_8to1_dither;
         break;
@@ -325,9 +328,9 @@ int video_init(void)
     color_init();
 
 #ifdef USE_MITSHM
-    if (!try_mitshm)
+    if (!try_mitshm) {
         use_mitshm = 0;
-    else {
+    } else {
         /* This checks if the server has MITSHM extensions available
            If try_mitshm is true and we are on a different machine,
            frame_buffer_alloc will fall back to non shared memory calls. */
@@ -379,6 +382,16 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
     if (canvas == NULL)
         return;
 
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+
+        display = ui_get_display_ptr();
+	destroy_yuv_image(display, canvas->xv_image, shminfo);
+	return;
+    }
+#endif
+
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
         return;
@@ -403,8 +416,15 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #endif
 }
 
-void video_register_raster(raster_t *raster)
+#ifdef HAVE_XVIDEO
+static struct raster_s *xv_raster;
+#endif
+
+void video_register_raster(struct raster_s *raster)
 {
+#ifdef HAVE_XVIDEO
+    xv_raster = raster;
+#endif
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_set_raster(raster);
 #endif
@@ -416,15 +436,25 @@ void video_register_raster(raster_t *raster)
 video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     void_t exposure_handler,
-                                    const palette_t *palette,
+                                    const struct palette_s *palette,
                                     BYTE *pixel_return)
 {
     video_canvas_t *canvas;
     ui_window_t w;
     XGCValues gc_values;
 
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        *width = xv_raster->geometry.screen_size.width;
+	*height = xv_raster->geometry.last_displayed_line
+	  - xv_raster->geometry.first_displayed_line + 1;
+    }
+#endif
+
     canvas = (video_canvas_t *)xmalloc(sizeof(video_canvas_t));
     memset(canvas, 0, sizeof(video_canvas_t));
+
+    canvas->depth = ui_get_display_depth();
 
     if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
         free(canvas);
@@ -449,12 +479,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     canvas->width = *width;
     canvas->height = *height;
     ui_finish_canvas(canvas);
-#if 0
-    if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
-        free(canvas);
-        return NULL;
-    }
-#endif
+
     video_add_handlers(w);
     if (console_mode || vsid_mode)
         return canvas;
@@ -471,7 +496,7 @@ void video_canvas_destroy(video_canvas_t *c)
 }
 
 
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
+int video_canvas_set_palette(video_canvas_t *c, const struct palette_s *palette,
                              BYTE *pixel_return)
 {
     int res;
@@ -492,9 +517,10 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
         return;
     }
 
-    video_arch_frame_buffer_free(canvas);
-
-    video_arch_frame_buffer_alloc(canvas, width, height);
+    if (!use_xvideo) {
+        video_arch_frame_buffer_free(canvas);
+	video_arch_frame_buffer_alloc(canvas, width, height);
+    }
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
     /* printf("%s: w = %d, h = %d\n", __FUNCTION__, width, height); */
@@ -536,11 +562,49 @@ void video_canvas_refresh(video_canvas_t *canvas,
 {
     Display *display;
     /*printf("XS%i YS%i XI%i YI%i W%i H%i\n",xs, ys, xi, yi, w, h);*/
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-    {
-	fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
+#ifdef HAVE_XVIDEO
+    if (use_xvideo) {
+        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+        Window root;
+	int x, y;
+	unsigned int dest_w, dest_h, border_width, depth;
+
+	display = ui_get_display_ptr();
+
+	/* FIXME: raster.c passes ys = 0, h = screen_size.height on resize.
+	   This goes outside the displayed area! */
+	if (ys < xv_raster->geometry.first_displayed_line) {
+	    ys = xv_raster->geometry.first_displayed_line;
+	    h = xv_raster->geometry.last_displayed_line
+	      - xv_raster->geometry.first_displayed_line + 1;
+	}
+	render_yuv_image(canvas->xv_image,
+			 draw_buffer, draw_buffer_line_size, yuv_table,
+			 xs, ys, w, h,
+			 xs - xv_raster->geometry.extra_offscreen_border_left,
+			 ys - xv_raster->geometry.first_displayed_line);
+
+	XGetGeometry(display, canvas->drawable, &root, &x, &y,
+		     &dest_w, &dest_h, &border_width, &depth);
+
+	/* Xv does subpixel scaling. Since coordinates are in integers we
+	   refresh the entire image to get it right. */
+	display_yuv_image(display, canvas->xv_port,
+			  canvas->drawable, _video_gc,
+			  canvas->xv_image, shminfo,
+			  0, 0,
+			  xv_raster->geometry.screen_size.width,
+			  xv_raster->geometry.last_displayed_line
+			  - xv_raster->geometry.first_displayed_line + 1,
+			  dest_w, dest_h);
+
 	return;
+    }
+#endif
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled) {
+        fullscreen_refresh_func(frame_buffer, xs, ys, xi, yi, w, h);
+        return;
     }
 
 #endif
@@ -557,4 +621,3 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
-

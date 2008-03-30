@@ -31,8 +31,6 @@
 #include "vice.h"
 
 #include "fullscreen.h"
-#include "raster/raster.h"
-#include "palette.h"
 #include "video.h"
 
 #include <X11/Xlib.h>
@@ -42,6 +40,11 @@
 #include <X11/extensions/XShm.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#endif
+
+#ifdef HAVE_XVIDEO
+#include <X11/extensions/Xv.h>
+#include <X11/extensions/Xvlib.h>
 #endif
 
 #include "types.h"
@@ -61,8 +64,13 @@ struct video_canvas_s {
     Window drawable;
     Colormap colormap;
 #endif
-
     XImage *x_image;
+    unsigned int depth;
+#ifdef HAVE_XVIDEO
+    XvImage *xv_image;
+    int xv_format;
+    XvPortID xv_port;
+#endif
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
 #endif
@@ -95,6 +103,7 @@ extern void disable_text(void);
 extern void video_init_arch(void);
 
 extern int use_mitshm;
+extern int use_xvideo;
 
 #ifdef USE_MITSHM
 extern int shmhandler(Display* display,XErrorEvent* err);
@@ -111,20 +120,20 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 #endif /* USE_MITSHM */
 
 struct palette_s;
+struct raster_s;
 
 extern void video_add_handlers(ui_window_t w);
 extern void ui_finish_canvas(video_canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));
-extern int video_convert_func(video_canvas_t *canvas, int depth,
-                              unsigned int width, unsigned int height);
-extern void video_register_raster(raster_t *raster);
+extern int video_convert_func(video_canvas_t *canvas, unsigned int width,
+                              unsigned int height);
+extern void video_register_raster(struct raster_s *raster);
 
 extern void video_convert_color_table(unsigned int i, BYTE *pixel_return,
-                                      BYTE *data, unsigned int bits_per_pixel,
-                                      unsigned int dither, long col,
-                                      video_canvas_t *c);
+                                      BYTE *data, unsigned int dither,
+                                      long col, video_canvas_t *c);
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
@@ -133,10 +142,10 @@ extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
 #define fullscreen_on() fullscreen_mode_on_restore()
 #define fullscreen_off() fullscreen_mode_off_restore()
 #define fullscreen_update() fullscreen_mode_update()
-extern void fullscreen_set_raster(raster_t *raster);
+extern void fullscreen_set_raster(struct raster_s *raster);
 extern void fullscreen_set_framebuffer(video_frame_buffer_t *fb);
 extern void fullscreen_set_palette(video_canvas_t *fp,
-				   palette_t *p, PIXEL *pixel_return);
+                                   struct palette_s *p, PIXEL *pixel_return);
 #else
 #define fullscreen_on()
 #define fullscreen_off()

@@ -133,8 +133,6 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette,
 
 /*-----------------------------------------------------------------------*/
 
-static unsigned int bits_per_pixel;
-
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
                         PIXEL *pixel_return)
@@ -168,8 +166,6 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     }
     XPutPixel(im, 0, 0, color->pixel);
 
-    bits_per_pixel = im->bits_per_pixel;
-
     *pixel_return = *data;
     *color_pixel = (unsigned long)color /*color.pixel*/;
 
@@ -196,8 +192,7 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                                  BYTE *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
-    video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
-                              dither,
+    video_convert_color_table(colnr, pixel_return, data, dither,
                               (long)(((GdkColor *)(color_pixel))->pixel),
                               (video_canvas_t *)c);
 }
