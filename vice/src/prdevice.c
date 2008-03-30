@@ -39,6 +39,7 @@
 #include "print.h"
 #include "resources.h"
 #include "serial.h"
+#include "types.h"
 #include "utils.h"
 #include "vdrive.h"
 
@@ -173,7 +174,7 @@ static int write_pr(void *var, BYTE byte, int secondary)
 	if (er < 0) return er;
     }
 
-    return print_putc(currfd, byte);
+    return print_putc(currfd, (BYTE)byte);
 }
 
 static int close_pr(void *var, int secondary)
