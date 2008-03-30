@@ -2396,8 +2396,9 @@ void ui_set_fullscreenmode_init(void)
     ui_update_menus();
 }
 
-int ui_is_fullscreen_available() {
-  return(bestmode_counter?1:0);
+int ui_is_fullscreen_available(void)
+{
+    return(bestmode_counter?1:0);
 }
-
 #endif
+

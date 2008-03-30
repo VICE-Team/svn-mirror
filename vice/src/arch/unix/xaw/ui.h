@@ -151,7 +151,7 @@ int ui_set_windowmode(void);
 int ui_set_fullscreenmode(void);
 void ui_set_fullscreenmode_init(void);
 void ui_set_mouse_timeout(void);
-int ui_is_fullscreen_available();
+int ui_is_fullscreen_available(void);
 #endif
 
 #endif /* !defined (_UI_XAW_H) */
