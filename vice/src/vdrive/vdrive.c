@@ -1151,6 +1151,7 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
     /* Compatibily cruft (soon to be removed).  */
     vdrive->ImageFormat = image->type;
     strcpy(vdrive->ActiveName, image->name);
+    vdrive->unit = unit;
     vdrive->NumTracks  = image->tracks;
     vdrive->NumBlocks  = num_blocks(image->type, image->tracks);
     vdrive->ErrFlg = 0;
@@ -1199,84 +1200,33 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 /* ------------------------------------------------------------------------- */
 
 /*
- * This routine is from fvcbm by Dan Fandrich.
- */
-
-int get_diskformat(int devtype)
-{
-    int DiskType = -1;
-
-    /*
-     * Get the group of compatible disk formats.
-     */
-
-    switch (devtype & DT_MASK) {
-      case DT_2031:
-      case DT_2040:
-      case DT_4040:
-      case DT_1540:
-      case DT_1541:
-      case DT_1542:
-      case DT_1551:
-      case DT_1570:
-        DiskType = 1541;
-        break;
-      case DT_1571:
-      case DT_1572:
-        DiskType = 1571;
-        break;
-      case DT_1581:
-        DiskType = 1581;
-        break;
-      case DT_8050:
-        DiskType = 8050;
-        break;
-      case DT_8060:
-      case DT_8061:
-      case DT_SFD1001:
-      case DT_8250:
-        DiskType = 8250;
-        break;
-    }
-
-    return (DiskType);
-}
-
-
-/*
  * Calculate and return the total number of blocks available on a disk.
  */
 
-int  num_blocks (int format, int tracks)
+int num_blocks(int format, int tracks)
 {
-    int     blocks = -1;
-
+    int blocks = -1;
 
     switch (format) {
       case 1541:
-	if (tracks > MAX_TRACKS_1541)
-	    tracks = MAX_TRACKS_1541;
-	blocks = NUM_BLOCKS_1541 + (tracks - 35) * 17;
-	break;
-
+        if (tracks > MAX_TRACKS_1541)
+            tracks = MAX_TRACKS_1541;
+        blocks = NUM_BLOCKS_1541 + (tracks - 35) * 17;
+        break;
       case 1571:
-	if (tracks > MAX_TRACKS_1571)
-	    tracks = MAX_TRACKS_1571;
-	blocks = NUM_BLOCKS_1571 + (tracks - 70) * 17;
-	break;
-
+        if (tracks > MAX_TRACKS_1571)
+            tracks = MAX_TRACKS_1571;
+        blocks = NUM_BLOCKS_1571 + (tracks - 70) * 17;
+        break;
       case 1581:
-	blocks = NUM_BLOCKS_1581;
-	break;
-
+        blocks = NUM_BLOCKS_1581;
+        break;
       case 8050:
         blocks = NUM_BLOCKS_8050;
-	break;
-
+        break;
       case 8250:
         blocks = NUM_BLOCKS_8250;
-	break;
-
+        break;
     }
 
     return (blocks);

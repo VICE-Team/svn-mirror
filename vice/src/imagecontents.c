@@ -2,7 +2,8 @@
  * imagecontents.c - Extract the directory from disk/tape images.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,7 +34,9 @@
 
 #include "archdep.h"
 #include "charsets.h"
+#include "diskimage.h"
 #include "log.h"
+#include "serial.h"
 #include "t64.h"
 #include "utils.h"
 #include "vdrive-bam.h"
@@ -175,6 +178,7 @@ static int circular_check(unsigned int track, unsigned int sector)
 /* Argh!  Really ugly!  FIXME!  */
 extern char *slot_type[];
 
+#if 0
 static vdrive_t *open_image(const char *name)
 {
     static BYTE fake_command_buffer[256];
@@ -226,39 +230,92 @@ static vdrive_t *open_image(const char *name)
 
     return floppy;
 }
+#endif
+
+static vdrive_t *open_disk_image(const char *name)
+{
+    vdrive_t *vdrive;
+    disk_image_t *image;
+    int i;
+
+    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image->name = stralloc(name);
+
+    if (disk_image_open(image) < 0) {
+        free(image->name);
+        log_error(LOG_ERR, "Cannot open file `%s'", name);
+        return NULL;
+    }
+
+    vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+
+#if 1  /* FIXME: This will done by `vdrive_setup_device' once the
+                 serial bus handling is thrown out.  */
+    memset(vdrive, 0, sizeof(vdrive_t));  /* Init all pointers.  */
+
+    vdrive->type = image->type;
+
+    for (i = 0; i < 15; i++)
+        vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
+
+    vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
+    vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
+
+    /* Initialise format constants.  */
+    set_disk_geometry(vdrive, DT_DISK);
+
+    vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
+#endif
+
+    vdrive->image = image;
+    vdrive_attach_image(image, 100, vdrive);
+    return vdrive;
+}
+
+static void close_disk_image(vdrive_t *vdrive)
+{
+    disk_image_t *image;
+
+    image = vdrive->image;
+
+    vdrive_detach_image(image, 100, vdrive);
+    disk_image_close(image);
+
+    free(image);
+    free(vdrive);
+}
 
 image_contents_t *image_contents_read_disk(const char *file_name)
 {
     image_contents_t *new;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
     BYTE buffer[256];
     int retval;
     image_contents_file_list_t *lp;
 
-    floppy = open_image(file_name);
-    if (floppy == NULL)
+    vdrive = open_disk_image(file_name);
+    if (vdrive == NULL)
         return NULL;
 
-    retval = vdrive_bam_read_bam(floppy);
+    retval = vdrive_bam_read_bam(vdrive);
 
     if (retval < 0) {
-        zfclose(floppy->image->fd);
-        free(floppy);
+        close_disk_image(vdrive);
         return NULL;
     }
 
     new = image_contents_new();
 
-    memcpy(new->name, floppy->bam + floppy->bam_name, IMAGE_CONTENTS_NAME_LEN);
+    memcpy(new->name, vdrive->bam + vdrive->bam_name, IMAGE_CONTENTS_NAME_LEN);
     new->name[IMAGE_CONTENTS_NAME_LEN] = 0;
 
-    memcpy(new->id, floppy->bam + floppy->bam_id, IMAGE_CONTENTS_ID_LEN);
+    memcpy(new->id, vdrive->bam + vdrive->bam_id, IMAGE_CONTENTS_ID_LEN);
     new->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
-    new->blocks_free = vdrive_bam_free_block_count(floppy);
+    new->blocks_free = vdrive_bam_free_block_count(vdrive);
 
-    floppy->Curr_track = floppy->Dir_Track;
-    floppy->Curr_sector = floppy->Dir_Sector;
+    vdrive->Curr_track = vdrive->Dir_Track;
+    vdrive->Curr_sector = vdrive->Dir_Sector;
 
     lp = NULL;
     new->file_list = NULL;
@@ -269,15 +326,14 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         BYTE *p;
         int j;
 
-        retval = disk_image_read_sector(floppy->image, buffer,
-                                        floppy->Curr_track,
-                                        floppy->Curr_sector);
+        retval = disk_image_read_sector(vdrive->image, buffer,
+                                        vdrive->Curr_track,
+                                        vdrive->Curr_sector);
 
         if (retval < 0
-            || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
+            || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
             image_contents_destroy(new);
-            zfclose(floppy->image->fd);
-            free(floppy);
+            close_disk_image(vdrive);
             return NULL;
         }
 
@@ -319,12 +375,11 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         if (buffer[0] == 0)
             break;
 
-        floppy->Curr_track = (int) buffer[0];
-        floppy->Curr_sector = (int) buffer[1];
+        vdrive->Curr_track = (int) buffer[0];
+        vdrive->Curr_sector = (int) buffer[1];
     }
 
-    zfclose(floppy->image->fd);
-    free(floppy);
+    close_disk_image(vdrive);
     return new;
 }
 
