@@ -169,6 +169,10 @@ SOURCE=..\..\log.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\machine.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
