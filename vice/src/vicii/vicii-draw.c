@@ -33,7 +33,7 @@
 
 
 #define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +           \
-                                    VIC_II_SCREEN_BORDERWIDTH) / 8 + 1)
+                                    vic_ii.screen_borderwidth) / 8 + 1)
 #define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH                 \
                                     + VIC_II_MAX_SPRITE_WIDTH) / 8 + 1)
 
@@ -108,7 +108,7 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 /* Pointer to the start of the graphics area on the frame buffer.  */
 #define GFX_PTR(pixel_width)                            \
     (vic_ii.raster.frame_buffer_ptr                            \
-     + ((VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth)    \
+     + ((vic_ii.screen_borderwidth + vic_ii.raster.xsmooth)    \
         * (pixel_width)))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
@@ -282,7 +282,7 @@ draw_std_text_foreground (unsigned int start_char,
   PIXEL *p;
 
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
-  p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = (vic_ii.raster.frame_buffer_ptr + vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth + 8 * start_char);
 
   for (i = start_char; i <= end_char; i++, p += 8)
@@ -309,7 +309,7 @@ draw_std_text_foreground_2x (unsigned int start_char,
 
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   p = ((PIXEL2 *) (vic_ii.raster.frame_buffer_ptr
-                   + 2 * VIC_II_SCREEN_BORDERWIDTH
+                   + 2 * vic_ii.screen_borderwidth
                    + 2 * vic_ii.raster.xsmooth)
        + 8 * start_char);
 
@@ -704,7 +704,7 @@ draw_mc_text_foreground (unsigned int start_char,
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   c1 = RASTER_PIXEL (&vic_ii.raster, vic_ii.ext_background_color[0]);
   c2 = RASTER_PIXEL (&vic_ii.raster, vic_ii.ext_background_color[1]);
-  p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = (vic_ii.raster.frame_buffer_ptr + vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth + 8 * start_char);
 
   for (i = start_char; i <= end_char; i++, p += 8)
@@ -749,7 +749,7 @@ draw_mc_text_foreground_2x (unsigned int start_char,
   c1 = RASTER_PIXEL2 (&vic_ii.raster, vic_ii.ext_background_color[0]);
   c2 = RASTER_PIXEL2 (&vic_ii.raster, vic_ii.ext_background_color[1]);
   p = ((PIXEL2 *) (vic_ii.raster.frame_buffer_ptr
-                   + 2 * VIC_II_SCREEN_BORDERWIDTH
+                   + 2 * vic_ii.screen_borderwidth
                    + 2 * vic_ii.raster.xsmooth)
        + 8 * start_char);
 
@@ -945,7 +945,7 @@ draw_mc_bitmap_foreground (unsigned int start_char,
   BYTE *bmptr;
   unsigned int i, j;
 
-  p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = (vic_ii.raster.frame_buffer_ptr + vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth + 8 * start_char);
   bmptr = vic_ii.bitmap_ptr;
 
@@ -978,7 +978,7 @@ draw_mc_bitmap_foreground_2x (unsigned int start_char, unsigned int end_char)
   BYTE *bmptr;
   unsigned int i, j;
 
-  p = ((PIXEL2 *) vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = ((PIXEL2 *) vic_ii.raster.frame_buffer_ptr + vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth + 8 * start_char);
   bmptr = vic_ii.bitmap_ptr;
 
@@ -1163,7 +1163,7 @@ draw_ext_text_foreground (unsigned int start_char,
   PIXEL *p;
 
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
-  p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = (vic_ii.raster.frame_buffer_ptr + vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth + 8 * start_char);
 
   for (i = start_char; i <= end_char; i++, p += 8)
@@ -1205,7 +1205,7 @@ draw_ext_text_foreground_2x (unsigned int start_char,
 
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   p = ((PIXEL2 *) (vic_ii.raster.frame_buffer_ptr
-                   + 2 * VIC_II_SCREEN_BORDERWIDTH
+                   + 2 * vic_ii.screen_borderwidth
                    + 2 * vic_ii.raster.xsmooth)
        + 8 * start_char);
 
@@ -1270,7 +1270,7 @@ draw_black (void)
   PIXEL *p;
 
   p = (vic_ii.raster.frame_buffer_ptr
-       + ((VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth)
+       + ((vic_ii.screen_borderwidth + vic_ii.raster.xsmooth)
           * vic_ii.raster.viewport.pixel_size.width));
 
   vid_memset (p, RASTER_PIXEL (&vic_ii.raster, 0),
@@ -1287,7 +1287,7 @@ draw_black_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
   PIXEL *p;
 
   p = (vic_ii.raster.frame_buffer_ptr
-       + ((VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth)
+       + ((vic_ii.screen_borderwidth + vic_ii.raster.xsmooth)
           * vic_ii.raster.viewport.pixel_size.width));
 
   vid_memset (p, RASTER_PIXEL (&vic_ii.raster, 0),
@@ -1302,7 +1302,7 @@ draw_black_foreground (unsigned int start_char, unsigned int end_char)
   PIXEL *p;
 
   p = (vic_ii.raster.frame_buffer_ptr
-       + (VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth +
+       + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
           8 * start_char) * vic_ii.raster.viewport.pixel_size.width);
 
   vid_memset (p, RASTER_PIXEL (&vic_ii.raster, 0),
@@ -1345,7 +1345,7 @@ _draw_idle (unsigned int xs, unsigned int xe,
 
 #ifdef ALLOW_UNALIGNED_ACCESS
   p = (vic_ii.raster.frame_buffer_ptr
-       + (VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth) * pixel_width);
+       + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth) * pixel_width);
 #else
   p = aligned_line_buffer;
 #endif
@@ -1393,7 +1393,7 @@ _draw_idle (unsigned int xs, unsigned int xe,
 #endif
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-  vid_memcpy (vic_ii.raster.frame_buffer_ptr + (VIC_II_SCREEN_BORDERWIDTH
+  vid_memcpy (vic_ii.raster.frame_buffer_ptr + (vic_ii.screen_borderwidth
                                   + vic_ii.raster.xsmooth) * pixel_width,
               aligned_line_buffer + xs * 8 * pixel_width,
               (xe - xs + 1) * 8 * pixel_width);
@@ -1443,7 +1443,7 @@ draw_idle_foreground (unsigned int start_char,
   BYTE d;
   unsigned int i;
 
-  p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
+  p = (vic_ii.raster.frame_buffer_ptr +vic_ii.screen_borderwidth
        + vic_ii.raster.xsmooth);
   c = RASTER_PIXEL (&vic_ii.raster, 0);
   d = (BYTE) vic_ii.idle_data;
@@ -1466,7 +1466,7 @@ draw_idle_foreground_2x (unsigned int start_char,
   unsigned int i, d;
 
   p = ((PIXEL2 *) vic_ii.raster.frame_buffer_ptr
-       + VIC_II_SCREEN_BORDERWIDTH + vic_ii.raster.xsmooth);
+       + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
   c = RASTER_PIXEL2 (&vic_ii.raster, 0);
   d = (BYTE) vic_ii.idle_data;
 
