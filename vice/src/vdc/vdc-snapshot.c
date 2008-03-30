@@ -29,6 +29,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 #include "vdc-snapshot.h"

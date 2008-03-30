@@ -167,9 +167,9 @@
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
 #ifdef DEBUG
-#define TRACE_NMI() do { if (TRACEFLG) log_debug("*** NMI"); } while (0)
-#define TRACE_IRQ() do { if (TRACEFLG) log_debug("*** IRQ"); } while (0)
-#define TRACE_BRK() do { if (TRACEFLG) log_debug("*** BRK"); } while (0)
+#define TRACE_NMI() do { if (TRACEFLG) debug_text("*** NMI"); } while (0)
+#define TRACE_IRQ() do { if (TRACEFLG) debug_text("*** IRQ"); } while (0)
+#define TRACE_BRK() do { if (TRACEFLG) debug_text("*** BRK"); } while (0)
 #else
 #define TRACE_NMI()
 #define TRACE_IRQ()
@@ -1591,12 +1591,9 @@ static BYTE fetch_tab[] = {
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            log_debug("Drive: .%04X\t%ld\t%s\tA=$%02x.",
-                      reg_pc,
-                      (long)drive_clk[0],
+            debug_drive(reg_pc, drive_clk[0],
                       mon_disassemble_to_string(e_disk8_space, reg_pc, op, lo,
-                                                hi, 0, 1),
-		      reg_a);
+                      hi, 0, 1), reg_a);
         }
 #else
         if (TRACEFLG) {

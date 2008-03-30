@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "alarm.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "snapshot.h"

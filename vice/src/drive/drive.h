@@ -29,7 +29,6 @@
 #ifndef _DRIVE_H
 #define _DRIVE_H
 
-#include "log.h"
 #include "types.h"
 
 /* VIA 1 drive 0 interrupts.  */
@@ -281,7 +280,7 @@ typedef struct drive_s {
     CLOCK *clk;
 
     /* Drive-specific logging goes here.  */
-    log_t log;
+    signed int log;
 
     /* Pointer to the attached disk image.  */
     struct disk_image_s *image;

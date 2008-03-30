@@ -33,8 +33,10 @@
 
 #include <stdio.h>
 
+#include "crtc-mem.h"
 #include "crtc.h"
 #include "crtctypes.h"
+#include "log.h"
 #include "maincpu.h"
 #include "snapshot.h"
 #include "types.h"
@@ -330,6 +332,7 @@ int crtc_snapshot_read_module(snapshot_t * s)
     } else {
         ef = snapshot_module_close(m);
     }
+
     return ef;
 }
 

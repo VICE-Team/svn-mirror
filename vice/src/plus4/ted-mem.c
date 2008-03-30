@@ -34,6 +34,7 @@
 #include "alarm.h"
 #include "interrupt.h"
 #include "keyboard.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "plus4mem.h"

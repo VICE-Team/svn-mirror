@@ -32,6 +32,7 @@
 
 #include "alarm.h"
 #include "interrupt.h"
+#include "log.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"

@@ -28,7 +28,6 @@
 #ifndef _TEDTYPES_H
 #define _TEDTYPES_H
 
-#include "log.h"
 #include "raster.h"
 #include "types.h"
 
@@ -254,7 +253,7 @@ struct ted_s {
     BYTE kbdval;
 
     /* All the TED logging goes here.  */
-    log_t log;                  /* = LOG_ERR; */
+    signed int log;
 
     /* TED alarms.  */
     struct alarm_s *raster_fetch_alarm;

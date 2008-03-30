@@ -131,5 +131,16 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
               reg_pc, RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
               reg_a, reg_x, reg_y, reg_sp);
 }
+
+void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
+{
+    log_debug("Drive: .%04X %10ld %-20s A=$%02x.", reg_pc, (long)mclk, dis,
+              reg_a);
+}
+
+void debug_text(const char *text)
+{
+    log_debug(text);
+}
 #endif
 

@@ -29,9 +29,6 @@
 #ifndef _VDCTYPES_H
 #define _VDCTYPES_H
 
-#include "vice.h"
-
-#include "log.h"
 #include "raster.h"
 #include "types.h"
 
@@ -146,7 +143,7 @@ struct vdc_s {
     int force_black_overscan_background_color;
 
     /* All the VDC logging goes here.  */
-    log_t log;          /* = LOG_ERR; */
+    signed int log;
 
     /* VDC alarms.  */
     /* Alarm to update a raster line. */

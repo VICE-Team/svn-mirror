@@ -47,7 +47,7 @@
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
-#include "vic.h"
+#include "vic-mem.h"
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"

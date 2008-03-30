@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "clkguard.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -36,6 +38,7 @@
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "log.h"
 #include "parallel.h"
 #include "types.h"
 #include "utils.h"

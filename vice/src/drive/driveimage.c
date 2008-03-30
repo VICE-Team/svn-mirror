@@ -34,6 +34,8 @@
 #include "drive.h"
 #include "driveimage.h"
 #include "gcr.h"
+#include "log.h"
+#include "types.h"
 
 
 #define GCR_OFFSET(track) ((track - 1) * NUM_MAX_BYTES_TRACK)

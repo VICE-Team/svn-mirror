@@ -44,6 +44,7 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine-drive.h"
 #include "machine.h"
 #include "mem.h"

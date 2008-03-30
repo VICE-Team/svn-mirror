@@ -32,9 +32,7 @@
 #ifndef _CRTCTYPES_H
 #define _CRTCTYPES_H
 
-#include "crtc-mem.h"
 #include "crtc.h"
-#include "log.h"
 #include "raster.h"
 #include "types.h"
 
@@ -151,7 +149,7 @@ struct crtc_s
     /*---------------------------------------------------------------*/
 
     /* All the CRTC logging goes here.  */
-    log_t log;
+    signed int log;
 
     /* CRTC raster.  */
     raster_t raster;

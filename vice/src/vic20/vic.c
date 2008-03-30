@@ -56,6 +56,7 @@
 #include "vic-snapshot.h"
 #include "vic-color.h"
 #include "vic.h"
+#include "vic20.h"
 #include "vic20mem.h"
 #include "vsync.h"
 #include "videoarch.h"

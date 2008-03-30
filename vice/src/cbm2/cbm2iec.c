@@ -32,6 +32,7 @@
 #include "cbm2iec.h"
 #include "drive.h"
 #include "iecdrive.h"
+#include "log.h"
 #include "types.h"
 
 void cbm2iec_init(void)

@@ -30,7 +30,6 @@
 
 #include "ciatimer.h"
 #include "drive.h"
-#include "log.h"
 #include "mos6510.h"
 #include "types.h"
 
@@ -159,7 +158,7 @@ typedef struct drivevia_context_s {
     int cb2_state;
     struct alarm_s *t1_alarm;
     struct alarm_s *t2_alarm;
-    log_t log;                    /* init to LOG_ERR */
+    signed int log;               /* init to LOG_ERR */
 
     CLOCK read_clk;               /* init to 0 */
     int read_offset;              /* init to 0 */
@@ -231,7 +230,7 @@ typedef struct drivecia_context_s {
     BYTE todalarm[4];
     BYTE todlatch[4];
     int todticks;                 /* init to 100000 */
-    log_t log;                    /* init to LOG_ERR */
+    signed int log;               /* init to LOG_ERR */
 
     ciat_t ta;
     ciat_t tb;
@@ -264,7 +263,7 @@ typedef struct driveriot_context_s {
     BYTE old_pa;
     BYTE old_pb;
 
-    log_t log;            /* init to LOG_ERR */
+    signed int log;       /* init to LOG_ERR */
 
     struct alarm_s *alarm;
 

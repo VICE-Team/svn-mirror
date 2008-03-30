@@ -29,9 +29,12 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "drive.h"
 #include "drivetypes.h"
 #include "interrupt.h"
+#include "log.h"
 #include "types.h"
 #include "via.h"
 #include "viad.h"

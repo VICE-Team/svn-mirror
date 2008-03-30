@@ -28,7 +28,6 @@
 #ifndef _VICIITYPES_H
 #define _VICIITYPES_H
 
-#include "log.h"
 #include "raster.h"
 #include "types.h"
 
@@ -313,7 +312,7 @@ struct vicii_s {
     vicii_idle_data_location_t idle_data_location;
 
     /* All the VIC-II logging goes here.  */
-    log_t log;                  /* = LOG_ERR; */
+    signed int log;
 
     /* VIC-II alarms.  */
     struct alarm_s *raster_fetch_alarm;
@@ -384,8 +383,8 @@ struct vicii_s {
     /* VIC-IIe clock mode.  */
     unsigned int fastmode;
 
-    /* Last value read from $d019.  */
-    BYTE last_read_d019;
+    /* Last value read from VICII (used for RMW access).  */
+    BYTE last_read;
 
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;

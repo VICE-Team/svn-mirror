@@ -78,6 +78,7 @@
 #include "vic20rsuser.h"
 #include "vic20ui.h"
 #include "vic20via.h"
+#include "video.h"
 #include "vsync.h"
 
 

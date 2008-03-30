@@ -33,12 +33,10 @@
 
 #include "vice.h"
 
-#include "log.h"
 #include "raster.h"
 #include "types.h"
-#include "vic-mem.h"
-#include "vic20.h"
-#include "video.h"
+/*#include "vic-mem.h"*/
+
 
 #define VIC_PAL_SCREEN_WIDTH            272
 #define VIC_NTSC_SCREEN_WIDTH           208
@@ -129,7 +127,7 @@ struct vic_s
 {
     int initialized;
 
-    log_t log;
+    signed int log;
 
     raster_t raster;
 
