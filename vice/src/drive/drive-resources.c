@@ -33,6 +33,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivemem.h"
 #include "iecdrive.h"
 #include "log.h"
 #include "machine.h"
@@ -426,60 +427,70 @@ static int set_dos_rom_name_1581(resource_value_t v)
 static int set_drive0_ram2(resource_value_t v)
 {
     drive[0].drive_ram2_enabled = (int) v;
+    drive_mem_init(&drive0_context, drive[0].type);
     return 0;
 }
 
 static int set_drive1_ram2(resource_value_t v)
 {
     drive[1].drive_ram2_enabled = (int) v;
+    drive_mem_init(&drive1_context, drive[1].type);
     return 0;
 }
 
 static int set_drive0_ram4(resource_value_t v)
 {
     drive[0].drive_ram4_enabled = (int) v;
+    drive_mem_init(&drive0_context, drive[0].type);
     return 0;
 }
 
 static int set_drive1_ram4(resource_value_t v)
 {
     drive[1].drive_ram4_enabled = (int) v;
+    drive_mem_init(&drive1_context, drive[1].type);
     return 0;
 }
 
 static int set_drive0_ram6(resource_value_t v)
 {
     drive[0].drive_ram6_enabled = (int) v;
+    drive_mem_init(&drive0_context, drive[0].type);
     return 0;
 }
 
 static int set_drive1_ram6(resource_value_t v)
 {
     drive[1].drive_ram6_enabled = (int) v;
+    drive_mem_init(&drive1_context, drive[1].type);
     return 0;
 }
 
 static int set_drive0_ram8(resource_value_t v)
 {
     drive[0].drive_ram8_enabled = (int) v;
+    drive_mem_init(&drive0_context, drive[0].type);
     return 0;
 }
 
 static int set_drive1_ram8(resource_value_t v)
 {
     drive[1].drive_ram8_enabled = (int) v;
+    drive_mem_init(&drive1_context, drive[1].type);
     return 0;
 }
 
 static int set_drive0_rama(resource_value_t v)
 {
     drive[0].drive_rama_enabled = (int) v;
+    drive_mem_init(&drive0_context, drive[0].type);
     return 0;
 }
 
 static int set_drive1_rama(resource_value_t v)
 {
     drive[1].drive_rama_enabled = (int) v;
+    drive_mem_init(&drive1_context, drive[1].type);
     return 0;
 }
 
@@ -525,21 +536,21 @@ static resource_t resources[] = {
     { "Drive9RAM2000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_ram2_enabled), set_drive1_ram2 },
     { "Drive8RAM4000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].drive_ram2_enabled), set_drive0_ram4 },
+      (resource_value_t *) &(drive[0].drive_ram4_enabled), set_drive0_ram4 },
     { "Drive9RAM4000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].drive_ram2_enabled), set_drive1_ram4 },
+      (resource_value_t *) &(drive[1].drive_ram4_enabled), set_drive1_ram4 },
     { "Drive8RAM6000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].drive_ram2_enabled), set_drive0_ram6 },
+      (resource_value_t *) &(drive[0].drive_ram6_enabled), set_drive0_ram6 },
     { "Drive9RAM6000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].drive_ram2_enabled), set_drive1_ram6 },
+      (resource_value_t *) &(drive[1].drive_ram6_enabled), set_drive1_ram6 },
     { "Drive8RAM8000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].drive_ram2_enabled), set_drive0_ram8 },
+      (resource_value_t *) &(drive[0].drive_ram8_enabled), set_drive0_ram8 },
     { "Drive9RAM8000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].drive_ram2_enabled), set_drive1_ram8 },
+      (resource_value_t *) &(drive[1].drive_ram8_enabled), set_drive1_ram8 },
     { "Drive8RAMA000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].drive_ram2_enabled), set_drive0_rama },
+      (resource_value_t *) &(drive[0].drive_rama_enabled), set_drive0_rama },
     { "Drive9RAMA000", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].drive_ram2_enabled), set_drive1_rama },
+      (resource_value_t *) &(drive[1].drive_rama_enabled), set_drive1_rama },
     { NULL }
 };
 

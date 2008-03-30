@@ -641,6 +641,16 @@ ui_menu_entry_t rs232_submenu[] = {
 /* Drive emulation support items.  */
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive8RAM2000)
+UI_MENU_DEFINE_TOGGLE(Drive8RAM4000)
+UI_MENU_DEFINE_TOGGLE(Drive8RAM6000)
+UI_MENU_DEFINE_TOGGLE(Drive8RAM8000)
+UI_MENU_DEFINE_TOGGLE(Drive8RAMA000)
+UI_MENU_DEFINE_TOGGLE(Drive9RAM2000)
+UI_MENU_DEFINE_TOGGLE(Drive9RAM4000)
+UI_MENU_DEFINE_TOGGLE(Drive9RAM6000)
+UI_MENU_DEFINE_TOGGLE(Drive9RAM8000)
+UI_MENU_DEFINE_TOGGLE(Drive9RAMA000)
 UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
@@ -844,6 +854,34 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
     { "*1001", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_1001, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive0_expansion_submenu[] = {
+    { "*$2000-$3FFF RAM expansion",
+      (ui_callback_t) toggle_Drive8RAM2000, NULL, NULL },
+    { "*$4000-$5FFF RAM expansion",
+      (ui_callback_t) toggle_Drive8RAM4000, NULL, NULL },
+    { "*$6000-$7FFF RAM expansion",
+      (ui_callback_t) toggle_Drive8RAM6000, NULL, NULL },
+    { "*$8000-$9FFF RAM expansion",
+      (ui_callback_t) toggle_Drive8RAM8000, NULL, NULL },
+    { "*$A000-$BFFF RAM expansion",
+      (ui_callback_t) toggle_Drive8RAMA000, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive1_expansion_submenu[] = {
+    { "*$2000-$3FFF RAM expansion",
+      (ui_callback_t) toggle_Drive9RAM2000, NULL, NULL },
+    { "*$4000-$5FFF RAM expansion",
+      (ui_callback_t) toggle_Drive9RAM4000, NULL, NULL },
+    { "*$6000-$7FFF RAM expansion",
+      (ui_callback_t) toggle_Drive9RAM6000, NULL, NULL },
+    { "*$8000-$9FFF RAM expansion",
+      (ui_callback_t) toggle_Drive9RAM8000, NULL, NULL },
+    { "*$A000-$BFFF RAM expansion",
+      (ui_callback_t) toggle_Drive9RAMA000, NULL, NULL },
     { NULL }
 };
 
@@ -1170,6 +1208,8 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { "--" },
     { "Drive #8 model",
       NULL, NULL, set_drive0_type_submenu },
+    { "Drive #8 RAM expansion",
+      NULL, NULL, set_drive0_expansion_submenu },
     { "*Drive #8 enable parallel cable",
       (ui_callback_t) toggle_Drive8ParallelCable, NULL, NULL },
     { "Drive #8 40-track image support",
@@ -1179,6 +1219,8 @@ static ui_menu_entry_t drive_settings_submenu[] = {
     { "--" },
     { "Drive #9 model",
       NULL, NULL, set_drive1_type_submenu },
+    { "Drive #9 RAM expansion",
+      NULL, NULL, set_drive1_expansion_submenu },
     { "*Drive #9 enable parallel cable",
       (ui_callback_t) toggle_Drive9ParallelCable, NULL, NULL },
     { "Drive #9 40-track image support",
