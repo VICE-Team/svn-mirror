@@ -189,7 +189,7 @@ static void vic_ii_set_geometry(void)
                        VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
                        VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
                        vic_ii.screen_borderwidth, vic_ii.screen_borderheight,
-                       FALSE,
+                       0,
                        vic_ii.first_displayed_line,
                        vic_ii.last_displayed_line,
                        2 * VIC_II_MAX_SPRITE_WIDTH);

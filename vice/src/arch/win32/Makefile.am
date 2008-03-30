@@ -104,6 +104,7 @@ EXTRA_DIST = \
 	cbm2.dsp \
 	crtc.dsp \
 	drive.dsp \
+	monitor.dsp \
 	pet.dsp \
 	petcat.dsp \
 	raster.dsp \

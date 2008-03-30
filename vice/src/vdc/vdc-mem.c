@@ -38,6 +38,21 @@
 
 
 
+static void vdc_write_data(void)
+{
+    int ptr;
+
+    /* Update address.  */
+    ptr = (vdc.regs[18] << 8) + vdc.regs[19];
+
+    /* Write data byte to update address. */
+    vdc.ram[ptr & vdc.vdc_address_mask] = vdc.regs[31];
+    ptr += 1;
+    vdc.regs[18] = (ptr >> 8) & 0xff;
+    vdc.regs[19] = ptr & 0xff;
+}
+
+
 static void vdc_perform_fillcopy(void)
 {
     int ptr, ptr2;
@@ -45,10 +60,7 @@ static void vdc_perform_fillcopy(void)
     int blklen;
 
     /* Word count, # of bytes to copy */
-    blklen = vdc.regs[30] ? vdc.regs[30] : 1;
-
-    /* Should be 256, but does not work.  */
-    /* blklen = vdc.regs[30] ? vdc.regs[30] : 256; */
+    blklen = vdc.regs[30] ? vdc.regs[30] : 256;
 
     /* Block start address.  */
     ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
@@ -78,7 +90,6 @@ static void vdc_perform_fillcopy(void)
     ptr = ptr + blklen;
     vdc.regs[18] = (ptr >> 8) & 0xff;
     vdc.regs[19] = ptr & 0xff;
-    vdc.regs[30] = 0;
 }
 
 
@@ -236,8 +247,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 30:			/* Word Count */
         vdc_perform_fillcopy();
         break;
+
       case 31:			/* Data */
-        vdc_perform_fillcopy();
+        vdc_write_data();
         break;
 
       case 32:			/* R32/33 Block Start Address hi/lo */

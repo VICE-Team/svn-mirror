@@ -249,7 +249,7 @@ void crtc_update_window(void)
 		       crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                        CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
                        0, 0,
-                       FALSE,
+                       0,
                        CRTC_SCREEN_BORDERHEIGHT,
                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                        0);

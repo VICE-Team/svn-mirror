@@ -68,7 +68,7 @@ static void vdc_set_geometry(void)
                         VDC_SCREEN_XPIX, vdc.screen_ypix,
                         VDC_SCREEN_TEXTCOLS, VDC_SCREEN_TEXTLINES,
                         VDC_SCREEN_BORDERWIDTH, VDC_SCREEN_BORDERHEIGHT,
-                        FALSE,
+                        0,
                         VDC_FIRST_DISPLAYED_LINE,
                         vdc.last_displayed_line,
                         0);

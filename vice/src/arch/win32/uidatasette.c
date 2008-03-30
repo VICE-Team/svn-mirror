@@ -95,6 +95,10 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
         case WM_COMMAND:
             command=LOWORD(wparam);
             switch (command) {
+                case IDC_CANCEL:
+                case IDCANCEL:
+                    EndDialog(hwnd,0);
+                    return TRUE;
                 case IDOK:
                     resources_set_value("DatasetteResetWithCPU", (resource_value_t)
                         (IsDlgButtonChecked
