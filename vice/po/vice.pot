@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-05-01 23:23+0200\n"
+"POT-Creation-Date: 2001-05-03 22:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2379,30 +2379,30 @@ msgstr ""
 msgid "Switch to windowmode"
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:114
+#: src/arch/unix/x11/kbd.c:118
 #, c-format
 msgid "Cannot load keymap `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:115
+#: src/arch/unix/x11/kbd.c:119
 msgid "(null)"
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:136
+#: src/arch/unix/x11/kbd.c:140
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:356
+#: src/arch/unix/x11/kbd.c:360
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:410
+#: src/arch/unix/x11/kbd.c:417
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:434
+#: src/arch/unix/x11/kbd.c:441
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr ""

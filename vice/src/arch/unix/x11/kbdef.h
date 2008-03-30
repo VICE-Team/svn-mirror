@@ -67,6 +67,10 @@ extern short kbd_rshiftcol;
 extern KeySym key_ctrl_column4080;
 extern key_ctrl_column4080_func_t key_ctrl_column4080_func;
 
+/* CAPS (ASCII/DIN) key.  */
+extern KeySym key_ctrl_caps;
+extern key_ctrl_caps_func_t key_ctrl_caps_func;
+
 extern int joypad_status[2][10];
 
 /* Prototypes */

@@ -92,13 +92,18 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
 #endif
             )
             meta_count++;
-	
+
 	if (key != NoSymbol && key == key_ctrl_column4080) {
             if (key_ctrl_column4080_func != NULL)
                 key_ctrl_column4080_func();
             break;
         }
-	
+
+        if (key != NoSymbol && key == key_ctrl_caps) {
+            if (key_ctrl_caps_func != NULL)
+                key_ctrl_caps_func();
+            break;
+        }
 	if (meta_count != 0)
 	    break;
 
@@ -106,7 +111,7 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
 	    break;
 	if (check_set_joykeys(key, 2))
 	    break;
-	
+
 	if (keyconvmap) {
 	    for (i = 0; keyconvmap[i].sym != 0; ++i) {
 		if (key == keyconvmap[i].sym) {

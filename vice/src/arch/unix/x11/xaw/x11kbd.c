@@ -101,6 +101,12 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
             break;
         }
 
+        if (key != NoSymbol && key == key_ctrl_caps) {
+            if (key_ctrl_caps_func != NULL)
+                key_ctrl_caps_func();
+            break;
+        }
+
         if (meta_count != 0)
             break;
 

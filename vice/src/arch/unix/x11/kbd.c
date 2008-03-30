@@ -75,6 +75,10 @@ KeySym key_ctrl_restore2 = NoSymbol;
 KeySym key_ctrl_column4080 = NoSymbol;
 key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
+/* CAPS (ASCII/DIN) key.  */
+KeySym key_ctrl_caps = NoSymbol;
+key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
 /* Joystick status */
 BYTE joystick_value[3] = { 0, 0, 0 };
 static keyconv_t joykeys[2][10];
@@ -405,6 +409,9 @@ static void kbd_parse_entry(char *buffer)
                         } else
                         if (row == -4 && col == 0) {
                             key_ctrl_column4080 = sym;
+                        } else
+                        if (row == -4 && col == 1) {
+                            key_ctrl_caps = sym;
                         } else {
                             log_error(LOG_DEFAULT,
                                       _("Bad row/column value (%d/%d) for keysym `%s'."),
@@ -569,5 +576,10 @@ int kbd_dump_keymap(const char *filename)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 

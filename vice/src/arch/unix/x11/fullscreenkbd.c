@@ -109,6 +109,12 @@ void fullscreen_kbd_event_handler(XKeyEvent *keyevent, int type)
             break;
         }
 
+        if (key != NoSymbol && key == key_ctrl_caps) {
+            if (key_ctrl_caps_func != NULL)
+                key_ctrl_caps_func();
+            break;
+        }
+
 	if (meta_count && (key == XK_d))
 	    fullscreen_request_set_mode(0, NULL);
 	    
