@@ -2,7 +2,7 @@
  * drive.c - Hardware-level Commodore disk drive emulation.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Based on old code by
  *  Daniel Sladic <sladic@eecg.toronto.edu>

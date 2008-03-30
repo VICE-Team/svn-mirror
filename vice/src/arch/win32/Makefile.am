@@ -125,6 +125,7 @@ EXTRA_DIST = \
 	crtc.dsp \
 	diskimage.dsp \
 	drive.dsp \
+	fsdevice.dsp \
 	gfxoutputdrv.dsp \
 	imagecontents.dsp \
 	monitor.dsp \

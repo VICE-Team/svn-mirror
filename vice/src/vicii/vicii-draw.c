@@ -3,7 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -777,69 +777,6 @@ static void draw_ext_text_foreground(int start_char, int end_char)
         DRAW_STD_TEXT_BYTE(p, b, f);
     }
 }
-
-#if 0
-/* Illegal mode.  Everything is black.  */
-
-static int get_black(raster_cache_t *cache, int *xs, int *xe, int r)
-{
-    /* Let's simplify here: if also the previous time we had the Black Mode,
-       nothing has changed.  If we had not, the whole line has changed.  */
-
-    if (r) {
-        *xs = 0;
-        *xe = VIC_II_SCREEN_TEXTCOLS - 1;
-    } else {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
-    return r;
-}
-
-static void draw_black(void)
-{
-    BYTE *p;
-
-    p = (vic_ii.raster.draw_buffer_ptr
-        + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
-
-    memset(p, 0, VIC_II_SCREEN_TEXTCOLS * 8);
-
-    /* FIXME: this is not exact! */
-    memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
-}
-
-static void draw_black_cached(raster_cache_t *cache, int xs, int xe)
-{
-    BYTE *p;
-
-    p = (vic_ii.raster.draw_buffer_ptr
-        + vic_ii.screen_borderwidth + vic_ii.raster.xsmooth);
-
-    memset(p, 0, VIC_II_SCREEN_TEXTCOLS * 8);
-
-    memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
-}
-
-static void draw_black_foreground(int start_char, int end_char)
-{
-    BYTE *p;
-
-    p = (vic_ii.raster.draw_buffer_ptr
-        + (vic_ii.screen_borderwidth + vic_ii.raster.xsmooth +
-        8 * start_char));
-
-    memset(p, 0, (end_char - start_char + 1) * 8);
-
-    memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
-           0, VIC_II_SCREEN_TEXTCOLS);
-}
-#endif
 
 /* Illegal text mode.  */
 

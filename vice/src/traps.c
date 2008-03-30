@@ -5,7 +5,7 @@
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *  Jarkko Sonninen <sonninen@lut.fi>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

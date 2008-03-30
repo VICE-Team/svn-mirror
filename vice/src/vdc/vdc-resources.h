@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,8 +30,8 @@
 #define _VDC_RESOURCES_H
 
 /* VDC resources.  */
-struct _vdc_resources
-  {
+struct vdc_resources_s
+{
     /* Name of palette file.  */
     char *palette_file_name;
 
@@ -59,14 +60,13 @@ struct _vdc_resources
     int fullscreen_width;
     int fullscreen_height;
 #endif
-  };
-typedef struct _vdc_resources vdc_resources_t;
+};
+typedef struct vdc_resources_s vdc_resources_t;
 
 extern vdc_resources_t vdc_resources;
 
-
 
-extern int vdc_resources_init (void);
+extern int vdc_resources_init(void);
 
 #endif
 

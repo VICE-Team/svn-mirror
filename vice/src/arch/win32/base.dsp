@@ -134,10 +134,6 @@ SOURCE="..\..\fliplist.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\fsdevice.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\gcr.c"
 # End Source File
 # Begin Source File

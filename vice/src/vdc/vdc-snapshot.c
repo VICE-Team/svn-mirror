@@ -5,6 +5,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,8 +35,6 @@
 #include "vdc.h"
 #include "vdctypes.h"
 
-
-
 /*
 
    This is the format of the VDC snapshot module.
@@ -46,83 +45,76 @@
 
  */
 
-
 
 static char snap_module_name[] = "VDC";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-
 
-int 
-vdc_snapshot_write_module (snapshot_t *s)
+int vdc_snapshot_write_module(snapshot_t *s)
 {
   snapshot_module_t *m;
 
   m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
   if (m == NULL)
-    return -1;
+      return -1;
 
-  return snapshot_module_close (m);
+  return snapshot_module_close(m);
 
 /*
 fail:
   if (m != NULL)
-    snapshot_module_close (m);
+      snapshot_module_close(m);
   return -1;
 */
 }
 
 /* Helper functions.  */
 
-static int 
-read_byte_into_int (snapshot_module_t *m, int *value_return)
+static int read_byte_into_int(snapshot_module_t *m, int *value_return)
 {
   BYTE b;
 
-  if (snapshot_module_read_byte (m, &b) < 0)
-    return -1;
-  *value_return = (int) b;
+  if (snapshot_module_read_byte(m, &b) < 0)
+      return -1;
+  *value_return = (int)b;
   return 0;
 }
 
-
 
-static int 
-read_word_into_int (snapshot_module_t *m, int *value_return)
+static int read_word_into_int(snapshot_module_t *m, int *value_return)
 {
   WORD b;
 
   if (snapshot_module_read_word (m, &b) < 0)
-    return -1;
-  *value_return = (int) b;
+      return -1;
+  *value_return = (int)b;
   return 0;
 }
 
-int 
-vdc_snapshot_read_module (snapshot_t *s)
+int vdc_snapshot_read_module(snapshot_t *s)
 {
   BYTE major_version, minor_version;
   snapshot_module_t *m;
 
-  m = snapshot_module_open (s, snap_module_name,
-                            &major_version, &minor_version);
+  m = snapshot_module_open(s, snap_module_name,
+                           &major_version, &minor_version);
   if (m == NULL)
-    return -1;
+      return -1;
 
-  if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR)
-    {
-      log_error (vdc.log,
-                 "Snapshot module version (%d.%d) newer than %d.%d.",
-                 major_version, minor_version,
-                 SNAP_MAJOR, SNAP_MINOR);
+  if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+      log_error(vdc.log,
+                "Snapshot module version (%d.%d) newer than %d.%d.",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
       goto fail;
-    }
+  }
 
   return 0;
 
 fail:
   if (m != NULL)
-    snapshot_module_close (m);
+      snapshot_module_close(m);
   return -1;
 }
+

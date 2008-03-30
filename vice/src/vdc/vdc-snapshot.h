@@ -5,6 +5,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,8 +32,8 @@
 
 struct snapshot_s;
 
-extern int vdc_snapshot_write_module (struct snapshot_s *s);
-extern int vdc_snapshot_read_module (struct snapshot_s *s);
+extern int vdc_snapshot_write_module(struct snapshot_s *s);
+extern int vdc_snapshot_read_module(struct snapshot_s *s);
 
 #endif
 

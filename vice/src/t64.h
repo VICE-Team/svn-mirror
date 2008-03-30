@@ -1,8 +1,9 @@
 /*
- * t64.c - T64 file support.
+ * t64.h - T64 file support.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

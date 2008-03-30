@@ -147,6 +147,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "fsdevice"=".\fsdevice.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "gfxoutputdrv"=".\gfxoutputdrv.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -408,6 +420,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
@@ -483,6 +498,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
@@ -549,6 +567,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
@@ -612,6 +633,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
@@ -669,6 +693,9 @@ Package=<4>
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
@@ -721,6 +748,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv

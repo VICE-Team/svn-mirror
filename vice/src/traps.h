@@ -2,8 +2,9 @@
  * traps.h - Allow VICE to replace ROM code with C function calls.
  *
  * Written by
- *   Teemu Rantanen <tvr@cs.hut.fi>
- *   Jarkko Sonninen <sonninen@lut.fi>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
