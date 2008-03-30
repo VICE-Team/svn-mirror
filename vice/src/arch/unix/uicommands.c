@@ -70,25 +70,16 @@ void ui_set_selected_file(int num)
 
 static char *read_disk_image_contents(const char *name, unsigned int unit)
 {
-    image_contents_t *contents;
-    char *s;
-
     if (file_system_get_fsimage_state(unit))
         unit = 0;
 
-    contents = image_contents_read(IMAGE_CONTENTS_DISK, name, unit);
-    if (contents == NULL)
-        return NULL;
-
 #ifdef USE_GNOMEUI
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
+    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, unit,
+                                      IMAGE_CONTENTS_STRING_PETSCII);
 #else
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, unit,
+                                      IMAGE_CONTENTS_STRING_ASCII);
 #endif
-
-    image_contents_destroy(contents);
-
-    return s;
 }
 
 static UI_CALLBACK(attach_disk)
@@ -167,22 +158,13 @@ static UI_CALLBACK(detach_disk)
 
 static char *read_tape_image_contents(const char *name, unsigned int unit)
 {
-    image_contents_t *contents;
-    char *s;
-
-    contents = image_contents_read(IMAGE_CONTENTS_TAPE, name, 0);
-    if (contents == NULL)
-        return NULL;
-
 #ifdef USE_GNOMEUI
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
+    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, unit,
+                                      IMAGE_CONTENTS_STRING_PETSCII);
 #else
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, unit,
+                                      IMAGE_CONTENTS_STRING_ASCII);
 #endif
-
-    image_contents_destroy(contents);
-
-    return s;
 }
 
 static UI_CALLBACK(attach_tape)
