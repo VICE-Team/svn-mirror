@@ -2,11 +2,11 @@
  * vic.c - A line-based VIC-I emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -110,7 +110,7 @@ raster_draw_alarm_handler (long offset)
 
 
 
-static void 
+static int
 init_raster (void)
 {
   raster_t *raster;
@@ -149,8 +149,10 @@ init_raster (void)
 
   raster_resize_viewport (raster, width, height);
 
-  if (vic_load_palette (vic_resources.palette_file_name) < 0)
+  if (vic_load_palette (vic_resources.palette_file_name) < 0) {
     log_error (vic.log, "Cannot load palette.");
+    return -1;
+  }
 
   title = concat ("VICE: ", machine_name, " emulator", NULL);
   raster_set_title (raster, title);
@@ -162,6 +164,8 @@ init_raster (void)
   raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
   raster->display_xstart = 0;
   raster->display_xstop = 1;
+
+  return 0;
 }
 
 /* Initialization. */
@@ -173,7 +177,8 @@ vic_init (void)
   alarm_init (&vic.raster_draw_alarm, &maincpu_alarm_context,
               "VicIRasterDraw", raster_draw_alarm_handler);
 
-  init_raster ();
+  if (init_raster() < 0)
+    return NULL;
 
   vic.color_ptr = ram;
   vic.screen_ptr = ram;
