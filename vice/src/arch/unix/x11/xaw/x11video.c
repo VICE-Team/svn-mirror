@@ -42,22 +42,18 @@
 
 static log_t x11video_log = LOG_ERR;
 
-video_canvas_t *dangling_canvas = NULL;
-
 void video_init_arch(void)
 {
     if (x11video_log == LOG_ERR)
         x11video_log = log_open("X11Video");
 }
 
-/* Allocate a frame buffer. */
-int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
-                             unsigned int height)
+int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
+                                  unsigned int height)
 {
-    int sizeofpixel = sizeof(PIXEL);
+    int sizeofpixel = sizeof(BYTE);
     int depth;
     Display *display;
-    video_frame_buffer_t *i;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display*,XErrorEvent*);
     int dummy;
@@ -67,21 +63,13 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     width *= 2;
     height *= 2;
 
-    i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
-    *ip = i;
-
 #ifdef USE_MITSHM
-    i->using_mitshm = use_mitshm;
+    canvas->using_mitshm = use_mitshm;
 #endif
 
     depth = ui_get_display_depth();
     display = ui_get_display_ptr();
 
-    if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
-	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
-	log_error(x11video_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
-	return -1;
-    }
     /* Round up to 32-bit boundary. */
     width = (width + 3) & ~0x3;
 
@@ -89,120 +77,121 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
     if (depth > 8)
-	sizeofpixel *= 2;
+        sizeofpixel *= 2;
     if (depth > 16)
-	sizeofpixel *= 2;
+        sizeofpixel *= 2;
 #endif
 
 #ifdef USE_MITSHM
 tryagain:
-    if (i->using_mitshm) {
-	DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
-		      "%d x %d pixels...", width, height));
-	i->x_image = XShmCreateImage(display, visual, depth, ZPixmap,
-				   NULL, &(i->xshm_info), width, height);
-	if (!i->x_image) {
-	    log_warning(x11video_log,
+    if (canvas->using_mitshm) {
+        DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
+                      "%d x %d pixels...", width, height));
+        canvas->x_image = XShmCreateImage(display, visual, depth, ZPixmap,
+                                          NULL, &(canvas->xshm_info), width,
+                                          height);
+        if (!canvas->x_image) {
+            log_warning(x11video_log,
                         _("Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."));
-	    i->using_mitshm=0;
-	    goto tryagain;
-	}
-	DEBUG_MITSHM(("Done."));
+            canvas->using_mitshm = 0;
+            goto tryagain;
+        }
+        DEBUG_MITSHM(("Done."));
         DEBUG_MITSHM(("frame_buffer_alloc(): shmgetting %ld bytes...",
-                      (long) i->x_image->bytes_per_line * i->x_image->height));
-	i->xshm_info.shmid = shmget(IPC_PRIVATE, i->x_image->bytes_per_line *
-				    i->x_image->height, IPC_CREAT | 0604);
-	if (i->xshm_info.shmid == -1) {
-	    log_warning(x11video_log,
+                      (long)canvas->x_image->bytes_per_line
+                      * canvas->x_image->height));
+        canvas->xshm_info.shmid = shmget(IPC_PRIVATE,
+                                  canvas->x_image->bytes_per_line *
+                                  canvas->x_image->height, IPC_CREAT | 0604);
+        if (canvas->xshm_info.shmid == -1) {
+            log_warning(x11video_log,
                         _("Cannot get shared memory; falling back to non MITSHM extension mode."));
-	    XDestroyImage(i->x_image);
-	    i->using_mitshm=0;
-	    goto tryagain;
-	}
-	DEBUG_MITSHM(("Done, id = 0x%x.", i->xshm_info.shmid));
+            XDestroyImage(canvas->x_image);
+            canvas->using_mitshm = 0;
+            goto tryagain;
+        }
+        DEBUG_MITSHM(("Done, id = 0x%x.", i->xshm_info.shmid));
         DEBUG_MITSHM(("frame_buffer_alloc(): getting address... "));
-	i->xshm_info.shmaddr = shmat(i->xshm_info.shmid, 0, 0);
-        i->x_image->data = i->xshm_info.shmaddr;
-        if (i->xshm_info.shmaddr == (char *) -1) {
-	    log_warning(x11video_log,
+        canvas->xshm_info.shmaddr = shmat(canvas->xshm_info.shmid, 0, 0);
+        canvas->x_image->data = canvas->xshm_info.shmaddr;
+        if (canvas->xshm_info.shmaddr == (char *)-1) {
+            log_warning(x11video_log,
                        _("Cannot get shared memory address; falling back to non MITSHM extension mode."));
-	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
-	    XDestroyImage(i->x_image);
-	    i->using_mitshm=0;
-	    goto tryagain;
-	}
-	DEBUG_MITSHM(("0x%lx OK.", (unsigned long) i->xshm_info.shmaddr));
-	i->xshm_info.readOnly = True;
-	mitshm_failed = 0;
+            shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
+            XDestroyImage(canvas->x_image);
+            canvas->using_mitshm = 0;
+            goto tryagain;
+        }
+        DEBUG_MITSHM(("0x%lx OK.", (unsigned long) i->xshm_info.shmaddr));
+        canvas->xshm_info.readOnly = True;
+        mitshm_failed = 0;
 
-	XQueryExtension(display,"MIT-SHM",&shmmajor,&dummy,&dummy);
-	olderrorhandler = XSetErrorHandler(shmhandler);
+        XQueryExtension(display,"MIT-SHM",&shmmajor,&dummy,&dummy);
+        olderrorhandler = XSetErrorHandler(shmhandler);
 
-	if (!XShmAttach(display, &(i->xshm_info))) {
-	    log_warning(x11video_log,
+        if (!XShmAttach(display, &(canvas->xshm_info))) {
+            log_warning(x11video_log,
                         _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
-	    shmdt(i->xshm_info.shmaddr);
-	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
-	    XDestroyImage(i->x_image);
-	    i->using_mitshm=0;
-	    goto tryagain;
-	}
+            shmdt(canvas->xshm_info.shmaddr);
+            shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
+            XDestroyImage(canvas->x_image);
+            canvas->using_mitshm = 0;
+            goto tryagain;
+        }
 
-	/* Wait for XShmAttach to fail or to succede. */
-	XSync(display,False);
-	XSetErrorHandler(olderrorhandler);
+        /* Wait for XShmAttach to fail or to succede. */
+        XSync(display,False);
+        XSetErrorHandler(olderrorhandler);
 
-	/* Mark memory segment for automatic deletion. */
-	shmctl(i->xshm_info.shmid, IPC_RMID, 0);
+        /* Mark memory segment for automatic deletion. */
+        shmctl(canvas->xshm_info.shmid, IPC_RMID, 0);
 
-	if (mitshm_failed) {
-	    log_warning(x11video_log,
+        if (mitshm_failed) {
+            log_warning(x11video_log,
                         _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
-	    shmdt(i->xshm_info.shmaddr);
-	    XDestroyImage(i->x_image);
-	    i->using_mitshm=0;
-	    goto tryagain;
-	}
+            shmdt(canvas->xshm_info.shmaddr);
+            XDestroyImage(canvas->x_image);
+            canvas->using_mitshm = 0;
+            goto tryagain;
+        }
 
-	DEBUG_MITSHM((_("MITSHM initialization succeed.\n")));
+        DEBUG_MITSHM((_("MITSHM initialization succeed.\n")));
         video_refresh_func((void (*)(void))XShmPutImage);
     } else
 #endif
-    {				/* !i->using_mitshm */
-	PIXEL *data = (PIXEL *)xmalloc(width * height * sizeofpixel);
+    {                           /* !i->using_mitshm */
+        BYTE *data;
 
-	if (!data)
-	    return -1;
-	i->x_image = XCreateImage(display, visual, depth, ZPixmap, 0,
-				  (char *) data, width, height, 32, 0);
-	if (!i->x_image)
-	    return -1;
+        data = (BYTE *)xmalloc(width * height * sizeofpixel);
+
+        if (data == NULL)
+            return -1;
+
+        canvas->x_image = XCreateImage(display, visual, depth, ZPixmap, 0,
+                                       (char *)data, width, height, 32, 0);
+        if (!canvas->x_image)
+            return -1;
 
         video_refresh_func((void (*)(void))XPutImage);
     }
 
 #ifdef USE_MITSHM
     log_message(x11video_log, _("Successfully initialized%s shared memory."),
-                (i->using_mitshm) ? _(", using") : _(" without"));
+                (canvas->using_mitshm) ? _(", using") : _(" without"));
 
-    if (!(i->using_mitshm))
-	log_warning(x11video_log, _("Performance will be poor."));
+    if (!(canvas->using_mitshm))
+        log_warning(x11video_log, _("Performance will be poor."));
 #else
     log_message(x11video_log,
                 _("Successfully initialized without shared memory."));
-#endif 
+#endif
 
-    if (video_convert_func(i, depth, width, height) < 0)
+    if (video_convert_func(canvas, depth, width, height) < 0)
         return -1;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_framebuffer(i);
-#endif 
-
-    if (dangling_canvas != NULL)
-        i->canvas = dangling_canvas;
-    else
-        i->canvas = NULL;
+    fullscreen_set_framebuffer(canvas);
+#endif
 
     return 0;
 }

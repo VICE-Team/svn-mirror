@@ -31,16 +31,14 @@
 
 #include "types.h"
 
-struct video_frame_buffer_s;
 struct palette_s;
 struct video_canvas_s;
 struct gfxoutputdrv_data_s;
 
 typedef struct screenshot_s {
-    struct video_frame_buffer_s *frame_buffer;
     struct palette_s *palette;
     BYTE *pixel_table_sing;
-    PIXEL *color_map;
+    BYTE *color_map;
     BYTE *draw_buffer;
     unsigned int draw_buffer_line_size;
 

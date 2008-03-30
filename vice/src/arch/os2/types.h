@@ -87,13 +87,6 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-
-/* PIXEL in OS/2 are declared as BYTE (os2.h) */
-//#undef PIXEL
-typedef BYTE   PIXEL;
-typedef WORD   PIXEL2;
-typedef DWORD  PIXEL4;
-
 /*#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM) && !defined(OS2)
 #define REGPARM1 __attribute__((regparm(1)))
 #define REGPARM2 __attribute__((regparm(2)))

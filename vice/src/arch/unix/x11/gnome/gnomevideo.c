@@ -40,7 +40,6 @@
 #include "utils.h"
 
 static log_t gnomevideo_log = LOG_ERR;
-video_canvas_t *dangling_canvas = NULL; /* remember canvas after freeing the FB */
 
 void video_init_arch(void)
 {
@@ -54,36 +53,25 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
 			 unsigned int width, unsigned int height, int b,
-			 video_frame_buffer_t *fb, video_canvas_t *c)
+			 void *dummy, video_canvas_t *c)
 {
-  gdk_draw_image(drawable, gc, fb->gdk_image, src_x, src_y,
+  gdk_draw_image(drawable, gc, c->gdk_image, src_x, src_y,
 		 dest_x, dest_y, width, height);
   gdk_window_clear_area(c->emuwindow->window, dest_x, dest_y, width, height);
 
   gdk_flush();
 }
 
-int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
-			     unsigned int height)
+int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
+                                  unsigned int height)
 {
-    int sizeofpixel = sizeof(PIXEL);
+    int sizeofpixel = sizeof(BYTE);
     GdkImageType typ;
     int depth;
-    video_frame_buffer_t *i;
 
     /* FIXME!!! */
     width *= 2;
     height *= 2;
-
-    i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
-    memset(i, 0, sizeof(video_frame_buffer_t));
-    *ip = i;
-
-    if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
-	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
-	log_error(gnomevideo_log, "PIXEL2 / PIXEL4 typedefs have wrong size.");
-	return -1;
-    }
 
     depth = ui_get_display_depth();
 
@@ -100,30 +88,17 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
 #endif
 
     typ = GDK_IMAGE_FASTEST;
-    i->gdk_image = gdk_image_new(typ, visual, width, height);
-    i->x_image = GDK_IMAGE_XIMAGE(i->gdk_image);
-    if (!i->x_image)
+    canvas->gdk_image = gdk_image_new(typ, visual, width, height);
+    canvas->x_image = GDK_IMAGE_XIMAGE(canvas->gdk_image);
+    if (!canvas->x_image)
 	return -1;
 
-    if (dangling_canvas)
-    {
-	/* reusage of existing canvas, so reallocate drawable */
-	dangling_canvas->width = width;
-	dangling_canvas->height = height;
-	/* destroy the old pixmap here ?
-	  e.g. 	gdk_window_destroy(GDK_WINDOW(i->canvas->drawable));
-	  FIXME!
-	*/
-        i->canvas = dangling_canvas;
-	ui_finish_canvas(dangling_canvas);
-	dangling_canvas = NULL;
-    } else {
-        i->canvas = NULL;
-    }
+    if (canvas->emuwindow != NULL)
+        ui_finish_canvas(canvas);
  
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
-    if (video_convert_func(i, depth, width, height) < 0)
+    if (video_convert_func(canvas, depth, width, height) < 0)
         return -1;
 
     log_message(gnomevideo_log,
