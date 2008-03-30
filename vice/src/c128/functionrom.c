@@ -134,8 +134,7 @@ static int functionrom_load_internal(void)
         FILE *fd;
         size_t flen, res, i;
 
-        if (internal_function_rom_name == NULL
-            || internal_function_rom_name[0] == '\0')
+        if (util_check_null_string(internal_function_rom_name))
             return 0;
 
         fd = fopen(internal_function_rom_name, MODE_READ);
@@ -158,6 +157,8 @@ static int functionrom_load_internal(void)
             }
         }
         fclose(fd);
+    } else {
+        memset(int_function_rom, 0, sizeof(int_function_rom));
     }
 
     return 0;
@@ -169,8 +170,7 @@ static int functionrom_load_external(void)
         FILE *fd;
         size_t flen, res, i;
 
-        if (external_function_rom_name == NULL
-            || external_function_rom_name[0] == '\0')
+        if (util_check_null_string(external_function_rom_name))
             return 0;
 
         fd = fopen(external_function_rom_name, MODE_READ);
@@ -193,6 +193,8 @@ static int functionrom_load_external(void)
             }
         }
         fclose(fd);
+    } else {
+        memset(ext_function_rom, 0, sizeof(ext_function_rom));
     }
 
     return 0;

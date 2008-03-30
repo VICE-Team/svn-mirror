@@ -1,3 +1,61 @@
+2001-05-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.29.
+
+	* c64/c64mem.c, c128/c128mem.c (mem_initialize_memory): Do not
+	overwrite memory limit table after it has been setup.
+
+	* c64/c64memlimit.c, c128/c128memlimit.c (mem_limit_init):
+	Setup last page of memory limit table.
+
+	* c64/c64cartmem.c (cartridge_read_io2, cartridge_store_io2):
+	Some KCS cartridge banking fixes.
+
+	* c128/functionrom.c (functionrom_load_internal,
+	functionrom_load_external): Clear ROM image if disabled.
+
+	* c64/reu.c (reu_activate, reu_deactivate): Check for zero
+	length filename.
+
+	* utils.c, utils.h (util_check_null_string): New function.
+	(util_load_file, util_save_file): Check filename.
+
+	* c1541.c, monitor/mon.c, arch/msdos/tui_backend.c,
+	c128/functionrom.c: Use `util_check_null_string()'.
+
+2001-05-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/vic20ui.c: include drive.h
+
+2001-05-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: fixes the bug that the console window
+	does not have the focus sometimes
+
+	* arch/win32/uimon.c: temporary work-around for the monitor
+	console crashing sometimes.
+
+2001-05-18  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-draw.c (draw, draw_2x): Using an
+	extra_offscreen_border we don't need 'bordercheck' anymore.
+
+	* vic20/vic-mem.c (vic_store): Use screen_width as an upper
+	border for xstart (unvisible is unvisible).
+
+	* vic20/vic.c (vic_change_timing): We don't have to reset the
+	screen borders anymore.
+	(vic_set_geometry): Use screen_width+VIC_SCREEN_MAX_TEXT_COLS*8
+	as extra_offscreen_border in the rasters geometry. This should
+	definitely avoid any access behind the framebuffer.
+
+2001-05-17  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicrtc.c: Added `UseXSync' Toggle.
+
+	* arch/unix/uisettings.h: Reverted change to `UseXSync' toggle. 
+	* arch/unix/uisettings.c: ditto.
+
 2001-05-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.28.
