@@ -139,12 +139,9 @@ UI_CALLBACK(ui_about)
              "Copyright C 1999-2001 Thomas Bretz",
              "Copyright C 1999-2001 Andreas Matthies",
              "Copyright C 1999-2001 Martin Pottendorfer",
+             "Copyright C 1999-2001 Dag Lem",
              "Copyright C 2000-2001 Markus Brenner",
              "Copyright C 2000-2001 Spiro Trikaliotis",
-#ifdef HAVE_RESID
-             "reSID engine",
-             "Copyright C 1999-2001 Dag Lem",
-#endif
              "",
              _("Official VICE homepage:"),
              "http://www.cs.cmu.edu/~dsladic/vice/vice.html",

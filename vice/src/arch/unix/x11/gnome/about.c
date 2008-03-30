@@ -66,11 +66,9 @@ void ui_about(gpointer data)
         "Copyright @ 1999-2001 Thomas Bretz\n",
         "Copyright @ 1999-2001 Andreas Matthies\n",
         "Copyright @ 1999-2001 Martin Pottendorfer\n",
+        "Copyright @ 1999-2001 Dag Lem\n",
         "Copyright @ 2000-2001 Markus Brenner\n",
         "Copyright @ 2000-2001 Spiro Trikaliotis\n",
-#ifdef HAVE_RESID
-	"reSID engine Copyright © 1999-2001 Dag Lem",
-#endif
 	"",
 #ifdef __GNUC__
 	_("Official VICE homepage:"),

@@ -28,7 +28,7 @@ binaries, the following hints may help:
 - make
   compiles all the stuff and creates the executables in the src subdirectory.
 - The make install doesn't work right now, so just copy the executables
-  x128,x64,xpet,xcbm2,xvic,petcat and c541 to the data directory and
+  x128,x64,xpet,xcbm2,xvic,petcat and c1541 to the data directory and
   launch them from there.
 
 

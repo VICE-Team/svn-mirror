@@ -1,3 +1,42 @@
+2001-12-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.33.
+
+	* raster/raster.c, video.h, arch/unix/x11/video.c,
+	arch/win32/video.c, arch/msdos/video.c, arch/riscos/video.c,
+	arch/os2/unused/video_gpi.h, arch/os2/unused/video_gpi.c,
+	arch/os2/video.c: Generalized Gnome specific hack.
+
+	* arch/unix/x11/xaw/x11video.c (video_frame_buffer_alloc):
+	Initialize pointer to canvas.
+
+	* arch/unix/x11/video.c (video_convert_color_table,
+	convert_8to16, convert_8to32, convert_8to8,
+	convert_8to1_dither, convert_8toall): Use color table supplied
+	by the canvas instead of using one global pixel color table.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c
+	(uicolor_alloc_system_colors): Create canvas for system
+	colors.
+	(uicolor_convert_color_table): Pass canvas pointer.
+
+	* color.c (color_fill_pixel_return): The pixel color table
+	index now counts from zero for any window.
+
+	* arch/unix/x11/video.c (video_frame_buffer_clear): Removed
+	color conversion.
+	(video_convert_color_table): Simplified.
+
+	* arch/unix/uivicii.c: Commented out PAL emulation switch.
+
+	* info.c, arch/unix/x11/xaw/about.c,
+	arch/unix/x11/gnome/about.c: Updated.
+
+2001-12-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/c610ui.c: Removed radio button specifier for
+	`model_defaults_submenu'.
+
 2001-12-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.32.

@@ -21,18 +21,11 @@ What are we going to do next (or not)
   patching the reset routine to make it faster (maybe configurable).
 
 - Filtering video output to make it look more like an old monitor or
-  a TV set. (-> done (on Unix) with palettes?)
+  a TV set. This is work in progress. As of 1.8 there is a fast PAL
+  emulation.
 
 - More ports.  Any volunteers?  A BEOS port is in the works; if you
   want to help, please let us know.
-
-* C64 improvements
-------------------
-
-- Better handling for REU load/save.  It would be nice to have a few
-  menu entries to do this.
-
-- More accurate REU emulation, with 16 Mbyte mode.
 
 * C128 improvements
 -------------------
@@ -41,8 +34,6 @@ What are we going to do next (or not)
 
 * VIC20 improvements
 --------------------
-
-- Better, possibly cycle-based, emulation of the VIC-I chip.
 
 - Improve the accuracy of the audio emulation.
 
@@ -59,37 +50,12 @@ What are we going to do next (or not)
 * Plus/4
 --------
 
-- Implement a Plus/4 emulator.
+- Implement a Plus/4 emulator (already started, but not ready for
+  prime time).
 
 * Drive improvements
 --------------------
 
 - Implement CBM DOS 1.0 support (670 blocks free) together with CBM 2040
   disk drive emulation.
-
-
-This is our wishlist for long-term development 
-==============================================
-
-* General improvements
-----------------------
-
-* C64 improvements
-------------------
-
-* C128 improvements
--------------------
-
-* VIC20 improvements
---------------------
-
-* PET improvements
-------------------
-
-- SuperPET 6809 emulation.
-  (GPLd 6809 emulation? trap to reset 6502 CPU only but not I/O, to return 
-  from 6809 mode)
-
-* CBM-II improvements
-------------------
 

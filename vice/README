@@ -1,5 +1,5 @@
 
-  VICE  1.7 							July 2001
+  VICE  1.8 							December 2001
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.7 of VICE, the multi-platform C64, C128, VIC20, PET
+ This is version 1.8 of VICE, the multi-platform C64, C128, VIC20, PET
  and CBM-II emulator.  This version can be compiled for MSDOS, Win32,
  RiscOS, OS/2, BeOS and for most Unix system provided with the X Window
  System version 11, R5 or later.
@@ -75,9 +75,6 @@
 
    - doc/serial.txt, description of the IEC serial bus used on the C64,
      VIC20 and C128;
-
-   - doc/mnemonics.txt, alphabetical list of all the G65SC802 and
-     G65SC816 opcodes;
 
    - doc/drive_info.txt, information about the CBM disk drives;
 

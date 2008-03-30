@@ -1,11 +1,10 @@
-Installation notes for VICE 1.7
+Installation notes for VICE 1.8
 *******************************
 
 
-This version of VICE can be compiled and installed both under
-Unix/X-Window, MS-DOS, MS-Windows, OS2, and this file explains how
-this can be done. There is currently no documentation how to compile
-under RiscOS or BeOS.
+This version of VICE can be compiled and installed under Unix/X-Window,
+MS-DOS, MS-Windows, OS2, and this file explains how this can be done.
+There is currently no documentation how to compile under RiscOS or BeOS.
 
 1. What you will need
 =====================

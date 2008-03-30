@@ -550,6 +550,8 @@ const char contrib_text[] =
 "  Frank König <frank_koenig@t-online.de> contributed the Win32\n"
 "  joystick autofire feature.\n"
 "\n"
+"  John Selck <graham@cruise.de> wrote the fast PAL emulation\n"
+"\n"
 "(We hope we have not forgotten anybody; if you think we have,\n"
 "please tell us.)\n"
 "\n"
