@@ -68,7 +68,7 @@ typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
 struct palette_s;
 
-typedef struct canvas_s {
+typedef struct video_canvas_s {
     char *title;
     int width, height;
     int mapped;
@@ -89,23 +89,23 @@ typedef struct canvas_s {
     LPDIRECTDRAWPALETTE dd_palette;
     int client_width;
     int client_height;
-} canvas_t;
+} video_canvas_t;
 
 /* ------------------------------------------------------------------------ */
 
 const char *dd_error(HRESULT ddrval);
 
-int set_palette(canvas_t *c);
-int set_physical_colors(canvas_t *c);
-void video_frame_buffer_translate(canvas_t *c);
+int set_palette(video_canvas_t *c);
+int set_physical_colors(video_canvas_t *c);
+void video_frame_buffer_translate(video_canvas_t *c);
 
 
-canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
+video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
 
-void canvas_set_border_color(canvas_t *canvas, BYTE color);
+void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
 
-void canvas_render(canvas_t *c, video_frame_buffer_t *f,
-                           int xs, int ys, int xi, int yi, int w, int h);
+void canvas_render(video_canvas_t *c, video_frame_buffer_t *f,
+                   int xs, int ys, int xi, int yi, int w, int h);
 
 void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h);
 

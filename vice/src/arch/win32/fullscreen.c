@@ -42,7 +42,7 @@
 #include "videoarch.h"
 #include "statusbar.h"
 
-raster_t *video_find_raster_for_canvas(canvas_t *canvas);
+raster_t *video_find_raster_for_canvas(video_canvas_t *canvas);
 
 
 // ----------------------------------------------
@@ -604,7 +604,7 @@ int             fullscreen_width;
 int             fullscreen_height;
 int             bitdepth;
 int             refreshrate;
-canvas_t        *c;
+video_canvas_t  *c;
 HRESULT         ddresult;
 DDSURFACEDESC   desc;
 DDSURFACEDESC   desc2;
@@ -748,7 +748,7 @@ raster_t        *r;
 
 void SwitchToWindowedMode(HWND hwnd)
 {
-canvas_t        *c;
+video_canvas_t  *c;
 HRESULT         ddresult;
 DDSURFACEDESC   desc;
 DDSURFACEDESC   desc2;

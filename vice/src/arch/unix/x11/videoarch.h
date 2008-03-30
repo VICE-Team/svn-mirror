@@ -49,7 +49,7 @@
 #include <gdk/gdk.h>
 #endif
 
-struct canvas_s {
+struct video_canvas_s {
     unsigned int width, height;
     ui_window_t emuwindow;
 #ifdef USE_GNOMEUI
@@ -60,7 +60,7 @@ struct canvas_s {
 #endif
 
 };
-typedef struct canvas_s canvas_t;
+typedef struct video_canvas_s video_canvas_t;
 
 /* Double buffering might be available with DGA */
 #ifdef USE_XF86_DGA2_EXTENSIONS
@@ -73,7 +73,7 @@ struct video_frame_buffer_s {
     XImage *x_image;
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
-    canvas_t *canvas;
+    video_canvas_t *canvas;
 #endif
 
 #ifdef USE_MITSHM
@@ -134,7 +134,7 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 struct palette_s;
 
 extern void video_add_handlers(ui_window_t w);
-extern void ui_finish_canvas(canvas_t *c);
+extern void ui_finish_canvas(video_canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);
 extern void video_refresh_func(void (*rfunc)(void));

@@ -83,7 +83,7 @@ static int uicolor_alloc_system_colors(void)
 
 /*-----------------------------------------------------------------------*/
 
-int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
+int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
     if (uicolor_alloc_system_colors() < 0
@@ -101,8 +101,8 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
     return 0;
 }
 
-int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
-                          PIXEL *pixel_return)
+int ui_canvas_set_palette(struct video_canvas_s *c, ui_window_t w,
+                          const palette_t *palette, PIXEL *pixel_return)
 {
     return color_alloc_colors(c, palette, pixel_return, NULL);
 }
