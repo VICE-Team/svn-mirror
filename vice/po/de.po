@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-10-27 00:12+0200\n"
+"POT-Creation-Date: 2002-10-27 22:01+0100\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:115
+#: src/vsync.c:117
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
 
-#: src/vsync.c:117
+#: src/vsync.c:119
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
-#: src/vsync.c:119
+#: src/vsync.c:121
 msgid "Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/vsync.c:121
+#: src/vsync.c:123
 msgid "Disable warp mode"
 msgstr "*Warp Mode Deaktivieren"
 
-#: src/vsync.c:420
+#: src/vsync.c:421
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 

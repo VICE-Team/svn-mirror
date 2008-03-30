@@ -1,3 +1,40 @@
+2002-10-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.15.
+
+	* c64/c64cia1.c, c128/c128cia1.c (store_ciapb): Only a falling
+	edge triggers a lightpen interrupt.
+	(read_ciapa, read_ciapb): Fixed some issues.
+
+	* c64/c64cia1.c, c128/c128cia1.c, c64/c64.c, c128/c128.c,
+	c64/c64cia.h: Removed extended keyboard row enable flag.
+
+	* vicii/vicii.c (vicii_trigger_light_pen): Use new IRQ
+	function.
+
+	* drive/drive.c (drive_set_half_track): Enabled new
+	calculation of GCR track offset again.
+
+	* vicii/vicii-sprites.c (draw_all_sprites_partial): Removed
+	unused variable.
+
+2002-10-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-sprites.c (draw_sprite_partial): New
+	function to draw sprite # n.
+	(draw_all_sprites_partial): Moved code to draw_sprite_partial,
+	call this function twice: Once with normal coordinates, once
+	with shifted coordinates to handle wrapped sprites. FIXME:
+	This could probably be optimized.
+	(draw_all_sprites): Uses new raster coordinates starting at
+	-extra_offscreen_border_left.
+	(vicii_sprites_set_x_position): sprite.x now starts at
+	-extra_offscreen_border_left which makes things easier and
+	corresponds to coordinates in raster API.
+
+	* vicii/vicii.c (vicii_set_geometry): Fixed offscreen borders
+	to -VIC_II_RASTER(0) and 'rest'.
+
 2002-10-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.14.

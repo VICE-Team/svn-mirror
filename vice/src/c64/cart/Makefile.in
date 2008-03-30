@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64cart.a
 
-libc64cart_a_SOURCES =  	actionreplay.c 	actionreplay.h 	atomicpower.c 	atomicpower.h 	c64cart.c 	c64cartmem.c 	c64cartmem.h 	crt.c 	crt.h 	epyxfastload.c 	epyxfastload.h 	expert.c 	expert.h 	final.c 	final.h 	generic.c 	generic.h 	kcs.c 	kcs.h 	retroreplay.c 	retroreplay.h        ide64.c        ide64.h 	supergames.c 	supergames.h 	supersnapshot.c 	supersnapshot.h 	zaxxon.c 	zaxxon.h
+libc64cart_a_SOURCES =  	actionreplay.c 	actionreplay.h 	atomicpower.c 	atomicpower.h 	c64cart.c 	c64cartmem.c 	c64cartmem.h 	crt.c 	crt.h 	epyxfastload.c 	epyxfastload.h 	expert.c 	expert.h 	final.c 	final.h 	generic.c 	generic.h 	ide64.c 	ide64.h 	kcs.c 	kcs.h 	retroreplay.c 	retroreplay.h 	supergames.c 	supergames.h 	supersnapshot.c 	supersnapshot.h 	zaxxon.c 	zaxxon.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -151,8 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libc64cart_a_LIBADD = 
 libc64cart_a_OBJECTS =  actionreplay.o atomicpower.o c64cart.o \
-c64cartmem.o crt.o epyxfastload.o expert.o final.o generic.o kcs.o \
-retroreplay.o ide64.o supergames.o supersnapshot.o zaxxon.o
+c64cartmem.o crt.o epyxfastload.o expert.o final.o generic.o ide64.o \
+kcs.o retroreplay.o supergames.o supersnapshot.o zaxxon.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

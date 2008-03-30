@@ -68,6 +68,7 @@
 #include "vicii-color.h"
 #include "vicii-draw.h"
 #include "vicii-fetch.h"
+#include "vicii-irq.h"
 #include "vicii-mem.h"
 #include "vicii-sprites.h"
 #include "vicii-resources.h"
@@ -278,14 +279,9 @@ static void vicii_set_geometry(void)
                         0,
                         vic_ii.first_displayed_line,
                         vic_ii.last_displayed_line,
-#if 0
+                        -VIC_II_RASTER_X(0),
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
-                        vic_ii.screen_borderwidth * 2,
-#else
-                        0,
-#endif
-                        vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
-                        vic_ii.screen_borderwidth * 2);
+                        vic_ii.screen_borderwidth * 2 + VIC_II_RASTER_X(0));
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
@@ -545,13 +541,7 @@ void vicii_trigger_light_pen(CLOCK mclk)
         vic_ii.light_pen.x = vic_ii.light_pen.x / 2 + 2;
         vic_ii.light_pen.y = VIC_II_RASTER_Y(mclk);
 
-        /* To be replaced by vicii_irq_lightpen_set().  */
-        vic_ii.irq_status |= 0x8;
-
-        if (vic_ii.regs[0x1a] & 0x8) {
-            vic_ii.irq_status |= 0x80;
-            maincpu_set_irq_clk(I_RASTER, 1, mclk);
-        }
+        vicii_irq_lightpen_set(mclk);
     }
 }
 
