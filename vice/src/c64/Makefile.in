@@ -283,10 +283,11 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/autostart.h ../../src/arch/unix/types.h c64.h \
-	c64cart.h c64cia.h c64mem.h ../../src/mem.h c64tpi.h \
-	../../src/arch/unix/c64ui.h ../../src/arch/unix/uimenu.h \
+c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
+	../../src/arch/unix/types.h ../../src/attach.h \
+	../../src/autostart.h c64.h c64cart.h c64cia.h c64mem.h \
+	../../src/mem.h c64tpi.h ../../src/arch/unix/c64ui.h \
+	../../src/arch/unix/uimenu.h \
 	../../src/arch/unix/x11/xaw/uimenu.h ../../src/arch/unix/ui.h \
 	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/uihotkey.h \

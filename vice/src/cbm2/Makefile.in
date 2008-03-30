@@ -252,8 +252,9 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-c610.o: c610.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/autostart.h ../../src/arch/unix/types.h c610.h \
+c610.o: c610.c ../../src/vice.h ../../src/config.h \
+	../../src/monitor/asm.h ../../src/arch/unix/types.h \
+	../../src/attach.h ../../src/autostart.h c610.h \
 	../../src/snapshot.h c610acia.h c610cia.h c610mem.h c610tpi.h \
 	../../src/arch/unix/c610ui.h ../../src/ciatimer.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/cmdline.h \

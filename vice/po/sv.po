@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-03-25 23:54+0200\n"
+"POT-Creation-Date: 2001-03-29 15:20+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Aktivera warpläge"
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:184 src/vsync.c:362
+#: src/vsync.c:344
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 

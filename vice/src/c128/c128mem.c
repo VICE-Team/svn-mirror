@@ -44,6 +44,7 @@
 #include "emuid.h"
 #include "log.h"
 #include "maincpu.h"
+#include "mon.h"
 #include "parallel.h"
 #include "resources.h"
 #include "reu.h"
@@ -348,6 +349,9 @@ static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
+static store_func_ptr_t mem_write_tab_watch[0x101];
+static read_func_ptr_t mem_read_tab_watch[0x101];
+
 /* Processor port.  */
 static struct {
     BYTE dir, data, data_out;
@@ -369,6 +373,9 @@ int ultimax = 0;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
+/* Current memory configuration.  */
+static int mem_config;
+
 /* Tape motor status.  */
 static BYTE old_port_data_out = 0xff;
 
@@ -382,10 +389,33 @@ extern BYTE mmu[11];
 
 /* ------------------------------------------------------------------------- */
 
+BYTE REGPARM1 read_watch(ADDRESS addr)
+{
+    mon_watch_push_load_addr(addr, e_comp_space);
+    return mem_read_tab[mem_config][addr >> 8](addr);
+}
+
+
+void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+{
+    mon_watch_push_store_addr(addr, e_comp_space);
+    mem_write_tab[mem_config][addr >> 8](addr, value);
+}
+
+/* ------------------------------------------------------------------------- */
+
 void mem_update_config(int config)
 {
-    _mem_read_tab_ptr = mem_read_tab[config];
-    _mem_write_tab_ptr = mem_write_tab[config];
+    mem_config = config;
+
+    if (any_watchpoints(e_comp_space)) {
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
+    }
+
     _mem_read_base_tab_ptr = mem_read_base_tab[config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[config];
 
@@ -855,6 +885,11 @@ void initialize_memory(void)
                 mem_read_limit_tab[i][k] = limit_tab[j][i];
             }
         }
+    }
+
+    for (i = 0; i <= 0x100; i++) {
+        mem_read_tab_watch[i] = read_watch;
+        mem_write_tab_watch[i] = store_watch;
     }
 
     for (j = 0; j < NUM_CONFIGS; j++) {
@@ -1417,7 +1452,13 @@ void mem_set_vbank(int new_vbank)
 
 void mem_toggle_watchpoints(int flag)
 {
-    /* FIXME: Still to do.  */
+    if (flag) {
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
+    }
 }
 
 /* Set the tape sense status.  */

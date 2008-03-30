@@ -1,3 +1,59 @@
+2001-03-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.12.
+
+	* monitor/asm6502.c (asm6502_init): New function.
+
+	* monitor/asmz80.c (asmz80_init): New function.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (*_monitor_init): New function.
+
+	* monitor/mon.c (monitor_init, cpu_type): Use dynamic lists.
+	(mon_disassemble_to_string_ex): Removed drive cpu type hack.
+
+	* monitor/mon.h, monitor/asm.h: Reordered some defines.
+
+	* c128/c128mem.c (mem_update_config): Change to watchpoint
+	tables if necessary. (read_watch, store_watch): New functions.
+	(initialize_memory): Initialize watchpoint tables.
+
+2001-03-28  Dag Lem  <resid@nimrod.no>
+
+	* Makefile.am: Changed vsyncarch.h to vsyncapi.h
+
+	* arch/unix/vsyncarch.c: Likewise.
+
+	* arch/unix/x11/fullscreen.c: Likewise.
+
+	* arch/unix/vsync.c: Cleaned up after rejected patch hunk.
+	(do_vsync): Sleep until start of frame, don't redraw too early
+	as this would hinder smooth refresh on systems with very low
+	latency.
+
+2001-03-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.{c,h}: moved all timer code to vsync.c,
+	handle max frame skip resource
+
+	* arch/riscos/vsync.c, arch/riscos/vsyncarch.h: moved all
+	timer code here, added max frame skip resource
+
+	* arch/riscos/uiconfig.{c,h}: added max frame skip resource.
+
+	* sounddrv/soundacorn.c: changes to make to work with reSID
+	again.
+
+	vsyncarch.h: renamed to vsyncapi.h
+
+2001-03-27  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon.c: Corrected the (incorrect) correction
+	in is_valid_addr_range() from 2001-03-09; with the wrong
+	correction, "m xxxx" gave a memory dump from xxxx to $FFFF.
+	The "original" issue ("d 8:c100 c200" was not allowed) is
+	now "fixed" be removing an assertion...
+
 2001-03-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.11.
