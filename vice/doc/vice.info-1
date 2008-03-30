@@ -814,8 +814,8 @@ respectively.
 <1>...<9> which emulate all the directions including the diagonal ones;
 <0> emulates the fire button.
 
-   The "custom" layout uses the keys <q>, <w>, <e>, <a>, <s>, <d>, <z>,
-<x>, <c> for the directions and <space> for the fire button instead.
+   The "custom" layout uses the keys <w>, <e>, <r>, <s>, <d>, <f>, <x>,
+<c>, <v> for the directions and <space> for the fire button instead.
 
 
 File: vice.info,  Node: Disk drive emulation,  Next: File formats,  Prev: Joystick emulation,  Up: Preface
