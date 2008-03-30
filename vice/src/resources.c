@@ -46,6 +46,7 @@
 #endif
 
 #include "archdep.h"
+#include "ioutil.h"
 #include "log.h"
 #include "resources.h"
 #include "utils.h"
@@ -658,8 +659,8 @@ int resources_save(const char *fname)
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
-    util_file_remove(backup_name);
-    if (rename(fname, backup_name) == 0)
+    ioutil_remove(backup_name);
+    if (ioutil_rename(fname, backup_name) == 0)
         have_old = 1;
     else
         have_old = 0;
