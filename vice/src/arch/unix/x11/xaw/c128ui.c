@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -93,9 +94,16 @@ static ui_menu_entry_t vic_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
+UI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDC_64KB)
 
 static ui_menu_entry_t vdc_submenu[] = {
+    { "*Double size",
+      (ui_callback_t) toggle_VDC_DoubleSize, NULL, NULL },
+    { "*Double scan",
+      (ui_callback_t) toggle_VDC_DoubleScan, NULL, NULL },
+    { "--" },
     { "*64KB display memory",
       (ui_callback_t) toggle_VDC_64KB, NULL, NULL },
     { NULL }
@@ -176,21 +184,28 @@ static UI_CALLBACK(swap_joystick_ports)
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { "*None",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { "*Numpad",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { "*Custom Keys",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { "*Analog Joystick 0",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { "*Analog Joystick 1",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { "*Digital Joystick 0",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { "*Digital Joystick 1",
-      (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
     { NULL }
@@ -198,21 +213,28 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { "*None",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { "*Numpad",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { "*Custom Keys",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { "*Analog Joystick 0",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { "*Analog Joystick 1",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { "*Digital Joystick 0",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { "*Digital Joystick 1",
-      (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
     { NULL }
@@ -258,25 +280,34 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 
 static ui_menu_entry_t c128_romset_submenu[] = {
     { "Load default ROMs",
-      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+      (ui_callback_t) ui_set_romset,
+      (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
     { "Load new Kernal ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "KernalName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t) "KernalName", NULL },
     { "Load new Basic ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "BasicName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t) "BasicName", NULL },
     { "Load new Chargen ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t) "ChargenName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t) "ChargenName", NULL },
     { "--" },
     { "Load new 1541 ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541", NULL },
     { "Load new 1541-II ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541ii", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1541ii", NULL },
     { "Load new 1571 ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1571", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1571", NULL },
     { "Load new 1581 ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1581", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName1581", NULL },
     { "Load new 2031 ROM",
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName2031", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"DosName2031", NULL },
     { "--" },
     { "Load custom ROM set from file",
       (ui_callback_t) ui_load_romset, NULL, NULL },

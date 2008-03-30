@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -99,8 +100,9 @@ static int
 set_double_size_enabled (resource_value_t v)
 {
   vdc_resources.double_size_enabled = (int) v;
+/*
   vdc_resize ();
-
+*/
   return 0;
 }
 
@@ -108,19 +110,18 @@ static int
 set_double_scan_enabled (resource_value_t v)
 {
   vdc_resources.double_scan_enabled = (int) v;
-  if (vdc.initialized)
-    raster_enable_double_scan (&vdc.raster,
-			       vdc_resources.double_scan_enabled);
+
+  vdc.force_repaint = 1;
 
   return 0;
 }
 
 static resource_t resources_2x[] =
   {
-    { "VDC_DoubleSize", RES_INTEGER, (resource_value_t) 0,
+    { "VDC_DoubleSize", RES_INTEGER, (resource_value_t) 1,
      (resource_value_t *) &vdc_resources.double_size_enabled,
      set_double_size_enabled },
-    { "VDC_DoubleScan", RES_INTEGER, (resource_value_t) 0,
+    { "VDC_DoubleScan", RES_INTEGER, (resource_value_t) 1,
      (resource_value_t *) &vdc_resources.double_scan_enabled,
      set_double_scan_enabled },
     { NULL }

@@ -31,8 +31,8 @@
 #include "types.h"
 #include "vdc.h"
 #include "vdc-draw.h"
+#include "vdc-resources.h"
 
-
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
@@ -225,8 +225,8 @@ get_std_text(raster_cache_t *cache,
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
         if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
-            && (vdc.raster.ycounter/2) >= (vdc.regs[10] & 0x1f)
-            && (vdc.raster.ycounter/2) < (vdc.regs[11] & 0x1f))
+            && (vdc.raster.ycounter / 2) >= (vdc.regs[10] & 0x1f)
+            && (vdc.raster.ycounter / 2) < (vdc.regs[11] & 0x1f))
             cache->foreground_data[crsrpos] ^= 0xff;
     }
     return r;
@@ -237,13 +237,17 @@ draw_std_text_cached(raster_cache_t *cache,
                      unsigned int xs,
                      unsigned int xe)
 {
-    PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
-    PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+    PIXEL *p;
+    PIXEL4 *table_ptr;
 
     unsigned int i;
 
-    /* only draw even rasterlines */
-    if (vdc.raster.ycounter % 2) return;
+    /* Only draw even rasterlines.  */
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
+    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
     for (i = xs; i <= xe; i++, p += 8)
     {
@@ -258,17 +262,22 @@ draw_std_text_cached(raster_cache_t *cache,
 static void
 draw_std_text(void)
 {
-    PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
-    PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
-
-    BYTE* attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
-    BYTE* screen_ptr = vdc.ram+vdc.screen_adr+vdc.mem_counter;
-    BYTE* char_ptr = vdc.ram+vdc.chargen_adr + (vdc.raster.ycounter/2);
+    PIXEL *p;
+    PIXEL4 *table_ptr;
+    BYTE *attr_ptr, *screen_ptr, *char_ptr;
 
     unsigned int i;
 
-    /* only draw even rasterlines */
-    if (vdc.raster.ycounter % 2) return;
+    /* Only draw even rasterlines.  */
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
+    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+
+    attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
+    screen_ptr = vdc.ram+vdc.screen_adr+vdc.mem_counter;
+    char_ptr = vdc.ram+vdc.chargen_adr + (vdc.raster.ycounter / 2);
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
@@ -331,13 +340,17 @@ draw_std_bitmap_cached(raster_cache_t *cache,
                      unsigned int xs,
                      unsigned int xe)
 {
-    PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
-    PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+    PIXEL *p;
+    PIXEL4 *table_ptr;
 
     unsigned int i;
 
     /* only draw even rasterlines */
-    if (vdc.raster.ycounter % 2) return;
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
+    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
     for (i = xs; i <= xe; i++, p += 8)
     {
@@ -352,16 +365,21 @@ draw_std_bitmap_cached(raster_cache_t *cache,
 static void
 draw_std_bitmap(void)
 {
-    PIXEL *p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
-    PIXEL4 *table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
-
-    BYTE* attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
-    BYTE* bitmap_ptr = vdc.ram+vdc.screen_adr+vdc.bitmap_counter;
+    PIXEL *p;
+    PIXEL4 *table_ptr;
+    BYTE *attr_ptr, *bitmap_ptr;
 
     unsigned int i;
 
     /* only draw even rasterlines */
-    if (vdc.raster.ycounter % 2) return;
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
+    table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
+
+    attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
+    bitmap_ptr = vdc.ram+vdc.screen_adr+vdc.bitmap_counter;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
