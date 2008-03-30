@@ -2,7 +2,7 @@
  * tpi.h - IEEE488 interface for the C64.
  *
  * Written by 
- *   Andre' Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,12 +28,13 @@
 #define _C64TPI_H
 
 extern void tpi_init(void);
-extern void reset_tpi(void);
-extern void store_tpi(ADDRESS addr, BYTE byte);
-extern BYTE read_tpi(ADDRESS addr);
-extern BYTE peek_tpi(ADDRESS addr);
+extern void tpi_reset(void);
+extern void tpi_store(ADDRESS addr, BYTE byte);
+extern BYTE tpi_read(ADDRESS addr);
+extern BYTE tpi_peek(ADDRESS addr);
 
 extern int tpi_write_snapshot_module(snapshot_t *p);
 extern int tpi_read_snapshot_module(snapshot_t *p);
 
 #endif /* _C64TPI_H */
+
