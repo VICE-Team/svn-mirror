@@ -6,6 +6,7 @@ doc_DATA = \
 	Readme.beos \
 	Readme.dos \
 	Win32-Howto.txt \
+	iec-bus.txt \
 	mon.txt
 
 info_TEXINFOS = \
