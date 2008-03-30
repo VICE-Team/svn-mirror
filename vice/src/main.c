@@ -79,6 +79,7 @@ static int init_done;
 int main_program(int argc, char **argv)
 {
     int i;
+    char *program_name;
 
     /* Check for -console and -vsid before initializing the user interface.
        -console => no user interface
@@ -172,11 +173,13 @@ int main_program(int argc, char **argv)
         archdep_startup_log_error("Cannot startup logging system.\n");
     }
 
+    program_name = archdep_program_name();
+
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Welcome to %s, the free portable Commodore %s Emulator.",
-                archdep_program_name(), machine_name);
+                program_name, machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
     log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz,");
@@ -185,6 +188,8 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
     log_message(LOG_DEFAULT, " ");
+
+    lib_free(program_name);
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */

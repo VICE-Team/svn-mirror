@@ -65,9 +65,9 @@ int archdep_startup(int *argc, char **argv)
     return 0;
 }
 
-const char *archdep_program_name(void)
+char *archdep_program_name(void)
 {
-    static char *program_name;
+    static char *program_name = NULL;
 
     if (program_name == NULL) {
         char *p;
@@ -157,9 +157,9 @@ char *archdep_make_backup_filename(const char *fname)
     return util_concat(fname, "~", NULL);
 }
 
-const char *archdep_default_resource_file_name(void)
+char *archdep_default_resource_file_name(void)
 {
-    static char *fname;
+    static char *fname = NULL;
     const char *home;
 
     if (fname != NULL)
@@ -184,9 +184,9 @@ char *archdep_default_fliplist_file_name(void)
     return fname;
 }
 
-const char *archdep_default_save_resource_file_name(void)
+char *archdep_default_save_resource_file_name(void)
 {
-    static char *fname;
+    static char *fname = NULL;
     const char *home;
     char *viceuserdir;
 

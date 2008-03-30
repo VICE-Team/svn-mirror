@@ -37,6 +37,7 @@
 #include "cmdline.h"
 #include "console.h"
 #include "drive.h"
+#include "fsdevice.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -176,6 +177,7 @@ void machine_shutdown(void)
 
     sysfile_shutdown();
 
+    fsdevice_resources_shutdown();
     machine_resources_shutdown();
 
     log_close_all();

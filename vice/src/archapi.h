@@ -39,7 +39,7 @@ extern void archdep_startup_log_error(const char *format, ...);
 extern void archdep_setup_signals(int do_core_dumps);
 
 /* Filesystem related functions.  */
-extern const char *archdep_program_name(void);
+extern char *archdep_program_name(void);
 extern const char *archdep_boot_path(void);
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int archdep_path_is_relative(const char *path);
@@ -48,8 +48,8 @@ extern char *archdep_make_backup_filename(const char *fname);
 extern int archdep_mkdir(const char *pathname, int mode);
 
 /* Resource handling.  */
-extern const char *archdep_default_resource_file_name(void);
-extern const char *archdep_default_save_resource_file_name(void);
+extern char *archdep_default_resource_file_name(void);
+extern char *archdep_default_save_resource_file_name(void);
 
 /* Fliplist.  */
 extern char *archdep_default_fliplist_file_name(void);

@@ -70,9 +70,9 @@ int archdep_startup(int *argc, char **argv)
     return 0;
 }
 
-const char *archdep_program_name(void)
+char *archdep_program_name(void)
 {
-    static char *program_name;
+    static char *program_name = NULL;
 
     if (program_name == NULL) {
         char *s, *e;
@@ -144,13 +144,14 @@ char *archdep_make_backup_filename(const char *fname)
     return lib_stralloc(backup_name);
 }
 
-const char *archdep_default_save_resource_file_name(void) {
+char *archdep_default_save_resource_file_name(void)
+{
     return archdep_default_resource_file_name();
 }
 
-const char *archdep_default_resource_file_name(void)
+char *archdep_default_resource_file_name(void)
 {
-    static char *fname;
+    static char *fname = NULL;
 
     if (fname != NULL)
         lib_free(fname);

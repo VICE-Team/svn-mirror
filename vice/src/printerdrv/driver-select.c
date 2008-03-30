@@ -98,6 +98,13 @@ int driver_select_init_resources(void)
     return resources_register(resources);
 }
 
+void driver_select_shutdown_resources(void)
+{
+    lib_free(printer_driver[0]);
+    lib_free(printer_driver[1]);
+    lib_free(printer_driver[2]);
+}
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,

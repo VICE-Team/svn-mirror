@@ -33,8 +33,8 @@
 #include "bmpdrv.h"
 #include "gfxoutput.h"
 #include "lib.h"
-#include "pngdrv.h"
 #include "log.h"
+#include "pngdrv.h"
 
 
 struct gfxoutputdrv_list_s {

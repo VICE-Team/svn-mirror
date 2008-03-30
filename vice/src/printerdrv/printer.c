@@ -54,6 +54,7 @@ void printer_resources_shutdown(void)
 {
     output_text_shutdown_resources();
     output_select_shutdown_resources();
+    driver_select_shutdown_resources();
 }
 
 int printer_cmdline_options_init(void)
@@ -87,5 +88,7 @@ void printer_reset(void)
 
 void printer_shutdown(void)
 {
+    drv_mps803_shutdown();
     interface_serial_shutdown();
 }
+

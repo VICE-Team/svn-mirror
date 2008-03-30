@@ -66,7 +66,7 @@ void archdep_closedown(void)
 }
 
 
-const char *archdep_program_name(void)
+char *archdep_program_name(void)
 {
   char *name=NULL;
 
@@ -114,7 +114,7 @@ char *archdep_make_backup_filename(const char *fname)
     return util_concat(fname, "~", NULL);
 }
 
-const char *archdep_default_resource_file_name(void)
+char *archdep_default_resource_file_name(void)
 {
   char *name;
   const char *basename;
@@ -137,7 +137,7 @@ char *archdep_default_fliplist_file_name(void)
 }
 
 
-const char *archdep_default_save_resource_file_name(void)
+char *archdep_default_save_resource_file_name(void)
 {
   return archdep_default_resource_file_name();
 }

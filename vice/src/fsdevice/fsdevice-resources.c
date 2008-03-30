@@ -36,7 +36,7 @@
 int fsdevice_convert_p00_enabled[4];
 int fsdevice_save_p00_enabled[4];
 int fsdevice_hide_cbm_files_enabled[4];
-char *fsdevice_dir[4] = {NULL, NULL, NULL, NULL};
+char *fsdevice_dir[4] = { NULL, NULL, NULL, NULL };
 
 
 static int set_fsdevice_convert_p00(resource_value_t v, void *param)
@@ -123,5 +123,13 @@ static const resource_t resources[] = {
 int fsdevice_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void fsdevice_resources_shutdown(void)
+{
+    lib_free(fsdevice_dir[0]);
+    lib_free(fsdevice_dir[1]);
+    lib_free(fsdevice_dir[2]);
+    lib_free(fsdevice_dir[3]);
 }
 

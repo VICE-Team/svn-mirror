@@ -81,7 +81,7 @@ int archdep_startup(int *argc, char **argv)
 
 static char *program_name = NULL;
 
-const char *archdep_program_name(void)
+char *archdep_program_name(void)
 {
     if (program_name == NULL) {
         char *s, *e;
@@ -231,13 +231,14 @@ char *archdep_make_backup_filename(const char *fname)
     return tmp;
 }
 
-const char *archdep_default_save_resource_file_name(void) {
+char *archdep_default_save_resource_file_name(void)
+{
     return archdep_default_resource_file_name();
 }
 
-const char *archdep_default_resource_file_name(void)
+char *archdep_default_resource_file_name(void)
 {
-    static char *fname;
+    static char *fname = NULL;
 
     if (fname != NULL)
         lib_free(fname);

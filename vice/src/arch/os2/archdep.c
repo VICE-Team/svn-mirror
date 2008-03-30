@@ -153,7 +153,7 @@ int archdep_startup(int *argc, char **argv)
     return 0;
 }
 
-const char *archdep_program_name(void)
+char *archdep_program_name(void)
 {
     static char *name=NULL;
 
@@ -200,14 +200,14 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     return pathlist;
 }
 
-const char *archdep_default_save_resource_file_name(void)
+char *archdep_default_save_resource_file_name(void)
 {
     return archdep_default_resource_file_name();
 }
 
-const char *archdep_default_resource_file_name(void)
+char *archdep_default_resource_file_name(void)
 {
-    static char *filename=NULL;
+    static char *filename = NULL;
 
     if (!filename)
         filename = util_concat(archdep_boot_path(), "\\vice2.cfg", NULL);
