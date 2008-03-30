@@ -1263,11 +1263,17 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
     }
 }
 
-void ui_display_drive_led(int drive_number, int status)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
     Pixel pixel;
-
+    int status = 0;
     int i;
+
+    if (led_pwm1 > 100)
+        status |= 1;
+    if (led_pwm2 > 100)
+        status |= 2;
 
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];

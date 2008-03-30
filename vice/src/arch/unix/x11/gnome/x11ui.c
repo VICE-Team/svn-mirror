@@ -1200,7 +1200,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     /* make sure that all drive status widgets are initialized.
        This is needed for proper dual disk/dual led drives (8050, 8250). */
     for (i = 0; i < NUM_DRIVES; i++)
-	ui_display_drive_led(i, 3);
+	ui_display_drive_led(i, 1000, 1000);
 
     ui_style_red = gtk_style_new();
     ui_style_red->fg[GTK_STATE_NORMAL] = *drive_led_on_red_pixel;
@@ -1534,11 +1534,18 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
     }
 }
 
-void ui_display_drive_led(int drive_number, int status)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
+    int status = 0;
     int i;
     
     GdkColor *color;
+
+    if (led_pwm1 > 100)
+        status |= 1;
+    if (led_pwm2 > 100)
+        status |= 2;
 
     for (i = 0; i < num_app_shells; i++)
     {

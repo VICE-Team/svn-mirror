@@ -5088,8 +5088,16 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
 }
 
 
-void ui_display_drive_led(int drive_number, int status)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
+  int status = 0;
+
+  if (led_pwm1 > 100)
+      status |= 1;
+  if (led_pwm2 > 100)
+      status |= 2;
+
   ui_set_drive_leds((unsigned int)drive_number, status);
 }
 

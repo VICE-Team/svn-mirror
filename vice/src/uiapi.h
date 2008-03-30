@@ -62,7 +62,9 @@ extern void ui_enable_drive_status(ui_drive_enable_t state,
 extern void ui_display_drive_track(unsigned int drive_number,
                                    unsigned int drive_base,
                                    unsigned int half_track_number);
-extern void ui_display_drive_led(int drive_number, int status);
+/* The pwm value will vary between 0 and 1000.  */
+extern void ui_display_drive_led(int drive_number, unsigned int pwm1,
+                                 unsigned int led_pwm2);
 extern void ui_display_drive_current_image(unsigned int drive_number,
                                            const char *image);
 extern int ui_extend_image_dialog(void);

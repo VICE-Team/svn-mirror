@@ -236,9 +236,16 @@ void ui_display_tape_current_image(const char *image)
 
 /* --------------------------- Drive related UI ------------------------ */
 
-void ui_display_drive_led(int drive_number, int status)
+void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
     BYTE keyState[256];
+    int status = 0;
+
+    if (led_pwm1 > 100)
+        status |= 1;
+    if (led_pwm2 > 100)
+        status |= 2;
 
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (PM_winActive && use_leds) {
@@ -266,8 +273,8 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     ui_status.lastDriveState=state;
     WinSendMsg(hwndDrive, WM_DRIVESTATE,(void*)state, NULL);
-    if (state&1) ui_display_drive_led(0, 0);
-    if (state&2) ui_display_drive_led(1, 0);
+    if (state&1) ui_display_drive_led(0, 0, 0);
+    if (state&2) ui_display_drive_led(1, 0, 0);
 }
 
 void ui_display_drive_current_image(unsigned int drive_number,

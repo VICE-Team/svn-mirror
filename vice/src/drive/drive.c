@@ -208,6 +208,9 @@ int drive_init(void)
         drive->GCR_image_loaded = 0;
         drive->read_only = 0;
         drive->clock_frequency = 1;
+        drive->led_last_change_clk = *(drive->clk);
+        drive->led_last_uiupdate_clk = *(drive->clk);
+        drive->led_active_ticks = 0;
 
         rotation_reset(drive);
         drive_image_init_track_size_d64(drive);
@@ -428,9 +431,17 @@ void drive_disable(drive_context_t *drv)
 void drive_reset(void)
 {
     unsigned int dnr;
+    drive_t *drive;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
         drivecpu_reset(drive_context[dnr]);
+
+        drive->led_last_change_clk = *(drive->clk);
+        drive->led_last_uiupdate_clk = *(drive->clk);
+        drive->led_active_ticks = 0;
+    }
 }
 
 void drive_current_track_size_set(drive_t *dptr)
@@ -638,6 +649,43 @@ static void drive_extend_disk_image(drive_t *drive)
 
 /* ------------------------------------------------------------------------- */
 
+static void drive_led_update(drive_t *drive)
+{
+    int my_led_status = 0;
+    CLOCK led_period;
+    unsigned int led_pwm;
+
+    /* Actually update the LED status only if the `trap idle'
+       idling method is being used, as the LED status could be
+       incorrect otherwise.  */
+
+    if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES)
+        my_led_status = drive->led_status;
+
+    /* Update remaining led clock ticks. */
+    if (drive->led_status)
+        drive->led_active_ticks += *(drive->clk)
+                                   - drive->led_last_change_clk;
+    drive->led_last_change_clk = *(drive->clk);
+
+    led_period = *(drive->clk) - drive->led_last_uiupdate_clk;
+    drive->led_last_uiupdate_clk = *(drive->clk);
+
+    if (led_period == 0)
+        return;
+
+    led_pwm = drive->led_active_ticks * 1000 / led_period;
+    drive->led_active_ticks = 0;
+
+    if (led_pwm != drive->led_last_pwm
+        || my_led_status != drive->old_led_status) {
+        ui_display_drive_led(drive->mynumber, led_pwm,
+                             (my_led_status & 2) ? 1000 : 0);
+        drive->led_last_pwm = led_pwm;
+        drive->old_led_status = my_led_status;
+    }
+}
+
 /* Update the status bar in the UI.  */
 void drive_update_ui_status(void)
 {
@@ -655,26 +703,14 @@ void drive_update_ui_status(void)
         if (drive->enable
             || ((i == 1) && drive_context[0]->drive->enable
             && drive_check_dual(drive_context[0]->drive->type))) {
-            int my_led_status = 0;
-
-            /* Actually update the LED status only if the `trap idle'
-               idling method is being used, as the LED status could be
-               incorrect otherwise.  */
-
-            if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES)
-                my_led_status = drive->led_status;
-
-            if (my_led_status != drive->old_led_status) {
-                ui_display_drive_led(i, my_led_status);
-                drive->old_led_status = my_led_status;
-            }
+            drive_led_update(drive);
 
             if (drive->current_half_track != drive->old_half_track) {
                 drive->old_half_track = drive->current_half_track;
                 ui_display_drive_track(i, (i < 2
-                               && drive_context[0]->drive->enable
-                               && drive_check_dual(drive_context[0]->drive->type))
-                               ? 0 : 8, drive->current_half_track);
+                    && drive_context[0]->drive->enable
+                    && drive_check_dual(drive_context[0]->drive->type))
+                    ? 0 : 8, drive->current_half_track);
             }
         }
     }
