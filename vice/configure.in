@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.15)
+AM_INIT_AUTOMAKE(vice, 0.15.0.16)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -202,7 +202,7 @@ else
     AC_CONFIG_SUBDIRS(src/resid)
     RESID_DIR=resid
     RESID_LIBS="-L\$(top_builddir)/src/resid -lresid"
-    RESID_INCLUDES="-I\$(top_builddir)/src"
+    RESID_INCLUDES="-I\$(top_builddir)/src/resid"
   else
     LDFLAGS="$LDFLAGS -L$with_resid/lib"
     CPPFLAGS="$CPPFLAGS -I$with_resid/include"
@@ -298,7 +298,7 @@ SOUND_DRIVERS=""
 
 AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h,
                  [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break])
-AC_CHECK_HEADER(dmedia/audio.h,
+AC_CHECK_HEADERS(dmedia/audio.h,
                  [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o"; break])
 AC_CHECK_HEADERS(SDL_audio.h SDL_sleep.h,
                  [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break])
