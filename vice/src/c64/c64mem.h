@@ -63,5 +63,9 @@ extern void pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
 extern void mem_set_exrom(int active);
 
+extern int mem_load_kernal(const char *rom_name);
+extern int mem_load_basic(const char *rom_name);
+extern int mem_load_chargen(const char *rom_name);
+
 #endif /* _C64MEM_H */
 

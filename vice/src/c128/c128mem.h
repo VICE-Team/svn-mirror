@@ -33,20 +33,24 @@
 
 #include "types.h"
 
-#define C128_RAM_SIZE			0x20000
-#define C128_KERNAL_ROM_SIZE		0x2000
-#define C128_BASIC_ROM_SIZE		0x8000
-#define C128_EDITOR_ROM_SIZE		0x1000
-#define C128_CHARGEN_ROM_SIZE		0x1000
+#define C128_RAM_SIZE                   0x20000
+#define C128_KERNAL_ROM_SIZE            0x2000
+#define C128_BASIC_ROM_SIZE             0x8000
+#define C128_EDITOR_ROM_SIZE            0x1000
+#define C128_CHARGEN_ROM_SIZE           0x1000
 
-#define C128_BASIC_CHECKSUM_85		38592
-#define C128_BASIC_CHECKSUM_86		2496
-#define C128_EDITOR_CHECKSUM_R01	56682
-#define C128_EDITOR_CHECKSUM_R01SWE	9364
-#define C128_EDITOR_CHECKSUM_R01GER	9619
-#define C128_KERNAL_CHECKSUM_R01	22353
-#define C128_KERNAL_CHECKSUM_R01SWE	24139
-#define C128_KERNAL_CHECKSUM_R01GER	22098
+#define C128_KERNAL64_ROM_SIZE          0x2000
+#define C128_BASIC64_ROM_SIZE           0x2000
+#define C128_CHARGEN64_ROM_SIZE         0x1000
+
+#define C128_BASIC_CHECKSUM_85          38592
+#define C128_BASIC_CHECKSUM_86          2496
+#define C128_EDITOR_CHECKSUM_R01        56682
+#define C128_EDITOR_CHECKSUM_R01SWE     9364
+#define C128_EDITOR_CHECKSUM_R01GER     9619
+#define C128_KERNAL_CHECKSUM_R01        22353
+#define C128_KERNAL_CHECKSUM_R01SWE     24139
+#define C128_KERNAL_CHECKSUM_R01GER     22098
 
 extern int c128_mem_init_resources(void);
 extern int c128_mem_init_cmdline_options(void);
@@ -54,6 +58,13 @@ extern int c128_mem_init_cmdline_options(void);
 extern void mem_update_config(int config);
 extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
+
+extern int mem_load_kernal(const char *rom_name);
+extern int mem_load_basic(const char *rom_name);
+extern int mem_load_chargen(const char *rom_name);
+extern int mem_load_kernal64(const char *rom_name);
+extern int mem_load_basic64(const char *rom_name);
+extern int mem_load_chargen64(const char *rom_name);
 
 extern BYTE REGPARM1 read_top_shared(ADDRESS addr);
 extern void REGPARM2 store_top_shared(ADDRESS addr, BYTE value);
