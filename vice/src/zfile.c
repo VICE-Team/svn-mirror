@@ -204,7 +204,7 @@ static char *try_uncompress_with_gzip(const char *name)
 
     return tmp_name;
 #else
-    char *tmp_name;
+    char *tmp_name = NULL;
     int exit_status;
     char *argv[4];
 
@@ -216,7 +216,6 @@ static char *try_uncompress_with_gzip(const char *name)
     argv[1] = lib_stralloc("-cd");
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
-    tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
     exit_status = archdep_spawn("gzip", argv, &tmp_name, NULL);
@@ -242,11 +241,11 @@ static char *try_uncompress_with_gzip(const char *name)
    return NULL otherwise.  */
 static char *try_uncompress_with_bzip(const char *name)
 {
-    char *tmp_name;
+    char *tmp_name = NULL;
     int l = strlen(name);
     int exit_status;
     char *argv[4];
-
+log_debug("L1: %s",name);
     /* Check whether the name sounds like a bzipped file by checking the
        extension.  MSDOS and UNIX variants of bzip v2 use the extension
        '.bz2'.  bzip v1 is obsolete.  */
@@ -258,17 +257,17 @@ static char *try_uncompress_with_bzip(const char *name)
     argv[1] = lib_stralloc("-cd");
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
-    tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
     exit_status = archdep_spawn("bzip2", argv, &tmp_name, NULL);
-
+log_debug("L2: %i",exit_status);
     lib_free(argv[0]);
     lib_free(argv[1]);
     lib_free(argv[2]);
 
     if (exit_status == 0) {
         ZDEBUG(("try_uncompress_with_bzip: OK"));
+log_debug("L3: %s",tmp_name);
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_bzip: failed"));
@@ -283,7 +282,7 @@ static char *try_uncompress_with_tzx(const char *name)
 #ifdef __riscos
     return NULL;
 #else
-    char *tmp_name;
+    char *tmp_name = NULL;
     int l = strlen(name);
     int exit_status;
     char *argv[4];
@@ -296,7 +295,6 @@ static char *try_uncompress_with_tzx(const char *name)
     argv[0] = lib_stralloc("64tzxtap");
     argv[1] = archdep_filename_parameter(name);
     argv[2] = NULL;
-    tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_tzx: spawning 64tzxtap %s", name));
     exit_status = archdep_spawn("64tzxtap", argv, &tmp_name, NULL);
@@ -376,7 +374,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 #ifdef __riscos
     return NULL;
 #else
-    char *tmp_name;
+    char *tmp_name = NULL;
     int l = strlen(name), nameoffset, found = 0, len;
     int exit_status;
     char *argv[8];
@@ -393,7 +391,6 @@ static char *try_uncompress_archive(const char *name, int write_mode,
     argv[1] = lib_stralloc(listopts);
     argv[2] = archdep_filename_parameter(name);
     argv[3] = NULL;
-    tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s'",
         program, listopts, name));
