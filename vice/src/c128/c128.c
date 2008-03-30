@@ -52,6 +52,7 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "functionrom.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
@@ -208,7 +209,8 @@ int machine_init_resources(void)
         || drive_init_resources() < 0
         || datasette_init_resources() < 0
         || mmu_init_resources() < 0
-        || z80mem_init_resources() < 0)
+        || z80mem_init_resources() < 0
+        || functionrom_init_resources() < 0)
         return -1;
 
     return 0;
@@ -242,6 +244,7 @@ int machine_init_cmdline_options(void)
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
         || mmu_init_cmdline_options() < 0
+        || functionrom_init_cmdline_options() < 0
         || z80mem_init_cmdline_options() < 0)
         return -1;
 
