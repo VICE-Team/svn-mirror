@@ -27,6 +27,7 @@
  */
 
 #include "drive.h"
+#include "mem.h"
 
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
@@ -88,17 +89,17 @@ static mydrive_store_func_t *store_func_nowatch[0x101];
 static BYTE REGPARM1 mydrive_read_1001_io(ADDRESS address)
 {
     if (address & 0x80) {
-	return read_myriot2(address);
+	return myriot2_read(address);
     } 
-    return read_myriot1(address);
+    return myriot1_read(address);
 }
 
 static void REGPARM2 mydrive_store_1001_io(ADDRESS address, BYTE byte)
 {
     if (address & 0x80) {
-	store_myriot2(address, byte);
+	myriot2_store(address, byte);
     } else {
-        store_myriot1(address, byte);
+        myriot1_store(address, byte);
     }
 }
 
@@ -389,36 +390,36 @@ void mydrive_mem_init(int type)
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_2031) {
 	for (i = 0x18; i < 0x1C; i++) {
-            read_func_nowatch[i] = read_myvia1;
-            store_func_nowatch[i] = store_myvia1;
+            read_func_nowatch[i] = myvia1_read;
+            store_func_nowatch[i] = myvia1_store;
 	}
 	for (i = 0x1C; i < 0x20; i++) {
-            read_func_nowatch[i] = read_myvia2;
-            store_func_nowatch[i] = store_myvia2;
+            read_func_nowatch[i] = myvia2_read;
+            store_func_nowatch[i] = myvia2_store;
 	}
     }
 
     /* Setup 1571 CIA.  */
     if (type == DRIVE_TYPE_1571) {
 	for (i = 0x40; i < 0x44; i++) {
-            read_func_nowatch[i] = read_mycia1571;
-            store_func_nowatch[i] = store_mycia1571;
+            read_func_nowatch[i] = mycia1571_read;
+            store_func_nowatch[i] = mycia1571_store;
 	}
 	for (i = 0x20; i < 0x24; i++) {
-            read_func_nowatch[i] = read_mywd1770;
-            store_func_nowatch[i] = store_mywd1770;
+            read_func_nowatch[i] = mywd1770_read;
+            store_func_nowatch[i] = mywd1770_store;
 	}
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
 	for (i = 0x40; i < 0x44; i++) {
-            read_func_nowatch[i] = read_mycia1581;
-            store_func_nowatch[i] = store_mycia1581;
+            read_func_nowatch[i] = mycia1581_read;
+            store_func_nowatch[i] = mycia1581_store;
 	}
 	for (i = 0x60; i < 0x64; i++) {
-            read_func_nowatch[i] = read_mywd1770;
-            store_func_nowatch[i] = store_mywd1770;
+            read_func_nowatch[i] = mywd1770_read;
+            store_func_nowatch[i] = mywd1770_store;
 	}
     }
 

@@ -40,32 +40,32 @@ extern void riot1d1_set_pardata(void);
 extern void riot1d0_init(void);
 extern void riot1d0_signal(int sig, int type);
 extern void riot1d0_reset(void);
-extern void REGPARM2 store_riot1d0(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_riot1d0(ADDRESS addr);
+extern void REGPARM2 riot1d0_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 riot1d0_read(ADDRESS addr);
 extern int riot1d0_write_snapshot_module(snapshot_t * p);
 extern int riot1d0_read_snapshot_module(snapshot_t * p);
 
 extern void riot2d0_init(void);
 extern void riot2d0_signal(int sig, int type);
 extern void riot2d0_reset(void);
-extern void REGPARM2 store_riot2d0(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_riot2d0(ADDRESS addr);
+extern void REGPARM2 riot2d0_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 riot2d0_read(ADDRESS addr);
 extern int riot2d0_write_snapshot_module(snapshot_t * p);
 extern int riot2d0_read_snapshot_module(snapshot_t * p);
 
 extern void riot1d1_init(void);
 extern void riot1d1_signal(int sig, int type);
 extern void riot1d1_reset(void);
-extern void REGPARM2 store_riot1d1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_riot1d1(ADDRESS addr);
+extern void REGPARM2 riot1d1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 riot1d1_read(ADDRESS addr);
 extern int riot1d1_write_snapshot_module(snapshot_t * p);
 extern int riot1d1_read_snapshot_module(snapshot_t * p);
 
 extern void riot2d1_init(void);
 extern void riot2d1_signal(int sig, int type);
 extern void riot2d1_reset(void);
-extern void REGPARM2 store_riot2d1(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 read_riot2d1(ADDRESS addr);
+extern void REGPARM2 riot2d1_store(ADDRESS addr, BYTE byte);
+extern BYTE REGPARM1 riot2d1_read(ADDRESS addr);
 extern int riot2d1_write_snapshot_module(snapshot_t * p);
 extern int riot2d1_read_snapshot_module(snapshot_t * p);
 

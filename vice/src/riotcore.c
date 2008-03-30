@@ -2,7 +2,7 @@
  * riotcore.c - Core functions for RIOT emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -160,14 +160,14 @@ void myriot_reset(void)
     riot_reset();
 }
 
-void REGPARM2 store_myriot(ADDRESS addr, BYTE byte)
+void REGPARM2 myriot_store(ADDRESS addr, BYTE byte)
 {
     CLOCK rclk;
 
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        store_myriot(addr, riot_last_read);
+        myriot_store(addr, riot_last_read);
         myclk ++;
     }
 
@@ -237,18 +237,18 @@ void REGPARM2 store_myriot(ADDRESS addr, BYTE byte)
     }
 }
 
-BYTE REGPARM1 read_myriot(ADDRESS addr)
+BYTE REGPARM1 myriot_read(ADDRESS addr)
 {
 #ifdef MYRIOT_TIMER_DEBUG
-    BYTE REGPARM1 read_myriot_(ADDRESS);
-    BYTE retv = read_myriot_(addr);
+    BYTE REGPARM1 myriot_read_(ADDRESS);
+    BYTE retv = myriot_read_(addr);
     addr &= 0x1f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
         log_message(riot_log,
                     MYRIOT_NAME "(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
-BYTE REGPARM1 read_myriot_(ADDRESS addr)
+BYTE REGPARM1 myriot_read_(ADDRESS addr)
 {
 #endif
     CLOCK rclk;

@@ -104,20 +104,20 @@ int drive0_traceflg;
 #define myriot1_reset riot1d0_reset
 #define myriot2_reset riot2d0_reset
 
-#define read_myvia1 read_via1d0
-#define store_myvia1 store_via1d0
-#define read_myvia2 read_via2d0
-#define store_myvia2 store_via2d0
-#define read_mycia1571 read_cia1571d0
-#define store_mycia1571 store_cia1571d0
-#define read_mycia1581 read_cia1581d0
-#define store_mycia1581 store_cia1581d0
-#define read_mywd1770 read_wd1770d0
-#define store_mywd1770 store_wd1770d0
-#define read_myriot1 read_riot1d0
-#define store_myriot1 store_riot1d0
-#define read_myriot2 read_riot2d0
-#define store_myriot2 store_riot2d0
+#define myvia1_read via1d0_read
+#define myvia1_store via1d0_store
+#define myvia2_read via2d0_read
+#define myvia2_store via2d0_store
+#define mycia1571_read cia1571d0_read
+#define mycia1571_store cia1571d0_store
+#define mycia1581_read cia1581d0_read
+#define mycia1581_store cia1581d0_store
+#define mywd1770_read wd1770d0_read
+#define mywd1770_store wd1770d0_store
+#define myriot1_read riot1d0_read
+#define myriot1_store riot1d0_store
+#define myriot2_read riot2d0_read
+#define myriot2_store riot2d0_store
 
 #define myvia1_init via1d0_init
 #define myvia2_init via2d0_init

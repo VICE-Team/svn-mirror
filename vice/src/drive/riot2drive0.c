@@ -35,9 +35,9 @@
 #define myriot_init riot2d0_init
 #define myriot_signal riot2d0_signal
 #define myriot_reset riot2d0_reset
-#define store_myriot store_riot2d0
-#define read_myriot read_riot2d0
-#define peek_myriot peek_riot2d0
+#define myriot_store riot2d0_store
+#define myriot_read riot2d0_read
+#define myriot_peek riot2d0_peek
 #define myriot_set_flag riot2d0_set_flag
 #define myriot_write_snapshot_module riot2d0_write_snapshot_module
 #define myriot_read_snapshot_module riot2d0_read_snapshot_module

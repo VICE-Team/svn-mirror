@@ -173,7 +173,7 @@ void myacia_init(void) {
         acia_log = log_open(MYACIA);
 }
 
-void reset_myacia(void) {
+void myacia_reset(void) {
 
 #ifdef DEBUG
 	log_message(acia_log, "reset_myacia");
@@ -321,7 +321,7 @@ int myacia_read_snapshot_module(snapshot_t * p)
 }
 
 
-void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
+void REGPARM2 myacia_store(ADDRESS a, BYTE b) {
 
 #ifdef DEBUG
 	log_message(acia_log, "store_myacia(%04x,%02x)",a,b);
@@ -330,7 +330,7 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
         if (mycpu_rmw_flag) {
             myclk --;
             mycpu_rmw_flag = 0;
-            store_myacia(a, acia_last_read);
+            myacia_store(a, acia_last_read);
             myclk ++;
         }
 
@@ -384,10 +384,10 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 	}
 }
 
-BYTE REGPARM1 read_myacia(ADDRESS a) {
+BYTE REGPARM1 myacia_read(ADDRESS a) {
 #if 0 /* def DEBUG */
-	BYTE read_myacia_(ADDRESS);
-	BYTE b = read_myacia_(a);
+	BYTE myacia_read_(ADDRESS);
+	BYTE b = myacia_read_(a);
 	static ADDRESS lasta = 0;
 	static BYTE lastb = 0;
 
@@ -397,7 +397,7 @@ BYTE REGPARM1 read_myacia(ADDRESS a) {
 	lasta = a; lastb = b;
 	return b;
 }
-BYTE read_myacia_(ADDRESS a) {
+BYTE myacia_read_(ADDRESS a) {
 #endif
 
 	switch(a & 3) {
@@ -424,7 +424,7 @@ BYTE read_myacia_(ADDRESS a) {
 	return 0;
 }
 
-BYTE peek_myacia(ADDRESS a) {
+BYTE myacia_peek(ADDRESS a) {
 
 	switch(a & 3) {
 	case ACIA_DR:

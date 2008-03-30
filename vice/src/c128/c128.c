@@ -43,6 +43,7 @@
 #include "c64tpi.h"
 #include "ciatimer.h"
 #include "clkguard.h"
+#include "datasette.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
@@ -353,10 +354,10 @@ void machine_reset(void)
     cia1_reset();
     cia2_reset();
     sid_reset();
-    reset_tpi();
+    tpi_reset();
 
 #ifdef HAVE_RS232
-    reset_acia1();
+    acia1_reset();
 
     rs232_reset();
     rsuser_reset();

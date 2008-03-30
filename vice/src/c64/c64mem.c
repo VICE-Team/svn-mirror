@@ -176,7 +176,7 @@ static int set_reu_enabled(resource_value_t v)
         return 0;
     } else if (mem_cartridge_type == CARTRIDGE_NONE) {
         reu_enabled = 1;
-        activate_reu();
+        reu_activate();
         return 0;
     } else {
         /* The REU and the IEEE488 interface share the same address space, so
@@ -444,27 +444,27 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 read_basic(ADDRESS addr)
+BYTE REGPARM1 basic_read(ADDRESS addr)
 {
     return basic_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 read_kernal(ADDRESS addr)
+BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
     return kernal_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 read_chargen(ADDRESS addr)
+BYTE REGPARM1 chargen_read(ADDRESS addr)
 {
     return chargen_rom[addr & 0xfff];
 }
 
-BYTE REGPARM1 read_ram(ADDRESS addr)
+BYTE REGPARM1 ram_read(ADDRESS addr)
 {
     return ram[addr];
 }
 
-void REGPARM2 store_ram(ADDRESS addr, BYTE value)
+void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 {
     ram[addr] = value;
 }
@@ -476,16 +476,16 @@ void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
         reu_dma(-1);
 }
 
-void REGPARM2 store_io2(ADDRESS addr, BYTE value)
+void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 {
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io2(addr, value);
     if (reu_enabled)
-        store_reu(addr & 0x0f, value);
+        reu_store(addr & 0x0f, value);
     return;
 }
 
-BYTE REGPARM1 read_io2(ADDRESS addr)
+BYTE REGPARM1 io2_read(ADDRESS addr)
 {
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
@@ -496,49 +496,49 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
         return emulator_id[addr - 0xa0];
     }
     if (reu_enabled)
-        return read_reu(addr & 0x0f);
+        return reu_read(addr & 0x0f);
     return rand();
 }
 
-void REGPARM2 store_io1(ADDRESS addr, BYTE value)
+void REGPARM2 io1_store(ADDRESS addr, BYTE value)
 {
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io1(addr, value);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
-        store_acia1(addr & 0x03, value);
+        acia1_store(addr & 0x03, value);
 #endif
     return;
 }
 
-BYTE REGPARM1 read_io1(ADDRESS addr)
+BYTE REGPARM1 io1_read(ADDRESS addr)
 {
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
-        return read_acia1(addr & 0x03);
+        return acia1_read(addr & 0x03);
 #endif
     return rand();
 }
 
-BYTE REGPARM1 read_rom(ADDRESS addr)
+BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        return read_basic(addr);
+        return basic_read(addr);
       case 0xd000:
-        return read_chargen(addr);
+        return chargen_read(addr);
       case 0xe000:
       case 0xf000:
-        return read_kernal(addr);
+        return kernal_read(addr);
     }
 
     return 0;
 }
 
-void REGPARM2 store_rom(ADDRESS addr, BYTE value)
+void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xa000:
@@ -648,7 +648,7 @@ void initialize_memory(void)
         mem_read_base_tab[i][0] = ram;
         mem_read_limit_tab[i][0] = 0xfffd;
         for (j = 1; j <= 0xfe; j++) {
-            mem_read_tab[i][j] = read_ram;
+            mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = ram + (j << 8);
             mem_read_limit_tab[i][j] = 0xfffd;
             for (k = 0; k < NUM_VBANKS; k++) {
@@ -664,11 +664,11 @@ void initialize_memory(void)
                         mem_write_tab[k][i][j] = store_vbank;
                     }
                 } else {
-                    mem_write_tab[k][i][j] = store_ram;
+                    mem_write_tab[k][i][j] = ram_store;
                 }
             }
         }
-        mem_read_tab[i][0xff] = read_ram;
+        mem_read_tab[i][0xff] = ram_read;
         mem_read_base_tab[i][0xff] = ram + 0xff00;
         mem_read_limit_tab[i][0xff] = 0xfffd;
 
@@ -681,10 +681,10 @@ void initialize_memory(void)
 
     /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
     for (i = 0xa0; i <= 0xbf; i++) {
-        mem_read_tab[3][i] = read_basic;
-        mem_read_tab[7][i] = read_basic;
-        mem_read_tab[11][i] = read_basic;
-        mem_read_tab[15][i] = read_basic;
+        mem_read_tab[3][i] = basic_read;
+        mem_read_tab[7][i] = basic_read;
+        mem_read_tab[11][i] = basic_read;
+        mem_read_tab[15][i] = basic_read;
         mem_read_base_tab[3][i] = basic_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[7][i] = basic_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[11][i] = basic_rom + ((i & 0x1f) << 8);
@@ -694,15 +694,15 @@ void initialize_memory(void)
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
        3, 9, 10, 11, 25, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
-        mem_read_tab[1][i] = read_chargen;
-        mem_read_tab[2][i] = read_chargen;
-        mem_read_tab[3][i] = read_chargen;
-        mem_read_tab[9][i] = read_chargen;
-        mem_read_tab[10][i] = read_chargen;
-        mem_read_tab[11][i] = read_chargen;
-        mem_read_tab[25][i] = read_chargen;
-        mem_read_tab[26][i] = read_chargen;
-        mem_read_tab[27][i] = read_chargen;
+        mem_read_tab[1][i] = chargen_read;
+        mem_read_tab[2][i] = chargen_read;
+        mem_read_tab[3][i] = chargen_read;
+        mem_read_tab[9][i] = chargen_read;
+        mem_read_tab[10][i] = chargen_read;
+        mem_read_tab[11][i] = chargen_read;
+        mem_read_tab[25][i] = chargen_read;
+        mem_read_tab[26][i] = chargen_read;
+        mem_read_tab[27][i] = chargen_read;
         mem_read_base_tab[1][i] = chargen_rom + ((i & 0x0f) << 8);
         mem_read_base_tab[2][i] = chargen_rom + ((i & 0x0f) << 8);
         mem_read_base_tab[3][i] = chargen_rom + ((i & 0x0f) << 8);
@@ -718,31 +718,31 @@ void initialize_memory(void)
     for (j = 0; j < NUM_CONFIGS; j++) {
         if (io_config[j]) {
             for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab[j][i] = read_vic;
-                set_write_hook(j, i, store_vic);
+                mem_read_tab[j][i] = vic_read;
+                set_write_hook(j, i, vic_store);
             }
             for (i = 0xd4; i <= 0xd5; i++) {
-                mem_read_tab[j][i] = read_sid;
-                set_write_hook(j, i, store_sid);
+                mem_read_tab[j][i] = sid_read;
+                set_write_hook(j, i, sid_store);
             }
             for (i = 0xd6; i <= 0xd7; i++) {
-                mem_read_tab[j][i] = read_sid;
-                set_write_hook(j, i, store_sid);
+                mem_read_tab[j][i] = sid_read;
+                set_write_hook(j, i, sid_store);
             }
             for (i = 0xd8; i <= 0xdb; i++) {
-                mem_read_tab[j][i] = read_colorram;
-                set_write_hook(j, i, store_colorram);
+                mem_read_tab[j][i] = colorram_read;
+                set_write_hook(j, i, colorram_store);
             }
 
-            mem_read_tab[j][0xdc] = read_cia1;
-            set_write_hook(j, 0xdc, store_cia1);
-            mem_read_tab[j][0xdd] = read_cia2;
-            set_write_hook(j, 0xdd, store_cia2);
+            mem_read_tab[j][0xdc] = cia1_read;
+            set_write_hook(j, 0xdc, cia1_store);
+            mem_read_tab[j][0xdd] = cia2_read;
+            set_write_hook(j, 0xdd, cia2_store);
 
-            mem_read_tab[j][0xde] = read_io1;
-            set_write_hook(j, 0xde, store_io1);
-            mem_read_tab[j][0xdf] = read_io2;
-            set_write_hook(j, 0xdf, store_io2);
+            mem_read_tab[j][0xde] = io1_read;
+            set_write_hook(j, 0xde, io1_store);
+            mem_read_tab[j][0xdf] = io2_read;
+            set_write_hook(j, 0xdf, io2_store);
 
             for (i = 0xd0; i <= 0xdf; i++)
                 mem_read_base_tab[j][i] = NULL;
@@ -752,18 +752,18 @@ void initialize_memory(void)
     /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
        11, 14, 15, 26, 27, 30, 31).  */
     for (i = 0xe0; i <= 0xff; i++) {
-        mem_read_tab[2][i] = read_kernal;
-        mem_read_tab[3][i] = read_kernal;
-        mem_read_tab[6][i] = read_kernal;
-        mem_read_tab[7][i] = read_kernal;
-        mem_read_tab[10][i] = read_kernal;
-        mem_read_tab[11][i] = read_kernal;
-        mem_read_tab[14][i] = read_kernal;
-        mem_read_tab[15][i] = read_kernal;
-        mem_read_tab[26][i] = read_kernal;
-        mem_read_tab[27][i] = read_kernal;
-        mem_read_tab[30][i] = read_kernal;
-        mem_read_tab[31][i] = read_kernal;
+        mem_read_tab[2][i] = kernal_read;
+        mem_read_tab[3][i] = kernal_read;
+        mem_read_tab[6][i] = kernal_read;
+        mem_read_tab[7][i] = kernal_read;
+        mem_read_tab[10][i] = kernal_read;
+        mem_read_tab[11][i] = kernal_read;
+        mem_read_tab[14][i] = kernal_read;
+        mem_read_tab[15][i] = kernal_read;
+        mem_read_tab[26][i] = kernal_read;
+        mem_read_tab[27][i] = kernal_read;
+        mem_read_tab[30][i] = kernal_read;
+        mem_read_tab[31][i] = kernal_read;
         mem_read_base_tab[2][i] = kernal_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[3][i] = kernal_rom + ((i & 0x1f) << 8);
         mem_read_base_tab[6][i] = kernal_rom + ((i & 0x1f) << 8);
@@ -885,7 +885,7 @@ static int c64mem_get_kernal_checksum(void)
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
         sum += kernal_rom[i];
 
-    id = read_rom(0xff80);
+    id = rom_read(0xff80);
 
     log_message(c64_mem_log, "Kernal rev #%d.", id);
 
@@ -1096,33 +1096,33 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        store_vic(addr, byte);
+        vic_store(addr, byte);
         break;
       case 0xd400:
       case 0xd500:
-        store_sid(addr, byte);
+        sid_store(addr, byte);
         break;
       case 0xd600:
       case 0xd700:
-        store_sid(addr, byte);
+        sid_store(addr, byte);
         break;
       case 0xd800:
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        store_colorram(addr, byte);
+        colorram_store(addr, byte);
         break;
       case 0xdc00:
-        store_cia1(addr, byte);
+        cia1_store(addr, byte);
         break;
       case 0xdd00:
-        store_cia2(addr, byte);
+        cia2_store(addr, byte);
         break;
       case 0xde00:
-        store_io1(addr, byte);
+        io1_store(addr, byte);
         break;
       case 0xdf00:
-        store_io2(addr, byte);
+        io2_store(addr, byte);
         break;
     }
     return;
@@ -1135,25 +1135,25 @@ static BYTE read_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_vic(addr);
+        return vic_read(addr);
       case 0xd400:
       case 0xd500:
       case 0xd600:
       case 0xd700:
-        return read_sid(addr);
+        return sid_read(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        return read_colorram(addr);
+        return colorram_read(addr);
       case 0xdc00:
-        return read_cia1(addr);
+        return cia1_read(addr);
       case 0xdd00:
-        return read_cia2(addr);
+        return cia2_read(addr);
       case 0xde00:
-        return read_io1(addr);
+        return io1_read(addr);
       case 0xdf00:
-        return read_io2(addr);
+        return io2_read(addr);
     }
     return 0xff;
 }
@@ -1165,25 +1165,25 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return peek_vic(addr);
+        return vic_peek(addr);
       case 0xd400:
       case 0xd500:
       case 0xd600:
       case 0xd700:
-        return read_sid(addr);
+        return sid_read(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
       case 0xdb00:
-        return read_colorram(addr);
+        return colorram_read(addr);
       case 0xdc00:
-        return peek_cia1(addr);
+        return cia1_peek(addr);
       case 0xdd00:
-        return peek_cia2(addr);
+        return cia2_peek(addr);
       case 0xde00:
-        return read_io1(addr);  /* FIXME */
+        return io1_read(addr);  /* FIXME */
       case 0xdf00:
-        return read_io2(addr);  /* FIXME */
+        return io2_read(addr);  /* FIXME */
     }
     return 0xff;
 }
@@ -1292,6 +1292,14 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         break;
     }
     ram[addr] = byte;
+}
+
+void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
+{
+    *base = ((vic_peek(0xd018) & 0xf0) << 6)
+            | ((cia2_peek(0xdd00) & 0x03) << 14);
+    *rows = 25;
+    *columns = 40;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1523,7 +1531,7 @@ int mem_read_snapshot_module(snapshot_t *s)
         acia_de_enabled = 0;
     } else {
         /* FIXME: Why do we need to do so???  */
-        reset_acia1();          /* Clear interrupts.  */
+        acia1_reset();          /* Clear interrupts.  */
         acia_de_enabled = 1;
     }
 #endif

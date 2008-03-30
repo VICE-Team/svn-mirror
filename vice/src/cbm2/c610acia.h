@@ -1,8 +1,8 @@
 /*
- * acia-tmpl.c - Template file for ACIA 6551 emulation.
+ * c610acia.h  - Template file for ACIA 6551 emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,10 +34,10 @@
 #include "types.h"
 
 extern void acia1_init(void);
-extern BYTE REGPARM1 read_acia1(ADDRESS a);
-extern BYTE REGPARM1 peek_acia1(ADDRESS a);
-extern void REGPARM2 store_acia1(ADDRESS a,BYTE b);
-extern void reset_acia1(void);
+extern BYTE REGPARM1 acia1_read(ADDRESS a);
+extern BYTE REGPARM1 acia1_peek(ADDRESS a);
+extern void REGPARM2 acia1_store(ADDRESS a,BYTE b);
+extern void acia1_reset(void);
 
 extern int acia1_init_cmdline_options(void);
 extern int acia1_init_resources(void);

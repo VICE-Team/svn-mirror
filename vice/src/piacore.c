@@ -2,8 +2,8 @@
  * piacore.c -- PIA chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,7 +33,7 @@ void mypia_init(void)
        mypia_log = log_open(MYPIA_NAME);
 }
 
-void reset_mypia(void)
+void mypia_reset(void)
 {
    /* clear _all_ internal registers */
 
@@ -74,7 +74,7 @@ static void mypia_update_irq(void) {
  * this currently relies on each edge being called only once,
  * otherwise multiple IRQs could occur. */
 
-void signal_mypia(int line, int edge) {
+void mypia_signal(int line, int edge) {
     switch(line) {
     case PIA_SIG_CA1:
 	if ( ((mypia.ctrl_a & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
@@ -102,13 +102,13 @@ void signal_mypia(int line, int edge) {
 /* ------------------------------------------------------------------------- */
 /* PIA */
 
-void REGPARM2 store_mypia(ADDRESS addr, BYTE byte)
+void REGPARM2 mypia_store(ADDRESS addr, BYTE byte)
 {
 
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        store_mypia(addr, pia_last_read);
+        mypia_store(addr, pia_last_read);
         myclk ++;
     }
 
@@ -195,7 +195,7 @@ void REGPARM2 store_mypia(ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_mypia(ADDRESS addr)
+BYTE REGPARM1 mypia_read(ADDRESS addr)
 {
     static BYTE byte = 0xff;
 
@@ -260,11 +260,11 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
 }
 
 
-BYTE REGPARM1 peek_mypia(ADDRESS addr)
+BYTE REGPARM1 mypia_peek(ADDRESS addr)
 {
     BYTE t;
     is_peek_access = 1;
-    t = read_mypia(addr);
+    t = mypia_read(addr);
     is_peek_access = 0;
     return t;
 }

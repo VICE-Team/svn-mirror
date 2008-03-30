@@ -35,9 +35,9 @@
 #define myriot_init riot1d0_init
 #define myriot_signal riot1d0_signal
 #define myriot_reset riot1d0_reset
-#define store_myriot store_riot1d0
-#define read_myriot read_riot1d0
-#define peek_myriot peek_riot1d0
+#define myriot_store riot1d0_store
+#define myriot_read riot1d0_read
+#define myriot_peek riot1d0_peek
 #define myriot_set_flag riot1d0_set_flag
 #define myriot_write_snapshot_module riot1d0_write_snapshot_module
 #define myriot_read_snapshot_module riot1d0_read_snapshot_module

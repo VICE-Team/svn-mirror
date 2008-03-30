@@ -2,12 +2,12 @@
  * crtc-mem.c - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,23 +29,18 @@
  *
  */
 
-
-
 #include "vice.h"
-#include "maincpu.h"
-#include "types.h"
 
 #include "crtc.h"
-
 #include "crtc-mem.h"
-
-
+#include "maincpu.h"
+#include "types.h"
 
 /* CRTC interface functions.
    FIXME: Several registers are not implemented.  */
 
 void REGPARM2
-store_crtc (ADDRESS addr, BYTE value)
+crtc_store(ADDRESS addr, BYTE value)
 {
     int current_cycle = clk - crtc.rl_start;
 
@@ -187,7 +182,7 @@ store_crtc (ADDRESS addr, BYTE value)
 }
 
 BYTE REGPARM1
-read_crtc (ADDRESS addr)
+crtc_read(ADDRESS addr)
 {
     if (addr & 1) {
 	/* internal registers */
@@ -221,9 +216,9 @@ read_crtc (ADDRESS addr)
 }
 
 BYTE REGPARM1
-peek_crtc(ADDRESS addr)
+crtc_peek(ADDRESS addr)
 {
-    return read_crtc(addr);
+    return crtc_read(addr);
 }
 
 #if 0

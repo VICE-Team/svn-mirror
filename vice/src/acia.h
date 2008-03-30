@@ -7,7 +7,7 @@
  * Interrupt signals are defined in interrupt.h.
  *
  * Written by
- *    Andre Fachat (a.fachat@physik.tu-chemnitz.de)
+ *    Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  */
 

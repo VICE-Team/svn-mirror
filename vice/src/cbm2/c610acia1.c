@@ -1,9 +1,9 @@
-/* -*- C -*-
+/*
  *
- * c610acia.def - Definitions for a 6551 ACIA interface
+ * cbm2/c610acia1.c - Definitions for a 6551 ACIA interface
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,10 +47,10 @@
 #define myacia_init_resources acia1_init_resources
 #define myacia_read_snapshot_module acia1_read_snapshot_module
 #define myacia_write_snapshot_module acia1_write_snapshot_module
-#define peek_myacia peek_acia1
-#define read_myacia read_acia1
-#define reset_myacia reset_acia1
-#define store_myacia store_acia1
+#define myacia_peek acia1_peek
+#define myacia_read acia1_read
+#define myacia_reset acia1_reset
+#define myacia_store acia1_store
 
 #include "maincpu.h"
 

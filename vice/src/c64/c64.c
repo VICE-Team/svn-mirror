@@ -398,10 +398,10 @@ void machine_reset(void)
 	return;
     }
 
-    reset_tpi();
+    tpi_reset();
 
 #ifdef HAVE_RS232
-    reset_acia1();
+    acia1_reset();
     rs232_reset();
     rsuser_reset();
 #endif

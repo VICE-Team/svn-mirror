@@ -2,7 +2,7 @@
  * petdatasette.c - PET specific CBM cassette implementation.
  *
  * Written by
- *  Andreas Boose (boose@linux.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +30,7 @@
 
 void datasette_trigger_flux_change(void)
 {
-    signal_pia1(PIA_SIG_CA1, PIA_SIG_FALL);
+    pia1_signal(PIA_SIG_CA1, PIA_SIG_FALL);
 }
 
 void datasette_set_tape_sense(int sense)
