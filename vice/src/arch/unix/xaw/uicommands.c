@@ -43,19 +43,33 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "uisnapshot.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
+
+static char *read_disk_image_contents(const char *name)
+{
+    image_contents_t *contents;
+    char *s;
+
+    contents = image_contents_read_disk(name);
+    if (contents == NULL)
+        return NULL;
+
+    s = image_contents_to_string(contents);
+    return s;
+}
 
 static UI_CALLBACK(attach_disk)
 {
@@ -93,6 +107,21 @@ static UI_CALLBACK(detach_disk)
     file_system_detach_disk(unit);
 }
 
+/* ------------------------------------------------------------------------- */
+
+static char *read_tape_image_contents(const char *name)
+{
+    image_contents_t *contents;
+    char *s;
+
+    contents = image_contents_read_tape(name);
+    if (contents == NULL)
+        return NULL;
+
+    s = image_contents_to_string(contents);
+    return s;
+}
+
 static UI_CALLBACK(attach_tape)
 {
     char *filename;
@@ -105,7 +134,7 @@ static UI_CALLBACK(attach_tape)
 
     switch (button) {
       case UI_BUTTON_OK:
-	if (serial_select_file(DT_TAPE, 1, filename) < 0)
+	if (tape_attach_image(filename) < 0)
 	    ui_error("Invalid Tape Image");
 	break;
       case UI_BUTTON_AUTOSTART:
@@ -122,6 +151,8 @@ static UI_CALLBACK(detach_tape)
 {
     serial_remove(1);
 }
+
+/* ------------------------------------------------------------------------- */
 
 static char *read_disk_or_tape_image_contents(const char *fname)
 {
@@ -147,7 +178,7 @@ static UI_CALLBACK(smart_attach)
     switch (button) {
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(8, filename) < 0
-	    && serial_select_file(DT_TAPE, 1, filename) < 0) {
+	    && tape_attach_image(filename) < 0) {
 	    ui_error("Unknown image type");
 	}
 	break;
@@ -160,6 +191,8 @@ static UI_CALLBACK(smart_attach)
         break;
     }
 }
+
+/* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(change_working_directory)
 {
@@ -223,7 +256,7 @@ static UI_CALLBACK(browse_manual)
 	*_ui_resources.html_browser_command == '\0') {
 	ui_error("No HTML browser is defined.");
     } else {
-	/* Argh.  Ugly!  */
+	/* FIXME: Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
 	char buf[BROWSE_CMD_BUF_MAX];
 	static const char manual_path[] = DOCDIR "/vice_toc.html";
@@ -302,8 +335,8 @@ static UI_CALLBACK(toggle_pause)
 		ui_dispatch_next_event();
 	}
     }
+
     ui_menu_set_tick(w, paused);
-    /* ui_display_speed(0.0, 0.0, 0); */
 }
 
 static UI_CALLBACK(do_exit)
