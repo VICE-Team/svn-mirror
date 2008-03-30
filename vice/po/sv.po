@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-07-05 19:00+0200\n"
+"POT-Creation-Date: 2003-07-13 15:51+0200\n"
 "PO-Revision-Date: 2003-05-26 21:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2340,7 +2340,7 @@ msgstr "Bidragslämnare till VICE-projektet"
 msgid "The VICE Team"
 msgstr "VICE-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:147
+#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
 msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
@@ -2863,7 +2863,7 @@ msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar vidmode-utökning."
 
-#: src/arch/unix/x11/xaw/about.c:153
+#: src/arch/unix/x11/xaw/about.c:152
 msgid "VICE Information"
 msgstr "VICE-information"
 
