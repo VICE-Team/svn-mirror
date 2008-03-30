@@ -216,7 +216,6 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@USE_MIDAS_SOUND_FALSE@libarch_a_LIBADD = vicesb.o
 
 @USE_MIDAS_SOUND_TRUE@libarch_a_LIBADD = vmidas.o
 
@@ -281,6 +280,8 @@ libarch_a_SOURCES = \
 	uiattach.c \
 	uicmdline.c \
 	uimon.c \
+	uireu.c \
+	uireu.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
@@ -293,8 +294,6 @@ libarch_a_SOURCES = \
 
 
 EXTRA_DIST = \
-	vicesb.c \
-	vicesb.h \
 	vmidas.c \
 	vmidas.h
 
@@ -306,7 +305,7 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libarch_a_AR = $(AR) cru
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES = vmidas.o
-@USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES = vicesb.o
+@USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =
 am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) cbmcharsets.$(OBJEXT) \
 	console.$(OBJEXT) grabkey.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
@@ -315,9 +314,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	tui.$(OBJEXT) tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
 	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
 	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uimon.$(OBJEXT) uisid.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsync.$(OBJEXT)
+	uicmdline.$(OBJEXT) uimon.$(OBJEXT) uireu.$(OBJEXT) \
+	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -337,9 +336,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uisid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/vic20ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -397,6 +397,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@

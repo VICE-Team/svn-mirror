@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "fullscreenarch.h"
+#include "uicrtc.h"
 #include "uimenu.h"
 #include "uipalette.h"
 

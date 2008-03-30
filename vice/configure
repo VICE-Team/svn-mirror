@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.41
+ VERSION=1.13.42
 
 
 cat >>confdefs.h <<_ACEOF
@@ -11058,7 +11058,7 @@ if test `eval echo '${'$as_ac_Header'}'` = yes; then
   cat >>confdefs.h <<_ACEOF
 #define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- SOUND_DRIVERS="$SOUND_DRIVERS soundsb.o"; break
+ SOUND_DRIVERS="$SOUND_DRIVERS soundallegro.o"; break
 fi
 
 done

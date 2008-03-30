@@ -34,6 +34,8 @@
 #include "resources.h"
 #include "ui.h"
 #include "uiarch.h"
+#include "uiscreenshot.h"
+
 
 extern GtkWidget *video_ctrl_checkbox;
 static GtkWidget *screenshot_dialog, *fileentry;

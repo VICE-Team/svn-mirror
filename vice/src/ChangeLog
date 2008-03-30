@@ -1,3 +1,105 @@
+2003-12-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.42.
+
+	* sounddrv/soundallegro.c: #include "log.h".
+	(allegro_write): Commented out unused variable.
+	Commented out variable `allegro_startup_done'.
+
+	* info.c, arch/msdos/menudefs.c: Updated.
+
+	* arch/msdos/uireu.c, arch/msdos/uireu.h: New files.
+
+	* arch/msdos/Makefile.am: Added new files.
+
+	* arch/msdos/c64ui.c, arch/msdos/c128ui.c: Use separate REU UI
+	code.
+
+	* fileio/fileio.c, fileio.h, fileio/cbmfile.c,
+	fileio/cbmfile.h, fileio/p00.c, p00.h, rawfile.c, rawfile.h:
+	Changed prototypes.
+
+	* fileio/fileio.c (fileio_open): Do not allocate NULL path.
+
+	* fileio/cbmfile.c (cbmfile_open): Fill in name length.
+
+	* fileio/p00.c (p00_open): Changed likewise.
+
+	* c1541.c (read_cmd, write_cmd): Use fileio API.
+
+	* petcat.c (main): Removed p00 code.
+
+	* fileio/p00.h: Moved here.
+
+	* Makefile.am, fileio/Makefile.am: Updated.
+
+	* rawfile.c, rawfile.h (rawfile_seek_set): New function.
+	Moved rawfile struct to source and changed the type of `fd' to
+	`FILE' to remove all those ugly castings.
+
+	* ioutil.c, ioutil.h (ioutil_stat): New function.
+	(ioutil_errno): Add more error cases.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c (archdep_stat): New
+	function.
+
+	* fsdevice/fsdevice-read.c (command_directory_get): Use IOUTIL
+	stat and access functions.
+
+	* drive/drive.c, snapshot.c: Removed non ISO C includes.
+
+	* fsdevice/fsdevice-flush.c, c1541.c: Use IOUTIL errno
+	function.
+
+	* drive/drive-check.c, c64/c64fastiec.c, c64/c64parallel.c,
+	c128/c128fastiec.c, plus4/plus4-cmdline-options.c,
+	plus4/plus4-resources.c, plus4/plus4datasette.c, pet/petrom.c,
+	plus4/plus4memlimit.c, plus4/plus4parallel.c,
+	plus4/plus4tcbm.c, cbm2/cbm2-cmdline-options.c,
+	arch/unix/x11/xaw/uiscreenshot.c, arch/unix/cbm2ui.c,
+	arch/unix/x11/gnome/uiscreenshot.c, arch/unix/plus4ui.c,
+	arch/unix/x11/ui-cmdline-options.c, arch/unix/uic64cart.c,
+	arch/unix/x11/ui-resources.c, arch/unix/uicmdline.c,
+	arch/unix/uicrtc.c: Added missing includes.
+
+	* serial/serial-iec-device.c
+	(serial_iec_device_clk_overflow_callback): Made static.
+
+	* parallel/parallel.c [parallel_emu, state]: Made static.
+
+	* vicii/vicii-color.h, vic20/vic-color.h: Fixed definition of
+	struct.
+
+	* core/ciatimer.c: Commented out unused code.
+
+	* pet/petmem.c (ram_read, ram_store, read_watch, store_watch,
+	superpet_powerup, read_super_io, store_super_io, read_super_9,
+	store_super_9, store_io, read_io): Made static.
+
+	* plus4/plus4mem.c (mem_config_rom_set, read_watch,
+	store_watch, basic_read, ram_read, ram_read_32k, ram_read_16k.
+	ram_store, ram_store_32k, ram_store_16k): Made static.
+
+	* cbm2/cbm2mem.c [_mem_read_tab_watch,
+	_mem_read_ind_tab_watch, _mem_write_tab_watch,
+	_mem_write_ind_tab_watch]: Made static.
+
+2003-12-24  Andreas Dehmel  <zarquon@t-online.de>
+
+	* rawfile.c: cast rawfile_info_t::fd to FILE* before using it
+	in stdio calls.
+
+2003-12-23  David Hansel  <hansel@reactive-systems.com>
+
+	* printerdrv/drv-nl10.c:  Fixed character upload.
+	ixed bottom margin issues.  Reduced border size.  Allocate
+	memory for character RAM dynamically instead of static.
+
+	* rawfile.c:  In function rawfile_ferror(), inserted
+	(FILE *) cast to make code compile on Visual C++ 7.0
+
 2003-12-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.41.

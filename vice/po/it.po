@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-12-04 13:41+0100\n"
+"POT-Creation-Date: 2003-12-26 02:28+0100\n"
 "PO-Revision-Date: 2003-10-09 20:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -44,59 +44,59 @@ msgid "Received signal %d."
 msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
-#: src/arch/unix/cbm2ui.c:60 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
+#: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
 #: src/arch/unix/vsidui.c:125
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
-#: src/arch/unix/cbm2ui.c:62 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
+#: src/arch/unix/cbm2ui.c:63 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
 #: src/arch/unix/vsidui.c:127
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
 #: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
 #: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
-#: src/arch/unix/cbm2ui.c:283 src/arch/unix/cbm2ui.c:308
+#: src/arch/unix/cbm2ui.c:284 src/arch/unix/cbm2ui.c:309
 msgid "SID engine"
 msgstr "Motore SID"
 
 #: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
 #: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
-#: src/arch/unix/cbm2ui.c:286 src/arch/unix/cbm2ui.c:312
+#: src/arch/unix/cbm2ui.c:287 src/arch/unix/cbm2ui.c:313
 msgid "*Second SID"
 msgstr "*Secondo SID"
 
 #: src/arch/unix/c128ui.c:149 src/arch/unix/c128ui.c:175
 #: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:242
-#: src/arch/unix/cbm2ui.c:288 src/arch/unix/cbm2ui.c:314
+#: src/arch/unix/cbm2ui.c:289 src/arch/unix/cbm2ui.c:315
 msgid "*Second SID base address"
 msgstr "*Indirizzo secondo SID"
 
 #: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:177
 #: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
-#: src/arch/unix/cbm2ui.c:291 src/arch/unix/cbm2ui.c:317
+#: src/arch/unix/cbm2ui.c:292 src/arch/unix/cbm2ui.c:318
 msgid "*Emulate filters"
 msgstr "*Emula i filtri"
 
 #: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:179
 #: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:246
-#: src/arch/unix/cbm2ui.c:293 src/arch/unix/cbm2ui.c:319
+#: src/arch/unix/cbm2ui.c:294 src/arch/unix/cbm2ui.c:320
 msgid "Chip model"
 msgstr "Modello"
 
 #: src/arch/unix/c128ui.c:158 src/arch/unix/c64ui.c:225
-#: src/arch/unix/cbm2ui.c:297
+#: src/arch/unix/cbm2ui.c:298
 msgid "reSID sampling method"
 msgstr "Metodo di campionamento del reSID"
 
 #: src/arch/unix/c128ui.c:160 src/arch/unix/c64ui.c:227
-#: src/arch/unix/cbm2ui.c:299
+#: src/arch/unix/cbm2ui.c:300
 msgid "reSID resampling passband..."
 msgstr "Banda passante di ricampionamento del reSID"
 
 #: src/arch/unix/c128ui.c:171 src/arch/unix/c64ui.c:238
-#: src/arch/unix/cbm2ui.c:310 src/arch/unix/uisound.c:120
+#: src/arch/unix/cbm2ui.c:311 src/arch/unix/uisound.c:120
 msgid "*Enable sound playback"
 msgstr "*Attiva la riproduzione del suono"
 
@@ -181,13 +181,13 @@ msgid "Load new drive ROM"
 msgstr "Carica una nuova ROM del drive"
 
 #: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
-#: src/arch/unix/cbm2ui.c:121 src/arch/unix/petui.c:225
+#: src/arch/unix/cbm2ui.c:122 src/arch/unix/petui.c:225
 #: src/arch/unix/vic20ui.c:131
 msgid "Load custom ROM set from file"
 msgstr "Carica un ROM set da file"
 
 #: src/arch/unix/c128ui.c:272 src/arch/unix/c64ui.c:292
-#: src/arch/unix/cbm2ui.c:123 src/arch/unix/petui.c:227
+#: src/arch/unix/cbm2ui.c:124 src/arch/unix/petui.c:227
 #: src/arch/unix/vic20ui.c:133
 msgid "Dump ROM set definition to file"
 msgstr "Scrivi il ROM set su file"
@@ -208,7 +208,7 @@ msgstr "Cattura schermo..."
 msgid "Machine type"
 msgstr "Tipo di macchina"
 
-#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:229
+#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:230
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
 msgid "ROM sets"
 msgstr "ROM set"
@@ -222,7 +222,7 @@ msgid "VDC settings"
 msgstr "Impostazioni del VDC"
 
 #: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
-#: src/arch/unix/cbm2ui.c:375 src/arch/unix/vsidui.c:175
+#: src/arch/unix/cbm2ui.c:376 src/arch/unix/vsidui.c:175
 msgid "SID settings"
 msgstr "Impostazioni del SID"
 
@@ -231,7 +231,7 @@ msgid "Memory and I/O extensions"
 msgstr "Memoria ed estensioni di I/O"
 
 #: src/arch/unix/c128ui.c:350 src/arch/unix/c64ui.c:331
-#: src/arch/unix/cbm2ui.c:368 src/arch/unix/vic20ui.c:355
+#: src/arch/unix/cbm2ui.c:369 src/arch/unix/vic20ui.c:355
 msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
@@ -240,27 +240,27 @@ msgid "Model settings"
 msgstr "Impostazioni del modello"
 
 #: src/arch/unix/c128ui.c:417 src/arch/unix/c64ui.c:394
-#: src/arch/unix/cbm2ui.c:464 src/arch/unix/petui.c:386
-#: src/arch/unix/plus4ui.c:152 src/arch/unix/vic20ui.c:476
+#: src/arch/unix/cbm2ui.c:465 src/arch/unix/petui.c:386
+#: src/arch/unix/plus4ui.c:153 src/arch/unix/vic20ui.c:476
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "File"
 
 #: src/arch/unix/c128ui.c:436 src/arch/unix/c64ui.c:413
-#: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:403
-#: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/cbm2ui.c:482 src/arch/unix/petui.c:403
+#: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:495
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:443 src/arch/unix/c64ui.c:420
-#: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:176 src/arch/unix/vic20ui.c:502
+#: src/arch/unix/cbm2ui.c:489 src/arch/unix/petui.c:410
+#: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:502
 msgid "Options"
 msgstr "Opzioni"
 
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
-#: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:418
-#: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:508
+#: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:418
+#: src/arch/unix/plus4ui.c:185 src/arch/unix/vic20ui.c:508
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1130
 #: src/arch/unix/x11/gnome/x11ui.c:1222
 msgid "Settings"
@@ -269,8 +269,8 @@ msgstr "Impostazioni"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:446
-#: src/arch/unix/cbm2ui.c:512 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:523
+#: src/arch/unix/cbm2ui.c:513 src/arch/unix/petui.c:432
+#: src/arch/unix/plus4ui.c:199 src/arch/unix/vic20ui.c:523
 msgid "RJHelp"
 msgstr "RJAiuto"
 
@@ -290,8 +290,8 @@ msgstr "Carica una nuova ROM del Basic"
 msgid "Load new character ROM"
 msgstr "Carica una nuova ROM del Chargen"
 
-#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:398
-#: src/arch/unix/petui.c:320 src/arch/unix/plus4ui.c:67
+#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:399
+#: src/arch/unix/petui.c:320 src/arch/unix/plus4ui.c:68
 #: src/arch/unix/vic20ui.c:396
 msgid "Screenshot..."
 msgstr "Cattura schermo..."
@@ -304,161 +304,161 @@ msgstr "Impostazioni delle ROM"
 msgid "I/O extensions at $DFxx"
 msgstr "Estensioni di I/O a $DFxx"
 
-#: src/arch/unix/cbm2ui.c:70
+#: src/arch/unix/cbm2ui.c:71
 msgid "Basic 128k, low chars"
 msgstr "Basic 128k, caratteri bassi"
 
-#: src/arch/unix/cbm2ui.c:72
+#: src/arch/unix/cbm2ui.c:73
 msgid "Basic 256k, low chars"
 msgstr "Basic 256k, caratteri bassi"
 
-#: src/arch/unix/cbm2ui.c:74
+#: src/arch/unix/cbm2ui.c:75
 msgid "Basic 128k, high chars"
 msgstr "Basic 128k, caratteri alti"
 
-#: src/arch/unix/cbm2ui.c:76
+#: src/arch/unix/cbm2ui.c:77
 msgid "Basic 256k, high chars"
 msgstr "Basic 256k, caratteri alti"
 
-#: src/arch/unix/cbm2ui.c:79
+#: src/arch/unix/cbm2ui.c:80
 msgid "Load new Kernal"
 msgstr "Carica un nuovo Kernal"
 
-#: src/arch/unix/cbm2ui.c:82
+#: src/arch/unix/cbm2ui.c:83
 msgid "Load new Chargen"
 msgstr "Carica un nuovo Chargen"
 
-#: src/arch/unix/cbm2ui.c:86
+#: src/arch/unix/cbm2ui.c:87
 msgid "Load new Basic"
 msgstr "Carica un nuovo Basic"
 
-#: src/arch/unix/cbm2ui.c:89
+#: src/arch/unix/cbm2ui.c:90
 msgid "Unload Basic ROM"
 msgstr "Scarica la ROM del Basic"
 
-#: src/arch/unix/cbm2ui.c:93
+#: src/arch/unix/cbm2ui.c:94
 msgid "Load new Cart $1***"
 msgstr "Carica una nuova cartuccia $1***"
 
-#: src/arch/unix/cbm2ui.c:96
+#: src/arch/unix/cbm2ui.c:97
 msgid "Unload Cart $1***"
 msgstr "Scarica la cartuccia $1***"
 
-#: src/arch/unix/cbm2ui.c:100
+#: src/arch/unix/cbm2ui.c:101
 msgid "Load new Cart $2-3***"
 msgstr "Carica una nuova cartuccia $2-3***"
 
-#: src/arch/unix/cbm2ui.c:103
+#: src/arch/unix/cbm2ui.c:104
 msgid "Unload Cart $2-3***"
 msgstr "Scarica la cartuccia $2-3***"
 
-#: src/arch/unix/cbm2ui.c:107
+#: src/arch/unix/cbm2ui.c:108
 msgid "Load new Cart $4-5***"
 msgstr "Carica una nuova cartuccia $4-5***"
 
-#: src/arch/unix/cbm2ui.c:110
+#: src/arch/unix/cbm2ui.c:111
 msgid "Unload Cart $4-5***"
 msgstr "Scarica la cartuccia $4-5***"
 
-#: src/arch/unix/cbm2ui.c:114
+#: src/arch/unix/cbm2ui.c:115
 msgid "Load new Cart $6-7***"
 msgstr "Carica una nuova cartuccia $6-7***"
 
-#: src/arch/unix/cbm2ui.c:117
+#: src/arch/unix/cbm2ui.c:118
 msgid "Unload Cart $6-7***"
 msgstr "Scarica la cartuccia $6-7***"
 
-#: src/arch/unix/cbm2ui.c:202 src/arch/unix/petui.c:116
+#: src/arch/unix/cbm2ui.c:203 src/arch/unix/petui.c:116
 msgid "*Graphics"
 msgstr "*Grafica"
 
-#: src/arch/unix/cbm2ui.c:204 src/arch/unix/petui.c:118
+#: src/arch/unix/cbm2ui.c:205 src/arch/unix/petui.c:118
 msgid "*Business (UK)"
 msgstr "*Business (UK)"
 
-#: src/arch/unix/cbm2ui.c:226 src/arch/unix/petui.c:258
+#: src/arch/unix/cbm2ui.c:227 src/arch/unix/petui.c:258
 msgid "Model defaults"
 msgstr "Modello predefinito"
 
-#: src/arch/unix/cbm2ui.c:232 src/arch/unix/petui.c:266
+#: src/arch/unix/cbm2ui.c:233 src/arch/unix/petui.c:266
 msgid "Memory size"
 msgstr "Dimensione della memoria"
 
-#: src/arch/unix/cbm2ui.c:234
+#: src/arch/unix/cbm2ui.c:235
 msgid "Hardwired switches"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:237
+#: src/arch/unix/cbm2ui.c:238
 msgid "*Bank 15 $0800-$0FFF RAM"
 msgstr "*RAM del banco 15 a $0800-$0FFF"
 
-#: src/arch/unix/cbm2ui.c:239
+#: src/arch/unix/cbm2ui.c:240
 msgid "*Bank 15 $1000-$1FFF RAM"
 msgstr "*RAM del banco 15 a $1000-$1FFF"
 
-#: src/arch/unix/cbm2ui.c:241
+#: src/arch/unix/cbm2ui.c:242
 msgid "*Bank 15 $2000-$3FFF RAM"
 msgstr "*RAM del banco 15 a $2000-$3FFF"
 
-#: src/arch/unix/cbm2ui.c:243
+#: src/arch/unix/cbm2ui.c:244
 msgid "*Bank 15 $4000-$5FFF RAM"
 msgstr "*RAM del banco 15 a $4000-$5FFF"
 
-#: src/arch/unix/cbm2ui.c:245
+#: src/arch/unix/cbm2ui.c:246
 msgid "*Bank 15 $6000-$7FFF RAM"
 msgstr "*RAM del banco 15 a $6000-$7FFF"
 
-#: src/arch/unix/cbm2ui.c:247
+#: src/arch/unix/cbm2ui.c:248
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*RAM del banco 15 a $C000-$CFFF"
 
-#: src/arch/unix/cbm2ui.c:251 src/arch/unix/petui.c:283
+#: src/arch/unix/cbm2ui.c:252 src/arch/unix/petui.c:283
 msgid "Keyboard type"
 msgstr "Tipo di tastiera"
 
-#: src/arch/unix/cbm2ui.c:327 src/arch/unix/petui.c:236
+#: src/arch/unix/cbm2ui.c:328 src/arch/unix/petui.c:236
 msgid "ACIA device"
 msgstr "Dispositivo ACIA"
 
-#: src/arch/unix/cbm2ui.c:330 src/arch/unix/petui.c:239
+#: src/arch/unix/cbm2ui.c:331 src/arch/unix/petui.c:239
 #: src/arch/unix/uirs232.c:217 src/arch/unix/vic20ui.c:336
 msgid "Serial 1 device..."
 msgstr "Dispositivo seriale 1..."
 
-#: src/arch/unix/cbm2ui.c:332 src/arch/unix/petui.c:241
+#: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:241
 #: src/arch/unix/uirs232.c:219 src/arch/unix/vic20ui.c:338
 msgid "Serial 1 baudrate"
 msgstr "Velocità della seriale 1 (in baud)"
 
-#: src/arch/unix/cbm2ui.c:335 src/arch/unix/petui.c:244
+#: src/arch/unix/cbm2ui.c:336 src/arch/unix/petui.c:244
 #: src/arch/unix/vic20ui.c:341
 msgid "Serial 2 device..."
 msgstr "Dispositivo seriale 2..."
 
-#: src/arch/unix/cbm2ui.c:337 src/arch/unix/petui.c:246
+#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:246
 #: src/arch/unix/uirs232.c:224 src/arch/unix/vic20ui.c:343
 msgid "Serial 2 baudrate"
 msgstr "Velocità della seriale 2 (in baud)"
 
-#: src/arch/unix/cbm2ui.c:340 src/arch/unix/petui.c:249
+#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:249
 #: src/arch/unix/uirs232.c:227 src/arch/unix/vic20ui.c:346
 msgid "Dump filename..."
 msgstr "Scrivi su file..."
 
-#: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:252
+#: src/arch/unix/cbm2ui.c:344 src/arch/unix/petui.c:252
 #: src/arch/unix/uirs232.c:230 src/arch/unix/vic20ui.c:349
 msgid "Program name to exec..."
 msgstr "Nome del programma da eseguire..."
 
-#: src/arch/unix/cbm2ui.c:366
+#: src/arch/unix/cbm2ui.c:367
 msgid "CBM-II model settings"
 msgstr "Impostazioni del modello di CBM-II"
 
-#: src/arch/unix/cbm2ui.c:371 src/arch/unix/petui.c:297
+#: src/arch/unix/cbm2ui.c:372 src/arch/unix/petui.c:297
 msgid "Crtc settings"
 msgstr "Impostazioni del Crtc"
 
-#: src/arch/unix/cbm2ui.c:373
+#: src/arch/unix/cbm2ui.c:374
 msgid "*VIC-II settings"
 msgstr "*Impostazioni del VIC-II"
 
@@ -644,23 +644,23 @@ msgstr "Impostazioni del modello di PET"
 msgid "*PET userport diagnostic pin"
 msgstr "*Pin diagnostico della userport"
 
-#: src/arch/unix/plus4ui.c:77
+#: src/arch/unix/plus4ui.c:78
 msgid "*16KB"
 msgstr "*16KB"
 
-#: src/arch/unix/plus4ui.c:79
+#: src/arch/unix/plus4ui.c:80
 msgid "*32KB"
 msgstr "*32KB"
 
-#: src/arch/unix/plus4ui.c:81
+#: src/arch/unix/plus4ui.c:82
 msgid "*64KB"
 msgstr "*64KB"
 
-#: src/arch/unix/plus4ui.c:89
+#: src/arch/unix/plus4ui.c:90
 msgid "RAM settings"
 msgstr "Impostazioni delle RAM"
 
-#: src/arch/unix/plus4ui.c:91
+#: src/arch/unix/plus4ui.c:92
 msgid "TED settings"
 msgstr "Impostazioni del TED"
 
@@ -746,91 +746,91 @@ msgstr "Tentativo di lettura da fd %d non valido."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Tentativo di lettura da fd %d non aperto."
 
-#: src/arch/unix/uic64cart.c:56
+#: src/arch/unix/uic64cart.c:57
 msgid "Invalid cartridge"
 msgstr "Cartuccia non valida"
 
-#: src/arch/unix/uic64cart.c:65 src/arch/unix/vic20ui.c:205
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:205
 msgid "Attach cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
 
-#: src/arch/unix/uic64cart.c:73 src/arch/unix/vic20ui.c:211
+#: src/arch/unix/uic64cart.c:74 src/arch/unix/vic20ui.c:211
 msgid "Invalid cartridge image"
 msgstr "Immagine della cartuccia non valida"
 
-#: src/arch/unix/uic64cart.c:136
+#: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
 msgstr "Salva l'immaggine della cartuccia..."
 
-#: src/arch/unix/uic64cart.c:142
+#: src/arch/unix/uic64cart.c:143
 msgid "Smart attach CRT image..."
 msgstr "Seleziona una immagine CRT..."
 
-#: src/arch/unix/uic64cart.c:146
+#: src/arch/unix/uic64cart.c:147
 msgid "Attach generic 8KB image..."
 msgstr "Seleziona una immagine generica di 8KB..."
 
-#: src/arch/unix/uic64cart.c:149
+#: src/arch/unix/uic64cart.c:150
 msgid "Attach generic 16KB image..."
 msgstr "Seleziona una immagine generica di 16KB..."
 
-#: src/arch/unix/uic64cart.c:152
+#: src/arch/unix/uic64cart.c:153
 msgid "Attach Action Replay image..."
 msgstr "Seleziona una immagine Action Replay..."
 
-#: src/arch/unix/uic64cart.c:155
+#: src/arch/unix/uic64cart.c:156
 msgid "Attach Atomic Power image..."
 msgstr "Seleziona una immagine Atomic Power..."
 
-#: src/arch/unix/uic64cart.c:158
+#: src/arch/unix/uic64cart.c:159
 msgid "Attach Epyx fastload image..."
 msgstr "Seleziona una immagine Epyx fastload..."
 
-#: src/arch/unix/uic64cart.c:161
+#: src/arch/unix/uic64cart.c:162
 msgid "Attach IEEE488 interface image..."
 msgstr "Seleziona una immagine dell'interfaccia IEEE488..."
 
-#: src/arch/unix/uic64cart.c:164
+#: src/arch/unix/uic64cart.c:165
 msgid "Attach Retro Replay image..."
 msgstr "Seleziona una immagine Retro Replay..."
 
-#: src/arch/unix/uic64cart.c:167
+#: src/arch/unix/uic64cart.c:168
 msgid "Attach IDE64 interface image..."
 msgstr "Seleziona una immagine dell'interfaccia IDE64..."
 
-#: src/arch/unix/uic64cart.c:170
+#: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 4 image..."
 msgstr "Seleziona una immagine Super Snapshot 4..."
 
-#: src/arch/unix/uic64cart.c:173
+#: src/arch/unix/uic64cart.c:174
 msgid "Attach Super Snapshot 5 image..."
 msgstr "Seleziona una immagine Super Snapshot 5..."
 
-#: src/arch/unix/uic64cart.c:177
+#: src/arch/unix/uic64cart.c:178
 msgid "Enable Expert Cartridge..."
 msgstr "Attiva l'Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:181 src/arch/unix/vic20ui.c:257
+#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:257
 msgid "Set cartridge as default"
 msgstr "Imposta la cartuccia come predefinita"
 
-#: src/arch/unix/uic64cart.c:187 src/arch/unix/vic20ui.c:263
+#: src/arch/unix/uic64cart.c:188 src/arch/unix/vic20ui.c:263
 msgid "Attach a cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
 
-#: src/arch/unix/uic64cart.c:189
+#: src/arch/unix/uic64cart.c:190
 msgid "Detach cartridge image"
 msgstr "Rimuovi l'immagine della cartuccia"
 
-#: src/arch/unix/uic64cart.c:191
+#: src/arch/unix/uic64cart.c:192
 msgid "Cartridge freeze"
 msgstr "Freeze della cartuccia"
 
-#: src/arch/unix/uic64cart.c:193
+#: src/arch/unix/uic64cart.c:194
 msgid "*Cartridge control"
 msgstr "*Controllo della cartuccia"
 
-#: src/arch/unix/uicmdline.c:37
+#: src/arch/unix/uicmdline.c:39
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -955,7 +955,7 @@ msgstr "Carica "
 
 #: src/arch/unix/uicommands.c:639 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:401
-#: src/arch/unix/x11/xaw/uiscreenshot.c:253
+#: src/arch/unix/x11/xaw/uiscreenshot.c:254
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Salva"
@@ -1206,24 +1206,24 @@ msgstr "*Pausa"
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
-#: src/arch/unix/uicrtc.c:40
+#: src/arch/unix/uicrtc.c:41
 msgid "*Default (Green)"
 msgstr "*Predefinita (Verde)"
 
-#: src/arch/unix/uicrtc.c:42
+#: src/arch/unix/uicrtc.c:43
 msgid "*Amber"
 msgstr "*Ambra"
 
-#: src/arch/unix/uicrtc.c:44
+#: src/arch/unix/uicrtc.c:45
 msgid "*White"
 msgstr "*Bianco"
 
-#: src/arch/unix/uicrtc.c:47 src/arch/unix/uited.c:44 src/arch/unix/uivdc.c:43
+#: src/arch/unix/uicrtc.c:48 src/arch/unix/uited.c:44 src/arch/unix/uivdc.c:43
 #: src/arch/unix/uivic.c:53 src/arch/unix/uivicii.c:62
 msgid "Load custom"
 msgstr "Personalizzata"
 
-#: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:105
+#: src/arch/unix/uicrtc.c:93 src/arch/unix/uicrtc.c:106
 #: src/arch/unix/uited.c:100 src/arch/unix/uited.c:125
 #: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:98
 #: src/arch/unix/uivic.c:117 src/arch/unix/uivicii.c:111
@@ -1231,7 +1231,7 @@ msgstr "Personalizzata"
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
-#: src/arch/unix/uicrtc.c:94 src/arch/unix/uicrtc.c:107
+#: src/arch/unix/uicrtc.c:95 src/arch/unix/uicrtc.c:108
 #: src/arch/unix/uited.c:102 src/arch/unix/uited.c:127
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
 #: src/arch/unix/uivic.c:100 src/arch/unix/uivic.c:119
@@ -1239,52 +1239,52 @@ msgstr "*Dimensione doppia"
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
-#: src/arch/unix/uicrtc.c:96 src/arch/unix/uited.c:104
+#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:104
 #: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:102
 #: src/arch/unix/uivicii.c:115
 msgid "*Video cache"
 msgstr "*Video cache"
 
-#: src/arch/unix/uicrtc.c:99 src/arch/unix/uited.c:119
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:119
 #: src/arch/unix/uivic.c:111 src/arch/unix/uivicii.c:128
 msgid "*Scale 2x render"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:103 src/arch/unix/uited.c:123
+#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:123
 #: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:115
 #: src/arch/unix/uivicii.c:132
 msgid "*Enable fullscreen"
 msgstr "*Attiva schermo intero"
 
-#: src/arch/unix/uicrtc.c:109 src/arch/unix/uited.c:129
+#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:129
 #: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:121
 #: src/arch/unix/uivicii.c:138
 msgid "Fullscreen device"
 msgstr "Dispositivo per lo schermo intero"
 
-#: src/arch/unix/uicrtc.c:114 src/arch/unix/uited.c:134
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:134
 #: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:126
 #: src/arch/unix/uivicii.c:143
 msgid "VidMode Resolutions"
 msgstr "Risoluzioni VidMode"
 
-#: src/arch/unix/uicrtc.c:118 src/arch/unix/uited.c:138
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:138
 #: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:130
 #: src/arch/unix/uivicii.c:147
 msgid "DGA1 Resolutions"
 msgstr "Risoluzioni DGA1"
 
-#: src/arch/unix/uicrtc.c:122 src/arch/unix/uited.c:142
+#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:142
 #: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:134
 #: src/arch/unix/uivicii.c:151
 msgid "DGA2 Resolutions"
 msgstr "Risoluzioni DGA2"
 
-#: src/arch/unix/uicrtc.c:127
+#: src/arch/unix/uicrtc.c:128
 msgid "*CRTC Screen color"
 msgstr "*Tinta dello schermo CRTC"
 
-#: src/arch/unix/uicrtc.c:130 src/arch/unix/uited.c:147
+#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:147
 #: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:142
 #: src/arch/unix/uivicii.c:164
 msgid "*Use XSync()"
@@ -2514,13 +2514,13 @@ msgstr "Salva la cartuccia"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:86
+#: src/arch/unix/x11/gnome/uiscreenshot.c:88
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr "Nome del file: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:221
+#: src/arch/unix/x11/gnome/uiscreenshot.c:223
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Nome del file non valido"
@@ -2619,32 +2619,32 @@ msgstr "*Emulazione PAL veloce"
 msgid "Exact Emulation"
 msgstr "Emulazione PAL"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:80
-#: src/arch/unix/x11/gnome/uiscreenshot.c:91
-#: src/arch/unix/x11/gnome/uiscreenshot.c:211
+#: src/arch/unix/x11/gnome/uiscreenshot.c:82
+#: src/arch/unix/x11/gnome/uiscreenshot.c:93
+#: src/arch/unix/x11/gnome/uiscreenshot.c:213
 msgid "Save Screenshot"
 msgstr "Salva cattura schermo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:104
+#: src/arch/unix/x11/gnome/uiscreenshot.c:106
 msgid "Image Format"
 msgstr "Formato dell'immagine"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:154
+#: src/arch/unix/x11/gnome/uiscreenshot.c:156
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:169
+#: src/arch/unix/x11/gnome/uiscreenshot.c:171
 #, fuzzy
 msgid "Video Bitrate"
 msgstr "Dimensione dello schermo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:251
+#: src/arch/unix/x11/gnome/uiscreenshot.c:253
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr ""
 "Non è possibile scrivere la cattura dello schermo su `%s' con il driver `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:259
+#: src/arch/unix/x11/gnome/uiscreenshot.c:261
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Scruttura di `%s' riuscita"
@@ -2960,35 +2960,35 @@ msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 msgid "Couldn't allocate color cache"
 msgstr "Non è possibile allocare la cache dei colori"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:38
+#: src/arch/unix/x11/ui-cmdline-options.c:39
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Specifica un browser HTML per l'help in linea"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:41
+#: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Install a private colormap"
 msgstr "Installa una tavolozza privata"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:44
+#: src/arch/unix/x11/ui-cmdline-options.c:45
 msgid "Use the default colormap"
 msgstr "Usa la tavolozza dei colori predefinita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:47
+#: src/arch/unix/x11/ui-cmdline-options.c:48
 msgid "Save settings (resources) on exit"
 msgstr "Salva le impostazioni in uscita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:50
+#: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never save settings (resources) on exit"
 msgstr "Non salvare mai le impostazioni in uscita"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54
+#: src/arch/unix/x11/ui-cmdline-options.c:55
 msgid "Enable fullscreen"
 msgstr "Attiva schermo intero"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57
+#: src/arch/unix/x11/ui-cmdline-options.c:58
 msgid "Disable fullscreen"
 msgstr "Disattiva schermo intero"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:61
+#: src/arch/unix/x11/ui-cmdline-options.c:62
 msgid "Specify X display depth (1..32)"
 msgstr "Specifica la profondita del display X (1..32)"
 
@@ -3052,19 +3052,19 @@ msgid "Save cartridge image file"
 msgstr "Salva il file immagine della cartuccia"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:206
-#: src/arch/unix/x11/xaw/uiscreenshot.c:161
+#: src/arch/unix/x11/xaw/uiscreenshot.c:162
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Nome del file:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:235
-#: src/arch/unix/x11/xaw/uiscreenshot.c:190
+#: src/arch/unix/x11/xaw/uiscreenshot.c:191
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr "Sfoglia..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:408
-#: src/arch/unix/x11/xaw/uiscreenshot.c:260
+#: src/arch/unix/x11/xaw/uiscreenshot.c:261
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr "Annulla"
@@ -3097,15 +3097,15 @@ msgstr "Nome del disco:"
 msgid "Disk format:"
 msgstr "Formato del disco:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:87
+#: src/arch/unix/x11/xaw/uiscreenshot.c:88
 msgid "Save screenshot file"
 msgstr "Salva il file di cattura dello schermo"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:210
+#: src/arch/unix/x11/xaw/uiscreenshot.c:211
 msgid "Image format:"
 msgstr "Formato dell'immagine:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:277
+#: src/arch/unix/x11/xaw/uiscreenshot.c:278
 msgid "Screen Snapshot"
 msgstr "Cattura schermo"
 

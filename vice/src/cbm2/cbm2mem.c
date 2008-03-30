@@ -95,10 +95,10 @@ static BYTE *_mem_read_base_tab[16][0x101];
 static int mem_read_limit_tab[3][0x101];
 
 /* watch tables are fixed */
-read_func_ptr_t _mem_read_tab_watch[0x101];
-read_func_ptr_t _mem_read_ind_tab_watch[0x101];
-store_func_ptr_t _mem_write_tab_watch[0x101];
-store_func_ptr_t _mem_write_ind_tab_watch[0x101];
+static read_func_ptr_t _mem_read_tab_watch[0x101];
+static read_func_ptr_t _mem_read_ind_tab_watch[0x101];
+static store_func_ptr_t _mem_write_tab_watch[0x101];
+static store_func_ptr_t _mem_write_ind_tab_watch[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 read_func_ptr_t *_mem_read_ind_tab_ptr;
@@ -369,37 +369,37 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     _mem_write_tab_ptr[0]((WORD)(addr & 0xff), value);
 }
 
-#define STORE_ZERO(bank)                                    \
-    void REGPARM2 store_zero_##bank(WORD addr, BYTE value)  \
-    {                                                       \
-        addr &= 0xff;                                       \
-                                                            \
-        if (addr == 0)                                      \
-            cbm2mem_set_bank_exec(value);                   \
-        else                                                \
-        if (addr == 1)                                      \
-            cbm2mem_set_bank_ind(value);                    \
-                                                            \
-        mem_ram[(0x##bank << 16) | addr] = value;           \
+#define STORE_ZERO(bank)                                          \
+    static void REGPARM2 store_zero_##bank(WORD addr, BYTE value) \
+    {                                                             \
+        addr &= 0xff;                                             \
+                                                                  \
+        if (addr == 0)                                            \
+            cbm2mem_set_bank_exec(value);                         \
+        else                                                      \
+        if (addr == 1)                                            \
+            cbm2mem_set_bank_ind(value);                          \
+                                                                  \
+        mem_ram[(0x##bank << 16) | addr] = value;                 \
     }
 
 
 #define READ_ZERO(bank)                                     \
-    BYTE REGPARM1 read_zero_##bank(WORD addr)               \
+    static BYTE REGPARM1 read_zero_##bank(WORD addr)        \
     {                                                       \
         return mem_ram[(0x##bank << 16) | (addr & 0xff)];   \
     }
 
 #define READ_RAM(bank)                                      \
-    BYTE REGPARM1 read_ram_##bank(WORD addr)                \
+    static BYTE REGPARM1 read_ram_##bank(WORD addr)         \
     {                                                       \
         return mem_ram[(0x##bank << 16) | addr];            \
     }
 
-#define STORE_RAM(bank)                                     \
-    void REGPARM2 store_ram_##bank(WORD addr, BYTE byte)    \
-    {                                                       \
-        mem_ram[(0x##bank << 16) | addr] = byte;            \
+#define STORE_RAM(bank)                                         \
+    static void REGPARM2 store_ram_##bank(WORD addr, BYTE byte) \
+    {                                                           \
+        mem_ram[(0x##bank << 16) | addr] = byte;                \
     }
 
 STORE_ZERO(0)

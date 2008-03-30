@@ -32,6 +32,7 @@
 #include "debug.h"
 #include "icon.h"
 #include "machine-video.h"
+#include "plus4ui.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"

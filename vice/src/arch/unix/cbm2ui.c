@@ -32,6 +32,7 @@
 
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2ui.h"
 #include "debug.h"
 #include "icon.h"
 #include "machine.h"

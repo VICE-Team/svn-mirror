@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "ui.h"
 
 
 static const cmdline_option_t cmdline_options[] = {

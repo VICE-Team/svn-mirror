@@ -34,6 +34,7 @@
 #include "cartridge.h"
 #include "lib.h"
 #include "ui.h"
+#include "uic64cart.h"
 #include "uicartridge.h"
 #include "uimenu.h"
 #include "util.h"
