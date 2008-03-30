@@ -64,6 +64,10 @@ realize_canvas (raster_t *raster)
 {
   raster_viewport_t *viewport;
 
+  if (console_mode) {
+    return 0;
+  }
+
   viewport = &raster->viewport;
 
   if (viewport->canvas == NULL)
@@ -102,10 +106,10 @@ realize_frame_buffer (raster_t *raster)
 #if 0
   /* Boooh...  Amazingly broken API.  FIXME.  */
   if (raster->frame_buffer != NULL)
-    frame_buffer_free (&raster->frame_buffer);
+    video_frame_buffer_free (&raster->frame_buffer);
 #else
   if (!console_mode && !psid_mode)
-    frame_buffer_free (&raster->frame_buffer);
+    video_frame_buffer_free (&raster->frame_buffer);
 #endif
 
   fb_width = ((raster->geometry.screen_size.width
@@ -119,11 +123,11 @@ realize_frame_buffer (raster_t *raster)
     fb_height = 1;
 
   if (!console_mode && !psid_mode)
-    if (frame_buffer_alloc (&raster->frame_buffer, fb_width, fb_height))
+    if (video_frame_buffer_alloc (&raster->frame_buffer, fb_width, fb_height))
       return -1;
 
   if (!console_mode && !psid_mode)
-    frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
+    video_frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
 
   if (raster->fake_frame_buffer_line != NULL)
     free (raster->fake_frame_buffer_line);
@@ -1142,7 +1146,7 @@ raster_init (raster_t *raster,
 
   /* Woo!  This sucks real bad!  FIXME!  */
   if (!console_mode && !psid_mode)
-    frame_buffer_alloc (&raster->frame_buffer, 1, 1);
+    video_frame_buffer_alloc (&raster->frame_buffer, 1, 1);
 
   raster_reset (raster);
 
@@ -1534,7 +1538,8 @@ raster_force_repaint (raster_t *raster)
   raster->num_cached_lines = 0;
 
   if (!console_mode && !psid_mode)
-      frame_buffer_clear (&raster->frame_buffer, RASTER_PIXEL (raster, 0));
+      video_frame_buffer_clear (&raster->frame_buffer,
+                                RASTER_PIXEL (raster, 0));
 }
 
 void

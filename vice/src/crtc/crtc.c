@@ -802,7 +802,7 @@ void crtc_exposure_handler (unsigned int width,
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void video_free(void)
 {
-  frame_buffer_free (&crtc.raster.frame_buffer);
+  video_frame_buffer_free (&crtc.raster.frame_buffer);
 }
 
 void video_setfullscreen (int v, int width, int height)

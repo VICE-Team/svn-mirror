@@ -368,5 +368,5 @@ video_setfullscreen (int v, int width, int height)
 void 
 video_free (void)
 {
-  frame_buffer_free (&vic.raster.frame_buffer);
+  video_frame_buffer_free (&vic.raster.frame_buffer);
 }
