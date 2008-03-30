@@ -174,6 +174,10 @@ SOURCE=.\ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiacia.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
