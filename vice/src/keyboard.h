@@ -52,6 +52,7 @@ typedef struct keyboard_conv_s {
     int row;
     int column;
     enum shift_type shift;
+    char *comment;
 } keyboard_conv_t;
 
 extern keyboard_conv_t joykeys[2][10];
