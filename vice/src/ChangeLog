@@ -1,3 +1,22 @@
+2002-06-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.26.
+
+	* vicii/vicii.c, c64/c64cart.h, c64/cart/c64cartmem.c,
+	c64/cart/final.c, c64/cart/kcs.c, cbm2/c610mem.c,
+	c64/cart/actionreplay.c, c64/cart/atomicpower.c,
+	c64/cart/epyxfastload.c, c64/cart/expert.c,
+	c64/cart/generic.c, c64/cart/retroreplay.c, c64/cart/ide64.c,
+	c64/cart/supergames.c, c64/cart/supersnapshot.c,
+	c64/cart/zaxxon.c: Splitted ultimax into phi1 and phi2 part.
+
+	* c64/cart/ide64.c (ide64_io1_read): Return random value if
+	register $2f is accessed.
+
+	* vicii/vicii-draw.c: Removed old code.
+
+	* vicii/vicii-phi1.c: Some implementation.
+
 2002-06-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.25.
