@@ -87,7 +87,6 @@ int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
 
 int ui_menu_init()
 {
-    ui_create_dynamic_menues();
     return(0);
 }
 

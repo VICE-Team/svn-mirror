@@ -244,8 +244,6 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
     XtAppAddActions(app_context, actions, XtNumber(actions));
     XawSimpleMenuAddGlobalActions(app_context);
 
-    ui_create_dynamic_menues();
-
     return 0;
 }
 

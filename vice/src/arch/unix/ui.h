@@ -85,7 +85,6 @@ extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
 extern void ui_pause_emulation(int flag);
 extern int ui_emulation_is_paused(void);
-extern void ui_create_dynamic_menues(void);
 extern void ui_check_mouse_cursor(void);
 extern void ui_update_flip_menus(int from_unit, int to_unit);
 
