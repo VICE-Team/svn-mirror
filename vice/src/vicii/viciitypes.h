@@ -395,14 +395,13 @@ typedef struct vic_ii_s vic_ii_t;
 extern vic_ii_t vic_ii;
 
 /* Private function calls, used by the other VIC-II modules.  */
-extern void vic_ii_fetch_matrix(int offs, int num);
 extern void vic_ii_set_raster_irq(unsigned int line);
 extern void vic_ii_update_memory_ptrs(unsigned int cycle);
 extern void vic_ii_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
-extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
 extern void vic_ii_resize(void);
 extern void vic_ii_handle_pending_alarms(int num_write_cycles);
+extern void vic_ii_raster_irq_alarm_handler(CLOCK offset);
 
 /* Debugging options.  */
 
