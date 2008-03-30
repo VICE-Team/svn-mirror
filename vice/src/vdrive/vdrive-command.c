@@ -618,14 +618,17 @@ int vdrive_command_validate(vdrive_t *vdrive)
     BYTE *b, oldbam[5 * 256];
 
     status = vdrive_command_initialize(vdrive);
+
     if (status != IPE_OK)
         return status;
     if (vdrive->image->read_only)
         return IPE_WRITE_PROTECT_ON;
+
     /* FIXME: size of BAM define */
     memcpy(oldbam, vdrive->bam, 5 * 256);
 
     vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
+
     for (t = 1; t <= vdrive->num_tracks; t++) {
         int max_sector;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
@@ -665,9 +668,9 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
         if (*filetype & FT_CLOSED) {
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_FIRST_TRACK],
-                                    b[SLOT_FIRST_SECTOR]);
+                                               b[SLOT_FIRST_SECTOR]);
             if (status != IPE_OK) {
-                memcpy(vdrive->bam, oldbam, 256);
+                memcpy(vdrive->bam, oldbam, 5 * 256);
                 return status;
             }
             /* The real drive always validates side sectors even if the file
@@ -675,7 +678,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_SIDE_TRACK],
                                                b[SLOT_SIDE_SECTOR]);
             if (status != IPE_OK) {
-                memcpy(vdrive->bam, oldbam, 256);
+                memcpy(vdrive->bam, oldbam, 5 * 256);
                 return status;
             }
         } else {
