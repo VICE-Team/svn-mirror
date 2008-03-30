@@ -1,8 +1,7 @@
 /*
- * uisettings.h - Implementation of common UI settings.
+ * uirs232.h
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,24 +24,21 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+#ifndef _UI_RS232_H
+#define _UI_RS232_H
 
 #include "ui.h"
 
-extern struct ui_menu_entry_s ui_performance_settings_menu[];
-extern struct ui_menu_entry_s ui_video_settings_menu[];
-extern struct ui_menu_entry_s ui_vic_video_settings_menu[];
-extern struct ui_menu_entry_s video_settings_submenu[];
-extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
-extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];
-extern struct ui_menu_entry_s ui_keyboard_settings_menu[];
-extern struct ui_menu_entry_s ui_settings_settings_menu[];
-extern UI_CALLBACK(ui_set_romset);
-extern UI_CALLBACK(ui_load_romset);
-extern UI_CALLBACK(ui_load_rom_file);
-extern UI_CALLBACK(ui_unload_rom_file);
-extern UI_CALLBACK(ui_dump_romset);
+extern struct ui_menu_entry_s rs232_submenu[];
+
+extern struct ui_menu_entry_s ser1_baud_submenu[];
+extern struct ui_menu_entry_s ser2_baud_submenu[];
+extern struct ui_menu_entry_s acia1_device_submenu[];
+extern struct ui_menu_entry_s rsuser_device_submenu[];
+
+extern UI_CALLBACK(set_rs232_device_file);
+extern UI_CALLBACK(set_rs232_exec_file);
+extern UI_CALLBACK(set_rs232_dump_file);
 
 #endif
 

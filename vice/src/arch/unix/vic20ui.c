@@ -37,12 +37,17 @@
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
+#include "uidrive.h"
 #include "uipalette.h"
+#include "uiperipheral.h"
 #include "uimenu.h"
+#include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
-#include "vsync.h"
+#include "uisound.h"
 #include "utils.h"
+#include "vsync.h"
+
 
 /* ------------------------------------------------------------------------- */
 

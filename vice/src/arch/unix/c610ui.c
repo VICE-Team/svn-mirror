@@ -32,19 +32,24 @@
 #include "c610.h"
 #include "c610mem.h"
 #include "icon.h"
-#include "joystick.h"
 #include "drive.h"
 #include "petui.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uicrtc.h"
 #include "uidatasette.h"
+#include "uidrive.h"
+#include "uijoystick2.h"
+#include "uiperipheral.h"
+#include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
+#include "uisound.h"
 #include "uimenu.h"
 #include "uivicii.h"
 #include "vsync.h"
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -283,133 +288,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
       NULL, NULL, sid_model_submenu },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-/* FIXME: this is the same for all emulators besides the VIC20 so this
-   should better go to uisettings.c, so we have only one copy for
-   all of them, not 4 copies */
-
-static UI_CALLBACK(set_joystick_device_1)
-{
-    int tmp;
-
-    vsync_suspend_speed_eval();
-    if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
-        ui_update_menus();
-    } else {
-        resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
-        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
-    }
-}
-
-static UI_CALLBACK(set_joystick_device_2)
-{
-    int tmp;
-
-    vsync_suspend_speed_eval();
-    if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice2", (resource_value_t)UI_MENU_CB_PARAM);
-        ui_update_menus();
-    } else {
-        resources_get_value("JoyDevice2", (resource_value_t *)&tmp);
-        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
-    }
-}
-
-static UI_CALLBACK(swap_joystick_ports)
-{
-    int tmp1, tmp2;
-
-    if (w != NULL)
-        vsync_suspend_speed_eval();
-    resources_get_value("JoyDevice1", (resource_value_t *)&tmp1);
-    resources_get_value("JoyDevice2", (resource_value_t *)&tmp2);
-    resources_set_value("JoyDevice1", (resource_value_t)tmp2);
-    resources_set_value("JoyDevice2", (resource_value_t)tmp1);
-    ui_update_menus();
-}
-
-static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { N_("*None"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_NONE, NULL },
-    { N_("*Numpad"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("*Custom Keys"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
-#ifdef HAS_JOYSTICK
-    { N_("*Analog Joystick 0"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
-    { N_("*Analog Joystick 1"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { N_("*Digital Joystick 0"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
-    { N_("*Digital Joystick 1"),
-      (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
-#endif
-#endif
-    { NULL }
-};
-
-static ui_menu_entry_t set_joystick_device_2_submenu[] = {
-    { N_("*None"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_NONE, NULL },
-    { N_("*Numpad"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("*Custom Keys"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
-#ifdef HAS_JOYSTICK
-    { N_("*Analog Joystick 0"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
-    { N_("*Analog Joystick 1"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { N_("*Digital Joystick 0"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
-    { N_("*Digital Joystick 1"),
-      (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
-#endif
-#endif /* HAS_JOYSTICK */
-    { NULL }
-};
-
-static ui_menu_entry_t joystick_settings_submenu[] = {
-    { N_("Joystick device in port 1"),
-      NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick device in port 2"),
-      NULL, NULL, set_joystick_device_2_submenu },
-    { "--" },
-    { N_("Swap joystick ports"),
-      (ui_callback_t)swap_joystick_ports, NULL, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t joystick_options_submenu[] = {
-    { N_("Swap joystick ports"),
-      (ui_callback_t)swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
-    { NULL }
-};
-
-static ui_menu_entry_t joystick_settings_menu[] = {
-    { N_("Joystick settings"),
-      NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
 

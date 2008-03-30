@@ -34,9 +34,13 @@
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
+#include "uidrive.h"
 #include "uimenu.h"
+#include "uiperipheral.h"
+#include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
+#include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
 
