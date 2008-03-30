@@ -31,12 +31,14 @@
 #include <windows.h>
 
 #include "console.h"
+#include "utils.h"
 
 static FILE *mon_output, *mon_input;
 
 console_t console_open(const char *id)
 {
     AllocConsole();
+    SetConsoleTitle(id);
 
     mon_output = fopen("CON", "wt");
     mon_input = fopen("CON", "rt");
@@ -46,6 +48,9 @@ console_t console_open(const char *id)
 
 int console_close(console_t log)
 {
+    fclose(mon_output);
+    fclose(mon_input);
+
     FreeConsole();
 
     return 0;
@@ -63,6 +68,22 @@ int console_out(console_t log, const char *format, ...)
 
 char *console_in(console_t log)
 {
-    return NULL;
+    char *p = (char*)xmalloc(1024);
+
+    fflush(mon_output);
+    fgets(p, 1024, mon_input);
+
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p);
+             len > 0 && (p[len - 1] == '\r'
+                         || p[len - 1] == '\n');
+             len--)
+            p[len - 1] = '\0';
+    }
+
+    return p;
 }
 
