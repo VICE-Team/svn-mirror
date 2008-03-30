@@ -88,6 +88,8 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
+#if 0
+
 /* this is partially modeled after the radio_* callbacks */
 static UI_CALLBACK(set_KeyboardType)
 {
@@ -114,6 +116,8 @@ static ui_menu_entry_t c610_keybd_submenu[] = {
     { NULL }
 };
 
+#endif
+
 UI_MENU_DEFINE_TOGGLE(Ram1)
 UI_MENU_DEFINE_TOGGLE(Ram2)
 UI_MENU_DEFINE_TOGGLE(Ram4)
@@ -134,9 +138,11 @@ static ui_menu_entry_t model_settings_submenu[] = {
       (ui_callback_t) toggle_Ram4, NULL, NULL },
     { "*Bank 15 $6000-$7FFF RAM",
       (ui_callback_t) toggle_Ram6, NULL, NULL },
+#if 0
     { "--" },
     { "Keyboard type",
       NULL, NULL, c610_keybd_submenu },
+#endif
     { NULL }
 };
 
@@ -170,10 +176,6 @@ static ui_menu_entry_t c610_rs232_submenu[] = {
 static ui_menu_entry_t c610_menu[] = {
     { "CBM-II model settings",
       NULL, NULL, model_settings_submenu },
-/*
-    { "*PET Userport Diagnostic Pin",
-      (ui_callback_t) toggle_DiagPin, NULL, NULL },
-*/
     { "RS232 settings",
       NULL, NULL, c610_rs232_submenu },
     { "--" },
@@ -225,7 +227,6 @@ int c610_ui_init(void)
                                      NULL));
 
     ui_update_menus();
-    /* ui_toggle_drive_status(0); */
 
     return 0;
 }
