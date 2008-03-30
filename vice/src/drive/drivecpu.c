@@ -135,14 +135,17 @@ void drive_cpu_setup_context(drive_context_t *drv)
     drv->cpu = lib_malloc(sizeof(drivecpu_context_t));
     cpu = drv->cpu;
 
+    drv->cpud = lib_malloc(sizeof(drivecpud_context_t));
+    drv->func = lib_malloc(sizeof(drivefunc_context_t));
+
     cpu->int_status = interrupt_cpu_status_new();
     interrupt_cpu_status_init(cpu->int_status,
                               &(cpu->last_opcode_info));
     cpu->rmw_flag = 0;
     cpu->d_bank_limit = -1;
     cpu->pageone = NULL;
-    sprintf(cpu->snap_module_name, "DRIVECPU%d", drv->mynumber);
-    sprintf(cpu->identification_string, "DRIVE#%d", drv->mynumber + 8);
+    cpu->snap_module_name = lib_msprintf("DRIVECPU%d", drv->mynumber);
+    cpu->identification_string = lib_msprintf("DRIVE#%d", drv->mynumber + 8);
     cpu->monitor_interface = monitor_interface_new();
     mi = cpu->monitor_interface;
     mi->cpu_regs = &(cpu->cpu_regs);
@@ -179,13 +182,13 @@ void drive_cpu_setup_context(drive_context_t *drv)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)           (drv->cpud.read_func[(a) >> 8](drv, (WORD)(a)))
-#define LOAD_ZERO(a)      (drv->cpud.read_func[0](drv, (WORD)(a)))
+#define LOAD(a)           (drv->cpud->read_func[(a) >> 8](drv, (WORD)(a)))
+#define LOAD_ZERO(a)      (drv->cpud->read_func[0](drv, (WORD)(a)))
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (WORD)(a), \
+#define STORE(a, b)       (drv->cpud->store_func[(a) >> 8](drv, (WORD)(a), \
                           (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud.store_func[0](drv, (WORD)(a), \
+#define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), \
                           (BYTE)(b)))
 
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
@@ -198,7 +201,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
             cpu->d_bank_base = NULL;                         \
             cpu->d_bank_limit = -1;                          \
         } else if (reg_pc < 0x2000) {                        \
-            cpu->d_bank_base = drv->cpud.drive_ram;          \
+            cpu->d_bank_base = drv->cpud->drive_ram;         \
             cpu->d_bank_limit = 0x07fd;                      \
         } else if (reg_pc >= drv->drive_ptr->rom_start) {    \
             cpu->d_bank_base = drv->drive_ptr->rom - 0x8000; \
@@ -215,31 +218,31 @@ void drive_cpu_setup_context(drive_context_t *drv)
 
 BYTE REGPARM2 drive_read(drive_context_t *drv, WORD address)
 {
-    return drv->cpud.read_func[address >> 8](drv, address);
+    return drv->cpud->read_func[address >> 8](drv, address);
 }
 
 void REGPARM3 drive_store(drive_context_t *drv, WORD address, BYTE value)
 {
-    drv->cpud.store_func[address >> 8](drv, address, value);
+    drv->cpud->store_func[address >> 8](drv, address, value);
 }
 
 /* This is the external interface for banked memory access.  */
 
 static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address)
 {
-    return drv->cpud.read_func[address >> 8](drv, address);
+    return drv->cpud->read_func[address >> 8](drv, address);
 }
 
 /* FIXME: use peek in IO area */
 static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address)
 {
-    return drv->cpud.read_func[address >> 8](drv, address);
+    return drv->cpud->read_func[address >> 8](drv, address);
 }
 
 static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
                              BYTE value)
 {
-    drv->cpud.store_func[address >> 8](drv, address, value);
+    drv->cpud->store_func[address >> 8](drv, address, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -265,14 +268,14 @@ static void cpu_reset(drive_context_t *drv)
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
 {
     if (flag) {
-        memcpy(drv->cpud.read_func, drv->cpud.read_func_watch,
+        memcpy(drv->cpud->read_func, drv->cpud->read_func_watch,
                sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud.store_func, drv->cpud.store_func_watch,
+        memcpy(drv->cpud->store_func, drv->cpud->store_func_watch,
                sizeof(drive_store_func_t *) * 0x101);
     } else {
-        memcpy(drv->cpud.read_func, drv->cpud.read_func_nowatch,
+        memcpy(drv->cpud->read_func, drv->cpud->read_func_nowatch,
                sizeof(drive_read_func_t *) * 0x101);
-        memcpy(drv->cpud.store_func, drv->cpud.store_func_nowatch,
+        memcpy(drv->cpud->store_func, drv->cpud->store_func_nowatch,
                sizeof(drive_store_func_t *) * 0x101);
     }
 }
@@ -314,17 +317,26 @@ void drive_cpu_early_init(drive_context_t *drv)
 
 void drive_cpu_shutdown(drive_context_t *drv)
 {
-    if (drv->cpu->alarm_context != NULL)
-        alarm_context_destroy(drv->cpu->alarm_context);
-    if (drv->cpu->clk_guard != NULL)
-        clk_guard_destroy(drv->cpu->clk_guard);
+    drivecpu_context_t *cpu;
 
-    monitor_interface_destroy(drv->cpu->monitor_interface);
-    interrupt_cpu_status_destroy(drv->cpu->int_status);
+    cpu = drv->cpu;
+
+    if (cpu->alarm_context != NULL)
+        alarm_context_destroy(cpu->alarm_context);
+    if (cpu->clk_guard != NULL)
+        clk_guard_destroy(cpu->clk_guard);
+
+    monitor_interface_destroy(cpu->monitor_interface);
+    interrupt_cpu_status_destroy(cpu->int_status);
+
+    lib_free(cpu->snap_module_name);
+    lib_free(cpu->identification_string);
 
     machine_drive_shutdown(drv);
 
-    lib_free(drv->cpu);
+    lib_free(drv->func);
+    lib_free(drv->cpud);
+    lib_free(cpu);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -483,15 +495,15 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
     while (cycles > 0) {
         if (cycles > MAX_TICKS) {
             cpu->stop_clk = (*(drv->clk_ptr)
-                            + drv->cpud.clk_conv_table[MAX_TICKS]
+                            + drv->cpud->clk_conv_table[MAX_TICKS]
                             - cpu->last_exc_cycles);
-            cpu->cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
+            cpu->cycle_accum += drv->cpud->clk_mod_table[MAX_TICKS];
             cycles -= MAX_TICKS;
         } else {
             cpu->stop_clk = (*(drv->clk_ptr)
-                            + drv->cpud.clk_conv_table[cycles]
+                            + drv->cpud->clk_conv_table[cycles]
                             - cpu->last_exc_cycles);
-            cpu->cycle_accum += drv->cpud.clk_mod_table[cycles];
+            cpu->cycle_accum += drv->cpud->clk_mod_table[cycles];
             cycles = 0;
         }
 
@@ -680,16 +692,16 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_1571CR
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (SMW_BA(m, drv->cpud.drive_ram, 0x800) < 0)
+        if (SMW_BA(m, drv->cpud->drive_ram, 0x800) < 0)
             goto fail;
     }
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (SMW_BA(m, drv->cpud.drive_ram, 0x2000) < 0)
+        if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
     if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
-        if (SMW_BA(m, drv->cpud.drive_ram, 0x1100) < 0)
+        if (SMW_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }
 
@@ -760,17 +772,17 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_1571CR
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (SMR_BA(m, drv->cpud.drive_ram, 0x800) < 0)
+        if (SMR_BA(m, drv->cpud->drive_ram, 0x800) < 0)
             goto fail;
     }
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (SMR_BA(m, drv->cpud.drive_ram, 0x2000) < 0)
+        if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
 
     if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
-        if (SMR_BA(m, drv->cpud.drive_ram, 0x1100) < 0)
+        if (SMR_BA(m, drv->cpud->drive_ram, 0x1100) < 0)
             goto fail;
     }
 

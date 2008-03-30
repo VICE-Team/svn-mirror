@@ -101,11 +101,11 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 }
 
 
-#define parallel_drivex_set_bus(a)      (((drive_context_t *)(via_context->context))->func.parallel_set_bus(a))
-#define parallel_drivex_set_eoi(a)      (((drive_context_t *)(via_context->context))->func.parallel_set_eoi(a))
-#define parallel_drivex_set_dav(a)      (((drive_context_t *)(via_context->context))->func.parallel_set_dav(a))
-#define parallel_drivex_set_ndac(a)     (((drive_context_t *)(via_context->context))->func.parallel_set_ndac(a))
-#define parallel_drivex_set_nrfd(a)     (((drive_context_t *)(via_context->context))->func.parallel_set_nrfd(a))
+#define parallel_drivex_set_bus(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_bus(a))
+#define parallel_drivex_set_eoi(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_eoi(a))
+#define parallel_drivex_set_dav(a)      (((drive_context_t *)(via_context->context))->func->parallel_set_dav(a))
+#define parallel_drivex_set_ndac(a)     (((drive_context_t *)(via_context->context))->func->parallel_set_ndac(a))
+#define parallel_drivex_set_nrfd(a)     (((drive_context_t *)(via_context->context))->func->parallel_set_nrfd(a))
 
 
 void via1d2031_set_atn(via_context_t *via_context, int state)

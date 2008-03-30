@@ -96,9 +96,9 @@ typedef struct drivecpu_context_s {
 
     int monspace;         /* init to e_disk[89]_space */
 
-    char snap_module_name[12];    /* init to "DRIVECPU[01]" */
+    char *snap_module_name;
 
-    char identification_string[8];        /* init to "DRIVE#[89]" */
+    char *identification_string;
 } drivecpu_context_t;
 
 
@@ -132,7 +132,6 @@ typedef struct drivecpud_context_s {
  */
 
 typedef struct drivefunc_context_s {
-
     void (*iec_write)(BYTE);
     BYTE (*iec_read)(void);
     void (*parallel_set_bus)(BYTE);
@@ -141,7 +140,6 @@ typedef struct drivefunc_context_s {
     void (*parallel_set_ndac)(BYTE);
     void (*parallel_set_nrfd)(BYTE);
     void (*parallel_cable_write)(BYTE, int);
-
 } drivefunc_context_t;
 
 
@@ -155,24 +153,21 @@ struct tpi_context_s;
 struct via_context_s;
 
 typedef struct drive_context_s {
-
     int mynumber;         /* init to [01] */
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
     struct drive_s *drive_ptr;    /* shortcut to drive[mynumber] */
 
     drivecpu_context_t *cpu;
-    drivefunc_context_t func;
+    struct drivecpud_context_s *cpud;
+    struct drivefunc_context_s *func;
     struct via_context_s *via1d1541;
     struct via_context_s *via1d2031;
     struct via_context_s *via2;
     struct cia_context_s *cia1571;
     struct cia_context_s *cia1581;
-    struct iec_info_s *c_iec_info;        /* for CIA1581 */
     struct riot_context_s *riot1;
     struct riot_context_s *riot2;
     struct tpi_context_s *tpid;
-    drivecpud_context_t cpud;
-
 } drive_context_t;
 
 

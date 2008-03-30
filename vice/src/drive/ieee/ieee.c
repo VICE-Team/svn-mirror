@@ -89,17 +89,17 @@ void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 void ieee_drive_setup_context(struct drive_context_s *drv)
 {
     if (drv->mynumber == 0) {
-        drv->func.parallel_set_bus = parallel_drv0_set_bus;
-        drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
-        drv->func.parallel_set_dav = parallel_drv0_set_dav;
-        drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
-        drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
+        drv->func->parallel_set_bus = parallel_drv0_set_bus;
+        drv->func->parallel_set_eoi = parallel_drv0_set_eoi;
+        drv->func->parallel_set_dav = parallel_drv0_set_dav;
+        drv->func->parallel_set_ndac = parallel_drv0_set_ndac;
+        drv->func->parallel_set_nrfd = parallel_drv0_set_nrfd;
     } else {
-        drv->func.parallel_set_bus = parallel_drv1_set_bus;
-        drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
-        drv->func.parallel_set_dav = parallel_drv1_set_dav;
-        drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
-        drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
+        drv->func->parallel_set_bus = parallel_drv1_set_bus;
+        drv->func->parallel_set_eoi = parallel_drv1_set_eoi;
+        drv->func->parallel_set_dav = parallel_drv1_set_dav;
+        drv->func->parallel_set_ndac = parallel_drv1_set_ndac;
+        drv->func->parallel_set_nrfd = parallel_drv1_set_nrfd;
     }
 
     via1d2031_setup_context(drv);

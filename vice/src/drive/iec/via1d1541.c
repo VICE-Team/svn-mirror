@@ -100,9 +100,9 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
     interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
-#define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func.iec_write(a))
-#define iec_drivex_read()               (((drive_context_t *)(via_context->context))->func.iec_read())
-#define parallel_cable_drivex_write(a,b) (((drive_context_t *)(via_context->context))->func.parallel_cable_write(a,b))
+#define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func->iec_write(a))
+#define iec_drivex_read()               (((drive_context_t *)(via_context->context))->func->iec_read())
+#define parallel_cable_drivex_write(a,b) (((drive_context_t *)(via_context->context))->func->parallel_cable_write(a,b))
 
 
 static void undump_pra(via_context_t *via_context, BYTE byte)

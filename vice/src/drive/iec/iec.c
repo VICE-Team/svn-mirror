@@ -88,13 +88,13 @@ void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 void iec_drive_setup_context(struct drive_context_s *drv)
 {
     if (drv->mynumber == 0) {
-        drv->func.iec_write = iec_drive0_write;
-        drv->func.iec_read = iec_drive0_read;
-        drv->func.parallel_cable_write = parallel_cable_drive0_write;
+        drv->func->iec_write = iec_drive0_write;
+        drv->func->iec_read = iec_drive0_read;
+        drv->func->parallel_cable_write = parallel_cable_drive0_write;
     } else {
-        drv->func.iec_write = iec_drive1_write;
-        drv->func.iec_read = iec_drive1_read;
-        drv->func.parallel_cable_write = parallel_cable_drive1_write;
+        drv->func->iec_write = iec_drive1_write;
+        drv->func->iec_read = iec_drive1_read;
+        drv->func->parallel_cable_write = parallel_cable_drive1_write;
     }
 
     via1d1541_setup_context(drv);

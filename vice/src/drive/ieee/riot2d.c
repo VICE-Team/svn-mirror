@@ -99,11 +99,11 @@ static void set_handshake(riot_context_t *riot_context, BYTE pa)
                 RFDO    = (/ATN == ATNA) & RFDO -> to IEEE via MC3446
     */
     /* RFDO = (/ATN == ATNA) & RFDO */
-    drive_context->func.parallel_set_nrfd((char)(
+    drive_context->func->parallel_set_nrfd((char)(
         !( ((riot2p->r_atn_active ? 1 : 0) == (pa & 1)) && (pa & 4) )
         ));
     /* DACO = /DACO & (ATNA | ATN) */
-    drive_context->func.parallel_set_ndac((char)(
+    drive_context->func->parallel_set_ndac((char)(
         !( (!(pa & 2)) && ((pa & 1) || (!(riot2p->r_atn_active))) )
         ));
 }
@@ -137,8 +137,8 @@ static void undump_pra(riot_context_t *riot_context, BYTE byte)
 
     /* bit 0 = atna */
     set_handshake(riot_context, byte);
-    drive_context->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
-    drive_context->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
+    drive_context->func->parallel_set_eoi((BYTE)(!(byte & 0x08)));
+    drive_context->func->parallel_set_dav((BYTE)(!(byte & 0x10)));
 }
 
 static void store_pra(riot_context_t *riot_context, BYTE byte)
@@ -153,8 +153,8 @@ static void store_pra(riot_context_t *riot_context, BYTE byte)
     /* bit 3 = eoio */
     /* bit 4 = davo */
     set_handshake(riot_context, byte);  /* handle atna, nrfd, ndac */
-    drive_context->func.parallel_set_eoi((BYTE)(!(byte & 0x08)));
-    drive_context->func.parallel_set_dav((BYTE)(!(byte & 0x10)));
+    drive_context->func->parallel_set_eoi((BYTE)(!(byte & 0x08)));
+    drive_context->func->parallel_set_dav((BYTE)(!(byte & 0x10)));
 }
 
 static void undump_prb(riot_context_t *riot_context, BYTE byte)
@@ -203,8 +203,8 @@ static void reset(riot_context_t *riot_context)
 
     riot2p->r_atn_active = 0;
 
-    drive_context->func.parallel_set_dav(0);
-    drive_context->func.parallel_set_eoi(0);
+    drive_context->func->parallel_set_dav(0);
+    drive_context->func->parallel_set_eoi(0);
 
     set_handshake(riot_context, riot_context->old_pa);
 

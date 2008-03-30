@@ -94,7 +94,7 @@ static void do_reset_cia(cia_context_t *cia_context)
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
-    cia1581p->iec_info = iec_get_drive_port();
+    /*cia1581p->iec_info = iec_get_drive_port();*/
 
     cia1581p->drive_ptr->led_status = 1;
 }
@@ -160,7 +160,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
                 | (cia1581p->iec_info->cpu_port >> 7)
                 | ((cia1581p->iec_info->cpu_bus << 3) & 0x80));
         } else {
-            drive_context->func.iec_write((BYTE)(~byte));
+            drive_context->func->iec_write((BYTE)(~byte));
         }
 
         iec_fast_drive_direction(byte & 0x20, cia1581p->number);
@@ -201,7 +201,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
             | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
     } else {
         return (((cia_context->c_cia[CIA_PRB] & 0x1a)
-            | drive_context->func.iec_read()) ^ 0x85)
+            | drive_context->func->iec_read()) ^ 0x85)
             | (cia1581p->drive_ptr->read_only ? 0 : 0x40);
     }
 }
@@ -295,7 +295,8 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->myname = lib_msprintf("CIA1581D%d", ctxptr->mynumber);
 
     cia1581p->drive_ptr = ctxptr->drive_ptr;
-    cia1581p->iec_info = ctxptr->c_iec_info;
+    cia1581p->iec_info = iec_get_drive_port();
+    /*cia1581p->iec_info = ctxptr->c_iec_info;*/
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;
