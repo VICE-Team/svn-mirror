@@ -1,3 +1,10 @@
+Sat Aug 15 21:47:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.58.
+
+	* configure.in: Disabled MIDAS stuff.  On MS-DOS, make sure
+	`READLINE' is empty.
+
 Sat Aug 15 15:19:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.57.
