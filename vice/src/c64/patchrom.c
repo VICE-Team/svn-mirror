@@ -242,9 +242,10 @@ int  patch_rom(const char *str)
     if (str == NULL || *str == '\0')
         return 0;
 
-    for (isnum = 0, i = 0; str[i] != '\0'; i++)
-        if (!isalnum((int) str[i]))
+    for (isnum = 1, i = 0; str[i] != '\0'; i++) {
+        if (!isdigit((int) str[i]))
             isnum = 0;
+    }
 
     if (!isnum) {
         if (strcasecmp(str, "sx") == 0) {
@@ -293,6 +294,7 @@ int  patch_rom(const char *str)
     printf("\nInstalling ROM patch for revision #%d:\n", num);
 
     lcount = 0;
+    i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
 	a = (ADDRESS)patch_bytes[i++];
 

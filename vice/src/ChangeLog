@@ -1,3 +1,161 @@
+1998-10-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/patchrom.c (patch_rom): fix detection of non-numeric
+	kernal revisions. Set i to 0 before using it as index in the 
+	patch table....
+
+	* c128/c128mem.c (mem_write_rom_snapshot_module, 
+	mem_read_rom_snapshot_module): new functions to save/restore the 
+	C128 ROMs in the snapshot.
+	Currently saves Kernal, Chargen, Basic and Editor ROM.
+	Does not save any cartridge stuff.
+	(mem_write_snapshot_module, mem_read_snapshot_module):
+	call the ROM snapshot functions.
+
+	* c64/c64mem.c (mem_write_rom_snapshot_module,
+        mem_read_rom_snapshot_module): new functions to save/restore the 
+        C64 ROMs in the snapshot.
+	Currently saves Kernal, Chargen, and Basic ROM.
+        Does not save any cartridge stuff.
+        (mem_write_snapshot_module, mem_read_snapshot_module):
+        call the ROM snapshot functions.
+
+1998-10-19  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c (break64) [!__MSDOS__]: Completely removed the old
+ 	"congratulations! you have found a bug in VICE!" hack.
+
+	* crtc-tmpl.c (crtc_set_screen_mode): Fixed parse error from
+ 	André's latest change; use parameter `num_cols' instead of
+	`crtc_cols', which is no longer defined.
+
+1998-10-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* crtc-tmpl.c (DOUBLE_SIZE_ENABLED): new define to replace
+	double_size_enabled in the double-size checks. Defined to 
+	the variable under Unix, add an additional check for screen_xpix>320
+	for DOS.
+	(crtc_init, crtc_set_screen_mode): remove DOS check for double size.
+	(video_resize, crtc_update_timing): replace double_size_enabled
+	variable with define.
+
+1998-10-16  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* autostart.c: include machine.h and snapshot.h
+	(autostartmode): new enum entry AUTOSTART_HASSNAPSHOT
+	(load_snapshot_trap): new CPU trap to load a snapshot 
+	from the autostart code.
+	(autostart_advance): new case for AUTOSTART_HASSNAPSHOT;
+	set trap for loading of snapshot and disable autostart.
+	(autostart_snapshot): new function to check if a file is
+	a snapshot and setup for autostart. Use global 
+	machine_name[] for snapshot emulator type.
+	(autostart_autodetect): add a check for a snapshot file
+
+	* cbm2/c610.c (machine_read_snapshot, machine_write_snapshot):
+	use the global (already existing) machine_name[] as snapshot
+	name
+	* vic20/vic20.c: changed likewise
+	* pet/pet.c: changed likewise
+
+	* main.c (cmdline_options): add "-core" and "+core" entries
+	to set DoCoreDump entries.
+	(resources, do_core_dumps, set_do_core_dumps): new stuff
+	to setup the "DoCoreDump" resource
+	(main): register the local resources as well
+	If do_core_dumps is set, then do not install signal handlers to 
+	catch core dumps
+	(break64): remove call to user interface but exit directly
+
+	* crtc-tmpl.c [IS_DOUBLE_HEIGHT_ALLOWED]: new define. Is true if
+	height (charheight * lines) fits into framebuffer even if double size
+	(screen_height, screen_width): removed, SCREEN_HEIGHT and SCREEN_WIDTH
+	are now set from screen_xpix/screen_ypix plus the appropriate
+	SCREEN_BORDER*
+	(video_resize): check id double height is allowed before setting
+	height to double value
+	(crtc_update_timing): If double_size_enabled do for the height
+	an equivalent check as for the width. If the screen gets to
+	high, first (temporarily) disable double height, then reduce
+	number of lines per character.
+	(screen_rasterlines): new variable to hold the timing-wise height
+	of the screen. SCREEN_HEIGHT only holds the display-wise
+	height of the screen.
+	(crsr_set_dirty): check if rasterline is in valid range before
+	setting the dirty flag.
+	(DRAW, DRAW_2x): do not use pixel-counting SCREEN_WIDTH but
+	SCREEN_MAX_TEXTCOLS when filling the rest of the line with
+	blanks.
+
+	* crtc.h: remove most CRTC_* defines and define SCREEN_* directly.
+	[SCREEN_HEIGHT, SCREEN_WIDTH]: taken from XPIX/YPIX plus the
+	appropriate borders
+	[SCREEN_LAST_RASTERLINE]: new define for to indicate when rasterline
+	overflows
+	[FRAMEB_WIDTH, FRAMEB_HEIGHT]: new defines that contain the size
+	of the allocated framebuffer. We must never let SCREEN_WIDTH
+	and SCREEN_HEIGHT become larger than this.
+	
+	* pet/pets.c [DEBUG]: undef
+
+	* raster.c [FRAMEB_WIDTH, FRAMEB_HEIGHT]: if not defined, define
+	to the old values given to frame_buffer_alloc().
+	[SCREEN_LAST_RASTERLINE]: if not defined, define to SCREEN_HEIGHT
+	(init_raster): use FRAMEB_* when calling frame_buffer_alloc()
+	(emulate_line): if __CRTC__ is defined, only do changes check 
+	and frame_buffer_ptr update etc only if rasterline is
+	less than SCREEN_HEIGHT
+	If rasterline is equal to SCREEN_LAST_RASTERLINE instead of 
+	SCREEN_HEIGHT to reset rasterline.
+
+1998-10-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128iec.c: Changed `update_ports' to `iec_update_ports' and
+	made non-static.
+	* c64/c64iec.c: Likewise.
+
+	* c64/c64.c (machine_write_snapshot): Execute drive CPU before
+	doing a snapshot.
+
+	* cbm2/c610iec.c (iec_update_ports): New stub.
+	* pet/petiec.c
+	* vic20/vic20iec.c
+
+	* drive/drive.c (initialize_rotation): Moved initialization of the
+	rotation table to new function `initialize_rotation_table'.
+	(drive_init): Initialize `clock_frequency' too.
+	(drive_cpu_execute): New function.
+	(drive_write_snapshot_module): Do not save module if true drive
+	emulation is off.
+	(drive_read_snapshot_module): Switch off true drive emulation if
+	module is not found.  Initialize drive rotation table.  Setup ROM
+	images before installing traps.  Enable drives after everything is
+	initialized.  Call `iec_update_port' to update the IEC bus.
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_read_snapshot_module): Reset
+	all other chips while the snapshot is read.
+
+	* drive/drivecpu0.def: #define "MYCPU".
+	* drive/drivecpu1.def: #define "MYCPU".
+
+	* drive/via1drive0.def (UNDUMP_PRA): Get pointer to iec_info
+	struct.
+	* drive/via1drive1.def (UNDUMP_PRA): Likewise.
+
+1998-10-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* drive/drive.c (drive0_trap_handler, drive1_trap_handler):
+	Removed separate trap functions.
+	(drive_write_snapshot_module): If GCR image should not be saved
+	set `GCR_image' to zero.  Also save `parallel_cable_enabled',
+	`idling_method' and `extend_image_policy'.
+	(drive_read_snapshot_module): Do not use the general
+	`set_drive_true_emulation' switch.  Also initialize drive cpu
+	memory, set the actual drive ROM and idle method.
+
+	* drive/drivecpu-tmpl.c (mydrive_mem_init): Made non-static.
+	(mydrive_trap_handler): New common trap function.
+
 1998-10-14  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.21.

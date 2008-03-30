@@ -1391,11 +1391,112 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 /* ------------------------------------------------------------------------- */
 
 /* Snapshot.  */
-/* FIXME: Do we want to make a snapshot of all the ROMs too?  */
 
-static char snap_module_name[] = "C64MEM";
+#define SNAP_ROM_MAJOR 0
+#define SNAP_ROM_MINOR 0
+static const char snap_rom_module_name[] = "C64ROM";
+
+static int mem_write_rom_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    /* Main memory module.  */
+
+    m = snapshot_module_create(s, snap_rom_module_name, 
+					SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (snapshot_module_write_byte_array(m, kernal_rom, 
+						C64_KERNAL_ROM_SIZE) < 0
+        || snapshot_module_write_byte_array(m, basic_rom, 
+						C64_BASIC_ROM_SIZE) < 0
+        || snapshot_module_write_byte_array(m, chargen_rom, 
+						C64_CHARGEN_ROM_SIZE) < 0
+        )
+	goto fail;
+
+    /* FIXME: save cartridge ROM (& RAM?) areas:
+       first write out the configuration, i.e. 
+       - type of cartridge (banking scheme type)
+       - state of cartridge (active/which bank, ...)
+       then the ROM/RAM arrays:
+       - cartridge ROM areas
+       - cartridge RAM areas
+    */
+
+    /* to get all the checkmarks right */
+    ui_update_menus();
+
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    return 0;
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+ 
+int mem_read_rom_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    /* Main memory module.  */
+
+    m = snapshot_module_open(s, snap_rom_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL) {
+	/* this module is optional */
+
+	/* FIXME: reset all cartridge stuff to standard C64 behaviour */
+
+        return 0;
+    }
+
+    if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+        goto fail;
+    }
+
+    if (snapshot_module_read_byte_array(m, kernal_rom, 
+						C64_KERNAL_ROM_SIZE) < 0
+        || snapshot_module_read_byte_array(m, basic_rom, 
+						C64_BASIC_ROM_SIZE) < 0
+        || snapshot_module_read_byte_array(m, chargen_rom, 
+						C64_CHARGEN_ROM_SIZE) < 0
+        )
+	goto fail;
+
+    /* FIXME: read cartridge ROM (& RAM?) areas:
+       first read out the configuration, i.e. 
+       - type of cartridge (banking scheme type)
+       - state of cartridge (active/which bank, ...)
+       then the ROM/RAM arrays:
+       - cartridge ROM areas
+       - cartridge RAM areas
+    */
+
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    return 0;
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
+static const char snap_mem_module_name[] = "C64MEM";
 
 int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 {
@@ -1403,7 +1504,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 
     /* Main memory module.  */
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_mem_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
 
@@ -1417,6 +1518,9 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
+    if (save_roms && mem_write_rom_snapshot_module(s) < 0)
+	goto fail;
+	
     /* REU module.  */
     if (reu_enabled && reu_write_snapshot_module(s) < 0)
         goto fail;
@@ -1446,7 +1550,7 @@ int mem_read_snapshot_module(snapshot_t *s)
 
     /* Main memory module.  */
 
-    m = snapshot_module_open(s, snap_module_name,
+    m = snapshot_module_open(s, snap_mem_module_name,
                              &major_version, &minor_version);
     if (m == NULL)
         return -1;
@@ -1470,6 +1574,9 @@ int mem_read_snapshot_module(snapshot_t *s)
 
     if (snapshot_module_close(m) < 0)
         goto fail;
+
+    if (mem_read_rom_snapshot_module(s) < 0)
+	goto fail;
 
     /* REU module.  */
     if (reu_read_snapshot_module(s) < 0) {
