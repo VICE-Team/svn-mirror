@@ -488,7 +488,7 @@ static const char *try_uncompress_zipcode(const char *name, int write_mode)
     char *argv[5];
     int	exit_status;
 
-    /* Is the 2nd char has to be '!'? */
+    /* The 2nd char has to be '!'? */
     if (strlen(name) < 3 || name[1] != '!')
         return NULL;
 
