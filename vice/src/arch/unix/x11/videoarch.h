@@ -52,13 +52,13 @@
 struct video_canvas_s {
     unsigned int width, height;
     ui_window_t emuwindow;
+    DWORD color_tab[256];
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
     Window drawable;
     Colormap colormap;
 #endif
-
 };
 typedef struct video_canvas_s video_canvas_t;
 
@@ -73,8 +73,8 @@ struct video_frame_buffer_s {
     XImage *x_image;
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;
-    video_canvas_t *canvas;
 #endif
+    video_canvas_t *canvas;
 
 #ifdef USE_MITSHM
     XShmSegmentInfo xshm_info;
@@ -145,7 +145,8 @@ extern void video_register_raster(raster_t *raster);
 #ifdef USE_COLOR_MANAGEMENT
 extern void video_convert_color_table(unsigned int i, PIXEL *pixel_return,
                                       PIXEL *data, unsigned int bits_per_pixel,
-                                      unsigned int dither, long col);
+                                      unsigned int dither, long col,
+                                      video_canvas_t *c);
 #else
 extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
                                       XImage *im,
