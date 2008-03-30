@@ -68,7 +68,7 @@
 /* #define  DEBUG_TAPE */
 
 /* Warning: this only works for C64!  (FIXME!)  */
-#define SET_ST(b)	   STORE(0x90, (LOAD(0x90) | b))
+#define SET_ST(b)	   mem_store(0x90, (mem_read(0x90) | b))
 #define BSOUR		   0x95	/* Buffered Character for Serial Bus */
 #define TMP_IN		   0xA4	/* Temp Data Area */
 #define CAS_BUFFER_OFFSET  (ram[0xB2] | (ram[0xB3] << 8))  /* C64,128 TAPE1 */
@@ -417,18 +417,18 @@ void findheader (void)
 
 
     /* FIXME: Only works for C64 */
-    STORE(0x90, 0);			/* Clear the STATUS word */
+    mem_store(0x90, 0);			/* Clear the STATUS word */
 
     ram[VERCK] = 0;
     ram[IRQTMP] = 0;
 
     /* Check if STOP has been pressed.  FIXME: only works with C64.  */
     {
-	int i, n = LOAD_ZERO(0xC6);
+	int i, n = mem_read(0xC6);
 
 	maincpu_regs.p.c = 0;
 	for (i = 0; i < n; i++)
-	    if (LOAD(0x277 + i) == 0x3) {
+	    if (mem_read(0x277 + i) == 0x3) {
 		maincpu_regs.p.c = 1;	/* Carry set flags BREAK error. */
 		break;
 	    }

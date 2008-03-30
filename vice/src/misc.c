@@ -126,11 +126,11 @@ char   *sprint_ophex (ADDRESS p)
     char *bp;
     int   j, len;
 
-    len = clength[lookup[LOAD(p)].addr_mode];
+    len = clength[lookup[mem_read(p)].addr_mode];
     *hexbuf = '\0';
     for (j = 0, bp = hexbuf; j < 3 ; j++, bp += 3) {
 	if (j < len) {
-	    sprintf (bp, "%02X ", LOAD(p+j));
+	    sprintf (bp, "%02X ", mem_read(p+j));
 	} else {
 	    strcat (bp, "   ");
 	}
@@ -141,9 +141,9 @@ char   *sprint_ophex (ADDRESS p)
 
 char   *sprint_opcode(ADDRESS counter, int base)
 {
-    BYTE    x = LOAD(counter);
-    BYTE    p1 = LOAD(counter + 1);
-    BYTE    p2 = LOAD(counter + 2);
+    BYTE    x = mem_read(counter);
+    BYTE    p1 = mem_read(counter + 1);
+    BYTE    p2 = mem_read(counter + 2);
 
     return sprint_disassembled(counter, x, p1, p2, base);
 }
@@ -272,7 +272,7 @@ char   *sprint_disassembled(ADDRESS counter,
 int     eff_address(ADDRESS counter, int step)
 {
     int     addr_mode, eff;
-    BYTE    x = LOAD(counter);
+    BYTE    x = mem_read(counter);
     BYTE    p1 = 0;
     ADDRESS p2 = 0;
 
@@ -281,10 +281,10 @@ int     eff_address(ADDRESS counter, int step)
 
     switch (clength[addr_mode]) {
       case 2:
-	p1 = LOAD(counter + 1);
+	p1 = mem_read(counter + 1);
 	break;
       case 3:
-	p2 = LOAD(counter + 1) | (LOAD(counter + 2) << 8);
+	p2 = mem_read(counter + 1) | (mem_read(counter + 2) << 8);
 	break;
     }
 
@@ -328,11 +328,13 @@ int     eff_address(ADDRESS counter, int step)
 	break;
 
       case INDIRECT_X:
-	eff = LOAD_ZERO_ADDR(p1 + maincpu_regs.x);
+        eff = (mem_read(p1 + maincpu_regs.x)
+               | (mem_read((p1 + maincpu_regs.x + 1) & 0xff) << 8));
 	break;
 
       case INDIRECT_Y:
-	eff = LOAD_ZERO_ADDR(p1) + maincpu_regs.y;
+        eff = (mem_read(p1)
+               | (mem_read((p1 + 1) & 0xff) << 8)) + maincpu_regs.y;
 	break;
 
       case RELATIVE:
