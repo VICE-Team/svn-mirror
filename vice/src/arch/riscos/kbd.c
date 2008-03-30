@@ -30,6 +30,7 @@
 #include "vsync.h"
 #include "ROlib.h"
 #include "joystick.h"
+#include "keyboard.h"
 #include "ui.h"
 #include "interrupt.h"
 #include "resources.h"
@@ -97,7 +98,6 @@ keymap_desc ViceKeymap = {
 
 
 
-int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
 BYTE joystick_value[3];
 
 Joy_Keys JoystickKeys[2] = {
