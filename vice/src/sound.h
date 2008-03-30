@@ -30,6 +30,15 @@
 #include "types.h"
 #include "warn.h"
 
+/* Sound defaults.  */
+#define SOUND_SAMPLE_RATE 22050
+
+#ifndef __MSDOS__
+# define SOUND_SAMPLE_BUFFER_SIZE       350     /* ms */
+#else
+# define SOUND_SAMPLE_BUFFER_SIZE       100
+#endif
+
 /* device structure */
 typedef struct
 {
