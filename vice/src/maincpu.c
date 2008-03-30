@@ -362,6 +362,7 @@ inline static void evaluate_speed(unsigned long clk)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
+printf("OV!\n");
     alarm_context_time_warp(&maincpu_alarm_context, sub, -1);
     cpu_int_status_time_warp(&maincpu_int_status, sub, -1);
 }
@@ -370,7 +371,7 @@ void maincpu_init(void)
 {
     alarm_context_init(&maincpu_alarm_context, "MainCPU");
 
-    clk_guard_init(&maincpu_clk_guard, &clk, 0x600000);
+    clk_guard_init(&maincpu_clk_guard, &clk, CLOCK_MAX - 0x100000);
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
