@@ -28,9 +28,9 @@
 #ifndef _DRIVETYPES_H
 #define _DRIVETYPES_H
 
+#include "6510core.h"
 #include "ciatimer.h"
 #include "drive.h"
-#include "interrupt.h"
 #include "log.h"
 #include "mos6510.h"
 #include "types.h"
@@ -69,7 +69,7 @@ typedef struct drivecpu_context_s {
     int rmw_flag; /* init to 0 */
 
     /* Interrupt/alarm status.  */
-    struct cpu_int_status_s int_status;
+    struct cpu_int_status_s *int_status;
 
     struct alarm_context_s *alarm_context;
 

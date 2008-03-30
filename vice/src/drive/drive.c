@@ -59,6 +59,7 @@
 #include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
+#include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "parallel.h"
@@ -802,11 +803,11 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
     switch (drive_num) {
       case 0:
         alarm_context_time_warp(drive0_context.cpu.alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(&drive0_context.cpu.int_status, sub, -1);
+        interrupt_cpu_status_time_warp(drive0_context.cpu.int_status, sub, -1);
         break;
       case 1:
         alarm_context_time_warp(drive1_context.cpu.alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(&drive1_context.cpu.int_status, sub, -1);
+        interrupt_cpu_status_time_warp(drive1_context.cpu.int_status, sub, -1);
         break;
       default:
         log_error(drive_log,
@@ -1391,7 +1392,7 @@ int reload_rom_1541(char *name) {
     if(name == NULL) {
         dos_rom_name_1541 = default_dos_rom_name_1541;
         drive_load_rom_images();
-        return(1);
+        return 1;
     }
     strcpy(romsetnamebuffer,"dos1541-");
     strncat(romsetnamebuffer,name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
@@ -1402,7 +1403,7 @@ int reload_rom_1541(char *name) {
     }
 
     drive_load_rom_images();
-    return(1);
+    return 1;
 }
 */
 

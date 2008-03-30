@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "drivetypes.h"
+#include "interrupt.h"
 #include "types.h"
 #include "via.h"
 #include "viad.h"
@@ -40,7 +41,7 @@
 
 
 /* see interrupt.h; ugly, but more efficient... */
-#define via_set_int(a,b) interrupt_set_irq(&(ctxptr->cpu.int_status), a, b, \
+#define via_set_int(a,b) interrupt_set_irq(ctxptr->cpu.int_status, a, b, \
                          *(ctxptr->clk_ptr))
 
 #define myclk           (*(ctxptr->clk_ptr))

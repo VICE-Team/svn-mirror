@@ -34,11 +34,13 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
+#include "interrupt.h"
 #include "parallel.h"
 #include "types.h"
 #include "utils.h"
 #include "via.h"
 #include "viad.h"
+
 
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)
@@ -46,7 +48,7 @@
 
 /* see interrupt.h; ugly, but more efficient... */
 #define via_set_int(a,b) \
-        interrupt_set_irq(&(ctxptr->cpu.int_status), a, b, *(ctxptr->clk_ptr))
+        interrupt_set_irq(ctxptr->cpu.int_status, a, b, *(ctxptr->clk_ptr))
 
 #define myclk           (*(ctxptr->clk_ptr))
 #define myvia           (ctxptr->via1.via)
