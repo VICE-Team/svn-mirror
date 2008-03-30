@@ -55,12 +55,8 @@ static char *romset_filename = NULL;
 static char *romset_archive_name = NULL;
 static char *romset_archive_active = NULL;
 
-static int set_romset_source_file(resource_value_t v, void *param)
+static int set_romset_source_file(int source, void *param)
 {
-    int source;
-
-    source = (int)v;
-
     if (source < 0 || source > 1)
         return -1;
 
@@ -69,17 +65,17 @@ static int set_romset_source_file(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_archive_name(resource_value_t v, void *param)
+static int set_romset_archive_name(const char *val, void *param)
 {
-    if (util_string_set(&romset_archive_name, (const char *)v))
+    if (util_string_set(&romset_archive_name, val))
         return 0;
 
     return 0;
 }
 
-static int set_romset_archive_active(resource_value_t v, void *param)
+static int set_romset_archive_active(const char *val, void *param)
 {
-    if (util_string_set(&romset_archive_active, (const char *)v))
+    if (util_string_set(&romset_archive_active, val))
         return 0;
 
     if (romset_archive_item_select(romset_archive_active) < 0)
@@ -88,9 +84,9 @@ static int set_romset_archive_active(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_romset_filename(resource_value_t v, void *param)
+static int set_romset_filename(const char *val, void *param)
 {
-    if (util_string_set(&romset_filename, (const char *)v))
+    if (util_string_set(&romset_filename, val))
         return 0;
 
     return 0;

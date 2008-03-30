@@ -79,27 +79,31 @@ static int refresh_rate;
 /* "Warp mode".  If nonzero, attempt to run as fast as possible. */
 static int warp_mode_enabled;
 
-static int set_relative_speed(resource_value_t v, void *param)
+static int set_relative_speed(int val, void *param)
 {
-    relative_speed = (int)v;
+    relative_speed = val;
     sound_set_relative_speed(relative_speed);
     set_timer_speed(relative_speed);
+
     return 0;
 }
 
-static int set_refresh_rate(resource_value_t v, void *param)
+static int set_refresh_rate(int val, void *param)
 {
-    if ((int)v < 0)
+    if (val < 0)
         return -1;
-    refresh_rate = (int)v;
+
+    refresh_rate = val;
+
     return 0;
 }
 
-static int set_warp_mode(resource_value_t v, void *param)
+static int set_warp_mode(int val, void *param)
 {
-    warp_mode_enabled = (int)v;
+    warp_mode_enabled = val;
     sound_set_warp_mode(warp_mode_enabled);
     set_timer_speed(relative_speed);
+
     return 0;
 }
 

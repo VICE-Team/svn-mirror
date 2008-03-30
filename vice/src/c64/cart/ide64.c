@@ -120,7 +120,7 @@ static char ide64_DS1302[65];
 static char *ide64_configuration_string = NULL;
 
 static unsigned int settings_cylinders, settings_heads, settings_sectors;
-static unsigned int settings_autodetect_size;
+static int settings_autodetect_size;
 
 static BYTE ide_identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
@@ -153,9 +153,8 @@ static void geometry_update(void)
     ide_identify[112] = settings_sectors;
 }
 
-static int set_ide64_config(resource_value_t v, void *param)
+static int set_ide64_config(const char *cfg, void *param)
 {
-    const char *cfg = (const char *)v;
     int i;
 
     ide64_DS1302[64] = 0;
@@ -169,18 +168,16 @@ static int set_ide64_config(resource_value_t v, void *param)
     return try_cartridge_init(16);
 }
 
-static int set_ide64_image_file(resource_value_t v, void *param)
+static int set_ide64_image_file(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     util_string_set(&ide64_image_file, name);
 
     return try_cartridge_init(32);
 }
 
-static int set_cylinders(resource_value_t v, void *param)
+static int set_cylinders(int val, void *param)
 {
-    unsigned int cylinders = (unsigned int)v;
+    unsigned int cylinders = (unsigned int)val;
 
     if (cylinders > 1024)
         return -1;
@@ -191,9 +188,9 @@ static int set_cylinders(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_heads(resource_value_t v, void *param)
+static int set_heads(int val, void *param)
 {
-    unsigned int heads = (unsigned int)v;
+    unsigned int heads = (unsigned int)val;
 
     if (heads > 16)
         return -1;
@@ -204,9 +201,9 @@ static int set_heads(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sectors(resource_value_t v, void *param)
+static int set_sectors(int val, void *param)
 {
-    unsigned int sectors = (unsigned int)v;
+    unsigned int sectors = (unsigned int)val;
 
     if (sectors > 63)
         return -1;
@@ -217,9 +214,9 @@ static int set_sectors(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_autodetect_size(resource_value_t v, void *param)
+static int set_autodetect_size(int val, void *param)
 {
-    settings_autodetect_size = (unsigned int)v;
+    settings_autodetect_size = val;
 
     return 0;
 }
@@ -244,7 +241,7 @@ static const resource_int_t resources_int[] = {
       (int *)&settings_sectors, set_sectors, NULL },
     { "IDE64AutodetectSize", 1,
       RES_EVENT_NO, NULL,
-      (int *)&settings_autodetect_size, set_autodetect_size, NULL },
+      &settings_autodetect_size, set_autodetect_size, NULL },
     { NULL }
 };
 

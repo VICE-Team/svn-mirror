@@ -109,58 +109,48 @@ static log_t plus60k_log = LOG_ERR;
 static int plus60k_activate(void);
 static int plus60k_deactivate(void);
 
-int plus60k_enabled=0;
+int plus60k_enabled = 0;
 
-unsigned int plus60k_base=0xd100;
+unsigned int plus60k_base = 0xd100;
 
 /* Filename of the +60K image.  */
 static char *plus60k_filename = NULL;
 
 static BYTE *plus60k_ram;
 
-static int set_plus60k_enabled(resource_value_t v, void *param)
+static int set_plus60k_enabled(int val, void *param)
 {
-  if ((int)v == plus60k_enabled)
-      return 0;
+    if (val == plus60k_enabled)
+        return 0;
 
-  if (!(int)v)
-  {
-    if (plus60k_deactivate() < 0)
-    {
-      return -1;
-    }
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    plus60k_enabled = 0;
-    return 0;
-  }
-  else
-  { 
-    if (c64_256k_enabled || plus256k_enabled)
-    {
+    if (!val) {
+        if (plus60k_deactivate() < 0)
+            return -1;
+
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        plus60k_enabled = 0;
+        return 0;
+    } else {
+        if (c64_256k_enabled || plus256k_enabled) {
 #ifdef HAS_TRANSLATION
-      ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
+            ui_error(translate_text(IDGS_RESOURCE_S_BLOCKED_BY_S),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
 #else
-      ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
+            ui_error(_("Resource %s blocked by %s."),"CPU-LINES", (c64_256k_enabled) ? "256K" : "PLUS256K");
 #endif
-      return -1;
+            return -1;
+        } else {
+            if (plus60k_activate() < 0) {
+                return -1;
+            }
+        }
+        plus60k_enabled = 1;
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        return 0;
     }
-    else
-    {
-      if (plus60k_activate() < 0)
-      {
-        return -1;
-      }
-    }
-    plus60k_enabled = 1;
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-    return 0;
-  }
 }
 
-static int set_plus60k_filename(resource_value_t v, void *param)
+static int set_plus60k_filename(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     if (plus60k_filename != NULL && name != NULL
         && strcmp(name, plus60k_filename) == 0)
         return 0;
@@ -176,27 +166,27 @@ static int set_plus60k_filename(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_plus60k_base(resource_value_t v, void *param)
+static int set_plus60k_base(int val, void *param)
 {
-    if ((DWORD)v == plus60k_base)
+    if ((DWORD)val == plus60k_base)
         return 0;
 
-    switch ((DWORD)v) {
+    switch ((DWORD)val) {
       case 0xd040:
       case 0xd100:
         break;
       default:
         log_message(plus60k_log, "Unknown PLUS60K base address $%lX.",
-                    (unsigned long)v);
+                    (unsigned long)val);
         return -1;
     }
 
     if (plus60k_enabled) {
         plus60k_deactivate();
-        plus60k_base = (DWORD)v;
+        plus60k_base = (DWORD)val;
         plus60k_activate();
     } else {
-        plus60k_base = (DWORD)v;
+        plus60k_base = (DWORD)val;
     }
 
     return 0;

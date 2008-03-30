@@ -8051,28 +8051,26 @@ int translate_res(int en_resource)
 
 /* --------------------------------------------------------------------- */
 
-static int set_current_language(resource_value_t v, void *param)
+static int set_current_language(const char *lang, void *param)
 {
-  int i;
+    int i;
 
-  const char *lang = (const char *)v;
+    util_string_set(&current_language, "en");
+    current_language_index = 0;
 
-  util_string_set(&current_language, "en");
-  current_language_index=0;
-  if (strlen(lang)!=2)
-    return 0;
+    if (strlen(lang)! = 2)
+        return 0;
 
-  for (i = 0; i < countof(language_table); i++)
-  {
-    if (!strcasecmp(lang,language_table[i]))
-    {
-      current_language_index=i;
-      util_string_set(&current_language, language_table[i]);
-      intl_update_ui();
-      return 0;
+    for (i = 0; i < countof(language_table); i++) {
+        if (!strcasecmp(lang,language_table[i])) {
+            current_language_index=i;
+            util_string_set(&current_language, language_table[i]);
+            intl_update_ui();
+            return 0;
+        }
     }
-  }
-  return 0;
+
+    return 0;
 }
 
 static const resource_t resources[] = {

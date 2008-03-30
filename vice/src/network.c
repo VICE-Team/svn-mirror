@@ -179,24 +179,24 @@ static unsigned short htons(unsigned short ip)
 }
 #endif
 
-static int set_server_name(resource_value_t v, void *param)
+static int set_server_name(const char *val, void *param)
 {
-    util_string_set(&server_name, (const char *)v);
+    util_string_set(&server_name, val);
     return 0;
 }
 
-static int set_server_port(resource_value_t v, void *param)
+static int set_server_port(int val, void *param)
 {
-    res_server_port = (int)v;
+    res_server_port = val;
 
     server_port = (unsigned short)res_server_port;
 
     return 0;
 }
 
-static int set_network_control(resource_value_t v, void *param)
+static int set_network_control(int val, void *param)
 {
-    network_control = (unsigned int)v;
+    network_control = (unsigned int)val;
     /* don't let the server loose control */
     network_control |= NETWORK_CONTROL_RSRC;
 
@@ -224,10 +224,11 @@ static int network_init(void)
 }
 
 #ifdef HAVE_IPV6
-static int set_netplay_ipv6(resource_value_t v, void *param)
+static int set_netplay_ipv6(int val, void *param)
 {
     if (network_init() < 0)
         return -1;
+
     if (network_mode!=NETWORK_IDLE) {
 #ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_SWITCH_IPV4_IPV6));
@@ -236,7 +237,8 @@ static int set_netplay_ipv6(resource_value_t v, void *param)
 #endif
         return -1;
     }
-    netplay_ipv6 = (int)v;
+    netplay_ipv6 = val;
+
     return 0;
 }
 #endif

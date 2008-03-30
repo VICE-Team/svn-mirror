@@ -74,37 +74,38 @@ static unsigned int cartridge_int_num;
 
 int try_cartridge_init(int c)
 {
-    cartres^=c;
-    if (cartres) return 0;
+    cartres ^= c;
+
+    if (cartres)
+        return 0;
+
     return cartridge_attach_image(c64cart_type, cartfile);
 }
 
-static int set_cartridge_type(resource_value_t v, void *param)
+static int set_cartridge_type(int val, void *param)
 {
-    cartridge_type = (int)v;
+    cartridge_type = val;
     c64cart_type = cartridge_type;
 
     return try_cartridge_init(1);
 }
 
-static int set_cartridge_file(resource_value_t v, void *param)
+static int set_cartridge_file(const char *name, void *param)
 {
-    const char *name = (const char *)v;
-
     util_string_set(&cartridge_file, name);
     util_string_set(&cartfile, name);
 
     return try_cartridge_init(2);
 }
 
-static int set_cartridge_mode(resource_value_t v, void *param)
+static int set_cartridge_mode(int val, void *param)
 {
     const int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     /*
      * Set cartridge mode.
      */
-    cartridge_mode = (int)v;
+    cartridge_mode = val;
     cartmode = cartridge_mode;
 
     switch (type) {
@@ -116,9 +117,9 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     return try_cartridge_init(4);
 }
 
-static int set_cartridge_reset(resource_value_t v, void *param)
+static int set_cartridge_reset(int val, void *param)
 {
-    c64cartridge_reset = (int)v;
+    c64cartridge_reset = val;
 
     return try_cartridge_init(8);
 }
@@ -393,9 +394,8 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_type((resource_value_t)c64cart_type, NULL);
-    set_cartridge_file((resource_value_t)((c64cart_type == CARTRIDGE_NONE) ?
-                       "" : cartfile), NULL);
+    set_cartridge_type(c64cart_type, NULL);
+    set_cartridge_file((c64cart_type == CARTRIDGE_NONE) ? "" : cartfile, NULL);
 }
 
 static void cartridge_change_mapping(CLOCK offset, void *data)

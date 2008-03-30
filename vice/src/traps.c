@@ -66,10 +66,8 @@ static log_t traps_log = LOG_ERR;
 /* Flag: Should we avoid installing traps at all?  */
 static int traps_enabled;
 
-static int set_traps_enabled(resource_value_t v, void *param)
+static int set_traps_enabled(int new_value, void *param)
 {
-    int new_value = (int)v;
-
     if ((!traps_enabled && new_value) || (traps_enabled && !new_value)) {
         if (!new_value) {
             /* Traps have been disabled.  */

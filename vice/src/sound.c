@@ -96,80 +96,85 @@ int sid_state_changed;
 /* Sample based or cycle based sound engine. */
 static int cycle_based = 0;
 
-static int set_playback_enabled(resource_value_t v, void *param)
+static int set_playback_enabled(int val, void *param)
 {
-    if ((int)v)
+    if (val)
         vsync_disable_timer();
-    playback_enabled = (int)v;
+
+    playback_enabled = val;
     sound_machine_enable(playback_enabled);
     return 0;
 }
 
-static int set_sample_rate(resource_value_t v, void *param)
+static int set_sample_rate(int val, void *param)
 {
-    sample_rate = (int)v;
+    sample_rate = val;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_device_name(resource_value_t v, void *param)
+static int set_device_name(const char *val, void *param)
 {
-    util_string_set(&device_name, (char *)v);
+    util_string_set(&device_name, val);
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_device_arg(resource_value_t v, void *param)
+static int set_device_arg(const char *val, void *param)
 {
-    util_string_set(&device_arg, (char *)v);
+    util_string_set(&device_arg, val);
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_recorddevice_name(resource_value_t v, void *param)
+static int set_recorddevice_name(const char *val, void *param)
 {
-    util_string_set(&recorddevice_name, (char *)v);
+    util_string_set(&recorddevice_name, val);
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_recorddevice_arg(resource_value_t v, void *param)
+static int set_recorddevice_arg(const char *val, void *param)
 {
-    util_string_set(&recorddevice_arg, (char *)v);
+    util_string_set(&recorddevice_arg, val);
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_buffer_size(resource_value_t v, void *param)
+static int set_buffer_size(int val, void *param)
 {
-    buffer_size   = (int)v;
+    buffer_size   = val;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_suspend_time(resource_value_t v, void *param)
+static int set_suspend_time(int val, void *param)
 {
-    suspend_time = (int)v;
+    suspend_time = val;
+
     if (suspend_time < 0)
         suspend_time = 0;
+
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_speed_adjustment_setting(resource_value_t v, void *param)
+static int set_speed_adjustment_setting(int val, void *param)
 {
-    speed_adjustment_setting = (int)v;
+    speed_adjustment_setting = val;
     return 0;
 }
 
-static int set_oversampling_factor(resource_value_t v, void *param)
+static int set_oversampling_factor(int val, void *param)
 {
-    oversampling_factor = (int)v;
+    oversampling_factor = val;
+
     if (oversampling_factor < 0 || oversampling_factor > 3) {
         log_warning(sound_log, "Invalid oversampling factor %d.  Forcing 3.",
                     oversampling_factor);
         oversampling_factor = 3;
     }
+
     sound_state_changed = TRUE;
     return 0;
 }

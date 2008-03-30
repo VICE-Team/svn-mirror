@@ -50,11 +50,11 @@ static char *default_path = NULL;
 static char *system_path = NULL;
 static char *expanded_system_path = NULL;
 
-static int set_system_path(resource_value_t v, void *param)
+static int set_system_path(const char *val, void *param)
 {
     char *tmp_path, *tmp_path_save, *p, *s, *current_dir;
 
-    util_string_set(&system_path, (char *)v);
+    util_string_set(&system_path, val);
 
     if (expanded_system_path != NULL) {
         lib_free(expanded_system_path);
