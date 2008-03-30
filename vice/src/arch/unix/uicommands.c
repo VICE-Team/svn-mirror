@@ -984,7 +984,8 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
     { N_("Activate monitor"),
-      (ui_callback_t) activate_monitor, NULL, NULL },
+      (ui_callback_t) activate_monitor, NULL, NULL,
+      XK_h, UI_HOTMOD_META },
     { N_("Run C1541"),
       (ui_callback_t) run_c1541, NULL, NULL },
     { NULL }

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-25 23:04+0200\n"
+"POT-Creation-Date: 2002-08-31 22:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1145,28 +1145,28 @@ msgstr ""
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:989
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:997
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:999
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
+#: src/arch/unix/uicommands.c:1005 src/arch/unix/uidatasette.c:101
 #: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1007
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1014
 msgid "Exit emulator"
 msgstr ""
 

@@ -31,14 +31,14 @@ involved in the development of X64 and VICE:
      hardware-level 1541 emulation and wrote the new monitor introduced
      with VICE 0.15.
 
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) gave lots of
-     information and bug reports about the VIC-II, the 6510 and the
-     CIAs; moreover, he wrote several test-routines that were used to
-     improve the emulation.  He also added cartridge support and has
-     been the main head behind the drive and datasette emulation since
-     version 0.15.  Also added several UI elements to the MSDOS and
-     MS-Windows ports. He rewrote the C128 emulation adding Z80 mode,
-     C64 mode and function ROM support.
+   * Andreas Boose (<viceteam@t-online.de>) gave lots of information
+     and bug reports about the VIC-II, the 6510 and the CIAs; moreover,
+     he wrote several test-routines that were used to improve the
+     emulation.  He also added cartridge support and has been the main
+     head behind the drive and datasette emulation since version 0.15.
+     Also added several UI elements to the MSDOS and MS-Windows ports.
+     He rewrote the C128 emulation adding Z80 mode, C64 mode and
+     function ROM support.
 
    * Dag Lem (<resid@nimrod.no>) implemented the reSID SID emulation
      engine.
@@ -229,6 +229,8 @@ involved in the development of X64 and VICE:
    * webulator (<webulator@mailandnews.com>) provided win32 drag & drop
      support
 
+   * ck! (<pixelite@lycos.de>) provided a win32 cbm character font.
+
    * Lutz Sammer
 
    * Ralph Mason (<RALPHM@msmail02.liffe.com>)
@@ -357,8 +359,8 @@ project, please email one of the following people:
    * VICE Mailing List (<vice-devel@firenze.linux.it>) for all general
      questions, bug reports, suggestions.
 
-   * Andreas Boose (<boose@linux.rz.fh-hannover.de>) for disk drive,
-     tape, cartridge and Z80 emulation;
+   * Andreas Boose (<viceteam@t-online.de>) for disk drive, tape,
+     cartridge and Z80 emulation;
 
    * André Fachat (<fachat@physik.tu-chemnitz.de>) for the PETs and
      CBM-II;

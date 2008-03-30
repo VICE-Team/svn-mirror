@@ -1,3 +1,32 @@
+2002-08-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.71.
+
+2002-08-29  Kajtar Zsolt  <soci@c64.rulez.org>
+
+	* c64/c64memlimit.c: In the ultimax configuration the memlimit
+	was wrong. ($8000 vs. $1000)
+
+	* arch/unix/uicommands.c: Attach a hotkey to start monitor.
+
+2002-08-28  Markus Brenner  <markus@brenner.de>
+
+	* cartridge.h: added CARTRIDGE_MAGIC_DESK crt type
+
+	* c64/cart/cart.c: support for MAGIC_DESK cart type
+
+	* c64/cart/c64cartmem.c: support for MAGIC_DESK cart type
+
+2002-08-27  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/video.cc(video_canvas_destroy,video_canva_resize):
+	VSID mode needs to test for valid vicevindow.
+
+2002-08-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/video.c (canvas_update): Use canvas size instead
+	of screen_size for cutting.
+
 2002-08-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.70.
