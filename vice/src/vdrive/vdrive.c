@@ -35,7 +35,7 @@
 
 #include "vice.h"
 
-#define DEBUG_DRIVE
+/* #define DEBUG_DRIVE */
 
 #include <stdlib.h>
 #include <string.h>
@@ -101,7 +101,7 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive, int type);
 
 errortext_t floppy_error_messages[] =
 {
-    { 0, "OK"},
+    { 0, " OK"},
     { 1, "FILES SCRATCHED"},
     { 2, "SELECTED PARTITION"},           /* 1581 */
     { 3, "UNIMPLEMENTED"},
