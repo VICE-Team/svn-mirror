@@ -41,30 +41,25 @@ extern void drive_cpu_init(struct drive_context_s *drv, int type);
 extern void drive_cpu_reset(struct drive_context_s *drv);
 extern void drive_cpu_sleep(struct drive_context_s *drv);
 extern void drive_cpu_wake_up(struct drive_context_s *drv);
-extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv,
-                                            CLOCK sub);
-extern void drive_cpu_early_init(struct drive_context_s *drv);
+extern void drivecpu_prevent_clk_overflow_all(CLOCK sub);
+extern void drivecpu_early_init_all(void);
 extern void drive_cpu_shutdown(struct drive_context_s *drv);
 extern void drive_cpu_reset_clk(struct drive_context_s *drv);
+extern void drivecpu_trigger_reset(unsigned int dnr);
 
 extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
                                  BYTE value);
 extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, WORD addr);
-extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
 extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drivecpu_execute_all(CLOCK clk_value);
-extern void drive_set_bank_base(struct drive_context_s *drv);
 extern int drive_cpu_snapshot_write_module(struct drive_context_s *drv,
                                            struct snapshot_s *s);
 extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
 
-/* don't use these pointers before the context is set up! */
-extern struct monitor_interface_s *drive0_monitor_interface_get(void);
-extern struct monitor_interface_s *drive1_monitor_interface_get(void);
-
-extern struct interrupt_cpu_status_s *drive0_int_status_ptr;
-extern struct interrupt_cpu_status_s *drive1_int_status_ptr;
+/* Don't use these pointers before the context is set up!  */
+extern struct monitor_interface_s *drivecpu_monitor_interface_get(
+    unsigned int dnr);
 
 #endif
 

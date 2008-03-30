@@ -58,73 +58,18 @@
 
 static void drive_jam(drive_context_t *drv);
 
-static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address);
-static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address);
-static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
-                             BYTE value);
+static BYTE drive_bank_read(int bank, WORD addr, void *context);
+static BYTE drive_bank_peek(int bank, WORD addr, void *context);
+static void drive_bank_store(int bank, WORD addr, BYTE value, void *context);
+static void drivecpu_toggle_watchpoints(int flag, void *context);
+static void drivecpu_set_bank_base(void *context);
 
-interrupt_cpu_status_t *drive0_int_status_ptr;
-interrupt_cpu_status_t *drive1_int_status_ptr;
+static interrupt_cpu_status_t *drivecpu_int_status_ptr[DRIVE_NUM];
 
-monitor_interface_t *drive0_monitor_interface_get(void)
+
+monitor_interface_t *drivecpu_monitor_interface_get(unsigned int dnr)
 {
-    return drive0_context.cpu->monitor_interface;
-}
-
-monitor_interface_t *drive1_monitor_interface_get(void)
-{
-    return drive1_context.cpu->monitor_interface;
-}
-
-/* non-time critical monitor functions; should be OK */
-static BYTE drive0_bank_read(int bank, WORD adr)
-{
-    return drive_bank_read(&drive0_context, bank, adr);
-}
-
-static BYTE drive0_bank_peek(int bank, WORD adr)
-{
-    return drive_bank_peek(&drive0_context, bank, adr);
-}
-
-static void drive0_bank_store(int bank, WORD adr, BYTE val)
-{
-    drive_bank_store(&drive0_context, bank, adr, val);
-}
-
-static void drive0_toggle_watchpoints(int flag)
-{
-    drive_toggle_watchpoints(&drive0_context, flag);
-}
-
-static BYTE drive1_bank_read(int bank, WORD adr)
-{
-    return drive_bank_read(&drive1_context, bank, adr);
-}
-
-static BYTE drive1_bank_peek(int bank, WORD adr)
-{
-    return drive_bank_peek(&drive1_context, bank, adr);
-}
-
-static void drive1_bank_store(int bank, WORD adr, BYTE val)
-{
-    drive_bank_store(&drive1_context, bank, adr, val);
-}
-
-static void drive1_toggle_watchpoints(int flag)
-{
-    drive_toggle_watchpoints(&drive1_context, flag);
-}
-
-static void drive0_set_bank_base(void)
-{
-    drive_set_bank_base(&drive0_context);
-}
-
-static void drive1_set_bank_base(void)
-{
-    drive_set_bank_base(&drive1_context);
+    return drive_context[dnr]->cpu->monitor_interface;
 }
 
 void drive_cpu_setup_context(struct drive_context_s *drv)
@@ -148,6 +93,7 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     cpu->identification_string = lib_msprintf("DRIVE#%d", drv->mynumber + 8);
     cpu->monitor_interface = monitor_interface_new();
     mi = cpu->monitor_interface;
+    mi->context = (void *)drv;
     mi->cpu_regs = &(cpu->cpu_regs);
     mi->z80_cpu_regs = NULL;
     mi->int_status = cpu->int_status;
@@ -156,27 +102,18 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     mi->mem_bank_list = NULL;
     mi->mem_bank_from_name = NULL;
     mi->get_line_cycle = NULL;
+    mi->mem_bank_read = drive_bank_read;
+    mi->mem_bank_peek = drive_bank_peek;
+    mi->mem_bank_write = drive_bank_store;
+    mi->mem_ioreg_list_get = drivemem_ioreg_list_get;
+    mi->toggle_watchpoints_func = drivecpu_toggle_watchpoints;
+    mi->set_bank_base = drivecpu_set_bank_base;
+    drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
 
     if (drv->mynumber == 0) {
-        mi->mem_bank_read = drive0_bank_read;
-        mi->mem_bank_peek = drive0_bank_peek;
-        mi->mem_bank_write = drive0_bank_store;
-        mi->mem_ioreg_list_get = drive0_ioreg_list_get;
-        mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
-        mi->set_bank_base = drive0_set_bank_base;
-
         cpu->monspace = e_disk8_space;
-        drive0_int_status_ptr = cpu->int_status;
     } else {
-        mi->mem_bank_read = drive1_bank_read;
-        mi->mem_bank_peek = drive1_bank_peek;
-        mi->mem_bank_write = drive1_bank_store;
-        mi->mem_ioreg_list_get = drive1_ioreg_list_get;
-        mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
-        mi->set_bank_base = drive1_set_bank_base;
-
         cpu->monspace = e_disk9_space;
-        drive1_int_status_ptr = cpu->int_status;
     }
 }
 
@@ -228,21 +165,26 @@ void REGPARM3 drive_store(drive_context_t *drv, WORD address, BYTE value)
 
 /* This is the external interface for banked memory access.  */
 
-static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address)
+static BYTE drive_bank_read(int bank, WORD addr, void *context)
 {
-    return drv->cpud->read_func[address >> 8](drv, address);
+    drive_context_t *drv = (drive_context_t *)context;
+
+    return drv->cpud->read_func[addr >> 8](drv, addr);
 }
 
 /* FIXME: use peek in IO area */
-static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address)
+static BYTE drive_bank_peek(int bank, WORD addr, void *context)
 {
-    return drv->cpud->read_func[address >> 8](drv, address);
+    drive_context_t *drv = (drive_context_t *)context;
+
+    return drv->cpud->read_func[addr >> 8](drv, addr);
 }
 
-static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
-                             BYTE value)
+static void drive_bank_store(int bank, WORD addr, BYTE value, void *context)
 {
-    drv->cpud->store_func[address >> 8](drv, address, value);
+    drive_context_t *drv = (drive_context_t *)context;
+
+    drv->cpud->store_func[addr >> 8](drv, addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -265,8 +207,10 @@ static void cpu_reset(drive_context_t *drv)
         interrupt_monitor_trap_on(drv->cpu->int_status);
 }
 
-void drive_toggle_watchpoints(drive_context_t *drv, int flag)
+static void drivecpu_toggle_watchpoints(int flag, void *context)
 {
+    drive_context_t *drv = (drive_context_t *)context;
+
     if (flag) {
         memcpy(drv->cpud->read_func, drv->cpud->read_func_watch,
                sizeof(drive_read_func_t *) * 0x101);
@@ -304,7 +248,12 @@ void drive_cpu_reset(drive_context_t *drv)
     interrupt_trigger_reset(drv->cpu->int_status, *(drv->clk_ptr));
 }
 
-void drive_cpu_early_init(drive_context_t *drv)
+void drivecpu_trigger_reset(unsigned int dnr)
+{
+    interrupt_trigger_reset(drivecpu_int_status_ptr[dnr], drive_clk[dnr] + 1);
+}
+
+static void drive_cpu_early_init(drive_context_t *drv)
 {
     drv->cpu->clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX
                                         - CLKGUARD_SUB_MIN);
@@ -313,6 +262,14 @@ void drive_cpu_early_init(drive_context_t *drv)
                                   drv->cpu->identification_string);
 
     machine_drive_init(drv);
+}
+
+void drivecpu_early_init_all(void)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        drive_cpu_early_init(drive_context[dnr]);
 }
 
 void drive_cpu_shutdown(drive_context_t *drv)
@@ -363,7 +320,7 @@ inline void drive_cpu_sleep(drive_context_t *drv)
 
 /* Make sure the drive clock counters never overflow; return nonzero if
    they have been decremented to prevent overflow.  */
-CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
+static CLOCK drivecpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 {
     if (sub != 0) {
         /* First, get in sync with what the main CPU has done.  Notice that
@@ -381,6 +338,14 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 
     /* Then, check our own clock counters.  */
     return clk_guard_prevent_overflow(drv->cpu->clk_guard);
+}
+
+void drivecpu_prevent_clk_overflow_all(CLOCK sub)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        drivecpu_prevent_clk_overflow(drive_context[dnr], sub);
 }
 
 /* Handle a ROM trap. */
@@ -573,10 +538,12 @@ void drivecpu_execute_all(CLOCK clk_value)
 
 /* ------------------------------------------------------------------------- */
 
-void drive_set_bank_base(drive_context_t *drv)
+static void drivecpu_set_bank_base(void *context)
 {
+    drive_context_t *drv;
     drivecpu_context_t *cpu;
 
+    drv = (drive_context_t *)context;
     cpu = drv->cpu;
 
     JUMP(reg_pc);
@@ -640,12 +607,12 @@ static void drive_jam(drive_context_t *drv)
     switch (tmp) {
       case JAM_RESET:
         reg_pc = 0xeaa0;
-        drive_set_bank_base(drv);
+        drivecpu_set_bank_base((void *)drv);
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
         break;
       case JAM_HARD_RESET:
         reg_pc = 0xeaa0;
-        drive_set_bank_base(drv);
+        drivecpu_set_bank_base((void *)drv);
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         break;
       case JAM_MONITOR:

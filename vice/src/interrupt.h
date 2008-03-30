@@ -273,9 +273,6 @@ extern enum cpu_int interrupt_get_int(interrupt_cpu_status_t *cs, int int_num);
 
 extern interrupt_cpu_status_t *maincpu_int_status;
 extern CLOCK maincpu_clk;
-
-extern interrupt_cpu_status_t *drive0_int_status_ptr;
-extern interrupt_cpu_status_t *drive1_int_status_ptr;
 extern CLOCK drive_clk[2];
 
 /* For convenience...  */
@@ -294,35 +291,6 @@ extern CLOCK drive_clk[2];
     interrupt_set_int(maincpu_int_status, (int_num), (value), (clk))
 #define maincpu_trigger_reset() \
     interrupt_trigger_reset(maincpu_int_status, maincpu_clk)
-
-#define drive0_set_irq(int_num, value) \
-    interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
-#define drive1_set_irq(int_num, value)    \
-    interrupt_set_irq(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
-#define drive0_set_irq_clk(int_num, value, clk) \
-    interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), (clk))
-#define drive1_set_irq_clk(int_num, value, clk) \
-    interrupt_set_irq(drive1_int_status_ptr, (int_num), (value), (clk))
-#define drive0_set_nmi(int_num, value) \
-    interrupt_set_nmi(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
-#define drive1_set_nmi(int_num, value) \
-    interrupt_set_nmi(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
-#define drive0_set_nmi_clk(int_num, value, clk) \
-    interrupt_set_nmi(drive0_int_status_ptr, (int_num), (value), (clk))
-#define drive1_set_nmi_clk(int_num, value, clk) \
-    interrupt_set_nmi(drive1_int_status_ptr, (int_num), (value), (clk))
-#define drive0_set_int(int_num, value) \
-    interrupt_set_int(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
-#define drive1_set_int(int_num, value) \
-    interrupt_set_int(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
-#define drive0_set_int_clk(int_num, value, clk) \
-    interrupt_set_int_clk(drive0_int_status_ptr, (int_num), (value), (clk))
-#define drive1_set_int_clk(int_num, value, clk) \
-    interrupt_set_int_clk(drive1_int_status_ptr, (int_num), (value), (clk))
-#define drive0_trigger_reset() \
-    interrupt_trigger_reset(drive0_int_status_ptr, drive_clk[0] + 1)
-#define drive1_trigger_reset() \
-    interrupt_trigger_reset(drive1_int_status_ptr, drive_clk[1] + 1)
 
 #endif
 

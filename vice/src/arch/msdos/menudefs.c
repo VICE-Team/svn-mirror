@@ -40,6 +40,7 @@
 #include "autostart.h"
 #include "datasette.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "grabkey.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
@@ -1201,7 +1202,7 @@ static TUI_MENU_CALLBACK(hard_reset_callback)
 static TUI_MENU_CALLBACK(reset_drive0_callback)
 {
     if (been_activated)
-        drive0_trigger_reset();
+        drivecpu_trigger_reset(0);
 
     *become_default = 0;
 
@@ -1211,7 +1212,7 @@ static TUI_MENU_CALLBACK(reset_drive0_callback)
 static TUI_MENU_CALLBACK(reset_drive1_callback)
 {
     if (been_activated)
-        drive1_trigger_reset();
+        drivecpu_trigger_reset(1);
 
     *become_default = 0;
 

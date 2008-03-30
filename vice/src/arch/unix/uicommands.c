@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
+#include "drivecpu.h"
 #include "event.h"
 #include "fliplist.h"
 #include "fullscreenarch.h"
@@ -322,13 +323,13 @@ static UI_CALLBACK(run_c1541)
 static UI_CALLBACK(unit8_reset)
 {
     vsync_suspend_speed_eval();
-    drive0_trigger_reset();
+    drivecpu_trigger_reset(0);
 }
 
 static UI_CALLBACK(unit9_reset)
 {
     vsync_suspend_speed_eval();
-    drive1_trigger_reset();
+    drivecpu_trigger_reset(9);
 }
 
 static UI_CALLBACK(reset)
