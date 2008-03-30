@@ -281,21 +281,12 @@ void ciacore_reset(cia_context_t *cia_context)
 }
 
 
-void REGPARM3 ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
+static void REGPARM3 ciacore_store_internal(cia_context_t *cia_context,
+                                            WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
-    if (*(cia_context->rmw_flag)) {
-        (*(cia_context->clk_ptr))--;
-        *(cia_context->rmw_flag) = 0;
-        ciacore_store(cia_context, addr, cia_context->last_read);
-        (*(cia_context->clk_ptr))++;
-    }
-
     addr &= 0xf;
-
-    if (cia_context->pre_store != NULL)
-        (cia_context->pre_store)();
 
     rclk = *(cia_context->clk_ptr) - STORE_OFFSET;
 
@@ -546,6 +537,19 @@ void REGPARM3 ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
     }                           /* switch */
 }
 
+void REGPARM3 ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
+{
+    if (cia_context->pre_store != NULL)
+        (cia_context->pre_store)();
+
+    if (*(cia_context->rmw_flag)) {
+        (*(cia_context->clk_ptr))--;
+        ciacore_store_internal(cia_context, addr, cia_context->last_read);
+        (*(cia_context->clk_ptr))++;
+    }
+
+    ciacore_store_internal(cia_context, addr, byte);
+}
 
 /* ------------------------------------------------------------------------- */
 
