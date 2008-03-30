@@ -4,6 +4,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@VICE_LIBPNG_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \
+	@FFMPEG_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
@@ -36,12 +37,3 @@ libgfxoutputdrv_a_SOURCES = \
 libgfxoutputdrv_a_DEPENDENCIES = @GFXOUTPUT_DRIVERS@
 libgfxoutputdrv_a_LIBADD = @GFXOUTPUT_DRIVERS@
 
-EXTRA_DIST = \
-    ffmpeg/avcodec.h \
-    ffmpeg/avformat.h \
-    ffmpeg/avio.h \
-    ffmpeg/common.h \
-    ffmpeg/rational.h \
-    ffmpeg/rtp.h \
-    ffmpeg/rtsp.h \
-    ffmpeg/rtspcodes.h
