@@ -1,4 +1,4 @@
-prtdir = $(prefix)/lib/vice/PRINTER
+prtdir = $(VICEDIR)/PRINTER
 
 prt_DATA = \
 	cbm1526 \

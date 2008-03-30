@@ -1,3 +1,28 @@
+2006-01-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.4.
+
+2006-01-27  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* configure.in: added VICEDIR variable
+
+	* data/C128/Makefile.am data/C64/Makefile.am
+	data/CBM-II/Makefile.am data/DRIVES/Makefile.am
+	data/PET/Makefile.am data/PLUS4/Makefile.am
+	data/PRINTER/Makefile.am data/VIC20/Makefile.am
+	data/fonts/Makefile.am doc/Makefile.am
+	doc/html/Makefile.am:
+	use $(VICEDIR) instead of $(prefix)/lib/vice
+
+2006-01-24  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
+
+	* configure.in: removed JOY_OBJS
+
+2006-01-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Basic 7.1
+	support.
+
 2006-01-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.3.

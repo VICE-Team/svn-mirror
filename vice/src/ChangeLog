@@ -1,3 +1,119 @@
+2006-01-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.4.
+
+	* 6510core.c: Fixed some warnings.
+
+	* c1541.c, petcat.c: Added dummy function
+	`network_connected()'.
+
+2006-01-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am: Added 'uiprinteriecplus4.c' to
+	resolve a resource issue involving the userport, which the
+	plus4 doesn't have.
+
+	* arch/unix/plus4ui.c: Added hannes and csory memory
+	expansions support and fixed a resource issue involving the
+	userport, which the plus4 doesn't have.
+
+	* arch/unix/uiperipheraliec.c, arch/unix/uiperipheraliec.h,
+	arch/unix/uiprinteriecplus4.c, arch/unix/uiprinteriecplus4.h:
+	Fixed a resource issue involving the userport, which the plus4
+	doesn't have.
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/cbm2ui.c, arch/win32/petui.c, arch/win32/ui.c,
+	arch/win32/vic20ui.c: Put the 'EmuID' menu toggle in the
+	machine specific list, because of xplus4 not using it.
+
+	* arch/win32/plus4.dsp, arch/win32/resdialogs.txt,
+	arch/win32/resplus4.rc, arch/win32/uiplus4mem.c,
+	plus4/Makefile.am, plus4/plus4-cmdline-options.c,
+	plus4/plus4-resources.c, plus4/plus4.c, plus4/plus4mem.c,
+	plus4/plus4memcsory256k.c, plus4/plus4memcsory256k.h,
+	plus4/plus4memhannes256k.c, plus4/plus4memhannes256k.h,
+	plus4/plus4memlimit.c, translate.c, translate.h: Added hannes
+	and csory memory expansions support.
+
+	* c64/c64io.c: Fixed a cast.
+
+2006-01-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c: Call vsync_suspend_speed_eval if
+	fullscreen is toggled.
+
+	* network.c (network_test_delay): Removed factor 2 from delay
+	value as the vsync is more stable now in netplay mode.
+	(network_server connect_trap, network_connect_client) Call
+	vsync_suspend_speed_eval.
+
+	* resources.c (resources_set_value, resources_toggle): Record
+	the RES_SAME resources for server and client. This may change
+	when network device management is introduced.
+
+	* vsync.c (vsync_do_vsync): If vsync_hook() in network mode
+	blocks longer than a frame shift next_frame_start and now to
+	this frame. This lets the remote host get in time. Reenabled
+	the sleep for client. Disabled the adjusting code in network
+	mode.
+
+2006-01-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * c1541.c, petcat.c: Added some dummy functions to cope with
+        Andreas M.'s recent changes.
+
+2006-01-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c64/c64_256k.c, c64/plus256k.c, c64/plus60k.c: The resource
+	function returns immedialtely if the resource doesn't change
+	to avoid needless resets of the machine.
+
+	* event.c, event.h: Added new EVENT_RESOURCE.
+	(event_record_in_list): Removed test for recording or netplay
+	(this is done in the calling functions already) and handles
+	EVENT_RESOURCE.
+
+	* network.c (network_server_connect_trap): Creates a list of
+	resources that need to be the same, converts to buffer and
+	sends to client.
+	(network_client_connect_trap): Sets resources that need strict
+	value, receives this buffer, converts to event list with
+	resources and applies them.
+	(network_start_server): Sets resources that need strict value.
+
+	* resources.c, resources.h: Include event.h and network.h
+	Added functions resource_create_event_data,
+	resource_record_event, resources_set_value_internal,
+	resources_set_value_event, resources_set_event_safe,
+	resources_get_event_safe_list.
+	(resources_set_value, resource_toggle): Records or rejects a
+	resource change in netplay mode depending on event_relevant.
+
+	* vsync.c (vsync_do_vsync): Don't delay in client mode (let
+	the server sync). This should improve timing problems.
+
+2006-01-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added Basic 7.1 support.
+
+2006-01-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/c64cartmem.c: Reverted the size of roml_banks back
+	to the original.
+
+	* c64/cart/rexep256.c: Simplified some things.
+
+2006-01-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/c64cartmem.c: Fixed some typos and upped the
+	roml_banks size in preparation for my next (1 mb) cartridge
+	support.
+
+	* c64/cart/delaep64.c: Fixed the loader to accept 8kb or 32kb
+	chip packets and corrected the way they were put in the	
+	roml_banks.
+
 2006-01-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.3.

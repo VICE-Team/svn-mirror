@@ -1,4 +1,4 @@
-cbm2dir = $(prefix)/lib/vice/CBM-II
+cbm2dir = $(VICEDIR)/CBM-II
 
 cbm2_DATA = \
 	amber.vpl \

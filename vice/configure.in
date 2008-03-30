@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=3
+VICE_VERSION_BUILD=4
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -83,6 +83,9 @@ fi
 
 user_cflags=$CFLAGS
 AC_PROG_CC
+
+dnl Path for keymaps, ROMs etc.
+VICEDIR="$prefix/lib/vice"
 
 if test x"$host_os" = "xminixvmd"; then
   AR="\$(top_srcdir)/src/arch/unix/minix/minix-ar.sh"
@@ -249,6 +252,8 @@ else
 
   AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 fi
+
+AC_SUBST(VICEDIR)
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
 AM_CONDITIONAL(DOS_OR_WIN, test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes")
@@ -576,8 +581,7 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os"
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(LINUX_JOYSTICK,,
-                              [Enable support for Linux style joysticks.])
-                    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
+                              [Enable support for Linux style joysticks.])],)
   if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
     AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
     AC_TRY_COMPILE([ #include <linux/joystick.h> ],
@@ -589,8 +593,7 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os"
   AC_CHECK_HEADER(machine/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(BSD_JOYSTICK,,
-                              [Enable support for BSD style joysticks.])
-                    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
+                              [Enable support for BSD style joysticks.])],)
 
   dnl NetBSD/FreeBSD USB joystick support
   usbhid_header=no
@@ -607,8 +610,6 @@ if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os"
 	    AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
 	    LIBS="$LIBS -lusbhid"
 	fi])
-
-  AC_SUBST(JOY_OBJS)
 fi
 
 dnl Check for math library

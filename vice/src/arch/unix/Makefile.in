@@ -104,7 +104,6 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
-JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
@@ -162,6 +161,7 @@ USE_MIDAS_SOUND_TRUE = @USE_MIDAS_SOUND_TRUE@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 VERSION_RC = @VERSION_RC@
+VICEDIR = @VICEDIR@
 VICE_LIBPNG = @VICE_LIBPNG@
 VICE_LIBPNG_DEP = @VICE_LIBPNG_DEP@
 VICE_LIBPNG_DIR = @VICE_LIBPNG_DIR@
@@ -353,6 +353,8 @@ libarch_a_SOURCES = \
 	uiprinter.h \
 	uiprinteriec.c \
 	uiprinteriec.h \
+	uiprinteriecplus4.c \
+	uiprinteriecplus4.h \
 	uiprinterieee.c \
 	uiprinterieee.h \
 	uiramcart.c \
@@ -425,8 +427,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
 	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uiprinteriecplus4.$(OBJEXT) uiprinterieee.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
+	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
@@ -469,6 +472,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uipetreu.Po ./$(DEPDIR)/uiplus256k.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus60k.Po ./$(DEPDIR)/uiprinter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinteriecplus4.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiromset.Po ./$(DEPDIR)/uirs232.Po \
@@ -591,6 +595,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus60k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriecplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinterieee.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiramcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@

@@ -1,4 +1,4 @@
-c64dir = $(prefix)/lib/vice/C64
+c64dir = $(VICEDIR)/C64
 
 c64_DATA = \
 	basic \

@@ -1,4 +1,4 @@
-drvdir = $(prefix)/lib/vice/DRIVES
+drvdir = $(VICEDIR)/DRIVES
 
 drv_DATA = \
 	dos1541 \

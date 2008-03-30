@@ -42,7 +42,7 @@ romsets = \
 	rom4b80.vrs \
 	rom4g40.vrs
 
-petdir = $(prefix)/lib/vice/PET
+petdir = $(VICEDIR)/PET
 
 pet_DATA = $(keymaps) $(roms) $(palettes) $(romsets)
 

@@ -1,4 +1,4 @@
-docdir = $(prefix)/lib/vice/doc
+docdir = $(VICEDIR)/doc
 
 doc_DATA = \
 	images/new.gif \

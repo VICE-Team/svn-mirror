@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-01-22 13:08+0100\n"
+"POT-Creation-Date: 2006-01-30 22:18+0100\n"
 "PO-Revision-Date: 2006-01-22 11:22+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -42,7 +42,7 @@ msgstr "Warp Mode Aktivieren"
 msgid "Disable warp mode"
 msgstr "Warp Mode Deaktivieren"
 
-#: src/vsync.c:465
+#: src/vsync.c:479
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -90,8 +90,8 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
 #: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
 #: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:274 src/c64/c64_256k.c:256
-#: src/c64/georam.c:218 src/c64/plus256k.c:182 src/c64/plus60k.c:257
+#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:274 src/c64/c64_256k.c:253
+#: src/c64/georam.c:218 src/c64/plus256k.c:179 src/c64/plus60k.c:254
 #: src/c64/ramcart.c:234 src/c64/reu.c:253 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
@@ -124,12 +124,12 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
 #: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
 #: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
-#: src/pet/petreu.c:218 src/plus4/plus4-cmdline-options.c:80
-#: src/plus4/plus4-cmdline-options.c:82 src/plus4/plus4-cmdline-options.c:84
-#: src/plus4/plus4-cmdline-options.c:86 src/plus4/plus4-cmdline-options.c:88
-#: src/plus4/plus4-cmdline-options.c:90 src/plus4/plus4-cmdline-options.c:92
-#: src/plus4/plus4-cmdline-options.c:94 src/plus4/plus4-cmdline-options.c:101
-#: src/plus4/plus4-cmdline-options.c:103 src/printerdrv/driver-select.c:129
+#: src/pet/petreu.c:218 src/plus4/plus4-cmdline-options.c:83
+#: src/plus4/plus4-cmdline-options.c:85 src/plus4/plus4-cmdline-options.c:87
+#: src/plus4/plus4-cmdline-options.c:89 src/plus4/plus4-cmdline-options.c:91
+#: src/plus4/plus4-cmdline-options.c:93 src/plus4/plus4-cmdline-options.c:95
+#: src/plus4/plus4-cmdline-options.c:97 src/plus4/plus4-cmdline-options.c:104
+#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:129
 #: src/printerdrv/driver-select.c:131 src/printerdrv/driver-select.c:133
 #: src/printerdrv/output-select.c:124 src/printerdrv/output-select.c:126
 #: src/printerdrv/output-select.c:129 src/printerdrv/output-text.c:119
@@ -270,48 +270,48 @@ msgstr "Kann Datei %s nicht schreiben"
 msgid "Cannot find mapped name for %s"
 msgstr "Kann zugeordneten Namen für `%s' nicht finden."
 
-#: src/event.c:624
+#: src/event.c:625
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kann Start Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:643 src/event.c:937
+#: src/event.c:644 src/event.c:938
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht lesen: %s"
 
-#: src/event.c:710 src/event.c:904
+#: src/event.c:711 src/event.c:905
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht erzeugen: %s"
 
-#: src/event.c:778
+#: src/event.c:779
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kann Ende Snapshot Datei nicht öffnen: %s"
 
-#: src/event.c:793
+#: src/event.c:794
 msgid "Could not find event section in end snapshot file."
 msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 
-#: src/event.c:817
+#: src/event.c:818
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
 "s."
 
-#: src/event.c:847
+#: src/event.c:848
 msgid "Error reading start snapshot file."
 msgstr "Fehler beim Lesen der Start Snapshot Datei."
 
-#: src/event.c:1232
+#: src/event.c:1233
 msgid "Playback recorded events"
 msgstr "Wiedergabe von aufgenommener Ereignisse"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/c64_256k.c:128 src/c64/plus256k.c:103 src/c64/plus60k.c:148
+#: src/c64/c64_256k.c:126 src/c64/plus256k.c:101 src/c64/plus60k.c:146
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resource %s wird von %s blockiert."
@@ -379,61 +379,61 @@ msgstr "Teste optimale Framerate..."
 msgid "Using %d frames delay."
 msgstr "Benutze %d Frameverzögerung."
 
-#: src/network.c:447
+#: src/network.c:451
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kann Snapshot Datei für Transfer nicht laden"
 
-#: src/network.c:460
+#: src/network.c:464
 msgid "Sending snapshot to client..."
 msgstr "Sende Snapshot zu Client..."
 
-#: src/network.c:469
+#: src/network.c:473
 msgid "Cannot send snapshot to client"
 msgstr "Kann Snapshot Datei nicht senden"
 
-#: src/network.c:485
+#: src/network.c:499
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
 
-#: src/network.c:498
+#: src/network.c:537
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht öffnen."
 
-#: src/network.c:606
+#: src/network.c:650
 msgid "Server is waiting for a client..."
 msgstr "Server wartet auf Client..."
 
-#: src/network.c:641
+#: src/network.c:687
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kann Snapshot Datei `%s' nicht erzeugen. Verwende ein anderes Verzeichnis!"
 
-#: src/network.c:661
+#: src/network.c:707
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Kann %s nicht auflösen"
 
-#: src/network.c:706
+#: src/network.c:752
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."
 
-#: src/network.c:720
+#: src/network.c:766
 msgid "Receiving snapshot from server..."
 msgstr "Empfange Snapshot von Server..."
 
-#: src/network.c:845
+#: src/network.c:893
 msgid "Remote host disconnected."
 msgstr "Entfernter Rechner getrennt."
 
-#: src/network.c:856
+#: src/network.c:904
 msgid "Remote host suspending..."
 msgstr "Entfernter Rechner angehaltedn..."
 
-#: src/network.c:898
+#: src/network.c:946
 msgid "Network out of sync - disconnecting."
 msgstr "Netzwerksynchronisationsproblem - Trenne Verbindung."
 
@@ -496,13 +496,13 @@ msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Disk Image als Laufwerk #11 benutzen (Schreibzugriff, wenn möglich)"
 
 #: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
-#: src/c64/psid.c:154 src/plus4/plus4-cmdline-options.c:76
+#: src/c64/psid.c:154 src/plus4/plus4-cmdline-options.c:79
 #: src/vic20/vic20-cmdline-options.c:205
 msgid "Use PAL sync factor"
 msgstr "PAL Sync Faktor benutzen"
 
 #: src/c128/c128-cmdline-options.c:106 src/c64/c64-cmdline-options.c:86
-#: src/c64/psid.c:157 src/plus4/plus4-cmdline-options.c:78
+#: src/c64/psid.c:157 src/plus4/plus4-cmdline-options.c:81
 #: src/vic20/vic20-cmdline-options.c:207
 msgid "Use NTSC sync factor"
 msgstr "NTSC Sync Faktor benutzen"
@@ -601,23 +601,23 @@ msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
 
 #: src/c128/c128-cmdline-options.c:155 src/c64/c64-cmdline-options.c:110
 #: src/c64/psid.c:166 src/cbm2/cbm2-cmdline-options.c:176
-#: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:99
+#: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
 msgid "<number>"
 msgstr "<Nummer>"
 
-#: src/c128/c128-cmdline-options.c:155 src/plus4/plus4-cmdline-options.c:99
+#: src/c128/c128-cmdline-options.c:155 src/plus4/plus4-cmdline-options.c:102
 #: src/vic20/vic20-cmdline-options.c:226
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
 #: src/c128/c128-cmdline-options.c:157 src/c64/c64-cmdline-options.c:112
-#: src/plus4/plus4-cmdline-options.c:101 src/vic20/vic20-cmdline-options.c:228
+#: src/plus4/plus4-cmdline-options.c:104 src/vic20/vic20-cmdline-options.c:228
 msgid "Specify name of symbolic keymap file"
 msgstr "Bitte Namen für symbolische Keymap Datei definieren"
 
 #: src/c128/c128-cmdline-options.c:159 src/c64/c64-cmdline-options.c:116
-#: src/plus4/plus4-cmdline-options.c:103 src/vic20/vic20-cmdline-options.c:230
+#: src/plus4/plus4-cmdline-options.c:106 src/vic20/vic20-cmdline-options.c:230
 msgid "Specify name of positional keymap file"
 msgstr "Bitte Namen für positions Keymap Datei definieren"
 
@@ -658,13 +658,13 @@ msgid "Use old NTSC sync factor"
 msgstr "Alten NTSC Sync Faktor verwenden"
 
 #: src/c64/c64-cmdline-options.c:91 src/cbm2/cbm2-cmdline-options.c:132
-#: src/pet/pet-cmdline-options.c:116 src/plus4/plus4-cmdline-options.c:80
+#: src/pet/pet-cmdline-options.c:116 src/plus4/plus4-cmdline-options.c:83
 #: src/vic20/vic20-cmdline-options.c:209
 msgid "Specify name of Kernal ROM image"
 msgstr "Name von Kernal ROM Datei definieren"
 
 #: src/c64/c64-cmdline-options.c:93 src/cbm2/cbm2-cmdline-options.c:134
-#: src/pet/pet-cmdline-options.c:118 src/plus4/plus4-cmdline-options.c:82
+#: src/pet/pet-cmdline-options.c:118 src/plus4/plus4-cmdline-options.c:85
 #: src/vic20/vic20-cmdline-options.c:211
 msgid "Specify name of BASIC ROM image"
 msgstr "Name von Basic ROM Datei definieren"
@@ -777,24 +777,24 @@ msgstr "Geometrie von formatierten Image Dateien automatisch erkennen"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Geometrie von formatierten Image Dateien nicht automatisch erkennen"
 
-#: src/c64/c64_256k.c:252
+#: src/c64/c64_256k.c:249
 msgid "Enable the 256K RAM expansion"
 msgstr "256K RAM Erweiterung aktivieren"
 
-#: src/c64/c64_256k.c:254
+#: src/c64/c64_256k.c:251
 msgid "Disable the 256K RAM expansion"
 msgstr "256K RAM Erweiterung deaktivieren"
 
-#: src/c64/c64_256k.c:256
+#: src/c64/c64_256k.c:253
 msgid "Specify name of 256K image"
 msgstr "Name der 256K Image Datei definieren"
 
-#: src/c64/c64_256k.c:258 src/c64/plus60k.c:259
+#: src/c64/c64_256k.c:255 src/c64/plus60k.c:256
 #: src/sid/sid-cmdline-options.c:109
 msgid "<base address>"
 msgstr "<Basis Adresse>"
 
-#: src/c64/c64_256k.c:258
+#: src/c64/c64_256k.c:255
 msgid "Base address of the 256K expansion"
 msgstr "Basis Adresse für 256K RAM Erweiterung"
 
@@ -819,31 +819,31 @@ msgstr "<Größe in KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Größe der GEORAM Erweiterung"
 
-#: src/c64/plus256k.c:178
+#: src/c64/plus256k.c:175
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM Erweiterung aktivieren"
 
-#: src/c64/plus256k.c:180
+#: src/c64/plus256k.c:177
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM Erweiterung deaktivieren"
 
-#: src/c64/plus256k.c:182
+#: src/c64/plus256k.c:179
 msgid "Specify name of PLUS256K image"
 msgstr "Name der PLUS256K Image Datei definieren"
 
-#: src/c64/plus60k.c:253
+#: src/c64/plus60k.c:250
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM Erweiterung aktivieren"
 
-#: src/c64/plus60k.c:255
+#: src/c64/plus60k.c:252
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM Erweiterung deaktivieren"
 
-#: src/c64/plus60k.c:257
+#: src/c64/plus60k.c:254
 msgid "Specify name of PLUS60K image"
 msgstr "Name der PLUS60K Image Datei definieren"
 
-#: src/c64/plus60k.c:259
+#: src/c64/plus60k.c:256
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basis Adresse für PLUS60K Erweiterung"
 
@@ -923,7 +923,7 @@ msgstr "<Zeilennummer>"
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"
 
-#: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:96
+#: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:99
 msgid "<ramsize>"
 msgstr "<RAM Größe>"
 
@@ -1374,33 +1374,53 @@ msgstr "Namen für PET RAM Speicher und Erweiterungsmodul definieren"
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
 
-#: src/plus4/plus4-cmdline-options.c:84
+#: src/plus4/plus4-cmdline-options.c:87
 msgid "Specify name of Function low ROM image"
 msgstr "Namen für Funktions ROM Datei (unterer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:86
+#: src/plus4/plus4-cmdline-options.c:89
 msgid "Specify name of Function high ROM image"
 msgstr "Namen für Funktions ROM Datei (oberer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:88
+#: src/plus4/plus4-cmdline-options.c:91
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Name für Erweiterungsmodul 1 ROM Datei (unterer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:90
+#: src/plus4/plus4-cmdline-options.c:93
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Name für Erweiterungsmodul 1 ROM Datei (oberer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:92
+#: src/plus4/plus4-cmdline-options.c:95
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Name für Erweiterungsmodul 2 ROM Datei (unterer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:94
+#: src/plus4/plus4-cmdline-options.c:97
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Name für Erweiterungsmodul 2 ROM Datei (oberer Bereich) definieren"
 
-#: src/plus4/plus4-cmdline-options.c:96
+#: src/plus4/plus4-cmdline-options.c:99
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Größe des emulierten RAM Speichers in kb (16/32/64) spezifizieren"
+
+#: src/plus4/plus4memcsory256k.c:120
+#, fuzzy
+msgid "Enable the CSORY 256K RAM expansion"
+msgstr "256K RAM Erweiterung aktivieren"
+
+#: src/plus4/plus4memhannes256k.c:135
+#, fuzzy
+msgid "Enable the HANNES 256K RAM expansion"
+msgstr "256K RAM Erweiterung aktivieren"
+
+#: src/plus4/plus4memhannes256k.c:137
+#, fuzzy
+msgid "Enable the HANNES 1024K RAM expansion"
+msgstr "256K RAM Erweiterung aktivieren"
+
+#: src/plus4/plus4memhannes256k.c:139
+#, fuzzy
+msgid "Enable the HANNES 4096K RAM expansion"
+msgstr "256K RAM Erweiterung aktivieren"
 
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
 msgid "Set saturation of internal calculated palette [1000]"
@@ -2050,7 +2070,7 @@ msgid "Memory and I/O extensions"
 msgstr "Speicher und I/O Erweiterungen"
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:365
-#: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
+#: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:147
 #: src/arch/unix/vic20ui.c:380
 msgid "RS232 settings"
 msgstr "RS232 Einstellungen"
@@ -2061,26 +2081,26 @@ msgstr "Modell Einstellungen"
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:428
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:388
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
+#: src/arch/unix/plus4ui.c:208 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:447
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:405
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
+#: src/arch/unix/plus4ui.c:225 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:454
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:412
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:232 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:466
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:422
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
+#: src/arch/unix/plus4ui.c:240 src/arch/unix/vic20ui.c:533
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
 #: src/arch/unix/x11/gnome/x11ui.c:1343
 msgid "Settings"
@@ -2090,7 +2110,7 @@ msgstr "Einstellungen"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:480
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:436
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
+#: src/arch/unix/plus4ui.c:254 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -2130,7 +2150,7 @@ msgstr "Zeichensatz ROM Laden"
 msgid "Save media file"
 msgstr "Media Image speichern"
 
-#: src/arch/unix/c64ui.c:357 src/arch/unix/plus4ui.c:131
+#: src/arch/unix/c64ui.c:357 src/arch/unix/plus4ui.c:141
 msgid "ROM settings"
 msgstr "ROM Einstellungen"
 
@@ -2452,23 +2472,39 @@ msgstr "Lade neues `3 plus 1' LO ROM"
 msgid "Load new 3 plus 1 HI ROM"
 msgstr "Lade neues `3 plus 1' HI ROM"
 
-#: src/arch/unix/plus4ui.c:119
+#: src/arch/unix/plus4ui.c:121
 msgid "*16KB"
 msgstr "*16KB"
 
-#: src/arch/unix/plus4ui.c:121
+#: src/arch/unix/plus4ui.c:123
 msgid "*32KB"
 msgstr "*32KB"
 
-#: src/arch/unix/plus4ui.c:123
+#: src/arch/unix/plus4ui.c:125
 msgid "*64KB"
 msgstr "*64KB"
 
+#: src/arch/unix/plus4ui.c:127
+msgid "*256KB (CSORY)"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:129
+msgid "*256KB (HANNES)"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:131
+msgid "*1024KB (HANNES)"
+msgstr ""
+
 #: src/arch/unix/plus4ui.c:133
+msgid "*4096KB (HANNES)"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:143
 msgid "RAM settings"
 msgstr "RAM Einstellungen"
 
-#: src/arch/unix/plus4ui.c:135
+#: src/arch/unix/plus4ui.c:145
 msgid "TED settings"
 msgstr "TED Einstellungen"
 
@@ -3731,78 +3767,85 @@ msgstr "*Echter Geräte Zugriff"
 msgid "*Raw device access"
 msgstr "*Echter Geräte Zugriff"
 
-#: src/arch/unix/uiperipheraliec.c:64 src/arch/unix/uiperipheraliec.c:83
-#: src/arch/unix/uiperipheraliec.c:102 src/arch/unix/uiperipheraliec.c:121
+#: src/arch/unix/uiperipheraliec.c:65 src/arch/unix/uiperipheraliec.c:84
+#: src/arch/unix/uiperipheraliec.c:103 src/arch/unix/uiperipheraliec.c:122
 #: src/arch/unix/uiperipheralieee.c:62 src/arch/unix/uiperipheralieee.c:79
 #: src/arch/unix/uiperipheralieee.c:96 src/arch/unix/uiperipheralieee.c:113
 msgid "Device type"
 msgstr "Geräte Typ"
 
-#: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
-#: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
+#: src/arch/unix/uiperipheraliec.c:67 src/arch/unix/uiperipheraliec.c:86
+#: src/arch/unix/uiperipheraliec.c:105 src/arch/unix/uiperipheraliec.c:124
 msgid "*Enable IEC device"
 msgstr "*IEC Gerät aktivieren"
 
-#: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
-#: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
+#: src/arch/unix/uiperipheraliec.c:69 src/arch/unix/uiperipheraliec.c:88
+#: src/arch/unix/uiperipheraliec.c:107 src/arch/unix/uiperipheraliec.c:126
 #: src/arch/unix/uiperipheralieee.c:64 src/arch/unix/uiperipheralieee.c:81
 #: src/arch/unix/uiperipheralieee.c:98 src/arch/unix/uiperipheralieee.c:115
 msgid "*Read only access"
 msgstr "*Schreibgeschützter Zugriff"
 
-#: src/arch/unix/uiperipheraliec.c:71 src/arch/unix/uiperipheraliec.c:90
-#: src/arch/unix/uiperipheraliec.c:109 src/arch/unix/uiperipheraliec.c:128
+#: src/arch/unix/uiperipheraliec.c:72 src/arch/unix/uiperipheraliec.c:91
+#: src/arch/unix/uiperipheraliec.c:110 src/arch/unix/uiperipheraliec.c:129
 #: src/arch/unix/uiperipheralieee.c:67 src/arch/unix/uiperipheralieee.c:84
 #: src/arch/unix/uiperipheralieee.c:101 src/arch/unix/uiperipheralieee.c:118
 msgid "File system directory..."
 msgstr "Dateisystem Verzeichnis..."
 
-#: src/arch/unix/uiperipheraliec.c:73 src/arch/unix/uiperipheraliec.c:92
-#: src/arch/unix/uiperipheraliec.c:111 src/arch/unix/uiperipheraliec.c:130
+#: src/arch/unix/uiperipheraliec.c:74 src/arch/unix/uiperipheraliec.c:93
+#: src/arch/unix/uiperipheraliec.c:112 src/arch/unix/uiperipheraliec.c:131
 #: src/arch/unix/uiperipheralieee.c:69 src/arch/unix/uiperipheralieee.c:86
 #: src/arch/unix/uiperipheralieee.c:103 src/arch/unix/uiperipheralieee.c:120
 msgid "*Convert P00 file names"
 msgstr "*P00 Dateiname konvertieren"
 
-#: src/arch/unix/uiperipheraliec.c:75 src/arch/unix/uiperipheraliec.c:94
-#: src/arch/unix/uiperipheraliec.c:113 src/arch/unix/uiperipheraliec.c:132
+#: src/arch/unix/uiperipheraliec.c:76 src/arch/unix/uiperipheraliec.c:95
+#: src/arch/unix/uiperipheraliec.c:114 src/arch/unix/uiperipheraliec.c:133
 #: src/arch/unix/uiperipheralieee.c:71 src/arch/unix/uiperipheralieee.c:88
 #: src/arch/unix/uiperipheralieee.c:105 src/arch/unix/uiperipheralieee.c:122
 msgid "*Create P00 files on save"
 msgstr "*P00 Dateien beim Speichern erzeugen"
 
-#: src/arch/unix/uiperipheraliec.c:77 src/arch/unix/uiperipheraliec.c:96
-#: src/arch/unix/uiperipheraliec.c:115 src/arch/unix/uiperipheraliec.c:134
+#: src/arch/unix/uiperipheraliec.c:78 src/arch/unix/uiperipheraliec.c:97
+#: src/arch/unix/uiperipheraliec.c:116 src/arch/unix/uiperipheraliec.c:135
 #: src/arch/unix/uiperipheralieee.c:73 src/arch/unix/uiperipheralieee.c:90
 #: src/arch/unix/uiperipheralieee.c:107 src/arch/unix/uiperipheralieee.c:124
 msgid "*Hide raw CBM files"
 msgstr "*Raw CBM Dateien ausblenden"
 
-#: src/arch/unix/uiperipheraliec.c:140 src/arch/unix/uiperipheralieee.c:130
+#: src/arch/unix/uiperipheraliec.c:141 src/arch/unix/uiperipheraliec.c:154
+#: src/arch/unix/uiperipheralieee.c:130
 msgid "Device #8"
 msgstr "Laufwerk #8"
 
-#: src/arch/unix/uiperipheraliec.c:141 src/arch/unix/uiperipheralieee.c:131
+#: src/arch/unix/uiperipheraliec.c:142 src/arch/unix/uiperipheraliec.c:155
+#: src/arch/unix/uiperipheralieee.c:131
 msgid "Device #9"
 msgstr "Laufwerk #9"
 
-#: src/arch/unix/uiperipheraliec.c:142 src/arch/unix/uiperipheralieee.c:132
+#: src/arch/unix/uiperipheraliec.c:143 src/arch/unix/uiperipheraliec.c:156
+#: src/arch/unix/uiperipheralieee.c:132
 msgid "Device #10"
 msgstr "Laufwerk #10"
 
-#: src/arch/unix/uiperipheraliec.c:143 src/arch/unix/uiperipheralieee.c:133
+#: src/arch/unix/uiperipheraliec.c:144 src/arch/unix/uiperipheraliec.c:157
+#: src/arch/unix/uiperipheralieee.c:133
 msgid "Device #11"
 msgstr "Laufwerk #11"
 
-#: src/arch/unix/uiperipheraliec.c:145 src/arch/unix/uiperipheralieee.c:135
+#: src/arch/unix/uiperipheraliec.c:146 src/arch/unix/uiperipheraliec.c:159
+#: src/arch/unix/uiperipheralieee.c:135
 msgid "Printer settings"
 msgstr "Drucker Einstellungen"
 
-#: src/arch/unix/uiperipheraliec.c:147 src/arch/unix/uiperipheralieee.c:137
+#: src/arch/unix/uiperipheraliec.c:148 src/arch/unix/uiperipheraliec.c:161
+#: src/arch/unix/uiperipheralieee.c:137
 msgid "*Enable Virtual Devices"
 msgstr "*Virtuelle Geräte aktivieren"
 
-#: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
+#: src/arch/unix/uiperipheraliec.c:167 src/arch/unix/uiperipheraliec.c:173
+#: src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
 msgstr "Peripherie Einstellungen"
 
@@ -3877,43 +3920,51 @@ msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
 msgid "Command:"
 msgstr "Kommando:"
 
-#: src/arch/unix/uiprinteriec.c:42 src/arch/unix/uiprinterieee.c:40
+#: src/arch/unix/uiprinteriec.c:42 src/arch/unix/uiprinteriecplus4.c:41
+#: src/arch/unix/uiprinterieee.c:40
 msgid "*IEC printer #4 emulation"
 msgstr "*IEC Drucker #4 Emulation"
 
-#: src/arch/unix/uiprinteriec.c:44
+#: src/arch/unix/uiprinteriec.c:44 src/arch/unix/uiprinteriecplus4.c:43
 msgid "*IEC printer #4 enable IEC device"
 msgstr "*IEC Drucker #4 aktivieren"
 
-#: src/arch/unix/uiprinteriec.c:46 src/arch/unix/uiprinterieee.c:42
+#: src/arch/unix/uiprinteriec.c:46 src/arch/unix/uiprinteriecplus4.c:45
+#: src/arch/unix/uiprinterieee.c:42
 msgid "IEC printer #4 driver"
 msgstr "IEC Drucker #4 Treiber"
 
-#: src/arch/unix/uiprinteriec.c:48 src/arch/unix/uiprinterieee.c:44
+#: src/arch/unix/uiprinteriec.c:48 src/arch/unix/uiprinteriecplus4.c:47
+#: src/arch/unix/uiprinterieee.c:44
 msgid "IEC printer #4 text output device"
 msgstr "IEC Drucker #4 Text Ausgabegerät"
 
-#: src/arch/unix/uiprinteriec.c:50 src/arch/unix/uiprinterieee.c:46
+#: src/arch/unix/uiprinteriec.c:50 src/arch/unix/uiprinteriecplus4.c:49
+#: src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 formfeed"
 msgstr "IEC Drucker #4 Seitenvorschub"
 
-#: src/arch/unix/uiprinteriec.c:54 src/arch/unix/uiprinterieee.c:50
+#: src/arch/unix/uiprinteriec.c:54 src/arch/unix/uiprinteriecplus4.c:53
+#: src/arch/unix/uiprinterieee.c:50
 msgid "*IEC printer #5 emulation"
 msgstr "*IEC Drucker #5 Emulation"
 
-#: src/arch/unix/uiprinteriec.c:56
+#: src/arch/unix/uiprinteriec.c:56 src/arch/unix/uiprinteriecplus4.c:55
 msgid "*IEC printer #5 enable IEC device"
 msgstr "*IEC Drucker #5 aktivieren"
 
-#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:52
+#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinteriecplus4.c:57
+#: src/arch/unix/uiprinterieee.c:52
 msgid "IEC printer #5 driver"
 msgstr "IEC Drucker #5 Treiber"
 
-#: src/arch/unix/uiprinteriec.c:60 src/arch/unix/uiprinterieee.c:54
+#: src/arch/unix/uiprinteriec.c:60 src/arch/unix/uiprinteriecplus4.c:59
+#: src/arch/unix/uiprinterieee.c:54
 msgid "IEC printer #5 text output device"
 msgstr "IEC Drucker #5 Ausgabe Text Ausgabegerät"
 
-#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:56
+#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinteriecplus4.c:61
+#: src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 formfeed"
 msgstr "IEC Drucker #5 Seitenvorschub"
 
@@ -3933,15 +3984,18 @@ msgstr "Userport Drucker Text Ausgabegerät"
 msgid "Userport printer formfeed"
 msgstr "Userport Drucker Seitenvorschub"
 
-#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:69
+#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinteriecplus4.c:65
+#: src/arch/unix/uiprinterieee.c:69
 msgid "Printer text device 1..."
 msgstr "Drucker Text Gerät 1..."
 
-#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:71
+#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinteriecplus4.c:67
+#: src/arch/unix/uiprinterieee.c:71
 msgid "Printer text device 2..."
 msgstr "Drucker Text Gerät 2..."
 
-#: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
+#: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinteriecplus4.c:69
+#: src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Drucker Text Gerät 3..."
 

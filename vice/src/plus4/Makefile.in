@@ -102,7 +102,6 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
-JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
 LEX = @LEX@
 LEXLIB = @LEXLIB@
@@ -160,6 +159,7 @@ USE_MIDAS_SOUND_TRUE = @USE_MIDAS_SOUND_TRUE@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 VERSION_RC = @VERSION_RC@
+VICEDIR = @VICEDIR@
 VICE_LIBPNG = @VICE_LIBPNG@
 VICE_LIBPNG_DEP = @VICE_LIBPNG_DEP@
 VICE_LIBPNG_DIR = @VICE_LIBPNG_DIR@
@@ -255,8 +255,8 @@ libplus4_a_SOURCES = \
 	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
-        plus4acia.c \
-        plus4acia.h \
+	plus4acia.c \
+	plus4acia.h \
 	plus4bus.c \
 	plus4cart.c \
 	plus4cart.h \
@@ -267,6 +267,10 @@ libplus4_a_SOURCES = \
 	plus4iec.h \
 	plus4mem.c \
 	plus4mem.h \
+	plus4memcsory256k.c \
+	plus4memcsory256k.h \
+	plus4memhannes256k.c \
+	plus4memhannes256k.h \
 	plus4memlimit.c \
 	plus4memlimit.h \
 	plus4memrom.c \
@@ -328,6 +332,7 @@ am_libplus4_a_OBJECTS = plus4-cmdline-options.$(OBJEXT) \
 	plus4.$(OBJEXT) plus4acia.$(OBJEXT) plus4bus.$(OBJEXT) \
 	plus4cart.$(OBJEXT) plus4cpu.$(OBJEXT) plus4datasette.$(OBJEXT) \
 	plus4drive.$(OBJEXT) plus4iec.$(OBJEXT) plus4mem.$(OBJEXT) \
+	plus4memcsory256k.$(OBJEXT) plus4memhannes256k.$(OBJEXT) \
 	plus4memlimit.$(OBJEXT) plus4memrom.$(OBJEXT) \
 	plus4memsnapshot.$(OBJEXT) plus4parallel.$(OBJEXT) \
 	plus4pio1.$(OBJEXT) plus4pio2.$(OBJEXT) plus4printer.$(OBJEXT) \
@@ -351,6 +356,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/plus4datasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4drive.Po ./$(DEPDIR)/plus4iec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4mem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4memcsory256k.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4memhannes256k.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4memlimit.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4memrom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4memsnapshot.Po \
@@ -410,6 +417,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4drive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4iec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4mem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memcsory256k.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memhannes256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memlimit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memrom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4memsnapshot.Po@am__quote@

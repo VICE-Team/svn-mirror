@@ -1,5 +1,5 @@
 
-vic20dir = $(prefix)/lib/vice/VIC20
+vic20dir = $(VICEDIR)/VIC20
 
 vic20_DATA = \
 	basic \
