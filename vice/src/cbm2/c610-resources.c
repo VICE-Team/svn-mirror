@@ -36,6 +36,7 @@
 #include "crtc.h"
 #include "drive.h"
 #include "interrupt.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "resources.h"
@@ -328,27 +329,27 @@ static resource_t resources[] = {
       (resource_value_t *)&machine_keymap_index,
       keyboard_set_keymap_index, NULL },
     { "KeymapBusinessUKSymFile", RES_STRING,
-      (resource_value_t)"busi_uk.vkm",
+      (resource_value_t)KBD_PET_BUKS,
       (resource_value_t *)&machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
     { "KeymapBusinessUKPosFile", RES_STRING,
-      (resource_value_t)"buk_pos.vkm",
+      (resource_value_t)KBD_PET_BUKP,
       (resource_value_t *)&machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
     { "KeymapGraphicsSymFile", RES_STRING,
-      (resource_value_t)"graphics.vkm",
+      (resource_value_t)KBD_PET_BGRS,
       (resource_value_t *)&machine_keymap_file_list[2],
       keyboard_set_keymap_file, (void *)2 },
     { "KeymapGraphicsPosFile", RES_STRING,
-      (resource_value_t)"posg_de.vkm",
+      (resource_value_t)KBD_PET_BGRP,
       (resource_value_t *)&machine_keymap_file_list[3],
       keyboard_set_keymap_file, (void *)3 },
     { "KeymapBusinessDESymFile", RES_STRING,
-      (resource_value_t)"busi_de.vkm",
+      (resource_value_t)KBD_PET_BDES,
       (resource_value_t *)&machine_keymap_file_list[4],
       keyboard_set_keymap_file, (void *)4 },
     { "KeymapBusinessDEPosFile", RES_STRING,
-      (resource_value_t)"bde_pos.vkm",
+      (resource_value_t)KBD_PET_BDEP,
       (resource_value_t *)&machine_keymap_file_list[5],
       keyboard_set_keymap_file, (void *)5 },
 #endif

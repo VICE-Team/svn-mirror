@@ -33,6 +33,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "drive.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
 #include "resources.h"
@@ -189,11 +190,11 @@ static resource_t resources[] = {
       (resource_value_t *)&machine_keymap_index,
       keyboard_set_keymap_index, NULL },
     { "KeymapSymFile", RES_STRING,
-      (resource_value_t)"default.vkm",
+      (resource_value_t)KBD_C64_SYM,
       (resource_value_t *)&machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
     { "KeymapPosFile", RES_STRING,
-      (resource_value_t)"position.vkm",
+      (resource_value_t)KBD_C64_POS,
       (resource_value_t *)&machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
 #endif

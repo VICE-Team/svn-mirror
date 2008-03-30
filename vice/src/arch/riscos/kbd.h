@@ -31,6 +31,33 @@
 
 #include "types.h"
 
+extern void kbd_arch_init(void);
+
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
+#define KBD_C64_SYM   "ros_sym.vkm"
+#define KBD_C64_POS   "ros_pos.vkm"
+#define KBD_C128_SYM  "ros_sym.vkm"
+#define KBD_C128_POS  "ros_pos.vkm"
+#define KBD_VIC20_SYM "ros_sym.vkm"
+#define KBD_VIC20_POS "ros_pos.vkm"
+#define KBD_PET_BUKS  "ros_buks.vkm"
+#define KBD_PET_BUKP  "ros_bukp.vkm"
+#define KBD_PET_BDES  "ros_bdes.vkm"
+#define KBD_PET_BDEP  "ros_bdep.vkm"
+#define KBD_PET_BGRS  "ros_bgrs.vkm"
+#define KBD_PET_BGRP  "ros_bgrp.vkm"
+#define KBD_PLUS4_SYM "ros_sym.vkm"
+#define KBD_PLUS4_POS "ros_pos.vkm"
+#define KBD_C610_BUKS "ros_buks.vkm"
+#define KBD_C610_BUKP "ros_bukp.vkm"
+#define KBD_C610_BDES "ros_bdes.vkm"
+#define KBD_C610_BDEP "ros_bdep.vkm"
+#define KBD_C610_BGRS "ros_bgrs.vkm"
+#define KBD_C610_BGRP "ros_bgrp.vkm"
+
+
 #define KEYMAP_ENTRIES	128
 
 typedef struct keymap_t {

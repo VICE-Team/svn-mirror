@@ -1,10 +1,7 @@
 /*
- * kbd.h - Keyboard driver.
+ * kbd.h - Unix specfic keyboard driver.
  *
  * Written by
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Andre Fachat <fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -30,16 +27,38 @@
 #ifndef _KBD_H
 #define _KBD_H
 
-#include "types.h"
+#include "ui.h"
 
-extern int kbd_load_keymap(const char *filename);
-extern int kbd_dump_keymap(const char *filename);
+extern void kbd_arch_init(void);
 
-extern int kbd_init(void);
-extern int do_kbd_init_cmdline_options(void);
-extern int do_kbd_init_resources(void);
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
-extern const char **keymap_res_name_list;
+#define KBD_C64_SYM   "x11_sym.vkm"
+#define KBD_C64_POS   "x11_pos.vkm"
+#define KBD_C128_SYM  "x11_sym.vkm"
+#define KBD_C128_POS  "x11_pos.vkm"
+#define KBD_VIC20_SYM "x11_sym.vkm"
+#define KBD_VIC20_POS "x11_pos.vkm"
+#define KBD_PET_BUKS  "x11_buks.vkm"
+#define KBD_PET_BUKP  "x11_bukp.vkm"
+#define KBD_PET_BDES  "x11_bdes.vkm"
+#define KBD_PET_BDEP  "x11_bdep.vkm"
+#define KBD_PET_BGRS  "x11_bgrs.vkm"
+#define KBD_PET_BGRP  "x11_bgrp.vkm"
+#define KBD_PLUS4_SYM "x11_sym.vkm"
+#define KBD_PLUS4_POS "x11_pos.vkm"
+#define KBD_C610_BUKS "x11_buks.vkm"
+#define KBD_C610_BUKP "x11_bukp.vkm"
+#define KBD_C610_BDES "x11_bdes.vkm"
+#define KBD_C610_BDEP "x11_bdep.vkm"
+#define KBD_C610_BGRS "x11_bgrs.vkm"
+#define KBD_C610_BGRP "x11_bgrp.vkm"
+
+extern void x11kbd_press(ui_keysym_t key);
+extern void x11kbd_release(ui_keysym_t key);
+extern void x11kbd_enter_leave(void);
+extern void x11kbd_focus_change(void);
 
 #endif
 

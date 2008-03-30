@@ -29,6 +29,33 @@
 
 #include "types.h"
 
+extern void kbd_arch_init(void);
+
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
+#define KBD_C64_SYM   "beos_sym.vkm"
+#define KBD_C64_POS   "beos_pos.vkm"
+#define KBD_C128_SYM  "beos_sym.vkm"
+#define KBD_C128_POS  "beos_pos.vkm"
+#define KBD_VIC20_SYM "beos_sym.vkm"
+#define KBD_VIC20_POS "beos_pos.vkm"
+#define KBD_PET_BUKS  "beos_buks.vkm"
+#define KBD_PET_BUKP  "beos_bukp.vkm"
+#define KBD_PET_BDES  "beos_bdes.vkm"
+#define KBD_PET_BDEP  "beos_bdep.vkm"
+#define KBD_PET_BGRS  "beos_bgrs.vkm"
+#define KBD_PET_BGRP  "beos_bgrp.vkm"
+#define KBD_PLUS4_SYM "beos_sym.vkm"
+#define KBD_PLUS4_POS "beos_pos.vkm"
+#define KBD_C610_BUKS "beos_buks.vkm"
+#define KBD_C610_BUKP "beos_bukp.vkm"
+#define KBD_C610_BDES "beos_bdes.vkm"
+#define KBD_C610_BDEP "beos_bdep.vkm"
+#define KBD_C610_BGRS "beos_bgrs.vkm"
+#define KBD_C610_BGRP "beos_bgrp.vkm"
+
+
 /* Keymap definition structure.  */
 typedef struct {
     BYTE row;

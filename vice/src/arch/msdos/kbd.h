@@ -32,6 +32,33 @@
 
 #include "types.h"
 
+extern void kbd_arch_init(void);
+
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
+#define KBD_C64_SYM   "dos_sym.vkm"
+#define KBD_C64_POS   "dos_pos.vkm"
+#define KBD_C128_SYM  "dos_sym.vkm"
+#define KBD_C128_POS  "dos_pos.vkm"
+#define KBD_VIC20_SYM "dos_sym.vkm"
+#define KBD_VIC20_POS "dos_pos.vkm"
+#define KBD_PET_BUKS  "dos_buks.vkm"
+#define KBD_PET_BUKP  "dos_bukp.vkm"
+#define KBD_PET_BDES  "dos_bdes.vkm"
+#define KBD_PET_BDEP  "dos_bdep.vkm"
+#define KBD_PET_BGRS  "dos_bgrs.vkm"
+#define KBD_PET_BGRP  "dos_bgrp.vkm"
+#define KBD_PLUS4_SYM "dos_sym.vkm"
+#define KBD_PLUS4_POS "dos_pos.vkm"
+#define KBD_C610_BUKS "dos_buks.vkm"
+#define KBD_C610_BUKP "dos_bukp.vkm"
+#define KBD_C610_BDES "dos_bdes.vkm"
+#define KBD_C610_BDEP "dos_bdep.vkm"
+#define KBD_C610_BGRS "dos_bgrs.vkm"
+#define KBD_C610_BGRP "dos_bgrp.vkm"
+
+
 /* Keymap definition structure.  */
 typedef struct {
     BYTE row;

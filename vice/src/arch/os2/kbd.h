@@ -30,6 +30,33 @@
 
 #include "types.h"
 
+extern void kbd_arch_init(void);
+
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
+#define KBD_C64_SYM   "os2_sym.vkm"
+#define KBD_C64_POS   "os2_pos.vkm"
+#define KBD_C128_SYM  "os2_sym.vkm"
+#define KBD_C128_POS  "os2_pos.vkm"
+#define KBD_VIC20_SYM "os2_sym.vkm"
+#define KBD_VIC20_POS "os2_pos.vkm"
+#define KBD_PET_BUKS  "os2_buks.vkm"
+#define KBD_PET_BUKP  "os2_bukp.vkm"
+#define KBD_PET_BDES  "os2_bdes.vkm"
+#define KBD_PET_BDEP  "os2_bdep.vkm"
+#define KBD_PET_BGRS  "os2_bgrs.vkm"
+#define KBD_PET_BGRP  "os2_bgrp.vkm"
+#define KBD_PLUS4_SYM "os2_sym.vkm"
+#define KBD_PLUS4_POS "os2_pos.vkm"
+#define KBD_C610_BUKS "os2_buks.vkm"
+#define KBD_C610_BUKP "os2_bukp.vkm"
+#define KBD_C610_BDES "os2_bdes.vkm"
+#define KBD_C610_BDEP "os2_bdep.vkm"
+#define KBD_C610_BGRS "os2_bgrs.vkm"
+#define KBD_C610_BGRP "os2_bgrp.vkm"
+
+
 /* Keymap definition structure.  */
 typedef struct {
     WORD code;
