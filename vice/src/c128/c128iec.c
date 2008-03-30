@@ -32,12 +32,13 @@
 #include "c64iec.h"
 #include "ciad.h"
 #include "drive.h"
+#include "maincpu.h"
 #include "iecdrive.h"
 #include "resources.h"
-#include "types.h"
 #include "viad.h"
 
-iec_info_t iec_info; /* FIXME: Make static again */
+/* Status of the IEC bus signals.  */
+static iec_info_t iec_info;
 
 static BYTE iec_old_atn = 0x10;
 static BYTE parallel_cable_cpu_value = 0xff;
@@ -51,7 +52,7 @@ inline void iec_update_ports(void)
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
                           & iec_info.drive2_bus;
     iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
-          & 0x4)
+                           & 0x4)
                            | (iec_info.cpu_port >> 7)
                            | ((iec_info.cpu_bus << 3) & 0x80));
 }

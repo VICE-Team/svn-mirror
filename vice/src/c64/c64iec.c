@@ -31,13 +31,14 @@
 #include <stdio.h>
 
 #include "vice.h"
-#include "resources.h"
-#include "ciad.h"
-#include "viad.h"
-#include "types.h"
-#include "iecdrive.h"
-#include "drive.h"
+
 #include "c64cia.h"
+#include "ciad.h"
+#include "drive.h"
+#include "iecdrive.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "viad.h"
 
 /* Status of the IEC bus signals.  */
 static iec_info_t iec_info; 
@@ -54,7 +55,7 @@ inline void iec_update_ports(void)
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
                           & iec_info.drive2_bus;
     iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
-          & 0x4)
+                           & 0x4)
                            | (iec_info.cpu_port >> 7)
                            | ((iec_info.cpu_bus << 3) & 0x80));
 }
