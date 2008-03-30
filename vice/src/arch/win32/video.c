@@ -319,7 +319,7 @@ DDSURFACEDESC desc;
 
 /* Lock the DD surface of buffer `f', filling the `dd_surface_desc'
    struct.  */
-static int frame_buffer_lock(frame_buffer_t f)
+static int frame_buffer_lock(video_frame_buffer_t *f)
 {
     while (1) {
         HRESULT result;
@@ -345,7 +345,7 @@ static int frame_buffer_lock(frame_buffer_t f)
     return 0;
 }
 
-int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t *i, unsigned int width,
                              unsigned int height)
 {
     HRESULT result;
@@ -365,25 +365,27 @@ int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
         return -1;
     }
 
-    *i = (struct _frame_buffer *) xmalloc(sizeof(struct frame_buffer_s));
-    (*i)->dd_surface = surface;
+    i = (video_frame_buffer_t *)xmalloc(sizeof(struct video_frame_buffer_s));
+    i->dd_surface = surface;
 
-    return frame_buffer_lock(*i);
+    return frame_buffer_lock(i);
 }
 
 #else
 
 /* This is the real version...  Without using DirectDrawSurfaces.  */
 
-int video_frame_buffer_alloc(frame_buffer_t *f,
+int video_frame_buffer_alloc(video_frame_buffer_t **f,
                        unsigned int width,
                        unsigned int height)
 {
     DEBUG(("frame_buffer_alloc()"));
-    *f = (frame_buffer_t) xmalloc(sizeof(struct frame_buffer_s));
+
+    *f = (video_frame_buffer_t *)xmalloc(sizeof(struct video_frame_buffer_s));
+
     (*f)->width = width;
     (*f)->height = height;
-    (*f)->buffer = xmalloc(width*height*sizeof(PIXEL));
+    (*f)->buffer = xmalloc(width * height * sizeof(PIXEL));
 
     DEBUG(("Allocated frame buffer, %d x %d pixels.", width, height));
 
@@ -392,22 +394,32 @@ int video_frame_buffer_alloc(frame_buffer_t *f,
 
 #endif
 
-void video_frame_buffer_free(frame_buffer_t *f)
+void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-    frame_buffer_t  tempf;
+#if 0
+    video_frame_buffer_t *tempf;
 
     if (!f || !*f)
         return;
-    tempf=*f;
-    *f=NULL;
-    free(tempf->buffer);
-    free(tempf);
 
+    tempf = *f;
+
+    *f = NULL;
+
+    free(tempf->buffer);
+
+    free(tempf);
+#endif
+    if (!f)
+        return;
+
+    free(f->buffer);
+    free(f);
 }
 
-void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-    memset((*f)->buffer,value,(*f)->height*(*f)->width);
+    memset(f->buffer, value, f->height * f->width);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -824,7 +836,7 @@ RECT            clear_rect;
     FillRect(hdc,&clear_rect,back_color);
 }
 
-static void real_refresh(canvas_t c, frame_buffer_t f,
+static void real_refresh(canvas_t c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h);
@@ -906,7 +918,7 @@ RECT        rect;
 }
 
 #if 0
-void canvas_refresh(canvas_t c, frame_buffer_t f,
+void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
     RECT    rect;
@@ -924,14 +936,14 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     InvalidateRect(c->hwnd,&rect,FALSE);
 }
 
-void canvas_render(canvas_t c, frame_buffer_t f,
+void canvas_render(canvas_t c, video_frame_buffer_t *f,
                    unsigned int xs, unsigned int ys,
                    unsigned int xi, unsigned int yi,
                    unsigned int w, unsigned int h)
 #else
 
 
-void canvas_refresh(canvas_t c, frame_buffer_t f,
+void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
@@ -962,7 +974,7 @@ RECT            rect;
     real_refresh(c, f, frame_buffer_x, frame_buffer_y, client_x, client_y, w, h);
 }
 
-static void real_refresh(canvas_t c, frame_buffer_t f,
+static void real_refresh(canvas_t c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
@@ -1121,7 +1133,7 @@ static void real_refresh(canvas_t c, frame_buffer_t f,
                 dp = (BYTE *) desc.lpSurface + pitch * trect.top + trect.left;
                 for (y = 0; y < ph; y++, dp += pitch) {
                     BYTE *p = dp;
-                    BYTE *sp=(BYTE*)(FRAME_BUFFER_LINE_START(f,y+py)+px);
+                    BYTE *sp=(BYTE*)(VIDEO_FRAME_BUFFER_LINE_START(f,y+py)+px);
 
                     {
                         int j=0;
@@ -1162,7 +1174,7 @@ static void real_refresh(canvas_t c, frame_buffer_t f,
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 2 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
+                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
                     int i;
                     WORD    *p;
 
@@ -1194,7 +1206,7 @@ static void real_refresh(canvas_t c, frame_buffer_t f,
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 3 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
+                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
                     BYTE *p = dp;
                     BYTE *s;
                     int i;
@@ -1279,7 +1291,7 @@ offs1:
                 dp = ((BYTE *) desc.lpSurface + pitch * trect.top
                     + 4 * trect.left);
                 for (y = py; y < py + ph; y++, dp += pitch) {
-                    BYTE *sp = FRAME_BUFFER_LINE_START(f,y) + px;
+                    BYTE *sp = VIDEO_FRAME_BUFFER_LINE_START(f,y) + px;
                     int i;
 
                     for (i = 0; i < pw; i++)
