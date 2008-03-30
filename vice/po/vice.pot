@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-12-06 22:08+0100\n"
+"POT-Creation-Date: 2001-12-08 19:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2511,30 +2511,30 @@ msgstr ""
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:296
+#: src/arch/unix/x11/video.c:299
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:298
+#: src/arch/unix/x11/video.c:301
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:301
+#: src/arch/unix/x11/video.c:304
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:336
+#: src/arch/unix/x11/video.c:339
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:340
+#: src/arch/unix/x11/video.c:343
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:390
+#: src/arch/unix/x11/video.c:393
 msgid "Cannot release shared memory!"
 msgstr ""
 

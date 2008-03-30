@@ -189,7 +189,8 @@ static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
 {
     video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 8);
+                      p->x_image->bytes_per_line, 8,
+                      p->canvas->videorendermode);
 
 }
 
@@ -198,7 +199,8 @@ static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
 {
     video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 16);
+                      p->x_image->bytes_per_line, 16,
+                      p->canvas->videorendermode);
 
 }
 
@@ -207,7 +209,8 @@ static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
 {
     video_render_main(p->canvas->color_tab, p->tmpframebuffer, p->x_image->data,
                       w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
-                      p->x_image->bytes_per_line, 32);
+                      p->x_image->bytes_per_line, 32,
+                      p->canvas->videorendermode);
 
 }
 
