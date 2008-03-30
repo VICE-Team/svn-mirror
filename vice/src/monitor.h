@@ -32,7 +32,7 @@
 #include "types.h"
 
 /** Generic interface.  **/
-#define NUM_MEMSPACES 4
+#define NUM_MEMSPACES 6
 
 #define any_watchpoints(mem) \
     (watchpoints_load[(mem)] || watchpoints_store[(mem)])
@@ -49,6 +49,8 @@ enum t_memspace {
    e_comp_space,
    e_disk8_space,
    e_disk9_space,
+   e_disk10_space,
+   e_disk11_space,
    e_invalid_space
 };
 typedef enum t_memspace MEMSPACE;
@@ -125,8 +127,7 @@ extern unsigned mon_mask[NUM_MEMSPACES];
 
 /* Prototypes */
 extern void monitor_init(monitor_interface_t *maincpu_interface,
-                         monitor_interface_t *drive8_interface_init,
-                         monitor_interface_t *drive9_interface_init,
+                         monitor_interface_t *drive_interface_init[],
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
 extern void monitor_startup(void);
@@ -146,6 +147,9 @@ extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
 extern monitor_interface_t *monitor_interface_new(void);
 extern void monitor_interface_destroy(monitor_interface_t *monitor_interface);
+
+extern int monitor_diskspace_dnr(int mem);
+extern int monitor_diskspace_mem(int dnr);
 
 /** Breakpoint interface.  */
 /* Defines */

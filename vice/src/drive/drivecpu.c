@@ -109,12 +109,7 @@ void drive_cpu_setup_context(struct drive_context_s *drv)
     mi->toggle_watchpoints_func = drivecpu_toggle_watchpoints;
     mi->set_bank_base = drivecpu_set_bank_base;
     drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
-
-    if (drv->mynumber == 0) {
-        cpu->monspace = e_disk8_space;
-    } else {
-        cpu->monspace = e_disk9_space;
-    }
+    cpu->monspace = monitor_diskspace_mem(drv->mynumber);
 }
 
 /* ------------------------------------------------------------------------- */

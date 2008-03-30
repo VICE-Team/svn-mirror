@@ -323,15 +323,19 @@ int machine_cmdline_options_init(void)
 
 static void c64_monitor_init(void)
 {
+    unsigned int dnr;
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };
+    monitor_interface_t *drive_interface_init[DRIVE_NUM];
 
     asm6502_init(&asm6502);
 
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+
     /* Initialize the monitor.  */
-    monitor_init(maincpu_monitor_interface_get(),
-                 drivecpu_monitor_interface_get(0),
-                 drivecpu_monitor_interface_get(1), asmarray);
+    monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
+                 asmarray);
 }
 
 void machine_setup_context(void)

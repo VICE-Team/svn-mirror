@@ -46,6 +46,7 @@
 #include "archdep.h"
 #include "charset.h"
 #include "console.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "ioutil.h"
 #include "kbdbuf.h"
@@ -348,28 +349,15 @@ mon_reg_list_t *mon_register_list_get(int mem)
 
 bool check_drive_emu_level_ok(int drive_num)
 {
-    if (drive_num == 8 && mon_interfaces[e_disk8_space] == NULL) {
-        mon_out("True drive emulation not supported for this machine.\n");
+    if (drive_num < 8 || drive_num > 11)
         return FALSE;
-    }
-    if (drive_num == 9 && mon_interfaces[e_disk8_space] == NULL) {
+
+    if (mon_interfaces[monitor_diskspace_mem(drive_num - 8)] == NULL) {
         mon_out("True drive emulation not supported for this machine.\n");
         return FALSE;
     }
 
-/* FIXME: IMO, the user should be allowed to access the true drive emulation
-   even when it's (temporarily?) disabled.
-   - but this may confuse the user since they might think the results are valid
-   with respect to what is currently being emulated.
-*/
-#if 0
-    else if (!app_resources.true1541) {
-        mon_out("True drive emulation is not turned on.\n");
-        return FALSE;
-    }
-#endif
-
-   return TRUE;
+    return TRUE;
 }
 
 void monitor_cpu_type_set(const char *cpu_type)
@@ -438,14 +426,9 @@ void mon_bank(MEMSPACE mem, const char *bankname)
 
 BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
 {
-    if (mem == e_disk8_space) {
-        if (!check_drive_emu_level_ok(8))
+    if (monitor_diskspace_dnr(mem) >= 0)
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return 0;
-    }
-    if (mem == e_disk9_space) {
-        if (!check_drive_emu_level_ok(9))
-            return 0;
-    }
 
     return mon_interfaces[mem]->mem_bank_read(bank, mem_addr,
                                               mon_interfaces[mem]->context);
@@ -462,16 +445,12 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 
     bank = mon_interfaces[mem]->current_bank;
 
+    if (monitor_diskspace_dnr(mem) >= 0)
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+            return;
+
     switch (mem) {
       case e_comp_space:
-        break;
-      case e_disk8_space:
-        if (!check_drive_emu_level_ok(8))
-            return;
-        break;
-      case e_disk9_space:
-        if (!check_drive_emu_level_ok(9))
-            return;
         break;
       default:
         log_error(LOG_ERR, "Unknow memspace!");
@@ -568,11 +547,11 @@ static void montor_list_destroy(monitor_cpu_type_list_t *list)
 /* *** MISC COMMANDS *** */
 
 void monitor_init(monitor_interface_t *maincpu_interface_init,
-                  monitor_interface_t *drive8_interface_init,
-                  monitor_interface_t *drive9_interface_init,
+                  monitor_interface_t *drive_interface_init[],
                   monitor_cpu_type_t **asmarray)
 {
     int i, j;
+    unsigned int dnr;
     monitor_cpu_type_list_t *monitor_cpu_type_list_ptr;
 
     yydebug = 0;
@@ -625,8 +604,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     asm_mode_addr = BAD_ADDR;
 
     mon_interfaces[e_comp_space] = maincpu_interface_init;
-    mon_interfaces[e_disk8_space] = drive8_interface_init;
-    mon_interfaces[e_disk9_space] = drive9_interface_init;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
 }
 
 void monitor_shutdown(void)
@@ -1379,18 +1359,18 @@ void mon_check_icount_interrupt(void)
 
 void mon_check_watchpoints(WORD a)
 {
+    unsigned int dnr;
+
     if (watch_load_occurred) {
         if (watchpoints_check_loads(e_comp_space)) {
             caller_space = e_comp_space;
             monitor_startup();
         }
-        if (watchpoints_check_loads(e_disk8_space)) {
-            caller_space = e_disk8_space;
-            monitor_startup();
-        }
-        if (watchpoints_check_loads(e_disk9_space)) {
-            caller_space = e_disk9_space;
-            monitor_startup();
+        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+            if (watchpoints_check_loads(monitor_diskspace_mem(dnr))) {
+                caller_space = monitor_diskspace_mem(dnr);
+                monitor_startup();
+            }
         }
         watch_load_occurred = FALSE;
     }
@@ -1400,16 +1380,46 @@ void mon_check_watchpoints(WORD a)
             caller_space = e_comp_space;
             monitor_startup();
         }
-        if (watchpoints_check_stores(e_disk8_space)) {
-            caller_space = e_disk8_space;
-            monitor_startup();
-        }
-        if (watchpoints_check_stores(e_disk9_space)) {
-            caller_space = e_disk9_space;
-            monitor_startup();
+        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+            if (watchpoints_check_stores(monitor_diskspace_mem(dnr))) {
+                caller_space = monitor_diskspace_mem(dnr);
+                monitor_startup();
+            }
         }
         watch_store_occurred = FALSE;
     }
+}
+
+int monitor_diskspace_dnr(int mem)
+{
+    switch (mem) {
+      case e_disk8_space:
+       return 0; 
+      case e_disk9_space:
+       return 1;
+      case e_disk10_space:
+       return 2;
+      case e_disk11_space:
+       return 3;
+    }
+
+    return -1;
+}
+
+int monitor_diskspace_mem(int dnr)
+{
+    switch (dnr) {
+      case 0:
+        return e_disk8_space;
+      case 1:
+        return e_disk9_space;
+      case 2:
+        return e_disk10_space;
+      case 3:
+        return e_disk11_space;
+    }
+
+    return 0;
 }
 
 static void make_prompt(char *str)
@@ -1437,6 +1447,8 @@ static void handle_abort(int signo)
 
 static void monitor_open(void)
 {
+    unsigned int dnr;
+
     if (mon_console_close_on_leaving) {
         console_log = uimon_window_open();
         uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
@@ -1454,10 +1466,12 @@ static void monitor_open(void)
 
     dot_addr[e_comp_space] = new_addr(e_comp_space,
                                       MONITOR_GET_PC(e_comp_space));
-    dot_addr[e_disk8_space] = new_addr(e_disk8_space,
-                                      MONITOR_GET_PC(e_disk8_space));
-    dot_addr[e_disk9_space] = new_addr(e_disk9_space,
-                                      MONITOR_GET_PC(e_disk9_space));
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        int mem = monitor_diskspace_mem(dnr);
+
+        dot_addr[mem] = new_addr(mem, MONITOR_GET_PC(mem));
+    }
+
     mon_out("\n** Monitor");
 
     if (caller_space == e_comp_space
