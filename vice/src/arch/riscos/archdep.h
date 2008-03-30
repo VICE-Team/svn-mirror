@@ -79,6 +79,9 @@
 #define ARCHDEP_X_OK X_OK
 #define ARCHDEP_F_OK F_OK
 
+/* Standard line delimiter.  */
+#define ARCHDEP_LINE_DELIMITER "\n"
+
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
 
