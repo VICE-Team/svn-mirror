@@ -361,7 +361,7 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         drive[0].enable = 1;
-        drive_rom_setup_image(0);
+        machine_drive_rom_setup_image(0);
         drive_mem_init(&drive0_context, drive[0].type);
         resources_set_value("Drive8IdleMethod",
                             (resource_value_t)drive[0].idling_method);
@@ -384,7 +384,7 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_1001:
         /* drive 1 does not allow dual disk drive */
         drive[1].enable = 1;
-        drive_rom_setup_image(1);
+        machine_drive_rom_setup_image(1);
         drive_mem_init(&drive1_context, drive[1].type);
         resources_set_value("Drive9IdleMethod",
                             (resource_value_t) drive[1].idling_method);
@@ -862,9 +862,7 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
-    if (drive[dnr].type == DRIVE_TYPE_1541) {
-        drive_rom_do_1541_checksum();
-    }
+    machine_drive_rom_do_checksum(dnr);
 
     snapshot_module_close(m);
     return 0;
