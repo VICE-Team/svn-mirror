@@ -363,18 +363,17 @@ void mydrive_cpu_early_init(void)
     clk_guard_init(&mydrive_clk_guard, &drive_clk[mynumber], 0x600000);
 
     alarm_context_init(&mydrive_alarm_context, IDENTIFICATION_STRING);
-}
 
-void mydrive_cpu_init(int type)
-{
     myvia1_init();
     myvia2_init();
     mycia1571_init();
     mycia1581_init();
     mywd1770_init();
+}
 
+void mydrive_cpu_init(int type)
+{
     mydrive_mem_init(type);
-
     mydrive_cpu_reset();
 }
 
