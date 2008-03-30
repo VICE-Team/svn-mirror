@@ -1,3 +1,62 @@
+2004-02-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.4.
+
+	* c64/c64export.c, c64/c64export.h: New files.
+
+	* c64/Makefile.am, arch/win32/c64.dsp, arch/win32/c64c128.dsp:
+	Added new files.
+
+	* c64/cart/actionreplay.c, c64/cart/actionreplay.h,
+	c64/cart/atomicpower.c, c64/cart/atomicpower.h,
+	c64/cart/epyxfastload.c, c64/cart/epyxfastload.h,
+	c64/cart/expert.c, c64/cart/expert.h, c64/cart/final.c,
+	c64/cart/final.h, c64/cart/generic.c, c64/cart/generic.h,
+	c64/cart/ide64.c, c64/cart/kcs.c, c64/cart/kcs.h,
+	c64/cart/magicformel.c, c64/cart/magicformel.h,
+	c64/cart/retroreplay.c, c64/cart/retroreplay.h,
+	c64/cart/supergames.c, c64/cart/supergames.h,
+	c64/cart/supersnapshot.c, c64/cart/supersnapshot.c,
+	c64/cart/zaxxon.c, c64/cart/zaxxon.h: Use C64 export resource
+	functions.
+
+	* c64/c64.c, c128/c128.c (machine_resources_init): Init export
+	resources.
+
+	* c64/cart/c64cartmem.c (cartridge_detach): Detach carts.
+
+	* c64/c64io.c (io2_read, io2_store): Moved up REU access.
+
+	* c64/cart/supersnapshot.c, c64/cart/expert.c: Removed IO2
+	hack.
+
+	* c64/reu.c (set_reu_enabled): Use C64 export resource
+	functions.
+
+	* arch/unix/uic64cart.c (attach_cartridge): Fixed error
+	message.
+
+	* vdrive/vdrive-iec.c (iec_open_read_directory): Pass
+	`CBMDOS_FT_DEL' to the directory creation routine.
+	(vdrive_iec_open): Honour file type is opened for reading.
+
+	* vdrive/vdrive-dir.c (vdrive_dir_name_match): Cosmetics.
+
+	* arch/win32/evc/config.h: Removed defines.
+
+	* arch/win32/msvc/config.h: Added defines.
+
+2004-02-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* 6510core.c: Call debug_drive with more parameters.
+
+	* debug.c, debug.h: Fixed commandline option -trace_mode,
+	(debug_drive): Added more parameters and implemented history
+	mode.
+
+	* core/viacore.c (via_reset): Set tal, tbl as the register
+	values need it.
+
 2004-02-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.3.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-07 14:59+0100\n"
+"POT-Creation-Date: 2004-02-15 17:48+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -878,17 +878,14 @@ msgstr "Próbuj odczytaæ z uszkodzonego fd %d."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Próbuj odczytaæ z nie otwartego fd %d."
 
-#: src/arch/unix/uic64cart.c:57
-msgid "Invalid cartridge"
-msgstr "Nieprawid³owy kartrid¿"
+#: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
+#, fuzzy
+msgid "Cannot attach cartridge"
+msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:205
 msgid "Attach cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
-
-#: src/arch/unix/uic64cart.c:74 src/arch/unix/vic20ui.c:211
-msgid "Invalid cartridge image"
-msgstr "Nieprawid³owy obraz kartrid¿a"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2579,6 +2576,10 @@ msgstr "*Blok 5 (8K w $A000-$BFFF)"
 msgid "Memory expansions"
 msgstr "Rozszerzenie pamiêci"
 
+#: src/arch/unix/vic20ui.c:211
+msgid "Invalid cartridge image"
+msgstr "Nieprawid³owy obraz kartrid¿a"
+
 #: src/arch/unix/vic20ui.c:236
 msgid "Smart-attach cartridge image..."
 msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
@@ -3400,6 +3401,9 @@ msgstr "Wydajno¶æ bêdzie niska"
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Nieprawid³owy kartrid¿"
 
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."

@@ -102,6 +102,10 @@ SOURCE=..\..\c64\c64datasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64export.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64iec.c
 # End Source File
 # Begin Source File

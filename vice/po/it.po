@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-07 14:59+0100\n"
+"POT-Creation-Date: 2004-02-15 17:48+0100\n"
 "PO-Revision-Date: 2004-01-20 20:33+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -865,17 +865,14 @@ msgstr "Tentativo di lettura da fd %d non valido."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Tentativo di lettura da fd %d non aperto."
 
-#: src/arch/unix/uic64cart.c:57
-msgid "Invalid cartridge"
-msgstr "Cartuccia non valida"
+#: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
+#, fuzzy
+msgid "Cannot attach cartridge"
+msgstr "Seleziona una cartuccia..."
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:205
 msgid "Attach cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
-
-#: src/arch/unix/uic64cart.c:74 src/arch/unix/vic20ui.c:211
-msgid "Invalid cartridge image"
-msgstr "Immagine della cartuccia non valida"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2513,6 +2510,10 @@ msgstr "*Blocco 5 (8K a $A000-$BFFF)"
 msgid "Memory expansions"
 msgstr "Espansioni di memoria"
 
+#: src/arch/unix/vic20ui.c:211
+msgid "Invalid cartridge image"
+msgstr "Immagine della cartuccia non valida"
+
 #: src/arch/unix/vic20ui.c:236
 msgid "Smart-attach cartridge image..."
 msgstr "Seleziona una cartuccia..."
@@ -3333,6 +3334,9 @@ msgstr "Le prestazioni saranno scarse."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Cartuccia non valida"
 
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."

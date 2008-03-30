@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.14\n"
-"POT-Creation-Date: 2004-02-07 14:59+0100\n"
+"POT-Creation-Date: 2004-02-15 17:48+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -885,17 +885,14 @@ msgstr ""
 msgid "Attempt to read from non-open fd %d."
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:57
-msgid "Invalid cartridge"
-msgstr "Cartouche invalide"
+#: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
+#, fuzzy
+msgid "Cannot attach cartridge"
+msgstr "Attacher l'image d'une cartouche"
 
 #: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:205
 msgid "Attach cartridge image"
 msgstr "Attacher l'image d'une cartouche"
-
-#: src/arch/unix/uic64cart.c:74 src/arch/unix/vic20ui.c:211
-msgid "Invalid cartridge image"
-msgstr "Image de cartouche invalide"
 
 #: src/arch/unix/uic64cart.c:137
 msgid "Save cartridge image..."
@@ -2576,6 +2573,10 @@ msgstr ""
 msgid "Memory expansions"
 msgstr ""
 
+#: src/arch/unix/vic20ui.c:211
+msgid "Invalid cartridge image"
+msgstr "Image de cartouche invalide"
+
 #: src/arch/unix/vic20ui.c:236
 msgid "Smart-attach cartridge image..."
 msgstr ""
@@ -3382,6 +3383,9 @@ msgstr "Les performances vont être faibles."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Correctement initialisée sans mémoire partagée"
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Cartouche invalide"
 
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."
