@@ -9,12 +9,12 @@
  *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
  *  Ettore Perazzoli    (ettore@comm2000.it)
  *  Martin Pottendorfer (Martin.Pottendorfer@aut.alcatel.at)
+ *  Andreas Boose       (boose@unixserv.rz.fh-hannover.de)
  *
  * Patches by
  *  Dan Miner           (dminer@nyx10.cs.du.edu)
  *  Germano Caronni     (caronni@tik.ethz.ch)
  *  Daniel Fandrich     (dan@fch.wimsey.bc.ca)	/DF/
- *  Andreas Boose       (boose@unixserv.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -367,7 +367,7 @@ int     open_1541(void *flp, char *name, int length, int secondary)
    if (floppy->ActiveFd < 0) {
        if (!*(floppy->ActiveName) ||
 	   (floppy->ActiveFd = zopen(name, O_RDWR, 0)) < 0) {
-	   if(secondary != 15) {
+	   if (secondary != 15) {
 	     printf("No disk. Status $%02X\n", SERIAL_NO_DEVICE);
 	     return SERIAL_NO_DEVICE;
 	   }
@@ -1341,7 +1341,7 @@ static int  floppy_parse_name(char *name, int length, char *ptr,
     if (p)
 	p++;
     else {	/* no colon found */
-	if(*name != '$') p = name;
+	if (*name != '$') p = name;
 	else p = name + strlen(name);	/* set to null byte */
     }
 #ifdef DEBUG_DRIVE
@@ -2817,7 +2817,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	floppy->D64_Header = hdr.d64;
 	floppy->GCR_Header = hdr.gcr;
 
-	if(!hdr.gcr) {
+	if (!hdr.gcr) {
 	    /* Initialise format constants */
 	    set_disk_geometry(floppy, DType);
 
@@ -2882,7 +2882,7 @@ int get_std64_header(int fd, BYTE *header) {
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if(lseek(fd, 256*blk, SEEK_SET)<0)
+    if (lseek(fd, 256*blk, SEEK_SET)<0)
 	return FD_BADIMAGE;
     while ((len = read(fd, block, 256)) == 256) {
         if (++blk > 771) {
@@ -2958,7 +2958,7 @@ int    check_header(int fd, hdrinfo *hdr)
 
 	if (!fstat (fd, &s)) {
 	    if (IS_D64_LEN(s.st_size)) {
-		if(get_std64_header(fd, header))
+		if (get_std64_header(fd, header))
 		    return FD_BADIMAGE;
 		hdr->d64 = 1;
 	    } else {
@@ -3191,6 +3191,8 @@ static unsigned int fs_cptr = 0;
 
 static char fs_dirmask[MAXPATHLEN];
 
+static FILE *fs_find_pc64_name(char *name, int length);
+static void fs_test_pc64_name(char *rname);
 
 /* ------------------------------------------------------------------------- */
 
@@ -3205,7 +3207,7 @@ void fs_error(int code) {
 
     last_code = code;
 
-    if( code == IPE_DOS_VERSION ) {
+    if ( code == IPE_DOS_VERSION ) {
       message = "UNIX FS DRIVER V1.X";
     } else {
       e = &(floppy_error_messages[0]);
@@ -3230,7 +3232,7 @@ void flush_fs(void *flp, int secondary) {
 	char *cmd, *arg, *arg2 = NULL;
 	int er = IPE_SYNTAX;
 
-	if( secondary != 15  || !fs_cptr) return;
+	if ( secondary != 15  || !fs_cptr) return;
 
 	/* remove trailing cr */
 	while(fs_cptr && (fs_cmdbuf[fs_cptr-1] == 13)) fs_cptr--;
@@ -3241,43 +3243,43 @@ void flush_fs(void *flp, int secondary) {
 	while( *cmd == ' ' ) cmd++;
 
 	arg = strchr(fs_cmdbuf, ':');
-	if(arg) { *arg++ = '\0'; }
+	if (arg) { *arg++ = '\0'; }
 #ifdef DEBUG_FS
 	printf("Flush_FS: command='%s', cmd='%s'\n",cmd, arg);
 #endif
 	if (!strcmp(cmd, "cd")) {
 	  er = IPE_OK;
-	  if(chdir(arg)) {
+	  if (chdir(arg)) {
 	    er = IPE_NOT_FOUND;
-	    if(errno == EPERM) er = IPE_PERMISSION;
+	    if (errno == EPERM) er = IPE_PERMISSION;
 	  }
 	} else if (!strcmp(cmd, "md")) {
 	  er = IPE_OK;
-	  if(mkdir(arg, /*S_IFDIR |*/ 0770)) {
+	  if (mkdir(arg, /*S_IFDIR |*/ 0770)) {
 	    er = IPE_INVAL;
-	    if(errno == EEXIST) er = IPE_FILE_EXISTS;
-	    if(errno == EACCES) er = IPE_PERMISSION;
-	    if(errno == ENOENT) er = IPE_NOT_FOUND;
+	    if (errno == EEXIST) er = IPE_FILE_EXISTS;
+	    if (errno == EACCES) er = IPE_PERMISSION;
+	    if (errno == ENOENT) er = IPE_NOT_FOUND;
 	  }
 	} else if (!strcmp(cmd, "rd")) {
 	  er = IPE_OK;
-	  if(rmdir(arg)) {
+	  if (rmdir(arg)) {
 	    er = IPE_NOT_EMPTY;
-	    if(errno == EPERM) er = IPE_PERMISSION;
+	    if (errno == EPERM) er = IPE_PERMISSION;
 	  }
 	} else if (*cmd == 's') {
 	  er = IPE_DELETED;
-	  if(unlink(arg)) {
+	  if (unlink(arg)) {
 	    er = IPE_NOT_FOUND;
-	    if(errno == EPERM) er = IPE_PERMISSION;
+	    if (errno == EPERM) er = IPE_PERMISSION;
 	  }
 	} else if (*cmd == 'r') {
-	  if((arg2=strchr(arg, '='))) {
+	  if ((arg2=strchr(arg, '='))) {
 	    er = IPE_OK;
 	    *arg2++ = 0;
-	    if(rename(arg2, arg)) {
+	    if (rename(arg2, arg)) {
 	      er = IPE_NOT_FOUND;
-	      if(errno == EPERM) er = IPE_PERMISSION;
+	      if (errno == EPERM) er = IPE_PERMISSION;
 	    }
 	  }
 	}
@@ -3319,6 +3321,7 @@ int     read_fs(void *flp, BYTE *data, int secondary)
     struct dirent *dirp;	/* defined in /usr/include/sys/dirent.h */
     struct stat statbuf;
     struct fs_buffer_info *info = &fs_info[secondary];
+    char rname[256];
 
     if (secondary == 15) {
 	if(!fs_elen) fs_error(IPE_OK);
@@ -3387,9 +3390,11 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 #ifdef DEBUG_FS
 		    printf("FS_ReadDir: testing file '%s'\n",dirp->d_name);
 #endif
+		    strcpy(rname, dirp->d_name);
+		    fs_test_pc64_name(rname);
 		    if (!*fs_dirmask) break;
 		    l = strlen(fs_dirmask);
-		    for(p=dirp->d_name, i=0;*p && fs_dirmask[i] && i<l;i++) {
+		    for(p=rname, i=0;*p && fs_dirmask[i] && i<l;i++) {
 		      	if(fs_dirmask[i]=='?') {
 			  p++;
 			} else
@@ -3406,7 +3411,7 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 
 #ifdef DEBUG_FS
 	        printf("FS_ReadDir: printing file '%s'\n",
-		       dirp ? dirp->d_name : NULL);
+		       dirp ? rname : NULL);
 #endif
 
 		if (dirp) {
@@ -3452,8 +3457,12 @@ int     read_fs(void *flp, BYTE *data, int secondary)
 		    if((strlen(tp)>=2)&&!strcmp(tp+strlen(tp)-2,",P"))
 			tp[strlen(tp)-2]=0;
 
-		    for (i = 0; tp[i] /*i < dirp->d_namlen*/ &&
-			 (*p = p_topetcii(tp[i] /*dirp->d_name[i]*/)); ++i, ++p);
+		    if (strcmp(rname, dirp->d_name)) {
+			for (i = 0; rname[i] && (*p = rname[i]); ++i, ++p);
+		    } else {
+			for (i = 0; tp[i] /*i < dirp->d_namlen*/ &&
+			    (*p = p_topetcii(tp[i] /*dirp->d_name[i]*/)); ++i, ++p);
+		    }
 
 		    *p++ = '"';
  		    for(; i < 17; i++) *p++ = ' ';
@@ -3518,7 +3527,9 @@ int     open_fs(void *flp, char *name, int length, int secondary)
     BYTE   *p, *linkp;
     char    fsname[MAXPATHLEN];
     char    fsname2[MAXPATHLEN];
+#ifdef 0	/* Old P00 support.  */
     char    realname[32];
+#endif
     char    *mask;
     int	    status = 0, i, reallength, readmode, filetype, rl;
 
@@ -3694,14 +3705,18 @@ int     open_fs(void *flp, char *name, int length, int secondary)
                     fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
 
                     if (!fd) {
-                        fs_error(IPE_NOT_FOUND);
-                        return FLOPPY_ERROR;
+                        fd = fs_find_pc64_name(name, length);
+                        if (!fd) {
+                            fs_error(IPE_NOT_FOUND);
+                            return FLOPPY_ERROR;
+                        }
                     }
                 }
             }
 	}
 	fs_info[secondary].fd = fd;
 
+#ifdef 0	/* Old P00 support.  */
 	/* P00 header */
 
 	if (fs_info[secondary].mode == Read) {
@@ -3726,8 +3741,8 @@ int     open_fs(void *flp, char *name, int length, int secondary)
 		write_pc64header(fd, realname, 0);
 	    }
 	}  /* P00 */
+#endif
     }
-
     fs_error(IPE_OK);
     return FLOPPY_COMMAND_OK;
 }
@@ -3764,6 +3779,90 @@ int     close_fs(void *flp, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
+void fs_test_pc64_name(char *rname)
+{
+    char p00id[8];
+    char p00name[17];
+    FILE *fd;
+
+    if((strstr(rname, ".p00") != 0) || (strstr(rname, ".P00") != 0)) {
+	fd = fopen(rname, "r");
+	if (!fd)
+	    return;
+
+	fread((char *)p00id, 8, 1, fd);
+	if (ferror(fd)) {
+	    fclose(fd);
+	    return;
+	}
+
+	p00id[7] = '\0';
+	if(!strncmp(p00id, "C64File", 7)) {
+	    fread((char *)p00name, 16, 1, fd);
+	    if (ferror(fd)) {
+		fclose(fd);
+		return;
+	    }
+	    p00name[16] = '\0';
+	    strcpy(rname, p00name);
+	    fclose(fd);
+	    return ;
+	}
+	fclose(fd);
+    }
+}
+
+
+FILE *fs_find_pc64_name(char *name, int length)
+{
+    struct dirent *dirp;
+    char *p;
+    DIR *dp;
+    char p00id[8];
+    char p00name[17];
+    char p00dummy[2];
+    FILE *fd;
+
+    name[length] = '\0';
+    dp = opendir(".");
+    do {
+	dirp = readdir(dp);
+	if(dirp != NULL) {
+	    p = dirp->d_name;
+	    if((strstr(p, ".p00") != 0) || (strstr(p, ".P00") != 0)) {
+		fd = fopen(p, "r");
+		if (!fd)
+		    continue;
+		fread((char *)p00id, 8, 1, fd);
+		if (ferror(fd)) {
+		    fclose(fd);
+		    continue;
+		}
+		p00id[7] = '\0';
+		if(!strncmp(p00id, "C64File", 7)) {
+		    fread((char *)p00name, 16, 1, fd);
+		    if (ferror(fd)) {
+			fclose(fd);
+			continue;
+		    }
+		    p00name[16] = '\0';
+		    if (strcmp(name, p00name) == 0) {
+			fread((char *)p00dummy, 2, 1, fd);
+			if (ferror(fd)) {
+			    fclose(fd);
+			    continue;
+			}
+			return fd;
+		    }
+		}
+		fclose(fd);
+	    }
+
+	}
+    } while (dirp != NULL);
+    closedir(dp);
+    return NULL;
+}
 
 /* ------------------------------------------------------------------------- */
 
