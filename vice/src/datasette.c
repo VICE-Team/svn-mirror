@@ -95,10 +95,10 @@ static int datasette_counter_offset = 0;
 static int reset_datasette_with_maincpu;
 
 /* how long to wait, if a zero occurs in the tap ? */
-static CLOCK datasette_zero_gap_delay;
+static int datasette_zero_gap_delay;
 
 /* finetuning for speed of motor */
-static CLOCK datasette_speed_tuning;
+static int datasette_speed_tuning;
 
 /* Low/high wave indicator for C16 TAPs. */
 static unsigned int fullwave = 0;
@@ -117,13 +117,13 @@ static int set_reset_datasette_with_maincpu(int val, void *param)
 
 static int set_datasette_zero_gap_delay(int val, void *param)
 {
-    datasette_zero_gap_delay = (CLOCK)val;
+    datasette_zero_gap_delay = val;
     return 0;
 }
 
 static int set_datasette_speed_tuning(int val, void *param)
 {
-    datasette_speed_tuning = (CLOCK)val;
+    datasette_speed_tuning = val;
     return 0;
 }
 
@@ -134,10 +134,10 @@ static const resource_int_t resources_int[] = {
       &reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },
     { "DatasetteZeroGapDelay", 20000, RES_EVENT_SAME, NULL,
-      (int *)&datasette_zero_gap_delay,
+      &datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
     { "DatasetteSpeedTuning", 1, RES_EVENT_SAME, NULL,
-      (int *)&datasette_speed_tuning,
+      &datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
     { NULL }
 };
@@ -280,7 +280,7 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
 
     if ((current_image->version == 0) || *gap) {
         *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
-        + datasette_speed_tuning;
+        + (CLOCK)datasette_speed_tuning;
     } else {
         if (read_tap >= last_tap - 3) {
             return -1;
@@ -290,7 +290,7 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
              + (tap_buffer[read_tap + 2] << 8)
              + (tap_buffer[read_tap + 3] << 16);
         if (!(*gap))
-            *gap = datasette_zero_gap_delay;
+            *gap = (CLOCK)datasette_zero_gap_delay;
     }
 
     return 0;
@@ -894,10 +894,10 @@ int datasette_read_snapshot(snapshot_t *s)
         || SMR_DW(m, &datasette_long_gap_pending) < 0
         || SMR_DW(m, (DWORD *)&datasette_long_gap_elapsed) < 0
         || SMR_B_INT(m, &datasette_last_direction) < 0
-        || SMR_DW(m, (DWORD *)&datasette_counter_offset) < 0
+        || SMR_DW_INT(m, &datasette_counter_offset) < 0
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
-        || SMR_DW(m, &datasette_zero_gap_delay) < 0
-        || SMR_DW(m, &datasette_speed_tuning) < 0
+        || SMR_DW_INT(m, &datasette_zero_gap_delay) < 0
+        || SMR_DW_INT(m, &datasette_speed_tuning) < 0
         || SMR_B_INT(m, (int *)&fullwave) < 0
         || SMR_DW(m, &fullwave_gap) < 0) 
     {
