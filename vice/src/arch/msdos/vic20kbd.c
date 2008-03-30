@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "vic20kbd.h"
 #include "kbd.h"
 
 static keyconv vic20_keyboard[256] = {

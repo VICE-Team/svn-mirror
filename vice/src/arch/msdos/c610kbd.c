@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#include "c610kbd.h"
-
 #include "kbd.h"
 
 static keyconv c610_keyboard[256] = {

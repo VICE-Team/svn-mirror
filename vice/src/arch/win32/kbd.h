@@ -68,4 +68,10 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
 const char *kbd_code_to_string(kbd_code_t kcode);
 void kbd_clear_keymatrix(void);
 
+extern int c64_kbd_init(void);
+extern int c128_kbd_init(void);
+extern int vic20_kbd_init(void);
+extern int pet_kbd_init(void);
+extern int c610_kbd_init(void);
+
 #endif

@@ -76,4 +76,10 @@ extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
 extern BYTE joystick_value[3];
 
+extern int c64_kbd_init(void);
+extern int c128_kbd_init(void);
+extern int vic20_kbd_init(void);
+extern int pet_kbd_init(void);
+extern int c610_kbd_init(void);
+
 #endif

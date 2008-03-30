@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "c64kbd.h"
 #include "cartridge.h"
 #include "kbd.h"
 

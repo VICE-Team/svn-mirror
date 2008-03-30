@@ -28,8 +28,6 @@
 
 #include <stdio.h>
 
-#include "petkbd.h"
-
 #include "kbd.h"
 
 /* PET 3032/4032 keyboard map.  */

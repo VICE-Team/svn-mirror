@@ -28,7 +28,6 @@
 
 #include <stdio.h>
 
-#include "c64kbd.h"
 #include "kbd.h"
 
 static keyconv c64_keyboard[256] = {
