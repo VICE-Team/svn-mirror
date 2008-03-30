@@ -1132,12 +1132,16 @@ static int mem_load_basic(void)
     if(!rom_loaded) return 0;  /* init not far enough */
 
     /* Load BASIC ROM.  */
-    if (!IS_NULL(basic_rom_name)
-        && (mem_load_sys_file(basic_rom_name,
+    if (!IS_NULL(basic_rom_name)) {
+        if ((mem_load_sys_file(basic_rom_name,
                                        rom + 0x8000, 0x4000, 0x4000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
+            log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
                   basic_rom_name);
-        return -1;
+            return -1;
+	}
+    } else {
+	log_warning(c610_mem_log, "Disabling BASIC by unloading ROM!");
+	memset(rom + 0x8000, 0xff, 0x4000);
     }
     return 0;
 }
@@ -1146,11 +1150,14 @@ static int mem_load_cart_1(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_1_name)
-        && (mem_load_sys_file(cart_1_name,
+    if (!IS_NULL(cart_1_name)) {
+        if ((mem_load_sys_file(cart_1_name,
                                        rom + 0x1000, 0x1000, 0x1000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                   cart_1_name);
+	}
+    } else {
+	memset(rom + 0x1000, 0xff, 0x1000);
     }
     return 0;
 }
@@ -1159,11 +1166,14 @@ static int mem_load_cart_2(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_2_name)
-        && (mem_load_sys_file(cart_2_name,
+    if (!IS_NULL(cart_2_name)) {
+        if ((mem_load_sys_file(cart_2_name,
                                        rom + 0x2000, 0x2000, 0x2000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                   cart_2_name);
+	}
+    } else {
+	memset(rom + 0x2000, 0xff, 0x2000);
     }
     return 0;
 }
@@ -1172,11 +1182,14 @@ static int mem_load_cart_4(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_4_name)
-        && (mem_load_sys_file(cart_4_name,
+    if (!IS_NULL(cart_4_name)) {
+        if ((mem_load_sys_file(cart_4_name,
                                        rom + 0x4000, 0x2000, 0x2000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.",
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
                   cart_4_name);
+	}
+    } else {
+	memset(rom + 0x4000, 0xff, 0x2000);
     }
     return 0;
 }
@@ -1185,10 +1198,13 @@ static int mem_load_cart_6(void)
 {
     if(!rom_loaded) return 0;  /* init not far enough */
 
-    if (!IS_NULL(cart_6_name)
-        && (mem_load_sys_file(cart_6_name,
+    if (!IS_NULL(cart_6_name)) {
+        if ((mem_load_sys_file(cart_6_name,
                                        rom + 0x6000, 0x2000, 0x2000) < 0)) {
-        log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
+            log_error(c610_mem_log, "Couldn't load ROM `%s'.", cart_6_name);
+	}
+    } else {
+	memset(rom + 0x6000, 0xff, 0x2000);
     }
     return 0;
 }

@@ -143,7 +143,6 @@ int machine_init_resources(void)
 	|| vsync_init_resources() < 0
         || video_init_resources() < 0
         || pet_mem_init_resources() < 0
-        || pet_init_resources() < 0
         || crtc_init_resources() < 0
         || pia1_init_resources() < 0
         || sound_init_resources() < 0
@@ -179,7 +178,6 @@ int machine_init_cmdline_options(void)
 	|| vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || pet_mem_init_cmdline_options() < 0
-        || pet_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
         || pia1_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
@@ -388,7 +386,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 	ef = -1;
     }
 
-    if ((!ef) && pet.superpet) {
+    if ((!ef) && petres.superpet) {
 	ef = acia1_write_snapshot_module(s);
     }
 

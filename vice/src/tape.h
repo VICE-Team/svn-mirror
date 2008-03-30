@@ -38,6 +38,7 @@ extern int tape_init(int buffer_pointer_addr, int st_addr,
                      int verify_flag_addr, int irqtmp, int irqval,
                      int stal_addr, int eal_addr, int kbd_buf_addr,
                      int kbd_buf_pending_addr, const trap_t *trap_list);
+extern int tape_deinstall(void);
 extern void tape_find_header_trap(void);
 extern void tape_receive_trap(void);
 extern char *tape_get_file_name(void);

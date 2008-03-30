@@ -224,6 +224,8 @@
 #define IDM_SOUND_SETTINGS              40143
 #define IDM_STATUS_WINDOW               40144
 #define IDM_MONITOR                     40145
+#define IDM_SIDTYPE_6581                40146
+#define IDM_SIDTYPE_8580                40147
 
 // Next default values for new objects
 //

@@ -445,6 +445,11 @@ UI_CALLBACK(ui_load_rom_file)
     ui_update_menus();
 }
 
+UI_CALLBACK(ui_unload_rom_file)
+{
+    resources_set_value((char*)client_data, (resource_value_t) NULL);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* RS232 stuff */

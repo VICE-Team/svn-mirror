@@ -74,6 +74,10 @@ UI_MENU_DEFINE_RADIO(RamSize)
 
 UI_MENU_DEFINE_RADIO(IOSize)
 
+UI_MENU_DEFINE_TOGGLE(Basic1)
+
+UI_MENU_DEFINE_TOGGLE(Basic1Chars)
+
 static UI_CALLBACK(petui_set_model)
 {
     pet_set_model(client_data, NULL);
@@ -285,6 +289,33 @@ static ui_menu_entry_t pet_romset_submenu[] = {
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom4b4.vrs", NULL },
     { "Basic 4, 80 cols",
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom4b8.vrs", NULL },
+    { "--" },
+    { "*Basic 1 Patch (if loaded)", 
+      (ui_callback_t) toggle_Basic1, NULL, NULL },
+    { "*Basic 1 character set", 
+      (ui_callback_t) toggle_Basic1Chars, NULL, NULL },
+    { "--" },
+    { "Load new kernal ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+    { "Load new editor ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"EditorName", NULL },
+    { "Load new character ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+    { "--" },
+    { "Load new $9*** ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModule9Name", NULL },
+    { "Unload $9*** ROM",
+      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModule9Name", NULL },
+    { "--" },
+    { "Load new $A*** ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModuleAName", NULL },
+    { "Unload $A*** ROM",
+      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModuleAName", NULL },
+    { "--" },
+    { "Load new $B*** ROM",
+      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModuleBName", NULL },
+    { "Unload $B*** ROM",
+      (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"RomModuleBName", NULL },
     { "--" },
     { "Load custom ROM set from file",
       (ui_callback_t) ui_load_romset, NULL, NULL },

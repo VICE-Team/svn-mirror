@@ -138,7 +138,7 @@ int tape_init(int _buffer_pointer_addr,
     kbd_buf_pending_addr = _kbd_buf_pending_addr;
 
     tape_traps = trap_list;
-    if (tape_traps != 0) {
+    if (tape_traps != NULL) {
 	for (p = tape_traps; p->func != NULL; p++)
 	    traps_add(p);
     }
@@ -146,6 +146,29 @@ int tape_init(int _buffer_pointer_addr,
     if (tape_is_initialized)
 	return 0;
     tape_is_initialized = 1;
+
+    return 0;
+}
+
+int tape_deinstall(void)
+{
+    const trap_t *p;
+
+    if (!tape_is_initialized)
+	return -1;   
+
+    if (attached_tape != NULL) {
+	tape_detach_image();
+    }
+
+    if (tape_traps != NULL) {
+	for (p = tape_traps; p->func != NULL; p++)
+	    traps_remove(p);
+    }
+
+    tape_traps = NULL;
+
+    tape_is_initialized = 0;
 
     return 0;
 }

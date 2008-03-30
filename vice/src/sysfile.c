@@ -117,7 +117,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     if (*p != '\0')
     {
         p = (char*)malloc(strlen(name) + 1); strcpy(p, name);
-        *complete_path_return = p;
+        if (complete_path_return != NULL) *complete_path_return = p;
         return fopen(p, "r");
     }
 

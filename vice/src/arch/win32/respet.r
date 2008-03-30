@@ -89,8 +89,6 @@ BEGIN
         , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
-        MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
-        , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         POPUP "Drive s&ync factor"

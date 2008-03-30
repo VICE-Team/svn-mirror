@@ -24,7 +24,6 @@ libpet_a_SOURCES = \
 	petpia1.def \
 	petpia2.c \
 	petpia2.def \
-	pets.c \
 	pets.h \
 	petsound.c \
 	petsound.h \

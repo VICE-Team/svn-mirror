@@ -128,6 +128,12 @@ res_possible_values SyncFactor[] = {
         {-1, 0}
 };
 
+static res_possible_values SidType[] = {
+    {0, IDM_SIDTYPE_6581},
+    {1, IDM_SIDTYPE_8580},
+    {-1,0}
+};
+
 struct {
     const char *name;
     const res_possible_values *vals;
@@ -135,6 +141,7 @@ struct {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
     {"DriveSyncFactor", SyncFactor},
+    {"SidModel", SidType},
     {NULL,NULL}
 };
 
@@ -303,6 +310,7 @@ void ui_update_menus(void)
     HMENU menu = GetMenu(main_hwnd);
     int i,j;
     int value;
+    int result;
 
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
@@ -311,12 +319,14 @@ void ui_update_menus(void)
     }
 
     for (i = 0; value_list[i].name != NULL; i++) {
-        resources_get_value(value_list[i].name, (resource_value_t *) &value);
-        for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
-            if (value == value_list[i].vals[j].value) {
-                CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_CHECKED);
-            } else {
-                CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_UNCHECKED);
+        result=resources_get_value(value_list[i].name, (resource_value_t *) &value);
+        if (result==0) {
+            for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
+                if (value == value_list[i].vals[j].value) {
+                    CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_CHECKED);
+                } else {
+                    CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_UNCHECKED);
+                }
             }
         }
     }
@@ -705,6 +715,12 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
         resources_set_value("Speed", (resource_value_t) 0);
         break;
+        case IDM_SIDTYPE_6581:
+            resources_set_value("SidModel", (resource_value_t) 0);
+            break;
+        case IDM_SIDTYPE_8580:
+            resources_set_value("SidModel", (resource_value_t) 1);
+            break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(main_hwnd);
         break;

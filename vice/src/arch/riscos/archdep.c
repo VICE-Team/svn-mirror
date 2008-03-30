@@ -143,7 +143,7 @@ FILE *archdep_open_romset_file(const char *name, char **path_return)
     b = strncpy(b, name, length-1); b[length-1] = '\0';
     fp = fopen(buffer, "rb");
     if (fp == NULL) return fp;
-    *path_return = stralloc(buffer);
+    if (path_return != NULL) *path_return = stralloc(buffer);
     return fp;
   }
   return NULL;

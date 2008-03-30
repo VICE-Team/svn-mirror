@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/pet/petpia1.c
- * This file is generated from ../../../src/pia-tmpl.c and ../../../src/pet/petpia1.def,
+ * ../../src/pet/petpia1.c
+ * This file is generated from ../../src/pia-tmpl.c and ../../src/pet/petpia1.def,
  * Do not edit!
  */
 /*
@@ -112,7 +112,7 @@ void mem_set_tape_sense(int v)
 
 #define	PIA_SET_CA2(a)	do { 						\
 			    parallel_cpu_set_eoi((a)?0:1); 		\
-			    if(pet.pet2k) 				\
+			    if(petres.pet2k) 				\
 				crtc_screen_enable((a)?1:0);		\
 			} while(0)
 

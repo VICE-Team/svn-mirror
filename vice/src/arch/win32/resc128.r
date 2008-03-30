@@ -95,6 +95,11 @@ BEGIN
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
         , CHECKED
+        POPUP "SID Model"
+        BEGIN
+            MENUITEM "6581 (Old)",                  IDM_SIDTYPE_6581
+            MENUITEM "8580 (New)",                  IDM_SIDTYPE_8580
+        END
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         POPUP "Drive s&ync factor"

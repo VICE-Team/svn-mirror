@@ -135,6 +135,8 @@ static int install_trap(const trap_t *t)
 	    return -1;
 	}
     }
+    /* log_warning(traps_log, "Installing trap `%s' at %04x.",  
+	t->name, t->address); */
 
     /* BRK (0x00) is trap-opcode.  */
     store_rom(t->address, 0x00);
@@ -163,6 +165,8 @@ static int remove_trap(const trap_t *t)
 	log_error(traps_log, "No trap `%s' installed?", t->name);
         return -1;
     }
+    /* log_warning(traps_log, "Deinstalling trap `%s' from %04x.", 
+	t->name, t->address); */
 
     store_rom(t->address, t->check[0]);
     return 0;

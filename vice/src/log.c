@@ -153,7 +153,7 @@ static int log_helper(log_t log, unsigned int level,
 
     if (log == LOG_ERR
         || (log != LOG_DEFAULT && logs[(unsigned int) log] == NULL)
-        || log_file == NULL)
+        || log_file == NULL) 
         return -1;
 
     if (log != LOG_DEFAULT && *logs[(unsigned int) log] != 0) {

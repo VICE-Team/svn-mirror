@@ -27,6 +27,8 @@
 #ifndef _PETS_H
 #define _PETS_H
 
+#include "types.h"
+
 #define PET_KERNAL2001NAME  "pet2001"
 #define PET_KERNAL3032NAME  "pet3032"
 #define PET_KERNAL4032NAME  "pet4032"
@@ -50,7 +52,8 @@ typedef struct PetInfo {
 	int		mem9;		/* 0 = open/ROM, 1 = RAM */
 	int		memA;		/* 0 = open/ROM, 1 = RAM */
 	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
-	int		pet2k;		/* reset when romName is changed */
+	int		pet2k;		/* 1 = do PET 2001 kernal patches */
+	int		pet2kchar;	/* 1 = do PET 2001 chargen patches */
         int		superpet;	/* 1 = enable SuperPET I/O */
 
 	/* ROM image resources */
@@ -68,12 +71,14 @@ typedef struct PetInfo {
 	int		map;		/* 0 = linear map, 1 = 8096 mapping */
 					/* 2 = 8296 mapping */
 	int		vmask;		/* valid CRTC address bits */
-	int		screen_width;	/* derived from ROM */
+	int		rompatch;	/* 1 = need $ef** for ROM patch */
+	int		rom_video;	/* derived from ROM */
+	ADDRESS		basic_start;	/* derived from ROM */
+	WORD		kernal_checksum;/* derived from ROM */
+	WORD		editor_checksum;/* derived from ROM */
 } PetInfo;
 
-extern PetInfo pet;
-
-#define	petres	pet
+extern PetInfo petres;
 
 extern int pet_set_model(const char *model_name, void *extra);
 extern int pet_set_ramsize(int v);
