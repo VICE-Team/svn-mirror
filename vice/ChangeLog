@@ -1,3 +1,15 @@
+2002-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.61.
+
+	* doc/vice.texi: Small fixes.
+
+	* configure.in: Do not define `UNSTABLE'.
+	
+2002-01-13  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* doc/html/index.htm: added link to www.vicekb.de.vu
+
 2002-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.60.

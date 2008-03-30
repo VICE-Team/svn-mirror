@@ -702,16 +702,19 @@ Using cartridge images
 ----------------------
 
    "Cartridge images" are like disk images, but mirror the contents of
-cartridge ROM images instead of disk images.  They are currently not
-supported on the C128 emulator.
+cartridge ROM images instead of disk images.
 
-   X64 allows you to attach the following kinds of cartridges:
+   X64 and X128 allow you to attach the following kinds of cartridges:
 
    * `.crt' images, as used by the CCS64 emulator by Per H^akan Sundell;
 
    * generic raw dumps of 8K and 16K images;
 
    * Action Replay images.
+
+   * Atomic Power images.
+
+   * Epyx fastload images.
 
    * The Commodore IEEE488 interface cartridge
 
@@ -725,14 +728,23 @@ supported on the C128 emulator.
 
      (`http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin')
 
+   * Retro Replay images.
+
+   * Super Snapshot 4 images.
+
+   * Super Snapshot 5 images.
+
+   * Expert Cartridge images.
+
    Each of these kinds has a specific command in the "Attach a cartridge
 image" submenu.  When you have successfully attached a cartridge image,
 you should then reset the machine to make sure the cartridge initializes
 itself.  Of course, it is also possible to detach a currently attached
 cartridge image ("Detach cartridge image").
 
-   If you are using an Action Replay cartridge, you can emulate the
-cartridge's freeze button with the "Cartridge freeze" command.
+   If you are using a freezer cart like an Action Replay cartridge, you
+can emulate the cartridge's freeze button with the "Cartridge freeze"
+command.
 
    Attaching the IEEE488 cartridge automatically enables the IEEE488
 interface emulation on the `$DF**' I/O ports.

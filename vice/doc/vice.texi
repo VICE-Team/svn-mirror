@@ -603,8 +603,6 @@ things are missing, though:
 @itemize @bullet
 @item
 2 MHz mode;
-@item
-C64 mode.
 @end itemize
 
 
@@ -3528,10 +3526,9 @@ and thus are not present in the other emulators.
 @subsection Using cartridge images
 
 @dfn{Cartridge images} are like disk images, but mirror the contents of
-cartridge ROM images instead of disk images.  They are currently
-not supported on the C128 emulator.
+cartridge ROM images instead of disk images.
 
-X64 allows you to attach the following kinds of cartridges:
+X64 and X128 allow you to attach the following kinds of cartridges:
 
 @itemize @bullet
 @item
@@ -3541,8 +3538,20 @@ generic raw dumps of 8K and 16K images;
 @item
 Action Replay images.
 @item
+Atomic Power images.
+@item
+Epyx fastload images.
+@item
 The Commodore IEEE488 interface cartridge
 (@code{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
+@item
+Retro Replay images.
+@item
+Super Snapshot 4 images.
+@item
+Super Snapshot 5 images.
+@item
+Expert Cartridge images.
 @end itemize
 
 Each of these kinds has a specific command in the ``Attach a cartridge
@@ -3551,8 +3560,9 @@ you should then reset the machine to make sure the cartridge initializes
 itself.  Of course, it is also possible to detach a currently attached
 cartridge image (``Detach cartridge image'').
 
-If you are using an Action Replay cartridge, you can emulate the
-cartridge's freeze button with the ``Cartridge freeze'' command.
+If you are using a freezer cart like an Action Replay cartridge, you can
+emulate the cartridge's freeze button with the ``Cartridge freeze''
+command.
 
 Attaching the IEEE488 cartridge automatically enables the IEEE488
 interface emulation on the @code{$DF**} I/O ports.
@@ -7203,18 +7213,8 @@ System.  Here is an informal list of the people who were mostly involved
 in the development of X64 and VICE:
 
 The VICE core team:
-
 @itemize @bullet
 @c The Texinfo manual says we should not use @b though!
-
-@item
-@b{Ettore Perazzoli} (@email{ettore@@comm2000.it}) made the 6510, VIC-II,
-VIC-I and CRTC emulations, part of the hardware-level 1541
-emulation, speed optimizations, bug fixes, the event-driven
-cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
-general code reorganization, the new resource handling, most of
-the documentation.  He also wrote the MS-DOS port and the
-initial MS-Windows port (well, somebody had to do it).
 
 @item
 @b{Daniel Sladic} (@email{sladic@@eecg.toronto.edu}) started the work on
@@ -7227,8 +7227,9 @@ information and bug reports about the VIC-II, the 6510 and the
 CIAs; moreover, he wrote several test-routines that were used
 to improve the emulation.  He also added cartridge support and
 has been the main head behind the drive and datasette emulation
-since version 0.15.  Also added several UI elements to the MSDOS
-and MS-Windows ports and the C128 Z80 implementation.
+since version 0.15.  Also added several UI elements to the
+MSDOS and MS-Windows ports. He rewrote the C128 emulation
+adding Z80 mode, C64 mode and function ROM support.
 
 @item
 @b{Dag Lem} (@email{resid@@nimrod.no}) implemented the reSID SID emulation
@@ -7242,12 +7243,12 @@ engine.
 RISC OS port.
 
 @item
-@b{Thomas Bretz} (@email{tbretz@@ph.tum.de}) responsible for the OS/2 port.
+@b{Thomas Bretz} (@email{tbretz@@ph.tum.de responsible}) for the OS/2 port.
 
 @item
 @b{Andreas Matthies} (@email{andreas.matthies@@gmx.net}) improved the
-datasette support, the VIC20 video emulation and some ui stuff in the Win32
-and MSDOS port. Wrote the BeOS port.
+datasette support, the VIC20 video emulation and some ui stuff
+in the Win32 and MSDOS port. He also wrote the BeOS port.
 
 @item
 @b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})
@@ -7257,7 +7258,13 @@ Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
 @item
-@b{Markus Brenner} (@email{markus@@brenner.de}) added VDC emulation to x128.
+@b{Markus Brenner} (@email{markus@@brenner.de}) added VDC emulation to x128
+and added support for some more cartridges.
+
+@item
+@b{Spiro Trikaliotis} (@email{Spiro.Trikaliotis@@gmx.de}) wrote the Win32
+console implementation for the built-in monitor and provided
+some further patches.
 
 @end itemize
 
@@ -7266,27 +7273,43 @@ Former team members:
 @itemize @bullet
 
 @item
-@b{Andre Fachat} (@email{fachat@@physik.tu-chemnitz.de}) wrote the PET
-and CBM-II emulators, the CIA and VIA emulation, the IEEE488
-interface, implemented the IEC serial bus in `xvic' and made
-tons of bug fixes.
+@b{Ettore Perazzoli} (@email{ettore@@comm2000.it})
+Copyright (c) 1996-1999
+Made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
+hardware-level 1541 emulation, speed optimizations, bug fixes,
+the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI
+for X11, a general code reorganization, the new resource
+handling, most of the documentation.  He also wrote the MS-DOS
+port and the initial MS-Windows port (well, somebody had to do
+it).
 
 @item
-@b{Teemu Rantanen} (@email{tvr@@cs.hut.fi}) implemented the SID emulation
-and the trap-based disk drive and serial bus implementation;
-added support for multiple display depths under X11.  Also wrote
-`c1541'
+@b{Andre' Fachat} (@email{fachat@@physik.tu-chemnitz.de})
+Copyright (c) 1996-2001
+Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
+the IEEE488 interface, implemented the IEC serial bus in `xvic'
+and made tons of bug fixes.
 
 @item
-@b{Jouko Valta} (@email{jopi@@stekt.oulu.fi}) wrote @code{petcat} and
-@code{c1541}, @code{T64} handling, user service and
-maintenance (most of the work in x64 0.3.x was made by him); retired
-from the project in July 96, after VICE 0.10.0.
+@b{Teemu Rantanen} (@email{tvr@@cs.hut.fi})
+Copyright (c) 1993-1994, 1997-1999
+Implemented the SID emulation and the trap-based disk drive and
+serial bus implementation; added support for multiple display
+depths under X11.  Also wrote `c1541'
 
 @item
-@b{Jarkko Sonninen} (@email{sonninen@@lut.fi}) was the founder of the
-project, wrote the old version of the 6502 emulation and the XDebugger,
-and retired from the project after x64 0.2.1.
+@b{Jouko Valta} (@email{jopi@@stekt.oulu.fi})
+Copyright (c) 1993-1996
+Wrote `petcat' and `c1541', `T64' handling, user service and
+maintenance (most of the work in x64 0.3.x was made by him);
+retired from the project in July 96, after VICE 0.10.0.
+
+@item
+@b{Jarkko Sonninen} (@email{sonninen@@lut.fi})
+Copyright (c) 1993-1994
+He was the founder of the project, wrote the old version of the
+6502 emulation and the XDebugger, and retired from the project
+after x64 0.2.1.
 
 @end itemize
 
@@ -7318,11 +7341,6 @@ helped proofreading the documentation.
 @item
 @b{Marko M@"akel@"a} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
 documentation.
-
-@item
-@b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})
-implemented the ``Contents'' button in the file selector and provided us with
-several suggestions and constant testing of constantly broken snapshots.
 
 @item
 @b{Chris Sharp} (@email{sharpc@@hurlsey.ibm.com}) wrote the AIX sound
@@ -7391,7 +7409,6 @@ emulator in x64 0.1.0.  That was the beginning of the story@dots{}
 @item
 @b{Dan Miner} (@email{dminer@@nyx10.cs.du.edu}) contributed some patches
 to the fast disk drive emulation.
-
 @item
 @b{Frank Prindle} (@email{Frank.Prindle@@lambada.oit.unc.edu})
 contributed some patches.
@@ -7445,21 +7462,36 @@ code.
 MS-Windows text lister.
 
 @item
-@b{Spiro Trikaliotis} (@email{Spiro.Trikaliotis@@gmx.de}) wrote the
-Win32 console implementation for the built-in monitor and provided
-some further patches.
+@b{Eric} provided the french translation for the Unix ports.
+
+@item
+@b{Andrea Musuruane} (@email{musuruan@@bmm.it}) provided the italian
+translation for the Unix ports
 
 @item
 @b{Michael Klein} (@email{nip@@c64.org}) contributed the ESD sound driver
 and some patches.
+
+@item
+@b{David Holz} (@email{whiteflame52@@yahoo.com}) provided a label file which
+gives the built-in monitor the labels for the C64.
+
+@item
+@b{Lasse Öörni} (@email{loorni@@mail.student.oulu.fi}) contributed the
+Windows Multimedia sound driver
+
+@item
+@b{Frank König} (@email{frank_koenig@@t-online.de}) contributed the Win32
+joystick autofire feature.
+
+@item
+@b{John Selck} (@email{graham@@cruise.de}) wrote the fast PAL emulation.
+
+@item
+@b{webulator} (@email{webulator@@mailandnews.com}) provided win32 drag &
+drop support
+
 @end itemize
-
-(We hope we have not forgotten anybody; if you think we have, please
-tell us.)
-
-Thanks also to everyone else for sending suggestions, ideas,
-bug reports, questions and requests.  In particular, a warm thank
-goes to the following people:
 
 @itemize @bullet
 
@@ -7505,30 +7537,39 @@ H@^akan Sundell for writing cool emulators to compete with.  @t{:-)}
 @node Copyright, Contacts, Acknowledgments, Top
 @chapter Copyright
 
-Copyright (C) 1996-1999 Ettore Perazzoli
+@itemize @bullet
+@item
+Copyright C 1998-2002 Andreas Boose
+@item
+Copyright C 1998-2002 Dag Lem
+@item
+Copyright C 1998-2002 Tibor Biczo
+@item
+Copyright C 1999-2002 Andreas Dehmel
+@item
+Copyright C 1999-2002 Thomas Bretz
+@item
+Copyright C 1999-2002 Andreas Matthies
+@item
+Copyright C 1999-2002 Martin Pottendorfer
+@item
+Copyright C 2000-2002 Markus Brenner
+@item
+Copyright C 2000-2002 Spiro Trikaliotis
 
-Copyright (C) 1997-2000 Daniel Sladic
-
-Copyright (C) 1998-2000 Andreas Boose
-
-Copyright (C) 1998-2000 Dag Lem
-
-Copyright (C) 1998-2000 Tibor Biczo
-
-Copyright (C) 1999-2000 Andreas Dehmel
-
-Copyright (C) 1999-2000 Thomas Bretz
-
-Copyright (C) 1999-2000 Andreas Matthies
-
-
-Copyright (C) 1996-1999 André Fachat
-
-Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
-
-Copyright (C) 1993-1996 Jouko Valta
-
-Copyright (C) 1993-1994 Jarkko Sonninen
+@item
+Copyright C 1997-2001 Daniel Sladic
+@item
+Copyright C 1996-1999 Ettore Perazzoli
+@item
+Copyright C 1996-1999 André Fachat
+@item
+Copyright C 1993-1994, 1997-1999 Teemu Rantanen
+@item
+Copyright C 1993-1996 Jouko Valta
+@item
+Copyright C 1993-1994 Jarkko Sonninen
+@end itemize
 
 
 This program is free software; you can redistribute it and/or modify
@@ -7641,7 +7682,7 @@ using as well as the version of it.
 Please don't ask us how to transfer original C64 disk or tapes to your
 PC; this has been asked a gazillion times through email.  To transfer
 disks, you can use the Star Commander
-(@uref{http://ludens.elte.hu/~sta/sc.html}).  And no, you cannot read
+(@uref{http://sta.c64.org/sc.html}).  And no, you cannot read
 C64 disks with your old 5"1/4 PC drive.
 
 @item
@@ -7653,8 +7694,7 @@ Please don't ask us when the next version will be out, because we
 really don't know.
 
 @item
-Please write in English, or in the language of the person you
-are writing to (Andr@'e and Andreas are German, Daniel is from Canada).
+Please write in English.
 
 @end itemize
 
@@ -7678,8 +7718,8 @@ to the very latest version, and provide us with the following:
 
 @itemize @bullet
 @item
-a diff file containing all the changes you have made (@samp{diff -c} or
-@samp{diff -u} (better) is fine; please don't use plain @samp{diff});
+a unified diff file containing all the changes you have made
+@samp{diff -u} is fine; please don't use plain @samp{diff});
 @item
 GNU-style @file{ChangeLog} entries with a description of the changes you
 have made (look at the @file{ChangeLog}s provided with the original VICE
@@ -7690,10 +7730,8 @@ This is very important, and makes adding patches much smoother and
 safer.
 
 People willing to port VICE to other platforms are always welcome.
-Windows, A BeOS port is in the works, so if you are interested in this
-platform, please let us know.  There is plenty of work to do and any
-sort of help can be very useful.
-
+But notice from experience it will take at least a full year of
+continious work to write a well working and stable port.
 
 @node Newsgroups, FAQs you should read, Contributing, Contacts
 @section Interesting newsgroups
