@@ -247,7 +247,7 @@ static void file_selector_display_item(struct file_list *fl, int num,
 	    tui_display(x, y, width, " %s ", name);
 	} else {
 	    if (fl->items[num].type == FT_DIR)
-	      tui_display(x, y, width, " %s/ ", fl->items[num].name);
+	      tui_display(x, y, width, " %s\\ ", fl->items[num].name);
 	    else
 	      tui_display(x, y, width, " %s ", fl->items[num].name);
 	}
@@ -483,6 +483,7 @@ char *tui_file_selector(const char *title, const char *directory,
 		    free(return_path);
 		    return_path = new_path;
 		    need_update = 1;
+                    chdir(return_path);
 		} else {
 		    free(new_path);
 		}
@@ -555,23 +556,29 @@ char *tui_file_selector(const char *title, const char *directory,
                        to do it, but for now I just don't know.  */
                     _dos_setdrive(drive, &num_available_drives);
                     new_path = get_current_dir();
-                    slashize_path(&new_path);
-                    _dos_setdrive(current_drive, &num_available_drives);
-
                     if (new_path != NULL) {
-                        struct file_list *new_fl;
+                        slashize_path(&new_path);
+                        _dos_setdrive(current_drive, &num_available_drives);
 
-                        new_fl = file_list_read(new_path, pattern);
-                        if (new_fl != NULL) {
-                            file_list_free(fl);
-                            fl = new_fl;
-                            first_item = curr_item = 0;
-                            free(return_path);
-                            return_path = new_path;
-                            need_update = 1;
-                        } else {
-                            free(new_path);
+                        if (new_path != NULL) {
+                            struct file_list *new_fl;
+
+                            new_fl = file_list_read(new_path, pattern);
+                            if (new_fl != NULL) {
+                                file_list_free(fl);
+                                fl = new_fl;
+                                first_item = curr_item = 0;
+                                free(return_path);
+                                return_path = new_path;
+                                need_update = 1;
+                                chdir(return_path);
+                            } else {
+                                free(new_path);
+                            }
                         }
+                    } else {
+                        _dos_setdrive(current_drive, &num_available_drives);
+                        tui_beep();
                     }
                 } else {
                     tui_beep();

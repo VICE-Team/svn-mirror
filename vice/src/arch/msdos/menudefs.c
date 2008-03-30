@@ -97,6 +97,8 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 	ui_update_menus();
 
 	free(directory), free(default_item);
+        if (name != NULL)
+            free(name);
     }
 
     s = (char *)serial_get_file_name((int)param);
@@ -127,6 +129,9 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	    tui_error("Invalid tape image.");
 	}
 	ui_update_menus();
+	free(directory), free(default_item);
+        if (name != NULL)
+            free(name);
     }
 
     s = (char *)serial_get_file_name(1);
@@ -151,7 +156,7 @@ static TUI_MENU_CALLBACK(detach_disk_callback)
     char *s;
 
     if (been_activated) {
-	serial_remove((int)param);
+	file_system_detach_disk((int)param);
 	ui_update_menus();
     }
 
@@ -727,6 +732,9 @@ static TUI_MENU_CALLBACK(soft_reset_callback)
 	maincpu_trigger_reset();
     }
 
+    /* This way, the "Not Really!" item is always the default one.  */
+    *become_default = 0;
+
     return NULL;
 }
 
@@ -736,6 +744,9 @@ static TUI_MENU_CALLBACK(hard_reset_callback)
 	mem_powerup();
 	maincpu_trigger_reset();
     }
+
+    /* This way, the "Not Really!" item is always the default one.  */
+    *become_default = 0;
 
     return NULL;
 }
@@ -1148,28 +1159,22 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
 		      "Attach disk image for disk drive #11",
 		      attach_disk_callback, (void *)11, 30,
 		      TUI_MENU_BEH_CONTINUE);
-
-    if (has_tape) {
-	tui_menu_add_separator(ui_attach_submenu);
-	tui_menu_add_item(ui_attach_submenu,"Tape #_1:",
-			  "Attach tape image for cassette player (device #1)",
-			  attach_tape_callback, NULL, 30,
-			  TUI_MENU_BEH_CONTINUE);
-    }
-
-    tui_menu_add_separator(ui_attach_submenu);
     tui_menu_add_item(ui_attach_submenu, "Autostart _Drive 8",
 		      "Reset the emulator and run the first program in the disk in drive 8",
 		      autostart_callback, (void *)8, 0,
 		      TUI_MENU_BEH_RESUME);
 
     if (has_tape) {
-	tui_menu_add_item(ui_attach_submenu, "Autostart _Tape",
+	tui_menu_add_separator(ui_attach_submenu);
+	tui_menu_add_item(ui_attach_submenu,"_Tape:",
+			  "Attach tape image for cassette player (device #1)",
+			  attach_tape_callback, NULL, 30,
+			  TUI_MENU_BEH_CONTINUE);
+	tui_menu_add_item(ui_attach_submenu, "Autostart Ta_pe",
 			  "Reset the emulator and run the first program on the tape image",
 			  autostart_callback, (void *)1, 0,
 			  TUI_MENU_BEH_RESUME);
     }
-
 
     ui_detach_submenu = tui_menu_create("Detach Images", 1);
     tui_menu_add_item(ui_detach_submenu, "Drive #_8:",
@@ -1191,31 +1196,20 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
 
     if (has_tape) {
 	tui_menu_add_separator(ui_detach_submenu);
-	tui_menu_add_item(ui_detach_submenu, "Tape #_1:",
+	tui_menu_add_item(ui_detach_submenu, "_Tape:",
 			  "Remove tape from cassette player (device #1)",
 			  detach_tape_callback, NULL, 30,
 			  TUI_MENU_BEH_CONTINUE);
     }
 
-    if (has_tape) {
-	tui_menu_add_submenu(ui_main_menu, "_Attach Disk/Tape Image...",
-			     "Specify disk/tape images for virtual floppy/cassette drives",
-			     ui_attach_submenu, NULL, 0,
-			     TUI_MENU_BEH_CONTINUE);
-	tui_menu_add_submenu(ui_main_menu, "_Detach Disk/Tape Image...",
-			     "Remove disks/tapes from virtual drives",
-			     ui_detach_submenu, NULL, 0,
-			     TUI_MENU_BEH_CONTINUE);
-    } else {
-	tui_menu_add_submenu(ui_main_menu, "_Attach Disk Image...",
-			     "Specify disk images for virtual floppy drives",
-			     ui_attach_submenu, NULL, 0,
-			     TUI_MENU_BEH_CONTINUE);
-	tui_menu_add_submenu(ui_main_menu, "_Detach Disk Image...",
-			     "Remove disks from virtual drives",
-			     ui_detach_submenu, NULL, 0,
-			     TUI_MENU_BEH_CONTINUE);
-    }
+    tui_menu_add_submenu(ui_main_menu, "_Attach Image...",
+                         "Specify disk/tape images for virtual floppy/cassette drives",
+                         ui_attach_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_submenu(ui_main_menu, "_Detach Image...",
+                         "Remove disks/tapes from virtual drives",
+                         ui_detach_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 
 #if 0
     tui_menu_add_item(ui_main_menu, "_Change Working Directory...",
