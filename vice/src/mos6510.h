@@ -68,19 +68,51 @@ typedef struct mos6510_regs_s {
     (regs)->pc = (val)
 
 #define MOS6510_REGS_SET_OVERFLOW(regs, val) \
-    ((val) ? ((regs)->p |= P_OVERFLOW) : ((regs)->p &= ~P_OVERFLOW))
+    do {                                     \
+        if (val)                             \
+            (regs)->p |= P_OVERFLOW;         \
+        else                                 \
+            (regs)->p &= ~P_OVERFLOW;        \
+    } while (0)
+
 #define MOS6510_REGS_SET_BREAK(regs, val) \
-    ((val) ? ((regs)->p |= P_BREAK) : ((regs)->p &= ~P_BREAK))
+    do {                                  \
+        if (val)                          \
+            (regs)->p |= P_BREAK;         \
+        else                              \
+            (regs)->p &= ~P_BREAK;        \
+    } while (0)
+
 #define MOS6510_REGS_SET_DECIMAL(regs, val) \
-    ((val) ? ((regs)->p |= P_DECIMAL) : ((regs)->p &= ~P_DECIMAL))
+    do {                                    \
+        if (val)                            \
+            (regs)->p |= P_DECIMAL;         \
+        else                                \
+            (regs)->p &= ~P_DECIMAL;        \
+    } while (0)
+
 #define MOS6510_REGS_SET_INTERRUPT(regs, val) \
-    ((val) ? ((regs)->p |= P_INTERRUPT) : ((regs)->p &= ~P_INTERRUPT))
+    do {                                      \
+        if (val)                              \
+            (regs)->p |= P_INTERRUPT;         \
+        else                                  \
+            (regs)->p &= ~P_INTERRUPT;        \
+    } while (0)
+
 #define MOS6510_REGS_SET_CARRY(regs, val) \
-    ((val) ? ((regs)->p |= P_CARRY) : ((regs)->p &= ~P_CARRY))
+    do {                                  \
+        if (val)                          \
+            (regs)->p |= P_CARRY;         \
+        else                              \
+            (regs)->p &= ~P_CARRY;        \
+    } while (0)
+
 #define MOS6510_REGS_SET_SIGN(regs, val) \
     ((regs)->n = (val) ? 0x80 : 0)
+
 #define MOS6510_REGS_SET_ZERO(regs, val) \
     ((regs)->z = !(val))
+
 #define MOS6510_REGS_SET_STATUS(regs, val) \
     ((regs)->p = ((val) & ~(P_ZERO | P_SIGN)), \
      MOS6510_REGS_SET_ZERO(regs, (val) & P_ZERO), \
