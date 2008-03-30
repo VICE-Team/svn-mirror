@@ -841,7 +841,7 @@ static void draw_idle_foreground(int start_char, int end_char)
     BYTE d;
     unsigned int i;
 
-    p = (vic_ii.raster.draw_buffer_ptr +vic_ii.screen_borderwidth
+    p = (vic_ii.raster.draw_buffer_ptr + vic_ii.screen_borderwidth
         + vic_ii.raster.xsmooth);
     c = 0;
     d = (BYTE)vic_ii.idle_data;
