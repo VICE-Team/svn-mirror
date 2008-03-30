@@ -121,8 +121,6 @@ static UI_CALLBACK(menu_popup_callback)
     if (menu_popup == 0)
         top_menu = w;
     menu_popup++;
-    if (!vsid_mode)
-        vsync_suspend_speed_eval();
 }
 
 static UI_CALLBACK(menu_popdown_callback)
