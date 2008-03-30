@@ -27,7 +27,7 @@
 #ifndef _RASTER_MODES_H
 #define _RASTER_MODES_H
 
-struct raster_cache_s;
+#include "raster-cache.h"
 
 /* Fill the cache with the screen data and check for differences.  If nothing
    has changed, return 0.  Otherwise, return the smallest interval that

@@ -269,38 +269,28 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 #ifdef __X64__
     case IDM_CRTGEN:
-        ViceFileDialog(hwnd, 0x0501, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTGEN8KB:
-        ViceFileDialog(hwnd, 0x0502, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTGEN16KB:
-        ViceFileDialog(hwnd, 0x0503, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTACTREPL:
-        ViceFileDialog(hwnd, 0x0504, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTATOMPOW:
-        ViceFileDialog(hwnd, 0x0505, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTEPYX:
-        ViceFileDialog(hwnd, 0x0506, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTSSSHOT:
-        ViceFileDialog(hwnd, 0x0507, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTSSSHOT5:
-        ViceFileDialog(hwnd, 0x0508, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTWEST:
-        ViceFileDialog(hwnd, 0x0509, FDS_OPEN_DIALOG);
-        return;
     case IDM_CRTIEEE:
-        ViceFileDialog(hwnd, 0x050a, FDS_OPEN_DIALOG);
+        ViceFileDialog(hwnd, 0x0b00 /*| (idm&0xf)*/, FDS_OPEN_DIALOG);
         return;
     case IDM_CRTEXPERT:
-        cartridge_attach_image(CARTRIDGE_EXPERT, NULL);
-        return;
+        {
+            int val;
+            resources_get_value("CartridgeType", (resource_value_t*) &val);
+            if (val!=CARTRIDGE_EXPERT)
+            {
+                cartridge_attach_image(CARTRIDGE_EXPERT, NULL);
+                return;
+            }
+        }
+        // FALLTHROUGH!
     case IDM_CARTRIDGEDET:
         cartridge_detach_image();
         return;
@@ -308,7 +298,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         cartridge_trigger_freeze();
         return;
     case IDM_CRTSAVEIMG:
-        ViceFileDialog(hwnd, 0x0401, FDS_ENABLEFILELB | FDS_SAVEAS_DIALOG);
+        ViceFileDialog(hwnd, 0x0601, FDS_ENABLEFILELB | FDS_SAVEAS_DIALOG);
         return;
 #endif
 
@@ -319,17 +309,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         flip_attach_head((idm>>4)&0xf, idm&1);
         return;
 
+    case IDM_DEFAULTCONFIG:
+        resources_set_defaults();
+        return;
+
+    case IDM_READCONFIG:
+        if (resources_load(NULL)<0)
+            WinMessageBox(HWND_DESKTOP, hwnd,
+                          "Cannot load default settings.",
+                          "Resources", 0, MB_OK);
+        return;
+
     case IDM_WRITECONFIG:
         WinMessageBox(HWND_DESKTOP, hwnd,
-                      resources_save(NULL)<0?"Cannot save settings.":
+                      resources_save(NULL)<0?"Cannot save default settings.":
                       "Settings written successfully.",
                       "Resources", 0, MB_OK);
         return;
-
-        /*
-         case IDM_READCONFIG:
-         return;
-         */
 
     case IDM_SNAPLOAD:
         maincpu_trigger_trap(load_snapshot, (void*)hwnd);
@@ -589,6 +585,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_SIDFILTER:
         toggle("SidFilters");
+        return;
+
+    case IDM_STEREO:
+        toggle("SidStereo");
         return;
 
     case IDM_SC6581:
@@ -882,6 +882,7 @@ void menu_select(HWND hwnd, USHORT item)
                           val == CARTRIDGE_ATOMIC_POWER      ||
                           val == CARTRIDGE_FINAL_I);
         WinEnableMenuItem(hwnd, IDM_CRTSAVEIMG, val==CARTRIDGE_EXPERT);
+        WinCheckMenuItem (hwnd, IDM_CRTEXPERT,  val==CARTRIDGE_EXPERT);
         return;
 
     case IDM_CARTRIDGE:
@@ -899,6 +900,22 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_CRTEXPERT,  val==CARTRIDGE_EXPERT);
         return;
 #endif
+    case IDM_DETACH:
+#ifdef __X64__
+        resources_get_value("CartridgeType", (resource_value_t*) &val);
+        WinEnableMenuItem(hwnd, IDM_CARTRIDGEDET, val!=CARTRIDGE_NONE);
+#endif
+        WinEnableMenuItem(hwnd, IDM_DETACHTAPE, tape_get_file_name());
+        WinEnableMenuItem(hwnd, IDM_DETACH8,    file_system_get_disk_name(8));
+        WinEnableMenuItem(hwnd, IDM_DETACH9,    file_system_get_disk_name(9));
+        WinEnableMenuItem(hwnd, IDM_DETACH10,   file_system_get_disk_name(10));
+        WinEnableMenuItem(hwnd, IDM_DETACH11,   file_system_get_disk_name(11));
+        WinEnableMenuItem(hwnd, IDM_DETACHALL,
+                          file_system_get_disk_name(8)  ||
+                          file_system_get_disk_name(9)  ||
+                          file_system_get_disk_name(10) ||
+                          file_system_get_disk_name(11));
+        return;
 
     case IDM_VIEW:
         WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
@@ -1071,8 +1088,10 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
         WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
+        WinCheckRes(hwnd, IDM_STEREO, "SidStereo");
 #endif // __X64__ || __X128__ || __XCBM__
         return;
+
 #ifdef HAVE_RESID
     case IDM_RESIDMETHOD:
         resources_get_value("SidResidSampling", (resource_value_t*)&val);

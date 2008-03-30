@@ -29,13 +29,13 @@
 
 MENU IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
-   SUBMENU "~File",                    IDM_FILE,        MIS_TEXT
+   SUBMENU "~File",                       IDM_FILE,        MIS_TEXT
    BEGIN
-      MENUITEM "~Open\tAlt-F3",        IDM_FILEOPEN,    MIS_TEXT
-      MENUITEM "~Save as\tAlt-F2",     IDM_FILESAVE,    MIS_TEXT
+      MENUITEM "~Open...\tAlt-F3",        IDM_FILEOPEN,    MIS_TEXT
+      MENUITEM "~Save as...\tAlt-F2",     IDM_FILESAVE,    MIS_TEXT
 #ifdef __X64__	
       MENUITEM SEPARATOR
-      SUBMENU "Attach ~Cartridge",        IDM_CARTRIDGE,    MIS_TEXT
+      SUBMENU "~Attach Cartridge",        IDM_CARTRIDGE,    MIS_TEXT
       BEGIN
          MENUITEM "Generic ~Image",       IDM_CRTGEN,       MIS_TEXT
          MENUITEM "Generic ~8kB Image",   IDM_CRTGEN8KB,    MIS_TEXT
@@ -48,12 +48,13 @@ BEGIN
          MENUITEM "16kB ~Westermann learning", IDM_CRTWEST, MIS_TEXT
          MENUITEM "~CBM IEEE488",         IDM_CRTIEEE,      MIS_TEXT
       END
-      MENUITEM "Enable E~xpert Cartridge", IDM_CRTEXPERT,    MIS_TEXT
-      MENUITEM "Freeze Cartridge",         IDM_CRTFREEZE,    MIS_TEXT
-      MENUITEM "Save Cartridge Image",     IDM_CRTSAVEIMG,   MIS_TEXT
+      MENUITEM "~Expert Cartridge",       IDM_CRTEXPERT,    MIS_TEXT
+      MENUITEM "Press Free~ze Button",    IDM_CRTFREEZE,    MIS_TEXT
+      MENUITEM "Save Cartridge ~Image",   IDM_CRTSAVEIMG,   MIS_TEXT
 #endif
       MENUITEM SEPARATOR
-/*      SUBMENU "~Attach",               IDM_ATTACH,       MIS_TEXT
+/*
+      SUBMENU "~Attach Image to...",   IDM_ATTACH,       MIS_TEXT
       BEGIN
          MENUITEM "~Tape\tAlt-0",      IDM_ATTACHTAPE,   MIS_TEXT
          MENUITEM SEPARATOR
@@ -61,11 +62,13 @@ BEGIN
          MENUITEM "Disk ~9\tAlt-9",    IDM_ATTACH9,      MIS_TEXT
          MENUITEM "Disk 1~0",          IDM_ATTACH10,     MIS_TEXT
          MENUITEM "Disk 1~1",          IDM_ATTACH11,     MIS_TEXT
-      END*/
-      SUBMENU "~Detach",               IDM_DETACH,       MIS_TEXT
+      END
+*/
+      SUBMENU "~Detach Image from...", IDM_DETACH,       MIS_TEXT
       BEGIN
 #ifdef __X64__
  	 MENUITEM "~Cartridge",        IDM_CARTRIDGEDET, MIS_TEXT
+         MENUITEM SEPARATOR
 #endif
          MENUITEM "~Tape",             IDM_DETACHTAPE,   MIS_TEXT
          MENUITEM SEPARATOR
@@ -76,45 +79,48 @@ BEGIN
          MENUITEM SEPARATOR
          MENUITEM "~All Disks",        IDM_DETACHALL,    MIS_TEXT
       END
-      MENUITEM SEPARATOR
-      SUBMENU "Fliplist",              IDM_FLIPLIST,     MIS_TEXT
+      SUBMENU "~Fliplist",                  IDM_FLIPLIST,  MIS_TEXT
       BEGIN
-         MENUITEM "Drive #8 Next\tAlt-F", IDM_FLIPNEXT8, MIS_TEXT
-         MENUITEM "Drive #8 Prev",        IDM_FLIPPREV8, MIS_TEXT
+         MENUITEM "Drive #8 ~Next\tAlt-F",  IDM_FLIPNEXT8, MIS_TEXT
+         MENUITEM "Drive #8 ~Prev",         IDM_FLIPPREV8, MIS_TEXT
          MENUITEM SEPARATOR
-         MENUITEM "Drive #9 Next",        IDM_FLIPNEXT9, MIS_TEXT
-         MENUITEM "Drive #9 Prev",        IDM_FLIPPREV9, MIS_TEXT
+         MENUITEM "Drive #9 Nex~t",         IDM_FLIPNEXT9, MIS_TEXT
+         MENUITEM "Drive #9 Pre~v",         IDM_FLIPPREV9, MIS_TEXT
       END
       MENUITEM SEPARATOR
-      // MENUITEM "~Load Config",         IDM_READCONFIG,   MIS_TEXT
-      MENUITEM "~Write Config",        IDM_WRITECONFIG,  MIS_TEXT
-      MENUITEM SEPARATOR
-      SUBMENU "~Snapshot",           IDM_SNAPSHOT,    MIS_TEXT
+      SUBMENU "S~napshot",                  IDM_SNAPSHOT,     MIS_TEXT
       BEGIN
-         MENUITEM "~Load",           IDM_SNAPLOAD,    MIS_TEXT
-         MENUITEM "~Save",           IDM_SNAPSAVE,    MIS_TEXT
+         MENUITEM "~Load vice2.vsf",        IDM_SNAPLOAD,     MIS_TEXT
+         MENUITEM "~Save vice2.vsf",        IDM_SNAPSAVE,     MIS_TEXT
 /*
          MENUITEM SEPARATOR
          MENUITEM "With ROMs",       IDM_WITHROMS,    MIS_TEXT
          MENUITEM "With Disks",      IDM_WITHDISKS,   MIS_TEXT
 */
       END
-      MENUITEM "Write Screenshot",   IDM_PRINTSCRN,   MIS_TEXT
+      SUBMENU "~Configuration",             IDM_CONFIG,        MIS_TEXT
+      BEGIN                                  
+        MENUITEM "~Load vice2.cfg",         IDM_READCONFIG,    MIS_TEXT
+        MENUITEM "~Write vice2.cfg\tAlt-W", IDM_WRITECONFIG,   MIS_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "Set to ~Defaults",        IDM_DEFAULTCONFIG, MIS_TEXT
+      END
+      MENUITEM "Screenshot vice2.~png",     IDM_PRINTSCRN,     MIS_TEXT
       MENUITEM SEPARATOR
-      SUBMENU "~Reset",                IDM_RESET,        MIS_TEXT
+      SUBMENU "~Reset",                     IDM_RESET,         MIS_TEXT
       BEGIN
-         MENUITEM "~Soft Reset\tAlt-R", IDM_SOFTRESET,   MIS_TEXT
-         MENUITEM "~Hard Reset\tAlt-Q", IDM_HARDRESET,   MIS_TEXT
+         MENUITEM "~Soft Reset\tAlt-R",     IDM_SOFTRESET,     MIS_TEXT
+         MENUITEM "~Hard Reset\tAlt-Q",     IDM_HARDRESET,     MIS_TEXT
       END
       MENUITEM SEPARATOR
-      MENUITEM "Exit\tAlt-F4",         IDM_EXIT,         MIS_TEXT
+      MENUITEM "E~xit\tAlt-F4",             IDM_EXIT,          MIS_TEXT
    END
    SUBMENU "~View",                    IDM_VIEW,         MIS_TEXT
    BEGIN
 //      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
       MENUITEM "~Drive Setup\tAlt-D",           IDM_DRIVE,     MIS_TEXT
 #if defined __X64__ || defined __X128__ || defined __XCBM__
-      MENUITEM "V~IC-II Color Settings\tAlt-I", IDM_COLOR,     MIS_TEXT
+      MENUITEM "~VIC-II Color Settings\tAlt-I", IDM_COLOR,     MIS_TEXT
 #endif
       MENUITEM "~Joystick Setup\tAlt-J",        IDM_JOYSTICK,  MIS_TEXT
       MENUITEM "Datasette ~Control\tAlt-C",     IDM_DATASETTE, MIS_TEXT
@@ -377,6 +383,7 @@ BEGIN
        MENUITEM "~8680",                IDM_SC8580,       MIS_TEXT
      END
      MENUITEM "SID ~Filter",            IDM_SIDFILTER,    MIS_TEXT
+     MENUITEM "2nd SID (stereo)",       IDM_STEREO,       MIS_TEXT
      MENUITEM SEPARATOR
 #endif // __X64__ || __X128__ || __XCBM__
      SUBMENU "~Oversampling",           IDM_OVERSAMPLING, MIS_TEXT

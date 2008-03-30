@@ -32,5 +32,5 @@
 
 int vic20_kbd_init(void)
 {
-    return kbd_init(0);
+    return kbd_init();
 }

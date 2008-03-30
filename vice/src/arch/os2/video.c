@@ -862,7 +862,7 @@ void wmPaint(HWND hwnd)
 
 static int wmTranslateAccel(HWND hwnd, MPARAM mp1)
 {
-    const QMSG *qmsg = (QMSG*)mp1;
+    QMSG *qmsg = (QMSG*)mp1;
 
     //
     // if key is pressed together with alt let the acceltable
@@ -1372,6 +1372,10 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
 
     DEBUG("CANVAS REFRESH 0");
 
+    //
+    // I tried to call DiveSetupBlitter onyl if the values
+    // changed, but it doesn't speed up anything
+    //
     if (c->vrenabled)
     {
         //

@@ -54,7 +54,7 @@ typedef enum {
     K_LEFTW95, K_RIGHTW95                                                       /*107*/
 } kbd_code_t;
 
-extern int kbd_init(int num, ...);
+extern int kbd_init(void);
 
 #endif
 

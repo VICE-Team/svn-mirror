@@ -20,7 +20,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
-    incl(searchpath, "..\\..\\..\\screendrv"),
+    incl(searchpath, "..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\lpng"),
@@ -48,7 +48,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/crtc.icc"
         include "incl/monitor.icc"
         include "incl/sounddrv.icc"
-        include "incl/screendrv.icc"
+        include "incl/gfxoutputdrv.icc"
         include "incl/printerdrv.icc"
 
         source type(c)

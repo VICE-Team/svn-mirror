@@ -74,8 +74,8 @@ int resources_register(const resource_t *r)
     while (sp->name != NULL) {
         if ((sp->type == RES_STRING && sp->factory_value == NULL)
             || sp->value_ptr == NULL || sp->set_func == NULL) {
-            log_warning(LOG_DEFAULT,
-                        "Inconsistent resource declaration `%s'.", sp->name);
+            archdep_startup_log_error("Inconsistent resource declaration '%s'.",
+                                      sp->name);
             return -1;
         }
 
@@ -502,6 +502,8 @@ int resources_save(const char *fname)
         free (backup_name);
         return RESERR_CANNOT_CREATE_FILE;
     }
+
+    setbuf(out_file, NULL);
 
     if (have_old) {
         in_file = fopen(backup_name, MODE_READ_TEXT);

@@ -30,5 +30,5 @@
 
 int c610_kbd_init(void)
 {
-    return kbd_init(0);
+    return kbd_init();
 }

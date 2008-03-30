@@ -79,12 +79,14 @@
 #define IDM_SNAPLOAD     0x125
 #define IDM_SNAPSAVE     0x126
 
-#define IDM_READCONFIG   0x127
-#define IDM_WRITECONFIG  0x128
-#define IDM_PRINTSCRN    0x129
-#define IDM_SOFTRESET    0x12a
-#define IDM_HARDRESET    0x12b
-#define IDM_EXIT         0x12f
+#define IDM_CONFIG        0x127
+#define IDM_READCONFIG    0x128
+#define IDM_WRITECONFIG   0x129
+#define IDM_DEFAULTCONFIG 0x12a
+#define IDM_PRINTSCRN     0x12b
+#define IDM_SOFTRESET     0x12c
+#define IDM_HARDRESET     0x12d
+#define IDM_EXIT          0x12f
 
 #define IDM_VDC16K       0x140
 #define IDM_VDC64K       0x141
@@ -136,6 +138,7 @@
 #define IDM_RESIDFAST     0x176
 #define IDM_RESIDINTERPOL 0x177
 #define IDM_RESIDRESAMPLE 0x178
+#define IDM_STEREO        0x179
 
 #define IDM_RESIDBAND     0x17f
 #define IDM_RESIDPASS0    0x180
@@ -299,20 +302,20 @@
 #define IDM_KERNALREV4064 0x294
 
 #define IDM_CARTRIDGE    0x500
-#define IDM_CARTRIDGEDET 0x501
-#define IDM_CRTGEN       0x502
-#define IDM_CRTGEN8KB    0x503
-#define IDM_CRTGEN16KB   0x504
-#define IDM_CRTACTREPL   0x505
-#define IDM_CRTATOMPOW   0x506
-#define IDM_CRTEPYX      0x507
-#define IDM_CRTSSSHOT    0x508
-#define IDM_CRTSSSHOT5   0x509
-#define IDM_CRTWEST      0x50a
-#define IDM_CRTIEEE      0x50b
-#define IDM_CRTEXPERT    0x50c
-#define IDM_CRTFREEZE    0x50d
-#define IDM_CRTSAVEIMG   0x50e
+#define IDM_CRTGEN       0x501
+#define IDM_CRTGEN8KB    0x502
+#define IDM_CRTGEN16KB   0x503
+#define IDM_CRTACTREPL   0x504
+#define IDM_CRTATOMPOW   0x505
+#define IDM_CRTEPYX      0x506
+#define IDM_CRTSSSHOT    0x507
+#define IDM_CRTSSSHOT5   0x508
+#define IDM_CRTWEST      0x509
+#define IDM_CRTIEEE      0x50a
+#define IDM_CRTEXPERT    0x50b
+#define IDM_CRTFREEZE    0x50c
+#define IDM_CRTSAVEIMG   0x50d
+#define IDM_CARTRIDGEDET 0x50e
 
 #define IDM_PALCONTROL   0x510
 #define IDM_INTERNALPAL  0x511

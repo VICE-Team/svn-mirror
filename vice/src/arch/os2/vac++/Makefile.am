@@ -28,7 +28,7 @@ EXTRA_DIST = \
         incl/raster.icc \
         incl/resid.icc \
         incl/sounddrv.icc \
-        incl/screendrv.icc \
+        incl/gfxoutputdrv.icc \
         incl/printerdrv.icc \
         incl/vdc.icc \
         incl/vdrive.icc \

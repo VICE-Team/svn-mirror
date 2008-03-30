@@ -237,7 +237,8 @@ static int init_resources(void)
         return -1;
     }
     if (log_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize log resource handling.\n");        return -1;
+        archdep_startup_log_error("Cannot initialize log resource handling.\n");
+        return -1;
     }
     if (resources_register(resources) < 0) {
         archdep_startup_log_error("Cannot initialize main resources.\n");
@@ -248,7 +249,8 @@ static int init_resources(void)
         return -1;
     }
     if (ui_init_resources() < 0) {
-        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");        return -1;
+        archdep_startup_log_error("Cannot initialize UI-specific resources.\n");
+        return -1;
     }
     if (file_system_init_resources() < 0) {
         archdep_startup_log_error("Cannot initialize file system-specific resources.\n");

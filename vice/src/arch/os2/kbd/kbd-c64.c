@@ -31,7 +31,7 @@
 int c64_kbd_init(void)
 {
 //    kbd_set_freeze_function(cartridge_trigger_freeze);
-    return kbd_init(0);
+    return kbd_init();
 }
 
 // ------------------ for further use ---------------------

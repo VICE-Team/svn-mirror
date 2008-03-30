@@ -91,7 +91,8 @@ static int mmos2_init(const char *param, int *speed,
     /* No stereo capability. */
     *channels = 1;
 
-    if (usSoundDevID) return 1;
+    if (usSoundDevID)
+        return 1;
 
     mciOpen.pszDeviceType  = MCI_DEVTYPE_WAVEFORM_AUDIO_NAME;
     mciOpen.hwndCallback   = (HWND) NULL;
@@ -107,12 +108,14 @@ static int mmos2_init(const char *param, int *speed,
 
     usSoundDevID = mciOpen.usDeviceID;
 
+    mciSet.usChannels      = *stereo ? 2 : 1;
     mciSet.ulSamplesPerSec = *speed;
     mciSet.usBitsPerSample = sizeof(SWORD)*8;
     rc=mciSendCommand(usSoundDevID, MCI_SET,
                       MCI_WAIT|
                       MCI_WAVE_SET_SAMPLESPERSEC|
-                      MCI_WAVE_SET_BITSPERSAMPLE,
+                      MCI_WAVE_SET_BITSPERSAMPLE|
+                      MCI_WAVE_SET_CHANNELS,
                       &mciSet, 0);
 
     if (rc != MCIERR_SUCCESS) return sound_err(rc, "Error setting Sample Rate or Saples Per Sec (MCI_SET)");

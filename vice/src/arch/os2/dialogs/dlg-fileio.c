@@ -336,7 +336,7 @@ static action_t LoadAction[] = {
     { "Load Keyboard Map",         SubKbd,     FALSE },
     { "Load ROM Image",            SubRom,     TRUE  },
     { "Load ROM Set",              SubRomSet,  FALSE },
-//    { "Load Configuration File", SubCfg,    FALSE },
+    { "Load Configuration File",   SubCfg,     FALSE },
 #ifdef __X64__
     { "Attach Cartridge Image",    SubCart,    TRUE  },
 #endif
@@ -418,8 +418,10 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return -1;
     case 8:
         return romset_load(szpath);
-#ifdef __X64__
     case 9:
+        return resources_load(szpath);
+#ifdef __X64__
+    case 10:
         switch (sact)
         {
         case 0:
@@ -446,7 +448,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return -1;
 #endif
 #ifdef __XPET__
-    case 9:
+    case 10:
         switch (sact)
         {
         case 0:
@@ -459,7 +461,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return -1;
 #endif
 #ifdef __XCBM__
-    case 9:
+    case 10:
         switch (sact)
         {
         case 0:
@@ -474,7 +476,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return -1;
 #endif
 #ifdef __X128__
-    case 9:
+    case 10:
         switch (sact)
         {
         case 0:
@@ -484,8 +486,6 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         }
         return -1;
 #endif
-    case 10:
-        return -1; //resources_load(szpath);
     }
     return -1;
 }

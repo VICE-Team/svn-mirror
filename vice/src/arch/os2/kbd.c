@@ -26,39 +26,29 @@
 
 #include "vice.h"
 
-#include <os2.h>  // CCHMAXPATH
-
-#include <string.h>
-
-#include "kbd.h"
 #include "log.h"
-#include "parse.h"
-#include "utils.h"
-#include "cmdline.h"
-#include "resources.h"
+#include "parse.h"      // load_keymap_file
+#include "utils.h"      // util_string_set
+#include "cmdline.h"    // cmdline_register_options
+#include "resources.h"  // resources_register
 
 BYTE joystick_value[3];
 
-static int keymap_index;
-static char *keymapfile;//[CCHMAXPATH];
+static char *keymapfile;
 
 /* ------------------------------------------------------------------------ */
 
-int kbd_init(int num, ...)
+int kbd_init(void)
 {
-    //    if (load_keymap_file(keymapfile)==-1)
-    //        log_message(LOG_DEFAULT, "kbd.c: Error loading keymapfile `%s'.", keymapfile);
+    //
+    // FIXME: This is a stupid workaround to make sure,
+    // that the logging system is initialized when
+    // the keymap is loaded
+    //
+
     char *name;
     resources_get_value("KeymapFile", (resource_value_t)&name);
-
-    if (!name)
-        resources_set_value("KeymapFile", "os2.vkm");
-    return 0;
-}
-
-static int set_keymap_index(resource_value_t v)
-{
-    keymap_index = (int)v;
+    resources_set_value("KeymapFile", name);
 
     return 0;
 }
@@ -73,9 +63,8 @@ static int set_keymap_file(resource_value_t v, void *param)
     return 0;
 }
 
-
 static resource_t resources[] = {
-    { "KeymapFile", RES_STRING, (resource_value_t) NULL,
+    { "KeymapFile", RES_STRING, (resource_value_t)"os2.vkm",
       (resource_value_t *) &keymapfile, set_keymap_file, NULL },
     { NULL }
 };
