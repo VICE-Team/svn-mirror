@@ -1440,7 +1440,7 @@ static void create_special_submenu(int has_serial_traps)
 /* ------------------------------------------------------------------------- */
 
 void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
-                         int num_joysticks)
+                         int number_joysticks)
 {
     /* Main menu. */
     ui_main_menu = tui_menu_create(NULL, 1);
@@ -1543,13 +1543,13 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 			 ui_sound_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
 
-    if (num_joysticks > 0) {
+    if (number_joysticks > 0) {
         ui_joystick_settings_submenu = tui_menu_create("Joystick Settings", 1);
         tui_menu_add_submenu(ui_main_menu, "_Joystick Settings...",
                              "Joystick settings",
                              ui_joystick_settings_submenu, NULL, 0,
                              TUI_MENU_BEH_CONTINUE);
-        if (num_joysticks == 2)
+        if (number_joysticks == 2)
             tui_menu_add(ui_joystick_settings_submenu,
                          double_joystick_submenu);
         else                    /* Just one joystick.  */

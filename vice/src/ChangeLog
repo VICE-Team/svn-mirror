@@ -1,3 +1,47 @@
+1999-01-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.13.
+
+	* c64/c64cia1.def, c128/c128cia1.def, vic20/vic20via1.c,
+	vic20/vic20via2.c, pet/petvia.c cbm2/c610cia1.def,
+	arch/unix/joystick.c, arch/unix/kbd.c, arch/unix/kbd.h,
+	arch/win32/joystick.c, arch/win32/kbd.c, arch/win32/kbd.h,
+	arch/msdos/joystick.c, arch/msdos/kbd.c, arch/msdos/kbd.h,
+	arch/msdos/mouse.c, arch/riscos/joystick.c, arch/riscos/kbd.c,
+	arch/riscos/kbd.h: Renamed `joy' to `joystick_value'.
+
+	* arch/msdos/joystick.c, arch/msdos/menudefs.c: Renamed
+	`num_joysticks' to `number_joysticks'.
+
+1999-01-25  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h (IDM_STATUS_WINDOW): Added identifier definition
+	  for status window communication.
+
+	* arch/win32/ui.c (ui_init): Create status window for drive leds.
+	  Removed sizeable border from Window style.
+	  (ui_resize_canvas_window): Add status window height to requested
+	  window height. Updated AdjustWindowRect to new window style.
+	  (SetStatusWindowParts): New function, sets up status window.
+	  (ui_enable_drive_status): Added functionality.
+	  (ui_display_drive_track): Same.
+	  (ui_display_drive_led): Same.
+	  (ui_toggle_drive_status): Removed not used function.
+	  (window_proc): Added WM_SIZE handler to resize status window.
+	  Added WM_DRAWITEM to update parts in the status window.
+	  In WM_PAINT handler substract size of status window when calling
+	  exposure_handler.
+
+	* arch/win32/ui.h (ui_toggle_drive_status): Removed prototype of
+	  unused function.
+
+	* arch/win32/uisound.c: Removed 50msec entry from Buffer size
+	  setting.
+
+1999-01-24  Michael Klein  <100.251394@germanynet.de>
+
+	* c1541.c (name_cmd): New function.
+
 1999-01-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.12.
@@ -73,7 +117,7 @@
 
 1999-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 0.16.1.9.
+	* Version 0.16.1.10.
 
 	* arch/win32/joystick.c: #include <ddraw.h>.
 

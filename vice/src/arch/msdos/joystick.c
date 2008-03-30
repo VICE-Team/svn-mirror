@@ -35,7 +35,7 @@
 
 #include "cmdline.h"
 #include "resources.h"
-#include "kbd.h"              /* FIXME: Maybe we should move `joy[]'
+#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
                                  here...  */
 
 /* Notice that this has to be `int' to make resources work.  */
@@ -159,7 +159,7 @@ int joystick_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* Flag: is joystick present?  */
-int num_joysticks = 0;
+int number_joysticks = 0;
 
 /* Flag: have we initialized the Allegro joystick driver?  */
 static int joystick_init_done = 0;
@@ -195,14 +195,14 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
         if (pressed) {
             if (joystick_device_1 == device)
-                joy[1] |= value;
+                joystick_value[1] |= value;
             if (joystick_device_2 == device)
-                joy[2] |= value;
+                joystick_value[2] |= value;
         } else {
             if (joystick_device_1 == device)
-                joy[1] &= ~value;
+                joystick_value[1] &= ~value;
             if (joystick_device_2 == device)
-                joy[2] &= ~value;
+                joystick_value[2] &= ~value;
         }
         return 1;
     }
@@ -224,14 +224,14 @@ void joystick_init(void)
 
     if (!initialise_joystick()) {
 	cprintf(" Two joysticks found.");
-	num_joysticks = 2;
+	number_joysticks = 2;
     } else {
         joy_type = JOY_TYPE_STANDARD;
 	if (!initialise_joystick()) {
             cprintf(" One joystick found.\r\n");
-            num_joysticks = 1;
+            number_joysticks = 1;
         } else {
-            num_joysticks = 0;
+            number_joysticks = 0;
             cprintf(" No joysticks found.\r\n");
         }
     }
@@ -239,10 +239,10 @@ void joystick_init(void)
     joystick_init_done = 1;
 }
 
-/* Update the `joy' variables according to the joystick status.  */
+/* Update the `joystick_value' variables according to the joystick status.  */
 void joystick_update(void)
 {
-    if (num_joysticks == 0)
+    if (number_joysticks == 0)
 	return;
 
     poll_joystick();
@@ -261,12 +261,12 @@ void joystick_update(void)
         if (joy_b1 || joy_b2)
             value |= 16;
         if (joystick_device_1 == JOYDEV_HW1)
-            joy[1] = value;
+            joystick_value[1] = value;
         if (joystick_device_2 == JOYDEV_HW1)
-            joy[2] = value;
+            joystick_value[2] = value;
     }
 
-    if (num_joysticks >= 2
+    if (number_joysticks >= 2
         && (joystick_device_1 == JOYDEV_HW2
             || joystick_device_2 == JOYDEV_HW2)) {
         int value = 0;
@@ -282,9 +282,9 @@ void joystick_update(void)
         if (joy2_b1 || joy2_b2)
             value |= 16;
         if (joystick_device_1 == JOYDEV_HW2)
-            joy[1] = value;
+            joystick_value[1] = value;
         if (joystick_device_2 == JOYDEV_HW2)
-            joy[2] = value;
+            joystick_value[2] = value;
     }
 }
 
@@ -335,14 +335,14 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
         if (pressed) {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joy[1] |= value;
+                joystick_value[1] |= value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joy[2] |= value;
+                joystick_value[2] |= value;
         } else {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joy[1] &= ~value;
+                joystick_value[1] &= ~value;
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joy[2] &= ~value;
+                joystick_value[2] &= ~value;
         }
     }
 
