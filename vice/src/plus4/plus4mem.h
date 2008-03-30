@@ -27,15 +27,20 @@
 #ifndef _PLUS4MEM_H
 #define _PLUS4MEM_H
 
-#include "mem.h"
 #include "types.h"
 
 #define PLUS4_RAM_SIZE        0x10000
 #define PLUS4_BASIC_ROM_SIZE  0x4000
 #define PLUS4_KERNAL_ROM_SIZE 0x4000
 
-extern BYTE basic_rom[];
-extern BYTE kernal_rom[];
+extern BYTE mem_basic_rom[];
+extern BYTE mem_kernal_rom[];
+extern BYTE extromlo1[PLUS4_BASIC_ROM_SIZE];
+extern BYTE extromlo2[PLUS4_BASIC_ROM_SIZE];
+extern BYTE extromlo3[PLUS4_BASIC_ROM_SIZE];
+extern BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
+extern BYTE extromhi2[PLUS4_KERNAL_ROM_SIZE];
+extern BYTE extromhi3[PLUS4_KERNAL_ROM_SIZE];
 
 extern BYTE REGPARM1 kernal_read(ADDRESS addr);
 extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
@@ -45,11 +50,6 @@ extern int plus4_mem_init_cmdline_options(void);
 
 extern void mem_config_ram_set(unsigned int config);
 extern BYTE *mem_get_tedmem_base(unsigned int segment);
-
-extern int mem_load_kernal(const char *rom_name);
-extern int mem_load_basic(const char *rom_name);
-extern int mem_load_3plus1lo(const char *rom_name);
-extern int mem_load_3plus1hi(const char *rom_name);
 
 extern void mem_proc_port_trigger_flux_change(unsigned int on);
 extern void pio1_set_tape_sense(int sense);

@@ -23,7 +23,6 @@ libplus4_a_SOURCES = \
 	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
-	plus4cpu.c \
 	plus4datasette.c \
 	plus4iec.c \
 	plus4iec.h \
@@ -35,6 +34,8 @@ libplus4_a_SOURCES = \
 	plus4pio1.h \
 	plus4pio2.c \
 	plus4pio2.h \
+	plus4rom.c \
+	plus4rom.h \
 	tcbm.c \
 	tcbm.h \
 	ted-cmdline-options.c \
@@ -62,3 +63,4 @@ EXTRA_libplus4_a_SOURCES = \
         plus4acia.c
 
 libplus4_a_LIBADD = $(acia_libadd)
+

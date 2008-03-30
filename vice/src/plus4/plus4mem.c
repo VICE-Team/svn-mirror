@@ -33,8 +33,8 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
-#include "log.h"
 #include "maincpu.h"
+#include "mem.h"
 #include "mon.h"
 #include "plus4acia.h"
 #include "plus4iec.h"
@@ -43,7 +43,6 @@
 #include "plus4pio1.h"
 #include "plus4pio2.h"
 #include "resources.h"
-#include "sysfile.h"
 #include "tcbm.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -67,17 +66,14 @@ const char *mem_romset_resources_list[] = {
 
 /* The Plus4 memory.  */
 BYTE mem_ram[PLUS4_RAM_SIZE];
-BYTE basic_rom[PLUS4_BASIC_ROM_SIZE];
-BYTE kernal_rom[PLUS4_KERNAL_ROM_SIZE];
+BYTE mem_basic_rom[PLUS4_BASIC_ROM_SIZE];
+BYTE mem_kernal_rom[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromlo1[PLUS4_BASIC_ROM_SIZE];
 BYTE extromlo2[PLUS4_BASIC_ROM_SIZE];
 BYTE extromlo3[PLUS4_BASIC_ROM_SIZE];
 BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromhi2[PLUS4_KERNAL_ROM_SIZE];
 BYTE extromhi3[PLUS4_KERNAL_ROM_SIZE];
-
-/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int plus4_rom_loaded = 0;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -101,9 +97,6 @@ static struct {
 
 /* Current memory configuration.  */
 static unsigned int mem_config;
-
-/* Logging goes here.  */
-static log_t plus4_mem_log = LOG_ERR;
 
 /* Pointer to the IEC structure.  */
 static iec_info_t *iec_info;
@@ -154,15 +147,15 @@ static BYTE *chargen_tab[8][16] = {
             RAM4,       RAM4,       RAM4,       RAM4,
             RAM4,       RAM4,       RAM4,       RAM4 },
     /* 8000-bfff, ROM selected  */
-    {  basic_rom,  extromlo1,  extromlo2,  extromlo3,
-       basic_rom,  extromlo1,  extromlo2,  extromlo3,
-       basic_rom,  extromlo1,  extromlo2,  extromlo3,
-       basic_rom,  extromlo1,  extromlo2,  extromlo3 },
+    {  mem_basic_rom,  extromlo1,      extromlo2,      extromlo3,
+       mem_basic_rom,  extromlo1,      extromlo2,      extromlo3,
+       mem_basic_rom,  extromlo1,      extromlo2,      extromlo3,
+       mem_basic_rom,  extromlo1,      extromlo2,      extromlo3 },
     /* c000-ffff, ROM selected  */
-    { kernal_rom, kernal_rom, kernal_rom, kernal_rom,
-       extromhi1,  extromhi1,  extromhi1,  extromhi1,
-       extromhi2,  extromhi2,  extromhi2,  extromhi2,
-       extromhi3,  extromhi3,  extromhi3,  extromhi3 }
+    {  mem_kernal_rom, mem_kernal_rom, mem_kernal_rom, mem_kernal_rom,
+       extromhi1,      extromhi1,      extromhi1,      extromhi1,
+       extromhi2,      extromhi2,      extromhi2,      extromhi2,
+       extromhi3,      extromhi3,      extromhi3,      extromhi3 }
 };
 
 
@@ -322,17 +315,17 @@ void mem_toggle_watchpoints(int flag)
 
 BYTE REGPARM1 basic_read(ADDRESS addr)
 {
-    return basic_rom[addr & 0x3fff];
+    return mem_basic_rom[addr & 0x3fff];
 }
 
 BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
-    return kernal_rom[addr & 0x3fff];
+    return mem_kernal_rom[addr & 0x3fff];
 }
 
 void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
 {
-    kernal_rom[addr & 0x3fff] = value;
+    mem_kernal_rom[addr & 0x3fff] = value;
 }
 
 static BYTE REGPARM1 extromlo1_read(ADDRESS addr)
@@ -434,10 +427,10 @@ void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xc000) {
       case 0x8000:
-        basic_rom[addr & 0x3fff] = value;
+        mem_basic_rom[addr & 0x3fff] = value;
         break;
       case 0xc000:
-        kernal_rom[addr & 0x3fff] = value;
+        mem_kernal_rom[addr & 0x3fff] = value;
         break;
     }
 }
@@ -714,7 +707,7 @@ void mem_initialize_memory(void)
     /* Setup BASIC ROM and extension ROMs at $8000-$BFFF.  */
     for (i = 0x80; i <= 0xbf; i++) {
         mem_read_tab[1][i] = basic_read;
-        mem_read_base_tab[1][i] = basic_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[1][i] = mem_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = extromlo1_read;
         mem_read_base_tab[3][i] = extromlo1 + ((i & 0x3f) << 8);
         mem_read_tab[5][i] = extromlo2_read;
@@ -722,7 +715,7 @@ void mem_initialize_memory(void)
         mem_read_tab[7][i] = extromlo3_read;
         mem_read_base_tab[7][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[9][i] = basic_read;
-        mem_read_base_tab[9][i] = basic_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[9][i] = mem_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = extromlo1_read;
         mem_read_base_tab[11][i] = extromlo1 + ((i & 0x3f) << 8);
         mem_read_tab[13][i] = extromlo2_read;
@@ -730,7 +723,7 @@ void mem_initialize_memory(void)
         mem_read_tab[15][i] = extromlo3_read;
         mem_read_base_tab[15][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[17][i] = basic_read;
-        mem_read_base_tab[17][i] = basic_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[17][i] = mem_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[19][i] = extromlo1_read;
         mem_read_base_tab[19][i] = extromlo1 + ((i & 0x3f) << 8);
         mem_read_tab[21][i] = extromlo2_read;
@@ -738,7 +731,7 @@ void mem_initialize_memory(void)
         mem_read_tab[23][i] = extromlo3_read;
         mem_read_base_tab[23][i] = extromlo3 + ((i & 0x3f) << 8);
         mem_read_tab[25][i] = basic_read;
-        mem_read_base_tab[25][i] = basic_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[25][i] = mem_basic_rom + ((i & 0x3f) << 8);
         mem_read_tab[27][i] = extromlo1_read;
         mem_read_base_tab[27][i] = extromlo1 + ((i & 0x3f) << 8);
         mem_read_tab[29][i] = extromlo2_read;
@@ -750,13 +743,13 @@ void mem_initialize_memory(void)
     /* Setup Kernal ROM and extension ROMs at $E000-$FFFF.  */
     for (i = 0xc0; i <= 0xff; i++) {
         mem_read_tab[1][i] = kernal_read;
-        mem_read_base_tab[1][i] = kernal_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[1][i] = mem_kernal_rom + ((i & 0x3f) << 8);
         mem_read_tab[3][i] = kernal_read;
-        mem_read_base_tab[3][i] = kernal_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[3][i] = mem_kernal_rom + ((i & 0x3f) << 8);
         mem_read_tab[5][i] = kernal_read;
-        mem_read_base_tab[5][i] = kernal_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[5][i] = mem_kernal_rom + ((i & 0x3f) << 8);
         mem_read_tab[7][i] = kernal_read;
-        mem_read_base_tab[7][i] = kernal_rom + ((i & 0x3f) << 8);
+        mem_read_base_tab[7][i] = mem_kernal_rom + ((i & 0x3f) << 8);
         mem_read_tab[9][i] = extromhi1_read;
         mem_read_base_tab[9][i] = extromhi1 + ((i & 0x3f) << 8);
         mem_read_tab[11][i] = extromhi1_read;
@@ -785,7 +778,7 @@ void mem_initialize_memory(void)
 
     for (i = 0; i < NUM_CONFIGS; i += 2) {
         mem_read_tab[i + 1][0xfc] = kernal_read;
-        mem_read_base_tab[i + 1][0xfc] = kernal_rom + ((0xfc & 0x3f) << 8);
+        mem_read_base_tab[i + 1][0xfc] = mem_kernal_rom + ((0xfc & 0x3f) << 8);
 
         mem_read_tab[i + 0][0xfd] = fdxx_read;
         mem_write_tab[i + 0][0xfd] = fdxx_store;
@@ -859,117 +852,6 @@ void mem_powerup(void)
     }
 
     hard_reset_flag = 1;
-}
-
-int mem_load_kernal(const char *rom_name)
-{
-    int trapfl;
-
-    if (!plus4_rom_loaded)
-        return 0;
-
-    /* Make sure serial code assumes there are no traps installed.  */
-    /* serial_remove_traps(); */
-    /* we also need the TAPE traps!!! therefore -> */
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
-
-    /* Load Kernal ROM.  */
-    if (sysfile_load(rom_name,
-        kernal_rom, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
-        log_error(plus4_mem_log, "Couldn't load kernal ROM `%s'.",
-                  rom_name);
-        resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-        return -1;
-    }
-
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-
-    return 0;
-}
-
-int mem_load_basic(const char *rom_name)
-{
-    if (!plus4_rom_loaded)
-        return 0;
-
-    /* Load Basic ROM.  */
-    if (sysfile_load(rom_name,
-        basic_rom, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
-        log_error(plus4_mem_log,
-                  "Couldn't load basic ROM `%s'.",
-                  rom_name);
-        return -1;
-    }
-    return 0;
-}
-
-int mem_load_3plus1lo(const char *rom_name)
-{
-    if (!plus4_rom_loaded)
-        return 0;
-
-    /* Load 3plus1 low ROM.  */
-    if (sysfile_load(rom_name,
-        extromlo1, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
-        log_error(plus4_mem_log,
-                  "Couldn't load 3plus1 low ROM `%s'.",
-                  rom_name);
-        return -1;
-    }
-    return 0;
-}
-
-int mem_load_3plus1hi(const char *rom_name)
-{
-    if (!plus4_rom_loaded)
-        return 0;
-
-    /* Load 3plus1 high ROM.  */
-    if (sysfile_load(rom_name,
-        extromhi1, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
-        log_error(plus4_mem_log,
-                  "Couldn't load 3plus1 high ROM `%s'.",
-                  rom_name);
-        return -1;
-    }
-    return 0;
-}
-
-int mem_load(void)
-{
-
-    char *rom_name = NULL;
-
-    mem_powerup();
-
-    if (plus4_mem_log == LOG_ERR)
-        plus4_mem_log = log_open("PLUS4MEM");
-
-    plus4_rom_loaded = 1;
-
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("3plus1loName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_3plus1lo(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("3plus1hiName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_3plus1hi(rom_name) < 0)
-        return -1;
-
-    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1047,10 +929,10 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         break;
       case 2:                   /* rom */
         if (addr >= 0x8000 && addr <= 0xbfff) {
-            return basic_rom[addr & 0x3fff];
+            return mem_basic_rom[addr & 0x3fff];
         }
         if (addr >= 0xc000 && addr <= 0xffff) {
-            return kernal_rom[addr & 0x3fff];
+            return mem_kernal_rom[addr & 0x3fff];
         }
         break;
       case 3:                   /* funcrom */
