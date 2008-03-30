@@ -517,6 +517,8 @@ int parallelreceivebyte(BYTE * data, int fake)
 	printf("faked = %d, return data =%02x ('%c'), st = %04x\n",
 	       fake, *data, isprint(*data) ? *data : '_', st);
 
+    if ((st & 0x40) && eof_callback_func != NULL)
+        eof_callback_func();
     return st;
 }
 
