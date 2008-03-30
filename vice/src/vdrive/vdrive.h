@@ -163,15 +163,6 @@ typedef struct vdrive_s {
 #define CHK_NUM         0
 #define CHK_RDY         1
 
-/*
- * Error messages
- */
-
-typedef struct errortext_s {
-    int nr;
-    const char *text;
-} errortext_t;
-
 /* ------------------------------------------------------------------------- */
 
 extern void vdrive_init(void);

@@ -76,6 +76,7 @@ typedef struct cmd_parse_s {
 struct vdrive_s;
 
 extern void vdrive_command_init(void);
+extern const char *vdrive_command_errortext(unsigned int code);
 extern int vdrive_command_execute(struct vdrive_s *vdrive, const BYTE *buf,
                                   unsigned int length);
 extern int vdrive_command_format(struct vdrive_s *vdrive,

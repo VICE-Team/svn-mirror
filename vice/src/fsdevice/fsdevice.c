@@ -99,9 +99,6 @@ static int fsdevice_compare_wildcards(char *name, char *p00name);
 static int fsdevice_reduce_filename_p00(char *filename, int len);
 static size_t fsdevice_eliminate_char_p00(char *filename, int pos);
 
-/* FIXME: ugly.  */
-extern errortext_t floppy_error_messages;
-
 /* ------------------------------------------------------------------------- */
 
 void fsdevice_set_directory(char *filename, unsigned int unit)
@@ -157,18 +154,10 @@ void fsdevice_error(vdrive_t *vdrive, int code)
     last_code[dnr] = code;
 
     if (code != IPE_MEMORY_READ) {
-        if (code == IPE_DOS_VERSION) {
+        if (code == IPE_DOS_VERSION)
             message = "VICE FS DRIVER V2.0";
-        } else {
-            errortext_t *e;
-            e = &floppy_error_messages;
-            while (e->nr >= 0 && e->nr != code)
-                e++;
-            if (e->nr >= 0)
-                message = e->text;
-            else
-                message = "UNKNOWN ERROR NUMBER";
-        }
+        else
+            message = vdrive_command_errortext(code);
 
         sprintf(fs_errorl[dnr], "%02d,%s,00,00\015", code, message);
 
