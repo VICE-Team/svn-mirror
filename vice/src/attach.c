@@ -246,8 +246,8 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
     disk_image_t new_image;
     int err = -1;
 
-    if (!filename) {
-        log_error(attach_log, "No name, cannot attach floppy image");
+    if (filename == NULL) {
+        log_error(attach_log, "No name, cannot attach floppy image.");
         return -1;
     }
 
