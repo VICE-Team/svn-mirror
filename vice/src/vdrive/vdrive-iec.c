@@ -208,7 +208,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
  * directory slot.
  */
 
-int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
+int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
                     unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
@@ -219,15 +219,15 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
         return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
 
-   /* No floppy in drive?   */
-   if (vdrive->image == NULL
-       && p->mode != BUFFER_COMMAND_CHANNEL
-       && secondary != 15
-       && *name != '#') {
-       vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
-       log_message(vdrive_iec_log, "Drive not ready.");
-       return SERIAL_ERROR;
-   }
+    /* No floppy in drive?   */
+    if (vdrive->image == NULL
+        && p->mode != BUFFER_COMMAND_CHANNEL
+        && secondary != 15
+        && *name != '#') {
+        vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
+        log_message(vdrive_iec_log, "Drive not ready.");
+        return SERIAL_ERROR;
+    }
 
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
@@ -242,7 +242,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      * status of last write ...
      */
     if (p->mode == BUFFER_COMMAND_CHANNEL) {
-        int n;
+        unsigned int n;
 
         for (n = 0; n < length; n++)
             status = vdrive_iec_write(vdrive, name[n], secondary);

@@ -53,7 +53,7 @@ void machine_bus_init(void)
         p->inuse = 0;
         p->getf = (int (*)(struct vdrive_s *, BYTE *, unsigned int))fn;
         p->putf = (int (*)(struct vdrive_s *, BYTE, unsigned int))fn;
-        p->openf = (int (*)(struct vdrive_s *, const char *, int,
+        p->openf = (int (*)(struct vdrive_s *, const BYTE *, unsigned int,
                    unsigned int))fn;
         p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
         p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
@@ -67,8 +67,8 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
                               unsigned int),
                               int (*putf)(struct vdrive_s *, BYTE,
                               unsigned int),
-                              int (*openf)(struct vdrive_s *, const char *,
-                              int, unsigned int),
+                              int (*openf)(struct vdrive_s *, const BYTE *,
+                              unsigned int, unsigned int),
                               int (*closef)(struct vdrive_s *, unsigned int),
                               void (*flushf)(struct vdrive_s *, unsigned int))
 {

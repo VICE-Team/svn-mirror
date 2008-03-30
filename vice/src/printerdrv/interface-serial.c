@@ -124,7 +124,7 @@ int interface_serial_init_cmdline_options(void)
 
 static unsigned int inuse[2];
 
-static int open_pr(unsigned int prnr, const char *name, int length,
+static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
                    unsigned int secondary)
 {
     if (inuse[prnr]) {
@@ -198,7 +198,7 @@ static void flush_pr(unsigned int prnr, unsigned int secondary)
 
 /* ------------------------------------------------------------------------- */
 
-static int open_pr4(struct vdrive_s *var, const char *name, int length,
+static int open_pr4(struct vdrive_s *var, const BYTE *name, unsigned int length,
                     unsigned int secondary)
 {
     return open_pr(0, name, length, secondary);
@@ -224,7 +224,7 @@ static void flush_pr4(struct vdrive_s *var, unsigned int secondary)
     flush_pr(0, secondary);
 }
 
-static int open_pr5(struct vdrive_s *var, const char *name, int length,
+static int open_pr5(struct vdrive_s *var, const BYTE *name, unsigned int length,
                     unsigned int secondary)
 {
     return open_pr(1, name, length, secondary);

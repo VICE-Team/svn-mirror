@@ -35,8 +35,8 @@ struct vdrive_s;
 extern void vdrive_iec_init(void);
 
 /* Generic IEC interface.  */
-extern int vdrive_iec_open(struct vdrive_s *vdrive, const char *name,
-                           int length, unsigned int secondary);
+extern int vdrive_iec_open(struct vdrive_s *vdrive, const BYTE *name,
+                           unsigned int length, unsigned int secondary);
 extern int vdrive_iec_close(struct vdrive_s *vdrive, unsigned int secondary);
 extern int vdrive_iec_read(struct vdrive_s *vdrive, BYTE *data,
                            unsigned int secondary);

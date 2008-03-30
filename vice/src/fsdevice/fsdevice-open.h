@@ -31,8 +31,8 @@
 
 struct vdrive_s;
 
-extern int fsdevice_open(struct vdrive_s *vdrive, const char *name, int length,
-                         unsigned int secondary);
+extern int fsdevice_open(struct vdrive_s *vdrive, const BYTE *name,
+                         unsigned int length, unsigned int secondary);
 
 #endif
 

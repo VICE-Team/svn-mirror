@@ -51,7 +51,7 @@ typedef struct serial_s
     char *name; /* name of the device */
     int (*getf)(struct vdrive_s *, BYTE *, unsigned int);
     int (*putf)(struct vdrive_s *, BYTE, unsigned int);
-    int (*openf)(struct vdrive_s *, const char *, int, unsigned int);
+    int (*openf)(struct vdrive_s *, const BYTE *, unsigned int, unsigned int);
     int (*closef)(struct vdrive_s *, unsigned int);
     void (*flushf)(struct vdrive_s *, unsigned int);
     BYTE nextbyte[16]; /* next byte to send, per sec. addr. */
@@ -66,7 +66,6 @@ typedef struct serial_s
     BYTE lastbyte[16];
     char lastok[16];
     int lastst[16];
-
 } serial_t;
 
 extern int serial_init(const struct trap_s *trap_list);

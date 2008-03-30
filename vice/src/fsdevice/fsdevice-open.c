@@ -257,11 +257,12 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     return FLOPPY_COMMAND_OK;
 }
 
-int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
+int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
                   unsigned int secondary)
 {
     char rname[MAXPATHLEN];
-    int status = 0, rc, i;
+    int status = 0, rc;
+    unsigned int i;
     cbmdos_cmd_parse_t cmd_parse;
 
     if (fs_info[secondary].info != NULL)
