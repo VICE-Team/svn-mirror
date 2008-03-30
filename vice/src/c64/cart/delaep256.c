@@ -35,7 +35,7 @@
 #include "c64export.h"
 #include "delaep256.h"
 #include "types.h"
-#include "vicii-phi1.h"
+
 
 /* This eprom system by DELA is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :

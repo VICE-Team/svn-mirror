@@ -35,7 +35,7 @@
 #include "c64export.h"
 #include "delaep7x8.h"
 #include "types.h"
-#include "vicii-phi1.h"
+
 
 /* This eprom system by DELA seems to be a bit more advanced
    than the EP64 and EP128. It can handle what the EP64 can

@@ -36,7 +36,7 @@
 #include "c64mem.h"
 #include "rexep256.h"
 #include "types.h"
-#include "vicii-phi1.h"
+
 
 /* This eprom system by REX is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :

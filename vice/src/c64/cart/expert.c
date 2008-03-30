@@ -39,7 +39,6 @@
 #include "resources.h"
 #include "reu.h"
 #include "types.h"
-#include "vicii-phi1.h"
 
 
 /* De-assert ~GAME */
