@@ -1,3 +1,43 @@
+1999-11-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.32.
+
+	* c128/z80.c (DO_INTERRUPT): Implemented reset.
+
+	* c128/c128.c (machine_reset): Initialize Z80 memory.
+
+	* maincpu.c, maincpu.h (maincpu_reset): New function.
+
+	* vdc/vdc-mem.c: Commented out debugging output.
+
+	* vicii/vicii.h: Fixed NTSC constants.
+
+	* Makefile.am: Removed `convio'.
+
+	* zfile.c: Use own log instead of `LOG_DEFAULT'.
+
+1999-11-20  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* win32/Makefile.am: new files uivicset.h,uivicset.c
+
+	* win32/arch.dsp: new file uivicset.c
+
+	* win32/res.h: new IDs ID._VIC_* for VIC-settings
+
+	* win32/resvic.rc: added menu-entry for VIC-settings,
+	added dialog resource for VIC-settings
+
+	* win32/uivicset.c,uivicset.h: new files implementing the
+	VIC settings i.e. memory-expansion
+
+	* win32/vic20ui.c(vic20_ui_specific): added menu-handler
+	for the VIC settings
+
+1999-11-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: added widgets for VDC double size and VDC
+	double scan.
+
 1999-11-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.1.31.
@@ -72,13 +112,13 @@
 	(vdc_raster_draw_alarm_handler, init_raster, vdc_init):
 	Changed to support single and double size mode.
 
-1999-11-17  Andreas Matthies <andreas.matthies@arcormail.de>
+1999-11-17  Andreas Matthies  <andreas.matthies@arcormail.de>
 
 	* win32/drive.dsp: updated filelist with last changes again
 
 	* win32/video.c,win32/uivicii.c: implemented change of palette
 
-1999-11-17  Andreas Dehmel (dehmel@forwiss.tu-muenchen.de)
+1999-11-17  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* drivetypes.h, drivecpu.c: encapsulated the large data of the
 	drive CPU in a new context struct drivecpud_context_t and
@@ -178,7 +218,7 @@
 
 	* interrupt.h: Use pointers exported in drivecpu.h
 
-1999-11-14  Andreas Matthies <andreas.matthies@arcormail.de>
+1999-11-14  Andreas Matthies  <andreas.matthies@arcormail.de>
 
 	* win32/drive.dsp: updated filelist with last changes
 
@@ -325,7 +365,7 @@
 	* arch/msdos/uisnapshot.c, arch/msdos/mouse.c: Added missing
 	casts.
 
-1999-10-30  Andreas Matthies <andreas.matthies@arcormail.de>
+1999-10-30  Andreas Matthies  <andreas.matthies@arcormail.de>
 
 	* arch/win32/res.rc: Use `AUTOCHECKBOX' instead of `CONTROL'.
 
@@ -412,7 +452,7 @@
 	* fsdevice.c, imagecontents.c, vdrive/vdrive-bam.c,
 	vdrive/vdrive-bam.h, vdc/vdc-draw.c: Removed some warnings.
 
-1999-10-26  Andreas Matthies <andreas.matthies@arcormail.de>
+1999-10-26  Andreas Matthies  <andreas.matthies@arcormail.de>
 
 	* win32/arch.dsp: added uidatasette.c to project.
 
@@ -702,7 +742,7 @@
 
 	* datasette.h: Removed nested comment.
 
-1999-10-14  Andreas Matthies <andreas.matthies@arcormail.de>
+1999-10-14  Andreas Matthies  <andreas.matthies@arcormail.de>
 
 	* win32/res.h: two new menu-identifier for Datasette
 
@@ -3108,7 +3148,7 @@
 	arch/msdos/tuifs.c, arch/msdos/video.c, warn.c, arch/win32/kbd.c,
 	arch/win32/winmain.c: Use `xmalloc'.
 
-1999-06-01  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+1999-06-01  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* arch/riscos/config.h, arch/riscos/Makefile.am: forgot to add
 	config.h to Makefile.am the last time.
@@ -3170,7 +3210,7 @@
 
 	* raster/raster.c: Do not define `RECALC_FRAME_BUFFER' for now.
 
-1999-05-25  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+1999-05-25  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* arch/riscos/*: now compiles again; added optional status bar
 	in full screen mode.
@@ -4289,7 +4329,7 @@
 	and `c:foo' are absolute.
 	* arch/win32/archdep.c (archdep_path_is_relative): Likewise.
 
-1999-05-04  Tibor Biczo <crown@mail.matav.hu>
+1999-05-04  Tibor Biczo  <crown@mail.matav.hu>
 
 	* arch/msdos/archdep.c (archdep_path_is_relative): Return value
 	  was bad, should have been negated.

@@ -470,11 +470,11 @@ static UI_CALLBACK(about)
 #endif
              "",
              "Copyright © 1996-1999 Ettore Perazzoli",
-             "Copyright © 1996-1999 André Fachat",
-             "Copyright © 1993-1994, 1997-1999 Teemu Rantanen",
              "Copyright © 1997-1999 Daniel Sladic",
              "Copyright © 1998-1999 Andreas Boose",
              "Copyright © 1998-1999 Tibor Biczo",
+             "Copyright C 1996-1999 André Fachat",
+             "Copyright C 1993-1994, 1997-1999 Teemu Rantanen",
              "Copyright © 1993-1996 Jouko Valta",
              "Copyright © 1993-1994 Jarkko Sonninen",
 #ifdef HAVE_RESID
