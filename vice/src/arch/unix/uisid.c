@@ -42,8 +42,14 @@ UI_MENU_DEFINE_RADIO(SidEngine)
 ui_menu_entry_t sid_engine_submenu[] = {
     { N_("*Fast SID"), (ui_callback_t)radio_SidEngine,
       (ui_callback_data_t)SID_ENGINE_FASTSID, NULL },
+#ifdef HAVE_RESID
+    { N_("*ReSID"), (ui_callback_t)radio_SidEngine,
+      (ui_callback_data_t)SID_ENGINE_RESID, NULL },
+#endif
+#ifdef HAVE_CATWEASELMKIII
     { N_("*Catweasle MKIII"), (ui_callback_t)radio_SidEngine,
       (ui_callback_data_t)SID_ENGINE_CATWEASELMKIII, NULL },
+#endif
     { NULL }
 };
 

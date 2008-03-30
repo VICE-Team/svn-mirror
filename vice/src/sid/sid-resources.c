@@ -45,7 +45,6 @@
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
-static int sid_useresid;
 static int sid_resid_sampling;
 static int sid_resid_passband;
 int sid_stereo;
@@ -60,6 +59,9 @@ static int set_sid_engine(resource_value_t v, void *param)
     engine = (int)v;
 
     if (engine != SID_ENGINE_FASTSID
+#ifdef HAVE_RESID
+        && engine != SID_ENGINE_RESID
+#endif
 #ifdef HAVE_CATWEASELMKIII
         && engine != SID_ENGINE_CATWEASELMKIII
 #endif
@@ -69,6 +71,7 @@ static int set_sid_engine(resource_value_t v, void *param)
     sid_engine = engine;
 
     sid_engine_set(engine);
+    sound_state_changed = 1;
 
     return 0;
 }
@@ -108,13 +111,7 @@ static int set_sid_model(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_sid_useresid(resource_value_t v, void *param)
-{
-    sid_useresid = (int)v;
-    sound_state_changed = 1;
-    return 0;
-}
-
+#ifdef HAVE_RESID
 static int set_sid_resid_sampling(resource_value_t v, void *param)
 {
     sid_resid_sampling = (int)v;
@@ -137,6 +134,7 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
     sid_state_changed = 1;
     return 0;
 }
+#endif
 
 static resource_t resources[] = {
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
@@ -151,15 +149,14 @@ static resource_t resources[] = {
     { "SidStereo", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_stereo,
       set_sid_stereo, NULL },
-    { "SidUseResid", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_useresid,
-      set_sid_useresid, NULL },
+#ifdef HAVE_RESID
     { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_resid_sampling,
       set_sid_resid_sampling, NULL },
     { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
       (resource_value_t *)&sid_resid_passband,
       set_sid_resid_passband, NULL },
+#endif
     { NULL }
 };
 

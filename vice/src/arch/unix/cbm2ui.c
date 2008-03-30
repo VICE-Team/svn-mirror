@@ -277,10 +277,6 @@ static ui_menu_entry_t set_sid_stereo_address_daxx_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
-#ifdef HAVE_RESID
-UI_MENU_DEFINE_TOGGLE(SidUseResid)
-#endif
-
 static ui_menu_entry_t sid_submenu[] = {
     { N_("SID engine"),
       NULL, NULL, sid_engine_submenu },
@@ -296,8 +292,6 @@ static ui_menu_entry_t sid_submenu[] = {
       NULL, NULL, sid_model_submenu },
 #ifdef HAVE_RESID
     { "--" },
-    { N_("*Use reSID emulation"),
-      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
     { N_("reSID sampling method"),
       NULL, NULL, sid_resid_sampling_submenu },
     { N_("reSID resampling passband..."),
@@ -309,6 +303,8 @@ static ui_menu_entry_t sid_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sid_options_submenu[] = {
+    { N_("SID engine"),
+      NULL, NULL, sid_engine_submenu },
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
     { N_("*Second SID"),
@@ -316,10 +312,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
     { N_("*Second SID base address"),
       NULL, NULL, set_sid_stereo_address_daxx_submenu },
     { "--" },
-#ifdef HAVE_RESID
-    { N_("*Use reSID emulation"),
-      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
-#endif
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),

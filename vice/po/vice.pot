@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-02-16 21:14+0100\n"
+"POT-Creation-Date: 2003-02-23 15:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,214 +56,209 @@ msgstr ""
 msgid "*NTSC-M"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:148 src/arch/unix/c64ui.c:215
-#: src/arch/unix/cbm2ui.c:285
+#: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
+#: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
+#: src/arch/unix/cbm2ui.c:281 src/arch/unix/cbm2ui.c:306
 msgid "SID engine"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:151 src/arch/unix/c128ui.c:177
-#: src/arch/unix/c64ui.c:218 src/arch/unix/c64ui.c:244
-#: src/arch/unix/cbm2ui.c:288 src/arch/unix/cbm2ui.c:314
+#: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
+#: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
+#: src/arch/unix/cbm2ui.c:284 src/arch/unix/cbm2ui.c:310
 msgid "*Second SID"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:153 src/arch/unix/c128ui.c:179
-#: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:246
-#: src/arch/unix/cbm2ui.c:290 src/arch/unix/cbm2ui.c:316
+#: src/arch/unix/c128ui.c:149 src/arch/unix/c128ui.c:175
+#: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:242
+#: src/arch/unix/cbm2ui.c:286 src/arch/unix/cbm2ui.c:312
 msgid "*Second SID base address"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:156 src/arch/unix/c128ui.c:185
-#: src/arch/unix/c64ui.c:223 src/arch/unix/c64ui.c:252
-#: src/arch/unix/cbm2ui.c:293 src/arch/unix/cbm2ui.c:323
+#: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:177
+#: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
+#: src/arch/unix/cbm2ui.c:289 src/arch/unix/cbm2ui.c:315
 msgid "*Emulate filters"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:158 src/arch/unix/c128ui.c:187
-#: src/arch/unix/c64ui.c:225 src/arch/unix/c64ui.c:254
-#: src/arch/unix/cbm2ui.c:295 src/arch/unix/cbm2ui.c:325
+#: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:179
+#: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:246
+#: src/arch/unix/cbm2ui.c:291 src/arch/unix/cbm2ui.c:317
 msgid "Chip model"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:162 src/arch/unix/c128ui.c:182
-#: src/arch/unix/c64ui.c:229 src/arch/unix/c64ui.c:249
-#: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:320
-msgid "*Use reSID emulation"
-msgstr ""
-
-#: src/arch/unix/c128ui.c:164 src/arch/unix/c64ui.c:231
-#: src/arch/unix/cbm2ui.c:301
+#: src/arch/unix/c128ui.c:158 src/arch/unix/c64ui.c:225
+#: src/arch/unix/cbm2ui.c:295
 msgid "reSID sampling method"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:166 src/arch/unix/c64ui.c:233
-#: src/arch/unix/cbm2ui.c:303
+#: src/arch/unix/c128ui.c:160 src/arch/unix/c64ui.c:227
+#: src/arch/unix/cbm2ui.c:297
 msgid "reSID resampling passband..."
 msgstr ""
 
-#: src/arch/unix/c128ui.c:175 src/arch/unix/c64ui.c:242
-#: src/arch/unix/cbm2ui.c:312 src/arch/unix/uisound.c:120
+#: src/arch/unix/c128ui.c:171 src/arch/unix/c64ui.c:238
+#: src/arch/unix/cbm2ui.c:308 src/arch/unix/uisound.c:120
 msgid "*Enable sound playback"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:211
+#: src/arch/unix/c128ui.c:203
 msgid "Function ROM image"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:216
+#: src/arch/unix/c128ui.c:208
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:221
+#: src/arch/unix/c128ui.c:213
 msgid "*Enable internal Function ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:223
+#: src/arch/unix/c128ui.c:215
 msgid "Internal Function ROM name..."
 msgstr ""
 
-#: src/arch/unix/c128ui.c:227
+#: src/arch/unix/c128ui.c:219
 msgid "*Enable external Function ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:229
+#: src/arch/unix/c128ui.c:221
 msgid "External Function ROM name..."
 msgstr ""
 
-#: src/arch/unix/c128ui.c:236
+#: src/arch/unix/c128ui.c:228
 msgid "Function ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:239 src/arch/unix/c64ui.c:267
+#: src/arch/unix/c128ui.c:231 src/arch/unix/c64ui.c:259
 msgid "RAM Expansion Unit"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:241 src/arch/unix/c64ui.c:269
+#: src/arch/unix/c128ui.c:233 src/arch/unix/c64ui.c:261
 #: src/arch/unix/petui.c:285 src/arch/unix/vic20ui.c:180
 msgid "*Emulator identification"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:243
+#: src/arch/unix/c128ui.c:235
 msgid "*IEEE488 interface emulation"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:246 src/arch/unix/c64ui.c:272
+#: src/arch/unix/c128ui.c:238 src/arch/unix/c64ui.c:264
 msgid "*1351 Mouse Emulation"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:255 src/arch/unix/c64ui.c:281
+#: src/arch/unix/c128ui.c:247 src/arch/unix/c64ui.c:273
 #: src/arch/unix/vic20ui.c:113
 msgid "Load default ROMs"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:259
+#: src/arch/unix/c128ui.c:251
 msgid "Load new Int. Kernal ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:262
+#: src/arch/unix/c128ui.c:254
 msgid "Load new German Kernal ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:265
+#: src/arch/unix/c128ui.c:257
 msgid "Load new Basic Lo ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:268
+#: src/arch/unix/c128ui.c:260
 msgid "Load new Basic Hi ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:271
+#: src/arch/unix/c128ui.c:263
 msgid "Load new Chargen ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:275 src/arch/unix/c64ui.c:295
+#: src/arch/unix/c128ui.c:267 src/arch/unix/c64ui.c:287
 #: src/arch/unix/vic20ui.c:126
 msgid "Load new drive ROM"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:278 src/arch/unix/c64ui.c:298
+#: src/arch/unix/c128ui.c:270 src/arch/unix/c64ui.c:290
 #: src/arch/unix/cbm2ui.c:120 src/arch/unix/petui.c:224
 #: src/arch/unix/vic20ui.c:129
 msgid "Load custom ROM set from file"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:280 src/arch/unix/c64ui.c:300
+#: src/arch/unix/c128ui.c:272 src/arch/unix/c64ui.c:292
 #: src/arch/unix/cbm2ui.c:122 src/arch/unix/petui.c:226
 #: src/arch/unix/vic20ui.c:131
 msgid "Dump ROM set definition to file"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:303
+#: src/arch/unix/c128ui.c:295
 msgid "VIC II Screenshot"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:305
+#: src/arch/unix/c128ui.c:297
 msgid "VDC Screenshot"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:311
+#: src/arch/unix/c128ui.c:303
 msgid "Screenshots..."
 msgstr ""
 
-#: src/arch/unix/c128ui.c:340
+#: src/arch/unix/c128ui.c:332
 msgid "Machine type"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:342 src/arch/unix/cbm2ui.c:227
+#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:227
 #: src/arch/unix/petui.c:260 src/arch/unix/vic20ui.c:166
 msgid "ROM sets"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:350 src/arch/unix/c64ui.c:333
+#: src/arch/unix/c128ui.c:342 src/arch/unix/c64ui.c:325
 msgid "VIC-II settings"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:352
+#: src/arch/unix/c128ui.c:344
 msgid "VDC settings"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:354 src/arch/unix/c64ui.c:335
-#: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:172
+#: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
+#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:172
 msgid "SID settings"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:356
+#: src/arch/unix/c128ui.c:348
 msgid "Memory and I/O extensions"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:358 src/arch/unix/c64ui.c:339
-#: src/arch/unix/cbm2ui.c:374 src/arch/unix/vic20ui.c:353
+#: src/arch/unix/c128ui.c:350 src/arch/unix/c64ui.c:331
+#: src/arch/unix/cbm2ui.c:366 src/arch/unix/vic20ui.c:353
 msgid "RS232 settings"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:360
+#: src/arch/unix/c128ui.c:352
 msgid "Model settings"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:418 src/arch/unix/c64ui.c:396
-#: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:379
+#: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
+#: src/arch/unix/cbm2ui.c:455 src/arch/unix/petui.c:379
 #: src/arch/unix/plus4ui.c:146 src/arch/unix/vic20ui.c:468
 #: src/arch/unix/vsidui.c:256
 msgid "File"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:437 src/arch/unix/c64ui.c:415
-#: src/arch/unix/cbm2ui.c:480 src/arch/unix/petui.c:396
+#: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:407
+#: src/arch/unix/cbm2ui.c:472 src/arch/unix/petui.c:396
 #: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:487
 msgid "Snapshot"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:443 src/arch/unix/c64ui.c:421
-#: src/arch/unix/cbm2ui.c:486 src/arch/unix/petui.c:402
+#: src/arch/unix/c128ui.c:435 src/arch/unix/c64ui.c:413
+#: src/arch/unix/cbm2ui.c:478 src/arch/unix/petui.c:402
 #: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:493
 msgid "Options"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:433
-#: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
+#: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
+#: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:499
 #: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1106
 #: src/arch/unix/x11/gnome/x11ui.c:1198
@@ -272,8 +267,8 @@ msgstr ""
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:447
-#: src/arch/unix/cbm2ui.c:510 src/arch/unix/petui.c:424
+#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:439
+#: src/arch/unix/cbm2ui.c:502 src/arch/unix/petui.c:424
 #: src/arch/unix/plus4ui.c:191 src/arch/unix/vic20ui.c:514
 msgid "RJHelp"
 msgstr ""
@@ -282,29 +277,29 @@ msgstr ""
 msgid "*Old NTSC-M"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:285 src/arch/unix/petui.c:183
+#: src/arch/unix/c64ui.c:277 src/arch/unix/petui.c:183
 msgid "Load new kernal ROM"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:288 src/arch/unix/petui.c:189
+#: src/arch/unix/c64ui.c:280 src/arch/unix/petui.c:189
 msgid "Load new BASIC ROM"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:291 src/arch/unix/petui.c:193
+#: src/arch/unix/c64ui.c:283 src/arch/unix/petui.c:193
 msgid "Load new character ROM"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:323 src/arch/unix/cbm2ui.c:404
+#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:396
 #: src/arch/unix/petui.c:319 src/arch/unix/plus4ui.c:67
 #: src/arch/unix/vic20ui.c:394
 msgid "Screenshot..."
 msgstr ""
 
-#: src/arch/unix/c64ui.c:331
+#: src/arch/unix/c64ui.c:323
 msgid "ROM settings"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:337
+#: src/arch/unix/c64ui.c:329
 msgid "I/O extensions at $DFxx"
 msgstr ""
 
@@ -420,49 +415,49 @@ msgstr ""
 msgid "Keyboard type"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:235
+#: src/arch/unix/cbm2ui.c:325 src/arch/unix/petui.c:235
 msgid "ACIA device"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:336 src/arch/unix/petui.c:238
+#: src/arch/unix/cbm2ui.c:328 src/arch/unix/petui.c:238
 #: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:334
 msgid "Serial 1 device..."
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:240
+#: src/arch/unix/cbm2ui.c:330 src/arch/unix/petui.c:240
 #: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:336
 msgid "Serial 1 baudrate"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:243
+#: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:243
 #: src/arch/unix/vic20ui.c:339
 msgid "Serial 2 device..."
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:245
+#: src/arch/unix/cbm2ui.c:335 src/arch/unix/petui.c:245
 #: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:341
 msgid "Serial 2 baudrate"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:248
+#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:248
 #: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:344
 msgid "Dump filename..."
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:349 src/arch/unix/petui.c:251
+#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:251
 #: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:347
 msgid "Program name to exec..."
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:372
+#: src/arch/unix/cbm2ui.c:364
 msgid "CBM-II model settings"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:377 src/arch/unix/petui.c:296
+#: src/arch/unix/cbm2ui.c:369 src/arch/unix/petui.c:296
 msgid "Crtc settings"
 msgstr ""
 
-#: src/arch/unix/cbm2ui.c:379
+#: src/arch/unix/cbm2ui.c:371
 msgid "*VIC-II settings"
 msgstr ""
 
@@ -1929,41 +1924,45 @@ msgstr ""
 msgid "*Fast SID"
 msgstr ""
 
-#: src/arch/unix/uisid.c:45
+#: src/arch/unix/uisid.c:46
+msgid "*ReSID"
+msgstr ""
+
+#: src/arch/unix/uisid.c:50
 msgid "*Catweasle MKIII"
 msgstr ""
 
-#: src/arch/unix/uisid.c:53
+#: src/arch/unix/uisid.c:59
 msgid "*6581 (old)"
 msgstr ""
 
-#: src/arch/unix/uisid.c:55
+#: src/arch/unix/uisid.c:61
 msgid "*8580 (new)"
 msgstr ""
 
-#: src/arch/unix/uisid.c:57
+#: src/arch/unix/uisid.c:63
 msgid "*8580 + digi boost"
 msgstr ""
 
-#: src/arch/unix/uisid.c:66
+#: src/arch/unix/uisid.c:72
 msgid "*Fast"
 msgstr ""
 
-#: src/arch/unix/uisid.c:68
+#: src/arch/unix/uisid.c:74
 msgid "*Interpolating"
 msgstr ""
 
-#: src/arch/unix/uisid.c:70
+#: src/arch/unix/uisid.c:76
 msgid "*Resampling"
 msgstr ""
 
-#: src/arch/unix/uisid.c:87
+#: src/arch/unix/uisid.c:93
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
 
-#: src/arch/unix/uisid.c:88
+#: src/arch/unix/uisid.c:94
 msgid "Passband percentage"
 msgstr ""
 

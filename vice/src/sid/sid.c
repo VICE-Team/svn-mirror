@@ -200,17 +200,17 @@ void sid_reset(void)
 }
 
 
-static int useresid;
+static int sidengine;
 
 sound_t *sound_machine_open(int chipno)
 {
 #ifdef HAVE_RESID
-    useresid = 0;
+    sidengine = 0;
 
-    if (resources_get_value("SidUseResid", (resource_value_t *)&useresid) < 0)
+    if (resources_get_value("SidEngine", (resource_value_t *)&sidengine) < 0)
         return NULL;
 
-    if (useresid)
+    if (sidengine == SID_ENGINE_RESID)
 	sid_engine = resid_hooks;
     else
 #endif
@@ -266,7 +266,20 @@ char *sound_machine_dump_state(sound_t *psid)
 
 int sound_machine_cycle_based(void)
 {
-    return useresid;
+    switch (sidengine) {
+      case SID_ENGINE_FASTSID:
+        return 0;
+#ifdef HAVE_RESID
+      case SID_ENGINE_RESID:
+        return 1;
+#endif
+#ifdef HAVE_CATWEASELMKIII
+      case SID_ENGINE_CATWEASELMKIII:
+        return 0;
+#endif
+    }
+
+    return 0;
 }
 
 int sound_machine_channels(void)
@@ -283,6 +296,12 @@ void set_sound_func(void)
             sid_read_func = sound_read;
             sid_store_func = sound_store;
         }
+#ifdef HAVE_RESID
+        if (sid_engine_type == SID_ENGINE_RESID) {
+            sid_read_func = sound_read;
+            sid_store_func = sound_store;
+        }
+#endif
 #ifdef HAVE_CATWEASELMKIII
         if (sid_engine_type == SID_ENGINE_CATWEASELMKIII) {
             sid_read_func = catweaselmkiii_read;

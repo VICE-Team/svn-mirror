@@ -35,6 +35,8 @@
 
 
 static cmdline_option_t cmdline_options[] = {
+    { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
+      "<engine>", "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)" },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
       NULL, "Enable second SID" },
@@ -50,12 +52,6 @@ static cmdline_option_t cmdline_options[] = {
       (void *)0,
       NULL, "Do not emulate SID filters" },
 #ifdef HAVE_RESID
-    { "-resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
-      (void *)1,
-      NULL, "Use reSID emulation" },
-    { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
-      (void *)0,
-      NULL, "Use fast SID emulation" },
     { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
       (void *)0, NULL,
       "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
