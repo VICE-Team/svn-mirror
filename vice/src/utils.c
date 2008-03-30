@@ -42,7 +42,6 @@
 #else
 #include <fcntl.h>
 #include <sys/types.h>
-#include <sys/stat.h>
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -387,9 +386,8 @@ char *get_current_dir(void)
 /* ------------------------------------------------------------------------- */
 
 /* Return the length of an open file in bytes.  */
-unsigned long file_length(file_desc_t fd)
+unsigned long file_length(FILE *fd)
 {
-#ifdef __riscos
     size_t off, filesize;
 
     off = ftell(fd);
@@ -397,36 +395,25 @@ unsigned long file_length(file_desc_t fd)
     filesize = ftell(fd);
     fseek(fd, off, SEEK_SET);
     return filesize;
-#else
-    struct stat statbuf;
-
-    if (fstat(fd, &statbuf) < 0)
-	return -1;
-
-    return statbuf.st_size;
-#endif
 }
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
 int load_file(const char *name, void *dest, int size)
 {
-    file_desc_t fd;
+    FILE *fd;
     int r;
 
-    fd = open(name, O_RDONLY);
-    if (fd == ILLEGAL_FILE_DESC)
-	return -1;
+    fd = fopen(name, MODE_READ);
+    if (fd == NULL)
+        return -1;
 
-    r = read(fd, (char *)dest, size);
+    r = fread((char *)dest, size, 1, fd);
 
-    if (r != size) {
-	close(fd);
-	return -1;
-    } else {
-	close(fd);
-	return 0;
-    }
+    fclose(fd);
+    if (r < 1)
+       return -1;
+    return 0;
 }
 
 /* Write the first `size' bytes of `src' into a newly created file `name'.
@@ -434,22 +421,20 @@ int load_file(const char *name, void *dest, int size)
    success, -1 on failure.  */
 int save_file(const char *name, const void *src, int size)
 {
-    file_desc_t fd;
+    FILE *fd;
     int r;
 
-    fd = open(name, O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    if (fd == ILLEGAL_FILE_DESC)
-	return -1;
+    fd = fopen(name, MODE_WRITE);
+    if (fd == NULL)
+        return -1;
 
-    r = write(fd, (char *)src, size);
+    r = fwrite((char *)src, size, 1, fd);
 
-    if (r != size) {
-	close(fd);
-	return -1;
-    } else {
-	close(fd);
-	return 0;
-    }
+    fclose(fd);
+
+    if (r  < 1)
+        return -1;
+    return 0;
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something
@@ -530,27 +515,27 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 
 /* ------------------------------------------------------------------------- */
 
-int read_dword(file_desc_t fd, DWORD *buf, int num)
+int read_dword(FILE *fd, DWORD *buf, int num)
 {
     int i;
     BYTE *tmpbuf;
 
     tmpbuf = xmalloc(num);
 
-    if (read(fd, (char *)tmpbuf, num) < num) {
-	free(tmpbuf);
-	return -1;
+    if (fread((char *)tmpbuf, num, 1, fd) < 1) {
+        free(tmpbuf);
+        return -1;
     }
 
     for (i = 0; i < (num / 4); i++)
-	buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
-                  + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
+        buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
+            + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
 
     free(tmpbuf);
     return 0;
 }
 
-int write_dword(file_desc_t fd, DWORD *buf, int num)
+int write_dword(FILE *fd, DWORD *buf, int num)
 {
     int i;
     BYTE *tmpbuf;
@@ -558,15 +543,15 @@ int write_dword(file_desc_t fd, DWORD *buf, int num)
     tmpbuf = xmalloc(num);
 
     for (i = 0; i < (num / 4); i++) {
-	tmpbuf[i * 4] = buf[i] & 0xff;
-	tmpbuf[i * 4 + 1] = (buf[i] >> 8) & 0xff;
-	tmpbuf[i * 4 + 2] = (buf[i] >> 16) & 0xff;
-	tmpbuf[i * 4 + 3] = (buf[i] >> 24) & 0xff;
+        tmpbuf[i * 4] = buf[i] & 0xff;
+        tmpbuf[i * 4 + 1] = (buf[i] >> 8) & 0xff;
+        tmpbuf[i * 4 + 2] = (buf[i] >> 16) & 0xff;
+        tmpbuf[i * 4 + 3] = (buf[i] >> 24) & 0xff;
     }
 
-    if (write(fd, (char *)tmpbuf, num) < 0) {
-	free(tmpbuf);
-	return -1;
+    if (fwrite((char *)tmpbuf, num, 1, fd) < 1) {
+        free(tmpbuf);
+        return -1;
     }
 
     free(tmpbuf);

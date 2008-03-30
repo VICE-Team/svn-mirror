@@ -86,7 +86,7 @@ struct zfile {
     char *orig_name;		/* Name of the original file.  */
     int write_mode;		/* Non-zero if the file is open for writing.  */
     FILE *stream;		/* Associated stdio-style stream.  */
-    file_desc_t fd;		/* Associated file descriptor.  */
+    FILE *fd;			/* Associated file descriptor.  */
     enum compression_type type;	/* Compression algorithm.  */
     struct zfile *prev, *next;  /* Link to the previous and next nodes.  */
     zfile_action_t action;	/* action on close */
@@ -129,7 +129,7 @@ static void zfile_list_add(const char *tmp_name,
 			   const char *orig_name,
 			   enum compression_type type,
 			   int write_mode,
-			   FILE *stream, file_desc_t fd)
+			   FILE *stream, FILE *fd)
 {
     struct zfile *new_zfile = (struct zfile *)xmalloc(sizeof(struct zfile));
 
@@ -484,26 +484,26 @@ static const char *try_uncompress_zipcode(const char *name, int write_mode)
 {
     static char tmp_name[L_tmpnam];
     int i, count, sector, sectors = 0;
-    file_desc_t fd;
+    FILE *fd;
     char tmp[256];
     char *argv[5];
     int	exit_status;
 
     /* can we read this file? */
-    fd = open(name, O_RDONLY);
-    if (fd == ILLEGAL_FILE_DESC)
+    fd = fopen(name, MODE_READ);
+    if (fd == NULL)
         return NULL;
     /* Read first track to see if this is zipcode */
-    lseek(fd, 4, SEEK_SET);
+    fseek(fd, 4, SEEK_SET);
     for (count = 1; count < 21; count++) {
         i = zipcode_read_sector(fd, 1, &sector, tmp);
         if (i || sector < 0 || sector > 20 || (sectors & (1 << sector))) {
-            close(fd);
+            fclose(fd);
             return NULL;
         }
         sectors |= 1 << sector;
     }
-    close(fd);
+    fclose(fd);
 
     /* it is a zipcode. We cannot support write_mode */
     if (write_mode)
@@ -540,26 +540,26 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
 {
     static char tmp_name[L_tmpnam];
     int i, count;
-    file_desc_t fd;
+    FILE *fd;
     char tmp[256];
     char *argv[20];
     int exit_status;
 
     /* can we read this file? */
-    fd = open(name, O_RDONLY);
-    if (fd == ILLEGAL_FILE_DESC)
-	return NULL;
+    fd = fopen(name, MODE_READ);
+    if (fd == NULL)
+        return NULL;
     /* is this lynx -image? */
-    i = read(fd, tmp, 2);
+    i = fread(tmp, 1, 2, fd);
     if (i != 2 || tmp[0] != 1 || tmp[1] != 8) {
-	close(fd);
+	fclose(fd);
 	return NULL;
     }
     count = 0;
     while (1) {
-	i = read(fd, tmp, 1);
+	i = fread(tmp, 1, 1, fd);
 	if (i != 1) {
-	    close(fd);
+	    fclose(fd);
 	    return NULL;
 	}
 	if (tmp[0])
@@ -569,16 +569,16 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
 	if (count == 3)
 	    break;
     }
-    i = read(fd, tmp, 1);
+    i = fread(tmp, 1, 1, fd);
     if (i != 1 || tmp[0] != 13) {
-	close(fd);
+	fclose(fd);
 	return NULL;
     }
     count = 0;
     while (1) {
-	i = read(fd, &tmp[count], 1);
+	i = fread(&tmp[count], 1, 1, fd);
 	if (i != 1 || count == 254) {
-	    close(fd);
+	    fclose(fd);
 	    return NULL;
 	}
 	if (tmp[count++] == 13)
@@ -586,12 +586,12 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
     }
     tmp[count] = 0;
     if (!atoi(tmp)) {
-	close(fd);
-	return NULL;
+        fclose(fd);
+        return NULL;
     }
     /* XXX: this is not a full check, but perhaps enough? */
 
-    close(fd);
+    fclose(fd);
 
     /* it is a lynx image. We cannot support write_mode */
     if (write_mode)
@@ -861,6 +861,7 @@ static int compress(const char *src, const char *dest,
    When a file that was opened for writing is closed, we re-compress the
    uncompressed version and update the original file.  */
 
+#if 0
 /* `open()' wrapper.  */
 file_desc_t zopen(const char *name, mode_t opt, int flags)
 {
@@ -877,18 +878,18 @@ file_desc_t zopen(const char *name, mode_t opt, int flags)
 
     /* Check for write permissions.  */
     if (write_mode && access(name, W_OK) < 0)
-	return ILLEGAL_FILE_DESC;
+        return -1;
 
     type = try_uncompress(name, &tmp_name, write_mode);
     if (type == COMPR_NONE) {
 	fd = open(name, opt, flags);
-        if (fd == ILLEGAL_FILE_DESC)
+        if (fd == -1)
 	    return fd;
         zfile_list_add(NULL, name, type, write_mode, NULL, fd);
 	return fd;
     } else if (*tmp_name == '\0') {
 	errno = EACCES;
-	return ILLEGAL_FILE_DESC;
+	return -1;
     }
 
     /* (Arghl...  The following code is very nice, except that it cannot work
@@ -914,12 +915,13 @@ file_desc_t zopen(const char *name, mode_t opt, int flags)
 
     /* Open the uncompressed version of the file.  */
     fd = open(tmp_name, opt, flags);
-    if (fd == ILLEGAL_FILE_DESC)
+    if (fd == -1)
 	return fd;
 
     zfile_list_add(tmp_name, name, type, write_mode, NULL, fd);
     return fd;
 }
+#endif
 
 /* `fopen()' wrapper.  */
 FILE *zfopen(const char *name, const char *mode)
@@ -944,8 +946,7 @@ FILE *zfopen(const char *name, const char *mode)
 	stream = fopen(name, mode);
         if (stream == NULL)
 	    return NULL;
-        zfile_list_add(NULL, name, type, write_mode, stream, 
-							ILLEGAL_FILE_DESC);
+        zfile_list_add(NULL, name, type, write_mode, stream, NULL);
 	return stream;
     } else if (*tmp_name == '\0') {
 	errno = EACCES;
@@ -957,7 +958,7 @@ FILE *zfopen(const char *name, const char *mode)
     if (stream == NULL)
 	return NULL;
 
-    zfile_list_add(tmp_name, name, type, write_mode, stream, ILLEGAL_FILE_DESC);
+    zfile_list_add(tmp_name, name, type, write_mode, stream, NULL);
     return stream;
 }
 
@@ -1026,6 +1027,7 @@ static int handle_close(struct zfile *ptr)
     return 0;
 }
 
+#if 0
 /* `close()' wrapper.  */
 int zclose(file_desc_t fd)
 {
@@ -1064,6 +1066,7 @@ int zclose(file_desc_t fd)
     ZDEBUG(("zclose: file descriptor not in the list, closing normally."));
     return close(fd);
 }
+#endif
 
 /* `fclose()' wrapper.  */
 int zfclose(FILE *stream)
@@ -1095,6 +1098,7 @@ int zfclose(FILE *stream)
     return fclose(stream);
 }
 
+#if 0
 /* Close all files.  */
 int zclose_all(void)
 {
@@ -1108,7 +1112,7 @@ int zclose_all(void)
 	if (p->stream != NULL) {
 	    if (fclose(p->stream) == -1)
 		ret = -1;
-	} else if (p->fd != ILLEGAL_FILE_DESC) {
+	} else if (p->fd != -1) {
 	    if (close(p->fd) == -1)
 		ret = -1;
 	} else {
@@ -1149,6 +1153,7 @@ int zclose_all(void)
     }
     return ret;
 }
+#endif
 
 int zfile_close_action(const char *filename, zfile_action_t action, 
 						const char *request_str)

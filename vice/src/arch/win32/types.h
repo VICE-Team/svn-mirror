@@ -80,8 +80,5 @@ typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #define REGPARM3
 #endif
 
-typedef int file_desc_t;
-#define ILLEGAL_FILE_DESC      -1
-
 #endif  /* _TYPES_H */
 

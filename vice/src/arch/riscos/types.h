@@ -84,15 +84,5 @@ typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #define REGPARM2
 #define REGPARM3
 
-#include <stdio.h>
-typedef FILE *file_desc_t;
-#define ILLEGAL_FILE_DESC      NULL
-extern file_desc_t open(const char *file, int oflag, ...);
-extern int lseek(file_desc_t fd, int offset, int whence);
-extern int read(file_desc_t fd, void *buf, int nbytes);
-extern int write(file_desc_t fd, void *buf, int nbytes);
-extern int close(file_desc_t fd);
-extern file_desc_t fileno(file_desc_t);
-
 #endif  /* _TYPES_H */
 
