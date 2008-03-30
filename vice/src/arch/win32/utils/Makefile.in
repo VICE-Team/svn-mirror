@@ -20,7 +20,7 @@ VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ../../../..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -226,63 +226,32 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-INCLUDES = \
-	@ARCH_INCLUDES@ \
-	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
-
-
-noinst_LIBRARIES = libvdrive.a
-
-libvdrive_a_SOURCES = \
-	vdrive-bam.c \
-	vdrive-bam.h \
-	vdrive-command.c \
-	vdrive-command.h \
-	vdrive-dir.c \
-	vdrive-dir.h \
-	vdrive-iec.c \
-	vdrive-iec.h \
-	vdrive-internal.c \
-	vdrive-internal.h \
-	vdrive-rel.c \
-	vdrive-rel.h \
-	vdrive-snapshot.c \
-	vdrive-snapshot.h \
-	vdrive.c \
-	vdrive.h
-
-subdir = src/vdrive
+bin_PROGRAMS = genwinres
+genwinres_SOURCES = genwinres.c
+subdir = src/arch/win32/utils
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
-LIBRARIES = $(noinst_LIBRARIES)
+bin_PROGRAMS = genwinres$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
 
-libvdrive_a_AR = $(AR) cru
-libvdrive_a_LIBADD =
-am_libvdrive_a_OBJECTS = vdrive-bam.$(OBJEXT) vdrive-command.$(OBJEXT) \
-	vdrive-dir.$(OBJEXT) vdrive-iec.$(OBJEXT) \
-	vdrive-internal.$(OBJEXT) vdrive-rel.$(OBJEXT) \
-	vdrive-snapshot.$(OBJEXT) vdrive.$(OBJEXT)
-libvdrive_a_OBJECTS = $(am_libvdrive_a_OBJECTS)
+am_genwinres_OBJECTS = genwinres.$(OBJEXT)
+genwinres_OBJECTS = $(am_genwinres_OBJECTS)
+genwinres_LDADD = $(LDADD)
+genwinres_DEPENDENCIES =
+genwinres_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/vdrive-bam.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive-command.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive-dir.Po ./$(DEPDIR)/vdrive-iec.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive-internal.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive-rel.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive-snapshot.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vdrive.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/genwinres.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libvdrive_a_SOURCES)
+DIST_SOURCES = $(genwinres_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libvdrive_a_SOURCES)
+SOURCES = $(genwinres_SOURCES)
 
 all: all-am
 
@@ -290,16 +259,36 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/vdrive/Makefile
+	  $(AUTOMAKE) --gnu  src/arch/win32/utils/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f || exit 1; \
+	  else :; fi; \
+	done
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libvdrive.a: $(libvdrive_a_OBJECTS) $(libvdrive_a_DEPENDENCIES) 
-	-rm -f libvdrive.a
-	$(libvdrive_a_AR) libvdrive.a $(libvdrive_a_OBJECTS) $(libvdrive_a_LIBADD)
-	$(RANLIB) libvdrive.a
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+genwinres$(EXEEXT): $(genwinres_OBJECTS) $(genwinres_DEPENDENCIES) 
+	@rm -f genwinres$(EXEEXT)
+	$(LINK) $(genwinres_LDFLAGS) $(genwinres_OBJECTS) $(genwinres_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -307,14 +296,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-bam.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-command.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-dir.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-iec.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-internal.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-rel.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive-snapshot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vdrive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/genwinres.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -397,7 +379,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../..
+top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -429,9 +411,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(PROGRAMS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 
 install: install-am
 install-exec: install-exec-am
@@ -459,7 +442,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 
@@ -476,7 +459,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
 
 install-info: install-info-am
 
@@ -500,18 +483,18 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-noinstLIBRARIES ctags distclean distclean-compile \
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
+	clean-generic ctags distclean distclean-compile \
 	distclean-depend distclean-generic distclean-tags distdir dvi \
-	dvi-am info info-am install install-am install-data \
-	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	dvi-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-info-am
+	uninstall-am uninstall-binPROGRAMS uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

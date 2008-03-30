@@ -1,3 +1,99 @@
+2005-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.15.
+
+2005-06-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed the detection of a cross-compiler
+	environment when using genwinres.
+
+2005-06-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* printerdrv/drv-nl10.c, printerdrv/output-graphics.c,
+	util.c: Changed some C++ type comments to C type comments.
+
+2005-06-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Put checking of libXpm before checking libXaw,
+	this fixes the dependancy problem on some openbsd hardware
+	platforms.
+
+2005-06-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/xaw/widgets/Directory.c: Added telldir and
+	seekdir functions if not present in the compiler environment.
+
+	* arch/unix/x11/xaw/widgets/Directory.h: Added MAXPATHLEN
+	definition if not defined, and added u_short definition when
+	not defined.
+
+2005-06-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/joy.c, arch/win32/res.rc,
+	arch/win32/resstrings.txt, arch/win32/ui-resources.c,
+	arch/win32/video.c, src/translate.c, translate.h: Added the
+	last couple of command-line help text for the new
+	internationalization.
+
+	* arch/win32/statusbar.h: Added an include to fix a problem
+	with a struct.
+
+	* arch/win32/uilib.c: Fixed a 'no newline at end of file'.
+
+	* aciacore.c, arch/win32/uicmdline.c, attach.c,
+	c128/c128-cmdline-options.c, c128/c128mmu.c,
+	c128/functionrom.c, c1541.c,
+	c64/c64-cmdline-options.c, c64/cart/c64cart.c,
+	c64/cart/ide64.c, c64/georam.c, c64/psid.c,
+	c64/ramcart.c, c64/reu.c, c64/tfe.c,
+	cbm2/cbm2-cmdline-options.c, cmdline.c, cmdline.h,
+	datasette.c, debug.c, drive/drive-cmdline-options.c,
+	drive/iec/iec-cmdline-options.c,
+	drive/iec128dcr/iec128dcr-cmdline-options.c,
+	drive/ieee/ieee-cmdline-options.c,
+	drive/tcbm/tcbm-cmdline-options.c, event.c,
+	fliplist.c, fsdevice/fsdevice-cmdline-options.c,
+	gfxoutputdrv/ffmpegdrv.c, initcmdline.c, kbdbuf.c,
+	log.c, mouse.c, pet/pet-cmdline-options.c,
+	pet/petpia1.c, petcat.c, plus4/plus4-cmdline-options.c,
+	plus4/ted-cmdline-options.c, printerdrv/driver-select.c,
+	printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c,
+	printerdrv/output-select.c, printerdrv/output-text.c,
+	ram.c, raster/raster-cmdline-options.c,
+	rs232drv/rs232drv.c, rs232drv/rsuser.c,
+	serial/serial-iec-device.c, sid/sid-cmdline-options.c,
+	sound.c, sysfile.c, traps.c, uicmdline.h,
+	vdc/vdc-cmdline-options.c,
+	vic20/vic20-cmdline-options.c, vic20/vic20cartridge.c,
+	vicii/vicii-cmdline-options.c,
+	video/video-cmdline-options.c, vsync.c: Finshed up the
+	internationalization of the command-line help text, and
+	removed the temporary duplicated functionality.
+
+2005-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am, src/arch/win32/genwinres.sh,
+	arch/win32/res.h, arch/win32/utils/Makefile.am: Added
+	automatic win32 res.h generating, for both native and cross
+	gcc compile environments.
+
+2005-06-08  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/arch.dsp, arch/win32/genwinres.dsp,
+	arch/win32/intl.c, arch/win32/res.txt,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/resstrings.txt, arch/win32/utils/genwinres.c,
+	arch/win32/vice.dsw:
+
+	* arch/win32/console.c, arch/win32/uimon.c,
+	arch/win32/uimonmsg.h:
+
+	* arch/win32/res.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc:
+
 2005-06-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.14.

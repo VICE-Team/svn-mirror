@@ -1,3 +1,17 @@
+2005-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.15.
+
+2005-06-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added u_short, libbsd, telldir and seekdir
+	checking.
+
+2005-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added cross-compile mode detection for
+	genwinres.
+
 2005-06-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.14.
