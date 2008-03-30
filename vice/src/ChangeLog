@@ -1,3 +1,45 @@
+2001-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.7.8.
+
+	* ciacore.c (mycia_store): Pass real clock value to
+	`store_ciapa' and `store_ciapb'.
+
+	* monitor/mon.h: Added prototype for
+	`mon_disassemble_to_string'.
+
+2001-10-01 Dag Lem <resid@nimrod.no> 
+
+	* sid/Makefile.am: Added sid-engine.c and sid-engine.h 
+
+	* sid/resid.cc, sid/resid.h: Renamed functions from 
+	resid_sound_machine_xxx to resid_xxx and added hook struct. 
+	Removed resid_sound_machine_init. 
+
+	* sid/sid-engine.c, sid/sid-engine.h: New files; hooks to 
+	actual SID implementation. sid_read, sid_store, and sid_reset 
+	moved from sid.c. 
+
+	* sid/sid.c, sid/sid.h: Removed all reSID code. Renamed 
+	functions from sound_machine_xxx to fastsid_xxx and added 
+	hook struct. Removed sound_machine_init. 
+
+2001-09-22 Andreas Matthies <andreas.matthies@gmx.net> 
+
+	* arch/win32/sid.dsp: added new files to MSVC project file 
+
+	* vicii/vicii-sprites.c (draw_hires_sprite, draw_mc_sprite):
+	Added parameter for pointer to the sprite data. 
+	Area at [0x13b..0x176]+n*0x10 needs special code to 
+	implement sprites pixels reating and hiding. 
+	(draw_all_sprites,draw_all_sprites_2x): sprites at 
+	xpos>=0x16c start in the same line, later they have even 
+	fetched the sprite data. 
+
+	* vicii/viciitypes.h: Changed VIC_II_SCREEN_WIDTH to 512. 
+	With lower values sprite-sprite-collisions are missed. Maybe 
+	there's a better solution for this. 
+
 2001-09-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.7.

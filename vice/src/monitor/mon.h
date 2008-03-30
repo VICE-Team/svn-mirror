@@ -132,6 +132,7 @@ extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
 
 /** Breakpoint interface.  */
+/* Defines */
 #define check_breakpoints(mem, addr) \
     mon_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
 
@@ -142,6 +143,11 @@ extern struct break_list_s *breakpoints[NUM_MEMSPACES];
 extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
                                            struct break_list_s *list);
 
+/** Disassemble interace */
+/* Prototypes */
+extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x,
+                                             BYTE p1, BYTE p2, BYTE p3,
+                                             int hex_mode);
 
 /** Register interface.  */
 extern struct mon_reg_list_s *mon_register_list_get(int mem);

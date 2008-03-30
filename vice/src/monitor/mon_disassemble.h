@@ -32,9 +32,6 @@
 #include "montypes.h"
 #include "types.h"
 
-extern const char *mon_disassemble_to_string(MEMSPACE, ADDRESS addr, BYTE x,
-                                             BYTE p1, BYTE p2, BYTE p3,
-                                             int hex_mode);
 extern const char *mon_disassemble_to_string_ex(MEMSPACE, ADDRESS addr, BYTE x,
                                              BYTE p1, BYTE p2, BYTE p3,
                                              int hex_mode, unsigned *len);
