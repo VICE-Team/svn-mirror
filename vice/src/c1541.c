@@ -116,6 +116,7 @@ static int  disk_quit ( void );
 static int  disk_system ( void );
 
 extern char sector_map[43]; /* Ugly: FIXME! */
+extern int speed_map[42];
 
 struct ms_table disk_cmds[] = {
     {"format", 1, 2, disk_format,
@@ -436,13 +437,18 @@ static int  disk_gcrformat (void)
 	close(fd);
 	return 0;
     }
-
-    gcrtrack[0] = 7692 % 256;
-    gcrtrack[1] = 7692 / 256;
     memset(&gcrtrack[2], 0, 7928);
 
-    for(track = 1; track <= 42; track++) {
-    memset(&gcrtrack[2+7928], 0, 1982);
+    for(track = 1; track <= MAX_TRACKS_1541; track++) {
+
+	int comp_speed[4] = { 0x00, 0x99, 0xaa, 0xff };
+	int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+
+	gcrtrack[0] = raw_track_size[speed_map[track - 1]] % 256;
+	gcrtrack[1] = raw_track_size[speed_map[track - 1]] / 256;
+
+	memset(&gcrtrack[2+7928], comp_speed[speed_map[track - 1]], 1982);
+
 	if(write(fd, (char *)gcrtrack, sizeof(gcrtrack)) != sizeof(gcrtrack)) {
 	    printf("Cannot write track data.\n");
 	    close(fd);
