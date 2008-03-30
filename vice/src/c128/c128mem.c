@@ -361,7 +361,7 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
                 /* (We handle only 128K here.)  */
                 ram_bank = ram + (((long) value & 0x40) << 10);
-                DEBUG(("MMU: Store CR = $%02x\n", value));
+                DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
                 DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
             }
             break;
@@ -1081,7 +1081,10 @@ int mem_load(void)
 /* Change the current video bank.  */
 void mem_set_vbank(int new_vbank)
 {
-    /* FIXME: Still to do.  */
+    if (new_vbank != vbank) {
+        vbank = new_vbank;
+        vic_ii_set_vbank(new_vbank);
+    }
 }
 
 void mem_toggle_watchpoints(int flag)
