@@ -615,9 +615,9 @@ debug.o: debug.c vice.h config.h cmdline.h debug.h arch/unix/types.h \
 dma.o: dma.c vice.h config.h dma.h arch/unix/types.h interrupt.h
 emuid.o: emuid.c arch/unix/types.h vice.h config.h
 event.o: event.c vice.h config.h alarm.h arch/unix/types.h \
-	arch/unix/archdep.h archapi.h cmdline.h event.h interrupt.h \
-	joystick.h keyboard.h log.h machine.h maincpu.h resources.h \
-	snapshot.h utils.h
+	arch/unix/archdep.h archapi.h clkguard.h cmdline.h event.h \
+	interrupt.h joystick.h keyboard.h log.h machine.h maincpu.h \
+	resources.h snapshot.h arch/unix/ui.h uiapi.h utils.h
 findpath.o: findpath.c vice.h config.h arch/unix/archdep.h archapi.h \
 	findpath.h ioutil.h utils.h arch/unix/types.h
 fliplist.o: fliplist.c vice.h config.h arch/unix/archdep.h archapi.h \

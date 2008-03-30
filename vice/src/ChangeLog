@@ -1,3 +1,30 @@
+2003-01-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.44.
+
+	* event.c (event_record_start_trap, event_record_stop_trap,
+	event_playback_start_trap): Be more verbose about errors.
+	(set_next_alarm): New function.
+
+	* sid/sid.c (sid_read_chip, sid_store_chip): Made static.
+	(sid_read_chip): Use `maincpu_clk % 256'as pseudo random
+	value as suggested by AndreasM.
+
+	* clkguard.c, clkguard.h (clk_guard_clock_sub): New function.
+	(clk_guard_init, clk_guard_new): Return error value.
+
+	* machine.c, drive/drivecpu.c: Use clock guard defines.
+
+	* arch/win32/fullscrn.c, arch/win32/video.c, joystick.c,
+	video/video-color.c, video.h, printerdrv/drv-mps803.c,
+	serial/serial-iec.c, fixpoint.h, vicii/vicii-draw.c,
+	vicii/vicii-badline.c, vicii/vicii-badline.h, vicii/vicii.c,
+	vicii/viciitypes.h, raster/raster-cache.h, video/renderyuv.c,
+	monitor/mon_file.c, c128/c128cpu.c, maincpu.c, vdc/vdc-draw.c,
+	vdc/vdc-mem.c, plus4/ted-draw.c, plus4/ted-mem.c,
+	plus4/tedtypes.h, plus4/ted-badline.c, plus4/ted-badline.h:
+	Removed warnings.
+
 2003-01-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.43.
