@@ -37,9 +37,10 @@ typedef void (*canvas_redraw_t)();
 
 struct video_canvas_s {
     char *title;
-    unsigned int width, height;
+    unsigned int width, height, depth;
     canvas_redraw_t exposure_handler;
     const struct palette_s *palette;
+    DWORD physical_colors[256];
 	
 	/* Pointer to the canvas' ViceWindow */
 #ifdef EXACT_TYPE_NEEDED

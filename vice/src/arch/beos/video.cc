@@ -69,7 +69,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int video_init_resources(void)
+int video_arch_init_resources(void)
 {
     return resources_register(resources);
 }
@@ -96,10 +96,10 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
 	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
 	(*f)->width = width;
 	(*f)->height = height;
+	(*f)->buffer = (PIXEL*) xmalloc(width*height);
+	(*f)->real_width = width;
 	(*f)->bitmap =
-		new BBitmap(BRect(0,0,width-1,height-1),B_CMAP8,false,true);
-	(*f)->buffer = (PIXEL*) (*f)->bitmap->Bits();
-	(*f)->real_width = (*f)->bitmap->BytesPerRow();
+		new BBitmap(BRect(0,0,width-1,height-1),B_RGB32,false,true);
 	(*f)->vicewindow = NULL;
 	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer)); 
 	  	
@@ -116,6 +116,7 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
 	if (f->vicewindow)
 		f->vicewindow->bitmap = NULL;
 	delete f->bitmap;
+	free(f->buffer);
 	free(f);
 }
 
@@ -145,6 +146,9 @@ video_canvas_t *canvas_create(const char *title, unsigned int *width,
     new_canvas->width = *width;
     new_canvas->height = *height;
     new_canvas->palette = palette; 
+    
+    /* We always use a color depth of 32 and let BBitmap do the rest */ 
+    new_canvas->depth = 32;
     
     new_canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
 	
@@ -192,14 +196,14 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 {
 	int i;
+	c->palette = p;
 	DEBUG(("Allocating colors"));
 	for (i = 0; i < p->num_entries; i++)
 	{
-		pixel_return[i] = BScreen().IndexForColor(
-			(uint8) p->entries[i].red,
-			(uint8) p->entries[i].green,
-			(uint8) p->entries[i].blue
-		);
+		pixel_return[i] = i;
+		c->physical_colors[i] = p->entries[i].red << 16
+							|	p->entries[i].green << 8
+							|	p->entries[i].blue;
 	}
     return 0;
 }
@@ -210,6 +214,15 @@ void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
+	video_render_main(c->physical_colors,
+                          (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+                          (BYTE *)(f->bitmap->Bits()),
+                          w, h,
+                          xs, ys,
+                          xs, ys,
+                          VIDEO_FRAME_BUFFER_LINE_SIZE(f),
+                          f->bitmap->BytesPerRow(),
+                          c->depth);
 	c->vicewindow->DrawBitmap(f->bitmap,xs,ys,xi,yi,w,h);
 	/* we need a connection from the canvas to his framebuffer for window update */ 
 	if (c->vicewindow->bitmap == NULL) {
