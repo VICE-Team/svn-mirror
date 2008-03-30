@@ -309,7 +309,7 @@ ac_includes_default="\
 #endif"
 
 ac_subdirs_all="$ac_subdirs_all src/resid"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE DOS_OR_WIN_TRUE DOS_OR_WIN_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE QNX_COMPILE_TRUE QNX_COMPILE_FALSE SOLARIS_COMPILE_TRUE SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VICE_VERSION_MAJOR VICE_VERSION_MINOR VICE_VERSION_BUILD VICE_VERSION INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE VERSION_RC build build_cpu build_vendor build_os host host_cpu host_vendor host_os GNOMEUI_TRUE GNOMEUI_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE HAVE_RS232_TRUE HAVE_RS232_FALSE HAVE_RAWDRIVE_TRUE HAVE_RAWDRIVE_FALSE CPP EGREP USE_MIDAS_SOUND_TRUE USE_MIDAS_SOUND_FALSE AR RANLIB ac_ct_RANLIB LN_S YACC LEX LEXLIB LEX_OUTPUT_ROOT GMOFILES POFILES MSGFMT GMSGFMT XGETTEXT USE_INCLUDED_LIBINTL CATALOGS DATADIRNAME INSTOBJEXT INTLDEPS INTLLIBS INTLOBJS POSUB GENCAT MKINSTALLDIRS CATOBJEXT USE_NLS NLS_LOCALEDIR PERL artsc_config sdl_config cxx CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP subdirs LINKCC HAVE_RESID_TRUE HAVE_RESID_FALSE RESID_DIR RESID_LIBS RESID_INCLUDES RESID_DEP CROSS_TRUE CROSS_FALSE CROSS VICE_ZLIB VICE_ZLIB_DIR VICE_ZLIB_DEP VICE_ZLIB_INCLUDES FFMPEG_INCLUDES DOS_TFE_PCAP_LIB WINDRES WRC SOUND_DRIVERS SOUND_LIBS LIBOBJS NEED_READLINE_TRUE NEED_READLINE_FALSE READLINE VICE_LIBPNG VICE_LIBPNG_DIR VICE_LIBPNG_DEP GFXOUTPUT_DRIVERS VICE_LIBPNG_INCLUDES X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS FULLSCREEN_DRIVERS HAVE_REALDEVICE_TRUE HAVE_REALDEVICE_FALSE x64_LDFLAGS x128_LDFLAGS xvic_LDFLAGS xpet_LDFLAGS xplus4_LDFLAGS xcbm2_LDFLAGS X64_WINRES X128_WINRES XVIC_WINRES XPET_WINRES XPLUS4_WINRES XCBM2_WINRES UNIX_COMPILE_TRUE UNIX_COMPILE_FALSE WIN32_COMPILE_TRUE WIN32_COMPILE_FALSE MSDOS_COMPILE_TRUE MSDOS_COMPILE_FALSE RISCOS_COMPILE_TRUE RISCOS_COMPILE_FALSE OS2_COMPILE_TRUE OS2_COMPILE_FALSE BEOS_COMPILE_TRUE BEOS_COMPILE_FALSE AMIGA_COMPILE_TRUE AMIGA_COMPILE_FALSE QNX_COMPILE_TRUE QNX_COMPILE_FALSE SOLARIS_COMPILE_TRUE SOLARIS_COMPILE_FALSE UNIX_GP2X_COMPILE_TRUE UNIX_GP2X_COMPILE_FALSE HAVE_READLINE ARCH_INCLUDES ARCH_LIBS ARCH_DIR SOUND_USS_OBJ SOUND_SGI_OBJ SOUND_HPUX_OBJ SOUND_AIX_OBJ SOUND_MIDAS_OBJ SOUND_SDL_OBJ VICEDIR BINDIR LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=19
+VICE_VERSION_BUILD=20
 
 
 
@@ -3003,7 +3003,6 @@ _ACEOF
 
 fi
 
-
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
 
@@ -4274,11 +4273,6 @@ fi
   fi
 
 
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_RS232
-_ACEOF
-
-
 
 if true; then
   HAVE_RS232_TRUE=
@@ -4289,11 +4283,6 @@ else
 fi
 
 
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_RAWDRIVE
-_ACEOF
-
-
 
 if true; then
   HAVE_RAWDRIVE_TRUE=
@@ -4302,6 +4291,27 @@ else
   HAVE_RAWDRIVE_TRUE='#'
   HAVE_RAWDRIVE_FALSE=
 fi
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RS232
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RAWDRIVE
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_COLOR_MANAGEMENT
+_ACEOF
 
 
   ac_ext=c
@@ -4915,12 +4925,6 @@ _ACEOF
 fi
 
 
-
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_COLOR_MANAGEMENT
-_ACEOF
-
 fi
 
 
@@ -4932,17 +4936,6 @@ else
   USE_MIDAS_SOUND_TRUE='#'
   USE_MIDAS_SOUND_FALSE=
 fi
-
-
-
-if test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes"; then
-  DOS_OR_WIN_TRUE=
-  DOS_OR_WIN_FALSE='#'
-else
-  DOS_OR_WIN_TRUE='#'
-  DOS_OR_WIN_FALSE=
-fi
-
 
 
 ac_ext=c
@@ -6463,7 +6456,6 @@ else
 	with_sdl=no
 fi
 
-
 if test x"$with_resid" != "xno" -a -z "$CXX"; then
   for ac_prog in $CCC c++ g++ gcc CC cxx cc++
 do
@@ -7486,7 +7478,6 @@ fi
 
 
 
-
 for ac_header in sys/types.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -7801,7 +7792,6 @@ _ACEOF
 fi
 
 
-
 echo "$as_me:$LINENO: checking for inline" >&5
 echo $ECHO_N "checking for inline... $ECHO_C" >&6
 if test "${ac_cv_c_inline+set}" = set; then
@@ -7863,7 +7853,6 @@ esac
 if test x"$ac_cv_c_inline" = "xno" ; then
   CFLAGS="$CFLAGS -DNO_INLINE"
 fi
-
 
 if [ x"$ac_cv_prog_cc_cross" != "xyes" ]; then
   echo "$as_me:$LINENO: checking whether byte ordering is bigendian" >&5
@@ -9188,7 +9177,6 @@ _ACEOF
 
 
 
-
 if test $ac_cv_c_compiler_gnu = yes; then
     echo "$as_me:$LINENO: checking whether $CC needs -traditional" >&5
 echo $ECHO_N "checking whether $CC needs -traditional... $ECHO_C" >&6
@@ -9240,7 +9228,6 @@ echo "${ECHO_T}$ac_cv_prog_gcc_traditional" >&6
     CC="$CC -traditional"
   fi
 fi
-
 
 
 
@@ -9795,7 +9782,6 @@ _ACEOF
 
 
 fi
-
 
 
 
@@ -10486,7 +10472,6 @@ fi
 
 
 
-
 echo "$as_me:$LINENO: checking for sqrt in -lm" >&5
 echo $ECHO_N "checking for sqrt in -lm... $ECHO_C" >&6
 if test "${ac_cv_lib_m_sqrt+set}" = set; then
@@ -10549,7 +10534,6 @@ _ACEOF
   LIBS="-lm $LIBS"
 
 fi
-
 
 
 
@@ -10777,11 +10761,9 @@ fi
 
 
 
-
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
 
-
-  UNIX_NETWORK_HEADERS_PRESENT=yes
+    UNIX_NETWORK_HEADERS_PRESENT=yes
 
 
 
@@ -10936,8 +10918,7 @@ done
 
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
-
-    echo "$as_me:$LINENO: checking for gethostbyname in -lnsl" >&5
+        echo "$as_me:$LINENO: checking for gethostbyname in -lnsl" >&5
 echo $ECHO_N "checking for gethostbyname in -lnsl... $ECHO_C" >&6
 if test "${ac_cv_lib_nsl_gethostbyname+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -11286,8 +11267,7 @@ if test $ac_cv_lib_watt_gethostbyname = yes; then
 fi
 
 
-
-    UNIX_NETWORK_FUNCS_PRESENT=yes
+        UNIX_NETWORK_FUNCS_PRESENT=yes
 
 
 
@@ -11561,12 +11541,9 @@ done
 
     fi
   fi
-fi
+elif test x"$is_beos" = "xyes"; then
 
-if test x"$is_beos" = "xyes"; then
-
-
-  BEOS_NETWORK_HEADERS_PRESENT=yes
+    BEOS_NETWORK_HEADERS_PRESENT=yes
 
 
 
@@ -12666,9 +12643,7 @@ fi
 fi
 
 
-
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
-
+if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
   if test x"$enable_ffmpeg" = "xyes" ; then
 
 echo "$as_me:$LINENO: checking for avcodec_init in -lavcodec" >&5
@@ -15063,7 +15038,7 @@ done
 
 fi
 
-if [ x"$is_dos" = "xyes" ] ; then
+if test x"$is_dos" = "xyes"; then
     if test x"$with_midas" = "xyes"; then
 
 for ac_header in midasdll.h
@@ -15353,7 +15328,7 @@ done
     fi
 fi
 
-if [ x"$is_win32" = "xyes" ] ; then
+if test x"$is_win32" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
     for ac_prog in windres
 do
@@ -15784,9 +15759,7 @@ fi
 
 
 
-
-
-if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_unix" = "xyes" -o x"$is_amiga" = "xyes"; then
 
   if test x"$enable_parsid" = "xyes"; then
 
@@ -16853,7 +16826,6 @@ _ACEOF
   fi
 fi
 
-
 if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a -x"$is_riscos" = "xno"; then
   echo "$as_me:$LINENO: checking for working memcmp" >&5
 echo $ECHO_N "checking for working memcmp... $ECHO_C" >&6
@@ -17759,7 +17731,6 @@ fi
 
 
 
-
 if test x"$is_unix_x11" = "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
@@ -18090,7 +18061,6 @@ fi
 
 
 
-
 if test x"$is_amiga" = "xyes"; then
   cgx_present=no
   if test x"$with_picasso96" != "xyes"; then
@@ -18383,7 +18353,6 @@ done
 
   fi
 fi
-
 
 
 VICE_LIBPNG=
@@ -19145,7 +19114,6 @@ fi
 
 
 if test x"$is_unix_x11" = "xyes"; then
-
   X_LIBS=""
   echo "$as_me:$LINENO: checking for X" >&5
 echo $ECHO_N "checking for X... $ECHO_C" >&6
@@ -20347,430 +20315,11 @@ fi
   PATH_X_LIBS=$X_LIBS
   LINK_X_LIBS=""
 
+  if [ x"${enable_gnomeui}" = x"yes" ] ; then
 
-  echo "$as_me:$LINENO: checking for gethostbyname in -lnsl" >&5
-echo $ECHO_N "checking for gethostbyname in -lnsl... $ECHO_C" >&6
-if test "${ac_cv_lib_nsl_gethostbyname+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lnsl $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
+    LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
 
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char gethostbyname ();
-int
-main ()
-{
-gethostbyname ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_nsl_gethostbyname=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_nsl_gethostbyname=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_nsl_gethostbyname" >&5
-echo "${ECHO_T}$ac_cv_lib_nsl_gethostbyname" >&6
-if test $ac_cv_lib_nsl_gethostbyname = yes; then
-   X_LIBS="-lnsl $X_LIBS";
-                                    LINK_X_LIBS="-lnsl $LINK_X_LIBS"
-fi
-
-  echo "$as_me:$LINENO: checking for gethostbyname in -lsocket" >&5
-echo $ECHO_N "checking for gethostbyname in -lsocket... $ECHO_C" >&6
-if test "${ac_cv_lib_socket_gethostbyname+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsocket $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char gethostbyname ();
-int
-main ()
-{
-gethostbyname ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_socket_gethostbyname=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_socket_gethostbyname=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_socket_gethostbyname" >&5
-echo "${ECHO_T}$ac_cv_lib_socket_gethostbyname" >&6
-if test $ac_cv_lib_socket_gethostbyname = yes; then
-   X_LIBS="-lsocket $X_LIBS";
-                                    LINK_X_LIBS="-lsocket $LINK_X_LIBS"
-fi
-
-  echo "$as_me:$LINENO: checking for gethostbyname in -lbsd" >&5
-echo $ECHO_N "checking for gethostbyname in -lbsd... $ECHO_C" >&6
-if test "${ac_cv_lib_bsd_gethostbyname+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lbsd $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char gethostbyname ();
-int
-main ()
-{
-gethostbyname ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_bsd_gethostbyname=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_bsd_gethostbyname=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_bsd_gethostbyname" >&5
-echo "${ECHO_T}$ac_cv_lib_bsd_gethostbyname" >&6
-if test $ac_cv_lib_bsd_gethostbyname = yes; then
-   X_LIBS="-lbsd $X_LIBS";
-                                    LINK_X_LIBS="-lbsd $LINK_X_LIBS"
-fi
-
-  echo "$as_me:$LINENO: checking for IceConnectionNumber in -lICE" >&5
-echo $ECHO_N "checking for IceConnectionNumber in -lICE... $ECHO_C" >&6
-if test "${ac_cv_lib_ICE_IceConnectionNumber+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lICE $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char IceConnectionNumber ();
-int
-main ()
-{
-IceConnectionNumber ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_ICE_IceConnectionNumber=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_ICE_IceConnectionNumber=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_ICE_IceConnectionNumber" >&5
-echo "${ECHO_T}$ac_cv_lib_ICE_IceConnectionNumber" >&6
-if test $ac_cv_lib_ICE_IceConnectionNumber = yes; then
-   X_LIBS="-lICE $X_LIBS";
-                                    LINK_X_LIBS="-lICE $LINK_X_LIBS"
-fi
-
-  echo "$as_me:$LINENO: checking for SmFreeProperty in -lSM" >&5
-echo $ECHO_N "checking for SmFreeProperty in -lSM... $ECHO_C" >&6
-if test "${ac_cv_lib_SM_SmFreeProperty+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lSM $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char SmFreeProperty ();
-int
-main ()
-{
-SmFreeProperty ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_SM_SmFreeProperty=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_SM_SmFreeProperty=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_SM_SmFreeProperty" >&5
-echo "${ECHO_T}$ac_cv_lib_SM_SmFreeProperty" >&6
-if test $ac_cv_lib_SM_SmFreeProperty = yes; then
-   X_LIBS="-lSM $X_LIBS";
-                                    LINK_X_LIBS="-lSM $LINK_X_LIBS"
-fi
-
-
-        CPPFLAGS="$CPPFLAGS $X_CFLAGS"
-
-  MISSING_X_LIBS=""
-
-  echo "$as_me:$LINENO: checking for XCreateWindow in -lX11" >&5
-echo $ECHO_N "checking for XCreateWindow in -lX11... $ECHO_C" >&6
-if test "${ac_cv_lib_X11_XCreateWindow+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lX11 $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XCreateWindow ();
-int
-main ()
-{
-XCreateWindow ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_X11_XCreateWindow=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_X11_XCreateWindow=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_X11_XCreateWindow" >&5
-echo "${ECHO_T}$ac_cv_lib_X11_XCreateWindow" >&6
-if test $ac_cv_lib_X11_XCreateWindow = yes; then
-   X_LIBS="-lX11 $X_LIBS";
-                 LINK_X_LIBS="-lX11 $LINK_X_LIBS"
-else
-   MISSING_X_LIBS="$MISSING_X_LIBS X11"
-fi
-
-
-  echo "$as_me:$LINENO: checking for XQueryExtension in -lXext" >&5
-echo $ECHO_N "checking for XQueryExtension in -lXext... $ECHO_C" >&6
-if test "${ac_cv_lib_Xext_XQueryExtension+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXext $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XQueryExtension ();
-int
-main ()
-{
-XQueryExtension ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xext_XQueryExtension=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xext_XQueryExtension=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xext_XQueryExtension" >&6
-if test $ac_cv_lib_Xext_XQueryExtension = yes; then
-   X_LIBS="-lXext $X_LIBS";
-                 LINK_X_LIBS="-lXext $LINK_X_LIBS"
-fi
-
-
-  echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
+        echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
 echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
 if test "${ac_cv_lib_Xv_XvQueryExtension+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -20826,7 +20375,7 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xv_XvQueryExtension" >&5
 echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
 if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
    X_LIBS="-lXv $X_LIBS";
-                 LINK_X_LIBS="-lXv $LINK_X_LIBS";
+                   LINK_X_LIBS="-lXv $LINK_X_LIBS";
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_XVIDEO
@@ -20835,7 +20384,558 @@ _ACEOF
 fi
 
 
-  echo "$as_me:$LINENO: checking for XtToolkitInitialize in -lXt" >&5
+    echo "$as_me:$LINENO: checking for XShmQueryExtension in -lXext" >&5
+echo $ECHO_N "checking for XShmQueryExtension in -lXext... $ECHO_C" >&6
+if test "${ac_cv_lib_Xext_XShmQueryExtension+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lXext $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char XShmQueryExtension ();
+int
+main ()
+{
+XShmQueryExtension ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_Xext_XShmQueryExtension=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_Xext_XShmQueryExtension=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmQueryExtension" >&5
+echo "${ECHO_T}$ac_cv_lib_Xext_XShmQueryExtension" >&6
+if test $ac_cv_lib_Xext_XShmQueryExtension = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_MITSHM
+_ACEOF
+
+fi
+
+  else
+
+    echo "$as_me:$LINENO: checking for gethostbyname in -lnsl" >&5
+echo $ECHO_N "checking for gethostbyname in -lnsl... $ECHO_C" >&6
+if test "${ac_cv_lib_nsl_gethostbyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnsl $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname ();
+int
+main ()
+{
+gethostbyname ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_nsl_gethostbyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_nsl_gethostbyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_nsl_gethostbyname" >&5
+echo "${ECHO_T}$ac_cv_lib_nsl_gethostbyname" >&6
+if test $ac_cv_lib_nsl_gethostbyname = yes; then
+   X_LIBS="-lnsl $X_LIBS";
+                 LINK_X_LIBS="-lnsl $LINK_X_LIBS"
+fi
+
+    echo "$as_me:$LINENO: checking for gethostbyname in -lsocket" >&5
+echo $ECHO_N "checking for gethostbyname in -lsocket... $ECHO_C" >&6
+if test "${ac_cv_lib_socket_gethostbyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lsocket $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname ();
+int
+main ()
+{
+gethostbyname ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_socket_gethostbyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_socket_gethostbyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_socket_gethostbyname" >&5
+echo "${ECHO_T}$ac_cv_lib_socket_gethostbyname" >&6
+if test $ac_cv_lib_socket_gethostbyname = yes; then
+   X_LIBS="-lsocket $X_LIBS";
+                 LINK_X_LIBS="-lsocket $LINK_X_LIBS"
+fi
+
+    echo "$as_me:$LINENO: checking for gethostbyname in -lbsd" >&5
+echo $ECHO_N "checking for gethostbyname in -lbsd... $ECHO_C" >&6
+if test "${ac_cv_lib_bsd_gethostbyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lbsd $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname ();
+int
+main ()
+{
+gethostbyname ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_bsd_gethostbyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_bsd_gethostbyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_bsd_gethostbyname" >&5
+echo "${ECHO_T}$ac_cv_lib_bsd_gethostbyname" >&6
+if test $ac_cv_lib_bsd_gethostbyname = yes; then
+   X_LIBS="-lbsd $X_LIBS";
+                 LINK_X_LIBS="-lbsd $LINK_X_LIBS"
+fi
+
+    echo "$as_me:$LINENO: checking for IceConnectionNumber in -lICE" >&5
+echo $ECHO_N "checking for IceConnectionNumber in -lICE... $ECHO_C" >&6
+if test "${ac_cv_lib_ICE_IceConnectionNumber+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lICE $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char IceConnectionNumber ();
+int
+main ()
+{
+IceConnectionNumber ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_ICE_IceConnectionNumber=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_ICE_IceConnectionNumber=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_ICE_IceConnectionNumber" >&5
+echo "${ECHO_T}$ac_cv_lib_ICE_IceConnectionNumber" >&6
+if test $ac_cv_lib_ICE_IceConnectionNumber = yes; then
+   X_LIBS="-lICE $X_LIBS";
+                 LINK_X_LIBS="-lICE $LINK_X_LIBS"
+fi
+
+    echo "$as_me:$LINENO: checking for SmFreeProperty in -lSM" >&5
+echo $ECHO_N "checking for SmFreeProperty in -lSM... $ECHO_C" >&6
+if test "${ac_cv_lib_SM_SmFreeProperty+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lSM $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char SmFreeProperty ();
+int
+main ()
+{
+SmFreeProperty ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_SM_SmFreeProperty=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_SM_SmFreeProperty=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_SM_SmFreeProperty" >&5
+echo "${ECHO_T}$ac_cv_lib_SM_SmFreeProperty" >&6
+if test $ac_cv_lib_SM_SmFreeProperty = yes; then
+   X_LIBS="-lSM $X_LIBS";
+                 LINK_X_LIBS="-lSM $LINK_X_LIBS"
+fi
+
+
+                CPPFLAGS="$CPPFLAGS $X_CFLAGS"
+
+    MISSING_X_LIBS=""
+
+    echo "$as_me:$LINENO: checking for XCreateWindow in -lX11" >&5
+echo $ECHO_N "checking for XCreateWindow in -lX11... $ECHO_C" >&6
+if test "${ac_cv_lib_X11_XCreateWindow+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lX11 $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char XCreateWindow ();
+int
+main ()
+{
+XCreateWindow ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_X11_XCreateWindow=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_X11_XCreateWindow=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_X11_XCreateWindow" >&5
+echo "${ECHO_T}$ac_cv_lib_X11_XCreateWindow" >&6
+if test $ac_cv_lib_X11_XCreateWindow = yes; then
+   X_LIBS="-lX11 $X_LIBS";
+                   LINK_X_LIBS="-lX11 $LINK_X_LIBS"
+else
+   MISSING_X_LIBS="$MISSING_X_LIBS X11"
+fi
+
+
+    echo "$as_me:$LINENO: checking for XQueryExtension in -lXext" >&5
+echo $ECHO_N "checking for XQueryExtension in -lXext... $ECHO_C" >&6
+if test "${ac_cv_lib_Xext_XQueryExtension+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lXext $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char XQueryExtension ();
+int
+main ()
+{
+XQueryExtension ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_Xext_XQueryExtension=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_Xext_XQueryExtension=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XQueryExtension" >&5
+echo "${ECHO_T}$ac_cv_lib_Xext_XQueryExtension" >&6
+if test $ac_cv_lib_Xext_XQueryExtension = yes; then
+   X_LIBS="-lXext $X_LIBS";
+                   LINK_X_LIBS="-lXext $LINK_X_LIBS"
+fi
+
+
+    echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
+echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
+if test "${ac_cv_lib_Xv_XvQueryExtension+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lXv $X_LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char XvQueryExtension ();
+int
+main ()
+{
+XvQueryExtension ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_Xv_XvQueryExtension=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_Xv_XvQueryExtension=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_Xv_XvQueryExtension" >&5
+echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
+if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
+   X_LIBS="-lXv $X_LIBS";
+                   LINK_X_LIBS="-lXv $LINK_X_LIBS";
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_XVIDEO
+_ACEOF
+
+fi
+
+
+    echo "$as_me:$LINENO: checking for XtToolkitInitialize in -lXt" >&5
 echo $ECHO_N "checking for XtToolkitInitialize in -lXt... $ECHO_C" >&6
 if test "${ac_cv_lib_Xt_XtToolkitInitialize+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -20891,13 +20991,13 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xt_XtToolkitInitialize" >&5
 echo "${ECHO_T}$ac_cv_lib_Xt_XtToolkitInitialize" >&6
 if test $ac_cv_lib_Xt_XtToolkitInitialize = yes; then
    X_LIBS="-lXt $X_LIBS";
-                 LINK_X_LIBS="-lXt $LINK_X_LIBS"
+                   LINK_X_LIBS="-lXt $LINK_X_LIBS"
 else
    MISSING_X_LIBS="$MISSING_X_LIBS Xt"
 fi
 
 
-  echo "$as_me:$LINENO: checking for XInternAtom in -lXmu" >&5
+    echo "$as_me:$LINENO: checking for XInternAtom in -lXmu" >&5
 echo $ECHO_N "checking for XInternAtom in -lXmu... $ECHO_C" >&6
 if test "${ac_cv_lib_Xmu_XInternAtom+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -20953,13 +21053,13 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xmu_XInternAtom" >&5
 echo "${ECHO_T}$ac_cv_lib_Xmu_XInternAtom" >&6
 if test $ac_cv_lib_Xmu_XInternAtom = yes; then
    X_LIBS="-lXmu $X_LIBS";
-                 LINK_X_LIBS="-lXmu $LINK_X_LIBS"
+                   LINK_X_LIBS="-lXmu $LINK_X_LIBS"
 else
    MISSING_X_LIBS="$MISSING_X_LIBS Xmu"
 fi
 
 
-    echo "$as_me:$LINENO: checking for XpmCreatePixmapFromData in -lXpm" >&5
+        echo "$as_me:$LINENO: checking for XpmCreatePixmapFromData in -lXpm" >&5
 echo $ECHO_N "checking for XpmCreatePixmapFromData in -lXpm... $ECHO_C" >&6
 if test "${ac_cv_lib_Xpm_XpmCreatePixmapFromData+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -21015,7 +21115,7 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xpm_XpmCreatePixmapFromData" >&5
 echo "${ECHO_T}$ac_cv_lib_Xpm_XpmCreatePixmapFromData" >&6
 if test $ac_cv_lib_Xpm_XpmCreatePixmapFromData = yes; then
    X_LIBS="-lXpm $X_LIBS";
-                 LINK_X_LIBS="-lXpm $LINK_X_LIBS";
+                   LINK_X_LIBS="-lXpm $LINK_X_LIBS";
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_LIBXPM
@@ -21024,8 +21124,8 @@ _ACEOF
 fi
 
 
-    if test x"$with_xaw3d" != "xyes" ; then
-    echo "$as_me:$LINENO: checking for XawFormDoLayout in -lXaw" >&5
+        if test x"$with_xaw3d" != "xyes" ; then
+      echo "$as_me:$LINENO: checking for XawFormDoLayout in -lXaw" >&5
 echo $ECHO_N "checking for XawFormDoLayout in -lXaw... $ECHO_C" >&6
 if test "${ac_cv_lib_Xaw_XawFormDoLayout+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -21081,13 +21181,13 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xaw_XawFormDoLayout" >&5
 echo "${ECHO_T}$ac_cv_lib_Xaw_XawFormDoLayout" >&6
 if test $ac_cv_lib_Xaw_XawFormDoLayout = yes; then
    X_LIBS="-lXaw $X_LIBS";
-                   LINK_X_LIBS="-lXaw $LINK_X_LIBS"
+                     LINK_X_LIBS="-lXaw $LINK_X_LIBS"
 else
    MISSING_X_LIBS="$MISSING_X_LIBS Xaw"
 fi
 
-  else
-    echo "$as_me:$LINENO: checking for XawFormDoLayout in -lXaw3d" >&5
+    else
+      echo "$as_me:$LINENO: checking for XawFormDoLayout in -lXaw3d" >&5
 echo $ECHO_N "checking for XawFormDoLayout in -lXaw3d... $ECHO_C" >&6
 if test "${ac_cv_lib_Xaw3d_XawFormDoLayout+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -21143,14 +21243,14 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_Xaw3d_XawFormDoLayout" >&5
 echo "${ECHO_T}$ac_cv_lib_Xaw3d_XawFormDoLayout" >&6
 if test $ac_cv_lib_Xaw3d_XawFormDoLayout = yes; then
    X_LIBS="-lXaw3d $X_LIBS";
-                   LINK_X_LIBS="-lXaw3d $LINK_X_LIBS"
+                     LINK_X_LIBS="-lXaw3d $LINK_X_LIBS"
 else
    MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d"
 fi
 
-  fi
+    fi
 
-  echo "$as_me:$LINENO: checking for X11/extensions/XShm.h" >&5
+    echo "$as_me:$LINENO: checking for X11/extensions/XShm.h" >&5
 echo $ECHO_N "checking for X11/extensions/XShm.h... $ECHO_C" >&6
 if test "${ac_cv_header_X11_extensions_XShm_h+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -21191,8 +21291,8 @@ echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_XShm_h" >&5
 echo "${ECHO_T}$ac_cv_header_X11_extensions_XShm_h" >&6
 
 
-  if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
-    echo "$as_me:$LINENO: checking for XShmAttach in -lXext" >&5
+    if test x"$ac_cv_header_X11_extensions_XShm_h" = "xyes" ; then
+      echo "$as_me:$LINENO: checking for XShmAttach in -lXext" >&5
 echo $ECHO_N "checking for XShmAttach in -lXext... $ECHO_C" >&6
 if test "${ac_cv_lib_Xext_XShmAttach+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -21254,14 +21354,14 @@ _ACEOF
 
 fi
 
-  fi
+    fi
 
-  if test x"$MISSING_X_LIBS" != "x"; then
-    echo
-    echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
-    echo "+++ You might have to edit the Makefile by hand to compile properly"
-    echo
-  fi
+    if test x"$MISSING_X_LIBS" != "x"; then
+      echo
+      echo "+++ Warning: the following important X11 libraries were not found: $MISSING_X_LIBS"
+      echo "+++ You might have to edit the Makefile by hand to compile properly"
+      echo
+    fi
 
 
 
@@ -21406,679 +21506,7 @@ fi
 
 done
 
-
-    FULLSCREEN_DRIVERS=""
-  if test x"$enable_fullscreen" != "xno"; then
-    echo "$as_me:$LINENO: checking for X11/extensions/xf86vmode.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86vmode.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86vmode_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/Xlib.h>
-
-#include <X11/extensions/xf86vmode.h>
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_header_X11_extensions_xf86vmode_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_header_X11_extensions_xf86vmode_h=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86vmode_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86vmode_h" >&6
-
-
-    if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
-      echo "$as_me:$LINENO: checking for XF86VidModeQueryVersion in -lXxf86vm" >&5
-echo $ECHO_N "checking for XF86VidModeQueryVersion in -lXxf86vm... $ECHO_C" >&6
-if test "${ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXxf86vm $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XF86VidModeQueryVersion ();
-int
-main ()
-{
-XF86VidModeQueryVersion ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" >&5
-echo "${ECHO_T}$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" >&6
-if test $ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion = yes; then
-   X_LIBS="-lXxf86vm $X_LIBS";
-                     LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_VIDMODE_EXT
-_ACEOF
-
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS
-_ACEOF
-
-fi
-
-      if test x"$ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion" = "xyes" ; then
-        echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/Xlib.h>
-
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_header_X11_extensions_xf86dga_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_header_X11_extensions_xf86dga_h=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-
-        if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-          echo "$as_me:$LINENO: checking for XF86DGAQueryExtension in -lXxf86dga" >&5
-echo $ECHO_N "checking for XF86DGAQueryExtension in -lXxf86dga... $ECHO_C" >&6
-if test "${ac_cv_lib_Xxf86dga_XF86DGAQueryExtension+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXxf86dga $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XF86DGAQueryExtension ();
-int
-main ()
-{
-XF86DGAQueryExtension ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xxf86dga_XF86DGAQueryExtension=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xxf86dga_XF86DGAQueryExtension=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xxf86dga_XF86DGAQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xxf86dga_XF86DGAQueryExtension" >&6
-if test $ac_cv_lib_Xxf86dga_XF86DGAQueryExtension = yes; then
-   X_LIBS="-lXxf86dga $X_LIBS";
-                         LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-                         FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS
-_ACEOF
-
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA1_EXTENSIONS
-_ACEOF
-
-fi
-
-        fi
-      fi
-    fi
-    echo "$as_me:$LINENO: checking for X11/extensions/xf86dga.h" >&5
-echo $ECHO_N "checking for X11/extensions/xf86dga.h... $ECHO_C" >&6
-if test "${ac_cv_header_X11_extensions_xf86dga_h+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <X11/Xlib.h>
-
-#include <X11/extensions/xf86dga.h>
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_header_X11_extensions_xf86dga_h=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_header_X11_extensions_xf86dga_h=no
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $ac_cv_header_X11_extensions_xf86dga_h" >&5
-echo "${ECHO_T}$ac_cv_header_X11_extensions_xf86dga_h" >&6
-
-
-    if test x"$ac_cv_header_X11_extensions_xf86dga_h" = "xyes" ; then
-      echo "$as_me:$LINENO: checking for XDGAQueryExtension in -lXxf86dga" >&5
-echo $ECHO_N "checking for XDGAQueryExtension in -lXxf86dga... $ECHO_C" >&6
-if test "${ac_cv_lib_Xxf86dga_XDGAQueryExtension+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXxf86dga $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XDGAQueryExtension ();
-int
-main ()
-{
-XDGAQueryExtension ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xxf86dga_XDGAQueryExtension=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xxf86dga_XDGAQueryExtension=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xxf86dga_XDGAQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xxf86dga_XDGAQueryExtension" >&6
-if test $ac_cv_lib_Xxf86dga_XDGAQueryExtension = yes; then
-   X_LIBS="-lXxf86dga $X_LIBS";
-                     LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
-		     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS
-_ACEOF
-
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA2_EXTENSIONS
-_ACEOF
-
-fi
-
-    fi
   fi
-
-
-  X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE
-_ACEOF
-
-
-elif [ x"$is_dos" != "xno" ]; then
-
-
-  LIBS="$LIBS -lalleg $LIBMIDAS"
-
-
-elif [ x"$is_amiga" != "xno" ]; then
-
-    if test x"$is_amiga_aros" != "xyes"; then
-    if test x"$host_os" != "xmorphos"; then
-      LIBS="$LIBS -lauto"
-    fi
-  else
-    LIBS="$LIBS -lmui"
-  fi
-
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAS_TRANSLATION
-_ACEOF
-
-
-elif [ x"$is_beos" != "xno" ]; then
-
-
-  LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
-
-
-elif [ x"$is_unix_gp2x" != "xno" ]; then
-
-
-  LDFLAGS="$LDFLAGS -static"
-
-
-elif [ x"$is_win32" != "xno" ]; then
-
-
-  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32 -lwsock32 -lversion"
-
-  echo "$as_me:$LINENO: checking for GUID_SysMouse in -ldxguid" >&5
-echo $ECHO_N "checking for GUID_SysMouse in -ldxguid... $ECHO_C" >&6
-if test "${ac_cv_lib_dxguid_GUID_SysMouse+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ldxguid $LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char GUID_SysMouse ();
-int
-main ()
-{
-GUID_SysMouse ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_dxguid_GUID_SysMouse=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_dxguid_GUID_SysMouse=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_dxguid_GUID_SysMouse" >&5
-echo "${ECHO_T}$ac_cv_lib_dxguid_GUID_SysMouse" >&6
-if test $ac_cv_lib_dxguid_GUID_SysMouse = yes; then
-  LIBS="$LIBS -ldxguid";
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_GUIDLIB
-_ACEOF
-
-fi
-
-
-  echo "$as_me:$LINENO: checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers" >&5
-echo $ECHO_N "checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers... $ECHO_C" >&6
-  cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <windows.h>
-extern DWORD test;
-unsigned long test;
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-
-cat >>confdefs.h <<\_ACEOF
-#define DWORD_IS_LONG
-_ACEOF
-
-                   echo "$as_me:$LINENO: result: unsigned long" >&5
-echo "${ECHO_T}unsigned long" >&6
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-echo "$as_me:$LINENO: result: unsigned int" >&5
-echo "${ECHO_T}unsigned int" >&6
-fi
-rm -f conftest.$ac_objext conftest.$ac_ext
-
-  x64_LDFLAGS="-mwindows"
-  x128_LDFLAGS="-mwindows"
-  xvic_LDFLAGS="-mwindows"
-  xpet_LDFLAGS="-mwindows"
-  xplus4_LDFLAGS="-mwindows"
-  xcbm2_LDFLAGS="-mwindows"
-
-  X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-  X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
-  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
-  XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
-  XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
-  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
-
-
-
-  if test -z "$WINDRES" ; then
-    WINDRES="windres"
-  fi
-
-
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAS_TRANSLATION
-_ACEOF
-
-
-elif [ x"${enable_gnomeui}" = x"yes" ] ; then
-
-  LIBS="${LIBS} `pkg-config --libs libgnomeui-2.0`"
-
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE
-_ACEOF
-
-
-
-  echo "$as_me:$LINENO: checking for XvQueryExtension in -lXv" >&5
-echo $ECHO_N "checking for XvQueryExtension in -lXv... $ECHO_C" >&6
-if test "${ac_cv_lib_Xv_XvQueryExtension+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXv $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XvQueryExtension ();
-int
-main ()
-{
-XvQueryExtension ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xv_XvQueryExtension=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xv_XvQueryExtension=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xv_XvQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
-if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
-   X_LIBS="-lXv $X_LIBS";
-                 LINK_X_LIBS="-lXv $LINK_X_LIBS";
-
-cat >>confdefs.h <<\_ACEOF
-#define HAVE_XVIDEO
-_ACEOF
-
-fi
-
-
-  echo "$as_me:$LINENO: checking for XShmQueryExtension in -lXext" >&5
-echo $ECHO_N "checking for XShmQueryExtension in -lXext... $ECHO_C" >&6
-if test "${ac_cv_lib_Xext_XShmQueryExtension+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lXext $X_LIBS $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-#line $LINENO "configure"
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char XShmQueryExtension ();
-int
-main ()
-{
-XShmQueryExtension ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-         { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_Xext_XShmQueryExtension=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_Xext_XShmQueryExtension=no
-fi
-rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmQueryExtension" >&5
-echo "${ECHO_T}$ac_cv_lib_Xext_XShmQueryExtension" >&6
-if test $ac_cv_lib_Xext_XShmQueryExtension = yes; then
-
-cat >>confdefs.h <<\_ACEOF
-#define USE_MITSHM
-_ACEOF
-
-fi
-
 
     FULLSCREEN_DRIVERS=""
   if test x"$enable_fullscreen" != "xno"; then
@@ -22425,6 +21853,187 @@ fi
     fi
   fi
 
+  X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
+
+
+elif test x"$is_dos" = "xyes"; then
+
+
+  LIBS="$LIBS -lalleg $LIBMIDAS"
+
+
+elif test x"$is_amiga" = "xyes"; then
+
+    if test x"$is_amiga_aros" != "xyes"; then
+    if test x"$host_os" != "xmorphos"; then
+      LIBS="$LIBS -lauto"
+    fi
+  else
+    LIBS="$LIBS -lmui"
+  fi
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_TRANSLATION
+_ACEOF
+
+
+elif test x"$is_beos" = "xyes"; then
+
+
+  LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
+
+
+elif test x"$is_unix_gp2x" = "xyes"; then
+
+
+  LDFLAGS="$LDFLAGS -static"
+
+
+elif test x"$is_win32" = "xyes"; then
+
+
+  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32 -lwsock32 -lversion"
+
+  echo "$as_me:$LINENO: checking for GUID_SysMouse in -ldxguid" >&5
+echo $ECHO_N "checking for GUID_SysMouse in -ldxguid... $ECHO_C" >&6
+if test "${ac_cv_lib_dxguid_GUID_SysMouse+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-ldxguid $LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char GUID_SysMouse ();
+int
+main ()
+{
+GUID_SysMouse ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_dxguid_GUID_SysMouse=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_dxguid_GUID_SysMouse=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_dxguid_GUID_SysMouse" >&5
+echo "${ECHO_T}$ac_cv_lib_dxguid_GUID_SysMouse" >&6
+if test $ac_cv_lib_dxguid_GUID_SysMouse = yes; then
+  LIBS="$LIBS -ldxguid";
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GUIDLIB
+_ACEOF
+
+fi
+
+
+  echo "$as_me:$LINENO: checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers" >&5
+echo $ECHO_N "checking whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers... $ECHO_C" >&6
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <windows.h>
+extern DWORD test;
+unsigned long test;
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+
+cat >>confdefs.h <<\_ACEOF
+#define DWORD_IS_LONG
+_ACEOF
+
+                   echo "$as_me:$LINENO: result: unsigned long" >&5
+echo "${ECHO_T}unsigned long" >&6
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+echo "$as_me:$LINENO: result: unsigned int" >&5
+echo "${ECHO_T}unsigned int" >&6
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+
+  x64_LDFLAGS="-mwindows"
+  x128_LDFLAGS="-mwindows"
+  xvic_LDFLAGS="-mwindows"
+  xpet_LDFLAGS="-mwindows"
+  xplus4_LDFLAGS="-mwindows"
+  xcbm2_LDFLAGS="-mwindows"
+
+  X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
+  X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
+  XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
+  XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
+  XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
+  XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
+
+
+
+  if test -z "$WINDRES" ; then
+    WINDRES="windres"
+  fi
+
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_TRANSLATION
+_ACEOF
 
 fi
 
@@ -23847,13 +23456,6 @@ echo "$as_me: error: conditional \"USE_MIDAS_SOUND\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${DOS_OR_WIN_TRUE}" && test -z "${DOS_OR_WIN_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"DOS_OR_WIN\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"DOS_OR_WIN\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCXX\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -25091,8 +24693,6 @@ s,@CPP@,$CPP,;t t
 s,@EGREP@,$EGREP,;t t
 s,@USE_MIDAS_SOUND_TRUE@,$USE_MIDAS_SOUND_TRUE,;t t
 s,@USE_MIDAS_SOUND_FALSE@,$USE_MIDAS_SOUND_FALSE,;t t
-s,@DOS_OR_WIN_TRUE@,$DOS_OR_WIN_TRUE,;t t
-s,@DOS_OR_WIN_FALSE@,$DOS_OR_WIN_FALSE,;t t
 s,@AR@,$AR,;t t
 s,@RANLIB@,$RANLIB,;t t
 s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t

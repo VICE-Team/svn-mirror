@@ -1,17 +1,17 @@
 # Italian Translation File for VICE
-# Copyright (C) 2001-2005 Free Software Foundation, Inc.
-# Andrea Musuruane <musuruan@despammed.com>, 2001-2005.
+# Copyright (C) 2001-2006 Free Software Foundation, Inc.
+# Andrea Musuruane <musuruan@despammed.com>, 2001-2006.
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-06-26 16:21+0200\n"
-"PO-Revision-Date: 2006-01-02 16:58+0100\n"
-"Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
+"POT-Creation-Date: 2006-07-03 14:24+0200\n"
+"PO-Revision-Date: 2006-07-01 14:39+0200\n"
+"Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
@@ -326,9 +326,8 @@ msgid "I/O read collision at %X from "
 msgstr ""
 
 #: src/c64/c64io.c:198
-#, fuzzy
 msgid " and "
-msgstr "Carica "
+msgstr " e "
 
 #: src/c64/c64io.c:199
 msgid ""
@@ -384,7 +383,8 @@ msgstr "Modalità di tracciamento (0=normale 1=piccola 2=storica)"
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
-"Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
+"Errore di riproduzione: %s è differente dalla linea %d del file di debug %"
+"06d"
 
 #: src/network.c:235
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
@@ -860,39 +860,32 @@ msgid "Size of the GEORAM expansion unit"
 msgstr "Dimensione dell'espansione GEORAM"
 
 #: src/c64/plus256k.c:172
-#, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
-msgstr "Attiva l'espansione 256K RAM"
+msgstr "Attiva l'espansione RAM PLUS256K"
 
 #: src/c64/plus256k.c:174
-#, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "Disattiva l'espansione 256K RAM"
+msgstr "Disattiva l'espansione RAM PLUS256K"
 
 #: src/c64/plus256k.c:176
-#, fuzzy
 msgid "Specify name of PLUS256K image"
-msgstr "Specifica il nome dell'immagine 256K"
+msgstr "Specifica il nome dell'immagine PLUS256K"
 
 #: src/c64/plus60k.c:247
-#, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
-msgstr "Attiva l'espansione +60K RAM"
+msgstr "Attiva l'espansione RAM PLUS60K"
 
 #: src/c64/plus60k.c:249
-#, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "Disattiva l'espansione +60K RAM"
+msgstr "Disattiva l'espansione RAM PLUS60K"
 
 #: src/c64/plus60k.c:251
-#, fuzzy
 msgid "Specify name of PLUS60K image"
-msgstr "Specifica il nome dell'immagine +60K"
+msgstr "Specifica il nome dell'immagine PLUS60K"
 
 #: src/c64/plus60k.c:253
-#, fuzzy
 msgid "Base address of the PLUS60K expansion"
-msgstr "Indirizzo base dell'espansione +60K"
+msgstr "Indirizzo base dell'espansione PLUS60K"
 
 #: src/c64/psid.c:162
 msgid "SID player mode"
@@ -1420,24 +1413,21 @@ msgid "Disable userport diagnostic pin"
 msgstr "Disattiva il pin diagnostico della userport"
 
 #: src/pet/petreu.c:214
-#, fuzzy
 msgid "Enable the PET Ram and Expansion Unit"
-msgstr "Attiva l'espansione di RAM"
+msgstr "Attiva l'unità di espansione e della RAM del PET"
 
 #: src/pet/petreu.c:216
-#, fuzzy
 msgid "Disable the PET Ram and Expansion Unit"
-msgstr "Disattiva l'espansione di RAM"
+msgstr "Disattiva l'unità di espansione e della RAM del PET"
 
 #: src/pet/petreu.c:218
-#, fuzzy
 msgid "Specify name of PET Ram and Expansion Unit image"
-msgstr "Specifica il nome dell'immagine REU"
+msgstr ""
+"Specifica il nome dell'immagine dell'unità di espansione e della RAM del PET"
 
 #: src/pet/petreu.c:220
-#, fuzzy
 msgid "Size of the PET Ram and Expansion Unit"
-msgstr "Dimensione dell'espansione di RAM"
+msgstr "Dimensione dell'unità di espansione e della RAM del PET"
 
 #: src/plus4/plus4-cmdline-options.c:87
 msgid "Specify name of Function low ROM image"
@@ -1468,24 +1458,20 @@ msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Specifica la dimensione della RAM installata in kb (16/32/64)"
 
 #: src/plus4/plus4memcsory256k.c:117
-#, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
-msgstr "Attiva l'espansione 256K RAM"
+msgstr "Attiva l'espansione RAM CSORY 256K"
 
 #: src/plus4/plus4memhannes256k.c:132
-#, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
-msgstr "Attiva l'espansione 256K RAM"
+msgstr "Attiva l'espansione RAM HANNES 256K"
 
 #: src/plus4/plus4memhannes256k.c:134
-#, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
-msgstr "Attiva l'espansione 256K RAM"
+msgstr "Attiva l'espansione RAM HANNES 1024K"
 
 #: src/plus4/plus4memhannes256k.c:136
-#, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
-msgstr "Attiva l'espansione 256K RAM"
+msgstr "Attiva l'espansione RAM HANNES 4096K"
 
 #: src/plus4/ted-cmdline-options.c:56 src/vicii/vicii-cmdline-options.c:83
 msgid "Set saturation of internal calculated palette [1000]"
@@ -1680,81 +1666,75 @@ msgid "<engine>"
 msgstr "<motore>"
 
 #: src/sid/sid-cmdline-options.c:77
-#, fuzzy
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
 msgstr ""
-"Specifica il motore SID (0:·FastSID,·1:·ReSID,·2:·Catweasel,·3:·HardSID)"
+"Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
+"ParSID)"
 
 #: src/sid/sid-cmdline-options.c:79
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
-"Specifica il motore SID (0:·FastSID,·1:·ReSID,·2:·Catweasel,·3:·HardSID)"
+"Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:83
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
-"Specifica il motore SID (0:·FastSID,·1:·ReSID,·2:·Catweasel,·3:·HardSID)"
+"Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:85
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
-msgstr "Specifica il motore SID (0:·FastSID,·1:·ReSID,·2:·Catweasel)"
+msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:91
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·1:·ReSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:93
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·1:·ReSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:97
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·1:·ReSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 1: ReSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:99
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·1:·ReSID)"
+msgstr "Specifica il motore SID (0: FastSID, 1: ReSID)"
 
 #: src/sid/sid-cmdline-options.c:107
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·2:·Catweasel,·3:·HardSID)"
+msgstr ""
+"Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·2:·Catweasel,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:113
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·2:·Catweasel,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:115
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
-msgstr "Specifica il motore SID (0:·FastSID,·2:·Catweasel)"
+msgstr "Specifica il motore SID (0: FastSID, 2: Catweasel)"
 
 #: src/sid/sid-cmdline-options.c:121
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 3: HardSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:123
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 3: HardSID)"
 
 #: src/sid/sid-cmdline-options.c:127
-#, fuzzy
 msgid "Specify SID engine (0: FastSID, 4: ParSID)"
-msgstr "Specifica il motore SID (0:·FastSID,·3:·HardSID)"
+msgstr "Specifica il motore SID (0: FastSID, 4: ParSID)"
 
 #: src/sid/sid-cmdline-options.c:129
 msgid "Specify SID engine (0: FastSID)"
-msgstr "Specifica il motore SID (0:·FastSID)"
+msgstr "Specifica il motore SID (0: FastSID)"
 
 #: src/sid/sid-cmdline-options.c:138
 msgid "Enable second SID"
@@ -2382,17 +2362,14 @@ msgid "*Old NTSC-M"
 msgstr "*NTSC-M vecchio"
 
 #: src/arch/unix/gui/c64ui.c:275
-#, fuzzy
 msgid "PLUS60K RAM Expansion"
-msgstr "Espansione RAM +60K"
+msgstr "Espansione RAM PLUS60K"
 
 #: src/arch/unix/gui/c64ui.c:277
-#, fuzzy
 msgid "PLUS256K RAM Expansion"
-msgstr "Espansione RAM 256K"
+msgstr "Espansione RAM PLUS256K"
 
 #: src/arch/unix/gui/c64ui.c:279
-#, fuzzy
 msgid "256K RAM Expansion"
 msgstr "Espansione RAM 256K"
 
@@ -2597,9 +2574,8 @@ msgid "Load new editor ROM"
 msgstr "Carica una nuova ROM dell'editor"
 
 #: src/arch/unix/gui/petui.c:185
-#, fuzzy
 msgid "PET RAM and Expansion Unit"
-msgstr "Espansione RAM"
+msgstr "Unità di espansione e della RAM del PET"
 
 #: src/arch/unix/gui/petui.c:222
 msgid "*Original character set"
@@ -2691,19 +2667,19 @@ msgstr "*64KB"
 
 #: src/arch/unix/gui/plus4ui.c:127
 msgid "*256KB (CSORY)"
-msgstr ""
+msgstr "*256KB (CSORY)"
 
 #: src/arch/unix/gui/plus4ui.c:129
 msgid "*256KB (HANNES)"
-msgstr ""
+msgstr "*256KB (HANNES)"
 
 #: src/arch/unix/gui/plus4ui.c:131
 msgid "*1024KB (HANNES)"
-msgstr ""
+msgstr "*1024KB (HANNES)"
 
 #: src/arch/unix/gui/plus4ui.c:133
 msgid "*4096KB (HANNES)"
-msgstr ""
+msgstr "*4096KB (HANNES)"
 
 #: src/arch/unix/gui/plus4ui.c:143
 msgid "RAM settings"
@@ -2905,7 +2881,7 @@ msgstr "Seleziona una immagine Super Snapshot 5..."
 
 #: src/arch/unix/gui/uic64cart.c:177
 msgid "Attach Structured Basic image..."
-msgstr "Seleziona una immagine Structured·Basic..."
+msgstr "Seleziona una immagine Structured Basic..."
 
 #: src/arch/unix/gui/uic64cart.c:181
 msgid "Enable Expert Cartridge..."
@@ -4022,59 +3998,48 @@ msgid "Peripheral settings"
 msgstr "Impostazioni delle periferiche"
 
 #: src/arch/unix/gui/uipetreu.c:41
-#, fuzzy
 msgid "PETREU image name"
-msgstr "Nome dell'immagine REU"
+msgstr "Nome dell'immagine PETREU"
 
 #: src/arch/unix/gui/uipetreu.c:52
-#, fuzzy
 msgid "*Enable PET REU"
-msgstr "*Attiva REU"
+msgstr "*Attiva PET REU"
 
 #: src/arch/unix/gui/uipetreu.c:54
-#, fuzzy
 msgid "PET REU size"
-msgstr "Dimensione REU"
+msgstr "Dimensione PET REU"
 
 #: src/arch/unix/gui/uipetreu.c:56
-#, fuzzy
 msgid "PET REU image name..."
-msgstr "Nome dell'immagine REU..."
+msgstr "Nome dell'immagine PET REU..."
 
 #: src/arch/unix/gui/uiplus256k.c:40
-#, fuzzy
 msgid "PLUS256K image name"
-msgstr "Nome dell'immagine 256K"
+msgstr "Nome dell'immagine PLUS256K"
 
 #: src/arch/unix/gui/uiplus256k.c:45
-#, fuzzy
 msgid "*Enable PLUS256K"
-msgstr "*Attiva 256K"
+msgstr "*Attiva PLUS256K"
 
 #: src/arch/unix/gui/uiplus256k.c:47
-#, fuzzy
 msgid "PLUS256K image name..."
-msgstr "Nome dell'immagine 256K..."
+msgstr "Nome dell'immagine PLUS256K..."
 
 #: src/arch/unix/gui/uiplus60k.c:41
-#, fuzzy
 msgid "PLUS60K image name"
-msgstr "Nome dell'immagine +60K"
+msgstr "Nome dell'immagine PLUS60K"
 
 #: src/arch/unix/gui/uiplus60k.c:54
-#, fuzzy
 msgid "*Enable PLUS60K"
-msgstr "*Attiva +60K"
+msgstr "*Attiva PLUS60K"
 
 #: src/arch/unix/gui/uiplus60k.c:56
-#, fuzzy
 msgid "PLUS60K base address"
-msgstr "indirizzo base +60K"
+msgstr "indirizzo base PLUS60K"
 
 #: src/arch/unix/gui/uiplus60k.c:58
-#, fuzzy
 msgid "PLUS60K image name..."
-msgstr "Nome dell'immagine +60K..."
+msgstr "Nome dell'immagine PLUS60K..."
 
 #: src/arch/unix/gui/uiprinter.c:80 src/arch/unix/gui/uiprinter.c:95
 #: src/arch/unix/gui/uiprinter.c:107
@@ -4352,15 +4317,15 @@ msgstr "Elenca il ROM set attuale"
 
 #: src/arch/unix/gui/uirs232.c:54 src/arch/unix/gui/uirs232.c:90
 msgid "*38400 (Swiftlink/Turbo232 only)"
-msgstr ""
+msgstr "*38400 (solo Swiftlink/Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:56 src/arch/unix/gui/uirs232.c:92
 msgid "*57600 (Turbo232 only)"
-msgstr ""
+msgstr "*57600 (solo Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:58 src/arch/unix/gui/uirs232.c:94
 msgid "*115200 (Turbo232 only)"
-msgstr ""
+msgstr "*115200 (solo Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:121
 msgid "Select RS232 device file"
@@ -4391,17 +4356,16 @@ msgid "*NMI"
 msgstr "*NMI"
 
 #: src/arch/unix/gui/uirs232c64c128.c:54
-#, fuzzy
 msgid "*Normal"
-msgstr "&Normale"
+msgstr "*Normale"
 
 #: src/arch/unix/gui/uirs232c64c128.c:56
 msgid "*Swiftlink"
-msgstr ""
+msgstr "*Swiftlink"
 
 #: src/arch/unix/gui/uirs232c64c128.c:58
 msgid "*Turbo232"
-msgstr ""
+msgstr "*Turbo232"
 
 #: src/arch/unix/gui/uirs232c64c128.c:67
 msgid "*ACIA $DExx RS232 interface emulation"
@@ -4416,9 +4380,8 @@ msgid "ACIA $DExx Interrupt"
 msgstr "Interrupt dell'ACIA a $DExx"
 
 #: src/arch/unix/gui/uirs232c64c128.c:73
-#, fuzzy
 msgid "ACIA $DExx Emulation Mode"
-msgstr "Dispositivo ACIA a $DExx"
+msgstr "Modalità di emulazione dell'ACIA a $DExx"
 
 #: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:354
 msgid "*Userport RS232 emulation"
@@ -4596,15 +4559,15 @@ msgstr "*HardSID"
 
 #: src/arch/unix/gui/uisid.c:58
 msgid "*ParSID Port 1"
-msgstr ""
+msgstr "*ParSID Porta 1"
 
 #: src/arch/unix/gui/uisid.c:60
 msgid "*ParSID Port 2"
-msgstr ""
+msgstr "*ParSID Porta 2"
 
 #: src/arch/unix/gui/uisid.c:62
 msgid "*ParSID Port 3"
-msgstr ""
+msgstr "*ParSID Porta 3"
 
 #: src/arch/unix/gui/uisid.c:71
 msgid "*6581 (old)"
@@ -4999,18 +4962,25 @@ msgid "Official VICE homepage:"
 msgstr "Homepage ufficiale di VICE:"
 
 #: src/arch/unix/x11/gnome/about.c:86
+#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
 "Andrea Musuruane - Italian\n"
-"Paul Dub - French\n"
+"Paul Dube - French\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 msgstr ""
+"Martin Pottendorfer - Tedesco\n"
+"Peter Karlsson - Svedese\n"
+"Andrea Musuruane - Italiano\n"
+"Paul Dub - Francese\n"
+"Marco van den Heuvel - Olandese\n"
+"Flooder - Polacco\n"
 
 #: src/arch/unix/x11/gnome/about.c:98
 msgid "(c) 1998 - 2006 The Vice Team"
-msgstr ""
+msgstr "(c) 1998 - 2006 Il Team di Vice"
 
 #: src/arch/unix/x11/gnome/about.c:109
 msgid "License"
@@ -5079,9 +5049,8 @@ msgid "Create empty disk"
 msgstr "Crea un disco vuoto"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:69
-#, fuzzy
 msgid "Create disk"
-msgstr "Crea un disco vuoto"
+msgstr "Crea un disco"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:80
 msgid "Disk options"
@@ -5162,14 +5131,12 @@ msgid "Status: %s, Server: %s, Port: %d"
 msgstr "Stato: %s, Server: %s, Porta: %d"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:110
-#, fuzzy
 msgid "Couldn't start netplay server."
-msgstr "Si è verificato un errore avviando il server netplay."
+msgstr "Non è possibile avviare il server netplay."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:120
-#, fuzzy
 msgid "Couldn't connect client."
-msgstr "Client connesso"
+msgstr "Non è possibile connettere il client."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:139
 #: src/arch/unix/x11/gnome/uinetplay.c:145
@@ -5206,9 +5173,8 @@ msgid "Save Screenshot"
 msgstr "Salva schermata"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:251
-#, fuzzy
 msgid "Save Media File..."
-msgstr "Salva file multimediale"
+msgstr "Salva file multimediale..."
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:268
 msgid "Image Format"
@@ -5298,9 +5264,8 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
 #: src/arch/unix/x11/gnome/x11ui.c:2657
-#, fuzzy
 msgid "all files"
-msgstr "Tutti i file (*.*)"
+msgstr "tutti i file"
 
 #: src/arch/unix/x11/gnome/x11ui.c:428
 #, c-format
@@ -5478,7 +5443,7 @@ msgstr "Avvio automatico"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2751
 msgid "Text cannot be displayed.\n"
-msgstr ""
+msgstr "Il testo non può essere visualizzato.\n"
 
 #: src/arch/unix/x11/dga1.c:82
 #, c-format
@@ -5578,8 +5543,8 @@ msgstr ""
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
-"Si è verificato un errore durante la commutazione a tutto schermo (SetMode) %"
-"ix%i"
+"Si è verificato un errore durante la commutazione a tutto schermo (SetMode) "
+"%ix%i"
 
 #: src/arch/unix/x11/dga2.c:606
 #, c-format
@@ -5599,8 +5564,8 @@ msgstr ""
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
-"Si è verificato un errore durante la commutazione a tutto schermo (CreateGC) "
-"%ix%i"
+"Si è verificato un errore durante la commutazione a tutto schermo "
+"(CreateGC) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:707
 msgid "Couldn't allocate color cache"
@@ -5786,14 +5751,12 @@ msgid "Save snapshot"
 msgstr "Salva snapshot"
 
 #: src/arch/unix/x11/xaw/x11ui.c:811
-#, fuzzy
 msgid "recording..."
-msgstr "registrazione eventi"
+msgstr "registrazione..."
 
 #: src/arch/unix/x11/xaw/x11ui.c:820
-#, fuzzy
 msgid "event recording..."
-msgstr "registrazione eventi"
+msgstr "registrazione eventi..."
 
 #: src/arch/unix/x11/xaw/x11ui.c:1253
 #, c-format
@@ -6723,8 +6686,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "An unexpected error occured. Received signal %d (%s)."
 #~ msgstr ""
-#~ "Si è verificato un errore non previsto. E' stato ricevuto il segnale %d (%"
-#~ "s)."
+#~ "Si è verificato un errore non previsto. E' stato ricevuto il segnale %d "
+#~ "(%s)."
 
 #~ msgid "An unexpected error occured. Received signal %d."
 #~ msgstr ""
@@ -7872,8 +7835,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
 #~ msgstr ""
-#~ "IDE64: Non èpossibile usare il file immagine `%s'.ÃÂÃÂ·NESSUNA EMULAZIONE "
-#~ "DEL DRIVE!"
+#~ "IDE64: Non èpossibile usare il file immagine `%s'.ÃÂÃÂ NESSUNA "
+#~ "EMULAZIONE DEL DRIVE!"
 
 #~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
 #~ msgstr ""
@@ -7885,7 +7848,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
 #~ msgstr ""
-#~ "IDE64: uso %i/%i/%iÃÂÃÂ·CHSÃÂÃÂ·geometria,ÃÂÃÂ·%luÃÂÃÂ·settoriÃÂÃÂ·totali."
+#~ "IDE64: uso %i/%i/%iÃÂÃÂ CHSÃÂÃÂ geometria,ÃÂÃÂ %luÃÂÃÂ "
+#~ "settoriÃÂÃÂ totali."
 
 #~ msgid "IDE64: LBA geometry, %lu sectors total."
 #~ msgstr "IDE64: geometria LBA, %lu settori totali."
@@ -7975,8 +7939,9 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Found suitable mode for fullscreen."
 #~ msgstr ""
-#~ "Trovata una modalitÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  adatta allo schermo "
-#~ "intero."
+#~ "Trovata una "
+#~ "modalitÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  "
+#~ "adatta allo schermo intero."
 
 #~ msgid "Couldn't allocate pixel value cache."
 #~ msgstr "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile allocare la cache coi valori dei pixel."
@@ -7999,8 +7964,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ eseguto come root, le estesioni DGA non sono possibili - "
-#~ "schermo intero disabilitato."
+#~ "Vice non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ eseguto come root, le estesioni DGA non sono possibili "
+#~ "- schermo intero disabilitato."
 
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile trovare il simbolo `%s'!"
@@ -8020,8 +7985,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid ""
 #~ "Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."
 #~ msgstr ""
-#~ "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile allocare il backbuffer per il rendering PAL DGA; "
-#~ "schemo intero disabilitato."
+#~ "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile allocare il backbuffer per il rendering PAL "
+#~ "DGA; schemo intero disabilitato."
 
 #~ msgid "Please recompile the program for a supported bit depth."
 #~ msgstr "Per favore ricompila il programma con una profondita supportata"
@@ -8030,7 +7995,9 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Solo %ibpp sono supportati da questo emulatore."
 
 #~ msgid "Current X server depth is %ibpp."
-#~ msgstr "La profondita attuale dell'X server ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ %ibpp."
+#~ msgstr ""
+#~ "La profondita attuale dell'X server "
+#~ "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ %ibpp."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
 #~ msgstr ""
