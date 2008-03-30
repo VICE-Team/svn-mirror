@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.14
+ VERSION=1.13.15
 
 
 cat >>confdefs.h <<_ACEOF
@@ -9116,6 +9116,10 @@ fi
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes"; then
 
+  if test x"$enable_ffmpeg" = "xyes" ; then
+    LIBS="-lavformat -lavcodec $LIBS"
+  fi
+
 
 for ac_header in cwsid.h
 do
@@ -9263,20 +9267,20 @@ fi
 done
 
 
-if test x"$with_arts" = "xyes"; then
+  if test x"$with_arts" = "xyes"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define USE_ARTS
 _ACEOF
 
-	CFLAGS="$CFLAGS `artsc-config --cflags`"
-	LIBS="$LIBS `artsc-config --libs`"
-	SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"
-fi
+    CFLAGS="$CFLAGS `artsc-config --cflags`"
+    LIBS="$LIBS `artsc-config --libs`"
+    SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"
+  fi
 
-if test x"$with_sdl" = "xyes"; then
-	SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-fi
+  if test x"$with_sdl" = "xyes"; then
+    SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+  fi
 
 
 
@@ -9848,7 +9852,7 @@ fi
 done
 
 
-if test x"$with_sdl" = "xyes"; then
+  if test x"$with_sdl" = "xyes"; then
 
 for ac_header in SDL/SDL_audio.h
 do
@@ -9991,9 +9995,9 @@ fi
 
 done
 
-fi
+  fi
 
-if test x"$host_os" = "xhpux"; then
+  if test x"$host_os" = "xhpux"; then
 
 for ac_header in sys/audio.h
 do
@@ -10136,7 +10140,7 @@ fi
 
 done
 
-fi;
+  fi;
 
 
 for ac_header in UMS/UMSAudioDevice.h

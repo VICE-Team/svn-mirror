@@ -26,13 +26,10 @@
 #define INCL_WININPUT
 #define INCL_WINPOINTERS
 
-#include "joy.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "fullscr.h"
 #include "cmdline.h"
-#include "joystick.h"
-#include "keyboard.h"
 #include "resources.h"
 
 
@@ -44,7 +41,8 @@ static SHORT _mouse_x, _mouse_y; // [-32768, 32768]
 
 void mousedrv_mouse_changed(void)
 {
-    joystick_clear(1);
+    mouse_button_left(0);
+    mouse_button_right(0);
 }
 
 static int set_hide_mouseptr(resource_value_t v, void *param)
@@ -220,16 +218,17 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
         }
         return;
     case WM_BUTTON1DOWN:
-        joystick_set_value_or(1, CBM_FIRE);
+        mouse_button_left(1);
         return;
     case WM_BUTTON1UP:
-        joystick_set_value_and(1, ~CBM_FIRE);
+        mouse_button_left(0);
         return;
     case WM_BUTTON2DOWN:
-        joystick_set_value_or(1, CBM_NORTH);
+        mouse_button_right(1);
         return;
     case WM_BUTTON2UP:
-        joystick_set_value_and(1, ~CBM_NORTH);
+        mouse_button_right(0);
         return;
     }
 }
+

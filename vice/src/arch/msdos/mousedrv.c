@@ -31,8 +31,6 @@
 #include <allegro.h>
 #include <stdio.h>
 
-#include "joystick.h"
-#include "keyboard.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "log.h"
@@ -72,14 +70,14 @@ static void my_mouse_callback(int flags)
 {
     if (flags & MOUSE_FLAG_MOVE)
         _mouse_coords_dirty = 1;
+    if (flags MOUSE_FLAG_LEFT_DOWN)
+        mouse_button_left(1);
     if (flags & MOUSE_FLAG_LEFT_UP)
-        joystick_set_value_and(1, ~16);
-    if (flags & MOUSE_FLAG_LEFT_DOWN)
-        joystick_set_value_or(1, 16);
-    if (flags & MOUSE_FLAG_RIGHT_UP)
-        joystick_set_value_and(1, ~1);
+        mouse_button_left(0);
     if (flags & MOUSE_FLAG_RIGHT_DOWN)
-        joystick_set_value_or(1, 1);
+        mouse_button_right(1);
+    if (flags & MOUSE_FLAG_RIGHT_UP)
+        mouse_button_right(0);
 }
 
 void mousedrv_init(void)
@@ -127,16 +125,4 @@ BYTE mousedrv_get_y(void)
     _update_mouse();
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
 }
-
-#if 0
-inline static int mouse_get_left_button(void)
-{
-    return mouse_b & 1;
-}
-
-inline static int mouse_get_right_button(void)
-{
-    return mouse_b & 2;
-}
-#endif
 

@@ -29,12 +29,15 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "joystick.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
 
 
 int _mouse_enabled = 0;
+
+static int mouse_port;
 
 
 static int set_mouse_enabled(resource_value_t v, void *param)
@@ -44,9 +47,23 @@ static int set_mouse_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_mouse_port(resource_value_t v, void *param)
+{
+    mouse_port = (int)v;
+
+    if ((int)v < 1 || (int)v > 2)
+        return -1;
+
+    mouse_port = (int)v;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "Mouse", RES_INTEGER, (resource_value_t)0,
       (void *)&_mouse_enabled, set_mouse_enabled, NULL },
+    { "Mouseport", RES_INTEGER, (resource_value_t)1,
+      (void *)&mouse_port, set_mouse_port, NULL },
     { NULL }
 };
 
@@ -63,6 +80,8 @@ static const cmdline_option_t cmdline_options[] = {
       "Mouse", NULL, NULL, N_("Enable emulation of the 1351 proportional mouse") },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
       "Mouse", NULL, NULL, N_("Disable emulation of the 1351 proportional mouse") },
+    { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
+      "Mouseport", NULL, "<value>", "Select the joystick port the mouse is attached to" },
     { NULL }
 };
 
@@ -77,6 +96,24 @@ int mouse_cmdline_options_init(void)
 void mouse_init(void)
 {
     mousedrv_init();
+}
+
+void mouse_button_left(int pressed)
+{
+    if (pressed) {
+        joystick_set_value_or(mouse_port, 16);
+    } else {
+        joystick_set_value_and(mouse_port, ~16);
+    }
+}
+
+void mouse_button_right(int pressed)
+{
+    if (pressed) {
+        joystick_set_value_or(mouse_port, 1);
+    } else {
+        joystick_set_value_and(mouse_port, ~1);
+    }
 }
 
 BYTE mouse_get_x(void)

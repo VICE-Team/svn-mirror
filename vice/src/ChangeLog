@@ -1,3 +1,37 @@
+2003-11-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.15.
+
+	* arch/unix/ffmpeglib.c: New file.
+
+	* arch/unix/Makefile.am: Added new file.
+
+	* gfxoutputdrv/ffmpegdrv.c: Removed include.
+
+	* mouse.c, mouse.h, arch/unix/mousedrv.c,
+	arch/win32/mousedrv.c, arch/msdos/mousedrv.c,
+	arch/os2/mousedrv.c: Moved mouse port code to common file.
+
+2003-11-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* sounddrv/soundffmpegaudio.c (ffmpegaudio_close): Stop
+	screenshot recording; this will close the movie file if
+	sound settings change or the emulator is closed.
+
+2003-11-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* gfxoutputdrv/ffmpegdrv.c: Include cmdline.h.
+	Added resources FFMPEFAudioBitrate and FFMPEFVideoBitrate
+	and corresponding cmdline options.
+	Added error handling to get a controlled shutdown of the
+	driver if a stream or the file cannot ne opened.
+	Test if MP3 codec is available bedore switching to it.
+
+2003-11-03  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/uiconfig.c: adapted to new VIDEO_RESOURCE_PAL_*
+	defines
+
 2003-11-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.14.
