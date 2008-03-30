@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 14 October 1998 -->
+     from ../vice.texi on 5 November 1998 -->
 
 <TITLE>VICE Manual - 10  c1541</TITLE>
 </HEAD>
@@ -59,144 +59,144 @@ standard output, depending on the context.
 
 <P><DT><CODE>-attach  IMAGE</CODE>
 <DD>
-<A NAME="IDX248"></A>
- 
 <A NAME="IDX249"></A>
+ 
+<A NAME="IDX250"></A>
 <P><DT><CODE>attach  IMAGE</CODE>
 <DD>
 Attach the disk image <CODE>IMAGE</CODE> for use.  All the following commands
 will refer to this image.
 
-<A NAME="IDX250"></A>
+<A NAME="IDX251"></A>
 <P><DT><CODE>-detach</CODE>
 <DD>
-<A NAME="IDX251"></A>
+<A NAME="IDX252"></A>
 <P><DT><CODE>detach</CODE>
 <DD>
 Detach the currently attached disk image.
 
-<A NAME="IDX252"></A>
+<A NAME="IDX253"></A>
 <P><DT><CODE>-format  IMAGE 'NAME,ID'</CODE>
 <DD>
-<A NAME="IDX253"></A>
+<A NAME="IDX254"></A>
 <P><DT><CODE>format  IMAGE 'NAME,ID'</CODE>
 <DD>
 Format the D64 disk image <CODE>IMAGE</CODE>, giving the specified label.  If
 <CODE>IMAGE</CODE> does not exist, create it.
 
-<A NAME="IDX254"></A>
+<A NAME="IDX255"></A>
 <P><DT><CODE>-gcr  IMAGENAME ['NAME,ID']</CODE>
 <DD>
-<A NAME="IDX255"></A>
+<A NAME="IDX256"></A>
 <P><DT><CODE>gcrformat  IMAGE 'NAME,ID'</CODE>
 <DD>
 Create a GCR disk image; if <CODE>NAME,ID</CODE> is specified, format it.
 
-<A NAME="IDX256"></A>
+<A NAME="IDX257"></A>
 <P><DT><CODE>-delete  IMAGE FILES...</CODE>
 <DD>
-<A NAME="IDX257"></A>
+<A NAME="IDX258"></A>
 <P><DT><CODE>delete  FILES...</CODE>
 <DD>
 Delete  FILES  from <CODE>IMAGE</CODE>.
 
-<A NAME="IDX258"></A>
+<A NAME="IDX259"></A>
 <P><DT><CODE>-list  IMAGE</CODE>
 <DD>
-<A NAME="IDX259"></A>
+<A NAME="IDX260"></A>
 <P><DT><CODE>list</CODE>
 <DD>
 List files in <CODE>IMAGE</CODE>.
 
-<A NAME="IDX260"></A>
+<A NAME="IDX261"></A>
 <P><DT><CODE>-validate  IMAGE</CODE>
 <DD>
-<A NAME="IDX261"></A>
+<A NAME="IDX262"></A>
 <P><DT><CODE>validate</CODE>
 <DD>
 Validate the disk.
 
-<A NAME="IDX262"></A>
+<A NAME="IDX263"></A>
 <P><DT><CODE>-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME</CODE>
 <DD>
-<A NAME="IDX263"></A>
+<A NAME="IDX264"></A>
 <P><DT><CODE>copy  OLDNAME1 [OLDNAME2...] NEWNAME</CODE>
 <DD>
 Concatenate <CODE>OLDNAME1</CODE>, <CODE>OLDNAME2</CODE>.. into
 <CODE>NEWNAME</CODE> on <CODE>IMAGE</CODE> (can be used to copy files).
 
-<A NAME="IDX264"></A>
+<A NAME="IDX265"></A>
 <P><DT><CODE>-create  IMAGE DUMP ['DESCR']</CODE>
 <DD>
-<A NAME="IDX265"></A>
+<A NAME="IDX266"></A>
 <P><DT><CODE>create  IMAGE DUMP ['DESCR']</CODE>
 <DD>
 Build <CODE>IMAGE</CODE> from raw dump file <CODE>DUMP</CODE> (i.e., convert
 from <CODE>D64</CODE> to <CODE>X64</CODE> file).
 
-<A NAME="IDX266"></A>
+<A NAME="IDX267"></A>
 <P><DT><CODE>-tape  IMAGE TAPEIMAGE [FILES...]</CODE>
 <DD>
-<A NAME="IDX267"></A>
+<A NAME="IDX268"></A>
 <P><DT><CODE>tape  IMAGE TAPEIMAGE [FILES...]</CODE>
 <DD>
 Transfer <CODE>FILES</CODE> from <CODE>TAPEIMAGE</CODE> to <CODE>IMAGE</CODE>
 (default is copy all files).
 
-<A NAME="IDX268"></A>
+<A NAME="IDX269"></A>
 <P><DT><CODE>-read  IMAGE 1541NAME [FSNAME]</CODE>
 <DD>
-<A NAME="IDX269"></A>
+<A NAME="IDX270"></A>
 <P><DT><CODE>read  1541NAME [FSNAME]</CODE>
 <DD>
 Extract <CODE>1541NAME</CODE> from the disk image into <CODE>FSNAME</CODE>
 (1541NAME by default) from <CODE>IMAGE</CODE>.
 
-<A NAME="IDX270"></A>
+<A NAME="IDX271"></A>
 <P><DT><CODE>-extract  IMAGE</CODE>
 <DD>
-<A NAME="IDX271"></A>
+<A NAME="IDX272"></A>
 <P><DT><CODE>extract</CODE>
 <DD>
 Extract all files from <CODE>IMAGE</CODE>.
 
-<A NAME="IDX272"></A>
+<A NAME="IDX273"></A>
 <P><DT><CODE>-write  IMAGE FSNAME [1541NAME]</CODE>
 <DD>
-<A NAME="IDX273"></A>
+<A NAME="IDX274"></A>
 <P><DT><CODE>write  FSNAME [1541NAME]</CODE>
 <DD>
 Write <CODE>FSNAME</CODE> to <CODE>IMAGE</CODE> as <CODE>1541NAME</CODE>
 (<CODE>FSNAME</CODE> by default). (works with <CODE>P00</CODE> files as well)
 
-<A NAME="IDX274"></A>
+<A NAME="IDX275"></A>
 <P><DT><CODE>-block  [DRIVE:] [TRACK] [SECTOR] [DISP]</CODE>
 <DD>
-<A NAME="IDX275"></A>
+<A NAME="IDX276"></A>
 <P><DT><CODE>block  [DRIVE:] [TRACK] [SECTOR] [DISP]</CODE>
 <DD>
 Show disk blocks in hex format.
 
-<A NAME="IDX276"></A>
+<A NAME="IDX277"></A>
 <P><DT><CODE>-info  IMAGE ['DESCRIPTION']</CODE>
 <DD>
-<A NAME="IDX277"></A>
+<A NAME="IDX278"></A>
 <P><DT><CODE>info  ['DESCRIPTION']</CODE>
 <DD>
 Show version information about <CODE>IMAGE</CODE>.
 
-<A NAME="IDX278"></A>
+<A NAME="IDX279"></A>
 <P><DT><CODE>-unlynx IMAGE LYNXFILE</CODE>
 <DD>
-<A NAME="IDX279"></A>
+<A NAME="IDX280"></A>
 <P><DT><CODE>unlynx LYNXFILE</CODE>
 <DD>
 Unlynx <TT>`LYNXFILE'</TT> into the image.
 
-<A NAME="IDX280"></A>
+<A NAME="IDX281"></A>
 <P><DT><CODE>-zcreate  IMAGE DUMP ['DESCR']</CODE>
 <DD>
-<A NAME="IDX281"></A>
+<A NAME="IDX282"></A>
 <P><DT><CODE>zcreate IMAGE DUMP ['DESCR']</CODE>
 <DD>
 Build <CODE>IMAGE</CODE> from a Zipcoded image made up of files called

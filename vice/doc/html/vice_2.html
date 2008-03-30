@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 14 October 1998 -->
+     from ../vice.texi on 5 November 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -465,14 +465,22 @@ systems, your help would be really appreciated.  We are having troubles
 finding HP-UX and SUN consoles to work at...
 
 </P>
+<P>
+<A NAME="IDX3"></A>
+Some problems have been reported with the proprietary version of the
+Open Sound System for Linux.  With a Crystal sound card, sound output
+was significantly delayed and, apparently, the allocated buffer size was 
+wrong.  This is not a VICE bug, but rather an OSS bug.
+
+</P>
 
 
 
 <H3><A NAME="SEC17" HREF="vice_toc.html#TOC17">2.10.2  Shared memory problems</A></H3>
 
 <P>
-<A NAME="IDX3"></A>
 <A NAME="IDX4"></A>
+<A NAME="IDX5"></A>
 If you cannot start VICE, because you get errors about shared memory,
 try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
 that are normally used to speed up the emulation window updates.  Of

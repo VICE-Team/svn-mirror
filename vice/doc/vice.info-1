@@ -987,6 +987,11 @@ troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
 finding HP-UX and SUN consoles to work at...
 
+   Some problems have been reported with the proprietary version of the
+Open Sound System for Linux.  With a Crystal sound card, sound output
+was significantly delayed and, apparently, the allocated buffer size was
+wrong.  This is not a VICE bug, but rather an OSS bug.
+
 
 File: vice.info,  Node: Shared memory problems,  Prev: Sound problems,  Up: Common problems
 
