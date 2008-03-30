@@ -185,8 +185,7 @@ vic_store(ADDRESS addr, BYTE value)
         {
             static int old_char_height = -1;
 
-            int new_text_lines = MIN((value & 0x7e) >> 1,
-                                 VIC_SCREEN_MAX_TEXT_LINES);
+            int new_text_lines = (value & 0x7e) >> 1;
 
             int new_char_height = (value & 0x1) ? 16 : 8;
 

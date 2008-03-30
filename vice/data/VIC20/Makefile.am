@@ -10,6 +10,8 @@ vic20_DATA = \
 	dos_sym.vkm \
 	kernal \
 	os2.vkm \
+	win_sym.vkm \
+	win_pos.vkm \
 	x11_pos.vkm \
 	x11_sym.vkm
 

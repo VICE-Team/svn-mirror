@@ -156,6 +156,8 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_CART_ATTACH_EPYX)));
 			submenu->AddItem(new BMenuItem("IEEE488 interface",
 				new BMessage(MENU_CART_ATTACH_IEEE488)));
+			submenu->AddItem(new BMenuItem("IDE64 interface",
+				new BMessage(MENU_CART_ATTACH_IDE64)));
 			submenu->AddItem(new BMenuItem("Super Snapshot 4",
 				new BMessage(MENU_CART_ATTACH_SS4)));
 			submenu->AddItem(new BMenuItem("Super Snapshot 5",

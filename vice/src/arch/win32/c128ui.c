@@ -114,6 +114,12 @@ static ui_cartridge_params c128_ui_cartridges[] = {
         UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
+        IDM_CART_ATTACH_IDE64,
+        CARTRIDGE_IDE64,
+        "Attach IDE64 interface cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+    },
+    {
         IDM_CART_ATTACH_SS4,
         CARTRIDGE_SUPER_SNAPSHOT,
         "Attach Super Snapshot 4 cartridge image",
@@ -166,6 +172,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_EPYX:
       case IDM_CART_ATTACH_IEEE488:
       case IDM_CART_ATTACH_RR:
+      case IDM_CART_ATTACH_IDE64:
       case IDM_CART_ATTACH_SS4:
       case IDM_CART_ATTACH_SS5:
         c128_ui_attach_cartridge(wparam, hwnd, c128_ui_cartridges);

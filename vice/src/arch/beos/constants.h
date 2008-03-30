@@ -79,9 +79,10 @@ const uint32 MENU_CART_ATTACH_EPYX				= 'M045';
 const uint32 MENU_CART_ATTACH_IEEE488			= 'M046';
 const uint32 MENU_CART_ATTACH_SS4				= 'M047';
 const uint32 MENU_CART_ATTACH_SS5				= 'M048';
-const uint32 MENU_CART_SET_DEFAULT				= 'M049';
-const uint32 MENU_CART_DETACH					= 'M050';
-const uint32 MENU_CART_FREEZE					= 'M051';
+const uint32 MENU_CART_ATTACH_IDE64				= 'M049';
+const uint32 MENU_CART_SET_DEFAULT				= 'M050';
+const uint32 MENU_CART_DETACH					= 'M051';
+const uint32 MENU_CART_FREEZE					= 'M052';
 
 const uint32 MENU_CART_VIC20_16KB_2000			= 'M060';
 const uint32 MENU_CART_VIC20_16KB_4000			= 'M061';

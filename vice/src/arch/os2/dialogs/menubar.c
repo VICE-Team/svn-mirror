@@ -281,6 +281,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_CRTSSSHOT5:
     case IDM_CRTWEST:
     case IDM_CRTIEEE:
+    case IDM_CRTIDE64:
         ViceFileDialog(hwnd, 0x0b00 | (idm&0xf), FDS_OPEN_DIALOG);
         return;
     case IDM_CRTEXPERT:
@@ -979,6 +980,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_CRTSSSHOT5, val==CARTRIDGE_SUPER_SNAPSHOT_V5);
         WinCheckMenuItem(hwnd, IDM_CRTWEST,    val==CARTRIDGE_WESTERMANN);
         WinCheckMenuItem(hwnd, IDM_CRTIEEE,    val==CARTRIDGE_IEEE488);
+        WinCheckMenuItem(hwnd, IDM_CRTIDE64,   val==CARTRIDGE_IDE64);
         WinCheckMenuItem(hwnd, IDM_CRTEXPERT,  val==CARTRIDGE_EXPERT);
         return;
 #endif

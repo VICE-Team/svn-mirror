@@ -50,6 +50,8 @@ typedef enum {
     KEYSET_FIRE
 } joystick_direction_t;
 
+extern int joystick_port_map[2];
+
 extern int joy_arch_init(void);
 extern int joystick_init_resources(void);
 extern int joystick_init_cmdline_options(void);

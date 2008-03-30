@@ -25,6 +25,7 @@ cbm2_DATA = \
 	rom256l.vrs \
 	rom256h.vrs \
 	white.vpl \
+	win_buks.vkm \
 	x11_buks.vkm
 
 EXTRA_DIST = $(cbm2_DATA)

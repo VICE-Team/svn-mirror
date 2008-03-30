@@ -112,6 +112,11 @@ static ui_cartridge_t c64_ui_cartridges[]={
     "IEEE488 interface"
     },
     {
+    MENU_CART_ATTACH_IDE64,
+    CARTRIDGE_IDE64,
+    "IDE64 interface"
+    },
+    {
     MENU_CART_ATTACH_SS4,
     CARTRIDGE_SUPER_SNAPSHOT,
     "Super Snapshot 4",
@@ -180,6 +185,7 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_CART_ATTACH_AT:
         case MENU_CART_ATTACH_EPYX:
         case MENU_CART_ATTACH_IEEE488:
+        case MENU_CART_ATTACH_IDE64:
         case MENU_CART_ATTACH_SS4:
         case MENU_CART_ATTACH_SS5:
             c64_ui_attach_cartridge(msg, window);

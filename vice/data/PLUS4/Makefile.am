@@ -11,6 +11,8 @@ plus4_DATA = \
 	kernal \
 	os2.vkm \
 	vice.vpl \
+	win_sym.vkm \
+	win_pos.vkm \
 	x11_pos.vkm \
 	x11_sym.vkm
 

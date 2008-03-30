@@ -45,7 +45,6 @@
 #define VIC_NTSC_SCREEN_WIDTH           208
 
 #define VIC_SCREEN_MAX_TEXT_COLS        31
-#define VIC_SCREEN_MAX_TEXT_LINES       32
 
 #define VIC_PAL_DISPLAY_WIDTH           224
 #define VIC_NTSC_DISPLAY_WIDTH          200

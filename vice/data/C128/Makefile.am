@@ -19,6 +19,8 @@ c128_DATA = \
 	os2.vkm \
 	vdc_deft.vpl \
 	vice.vpl \
+	win_sym.vkm \
+	win_pos.vkm \
 	x11_sym.vkm \
 	x11_pos.vkm \
 	z80bios

@@ -193,6 +193,7 @@ static subaction_t SubCart[] = {
     { "as 64kB Super Snapshot Cartridge",      FilterCart },
     { "as 16kB Westermann learning Cartridge", FilterCart },
     { "as CBM IEEE488 Cartridge",              FilterCart },
+    { "as IDE64 Cartridge",                    FilterCart },
     { NULL }
 };
 #endif
@@ -444,6 +445,8 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
             return cartridge_attach_image(CARTRIDGE_WESTERMANN, szpath);
         case 9:
             return cartridge_attach_image(CARTRIDGE_IEEE488, szpath);
+        case 10:
+            return cartridge_attach_image(CARTRIDGE_IDE64, szpath);
         }
         return -1;
 #endif

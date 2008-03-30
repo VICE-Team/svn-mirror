@@ -47,6 +47,7 @@ BEGIN
          MENUITEM "~64kB Super Snapshot", IDM_CRTSSSHOT5,   MIS_TEXT
          MENUITEM "16kB ~Westermann learning", IDM_CRTWEST, MIS_TEXT
          MENUITEM "~CBM IEEE488",         IDM_CRTIEEE,      MIS_TEXT
+         MENUITEM "I~DE64",               IDM_CRTIDE64,     MIS_TEXT
       END
       MENUITEM "~Expert Cartridge",       IDM_CRTEXPERT,    MIS_TEXT
       MENUITEM "Press Free~ze Button",    IDM_CRTFREEZE,    MIS_TEXT

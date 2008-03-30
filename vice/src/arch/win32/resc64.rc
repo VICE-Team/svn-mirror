@@ -61,6 +61,7 @@ BEGIN
             MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
             MENUITEM "&Retro Replay image...",      IDM_CART_ATTACH_RR
+            MENUITEM "IDE&64 interface image...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4 image...",  IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5 image...",  IDM_CART_ATTACH_SS5
             MENUITEM SEPARATOR

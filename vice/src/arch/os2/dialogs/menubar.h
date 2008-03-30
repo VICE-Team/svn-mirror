@@ -322,10 +322,11 @@
 #define IDM_CRTSSSHOT5   0x508
 #define IDM_CRTWEST      0x509
 #define IDM_CRTIEEE      0x50a
-#define IDM_CRTEXPERT    0x50b
-#define IDM_CRTFREEZE    0x50c
-#define IDM_CRTSAVEIMG   0x50d
-#define IDM_CARTRIDGEDET 0x50e
+#define IDM_CRTIDE64     0x50b
+#define IDM_CRTEXPERT    0x50c
+#define IDM_CRTFREEZE    0x50d
+#define IDM_CRTSAVEIMG   0x50e
+#define IDM_CARTRIDGEDET 0x50f
 
 #define IDM_PALCONTROL   0x510
 #define IDM_TOGGLEPAL    0x511  // used for accel key

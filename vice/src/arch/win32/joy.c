@@ -52,6 +52,10 @@ static int keyset1[9], keyset2[9];
 static int joystick_fire_speed[2];
 static int joystick_fire_axis[2];
 
+#ifdef COMMON_KBD
+int joystick_port_map[2];
+#endif
+
 /* ------------------------------------------------------------------------ */
 
 /* Joystick devices.  */
@@ -257,6 +261,12 @@ int joy_arch_init(void)
     mouse_set_format();
 
 //    IDirectInput_EnumDevices(di,0,EnumCallBack,0,0);
+
+#ifdef COMMON_KBD
+    joystick_port_map[0] = 1;
+    joystick_port_map[1] = 2;
+#endif
+
     return 0;
 }
 

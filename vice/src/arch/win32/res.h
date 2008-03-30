@@ -310,6 +310,7 @@
 #define IDM_CART_ATTACH_RR              40047
 #define IDM_CART_ATTACH_SS4             40048
 #define IDM_CART_ATTACH_SS5             40049
+#define IDM_CART_ATTACH_IDE64           40050
 #define IDM_CART_SET_DEFAULT            40058
 #define IDM_CART_DETACH                 40059
 #define IDM_CART_VIC20_8KB_2000         40060
