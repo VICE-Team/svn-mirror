@@ -210,12 +210,12 @@ static const tape_init_t tapeinit = {
     0x527,
     0xef,
     plus4_tape_traps,
-    36 * 8,
-    54 * 8,
-    55 * 8,
-    73 * 8,
-    74 * 8,
-    100 * 8
+    36 * 8,     /* 44 */
+    66 * 8,
+    70 * 8,     /* 88 */
+    132 * 8,
+    150 * 8,    /* 176 */
+    264 * 8
 };
 
 static log_t plus4_log = LOG_ERR;
