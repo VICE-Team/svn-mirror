@@ -17,56 +17,44 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __VOICE_H__
-#define __VOICE_H__
+#define __EXTFILT_CC__
+#include "extfilt.h"
 
-#include "siddefs.h"
-#include "wave.h"
-#include "envelope.h"
 
-class Voice
+// ----------------------------------------------------------------------------
+// Constructor.
+// ----------------------------------------------------------------------------
+ExternalFilter::ExternalFilter()
 {
-public:
-  // Constructor parameter is sync_source.
-  Voice(Voice*);
+  reset();
+  enabled = true;
 
-  void reset();
+  // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
+  // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
+  // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
+  // shifting 20 times (2 ^ 20 = 1048576).
 
-  void writeCONTROL_REG(reg8);
-
-  // Amplitude modulated waveform output.
-  // Range [0, 4095*255].
-  sound_sample output();
-
-protected:
-  WaveformGenerator wave;
-  EnvelopeGenerator envelope;
-
-friend class SID;
-};
-
-
-// ----------------------------------------------------------------------------
-// Inline functions.
-// The following function is defined inline because it is called every
-// time a sample is calculated.
-// ----------------------------------------------------------------------------
-
-#if RESID_INLINE || defined(__VOICE_CC__)
-
-// ----------------------------------------------------------------------------
-// Amplitude modulated waveform output.
-// Range [0, 4095*255].
-// ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
-sound_sample Voice::output()
-{
-  // Multiply oscillator output with envelope output.
-  return (wave.output() - 2048)*envelope.output();
+  w0lp = 104858;
+  w0hp = 105;
 }
 
-#endif // RESID_INLINE || defined(__VOICE_CC__)
 
-#endif // not __VOICE_H__
+// ----------------------------------------------------------------------------
+// Enable filter.
+// ----------------------------------------------------------------------------
+void ExternalFilter::enable_filter(bool enable)
+{
+  enabled = enable;
+}
+
+
+// ----------------------------------------------------------------------------
+// SID reset.
+// ----------------------------------------------------------------------------
+void ExternalFilter::reset()
+{
+  // State of filter.
+  Vlp = 0;
+  Vhp = 0;
+  Vo = 0;
+}

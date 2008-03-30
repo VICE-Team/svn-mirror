@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1998  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "siddefs.h"
 #include "voice.h"
 #include "filter.h"
+#include "extfilt.h"
 #include "pot.h"
 
 class SID
@@ -32,6 +33,10 @@ public:
 
   void set_chip_model(chip_model model);
   void enable_filter(bool enable);
+  void enable_external_filter(bool enable);
+
+  void fc_default(const fc_point*& points, int& count);
+  PointPlotter<sound_sample> fc_plotter();
 
   void clock();
   void clock(cycle_count delta_t);
@@ -40,6 +45,33 @@ public:
   // Read/write registers.
   reg8 read(reg8 offset);
   void write(reg8 offset, reg8 value);
+
+  // Read/write state.
+  class State
+  {
+  public:
+    char sid_register[0x20];
+
+    reg8 bus_value;
+    cycle_count bus_value_ttl;
+
+    reg24 accumulator[3];
+    reg24 shift_register[3];
+    reg16 rate_counter[3];
+    reg16 exponential_counter[3];
+    reg8 envelope_counter[3];
+    bool hold_zero[3];
+    
+    sound_sample Vhp;
+    sound_sample Vbp;
+    sound_sample Vlp;
+
+    sound_sample extVhp;
+    sound_sample extVlp;
+  };
+    
+  State read_state();
+  void write_state(const State& state);
 
   // 16-bit output.
   int output();
@@ -51,10 +83,12 @@ protected:
   Voice voice2;
   Voice voice3;
   Filter filter;
+  ExternalFilter extfilt;
   Potentiometer potx;
   Potentiometer poty;
 
   reg8 bus_value;
+  cycle_count bus_value_ttl;
   Voice* voice[3];
 };
 

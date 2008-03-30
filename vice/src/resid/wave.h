@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1998  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -102,6 +102,7 @@ protected:
   static reg8 wave6581_P_T[];
   static reg8 wave6581_PS_[];
   static reg8 wave6581_PST[];
+
   static reg8 wave8580__ST[];
   static reg8 wave8580_P_T[];
   static reg8 wave8580_PS_[];
@@ -216,8 +217,8 @@ inline
 void WaveformGenerator::synchronize()
 {
   // A special case occurs when a sync source is synced itself on the same
-  // cycle when the MSB is set high. In this case the destination will not be
-  // synced. This has been verified by sampling OSC3.
+  // cycle as when its MSB is set high. In this case the destination will
+  // not be synced. This has been verified by sampling OSC3.
   if (msb_rising && sync_dest->sync && !(sync && sync_source->msb_rising)) {
     sync_dest->accumulator = 0;
   }

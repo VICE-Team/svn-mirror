@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1998  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ typedef unsigned int reg24;
 
 typedef int cycle_count;
 typedef int sound_sample;
+typedef sound_sample fc_point[2];
 
 enum chip_model { MOS6581, MOS8580 };
 

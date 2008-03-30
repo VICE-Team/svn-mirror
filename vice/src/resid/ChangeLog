@@ -1,3 +1,35 @@
+1999-02-25  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.7 released.
+
+	* configure.in: Check whether compiler supports bool.
+
+	* extfilt.h, extfilt.cc: Implementation of C64 filter, external to
+	the SID chip.
+
+	* filter.h (Filter::clock): Optimized filter routing using a switch.
+	(Filter::output): Optimized filter mixing using a switch, avoiding
+	integer division. Corrected sign of filtered output, which is
+	inverted compared to unfiltered output.
+	
+	* filter.cc (Filter::set_w0): Removed use of M_PI and math.h
+	functions. Use spline table to map fc to w0.
+	(Filter::fc_default): Return array of FC spline interpolation points.
+	(Filter::fc_plotter): Return FC spline plotter object.
+
+	* sid.h (SID::enable_external_filter): Enable/disable external
+	filter.
+	(SID::fc_default): Return array of FC spline interpolation points.
+	(SID::fc_plotter): Return FC spline plotter object.
+	(SID:State, SID::read_state, SID::write_state): Read and write
+	complete SID state.
+	
+	* sid.cc (SID::clock): Age bus value. Clock external filter.
+	(SID::enable_external_filter): Enable/disable external filter.
+	
+	* spline.h: Spline implementation. Used to specify mapping from
+	the FC register to filter cutoff frequency.
+
 1998-11-14  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.6 released.

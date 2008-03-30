@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1998  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -28,8 +28,9 @@
 // period.
 // In addition, another counter is used to implement the exponential envelope
 // decay, in effect further dividing the clock to the envelope counter.
-// The period of this counter is successively set to 1, 2, 4, 8, 16, 30 at
-// the envelope counter values 93, 54, 26, 14, 6.
+// The period of this counter is set to 1 in the attack state, and is
+// successively set to 1, 2, 4, 8, 16, 30 at the envelope counter values
+// 255, 93, 54, 26, 14, 6 in the decay and release states.
 // ----------------------------------------------------------------------------
 class EnvelopeGenerator
 {
@@ -74,6 +75,8 @@ protected:
 
   // The 16 selectable sustain levels.
   static reg8 sustain_level[];
+
+friend class SID;
 };
 
 

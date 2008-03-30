@@ -31,7 +31,7 @@ between his excellent SID emulation and, given enough CPU power, the reSID
 emulator engine. Tibor Biczo, Andreas Boose, and André Fachat have provided
 combined waveform samples for 6581 R1, R3, R4, and 8580 R5 SID chips.
 The VICE home page is found at:
-http://www.tu-chemnitz.de/~fachat/vice/
+http://www.cs.cmu.edu/~dsladic/vice/
 
 The author of SIDPLAY, Michael Schwendt, has implemented a patch to link
 libsidplay with reSID. Using his excellent tune player he has pointed out
@@ -43,6 +43,9 @@ http://www.geocities.com/SiliconValley/Lakes/5147/
 
 A bug report from Daniel Lacasse led to the discovery of a previously unknown
 SID bug, the ADSR boundary bug.
+
+Anders Ødegård has explained aspects of analog electronics and audio
+equipment.
 
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

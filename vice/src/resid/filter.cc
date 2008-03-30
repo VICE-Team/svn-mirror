@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 1998  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 1999  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,31 @@
 
 #define __FILTER_CC__
 #include "filter.h"
-#include <math.h>
+
+fc_point Filter::f0_points[] =
+{
+  {    0,  230 },
+  {  384,  278 },
+  {  640,  500 },
+  {  768,  900 },
+  {  896, 1950 },
+  { 1024, 3200 },
+  { 1152, 3750 },
+  { 1280, 3980 },
+  { 1536, 4080 },
+  { 2047, 4100 }
+};
+
 
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
 Filter::Filter()
 {
+  int i_max = sizeof(f0_points)/sizeof(*f0_points) - 1;
+  interpolate(f0_points, f0_points, f0_points + i_max, f0_points + i_max,
+	      PointPlotter<sound_sample>(f0), 1.0);
+
   reset();
   enabled = true;
 }
@@ -49,13 +67,12 @@ void Filter::reset()
 
   res = 0;
 
-  filtex = 0;
+  filtex = false;
 
-  filt3 = filt2 = filt1 = false;
+  filt3_filt2_filt1 = 0;
 
   voice3off = false;
 
-  hp = bp = lp = false;
   hp_bp_lp = 0;
 
   vol = 0;
@@ -92,29 +109,16 @@ void Filter::writeRES_FILT(reg8 res_filt)
   set_Q();
 
   filtex = res_filt & 0x08;
-
-  filt3 = res_filt & 0x04;
-  filt2 = res_filt & 0x02;
-  filt1 = res_filt & 0x01;
+  filt3_filt2_filt1 = res_filt & 0x07;
 }
 
 void Filter::writeMODE_VOL(reg8 mode_vol)
 {
   voice3off = mode_vol & 0x80;
 
-  hp = mode_vol & 0x40;
-  bp = mode_vol & 0x20;
-  lp = mode_vol & 0x10;
-  hp_bp_lp = hp + bp + lp;
+  hp_bp_lp = (mode_vol >> 4) & 0x07;
 
   vol = mode_vol & 0x0f;
-}
-
-
-// Non-POSIX copysign function.
-inline double Filter::bsd_copysign(double x, double y)
-{
-  return x < 0 ? (y < 0 ? x : -x) : (y >= 0 ? x : -x);
 }
 
 // Set filter cutoff frequency.
@@ -123,19 +127,19 @@ void Filter::set_w0()
   // Maximum cutoff frequency is specified as
   // FCmax = 2.6e-5/C = 2.6e-5/2200e-12 = 11818.
   // Measurements indicate a much lower maximum frequency cutoff.
-  // Based on measurements of bandpass output from a Commodore 64,
-  // we use the tanh function to map fc to cutoff frequency.
+  // Measurements of bandpass output from a Commodore 64 shows that the
+  // function mapping fc to cutoff frequency has the shape of the tanh
+  // function. The mapping function is specified with spline interpolation
+  // points and the function values are retrieved via table lookup.
   // Minimum cutoff frequency is approximately 230Hz, maximum cutoff
   // frequency is approximately 4KHz.
   // NB! Cutoff frequency characteristics varies a lot, we have modeled
   // one particular Commodore 64.
-  static const double pi = 3.1415926535897932385;
+  const double pi = 3.1415926535897932385;
 
-  double x = fc - 920.0;
-  double w0 =
-    228 + 3900/2*(1 + tanh(bsd_copysign(pow(fabs(x), 0.85)/95, x)));
-
-  _2_pi_w0 = sound_sample(2*pi*w0*1.048576);
+  // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
+  // shifting 20 times (2 ^ 20 = 1048576).
+  w0 = sound_sample(2*pi*f0[fc]*1.048576);
 }
 
 // Set filter resonance.
@@ -146,7 +150,33 @@ void Filter::set_Q()
   // is divided by n2 before entering the filter circuit.
   // As resonance is increased, the filter must be clocked more often to keep
   // stable.
-  // NB! To avoid even higher demands on the CPU, Q is limited to 1.3.
-  // Q = 0.707 + 1.0*res/0x0f;
-  _1024_div_Q = sound_sample(1024.0/(0.707 + 0.6*res/0x0f));
+
+  // The coefficient 1024 is dispensed of later by right-shifting 10 times
+  // (2 ^ 10 = 1024).
+  _1024_div_Q = sound_sample(1024.0/(0.707 + 1.0*res/0x0f));
+}
+
+// ----------------------------------------------------------------------------
+// Spline functions.
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Return the array of spline interpolation points used to map the FC register
+// to filter cutoff frequency.
+// ----------------------------------------------------------------------------
+void Filter::fc_default(const fc_point*& points, int& count)
+{
+  points = f0_points;
+  count = sizeof(f0_points)/sizeof(*f0_points);
+}
+
+// ----------------------------------------------------------------------------
+// Given an array of interpolation points p with n points, the following
+// statement will specify a new FC mapping:
+//   interpolate(p, p, p + n - 1, p + n - 1, filter.fc_plotter());
+// Note that the x range of the interpolation points *must* be [0, 2047].
+// ----------------------------------------------------------------------------
+PointPlotter<sound_sample> Filter::fc_plotter()
+{
+  return PointPlotter<sound_sample>(f0);
 }

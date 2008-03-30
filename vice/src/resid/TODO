@@ -1,13 +1,6 @@
 * Determine how and when the SID filter op-amps clip. Spice may perhaps be
   used to simulate the filter circuit.
 
-* Use splines to specify filter cutoff frequency characteristics. This will
-  facilitate interactive manipulation to approximate the filter of any SID
-  chip.
-
-* Model the audio output stage in the C64. This does high-pass filtering and
-  may have audible effects.
-
 * Write documentation. Possibly a paper describing how SID was reverse
   engineered.
 

@@ -1,3 +1,25 @@
+Changes in reSID version 0.7
+----------------------------
+
+The audio output filter in the C64, external to the SID chip, has been
+modeled.
+
+The mapping function between the FC register and filter cutoff frequency can
+now be specified with spline interpolation points. This facilitates
+interactive modification of the mapping function by graphical presentation of
+the interpolation curve. The implementation of this novel spline design is
+fast and general purpose, and should be well suited for use in other projects
+as well.
+
+Filtered output has been inverted compared to unfiltered output.
+
+Aging of the bus value obtained when reading write only registers has been
+partly implemented.
+
+To facilitate offline storage the complete state of SID can be read and
+written.
+
+
 Changes in reSID version 0.6
 ----------------------------
 
