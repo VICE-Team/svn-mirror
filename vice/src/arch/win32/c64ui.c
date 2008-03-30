@@ -83,7 +83,8 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         ui_reu_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG, uirom_settings);
+        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,
+                              uirom_settings);
         break;
 #ifdef HAVE_TFE
       case IDM_TFE_SETTINGS:
