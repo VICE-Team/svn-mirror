@@ -33,7 +33,6 @@
 #define _CRTC_DRAW_H
 
 extern void crtc_draw_init(void);
-extern void crtc_draw_set_double_size(int enabled);
 
 #endif
 
