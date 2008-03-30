@@ -37,7 +37,8 @@ libx11ui_a_SOURCES = \
 	video.c \
 	videoarch.h \
 	x11menu.c \
-	x11menu.h
+	x11menu.h \
+	x11ui.h
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
 

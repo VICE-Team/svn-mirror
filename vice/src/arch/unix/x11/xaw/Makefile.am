@@ -16,6 +16,7 @@ INCLUDES = \
 noinst_LIBRARIES = libxawui.a
 
 libxawui_a_SOURCES = \
+	about.c \
 	checkmark.xbm \
 	right_arrow.xbm \
 	ui.c \
@@ -27,8 +28,9 @@ libxawui_a_SOURCES = \
 	uimenu.h \
 	uiscreenshot.c \
 	uisnapshot.c \
+	uivsidcontrol.c \
 	videoarch.h \
 	x11video.c \
 	x11kbd.c \
-	about.c \
-	uivsidcontrol.c
+	x11ui.c
+
