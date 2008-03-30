@@ -434,7 +434,8 @@ petcat_LDADD = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive libsounddrv \
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive
+	libprinterdrv libscreendrv libsounddrv \
 	libarch libvicii libvdc libsid libcrtc @RESID_DEP@
 
 libarch:
@@ -451,6 +452,8 @@ libdrive:
 	(cd drive && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
+libprinterdrv:
+	(cd printerdrv && $(MAKE))
 libraster:
 	(cd raster && $(MAKE))
 libresid:

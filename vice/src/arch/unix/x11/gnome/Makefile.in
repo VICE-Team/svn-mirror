@@ -263,7 +263,9 @@ gnomekbd.o: gnomekbd.c ../../../../../src/vice.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/kbd.h \
 	../../../../../src/arch/unix/x11/kbdef.h \
-	../../../../../src/arch/unix/x11/x11kbd.h
+	../../../../../src/arch/unix/x11/x11kbd.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h
 gnomevideo.o: gnomevideo.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	videoarch.h ../videoarch.h ../../../../../src/arch/unix/types.h \
