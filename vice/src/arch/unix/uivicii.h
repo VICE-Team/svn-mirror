@@ -24,10 +24,11 @@
  *
  */
 
-#ifndef _UI_VICII_H
-#define _UI_VICII_H
+#ifndef _UIVICII_H
+#define _UIVICII_H
 
-extern struct ui_menu_entry_s vic_submenu[];
+extern struct ui_menu_entry_s vicii_submenu[];
+extern void uivicii_create_menus(void);
 
 #endif
 
