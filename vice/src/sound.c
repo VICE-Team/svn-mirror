@@ -537,7 +537,7 @@ int sound_flush(int relative_speed)
 	snddata.clkstep = snddata.origclkstep * snddata.clkfactor;
 	if (cycles_per_rfsh / snddata.clkstep >= snddata.bufsize)
 	{
-	    if (suspend_time > 0)
+            if (suspend_time > 0)
 	        suspendsound("running too slow");
 	    else
 	        closesound("Audio: running too slow.");
