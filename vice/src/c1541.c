@@ -283,7 +283,7 @@ command_t command_list[] = {
 
 #ifndef HAVE_READLINE
 
-static char *read_line(char *prompt)
+static char *read_line(const char *prompt)
 {
     static char line[1024];
 
@@ -1018,7 +1018,7 @@ static int extract_cmd(int nargs, char **args)
 {
     int drive = 8, track, sector;
     vdrive_t *floppy;
-    BYTE *buf, str[20];
+    BYTE *buf, *str;
     int err;
     int channel = 2;
 
@@ -1036,10 +1036,14 @@ static int extract_cmd(int nargs, char **args)
     sector = floppy->Dir_Sector;
 
     while (1) {
-        int i;
+        int i, res;
 
-        sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
-        if (vdrive_command_execute(floppy, (BYTE *) str, strlen((char *) str)))
+        str = (BYTE *)xmsprintf("B-R:%d 0 %d %d", channel, track, sector);
+        res = vdrive_command_execute(floppy, str, strlen((char *)str));
+
+        free(str);
+
+        if (res)
             return FD_RDERR;
 
         buf = floppy->buffers[channel].buffer;
@@ -1612,12 +1616,11 @@ static int tape_cmd(int nargs, char **args)
 	    vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
 
             file_size = rec->end_addr - rec->start_addr;
-            buf = alloca((unsigned int) file_size);
-            memset(buf, 0, (size_t) file_size);
+            buf = xcalloc((size_t)file_size, 1);
             retval = t64_read(t64, buf, file_size);
             if (retval < 0 || retval != (int) file_size)
-                fprintf(stderr, "Unexpected end of tape: file may be truncated.\n");
-
+                fprintf(stderr,
+                        "Unexpected end of tape: file may be truncated.\n");
             {
                 int i;
 
@@ -1625,14 +1628,17 @@ static int tape_cmd(int nargs, char **args)
                     if (vdrive_iec_write(drives[drive_number], ((BYTE)(buf[i])),
                         1)) {
                         t64_close(t64);
-                        free(dest_name_petscii), free(dest_name_ascii);
+                        free(dest_name_petscii);
+                        free(dest_name_ascii);
+                        free(buf);
                         return FD_WRTERR;
                     }
             }
 
 	    vdrive_iec_close(drive, 1);
-            free(dest_name_petscii), free(dest_name_ascii);
-
+            free(dest_name_petscii);
+            free(dest_name_ascii);
+            free(buf);
             count++;
 	}
     }
@@ -2116,7 +2122,7 @@ int main(int argc, char **argv)
 
     if (i == argc) {
         char *line;
-        char buf[16];
+        char *buf = NULL;
 
         /* Interactive mode.  */
         printf("C1541 Version %d.%02d.\n",
@@ -2131,7 +2137,9 @@ int main(int argc, char **argv)
            " for details.\n");
 
         while (1) {
-            sprintf(buf, "c1541 #%d> ", drive_number | 8);
+            if (buf != NULL)
+                free(buf);
+            buf = xmsprintf("c1541 #%d> ", drive_number | 8);
             line = read_line(buf);
 
             if (line == NULL) {
@@ -2178,15 +2186,20 @@ int main(int argc, char **argv)
 static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
 {
     BYTE *p;
-    int outbuf_size, max_outbuf_size, len;
-    char line[256], *outbuf;
+    int outbuf_size, max_outbuf_size, len, res;
+    char *command, *outbuf;
 
     /* Open the directory. */
     if (pattern != NULL)
-        sprintf(line, "$:%s", pattern);
+        command = xmsprintf("$:%s", pattern);
     else
-        sprintf(line, "$");
-    if (vdrive_iec_open(vdrive, line, 1, 0) != SERIAL_OK)
+        command = stralloc("$");
+
+    res = vdrive_iec_open(vdrive, command, 1, 0);
+
+    free(command);
+
+    if (res != SERIAL_OK)
         return NULL;
 
     /* Allocate a buffer. */
@@ -2196,6 +2209,8 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
 
     p = vdrive->buffers[0].buffer + 2; /* Skip load address. */
     while ((p[0] | (p[1] << 8)) != 0) {
+        char line[1024];
+
         len = sprintf(line, "%d ", p[2] | (p[3] << 8));
         p += 4;
         while (*p != '\0') {

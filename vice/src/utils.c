@@ -69,7 +69,7 @@ void *xmalloc(size_t size)
 {
     void *p = malloc(size);
 
-    if (size > 0 && p == NULL) {
+    if (p == NULL && size > 0) {
 	log_error(LOG_DEFAULT,
                   "xmalloc - virtual memory exhausted: "
                   "cannot allocate %lu bytes.", (unsigned long)size);
@@ -84,11 +84,10 @@ void *xcalloc(size_t nmemb, size_t size)
 {
     void *p = calloc(nmemb, size);
 
-    if (!p) {
+    if (p == NULL && (size * nmemb) > 0) {
 	log_error(LOG_DEFAULT,
                   "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
                   (unsigned long)nmemb,(unsigned long)size);
-        if (!size) return NULL;
 	exit(-1);
     }
 
@@ -357,7 +356,7 @@ char *get_current_dir(void)
     return GetCurrentDirectory();
 #else
     static size_t len = 128;
-    char *p = (char *) xmalloc(len);
+    char *p = (char *)xmalloc(len);
 
     while (getcwd(p, len) == NULL) {
         if (errno == ERANGE) {
