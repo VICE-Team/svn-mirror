@@ -41,6 +41,7 @@
 extern "C" { 
 #include "archapi.h"
 #include "constants.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
@@ -123,7 +124,8 @@ VideoWindow::VideoWindow()
 	BEntry entry;
 	int res_val, i;
 	char *dirpath;
-	const char *palettefile;
+	const char *palettefile_const;
+	char *palettefile;
 	BRadioButton *rb_mode;
 
 	switch (machine_class) {
@@ -190,8 +192,9 @@ VideoWindow::VideoWindow()
 	}
 	checkbox->SetValue(res_val);
 	
-	resources_get_string(chip_param_table[chip[0]].res_PaletteFile_name,	&palettefile);
-	util_add_extension(&palettefile, "vpl");
+	resources_get_string(chip_param_table[chip[0]].res_PaletteFile_name,	&palettefile_const);
+        palettefile=lib_stralloc(palettefile_const);
+	util_add_extension((char *)&palettefile, "vpl");
 	palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
 	palettelistview->SetSelectionMessage(
 		new BMessage(MESSAGE_VIDEO_PALETTEFILE));
@@ -235,6 +238,7 @@ VideoWindow::VideoWindow()
 	}
 	
 	Show();
+	lib_free(palettefile);
 }
 
 VideoWindow::~VideoWindow() 
@@ -259,7 +263,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			break;
 		case MESSAGE_VIDEO_EXTERNALPALETTE:
 			resources_get_int(chip_param_table[chip[0]].res_ExternalPalette_name,
-								&val);
+								(int *)&val);
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
 			msr->AddString("resname", chip_param_table[chip[0]].res_ExternalPalette_name);
 			msr->AddInt32("resval", 1-val);
@@ -284,7 +288,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			/* reset ExternalPalette to update the canvas */
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			resources_get_int("ExternalPalette", &val);
+			resources_get_int("ExternalPalette", (int *)&val);
 			msr->AddString("resname", "ExternalPalette");
 			msr->AddInt32("resval", val);
 			ui_add_event((void*)msr);

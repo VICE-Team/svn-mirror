@@ -289,16 +289,16 @@ void PetWindow::MessageReceived(BMessage *msg) {
 				keyboard_res[res_value]);
 			break;
 		case MESSAGE_PET_CRTC:
-			resources_toggle("Crtc", (resource_value_t *) &res_value);
+			resources_toggle("Crtc", (int *) &res_value);
 			break;
 		case MESSAGE_PET_SUPERPET:
-			resources_toggle("SuperPET", (resource_value_t *) &res_value);
+			resources_toggle("SuperPET", (int *) &res_value);
 			break;
 		case MESSAGE_PET_RAM9:
-			resources_toggle("Ram9", (resource_value_t *) &res_value);
+			resources_toggle("Ram9", (int *) &res_value);
 			break;
 		case MESSAGE_PET_RAMA:
-			resources_toggle("RamA", (resource_value_t *) &res_value);
+			resources_toggle("RamA", (int *) &res_value);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

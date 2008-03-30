@@ -267,10 +267,10 @@ void SidWindow::MessageReceived(BMessage *msg) {
 			resources_set_int("SidModel", val);
 			break;
 		case MESSAGE_SID_FILTERS:
-			resources_toggle("SidFilters", &dummy);
+			resources_toggle("SidFilters", (int *)&dummy);
 			break;
 		case MESSAGE_SID_STEREO:
-			resources_toggle("SidStereo", &dummy);
+			resources_toggle("SidStereo", (int *)&dummy);
 			addresslistview->ScrollToSelection();
 			dummy?scrollview->Show():scrollview->Hide();
 			break;
@@ -278,7 +278,7 @@ void SidWindow::MessageReceived(BMessage *msg) {
 			CreateAndGetAddressList(addresslistview, 1);
 			break;
 		case MESSAGE_SID_RESID:
-			resources_toggle("SidEngine", &dummy);
+			resources_toggle("SidEngine", (int *)&dummy);
 			dummy?residbox->Show():residbox->Hide();
 			break;
 		case MESSAGE_SID_RESIDSAMPLING:

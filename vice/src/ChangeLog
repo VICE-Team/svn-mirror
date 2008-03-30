@@ -1,3 +1,75 @@
+2007-01-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.21.
+
+2007-01-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/ui.h, arch/amigaos/uires.h: Fixed.
+
+	* arch/beos/archdep.c, arch/beos/joy.cc, arch/beos/joy.h,
+	arch/beos/kbd.c, arch/beos/ui_cbm2.cc,
+	arch/beos/ui_datasette.cc, arch/beos/ui_drive.h,
+	arch/beos/ui_pet.cc, arch/beos/ui_sid.cc,
+	arch/beos/ui_vic20.cc, arch/beos/ui_vicii.cc,
+	arch/beos/ui_video.cc: Fixed.
+
+2007-01-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/ahi.c,
+	arch/amigaos/ahi.h, arch/amigaos/amigamain.c,
+	arch/amigaos/archdep.c, arch/amigaos/c128ui.c,
+	arch/amigaos/config.h.vbcc, arch/amigaos/console.c,
+	arch/amigaos/intl.c, arch/amigaos/joy.h,
+	arch/amigaos/mousedrv.c, arch/amigaos/mui/mui.h,
+	arch/amigaos/mui/uinetwork.c,
+	arch/amigaos/mui/uipetsettings.c, arch/amigaos/plus4ui.c,
+	arch/amigaos/private.h, arch/amigaos/screen-shot.c,
+	arch/amigaos/screen-shot.h, arch/amigaos/timer.c,
+	arch/amigaos/timer.h, arch/amigaos/ui.c, arch/amigaos/ui.h,
+	arch/amigaos/uiapi.c, arch/amigaos/uilib.c,
+	arch/amigaos/video.c, arch/amigaos/vsyncapi.c, c128/c128.c,
+	c64/c64.c, cbm2/cbm2.c, lib.c, pet/pet.c, plus4/plus4.c,
+	vic20/vic20.c, video/video-resources.c: Added amiga vbcc
+	compiler support.
+
+2007-01-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* ioutil.c, src/ioutil.h: Changed prototype of
+	ioutil_maxpathlen() to return an unsigned int in order to
+	remove warnings.
+
+2007-01-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/msvc/config.h: Define CONFIG_WIN32, int64_t_C and
+	uint64_t_C in order to let config.h from ffmpeg compile with
+	MSVC 6.
+
+2007-01-09  pottendo  <pottendo@utanet.at>
+
+	* video/video-resources.c (set_fullscreen_device): Allow
+	selection of fullscreen device only in window mode.
+
+	* arch/unix/x11/vidmode.c (vidmode_enable): Dont' use
+	`canvas->fullscreenconfig->mode'. 
+
+	* arch/unix/x11/xrandr.c (xrandr_enable): Don't set
+	`xrandr_selected_mode' from `canvas->fullscreenconfig->mode'.
+	(xrandr_mode): Don't set `canvas->fullscreenconfig->mode'.
+
+	* arch/unix/x11/fullscreen.c (fullscreen_shutdown): Call
+	xrandr_shutdown.
+
+	* arch/unix/x11/xrandr.c (xrandr_shutdown): New Function.
+
+	* arch/unix/x11/openGL_sync.c (openGL_sync_init): fixed proper
+	exit if openGL isn't available.
+	Removed preprocessor checks for XRandR which is not required by
+	openGL. Fixes `--disable-fullscreen' builds.
+
+2007-01-07  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/vice-launcher.sh: fixed startup via symlink
+
 2007-01-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.20.

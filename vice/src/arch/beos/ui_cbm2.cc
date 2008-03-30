@@ -201,7 +201,7 @@ void Cbm2Window::MessageReceived(BMessage *msg) {
 		case MESSAGE_CBM2_RAMBANK:
 			msg->FindInt32("rambank", &res_value);
 			resources_toggle(rambank_res[res_value],
-				(resource_value_t *) &dummy);
+				(int *) &dummy);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

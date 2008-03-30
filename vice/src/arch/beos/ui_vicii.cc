@@ -125,13 +125,13 @@ void ViciiWindow::MessageReceived(BMessage *msg) {
 	
 	switch (msg->what) {
 		case MESSAGE_VICII_SSCOLL:
-			resources_toggle("VICIICheckSsColl", &dummy);
+			resources_toggle("VICIICheckSsColl", (int *)&dummy);
 			break;
 		case MESSAGE_VICII_SBCOLL:
-			resources_toggle("VICIICheckSbColl", &dummy);
+			resources_toggle("VICIICheckSbColl", (int *)&dummy);
 			break;
 		case MESSAGE_VICII_NEWLUMINANCE:
-			resources_toggle("VICIINewLuminances", &dummy);
+			resources_toggle("VICIINewLuminances", (int *)&dummy);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

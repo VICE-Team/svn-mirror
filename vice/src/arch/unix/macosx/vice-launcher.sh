@@ -3,8 +3,21 @@
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 # runs vice from the nearby application bundle
 
+REALFILE="$0"
+
+# find dir of real file (not the linked ones)
+DIR="`dirname \"$REALFILE\"`"
+while [ -h "$REALFILE" ]; do
+  REALFILE="`readlink \"$REALFILE\"`"
+  CURDIR="`dirname \"$REALFILE\"`"
+  if [ "${CURDIR:0:1}" = "/" ]; then
+    DIR="$CURDIR"
+  else
+    DIR="$DIR/$CURDIR"
+  fi
+done
+
 NAME="`basename \"$0\"`"
-DIR="`dirname \"$0\"`"
 
 # find bundle
 BUNDLE="$DIR/../VICE.app"

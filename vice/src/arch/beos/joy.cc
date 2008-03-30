@@ -83,6 +83,15 @@ static int joystick_initialized = 0;
 hardware_joystick_t hardware_joystick[MAX_HARDWARE_JOYSTICK];
 int hardware_joystick_count = 0;
 
+#define KEYSET_FIRE   0
+#define KEYSET_SW     1
+#define KEYSET_S      2
+#define KEYSET_SE     3
+#define KEYSET_W      4
+#define KEYSET_E      5
+#define KEYSET_NW     6
+#define KEYSET_N      7
+#define KEYSET_NE     8
 
 static void joystick_close_device(int dev_index)
 {
@@ -155,65 +164,16 @@ static int set_joystick_device(int val, void *param)
 }
 
 
-static int set_keyset1(int val, void *param)
-{
-        keyset1[(int) param] = val;
-        return 0;
-}
-
-static int set_keyset2(int val, void *param)
-{
-        keyset2[(int) param] = val;
-        return 0;
-}
-
-
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[0], set_joystick_device, (void *) 0 },
+      (int *)&joystick_device[0], set_joystick_device, (void *) 0 },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_device[1], set_joystick_device, (void *) 1 },
-    { "KeySet1NorthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_NW], set_keyset1, (void *) KEYSET_NW },
-    { "KeySet1North", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_N], set_keyset1, (void *) KEYSET_N },
-    { "KeySet1NorthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_NE], set_keyset1, (void *) KEYSET_NE },
-    { "KeySet1East", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_E], set_keyset1, (void *) KEYSET_E },
-    { "KeySet1SouthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_SE], set_keyset1, (void *) KEYSET_SE },
-    { "KeySet1South", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_S], set_keyset1, (void *) KEYSET_S },
-    { "KeySet1SouthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_SW], set_keyset1, (void *) KEYSET_SW },
-    { "KeySet1West", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_W], set_keyset1, (void *) KEYSET_W },
-    { "KeySet1Fire", K_NONE, RES_EVENT_NO, NULL,
-      &keyset1[KEYSET_FIRE], set_keyset1, (void *) KEYSET_FIRE },
-    { "KeySet2NorthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_NW], set_keyset2, (void *) KEYSET_NW },
-    { "KeySet2North", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_N], set_keyset2, (void *) KEYSET_N },
-    { "KeySet2NorthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_NE], set_keyset2, (void *) KEYSET_NE },
-    { "KeySet2East", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_E], set_keyset2, (void *) KEYSET_E },
-    { "KeySet2SouthEast", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_SE], set_keyset2, (void *) KEYSET_SE },
-    { "KeySet2South", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_S], set_keyset2, (void *) KEYSET_S },
-    { "KeySet2SouthWest", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_SW], set_keyset2, (void *) KEYSET_SW },
-    { "KeySet2West", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_W], set_keyset2, (void *) KEYSET_W },
-    { "KeySet2Fire", K_NONE, RES_EVENT_NO, NULL,
-      &keyset2[KEYSET_FIRE], set_keyset2, (void *) KEYSET_FIRE },
+      (int *)&joystick_device[1], set_joystick_device, (void *) 1 },
     { NULL }
 };
 
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
     return resources_register_int(resources_int);
 }

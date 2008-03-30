@@ -132,4 +132,6 @@ struct TranslateNewMenu
     APTR nm_UserData;
 };
 
+extern void ui_register_menu_translation_layout(struct TranslateNewMenu *menu);
+
 #endif /* _UIRES_H_ */

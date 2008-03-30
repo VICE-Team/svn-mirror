@@ -226,6 +226,19 @@ void keyboard_register_caps_key(key_ctrl_caps_func_t func)
 #endif
 
 #ifdef COMMON_KBD
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+    joykeys[0] = K_RIGHTCTRL;
+    joykeys[1] = K_KP1;
+    joykeys[2] = K_KP2;
+    joykeys[3] = K_KP3;
+    joykeys[4] = K_KP4;
+    joykeys[5] = K_KP6;
+    joykeys[6] = K_KP7;
+    joykeys[7] = K_KP8;
+    joykeys[8] = K_KP9;
+}
+
 void kbd_arch_init(void)
 {
 }

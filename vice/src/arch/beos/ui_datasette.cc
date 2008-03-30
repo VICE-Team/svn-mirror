@@ -148,7 +148,7 @@ void DatasetteWindow::MessageReceived(BMessage *msg) {
 	switch (msg->what) {
 		case MESSAGE_DATASETTE_RESET:
             resources_toggle("DatasetteResetWithCPU",
-            	(resource_value_t *) &res_value);
+            	(int *) &res_value);
 			break;
 		case MESSAGE_DATASETTE_SPEED:
 			msg->FindInt32("speed", &res_value);

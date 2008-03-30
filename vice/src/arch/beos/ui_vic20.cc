@@ -176,7 +176,7 @@ void Vic20Window::MessageReceived(BMessage *msg) {
 		case MESSAGE_VIC20_MEMBLOCK:
 			msg->FindInt32("block", &block_nr);
             resources_toggle(block_resource[block_nr],
-            	(resource_value_t *) &res_value);
+            	(int *) &res_value);
             UpdateConfig();
 			break;
 		default:
