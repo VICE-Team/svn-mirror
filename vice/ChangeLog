@@ -1,3 +1,10 @@
+2003-09-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.34.
+
+	* data/C128/x11_sym.vkm: Mapped cursor keys to the special
+	C128 cursor keys.
+
 2003-09-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.33.

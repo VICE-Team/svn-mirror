@@ -414,7 +414,8 @@ double SID::I0(double x)
 // not overfilled.
 // ----------------------------------------------------------------------------
 bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
-				  double sample_freq, double pass_freq)
+				  double sample_freq, double pass_freq,
+				  double filter_scale)
 {
   // Check resampling constraints.
   if (method == SAMPLE_RESAMPLE) {
@@ -433,6 +434,12 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
     }
     // Check whether the FIR table would overfill.
     else if (pass_freq > 0.9*sample_freq/2) {
+      return false;
+    }
+
+    // The filter scaling is only included to avoid clipping, so keep
+    // it sane.
+    if (filter_scale < 0.9 || filter_scale > 1.0) {
       return false;
     }
   }
@@ -477,12 +484,12 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   for (int i = fir_N*FIR_RES; i > 0; i--) {
     double wt = wc*i/FIR_RES;
     double temp = double(i)/(fir_N*FIR_RES);
-    val1 = (1 << FIR_SHIFT)*samples_per_cycle*wc/pi*sin(wt)/wt*I0(beta*sqrt(1.0 - temp*temp))/I0beta;
+    val1 = (1 << FIR_SHIFT)*filter_scale*samples_per_cycle*wc/pi*sin(wt)/wt*I0(beta*sqrt(1.0 - temp*temp))/I0beta;
     fir[i] = short(val1 + 0.5);
     fir_diff[i] = short(val2 - val1 + 0.5);
     val2 = val1;
   }
-  val1 = (1 << FIR_SHIFT)*samples_per_cycle*wc/pi;
+  val1 = (1 << FIR_SHIFT)*filter_scale*samples_per_cycle*wc/pi;
   fir[0] = short(val1 + 0.5);
   fir_diff[0] = short(val2 - val1 + 0.5);
 
@@ -836,7 +843,18 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
       j &= 0x3fff;
     }
 
-    buf[s++*interleave] = v >> FIR_SHIFT;
+    v >>= FIR_SHIFT;
+
+    // Saturated arithmetics to guard against 16 bit sample overflow.
+    const int half = 1 << 15;
+    if (v >= half) {
+      v = half - 1;
+    }
+    else if (v < -half) {
+      v = -half;
+    }
+
+    buf[s++*interleave] = v;
   }
 
   for (int i = 0; i < delta_t; i++) {

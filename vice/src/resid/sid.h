@@ -35,7 +35,8 @@ public:
   void enable_filter(bool enable);
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
-			       double sample_freq, double pass_freq = -1);
+			       double sample_freq, double pass_freq = -1,
+			       double filter_scale = 0.97);
   void adjust_sampling_frequency(double sample_freq);
 
   void fc_default(const fc_point*& points, int& count);
@@ -114,7 +115,7 @@ protected:
   enum { FIR_ORDER = 123 };
   enum { FIR_N = FIR_ORDER/2 + 1 };
   enum { FIR_RES = 512 };
-  enum { FIR_SHIFT = 16 };
+  enum { FIR_SHIFT = 15 };
   sampling_method sampling;
   cycle_count cycles_per_sample;
   cycle_count fstep_per_cycle;

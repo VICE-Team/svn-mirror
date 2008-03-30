@@ -205,7 +205,7 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
         expert_io1_store(addr, value);
         break;
       case CARTRIDGE_MAGIC_DESK:
-        cartridge_romlbank_set(addr & 0x3f);
+        cartridge_romlbank_set(value & 0x3f);
         export.game = 0;
         if (value & 0x80)
             export.exrom = 0;

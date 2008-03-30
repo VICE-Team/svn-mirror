@@ -2,6 +2,9 @@
 
 	* sid.cc, sid.h (SID::State): Added envelope_state.
 	(SID::State::write_state): Restore register 0x18.
+	(SID::set_sampling_parameters): Scale resampling filter to avoid
+	clipping.
+	(SID::clock_resample): Saturated arithmetics to avoid clipping.
 
 
 2002-12-31  Dag Lem  <resid@nimrod.no>
