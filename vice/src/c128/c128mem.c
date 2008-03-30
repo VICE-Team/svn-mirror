@@ -1621,7 +1621,7 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 {
     *base = ((vic_peek(0xd018) & 0xf0) << 6)
-            | ((cia2_peek(0xdd00) & 0x03) << 14);
+            | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
     *columns = 40;
 }
