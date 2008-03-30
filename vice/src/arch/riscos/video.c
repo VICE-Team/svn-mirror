@@ -486,11 +486,13 @@ static int video_frame_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer, 
       canvas->fb.depth = 8;
       canvas->fb.pitch = (sprite->wwidth+1)*4;
       canvas->fb.framedata = (BYTE*)wlsprite_get_image(sprite);
+      canvas->fb.paldata = NULL;
+      canvas->fb.bplot_trans = NULL;
       /* mark the palette as dirty since we used a dummy above! */
       canvas->fb.paldirty = 1;
 
       wlsprite_plot_bind(&(canvas->fb.normplot), sarea);
-
+      wlsprite_plot_bind(&(canvas->fb.palplot), (sprite_area_t*)NULL);
       /*log_message(LOG_DEFAULT, "width = %d, height = %d, pitch = %d", canvas->fb.width, canvas->fb.height, canvas->fb.pitch);*/
     }
     *fb_pitch = (sprite->wwidth+1)*4;
@@ -576,11 +578,12 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
     unsigned int i, numsprpal;
     sprite_desc_t *sprite;
     unsigned int *sprpal;
-    unsigned int *ct = canvas->current_palette;
+    const unsigned int *ct = canvas->current_palette;
 
     sprite = wlsprite_plot_get_sprite(&(canvas->fb.normplot));
     sprpal = (unsigned int*)(sprite + 1);
     numsprpal = (1 << canvas->fb.depth);
+    if (numsprpal >= 256) numsprpal = 256;
     for (i=0; i<canvas->num_colours; i++)
     {
       sprpal[2*i] = 0x10 | (ct[i] << 8);
@@ -600,6 +603,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
   if (canvas->fb.transdirty != 0)
   {
     unsigned int ldbpp;
+    const unsigned int *ct = canvas->current_palette;
 
     wlsprite_plot_flush(&(canvas->fb.normplot));
 
@@ -619,7 +623,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
       {
         for (i=0; i<canvas->num_colours; i++)
         {
-          unsigned int pix = (canvas->current_palette)[i];
+          unsigned int pix = ct[i];
           BYTE red, green, blue;
 
           red = pix&0xf8; green = (pix>>8)&0xf8; blue = (pix>>16)&0xf8;
@@ -630,7 +634,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
       {
         for (i=0; i<canvas->num_colours; i++)
         {
-          trans[i] = (canvas->current_palette)[i];
+          trans[i] = ct[i];
         }
       }
       for (; i<maxVideoCanvasColours; i++) trans[i] = 0;
@@ -661,8 +665,9 @@ static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pit
     if (ActualPALDepth == 8)
     {
       unsigned int dummypal[256];
+      unsigned int i;
 
-      memset(dummypal, 0, 256*sizeof(int));
+      for (i=0; i<256; i++) dummypal[i] = 0x10;
       sarea = wlsprite_create_area_sprite(width, height, ActualPALDepth, palspritename, dummypal, 0);
     }
     else
@@ -693,7 +698,7 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
   if (canvas->last_video_render_depth != ActualPALDepth)
   {
     video_render_config_t *config = canvas->videoconfig;
-    unsigned int *ct;
+    const unsigned int *ct;
     unsigned int i;
 
     log_message(LOG_DEFAULT, "Rebinding PAL colours for %s (%d colours)", canvas->name, canvas->num_colours);
@@ -1063,7 +1068,7 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
 {
   video_frame_buffer_t *fb;
-  palette_entry_t *p;
+  const palette_entry_t *p;
   unsigned int numsprpal;
   unsigned int *ct;
   int i;
@@ -1148,6 +1153,12 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   wlsprite_plot_init(&(canvas->fb.normplot));
   wlsprite_plot_init(&(canvas->fb.palplot));
+
+  canvas->name = NULL;
+  canvas->window = NULL;
+  canvas->current_palette = NULL;
+  canvas->redraw_wimp = NULL;
+  canvas->redraw_full = NULL;
 }
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
@@ -1598,7 +1609,7 @@ static void video_full_screen_set_clip(void)
 
 static void video_full_screen_colours(void)
 {
-  char *sdata, *limit;
+  const char *sdata, *limit;
 
   if (FullScreenMode == 0) return;
 
@@ -1612,7 +1623,7 @@ static void video_full_screen_colours(void)
 
       if (((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
       {
-        unsigned int *ct = canvas->current_palette;
+        const unsigned int *ct = canvas->current_palette;
 
         if (ct != NULL)
         {
@@ -1635,13 +1646,13 @@ static void video_full_screen_colours(void)
     }
   }
 
-  sdata = ((char*)SpriteArea) + SpriteArea->firstoff;
-  limit = ((char*)SpriteArea) + SpriteArea->tsize;
+  sdata = ((const char*)SpriteArea) + SpriteArea->firstoff;
+  limit = ((const char*)SpriteArea) + SpriteArea->tsize;
   while (sdata < limit)
   {
     if (strncmp(sdata+4, "led_off", 12) == 0) SpriteLED0 = (sprite_desc_t *)sdata;
     else if (strncmp(sdata+4, "led_on", 12) == 0) SpriteLED1 = (sprite_desc_t *)sdata;
-    sdata += *((int*)sdata);
+    sdata += *((const int*)sdata);
   }
   if (SpriteLED0 != NULL)
   {

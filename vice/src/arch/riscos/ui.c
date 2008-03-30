@@ -2154,6 +2154,8 @@ int ui_init(int *argc, char *argv[])
     exit(-1);
   }
 
+  ui_message_init();
+
   uiMessageDesc = msg;
 
   return 0;
@@ -2264,8 +2266,6 @@ int ui_emulator_init_epilogue(wimp_msg_desc *msg)
 
   wimp_message_delete(msg);
   uiMessageDesc = NULL;
-
-  ui_message_init();
 
   ui_init_windows();
 

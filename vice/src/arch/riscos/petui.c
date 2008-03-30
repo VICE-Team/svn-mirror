@@ -154,7 +154,6 @@ static const conf_iconid_t conf_grey_xpet[] = {
   ICON_LIST_SYSTEM
   ICON_LIST_DEVICES
   ICON_LIST_SID
-  ICON_LIST_TRUE
   {0xff, 0xff}
 };
 

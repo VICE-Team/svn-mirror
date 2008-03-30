@@ -326,7 +326,7 @@ static struct MenuSpeedAdjust {
   }
 };
 
-#define Menu_SidEngine_Items	3
+#define Menu_SidEngine_Items	2
 #define Menu_SidEngine_Width	200
 #define Menu_SidEngine_Fast	0
 #define Menu_SidEngine_Resid	1
@@ -338,8 +338,7 @@ static struct MenuSidEngine {
   MENU_HEADER("\\MenSidEngT", Menu_SidEngine_Width),
   {
     MENU_ITEM("\\MenSidEngF"),
-    MENU_ITEM("\\MenSidEngR"),
-    MENU_ITEM_LAST("\\MenSidEngC")
+    MENU_ITEM_LAST("\\MenSidEngR")
   }
 };
 
@@ -1144,7 +1143,7 @@ static struct MenuDisplaySidEngine {
 } MenuDisplaySidEngine = {
   {Rsrc_SidEngine, {CONF_WIN_SOUND, Icon_ConfSnd_SidEngineT},
     (RO_MenuHead*)&MenuSidEngine, Menu_SidEngine_Items, 0, 0},
-  {SID_ENGINE_FASTSID, SID_ENGINE_RESID, SID_ENGINE_CATWEASELMKIII}
+  {SID_ENGINE_FASTSID, SID_ENGINE_RESID}
 };
 
 static struct MenuDisplayResidSampling {
