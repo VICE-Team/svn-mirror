@@ -995,10 +995,10 @@ four speed zones defined, which means the drive can write data at four
 distinct speeds.  On a normal 1541 disk, these zones are as follows:
 
 Track Range                          Speed Zone                           
-1-17                                 3  (lowest writing speed)            
+1-17                                 3  (highest writing speed)           
 18-24                                2                                    
 25-30                                1                                    
-31 and up                            0 (highest writing speed)            
+31 and up                            0 (lowest writing speed)             
 
    Note that you can, through custom programming of the 1541, change the
 speed zone of any track to something different (change the 3 to a 0) and

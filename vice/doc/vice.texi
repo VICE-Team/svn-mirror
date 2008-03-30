@@ -7031,13 +7031,13 @@ distinct speeds.  On a normal 1541 disk, these zones are as follows:
 @item @b{Track Range}
 @tab @b{Speed Zone}
 @item 1-17
-@tab 3  (lowest writing speed)
+@tab 3  (highest writing speed)
 @item 18-24
 @tab 2
 @item 25-30
 @tab 1
 @item 31 and up
-@tab 0 (highest writing speed)
+@tab 0 (lowest writing speed)
 @end multitable
 
 Note that you can, through custom programming of the 1541, change the
