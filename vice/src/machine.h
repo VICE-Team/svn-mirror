@@ -156,17 +156,5 @@ extern unsigned int machine_num_keyboard_mappings(void);
 struct image_contents_s;
 extern struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
 
-extern int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                                     BYTE **buf);
-extern int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                       unsigned int sector, BYTE *buf);
-extern int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                        unsigned int sector, BYTE *buf);
-
-extern void machine_bus_status_truedrive_set(unsigned int enable);
-extern void machine_bus_status_drivetype_set(unsigned int unit,
-                                             unsigned int enable);
-extern void machine_bus_status_virtualdevices_set(unsigned int enable);
-
 #endif
 

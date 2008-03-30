@@ -38,7 +38,6 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "iecbus.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -255,6 +254,7 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
+    serial_shutdown();
     video_resources_shutdown();
     plus4_resources_shutdown();
     sound_resources_shutdown();
@@ -374,7 +374,6 @@ int machine_init(void)
 
     plus4ui_init();
 
-    iecbus_init();
     plus4iec_init();
 
     machine_drive_stub();
@@ -552,48 +551,8 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_bus_status_truedrive_set(unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, 0, enable);
-}
-
-void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
-}
-
-void machine_bus_status_virtualdevices_set(unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, 0, enable);
-}
-
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {
     return diskcontents_iec_read(unit);
-}
-
-int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                              BYTE **buf)
-{
-    return serial_iec_lib_directory(unit, pattern, buf);
-}
-
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                unsigned int sector, BYTE *buf)
-{
-    return serial_iec_lib_read_sector(unit, track, sector, buf);
-}
-
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                 unsigned int sector, BYTE *buf)
-{
-    return serial_iec_lib_write_sector(unit, track, sector, buf);
-}
-
-/* ------------------------------------------------------------------------- */
-/* Temporary kluge: */
-
-void printer_interface_userport_set_busy(int b)
-{
 }
 

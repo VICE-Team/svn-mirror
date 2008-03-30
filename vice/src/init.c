@@ -44,6 +44,7 @@
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "palette.h"
@@ -208,6 +209,8 @@ int init_main(void)
 
         drivecpu_early_init_all();
     }
+
+    machine_bus_init();
 
     machine_maincpu_init();
 

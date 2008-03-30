@@ -28,7 +28,7 @@
 
 #include "diskimage.h"
 #include "log.h"
-#include "machine.h"
+#include "machine-bus.h"
 #include "realimage.h"
 #include "types.h"
 

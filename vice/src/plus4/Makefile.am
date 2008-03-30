@@ -19,6 +19,7 @@ libplus4_a_SOURCES = \
 	plus4.h \
         plus4acia.c \
         plus4acia.h \
+	plus4bus.c \
 	plus4cpu.c \
 	plus4datasette.c \
 	plus4drive.c \

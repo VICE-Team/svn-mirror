@@ -35,7 +35,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
-#include "machine.h"
+#include "machine-bus.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"

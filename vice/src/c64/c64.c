@@ -56,7 +56,6 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "iecbus.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -271,6 +270,7 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
+    serial_shutdown();
     video_resources_shutdown();
     c64_resources_shutdown();
     reu_resources_shutdown();
@@ -457,7 +457,6 @@ int machine_init(void)
         mouse_init();
 #endif
 
-        iecbus_init();
         c64iec_init();
         c64fastiec_init();
 
@@ -720,42 +719,8 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_bus_status_truedrive_set(unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, 0, enable);
-}
-
-void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
-}
-
-void machine_bus_status_virtualdevices_set(unsigned int enable)
-{
-    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, 0, enable);
-    parallel_bus_enable(enable);
-}
-
 struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
 {
     return diskcontents_iec_read(unit);
-}
-
-int machine_bus_lib_directory(unsigned int unit, const char *pattern,
-                              BYTE **buf)
-{
-    return serial_iec_lib_directory(unit, pattern, buf);
-}
-
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
-                                unsigned int sector, BYTE *buf)
-{
-    return serial_iec_lib_read_sector(unit, track, sector, buf);
-}
-
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
-                                 unsigned int sector, BYTE *buf)
-{
-    return serial_iec_lib_write_sector(unit, track, sector, buf);
 }
 

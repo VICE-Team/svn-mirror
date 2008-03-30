@@ -31,6 +31,7 @@ libvic20_a_SOURCES = \
 	vic20-snapshot.h \
 	vic20.c \
 	vic20.h \
+	vic20bus.c \
 	vic20cartridge.c \
 	vic20datasette.c \
 	vic20drive.c \
