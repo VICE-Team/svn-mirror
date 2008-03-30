@@ -26,6 +26,8 @@
 
 #define _KBD_DOS_C
 
+#include "vice.h"
+
 #include <sys/farptr.h>
 #include <pc.h>
 #include <time.h>
@@ -35,9 +37,7 @@
 #include <stdlib.h>
 
 #include "vmachine.h"
-#include "macro.h"
 #include "kbd.h"
-#include "kbdef.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "vsync.h"
@@ -68,13 +68,15 @@ static struct {
     int right_alt:1;
 } modifiers;
 
+/* Pointer to the keyboard conversion map.  */
+static keyconv *keyconvmap;
+
 /* What is the location of the virtual shift key in the keyboard matrix?  */
-#ifdef PET
+#if 0
 static int virtual_shift_column = 0;
 static int virtual_shift_row = 6;
 #else
-static int virtual_shift_column = COL7;
-static int virtual_shift_row = 1;
+static int virtual_shift_column, virtual_shift_row;
 #endif
 
 #ifdef DEBUG_KBD
@@ -153,7 +155,7 @@ void kbd_flush_commands(void)
 
 /* -------------------------------------------------------------------------- */
 
-#ifdef PET
+#if 0
 
 static keyconv *keyconvmap;
 
@@ -455,7 +457,8 @@ static void kbd_exit(void)
 }
 
 /* Initialize the keyboard driver.  */
-void kbd_init(void)
+int kbd_init(keyconv *map, int sizeof_map,
+	     int shift_column, int shift_row)
 {
     DEBUG(("Getting standard int 9 seginfo"));
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
@@ -466,6 +469,7 @@ void kbd_init(void)
     _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
     DEBUG(("Locking keyboard handler variables"));
+    _go32_dpmi_lock_data(map, sizeof_map);
     _go32_dpmi_lock_data(keyconvmap, sizeof(keyconvmap));
     _go32_dpmi_lock_data(keyarr, sizeof(keyarr));
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
@@ -480,5 +484,11 @@ void kbd_init(void)
     kbd_install();
     num_queued_commands = 0;
 
+    keyconvmap = map;
+    virtual_shift_row = shift_row;
+    virtual_shift_column = shift_column;
+
     DEBUG(("Successful"));
+
+    return 0;
 }

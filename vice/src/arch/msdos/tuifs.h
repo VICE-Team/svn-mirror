@@ -26,7 +26,8 @@
 
 #ifndef _TUIFS_H
 
-extern char *tui_file_selector(const char *title, const char *pattern,
+extern char *tui_file_selector(const char *title, const char *directory,
+			       const char *pattern, const char *default_item,
 			       char *(*read_contents_func)(const char*));
 
 #endif

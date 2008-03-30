@@ -32,6 +32,7 @@
 #include <allegro.h>
 
 #include "types.h"
+#include "palette.h"
 
 #define NUM_AVAILABLE_COLORS	0x100
 
@@ -81,21 +82,23 @@ enum vga_mode_id {
 
 /* ------------------------------------------------------------------------- */
 
+extern int video_init_resources(void);
+extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 			      unsigned int height);
 extern void frame_buffer_free(frame_buffer_t * i);
 extern void frame_buffer_clear(frame_buffer_t * i, BYTE value);
-
 extern canvas_t canvas_create(const char *win_name, unsigned int *width,
 			      unsigned int *height, int mapped,
 			      canvas_redraw_t exposure_handler,
-			      int num_colors, const color_def_t color_defs[],
-			      BYTE *pixel_return);
+			      const palette_t *palette, PIXEL *pixel_return);
 extern void canvas_destroy(canvas_t s);
 extern void canvas_map(canvas_t s);
 extern void canvas_unmap(canvas_t s);
 extern void canvas_resize(canvas_t s, unsigned int width, unsigned int height);
+extern void canvas_set_palette(canvas_t c, const palette_t *p,
+			       PIXEL *pixel_return);
 extern void enable_text(void);
 extern void disable_text(void);
 extern int num_text_lines(void);

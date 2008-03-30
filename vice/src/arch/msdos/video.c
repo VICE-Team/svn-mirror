@@ -31,6 +31,8 @@
 #include <string.h>
 
 #include "video.h"
+#include "cmdline.h"
+#include "resources.h"
 #include "kbd.h"
 #include "tui.h"
 #include "resources.h"
@@ -58,6 +60,49 @@ canvas_t last_canvas;
 #else
 #define DEBUG(x)
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+/* Video-related resources.  */
+
+/* VGA Video mode to use.  */
+static int vga_mode;
+
+static int set_vga_mode(resource_value_t v)
+{
+    /* FIXME: Sanity check!  */
+    vga_mode = (int) v;
+    printf("%s(%d)\n", __FUNCTION__, (int) v);
+
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "VGAMode", RES_INTEGER, (resource_value_t) VGA_320x200,
+      (resource_value_t *) &vga_mode, set_vga_mode },
+    { NULL }
+};
+
+int video_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Video-specific command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-vgamode", SET_RESOURCE, 1, NULL, NULL,
+      "VGAMode", NULL,
+      "<mode>", "Set VGA mode to <mode>" },
+    { NULL }
+};
+
+int video_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -126,20 +171,22 @@ static void canvas_set_vga_mode(canvas_t c)
 /* Note: `mapped' is ignored. */
 canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       unsigned int *height, int mapped,
-		       canvas_redraw_t exposure_handler, int num_colors,
-		       const color_def_t color_defs[], BYTE * pixel_return)
+		       canvas_redraw_t exposure_handler,
+		       const palette_t *palette, PIXEL *pixel_return)
 {
     int i;
     canvas_t new_canvas;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
-    if (num_colors > NUM_AVAILABLE_COLORS) {
+    if (palette->num_entries > NUM_AVAILABLE_COLORS) {
 	fprintf(stderr, "??? Too many colors requested! ???\n");
 	return (canvas_t) NULL;
     }
     new_canvas = (canvas_t) malloc(sizeof(struct _canvas));
     if (!new_canvas)
 	return (canvas_t) NULL;
+
+    canvas_set_palette(new_canvas, palette, pixel_return);
 
     /* Set width and height. */
     canvas_resize(new_canvas, 0, 0);
@@ -149,19 +196,24 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     DEBUG(("Setting VGA mode"));
     canvas_set_vga_mode(new_canvas);
 
-    DEBUG(("Allocating colors"));
-    for (i = 0; i < num_colors; i++) {
-	new_canvas->colors[i].r = color_defs[i].red >> 10;
-	new_canvas->colors[i].g = color_defs[i].green >> 10;
-	new_canvas->colors[i].b = color_defs[i].blue >> 10;
-	set_color(i, &(new_canvas->colors[i]));
-	pixel_return[i] = i;
-    }
-
     new_canvas->exposure_handler = exposure_handler;
     last_canvas = new_canvas;
 
     return new_canvas;
+}
+
+void canvas_set_palette(canvas_t c, const palette_t *palette,
+			PIXEL *pixel_return)
+{
+    int i;
+
+    DEBUG(("Allocating colors"));
+    for (i = 0; i < palette->num_entries; i++) {
+	c->colors[i].r = palette->entries[i].red >> 2;
+	c->colors[i].g = palette->entries[i].green >> 2;
+	c->colors[i].b = palette->entries[i].blue >> 2;
+	pixel_return[i] = i;
+    }
 }
 
 void canvas_map(canvas_t c)
@@ -175,12 +227,12 @@ void canvas_unmap(canvas_t c)
 }
 
 /* Warning: this does not do what you would expect from it.  It just sets the
-   canvas size according to `app_resources.vgaMode'. */
+   canvas size according to the `VGAMode' resource. */
 void canvas_resize(canvas_t c, unsigned int width, unsigned int height)
 {
-    DEBUG(("Resizing, app_resources.vgaMode=%d", app_resources.vgaMode));
-    c->width = vga_modes[app_resources.vgaMode].width;
-    c->height = vga_modes[app_resources.vgaMode].height;
+    DEBUG(("Resizing, vga_mode=%d", vga_mode));
+    c->width = vga_modes[vga_mode].width;
+    c->height = vga_modes[vga_mode].height;
 }
 
 void video_ack_vga_mode(void)
@@ -188,18 +240,15 @@ void video_ack_vga_mode(void)
     if (last_canvas != NULL) {
         canvas_resize(last_canvas, last_canvas->width, last_canvas->height);
         last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
-        DEBUG(("acknowledged vgaMode %d", app_resources.vgaMode));
+        DEBUG(("Acknowledged vgaMode %d", vga_mode));
     }
 }
 
 /* ------------------------------------------------------------------------- */
 
-static PALETTE palette;
-
 void enable_text(void)
 {
     DEBUG(("Enabling text mode"));
-    get_palette(palette);
     set_gfx_mode(GFX_TEXT, 80, 25, 0, 0);
     _set_screen_lines(25);
     kbd_uninstall();
@@ -211,9 +260,14 @@ void disable_text(void)
     DEBUG(("Enabling gfx mode"));
     kbd_install();
     if (last_canvas->width > 0 && last_canvas->height > 0) {
+        int i;
+      
 	video_ack_vga_mode();
 	canvas_set_vga_mode(last_canvas);
-	set_palette(palette);
+
+	for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
+	    set_color(i, &last_canvas->colors[i]);
+
 	last_canvas->exposure_handler(last_canvas->width, last_canvas->height);
     }
     DEBUG(("Successful"));

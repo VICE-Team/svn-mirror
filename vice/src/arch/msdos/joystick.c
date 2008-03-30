@@ -35,6 +35,16 @@
 #include "resources.h"
 #include "kbd.h"              /* FIXME: Maybe we should move `joy[]' here... */
 
+int joystick_init_resources(void)
+{
+    return 0;
+}
+
+int joystick_init_cmdline_options(void)
+{
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Flag: is joystick present? */
@@ -69,7 +79,7 @@ void joystick_update(void)
 	return;
 
     value = 0;
-    
+
     poll_joystick();
     if (joy_left)
 	value |= 4;
@@ -81,8 +91,10 @@ void joystick_update(void)
 	value |= 2;
     if (joy_b1 || joy_b2)
 	value |= 16;
-    
+
+#if 0
     /* FIXME: in this a quick & dirty implementation, we use the joystick
        port that is not used by the numpad-based emulation. */
     joy[3 - app_resources.joyPort] = value;
+#endif
 }

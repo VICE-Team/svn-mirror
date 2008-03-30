@@ -1,5 +1,5 @@
 /*
- * vsync.h - End-of-frame handling for MS-DOS.
+ * c64ui.h - Implementation of the C64-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,19 +24,9 @@
  *
  */
 
-#ifndef _VSYNC_DOS_H
-#define _VSYNC_DOS_H
+#ifndef _C64UI_H
+#define _C64UI_H
 
-#include "types.h"
+extern int c64_ui_init(void);
 
-extern void suspend_speed_eval(void);
-extern int vsync_init_resources(void);
-extern int vsync_init_cmdline_options(void);
-extern void vsync_init(double hz, long cycles, void (*hook)(void));
-extern int do_vsync(int been_skipped);
-extern int vsync_disable_timer(void);
-extern void vsync_prevent_clk_overflow(CLOCK sub);
-extern double vsync_get_avg_frame_rate(void);
-extern double vsync_get_avg_speed_index(void);
-
-#endif /* !_VSYNC_DOS_H */
+#endif

@@ -322,6 +322,37 @@ void tui_menu_add_submenu(tui_menu_t menu, const char *label,
     menu->num_items++;
 }
 
+void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *def)
+{
+    const tui_menu_item_def_t *p = def;
+
+    while (p->label != NULL) {
+        if (p->submenu != NULL) {
+	    tui_menu_t s = tui_menu_create(p->submenu_title, 1);
+
+	    tui_menu_add(s, p->submenu);
+            tui_menu_add_submenu(menu,
+			         p->label,
+			         p->help_string, 
+				 s,
+			         p->callback, 
+				 p->callback_param,
+			         p->par_string_max_len);
+	} else if (*p->label == '-') {
+           tui_menu_add_separator(menu);
+        } else {
+            tui_menu_add_item(menu,
+	    		      p->label,
+		              p->help_string, 
+			      p->callback,
+		              p->callback_param, 
+			      p->par_string_max_len,
+		              p->behavior);
+        }
+	p++;
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void tui_menu_display_item(tui_menu_item_t *item, int width,

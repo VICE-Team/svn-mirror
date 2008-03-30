@@ -40,7 +40,6 @@
 #include <allegro.h>
 
 #include "tui.h"
-#include "patchlevel.h"
 #include "utils.h"
 
 typedef BYTE attr_t;

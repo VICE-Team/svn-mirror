@@ -45,6 +45,13 @@
 
 #define KBD_COLS	8
 
+/* Keymap definition structure.  */
+typedef struct {
+    BYTE row;
+    BYTE column;
+    int vshift;
+} keyconv;
+
 #ifdef _KBD_DOS_C
 
 enum doskbd_codes {
@@ -73,18 +80,14 @@ static unsigned char extended_key_tab[256] = {
 
 #endif
 
-extern void kbd_init(void);
+extern int kbd_init(keyconv *map, int sizeof_map,
+		    int shift_column, int shift_row);
 extern void kbd_install(void);
 extern void kbd_uninstall(void);
 extern void kbd_led_cleanup(void);
 extern void kbd_led_init(void);
 extern void kbd_led_set(int status);
 extern void kbd_flush_commands(void);
-
-#ifdef PET
-extern void set80key(void);
-extern void set40key(void);
-#endif
 
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];

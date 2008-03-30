@@ -31,6 +31,8 @@
 extern int joystick_available;
 
 extern void joystick_init(void);
+extern int joystick_init_resources(void);
+extern int joystick_init_cmdline_options(void);
 extern void joystick_update(void);
 
 #endif

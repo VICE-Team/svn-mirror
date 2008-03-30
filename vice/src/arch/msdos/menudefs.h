@@ -1,5 +1,5 @@
 /*
- * vsync.h - End-of-frame handling for MS-DOS.
+ * menudefs.h - Definition of menu commands.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,19 +24,23 @@
  *
  */
 
-#ifndef _VSYNC_DOS_H
-#define _VSYNC_DOS_H
+#ifndef _MENUDEFS_H
+#define _MENUDEFS_H
 
-#include "types.h"
+#include "tuimenu.h"
 
-extern void suspend_speed_eval(void);
-extern int vsync_init_resources(void);
-extern int vsync_init_cmdline_options(void);
-extern void vsync_init(double hz, long cycles, void (*hook)(void));
-extern int do_vsync(int been_skipped);
-extern int vsync_disable_timer(void);
-extern void vsync_prevent_clk_overflow(CLOCK sub);
-extern double vsync_get_avg_frame_rate(void);
-extern double vsync_get_avg_speed_index(void);
+extern tui_menu_t ui_main_menu;
+extern tui_menu_t ui_attach_submenu;
+extern tui_menu_t ui_detach_submenu;
+extern tui_menu_t ui_video_submenu;
+extern tui_menu_t ui_drive_submenu;
+extern tui_menu_t ui_sound_submenu;
+extern tui_menu_t ui_speed_limit_submenu;
+extern tui_menu_t ui_special_submenu;
+extern tui_menu_t ui_reset_submenu;
+extern tui_menu_t ui_quit_submenu;
+extern tui_menu_t ui_info_submenu;
 
-#endif /* !_VSYNC_DOS_H */
+extern void ui_create_main_menu(int has_tape, int has_true1541);
+
+#endif /* _MENUDEFS_H */

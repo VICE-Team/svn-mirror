@@ -25,6 +25,9 @@
  */
 
 #ifndef _TUI_MENU_H
+#define _TUI_MENU_H
+
+#include "resources.h"
 
 #define TUI_MENU_HOT_KEY_PREFIX		'_'
 
@@ -44,12 +47,55 @@ typedef char *(*tui_menu_callback_t)(int been_activated, void *callback_param);
 /* Menu type. */
 typedef struct tui_menu *tui_menu_t;
 
+/* Struct to define a menu item.  */
+typedef struct _tui_menu_item_def_t tui_menu_item_def_t;
+struct _tui_menu_item_def_t {
+    const char *label;
+    const char *help_string;
+    tui_menu_callback_t callback;
+    void *callback_param;
+    int par_string_max_len;
+    tui_menu_item_behavior_t behavior;
+    tui_menu_item_def_t *submenu;
+    const char *submenu_title;
+};
+
 tui_menu_t tui_menu_create(const char *title, int spacing);
 void tui_menu_free(tui_menu_t menu);
 void tui_menu_add_item(tui_menu_t menu, const char *label, const char *help_string, tui_menu_callback_t callback, void *callback_param, int par_string_max_len, tui_menu_item_behavior_t behavior);
 void tui_menu_add_submenu(tui_menu_t menu, const char *label, const char *help_string, tui_menu_t submenu, tui_menu_callback_t callback, void *callback_param, int par_string_max_len);
 void tui_menu_add_separator(tui_menu_t menu);
+void tui_menu_add(tui_menu_t menu, const tui_menu_item_def_t *d);
 int tui_menu_handle(tui_menu_t menu);
 void tui_menu_update(tui_menu_t menu);
+
+/* ------------------------------------------------------------------------- */
+
+#define TUI_MENU_CALLBACK(name) \
+    char *name(int been_activated, void *param)
+
+#define TUI_MENU_DEFINE_TOGGLE(resource)                                     \
+    static TUI_MENU_CALLBACK(toggle_##resource##_callback)                   \
+    {                                                                        \
+        int value, r;                                                        \
+                                                                             \
+        if (been_activated)                                                  \
+            r = resources_toggle(#resource, (resource_value_t *) &value);    \
+        else                                                                 \
+            r = resources_get_value(#resource, (resource_value_t *) &value); \
+                                                                             \
+        if (r < 0)                                                           \
+            return "Unknown";                                                \
+        else                                                                 \
+            return value ? "On" : "Off";                                     \
+    }
+
+#define TUI_MENU_DEFINE_RADIO(resource)                               \
+    static TUI_MENU_CALLBACK(radio_##resource##_callback)             \
+    {                                                                 \
+        if (been_activated)                                           \
+            resources_set_value(#resource, (resource_value_t) param); \
+        return NULL;                                                  \
+    }
 
 #endif
