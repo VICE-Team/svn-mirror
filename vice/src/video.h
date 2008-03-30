@@ -149,6 +149,8 @@ struct cap_fullscreen_s {
     unsigned int device_num;
     const char *device_name[FULLSCREEN_MAXDEV];
     int (*enable)(struct video_canvas_s *canvas, int enable);
+    int (*double_size)(struct video_canvas_s *canvas, int double_size);
+    int (*double_scan)(struct video_canvas_s *canvas, int double_scan);
     int (*device)(struct video_canvas_s *canvas, const char *device);
     int (*mode[FULLSCREEN_MAXDEV])(struct video_canvas_s *canvas, int mode);
 };
