@@ -20,135 +20,159 @@
 # 4      right shift
 # 8      key can be shifted or not with this keysym
 #
+
 !CLEAR
 !LSHIFT 1 7
 !RSHIFT 6 4
-Delete 0 0 8
-Return 0 1 8
-Right 0 2 8
-F7 0 3 8
-F1 0 4 8
-F3 0 5 8
-F5 0 6 8
-Down 0 7 8
-3 1 0 0
-w 1 1 8
-a 1 2 8
-4 1 3 0
-z 1 4 8
-s 1 5 8
-e 1 6 8
-Shift_L 1 7 2
-5 2 0 0
-r 2 1 8
-d 2 2 8
-6 2 3 0
-c 2 4 8
-f 2 5 8
-t 2 6 8
-x 2 7 8
-7 3 0 0
-y 3 1 8
-g 3 2 8
-8 3 3 0
-b 3 4 8
-h 3 5 8
-u 3 6 8
-v 3 7 8
-9 4 0 0
-i 4 1 8
-j 4 2 8
-0 4 3 0
-m 4 4 8
-k 4 5 8
-o 4 6 8
-n 4 7 8
-plus 5 0 0
-p 5 1 8
-l 5 2 8
-minus 5 3 0
-period 5 4 0
-colon 5 5 0
-at 5 6 0
-comma 5 7 0
-sterling 6 0 0
-bar 6 0 8
-asterisk 6 1 0
-semicolon 6 2 0
-Home 6 3 8
-Shift_R 6 4 0
-equal 6 5 0
-asciicircum 6 6 0
-asciitilde 6 6 0
-slash 6 7 0
-1 7 0 0
-underscore 7 1 0
-Control_L 7 2 8
-2 7 3 0
-space 7 4 8
+
 Alt_L 7 5 8
-Meta_L 7 5 8
-q 7 6 8
-Escape 7 7 8
 BackSpace 0 0 8
+Control_L 7 2 8
+Delete 0 0 8
+Escape 7 7 8
+Home 6 3 8
+Insert 0 0 16
 KP_F1 0 4 8
 KP_F2 0 5 8
 KP_F3 0 6 8
 KP_F4 0 2 8
-Insert 0 0 16
-Find 6 3 8
-Help 7 7
-Linefeed 0 1 1
-Left 0 2 1
-F8 0 3 1
-F2 0 4 1
-F4 0 5 1
-F6 0 6 1
-Up 0 7 1
-numbersign 1 0 1
-W 1 1 1
-A 1 2 1
-dollar 1 3 1
-Z 1 4 1
-S 1 5 1
-E 1 6 1
-percent 2 0 1
-R 2 1 1
-D 2 2 1
+Meta_L 7 5 8
+Return 0 1 8
+Shift_L 1 7 2
+Shift_R 6 4 0
+
+F1 9 0 8
+F2 8 3 8
+F3 10 0 8
+
+F5 8 0 8
+F6 9 3 8
+F8 10 7 8
+
+F9 0 4 8
+F10 0 5 8
+F11 0 6 8
+F12 0 3 8
+
+Up 10 3 8
+Left 10 5 8
+Right 10 6 8
+Down 10 4 8
+End 0 7 8
+Page_Down 0 2 8
+
 ampersand 2 3 1
-C 2 4 1
-F 2 5 1
-T 2 6 1
-X 2 7 1
 apostrophe 3 0 1
-Y 3 1 1
-G 3 2 1
+asciicircum 6 6 0
+asciitilde 6 6 0
+asterisk 6 1 0
+at 5 6 0
+backslash 6 0 0
+bar 6 0 8
+bracketleft 5 5 1
+bracketright 6 2 1
+colon 5 5 0
+comma 5 7 0
+dollar 1 3 1
+equal 6 5 0
+exclam 7 0 1
+grave 6 6 0
+greater 5 4 1
+less 5 7 1
+minus 5 3 0
+numbersign 1 0 1
 parenleft 3 3 1
-B 3 4 1
-H 3 5 1
-U 3 6 1
-V 3 7 1
 parenright 4 0 1
+percent 2 0 1
+period 5 4 0
+plus 5 0 0
+question 6 7 1
+quotedbl 7 3 1
+semicolon 6 2 0
+slash 6 7 0
+space 7 4 8
+sterling 6 0 0
+underscore 7 1 0
+
+0 4 3 0
+1 7 0 0
+2 7 3 0
+3 1 0 0
+4 1 3 0
+5 2 0 0
+6 2 3 0
+7 3 0 0
+8 3 3 0
+9 4 0 0
+
+A 1 2 1
+B 3 4 1
+C 2 4 1
+D 2 2 1
+E 1 6 1
+F 2 5 1
+G 3 2 1
+H 3 5 1
 I 4 1 1
 J 4 2 1
-M 4 4 1
 K 4 5 1
-O 4 6 1
-N 4 7 1
-P 5 1 1
 L 5 2 1
-greater 5 4 1
-bracketleft 5 5 1
-grave 5 6 1
-less 5 7 1
-backslash 6 0 0
-bracketright 6 2 1
-asciitilde 6 6 0
-asciicircum 6 6 8
-question 6 7 1
-exclam 7 0 1
-quotedbl 7 3 1
+M 4 4 1
+N 4 7 1
+O 4 6 1
+P 5 1 1
 Q 7 6 1
+R 2 1 1
+S 1 5 1
+T 2 6 1
+U 3 6 1
+V 3 7 1
+W 1 1 1
+X 2 7 1
+Y 3 1 1
+Z 1 4 1
+a 1 2 8
+b 3 4 8
+c 2 4 8
+d 2 2 8
+e 1 6 8
+f 2 5 8
+g 3 2 8
+h 3 5 8
+i 4 1 8
+j 4 2 8
+k 4 5 8
+l 5 2 8
+m 4 4 8
+n 4 7 8
+o 4 6 8
+p 5 1 8
+q 7 6 8
+r 2 1 8
+s 1 5 8
+t 2 6 8
+u 3 6 8
+v 3 7 8
+w 1 1 8
+x 2 7 8
+y 3 1 8
+z 1 4 8
+
+KP_0 10 1 8
+KP_1 8 7 8
+KP_2 8 4 8
+KP_3 9 7 8
+KP_4 8 5 8
+KP_5 8 2 8
+KP_6 9 5 8
+KP_7 8 6 8
+KP_8 8 1 8
+KP_9 9 6 8
+KP_Enter 9 4 8
+KP_Subtract 9 2 8
+KP_Separator 10 2 8
+KP_Add 9 1 8
+
 #
 # Joystick 1
 #
@@ -162,6 +186,7 @@ KP_6 -1 6
 KP_7 -1 7
 KP_8 -1 8
 KP_9 -1 9
+
 #
 # Joystick 2
 #
