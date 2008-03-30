@@ -80,7 +80,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
     for (i = 0; i < nr; i++)
     {
       if (snd.vol)
-        pbuf[i * interleave] += (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - 32768;
+        pbuf[i * interleave] += (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - (snd.vol*0x800);
     }
     return 0;
 }

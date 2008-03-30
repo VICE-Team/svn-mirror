@@ -1,3 +1,21 @@
+2007-05-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.9.
+
+	* c128/c128mem.c, c128/c128meminit.c: Added support for vbank
+	writes, does not honour 0/1 page and second 64k bank.
+
+2007-05-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vic20/vic20sound.c: Fixed the clicking and distortion
+	problems.
+
+2007-05-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128cpu.c, vicii/vicii-clock-stretch.c: Fixed.
+
+	* sound.c: Added 'SWORD' casts.
+
 2007-05-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.8.
