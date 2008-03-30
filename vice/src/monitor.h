@@ -109,7 +109,7 @@ struct monitor_interface_s {
     /* Update bank base (used for drives).  */
     void (*set_bank_base)(void *context);
 
-    void (*get_line_cycle)(unsigned int *line, unsigned int *cycle);
+    void (*get_line_cycle)(unsigned int *line, unsigned int *cycle, int *half_cycle);
 
     void *context;
 };

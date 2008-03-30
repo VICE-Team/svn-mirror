@@ -110,7 +110,7 @@ extern long machine_get_cycles_per_second(void);
 extern void machine_set_cycles_per_frame(long cpf);
 
 /* Get current line and cycle. */
-extern void machine_get_line_cycle(unsigned int *line, unsigned int *cycle);
+extern void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle);
 
 /* Write a snapshot.  */
 extern int machine_write_snapshot(const char *name, int save_roms,

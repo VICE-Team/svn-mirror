@@ -116,5 +116,27 @@ extern BYTE *ram_bank;
 
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
-#endif
+extern BYTE REGPARM1 c128_vicii_read(WORD addr);
+extern void REGPARM2 c128_vicii_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_sid_read(WORD addr);
+extern void REGPARM2 c128_sid_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_mmu_read(WORD addr);
+extern void REGPARM2 c128_mmu_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_d5xx_read(WORD addr);
+extern void REGPARM2 c128_d5xx_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_vdc_read(WORD addr);
+extern void REGPARM2 c128_vdc_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_d7xx_read(WORD addr);
+extern void REGPARM2 c128_d7xx_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_colorram_read(WORD addr);
+extern void REGPARM2 c128_colorram_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_cia1_read(WORD addr);
+extern void REGPARM2 c128_cia1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_cia2_read(WORD addr);
+extern void REGPARM2 c128_cia2_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_c64io1_read(WORD addr);
+extern void REGPARM2 c128_c64io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c128_c64io2_read(WORD addr);
+extern void REGPARM2 c128_c64io2_store(WORD addr, BYTE value);
 
+#endif

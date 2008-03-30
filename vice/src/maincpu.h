@@ -50,6 +50,9 @@ extern struct mos6510_regs_s maincpu_regs;
 extern int maincpu_rmw_flag;
 extern CLOCK maincpu_clk;
 
+/* 8502 cycle stretch indicator */
+extern int maincpu_stretch;
+
 /* ------------------------------------------------------------------------- */
 
 struct alarm_context_s;

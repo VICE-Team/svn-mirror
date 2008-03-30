@@ -121,7 +121,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
     im = XCreateImage(display, visual, x11ui_get_display_depth(),
-                      ZPixmap, 0, (char *)data, 1, 1, 8, 1);
+                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));
         free(data);

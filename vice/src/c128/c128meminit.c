@@ -1099,37 +1099,37 @@ void c128meminit(void)
 
     for (j = 64; j < 128; j++) {
         for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab_set(j, i, vicii_read);
-            mem_set_write_hook(j, i, vicii_store);
+            mem_read_tab_set(j, i, c128_vicii_read);
+            mem_set_write_hook(j, i, c128_vicii_store);
         }
 
-        mem_read_tab_set(j, 0xd4, sid_read);
-        mem_set_write_hook(j, 0xd4, sid_store);
-        mem_read_tab_set(j, 0xd5, mmu_read);
-        mem_set_write_hook(j, 0xd5, mmu_store);
-        mem_read_tab_set(j, 0xd6, vdc_read);
-        mem_set_write_hook(j, 0xd6, vdc_store);
-        mem_read_tab_set(j, 0xd7, d7xx_read);
-        mem_set_write_hook(j, 0xd7, d7xx_store);
+        mem_read_tab_set(j, 0xd4, c128_sid_read);
+        mem_set_write_hook(j, 0xd4, c128_sid_store);
+        mem_read_tab_set(j, 0xd5, c128_mmu_read);
+        mem_set_write_hook(j, 0xd5, c128_mmu_store);
+        mem_read_tab_set(j, 0xd6, c128_vdc_read);
+        mem_set_write_hook(j, 0xd6, c128_vdc_store);
+        mem_read_tab_set(j, 0xd7, c128_d7xx_read);
+        mem_set_write_hook(j, 0xd7, c128_d7xx_store);
 
-        mem_read_tab_set(j, 0xd8, colorram_read);
-        mem_read_tab_set(j, 0xd9, colorram_read);
-        mem_read_tab_set(j, 0xda, colorram_read);
-        mem_read_tab_set(j, 0xdb, colorram_read);
-        mem_set_write_hook(j, 0xd8, colorram_store);
-        mem_set_write_hook(j, 0xd9, colorram_store);
-        mem_set_write_hook(j, 0xda, colorram_store);
-        mem_set_write_hook(j, 0xdb, colorram_store);
+        mem_read_tab_set(j, 0xd8, c128_colorram_read);
+        mem_read_tab_set(j, 0xd9, c128_colorram_read);
+        mem_read_tab_set(j, 0xda, c128_colorram_read);
+        mem_read_tab_set(j, 0xdb, c128_colorram_read);
+        mem_set_write_hook(j, 0xd8, c128_colorram_store);
+        mem_set_write_hook(j, 0xd9, c128_colorram_store);
+        mem_set_write_hook(j, 0xda, c128_colorram_store);
+        mem_set_write_hook(j, 0xdb, c128_colorram_store);
 
-        mem_read_tab_set(j, 0xdc, cia1_read);
-        mem_set_write_hook(j, 0xdc, cia1_store);
-        mem_read_tab_set(j, 0xdd, cia2_read);
-        mem_set_write_hook(j, 0xdd, cia2_store);
+        mem_read_tab_set(j, 0xdc, c128_cia1_read);
+        mem_set_write_hook(j, 0xdc, c128_cia1_store);
+        mem_read_tab_set(j, 0xdd, c128_cia2_read);
+        mem_set_write_hook(j, 0xdd, c128_cia2_store);
 
-        mem_read_tab_set(j, 0xde, c64io1_read);
-        mem_set_write_hook(j, 0xde, c64io1_store);
-        mem_read_tab_set(j, 0xdf, c64io2_read);
-        mem_set_write_hook(j, 0xdf, c64io2_store);
+        mem_read_tab_set(j, 0xde, c128_c64io1_read);
+        mem_set_write_hook(j, 0xde, c128_c64io1_store);
+        mem_read_tab_set(j, 0xdf, c128_c64io2_read);
+        mem_set_write_hook(j, 0xdf, c128_c64io2_store);
     }
 
     for (j = 0; j < 128; j += 64) {

@@ -82,6 +82,8 @@ extern void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value);
 extern void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value);
 
 extern CLOCK vicii_clock_add(CLOCK clock, int amount);
+extern void vicii_clock_read_stretch(void);
+extern void vicii_clock_write_stretch(void);
+extern int vicii_get_half_cycle(void);
 
 #endif
-

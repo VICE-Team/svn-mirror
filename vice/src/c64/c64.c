@@ -496,7 +496,7 @@ int machine_specific_init(void)
         /* Initialize the C64 256K.  */
         c64_256k_init();
 
-        /* Initialize the C64 256K.  */
+        /* Initialize the MMC64.  */
         mmc64_init();
 
 #ifdef HAVE_TFE
@@ -660,12 +660,14 @@ long machine_get_cycles_per_second(void)
     return machine_timing.cycles_per_sec;
 }
 
-void machine_get_line_cycle(unsigned int *line, unsigned int *cycle)
+void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
             % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
+
+    *half_cycle = (int)-1;
 }
 
 void machine_change_timing(int timeval)

@@ -1459,10 +1459,14 @@ static void monitor_open(void)
     if (caller_space == e_comp_space
         && mon_interfaces[caller_space]->get_line_cycle != NULL) {
         unsigned int line, cycle;
+        int half_cycle;
 
-        mon_interfaces[caller_space]->get_line_cycle(&line, &cycle);
+        mon_interfaces[caller_space]->get_line_cycle(&line, &cycle, &half_cycle);
 
-        mon_out(" %03i %03i\n", line, cycle);
+        if (half_cycle==-1)
+          mon_out(" %03i %03i\n", line, cycle);
+        else
+          mon_out(" %03i %03i %i\n", line, cycle, half_cycle);
     } else {
         mon_out("\n");
     }

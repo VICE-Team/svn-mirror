@@ -166,7 +166,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
        way to do this? //tvr */
     im = XCreateImage(display, GDK_VISUAL_XVISUAL(visual),
                       x11ui_get_display_depth(),
-                      ZPixmap, 0, (char *)data, 1, 1, 8, 1);
+                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));
         free(data);

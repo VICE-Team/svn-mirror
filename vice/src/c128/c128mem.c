@@ -623,14 +623,38 @@ void mem_initialize_memory(void)
     /* Setup C128 specific I/O at $D000-$DFFF.  */
     for (j = 0; j < 32; j++) {
         if (c64meminit_io_config[j]) {
-            mem_read_tab[128 + j][0xd4] = sid_read;
-            mem_write_tab[128 + j][0xd4] = sid_store;
-            mem_read_tab[128 + j][0xd5] = d5xx_read;
-            mem_write_tab[128 + j][0xd5] = d5xx_store;
-            mem_read_tab[128 + j][0xd6] = vdc_read;
-            mem_write_tab[128 + j][0xd6] = vdc_store;
-            mem_read_tab[128 + j][0xd7] = d7xx_read;
-            mem_write_tab[128 + j][0xd7] = d7xx_store;
+            mem_read_tab[128 + j][0xd0] = c128_vicii_read;
+            mem_write_tab[128 + j][0xd0] = c128_vicii_store;
+            mem_read_tab[128 + j][0xd1] = c128_vicii_read;
+            mem_write_tab[128 + j][0xd1] = c128_vicii_store;
+            mem_read_tab[128 + j][0xd2] = c128_vicii_read;
+            mem_write_tab[128 + j][0xd2] = c128_vicii_store;
+            mem_read_tab[128 + j][0xd3] = c128_vicii_read;
+            mem_write_tab[128 + j][0xd3] = c128_vicii_store;
+            mem_read_tab[128 + j][0xd4] = c128_sid_read;
+            mem_write_tab[128 + j][0xd4] = c128_sid_store;
+            mem_read_tab[128 + j][0xd5] = c128_d5xx_read;
+            mem_write_tab[128 + j][0xd5] = c128_d5xx_store;
+            mem_read_tab[128 + j][0xd6] = c128_vdc_read;
+            mem_write_tab[128 + j][0xd6] = c128_vdc_store;
+            mem_read_tab[128 + j][0xd7] = c128_d7xx_read;
+            mem_write_tab[128 + j][0xd7] = c128_d7xx_store;
+            mem_read_tab[128 + j][0xd8] = c128_colorram_read;
+            mem_write_tab[128 + j][0xd8] = c128_colorram_store;
+            mem_read_tab[128 + j][0xd9] = c128_colorram_read;
+            mem_write_tab[128 + j][0xd9] = c128_colorram_store;
+            mem_read_tab[128 + j][0xda] = c128_colorram_read;
+            mem_write_tab[128 + j][0xda] = c128_colorram_store;
+            mem_read_tab[128 + j][0xdb] = c128_colorram_read;
+            mem_write_tab[128 + j][0xdb] = c128_colorram_store;
+            mem_read_tab[128 + j][0xdc] = c128_cia1_read;
+            mem_write_tab[128 + j][0xdc] = c128_cia1_store;
+            mem_read_tab[128 + j][0xdd] = c128_cia2_read;
+            mem_write_tab[128 + j][0xdd] = c128_cia2_store;
+            mem_read_tab[128 + j][0xde] = c128_c64io1_read;
+            mem_write_tab[128 + j][0xde] = c128_c64io1_store;
+            mem_read_tab[128 + j][0xdf] = c128_c64io2_read;
+            mem_write_tab[128 + j][0xdf] = c128_c64io2_store;
         }
     }
 
@@ -1076,3 +1100,171 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* 8502 specific I/O function wrappers for 2mhz mode cycle stretching */
+
+BYTE REGPARM1 c128_vicii_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=vicii_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_vicii_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  vicii_store(addr, value);
+}
+
+BYTE REGPARM1 c128_sid_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=sid_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_sid_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  sid_store(addr, value);
+}
+
+BYTE REGPARM1 c128_mmu_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=mmu_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_mmu_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  mmu_store(addr, value);
+}
+
+BYTE REGPARM1 c128_d5xx_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=d5xx_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_d5xx_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  d5xx_store(addr, value);
+}
+
+BYTE REGPARM1 c128_vdc_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=vdc_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_vdc_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  vdc_store(addr, value);
+}
+
+BYTE REGPARM1 c128_d7xx_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=d7xx_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_d7xx_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  d7xx_store(addr, value);
+}
+
+BYTE REGPARM1 c128_colorram_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=colorram_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_colorram_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  colorram_store(addr, value);
+}
+
+BYTE REGPARM1 c128_cia1_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=cia1_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_cia1_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  cia1_store(addr, value);
+}
+
+BYTE REGPARM1 c128_cia2_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=cia2_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_cia2_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  cia2_store(addr, value);
+}
+
+BYTE REGPARM1 c128_c64io1_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=c64io1_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_c64io1_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  c64io1_store(addr, value);
+}
+
+BYTE REGPARM1 c128_c64io2_read(WORD addr)
+{
+  BYTE temp_value;
+
+  temp_value=c64io2_read(addr);
+  vicii_clock_read_stretch();
+  return temp_value;
+}
+
+void REGPARM2 c128_c64io2_store(WORD addr, BYTE value)
+{
+  vicii_clock_write_stretch();
+  c64io2_store(addr, value);
+}

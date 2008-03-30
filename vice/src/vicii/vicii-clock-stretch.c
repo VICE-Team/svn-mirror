@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "types.h"
+#include "maincpu.h"
 #include "vicii.h"
 #include "viciitypes.h"
 
@@ -62,4 +62,43 @@ CLOCK vicii_clock_add(CLOCK clock, int amount)
     tmp_clock+=amount;
   }
   return tmp_clock;
+}
+
+
+/* if half cycle is 0, add extra half cycle to stretch */
+void vicii_clock_read_stretch(void)
+{
+  if (vicii.fastmode!=0 && vicii.half_cycles==0)
+  {
+    vicii.half_cycles=1;
+    maincpu_stretch=1;
+  }
+}
+
+/* add 1 full cycle for 2 cycle stretch if rmw,
+   otherwise add half cycle for 1 cycle stretch */
+void vicii_clock_write_stretch(void)
+{
+  if (vicii.fastmode!=0)
+  {
+    if (maincpu_rmw_flag==1)
+    {
+      maincpu_clk++;
+    }
+    else
+    {
+      if (vicii.half_cycles==1)
+      {
+        maincpu_clk++;
+        vicii.half_cycles=0;
+      }
+    }
+  }
+}
+
+int vicii_get_half_cycle(void)
+{
+  if (vicii.fastmode!=0)
+    return vicii.half_cycles;
+  return -1;
 }

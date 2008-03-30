@@ -72,6 +72,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mmc64.h"
 #include "monitor.h"
 #include "parallel.h"
 #include "patchrom.h"
@@ -380,6 +381,7 @@ int machine_resources_init(void)
         || reu_resources_init() < 0
         || georam_resources_init() < 0
         || ramcart_resources_init() < 0
+        || mmc64_resources_init() < 0
         || digimax_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
@@ -419,6 +421,7 @@ void machine_resources_shutdown(void)
     reu_resources_shutdown();
     georam_resources_shutdown();
     ramcart_resources_shutdown();
+    mmc64_resources_shutdown();
     sound_resources_shutdown();
     rs232drv_resources_shutdown();
     printer_resources_shutdown();
@@ -437,6 +440,7 @@ int machine_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || ramcart_cmdline_options_init() < 0
+        || mmc64_cmdline_options_init() < 0
         || digimax_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
@@ -591,6 +595,9 @@ int machine_specific_init(void)
     /* Initialize the RAMCART.  */
     ramcart_init();
 
+    /* Initialize the MMC64.  */
+    mmc64_init();
+
 #ifdef HAVE_TFE
     /* Initialize the TFE.  */
     tfe_init();
@@ -640,6 +647,7 @@ void machine_specific_reset(void)
     reu_reset();
     georam_reset();
     ramcart_reset();
+    mmc64_reset();
 
     z80mem_initialize();
     z80_reset();
@@ -666,6 +674,7 @@ void machine_specific_shutdown(void)
     reu_shutdown();
     georam_shutdown();
     ramcart_shutdown();
+    mmc64_shutdown();
 
 #ifdef HAVE_TFE
     /* Shutdown the TFE.  */
@@ -717,12 +726,14 @@ long machine_get_cycles_per_second(void)
     return machine_timing.cycles_per_sec;
 }
 
-void machine_get_line_cycle(unsigned int *line, unsigned int *cycle)
+void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
             % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
+
+    *half_cycle = (int)vicii_get_half_cycle();
 }
 
 void machine_change_timing(int timeval)
