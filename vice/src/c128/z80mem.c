@@ -389,7 +389,7 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
-
+/*
     io_read_tab[0x10] = colorram_read;
     io_write_tab[0x10] = colorram_store;
     io_read_tab[0x11] = colorram_read;
@@ -398,7 +398,7 @@ void z80mem_initialize(void)
     io_write_tab[0x12] = colorram_store;
     io_read_tab[0x13] = colorram_read;
     io_write_tab[0x13] = colorram_store;
-
+*/
     io_read_tab[0xd0] = vic_read;
     io_write_tab[0xd0] = vic_store;
     io_read_tab[0xd1] = vic_read;
