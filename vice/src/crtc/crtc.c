@@ -220,7 +220,7 @@ static void inline crtc_update_disp_char(void)
 /* update screen window */
 void crtc_update_window(void)
 {
-    int width, height;
+    unsigned int width, height;
 
     if (!crtc.initialized)
 	return;
@@ -232,7 +232,7 @@ void crtc_update_window(void)
 
     if (crtc_resources.double_size_enabled)
     {
-        int pix_w = 2, pix_h = 2;
+        unsigned int pix_w = 2, pix_h = 2;
 
         if (width > 400) 
 	     pix_w = 1;
@@ -552,6 +552,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
     int new_sync_diff;
     int new_venable;
     int new_vsync;
+    int screen_width = (int)crtc.screen_width;
 
     new_venable = crtc.venable;
     new_vsync = crtc.vsync;
@@ -573,7 +574,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
     /* FIXME: crtc.regs[3] & 15 == 0 -> 16 */ 
     if (crtc.raster.current_line == 0) {
 	crtc.screen_xoffset = 
-		((crtc.screen_width 
+		((screen_width 
 			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
 		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
                         - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
@@ -582,9 +583,9 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
        make that a define - or measure the visible line length? 
        but how to do that reliably? */ 
     crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
-		/* ((crtc.screen_width - crtc.rl_visible * 8 * crtc.hw_cols) / 2) */
+		/* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols) / 2) */
 		- crtc.screen_xoffset 
-		+ ((crtc.screen_width 
+		+ ((screen_width 
 			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
 		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
                         - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
@@ -617,10 +618,10 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
 /*
     if (crtc.raster.current_line == 10) {
 	printf("centering=%d, sync2start=%d -> xoff=%d, jitter=%d\n",
-		((crtc.screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
+		((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
 		(crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
 			- ((crtc.regs[3] & 0x0f) / 2)),
-		((crtc.screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
+		((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
 		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync 
                         - ((crtc.regs[3] & 0x0f) / 2)) * crtc.hw_cols * 8),
 		crtc.hjitter
