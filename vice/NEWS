@@ -7,54 +7,21 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
-* Changes in VICE 0.99.0
-========================
+* Changes in VICE 1.0
+=====================
 
 ** General changes
 ------------------
-
-- Support for TAP tape images has been added.
 
 - Support for different ROM sets has been added.
 
 - Attached disk images can be stored into a flip list.  Changing
   disks requires just one keypress.
 
-** MS-DOS changes
------------------
-
-** MS-Windows changes
----------------------
-
-- The monitor is available now.
-
-- Added more UI elements for sound settings.
-
-- Shortcut keys have been implemented.
-
-** Unix changes
----------------
-
-- A full screen mode using XFree86 vmode extension has been added.
-
-- A new joystick driver that is compatible to both old and new Linux
-  joystick API has been added.
-
-- Support for the 1351 mouse has been added.
-
-- The source can be compiled on IRIX using the native compiler now.
-
-** Drive changes
-----------------
-
-- New 1541-II emulation.
-
-- Disk change detection has been improved.
-
-- The virtual drive emulation can be used with G64 images now.
-
 ** C64 changes
 ---------------
+
+- Support for TAP tape images has been added.
 
 - The emulation of the processor port has been corrected.
 
@@ -74,21 +41,45 @@ list of all the changes in the code.
 
 - Speed up emulation.
 
-** VIC20 changes
-----------------
-
-** PET changes
---------------
-
 ** CBM-II changes
 -----------------
 
 - Speed up emulation.
 
+** Drive changes
+----------------
+
+- New 1541-II emulation.
+
+- Disk change detection has been improved.
+
+- The virtual drive emulation can be used with G64 images now.
+
 ** C1541 changes
 ----------------
 
 - New function to set the name of the disk.
+
+** Unix changes
+---------------
+
+- A full screen mode using XFree86 vmode extension has been added.
+
+- A new joystick driver that is compatible to both old and new Linux
+  joystick API has been added.
+
+- Support for the 1351 mouse has been added.
+
+- The source can be compiled on IRIX using the native compiler now.
+
+** MS-Windows changes
+---------------------
+
+- The monitor is available now.
+
+- Added more UI elements for sound settings.
+
+- Shortcut keys have been implemented.
 
 ** Miscellaneous changes
 ------------------------
