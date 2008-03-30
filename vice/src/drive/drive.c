@@ -54,6 +54,8 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "driveimage.h"
+#include "drivesync.h"
 #include "driverom.h"
 #include "drivetypes.h"
 #include "fdc.h"
@@ -80,9 +82,6 @@ drive_t drive[2];
 drive_context_t drive0_context;
 drive_context_t drive1_context;
 
-/* Prototypes of functions called by resource management.  */
-static int drive_check_image_format(unsigned int format, unsigned int dnr);
-
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
 
@@ -94,133 +93,16 @@ int rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
-/* Number of bytes in one raw sector.  */
-#define NUM_BYTES_SECTOR_GCR 360
-
 /* Speed (in bps) of the disk in the 4 disk areas.  */
 static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
                                    { 125000, 133333, 142857, 153846 } };
 
-/* Number of bytes per track size.  */
-static unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
-
-/* Clock speed of the PAL and NTSC versions of the connected computer.  */
-static CLOCK pal_cycles_per_sec;
-static CLOCK ntsc_cycles_per_sec;
-
 static int drive_led_color[2];
 
-#define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
-                                    + sector * NUM_BYTES_SECTOR_GCR)
-
-static void initialize_rotation(int freq, unsigned int dnr);
 static void drive_extend_disk_image(unsigned int dnr);
-static void drive_set_half_track(int num, drive_t *dptr);
 static void drive_clk_overflow_callback(CLOCK sub, void *data);
-static void drive_set_clock_frequency(unsigned int type, unsigned int dnr);
 
 /* ------------------------------------------------------------------------- */
-
-/* Disk image handling. */
-
-static void drive_read_image_d64_d71(unsigned int dnr)
-{
-    BYTE buffer[260], chksum;
-    int i;
-    unsigned int track, sector;
-
-    if (!drive[dnr].image)
-        return;
-
-    buffer[258] = buffer[259] = 0;
-
-    /* Since the D64/D71 format does not provide the actual track sizes or
-       speed zones, we set them to standard values.  */
-    if ((drive[dnr].image->type == DISK_IMAGE_TYPE_D64
-        || drive[dnr].image->type == DISK_IMAGE_TYPE_D67
-        || drive[dnr].image->type == DISK_IMAGE_TYPE_X64)
-        && (drive[dnr].type == DRIVE_TYPE_1541
-        || drive[dnr].type == DRIVE_TYPE_1541II
-        || drive[dnr].type == DRIVE_TYPE_1551
-        || drive[dnr].type == DRIVE_TYPE_2031)) {
-        for (track = 0; track < MAX_TRACKS_1541; track++) {
-            drive[dnr].gcr->track_size[track] =
-                raw_track_size[disk_image_speed_map_1541(track)];
-            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),
-                   NUM_MAX_BYTES_TRACK);
-        }
-    }
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_D71
-        || drive[dnr].type == DRIVE_TYPE_1571
-        || drive[dnr].type == DRIVE_TYPE_2031) {
-        for (track = 0; track < MAX_TRACKS_1571; track++) {
-            drive[dnr].gcr->track_size[track] =
-                raw_track_size[disk_image_speed_map_1571(track)];
-            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1571(track),
-                   NUM_MAX_BYTES_TRACK);
-        }
-    }
-
-    drive_set_half_track(drive[dnr].current_half_track, &drive[dnr]);
-
-    for (track = 1; track <= drive[dnr].image->tracks; track++) {
-        BYTE *ptr;
-        unsigned int max_sector = 0;
-
-        ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
-        max_sector = disk_image_sector_per_track(drive[dnr].image->type,
-                                                 track);
-        /* Clear track to avoid read errors.  */
-        memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
-
-        for (sector = 0; sector < max_sector; sector++) {
-            int rc;
-            ptr = drive[dnr].gcr->data + GCR_OFFSET(track, sector);
-
-            rc = disk_image_read_sector(drive[dnr].image, buffer + 1, track,
-                                        sector);
-            if (rc < 0) {
-                log_error(drive[dnr].log,
-                          "Cannot read T:%d S:%d from disk image.",
-                          track, sector);
-                          continue;
-            }
-
-            if (rc == 21) {
-                ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
-                memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
-                break;
-            }
-
-            buffer[0] = (rc == 22) ? 0xff : 0x07;
-
-            chksum = buffer[1];
-            for (i = 2; i < 257; i++)
-                chksum ^= buffer[i];
-            buffer[257] = (rc == 23) ? chksum ^ 0xff : chksum;
-            gcr_convert_sector_to_GCR(buffer, ptr, track, sector,
-                                      drive[dnr].diskID1, drive[dnr].diskID2,
-                                      (BYTE)(rc));
-        }
-    }
-}
-
-static int setID(unsigned int dnr)
-{
-    BYTE buffer[256];
-    int rc;
-
-    if (!drive[dnr].image)
-        return -1;
-
-    rc = disk_image_read_sector(drive[dnr].image, buffer, 18, 0);
-    if (rc >= 0) {
-        drive[dnr].diskID1 = buffer[0xa2];
-        drive[dnr].diskID2 = buffer[0xa3];
-    }
-
-    return rc;
-}
 
 void drive_set_disk_memory(unsigned int dnr, BYTE *id, unsigned int track,
                            unsigned int sector)
@@ -268,18 +150,15 @@ CLOCK drive_clk[2];
 
 /* Initialize the hardware-level drive emulation (should be called at least
    once before anything else).  Return 0 on success, -1 on error.  */
-int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
+int drive_init(void)
 {
-    unsigned int track;
     int i;
 
     if (rom_loaded)
         return 0;
 
     drive_rom_init();
-
-    pal_cycles_per_sec = pal_hz;
-    ntsc_cycles_per_sec = ntsc_hz;
+    drive_image_init();
 
     drive[0].log = log_open("Drive 8");
     drive[1].log = log_open("Drive 9");
@@ -355,9 +234,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
         drive[i].read_only = 0;
         drive[i].clock_frequency = 1;
 
-        for (track = 0; track < MAX_TRACKS_1541; track++)
-            drive[i].gcr->track_size[track] =
-                raw_track_size[disk_image_speed_map_1541(track)];
+        drive_image_init_track_size_d64(i);
 
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, &drive[i]);
@@ -367,17 +244,17 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_rom_initialize_traps(0);
     drive_rom_initialize_traps(1);
 
-    drive_set_clock_frequency(drive[0].type, 0);
-    drive_set_clock_frequency(drive[1].type, 1);
+    drive_sync_clock_frequency(drive[0].type, 0);
+    drive_sync_clock_frequency(drive[1].type, 1);
 
-    initialize_rotation(0, 0);
-    initialize_rotation(0, 1);
+    drive_initialize_rotation(0, 0);
+    drive_initialize_rotation(0, 1);
 
     drive_cpu_init(&drive0_context, drive[0].type);
     drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
-    resources_touch("MachineVideoStandard");
+    drive_sync_factor();
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
@@ -422,40 +299,6 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
     }
 }
 
-static void drive_set_clock_frequency(unsigned int type, unsigned int dnr)
-{
-    switch (type) {
-      case DRIVE_TYPE_1541:
-        drive[dnr].clock_frequency = 1;
-        break;
-      case DRIVE_TYPE_1541II:
-        drive[dnr].clock_frequency = 1;
-        break;
-      case DRIVE_TYPE_1551:
-        drive[dnr].clock_frequency = 2;
-        break;
-      case DRIVE_TYPE_1571:
-        drive[dnr].clock_frequency = 1;
-        break;
-      case DRIVE_TYPE_1581:
-        drive[dnr].clock_frequency = 2;
-        break;
-      case DRIVE_TYPE_2031:
-        drive[dnr].clock_frequency = 1;
-        break;
-      case DRIVE_TYPE_2040:
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drive[dnr].clock_frequency = 1;
-        break;
-      default:
-        drive[dnr].clock_frequency = 1;
-    }
-}
-
 int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
 {
     if (drive_rom_check_loaded(type) < 0)
@@ -464,13 +307,13 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     if (drive[dnr].byte_ready_active == 0x06)
         drive_rotate_disk(&drive[dnr]);
 
-    drive_set_clock_frequency(type, dnr);
+    drive_sync_clock_frequency(type, dnr);
 
-    initialize_rotation(0, dnr);
+    drive_initialize_rotation(0, dnr);
     drive[dnr].type = type;
     drive[dnr].side = 0;
     drive_rom_setup_image(dnr);
-    resources_touch("MachineVideoStandard");
+    drive_sync_factor();
     drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
@@ -506,7 +349,7 @@ int drive_enable(unsigned int dnr)
 
     /* Recalculate drive geometry.  */
     if (drive[dnr].image != NULL)
-        drive_attach_image(drive[dnr].image, dnr + 8);
+        drive_image_attach(drive[dnr].image, dnr + 8);
 
     if (dnr == 0)
         drive_cpu_wake_up(&drive0_context);
@@ -592,172 +435,9 @@ void drive_reset(void)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Check if the drive type matches the disk image type.  */
-static int drive_check_image_format(unsigned int format, unsigned int dnr)
-{
-    switch (format) {
-      case DISK_IMAGE_TYPE_D64:
-      case DISK_IMAGE_TYPE_G64:
-      case DISK_IMAGE_TYPE_X64:
-        if (drive[dnr].type != DRIVE_TYPE_1541
-            && drive[dnr].type != DRIVE_TYPE_1541II
-            && drive[dnr].type != DRIVE_TYPE_1551
-            && drive[dnr].type != DRIVE_TYPE_1571
-            && drive[dnr].type != DRIVE_TYPE_2031
-            && drive[dnr].type != DRIVE_TYPE_2040 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_3040
-            && drive[dnr].type != DRIVE_TYPE_4040)
-            return -1;
-        break;
-      case DISK_IMAGE_TYPE_D67:
-        if (drive[dnr].type != DRIVE_TYPE_1541 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1541II /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1551 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_1571 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_2031 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_2040
-            && drive[dnr].type != DRIVE_TYPE_3040 /* FIXME: only read compat */
-            && drive[dnr].type != DRIVE_TYPE_4040) /* FIXME: only read compat */
-            return -1;
-        break;
-      case DISK_IMAGE_TYPE_D71:
-        if (drive[dnr].type != DRIVE_TYPE_1571)
-            return -1;
-        break;
-      case DISK_IMAGE_TYPE_D81:
-        if (drive[dnr].type != DRIVE_TYPE_1581)
-            return -1;
-        break;
-      case DISK_IMAGE_TYPE_D80:
-      case DISK_IMAGE_TYPE_D82:
-        if ((drive[dnr].type != DRIVE_TYPE_1001)
-            && (drive[dnr].type != DRIVE_TYPE_8050)
-            && (drive[dnr].type != DRIVE_TYPE_8250))
-            return -1;
-        break;
-      default:
-        return -1;
-    }
-    return 0;
-}
-
-/* Attach a disk image to the true drive emulation. */
-int drive_attach_image(disk_image_t *image, unsigned int unit)
-{
-    unsigned int dnr;
-
-    if (unit != 8 && unit != 9)
-        return -1;
-
-    dnr = unit - 8;
-
-    if (drive_check_image_format(image->type, dnr) < 0)
-        return -1;
-
-    drive[dnr].read_only = image->read_only;
-    drive[dnr].have_new_disk = 1;
-    drive[dnr].attach_clk = drive_clk[dnr];
-    if (drive[dnr].detach_clk > (CLOCK) 0)
-        drive[dnr].attach_detach_clk = drive_clk[dnr];
-    drive[dnr].ask_extend_disk_image = 1;
-
-    switch(image->type) {
-      case DISK_IMAGE_TYPE_D64:
-        log_message(drive_log, "Unit %d: D64 disk image attached: %s.",
-                    unit, image->name);
-        break;
-      case DISK_IMAGE_TYPE_D67:
-        log_message(drive_log, "Unit %d: D67 disk image attached: %s.",
-                    unit, image->name);
-        break;
-      case DISK_IMAGE_TYPE_D71:
-        log_message(drive_log, "Unit %d: D71 disk image attached: %s.",
-                    unit, image->name);
-        break;
-      case DISK_IMAGE_TYPE_G64:
-        log_message(drive_log, "Unit %d: G64 disk image attached: %s.",
-                    unit, image->name);
-        break;
-      case DISK_IMAGE_TYPE_X64:
-        log_message(drive_log, "Unit %d: X64 disk image attached: %s.",
-                    unit, image->name);
-        break;
-      default:
-        return -1;
-    }
-
-    drive[dnr].image = image;
-    drive[dnr].image->gcr = drive[dnr].gcr;
-
-    if (drive[dnr].image->type == DISK_IMAGE_TYPE_G64) {
-        if (disk_image_read_gcr_image(drive[dnr].image) < 0) {
-            return -1;
-        }
-    } else {
-        if (setID(dnr) >= 0) {
-            drive_read_image_d64_d71(dnr);
-            drive[dnr].GCR_image_loaded = 1;
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-    drive[dnr].GCR_image_loaded = 1;
-
-    return 0;
-}
-
-/* Detach a disk image from the true drive emulation. */
-int drive_detach_image(disk_image_t *image, unsigned int unit)
-{
-    unsigned int dnr;
-
-    if (unit != 8 && unit != 9)
-        return -1;
-
-    dnr = unit - 8;
-
-    if (drive[dnr].image != NULL) {
-        switch(image->type) {
-          case DISK_IMAGE_TYPE_D64:
-            log_message(drive_log, "Unit %d: D64 disk image detached: %s.",
-                        unit, image->name);
-            break;
-          case DISK_IMAGE_TYPE_D67:
-            log_message(drive_log, "Unit %d: D67 disk image detached: %s.",
-                        unit, image->name);
-            break;
-          case DISK_IMAGE_TYPE_D71:
-            log_message(drive_log, "Unit %d: D71 disk image detached: %s.",
-                        unit, image->name);
-            break;
-          case DISK_IMAGE_TYPE_G64:
-            log_message(drive_log, "Unit %d: G64 disk image detached: %s.",
-                        unit, image->name);
-            break;
-          case DISK_IMAGE_TYPE_X64:
-            log_message(drive_log, "Unit %d: X64 disk image detached: %s.",
-                        unit, image->name);
-            break;
-          default:
-            return -1;
-        }
-
-        drive_gcr_data_writeback(dnr);
-        memset(drive[dnr].gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
-        drive[dnr].detach_clk = drive_clk[dnr];
-        drive[dnr].GCR_image_loaded = 0;
-        drive[dnr].read_only = 0;
-        drive[dnr].image = NULL;
-    }
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Initialization.  */
 
-static void initialize_rotation(int freq, unsigned int dnr)
+void drive_initialize_rotation(int freq, unsigned int dnr)
 {
     drive_initialize_rotation_table(freq, dnr);
     drive[dnr].bits_moved = drive[dnr].accum = 0;
@@ -966,7 +646,7 @@ void drive_rotate_disk(drive_t *dptr)
 
 
 /* Move the head to half track `num'.  */
-static void drive_set_half_track(int num, drive_t *dptr)
+void drive_set_half_track(int num, drive_t *dptr)
 {
     if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
         || dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_2031)
@@ -1284,50 +964,6 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
         log_error(drive[dnr].log, "Unknown drive type %i.", drive_type);
     }
     return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Set the sync factor between the computer and the drive.  */
-
-void drive_set_sync_factor(unsigned int factor)
-{
-    drive_cpu_set_sync_factor(&drive0_context,
-                              drive[0].clock_frequency * factor);
-    drive_cpu_set_sync_factor(&drive1_context,
-                              drive[1].clock_frequency * factor);
-}
-
-void drive_set_pal_sync_factor(void)
-{
-    if (pal_cycles_per_sec != 0) {
-        unsigned int new_sync_factor = (unsigned int)
-                                       floor(65536.0 * (1000000.0 /
-                                       ((double)pal_cycles_per_sec)));
-        drive_set_sync_factor(new_sync_factor);
-    }
-}
-
-void drive_set_ntsc_sync_factor(void)
-{
-    if (ntsc_cycles_per_sec != 0) {
-        unsigned int new_sync_factor = (unsigned int)
-                                       floor(65536.0 * (1000000.0 /
-                                       ((double)ntsc_cycles_per_sec)));
-
-        drive_set_sync_factor(new_sync_factor);
-    }
-}
-
-void drive_set_1571_sync_factor(int new_sync, unsigned int dnr)
-{
-    if (rom_loaded) {
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
-        initialize_rotation(new_sync ? 1 : 0, dnr);
-        drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
-        resources_touch("MachineVideoStandard");
-    }
 }
 
 /* ------------------------------------------------------------------------- */
