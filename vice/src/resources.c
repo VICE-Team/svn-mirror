@@ -182,8 +182,8 @@ int resources_register(const resource_t *r)
 
         if ((sp->type == RES_STRING && sp->factory_value == NULL)
             || sp->value_ptr == NULL || sp->set_func == NULL) {
-            archdep_startup_log_error("Inconsistent resource declaration '%s'.",
-                                      sp->name);
+            archdep_startup_log_error(
+                "Inconsistent resource declaration '%s'.\n", sp->name);
             return -1;
         }
 
