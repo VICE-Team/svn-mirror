@@ -33,6 +33,7 @@
 
 #include "cartridge.h"
 #include "menudefs.h"
+#include "tui.h"
 #include "tuimenu.h"
 #include "tuifs.h"
 #include "ui.h"
@@ -127,7 +128,7 @@ static TUI_MENU_CALLBACK(detach_cartridge_callback)
 
 static tui_menu_item_def_t detach_cartridge_menu_items[] = {
     { "--" },
-    { "_Cartridge:",
+    { "_Cartridges",
       "Detach all attached cartridge images",
       detach_cartridge_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -281,6 +282,7 @@ int vic20_ui_init(void)
     ui_create_main_menu(1, 1, 1, 1);
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
+    tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
     return 0;
 }

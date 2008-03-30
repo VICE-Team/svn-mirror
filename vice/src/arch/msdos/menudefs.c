@@ -850,7 +850,7 @@ static tui_menu_item_def_t quit_submenu[] = {
 
 /* ------------------------------------------------------------------------ */
 
-static void mon_trap(ADDRESS addr)
+static void mon_trap(ADDRESS addr, void *data)
 {
     int old_mode;
 
@@ -871,7 +871,7 @@ static void mon_trap(ADDRESS addr)
 static TUI_MENU_CALLBACK(monitor_callback)
 {
     if (been_activated)
-	maincpu_trigger_trap(mon_trap);
+	maincpu_trigger_trap(mon_trap, 0);
 
     return NULL;
 }
@@ -1362,11 +1362,11 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
     }
 
     tui_menu_add_submenu(ui_main_menu, "_Attach Image...",
-                         "Specify disk/tape images for virtual floppy/cassette drives",
+                         "Insert virtual disks, tapes or cartridges in the emulated machine",
                          ui_attach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
     tui_menu_add_submenu(ui_main_menu, "_Detach Image...",
-                         "Remove disks/tapes from virtual drives",
+                         "Remove virtual disks, tapes or cartridges from the emulated machine",
                          ui_detach_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
