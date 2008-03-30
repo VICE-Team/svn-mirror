@@ -239,7 +239,7 @@ update_canvas (raster_t *raster)
   update_area = &raster->update_area;
   viewport = &raster->viewport;
 
-  if (update_area->is_null)
+  if (update_area->is_null || !(viewport->update_canvas))
     return;
 
   x = update_area->xs;
@@ -291,6 +291,9 @@ update_canvas_all (raster_t *raster)
   }
 
   viewport = &raster->viewport;
+
+  if (!(viewport->update_canvas))
+    return;
 
   canvas_refresh (viewport->canvas,
                   raster->frame_buffer,
@@ -1569,3 +1572,12 @@ raster_enable_double_scan (raster_t *raster,
   raster->do_double_scan = enable;
   raster_force_repaint (raster);
 }
+
+void raster_set_canvas_refresh(raster_t *raster, int enable)
+{
+  raster_viewport_t *viewport;
+
+  viewport = &raster->viewport;
+  viewport->update_canvas = enable;
+}
+

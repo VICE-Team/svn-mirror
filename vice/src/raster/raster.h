@@ -107,6 +107,9 @@ struct _raster_viewport
 
     /* Exposure handler.  */
     canvas_redraw_t exposure_handler;
+
+    /* Only display canvas if this flag is set.  */
+    int update_canvas;
   };
 typedef struct _raster_viewport raster_viewport_t;
 
@@ -300,6 +303,7 @@ void raster_enable_cache (raster_t *raster, int enable);
 void raster_enable_double_scan (raster_t *raster, int enable);
 void raster_mode_change(void);
 void raster_handle_end_of_frame(raster_t *raster);
+void raster_set_canvas_refresh(raster_t *raster, int enable);
 
 
 
