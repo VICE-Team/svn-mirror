@@ -131,7 +131,7 @@ static void REGPARM2 store_watch(WORD addr, BYTE value)
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
 }
 
-void mem_toggle_watchpoints(int flag)
+void mem_toggle_watchpoints(int flag, void *context)
 {
     if (flag) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -682,7 +682,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, WORD addr)
+BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -715,7 +715,7 @@ BYTE mem_bank_read(int bank, WORD addr)
     return mem_ram[addr];
 }
 
-BYTE mem_bank_peek(int bank, WORD addr)
+BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -726,10 +726,10 @@ BYTE mem_bank_peek(int bank, WORD addr)
             return peek_bank_io(addr);
         }
     }
-    return mem_bank_read(bank, addr);
+    return mem_bank_read(bank, addr, context);
 }
 
-void mem_bank_write(int bank, WORD addr, BYTE byte)
+void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
       case 0:                   /* current */
@@ -756,7 +756,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
     mem_ram[addr] = byte;
 }
 
-mem_ioreg_list_t *mem_ioreg_list_get(void)
+mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 

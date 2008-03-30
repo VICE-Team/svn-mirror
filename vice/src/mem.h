@@ -57,7 +57,7 @@ extern void mem_powerup(void);
 extern int mem_load(void);
 extern void mem_get_basic_text(WORD *start, WORD *end);
 extern void mem_set_basic_text(WORD start, WORD end);
-extern void mem_toggle_watchpoints(int flag);
+extern void mem_toggle_watchpoints(int flag, void *context);
 extern int mem_rom_trap_allowed(WORD addr);
 extern void mem_set_bank_pointer(BYTE **base, int *limit);
 extern void mem_color_ram_to_snapshot(BYTE *color_ram);
@@ -74,9 +74,9 @@ extern store_func_t mem_store;
 /* Memory access functions for the monitor.  */
 extern const char **mem_bank_list(void);
 extern int mem_bank_from_name(const char *name);
-extern BYTE mem_bank_read(int bank, WORD addr);
-extern BYTE mem_bank_peek(int bank, WORD addr);
-extern void mem_bank_write(int bank, WORD addr, BYTE byte);
+extern BYTE mem_bank_read(int bank, WORD addr, void *context);
+extern BYTE mem_bank_peek(int bank, WORD addr, void *context);
+extern void mem_bank_write(int bank, WORD addr, BYTE byte, void *context);
 extern void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns);
 
 typedef struct mem_ioreg_list_s {
@@ -86,7 +86,7 @@ typedef struct mem_ioreg_list_s {
     unsigned int next;
 } mem_ioreg_list_t;
 
-extern mem_ioreg_list_t *mem_ioreg_list_get(void);
+extern mem_ioreg_list_t *mem_ioreg_list_get(void *context);
 
 /* Snapshots.  */
 struct snapshot_s;

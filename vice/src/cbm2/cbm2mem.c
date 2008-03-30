@@ -665,7 +665,7 @@ BYTE REGPARM1 read_io(WORD addr)
 
 
 /* FIXME: TODO! */
-void mem_toggle_watchpoints(int flag)
+void mem_toggle_watchpoints(int flag, void *context)
 {
     if (flag) {
         _mem_read_tab_ptr = _mem_read_tab_watch;
@@ -1071,7 +1071,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, WORD addr)
+BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
       case 17:                  /* current */
@@ -1088,17 +1088,17 @@ BYTE mem_bank_read(int bank, WORD addr)
     return read_unused(addr);
 }
 
-BYTE mem_bank_peek(int bank, WORD addr)
+BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     if (bank == 16) {
         if (addr >= 0xc000 && addr < 0xe000) {
             return peek_bank_io(addr);
         }
     }
-    return mem_bank_read(bank, addr);
+    return mem_bank_read(bank, addr, context);
 }
 
-void mem_bank_write(int bank, WORD addr, BYTE byte)
+void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
       case 17:                   /* current */
@@ -1124,7 +1124,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte)
     store_dummy(addr, byte);
 }
 
-mem_ioreg_list_t *mem_ioreg_list_get(void)
+mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 

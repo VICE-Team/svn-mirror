@@ -447,7 +447,8 @@ BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
             return 0;
     }
 
-    return mon_interfaces[mem]->mem_bank_read(bank, mem_addr);
+    return mon_interfaces[mem]->mem_bank_read(bank, mem_addr,
+                                              mon_interfaces[mem]->context);
 }
 
 BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
@@ -477,7 +478,8 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
         return;
     }
 
-    mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val);
+    mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val,
+                                        mon_interfaces[mem]->context);
 }
 
 void mon_jump(MON_ADDR addr)
@@ -689,7 +691,8 @@ void mon_display_io_regs(void)
     MON_ADDR start,end;
 
     mem_ioreg_list_base
-        = mon_interfaces[default_memspace]->mem_ioreg_list_get();
+        = mon_interfaces[default_memspace]->mem_ioreg_list_get(
+            mon_interfaces[default_memspace]->context);
     n = 0;
 
     while (1) {

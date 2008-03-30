@@ -247,7 +247,8 @@ void mon_breakpoint_delete_checkpoint(int brknum)
 
             if (!any_watchpoints(mem)) {
                 mon_mask[mem] &= ~MI_WATCH;
-                mon_interfaces[mem]->toggle_watchpoints_func(0);
+                mon_interfaces[mem]->toggle_watchpoints_func(0,
+                    mon_interfaces[mem]->context);
 
                 if (!mon_mask[mem])
                     interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);            }
@@ -460,7 +461,8 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     } else {
         if (!any_watchpoints(mem)) {
             mon_mask[mem] |= MI_WATCH;
-            mon_interfaces[mem]->toggle_watchpoints_func(1);
+            mon_interfaces[mem]->toggle_watchpoints_func(1,
+                mon_interfaces[mem]->context);
             interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
         }
 
