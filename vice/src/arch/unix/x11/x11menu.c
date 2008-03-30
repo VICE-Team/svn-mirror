@@ -30,9 +30,11 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "lib.h"
 #include "ui.h"
 #include "utils.h"
 #include "x11menu.h"
+
 
 char *make_menu_label(ui_menu_entry_t *e)
 {
@@ -41,9 +43,9 @@ char *make_menu_label(ui_menu_entry_t *e)
 
     /* Check wether NO_TRANS prefix is there, if yes don't translate it */
     if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0)
-        trans = stralloc(e->string + strlen(NO_TRANS));
+        trans = lib_stralloc(e->string + strlen(NO_TRANS));
     else
-        trans = stralloc(_(e->string));
+        trans = lib_stralloc(_(e->string));
 
     if (e->hotkey_keysym == (ui_keysym_t)0)
         return trans;
