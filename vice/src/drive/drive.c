@@ -235,6 +235,7 @@ void drive_set_disk_id_memory(unsigned int dnr, BYTE *id)
 void drive_set_last_read(unsigned int dnr, unsigned int track,
                          unsigned int sector, BYTE *buffer)
 {
+    drive_gcr_data_writeback(dnr);
     drive_set_half_track(track * 2, &drive[dnr]);
 
     if (drive[dnr].type == DRIVE_TYPE_1541
@@ -538,7 +539,7 @@ void drive_disable(unsigned int dnr)
     if (rom_loaded && !drive_true_emulation)
         serial_install_traps();
 
-    if (rom_loaded){
+    if (rom_loaded) {
         if (dnr == 0)
             drive_cpu_sleep(&drive0_context);
         if (dnr == 1)
@@ -552,10 +553,8 @@ void drive_disable(unsigned int dnr)
             iec_info->drive2_bus = 0xff;
             iec_info->drive2_data = 0xff;
         }
-    if (dnr == 0)
-        drive_gcr_data_writeback(0);
-    if (dnr == 1)
-        drive_gcr_data_writeback(1);
+
+        drive_gcr_data_writeback(dnr);
     }
 
     /* Make sure the UI is updated.  */

@@ -1,3 +1,40 @@
+2002-05-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.10.
+
+	* drive/drive.c (drive_set_last_read): Call gcr writeback
+	before moving head.
+
+2002-05-05  pottendo  <pottendo@utanet.at>
+
+	* video/video-render.c: #include <stdlib.h> for a definition
+	of `NULL'.
+
+	* fullscreen.h: Changed type from `fs_selected_videomode' to
+	`int'.
+
+	* arch/unix/x11/vidmode.c: New file. Support for resolution
+	switching within Vice.
+	* arch/unix/x11/vidmode.h: New file.
+
+	* arch/unix/x11/videoarch.h: New interface
+	`fullscreen_create_menus()'. 
+
+	* arch/unix/x11/ui-resources.c: Reworked fullscreen resources.
+
+	* arch/unix/x11/gnome/ui.c (ui_create_dynamic_menues): Moved
+	code into dga2.c and vidmod.c.
+	(ui_init_finish): Call `vidmode_init()'.
+	* arch/unix/x11/xaw/ui.c: ditto.
+
+	* arch/unix/x11/dga2.c: Added support for choosing different
+	resolutions. 
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Added
+	`vidmode.[ch]' 
+
+	* arch/unix/uisettings.c: Reworked fullscreen menus.
+
 2002-05-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.9.

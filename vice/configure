@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.9.9
+VERSION=1.9.10
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6860,7 +6860,7 @@ if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS fullscreen.o";
+                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
                      cat >> confdefs.h <<\EOF
 #define USE_XF86_VIDMODE_EXT 1
 EOF
@@ -7254,7 +7254,7 @@ if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
   echo "$ac_t""yes" 1>&6
    X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
-                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS fullscreen.o";
+                     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
 	 	     cat >> confdefs.h <<\EOF
 #define USE_XF86_VIDMODE_EXT 1
 EOF
