@@ -52,18 +52,7 @@
 #define DOS_IS_20(type)  (type == DRIVE_TYPE_2040)
 
 
-static void clk_overflow_callback(int fnum, CLOCK sub, void *data);
 static void int_fdc(unsigned int fnum, CLOCK offset);
-
-static void clk_overflow_callback0(CLOCK sub, void *data)
-{
-    clk_overflow_callback(0, sub, data);
-}
-
-static void clk_overflow_callback1(CLOCK sub, void *data)
-{
-    clk_overflow_callback(1, sub, data);
-}
 
 static void int_fdc0(CLOCK offset)
 {
@@ -707,8 +696,12 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
     }
 }
 
-static void clk_overflow_callback(int fnum, CLOCK sub, void *data)
+static void clk_overflow_callback(CLOCK sub, void *data)
 {
+    unsigned int fnum;
+
+    fnum = (unsigned int)data;
+
     if (fdc[fnum].fdc_state != FDC_UNUSED) {
         if (fdc[fnum].alarm_clk > sub) {
             fdc[fnum].alarm_clk -= sub;
@@ -740,15 +733,14 @@ void fdc_init(drive_context_t *drv)
     if (fnum == 0) {
         fdc[fnum].fdc_alarm = alarm_new(drive0_context.cpu->alarm_context,
                                         "fdc0", int_fdc0);
-        clk_guard_add_callback(drive0_context.cpu->clk_guard,
-                               clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
         fdc[fnum].fdc_alarm = alarm_new(drive1_context.cpu->alarm_context,
                                         "fdc1", int_fdc1);
-        clk_guard_add_callback(drive1_context.cpu->clk_guard,
-                               clk_overflow_callback1, NULL);
     }
+
+    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
+                           (void *)(drv->mynumber));
 }
 
 /************************************************************************/
