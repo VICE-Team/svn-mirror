@@ -29,6 +29,7 @@
 #include <pc.h>
 #include <keys.h>
 
+#include "cbmcharsets.h"
 #include "imagecontents.h"
 #include "tui.h"
 #include "utils.h"
@@ -37,6 +38,24 @@
 
 #define WIDTH  35
 #define HEIGHT 17
+
+/* Character conversion table being used to translate from PETSCII to the VGA
+   CBM-enhanched character set.  */
+static BYTE *char_conv_table;
+
+static int petscii_display(int x, int y, BYTE *data)
+{
+    int i;
+
+    for (i = 0; data[i] != 0; i++, x++) {
+        BYTE c;
+
+        c = char_conv_table[(unsigned int) data[i]];
+        tui_put_char(x, y, c);
+    }
+
+    return x;
+}
 
 static void display_item(int x, int y, int width, int offset,
                          image_contents_file_list_t *element,
@@ -54,13 +73,14 @@ static void display_item(int x, int y, int width, int offset,
 
     x1 = x + 6;
     tui_put_char(x1++, y1, '\"');
-    for (j = 0; element->name[j] != 0; j++, x1++)
-        tui_put_char(x1, y1, element->name[j]);
+    x1 = petscii_display(x1, y1, element->name);
     tui_put_char(x1++, y1, '\"');
 
     for (; x1 < x + width - IMAGE_CONTENTS_TYPE_LEN; x1++)
         tui_put_char(x1, y1, ' ');
-    tui_display(x1, y1, IMAGE_CONTENTS_TYPE_LEN, "%s", element->type);
+    x1 = petscii_display(x1, y1, element->type);
+    for (; x1 < x + width; x1++)
+        tui_put_char(x1, y1, ' ');
 }
 
 static void update(int x, int y, int width, int height,
@@ -78,6 +98,19 @@ static void update(int x, int y, int width, int height,
         tui_hline(x, y + i, ' ', width);
 }
 
+static void display_title(int x, int y, BYTE *name, BYTE *id)
+{
+    tui_set_attr(MENU_FORE, MENU_BACK, 0);
+
+    tui_put_char(x, y, '\"');
+    x = petscii_display(x + 1, y, name);
+    tui_put_char(x++, y, '\"');
+    if (*id != 0) {
+        tui_put_char(x++, y, ' ');
+        petscii_display(x, y, id);
+    }
+}
+
 /* FIXME: colors.  */
 char *tui_image_browser(const char *filename,
                         image_contents_t *(*contents_func)(const char *))
@@ -91,6 +124,9 @@ char *tui_image_browser(const char *filename,
     int real_x, real_y;
     int need_update;
 
+    if (char_conv_table == NULL)
+        char_conv_table = cbm_petscii_graphics_to_charset;
+
     contents = contents_func(filename);
     if (contents == NULL) {
         tui_error("Invalid image");
@@ -101,7 +137,7 @@ char *tui_image_browser(const char *filename,
     y = CENTER_Y(HEIGHT);
     tui_display_window(x, y,
                        WIDTH, HEIGHT,
-                       MESSAGE_FORE, MESSAGE_BACK,
+                       MENU_BORDER, MENU_BACK,
                        NULL, &backing_store);
 
     real_width = WIDTH - 4;
@@ -109,20 +145,17 @@ char *tui_image_browser(const char *filename,
     real_x = x + 2;
     real_y = y + 3;
 
-    tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
-    if (*contents->id != 0) 
-        tui_display(real_x, y + 1, real_width,
-                    "\"%s\", %s", contents->name, contents->id);
-    else
-        tui_display(real_x, y + 1, real_width,
-                    "\"%s\"", contents->name);
-    tui_hline(real_x - 1, y + 2, 0xcd, real_width + 2);
+    tui_set_attr(MENU_BORDER, MENU_BACK, 0);
+    tui_hline(real_x - 1, y + 2, 0xc4, real_width + 2);
 
     if (contents->blocks_free >= 0) {
         real_height -= 2;
+
+        tui_set_attr(MENU_FORE, MENU_BACK, 0);
         tui_display(real_x, y + HEIGHT - 2, real_width,
                     "%d blocks free.", contents->blocks_free);
-        tui_hline(real_x - 1, y + HEIGHT - 3, 0xcd, real_width + 2);
+        tui_set_attr(MENU_BORDER, MENU_BACK, 0);
+        tui_hline(real_x - 1, y + HEIGHT - 3, 0xc4, real_width + 2);
     }
 
     first_number = current_number = 0;
@@ -139,6 +172,7 @@ char *tui_image_browser(const char *filename,
         int key;
 
         if (need_update) {
+            display_title(real_x, y + 1, contents->name, contents->id);
             update(real_x, real_y, real_width, real_height, first, current);
             need_update = 0;
         } else if (current != NULL) {
@@ -194,6 +228,13 @@ char *tui_image_browser(const char *filename,
                         need_update = 1;
                     }
                 }
+                break;
+              case K_BackSpace:
+                if (char_conv_table == cbm_petscii_business_to_charset)
+                    char_conv_table = cbm_petscii_graphics_to_charset;
+                else
+                    char_conv_table = cbm_petscii_business_to_charset;
+                need_update = 1;
                 break;
             }
         }

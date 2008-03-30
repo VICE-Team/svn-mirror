@@ -262,9 +262,10 @@ static void file_selector_display_path(const char *path,
 {
     int i, xx;
 
-    tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
-
+    tui_set_attr(MENU_BORDER, MENU_BACK, 0);
     tui_hline(x, y, 0xcd, width);
+    
+    tui_set_attr(MENU_FORE, MENU_BACK, 0);
 
     for (i = strlen(path) - 1, xx = MIN(x + width - 1, x + i);
          i >= 0 && xx >= x;
@@ -424,7 +425,7 @@ char *tui_file_selector(const char *title, const char *directory,
 
     tui_area_get(&backing_store, x, y, width + 2, height + 1);
 
-    tui_display_window(x, y, width, height, MENU_FORE, MENU_BACK,
+    tui_display_window(x, y, width, height, MENU_BORDER, MENU_BACK,
                        title, NULL);
 
     while (1) {
@@ -604,7 +605,9 @@ char *tui_file_selector(const char *title, const char *directory,
 	    }
 	    break;
 	  case ' ':
-	    if (contents_func != NULL && browse_file_return != NULL) {
+	    if (contents_func != NULL
+                && fl->items[curr_item].type != FT_DIR
+                && browse_file_return != NULL) {
 		char *name;
 		char *contents;
 
