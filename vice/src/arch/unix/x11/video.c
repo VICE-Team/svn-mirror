@@ -476,16 +476,16 @@ void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 /* ------------------------------------------------------------------------- */
 /* Create a canvas.  In the X11 implementation, this is just (guess what?) a
    window. */
-canvas_t canvas_create(const char *win_name, unsigned int *width,
-		       unsigned int *height, int mapped,
-		       canvas_redraw_t exposure_handler,
-		       const palette_t * palette, PIXEL * pixel_return
+canvas_t *canvas_create(const char *win_name, unsigned int *width,
+                        unsigned int *height, int mapped,
+                        canvas_redraw_t exposure_handler,
+                        const palette_t * palette, PIXEL * pixel_return
 #ifdef USE_GNOMEUI		       
 		       ,video_frame_buffer_t *fb
 #endif
                        )
 {
-    canvas_t c;
+    canvas_t *c;
     ui_window_t w;
     XGCValues gc_values;
 
@@ -496,9 +496,9 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 	_video_gc = video_get_gc(&gc_values);
     
     if (!w)
-	return (canvas_t) NULL;
+	return (canvas_t *) NULL;
 
-    c = (canvas_t) malloc(sizeof(struct _canvas));
+    c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     c->emuwindow = w;
     c->width = *width;
     c->height = *height;
@@ -511,14 +511,14 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     return c;
 }
 
-int canvas_set_palette(canvas_t c, const palette_t * palette,
+int canvas_set_palette(canvas_t *c, const palette_t * palette,
 		       PIXEL * pixel_return)
 {
     return ui_canvas_set_palette(c->emuwindow, palette, pixel_return);
 }
 
 /* Change the size of the canvas. */
-void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
+void canvas_resize(canvas_t *s, unsigned int width, unsigned int height)
 {
     if (console_mode || vsid_mode) {
         return;
@@ -545,7 +545,7 @@ void video_refresh_func(void (*rfunc)(void))
 /* ------------------------------------------------------------------------- */
 
 /* Refresh a canvas.  */
-void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
+void canvas_refresh(canvas_t *canvas, video_frame_buffer_t *frame_buffer,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
