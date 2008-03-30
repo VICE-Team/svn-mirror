@@ -40,24 +40,13 @@
 #include "types.h"
 #include "vicii-badline.h"
 #include "vicii-fetch.h"
+#include "vicii-irq.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"
 #include "vicii-mem.h"
 #include "vicii.h"
 #include "viciitypes.h"
 
-
-/* ---------------------------------------------------------------------*/
-/*
-extern void (*vicii_irq_handler)(int irq, int state, CLOCK clk);
-
-#define vicii_set_irq(irq, state)         \
-    if (vicii_irq_handler != NULL) {      \
-        vicii_irq_handler(irq, state, 0); \
-    } else {                              \
-        maincpu_set_irq(irq, state);      \
-    }
-*/
 
 #define vicii_set_irq(irq, state) maincpu_set_irq(irq, state)
 
@@ -241,49 +230,6 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
     }
 }
 
-static void check_irq_line_state(unsigned int irq_line)
-{
-    unsigned int line;
-    unsigned int old_raster_irq_line;
-
-    if (irq_line == vic_ii.raster_irq_line)
-        return;
-
-    line = VIC_II_RASTER_Y(maincpu_clk);
-
-    old_raster_irq_line = vic_ii.raster_irq_line;
-    vicii_set_raster_irq(irq_line);
-
-    if (vic_ii.regs[0x1a] & 0x1) {
-        int trigger_irq;
-
-        trigger_irq = 0;
-
-        if (maincpu_rmw_flag) {
-            if (VIC_II_RASTER_CYCLE(maincpu_clk) == 0) {
-                unsigned int previous_line = VIC_II_PREVIOUS_LINE(line);
-
-                if (previous_line != old_raster_irq_line
-                    && ((old_raster_irq_line & 0x100)
-                    == (previous_line & 0x100)))
-                    trigger_irq = 1;
-            } else {
-                if (line != old_raster_irq_line
-                    && (old_raster_irq_line & 0x100) == (line & 0x100))
-                    trigger_irq = 1;
-            }
-        }
-
-        if (vic_ii.raster_irq_line == line && line != old_raster_irq_line)
-            trigger_irq = 1;
-
-        if (trigger_irq) {
-            vic_ii.irq_status |= 0x81;
-            vicii_set_irq(I_RASTER, 1);
-        }
-    }
-}
-
 inline static void check_lower_upper_border(BYTE value, int line, int cycle)
 {
     if ((value ^ vic_ii.regs[0x11]) & 8) {
@@ -343,7 +289,7 @@ inline static void store_d011(BYTE value)
                           "value $%02X", cycle, line, value));
 
     new_irq_line = ((vic_ii.raster_irq_line & 0xff) | ((value & 0x80) << 1));
-    check_irq_line_state(new_irq_line);
+    vicii_irq_check_state(new_irq_line);
 
     /* This is the funniest part... handle bad line tricks.  */
     old_allow_bad_lines = vic_ii.allow_bad_lines;
@@ -384,7 +330,7 @@ inline static void store_d012(BYTE value)
     VIC_II_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
                           vic_ii.raster_irq_line));
 
-    check_irq_line_state((vic_ii.raster_irq_line & 0x100) | value);
+    vicii_irq_check_state((vic_ii.raster_irq_line & 0x100) | value);
 }
 
 inline static void store_d015(BYTE value)
@@ -595,7 +541,8 @@ inline static void store_d019(BYTE value)
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
         vic_ii.irq_status &= ~((vic_ii.last_read_d019 & 0xf) | 0x80);
-        if (maincpu_clk - 1 > vic_ii.raster_irq_clk) {
+        if (maincpu_clk - 1 > vic_ii.raster_irq_clk
+            && vic_ii.raster_irq_line < vic_ii.screen_height) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
             alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
@@ -605,20 +552,15 @@ inline static void store_d019(BYTE value)
     vic_ii.irq_status &= ~((value & 0xf) | 0x80);
     if (vic_ii.irq_status & vic_ii.regs[0x1a])
         vic_ii.irq_status |= 0x80;
-    if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk) {
+    if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk
+        && vic_ii.raster_irq_line < vic_ii.screen_height) {
         vic_ii.raster_irq_clk += vic_ii.screen_height
                                  * vic_ii.cycles_per_line;
         alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
 
-    /* Update the IRQ line accordingly...
-       The external VIC IRQ line is an AND of the internal collision and
-       vic_ii.raster IRQ lines.  */
-    if (vic_ii.irq_status & 0x80) {
-        vicii_set_irq(I_RASTER, 1);
-    } else {
-        vicii_set_irq(I_RASTER, 0);
-    }
+    /* Update the IRQ line accordingly...  */
+    vicii_irq_set_line();
 
     VIC_II_DEBUG_REGISTER(("IRQ flag register: $%02X", vic_ii.irq_status));
 }
@@ -627,13 +569,12 @@ inline static void store_d01a(BYTE value)
 {
     vic_ii.regs[0x1a] = value & 0xf;
 
-    if (vic_ii.regs[0x1a] & vic_ii.irq_status) {
+    if (vic_ii.regs[0x1a] & vic_ii.irq_status)
         vic_ii.irq_status |= 0x80;
-        vicii_set_irq(I_RASTER, 1);
-    } else {
+    else
         vic_ii.irq_status &= 0x7f;
-        vicii_set_irq(I_RASTER, 0);
-    }
+
+    vicii_irq_set_line();
 
     VIC_II_DEBUG_REGISTER(("IRQ mask register: $%02X", vic_ii.regs[addr]));
 }
@@ -1227,7 +1168,7 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
             vic_ii.irq_status &= ~0x84;
             vicii_set_irq(I_RASTER, 0);
         } else {
-          vic_ii.irq_status &= ~0x04;
+            vic_ii.irq_status &= ~0x04;
         }
         if (vicii_resources.sprite_sprite_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_sprite_collisions;
@@ -1319,7 +1260,7 @@ BYTE REGPARM1 vicii_read(ADDRESS addr)
                                   vic_ii.regs[addr]));
             return vic_ii.regs[addr];
         } else {
-             VIC_II_DEBUG_REGISTER(("(unused)"));
+            VIC_II_DEBUG_REGISTER(("(unused)"));
             return 0xff;
         }
         break;

@@ -395,7 +395,6 @@ typedef struct vicii_s vicii_t;
 extern vicii_t vic_ii;
 
 /* Private function calls, used by the other VIC-II modules.  */
-extern void vicii_set_raster_irq(unsigned int line);
 extern void vicii_update_memory_ptrs(unsigned int cycle);
 extern void vicii_update_video_mode(unsigned int cycle);
 extern void vicii_raster_draw_alarm_handler(CLOCK offset);

@@ -35,6 +35,7 @@
 #include "raster-sprite.h"
 #include "snapshot.h"
 #include "types.h"
+#include "vicii-irq.h"
 #include "vicii-snapshot.h"
 #include "vicii-sprites.h"
 #include "vicii.h"
@@ -359,7 +360,7 @@ int vicii_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: Recalculate alarms and derived values.  */
 
-    vicii_set_raster_irq(vic_ii.regs[0x12]
+    vicii_irq_set_raster(vic_ii.regs[0x12]
                          | ((vic_ii.regs[0x11] & 0x80) << 1));
 
     /* compatibility with older versions */
