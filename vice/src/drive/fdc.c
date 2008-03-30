@@ -101,7 +101,6 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
     log_message(fdc_log, "fdc_reset: drive %d type=%d\n",fnum, drive_type);
 #endif
 
-
     /* detach disk images */
     if (fdc[fnum].image) {
         fdc[fnum].wps_change = 0;
@@ -111,7 +110,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
 	&& DRIVE_IS_DUAL(fdc[fnum].drive_type)
 	&& fdc[1].image) {
         fdc[1].wps_change = 0;
-	fdc_detach_image(fdc[1].image, fnum + 8);
+	fdc_detach_image(fdc[1].image, 9);
     }
 
     if (DRIVE_IS_OLDTYPE(drive_type)) {
@@ -131,7 +130,7 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
     if (fnum == 0
 	&& DRIVE_IS_DUAL(drive_type)
 	&& fdc[1].realimage) {
-	fdc_attach_image(fdc[1].realimage, fnum + 8);
+	fdc_attach_image(fdc[1].realimage, 9);
     }
 }
 
@@ -142,8 +141,16 @@ static BYTE fdc_do_job(unsigned int fnum, int buf,
 static BYTE fdc_do_job_(unsigned int fnum, int buf,
                         unsigned int drv, BYTE job, BYTE *header);
     BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
-    log_message(fdc_log, "  fdc_do_job (%02x) -> %02x\n",
-	job, retval);
+    char *jobs[] = { "Read", "Write", "Verify", "Seek", "Bump", "Jump", 
+			"ExecWhenRdy", "--" };
+    char *errors[] = { "--", "OK", "HEADER", "SYNC", "NOBLOCK", 
+			"DCHECK", "VERIFY", "WPROT", "HCHECK", 
+			"BLENGTH", "ID", "FSPEED", "DRIVE",
+			"DECODE" };
+
+    log_message(fdc_log, "  fdc_do_job (%s %02x) -> %02x (%s)\n",
+	jobs[(job >> 4) & 7], job, retval, 
+	(retval <= 16) ? errors[retval] : "Unknown");
     return retval;
 }
 static BYTE fdc_do_job_(unsigned int fnum, int buf,
@@ -190,6 +197,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 	return FDC_ERR_SYNC;
     }
 
+#if 0	/* this is checked in fdc_attach, so we don't check here! */
     if(DOS_IS_80(fdc[fnum].drive_type)
 		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_D80)
 		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_D82)
@@ -202,6 +210,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     }
     if((!DOS_IS_80(fdc[fnum].drive_type))
 		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_D64)
+		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_D67)
 		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_G64)
 		&& (fdc[dnr].image->type != DISK_IMAGE_TYPE_X64)
 	) {
@@ -211,6 +220,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 #endif
 	return FDC_ERR_SYNC;
     }
+#endif	/* 0 */
 
     vdrive_bam_get_disk_id(dnr + 8, disk_id);
 
@@ -279,14 +289,19 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 	    }
         }
         break;
-    case 0xB0:		/* seek */
+    case 0xB0:		/* seek - move to track and read ID(?) */
 	header[0] = disk_id[0];
 	header[1] = disk_id[1];
-	header[2] = fdc[dnr].last_track;
+	/* header[2] = fdc[dnr].last_track; */
+	track = header[2];
 	header[3] = 1;
 	rc = FDC_ERR_OK;
 	break;
-    case 0xC0:		/* bump (to track 0) */
+    case 0xC0:		/* bump (to track 0 and back to 18?) */
+	track = 1;
+	if (DOS_IS_20(fdc[fnum].drive_type)) {
+	    header[2] = 18;
+	}
 	rc = FDC_ERR_OK;
 	break;
     case 0xD0:		/* jump to buffer :-( */
@@ -513,15 +528,17 @@ static int int_fdc(unsigned int fnum, CLOCK offset)
     case FDC_RESET0:
 	if (DOS_IS_80(fdc[fnum].drive_type)) {
             drive[fnum].current_half_track = 2 * 38;
-	} else {
-            drive[fnum].current_half_track = 2 * 18;
-	}
-	if (DOS_IS_80(fdc[fnum].drive_type)) {
 	    fdc[fnum].buffer[0] = 2;
 	} else {
+            drive[fnum].current_half_track = 2 * 18;
 	    fdc[fnum].buffer[0] = 0x3f;
 	}
-	fdc[fnum].fdc_state++;
+
+	if (DOS_IS_20(fdc[fnum].drive_type)) {
+	    fdc[fnum].fdc_state = FDC_RUN;
+	} else {
+	    fdc[fnum].fdc_state++;
+	}
 	fdc[fnum].alarm_clk = rclk + 2000;
 	alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
 	break;
@@ -562,7 +579,8 @@ static int int_fdc(unsigned int fnum, CLOCK offset)
 	    }
 	} else 
 	if (DOS_IS_40(fdc[fnum].drive_type)
-	    || DOS_IS_30(fdc[fnum].drive_type)) {
+	    || DOS_IS_30(fdc[fnum].drive_type)
+	    ) {
 	    if(fdc[fnum].buffer[0] == 0) {
 	        fdc[fnum].buffer[0] = 0x0f;
 	        fdc[fnum].fdc_state = FDC_RUN;
@@ -604,7 +622,7 @@ static int int_fdc(unsigned int fnum, CLOCK offset)
 		    +2 = Track
 		    +3 = Sector
 		*/
-		j = (i << 3) + 0x21;
+		j = 0x21 + (i << 3);
 #ifdef FDC_DEBUG
 		log_message(fdc_log, "D/Buf %d/%x: Job code %02x t:%02d s:%02d",
 			fnum, i, fdc[fnum].buffer[i+3],
@@ -699,12 +717,12 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
     }
     imgno = unit - 8;
 
-    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE)
-	return 0;
-
     /* FIXME: hack - we need to save the image to be able to re-attach
        when the disk drive type changes */
     fdc[imgno].realimage = image;
+
+    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE)
+	return 0;
 
     if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
 	|| fdc[drive_no].drive_type == DRIVE_TYPE_8250
@@ -729,6 +747,10 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
             log_message(fdc_log, "Unit %d (%d): D64 disk image attached: %s.",
+                    unit, fdc[drive_no].drive_type, image->name);
+            break;
+          case DISK_IMAGE_TYPE_D67:
+            log_message(fdc_log, "Unit %d (%d): D67 disk image attached: %s.",
                     unit, fdc[drive_no].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
