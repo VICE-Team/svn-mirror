@@ -137,7 +137,7 @@ static void lock_mem(void)
 }
 */
 
-static int sb_init(warn_t *w, const char *param, int *speed,
+static int sb_init(const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
 {
     int tmp_fragsize = *fragsize;
@@ -188,7 +188,7 @@ static int sb_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int sb_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int sb_write(SWORD *pbuf, size_t nr)
 {
     int total;
 
@@ -249,7 +249,7 @@ static int sb_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sb_bufferstatus(warn_t *s, int first)
+static int sb_bufferstatus(int first)
 {
     int ret;
 
@@ -264,7 +264,7 @@ static int sb_bufferstatus(warn_t *s, int first)
     return ret;
 }
 
-static void sb_close(warn_t *w)
+static void sb_close(void)
 {
     vicesb_close();
 
@@ -277,12 +277,12 @@ static void sb_close(warn_t *w)
 
 #if 0
 
-static int sb_suspend(warn_t *w)
+static int sb_suspend(void)
 {
     return 0;
 }
 
-static int sb_resume(warn_t *w)
+static int sb_resume(void)
 {
     return 0;
 }

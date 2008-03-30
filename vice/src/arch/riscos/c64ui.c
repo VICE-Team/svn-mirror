@@ -51,14 +51,3 @@ int c64_kbd_init(void)
   return kbd_init();
 }
 
-
-int vsid_ui_init(void)
-{
-  return 0;
-}
-
-
-int vsid_ui_exit(void)
-{
-  return 0;
-}

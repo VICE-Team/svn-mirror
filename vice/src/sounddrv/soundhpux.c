@@ -2,7 +2,7 @@
  * soundhpux.c - Implementation of the HPUX sound device
  *
  * Written by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,7 +39,7 @@
 
 static int hpux_fd = -1;
 
-static int hpux_init(warn_t *w, const char *param, int *speed,
+static int hpux_init(const char *param, int *speed,
 		     int *fragsize, int *fragnr, double bufsize)
 {
     int				st, tmp, i;
@@ -85,7 +85,7 @@ fail:
     return 1;
 }
 
-static int hpux_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int hpux_write(SWORD *pbuf, size_t nr)
 {
     int			total, i, now;
     total = nr*sizeof(SWORD);
@@ -98,7 +98,7 @@ static int hpux_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int hpux_bufferstatus(warn_t *w, int first)
+static int hpux_bufferstatus(int first)
 {
     int				st;
     struct audio_status		ast;
@@ -108,7 +108,7 @@ static int hpux_bufferstatus(warn_t *w, int first)
     return ast.transmit_buffer_count / sizeof(SWORD);
 }
 
-static void hpux_close(warn_t *w)
+static void hpux_close(void)
 {
     close(hpux_fd);
     hpux_fd = -1;

@@ -74,7 +74,7 @@ static void sdl_callback(void *userdata, Uint8 *stream, Uint16 len,
     }
 }
 
-static int sdl_init(warn_t *w, const char *param, int *speed,
+static int sdl_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     SDL_AudioSpec		spec;
@@ -105,7 +105,7 @@ static int sdl_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int sdl_write(warn_t *s, SWORD *pbuf, size_t nr)
+static int sdl_write(SWORD *pbuf, size_t nr)
 {
     int			total, amount;
     total = 0;
@@ -132,7 +132,7 @@ static int sdl_write(warn_t *s, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sdl_bufferstatus(warn_t *s, int first)
+static int sdl_bufferstatus(int first)
 {
     int		amount;
     amount = sdl_inptr - sdl_outptr;
@@ -141,7 +141,7 @@ static int sdl_bufferstatus(warn_t *s, int first)
     return amount;
 }
 
-static void sdl_close(warn_t *w)
+static void sdl_close(void)
 {
     sdl_spec = NULL;
     SDL_CloseAudio();

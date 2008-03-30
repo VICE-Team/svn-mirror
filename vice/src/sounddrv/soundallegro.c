@@ -2,7 +2,7 @@
  * soundallegro.c - Implementation of the Allegro sound device.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,7 +35,6 @@
 #include <dpmi.h>
 
 #include "sound.h"
-
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */
@@ -93,7 +92,7 @@ static int allegro_startup(unsigned int freq)
 }
 
 /* (`allegro_init()' is already defined by Allegro itself.)  */
-static int allegro_init_sound(warn_t *w, const char *param, int *speed,
+static int allegro_init_sound(const char *param, int *speed,
                               int *fragsize, int *fragnr, double bufsize)
 {
     int i;
@@ -140,7 +139,7 @@ static int allegro_init_sound(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int allegro_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int allegro_write(SWORD *pbuf, size_t nr)
 {
     static int counter;
     unsigned int i, count;
@@ -208,7 +207,7 @@ static int allegro_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int allegro_bufferstatus(warn_t *s, int first)
+static int allegro_bufferstatus(int first)
 {
     int pos, ret;
 
@@ -228,21 +227,21 @@ static int allegro_bufferstatus(warn_t *s, int first)
     return ret;
 }
 
-static void allegro_close(warn_t *w)
+static void allegro_close(void)
 {
     voice_stop(voice);
     deallocate_voice(voice);
     destroy_sample(buffer);
 }
 
-static int allegro_suspend(warn_t *w)
+static int allegro_suspend(void)
 {
     voice_stop(voice);
     been_suspended = 1;
     return 0;
 }
 
-static int allegro_resume(warn_t *w)
+static int allegro_resume(void)
 {
     buffer_offset = 0;
     written_samples = 0;

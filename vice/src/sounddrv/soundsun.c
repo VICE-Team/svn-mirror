@@ -5,7 +5,7 @@
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * NetBSD patch by
- *  Krister Walfridsson (cato@df.lth.se)
+ *  Krister Walfridsson <cato@df.lth.se>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,9 +50,10 @@
 #include <string.h>          /* For memset */
 #endif
 
+#include "log.h"
 #include "sound.h"
 
-static int sun_bufferstatus(warn_t *w, int first);
+static int sun_bufferstatus(int first);
 
 static int sun_fd = -1;
 static int sun_8bit = 0;
@@ -93,7 +94,7 @@ static int toulaw8(SWORD data)
 }
 
 
-static int sun_init(warn_t *w, const char *param, int *speed,
+static int sun_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     int			st;
@@ -122,7 +123,7 @@ static int sun_init(warn_t *w, const char *param, int *speed,
 	    goto fail;
 	sun_8bit = 1;
 	*speed = 8000;
-	warn(w, -1, "playing 8 bit ulaw at 8000Hz");
+	log_message(LOG_DEFAULT, "Playing 8 bit ulaw at 8000Hz");
     }
     sun_bufsize = (*fragsize)*(*fragnr);
     sun_written = 0;
@@ -133,7 +134,7 @@ fail:
     return 1;
 }
 
-static int sun_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int sun_write(SWORD *pbuf, size_t nr)
 {
     int			total, i, now;
     if (sun_8bit)
@@ -158,7 +159,7 @@ static int sun_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sun_bufferstatus(warn_t *w, int first)
+static int sun_bufferstatus(int first)
 {
     int			st;
     struct audio_info	info;
@@ -172,7 +173,7 @@ static int sun_bufferstatus(warn_t *w, int first)
     return sun_written - info.play.samples;
 }
 
-static void sun_close(warn_t *w)
+static void sun_close(void)
 {
     close(sun_fd);
     sun_fd = -1;

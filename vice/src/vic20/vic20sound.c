@@ -35,9 +35,6 @@
 #include "utils.h"
 #include "vic20sound.h"
 
-/* warnings */
-static warn_t *pwarn;
-
 /* argh */
 static BYTE siddata[16];
 
@@ -138,14 +135,12 @@ void vic_sound_reset(void)
     int				i;
     for (i = 10; i < 15; i++)
 	store_vic_sound(i, 0);
-    warn_reset(pwarn);
 
     sound_reset();
 }
 
 void sound_machine_init(void)
 {
-    pwarn = warn_init("SOUNDVIC20", 128);
 }
 
 
@@ -165,17 +160,6 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 {
     DWORD			freq;
     int				sbase, shift, divide;
-
-#if 0
-    {
-        char			*t = "                ";
-        warn(pwarn, 8,
-             "Sound support for VIC20 is at _very_ experimental stage.\n"
-             "%sIf you think this doesn't sound right, please wait\n"
-             "%sfor the next snapshot or help me get this right.\n"
-             "%s                          // tvr", t, t, t);
-    }
-#endif
 
     switch (addr)
     {

@@ -2,7 +2,7 @@
  * soundmmos2.c - Implementation of the MMOS2 sound device
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -62,7 +62,7 @@ static USHORT usSoundDevID;
 
 SWORD *dataBuf;
 
-static void mmos2_close(warn_t *w)
+static void mmos2_close(void)
 {   // free: vorher sound anhalten!
     int rc;
     // MCI_WAIT hangs???
@@ -80,7 +80,7 @@ static void mmos2_close(warn_t *w)
 int pos, frag_size, frag_numbers;
 MCI_OPEN_PARMS mciOpen;
 
-static int mmos2_init(warn_t *w, const char *param, int *speed,
+static int mmos2_init(const char *param, int *speed,
                       int *fragsize, int *fragnr, double bufsize)
 {
     int rc, i;
@@ -132,7 +132,7 @@ static int mmos2_init(warn_t *w, const char *param, int *speed,
 
 signed long old;
 
-static int mmos2_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int mmos2_write(SWORD *pbuf, size_t nr)
 {   // maximale differenz anschauen!
     static ULONG first;
 
@@ -157,12 +157,12 @@ static int mmos2_write(warn_t *w, SWORD *pbuf, size_t nr)
                       */
 
 /* return number of samples unplayed in the kernel buffer at the moment */
-static int mmos2_bufferstatus(warn_t *s, int first) // nr of bytes in buffer
+static int mmos2_bufferstatus(int first) // nr of bytes in buffer
 {
     return 0;
 }
 
-static int mmos2_suspend(warn_t *w)
+static int mmos2_suspend(void)
 {
     int rc;
     //    mmlog("pausing",0);
@@ -172,7 +172,7 @@ static int mmos2_suspend(warn_t *w)
     return 0;
 }
 
-static int mmos2_resume(warn_t *w)
+static int mmos2_resume(void)
 {
     int rc;
     //    mmlog("resuming",0);

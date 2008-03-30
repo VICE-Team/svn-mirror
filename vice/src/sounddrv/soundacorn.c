@@ -29,13 +29,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
 #include "log.h"
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
-#include "warn.h"
 
 
 
@@ -64,7 +62,7 @@ static int timerPeriod = 0;
 
 
 
-static int init_vidc_device(warn_t *w, const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
+static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
@@ -117,7 +115,7 @@ static int init_vidc_device(warn_t *w, const char *device, int *speed, int *frag
 }
 
 
-static int vidc_bufferstatus(warn_t *w, int first)
+static int vidc_bufferstatus(int first)
 {
   if ((DigitalRenderer_ReadState() & DRState_NeedData) == 0)
     return buffersize;
@@ -126,7 +124,7 @@ static int vidc_bufferstatus(warn_t *w, int first)
 }
 
 
-static void vidc_close(warn_t *w)
+static void vidc_close(void)
 {
   _kernel_oserror *err;
 
@@ -154,7 +152,7 @@ static void vidc_close(warn_t *w)
 }
 
 
-static int vidc_suspend(warn_t *w)
+static int vidc_suspend(void)
 {
   timer_callback_remove(&SoundTimer);
 
@@ -166,7 +164,7 @@ static int vidc_suspend(warn_t *w)
 
 
 
-static int vidc_resume(warn_t *w)
+static int vidc_resume(void)
 {
   if (DigitalRenderer_Resume() != NULL)
     return 1;
@@ -182,7 +180,7 @@ static int vidc_resume(warn_t *w)
 
 
 /* Dummies */
-static int vidc_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int vidc_write(SWORD *pbuf, size_t nr)
 {
   return 0;
 }

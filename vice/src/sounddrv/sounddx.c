@@ -363,7 +363,7 @@ PCMWAVEFORMAT pcmwf;
 DSCAPS  capabilities;
 WAVEFORMATEX    wfex;
 
-static int dx_init(warn_t *w, const char *param, int *speed,
+static int dx_init(const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
 {
 HRESULT result;
@@ -497,7 +497,7 @@ int     i;
     return 0;
 }
 
-static void dx_close(warn_t *w)
+static void dx_close(void)
 {
 DWORD   result;
 
@@ -542,7 +542,7 @@ DWORD   result;
     ds = NULL;
 }
 
-static int dx_bufferstatus(warn_t *s, int first)
+static int dx_bufferstatus(int first)
 {
     /* DWORD play_cursor, write_cursor; */
     int value;
@@ -560,7 +560,7 @@ static int dx_bufferstatus(warn_t *s, int first)
     return value;
 }
 
-static int dx_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int dx_write(SWORD *pbuf, size_t nr)
 {
     /* LPVOID lpvPtr1;
     DWORD dwBytes1;

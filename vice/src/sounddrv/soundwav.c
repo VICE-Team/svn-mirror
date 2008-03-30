@@ -36,7 +36,7 @@
 static FILE *wav_fd = NULL;
 static int samples = 0;
 
-static int wav_init(warn_t *w, const char *param, int *speed,
+static int wav_init(const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
     /* RIFF/WAV header. */
@@ -69,7 +69,7 @@ static int wav_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int wav_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int wav_write(SWORD *pbuf, size_t nr)
 {
     int	i;
 
@@ -97,7 +97,7 @@ static int wav_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static void wav_close(warn_t *w)
+static void wav_close(void)
 {
     BYTE rlen[4];
     BYTE dlen[4];

@@ -354,7 +354,7 @@ update_sprite_collisions (raster_t *raster)
     return;
 
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                           + raster->geometry.extra_offscreen_border);
+                           + raster->geometry.extra_offscreen_border / 2);
   raster->sprite_status.draw_function (fake_frame_buffer_ptr,
                                        raster->zero_gfx_msk);
 }

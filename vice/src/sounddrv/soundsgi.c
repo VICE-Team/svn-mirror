@@ -46,7 +46,7 @@ static void sgi_errorhandler(long err, const char *msg, ...)
     printf("sgierrorhandler: %d, %s\n", (int)err, msg);
 }
 
-static int sgi_init(warn_t *w, const char *param, int *speed,
+static int sgi_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
 {
     long	chpars[] = {AL_OUTPUT_RATE, 0};
@@ -84,7 +84,7 @@ fail:
     return 1;
 }
 
-static int sgi_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int sgi_write(SWORD *pbuf, size_t nr)
 {
     int				i;
     i = ALwritesamps(sgi_audioport, pbuf, nr);
@@ -93,14 +93,14 @@ static int sgi_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sgi_bufferstatus(warn_t *w, int first)
+static int sgi_bufferstatus(int first)
 {
     int				i;
     i = ALgetfilled(sgi_audioport);
     return i;
 }
 
-static void sgi_close(warn_t *w)
+static void sgi_close(void)
 {
     /* XXX: code missing */
     ALfreeconfig(sgi_audioconfig);

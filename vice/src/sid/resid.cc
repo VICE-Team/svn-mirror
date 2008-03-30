@@ -39,7 +39,6 @@ extern "C" {
 #include "sid.h"
 #include "sound.h"
 #include "utils.h"
-#include "warn.h"
 
 struct sound_s
 {
@@ -52,9 +51,6 @@ struct sound_s
     /* clock step / sample */
     double		clkstep;
 };
-
-/* warnings */
-static warn_t *pwarn;
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
 				  int filters_enabled, BYTE *siddata,
@@ -151,7 +147,6 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 
 void resid_sound_machine_init(void)
 {
-    pwarn = warn_init("reSID", 128);
 }
 
 void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)

@@ -31,11 +31,10 @@
 #include "sound.h"
 #include "types.h"
 #include "utils.h"
-#include "warn.h"
 
 static FILE *dump_fd = NULL;
 
-static int dump_init(warn_t *w, const char *param, int *speed,
+static int dump_init(const char *param, int *speed,
 		     int *fragsize, int *fragnr, double bufsize)
 {
     if (!param)
@@ -46,12 +45,12 @@ static int dump_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int dump_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int dump_write(SWORD *pbuf, size_t nr)
 {
     return 0;
 }
 
-static int dump_dump(warn_t *w, ADDRESS addr, BYTE byte, CLOCK clks)
+static int dump_dump(ADDRESS addr, BYTE byte, CLOCK clks)
 {
     int				i;
     i = fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte);
@@ -60,7 +59,7 @@ static int dump_dump(warn_t *w, ADDRESS addr, BYTE byte, CLOCK clks)
     return 0;
 }
 
-static int dump_flush(warn_t *w, char *state)
+static int dump_flush(char *state)
 {
     int				i;
     i = fprintf(dump_fd, "%s", state);
@@ -70,7 +69,7 @@ static int dump_flush(warn_t *w, char *state)
     return i;
 }
 
-static void dump_close(warn_t *w)
+static void dump_close(void)
 {
     fclose(dump_fd);
     dump_fd = NULL;

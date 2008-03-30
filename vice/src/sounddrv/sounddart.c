@@ -2,7 +2,7 @@
  * sounddart.c - Implementation of the OS/2-DART sound device
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -55,7 +55,7 @@ static HMTX  hmtxOC;  // Open, Close  // not _really_ necessary
 
 static int volume=50;
 
-static void dart_close(warn_t *w)
+static void dart_close(void)
 {
     MCI_GENERIC_PARMS GenericParms = {0};
     ULONG             rc;
@@ -175,8 +175,8 @@ void set_volume(int vol)
     if (rc != MCIERR_SUCCESS) sound_err(rc, "Error setting up Volume (MCI_SET).");
 }
 
-static int dart_init(warn_t *w, const char *param, int *speed,
-                      int *fragsize, int *fragnr, double bufsize)
+static int dart_init(const char *param, int *speed,
+                     int *fragsize, int *fragnr, double bufsize)
 {
 
 /* The application sends the MCI_MIX_SETUP message to the amp mixer to
@@ -303,7 +303,7 @@ static int dart_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int dart_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int dart_write(SWORD *pbuf, size_t nr)
 {
     /* The MCI_MIX_BUFFER structure is used for reading and writing data to
      and from the mixer.
@@ -343,18 +343,18 @@ static int dart_write(warn_t *w, SWORD *pbuf, size_t nr)
 }
 
 /* return number of samples unplayed in the kernel buffer at the moment */
-static int dart_bufferstatus(warn_t *s, int first)
+static int dart_bufferstatus(int first)
 {
     return 0;
 }
 
-static int dart_suspend(warn_t *w)
+static int dart_suspend(void)
 {
     log_message(LOG_DEFAULT, "dart_suspend");
     return 0;
 }
 
-static int dart_resume(warn_t *w)
+static int dart_resume(void)
 {
     log_message(LOG_DEFAULT, "dart_resume");
     return 0;

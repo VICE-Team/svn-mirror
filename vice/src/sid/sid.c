@@ -132,9 +132,6 @@ int sid_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* warnings */
-static warn_t *pwarn;
-
 /* argh */
 static BYTE siddata[32];
 
@@ -569,16 +566,12 @@ inline static void setup_sid(sound_t *psid)
 	filterResDy = filterResTable[psid->d[0x17]>>4]-filterDy;
         if (filterResDy < REAL_VALUE(1.0))
             filterResDy = REAL_VALUE(1.0);
-	if (psid->d[0x17] & 0x07)
-	    warn(pwarn, 0, "program uses filters");
     }
     else
     {
 	psid->v[0].filter = 0;
 	psid->v[1].filter = 0;
 	psid->v[2].filter = 0;
-	if (psid->d[0x17] & 0x07)
-	    warn(pwarn, 0, "filters are disabled");
     }
     psid->update = 0;
 }
@@ -596,8 +589,6 @@ inline static void setup_voice(voice_t *pv)
     pv->pw = (pv->d[2] + (pv->d[3]&0x0f)*0x100) * 0x100100;
 #endif
     pv->sync = pv->d[4] & 0x02 ? 1 : 0;
-    if (pv->sync)
-	warn(pwarn, 1, "program uses hard sync");
     pv->fs = pv->s->speed1 * (pv->d[0] + pv->d[1]*0x100);
 #ifdef WAVETABLES
     if (pv->d[4] & 0x08)
@@ -627,7 +618,6 @@ inline static void setup_voice(voice_t *pv)
 	pv->wt = wavetable30;
 	if (pv->d[4] & 0x04)
 	    pv->wtr[1] = 0x7fff;
-	warn(pwarn, 3, "program combines waveforms");
 	break;
     case 4:
 	if (pv->d[4] & 0x08)
@@ -636,23 +626,23 @@ inline static void setup_voice(voice_t *pv)
 	    pv->wt = &wavetable40[4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
 	break;
     case 5:
-	warn(pwarn, 9, "program combines pulse and triangle waveforms");
-	pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
+	pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2]
+                                         + (pv->d[3]&0x0f)*0x100)];
 	pv->wtpf <<= 20;
 	if (pv->d[4] & 0x04)
 	    pv->wtr[1] = 0x7fff;
 	break;
     case 6:
-	warn(pwarn, 10, "program combines pulse and sawtooth waveforms");
-	pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
+	pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2]
+                                         + (pv->d[3]&0x0f)*0x100)];
 	pv->wtpf <<= 20;
 	break;
     case 7:
-	pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2] + (pv->d[3]&0x0f)*0x100)];
+	pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2]
+                                         + (pv->d[3]&0x0f)*0x100)];
 	pv->wtpf <<= 20;
 	if (pv->d[4] & 0x04 && pv->s->newsid)
 	    pv->wtr[1] = 0x7fff;
-	warn(pwarn, 3, "program combines waveforms");
 	break;
     case 8:
 	pv->noise = 1;
@@ -665,8 +655,6 @@ inline static void setup_voice(voice_t *pv)
 	pv->wt = wavetable00;
 	pv->wtl = 31;
     }
-    if (pv->wtr[1])
-	warn(pwarn, 2, "program uses ring modulation");
 #else
     if (pv->d[4] & 0x08)
     {
@@ -686,7 +674,6 @@ inline static void setup_voice(voice_t *pv)
 	if (pv->d[4] & 0x04)
 	{
 	    pv->fm = RINGWAVE;
-	    warn(pwarn, 2, "program uses ring modulation");
 	}
 	else
 	    pv->fm = TRIANGLEWAVE;
@@ -699,16 +686,12 @@ inline static void setup_voice(voice_t *pv)
 	break;
     case 5:
 	pv->fm = PULSETRIANGLEWAVE;
-	warn(pwarn, 9, "program combines pulse and triangle waveforms");
 	break;
     case 6:
 	pv->fm = PULSESAWTOOTHWAVE;
-	warn(pwarn, 10,
-	     "program combines pulse and sawtooth waveforms");
 	break;
     default:
 	pv->fm = NOWAVE;
-	warn(pwarn, 3, "program combines waveforms");
     }
 #endif
     switch (pv->adsrm)
@@ -1001,7 +984,6 @@ BYTE REGPARM1 sid_read(ADDRESS addr)
 	    val = 0xff;
 	else
 	{
-	    warn(pwarn, 5, "program reading sid-registers (no sound)");
 	    if (addr == 0x1b || addr == 0x1c)
 		val = rand();
 	    else
@@ -1051,11 +1033,9 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 	ret = doosc(&psid->v[2]) >> 7;
 	psid->v[2].f -= ffix;
 	psid->v[2].rv = rvstore;
-	warn(pwarn, 6, "program reading osc3 register");
 	break;
     case 0x1c:
 	ret = psid->v[2].adsr >> 23;
-	warn(pwarn, 7, "program reading env3 register");
 	break;
     default:
 	while ((tmp = psid->laststorebit) &&
@@ -1078,7 +1058,7 @@ void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
     /*fprintf(logfile, "%x %x\n", addr, byte);*/
 
     if (psid_mode && addr > 0x1c) {
-      warn(pwarn, 11, "program uses PSID registers (not supported)");
+      log_message(LOG_DEFAULT, "program uses PSID registers (not supported)");
     }
 
     machine_handle_pending_alarms(rmw_flag + 1);
@@ -1089,7 +1069,6 @@ void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
 	clk++;
 #if 0
 	/* XXX: remove me some day */
-	warn(pwarn, 4, "rmw instruction");
 #endif
     }
     sound_store(addr, byte);
@@ -1139,7 +1118,6 @@ void sid_reset(void)
     memset(siddata, 0, 32);
     for (i = 0; i < 32; i++)
 	sound_store(i, 0);
-    warn_reset(pwarn);
 
     sound_reset();
 }
@@ -1156,7 +1134,6 @@ void sound_machine_reset(sound_t *psid, CLOCK clk)
 
 void sound_machine_init(void)
 {
-    pwarn = warn_init("SID", 128);
 #ifdef HAVE_RESID
     resid_sound_machine_init();
 #endif

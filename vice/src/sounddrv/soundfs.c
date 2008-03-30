@@ -33,7 +33,7 @@
 
 static FILE *fs_fd = NULL;
 
-static int fs_init(warn_t *w, const char *param, int *speed,
+static int fs_init(const char *param, int *speed,
 		   int *fragsize, int *fragnr, double bufsize)
 {
     if (!param)
@@ -44,7 +44,7 @@ static int fs_init(warn_t *w, const char *param, int *speed,
     return 0;
 }
 
-static int fs_write(warn_t *w, SWORD *pbuf, size_t nr)
+static int fs_write(SWORD *pbuf, size_t nr)
 {
     int i;
     i = fwrite(pbuf, sizeof(SWORD), nr, fs_fd);
@@ -53,7 +53,7 @@ static int fs_write(warn_t *w, SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static void fs_close(warn_t *w)
+static void fs_close(void)
 {
     fclose(fs_fd);
     fs_fd = NULL;

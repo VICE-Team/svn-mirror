@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "types.h"
-#include "warn.h"
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
@@ -53,27 +52,26 @@ typedef struct
     /* init -routine to be called at device initialization. Should use
        suggested values if possible or return new values if they cannot be
        used */
-    int	(*init)(warn_t *w,
-        const char *param,
+    int	(*init)(const char *param,
         int *speed,
         int *fragsize, int *fragnr,
         double bufsize);
     /* send number of bytes to the soundcard. it is assumed to block if kernel
        buffer is full */
-    int	(*write)(warn_t *w, SWORD *pbuf, size_t nr);
+    int	(*write)(SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
-    int (*dump)(warn_t *w, ADDRESS addr, BYTE byte,
+    int (*dump)(ADDRESS addr, BYTE byte,
 					CLOCK clks);
     /* flush-routine to be called every frame */
-    int (*flush)(warn_t *s, char *state);
+    int (*flush)(char *state);
     /* return number of samples unplayed in the kernel buffer at the moment */
-    int (*bufferstatus)(warn_t *s, int first);
+    int (*bufferstatus)(int first);
     /* close and cleanup device */
-    void (*close)(warn_t *w);
+    void (*close)(void);
     /* suspend device */
-    int (*suspend)(warn_t *s);
+    int (*suspend)(void);
     /* resume device */
-    int (*resume)(warn_t *s);
+    int (*resume)(void);
 } sound_device_t;
 
 /* Sound adjustment types.  */

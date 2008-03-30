@@ -49,7 +49,6 @@ struct sound_s
     int				 cycles_per_sec;
 };
 
-static warn_t *pwarn;
 static BYTE snddata[4];
 
 /* XXX: this is not correct */
@@ -92,7 +91,6 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 
 void sound_machine_init(void)
 {
-    pwarn = warn_init("SOUNDPET", 128);
 }
 
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
