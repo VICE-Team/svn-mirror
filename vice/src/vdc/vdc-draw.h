@@ -28,8 +28,8 @@
 #ifndef _VDC_DRAW_H
 #define _VDC_DRAW_H
 
-void vdc_draw_init (void);
-void vdc_draw_set_double_size (int enabled);
+void vdc_draw_init(void);
+void vdc_draw_set_double_size(int enabled);
 
 #endif
 

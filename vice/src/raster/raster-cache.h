@@ -33,19 +33,14 @@
 #include "raster-sprite-cache.h"
 #include "types.h"
 
-
-
 /* Yeah, static allocation sucks.  But it's faster, and we are not wasting
    much space anyway.  */
 #define RASTER_CACHE_MAX_TEXTCOLS 0x100
 #define RASTER_CACHE_MAX_SPRITES  8
 #define RASTER_CACHE_GFX_MSK_SIZE 0x100
 
-
-
 /* This defines the screen cache.  It includes the sprite cache too.  */
-struct raster_cache_s
-  {
+struct raster_cache_s {
     /* Number of line shown (referred to drawable area) */
     int n;
 
@@ -108,16 +103,13 @@ struct raster_cache_s
 
     /* Flags for open left/right borders.  */
     int open_right_border, open_left_border;
-  };
+};
 typedef struct raster_cache_s raster_cache_t;
 
-
+void raster_cache_init(raster_cache_t * cache);
+raster_cache_t *raster_cache_new(void);
+void raster_cache_free(raster_cache_t * cache);
 
-void raster_cache_init (raster_cache_t * cache);
-raster_cache_t *raster_cache_new (void);
-void raster_cache_free (raster_cache_t * cache);
-
-
 
 /* Inlined functions.  These need to be *fast*.  */
 
@@ -125,171 +117,150 @@ void raster_cache_free (raster_cache_t * cache);
    differences between the two arrays.  The smallest interval that contains
    different bytes is returned as [*xs; *xe].  */
 /* _fill_cache() */
-inline static int
-raster_cache_data_fill (BYTE *dest,
-			const BYTE *src,
-			int length,
-			int src_step,
-			int *xs,
-			int *xe,
-			int no_check)
+inline static int raster_cache_data_fill(BYTE *dest,
+                                         const BYTE *src,
+                                         int length,
+                                         int src_step,
+                                         int *xs,
+                                         int *xe,
+                                         int no_check)
 {
-  if (no_check)
-    {
-      int i;
+    if (no_check) {
+        int i;
 
-      *xs = 0;
-      *xe = length - 1;
-      if (src_step == 1)
-	memcpy(dest, src, (size_t)length);
-      else
-	for (i = 0; i < length; i++, src += src_step)
-	  dest[i] = src[0];
-      return 1;
-    }
-  else
-    {
-      int x = 0, i;
+        *xs = 0;
+        *xe = length - 1;
+        if (src_step == 1)
+            memcpy(dest, src, (size_t)length);
+        else
+            for (i = 0; i < length; i++, src += src_step)
+                dest[i] = src[0];
+        return 1;
+    } else {
+        int x = 0, i;
 
-      for (i = 0; i < length && dest[i] == src[0]; i++, src += src_step)
-	/* do nothing */ ;
+        for (i = 0; i < length && dest[i] == src[0]; i++, src += src_step)
+          /* do nothing */ ;
 
-      if (i < length)
-	{
-	  if (*xs > i)
-	    *xs = i;
+        if (i < length) {
+            if (*xs > i)
+                *xs = i;
 
-	  for (; i < length; i++, src += src_step)
-	    if (dest[i] != src[0])
-	      {
-		dest[i] = src[0];
-		x = i;
-	      }
+            for (; i < length; i++, src += src_step)
+                if (dest[i] != src[0]) {
+                dest[i] = src[0];
+                x = i;
+            }
 
-	  if (*xe < x)
-	    *xe = x;
+            if (*xe < x)
+                *xe = x;
 
-	  return 1;
-	}
-      else
-	return 0;
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
 
 /* Do as _fill_cache(), but split each byte into low and high nibble.  These
    are stored into different destinations.  */
 /* _fill_cache_nibbles */
-inline static int
-raster_cache_data_fill_nibbles (BYTE *dest_hi,
-				BYTE *dest_lo,
-				const BYTE *src,
-				int length,
-				int src_step,
-				int *xs, int *xe,
-				int no_check)
+inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
+                                                 BYTE *dest_lo,
+                                                 const BYTE *src,
+                                                 int length,
+                                                 int src_step,
+                                                 int *xs, int *xe,
+                                                 int no_check)
 {
-  if (no_check)
-    {
-      int i;
+    if (no_check) {
+        int i;
 
-      *xs = 0;
-      *xe = length - 1;
+        *xs = 0;
+        *xe = length - 1;
 
-      for (i = 0; i < length; i++, src += src_step)
-	{
-	  dest_hi[i] = src[0] >> 4;
-	  dest_lo[i] = src[0] & 0xf;
-	}
+        for (i = 0; i < length; i++, src += src_step) {
+            dest_hi[i] = src[0] >> 4;
+            dest_lo[i] = src[0] & 0xf;
+        }
 
-      return 1;
-    }
-  else
-    {
+        return 1;
+    } else {
       int i, x = 0;
       BYTE b;
 
       for (i = 0;
-	   dest_hi[i] == (src[0] >> 4)
-	   && dest_lo[i] == (src[0] & 0xf) && i < length;
-	   i++, src += src_step)
-	/* do nothing */ ;
+           dest_hi[i] == (src[0] >> 4)
+           && dest_lo[i] == (src[0] & 0xf) && i < length;
+           i++, src += src_step)
+           /* do nothing */ ;
 
-      if (i < length)
-	{
-	  if (*xs > i)
-	    *xs = i;
+      if (i < length) {
+          if (*xs > i)
+              *xs = i;
 
-	  for (; i < length; i++, src += src_step)
-	    if (dest_hi[i] != (b = (src[0] >> 4)))
-	      {
-		dest_hi[i] = b;
-		x = i;
-	      }
-	    else if (dest_lo[i] != (b = (src[0] & 0xf)))
-	      {
-		dest_lo[i] = b;
-		x = i;
-	      }
+          for (; i < length; i++, src += src_step)
+              if (dest_hi[i] != (b = (src[0] >> 4))) {
+                  dest_hi[i] = b;
+                  x = i;
+              } else if (dest_lo[i] != (b = (src[0] & 0xf))) {
+                dest_lo[i] = b;
+                x = i;
+              }
 
-	  if (*xe < x)
-	    *xe = x;
+              if (*xe < x)
+                  *xe = x;
 
-	  return 1;
-	}
-      else
-	return 0;
+              return 1;
+        } else {
+            return 0;
+        }
     }
 }
 
 /* This function is used for text modes.  It checks for differences in the
    character memory too.  */
 /* _fill_cache_text */
-inline static int
-raster_cache_data_fill_text (BYTE *dest,
-			     const BYTE *src,
-			     BYTE *char_mem,
-			     int bytes_per_char,
-			     int length,
-			     int l,
-			     int *xs, int *xe,
-			     int no_check)
+inline static int raster_cache_data_fill_text(BYTE *dest,
+                                              const BYTE *src,
+                                              BYTE *char_mem,
+                                              int bytes_per_char,
+                                              int length,
+                                              int l,
+                                              int *xs, int *xe,
+                                              int no_check)
 {
 #define _GET_CHAR_DATA(c, l)  char_mem[((c) * bytes_per_char) + (l)]
-  if (no_check)
-    {
-      int i;
+    if (no_check) {
+        int i;
 
-      *xs = 0;
-      *xe = length - 1;
-      for (i = 0; i < length; i++, src++)
-	dest[i] = _GET_CHAR_DATA (src[0], l);
-      return 1;
-    }
-  else
-    {
-      BYTE b;
-      int i;
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++)
+            dest[i] = _GET_CHAR_DATA (src[0], l);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
 
-      for (i = 0;
-	   i < length && dest[i] == _GET_CHAR_DATA (src[0], l);
-	   i++, src++)
-	/* do nothing */ ;
+        for (i = 0;
+            i < length && dest[i] == _GET_CHAR_DATA (src[0], l);
+            i++, src++)
+            /* do nothing */ ;
 
-      if (i < length)
-	{
-	  *xs = *xe = i;
+        if (i < length) {
+            *xs = *xe = i;
 
-	  for (; i < length; i++, src++)
-	    if (dest[i] != (b = _GET_CHAR_DATA (src[0], l)))
-	      {
-		dest[i] = b;
-		*xe = i;
-	      }
+            for (; i < length; i++, src++)
+                if (dest[i] != (b = _GET_CHAR_DATA (src[0], l))) {
+                    dest[i] = b;
+                    *xe = i;
+            }
 
-	  return 1;
-	}
-      else
-	return 0;
+            return 1;
+        } else {
+            return 0;
+        }
     }
 #undef _GET_CHAR_DATA
 }
@@ -300,167 +271,149 @@ raster_cache_data_fill_text (BYTE *dest,
    This is just an _EXTREMLY UGLY HACK (TM)_ to make the VDC work
    (Markus Brenner) */
 
-inline static int
-raster_cache_data_fill_attr_text (BYTE *dest,
-			     const BYTE *src,
-                             BYTE *attr,
-			     BYTE *char_mem,
-			     int bytes_per_char,
-			     int length,
-			     int l,
-			     int *xs, int *xe,
-			     int no_check,
-                             int blink)
+inline static int raster_cache_data_fill_attr_text(BYTE *dest,
+                                                   const BYTE *src,
+                                                   BYTE *attr,
+                                                   BYTE *char_mem,
+                                                   int bytes_per_char,
+                                                   int length,
+                                                   int l,
+                                                   int *xs, int *xe,
+                                                   int no_check,
+                                                   int blink)
 {
-
 #define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
   ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
   ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? 0xff : 0x00))
 
-  if (no_check)
-    {
-      int i;
+    if (no_check) {
+        int i;
 
-      *xs = 0;
-      *xe = length - 1;
-      for (i = 0; i < length; i++, src++, attr++)
-	dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
-      return 1;
-    }
-  else
-    {
-      BYTE b;
-      int i;
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++, attr++)
+            dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
 
-      for (i = 0;
-	   i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
-	   i++, src++, attr++)
-	/* do nothing */ ;
+        for (i = 0;
+             i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
+             i++, src++, attr++)
+             /* do nothing */ ;
 
-      if (i < length)
-	{
-	  *xs = *xe = i;
+        if (i < length) {
+            *xs = *xe = i;
 
-	  for (; i < length; i++, src++, attr++)
-	    if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr[0], l)))
-	      {
-		dest[i] = b;
-		*xe = i;
-	      }
+            for (; i < length; i++, src++, attr++)
+                if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr[0], l))) {
+                    dest[i] = b;
+                    *xe = i;
+                }
 
-	  return 1;
-	}
-      else
-	return 0;
-    }
-#undef _GET_ATTR_CHAR_DATA
-}
-
-inline static int
-raster_cache_data_fill_attr_text_const (BYTE *dest,
-                             const BYTE *src,
-                             BYTE attr,
-                             BYTE *char_mem,
-                             int bytes_per_char,
-                             int length,
-                             int l,
-                             int *xs, int *xe,
-                             int no_check,
-                             int blink)
-{
-
-#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
-  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
-  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? 0xff : 0x00))
-
-  if (no_check)
-    {
-      int i;
-
-      *xs = 0;
-      *xe = length - 1;
-      for (i = 0; i < length; i++, src++)
-        dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr, l);
-      return 1;
-    }
-  else
-    {
-      BYTE b;
-      int i;
-
-      for (i = 0;
-           i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr, l);
-           i++, src++)
-        /* do nothing */ ;
-
-      if (i < length)
-        {
-          *xs = *xe = i;
-
-          for (; i < length; i++, src++)
-            if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr, l)))
-              {
-                dest[i] = b;
-                *xe = i;
-              }
-
-          return 1;
+            return 1;
+        } else {
+            return 0;
         }
-      else
-        return 0;
     }
 #undef _GET_ATTR_CHAR_DATA
 }
 
-inline static int
-raster_cache_data_fill_const(BYTE *dest,
-                             BYTE data,
-                             int length,
-                             int src_step,
-                             int *xs,
-                             int *xe,
-                             int no_check)
+inline static int raster_cache_data_fill_attr_text_const(BYTE *dest,
+                                                         const BYTE *src,
+                                                         BYTE attr,
+                                                         BYTE *char_mem,
+                                                         int bytes_per_char,
+                                                         int length,
+                                                         int l,
+                                                         int *xs, int *xe,
+                                                         int no_check,
+                                                         int blink)
 {
-  if (no_check)
-    {
-      int i;
 
-      *xs = 0;
-      *xe = length - 1;
-      if (src_step == 1)
-        memset(dest, data, (size_t)length);
-      else
-        for (i = 0; i < length; i++)
-          dest[i] = data;
-      return 1;
+#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
+  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
+  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? 0xff : 0x00))
+
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+        for (i = 0; i < length; i++, src++)
+            dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr, l);
+        return 1;
+    } else {
+        BYTE b;
+        int i;
+
+        for (i = 0;
+            i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr, l);
+            i++, src++)
+            /* do nothing */ ;
+
+        if (i < length) {
+            *xs = *xe = i;
+
+            for (; i < length; i++, src++)
+                if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr, l))) {
+                    dest[i] = b;
+                    *xe = i;
+                }
+
+            return 1;
+        } else {
+            return 0;
+        }
     }
-  else
-    {
-      int x = 0, i;
+#undef _GET_ATTR_CHAR_DATA
+}
 
-      for (i = 0; i < length && dest[i] == data; i++)
-    /* do nothing */ ;
+inline static int raster_cache_data_fill_const(BYTE *dest,
+                                               BYTE data,
+                                               int length,
+                                               int src_step,
+                                               int *xs,
+                                               int *xe,
+                                               int no_check)
+{
+    if (no_check) {
+        int i;
 
-      if (i < length)
-    {
-      if (*xs > i)
-        *xs = i;
+        *xs = 0;
+        *xe = length - 1;
+        if (src_step == 1)
+            memset(dest, data, (size_t)length);
+        else
+            for (i = 0; i < length; i++)
+                dest[i] = data;
+        return 1;
+    } else {
+        int x = 0, i;
 
-      for (; i < length; i++)
-        if (dest[i] != data)
-          {
-        dest[i] = data;
-        x = i;
-          }
+        for (i = 0; i < length && dest[i] == data; i++)
+            /* do nothing */ ;
 
-      if (*xe < x)
-        *xe = x;
+        if (i < length) {
+            if (*xs > i)
+                *xs = i;
 
-      return 1;
-    }
-      else
-    return 0;
+            for (; i < length; i++)
+                if (dest[i] != data) {
+                    dest[i] = data;
+                    x = i;
+                }
+
+            if (*xe < x)
+                *xe = x;
+
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
 
 #endif
+

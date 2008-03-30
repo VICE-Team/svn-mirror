@@ -36,6 +36,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "palette.h"
+#include "raster.h"
 #include "raster-modes.h"
 #include "screenshot.h"
 #include "snapshot.h"
@@ -68,7 +69,7 @@ static void vdc_set_geometry(void)
     raster_set_geometry(raster,
                         VDC_SCREEN_WIDTH, vdc.screen_height,
                         VDC_SCREEN_XPIX, vdc.screen_ypix,
-                        VDC_SCREEN_TEXTCOLS, VDC_SCREEN_TEXTLINES,
+                        VDC_SCREEN_MAX_TEXTCOLS, VDC_SCREEN_TEXTLINES,
                         VDC_SCREEN_BORDERWIDTH, VDC_SCREEN_BORDERHEIGHT,
                         0,
                         VDC_FIRST_DISPLAYED_LINE,
@@ -120,7 +121,6 @@ static int init_raster(void)
     return 0;
 }
 
-
 
 int vdc_init_resources(void)
 {
@@ -132,7 +132,6 @@ int vdc_init_cmdline_options(void)
     return vdc_cmdline_options_init();
 }
 
-
 
 /* Initialize the VDC emulation. */
 raster_t *vdc_init(void)
@@ -182,6 +181,7 @@ void vdc_reset(void)
     vdc.text_blink_frequency = 32;
     vdc.text_blink_counter = 0;
     vdc.text_blink_visible = 0;
+    vdc.screen_text_cols = VDC_SCREEN_TEXTCOLS;
     alarm_set(&vdc.raster_draw_alarm, VDC_CYCLES_PER_LINE());
 }
 
@@ -219,8 +219,7 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
     in_visible_area = (vdc.raster.current_line >= VDC_FIRST_DISPLAYED_LINE
                     && vdc.raster.current_line <= vdc.last_displayed_line);
 
-    if (vdc.raster.current_line == 0)
-    {
+    if (vdc.raster.current_line == 0) {
         vdc.mem_counter = 0;
         vdc.bitmap_counter = 0;
         vdc.raster.ycounter = 0;
@@ -241,9 +240,14 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
             vdc.text_blink_counter--;
         }
 
+        if (vdc.force_cache_flush) {
+            raster_invalidate_cache(&vdc.raster, vdc.screen_height);
+            vdc.force_cache_flush = 0;
+        }
+
         if (vdc.force_resize) {
-            vdc.force_resize = 0;
             vdc_resize();
+            vdc.force_resize = 0;
         }
 
         if (vdc.force_repaint) {
@@ -262,15 +266,14 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
 
     if (in_visible_area)
     {
-        vdc.mem_counter_inc = VDC_SCREEN_TEXTCOLS;
+        vdc.mem_counter_inc = vdc.screen_text_cols;
         if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
             vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
 
         vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                               & vdc.raster_ycounter_max;
 
-        if (!(vdc.raster.ycounter & 1))
-        {
+        if (!(vdc.raster.ycounter & 1)) {
             /* Don't increment on odd raster scanlines.  */
             vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
         }
@@ -299,8 +302,7 @@ int vdc_load_palette(const char *name)
     if (palette == NULL)
         return -1;
 
-    if (palette_load(name, palette) < 0)
-    {
+    if (palette_load(name, palette) < 0) {
         log_message(vdc.log, "Cannot load palette file '%s'.", name);
         return -1;
     }
