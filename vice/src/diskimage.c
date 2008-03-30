@@ -578,6 +578,7 @@ int disk_image_open(disk_image_t *image)
         return 0;
 
     zfclose(image->fd);
+    log_message(disk_image_log, "Unknown disk image `%s'.", image->name);
     return -1;
 }
 
