@@ -259,6 +259,16 @@ BEGIN
     MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
+    END
     POPUP "&Help"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
@@ -280,16 +290,16 @@ IDR_MENUC128_DE MENU DISCARDABLE
 BEGIN
     POPUP "&Datei"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "Diskette/Kassette &autostarten...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "&Disk Image einlegen"
+        POPUP "&Diskette einlegen"
         BEGIN
             MENUITEM "Laufwerk &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Laufwerk &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Laufwerk 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Laufwerk &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Disk Image &entfernen"
+        POPUP "Diskette &entfernen"
         BEGIN
             MENUITEM "Laufwerk &8",  IDM_DETACH_8
             MENUITEM "Laufwerk &9",  IDM_DETACH_9
@@ -298,71 +308,70 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Alle\tAlt+A", IDM_DETACH_ALL
         END
-        POPUP "&Flip liste"
+        POPUP "&Flipliste"
         BEGIN
-            MENUITEM "&Aktuelles Image hinzufügen\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "Aktuelles Image entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "&Nächstes Image\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Voriges I&mage\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "&Aktuelle Diskette hinzufügen\tAlt+I", IDM_FLIP_ADD
+            MENUITEM "Aktuelle Diskette entfe&rnen\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "&Nächste Diskette\tAlt+N",             IDM_FLIP_NEXT
+            MENUITEM "&Vorige Diskette\tAlt+B",              IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "Fliplist Datei &Laden", IDM_FLIP_LOAD
-            MENUITEM "Fliplist Datei &Speichern", IDM_FLIP_SAVE
+            MENUITEM "Fliplist Datei &laden",     IDM_FLIP_LOAD
+            MENUITEM "Fliplist Datei &speichern", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Band Image einlegen...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Band I&mage entfernen",           IDM_DETACH_TAPE
-        POPUP "Bandlaufwerk Kontr&olle"
+        MENUITEM "&Kassette einlegen...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Kassette &entfernen",          IDM_DETACH_TAPE
+        POPUP "Data&sette"
         BEGIN
-            MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Start",         IDM_DATASETTE_CONTROL_START
-            MENUITEM "&Forward",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "&Rewind",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
-            MENUITEM "R&eset",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "S&top",              IDM_DATASETTE_CONTROL_STOP
+            MENUITEM "&Start",             IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Vorspulen",         IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Rückspulen",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "&Aufnahme",          IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "R&eset",             IDM_DATASETTE_CONTROL_RESET
+            MENUITEM "&Zähler rücksetzen", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Erweiterun&gsmodule einlegen..."
+        POPUP "&Modul einstecken..."
         BEGIN
-            MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
+            MENUITEM "&CRT Modul...",               IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Universal &8Kb Image...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Universal &16KB image...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
-            MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
-            MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
-            MENUITEM "&IEEE488 Schnittstellenmodul...", IDM_CART_ATTACH_IEEE488
-            MENUITEM "&Retro Replay image...",      IDM_CART_ATTACH_RR
-            MENUITEM "IDE&64 Schnittstellenmodul...",   IDM_CART_ATTACH_IDE64
-            MENUITEM "Super Snapshot &4 image...",  IDM_CART_ATTACH_SS4
-            MENUITEM "Super Snapshot &5 image...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Universelles &8KB Modul...",  IDM_CART_ATTACH_8KB
+            MENUITEM "Universelles &16KB Modul...", IDM_CART_ATTACH_16KB
+            MENUITEM "&Action Replay Modul...",     IDM_CART_ATTACH_AR
+            MENUITEM "Atomic &Power Modul...",      IDM_CART_ATTACH_AT
+            MENUITEM "&Epyx fastload Modul...",     IDM_CART_ATTACH_EPYX
+            MENUITEM "&IEEE488 Modul...",           IDM_CART_ATTACH_IEEE488
+            MENUITEM "&Retro Replay Modul...",      IDM_CART_ATTACH_RR
+            MENUITEM "IDE&64 Modul...",             IDM_CART_ATTACH_IDE64
+            MENUITEM "Super Snapshot &4 Modul...",  IDM_CART_ATTACH_SS4
+            MENUITEM "Super Snapshot &5 Modul...",  IDM_CART_ATTACH_SS5
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktivieren", IDM_CART_ENABLE_EXPERT
                 MENUITEM SEPARATOR
-                MENUITEM "Aus",    IDM_CART_MODE_OFF
-                MENUITEM "Prg",    IDM_CART_MODE_PRG
-                MENUITEM "Ein",     IDM_CART_MODE_ON
+                MENUITEM "Aus", IDM_CART_MODE_OFF
+                MENUITEM "Prg", IDM_CART_MODE_PRG
+                MENUITEM "Ein", IDM_CART_MODE_ON
             END
             MENUITEM SEPARATOR
-            MENUITEM "Aktuelles Erweiterungsmodul als stan&dard aktivieren", IDM_CART_SET_DEFAULT
-            MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
+            MENUITEM "Aktuelles Modul ist Stan&dard", IDM_CART_SET_DEFAULT
+            MENUITEM "Reset &bei Modulwechsel",       IDM_TOGGLE_CART_RESET
         END
-        MENUITEM "Erweiterungsmodul &Image entfernen",  IDM_CART_DETACH
-        MENUITEM "Erweiterungsmodul Free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Modul ent&fernen",  IDM_CART_DETACH
+        MENUITEM "Modul Free&ze\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
-            MENUITEM "&Harter\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Weich\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Kaltstart\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Warmstart\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
-            MENUITEM "Laufwerk #&8",         IDM_RESET_DRIVE8
-            MENUITEM "Laufwerk #&9",         IDM_RESET_DRIVE9
-            MENUITEM "Laufwerk #1&0",        IDM_RESET_DRIVE10
-            MENUITEM "Laufwerk #&11",        IDM_RESET_DRIVE11
+            MENUITEM "Laufwerk #&8",  IDM_RESET_DRIVE8
+            MENUITEM "Laufwerk #&9",  IDM_RESET_DRIVE9
+            MENUITEM "Laufwerk #1&0", IDM_RESET_DRIVE10
+            MENUITEM "Laufwerk #&11", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
         POPUP "&Debug"
@@ -509,6 +518,16 @@ BEGIN
         MENUITEM SEPARATOR
     MENUITEM "Einstellungen beim &Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "Bestäti&gung beim Beenden",       IDM_TOGGLE_CONFIRM_ON_EXIT
+    END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
     END
     POPUP "&Hilfe"
     BEGIN
@@ -761,6 +780,16 @@ BEGIN
     MENUITEM "Enre&gistrer les paramètres à la sortie", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Confirmation à la sortie",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
+    END
     POPUP "&Aide"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
@@ -1011,6 +1040,16 @@ BEGIN
         MENUITEM SEPARATOR
     MENUITEM "Salva le impostazioni in usc&ita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Conferma all'uscita",       IDM_TOGGLE_CONFIRM_ON_EXIT
+    END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
     END
     POPUP "Ai&uto"
     BEGIN
@@ -1263,6 +1302,16 @@ BEGIN
     MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Bevestigen bij afsluiten",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
+    END
     POPUP "&Help"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
@@ -1514,6 +1563,16 @@ BEGIN
     MENUITEM "&Zapisz ustawienia przy wyj¶ciu", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
+    END
     POPUP "&Pomoc"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
@@ -1764,6 +1823,16 @@ BEGIN
         MENUITEM SEPARATOR
     MENUITEM "Spara inställningar &vid avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
     MENUITEM "&Bekräfta avslutning",       IDM_TOGGLE_CONFIRM_ON_EXIT
+    END
+    POPUP "&Language"
+    BEGIN
+        MENUITEM "&English", IDM_LANG_EN
+        MENUITEM "&German", IDM_LANG_DE
+        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Italian", IDM_LANG_IT
+        MENUITEM "&Dutch", IDM_LANG_NL
+        MENUITEM "&Polish", IDM_LANG_PL
+        MENUITEM "&Swedish", IDM_LANG_SV
     END
     POPUP "&Hjälp"
     BEGIN

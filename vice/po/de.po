@@ -1756,9 +1756,8 @@ msgid "Remove: "
 msgstr "Entfernen: "
 
 #: src/arch/unix/uigeoram.c:41
-#, fuzzy
 msgid "GEORAM image name"
-msgstr "REU Image Name"
+msgstr "GEORAM Image Name"
 
 #: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
 #: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
@@ -1767,19 +1766,16 @@ msgid "Name:"
 msgstr "Name:"
 
 #: src/arch/unix/uigeoram.c:64
-#, fuzzy
 msgid "*Enable GEORAM"
-msgstr "*Aktivieren der REU"
+msgstr "*Aktivieren der GEORAM"
 
 #: src/arch/unix/uigeoram.c:66
-#, fuzzy
 msgid "GEORAM size"
-msgstr "REU Größe"
+msgstr "GEORAM Größe"
 
 #: src/arch/unix/uigeoram.c:68
-#, fuzzy
 msgid "GEORAM image name..."
-msgstr "REU Image Name..."
+msgstr "GEROAM Image Name..."
 
 #: src/arch/unix/uiide64.c:42
 msgid "IDE64 image name"
@@ -2156,14 +2152,12 @@ msgid "Printer text device 3..."
 msgstr "Drucker Text Gerät 3..."
 
 #: src/arch/unix/uiramcart.c:42
-#, fuzzy
 msgid "RAMCART image name"
-msgstr "REU Image Name"
+msgstr "RAMCART Image Name"
 
 #: src/arch/unix/uiramcart.c:55
-#, fuzzy
 msgid "*Enable RAMCART"
-msgstr "*Aktivieren der REU"
+msgstr "*Aktivieren der RAMCART"
 
 #: src/arch/unix/uiramcart.c:57
 #, fuzzy
@@ -2171,14 +2165,12 @@ msgid "*Readonly"
 msgstr "*Schreibgeschützter Zugriff"
 
 #: src/arch/unix/uiramcart.c:59
-#, fuzzy
 msgid "RAMCART size"
-msgstr "REU Größe"
+msgstr "RAMCART Größe"
 
 #: src/arch/unix/uiramcart.c:61
-#, fuzzy
 msgid "RAMCART image name..."
-msgstr "REU Image Name..."
+msgstr "RAMCART Image Name..."
 
 #: src/arch/unix/uireu.c:41
 msgid "REU image name"

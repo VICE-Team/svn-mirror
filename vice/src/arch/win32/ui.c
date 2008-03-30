@@ -85,6 +85,8 @@
 #include "statusbar.h"
 
 
+#define countof(array) (sizeof(array) / sizeof((array)[0]))
+
 static TCHAR *hwnd_titles[2];
 
 /* Exposure handler.  */
@@ -192,6 +194,20 @@ static const ui_res_value_list_t value_list[] = {
     { "TraceMode", TraceMode, 0},
 #endif
     { NULL, NULL, 0 }
+};
+
+static const struct {
+    char *lang_code;
+    UINT item_id;
+} ui_lang_menu_entries [] = {
+    { "en", IDM_LANG_EN },
+    { "de", IDM_LANG_DE },
+    { "fr", IDM_LANG_FR },
+    { "it", IDM_LANG_IT },
+    { "nl", IDM_LANG_NL },
+    { "pl", IDM_LANG_PL },
+    { "sv", IDM_LANG_SV },
+    { NULL, 0}
 };
 
 /* ------------------------------------------------------------------------ */
@@ -457,6 +473,17 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
 
 }
 
+void ui_update_menu()
+{
+HMENU menu;
+int   i;
+
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(intl_translate_menu(emu_menu)));
+    for (i = 0; i < number_of_windows; i++) {
+        SetMenu(window_handles[i], menu);
+    }
+}
+
 /* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 {
@@ -531,6 +558,7 @@ static void update_menus(HWND hwnd)
     int i, j;
     int value;
     int result;
+    char *lang;
 
     for (i = 0; grayed_list[i].name != NULL; i++) {
         resources_get_value(grayed_list[i].name, (void *)&value);
@@ -597,6 +625,28 @@ static void update_menus(HWND hwnd)
     CheckMenuItem(menu, IDM_PAUSE,
                   ui_emulation_is_paused() ? MF_CHECKED : MF_UNCHECKED);
 
+    resources_get_value("Language", (void *)&lang);
+    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL) && (i < countof(ui_lang_menu_entries)); i++) {
+        if (strcmp(lang, ui_lang_menu_entries[i].lang_code) == 0) {
+            CheckMenuItem(menu, ui_lang_menu_entries[i].item_id, MF_CHECKED);
+        } else {
+            CheckMenuItem(menu, ui_lang_menu_entries[i].item_id, MF_UNCHECKED);
+        }
+    }
+
+}
+
+static void ui_set_language(int lang_id)
+{
+    int i;
+
+    for (i = 0; (ui_lang_menu_entries[i].lang_code != NULL)
+        && (i < countof(ui_lang_menu_entries)); i++) {
+        if (ui_lang_menu_entries[i].item_id == lang_id) {
+            resources_set_value("Language", ui_lang_menu_entries[i].lang_code);
+            break;
+        }
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1198,6 +1248,15 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_RS232_SETTINGS:
         ui_rs232_settings_dialog(hwnd);
+        break;
+      case IDM_LANG_EN:
+      case IDM_LANG_DE:
+      case IDM_LANG_FR:
+      case IDM_LANG_IT:
+      case IDM_LANG_NL:
+      case IDM_LANG_PL:
+      case IDM_LANG_SV:
+        ui_set_language(wparam);
         break;
       default:
         handle_default_command(wparam, lparam, hwnd);
