@@ -283,11 +283,11 @@ vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/viewport.h vic.h vic-mem.h vic20mem.h vic20sound.h
 vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/fullscreen.h ../../src/lib.h \
-	../../src/raster/raster-resources.h ../../src/resources.h \
-	vic-resources.h vic.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	../../src/viewport.h ../../src/video.h
+	../../src/fullscreen.h ../../src/raster/raster-resources.h \
+	../../src/resources.h vic-resources.h vic.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h ../../src/viewport.h \
+	../../src/video.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/snapshot.h \

@@ -1,3 +1,42 @@
+2003-04-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.32.
+
+	* interrupt.c, interrupt.h, maincpu.c, maincpu.h, dma.c,
+	drive/drivecpu.c, vicii/vicii-snapshot.c, c64/c64cia1.c,
+	c64/c64cia2.c, c64/reu.c, c64/cart/expert.c, c128/c128cia1.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petpia1.c, pet/petpia2.c,
+	pet/petvia.c, plus4/ted-snapshot.c, cbm2/cbm2tpi1.c, main.c:
+	`maincpu_int_status' is a pointer now.
+
+	* keyboard.c (keyboard_key_shift): New function.
+
+	* fsdevice/fsdevice-resources.c: #include "lib.h".
+
+	* log.c, log.h (log_resources_shutdown): New function.
+
+	* sysfile.c, sysfile.h (sysfile_resources_shutdown): New
+	function.
+
+	* c64/cart/c64cart.c (cartridge_resources_shutdown): Free
+	IDE64 file name.
+
+	* gfxoutputdrv/gfxoutput.c, gfxoutput.h (gfxoutput_shutdown):
+	New function.
+
+	* tape/tape.c, tape.h (tape_init):
+
+	* event.c, event.h (event_resources_shutdown):
+
+	* uiapi.h, arch/unix/x11/ui-resources.c, arch/win32/ui.c,
+	arch/msdos/ui.c, arch/riscos/ui.c, arch/os2/ui.c,
+	arch/beos/ui.cc (ui_resources_shutdown): New function.
+
+	* vicii/vicii-resources.c, crtc/crtc-resources.c,
+	vdc/vdc-resources.c, vic20/vic-resources.c,
+	plus4/ted-resources.c: Use static resource struct.
+
 2003-04-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.31.

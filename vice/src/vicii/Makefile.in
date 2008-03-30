@@ -310,12 +310,11 @@ vicii-phi1.o: vicii-phi1.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/fullscreen.h ../../src/lib.h \
-	../../src/raster/raster-resources.h ../../src/resources.h \
-	vicii-color.h vicii-resources.h viciitypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
-	../../src/video.h
+	../../src/fullscreen.h ../../src/raster/raster-resources.h \
+	../../src/resources.h vicii-color.h vicii-resources.h \
+	viciitypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h ../../src/video.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/log.h ../../src/mem.h \

@@ -282,8 +282,8 @@ fsdevice-read.o: fsdevice-read.c ../../src/arch/unix/types.h \
 	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice-resources.o: fsdevice-resources.c ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/archdep.h \
-	../../src/archapi.h ../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h
+	../../src/archapi.h ../../src/lib.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/unix/types.h
 fsdevice-write.o: fsdevice-write.c ../../src/vice.h ../../src/config.h \
 	fsdevice-flush.h fsdevice-write.h ../../src/arch/unix/types.h \
 	fsdevicetypes.h ../../src/vdrive/vdrive-command.h \

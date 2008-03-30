@@ -356,8 +356,9 @@ renderxv.o: renderxv.c ../../../../src/vice.h ../../../../src/config.h
 ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/cmdline.h
 ui-resources.o: ui-resources.c ../../../../src/vice.h \
-	../../../../src/config.h ../../../../src/resources.h \
-	../../../../src/utils.h ../../../../src/arch/unix/types.h
+	../../../../src/config.h ../../../../src/lib.h \
+	../../../../src/resources.h ../../../../src/utils.h \
+	../../../../src/arch/unix/types.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/lib.h ../../../../src/arch/unix/uihotkey.h \
 	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
