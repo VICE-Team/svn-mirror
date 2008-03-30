@@ -32,8 +32,10 @@
 #ifdef USE_COLOR_MANAGEMENT
 #include "log.h"
 #include "palette.h"
+#include "types.h"
 #include "uicolor.h"
 #include "utils.h"
+
 
 struct color_rgb_s {
     unsigned int red;

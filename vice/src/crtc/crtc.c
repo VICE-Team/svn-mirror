@@ -498,7 +498,7 @@ int crtc_load_palette (const char *name)
     };
     palette_t *palette;
 
-    palette = palette_create (CRTC_NUM_COLORS, color_names);
+    palette = palette_create(CRTC_NUM_COLORS, color_names);
     if (palette == NULL)
         return -1;
 

@@ -59,7 +59,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "palette.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
@@ -96,7 +95,7 @@ void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset)
     vic_ii.vaddr_mask_phi1 = mask;
     vic_ii.vaddr_offset_phi1 = offset;
 
-    VIC_II_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x\n",
+    VIC_II_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x",
                           mask, offset));
     vic_ii_update_memory_ptrs_external();
 }
@@ -106,7 +105,7 @@ void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset)
     vic_ii.vaddr_mask_phi2 = mask;
     vic_ii.vaddr_offset_phi2 = offset;
 
-    VIC_II_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x\n",
+    VIC_II_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x",
                           mask, offset));
     vic_ii_update_memory_ptrs_external();
 }
@@ -116,7 +115,7 @@ void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value)
     vic_ii.vaddr_chargen_mask_phi1 = mask;
     vic_ii.vaddr_chargen_value_phi1 = value;
 
-    VIC_II_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x\n",
+    VIC_II_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x",
                           mask, value));
     vic_ii_update_memory_ptrs_external();
 }
@@ -126,7 +125,7 @@ void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
     vic_ii.vaddr_chargen_mask_phi2 = mask;
     vic_ii.vaddr_chargen_value_phi2 = value;
 
-    VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x\n",
+    VIC_II_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x",
                           mask, value));
     vic_ii_update_memory_ptrs_external();
 }
@@ -634,19 +633,16 @@ void vic_ii_set_raster_irq(unsigned int line)
                                      * vic_ii.cycles_per_line);
         alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     } else {
-        VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
-                            "raster compare out of range ($%04X)!\n",
-                            line));
+        VIC_II_DEBUG_RASTER(("update_raster_irq(): "
+                            "raster compare out of range ($%04X)!", line));
         alarm_unset(vic_ii.raster_irq_alarm);
     }
 
-    VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
+    VIC_II_DEBUG_RASTER(("update_raster_irq(): "
                         "vic_ii.raster_irq_clk = %ul, "
                         "line = $%04X, "
-                        "vic_ii.regs[0x1a] & 1 = %d\n",
-                        vic_ii.raster_irq_clk,
-                        line,
-                        vic_ii.regs[0x1a] & 1));
+                        "vic_ii.regs[0x1a] & 1 = %d",
+                        vic_ii.raster_irq_clk, line, vic_ii.regs[0x1a] & 1));
 
     vic_ii.raster_irq_line = line;
 }
@@ -705,10 +701,10 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
     if ((screen_addr & vic_ii.vaddr_chargen_mask_phi2)
         != vic_ii.vaddr_chargen_value_phi2) {
         vic_ii.screen_base = vic_ii.ram_base_phi2 + screen_addr;
-        VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
+        VIC_II_DEBUG_REGISTER(("Video memory at $%04X", screen_addr));
     } else {
         vic_ii.screen_base = mem_chargen_rom_ptr + (screen_addr & 0x800);
-        VIC_II_DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
+        VIC_II_DEBUG_REGISTER(("Video memory at Character ROM + $%04X",
                               screen_addr & 0x800));
     }
 
@@ -718,22 +714,23 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
     tmp |= vic_ii.vaddr_offset_phi1;
     bitmap_base = vic_ii.ram_base_phi1 + (tmp & 0xe000);
 
-    VIC_II_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", tmp & 0xe000));
+    VIC_II_DEBUG_REGISTER(("Bitmap memory at $%04X", tmp & 0xe000));
 
-    if ((tmp & vic_ii.vaddr_chargen_mask_phi1)
-        != vic_ii.vaddr_chargen_value_phi1) {
-        char_base = vic_ii.ram_base_phi1 + tmp;
-        VIC_II_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
-    } else {
-        char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
-        VIC_II_DEBUG_REGISTER(("\tStandard %s character set enabled\n",
-                               tmp & 0x800 ? "Lower Case" : "Upper Case"));
-    }
-
-    if (cart_ultimax_phi1 != 0)
+    if (cart_ultimax_phi1 != 0) {
         char_base = ((tmp & 0x3fff) >= 0x3000
                     ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
                     : vic_ii.ram_base_phi1 + tmp);
+    } else {
+        if ((tmp & vic_ii.vaddr_chargen_mask_phi1)
+            != vic_ii.vaddr_chargen_value_phi1) {
+            char_base = vic_ii.ram_base_phi1 + tmp;
+            VIC_II_DEBUG_REGISTER(("User-defined charset at $%04X", tmp));
+        } else {
+            char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
+            VIC_II_DEBUG_REGISTER(("Standard %s charset enabled",
+                                  tmp & 0x800 ? "Lower Case" : "Upper Case"));
+        }
+    }
 
     tmp = VIC_II_RASTER_CHAR(cycle);
 
@@ -970,7 +967,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
         VIC_II_DEBUG_VMODE(("???"));
     }
 
-    VIC_II_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.",
+    VIC_II_DEBUG_VMODE(("Mode enabled at line $%04X, cycle %d.",
                         VIC_II_RASTER_Y(maincpu_clk), cycle));
 #endif
 }
@@ -1090,10 +1087,11 @@ void vic_ii_raster_irq_alarm_handler(CLOCK offset)
     if (vic_ii.regs[0x1a] & 0x1) {
         maincpu_set_irq_clk(I_RASTER, 1, vic_ii.raster_irq_clk);
         vic_ii.irq_status |= 0x80;
-        VIC_II_DEBUG_RASTER(("VIC: *** IRQ requested at line $%04X, "
-                            "vic_ii.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
-                            VIC_II_RASTER_Y(clk), vic_ii.raster_irq_line,
-                            offset, VIC_II_RASTER_CYCLE(clk)));
+        VIC_II_DEBUG_RASTER(("*** IRQ requested at line $%04X, "
+                            "raster_irq_line = $%04X, off = %ld, cycle = %d.",
+                            VIC_II_RASTER_Y(maincpu_clk),
+                            vic_ii.raster_irq_line,
+                            (long)offset, VIC_II_RASTER_CYCLE(maincpu_clk)));
     }
 
     vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
