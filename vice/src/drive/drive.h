@@ -68,7 +68,7 @@
 #define	DRIVE_ROM4040_SIZE   0x3000
 #define DRIVE_ROM_SIZE       0x8000
 #define DRIVE_RAM_SIZE       0x2000
-#define DRIVE_ROM1541_CHECKSUM	1976666
+#define DRIVE_ROM1541_CHECKSUM	1988651
 
 /* Sync factors.  */
 #define DRIVE_SYNC_PAL     -1
