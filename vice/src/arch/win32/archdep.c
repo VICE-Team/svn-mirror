@@ -34,6 +34,7 @@
 #include <string.h>
 #include <windows.h>
 #include <tlhelp32.h>
+#include <tchar.h>
 
 #include "ui.h"
 
@@ -72,6 +73,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "system.h"
 #include "util.h"
 
 
@@ -166,51 +168,54 @@ _EnumProcessModules         func_EnumProcessModules = NULL;
 _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
 
     if (boot_path == NULL) {
-        hkernel = LoadLibrary("kernel32.dll");
+        hkernel = LoadLibrary(TEXT("kernel32.dll"));
         if (hkernel) {
-            OutputDebugString("DLL: kernel32.dll loaded");
-            OutputDebugString("DLL: getting address for CreateToolhelp32Snapshot");
+            OutputDebugString(TEXT("DLL: kernel32.dll loaded"));
+            OutputDebugString(TEXT("DLL: getting address for CreateToolhelp32Snapshot"));
             func_CreateToolhelp32Snapshot
                 = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel,
-                  "CreateToolhelp32Snapshot");
+                  TEXT("CreateToolhelp32Snapshot"));
             if (func_CreateToolhelp32Snapshot)
-                OutputDebugString("CreateToolhelp32Snaphshot success");
-            OutputDebugString("DLL: getting address for Module32First");
+                OutputDebugString(TEXT("CreateToolhelp32Snaphshot success"));
+            OutputDebugString(TEXT("DLL: getting address for Module32First"));
             func_Module32First = (_Module32First)GetProcAddress(hkernel,
-                                 "Module32First");
+                                 TEXT("Module32First"));
             if (func_Module32First)
-                OutputDebugString("Module32First success");
+                OutputDebugString(TEXT("Module32First success"));
         }
-        hpsapi = LoadLibrary("psapi.dll");
+        hpsapi = LoadLibrary(TEXT("psapi.dll"));
         if (hpsapi) {
-            OutputDebugString("DLL: psapi.dll loaded");
-            OutputDebugString("DLL: getting address for EnumProcessModules");
+            OutputDebugString(TEXT("DLL: psapi.dll loaded"));
+            OutputDebugString(TEXT("DLL: getting address for EnumProcessModules"));
             func_EnumProcessModules
                 = (_EnumProcessModules)GetProcAddress(hpsapi,
-                  "EnumProcessModules");
+                  TEXT("EnumProcessModules"));
             if (func_EnumProcessModules)
-                OutputDebugString("EnumProcessModules success");
-            OutputDebugString("DLL: getting address for GetModuleFileNameEx");
+                OutputDebugString(TEXT("EnumProcessModules success"));
+            OutputDebugString(TEXT("DLL: getting address for GetModuleFileNameEx"));
             func_GetModuleFileNameEx
                 = (_GetModuleFileNameEx)GetProcAddress(hpsapi,
-                  "GetModuleFileNameExA");
+                  TEXT("GetModuleFileNameExA"));
             if (func_GetModuleFileNameEx)
-                OutputDebugString("GetModuleFileNameEx success");
+                OutputDebugString(TEXT("GetModuleFileNameEx success"));
         }
         if (func_EnumProcessModules) {
-            OutputDebugString("BOOT path NT method");
+            OutputDebugString(TEXT("BOOT path NT method"));
             hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
                                 FALSE, GetCurrentProcessId());
             if (func_EnumProcessModules(hproc, &hmodule, sizeof(hmodule),
                 (LPDWORD)&cbneed)) {
+                TCHAR st_temp[MAX_PATH];
                 char temp[MAX_PATH];
-                if (func_GetModuleFileNameEx(hproc, hmodule, temp, MAX_PATH)) {
+                if (func_GetModuleFileNameEx(hproc, hmodule, st_temp,
+                    MAX_PATH)) {
+                    system_wcstombs(temp, st_temp, MAX_PATH);
                     util_fname_split(temp, &boot_path, NULL);
                 }
             }
             CloseHandle(hproc);
         } else {
-            OutputDebugString("BOOT path Win9x method");
+            OutputDebugString(TEXT("BOOT path Win9x method"));
             snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,
                                                  GetCurrentProcessId());
             memset(&ment, 0, sizeof(MODULEENTRY32));
@@ -219,7 +224,7 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
             util_fname_split(ment.szExePath, &boot_path, NULL);
             CloseHandle(snap);
         }
-        OutputDebugString("boot path:");
+        OutputDebugString(TEXT("boot path:"));
         OutputDebugString(boot_path);
 
         /* This should not happen, but you never know...  */
@@ -304,8 +309,12 @@ int archdep_num_text_columns(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
+    TCHAR *st_out;
+
     char *out = lib_msprintf("*** %s %s\n", level_string, txt);
-    OutputDebugString(out);
+    st_out = system_mbstowcs_alloc(out);
+    OutputDebugString(st_out);
+    system_mbstowcs_free(st_out);
     lib_free(out);
     return 0;
 }
@@ -319,7 +328,7 @@ static RETSIGTYPE break64(int sig)
     log_message(LOG_DEFAULT, "Received signal %d.", sig);
 #endif
 
-    exit (-1);
+    exit(-1);
 }
 
 void archdep_setup_signals(int do_core_dumps)
