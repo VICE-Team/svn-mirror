@@ -1,3 +1,34 @@
+2001-12-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.46.
+
+	* sid/sid-cmdline-options.c: New command line switch to set
+	the base address for 2nd SID.
+
+	* sid/sid-resources.c, sid/sid-resources.h
+	(set_sid_stereo_address): New function.
+
+	* machine.h, c64/c64.c, c128/c128.c, cbm2/c610.c
+	(machine_sid2_check_range): New function.
+
+	* sid/sid.c (sid_read, sid_store): Call 2nd SID if enabled.
+
+	* c64/c64io.c, c128/c128io.c (io1_read, io1_store, io2_read,
+	io2_store): Base address support for 2nd SID.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/c610ui.c:
+	Added second SID base address menu entries.
+
+	* diskimage.c (disk_image_open): Warn if unknown disk image is
+	opened.
+
+	* attach.c (attach_disk_image): Removed warning.
+
+	* ciacore.c (check_ciatodalarm): Check for running TOD clock.
+
+	* autostart.c (autostart_advance, check): New state
+	`AUTOSTART_PRESSPLAYONTAPE'.
+
 2001-12-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.45.
