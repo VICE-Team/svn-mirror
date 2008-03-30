@@ -115,6 +115,13 @@ static void end_reu_dialog(HWND hwnd)
     resources_set_value("REUfilename", (resource_value_t)s);
 }
 
+static void browse_reu_file(HWND hwnd)
+{
+    uilib_select_browse(hwnd, TEXT("Select file for REU"),
+                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
+                        IDC_REU_FILE);
+}
+
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                  LPARAM lparam)
 {
@@ -125,9 +132,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_REU_BROWSE:
-            uilib_select_browse(hwnd, TEXT("Select File for REU"),
-                                UILIB_FILTER_ALL,
-                                UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_REU_FILE);
+            browse_reu_file(hwnd);
             break;
           case IDC_REU_ENABLE:
             enable_reu_controls(hwnd);
