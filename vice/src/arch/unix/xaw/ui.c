@@ -1210,8 +1210,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     bbox = XtVaCreateManagedWidget
 	("buttonBox", boxWidgetClass, jam_dialog,
-	 XtNshowGrip, False, XtNskipAdjust, XtNorientation,
-	 XtorientHorizontal, NULL);
+	 XtNshowGrip, False, XtNskipAdjust, True,
+         XtNorientation, XtorientHorizontal, NULL);
 
     tmp = XtVaCreateManagedWidget
 	("resetButton", commandWidgetClass, bbox, NULL);
@@ -1556,8 +1556,8 @@ static Widget build_error_dialog(Widget parent, ui_button_t * button_return,
 	 NULL);
     tmp = XtVaCreateManagedWidget
 	("buttonBox", boxWidgetClass, ErrorDialog,
-	 XtNshowGrip, False, XtNskipAdjust, XtNorientation,
-	 XtorientHorizontal, NULL);
+	 XtNshowGrip, False, XtNskipAdjust, True,
+         XtNorientation, XtorientHorizontal, NULL);
     tmp = XtVaCreateManagedWidget
 	("closeButton", commandWidgetClass, tmp, NULL);
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
