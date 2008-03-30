@@ -60,6 +60,7 @@
 #include "parallel.h"
 #include "printer.h"
 #include "realdevice.h"
+#include "serial-trap.h"
 #include "serial.h"
 #include "traps.h"
 #include "types.h"
@@ -67,22 +68,11 @@
 #include "vdrive.h"
 
 
-/* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
-   the PET.  (FIXME?)  */
-#define BSOUR 0x95 /* Buffered Character for IEEE Bus */
-
-/* Address of serial TMP register.  */
-static ADDRESS tmp_in;
-
 /* Initialized serial devices.  */
 static serial_t serialdevices[SERIAL_MAXDEVICES];
 
 extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 extern int SerialPtr;
-
-/* On which channel did listen happen to?  */
-static BYTE TrapDevice;
-static BYTE TrapSecondary;
 
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
@@ -98,10 +88,10 @@ static log_t serial_log = LOG_ERR;
 /* This is just a kludge for the autostart code (see `autostart.c').  */
 
 /* Function to call when EOF happens in `serialreceivebyte()'.  */
-static void (*eof_callback_func)(void);
+void (*eof_callback_func)(void);
 
 /* Function to call when the `serialattention()' trap is called.  */
-static void (*attention_callback_func)(void);
+void (*attention_callback_func)(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -116,104 +106,9 @@ void serial_set_st(BYTE st)
     mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | st));
 }
 
-static BYTE serial_get_st(void)
+BYTE serial_get_st(void)
 {
     return mem_read((ADDRESS)0x90);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
-   Secondary Address to Serial Bus under Attention.  */
-void serial_trap_attention(void)
-{
-    BYTE b;
-
-    /*
-     * Which Secondary Address ?
-     */
-    b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
-
-    /* do a flush if unlisten for close and command channel */
-    if (b == 0x3f) {
-        iec_unlisten(TrapDevice, TrapSecondary);
-    } else if (b == 0x5f) {
-        iec_untalk(TrapDevice, TrapSecondary);
-    } else {
-        switch (b & 0xf0) {
-          case 0x20:
-          case 0x40:
-            TrapDevice = b;
-            break;
-          case 0x60:
-            TrapSecondary = b;
-            iec_listentalk(TrapDevice, TrapSecondary);
-            break;
-          case 0xe0:
-            TrapSecondary = b;
-            iec_close(TrapDevice, TrapSecondary);
-            break;
-          case 0xf0:
-            TrapSecondary = b;
-            iec_open(TrapDevice, TrapSecondary);
-            break;
-        }
-    }
-
-    if (!(serialdevices[TrapDevice & 0x0f].inuse))
-        serial_set_st(0x80);
-
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
-
-    if (attention_callback_func)
-        attention_callback_func();
-}
-
-/* Send one byte on the serial bus.  */
-void serial_trap_send(void)
-{
-    BYTE data;
-
-    data = mem_read(BSOUR); /* BSOUR - character for serial bus */
-
-    iec_write(TrapDevice, TrapSecondary, data);
-
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
-}
-
-/* Receive one byte from the serial bus.  */
-void serial_trap_receive(void)
-{
-    BYTE data;
-
-    data = iec_read(TrapDevice, TrapSecondary);
-
-    mem_store(tmp_in, data);
-
-    /* If at EOF, call specified callback function.  */
-    if ((serial_get_st() & 0x40) && eof_callback_func != NULL)
-        eof_callback_func();
-
-    /* Set registers like the Kernal routine does.  */
-    MOS6510_REGS_SET_A(&maincpu_regs, data);
-    MOS6510_REGS_SET_SIGN(&maincpu_regs, (data & 0x80) ? 1 : 0);
-    MOS6510_REGS_SET_ZERO(&maincpu_regs, data ? 0 : 1);
-    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
-}
-
-
-/* Kernal loops serial-port (0xdd00) to see when serial is ready: fake it.
-   EEA9 Get serial data and clk in (TKSA subroutine).  */
-
-void serial_trap_ready(void)
-{
-    MOS6510_REGS_SET_A(&maincpu_regs, 1);
-    MOS6510_REGS_SET_SIGN(&maincpu_regs, 0);
-    MOS6510_REGS_SET_ZERO(&maincpu_regs, 0);
-    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -227,8 +122,8 @@ static int parallelcommand(void)
     int i, st = 0;
     void *vdrive;
 
-    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable)
-        || ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+    if (((TrapDevice & 0x0f) == 8 && drive[0].enable)
+        || ((TrapDevice & 0x0f) == 9 && drive[1].enable)) {
         return 0x83;    /* device not present */
     }
 
@@ -447,7 +342,7 @@ int serial_init(const trap_t *trap_list, ADDRESS tmpin)
     serial_log = log_open("Serial");
     iec_init();
 
-    tmp_in = tmpin;
+    serial_trap_init(tmpin);
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();
