@@ -1,4 +1,24 @@
-1999-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-03-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.38.
+
+	* datasette.c (datasette_read_bit): Call
+	`alarm_context_update_next_pending' to get the alarm unscheduled.
+	Added support for `FORWARD' and `REWIND'.
+	(datasette_set_motor): Only trigger alarms at edges.
+	(datasette_forward, datasette_rewind): New functions.
+
+	* c64/c64mem.c (pla_config_changed): Fixed motor control bit.
+
+	* tape.c (tape_detach_image, tape_attach_image): Switch tape traps
+	off when a TAP image is attached.
+
+	* tap.h: Added new members `mode' and `size' to `tap_t'.
+
+	* tap.c (tap_open): Stop the datasette when a new tape is
+	attached and set the file size.
+
+1999-03-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.37.
 

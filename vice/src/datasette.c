@@ -35,42 +35,64 @@
 #include "mem.h"
 
 /* Attached TAP tape image.  */
-tap_t *current_image = NULL;
+static tap_t *current_image = NULL;
 
-int datasette_play = 0;
-
-int datasette_motor = 0;
+static int datasette_motor = 0;
 
 static alarm_t datasette_alarm;
 
-static cnt = 0;
-
 int datasette_read_bit(long offset)
 {
---cnt;
-printf("CNT1: %i\tCLK: %i\tNUM: %i\tPEN: %i\n",cnt, clk,datasette_alarm.context->num_pending_alarms,datasette_alarm.pending_idx);
     alarm_unset(&datasette_alarm);
+    alarm_context_update_next_pending(datasette_alarm.context);
 
-    if (current_image != NULL && datasette_motor)
-    {
-        BYTE comp_gap;
-        CLOCK gap;
+    if (current_image == NULL)
+        return 0;
+    /*printf("seek: %i\n",current_image->current_file_seek_position);*/
+    switch (current_image->mode) {
+      case DATASETTE_CONTROL_START:
+        if (datasette_motor)
+        {
+            BYTE comp_gap;
+            CLOCK gap;
 
-        datasette_trigger_flux_change();
+            datasette_trigger_flux_change();
 
-        if (fread(&comp_gap, 1, 1, current_image->fd) < 1)
-            return 0;
+            if (fread(&comp_gap, 1, 1, current_image->fd) < 1) {
+                current_image->mode = DATASETTE_CONTROL_STOP;
+                return 0;
+            }
 
-        gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)256) * 8 - offset;
-
-        if (gap > 0) {
-++cnt;
-printf("CNT2: %i\tCLK: %i\tNEXT: %i\n",cnt, clk, clk + gap);
-            alarm_set(&datasette_alarm, clk + gap);
-            return 0;
+            current_image->current_file_seek_position++;
+  
+            gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)256) * 8 - offset;
+  
+            if (gap > 0) {
+                alarm_set(&datasette_alarm, clk + gap);
+                return 0;
+            }
         }
+        break;
+      case DATASETTE_CONTROL_FORWARD:
+        if (current_image->current_file_seek_position
+            >= (current_image->size - 20)) {
+            current_image->current_file_seek_position = current_image->size;
+            current_image->mode = DATASETTE_CONTROL_STOP;
+        } else {
+            current_image->current_file_seek_position += 20;
+            alarm_set(&datasette_alarm, clk + 10000);
+        }
+        break;
+      case DATASETTE_CONTROL_REWIND:
+        if (current_image->current_file_seek_position <= 20) {
+            current_image->current_file_seek_position = 0;
+            current_image->mode = DATASETTE_CONTROL_STOP;
+        } else {
+            current_image->current_file_seek_position -= 20;
+            alarm_set(&datasette_alarm, clk + 10000);
+        }
+        break;
     }
-/*    alarm_unset(&datasette_alarm);*/
     return 0;
 }
 
@@ -85,41 +107,75 @@ void datasette_set_tape_image(tap_t *image)
     current_image = image;
 }
 
+void datasette_forward(void)
+{
+    if (current_image->mode == DATASETTE_CONTROL_START
+       || current_image->mode == DATASETTE_CONTROL_REWIND)
+    {
+        alarm_unset(&datasette_alarm);
+        alarm_context_update_next_pending(datasette_alarm.context);
+    }
+    alarm_set(&datasette_alarm, clk + 1000);
+}
+
+void datasette_rewind(void)
+{
+    if (current_image->mode == DATASETTE_CONTROL_START 
+       || current_image->mode == DATASETTE_CONTROL_FORWARD)
+    {
+        alarm_unset(&datasette_alarm);
+        alarm_context_update_next_pending(datasette_alarm.context);
+    }
+    alarm_set(&datasette_alarm, clk + 1000);
+}
+
 void datasette_control(int command)
 {
-    switch(command) {
-      case DATASETTE_CONTROL_STOP:
-        datasette_play = 0;
-        mem_set_tape_sense(0);
-        break;
-      case DATASETTE_CONTROL_START:
-        datasette_play = 1;
-        mem_set_tape_sense(1);
-        break;
-      case DATASETTE_CONTROL_FORWARD:
-        datasette_play = 0;
-        mem_set_tape_sense(0);
-        break;
-      case DATASETTE_CONTROL_REWIND:
-        datasette_play = 0;
-        mem_set_tape_sense(0);
-        break;
-      case DATASETTE_CONTROL_RECORD:
-        break;
-      case DATASETTE_CONTROL_RESET:
-        break;
+    if (current_image != NULL) {
+        switch(command) {
+          case DATASETTE_CONTROL_STOP:
+            current_image->mode = DATASETTE_CONTROL_STOP;
+            mem_set_tape_sense(0);
+            break;
+          case DATASETTE_CONTROL_START:
+            current_image->mode = DATASETTE_CONTROL_START;
+            mem_set_tape_sense(1);
+            break;
+          case DATASETTE_CONTROL_FORWARD:
+            current_image->mode = DATASETTE_CONTROL_FORWARD;
+            datasette_forward();
+            mem_set_tape_sense(0);
+            break;
+          case DATASETTE_CONTROL_REWIND:
+            current_image->mode = DATASETTE_CONTROL_REWIND;
+            datasette_rewind();
+            mem_set_tape_sense(0);
+            break;
+          case DATASETTE_CONTROL_RECORD:
+            break;
+          case DATASETTE_CONTROL_RESET:
+            break;
+        }
     }
 }
 
 void datasette_set_motor(int flag)
 {
-    /*printf("Motor %x\n", flag); */
-    datasette_motor = flag;
-    if (current_image != NULL  && flag)
-    {
-++cnt;
-printf("CNT3: %i\tCLK: %i\tNEXT: %i\n",cnt, clk, clk + 1000);
-        alarm_set(&datasette_alarm, clk + 1000);
+    if (current_image != NULL
+        && current_image->mode != DATASETTE_CONTROL_REWIND
+        && current_image->mode != DATASETTE_CONTROL_FORWARD) {
+        if (flag && !datasette_motor)
+        {
+            fseek(current_image->fd, current_image->current_file_seek_position,
+                  SEEK_SET);
+            alarm_set(&datasette_alarm, clk + 1000);
+        }
+        if (!flag && datasette_motor)
+        {
+            alarm_unset(&datasette_alarm);
+            alarm_context_update_next_pending(datasette_alarm.context);
+        }
     }
+    datasette_motor = flag;
 }
 
