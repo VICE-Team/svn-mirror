@@ -29,6 +29,19 @@
 
 struct raster_s;
 
+/* A simple convenience type for defining a rectangular area on the screen.  */
+struct raster_canvas_area_s {
+    unsigned int xs;
+    unsigned int ys;
+    unsigned int xe;
+    unsigned int ye;
+    int is_null;
+};
+typedef struct raster_canvas_area_s raster_canvas_area_t;
+
+extern void raster_canvas_init(struct raster_s *raster);
+extern void raster_canvas_shutdown(struct raster_s *raster);
+
 extern void raster_canvas_handle_end_of_frame(struct raster_s *raster);
 extern void raster_canvas_update_all(struct raster_s *raster);
 

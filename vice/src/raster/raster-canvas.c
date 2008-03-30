@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "raster-canvas.h"
 #include "raster.h"
@@ -38,12 +39,12 @@
 
 inline static void refresh_canvas(raster_t *raster)
 {
-    raster_area_t *update_area;
+    raster_canvas_area_t *update_area;
     viewport_t *viewport;
     int x, y, xx, yy;
     int w, h;
 
-    update_area = &raster->update_area;
+    update_area = raster->update_area;
     viewport = raster->canvas->viewport;
 
     if (update_area->is_null)
@@ -104,5 +105,18 @@ void raster_canvas_handle_end_of_frame(raster_t *raster)
         video_canvas_refresh_all(raster->canvas);
     else
         refresh_canvas(raster);
+}
+
+void raster_canvas_init(raster_t *raster)
+{
+    raster->update_area = (raster_canvas_area_t *)lib_malloc(
+                          sizeof(raster_canvas_area_t));
+
+    raster->update_area->is_null = 1;
+}
+
+void raster_canvas_shutdown(raster_t *raster)
+{
+   lib_free(raster->update_area);
 }
 
