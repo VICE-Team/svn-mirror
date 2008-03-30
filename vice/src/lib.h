@@ -27,13 +27,19 @@
 #ifndef _LIB_H
 #define _LIB_H
 
+#include <stdarg.h>
 #include <stdio.h>
 
 extern void *lib_malloc(size_t size);
 extern void *lib_calloc(size_t nmemb, size_t size);
 extern void *lib_realloc(void *p, size_t size);
+extern void lib_free(void *ptr);
 
 extern char *lib_stralloc(const char *str);
+extern char *lib_msprintf(const char *fmt, ...);
+extern char *lib_mvsprintf(const char *fmt, va_list args);
+
+extern void lib_debug_check(void);
 
 #endif
 
