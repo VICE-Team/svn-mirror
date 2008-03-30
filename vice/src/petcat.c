@@ -184,6 +184,32 @@ const char *slot_type[] =
 
 static const unsigned char MagicHeaderP00[8] = "C64File\0";
 
+ /*
+  * Printer's control code symbols
+  */
+
+static const char *ctrl1[] = {
+    "",  "", "", "", "", "wht", "", "",
+    "dish", "ensh", "\n", "", "\f", "\n", "swlc", "",
+    "",  "down", "rvon", "home", "del", "", "", "",
+    "",  "",  "", "esc", "red", "rght", "grn", "blu"
+};
+
+static const char *ctrl2[] = {
+    "", "orng",  "",  "",  "",  "F1",  "F3",  "F5",
+    "F7",  "F2", "F4",   "F6",   "F8",  "sret", "swuc", "",
+    "blk",  "up", "rvof", "clr",  "inst", "brn",  "lred", "gry1",
+    "gry2", "lgrn", "lblu", "gry3", "pur", "left", "yel", "cyn"
+};
+
+
+static const char *cbmkeys[] = {
+    "SHIFT-SPACE", "CBM-K", "CBM-I", "CBM-T", "CBM-@", "CBM-G", "CBM-+",
+    "CBM-M", "CBM-POUND",
+    "SHIFT-POUND", "CBM-N", "CBM-Q", "CBM-D", "CBM-Z", "CBM-S", "CBM-P",
+    "CBM-A", "CBM-E", "CBM-R", "CBM-W", "CBM-H", "CBM-J", "CBM-L", "CBM-Y",
+    "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
+};
 
 #define NUM_VERSIONS  12
 
