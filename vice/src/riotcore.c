@@ -303,7 +303,7 @@ BYTE REGPARM1 read_myriot_(ADDRESS addr)
 	     alarm_unset(&riot_alarm);
 	}
 
-	riot_last_read = ti_N - (rclk - ti_write_clk) / ti_divider;
+	riot_last_read = (BYTE)(ti_N - (rclk - ti_write_clk) / ti_divider);
 	return riot_last_read;
     } else 
     if ((addr & 0x05) == 0x05) {	/* read irq flag */
@@ -383,9 +383,10 @@ int myriot_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, edgectrl);
     snapshot_module_write_byte(m, irqfl | (irqline ? 1 : 0));
 
-    snapshot_module_write_byte(m, ti_N - (myclk - ti_write_clk) / ti_divider);
+    snapshot_module_write_byte(m, (BYTE)(ti_N - (myclk - ti_write_clk)
+                               / ti_divider));
     snapshot_module_write_word(m, ti_divider);
-    snapshot_module_write_word(m, (myclk - ti_write_clk) % ti_divider);
+    snapshot_module_write_word(m, (BYTE)((myclk - ti_write_clk) % ti_divider));
     snapshot_module_write_byte(m, ti_irqen ? 1 : 0);
 
     snapshot_module_close(m);

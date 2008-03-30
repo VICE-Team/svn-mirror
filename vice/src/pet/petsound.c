@@ -57,10 +57,10 @@ static WORD pet_makesample(double s, double e, BYTE sample)
 {
     double				v;
     int					sc, ec, sf, ef, i, nr;
-    sc = ceil(s);
-    sf = floor(s);
-    ec = ceil(e);
-    ef = floor(e);
+    sc = (int)ceil(s);
+    sf = (int)floor(s);
+    ec = (int)ceil(e);
+    ef = (int)floor(e);
     nr = 0;
     for (i = sc; i < ef; i++)
 	if (sample & (1 << (i%8)))
@@ -70,7 +70,7 @@ static WORD pet_makesample(double s, double e, BYTE sample)
 	v += sc - s;
     if (sample & (1 << (ef % 8)))
 	v += e - ef;
-    return v * 4095.0 / (e-s);
+    return ((WORD)(v * 4095.0 / (e-s)));
 }
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
@@ -133,8 +133,8 @@ void store_petsnd_onoff(int value)
 
 void store_petsnd_rate(CLOCK t)
 {
-    snddata[2] = t & 0xff;
-    snddata[3] = (t >> 8) & 0xff;
+    snddata[2] = (BYTE)(t & 0xff);
+    snddata[3] = (BYTE)((t >> 8) & 0xff);
     sound_store(2, snddata[2]);
     sound_store(3, snddata[3]);
 }

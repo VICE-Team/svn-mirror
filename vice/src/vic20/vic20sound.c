@@ -117,13 +117,14 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     psid->v[3].rv = NSEED;
     for (i = 0; i < NOISETABLESIZE; i++)
     {
-	noiseLSB[i] = (((i>>(7-2))&0x04)|((i>>(4-1))&0x02)|((i>>(2-0))&0x01));
-	noiseMID[i] = (((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
-	noiseMSB[i] = (((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
- 		       |((i<<(5-(16-16)))&0x20));
+	noiseLSB[i] = (BYTE)(((i>>(7-2))&0x04)|((i>>(4-1))&0x02)
+                      |((i>>(2-0))&0x01));
+	noiseMID[i] = (BYTE)(((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
+	noiseMSB[i] = (BYTE)(((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
+ 		      |((i<<(5-(16-16)))&0x20));
     }
     for (i = 0; i < 16; i++)
-	sound_machine_store(psid, i, siddata[i]);
+	sound_machine_store(psid, (ADDRESS)i, siddata[i]);
     return psid;
 }
 
