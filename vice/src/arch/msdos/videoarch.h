@@ -54,7 +54,7 @@ typedef struct video_frame_buffer_s /* a bitmap structure */
 
 typedef void (*canvas_redraw_t)();
 
-struct canvas_s {
+struct video_canvas_s {
     unsigned int width, height;
     RGB colors[NUM_AVAILABLE_COLORS];
     canvas_redraw_t exposure_handler;
@@ -70,7 +70,7 @@ struct canvas_s {
     /* Currently invisible page.  */
     int back_page;
 };
-typedef struct canvas_s canvas_t;
+typedef struct video_canvas_s video_canvas_t;
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) (c->use_triple_buffering)
 
@@ -121,10 +121,11 @@ extern int video_in_gfx_mode(void);
 
 /* ------------------------------------------------------------------------- */
 
-inline static void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
-				  unsigned int xs, unsigned int ys,
-                                  unsigned int xi, unsigned int yi,
-                                  unsigned int w, unsigned int h)
+inline static void video_canvas_refresh(video_canvas_t *c,
+                                        video_frame_buffer_t *f,
+                                        unsigned int xs, unsigned int ys,
+                                        unsigned int xi, unsigned int yi,
+                                        unsigned int w, unsigned int h)
 {
     int y_diff;
 
@@ -166,7 +167,7 @@ inline static void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
     }
 }
 
-inline static void canvas_set_border_color(canvas_t *canvas, BYTE color)
+inline static void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
 {
     inportb(0x3da);
     outportb(0x3c0, 0x31);
