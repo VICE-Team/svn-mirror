@@ -98,8 +98,11 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
 
 static int set_drive0_type(resource_value_t v, void *param)
 {
-    int type = (int)v;
-    int busses = iec_available_busses();
+    unsigned int type;
+    int busses;
+
+    type = (unsigned int)v;
+    busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
     if (!drive_match_bus(type, 0, busses)) {
@@ -162,8 +165,11 @@ static int set_drive0_type(resource_value_t v, void *param)
 
 static int set_drive1_type(resource_value_t v, void *param)
 {
-    int type = (int)v;
-    int busses = iec_available_busses();
+    unsigned int type;
+    int busses;
+
+    type = (unsigned int)v;
+    busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
     if (!drive_match_bus(type, 1, busses)) {
