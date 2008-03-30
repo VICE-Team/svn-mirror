@@ -247,26 +247,17 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
+	../../src/sound.h ../../src/arch/unix/types.h
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
-sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/sound.h \
-	../../src/arch/win32/types.h ../../src/warn.h \
-	../../src/arch/win32/ui.h ../../src/uiapi.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/palette.h \
-	../../src/utils.h
+	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
+	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
 soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
+	../../src/sound.h ../../src/arch/unix/types.h
 sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
+	../../src/log.h ../../src/sound.h ../../src/arch/unix/types.h
 soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
-	../../src/utils.h
+	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
 
 info-am:
 info: info-am

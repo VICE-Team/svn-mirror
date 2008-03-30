@@ -1,6 +1,6 @@
 /*
- * drivecpu.c - Template file of the 6502 processor in the Commodore 1541,
- * 1541-II, 1571, 1581, 2031 and 1001 floppy disk drive.
+ * drivecpu.c - 6502 processor emulation of the Commodore 1541, 1541-II,
+ *              1571, 1581, 2031 and 1001 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -35,12 +35,12 @@
 #include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivemem.h"
 #include "drivetypes.h"
 #include "fdc.h"
 #include "interrupt.h"
 #include "mem.h"
 #include "mon.h"
-#include "resources.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
@@ -59,8 +59,6 @@
 #if 0 && defined UNSTABLE && !defined TRACE
 #define TRACE
 #endif
-
-
 
 static void drive_jam(drive_context_t *drv);
 
@@ -149,7 +147,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
   }
 }
 
-
+/* ------------------------------------------------------------------------- */
 
 #define LOAD(a)		  (drv->cpud.read_func[(a) >> 8](drv, (ADDRESS)(a)))
 #define LOAD_ZERO(a)	  (drv->cpud.drive_ram[(a) & 0xff])
@@ -158,146 +156,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
 #define STORE(a, b)	  (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), (BYTE)(b)))
 #define STORE_ZERO(a, b)  (drv->cpud.drive_ram[(a) & 0xff] = (b))
 
-static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
-{
-    if (address & 0x80) {
-	return riot2_read(drv, address);
-    }
-    return riot1_read(drv, address);
-}
-
-static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
-                                         ADDRESS address, BYTE byte)
-{
-    if (address & 0x80) {
-	riot2_store(drv, address, byte);
-    } else {
-        riot1_store(drv, address, byte);
-    }
-}
-
-static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv,
-                                             ADDRESS address)
-{
-    return drv->cpud.drive_ram[address & 0xff];
-}
-
-static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv,
-                                              ADDRESS address, BYTE byte)
-{
-    drv->cpud.drive_ram[address & 0xff] = byte;
-}
-
-static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv,
-                                               ADDRESS address)
-{
-    return drv->cpud.drive_ram[(((address >> 2) & 0x1c00) 
-                               | (address & 0x03ff)) - 0x300];
-}
-
-static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv, ADDRESS address, BYTE byte)
-{
-    drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
-                        - 0x300] = byte;
-}
-
-static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, ADDRESS address)
-{
-    /* FIXME: This breaks the 1541 RAM mirror!  */
-    return drv->cpud.drive_ram[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram(drive_context_t *drv, ADDRESS address,
-                                     BYTE value)
-{
-    /* FIXME: This breaks the 1541 RAM mirror!  */
-    drv->cpud.drive_ram[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_rom(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->rom[address & 0x7fff];
-}
-
-static BYTE REGPARM2 drive_read_free(drive_context_t *drv, ADDRESS address)
-{
-    return address >> 8;
-}
-
-static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    return;
-}
-
-static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand2[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram2(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand2[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand4[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram4(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand4[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand6[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram6(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand6[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expand8[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_ram8(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expand8[address & 0x1fff] = value;
-}
-
-static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, ADDRESS address)
-{
-    return drv->drive_ptr->drive_ram_expanda[address & 0x1fff];
-}
-
-static void REGPARM3 drive_store_rama(drive_context_t *drv, ADDRESS address,
-                                      BYTE value)
-{
-    drv->drive_ptr->drive_ram_expanda[address & 0x1fff] = value;
-}
-
-/* This defines the watchpoint memory access for the drive CPU.  */
-
-static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, ADDRESS address)
-{
-    mon_watch_push_load_addr(address, drv->cpu.monspace);
-    return drv->cpud.read_func_nowatch[address>>8](drv,address);
-}
-
-static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address, BYTE value)
-{
-    mon_watch_push_store_addr(address, drv->cpu.monspace);
-    drv->cpud.store_func_nowatch[address>>8](drv,address, value);
-}
+#define pagezero (drv->cpud.drive_ram)
 
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
 /* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
@@ -311,7 +170,7 @@ static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address, BY
 	} else if (reg_pc < 0x2000) {                   \
             drv->cpu.d_bank_base = drv->cpud.drive_ram; \
             drv->cpu.d_bank_limit = 0x07fd;             \
-        } else if (reg_pc >= 0x8000) {                  \
+        } else if (reg_pc >= 0x8000 /*drv->drive_ptr->rom_start*/) {        \
             drv->cpu.d_bank_base = drv->drive_ptr->rom - 0x8000; \
             drv->cpu.d_bank_limit = 0xfffd;             \
         } else {                                        \
@@ -319,8 +178,6 @@ static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address, BY
             drv->cpu.d_bank_limit = -1;                 \
         }                                               \
     } while (0)
-
-#define pagezero	(drv->cpud.drive_ram)
 
 /* ------------------------------------------------------------------------- */
 
@@ -356,7 +213,6 @@ static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address, BY
 
 /* ------------------------------------------------------------------------- */
 
-
 void drive_cpu_set_sync_factor(drive_context_t *drv, unsigned int sync_factor)
 {
     unsigned long i;
@@ -380,7 +236,7 @@ void drive_cpu_set_sync_factor(drive_context_t *drv, unsigned int sync_factor)
 
 /* ------------------------------------------------------------------------- */
 
-static void reset(drive_context_t *drv)
+static void cpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;
 
@@ -403,128 +259,6 @@ static void reset(drive_context_t *drv)
     if (preserve_monitor)
 	monitor_trap_on(&(drv->cpu.int_status));
 }
-
-#ifdef _MSC_VER
-#pragma optimize("",off);
-#endif
-
-void drive_mem_init(drive_context_t *drv, int type)
-{
-    int i;
-
-    for (i = 0; i < 0x101; i++) {
-	drv->cpud.read_func_watch[i] = drive_read_watch;
-	drv->cpud.store_func_watch[i] = drive_store_watch;
-	drv->cpud.read_func_nowatch[i] = drive_read_free;
-	drv->cpud.store_func_nowatch[i] = drive_store_free;
-    }
-
-    /* FIXME: ROM mirrors! */
-    /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II ||
-        type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001 ||
-        type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250
-	)
-        for (i = 0xC0; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    if (type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
-        for (i = 0x80; i < 0x100; i++)
-            drv->cpud.read_func_nowatch[i] = drive_read_rom;
-
-    if ((type != DRIVE_TYPE_1001)
-	&& (type != DRIVE_TYPE_8050)
-	&& (type != DRIVE_TYPE_8250)) {
-
-	drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
-
-        /* Setup drive RAM.  */
-	for (i = 0x00; i < 0x08; i++) {
-            drv->cpud.read_func_nowatch[i] = drive_read_ram;
-            drv->cpud.store_func_nowatch[i] = drive_store_ram;
-	}
-        if (type == DRIVE_TYPE_1581)
-            for (i = 0x08; i < 0x20; i++) {
-                drv->cpud.read_func_nowatch[i] = drive_read_ram;
-                drv->cpud.store_func_nowatch[i] = drive_store_ram;
-            }
-    } else {
-	/* The 1001/8050/8250 have 256 byte at $00xx, mirrored at
-	   $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
-	   (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
-	   the gaps, x00-7f the first and x80-ff the second, at
-	   $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
-	   Then we have 4k of buffers, at $1000-13ff, 2000-23ff, 3000-33ff
-	   and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff,
-	   and $xc00-$xfff.
-
-	   Here we set zeropage, stack and buffer RAM as well as I/O */
-
-	drv->cpu.pageone = drv->cpud.drive_ram;
-
-	for (i = 0; i <= 0x10; i += 4) {
-	   drv->cpud.read_func_nowatch[i] = drive_read_1001zero_ram;
-	   drv->cpud.store_func_nowatch[i] = drive_store_1001zero_ram;
-	   drv->cpud.read_func_nowatch[i + 1] = drive_read_1001zero_ram;
-	   drv->cpud.store_func_nowatch[i + 1] = drive_store_1001zero_ram;
-	   drv->cpud.read_func_nowatch[i + 2] = drive_read_1001_io;
-	   drv->cpud.store_func_nowatch[i + 2] = drive_store_1001_io;
-	   drv->cpud.read_func_nowatch[i + 3] = drive_read_1001_io;
-	   drv->cpud.store_func_nowatch[i + 3] = drive_store_1001_io;
-	}
-	for (i = 0x10; i <= 0x50; i ++) {
-	   drv->cpud.read_func_nowatch[i] = drive_read_1001buffer_ram;
-	   drv->cpud.store_func_nowatch[i] = drive_store_1001buffer_ram;
-	}
-    }
-
-    /* Setup 1541, 1541-II and 1571 VIAs.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
-        || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_2031) {
-	for (i = 0x18; i < 0x1C; i++) {
-            drv->cpud.read_func_nowatch[i] = via1d_read;
-            drv->cpud.store_func_nowatch[i] = via1d_store;
-	}
-	for (i = 0x1C; i < 0x20; i++) {
-            drv->cpud.read_func_nowatch[i] = via2d_read;
-            drv->cpud.store_func_nowatch[i] = via2d_store;
-	}
-    }
-
-    /* Setup 1571 CIA.  */
-    if (type == DRIVE_TYPE_1571) {
-	for (i = 0x40; i < 0x44; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1571_read;
-            drv->cpud.store_func_nowatch[i] = cia1571_store;
-	}
-	for (i = 0x20; i < 0x24; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
-	}
-    }
-
-    /* Setup 1581 CIA.  */
-    if (type == DRIVE_TYPE_1581) {
-	for (i = 0x40; i < 0x44; i++) {
-            drv->cpud.read_func_nowatch[i] = cia1581_read;
-            drv->cpud.store_func_nowatch[i] = cia1581_store;
-	}
-	for (i = 0x60; i < 0x64; i++) {
-            drv->cpud.read_func_nowatch[i] = wd1770d_read;
-            drv->cpud.store_func_nowatch[i] = wd1770d_store;
-	}
-    }
-
-    drv->cpud.read_func_nowatch[0x100] = drv->cpud.read_func_nowatch[0];
-    drv->cpud.store_func_nowatch[0x100] = drv->cpud.store_func_nowatch[0];
-
-    memcpy(drv->cpud.read_func, drv->cpud.read_func_nowatch, sizeof(drive_read_func_t *) * 0x101);
-    memcpy(drv->cpud.store_func, drv->cpud.store_func_nowatch, sizeof(drive_store_func_t *) * 0x101);
-}
-
-#ifdef _MSC_VER
-#pragma optimize("",on);
-#endif
 
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
 {
@@ -745,7 +479,7 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
                                 ? drive_rotate_disk(drv->drive_ptr),	\
                                 drv->drive_ptr->byte_ready : 0)		\
 
-#define reset() (reset)(drv)
+#define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (drv->cpu.d_bank_limit)
 #define bank_base (drv->cpu.d_bank_base)
 

@@ -1,3 +1,44 @@
+1999-12-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.3.
+
+	* raster/raster.c (update_sprite_collisions): Fixed pointer to
+	fake frame buffer.
+
+	* drive/drivemem.c, drive/drivemem.h: New files.
+	(drive_mem_init): Implemented drive RAM expansion.
+
+	* drive/drivecpu.c: Moved memory access functions to
+	`drivemem.c'.
+	(JUMP): Use `rom_start' for bank base calculation.
+
+	* drive/drive-resources.c: Initialize drive memory if drive
+	RAM expansion is switched on/off.
+
+	* drive/drive.h: New variable `rom_start'.
+
+	* arch/unix/uisettings.c: Added drive RAM expansion UI.
+
+	* 6510core.c, maincpu.c, drive/drivecpu.c: Renamed `reset' to
+	`cpu_reset'.
+
+	* warn.c, warn.h: Removed.
+
+	* sound.h, sounddrv/soundacorn.c, sounddrv/soundaix.c,
+	sounddrv/soundallegro.c, sounddrv/sounddart.c, sid/sid.c,
+	sounddrv/sounddummy.c, sounddrv/sounddump.c, sid/resid.cc,
+	sounddrv/sounddx.c, sounddrv/soundfs.c, sounddrv/soundhpux.c,
+	sounddrv/soundmidas.c, sounddrv/soundmmos2.c, sound.c,
+	sounddrv/soundsb.c, sounddrv/soundsdl.c, sounddrv/soundsgi.c,
+	sounddrv/soundspeed.c, sounddrv/soundsun.c, pet/petsound.c,
+	sounddrv/sounduss.c, sounddrv/soundwav.c, vic20/vic20sound.c,
+	Removed old warning cruft. Replaced by logging system.
+
+1999-12-02  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/c64ui.c: removed stub functions now defined in
+	vsidui.c
+
 1999-11-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.2.

@@ -279,10 +279,9 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
 	patchrom.h psid.h ../../src/resources.h reu.h \
 	../../src/serial.h ../../src/traps.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/warn.h ../../src/tape.h \
-	../../src/utils.h ../../src/vicii/vicii.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
+	../../src/sound.h ../../src/tape.h ../../src/utils.h \
+	../../src/vicii/vicii.h ../../src/raster/raster.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

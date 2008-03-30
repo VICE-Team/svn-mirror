@@ -121,10 +121,10 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 YFLAGS = -dt
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	warn.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	zfile.h 	zipcode.h
 
 
-base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	warn.c 	zfile.c 	zipcode.c
+base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	zfile.c 	zipcode.c
 
 
 cpucore_sources =  	6510core.c
@@ -243,32 +243,32 @@ clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
 x128_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o warn.o zfile.o zipcode.o
+t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o
 xvic_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
 xpet_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
 keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
 parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
 xcbm2_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o \
 ciatimer.o clkguard.o cmdline.o datasette.o diskimage.o emuid.o \
 findpath.o fsdevice.o fliplist.o gcr.o info.o interrupt.o \
 imagecontents.o kbdbuf.o keyboard.o log.o main.o mon.o mon_lex.o \
 mon_parse.o p00.o palette.o parallel.o resources.o romset.o serial.o \
-snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o warn.o \
-zfile.o zipcode.o
+snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o zfile.o \
+zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o diskimage.o findpath.o \
 gcr.o info.o log.o p00.o resources.o t64.o utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
@@ -647,7 +647,7 @@ snapshot.o: snapshot.c vice.h config.h log.h snapshot.h \
 	arch/unix/types.h utils.h zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	resources.h log.h machine.h maincpu.h 6510core.h alarm.h mon.h \
-	interrupt.h snapshot.h mos6510.h sound.h warn.h arch/unix/ui.h \
+	interrupt.h snapshot.h mos6510.h sound.h arch/unix/ui.h \
 	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \

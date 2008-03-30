@@ -260,9 +260,9 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/mem.h pet.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
 	../../src/serial.h ../../src/traps.h ../../src/sound.h \
-	../../src/warn.h ../../src/utils.h ../../src/via.h \
-	../../src/vsync.h ../../src/rs232.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h
+	../../src/utils.h ../../src/via.h ../../src/vsync.h \
+	../../src/rs232.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
@@ -334,7 +334,7 @@ petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/mos6510.h petsound.h \
-	../../src/sound.h ../../src/warn.h ../../src/utils.h
+	../../src/sound.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/crtc/crtc-mem.h \

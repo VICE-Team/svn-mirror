@@ -313,7 +313,7 @@ vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/mos6510.h ../../src/mem.h \
-	../../src/sound.h ../../src/warn.h vic.h ../../src/log.h \
+	../../src/sound.h vic.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -361,9 +361,9 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/serial.h ../../src/traps.h ../../src/sound.h \
-	../../src/warn.h ../../src/tape.h ../../src/utils.h \
-	../../src/via.h vic.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
+	../../src/tape.h ../../src/utils.h ../../src/via.h vic.h \
+	../../src/raster/raster.h ../../src/palette.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
@@ -434,7 +434,7 @@ vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/snapshot.h ../../src/mos6510.h ../../src/sound.h \
-	../../src/warn.h ../../src/utils.h vic20sound.h
+	../../src/utils.h vic20sound.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/tap.h \
 	../../src/arch/unix/types.h ../../src/drive/drive.h \

@@ -344,10 +344,10 @@ kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/utils.h kbd.h
 main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
-	main_exit.h ../../../src/sound.h types.h ../../../src/warn.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	x11/xaw/../videoarch.h ../../../src/palette.h ui.h x11/xaw/ui.h \
-	../../../src/uiapi.h ../../../src/resources.h
+	main_exit.h ../../../src/sound.h types.h ../../../src/video.h \
+	videoarch.h x11/xaw/videoarch.h x11/xaw/../videoarch.h \
+	../../../src/palette.h ui.h x11/xaw/ui.h ../../../src/uiapi.h \
+	../../../src/resources.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
 	mouse.h ../../../src/log.h ui.h x11/xaw/ui.h \
@@ -381,11 +381,10 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
 	../../../src/mos6510.h ../../../src/mem.h \
 	../../../src/resources.h ../../../src/sound.h \
-	../../../src/warn.h ../../../src/tape.h ../../../src/traps.h \
-	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uiedisk.h uisnapshot.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/tape.h ../../../src/traps.h uicommands.h ui.h \
+	x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h uiedisk.h \
+	uisnapshot.h ../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	uisettings.h ui.h x11/xaw/ui.h types.h ../../../src/palette.h \
 	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
@@ -394,8 +393,7 @@ uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/fsdevice.h kbd.h ../../../src/mem.h \
 	../../../src/snapshot.h ../../../src/prdevice.h \
 	../../../src/resources.h ../../../src/romset.h \
-	../../../src/sound.h ../../../src/warn.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/sound.h ../../../src/utils.h ../../../src/vsync.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/datasette.h \
 	../../../src/tap.h joystick.h ../../../src/resources.h \
@@ -409,10 +407,10 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/6510core.h ../../../src/snapshot.h \
 	../../../src/kbdbuf.h ../../../src/log.h ../../../src/maincpu.h \
 	../../../src/alarm.h ../../../src/mon.h ../../../src/mos6510.h \
-	../../../src/sound.h ../../../src/warn.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	x11/xaw/../videoarch.h ../../../src/vsync.h joystick.h
+	../../../src/sound.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h ../../../src/video.h videoarch.h \
+	x11/xaw/videoarch.h x11/xaw/../videoarch.h ../../../src/vsync.h \
+	joystick.h
 
 info-am:
 info: info-recursive

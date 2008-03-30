@@ -249,10 +249,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/c64/patchrom.h ../../src/c64/reu.h ../../src/serial.h \
 	../../src/traps.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/warn.h ../../src/tape.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
+	../../src/tape.h ../../src/utils.h ../../src/vicii/vicii.h \
+	../../src/c64/c64.h ../../src/raster/raster.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
