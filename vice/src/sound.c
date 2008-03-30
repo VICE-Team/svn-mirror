@@ -664,7 +664,7 @@ void sound_synthesize(SWORD *buffer, int length)
     else {
         int delta_t = 0;
         sound_machine_calculate_samples(snddata.psid[0], buffer, length,
-					&delta_t);
+					snddata.channels, &delta_t);
 	snddata.fclk += length * snddata.clkstep;
     }
 }
@@ -729,7 +729,7 @@ double sound_flush(int relative_speed)
     if (snddata.oversamplenr > 1)
     {
 	int j, newnr;
-	
+
 	newnr = nr >> snddata.oversampleshift;
 
 	/* Simple average filtering. */
