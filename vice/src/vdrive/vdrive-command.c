@@ -589,7 +589,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
     /* Update the directory.  */
     if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
         vdrive->Curr_track, vdrive->Curr_sector) < 0)
-        status = CBMDOS_IPE_WRITE_ERROR;
+        status = CBMDOS_IPE_WRITE_ERROR_VER;
 
 out2:
     lib_free(cmd_parse_src.parsecmd);
@@ -742,7 +742,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             *filetype = CBMDOS_FT_DEL;
             if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
                 vdrive->Curr_track, vdrive->Curr_sector) < 0)
-                return CBMDOS_IPE_WRITE_ERROR;
+                return CBMDOS_IPE_WRITE_ERROR_VER;
         }
     }
 
@@ -802,7 +802,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     if (disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
         vdrive->Dir_Sector) < 0) {
         lib_free(name);
-        return CBMDOS_IPE_WRITE_ERROR;
+        return CBMDOS_IPE_WRITE_ERROR_VER;
     }
 
     vdrive_bam_create_empty_bam(vdrive, name, id);

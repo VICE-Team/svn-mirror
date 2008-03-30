@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "archdep.h"
+#include "cbmdos.h"
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsimage-gcr.h"
@@ -211,29 +212,29 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
             switch (fsimage->error_info[sectors]) {
               case 0x0:
               case 0x1:
-                return 0;
+                return CBMDOS_IPE_OK;               /* 0 */
               case 0x2:
-                return 20;
+                return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
               case 0x3:
-                return 21;
+                return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
               case 0x4:
-                return 22;
+                return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
               case 0x5:
-                return 23;
+                return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
               case 0x7:
-                return 25;
+                return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
               case 0x8:
-                return 26;
+                return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
               case 0x9:
-                return 27;
+                return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
               case 0xA:
-                return 28;
+                return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
               case 0xB:
-                return 29;
+                return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
               case 0xF:
-                return 74;
+                return CBMDOS_IPE_NOT_READY;        /* 74 */
               case 0x10:
-                return 24;
+                return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
               default:
                 return 0;
             }

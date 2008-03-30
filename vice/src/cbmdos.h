@@ -36,8 +36,16 @@
 #define CBMDOS_IPE_UNIMPL                  3
 #define CBMDOS_IPE_MEMORY_READ             4
 
-#define CBMDOS_IPE_WRITE_ERROR             25
+#define CBMDOS_IPE_READ_ERROR_BNF          20
+#define CBMDOS_IPE_READ_ERROR_SYNC         21
+#define CBMDOS_IPE_READ_ERROR_DATA         22
+#define CBMDOS_IPE_READ_ERROR_CHK          23
+#define CBMDOS_IPE_READ_ERROR_GCR          24
+#define CBMDOS_IPE_WRITE_ERROR_VER         25
 #define CBMDOS_IPE_WRITE_PROTECT_ON        26
+#define CBMDOS_IPE_READ_ERROR_BCHK         27
+#define CBMDOS_IPE_WRITE_ERROR_BIG         28
+#define CBMDOS_IPE_DISK_ID_MISMATCH        29
 #define CBMDOS_IPE_SYNTAX                  30
 #define CBMDOS_IPE_INVAL                   31
 #define CBMDOS_IPE_LONG_LINE               32

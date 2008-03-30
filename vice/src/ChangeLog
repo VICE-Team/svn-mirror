@@ -1,3 +1,55 @@
+2006-04-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.10.
+
+	* serial/serial-trap.c (serial_trap_attention): Set TrapDevice
+	even if the trap is not taken; needed for other traps.
+
+	* diskimage/fsimage.c, vdrive/vdrive-command.c, cbmdos.h: Use
+	IPE constant defines.
+
+	* c64/cart/actionreplay.c, c64/cart/atomicpower.c,
+	c64/cart/c64cartmem.c, c64/cart/ide64.c,
+	c64/cart/retroreplay.c, c64/cart/supersnapshot.c: Added IDE64
+	ultimax fix provided by soci.
+
+2006-04-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/Makefile.am, arch/beos/make-bindist.sh: Added the
+	beos specific binary distribution making functionality.
+
+	* arch/msdos/Makefile.am, arch/msdos/make-bindist.sh: Added
+	the msdos specific binary distribution making functionality.
+
+	* arch/unix/Makefile.am: Added the qnx and solaris specific
+	binary distribution making functionality.
+
+	* arch/unix/qnx/make-bindist.sh: Added the qnx specific binary
+	distribution making functionality.
+
+	* arch/unix/solaris/make-bindist.sh,
+	arch/unix/solaris/make_package.pl: Added the solaris specific
+	binary distribution making functionality.
+
+	* arch/win32/Makefile.am, arch/win32/make-bindist.sh: Added
+	the win32 specific binary distribution making functionality.
+
+2006-04-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* network.c: Added a fix for the optionally missing
+	htons/htonl functions.
+
+2006-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Fixed a dutch translation.
+
+2006-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64io.c, c64/c64io.h, c64/cart/Makefile.am,
+	c64/cart/c64cartmem.c, c64/cart/crt.c, c64/cart/mikroass.c,
+	c64/cart/mikroass.h, cartconv.c, cartridge.h: Added support
+	for the Mikro Assembler cartridge.
+
 2006-04-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.9.
