@@ -68,19 +68,16 @@
 #endif
 
 
-static BYTE fs_cmdbuf[4][PATH_MAX];
-static unsigned int fs_cptr[4] = { 0, 0, 0, 0 };
-
-
 static int fsdevice_flush_mr(vdrive_t *vdrive)
 {
     unsigned int dnr;
     WORD addr;
 
     dnr = vdrive->unit - 8;
-    addr = fs_cmdbuf[dnr][3] | (fs_cmdbuf[dnr][4] << 8);
+    addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
 
-    return vdrive_command_memory_read(vdrive, addr, fs_cmdbuf[dnr][5]);
+    return vdrive_command_memory_read(vdrive, addr,
+                                      fsdevice_dev[dnr].cmdbuf[5]);
 }
 
 static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
@@ -164,29 +161,8 @@ static int fsdevice_flush_remove(char *arg)
     return er;
 }
 
-static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
+static int fsdevice_flush_initialize(vdrive_t *vdrive)
 {
-    unsigned int format = 0, rc;
-
-    if (realarg[0] == '\0')
-        return CBMDOS_IPE_SYNTAX;
-
-    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
-        format |= FILEIO_FORMAT_P00;
-    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
-        format |= FILEIO_FORMAT_RAW;
-
-    rc = fileio_scratch(realarg, fsdevice_get_path(vdrive->unit), format);
-
-    switch (rc) {
-      case FILEIO_FILE_NOT_FOUND:
-        return CBMDOS_IPE_NOT_FOUND;
-      case FILEIO_FILE_PERMISSION:
-        return CBMDOS_IPE_PERMISSION;
-      case FILEIO_FILE_SCRATCHED:
-        return CBMDOS_IPE_DELETED;
-    }
-
     return CBMDOS_IPE_OK;
 }
 
@@ -230,26 +206,55 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
     return CBMDOS_IPE_OK;
 }
 
+static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
+{
+    unsigned int format = 0, rc;
+
+    if (realarg[0] == '\0')
+        return CBMDOS_IPE_SYNTAX;
+
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+        format |= FILEIO_FORMAT_P00;
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+        format |= FILEIO_FORMAT_RAW;
+
+    rc = fileio_scratch(realarg, fsdevice_get_path(vdrive->unit), format);
+
+    switch (rc) {
+      case FILEIO_FILE_NOT_FOUND:
+        return CBMDOS_IPE_NOT_FOUND;
+      case FILEIO_FILE_PERMISSION:
+        return CBMDOS_IPE_PERMISSION;
+      case FILEIO_FILE_SCRATCHED:
+        return CBMDOS_IPE_DELETED;
+    }
+
+    return CBMDOS_IPE_OK;
+}
+
 void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 {
     unsigned int dnr;
     char *cmd, *realarg, *arg;
-    char cbmcmd[PATH_MAX];
+    char *cbmcmd;
     int er = CBMDOS_IPE_SYNTAX;
 
     dnr = vdrive->unit - 8;
 
-    if (secondary != 15 || !fs_cptr[dnr])
+    if (secondary != 15 || !(fsdevice_dev[dnr].cptr))
         return;
+
+    cbmcmd = (char *)lib_malloc(ioutil_maxpathlen());
 
     /* FIXME: Use `vdrive_command_parse()'! */
     /* remove trailing cr */
-    while (fs_cptr[dnr] && (fs_cmdbuf[dnr][fs_cptr[dnr] - 1] == 13))
-        fs_cptr[dnr]--;
+    while (fsdevice_dev[dnr].cptr
+        && (fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr - 1] == 13))
+        (fsdevice_dev[dnr].cptr)--;
 
-    fs_cmdbuf[dnr][fs_cptr[dnr]] = 0;
+    fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr] = 0;
 
-    strcpy(cbmcmd, (char *)fs_cmdbuf[dnr]);
+    strcpy(cbmcmd, (char *)(fsdevice_dev[dnr].cmdbuf));
     charset_petconvstring((BYTE *)cbmcmd, 1);   /* CBM name to FSname */
     cmd = cbmcmd;
 
@@ -262,17 +267,17 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
         *arg++ = '\0';
     }
 
-    realarg = strchr((char *)fs_cmdbuf[dnr], ':');
+    realarg = strchr((char *)(fsdevice_dev[dnr].cmdbuf), ':');
 
     if (realarg != NULL) {
         *realarg++ = '\0';
     }
 
-    if (!strncmp((char *)fs_cmdbuf[dnr], "M-R", 3)) {
+    if (!strncmp((char *)(fsdevice_dev[dnr].cmdbuf), "M-R", 3)) {
         er = fsdevice_flush_mr(vdrive);
     } else if (!strcmp(cmd, "cd")) {
         er = fsdevice_flush_cd(vdrive, arg);
-    } else if (!strcmp((char *)fs_cmdbuf[dnr], "CD_")) {
+    } else if (!strcmp((char *)(fsdevice_dev[dnr].cmdbuf), "CD_")) {
         er = fsdevice_flush_cdup(vdrive);
     } else if (*cmd == '/') {
         er = fsdevice_flush_partition(vdrive, arg);
@@ -282,15 +287,19 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
         er = fsdevice_flush_remove(arg);
     } else if (!strcmp(cmd, "ui")) {
         er = fsdevice_flush_reset();
-    } else if (*cmd == 's' && arg != NULL) {
-        er = fsdevice_flush_scratch(vdrive, realarg);
+    } else if (*cmd == 'i' && arg != NULL) {
+        er = fsdevice_flush_initialize(vdrive);
     } else if (*cmd == 'r' && arg != NULL) {
         er = fsdevice_flush_rename(vdrive, realarg);
+    } else if (*cmd == 's' && arg != NULL) {
+        er = fsdevice_flush_scratch(vdrive, realarg);
     }
 
     fsdevice_error(vdrive, er);
 
-    fs_cptr[dnr] = 0;
+    fsdevice_dev[dnr].cptr = 0;
+
+    lib_free(cbmcmd);
 }
 
 int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
@@ -302,8 +311,8 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
     rc = SERIAL_OK;
 
     /* FIXME: Consider the real size of the input buffer. */
-    if (fs_cptr[dnr] < PATH_MAX - 1) {
-        fs_cmdbuf[dnr][fs_cptr[dnr]++] = data;
+    if (fsdevice_dev[dnr].cptr < PATH_MAX - 1) {
+        fsdevice_dev[dnr].cmdbuf[(fsdevice_dev[dnr].cptr)++] = data;
         rc = SERIAL_OK;
     } else {
         fsdevice_error(vdrive, CBMDOS_IPE_LONG_LINE);
