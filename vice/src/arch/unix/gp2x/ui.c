@@ -26,65 +26,14 @@
 
 #include "vice.h"
 
-#include "fullscreenarch.h"
-#include "interrupt.h"
-#include "ui.h"
-#include "uiattach.h"
-#include "uicommands.h"
-#include "uifliplist.h"
-#include "uiromset.h"
-#include "uiscreenshot.h"
 #include "types.h"
-#include "vsync.h"
-
-
-static int is_paused = 0;
-
-static void pause_trap(WORD addr, void *data)
-{
-    ui_display_paused(1);
-    is_paused = 1;
-    vsync_suspend_speed_eval();
-    while (is_paused)
-        ui_dispatch_next_event();
-}
-
-void ui_pause_emulation(int flag)
-{
-    if (flag) {
-        interrupt_maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
-}
-
-void ui_common_init(void)
-{
-    uiromset_menu_init();
-}
-
-void ui_common_shutdown(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_shutdown();
-#endif
-
-    uiattach_shutdown();
-    uicommands_shutdown();
-    uifliplist_shutdown();
-    uiscreenshot_shutdown();
-}
 
 void ui_display_joyport(BYTE *joyport)
 {
+  /* needed */
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
+  /* needed */
 }

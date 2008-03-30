@@ -1144,7 +1144,7 @@ Enter passband in percentage of total bandwidth\n\
 Martin Pottendorfer - German\n\
 Peter Karlsson - Swedish\n\
 Andrea Musuruane - Italian\n\
-Paul Dub - French\n\
+Paul Dube - French\n\
 Marco van den Heuvel - Dutch\n\
 Flooder - Polish\n", 1103},
   {"(c) 1998 - 2006 The Vice Team", 1104},

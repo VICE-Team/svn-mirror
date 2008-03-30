@@ -99,16 +99,6 @@ static UI_CALLBACK(psid_load)
        lib_free(filename);
 }
 
-#if 0
-static UI_CALLBACK(psid_tune)
-{
-    int tune = *((int *)UI_MENU_CB_PARAM);
-    machine_play_psid(tune);
-    vsync_suspend_speed_eval();
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-}
-#endif
-
 static ui_menu_entry_t ui_load_commands_menu[] = {
   { N_("Load PSID file..."),
     (ui_callback_t)psid_load, NULL, NULL,
@@ -131,36 +121,6 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
     { NULL }
 };
 
-/*
-UI_MENU_DEFINE_RADIO(SoundBufferSize)
-
-static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
-  { N_("*3.00 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)3000, NULL },
-  { N_("*1.00 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)1000, NULL },
-  { N_("*0.50 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)500, NULL },
-  { N_("*0.10 sec"), (ui_callback_t)radio_SoundBufferSize,
-    (ui_callback_data_t)100, NULL },
-  { NULL }
-};
-*/
-/*
-UI_MENU_DEFINE_TOGGLE(Sound)
-static ui_menu_entry_t sound_settings_submenu_vsid[] = {
-  { N_("*Enable sound playback"),
-    (ui_callback_t)toggle_Sound, NULL, NULL },
-  { "--" },
-  { N_("Sample rate"),
-    NULL, NULL, set_sound_sample_rate_submenu },
-  { N_("Buffer size"),
-    NULL, NULL, set_sound_buffer_size_submenu_vsid },
-  { N_("Oversample"),
-    NULL, NULL, set_sound_oversample_submenu },
-  { NULL },
-};
-*/
 static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
   { N_("Sound settings"),
     NULL, NULL, sound_settings_submenu },
@@ -227,51 +187,6 @@ static void vsid_create_menus(void)
     ui_tune_menu[0].sub_menu = tune_menu;
 
     num_checkmark_menu_items = 0;
-
-    ui_set_left_menu(wl = ui_menu_create("LeftMenu",
-                                         ui_load_commands_menu,
-                                         ui_tune_menu,
-                                         ui_menu_separator,
-                                         ui_tool_commands_menu,
-                                         ui_menu_separator,
-                                         ui_help_commands_menu,
-                                         ui_menu_separator,
-                                         ui_run_commands_menu,
-                                         ui_menu_separator,
-                                         ui_exit_commands_menu,
-                                         NULL));
-
-    ui_set_right_menu(wr = ui_menu_create("RightMenu",
-                                          ui_sound_settings_menu_vsid,
-                                          ui_menu_separator,
-                                          psid_menu,
-                                          NULL));
-
-#ifdef USE_GNOMEUI
-    ui_set_topmenu("TopLevelMenu",
-                   _("File"),
-                   ui_menu_create("LeftMenu",
-                                  ui_load_commands_menu,
-                                  ui_tune_menu,
-                                  ui_menu_separator,
-                                  ui_tool_commands_menu,
-                                  ui_menu_separator,
-                                  ui_help_commands_menu,
-                                  ui_menu_separator,
-                                  ui_run_commands_menu,
-                                  ui_menu_separator,
-                                  ui_exit_commands_menu,
-                                  NULL),
-                   _("Settings"),
-                   ui_menu_create("File",
-                                  ui_sound_settings_menu_vsid,
-                                  ui_menu_separator,
-                                  psid_menu,
-                                  NULL),
-                   NULL);
-#endif
-
-    ui_update_menus();
 }
 
 int vsid_ui_init(void)
@@ -281,13 +196,7 @@ int vsid_ui_init(void)
 
     video_add_handlers(&canvas);
 
-    /* FIXME: There might be a separte vsid icon.  */
-    ui_set_application_icon(c64_icon_data);
-
     vsid_create_menus();
-#ifdef LATER
-    ui_set_topmenu();
-#endif
 
     return 0;
 }
@@ -295,19 +204,16 @@ int vsid_ui_init(void)
 void vsid_ui_display_name(const char *name)
 {
     log_message(LOG_DEFAULT, "Name: %s", name);
-    ui_vsid_setpsid(name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
     log_message(LOG_DEFAULT, "Author: %s", author);
-    ui_vsid_setauthor(author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
     log_message(LOG_DEFAULT, "Copyright: %s", copyright);
-    ui_vsid_setcopyright(copyright);
 }
 
 void vsid_ui_display_sync(int sync)
@@ -316,14 +222,12 @@ void vsid_ui_display_sync(int sync)
     sprintf(buf, "Using %s sync",
 	    sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
     log_message(LOG_DEFAULT, buf);
-    ui_vsid_setsync(buf);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
     log_message(LOG_DEFAULT, "Using %s emulation",
 		model == 0 ? "MOS6581" : "MOS8580");
-    ui_vsid_setmodel(model == 0 ? "MOS6581" : "MOS8580");
 }
 
 void vsid_ui_set_default_tune(int nr)
@@ -334,7 +238,6 @@ void vsid_ui_set_default_tune(int nr)
 void vsid_ui_display_tune_nr(int nr)
 {
     log_message(LOG_DEFAULT, "Playing tune: %i", nr);
-    ui_vsid_settune(nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -344,14 +247,16 @@ void vsid_ui_display_nr_of_tunes(int count)
 
 void vsid_ui_display_time(unsigned int sec)
 {
+  /* needed */
 }
 
 void vsid_ui_display_irqtype(const char *irq)
 {
     log_message(LOG_DEFAULT, "Using %s interrupt", irq);
-    ui_vsid_setirq(irq);
 }
 
 void vsid_ui_close(void)
 {
+  /* needed */
 }
+

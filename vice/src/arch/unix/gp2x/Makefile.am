@@ -33,62 +33,15 @@ libarchgp2x_a_SOURCES = \
 	plus4ui.c \
 	prefs_gp2x.c \
 	prefs_gp2x.h \
-	rs232.c \
 	ui.c \
 	ui_gp2x.c \
 	ui_gp2x.h \
-	uiacia1.c \
 	uiarch.h \
-	uiattach.c \
-	uic64_256k.c \
-	uic64cart.c \
 	uicmdline.c \
-	uicommands.c \
-	uicrtc.c \
-	uidatasette.c \
-	uidrive.c \
-	uidrivec128.c \
-	uidrivec64vic20.c \
-	uidriveiec.c \
-	uidrivepetcbm2.c \
-	uidriveplus4.c \
-	uifliplist.c \
-	uigeoram.c \
-	uiide64.c \
-	uijoystick2.c \
-	uikeyboard.c \
-	uilib.c \
-	uilib.h \
 	uimenu.h \
 	uimon.c \
-	uipalemu.c \
-	uipalette.c \
-	uiperipheral.c \
-	uiperipheraliec.c \
-	uiperipheralieee.c \
-	uipetreu.c \
- 	uiplus256k.c \
-	uiplus60k.c \
-	uiprinter.c \
-	uiprinteriec.c \
-	uiprinteriecplus4.c \
-	uiprinterieee.c \
-	uiramcart.c \
-	uireu.c \
-	uiromset.c \
-	uirs232.c \
-	uirs232c64c128.c \
-	uirs232petplus4cbm2.c \
-	uirs232user.c \
-	uisettings.c \
-	uisid.c \
-	uisound.c \
-	uited.c \
 	uitext_gp2x.c \
 	uitext_gp2x.h \
-	uivdc.c \
-	uivic.c \
-	uivicii.c \
 	vic20ui.c \
 	video.c \
 	videoarch.h \

@@ -59,83 +59,52 @@ void ui_error(const char *text) {
 
 void ui_display_drive_current_image(unsigned int drive_number,
 		const char *image) {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
 	if(drive_number==0) drive8_image=(char *)image;
 	if(drive_number==1) drive9_image=(char *)image;
 }
 
-void ui_display_tape_current_image() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_update_menus(void)
+{
+  /* needed */
 }
 
-void ui_update_menus() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_tape_current_image()
+{
+  /* needed */
 }
 
-void uicolor_convert_color_table() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_tape_counter()
+{
+  /* needed */
 }
 
-void uicolor_alloc_color() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_tape_motor_status()
+{
+  /* needed */
 }
 
-void uicolor_free_color() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_tape_control_status()
+{
+  /* needed */
 }
 
-void ui_display_tape_counter() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_set_tape_status()
+{
+  /* needed */
 }
 
-void ui_display_tape_motor_status() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_recording()
+{
+  /* needed */
 }
 
-void ui_display_tape_control_status() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_display_playback()
+{
+  /* needed */
 }
 
-void ui_set_tape_status() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_display_recording() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_display_playback() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_init() {
-#if 0
-	fprintf(stderr, "calling %s\n", __func__);
-#endif
+void ui_init()
+{
 	gp2x_init(1000, 8, 11025,16,1,60);
 
 	if(!strcmp(machine_name, "C64")) machine_type=C64;
@@ -146,34 +115,24 @@ void ui_init() {
 	else if(!strcmp(machine_name, "VIC20")) machine_type=VIC20;
 }
 
-void archdep_ui_init() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void archdep_ui_init()
+{
+  /* needed */
 }
 
-void ui_init_finish() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_init_finish()
+{
+  /* needed */
 }
 
-void ui_display_statustext() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_enable_drive_status()
+{
+  /* needed */
 }
 
-void ui_enable_drive_status() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_extend_image_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_extend_image_dialog()
+{
+  /* needed */
 }
 
 void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
@@ -184,10 +143,6 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
         status |= 1;
     if (led_pwm2 > 100)
         status |= 2;
-
-#if 0
-	fprintf(stderr, "drive led %d=%d\n", drive_number, status);
-#endif
 
 	if(drive_number==0) {
 		drive8_status=status;
@@ -205,291 +160,72 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
 void ui_display_drive_track(unsigned int drive_number,
 		unsigned int drive_base, 
 		unsigned int half_track_number) {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
 	if(drive_number==0) drive8_half_track=half_track_number;
 	if(drive_number==1) drive9_half_track=half_track_number;
 }
 
-void ui_resources_init() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_resources_init()
+{
+  /* needed */
 }
 
-void ui_cmdline_options_init() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_cmdline_options_init()
+{
+  /* needed */
 }
 
-void ui_init_finalize() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_init_finalize()
+{
+  /* needed */
 }
 
-void kbd_arch_keyname_to_keynum() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void kbd_arch_keyname_to_keynum()
+{
+  /* needed */
 }
 
-void kbd_arch_keynum_to_keyname() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void kbd_arch_keynum_to_keyname()
+{
+  /* needed */
 }
 
-void kbd_arch_init() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void kbd_arch_init()
+{
+  /* needed */
 }
 
-void ui_jam_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_jam_dialog()
+{
+  /* needed */
 }
 
-void ui_shutdown() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_shutdown()
+{
+  /* needed */
 }
 
-void ui_resources_shutdown() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_resources_shutdown()
+{
+  /* needed */
 }
 
-void ui_menu_create() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void _ui_menu_radio_helper()
+{
+  /* needed */
 }
 
-void ui_menu_update_all() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_check_mouse_cursor()
+{
+  /* needed */
 }
 
-void ui_set_left_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
+void ui_dispatch_events()
+{
+  /* needed */
 }
 
-void ui_set_right_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_set_topmenu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_set_tape_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_select_file() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_empty_disk_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_display_paused() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_screenshot_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void uiscreenshot_shutdown() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_set_speedmenu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void _ui_menu_radio_helper() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void _ui_menu_string_radio_helper() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void _ui_menu_toggle_helper() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_check_mouse_cursor() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_dispatch_next_event() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_cartridge_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_input_string() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_exit() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_vsid_setpsid() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_dispatch_events() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_message() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_show_text() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_display_speed(float speed, float frame_rate, int warp_enabled) {
-#if 0
-	fprintf(stderr, "%f%%, %ffps\n", speed, frame_rate);
-#endif
+void ui_display_speed(float speed, float frame_rate, int warp_enabled)
+{
 	emu_speed=speed;
 	emu_fps=frame_rate;
-}
-
-void ui_vsid_setsync() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_vsid_setauthor() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_vsid_setcopyright() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_vsid_setmodel() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_vsid_settune() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_vsid_setirq() {
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-}
-
-void ui_set_application_icon() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_autorepeat_on() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_restore_mouse() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_snapshot_dialog() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_destroy_drive8_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_set_drive8_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_destroy_drive9_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_set_drive9_menu() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
-}
-
-void ui_about() {
-#if 0
-	fprintf(stderr, "calling undefined function %s\n", __func__);
-#endif
 }
