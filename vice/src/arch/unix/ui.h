@@ -1,5 +1,5 @@
 /*
- * ui.h 
+ * ui.h
  *
  * Written by
  *  Martin Pottendorfer (Martin.Pottendorfer@alcatel.at)
@@ -48,12 +48,12 @@
 /* Number of drives we support in the UI.  */
 #define NUM_DRIVES      2
 
-/* Tell menu system to ignore a string for translation 
+/* Tell menu system to ignore a string for translation
    (e.g. filenames in fliplists) */
 #define NO_TRANS "no-trans"
 
-typedef void (*ui_exposure_handler_t) (unsigned int width,
-                                       unsigned int height);
+typedef void (*ui_exposure_handler_t)(unsigned int width,
+                                      unsigned int height);
 typedef enum {
     UI_BUTTON_NONE, UI_BUTTON_CLOSE, UI_BUTTON_OK, UI_BUTTON_CANCEL,
     UI_BUTTON_YES, UI_BUTTON_NO, UI_BUTTON_RESET, UI_BUTTON_HARDRESET,
@@ -93,8 +93,8 @@ extern char *ui_select_file(const char *title,
                             const char *default_dir,
                             const char *default_pattern,
                             ui_button_t *button_return,
-			    unsigned int show_preview,
-			    int *attach_wp);
+                            unsigned int show_preview,
+                            int *attach_wp);
 extern ui_button_t ui_input_string(const char *title, const char *prompt,
                                    char *buf, unsigned int buflen);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
@@ -119,3 +119,4 @@ extern void ui_destroy_drive8_menu(void);
 extern void ui_destroy_drive9_menu(void);
 
 #endif /* !_UI_H_ */
+
