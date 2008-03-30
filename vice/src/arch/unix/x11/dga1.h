@@ -1,8 +1,8 @@
 /*
- * dga2.h
+ * dga1.h
  *
  * Written by
- *  Martin Pottendorfer <pottendo@utanet.at>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,21 @@
  *
  */
 
-#ifndef _DGA2_H
-#define _DGA2_H
+#ifndef _DGA1_H
+#define _DGA1_H
 
-#include "raster/raster.h"
+struct video_canvas_s;
+struct ui_menu_entry_s;
 
-int fullscreen_available(void);
-void fullscreen_set_raster(raster_t *raster);
-
-extern int fullscreen_is_enabled;
-extern raster_t *fs_cached_raster;
+extern int dga1_init(void);
+extern int dga1_available(void);
+extern int dga1_enable(struct video_canvas_s *canvas, int enable);
+extern int dga1_mode(struct video_canvas_s *canvas, int mode);
+extern void dga1_shutdown(void);
+extern void dga1_suspend(int level);
+extern void dga1_resume(void);
+extern void dga1_mode_callback(void *callback);
+extern void dga1_create_menus(struct ui_menu_entry_s menu[]);
 
 #endif
 

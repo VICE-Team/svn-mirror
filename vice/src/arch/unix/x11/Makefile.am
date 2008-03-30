@@ -15,6 +15,7 @@ noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
 	dga1.c \
+	dga1.h \
 	dga2.c \
 	dga2.h \
 	vidmode.c \
