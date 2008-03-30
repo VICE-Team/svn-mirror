@@ -110,6 +110,11 @@ static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
 
 void riotcore_reset(riot_context_t *riot_context)
 {
+    riot_context->riot_io[0] = 0;
+    riot_context->riot_io[1] = 0;
+    riot_context->riot_io[2] = 0;
+    riot_context->riot_io[3] = 0;
+
     riot_context->read_clk = 0;
 
     alarm_unset(riot_context->alarm);
@@ -125,6 +130,7 @@ void riotcore_reset(riot_context_t *riot_context)
     riot_context->r_write_clk = *(riot_context->clk_ptr);
     riot_context->r_N = 255;
     riot_context->r_divider = 1;
+    riot_context->r_irqen = 0;
 
     riot_context->reset(riot_context);
 }
