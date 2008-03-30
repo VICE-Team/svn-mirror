@@ -27,11 +27,11 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdarg.h>
-#include <stdlib.h>
 
 #include "archdep.h"
 #include "attach.h"
@@ -104,12 +104,15 @@ static UI_CALLBACK(attach_disk)
 static UI_CALLBACK(attach_empty_disk)
 {
     int unit = (int)UI_MENU_CB_PARAM;
+    /* Where does the 1024 come from?  */
     char filename[1024];
-    /* ui_button_t button; */
 
     suspend_speed_eval();
 
-    if (ui_empty_disk_dialog(filename)) 
+    /* The following code depends on a zeroed filename.  */
+    memset(filename, 0, 1024);
+
+    if (ui_empty_disk_dialog(filename) < 0) 
 	return;
 
     if (file_system_attach_disk(unit, filename) < 0)
