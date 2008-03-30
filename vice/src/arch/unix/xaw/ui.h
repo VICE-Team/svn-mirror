@@ -120,7 +120,7 @@ Window ui_canvas_get_drawable(ui_window_t w);
 int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
-void ui_enable_drive_status(ui_drive_enable_t enable);
+void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
 void ui_display_drive_track(int drive_number, double track_number);
 void ui_display_drive_led(int drive_number, int status);
 void ui_display_paused(int flag);

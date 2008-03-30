@@ -35,8 +35,6 @@
 	- check for byte ready *within* `BVC', `BVS' and `PHP'.
 	- serial bus handling might be faster.  */
 
-#define __1541__
-
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -539,6 +537,8 @@ static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 static CLOCK pal_cycles_per_sec;
 static CLOCK ntsc_cycles_per_sec;
 
+static int drive_led_color[2];
+
 /* Warnings.  */
 enum drive_warnings { WARN_GCRWRITE };
 #define DRIVE_NUM_WARNINGS (WARN_GCRWRITE + 1)
@@ -1001,6 +1001,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 	    drive[i].GCR_track_size[track] = raw_track_size[speed_map_1541[track]];
 	/* Position the R/W head on the directory track.  */
 	drive_set_half_track(36, &drive[i]);
+        drive_led_color[i] = DRIVE_ACTIVE_RED;
     }
 
     drive_initialize_rom_traps(0);
@@ -1022,6 +1023,26 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 	drive_enable(1);
 
     return 0;
+}
+
+static void drive_set_active_led_color(int type, int dnr)
+{
+    switch (type) {
+      case DRIVE_TYPE_1541:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        break;
+      case DRIVE_TYPE_1571:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        break;
+      case DRIVE_TYPE_1581:
+        drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
+        break;
+      case DRIVE_TYPE_2031:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        break;
+      default:
+        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+    }
 }
 
 static int drive_set_disk_drive_type(int type, int dnr)
@@ -1064,6 +1085,7 @@ static int drive_set_disk_drive_type(int type, int dnr)
     drive[dnr].side = 0;
     drive_setup_rom_image(dnr);
     set_sync_factor((resource_value_t) sync_factor);
+    drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
         drive0_cpu_init(type);
@@ -1224,8 +1246,10 @@ static int drive_enable(int dnr)
         }
     }
 
+    drive_set_active_led_color(drive[0].type, dnr);
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
+                           drive_led_color);
 
     return 0;
 }
@@ -1272,7 +1296,8 @@ static void drive_disable(int dnr)
     }
 
     ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0),
+                           drive_led_color);
 }
 
 void drive_reset(void)
@@ -2162,6 +2187,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         drive0_mem_init(drive[0].type);
         set_drive0_idling_method((resource_value_t) drive[0].idling_method);
         drive_initialize_rom_traps(0);
+        drive_set_active_led_color(drive[0].type, 0);
         break;
       case DRIVE_TYPE_NONE:
         drive_disable(0);
@@ -2180,6 +2206,7 @@ int drive_read_snapshot_module(snapshot_t *s)
         drive1_mem_init(drive[1].type);
         set_drive1_idling_method((resource_value_t) drive[1].idling_method);
         drive_initialize_rom_traps(1);
+        drive_set_active_led_color(drive[1].type, 1);
         break;
       case DRIVE_TYPE_NONE:
         drive_disable(1);
