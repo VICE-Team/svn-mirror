@@ -589,3 +589,7 @@ void archdep_shutdown(void)
     lib_free(orig_workdir);
 }
 
+void archdep_workaround_nop(const char *otto)
+{
+}
+

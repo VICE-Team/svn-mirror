@@ -91,6 +91,8 @@
 
 /* Ethernet default device */
 #define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
+
+extern void archdep_workaround_nop(const char *otto);
  
 #endif
 
