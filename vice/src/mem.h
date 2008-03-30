@@ -83,7 +83,7 @@ typedef struct mem_ioreg_list_s {
     const char *name;
     WORD start;
     WORD end;
-    struct mem_ioreg_list_s *next;
+    unsigned int next;
 } mem_ioreg_list_t;
 
 extern mem_ioreg_list_t *mem_ioreg_list_get(void);
