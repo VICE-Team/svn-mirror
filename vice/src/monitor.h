@@ -137,6 +137,8 @@ extern void mon_check_icount(WORD a);
 extern void mon_check_icount_interrupt(void);
 extern void mon_check_watchpoints(WORD a);
 
+extern void monitor_cpu_type_set(const char *cpu_type);
+
 extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
@@ -159,7 +161,8 @@ extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
 /* Prototypes */
 extern const char *mon_disassemble_to_string(MEMSPACE, WORD addr, BYTE x,
                                              BYTE p1, BYTE p2, BYTE p3,
-                                             int hex_mode);
+                                             int hex_mode,
+                                             const char *cpu_type);
 
 /** Register interface.  */
 extern struct mon_reg_list_s *mon_register_list_get(int mem);

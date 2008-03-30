@@ -41,8 +41,15 @@
 
 const char *mon_disassemble_to_string(MEMSPACE memspace, WORD addr,
                                       BYTE x, BYTE p1, BYTE p2, BYTE p3,
-                                      int hex_mode)
+                                      int hex_mode, const char *cpu_type)
 {
+    static const char *cpu_type_prv;
+
+    if (cpu_type != NULL && cpu_type != cpu_type_prv) {
+        cpu_type_prv = cpu_type;
+        monitor_cpu_type_set(cpu_type);
+    }
+
     return mon_disassemble_to_string_ex(memspace, addr, x, p1, p2, p3,
                                         hex_mode, NULL);
 }
