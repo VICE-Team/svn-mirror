@@ -136,7 +136,7 @@
 #95 -1 -1 0         /*    Right Alt -> (no key)     */
 #96 -1 -1 0         /*   Right Ctrl -> (no key)     */
 97 0 2 1            /*         Left -> CRSR LEFT    */
-98 0 2 1            /*         Down -> CRSR DOWN    */
+98 0 7 8            /*         Down -> CRSR DOWN    */
 99 0 2 8            /*        Right -> CRSR RIGHT   */
 #100 -1 -1 0        /*     Numpad 0 -> (no key)     */
 #101 -1 -1 0        /*     Numpad . -> (no key)     */

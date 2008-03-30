@@ -150,19 +150,25 @@ static ui_menu_entry_t vic20_romset_submenu[] = {
 
 static ui_menu_entry_t common_memory_configurations_submenu[] = {
     { N_("No expansion memory"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_NONE, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_NONE, NULL },
     { "--" },
     { N_("3K (block 0)"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_3K, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_3K, NULL },
     { N_("8K (block 1)"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_8K, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_8K, NULL },
     { N_("16K (blocks 1/2)"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_16K, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_16K, NULL },
     { N_("24K (blocks 1/2/3)"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_24K, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_24K, NULL },
     { "--" },
     { N_("All (blocks 0/1/2/3/5)"),
-      set_common_memory_configuration, (ui_callback_data_t)MEM_ALL, NULL },
+      (ui_callback_t) set_common_memory_configuration, 
+      (ui_callback_data_t)MEM_ALL, NULL },
     { NULL }
 };
 

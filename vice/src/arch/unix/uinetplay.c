@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#if defined(HAVE_NETWORK) && !defined(USE_GNOMEUI)
+#ifdef HAVE_NETWORK
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +44,15 @@
 UI_MENU_DEFINE_TOGGLE(NetworkIPV6)
 #endif
 
+#ifdef USE_GNOMEUI
+
+static UI_CALLBACK(netplay)
+{
+    vsync_suspend_speed_eval();
+    ui_netplay_dialog();
+}
+
+#else
 static UI_CALLBACK(ui_netplay_set_port)
 {
   static char input_string[32];
@@ -97,12 +106,17 @@ static UI_CALLBACK(ui_netplay_disconnect)
 {
   network_disconnect();
 }
+#endif /* USE_GNOMEUI */
 
 ui_menu_entry_t netplay_submenu[] = {
 #ifdef HAVE_IPV6
     { N_("*Enable IPV6"),
       (ui_callback_t)toggle_NetworkIPV6, NULL, NULL },
 #endif
+#ifdef USE_GNOMEUI
+    { N_("Netplay (experimental)"),
+      (ui_callback_t)netplay, NULL, NULL },
+#else
     { N_("TCP port"),
       (ui_callback_t)ui_netplay_set_port, NULL, NULL },
     { N_("Start server"),
@@ -114,7 +128,8 @@ ui_menu_entry_t netplay_submenu[] = {
       (ui_callback_t)ui_netplay_connect_to_server, NULL, NULL },
     { N_("Disconnect"),
       (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
+#endif /* USE_GNOMEUI */
     { NULL }
 };
 
-#endif
+#endif	/* HAVE_NETWORK */

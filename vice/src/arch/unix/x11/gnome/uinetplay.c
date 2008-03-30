@@ -112,7 +112,8 @@ static void
 netplay_start_server (GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
-    (void) network_start_server();
+    if (network_start_server() < 0)
+	ui_error(_("Couldn't start network server."));
     netplay_update_status();
     gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
 }
@@ -121,7 +122,8 @@ static void
 netplay_connect (GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
-    (void) network_connect_client();
+    if (network_connect_client() < 0)
+	ui_error(_("Couldn't connect client."));
     netplay_update_status();
     gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
 }
@@ -130,7 +132,7 @@ static void
 netplay_disconnect (GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
-    (void) network_disconnect();
+    network_disconnect();
     netplay_update_status();
     gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
 }

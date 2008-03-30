@@ -1,8 +1,8 @@
 /*
- * uinetplay.h - Netplay dialog.
+ * ui_netplay.h - Netplay settings
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,11 @@
  *
  */
 
-#ifndef UINETPLAY_H
-#define UINETPLAY_H
+#ifndef __UI_NETPLAY_H__
+#define __UI_NETPLAY_H__
 
-#ifdef HAVE_NETWORK
+const uint32 MESSAGE_NETPLAY_APPLY		= 'MNP1';
 
-#include "uimenu.h"
-extern struct ui_menu_entry_s netplay_submenu[];
-
-#endif
+extern void ui_netplay(void);
 
 #endif
-

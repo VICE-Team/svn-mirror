@@ -32,12 +32,25 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef HAVE_NETWORK
+
 #ifdef WIN32
 #include <winsock.h>
 #ifndef FD_SETSIZE
 #define FD_SETSIZE 64 /* just in case mingw or msvc doesn't define it */
 #endif
-#else
+#endif
+
+#ifdef __BEOS__
+#include <socket.h>
+#include <netdb.h>
+#include <byteorder.h>
+typedef unsigned int SOCKET;
+typedef struct timeval TIMEVAL;
+#define PF_INET AF_INET
+#define INVALID_SOCKET (SOCKET)(~0)
+#endif
+
+#if !defined(WIN32) && !defined(__BEOS__)
 #if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
 #include <sys/resource.h>
 #endif
@@ -61,11 +74,7 @@ typedef struct timeval TIMEVAL;
 #define INVALID_SOCKET (SOCKET)(~0)
 #endif
 
-#ifndef SOCKET_ERROR
-#define SOCKET_ERROR (-1)
-#endif
-
-#endif /* WIN32 */
+#endif /* UNIX */
 #endif /* HAVE_NETWORK */
 
 #include "archdep.h"
@@ -536,9 +545,6 @@ int network_start_server(void)
 #ifdef HAVE_NETWORK
 #ifdef HAVE_IPV6
     struct sockaddr_in6 server_addr6;
-#ifndef HAVE_GETHOSTBYNAME2
-    int err6;
-#endif
 #endif
     int return_value;
     struct sockaddr_in server_addr;
@@ -563,8 +569,6 @@ int network_start_server(void)
     memset(server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
 #ifdef HAVE_IPV6
     }
-#endif
-#ifdef HAVE_IPV6
     if (netplay_ipv6)
         listen_socket = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
     else
@@ -580,12 +584,12 @@ int network_start_server(void)
 #endif
     return_value=bind(listen_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
-    if (return_value == SOCKET_ERROR) {
+    if (return_value < 0) {
         closesocket(listen_socket);
         return -1;
     }
 
-    if (listen(listen_socket, 2) == SOCKET_ERROR) {
+    if (listen(listen_socket, 2) < 0) {
         closesocket(listen_socket);
         return -1;
     }
@@ -690,7 +694,7 @@ int network_connect_client(void)
 #endif
     return_value=connect(network_socket, (struct sockaddr *)&server_addr, 
         sizeof(server_addr));
-    if (return_value == SOCKET_ERROR) {
+    if (return_value < 0) {
         closesocket(network_socket);
 #ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
@@ -769,6 +773,8 @@ void network_suspend(void)
 
     network_send_buffer(network_socket, (BYTE*)&dummy_buf_len, 
                         sizeof(unsigned int));
+    
+    suspended = 1;
 #endif
 }
 
@@ -912,6 +918,9 @@ void network_hook(void)
 void network_shutdown(void)
 {
 #ifdef HAVE_NETWORK
+	if (network_connected())
+		network_disconnect();
+
     network_free_frame_event_list();
     lib_free(server_name);
 #endif

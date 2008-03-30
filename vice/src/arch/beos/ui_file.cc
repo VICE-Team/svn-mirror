@@ -296,6 +296,10 @@ void ui_select_file(ViceFilePanel *filepanel,
 	}
 	if (filetype == VSID_FILE)
 		sprintf(title,"Load psid file");
+	if (filetype == SNAPSHOT_HISTORY_START)
+		sprintf(title,"Select start snapshot");
+	if (filetype == SNAPSHOT_HISTORY_END)
+		sprintf(title,"Select end snapshot");
 
 	filepanel->Window()->SetTitle(title);
 
@@ -375,6 +379,11 @@ void ui_select_file_action(BMessage *msg) {
 		if (last_filetype[1] == SNAPSHOTSAVE_FILE) {
 			if (machine_write_snapshot(fullpath, 1, 1, 0) < 0)
             	ui_error("Cannot write snapshot file.");
+    	} else if (last_filetype[1] == SNAPSHOT_HISTORY_START) {
+    		resources_set_value("EventStartSnapshot", (void *)name);
+    	} else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
+    		resources_set_value("EventEndSnapshot", (void *)name);
+    		resources_set_value("EventSnapshotDir", (void *)path->Path());
 		}
 		
 		delete path;

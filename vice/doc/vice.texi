@@ -7383,12 +7383,11 @@ some further patches.
 @item
 @b{Marco van den Heuvel} Translated the UI to Dutch.
 Internationalization support for the Win32 port. Wrote the
-GEORAM cartridge code. Wrote the Ramcart cartridge code.
-Wrote the +60K Expansion code. Made the ethernet support
-for the Msdos port. Maintains the QNX 6.x binary packages.
-Maintains the Solaris binary packages. Maintains the new
-resurrected OS/2 port. Added new .crt carts support. And
-lots of other fixes.
+GEORAM and RamCart code. Wrote the c64 +60K and 256K
+expansions code. Made the ethernet support for the Msdos
+port. Maintains the QNX 6.x, Solaris and newly resurrected
+OS/2 binary ports. Added new .crt carts support. Added
+new screenshot formats. And lots of other fixes.
 
 @end itemize
 

@@ -39,6 +39,19 @@ list of all the changes in the code.
 
 - Fixed crash if settings are saved.
 
+- Fixed some Gnome1 annoyances (popup menus in status bar)
+
+- Rework of gnome save media (screenshot) dialog
+
+- Xaw Statusbar fixes and improvements (new buttons for recording).
+
+- An experimental patch for Gnome2/Gtk2 support is available (See
+  website). Vice-1.19 will be the last Gnome1/Gtk1 version officially
+  supported. 
+  The Gnome2/Gtk2 version is known to work on state-of-the-art
+  Linux distributions (e.g. Fedora Core 4).
+  See also src/arch/unix/x11/gnome/TODO
+
 ** MS-Windows changes
 ---------------------
 

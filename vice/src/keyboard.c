@@ -162,7 +162,9 @@ void keyboard_event_delayed_playback(void *data)
     }
 
     if (keyboard_clear == 1) {
+#ifdef COMMON_KBD
         keyboard_key_clear_internal();
+#endif
         keyboard_clear = 0;
     }
 

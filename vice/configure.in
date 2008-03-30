@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=18
-VICE_VERSION_BUILD=11
+VICE_VERSION_BUILD=12
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -679,6 +679,35 @@ if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xye
     fi
   fi
 fi
+
+if test x"$is_beos" == "xyes"; then
+
+  dnl Check for needed network headers
+
+  BEOS_NETWORK_HEADERS_PRESENT=yes
+  AC_CHECK_HEADERS(socket.h netdb.h byteorder.h,,
+                   [BEOS_NETWORK_HEADERS_PRESENT=no],)
+
+  if test x"$BEOS_NETWORK_HEADERS_PRESENT" = "xyes"; then
+
+    dnl Check for possible extra needed network libraries
+
+    AC_CHECK_LIB(net, gethostbyname,[ LIBS="-lnet -lnetapi $LIBS"],,)
+
+    dnl Check for needed functions
+
+    BEOS_NETWORK_FUNCS_PRESENT=yes
+
+    AC_CHECK_FUNCS(socket send bind listen gethostbyname connect recv accept,,
+                   [BEOS_NETWORK_FUNCS_PRESENT=no],)
+
+    if test x"$BEOS_NETWORK_FUNCS_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      AC_CHECK_FUNCS(getdtablesize getrlimit)
+    fi
+  fi
+fi
+
 
 dnl Check for availability of IPV6
 if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then

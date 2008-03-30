@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2006-01-02 01:21+0100\n"
-"PO-Revision-Date: 2005-09-28 17:52+0200\n"
+"Project-Id-Version: VICE 1.19\n"
+"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -361,77 +361,77 @@ msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
 
-#: src/network.c:149
+#: src/network.c:158
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:367
+#: src/network.c:376
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:415
+#: src/network.c:424
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:435
+#: src/network.c:444
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/network.c:448
+#: src/network.c:457
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Spara &ögonblicksbild..."
 
-#: src/network.c:457
+#: src/network.c:466
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Kan inte läsa ögonblicksbildfil"
 
-#: src/network.c:473
+#: src/network.c:482
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
-#: src/network.c:486
+#: src/network.c:495
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
-#: src/network.c:599
+#: src/network.c:603
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:634
+#: src/network.c:638
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
-#: src/network.c:654
+#: src/network.c:658
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Kan inte skriva loggfil \"%s\"."
 
-#: src/network.c:699
+#: src/network.c:703
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:713
+#: src/network.c:717
 #, fuzzy
 msgid "Receiving snapshot from server..."
 msgstr "Välj slutögonblicksmodul för händelsehistorik"
 
-#: src/network.c:836
+#: src/network.c:842
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:847
+#: src/network.c:853
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:889
+#: src/network.c:895
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -1930,7 +1930,7 @@ msgid "Ethernet emulation"
 msgstr "Ethernetemulering"
 
 #: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
-#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
+#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr "*Emulatoridentifiering"
 
@@ -2016,7 +2016,7 @@ msgid "Machine type"
 msgstr "Maskintyp"
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
+#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:187
 msgid "ROM sets"
 msgstr "ROM-uppsättningar"
 
@@ -2039,7 +2039,7 @@ msgstr "Minnes- och I/O-utökningar"
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:374
+#: src/arch/unix/vic20ui.c:380
 msgid "RS232 settings"
 msgstr "RS232-inställningar"
 
@@ -2049,26 +2049,26 @@ msgstr "Modellinställningar"
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Alternativ"
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
 #: src/arch/unix/x11/gnome/x11ui.c:1322
 msgid "Settings"
@@ -2078,7 +2078,7 @@ msgstr "Inställningar"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -2111,7 +2111,7 @@ msgstr "Läs ny teckengenerator-ROM"
 
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vic20ui.c:421
 #, fuzzy
 msgid "Save media file"
 msgstr "Spara mediafil"
@@ -2574,19 +2574,19 @@ msgstr "Enhet 10..."
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:404
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:406
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:408
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:410
 msgid "Unit #11"
 msgstr "Enhet 11"
 
@@ -2669,7 +2669,7 @@ msgstr "Namn för IDE64-avbildning..."
 msgid "Cannot attach cartridge"
 msgstr "Kan inte ansluta insticksmodul"
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:224
 msgid "Attach cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -2730,11 +2730,11 @@ msgstr "Anslut &insticksmodulfil..."
 msgid "Enable Expert Cartridge..."
 msgstr "Aktivera Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:276
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
+#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:282
 msgid "Attach a cartridge image"
 msgstr "Anslut insticksmodulfil"
 
@@ -2837,7 +2837,7 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:450
 msgid "Select history directory"
 msgstr "Ange historikkatalog"
 
@@ -2845,117 +2845,117 @@ msgstr "Ange historikkatalog"
 msgid "Record sound to file"
 msgstr "Spela in ljud till fil"
 
-#: src/arch/unix/uicommands.c:405
+#: src/arch/unix/uicommands.c:397
 msgid "Soft"
 msgstr "Mjuk"
 
-#: src/arch/unix/uicommands.c:408
+#: src/arch/unix/uicommands.c:400
 msgid "Hard"
 msgstr "Hård"
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:416
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:432
+#: src/arch/unix/uicommands.c:424
 msgid "*Save new snapshot"
 msgstr "*Spara ny ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:426
 msgid "*Load existing snapshot"
 msgstr "*Läs existerande ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:428
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:430
 msgid "*Overwrite running playback"
 msgstr "*Skriv över aktiv uppspelning"
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:436
 msgid "Load snapshot..."
 msgstr "Läs ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:439
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:443
 msgid "Quickload snapshot"
 msgstr "Snabbläs ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:446
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:452
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:454
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:456
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:466
+#: src/arch/unix/uicommands.c:458
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:460
 msgid "Set recording milestone"
 msgstr "Ange inspelningsbokmärke"
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:462
 msgid "Return to milestone"
 msgstr "Återgå till bokmärke"
 
-#: src/arch/unix/uicommands.c:473
+#: src/arch/unix/uicommands.c:465
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:469 src/arch/unix/uinetplay.c:117
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:476
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:495
+#: src/arch/unix/uicommands.c:482
 msgid "Sound record..."
 msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:489
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:505
+#: src/arch/unix/uicommands.c:492
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:513
+#: src/arch/unix/uicommands.c:500
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:515
+#: src/arch/unix/uicommands.c:502
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:521 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:508 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:523
+#: src/arch/unix/uicommands.c:510
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:530
+#: src/arch/unix/uicommands.c:517
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -3102,7 +3102,7 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:301
+#: src/arch/unix/vic20ui.c:307
 msgid "*None"
 msgstr "*Ingen"
 
@@ -3496,22 +3496,22 @@ msgid "*Sectors..."
 msgstr "*Sektorer..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
-#: src/arch/unix/vic20ui.c:304
+#: src/arch/unix/vic20ui.c:310
 msgid "*Numpad"
 msgstr "*Numeriskt tangentbord"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
-#: src/arch/unix/vic20ui.c:307
+#: src/arch/unix/vic20ui.c:313
 msgid "*Custom Keys"
 msgstr "*Användardefinierade tangenter"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
-#: src/arch/unix/vic20ui.c:311
+#: src/arch/unix/vic20ui.c:317
 msgid "*Analog Joystick 0"
 msgstr "*Analog styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
-#: src/arch/unix/vic20ui.c:314
+#: src/arch/unix/vic20ui.c:320
 msgid "*Analog Joystick 1"
 msgstr "*Analog styrspak 1"
 
@@ -3532,22 +3532,22 @@ msgid "*Analog Joystick 5"
 msgstr "*Analog styrspak 5"
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
-#: src/arch/unix/vic20ui.c:318
+#: src/arch/unix/vic20ui.c:324
 msgid "*Digital Joystick 0"
 msgstr "*Digial styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
-#: src/arch/unix/vic20ui.c:321
+#: src/arch/unix/vic20ui.c:327
 msgid "*Digital Joystick 1"
 msgstr "*Digital styrspak 1"
 
 #: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
-#: src/arch/unix/vic20ui.c:326
+#: src/arch/unix/vic20ui.c:332
 msgid "*USB Joystick 0"
 msgstr "*USB-styrspak 0"
 
 #: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
-#: src/arch/unix/vic20ui.c:329
+#: src/arch/unix/vic20ui.c:335
 msgid "*USB Joystick 1"
 msgstr "*USB-styrspak 1"
 
@@ -3563,7 +3563,7 @@ msgstr "Styrspak i spelport 2"
 msgid "Swap joystick ports"
 msgstr "Växla spelportarna"
 
-#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:344
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
 
@@ -3603,60 +3603,60 @@ msgstr "Spara tangentbordsemulering till fil"
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
 
-#: src/arch/unix/uinetplay.c:60
+#: src/arch/unix/uinetplay.c:69
 #, fuzzy
 msgid "Enter port"
 msgstr "Skrivare användarport"
 
-#: src/arch/unix/uinetplay.c:61
+#: src/arch/unix/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:73
+#: src/arch/unix/uinetplay.c:82
 #, fuzzy
 msgid "Invalid TCP port"
 msgstr "Ogiltigt filnamn"
 
-#: src/arch/unix/uinetplay.c:81
+#: src/arch/unix/uinetplay.c:90
 msgid "Error starting the netplay server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:86
+#: src/arch/unix/uinetplay.c:95
 #, fuzzy
 msgid "Netplay Server name"
 msgstr "Inställningar för kringutrustning"
 
-#: src/arch/unix/uinetplay.c:87
+#: src/arch/unix/uinetplay.c:96
 #, fuzzy
 msgid "Hostname:"
 msgstr "ROM-uppsättningsnamn:"
 
-#: src/arch/unix/uinetplay.c:93
+#: src/arch/unix/uinetplay.c:102
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:103
+#: src/arch/unix/uinetplay.c:113
 #, fuzzy
 msgid "*Enable IPV6"
 msgstr "&Aktivera +60K"
 
-#: src/arch/unix/uinetplay.c:106
+#: src/arch/unix/uinetplay.c:120
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:108
+#: src/arch/unix/uinetplay.c:122
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:110
+#: src/arch/unix/uinetplay.c:124
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:127
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:207
 msgid "Disconnect"
 msgstr ""
 
@@ -4111,40 +4111,40 @@ msgstr "ACIA $DExx-enhet"
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx-avbrott"
 
-#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:354
 msgid "*Userport RS232 emulation"
 msgstr "*Emulering av RS232 på användarporten"
 
-#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:356
 msgid "Userport RS232 baud rate"
 msgstr "Användarportens RS232-baudhastighet"
 
-#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
+#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
 #: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:355
+#: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
 msgstr "Seriell enhet 1..."
 
 #: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/vic20ui.c:363
 msgid "Serial 1 baudrate"
 msgstr "Baudhastighet för seriell enhet 1"
 
 #: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:362
+#: src/arch/unix/vic20ui.c:368
 msgid "Serial 2 baudrate"
 msgstr "Baudhastighet för seriell enhet 2"
 
 #: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:365
+#: src/arch/unix/vic20ui.c:371
 msgid "Dump filename..."
 msgstr "Filnamn för datadump..."
 
 #: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:368
+#: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
 msgstr "Program att starta..."
 
@@ -4152,7 +4152,7 @@ msgstr "Program att starta..."
 msgid "ACIA device"
 msgstr "ACIA-enhet"
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
 msgstr "Seriell enhet 2..."
 
@@ -4548,87 +4548,87 @@ msgstr "Läs ny teckengenerator-ROM"
 msgid "No expansion memory"
 msgstr "Ingen minnesutökning"
 
-#: src/arch/unix/vic20ui.c:155
+#: src/arch/unix/vic20ui.c:156
 msgid "3K (block 0)"
 msgstr "3K (block 0)"
 
-#: src/arch/unix/vic20ui.c:157
+#: src/arch/unix/vic20ui.c:159
 msgid "8K (block 1)"
 msgstr "8K (block 1)"
 
-#: src/arch/unix/vic20ui.c:159
+#: src/arch/unix/vic20ui.c:162
 msgid "16K (blocks 1/2)"
 msgstr "16K (block 1/2)"
 
-#: src/arch/unix/vic20ui.c:161
+#: src/arch/unix/vic20ui.c:165
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (block 1/2/3)"
 
-#: src/arch/unix/vic20ui.c:164
+#: src/arch/unix/vic20ui.c:169
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Alla (block 0/1/2/3/5)"
 
-#: src/arch/unix/vic20ui.c:178
+#: src/arch/unix/vic20ui.c:184
 msgid "Common configurations"
 msgstr "Vanliga inställningar"
 
-#: src/arch/unix/vic20ui.c:184
+#: src/arch/unix/vic20ui.c:190
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/unix/vic20ui.c:186
+#: src/arch/unix/vic20ui.c:192
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Block 1 (8K på $2000-$3FFF)"
 
-#: src/arch/unix/vic20ui.c:188
+#: src/arch/unix/vic20ui.c:194
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Block 2 (8K på $4000-$5FFF)"
 
-#: src/arch/unix/vic20ui.c:190
+#: src/arch/unix/vic20ui.c:196
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Block 3 (8K på $6000-$7FFF)"
 
-#: src/arch/unix/vic20ui.c:192
+#: src/arch/unix/vic20ui.c:198
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Block 5 (8K på $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:208 src/arch/unix/vic20ui.c:429
 msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
-#: src/arch/unix/vic20ui.c:224
+#: src/arch/unix/vic20ui.c:230
 msgid "Invalid cartridge image"
 msgstr "Ogiltig insticksmodulfil"
 
-#: src/arch/unix/vic20ui.c:249
+#: src/arch/unix/vic20ui.c:255
 msgid "Smart-attach cartridge image..."
 msgstr "Smartanslut insticksmodulfil..."
 
-#: src/arch/unix/vic20ui.c:254
+#: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Anslut 4/8/16KB-fil vid $2000..."
 
-#: src/arch/unix/vic20ui.c:257
+#: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Anslut 4/8/16KB-fil vid $4000..."
 
-#: src/arch/unix/vic20ui.c:260
+#: src/arch/unix/vic20ui.c:266
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Anslut 4/8/16KB-fil vid $6000..."
 
-#: src/arch/unix/vic20ui.c:263
+#: src/arch/unix/vic20ui.c:269
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Anslut 4/8KB-fil vid $A000..."
 
-#: src/arch/unix/vic20ui.c:266
+#: src/arch/unix/vic20ui.c:272
 msgid "Attach 4KB image at $B000..."
 msgstr "Anslut 4KB-fil vid $B000..."
 
-#: src/arch/unix/vic20ui.c:278
+#: src/arch/unix/vic20ui.c:284
 msgid "Detach cartridge image(s)"
 msgstr "Koppla från insticksmodulfil(er)"
 
-#: src/arch/unix/vic20ui.c:421
+#: src/arch/unix/vic20ui.c:427
 msgid "VIC settings"
 msgstr "VIC-inställningar"
 
@@ -4845,31 +4845,40 @@ msgstr ""
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143
-#: src/arch/unix/x11/gnome/uinetplay.c:147
+#: src/arch/unix/x11/gnome/uinetplay.c:116
+msgid "Couldn't start network server."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:126
+#, fuzzy
+msgid "Couldn't connect client."
+msgstr "Kunde inte allokera färgmellanlagring"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Inställningar för kringutrustning"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:152
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 #, fuzzy
 msgid "Current mode: "
 msgstr "Nuvarande ROM-uppsättningar"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:155
+#: src/arch/unix/x11/gnome/uinetplay.c:157
 #, fuzzy
 msgid "<unknown>"
 msgstr "Okänd"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:162
+#: src/arch/unix/x11/gnome/uinetplay.c:164
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:170
+#: src/arch/unix/x11/gnome/uinetplay.c:172
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:183
+#: src/arch/unix/x11/gnome/uinetplay.c:185
 msgid "Connect to "
 msgstr ""
 
@@ -5493,43 +5502,6 @@ msgstr "Prestanda kommer att bli dålig."
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
-#~ msgid "VIC II Screenshot"
-#~ msgstr "VIC II-skärmdump"
-
-#~ msgid "VDC Screenshot"
-#~ msgstr "VDC-skärmdump"
-
-#~ msgid "Screenshot..."
-#~ msgstr "Skärmdump..."
-
-#~ msgid "IDE64: Using imagefile `%s'."
-#~ msgstr "IDE64: Använder avbildningsfil \"%s\"."
-
-#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-#~ msgstr "IDE64: Kan inte använda avbildningsfil \"%s\". INGEN DISKEMULERING!"
-
-#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-#~ msgstr ""
-#~ "IDE64: Kunde inte läsa diskgeometri från avbildningsfil, använder normal "
-#~ "8MB."
-
-#~ msgid "IDE64: Disk is not formatted, using default 8MB."
-#~ msgstr "IDE64: Disken är inte formaterad, använder normal 8MB."
-
-#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-#~ msgstr "IDE64: använder CHS-geometrin %i/%i/%i, totalt %lu sektorer."
-
-#~ msgid "IDE64: LBA geometry, %lu sectors total."
-#~ msgstr "IDE64: LBA-geometri, %lu sektorer totalt."
-
-#, fuzzy
-#~ msgid "Cannot read received snapshot file"
-#~ msgstr "Kan inte läsa in ögonblicksbildfil."
-
-#, fuzzy
-#~ msgid "fragmented"
-#~ msgstr "fragmentprogram."
-
 #~ msgid "&File"
 #~ msgstr "&Arkiv"
 
@@ -5770,8 +5742,29 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Save currently loaded &ROM images"
 #~ msgstr "Spara lästa &ROM-avbildningar"
 
-#~ msgid "Save as"
-#~ msgstr "Spara som"
+#, fuzzy
+#~ msgid "Select Driver:"
+#~ msgstr "Drivrutin:"
+
+#, fuzzy
+#~ msgid "FFMPEG settings"
+#~ msgstr "PET-inställningar"
+
+#, fuzzy
+#~ msgid "Format:"
+#~ msgstr "Bildformat"
+
+#, fuzzy
+#~ msgid "Audio: codec"
+#~ msgstr "Skärmbredd"
+
+#, fuzzy
+#~ msgid "bitrate"
+#~ msgstr "Videobithastighet"
+
+#, fuzzy
+#~ msgid "Video: codec"
+#~ msgstr "Skärmbredd"
 
 #~ msgid "&Append log to existing file"
 #~ msgstr "&Lägg till log i existerande fil"
@@ -5929,6 +5922,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "RS232 device 4"
 #~ msgstr "RS232-enhet 4"
 
+#, fuzzy
+#~ msgid "Current mode"
+#~ msgstr "Nuvarande ROM-uppsättningar"
+
 #~ msgid "None"
 #~ msgstr "Ingen"
 
@@ -6025,6 +6022,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "VICE console logging files (*.dbg)"
 #~ msgstr "VICE konsolloggfiler (*.dbg)"
 
+#, fuzzy
+#~ msgid "Cannot write log file `%s'."
+#~ msgstr "Kan inte skriva avbildningsfil %s"
+
 #~ msgid "Load flip list file"
 #~ msgstr "Läs vallistefil"
 
@@ -6079,6 +6080,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Select file system directory"
 #~ msgstr "Ange filsystemskatalog"
 
+#, fuzzy
+#~ msgid "Printer Userport"
+#~ msgstr "Skrivare användarport"
+
 #~ msgid "Printer 4"
 #~ msgstr "Skrivare 4"
 
@@ -6097,8 +6102,16 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Drive 11"
 #~ msgstr "Enhet 11"
 
+#, fuzzy
+#~ msgid "Peripheral Settings"
+#~ msgstr "Inställningar för kringutrustning"
+
 #~ msgid "Can't write snapshot file."
 #~ msgstr "Kan inte skriva ögonblicksbildfil."
+
+#, fuzzy
+#~ msgid "Cannot read snapshot image"
+#~ msgstr "Kan inte läsa in ögonblicksbildfil."
 
 #~ msgid "Load %s ROM image"
 #~ msgstr "Läs %s-ROM-fil"
@@ -6126,6 +6139,12 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Save snapshot image"
 #~ msgstr "Spara ögonblicksbildfil"
+
+#, fuzzy
+#~ msgid "Cannot write snapshot file `%s'."
+#~ msgstr ""
+#~ "Kan inte skriva ögonblicksbildfil\n"
+#~ "\"%s\"\n"
 
 #~ msgid "Load snapshot image"
 #~ msgstr "Läser in ögonblicksbild"
@@ -6191,6 +6210,10 @@ msgstr "Initierade utan delat minne."
 #~ msgstr "Diskettenhetsinställningar"
 
 #~ msgid "Select start snapshot for event history"
+#~ msgstr "Välj startögonblicksmodul för händelsehistorik"
+
+#, fuzzy
+#~ msgid "Select end snapshot for event history"
 #~ msgstr "Välj startögonblicksmodul för händelsehistorik"
 
 #~ msgid "Version %s *UNSTABLE*"
@@ -6306,7 +6329,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Sound driver: WMM"
 #~ msgstr "Ljuddrivrutin: WMM"
 
-#~ msgid "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+#, fuzzy
+#~ msgid ""
+#~ "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;"
+#~ "*.mpg)"
 #~ msgstr "Mediafiler (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
 
 #~ msgid " kB"
@@ -6317,6 +6343,10 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Configure Keyset B"
 #~ msgstr "Konfigurera uppsättning B"
+
+#, fuzzy
+#~ msgid "Save media image"
+#~ msgstr "Spara mediafil"
 
 #~ msgid "%s at %d%% speed, %d fps%s"
 #~ msgstr "%s med %d%% hastighet, %d b/s%s"
@@ -6341,6 +6371,10 @@ msgstr "Initierade utan delat minne."
 #~ "Spelar upp\n"
 #~ "%02d:%02d (%02d:%02d)"
 
+#, fuzzy
+#~ msgid "Unknown"
+#~ msgstr "Okänd"
+
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Välj indataenhet för spelport 1"
 
@@ -6355,6 +6389,14 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Start VICE in fullscreen mode"
 #~ msgstr "Starta VICE i fullskärmsläge"
+
+#, fuzzy
+#~ msgid "An unexpected error occured. Received signal %d (%s)."
+#~ msgstr "Tog emot signal %d (%s)."
+
+#, fuzzy
+#~ msgid "Invalid port number"
+#~ msgstr "Ogiltigt filnamn"
 
 #~ msgid "IRQ"
 #~ msgstr "IRQ"
@@ -6455,6 +6497,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Reset C&ounter"
 #~ msgstr "Nollställ r&äknare"
 
+#, fuzzy
+#~ msgid "Attach &cartridge image..."
+#~ msgstr "Anslut insticksmodulfil"
+
 #~ msgid "&CRT image..."
 #~ msgstr "&CRT-fil..."
 
@@ -6487,6 +6533,10 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Super Snapshot &5 image..."
 #~ msgstr "Super Snapshot &5-fil..."
+
+#, fuzzy
+#~ msgid "Structured &Basic image..."
+#~ msgstr "Anslut &insticksmodulfil..."
 
 #~ msgid "Expert Cartridge"
 #~ msgstr "Expert Cartridge"
@@ -6569,6 +6619,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Load snapshot &image..."
 #~ msgstr "&Läs in ögonblicksbild..."
 
+#, fuzzy
+#~ msgid "Save sna&pshot image..."
+#~ msgstr "Spara ögonblicksbildfil"
+
 #~ msgid "&Load quicksnapshot image\tAlt+L"
 #~ msgstr "Läs in &snabbögonblicksbild\tAlt+L"
 
@@ -6611,14 +6665,14 @@ msgstr "Initierade utan delat minne."
 #~ msgid "&Auto"
 #~ msgstr "&Auto"
 
+#~ msgid "&Custom"
+#~ msgstr "&Egen"
+
 #~ msgid "&Maximum Speed"
 #~ msgstr "&Maximal hastighet"
 
 #~ msgid "No &limit"
 #~ msgstr "Ingen &gräns"
-
-#~ msgid "&Custom"
-#~ msgstr "&Egen"
 
 #~ msgid "&Warp mode\tAlt+W"
 #~ msgstr "&Warpläge\tAlt+W"
@@ -6655,12 +6709,6 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Vide&o standard"
 #~ msgstr "&TV-standard"
-
-#~ msgid "&PAL-G"
-#~ msgstr "&PAL-G"
-
-#~ msgid "&NTSC-M"
-#~ msgstr "&NTSC-M"
 
 #~ msgid "Emulator &Identification"
 #~ msgstr "Emulator&identifiering"
@@ -6905,36 +6953,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Enable external Function ROM"
 #~ msgstr "Aktivera externt funktions-ROM"
 
-#~ msgid "&Drive type"
-#~ msgstr "&Enhetstyp"
-
-#~ msgid "40 &track handling"
-#~ msgstr "Hantering av 40 &spår"
-
-#~ msgid "Never extend"
-#~ msgstr "Utöka aldrig"
-
-#~ msgid "Ask on extend"
-#~ msgstr "Fråga vid utökning"
-
-#~ msgid "Extend on access"
-#~ msgstr "Utöka vid åtkomst"
-
-#~ msgid "Id&le method"
-#~ msgstr "Pa&usmetod"
-
-#~ msgid "Trap idle"
-#~ msgstr "Fånga inaktiva"
-
-#~ msgid "Skip cycles"
-#~ msgstr "Hoppa cykler"
-
-#~ msgid "&Parallel cable"
-#~ msgstr "&Parallellkabel"
-
-#~ msgid "Drive &expansion"
-#~ msgstr "Enhets&utökning"
-
 #~ msgid "&Symbolic"
 #~ msgstr "&Symbolisk"
 
@@ -6965,6 +6983,10 @@ msgstr "Initierade utan delat minne."
 #~ msgid "+&60K settings..."
 #~ msgstr "+&60K-inställningar..."
 
+#, fuzzy
+#~ msgid "&256K settings..."
+#~ msgstr "+&60K-inställningar..."
+
 #~ msgid "Kernal"
 #~ msgstr "Kernal"
 
@@ -6979,6 +7001,26 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "&Symbolic DE"
 #~ msgstr "&Symbolisk DE"
+
+#, fuzzy
+#~ msgid "256K Settings"
+#~ msgstr "+60K-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable 256K"
+#~ msgstr "&Aktivera +60K"
+
+#, fuzzy
+#~ msgid "256K base address"
+#~ msgstr "<basadress>"
+
+#, fuzzy
+#~ msgid "256K file"
+#~ msgstr "+60K-fil"
+
+#, fuzzy
+#~ msgid "Select file for 256K"
+#~ msgstr "Ange fil för +60K"
 
 #~ msgid "Drive s&ync factor"
 #~ msgstr "S&ynkfaktor för diskettstation"
@@ -7069,6 +7111,36 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "CBM2 settings"
 #~ msgstr "CBM2-inställningar"
+
+#~ msgid "&Drive type"
+#~ msgstr "&Enhetstyp"
+
+#~ msgid "40 &track handling"
+#~ msgstr "Hantering av 40 &spår"
+
+#~ msgid "Never extend"
+#~ msgstr "Utöka aldrig"
+
+#~ msgid "Ask on extend"
+#~ msgstr "Fråga vid utökning"
+
+#~ msgid "Extend on access"
+#~ msgstr "Utöka vid åtkomst"
+
+#~ msgid "Id&le method"
+#~ msgstr "Pa&usmetod"
+
+#~ msgid "Trap idle"
+#~ msgstr "Fånga inaktiva"
+
+#~ msgid "Skip cycles"
+#~ msgstr "Hoppa cykler"
+
+#~ msgid "&Parallel cable"
+#~ msgstr "&Parallellkabel"
+
+#~ msgid "Drive &expansion"
+#~ msgstr "Enhets&utökning"
 
 #~ msgid "GEORAM Settings"
 #~ msgstr "GEORAM-inställningar"
@@ -7258,6 +7330,10 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "+60K Settings"
 #~ msgstr "+60K-inställningar"
+
+#, fuzzy
+#~ msgid "&Enable +60K"
+#~ msgstr "&Aktivera +60K"
 
 #~ msgid "+60K file"
 #~ msgstr "+60K-fil"
@@ -7462,6 +7538,52 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "New Luminances"
 #~ msgstr "Nya ljusstyrkor"
+
+#~ msgid "VIC II Screenshot"
+#~ msgstr "VIC II-skärmdump"
+
+#~ msgid "VDC Screenshot"
+#~ msgstr "VDC-skärmdump"
+
+#~ msgid "Screenshot..."
+#~ msgstr "Skärmdump..."
+
+#~ msgid "IDE64: Using imagefile `%s'."
+#~ msgstr "IDE64: Använder avbildningsfil \"%s\"."
+
+#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
+#~ msgstr "IDE64: Kan inte använda avbildningsfil \"%s\". INGEN DISKEMULERING!"
+
+#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
+#~ msgstr ""
+#~ "IDE64: Kunde inte läsa diskgeometri från avbildningsfil, använder normal "
+#~ "8MB."
+
+#~ msgid "IDE64: Disk is not formatted, using default 8MB."
+#~ msgstr "IDE64: Disken är inte formaterad, använder normal 8MB."
+
+#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
+#~ msgstr "IDE64: använder CHS-geometrin %i/%i/%i, totalt %lu sektorer."
+
+#~ msgid "IDE64: LBA geometry, %lu sectors total."
+#~ msgstr "IDE64: LBA-geometri, %lu sektorer totalt."
+
+#, fuzzy
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr "Kan inte läsa in ögonblicksbildfil."
+
+#, fuzzy
+#~ msgid "fragmented"
+#~ msgstr "fragmentprogram."
+
+#~ msgid "Save as"
+#~ msgstr "Spara som"
+
+#~ msgid "&PAL-G"
+#~ msgstr "&PAL-G"
+
+#~ msgid "&NTSC-M"
+#~ msgstr "&NTSC-M"
 
 #~ msgid "Specify name of first RS232 device (/dev/ttyS0)"
 #~ msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"

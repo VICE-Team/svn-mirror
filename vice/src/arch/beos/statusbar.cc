@@ -268,6 +268,19 @@ void ViceStatusbar::DisplayJoyport(int port_num, int status)
 }	
 
 
+void ViceStatusbar::DisplayMessage(const char *text)
+{
+	BRect frame = BRect(5,53,150,65);
+	statusbitmap->Lock();
+	drawview->SetLowColor(statusbar_background);
+	drawview->FillRect(frame, B_SOLID_LOW);
+	drawview->DrawString(text, BPoint(5,62));
+	drawview->Sync();
+	statusbitmap->Unlock();
+	Draw(frame);
+}
+
+
 void ViceStatusbar::Draw(BRect rect)
 {	
 	DrawBitmap(statusbitmap,rect,rect);

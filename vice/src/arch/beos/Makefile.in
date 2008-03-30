@@ -289,6 +289,8 @@ libarch_a_SOURCES = \
 	ui_file.h \
 	ui_joystick.cc \
 	ui_joystick.h \
+	ui_netplay.cc \
+	ui_netplay.h \
 	ui_pet.cc \
 	ui_pet.h \
 	ui_ram.cc \
@@ -332,12 +334,12 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	signals.$(OBJEXT) statusbar.$(OBJEXT) ui.$(OBJEXT) \
 	ui_cbm2.$(OBJEXT) ui_datasette.$(OBJEXT) ui_drive.$(OBJEXT) \
 	ui_device.$(OBJEXT) ui_file.$(OBJEXT) ui_joystick.$(OBJEXT) \
-	ui_pet.$(OBJEXT) ui_ram.$(OBJEXT) ui_sid.$(OBJEXT) \
-	ui_sound.$(OBJEXT) ui_vic20.$(OBJEXT) ui_vicii.$(OBJEXT) \
-	ui_video.$(OBJEXT) uicmdline.$(OBJEXT) uimon.$(OBJEXT) \
-	vic20ui.$(OBJEXT) viceapp.$(OBJEXT) vicemenu.$(OBJEXT) \
-	vicewindow.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT)
+	ui_netplay.$(OBJEXT) ui_pet.$(OBJEXT) ui_ram.$(OBJEXT) \
+	ui_sid.$(OBJEXT) ui_sound.$(OBJEXT) ui_vic20.$(OBJEXT) \
+	ui_vicii.$(OBJEXT) ui_video.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uimon.$(OBJEXT) vic20ui.$(OBJEXT) viceapp.$(OBJEXT) \
+	vicemenu.$(OBJEXT) vicewindow.$(OBJEXT) video.$(OBJEXT) \
+	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -353,14 +355,15 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/ui_cbm2.Po ./$(DEPDIR)/ui_datasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui_device.Po ./$(DEPDIR)/ui_drive.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui_file.Po ./$(DEPDIR)/ui_joystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui_pet.Po ./$(DEPDIR)/ui_ram.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui_sid.Po ./$(DEPDIR)/ui_sound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui_vic20.Po ./$(DEPDIR)/ui_vicii.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ui_video.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/viceapp.Po ./$(DEPDIR)/vicemenu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vicewindow.Po ./$(DEPDIR)/video.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po
+@AMDEP_TRUE@	./$(DEPDIR)/ui_netplay.Po ./$(DEPDIR)/ui_pet.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui_ram.Po ./$(DEPDIR)/ui_sid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui_sound.Po ./$(DEPDIR)/ui_vic20.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui_vicii.Po ./$(DEPDIR)/ui_video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uimon.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/viceapp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vicemenu.Po ./$(DEPDIR)/vicewindow.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -417,6 +420,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_drive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_joystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_netplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_pet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_ram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_sid.Po@am__quote@

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-01-02 01:21+0100\n"
+"POT-Creation-Date: 2006-01-07 01:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -361,73 +361,73 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:149
+#: src/network.c:158
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:367
+#: src/network.c:376
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:415
+#: src/network.c:424
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:435
+#: src/network.c:444
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 
-#: src/network.c:448
+#: src/network.c:457
 msgid "Sending snapshot to client..."
 msgstr ""
 
-#: src/network.c:457
+#: src/network.c:466
 msgid "Cannot send snapshot to client"
 msgstr ""
 
-#: src/network.c:473
+#: src/network.c:482
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 
-#: src/network.c:486
+#: src/network.c:495
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 
-#: src/network.c:599
+#: src/network.c:603
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:634
+#: src/network.c:638
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 
-#: src/network.c:654
+#: src/network.c:658
 #, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 
-#: src/network.c:699
+#: src/network.c:703
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:713
+#: src/network.c:717
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:836
+#: src/network.c:842
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:847
+#: src/network.c:853
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:889
+#: src/network.c:895
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -1899,7 +1899,7 @@ msgid "Ethernet emulation"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
-#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
+#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr ""
 
@@ -1983,7 +1983,7 @@ msgid "Machine type"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
+#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:187
 msgid "ROM sets"
 msgstr ""
 
@@ -2006,7 +2006,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:374
+#: src/arch/unix/vic20ui.c:380
 msgid "RS232 settings"
 msgstr ""
 
@@ -2016,26 +2016,26 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
 #: src/arch/unix/x11/gnome/x11ui.c:1322
 msgid "Settings"
@@ -2045,7 +2045,7 @@ msgstr ""
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr ""
 
@@ -2077,7 +2077,7 @@ msgstr ""
 
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vic20ui.c:421
 msgid "Save media file"
 msgstr ""
 
@@ -2539,19 +2539,19 @@ msgstr ""
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:404
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:406
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:408
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:410
 msgid "Unit #11"
 msgstr ""
 
@@ -2631,7 +2631,7 @@ msgstr ""
 msgid "Cannot attach cartridge"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:224
 msgid "Attach cartridge image"
 msgstr ""
 
@@ -2691,11 +2691,11 @@ msgstr ""
 msgid "Enable Expert Cartridge..."
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:276
 msgid "Set cartridge as default"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
+#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:282
 msgid "Attach a cartridge image"
 msgstr ""
 
@@ -2791,7 +2791,7 @@ msgid ""
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:450
 msgid "Select history directory"
 msgstr ""
 
@@ -2799,117 +2799,117 @@ msgstr ""
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:405
+#: src/arch/unix/uicommands.c:397
 msgid "Soft"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:408
+#: src/arch/unix/uicommands.c:400
 msgid "Hard"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:416
 msgid "Change working directory..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:432
+#: src/arch/unix/uicommands.c:424
 msgid "*Save new snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:426
 msgid "*Load existing snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:428
 msgid "*Start with reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:430
 msgid "*Overwrite running playback"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:436
 msgid "Load snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:439
 msgid "Save snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:443
 msgid "Quickload snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:446
 msgid "Quicksave snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:452
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:454
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:456
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:466
+#: src/arch/unix/uicommands.c:458
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:460
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:462
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:473
+#: src/arch/unix/uicommands.c:465
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:469 src/arch/unix/uinetplay.c:117
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:476
 msgid "Snapshot commands"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:495
+#: src/arch/unix/uicommands.c:482
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:489
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:505
+#: src/arch/unix/uicommands.c:492
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:513
+#: src/arch/unix/uicommands.c:500
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:515
+#: src/arch/unix/uicommands.c:502
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:521 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:508 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:523
+#: src/arch/unix/uicommands.c:510
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:530
+#: src/arch/unix/uicommands.c:517
 msgid "Exit emulator"
 msgstr ""
 
@@ -3056,7 +3056,7 @@ msgstr ""
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:301
+#: src/arch/unix/vic20ui.c:307
 msgid "*None"
 msgstr ""
 
@@ -3450,22 +3450,22 @@ msgid "*Sectors..."
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
-#: src/arch/unix/vic20ui.c:304
+#: src/arch/unix/vic20ui.c:310
 msgid "*Numpad"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
-#: src/arch/unix/vic20ui.c:307
+#: src/arch/unix/vic20ui.c:313
 msgid "*Custom Keys"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
-#: src/arch/unix/vic20ui.c:311
+#: src/arch/unix/vic20ui.c:317
 msgid "*Analog Joystick 0"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
-#: src/arch/unix/vic20ui.c:314
+#: src/arch/unix/vic20ui.c:320
 msgid "*Analog Joystick 1"
 msgstr ""
 
@@ -3486,22 +3486,22 @@ msgid "*Analog Joystick 5"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
-#: src/arch/unix/vic20ui.c:318
+#: src/arch/unix/vic20ui.c:324
 msgid "*Digital Joystick 0"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
-#: src/arch/unix/vic20ui.c:321
+#: src/arch/unix/vic20ui.c:327
 msgid "*Digital Joystick 1"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
-#: src/arch/unix/vic20ui.c:326
+#: src/arch/unix/vic20ui.c:332
 msgid "*USB Joystick 0"
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
-#: src/arch/unix/vic20ui.c:329
+#: src/arch/unix/vic20ui.c:335
 msgid "*USB Joystick 1"
 msgstr ""
 
@@ -3517,7 +3517,7 @@ msgstr ""
 msgid "Swap joystick ports"
 msgstr ""
 
-#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:344
 msgid "Joystick settings"
 msgstr ""
 
@@ -3557,55 +3557,55 @@ msgstr ""
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:60
+#: src/arch/unix/uinetplay.c:69
 msgid "Enter port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:61
+#: src/arch/unix/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:73
+#: src/arch/unix/uinetplay.c:82
 msgid "Invalid TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:81
+#: src/arch/unix/uinetplay.c:90
 msgid "Error starting the netplay server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:86
+#: src/arch/unix/uinetplay.c:95
 msgid "Netplay Server name"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:87
+#: src/arch/unix/uinetplay.c:96
 msgid "Hostname:"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:93
+#: src/arch/unix/uinetplay.c:102
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:103
+#: src/arch/unix/uinetplay.c:113
 msgid "*Enable IPV6"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:106
+#: src/arch/unix/uinetplay.c:120
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:108
+#: src/arch/unix/uinetplay.c:122
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:110
+#: src/arch/unix/uinetplay.c:124
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:127
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:207
 msgid "Disconnect"
 msgstr ""
 
@@ -4048,40 +4048,40 @@ msgstr ""
 msgid "ACIA $DExx Interrupt"
 msgstr ""
 
-#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:354
 msgid "*Userport RS232 emulation"
 msgstr ""
 
-#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:356
 msgid "Userport RS232 baud rate"
 msgstr ""
 
-#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
+#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
 msgstr ""
 
 #: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:355
+#: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
 msgstr ""
 
 #: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/vic20ui.c:363
 msgid "Serial 1 baudrate"
 msgstr ""
 
 #: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:362
+#: src/arch/unix/vic20ui.c:368
 msgid "Serial 2 baudrate"
 msgstr ""
 
 #: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:365
+#: src/arch/unix/vic20ui.c:371
 msgid "Dump filename..."
 msgstr ""
 
 #: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:368
+#: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
 msgstr ""
 
@@ -4089,7 +4089,7 @@ msgstr ""
 msgid "ACIA device"
 msgstr ""
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
 msgstr ""
 
@@ -4476,87 +4476,87 @@ msgstr ""
 msgid "No expansion memory"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:155
+#: src/arch/unix/vic20ui.c:156
 msgid "3K (block 0)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:157
+#: src/arch/unix/vic20ui.c:159
 msgid "8K (block 1)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:159
+#: src/arch/unix/vic20ui.c:162
 msgid "16K (blocks 1/2)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:161
+#: src/arch/unix/vic20ui.c:165
 msgid "24K (blocks 1/2/3)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:164
+#: src/arch/unix/vic20ui.c:169
 msgid "All (blocks 0/1/2/3/5)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:178
+#: src/arch/unix/vic20ui.c:184
 msgid "Common configurations"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:184
+#: src/arch/unix/vic20ui.c:190
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:186
+#: src/arch/unix/vic20ui.c:192
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:188
+#: src/arch/unix/vic20ui.c:194
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:190
+#: src/arch/unix/vic20ui.c:196
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:192
+#: src/arch/unix/vic20ui.c:198
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:208 src/arch/unix/vic20ui.c:429
 msgid "Memory expansions"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:224
+#: src/arch/unix/vic20ui.c:230
 msgid "Invalid cartridge image"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:249
+#: src/arch/unix/vic20ui.c:255
 msgid "Smart-attach cartridge image..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:254
+#: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:257
+#: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:260
+#: src/arch/unix/vic20ui.c:266
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:263
+#: src/arch/unix/vic20ui.c:269
 msgid "Attach 4/8KB image at $A000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:266
+#: src/arch/unix/vic20ui.c:272
 msgid "Attach 4KB image at $B000..."
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:278
+#: src/arch/unix/vic20ui.c:284
 msgid "Detach cartridge image(s)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:421
+#: src/arch/unix/vic20ui.c:427
 msgid "VIC settings"
 msgstr ""
 
@@ -4769,28 +4769,36 @@ msgstr ""
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143
-#: src/arch/unix/x11/gnome/uinetplay.c:147
+#: src/arch/unix/x11/gnome/uinetplay.c:116
+msgid "Couldn't start network server."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:126
+msgid "Couldn't connect client."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 msgid "Netplay Settings"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:152
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 msgid "Current mode: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:155
+#: src/arch/unix/x11/gnome/uinetplay.c:157
 msgid "<unknown>"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:162
+#: src/arch/unix/x11/gnome/uinetplay.c:164
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:170
+#: src/arch/unix/x11/gnome/uinetplay.c:172
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:183
+#: src/arch/unix/x11/gnome/uinetplay.c:185
 msgid "Connect to "
 msgstr ""
 

@@ -587,6 +587,8 @@ void datasette_set_tape_image(tap_t *image)
         current_image->current_file_seek_position = 0;
         last_tap = next_tap = 0;
         fullwave = 0;
+    } else {
+        datasette_set_tape_sense(0);
     }
 
     ui_set_tape_status(current_image ? 1 : 0);

@@ -1,3 +1,18 @@
+2006-01-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.12.
+
+2006-01-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: Added test for BeOS socket headers and
+	drivers.
+
+	* data/C64/beos_pos.vkm: Fixed key code.
+
+2006-01-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated my own info.
+
 2006-01-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.11.

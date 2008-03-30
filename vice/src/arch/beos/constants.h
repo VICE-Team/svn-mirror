@@ -83,6 +83,21 @@ const uint32 MENU_CART_ATTACH_IDE64				= 'M049';
 const uint32 MENU_CART_SET_DEFAULT				= 'M050';
 const uint32 MENU_CART_DETACH					= 'M051';
 const uint32 MENU_CART_FREEZE					= 'M052';
+const uint32 MENU_NETPLAY_SERVER				= 'M053';
+const uint32 MENU_NETPLAY_CLIENT				= 'M054';
+const uint32 MENU_NETPLAY_DISCONNECT			= 'M055';
+const uint32 MENU_NETPLAY_SETTINGS				= 'M056';
+
+const uint32 MENU_EVENT_TOGGLE_RECORD			= 'M070';
+const uint32 MENU_EVENT_TOGGLE_PLAYBACK			= 'M071';
+const uint32 MENU_EVENT_SETMILESTONE			= 'M072';
+const uint32 MENU_EVENT_RESETMILESTONE			= 'M073';
+const uint32 MENU_EVENT_START_MODE_SAVE			= 'M074';
+const uint32 MENU_EVENT_START_MODE_LOAD			= 'M075';
+const uint32 MENU_EVENT_START_MODE_RESET		= 'M076';
+const uint32 MENU_EVENT_START_MODE_PLAYBACK		= 'M077';
+const uint32 MENU_EVENT_SNAPSHOT_START			= 'M078';
+const uint32 MENU_EVENT_SNAPSHOT_END			= 'M079';
 
 const uint32 MENU_CART_VIC20_16KB_2000			= 'M060';
 const uint32 MENU_CART_VIC20_16KB_4000			= 'M061';
@@ -169,7 +184,7 @@ const uint32 MENU_REU_SIZE_4096					= 'M405';
 const uint32 MENU_REU_SIZE_8192					= 'M406';
 const uint32 MENU_REU_SIZE_16384				= 'M407';
 
-const uint32 MENU_GEORAM_SIZE_64						= 'M450';
+const uint32 MENU_GEORAM_SIZE_64					= 'M450';
 const uint32 MENU_GEORAM_SIZE_128					= 'M451';
 const uint32 MENU_GEORAM_SIZE_256					= 'M452';
 const uint32 MENU_GEORAM_SIZE_512					= 'M453';

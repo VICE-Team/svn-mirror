@@ -2,7 +2,7 @@
 #
 # Vice/Gnome
 #
-# maintained by Martin.Pottendorfer@alcatel.at
+# maintained by pottendo@utanet.at
 #
 # This is a list for me to gather already identified problems. It's not 
 # systematic and probably not complete! 
@@ -23,5 +23,23 @@ Things, which will change (don't ask when!):
 - Tape status widget (.TAP vs .t64) handling is lousy.
 - Monitor GUI
 - VIC20 Cartridge attach heuristic for image pairs
-- More standard Gnome'ish toplevel menus.
+- More standard Gnome'ish menus.
 
+Gnome 1
+Some state-of-the-art Unix/Linux distributions don't support
+Gnome1/Gtk1 application development as some packages are not installed
+by default. Sometimes those packages are shipped. E.g. for Fedora Core
+4 the user has to install the following packages:
+  
+  glib-devel-1.2.10-16.i386.rpm
+  ORBit-devel-0.5.17-15.i386.rpm
+  gtk+-devel-1.2.10-39.i386.rpm
+  imlib-devel-1.9.13-24.i386.rpm
+  gnome-libs-devel-1.4.1.2.90-46.i386.rpm
+
+Vice-1.19 will be the last officially supported Gnome1/Gtk1 version.
+
+Gnome 2
+A separate patch for Gnome 2 support is available (see website).
+The port is fully functional. Only the CBM font in the content preview
+widget and context menu is not working yet.  

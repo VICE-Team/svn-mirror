@@ -53,6 +53,8 @@ libarch_a_SOURCES = \
 	ui_file.h \
 	ui_joystick.cc \
 	ui_joystick.h \
+	ui_netplay.cc \
+	ui_netplay.h \
 	ui_pet.cc \
 	ui_pet.h \
 	ui_ram.cc \

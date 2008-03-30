@@ -1,3 +1,66 @@
+2006-01-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.12.
+
+2006-01-06  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/TODO: Input for Gnome1 and Gnome2.
+
+	* doc/html/plain/NEWS: Minor inputs.
+
+	* arch/unix/x11/gnome/uinetplay.c (netplay_start_server): Show
+	server error to user.
+	(netplay_connect): Likewise.
+
+	* arch/unix/uicommands.c: moved netplay gnome specifics to
+	netplay.c, enabling IPV6 also for gnome.
+
+	* arch/unix/vic20ui.c: Added casts to fix some warnings.
+
+2006-01-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/resdrivec128.rc, arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resdriveplus4.rc:
+	Fixed the size of the 'extend on access' element in the drive
+	settings dialogs.
+
+2006-01-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: Added new files.
+
+	* arch/beos/statusbar.cc, statusbar.h: New Funktion
+	DisplayMessage.
+
+	* arch/beos/ui.cc, vicemenu.cc, ui_file.cc, ui_file.h:
+	Implemented UI for netplay and event history.
+
+	* arch/beos/ui_netplay.cc, ui_netplay.h: New files.
+
+	* network.c: Added headers for BeOS.
+	Replaced test for SOCKET_ERROR with test for negative result
+	cause BeOS uses different errors.
+	(network_shutdown): Disconnect network.
+
+2006-01-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* datasette (datasette_set_tape_image): Release sense line if
+	image is detached.
+
+2006-01-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* network.c: Got rid of an unneeded 'err6' and fixed an
+	unneeded '#ifdef HAVE_IPV6'.
+
+2006-01-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/vac++/incl/gfxoutputdrv.icc: Added the new
+	screenshot drivers.
+
+2006-01-02  Andreas Dehmel  <zarquon@t-online.de>
+
+	* keyboard.c: keyboard_key_clear_internal() only defined for
+	COMMON_KBD
+
 2006-01-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.11.

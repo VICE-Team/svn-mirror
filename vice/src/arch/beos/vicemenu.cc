@@ -75,7 +75,7 @@ void vicemenu_tune_menu_add(int tune) {
 BMenuBar *menu_create(int machine_class) {
 
 	BMenuBar *menubar;
-	BMenu *menu, *submenu;
+	BMenu *menu, *submenu, *uppermenu;
 	BMenuItem *item;
 	
 	menubar = new BMenuBar (BRect(0,0,10,10),"Menubar");
@@ -197,6 +197,39 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_LOADQUICK), 'L', B_CONTROL_KEY));
 		submenu->AddItem(new BMenuItem("Save quicksnapshot", 
 			new BMessage(MENU_SAVEQUICK), 'S', B_CONTROL_KEY));
+		menu->AddItem(submenu = new BMenu("Netplay"));
+		submenu->AddItem(new BMenuItem("Start Server",
+			new BMessage(MENU_NETPLAY_SERVER)));
+		submenu->AddItem(new BMenuItem("Connect Client",
+			new BMessage(MENU_NETPLAY_CLIENT)));
+		submenu->AddItem(new BMenuItem("Disconnect",
+			new BMessage(MENU_NETPLAY_DISCONNECT)));
+		submenu->AddItem(new BMenuItem("Settings...",
+			new BMessage(MENU_NETPLAY_SETTINGS)));
+
+		menu->AddItem(submenu = new BMenu("Event History"));
+		submenu->AddItem(new BMenuItem("Start/Stop recording",
+			new BMessage(MENU_EVENT_TOGGLE_RECORD)));
+		submenu->AddItem(new BMenuItem("Start/Stop playback",
+			new BMessage(MENU_EVENT_TOGGLE_PLAYBACK)));
+		submenu->AddItem(new BMenuItem("Set Milestone",
+			new BMessage(MENU_EVENT_SETMILESTONE), 'G'));
+		submenu->AddItem(new BMenuItem("Return to Milestone",
+			new BMessage(MENU_EVENT_RESETMILESTONE), 'H'));
+		submenu->AddItem(new BMenuItem("Select start snapshot",
+			new BMessage(MENU_EVENT_SNAPSHOT_START)));
+		submenu->AddItem(new BMenuItem("Select end snapshot",
+			new BMessage(MENU_EVENT_SNAPSHOT_END)));
+		submenu->AddItem(submenu = new BMenu("Recording start mode"));
+		submenu->AddItem(new BMenuItem("Save new snapshot",
+			new BMessage(MENU_EVENT_START_MODE_SAVE)));
+		submenu->AddItem(new BMenuItem("Load existing snapshot",
+			new BMessage(MENU_EVENT_START_MODE_LOAD)));
+		submenu->AddItem(new BMenuItem("Start with Reset",
+			new BMessage(MENU_EVENT_START_MODE_RESET)));
+		submenu->AddItem(new BMenuItem("Overwrite Playback",
+			new BMessage(MENU_EVENT_START_MODE_PLAYBACK)));
+
 	} else {
 		/* vsid */
 		menu->AddItem(new BMenuItem("Load psid file", 
@@ -337,7 +370,17 @@ BMenuBar *menu_create(int machine_class) {
 	if (!vsid_mode) {
 		if (machine_class == VICE_MACHINE_C64
 			|| machine_class == VICE_MACHINE_C128) {
+			
 			menu->AddSeparatorItem();
+			menu->AddItem(new BMenuItem("Emulator ID",
+				new BMessage(MENU_TOGGLE_EMUID)));
+			menu->AddItem(new BMenuItem("1351 mouse",
+				new BMessage(MENU_TOGGLE_MOUSE)));
+			menu->AddSeparatorItem();
+
+			menu->AddItem(submenu = new BMenu("Expansion Carts"));
+			uppermenu = menu;
+			menu = submenu;
 			menu->AddItem(new BMenuItem("REU emulation",
 				new BMessage(MENU_TOGGLE_REU)));
 			menu->AddItem(submenu = new BMenu("REU size"));
@@ -409,10 +452,7 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->AddItem(new BMenuItem("$DF80-$DFFF",
 				new BMessage(MENU_C64_256K_BASE_DF80)));
 
-			menu->AddItem(new BMenuItem("Emulator ID",
-				new BMessage(MENU_TOGGLE_EMUID)));
-			menu->AddItem(new BMenuItem("1351 mouse",
-				new BMessage(MENU_TOGGLE_MOUSE)));
+			menu = uppermenu;
 		}
 		if (machine_class == VICE_MACHINE_VIC20
 			|| machine_class == VICE_MACHINE_C128) {

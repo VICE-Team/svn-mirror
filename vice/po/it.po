@@ -5,13 +5,13 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2006-01-02 01:21+0100\n"
-"PO-Revision-Date: 2005-10-02 12:18+0200\n"
+"Project-Id-Version: VICE 1.19\n"
+"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"PO-Revision-Date: 2005-12-29 15:08+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
@@ -368,79 +368,78 @@ msgstr "Modalità di tracciamento (0=normale 1=piccola 2=storica)"
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
-"Errore di riproduzione: %s è differente dalla linea %d del file di debug %"
-"06d"
+"Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:149
+#: src/network.c:158
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:367
+#: src/network.c:376
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:415
+#: src/network.c:424
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:435
+#: src/network.c:444
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot."
 
-#: src/network.c:448
+#: src/network.c:457
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Salva immagine dello sna&pshot..."
 
-#: src/network.c:457
+#: src/network.c:466
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile leggere l'immagine di snapshot"
 
-#: src/network.c:473
+#: src/network.c:482
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:486
+#: src/network.c:495
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:599
+#: src/network.c:603
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:634
+#: src/network.c:638
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:654
+#: src/network.c:658
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile scrivere il file di log `%s'."
 
-#: src/network.c:699
+#: src/network.c:703
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:713
+#: src/network.c:717
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:836
+#: src/network.c:842
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:847
+#: src/network.c:853
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:889
+#: src/network.c:895
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -913,11 +912,11 @@ msgstr "Dimensione dell'espansione di RAM"
 
 #: src/c64/tfe.c:1514
 msgid "Enable the TFE (\"the final ethernet\") unit"
-msgstr "Attiva l'unità TFE·(\"the·final·ethernet\")"
+msgstr "Attiva l'unità TFE (\"the final ethernet\")"
 
 #: src/c64/tfe.c:1516
 msgid "Disable the TFE (\"the final ethernet\") unit"
-msgstr "Disattiva l'unità TFE·(\"the·final·ethernet\")"
+msgstr "Disattiva l'unità TFE (\"the final ethernet\")"
 
 #: src/cbm2/cbm2-cmdline-options.c:121 src/pet/pet-cmdline-options.c:114
 msgid "<modelnumber>"
@@ -941,7 +940,7 @@ msgstr "<numero di linea>"
 
 #: src/cbm2/cbm2-cmdline-options.c:127
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
-msgstr "Specifica il modello hardware del CBM-II (0=6x0,·1=7x0)"
+msgstr "Specifica il modello hardware del CBM-II (0=6x0, 1=7x0)"
 
 #: src/cbm2/cbm2-cmdline-options.c:129 src/plus4/plus4-cmdline-options.c:96
 msgid "<ramsize>"
@@ -1968,7 +1967,7 @@ msgid "Ethernet emulation"
 msgstr "Emulazione ethernet"
 
 #: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
-#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
+#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr "*Identificazione dell'emulatore"
 
@@ -2054,7 +2053,7 @@ msgid "Machine type"
 msgstr "Tipo di macchina"
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
+#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:187
 msgid "ROM sets"
 msgstr "ROM set"
 
@@ -2077,7 +2076,7 @@ msgstr "Memoria ed estensioni di I/O"
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:374
+#: src/arch/unix/vic20ui.c:380
 msgid "RS232 settings"
 msgstr "Impostazioni della RS232"
 
@@ -2087,26 +2086,26 @@ msgstr "Impostazioni del modello"
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "File"
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Opzioni"
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
 #: src/arch/unix/x11/gnome/x11ui.c:1322
 msgid "Settings"
@@ -2116,7 +2115,7 @@ msgstr "Impostazioni"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJAiuto"
 
@@ -2149,7 +2148,7 @@ msgstr "Carica una nuova ROM dei caratteri"
 
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vic20ui.c:421
 #, fuzzy
 msgid "Save media file"
 msgstr "Salva immagine multimediale"
@@ -2612,19 +2611,19 @@ msgstr "Unità #10..."
 msgid "Unit #11..."
 msgstr "Unità #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:404
 msgid "Unit #8"
 msgstr "Unità #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:406
 msgid "Unit #9"
 msgstr "Unità #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:408
 msgid "Unit #10"
 msgstr "Unità #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:410
 msgid "Unit #11"
 msgstr "Unità #11"
 
@@ -2707,7 +2706,7 @@ msgstr "Nome dell'immagine IDE64..."
 msgid "Cannot attach cartridge"
 msgstr "Non è possibile seleziona una cartuccia"
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:224
 msgid "Attach cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
 
@@ -2768,11 +2767,11 @@ msgstr "Seleziona l'immagine di una &cartuccia..."
 msgid "Enable Expert Cartridge..."
 msgstr "Attiva l'Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:276
 msgid "Set cartridge as default"
 msgstr "Imposta la cartuccia come predefinita"
 
-#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
+#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:282
 msgid "Attach a cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
 
@@ -2875,7 +2874,7 @@ msgstr ""
 "Non è possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:450
 msgid "Select history directory"
 msgstr "Seleziona la directory della cronologia"
 
@@ -2883,117 +2882,117 @@ msgstr "Seleziona la directory della cronologia"
 msgid "Record sound to file"
 msgstr "Registra l'audio su file"
 
-#: src/arch/unix/uicommands.c:405
+#: src/arch/unix/uicommands.c:397
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:408
+#: src/arch/unix/uicommands.c:400
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:416
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:432
+#: src/arch/unix/uicommands.c:424
 msgid "*Save new snapshot"
 msgstr "*Salva nuovo snapshot"
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:426
 msgid "*Load existing snapshot"
 msgstr "*Carica snapshot esistente"
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:428
 msgid "*Start with reset"
 msgstr "*Inizia con reset"
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:430
 msgid "*Overwrite running playback"
 msgstr "*Sovrascrivi la riproduzione in corso"
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:436
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:439
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:443
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:446
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:452
 msgid "Start recording events"
 msgstr "Inizia la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:454
 msgid "Stop recording events"
 msgstr "Termina la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:456
 msgid "Start playing back events"
 msgstr "Inizia la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:466
+#: src/arch/unix/uicommands.c:458
 msgid "Stop playing back events"
 msgstr "Termina la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:460
 msgid "Set recording milestone"
 msgstr "Imposta segnalibro"
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:462
 msgid "Return to milestone"
 msgstr "Vai al segnalibro"
 
-#: src/arch/unix/uicommands.c:473
+#: src/arch/unix/uicommands.c:465
 msgid "Recording start mode"
 msgstr "Modalità di inizio registrazione"
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:469 src/arch/unix/uinetplay.c:117
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:476
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:495
+#: src/arch/unix/uicommands.c:482
 msgid "Sound record..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:489
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:505
+#: src/arch/unix/uicommands.c:492
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:513
+#: src/arch/unix/uicommands.c:500
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:515
+#: src/arch/unix/uicommands.c:502
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:521 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:508 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:523
+#: src/arch/unix/uicommands.c:510
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:530
+#: src/arch/unix/uicommands.c:517
 msgid "Exit emulator"
 msgstr "Esci"
 
@@ -3140,7 +3139,7 @@ msgstr "*Attiva l'emulazione hardware dei drive"
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:301
+#: src/arch/unix/vic20ui.c:307
 msgid "*None"
 msgstr "*Nessuno"
 
@@ -3534,22 +3533,22 @@ msgid "*Sectors..."
 msgstr "*Settori..."
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
-#: src/arch/unix/vic20ui.c:304
+#: src/arch/unix/vic20ui.c:310
 msgid "*Numpad"
 msgstr "*Tastierino numerico"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
-#: src/arch/unix/vic20ui.c:307
+#: src/arch/unix/vic20ui.c:313
 msgid "*Custom Keys"
 msgstr "*Tasti personalizzati"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
-#: src/arch/unix/vic20ui.c:311
+#: src/arch/unix/vic20ui.c:317
 msgid "*Analog Joystick 0"
 msgstr "*Joystick analogico 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
-#: src/arch/unix/vic20ui.c:314
+#: src/arch/unix/vic20ui.c:320
 msgid "*Analog Joystick 1"
 msgstr "*Joystick analogico 1"
 
@@ -3570,22 +3569,22 @@ msgid "*Analog Joystick 5"
 msgstr "*Joystick analogico 5"
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
-#: src/arch/unix/vic20ui.c:318
+#: src/arch/unix/vic20ui.c:324
 msgid "*Digital Joystick 0"
 msgstr "*Joystick digitale 0"
 
 #: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
-#: src/arch/unix/vic20ui.c:321
+#: src/arch/unix/vic20ui.c:327
 msgid "*Digital Joystick 1"
 msgstr "*Joystick digitale 1"
 
 #: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
-#: src/arch/unix/vic20ui.c:326
+#: src/arch/unix/vic20ui.c:332
 msgid "*USB Joystick 0"
 msgstr "*USB Joystick 0"
 
 #: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
-#: src/arch/unix/vic20ui.c:329
+#: src/arch/unix/vic20ui.c:335
 msgid "*USB Joystick 1"
 msgstr "*USB Joystick 1"
 
@@ -3601,7 +3600,7 @@ msgstr "Joystick nella porta 2"
 msgid "Swap joystick ports"
 msgstr "Scambia le porte dei joystick"
 
-#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:344
 msgid "Joystick settings"
 msgstr "Impostazioni dei joystick"
 
@@ -3641,60 +3640,60 @@ msgstr "Scrivi sul file la mappa della tastiera"
 msgid "Keyboard settings"
 msgstr "Impostazioni della tastiera"
 
-#: src/arch/unix/uinetplay.c:60
+#: src/arch/unix/uinetplay.c:69
 #, fuzzy
 msgid "Enter port"
 msgstr "Stampante su userport"
 
-#: src/arch/unix/uinetplay.c:61
+#: src/arch/unix/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:73
+#: src/arch/unix/uinetplay.c:82
 #, fuzzy
 msgid "Invalid TCP port"
 msgstr "Nome del file non valido"
 
-#: src/arch/unix/uinetplay.c:81
+#: src/arch/unix/uinetplay.c:90
 msgid "Error starting the netplay server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:86
+#: src/arch/unix/uinetplay.c:95
 #, fuzzy
 msgid "Netplay Server name"
 msgstr "Impostazioni delle periferiche"
 
-#: src/arch/unix/uinetplay.c:87
+#: src/arch/unix/uinetplay.c:96
 #, fuzzy
 msgid "Hostname:"
 msgstr "Nome del ROM set:"
 
-#: src/arch/unix/uinetplay.c:93
+#: src/arch/unix/uinetplay.c:102
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:103
+#: src/arch/unix/uinetplay.c:113
 #, fuzzy
 msgid "*Enable IPV6"
 msgstr "&Attiva +60K"
 
-#: src/arch/unix/uinetplay.c:106
+#: src/arch/unix/uinetplay.c:120
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:108
+#: src/arch/unix/uinetplay.c:122
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:110
+#: src/arch/unix/uinetplay.c:124
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:127
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:207
 msgid "Disconnect"
 msgstr ""
 
@@ -4149,40 +4148,40 @@ msgstr "Dispositivo ACIA a $DExx"
 msgid "ACIA $DExx Interrupt"
 msgstr "Interrupt dell'ACIA a $DExx"
 
-#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:354
 msgid "*Userport RS232 emulation"
 msgstr "*Emulazione della RS232 su Userport"
 
-#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:356
 msgid "Userport RS232 baud rate"
 msgstr "Velocità della RS232 su Userport"
 
-#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
+#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
 msgstr "RS232 su Userport"
 
 #: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:355
+#: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
 msgstr "Dispositivo seriale 1..."
 
 #: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/vic20ui.c:363
 msgid "Serial 1 baudrate"
 msgstr "Velocità della seriale 1 (in baud)"
 
 #: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:362
+#: src/arch/unix/vic20ui.c:368
 msgid "Serial 2 baudrate"
 msgstr "Velocità della seriale 2 (in baud)"
 
 #: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:365
+#: src/arch/unix/vic20ui.c:371
 msgid "Dump filename..."
 msgstr "Scrivi su file..."
 
 #: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:368
+#: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
 msgstr "Nome del programma da eseguire..."
 
@@ -4190,7 +4189,7 @@ msgstr "Nome del programma da eseguire..."
 msgid "ACIA device"
 msgstr "Dispositivo ACIA"
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
 msgstr "Dispositivo seriale 2..."
 
@@ -4586,87 +4585,87 @@ msgstr "Carica una nuova ROM dei caratteri"
 msgid "No expansion memory"
 msgstr "Nessuna espansione di memoria"
 
-#: src/arch/unix/vic20ui.c:155
+#: src/arch/unix/vic20ui.c:156
 msgid "3K (block 0)"
 msgstr "3K (blocco 0)"
 
-#: src/arch/unix/vic20ui.c:157
+#: src/arch/unix/vic20ui.c:159
 msgid "8K (block 1)"
 msgstr "8K (blocco 1)"
 
-#: src/arch/unix/vic20ui.c:159
+#: src/arch/unix/vic20ui.c:162
 msgid "16K (blocks 1/2)"
 msgstr "16K (blocchi 1/2)"
 
-#: src/arch/unix/vic20ui.c:161
+#: src/arch/unix/vic20ui.c:165
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (blocchi 1/2/3)"
 
-#: src/arch/unix/vic20ui.c:164
+#: src/arch/unix/vic20ui.c:169
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Tutti (Blocchi 0/1/2/3/5)"
 
-#: src/arch/unix/vic20ui.c:178
+#: src/arch/unix/vic20ui.c:184
 msgid "Common configurations"
 msgstr "Configurazione comune"
 
-#: src/arch/unix/vic20ui.c:184
+#: src/arch/unix/vic20ui.c:190
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Blocco 0 (3K a $0400-$0FFF)"
 
-#: src/arch/unix/vic20ui.c:186
+#: src/arch/unix/vic20ui.c:192
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Blocco 1 (8K a $2000-$3FFF)"
 
-#: src/arch/unix/vic20ui.c:188
+#: src/arch/unix/vic20ui.c:194
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Blocco 2 (8K a $4000-$5FFF)"
 
-#: src/arch/unix/vic20ui.c:190
+#: src/arch/unix/vic20ui.c:196
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Blocco 3 (8K a $6000-$7FFF)"
 
-#: src/arch/unix/vic20ui.c:192
+#: src/arch/unix/vic20ui.c:198
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blocco 5 (8K a $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:208 src/arch/unix/vic20ui.c:429
 msgid "Memory expansions"
 msgstr "Espansioni di memoria"
 
-#: src/arch/unix/vic20ui.c:224
+#: src/arch/unix/vic20ui.c:230
 msgid "Invalid cartridge image"
 msgstr "Immagine della cartuccia non valida"
 
-#: src/arch/unix/vic20ui.c:249
+#: src/arch/unix/vic20ui.c:255
 msgid "Smart-attach cartridge image..."
 msgstr "Seleziona una cartuccia..."
 
-#: src/arch/unix/vic20ui.c:254
+#: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Seleziona un'immagine di 4/8/16KB a $2000..."
 
-#: src/arch/unix/vic20ui.c:257
+#: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Seleziona un'immagine di 4/8/16KB a $4000..."
 
-#: src/arch/unix/vic20ui.c:260
+#: src/arch/unix/vic20ui.c:266
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Seleziona un'immagine di 4/8/16KB a $6000..."
 
-#: src/arch/unix/vic20ui.c:263
+#: src/arch/unix/vic20ui.c:269
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Seleziona un'immagine di 4/8KB a $A000..."
 
-#: src/arch/unix/vic20ui.c:266
+#: src/arch/unix/vic20ui.c:272
 msgid "Attach 4KB image at $B000..."
 msgstr "Seleziona un'immagine di 4KB a $B000..."
 
-#: src/arch/unix/vic20ui.c:278
+#: src/arch/unix/vic20ui.c:284
 msgid "Detach cartridge image(s)"
 msgstr "Rimuovi le immagini delle cartucce"
 
-#: src/arch/unix/vic20ui.c:421
+#: src/arch/unix/vic20ui.c:427
 msgid "VIC settings"
 msgstr "Impostazioni del VIC"
 
@@ -4883,31 +4882,40 @@ msgstr ""
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143
-#: src/arch/unix/x11/gnome/uinetplay.c:147
+#: src/arch/unix/x11/gnome/uinetplay.c:116
+msgid "Couldn't start network server."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:126
+#, fuzzy
+msgid "Couldn't connect client."
+msgstr "Non è possibile allocare la cache dei colori"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Impostazioni delle periferiche"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:152
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 #, fuzzy
 msgid "Current mode: "
 msgstr "ROM set attuale"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:155
+#: src/arch/unix/x11/gnome/uinetplay.c:157
 #, fuzzy
 msgid "<unknown>"
 msgstr "Sconosciuto"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:162
+#: src/arch/unix/x11/gnome/uinetplay.c:164
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:170
+#: src/arch/unix/x11/gnome/uinetplay.c:172
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:183
+#: src/arch/unix/x11/gnome/uinetplay.c:185
 msgid "Connect to "
 msgstr ""
 
@@ -5548,45 +5556,6 @@ msgstr "Le prestazioni saranno scarse."
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
 
-#~ msgid "VIC II Screenshot"
-#~ msgstr "Cattura schermo del VIC II"
-
-#~ msgid "VDC Screenshot"
-#~ msgstr "Cattura schermo del VDC"
-
-#~ msgid "Screenshot..."
-#~ msgstr "Cattura schermo..."
-
-#~ msgid "IDE64: Using imagefile `%s'."
-#~ msgstr "IDE64: usa file immagine `%s'."
-
-#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-#~ msgstr ""
-#~ "IDE64: Non è possibile usare il file immagine `%s'.·NESSUNA EMULAZIONE "
-#~ "DEL DRIVE!"
-
-#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-#~ msgstr ""
-#~ "IDE64: Non è possibile leggere la geometria del disco dall'immagine, uso "
-#~ "il valore predefinito di 8MB."
-
-#~ msgid "IDE64: Disk is not formatted, using default 8MB."
-#~ msgstr "IDE64: Disco no formattato, uso il valore predefinito di 8MB."
-
-#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-#~ msgstr "IDE64: uso %i/%i/%i·CHS·geometria,·%lu·settori·totali."
-
-#~ msgid "IDE64: LBA geometry, %lu sectors total."
-#~ msgstr "IDE64: geometria LBA, %lu settori totali."
-
-#, fuzzy
-#~ msgid "Cannot read received snapshot file"
-#~ msgstr "Non è possibile caricare il file di snapshot."
-
-#, fuzzy
-#~ msgid "fragmented"
-#~ msgstr "problemi di frammentazione."
-
 #~ msgid "&File"
 #~ msgstr "&File"
 
@@ -5824,8 +5793,29 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Save currently loaded &ROM images"
 #~ msgstr "Salva le immagini delle &ROM attualmente caricate"
 
-#~ msgid "Save as"
-#~ msgstr "Salva come"
+#, fuzzy
+#~ msgid "Select Driver:"
+#~ msgstr "Driver:"
+
+#, fuzzy
+#~ msgid "FFMPEG settings"
+#~ msgstr "Impostazioni del PET"
+
+#, fuzzy
+#~ msgid "Format:"
+#~ msgstr "Formato dell'immagine"
+
+#, fuzzy
+#~ msgid "Audio: codec"
+#~ msgstr "Dimensione dello schermo"
+
+#, fuzzy
+#~ msgid "bitrate"
+#~ msgstr "Bitrate video"
+
+#, fuzzy
+#~ msgid "Video: codec"
+#~ msgstr "Dimensione dello schermo"
 
 #~ msgid "&Append log to existing file"
 #~ msgstr "&Accoda i log al file esistente"
@@ -5980,6 +5970,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "RS232 device 4"
 #~ msgstr "Dispositivo RS232 #4"
 
+#, fuzzy
+#~ msgid "Current mode"
+#~ msgstr "ROM set attuale"
+
 #~ msgid "None"
 #~ msgstr "Nessuno"
 
@@ -6070,6 +6064,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "VICE console logging files (*.dbg)"
 #~ msgstr "File di log (*.dbg)"
 
+#, fuzzy
+#~ msgid "Cannot write log file `%s'."
+#~ msgstr "Non è possibile scrivere l'immagine %s"
+
 #~ msgid "Load flip list file"
 #~ msgstr "Carica il file della fliplist"
 
@@ -6121,6 +6119,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Select file system directory"
 #~ msgstr "Seleziona la directory del file system"
 
+#, fuzzy
+#~ msgid "Printer Userport"
+#~ msgstr "Stampante su userport"
+
 #~ msgid "Printer 4"
 #~ msgstr "Stampante 4"
 
@@ -6139,8 +6141,16 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Drive 11"
 #~ msgstr "Drive 11"
 
+#, fuzzy
+#~ msgid "Peripheral Settings"
+#~ msgstr "Impostazioni delle periferiche"
+
 #~ msgid "Can't write snapshot file."
 #~ msgstr "Non è possibile scrivere il file di snapshot."
+
+#, fuzzy
+#~ msgid "Cannot read snapshot image"
+#~ msgstr "Non è possibile caricare il file di snapshot."
 
 #~ msgid "Load %s ROM image"
 #~ msgstr "Carica immagine della ROM %s"
@@ -6168,6 +6178,12 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Save snapshot image"
 #~ msgstr "Salva l'immagine dello snapshot"
+
+#, fuzzy
+#~ msgid "Cannot write snapshot file `%s'."
+#~ msgstr ""
+#~ "Non è possibile scrivere il file di snapshot\n"
+#~ "`%s'\n"
 
 #~ msgid "Load snapshot image"
 #~ msgstr "Carica immagine dello snapshot"
@@ -6345,7 +6361,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Sound driver: WMM"
 #~ msgstr "Driver sonoro: WMM"
 
-#~ msgid "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+#, fuzzy
+#~ msgid ""
+#~ "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;"
+#~ "*.mpg)"
 #~ msgstr "File multimediali (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
 
 #~ msgid " kB"
@@ -6356,6 +6375,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Configure Keyset B"
 #~ msgstr "Configura Keyset B"
+
+#, fuzzy
+#~ msgid "Save media image"
+#~ msgstr "Salva immagine multimediale"
 
 #~ msgid "Tape:"
 #~ msgstr "Cassetta:"
@@ -6377,6 +6400,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Riproduzione\n"
 #~ "%02d:%02d (%02d:%02d)"
 
+#, fuzzy
+#~ msgid "Unknown"
+#~ msgstr "Sconosciuto"
+
 #~ msgid "Set input device for joystick #1"
 #~ msgstr "Imposta il dispositivo di input per il joystick 1"
 
@@ -6391,6 +6418,14 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Start VICE in fullscreen mode"
 #~ msgstr "Avvia VICE a tutto schermo"
+
+#, fuzzy
+#~ msgid "An unexpected error occured. Received signal %d (%s)."
+#~ msgstr "Ricevuto il segnale %d (%s)."
+
+#, fuzzy
+#~ msgid "Invalid port number"
+#~ msgstr "Nome del file non valido"
 
 #~ msgid "IRQ"
 #~ msgstr "IRQ"
@@ -6491,6 +6526,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Reset C&ounter"
 #~ msgstr "Reset c&ontantore"
 
+#, fuzzy
+#~ msgid "Attach &cartridge image..."
+#~ msgstr "Seleziona l'immagine di una cartuccia"
+
 #~ msgid "&CRT image..."
 #~ msgstr "Immagine &CRT..."
 
@@ -6523,6 +6562,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Super Snapshot &5 image..."
 #~ msgstr "Immagine Super Snapshot &5..."
+
+#, fuzzy
+#~ msgid "Structured &Basic image..."
+#~ msgstr "Seleziona l'immagine di una &cartuccia..."
 
 #~ msgid "Expert Cartridge"
 #~ msgstr "Expert Cartridge"
@@ -6581,6 +6624,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "&Small"
 #~ msgstr "&Piccolo"
 
+#, fuzzy
+#~ msgid "&History"
+#~ msgstr "&Directory"
+
 #~ msgid "&Main CPU Trace\tAlt+F10"
 #~ msgstr "Traccia della CPU &principale\tAlt+F10"
 
@@ -6599,11 +6646,19 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Load snapshot &image..."
 #~ msgstr "Carica &immagine dello snapshot..."
 
+#, fuzzy
+#~ msgid "Save sna&pshot image..."
+#~ msgstr "Salva l'immagine dello snapshot"
+
 #~ msgid "&Load quicksnapshot image\tAlt+L"
 #~ msgstr "&Carica immagine quicksnapshot\tAlt+L"
 
 #~ msgid "&Save quicksnapshot image\tAlt+S"
 #~ msgstr "Salva immagine quicksnapshot\tAlt+S"
+
+#, fuzzy
+#~ msgid "Start/Stop &Recording History"
+#~ msgstr "Inizia la registrazione degli eventi"
 
 #~ msgid "Set Recording Milestone\tAlt+G"
 #~ msgstr "Imposta segnalibro\tAlt+G"
@@ -6623,6 +6678,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Overwrite &Playback"
 #~ msgstr "Sovrascrivi la &riproduzione"
 
+#, fuzzy
+#~ msgid "Select History files/directory"
+#~ msgstr "Seleziona la directory della cronologia"
+
 #~ msgid "Save/stop media file...\tAlt+C"
 #~ msgstr "Salva/arresta file multimediale...\tAlt+C"
 
@@ -6632,14 +6691,14 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "&Auto"
 #~ msgstr "&Auto"
 
+#~ msgid "&Custom"
+#~ msgstr "&Personalizzata"
+
 #~ msgid "&Maximum Speed"
 #~ msgstr "Velocità &massima"
 
 #~ msgid "No &limit"
 #~ msgstr "Nessun &limite"
-
-#~ msgid "&Custom"
-#~ msgstr "&Personalizzata"
 
 #~ msgid "&Warp mode\tAlt+W"
 #~ msgstr "Modalità &turbo\tAlt+W"
@@ -6671,14 +6730,12 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "&True drive emulation"
 #~ msgstr "Attiva l'emulazione &hardware dei drive"
 
+#, fuzzy
+#~ msgid "&Virtual device traps"
+#~ msgstr "*Attiva le periferiche virtuali"
+
 #~ msgid "Vide&o standard"
 #~ msgstr "Standard vide&o"
-
-#~ msgid "&PAL-G"
-#~ msgstr "&PAL-G"
-
-#~ msgid "&NTSC-M"
-#~ msgstr "&NTSC-M"
 
 #~ msgid "Emulator &Identification"
 #~ msgstr "&Identificazione dell'emulatore"
@@ -6923,27 +6980,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Enable external Function ROM"
 #~ msgstr "Attiva la Function ROM esterna"
 
-#~ msgid "&Drive type"
-#~ msgstr "Tipo di &drive"
-
-#~ msgid "40 &track handling"
-#~ msgstr "Gestisci 40 &tracce"
-
-#~ msgid "Never extend"
-#~ msgstr "Mai"
-
-#~ msgid "Ask on extend"
-#~ msgstr "Chiedi all'accesso"
-
-#~ msgid "Extend on access"
-#~ msgstr "Attiva al 1° accesso"
-
-#~ msgid "&Parallel cable"
-#~ msgstr "Cavo &parallelo"
-
-#~ msgid "Drive &expansion"
-#~ msgstr "&Espasione del drive"
-
 #~ msgid "&Symbolic"
 #~ msgstr "&Simbolico"
 
@@ -6974,6 +7010,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "+&60K settings..."
 #~ msgstr "Impostazioni del +&60K..."
 
+#, fuzzy
+#~ msgid "&256K settings..."
+#~ msgstr "Impostazioni del +&60K..."
+
 #~ msgid "Kernal"
 #~ msgstr "Kernal"
 
@@ -6988,6 +7028,26 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "&Symbolic DE"
 #~ msgstr "&Simbolico GER"
+
+#, fuzzy
+#~ msgid "256K Settings"
+#~ msgstr "Impostazioni +60K"
+
+#, fuzzy
+#~ msgid "&Enable 256K"
+#~ msgstr "&Attiva +60K"
+
+#, fuzzy
+#~ msgid "256K base address"
+#~ msgstr "<indirizzo base>"
+
+#, fuzzy
+#~ msgid "256K file"
+#~ msgstr "File +60K"
+
+#, fuzzy
+#~ msgid "Select file for 256K"
+#~ msgstr "Seleziona file per +60K"
 
 #~ msgid "Drive s&ync factor"
 #~ msgstr "Fattore di s&incronizzazione del drive"
@@ -7012,6 +7072,14 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Cart 6"
 #~ msgstr "Cart 6"
+
+#, fuzzy
+#~ msgid "Machine &defaults"
+#~ msgstr "Modello predefinito"
+
+#, fuzzy
+#~ msgid "&Model line"
+#~ msgstr "Impostazioni del modello"
 
 #~ msgid "&Memory"
 #~ msgstr "&Memoria"
@@ -7073,6 +7141,31 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "CBM2 settings"
 #~ msgstr "Impostazioni del CBM2"
 
+#~ msgid "&Drive type"
+#~ msgstr "Tipo di &drive"
+
+#~ msgid "40 &track handling"
+#~ msgstr "Gestisci 40 &tracce"
+
+#~ msgid "Never extend"
+#~ msgstr "Mai"
+
+#~ msgid "Ask on extend"
+#~ msgstr "Chiedi all'accesso"
+
+#~ msgid "Extend on access"
+#~ msgstr "Attiva al 1° accesso"
+
+#, fuzzy
+#~ msgid "Id&le method"
+#~ msgstr "Metodo di campionamento"
+
+#~ msgid "&Parallel cable"
+#~ msgstr "Cavo &parallelo"
+
+#~ msgid "Drive &expansion"
+#~ msgstr "&Espasione del drive"
+
 #~ msgid "GEORAM Settings"
 #~ msgstr "Impostazioni della GEORAM"
 
@@ -7117,6 +7210,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Editor"
 #~ msgstr "Editor"
+
+#, fuzzy
+#~ msgid "Machine defaults"
+#~ msgstr "Modello predefinito"
 
 #~ msgid "M&emory"
 #~ msgstr "M&emoria"
@@ -7242,10 +7339,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Seleziona l'immagine di una cartuccia per la Function Low"
 
 #~ msgid "Attach cartridge image for Function High"
-#~ msgstr "Seleziona l'immagine di una cartuccia per la Function·High"
+#~ msgstr "Seleziona l'immagine di una cartuccia per la Function High"
 
 #~ msgid "Attach cartridge image for Cartridge1 Low"
-#~ msgstr "Seleziona l'immagine di una cartuccia per la Cartridge1·Low"
+#~ msgstr "Seleziona l'immagine di una cartuccia per la Cartridge Low"
 
 #~ msgid "Attach cartridge image for Cartridge1 High"
 #~ msgstr "Seleziona l'immagine di una cartuccia per la Cartridge1 High"
@@ -7258,6 +7355,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "+60K Settings"
 #~ msgstr "Impostazioni +60K"
+
+#, fuzzy
+#~ msgid "&Enable +60K"
+#~ msgstr "&Attiva +60K"
 
 #~ msgid "+60K file"
 #~ msgstr "File +60K"
@@ -7463,6 +7564,55 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "New Luminances"
 #~ msgstr "Nuove luminanze"
 
+#~ msgid "VIC II Screenshot"
+#~ msgstr "Cattura schermo del VIC II"
+
+#~ msgid "VDC Screenshot"
+#~ msgstr "Cattura schermo del VDC"
+
+#~ msgid "Screenshot..."
+#~ msgstr "Cattura schermo..."
+
+#~ msgid "IDE64: Using imagefile `%s'."
+#~ msgstr "IDE64: usa file immagine `%s'."
+
+#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
+#~ msgstr ""
+#~ "IDE64: Non èpossibile usare il file immagine `%s'.ÃÂÃÂ·NESSUNA EMULAZIONE "
+#~ "DEL DRIVE!"
+
+#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
+#~ msgstr ""
+#~ "IDE64: Non èpossibile leggere la geometria del disco dall'immagine, uso "
+#~ "il valore predefinito di 8MB."
+
+#~ msgid "IDE64: Disk is not formatted, using default 8MB."
+#~ msgstr "IDE64: Disco no formattato, uso il valore predefinito di 8MB."
+
+#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
+#~ msgstr ""
+#~ "IDE64: uso %i/%i/%iÃÂÃÂ·CHSÃÂÃÂ·geometria,ÃÂÃÂ·%luÃÂÃÂ·settoriÃÂÃÂ·totali."
+
+#~ msgid "IDE64: LBA geometry, %lu sectors total."
+#~ msgstr "IDE64: geometria LBA, %lu settori totali."
+
+#, fuzzy
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr "Non è possibile caricare il file di snapshot."
+
+#, fuzzy
+#~ msgid "fragmented"
+#~ msgstr "problemi di frammentazione."
+
+#~ msgid "Save as"
+#~ msgstr "Salva come"
+
+#~ msgid "&PAL-G"
+#~ msgstr "&PAL-G"
+
+#~ msgid "&NTSC-M"
+#~ msgstr "&NTSC-M"
+
 #~ msgid "Specify name of second RS232 device (/dev/ttyS1)"
 #~ msgstr "Specifica il device della seconda RS232 (/dev/ttyS1)"
 
@@ -7494,7 +7644,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."
 #~ msgstr ""
-#~ "Non ÃÂÃÂ¡ possibile caricare il file di snapshot\n"
+#~ "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile caricare il file di snapshot\n"
 #~ "`%s'"
 
 #~ msgid "Flush IEC printer #4 device"
@@ -7530,10 +7680,12 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Impostazioni video del TED"
 
 #~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Trovata una modalitÃÂÃÂ  adatta allo schermo intero."
+#~ msgstr ""
+#~ "Trovata una modalitÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  adatta allo schermo "
+#~ "intero."
 
 #~ msgid "Couldn't allocate pixel value cache."
-#~ msgstr "Non ÃÂÃÂ¡ possibile allocare la cache coi valori dei pixel."
+#~ msgstr "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile allocare la cache coi valori dei pixel."
 
 #~ msgid "*PAL emulation"
 #~ msgstr "*Emulazione PAL"
@@ -7553,11 +7705,11 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice non ÃÂÃÂ¡ eseguto come root, le estesioni DGA non sono possibili - schermo "
-#~ "intero disabilitato."
+#~ "Vice non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ eseguto come root, le estesioni DGA non sono possibili - "
+#~ "schermo intero disabilitato."
 
 #~ msgid "Could not find KeySym `%s'!"
-#~ msgstr "Non ÃÂÃÂ¡ possibile trovare il simbolo `%s'!"
+#~ msgstr "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile trovare il simbolo `%s'!"
 
 #~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
 #~ msgstr "Coppia riga/colonna (%d/%d) non valida per il simbolo `%s'."
@@ -7566,7 +7718,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Caricamento della mappa della tastiera `%s'."
 
 #~ msgid "Cannot load keymap `%s'."
-#~ msgstr "Non ÃÂÃÂ¡ possibile caricare la mappa della tastiera `%s'."
+#~ msgstr "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile caricare la mappa della tastiera `%s'."
 
 #~ msgid "(null)"
 #~ msgstr "(null)"
@@ -7574,8 +7726,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid ""
 #~ "Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."
 #~ msgstr ""
-#~ "Non ÃÂÃÂ¡ possibile allocare il backbuffer per il rendering PAL DGA; schemo "
-#~ "intero disabilitato."
+#~ "Non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ possibile allocare il backbuffer per il rendering PAL DGA; "
+#~ "schemo intero disabilitato."
 
 #~ msgid "Please recompile the program for a supported bit depth."
 #~ msgstr "Per favore ricompila il programma con una profondita supportata"
@@ -7584,7 +7736,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Solo %ibpp sono supportati da questo emulatore."
 
 #~ msgid "Current X server depth is %ibpp."
-#~ msgstr "La profondita attuale dell'X server ÃÂÃÂ¡ %ibpp."
+#~ msgstr "La profondita attuale dell'X server ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ %ibpp."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
 #~ msgstr ""

@@ -391,14 +391,6 @@ static UI_CALLBACK(sound_record)
     }
 }
 
-#if defined(HAVE_NETWORK) && defined(USE_GNOMEUI)
-static UI_CALLBACK(netplay)
-{
-    vsync_suspend_speed_eval();
-    ui_netplay_dialog();
-}
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t reset_submenu[] = {
@@ -474,13 +466,8 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
       NULL, NULL, set_event_start_mode_submenu },
     { "--" },
 #ifdef HAVE_NETWORK
-#ifdef USE_GNOMEUI
-    { N_("Netplay (experimental)"),
-      (ui_callback_t)netplay, NULL, NULL },
-#else
     { N_("Netplay (experimental)"),
       NULL, NULL, netplay_submenu },
-#endif
 #endif
     { NULL }
 };

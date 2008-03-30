@@ -48,6 +48,7 @@ extern "C" {
 #include "constants.h"
 #include "datasette.h"
 #include "drive.h"
+#include "event.h"
 #include "fliplist.h"
 #include "imagecontents.h"
 #include "info.h"
@@ -64,6 +65,7 @@ extern "C" {
 #include "monitor.h"
 #include "mos6510.h"
 #include "mouse.h"
+#include "network.h"
 #include "resources.h"
 #include "sound.h"
 #include "statusbar.h"
@@ -75,6 +77,7 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
+#include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sid.h"
 #include "ui_sound.h"
@@ -134,6 +137,14 @@ ui_res_possible_values SpeedValues[] = {
         {-1, 0}
 };
 
+ui_res_possible_values RecordingOptions[] = {
+    { EVENT_START_MODE_FILE_SAVE, MENU_EVENT_START_MODE_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, MENU_EVENT_START_MODE_LOAD },
+    { EVENT_START_MODE_RESET, MENU_EVENT_START_MODE_RESET },
+    { EVENT_START_MODE_PLAYBACK, MENU_EVENT_START_MODE_PLAYBACK },
+    { -1, 0 }
+};
+
 ui_res_possible_values SyncFactor[] = {
         {MACHINE_SYNC_PAL, MENU_SYNC_FACTOR_PAL},
         {MACHINE_SYNC_NTSC, MENU_SYNC_FACTOR_NTSC},
@@ -145,6 +156,7 @@ ui_res_value_list value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
     {"MachineVideoStandard", SyncFactor},
+    {"EventStartMode", RecordingOptions},
     {NULL,NULL}
 };
 
@@ -427,6 +439,23 @@ void ui_dispatch_events(void)
         ui_machine_specific(&message_queue[i], windowlist[0]);
 
 		switch (message_queue[i].what) {
+			case B_KEY_DOWN:
+			case B_UNMAPPED_KEY_DOWN:
+				message_queue[i].FindInt32("key",(int32*)&key);
+				if (!vsid_mode) kbd_handle_keydown(key);
+				break;
+			case B_KEY_UP:
+			case B_UNMAPPED_KEY_UP:
+				message_queue[i].FindInt32("key",(int32*)&key);
+				if (!vsid_mode) kbd_handle_keyup(key);
+				break;
+			case B_SAVE_REQUESTED:
+			case B_REFS_RECEIVED:
+				/* the file- or save-panel was closed */
+				/* now we can use the selected file */
+				ui_select_file_action(&message_queue[i]);
+				break;
+
 			case MENU_EXIT_REQUESTED:
 			{	int32 button = 0;
 				BAlert *alert;
@@ -550,6 +579,44 @@ void ui_dispatch_events(void)
 				interrupt_maincpu_trigger_trap(
 					save_quicksnapshot_trap, (void *) 0);
 				break;
+			case MENU_NETPLAY_SERVER:
+				network_start_server();
+				break;
+			case MENU_NETPLAY_CLIENT:
+				network_connect_client();
+				break;
+			case MENU_NETPLAY_DISCONNECT:
+				network_disconnect();
+				break;
+			case MENU_NETPLAY_SETTINGS:
+				ui_netplay();
+				break;
+		    case MENU_EVENT_TOGGLE_RECORD:
+        		if (event_record_active())
+            		event_record_stop();
+            	else
+    	            event_record_start();
+	        	break;
+      		case MENU_EVENT_TOGGLE_PLAYBACK:
+            	if (event_playback_active())
+	                event_playback_stop();
+	            else
+	                event_playback_start();
+		        break;
+      		case MENU_EVENT_SETMILESTONE:
+		        event_record_set_milestone();
+        		break;
+      		case MENU_EVENT_RESETMILESTONE:
+		        event_record_reset_milestone();
+        		break;
+        	case MENU_EVENT_SNAPSHOT_START:
+				ui_select_file(windowlist[0]->savepanel,
+								SNAPSHOT_HISTORY_START, NULL);
+				break;
+			case MENU_EVENT_SNAPSHOT_END:
+				ui_select_file(windowlist[0]->savepanel,
+								SNAPSHOT_HISTORY_END, NULL);
+				break;
 			case MENU_MONITOR:
 				monitor_startup_trap();
 				break;
@@ -641,22 +708,6 @@ void ui_dispatch_events(void)
                 free(options);
 				break;
             }
-			case B_KEY_DOWN:
-			case B_UNMAPPED_KEY_DOWN:
-				message_queue[i].FindInt32("key",(int32*)&key);
-				if (!vsid_mode) kbd_handle_keydown(key);
-				break;
-			case B_KEY_UP:
-			case B_UNMAPPED_KEY_UP:
-				message_queue[i].FindInt32("key",(int32*)&key);
-				if (!vsid_mode) kbd_handle_keyup(key);
-				break;
-			case B_SAVE_REQUESTED:
-			case B_REFS_RECEIVED:
-				/* the file- or save-panel was closed */
-				/* now we can use the selected file */
-				ui_select_file_action(&message_queue[i]);
-				break;
 			case MESSAGE_ATTACH_READONLY:
 			{
 				int res_val;
@@ -884,6 +935,25 @@ void ui_update_menus(void)
 		windowlist[i]->Update_Menus(toggle_list,value_list);
 }
 
+static int statustext_display_time = 0;
+
+void ui_display_statustext(const char *text, int fade_out)
+{
+	int i;
+	
+	for (i=0; i<window_count; i++) {
+		if (windowlist[i]->Lock()) {
+			if (windowlist[i]->statusbar)
+				windowlist[i]->statusbar->DisplayMessage(text);
+			windowlist[i]->Unlock();
+		}
+	}
+    if (fade_out > 0)
+        statustext_display_time = 5;
+    else
+        statustext_display_time = 0;
+}
+
 
 /* ------------------------------------------------------------------------- */
 /* Dispay the current emulation speed.  */
@@ -899,6 +969,13 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 			windowlist[i]->Unlock();
 		}
 	}
+	
+    if (statustext_display_time > 0) {
+        statustext_display_time--;
+        if (statustext_display_time == 0)
+            ui_display_statustext("", 0);
+    }
+	
 }
 
 static ui_drive_enable_t    ui_drive_enabled;
@@ -1070,14 +1147,35 @@ void ui_display_tape_counter(int counter)
 
 void ui_display_recording(int recording_status)
 {
+	if (recording_status)
+		ui_display_statustext("Recoring history...", 1);
+	else
+		ui_display_statustext("", 0);
 }
 
 void ui_display_playback(int playback_status, char *version)
 {
+	if (playback_status)
+		ui_display_statustext("History playback...", 1);
+	else
+		ui_display_statustext("", 0);
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
+	char text[256];
+	
+	if (statustext_display_time > 0)
+		return;
+
+    if (total == 0)
+     	sprintf(text, "Recording %02d:%02d", 
+     			current / 60, current % 60);
+    else
+     	sprintf(text, "Playback %02d:%02d (%02d:%02d)",
+                current / 60, current % 60, total / 60, total % 60);
+
+	ui_display_statustext(text, 0);
 }
 
 static BYTE ui_joystick_status[3] = { 255, 255, 255 };
@@ -1173,9 +1271,5 @@ int ui_set_window_mode(int use_direct_window)
 		}
 	}
 	return use_direct_window;
-}
-
-void ui_display_statustext(const char *text, int fade_out)
-{
 }
 

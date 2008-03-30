@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2006-01-02 01:21+0100\n"
-"PO-Revision-Date: 2005-09-18 10:57+0200\n"
+"Project-Id-Version: VICE 1.19\n"
+"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -380,88 +380,88 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:149
+#: src/network.c:158
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:367
+#: src/network.c:376
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:415
+#: src/network.c:424
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:435
+#: src/network.c:444
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:448
+#: src/network.c:457
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:457
+#: src/network.c:466
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:473
+#: src/network.c:482
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:486
+#: src/network.c:495
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:599
+#: src/network.c:603
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:634
+#: src/network.c:638
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:654
+#: src/network.c:658
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/network.c:699
+#: src/network.c:703
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:713
+#: src/network.c:717
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:836
+#: src/network.c:842
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:847
+#: src/network.c:853
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:889
+#: src/network.c:895
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -2099,7 +2099,7 @@ msgid "Ethernet emulation"
 msgstr "*U¿yj emulacji reSID"
 
 #: src/arch/unix/c128ui.c:250 src/arch/unix/c64ui.c:284
-#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:195
+#: src/arch/unix/petui.c:278 src/arch/unix/vic20ui.c:201
 msgid "*Emulator identification"
 msgstr "*Idyntifikacja emulatora"
 
@@ -2189,7 +2189,7 @@ msgid "Machine type"
 msgstr "Typ maszyny"
 
 #: src/arch/unix/c128ui.c:359 src/arch/unix/cbm2ui.c:240
-#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:181
+#: src/arch/unix/petui.c:253 src/arch/unix/vic20ui.c:187
 msgid "ROM sets"
 msgstr "Ustawienia ROM"
 
@@ -2212,7 +2212,7 @@ msgstr "Pamiêæ oraz rozszerzenia uk³adu I/O"
 
 #: src/arch/unix/c128ui.c:375 src/arch/unix/c64ui.c:362
 #: src/arch/unix/cbm2ui.c:354 src/arch/unix/plus4ui.c:137
-#: src/arch/unix/vic20ui.c:374
+#: src/arch/unix/vic20ui.c:380
 msgid "RS232 settings"
 msgstr "Ustawienia RS232"
 
@@ -2222,26 +2222,26 @@ msgstr "Za³aduj ustawienia"
 
 #: src/arch/unix/c128ui.c:442 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:450 src/arch/unix/petui.c:378
-#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/plus4ui.c:198 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:259
 msgid "File"
 msgstr "Plik"
 
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:444
 #: src/arch/unix/cbm2ui.c:467 src/arch/unix/petui.c:395
-#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:514
+#: src/arch/unix/plus4ui.c:215 src/arch/unix/vic20ui.c:520
 msgid "Snapshot"
 msgstr "Migawka"
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:222 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Opcje"
 
 #: src/arch/unix/c128ui.c:480 src/arch/unix/c64ui.c:463
 #: src/arch/unix/cbm2ui.c:484 src/arch/unix/petui.c:410
-#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:230 src/arch/unix/vic20ui.c:533
 #: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1230
 #: src/arch/unix/x11/gnome/x11ui.c:1322
 msgid "Settings"
@@ -2251,7 +2251,7 @@ msgstr "Ustawienia"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:494 src/arch/unix/c64ui.c:477
 #: src/arch/unix/cbm2ui.c:498 src/arch/unix/petui.c:424
-#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:542
+#: src/arch/unix/plus4ui.c:244 src/arch/unix/vic20ui.c:548
 msgid "RJHelp"
 msgstr "RJPomoc"
 
@@ -2286,7 +2286,7 @@ msgstr "Za³aduj nowy ROM z zestawem znaków"
 
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
-#: src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vic20ui.c:421
 #, fuzzy
 msgid "Save media file"
 msgstr "Zapisz obraz kartrid¿a"
@@ -2756,19 +2756,19 @@ msgstr "Napêd #10..."
 msgid "Unit #11..."
 msgstr "Napêd #11..."
 
-#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:412
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:404
 msgid "Unit #8"
 msgstr "Napêd #8"
 
-#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:414
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:406
 msgid "Unit #9"
 msgstr "Napêd #9"
 
-#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:416
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:408
 msgid "Unit #10"
 msgstr "Napêd #10"
 
-#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:418
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:410
 msgid "Unit #11"
 msgstr "Napêd #11"
 
@@ -2852,7 +2852,7 @@ msgstr "Nazwa obrazu IDE64..."
 msgid "Cannot attach cartridge"
 msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
 
-#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:218
+#: src/arch/unix/uic64cart.c:66 src/arch/unix/vic20ui.c:224
 msgid "Attach cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
@@ -2913,11 +2913,11 @@ msgstr "W³ó¿ obraz kartrid¿a"
 msgid "Enable Expert Cartridge..."
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:270
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:276
 msgid "Set cartridge as default"
 msgstr "Ustaw kartrid¿ jako domy¶lny"
 
-#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:276
+#: src/arch/unix/uic64cart.c:191 src/arch/unix/vic20ui.c:282
 msgid "Attach a cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
@@ -3020,7 +3020,7 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:458
+#: src/arch/unix/uicommands.c:325 src/arch/unix/uicommands.c:450
 #, fuzzy
 msgid "Select history directory"
 msgstr "Katalog systemu plików..."
@@ -3029,119 +3029,119 @@ msgstr "Katalog systemu plików..."
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:405
+#: src/arch/unix/uicommands.c:397
 msgid "Soft"
 msgstr "Miêkki"
 
-#: src/arch/unix/uicommands.c:408
+#: src/arch/unix/uicommands.c:400
 msgid "Hard"
 msgstr "Twardy"
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:416
 msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
-#: src/arch/unix/uicommands.c:432
+#: src/arch/unix/uicommands.c:424
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:426
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:428
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:430
 msgid "*Overwrite running playback"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:436
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:439
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:443
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/uicommands.c:454
+#: src/arch/unix/uicommands.c:446
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/uicommands.c:460
+#: src/arch/unix/uicommands.c:452
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:454
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:464
+#: src/arch/unix/uicommands.c:456
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:466
+#: src/arch/unix/uicommands.c:458
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:460
 #, fuzzy
 msgid "Set recording milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:470
+#: src/arch/unix/uicommands.c:462
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:473
+#: src/arch/unix/uicommands.c:465
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/uicommands.c:478 src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:469 src/arch/unix/uinetplay.c:117
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:476
 msgid "Snapshot commands"
 msgstr "Komendy zapisywania zrzutu"
 
-#: src/arch/unix/uicommands.c:495
+#: src/arch/unix/uicommands.c:482
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:489
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:505
+#: src/arch/unix/uicommands.c:492
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:513
+#: src/arch/unix/uicommands.c:500
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:515
+#: src/arch/unix/uicommands.c:502
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:521 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:508 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:523
+#: src/arch/unix/uicommands.c:510
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:530
+#: src/arch/unix/uicommands.c:517
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 
@@ -3288,7 +3288,7 @@ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
-#: src/arch/unix/vic20ui.c:301
+#: src/arch/unix/vic20ui.c:307
 msgid "*None"
 msgstr "*Brak"
 
@@ -3701,22 +3701,22 @@ msgid "*Sectors..."
 msgstr ""
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
-#: src/arch/unix/vic20ui.c:304
+#: src/arch/unix/vic20ui.c:310
 msgid "*Numpad"
 msgstr "*Klawiatura numeryczna"
 
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
-#: src/arch/unix/vic20ui.c:307
+#: src/arch/unix/vic20ui.c:313
 msgid "*Custom Keys"
 msgstr "*W³asne klawisze"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
-#: src/arch/unix/vic20ui.c:311
+#: src/arch/unix/vic20ui.c:317
 msgid "*Analog Joystick 0"
 msgstr "*Analogowy joystick 0"
 
 #: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
-#: src/arch/unix/vic20ui.c:314
+#: src/arch/unix/vic20ui.c:320
 msgid "*Analog Joystick 1"
 msgstr "*Analogowy joystick 1"
 
@@ -3741,23 +3741,23 @@ msgid "*Analog Joystick 5"
 msgstr "*Analogowy joystick 1"
 
 #: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
-#: src/arch/unix/vic20ui.c:318
+#: src/arch/unix/vic20ui.c:324
 msgid "*Digital Joystick 0"
 msgstr "*Cyfrowy joystick 0"
 
 #: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
-#: src/arch/unix/vic20ui.c:321
+#: src/arch/unix/vic20ui.c:327
 msgid "*Digital Joystick 1"
 msgstr "*Cyfrowy joystick 1"
 
 #: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
-#: src/arch/unix/vic20ui.c:326
+#: src/arch/unix/vic20ui.c:332
 #, fuzzy
 msgid "*USB Joystick 0"
 msgstr "*Analogowy joystick 0"
 
 #: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
-#: src/arch/unix/vic20ui.c:329
+#: src/arch/unix/vic20ui.c:335
 #, fuzzy
 msgid "*USB Joystick 1"
 msgstr "*Analogowy joystick 1"
@@ -3774,7 +3774,7 @@ msgstr "Joystick w porcie 2"
 msgid "Swap joystick ports"
 msgstr "Zamieñ porty (1/2)"
 
-#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:344
 msgid "Joystick settings"
 msgstr "Ustawienia joystcka"
 
@@ -3817,60 +3817,60 @@ msgstr "Zapisz mapowanie klawiszy do pliku"
 msgid "Keyboard settings"
 msgstr "Ustawienia klawiatury"
 
-#: src/arch/unix/uinetplay.c:60
+#: src/arch/unix/uinetplay.c:69
 #, fuzzy
 msgid "Enter port"
 msgstr "Ustawienia drukarki"
 
-#: src/arch/unix/uinetplay.c:61
+#: src/arch/unix/uinetplay.c:70
 msgid "Netplay TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:73
+#: src/arch/unix/uinetplay.c:82
 #, fuzzy
 msgid "Invalid TCP port"
 msgstr "Z³a nazwa pliku"
 
-#: src/arch/unix/uinetplay.c:81
+#: src/arch/unix/uinetplay.c:90
 msgid "Error starting the netplay server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:86
+#: src/arch/unix/uinetplay.c:95
 #, fuzzy
 msgid "Netplay Server name"
 msgstr "Ustawienia zewnêtrzne"
 
-#: src/arch/unix/uinetplay.c:87
+#: src/arch/unix/uinetplay.c:96
 #, fuzzy
 msgid "Hostname:"
 msgstr "Plik ustawieñ ROM:"
 
-#: src/arch/unix/uinetplay.c:93
+#: src/arch/unix/uinetplay.c:102
 msgid "Error connecting to server."
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:103
+#: src/arch/unix/uinetplay.c:113
 #, fuzzy
 msgid "*Enable IPV6"
 msgstr "*W³±cz"
 
-#: src/arch/unix/uinetplay.c:106
+#: src/arch/unix/uinetplay.c:120
 msgid "TCP port"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:108
+#: src/arch/unix/uinetplay.c:122
 msgid "Start server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:110
+#: src/arch/unix/uinetplay.c:124
 msgid "Server to connect to"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:113
+#: src/arch/unix/uinetplay.c:127
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/uinetplay.c:129 src/arch/unix/x11/gnome/uinetplay.c:207
 msgid "Disconnect"
 msgstr ""
 
@@ -4366,44 +4366,44 @@ msgid "ACIA $DExx Interrupt"
 msgstr "Przerwanie ACIA $DExx"
 
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
-#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:348
+#: src/arch/unix/uirs232c64c128.c:62 src/arch/unix/vic20ui.c:354
 #, fuzzy
 msgid "*Userport RS232 emulation"
 msgstr "*Brak emulacji portu RS232"
 
 # src/arch/unix/uisettings.c:622 src/arch/unix/vic20ui.c:323 
-#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:350
+#: src/arch/unix/uirs232c64c128.c:64 src/arch/unix/vic20ui.c:356
 #, fuzzy
 msgid "Userport RS232 baud rate"
 msgstr "Urz±dzenie portu RS232"
 
 # src/arch/unix/uisettings.c:622 src/arch/unix/vic20ui.c:323 
-#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:352
+#: src/arch/unix/uirs232c64c128.c:66 src/arch/unix/vic20ui.c:358
 msgid "Userport RS232 device"
 msgstr "Urz±dzenie portu RS232"
 
 #: src/arch/unix/uirs232c64c128.c:69 src/arch/unix/uirs232petplus4cbm2.c:42
-#: src/arch/unix/vic20ui.c:355
+#: src/arch/unix/vic20ui.c:361
 msgid "Serial 1 device..."
 msgstr "Urz±dzenie Serial 1..."
 
 #: src/arch/unix/uirs232c64c128.c:71 src/arch/unix/uirs232petplus4cbm2.c:44
-#: src/arch/unix/vic20ui.c:357
+#: src/arch/unix/vic20ui.c:363
 msgid "Serial 1 baudrate"
 msgstr "Prêdko¶æ Serial 1"
 
 #: src/arch/unix/uirs232c64c128.c:76 src/arch/unix/uirs232petplus4cbm2.c:49
-#: src/arch/unix/vic20ui.c:362
+#: src/arch/unix/vic20ui.c:368
 msgid "Serial 2 baudrate"
 msgstr "Prêdko¶æ Serial 2"
 
 #: src/arch/unix/uirs232c64c128.c:79 src/arch/unix/uirs232petplus4cbm2.c:52
-#: src/arch/unix/vic20ui.c:365
+#: src/arch/unix/vic20ui.c:371
 msgid "Dump filename..."
 msgstr "Plik zrzutu..."
 
 #: src/arch/unix/uirs232c64c128.c:82 src/arch/unix/uirs232petplus4cbm2.c:55
-#: src/arch/unix/vic20ui.c:368
+#: src/arch/unix/vic20ui.c:374
 msgid "Program name to exec..."
 msgstr "Nazwa programu do uruchomienia..."
 
@@ -4411,7 +4411,7 @@ msgstr "Nazwa programu do uruchomienia..."
 msgid "ACIA device"
 msgstr "Urz±dzenia ACIA"
 
-#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:360
+#: src/arch/unix/uirs232petplus4cbm2.c:47 src/arch/unix/vic20ui.c:366
 msgid "Serial 2 device..."
 msgstr "Urz±dzenie Serial 2..."
 
@@ -4814,87 +4814,87 @@ msgstr "Za³aduj nowy znak ROM"
 msgid "No expansion memory"
 msgstr "Bez rozszerzenia pamiêci"
 
-#: src/arch/unix/vic20ui.c:155
+#: src/arch/unix/vic20ui.c:156
 msgid "3K (block 0)"
 msgstr "3K (blok 0)"
 
-#: src/arch/unix/vic20ui.c:157
+#: src/arch/unix/vic20ui.c:159
 msgid "8K (block 1)"
 msgstr "8K (blok 1)"
 
-#: src/arch/unix/vic20ui.c:159
+#: src/arch/unix/vic20ui.c:162
 msgid "16K (blocks 1/2)"
 msgstr "16K (blok 1/2)"
 
-#: src/arch/unix/vic20ui.c:161
+#: src/arch/unix/vic20ui.c:165
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (blok 1/2/3)"
 
-#: src/arch/unix/vic20ui.c:164
+#: src/arch/unix/vic20ui.c:169
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "Wszystkie (bloki 0/1/2/3/4/5)"
 
-#: src/arch/unix/vic20ui.c:178
+#: src/arch/unix/vic20ui.c:184
 msgid "Common configurations"
 msgstr "Konfiguracja pozosta³ych elementów"
 
-#: src/arch/unix/vic20ui.c:184
+#: src/arch/unix/vic20ui.c:190
 msgid "*Block 0 (3K at $0400-$0FFF)"
 msgstr "*Blok 0 (3K at $0400-$0FFF)"
 
-#: src/arch/unix/vic20ui.c:186
+#: src/arch/unix/vic20ui.c:192
 msgid "*Block 1 (8K at $2000-$3FFF)"
 msgstr "*Blok 1 (8K w $2000-$3FFF)"
 
-#: src/arch/unix/vic20ui.c:188
+#: src/arch/unix/vic20ui.c:194
 msgid "*Block 2 (8K at $4000-$5FFF)"
 msgstr "*Blok 2 (8K w $4000-$5FFF)"
 
-#: src/arch/unix/vic20ui.c:190
+#: src/arch/unix/vic20ui.c:196
 msgid "*Block 3 (8K at $6000-$7FFF)"
 msgstr "*Blok 3 (8K w $6000-$7FFF)"
 
-#: src/arch/unix/vic20ui.c:192
+#: src/arch/unix/vic20ui.c:198
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blok 5 (8K w $A000-$BFFF)"
 
-#: src/arch/unix/vic20ui.c:202 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/vic20ui.c:208 src/arch/unix/vic20ui.c:429
 msgid "Memory expansions"
 msgstr "Rozszerzenie pamiêci"
 
-#: src/arch/unix/vic20ui.c:224
+#: src/arch/unix/vic20ui.c:230
 msgid "Invalid cartridge image"
 msgstr "Nieprawid³owy obraz kartrid¿a"
 
-#: src/arch/unix/vic20ui.c:249
+#: src/arch/unix/vic20ui.c:255
 msgid "Smart-attach cartridge image..."
 msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
 
-#: src/arch/unix/vic20ui.c:254
+#: src/arch/unix/vic20ui.c:260
 msgid "Attach 4/8/16KB image at $2000..."
 msgstr "Wsuñ 4/8/16KB obraz w $2000..."
 
-#: src/arch/unix/vic20ui.c:257
+#: src/arch/unix/vic20ui.c:263
 msgid "Attach 4/8/16KB image at $4000..."
 msgstr "Wsuñ 4/8/16KB obraz w $4000..."
 
-#: src/arch/unix/vic20ui.c:260
+#: src/arch/unix/vic20ui.c:266
 msgid "Attach 4/8/16KB image at $6000..."
 msgstr "Wsuñ 4/8/16KB obraz w $6000..."
 
-#: src/arch/unix/vic20ui.c:263
+#: src/arch/unix/vic20ui.c:269
 msgid "Attach 4/8KB image at $A000..."
 msgstr "Wsuñ 4/8KB obraz w $A000..."
 
-#: src/arch/unix/vic20ui.c:266
+#: src/arch/unix/vic20ui.c:272
 msgid "Attach 4KB image at $B000..."
 msgstr "Wsuñ 4KB obraz w $B000..."
 
-#: src/arch/unix/vic20ui.c:278
+#: src/arch/unix/vic20ui.c:284
 msgid "Detach cartridge image(s)"
 msgstr "Wysuñ obraz(y) kartrid¿a"
 
-#: src/arch/unix/vic20ui.c:421
+#: src/arch/unix/vic20ui.c:427
 msgid "VIC settings"
 msgstr "Ustawienia VIC"
 
@@ -5114,30 +5114,39 @@ msgstr ""
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143
-#: src/arch/unix/x11/gnome/uinetplay.c:147
+#: src/arch/unix/x11/gnome/uinetplay.c:116
+msgid "Couldn't start network server."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uinetplay.c:126
+#, fuzzy
+msgid "Couldn't connect client."
+msgstr "Nie mo¿na alokowaæ cache'u koloru"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:149
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Ustawienia zewnêtrzne"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:152
+#: src/arch/unix/x11/gnome/uinetplay.c:154
 #, fuzzy
 msgid "Current mode: "
 msgstr "Ustawienia ROM"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:155
+#: src/arch/unix/x11/gnome/uinetplay.c:157
 msgid "<unknown>"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:162
+#: src/arch/unix/x11/gnome/uinetplay.c:164
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:170
+#: src/arch/unix/x11/gnome/uinetplay.c:172
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:183
+#: src/arch/unix/x11/gnome/uinetplay.c:185
 msgid "Connect to "
 msgstr ""
 
@@ -5774,35 +5783,48 @@ msgstr "Wydajno¶æ bêdzie niska"
 msgid "Successfully initialized without shared memory."
 msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 
-#~ msgid "VIC II Screenshot"
-#~ msgstr "Zrzut ekranu VIC II"
-
-#~ msgid "VDC Screenshot"
-#~ msgstr "Zrzut ekranu VDC"
-
-#~ msgid "Screenshot..."
-#~ msgstr "Zrzut ekranu"
-
-#, fuzzy
-#~ msgid "Cannot read received snapshot file"
-#~ msgstr ""
-#~ "Nie mo¿na za³adowaæ pliku zrzutu\n"
-#~ "`%s'"
-
 #, fuzzy
 #~ msgid "&File"
 #~ msgstr "Plik"
+
+#, fuzzy
+#~ msgid "&Open"
+#~ msgstr "Opcje"
 
 #, fuzzy
 #~ msgid "&Save"
 #~ msgstr "Zapisz"
 
 #, fuzzy
+#~ msgid "&Print"
+#~ msgstr "Ustawienia drukarki"
+
+#, fuzzy
+#~ msgid "E&xit\tAlt+F4"
+#~ msgstr "Monitor"
+
+#, fuzzy
+#~ msgid "&View"
+#~ msgstr "Rozmiar video"
+
+#, fuzzy
 #~ msgid "&Current instruction"
 #~ msgstr "Plik ustawieñ ROM:"
 
 #, fuzzy
+#~ msgid "&Register window"
+#~ msgstr "Rozmiar pamiêci"
+
+#, fuzzy
 #~ msgid "&Memory window"
+#~ msgstr "Rozmiar pamiêci"
+
+#, fuzzy
+#~ msgid "&Disassembly window"
+#~ msgstr "Rozmiar pamiêci"
+
+#, fuzzy
+#~ msgid "&Console window"
 #~ msgstr "Rozmiar pamiêci"
 
 #, fuzzy
@@ -5812,6 +5834,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Drive &9"
 #~ msgstr "Napêd %d: "
+
+#, fuzzy
+#~ msgid "&Window"
+#~ msgstr "Rozmiar video"
 
 #, fuzzy
 #~ msgid "&Use IEC Device"
@@ -5862,6 +5888,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "*Stwórz plik P00 kiedy bêdzie zapis"
 
 #, fuzzy
+#~ msgid "&Hide non-P00 files"
+#~ msgstr "*Stwórz plik P00 kiedy bêdzie zapis"
+
+#, fuzzy
 #~ msgid "Datasette Settings"
 #~ msgstr "Regulacja prêdko¶ci Datasette"
 
@@ -5886,8 +5916,24 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Joystick w porcie 2"
 
 #, fuzzy
+#~ msgid "Config Keyset &A"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Config Keyset &B"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "S&outh West"
+#~ msgstr "Reset"
+
+#, fuzzy
 #~ msgid "&South"
 #~ msgstr "Miêkki"
+
+#, fuzzy
+#~ msgid "So&uth East"
+#~ msgstr "*Szybko"
 
 #, fuzzy
 #~ msgid "&West"
@@ -5896,6 +5942,26 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "&East"
 #~ msgstr "*Szybko"
+
+#, fuzzy
+#~ msgid "No&rth West"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "&North"
+#~ msgstr "Miêkki"
+
+#, fuzzy
+#~ msgid "Nor&th East"
+#~ msgstr "*Szybko"
+
+#, fuzzy
+#~ msgid "&Fire button"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
+#~ msgid "DirectX driver"
+#~ msgstr "Sterownik drukarki #4 - IEC"
 
 #, fuzzy
 #~ msgid "Sample &Frequency :"
@@ -5912,6 +5978,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Image Contents "
 #~ msgstr "Zawarto¶æ"
+
+#, fuzzy
+#~ msgid "New Image"
+#~ msgstr "B³±d XCreateImage"
 
 #, fuzzy
 #~ msgid "Name"
@@ -5934,8 +6004,28 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Zapisz obecnie za³adowany ROM"
 
 #, fuzzy
-#~ msgid "Save as"
-#~ msgstr "Zapisz"
+#~ msgid "Select Driver:"
+#~ msgstr "Napêd %d: "
+
+#, fuzzy
+#~ msgid "FFMPEG settings"
+#~ msgstr "Ustawienia TED"
+
+#, fuzzy
+#~ msgid "Format:"
+#~ msgstr "Format obrazu"
+
+#, fuzzy
+#~ msgid "Audio: codec"
+#~ msgstr "Rozmiar video"
+
+#, fuzzy
+#~ msgid "bitrate"
+#~ msgstr "Rozmiar video"
+
+#, fuzzy
+#~ msgid "Video: codec"
+#~ msgstr "Rozmiar video"
 
 #, fuzzy
 #~ msgid "Driver:"
@@ -5959,6 +6049,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 
 #, fuzzy
 #~ msgid "PAL Shade"
+#~ msgstr "Cieniowane scanline PAL "
+
+#, fuzzy
+#~ msgid "PAL Mode"
 #~ msgstr "Cieniowane scanline PAL "
 
 #, fuzzy
@@ -6087,6 +6181,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Urz±dzenie portu RS232"
 
 #, fuzzy
+#~ msgid "Current mode"
+#~ msgstr "Ustawienia ROM"
+
+#, fuzzy
 #~ msgid "None"
 #~ msgstr "*Brak"
 
@@ -6112,6 +6210,14 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ "\n"
 #~ "Start monitor?"
 #~ msgstr "Aktywacja monitora"
+
+#, fuzzy
+#~ msgid "Detached device %s"
+#~ msgstr "W³ó¿ obraz kasety"
+
+#, fuzzy
+#~ msgid "Attached %s to device#%s"
+#~ msgstr "W³ó¿ obraz kasety"
 
 #, fuzzy
 #~ msgid "Detached tape"
@@ -6151,6 +6257,16 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Bad cartridge config in UI!"
 #~ msgstr "Zapisz obraz kartrid¿a w pliku"
+
+#, fuzzy
+#~ msgid "VICE console logging files (*.dbg)"
+#~ msgstr "Za³aduj plik listy"
+
+#, fuzzy
+#~ msgid "Cannot write log file `%s'."
+#~ msgstr ""
+#~ "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
+#~ "`%s'\n"
 
 #, fuzzy
 #~ msgid "Load flip list file"
@@ -6200,6 +6316,13 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ "\n"
 
 #, fuzzy
+#~ msgid "Which command line options are available?"
+#~ msgstr ""
+#~ "\n"
+#~ "Dostêpne opcje z linii poleceñ:\n"
+#~ "\n"
+
+#, fuzzy
 #~ msgid "Cannot write screenshot file `%s'."
 #~ msgstr ""
 #~ "Nie mo¿na zapisaæ pliku migawki\n"
@@ -6212,6 +6335,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Select file system directory"
 #~ msgstr "Katalog systemu plików..."
+
+#, fuzzy
+#~ msgid "Printer Userport"
+#~ msgstr "Ustawienia drukarki"
 
 #, fuzzy
 #~ msgid "Printer 4"
@@ -6238,10 +6365,20 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Model napêdu #8"
 
 #, fuzzy
+#~ msgid "Peripheral Settings"
+#~ msgstr "Ustawienia zewnêtrzne"
+
+#, fuzzy
 #~ msgid "Can't write snapshot file."
 #~ msgstr ""
 #~ "Nie mo¿na zapisaæ pliku migawki\n"
 #~ "`%s'\n"
+
+#, fuzzy
+#~ msgid "Cannot read snapshot image"
+#~ msgstr ""
+#~ "Nie mo¿na za³adowaæ pliku zrzutu\n"
+#~ "`%s'"
 
 #, fuzzy
 #~ msgid "Load %s ROM image"
@@ -6283,6 +6420,12 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Save snapshot image"
 #~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "Cannot write snapshot file `%s'."
+#~ msgstr ""
+#~ "Nie mo¿na zapisaæ pliku migawki\n"
+#~ "`%s'\n"
 
 #, fuzzy
 #~ msgid "Load snapshot image"
@@ -6364,6 +6507,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "W³ó¿ obraz Super Snapshot 4..."
 
 #, fuzzy
+#~ msgid "Model"
+#~ msgstr "Za³aduj ustawienia"
+
+#, fuzzy
 #~ msgid "Drive Settings"
 #~ msgstr "Ustawienia napêdu"
 
@@ -6378,6 +6525,14 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Keyset B"
 #~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "All files (*.*)"
+#~ msgstr "Za³aduj plik listy"
+
+#, fuzzy
+#~ msgid "VICE palette files (*.vpl)"
+#~ msgstr "Za³aduj plik listy"
 
 #, fuzzy
 #~ msgid "VICE snapshot files (*.vsf)"
@@ -6396,6 +6551,18 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Za³aduj plik listy"
 
 #, fuzzy
+#~ msgid "VICE romset files (*.vrs)"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "VICE romset archives (*.vra)"
+#~ msgstr "Plik ustawieñ ROM:"
+
+#, fuzzy
+#~ msgid "VICE keymap files (*.vkm)"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
 #~ msgid "Flexible"
 #~ msgstr "*Elastyczny"
 
@@ -6406,6 +6573,18 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Exact"
 #~ msgstr "*Wymu¶"
+
+#, fuzzy
+#~ msgid "Configure Keyset A"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Configure Keyset B"
+#~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Save media image"
+#~ msgstr "Zapisz obraz kartrid¿a"
 
 #, fuzzy
 #~ msgid "Tape:"
@@ -6426,6 +6605,14 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Start VICE in fullscreen mode"
 #~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
+#~ msgid "An unexpected error occured. Received signal %d (%s)."
+#~ msgstr "Odebrano sygna³ %d (%s)."
+
+#, fuzzy
+#~ msgid "Invalid port number"
+#~ msgstr "Z³a nazwa pliku"
 
 #, fuzzy
 #~ msgid "IRQ"
@@ -6459,6 +6646,14 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Attach &disk image"
 #~ msgstr "W³ó¿ obraz dyskietki"
+
+#, fuzzy
+#~ msgid "Drive &8\tAlt+8"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "Drive &9\tAlt+9"
+#~ msgstr "Model napêdu #8"
 
 #, fuzzy
 #~ msgid "Drive 1&0\tAlt+0"
@@ -6525,6 +6720,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Zatrzymaj"
 
 #, fuzzy
+#~ msgid "&Start"
+#~ msgstr "Autostart"
+
+#, fuzzy
 #~ msgid "&Forward"
 #~ msgstr "Przewiñ do przodu"
 
@@ -6539,6 +6738,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "R&eset"
 #~ msgstr "Reset"
+
+#, fuzzy
+#~ msgid "Attach &cartridge image..."
+#~ msgstr "W³ó¿ obraz kartrid¿a"
 
 #, fuzzy
 #~ msgid "&CRT image..."
@@ -6585,6 +6788,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "W³ó¿ obraz Super Snapshot 5..."
 
 #, fuzzy
+#~ msgid "Structured &Basic image..."
+#~ msgstr "W³ó¿ obraz kartrid¿a"
+
+#, fuzzy
 #~ msgid "Expert Cartridge"
 #~ msgstr "W³±cz Expert Cartridge..."
 
@@ -6613,6 +6820,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Reset"
 
 #, fuzzy
+#~ msgid "&Soft\tAlt+R"
+#~ msgstr "Monitor"
+
+#, fuzzy
 #~ msgid "Drive #&8"
 #~ msgstr "Model napêdu #8"
 
@@ -6629,12 +6840,44 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Model napêdu #8"
 
 #, fuzzy
+#~ msgid "M&ode"
+#~ msgstr "*Brak"
+
+#, fuzzy
+#~ msgid "&Normal"
+#~ msgstr "Format obrazu"
+
+#, fuzzy
+#~ msgid "&History"
+#~ msgstr "Katalog nie znaleziony"
+
+#, fuzzy
+#~ msgid "Drive&0 CPU Trace\tAlt+F11"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "Drive&1 CPU Trace\tAlt+F12"
+#~ msgstr "Model napêdu #8"
+
+#, fuzzy
+#~ msgid "E&xit\tAlt+X"
+#~ msgstr "Monitor"
+
+#, fuzzy
 #~ msgid "Sna&pshot"
 #~ msgstr "Migawka"
 
 #, fuzzy
 #~ msgid "Load snapshot &image..."
 #~ msgstr "Za³aduj zrzut..."
+
+#, fuzzy
+#~ msgid "Save sna&pshot image..."
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "&Load quicksnapshot image\tAlt+L"
+#~ msgstr "Zapisz plik"
 
 #, fuzzy
 #~ msgid "&Save quicksnapshot image\tAlt+S"
@@ -6645,7 +6888,15 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Rozpocznij zapisywanie wydarzen"
 
 #, fuzzy
+#~ msgid "Start/Stop Pl&ayback History"
+#~ msgstr "Rozpocznij zapisywanie wydarzen"
+
+#, fuzzy
 #~ msgid "Set Recording Milestone\tAlt+G"
+#~ msgstr "Zatrzymaj zapisywanie wydarzen "
+
+#, fuzzy
+#~ msgid "Return to Milestone\tAlt+H"
 #~ msgstr "Zatrzymaj zapisywanie wydarzen "
 
 #, fuzzy
@@ -6669,6 +6920,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Katalog systemu plików..."
 
 #, fuzzy
+#~ msgid "Save/stop media file...\tAlt+C"
+#~ msgstr "Zapisz obraz kartrid¿a"
+
+#, fuzzy
 #~ msgid "&Refresh rate"
 #~ msgstr "Czêstotliwo¶æ od¶wie¿ania"
 
@@ -6677,16 +6932,16 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "*Automatycznie"
 
 #, fuzzy
+#~ msgid "&Custom"
+#~ msgstr "*W³asne..."
+
+#, fuzzy
 #~ msgid "&Maximum Speed"
 #~ msgstr "Maksymalna prêdko¶æ"
 
 #, fuzzy
 #~ msgid "No &limit"
 #~ msgstr "*Bez limitu"
-
-#, fuzzy
-#~ msgid "&Custom"
-#~ msgstr "*W³asne..."
 
 #, fuzzy
 #~ msgid "Video &cache"
@@ -6731,14 +6986,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Vide&o standard"
 #~ msgstr "Standard video"
-
-#, fuzzy
-#~ msgid "&PAL-G"
-#~ msgstr "*PAL-G"
-
-#, fuzzy
-#~ msgid "&NTSC-M"
-#~ msgstr "*NTSC-M"
 
 #, fuzzy
 #~ msgid "Emulator &Identification"
@@ -6857,6 +7104,22 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "*Zapisz ustawienia przy wyj¶ciu"
 
 #, fuzzy
+#~ msgid "&Confirm on exit"
+#~ msgstr "Konfiguracja pozosta³ych elementów"
+
+#, fuzzy
+#~ msgid "&German"
+#~ msgstr "Za³aduj nowy Kernal ROM"
+
+#, fuzzy
+#~ msgid "&Italian"
+#~ msgstr "Za³aduj nowy kernal"
+
+#, fuzzy
+#~ msgid "&Dutch"
+#~ msgstr "Miêkki"
+
+#, fuzzy
 #~ msgid "&Help"
 #~ msgstr "Pomoc"
 
@@ -6884,7 +7147,23 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Bez gwarancji!"
 
 #, fuzzy
+#~ msgid "Computer resources"
+#~ msgstr "Ustawienia napêdu"
+
+#, fuzzy
+#~ msgid "International Kernal"
+#~ msgstr "*Oryginalny zestaw znaków"
+
+#, fuzzy
 #~ msgid "German Kernal"
+#~ msgstr "Za³aduj nowy Kernal ROM"
+
+#, fuzzy
+#~ msgid "Finnish Kernal"
+#~ msgstr "Za³aduj nowy kernal"
+
+#, fuzzy
+#~ msgid "French Kernal"
 #~ msgstr "Za³aduj nowy Kernal ROM"
 
 #, fuzzy
@@ -6896,11 +7175,23 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Za³aduj nowy kernal"
 
 #, fuzzy
+#~ msgid "Swedish Kernal"
+#~ msgstr "Za³aduj nowy kernal"
+
+#, fuzzy
 #~ msgid "International Character"
 #~ msgstr "*Oryginalny zestaw znaków"
 
 #, fuzzy
 #~ msgid "German Character"
+#~ msgstr "*Niemiecki zestaw znaków"
+
+#, fuzzy
+#~ msgid "French Character"
+#~ msgstr "*Niemiecki zestaw znaków"
+
+#, fuzzy
+#~ msgid "Swedish Character"
 #~ msgstr "*Niemiecki zestaw znaków"
 
 #, fuzzy
@@ -6913,6 +7204,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 
 #, fuzzy
 #~ msgid "Drive resources"
+#~ msgstr "Ustawienia napêdu"
+
+#, fuzzy
+#~ msgid "Drive resources saved to romset"
 #~ msgstr "Ustawienia napêdu"
 
 #, fuzzy
@@ -6934,38 +7229,6 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Enable external Function ROM"
 #~ msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
-
-#, fuzzy
-#~ msgid "&Drive type"
-#~ msgstr "Typ urz¹dzenia"
-
-#, fuzzy
-#~ msgid "Never extend"
-#~ msgstr "*Nigdy nie rozszerzaj"
-
-#, fuzzy
-#~ msgid "Ask on extend"
-#~ msgstr "*Wcze¶niej zapytaj"
-
-#, fuzzy
-#~ msgid "Extend on access"
-#~ msgstr "*Rozszerz, kiedy nast±pi u¿ycie"
-
-#, fuzzy
-#~ msgid "Id&le method"
-#~ msgstr "Napêd #8 - metada bezczynno¶ci"
-
-#, fuzzy
-#~ msgid "Trap idle"
-#~ msgstr "*Wykrywaj"
-
-#, fuzzy
-#~ msgid "Skip cycles"
-#~ msgstr "*Opuszczaj cykcle"
-
-#, fuzzy
-#~ msgid "Drive &expansion"
-#~ msgstr "Rozszerzenie RAM napêdu #8 "
 
 # src/arch/unix/uisettings.c:283 
 #, fuzzy
@@ -7004,6 +7267,18 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgid "+&60K settings..."
 #~ msgstr "Ustawienia VDC"
 
+#, fuzzy
+#~ msgid "&256K settings..."
+#~ msgstr "Ustawienia VDC"
+
+#, fuzzy
+#~ msgid "Kernal"
+#~ msgstr "Za³aduj nowy Kernal ROM"
+
+#, fuzzy
+#~ msgid "Character"
+#~ msgstr "*Niemiecki zestaw znaków"
+
 # src/arch/unix/uisettings.c:283 
 #, fuzzy
 #~ msgid "&Symbolic US"
@@ -7013,6 +7288,22 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "&Symbolic DE"
 #~ msgstr "*mapowanie na podstawie symboli"
+
+#, fuzzy
+#~ msgid "256K Settings"
+#~ msgstr "Ustawienia"
+
+#, fuzzy
+#~ msgid "&Enable 256K"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "256K base address"
+#~ msgstr "*Adres bazowy drugiego SID"
+
+#, fuzzy
+#~ msgid "Select file for 256K"
+#~ msgstr "W³±cz pe³ny ekran"
 
 #, fuzzy
 #~ msgid "&CBM2 settings..."
@@ -7087,6 +7378,38 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Ustawienia VDC"
 
 #, fuzzy
+#~ msgid "&Drive type"
+#~ msgstr "Typ urz¹dzenia"
+
+#, fuzzy
+#~ msgid "Never extend"
+#~ msgstr "*Nigdy nie rozszerzaj"
+
+#, fuzzy
+#~ msgid "Ask on extend"
+#~ msgstr "*Wcze¶niej zapytaj"
+
+#, fuzzy
+#~ msgid "Extend on access"
+#~ msgstr "*Rozszerz, kiedy nast±pi u¿ycie"
+
+#, fuzzy
+#~ msgid "Id&le method"
+#~ msgstr "Napêd #8 - metada bezczynno¶ci"
+
+#, fuzzy
+#~ msgid "Trap idle"
+#~ msgstr "*Wykrywaj"
+
+#, fuzzy
+#~ msgid "Skip cycles"
+#~ msgstr "*Opuszczaj cykcle"
+
+#, fuzzy
+#~ msgid "Drive &expansion"
+#~ msgstr "Rozszerzenie RAM napêdu #8 "
+
+#, fuzzy
 #~ msgid "GEORAM Settings"
 #~ msgstr "Ustawienia RAM"
 
@@ -7099,12 +7422,20 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Rozmiar GEORAM"
 
 #, fuzzy
+#~ msgid "Select file for GEORAM"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
 #~ msgid "IDE64 Settings"
 #~ msgstr "Ustawienia uk³adu SID"
 
 #, fuzzy
 #~ msgid "&HD image file"
 #~ msgstr "Nazwa obrazu IDE64"
+
+#, fuzzy
+#~ msgid "&Geometry"
+#~ msgstr "Rozmiar pamiêci"
 
 #, fuzzy
 #~ msgid "&Autodetect"
@@ -7142,6 +7473,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "4KB"
 #~ msgstr "*64KB"
+
+#, fuzzy
+#~ msgid "8KB"
+#~ msgstr "*32KB"
 
 #, fuzzy
 #~ msgid "16KB"
@@ -7228,7 +7563,15 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Ustawienia TED"
 
 #, fuzzy
+#~ msgid "C1 low  image..."
+#~ msgstr "Zapisz obraz kartrid¿a..."
+
+#, fuzzy
 #~ msgid "C1 high image..."
+#~ msgstr "Zapisz obraz kartrid¿a..."
+
+#, fuzzy
+#~ msgid "C2 low  image..."
 #~ msgstr "Zapisz obraz kartrid¿a..."
 
 #, fuzzy
@@ -7300,6 +7643,14 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Ustawienia"
 
 #, fuzzy
+#~ msgid "&Enable +60K"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "Select file for +60K"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
 #~ msgid "RAMCART Settings"
 #~ msgstr "Ustawienia RAM"
 
@@ -7328,6 +7679,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "Rozmiar REU"
 
 #, fuzzy
+#~ msgid "Select file for REU"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
 #~ msgid "RS232 Userport Settings"
 #~ msgstr "Ustawienia RS232"
 
@@ -7344,6 +7699,10 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "Userport baud rate"
 #~ msgstr "Urz±dzenie portu RS232"
+
+#, fuzzy
+#~ msgid "General"
+#~ msgstr "Za³aduj nowy Kernal ROM"
 
 #, fuzzy
 #~ msgid "fast"
@@ -7478,6 +7837,18 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #~ msgstr "8K (blok 1)"
 
 #, fuzzy
+#~ msgid "Block &2"
+#~ msgstr "3K (blok 0)"
+
+#, fuzzy
+#~ msgid "Block &3"
+#~ msgstr "3K (blok 0)"
+
+#, fuzzy
+#~ msgid "Block &5"
+#~ msgstr "3K (blok 0)"
+
+#, fuzzy
 #~ msgid "Attach 4/8/16KB cartridge image at $2000"
 #~ msgstr "Wsuñ 4/8/16KB obraz w $2000..."
 
@@ -7516,6 +7887,33 @@ msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 #, fuzzy
 #~ msgid "New Luminances"
 #~ msgstr "*Nowa jaskrawo¶æ"
+
+#~ msgid "VIC II Screenshot"
+#~ msgstr "Zrzut ekranu VIC II"
+
+#~ msgid "VDC Screenshot"
+#~ msgstr "Zrzut ekranu VDC"
+
+#~ msgid "Screenshot..."
+#~ msgstr "Zrzut ekranu"
+
+#, fuzzy
+#~ msgid "Cannot read received snapshot file"
+#~ msgstr ""
+#~ "Nie mo¿na za³adowaæ pliku zrzutu\n"
+#~ "`%s'"
+
+#, fuzzy
+#~ msgid "Save as"
+#~ msgstr "Zapisz"
+
+#, fuzzy
+#~ msgid "&PAL-G"
+#~ msgstr "*PAL-G"
+
+#, fuzzy
+#~ msgid "&NTSC-M"
+#~ msgstr "*NTSC-M"
 
 #~ msgid "Specify name of second RS232 device (/dev/ttyS1)"
 #~ msgstr "Okre¶l nazwê drugorzêdnego urz±dzenia RS232 (/dev/ttyS1)"
