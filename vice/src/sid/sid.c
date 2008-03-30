@@ -1128,14 +1128,14 @@ void sid_reset(void)
     sound_reset();
 }
 
-void sound_machine_reset(sound_t *psid, CLOCK clk)
+void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
 #ifdef HAVE_RESID
     if (useresid)
-	resid_sound_machine_reset(psid, clk);
+	resid_sound_machine_reset(psid, cpu_clk);
     else
 #endif
-    psid->laststoreclk = clk;
+    psid->laststoreclk = cpu_clk;
 }
 
 void sound_machine_init(void)

@@ -96,7 +96,7 @@ static void undump_pra(BYTE byte)
 #endif
 }
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
 #ifdef HAVE_PRINTER
 	pruser_write_data(byte);
@@ -109,14 +109,14 @@ static void undump_prb(BYTE byte)
     parallel_cpu_restore_atn(!(byte & 0x04));
 }
 
-inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
     if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
         log_warning(via_log,"PET: Killer POKE! might kill a real PET!\n");
     }
     parallel_cpu_set_nrfd(!(byte & 0x02));
     parallel_cpu_set_atn(!(byte & 0x04));
-    if ((byte ^ oldpb) & 0x8)
+    if ((byte ^ myoldpb) & 0x8)
         datasette_toggle_write_bit((~via[VIA_DDRB] | byte) & 0x8);
 }
 

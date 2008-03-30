@@ -96,7 +96,7 @@ static void undump_pra(BYTE byte)
     iec_pa_write(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
     iec_pa_write(byte);
 }
@@ -108,7 +108,7 @@ static void undump_prb(BYTE byte)
 #endif
 }
 
-inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
 #ifdef HAVE_PRINTER
     pruser_write_data(byte);

@@ -193,7 +193,7 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
-void sound_machine_reset(sound_t *psid, CLOCK clk)
+void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
 }
 

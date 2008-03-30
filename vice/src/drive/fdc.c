@@ -678,7 +678,7 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
 
 int fdc_attach_image(disk_image_t *image, unsigned int unit)
 {
-    int drive;
+    int drive_no;
     int imgno;
 
 #ifdef FDC_DEBUG
@@ -690,35 +690,35 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         return -1;
 
     if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
-	drive = 0;
+	drive_no = 0;
     } else {
-	drive = unit - 8;
+	drive_no = unit - 8;
     }
     imgno = unit - 8;
 
-    if (fdc[drive].drive_type == DRIVE_TYPE_NONE)
+    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE)
 	return 0;
 
     /* FIXME: hack - we need to save the image to be able to re-attach
        when the disk drive type changes */
     fdc[imgno].realimage = image;
 
-    if (fdc[drive].drive_type == DRIVE_TYPE_8050
-	|| fdc[drive].drive_type == DRIVE_TYPE_8250
-	|| fdc[drive].drive_type == DRIVE_TYPE_1001) {
+    if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
+	|| fdc[drive_no].drive_type == DRIVE_TYPE_8250
+	|| fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
             log_message(fdc_log, "Unit %d (%d): D80 disk image attached: %s",
-                    unit, fdc[drive].drive_type, image->name);
+                    unit, fdc[drive_no].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_D82:
             log_message(fdc_log, "Unit %d (%d): D82 disk image attached: %s",
-                    unit, fdc[drive].drive_type, image->name);
+                    unit, fdc[drive_no].drive_type, image->name);
             break;
           default:
 #ifdef FDC_DEBUG
 	    log_message(fdc_log, "Could not attach image type %d to disk %d",
-		image->type, fdc[drive].drive_type);
+		image->type, fdc[drive_no].drive_type);
 #endif
             return -1;
 	}
@@ -726,20 +726,20 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
             log_message(fdc_log, "Unit %d (%d): D64 disk image attached: %s",
-                    unit, fdc[drive].drive_type, image->name);
+                    unit, fdc[drive_no].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
             log_message(fdc_log, "Unit %d (%d): G64 disk image attached: %s",
-                    unit, fdc[drive].drive_type, image->name);
+                    unit, fdc[drive_no].drive_type, image->name);
             break;
           case DISK_IMAGE_TYPE_X64:
             log_message(fdc_log, "Unit %d (%d): X64 disk image attached: %s",
-                    unit, fdc[drive].drive_type, image->name);
+                    unit, fdc[drive_no].drive_type, image->name);
             break;
           default:
 #ifdef FDC_DEBUG
 	    log_message(fdc_log, "Could not attach image type %d to disk %d",
-		image->type, fdc[drive].drive_type);
+		image->type, fdc[drive_no].drive_type);
 #endif
             return -1;
 	}
@@ -752,7 +752,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
 
 int fdc_detach_image(disk_image_t *image, unsigned int unit)
 {
-    int drive;
+    int drive_no;
     int imgno;
 
 #ifdef FDC_DEBUG
@@ -764,17 +764,17 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
         return -1;
 
     if (DRIVE_IS_DUAL(fdc[0].drive_type)) {
-	drive = 0;
+	drive_no = 0;
     } else {
-	drive = unit - 8;
+	drive_no = unit - 8;
     }
     imgno = unit - 8;
 
     fdc[imgno].realimage = NULL;
 
-    if (fdc[drive].drive_type == DRIVE_TYPE_8050
-	|| fdc[drive].drive_type == DRIVE_TYPE_8250
-	|| fdc[drive].drive_type == DRIVE_TYPE_1001) {
+    if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
+	|| fdc[drive_no].drive_type == DRIVE_TYPE_8250
+	|| fdc[drive_no].drive_type == DRIVE_TYPE_1001) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D80:
             log_message(fdc_log, "Unit %d: D80 disk image attached: %s",

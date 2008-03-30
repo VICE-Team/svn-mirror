@@ -97,7 +97,7 @@ static void undump_pra(BYTE byte)
 {
 }
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
 }
 
@@ -105,9 +105,9 @@ static void undump_prb(BYTE byte)
 {
 }
 
-inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
-    if ((byte ^ oldpb) & 8)
+    if ((byte ^ myoldpb) & 8)
         datasette_toggle_write_bit((~via1[VIA_DDRB] | byte) & 0x8);
 }
 

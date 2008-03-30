@@ -98,7 +98,7 @@ static void undump_pra(BYTE byte)
     parallel_cpu_set_bus(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
+inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
     parallel_cpu_set_bus(byte);
 }
@@ -107,7 +107,7 @@ static void undump_prb(BYTE byte)
 {
 }
 
-inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
+inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
 }
 
