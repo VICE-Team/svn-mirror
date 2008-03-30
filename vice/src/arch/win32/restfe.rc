@@ -70,9 +70,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Ethernet Settings"
+    IDS_TFE_CAPTION         "Ethernet beállításai"
     IDS_TFE_ETHERNET        "&Ethernet"
-    IDS_TFE_INTERFACE       "&Interface"
+    IDS_TFE_INTERFACE       "&Interfész"
 END
 #pragma code_page(28591)
 

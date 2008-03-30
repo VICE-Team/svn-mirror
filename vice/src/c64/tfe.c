@@ -453,6 +453,10 @@ void tfe_reset(void)
         SET_PP_16(TFE_PP_ADDR_SE_BUSST,       0x0018);
         SET_PP_16(TFE_PP_ADDR_SE_TDR,         0x001C);
 
+        /* 4.4.19 Self Status Register, p. 65
+           Important: set INITD (Bit 7) to signal device is ready */
+        SET_PP_16(TFE_PP_ADDR_SE_SELFST,      0x0096);
+
         tfe_arch_post_reset();
 
         TFE_DEBUG_OUTPUT_REG();
@@ -1382,21 +1386,24 @@ static int set_tfe_rr_net(int val, void *param)
             /* TFE should not be used as rr net */
             if (tfe_as_rr_net) {
                 tfe_as_rr_net = 0;
+
+                /* if adapter is already enabled then reset the LAN chip */
+                if (tfe) {
+                    tfe_reset();
+                }
             }
             return 0;
         } else { 
             if (!tfe_as_rr_net) {
                 tfe_as_rr_net = 1;
-                tfe_enabled = 1;
-            }
-
-            /* virtually reset the LAN chip */
-            if (tfe) {
-                tfe_reset();
+            
+                /* if adapter is already enabled then reset the LAN chip */
+                if (tfe) {
+                    tfe_reset();
+                }
             }
             return 0;
         }
-
     }
 
     return 0;

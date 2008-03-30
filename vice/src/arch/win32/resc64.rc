@@ -791,140 +791,140 @@ END
 #pragma code_page(28592)
 IDR_MENUC64_HU MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "&Fájl"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "Lemez/szalag képmás &automatikus indítása...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Lemezképmás csatolása"
         BEGIN
-            MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
-            MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
-            MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
-            MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
+            MENUITEM "#&8-as lemezegység\tAlt+8",  IDM_ATTACH_8
+            MENUITEM "#&9-as lemezegység\tAlt+9",  IDM_ATTACH_9
+            MENUITEM "#1&0-es lemezegység\tAlt+0", IDM_ATTACH_10
+            MENUITEM "#1&0-es lemezegység\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Lemezképmás &leválasztása"
         BEGIN
-            MENUITEM "Drive &8",  IDM_DETACH_8
-            MENUITEM "Drive &9",  IDM_DETACH_9
-            MENUITEM "Drive 1&0", IDM_DETACH_10
-            MENUITEM "Drive &11", IDM_DETACH_11
+            MENUITEM "&8-as lemezegység",  IDM_DETACH_8
+            MENUITEM "&9-es lemezegység",  IDM_DETACH_9
+            MENUITEM "#1&0-es lemezegység", IDM_DETACH_10
+            MENUITEM "#&11-es lemezegység", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "&All\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "Ö&sszes\tAlt+A", IDM_DETACH_ALL
         END
-        POPUP "&Flip list"
+        POPUP "Lemezl&ista"
         BEGIN
-            MENUITEM "&Add current image\tAlt+I",     IDM_FLIP_ADD
-            MENUITEM "&Remove current image\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Attach &next image\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Attach &previous image\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Az aktuális képmás ho&zzáadása\tAlt+I",     IDM_FLIP_ADD
+            MENUITEM "Az aktuális képmás el&távolítása\tAlt+K",  IDM_FLIP_REMOVE
+            MENUITEM "&Következõ képmás csatolása\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "&Elõzõ képmás csatolása\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "&Load flip list", IDM_FLIP_LOAD
-            MENUITEM "&Save flip list", IDM_FLIP_SAVE
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "Attach &tape image...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Detac&h tape image",           IDM_DETACH_TAPE
-        POPUP "Datassette contro&l"
-        BEGIN
-            MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Start",         IDM_DATASETTE_CONTROL_START
-            MENUITEM "&Forward",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "&Rewind",        IDM_DATASETTE_CONTROL_REWIND
-            MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
-            MENUITEM "R&eset",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "&Lemezlista betöltése", IDM_FLIP_LOAD
+            MENUITEM "Lemezlista menté&se", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."
+        MENUITEM "Szalag képmás csatolása...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Sz&alag képmás leválasztása",           IDM_DETACH_TAPE
+        POPUP "Magnó &vezérlés"
         BEGIN
-            MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
+            MENUITEM "&Leállítás",          IDM_DATASETTE_CONTROL_STOP
+            MENUITEM "&Indítás",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Elõrecsévélés",       IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Visszacsévélés",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "Felvétel",        IDM_DATASETTE_CONTROL_RECORD
+            MENUITEM "A&laphelyzet",         IDM_DATASETTE_CONTROL_RESET
+            MENUITEM "Számláló &nullázása", IDM_DATASETTE_RESET_COUNTER
+        END
+        MENUITEM SEPARATOR
+        POPUP "Cartridge képmás csatolása..."
+        BEGIN
+            MENUITEM "&CRT képmás...",               IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
+            MENUITEM "Általános &8KB képmás...",       IDM_CART_ATTACH_8KB
+            MENUITEM "Általános &16KB képmás...",      IDM_CART_ATTACH_16KB
+            MENUITEM "&Action Replay képmás...",     IDM_CART_ATTACH_AR
             MENUITEM "Action Replay &III image...", IDM_CART_ATTACH_AR3
-            MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
-            MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
-            MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
-            MENUITEM "&Retro Replay image...",      IDM_CART_ATTACH_RR
-            MENUITEM "IDE&64 interface image...",   IDM_CART_ATTACH_IDE64
-            MENUITEM "Super Snapshot &4 image...",  IDM_CART_ATTACH_SS4
-            MENUITEM "Super Snapshot &5 image...",  IDM_CART_ATTACH_SS5
-            MENUITEM "Structured &Basic image...",  IDM_CART_ATTACH_STB
-            POPUP "Expert Cartridge"
+            MENUITEM "Atomic &Power képmás...",      IDM_CART_ATTACH_AT
+            MENUITEM "&Epyx gyorstöltõ képmás...",     IDM_CART_ATTACH_EPYX
+            MENUITEM "&IEEE488 interfész képmás...", IDM_CART_ATTACH_IEEE488
+            MENUITEM "&Retro Replay képmás...",      IDM_CART_ATTACH_RR
+            MENUITEM "IDE&64 interfész képmás...",   IDM_CART_ATTACH_IDE64
+            MENUITEM "Super Snapshot &4 képmás...",  IDM_CART_ATTACH_SS4
+            MENUITEM "Super Snapshot &5 képmás...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Structured &Basic képmás...",  IDM_CART_ATTACH_STB
+            POPUP "Expert cartridge"
             BEGIN
-                MENUITEM "Enable", IDM_CART_ENABLE_EXPERT
+                MENUITEM "Engedélyezés", IDM_CART_ENABLE_EXPERT
                 MENUITEM SEPARATOR
                 MENUITEM "Ki",    IDM_CART_MODE_OFF
                 MENUITEM "Prg",    IDM_CART_MODE_PRG
                 MENUITEM "Be",     IDM_CART_MODE_ON
             END
             MENUITEM SEPARATOR
-            MENUITEM "Set cartridge as &default", IDM_CART_SET_DEFAULT
-            MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
+            MENUITEM "Cartridge &alapértelmezetté tétele", IDM_CART_SET_DEFAULT
+            MENUITEM "Újraindítás cartridge &cserénél", IDM_TOGGLE_CART_RESET
         END
-        MENUITEM "Detach cartridge &image",  IDM_CART_DETACH
-        MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Cartridge képmás &leválasztása",  IDM_CART_DETACH
+        MENUITEM "Fagyasztás Cartridge-el\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
+        MENUITEM "&Szünet\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Új&raindítás"
         BEGIN
-            MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
-            MENUITEM "&Soft\tAlt+R",      IDM_RESET_SOFT
+            MENUITEM "&Hideg\tCtrl+Alt+R", IDM_RESET_HARD
+            MENUITEM "&Meleg\tAlt+R",      IDM_RESET_SOFT
             MENUITEM SEPARATOR
-            MENUITEM "Drive #&8",         IDM_RESET_DRIVE8
-            MENUITEM "Drive #&9",         IDM_RESET_DRIVE9
-            MENUITEM "Drive #1&0",        IDM_RESET_DRIVE10
-            MENUITEM "Drive #&11",        IDM_RESET_DRIVE11
+            MENUITEM "#&8-as lemezegység",         IDM_RESET_DRIVE8
+            MENUITEM "#&9-es lemezegység",         IDM_RESET_DRIVE9
+            MENUITEM "#1&0-es lemezegység",        IDM_RESET_DRIVE10
+            MENUITEM "#&11-es lemezegység",        IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-        POPUP "&Debug"
+        POPUP "&Nyomkövetés"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mó&d"
             BEGIN
-                MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&Normál", IDM_DEBUG_MODE_NORMAL
+                MENUITEM "&Kicsi", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Elõzmények", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "E&lõzmények lejátszása", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "&Fõ CPU követése\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "&0. lemezegység CPU követése\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "&1. lemezegység CPU követése\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "E&xit\tAlt+X", IDM_EXIT
+        MENUITEM "&Kilépés\tAlt+X", IDM_EXIT
     END
-    POPUP "Sna&pshot"
+    POPUP "&Pillanatkép"
     BEGIN
-        MENUITEM "Load snapshot &image...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Save sna&pshot image...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "&Load quicksnapshot image\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Pillanatkép &betöltése...",          IDM_SNAPSHOT_LOAD
+        MENUITEM "Pillanatkép &mentése...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "Gyors pillanatkép b&etöltése\tAlt+L", IDM_LOADQUICK
+        MENUITEM "Gyors pillanatkép me&ntése\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Set Recording Milestone\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Return to Milestone\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        MENUITEM "Esemény &felvétel indítása/leállítása",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Esemény &visszajátszás indítása/leállítása",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Kilóméterkõ elhelyezése a felvételben\tAlt+G",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Visszatérés az elõzõ kilóméterkõhöz\tAlt+H",      IDM_EVENT_RESETMILESTONE
         POPUP "Rögzítés indításának módja"
         BEGIN
-            MENUITEM "&Save new snapshot",      IDM_EVENT_START_MODE_SAVE
-            MENUITEM "&Load existing snapshot", IDM_EVENT_START_MODE_LOAD
-            MENUITEM "Start with &reset",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Overwrite &Playback",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "Új pillanatkép &mentése",      IDM_EVENT_START_MODE_SAVE
+            MENUITEM "Létezõ pillanatkép &betöltése", IDM_EVENT_START_MODE_LOAD
+            MENUITEM "Indulás &RESET-tel együtt",       IDM_EVENT_START_MODE_RESET
+            MENUITEM "A visszajátszás &felülírása",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
+        MENUITEM "Válassza ki a felvételeket/könyvtárat",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
-        MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
+        MENUITEM "Hálózati játék (kísérleti)...", IDM_NETWORK_SETTINGS
     END
-    POPUP "&Options"
+    POPUP "&Opciók"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Frissítési &ráta"
         BEGIN
-            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "&Automatikus", IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
             MENUITEM "1/&2",  IDM_REFRESH_RATE_2
             MENUITEM "1/&3",  IDM_REFRESH_RATE_3
@@ -937,108 +937,108 @@ BEGIN
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
-            MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
+            MENUITEM "&Egyéni", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
-        POPUP "&Maximum Speed"
+        POPUP "&Maximális sebesség"
         BEGIN
             MENUITEM "&200%",     IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%",     IDM_MAXIMUM_SPEED_100
             MENUITEM "&50%",      IDM_MAXIMUM_SPEED_50
             MENUITEM "&20%",      IDM_MAXIMUM_SPEED_20
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
-            MENUITEM "No &limit", IDM_MAXIMUM_SPEED_NO_LIMIT
+            MENUITEM "Nincs &határ", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Custom",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Egyéni",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Hipergyors mód\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Teljes képernyõ\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "Mindig felül", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
-        MENUITEM "&Double size", IDM_TOGGLE_DOUBLESIZE, CHECKED
-        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "Videó gyorsítótár", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Dupla méret", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Du&pla pásztázás", IDM_TOGGLE_DOUBLESCAN, CHECKED
         MENUITEM "PAL emuláció", IDM_TOGGLE_FASTPAL, CHECKED
-        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X, CHECKED
+        MENUITEM "2x méretez", IDM_TOGGLE_SCALE2X, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Botkormányok felcserélése\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
-        MENUITEM "&Sound playback", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "&Hangok engedélyezése", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "&True drive emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
-        MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
+        MENUITEM "&Igazi lemezegység emuláció", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "*Virtuális eszközök ciklus kihagyása", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standard"
+        POPUP "Videó &szabvány"
         BEGIN
             MENUITEM "&PAL-G",      IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M",     IDM_SYNC_FACTOR_NTSC
-            MENUITEM "&Old NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
+            MENUITEM "&Régi NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
         END
         MENUITEM SEPARATOR
-        MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
-        MENUITEM "&1351 mouse emulation\tAlt+Q", IDM_MOUSE
+        MENUITEM "Emulátor &azonosító", IDM_TOGGLE_EMUID
+        MENUITEM "&1351 egér emuláció\tAlt+Q", IDM_MOUSE
     END
-    POPUP "S&ettings"
+    POPUP "B&eállítások"
     BEGIN
-        MENUITEM "&Video settings...",     IDM_VIDEO_SETTINGS
-        MENUITEM "&Peripheral settings...",IDM_DEVICEMANAGER
-        MENUITEM "&Drive settings...",     IDM_DRIVE_SETTINGS
-        MENUITEM "D&atasette settings...", IDM_DATASETTE_SETTINGS
-        MENUITEM "VIC-II settings...",     IDM_VICII_SETTINGS
-        MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
-        MENUITEM "&Keyboard settings...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
-        MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
-        MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
-        MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
-        MENUITEM "RS&232 settings...",     IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO settings"
+        MENUITEM "&Videó beállításai...",     IDM_VIDEO_SETTINGS
+        MENUITEM "&Perifériák beállításai...",IDM_DEVICEMANAGER
+        MENUITEM "&Lemezegység beállításai...",     IDM_DRIVE_SETTINGS
+        MENUITEM "M&agnó beállításai...", IDM_DATASETTE_SETTINGS
+        MENUITEM "VIC-II beállításai...",     IDM_VICII_SETTINGS
+        MENUITEM "B&otkormány beállításai...",  IDM_JOY_SETTINGS
+        MENUITEM "&Billentyûzet beállításai...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Hang beállítások...",     IDM_SOUND_SETTINGS
+        MENUITEM "S&ID beállításai...",       IDM_SID_SETTINGS
+        MENUITEM "&ROM-ok beállításai...",       IDM_ROM_SETTINGS
+        MENUITEM "RA&M beállításai...",       IDM_RAM_SETTINGS
+        MENUITEM "RS&232 beállításai...",     IDM_RS232_SETTINGS
+        POPUP "&Cartridge/IO beállításai"
         BEGIN
-            MENUITEM "&REU settings...",      IDM_REU_SETTINGS
-            MENUITEM "&GEORAM settings...",      IDM_GEORAM_SETTINGS
-            MENUITEM "&RAMCART settings...",      IDM_RAMCART_SETTINGS
-            MENUITEM "PLUS&60K settings...",      IDM_PLUS60K_SETTINGS
-            MENUITEM "PLUS2&56K settings...",      IDM_PLUS256K_SETTINGS
-            MENUITEM "&256K settings...",      IDM_C64_256K_SETTINGS
+            MENUITEM "&REU beállításai...",      IDM_REU_SETTINGS
+            MENUITEM "&GEORAM beállításai...",      IDM_GEORAM_SETTINGS
+            MENUITEM "&RAMCART beállításai...",      IDM_RAMCART_SETTINGS
+            MENUITEM "PLUS&60K beállításai...",      IDM_PLUS60K_SETTINGS
+            MENUITEM "PLUS2&56K beállításai...",      IDM_PLUS256K_SETTINGS
+            MENUITEM "&256K beállításai...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
-            MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
+            MENUITEM "&IDE64 beállításai...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
-            MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
+            MENUITEM "&Ethernet beállításai...", IDM_TFE_SETTINGS
 #endif
-            MENUITEM "&ACIA settings...",     IDM_ACIA_SETTINGS
-            MENUITEM "RS&232 userport settings...", IDM_RS232USER_SETTINGS
+            MENUITEM "&ACIA beállításai...",     IDM_ACIA_SETTINGS
+            MENUITEM "RS&232 userport beállításai...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
-        MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
-        MENUITEM "Set de&fault settings",  IDM_SETTINGS_DEFAULT
+        MENUITEM "Jelenlegi beállítások &mentése", IDM_SETTINGS_SAVE
+        MENUITEM "Mentett beállítások &betöltése",   IDM_SETTINGS_LOAD
+        MENUITEM "Alapértelmezések &beállítása",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-        MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-        MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Beállítások mentése k&ilépéskor", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Megerõsítés kilépéskor",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Nyelv"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
+        MENUITEM "&Angol", IDM_LANG_EN
+        MENUITEM "&Német", IDM_LANG_DE
+        MENUITEM "&Francia", IDM_LANG_FR
         MENUITEM "&Hungarian", IDM_LANG_HU
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Olasz", IDM_LANG_IT
+        MENUITEM "&Holland", IDM_LANG_NL
+        MENUITEM "&Lengyel", IDM_LANG_PL
+        MENUITEM "&Svéd", IDM_LANG_SV
     END
-    POPUP "&Help"
+    POPUP "&Súgó"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
 //        MENUITEM SEPARATOR
-        MENUITEM "&About...",             IDM_ABOUT
+        MENUITEM "&Névjegy...",             IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "Parancssori &opciók", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Contributors",         IDM_CONTRIBUTORS
-        MENUITEM "&License",              IDM_LICENSE
-        MENUITEM "No &warranty",          IDM_WARRANTY
+        MENUITEM "&Közremûködõk",         IDM_CONTRIBUTORS
+        MENUITEM "&Licensz",              IDM_LICENSE
+        MENUITEM "Nincs &garancia",          IDM_WARRANTY
     END
 END
 #pragma code_page(28591)
@@ -2139,7 +2139,7 @@ END
 #pragma code_page(28592)
 IDD_C64ROM_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 240, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Settings"
+CAPTION "ROM-ok beállításai"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC,9,8,40,8
@@ -2150,7 +2150,7 @@ BEGIN
     EDITTEXT    IDC_C64ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP
     PUSHBUTTON  "Tallózás...", IDC_C64ROM_BASIC_BROWSE, 185,27,50,14, 0
 
-    LTEXT       "Character", IDC_STATIC, 9,48,40,8
+    LTEXT       "Karakter", IDC_STATIC, 9,48,40,8
     EDITTEXT    IDC_C64ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "Tallózás...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
@@ -2396,7 +2396,7 @@ END
 #pragma code_page(28592)
 IDD_C64DRIVEROM_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 240, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ROM Settings"
+CAPTION "ROM-ok beállításai"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "1541",IDC_STATIC,9,8,40,8
@@ -2709,16 +2709,16 @@ END
 #pragma code_page(28592)
 IDD_C64ROM_RESOURCE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 160, 85
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Computer resources"
+CAPTION "Számítógép erõforrásai"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Computer resources saved to romset",
+    GROUPBOX        "Számítógép erõforrásai elmentve a ROM készletbe",
                     IDC_STATIC,4,3,151,55
     AUTOCHECKBOX    "Kernal",IDC_C64ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic",IDC_C64ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Character",IDC_C64ROM_CHARGEN_RESOURCE,
+    AUTOCHECKBOX    "Karakter",IDC_C64ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
@@ -2924,10 +2924,10 @@ END
 #pragma code_page(28592)
 IDD_C64ROMDRIVE_RESOURCE_DIALOG_HU DIALOG DISCARDABLE  0, 0, 160, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Drive resources"
+CAPTION "Lemezegység erõforrásai"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Drive resources saved to romset",
+    GROUPBOX        "Lemezegységek erõforrásai elmentve a ROM készletbe",
                     IDC_STATIC,4,3,151,160
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -3178,11 +3178,11 @@ IDD_C64KBD_MAPPING_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 240, 140
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "&Symbolic US",IDC_C64KBD_MAPPING_SELECT_SYM,
+    AUTORADIOBUTTON "&Szimbolikus US",IDC_C64KBD_MAPPING_SELECT_SYM,
                     10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Symbolic DE",IDC_C64KBD_MAPPING_SELECT_SYMDE,
+    AUTORADIOBUTTON "&Szimbolikus DE",IDC_C64KBD_MAPPING_SELECT_SYMDE,
                     10,30,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "&Positional",IDC_C64KBD_MAPPING_SELECT_POS,
+    AUTORADIOBUTTON "&Pozíció szerinti",IDC_C64KBD_MAPPING_SELECT_POS,
                     10,50,54,10,BS_AUTORADIOBUTTON
 
     EDITTEXT    IDC_C64KBD_MAPPING_SYM, 65,9,110,12,WS_TABSTOP
@@ -3192,7 +3192,7 @@ BEGIN
     EDITTEXT    IDC_C64KBD_MAPPING_POS, 65,49,110,12,WS_TABSTOP
     PUSHBUTTON  "Tallózás...", IDC_C64KBD_MAPPING_POS_BROWSE, 185,49,50,14, 0
 
-    PUSHBUTTON  "Dump keyset", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
+    PUSHBUTTON  "Billentyûzetleképzés fájlba írása", IDC_C64KBD_MAPPING_DUMP, 10,74,50,14, 0
 END
 #pragma code_page(28591)
 

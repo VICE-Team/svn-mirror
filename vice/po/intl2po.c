@@ -31,20 +31,26 @@
 #include <string.h>
 
 /* status definitions */
-#define SCANNING		0
-#define STRINGTABLE_BEGIN_SCAN	1
-#define MENU_BEGIN_SCAN		2
-#define DIALOG_BEGIN_SCAN	3
-#define TEXT_CONVERSION	4
+#define SCANNING                 0
+#define STRINGTABLE_BEGIN_SCAN   1
+#define MENU_BEGIN_SCAN          2
+#define DIALOG_BEGIN_SCAN        3
+#define TEXT_CONVERSION          4
 
 /* found definitions */
-#define UNKNOWN			0
-#define FOUND_STRINGTABLE	1
-#define FOUND_MENU		2
-#define FOUND_DIALOG		3
-#define FOUND_CAPTION		4
-#define FOUND_BEGIN		5
-#define FOUND_END		6
+#define UNKNOWN             0
+#define FOUND_STRINGTABLE   1
+#define FOUND_MENU          2
+#define FOUND_DIALOG        3
+#define FOUND_CAPTION       4
+#define FOUND_BEGIN         5
+#define FOUND_END           6
+
+/* comment status */
+#define NOT_IN_COMMENT   0
+#define IN_COMMENT       1
+
+static int comment_status=NOT_IN_COMMENT;
 
 static char line_buffer[512];
 
@@ -60,6 +66,12 @@ int getline(FILE *file)
     counter++;
   }
   line_buffer[counter]=0;
+
+  if (line_buffer[0]=='/' && line_buffer[1]=='/')
+  {
+    line_buffer[0]=0;
+    return UNKNOWN;
+  }
 
   if (!strncasecmp(line_buffer,"STRINGTABLE",11))
     return FOUND_STRINGTABLE;
@@ -348,41 +360,25 @@ int convert_rc(char *in_filename, char *out_filename)
 
 void strip_comments(char *text)
 {
-  int lang_comment=0;
   int i;
 
-  if (!strncmp(text,"/* en */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* de */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* fr */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* hu */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* it */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* nl */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* pl */",8))
-    lang_comment=1;
-
-  if (!strncmp(text,"/* sv */",8))
-    lang_comment=1;
-
-  if (lang_comment==1)
+  for (i=0;text[i]!=0;i++)
   {
-    for (i=0;!(text[i]=='*' && text[i+1]=='/');i++)
+    if (text[i]=='*' && text[i+1]=='/')
+    {
+      text[i]=32;
+      text[i+1]=32;
+      comment_status=NOT_IN_COMMENT;
+    }
+    if (comment_status==IN_COMMENT)
     {
       text[i]=32;
     }
-    text[i]=32;
-    text[i+1]=32;
+    if (text[i]=='/' && text[i+1]=='*')
+    {
+      text[i]=32;
+      comment_status=IN_COMMENT;
+    }
   }
 }
 

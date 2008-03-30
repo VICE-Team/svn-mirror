@@ -88,21 +88,21 @@ BEGIN
 END
 
 
-// ITALIAN text
+// HUNGARIAN text
 
 #pragma code_page(28592)
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "IDE64 Settings"
-    IDS_IDE64_IMAGE             "&HD image file"
-    IDS_IDE64_GEOMETRY          "&Geometry"
-    IDS_IDE64_AUTODETECT        "&Autodetect"
-    IDS_IDE64_CYLINDERS         "Cylinders"
-    IDS_IDE64_HEADS             "Heads"
-    IDS_IDE64_SECTORS           "Sectors"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_CAPTION           "IDE64 beállításai"
+    IDS_IDE64_IMAGE             "&Merevlemez képmás fájl"
+    IDS_IDE64_GEOMETRY          "&Geometria"
+    IDS_IDE64_AUTODETECT        "&Automatikus érzékelés"
+    IDS_IDE64_CYLINDERS         "Cilinderek"
+    IDS_IDE64_HEADS             "Fejek"
+    IDS_IDE64_SECTORS           "Szektorok"
+    IDS_IDE64_TOTAL_SIZE        "Teljes méret: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "Válassza ki a merevlemez képmás fájlt"
 END
 #pragma code_page(28591)
 

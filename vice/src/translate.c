@@ -946,7 +946,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    "Specify index of keymap file (0=symbol, 1=positional)"},
 /* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, "Aktive Tastaturbelegung (0=symbolisch) (1=positionell)"},
 /* fr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR, "Spécifier l'index du fichier keymap (0=symboles, 1=position)"},
-/* hu */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_HU, "Adja meg a billentyûzet leképzési módot (0=szimbolikus, 1 = pozíció szerinti)"},
+/* hu */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_HU, "Adja meg a billentyûzet leképzési módot (0=szimbolikus, 1=pozíció szerinti)"},
 /* it */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_IT, "Specifica l'indice del file della mappa della tastiera (0=simbolico, 1=posizionale)"},
 /* nl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_NL, "Geef index van het keymap bestand (0=symbool, 1=positioneel)"},
 /* pl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL, ""},  /* fuzzy */
@@ -1226,7 +1226,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_OVERWRITE_PSID_SETTINGS,    "Override PSID settings for Video standard and SID model"},
 /* de */ {IDCLS_OVERWRITE_PSID_SETTINGS_DE, "Überschreiben der PSID Einstellungen bezüglich Videostandard und SID Modell"},
 /* fr */ {IDCLS_OVERWRITE_PSID_SETTINGS_FR, "Écraser les paramètres PSID pour le standard vidéo et le modèle SID"},
-/* hu */ {IDCLS_OVERWRITE_PSID_SETTINGS_HU, "A videó szabvány és a SID modell PSID beállításainak felüldefiniálása"},
+/* hu */ {IDCLS_OVERWRITE_PSID_SETTINGS_HU, "A videó szabvány és a SID modell PSID beállításainak felülbírálása"},
 /* it */ {IDCLS_OVERWRITE_PSID_SETTINGS_IT, "Non tener conto delle impostazioni del PSID per lo standard video e il modello di SID"},
 /* nl */ {IDCLS_OVERWRITE_PSID_SETTINGS_NL, "Overschrijf PSID instellingen voor Video standaard en SID model"},
 /* pl */ {IDCLS_OVERWRITE_PSID_SETTINGS_PL, ""},  /* fuzzy */
@@ -1397,7 +1397,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TFE,    "Enable the TFE (\"The Final Ethernet\") unit"},
 /* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
-/* hu */ {IDCLS_ENABLE_TFE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TFE_HU, "TFE (\"the final ethernet\") egység engedélyezése"},
 /* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
 /* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
@@ -1407,7 +1407,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TFE,    "Disable the TFE (\"The Final Ethernet\") unit"},
 /* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
-/* hu */ {IDCLS_DISABLE_TFE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"the final ethernet\") egység tiltása"},
 /* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
@@ -1992,7 +1992,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DRIVE_TYPE,    "Set drive type (0: no drive)"},
 /* de */ {IDCLS_SET_DRIVE_TYPE_DE, "Setze Laufwerkstyp (0: kein Laufwerk)"},
 /* fr */ {IDCLS_SET_DRIVE_TYPE_FR, "Spécifier le type de lecteur de disque (0: pas de lecteur)"},
-/* hu */ {IDCLS_SET_DRIVE_TYPE_HU, "Adja meg a meghajtó típusát (0: nincs meghajtó)"},
+/* hu */ {IDCLS_SET_DRIVE_TYPE_HU, "Adja meg a lemezegység típusát (0: nincs)"},
 /* it */ {IDCLS_SET_DRIVE_TYPE_IT, "Imposta il tipo di drive (0: nessun drive)"},
 /* nl */ {IDCLS_SET_DRIVE_TYPE_NL, "Zet drive soort (0: geen drive)"},
 /* pl */ {IDCLS_SET_DRIVE_TYPE_PL, ""},  /* fuzzy */
@@ -2013,7 +2013,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DRIVE_EXTENSION_POLICY,    "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"},
 /* de */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_DE, "40 Spur Erweiterungsmethode (0: nie, 1: Rückfrage, 2: bei Bedarf)"},
 /* fr */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_FR, "Spécifier la règle d'extention 40 pistes (0: jamais, 1: demander, 2: à l'accès)"},
-/* hu */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_HU, "Adja meg a 40 sávra kiterjesztés terjesztés módját ( 0: soha, 1: kérdés, 2: hozzáféréskor)"},
+/* hu */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_HU, "Adja meg a 40 sávra kiterjesztés terjesztés módját (0: soha, 1: kérdés, 2: hozzáféréskor)"},
 /* it */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_IT, "Imposta la politica di estensione a 40 tracce del drive (0: mai, 1: a richiesta, 2: all'accesso)"},
 /* nl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_NL, "Zet drive 40 sporen uitbreidings regels (0: nooit, 1: vraag, 2: bij toegang)"},
 /* pl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_PL, ""},  /* fuzzy */
@@ -2073,7 +2073,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_IDLE_METHOD,    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"},
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"},
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, "Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap idle)"},
-/* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Adja meg a lemezegység üresjárási módját ( 0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres DOS ciklusok kihagyása)"},
+/* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres DOS ciklusok kihagyása)"},
 /* it */ {IDCLS_SET_IDLE_METHOD_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_IDLE_METHOD_NL, "Zet de drive idle methode (0: geen traps, 1: sla cycli over, 2: trap idle)"},
 /* pl */ {IDCLS_SET_IDLE_METHOD_PL, ""},  /* fuzzy */
@@ -2195,7 +2195,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_PROFDOS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_PROFDOS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_PROFDOS_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_PROFDOS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PROFDOS_NL, "Aktiveer Professional DOS"},
 /* pl */ {IDCLS_ENABLE_PROFDOS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PROFDOS_SV, ""},  /* fuzzy */
 
@@ -2205,17 +2205,17 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_PROFDOS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PROFDOS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_PROFDOS_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_PROFDOS_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PROFDOS_NL, "Professional DOS afsluiten"},
 /* pl */ {IDCLS_DISABLE_PROFDOS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_PROFDOS_SV, ""},  /* fuzzy */
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,    "Specify name of Professional DOS 1571 ROM image"},
-/* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name der Professional DOS 1571 ROM Image Datei definieren"},
+/* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name von Professional DOS 1571 Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_NL, "Geef de naam van het Professional DOS 1571 ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_SV, ""},  /* fuzzy */
 
@@ -2635,7 +2635,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_SATURATION,    "Set saturation of internal calculated palette [1000]"},
 /* de */ {IDCLS_SET_SATURATION_DE, "Sättigung für intern berechneten Palette setzen [1000]"},
 /* fr */ {IDCLS_SET_SATURATION_FR, "Régler la saturation de la palette interne calculée [1000]"},
-/* hu */ {IDCLS_SET_SATURATION_HU, "Adja meg a telítettségét a számolt színkészletnek [1000]"},
+/* hu */ {IDCLS_SET_SATURATION_HU, "A számolt paletta telítettsége [1000]"},
 /* it */ {IDCLS_SET_SATURATION_IT, "Imposta la saturazione della palette calcolata internamente [1000]"},
 /* nl */ {IDCLS_SET_SATURATION_NL, "Zet de verzadiging van het intern berekend kleuren palette [1000]"},
 /* pl */ {IDCLS_SET_SATURATION_PL, ""},  /* fuzzy */
@@ -2645,7 +2645,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CONTRAST,    "Set contrast of internal calculated palette [1100]"},
 /* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechneten Palette setzen [1100]"},
 /* fr */ {IDCLS_SET_CONTRAST_FR, "Régler le contraste de la palette interne calculée [1100]"},
-/* hu */ {IDCLS_SET_CONTRAST_HU, "Adja meg a kontrasztot a számolt színkészlethez [1100]"},
+/* hu */ {IDCLS_SET_CONTRAST_HU, "A számolt paletta kontraszt értéke [1100]"},
 /* it */ {IDCLS_SET_CONTRAST_IT, "Imposta il constrasto della palette calcolata internamente [1100]"},
 /* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleuren palette [1100]"},
 /* pl */ {IDCLS_SET_CONTRAST_PL, ""},  /* fuzzy */
@@ -2655,7 +2655,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BRIGHTNESS,    "Set brightness of internal calculated palette [1100]"},
 /* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helliogkeit für intern berechneten Palette setzen [1100]"},
 /* fr */ {IDCLS_SET_BRIGHTNESS_FR, "Régler la luminosité de la palette interne calculée [1100]"},
-/* hu */ {IDCLS_SET_BRIGHTNESS_HU, "Adja meg a fényességét a számolt színkészletnek [1100]"},
+/* hu */ {IDCLS_SET_BRIGHTNESS_HU, "A számolt paletta fényerõssége [1100]"},
 /* it */ {IDCLS_SET_BRIGHTNESS_IT, "Imposta la luminanza della palette calcolata internamente [1100]"},
 /* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleuren palette [1100]"},
 /* pl */ {IDCLS_SET_BRIGHTNESS_PL, ""},  /* fuzzy */
@@ -2665,7 +2665,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_GAMMA,    "Set gamma of internal calculated palette [900]"},
 /* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechneten Palette setzen [900]"},
 /* fr */ {IDCLS_SET_GAMMA_FR, "Régler le gamma de la palette interne calculée [900]"},
-/* hu */ {IDCLS_SET_GAMMA_HU, "Adja meg a gammát a számolt színkészlethez [900]"},
+/* hu */ {IDCLS_SET_GAMMA_HU, "A számolt paletta gammája [900]"},
 /* it */ {IDCLS_SET_GAMMA_IT, "Imposta la gamma della palette calcolata internamente [900]"},
 /* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleuren palette [900]"},
 /* pl */ {IDCLS_SET_GAMMA_PL, ""},  /* fuzzy */
@@ -2825,7 +2825,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_VIDEO_CACHE,    "Enable the video cache"},
 /* de */ {IDCLS_ENABLE_VIDEO_CACHE_DE, "Video Cache aktivieren"},
 /* fr */ {IDCLS_ENABLE_VIDEO_CACHE_FR, "Activer le cache vidéo"},
-/* hu */ {IDCLS_ENABLE_VIDEO_CACHE_HU, "Videó cache engedélyezése"},
+/* hu */ {IDCLS_ENABLE_VIDEO_CACHE_HU, "Videó gyorsító tár engedélyezése"},
 /* it */ {IDCLS_ENABLE_VIDEO_CACHE_IT, "Attiva la cache video"},
 /* nl */ {IDCLS_ENABLE_VIDEO_CACHE_NL, "Aktiveer de video cache"},
 /* pl */ {IDCLS_ENABLE_VIDEO_CACHE_PL, ""},  /* fuzzy */
@@ -2835,7 +2835,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_VIDEO_CACHE,    "Disable the video cache"},
 /* de */ {IDCLS_DISABLE_VIDEO_CACHE_DE, "Video Cache deaktivieren"},
 /* fr */ {IDCLS_DISABLE_VIDEO_CACHE_FR, "Désactiver le cache vidéo"},
-/* hu */ {IDCLS_DISABLE_VIDEO_CACHE_HU, "Videó cache tiltása"},
+/* hu */ {IDCLS_DISABLE_VIDEO_CACHE_HU, "Videó gyorsító tár tiltása"},
 /* it */ {IDCLS_DISABLE_VIDEO_CACHE_IT, "Disattiva la cache video"},
 /* nl */ {IDCLS_DISABLE_VIDEO_CACHE_NL, "De video cache afsluiten"},
 /* pl */ {IDCLS_DISABLE_VIDEO_CACHE_PL, ""},  /* fuzzy */
@@ -3360,7 +3360,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PASSBAND_PERCENTAGE,    "reSID resampling passband in percentage of total bandwidth (0 - 90)"},
 /* de */ {IDCLS_PASSBAND_PERCENTAGE_DE, "reSID Resampling Passband Prozentwert der gesamte Bandbreite (0 - 90)\n(0 - 90, niedrig ist schneller, höher ist besser)"},
 /* fr */ {IDCLS_PASSBAND_PERCENTAGE_FR, "Bande passante pour le resampling reSID en pourcentage de la bande totale (0 - 90)"},
-/* hu */ {IDCLS_PASSBAND_PERCENTAGE_HU, "reSID újramintavételezési sáváteresztésének a teljes sávszélességre vetített aránya (0 - 90)"},
+/* hu */ {IDCLS_PASSBAND_PERCENTAGE_HU, "reSID újramintavételezési sávnak a teljes sávszélességre vonatkoztatott aránya (0 - 90)"},
 /* it */ {IDCLS_PASSBAND_PERCENTAGE_IT, "Banda passante di ricampionamento del reSID in percentuale di quella totale (0 - 90)"},
 /* nl */ {IDCLS_PASSBAND_PERCENTAGE_NL, "reSID resampling passband in percentage van de totale bandbreedte (0 - 90)"},
 /* pl */ {IDCLS_PASSBAND_PERCENTAGE_PL, ""},  /* fuzzy */
@@ -3901,7 +3901,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET,    "Enable automatic Datasette-Reset"},
 /* de */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_DE, "Automatisches Datasette-Reset aktivieren"},
 /* fr */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_FR, "Activer le redémarrage automatique du Datasette"},
-/* hu */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_HU, "Automatikus kazettás egység Reset engedélyezése"},
+/* hu */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_HU, "Automatikus magnó Reset engedélyezése"},
 /* it */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_IT, "Attiva il reset del registratore automatico"},
 /* nl */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_NL, "Aktiveer automatische Datasette-Reset"},
 /* pl */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_PL, ""},  /* fuzzy */
@@ -3911,7 +3911,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET,    "Disable automatic Datasette-Reset"},
 /* de */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_DE, "Automatisches Datasette-Reset deaktivieren"},
 /* fr */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_FR, "Désactiver le redémarrage automatique du Datasette"},
-/* hu */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_HU, "Automatikus kazettás egység Reset tiltása"},
+/* hu */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_HU, "Automatikus magnó Reset tiltása"},
 /* it */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_IT, "Disattiva il reset del registratore automatico"},
 /* nl */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_NL, "Automatische Datasette-Reset afsluiten"},
 /* pl */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_PL, ""},  /* fuzzy */
@@ -3921,7 +3921,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_ZERO_TAP_DELAY,    "Set delay in cycles for a zero in the tap"},
 /* de */ {IDCLS_SET_ZERO_TAP_DELAY_DE, "Verzögerung für Zero in Zyklen im Tap"},
 /* fr */ {IDCLS_SET_ZERO_TAP_DELAY_FR, "Spécifier le délai en cycles pour un zéro sur le ruban"},
-/* hu */ {IDCLS_SET_ZERO_TAP_DELAY_HU, "Adja meg ciklusokban a legelsõ magnószalagrés hosszát"},
+/* hu */ {IDCLS_SET_ZERO_TAP_DELAY_HU, "Adja meg ciklusokban a legelsõ szalagrés hosszát"},
 /* it */ {IDCLS_SET_ZERO_TAP_DELAY_IT, "Imposta il ritardo in cicli per uno zero nel tap"},
 /* nl */ {IDCLS_SET_ZERO_TAP_DELAY_NL, "Zet de vertraging in cylcli voor een nul in de tap"},
 /* pl */ {IDCLS_SET_ZERO_TAP_DELAY_PL, ""},  /* fuzzy */
@@ -3962,7 +3962,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_DRIVE0_CPU,    "Trace the drive0 CPU"},
 /* de */ {IDCLS_TRACE_DRIVE0_CPU_DE, "Laufwerk0 CPU verfolgen"},
 /* fr */ {IDCLS_TRACE_DRIVE0_CPU_FR, "Tracer le CPU de drive0"},
-/* hu */ {IDCLS_TRACE_DRIVE0_CPU_HU, "A 0-s eszközmeghajtó CPU-jának nyomkövetése"},
+/* hu */ {IDCLS_TRACE_DRIVE0_CPU_HU, "A 0-s lemezegység CPU-jának nyomkövetése"},
 /* it */ {IDCLS_TRACE_DRIVE0_CPU_IT, "Traccia la CPU del drive0"},
 /* nl */ {IDCLS_TRACE_DRIVE0_CPU_NL, "Traceer de CPU van drive 0/8"},
 /* pl */ {IDCLS_TRACE_DRIVE0_CPU_PL, ""},  /* fuzzy */
@@ -3972,7 +3972,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DONT_TRACE_DRIVE0_CPU,    "Do not trace the drive0 CPU"},
 /* de */ {IDCLS_DONT_TRACE_DRIVE0_CPU_DE, "Laufwerk0 CPU nicht verfolgen"},
 /* fr */ {IDCLS_DONT_TRACE_DRIVE0_CPU_FR, "Ne pas tracer le CPU de drive0"},
-/* hu */ {IDCLS_DONT_TRACE_DRIVE0_CPU_HU, "A 0-s eszközmeghajtó CPU-jának nyomkövetésének tiltása"},
+/* hu */ {IDCLS_DONT_TRACE_DRIVE0_CPU_HU, "A 0-s lemezegység CPU-jának nyomkövetésének tiltása"},
 /* it */ {IDCLS_DONT_TRACE_DRIVE0_CPU_IT, "Non tracciare la CPU del drive0"},
 /* nl */ {IDCLS_DONT_TRACE_DRIVE0_CPU_NL, "Traceer de CPU van drive 0/8 niet"},
 /* pl */ {IDCLS_DONT_TRACE_DRIVE0_CPU_PL, ""},  /* fuzzy */
@@ -3982,7 +3982,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_DRIVE1_CPU,    "Trace the drive1 CPU"},
 /* de */ {IDCLS_TRACE_DRIVE1_CPU_DE, "Laufwerk1 CPU verfolgen"},
 /* fr */ {IDCLS_TRACE_DRIVE1_CPU_FR, "Tracer le CPU de drive1"},
-/* hu */ {IDCLS_TRACE_DRIVE1_CPU_HU, "Az 1-es eszközmeghajtó CPU-jának nyomkövetése"},
+/* hu */ {IDCLS_TRACE_DRIVE1_CPU_HU, "Az 1-es lemezegység CPU-jának nyomkövetése"},
 /* it */ {IDCLS_TRACE_DRIVE1_CPU_IT, "Traccia la CPU del drive1"},
 /* nl */ {IDCLS_TRACE_DRIVE1_CPU_NL, "Traceer de CPU van drive 1/9"},
 /* pl */ {IDCLS_TRACE_DRIVE1_CPU_PL, ""},  /* fuzzy */
@@ -3992,7 +3992,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DONT_TRACE_DRIVE1_CPU,    "Do not trace the drive1 CPU"},
 /* de */ {IDCLS_DONT_TRACE_DRIVE1_CPU_DE, "Laufwerk1 CPU nicht verfolgen"},
 /* fr */ {IDCLS_DONT_TRACE_DRIVE1_CPU_FR, "Ne pas tracer le CPU de drive1"},
-/* hu */ {IDCLS_DONT_TRACE_DRIVE1_CPU_HU, "Az 1-es eszközmeghajtó CPU-jának nyomkövetésének tiltása"},
+/* hu */ {IDCLS_DONT_TRACE_DRIVE1_CPU_HU, "Az 1-es lemezegység CPU-jának nyomkövetésének tiltása"},
 /* it */ {IDCLS_DONT_TRACE_DRIVE1_CPU_IT, "Non tracciare la CPU del drive1"},
 /* nl */ {IDCLS_DONT_TRACE_DRIVE1_CPU_NL, "Traceer de CPU van drive 1/9 niet"},
 /* pl */ {IDCLS_DONT_TRACE_DRIVE1_CPU_PL, ""},  /* fuzzy */
@@ -4003,7 +4003,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_DRIVE2_CPU,    "Trace the drive2 CPU"},
 /* de */ {IDCLS_TRACE_DRIVE2_CPU_DE, "Laufwerk2 CPU verfolgen"},
 /* fr */ {IDCLS_TRACE_DRIVE2_CPU_FR, "Tracer le CPU de drive2"},
-/* hu */ {IDCLS_TRACE_DRIVE2_CPU_HU, "A 2-es eszközmeghajtó CPU-jának nyomkövetése"},
+/* hu */ {IDCLS_TRACE_DRIVE2_CPU_HU, "A 2-es lemezegység CPU-jának nyomkövetése"},
 /* it */ {IDCLS_TRACE_DRIVE2_CPU_IT, "Traccia la CPU del drive2"},
 /* nl */ {IDCLS_TRACE_DRIVE2_CPU_NL, "Traceer de CPU van drive 2/10"},
 /* pl */ {IDCLS_TRACE_DRIVE2_CPU_PL, ""},  /* fuzzy */
@@ -4013,7 +4013,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DONT_TRACE_DRIVE2_CPU,    "Do not trace the drive2 CPU"},
 /* de */ {IDCLS_DONT_TRACE_DRIVE2_CPU_DE, "Laufwerk2 CPU nicht verfolgen"},
 /* fr */ {IDCLS_DONT_TRACE_DRIVE2_CPU_FR, "Ne pas tracer le CPU de drive2"},
-/* hu */ {IDCLS_DONT_TRACE_DRIVE2_CPU_HU, "A 2-es eszközmeghajtó CPU-jának nyomkövetésének tiltása"},
+/* hu */ {IDCLS_DONT_TRACE_DRIVE2_CPU_HU, "A 2-es lemezegység CPU-jának nyomkövetésének tiltása"},
 /* it */ {IDCLS_DONT_TRACE_DRIVE2_CPU_IT, "Non tracciare la CPU del drive2"},
 /* nl */ {IDCLS_DONT_TRACE_DRIVE2_CPU_NL, "Traceer de CPU van drive 2/10 niet"},
 /* pl */ {IDCLS_DONT_TRACE_DRIVE2_CPU_PL, ""},  /* fuzzy */
@@ -4025,7 +4025,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_DRIVE3_CPU,    "Trace the drive3 CPU"},
 /* de */ {IDCLS_TRACE_DRIVE3_CPU_DE, "Laufwerk3 CPU verfolgen"},
 /* fr */ {IDCLS_TRACE_DRIVE3_CPU_FR, "Tracer le CPU de drive3"},
-/* hu */ {IDCLS_TRACE_DRIVE3_CPU_HU, "A 3-as eszközmeghajtó CPU-jának nyomkövetése"},
+/* hu */ {IDCLS_TRACE_DRIVE3_CPU_HU, "A 3-as lemezegység CPU-jának nyomkövetése"},
 /* it */ {IDCLS_TRACE_DRIVE3_CPU_IT, "Traccia la CPU del drive3"},
 /* nl */ {IDCLS_TRACE_DRIVE3_CPU_NL, "Traceer de CPU van drive 3/11"},
 /* pl */ {IDCLS_TRACE_DRIVE3_CPU_PL, ""},  /* fuzzy */
@@ -4035,7 +4035,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DONT_TRACE_DRIVE3_CPU,    "Do not trace the drive3 CPU"},
 /* de */ {IDCLS_DONT_TRACE_DRIVE3_CPU_DE, "Laufwerk3 CPU nicht verfolgen"},
 /* fr */ {IDCLS_DONT_TRACE_DRIVE3_CPU_FR, "Ne pas tracer le CPU de drive3"},
-/* hu */ {IDCLS_DONT_TRACE_DRIVE3_CPU_HU, "A 3-as eszközmeghajtó CPU-jának nyomkövetésének tiltása"},
+/* hu */ {IDCLS_DONT_TRACE_DRIVE3_CPU_HU, "A 3-as lemezegység CPU-jának nyomkövetésének tiltása"},
 /* it */ {IDCLS_DONT_TRACE_DRIVE3_CPU_IT, "Non tracciare la CPU del drive3"},
 /* nl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_NL, "Traceer de CPU van drive 3/11 niet"},
 /* pl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_PL, ""},  /* fuzzy */
@@ -4046,7 +4046,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TRACE_MODE,    "Trace mode (0=normal 1=small 2=history)"},
 /* de */ {IDCLS_TRACE_MODE_DE, "Verfolgung Modus (0=normal 1=klein 2=Geschichte)"},
 /* fr */ {IDCLS_TRACE_MODE_FR, "Mode de trace (0=normal 1=petit 2=historique)"},
-/* hu */ {IDCLS_TRACE_MODE_HU, "Nyomkövetési mód (0=normális 1=kicsi 2=elõzmények)"},
+/* hu */ {IDCLS_TRACE_MODE_HU, "Nyomkövetési mód (0=normál 1=kicsi 2=elõzmények)"},
 /* it */ {IDCLS_TRACE_MODE_IT, "Modalità di tracciamento (0=normale 1=piccola 2=storica)"},
 /* nl */ {IDCLS_TRACE_MODE_NL, "Traceer modus (0=normaal 1=klein 2=geschiedenis)"},
 /* pl */ {IDCLS_TRACE_MODE_PL, ""},  /* fuzzy */
@@ -4077,7 +4077,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS,    "Show a list of the available options and exit normally"},
 /* de */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_DE, "Liste von verfügbaren Optionen zeigen und beenden"},
 /* fr */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_FR, "Montrer une liste des options disponibles et terminer normalement"},
-/* hu */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_HU, "Kilistázza a lehetséges opciókat és normálisan kilép"},
+/* hu */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_HU, "Kilistázza a lehetséges opciókat és kilép"},
 /* it */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_IT, "Mostra la lista delle opzioni disponibili ed esce"},
 /* nl */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_NL, "Toon een lijst van de beschikbare opties en exit zoals normaal"},
 /* pl */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_PL, ""},  /* fuzzy */
@@ -4149,7 +4149,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AND_AUTOSTART,    "Attach and autostart tape/disk image <name>"},
 /* de */ {IDCLS_ATTACH_AND_AUTOSTART_DE, "Einlegen und Autostart Disk/Band Image Datei <Name>"},
 /* fr */ {IDCLS_ATTACH_AND_AUTOSTART_FR, "Insérer et démarrer l'image de disque/datassette <nom>"},
-/* hu */ {IDCLS_ATTACH_AND_AUTOSTART_HU, "<név> lemez/szalagképmás csatlakoztatása és automatikus elindítása"},
+/* hu */ {IDCLS_ATTACH_AND_AUTOSTART_HU, "<név> lemez/szalag képmás csatolása és automatikus elindítása"},
 /* it */ {IDCLS_ATTACH_AND_AUTOSTART_IT, "Seleziona ed avvia l'immagine di una cassetta/disco <nome>"},
 /* nl */ {IDCLS_ATTACH_AND_AUTOSTART_NL, "Koppel en autostart een tape/disk bestand <naam>"},
 /* pl */ {IDCLS_ATTACH_AND_AUTOSTART_PL, ""},  /* fuzzy */
@@ -4159,7 +4159,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AND_AUTOLOAD,    "Attach and autoload tape/disk image <name>"},
 /* de */ {IDCLS_ATTACH_AND_AUTOLOAD_DE, "Einlegen und Autoload Disk/Band Image Datei <Name>"},
 /* fr */ {IDCLS_ATTACH_AND_AUTOLOAD_FR, "Insérer et charger l'image de disque/datassette <nom>"},
-/* hu */ {IDCLS_ATTACH_AND_AUTOLOAD_HU, "<név> lemez/szalagképmás csatlakoztatása és automatikus betöltése"},
+/* hu */ {IDCLS_ATTACH_AND_AUTOLOAD_HU, "<név> lemez/szalag képmás csatolása és automatikus betöltése"},
 /* it */ {IDCLS_ATTACH_AND_AUTOLOAD_IT, "Seleziona e carica l'immagine di una cassetta/disco <nome>"},
 /* nl */ {IDCLS_ATTACH_AND_AUTOLOAD_NL, "Koppel en autolaad een tape/disk bestand <naam>"},
 /* pl */ {IDCLS_ATTACH_AND_AUTOLOAD_PL, ""},  /* fuzzy */
@@ -4169,7 +4169,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AS_TAPE,    "Attach <name> as a tape image"},
 /* de */ {IDCLS_ATTACH_AS_TAPE_DE, "Image Datei <Name> einlegen"},
 /* fr */ {IDCLS_ATTACH_AS_TAPE_FR, "Insérer <nom> comme image de datassette"},
-/* hu */ {IDCLS_ATTACH_AS_TAPE_HU, "<név> magnószalagképmás csatlakoztatása"},
+/* hu */ {IDCLS_ATTACH_AS_TAPE_HU, "<név> szalag képmás csatolása"},
 /* it */ {IDCLS_ATTACH_AS_TAPE_IT, "Seleziona <nome> come un'immagine di una cassetta"},
 /* nl */ {IDCLS_ATTACH_AS_TAPE_NL, "Koppel <naam> als een tape bestand"},
 /* pl */ {IDCLS_ATTACH_AS_TAPE_PL, ""},  /* fuzzy */
@@ -4179,7 +4179,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AS_DISK_8,    "Attach <name> as a disk image in drive #8"},
 /* de */ {IDCLS_ATTACH_AS_DISK_8_DE, "Image Datei <Name> im Laufwerk #8 einlegen"},
 /* fr */ {IDCLS_ATTACH_AS_DISK_8_FR, "Insérer <nom> comme image de disque dans le lecteur #8"},
-/* hu */ {IDCLS_ATTACH_AS_DISK_8_HU, "<név> lemezképmás csatlakoztatása #8-as egységként"},
+/* hu */ {IDCLS_ATTACH_AS_DISK_8_HU, "<név> lemezképmás csatolása #8-as egységként"},
 /* it */ {IDCLS_ATTACH_AS_DISK_8_IT, "Seleziona <nome> come un'immagine di un disco nel drive #8"},
 /* nl */ {IDCLS_ATTACH_AS_DISK_8_NL, "Koppel <naam> als een disk bestand in drive #8"},
 /* pl */ {IDCLS_ATTACH_AS_DISK_8_PL, ""},  /* fuzzy */
@@ -4189,7 +4189,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AS_DISK_9,    "Attach <name> as a disk image in drive #9"},
 /* de */ {IDCLS_ATTACH_AS_DISK_9_DE, "Image Datei <Name> im Laufwerk #9 einlegen"},
 /* fr */ {IDCLS_ATTACH_AS_DISK_9_FR, "Insérer <nom> comme image de disque dans le lecteur #9"},
-/* hu */ {IDCLS_ATTACH_AS_DISK_9_HU, "<név> lemezképmás csatlakoztatása #9-es egységként"},
+/* hu */ {IDCLS_ATTACH_AS_DISK_9_HU, "<név> lemezképmás csatolása #9-es egységként"},
 /* it */ {IDCLS_ATTACH_AS_DISK_9_IT, "Seleziona <nome> come un'immagine di un disco nel drive #9"},
 /* nl */ {IDCLS_ATTACH_AS_DISK_9_NL, "Koppel <naam> als een disk bestand in drive #9"},
 /* pl */ {IDCLS_ATTACH_AS_DISK_9_PL, ""},  /* fuzzy */
@@ -4199,7 +4199,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AS_DISK_10,    "Attach <name> as a disk image in drive #10"},
 /* de */ {IDCLS_ATTACH_AS_DISK_10_DE, "Image Datei <Name> im Laufwerk #10 einlegen"},
 /* fr */ {IDCLS_ATTACH_AS_DISK_10_FR, "Insérer <nom> comme image de disque dans le lecteur #10"},
-/* hu */ {IDCLS_ATTACH_AS_DISK_10_HU, "<név> lemezképmás csatlakoztatása #10-es egységként"},
+/* hu */ {IDCLS_ATTACH_AS_DISK_10_HU, "<név> lemezképmás csatolása #10-es egységként"},
 /* it */ {IDCLS_ATTACH_AS_DISK_10_IT, "Seleziona <nome> come un'immagine di un disco nel drive #10"},
 /* nl */ {IDCLS_ATTACH_AS_DISK_10_NL, "Koppel <naam> als een disk bestand in drive #10"},
 /* pl */ {IDCLS_ATTACH_AS_DISK_10_PL, ""},  /* fuzzy */
@@ -4209,7 +4209,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_AS_DISK_11,    "Attach <name> as a disk image in drive #11"},
 /* de */ {IDCLS_ATTACH_AS_DISK_11_DE, "Image Datei <Name> im Laufwerk #11 einlegen"},
 /* fr */ {IDCLS_ATTACH_AS_DISK_11_FR, "Insérer <nom> comme image de disque dans le lecteur #11"},
-/* hu */ {IDCLS_ATTACH_AS_DISK_11_HU, "<név> lemezképmás csatlakoztatása #11-es egységként"},
+/* hu */ {IDCLS_ATTACH_AS_DISK_11_HU, "<név> lemezképmás csatolása #11-es egységként"},
 /* it */ {IDCLS_ATTACH_AS_DISK_11_IT, "Seleziona <nome> come un'immagine di un disco nel drive #11"},
 /* nl */ {IDCLS_ATTACH_AS_DISK_11_NL, "Koppel <naam> als een disk bestand in drive #11"},
 /* pl */ {IDCLS_ATTACH_AS_DISK_11_PL, ""},  /* fuzzy */
@@ -4219,7 +4219,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_STRING,    "<string>"},
 /* de */ {IDCLS_P_STRING_DE, "<String>"},
 /* fr */ {IDCLS_P_STRING_FR, "<chaine>"},
-/* hu */ {IDCLS_P_STRING_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_STRING_HU, "<string>"},
 /* it */ {IDCLS_P_STRING_IT, "<stringa>"},
 /* nl */ {IDCLS_P_STRING_NL, "<string>"},
 /* pl */ {IDCLS_P_STRING_PL, ""},  /* fuzzy */
@@ -4269,7 +4269,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    "Select the joystick port the mouse is attached to"},
 /* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, "Joystickport für Maus auswählen"},
 /* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, "Sélectionner le port joystick sur lequel la souris est attachée"},
-/* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, "Válassza ki a joystick portot, ahová az egér csatlakoztatva van"},
+/* hu */ {IDCLS_SELECT_MOUSE_JOY_PORT_HU, "Válassza ki a joystick portot, ahová az egér csatolva van"},
 /* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, "Seleziona la porta joystick a cui è collegato il mouse"},
 /* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystick poort waar de muis aan gekoppelt is"},
 /* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
@@ -4639,7 +4639,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_STB_CART_DE, "Structured Basic (raw) Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Structured Basic"},
-/* hu */ {IDCLS_ATTACH_RAW_STB_CART_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_STB_CART_HU, "Structured Basic cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
 /* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */

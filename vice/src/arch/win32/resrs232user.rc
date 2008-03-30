@@ -69,10 +69,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "RS232 Userport Settings"
-    IDS_RS232USER_ENABLE        "&Enable RS232 userport"
-    IDS_RS232USER_DEVICE        "Userport device"
-    IDS_RS232USER_BAUD          "Userport baud rate"
+    IDS_RS232USER_CAPTION       "RS232 Userport beállításai"
+    IDS_RS232USER_ENABLE        "RS232 userport &engedélyezése"
+    IDS_RS232USER_DEVICE        "Userport eszköz"
+    IDS_RS232USER_BAUD          "Userport átviteli ráta"
 END
 #pragma code_page(28591)
 

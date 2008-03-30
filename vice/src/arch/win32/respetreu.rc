@@ -75,11 +75,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION             "PET REU Settings"
-    IDS_PETREU_ENABLE              "&Enable PET REU"
+    IDS_PETREU_CAPTION             "PET REU beállításai"
+    IDS_PETREU_ENABLE              "PET REU &engedélyezése"
     IDS_PETREU_SIZE                "PET REU mérete"
-    IDS_PETREU_FILE                "PET REU file"
-    IDS_PETREU_SELECT_FILE         "Select file for PET REU"
+    IDS_PETREU_FILE                "PET REU fájl"
+    IDS_PETREU_SELECT_FILE         "Válasszon fájlt a PET REU-hoz"
 END
 #pragma code_page(28591)
 

@@ -69,11 +69,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "PLUS60K Settings"
-    IDS_PLUS60K_ENABLE              "&Enable PLUS60K"
+    IDS_PLUS60K_CAPTION             "PLUS60K beállításai"
+    IDS_PLUS60K_ENABLE              "PLUS60K &engedélyezése"
     IDS_PLUS60K_BASE                "PLUS60K báziscíme"
-    IDS_PLUS60K_FILE                "PLUS60K file"
-    IDS_PLUS60K_SELECT_FILE         "Select file for PLUS60K"
+    IDS_PLUS60K_FILE                "PLUS60K fájl"
+    IDS_PLUS60K_SELECT_FILE         "Válasszon fájlt a PLUS60K-hoz"
 END
 #pragma code_page(28591)
 

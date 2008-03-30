@@ -308,7 +308,7 @@ static void save_snapshot_trap(WORD unused_addr, void *data)
 {
     if (data) {
         /* quick snapshot, save ROMs & disks (??) */
-        log_debug(_("Quicksaving file %s."), (char *)data);
+        log_debug("Quicksaving file %s.", (char *)data);
         if (machine_write_snapshot(data, 1, 1, 0) < 0) {
             ui_error(_("Cannot write snapshot file\n`%s'\n"), data);
         }

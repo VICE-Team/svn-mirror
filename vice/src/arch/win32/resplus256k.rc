@@ -62,10 +62,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS256K_CAPTION             "PLUS256K Settings"
-    IDS_PLUS256K_ENABLE              "&Enable PLUS256K"
-    IDS_PLUS256K_FILE                "PLUS256K file"
-    IDS_PLUS256K_SELECT_FILE         "Select file for PLUS256K"
+    IDS_PLUS256K_CAPTION             "PLUS256K beállításai"
+    IDS_PLUS256K_ENABLE              "PLUS256K &engedélyezése"
+    IDS_PLUS256K_FILE                "PLUS256K fájl"
+    IDS_PLUS256K_SELECT_FILE         "Válasszon fájlt a PLUS256K-hoz"
 END
 #pragma code_page(28591)
 

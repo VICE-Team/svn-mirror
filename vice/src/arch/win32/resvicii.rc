@@ -71,11 +71,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VICII_CAPTION           "VIC-II Settings"
-    IDS_VICII_SPRITEGROUP       "Sprite Collisions"
-    IDS_VICII_SPRITECOLL        "Sprite-&sprite collisions"
-    IDS_VICII_BACKCOLL          "Sprite-background &collisions"
-    IDS_VICII_LUMINANCE         "New Luminances"
+    IDS_VICII_CAPTION           "VIC-II beállításai"
+    IDS_VICII_SPRITEGROUP       "Sprite ütközések"
+    IDS_VICII_SPRITECOLL        "&Sprite-sprite ütközések"
+    IDS_VICII_BACKCOLL          "Sprite-&háttér ütközések"
+    IDS_VICII_LUMINANCE         "Új fényerõk"
 END
 #pragma code_page(28591)
 

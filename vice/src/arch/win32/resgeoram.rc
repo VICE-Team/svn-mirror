@@ -81,18 +81,18 @@ END
 #pragma code_page(28592)
 IDD_GEORAM_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "GEORAM Settings"
+CAPTION "GEORAM beállításai"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable GEORAM",IDC_GEORAM_ENABLE,
+    AUTOCHECKBOX    "GEORAM &engedélyezése",IDC_GEORAM_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "GEORAM mérete",
                     IDC_STATIC,9,24,50,8
     COMBOBOX        IDC_GEORAM_SIZE,65,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "GEORAM file",
+    LTEXT           "GEORAM fájl",
                     IDC_STATIC,9,44,46,8
-    PUSHBUTTON      "&Browse...",IDC_GEORAM_BROWSE,55,42,50,14, 0
+    PUSHBUTTON      "&Tallózás...",IDC_GEORAM_BROWSE,55,42,50,14, 0
     EDITTEXT        IDC_GEORAM_FILE, 9,58,160,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
@@ -225,7 +225,7 @@ END
 #pragma code_page(28592)
 STRINGTABLE
 BEGIN
-  IDS_SELECT_FILE_GEORAM_HU   "Select file for GEORAM"
+  IDS_SELECT_FILE_GEORAM_HU   "Válasszon fájlt a GEORAM-hoz"
 END
 #pragma code_page(28591)
 
