@@ -497,11 +497,36 @@ int crtc_offscreen(void)
 
 void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
 {
-    int w, h;
+#if 0
+    addr_mask = vmask;
+    screenmem = screen;
 
-    crtc_cols = num_cols;
-    w = crtc_cols * 8 * pixel_width + 2 * SCREEN_BORDERWIDTH;
-    h = 25 * pixel_width + 2 * SCREEN_BORDERHEIGHT;
+    display_xstart = SCREEN_BORDERWIDTH;
+    display_xstop = SCREEN_BORDERWIDTH + SCREEN_XPIX;
+    display_ystart = SCREEN_BORDERHEIGHT;
+    display_ystop = SCREEN_BORDERHEIGHT + SCREEN_YPIX;
+
+    if (canvas) {
+        int w;
+
+        w = (int)((float) window_width * ((float)num_cols / (float)crtc_cols)
+                  + .5);
+        memptr_inc = crtc_cols = num_cols;
+        resize(w, window_height);
+        refresh_all();
+	video_resize();
+    } else {
+        memptr_inc = crtc_cols = num_cols;
+    }
+#else
+    int w;
+
+    if (double_size_enabled)
+        w = window_width;
+    else
+        w = (float)window_width * ((float)num_cols / (float)crtc_cols);
+
+    memptr_inc = crtc_cols = num_cols;
 
     addr_mask = vmask;
     screenmem = screen;
@@ -512,10 +537,11 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
     display_ystop = SCREEN_BORDERHEIGHT + SCREEN_YPIX;
 
     if (canvas) {
-	canvas_resize(canvas, w, h);
-	crtc_arrange_window(w, h);
+	canvas_resize(canvas, w, window_height);
+	crtc_arrange_window(w, window_height);
 	video_resize();
     }
+#endif
 }
 
 void crtc_screen_enable(int en) {

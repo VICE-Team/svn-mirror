@@ -108,6 +108,8 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
 	kbdef.h \
+	kmap.c \
+	petkmap.c \
 	rs232.c \
 	ui.h \
 	video.c \
@@ -127,7 +129,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  joystick.o kbd.o rs232.o video.o vsync.o
+libarch_a_OBJECTS =  joystick.o kbd.o kmap.o petkmap.o rs232.o video.o \
+vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -277,9 +280,16 @@ joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 kbd.o: kbd.c ../../../src/vmachine.h video.h ../../../src/vice.h \
 	../../../src/config.h ../../../src/palette.h \
 	../../../src/types.h ui.h xaw/ui.h ../../../src/resources.h \
-	../../../src/memutils.h kbd.h kbdef.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/sysfile.h ../../../src/utils.h joystick.h
+	../../../src/cmdline.h ../../../src/memutils.h kbd.h kbdef.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/mem.h ../../../src/sysfile.h ../../../src/utils.h \
+	joystick.h
+kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h ../../../src/resources.h \
+	../../../src/cmdline.h ../../../src/utils.h kbd.h
+petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/types.h ../../../src/utils.h \
+	../../../src/resources.h ../../../src/cmdline.h kbd.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/resources.h \
 	../../../src/cmdline.h ../../../src/rs232.h \

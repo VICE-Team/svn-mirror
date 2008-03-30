@@ -1,3 +1,68 @@
+Sun Jun 14 21:25:53 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* pet/crtc.c (crtc_set_screen_mode): Set `memptr_inc' according to
+ 	the new video width; resize the width of the window proportionally
+ 	to the change in the number of columns if not in double size mode
+ 	(otherwise, don't change it).  Don't change the window height.
+
+	* arch/unix/xaw/uisettings.c: #include <errno.h>.
+
+Sun Jun 14 19:48:20 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/kbd.c (set_keymap_index): New function to set the
+ 	index of the currently used keymap file in a table.  The table
+ 	contains a list of resource names, where the resources then have
+ 	the filename.  Even numbers have a symbol mapping, odd numbers the
+ 	corresponding positional mapping.
+	(do_kbd_init_resources, do_kbd_init_cmdline_options): Renamed to
+ 	call them from the C64/C128/VIC20 and the PET file.
+	(keymap_res_name_list): List of resource names for the keymap
+ 	files
+	(kbd_dump_keymap): Fix a bug in dumping joystick mappings.  Works
+ 	now.
+
+	* arch/unix/kbd.h: Fixed prototypes.  do_* are in kbd.c, the
+ 	corresponding * files are in kmap.c and the corresponding pet_*
+ 	files are in petkmap.c
+
+	* arch/unix/kmap.c: New file.  Handles the standard keymap file
+ 	list (of two files, default.vkm for symbol mapping and
+ 	position.vkm for positional mapping)
+
+	* arch/unix/kmap.c: New file.  Handles the keymap file list for
+ 	the PET. has four instead of two entries, two for graphics and two
+ 	for business UK keyboards.
+
+	* arch/unix/xaw/c128ui.c, arch/unix/xaw/c64ui.c,
+ 	arch/unix/xaw/vic20ui.c: use ui_keyboard_settings_menu
+
+	* arch/unix/xaw/petui.c (petui_set_model): call ui_update_menus() to
+	update menus.
+	(set_KeyboardType): Switch between graphics and business keyboard,
+	called from `pet_keybd_submenu()'.
+	`pet_custom_model_submenu' moved to model_settings_submenu.
+	`model_defaults_submenu' cut from model_settings_submenu.
+	`model_settings_submenu' moved default model settings to submenu
+	and the custom menus in here to reduce menu depth.
+
+	* arch/unix/xaw/uisettings.c (set_keymap_type, dump_keymap):
+ 	Select between symbol and positional mapping, set new filenames
+ 	for the keymap filenames and dump keymap.
+  	(keyboard_maptype_submenu, select_user_keymap): Likewise.
+	(keyboard_settings_submenu): Likewise.
+
+	* c128/c128.c, c64/c64.c, pet/pet.ci, vic20/vic20.c: call
+	kbd_init_resources and kbd_init_cmdline...
+
+	* mon.c: Fix "m" output: 16 bytes per line and 128 byte if no end
+ 	address given.  Insert a space after each four bytes for
+ 	readability
+
+	* pet/pets.h, pet/pets.c: Switch graphics/business keyboard value
+ 	in default table.  Default is 8032 and therefore keymap index 0
+ 	should be KeymapBusinessUKSymFile.
+	(pet_set_model): Fix to use keymap index.
+
 Sun Jun 14 18:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/menudefs.c (create_special_submenu): New parameter

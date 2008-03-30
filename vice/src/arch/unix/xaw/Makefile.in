@@ -338,7 +338,7 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/mos6510.h ../../../../src/mon.h \
 	../../../../src/mem.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/fsdevice.h
+	../../../../src/fsdevice.h ../../../../src/arch/unix/kbd.h
 vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
 	uimenu.h ui.h ../../../../src/types.h ../../../../src/palette.h \
 	uihotkey.h ../../../../src/resources.h uicommands.h \
