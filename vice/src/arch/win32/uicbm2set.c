@@ -56,26 +56,26 @@ static void init_dialog(HWND hwnd)
 {
     int n, res;
 
-    resources_get_value("Ram08", (resource_value_t *) &n);
+    resources_get_value("Ram08", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM08, 
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram1", (resource_value_t *) &n);
+    resources_get_value("Ram1", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM1,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram2", (resource_value_t *) &n);
+    resources_get_value("Ram2", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM2,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram4", (resource_value_t *) &n);
+    resources_get_value("Ram4", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM4,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram6", (resource_value_t *) &n);
+    resources_get_value("Ram6", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAM6,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("RamC", (resource_value_t *) &n);
+    resources_get_value("RamC", (resource_value_t *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_CBMII_RAMC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("RamSize", (resource_value_t *) &res);
+    resources_get_value("RamSize", (resource_value_t *)&res);
     switch (res) {
       case 128:
         n = IDC_SELECT_CBMII_MEM_128;
@@ -140,25 +140,25 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
               break;
 
             case IDC_SELECT_CBMII_MEM_128:
-              resources_set_value("RamSize", (resource_value_t) 128);
+              resources_set_value("RamSize", (resource_value_t)128);
               break;
             case IDC_SELECT_CBMII_MEM_256:
-              resources_set_value("RamSize", (resource_value_t) 256);
+              resources_set_value("RamSize", (resource_value_t)256);
               break;
             case IDC_SELECT_CBMII_MEM_512:
-              resources_set_value("RamSize", (resource_value_t) 512);
+              resources_set_value("RamSize", (resource_value_t)512);
               break;
             case IDC_SELECT_CBMII_MEM_1024:
-              resources_set_value("RamSize", (resource_value_t) 1024);
+              resources_set_value("RamSize", (resource_value_t)1024);
               break;
             case IDC_SELECT_CBMII_HW0:
-              resources_set_value("ModelLine", (resource_value_t) 0);
+              resources_set_value("ModelLine", (resource_value_t)0);
               break;
             case IDC_SELECT_CBMII_HW1:
-              resources_set_value("ModelLine", (resource_value_t) 1);
+              resources_set_value("ModelLine", (resource_value_t)1);
               break;
             case IDC_SELECT_CBMII_HW2:
-              resources_set_value("ModelLine", (resource_value_t) 2);
+              resources_set_value("ModelLine", (resource_value_t)2);
               break;
             case IDC_TOGGLE_CBMII_RAM08:
               {

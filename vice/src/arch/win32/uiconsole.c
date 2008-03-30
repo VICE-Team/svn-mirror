@@ -79,7 +79,7 @@ static UINT APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, 
 
 static char *ui_save_as_console(const char *title, const char *filter, HWND hwnd)
 {
-    char name[1024] = "";
+    char name[MAXPATHLEN + 1] = "";
     OPENFILENAME ofn;
 
     memset(&ofn, 0, sizeof(ofn));
@@ -126,16 +126,14 @@ FILE *ui_console_save_dialog(HWND hwnd)
     s = ui_save_as_console("Logging console output image",
         "VICE console logging files (*.dbg)\0*.dbg\0",hwnd);
 
-    if (s)
-    {
-        char *sExt = ui_ensure_extension( s, ".dbg" );
+    if (s != NULL) {
+        xadd_extension(&s, "dbg");
 
-        pfile = fopen( sExt, append_log ? "at+" : "wt" );
+        pfile = fopen(s, append_log ? "at+" : "wt");
 
         if (!pfile)
-            ui_error("Cannot write log file.");
+            ui_error("Cannot write log filei `%s'.", s);
 
-        free(sExt);
         free(s);
     }
     return pfile;
