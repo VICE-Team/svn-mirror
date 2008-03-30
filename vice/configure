@@ -717,7 +717,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.5.5
+VERSION=1.5.6
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -2984,7 +2984,7 @@ fi
 
 
 
-ALL_LINGUAS=de
+ALL_LINGUAS=de sv
 
 for lang in $ALL_LINGUAS; do
   GMOFILES="$GMOFILES $lang.gmo"

@@ -400,9 +400,9 @@ mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/keyboard.h types.h mouse.h ../../../src/log.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/utils.h ../../../src/resources.h \
-	../../../src/cmdline.h kbd.h
+petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
+	../../../src/utils.h
 petui.o: petui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../peticon.xpm \
