@@ -41,6 +41,7 @@
 #include "c128ui.h"
 #include "c64cia.h"
 #include "c64rsuser.h"
+#include "ciatimer.h"
 #include "clkguard.h"
 #include "drive.h"
 #include "iecdrive.h"
@@ -62,7 +63,7 @@
 #include "vicii.h"
 #include "vdc.h"
 #include "vsync.h"
-#include "ciatimer.h"
+#include "z80mem.h"
 
 #ifdef HAVE_RS232
 #include "rs232.h"
@@ -191,7 +192,8 @@ int machine_init_resources(void)
 #endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
-        || mmu_init_resources() < 0)
+        || mmu_init_resources() < 0
+        || z80mem_init_resources() < 0)
         return -1;
 
     return 0;
@@ -223,7 +225,8 @@ int machine_init_cmdline_options(void)
 #endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
-        || mmu_init_cmdline_options() < 0)
+        || mmu_init_cmdline_options() < 0
+        || z80mem_init_cmdline_options() < 0)
         return -1;
 
     return 0;
@@ -239,6 +242,9 @@ int machine_init(void)
 
     if (mem_load() < 0)
 	return -1;
+
+    if (z80mem_load() < 0)
+        return -1;
 
     /* Setup trap handling.  */
     traps_init();
