@@ -177,10 +177,7 @@ typedef struct {
     int bam_id;         /* Offset from start of BAM to disk ID.  */
     int Dir_Track;
     int Dir_Sector;
-
-    /* Drive information */
-    int NumBlocks;		/* Total Count (683) */
-    int NumTracks;
+    int num_tracks;
 
     /* FIXME: bam sizeof define */
     BYTE bam[5*256];    /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
@@ -225,7 +222,6 @@ typedef struct {
 
 #define CHK_NUM		0
 #define CHK_RDY		1
-#define CHK_EMU		2	/* Is image block based */
 
 /*
  * Input Processor Error Codes
@@ -284,9 +280,8 @@ extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int vdrive_calc_num_blocks(int format, int tracks);
 extern int vdrive_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
-                             int *filetype, int *rl );
+                             int *filetype, int *rl);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
-extern void vdrive_set_disk_geometry(vdrive_t *vdrive, int type);
 extern int vdrive_calculate_disk_half(int type);
 extern int vdrive_get_max_sectors(int type, int track);
 
