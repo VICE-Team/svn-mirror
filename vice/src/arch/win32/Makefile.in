@@ -95,8 +95,18 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
+X128_WINRES = @X128_WINRES@
+X64_WINRES = @X64_WINRES@
+XCBM2_WINRES = @XCBM2_WINRES@
+XPET_WINRES = @XPET_WINRES@
+XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
+x128_LDFLAGS = @x128_LDFLAGS@
+x64_LDFLAGS = @x64_LDFLAGS@
+xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
+xpet_LDFLAGS = @xpet_LDFLAGS@
+xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUFFIXES = .r
 
@@ -114,6 +124,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdefs.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -150,6 +161,8 @@ libarch_a_SOURCES = \
 	uilib.h \
 	uisnapshot.h \
 	uisnapshot.c \
+	uivicii.h \
+	uivicii.c \
 	vic20kbd.c \
 	vic20kbd.h \
 	vic20ui.c \
@@ -181,8 +194,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c610kbd.o c610ui.o c64kbd.o \
 c64ui.o dirent.o joystick.o kbd.o petkbd.o petui.o print.o ui.o \
-uiattach.o uidrive.o uilib.o uisnapshot.o vic20kbd.o vic20ui.o video.o \
-vsync.o winmain.o
+uiattach.o uidrive.o uilib.o uisnapshot.o uivicii.o vic20kbd.o \
+vic20ui.o video.o vsync.o winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -402,7 +415,8 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 resc64.o : resc64.r resc64.h
-	windres -i $< -o $@
+	windres -i $< -o $@ --include-dir $(top_srcdir)/src/arch/win32 \
+		--include-dir $(top_srcdir)/src
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
