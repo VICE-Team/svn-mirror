@@ -131,7 +131,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
         char *directory, *default_item;
 	char *name, *file;
 
-	s = (char *)serial_get_file_name(1);
+	s = tape_get_file_name();
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
@@ -155,7 +155,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
             free(name);
     }
 
-    s = (char *)serial_get_file_name(1);
+    s = tape_get_file_name();
     if (s == NULL || *s == '\0')
 	return "(none)";
     else
@@ -193,11 +193,11 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
     char *s;
 
     if (been_activated) {
-	serial_remove(1);
+	tape_detach_image();
 	ui_update_menus();
     }
 
-    s = (char *)serial_get_file_name(1);
+    s = tape_get_file_name();
     if (s == NULL || *s == '\0')
 	return "(none)";
     else

@@ -35,11 +35,20 @@ list of all the changes in the code.
 - Cartridge attach and snapshot write dialogs could crashed emulator
   on certain DOS extenders.  This bug has been fixed.
 
+- The name of currently attached tape images is displayed again.
+
 ** MS-Windows changes
 ---------------------
 
 - Disk images can be attached to drives 9..11 too now.
 
+** Miscellaneous changes
+------------------------
+
+- Some bugs in T64 handling have been fixed.  The image lister now
+  displays all files, the first file found is the first in the T64
+  archive (and not the second), detaching tapes works now and "LOAD
+  ERROR" should be gone.
 
 * Changes in VICE 0.16.0
 ========================
