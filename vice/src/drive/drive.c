@@ -398,14 +398,14 @@ static resource_t resources[] = {
       (resource_value_t *) &(drive[1].idling_method), set_drive1_idling_method },
     { "DriveSyncFactor", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
       (resource_value_t *) &sync_factor, set_sync_factor },
-    { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
-      (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
     { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
       (resource_value_t *) &dos_rom_name_1541, set_dos_rom_name_1541 },
     { "DosName1571", RES_STRING, (resource_value_t) "dos1571",
       (resource_value_t *) &dos_rom_name_1571, set_dos_rom_name_1571 },
     { "DosName1581", RES_STRING, (resource_value_t) "dos1581",
       (resource_value_t *) &dos_rom_name_1581, set_dos_rom_name_1581 },
+    { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
+      (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
     { NULL }
 };
 
@@ -424,9 +424,11 @@ static cmdline_option_t cmdline_options[] = {
       (resource_value_t) 0,
       NULL, "Disable hardware-level emulation of disk drives" },
     { "-drive8type", SET_RESOURCE, 1, NULL, NULL, "Drive8Type",
-      NULL, "<type>", "Set drive type (0: no drive)" },
+      (resource_value_t) DRIVE_TYPE_1541, "<type>",
+      "Set drive type (0: no drive)" },
     { "-drive9type", SET_RESOURCE, 1, NULL, NULL, "Drive9Type",
-      NULL, "<type>", "Set drive type (0: no drive)" },
+      (resource_value_t) DRIVE_TYPE_NONE, "<type>",
+      "Set drive type (0: no drive)" },
     { "-parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
       (resource_value_t) 1,
       NULL, "Enable SpeedDOS-compatible parallel cable" },
@@ -440,26 +442,27 @@ static cmdline_option_t cmdline_options[] = {
       (resource_value_t) 0,
       NULL, "Disable SpeedDOS-compatible parallel cable" },
     { "-drive8idle", SET_RESOURCE, 1, NULL, NULL, "Drive8IdleMethod",
-      NULL, "<method>",
+      (resource_value_t) DRIVE_IDLE_TRAP_IDLE, "<method>",
       "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { "-drive9idle", SET_RESOURCE, 1, NULL, NULL, "Drive9IdleMethod",
-      NULL, "<method>",
+      (resource_value_t) DRIVE_IDLE_TRAP_IDLE, "<method>",
       "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "DriveSyncFactor",
-      NULL, "<value>", "Set drive sync factor to <value>" },
+      (resource_value_t) DRIVE_SYNC_PAL, "<value>",
+      "Set drive sync factor to <value>" },
     { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_PAL,
       NULL, "Use PAL drive sync factor" },
     { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_NTSC,
       NULL, "Use NTSC drive sync factor" },
-    { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", NULL,
+    { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image name" },
-    { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", NULL,
+    { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
       "<name>", "Specify name of 1571 DOS ROM image name" },
-    { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", NULL,
+    { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",
       "<name>", "Specify name of 1581 DOS ROM image name" },
-    { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", NULL,
+    { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
       "<name>", "Specify name of 2031 DOS ROM image name" },
     { NULL }
 };
@@ -1287,7 +1290,7 @@ int drive_detach_floppy(DRIVE *floppy)
     int dnr;
 
     if (floppy->unit != 8 && floppy->unit != 9)
-    return -1;
+        return -1;
 
     dnr = floppy->unit - 8;
 
@@ -2081,6 +2084,10 @@ int drive_read_snapshot_module(snapshot_t *s)
       default:
         return -1;
     }
+
+    /* Clear parallel cable before undumping parallel port values.  */
+    parallel_cable_drive0_write(0xff, 0);
+    parallel_cable_drive1_write(0xff, 0);
 
     if (drive[0].enable) {
         if (drive0_cpu_read_snapshot_module(s) < 0)

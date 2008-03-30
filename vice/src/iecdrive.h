@@ -41,7 +41,8 @@ BYTE iec_drive0_read(void);
 BYTE iec_drive1_read(void);
 void iec_fast_drive_write(BYTE data);
 void iec_fast_cpu_write(BYTE data);
-void parallel_cable_drive_write(BYTE data, int handshake);
+void parallel_cable_drive0_write(BYTE data, int handshake);
+void parallel_cable_drive1_write(BYTE data, int handshake);
 BYTE parallel_cable_drive_read(int handshake);
 
 typedef struct {

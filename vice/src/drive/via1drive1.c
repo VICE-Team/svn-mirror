@@ -507,7 +507,7 @@ void REGPARM2 store_via1d1(ADDRESS addr, BYTE byte)
             parallel_drv1_set_bus(parieee_is_out ? byte : 0);
         } else
         if (drive[1].parallel_cable_enabled && drive[1].type == DRIVE_TYPE_1541)
-            parallel_cable_drive_write(byte,
+            parallel_cable_drive1_write(byte,
                                         (((addr == VIA_PRA)
                                         && ((via1d1[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0));
@@ -1393,6 +1393,8 @@ int via1d1_read_snapshot_module(snapshot_t * p)
     if (drive[1].type == DRIVE_TYPE_2031) {
         parallel_drv1_set_bus(parieee_is_out ? byte : 0);
     }
+    if (drive[1].parallel_cable_enabled && drive[1].type == DRIVE_TYPE_1541)
+        parallel_cable_drive1_write(byte, 0);
 	oldpa = byte;
 
 	addr = VIA_DDRB;

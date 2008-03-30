@@ -45,7 +45,7 @@ static TUI_MENU_CALLBACK(toggle_SidModel_callback)
 
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 
-#ifdef USE_RESID
+#ifdef HAVE_RESID
 TUI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 

@@ -42,7 +42,8 @@ static iec_info_t iec_info;
 
 static BYTE iec_old_atn = 0x10;
 static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive_value = 0xff;
+static BYTE parallel_cable_drive0_value = 0xff;
+static BYTE parallel_cable_drive1_value = 0xff;
 
 int iec_callback_index = 0;
 
@@ -247,18 +248,26 @@ iec_info_t *iec_get_drive_port(void)
     return &iec_info;
 }
 
-void parallel_cable_drive_write(BYTE data, int handshake)
+void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
 	cia2_set_flag();
-    parallel_cable_drive_value = data;
+    parallel_cable_drive0_value = data;
+}
+
+void parallel_cable_drive1_write(BYTE data, int handshake)
+{
+    if (handshake)
+    cia2_set_flag();
+    parallel_cable_drive1_value = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
 	cia2_set_flag();
-    return parallel_cable_cpu_value & parallel_cable_drive_value;
+    return parallel_cable_cpu_value & parallel_cable_drive0_value
+        & parallel_cable_drive1_value;
 }
 
 void parallel_cable_cpu_write(BYTE data, int handshake)
@@ -288,7 +297,8 @@ BYTE parallel_cable_cpu_read(void)
     drive1_cpu_execute();
     via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    return parallel_cable_cpu_value & parallel_cable_drive_value;
+    return parallel_cable_cpu_value & parallel_cable_drive0_value
+        & parallel_cable_drive1_value;
 }
 
 void parallel_cable_cpu_undump(BYTE data)
