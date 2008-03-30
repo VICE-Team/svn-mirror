@@ -64,7 +64,7 @@
 #include "datasette.h"
 #include "charset.h"
 #include "drive/drive.h"
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "log.h"
