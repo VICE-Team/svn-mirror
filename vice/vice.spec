@@ -29,7 +29,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{prefix}
-make prefix=$RPM_BUILD_ROOT%{prefix} install-stripped
+make prefix=$RPM_BUILD_ROOT%{prefix} install-strip
 gzip -9 $RPM_BUILD_ROOT%{prefix}/man/man1/*
 gzip -9 $RPM_BUILD_ROOT%{prefix}/info/*
 
