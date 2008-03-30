@@ -27,38 +27,44 @@
 
 #include "snapshot.h"
 
+
 static BYTE pia_last_read = 0;
+
+static unsigned int pia_int_num;
+
 
 void mypia_init(void)
 {
-   if (mypia_log == LOG_ERR)
-       mypia_log = log_open(MYPIA_NAME);
+    mypia_log = log_open(MYPIA_NAME);
+
+    pia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
 }
 
 void mypia_reset(void)
 {
-   /* clear _all_ internal registers */
+    /* clear _all_ internal registers */
 
-   mypia.ctrl_a = 0;    /* PIA 1 Port A Control */
-   mypia.ctrl_b = 0;    /* PIA 1 Port B Control */
-   mypia.ddr_a = 0;     /* PIA 1 Port A DDR */
-   mypia.ddr_b = 0;     /* PIA 1 Port B DDR */
-   mypia.port_a = 255;  /* PIA 1 Port A input; nothing to read from keyboard */
-   mypia.port_b = 255;  /* PIA 1 Port B input; nothing to read from keyboard */
+    mypia.ctrl_a = 0;    /* PIA 1 Port A Control */
+    mypia.ctrl_b = 0;    /* PIA 1 Port B Control */
+    mypia.ddr_a = 0;     /* PIA 1 Port A DDR */
+    mypia.ddr_b = 0;     /* PIA 1 Port B DDR */
+    mypia.port_a = 255;  /* PIA 1 Port A input; nothing to read from keyboard */
+    mypia.port_b = 255;  /* PIA 1 Port B input; nothing to read from keyboard */
 
-   pia_reset();
+    pia_reset();
 
-   pia_set_ca2(1);
-   mypia.ca_state = 1;
-   pia_set_cb2(1);
-   mypia.cb_state = 1;
+    pia_set_ca2(1);
+    mypia.ca_state = 1;
+    pia_set_cb2(1);
+    mypia.cb_state = 1;
 
-   is_peek_access = 0;
+    is_peek_access = 0;
 
-   my_set_int(0);
+    my_set_int(0);
 }
 
-static void mypia_update_irq(void) {
+static void mypia_update_irq(void)
+{
     if (0
         || ((mypia.ctrl_a & 0x81) == 0x81)
         || ((mypia.ctrl_a & 0x68) == 0x48)
@@ -76,7 +82,8 @@ static void mypia_update_irq(void) {
  * this currently relies on each edge being called only once,
  * otherwise multiple IRQs could occur. */
 
-void mypia_signal(int line, int edge) {
+void mypia_signal(int line, int edge)
+{
     switch(line) {
       case PIA_SIG_CA1:
         if (((mypia.ctrl_a & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {

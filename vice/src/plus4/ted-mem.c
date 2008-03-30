@@ -452,9 +452,9 @@ inline static void ted09_store(BYTE value)
        The external TED IRQ line is an AND of the internal collision and
        ted.raster IRQ lines.  */
     if (ted.irq_status & 0x80) {
-        ted_set_irq(I_RASTER, 1);
+        ted_set_irq(ted.int_num, 1);
     } else {
-        ted_set_irq(I_RASTER, 0);
+        ted_set_irq(ted.int_num, 0);
     }
 
     TED_DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", ted.irq_status));
@@ -471,10 +471,10 @@ inline static void ted0a_store(BYTE value)
 
     if (ted.regs[0x0a] & ted.irq_status) {
         ted.irq_status |= 0x80;
-        ted_set_irq(I_RASTER, 1);
+        ted_set_irq(ted.int_num, 1);
     } else {
         ted.irq_status &= 0x7f;
-        ted_set_irq(I_RASTER, 0);
+        ted_set_irq(ted.int_num, 0);
     }
 
     TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[0x0a]));
@@ -528,7 +528,7 @@ inline static void ted0b_store(BYTE value)
 
         if (trigger_irq) {
             ted.irq_status |= 0x82;
-            ted_set_irq (I_RASTER, 1);
+            ted_set_irq(ted.int_num, 1);
         }
     }
 }

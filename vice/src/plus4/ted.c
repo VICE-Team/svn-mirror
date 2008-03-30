@@ -276,6 +276,8 @@ raster_t *ted_init(void)
 {
     ted.log = log_open("TED");
 
+    ted.int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+
     ted.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
                                        "TEDRasterFetch",
                                        ted_raster_fetch_alarm_handler);
@@ -770,7 +772,7 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
 {
     ted.irq_status |= 0x2;
     if (ted.regs[0x0a] & 0x2) {
-        maincpu_set_irq_clk(I_RASTER, 1, ted.raster_irq_clk);
+        maincpu_set_irq_clk(ted.int_num, 1, ted.raster_irq_clk);
         ted.irq_status |= 0x80;
         TED_DEBUG_RASTER(("TED: *** IRQ requested at line $%04X, "
                          "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.",
