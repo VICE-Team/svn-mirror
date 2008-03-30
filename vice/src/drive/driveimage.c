@@ -36,19 +36,28 @@
 #include "gcr.h"
 
 
-/* Number of bytes in one raw sector.  */
-#define NUM_BYTES_SECTOR_GCR 360
-
-#define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
-                                    + sector * NUM_BYTES_SECTOR_GCR)
+#define GCR_OFFSET(track) ((track - 1) * NUM_MAX_BYTES_TRACK)
 
 
 /* Logging goes here.  */
-static log_t driveimage_log = LOG_ERR;
+static log_t driveimage_log = LOG_DEFAULT;
 
 /* Number of bytes per track size.  */
 static unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
+
+inline static unsigned int sector_offset(unsigned int track,
+                                         unsigned int sector,
+                                         unsigned int max_sector,
+                                         unsigned int dnr)
+{
+    unsigned int offset;
+
+    offset = GCR_OFFSET(track)
+        + (drive[dnr].gcr->track_size[track - 1] * sector / max_sector);
+
+    return offset;
+}
 
 void drive_image_init_track_size_d64(unsigned int dnr)
 {
@@ -108,7 +117,7 @@ static void drive_image_read_d64_d71(unsigned int dnr)
         BYTE *ptr;
         unsigned int max_sector = 0;
 
-        ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
+        ptr = drive[dnr].gcr->data + GCR_OFFSET(track);
         max_sector = disk_image_sector_per_track(drive[dnr].image->type,
                                                  track);
         /* Clear track to avoid read errors.  */
@@ -116,7 +125,8 @@ static void drive_image_read_d64_d71(unsigned int dnr)
 
         for (sector = 0; sector < max_sector; sector++) {
             int rc;
-            ptr = drive[dnr].gcr->data + GCR_OFFSET(track, sector);
+            ptr = drive[dnr].gcr->data + sector_offset(track, sector,
+                                                       max_sector, dnr);
 
             rc = disk_image_read_sector(drive[dnr].image, buffer + 1, track,
                                         sector);
@@ -128,7 +138,7 @@ static void drive_image_read_d64_d71(unsigned int dnr)
             }
 
             if (rc == 21) {
-                ptr = drive[dnr].gcr->data + GCR_OFFSET(track, 0);
+                ptr = drive[dnr].gcr->data + GCR_OFFSET(track);
                 memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
                 break;
             }
