@@ -31,36 +31,36 @@
 #include "output-file.h"
 #include "types.h"
 
-static int drv_ascii_open(int device)
+static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_open(device);
+    return output_file_open(prnr);
 }
 
-static void drv_ascii_close(int fi)
+static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 {
-    output_file_close(fi);
+    output_file_close(prnr);
 }
 
-static int drv_ascii_putc(int fi, BYTE b)
+static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
-    if (output_file_putc(fi, b) < 0)
+    if (output_file_putc(prnr, b) < 0)
         return -1;
 
 #if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
     if (b == 13)
-        return output_file_putc(fi, 10);
+        return output_file_putc(prnr, 10);
 #endif
     return 0;
 }
 
-static int drv_ascii_getc(int fi, BYTE *b)
+static int drv_ascii_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return output_file_getc(fi, b);
+    return output_file_getc(prnr, b);
 }
 
-static int drv_ascii_flush(int fi)
+static int drv_ascii_flush(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_flush(fi);
+    return output_file_flush(prnr);
 }
 
 int drv_ascii_init_resources(void)

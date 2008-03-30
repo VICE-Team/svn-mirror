@@ -122,15 +122,15 @@ static void print_cbm_char(mps_t *mps, char c)
     mps->pos += is_mode(mps, MPS_DBLWDTH) ? 12 : 6;
 }
 
-static void write_line(mps_t *mps, int fi)
+static void write_line(mps_t *mps, unsigned int prnr)
 {
     unsigned int x, y;
 
     for (y = 0; y < 7; y++) {
         for (x = 0; x < 480; x++)
-            output_file_putc(fi, mps->line[x][y] ? '*' : ' ');
+            output_file_putc(prnr, mps->line[x][y] ? '*' : ' ');
 
-        output_file_putc(fi, 10);
+        output_file_putc(prnr, 10);
     }
 
     mps->pos = 0;
@@ -171,11 +171,11 @@ static void print_bitmask(mps_t *mps, const char c)
     mps->pos++;
 }
 
-static void print_char(mps_t *mps, int fi, const BYTE c)
+static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
 {
 
     if (mps->pos > 479) {  /* flush buffer*/
-        write_line(mps, fi);
+        write_line(mps, prnr);
         clear_buffer(mps);
     }
 
@@ -212,7 +212,7 @@ static void print_char(mps_t *mps, int fi, const BYTE c)
         return;
 
       case 10:  /* LF*/
-        write_line(mps, fi);
+        write_line(mps, prnr);
         clear_buffer(mps);
         return;
 
@@ -311,30 +311,30 @@ static int init_charset(mps_t *mps, const char *name)
 /* ------------------------------------------------------------------------- */
 /* Interface to the upper layer.  */
 
-static int drv_mps803_open(int device)
+static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_open(device);
+    return output_file_open(prnr);
 }
 
-static void drv_mps803_close(int fi)
+static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 {
-    output_file_close(fi);
+    output_file_close(prnr);
 }
 
-static int drv_mps803_putc(int fi, BYTE b)
+static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
-    print_char(&drv_mps803, fi, b);
+    print_char(&drv_mps803, prnr, b);
     return 0;
 }
 
-static int drv_mps803_getc(int fi, BYTE *b)
+static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
 {
-    return output_file_getc(fi, b);
+    return output_file_getc(prnr, b);
 }
 
-static int drv_mps803_flush(int fi)
+static int drv_mps803_flush(unsigned int prnr, unsigned int secondary)
 {
-    return output_file_flush(fi);
+    return output_file_flush(prnr);
 }
 
 int drv_mps803_init_resources(void)

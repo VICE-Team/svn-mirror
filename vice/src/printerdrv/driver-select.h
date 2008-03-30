@@ -31,11 +31,11 @@
 
 struct driver_select_s {
     const char *drv_name;
-    int (*drv_open)(int device);
-    void (*drv_close)(int fi);
-    int (*drv_putc)(int fi, BYTE b);
-    int (*drv_getc)(int fi, BYTE *b);
-    int (*drv_flush)(int fi);
+    int (*drv_open)(unsigned int prnr, unsigned int secondary);
+    void (*drv_close)(unsigned int prnr, unsigned int secondary);
+    int (*drv_putc)(unsigned int prnr, unsigned int secondary, BYTE b);
+    int (*drv_getc)(unsigned int prnr, unsigned int secondary, BYTE *b);
+    int (*drv_flush)(unsigned int prnr, unsigned int secondary);
 };
 typedef struct driver_select_s driver_select_t;
 
@@ -45,11 +45,13 @@ extern int driver_select_init_cmdline_options(void);
 
 extern void driver_select_register(driver_select_t *driver_select);
 
-extern int driver_select_open(int device);
-extern void driver_select_close(int fi);
-extern int driver_select_putc(int fi, BYTE b);
-extern int driver_select_getc(int fi, BYTE *b);
-extern int driver_select_flush(int fi);
+extern int driver_select_open(unsigned int prnr, unsigned int secondary);
+extern void driver_select_close(unsigned int prnr, unsigned int secondary);
+extern int driver_select_putc(unsigned int prnr, unsigned int secondary,
+                              BYTE b);
+extern int driver_select_getc(unsigned int prnr, unsigned int secondary,
+                              BYTE *b);
+extern int driver_select_flush(unsigned int prnr, unsigned int secondary);
 
 #endif
 
