@@ -1,3 +1,42 @@
+1999-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.5.
+
+	* arch/msdos/menudefs.c (attach_tape_callback,
+	detach_tape_callback): Call proper tape functions.
+
+	* arch/unix/xaw/uicommands.c (detach_tape): Use
+	`tape_detach_image' to detach tapes.
+	* arch/win32/ui.c (handle_wm_command): Changed likewise.
+
+	* c1541.c: #include <stdarg.h>, #include <limits.h>.
+ 	(create_cmd): Some cosmitics to get the compiler silent.
+
+	* t64.c (t64_seek_to_next_file): Set the starting file number to
+	`-1' on rewind.
+
+	* tape.c, tape.h (tape_find_header_trap): Duh, set end address too.
+	(tape_get_file_name): New function.
+
+	* utils.c (spawn) [WIN32]: Define `_S_IREAD' and `_S_IWRITE' when
+	not present.
+
+	* arch/unix/xaw/uisettings.c (toggle_DoubleSize,
+	toggle_DoubleScan): Grey out this menu entries when fullscreen
+	mode is enabled.
+
+1999-01-13  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c, unix/xaw/uicommands.c, c64/vicii.c,
+	crtc-tmpl.c, vic20/vic.c: Some small fullscreen support tweaks.
+
+	* main.c (MAIN_PROGRAM): Added some more `HAS_JOYSTICK'.
+
+1998-01-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* main.c (MAIN_PROGRAM,exit64): embrace calls to joystick_init
+	and joystick_close with #ifdef HAS_JOYSTICK
+
 1999-01-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.4.
@@ -5,7 +44,7 @@
 	* main.c (MAIN_PROGRAM): Disabled error message as this can crash
 	the emulator. Some real fix is required here.
 
-1999-01-11  Oliver Schaertel  <orschaer@hermes.hawo.stw.uni-erlangen.de>
+1999-01-11  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
 
 	* arch/unix/xaw/ui.c, arch/unix/xaw/uisettings.c, main.c,
 	arch/unix/xaw/ui.h: Added support for fullscreen mode.
