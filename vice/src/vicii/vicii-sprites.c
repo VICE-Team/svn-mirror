@@ -35,8 +35,6 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
-#include "video-render.h" /* VIDEO_REMOVE_2X */
-
 
 const vic_ii_sprites_fetch_t vic_ii_sprites_fetch_table[256][4] =
 {

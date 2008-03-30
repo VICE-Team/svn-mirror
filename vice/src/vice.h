@@ -81,6 +81,13 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* Do we need 2x video support?  */
+#if defined(WIN32) || defined(__OS2__)
+#define VIDEO_REMOVE_2X 1
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 /* This code comes from GNU make:
    Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95
      Free Software Foundation, Inc.

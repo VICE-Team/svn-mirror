@@ -33,8 +33,6 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
-#include "video-render.h" /* VIDEO_REMOVE_2X */
-
 #define GFX_MSK_LEFTBORDER_SIZE   ((VIC_II_MAX_SPRITE_WIDTH +           \
                                     vic_ii.screen_borderwidth) / 8 + 1)
 #define GFX_MSK_SIZE              ((VIC_II_SCREEN_WIDTH                 \
