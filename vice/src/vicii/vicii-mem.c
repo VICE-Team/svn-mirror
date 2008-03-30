@@ -601,7 +601,7 @@ inline static void store_d016(ADDRESS addr, BYTE value)
 
     /* FIXME: Line-based emulation!  */
     if ((value & 7) != (vic_ii.regs[addr] & 7)) {
-#if 1
+#if 0
         if (raster->skip_frame || VIC_II_RASTER_CHAR(cycle) <= 1)
             raster->xsmooth = value & 0x7;
         else
@@ -610,7 +610,7 @@ inline static void store_d016(ADDRESS addr, BYTE value)
                                             value & 0x7);
 #else
         raster_add_int_change_foreground(raster,
-                                         VIC_II_RASTER_CHAR(cycle),
+                                         VIC_II_RASTER_CHAR(cycle) - 1,
                                          &raster->xsmooth,
                                          value & 7);
 #endif

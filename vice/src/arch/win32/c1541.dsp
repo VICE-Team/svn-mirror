@@ -96,10 +96,6 @@ SOURCE=..\..\cmdline.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\diskimage.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\findpath.c
 # End Source File
 # Begin Source File
@@ -121,10 +117,6 @@ SOURCE=..\..\p00.c
 # Begin Source File
 
 SOURCE=..\..\resources.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\t64.c
 # End Source File
 # Begin Source File
 

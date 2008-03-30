@@ -53,6 +53,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name vdrive
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -106,6 +112,18 @@ Package=<4>
 ###############################################################################
 
 Project: "crtc"=".\crtc.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "diskimage"=".\diskimage.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -241,6 +259,18 @@ Package=<4>
 ###############################################################################
 
 Project: "sounddrv"=".\sounddrv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "tape"=".\tape.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -407,6 +437,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name c64cart
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -463,6 +499,12 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name c64cart
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
     End Project Dependency
 }}}
 
@@ -521,6 +563,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name monitor
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -568,6 +616,12 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
     End Project Dependency
 }}}
 
@@ -617,6 +671,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name video
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -661,6 +721,12 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name monitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
     End Project Dependency
 }}}
 

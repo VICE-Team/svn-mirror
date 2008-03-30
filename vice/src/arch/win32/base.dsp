@@ -122,10 +122,6 @@ SOURCE="..\..\debug.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\diskimage.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\emuid.c"
 # End Source File
 # Begin Source File
@@ -219,18 +215,6 @@ SOURCE="..\..\sound.c"
 # Begin Source File
 
 SOURCE="..\..\sysfile.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\t64.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\tap.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\tape.c"
 # End Source File
 # Begin Source File
 

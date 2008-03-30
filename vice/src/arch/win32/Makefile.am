@@ -123,6 +123,7 @@ EXTRA_DIST = \
 	c64cart.dsp \
 	cbm2.dsp \
 	crtc.dsp \
+	diskimage.dsp \
 	drive.dsp \
 	gfxoutputdrv.dsp \
 	monitor.dsp \
@@ -134,6 +135,7 @@ EXTRA_DIST = \
 	resid.dsp \
 	sid.dsp \
 	sounddrv.dsp \
+	tape.dsp \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \
