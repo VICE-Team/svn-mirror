@@ -1,3 +1,14 @@
+2002-09-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.1.
+
+	* vicii/vicii-sprites.c: Also detect background collisions in
+	idle state (if line is visible).
+
+	* vicii/vicii-draw.c (get_idle): Fixed sprite collisions.
+
+	* raster/raster-line.c (add_line_and_double_scan): Removed.
+
 2002-09-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.

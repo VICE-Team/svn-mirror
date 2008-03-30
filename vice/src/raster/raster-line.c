@@ -48,10 +48,8 @@ inline static unsigned int get_real_mode(raster_t *raster)
 }
 
 /* Increase `area' so that it also includes [xs; xe] at line y.  */
-inline static void add_line_to_area(raster_area_t *area,
-                                    unsigned int y,
-                                    unsigned int xs,
-                                    unsigned int xe)
+inline static void add_line_to_area(raster_area_t *area, unsigned int y,
+                                    unsigned int xs, unsigned int xe)
 {
     if (area->is_null) {
         area->ys = area->ye = y;
@@ -64,13 +62,6 @@ inline static void add_line_to_area(raster_area_t *area,
         area->ys = MIN(y, area->ys);
         area->ye = MAX(y, area->ye);
     }
-}
-
-inline static void add_line_and_double_scan(raster_t *raster,
-                                            unsigned int start,
-                                            unsigned int end)
-{
-    add_line_to_area(&raster->update_area, raster->current_line, start, end);
 }
 
 inline static void draw_blank(raster_t *raster, unsigned int start,
@@ -178,8 +169,7 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
     raster_sprite_t *sprite;
     raster_sprite_cache_t *sprite_cache;
     raster_sprite_status_t *sprite_status;
-    int xs_return;
-    int xe_return;
+    int xs_return, xe_return;
     int rr, r, sxe, sxs, sxe1, sxs1, msk;
     unsigned int i;
     unsigned int num_sprites;
@@ -302,8 +292,7 @@ inline static void draw_borders(raster_t *raster)
     if (!raster->open_left_border)
         draw_blank(raster, 0, raster->display_xstart - 1);
     if (!raster->open_right_border)
-        draw_blank(raster,
-                   raster->display_xstop,
+        draw_blank(raster, raster->display_xstop,
                    raster->geometry->screen_size.width - 1);
 }
 
