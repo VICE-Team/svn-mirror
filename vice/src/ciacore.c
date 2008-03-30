@@ -684,6 +684,7 @@ BYTE read_cia_(ADDRESS addr)
 	    CIAT_LOGOUT((""));
 
 	    cia_last_read = t;
+
 	    return (t);
 	}
 	break;
