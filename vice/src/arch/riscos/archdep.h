@@ -79,6 +79,9 @@
 #define ARCHDEP_X_OK X_OK
 #define ARCHDEP_F_OK F_OK
 
+/* Ethernet default device */
+#define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
+
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);

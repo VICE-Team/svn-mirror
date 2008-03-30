@@ -33,15 +33,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "c64export.h"
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "tfe.h"
 #include "tfearch.h"
 #include "snapshot.h"
-#include "util.h"
 
 
 /**/
@@ -57,6 +58,13 @@
 
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
+
+/*
+ This variable is used when we need to postpone the initialization
+ because tfe_init() is not yet called
+*/
+static int should_activate = 0;
+
 
 static log_t tfe_log = LOG_ERR;
 
@@ -86,7 +94,7 @@ static int tfe_started_tx       = 0;
 static int tfe_cannot_use = 0;
 
 /* Flag: Do we have the TFE enabled?  */
-int tfe_enabled;
+int tfe_enabled = 0;
 
 /* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
 static int tfe_as_rr_net = 0;
@@ -383,19 +391,9 @@ void tfe_debug_output_pp( void )
 /* ------------------------------------------------------------------------- */
 /*    initialization and deinitialization functions                          */
 
-void tfe_init(void)
-{
-    tfe_log = log_open("TFE");
-
-    if (!tfe_arch_init()) {
-        tfe_enabled = 0;
-        tfe_cannot_use = 1;
-    }
-}
-
 void tfe_reset(void)
 {
-    if (tfe_enabled)
+    if (tfe_enabled && !should_activate)
     {
         assert( tfe );
         assert( tfe_packetpage );
@@ -454,17 +452,21 @@ void tfe_reset(void)
 }
 
 static
-int tfe_activate(void)
+int tfe_activate_i(void)
 {
     assert( tfe == NULL );
     assert( tfe_packetpage == NULL );
+
+#ifdef TFE_DEBUG
+    log_message( tfe_log, "tfe_activate_i()." );
+#endif
 
     /* allocate memory for visible IO register */
     tfe = lib_malloc( TFE_COUNT_IO_REGISTER );
     if (tfe==NULL)
     {
 #ifdef TFE_DEBUG_INIT
-        log_message(tfe_log, "tfe_activate: Allocating tfe failed.");
+        log_message(tfe_log, "tfe_activate_i: Allocating tfe failed.");
 #endif
         tfe_enabled = 0;
         return 0;
@@ -498,12 +500,19 @@ int tfe_activate(void)
         return 0;
     }
 
-	return 0;
+    /* virtually reset the LAN chip */
+    tfe_reset();
+
+    return 0;
 }
 
 static
-int tfe_deactivate(void)
+int tfe_deactivate_i(void)
 {
+#ifdef TFE_DEBUG
+    log_message( tfe_log, "tfe_deactivate_i()." );
+#endif
+
     assert(tfe && tfe_packetpage);
 
     tfe_arch_deactivate();
@@ -513,6 +522,53 @@ int tfe_deactivate(void)
     lib_free(tfe_packetpage);
     tfe_packetpage = NULL;
 	return 0;
+}
+
+static
+int tfe_activate(void) {
+#ifdef TFE_DEBUG
+    log_message( tfe_log, "tfe_activate()." );
+#endif
+
+    if (tfe_log != LOG_ERR) {
+        return tfe_activate_i();
+    }
+    else {
+        should_activate = 1;
+    }
+    return 0;
+}
+
+static
+int tfe_deactivate(void) {
+#ifdef TFE_DEBUG
+    log_message( tfe_log, "tfe_deactivate()." );
+#endif
+
+    if (should_activate) {
+        should_activate = 0;
+        if (tfe_log != LOG_ERR)
+            return tfe_deactivate_i();
+    }
+    return 0;
+}
+
+void tfe_init(void)
+{
+    tfe_log = log_open("TFE");
+
+    if (!tfe_arch_init()) {
+        tfe_enabled = 0;
+        tfe_cannot_use = 1;
+    }
+
+    if (should_activate) {
+        should_activate = 0;
+        if (tfe_activate() < 0) {
+            tfe_enabled = 0;
+            tfe_cannot_use = 1;
+        }
+    }
 }
 
 void tfe_shutdown(void)
@@ -1399,8 +1455,6 @@ int set_tfe_enabled(resource_value_t v, void *param)
                 }
             }
 
-            /* virtually reset the LAN chip */
-            tfe_reset();
             return 0;
         }
 
@@ -1446,7 +1500,8 @@ const resource_t resources[] = {
       (void *)&tfe_enabled, set_tfe_enabled, NULL },
     { "ETHERNET_AS_RR", RES_INTEGER, (resource_value_t)0,
       (void *)&tfe_as_rr_net, set_tfe_rr_net, NULL },
-    { "ETHERNET_INTERFACE", RES_STRING, (resource_value_t)"",
+    { "ETHERNET_INTERFACE", RES_STRING,
+      (resource_value_t)ARCHDEP_ETHERNET_DEFAULT_DEVICE,
       (void *)&tfe_interface, set_tfe_interface, NULL },
     { NULL }
 };

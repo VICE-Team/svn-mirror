@@ -74,6 +74,9 @@
 #define ARCHDEP_W_OK 2
 #define ARCHDEP_X_OK 1
 #define ARCHDEP_F_OK 0
+
+/* Ethernet default device */
+#define ARCHDEP_ETHERNET_DEFAULT_DEVICE ""
  
 #endif
 
