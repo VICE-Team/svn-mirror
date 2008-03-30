@@ -578,16 +578,18 @@ int sound_flush(int relative_speed)
 	    j *= sizeof(*p);
 	    if (j > 0)
 	    {
-	        p = (short*)alloca(j);
+	        p = (short *)xmalloc(j);
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
 		for (i = 0; i < j / (int)sizeof(*p); i++)
 		    p[i] = (float)v*i/(j / (int)sizeof(*p));
 		if (snddata.pdev->write(p, j/sizeof(*p)))
 		{
 		    closesound("Audio: write to sound device failed.");
+                    free(p);
 		    return 0;
 		}
 		snddata.lastsample = v;
+                free(p);
 	    }
 	    fill = j;
 	}
