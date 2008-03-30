@@ -161,6 +161,8 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 STRIP = @STRIP@
 UNIX_COMPILE_FALSE = @UNIX_COMPILE_FALSE@
 UNIX_COMPILE_TRUE = @UNIX_COMPILE_TRUE@
+UNIX_GP2X_COMPILE_FALSE = @UNIX_GP2X_COMPILE_FALSE@
+UNIX_GP2X_COMPILE_TRUE = @UNIX_GP2X_COMPILE_TRUE@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_MIDAS_SOUND_FALSE = @USE_MIDAS_SOUND_FALSE@
 USE_MIDAS_SOUND_TRUE = @USE_MIDAS_SOUND_TRUE@
@@ -244,8 +246,9 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-@NEED_READLINE_TRUE@SUBDIRS = gui x11 readline
-@NEED_READLINE_FALSE@SUBDIRS = gui x11
+@UNIX_GP2X_COMPILE_TRUE@SUBDIRS = gp2x
+@NEED_READLINE_FALSE@@UNIX_GP2X_COMPILE_FALSE@SUBDIRS = gui x11
+@NEED_READLINE_TRUE@@UNIX_GP2X_COMPILE_FALSE@SUBDIRS = gui x11 readline
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -398,7 +401,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = gui x11 readline
+DIST_SUBDIRS = gp2x gui x11 readline
 SOURCES = $(libarch_a_SOURCES)
 
 all: all-recursive
@@ -750,6 +753,10 @@ uninstall-info: uninstall-info-recursive
 .PHONY: x11
 x11:
 	(cd x11; $(MAKE))
+
+.PHONY: gp2x
+gp2x:
+	(cd gp2x; $(MAKE))
 
 .PHONY: gui
 gui:

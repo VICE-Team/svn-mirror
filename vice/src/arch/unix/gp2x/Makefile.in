@@ -14,13 +14,15 @@
 
 @SET_MAKE@
 
+# Makefile.am for the GP2X version of `libarchgp2x.a'.
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../../..
+top_builddir = ../../../..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -243,41 +245,198 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c128 \
+	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/cbm2 \
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src
 
 
-noinst_LIBRARIES = libdriveiecieee.a
+noinst_LIBRARIES = libarchgp2x.a
 
-libdriveiecieee_a_SOURCES = \
-	iecieee.c \
-	via2d.c
+libarchgp2x_a_SOURCES = \
+	Char_ROM.h \
+	audio_gp2x.c \
+	audio_gp2x.h \
+	c128ui.c \
+	c64ui.c \
+	cbm2ui.c \
+	fullscreenarch.h \
+	gp2xui.h \
+	icon.h \
+	input_gp2x.c \
+	input_gp2x.h \
+	minimal.c \
+	minimal.h \
+	minimal_940t.h \
+	petui.c \
+	plus4ui.c \
+	prefs_gp2x.c \
+	prefs_gp2x.h \
+	rs232.c \
+	ui.c \
+	ui_gp2x.c \
+	ui_gp2x.h \
+	uiacia1.c \
+	uiarch.h \
+	uiattach.c \
+	uic64_256k.c \
+	uic64cart.c \
+	uicmdline.c \
+	uicommands.c \
+	uicrtc.c \
+	uidatasette.c \
+	uidrive.c \
+	uidrivec128.c \
+	uidrivec64vic20.c \
+	uidriveiec.c \
+	uidrivepetcbm2.c \
+	uidriveplus4.c \
+	uifliplist.c \
+	uigeoram.c \
+	uiide64.c \
+	uijoystick2.c \
+	uikeyboard.c \
+	uilib.c \
+	uilib.h \
+	uimenu.h \
+	uimon.c \
+	uipalemu.c \
+	uipalette.c \
+	uiperipheral.c \
+	uiperipheraliec.c \
+	uiperipheralieee.c \
+	uipetreu.c \
+ 	uiplus256k.c \
+	uiplus60k.c \
+	uiprinter.c \
+	uiprinteriec.c \
+	uiprinteriecplus4.c \
+	uiprinterieee.c \
+	uiramcart.c \
+	uireu.c \
+	uiromset.c \
+	uirs232.c \
+	uirs232c64c128.c \
+	uirs232petplus4cbm2.c \
+	uirs232user.c \
+	uisettings.c \
+	uisid.c \
+	uisound.c \
+	uited.c \
+	uitext_gp2x.c \
+	uitext_gp2x.h \
+	uivdc.c \
+	uivic.c \
+	uivicii.c \
+	vic20ui.c \
+	video.c \
+	videoarch.h \
+	vkeyboard_gp2x.c \
+	vkeyboard_gp2x.h \
+	vsidui.c
 
-subdir = src/drive/iecieee
+
+EXTRA_DIST = \
+	gpe-files/vsid.gpe \
+	gpe-files/x128.gpe \
+	gpe-files/x64.gpe \
+	gpe-files/xvic.gpe \
+	gpe-files/xpet.gpe \
+	gpe-files/xplus4.gpe \
+	gpe-files/xcbm2.gpe \
+	make-bindist.sh
+
+subdir = src/arch/unix/gp2x
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
-libdriveiecieee_a_AR = $(AR) cru
-libdriveiecieee_a_LIBADD =
-am_libdriveiecieee_a_OBJECTS = iecieee.$(OBJEXT) via2d.$(OBJEXT)
-libdriveiecieee_a_OBJECTS = $(am_libdriveiecieee_a_OBJECTS)
+libarchgp2x_a_AR = $(AR) cru
+libarchgp2x_a_LIBADD =
+am_libarchgp2x_a_OBJECTS = audio_gp2x.$(OBJEXT) c128ui.$(OBJEXT) \
+	c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) input_gp2x.$(OBJEXT) \
+	minimal.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	prefs_gp2x.$(OBJEXT) rs232.$(OBJEXT) ui.$(OBJEXT) \
+	ui_gp2x.$(OBJEXT) uiacia1.$(OBJEXT) uiattach.$(OBJEXT) \
+	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
+	uicommands.$(OBJEXT) uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) \
+	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
+	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
+	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
+	uimon.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
+	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
+	uiperipheralieee.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
+	uiprinteriec.$(OBJEXT) uiprinteriecplus4.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
+	uited.$(OBJEXT) uitext_gp2x.$(OBJEXT) uivdc.$(OBJEXT) \
+	uivic.$(OBJEXT) uivicii.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vkeyboard_gp2x.$(OBJEXT) vsidui.$(OBJEXT)
+libarchgp2x_a_OBJECTS = $(am_libarchgp2x_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/iecieee.Po ./$(DEPDIR)/via2d.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/audio_gp2x.Po ./$(DEPDIR)/c128ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64ui.Po ./$(DEPDIR)/cbm2ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/input_gp2x.Po ./$(DEPDIR)/minimal.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/prefs_gp2x.Po ./$(DEPDIR)/rs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/ui_gp2x.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiacia1.Po ./$(DEPDIR)/uiattach.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64_256k.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uicommands.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicrtc.Po ./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uidrivec128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidriveiec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uigeoram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uipalemu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipalette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheraliec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheralieee.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipetreu.Po ./$(DEPDIR)/uiplus256k.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiplus60k.Po ./$(DEPDIR)/uiprinter.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinteriecplus4.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiromset.Po ./$(DEPDIR)/uirs232.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232c64c128.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232petplus4cbm2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232user.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisettings.Po ./$(DEPDIR)/uisid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uited.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uitext_gp2x.Po ./$(DEPDIR)/uivdc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivic.Po ./$(DEPDIR)/uivicii.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vkeyboard_gp2x.Po ./$(DEPDIR)/vsidui.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libdriveiecieee_a_SOURCES)
+DIST_SOURCES = $(libarchgp2x_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libdriveiecieee_a_SOURCES)
+SOURCES = $(libarchgp2x_a_SOURCES)
 
 all: all-am
 
@@ -285,16 +444,16 @@ all: all-am
 .SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/drive/iecieee/Makefile
+	  $(AUTOMAKE) --gnu  src/arch/unix/gp2x/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-libdriveiecieee.a: $(libdriveiecieee_a_OBJECTS) $(libdriveiecieee_a_DEPENDENCIES) 
-	-rm -f libdriveiecieee.a
-	$(libdriveiecieee_a_AR) libdriveiecieee.a $(libdriveiecieee_a_OBJECTS) $(libdriveiecieee_a_LIBADD)
-	$(RANLIB) libdriveiecieee.a
+libarchgp2x.a: $(libarchgp2x_a_OBJECTS) $(libarchgp2x_a_DEPENDENCIES) 
+	-rm -f libarchgp2x.a
+	$(libarchgp2x_a_AR) libarchgp2x.a $(libarchgp2x_a_OBJECTS) $(libarchgp2x_a_LIBADD)
+	$(RANLIB) libarchgp2x.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -302,8 +461,70 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iecieee.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/via2d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/input_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/minimal.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/prefs_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rs232.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiacia1.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64_256k.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicommands.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicrtc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveiec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalemu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalette.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheraliec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheralieee.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus256k.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus60k.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriecplus4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinterieee.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiramcart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232c64c128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232petplus4cbm2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232user.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisettings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uited.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitext_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivdc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicii.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vkeyboard_gp2x.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
@@ -386,10 +607,11 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../../..
+top_distdir = ../../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/gpe-files
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
