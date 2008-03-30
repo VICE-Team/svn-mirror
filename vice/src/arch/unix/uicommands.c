@@ -95,7 +95,7 @@ static UI_CALLBACK(attach_disk)
     sprintf(title, "Attach Disk Image as unit #%d", unit);
     filename = ui_select_file(title, read_disk_image_contents,
                               unit == 8 ? True : False, last_dir,
-                              "*.[gdxGDX]*", &button);
+                              "*.[gdxGDX]*", &button, True);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -171,7 +171,7 @@ static UI_CALLBACK(attach_tape)
     suspend_speed_eval();
 
     filename = ui_select_file("Attach a tape image", read_tape_image_contents,
-			      True, last_dir, "*.[tT]*", &button);
+			      True, last_dir, "*.[tT]*", &button, True);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -225,7 +225,7 @@ static UI_CALLBACK(smart_attach)
 
     filename = ui_select_file("Smart-attach a file",
 			      read_disk_or_tape_image_contents,
-			      True, last_dir, NULL, &button);
+			      True, last_dir, NULL, &button, True);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -432,7 +432,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 	filename = data;
     } else {
         filename = ui_select_file("Load snapshot", NULL, False, last_dir,
-                              "*.vsf", &button);
+                              "*.vsf", &button, False);
         if (button != UI_BUTTON_OK)
             return;
     }

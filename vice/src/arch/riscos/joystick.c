@@ -28,6 +28,7 @@
 
 #include "joystick.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "types.h"
 #include "resources.h"
 #include "vsyncarch.h"

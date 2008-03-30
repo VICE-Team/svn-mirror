@@ -65,7 +65,7 @@ static UI_CALLBACK(psid_load)
   ui_button_t button;
 
   filename = ui_select_file("Load PSID file", NULL, False, NULL,
-			    "*.[psPS]*", &button);
+			    "*.[psPS]*", &button, False);
 
   switch (button) {
   case UI_BUTTON_OK:

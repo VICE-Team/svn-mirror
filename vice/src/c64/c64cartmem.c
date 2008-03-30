@@ -101,6 +101,9 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_FINAL_III:
         return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
+      case CARTRIDGE_FINAL_I:
+        cartridge_config_changed(0x42);
+        return roml_banks[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_SIMONS_BASIC:
         cartridge_config_changed(0);
         return rand();
@@ -144,6 +147,9 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         break;
       case CARTRIDGE_KCS_POWER:
         cartridge_config_changed(1);
+        break;
+      case CARTRIDGE_FINAL_I:
+        cartridge_config_changed(0x42);
         break;
       case CARTRIDGE_SIMONS_BASIC:
         cartridge_config_changed(1);
@@ -229,6 +235,9 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
             return roml_banks[(addr & 0x1fff) + 0x6000];
         }
         break;
+      case CARTRIDGE_FINAL_I:
+        cartridge_config_changed(1);
+        return roml_banks[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_KCS_POWER:
         return export_ram0[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_IEEE488:
@@ -262,6 +271,9 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
       case CARTRIDGE_ATOMIC_POWER:
         if (export_ram)
             export_ram0[0x1f00 + (addr & 0xff)] = value;
+        break;
+      case CARTRIDGE_FINAL_I:
+        cartridge_config_changed(1);
         break;
       case CARTRIDGE_KCS_POWER:
         export_ram0[0x1f00 + (addr & 0xff)] = value;
@@ -383,6 +395,7 @@ void cartridge_init_config(void)
       case CARTRIDGE_REX:
         cartridge_config_changed(0);
         break;
+      case CARTRIDGE_FINAL_I:
       case CARTRIDGE_FINAL_III:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
@@ -425,6 +438,7 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_GENERIC_16KB:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_WESTERMANN:
+      case CARTRIDGE_FINAL_I:
         memcpy(roml_banks, rawcart, 0x2000);
         memcpy(romh_banks, &rawcart[0x2000], 0x2000);
         cartridge_config_changed(1);
@@ -514,7 +528,8 @@ void cartridge_freeze(int type)
         || type == CARTRIDGE_SUPER_SNAPSHOT
         || type == CARTRIDGE_SUPER_SNAPSHOT_V5)
         cartridge_config_changed(35);
-    if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III)
+    if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III
+        || type == CARTRIDGE_FINAL_I)
         cartridge_config_changed(3);
 }
 

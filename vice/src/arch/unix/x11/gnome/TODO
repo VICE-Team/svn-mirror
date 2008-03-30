@@ -2,19 +2,21 @@
 # systematic and probably not complete!
 
 Missing features
-- Implement remaining dummy (fullscreen support is missing,).
-- Implement 2 color LEDs
 - Internationalization
 - Session Management
 
 Known Bugs (help is appreciated !):
 - x128 gives a GTK warning because topmenu is reused.
-- vsid mode doesn't work properly. Dag takes care of this.
 - Gnome commandline is ignored.
-- Get font from Xresource database for textwindows
+- Get font from X Resource database for textwindows
 - Setting the color palette twice leads to GTK/X error assertion (Help needed!)
   doesn't happen on my 16bit Xserver@home; problem maybe with 8bit color depth?
 
 Things, which will change:
-- Dialogs will use changed to use more Gnome Stock stuff. 
+- CBM Charset for Image preview
 - Monitor GUI
+- VIC20 Cartridge attach Heuristic for image pairs
+
+Postponed
+- Fullscreen support
+

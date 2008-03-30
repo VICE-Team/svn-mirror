@@ -57,7 +57,7 @@ static UI_CALLBACK(attach_cartridge)
     suspend_speed_eval();
     filename = ui_select_file("Attach cartridge image",
                               NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]", 
-			      &button);
+			      &button, False);
 
     switch (button) {
       case UI_BUTTON_OK:

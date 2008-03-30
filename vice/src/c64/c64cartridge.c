@@ -242,6 +242,7 @@ int cartridge_attach_image(int type, const char *filename)
         switch (crttype) {
           case 0:
           case 11:
+          case 13:
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);
                 goto done;
@@ -252,7 +253,7 @@ int cartridge_attach_image(int type, const char *filename)
                     fclose(fd);
                     goto done;
                 }
-                if (crttype != 11)
+                if (crttype != 11 && crttype != 13)
                     crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
                               : CARTRIDGE_GENERIC_16KB;
                 fclose(fd);
@@ -444,7 +445,8 @@ void cartridge_trigger_freeze(void)
         && crttype != CARTRIDGE_FINAL_III
         && carttype != CARTRIDGE_SUPER_SNAPSHOT
         && carttype != CARTRIDGE_SUPER_SNAPSHOT_V5
-        && carttype != CARTRIDGE_ATOMIC_POWER)
+        && carttype != CARTRIDGE_ATOMIC_POWER
+        && crttype != CARTRIDGE_FINAL_I)
         return;
 
     maincpu_set_nmi(I_FREEZE, IK_NMI);

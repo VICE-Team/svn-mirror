@@ -299,7 +299,8 @@ static UI_CALLBACK(select_user_keymap)
 
     suspend_speed_eval();
     filename = ui_select_file("Read Keymap File", NULL, False, last_dir,
-							"*.vkm", &button);
+							"*.vkm", &button, 
+			      False);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -353,7 +354,8 @@ UI_CALLBACK(ui_load_palette)
 
     suspend_speed_eval();
     sprintf(title, "Load custom palette");
-    filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
+			      False);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -390,7 +392,8 @@ UI_CALLBACK(ui_load_romset)
 
     suspend_speed_eval();
     sprintf(title, "Load custom ROM set definition");
-    filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button,
+			      False);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -437,7 +440,8 @@ UI_CALLBACK(ui_load_rom_file)
 
     suspend_speed_eval();
     sprintf(title, "Load ROM file");
-    filename = ui_select_file(title, NULL, False, last_dir, "*", &button);
+    filename = ui_select_file(title, NULL, False, last_dir, "*", &button,
+			      False);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -545,7 +549,7 @@ UI_CALLBACK(set_rs232_device_file)
     suspend_speed_eval();
 
     filename = ui_select_file("Select RS232 device file",
-                              NULL, False, "/dev", "ttyS*", &button);
+                              NULL, False, "/dev", "ttyS*", &button, False);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);
@@ -1077,7 +1081,7 @@ static UI_CALLBACK(set_printer_dump_file)
     suspend_speed_eval();
 
     filename = ui_select_file("Select printer dump file",
-                              NULL, False, last_dir, NULL, &button);
+                              NULL, False, last_dir, NULL, &button, False);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);

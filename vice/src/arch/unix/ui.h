@@ -99,7 +99,8 @@ extern char *ui_select_file(const char *title,
                             char *(*read_contents_func)(const char *),
                             int allow_autostart, const char *default_dir,
                             const char *default_pattern,
-                            ui_button_t *button_return);
+                            ui_button_t *button_return,
+			    int show_preview);
 extern ui_button_t ui_input_string(const char *title, const char *prompt,
                                    char *buf, unsigned int buflen);
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);

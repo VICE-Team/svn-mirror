@@ -82,7 +82,7 @@
 #include "version.h"
 #include "vsidproc.h"
 #include "vsync.h"
-
+#include "drive/drive.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -713,10 +713,10 @@ GdkGC *app_gc;
 static GdkColormap *colormap;
 
 /* Enabled drives.  */
-ui_drive_enable_t enabled_drives;
+ui_drive_enable_t enabled_drives;  /* used also in uicommands.c */
 
 /* Color of the drive active LED.  */
-int *drive_active_led;
+static int *drive_active_led;
 
 /* Drive status widget */
 typedef struct 
@@ -731,6 +731,10 @@ typedef struct
     GtkWidget *track_label;
     GtkWidget *led;
     GdkPixmap *led_pixmap;
+    GtkWidget *led1;
+    GdkPixmap *led1_pixmap;
+    GtkWidget *led2;
+    GdkPixmap *led2_pixmap;
 } drive_status_widget;
 
 /* Tape status widget */
@@ -743,9 +747,6 @@ typedef struct
     GdkPixmap *control_pixmap;
 } tape_status_widget;
 
-/* This allows us to pop up the transient shells centered to the last visited
-   shell. */
-static GtkWidget *last_visited_app_shell = NULL;
 #define MAX_APP_SHELLS 10
 typedef struct {
     String title;
@@ -771,16 +772,13 @@ GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
 
 static int alloc_colormap(void);
 static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);
-static GtkWidget* build_file_selector(ui_button_t *button_return);
-static GtkWidget* build_error_dialog(ui_button_t *button_return,
-				     const String message);
-static GtkWidget* build_input_dialog(ui_button_t *button_return,
-				     GtkWidget **InputDialogLabel,
-				     GtkWidget **InputDialogField);
-static GtkWidget* build_show_text(ui_button_t *button_return,
-				  const String text, int width, int height);
-static GtkWidget* build_confirm_dialog(ui_button_t *button_return,
-				       GtkWidget **confirm_dialog_message);
+static void ui_block_shells(void);
+static void ui_unblock_shells(void);
+static GtkWidget* build_file_selector(ui_button_t *button_return,
+				      GtkWidget **image_contents_widget,
+				      GtkWidget **autostart_button_widget);
+static GtkWidget* build_show_text(const String text, int width, int height);
+static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
 UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback);
 
@@ -985,7 +983,9 @@ static void filesel_autostart_cb(GtkWidget *w, gpointer data)
     *((ui_button_t *)data) = UI_BUTTON_AUTOSTART;
 
     g_return_if_fail(GTK_IS_LIST(image_preview_list));
-    g_return_if_fail(current_image_contents != NULL);
+    
+    if (current_image_contents == NULL)
+	return;
     
     selected = GTK_LIST(image_preview_list)->selection;
     if (! selected || !selected->data)
@@ -1168,9 +1168,8 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			   as->drive_status[i].track_label,
 			   FALSE, FALSE, 0);
 	gtk_widget_show(as->drive_status[i].track_label);      
-	
 
-	/* Led */
+	/* Single Led */
 	as->drive_status[i].led_pixmap = 
 	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, 
 			   depth);
@@ -1180,8 +1179,35 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
 			   (GtkWidget *)as->drive_status[i].led,
 			   FALSE,FALSE, 4);
-	gtk_widget_show(as->drive_status[i].led);      
-	
+	gtk_widget_show(as->drive_status[i].led);
+
+	/* Led1 for double Led drive */
+	as->drive_status[i].led1_pixmap = 
+	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
+			   depth);
+	as->drive_status[i].led1 = 
+	    gtk_pixmap_new(as->drive_status[i].led1_pixmap, NULL);
+	gtk_widget_set_usize(as->drive_status[i].led1, LED_WIDTH/2, 
+			     LED_HEIGHT);
+	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
+			   (GtkWidget *)as->drive_status[i].led1,
+			   FALSE, FALSE, 1);
+	gtk_widget_show(as->drive_status[i].led1);
+
+	/* Led2 for double Led drive */
+	as->drive_status[i].led2_pixmap = 
+	    gdk_pixmap_new(_ui_top_level->window, LED_WIDTH/2, LED_HEIGHT, 
+			   depth);
+	as->drive_status[i].led2 = 
+	    gtk_pixmap_new(as->drive_status[i].led2_pixmap, NULL);
+	gtk_widget_set_usize(as->drive_status[i].led2, LED_WIDTH/2, 
+			     LED_HEIGHT);
+	gtk_box_pack_start(GTK_BOX(as->drive_status[i].box),
+			   (GtkWidget *)as->drive_status[i].led2,
+			   FALSE,FALSE, 1);
+	gtk_widget_show(as->drive_status[i].led2);
+
+	/* Pack everything together */
 	gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].event_box, 
 			   FALSE, FALSE, 0);
 
@@ -1252,7 +1278,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			    &iw, &ih);
 	gtk_widget_set_usize(as->drive_status[i].image, width / 3, ih);
 #endif
-	gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Tape widget */
+	gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Drive widget */
 	gdk_window_set_cursor (as->drive_status[i].event_box->window, 
 			       gdk_cursor_new (GDK_HAND1)); 
     }
@@ -1272,6 +1298,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                                   PIXEL pixel_return[])
 {
     GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
+    int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
 	log_error(ui_log, "Maximum number of toplevel windows reached.");
@@ -1316,6 +1343,9 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
 		       GTK_SIGNAL_FUNC(exposure_callback),
 		       (void*) exposure_proc);
+    gtk_signal_connect(GTK_OBJECT(new_canvas),"enter-notify-event",
+		       GTK_SIGNAL_FUNC(enter_window_callback),
+		       NULL);
     gtk_widget_set_usize(new_canvas, width, height);
     gtk_widget_show(new_canvas);
     gtk_widget_queue_resize(new_canvas);
@@ -1363,6 +1393,10 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     /* This is necessary because the status might have been set before we
        actually open the canvas window. e.g. by commandline */
     ui_enable_drive_status(enabled_drives, drive_active_led);
+    /* make sure that all drive status widgets are initialized.
+       This is needed for proper dual disk/dual led drives (8050, 8250). */
+    for (i = 0; i < NUM_DRIVES; i++)
+	ui_display_drive_led(i, 3);
 
     initBlankCursor();
 
@@ -1801,7 +1835,18 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 		/* enabled + active drive */
 		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_show(app_shells[i].drive_status[j].track_label);
-		gtk_widget_show(app_shells[i].drive_status[j].led);
+		if (drive_num_leds(j) == 1)
+		{
+		    gtk_widget_show(app_shells[i].drive_status[j].led);
+		    gtk_widget_hide(app_shells[i].drive_status[j].led1);
+		    gtk_widget_hide(app_shells[i].drive_status[j].led2);
+		}
+		else
+		{
+		    gtk_widget_hide(app_shells[i].drive_status[j].led);
+		    gtk_widget_show(app_shells[i].drive_status[j].led1);
+		    gtk_widget_show(app_shells[i].drive_status[j].led2);
+		}
 	    } 
 	    else if (!enabled_drives &&
 		       (strcmp(last_attached_images[j], "") != 0)) 
@@ -1809,6 +1854,8 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 		gtk_widget_show(app_shells[i].drive_status[j].event_box);
 		gtk_widget_hide(app_shells[i].drive_status[j].track_label);
 		gtk_widget_hide(app_shells[i].drive_status[j].led);
+		gtk_widget_hide(app_shells[i].drive_status[j].led1);
+		gtk_widget_hide(app_shells[i].drive_status[j].led2);
 	    }
 	    else 
 	    {
@@ -1849,18 +1896,38 @@ void ui_display_drive_led(int drive_number, int status)
 {
     int i;
     
-    GdkColor *color = status ? (drive_active_led[drive_number] 
-				? drive_led_on_green_pixel 
-				: drive_led_on_red_pixel) 
-	                     : drive_led_off_pixel;
+    GdkColor *color;
 
-    gdk_gc_set_foreground(app_gc, color);
     for (i = 0; i < num_app_shells; i++)
     {
 	drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
+
+	color = status ? (drive_active_led[drive_number] 
+			  ? drive_led_on_green_pixel 
+			  : drive_led_on_red_pixel) 
+	    : drive_led_off_pixel;
+	gdk_gc_set_foreground(app_gc, color);
 	gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 
 			   0, LED_WIDTH, LED_HEIGHT);
 	gtk_widget_queue_draw(ds->led);
+
+	color = (status & 1) ? (drive_active_led[drive_number] 
+				? drive_led_on_green_pixel 
+				: drive_led_on_red_pixel) 
+	    : drive_led_off_pixel;
+	gdk_gc_set_foreground(app_gc, color);
+	gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 
+			   0, LED_WIDTH/2, LED_HEIGHT);
+	gtk_widget_queue_draw(ds->led1);
+
+	color = (status & 2) ? (drive_active_led[drive_number] 
+				? drive_led_on_green_pixel 
+				: drive_led_on_red_pixel) 
+	    : drive_led_off_pixel;
+	gdk_gc_set_foreground(app_gc, color);
+	gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 
+			   0, LED_WIDTH/2, LED_HEIGHT);
+	gtk_widget_queue_draw(ds->led2);
     }
 }
 
@@ -1881,6 +1948,12 @@ void ui_display_drive_current_image(unsigned int drive_number,
     strcpy(&(last_attached_images[drive_number][0]), image);
     fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
     
+    if (strcmp(name, "") == 0)
+    {
+	free(name);
+	name = stralloc("<empty>");
+    }
+
     for (i = 0; i < num_app_shells; i++) {
 #if 0
 	gtk_label_set_text(GTK_LABEL(app_shells[i].
@@ -2152,51 +2225,47 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 /* ------------------------------------------------------------------------- */
 
 /* Report an error to the user.  */
-void ui_error(const char *format,...)
+static void ui_message2(const char *type, const char *msg, const char *title)
 {
-    char str[1024];
-    va_list ap;
-    static GtkWidget* error_dialog;
-    static ui_button_t button;
+    static GtkWidget* msgdlg;
 
 #ifdef USE_VIDMODE_EXTENSION
     ui_set_windowmode();
 #endif
-    va_start(ap, format);
-    vsprintf(str, format, ap);
-    error_dialog = build_error_dialog(&button, str);
-    ui_popup(error_dialog, "VICE Error!", False);
-    button = UI_BUTTON_NONE;
-    do
-	ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
-    ui_popdown(error_dialog);
-    gtk_widget_destroy(error_dialog);
+    msgdlg = gnome_message_box_new(msg, type,
+				   GNOME_STOCK_BUTTON_CLOSE, 
+				   NULL);
+    
+    ui_popup(msgdlg, title, False);
+    gnome_dialog_run(GNOME_DIALOG(msgdlg));
+    ui_unblock_shells();	/* ui_popdown can't be used in message_boxes */
+
+    /* still needed ? */
+    ui_check_mouse_cursor();
     ui_dispatch_events();
     suspend_speed_eval();
 }
 
 /* Report a message to the user.  */
-void ui_message(const char *format,...)
+void ui_message(const char *format, ...)
 {
-    char str[1024];
     va_list ap;
-    static GtkWidget *error_dialog;
-    static ui_button_t button;
+    char str[1024];
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    error_dialog = build_error_dialog(&button, str);
-    ui_popup(error_dialog, "VICE", False);
-    button = UI_BUTTON_NONE;
-    do
-      ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
-    ui_popdown(error_dialog);
-    ui_check_mouse_cursor();
-    gtk_widget_destroy(error_dialog);
-    ui_dispatch_events();
-    suspend_speed_eval();
+    ui_message2(GNOME_MESSAGE_BOX_INFO, str, "VICE Message");
+}
+
+/* Report an error to the user.  */
+void ui_error(const char *format, ...)
+{
+    va_list ap;
+    char str[1024];
+
+    va_start(ap, format);
+    vsprintf(str, format, ap);
+    ui_message2(GNOME_MESSAGE_BOX_ERROR, str, "VICE Error");
 }
 
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)
@@ -2368,7 +2437,8 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
 char *ui_select_file(const char *title,
                      char *(*read_contents_func)(const char *),
                      int allow_autostart, const char *default_dir,
-                     const char *default_pattern, ui_button_t *button_return)
+                     const char *default_pattern, ui_button_t *button_return,
+		     int show_preview)
 {  
     static ui_button_t button;
     static char *ret = NULL;
@@ -2377,6 +2447,7 @@ char *ui_select_file(const char *title,
     char *current_dir = NULL;
     char *filename = NULL;
     char *path;
+    GtkWidget *icw, *asb;
     
     /* reset old selection */
     ui_set_selected_file(0);
@@ -2387,7 +2458,7 @@ char *ui_select_file(const char *title,
       chdir(filesel_dir);
     }
 
-    file_selector = build_file_selector(&button);
+    file_selector = build_file_selector(&button, &icw, &asb);
     current_image_contents_func = read_contents_func;
     
     if (default_dir != NULL) {
@@ -2417,6 +2488,12 @@ char *ui_select_file(const char *title,
 	}
 	free(newdir);
     }
+    if (!allow_autostart)
+	gtk_widget_hide(asb);
+
+    if (!show_preview)
+	gtk_widget_hide(icw);
+    
     ui_popup(file_selector, title, False);
     do {
         button = UI_BUTTON_NONE;
@@ -2477,64 +2554,104 @@ char *ui_select_file(const char *title,
 ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
                             unsigned int buflen)
 {
-    static GtkWidget *input_dialog, *input_dialog_label, *input_dialog_field;
-    static ui_button_t button;
-    if (!input_dialog)
-      input_dialog = build_input_dialog(&button,
-					&input_dialog_label,
-					&input_dialog_field);
+    GtkWidget *input_dialog, *entry, *label;
+    gint res;
+    char *history_id;
+    ui_button_t ret;
+    
+    input_dialog = gnome_dialog_new(title,
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL,
+				    NULL);
+    gtk_signal_connect(GTK_OBJECT(input_dialog),
+		       "destroy",
+		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+		       &input_dialog);
 
-    gtk_label_set_text(GTK_LABEL(input_dialog_label),prompt);
-    gtk_entry_set_text(GTK_ENTRY(input_dialog_field),buf);
+    history_id = concat ("vice: ", prompt, NULL);
+    entry = gnome_entry_new(history_id);
+    free(history_id);
+    
+    label = gtk_label_new(prompt);
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(input_dialog)->vbox),
+		       label, FALSE, FALSE, GNOME_PAD);
+    gtk_widget_show(label);
+
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(input_dialog)->vbox),
+		       entry, FALSE, FALSE, GNOME_PAD);
+    gtk_entry_set_text(
+	GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(entry))), buf);
+    gtk_widget_show(entry);
+
+    gnome_dialog_editable_enters(
+	GNOME_DIALOG(input_dialog), 
+	GTK_EDITABLE(gnome_entry_gtk_entry(GNOME_ENTRY(entry))));
+    
+    gnome_dialog_set_default(GNOME_DIALOG(input_dialog), GNOME_OK);
+
     /*    XtSetKeyboardFocus(input_dialog, input_dialog_field);*/
     ui_popup(input_dialog, title, False);
-    button = UI_BUTTON_NONE;
-    do
-        ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
-    
-    strncpy(buf, gtk_entry_get_text(GTK_ENTRY(input_dialog_field)),
-	    buflen);
+    res = gnome_dialog_run(GNOME_DIALOG(input_dialog));
     ui_popdown(input_dialog);
-    return button;
+
+    if (res == 0 && input_dialog)
+    {
+	strncpy(buf, gtk_entry_get_text(
+	    GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(entry)))),
+		buflen);
+	ret = UI_BUTTON_OK;
+    }
+    else
+	ret = UI_BUTTON_CANCEL;
+
+    if (input_dialog)
+	gtk_widget_destroy(input_dialog);
+    
+    return ret;
 }
 
 /* Display a text to the user. */
 void ui_show_text(const char *title, const char *text, int width, int height)
 {
-    static ui_button_t button;
     GtkWidget *show_text;
 
-    show_text = build_show_text(&button, (String)text,
-				width, height);
+    show_text = build_show_text((String)text, width, height);
+    gtk_signal_connect(GTK_OBJECT(show_text),
+		       "destroy",
+		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+		       &show_text);
     ui_popup(show_text, title, False);
-    button = UI_BUTTON_NONE;
-    do
-        ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
-    ui_popdown(show_text);    
+    gnome_dialog_run(GNOME_DIALOG(show_text));
+    ui_popdown(show_text);
+    
+    if (show_text)
+	gtk_widget_destroy(show_text);
 }
 
 /* Ask for a confirmation. */
 ui_button_t ui_ask_confirmation(const char *title, const char *text)
 {
-
     static GtkWidget *confirm_dialog, *confirm_dialog_message;
-    static ui_button_t button;
-
+    gint res;
+    
     if (!confirm_dialog)
-	confirm_dialog = build_confirm_dialog(&button,
-                                              &confirm_dialog_message);
+    {
+	confirm_dialog = build_confirm_dialog(&confirm_dialog_message);
+	gtk_signal_connect(GTK_OBJECT(confirm_dialog),
+			   "destroy",
+			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+			   &confirm_dialog);
+    }
+    
     gtk_label_set_text(GTK_LABEL(confirm_dialog_message),text);
 
     ui_popup(confirm_dialog, title, False);
-    button = UI_BUTTON_NONE;
-    do
-        ui_dispatch_next_event();
-    while (button == UI_BUTTON_NONE);
+    res = gnome_dialog_run(GNOME_DIALOG(confirm_dialog));
     ui_popdown(confirm_dialog);
     
-    return button;
+    return (res == 0) ? UI_BUTTON_YES 
+	: (res == 1) ? UI_BUTTON_NO 
+	: UI_BUTTON_CANCEL;
 }
 
 /* Update the menu items with a checkmark according to the current resource
@@ -2640,7 +2757,9 @@ void ui_popdown(GtkWidget *w)
 
 /* These functions build all the widgets. */
 
-static GtkWidget *build_file_selector(ui_button_t *button_return)
+static GtkWidget *build_file_selector(ui_button_t *button_return, 
+				      GtkWidget **image_contents_widget,
+				      GtkWidget **autostart_button_widget)
 {  
     GtkWidget *fileselect, *button, *scrollw, *frame, *table;
 
@@ -2680,6 +2799,7 @@ static GtkWidget *build_file_selector(ui_button_t *button_return)
 		     10);
 
     gtk_widget_show(frame);
+    *image_contents_widget = frame;
     
     /* Contents preview */
     scrollw = gtk_scrolled_window_new(NULL, NULL);
@@ -2729,91 +2849,24 @@ static GtkWidget *build_file_selector(ui_button_t *button_return)
 		     10);
     
     gtk_widget_show(button);
+    *autostart_button_widget = button;
 
     return fileselect;
 }
 
-static GtkWidget* build_error_dialog(ui_button_t * button_return,
-				     const String message)
+static GtkWidget* build_show_text(const String text, int width, int height)
 {
-    GtkWidget *error_dialog, *button ,*mess;
+    GtkWidget *show_text, *textw, *vs, *hs , *table;
 
-    error_dialog = gtk_dialog_new();
-
-
-    mess = gtk_label_new(message);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(error_dialog)->vbox),
-		       mess,TRUE,TRUE,0);
-    gtk_widget_show(mess);
-
-
-    button = gtk_button_new_with_label("Close");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CLOSE),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(error_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-    
-
-    return error_dialog;
-
-}
-
-static GtkWidget* build_input_dialog(ui_button_t * button_return,
-				     GtkWidget **input_dialog_label,
-				     GtkWidget **input_dialog_field)
-{
-    GtkWidget *input_dialog, *button;
-
-    input_dialog = gtk_dialog_new();
-
-    *input_dialog_label = gtk_label_new("");
-
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
-		       *input_dialog_label,TRUE,TRUE,0);
-    gtk_widget_show(*input_dialog_label);
-
-    *input_dialog_field = gtk_entry_new();
-    gtk_entry_set_editable(GTK_ENTRY(*input_dialog_field),TRUE);
-
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox),
-		       *input_dialog_field,TRUE,TRUE,0);
-
-    gtk_widget_show(*input_dialog_field);
-
-
-    button = gtk_button_new_with_label("Confirm");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_OK),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-
-    button = gtk_button_new_with_label("Cancel");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CANCEL),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-
-    return input_dialog;
-}
-
-static GtkWidget* build_show_text(ui_button_t * button_return,
-				  const String text, int width, int height)
-{
-    GtkWidget *show_text, *button, *textw, *vs, *hs , *table;
-
-    show_text = gtk_dialog_new();
+    show_text = gnome_dialog_new("",
+				 GNOME_STOCK_BUTTON_CLOSE,
+				 NULL);
 
     gtk_widget_set_usize(show_text, width, height);
 
     table = gtk_table_new(2,2,FALSE);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(show_text)->vbox),
-		       table,TRUE,TRUE,0);
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(show_text)->vbox),
+		       table,TRUE, TRUE, GNOME_PAD);
     gtk_widget_show(table);
 
     textw = gtk_text_new(NULL,NULL);
@@ -2833,55 +2886,24 @@ static GtkWidget* build_show_text(ui_button_t * button_return,
 		     GTK_FILL,GTK_FILL,0,0);
     gtk_widget_show(hs);
 
-    button = gtk_button_new_with_label("Close");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CLOSE),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(show_text)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-
     return show_text;
 }
 
-static GtkWidget* build_confirm_dialog(ui_button_t *button_return,
-				       GtkWidget **confirm_dialog_message)
+static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message)
 {
-    GtkWidget *confirm_dialog, *button;
+    GtkWidget *confirm_dialog;
 
-    confirm_dialog = gtk_dialog_new();
+    confirm_dialog = gnome_dialog_new("",
+				      GNOME_STOCK_BUTTON_YES,
+				      GNOME_STOCK_BUTTON_NO,
+				      GNOME_STOCK_BUTTON_CANCEL,
+				      NULL);
 
 
     *confirm_dialog_message = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->vbox),
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(confirm_dialog)->vbox),
 		       *confirm_dialog_message,TRUE,TRUE,0);
     gtk_widget_show(*confirm_dialog_message);
-
-
-    button = gtk_button_new_with_label("Yes");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_YES),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-
-    button = gtk_button_new_with_label("No");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_NO),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-
-    button = gtk_button_new_with_label("Cancel");
-    gtk_signal_connect(GTK_OBJECT(button),"clicked",
-		       GTK_SIGNAL_FUNC(cb_UI_BUTTON_CANCEL),
-		       (gpointer) button_return);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->action_area),
-		       button,TRUE,TRUE,0);
-    gtk_widget_show(button);
-    
 
     return confirm_dialog;
 }
@@ -2892,7 +2914,7 @@ static GtkWidget* build_confirm_dialog(ui_button_t *button_return,
 
 UI_CALLBACK(enter_window_callback)
 {
-    last_visited_app_shell = w;
+    _ui_top_level = w;
 }
 
 UI_CALLBACK(exposure_callback)
