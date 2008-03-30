@@ -455,58 +455,6 @@ void drive_rom_initialize_traps(unsigned int dnr)
     }
 }
 
-int drive_rom_check_loaded(unsigned int type)
-{
-    switch (type) {
-      case DRIVE_TYPE_1541:
-        if (rom1541_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1541II:
-        if (rom1541ii_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1551:
-        if (rom1551_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1571:
-        if (rom1571_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1581:
-        if (rom1581_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_2031:
-        if (rom2031_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_2040:
-        if (rom2040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_3040:
-        if (rom3040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_4040:
-        if (rom4040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        if (rom1001_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      default:
-        return -1;
-    }
-
-    return 0;
-}
-
 void drive_rom_init(void)
 {
     driverom_log = log_open("DriveROM"); 

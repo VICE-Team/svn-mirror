@@ -27,18 +27,24 @@
 #ifndef _IEEE_H
 #define _IEEE_H
 
+struct disk_image_s;
 struct drive_context_s;
 struct snapshot_s;
 
+extern int ieee_drive_resources_init(void);
 extern void ieee_drive_init(struct drive_context_s *drv);
 extern void ieee_drive_reset(struct drive_context_s *drv);
 extern void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type);
 extern void ieee_drive_setup_context(struct drive_context_s *drv);
-
+extern int ieee_drive_rom_check_loaded(unsigned int type);
 extern int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
                                     struct snapshot_s *s);
 extern int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
                                      struct snapshot_s *s);
+extern int ieee_drive_image_attach(struct disk_image_s *image,
+                                   unsigned int unit);
+extern int ieee_drive_image_detach(struct disk_image_s *image,
+                                   unsigned int unit);
 
 extern void ieee_drive0_parallel_set_atn(int state);
 extern void ieee_drive1_parallel_set_atn(int state);

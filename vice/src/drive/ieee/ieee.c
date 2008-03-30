@@ -28,20 +28,29 @@
 
 #include "drivetypes.h"
 #include "fdc.h"
+#include "ieee-resources.h"
 #include "ieee.h"
+#include "ieeerom.h"
 #include "memieee.h"
 #include "riotd.h"
 #include "viad.h"
 
 
+int ieee_drive_resources_init(void)
+{
+    return ieee_resources_init();
+}
+
 void ieee_drive_init(struct drive_context_s *drv)
 {
+    fdc_init(drv);
     riot1_init(drv);
     riot2_init(drv);
 }
 
 void ieee_drive_reset(struct drive_context_s *drv)
 {
+    fdc_reset(drv->mynumber, drv->drive_ptr->type);
     riot1_reset(drv);
     riot2_reset(drv);
 }
@@ -55,6 +64,11 @@ void ieee_drive_setup_context(struct drive_context_s *drv)
 {
     riot1_setup_context(drv);
     riot2_setup_context(drv);
+}
+
+int ieee_drive_rom_check_loaded(unsigned int type)
+{
+    return ieeerom_check_loaded(type);
 }
 
 int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
@@ -81,6 +95,16 @@ int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
     }
 
     return 0;
+}
+
+int ieee_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+{
+    return fdc_attach_image(image, unit);
+}
+
+int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+{
+    return fdc_detach_image(image, unit);
 }
 
 void ieee_drive0_parallel_set_atn(int state)

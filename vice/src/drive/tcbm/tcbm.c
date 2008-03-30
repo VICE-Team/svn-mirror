@@ -28,9 +28,16 @@
 
 #include "mem1551.h"
 #include "glue1551.h"
+#include "tcbm-resources.h"
 #include "tcbm.h"
+#include "tcbmrom.h"
 #include "tia1551.h"
 
+
+int tcbm_drive_resources_init(void)
+{
+    return tcbm_resources_init();
+}
 
 void tcbm_drive_init(struct drive_context_s *drv)
 {
@@ -51,6 +58,11 @@ void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 
 void tcbm_drive_setup_context(struct drive_context_s *drv)
 {
+}
+
+int tcbm_drive_rom_check_loaded(unsigned int type)
+{
+    return tcbmrom_check_loaded(type);
 }
 
 int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,

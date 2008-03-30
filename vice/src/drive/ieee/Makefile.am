@@ -7,7 +7,13 @@ INCLUDES = \
 noinst_LIBRARIES = libdriveieee.a
 
 libdriveieee_a_SOURCES = \
+	fdc.c \
+	fdc.h \
+	ieee-resources.c \
+	ieee-resources.h \
 	ieee.c \
+	ieeerom.c \
+	ieeerom.h \
 	memieee.c \
 	memieee.h \
 	riot1d.c \

@@ -1,5 +1,5 @@
 /*
- * tcbm.h
+ * tcbmrom.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,26 +24,10 @@
  *
  */
 
-#ifndef _TCBM_H
-#define _TCBM_H
+#ifndef _TCBMROM_H
+#define _TCBMROM_H
 
-#include "types.h"
-
-struct drive_context_s;
-struct snapshot_s;
-
-extern int tcbm_drive_resources_init(void);
-extern void tcbm_drive_init(struct drive_context_s *drv);
-extern void tcbm_drive_reset(struct drive_context_s *drv);
-extern void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type);
-extern void tcbm_drive_setup_context(struct drive_context_s *drv);
-extern int tcbm_drive_rom_check_loaded(unsigned int type);
-extern int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,
-                                    struct snapshot_s *s);
-extern int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
-                                     struct snapshot_s *s);
-
-extern BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
+extern int tcbmrom_check_loaded(unsigned int type);
 
 #endif
 

@@ -27,6 +27,8 @@
 #ifndef _DRIVEROM_H
 #define _DRIVEROM_H
 
+#include "types.h"
+
 #define DRIVE_ROM1541_SIZE            0x4000
 #define DRIVE_ROM1541_SIZE_EXPANDED   0x8000
 #define DRIVE_ROM1541II_SIZE          0x4000
@@ -70,7 +72,6 @@ extern void drive_rom_init(void);
 extern void drive_rom_setup_image(unsigned int dnr);
 extern void drive_rom_initialize_traps(unsigned int dnr);
 extern int drive_rom_load_images(void);
-extern int drive_rom_check_loaded(unsigned int type);
 extern int drive_rom_do_1541_checksum(void);
 extern int drive_rom_load_1541(void);
 extern int drive_rom_load_1541ii(void);

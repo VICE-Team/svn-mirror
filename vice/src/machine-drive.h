@@ -27,20 +27,27 @@
 #ifndef _MACHINE_DRIVE_H
 #define _MACHINE_DRIVE_H
 
+struct disk_image_s;
 struct drive_context_s;
 struct snapshot_s;
 
+extern int machine_drive_resources_init(void);
 extern void machine_drive_init(struct drive_context_s *drv);
 extern void machine_drive_reset(struct drive_context_s *drv);
 extern void machine_drive_mem_init(struct drive_context_s *drv,
                                    unsigned int type);
 extern void machine_drive_setup_context(struct drive_context_s *drv);
-
+extern void machine_drive_vsync_hook(void);
+extern void machine_drive_handle_job_code(unsigned int dnr);
+extern int machine_drive_rom_check_loaded(unsigned int type);
 extern int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
                                        struct snapshot_s *s);
 extern int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
                                         struct snapshot_s *s);
-
+extern int machine_drive_image_attach(struct disk_image_s *image,
+                                      unsigned int unit);
+extern int machine_drive_image_detach(struct disk_image_s *image,
+                                      unsigned int unit);
 extern void machine_drive_stub(void);
 
 #endif

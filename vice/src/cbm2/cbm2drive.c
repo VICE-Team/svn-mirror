@@ -30,6 +30,11 @@
 #include "machine-drive.h"
 
 
+int machine_drive_resources_init(void)
+{
+    return ieee_drive_resources_init();
+}
+
 void machine_drive_init(struct drive_context_s *drv)
 {
     ieee_drive_init(drv);
@@ -50,6 +55,24 @@ void machine_drive_setup_context(struct drive_context_s *drv)
     ieee_drive_setup_context(drv);
 }
 
+void machine_drive_vsync_hook(void)
+{
+
+}
+
+void machine_drive_handle_job_code(unsigned int dnr)
+{
+
+}
+
+int machine_drive_rom_check_loaded(unsigned int type)
+{
+    if (ieee_drive_rom_check_loaded(type) == 0)
+        return 0;
+
+    return -1;
+}
+
 int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
                                 struct snapshot_s *s)
 {
@@ -60,6 +83,16 @@ int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
                                  struct snapshot_s *s)
 {
     return ieee_drive_snapshot_write(ctxptr, s);
+}
+
+int machine_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+{
+    return ieee_drive_image_attach(image, unit);
+}
+
+int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+{
+    return ieee_drive_image_detach(image, unit);
 }
 
 void machine_drive_stub(void)

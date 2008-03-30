@@ -1,5 +1,5 @@
 /*
- * ieee.c
+ * iec.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -28,21 +28,31 @@
 
 #include "ciad.h"
 #include "drivetypes.h"
+#include "iec-resources.h"
 #include "iec.h"
+#include "iecrom.h"
 #include "memiec.h"
 #include "viad.h"
+#include "wd1770.h"
 
+
+int iec_drive_resources_init(void)
+{
+    return iec_resources_init();
+}
 
 void iec_drive_init(struct drive_context_s *drv)
 {
     cia1571_init(drv);
     cia1581_init(drv);
+    wd1770d_init(drv);
 }
 
 void iec_drive_reset(struct drive_context_s *drv)
 {
     cia1571_reset(drv);
     cia1581_reset(drv);
+    wd1770d_reset(drv);
 }
 
 void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
@@ -54,6 +64,21 @@ void iec_drive_setup_context(struct drive_context_s *drv)
 {
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
+}
+
+void iec_drive_vsync_hook(void)
+{
+    wd1770_vsync_hook();
+}
+
+void iec_drive_handle_job_code(unsigned int dnr)
+{
+    wd1770_handle_job_code(dnr);
+}
+
+int iec_drive_rom_check_loaded(unsigned int type)
+{
+    return iecrom_check_loaded(type);
 }
 
 int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
@@ -90,5 +115,15 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
     }
 
     return 0;
+}
+
+int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
+{
+    return wd1770_attach_image(image, unit);
+}
+
+int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
+{
+    return wd1770_detach_image(image, unit);
 }
 

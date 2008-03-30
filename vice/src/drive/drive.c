@@ -57,7 +57,6 @@
 #include "drivesync.h"
 #include "driverom.h"
 #include "drivetypes.h"
-#include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
 #include "interrupt.h"
@@ -71,7 +70,6 @@
 #include "ui.h"
 #include "utils.h"
 #include "viad.h"
-#include "wd1770.h"
 
 
 /* Drive specific variables.  */
@@ -300,7 +298,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 
 int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
 {
-    if (drive_rom_check_loaded(type) < 0)
+    if (machine_drive_rom_check_loaded(type) < 0)
         return -1;
 
     if (drive[dnr].byte_ready_active == 0x06)
@@ -1020,7 +1018,8 @@ void drive_vsync_hook(void)
         drive0_cpu_execute(maincpu_clk);
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
-    wd1770_vsync_hook();
+
+    machine_drive_vsync_hook();
 }
 
 /* ------------------------------------------------------------------------- */
