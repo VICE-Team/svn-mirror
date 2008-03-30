@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	tui.h \
 	tui_backend.c \
 	tui_backend.h \
+	tuiimagebrowser.c \
+	tuiimagebrowser.h \
 	tuifs.c \
 	tuifs.h \
 	tuimenu.c \
