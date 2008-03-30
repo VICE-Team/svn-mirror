@@ -91,7 +91,7 @@ static int canvas_width, canvas_height;
 static BYTE *fs_fb_data;
 static int fs_fb_bpl, fs_cached_db_width, fs_depth;
 static int fs_bestmode_counter;
-static palette_t *canvas_palette;
+static const palette_t *canvas_palette;
 static DWORD *fs_saved_colors;
 static int dga2_is_available = 0;
 static int dga2_is_enabled = 0;
@@ -103,7 +103,7 @@ static int EventBase, ErrorBase;
 
 int request_fs_mode = 0;
 char *dga2_selected_videomode_at_start;
-int fs_width, fs_height;
+unsigned int fs_width, fs_height;
 
 static unsigned char *fb_addr, *fb_dump;
 static unsigned char *fb_render_target;
@@ -331,8 +331,8 @@ static void dga2_refresh_func(video_canvas_t *canvas,
 		       int dest_x, int dest_y,
 		       unsigned int width, unsigned int height) 
 {
-    static unsigned int fb_src_x = -1 , fb_dest_x = -1, fb_src_y = -1, 
-	fb_dest_y = -1, fb_w, fb_h;
+    static unsigned int fb_src_x = -1, fb_dest_x = -1, fb_src_y = -1, 
+    fb_dest_y = -1, fb_w, fb_h;
     
 #ifndef DGA2_DEBUG_BUFFER
 #if 0
@@ -362,7 +362,7 @@ static void dga2_refresh_func(video_canvas_t *canvas,
 		        width, height, src_x, src_y, src_x, src_y, 
 		        fs_fb_bpl, fs_depth);
     
-    fb_current_page = ((++fb_current_page) % BB_DEPTH);
+    fb_current_page = ((fb_current_page + 1) % BB_DEPTH);
 
     fb_src_x = MIN(fb_src_x, src_x);
     fb_dest_x = MIN(fb_dest_x, dest_x);
@@ -545,9 +545,9 @@ static int dga2_set_mode(resource_value_t v, void *param)
 {
     static int interval,prefer_blanking,allow_exposures;
     XColor color;
-    int i;
+    unsigned int i;
 
-    if ( !dga2_is_available || !fs_bestmode_counter ) {
+    if (!dga2_is_available || !fs_bestmode_counter) {
         fs_use_fs_at_start = (int) v;
 	return 0;
     }

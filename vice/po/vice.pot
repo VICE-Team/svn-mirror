@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-24 15:25+0200\n"
+"POT-Creation-Date: 2003-06-29 19:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2786,16 +2786,16 @@ msgstr ""
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:286
+#: src/arch/unix/x11/video.c:280
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:284
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:356
+#: src/arch/unix/x11/video.c:350
 msgid "Cannot release shared memory!"
 msgstr ""
 
