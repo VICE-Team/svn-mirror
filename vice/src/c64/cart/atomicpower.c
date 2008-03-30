@@ -53,7 +53,7 @@ void REGPARM2 atomicpower_io1_store(ADDRESS addr, BYTE value)
     } else {
         export_ram_at_a000 = 0;
     }
-    cartridge_config_changed(value);
+    cartridge_config_changed(value, CMODE_WRITE);
 }
 
 BYTE REGPARM1 atomicpower_io2_read(ADDRESS addr)
@@ -118,20 +118,20 @@ void REGPARM2 atomicpower_a000_bfff_store(ADDRESS addr, BYTE value)
 
 void atomicpower_freeze(void)
 {
-    cartridge_config_changed(35);
+    cartridge_config_changed(35, CMODE_READ);
 }
 
 void atomicpower_config_init(void)
 {
     export_ram_at_a000 = 0;
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 void atomicpower_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 int atomicpower_bin_attach(const char *filename, BYTE *rawcart)

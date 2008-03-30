@@ -40,21 +40,21 @@
 BYTE REGPARM1 epyxfastload_io2_read(ADDRESS addr)
 {
     if (addr == 0xdf18)
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
     if (addr == 0xdf38)
-        cartridge_config_changed(2);
+        cartridge_config_changed(2, CMODE_READ);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
 void epyxfastload_config_init(void)
 {
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 void epyxfastload_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)

@@ -44,7 +44,7 @@ BYTE REGPARM1 actionreplay_io1_read(ADDRESS addr)
 
 void REGPARM2 actionreplay_io1_store(ADDRESS addr, BYTE value)
 {
-    cartridge_config_changed(value);
+    cartridge_config_changed(value, CMODE_WRITE);
 }
 
 BYTE REGPARM1 actionreplay_io2_read(ADDRESS addr)
@@ -87,19 +87,19 @@ void REGPARM2 actionreplay_roml_store(ADDRESS addr, BYTE value)
 
 void actionreplay_freeze(void)
 {
-    cartridge_config_changed(35);
+    cartridge_config_changed(35, CMODE_READ);
 }
 
 void actionreplay_config_init(void)
 {
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 void actionreplay_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
-    cartridge_config_changed(0);
+    cartridge_config_changed(0, CMODE_READ);
 }
 
 int actionreplay_bin_attach(const char *filename, BYTE *rawcart)

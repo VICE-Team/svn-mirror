@@ -29,7 +29,10 @@
 
 #include "types.h"
 
-extern void cartridge_config_changed(BYTE mode);
+#define CMODE_READ  0
+#define CMODE_WRITE 1
+
+extern void cartridge_config_changed(BYTE mode, unsigned int wflag);
 
 extern BYTE export_ram0[];
 

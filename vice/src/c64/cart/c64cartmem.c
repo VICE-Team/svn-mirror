@@ -46,6 +46,7 @@
 #include "kcs.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "retroreplay.h"
 #include "supergames.h"
 #include "supersnapshot.h"
@@ -73,8 +74,13 @@ int ultimax = 0;
 int mem_cartridge_type = CARTRIDGE_NONE;
 
 
-void cartridge_config_changed(BYTE mode)
+void cartridge_config_changed(BYTE mode, unsigned int wflag)
 {
+    if (wflag == CMODE_WRITE)
+        machine_handle_pending_alarms(rmw_flag + 1);
+    else
+        machine_handle_pending_alarms(0);
+
     export.game = mode & 1;
     export.exrom = ((mode >> 1) & 1) ^ 1;
     romh_bank = roml_bank = (mode >> 3) & 3;
@@ -106,7 +112,7 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return final_v1_io1_read(addr);
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GS:
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
         return rand();
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1e00 + (addr & 0xff)];
@@ -149,10 +155,10 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         final_v3_io1_store(addr, value);
         break;
       case CARTRIDGE_SIMONS_BASIC:
-        cartridge_config_changed(1);
+        cartridge_config_changed(1, CMODE_WRITE);
         break;
       case CARTRIDGE_WARPSPEED:
-        cartridge_config_changed(1);
+        cartridge_config_changed(1, CMODE_WRITE);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_io1_store(addr, value);
@@ -213,13 +219,13 @@ BYTE REGPARM1 cartridge_read_io2(ADDRESS addr)
       case CARTRIDGE_EPYX_FASTLOAD:
         return epyxfastload_io2_read(addr);
       case CARTRIDGE_WESTERMANN:
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
         return rand();
       case CARTRIDGE_REX:
         if ((addr & 0xff) < 0xc0)
-            cartridge_config_changed(2);
+            cartridge_config_changed(2, CMODE_READ);
         else
-            cartridge_config_changed(0);
+            cartridge_config_changed(0, CMODE_READ);
         return 0;
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1f00 + (addr & 0xff)];
@@ -251,7 +257,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
         kcs_io2_store(addr, value);
         break;
       case CARTRIDGE_WARPSPEED:
-        cartridge_config_changed(2);
+        cartridge_config_changed(2, CMODE_WRITE);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_io2_store(addr, value);
@@ -430,26 +436,26 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
-        cartridge_config_changed(1);
+        cartridge_config_changed(1, CMODE_READ);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_GS:
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
       case CARTRIDGE_DINAMIC:
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
         cartridge_read_io1((ADDRESS)0xde00);
         break;
       case CARTRIDGE_IEEE488:
-        cartridge_config_changed(0);
+        cartridge_config_changed(0, CMODE_READ);
         /* FIXME: Insert interface init here.  */
         break;
       case CARTRIDGE_EXPERT:
         expert_config_init();
         break;
       default:
-        cartridge_config_changed(2);
+        cartridge_config_changed(2, CMODE_READ);
     }
 }
 
@@ -503,7 +509,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         memcpy(roml_banks, rawcart, 0x2000 * 64);
         memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
         /* Hack: using 16kB configuration, but some carts are 8kB only */
-        cartridge_config_changed(1);
+        cartridge_config_changed(1, CMODE_READ);
         break;
       case CARTRIDGE_ULTIMAX:
         generic_ultimax_config_setup(rawcart);
@@ -530,7 +536,7 @@ void cartridge_detach(int type)
       /* FIXME: Insert interface removal here.  */
       break;
     }
-    cartridge_config_changed(6);
+    cartridge_config_changed(6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
     return;
 }
