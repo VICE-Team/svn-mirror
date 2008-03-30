@@ -64,6 +64,8 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
         switch (LOWORD(wparam)) {
           case IDOK:
             if (image[0] != '\0') {
+                if (strchr(image, '.') == NULL)
+                    strcat(image, ".vsf");
                 if (machine_write_snapshot(image, save_roms, save_disks) < 0) {
                     ui_error("Cannot write snapshot file.");
                     break;

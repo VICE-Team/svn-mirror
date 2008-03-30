@@ -1,3 +1,48 @@
+1999-08-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.63.
+
+	* arch/win32/uisnapshot.c (ui_snapshot_save_dialog_proc): Add
+	".vsf" to the snapshot name if not present.
+
+1999-08-23  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/archdep.c (archdep_make_backup_filename): Fixed, it
+	  wasn't working right due to a 8.3 file naming convention.
+
+	* arch/win32/res.h: Added identifiers for Swap joystick, and Emulator
+	  identificator menu entries.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	  arch/win32/respet.rc, arch/win32/resvic.rc: Added Swap joystick,
+	  and Emulator identificator menu entries.
+
+	* arch/win32/ui.c: Added EmuID to the list of togglable resource
+	  entries. Added accelerator key for Swap joystick menu entry.
+	  (handle_wm_command): Handle Swap joystick menu entry.
+
+	* arch/win32/uijoystick.c (ui_joystick_swap_joystick): New function.
+	  Swaps joysticks.
+
+	* arch/win32/uijoystick.h (ui_joystick_swap_joystick): New prototype.
+
+	* arch/win32/video.c (canvas_update): Fixed a bug which caused
+	  bad memory accesses. The pointer used was not always valid.
+	  (canvas_refresh): Don't cache framebuffer addresses, always use
+	  the one from the raster struct.
+	
+	* arch/win32/video.h (canvas_t): Removed framebuffer pointer.
+
+	* fsdevice.c (flush_fs): Call unlink before rename calls on WIN32.
+
+	* resources.c (resources_save): Same as above.
+
+	* utils.c (make_backup_file): Same as above.
+	  (get_line): Delete all newline characters from end of lines, both
+	  0x0d and 0x0a chars.
+
+	* zfile.c (compress): Call unlink before rename calls on WIN32.
+
 1999-08-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.0.62.
