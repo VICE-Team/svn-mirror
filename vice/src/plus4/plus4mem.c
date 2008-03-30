@@ -44,6 +44,7 @@
 #include "plus4pio2.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "tcbm.h"
 #include "ted-mem.h"
 #include "types.h"
 #include "utils.h"
@@ -199,7 +200,7 @@ inline static BYTE mem_proc_port_read(ADDRESS addr)
 
     tmp = (pport.data | ~pport.dir) & (pport.data_out | 0x3f);
 
-    tmp |= iec_cpu_read();
+    tmp = (iec_cpu_read() & 0xc0) | (tmp & 0x3f);
 
     if (tape_read) {
         tmp |= 0x10;
@@ -474,6 +475,32 @@ static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
     }
 }
 
+static BYTE REGPARM1 fexx_read(ADDRESS addr)
+{
+#if 1
+    if (addr >= 0xfec0 && addr <= 0xfedf)
+        return tcbm2_read(addr);
+
+    if (addr >= 0xfee0 && addr <= 0xfeff)
+        return tcbm1_read(addr);
+#endif
+    return 0;
+}
+
+static void REGPARM2 fexx_store(ADDRESS addr, BYTE value)
+{
+#if 1
+    if (addr >= 0xfec0 && addr <= 0xfedf) {
+        tcbm2_store(addr, value);
+        return;
+    }
+    if (addr >= 0xfee0 && addr <= 0xfeff) {
+        tcbm1_store(addr, value);
+        return;
+    }
+#endif
+}
+
 static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
 {
     if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
@@ -642,6 +669,13 @@ void mem_initialize_memory(void)
         mem_read_tab[i + 1][0xfd] = fdxx_read;
         mem_write_tab[i + 1][0xfd] = fdxx_store;
         mem_read_base_tab[i + 1][0xfd] = NULL;
+
+        mem_read_tab[i + 0][0xfe] = fexx_read;
+        mem_write_tab[i + 0][0xfe] = fexx_store;
+        mem_read_base_tab[i + 0][0xfe] = NULL;
+        mem_read_tab[i + 1][0xfe] = fexx_read;
+        mem_write_tab[i + 1][0xfe] = fexx_store;
+        mem_read_base_tab[i + 1][0xfe] = NULL;
 
         mem_read_tab[i + 0][0xff] = ram_ffxx_read;
         mem_write_tab[i + 0][0xff] = ram_ffxx_store;
