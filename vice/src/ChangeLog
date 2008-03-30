@@ -1,3 +1,82 @@
+Wed Apr 22 11:19:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* true1541.c (true1541_read_disk_byte): Rotate disk correctly.
+
+	* 6510core.c: Removed `TRUE1541_ROTATE' #ifdefs.
+	* viad2.c: Likewise.
+	* viad1.c: Likewise.
+
+	* vic20/via2.def (INCLUDES): #include "vic20iec.h"
+	* vic20/via1.def (INCLUDES): #include "vic20iec.h"
+
+	* viad1.def (INCLUDES): #include "iecdrive.h".
+
+	* c64/cia2.def (INCLUDES): #include "c64iec.h".
+
+	* c64/c64iec.h, vic20/vic20iec.h: New files.
+
+Wed Apr 22 10:11:05 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/kbdef.h: (shift_type) changed SHIFT defines to enum 
+	again. 
+	outcommented default and both PET keyconvmaps.
+	* arch/unix/kbd.c (numpad_status, joy1pad_status, joy2pad_status):
+ 	`joy*pad_status' replace `numpad_status'.
+	(joypad_bits): Array to hold the bits used in `joy[]' depending on
+ 	numpad key (0-9).
+	(joyreleaseval): New function to handle diagonal joystick
+ 	keyrelease events.
+	(kbd_event_handler): If `app_resources.numpadJoystick' is set,
+ 	then negative-row keyconvtable are used to emulate joysticks.  The
+ 	column gives the numpad key "0-9" as you have them on a PC
+ 	keyboard and they emulate the direction belonging to that
+ 	'virtual' numpad.  So keymap file maps keysyms to virtual numpad.
+  	On a `LeaveNotify' event the joysticks are reset as well.  Also
+ 	the virtual numpad "5" can be used to reset the joysticks.
+	(kbd_init): Clear virtual numpads, and set
+ 	`app_resources.numpadJoystick' to one.
+	(kbd_parse_entry): Sanity checks to allow only valid entries in
+ 	the keymap table.
+	(kbd_load_keymap): Now sets the `app_resources.keymapFile'
+ 	appropriately each time a new keymap is loaded.
+
+Wed Apr 22 01:59:04 MEST 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/kbd.c (handle_joy_emu): Removed.
+	(kbd_event_handler): Check if row less than zero, if so than
+ 	handle joystick arrays instead of keyboard.
+	(kbd_init): If `keymapFile' is not set, set to `vice.vkm'.  Load
+ 	keymap file.
+	(set80key, set40key): If keymapFile resource not set, set to
+ 	`busi_uk.vkm' or `graphics.vkm' resp.
+	(kbd_load_keymap): If no default keymap, alloc an empty one with
+ 	150 entries.
+
+Wed Apr 22 02:53:48 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* asm.c: Made `modename' array globally accessible.
+
+	* mem.h: Declare `store_zero()'.
+
+	* mon.c/mon.h (mon_assemble_instr): New function.
+	(assemble_line): Removed function.
+    
+	* mon_cli.l: Assembly support.  Fixed datatype detection.
+
+	* mon_cli.y: Assembly support.
+
+	* pet/pet.c: Changed `machdesc.h' to `machspec.h'.
+
+	* pet/petmem.c: Fixed bad comment.
+
+Tue Apr 21 23:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* include/machspec.h: Prototype for `machine_init()'.
+
+	* include/mem.h: Prototypes for `read_zero()', `read_rom()' and
+ 	`store_zero()', `store_rom()'.
+	* c64/c64mem.h, vic20/vic20mem.h: Removed from here.
+
 Tue Apr 21 13:17:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.9.

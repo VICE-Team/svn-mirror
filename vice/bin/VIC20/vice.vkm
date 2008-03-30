@@ -90,6 +90,7 @@ Alt_L 0 5 8
 Meta_L 0 5 8
 q 0 6 8
 Escape 0 3 8
+Help 0 3 8
 BackSpace 7 0 8
 KP_F1 7 4 8
 KP_F2 7 5 8
@@ -143,7 +144,22 @@ less 5 3 1
 backslash 6 0 1
 bracketright 6 2 1
 asciicircum 6 6 8
+asciitilde 6 6 0
 question 6 3 1
 exclam 0 0 1
 quotedbl 0 7 1
 Q 0 6 1
+#
+# Joystick 1
+#
+KP_0 -1 0
+KP_1 -1 1
+KP_2 -1 2
+KP_3 -1 3
+KP_4 -1 4
+KP_5 -1 5
+KP_6 -1 6
+KP_7 -1 7
+KP_8 -1 8
+KP_9 -1 9
+
