@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "attach.h"
+#include "cbmdos.h"
 #include "cbmimage.h"
 #include "diskimage.h"
 #include "lib.h"
@@ -154,7 +155,7 @@ static int vdrive_internal_format_disk_image(const char *filename,
     if (vdrive == NULL)
         return -1;
 
-    if (vdrive_command_format(vdrive, format_name) != IPE_OK)
+    if (vdrive_command_format(vdrive, format_name) != CBMDOS_IPE_OK)
         status = -1;
 
     if (vdrive_internal_close_disk_image(vdrive) < 0)
