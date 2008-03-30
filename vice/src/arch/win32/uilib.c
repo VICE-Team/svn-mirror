@@ -242,7 +242,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     if (ret != IDYES)
                         return -1;
                 }
-                if (disk_image_create(filename, DISK_IMAGE_TYPE_TAP)) {
+                if (disk_image_fsimage_create(filename, DISK_IMAGE_TYPE_TAP)) {
                     ui_error("Cannot create image");
                     return -1;
                 }
