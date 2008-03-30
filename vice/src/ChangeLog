@@ -1,6 +1,57 @@
+1998-09-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.11.
+
+	* c610/c610mem.c: Use `basic.128' instead of `basic.b128' and
+ 	`basic.256' instead of `basic.b256'.
+	(mem_load): Return -1 if BASIC ROM is not loaded.
+
+	* acia-tmpl.c [!HAVE_RS232] (rs232_putc): Return -1.
+	[!HAVE_RS232] (rs232_getc): Return -1.
+
+	* arch/msdos/kbd.h: Raised `KBD_ROWS' value to 16.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): If bit 7 in the video
+	interrupt status register is set, trigger an IRQ.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Restore interrupt
+ 	status.
+	(mycia_write_snapshot_module): Dump interrupt status.
+
+	* interrupt.c (set_irq_noclk): New function.
+	(set_nmi_noclk): New function.
+	(set_int_noclk): New function.
+	(get_irq): New function.
+	(get_nmi): New function.
+	(get_int): New function.
+	(interrupt_write_snapshot): Do not dump the IRQ/NMI line status
+ 	information anymore.
+	(interrupt_read_snapshot): Do not restore the IRQ/NMI line status
+ 	information anymore.
+
+	* op.h: Removed.
+
+1998-09-17  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* c610/c610mem.c (cbm2_set_model): trigger power-up reset to make
+ 	kernal recognize new RAM size.
+
+	* tpi-tmpl.c (mytpi_write_snapshot_module, mytpi_read_snapshot_module):
+	fix parameter to snapshot_t* (from FILE*)
+
 1998-09-16  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.9.
+
+	* c610/c610acia1.c (rs232_open): Made non-static.
+	(rs232_close): Likewise.
+	(rs232_putc): Made non-static; return 0.
+	(rs232_getc): Likewise.
+
+	* pet/petacia1.c (rs232_open): Made non-static.
+	(rs232_close): Likewise.
+	(rs232_putc): Made non-static, and return 0.
+	(rs232_getc): Likewise.
 
 	* cia-tmpl.c (mycia_read_snapshot_module): Open module "MYCIA",
 	not "CIA".

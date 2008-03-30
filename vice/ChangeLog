@@ -1,3 +1,16 @@
+1998-09-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.10.
+
+	* data/C610/basic.b256: Renamed to `basic.256'.
+
+	* data/C610/basic.b128: Renamed to `basic.128'.
+
+1998-09-17  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* configure.in: Moved `-lncurses' and `-lcurses' behind
+ 	`-lreadline'.
+
 1998-09-16  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.9.

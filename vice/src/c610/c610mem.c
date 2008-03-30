@@ -51,6 +51,7 @@
 #include "c610cia.h"
 #include "sid.h"
 #include "tapeunit.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -263,7 +264,7 @@ static resource_t resources[] = {
      (resource_value_t *) &chargen_name, set_chargen_rom_name },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
-    { "BasicName", RES_STRING, (resource_value_t) "basic.b128",
+    { "BasicName", RES_STRING, (resource_value_t) "basic.128",
      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
     { "Cart2Name", RES_STRING, (resource_value_t) NULL,
      (resource_value_t *) &cart_2_name, set_cart2_rom_name },
@@ -347,9 +348,9 @@ static struct {
 	int ramsize;
 	const char *basic;
     } modtab[] = {
-    { "610",  128,  "basic.b128"  },
-    { "620",  256,  "basic.b256"  },
-    { "620+", 1024, "basic.b256"  },
+    { "610",  128,  "basic.128"  },
+    { "620",  256,  "basic.256"  },
+    { "620+", 1024, "basic.256"  },
     { NULL }
 };
 
@@ -358,9 +359,12 @@ int cbm2_set_model(const char *model, void *extra)
     int i;
     for(i=0; modtab[i].model; i++) {
 	if(!strcmp(modtab[i].model, model)) {
+            suspend_speed_eval();
 	    set_ramsize((resource_value_t)modtab[i].ramsize);
 	    set_basic_rom_name((resource_value_t)modtab[i].basic);
+            mem_powerup();
 	    mem_load();
+            maincpu_trigger_reset();
 	    return 0;
 	}
     }
@@ -938,9 +942,10 @@ int mem_load(void)
     /* Load BASIC ROM.  */
     if (!IS_NULL(basic_rom_name)
         && ((rsize = mem_load_sys_file(basic_rom_name,
-                                   rom + 0x8000, 0x4000, 0x4000)) < 0)) {
+                                       rom + 0x8000, 0x4000, 0x4000)) < 0)) {
         fprintf(stderr, "Couldn't load BASIC ROM `%s'.\n\n",
                 basic_rom_name);
+        return -1;
     }
 
     /* Load extension ROMs.  */
