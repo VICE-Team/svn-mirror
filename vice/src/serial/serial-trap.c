@@ -85,6 +85,9 @@ int serial_trap_attention(void)
 
     if (((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40)) {
         if (serial_truedrive && ((b & 0x0f) !=4 ) && ((b & 0x0f) != 5)) {
+            /* Set TrapDevice even if the trap is not taken; needed
+               for other traps.  */
+            TrapDevice = b;
             return 0;
         }
     } else {
