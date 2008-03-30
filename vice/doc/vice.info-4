@@ -101,6 +101,7 @@ Concept Index
 * -soundbufsize:                         Sound options.
 * -sounddev:                             Sound options.
 * -soundrate:                            Sound options.
+* -soundsync:                            Sound options.
 * -speed:                                Performance options.
 * -symkeymap:                            Keyboard options.
 * -tape:                                 c1541 commands and options.
@@ -112,7 +113,6 @@ Concept Index
 * -write:                                c1541 commands and options.
 * -xsync, +xsync:                        Video options.
 * -zcreate:                              c1541 commands and options.
-* Adaptive Playback:                     Sound settings.
 * attach:                                c1541 commands and options.
 * Audio buffer size:                     Sound settings.
 * BasicName <1>:                         VIC20 system ROM resources.
@@ -149,7 +149,9 @@ Concept Index
 * SID filters:                           SID settings.
 * SID models:                            SID settings.
 * Sound buffer size:                     Sound settings.
+* Sound speed adjustment:                Sound settings.
 * Sound suspend time:                    Sound settings.
+* Sound syncronization:                  Sound settings.
 * Sprite collision detection:            VIC-II settings.
 * tape:                                  c1541 commands and options.
 * Turning sound playback on/off:         Sound settings.

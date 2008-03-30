@@ -17,6 +17,43 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
+
+VIC-II settings
+---------------
+
+   These settings control the emulation of the VIC-II (MOS6569) video
+chip used in both the C64 and the C128.
+
+   * "Sprite-sprite collisions" and "Sprite-background collisions", if
+     enabled, cause the hardware detection of sprite-to-sprite and
+     sprite-to-background collisions of the VIC-II to be emulated.  This
+     feature is used by many games, and disabling either of the two
+     detection systems can sometimes make you invincible (although
+     there is also a chance that also enemies become invincible then).
+
+   * "Color set" can be used to dynamically change the palette file
+     being used by choosing one of the available predefined color sets:
+
+        * `default.vpl' ("default"), the default VICE palette;
+
+        * `ccs64.vpl' ("CCS64"), palette taken from the CCS64 emulator
+          by Per H^akan Sundell (http://www.fatal-design.com/ccs64/).
+
+        * `frodo.vpl' ("Frodo"), palette taken from the Frodo emulator
+          by Christian Bauer
+          (http://www.uni-mainz.de/~bauec002/FRMain.html).
+
+        * `godot.vpl' ("GoDot"), palette as suggested by the authors of
+          the C64 graphics package GoDot
+          (http://users.aol.com/howtogodot/welcome.htm).
+
+* Menu:
+
+* VIC-II resources::
+* VIC-II options::
+
+
 File: vice.info,  Node: VIC-II resources,  Next: VIC-II options,  Prev: VIC-II settings,  Up: VIC-II settings
 
 VIC-II resources

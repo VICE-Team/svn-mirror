@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 23 August 1998 -->
+     from ../vice.texi on 24 August 1998 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -505,35 +505,53 @@ The following menu items control sound output:
 "Enable sound playback" turns sound emulation on and off.
 
 <A NAME="IDX50"></A>
+<A NAME="IDX51"></A>
 <P> <LI>
 
-"Enable adaptive playback" enables a special playback mode that is
-able to adapt the sound output to the speed of the emulated machine,
-trying to avoid "clicks".
+"Sound synchronization" specifies the method for syncronizing the
+sound playback.  Possible settings are:
 
-<A NAME="IDX51"></A>
+<P> <UL>
+<P> <LI>
+
+"Flexible", i.e. the audio renderer flexibly adds/removes samples to
+the output to smoothly adapt the playback to little changes in the speed
+of the emulator.
+<P> <LI>
+
+"Adjusting" works like "flexible", but supports bigger differences
+in speed.  For example, if the emulation speed drops down from from 100%
+to 50%, audio slows down by the same amount too.
+<P> <LI>
+
+"Exact", instead, makes the audio renderer output always the same
+samples you would hear from the real thing, without trying to adapt the
+ratio.
+</UL> </P>
+
+<A NAME="IDX52"></A>
 <P> <LI>
 
 "Sample rate" specifies the sampling frequency, ranging from 8000 to
 48000 Hz (not all the sound cards and/or sound drivers can support all
 the frequencies, so actually the nearmost candidate will be picked up).
 
-<A NAME="IDX52"></A>
 <A NAME="IDX53"></A>
+<A NAME="IDX54"></A>
 <P> <LI>
 
 "Buffer size" specifies the size of the audio buffer; the bigger the
 buffer, the longer the delay with which sounds are played.  You should
 pick the smallest value your machine can handle without problems.
 
-<A NAME="IDX54"></A>
+<A NAME="IDX55"></A>
 <P> <LI>
 
 "Sound suspend time", will cause the audio playback to pause for the
 specified number of seconds whenever some clicking happens.  If "Keep
 going" is selected, no pausing is done.
 
-<A NAME="IDX55"></A>
+<A NAME="IDX56"></A>
 <P> <LI>
 
 "Oversample" specifies an oversampling factor, from 1 to 8 times
@@ -549,40 +567,53 @@ going" is selected, no pausing is done.
 
 <P><DT><CODE>Sound</CODE>
 <DD>
-<A NAME="IDX56"></A>
+<A NAME="IDX57"></A>
  
 Boolean specifying whether audio emulation is turned on.
 
-<A NAME="IDX57"></A>
+<A NAME="IDX58"></A>
 <P><DT><CODE>SoundSpeedAdjustment</CODE>
 <DD>
-Boolean specifying whether <EM>adaptive playback mode</EM> is turned on.
+Integer specifying what speed adjustment method the audio renderer should
+use.  Possible values are:
 
-<A NAME="IDX58"></A>
+<P> <UL>
+<P> <LI>
+
+<CODE>0</CODE>: "flexible"
+<P> <LI>
+
+<CODE>1</CODE>: "adjusting"
+<P> <LI>
+
+<CODE>2</CODE>: "exact"
+</UL> </P>
+
+<A NAME="IDX59"></A>
 <P><DT><CODE>SoundSampleRate</CODE>
 <DD>
 Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
 (not all the sound cards and/or sound drivers can support all the
 frequencies, so actually the nearmost candidate will be picked up).
 
-<A NAME="IDX59"></A>
+<A NAME="IDX60"></A>
 <P><DT><CODE>SoundBufferSize</CODE>
 <DD>
 Integer specifying the size of the audio buffer, in milliseconds.
 
-<A NAME="IDX60"></A>
+<A NAME="IDX61"></A>
 <P><DT><CODE>SoundSuspendTime</CODE>
 <DD>
 Integer specifying the pause interval when audio underflows ("clicks")
 happen.  <CODE>0</CODE> means no pause is done.
 
-<A NAME="IDX61"></A>
+<A NAME="IDX62"></A>
 <P><DT><CODE>SoundOversample</CODE>
 <DD>
 Integer specifying the oversampling factor, ranging from <CODE>1</CODE> (no
 oversampling) to <CODE>8</CODE> (8 times oversampling).
 
-<A NAME="IDX62"></A>
+<A NAME="IDX63"></A>
 <P><DT><CODE>SoundDeviceName</CODE>
 <DD>
 String specifying the audio driver.
@@ -637,7 +668,7 @@ used to evaluate the speed of the sample generator);
 These drivers will actually be present only if the VICE configuration
 script detected the corresponding devices at the time of installation.
 
-<A NAME="IDX63"></A>
+<A NAME="IDX64"></A>
 <P><DT><CODE>SoundDeviceArg</CODE>
 <DD>
 String specifying an additional parameter for the audio driver (see
@@ -653,29 +684,35 @@ String specifying an additional parameter for the audio driver (see
 
 <P><DT><CODE>-sound</CODE>
 <DD>
-<A NAME="IDX64"></A>
+<A NAME="IDX65"></A>
  
 <DT><CODE>+sound</CODE>
 <DD>
 Turns sound emulation on (<CODE>Sound=1</CODE>) and off (<CODE>Sound=0</CODE>).
 
-<A NAME="IDX65"></A>
+<A NAME="IDX66"></A>
+<P><DT><CODE>-soundsync N</CODE>
+<DD>
+Specify <CODE>N</CODE> as the sound speed adjustment method
+(<CODE>SoundSpeedAdjustment</CODE>).
+
+<A NAME="IDX67"></A>
 <P><DT><CODE>-soundrate RATE</CODE>
 <DD>
 Specifies the sound playback sample rate (<CODE>SoundSampleRate</CODE>).
 
-<A NAME="IDX66"></A>
+<A NAME="IDX68"></A>
 <P><DT><CODE>-soundbufsize SIZE</CODE>
 <DD>
 Specifies the size of the audio buffer in milliseconds
 (<CODE>SoundBufferSize</CODE>).
 
-<A NAME="IDX67"></A>
+<A NAME="IDX69"></A>
 <P><DT><CODE>-sounddev NAME</CODE>
 <DD>
 Specifies the name of the audio device (<CODE>SoundDeviceName</CODE>).
 
-<A NAME="IDX68"></A>
+<A NAME="IDX70"></A>
 <P><DT><CODE>-soundarg ARG</CODE>
 <DD>
 Specifies an additional parameter for the audio device
@@ -802,38 +839,38 @@ needs it, without prompting the user.
 
 <P><DT><CODE>True1541</CODE>
 <DD>
-<A NAME="IDX69"></A>
+<A NAME="IDX71"></A>
  
 Boolean controlling whether the "true" 1541 emulation emulation is
 turned on.
 
-<A NAME="IDX70"></A>
+<A NAME="IDX72"></A>
 <P><DT><CODE>True1541ParallelCable</CODE>
 <DD>
 Boolean controlling whether the SpeedDOS-compatible cable is emulated or
 not.
 
-<A NAME="IDX71"></A>
+<A NAME="IDX73"></A>
 <P><DT><CODE>True1541ExtendImagePolicy</CODE>
 <DD>
 Integer specifying the policy for 40-track support.  Possible values
 are <CODE>0</CODE> (never extend), <CODE>1</CODE> (ask on extend), <CODE>2</CODE> (extend
 on access).
 
-<A NAME="IDX72"></A>
+<A NAME="IDX74"></A>
 <P><DT><CODE>True1541IdleMethod</CODE>
 <DD>
 Integer specifying the idling method for the 1541 CPU.  Possible values
 are <CODE>0</CODE> (none), <CODE>1</CODE> (skip cycles), <CODE>2</CODE> (trap idle).
 See section <A HREF="vice_6.html#SEC50">6.7  1541 settings</A>.
 
-<A NAME="IDX73"></A>
+<A NAME="IDX75"></A>
 <P><DT><CODE>True1541SyncFactor</CODE>
 <DD>
 Integer specifying the true 1541 clock sync factor (see section <A HREF="vice_6.html#SEC50">6.7  1541 settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
 respectively.
 
-<A NAME="IDX74"></A>
+<A NAME="IDX76"></A>
 <P><DT><CODE>DosName</CODE>
 <DD>
 String specifying the name of the ROM image for the 1541 emulation.
@@ -848,14 +885,14 @@ String specifying the name of the ROM image for the 1541 emulation.
 
 <P><DT><CODE>-1541</CODE>
 <DD>
-<A NAME="IDX75"></A>
+<A NAME="IDX77"></A>
  
 <DT><CODE>+1541</CODE>
 <DD>
 Turns true 1541 emulation on (<CODE>True1541=1</CODE>) and off
 (<CODE>True1541=0</CODE>), respectively.
 
-<A NAME="IDX76"></A>
+<A NAME="IDX78"></A>
 <P><DT><CODE>-parallel</CODE>
 <DD>
 <DT><CODE>+parallel</CODE>
@@ -864,31 +901,31 @@ Turns emulation of the SpeedDOS-compatible parallel cable on
 (<CODE>True1541ParallelCable=1</CODE>) and off
 (<CODE>True1541ParallelCable=0</CODE>), respectively.
 
-<A NAME="IDX77"></A>
+<A NAME="IDX79"></A>
 <P><DT><CODE>-driveidle NUM</CODE>
 <DD>
 Specifies <CODE>NUM</CODE> as the 1541 idling method
 (<CODE>True1541IdleMethod</CODE>).
 
-<A NAME="IDX78"></A>
+<A NAME="IDX80"></A>
 <P><DT><CODE>-paldrive</CODE>
 <DD>
 Specifies a PAL sync factor for the 1541 emulation
 (<CODE>True1541SyncFactor=-1</CODE>).
 
-<A NAME="IDX79"></A>
+<A NAME="IDX81"></A>
 <P><DT><CODE>-ntscdrive</CODE>
 <DD>
 Specifies an NTSC sync factor for the 1541 emulation
 (<CODE>True1541SyncFactor=-2</CODE>).
 
-<A NAME="IDX80"></A>
+<A NAME="IDX82"></A>
 <P><DT><CODE>-drivesync NUM</CODE>
 <DD>
 Specifies a generic sync factor for the 1541 emulation
 (<CODE>True1541SyncFactor</CODE>).
 
-<A NAME="IDX81"></A>
+<A NAME="IDX83"></A>
 <P><DT><CODE>-dosname NAME</CODE>
 <DD>
 Specifies the name of the DOS ROM image (<CODE>DosName</CODE>).
@@ -960,60 +997,60 @@ raw CBM files) whenever a program creates a file.
 
 <P><DT><CODE>FSDevice8ConvertP00</CODE>
 <DD>
-<A NAME="IDX82"></A>
+<A NAME="IDX84"></A>
  
-<A NAME="IDX83"></A>
+<A NAME="IDX85"></A>
 <DT><CODE>FSDevice9ConvertP00</CODE>
 <DD>
-<A NAME="IDX84"></A>
+<A NAME="IDX86"></A>
 <DT><CODE>FSDevice10ConvertP00</CODE>
 <DD>
-<A NAME="IDX85"></A>
+<A NAME="IDX87"></A>
 <DT><CODE>FSDevice11ConvertP00</CODE>
 <DD>
 Booleans specifying whether on-read support for P00 files is enabled on
 drives 8, 9, 10 and 11 respectively.
 
-<A NAME="IDX86"></A>
+<A NAME="IDX88"></A>
 <P><DT><CODE>FSDevice8SaveP00</CODE>
 <DD>
-<A NAME="IDX87"></A>
+<A NAME="IDX89"></A>
 <DT><CODE>FSDevice9SaveP00</CODE>
 <DD>
-<A NAME="IDX88"></A>
+<A NAME="IDX90"></A>
 <DT><CODE>FSDevice10SaveP00</CODE>
 <DD>
-<A NAME="IDX89"></A>
+<A NAME="IDX91"></A>
 <DT><CODE>FSDevice11SaveP00</CODE>
 <DD>
 Booleans specifying whether the drives should create P00 files instead
 of plain CBM ones.
 
-<A NAME="IDX90"></A>
+<A NAME="IDX92"></A>
 <P><DT><CODE>FSDevice8HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX91"></A>
+<A NAME="IDX93"></A>
 <DT><CODE>FSDevice9HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX92"></A>
+<A NAME="IDX94"></A>
 <DT><CODE>FSDevice10HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX93"></A>
+<A NAME="IDX95"></A>
 <DT><CODE>FSDevice11HideCBMFiles</CODE>
 <DD>
 Booleans specifying whether non-P00 files should be invisible to
 programs running in the emulator.
 
-<A NAME="IDX94"></A>
+<A NAME="IDX96"></A>
 <P><DT><CODE>FSDevice8Dir</CODE>
 <DD>
-<A NAME="IDX95"></A>
+<A NAME="IDX97"></A>
 <DT><CODE>FSDevice9Dir</CODE>
 <DD>
-<A NAME="IDX96"></A>
+<A NAME="IDX98"></A>
 <DT><CODE>FSDevice10Dir</CODE>
 <DD>
-<A NAME="IDX97"></A>
+<A NAME="IDX99"></A>
 <DT><CODE>FSDevice11Dir</CODE>
 <DD>
 Strings specifying the paths of the directories drives 8, 9, 10 and 11
@@ -1029,15 +1066,15 @@ have access to.
 
 <P><DT><CODE>-fs8 PATH</CODE>
 <DD>
-<A NAME="IDX98"></A>
+<A NAME="IDX100"></A>
  
-<A NAME="IDX99"></A>
+<A NAME="IDX101"></A>
 <DT><CODE>-fs9 PATH</CODE>
 <DD>
-<A NAME="IDX100"></A>
+<A NAME="IDX102"></A>
 <DT><CODE>-fs10 PATH</CODE>
 <DD>
-<A NAME="IDX101"></A>
+<A NAME="IDX103"></A>
 <DT><CODE>-fs11 PATH</CODE>
 <DD>
 Specify the path for the file-system access on drives 8, 9, 10 and 11,
@@ -1101,33 +1138,33 @@ output from it) and <CODE>lpr</CODE>; printer device 2 will print it through
 
 <P><DT><CODE>PrDevice1</CODE>
 <DD>
-<A NAME="IDX102"></A>
+<A NAME="IDX104"></A>
  
-<A NAME="IDX103"></A>
+<A NAME="IDX105"></A>
 <DT><CODE>PrDevice2</CODE>
 <DD>
-<A NAME="IDX104"></A>
+<A NAME="IDX106"></A>
 <DT><CODE>PrDevice3</CODE>
 <DD>
 Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC57">6.8.2  Printer settings</A>).
 
-<A NAME="IDX105"></A>
+<A NAME="IDX107"></A>
 <P><DT><CODE>Printer4</CODE>
 <DD>
 Boolean specifying if the IEC printer (device 4) is being emulated.
 
-<A NAME="IDX106"></A>
+<A NAME="IDX108"></A>
 <P><DT><CODE>Printer4Dev</CODE>
 <DD>
 Integer (ranging from 1 to 3) specifying what device the IEC printer is
 using.
 
-<A NAME="IDX107"></A>
+<A NAME="IDX109"></A>
 <P><DT><CODE>PrUser</CODE>
 <DD>
 Boolean specifying if the user-port printer is being emulated.
 
-<A NAME="IDX108"></A>
+<A NAME="IDX110"></A>
 <P><DT><CODE>PrUserDev</CODE>
 <DD>
 Integer (ranging from 1 to 3) specifying what device the user-port
@@ -1143,18 +1180,18 @@ printer is using.
 
 <P><DT><CODE>-prdev1 NAME</CODE>
 <DD>
-<A NAME="IDX109"></A>
+<A NAME="IDX111"></A>
  
-<A NAME="IDX110"></A>
+<A NAME="IDX112"></A>
 <DT><CODE>-prdev2 NAME</CODE>
 <DD>
-<A NAME="IDX111"></A>
+<A NAME="IDX113"></A>
 <DT><CODE>-prdev3 NAME</CODE>
 <DD>
 Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 (<CODE>PrDevice1</CODE>, <CODE>PrDevice2</CODE> and <CODE>PrDevice3</CODE>).
 
-<A NAME="IDX112"></A>
+<A NAME="IDX114"></A>
 <P><DT><CODE>-printer4</CODE>
 <DD>
 <DT><CODE>+printer4</CODE>
@@ -1162,12 +1199,12 @@ Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 Enable/disable emulation of the IEC printer (<CODE>Printer4=1</CODE>,
 <CODE>Printer4=0</CODE>).
 
-<A NAME="IDX113"></A>
+<A NAME="IDX115"></A>
 <P><DT><CODE>-pr4dev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 
-<A NAME="IDX114"></A>
+<A NAME="IDX116"></A>
 <P><DT><CODE>-pruser</CODE>
 <DD>
 <DT><CODE>+pruser</CODE>
@@ -1175,7 +1212,7 @@ Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 Enable/disable emulation of the IEC printer (<CODE>PrUser=1</CODE>,
 <CODE>PrUser=0</CODE>).
 
-<A NAME="IDX115"></A>
+<A NAME="IDX117"></A>
 <P><DT><CODE>-pruserdev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
@@ -1203,7 +1240,7 @@ to be able to read or write disk images) and tape support.
 
 <P><DT><CODE>NoTraps</CODE>
 <DD>
-<A NAME="IDX116"></A>
+<A NAME="IDX118"></A>
  
 Boolean specifying whether all the Kernal trap should be disabled.
 
@@ -1217,7 +1254,7 @@ Boolean specifying whether all the Kernal trap should be disabled.
 
 <P><DT><CODE>-traps</CODE>
 <DD>
-<A NAME="IDX117"></A>
+<A NAME="IDX119"></A>
  
 <DT><CODE>+traps</CODE>
 <DD>
@@ -1243,7 +1280,7 @@ categories.
 
 <P><DT><CODE>Directory</CODE>
 <DD>
-<A NAME="IDX118"></A>
+<A NAME="IDX120"></A>
  
 String specifying the search path for system files.  It is defined as a
 sequence of paths, separated by colons (<SAMP>`:'</SAMP>), just like the
@@ -1278,7 +1315,7 @@ string (<CODE>C64</CODE>, <CODE>C128</CODE>, <CODE>VIC20</CODE> or <CODE>PET</CO
 See section <A HREF="vice_4.html#SEC20">4  System files</A> for a description of the method used to load the
 emulator's system files.
 
-<A NAME="IDX119"></A>
+<A NAME="IDX121"></A>
 <P><DT><CODE>HTMLBrowserCommand</CODE>
 <DD>
 String specifying the command to run the help browser.  The help browser
@@ -1286,7 +1323,7 @@ can be any HTML browser, and every <SAMP>`%s'</SAMP> in the string is replaced
 with the name of the toplevel file of the VICE documentation.  For
 example, the default value <SAMP>`netscape %s'</SAMP> runs Netscape Navigator.
 
-<A NAME="IDX120"></A>
+<A NAME="IDX122"></A>
 <P><DT><CODE>SaveResourcesOnExit</CODE>
 <DD>
 Boolean specifying whether the emulator should save changed settings
@@ -1303,15 +1340,15 @@ first.
 
 <P><DT><CODE>-directory SEARCHPATH</CODE>
 <DD>
-<A NAME="IDX121"></A>
+<A NAME="IDX123"></A>
  
 Specify the system file search path (<CODE>Directory</CODE>).
-<A NAME="IDX122"></A>
+<A NAME="IDX124"></A>
 <P><DT><CODE>-htmlbrowser COMMAND</CODE>
 <DD>
 Specify the command to run the HTML browser for the on-line help
 (<CODE>HTMLBrowserCommand</CODE>).
-<A NAME="IDX123"></A>
+<A NAME="IDX125"></A>
 <P><DT><CODE>-saveres</CODE>
 <DD>
 <DT><CODE>+saveres</CODE>

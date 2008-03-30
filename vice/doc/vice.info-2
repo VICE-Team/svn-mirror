@@ -728,9 +728,20 @@ Sound settings
 
    * "Enable sound playback" turns sound emulation on and off.
 
-   * "Enable adaptive playback" enables a special playback mode that is
-     able to adapt the sound output to the speed of the emulated
-     machine, trying to avoid "clicks".
+   * "Sound synchronization" specifies the method for syncronizing the
+     sound playback.  Possible settings are:
+        * "Flexible", i.e. the audio renderer flexibly adds/removes
+          samples to the output to smoothly adapt the playback to
+          little changes in the speed of the emulator.
+
+        * "Adjusting" works like "flexible", but supports bigger
+          differences in speed.  For example, if the emulation speed
+          drops down from from 100% to 50%, audio slows down by the
+          same amount too.
+
+        * "Exact", instead, makes the audio renderer output always the
+          same samples you would hear from the real thing, without
+          trying to adapt the ratio.
 
    * "Sample rate" specifies the sampling frequency, ranging from 8000
      to 48000 Hz (not all the sound cards and/or sound drivers can
@@ -764,7 +775,13 @@ Sound resources
      Boolean specifying whether audio emulation is turned on.
 
 `SoundSpeedAdjustment'
-     Boolean specifying whether "adaptive playback mode" is turned on.
+     Integer specifying what speed adjustment method the audio renderer
+     should use.  Possible values are:
+        * `0': "flexible"
+
+        * `1': "adjusting"
+
+        * `2': "exact"
 
 `SoundSampleRate'
      Integer specifying the sampling frequency, ranging from 8000 to
@@ -837,6 +854,10 @@ Sound command-line options
 `-sound'
 `+sound'
      Turns sound emulation on (`Sound=1') and off (`Sound=0').
+
+`-soundsync N'
+     Specify `N' as the sound speed adjustment method
+     (`SoundSpeedAdjustment').
 
 `-soundrate RATE'
      Specifies the sound playback sample rate (`SoundSampleRate').
@@ -1364,41 +1385,4 @@ cartridge image ("Detach cartridge image").
 
    If you are using an Action Replay cartridge, you can emulate the
 cartridge's freeze button with the "Freeze" command.
-
-
-File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
-
-VIC-II settings
----------------
-
-   These settings control the emulation of the VIC-II (MOS6569) video
-chip used in both the C64 and the C128.
-
-   * "Sprite-sprite collisions" and "Sprite-background collisions", if
-     enabled, cause the hardware detection of sprite-to-sprite and
-     sprite-to-background collisions of the VIC-II to be emulated.  This
-     feature is used by many games, and disabling either of the two
-     detection systems can sometimes make you invincible (although
-     there is also a chance that also enemies become invincible then).
-
-   * "Color set" can be used to dynamically change the palette file
-     being used by choosing one of the available predefined color sets:
-
-        * `default.vpl' ("default"), the default VICE palette;
-
-        * `ccs64.vpl' ("CCS64"), palette taken from the CCS64 emulator
-          by Per H^akan Sundell (http://www.fatal-design.com/ccs64/).
-
-        * `frodo.vpl' ("Frodo"), palette taken from the Frodo emulator
-          by Christian Bauer
-          (http://www.uni-mainz.de/~bauec002/FRMain.html).
-
-        * `godot.vpl' ("GoDot"), palette as suggested by the authors of
-          the C64 graphics package GoDot
-          (http://users.aol.com/howtogodot/welcome.htm).
-
-* Menu:
-
-* VIC-II resources::
-* VIC-II options::
 

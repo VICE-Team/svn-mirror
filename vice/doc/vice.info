@@ -20,8 +20,8 @@ permission notice identical to this one.
 Indirect:
 vice.info-1: 631
 vice.info-2: 49898
-vice.info-3: 99432
-vice.info-4: 146967
+vice.info-3: 98785
+vice.info-4: 147720
 
 Tag Table:
 (Indirect)
@@ -70,76 +70,76 @@ Node: Keyboard settings74540
 Node: Keyboard resources75250
 Node: Keyboard options75800
 Node: Sound settings76290
-Node: Sound resources77544
-Node: Sound options80037
-Node: 1541 settings80639
-Node: 1541 resources84718
-Node: 1541 options85695
-Node: Peripheral settings86596
-Node: File system device settings87273
-Node: File system device resources88355
-Node: File system device options89342
-Node: Printer settings89779
-Node: Printer resources91085
-Node: Printer options91724
-Node: No kernal traps92389
-Node: No traps resources92921
-Node: No traps options93190
-Node: Misc settings93458
-Node: Misc resources93732
-Node: Misc options95229
-Node: Machine-specific features95724
-Node: C64/128-specific96249
-Node: C64 cartridges97031
-Node: VIC-II settings98032
-Node: VIC-II resources99432
-Node: VIC-II options99937
-Node: SID settings100479
-Node: SID resources101160
-Node: SID options101494
-Node: C64 I/O extension settings101854
-Node: C64 I/O extension resources103338
-Node: C64 I/O extension options103860
-Node: RS232 settings104392
-Node: RS232 resources105359
-Node: RS232 options106363
-Node: C64/128 system ROM settings106958
-Node: C64/128 system ROM resources107337
-Node: C64/128 system ROM options108546
-Node: VIC20-specific109056
-Node: VIC20 cartridges109462
-Node: VIC20 memory expansions110395
-Node: VIC20 memconf resources112184
-Node: VIC20 memconf options112648
-Node: VIC20 system ROM settings113764
-Node: VIC20 system ROM resources114137
-Node: VIC20 system ROM options114614
-Node: PET-specific115047
-Node: PET model115395
-Node: PET diagnostic pin116549
-Node: PET colors116870
-Node: Monitor117430
-Node: Terminology118288
-Node: Machine state commands120143
-Node: Memory commands120955
-Node: Assembly commands122905
-Node: Checkpoint commands123653
-Node: General commands125863
-Node: Disk commands126715
-Node: Command file commands127603
-Node: Label commands128126
-Node: Miscellaneous commands129016
-Node: c1541129417
-Node: c1541 commands and options130435
-Node: Acknowledgments132943
-Node: Copyright140017
-Node: Contacts141115
-Node: Home page141621
-Node: Sending feedback142171
-Node: Contributing144832
-Node: Newsgroups146021
-Node: FAQs you should read146652
-Node: Concept Index146967
-Node: Resource Index155758
+Node: Sound resources78078
+Node: Sound options80689
+Node: 1541 settings81392
+Node: 1541 resources85471
+Node: 1541 options86448
+Node: Peripheral settings87349
+Node: File system device settings88026
+Node: File system device resources89108
+Node: File system device options90095
+Node: Printer settings90532
+Node: Printer resources91838
+Node: Printer options92477
+Node: No kernal traps93142
+Node: No traps resources93674
+Node: No traps options93943
+Node: Misc settings94211
+Node: Misc resources94485
+Node: Misc options95982
+Node: Machine-specific features96477
+Node: C64/128-specific97002
+Node: C64 cartridges97784
+Node: VIC-II settings98785
+Node: VIC-II resources100185
+Node: VIC-II options100690
+Node: SID settings101232
+Node: SID resources101913
+Node: SID options102247
+Node: C64 I/O extension settings102607
+Node: C64 I/O extension resources104091
+Node: C64 I/O extension options104613
+Node: RS232 settings105145
+Node: RS232 resources106112
+Node: RS232 options107116
+Node: C64/128 system ROM settings107711
+Node: C64/128 system ROM resources108090
+Node: C64/128 system ROM options109299
+Node: VIC20-specific109809
+Node: VIC20 cartridges110215
+Node: VIC20 memory expansions111148
+Node: VIC20 memconf resources112937
+Node: VIC20 memconf options113401
+Node: VIC20 system ROM settings114517
+Node: VIC20 system ROM resources114890
+Node: VIC20 system ROM options115367
+Node: PET-specific115800
+Node: PET model116148
+Node: PET diagnostic pin117302
+Node: PET colors117623
+Node: Monitor118183
+Node: Terminology119041
+Node: Machine state commands120896
+Node: Memory commands121708
+Node: Assembly commands123658
+Node: Checkpoint commands124406
+Node: General commands126616
+Node: Disk commands127468
+Node: Command file commands128356
+Node: Label commands128879
+Node: Miscellaneous commands129769
+Node: c1541130170
+Node: c1541 commands and options131188
+Node: Acknowledgments133696
+Node: Copyright140770
+Node: Contacts141868
+Node: Home page142374
+Node: Sending feedback142924
+Node: Contributing145585
+Node: Newsgroups146774
+Node: FAQs you should read147405
+Node: Concept Index147720
+Node: Resource Index156624
 
 End Tag Table
