@@ -131,7 +131,6 @@ static monitor_interface_t *drive9_interface;
  * parsing debug information. */
 extern int yydebug;
 
-static char *myinput = NULL;
 static char *last_cmd = NULL;
 int exit_mon = 0;
 int mon_console_close_on_leaving = 1;
@@ -182,6 +181,15 @@ static void playback_commands(char *filename);
 
 /* Disassemble the current opcode on entry.  Used for single step.  */
 static int disassemble_on_entry = 0;
+
+struct monitor_cpu_type_s {
+    CPU_TYPE_t cpu_type;
+    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode);
+    asm_opcode_info_t * (*asm_opcode_info_get)(BYTE number);
+};
+typedef struct monitor_cpu_type_s monitor_cpu_type_t;
+
+monitor_cpu_type_t monitor_cpu_type;
 
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
@@ -270,6 +278,10 @@ struct mon_cmds mon_cmd_array[] = {
      "Otherwise, it is ignores.  If registers are specified in the expression,\n"
      "the values used are those at the time the checkpoint is examined, not\n"
      "when the condition is set.\n" },
+
+   { "cpu",             "",     CMD_CPU,                STATE_CTYPE,
+     "<type>",
+     "Specify the type of CPU currently used (6502/z80)." },
 
    { "d", 		"d", 	CMD_DISASSEMBLE, 	STATE_INITIAL,
      "[<address> [<address>]]",
@@ -664,6 +676,27 @@ static bool check_drive_emu_level_ok(int drive_num)
    return TRUE;
 }
 
+void mon_cpu_type(char *cpu_type)
+{
+   /* FIXME: Make this dynamic. */
+
+   if (!strcasecmp(cpu_type, "6502")) {
+       monitor_cpu_type.cpu_type = CPU_6502;
+       monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_6502;
+       monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_6502;
+       return;
+   }
+   if (!strcasecmp(cpu_type, "z80")) {
+       monitor_cpu_type.cpu_type = CPU_Z80;
+       monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_z80;
+       monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_z80;
+       return;
+   }
+
+   arch_mon_out("Unknown CPU type `%s'\n", cpu_type);
+   return;
+}
+
 void mon_bank(MEMSPACE mem, char *bankname)
 {
     if (mem == e_default_space)
@@ -955,6 +988,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
    next_or_step_stop = 0;
    recording = FALSE;
    playback = FALSE;
+   monitor_cpu_type.cpu_type = CPU_6502;
+   monitor_cpu_type.asm_addr_mode_get_size = asm_addr_mode_get_size_6502;
+   monitor_cpu_type.asm_opcode_info_get = asm_opcode_info_get_6502;
 
    watch_load_occurred = FALSE;
    watch_store_occurred = FALSE;
@@ -1100,7 +1136,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    for (i = 0; i <= 0xff; i++) {
       asm_opcode_info_t *opinfo;
 
-      opinfo = asm_opcode_info_get(i);
+      opinfo = (monitor_cpu_type.asm_opcode_info_get)(i);
       if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
          if (opinfo->addr_mode == operand_mode) {
             opcode = i;
@@ -1164,7 +1200,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
       return -1;
    }
 
-   len = asm_addr_mode_get_size(operand_mode);
+   len = (monitor_cpu_type.asm_addr_mode_get_size)(operand_mode);
 
    /* EP 98.08.23 use correct memspace for assembling.  */
    set_mem_val(mem, loc, opcode);
@@ -1205,10 +1241,10 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
 
     buffp = buff;
 
-    opinfo = asm_opcode_info_get(x);
+    opinfo = (monitor_cpu_type.asm_opcode_info_get)(x);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
-    opc_size = asm_addr_mode_get_size(addr_mode);
+    opc_size = (monitor_cpu_type.asm_addr_mode_get_size)(addr_mode);
 
     if (opc_size_p)
         *opc_size_p = opc_size;
@@ -1240,6 +1276,54 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
       case ASM_ADDR_MODE_ACCUMULATOR:
 	sprintf(buffp, " A");
 	break;
+
+      case ASM_ADDR_MODE_REG_B:
+        sprintf(buffp, " B");
+        break;
+
+      case ASM_ADDR_MODE_REG_C:
+        sprintf(buffp, " C");
+        break;
+
+      case ASM_ADDR_MODE_REG_D:
+        sprintf(buffp, " D");
+        break;
+
+      case ASM_ADDR_MODE_REG_E:
+        sprintf(buffp, " E");
+        break;
+
+      case ASM_ADDR_MODE_REG_H:
+        sprintf(buffp, " H");
+        break;
+
+      case ASM_ADDR_MODE_REG_L:
+        sprintf(buffp, " L");
+        break;
+
+      case ASM_ADDR_MODE_REG_AF:
+        sprintf(buffp, " AF");
+        break;
+
+      case ASM_ADDR_MODE_REG_BC:
+        sprintf(buffp, " BC");
+        break;
+
+      case ASM_ADDR_MODE_REG_DE:
+        sprintf(buffp, " DE");
+        break;
+
+      case ASM_ADDR_MODE_REG_HL:
+        sprintf(buffp, " HL");
+        break;
+
+      case ASM_ADDR_MODE_REG_SP:
+        sprintf(buffp, " HL");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_HL:
+        sprintf(buffp, " (HL)");
+        break;
 
       case ASM_ADDR_MODE_IMMEDIATE:
 	sprintf(buffp, (hex_mode ? " #$%02X" : " %3d"), ival);
@@ -1321,6 +1405,26 @@ const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
         else
 	   sprintf(buffp, " %s", addr_name);
 	break;
+
+      case ASM_ADDR_MODE_ABSOLUTE_A:
+        ival |= ((p2 & 0xFF) << 8);
+        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+           sprintf(buffp, " (%s),A", addr_name);
+        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
+           sprintf(buffp, " (%s+1),A", addr_name);
+        else {
+           if (hex_mode)
+               sprintf(buffp, " ($%04X),A", ival);
+           else
+               sprintf(buffp, " (%5d),A", ival);
+        }
+        break;
+
+      case ASM_ADDR_MODE_IMMEDIATE_16:
+        ival |= ((p2 & 0xFF) << 8);
+        sprintf(buffp, (hex_mode ? " #$%04X" : " %5d"), ival);
+        break;
+
     }
 
     return buff;
@@ -3103,7 +3207,7 @@ int mon_process(char *cmd)
         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
     }
 
-    arch_mon_out( prompt);
+    arch_mon_out(prompt);
 
     return exit_mon;
 }
@@ -3141,8 +3245,7 @@ void mon(ADDRESS a)
 {
     mon_open(a);
     while (!exit_mon) {
-        myinput = arch_mon_in();
-        mon_process(myinput);
+        mon_process(arch_mon_in());
     }
     mon_close(1);
 }
