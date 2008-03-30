@@ -40,6 +40,7 @@
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
+#include "types.h"
 #include "utils.h"
 #include "zfile.h"
 
@@ -107,7 +108,7 @@ int psid_load_file(const char* filename)
   FILE* f;
   BYTE buf[PSID_V2_DATA_OFFSET + 2];
   BYTE* ptr = buf;
-  int length;
+  unsigned int length;
 
   if (!(f = zfopen(filename, "rb"))) {
     return -1;
@@ -129,7 +130,8 @@ int psid_load_file(const char* filename)
     goto fail;
   }
 
-  length = (psid->version == 1 ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6;
+  length = (unsigned int)((psid->version == 1 
+           ? PSID_V1_DATA_OFFSET : PSID_V2_DATA_OFFSET) - 6);
 
   if (fread(ptr, 1, length, f) != length) {
     log_message(LOG_DEFAULT, "PSID: Error reading header.");
@@ -230,7 +232,7 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
 
-  log_message(LOG_DEFAULT, "Playing tune %d of %d.\n",
+  log_message(LOG_DEFAULT, "Playing tune %i of %i.\n",
 	      start_song, (int)psid->songs);
 
   /* Store parameters for psid player. */
@@ -259,8 +261,8 @@ void psid_init_driver(void) {
 
   /* 6510 vectors stored in both ROM and RAM. */
   for (addr = 0xfffa, i = 0; i < 6; i++) {
-    rom_store(addr + i, psid_driver[i]);
-    ram_store(addr + i, psid_driver[i]);
+    rom_store((ADDRESS)(addr + i), psid_driver[i]);
+    ram_store((ADDRESS)(addr + i), psid_driver[i]);
   }
 
   /* Driver code. */
