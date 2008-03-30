@@ -1,3 +1,23 @@
+2001-07-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.47.
+
+	* info.c: Updated.
+
+2001-07-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* c64/psid.c: splittet log_message in several lines (one per
+	output line)
+
+	* sounddrv/sounddart.c: implemented a more accurate mute
+	(suspend/resume)
+
+2001-07-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* sounddrv/soundbeos.cc: fixed a bug causing noise at driver
+	start by removing the 'written_samples' that was needed
+	when bufferstatus reported used instead of free space
+
 2001-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.46.
