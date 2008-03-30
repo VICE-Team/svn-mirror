@@ -27,14 +27,26 @@
 #ifndef _Z80MEM_H
 #define _Z80MEM_H
 
+#include "mem.h"
 #include "types.h"
 
 extern int z80mem_init_resources(void);
 extern int z80mem_init_cmdline_options(void);
 
+extern void z80mem_set_bank_pointer(BYTE **base, int *limit);
+
 extern int z80mem_load(void);
 
 extern void z80mem_initialize(void);
+
+/* Pointers to the currently used memory read and write tables.  */
+extern read_func_ptr_t *_z80mem_read_tab_ptr;
+extern store_func_ptr_t *_z80mem_write_tab_ptr;
+extern BYTE **_z80mem_read_base_tab_ptr;
+extern int *z80mem_read_limit_tab_ptr;
+
+extern store_func_ptr_t io_write_tab[];
+extern read_func_ptr_t io_read_tab[];
 
 #endif
 
