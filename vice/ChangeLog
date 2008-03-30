@@ -1,3 +1,11 @@
+1999-11-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.28.
+
+	* doc/Makefile.am: Added `Win32-Howto.txt'.
+
+	* BUGS, INSTALL, NEWS, README, TODO, doc/Readme.dos: Updated.
+
 1999-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.27.
