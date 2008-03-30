@@ -110,7 +110,7 @@ void vicii_irq_set_raster_line(unsigned int line)
     if (line == vic_ii.raster_irq_line && vic_ii.raster_irq_clk != CLOCK_MAX)
         return;
 
-    if (line < vic_ii.screen_height) {
+    if (line < (unsigned int)vic_ii.screen_height) {
         unsigned int current_line = VIC_II_RASTER_Y(maincpu_clk);
 
         vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(maincpu_clk)

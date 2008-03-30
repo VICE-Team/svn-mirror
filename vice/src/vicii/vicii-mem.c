@@ -536,7 +536,7 @@ inline static void store_d019(BYTE value)
     if (maincpu_rmw_flag) {
         vic_ii.irq_status &= ~((vic_ii.last_read & 0xf) | 0x80);
         if (maincpu_clk - 1 > vic_ii.raster_irq_clk
-            && vic_ii.raster_irq_line < vic_ii.screen_height) {
+            && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
             alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
@@ -544,7 +544,7 @@ inline static void store_d019(BYTE value)
     }
 
     if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk
-        && vic_ii.raster_irq_line < vic_ii.screen_height) {
+        && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
         vic_ii.raster_irq_clk += vic_ii.screen_height
                                  * vic_ii.cycles_per_line;
         alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);

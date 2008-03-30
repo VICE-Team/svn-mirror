@@ -1361,19 +1361,19 @@ static void init_drawing_tables(void)
     }
 
     for (i = 0; i <= 0xff; i++) {
-        mc_table[i + 0x100] = i >> 6;
-        mc_table[i + 0x300] = (i >> 4) & 0x3;
-        mc_table[i + 0x500] = (i >> 2) & 0x3;
-        mc_table[i + 0x700] = i & 0x3;
+        mc_table[i + 0x100] = (WORD)(i >> 6);
+        mc_table[i + 0x300] = (WORD)((i >> 4) & 0x3);
+        mc_table[i + 0x500] = (WORD)((i >> 2) & 0x3);
+        mc_table[i + 0x700] = (WORD)(i & 0x3);
         mc_table[i] = tmptable[i >> 6];
         mc_table[i + 0x200] = tmptable[(i >> 4) & 0x3];
         mc_table[i + 0x400] = tmptable[(i >> 2) & 0x3];
         mc_table[i + 0x600] = tmptable[i & 0x3];
-        mcmsktable[i + 0x100] = 0;
-        mcmsktable[i + 0x100] |= ((i >> 6) & 0x2) ? 0xc0 : 0;
-        mcmsktable[i + 0x100] |= ((i >> 4) & 0x2) ? 0x30 : 0;
-        mcmsktable[i + 0x100] |= ((i >> 2) & 0x2) ? 0x0c : 0;
-        mcmsktable[i + 0x100] |= (i & 0x2) ? 0x03 : 0;
+        mcmsktable[i + 0x100] = (WORD)0;
+        mcmsktable[i + 0x100] |= (WORD)(((i >> 6) & 0x2) ? 0xc0 : 0);
+        mcmsktable[i + 0x100] |= (WORD)(((i >> 4) & 0x2) ? 0x30 : 0);
+        mcmsktable[i + 0x100] |= (WORD)(((i >> 2) & 0x2) ? 0x0c : 0);
+        mcmsktable[i + 0x100] |= (WORD)((i & 0x2) ? 0x03 : 0);
         mcmsktable[i] = i;
     }
 }
