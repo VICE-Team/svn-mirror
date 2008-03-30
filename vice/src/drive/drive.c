@@ -789,8 +789,11 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive[0].clk = &drive_clk[0];
     drive[1].clk = &drive_clk[1];
 
-    if (drive_load_rom_images() < 0)
+    if (drive_load_rom_images() < 0) {
+        set_drive0_type((resource_value_t) DRIVE_TYPE_NONE);
+        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);        
         return -1;
+    }
 
     iec_info = iec_get_drive_port();
     /* Set IEC lines of disabled drives to `1'.  */
@@ -803,6 +806,11 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 
     log_message(drive_log, "Finished loading ROM images.");
     rom_loaded = 1;
+
+    if (drive_check_type(drive[0].type, 0) < 1)
+        set_drive0_type((resource_value_t) DRIVE_TYPE_NONE);
+    if (drive_check_type(drive[1].type, 1) < 1)
+        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
 
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
