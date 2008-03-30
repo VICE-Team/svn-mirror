@@ -30,11 +30,11 @@
 #define	_CIATIMER_C
 
 #include "vice.h"
-#include "types.h"
-#include "alarm.h"
-#include "interrupt.h"
 
+#include "alarm.h"
 #include "ciatimer.h"
+#include "interrupt.h"
+#include "types.h"
 
 #if 1 /* def CIAT_NEED_LOG */
 
@@ -87,10 +87,9 @@ void ciat_log(const char *format,...) {
 void ciat_print_state(const ciat_t *state)
 {
     printf("%s print: clk=%ld, cnt=%04x (%d), latch=%04x (%d)\n",
-	state->name, state->clk,
+	state->name, (long)(state->clk),
 	state->cnt, state->cnt,
-	state->latch, state->latch
-    );
+	state->latch, state->latch);
     printf("          state=%04x = %s%s%s%s%s%s%s%s%s%s%s%s%s\n",
 	state->state,
 	(state->state & CIAT_CR_START) 	? "start " : "",
@@ -107,7 +106,7 @@ void ciat_print_state(const ciat_t *state)
 	(state->state & CIAT_ONESHOT) 	? "oneshot " : "",
 	(state->state & CIAT_OUT) 	? "out " : ""
     );
-    printf("          alarm at %ld\n", state->alarmclk);
+    printf("          alarm at %ld\n", (long)(state->alarmclk));
 }
 
 #endif
