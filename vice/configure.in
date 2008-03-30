@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.50)
+AM_INIT_AUTOMAKE(vice, 0.14.2.51)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -21,6 +21,7 @@ AC_ARG_ENABLE(24bpp,[  --enable-24bpp          enable 24-bit only display depth 
 AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
 AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
 AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
+AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
 AC_ARG_WITH(resid, [  --with-resid=PATH       link with the reSID engine located at PATH])
 
 if test x"$enable_autobpp" = "xyes"; then
@@ -63,8 +64,15 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
 
   is_dos=yes
 
+  if test x"$with_midas" = "xyes" ; then
+      AC_DEFINE(USE_MIDAS_SOUND)
+      echo "Configuring support for MIDAS Sound System"
+  else
+      echo "Using Allegro sound driver"
+  fi
+
   AM_CONDITIONAL(HAVE_RS232, false)
-  AM_CONDITIONAL(HAVE_PRINTER, true)
+  AM_CONDITIONAL(HAVE_PRINTER, false)
 
 else
 
@@ -240,6 +248,8 @@ AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,
                  [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o"; break])
 AC_CHECK_HEADERS(midasdll.h,
                  [SOUND_DRIVERS="$SOUND_DRIVERS soundmidas.o"; break])
+AC_CHECK_HEADERS(allegro.h,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundallegro.o"; break])
 AC_SUBST(SOUND_DRIVERS)
 
 AC_CHECK_LIB(audio, ALseterrorhandler,,,$SOUND_LIBS)
@@ -278,8 +288,10 @@ if test x"$with_readline" != "xno" ; then
   AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline $LIBS"],
                [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],,)
-else
+elif test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
   READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
+else
+  READLINE=""
 fi
 AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" = "x")
 AC_SUBST(READLINE)
