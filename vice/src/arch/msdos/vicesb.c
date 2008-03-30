@@ -13,7 +13,7 @@
  *      Shropshire,
  *      England, TF9 1AJ.
  *
- *      Soundblaster driver: supports DMA driven sample playback. (mixing
+ *      Soundblaster driver: supports DMA driven sample playback.
  *
  *      Adapted for use with VICE by Ettore Perazzoli (ettore@comm2000.it).
  *
@@ -89,7 +89,6 @@ static unsigned char vicesb_default_pic2;
 
 static int vicesb_master_vol;	/* stored mixer settings */
 static int vicesb_digi_vol;
-static int vicesb_fm_vol;
 
 static void vicesb_lock_mem();
 
@@ -144,11 +143,6 @@ static void vicesb_voice(int state)
 
 	    outportb(_sb_port + 4, 4);	/* store DAC level */
 	    vicesb_digi_vol = inportb(_sb_port + 5);
-
-#if 0
-	    outportb(_sb_port + 4, 0x26);	/* store FM level */
-	    vicesb_fm_vol = inportb(_sb_port + 5);
-#endif
 	}
     } else {
 	vicesb_write_dsp(0xD3);
@@ -160,11 +154,6 @@ static void vicesb_voice(int state)
 
 	    outportb(_sb_port + 4, 4);	/* restore DAC level */
 	    outportb(_sb_port + 5, vicesb_digi_vol);
-
-#if 0
-	    outportb(_sb_port + 4, 0x26);	/* restore FM level */
-	    outportb(_sb_port + 5, sb_fm_vol);
-#endif
 	}
     }
 }
@@ -321,13 +310,7 @@ static int vicesb_interrupt(void)
 	vicesb_semaphore = TRUE;
 
         asm volatile ("sti");
-
-#if 0
-	_mix_some_samples(vicesb_buf[vicesb_bufnum], _dos_ds, FALSE);
-#else
         vicesb_interrupt_function((unsigned long) vicesb_buf[vicesb_bufnum]);
-#endif
-
         asm volatile ("cli");
 
 	vicesb_semaphore = FALSE;
@@ -508,8 +491,7 @@ int vicesb_detect(int *is_16bit)
     /* set up the card description */
     sprintf(vicesb_desc, "%s on port %X, using IRQ %d and DMA channel %d",
 	    msg, _sb_port, _sb_irq, _sb_dma);
-
-    printf("%s(): done.  Description: %s\n", __FUNCTION__, vicesb_desc);
+    puts(vicesb_desc);
 
     *is_16bit = vicesb_16bit;
     return TRUE;
@@ -577,11 +559,27 @@ int vicesb_init(int *frequency, int *dma_size,
 	vicesb_buf[1] = vicesb_buf[0] + vicesb_dma_size;
     }
 
+    {
+        /* Clear buffers.  */
+        int i;
+
+        _farsetsel(_dos_ds);
+
+        if (vicesb_16bit) {
+            for (i = 0; i < vicesb_dma_size; i += 2) {
+                _farnspokew(vicesb_buf[0] + i, 0x0);
+                _farnspokew(vicesb_buf[1] + i, 0x0);
+            }
+        } else {
+            for (i = 0; i < vicesb_dma_size; i++) {
+                _farnspokeb(vicesb_buf[0] + i, 0x80);
+                _farnspokeb(vicesb_buf[1] + i, 0x80);
+            }
+        }
+    }
+
     vicesb_lock_mem();
     vicesb_bufnum = 0;
-
-    interrupt_func((unsigned long) vicesb_buf[0]);
-    interrupt_func((unsigned long) vicesb_buf[1]);
 
     vicesb_default_pic1 = inportb(0x21);
     vicesb_default_pic2 = inportb(0xA1);
@@ -592,7 +590,10 @@ int vicesb_init(int *frequency, int *dma_size,
     } else			/* enable PIC-1 irq */
 	outportb(0x21, vicesb_default_pic1 & (~(1 << _sb_irq)));
 
-    _install_irq(vicesb_int, vicesb_interrupt);
+    if (_install_irq(vicesb_int, vicesb_interrupt) < 0) {
+        fprintf(stderr, "Cannot install IRQ %d handler for SB!\n", vicesb_int);
+        return FALSE;
+    }
 
     vicesb_voice(1);
     vicesb_set_sample_rate(*frequency);
@@ -615,7 +616,6 @@ int vicesb_init(int *frequency, int *dma_size,
 
     vicesb_interrupt_function = interrupt_func;
 
-    printf("%s(): initialization successful\n", __FUNCTION__);
     return TRUE;
 }
 
@@ -649,10 +649,7 @@ void vicesb_close(void)
     if (vicesb_sel[1] != vicesb_sel[0])
 	__dpmi_free_dos_memory(vicesb_sel[1]);
 
-    vicesb_hw_dsp_ver = vicesb_dsp_ver = -1;
     vicesb_in_use = FALSE;
-
-    printf("%s()\n", __FUNCTION__);
 }
 
 
