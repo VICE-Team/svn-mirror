@@ -74,7 +74,7 @@ static int set_sid_model(resource_value_t v)
 static resource_t resources[] = {
     { "SidFilters", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &sid_filters_enabled, set_sid_filters_enabled },
-    { "SidModel", RES_INTEGER, (resource_value_t) 1,
+    { "SidModel", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &sid_model, set_sid_model },
     { NULL }
 };
