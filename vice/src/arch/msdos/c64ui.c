@@ -43,8 +43,12 @@
 #include "tuimenu.h"
 #include "types.h"
 #include "ui.h"
+#include "uireu.h"
 #include "uisid.h"
 #include "util.h"
+
+
+static tui_menu_t ui_ioextensions_submenu;
 
 
 static TUI_MENU_CALLBACK(attach_cartridge_callback)
@@ -291,18 +295,12 @@ static tui_menu_item_def_t vicii_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
-TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
 
-static tui_menu_item_def_t special_menu_items[] = {
-    { "--" },
+static tui_menu_item_def_t ioextenstions_menu_items[] = {
     { "1351 _Mouse Emulation:",
       "Emulate a C1351 proportional mouse connected to joystick port #1",
       toggle_Mouse_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "512K _RAM Expansion Unit (C1750):",
-      "Emulate auxiliary 512K RAM Expansion Unit",
-      toggle_REU_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Emulator Identification:",
       "Allow programs to identify the emulator they are running on",
@@ -477,6 +475,15 @@ int c64ui_init(void)
 {
     ui_create_main_menu(1, 1, 1, 2, 1);
 
+    tui_menu_add_separator(ui_special_submenu);
+
+    ui_ioextensions_submenu = tui_menu_create("I/O extensions at $DFxx", 1);
+    tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);
+    tui_menu_add_submenu(ui_special_submenu, "_I/O extensions at $DFxx...",
+                         "Configure I/O extensions at $DFxx",
+                         ui_ioextensions_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_reset_submenu, freeze_cartridge_menu_items);
@@ -486,8 +493,9 @@ int c64ui_init(void)
 
     tui_menu_add(ui_video_submenu, vicii_menu_items);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
-    tui_menu_add(ui_special_submenu, special_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uireu_init(ui_ioextensions_submenu);
 
     return 0;
 }
