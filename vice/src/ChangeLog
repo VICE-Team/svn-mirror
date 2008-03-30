@@ -1,3 +1,50 @@
+2000-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.18.
+
+	* arch/win32/uimon.c (CreateAToolbar): Only use
+	`UnlockResource' if `HAS_UNLOCKRESOURCE' is defined.
+
+	* c1541.c (internal_read_geos_file): Commented out unused
+	variable.
+
+2000-11-08  Dag Lem  <resid@nimrod.no>
+
+        * c64/psid.c: Improve PSID compatibility - correct speed
+          handling, provide $02a6 PAL/NTSC flag and $ea31 IRQ exit.
+
+        * c64/psiddrv.a65: Improve PSID compatibility - correct speed
+          handling, VICII/CIA1 interrupt, bank selection
+
+2000-11-02  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsync.c (set_timer_speed): Avoid divide by zero.
+	* vsync.c: Corrected credits.
+
+2000-11-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/joystick.cc(.h): some changes to avoid opening
+	the same hardware joystick port twice
+
+	* arch/beos/ui_file.cc(.h): new functions
+	(read_disk_image_contents),(read_tape_image_contents),
+	(read_disk_or_tape_image_contents),(create_content_list);
+	new classes VicePreview,ViceFilePanel that implement the
+	image contents and autostart features
+
+	* arch/beos/vicewindow.cc(.h): ViceWindow uses members
+	of the new ViceFilePanel class
+
+	* arch/msdos/vsync.c(vsync_set_machine_parameter): calls
+	register_timer_callback which should fix the NTSC timing
+	problem
+
+	* arch/win32/uisnapshot.c: new include vsync.h;
+	(ui_save_snapshot) calls suspend_speed_eval
+
+	* vsync.c(display_speed): logging of time-keeping-problems
+	removed again
+
 2000-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.17.

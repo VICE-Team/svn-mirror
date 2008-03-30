@@ -1,3 +1,14 @@
+2000-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.18.
+
+	* configure.in, acconfig.h: Test for `UnlockResource()'.
+
+2000-11-01  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* doc/vice.texi: added some notes about compressed
+	files in MSDOS and WIN32 ports
+
 2000-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.17.

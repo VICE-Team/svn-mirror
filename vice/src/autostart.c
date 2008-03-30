@@ -577,6 +577,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
                     file_name);
         return 0;
     }
+
     if (autostart_prg(file_name) == 0) {
         log_message(autostart_log, "`%s' recognized as program/p00 file.",
                     file_name);
