@@ -358,6 +358,10 @@ static void draw_hires_bitmap (void)
 {
   ALIGN_DRAW_FUNC (_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
                    vic_ii.raster.gfx_msk, 1);
+
+  /* Overscan color in HIRES is determined by last char of previous line */
+  vic_ii.raster.overscan_background_color = 
+      vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 static void draw_hires_bitmap_cached (raster_cache_t *cache,
@@ -365,6 +369,11 @@ static void draw_hires_bitmap_cached (raster_cache_t *cache,
                                       int xe)
 {
   ALIGN_DRAW_FUNC (_draw_hires_bitmap, xs, xe, cache->gfx_msk, 1);
+
+  /* Overscan color in HIRES is determined by last char of previous line */
+  if (xe == VIC_II_SCREEN_TEXTCOLS - 1)
+      vic_ii.raster.overscan_background_color = 
+          vic_ii.vbuf[VIC_II_SCREEN_TEXTCOLS - 1] & 0xf;
 }
 
 #ifdef VIC_II_NEED_2X

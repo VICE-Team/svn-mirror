@@ -408,8 +408,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
 
     vic_ii.raster.blank = !(vic_ii.regs[0x11] & 0x10);
 
-    if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE
-        || VIC_II_IS_ILLEGAL_MODE (vic_ii.raster.video_mode)) {
+    if (VIC_II_IS_ILLEGAL_MODE (vic_ii.raster.video_mode)) {
         vic_ii.raster.overscan_background_color = 0;
         vic_ii.force_black_overscan_background_color = 1;
     } else {

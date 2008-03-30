@@ -1030,8 +1030,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
 
   if (new_video_mode != old_video_mode)
     {
-      if (new_video_mode == VIC_II_HIRES_BITMAP_MODE
-          || VIC_II_IS_ILLEGAL_MODE(new_video_mode))
+      if (VIC_II_IS_ILLEGAL_MODE(new_video_mode))
         {
           /* Force the overscan color to black.  */
           raster_add_int_change_background
