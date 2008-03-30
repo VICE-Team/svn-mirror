@@ -45,6 +45,7 @@
 #define C64_KERNAL_CHECKSUM_R64		49680
 
 extern int c64_mem_init_resources(void);
+extern int c64_mem_init_cmdline_options(void);
 extern void mem_set_vbank(int new_vbank);
 extern read_func_t read_basic, read_kernal, read_chargen, read_ram, read_io2;
 extern store_func_t store_ram, store_ram_hi, store_io2;
