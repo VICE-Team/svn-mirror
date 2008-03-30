@@ -218,13 +218,16 @@ BEGIN
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
-        MENUITEM "R&EU settings...",       IDM_REU_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
-#ifdef HAVE_TFE
-        MENUITEM "E&thernet settings...", IDM_TFE_SETTINGS
-#endif /* #ifdef HAVE_TFE */
         MENUITEM "C&128 settings...",      IDM_C128_SETTINGS
+        POPUP "&Cartridge Settings"
+        BEGIN
+            MENUITEM "&REU settings...",      IDM_REU_SETTINGS
+#ifdef HAVE_TFE
+            MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
+#endif
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
