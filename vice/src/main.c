@@ -296,7 +296,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     sysfile_init(machine_name);
 
     if (init_resources() < 0 || init_cmdline_options() < 0)
-        exit(-1);
+        return -1;
 
     /* Set factory defaults.  */
     resources_set_defaults();
@@ -306,7 +306,7 @@ int MAIN_PROGRAM(int argc, char **argv)
        (e.g. under X11, the `-display' option is handled independently).  */
     if (ui_init(&argc, argv) < 0) {
         fprintf(stderr, "Cannot initialize the UI.\n");
-	exit (-1);
+        return -1;
     }
 
     /* Load the user's default configuration file.  */
@@ -333,7 +333,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     if (cmdline_parse(&argc, argv) < 0) {
         fprintf(stderr, "Error parsing command-line options, bailing out.\n");
-        exit(-1);
+        return -1;
     }
 
     /* The last orphan option is the same as `-autostart'.  */
@@ -348,12 +348,12 @@ int MAIN_PROGRAM(int argc, char **argv)
         fprintf(stderr, "Extra arguments on command-line:\n");
         for (i = 1; i < argc; i++)
             fprintf(stderr, "\t%s\n", argv[i]);
-        exit(-1);
+        return -1;
     }
 
     if (log_init() < 0) {
         fprintf(stderr, "Cannot startup logging system.\n");
-        exit(-1);
+        return -1;
     }
 
     /* VICE boot sequence.  */
@@ -373,7 +373,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
     if (ui_init_finish() < 0)
-	exit(-1);
+        return -1;
 
 #ifndef __riscos
 #ifdef __MSDOS__
@@ -400,12 +400,12 @@ int MAIN_PROGRAM(int argc, char **argv)
     joystick_init();
 
     if (video_init() < 0)
-	exit (-1);
+        return -1;
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {
         log_error(LOG_DEFAULT, "Machine initialization failed.");
-        exit(1);
+        return -1;
     }
 
     /* Handle general-purpose command-line options.  */
@@ -463,7 +463,8 @@ int MAIN_PROGRAM(int argc, char **argv)
     mainloop(0);
 
     log_error(LOG_DEFAULT, "perkele!");
-    exit(0);   /* never reached */
+
+    return 0;
 }
 
 #ifndef __riscos
@@ -499,10 +500,6 @@ static void exit64(void)
 
     putchar ('\n');
 }
-#endif
 
-void end64()
-{
-    exit (-1);
-}
+#endif
 
