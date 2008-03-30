@@ -94,8 +94,8 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a disk image", directory,
-				 "*.[dxg]6[4z]", default_item,
-				 image_contents_read_disk, &file);
+				 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.lnx",
+				 default_item, image_contents_read_disk, &file);
 
         if (file != NULL) {
             if (autostart_disk(name, file) < 0)
@@ -136,8 +136,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 
 	name = tui_file_selector("Attach a tape image", directory,
 				 "*.t6[4z]", default_item,
-				 image_contents_read_tape,
-                                 &file);
+				 image_contents_read_tape, &file);
 
         if (file != NULL) {
             if (autostart_tape(name, file) < 0)

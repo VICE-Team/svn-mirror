@@ -50,8 +50,8 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         const char *s;
         int type = (int) param;
 
-	s = cartridge_get_file_name((ADDRESS) 0);
-	fname_split(s, &directory, &default_item);
+        s = cartridge_get_file_name((ADDRESS) 0);
+        fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach cartridge image",
                                  directory, "*", default_item, NULL, NULL);
