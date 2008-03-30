@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-03-26 18:59+0100\n"
+"POT-Creation-Date: 2003-03-31 01:06+0200\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2716,82 +2716,82 @@ msgstr ""
 "Rozszerzenie DGA: addr:%p, szeroko¶æ %d, rozmiar banku %d rozmiar pamiêci "
 "%d\n"
 
-#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:773
+#: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:777
 msgid "Switch to windowmode"
 msgstr "Prze³±cz do trybu okna"
 
-#: src/arch/unix/x11/dga2.c:190
+#: src/arch/unix/x11/dga2.c:194
 #, c-format
 msgid "Selected mode: %s"
 msgstr "Wybrano tryb: %s"
 
-#: src/arch/unix/x11/dga2.c:309
+#: src/arch/unix/x11/dga2.c:313
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr "Zainstaluj debbuger na pid %d..."
 
-#: src/arch/unix/x11/dga2.c:345
+#: src/arch/unix/x11/dga2.c:349
 msgid "refresh, not ready, skipping frame"
 msgstr "od¶wie¿, nie czytaj , opu¶æ klatkê"
 
-#: src/arch/unix/x11/dga2.c:414
+#: src/arch/unix/x11/dga2.c:418
 msgid "Successfully forked DGA"
 msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie"
 
-#: src/arch/unix/x11/dga2.c:419
+#: src/arch/unix/x11/dga2.c:423
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 "Nie mo¿na pobraæ informacji o wersji rozszerzenia video - wy³±czanie pe³nego "
 "ekranu"
 
-#: src/arch/unix/x11/dga2.c:424
+#: src/arch/unix/x11/dga2.c:428
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 "Nie mo¿na pobraæ informacji o rozszerzeniach video - wy³±czanie pe³nego "
 "ekranu"
 
-#: src/arch/unix/x11/dga2.c:433
+#: src/arch/unix/x11/dga2.c:437
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "Xserver jest uruchomiony w starej wersji XFree86-DGA (%d.%d.) "
 
-#: src/arch/unix/x11/dga2.c:436
+#: src/arch/unix/x11/dga2.c:440
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minimaln± wymagan± wersj± jest %d.%d - wy³±czanie pe³nego ekranu"
 
-#: src/arch/unix/x11/dga2.c:567
+#: src/arch/unix/x11/dga2.c:571
 #, c-format
 msgid "Switch to fullscreen%s"
 msgstr "Prze³±cz na pe³ny ekran%s"
 
-#: src/arch/unix/x11/dga2.c:573
+#: src/arch/unix/x11/dga2.c:577
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr "Musisz mieæ uprawnienia roota, aby u¿yæ trybu pe³noekranowego DGA2"
 
-#: src/arch/unix/x11/dga2.c:587
+#: src/arch/unix/x11/dga2.c:591
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:597
+#: src/arch/unix/x11/dga2.c:601
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (pixmap) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:631
+#: src/arch/unix/x11/dga2.c:635
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Zbyt ma³o stron pamiêci graficznej w trybie %s, wy³±czanie pe³nego "
 "ekranu(%d,%d)."
 
-#: src/arch/unix/x11/dga2.c:645
+#: src/arch/unix/x11/dga2.c:649
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:700
+#: src/arch/unix/x11/dga2.c:704
 msgid "Couldn't allocate color cache"
 msgstr "Nie mo¿na alokowaæ cache'u koloru"
 

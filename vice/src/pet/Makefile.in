@@ -280,7 +280,7 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
 	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/monitor.h \
 	pet-cmdline-options.h pet-resources.h pet-snapshot.h pet.h \
 	petiec.h petmem.h pets.h petsound.h ../../src/arch/unix/petui.h \
 	petvia.h petacia.h petpia.h ../../src/printer.h \
@@ -306,10 +306,9 @@ petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
-	pet.h petacia.h petmem.h petpia.h pets.h petvia.h \
-	../../src/ram.h ../../src/resources.h ../../src/utils.h \
-	../../src/vsync.h
+	../../src/maincpu.h ../../src/mem.h ../../src/monitor.h pet.h \
+	petacia.h petmem.h petpia.h pets.h petvia.h ../../src/ram.h \
+	../../src/resources.h ../../src/utils.h ../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/crtc/crtc.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \

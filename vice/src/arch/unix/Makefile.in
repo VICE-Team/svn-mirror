@@ -442,7 +442,7 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/fliplist.h fullscreenarch.h \
 	../../../src/imagecontents.h ../../../src/interrupt.h \
 	../../../src/ioutil.h ../../../src/log.h ../../../src/machine.h \
-	../../../src/maincpu.h ../../../src/monitor/mon.h \
+	../../../src/maincpu.h ../../../src/monitor.h \
 	../../../src/mos6510.h ../../../src/resources.h \
 	../../../src/serial.h ../../../src/sound.h ../../../src/tape.h \
 	uicommands.h uiedisk.h uimenu.h x11/xaw/uimenu.h ui.h \
@@ -489,7 +489,7 @@ uijoystick2.o: uijoystick2.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
 	../../../src/vsync.h
 uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/console.h ../../../src/monitor/mon.h types.h \
+	../../../src/console.h ../../../src/monitor.h types.h \
 	../../../src/uimon.h ../../../src/utils.h
 uipalemu.o: uipalemu.c ../../../src/vice.h ../../../src/config.h \
 	uipalemu.h ../../../src/machine.h ../../../src/resources.h \

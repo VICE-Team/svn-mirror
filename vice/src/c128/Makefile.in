@@ -286,7 +286,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
 	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor/mon.h \
+	../../src/maincpu.h ../../src/monitor.h \
 	../../src/c64/patchrom.h ../../src/printer.h \
 	../../src/c64/reu.h ../../src/rs232drv.h ../../src/rsuser.h \
 	../../src/screenshot.h ../../src/serial.h \
@@ -309,9 +309,8 @@ c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/arch/unix/types.h z80.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../debug.h \
-	../interrupt.h ../machine.h ../maincpu.h ../mem.h \
-	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
-	../6510core.c
+	../interrupt.h ../machine.h ../maincpu.h ../mem.h ../monitor.h \
+	../mos6510.h ../snapshot.h ../traps.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h c128iec.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \
@@ -330,12 +329,12 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/c64/c64meminit.h \
 	../../src/c64/c64pla.h ../../src/c64/c64tpi.h functionrom.h \
 	../../src/keyboard.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/parallel.h ../../src/ram.h ../../src/c64/reu.h \
-	../../src/sid/sid.h ../../src/utils.h ../../src/vdc/vdc-mem.h \
-	../../src/vdc/vdc.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii-phi1.h ../../src/vicii/vicii.h z80mem.h \
-	../../src/mem.h ../../src/c64/c64acia.h
+	../../src/maincpu.h ../../src/monitor.h ../../src/parallel.h \
+	../../src/ram.h ../../src/c64/reu.h ../../src/sid/sid.h \
+	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
+	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
+	../../src/c64/c64acia.h
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
@@ -357,7 +356,7 @@ functionrom.o: functionrom.c ../../src/vice.h ../../src/config.h \
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/6510core.h \
 	../../src/alarm.h ../../src/arch/unix/types.h daa.h \
 	../../src/interrupt.h ../../src/log.h ../../src/maincpu.h \
-	../../src/monitor/mon.h z80.h z80mem.h ../../src/mem.h \
+	../../src/monitor.h z80.h z80mem.h ../../src/mem.h \
 	../../src/z80regs.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128io.h \
 	../../src/arch/unix/types.h c128mem.h c128mmu.h \

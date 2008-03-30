@@ -375,7 +375,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
 	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor/mon.h patchrom.h \
+	../../src/maincpu.h ../../src/monitor.h patchrom.h \
 	../../src/printer.h psid.h ../../src/resources.h reu.h \
 	../../src/rs232drv.h ../../src/rsuser.h ../../src/screenshot.h \
 	../../src/serial.h ../../src/sid/sid-cmdline-options.h \
@@ -428,10 +428,10 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-resources.h \
 	c64cart.h ../../src/arch/unix/types.h c64cia.h c64io.h c64mem.h \
 	../../src/mem.h c64meminit.h c64memlimit.h c64pla.h \
 	cart/c64cartmem.h ../../src/cartridge.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor/mon.h \
-	../../src/parallel.h ../../src/ram.h reu.h ../../src/sid/sid.h \
-	../../src/utils.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii-phi1.h ../../src/vicii/vicii.h
+	../../src/maincpu.h ../../src/monitor.h ../../src/parallel.h \
+	../../src/ram.h reu.h ../../src/sid/sid.h ../../src/utils.h \
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
+	../../src/vicii/vicii.h
 c64meminit.o: c64meminit.c ../../src/vice.h ../../src/config.h c64mem.h \
 	../../src/arch/unix/types.h ../../src/mem.h c64meminit.h
 c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h

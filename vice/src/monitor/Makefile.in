@@ -140,7 +140,7 @@ noinst_LIBRARIES = libmonitor.a
 noinst_HEADERS =          mon_parse.h
 
 
-libmonitor_a_SOURCES =          asm6502.c         asmz80.c         asm.h         mon.c         mon.h         mon_assemble6502.c 	mon_assemblez80.c 	mon_assemble.h 	mon_breakpoint.c 	mon_breakpoint.h 	mon_command.c 	mon_command.h 	mon_disassemble.c 	mon_disassemble.h 	mon_drive.c 	mon_drive.h 	mon_file.c 	mon_file.h 	mon_memory.c 	mon_memory.h 	mon_register6502.c 	mon_registerz80.c 	mon_register.h 	mon_ui.c 	mon_ui.h 	mon_util.c 	mon_util.h 	mon_lex.l 	mon_parse.y 	montypes.h
+libmonitor_a_SOURCES =          asm6502.c         asmz80.c         asm.h         mon.c         mon_assemble6502.c 	mon_assemblez80.c 	mon_assemble.h 	mon_breakpoint.c 	mon_breakpoint.h 	mon_command.c 	mon_command.h 	mon_disassemble.c 	mon_disassemble.h 	mon_drive.c 	mon_drive.h 	mon_file.c 	mon_file.h 	mon_memory.c 	mon_memory.h 	mon_register6502.c 	mon_registerz80.c 	mon_register.h 	mon_ui.c 	mon_ui.h 	mon_util.c 	mon_util.h 	mon_lex.l 	mon_parse.y 	montypes.h
 
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
@@ -278,75 +278,78 @@ distdir: $(DISTFILES)
 	done
 asm6502.o: asm6502.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h mon_assemble.h mon_register.h \
-	montypes.h mon.h
+	montypes.h ../../src/monitor.h
 asmz80.o: asmz80.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h mon_assemble.h mon_register.h \
-	montypes.h mon.h
+	montypes.h ../../src/monitor.h
 mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
 	../../src/console.h ../../src/interrupt.h ../../src/ioutil.h \
-	../../src/log.h ../../src/mem.h mon.h mon_breakpoint.h \
-	montypes.h mon_disassemble.h mon_memory.h mon_parse.h \
+	../../src/log.h ../../src/mem.h mon_breakpoint.h montypes.h \
+	../../src/monitor.h mon_disassemble.h mon_memory.h mon_parse.h \
 	mon_register.h mon_ui.h mon_util.h ../../src/sysfile.h \
 	../../src/uimon.h ../../src/utils.h ../../src/vsync.h
 mon_assemble6502.o: mon_assemble6502.c ../../src/vice.h \
 	../../src/config.h asm.h ../../src/arch/unix/types.h montypes.h \
-	mon.h mon_util.h ../../src/uimon.h
+	../../src/monitor.h mon_util.h ../../src/uimon.h
 mon_assemblez80.o: mon_assemblez80.c ../../src/vice.h ../../src/config.h \
-	asm.h ../../src/arch/unix/types.h montypes.h mon.h mon_util.h \
-	../../src/uimon.h
+	asm.h ../../src/arch/unix/types.h montypes.h \
+	../../src/monitor.h mon_util.h ../../src/uimon.h
 mon_breakpoint.o: mon_breakpoint.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/arch/unix/types.h \
-	../../src/log.h mon_breakpoint.h montypes.h mon.h \
+	../../src/log.h mon_breakpoint.h montypes.h ../../src/monitor.h \
 	mon_disassemble.h mon_util.h ../../src/uimon.h \
 	../../src/utils.h
 mon_command.o: mon_command.c ../../src/vice.h ../../src/config.h \
-	mon_command.h montypes.h mon.h ../../src/arch/unix/types.h \
-	mon_parse.h mon_util.h ../../src/uimon.h ../../src/utils.h
+	mon_command.h montypes.h ../../src/monitor.h \
+	../../src/arch/unix/types.h mon_parse.h mon_util.h \
+	../../src/uimon.h ../../src/utils.h
 mon_disassemble.o: mon_disassemble.c ../../src/vice.h ../../src/config.h \
-	asm.h ../../src/arch/unix/types.h ../../src/log.h mon.h \
-	mon_disassemble.h montypes.h mon_util.h ../../src/uimon.h
+	asm.h ../../src/arch/unix/types.h ../../src/log.h \
+	mon_disassemble.h montypes.h ../../src/monitor.h mon_util.h \
+	../../src/uimon.h
 mon_drive.o: mon_drive.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/diskimage.h montypes.h mon.h mon_util.h \
+	../../src/diskimage.h montypes.h ../../src/monitor.h mon_util.h \
 	../../src/uimon.h ../../src/vdrive/vdrive.h \
 	../../src/vdrive/vdrive-command.h
 mon_file.o: mon_file.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/attach.h ../../src/arch/unix/types.h ../../src/mem.h \
-	montypes.h mon.h mon_util.h ../../src/serial.h \
+	montypes.h ../../src/monitor.h mon_util.h ../../src/serial.h \
 	../../src/uimon.h ../../src/vdrive/vdrive-iec.h \
 	../../src/vdrive/vdrive.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon_command.h \
-	montypes.h mon.h ../../src/arch/unix/types.h mon_parse.h \
-	../../src/utils.h
+	montypes.h ../../src/monitor.h ../../src/arch/unix/types.h \
+	mon_parse.h ../../src/utils.h
 mon_memory.o: mon_memory.c ../../src/vice.h ../../src/config.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
-	../../src/console.h montypes.h mon.h mon_memory.h mon_util.h \
-	../../src/utils.h
+	../../src/console.h montypes.h ../../src/monitor.h mon_memory.h \
+	mon_util.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h ../../src/console.h \
 	../../src/uimon.h ../../src/machine.h mon_breakpoint.h \
-	montypes.h mon.h mon_command.h mon_disassemble.h mon_drive.h \
-	mon_file.h mon_memory.h mon_util.h ../../src/utils.h
+	montypes.h ../../src/monitor.h mon_command.h mon_disassemble.h \
+	mon_drive.h mon_file.h mon_memory.h mon_util.h \
+	../../src/utils.h
 mon_register6502.o: mon_register6502.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h mon_register.h mon_util.h \
-	mon.h ../../src/arch/unix/types.h montypes.h \
+	../../src/monitor.h ../../src/arch/unix/types.h montypes.h \
 	../../src/mos6510.h ../../src/uimon.h ../../src/utils.h
 mon_registerz80.o: mon_registerz80.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h mon_register.h mon_util.h mon.h \
+	../../src/log.h mon_register.h mon_util.h ../../src/monitor.h \
 	../../src/arch/unix/types.h montypes.h ../../src/uimon.h \
 	../../src/utils.h ../../src/z80regs.h
-mon_ui.o: mon_ui.c ../../src/vice.h ../../src/config.h mon.h \
-	../../src/arch/unix/types.h montypes.h mon_breakpoint.h \
+mon_ui.o: mon_ui.c ../../src/vice.h ../../src/config.h mon_breakpoint.h \
+	montypes.h ../../src/monitor.h ../../src/arch/unix/types.h \
 	mon_register.h mon_ui.h mon_util.h ../../src/resources.h \
 	../../src/utils.h
 mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \
-	mon.h mon_disassemble.h montypes.h mon_util.h ../../src/uimon.h \
-	../../src/utils.h
+	mon_disassemble.h montypes.h ../../src/monitor.h mon_util.h \
+	../../src/uimon.h ../../src/utils.h
 
 info-am:
 info: info-am
