@@ -555,10 +555,13 @@ void set_bank_ind(int val)
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
-    if(addr==0) set_bank_exec(value); else
-    if(addr==1) set_bank_ind(value);
+    if (addr == 0)
+        set_bank_exec(value);
+    else
+      if (addr == 1)
+          set_bank_ind(value);
 
-    _mem_write_tab_ptr[0](addr&0xff,value);
+    _mem_write_tab_ptr[0](addr & 0xff, value);
 }
 
 #define	STORE_ZERO(bank) 						\

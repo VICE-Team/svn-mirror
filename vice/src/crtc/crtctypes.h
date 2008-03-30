@@ -73,8 +73,8 @@ struct _crtc
     /*---------------------------------------------------------------*/
 
     /* window size computed by crtc_set_screen_options() */
-    int screen_width;
-    int screen_height;
+    unsigned int screen_width;
+    unsigned int screen_height;
 
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
@@ -168,7 +168,7 @@ struct _crtc
     raster_t raster;
 
     /* CRTC registers.  */
-    int regs[64];
+    BYTE regs[64];
 
     /* Alarm to update a raster line.  */
     alarm_t raster_draw_alarm;

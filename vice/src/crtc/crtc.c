@@ -599,9 +599,12 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
 
     /* now add jitter if this is out of phase (sync_diff changes) */
     crtc.hjitter -= (new_sync_diff - crtc.sync_diff) * 4 * crtc.hw_cols; 
-    if (crtc.hjitter > 16) crtc.hjitter = 16;
-    if (crtc.hjitter < -16) crtc.hjitter = -16;
-    crtc.hjitter *= -0.5;	/* exponential/sine decay */
+    if (crtc.hjitter > 16)
+        crtc.hjitter = 16;
+    if (crtc.hjitter < -16)
+        crtc.hjitter = -16;
+    /* exponential/sine decay */
+    crtc.hjitter = (int)((double)(crtc.hjitter) * -0.5);
 /*
     if (crtc.hjitter) {
 	printf ("rl=%d, jitter=%d, sync_diff=%d, old diff=%d, \n",

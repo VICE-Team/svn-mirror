@@ -501,9 +501,8 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     int track, sector;
     int rc;
 
-    if (drive[dnr].image == NULL) {
+    if (drive[dnr].image == NULL)
         return 0;
-    }
 
     sprintf(snap_module_name, "IMAGE%i", dnr);
 
