@@ -14,6 +14,9 @@ list of all the changes in the code.
 ** C64 changes
 --------------
 
+- "4064" and "SX" are now valid ROM patch IDs (the same as "100" and
+  "67" respectively).
+
 ** VIC20 changes
 ----------------
 
@@ -43,9 +46,9 @@ list of all the changes in the code.
   library if found.  Use `./configure --without-readline' for the old
   behavior.
 
-- `-lICE' is now explicitly linked (the old way could cause troubles
-  on GNU/Linux systems with both GNU libc 2 and 1, such as RedHat
-  5.0 or greater).
+- `-lICE' is now explicitly linked if found (the old way could cause
+  troubles on GNU/Linux systems with both GNU libc 2 and 1, such as
+  RedHat 5.0 or greater).
 
 ** Miscellaneous changes
 ------------------------
@@ -63,8 +66,8 @@ list of all the changes in the code.
 
 - Sound output can now be oversampled.
 
-- The `Directory' resource can now be a colon-separated list of paths
-  (a la Unix `PATH').
+- The `Directory' resource is now a list of paths.  The separator is
+  `;' on MS-DOS and `:' on Unix.
 
 
 * Changes in VICE 0.14.2
