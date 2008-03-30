@@ -1,3 +1,50 @@
+2006-02-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.6.
+
+	* drive/drive.c (drive_init, drive_reset): Clear new led clock
+	variables.  (drive_led_update): New function.
+
+	* drive/drive.h: Added led clock variables.
+
+	* drive/drive-overflow.c (drive_clk_overflow_callback): Added
+	new clock variables to overflow code.
+
+	* drive/iecieee/via2d.c, drive/iec/cia1581d.c,
+	drive/ieee/riot2d.c, drive/tcbm/glue1551.c: Set new led clock
+	variables.
+
+	* uiapi.h, arch/unix/x11/xaw/x11ui.c, arch/win32/ui.c,
+	arch/unix/x11/gnome/x11ui.c, arch/os2/ui.c, arch/msdos/ui.c,
+	arch/riscos/ui.c (ui_display_drive_led): Switched drive led
+	api from binary values to pwm values.
+
+2006-02-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added VIC20 Basic 4.0 and 5.0  extension support.
+
+2006-02-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/msdos/Makefile.am, arch/msdos/parsid.c,
+	arch/msdos/uisid.c, arch/unix/Makefile.am,
+	arch/unix/parsid.c, arch/unix/uisid.c,
+	arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/msvc/config.h, arch/win32/parsid.c,
+	arch/win32/uisid.c, arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, parsid.h, sid/sid-cmdline-options.c,
+	sid/sid-resources.c, sid/sid.c, sid/sid.h, translate.c: Added
+	experimental ParSID support.
+
+2006-02-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/Makefile.am, c64/cart/delaep64.pl: Made the
+	delaep64.pl a binary script in the automake file and fixed a
+	small 'game' line issue.
+
+2006-02-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Fixed a warning.
+
 2006-02-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.5.

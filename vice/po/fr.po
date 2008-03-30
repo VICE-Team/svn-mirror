@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-02-11 22:33+0100\n"
+"POT-Creation-Date: 2006-02-19 23:20+0100\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:143 src/sid/sid-cmdline-options.c:123
-#: src/sid/sid-cmdline-options.c:126
+#: src/vsync.c:143 src/sid/sid-cmdline-options.c:155
+#: src/sid/sid-cmdline-options.c:158
 msgid "<percent>"
 msgstr "<pourcent>"
 
@@ -817,7 +817,7 @@ msgid "Specify name of 256K image"
 msgstr "Spécifier le nom de l'image +60K"
 
 #: src/c64/c64_256k.c:255 src/c64/plus60k.c:256
-#: src/sid/sid-cmdline-options.c:109
+#: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<adresse de base>"
 
@@ -1087,7 +1087,7 @@ msgid "Set drive type (0: no drive)"
 msgstr "Spécifier le type de lecteur de disque (0: pas de lecteur)"
 
 #: src/drive/drive-cmdline-options.c:70
-#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:120
+#: src/drive/iec/iec-cmdline-options.c:104 src/sid/sid-cmdline-options.c:152
 msgid "<method>"
 msgstr "<méthode>"
 
@@ -1653,63 +1653,97 @@ msgstr "Désactiver l'émulation IEC pour le lecteur #11"
 msgid "<engine>"
 msgstr "<engin>"
 
-#: src/sid/sid-cmdline-options.c:76
+#: src/sid/sid-cmdline-options.c:77
+msgid ""
+"Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
+"ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:79
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:78
+#: src/sid/sid-cmdline-options.c:83
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4:ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:85
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:82
+#: src/sid/sid-cmdline-options.c:91
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:93
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:84
+#: src/sid/sid-cmdline-options.c:97
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 4:ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:99
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:90
+#: src/sid/sid-cmdline-options.c:107
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4:ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:109
 msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:92
+#: src/sid/sid-cmdline-options.c:113
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:115
 msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:96
+#: src/sid/sid-cmdline-options.c:121
+msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:123
 msgid "Specify SID engine (0: FastSID, 3: HardSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:98
+#: src/sid/sid-cmdline-options.c:127
+msgid "Specify SID engine (0: FastSID, 4: ParSID)"
+msgstr ""
+
+#: src/sid/sid-cmdline-options.c:129
 msgid "Specify SID engine (0: FastSID)"
 msgstr ""
 
-#: src/sid/sid-cmdline-options.c:106
+#: src/sid/sid-cmdline-options.c:138
 msgid "Enable second SID"
 msgstr "Activer le second SID"
 
-#: src/sid/sid-cmdline-options.c:109
+#: src/sid/sid-cmdline-options.c:141
 msgid "Specify base address for 2nd SID"
 msgstr "Spécifier l'adresse de base pour le second SID"
 
-#: src/sid/sid-cmdline-options.c:111
+#: src/sid/sid-cmdline-options.c:143
 msgid "<model>"
 msgstr "<modèle>"
 
-#: src/sid/sid-cmdline-options.c:111
+#: src/sid/sid-cmdline-options.c:143
 msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
 msgstr "Spécifier le modèle SID (0: 6581, 1: 8580, 2: 8580 + Boost digital)"
 
-#: src/sid/sid-cmdline-options.c:114
+#: src/sid/sid-cmdline-options.c:146
 msgid "Emulate SID filters"
 msgstr "Émuler les filtres SID"
 
-#: src/sid/sid-cmdline-options.c:117
+#: src/sid/sid-cmdline-options.c:149
 msgid "Do not emulate SID filters"
 msgstr "Ne pas émuler les filtres SID"
 
-#: src/sid/sid-cmdline-options.c:121
+#: src/sid/sid-cmdline-options.c:153
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -1717,13 +1751,13 @@ msgstr ""
 "Méthode reSID (0: rapide, 1: interpolation, 2: rééchantillonnage, 3: "
 "rééchantillonnage rapide)"
 
-#: src/sid/sid-cmdline-options.c:124
+#: src/sid/sid-cmdline-options.c:156
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "Bande passante pour le resampling reSID en pourcentage de la bande totale (0 "
 "- 90)"
 
-#: src/sid/sid-cmdline-options.c:127
+#: src/sid/sid-cmdline-options.c:159
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Gain reSID en pourcent (90 - 100)"
 
@@ -2740,7 +2774,7 @@ msgid "Smart-attach a file"
 msgstr "Insérer un fichier de manière intelligente"
 
 #: src/arch/unix/uiattach.c:302 src/arch/unix/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1741
+#: src/arch/unix/x11/xaw/x11ui.c:1747
 msgid "Unknown image type"
 msgstr "Type d'image inconnu"
 
@@ -3058,7 +3092,7 @@ msgstr "À propos de VICE..."
 
 #: src/arch/unix/uicommands.c:517 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:2015
+#: src/arch/unix/x11/gnome/x11ui.c:2022
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -3526,7 +3560,7 @@ msgstr "Suivant: "
 
 #: src/arch/unix/uifliplist.c:245 src/arch/unix/uifliplist.c:260
 #: src/arch/unix/x11/gnome/x11ui.c:903 src/arch/unix/x11/gnome/x11ui.c:913
-#: src/arch/unix/x11/gnome/x11ui.c:1596
+#: src/arch/unix/x11/gnome/x11ui.c:1603
 msgid "<empty>"
 msgstr "<vide>"
 
@@ -4480,35 +4514,47 @@ msgstr "*Catweasel MKIII"
 msgid "*HardSID"
 msgstr "à froid"
 
-#: src/arch/unix/uisid.c:63
+#: src/arch/unix/uisid.c:58
+msgid "*ParSID Port 1"
+msgstr ""
+
+#: src/arch/unix/uisid.c:60
+msgid "*ParSID Port 2"
+msgstr ""
+
+#: src/arch/unix/uisid.c:62
+msgid "*ParSID Port 3"
+msgstr ""
+
+#: src/arch/unix/uisid.c:71
 msgid "*6581 (old)"
 msgstr "*6581 (ancien)"
 
-#: src/arch/unix/uisid.c:65
+#: src/arch/unix/uisid.c:73
 msgid "*8580 (new)"
 msgstr "*8580 (nouveau)"
 
-#: src/arch/unix/uisid.c:67
+#: src/arch/unix/uisid.c:75
 msgid "*8580 + digi boost"
 msgstr "*8580 + boost digital"
 
-#: src/arch/unix/uisid.c:76
+#: src/arch/unix/uisid.c:84
 msgid "*Fast"
 msgstr "*Rapide"
 
-#: src/arch/unix/uisid.c:78
+#: src/arch/unix/uisid.c:86
 msgid "*Interpolating"
 msgstr "*par interpolation"
 
-#: src/arch/unix/uisid.c:80
+#: src/arch/unix/uisid.c:88
 msgid "*Resampling"
 msgstr "*Rééchantillonage"
 
-#: src/arch/unix/uisid.c:82
+#: src/arch/unix/uisid.c:90
 msgid "*Fast Resampling"
 msgstr "*Rééchantillonage rapide"
 
-#: src/arch/unix/uisid.c:99
+#: src/arch/unix/uisid.c:107
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -4516,7 +4562,7 @@ msgstr ""
 "Entrez la bande passante (%) de la bande totale\n"
 "(0 - 90, petit = performances, grand = qualité)"
 
-#: src/arch/unix/uisid.c:100
+#: src/arch/unix/uisid.c:108
 msgid "Passband percentage"
 msgstr "Pourcentage de bande passante"
 
@@ -5186,7 +5232,7 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2650
+#: src/arch/unix/x11/gnome/x11ui.c:2657
 #, fuzzy
 msgid "all files"
 msgstr "Tous les fichiers (*.*)"
@@ -5304,67 +5350,67 @@ msgstr "(Turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1748
+#: src/arch/unix/x11/gnome/x11ui.c:1755
 #, c-format
 msgid "Tape %03d"
 msgstr "Datassette %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1814 src/arch/unix/x11/xaw/x11ui.c:1395
+#: src/arch/unix/x11/gnome/x11ui.c:1821 src/arch/unix/x11/xaw/x11ui.c:1401
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (en pause)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974
+#: src/arch/unix/x11/gnome/x11ui.c:1981
 msgid "VICE Message"
 msgstr "Message VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1985
+#: src/arch/unix/x11/gnome/x11ui.c:1992
 msgid "VICE Error"
 msgstr "Erreur VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2016
+#: src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "Hard Reset"
 msgstr "Réinitialiser à froid"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2017
+#: src/arch/unix/x11/gnome/x11ui.c:2024
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/xaw/x11ui.c:1673
+#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1679
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2062
+#: src/arch/unix/x11/gnome/x11ui.c:2069
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Désirez vous étendre l'image de disque à 40 pistes?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2075
+#: src/arch/unix/x11/gnome/x11ui.c:2082
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Démarrage automatique impossible pour le lecteur #%d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2083 src/arch/unix/x11/gnome/x11ui.c:2092
+#: src/arch/unix/x11/gnome/x11ui.c:2090 src/arch/unix/x11/gnome/x11ui.c:2099
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Impossible de démarrer automatiquement la sélection %d de l'image %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2218 src/arch/unix/x11/gnome/x11ui.c:2228
+#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "AUCUN CONTENU D'IMAGE DISPONIBLE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2673
+#: src/arch/unix/x11/gnome/x11ui.c:2680
 msgid "Contents"
 msgstr "Contenu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2719
+#: src/arch/unix/x11/gnome/x11ui.c:2726
 msgid "Attach write protected"
 msgstr "Protéger contre l'écriture"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2727
+#: src/arch/unix/x11/gnome/x11ui.c:2734
 msgid "Autostart"
 msgstr "Démarrage automatique"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2744
+#: src/arch/unix/x11/gnome/x11ui.c:2751
 msgid "Text cannot be displayed.\n"
 msgstr ""
 
@@ -5676,7 +5722,7 @@ msgstr "enregistrement d'événements"
 msgid "%d: Track %.1f"
 msgstr "%d: Piste %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1558
+#: src/arch/unix/x11/xaw/x11ui.c:1564
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 

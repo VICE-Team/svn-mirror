@@ -276,6 +276,7 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	msdosmain.c \
+	parsid.c \
 	petui.c \
 	plus4ui.c \
 	signals.c \
@@ -361,9 +362,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) cbmcharsets.$(OBJEXT) \
 	console.$(OBJEXT) grabkey.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
 	menudefs.$(OBJEXT) mousedrv.$(OBJEXT) msdosmain.$(OBJEXT) \
-	petui.$(OBJEXT) plus4ui.$(OBJEXT) signals.$(OBJEXT) \
-	statusbar.$(OBJEXT) tfearch.$(OBJEXT) tui.$(OBJEXT) \
-	tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
+	parsid.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
+	signals.$(OBJEXT) statusbar.$(OBJEXT) tfearch.$(OBJEXT) \
+	tui.$(OBJEXT) tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
 	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
 	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
@@ -385,10 +386,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/grabkey.Po ./$(DEPDIR)/joy.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/menudefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/msdosmain.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/tui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tui_backend.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parsid.Po ./$(DEPDIR)/petui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4ui.Po ./$(DEPDIR)/signals.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/tfearch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tui.Po ./$(DEPDIR)/tui_backend.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuicharset.Po ./$(DEPDIR)/tuifs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuiimagebrowser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
@@ -449,6 +450,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menudefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mousedrv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msdosmain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@

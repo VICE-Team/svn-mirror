@@ -175,6 +175,11 @@ static void undump_prb(riot_context_t *riot_context, BYTE byte)
         drive_context[1]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
+
+    if (riot2p->drive->led_status & 1)
+        riot2p->drive->led_active_ticks += *(riot_context->clk_ptr)
+            - riot2p->drive->led_last_change_clk;
+    riot2p->drive->led_last_change_clk = *(riot_context->clk_ptr);
 }
 
 static void store_prb(riot_context_t *riot_context, BYTE byte)

@@ -76,6 +76,11 @@ static void glue_pport_update(drive_context_t *drv)
     /* Drive active LED.  */
     drv->drive->led_status = (output & 8) ? 0 : 1;
 
+    if (drv->drive->led_status)
+        drv->drive->led_active_ticks += *(drv->clk_ptr)
+                                        - drv->drive->led_last_change_clk;
+    drv->drive->led_last_change_clk = *(drv->clk_ptr);
+
     if ((old_output ^ output) & 0x60)
         rotation_speed_zone_set((output >> 5) & 0x3, drv->mynumber);
 
