@@ -104,14 +104,18 @@ struct tui_menu {
 
     /* Menu items.  */
     tui_menu_item_t *item_list;
+
+    /* Default item when the menu is open.  */
+    int default_item;
 };
 
 /* ------------------------------------------------------------------------- */
 
-static void tui_menu_call_callback(tui_menu_item_t *item, int param)
+static void tui_menu_call_callback(tui_menu_item_t *item, int param,
+                                   int *become_default)
 {
     tui_menu_callback_t callback = item->callback;
-    char *new_par_string;
+    const char *new_par_string;
 
     if (callback == NULL) {
 	if (item->par_string != NULL)
@@ -120,7 +124,7 @@ static void tui_menu_call_callback(tui_menu_item_t *item, int param)
 	return;
     }
 
-    new_par_string = (*callback)(param, item->callback_param);
+    new_par_string = (*callback)(param, item->callback_param, become_default);
 
     if (new_par_string == NULL) {
 	if (item->par_string != NULL)
@@ -140,18 +144,24 @@ static void tui_menu_call_callback(tui_menu_item_t *item, int param)
 void tui_menu_update(tui_menu_t menu)
 {
     tui_menu_item_t *p;
+    int i;
 
-    for (p = menu->item_list; p != NULL; p = p->next) {
+    for (p = menu->item_list, i = 0; p != NULL; p = p->next, i++) {
+        int become_default = 0;
+
 	switch (p->type) {
 	  case TUI_MENU_COMMAND:
-	    tui_menu_call_callback(p, 0);
+	    tui_menu_call_callback(p, 0, &become_default);
 	    break;
 	  case TUI_MENU_SUBMENU:
-	    tui_menu_call_callback(p, 0);
+	    tui_menu_call_callback(p, 0, &become_default);
 	    tui_menu_update(p->submenu);
 	    break;
 	  default:
 	}
+
+        if (become_default)
+            menu->default_item = i;
     }
 }
 
@@ -184,6 +194,7 @@ tui_menu_t tui_menu_create(const char *title, int spacing)
     new->spacing = spacing;
     new->num_items = 0;
     new->item_list = NULL;
+    new->default_item = 0;
 
     return new;
 }
@@ -261,7 +272,7 @@ void tui_menu_add_item(tui_menu_t menu, const char *label,
 		       tui_menu_item_behavior_t behavior)
 {
     tui_menu_item_t *new = tui_menu_add_generic(menu);
-    int width;
+    int width, dummy;
 
     width = set_label(new, label);
 
@@ -283,7 +294,7 @@ void tui_menu_add_item(tui_menu_t menu, const char *label,
 	menu->width = width;
 
     /* Make sure `par_string' is initialized.  */
-    tui_menu_call_callback(new, 0);
+    tui_menu_call_callback(new, 0, &dummy);
 }
 
 void tui_menu_add_separator(tui_menu_t menu)
@@ -426,13 +437,13 @@ int tui_menu_handle(tui_menu_t menu)
     tui_display_window(menu_x, menu_y, total_width, total_height, MENU_BORDER,
 		       MENU_BACK, menu->title, &backing_store);
 
-#ifdef MENU_STARTS_UNHIGHLIGHTED
-    current_item = -1;
-    item_ptr = NULL;
-#else
-    current_item = 0;
-    item_ptr = menu->item_list;
-#endif
+    {
+        int i;
+
+        current_item = menu->default_item;
+        for (i = 0, item_ptr = menu->item_list; i < current_item; i++)
+            item_ptr = item_ptr->next;
+    }
 
     need_update = 1;
 
@@ -472,7 +483,11 @@ int tui_menu_handle(tui_menu_t menu)
 	  case K_Escape:
 	    tui_area_put(backing_store, menu_x, menu_y);
 	    tui_area_free(backing_store);
-	    return 0;
+	    return 0;           /* Leave this menu.  */
+          case K_Tab:
+	    tui_area_put(backing_store, menu_x, menu_y);
+	    tui_area_free(backing_store);
+            return 1;           /* Resume emulation.  */
 	  case K_Up:
 	    if (item_ptr == NULL || item_ptr->prev == NULL) {
 		current_item = menu->num_items - 1;
@@ -506,10 +521,10 @@ int tui_menu_handle(tui_menu_t menu)
 	    }
 	    break;
 	  case ' ':
-	  /* case K_Right: */
 	  case K_Return:
 	    if (item_ptr != NULL) {
 		int ret = 0;
+                int become_default = 1;
 
 		tui_menu_display_item(item_ptr, total_width - 2,
 				      menu_x + 1, y, 1);
@@ -517,7 +532,10 @@ int tui_menu_handle(tui_menu_t menu)
 		if (item_ptr->type == TUI_MENU_SUBMENU)
 		    ret = tui_menu_handle(item_ptr->submenu);
 
-		tui_menu_call_callback(item_ptr, 1);
+		tui_menu_call_callback(item_ptr, 1, &become_default);
+                if (become_default)
+                    menu->default_item = current_item;
+
 		if (ret || item_ptr->behavior != TUI_MENU_BEH_CONTINUE) {
 		    tui_area_put(backing_store, menu_x, menu_y);
 		    tui_area_free(backing_store);
@@ -539,15 +557,24 @@ int tui_menu_handle(tui_menu_t menu)
 		for (p = menu->item_list, i = 0; p != NULL; p = p->next, i++) {
 		    if (p->hot_key == key_char) {
 			int ret = 0;
+                        int become_default = 1;
 
 			item_ptr = p;
 			current_item = i;
+
+                        /* The action could change values in the current
+                           menu.  */
+                        need_update = 1;
+
 			y = menu_y + menu->spacing * current_item + 1;
 			tui_menu_display_item(item_ptr, total_width - 2,
 					      menu_x + 1, y, 1);
 			if (p->type == TUI_MENU_SUBMENU)
 			    ret = tui_menu_handle(p->submenu);
-			tui_menu_call_callback(p, 1);
+
+			tui_menu_call_callback(p, 1, &become_default);
+                        if (become_default)
+                            menu->default_item = current_item;
 
 			if (ret || p->behavior != TUI_MENU_BEH_CONTINUE) {
 			    tui_area_put(backing_store, menu_x, menu_y);

@@ -43,7 +43,8 @@ typedef enum tui_menu_item_behavior {
    the right of the menu item.  `behavior' defines the behavior of the item
    after it has been activated (default is `TUI_ITEM_BEH_CONTINUE'). */
 typedef const char *(*tui_menu_callback_t)(int been_activated,
-                                           void *callback_param);
+                                           void *callback_param,
+                                           int *become_default);
 
 /* Menu type. */
 typedef struct tui_menu *tui_menu_t;
@@ -73,7 +74,7 @@ void tui_menu_update(tui_menu_t menu);
 /* ------------------------------------------------------------------------- */
 
 #define TUI_MENU_CALLBACK(name) \
-    const char *name(int been_activated, void *param)
+    const char *name(int been_activated, void *param, int *become_default)
 
 #define TUI_MENU_DEFINE_TOGGLE(resource)                                     \
     static TUI_MENU_CALLBACK(toggle_##resource##_callback)                   \
@@ -91,12 +92,19 @@ void tui_menu_update(tui_menu_t menu);
             return value ? "On" : "Off";                                     \
     }
 
-#define TUI_MENU_DEFINE_RADIO(resource)                               \
-    static TUI_MENU_CALLBACK(radio_##resource##_callback)             \
-    {                                                                 \
-        if (been_activated)                                           \
-            resources_set_value(#resource, (resource_value_t) param); \
-        return NULL;                                                  \
+#define TUI_MENU_DEFINE_RADIO(resource)                                 \
+    static TUI_MENU_CALLBACK(radio_##resource##_callback)               \
+    {                                                                   \
+        if (been_activated) {                                           \
+            resources_set_value(#resource, (resource_value_t) param);   \
+            *become_default = 1;                                        \
+        } else {                                                        \
+            resource_value_t v;                                         \
+            resources_get_value(#resource, &v);                         \
+            if (v == (resource_value_t) param)                          \
+                *become_default = 1;                                    \
+        }                                                               \
+        return NULL;                                                    \
     }
 
 #endif
