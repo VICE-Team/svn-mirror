@@ -123,6 +123,7 @@ EXTRA_DIST = \
 	monitor.dsp \
 	pet.dsp \
 	petcat.dsp \
+	plus4.dsp \
 	printerdrv.dsp \
 	raster.dsp \
 	resid.dsp \
@@ -137,6 +138,7 @@ EXTRA_DIST = \
 	x64.dsp \
 	xcbm2.dsp \
 	xpet.dsp \
+	xplus4.dsp \
 	xvic.dsp \
 	vice.dsw \
         montb.bmp \

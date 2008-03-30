@@ -1,3 +1,46 @@
+2001-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.28.
+
+	* arch/win32/Makefile.am: Added `plus4.dsp' and
+	`xplus4.dsp'.	
+
+	* video/video-color.h: Fixed forward declaration.
+
+2001-11-17  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/plus4.dsp, src/arch/win32/xplus4.dsp:
+	re-introduced the files; added them to makefile.in (so they
+	will be included in future releases).
+
+	* arch/win32/c128.dsp: Added c128-snapshot.c (so that x128
+	links again).
+
+2001-11-16  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/vice.dsw : Xplus4 project is dependent on sid,
+	resid and video projects.
+
+	* arch/win32/vicii.dsp: /src/video folder is added to include
+	folders.
+
+	* arch/win32/video.c (canvas_update): Setup cut rectangle
+	correctly. Check both viewport and framebuffer, whicever is
+	smaller will be used for bottom and right cut.
+
+	* sound.c (sound_open): Removed unused local variable
+	'stereo'.
+	(sound_sample_position): Fixed casting of return value.
+
+	* vic20/vic20-snapshot.c: Include <string.h>.
+
+	* vicii/Makefile.am: /src/video added to include folders.
+
+	* vicii/vicii-resources.c: Include "video-color.h"
+
+	* video/video-color.h (video_color_set_raster): Put definition
+	into .h file.
+
 2001-11-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.27.
