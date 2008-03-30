@@ -105,19 +105,29 @@ static int set_palette_file_name(resource_value_t v, void *param)
 
 static int set_delayloop_emulation(resource_value_t v, void *param)
 {
-    if (video_color_update_palette() < 0)
-        return -1;
-
+    int old = video_resources.delayloop_emulation;
     video_resources.delayloop_emulation = (int)v;
+
+    if (video_color_update_palette() < 0)
+    {
+        video_resources.delayloop_emulation = old;
+        return -1;
+    }
+
     return 0;
 }
 
 static int set_pal_emulation(resource_value_t v, void *param)
 {
-    if (video_color_update_palette() < 0)
-        return -1;
-
+    int old = video_resources.pal_emulation;
     video_resources.pal_emulation = (int)v;
+
+    if (video_color_update_palette() < 0)
+    {
+        video_resources.pal_emulation = old;
+        return -1;
+    }
+
     return 0;
 }
 

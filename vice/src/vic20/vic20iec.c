@@ -42,7 +42,7 @@
 
 #define NOT(x) ((x)^1)
 
-static BYTE cpu_data, cpu_clock, cpu_atn;
+static BYTE cpu_data, cpu_clock = 1, cpu_atn = 1;
 static BYTE drive_data, drive_clock, drive_atna, drive_data_modifier;
 static BYTE drive2_data, drive2_clock, drive2_atna, drive2_data_modifier;
 static BYTE bus_data, bus_clock, bus_atn;
@@ -149,15 +149,12 @@ BYTE iec_drive1_read(void)
 
 BYTE iec_pa_read(void)
 {
-    if (!drive[0].enable && !drive[1].enable)
-        return 0;
-
     if (drive[0].enable)
         drive0_cpu_execute(clk);
     if (drive[1].enable)
         drive1_cpu_execute(clk);
 
-    cpu_bus_val = (bus_data << 1) | bus_clock | (bus_atn << 7);
+    cpu_bus_val = (bus_data << 1) | bus_clock | (NOT(bus_atn) << 7);
 
     return cpu_bus_val;
 }
@@ -165,9 +162,6 @@ BYTE iec_pa_read(void)
 void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
-
-    if (!drive[0].enable && !drive[1].enable)
-	return;
 
     if (drive[0].enable)
         drive0_cpu_execute(clk);

@@ -15,6 +15,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "base"=".\base.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "c128"=".\c128.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -348,6 +360,9 @@ Package=<4>
     Project_Dep_Name arch
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
@@ -408,6 +423,9 @@ Package=<4>
     Project_Dep_Name arch
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name c64
     End Project Dependency
     Begin Project Dependency
@@ -460,6 +478,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name cbm2
@@ -516,6 +537,9 @@ Package=<4>
     Project_Dep_Name arch
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
@@ -559,6 +583,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name drive
@@ -610,6 +637,9 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name drive

@@ -37,6 +37,7 @@ EXTRA_DIST = \
         incl/vdrive.icc \
         incl/vic20.icc \
         incl/vicii.icc \
+        incl/video.icc \
         incl/vsid.icc \
         incl/resources.icc \
         ctools/biosdump.icc \

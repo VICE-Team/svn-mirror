@@ -1,6 +1,7 @@
 source type(c)
     "c128-cmdline-options.c",
     "c128-resources.c",
+    "c128-snapshot.c",
     "c128.c",
     "c128cia1.c",
     "c128cpu.c",

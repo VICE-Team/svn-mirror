@@ -110,7 +110,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int vsync_init_resources(void)
+int vsync_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -130,7 +130,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int vsync_init_cmdline_options(void)
+int vsync_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

@@ -72,8 +72,8 @@ BEGIN
 #endif
          MENUITEM "~Tape",             IDM_DETACHTAPE,   MIS_TEXT
          MENUITEM SEPARATOR
-         MENUITEM "Disk ~8\tAlt-8",    IDM_DETACH8,      MIS_TEXT
-         MENUITEM "Disk ~9\tAlt-9",    IDM_DETACH9,      MIS_TEXT
+         MENUITEM "Disk ~8",           IDM_DETACH8,      MIS_TEXT
+         MENUITEM "Disk ~9",           IDM_DETACH9,      MIS_TEXT
          MENUITEM "Disk 1~0",          IDM_DETACH10,     MIS_TEXT
          MENUITEM "Disk 1~1",          IDM_DETACH11,     MIS_TEXT
          MENUITEM SEPARATOR
@@ -145,6 +145,7 @@ BEGIN
       MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
       MENUITEM "Crtc Double Scan",     IDM_CRTCDSCAN,    MIS_TEXT
 #endif
+      MENUITEM "Fake PAL Emu",         IDM_FAKEPAL,      MIS_TEXT
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
       BEGIN
          MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT

@@ -35,7 +35,6 @@
 #define INCL_WINSTATICS      // SS_TEXT
 #define INCL_WINFRAMEMGR     // WM_TRANSLATEACCEL
 #define INCL_WINWINDOWMGR    // QWL_USER
-#define INCL_WINSWITCHLIST
 #define INCL_DOSSEMAPHORES   // HMTX
 #include <os2.h>
 #define INCL_MMIO
@@ -50,22 +49,19 @@
 #endif
 
 #include "video.h"
-//#include "dlg-emulator.h" // ID_SPEEDDISP
+#include "videoarch.h"
 
 #include "log.h"
 #include "proc.h"
-#include "ui.h"
-#include "ui_status.h"
 #include "utils.h"
-#include "dialogs.h"
+#include "dialogs.h"         // IDM_VICE2
 #include "menubar.h"
 #include "dragndrop.h"
-#include "machine.h"      // machine_canvas_screenshot
 #include "cmdline.h"
 #include "resources.h"
-#include "screenshot.h"  // screenshot_t
-#include "snippets\pmwin2.h"
-#include "videoarch.h"
+
+#include "machine.h"         // machine_canvas_screenshot
+#include "screenshot.h"      // screenshot_t
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -85,7 +81,7 @@ static log_t vidlog = LOG_ERR;
 
 extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
-static HMTX  hmtx;
+//static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
 static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
@@ -102,8 +98,13 @@ static int menu;        // flag if menu should be enabled
 static int status=0;    // flag if status should be enabled
 static HWND *hwndlist = NULL;
 
-extern void wmVrnDisabled(HWND hwnd);
-extern void wmVrnEnabled(HWND hwnd);
+extern void WmVrnDisabled(HWND hwnd);
+extern void WmVrnEnabled(HWND hwnd);
+
+inline video_canvas_t *GetCanvas(HWND hwnd)
+{
+    return (video_canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+}
 
 void AddToWindowList(HWND hwnd)
 {
@@ -145,6 +146,7 @@ void AddToWindowList(HWND hwnd)
     hwndlist[i]   = hwnd;
     hwndlist[i+1] = NULLHANDLE;
 }
+
 static int set_stretch_factor(resource_value_t v, void *param)
 {
     int i=0;
@@ -155,14 +157,6 @@ static int set_stretch_factor(resource_value_t v, void *param)
         return 0;
     }
 
-
-    //
-    // disable visible region (stop blitting to display)
-    //
-    i = 0;
-    while (hwndlist[i])
-        wmVrnDisabled(hwndlist[i++]);
-
     //
     // set new stretch factor
     //
@@ -171,16 +165,27 @@ static int set_stretch_factor(resource_value_t v, void *param)
     i = 0;
     while (hwndlist[i])
     {
-        video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwndlist[i], QWL_USER);
-        //
-        // resize canvas
-        //
-        video_canvas_resize(c, c->width, c->height);
+        video_canvas_t *c = GetCanvas(hwndlist[i]);
+
+        if (!DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
+        {
+            //
+            // Disable drawing into window
+            //
+            WmVrnDisabled(hwndlist[i]);
+
+            //
+            // resize canvas
+            //
+            video_canvas_resize(c, c->width, c->height);
+
+            DosReleaseMutexSem(c->hmtx);
+        }
 
         //
         // set visible region (start blitting again)
-        //
-        wmVrnEnabled(hwndlist[i]);
+        // (this is done by canvas_resize)
+        // WmVrnEnabled(hwndlist[i]);
         i++;
     }
 
@@ -194,14 +199,13 @@ void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
     if (!hwndlist)
         return;
 
-
     //
     // disable visible region (stop blitting to display)
     //
     i = 0;
     while (hwndlist[i])
     {
-        const video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr(hwndlist[i++], QWL_USER);
+        const video_canvas_t *c = GetCanvas(hwndlist[i++]);
 
         char *txt=xmsprintf("%s - %d%% - %dfps %s",
                             c->title, speed, frame_rate,
@@ -279,7 +283,7 @@ static HWND AddStatusTxt(HWND hwnd, UINT x, UINT width, int id, char *txt)
     return thwnd;
 }
 */
-static UINT canvas_fullheight(UINT height)
+static UINT GetWindowHeight(UINT height)
 {
     height *= stretch;
     height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
@@ -289,7 +293,7 @@ static UINT canvas_fullheight(UINT height)
     return height;
 }
 
-static UINT canvas_fullwidth(UINT width)
+static UINT GetWindowWidth(UINT width)
 {
     width *= stretch;
 #if defined __XVIC__
@@ -370,13 +374,13 @@ static int set_menu(resource_value_t v, void *param)
 
     while (hwndlist[i])
     {
-        video_canvas_t *c = (video_canvas_t *)WinQueryWindowPtr((HWND)hwndlist[i++], QWL_USER);
+        video_canvas_t *c = GetCanvas(hwndlist[i++]);
         //
         // correct window size
         //
         WinSetWindowPos(c->hwndFrame, 0, 0, 0,
-                        canvas_fullwidth (c->width),
-                        canvas_fullheight(c->height),
+                        GetWindowWidth (c->width),
+                        GetWindowHeight(c->height),
                         SWP_SIZE|SWP_MINIMIZE);
 
         //
@@ -479,51 +483,15 @@ int video_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------ */
 const int DIVE_RECTLS  = 50;
-static HDIVE hDiveInst =  0;  // DIVE instance
-static int initialized = FALSE;
-static SETUP_BLITTER divesetup;
+static DIVE_CAPS divecaps;
 
 extern HMTX hmtxKey;
 
-int video_init(void) // initialize Dive
+void KbdOpenMutex(void)
 {
-    APIRET rc;
-
-    vidlog = log_open("Video");
-
-    log_message(vidlog, "Starting Dive...");
-
-    if (rc=DiveOpen(&hDiveInst, FALSE, NULL))
-    {
-        log_error(vidlog, "Could not open DIVE (rc=0x%x).",rc);
-        return -1;
-    }
-    // FIXME??? Do we need one sem for every canvas
-    // This semaphore serializes the Dive and Frame Buffer access
-    //
-    archdep_create_mutex_sem(&hmtx, "Video", FALSE);
-
-    divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
-    divesetup.fInvert           = FALSE;
-    divesetup.ulDitherType      = 0;
-    divesetup.fccSrcColorFormat = FOURCC_LUT8;
-    divesetup.fccDstColorFormat = FOURCC_SCRN;
-    divesetup.pVisDstRects      = xcalloc(DIVE_RECTLS, sizeof(RECTL));
+    ULONG rc;
 
     //
-    // this is a dummy setup. It is needed for some graphic
-    // drivers that they get valid values for the first time we
-    // setup the dive blitter regions
-    //
-    divesetup.ulSrcWidth  = 1;
-    divesetup.ulSrcHeight = 1;
-    divesetup.ulSrcPosX   = 0;
-    divesetup.ulSrcPosY   = 0;
-    divesetup.ulDstWidth  = 1;
-    divesetup.ulDstHeight = 1;
-    divesetup.lDstPosX    = 0;
-    divesetup.lDstPosY    = 0;
-
     // FIXME
     // Is this the right place to initialize the keyboard semaphore?
     //
@@ -534,38 +502,48 @@ int video_init(void) // initialize Dive
         // we are in a different process (eg. second instance of x64)
         //
         rc=DosOpenMutexSem("\\SEM32\\Vice2\\Keyboard", &hmtxKey);
-        if (rc)
+        if (!rc)
             log_debug("DosOpenMutexSem (rc=%li)", rc);
+        return;
     }
-    else
-        if (rc)
-            log_debug("DosCreateMutexSem (rc=%li)", rc);
 
-    log_message(vidlog, "Dive startup done.");
+    if (rc)
+        log_debug("DosCreateMutexSem (rc=%li)", rc);
+}
 
-    initialized = TRUE;
+int video_init(void) // initialize Dive
+{
+    APIRET rc;
+
+    vidlog = log_open("Video");
+
+    log_message(vidlog, "Query Dive capabilities...");
+
+    divecaps.ulStructLen    = sizeof(DIVE_CAPS);
+    divecaps.ulFormatLength = 0;
+
+    rc = DiveQueryCaps(&divecaps, DIVE_BUFFER_SCREEN);
+
+    if (rc!=DIVE_SUCCESS && rc!=DIVE_ERR_INSUFFICIENT_LENGTH)
+    {
+        log_error(vidlog, "DiveQueryCaps failed (rc=%x)", rc);
+        return -1;
+    }
+
+    rc = divecaps.fccColorEncoding;
+    log_message(vidlog, "Detected Display = %dx%dx%d (%c%c%c%c)",
+                divecaps.ulHorizontalResolution,
+                divecaps.ulVerticalResolution,
+                divecaps.ulDepth,
+                rc, rc>>8, rc>>16, rc>>24);
+
+    KbdOpenMutex();
 
     return 0;
 }
 
 void video_close(void)
 {
-    //
-    // video_close is called from the main thread, that means, that
-    // vice is not blitting at the same moment.
-    //
-    APIRET rc;
-
-    log_message(vidlog, "Closing Dive...");
-
-    if (rc=DiveClose(hDiveInst))
-        log_error(vidlog, "Dive closed (rc=0x%x).", rc);
-
-    hDiveInst = 0;
-
-    free(divesetup.pVisDstRects);
-
-    log_message(vidlog, "Dive closed.");
 }
 
 /* ------------------------------------------------------------------------ */
@@ -574,41 +552,25 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f, UINT width, UINT height)
 {
     APIRET rc;
 
-    if (width<sizeof(ULONG))
-        width=sizeof(ULONG); // Sizeline Boundary, Workaround
+    //if (width<sizeof(ULONG))
+    //    width=sizeof(ULONG); // Sizeline Boundary, Workaround
 
-    (*f) = (video_frame_buffer_t*) xcalloc(1, sizeof(video_frame_buffer_t));
-    (*f)->bitmap = (char*) xcalloc(width*height, sizeof(BYTE));
+    (*f) = (video_frame_buffer_t*) calloc(1, sizeof(video_frame_buffer_t));
+    (*f)->bitmap = (char*) calloc(width*height, sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;
-
-    //
-    // allocate image buffer, I might be faster to specify 0 for
-    // the scanlinesize, but then we need a correction for
-    // every time we have a line size which is not
-    // devidable by 4
-    //
-    rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
-                            width, height, width, (*f)->bitmap);
-    //
-    // check for errors
-    //
-    if (rc)
-        log_error(vidlog, "DiveAllocImageBuffer (rc=0x%x).", rc);
-    else
-        log_message(vidlog, "Frame buffer #%d allocated (%lix%li)", (*f)->ulBuffer, width, height);
 
     return 0;
 }
 
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{   // raster_force_repaint, we needn't this
+{
+    // raster_force_repaint, we needn't this
     //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
 }
 
 void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-    ULONG rc;
     //
     // This is if video_close calls video_free before a frame_buffer is allocated
     //
@@ -616,12 +578,6 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
         return;
 
     DEBUG("FRAME BUFFER FREE 0");
-
-    if (rc=DiveFreeImageBuffer(hDiveInst, f->ulBuffer))
-        log_error(vidlog,"DiveFreeImageBuffer (rc=0x%x).", rc);
-    else
-        log_message(vidlog,"Frame buffer #%d freed.", f->ulBuffer);
-
 
     //
     // if f is valid also f->bitmap must be valid, see video_frame_buffer_alloc
@@ -649,7 +605,7 @@ static kstate vk_desktop;
 
 extern int use_leds;
 
-void wmCreate(void)
+void KbdInit(void)
 {
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
@@ -672,7 +628,74 @@ void wmCreate(void)
     DosReleaseMutexSem(hmtxKey);
 }
 
-void wmDestroy(void)
+MRESULT WmCreate(HWND hwnd)
+{
+    ULONG rc;
+
+    video_canvas_t *canvas_new = (video_canvas_t *)calloc(1, sizeof(video_canvas_t));
+
+    archdep_create_mutex_sem(&canvas_new->hmtx, "Video", FALSE);
+
+    //
+    // Setup divesetup, so that dive doesn't crash when trying to call
+    // DiveSetupBlitter. This can happen as soon as hDiveInst != 0
+    //
+    canvas_new->hDiveInst = 0;
+
+    canvas_new->divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
+    canvas_new->divesetup.fInvert           = FALSE;
+    canvas_new->divesetup.ulDitherType      = 0;
+    canvas_new->divesetup.fccSrcColorFormat = FOURCC_LUT8; //divecaps.fccColorEncoding; //FOURCC_LUT8;
+    canvas_new->divesetup.fccDstColorFormat = FOURCC_SCRN;
+    canvas_new->divesetup.pVisDstRects      = calloc(DIVE_RECTLS, sizeof(RECTL));
+
+    //
+    // this is a dummy setup. It is needed for some graphic
+    // drivers that they get valid values for the first time we
+    // setup the dive blitter regions
+    //
+    canvas_new->divesetup.ulSrcWidth  = 1;
+    canvas_new->divesetup.ulSrcHeight = 1;
+    canvas_new->divesetup.ulSrcPosX   = 0;
+    canvas_new->divesetup.ulSrcPosY   = 0;
+    canvas_new->divesetup.ulDstWidth  = 1;
+    canvas_new->divesetup.ulDstHeight = 1;
+    canvas_new->divesetup.lDstPosX    = 0;
+    canvas_new->divesetup.lDstPosY    = 0;
+
+    //
+    // No try to open a dive instance for this window.
+    //
+    if (rc=DiveOpen(&canvas_new->hDiveInst, FALSE, NULL))
+    {
+        log_error(vidlog, "DiveOpen failed (rc=0x%x)", rc);
+
+        //
+        // Stop window creation
+        //
+        return (MRESULT)TRUE;
+    }
+
+    log_message(vidlog, "Dive instance #%d opened successfully.",
+                canvas_new->hDiveInst);
+
+    //
+    // set user data pointer to newly created canvas structure
+    //
+    WinSetWindowPtr(hwnd, QWL_USER, canvas_new);
+
+    //
+    // Init Keyboard Led handling
+    //
+    KbdInit();
+
+    //
+    // Continue window creation
+    //
+    return FALSE;
+}
+
+void KbdDestroy(void)
 {
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
@@ -687,7 +710,30 @@ void wmDestroy(void)
     DosReleaseMutexSem(hmtxKey);
 }
 
-void wmSetSelection(MPARAM mp1)
+void WmDestroy(HWND hwnd)
+{
+    ULONG rc;
+
+    video_canvas_t *c = GetCanvas(hwnd);
+
+    KbdDestroy();
+
+    if (!c)
+        return;
+
+    if (rc=DiveClose(c->hDiveInst))
+        log_error(vidlog, "DiveClose failed (rc=0x%x)", rc);
+
+    free(c->divesetup.pVisDstRects);
+
+    if (rc)
+        return;
+
+    log_message(vidlog, "Dive instance #%d closed successfully.",
+                c->hDiveInst);
+}
+
+void WmSetSelection(MPARAM mp1)
 {
     BYTE keyState[256];
     DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);

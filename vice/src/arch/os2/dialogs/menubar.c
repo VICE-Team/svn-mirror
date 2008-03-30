@@ -28,8 +28,8 @@
 #define INCL_WINMENUS      // WinCheckMenuItem
 #define INCL_WINDIALOGS    // WinMessageBox
 #define INCL_WINWINDOWMGR  // QWL_USER
-#include "videoarch.h"     // canvas_*
-//#include "video.h"         // canvas_*
+#include "videoarch.h"     // video_canvas_*
+//#include "video.h"         // video_canvas_*
 #include "dialogs.h"
 #include "menubar.h"
 #include "dlg-color.h"
@@ -97,6 +97,11 @@ extern int  get_volume(void);
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
+}
+
+static void toggle_async(ADDRESS addr, void *name)
+{
+    toggle(name);
 }
 
 static void load_snapshot(ADDRESS addr, void *hwnd)
@@ -278,7 +283,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_CRTSSSHOT5:
     case IDM_CRTWEST:
     case IDM_CRTIEEE:
-        ViceFileDialog(hwnd, 0x0b00 /*| (idm&0xf)*/, FDS_OPEN_DIALOG);
+        ViceFileDialog(hwnd, 0x0b00 | (idm&0xf), FDS_OPEN_DIALOG);
         return;
     case IDM_CRTEXPERT:
         {
@@ -361,12 +366,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #endif
 
+    case IDM_FAKEPAL:
+        log_debug("Setting delayloop.");
+        maincpu_trigger_trap(toggle_async, "DelayLoopEmulation");
+        log_debug("Setting delayloop... done.");
+        return;
+
 #if defined VIC_II_NEED_2X || defined VIC_NEED_2X
     case IDM_VICDSIZE:
-        toggle("DoubleSize");
+        maincpu_trigger_trap(toggle_async, "DoubleSize");
         return;
+
     case IDM_VICDSCAN:
-        toggle("DoubleScan");
+        maincpu_trigger_trap(toggle_async, "DoubleScan");
         return;
 #endif
 #ifdef CRTC_NEED_2X
@@ -981,6 +993,8 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
     case IDM_SETUP:
+        WinCheckRes(hwnd, IDM_FAKEPAL, "DelayLoopEmulation");
+
 #if defined VIC_II_NEED_2X || defined VIC_NEED_2X
         WinCheckRes(hwnd, IDM_VICDSIZE, "DoubleSize");
         WinCheckRes(hwnd, IDM_VICDSCAN, "DoubleScan");

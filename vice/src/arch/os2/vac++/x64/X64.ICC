@@ -23,6 +23,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
+    incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
@@ -59,6 +60,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/gfxoutputdrv.icc"
         include "../incl/printerdrv.icc"
         include "../incl/vicii.icc"
+        include "../incl/video.icc"
         include "../incl/vsid.icc"
         include "../incl/resid.icc"
     }

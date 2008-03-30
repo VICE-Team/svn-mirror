@@ -111,6 +111,7 @@ libarch_a_DEPENDENCIES = \
 EXTRA_DIST = \
 	msvc/config.h \
 	arch.dsp \
+	base.dsp \
 	c128.dsp \
 	c1541.dsp \
 	c64.dsp \
@@ -134,6 +135,7 @@ EXTRA_DIST = \
 	vic20.dsp \
 	vice.dsp \
 	vicii.dsp \
+	video.dsp \
 	x128.dsp \
 	x64.dsp \
 	xcbm2.dsp \

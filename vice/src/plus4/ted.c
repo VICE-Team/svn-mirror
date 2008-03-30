@@ -57,6 +57,9 @@
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
+#ifdef __MSDOS__
+#include "videoarch.h"
+#endif
 #include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -791,8 +794,8 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
       ted.mem_counter = 0;
 
 #ifdef __MSDOS__
-      if (ted.raster.viewport.width <= VIC_II_SCREEN_XPIX
-          && ted.raster.viewport.height <= VIC_II_SCREEN_YPIX
+      if (ted.raster.viewport.width <= TED_SCREEN_XPIX
+          && ted.raster.viewport.height <= TED_SCREEN_YPIX
           && ted.raster.viewport.update_canvas)
         canvas_set_border_color(ted.raster.viewport.canvas,
                                 ted.raster.border_color);

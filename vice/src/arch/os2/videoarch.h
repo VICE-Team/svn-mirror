@@ -20,7 +20,6 @@ typedef struct video_frame_buffer_s {
     int   width;
     int   height;
     BYTE *bitmap;
-    ULONG ulBuffer; // DIVE buffer number
 } video_frame_buffer_t;
 
 #define VIDEO_FRAME_BUFFER_LINE_START(f,n)  ((f->bitmap) + ((f->width) \
@@ -32,20 +31,23 @@ typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
 typedef struct video_canvas_s
 {
-    HWND  hwndFrame;        // Handle to Frame of Window
-    HWND  hwndClient;       // Handle to Paint Area of Window
-    HWND  hwndMenu;         // Handle to menu bar
-    HWND  hwndTitlebar;     // Hwndle to titlebar
-    HWND  hwndPopupMenu;    // Handle to popup menu
-    HMTX  hmtx;
-    char *title;
-    UINT  width;            // width of canvas graphic area
-    UINT  height;           // width of canvas graphic area
-    BYTE  stretch;          // actual stretch factor of canvas
-    UCHAR palette;          // number of 16-block of palette entries
-    BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
-    SETUP_BLITTER sb;
-    canvas_redraw_t exposure_handler;
+    HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
+    HWND   hwndClient;       // Handle to Paint Area of Window
+    HWND   hwndMenu;         // Handle to menu bar
+    HWND   hwndTitlebar;     // Hwndle to titlebar
+    HWND   hwndPopupMenu;    // Handle to popup menu
+    HMTX   hmtx;
+    char  *title;
+    UINT   width;            // width of canvas graphic area
+    UINT   height;           // width of canvas graphic area
+    BYTE   stretch;          // actual stretch factor of canvas
+    DWORD *palette;          // number of 16-block of palette entries
+    BOOL   vrenabled;        // only BlitImage when Visible Region Enabled
+    BYTE  *bitmaptrg;
+    ULONG  ulBuffer; // DIVE buffer number
+    HDIVE  hDiveInst;
+    SETUP_BLITTER divesetup;
+    canvas_redraw_t exposure;
 };
 
 typedef struct video_canvas_s video_canvas_t;

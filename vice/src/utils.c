@@ -63,19 +63,18 @@
 #include "utils.h"
 
 /* ------------------------------------------------------------------------- */
-
 /* Like malloc, but abort if not enough memory is available.  */
 void *xmalloc(size_t size)
 {
     void *p = malloc(size);
-
+#ifndef __OS2__
     if (p == NULL && size > 0) {
         log_error(LOG_DEFAULT,
                   "xmalloc - virtual memory exhausted: "
                   "cannot allocate %lu bytes.", (unsigned long)size);
         exit(-1);
     }
-
+#endif
     return p;
 }
 
@@ -83,14 +82,14 @@ void *xmalloc(size_t size)
 void *xcalloc(size_t nmemb, size_t size)
 {
     void *p = calloc(nmemb, size);
-
+#ifndef __OS2__
     if (p == NULL && (size * nmemb) > 0) {
         log_error(LOG_DEFAULT,
                   "xcalloc - virtual memory exhausted: cannot allocate %lux%lu bytes.",
                   (unsigned long)nmemb,(unsigned long)size);
         exit(-1);
     }
-
+#endif
     return p;
 }
 
@@ -98,14 +97,14 @@ void *xcalloc(size_t nmemb, size_t size)
 void *xrealloc(void *p, size_t size)
 {
     void *new_p = realloc(p, size);
-
+#ifndef __OS2__
     if (new_p == NULL) {
         log_error(LOG_DEFAULT,
                   "xrealloc - virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size);
         exit(-1);
     }
-
+#endif
     return new_p;
 }
 

@@ -699,7 +699,6 @@ static void FillFBox(HWND hwnd)
     //
     WinLboxEmpty(fbox);
 
-    i=0;
     while (filter[i].ext)
     {
         int len = strlen(filter[i].desc)+strlen(filter[i].ext)+5;

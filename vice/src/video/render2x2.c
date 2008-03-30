@@ -65,7 +65,8 @@ void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 		{
 			if (wfirst)
 			{
-				*((BYTE *)tmptrg)++=(BYTE)colortab[*tmpsrc++];
+				*((BYTE *)tmptrg)=(BYTE)colortab[*tmpsrc++];
+				tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -91,6 +92,7 @@ void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			if (wlast)
 			{
 				*((BYTE *)tmptrg)=(BYTE)colortab[*tmpsrc];
+				tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
 			}
 			if (y & 1) src += pitchs;
 		}
@@ -99,7 +101,7 @@ void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			color=(WORD)colortab[0];
 			if (wfirst)
 			{
-				*((BYTE *)tmptrg)++=(BYTE)color;
+				*((BYTE *)tmptrg)=(BYTE)color;
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -163,7 +165,8 @@ void render_16_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 		{
 			if (wfirst)
 			{
-				*((WORD *)tmptrg)++=(WORD)colortab[*tmpsrc++];
+				*((WORD *)tmptrg)=(WORD)colortab[*tmpsrc++];
+				tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -197,7 +200,8 @@ void render_16_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			color=colortab[0];
 			if (wfirst)
 			{
-				*((WORD *)tmptrg)++=(WORD)color;
+				*((WORD *)tmptrg)=(WORD)color;
+				tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -357,11 +361,11 @@ void render_24_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			if (wlast)
 			{
 				color=colortab[*tmpsrc];
-				*tmptrg++=(BYTE)color;
+				tmptrg[0]=(BYTE)color;
 				color >>= 8;
-				*tmptrg++=(BYTE)color;
+				tmptrg[1]=(BYTE)color;
 				color >>= 8;
-				*tmptrg=(BYTE)color;
+				tmptrg[2]=(BYTE)color;
 			}
 			if (y & 1) src += pitchs;
 		}
@@ -423,9 +427,9 @@ void render_24_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			if (wlast)
 			{
-				*tmptrg++=0;
-				*tmptrg++=0;
-				*tmptrg=0;
+				tmptrg[0]=0;
+				tmptrg[1]=0;
+				tmptrg[2]=0;
 			}
 		}
 		trg += pitcht;
@@ -603,7 +607,8 @@ void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 		{
 			if (wfirst)
 			{
-				*((BYTE *)tmptrg)++=(BYTE)colortab[*tmpsrc++ | (*tmppre++ << 4)];
+				*((BYTE *)tmptrg)=(BYTE)colortab[*tmpsrc++ | (*tmppre++ << 4)];
+				tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -611,7 +616,9 @@ void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				tmptrg[0]=(WORD)colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[1]=(WORD)colortab[(BYTE)rcolor];
@@ -619,7 +626,9 @@ void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 				tmptrg[2]=(WORD)colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[3]=(WORD)colortab[(BYTE)rcolor];
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				tmptrg[4]=(WORD)colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[5]=(WORD)colortab[(BYTE)rcolor];
@@ -648,7 +657,8 @@ void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			color=(WORD)colortab[0];
 			if (wfirst)
 			{
-				*((BYTE *)tmptrg)++=(BYTE)color;
+				*((BYTE *)tmptrg)=(BYTE)color;
+				tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -717,7 +727,8 @@ void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 		{
 			if (wfirst)
 			{
-				*((WORD *)tmptrg)++=(WORD)colortab[*tmpsrc++ | (*tmppre++ << 4)];
+				*((WORD *)tmptrg)=(WORD)colortab[*tmpsrc++ | (*tmppre++ << 4)];
+				tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -725,7 +736,9 @@ void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				tmptrg[0]=colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[1]=colortab[(BYTE)rcolor];
@@ -733,7 +746,9 @@ void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 				tmptrg[2]=colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[3]=colortab[(BYTE)rcolor];
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				tmptrg[4]=colortab[(BYTE)rcolor];
 				rcolor >>= 8;
 				tmptrg[5]=colortab[(BYTE)rcolor];
@@ -762,7 +777,8 @@ void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			color=colortab[0];
 			if (wfirst)
 			{
-				*((WORD *)tmptrg)++=(WORD)color;
+				*((WORD *)tmptrg)=(WORD)color;
+				tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
 			}
 			for (x=0;x<wstart;x++)
 			{
@@ -857,7 +873,9 @@ void render_24_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				color=colortab[(BYTE)rcolor];
 				tcolor=color;
 				tmptrg[0]=(BYTE)color;
@@ -1000,9 +1018,9 @@ void render_24_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			if (wlast)
 			{
-				*tmptrg++=0;
-				*tmptrg++=0;
-				*tmptrg=0;
+				tmptrg[0]=0;
+				tmptrg[1]=0;
+				tmptrg[2]=0;
 			}
 		}
 		trg += pitcht;
@@ -1057,7 +1075,9 @@ void render_32_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor = ((*((DWORD *)tmpsrc)++) | ((*((DWORD *)tmppre)++) << 4));
+				rcolor = (*((DWORD *)tmpsrc) | (*((DWORD *)tmppre) << 4));
+				tmpsrc += sizeof(DWORD);
+				tmppre += sizeof(DWORD);
 				color=colortab[(BYTE)rcolor];
 				tmptrg[0]=color;
 				tmptrg[1]=color;

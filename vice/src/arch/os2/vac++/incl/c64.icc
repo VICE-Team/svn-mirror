@@ -1,6 +1,7 @@
 source type(c)
     "c64-cmdline-options.c",
     "c64-resources.c",
+    "c64-snapshot.c",
     "c64.c",
     "c64acia1.c",
     "c64cia1.c",
@@ -9,6 +10,7 @@ source type(c)
     "c64iec.c",
     "c64io.c",
     "c64mem.c",
+    "c64pla.c",
     "c64rsuser.c",
     "c64tpi.c",
     "patchrom.c",

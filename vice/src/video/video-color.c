@@ -152,9 +152,12 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 	/* apply gamma correction */
 
 	factor=pow(255.0f,1.0f-gam);
-	rf = (float)(factor * pow(rf, gam));
-	gf = (float)(factor * pow(gf, gam));
-	bf = (float)(factor * pow(bf, gam));
+	if (rf < 0.0f) rf = 0.0f;
+	else rf = (float)(factor * pow(rf, gam));
+	if (gf < 0.0f) gf = 0.0f;
+	else gf = (float)(factor * pow(gf, gam));
+	if (bf < 0.0f) bf = 0.0f;
+	else bf = (float)(factor * pow(bf, gam));
 
 	/* convert to int and clip to 8 bit boundaries */
 

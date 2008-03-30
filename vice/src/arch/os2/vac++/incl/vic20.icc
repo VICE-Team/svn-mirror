@@ -8,6 +8,7 @@ source type(c)
 	"vic.c",
 	"vic20-cmdline-options.c",
 	"vic20-resources.c",
+	"vic20-snapshot.c",
 	"vic20.c",
 	"vic20cartridge.c",
 	"vic20datasette.c",
