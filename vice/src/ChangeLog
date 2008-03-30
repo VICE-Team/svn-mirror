@@ -1,3 +1,22 @@
+2001-05-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.24.
+
+	* c128/z80.c: Rewritten interrupt handling.
+
+	* c128/c128memlimit.c, c128/c128memlimit.h: New files.
+
+	* c128/Makefile.am: Added new files.
+
+	* c128/c128mem.c (mem_initialize_memory): Added support for
+	C64 mode memory configuration.
+	(basic64_read, chargen64_read, kernal64_read): New functions.
+	(pla_config_changed): Update MMU configuration.
+
+	* c128/c128mmu.c, c128/c128mmu.h (mmu_update_config,
+	mmu_set_config64): New functions.
+	(mmu_store): Call `mmu_update_config()'.
+
 2001-05-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.23.
@@ -7,6 +26,9 @@
 	vic20/vic20-resources.c, vic20/vic20-resources.h,
 	pet/pet-resources.c, pet/pet-resources.h,
 	cbm2/c610-resources.c, cbm2/c610-resources.h: New files.
+
+	* c64/Makefile.am, c128/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, cbm2/Makefile.am: Added new files.
 
 	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c.
 	pet/petmem.c, cbm2/c610mem.c: Moved resource code to separate
