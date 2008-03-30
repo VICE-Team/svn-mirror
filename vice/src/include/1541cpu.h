@@ -48,6 +48,7 @@ extern void true1541_cpu_reset(void);
 extern void true1541_cpu_sleep(void);
 extern void true1541_cpu_wake_up(void);
 extern int true1541_cpu_prevent_clk_overflow(void);
+extern void true1541_cpu_set_sync_factor(unsigned int factor);
 
 extern void REGPARM2 true1541_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 true1541_read(ADDRESS addr);
