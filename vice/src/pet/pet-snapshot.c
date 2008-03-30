@@ -140,30 +140,29 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-    snapshot_module_write_byte(m, (BYTE)(config | rconf));
+    SMW_B(m, (BYTE)(config | rconf));
 
     resources_get_value("KeymapIndex", (resource_value_t*) &kbdindex);
-    snapshot_module_write_byte(m, (BYTE)(kbdindex >> 1));
+    SMW_B(m, (BYTE)(kbdindex >> 1));
 
-    snapshot_module_write_byte(m, memsize);
-    snapshot_module_write_byte(m, conf8x96);
-    snapshot_module_write_byte(m, superpet);
+    SMW_B(m, memsize);
+    SMW_B(m, conf8x96);
+    SMW_B(m, superpet);
 
     if (config != 5) {
-        snapshot_module_write_byte_array(m, mem_ram, memsize << 10);
+        SMW_BA(m, mem_ram, memsize << 10);
 
-        snapshot_module_write_byte_array(m, mem_ram + 0x8000,
-                                         (config < 2) ? 0x400 : 0x800);
+        SMW_BA(m, mem_ram + 0x8000, (config < 2) ? 0x400 : 0x800);
 
         if (config == 3 || config == 4) {
-            snapshot_module_write_byte_array(m, mem_ram + 0x10000, 0x10000);
+            SMW_BA(m, mem_ram + 0x10000, 0x10000);
         }
     } else {    /* 8296 */
-        snapshot_module_write_byte_array(m, mem_ram, 0x20000);
+        SMW_BA(m, mem_ram, 0x20000);
     }
 
-    snapshot_module_write_byte(m, (BYTE)(kbdindex & 1));
-    snapshot_module_write_byte(m, (BYTE)(petres.eoiblank ? 1 : 0));
+    SMW_B(m, (BYTE)(kbdindex & 1));
+    SMW_B(m, (BYTE)(petres.eoiblank ? 1 : 0));
 
     snapshot_module_close(m);
 
@@ -190,14 +189,14 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     peti.kbd_type = byte;
 
-    snapshot_module_read_byte(m, &memsize);
-    snapshot_module_read_byte(m, &conf8x96);
-    snapshot_module_read_byte(m, &superpet);
+    SMR_B(m, &memsize);
+    SMR_B(m, &conf8x96);
+    SMR_B(m, &superpet);
 
     rconf = config & 0xc0;
     config &= 0x0f;
@@ -221,9 +220,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
       case 3:           /* SuperPET */
         spet_ramen = superpet & 1;
         spet_ramwp = superpet & 2;
-        spet_ctrlwp= superpet & 4;
-        spet_diag  = superpet & 8;
-        spet_bank  = (superpet >> 4) & 0x0f;
+        spet_ctrlwp = superpet & 4;
+        spet_diag = superpet & 8;
+        spet_bank = (superpet >> 4) & 0x0f;
         peti.superpet = 1;
         break;
       case 4:           /* 8096 */
@@ -245,27 +244,26 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     pet_crtc_set_screen();
 
     if (config != 5) {
-        snapshot_module_read_byte_array(m, mem_ram, memsize << 10);
+        SMR_BA(m, mem_ram, memsize << 10);
 
-        snapshot_module_read_byte_array(m, mem_ram + 0x8000,
-                                        (config < 2) ? 0x400 : 0x800);
+        SMR_BA(m, mem_ram + 0x8000, (config < 2) ? 0x400 : 0x800);
 
         if (config == 3 || config == 4) {
-            snapshot_module_read_byte_array(m, mem_ram + 0x10000, 0x10000);
+            SMR_BA(m, mem_ram + 0x10000, 0x10000);
         }
     } else {    /* 8296 */
-        snapshot_module_read_byte_array(m, mem_ram, 0x20000);
+        SMR_BA(m, mem_ram, 0x20000);
     }
 
     if (vminor > 0) {
         int kindex;
-        snapshot_module_read_byte(m, &byte);
+        SMR_B(m, &byte);
         resources_get_value("KeymapIndex", (resource_value_t *)&kindex);
         resources_set_value("KeymapIndex",
                             (resource_value_t)((kindex & ~1) | (byte & 1)));
     }
     if (vminor > 1) {
-        snapshot_module_read_byte(m, &byte);
+        SMR_B(m, &byte);
         resources_set_value("EoiBlank", (resource_value_t)(byte & 1));
     }
 
@@ -320,36 +318,34 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
              | (rom_B_loaded ? 4 : 0)
              | ((petres.ramSize == 128) ? 8 : 0);
 
-    snapshot_module_write_byte(m, config);
+    SMW_B(m, config);
 
     {
-        snapshot_module_write_byte_array(m, mem_rom + 0x7000, 0x1000);
-        snapshot_module_write_byte_array(m, mem_rom + 0x6000, 0x0800);
+        SMW_BA(m, mem_rom + 0x7000, 0x1000);
+        SMW_BA(m, mem_rom + 0x6000, 0x0800);
 
         /* pick relevant data from chargen ROM */
         for (i = 0; i < 128; i++) {
-            snapshot_module_write_byte_array(m, mem_chargen_rom + i * 16, 8);
+            SMW_BA(m, mem_chargen_rom + i * 16, 8);
         }
         for (i = 0; i < 128; i++) {
-            snapshot_module_write_byte_array(m,
-                                             mem_chargen_rom + 0x1000 + i * 16,
-                                             8);
+            SMW_BA(m, mem_chargen_rom + 0x1000 + i * 16, 8);
         }
 
         if (config & 1) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x1000, 0x1000);
+            SMW_BA(m, mem_rom + 0x1000, 0x1000);
         }
         if (config & 2) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x1000);
+            SMW_BA(m, mem_rom + 0x2000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x3000, 0x1000);
+            SMW_BA(m, mem_rom + 0x3000, 0x1000);
         }
 
-        snapshot_module_write_byte_array(m, mem_rom + 0x4000, 0x2000);
+        SMW_BA(m, mem_rom + 0x4000, 0x2000);
 
         if (config & 8) {
-           snapshot_module_write_byte_array(m, mem_rom + 0x6900, 0x0700);
+           SMW_BA(m, mem_rom + 0x6900, 0x0700);
         }
     }
 
@@ -391,7 +387,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
              | (rom_B_loaded ? 4 : 0)
              | ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
        loading the new ROMs. These depend on addresses defined in the
@@ -416,34 +412,34 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     {
         /* kernal $f000-$ffff */
-        snapshot_module_read_byte_array(m, mem_rom + 0x7000, 0x1000);
+        SMR_BA(m, mem_rom + 0x7000, 0x1000);
         /* editor $e000-$e7ff */
-        snapshot_module_read_byte_array(m, mem_rom + 0x6000, 0x0800);
+        SMR_BA(m, mem_rom + 0x6000, 0x0800);
 
         /* chargen ROM */
         resources_set_value("Basic1Chars", (resource_value_t) 0);
-        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x0800);
+        SMR_BA(m, mem_chargen_rom, 0x0800);
         petrom_convert_chargen(mem_chargen_rom);
 
         /* $9000-$9fff */
         if (config & 1) {
-            snapshot_module_read_byte_array(m, mem_rom + 0x1000, 0x1000);
+            SMR_BA(m, mem_rom + 0x1000, 0x1000);
         }
         /* $a000-$afff */
         if (config & 2) {
-            snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x1000);
+            SMR_BA(m, mem_rom + 0x2000, 0x1000);
         }
         /* $b000-$bfff */
         if (config & 4) {
-            snapshot_module_read_byte_array(m, mem_rom + 0x3000, 0x1000);
+            SMR_BA(m, mem_rom + 0x3000, 0x1000);
         }
 
         /* $c000-$dfff */
-        snapshot_module_read_byte_array(m, mem_rom + 0x4000, 0x2000);
+        SMR_BA(m, mem_rom + 0x4000, 0x2000);
 
         /* $e900-$efff editor extension */
         if (config & 8) {
-            snapshot_module_read_byte_array(m, mem_rom + 0x6900, 0x0700);
+            SMR_BA(m, mem_rom + 0x6900, 0x0700);
         }
     }
 

@@ -1,3 +1,35 @@
+2003-01-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.43.
+
+	* plus4/ted-snapshot.c: #include "log.h".
+
+	* drive/ieee/ieeerom.c, serial/serial-iec-lib.c,
+	monitor/mon_file.c, tape/tapeimage.c, drive/tcbm/tcbmrom.c:
+	#include <string.h>.
+
+	* joystick.c, keyboard.c, sound.c, vsync.c, c64/psid.c,
+	printerdrv/drv-mps803.c, serial/fsdrive.c, sid/fastsid.c,
+	serial/serial-iec.c, sounddrv/sounddx.c, sounddrv/soundwmm.c,
+	vicii/vicii-draw.c, vicii/viciitypes.h, vicii/vicii-fetch.c,
+	vicii/vicii-irq.c, vicii/vicii-mem.c, raster/raster-canvas.c,
+	raster/raster.h, video/render1x1pal.c, video/render2x2pal.c,
+	monitor/mon_file.c, c64/cart/ide64.c, c64/cart/retroreplay.c,
+	tape/tap.c, maincpu.c, c128/z80.c, vdc/vdc-draw.c, vdc/vdc.c,
+	6510core.c, plus4/tedtypes.h, vic20/vic-mem.c, vic20/vic.c,
+	vic20/vic20ieeevia2.c, resources.c: Removed warnings.
+
+	* c64/c64-snapshot.c, c64/reu.c, c128/c128-snapshot.c,
+	vic20/vic-snapshot.c, vic20/vic20-snapshot.c,
+	pet/pet-snapshot.c, plus4/ted-snapshot.c,
+	cbm2/cbm2-snapshot.c, cbm2/cbm2.c: Use new snapshot function
+	naming.
+
+2003-01-09  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: corrected a bug in MarkModeMove()
+	which sometimes lead to a bugcheck; added some assertions
+
 2003-01-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.42.
@@ -17,7 +49,7 @@
 	buffer for the clipboard (in processing Ctrl+C) removed by
 	adding a "stop char" before the buffer.
 
-2003-01-07  Tibor Biczo <crown@axelero.hu>
+2003-01-07  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/video.c: Include "vsyncapi.h".
 	(video_refresh_rate): Use vsyncarch functions instead of

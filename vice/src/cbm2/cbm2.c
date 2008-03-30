@@ -608,7 +608,7 @@ static int c500_snapshot_write_module(snapshot_t *p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_dword(m, c500_powerline_clk - maincpu_clk);
+    SMW_DW(m, c500_powerline_clk - maincpu_clk);
 
     snapshot_module_close(m);
 
@@ -630,7 +630,7 @@ static int c500_snapshot_read_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_dword(m, &dword);
+    SMR_DW(m, &dword);
     c500_powerline_clk = maincpu_clk + dword;
     alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
 

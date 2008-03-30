@@ -101,7 +101,7 @@ printf("EVENT RECORD %i\n",type);
 static void event_alarm_handler(CLOCK offset)
 {
     alarm_unset(&event_alarm);
-printf("EVENT PLAYBACK %i\n",event_list_current->type);
+    /*printf("EVENT PLAYBACK %i\n",event_list_current->type);*/
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
         keyboard_event_playback(offset, event_list_current->data);

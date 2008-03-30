@@ -78,7 +78,7 @@ static int read_byte_into_int(snapshot_module_t *m, int *value_return)
 {
   BYTE b;
 
-  if (snapshot_module_read_byte(m, &b) < 0)
+  if (SMR_B(m, &b) < 0)
       return -1;
   *value_return = (int)b;
   return 0;
@@ -89,7 +89,7 @@ static int read_word_into_int(snapshot_module_t *m, int *value_return)
 {
   WORD b;
 
-  if (snapshot_module_read_word (m, &b) < 0)
+  if (SMR_W(m, &b) < 0)
       return -1;
   *value_return = (int)b;
   return 0;

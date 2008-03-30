@@ -112,38 +112,38 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
              | (cartC_ram ? 32 : 0)
              | (cbm2_isC500 ? 64 : 0);
 
-    snapshot_module_write_byte(m, memsize);
-    snapshot_module_write_byte(m, config);
-    snapshot_module_write_byte(m, (BYTE)(cbm2_model_line & 3));
+    SMW_B(m, memsize);
+    SMW_B(m, config);
+    SMW_B(m, (BYTE)(cbm2_model_line & 3));
 
-    snapshot_module_write_byte(m, (BYTE)(cbm2mem_bank_exec));
-    snapshot_module_write_byte(m, (BYTE)(cbm2mem_bank_ind));
+    SMW_B(m, (BYTE)(cbm2mem_bank_exec));
+    SMW_B(m, (BYTE)(cbm2mem_bank_ind));
 
-    snapshot_module_write_byte_array(m, mem_ram + 0xf0000, 0x0800);
-    snapshot_module_write_byte_array(m, mem_rom + 0xd000, 0x0800);
+    SMW_BA(m, mem_ram + 0xf0000, 0x0800);
+    SMW_BA(m, mem_rom + 0xd000, 0x0800);
 
     /* main memory array */
-    snapshot_module_write_byte_array(m, mem_ram + effective_start,
+    SMW_BA(m, mem_ram + effective_start,
                                                 ((int)memsize) << 17);
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xf0800, 0x0800);
+            SMW_BA(m, mem_ram + 0xf0800, 0x0800);
         }
         if (config & 2) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xf1000, 0x1000);
+            SMW_BA(m, mem_ram + 0xf1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xf2000, 0x2000);
+            SMW_BA(m, mem_ram + 0xf2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xf4000, 0x2000);
+            SMW_BA(m, mem_ram + 0xf4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xf6000, 0x2000);
+            SMW_BA(m, mem_ram + 0xf6000, 0x2000);
         }
         if (config & 32) {
-            snapshot_module_write_byte_array(m, mem_ram + 0xfc000, 0x1000);
+            SMW_BA(m, mem_ram + 0xfc000, 0x1000);
         }
     }
 
@@ -170,21 +170,21 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     memsize = ((int)byte) & 0xff;
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
-    snapshot_module_read_byte(m, &hwconfig);
+    SMR_B(m, &hwconfig);
     resources_set_value("ModelLine", (resource_value_t)(int)(hwconfig & 3));
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     cbm2mem_set_bank_exec(byte);
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     cbm2mem_set_bank_ind(byte);
 
-    snapshot_module_read_byte_array(m, mem_ram + 0xf0000, 0x0800);
-    snapshot_module_read_byte_array(m, mem_rom + 0xd000, 0x0800);
+    SMR_BA(m, mem_ram + 0xf0000, 0x0800);
+    SMR_BA(m, mem_rom + 0xd000, 0x0800);
 
     /* calculate start and size of RAM to load */
     /* ramsize starts counting at 0x10000 if less than 512k */
@@ -198,8 +198,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         effective_ramsize -= 64;
     }
 
-    snapshot_module_read_byte_array(m, mem_ram + effective_start,
-                                    memsize << 17);
+    SMR_BA(m, mem_ram + effective_start, memsize << 17);
 
     ramsize = effective_ramsize;
 
@@ -211,29 +210,29 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     cartC_ram = config & 32;
 
     if (memsize < 4) {
-        snapshot_module_read_byte_array(m, mem_ram + 0x10000, memsize << 17);
+        SMR_BA(m, mem_ram + 0x10000, memsize << 17);
     } else {
-        snapshot_module_read_byte_array(m, mem_ram, memsize << 17);
+        SMR_BA(m, mem_ram, memsize << 17);
     }
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xf0800, 0x0800);
+            SMR_BA(m, mem_ram + 0xf0800, 0x0800);
         }
         if (config & 2) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xf1000, 0x1000);
+            SMR_BA(m, mem_ram + 0xf1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xf2000, 0x2000);
+            SMR_BA(m, mem_ram + 0xf2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xf4000, 0x2000);
+            SMR_BA(m, mem_ram + 0xf4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xf6000, 0x2000);
+            SMR_BA(m, mem_ram + 0xf6000, 0x2000);
         }
         if (config & 32) {
-            snapshot_module_read_byte_array(m, mem_ram + 0xfc000, 0x1000);
+            SMR_BA(m, mem_ram + 0xfc000, 0x1000);
         }
     }
 
@@ -296,34 +295,33 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
              | (cart_6_name ? 16 : 0)
              | (cbm2_isC500 ? 32 : 0));
 
-    /* snapshot_module_write_byte(m, save_roms & 3); */
-    snapshot_module_write_byte(m, config);
+    /* SMW_B(m, save_roms & 3); */
+    SMW_B(m, config);
 
     {
         /* kernal */
-        snapshot_module_write_byte_array(m, mem_rom + 0xe000, 0x2000);
+        SMW_BA(m, mem_rom + 0xe000, 0x2000);
         /* basic */
-        snapshot_module_write_byte_array(m, mem_rom + 0x8000, 0x4000);
+        SMW_BA(m, mem_rom + 0x8000, 0x4000);
         /* chargen */
         if (cbm2_isC500) {
-            snapshot_module_write_byte_array(m, mem_chargen_rom, 0x1000);
+            SMW_BA(m, mem_chargen_rom, 0x1000);
         } else {
-            snapshot_module_write_byte_array(m, mem_chargen_rom, 0x0800);
-            snapshot_module_write_byte_array(m, mem_chargen_rom + 0x1000,
-                                             0x0800);
+            SMW_BA(m, mem_chargen_rom, 0x0800);
+            SMW_BA(m, mem_chargen_rom + 0x1000, 0x0800);
         }
 
         if (config & 2) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x1000, 0x1000);
+            SMW_BA(m, mem_rom + 0x1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x2000);
+            SMW_BA(m, mem_rom + 0x2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x4000, 0x2000);
+            SMW_BA(m, mem_rom + 0x4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_write_byte_array(m, mem_rom + 0x6000, 0x2000);
+            SMW_BA(m, mem_rom + 0x6000, 0x2000);
         }
     }
 
@@ -355,19 +353,19 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
     /* kernal */
-    snapshot_module_read_byte_array(m, mem_rom + 0xe000, 0x2000);
+    SMR_BA(m, mem_rom + 0xe000, 0x2000);
     /* basic */
-    snapshot_module_read_byte_array(m, mem_rom + 0x8000, 0x4000);
+    SMR_BA(m, mem_rom + 0x8000, 0x4000);
 
     /* chargen */
     if (config & 32) {
-        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x1000);
+        SMR_BA(m, mem_chargen_rom, 0x1000);
     } else {
-        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x0800);
-        snapshot_module_read_byte_array(m, mem_chargen_rom + 0x1000, 0x0800);
+        SMR_BA(m, mem_chargen_rom, 0x0800);
+        SMR_BA(m, mem_chargen_rom + 0x1000, 0x0800);
         /* Inverted chargen into second half. This is a hardware feature.  */
         for (i = 0; i < 2048; i++) {
             mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
@@ -376,16 +374,16 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     if (config & 2) {
-        snapshot_module_read_byte_array(m, mem_rom + 0x1000, 0x1000);
+        SMR_BA(m, mem_rom + 0x1000, 0x1000);
     }
     if (config & 4) {
-        snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x2000);
+        SMR_BA(m, mem_rom + 0x2000, 0x2000);
     }
     if (config & 8) {
-        snapshot_module_read_byte_array(m, mem_rom + 0x4000, 0x2000);
+        SMR_BA(m, mem_rom + 0x4000, 0x2000);
     }
     if (config & 16) {
-        snapshot_module_read_byte_array(m, mem_rom + 0x6000, 0x2000);
+        SMR_BA(m, mem_rom + 0x6000, 0x2000);
     }
 
     log_warning(cbm2_snapshot_log,

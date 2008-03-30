@@ -31,6 +31,7 @@
 
 #include "alarm.h"
 #include "interrupt.h"
+#include "log.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
@@ -101,57 +102,55 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* AllowBadLines */
-        || snapshot_module_write_byte(m, (BYTE)ted.allow_bad_lines) < 0
+        || SMW_B(m, (BYTE)ted.allow_bad_lines) < 0
         /* BadLine */
-        || snapshot_module_write_byte(m, (BYTE)ted.bad_line) < 0
+        || SMW_B(m, (BYTE)ted.bad_line) < 0
         /* Blank */
-        || snapshot_module_write_byte(m, (BYTE)ted.raster.blank_enabled) < 0
+        || SMW_B(m, (BYTE)ted.raster.blank_enabled) < 0
         /* ColorBuf */
-        || snapshot_module_write_byte_array(m, ted.cbuf, 40) < 0
+        || SMW_BA(m, ted.cbuf, 40) < 0
         /* IdleState */
-        || snapshot_module_write_byte(m, ted.idle_state) < 0
+        || SMW_B(m, ted.idle_state) < 0
         /* MatrixBuf */
-        || snapshot_module_write_byte_array(m, ted.vbuf, 40) < 0
+        || SMW_BA(m, ted.vbuf, 40) < 0
         /* NewSpriteDmaMask */
-        || snapshot_module_write_byte(m,
-            ted.raster.sprite_status->new_dma_msk) < 0
+        || SMW_B(m, ted.raster.sprite_status->new_dma_msk) < 0
         /* RasterCycle */
-        || snapshot_module_write_byte(m, (BYTE)TED_RASTER_CYCLE(maincpu_clk)) < 0
+        || SMW_B(m, (BYTE)TED_RASTER_CYCLE(maincpu_clk)) < 0
         /* RasterLine */
-        || snapshot_module_write_word(m, (WORD)(TED_RASTER_Y(maincpu_clk))) < 0
+        || SMW_W(m, (WORD)(TED_RASTER_Y(maincpu_clk))) < 0
         )
         goto fail;
 
     for (i = 0; i < 0x40; i++)
         /* Registers */
-        if (snapshot_module_write_byte(m, (BYTE)ted.regs[i]) < 0)
+        if (SMW_B(m, (BYTE)ted.regs[i]) < 0)
             goto fail;
 
     if (0
         /* SpriteDmaMask */
-        || snapshot_module_write_byte(m,
-            (BYTE)ted.raster.sprite_status->dma_msk) < 0
+        || SMW_B(m, (BYTE)ted.raster.sprite_status->dma_msk) < 0
         /* Vc */
-        || snapshot_module_write_word(m, (WORD)ted.mem_counter) < 0
+        || SMW_W(m, (WORD)ted.mem_counter) < 0
         /* VcInc */
-        || snapshot_module_write_byte(m, (BYTE)ted.mem_counter_inc) < 0
+        || SMW_B(m, (BYTE)ted.mem_counter_inc) < 0
         /* VcBase */
-        || snapshot_module_write_word(m, (WORD)ted.memptr) < 0
+        || SMW_W(m, (WORD)ted.memptr) < 0
         /* VideoInt */
-        || snapshot_module_write_byte(m, (BYTE)ted.irq_status) < 0
+        || SMW_B(m, (BYTE)ted.irq_status) < 0
         )
         goto fail;
 
     for (i = 0; i < 8; i++) {
         if (0
             /* SpriteXMemPtr */
-            || snapshot_module_write_byte(m,
+            || SMW_B(m,
                 (BYTE)ted.raster.sprite_status->sprites[i].memptr) < 0
             /* SpriteXMemPtrInc */
-            || snapshot_module_write_byte(m,
+            || SMW_B(m,
                 (BYTE)ted.raster.sprite_status->sprites[i].memptr_inc) < 0
             /* SpriteXExpFlipFlop */
-            || snapshot_module_write_byte(m,
+            || SMW_B(m,
                 (BYTE)ted.raster.sprite_status->sprites[i].exp_flag) < 0
             )
             goto fail;
@@ -159,7 +158,7 @@ int ted_snapshot_write_module(snapshot_t *s)
 
     if (0
         /* FetchEventTick */
-        || snapshot_module_write_dword (m, ted.fetch_clk - maincpu_clk) < 0
+        || SMW_DW(m, ted.fetch_clk - maincpu_clk) < 0
         )
         goto fail;
 
@@ -169,28 +168,6 @@ fail:
     if (m != NULL)
         snapshot_module_close(m);
     return -1;
-}
-
-/* Helper functions.  */
-
-static int read_byte_into_int(snapshot_module_t *m, int *value_return)
-{
-    BYTE b;
-
-    if (snapshot_module_read_byte(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
-}
-
-static int read_word_into_int(snapshot_module_t *m, int *value_return)
-{
-    WORD b;
-
-    if (snapshot_module_read_word(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
 }
 
 int ted_snapshot_read_module(snapshot_t *s)
@@ -216,21 +193,19 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     if (0
         /* AllowBadLines */
-        || read_byte_into_int(m, &ted.allow_bad_lines) < 0
+        || SMR_B_INT(m, &ted.allow_bad_lines) < 0
         /* BadLine */
-        || read_byte_into_int(m, &ted.bad_line) < 0 
+        || SMR_B_INT(m, &ted.bad_line) < 0 
         /* Blank */
-        || read_byte_into_int(m, &ted.raster.blank_enabled) < 0
+        || SMR_B_INT(m, &ted.raster.blank_enabled) < 0
         /* ColorBuf */
-        || snapshot_module_read_byte_array (m, ted.cbuf, 40) < 0
+        || SMR_BA(m, ted.cbuf, 40) < 0
         /* IdleState */
-        || read_byte_into_int(m, &ted.idle_state) < 0
+        || SMR_B_INT(m, &ted.idle_state) < 0
         /* MatrixBuf */
-        || snapshot_module_read_byte_array(m, ted.vbuf, 40) < 0
+        || SMR_BA(m, ted.vbuf, 40) < 0
         /* NewSpriteDmaMask */
-        || snapshot_module_read_byte(m,
-            &ted.raster.sprite_status->new_dma_msk) < 0
-        )
+        || SMR_B(m, &ted.raster.sprite_status->new_dma_msk) < 0)
         goto fail;
 
     /* Read the current raster line and the current raster cycle.  As they
@@ -239,8 +214,7 @@ int ted_snapshot_read_module(snapshot_t *s)
         WORD RasterLine;
         BYTE RasterCycle;
 
-        if (snapshot_module_read_byte(m, &RasterCycle) < 0
-            || snapshot_module_read_word(m, &RasterLine) < 0)
+        if (SMR_B(m, &RasterCycle) < 0 || SMR_W(m, &RasterLine) < 0)
             goto fail;
 
         if (RasterCycle != (BYTE)TED_RASTER_CYCLE(maincpu_clk)) {
@@ -259,37 +233,35 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 0x40; i++)
-        if (read_byte_into_int(m, &ted.regs[i]) < 0 /* Registers */ )
+        if (SMR_B_INT(m, &ted.regs[i]) < 0 /* Registers */ )
             goto fail;
 
 
     if (0
         /* SpriteDmaMask */
-        || snapshot_module_read_byte(m,
+        || SMR_B(m,
             &ted.raster.sprite_status->dma_msk) < 0
         /* Vc */
-        || read_word_into_int(m, &ted.mem_counter) < 0
+        || SMR_W_INT(m, &ted.mem_counter) < 0
         /* VcInc */
-        || read_byte_into_int(m, &ted.mem_counter_inc) < 0
+        || SMR_B_INT(m, &ted.mem_counter_inc) < 0
         /* VcBase */
-        || read_word_into_int(m, &ted.memptr) < 0
+        || SMR_W_INT(m, &ted.memptr) < 0
         /* VideoInt */
-        || read_byte_into_int(m, &ted.irq_status) < 0
-        )
+        || SMR_B_INT(m, &ted.irq_status) < 0)
         goto fail;
 
     for (i = 0; i < 8; i++) {
         if (0
             /* SpriteXMemPtr */
-            || read_byte_into_int(m,
+            || SMR_B_INT(m,
                 &ted.raster.sprite_status->sprites[i].memptr) < 0
             /* SpriteXMemPtrInc */
-            || read_byte_into_int(m,
+            || SMR_B_INT(m,
                 &ted.raster.sprite_status->sprites[i].memptr_inc) < 0
             /* SpriteXExpFlipFlop */
-            || read_byte_into_int(m,
-                &ted.raster.sprite_status->sprites[i].exp_flag) < 0
-            )
+            || SMR_B_INT(m,
+                &ted.raster.sprite_status->sprites[i].exp_flag) < 0)
             goto fail;
     }
 
@@ -362,9 +334,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     {
         DWORD dw;
 
-        if (0
-            || snapshot_module_read_dword(m, &dw) < 0  /* FetchEventTick */
-            )
+        if (SMR_DW(m, &dw) < 0)  /* FetchEventTick */
             goto fail;
 
         ted.fetch_clk = maincpu_clk + dw;

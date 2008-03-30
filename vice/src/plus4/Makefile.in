@@ -378,7 +378,7 @@ ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/video.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/interrupt.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/log.h ../../src/mem.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	ted-snapshot.h ted.h tedtypes.h ../../src/raster/raster.h \
