@@ -53,7 +53,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       - AlphaStation 500/533 with Digital Unix 3.2;
 
-      - IBM RS6000 running AIX4.1 (using gcc);
+      - IBM RS6000 running AIX4.1 (using gcc or IBM C++ Set compiler);
 
       - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
