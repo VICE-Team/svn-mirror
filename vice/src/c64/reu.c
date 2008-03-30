@@ -90,7 +90,7 @@ int reu_reset(int size)
         reuram = (BYTE *)xmalloc(ReuSize);
         log_message(reu_log, "%dKB unit installed.", ReuSize >> 10);
         if (reu_file_name != NULL) {
-            if (load_file(reu_file_name, reuram, ReuSize) == 0) {
+            if (util_load_file(reu_file_name, reuram, ReuSize) == 0) {
                 log_message(reu_log, "Image `%s' loaded successfully.",
                             reu_file_name);
             } else {
@@ -119,7 +119,7 @@ void close_reu(void)
     if (reuram == NULL || reu_file_name == NULL)
         return;
 
-    if (save_file(reu_file_name, reuram, ReuSize) == 0)
+    if (util_save_file(reu_file_name, reuram, ReuSize) == 0)
         log_message(reu_log, "image `%s' saved successfully.", reu_file_name);
     else
         log_error(reu_log, "cannot save image `%s'.", reu_file_name);

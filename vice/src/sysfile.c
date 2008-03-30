@@ -68,9 +68,9 @@ static int set_system_path(resource_value_t v, void *param)
 
     expanded_system_path = NULL; /* will subsequently be replaced */
 
-    tmp_path_save = subst(system_path, "$$", default_path);	/* malloc'd */
+    tmp_path_save = util_subst(system_path, "$$", default_path); /* malloc'd */
 
-    current_dir = util_get_current_dir();	/* malloc'd */
+    current_dir = util_get_current_dir(); /* malloc'd */
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {
@@ -245,7 +245,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 
     log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
 
-    rsize = file_length(fp);
+    rsize = util_file_length(fp);
 
     if (rsize < ((size_t)minsize)) {
         log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);

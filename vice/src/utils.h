@@ -42,15 +42,15 @@ extern void *xrealloc(void *p, size_t s);
 extern char *xmsprintf(const char *fmt, ...);
 extern char *xmvsprintf(const char *fmt, va_list args);
 extern char *concat(const char *s1, ...);
-extern char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
-                    const char *src, int src_size);
+extern char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
+                         const char *src, int src_size);
 extern void util_remove_spaces(char *s);
 extern void util_add_extension(char **name, const char *extension);
 extern char *util_get_current_dir(void);
 
-extern size_t file_length(FILE *fd);
-extern int load_file(const char *name, void *dest, size_t size);
-extern int save_file(const char *name, const void *src, int size);
+extern size_t util_file_length(FILE *fd);
+extern int util_load_file(const char *name, void *dest, size_t size);
+extern int util_save_file(const char *name, const void *src, int size);
 extern int util_remove_file(const char *name);
 
 extern int util_get_line(char *buf, int bufsize, FILE *f);
@@ -59,7 +59,8 @@ extern void util_fname_split(const char *path, char **directory_return,
 
 extern int util_string_to_long(const char *str, const char **endptr, int base,
                                long *result);
-extern char *subst(const char *s, const char *string, const char *replacement);
+extern char *util_subst(const char *s, const char *string,
+                        const char *replacement);
 extern void util_string_set(char **str, const char *new_value);
 
 extern int read_dword(FILE *fd, DWORD *buf, size_t num);

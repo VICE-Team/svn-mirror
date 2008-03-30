@@ -2701,8 +2701,8 @@ static int raw_cmd(int nargs, char **args)
     if (nargs >= 2) {
         char *command = stralloc(args[1]);
 
-	petconvstring(command, 0);
-	vdrive_command_execute(floppy, (BYTE *) command, strlen(command));
+        petconvstring(command, 0);
+        vdrive_command_execute(floppy, (BYTE *) command, strlen(command));
         free(command);
     }
 
@@ -2848,13 +2848,14 @@ static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
         }
         p++;
         line[len++] = '\n';
-        outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size,
-                        line, len);
+        outbuf = util_bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size,
+                             line, len);
     }
     vdrive_iec_close(vdrive, 0);
 
     /* Add trailing zero. */
-    outbuf = bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, "", 1);
+    outbuf = util_bufcat(outbuf, &outbuf_size, (size_t *)&max_outbuf_size, "",
+                         1);
 
     return outbuf;
 }

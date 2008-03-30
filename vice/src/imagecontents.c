@@ -84,7 +84,7 @@ char *image_contents_to_string(image_contents_t *contents)
     size_t max_buf_size;
     int len;
 
-#define BUFCAT(s, n) bufcat(buf, &buf_size, &max_buf_size, (s), (n))
+#define BUFCAT(s, n) util_bufcat(buf, &buf_size, &max_buf_size, (s), (n))
 
     max_buf_size = 4096;
     buf = (char*)xmalloc(max_buf_size);
