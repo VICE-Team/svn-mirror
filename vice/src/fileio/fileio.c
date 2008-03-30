@@ -34,16 +34,38 @@
 #include "p00.h"
 #include "rawfile.h"
 #include "types.h"
+#include "util.h"
 
 
-fileio_info_t *fileio_info(const char *file_name)
+fileio_info_t *fileio_open(const char *file_name, const char *path,
+                           unsigned int format, unsigned int command)
 {
-    fileio_info_t *info;
+    fileio_info_t *info = NULL;
+    char *new_file, *new_path;
 
-    info = p00_info(file_name);
+    if (path == NULL) {
+        util_fname_split(file_name, &new_path, &new_file);
+    } else {
+        new_file = lib_stralloc(file_name);
+        new_path = lib_stralloc(path);
+    }
 
-    if (info == NULL)
-        info = cbmfile_info(file_name);
+    do {
+        if (format & FILEIO_FORMAT_P00)
+            info = p00_info(new_file, new_path, command);
+
+        if (info != NULL)
+            break;
+
+        if (format & FILEIO_FORMAT_RAW)
+           info = cbmfile_info(new_file, new_path, command);
+
+        if (info != NULL)
+            break;
+    } while (0);
+
+    lib_free(new_file);
+    lib_free(new_path);
 
     return info;
 }
