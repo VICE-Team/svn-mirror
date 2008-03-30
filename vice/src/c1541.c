@@ -71,6 +71,8 @@
 #include "serial.h"
 #include "t64.h"
 #include "utils.h"
+#include "vdrive-bam.h"
+#include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
 #include "zipcode.h"

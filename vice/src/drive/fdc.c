@@ -32,6 +32,7 @@
 #include "fdc.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "vdrive-bam.h"
 #include "vdrive.h"
 
 #undef FDC_DEBUG
@@ -76,6 +77,7 @@ typedef struct fdc_t {
 } fdc_t;
 	
 static fdc_t fdc[NUM_FDC];
+static DRIVE *vdrive[2];
 
 void fdc_reset(int fnum, int enabled)
 {
@@ -117,19 +119,18 @@ static BYTE fdc_do_job(int fnum, int buf,
     log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
 		"image=%p, type=%04d\n",
 		job, buf, (buf + 1) << 8, dnr, track, sector,
-		drive[dnr].drive_floppy,
-		drive[dnr].drive_floppy 
-			? drive[dnr].drive_floppy->ImageFormat : 0);
+		vdrive[dnr],
+		vdrive[dnr] ? vdrive[dnr]->ImageFormat : 0);
 #endif
 
-    if (drive[dnr].drive_floppy == NULL
-           || (drive[dnr].drive_floppy->ImageFormat != 8050
-		&& drive[dnr].drive_floppy->ImageFormat != 8250)
+    if (vdrive[dnr] == NULL
+           || (vdrive[dnr]->ImageFormat != 8050
+		&& vdrive[dnr]->ImageFormat != 8250)
 	) {
 	return FDC_ERR_SYNC;
     }
 
-    vdrive_bam_get_disk_id(drive[dnr].drive_floppy, disk_id);
+    vdrive_bam_get_disk_id(vdrive[dnr], disk_id);
 
     switch (job) {
     case 0x80:		/* read */
@@ -137,12 +138,12 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-	rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-                           drive[dnr].drive_floppy->ImageFormat,
+	rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+                           vdrive[dnr]->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header,
-                           drive[dnr].drive_floppy->GCR_Header,
-                           drive[dnr].drive_floppy->unit);
+                           vdrive[dnr]->D64_Header,
+                           vdrive[dnr]->GCR_Header,
+                           vdrive[dnr]->unit);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Cannot read T:%d S:%d from disk image.",
@@ -158,17 +159,17 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-	if (drive[dnr].drive_floppy->ReadOnly) {
+	if (vdrive[dnr]->ReadOnly) {
 	    rc = FDC_ERR_WPROT;
 	    break;
 	}
 	memcpy(sector_data, base, 256);
-        rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                           drive[dnr].drive_floppy->ImageFormat,
+        rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+                           vdrive[dnr]->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header,
-                           drive[dnr].drive_floppy->GCR_Header,
-                           drive[dnr].drive_floppy->unit);
+                           vdrive[dnr]->D64_Header,
+                           vdrive[dnr]->GCR_Header,
+                           vdrive[dnr]->unit);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Could not update T:%d S:%d on disk image.",
@@ -183,12 +184,12 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    rc = FDC_ERR_ID;
 	    break;
 	}
-        rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
-                           drive[dnr].drive_floppy->ImageFormat,
+        rc = floppy_read_block(vdrive[dnr]->ActiveFd,
+                           vdrive[dnr]->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header,
-                           drive[dnr].drive_floppy->GCR_Header,
-                           drive[dnr].drive_floppy->unit);
+                           vdrive[dnr]->D64_Header,
+                           vdrive[dnr]->GCR_Header,
+                           vdrive[dnr]->unit);
         if (rc < 0) {
             log_error(drive[dnr].log,
                   "Cannot read T:%d S:%d from disk image.",
@@ -249,7 +250,7 @@ static BYTE fdc_do_job(int fnum, int buf,
 	    log_message(fdc_log, "     sides=%d\n", 
 		fdc[fnum].buffer[0xac]);
 #endif
-	    if (drive[dnr].drive_floppy->ReadOnly) {
+	    if (vdrive[dnr]->ReadOnly) {
 	        rc = FDC_ERR_WPROT;
 	        break;
 	    }
@@ -274,12 +275,12 @@ static BYTE fdc_do_job(int fnum, int buf,
 		    }
 		}
 		for (sector = 0; sector < nsectors; sector ++) {
-                    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
-                           drive[dnr].drive_floppy->ImageFormat,
+                    rc = floppy_write_block(vdrive[dnr]->ActiveFd,
+                           vdrive[dnr]->ImageFormat,
                            sector_data, track, sector,
-                           drive[dnr].drive_floppy->D64_Header,
-                           drive[dnr].drive_floppy->GCR_Header,
-                           drive[dnr].drive_floppy->unit);
+                           vdrive[dnr]->D64_Header,
+                           vdrive[dnr]->GCR_Header,
+                           vdrive[dnr]->unit);
                     if (rc < 0) {
                         log_error(drive[dnr].log,
                   		"Could not update T:%d S:%d on disk image.",
@@ -290,7 +291,7 @@ static BYTE fdc_do_job(int fnum, int buf,
 		}
 	    }
 
-            vdrive_bam_set_disk_id(drive[dnr].drive_floppy, header);
+            vdrive_bam_set_disk_id(vdrive[dnr], header);
 
 	    if (!rc) 
 	        rc = FDC_ERR_OK;
@@ -436,6 +437,32 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
                "fdc1", int_fdc1);
         clk_guard_add_callback(&drive1_clk_guard, clk_overflow_callback1, NULL);
     }
+}
+
+/************************************************************************/
+
+int fdc_attach_disk(void *flp)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+
+    if (floppy->unit != 8 && floppy->unit != 9)
+        return -1;
+
+    vdrive[floppy->unit - 8] = floppy;
+
+    return 0;
+}
+
+int fdc_detach_disk(void *flp)
+{
+    DRIVE *floppy = (DRIVE *)flp;
+
+    if (floppy->unit != 8 && floppy->unit != 9)
+        return -1;
+
+    vdrive[floppy->unit] = NULL;
+
+    return 0;
 }
 
 /************************************************************************/
