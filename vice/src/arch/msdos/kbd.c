@@ -553,8 +553,7 @@ void kbd_install(void)
     }
 
     /* Initialize the keyboard matrix.  */
-    memset(keyarr, 0, sizeof(keyarr));
-    memset(rev_keyarr, 0, sizeof(rev_keyarr));
+    keyboard_clear_keymatrix();
     /* Reset modifier status.  */
     memset(&modifiers, 0, sizeof(modifiers));
 }
