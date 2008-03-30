@@ -536,22 +536,19 @@ inline static void ted15_store(BYTE value)
     if (ted.regs[0x15] == value)
         return;
 
+    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
+
     if (!ted.force_black_overscan_background_color) {
         raster_add_int_change_background
-            (&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
-            &ted.raster.overscan_background_color,
-            value);
+            (&ted.raster, x_pos,
+            &ted.raster.overscan_background_color, value);
         raster_add_int_change_background
-            (&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
-            &ted.raster.xsmooth_color,
-            value);
+            (&ted.raster, x_pos,
+            &ted.raster.xsmooth_color, value);
     }
-    x_pos = TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk));
-    raster_add_int_change_background(&ted.raster,
-                                     x_pos,
-                                     (int*)&ted.raster.background_color,
+
+    raster_add_int_change_background(&ted.raster, x_pos,
+                                     (int *)&ted.raster.background_color,
                                      value);
     ted.regs[0x15] = value;
 }
@@ -568,14 +565,14 @@ inline static void ted161718_store(WORD addr, BYTE value)
     if (ted.regs[addr] == value)
         return;
 
+    ted.regs[addr] = value;
+
     char_num = TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk));
 
     raster_add_int_change_foreground(&ted.raster,
                                      char_num,
                                      &ted.ext_background_color[addr - 0x16],
                                      value);
-
-    ted.regs[addr] = value;
 }
 
 inline static void ted19_store(BYTE value)
@@ -584,13 +581,15 @@ inline static void ted19_store(BYTE value)
 
     value &= 0x7f;
 
-    if (ted.regs[0x19] != value) {
-        ted.regs[0x19] = value;
-        raster_add_int_change_border(&ted.raster,
-            TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
-            (int*)&ted.raster.border_color,
-            value);
-    }
+    if (ted.regs[0x19] == value)
+        return;
+
+    ted.regs[0x19] = value;
+
+    raster_add_int_change_border(&ted.raster,
+        TED_RASTER_X(TED_RASTER_CYCLE(maincpu_clk)),
+        (int *)&ted.raster.border_color,
+        value);
 }
 
 inline static void ted3e_store(void)
@@ -710,7 +709,7 @@ inline static BYTE ted08_read(void)
 
 inline static BYTE ted09_read(void)
 {
-    /* Manually set raster IRQ flag if the opcode reading $19 has crossed
+    /* Manually set raster IRQ flag if the opcode reading $09 has crossed
        the line end and the raster IRQ alarm has not been executed yet. */
     if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
         && ted.raster_irq_clk != CLOCK_MAX
@@ -746,7 +745,7 @@ inline static BYTE ted1a1b_read(WORD addr)
 
 inline static BYTE ted1c1d_read(WORD addr)
 {
-    unsigned int tmp = read_raster_y();
+    unsigned int tmp = TED_LINE_RTOU(read_raster_y());
 
     if (addr == 0x1c)
         return (tmp & 0x100) >> 8;
