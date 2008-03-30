@@ -29,19 +29,43 @@ If you don't know how to compile VICE, please read the INSTALL file.
 2 Changing language settings
 ----------------------------
 
-You have to set the `LANG' environment variable to the appropriate
-language code before running VICE. ISO 639 language codes can be found
-in the gettext manual.
+In general most modern (Linux-) distributions add support for choosing
+the language at login time or for the actual session.
 
-For example, if you speak Swedish, just type `export LANG=sv' at the 
-BASH prompt. This can be done from your `.login' or `.profile' file, 
-once and for all.
+However to enable vice internationalization support without changing
+the language for all other applications you can try to set the
+appropriate environment variables (see below). To choose the
+appropriate language check the alias in 
+  /usr/share/locale/locale.alias
 
-If this doesn't work on your system (e.g. you get messages like this:
-  `locale not supported by C library'
-try to set the environment variable `LANGUAGE' or `LC_MESSAGES' to the
-values described above.
+There you'll find  "german", "swedish", "polish" and "italian"; the full
+featured translations ("french" is a bit dated and currently not well
+supported! Any volunteer?)
 
+so try
+  LC_ALL=german ; export LC_ALL 
+to get a german UI for Vice.
+
+Make sure you have the proper language support package
+installed. There you usually find the necessary fonts, etc. Check your
+distro's manuals if you don't know what I'm speaking of.
+
+Older (Linux-)distributions (based on older C-libs) sometimes use other
+variables to set the language. 
+Try this:
+  You have to set the `LANG' environment variable to the appropriate
+  language code before running VICE. ISO 639 language codes can be found
+  in the gettext manual.
+  
+  For example, if you speak Swedish, just type `export LANG=sv' at the 
+  BASH prompt. This can be done from your `.login' or `.profile' file, 
+  once and for all.
+  
+  If this doesn't work on your system (e.g. you get messages like this:
+    `locale not supported by C library'
+  try to set the environment variable `LANGUAGE' or `LC_MESSAGES' to the
+  values described above.
+  
 3 Adding new messages
 ---------------------
 
