@@ -66,7 +66,7 @@ static UI_CALLBACK(attach_disk)
     suspend_speed_eval();
     sprintf(title, "Attach Disk Image as unit #%d", unit);
     filename = ui_select_file(title, read_disk_image_contents,
-			      unit == 8 ? True : False, &button);
+		      unit == 8 ? True : False, NULL, "*.d64*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -99,7 +99,7 @@ static UI_CALLBACK(attach_tape)
     suspend_speed_eval();
 
     filename = ui_select_file("Attach a tape image", read_tape_image_contents,
-			      True, &button);
+			      True, NULL, "*.t64*", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -140,7 +140,7 @@ static UI_CALLBACK(smart_attach)
 
     filename = ui_select_file("Smart-attach a file",
 			      read_disk_or_tape_image_contents,
-			      True, &button);
+			      True, NULL, NULL, &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -167,7 +167,7 @@ static UI_CALLBACK(attach_cartridge)
 
     suspend_speed_eval();
     filename = ui_select_file("Attach cartridge image",
-                              NULL, False, &button);
+                              NULL, False, NULL, NULL, &button);
 
     switch (button) {
       case UI_BUTTON_OK:
@@ -188,6 +188,11 @@ static UI_CALLBACK(detach_cartridge)
 static UI_CALLBACK(default_cartridge)
 {
     cartridge_set_default();
+}
+
+static UI_CALLBACK(freeze_cartridge)
+{
+    cartridge_trigger_freeze();
 }
 
 static UI_CALLBACK(change_working_directory)
@@ -527,6 +532,8 @@ ui_menu_entry_t ui_cartridge_commands_menu[] = {
       NULL, NULL, attach_cartridge_image_submenu },
     { "Detach cartridge image",
       (ui_callback_t) detach_cartridge, NULL, NULL },
+    { "Freeze",
+      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_F11, UI_HOTMOD_CTRL },
     { NULL }
 };
 

@@ -20,6 +20,9 @@ list of all the changes in the code.
 - A couple of little but annoying bugs in the VIC-II emulation have
   been fixed.
 
+- CIAs have been sped up considerably in those cases where several
+  consecutive underflows happen.
+
 ** C128 changes
 ---------------
 
@@ -49,12 +52,14 @@ list of all the changes in the code.
 
 - Support for a new GCR-coded disk format has been added.
 
+- It is now possible to completely disable the idle trap.
+
 ** Monitor changes
 ------------------
 
 - The old monitor has been replaced by a completely new one, written
   by Daniel Sladic.  It also allows access to the CPU in the 1541
-  drive.
+  drive, and features watchpoints and breakpoints.
 
 ** Unix changes
 ---------------
@@ -98,6 +103,8 @@ list of all the changes in the code.
   `;' on MS-DOS and `:' on Unix.
 
 - Serial traps can be enabled/disabled at runtime.
+
+- Palette files have been introduced.
 
 
 * Changes in VICE 0.14.2
