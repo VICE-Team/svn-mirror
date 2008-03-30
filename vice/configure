@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.11.18
+VERSION=1.11.19
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7302,7 +7302,7 @@ elif [ x"$is_beos" != "xno" ]; then
 elif [ x"$is_win32" != "xno" ]; then
 
   
-  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput"
+  LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput -lth32"
 
   echo $ac_n "checking for GUID_SysMouse in -ldxguid""... $ac_c" 1>&6
 echo "configure:7309: checking for GUID_SysMouse in -ldxguid" >&5

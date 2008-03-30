@@ -460,12 +460,10 @@ void vdc_set_canvas_refresh(int enable)
     raster_set_canvas_refresh(&vdc.raster, enable);
 }
 
-
 int vdc_write_snapshot_module(snapshot_t *s)
 {
     return vdc_snapshot_write_module(s);
 }
-
 
 int vdc_read_snapshot_module(snapshot_t *s)
 {
@@ -482,8 +480,9 @@ void vdc_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&vdc.raster, refresh);
 }
 
-void vdc_free(void)
+void vdc_shutdown(void)
 {
+    alarm_destroy(vdc.raster_draw_alarm);
     raster_free(&vdc.raster);
 }
 

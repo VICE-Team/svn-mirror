@@ -1,3 +1,81 @@
+2003-03-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.19.
+
+	* machine.c, machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c, arch/unix/unixmain.c,
+	arch/win32/winmain.c, arch/msdos/msdosmain.c,
+	arch/riscos/ui.c, arch/os2/vsyncarch.c, arch/beos/ui.cc: Moved
+	common shutdown code to `machine_shutdown()'.
+
+	* log.c, log.h (log_close_all): New function.
+
+	* cmdline.c, cmdline.h (cmdline_shutdown): New function.
+
+	* resources.c, resources.h (resources_shutdown): New function.
+
+	* raster/raster-resources.c, raster/raster-resources.h
+	(raster_resources_shutdown): New function.
+
+	* drive/iec/jobcode1581.c: Added some more job codes.
+
+	* vicii/vicii.c, vicii/vicii.h, vdc/vdc.c, vdc/vdc.h,
+	vic20/vic.c, vic20/vic.h, crtc/crtc.c, crtc/crtc.h,
+	plus4/ted.c, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c: Improved shutdown.
+
+	* alarm.c (alarm_destroy): Skip if alarm is NULL.
+
+	* vicii/vicii-color.c, vicii/vicii-color.h, vicii/vicii.c,
+	vicii/vicii-resources.c (vicii_update_palette): Renamed.
+
+	* vic20/vic-color.c, vic20/vic-color.h, vic20/vic.c:
+	(vic_color_update_palette): Renamed.
+
+	* plus4/ted-color.c, plus4/ted-color.h, plus4/ted.c
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	plus4/plus4-resources.c, cbm2/cbm2-resources.c,
+	arch/unix/kbd.h, arch/win32/kbd.h, arch/msdos/kbd.h,
+	arch/riscos/kbd.h, arch/os2/kbd.h, arch/beos/kbd.h: Define
+	default keymap index for any architecture.
+
+	* arch/win32/catweaselmkiii.c, arch/win32/video.c, snapshot.c,
+	sid/sid.c, raster/raster-canvas.c, raster/raster-line.c,
+	plus4/ted-draw.c: Fixed warnings.
+
+	* c64/c64acia.h, c64/c64cart.h, c64/c64cia.h, c64/c64drive.c,
+	c64/c64io.c, c64/c64io.h, c64/c64mem.c, c64/c64mem.h,
+	c64/c64tpi.h, c64/patchrom.c, c64/psid.c, c64/reu.c,
+	c64/reu.h, c64/cart/actionreplay.c, c64/cart/actionreplay.h,
+	c64/cart/atomicpower.c, c64/cart/atomicpower.h,
+	c64/cart/c64cart.c, c64/cart/c64cartmem.c,
+	c64/cart/epyxfastload.c, c64/cart/epyxfastload.h,
+	c64/cart/expert.c, c64/cart/expert.h, c64/cart/final.c,
+	c64/cart/final.h, c64/cart/ide64.c, c64/cart/ide64.h,
+	c64/cart/kcs.c, c64/cart/kcs.h, c64/cart/retroreplay.c,
+	c64/cart/retroreplay.h, c64/cart/supergames.c,
+	c64/cart/supergames.h, c64/cart/supersnapshot.c,
+	c64/cart/supersnapshot.h, c64/cart/zaxxon.c,
+	c64/cart/zaxxon.h: Use `WORD' instead of `ADDRESS'.
+
+2003-03-23  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/archdep.c (archdep_boot_path): Find proper boot
+	path.
+
+	* arch/win32/ui.c (set_window_xpos, set_window_ypos): New
+	functions for window position resources.
+	(ui_open_canvas_window): Use startup window position from
+	resource.
+	(window_proc): Handle WM_MOVE, store window position into
+	resource.
+
+	* arch/win32/uilib.c (EnumFontProc): New function.
+	(ui_select_file): Detect if cbm font is installed or not,
+	install it if not.
+
 2003-03-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.18.

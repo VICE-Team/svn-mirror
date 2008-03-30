@@ -282,7 +282,7 @@ static int init_raster(void)
 
     vic_set_geometry();
 
-    vic_update_palette();
+    vic_color_update_palette();
 
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
@@ -451,8 +451,9 @@ void vic_update_memory_ptrs(void)
     }
 }
 
-void vic_free(void)
+void vic_shutdown(void)
 {
+    alarm_destroy(vic.raster_draw_alarm);
     raster_free(&vic.raster);
 }
 

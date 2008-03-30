@@ -271,8 +271,8 @@ pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
 pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
 	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
-	../../src/console.h ../../src/crtc/crtc-mem.h \
-	../../src/crtc/crtc.h ../../src/datasette.h ../../src/debug.h \
+	../../src/crtc/crtc-mem.h ../../src/crtc/crtc.h \
+	../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \

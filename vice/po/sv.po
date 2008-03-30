@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-03-23 17:12+0100\n"
+"POT-Creation-Date: 2003-03-24 14:21+0100\n"
 "PO-Revision-Date: 2001-08-15 18:33+0100\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\\n\n"
@@ -2162,7 +2162,7 @@ msgstr "*Sprite-till-bakgrund-kollision"
 msgid "*New Luminances"
 msgstr "*Nya ljusstyrkor"
 
-#: src/arch/unix/unixmain.c:53
+#: src/arch/unix/unixmain.c:51
 msgid ""
 "\n"
 "Exiting..."

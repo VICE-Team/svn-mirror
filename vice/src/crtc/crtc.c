@@ -726,8 +726,9 @@ static void crtc_exposure_handler(unsigned int width, unsigned int height)
     video_viewport_resize(crtc.raster.canvas);
 }
 
-void crtc_free(void)
+void crtc_shutdown(void)
 {
+    alarm_destroy(crtc.raster_draw_alarm);
     raster_free(&crtc.raster);
 }
 

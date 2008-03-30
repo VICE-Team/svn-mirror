@@ -38,10 +38,21 @@
 
 /* #define JOBCODE1581_DEBUG */
 
-#define READ_DV  0x80
-#define WRTSD_DV 0x90
-#define TREAD_DV 0xaa
+#define READ_DV    0x80
+#define RESET_DV   0x82
+#define MOTOFF_DV  0x86
+#define WRTSD_DV   0x90
+#define DISKIN_DV  0x92
+#define TRKWRT_DV  0xa2
+#define TREAD_DV   0xaa
+#define SEEKHD_DV  0xb0
+#define DETWP_DV   0xb6
+#define RESTORE_DV 0xc0
 
+#define OK_DV          0x00
+#define MISHD_DV_ER    0x02
+#define WRTPR_DV_ER    0x08
+#define NODSKPRS_DV_ER 0x0f
 
 static unsigned int track_cache_track[2];
 static unsigned int track_cache_sector[2];
@@ -66,7 +77,7 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
                 log_error(jobcode1581_log,
                           "Cannot read T:%d S:%d from disk image.",
                           track, rsec);
-                return 2;
+                return MISHD_DV_ER;
             }
             base = (WORD)((rsec << 8) + 0xc00);
             for (i = 0; i < 256; i++) {
@@ -84,17 +95,11 @@ static int track_cache_read(unsigned int dnr, unsigned int track,
         track_cache_sector[dnr] = sector;
     }
 
-    return 0;
+    return OK_DV;
 }
 
-static int wd1770_job_code_tread(unsigned int dnr, unsigned int track,
-                                 unsigned int sector)
-{
-    return track_cache_read(dnr, track, sector);
-}
-
-static int wd1770_job_code_read(unsigned int dnr, unsigned int track,
-                                unsigned int sector, unsigned int buffer)
+static int jobcode_read(unsigned int dnr, unsigned int track,
+                        unsigned int sector, unsigned int buffer)
 {
     unsigned int i;
 #if 0
@@ -136,11 +141,21 @@ static int wd1770_job_code_read(unsigned int dnr, unsigned int track,
     }
 #endif
 
-    return 0;
+    return OK_DV;
 }
 
-static int wd1770_job_code_wrtsd(unsigned int dnr, unsigned int track,
-                                 unsigned int sector, unsigned int buffer)
+static int jobcode_reset(unsigned int dnr)
+{
+    return OK_DV;
+}
+
+static int jobcode_motoff(unsigned int dnr)
+{
+    return OK_DV;
+}
+
+static int jobcode_wrtsd(unsigned int dnr, unsigned int track,
+                         unsigned int sector, unsigned int buffer)
 {
     WORD base;
     int rc, i;
@@ -161,9 +176,52 @@ static int wd1770_job_code_wrtsd(unsigned int dnr, unsigned int track,
         log_error(jobcode1581_log,
                   "Could not update T:%d S:%d on disk image.",
                   track, sector);
-        return 2;
+        return MISHD_DV_ER;
     }
-    return 0;
+    return OK_DV;
+}
+
+static int jobcode_diskin(unsigned int dnr)
+{
+    if (wd1770[dnr].image == NULL
+        || wd1770[dnr].image->type != DISK_IMAGE_TYPE_D81)
+        return NODSKPRS_DV_ER;
+
+    return OK_DV;
+}
+
+static int jobcode_trkwrt(unsigned int dnr)
+{
+    /* To be implemented. */
+    return OK_DV;
+}
+
+static int jobcode_tread(unsigned int dnr, unsigned int track,
+                         unsigned int sector)
+{
+    return track_cache_read(dnr, track, sector);
+}
+
+static int jobcode_seekhd(unsigned int dnr)
+{
+    return OK_DV;
+}
+
+static int jobcode_detwp(unsigned int dnr)
+{
+    if (wd1770[dnr].image != NULL) {
+        if (wd1770[dnr].image->read_only)
+            return WRTPR_DV_ER;
+        else
+            return OK_DV;
+    }
+
+    return OK_DV;
+}
+
+static int jobcode_restore(unsigned int dnr)
+{
+    return OK_DV;
 }
 
 void jobcode1581_handle_job_code(unsigned int dnr)
@@ -184,30 +242,59 @@ void jobcode1581_handle_job_code(unsigned int dnr)
         }
         if (command & 0x80) {
 #ifdef JOBCODE1581_DEBUG
-            log_debug("WD1770 B:%i C:%x T:%i S:%i",
-                      buffer, command, track, sector);
+            log_debug("JOBCODE1581 C:%x T:%i S:%i B:%i",
+                      command, track, sector, buffer);
 #endif
-            if (wd1770[dnr].image != NULL
-                && wd1770[dnr].image->type == DISK_IMAGE_TYPE_D81) {
+            if ((wd1770[dnr].image != NULL
+                && wd1770[dnr].image->type == DISK_IMAGE_TYPE_D81)
+                /*|| command == DISKIN_DV*/) {
                 drive[dnr].current_half_track = track * 2;
                 switch (command) {
                   case READ_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = wd1770_job_code_read(dnr, track, sector, buffer);
+                    rcode = jobcode_read(dnr, track, sector, buffer);
+                    break;
+                  case RESET_DV:
+                    wd1770[dnr].led_delay_clk = (CLOCK)0;
+                    rcode = jobcode_reset(dnr);
+                    break;
+                  case MOTOFF_DV:
+                    rcode = jobcode_motoff(dnr);
                     break;
                   case WRTSD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = wd1770_job_code_wrtsd(dnr, track, sector, buffer);
+                    rcode = jobcode_wrtsd(dnr, track, sector, buffer);
+                    break;
+                  case DISKIN_DV:
+                    rcode = jobcode_diskin(dnr);
+                    break;
+                  case TRKWRT_DV:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = jobcode_trkwrt(dnr);
                     break;
                   case TREAD_DV:
                     wd1770[dnr].led_delay_clk = drive_clk[dnr];
-                    rcode = wd1770_job_code_tread(dnr, track, sector);
-                  break;
+                    rcode = jobcode_tread(dnr, track, sector);
+                    break;
+                  case SEEKHD_DV:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = jobcode_seekhd(dnr);
+                    break;
+                  case DETWP_DV:
+                    rcode = jobcode_detwp(dnr);
+                    break;
+                  case RESTORE_DV:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = jobcode_restore(dnr);
+                    break;
                   default:
-                    rcode = 0;
+#ifdef JOBCODE1581_DEBUG
+                    log_debug("JOBCODE1581 Unknown job code %02x", command);
+#endif
+                    rcode = OK_DV;
                 }
             } else
-                rcode = 2;
+                rcode = MISHD_DV_ER;
 
             if (dnr == 0)
                 drive_store(&drive0_context, (WORD)(2 + buffer), rcode);

@@ -366,7 +366,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	c64keyboard.h c64mem.h c64rsuser.h c64tpi.h \
 	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/console.h ../../src/datasette.h ../../src/debug.h \
+	../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \

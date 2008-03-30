@@ -304,7 +304,7 @@ static int init_raster(void)
 
     vicii_set_geometry();
 
-    if (vicii_update_palette() < 0) {
+    if (vicii_color_update_palette() < 0) {
         log_error(vic_ii.log, "Cannot load palette.");
         return -1;
     }
@@ -1039,8 +1039,13 @@ void vicii_set_canvas_refresh(int enable)
     raster_set_canvas_refresh(&vic_ii.raster, enable);
 }
 
-void vicii_free(void)
+void vicii_shutdown(void)
 {
+    alarm_destroy(vic_ii.raster_fetch_alarm);
+    alarm_destroy(vic_ii.raster_draw_alarm);
+    alarm_destroy(vic_ii.raster_irq_alarm);
+    free(vic_ii.idle_3fff);
+    free(vic_ii.idle_3fff_old);
     raster_free(&vic_ii.raster);
 }
 

@@ -278,8 +278,8 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/c64/c64keyboard.h \
 	../../src/c64/c64rsuser.h ../../src/c64/c64tpi.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
-	../../src/debug.h ../../src/drive/drive-cmdline-options.h \
+	../../src/clkguard.h ../../src/datasette.h ../../src/debug.h \
+	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/drive/drivecpu.h ../../src/event.h functionrom.h \

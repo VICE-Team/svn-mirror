@@ -251,13 +251,13 @@ static int init_raster(void)
 
     ted_set_geometry();
 
-    if (ted_update_palette() < 0) {
+    if (ted_color_update_palette() < 0) {
         log_error(ted.log, "Cannot load palette.");
         return -1;
     }
     title = util_concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
-    free (title);
+    free(title);
 
     if (raster_realize(raster) < 0)
         return -1;
@@ -782,8 +782,11 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
     alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
 }
 
-void ted_free(void)
+void ted_shutdown(void)
 {
+    alarm_destroy(ted.raster_fetch_alarm);
+    alarm_destroy(ted.raster_draw_alarm);
+    alarm_destroy(ted.raster_irq_alarm);
     raster_free(&ted.raster);
 }
 

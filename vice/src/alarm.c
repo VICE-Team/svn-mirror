@@ -136,6 +136,9 @@ void alarm_destroy(alarm_t *alarm)
 {
     alarm_context_t *context;
 
+    if (alarm == NULL)
+        return;
+
     alarm_unset(alarm);
 
     context = alarm->context;

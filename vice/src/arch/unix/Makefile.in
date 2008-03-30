@@ -563,9 +563,9 @@ uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h c64ui.h \
 	x11/xaw/../xaw/uiarch.h uivicii.h ../../../src/utils.h \
 	uipalemu.h
 unixmain.o: unixmain.c ../../../src/vice.h ../../../src/config.h \
-	fullscreenarch.h joy.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/main.h ../../../src/sound.h \
-	types.h ../../../src/video.h ../../../src/viewport.h
+	fullscreenarch.h ../../../src/log.h ../../../src/machine.h \
+	../../../src/main.h ../../../src/video.h types.h \
+	../../../src/viewport.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/debug.h icon.h \
 	joy.h ../../../src/machine.h ../../../src/resources.h \
