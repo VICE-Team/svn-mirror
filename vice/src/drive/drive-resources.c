@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
+#include "driverom.h"
 #include "iecdrive.h"
 #include "log.h"
 #include "machine.h"
@@ -152,7 +153,7 @@ static int set_drive0_type(resource_value_t v, void *param)
             iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 0);
-        drive_initialize_rom_traps(0);
+        drive_rom_initialize_traps(0);
         set_drive_idling_method((resource_value_t)drive[0].idling_method,
                                  (void *)0);
         return 0;
@@ -221,7 +222,7 @@ static int set_drive1_type(resource_value_t v, void *param)
             iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 1);
-        drive_initialize_rom_traps(1);
+        drive_rom_initialize_traps(1);
         set_drive_idling_method((resource_value_t)drive[1].idling_method,
                                 (void *)1);
         return 0;
@@ -326,7 +327,7 @@ static int set_dos_rom_name_2040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_2040, (const char *)v))
         return 0;
 
-    return drive_load_2040();
+    return drive_rom_load_2040();
 }
 
 static int set_dos_rom_name_3040(resource_value_t v, void *param)
@@ -334,7 +335,7 @@ static int set_dos_rom_name_3040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_3040, (const char *)v))
         return 0;
 
-    return drive_load_3040();
+    return drive_rom_load_3040();
 }
 
 static int set_dos_rom_name_4040(resource_value_t v, void *param)
@@ -342,7 +343,7 @@ static int set_dos_rom_name_4040(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_4040, (const char *)v))
         return 0;
 
-    return drive_load_4040();
+    return drive_rom_load_4040();
 }
 
 static int set_dos_rom_name_1001(resource_value_t v, void *param)
@@ -350,7 +351,7 @@ static int set_dos_rom_name_1001(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1001, (const char *)v))
         return 0;
 
-    return drive_load_1001();
+    return drive_rom_load_1001();
 }
 
 static int set_dos_rom_name_2031(resource_value_t v, void *param)
@@ -358,7 +359,7 @@ static int set_dos_rom_name_2031(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_2031, (const char *)v))
         return 0;
 
-    return drive_load_2031();
+    return drive_rom_load_2031();
 }
 
 static int set_dos_rom_name_1541(resource_value_t v, void *param)
@@ -366,7 +367,7 @@ static int set_dos_rom_name_1541(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1541, (const char *)v))
         return 0;
 
-    return drive_load_1541();
+    return drive_rom_load_1541();
 }
 
 static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
@@ -374,7 +375,7 @@ static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1541ii, (const char *)v))
         return 0;
 
-    return drive_load_1541ii();
+    return drive_rom_load_1541ii();
 }
 
 static int set_dos_rom_name_1551(resource_value_t v, void *param)
@@ -382,7 +383,7 @@ static int set_dos_rom_name_1551(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1551, (const char *)v))
         return 0;
 
-    return drive_load_1551();
+    return drive_rom_load_1551();
 }
 
 static int set_dos_rom_name_1571(resource_value_t v, void *param)
@@ -390,7 +391,7 @@ static int set_dos_rom_name_1571(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1571, (const char *)v))
         return 0;
 
-    return drive_load_1571();
+    return drive_rom_load_1571();
 }
 
 static int set_dos_rom_name_1581(resource_value_t v, void *param)
@@ -398,7 +399,7 @@ static int set_dos_rom_name_1581(resource_value_t v, void *param)
     if (util_string_set(&dos_rom_name_1581, (const char *)v))
         return 0;
 
-    return drive_load_1581();
+    return drive_rom_load_1581();
 }
 
 static void set_drive_ram(unsigned int dnr)

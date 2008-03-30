@@ -37,6 +37,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
+#include "driverom.h"
 #include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
@@ -374,11 +375,11 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         drive[0].enable = 1;
-        drive_setup_rom_image(0);
+        drive_rom_setup_image(0);
         drive_mem_init(&drive0_context, drive[0].type);
         resources_set_value("Drive8IdleMethod",
                             (resource_value_t)drive[0].idling_method);
-        drive_initialize_rom_traps(0);
+        drive_rom_initialize_traps(0);
         drive_set_active_led_color(drive[0].type, 0);
         break;
       case DRIVE_TYPE_NONE:
@@ -397,11 +398,11 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_1001:
         /* drive 1 does not allow dual disk drive */
         drive[1].enable = 1;
-        drive_setup_rom_image(1);
+        drive_rom_setup_image(1);
         drive_mem_init(&drive1_context, drive[1].type);
         resources_set_value("Drive9IdleMethod",
                             (resource_value_t) drive[1].idling_method);
-        drive_initialize_rom_traps(1);
+        drive_rom_initialize_traps(1);
         drive_set_active_led_color(drive[1].type, 1);
         break;
       case DRIVE_TYPE_NONE:
@@ -889,7 +890,7 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
     }
 
     if (drive[dnr].type == DRIVE_TYPE_1541) {
-        drive_do_1541_checksum();
+        drive_rom_do_1541_checksum();
     }
 
     snapshot_module_close(m);
