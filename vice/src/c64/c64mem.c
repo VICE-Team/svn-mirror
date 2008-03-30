@@ -1339,40 +1339,48 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 /* Snapshot.  */
 /* FIXME: Do we want to make a snapshot of all the ROMs too?  */
 
-static char snap_module_name[] = "VIC-II";
+static char snap_module_name[] = "C64MEM";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
 int mem_write_snapshot_module(FILE *f)
 {
-    if (snapshot_write_module_header(f, snap_module_name,
-                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
         return -1;
 
-    if (snapshot_write_byte(f, pport.data) < 0
-        || snapshot_write_byte(f, pport.dir) < 0
-        || snapshot_write_byte(f, export.exrom) < 0
-        || snapshot_write_byte(f, export.game) < 0
-        || snapshot_write_byte_array(f, ram, C64_RAM_SIZE) < 0)
-        return -1;
+    if (snapshot_module_write_byte(m, pport.data) < 0
+        || snapshot_module_write_byte(m, pport.dir) < 0
+        || snapshot_module_write_byte(m, export.exrom) < 0
+        || snapshot_module_write_byte(m, export.game) < 0
+        || snapshot_module_write_byte_array(m, ram, C64_RAM_SIZE) < 0)
+        goto fail;
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }
 
 int mem_read_snapshot_module(FILE *f)
 {
     BYTE major_version, minor_version;
     char module_name[SNAPSHOT_MODULE_NAME_LEN];
+    snapshot_module_t *m;
 
-    if (snapshot_read_module_header(f, module_name,
-                                    &major_version, &minor_version) < 0)
+    m = snapshot_module_open(f, module_name, &major_version, &minor_version);
+    if (m == NULL)
         return -1;
 
     if (strcmp(module_name, snap_module_name) != 0) {
         fprintf(stderr,
                 "MEM: Snapshot module name (`%s') incorrect; should be `%s'.\n",
                 module_name, snap_module_name);
-        return -1;
+        goto fail;
     }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
@@ -1380,16 +1388,22 @@ int mem_read_snapshot_module(FILE *f)
                 "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
     }
 
-    if (snapshot_read_byte(f, &pport.data) < 0
-        || snapshot_read_byte(f, &pport.dir) < 0
-        || snapshot_read_byte(f, &export.exrom) < 0
-        || snapshot_read_byte(f, &export.game) < 0
-        || snapshot_read_byte_array(f, ram, C64_RAM_SIZE) < 0)
-        return -1;
+    if (snapshot_module_read_byte(m, &pport.data) < 0
+        || snapshot_module_read_byte(m, &pport.dir) < 0
+        || snapshot_module_read_byte(m, &export.exrom) < 0
+        || snapshot_module_read_byte(m, &export.game) < 0
+        || snapshot_module_read_byte_array(m, ram, C64_RAM_SIZE) < 0)
+        goto fail;
 
     pla_config_changed();
 
-    return 0;
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }
