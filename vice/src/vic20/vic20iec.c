@@ -47,31 +47,27 @@
 
 
 static BYTE cpu_data, cpu_clock, cpu_atn;
-static BYTE drive_data, drive_clock, drive_atna, drive_data_modifier;
-static BYTE drive2_data, drive2_clock, drive2_atna, drive2_data_modifier;
+static BYTE drive_data[DRIVE_NUM], drive_clock[DRIVE_NUM];
+static BYTE drive_atna[DRIVE_NUM], drive_data_modifier[DRIVE_NUM];
 static BYTE bus_data, bus_clock, bus_atn;
 static BYTE cpu_bus_val;
-static BYTE drive_bus_val, drive2_bus_val;
 
 static inline void resolve_bus_signals(void)
 {
-    drive_t *drive0, *drive1;
-
-    drive0 = drive_context[0]->drive;
-    drive1 = drive_context[1]->drive;
+    drive_t *drive;
+    unsigned int i;
 
     bus_atn = NOT(cpu_atn);
-    bus_clock = NOT(cpu_clock) & (drive0->enable ? NOT(drive_clock) : 0x01)
-                               & (drive1->enable ? NOT(drive2_clock) : 0x01);
-    bus_data = (drive0->enable
-                     ? NOT(drive_data) & NOT(drive_data_modifier) : 0x01)
-                 & (drive1->enable
-                     ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0x01)
-                 & NOT(cpu_data);
-#ifdef BUS_DBG
-    fprintf(logfile, "SB: [%ld]  data:%d clock:%d atn:%d\n",
-           drive_clk[0], bus_data, bus_clock, bus_atn);
-#endif
+    bus_clock = NOT(cpu_clock);
+    bus_data = NOT(cpu_data);
+
+    for (i = 0; i < DRIVE_NUM; i++) {
+        drive = drive_context[i]->drive;
+
+        bus_clock &= drive->enable ? NOT(drive_clock[i]) : 0x01;
+        bus_data &= drive->enable ? NOT(drive_data[i])
+                    & NOT(drive_data_modifier[i]) : 0x01;
+    }
 }
 
 void iec_update_ports(void)
@@ -95,58 +91,34 @@ void iec_update_ports_embedded(void)
     iec_update_ports();
 }
 
-static void iec_calculate_data_modifier(void)
+static void iec_calculate_data_modifier(unsigned int dnr)
 {
-    if (drive_context[0]->drive->type != DRIVE_TYPE_1581)
-        drive_data_modifier = (NOT(cpu_atn) ^ NOT(drive_atna));
+    if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
+        drive_data_modifier[dnr] = (NOT(cpu_atn) ^ NOT(drive_atna[dnr]));
     else
-        drive_data_modifier = (cpu_atn & drive_atna);
+        drive_data_modifier[dnr] = (cpu_atn & drive_atna[dnr]);
 }
 
-static void iec_calculate_data_modifier2(void)
-{
-    if (drive_context[1]->drive->type != DRIVE_TYPE_1581)
-        drive2_data_modifier = (NOT(cpu_atn) ^ NOT(drive2_atna));
-    else
-        drive2_data_modifier = (cpu_atn & drive2_atna);
-}
-
-void iec_drive0_write(BYTE data)
+void iec_drive_write(BYTE data, unsigned int dnr)
 {
     static int last_write = 0;
 
     data = ~data;
-    drive_data = ((data & 2) >> 1);
-    drive_clock = ((data & 8) >> 3);
-    drive_atna = ((data & 16) >> 4);
-    iec_calculate_data_modifier();
+    drive_data[dnr] = ((data & 2) >> 1);
+    drive_clock[dnr] = ((data & 8) >> 3);
+    drive_atna[dnr] = ((data & 16) >> 4);
+    iec_calculate_data_modifier(dnr);
     resolve_bus_signals();
     last_write = data & 26;
 }
 
-void iec_drive1_write(BYTE data)
+BYTE iec_drive_read(unsigned int dnr)
 {
-    static int last_write = 0;
+    BYTE drive_bus_val;
 
-    data = ~data;
-    drive2_data = ((data & 2) >> 1);
-    drive2_clock = ((data & 8) >> 3);
-    drive2_atna = ((data & 16) >> 4);
-    iec_calculate_data_modifier2();
-    resolve_bus_signals();
-    last_write = data & 26;
-}
-
-BYTE iec_drive0_read(void)
-{
     drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
-    return drive_bus_val;
-}
 
-BYTE iec_drive1_read(void)
-{
-    drive2_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
-    return drive2_bus_val;
+    return drive_bus_val;
 }
 
 /*
@@ -175,47 +147,43 @@ BYTE iec_pa_read(void)
 void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
-    drive_t *drive0, *drive1;
-
-    drive0 = drive_context[0]->drive;
-    drive1 = drive_context[1]->drive;
+    drive_t *drive;
+    unsigned int i;
 
     drivecpu_execute_all(maincpu_clk);
 
     /* Signal ATN interrupt to the drives.  */
     if ((cpu_atn == 0) && (data & 128)) {
-        if (drive0->enable) {
-            if (drive0->type != DRIVE_TYPE_1581)
-                viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
-                               VIA_SIG_RISE);
-            else
-                ciacore_set_flag(drive_context[0]->cia1581);
-        }
-        if (drive1->enable) {
-            if (drive1->type != DRIVE_TYPE_1581)
-                viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
-                               VIA_SIG_RISE);
-            else
-                ciacore_set_flag(drive_context[1]->cia1581);
+        for (i = 0; i < DRIVE_NUM; i++) {
+            drive = drive_context[i]->drive;
+
+            if (drive->enable) {
+                if (drive->type != DRIVE_TYPE_1581)
+                    viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1,
+                                   VIA_SIG_RISE);
+                else
+                    ciacore_set_flag(drive_context[i]->cia1581);
+            }
         }
     }
 
     /* Release ATN signal.  */
     if (!(data & 128)) {
-        if (drive0->enable) {
-            if (drive0->type != DRIVE_TYPE_1581)
-                viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1, 0);
-        }
-        if (drive1->enable) {
-            if (drive1->type != DRIVE_TYPE_1581)
-                viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1, 0);
+        for (i = 0; i < DRIVE_NUM; i++) {
+            drive = drive_context[i]->drive;
+
+            if (drive->enable) {
+                if (drive->type != DRIVE_TYPE_1581)
+                    viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, 0);
+
+            }
         }
     }
 
     cpu_atn = ((data & 128) >> 7);
 
-    iec_calculate_data_modifier();
-    iec_calculate_data_modifier2();
+    for (i = 0; i < DRIVE_NUM; i++)
+        iec_calculate_data_modifier(i);
 
     resolve_bus_signals();
     last_write = data & 128;
@@ -230,18 +198,15 @@ void iec_pa_write(BYTE data)
 void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
-
-    if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
-        return;
+    unsigned int i;
 
     drivecpu_execute_all(maincpu_clk);
 
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);
 
-    iec_calculate_data_modifier();
-    iec_calculate_data_modifier2();
+    for (i = 0; i < DRIVE_NUM; i++)
+        iec_calculate_data_modifier(i);
 
     resolve_bus_signals();
     last_write = data & 34;
@@ -261,11 +226,7 @@ iecbus_t *iecbus_drive_port(void)
     return NULL;
 }
 
-void parallel_cable_drive0_write(BYTE data, int handshake)
-{
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
+void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
 }
 

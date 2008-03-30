@@ -102,11 +102,6 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
     interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
-#define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func->iec_write(a))
-#define iec_drivex_read()               (((drive_context_t *)(via_context->context))->func->iec_read())
-#define parallel_cable_drivex_write(a,b) (((drive_context_t *)(via_context->context))->func->parallel_cable_write(a,b))
-
-
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     drivevia1_context_t *via1p;
@@ -125,7 +120,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     if (via1p->drive->parallel_cable_enabled
         && (via1p->drive->type == DRIVE_TYPE_1541
         || via1p->drive->type == DRIVE_TYPE_1541II))
-        parallel_cable_drivex_write(byte, 0);
+        parallel_cable_drive_write(byte, 0, via1p->number);
 }
 
 inline static void store_pra(via_context_t *via_context, BYTE byte,
@@ -150,10 +145,11 @@ inline static void store_pra(via_context_t *via_context, BYTE byte,
         if (via1p->drive->parallel_cable_enabled
             && (via1p->drive->type == DRIVE_TYPE_1541
             || via1p->drive->type == DRIVE_TYPE_1541II))
-            parallel_cable_drivex_write(byte,
-                                        (((addr == VIA_PRA)
-                                        && ((via_context->via[VIA_PCR]
-                                        & 0xe) == 0xa)) ? 1 : 0));
+            parallel_cable_drive_write(byte,
+                                       (((addr == VIA_PRA)
+                                       && ((via_context->via[VIA_PCR]
+                                       & 0xe) == 0xa)) ? 1 : 0),
+                                       via1p->number);
     }
 }
 
@@ -183,7 +179,7 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
                            | (iecbus->cpu_port >> 7)
                            | ((iecbus->cpu_bus << 3) & 0x80));
     } else {
-        iec_drivex_write((BYTE)(~byte));
+        iec_drive_write((BYTE)(~byte), via1p->number);
     }
 }
 
@@ -215,7 +211,7 @@ inline static void store_prb(via_context_t *via_context, BYTE byte,
                                | (iecbus->cpu_port >> 7)
                                | ((iecbus->cpu_bus << 3) & 0x80));
         } else {
-            iec_drivex_write((BYTE)(~byte));
+            iec_drive_write((BYTE)(~byte), via1p->number);
         }
     }
 }
@@ -305,7 +301,7 @@ inline static BYTE read_prb(via_context_t *via_context)
                | iecbus->drv_port) ^ 0x85) | orval;
     } else {
         byte = (((via_context->via[VIA_PRB] & 0x1a)
-               | iec_drivex_read()) ^ 0x85) | orval;
+               | iec_drive_read(via1p->number)) ^ 0x85) | orval;
     }
 
     return byte;

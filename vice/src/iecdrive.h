@@ -35,16 +35,14 @@
 #include "types.h"
 
 extern void iec_update_ports_embedded(void);
-extern void iec_drive0_write(BYTE data);
-extern void iec_drive1_write(BYTE data);
-extern BYTE iec_drive0_read(void);
-extern BYTE iec_drive1_read(void);
+extern void iec_drive_write(BYTE data, unsigned int dnr);
+extern BYTE iec_drive_read(unsigned int dnr);
 extern void iec_fast_drive_write(BYTE data, unsigned int dnr);
 extern void iec_fast_cpu_write(BYTE data);
 extern void iec_fast_drive_direction(int direction, unsigned int dnr);
 extern void iec_fast_cpu_direction(int direction);
-extern void parallel_cable_drive0_write(BYTE data, int handshake);
-extern void parallel_cable_drive1_write(BYTE data, int handshake);
+extern void parallel_cable_drive_write(BYTE data, int handshake,
+                                       unsigned int dnr);
 extern BYTE parallel_cable_drive_read(int handshake);
 
 extern void iec_update_cpu_bus(BYTE data);

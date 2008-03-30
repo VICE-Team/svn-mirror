@@ -132,14 +132,11 @@ typedef struct drivecpud_context_s {
  */
 
 typedef struct drivefunc_context_s {
-    void (*iec_write)(BYTE);
-    BYTE (*iec_read)(void);
     void (*parallel_set_bus)(BYTE);
     void (*parallel_set_eoi)(BYTE); /* we may be able to eleminate these... */
     void (*parallel_set_dav)(BYTE);
     void (*parallel_set_ndac)(BYTE);
     void (*parallel_set_nrfd)(BYTE);
-    void (*parallel_cable_write)(BYTE, int);
 } drivefunc_context_t;
 
 

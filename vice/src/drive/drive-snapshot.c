@@ -372,8 +372,8 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     /* Clear parallel cable before undumping parallel port values.  */
-    parallel_cable_drive0_write(0xff, 0);
-    parallel_cable_drive1_write(0xff, 0);
+    parallel_cable_drive_write(0xff, 0, 0);
+    parallel_cable_drive_write(0xff, 0, 1);
 
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;

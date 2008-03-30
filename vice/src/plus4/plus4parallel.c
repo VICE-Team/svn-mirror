@@ -37,24 +37,18 @@
 
 
 static BYTE parallel_cable_cpu_value = 0xff;
-static BYTE parallel_cable_drive0_value = 0xff;
-static BYTE parallel_cable_drive1_value = 0xff;
+static BYTE parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
 
 
-void parallel_cable_drive0_write(BYTE data, int handshake)
+void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
-    parallel_cable_drive0_value = data;
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
-{
-    parallel_cable_drive1_value = data;
+    parallel_cable_drive_value[dnr] = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
+    return parallel_cable_cpu_value & parallel_cable_drive_value[0]
+        & parallel_cable_drive_value[1];
 }
 
 void parallel_cable_cpu_write(BYTE data)
@@ -76,7 +70,7 @@ BYTE parallel_cable_cpu_read(void)
 
     drivecpu_execute_all(maincpu_clk);
 
-    return parallel_cable_cpu_value & parallel_cable_drive0_value
-        & parallel_cable_drive1_value;
+    return parallel_cable_cpu_value & parallel_cable_drive_value[0]
+        & parallel_cable_drive_value[1];
 }
 

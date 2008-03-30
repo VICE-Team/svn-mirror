@@ -55,11 +55,7 @@ iecbus_t *iecbus_drive_port(void)
     return NULL;
 }
 
-void parallel_cable_drive0_write(BYTE data, int handshake)
-{
-}
-
-void parallel_cable_drive1_write(BYTE data, int handshake)
+void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
 }
 
