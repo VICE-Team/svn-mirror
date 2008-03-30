@@ -271,7 +271,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
 
     cmd_parse.cmd = name;
     cmd_parse.cmdlength = length;
-    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;;
+    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
 
     rc = vdrive_command_parse(&cmd_parse);
 
@@ -281,9 +281,9 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
     }
 
 #ifdef DEBUG_DRIVE
-        log_debug("Raw file name: `%s', length: %i.", name, length);
-        log_debug("Parsed file name: `%s', reallength: %i.",
-                  cmd_parse.parsecmd, cmd_parse.parselength);
+    log_debug("Raw file name: `%s', length: %i.", name, length);
+    log_debug("Parsed file name: `%s', reallength: %i.",
+              cmd_parse.parsecmd, cmd_parse.parselength);
 #endif
 
     /* Override read mode if secondary is 0 or 1.  */
@@ -324,7 +324,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      * on filename
      */
 
-    if (cmd_parse.filetype != 0)
+    if (cmd_parse.filetype == 0)
         cmd_parse.filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     /*
