@@ -28,9 +28,9 @@
 
 #include "vice.h"
 
+#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <memory.h>
 
 #include "cmdline.h"
 #include "interrupt.h"
@@ -40,6 +40,7 @@
 #include "parallel.h"
 #include "resources.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 
 typedef struct _traplist_t {
@@ -131,7 +132,7 @@ static int install_trap(const trap_t *t)
     int i;
 
     for (i = 0; i < 3; i++) {
-	if (rom_read(t->address + i) != t->check[i]) {
+	if (rom_read((ADDRESS)(t->address + i)) != t->check[i]) {
 	    log_error(traps_log,
                       "Incorrect checkbyte for trap `%s'.  Not installed.",
                       t->name);
