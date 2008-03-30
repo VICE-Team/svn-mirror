@@ -8,6 +8,7 @@ SUFFIXES = .def
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
+	@RESID_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
