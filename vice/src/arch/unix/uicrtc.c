@@ -28,7 +28,24 @@
 #include "vice.h"
 
 #include "uimenu.h"
-#include "uisettings.h"
+#include "uipalette.h"
+
+
+UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
+
+ui_menu_entry_t crtc_palette_submenu[] = {
+    { N_("*Default (Green)"), (ui_callback_t)radio_CrtcPaletteFile,
+      (ui_callback_data_t)"green", NULL },
+    { N_("*Amber"), (ui_callback_t)radio_CrtcPaletteFile,
+      (ui_callback_data_t)"amber", NULL },
+    { N_("*White"), (ui_callback_t)radio_CrtcPaletteFile,
+      (ui_callback_data_t)"white", NULL },
+    { "--" },
+    { N_("Load custom"),
+      (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"CrtcPaletteFile", NULL },
+    { NULL }
+};
 
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)

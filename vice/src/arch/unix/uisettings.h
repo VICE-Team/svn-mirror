@@ -51,7 +51,6 @@ extern UI_CALLBACK(ui_load_romset);
 extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_unload_rom_file);
 extern UI_CALLBACK(ui_dump_romset);
-extern UI_CALLBACK(ui_load_palette);
 
 extern ui_menu_entry_t ser1_baud_submenu[];
 extern ui_menu_entry_t ser2_baud_submenu[];

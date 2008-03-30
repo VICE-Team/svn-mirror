@@ -31,7 +31,6 @@
 #include <stdlib.h>
 
 #define C128UI 1
-#include "videoarch.h"
 
 #include "drive.h"
 #include "joystick.h"
@@ -39,70 +38,26 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uimenu.h"
+#include "uipalette.h"
 #include "uiscreenshot.h"
+#include "uireu.h"
 #include "uisettings.h"
+#include "uivicii.h"
 #include "utils.h"
+#include "videoarch.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(VideoStandard)
 
-static ui_menu_entry_t set_video_standard_submenu[] = {
+ui_menu_entry_t set_video_standard_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
     { NULL }
 };
-
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
-
-static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL },
-    { "*C64S",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64s", NULL },
-    { N_("*CCS64"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"ccs64", NULL },
-    { N_("*Frodo"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"frodo", NULL },
-    { N_("*GoDot"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"godot", NULL },
-    { "*PC64",
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"PaletteFile", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(CheckSsColl)
-UI_MENU_DEFINE_TOGGLE(CheckSbColl)
-
-static ui_menu_entry_t vic_submenu[] = {
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--",
-      NULL, NULL, NULL },
-    { N_("*Sprite-sprite collisions"),
-      (ui_callback_t)toggle_CheckSsColl, NULL, NULL },
-    { N_("*Sprite-background collisions"),
-      (ui_callback_t)toggle_CheckSbColl, NULL, NULL },
-    { "--",
-      NULL, NULL, NULL },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { NULL }
-};
-
-static ui_menu_entry_t vic_options_submenu[] = {
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { NULL }
-};
-
 
 UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
 
@@ -309,8 +264,6 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(REU)
-UI_MENU_DEFINE_RADIO(REUsize)
 #ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(Mouse)
 #endif
@@ -347,70 +300,6 @@ static ui_menu_entry_t functionrom_submenu[] = {
     { N_("External Function ROM name..."),
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },
-    { NULL }
-};
-
-UI_CALLBACK(set_reu_image_name)
-{
-    char *resname = (char *)UI_MENU_CB_PARAM;
-    char *title;
-    ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
-
-    vsync_suspend_speed_eval();
-    title = stralloc(_("REU image name"));
-
-    resources_get_value(resname, (resource_value_t *)&value);
-
-    if (value == NULL)
-        value = "";
-
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
-
-    new_value = xmalloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Name:"), new_value, len);
-    free(title);
-
-    if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
-
-    free(new_value);
-}
-
-static ui_menu_entry_t reu_size_submenu[] = {
-    { "*128KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)128, NULL },
-    { "*256KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)256, NULL },
-    { "*512KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)512, NULL },
-    { "*1024KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)1024, NULL },
-    { "*2048KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)2048, NULL },
-    { "*4096KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)4096, NULL },
-    { "*8192KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)8192, NULL },
-    { "*16384KB", (ui_callback_t)radio_REUsize,
-      (ui_callback_data_t)16384, NULL },
-    { NULL }
-};
-
-static ui_menu_entry_t reu_submenu[] = {
-    { N_("*Enable REU"),
-      (ui_callback_t)toggle_REU, NULL, NULL },
-    { N_("REU size"),
-      NULL, NULL, reu_size_submenu },
-    { N_("REU image name..."),
-      (ui_callback_t)set_reu_image_name,
-      (ui_callback_data_t)"REUfilename", NULL },
     { NULL }
 };
 
@@ -614,8 +503,6 @@ int c128_ui_init(void)
                                   sid_options_submenu,
                                   ui_menu_separator,
                                   ui_drive_options_submenu,
-                                  ui_menu_separator,
-                                  vic_options_submenu,
                                   ui_menu_separator,
                                   io_extensions_submenu,
                                   NULL),

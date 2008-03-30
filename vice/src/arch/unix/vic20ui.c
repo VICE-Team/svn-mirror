@@ -39,6 +39,7 @@
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
+#include "uipalette.h"
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"

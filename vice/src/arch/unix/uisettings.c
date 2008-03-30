@@ -348,38 +348,6 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_CALLBACK(ui_load_palette)
-{
-    char *filename, *title;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-    title = stralloc(_("Load custom palette"));
-    filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
-                              False, NULL);
-
-    free(title);
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM,
-                (resource_value_t)filename) < 0)
-            ui_error(_("Could not load palette file\n'%s'"), filename);
-        if (last_dir)
-            free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    ui_update_menus();
-    if (filename != NULL)
-        free(filename);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* ROM set stuff */
 
 UI_CALLBACK(ui_set_romset)

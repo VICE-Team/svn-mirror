@@ -46,22 +46,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
-
-static ui_menu_entry_t palette_submenu[] = {
-    { "*Default (Green)", (ui_callback_t)radio_CrtcPaletteFile,
-        (ui_callback_data_t)"default", NULL },
-    { "*Amber", (ui_callback_t)radio_CrtcPaletteFile,
-        (ui_callback_data_t)"amber", NULL },
-    { N_("*White"), (ui_callback_t)radio_CrtcPaletteFile,
-        (ui_callback_data_t)"white", NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"CrtcPaletteFile", NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 
 UI_MENU_DEFINE_TOGGLE(Crtc)
@@ -434,8 +418,8 @@ static ui_menu_entry_t pet_menu[] = {
     { N_("*PET userport diagnostic pin"),
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { "--" },
-    { N_("Screen color"),
-      NULL, NULL, palette_submenu },
+    { N_("*CRTC Screen color"),
+      NULL, NULL, crtc_palette_submenu },
     { NULL }
 };
 

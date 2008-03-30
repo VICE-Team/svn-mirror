@@ -23,12 +23,12 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	c128ui.h \
 	c128ui.c \
-	c610ui.h \
+	c128ui.h \
 	c610ui.c \
-	c64ui.h \
+	c610ui.h \
 	c64ui.c \
+	c64ui.h \
 	console.c \
 	coproc.h \
 	coproc.c \
@@ -41,8 +41,8 @@ libarch_a_SOURCES = \
 	mouse.c \
 	mouse.h \
 	petkmap.c \
-	petui.h \
 	petui.c \
+	petui.h \
 	rs232.c \
 	types.h \
 	ui.h \
@@ -56,15 +56,21 @@ libarch_a_SOURCES = \
 	uidatasette.c \
 	uidatasette.h \
 	uiedisk.h \
+	uihotkey.h \
 	uimenu.h \
 	uimon.c \
+	uipalette.c \
+	uipalette.h \
+	uireu.c \
+	uireu.h \
 	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
 	uisnapshot.h \
-	uihotkey.h \
-	vic20ui.h \
+	uivicii.c \
+	uivicii.h \
 	vic20ui.c \
+	vic20ui.h \
 	videoarch.h \
 	vsyncarch.c \
 	vsidui.c
