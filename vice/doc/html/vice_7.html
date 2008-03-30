@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 10 December 2000 -->
+     from ../vice.texi on 28 January 2001 -->
 
 <TITLE>VICE Manual - 7  Machine-specific features</TITLE>
 </HEAD>
@@ -1132,7 +1132,7 @@ following values:
 <UL>
 <LI>
 
-<CODE>default.vpl</CODE> ("default (green)"), the good old green-on-black
+<CODE>green.vpl</CODE> (default, "green)"), the good old green-on-black
 feeling;
 <LI>
 
@@ -1170,36 +1170,42 @@ file, command line options or right-menu items):
 </P>
 <DL COMPACT>
 
-<DT><CODE>RamSize</CODE>
+<DT><CODE>UseVicII</CODE>
 <DD>
 <A NAME="IDX276"></A>
  
-Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
+Whether to use VIC-II for video output (value 1) or the CRTC for the
+other machines (value 0)
 
 <A NAME="IDX277"></A>
+<DT><CODE>RamSize</CODE>
+<DD>
+Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
+
 <A NAME="IDX278"></A>
 <A NAME="IDX279"></A>
 <A NAME="IDX280"></A>
 <A NAME="IDX281"></A>
 <A NAME="IDX282"></A>
+<A NAME="IDX283"></A>
 <DT><CODE>Ram08, Ram1, Ram2, Ram4, Ram6, RamC</CODE>
 <DD>
 Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
-<A NAME="IDX283"></A>
 <A NAME="IDX284"></A>
 <A NAME="IDX285"></A>
+<A NAME="IDX286"></A>
 <DT><CODE>Cart2Name, Cart4Name, Cart6Name</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
-<A NAME="IDX286"></A>
+<A NAME="IDX287"></A>
 <DT><CODE>ModelLine</CODE>
 <DD>
-The CBM-II models have two hardcoded lines at one of the I/O ports.
+The CBM-II business models have two hardcoded lines at one of the I/O ports.
 From those lines the kernal determines how it should init the 
 CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
 and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
@@ -1215,6 +1221,9 @@ models are:
 </P>
 
 <UL>
+<LI>
+
+C510 (128k RAM)
 <LI>
 
 C610 (128k RAM)
@@ -1240,10 +1249,16 @@ Notice that this will <STRONG>reset the emulated machine</STRONG>.
 
 </P>
 <P>
+<B>Warning:</B> At this time switching between 510 and other machines during
+runtime is not supported and will not work.
+
+</P>
+<P>
 It is also possible to select the CBM model at startup, with the
-<CODE>-model</CODE> command-line option: for example, <SAMP>`xcbm2 -model C610'</SAMP>
-will emulate a CBM 610 while <SAMP>`xcbm2 -model C620'</SAMP> will emulate a CBM
-620.
+<CODE>-model</CODE> command-line option: for example, <SAMP>`xcbm2 -model 610'</SAMP>
+will emulate a CBM 610 while <SAMP>`xcbm2 -model 620'</SAMP> will emulate a CBM
+620. Notably this is the only way to start a C510 emulation, with
+<CODE>-model 510</CODE>.
 
 </P>
 
@@ -1256,37 +1271,45 @@ These are the commandline options specific for the CBM-II models.
 </P>
 <DL COMPACT>
 
+<DT><CODE>-usevicii</CODE>
+<DD>
+<A NAME="IDX288"></A>
+ 
+<DT><CODE>+usevicii</CODE>
+<DD>
+Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II 
+emulation.
+
+<A NAME="IDX289"></A>
 <DT><CODE>-kernal NAME</CODE>
 <DD>
-<A NAME="IDX287"></A>
- 
 Specify <TT>`NAME'</TT> as the Kernal ROM file (<CODE>KernalName</CODE>).
 
-<A NAME="IDX288"></A>
+<A NAME="IDX290"></A>
 <DT><CODE>-basic NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the Basic ROM file (<CODE>BasicName</CODE>).
 
-<A NAME="IDX289"></A>
+<A NAME="IDX291"></A>
 <DT><CODE>-chargen NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the character generator ROM file
 (<CODE>ChargenName</CODE>).
 
-<A NAME="IDX290"></A>
-<A NAME="IDX291"></A>
 <A NAME="IDX292"></A>
+<A NAME="IDX293"></A>
+<A NAME="IDX294"></A>
 <DT><CODE>-cart2 NAME, -cart4 NAME, -cart6 NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the ROM image file for the respective 
 cartridge areas (<CODE>Cart2Name</CODE>, <CODE>Cart4Name</CODE>, <CODE>Cart6Name</CODE>).
 
-<A NAME="IDX293"></A>
-<A NAME="IDX294"></A>
 <A NAME="IDX295"></A>
 <A NAME="IDX296"></A>
 <A NAME="IDX297"></A>
 <A NAME="IDX298"></A>
+<A NAME="IDX299"></A>
+<A NAME="IDX300"></A>
 <DT><CODE>-ram08, -ram1, -ram2, -ram4, -ram6, -ramC</CODE>
 <DD>
 Switch on RAM mapping in bank 15 on addresses 
@@ -1294,7 +1317,7 @@ $0800-$0fff, $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp
 (<CODE>Ram08</CODE>, <CODE>Ram1</CODE>, <CODE>Ram2</CODE>, <CODE>Ram4</CODE>, <CODE>Ram6</CODE>,
 <CODE>RamC</CODE>).
 
-<A NAME="IDX299"></A>
+<A NAME="IDX301"></A>
 <DT><CODE>-modelline</CODE>
 <DD>
 Define the hardcoded model switch in the CBM-II models.
@@ -1315,7 +1338,7 @@ following values:
 <UL>
 <LI>
 
-<CODE>default.vpl</CODE> ("default (green)"), the good old green-on-black
+<CODE>green.vpl</CODE> (default, "green"), the good old green-on-black
 feeling;
 <LI>
 

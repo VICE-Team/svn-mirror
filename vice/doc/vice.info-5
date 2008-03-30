@@ -18,7 +18,7 @@ permission notice identical to this one.
 
 
 
-File: vice.info,  Node: CBM-II memory module,  Prev: PET memory module,  Up: Module formats
+File: vice.info,  Node: CBM-II memory module,  Next: C500 data module,  Prev: PET memory module,  Up: Module formats
 
 CBM-II memory module
 ....................
@@ -43,10 +43,8 @@ UBYTE   CONFIG                        Bit 0 = $f0800-$f0fff RAM, Bit 1 =
                                       $f2000-$f3fff RAM, Bit 3 =           
                                       $f4000-$f5fff RAM, Bit 4 =           
                                       $f6000-$f7fff RAM, Bit 5 =           
-                                      $fc000-$fcfff RAM                    
-UBYTE   HWCONFIG                      Bit 0: 0 = CRTC, 1 = VIC-II video    
-                                      chip (Basically the destinction      
-                                      between C500 and C600/700)           
+                                      $fc000-$fcfff RAM, Bit 6 = is a C500 
+UBYTE   HWCONFIG                      Bit 0/1: model line configuration    
 UBYTE   EXECBANK                      CPUs execution bank register         
 UBYTE   INDBANK                       CPUs indirection bank register       
 ARRAY   SYSRAM                        2k system RAM $f0000-$f07ff          
@@ -69,6 +67,10 @@ ARRAY   RAMC                          if memsize < 1M and CONFIG & 32 :
 If the memory size is 1M then those areas are taken from the bank 15
 area of the normal RAM.
 
+   The memory array starts at $10000 if the memory size is less than
+512k, or at $00000 if 512k or more. In case of a C510, then the memory
+array also always starts at $00000.
+
    The CBM2ROM module
 
 Type    Name                          Description                          
@@ -76,7 +78,9 @@ UBYTE   CONFIG                        Bit 1: 1= $1*** ROM image included.
                                       Bit 2: 1= $2000-$3fff ROM image      
                                       included. Bit 3: 1= $4000-$5fff ROM  
                                       image included. Bit 4: 1=            
-                                      $6000-$7fff ROM image included.      
+                                      $6000-$7fff ROM image included. Bit  
+                                      5: 1= chargen ROM is VIC-II          
+                                      chargen, 0= CRTC chargen.            
 ARRAY   KERNAL                        8 KERNAL ROM image ($e000-$efff)     
 ARRAY   BASIC                         BASIC ROM image ($8000-$bfff)        
 ARRAY   CHARGEN                       4k CHARGEN ROM image                 
@@ -88,6 +92,22 @@ ARRAY   ROM4                          8k cartridge ROM image for
                                       $4000-$5fff (if CONFIG & 8)          
 ARRAY   ROM6                          8k cartridge ROM image for           
                                       $6000-$7fff (if CONFIG & 16)         
+
+
+File: vice.info,  Node: C500 data module,  Prev: CBM-II memory module,  Up: Module formats
+
+C500 data module
+................
+
+   The C500 data module contains simple state information not already
+saved in the other modules.
+
+   Version numbers: Major 0, Minor 0
+
+   The C500DATA module
+
+Type    Name                          Description                          
+DWORD   IRQCLK                        CPU clock ticks till next 50Hz IRQ   
 
 
 File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top

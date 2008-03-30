@@ -1461,7 +1461,7 @@ emulation window.  This is done by specifying a palette file name
 (*note Palette files::.) in the `PaletteName' resource.  The menu
 provides the following values:
 
-   * `default.vpl' ("default (green)"), the good old green-on-black
+   * `green.vpl' (default, "green)"), the good old green-on-black
      feeling;
 
    * `amber.vpl' ("amber"), an amber phosphor lookalike;
@@ -1497,6 +1497,10 @@ set of CBM models so that all the features are selected accordingly.
    The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
 
+`UseVicII'
+     Whether to use VIC-II for video output (value 1) or the CRTC for
+     the other machines (value 0)
+
 `RamSize'
      Size of memory in kByte.  Possible values are 128, 256, 512 and
      1024
@@ -1511,15 +1515,17 @@ file, command line options or right-menu items):
      Expansion ROM file.  This file contains an 8k ROM dump.
 
 `ModelLine'
-     The CBM-II models have two hardcoded lines at one of the I/O ports.
-     From those lines the kernal determines how it should init the CRTC
-     video chip for either 50Hz (Europe) or 60Hz (North America), and
-     either for 8 (C6x0) or 14 (C7x0) scanlines per character.  0 = CBM
-     7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
+     The CBM-II business models have two hardcoded lines at one of the
+     I/O ports.  From those lines the kernal determines how it should
+     init the CRTC video chip for either 50Hz (Europe) or 60Hz (North
+     America), and either for 8 (C6x0) or 14 (C7x0) scanlines per
+     character.  0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
 
    Choosing a common CBM-II model is done from the right-button menu
 instead, by choosing an item from the "Model defaults" submenu.
 Available models are:
+
+   * C510 (128k RAM)
 
    * C610 (128k RAM)
 
@@ -1535,9 +1541,14 @@ Available models are:
 
    Notice that this will *reset the emulated machine*.
 
+   Warning: At this time switching between 510 and other machines during
+runtime is not supported and will not work.
+
    It is also possible to select the CBM model at startup, with the
-`-model' command-line option: for example, `xcbm2 -model C610' will
-emulate a CBM 610 while `xcbm2 -model C620' will emulate a CBM 620.
+`-model' command-line option: for example, `xcbm2 -model 610' will
+emulate a CBM 610 while `xcbm2 -model 620' will emulate a CBM 620.
+Notably this is the only way to start a C510 emulation, with `-model
+510'.
 
 
 File: vice.info,  Node: CBM-II commandline options,  Next: CBM-II colors,  Prev: CBM-II model,  Up: CBM-II-specific
@@ -1546,6 +1557,11 @@ CBM-II command line options
 ---------------------------
 
    These are the commandline options specific for the CBM-II models.
+
+`-usevicii'
+`+usevicii'
+     Specify whether to use (-usevicii) or not to use (+usevicii) the
+     VIC-II emulation.
 
 `-kernal NAME'
      Specify `NAME' as the Kernal ROM file (`KernalName').
@@ -1567,22 +1583,4 @@ CBM-II command line options
 
 `-modelline'
      Define the hardcoded model switch in the CBM-II models.
-
-
-File: vice.info,  Node: CBM-II colors,  Prev: CBM-II commandline options,  Up: CBM-II-specific
-
-Changing screen colors
-----------------------
-
-   It is also possible to choose what color set is used for the
-emulation window.  This is done by specifying a palette file name
-(*note Palette files::.) in the `PaletteName' resource.  The menu
-provides the following values:
-
-   * `default.vpl' ("default (green)"), the good old green-on-black
-     feeling;
-
-   * `amber.vpl' ("amber"), an amber phosphor lookalike;
-
-   * `white.vpl' ("white"), simple white-on-black palette.
 

@@ -159,11 +159,19 @@ and needs those increased ROMs.  Both ROMs hold, like the PET, two
 character sets with 128 characters each.  Again the second half of the
 full (256 char) character set is computed by inverting.
 
-   * `kernal', the KERNAL (8k)
+   * `kernal', the KERNAL (8k) for the business machines (6xx/7xx)
+
+   * `kernal.500', the KERNAL (8k) for the personal machine (510)
+     (901234-02)
 
    * `basic.128', the CBM-II 128k BASIC (16k)
 
    * `basic.256', CBM-II 256k BASIC (16k)
+
+   * `basic.500', C510 BASIC (16k) (901236-02 + 901235-02)
+
+   * `chargen.500', character generator ROM for the C5x0 (4k)
+     (901225-01)
 
    * `chargen.600', character generator ROM for the C6x0 (4k)
 

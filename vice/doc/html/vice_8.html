@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 10 December 2000 -->
+     from ../vice.texi on 28 January 2001 -->
 
 <TITLE>VICE Manual - 8  Snapshots</TITLE>
 </HEAD>
@@ -361,6 +361,11 @@ The modules in the xcbm2 emulator are:
 <TD>Memory</TD>
 <TD>Holds the RAM contents of the CBM-II models.  Also holds the exec-bank and indirection bank registers</TD>
 </TR>
+<TR><TD>C500DATA</TD>
+
+<TD></TD>
+<TD>Holds additional state information necessary for the C500 (e.g. cycles till the next IRQ)</TD>
+</TR>
 <TR><TD>CBM2ROM</TD>
 
 <TD>Memory</TD>
@@ -409,8 +414,9 @@ The modules in the xcbm2 emulator are:
 
 <P>
 The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
-emulated.
+not both. Currently switching between the two video emulations is not
+possible at runtime, so only snapshots that fit the current UseVicII 
+resource are accepted.
 
 </P>
 
@@ -1273,7 +1279,7 @@ RASTERY and RASTERLINE values might be bogus.
 
 </P>
 <P>
-Version numbers: Major 1, Minor 0.
+Version numbers: Major 1, Minor 1.
 
 </P>
 <TABLE BORDER>
@@ -1306,7 +1312,7 @@ Version numbers: Major 1, Minor 0.
 <TR><TD>WORD</TD>
 
 <TD>VADDR_REVSWITCH</TD>
-<TD>If one bit in the video address inverts the screen, it is masked here. If &#62; 0 then must be set for standard; if &#60; 0 then inverted bit must not be set.</TD>
+<TD>If one bit in the video address inverts the screen, it is masked here. </TD>
 </TR>
 <TR><TD>WORD</TD>
 
@@ -1442,11 +1448,21 @@ Version numbers: Major 1, Minor 0.
 
 <TD>CURRENT_LINE</TD>
 <TD>current rasterline as seen from the CRTC</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>This value has been added in module version V1.1</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>FLAG</TD>
+<TD>Bit 0: If 1 then bit in VADDR_REVSWITCH must be set for reverse; if 0 then bit must be cleared for reverse.</TD>
 </TR></TABLE>
 
 <P>
 Here is the reference for the previous CRTC snapshot module. It is outdated
-and should not be used anymore.
+and will not be read by this and later versions of VICE.
 
 </P>
 <P>
@@ -2019,12 +2035,12 @@ Version numbers: Major 1, Minor 0
 <TR><TD>UBYTE</TD>
 
 <TD>CONFIG</TD>
-<TD>Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM</TD>
+<TD>Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM, Bit 6 = is a C500</TD>
 </TR>
 <TR><TD>UBYTE</TD>
 
 <TD>HWCONFIG</TD>
-<TD>Bit 0: 0 = CRTC, 1 = VIC-II video chip (Basically the destinction between C500 and C600/700)</TD>
+<TD>Bit 0/1: model line configuration</TD>
 </TR>
 <TR><TD>UBYTE</TD>
 
@@ -2089,6 +2105,12 @@ bank 15 area of the normal RAM.
 
 </P>
 <P>
+The memory array starts at $10000 if the memory size is less than 512k,
+or at $00000 if 512k or more. In case of a C510, then the memory array
+also always starts at $00000.
+
+</P>
+<P>
 <B>The CBM2ROM module</B>
 
 </P>
@@ -2102,7 +2124,7 @@ bank 15 area of the normal RAM.
 <TR><TD>UBYTE</TD>
 
 <TD>CONFIG</TD>
-<TD>Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included.</TD>
+<TD>Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included. Bit 5: 1= chargen ROM is VIC-II chargen, 0= CRTC chargen.</TD>
 </TR>
 <TR><TD>ARRAY</TD>
 
@@ -2138,6 +2160,36 @@ bank 15 area of the normal RAM.
 
 <TD>ROM6</TD>
 <TD>8k cartridge ROM image for $6000-$7fff (if CONFIG &#38; 16)</TD>
+</TR></TABLE>
+
+
+
+<H4><A NAME="SEC135" HREF="vice_toc.html#TOC135">8.2.2.19  C500 data module</A></H4>
+
+<P>
+The C500 data module contains simple state information not already saved
+in the other modules.
+
+</P>
+<P>
+Version numbers: Major 0, Minor 0
+
+</P>
+<P>
+<B>The C500DATA module</B>
+
+</P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>DWORD</TD>
+
+<TD>IRQCLK</TD>
+<TD>CPU clock ticks till next 50Hz IRQ</TD>
 </TR></TABLE>
 
 <P><HR><P>

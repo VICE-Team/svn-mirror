@@ -17,6 +17,24 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: CBM-II colors,  Prev: CBM-II commandline options,  Up: CBM-II-specific
+
+Changing screen colors
+----------------------
+
+   It is also possible to choose what color set is used for the
+emulation window.  This is done by specifying a palette file name
+(*note Palette files::.) in the `PaletteName' resource.  The menu
+provides the following values:
+
+   * `green.vpl' (default, "green"), the good old green-on-black
+     feeling;
+
+   * `amber.vpl' ("amber"), an amber phosphor lookalike;
+
+   * `white.vpl' ("white"), simple white-on-black palette.
+
+
 File: vice.info,  Node: Snapshots,  Next: Monitor,  Prev: Machine-specific features,  Up: Top
 
 Snapshots
@@ -223,6 +241,9 @@ CBM2MEM Memory                        Holds the RAM contents of the
                                       CBM-II models.  Also holds the       
                                       exec-bank and indirection bank       
                                       registers                            
+C500DATA                              Holds additional state information   
+                                      necessary for the C500 (e.g. cycles  
+                                      till the next IRQ)                   
 CBM2ROM Memory                        optional.  Holds the ROM images.     
 CRTC    6545                          The video chip for the C6*0 and      
                                       C7*0 models (only those models).     
@@ -237,8 +258,9 @@ SID     6581                          The CBM2s SID sound chip
                                       own modules *note Drive modules::.   
 
    The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
-emulated.
+not both. Currently switching between the two video emulations is not
+possible at runtime, so only snapshots that fit the current UseVicII
+resource are accepted.
 
 
 File: vice.info,  Node: Drive modules,  Prev: xcbm2 modules,  Up: Emulator modules
@@ -288,6 +310,7 @@ emulator, or even in other emulators.
 * VIC20 memory module::
 * PET memory module::
 * CBM-II memory module::
+* C500 data module::
 
 
 File: vice.info,  Node: Module Terminology,  Next: Module framework,  Prev: Module formats,  Up: Module formats
@@ -635,7 +658,7 @@ versions (1.0 and below) cannot read the new snapshots.
    Warning: This module is still under construction.  Especially the
 RASTERY and RASTERLINE values might be bogus.
 
-   Version numbers: Major 1, Minor 0.
+   Version numbers: Major 1, Minor 1.
 
 Type    Name                          Description                          
                                       Hardware options                     
@@ -649,9 +672,7 @@ WORD    VADDR_CHAROFFSET              The offset in characters in the
                                       switches.                            
 WORD    VADDR_REVSWITCH               If one bit in the video address      
                                       inverts the screen, it is masked     
-                                      here. If > 0 then must be set for    
-                                      standard; if < 0 then inverted bit   
-                                      must not be set.                     
+                                      here.                                
 WORD    CHARGEN_MASK                  size of character generator in byte  
                                       - 1                                  
 WORD    CHARGEN_OFFSET                offset given by external circuitry   
@@ -700,9 +721,15 @@ WORD    FRAMELINES                    expected number of rasterlines for
                                       the current frame                    
 WORD    CURRENT_LINE                  current rasterline as seen from the  
                                       CRTC                                 
+                                      This value has been added in module  
+                                      version V1.1                         
+BYTE    FLAG                          Bit 0: If 1 then bit in              
+                                      VADDR_REVSWITCH must be set for      
+                                      reverse; if 0 then bit must be       
+                                      cleared for reverse.                 
 
    Here is the reference for the previous CRTC snapshot module. It is
-outdated and should not be used anymore.
+outdated and will not be read by this and later versions of VICE.
 
    Version numbers: Major 0, Minor 0.
 

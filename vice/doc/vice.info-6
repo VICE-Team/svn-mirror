@@ -591,6 +591,7 @@ Concept Index
 * -superpet:                             PET commandline options.
 * -symkeymap:                            Keyboard options.
 * -truedrive, +truedrive:                Drive options.
+* -usevicii +usevicii:                   CBM-II commandline options.
 * -vcache, +vcache:                      Video options.
 * -virtualdev, +virtualdev:              No traps options.
 * -warp, +warp:                          Performance options.
@@ -659,6 +660,7 @@ Concept Index
 * SuperPET:                              PET model.
 * Toggling reSID emulation:              SID settings.
 * Turning sound playback on/off:         Sound settings.
+* UseVicII:                              CBM-II model.
 * Using XSync():                         Video settings.
 * VIC-II color sets:                     VIC-II settings.
 * Video cache:                           Video settings.
