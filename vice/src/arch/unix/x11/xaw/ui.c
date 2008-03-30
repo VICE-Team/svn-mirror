@@ -704,7 +704,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  NULL);
             free(name);
 
-            name = xmsprintf(name, "driveLed%d", i + 1);
+            name = xmsprintf("driveLed%d", i + 1);
             drive_led[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -725,7 +725,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
 	    /* double LEDs */
 
-            name = xmsprintf(name, "driveLedA%d", i + 1);
+            name = xmsprintf("driveLedA%d", i + 1);
             drive_led1[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -744,7 +744,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  NULL);
             free(name);
 
-            name = xmsprintf(name, "driveLedB%d", i + 1);
+            name = xmsprintf("driveLedB%d", i + 1);
             drive_led2[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
