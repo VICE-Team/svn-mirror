@@ -50,8 +50,6 @@
 int joystick_inited = 0;
 
 /* Notice that this has to be `int' to make resources work.  */
-static int keyset1[9], keyset2[9];
-
 static int joystick_fire_speed[2];
 static int joystick_fire_axis[2];
 static int joystick_autofire_button[2];

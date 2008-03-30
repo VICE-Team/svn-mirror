@@ -144,7 +144,8 @@ void statusbar_create(HWND hwnd)
     status_hwnd[number_of_status_windows] =
         CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd,
                            IDM_STATUS_WINDOW);
-    SendMessage(status_hwnd[number_of_status_windows], SB_SETMINHEIGHT, 40, (LPARAM)0);
+    SendMessage(status_hwnd[number_of_status_windows], SB_SETMINHEIGHT, 40,
+                (LPARAM)0);
     SendMessage(status_hwnd[number_of_status_windows], WM_SIZE, 0, (LPARAM)0);
     
     GetClientRect(status_hwnd[number_of_status_windows], &rect);
@@ -166,10 +167,10 @@ void statusbar_destroy(void)
 
 void statusbar_create_brushes(void)
 {
-   int i;
-   int j;
-   int col;
-   int coladd;
+    int i;
+    int j;
+    int col;
+    int coladd = 0;
 
     b_green = CreateSolidBrush(0xff00);
     b_red = CreateSolidBrush(0xff);
@@ -177,40 +178,39 @@ void statusbar_create_brushes(void)
     b_yellow = CreateSolidBrush(0xffff);
     b_grey = CreateSolidBrush(0x808080);
 
-   col = 0;
-   for (i = 0; i < 2; i++) {
-       switch (i) {
-           case 0:
-               coladd = 0x01; /* red */
-               break;
-
-           case 1:
-               coladd = 0x0100; /* green */
-               break;
-       }
-       for (j = 0; j < 256; j++) {
-           b_led_shades[i][j] = CreateSolidBrush(col);
-           col += coladd;
-       }
-   }
+    col = 0;
+    for (i = 0; i < 2; i++) {
+        switch (i) {
+          case 0:
+            coladd = 0x01; /* red */
+            break;
+          case 1:
+            coladd = 0x0100; /* green */
+            break;
+        }
+        for (j = 0; j < 256; j++) {
+            b_led_shades[i][j] = CreateSolidBrush(col);
+            col += coladd;
+        }
+    }
 }
 
 void statusbar_delete_brushes(void)
 {
-   int i;
-   int j;
+    int i;
+    int j;
 
-   DeleteObject(b_green);
-   DeleteObject(b_red);
-   DeleteObject(b_black);
-   DeleteObject(b_yellow);
-   DeleteObject(b_grey);
+    DeleteObject(b_green);
+    DeleteObject(b_red);
+    DeleteObject(b_black);
+    DeleteObject(b_yellow);
+    DeleteObject(b_grey);
 
-   for (i = 0; i < 2; i++) {
-       for (j = 0; j < 256; j++) {
-           DeleteObject(b_led_shades[i][j]);
-       }
-   }
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 256; j++) {
+            DeleteObject(b_led_shades[i][j]);
+        }
+    }
 }
 
 int statusbar_get_status_height(void)
