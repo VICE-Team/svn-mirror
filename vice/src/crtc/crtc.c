@@ -182,8 +182,9 @@ static void inline crtc_reset_screen_ptr(void)
     }
 
     /* have they changed? */
-    crtc.raster.display_ystop = CRTC_SCREEN_YPIX();
-    crtc.raster.display_xstop = CRTC_SCREEN_XPIX();
+    crtc.raster.geometry.last_displayed_line = 
+    crtc.raster.display_ystop = CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX();
+    crtc.raster.display_xstop = CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX();
 
 }
 
@@ -321,9 +322,10 @@ canvas_t crtc_init (void)
 
   raster_set_geometry (raster,
                        CRTC_SCREEN_WIDTH(), CRTC_SCREEN_HEIGHT(),
-                       CRTC_SCREEN_XPIX(), CRTC_SCREEN_YPIX(),
+                       CRTC_SCREEN_WIDTH() /*XPIX()*/, 
+		       CRTC_SCREEN_HEIGHT() /*YPIX()*/,
                        CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                       CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT,
+                       0 /*CRTC_SCREEN_BORDERWIDTH*/, 0 /*CRTC_SCREEN_BORDERHEIGHT */,
                        FALSE,
                        CRTC_FIRST_DISPLAYED_LINE,
                        CRTC_LAST_DISPLAYED_LINE,
@@ -348,10 +350,10 @@ canvas_t crtc_init (void)
   crtc_draw_set_double_size (crtc_resources.double_size_enabled);
   crtc_reset ();
 
-  raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT + 0;
-  raster->display_ystop = CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX();
-  raster->display_xstart = CRTC_SCREEN_BORDERWIDTH + 0;
-  raster->display_xstop = CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX();
+  raster->display_ystart = 25 /*CRTC_SCREEN_BORDERHEIGHT + 0*/;
+  raster->display_ystop = 275 /*CRTC_SCREEN_BORDERHEIGHT + CRTC_SCREEN_YPIX()*/;
+  raster->display_xstart = 25 /* CRTC_SCREEN_BORDERWIDTH + 0*/;
+  raster->display_xstop = 665 /*CRTC_SCREEN_BORDERWIDTH + CRTC_SCREEN_XPIX()*/;
 
   return crtc.raster.viewport.canvas;
 }
@@ -494,6 +496,7 @@ int crtc_raster_draw_alarm_handler (long offset)
     crtc.xoffset = (crtc.screen_width 
 		- ((crtc.prev_rl_sync + crtc.rl_sync) << 3))
 		>> 1;
+/* if (crtc.current_charline == 19) printf("xoffset=%d\n",crtc.xoffset); */
 
     crtc.prev_rl_visible = crtc.rl_visible;
     crtc.prev_rl_sync = crtc.rl_sync;
@@ -525,6 +528,7 @@ int crtc_raster_draw_alarm_handler (long offset)
 	    } else {
 	        crtc.raster.ycounter = 0;
 	        crtc.current_charline ++;
+		crtc.current_charline &= 0x7f;
 
 		if (crtc.henable) {
 	            crtc.screen_rel += crtc.disp_chars;
@@ -555,6 +559,8 @@ int crtc_raster_draw_alarm_handler (long offset)
 	if (crtc.retrace_callback) 
 	    crtc.retrace_callback(1);
     }
+
+    crtc.rl_start = rclk;
 
     alarm_set (&crtc.raster_draw_alarm, clk + CRTC_CYCLES_PER_LINE() - offset);
 

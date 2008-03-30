@@ -56,6 +56,10 @@ store_crtc (ADDRESS addr, BYTE value)
 	return;
     }
 
+printf("store_crtc(reg=%d, %d) - cline=%d, ycount=%d, char=%d\n",
+	crtc.regno, value, crtc.current_charline, crtc.raster.ycounter,
+	current_cycle);
+
     crtc.regs[crtc.regno] = value;
 
     switch (crtc.regno) {

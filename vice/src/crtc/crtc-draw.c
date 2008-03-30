@@ -106,10 +106,12 @@ static void draw_standard_background_2x (unsigned int start_pixel,
 #endif
 
 /* for debugging make it a function... */
+/* FIXME: the "7" in the calculation of chargen_ptr is heuristic */
 void DRAW(int reverse_flag, int xs, int xe) 
 {
     do {                                                                \
-        PIXEL *p = crtc.raster.frame_buffer_ptr + CRTC_SCREEN_BORDERWIDTH;   \
+        PIXEL *p = crtc.raster.frame_buffer_ptr + CRTC_SCREEN_BORDERWIDTH \
+		+ crtc.xoffset + 7;   \
 	BYTE *chargen_ptr, *screen_ptr;					\
         register int i, d;                                              \
 									\
@@ -155,6 +157,7 @@ void DRAW(int reverse_flag, int xs, int xe)
 
 static void draw_standard_line(void)
 {
+/*if (crtc.disp_chars!=80) printf("draw %d chars per line\n", crtc.disp_chars);*/
     DRAW(0, 0, crtc.disp_chars - 1);
 }
 
