@@ -275,8 +275,12 @@ void keyboard_key_pressed(signed long key)
         if (key == keyconvmap[i].sym) {
             if (keyboard_key_pressed_matrix(keyconvmap[i].row,
                                             keyconvmap[i].column,
-                                            keyconvmap[i].shift))
+                                            keyconvmap[i].shift)) {
                 latch = 1;
+                if (!(keyconvmap[i].shift & ALLOW_OTHER)
+                    || (right_shift_down + left_shift_down) == 0)
+                    break;
+            }
         }
     }
 
@@ -344,8 +348,12 @@ void keyboard_key_released(signed long key)
         if (key == keyconvmap[i].sym) {
             if (keyboard_key_released_matrix(keyconvmap[i].row,
                                              keyconvmap[i].column,
-                                             keyconvmap[i].shift))
+                                             keyconvmap[i].shift)) {
                 latch = 1;
+                if (!(keyconvmap[i].shift & ALLOW_OTHER)
+                    || (right_shift_down + left_shift_down) == 0)
+                    break;
+            }
         }
     }
 
