@@ -39,6 +39,11 @@ void iecieee_drive_init(struct drive_context_s *drv)
     via2d_init(drv);
 }
 
+void iecieee_drive_shutdown(struct drive_context_s *drv)
+{
+    viacore_shutdown(&(drv->via2));
+}
+
 void iecieee_drive_reset(struct drive_context_s *drv)
 {
     viacore_reset(&(drv->via2));

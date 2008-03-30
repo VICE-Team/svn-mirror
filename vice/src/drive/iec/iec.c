@@ -100,6 +100,13 @@ void iec_drive_setup_context(struct drive_context_s *drv)
     cia1581_setup_context(drv);
 }
 
+void iec_drive_shutdown(struct drive_context_s *drv)
+{
+    viacore_shutdown(&(drv->via1d1541));
+    ciacore_shutdown(&(drv->cia1571));
+    ciacore_shutdown(&(drv->cia1581));
+}
+
 void iec_drive_idling_method(unsigned int dnr)
 {
     char *tmp;

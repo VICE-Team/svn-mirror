@@ -143,6 +143,7 @@ extern void ciacore_init(const cia_initdesc_t *cd,
                          struct alarm_context_s *alarm_context,
                          struct interrupt_cpu_status_s *int_status,
                          struct clk_guard_s *clk_guard);
+extern void ciacore_shutdown(cia_context_t *cia_context);
 extern void ciacore_reset(struct cia_context_s *cia_context);
 extern void REGPARM2 ciacore_store(struct cia_context_s *cia_context,
                                    WORD addr, BYTE data);

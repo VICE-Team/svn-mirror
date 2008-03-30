@@ -71,6 +71,13 @@ void machine_drive_init(struct drive_context_s *drv)
     tcbm_drive_init(drv);
 }
 
+void machine_drive_shutdown(struct drive_context_s *drv)
+{
+    iec_drive_shutdown(drv);
+    iecieee_drive_shutdown(drv);
+    tcbm_drive_shutdown(drv);
+}
+
 void machine_drive_reset(struct drive_context_s *drv)
 {
     iec_drive_reset(drv);

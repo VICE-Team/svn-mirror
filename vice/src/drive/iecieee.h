@@ -33,6 +33,7 @@ struct drive_context_s;
 struct snapshot_s;
 
 extern void iecieee_drive_init(struct drive_context_s *drv);
+extern void iecieee_drive_shutdown(struct drive_context_s *drv);
 extern void iecieee_drive_reset(struct drive_context_s *drv);
 extern void iecieee_drive_setup_context(struct drive_context_s *drv);
 

@@ -36,6 +36,7 @@ extern int tcbm_drive_resources_init(void);
 extern void tcbm_drive_resources_shutdown(void);
 extern int tcbm_drive_cmdline_options_init(void);
 extern void tcbm_drive_init(struct drive_context_s *drv);
+extern void tcbm_drive_shutdown(struct drive_context_s *drv);
 extern void tcbm_drive_reset(struct drive_context_s *drv);
 extern void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type);
 extern void tcbm_drive_setup_context(struct drive_context_s *drv);

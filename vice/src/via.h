@@ -152,6 +152,7 @@ extern void viacore_init(const via_initdesc_t *vd,
                          struct alarm_context_s *alarm_context,
                          struct interrupt_cpu_status_s *int_status,
                          struct clk_guard_s *clk_guard);
+extern void viacore_shutdown(struct via_context_s *via_context);
 extern void viacore_reset(struct via_context_s *via_context);
 extern void viacore_signal(struct via_context_s *via_context, int line,
                            int edge);

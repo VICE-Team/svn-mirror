@@ -37,6 +37,7 @@ extern int machine_drive_resources_init(void);
 extern void machine_drive_resources_shutdown(void);
 extern int machine_drive_cmdline_options_init(void);
 extern void machine_drive_init(struct drive_context_s *drv);
+extern void machine_drive_shutdown(struct drive_context_s *drv);
 extern void machine_drive_reset(struct drive_context_s *drv);
 extern void machine_drive_mem_init(struct drive_context_s *drv,
                                    unsigned int type);

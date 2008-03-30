@@ -66,6 +66,12 @@ void machine_drive_init(struct drive_context_s *drv)
     ieee_drive_init(drv);
 }
 
+void machine_drive_shutdown(struct drive_context_s *drv)
+{
+    iecieee_drive_shutdown(drv);
+    ieee_drive_shutdown(drv);
+}
+
 void machine_drive_reset(struct drive_context_s *drv)
 {
     iecieee_drive_reset(drv);

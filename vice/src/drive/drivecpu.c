@@ -316,6 +316,8 @@ void drive_cpu_shutdown(drive_context_t *drv)
 
     monitor_interface_destroy(drv->cpu.monitor_interface);
     interrupt_cpu_status_destroy(drv->cpu.int_status);
+
+    machine_drive_shutdown(drv);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
