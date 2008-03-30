@@ -72,7 +72,7 @@ static void vdc_set_geometry(void)
     raster = &vdc.raster;
 
     /* FIXME? y should be vdc_resources.double_size_enabled */
-    raster_enable_double_size(raster, 0, 0);
+    /*raster_enable_double_size(raster, 0, 0);*/
 
     screen_width = VDC_SCREEN_WIDTH;
     screen_height = vdc.screen_height;
@@ -92,17 +92,18 @@ static void vdc_set_geometry(void)
     vdc_80col_start_pixel = border_width;
     vdc_80col_stop_pixel = vdc_80col_start_pixel + 8 * vdc.screen_text_cols;
 
-    displayed_width = VDC_SCREEN_WIDTH;
-    displayed_height = last_displayed_line - first_displayed_line + 1;
-
     if (vdc_resources.double_size_enabled) {
         screen_height *= 2;
-        displayed_height *= 2;
+        first_displayed_line *= 2;
+        last_displayed_line = last_displayed_line * 2 + 1;
         screen_ypix *= 2;
         border_height *= 2;
         vdc_25row_start_line *= 2;
         vdc_25row_stop_line *= 2;
     }
+
+    displayed_width = VDC_SCREEN_WIDTH;
+    displayed_height = last_displayed_line - first_displayed_line + 1;
 
 /*
 printf("SH: %03i SW: %03i\n", screen_height, screen_width);
