@@ -369,12 +369,8 @@ BYTE REGPARM1 read_io(WORD addr)
 {
     BYTE v1, v2, v3, v4;
 
-    if (emu_id_enabled && addr >= 0xE8A0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
+    if (emu_id_enabled && addr >= 0xe8a0)
+        return emuid_read(addr - 0xe8a0);
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
@@ -785,12 +781,9 @@ static BYTE peek_bank_io(WORD addr)
 {
     BYTE v1, v2, v3, v4;
 
-    if (emu_id_enabled && addr >= 0xe8A0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
+    if (emu_id_enabled && addr >= 0xe8a0)
+        return emuid_read(addr - 0xe8a0);
+
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
         return pia1_peek(addr);
@@ -832,7 +825,7 @@ static const char *banknames[] = {
     "default", "cpu", "ram", "rom", "io", "extram", NULL
 };
 
-static int banknums[] = {
+static const int banknums[] = {
     0, 0, 1, 2, 3, 4
 };
 
@@ -947,59 +940,62 @@ int pet_init_ok = 0;
 /*
  * table with Model information
  */
-static struct {
+struct pet_table_s { 
     const char *model;
     petinfo_t info;
-} pet_table[] = {
-    {"2001",
-      {8, 0x0800, 0, 40, 0, 0, 1, 1, 1, 1, 0,
+};
+typedef struct pet_table_s pet_table_t;
+
+static pet_table_t pet_table[] = {
+    { "2001",
+      { 8, 0x0800, 0, 40, 0, 0, 1, 1, 1, 1, 0,
         PET_CHARGEN_NAME, PET_KERNAL1NAME, PET_EDITOR1G40NAME, PET_BASIC1NAME,
-        NULL, NULL, NULL}},
-    {"3008",
-      {8, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "3008",
+      { 8, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
-        NULL, NULL, NULL}},
-    {"3016",
-      {16, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "3016",
+      { 16, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
-        NULL, NULL, NULL}},
-    {"3032",
-      {32, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "3032",
+      { 32, 0x0800, 0, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2G40NAME, PET_BASIC2NAME,
-        NULL, NULL, NULL}},
-    {"3032B",
-      {32, 0x0800, 0, 40, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "3032B",
+      { 32, 0x0800, 0, 40, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL2NAME, PET_EDITOR2B40NAME, PET_BASIC2NAME,
-        NULL, NULL, NULL}},
-    {"4016",
-      {16, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "4016",
+      { 16, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"4032",
-      {32, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "4032",
+      { 32, 0x0800, 1, 40, 0, 0, 1, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4G40NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"4032B",
-      {32, 0x0800, 1, 40, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "4032B",
+      { 32, 0x0800, 1, 40, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B40NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"8032",
-      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "8032",
+      { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"8096",
-      {96, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "8096",
+      { 96, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"8296",
-      {128, 0x0100, 1, 80, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL } },
+    { "8296",
+      { 128, 0x0100, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {"SuperPET",
-      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
+        NULL, NULL, NULL } },
+    { "SuperPET",
+      { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL}},
-    {NULL}
+        NULL, NULL, NULL } },
+    { NULL }
 };
 
 int pet_set_conf_info(petinfo_t *pi)
@@ -1007,26 +1003,26 @@ int pet_set_conf_info(petinfo_t *pi)
     int kindex;
 
     resources_set_value("RamSize",
-                        (resource_value_t) pi->ramSize);
+                        (resource_value_t)pi->ramSize);
     resources_set_value("IOSize",
-                        (resource_value_t) pi->IOSize);
+                        (resource_value_t)pi->IOSize);
     resources_set_value("Crtc",
-                        (resource_value_t) pi->crtc);
+                        (resource_value_t)pi->crtc);
     resources_set_value("VideoSize",
-                        (resource_value_t) pi->video);
+                        (resource_value_t)pi->video);
     resources_set_value("Ram9",
-                        (resource_value_t) pi->mem9);
+                        (resource_value_t)pi->mem9);
     resources_set_value("RamA",
-                        (resource_value_t) pi->memA);
+                        (resource_value_t)pi->memA);
     resources_set_value("EoiBlank",
-                        (resource_value_t) pi->eoiblank);
+                        (resource_value_t)pi->eoiblank);
     resources_set_value("SuperPET",
-                        (resource_value_t) pi->superpet);
+                        (resource_value_t)pi->superpet);
 
     resources_get_value("KeymapIndex",
-                        (resource_value_t *) &kindex);
+                        (resource_value_t *)&kindex);
     resources_set_value("KeymapIndex",
-                        (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
+                        (resource_value_t)((kindex & 1) + 2 * pi->kbd_type));
     return 0;
 }
 
@@ -1037,30 +1033,30 @@ int pet_set_model_info(petinfo_t *pi)
 
     if (pi->pet2k) {    /* set resource only when necessary */
         resources_set_value("Basic1",
-                            (resource_value_t) pi->pet2k);
+                            (resource_value_t)pi->pet2k);
     }
     resources_set_value("Basic1Chars",
-                        (resource_value_t) pi->pet2kchar);
+                        (resource_value_t)pi->pet2kchar);
 
     resources_set_value("ChargenName",
-                        (resource_value_t) pi->chargenName);
+                        (resource_value_t)pi->chargenName);
     resources_set_value("KernalName",
-                        (resource_value_t) pi->kernalName);
+                        (resource_value_t)pi->kernalName);
     resources_set_value("BasicName",
-                        (resource_value_t) pi->basicName);
+                        (resource_value_t)pi->basicName);
     resources_set_value("EditorName",
-                        (resource_value_t) pi->editorName);
+                        (resource_value_t)pi->editorName);
 
     /* allow additional ROMs to survive a model switch. */
     if (pi->mem9name)
         resources_set_value("RomModule9Name",
-                            (resource_value_t) pi->mem9name);
+                            (resource_value_t)pi->mem9name);
     if (pi->memAname)
         resources_set_value("RomModuleAName",
-                            (resource_value_t) pi->memAname);
+                            (resource_value_t)pi->memAname);
     if (pi->memBname)
         resources_set_value("RomModuleBName",
-                            (resource_value_t) pi->memBname);
+                            (resource_value_t)pi->memBname);
     return 0;
 }
 
@@ -1091,7 +1087,7 @@ int pet_set_model(const char *model_name, void *extra)
     return -1;
 }
 
-const char *get_pet_model()
+const char *get_pet_model(void)
 {
     return pet_table[pet_model].model;
 }
