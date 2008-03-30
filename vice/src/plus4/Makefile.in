@@ -369,11 +369,11 @@ ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/fullscreen.h ../../src/raster/raster-resources.h \
-	../../src/resources.h ted-resources.h tedtypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
-	../../src/utils.h ../../src/video.h
+	../../src/fullscreen.h ../../src/lib.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	ted-resources.h tedtypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h ../../src/video.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/log.h ../../src/mem.h \
@@ -382,8 +382,8 @@ ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	ted-snapshot.h ted.h tedtypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/arch/unix/types.h \
-	../../src/sound.h ted-sound.h ../../src/utils.h
+	../../src/lib.h ../../src/maincpu.h ../../src/arch/unix/types.h \
+	../../src/sound.h ted-sound.h
 ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/maincpu.h ted-timer.h tedtypes.h \
@@ -392,10 +392,10 @@ ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
 ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/archdep.h \
 	../../src/archapi.h ../../src/clkguard.h ../../src/dma.h \
-	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/mem.h plus4.h plus4mem.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/interrupt.h ../../src/lib.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h plus4.h \
+	plus4mem.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h \
 	ted-cmdline-options.h ted-color.h ted-draw.h ted-fetch.h \

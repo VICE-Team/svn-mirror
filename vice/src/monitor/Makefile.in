@@ -286,11 +286,11 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
 	../../src/console.h ../../src/interrupt.h ../../src/ioutil.h \
-	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h \
-	mon_breakpoint.h montypes.h ../../src/monitor.h \
+	../../src/kbdbuf.h ../../src/lib.h ../../src/log.h \
+	../../src/mem.h mon_breakpoint.h montypes.h ../../src/monitor.h \
 	mon_disassemble.h mon_memory.h mon_parse.h mon_register.h \
 	mon_ui.h mon_util.h ../../src/sysfile.h ../../src/uimon.h \
-	../../src/utils.h ../../src/vsync.h
+	../../src/vsync.h
 mon_assemble6502.o: mon_assemble6502.c ../../src/vice.h \
 	../../src/config.h asm.h ../../src/arch/unix/types.h montypes.h \
 	../../src/monitor.h mon_util.h ../../src/uimon.h
@@ -299,9 +299,9 @@ mon_assemblez80.o: mon_assemblez80.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor.h mon_util.h ../../src/uimon.h
 mon_breakpoint.o: mon_breakpoint.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/arch/unix/types.h \
-	../../src/log.h mon_breakpoint.h montypes.h ../../src/monitor.h \
-	mon_disassemble.h mon_util.h ../../src/uimon.h \
-	../../src/utils.h
+	../../src/lib.h ../../src/log.h mon_breakpoint.h montypes.h \
+	../../src/monitor.h mon_disassemble.h mon_util.h \
+	../../src/uimon.h
 mon_command.o: mon_command.c ../../src/vice.h ../../src/config.h \
 	mon_command.h montypes.h ../../src/monitor.h \
 	../../src/arch/unix/types.h mon_parse.h mon_util.h \
@@ -321,36 +321,37 @@ mon_file.o: mon_file.c ../../src/vice.h ../../src/config.h \
 	montypes.h ../../src/monitor.h mon_util.h ../../src/serial.h \
 	../../src/uimon.h ../../src/vdrive/vdrive-iec.h \
 	../../src/vdrive/vdrive.h
-mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon_command.h \
-	montypes.h ../../src/monitor.h ../../src/arch/unix/types.h \
-	mon_parse.h ../../src/utils.h
+mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h ../../src/lib.h \
+	mon_command.h montypes.h ../../src/monitor.h \
+	../../src/arch/unix/types.h mon_parse.h
 mon_memory.o: mon_memory.c ../../src/vice.h ../../src/config.h \
 	../../src/charset.h ../../src/arch/unix/types.h \
-	../../src/console.h montypes.h ../../src/monitor.h mon_memory.h \
-	mon_util.h ../../src/utils.h
+	../../src/console.h ../../src/lib.h montypes.h \
+	../../src/monitor.h mon_memory.h mon_util.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
-	../../src/arch/unix/types.h ../../src/console.h \
-	../../src/uimon.h ../../src/machine.h mon_breakpoint.h \
-	montypes.h ../../src/monitor.h mon_command.h mon_disassemble.h \
-	mon_drive.h mon_file.h mon_memory.h mon_util.h \
-	../../src/utils.h
+	../../src/arch/unix/types.h ../../src/console.h ../../src/lib.h \
+	../../src/machine.h mon_breakpoint.h montypes.h \
+	../../src/monitor.h mon_command.h mon_disassemble.h mon_drive.h \
+	mon_file.h mon_memory.h mon_util.h ../../src/uimon.h
 mon_register6502.o: mon_register6502.c ../../src/vice.h \
-	../../src/config.h ../../src/log.h mon_register.h mon_util.h \
-	../../src/monitor.h ../../src/arch/unix/types.h montypes.h \
-	../../src/mos6510.h ../../src/uimon.h ../../src/utils.h
+	../../src/config.h ../../src/lib.h ../../src/log.h \
+	mon_register.h mon_util.h ../../src/monitor.h \
+	../../src/arch/unix/types.h montypes.h ../../src/mos6510.h \
+	../../src/uimon.h
 mon_registerz80.o: mon_registerz80.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h mon_register.h mon_util.h ../../src/monitor.h \
-	../../src/arch/unix/types.h montypes.h ../../src/uimon.h \
-	../../src/utils.h ../../src/z80regs.h
-mon_ui.o: mon_ui.c ../../src/vice.h ../../src/config.h mon_breakpoint.h \
-	montypes.h ../../src/monitor.h ../../src/arch/unix/types.h \
-	mon_register.h mon_ui.h mon_util.h ../../src/resources.h \
-	../../src/utils.h
+	../../src/lib.h ../../src/log.h mon_register.h mon_util.h \
+	../../src/monitor.h ../../src/arch/unix/types.h montypes.h \
+	../../src/uimon.h ../../src/z80regs.h
+mon_ui.o: mon_ui.c ../../src/vice.h ../../src/config.h ../../src/lib.h \
+	mon_breakpoint.h montypes.h ../../src/monitor.h \
+	../../src/arch/unix/types.h mon_register.h mon_ui.h mon_util.h \
+	../../src/resources.h
 mon_util.o: mon_util.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/console.h ../../src/mem.h ../../src/arch/unix/types.h \
-	mon_disassemble.h montypes.h ../../src/monitor.h mon_util.h \
-	../../src/uimon.h ../../src/utils.h
+	../../src/console.h ../../src/lib.h ../../src/mem.h \
+	../../src/arch/unix/types.h mon_disassemble.h montypes.h \
+	../../src/monitor.h mon_util.h ../../src/uimon.h \
+	../../src/utils.h
 
 info-am:
 info: info-am

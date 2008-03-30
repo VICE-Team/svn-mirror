@@ -272,8 +272,8 @@ tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/datasette.h \
 	../../src/tape.h tapeimage.h ../../src/traps.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h
 tapeimage.o: tapeimage.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h t64.h ../../src/arch/unix/types.h \
-	../../src/tap.h ../../src/tape.h ../../src/utils.h
+	../../src/lib.h ../../src/log.h t64.h \
+	../../src/arch/unix/types.h ../../src/tap.h ../../src/tape.h
 
 info-am:
 info: info-am

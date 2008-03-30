@@ -273,7 +273,8 @@ realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
 serial-device.o: serial-device.c ../../src/vice.h ../../src/config.h \
 	serial-device.h ../../src/serial.h ../../src/arch/unix/types.h
 serial-iec-lib.o: serial-iec-lib.c ../../src/vice.h ../../src/config.h \
-	serial-iec.h ../../src/arch/unix/types.h ../../src/utils.h
+	../../src/lib.h serial-iec.h ../../src/arch/unix/types.h \
+	../../src/utils.h
 serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h iecbus.h \
 	../../src/arch/unix/types.h serial-iec.h ../../src/utils.h
 serial-realdevice.o: serial-realdevice.c ../../src/vice.h \

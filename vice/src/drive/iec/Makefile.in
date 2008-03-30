@@ -286,8 +286,8 @@ iec.o: iec.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/drive/drive.h \
 	../../../src/mos6510.h iec-cmdline-options.h iec-resources.h \
-	../../../src/drive/iec.h iecrom.h jobcode1581.h memiec.h \
-	../../../src/resources.h ../../../src/utils.h \
+	../../../src/drive/iec.h iecrom.h jobcode1581.h \
+	../../../src/lib.h memiec.h ../../../src/resources.h \
 	../../../src/drive/viad.h wd1770.h
 iecrom.o: iecrom.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/arch/unix/types.h \

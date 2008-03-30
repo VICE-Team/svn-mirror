@@ -287,10 +287,10 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	crtc-cmdline-options.h crtc-draw.h crtc-resources.h crtc.h \
 	crtctypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \
-	../../src/log.h ../../src/palette.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/raster/raster-canvas.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/lib.h ../../src/log.h ../../src/palette.h \
+	../../src/machine.h ../../src/maincpu.h \
+	../../src/raster/raster-canvas.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/utils.h ../../src/vsync.h \
 	../../src/video.h ../../src/arch/unix/videoarch.h \

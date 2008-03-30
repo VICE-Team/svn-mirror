@@ -288,8 +288,8 @@ vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/palette.h \
+	../../src/arch/unix/types.h ../../src/lib.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/palette.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h ../../src/raster/raster-line.h \
 	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \

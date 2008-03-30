@@ -300,15 +300,14 @@ video-resources-pal.o: video-resources-pal.c ../../src/vice.h \
 	../../src/uiapi.h video-resources.h ../../src/video.h \
 	../../src/viewport.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h video-resources.h video-color.h \
-	../../src/video.h ../../src/viewport.h \
-	../../src/arch/unix/videoarch.h \
+	../../src/resources.h ../../src/lib.h video-resources.h \
+	video-color.h ../../src/video.h ../../src/arch/unix/types.h \
+	../../src/viewport.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h ../../src/utils.h
 video-viewport.o: video-viewport.c ../../src/vice.h ../../src/config.h \
 	../../src/video.h ../../src/arch/unix/types.h \
 	../../src/viewport.h ../../src/arch/unix/videoarch.h \

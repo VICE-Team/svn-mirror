@@ -329,8 +329,9 @@ petrom.o: petrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h pet.h petmem.h pets.h ../../src/resources.h \
 	../../src/sysfile.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h
-petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
-	../../src/arch/unix/types.h ../../src/sound.h ../../src/utils.h
+petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
+	../../src/lib.h petsound.h ../../src/arch/unix/types.h \
+	../../src/sound.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
 	../../src/datasette.h ../../src/drive/drive.h \

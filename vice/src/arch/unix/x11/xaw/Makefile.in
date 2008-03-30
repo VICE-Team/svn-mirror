@@ -339,23 +339,23 @@ uicartridge.o: uicartridge.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/arch/unix/uicartridge.h \
 	../../../../../src/cartridge.h \
-	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/lib.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h
 uicolor.o: uicolor.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/color.h \
-	../../../../../src/log.h ../../../../../src/palette.h \
+	../../../../../src/lib.h ../../../../../src/log.h \
+	../../../../../src/palette.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/uicolor.h ../../../../../src/utils.h \
-	../../../../../src/video.h ../../../../../src/viewport.h \
-	videoarch.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
-	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
-	uiarch.h
+	../../../../../src/uicolor.h ../../../../../src/video.h \
+	../../../../../src/viewport.h videoarch.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h ../videoarch.h ../xaw/uiarch.h \
+	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \
-	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/lib.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h \
 	../../../../../src/arch/unix/uiedisk.h \
@@ -364,31 +364,33 @@ uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm \
 	../../../../../src/arch/unix/fullscreenarch.h \
-	../../../../../src/machine.h ../../../../../src/resources.h \
-	uiarch.h ../../../../../src/arch/unix/types.h uimenu.h \
+	../../../../../src/lib.h ../../../../../src/machine.h \
+	../../../../../src/resources.h uiarch.h \
+	../../../../../src/arch/unix/types.h uimenu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	../x11menu.h ../../../../../src/arch/unix/uihotkey.h \
-	../xaw/uiarch.h ../../../../../src/utils.h \
-	../../../../../src/vsync.h \
+	../xaw/uiarch.h ../../../../../src/vsync.h \
 	../../../../../src/arch/unix/x11/x11menu.h
 uiscreenshot.o: uiscreenshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
-	../../../../../src/gfxoutput.h ../../../../../src/screenshot.h \
+	../../../../../src/gfxoutput.h ../../../../../src/lib.h \
+	../../../../../src/screenshot.h \
 	../../../../../src/arch/unix/types.h uimenu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../x11menu.h ../../../../../src/arch/unix/uihotkey.h \
-	../xaw/uiarch.h ../../../../../src/utils.h
+	../xaw/uiarch.h
 uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
-	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/lib.h ../../../../../src/machine.h \
+	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/arch/unix/uisnapshot.h \
 	../../../../../src/utils.h
 uivsidcontrol.o: uivsidcontrol.c ../../../../../src/vice.h \
-	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/config.h ../../../../../src/lib.h \
+	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/utils.h \
-	../../../../../src/arch/unix/vsiduiunix.h
+	uiarch.h ../../../../../src/arch/unix/vsiduiunix.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
 	../../../../../src/keyboard.h \
@@ -399,8 +401,8 @@ x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/drive/drive.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/arch/unix/fullscreenarch.h \
-	../../../../../src/ioutil.h ../../../../../src/log.h \
-	../../../../../src/machine.h \
+	../../../../../src/ioutil.h ../../../../../src/lib.h \
+	../../../../../src/log.h ../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
@@ -415,13 +417,13 @@ x11ui.o: x11ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	widgets/TextField.h ../../../../../src/video.h \
 	../../../../../src/viewport.h videoarch.h ../videoarch.h
 x11video.o: x11video.c ../../../../../src/vice.h \
-	../../../../../src/config.h ../../../../../src/log.h \
-	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
-	videoarch.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/uiapi.h uiarch.h ../videoarch.h \
-	../../../../../src/video.h ../../../../../src/viewport.h \
-	../xaw/uiarch.h ../../../../../src/arch/unix/x11/x11ui.h \
-	uiarch.h
+	../../../../../src/config.h ../../../../../src/lib.h \
+	../../../../../src/log.h videoarch.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h ../videoarch.h ../../../../../src/video.h \
+	../../../../../src/viewport.h ../xaw/uiarch.h \
+	../../../../../src/arch/unix/x11/x11ui.h uiarch.h
 
 info-am:
 info: info-recursive
