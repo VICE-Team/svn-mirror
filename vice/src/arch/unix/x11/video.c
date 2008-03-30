@@ -211,16 +211,12 @@ static void (*_convert_func) (BYTE *draw_buffer,
 			      int w, int h);
 static BYTE shade_table[256];
 
-void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
-                               unsigned int dither, long col,
-                               video_canvas_t *canvas)
+void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
+                               long col, video_canvas_t *canvas)
 {
-    *pixel_return = (BYTE)i;
-
 #ifdef HAVE_XVIDEO
-    if (use_xvideo) {
+    if (use_xvideo)
         return;
-    }
 #endif
 
     switch (canvas->x_image->bits_per_pixel) {
@@ -447,8 +443,7 @@ void video_register_raster(struct raster_s *raster)
 video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     void_t exposure_handler,
-                                    const struct palette_s *palette,
-                                    BYTE *pixel_return)
+                                    const struct palette_s *palette)
 {
     int res;
     video_canvas_t *canvas;
@@ -482,8 +477,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     video_render_initconfig(&canvas->videoconfig);
 
     res = x11ui_open_canvas_window(canvas, win_name, *width, *height, 1,
-                                   (canvas_redraw_t)exposure_handler, palette,
-                                   pixel_return);
+                                   (canvas_redraw_t)exposure_handler, palette);
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);
@@ -506,7 +500,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
         return canvas;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_palette(canvas, palette, pixel_return);
+    fullscreen_set_palette(canvas, palette);
 #endif
     return canvas;
 }
@@ -517,15 +511,15 @@ void video_canvas_destroy(video_canvas_t *c)
 }
 
 
-int video_canvas_set_palette(video_canvas_t *c, const struct palette_s *palette,
-                             BYTE *pixel_return)
+int video_canvas_set_palette(video_canvas_t *c,
+                             const struct palette_s *palette)
 {
     int res;
     
-    res = uicolor_set_palette(c, palette, pixel_return);
+    res = uicolor_set_palette(c, palette);
 #ifdef USE_XF86_DGA2_EXTENSIONS
     if (res != -1)
-	fullscreen_set_palette(c, palette, pixel_return);
+	fullscreen_set_palette(c, palette);
 #endif
     return res;
 }

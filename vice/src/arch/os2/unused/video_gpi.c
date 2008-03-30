@@ -330,7 +330,7 @@ void PM_mainloop(VOID *arg)
 video_canvas_t video_canvas_create(const char *title, UINT *width,
                              UINT *height, int mapped,
                              canvas_redraw_t exposure_handler,
-                             const palette_t *palette, PIXEL *pixel_return,
+                             const palette_t *palette,
                              struct video_frame_buffer_s *fb)
 {
     video_canvas_t canvas_new;
@@ -356,7 +356,7 @@ video_canvas_t video_canvas_create(const char *title, UINT *width,
     _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
     while (!canvas_new->pbmi_initialized) DosSleep(1);
-    video_canvas_set_palette(canvas_new, palette, pixel_return);
+    video_canvas_set_palette(canvas_new, palette);
 
     canvas_new->exposure_handler = exposure_handler;
     return canvas_new;
@@ -381,7 +381,7 @@ void video_canvas_resize(video_canvas_t c, UINT width, UINT height)
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int video_canvas_set_palette(video_canvas_t c, const palette_t *p, PIXEL *pixel_return)
+int video_canvas_set_palette(video_canvas_t c, const palette_t *p)
 {
     int i;
     //    if (!(c->pbmi_initialized)) return;
@@ -389,7 +389,9 @@ int video_canvas_set_palette(video_canvas_t c, const palette_t *p, PIXEL *pixel_
         c->palette[i].bRed  =p->entries[i].red;
         c->palette[i].bGreen=p->entries[i].green;
         c->palette[i].bBlue =p->entries[i].blue;
+#if 0
         pixel_return[i]=i;
+#endif
     }
     return 0;
 }

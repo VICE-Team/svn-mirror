@@ -475,13 +475,12 @@ extern int fullscreen_transition;
 /* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
-   alternative in `*width' and `*height'; return the pixel values for the
-   requested palette in `pixel_return[]'.  */
+   alternative in `*width' and `*height'.  */
 #define CANVAS_ERROR ((video_canvas_t *) -1)
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, BYTE *pixel_return)
+                              const palette_t *palette)
 {
     HRESULT result;
     HRESULT ddresult;
@@ -646,10 +645,13 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 
     if (set_palette(c) < 0)
         goto error;
+
+#if 0
     c->pixels = pixel_return;
     for (i = 0; i < c->palette->num_entries; i++) {
         c->pixels[i] = i;
     }
+#endif
 
     if (set_physical_colors(c) < 0)
         goto error;
@@ -915,8 +917,7 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 
 /* Set the palette of `c' to `p', and return the pixel values in
    `pixel_return[].  */
-int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *p,
-                             BYTE *pixel_return)
+int video_canvas_set_palette(struct video_canvas_s *c, const palette_t *p)
 {
     int i;
 

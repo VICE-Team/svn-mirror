@@ -1712,8 +1712,7 @@ void CanvasMainLoop(VOID *arg)
 video_canvas_t *video_canvas_create(const char *title,
                                     UINT *width, UINT *height, int mapped,
                                     void_t exposure_handler,
-                                    const palette_t *palette,
-                                    BYTE *pixel_return)
+                                    const palette_t *palette);
 {
     canvas_init_t canvini;
 
@@ -1748,7 +1747,7 @@ video_canvas_t *video_canvas_create(const char *title,
     log_message(vidlog, "Canvas '%s' (%ix%i) created: hwnd=0x%x.",
                 title, *width, *height, canvini.canvas->hwndClient);
 
-    video_canvas_set_palette(canvini.canvas, palette, pixel_return);
+    video_canvas_set_palette(canvini.canvas, palette);
 
     return canvini.canvas;
 }
@@ -2015,10 +2014,8 @@ void VideoConvertPalette(video_canvas_t *c, int num, palette_entry_t *src) //, R
         log_error(vidlog, "VideoConvertPalette - DiveClose failed, rc=0x%x", rc);
 }
 
-/* Set the palette of `c' to `p', and return the pixel values in
-   `pixel_return[].  */
-int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
-                             BYTE *pixel_return)
+/* Set the palette of `c' to `p'.  */
+int video_canvas_set_palette(video_canvas_t *c, const palette_t *p)
 {
     int i;
 
@@ -2053,8 +2050,10 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
         free(palette);
     }
 
+#if 0
     for (i=0; i<p->num_entries; i++)
         pixel_return[i] = i;
+#endif
 
     if (c->bDepth==8)
         VideoConvertPalette8(c, p->num_entries);

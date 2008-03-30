@@ -381,8 +381,7 @@ void fullscreen_resize(int w, int h)
 static BYTE *fs_cached_pixel_values;
 static DWORD fs_cached_physical_colors[256]; /* from video.h */
 
-void fullscreen_set_palette (video_canvas_t *c, const palette_t *palette, 
-			     BYTE *pixels)
+void fullscreen_set_palette(video_canvas_t *c, const palette_t *palette)
 {
     fs_cached_palette = palette;
     fs_cached_pixels = pixels;

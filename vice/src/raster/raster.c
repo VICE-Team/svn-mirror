@@ -125,8 +125,14 @@ static int realize_canvas(raster_t *raster)
                                                &viewport->height,
                                                1,
                                                (void_t)(raster->viewport.exposure_handler),
-                                               raster->palette,
-                                               raster->pixel_table.sing);
+                                               raster->palette);
+
+/* FIXME: This has to be removed.  */
+        {
+            int i;
+            for (i = 0; i < 256; i++)
+                raster->pixel_table.sing[i] = i;
+        }
 
         if (viewport->canvas == NULL)
             return -1;
@@ -204,8 +210,7 @@ static int perform_mode_change(raster_t *raster)
         return 0;
 
     if (raster->palette != NULL) {
-        if (video_canvas_set_palette(canvas, raster->palette,
-            raster->pixel_table.sing) < 0)
+        if (video_canvas_set_palette(canvas, raster->palette) < 0)
             return -1;
     }
 
@@ -634,9 +639,7 @@ int raster_set_palette(raster_t *raster, palette_t *palette)
 {
 
     if (raster->viewport.canvas != NULL) {
-        if (video_canvas_set_palette(raster->viewport.canvas,
-                                     palette,
-                                     raster->pixel_table.sing) < 0)
+        if (video_canvas_set_palette(raster->viewport.canvas, palette) < 0)
             return -1;
         update_pixel_tables(raster);
     }

@@ -53,7 +53,6 @@ extern Pixel drive_led_off_pixel;
 static int uicolor_alloc_system_colors(void)
 {
     palette_t *p = (palette_t *)xmalloc(sizeof(palette_t));
-    BYTE pixel_return[NUM_ENTRIES];
     unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;
@@ -72,7 +71,7 @@ static int uicolor_alloc_system_colors(void)
     p->entries[2].green = 0xff;
     p->entries[2].blue = 0;
 
-    color_alloc_colors(NULL, p, pixel_return, color_return);
+    color_alloc_colors(NULL, p, color_return);
 
     drive_led_off_pixel = (Pixel)color_return[0];
     drive_led_on_red_pixel = (Pixel)color_return[1];
@@ -86,11 +85,10 @@ static int uicolor_alloc_system_colors(void)
 
 /*-----------------------------------------------------------------------*/
 
-int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
-                         BYTE pixel_return[])
+int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette)
 {
     if (uicolor_alloc_system_colors() < 0
-        || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
+        || color_alloc_colors(c, palette, NULL) < 0) {
         Display *display = x11ui_get_display_ptr();
         if (colormap == DefaultColormap(display, screen)) {
             log_warning(LOG_DEFAULT,
@@ -98,16 +96,15 @@ int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
             colormap = XCreateColormap(display, RootWindow(display, screen),
                                        visual, AllocNone);
             XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
-            return color_alloc_colors(c, palette, pixel_return, NULL);
+            return color_alloc_colors(c, palette, NULL);
         }
     }
     return 0;
 }
 
-int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette,
-                        BYTE *pixel_return)
+int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
-    return color_alloc_colors(c, palette, pixel_return, NULL);
+    return color_alloc_colors(c, palette, NULL);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -158,14 +155,14 @@ void uicolor_free_color(unsigned int red, unsigned int green,
         log_error(LOG_DEFAULT, _("XFreeColors failed."));
 }
 
-void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
-                                 BYTE *data, unsigned int dither,
-                                 long color_pixel, void *c)
+void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
+                                 unsigned int dither, long color_pixel,
+                                 void *c)
 {
     if (c == NULL)
         return;
 
-    video_convert_color_table(colnr, pixel_return, data, dither, color_pixel,
+    video_convert_color_table(colnr, data, dither, color_pixel,
                               (video_canvas_t *)c);
 }
 

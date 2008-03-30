@@ -1,3 +1,26 @@
+2002-06-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.32.
+
+	* vicii/vicii-mem.c (store_ext_background): Add background
+	change.  Propagate foreground change one cycle faster.
+
+	* vicii/viciitypes.h: Added `video_mode' to struct `vic_ii_s'.
+
+	* vicii/vicii.c (vic_ii_init): Initialize `video_mode'.
+	(vic_ii_update_video_mode): Save video mode.
+
+	* debug.h: Disable debugging by default.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c,
+	arch/unix/x11/videoarch.h, arch/unix/x11/video.c, uicolor.h,
+	arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/x11ui.h, color.c, color.h, arch/unix/vsidui.c,
+	video.h, raster/raster.c, arch/win32/video.c,
+	arch/riscos/video.c, arch/os2/unused/video_gpi.h,
+	arch/os2/unused/video_gpi.c, arch/os2/video.c,
+	arch/unix/x11/dga2.c: Removed `pixel_return[]'.
+
 2002-06-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.31.

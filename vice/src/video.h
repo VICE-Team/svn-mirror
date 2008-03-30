@@ -70,7 +70,8 @@ struct video_render_config_s {
 typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
-extern void video_render_setphysicalcolor(video_render_config_t *config, int index, DWORD color, int depth);
+extern void video_render_setphysicalcolor(video_render_config_t *config,
+                                          int index, DWORD color, int depth);
 extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
 extern void video_render_initraw(void);
 
@@ -84,8 +85,7 @@ extern struct video_canvas_s *video_canvas_create(const char *win_name,
                                             unsigned int *width,
                                             unsigned int *height, int mapped,
                                             void_t exposure_handler,
-                                            const struct palette_s *palette,
-                                            BYTE *pixel_return);
+                                            const struct palette_s *palette);
 
 extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  BYTE *draw_buffer,
@@ -97,8 +97,7 @@ extern void video_canvas_refresh(struct video_canvas_s *canvas,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h);
 extern int video_canvas_set_palette(struct video_canvas_s *c,
-                                    const struct palette_s *palette,
-                                    BYTE *pixel_return);
+                                    const struct palette_s *palette);
 extern void video_canvas_destroy(struct video_canvas_s *s);
 extern void video_canvas_map(struct video_canvas_s *s);
 extern void video_canvas_unmap(struct video_canvas_s *s);

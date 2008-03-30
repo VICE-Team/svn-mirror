@@ -139,9 +139,9 @@ extern int video_convert_func(video_canvas_t *canvas, unsigned int width,
                               unsigned int height);
 extern void video_register_raster(struct raster_s *raster);
 
-extern void video_convert_color_table(unsigned int i, BYTE *pixel_return,
-                                      BYTE *data, unsigned int dither,
-                                      long col, video_canvas_t *c);
+extern void video_convert_color_table(unsigned int i, BYTE *data,
+                                      unsigned int dither, long col,
+                                      video_canvas_t *c);
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
@@ -152,8 +152,7 @@ extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
 #define fullscreen_update() fullscreen_mode_update()
 extern void fullscreen_set_canvas(video_canvas_t *c);
 extern void fullscreen_set_palette(video_canvas_t *vc,
-                                   const struct palette_s *p,
-				   BYTE *pixel_return);
+                                   const struct palette_s *p);
 extern void fullscreen_resize(int w, int h);
 extern int fs_draw_buffer_alloc(struct video_canvas_s *c,
 				BYTE **db, unsigned int w, unsigned int h,

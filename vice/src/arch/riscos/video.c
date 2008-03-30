@@ -1057,7 +1057,7 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 
 
 
-int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, BYTE *pixel_return)
+int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette)
 {
   video_frame_buffer_t *fb;
   palette_entry_t *p;
@@ -1127,9 +1127,10 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
   ct = canvas->current_palette;
   for (i=0; i<canvas->num_colours; i++)
   {
+#if 0
     /* FIXME: will go entirely eventually */
     pixel_return[i] = i;
-
+#endif
     ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
   }
 
@@ -1139,7 +1140,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
 }
 
 
-video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette, BYTE *pixel_return)
+video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette)
 {
   video_canvas_t *canvas;
   canvas_list_t *newCanvas;
@@ -1170,7 +1171,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   video_render_initconfig(&(canvas->videoconfig));
   video_init_pal_videoconfig(&(canvas->videoconfig));
 
-  video_canvas_set_palette(canvas, palette, pixel_return);
+  video_canvas_set_palette(canvas, palette);
 
   if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
   {

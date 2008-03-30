@@ -46,13 +46,12 @@ extern void frame_buffer_clear(video_frame_buffer_t *i, BYTE value);
 
 extern video_canvas_t video_canvas_create(const char *win_name, UINT *width, UINT *height,
                               int mapped, canvas_redraw_t exposure_handler,
-                              const palette_t *palette, PIXEL *pixel_return,
+                              const palette_t *palette,
                               struct video_frame_buffer_s *fb);
 extern void video_canvas_map(video_canvas_t s);
 extern void video_canvas_unmap(video_canvas_t s);
 extern void video_canvas_resize(video_canvas_t s, UINT width, UINT height);
-extern int  video_canvas_set_palette(video_canvas_t c, const palette_t *p,
-                              PIXEL *pixel_return);
+extern int  video_canvas_set_palette(video_canvas_t c, const palette_t *p);
 
 extern void video_canvas_refresh(video_canvas_t c, BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,
