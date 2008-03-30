@@ -28,8 +28,8 @@
 #ifndef _TED_DRAW_H
 #define _TED_DRAW_H
 
-extern void vic_ii_draw_init(void);
-extern void vic_ii_draw_set_double_size(int enabled);
+extern void ted_draw_init(void);
+extern void ted_draw_set_double_size(int enabled);
 
 #endif
 

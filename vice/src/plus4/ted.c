@@ -74,7 +74,7 @@
 
 ted_t ted;
 
-static void vic_ii_raster_irq_alarm_handler(CLOCK offset);
+static void ted_raster_irq_alarm_handler(CLOCK offset);
 static void ted_exposure_handler(unsigned int width, unsigned int height);
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -152,12 +152,12 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
           f = 0;
           if (clk > ted.fetch_clk)
             {
-              vic_ii_raster_fetch_alarm_handler (0);
+              ted_raster_fetch_alarm_handler (0);
               f = 1;
             }
           if (clk >= ted.draw_clk)
             {
-              vic_ii_raster_draw_alarm_handler((long)(clk - ted.draw_clk));
+              ted_raster_draw_alarm_handler((long)(clk - ted.draw_clk));
               f = 1;
             }
         }
@@ -180,12 +180,12 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
           f = 0;
           if (clk >= ted.fetch_clk)
             {
-              vic_ii_raster_fetch_alarm_handler (0);
+              ted_raster_fetch_alarm_handler (0);
               f = 1;
             }
           if (clk >= ted.draw_clk)
             {
-              vic_ii_raster_draw_alarm_handler (0);
+              ted_raster_draw_alarm_handler (0);
               f = 1;
             }
         }
@@ -363,11 +363,11 @@ raster_t *ted_init(void)
   ted.log = log_open("TED");
 
   alarm_init(&ted.raster_fetch_alarm, maincpu_alarm_context,
-             "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
+             "VicIIRasterFetch", ted_raster_fetch_alarm_handler);
   alarm_init(&ted.raster_draw_alarm, maincpu_alarm_context,
-             "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
+             "VicIIRasterDraw", ted_raster_draw_alarm_handler);
   alarm_init(&ted.raster_irq_alarm, maincpu_alarm_context,
-             "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
+             "VicIIRasterIrq", ted_raster_irq_alarm_handler);
 
   ted_change_timing();
 
@@ -381,17 +381,17 @@ raster_t *ted_init(void)
   ted_update_video_mode(0);
   ted_update_memory_ptrs(0);
 
-  vic_ii_draw_init();
+  ted_draw_init();
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
-  vic_ii_draw_set_double_size(fullscreen_is_enabled
-                              ? ted_resources.fullscreen_double_size_enabled
-                              : ted_resources.double_size_enabled);
+  ted_draw_set_double_size(fullscreen_is_enabled
+                           ? ted_resources.fullscreen_double_size_enabled
+                           : ted_resources.double_size_enabled);
 #else
-  vic_ii_draw_set_double_size(ted_resources.double_size_enabled);
+  ted_draw_set_double_size(ted_resources.double_size_enabled);
 #endif
 #else
-  vic_ii_draw_set_double_size(0);
+  ted_draw_set_double_size(0);
 #endif
 
   ted.initialized = 1;
@@ -776,7 +776,7 @@ void ted_update_video_mode(unsigned int cycle)
 
 /* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
    of each line.  */
-void vic_ii_raster_draw_alarm_handler(CLOCK offset)
+void ted_raster_draw_alarm_handler(CLOCK offset)
 {
   int in_visible_area;
 
@@ -896,7 +896,7 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
 }
 
 /* Handle matrix fetch events.  FIXME: could be made slightly faster.  */
-void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
+void ted_raster_fetch_alarm_handler(CLOCK offset)
 {
   CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -984,7 +984,7 @@ void vic_ii_raster_fetch_alarm_handler(CLOCK offset)
 
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
-static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
+static void ted_raster_irq_alarm_handler(CLOCK offset)
 {
   ted.irq_status |= 0x2;
   if (ted.regs[0x0a] & 0x2)
@@ -1058,7 +1058,7 @@ void ted_resize(void)
           raster_set_pixel_size(&ted.raster, 2, 2);
       }
 
-      vic_ii_draw_set_double_size(1);
+      ted_draw_set_double_size(1);
     }
   else
     {
@@ -1072,7 +1072,7 @@ void ted_resize(void)
           raster_set_pixel_size(&ted.raster, 1, 1);
       }
 
-      vic_ii_draw_set_double_size(0);
+      ted_draw_set_double_size(0);
     }
 }
 

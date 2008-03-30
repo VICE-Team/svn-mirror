@@ -39,7 +39,7 @@
 
 /* We need the full width for correct
    sprite-sprite-collision in unvisible area */
-#define VIC_II_SCREEN_WIDTH             512
+#define VIC_II_SCREEN_WIDTH             384
 
 #define TED_PAL_OFFSET                  0
 #define TED_NTSC_OFFSET                 0
@@ -157,7 +157,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 #define TED_NTSC_FIRST_DMA_LINE     (0x30 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DMA_LINE      0xf7
 
-/* VIC-II structures.  This is meant to be used by VIC-II modules
+/* TED structures.  This is meant to be used by TED modules
    *exclusively*!  */
 
 enum vic_ii_fetch_idx_s {
@@ -302,8 +302,8 @@ extern void ted_fetch_matrix(int offs, int num);
 extern void ted_set_raster_irq(unsigned int line);
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
-extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
-extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
+extern void ted_raster_draw_alarm_handler(CLOCK offset);
+extern void ted_raster_fetch_alarm_handler(CLOCK offset);
 extern void ted_resize(void);
 
 /* Debugging options.  */

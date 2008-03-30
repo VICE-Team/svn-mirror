@@ -105,14 +105,14 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
                 if (mclk == ted.fetch_clk) {
                     ram[addr] = value;
                 }
-                vic_ii_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
                 f = 1;
                 /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
                 mclk = clk - rmw_flag - 1;
             }
 
             if (mclk >= ted.draw_clk) {
-                vic_ii_raster_draw_alarm_handler (0);
+                ted_raster_draw_alarm_handler (0);
                 f = 1;
             }
         } while (f);
@@ -656,7 +656,7 @@ void REGPARM2 ted_store(ADDRESS addr, BYTE value)
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
     if (clk >= ted.draw_clk)
-        vic_ii_raster_draw_alarm_handler(clk - ted.draw_clk);
+        ted_raster_draw_alarm_handler(clk - ted.draw_clk);
 
 
     switch (addr) {

@@ -1589,7 +1589,7 @@ static void init_drawing_tables(void)
     }
 }
 
-void vic_ii_draw_init(void)
+void ted_draw_init(void)
 {
     init_drawing_tables();
 
@@ -1597,13 +1597,13 @@ void vic_ii_draw_init(void)
 
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
-    vic_ii_draw_set_double_size(0);
+    ted_draw_set_double_size(0);
 #endif /* VIC_II_NEED_2X */
 #endif /* VIDEO_REMOVE_2X */
 
 }
 
-void vic_ii_draw_set_double_size(int enabled)
+void ted_draw_set_double_size(int enabled)
 {
 #ifndef VIDEO_REMOVE_2X
 #ifdef VIC_II_NEED_2X
