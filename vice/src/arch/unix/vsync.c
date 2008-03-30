@@ -157,6 +157,7 @@ static void (*vsync_hook)(void);
 static volatile int elapsed_frames = 0;
 static int timer_disabled = 1;
 static int timer_speed = 0;
+static int timer_patch = 0;
 
 static int timer_ticks;
 static struct timeval timer_time;
@@ -168,14 +169,22 @@ static void update_elapsed_frames(int want)
 
     if (timer_disabled)
         return;
+    if (!want && timer_patch > 0) {
+	timer_patch--;
+	elapsed_frames++;
+    }
     gettimeofday(&now, NULL);
     while (now.tv_sec > timer_time.tv_sec ||
 	   (now.tv_sec == timer_time.tv_sec &&
 	    now.tv_usec > timer_time.tv_usec)) {
 	if (pending)
 	    pending--;
-	else
-	    elapsed_frames++;
+	else {
+	    if (timer_patch < 0)
+		timer_patch++;
+	    else
+		elapsed_frames++;
+	}
 	timer_time.tv_usec += timer_ticks;
 	while (timer_time.tv_usec >= 1000000) {
 	    timer_time.tv_usec -= 1000000;
@@ -183,7 +192,10 @@ static void update_elapsed_frames(int want)
 	}
     }
     if (want == 1 && !pending) {
-	elapsed_frames++;
+	if (timer_patch < 0)
+	    timer_patch++;
+	else
+	    elapsed_frames++;
 	pending++;
     }
 }
@@ -218,6 +230,11 @@ static void timer_sleep(void)
 		usleep(1);
 	}
     }
+}
+
+static void patch_timer(int patch)
+{
+    timer_patch += patch;
 }
 
 int vsync_disable_timer(void)
@@ -324,7 +341,7 @@ int do_vsync(int been_skipped)
         }
         /* sound_flush(0); */
     } else if (refresh_rate != 0) {
-	/* Fixed refresh rate.*/
+	/* Fixed refresh rate.  */
 	update_elapsed_frames(0);
 	if (timer_speed && skip_counter >= elapsed_frames)
 	    timer_sleep();
@@ -334,9 +351,9 @@ int do_vsync(int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-        sound_flush(relative_speed);
+        patch_timer(sound_flush(relative_speed));
     } else {
-	/* Dynamically adjusted refresh rate. */
+	/* Dynamically adjusted refresh rate.  */
 	update_elapsed_frames(0);
 	if (skip_counter >= elapsed_frames) {
 	    elapsed_frames = -1;
@@ -350,7 +367,7 @@ int do_vsync(int been_skipped)
 		skip_counter = elapsed_frames = 0;
 	    }
 	}
-        sound_flush(relative_speed);
+        patch_timer(sound_flush(relative_speed));
     }
 
     if (frame_counter >= refresh_frequency * 2) {

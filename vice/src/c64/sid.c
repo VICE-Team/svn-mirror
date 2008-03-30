@@ -56,6 +56,7 @@ static int useresid;
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
+static int sid_useresid;
 
 static int set_sid_filters_enabled(resource_value_t v)
 {
@@ -71,11 +72,20 @@ static int set_sid_model(resource_value_t v)
     return 0;
 }
 
+static int set_sid_useresid(resource_value_t v)
+{
+    sid_useresid = (int)v;
+    sound_close();
+    return 0;
+}
+
 static resource_t resources[] = {
     { "SidFilters", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &sid_filters_enabled, set_sid_filters_enabled },
     { "SidModel", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &sid_model, set_sid_model },
+    { "SidUseResid", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &sid_useresid, set_sid_useresid },
     { NULL }
 };
 
@@ -89,17 +99,17 @@ int sid_init_resources(void)
 /* Command-line options -- Added by Ettore 98-05-09.  */
 static cmdline_option_t cmdline_options[] = {
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      "<model>",
-#ifdef HAVE_RESID
-      "Specify SID model (2: 6581 (reSID), 1: 8580, 0: 6581)"
-#else
-      "Specify SID model (1: 8580, 0: 6581)"
-#endif
-    },
+      "<model>", "Specify SID model (1: 8580, 0: 6581)" },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 1,
       NULL, "Emulate SID filters" },
     { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters", (resource_value_t) 0,
       NULL, "Do not emulate SID filters" },
+#ifdef HAVE_RESID
+    { "-resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid", (resource_value_t) 1,
+      NULL, "Use reSID emulation" },
+    { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid", (resource_value_t) 0,
+      NULL, "Use fast SID emulation" },
+#endif
     { NULL }
 };
 
@@ -872,10 +882,11 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     sound_t		*psid;
 
 #ifdef HAVE_RESID
-    useresid = sid_model == 2;
+    useresid = sid_useresid;
     if (useresid)
 	return resid_sound_machine_open(speed, cycles_per_sec,
-					sid_filters_enabled, siddata, clk);
+					sid_filters_enabled, siddata,
+					sid_model, clk);
 #endif
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(*psid));
@@ -950,27 +961,34 @@ void sound_machine_close(sound_t *psid)
 
 
 /* read register value from sid */
+static BYTE lastsidread;
+
 BYTE REGPARM1 read_sid(ADDRESS addr)
 {
     int				val;
     addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
     if (addr == 0x19)
-        return (mouse_get_x() & 0x3f) << 1;
+        val = (mouse_get_x() & 0x3f) << 1;
     else if (addr == 0x1a)
-        return (~mouse_get_y() & 0x3f) << 1;
+        val = (~mouse_get_y() & 0x3f) << 1;
+    else
 #endif
     val = sound_read(addr);
     if (val < 0)
     {
         if (addr == 0x19 || addr == 0x1a)
-	    return 0xff;
-	warn(pwarn, 5, "program reading sid-registers (no sound)");
-	if (addr == 0x1b || addr == 0x1c)
-	    return rand();
-	/* return siddata[addr]; */
-	return 0;
+	    val = 0xff;
+	else
+	{
+	    warn(pwarn, 5, "program reading sid-registers (no sound)");
+	    if (addr == 0x1b || addr == 0x1c)
+		val = rand();
+	    else
+		val = 0;
+	}
     }
+    lastsidread = val;
     return val;
 }
 
@@ -1036,6 +1054,16 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
     siddata[addr] = byte;
+    if (rmw_flag)
+    {
+	clk--;
+	sound_store(addr, lastsidread);
+	clk++;
+#if 0
+	/* XXX: remove me some day */
+	warn(pwarn, 4, "rmw instruction");
+#endif
+    }
     sound_store(addr, byte);
 }
 
@@ -1080,7 +1108,7 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
 void sid_reset(void)
 {
     int				i;
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < 32; i++)
 	store_sid(i, 0);
     warn_reset(pwarn);
     sound_prevent_clk_overflow(clk);
