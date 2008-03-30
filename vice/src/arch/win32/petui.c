@@ -35,6 +35,7 @@
 #include "ui.h"
 #include "uidrivepetcbm2.h"
 #include "uipetset.h"
+#include "uirom.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -46,11 +47,34 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+static const uirom_settings_t uirom_settings[] = {
+    { "Kernal", "KernalName",
+      IDC_PETROM_KERNAL_FILE, IDC_PETROM_KERNAL_BROWSE },
+    { "Basic", "BasicName",
+      IDC_PETROM_BASIC_FILE, IDC_PETROM_BASIC_BROWSE },
+    { "Character", "ChargenName",
+      IDC_PETROM_CHARGEN_FILE, IDC_PETROM_CHARGEN_BROWSE },
+    { "Editor", "EditorName",
+      IDC_PETROM_EDITOR_FILE, IDC_PETROM_EDITOR_BROWSE },
+    { "ROM9", "RomModule9Name",
+      IDC_PETROM_ROM9_FILE, IDC_PETROM_ROM9_BROWSE },
+    { "ROMA", "RomModuleAName",
+      IDC_PETROM_ROMA_FILE, IDC_PETROM_ROMA_BROWSE },
+    { "ROMB", "RomModuleBName",
+      IDC_PETROM_ROMB_FILE, IDC_PETROM_ROMB_BROWSE },
+    { NULL, NULL, 0, 0 }
+};
+
+
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
       case IDM_PET_SETTINGS:
         ui_pet_settings_dialog(hwnd);
+        break;
+      case IDM_ROM_SETTINGS:
+        uirom_settings_dialog(hwnd, IDD_PETROM_SETTINGS_DIALOG,
+                              uirom_settings);
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
