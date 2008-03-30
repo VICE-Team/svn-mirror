@@ -173,8 +173,17 @@ void ted_irq_next_frame(void)
     alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
 }
 
+static void ted_irq_alarm_handler(CLOCK offset)
+{
+    ted_irq_raster_set(ted.raster_irq_clk);
+    ted_irq_next_frame();
+}
+
 void ted_irq_init(void)
 {
     ted.int_num = interrupt_cpu_status_int_new(maincpu_int_status, "TED");
+
+    ted.raster_irq_alarm = alarm_new(maincpu_alarm_context, "TEDRasterIrq",
+                                     ted_irq_alarm_handler);
 }
 

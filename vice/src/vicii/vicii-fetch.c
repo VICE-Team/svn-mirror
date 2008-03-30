@@ -38,6 +38,7 @@
 #include "raster-sprite.h"
 #include "types.h"
 #include "vicii-fetch.h"
+#include "vicii-irq.h"
 #include "vicii-sprites.h"
 #include "viciitypes.h"
 
@@ -419,7 +420,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     }
 
     if (maincpu_clk >= vic_ii.raster_irq_clk)
-        vicii_raster_irq_alarm_handler(maincpu_clk - vic_ii.raster_irq_clk);
+        vicii_irq_alarm_handler(maincpu_clk - vic_ii.raster_irq_clk);
 
     return 0;
 }
@@ -504,5 +505,12 @@ void vicii_fetch_alarm_handler(CLOCK offset)
         if (leave)
             break;
     }
+}
+
+void vicii_fetch_init(void)
+{
+    vic_ii.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
+                                          "VicIIRasterFetch",
+                                          vicii_fetch_alarm_handler);
 }
 

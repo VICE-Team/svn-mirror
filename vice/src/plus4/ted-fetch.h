@@ -30,7 +30,8 @@
 
 #include "types.h"
 
-extern void ted_raster_fetch_alarm_handler(CLOCK offset);
+extern void ted_fetch_init(void);
+extern void ted_fetch_alarm_handler(CLOCK offset);
 extern void ted_fetch_matrix(int offs, int num);
 extern void ted_fetch_color(int offs, int num);
 

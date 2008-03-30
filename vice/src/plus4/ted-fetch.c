@@ -168,7 +168,7 @@ inline static void handle_fetch_matrix(long offset, CLOCK sub,
 }
 
 /* Handle matrix fetch events.  FIXME: could be made slightly faster.  */
-void ted_raster_fetch_alarm_handler(CLOCK offset)
+void ted_fetch_alarm_handler(CLOCK offset)
 {
     CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
@@ -225,5 +225,12 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
         last_opcode_first_write_clk += write_offset;
         last_opcode_last_write_clk += write_offset;
     }
+}
+
+void ted_fetch_init(void)
+{
+    ted.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
+                                       "TEDRasterFetch",
+                                       ted_fetch_alarm_handler);
 }
 

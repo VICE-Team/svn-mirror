@@ -91,7 +91,7 @@ inline void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr] = value;
             }
-            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -126,7 +126,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr & 0x7fff] = value;
             }
-            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -161,7 +161,7 @@ inline void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr & 0x3fff] = value;
             }
-            ted_raster_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;

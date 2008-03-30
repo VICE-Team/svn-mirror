@@ -69,7 +69,6 @@
 ted_t ted;
 
 static void ted_set_geometry(void);
-static void ted_raster_irq_alarm_handler(CLOCK offset);
 static void ted_exposure_handler(unsigned int width, unsigned int height);
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -172,7 +171,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk > ted.fetch_clk) {
-                ted_raster_fetch_alarm_handler(0);
+                ted_fetch_alarm_handler(0);
                 f = 1;
                 ted_delay_clk();
             }
@@ -198,7 +197,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (maincpu_clk >= ted.fetch_clk) {
-                ted_raster_fetch_alarm_handler(0);
+                ted_fetch_alarm_handler(0);
                 f = 1;
                 ted_delay_clk();
             }
@@ -278,15 +277,11 @@ raster_t *ted_init(void)
 
     ted_irq_init();
 
-    ted.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
-                                       "TEDRasterFetch",
-                                       ted_raster_fetch_alarm_handler);
+    ted_fetch_init();
+
     ted.raster_draw_alarm = alarm_new(maincpu_alarm_context,
                                       "TEDRasterDraw",
                                       ted_raster_draw_alarm_handler);
-    ted.raster_irq_alarm = alarm_new(maincpu_alarm_context,
-                                     "TEDRasterIrq",
-                                     ted_raster_irq_alarm_handler);
 
     ted_change_timing();
 
@@ -764,14 +759,6 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     ted.last_emulate_line_clk += ted.cycles_per_line;
     ted.draw_clk = ted.last_emulate_line_clk + ted.draw_cycle;
     alarm_set(ted.raster_draw_alarm, ted.draw_clk);
-}
-
-/* If necessary, emulate a raster compare IRQ. This is called when the raster
-   line counter matches the value stored in the raster line register.  */
-static void ted_raster_irq_alarm_handler(CLOCK offset)
-{
-    ted_irq_raster_set(ted.raster_irq_clk);
-    ted_irq_next_frame();
 }
 
 void ted_shutdown(void)

@@ -335,15 +335,11 @@ raster_t *vicii_init(unsigned int flag)
 
     vicii_irq_init();
 
-    vic_ii.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
-                                          "VicIIRasterFetch",
-                                          vicii_fetch_alarm_handler);
+    vicii_fetch_init();
+
     vic_ii.raster_draw_alarm = alarm_new(maincpu_alarm_context,
                                          "VicIIRasterDraw",
                                          vicii_raster_draw_alarm_handler);
-    vic_ii.raster_irq_alarm = alarm_new(maincpu_alarm_context,
-                                        "VicIIRasterIrq",
-                                        vicii_raster_irq_alarm_handler);
     if (init_raster() < 0)
         return NULL;
 
@@ -1005,14 +1001,6 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
     vic_ii.last_emulate_line_clk += vic_ii.cycles_per_line;
     vic_ii.draw_clk = vic_ii.last_emulate_line_clk + vic_ii.draw_cycle;
     alarm_set(vic_ii.raster_draw_alarm, vic_ii.draw_clk);
-}
-
-/* If necessary, emulate a raster compare IRQ. This is called when the raster
-   line counter matches the value stored in the raster line register.  */
-void vicii_raster_irq_alarm_handler(CLOCK offset)
-{
-    vicii_irq_raster_set(vic_ii.raster_irq_clk);
-    vicii_irq_next_frame();
 }
 
 void vicii_set_canvas_refresh(int enable)

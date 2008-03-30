@@ -210,8 +210,20 @@ void vicii_irq_next_frame(void)
     alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 }
 
+/* If necessary, emulate a raster compare IRQ. This is called when the raster
+   line counter matches the value stored in the raster line register.  */
+void vicii_irq_alarm_handler(CLOCK offset)
+{
+    vicii_irq_raster_set(vic_ii.raster_irq_clk);
+    vicii_irq_next_frame();
+}
+
 void vicii_irq_init(void)
 {
     vic_ii.int_num = interrupt_cpu_status_int_new(maincpu_int_status, "VICII");
+
+    vic_ii.raster_irq_alarm = alarm_new(maincpu_alarm_context,
+                                        "VicIIRasterIrq",
+                                        vicii_irq_alarm_handler);
 }
 

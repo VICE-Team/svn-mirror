@@ -1,9 +1,74 @@
+2003-04-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.39.
+
+	* emuid.c, emuid.h, c64/c64io.c, c128/c128io.c,
+	vic20/vic20mem.c, pet/petmem.c, cbm2/cbm2mem.c (emuid_read):
+	New function.
+
+	* monitor/monitor.c, monitor.h, arch/unix/uicommands.c,
+	arch/win32/ui.c, arch/msdos/menudefs.c,
+	arch/os2/dialogs/menubar.c (monitor_startup_trap): New
+	function.
+
+	* interrupt.h, 6510core.c, c128/z80.c
+	(interrupt_check_pending_interrupt): Removed.
+
+	* interrupt.h, c64/c64acia1.c, pet/petacia1.c,
+	plus4/plus4acia.c (maincpu_set_int_noclk): Removed.
+
+	* viacore.c [via_restore_int]: Use `via_set_int()'.
+
+	* vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c, pet/petvia.c:
+
+	* interrupt.c, interrupt.h (interrupt_set_int_noclk): Removed.
+
+	* vicii/vicii-fetch.c, vicii/vicii-fetch.h, vicii/vicii.c
+	(vicii_fetch_init): New function.
+
+	* vicii/vicii-irq.c, vicii/vicii-irq.h, vicii/vicii.c,
+	vicii/viciitypes.h (vicii_irq_alarm_handler): New function.
+
+	* plus4/ted-fetch.c, plus4/ted-fetch.h, plus4/ted.c
+	(ted_fetch_init): New function.
+
+	* plus4/ted-fetch.c, plus4/ted-fetch.h, plus4/ted-mem.c,
+	plus4/ted.c (ted_raster_fetch_alarm_handler): Renamed.
+
+	* plus4/ted-irq.c, plus4/ted.c (ted_irq_alarm_handler): New
+	function.
+
+	* datasette.c (datasette_read_snapshot): Fixed warnings.
+
+	* arch/win32/archdep.c (archdep_boot_path): Fixed warnings.
+
+	* arch/unix/x11/ui-resources.c: Fixed warnings.
+
+	* arch/unix/x11/xaw/Makefile.am: Removed `ui.c'.
+
+	* drive/rotation.c, gcr.c, zfile.c, maincpu.c, maincpu.h,
+	c1541.c, tpicore.h, 6510core.c, aciacore.c,
+	drive/driveimage.c, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, drive/iecieee/via1d.c,
+	drive/iecieee/via2d.c, drive/ieee/fdc.c, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c, diskimage/diskimage.c,
+	diskimage/fsimage-create.c, vicii/vicii-draw.c, monitor.h,
+	rs232drv/rsuser.c, monitor/asm6502.c, monitor/asmz80.c,
+	monitor/mon_assemble6502.c, monitor/mon_assemblez80.c,
+	monitor/mon_command.c, monitor/mon_memory.c, c64/c64cia2.c,
+	c64/patchrom.c, c64/psid.c, c64/reloc65.c, c128/c128mem.c,
+	c128/daa.c, c128/daa.h, c128/z80.c, vic20/vic20mem.c,
+	pet/pet-resources.c, pet/petmem.c, plus4/plus4mem.c,
+	plus4/ted-draw.c, plus4/ted-sound.c, cbm2/cbm2-resources.c:
+	Added const for constant tables.
+
 2003-04-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.38.
 
 	* interrupt.c (interrupt_cpu_status_int_new,
-	interrupt_cpu_status_destroy): Add interrupt name support.
+	interrupt_cpu_status_destroy): Added interrupt name support.
 
 	* debug.c (debug_int): New function.
 
