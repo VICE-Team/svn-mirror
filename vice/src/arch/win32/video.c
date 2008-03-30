@@ -703,6 +703,26 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 
 */
 
+#if 0
+void canvas_refresh(canvas_t c, frame_buffer_t f,
+                    int xs, int ys, int xi, int yi, int w, int h)
+{
+    RECT    rect;
+
+    if (IsIconic(c->hwnd))
+        return;
+
+    rect.left=xi;
+    rect.top=yi;
+    rect.right=xi+w;
+    rect.bottom=yi+h;
+    InvalidateRect(c->hwnd,&rect,FALSE);
+}
+#endif
+
+char    Region[2048];
+
+#if 1
 void canvas_refresh(canvas_t c, frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
@@ -712,12 +732,19 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     BYTE *dp;
     LPDIRECTDRAWSURFACE surface = NULL;
     RECT rect;
+    RECT    trect;
+    RECT targetrect;
     int depth, pitch;
 
     DWORD   starttime;
     DWORD   difftime;
     int     bytesmoved;
     DWORD   *ct;
+    DWORD   clipsize;
+    int     regioncount,j;
+
+    PAINTSTRUCT ps;
+    int     px,py,ph,pw;
 
     if (IsIconic(c->hwnd))
         return;
@@ -754,33 +781,11 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     }
 
     GetClientRect(c->hwnd, &rect);
-
-    /* Clip.  Not always necessary, but not very expensive either.  */
-    if (rect.right - rect.left < w)
-        w = rect.right - rect.left;
-    if (rect.bottom - rect.top < h)
-        h = rect.bottom - rect.top;
-
-    ClientToScreen(c->hwnd, (LPPOINT) &rect);
     rect.left += xi;
-    rect.right = rect.left + w;
     rect.top += yi;
+    ClientToScreen(c->hwnd, (LPPOINT) &rect);
+    rect.right = rect.left + w;
     rect.bottom = rect.top + h;
-
-    {
-        int tmp;
-
-        tmp = GetSystemMetrics(SM_CXSCREEN);
-        if (rect.right > tmp) {
-            w -= rect.right - tmp;
-            rect.right = tmp;
-        }
-        tmp = GetSystemMetrics(SM_CYSCREEN);
-        if (rect.bottom > tmp) {
-            h -= rect.bottom - tmp;
-            rect.bottom = tmp;
-        }
-    }
 
     if (c->back_surface != NULL) {
         desc.dwSize = sizeof(desc);
@@ -793,16 +798,9 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         } while (result == DDERR_SURFACELOST);
         if (result == DD_OK)
             surface = c->back_surface;
-#if 0
-        else
-            DEBUG(("Cannot lock back surface: %s", dd_error(result)));
-#endif
     }
 
-    /* Don't even try to use the primary surface directly if this is not the
-       active window, because we are not able to handle clip lists ourselves
-       in that case.  */
-    if (surface == NULL && GetForegroundWindow() == c->hwnd) {
+    if (surface == NULL) {
         desc.dwSize = sizeof(desc);
         do {
             result = IDirectDrawSurface_Lock(c->primary_surface, NULL, &desc,
@@ -822,12 +820,8 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                                          "Performance will be poor!");
                                 no_primary_lock_reported = 1;
                         }
-#if 0
-            DEBUG(("Cannot lock primary surface: %s", dd_error(result)));
-#endif
                 }
     }
-
     if (surface == NULL) {
         /* Try to lock the temporary surface (last resort).  */
         desc.dwSize = sizeof(desc);
@@ -840,208 +834,236 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
         } while (result == DDERR_WASSTILLDRAWING);
         if (result == DD_OK)
             surface = c->temporary_surface;
-#if 0
-        else
-            DEBUG(("Cannot lock temporary surface: %s",
-                   dd_error(result)));
-#endif
     }
 
     if (surface == NULL) {
-        ui_error("Cannot lock any surface: Giving up!\n"
-                 "(This is weird, tell Ettore!)");
+        DEBUG(("Can't lock surface"));
         return;
     }
 
     depth = desc.ddpfPixelFormat.u1.dwRGBBitCount;
     pitch = desc.u1.lPitch;
 
-    switch (depth) {
-      case 8:
-        dp = (BYTE *) desc.lpSurface + pitch * rect.top + rect.left;
-        for (y = 0; y < h; y++, dp += pitch) {
-            DWORD *p = (DWORD *) dp;
-            DWORD *sp = (DWORD *) (f->lines[y + ys] + xs);
+    DEBUG(("Original rect: %d %d %d %d",rect.left,rect.top,rect.right,rect.bottom));
 
-#if 1
-            {
-                int j;
+    clipsize=2048;
+    IDirectDrawClipper_GetClipList(c->clipper,&rect,&Region,&clipsize);
+    regioncount=((RGNDATA*)Region)->rdh.nCount;
+    DEBUG(("REGION count: %d",regioncount));
+    for (j=0; j<regioncount; j++) {
+        trect.top=((RECT*)((RGNDATA*)Region)->Buffer)[j].top;
+        trect.bottom=((RECT*)((RGNDATA*)Region)->Buffer)[j].bottom;
+        trect.left=((RECT*)((RGNDATA*)Region)->Buffer)[j].left;
+        trect.right=((RECT*)((RGNDATA*)Region)->Buffer)[j].right;
+        DEBUG(("RECT: %d %d %d %d",trect.left,trect.top,trect.right,trect.bottom));
+        px=xs+trect.left-rect.left;
+        py=ys+trect.top-rect.top;
+        pw=trect.right-trect.left;
+        ph=trect.bottom-trect.top;
+        switch (depth) {
+            case 8:
+                dp = (BYTE *) desc.lpSurface + pitch * trect.top + trect.left;
+                for (y = 0; y < ph; y++, dp += pitch) {
+                    BYTE *p = dp;
+                    BYTE *sp=(BYTE*)(f->lines[y+py]+px);
 
-                for (j = 0; j < w; j++)
-                    dp[j] = ((BYTE *)sp)[j];
-                bytesmoved+=w;
-            }
-#elif 0
-            /* This alternative and the next one cannot work, because
-               DirectDraw wants us to always write on aligned boundaries.  */
-            {
-                int j;
+                    {
+                        int j=0;
 
-                for (j = 0; j < w >> 2; j++, sp++, p++)
-                    *p = *sp;
-                for (j = 0; j < w & 0x3; j++)
-                    *((BYTE *)p + j) = *((BYTE *)sp + j);
-            }
-#else
-            memcpy((BYTE *) p, (BYTE *) sp, w);
-#endif
-            /*DEBUG(("Done blitting\n"));*/
-        }
-        break;
-      case 16:
-        dp = ((BYTE *) desc.lpSurface + pitch * rect.top
-              + 2 * rect.left);
-        for (y = ys; y < ys + h; y++, dp += pitch) {
-            BYTE *sp = f->lines[y] + xs;
-            int i;
+                        /*  Start fragment */
+                        if ((int)p&3) {
+                            int n=4-((int)p&3);
+                            for (j=0; j<n; j++) {
+                                *p++=*sp++;
+                            }
+                        }
+                        /*  8 pixel fragments */
+                        while (pw-j>7) {
+                            DWORD   interm;
+                            interm=*sp++;
+                            interm+=*sp++<<8;
+                            interm+=*sp++<<16;
+                            interm+=*sp++<<24;
+                            *((DWORD*)p)++=interm;
+                            interm=*sp++;
+                            interm+=*sp++<<8;
+                            interm+=*sp++<<16;
+                            interm+=*sp++<<24;
+                            *((DWORD*)p)++=interm;
+                            j+=8;
+                        }
+                        /*  End fragment */
+                        for (; j<pw; j++) {
+                            *p++=*sp++;
+                        }
 
-            for (i = 0; i < w; i++)
-                *((WORD *)dp + i) = (WORD) c->physical_colors[sp[i]];
-            bytesmoved+=w*2;
-        }
-        break;
-      case 24:
-        ct=c->physical_colors;
-        dp = ((BYTE *) desc.lpSurface + pitch * rect.top
-              + 3 * rect.left);
-        for (y = ys; y < ys + h; y++, dp += pitch) {
-            BYTE *sp = f->lines[y] + xs;
-            BYTE *p = dp;
-            BYTE *s;
-            int i;
-            DWORD   dw;
-            DWORD   dw2;
-
-            int b=w;
-
-            i=((int)dp)&3;
-            if (w<i) {
-                /*  This is the case when the starting and ending fragment is in the same 4 pixel
-                    fragment */
-                for (i=0; i<w; i++) {
-                    s=(BYTE*)&c->physical_colors[sp[i]];
-                    p[0]=s[0];
-                    p[1]=s[1];
-                    p[2]=s[2];
-                    p+=3;
+                        bytesmoved+=pw;
+                    }
                 }
-            } else {
-                /*  Lets handle the starting fragment first */
-                switch (i) {
-                    case 1:
-                        p=p-1;
-                        dw=(*(DWORD*)p)&0x000000ff;
-                        b+=3;
-                        goto offs1;
-                    case 2:
-                        p=p-2;
-                        dw=(*(DWORD*)p)&0x0000ffff;
-                        b+=2;
-                        goto offs2;
-                    case 3:
-                        p=p-3;
-                        dw=(*(DWORD*)p)&0x00ffffff;
-                        b+=1;
-                        goto offs3;
+                break;
+            case 16:
+                ct=c->physical_colors;
+                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
+                    + 2 * trect.left);
+                for (y = py; y < py + ph; y++, dp += pitch) {
+                    BYTE *sp = f->lines[y] + px;
+                    int i;
+                    WORD    *p;
+
+                    i=0;
+                    p=dp;
+                    /*  Start fragment */
+                    if ((int)dp&2) {
+                        *p++=(WORD)ct[*sp++];
+                        i++;
+                    }
+                    /*  Lets do 8 pixel fragments in one loop */
+                    while (pw-i>7) {
+                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
+                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
+                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
+                        *((DWORD*)p)++=ct[sp[0]]+(ct[sp[1]]<<16); sp+=2;
+                        i+=8;
+                    }
+                    /*  Finish fragments */
+                    for (;i<pw; i++) {
+                        *p++=(WORD)ct[*sp++];
+                    }
+
+                    bytesmoved+=pw*2;
                 }
-                /*  Lets handle full 4 pixel fragments */
-                while (b>3) {
-                    dw=ct[*sp++];
+                break;
+            case 24:
+                ct=c->physical_colors;
+                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
+                    + 3 * trect.left);
+                for (y = py; y < py + ph; y++, dp += pitch) {
+                    BYTE *sp = f->lines[y] + px;
+                    BYTE *p = dp;
+                    BYTE *s;
+                    int i;
+                    DWORD   dw;
+                    DWORD   dw2;
+
+                    int b=pw;
+
+                    i=((int)dp)&3;
+                    if (pw<i) {
+                        /*  This is the case when the starting and ending fragment is in the same 4 pixel
+                            fragment */
+                        for (i=0; i<pw; i++) {
+                            s=(BYTE*)&c->physical_colors[sp[i]];
+                            p[0]=s[0];
+                            p[1]=s[1];
+                            p[2]=s[2];
+                            p+=3;
+                        }
+                    } else {
+                        /*  Lets handle the starting fragment first */
+                        switch (i) {
+                            case 1:
+                                p=p-1;
+                                dw=(*(DWORD*)p)&0x000000ff;
+                                b+=3;
+                                goto offs1;
+                            case 2:
+                                p=p-2;
+                                dw=(*(DWORD*)p)&0x0000ffff;
+                                b+=2;
+                                goto offs2;
+                            case 3:
+                                p=p-3;
+                                dw=(*(DWORD*)p)&0x00ffffff;
+                                b+=1;
+                                goto offs3;
+                        }
+                        /*  Lets handle full 4 pixel fragments */
+                        while (b>3) {
+                            dw=ct[*sp++];
 offs3:
-                    dw2=ct[*sp++];
-                    *((DWORD*)p)++=dw+(dw2<<24);
-                    dw=dw2>>8;
+                            dw2=ct[*sp++];
+                            *((DWORD*)p)++=dw+(dw2<<24);
+                            dw=dw2>>8;
 offs2:
-                    dw2=ct[*sp++];
-                    *((DWORD*)p)++=dw+(dw2<<16);
-                    dw=dw2>>16;
+                            dw2=ct[*sp++];
+                            *((DWORD*)p)++=dw+(dw2<<16);
+                            dw=dw2>>16;
 offs1:
-                    dw+=ct[*sp++]<<8;
-                    *((DWORD*)p)++=dw;
-                    b-=4;
+                            dw+=ct[*sp++]<<8;
+                            *((DWORD*)p)++=dw;
+                            b-=4;
+                        }
+                        /*  Handle finishing fragment */
+                        switch (b) {
+                            case 1:
+                                dw=(*(DWORD*)p)&0xff000000;
+                                dw+=ct[*sp];
+                                (*(DWORD*)p)=dw;
+                                break;
+                            case 2:
+                                dw=ct[*sp++];
+                                dw2=ct[*sp++];
+                                *((DWORD*)p)++=dw+(dw2<<24);
+                                *(WORD*)p=dw2>>8;
+                                break;
+                            case 3:
+                                dw=ct[*sp++];
+                                dw2=ct[*sp++];
+                                *((DWORD*)p)++=dw+(dw2<<24);
+                                dw=ct[*sp];
+                                *((DWORD*)p)++=(dw2>>8)+(dw<<16);
+                                *p=(dw>>16);
+                                break;
+                        }
+                    }
+                    bytesmoved+=pw*3;
                 }
-                /*  Handle finishing fragment */
-                switch (b) {
-                    case 1:
-                        dw=(*(DWORD*)p)&0xff000000;
-                        dw+=ct[*sp];
-                        (*(DWORD*)p)=dw;
-                        break;
-                    case 2:
-                        dw=ct[*sp++];
-                        dw2=ct[*sp++];
-                        *((DWORD*)p)++=dw+(dw2<<24);
-                        *(WORD*)p=dw2>>8;
-                        break;
-                    case 3:
-                        dw=ct[*sp++];
-                        dw2=ct[*sp++];
-                        *((DWORD*)p)++=dw+(dw2<<24);
-                        dw=ct[*sp];
-                        *((DWORD*)p)++=(dw2>>8)+(dw<<16);
-                        *p=(dw>>16);
-                        break;
-                }
-            }
-            bytesmoved+=w*3;
-        }
-        break;
-      case 32:
-        dp = ((BYTE *) desc.lpSurface + pitch * rect.top
-              + 4 * rect.left);
-        for (y = ys; y < ys + h; y++, dp += pitch) {
-            BYTE *sp = f->lines[y] + xs;
-            int i;
+                break;
+            case 32:
+                dp = ((BYTE *) desc.lpSurface + pitch * trect.top
+                    + 4 * trect.left);
+                for (y = py; y < py + ph; y++, dp += pitch) {
+                    BYTE *sp = f->lines[y] + px;
+                    int i;
 
-            for (i = 0; i < w; i++)
-                *((DWORD *)dp + i) = (DWORD) c->physical_colors[sp[i]];
-            bytesmoved+=w*4;
+                    for (i = 0; i < pw; i++)
+                        *((DWORD *)dp + i) = (DWORD) c->physical_colors[sp[i]];
+                    bytesmoved+=w*4;
+                }
+                break;
         }
-        break;
     }
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
         IDirectDrawSurface_Restore(surface);
         IDirectDrawSurface_Unlock(surface, NULL);
     }
-
     if (surface == c->back_surface) {
         /* Back surface: we can flip.  */
     } else if (surface == c->primary_surface) {
         /* Nothing to do...  the window has already been updated.  */
     } else{
         /* Temporary surface: we have to blit.  */
-        while (1) {
-#if 1
+        for (j=0; j<regioncount; j++) {
+            trect.top=((RECT*)((RGNDATA*)Region)->Buffer)[j].top;
+            trect.bottom=((RECT*)((RGNDATA*)Region)->Buffer)[j].bottom;
+            trect.left=((RECT*)((RGNDATA*)Region)->Buffer)[j].left;
+            trect.right=((RECT*)((RGNDATA*)Region)->Buffer)[j].right;
             result = IDirectDrawSurface_Blt(c->primary_surface,
-                                            &rect,
+                                            &trect,
                                             surface,
-                                            &rect,
+                                            &trect,
                                             DDBLT_WAIT, NULL);
-#else
-            /* Mmmh...  This could be faster in those cases when the window
-               is on top.  It does not work if a Clipper is attached, though.
-               FIXME: We could handle things so that this is used when it is
-               useful.  */
-            result = IDirectDrawSurface_BltFast(c->primary_surface,
-                                                rect.left,
-                                                rect.top,
-                                                surface, &rect,
-                                                DDBLTFAST_WAIT);
-#endif
-            if (result == DD_OK)
-                break;
-            else if (result == DDERR_INVALIDRECT) {
+            if (result == DD_OK) {
+            }else if (result == DDERR_INVALIDRECT) {
                 DEBUG(("INVALID rect %d, %d, %d, %d",
                        rect.left, rect.top,
                        rect.right, rect.bottom));
-                break;
             } else if (result == DDERR_SURFACELOST) {
                 result = IDirectDrawSurface_Restore(c->primary_surface);
                 if (result != DD_OK) {
-                    ui_error("Cannot restore primary DirectDraw surface!");
-                    break;
                 }
+            } else if (result==DDERR_SURFACEBUSY) {
             } else {
                     ui_error("Cannot update emulation window:\n%s",
                              dd_error(result));
@@ -1051,3 +1073,4 @@ offs1:
      difftime=timeGetTime()-starttime;
      DEBUG(("screen update took %d msec, moved %d bytes, width %d, height %d",difftime,bytesmoved,w,h));
 }
+#endif

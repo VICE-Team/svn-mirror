@@ -349,7 +349,7 @@ static int tape_sense = 0;
 #ifdef AVOID_STATIC_ARRAYS
 BYTE *roml_banks, *romh_banks;
 #else
-BYTE roml_banks[0x22000], romh_banks[0x22000];
+BYTE roml_banks[0x20000], romh_banks[0x20000];
 #endif
 
 /* Exansion port RAM images.  */
@@ -594,12 +594,11 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
             export_ram0[0x1e00 + (addr & 0xff)] = value;
         if (mem_cartridge_type == CARTRIDGE_OCEAN) {
+            romh_bank = roml_bank = value & 15;
             if (value & 0x80) {
-                romh_bank = roml_bank = value & 15;
                 export.game = (value >> 4) & 1;
                 export.exrom = 1;
             } else {
-                romh_bank = roml_bank = 16;
                 export.game = export.exrom = 1;
             }
             pla_config_changed();
@@ -972,8 +971,8 @@ void mem_powerup(void)
 	mem_write_tab_watch = xmalloc(0x101*sizeof(*mem_write_tab_watch));
 	mem_read_tab_watch = xmalloc(0x101*sizeof(*mem_read_tab_watch));
 
-	roml_banks = xmalloc(0x22000);
-	romh_banks = xmalloc(0x22000);
+	roml_banks = xmalloc(0x20000);
+	romh_banks = xmalloc(0x20000);
 	export_ram0 = xmalloc(0x2000);
     }
 #endif
@@ -1103,17 +1102,8 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         cartridge_config_changed(9);
         break;
       case CARTRIDGE_OCEAN:
-        {
-            int i;
-            for (i = 0; i < 16; i++) {
-                memcpy(&roml_banks[i * 0x2000], &rawcart[i * 0x2000 + 0x4000],
-                       0x2000);
-                memcpy(&romh_banks[i * 0x2000], &rawcart[i * 0x2000 + 0x24000],
-                       0x2000);
-            }
-            memcpy(&roml_banks[0x20000], &rawcart[0x0000], 0x2000);
-            memcpy(&romh_banks[0x20000], &rawcart[0x2000], 0x2000);
-        }
+        memcpy(roml_banks, rawcart, 0x2000 * 16);
+        memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
         break;
       case CARTRIDGE_ULTIMAX:
         memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);

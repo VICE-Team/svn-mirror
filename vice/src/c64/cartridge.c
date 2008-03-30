@@ -151,21 +151,6 @@ int cartridge_attach_image(int type, const char *filename)
 	}
 	fclose(fd);
 	break;
-      case CARTRIDGE_OCEAN:
-        fd = fopen(filename, READ);
-        if (!fd)
-            goto done;
-        /* Dummy read.  */
-        if (fread(rawcart, 0x2, 1, fd) < 1) {
-            fclose(fd);
-            goto done;
-        }
-        if (fread(rawcart, 0x44000, 1, fd) < 1) {
-            fclose(fd);
-            goto done;
-        }
-        fclose(fd);
-        break;
       case CARTRIDGE_CRT:
         fd = fopen(filename, READ);
         if (!fd)
@@ -262,6 +247,25 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             break;
+          case 5:
+            while (1) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    break;
+                }
+                if (chipheader[0xb] >= 32 || (chipheader[0xc] != 0x80
+                    && chipheader[0xc] != 0xa0)) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+            }
+        fclose(fd);
+        break;
+
 	  default:
 	    fclose(fd);
 	    goto done;

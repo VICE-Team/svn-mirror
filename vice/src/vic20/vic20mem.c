@@ -1108,7 +1108,6 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 {
     snapshot_module_t *m;
     BYTE config;
-    char *sp;
     
     if (!save_roms)
         return 0;
@@ -1154,8 +1153,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, flag, byte;
-    char *dummyp=NULL;
+    BYTE config;
 
     m = snapshot_module_open(p, SNAP_ROM_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL)

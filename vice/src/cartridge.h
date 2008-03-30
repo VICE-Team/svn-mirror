@@ -43,17 +43,17 @@ extern const char *cartridge_get_file_name(ADDRESS addr);
 
 /* Known cartridge types.  */
 
-#define CARTRIDGE_ULTIMAX		-6
-#define CARTRIDGE_OCEAN			-5
-#define CARTRIDGE_SUPER_SNAPSHOT	-4
-#define CARTRIDGE_GENERIC_8KB		-3
-#define CARTRIDGE_GENERIC_16KB		-2
-#define CARTRIDGE_NONE			-1
-#define CARTRIDGE_CRT			0
-#define CARTRIDGE_ACTION_REPLAY		1
-#define CARTRIDGE_KCS_POWER		2
-#define CARTRIDGE_FINAL_III		3
-#define CARTRIDGE_SIMONS_BASIC		4
+#define CARTRIDGE_ULTIMAX           -6
+#define CARTRIDGE_SUPER_SNAPSHOT    -4
+#define CARTRIDGE_GENERIC_8KB       -3
+#define CARTRIDGE_GENERIC_16KB      -2
+#define CARTRIDGE_NONE              -1
+#define CARTRIDGE_CRT                0
+#define CARTRIDGE_ACTION_REPLAY      1
+#define CARTRIDGE_KCS_POWER          2
+#define CARTRIDGE_FINAL_III          3
+#define CARTRIDGE_SIMONS_BASIC       4
+#define CARTRIDGE_OCEAN              5
 
 /* VIC20: &1 -> 0=4k, 1=8k */
 #define	CARTRIDGE_VIC20_DETECT		0

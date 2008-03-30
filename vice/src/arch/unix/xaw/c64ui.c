@@ -97,11 +97,6 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Super Snapshot 4 image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT, NULL },
-#if 0
-    { "Attach Ocean cartridge image...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_OCEAN, NULL },
-#endif
     { "--" },
     { "Set cartridge as default", (ui_callback_t)
       default_cartridge, NULL, NULL },
