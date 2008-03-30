@@ -298,61 +298,39 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
  * Functions to attach the disk image files.
  */
 
-static void vdrive_detach_image_log(unsigned int unit, const char *type,
-                                    disk_image_t *image)
-{
-    fsimage_t *fsimage;
-
-    fsimage = (fsimage_t *)(image->media);
-
-    log_message(vdrive_log, "Unit %d: %s disk image detached: %s.",
-                unit, type, fsimage->name);
-}
-
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                          vdrive_t *vdrive)
 {
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        vdrive_detach_image_log(unit, "D64", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D64");
         break;
       case DISK_IMAGE_TYPE_D67:
-        vdrive_detach_image_log(unit, "D67", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D67");
         break;
       case DISK_IMAGE_TYPE_D71:
-        vdrive_detach_image_log(unit, "D71", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D71");
         break;
       case DISK_IMAGE_TYPE_D81:
-        vdrive_detach_image_log(unit, "D81", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D81");
         break;
       case DISK_IMAGE_TYPE_D80:
-        vdrive_detach_image_log(unit, "D80", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D80");
         break;
       case DISK_IMAGE_TYPE_D82:
-        vdrive_detach_image_log(unit, "D82", image);
+        disk_image_detach_log(image, vdrive_log, unit, "D82");
         break;
       case DISK_IMAGE_TYPE_G64:
-        vdrive_detach_image_log(unit, "G64", image);
+        disk_image_detach_log(image, vdrive_log, unit, "G64");
         break;
       case DISK_IMAGE_TYPE_X64:
-        vdrive_detach_image_log(unit, "X64", image);
+        disk_image_detach_log(image, vdrive_log, unit, "X64");
         break;
       default:
         return;
     }
     vdrive_close_all_channels(vdrive);
     vdrive->image = NULL;
-}
-
-static void vdrive_attach_image_log(unsigned int unit, const char *type,
-                                    disk_image_t *image)
-{
-    fsimage_t *fsimage;
-
-    fsimage = (fsimage_t *)(image->media);
-
-    log_message(vdrive_log, "Unit %d: %s disk image attached: %s.",
-                unit, type, fsimage->name);
 }
 
 int vdrive_attach_image(disk_image_t *image, unsigned int unit,
@@ -362,42 +340,42 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        vdrive_attach_image_log(unit, "D64", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D64");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D67:
-        vdrive_attach_image_log(unit, "D67", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D67");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_2040;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D71:
-        vdrive_attach_image_log(unit, "D71", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D71");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D81:
-        vdrive_attach_image_log(unit, "D81", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D81");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1581;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D80:
-        vdrive_attach_image_log(unit, "D80", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D80");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8050;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D82:
-        vdrive_attach_image_log(unit, "D82", image);
+        disk_image_attach_log(image, vdrive_log, unit, "D82");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8250;
         vdrive->num_tracks = image->tracks;
         break;
       case DISK_IMAGE_TYPE_G64:
-        vdrive_attach_image_log(unit, "G64", image);
+        disk_image_attach_log(image, vdrive_log, unit, "G64");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = 35;
         break;
       case DISK_IMAGE_TYPE_X64:
-        vdrive_attach_image_log(unit, "X64", image);
+        disk_image_attach_log(image, vdrive_log, unit, "X64");
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = image->tracks;
         break;
@@ -547,21 +525,20 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
 {
     vdrive_t *vdrive;
     disk_image_t *image;
-    fsimage_t *fsimage;
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-    fsimage = (fsimage_t *)xmalloc(sizeof(fsimage_t));
 
-    image->media = fsimage;
-    image->device = DISK_IMAGE_DEVICE_FS;
     image->gcr = NULL;
     image->read_only = read_only;
 
-    fsimage->name = stralloc(name);
+    image->device = DISK_IMAGE_DEVICE_FS;
+
+    disk_image_media_create(image);
+
+    ((fsimage_t *)(image->media))->name = stralloc(name);
 
     if (disk_image_open(image) < 0) {
-        free(fsimage->name);
-        free(fsimage);
+        disk_image_media_destroy(image);
         free(image);
         log_error(LOG_ERR, "Cannot open file `%s'", name);
         return NULL;
@@ -582,9 +559,11 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
     image = vdrive->image;
 
     vdrive_detach_image(image, 100, vdrive);
+
     if (disk_image_close(image) < 0)
         return -1;
 
+    disk_image_media_destroy(image);
     free(image);
     free(vdrive);
 

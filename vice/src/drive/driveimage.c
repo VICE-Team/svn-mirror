@@ -214,13 +214,11 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
 int drive_image_attach(disk_image_t *image, unsigned int unit)
 {
     unsigned int dnr;
-    fsimage_t *fsimage;
 
     if (unit != 8 && unit != 9)
         return -1;
 
     dnr = unit - 8;
-    fsimage = (fsimage_t *)(image->media);
 
     if (drive_check_image_format(image->type, dnr) < 0)
         return -1;
@@ -234,24 +232,19 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(driveimage_log, "Unit %d: D64 disk image attached: %s.",
-                    unit, fsimage->name);
+        disk_image_attach_log(image, driveimage_log, unit, "D64");
         break;
       case DISK_IMAGE_TYPE_D67:
-        log_message(driveimage_log, "Unit %d: D67 disk image attached: %s.",
-                    unit, fsimage->name);
+        disk_image_attach_log(image, driveimage_log, unit, "D67");
         break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(driveimage_log, "Unit %d: D71 disk image attached: %s.",
-                    unit, fsimage->name);
+        disk_image_attach_log(image, driveimage_log, unit, "D71");
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(driveimage_log, "Unit %d: G64 disk image attached: %s.",
-                    unit, fsimage->name);
+        disk_image_attach_log(image, driveimage_log, unit, "G64");
         break;
       case DISK_IMAGE_TYPE_X64:
-        log_message(driveimage_log, "Unit %d: X64 disk image attached: %s.",
-                    unit, fsimage->name);
+        disk_image_attach_log(image, driveimage_log, unit, "X64");
         break;
       default:
         return -1;
@@ -282,35 +275,28 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
 int drive_image_detach(disk_image_t *image, unsigned int unit)
 {
     unsigned int dnr;
-    fsimage_t *fsimage;
 
     if (unit != 8 && unit != 9)
         return -1;
 
     dnr = unit - 8;
-    fsimage = (fsimage_t *)(image->media);
 
     if (drive[dnr].image != NULL) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            log_message(driveimage_log, "Unit %d: D64 disk image detached: %s.",
-                        unit, fsimage->name);
+            disk_image_detach_log(image, driveimage_log, unit, "D64");
             break;
           case DISK_IMAGE_TYPE_D67:
-            log_message(driveimage_log, "Unit %d: D67 disk image detached: %s.",
-                        unit, fsimage->name);
+            disk_image_detach_log(image, driveimage_log, unit, "D67");
             break;
           case DISK_IMAGE_TYPE_D71:
-            log_message(driveimage_log, "Unit %d: D71 disk image detached: %s.",
-                        unit, fsimage->name);
+            disk_image_detach_log(image, driveimage_log, unit, "D71");
             break;
           case DISK_IMAGE_TYPE_G64:
-            log_message(driveimage_log, "Unit %d: G64 disk image detached: %s.",
-                        unit, fsimage->name);
+            disk_image_detach_log(image, driveimage_log, unit, "G64");
             break;
           case DISK_IMAGE_TYPE_X64:
-            log_message(driveimage_log, "Unit %d: X64 disk image detached: %s.",
-                        unit, fsimage->name);
+            disk_image_detach_log(image, driveimage_log, unit, "X64");
             break;
           default:
             return -1;
