@@ -74,10 +74,12 @@ store_func_ptr_t _mem_write_tab[0x101];
 read_func_ptr_t _mem_read_tab_watch[0x101];
 store_func_ptr_t _mem_write_tab_watch[0x101];
 BYTE *_mem_read_base_tab[0x101];
+int mem_read_limit_tab[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
+int *mem_read_limit_tab_ptr;
 
 /* Flag: nonzero if the ROM has been loaded. */
 static int rom_loaded = 0;
@@ -524,12 +526,14 @@ static void set_std_9tof(void)
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
             _mem_read_base_tab[i] = NULL;
+            mem_read_limit_tab[i] = 0;
         }
     } else {
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = ram9 ? read_ram : read_rom;
             _mem_write_tab[i] = store;
             _mem_read_base_tab[i] = ram9 ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
+            mem_read_limit_tab[i] = 0x9ffd;
         }
     }
 
@@ -538,6 +542,7 @@ static void set_std_9tof(void)
         _mem_read_tab[i] = rama ? read_ram : read_rom;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rama ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
+        mem_read_limit_tab[i] = 0x9ffd;
     }
 
     /* Setup ROM at $B000 - $E7FF. */
@@ -545,6 +550,7 @@ static void set_std_9tof(void)
         _mem_read_tab[i] = read_rom;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rom + ((i & 0x7f) << 8);
+        mem_read_limit_tab[i] = 0xe7fd;
     }
 
     l = ((0xe800 + pet.IOSize) >> 8) & 0xff;
@@ -554,18 +560,21 @@ static void set_std_9tof(void)
     _mem_read_tab[0xe8] = read_io;
     _mem_write_tab[0xe8] = store_io;
     _mem_read_base_tab[0xe8] = NULL;
+    mem_read_limit_tab[0xe8] = 0;
 
     /* ... and unused address space behind it */
     for (i = 0xe9; i < l; i++) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = NULL;;
+        _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     if(pet.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
-        _mem_read_base_tab[0xef] = NULL;;
+        _mem_read_base_tab[0xef] = NULL;
+        mem_read_limit_tab[0xef] = 0;
     }
 
     /* Setup ROM at $e800 + pet.IOSize - $ffff */
@@ -573,9 +582,11 @@ static void set_std_9tof(void)
         _mem_read_tab[i] = read_rom;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = rom + ((i & 0x7f) << 8);
+        mem_read_limit_tab[i] = 0xfffd;
     }
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
+    mem_read_limit_tab_ptr = mem_read_limit_tab;
 }
 
 /* FIXME: TODO! */
@@ -652,6 +663,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         _mem_read_tab[l] = read_ram;
                         _mem_write_tab[l] = store_ram;
                         _mem_read_base_tab[l] = ram + (l << 8);
+                        mem_read_limit_tab[l] = 0x8ffd;
                     }
                 }
                 bank8offset = 0x8000 + ((value & 0x04) ? 0x8000 : 0);
@@ -662,6 +674,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                     else
                         _mem_write_tab[l] = store_ext8;
                     _mem_read_base_tab[l] = ram + bank8offset + (l << 8);
+                    mem_read_limit_tab[l] = 0xbffd;
                 }
             }
             if (changed & 0xca) {       /* $c000-$ffff */
@@ -672,6 +685,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         _mem_read_tab[l] = read_io;
                         _mem_write_tab[l] = store_io;
                         _mem_read_base_tab[l] = NULL;
+                        mem_read_limit_tab[l] = 0;
                     } else {
                         _mem_read_tab[l] = read_extC;
                         if (protected)
@@ -679,6 +693,11 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         else
                             _mem_write_tab[l] = store_extC;
                         _mem_read_base_tab[l] = ram + bankCoffset + (l << 8);
+			if(l < 0xe8) {
+                            mem_read_limit_tab[l] = 0xe7fd;
+			} else {
+                            mem_read_limit_tab[l] = 0xfffd;
+			}
                     }
                 }
                 store_ff = _mem_write_tab[0xff];
@@ -689,6 +708,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                 _mem_read_tab[l] = read_ram;
                 _mem_write_tab[l] = store_ram;
                 _mem_read_base_tab[l] = ram + (l << 8);
+                mem_read_limit_tab[l] = 0x8ffd;
             }
             set_std_9tof();
             store_ff = _mem_write_tab[0xff];
@@ -714,14 +734,16 @@ static void set_vidmem(void) {
         _mem_read_tab[i] = read_ram;
         _mem_write_tab[i] = store_ram;
         _mem_read_base_tab[i] = ram + (i << 8);
+        mem_read_limit_tab[i] = (l<<8)-3;
     }
 
-    /* Setup unused from $8000 + pet.videoSize to $87ff */
+    /* Setup video mirror from $8000 + pet.videoSize to $87ff */
     /* falls through if videoSize >= 0x800 */
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
         _mem_read_base_tab[i] = ram + 0x8000 + ((i << 8) & (pet.videoSize - 1));
+        mem_read_limit_tab[i] = 0x87fd;
     }
 
     /* Setup unused from $8800 to $8fff */
@@ -730,6 +752,7 @@ static void set_vidmem(void) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_dummy;
         _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 }
 
@@ -750,6 +773,7 @@ void initialize_memory(void)
         _mem_read_tab[i] = read_ram;
         _mem_write_tab[i] = store_ram;
         _mem_read_base_tab[i] = ram + (i << 8);
+        mem_read_limit_tab[i] = (l << 8) - 3;
     }
 
     /* Setup unused from pet.ramSize to $7fff */
@@ -757,6 +781,7 @@ void initialize_memory(void)
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_dummy;
         _mem_read_base_tab[i] = NULL;
+        mem_read_limit_tab[i] = 0;
     }
 
     set_vidmem();
@@ -770,10 +795,12 @@ void initialize_memory(void)
     if (pet.pet2k) {            /* map in IEEE488 bug fixes */
         _mem_read_tab[0xef] = read_rom;
         _mem_read_base_tab[0xef] = rom + ((0xef & 0x7f) << 8);
+        mem_read_limit_tab[0xef] = 0xeffd;
     }
     _mem_read_tab[0x100] = _mem_read_tab[0];
     _mem_write_tab[0x100] = _mem_write_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
+    mem_read_limit_tab[0x100] = mem_read_limit_tab[0];
 
     map_reg = 0;
 
