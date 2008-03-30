@@ -44,6 +44,7 @@
 #include "console.h"
 #include "debug.h"
 #include "drive.h"
+#include "fliplist.h"
 #include "fullscreen.h"
 #include "init.h"
 #include "initcmdline.h"
@@ -60,7 +61,6 @@
 #include "utils.h"
 #include "version.h"
 #include "video.h"
-#include "fliplist.h"
 
 
 int vsid_mode = 0;
@@ -72,10 +72,7 @@ static int init_done;
 
 /* ------------------------------------------------------------------------- */
 
-/* This is the main program entry point.  When not compiling for Windows,
-   this is `main()'; on Windows we have to #define the name to something
-   different because the standard entry point is `WinMain()' there.  */
-
+/* This is the main program entry point.  Call this from `main()'.  */
 int main_program(int argc, char **argv)
 {
     int i;
@@ -99,7 +96,7 @@ int main_program(int argc, char **argv)
     /* gettext stuff, not needed in Gnome, but here I can
        overrule the default locale path */
     setlocale(LC_ALL, "");
-    bindtextdomain (PACKAGE, NLS_LOCALEDIR);
+    bindtextdomain(PACKAGE, NLS_LOCALEDIR);
     textdomain(PACKAGE);
 #endif
 
@@ -170,9 +167,8 @@ int main_program(int argc, char **argv)
     if (initcmdline_check_args(argc, argv) < 0)
         return -1;
 
-    if (log_init() < 0) {
+    if (log_init() < 0)
         archdep_startup_log_error("Cannot startup logging system.\n");
-    }
 
     program_name = archdep_program_name();
 
@@ -182,9 +178,9 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "Welcome to %s, the free portable Commodore %s Emulator.",
                 program_name, machine_name);
     log_message(LOG_DEFAULT, " ");
-    log_message(LOG_DEFAULT, "Written by");
-    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz,");
-    log_message(LOG_DEFAULT, "A. Matthies, M. Pottendorfer, M. Brenner, S. Trikaliotis.");
+    log_message(LOG_DEFAULT, "Current VICE team members:");
+    log_message(LOG_DEFAULT, "A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz, A. Matthies,");
+    log_message(LOG_DEFAULT, "M. Pottendorfer, M. Brenner, S. Trikaliotis.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
