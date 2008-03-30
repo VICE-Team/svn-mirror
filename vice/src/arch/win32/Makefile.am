@@ -147,6 +147,7 @@ EXTRA_DIST = \
 	iecbus.dsp \
 	iecieee.dsp \
 	ieee.dsp \
+	fileio.dsp \
 	fsdevice.dsp \
 	gfxoutputdrv.dsp \
 	imagecontents.dsp \
