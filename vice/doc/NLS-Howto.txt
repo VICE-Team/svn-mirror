@@ -1,21 +1,3 @@
-Hi Andreas,
-
-in data 2001.09.10 22:55:54 +0200 Andreas Boose ha scritto:
-> > I would like to write a brief text on how to make such a traslation, to
-> > encourage other to translate VICE in their own language.
-> 
-> ok.
-
-Here it is a little README about NSL in VICE. I really hope it will be
-helpful. 
-Let me know your kind remarks.
-
-Bye,
-
-Andrea.
-
----8<---CUT HERE---8<---CUT HERE---8<---CUT HERE---8<---
-
 0 Introduction
 --------------
 
@@ -28,8 +10,9 @@ Message catalogs can exist in various formats. The human-readable and
 -editable format is the PO file format. These human-readable files are
 then translated to MO files which can be used by the gettext library.
 
-Please refer to the GNU gettext documentation ('info gettext') for 
-further details.
+Please refer to the (quite good) GNU gettext documentation for further
+details. Read it with info ('info gettext'), or go online to 
+http://www.gnu.org/software/gettext/gettext.html
 
 
 1 Compiling VICE with localized messages
@@ -47,21 +30,29 @@ If you don't know how to compile VICE, please read the INSTALL file.
 ----------------------------
 
 You have to set the `LANG' environment variable to the appropriate
-language code before using VICE. ISO 639 language codes can be found
+language code before running VICE. ISO 639 language codes can be found
 in the gettext manual.
 
 For example, if you speak Swedish, just type `export LANG=sv' at the 
 BASH prompt. This can be done from your `.login' or `.profile' file, 
 once and for all.
 
+If this doesn't work on your system (e.g. you get messages like this:
+  `locale not supported by C library'
+try to set the environment variable `LANGUAGE' or `LC_MESSAGES' to the
+values described above.
 
 3 Adding new messages
 ---------------------
 
 1. Edit the ALL_LINGUAS line in 'configure.in' and add your
-   language code, eg. Italian:
+   language code. In this example we will use Italian, so we
+   will add "it":
 
    ALL_LINGUAS="de sv fr it"
+                        ^^^^
+   As I said earlier, ISO 639 language codes can be found in
+   the gettext manual.
 
 2. Execute 'autoconf' to create a new 'configure' script.
 
@@ -71,12 +62,15 @@ once and for all.
 
 5. Do a 'cp vice.pot it.po'. 'vice.pot' is is the common ground 
    for the translation teams to produce one PO for their language.
+   'it.po' is the new translation file for your language. The part
+   before the dot is your language code.
 
 6. Now use the editor of your choice to provide translations in
    'it.po'. There is an emacs major mode (po-mode) that eases this
-   process.
+   process. Please also read paragraph 5!
 
-7. Now issue 'make'. This causes an 'it.gmo' to be created.
+7. Now issue 'make'. This causes an 'it.gmo' to be created. It is the
+   file that will be used by the gettext library.
 
 8. Do a 'make install' to install 'it.gmo' to the appropriate directory.
 
@@ -86,11 +80,45 @@ once and for all.
 
 VICE messages change at every release. Go to the 'po' subdirectory and 
 do a 'make update-po'. This updates all existing PO-files (removing 
-obsolete translations, providing new, emptry entries). Check 'it.po' and
-provide translations for the new, empty entries.
+obsolete translations, providing new, empty entries). Check the PO file
+for your language and provide translations for the new, empty entries.
+
+
+5 Notes on translating messages
+-------------------------------
+
+A leading '*' is a hint for the menu generator to generate a
+checkbox. In your translation just leave the '*' in the beginning:
+
+#: src/arch/unix/c128ui.c:78 src/arch/unix/uicrtc.c:58
+#: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1215
+msgid "*Double size"
+msgstr "*Doppelte GröÂße"
+
+C format strings must be saved within the translation otherwhise
+the program might fail.
+
+The example below tries to print a number (%d) and then a string
+(%s). Your translation must also adhere this sequence (%d before
+%s), otherwhise strange things (even a crash) might happen.
+
+#: src/arch/unix/archdep.c:233
+#, c-format
+msgid "Received signal %d (%s)."
+msgstr "Signal %d (%s) empfangen."
+
+Luckily those situations are rare within Vice.
+
+BTW, the `c-format' above indicates that a C-format string is
+contained in the to-be-translated msgid.
+ 
+Other format specifiers (\n, etc.) are used for print formatting,
+and are not strictly required. It depends on the language what is
+nicely formatted and what is not.
 
 
 -- 
-Andrea Musuruane
+Andrea Musuruane, 
 http://musuruane.cjb.net
 
+Martin Pottendorfer (pottendo@utanet.at)

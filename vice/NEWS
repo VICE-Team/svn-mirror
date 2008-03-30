@@ -78,6 +78,18 @@ list of all the changes in the code.
 
 - renamed c1541 to x1541
 
+** Unix changes
+---------------
+
+- New italian translation. Credits to Andrea Musuruane
+
+- PAL Control UI in the Gnome port
+
+- Triple buffering DGA2 direct-into-fb-rendering support (root
+  privileges needed)
+  DGA2 XImage rendering currently not supported.
+  Fullscreen is still in beta status. 
+
 ** Miscellaneous changes
 ------------------------
 
@@ -85,6 +97,8 @@ list of all the changes in the code.
 
 - Added '-h' as alias for '-?' and '-help'
 
+- Added a NLS-Howto to guide new translators. Credits to Andrea
+  Musuruane 
 
 * Changes in VICE 1.7
 =====================

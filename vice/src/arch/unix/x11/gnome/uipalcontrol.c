@@ -29,23 +29,41 @@
 #include <gnome.h>
 
 #include "ui.h"
+#include "video.h"
 #include "resources.h"
 
 typedef struct pal_res_s {
     char *label;
     char *res;
+    GtkObject *adj;
 } pal_res_t;
 
-pal_res_t ctrls[] = { { "Saturation", "ColorSaturation" },
-		      { "Contrast", "ColorContrast" },
-		      { "Brightness", "ColorBrightness" },
-		      { "Gamma", "ColorGamma" },
-		      { NULL, NULL } };
+static pal_res_t ctrls[] = { { N_("Saturation"), "ColorSaturation", NULL },
+			     { N_("Contrast"), "ColorContrast", NULL },
+			     { N_("Brightness"), "ColorBrightness", NULL },
+			     { N_("Gamma"), "ColorGamma", NULL },
+			     { NULL, NULL } };
 
-void upd_sb (GtkAdjustment *adj, gpointer data)
+static void upd_sb (GtkAdjustment *adj, gpointer data)
 {
     pal_res_t *p = (pal_res_t *) data;
     resources_set_value(p->res, (resource_value_t) (int) adj->value);
+}
+
+static void pal_ctrl_reset (GtkWidget *w, gpointer data)
+{
+    resources_set_value("ColorSaturation", (resource_value_t) 1000);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[0].adj),
+			     (gfloat) 1000);
+    resources_set_value("ColorContrast", (resource_value_t) 1100);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[1].adj),
+			     (gfloat) 1100);
+    resources_set_value("ColorBrightness", (resource_value_t) 1100);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[2].adj),
+			     (gfloat) 1100);
+    resources_set_value("ColorGamma", (resource_value_t) 880);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[3].adj),
+			     (gfloat) 880);
 }
 
 GtkWidget *build_pal_ctrl_widget(void)
@@ -54,23 +72,30 @@ GtkWidget *build_pal_ctrl_widget(void)
     GtkObject *adj;
     GtkWidget *sb;
     GtkWidget *f;
-    GtkWidget *l;
+    GtkWidget *l, *c;
+    GtkWidget *rb;
     int i, v;
     
     f = gtk_frame_new(_("PAL Settings"));
     
-    b = gtk_vbox_new(FALSE, 10);
-
+    b = gtk_vbox_new(FALSE, 5);
+    
     for (i = 0; ctrls[i].label; i++)
     {
     
 	hb = gtk_hbox_new(FALSE, 0);
 
+	c = gtk_hbox_new(FALSE, 0);
+	gtk_widget_set_usize(GTK_WIDGET(c), 80, 10);
+	
 	l = gtk_label_new(_(ctrls[i].label));
-	gtk_box_pack_start(GTK_BOX(hb), l, FALSE, FALSE, 5);
+	gtk_container_add(GTK_CONTAINER(c), l);
 	gtk_widget_show(l);
 	
-	adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
+	gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
+	gtk_widget_show(c);
+	
+	ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
 	
 	resources_get_value(ctrls[i].res, (resource_value_t *) &v);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat) v);
@@ -88,6 +113,14 @@ GtkWidget *build_pal_ctrl_widget(void)
 	gtk_widget_show(hb);
     }
     
+    rb = gtk_button_new_with_label(_("Reset PAL Settings"));
+    gtk_box_pack_start(GTK_BOX(b), rb, FALSE, FALSE, 5);
+    gtk_signal_connect(GTK_OBJECT(rb), "clicked",
+		       GTK_SIGNAL_FUNC(pal_ctrl_reset),
+		       rb);
+    GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
+    gtk_widget_show(rb);
+
     gtk_widget_show(b);
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(f);

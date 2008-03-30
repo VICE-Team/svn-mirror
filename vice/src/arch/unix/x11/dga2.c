@@ -230,6 +230,7 @@ int fullscreen_vidmode_available(void)
 
     display = ui_get_display_ptr();
 
+#if 0
 #ifndef FS_DEBUG
     if (XF86DGAForkApp(XDefaultScreen(display)) != 0)
     {
@@ -238,7 +239,7 @@ int fullscreen_vidmode_available(void)
     }
     log_message(LOG_DEFAULT, _("Successfully forked DGA"));
 #endif
-
+#endif
     if (! XDGAQueryVersion (display, &MajorVersion, &MinorVersion)) {
         log_error(LOG_DEFAULT, 
 		  _("Unable to query video extension version - disabling fullscreen."));

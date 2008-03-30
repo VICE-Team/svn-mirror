@@ -115,7 +115,7 @@ static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
 static GtkWidget *status_bar;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
-static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox;
+static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
 static char *(*current_image_contents_func)(const char *);
 static GdkFont *fixedfont, *textfont;
 /* FIXME, ask Xresources here */
@@ -745,14 +745,16 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(speed_label);      
 
     as=&app_shells[num_app_shells - 1];
+
     /* PAL Control checkbox */
     pal_ctrl_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
-    pcb = gtk_check_button_new_with_label(_("PAL Controls"));
-    gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
+    pcb = pal_tb = gtk_check_button_new_with_label(_("PAL Controls"));
+    GTK_WIDGET_UNSET_FLAGS (pcb, GTK_CAN_FOCUS);
     gtk_signal_connect(GTK_OBJECT(pcb), "toggled", 
 		       GTK_SIGNAL_FUNC(ui_update_pal_checkbox),
 		       pcb);
+    gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
     gtk_widget_show(pcb);
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
@@ -1720,10 +1722,16 @@ void ui_update_pal_ctrls(int v)
 	return;
 
     if (v)
-	gtk_widget_show(pal_ctrl_checkbox);
-    else
-	gtk_widget_hide(pal_ctrl_checkbox);
-    ui_update_pal_checkbox(pal_ctrl_checkbox, NULL);
+    {
+	if (pal_tb)
+	{
+	    gtk_widget_show(pal_ctrl_checkbox);
+	    ui_update_pal_checkbox(GTK_WIDGET(pal_tb), NULL);
+	}
+	return;
+    }
+    gtk_widget_hide(pal_ctrl_checkbox);
+    gtk_widget_hide(pal_ctrl_widget);
 }
 
 /* ------------------------------------------------------------------------- */

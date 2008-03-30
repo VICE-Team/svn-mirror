@@ -53,7 +53,7 @@ int video_render_get_fake_pal_state(void)
 void video_render_initconfig(video_render_config_t *config)
 {
 	int i;
-	config->rendermode=VIDEO_RENDER_RGB_1X1;
+	config->rendermode=VIDEO_RENDER_NULL;
 	config->doublescan=0;
 	for (i=0;i<256;i++) config->physical_colors[i]=0;
 }
@@ -104,6 +104,9 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 
 	switch (rendermode)
 	{
+	case VIDEO_RENDER_NULL:
+		break;
+
 	case VIDEO_RENDER_PAL_1X1:
 		if (delayloop)
 		{

@@ -1,3 +1,13 @@
+2001-12-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.37.
+
+2001-12-09  pottendo  <pottendo@utanet.at>
+
+	* doc/NLS-Howto.txt: Update from Andrea and me.
+
+	* NEWS: Updated a few Unix changes.
+
 2001-12-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.36.
