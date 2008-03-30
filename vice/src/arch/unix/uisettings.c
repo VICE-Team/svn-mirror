@@ -34,14 +34,17 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "archapi.h"
 #include "debug.h"
+#include "fliplist.h"
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #include "fullscreen.h"
 #endif
 #ifdef USE_XF86_VIDMODE_EXT
 #include "x11/vidmode.h"
 #endif
-#include "kbd.h"
+#include "keyboard.h"
+#include "machine.h"
 #include "mem.h"
 #include "resources.h"
 #include "romset.h"
@@ -54,10 +57,7 @@
 #include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
-#include "archapi.h"
-#include "fliplist.h"
 
-/* ------------------------------------------------------------------------- */
 
 /* Big kludge to get the ticks right in the refresh rate submenu.  This only
    works if the callback for the "custom" setting is the last one to be
@@ -307,7 +307,7 @@ static UI_CALLBACK(select_user_keymap)
 
     resources_get_value("KeymapIndex", (resource_value_t)&kindex);
     kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
-    resname = keymap_res_name_list[kindex];
+    resname = machine_keymap_res_name_list[kindex];
 
     vsync_suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, False, last_dir,
@@ -337,7 +337,7 @@ static UI_CALLBACK(dump_keymap)
     vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
                         wd, MAXPATHLEN) == UI_BUTTON_OK) {
-        if (kbd_dump_keymap(wd) < 0)
+        if (keyboard_keymap_dump(wd) < 0)
             ui_error(strerror(errno));
     }
     free(wd);
