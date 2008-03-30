@@ -1,15 +1,25 @@
 							-*- Outline -*-
 
+Urgent things to do!
+====================
+
+These things must definitely be done /before/ ever thinking about a
+release:
+
+- support watchpoints on all the models;
+
+- support autostart and keyboard buffer handling on the PET;
+
+- complete the MS-DOS port;
+
+- check the SID drivers (the Sun one does not work anymore!);
+
+- make c1541 compile again (it does not compile because of missing
+  references now, and I am not sure how to solve this).
+
+
 What are we going to do next
 ============================
-
-Important notice: we are sorry but we really cannot keep up with the
-x128 development.  x128 (the C128 emulator, that was included in VICE
-0.10.0 and 0.11.0) will not be maintained any longer, though we would
-like it to be.  If you feel like you can help the project and keep
-x128 alive, you are of course welcome to send your contributions.
-(Notice that `our' x128 has nothing to do with the X128 ZX-Spectrum
-Emulator, whose name was chosen independently.)
 
 * General improvements
 ----------------------
@@ -84,6 +94,8 @@ Emulator, whose name was chosen independently.)
   - Better sound emulation.
 
   - Tape support.
+
+  - Autostart does not work (yet)!
 
 * 1541 improvements
 -------------------
