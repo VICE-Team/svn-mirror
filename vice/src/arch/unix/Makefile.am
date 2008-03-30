@@ -1,9 +1,13 @@
 # Makefile.am for the Unix version of `libarch.a'.
 
+if UNIX_GP2X_COMPILE
+SUBDIRS = gp2x
+else
 if NEED_READLINE
 SUBDIRS = gui x11 readline
 else
 SUBDIRS = gui x11
+endif
 endif
 
 INCLUDES = \
@@ -116,6 +120,10 @@ EXTRA_DIST = \
 .PHONY: x11
 x11:
 	(cd x11; $(MAKE))
+
+.PHONY: gp2x
+gp2x:
+	(cd gp2x; $(MAKE))
 
 .PHONY: gui
 gui:
