@@ -1,3 +1,12 @@
+2000-07-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.31.
+
+        * configure.in: Do not define `UNSTABLE'.
+
+	* BUGS, INSTALL, NEWS, README, vice.spec, doc/Readme.dos:
+	Updated.
+
 2000-07-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.30.
