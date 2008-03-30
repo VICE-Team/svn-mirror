@@ -679,7 +679,7 @@ void SwitchToFullscreenMode(HWND hwnd)
     int refreshrate;
     video_canvas_t *c;
     HRESULT ddresult;
-    DDSURFACEDESC desc;
+    /*DDSURFACEDESC desc;*/
     DDSURFACEDESC desc2;
     GUID *device_guid;
     int i;
@@ -792,7 +792,7 @@ void SwitchToWindowedMode(HWND hwnd)
 {
     video_canvas_t *c;
     HRESULT ddresult;
-    DDSURFACEDESC desc;
+    /*DDSURFACEDESC desc;*/
     DDSURFACEDESC desc2;
     HDC hdc;
 
