@@ -90,20 +90,20 @@ int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     /* 8580 + digi boost. */
     psid->sid.input(model == 2 ? -32768 : 0);
 
-    psid->sid.enable_filter(filters_enabled?true:false);
-    psid->sid.enable_external_filter(filters_enabled?true:false);
+    psid->sid.enable_filter(filters_enabled ? true : false);
+    psid->sid.enable_external_filter(filters_enabled ? true : false);
 
     switch (sampling) {
-    default:
-    case 0:
+      default:
+      case 0:
         method = SAMPLE_FAST;
 	strcpy(method_text, "fast");
 	break;
-    case 1:
+      case 1:
         method = SAMPLE_INTERPOLATE;
 	strcpy(method_text, "interpolating");
 	break;
-    case 2:
+      case 2:
         method = SAMPLE_RESAMPLE;
 	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
 	break;
