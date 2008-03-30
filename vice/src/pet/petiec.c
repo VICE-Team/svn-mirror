@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "iecdrive.h"
+#include "log.h"
 #include "types.h"
 
 void iec_init(void)
@@ -50,23 +51,23 @@ void iec_update_ports_embedded(void)
 
 void iec_drive0_write(BYTE data)
 {
-    printf("BUG: iec_drive0_write(%02x)\n", data);
+    log_message(LOG_ERR, "BUG: iec_drive0_write(%02x).", data);
 }
 
 void iec_drive1_write(BYTE data)
 {
-    printf("BUG: iec_drive1_write(%02x)\n", data);
+    log_message(LOG_ERR, "BUG: iec_drive1_write(%02x).", data);
 }
 
 BYTE iec_drive0_read(void)
 {
-    printf("BUG: iec_drive0_read()\n");
+    log_message(LOG_ERR, "BUG: iec_drive0_read().");
     return 0;
 }
 
 BYTE iec_drive1_read(void)
 {
-    printf("BUG: iec_drive1_read()\n");
+    log_message(LOG_ERR, "BUG: iec_drive1_read().");
     return 0;
 }
 
