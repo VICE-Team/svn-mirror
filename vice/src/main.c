@@ -62,6 +62,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "version.h"
 #include "video.h"
 
 #ifdef HAVE_MOUSE

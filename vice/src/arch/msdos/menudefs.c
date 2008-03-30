@@ -61,6 +61,7 @@
 #include "ui.h"
 #include "uisnapshot.h"
 #include "utils.h"
+#include "version.h"
 #include "video.h"
 
 /* ------------------------------------------------------------------------- */

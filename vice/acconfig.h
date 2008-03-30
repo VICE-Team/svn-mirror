@@ -59,12 +59,6 @@
 /* Is a BSD compatible joystick support avaiable?  */
 #undef BSD_JOYSTICK
 
-/* Package name.  */
-#define PACKAGE ""
-
-/* Version number.  */
-#define VERSION ""
-
 /* Define if this version is unstable.  */
 #define UNSTABLE
 

@@ -29,7 +29,7 @@
  *
  */
 
-#define _UI_XAW_C
+#define _UI_C
 
 #include "vice.h"
 
@@ -65,18 +65,19 @@
 
 #include "cmdline.h"
 #include "log.h"
+#include "kbd.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mouse.h"
 #include "resources.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "utils.h"
+#include "version.h"
 #include "vsync.h"
-#include "mouse.h"
-#include "kbd.h"
 
-#include "dummies.h"
+void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -84,6 +85,7 @@ int screen;
 GdkVisual *visual;
 int depth = X_DISPLAY_DEPTH;
 int have_truecolor;
+char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 
 static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
@@ -821,7 +823,15 @@ static String fallback_resources[] = {
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
-    gnome_init(PACKAGE, VERSION, *argc, argv);
+    /* Fake Gnome to see empty arguments; 
+       Generaly we should use a `popt_table', either by converting the
+       registered options to this, or to introduce popt in the generic part,
+       case we have `libgnomeui' around.
+       For now I discard gnome-specific options. FIXME MP */
+    char *fake_argv[2];
+    fake_argv[0] = argv[0];
+    fake_argv[1] = NULL;
+    gnome_init(PACKAGE, VERSION, 1, fake_argv);
     
     display = GDK_DISPLAY();
 
@@ -875,6 +885,27 @@ void mouse_handler(GtkWidget *w, GdkEvent *event,gpointer data)
         mouse_move(mevent->x,mevent->y);
     }
 }
+
+/* 
+ * Preliminary dummy menus to be removed and replaced by the dynamically
+ * generated menus. FIXME
+ */
+static GnomeUIInfo menu1[] = {
+  GNOMEUIINFO_MENU_CLOSE_ITEM(delete_event, NULL),
+  GNOMEUIINFO_MENU_EXIT_ITEM(delete_event, NULL),
+  GNOMEUIINFO_END
+};
+
+static GnomeUIInfo help_menu[] = {
+    GNOMEUIINFO_MENU_ABOUT_ITEM(ui_about, NULL),
+    GNOMEUIINFO_END
+};
+
+static GnomeUIInfo main_menu[] = {
+    GNOMEUIINFO_SUBTREE("Menu", menu1),
+    GNOMEUIINFO_MENU_HELP_TREE(help_menu),
+    GNOMEUIINFO_END
+};
 
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
@@ -941,7 +972,7 @@ int ui_init_finish(void)
 	}
     }
 
-    _ui_top_level = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    _ui_top_level = gnome_app_new(PACKAGE, PACKAGE);
     
     gtk_signal_connect(GTK_OBJECT(_ui_top_level),"key-press-event",
 		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
@@ -965,7 +996,7 @@ int ui_init_finish(void)
 		       GTK_SIGNAL_FUNC(delete_event),NULL);
 
     pane = gtk_vbox_new(FALSE,0);
-    gtk_container_add(GTK_CONTAINER(_ui_top_level),pane);
+    gnome_app_set_contents(GNOME_APP(_ui_top_level), pane);
     gtk_widget_show(pane);
 
     canvas = gtk_drawing_area_new();
@@ -1211,7 +1242,6 @@ void ui_create_dynamic_menues()
 
 }
 
-
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(GtkWidget *w)
 {
@@ -1222,6 +1252,7 @@ void ui_set_left_menu(GtkWidget *w)
 void ui_set_right_menu(GtkWidget *w)
 {
     right_menu = w;
+    gnome_app_create_menus(GNOME_APP(_ui_top_level), main_menu);
 }
 
 void ui_set_application_icon(Pixmap icon_pixmap)
@@ -1543,7 +1574,8 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 
 }
 
-void ui_display_drive_track(int drive_number, double track_number)
+void ui_display_drive_track(int drive_number, int drive_base,
+			    double track_number)
 {
     int i;
     char str[256];
@@ -2310,6 +2342,15 @@ int ui_emulation_is_paused(void)
     return is_paused;
 }
 
+void ui_set_drive8_menu (Widget w)
+{
+    fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);
+}
+
+void ui_set_drive9_menu (Widget w)
+{
+    fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);
+}
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void)

@@ -62,6 +62,7 @@
 #include "uisnapshot.h"
 #include "uisound.h"
 #include "utils.h"
+#include "version.h"
 #include "vsync.h"
 #include "winmain.h"
 

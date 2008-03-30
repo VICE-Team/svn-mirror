@@ -104,6 +104,8 @@ noinst_HEADERS = \
 	uiapi.h \
 	usleep.h \
 	utils.h \
+	version.h.in \
+	version.h \
 	via.h \
 	viacore.h \
 	vice.h \
