@@ -20,6 +20,8 @@ libdrive_a_SOURCES = \
 	drive.h \
 	drivecpu.c \
 	drivecpu.h \
+	drivemem.c \
+	drivemem.h \
 	drivetypes.h \
 	fdc.h \
 	fdc.c \
