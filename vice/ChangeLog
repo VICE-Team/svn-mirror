@@ -1,3 +1,38 @@
+2005-10-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.21.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* doc/vice.texi, doc/html/index.html, README, vice.spec:
+	Updated.
+
+2005-09-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* README: Added QNX 6.x.
+
+	* doc/html/index.html, doc/html/plain/NEWS, doc/vice.texi:
+	Added Solaris binary packages.
+
+2005-09-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed a typo that lead to a bogus configure
+	script.
+
+2005-09-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added the configure option --without-oss and
+	added checking of <soundcard.h> for openbsd.
+
+2005-09-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed several sound driver checking problems
+
+2005-09-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Added items that I have been involved
+	in for the release of VICE 1.17.
+
 2005-09-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.20.
