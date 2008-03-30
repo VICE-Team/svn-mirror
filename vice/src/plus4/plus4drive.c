@@ -26,16 +26,32 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "drive.h"
 #include "iec.h"
 #include "iecieee.h"
 #include "machine-drive.h"
+#include "resources.h"
 #include "tcbm.h"
 #include "types.h"
 
 
+static const resource_t resources[] = {
+    { "Drive8Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_1551,
+      (resource_value_t *)&(drive[0].type),
+      drive0_resources_type, NULL },
+    { "Drive9Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_NONE,
+      (resource_value_t *)&(drive[1].type),
+      drive1_resources_type, NULL },
+    { NULL }
+};
+
+
 int machine_drive_resources_init(void)
 {
-    return iec_drive_resources_init() | tcbm_drive_resources_init();
+    return resources_register(resources) | iec_drive_resources_init()
+           | tcbm_drive_resources_init();
 }
 
 void machine_drive_resources_shutdown(void)

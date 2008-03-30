@@ -291,8 +291,6 @@ extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, unsigned int dnr);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
-extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
-extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr);
 extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int new_sync, unsigned int dnr);
@@ -305,7 +303,8 @@ extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 */
 extern BYTE drive_write_protect_sense(drive_t *dptr);
-extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
+extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);
+extern int reload_rom_1541(char *name);
 extern void drive_set_half_track(int num, drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
 extern void drive_set_disk_memory(unsigned int dnr, BYTE *id,
@@ -325,6 +324,9 @@ extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_num_leds(unsigned int dnr);
 
 extern void drive_setup_context(void);
+
+extern int drive0_resources_type(void *v, void *param);
+extern int drive1_resources_type(void *v, void *param);
 
 #endif
 

@@ -43,8 +43,6 @@
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
-static int set_drive0_type(resource_value_t v, void *param);
-static int set_drive1_type(resource_value_t v, void *param);
 
 static int set_drive_true_emulation(resource_value_t v, void *param)
 {
@@ -78,7 +76,7 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_drive0_type(resource_value_t v, void *param)
+int drive0_resources_type(resource_value_t v, void *param)
 {
     unsigned int type;
     int busses;
@@ -102,7 +100,7 @@ static int set_drive0_type(resource_value_t v, void *param)
         log_warning(drive[0].log,
                     "Dual disk drive disables second emulated drive");
 
-        set_drive1_type((resource_value_t)DRIVE_TYPE_NONE, NULL);
+        drive1_resources_type((resource_value_t)DRIVE_TYPE_NONE, NULL);
     }
 
     switch (type) {
@@ -145,7 +143,7 @@ static int set_drive0_type(resource_value_t v, void *param)
     }
 }
 
-static int set_drive1_type(resource_value_t v, void *param)
+int drive1_resources_type(resource_value_t v, void *param)
 {
     unsigned int type;
     int busses;
@@ -217,12 +215,6 @@ static const resource_t resources[] = {
     { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
       set_drive_true_emulation, NULL },
-    { "Drive8Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_1541,
-      (resource_value_t *)&(drive[0].type),
-      set_drive0_type, NULL },
-    { "Drive9Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_NONE,
-      (resource_value_t *)&(drive[1].type),
-      set_drive1_type, NULL },
     { NULL }
 };
 
