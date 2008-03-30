@@ -801,8 +801,8 @@ Sound resources
      ("clicks") happen.  `0' means no pause is done.
 
 `SoundOversample'
-     Integer specifying the oversampling factor, ranging from `1' (no
-     oversampling) to `8' (8 times oversampling).
+     Integer specifying the oversampling factor, ranging from `0' (no
+     oversampling) to `3' (8 times oversampling).
 
 `SoundDeviceName'
      String specifying the audio driver.
