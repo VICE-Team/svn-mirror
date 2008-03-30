@@ -1,3 +1,27 @@
+2002-04-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.37.
+
+2002-04-11 Andreas Matthies <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_video.cc, ui_video.h: Added controls for
+	the PAL settings.
+
+2002-04-09  John Selck  <graham@cruise.de>
+
+	* arch/win32/vsyncarch.c: vsyncarch_verticalblank() now
+	synchronizes without changing the process priority of vice.
+	Introduced vsyncarch_prepare_vbl() to avoid problems with
+	the time-buffers when vertical blank sync is switched on.
+
+	* vsyncapi.h: Added prototype for vsyncarch_prepare_vbl().
+
+	* vsync.c: vsync_do_vsync() now only calls
+	vsyncarch_verticalblank() when vice is running at 100%
+	timer speed, no warp mode and ofcourse a usable video refresh
+	rate. When no vbl-sync is done, vsyncarch_prepare_vbl() is
+	called to keep the timer values up-to-date for vbl-sync.
+
 2002-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.36.

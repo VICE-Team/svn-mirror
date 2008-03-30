@@ -90,16 +90,13 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 
 }
 
-static unsigned long last;
+static unsigned long last = 0;
+static unsigned long nosynccount = 0;
 
-void vsyncarch_verticalblank(video_canvas_t *c, float rate)
+void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
 {
 	LARGE_INTEGER now;
-	HANDLE prc;
-	DWORD cls;
-	unsigned long nowi;
-	unsigned long max;
-	int i;
+	unsigned long nowi, lastx, max, frm, vbl;
 
 	if (c->refreshrate <= 0.0f) return;
 	if (!QueryPerformanceFrequency(&now)) return;
@@ -109,11 +106,8 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate)
 	nowi = (unsigned long)now.LowPart;
 #endif
 
-	max = (unsigned long)(((float)nowi)/(rate));
-
-	prc = GetCurrentProcess();
-	cls = GetPriorityClass(prc);
-	SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
+	/* calculate counter cycles per frame */
+	frm = (unsigned long)((float)(nowi*frames)/rate);
 
 	QueryPerformanceCounter(&now);
 #ifdef HAS_LONGLONG_INTEGER
@@ -121,10 +115,12 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate)
 #else
 	nowi = (unsigned long)now.LowPart;
 #endif
-	i = 1;
-	while (1)
+
+	lastx = last - (frm * nosynccount);
+	max = (frm * 7) >> 3;
+	vbl = 0;
+	while (max >= (nowi-lastx))
 	{
-		if ((nowi - last) >= max) break;
 		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
 		QueryPerformanceCounter(&now);
 #ifdef HAS_LONGLONG_INTEGER
@@ -132,9 +128,31 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate)
 #else
 		nowi = (unsigned long)now.LowPart;
 #endif
+		vbl = 1;
 	}
-	last = nowi;
-	SetPriorityClass(prc, cls);
+	if ((!vbl) && (nosynccount < 16))
+	{
+		nosynccount ++;
+	}
+	else
+	{
+		last = nowi;
+		nosynccount = 0;
+	}
+}
+
+void vsyncarch_prepare_vbl(void)
+{
+	LARGE_INTEGER now;
+
+	QueryPerformanceCounter(&now);
+	/* keep vertical blank data prepared */
+#ifdef HAS_LONGLONG_INTEGER
+	last = (unsigned long)now.QuadPart;
+#else
+	last = (unsigned long)now.LowPart;
+#endif
+	nosynccount = 0;
 }
 
 void vsyncarch_sleep(signed long delay)
@@ -152,7 +170,6 @@ void vsyncarch_sleep(signed long delay)
 #else
 	} while ((now.LowPart - start.LowPart) < delay);
 #endif
-
 }
 
 void vsyncarch_presync()

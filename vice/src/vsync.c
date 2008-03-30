@@ -277,7 +277,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 
 #ifdef WIN32
 	float refresh_cmp;
-	float refresh_div;
+	int refresh_div;
 #endif
 
     /*
@@ -351,24 +351,14 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     delay = (signed long)(now - next_frame_start);
 #ifdef WIN32
 	refresh_cmp = (float)(c->refreshrate / refresh_frequency);
-	refresh_div = 1.0f;
-	while ((refresh_cmp/refresh_div) > 1.95f)
-	{
-		refresh_div += 1.0f;
-	}
+	refresh_div = (int)(refresh_cmp + 0.5f);
+	refresh_cmp /= (float)refresh_div;
 
-	refresh_cmp /= refresh_div;
-	if ((timer_speed == 100) && (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
+	if ((timer_speed == 100) && (!warp_mode_enabled) && (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
 	{
-		{
-//			log_debug("%f %f",c->refreshrate,refresh_div);
-		    if (!warp_mode_enabled && timer_speed && delay < 0)
-			{
-				vsyncarch_verticalblank(c, (1.01f*c->refreshrate*(float)timer_speed)/(refresh_div*100.0f));
-			}
-	        skip_next_frame = 0;
-	        skipped_redraw = 0;
-		}
+		vsyncarch_verticalblank(c, c->refreshrate, refresh_div);
+        skip_next_frame = 0;
+        skipped_redraw = 0;
 	}
 	else
 	{
@@ -385,7 +375,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     {
         vsyncarch_sleep(-delay);
     }
-
+#ifdef WIN32
+	vsyncarch_prepare_vbl();
+#endif
     /*
      * Check whether we should skip the next frame or not.
      * Allow delay of up to one frame before skipping frames.
