@@ -74,21 +74,21 @@ static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
 static int sid_useresid;
 
-static int set_sid_filters_enabled(resource_value_t v)
+static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
     sid_filters_enabled = (int)v;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_sid_model(resource_value_t v)
+static int set_sid_model(resource_value_t v, void *param)
 {
     sid_model = (int)v;
     sound_state_changed = TRUE;
     return 0;
 }
 
-static int set_sid_useresid(resource_value_t v)
+static int set_sid_useresid(resource_value_t v, void *param)
 {
     sid_useresid = (int)v;
     sound_state_changed = TRUE;
@@ -97,11 +97,14 @@ static int set_sid_useresid(resource_value_t v)
 
 static resource_t resources[] = {
     { "SidFilters", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &sid_filters_enabled, set_sid_filters_enabled },
+      (resource_value_t *) &sid_filters_enabled,
+      set_sid_filters_enabled, NULL },
     { "SidModel", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &sid_model, set_sid_model },
+      (resource_value_t *) &sid_model,
+      set_sid_model, NULL },
     { "SidUseResid", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &sid_useresid, set_sid_useresid },
+      (resource_value_t *) &sid_useresid,
+      set_sid_useresid, NULL },
     { NULL }
 };
 

@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "resources.h"
 #include "utils.h"
 #include "vicii-resources.h"
@@ -47,21 +49,21 @@ vic_ii_resources_t vic_ii_resources;
 
 
 static int 
-set_sprite_sprite_collisions_enabled (resource_value_t v)
+set_sprite_sprite_collisions_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.sprite_sprite_collisions_enabled = (int) v;
   return 0;
 }
 
 static int 
-set_sprite_background_collisions_enabled (resource_value_t v)
+set_sprite_background_collisions_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.sprite_background_collisions_enabled = (int) v;
   return 0;
 }
 
 static int 
-set_video_cache_enabled (resource_value_t v)
+set_video_cache_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.video_cache_enabled = (int) v;
   if (vic_ii.initialized)
@@ -72,7 +74,7 @@ set_video_cache_enabled (resource_value_t v)
 }
 
 static int 
-set_palette_file_name (resource_value_t v)
+set_palette_file_name (resource_value_t v, void *param)
 {
   string_set (&vic_ii_resources.palette_file_name, (char *) v);
   if (vic_ii.initialized)
@@ -85,16 +87,16 @@ static resource_t resources[] =
   {
     { "CheckSsColl", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &vic_ii_resources.sprite_sprite_collisions_enabled,
-      set_sprite_sprite_collisions_enabled },
+      set_sprite_sprite_collisions_enabled, NULL },
     { "CheckSbColl", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &vic_ii_resources.sprite_background_collisions_enabled,
-      set_sprite_background_collisions_enabled },
+      set_sprite_background_collisions_enabled, NULL },
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
       (resource_value_t *) &vic_ii_resources.palette_file_name,
-      set_palette_file_name },
+      set_palette_file_name, NULL },
     { "VideoCache", RES_INTEGER, (resource_value_t) DEFAULT_VideoCache_VALUE,
       (resource_value_t *) &vic_ii_resources.video_cache_enabled,
-      set_video_cache_enabled },
+      set_video_cache_enabled, NULL },
     { NULL }
   };
 
@@ -103,7 +105,7 @@ static resource_t resources[] =
 #ifdef VIC_II_NEED_2X
 
 static int 
-set_double_size_enabled (resource_value_t v)
+set_double_size_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_size_enabled = (int) v;
   vic_ii_resize ();
@@ -112,7 +114,7 @@ set_double_size_enabled (resource_value_t v)
 }
 
 static int 
-set_double_scan_enabled (resource_value_t v)
+set_double_scan_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_scan_enabled = (int) v;
   if (vic_ii.initialized)
@@ -124,14 +126,14 @@ set_double_scan_enabled (resource_value_t v)
 
 #ifdef USE_VIDMODE_EXTENSION
 static int
-set_fullscreen_double_size_enabled(resource_value_t v)
+set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
   vic_ii_resources.fullscreen_double_size_enabled = (int) v;
   return 0;
 }
 
 static int
-set_fullscreen_double_scan_enabled(resource_value_t v)
+set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
   vic_ii_resources.fullscreen_double_scan_enabled = (int) v;
   return 0;
@@ -141,18 +143,18 @@ set_fullscreen_double_scan_enabled(resource_value_t v)
 static resource_t resources_2x[] =
   {
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &vic_ii_resources.double_size_enabled,
-     set_double_size_enabled },
+      (resource_value_t *) &vic_ii_resources.double_size_enabled,
+      set_double_size_enabled, NULL },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &vic_ii_resources.double_scan_enabled,
-     set_double_scan_enabled },
+      (resource_value_t *) &vic_ii_resources.double_scan_enabled,
+      set_double_scan_enabled, NULL },
 #ifdef USE_VIDMODE_EXTENSION
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_ii_resources.fullscreen_double_size_enabled,
-      set_fullscreen_double_size_enabled },
+      set_fullscreen_double_size_enabled, NULL },
     { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_ii_resources.fullscreen_double_scan_enabled,
-      set_fullscreen_double_scan_enabled },
+      set_fullscreen_double_scan_enabled, NULL },
 #endif
     { NULL }
   };

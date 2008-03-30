@@ -103,7 +103,7 @@ int machine_class = VICE_MACHINE_PET;
 /* PET model name.  */
 static char *model_name;
 
-static int set_model_name(resource_value_t v)
+static int set_model_name(resource_value_t v, void *param)
 {
     char *name = (char *)v;
 
@@ -120,7 +120,7 @@ static int set_model_name(resource_value_t v)
 
 static resource_t resources[] = {
     { "Model", RES_STRING, (resource_value_t) "8032",
-      (resource_value_t *) &model_name, set_model_name },
+      (resource_value_t *) &model_name, set_model_name, NULL },
     { NULL }
 };
 

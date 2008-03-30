@@ -96,7 +96,8 @@ static int acia_device;
 static int acia_irq;
 static int acia_irq_res;
 
-static int acia_set_device(resource_value_t v) {
+static int acia_set_device(resource_value_t v, void *param)
+{
 
     if (fd >= 0) {
 	log_error(acia_log,
@@ -106,7 +107,8 @@ static int acia_set_device(resource_value_t v) {
     return 0;
 }
 
-static int acia_set_irq(resource_value_t v) {
+static int acia_set_irq(resource_value_t v, void *param)
+{
     int new_irq_res = (int)v;
     int new_irq;
     static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
@@ -129,9 +131,9 @@ static int acia_set_irq(resource_value_t v) {
 
 static resource_t resources[] = {
     { MYACIA "Dev", RES_INTEGER, (resource_value_t) MyDevice,
-      (resource_value_t *) & acia_device, acia_set_device },
+      (resource_value_t *) & acia_device, acia_set_device, NULL },
     { MYACIA "Irq", RES_INTEGER, (resource_value_t) MyIrq,
-      (resource_value_t *) & acia_irq_res, acia_set_irq },
+      (resource_value_t *) & acia_irq_res, acia_set_irq, NULL },
     { NULL }
 };
 

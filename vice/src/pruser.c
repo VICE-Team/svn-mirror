@@ -45,7 +45,7 @@ static int fd;
 static int userport_printer_enabled = 0;
 static int userport_printer_device;
 
-static int set_up_enabled(resource_value_t v)
+static int set_up_enabled(resource_value_t v, void *param)
 {
     int newval = ((int) v) ? 1 : 0;
 
@@ -64,16 +64,19 @@ static int set_up_enabled(resource_value_t v)
     return 0;
 }
 
-static int set_up_device(resource_value_t v) {
+static int set_up_device(resource_value_t v, void *param)
+{
     userport_printer_device = (int) v;
     return 0;
 }
 
 static resource_t resources[] = {
     { "PrUser", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &userport_printer_enabled, set_up_enabled },
+      (resource_value_t *) &userport_printer_enabled,
+      set_up_enabled, NULL },
     { "PrUserDev", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &userport_printer_device, set_up_device },
+      (resource_value_t *) &userport_printer_device,
+      set_up_device, NULL },
     { NULL }
 };
 

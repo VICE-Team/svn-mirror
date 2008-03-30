@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "cmdline.h"
 #include "crtc.h"
 #include "datasette.h"
@@ -79,7 +81,7 @@ static piareg mypia;
 /* Flag: is the diagnostic pin enabled?  */
 static int diagnostic_pin_enabled;
 
-static int set_diagnostic_pin_enabled(resource_value_t v)
+static int set_diagnostic_pin_enabled(resource_value_t v, void *param)
 {
     diagnostic_pin_enabled = (int) v;
     return 0;
@@ -87,7 +89,8 @@ static int set_diagnostic_pin_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "DiagPin", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &diagnostic_pin_enabled, set_diagnostic_pin_enabled },
+      (resource_value_t *) &diagnostic_pin_enabled,
+      set_diagnostic_pin_enabled, NULL },
     { NULL }
 };
 

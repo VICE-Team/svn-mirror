@@ -110,7 +110,7 @@ const char *mem_romset_resources_list[] = {
 };
 
 
-static int set_chargen_rom_name(resource_value_t v)
+static int set_chargen_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -123,7 +123,7 @@ static int set_chargen_rom_name(resource_value_t v)
     return mem_load_chargen();
 }
 
-static int set_kernal_rom_name(resource_value_t v)
+static int set_kernal_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -136,7 +136,7 @@ static int set_kernal_rom_name(resource_value_t v)
     return mem_load_kernal();
 }
 
-static int set_basic_rom_name(resource_value_t v)
+static int set_basic_rom_name(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
@@ -150,7 +150,7 @@ static int set_basic_rom_name(resource_value_t v)
     return mem_load_basic();
 }
 
-static int set_emu_id_enabled(resource_value_t v)
+static int set_emu_id_enabled(resource_value_t v, void *param)
 {
     if (!(int) v) {
         emu_id_enabled = 0;
@@ -189,7 +189,7 @@ static int reu_coexist_cartridge(void)
 }
 
 /* FIXME: Should initialize the REU when turned on.  */
-static int set_reu_enabled(resource_value_t v)
+static int set_reu_enabled(resource_value_t v, void *param)
 {
     if (!(int) v) {
         reu_enabled = 0;
@@ -207,7 +207,7 @@ static int set_reu_enabled(resource_value_t v)
 }
 
 /* FIXME: Should patch the ROM on-the-fly.  */
-static int set_kernal_revision(resource_value_t v)
+static int set_kernal_revision(resource_value_t v, void *param)
 {
     const char *rev = (const char *) v;
 
@@ -217,7 +217,7 @@ static int set_kernal_revision(resource_value_t v)
 
 #ifdef HAVE_RS232
 
-static int set_acia_de_enabled(resource_value_t v)
+static int set_acia_de_enabled(resource_value_t v, void *param)
 {
     acia_de_enabled = (int) v;
     return 0;
@@ -227,20 +227,27 @@ static int set_acia_de_enabled(resource_value_t v)
 
 static resource_t resources[] = {
     { "ChargenName", RES_STRING, (resource_value_t) "chargen",
-     (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
+      (resource_value_t *) &chargen_rom_name,
+      set_chargen_rom_name, NULL },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
-     (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
+      (resource_value_t *) &kernal_rom_name,
+      set_kernal_rom_name, NULL },
     { "BasicName", RES_STRING, (resource_value_t) "basic",
-     (resource_value_t *) &basic_rom_name, set_basic_rom_name },
+      (resource_value_t *) &basic_rom_name,
+      set_basic_rom_name, NULL },
     { "REU", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &reu_enabled, set_reu_enabled },
+      (resource_value_t *) &reu_enabled,
+      set_reu_enabled, NULL },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+      (resource_value_t *) &emu_id_enabled,
+      set_emu_id_enabled, NULL },
     { "KernalRev", RES_STRING, (resource_value_t) NULL,
-     (resource_value_t *) &kernal_revision, set_kernal_revision },
+      (resource_value_t *) &kernal_revision,
+      set_kernal_revision, NULL },
 #ifdef HAVE_RS232
     { "AciaDE", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &acia_de_enabled, set_acia_de_enabled },
+      (resource_value_t *) &acia_de_enabled,
+      set_acia_de_enabled, NULL },
 #endif
     { NULL }
 };

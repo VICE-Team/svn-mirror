@@ -39,7 +39,7 @@ vic_resources_t vic_resources;
 #define DEFAULT_VideoCache_VALUE 1
 #endif
 
-static int set_video_cache_enabled (resource_value_t v)
+static int set_video_cache_enabled (resource_value_t v, void *param)
 {
   vic_resources.video_cache_enabled = (int) v;
   if (vic.initialized)
@@ -48,7 +48,7 @@ static int set_video_cache_enabled (resource_value_t v)
   return 0;
 }
 
-static int set_palette_file_name (resource_value_t v)
+static int set_palette_file_name (resource_value_t v, void *param)
 {
   string_set (&vic_resources.palette_file_name, (char *) v);
   if (vic.initialized)
@@ -61,16 +61,16 @@ static resource_t resources[] =
   {
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
       (resource_value_t *) &vic_resources.palette_file_name,
-      set_palette_file_name },
+      set_palette_file_name, NULL },
     { "VideoCache", RES_INTEGER, (resource_value_t) DEFAULT_VideoCache_VALUE,
       (resource_value_t *) &vic_resources.video_cache_enabled,
-      set_video_cache_enabled },
+      set_video_cache_enabled, NULL },
     { NULL }
   };
 
 #ifdef VIC_NEED_2X
 
-static int set_double_size_enabled (resource_value_t v)
+static int set_double_size_enabled (resource_value_t v, void *param)
 {
   vic_resources.double_size_enabled = (int) v;
   vic_resize ();
@@ -78,7 +78,7 @@ static int set_double_size_enabled (resource_value_t v)
   return 0;
 }
 
-static int set_double_scan_enabled (resource_value_t v)
+static int set_double_scan_enabled (resource_value_t v, void *param)
 {
   vic_resources.double_scan_enabled = (int) v;
   if (vic.initialized)
@@ -90,13 +90,13 @@ static int set_double_scan_enabled (resource_value_t v)
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-static int set_fullscreen_double_size_enabled(resource_value_t v)
+static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
   vic_resources.fullscreen_double_size_enabled = (int) v;
   return 0;
 }
 
-static int set_fullscreen_double_scan_enabled(resource_value_t v)
+static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
   vic_resources.fullscreen_double_scan_enabled = (int) v;
   return 0;
@@ -107,17 +107,17 @@ static resource_t resources_2x[] =
   {
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_resources.double_size_enabled,
-      set_double_size_enabled },
+      set_double_size_enabled, NULL },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_resources.double_scan_enabled,
-      set_double_scan_enabled },
+      set_double_scan_enabled, NULL },
 #ifdef USE_VIDMODE_EXTENSION
     { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_resources.fullscreen_double_size_enabled,
-      set_fullscreen_double_size_enabled },
+      set_fullscreen_double_size_enabled, NULL },
     { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_resources.fullscreen_double_scan_enabled,
-      set_fullscreen_double_scan_enabled },
+      set_fullscreen_double_scan_enabled, NULL },
 #endif
     { NULL }
   };
