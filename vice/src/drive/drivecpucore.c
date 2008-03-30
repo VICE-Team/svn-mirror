@@ -639,7 +639,7 @@ void mydrive_cpu_execute(CLOCK clk_value)
 
 #define CALLER mymonspace
 
-#define DMA_FUNC drive_generic_dma
+#define DMA_FUNC drive_generic_dma()
 
 #define DMA_ON_RESET
 

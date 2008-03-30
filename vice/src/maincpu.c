@@ -213,7 +213,7 @@ void maincpu_generic_dma(void)
 #endif
 
 #ifndef DMA_FUNC
-#define DMA_FUNC maincpu_generic_dma
+#define DMA_FUNC maincpu_generic_dma();
 #endif
 
 #ifndef DMA_ON_RESET

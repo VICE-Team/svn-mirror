@@ -246,7 +246,7 @@
             }								 \
             if (ik & IK_DMA) {						 \
                 EXPORT_REGISTERS();					 \
-                DMA_FUNC();						 \
+                DMA_FUNC;						 \
                 ack_dma(&CPU_INT_STATUS);				 \
                 IMPORT_REGISTERS();					 \
             }								 \
