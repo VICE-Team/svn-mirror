@@ -1,3 +1,56 @@
+2005-12-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.4.
+
+	* vicii/vicii-draw.c (_draw_idle, draw_idle_foreground): Idle
+	data is 0 if vertical blank flip flop is set.
+
+	* plus4/ted-draw.c (_draw_idle, draw_idle_foreground): Changed
+	likewise.
+
+	* c64/plus60k.h [plus60k_base]: Fixed prototype.
+
+	* arch/win32/uimediafile.c (init_mediafile_dialog): Removed
+	unused variable.
+
+2005-12-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uiconsole.c, arch/win32/uimediafile.c,
+	arch/win32/uisnapshot.c: Better filter construction to avoid
+	the wrong filters. Patch by iAN CooG <ian7102@libero.it>.
+
+2005-12-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* zfile.c: Fixed a typo "know" vs. "now". Patch by iAN CooG
+	<ian7102@libero.it>.
+
+2005-12-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* petcat.c: Make petcat output its help information
+	(--help, -v) on stdout, not stderr. Patch by iAN CooG
+	<ian7102@libero.it>.
+
+2005-12-18  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* imagecontents/diskcontents-block.c: If the directory track
+	is linked in a loop, do not destroy all contents until, but
+	show everything once. This seems to be a more reasonable way
+	to handle this. Patch provided by iAN CooG
+	<ian7102@libero.it>.
+
+2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc: Updated the win32
+	mediafile dialog.
+
+2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c: Updated a dutch translation.
+
+2005-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64_256k.c, c64/plus60k.c: Fixed the warnings.
+
 2005-12-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.3.

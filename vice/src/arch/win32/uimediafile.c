@@ -127,7 +127,7 @@ static void init_mediafile_dialog(HWND hwnd)
     HWND combo;
     gfxoutputdrv_t *driver;
     char *ffmpeg_format;
-    int i, last_driver = 0;
+    int i;
     int enable_ffmpeg = 0;
     int bitrate;
     TCHAR st[256];
@@ -278,9 +278,10 @@ static char *ui_save_mediafile(const TCHAR *title, const TCHAR *filter,
 
 void ui_mediafile_save_dialog(HWND hwnd)
 {
-    int filter_len;
+    int filter_len,mask_len;
     char *s;
     char filter[100];
+    char mask[]="*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg";
 
     if (screenshot_is_recording()) {
         /* the recording is active; stop it  */
@@ -288,12 +289,12 @@ void ui_mediafile_save_dialog(HWND hwnd)
         ui_display_statustext("", 0);
         return;
     }
-
-    filter_len=strlen(translate_text(IDS_MEDIA_FILES_FILTER));
-    sprintf(filter,"%s0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg0",
-            translate_text(IDS_MEDIA_FILES_FILTER));
+    s=translate_text(IDS_MEDIA_FILES_FILTER);
+    filter_len=strlen(s);
+    mask_len=strlen(mask);
+    sprintf(filter,"%s0%s0",s,mask);
     filter[filter_len]='\0';
-    filter[filter_len+36]='\0';
+    filter[filter_len+mask_len+1]='\0';
     s = ui_save_mediafile(translate_text(IDS_SAVE_MEDIA_IMAGE),
         filter,
         hwnd,
