@@ -163,7 +163,7 @@ int autostart_init(CLOCK _min_cycles, int _handle_true1541,
     lnmx = _lnmx;
 
     if (!pwarn) {
-	pwarn = warn_init("AUTOSTART", 32);
+	pwarn = warn_init("Autostart", 32);
 	if (!pwarn)
 	    return -1;
     }

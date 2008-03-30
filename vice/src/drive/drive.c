@@ -1376,6 +1376,7 @@ int drive_detach_floppy(DRIVE *floppy)
 }
 
 /* ------------------------------------------------------------------------- */
+
 /* Initialization.  */
 
 static void initialize_rotation(int freq, int dnr)
