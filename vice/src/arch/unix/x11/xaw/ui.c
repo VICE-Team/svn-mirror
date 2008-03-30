@@ -570,7 +570,7 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
                                   int no_autorepeat,
                                   ui_exposure_handler_t exposure_proc,
                                   const palette_t *palette,
-                                  PIXEL pixel_return[])
+                                  BYTE pixel_return[])
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label;

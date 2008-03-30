@@ -72,7 +72,7 @@ extern ui_window_t ui_open_canvas_window(struct video_canvas_s *c,
                                          int height, int no_autorepeat,
                                          ui_exposure_handler_t exposure_proc,
                                          const struct palette_s *p,
-                                         PIXEL pixel_return[]);
+                                         BYTE pixel_return[]);
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
