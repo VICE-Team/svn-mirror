@@ -44,6 +44,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	mousedrv.c \
 	mousedrv.h \
+	opencbm.h \
+	opencbmlib.c \
 	petui.c \
 	plus4ui.c \
 	res.h \
