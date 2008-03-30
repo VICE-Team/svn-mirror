@@ -54,7 +54,7 @@ struct drive_context_s;
 #define mycia_read      cia1581_read
 #define mycia_peek      cia1581_peek
 #define mycia_set_flag  cia1581_set_flag
-#define mycia_set_sdr   cia1581_sdr
+#define mycia_set_sdr   cia1581_set_sdr
 #define mycia_snapshot_write_module cia1581_snapshot_write_module
 #define mycia_snapshot_read_module cia1581_snapshot_read_module
 #define MYCIA_NAME      (ctxptr->cia1581.myname)
@@ -140,7 +140,7 @@ static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk) { }
 
 static inline void store_sdr(drive_context_t *ctxptr, BYTE byte)
 {
-    iec_fast_drive_write(cia_shifter);
+    iec_fast_drive_write(byte, ctxptr->mynumber);
 }
 
 static inline void undump_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
@@ -176,12 +176,15 @@ static inline void store_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
                 & (((*drive_data) | iec_info->cpu_bus) << 3) & 0x80));
             iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
                 & iec_info->drive2_bus;
-            iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
+            iec_info->drive_port = iec_info->drive2_port
+                = (((iec_info->cpu_port >> 4) & 0x4)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
             ctxptr->func.iec_write((BYTE)(~byte));
         }
+
+        iec_fast_drive_direction(byte & 0x20, ctxptr->mynumber);
     }
 }
 

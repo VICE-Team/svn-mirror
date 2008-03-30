@@ -342,8 +342,12 @@ void iec_calculate_callback_index(void)
                          | (drive[1].enable ? 2 : 0);
 }
 
-void iec_fast_drive_write(BYTE data)
+void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
 /* The C64 does not use fast IEC.  */
+}
+
+void iec_fast_drive_direction(int direction, unsigned int dnr)
+{
 }
 

@@ -176,6 +176,8 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
                 drive_sync_set_1571(byte & 0x20, ctxptr->mynumber);
             if ((oldpa_value ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, ctxptr->mynumber);
+            if ((oldpa_value ^ byte) & 0x02)
+                iec_fast_drive_direction(byte & 2, ctxptr->mynumber);
         } else
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
 /*

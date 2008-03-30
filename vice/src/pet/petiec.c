@@ -72,14 +72,13 @@ BYTE iec_drive1_read(void)
     return 0;
 }
 
-void iec_fast_drive_write(BYTE data)
-{
-/* The PET does not use fast IEC.  */
-}
-
 iec_info_t *iec_get_drive_port(void)
 {
     return NULL;
+}
+
+void iec_fast_drive_direction(int direction, unsigned int dnr)
+{
 }
 
 void parallel_cable_drive0_write(BYTE data, int handshake)
@@ -97,7 +96,7 @@ BYTE parallel_cable_drive_read(int handshake)
 
 int iec_available_busses(void)
 {
-    return /* IEC_BUS_IEC |*/ IEC_BUS_IEEE;
+    return IEC_BUS_IEEE;
 }
 
 void iec_calculate_callback_index(void)

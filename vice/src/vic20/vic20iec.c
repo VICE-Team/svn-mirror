@@ -234,9 +234,13 @@ void iec_pcr_write(BYTE data)
     last_write = data & 34;
 }
 
-void iec_fast_drive_write(BYTE data)
+void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
 /* The VIC20 does not use fast IEC.  */
+}
+
+void iec_fast_drive_direction(int direction, unsigned int dnr)
+{
 }
 
 iec_info_t *iec_get_drive_port(void)
@@ -270,4 +274,5 @@ void iec_calculate_callback_index(void)
 {
     /* This callback can be used for optimization.  */
 }
+
 
