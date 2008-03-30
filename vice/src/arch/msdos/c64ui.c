@@ -34,6 +34,7 @@
 #include "c64ui.h"
 
 #include "cartridge.h"
+#include "drive.h"
 #include "menudefs.h"
 #include "resources.h"
 #include "sidui.h"
@@ -172,6 +173,37 @@ TUI_MENU_DEFINE_TOGGLE(VideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
+static TUI_MENU_CALLBACK(toggle_VideoStandard_callback)
+{
+    int value;
+
+    resources_get_value("VideoStandard", (resource_value_t *) &value);
+
+    if (been_activated) {
+	    if (value == DRIVE_SYNC_PAL)
+	        value = DRIVE_SYNC_NTSC;
+	    else if (value == DRIVE_SYNC_NTSC)
+	        value = DRIVE_SYNC_NTSCOLD;
+        else
+	        value = DRIVE_SYNC_PAL;
+
+        resources_set_value("VideoStandard", (resource_value_t) value);
+    }
+
+    switch (value) {
+      case DRIVE_SYNC_PAL:
+	return "PAL-G";
+      case DRIVE_SYNC_NTSC:
+	return "NTSC-M";
+      case DRIVE_SYNC_NTSCOLD:
+	return "old NTSC-M";
+      default:
+	return "(Custom)";
+    }
+}
+
+
+
 static tui_menu_item_def_t vic_ii_menu_items[] = {
     { "Video _Cache:",
       "Enable screen cache (disabled when using triple buffering)",
@@ -185,6 +217,10 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
     { "Sprite-_Sprite Collisions:",
       "Emulate sprite-sprite collision register",
       toggle_CheckSsColl_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "V_ideo Standard:",
+      "Select machine clock ratio",
+      toggle_VideoStandard_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

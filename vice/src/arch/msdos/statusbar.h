@@ -50,6 +50,12 @@ enum {
     STATUSBAR_COLOR_GREEN
 };
 
+enum {
+    STATUSBAR_MODE_OFF = 0,
+    STATUSBAR_MODE_ON,
+    STATUSBAR_MODE_AUTO
+};
+
 extern void statusbar_update(void);
 extern void statusbar_disable(void);
 extern int statusbar_init(void);
@@ -58,5 +64,7 @@ extern int statusbar_enabled(void);
 extern void statusbar_reset_bitmaps_to_update(void);
 extern void statusbar_append_bitmap_to_update(BITMAP *b);
 extern void statusbar_set_width(int w);
+extern void statusbar_set_height(int h);
+extern void statusbar_prepare(void);
 
 #endif
