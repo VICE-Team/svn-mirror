@@ -207,18 +207,18 @@ int bmpdrv_write(screenshot_t *screenshot)
                                SCREENSHOT_MODE_PALETTE);
 
     switch (sdata->bpp) {
-        case 4:
-            for (row = 0; row < screenshot->width / 2; row++) {
-                sdata->bmp_data[((screenshot->height - 1 - sdata->line)
-                * screenshot->width / 2) + row]
-                = ((sdata->data[row * 2] & 0xf) << 4)
-                | (sdata->data[row * 2 + 1] & 0xf);
-            }
-            break;
-        case 8:
-            memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
-                   * screenshot->width, sdata->data, screenshot->width);
-            break;
+      case 4:
+        for (row = 0; row < screenshot->width / 2; row++) {
+            sdata->bmp_data[((screenshot->height - 1 - sdata->line)
+            * screenshot->width / 2) + row]
+            = ((sdata->data[row * 2] & 0xf) << 4)
+            | (sdata->data[row * 2 + 1] & 0xf);
+        }
+        break;
+      case 8:
+        memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
+               * screenshot->width, sdata->data, screenshot->width);
+        break;
     }
 
     sdata->line++;
@@ -229,15 +229,15 @@ int bmpdrv_write(screenshot_t *screenshot)
 int bmpdrv_close(screenshot_t *screenshot)
 {
     switch (screenshot->gfxoutputdrv_data->bpp) {
-        case 4:
-            fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
-                   * screenshot->width / 2, 1,
-                   screenshot->gfxoutputdrv_data->fd);
-            break;
-        case 8:
-            fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
-                   * screenshot->width, 1, screenshot->gfxoutputdrv_data->fd);
-            break;
+      case 4:
+        fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
+               * screenshot->width / 2, 1,
+               screenshot->gfxoutputdrv_data->fd);
+        break;
+      case 8:
+        fwrite(screenshot->gfxoutputdrv_data->bmp_data, screenshot->height
+               * screenshot->width, 1, screenshot->gfxoutputdrv_data->fd);
+        break;
     }
     free(screenshot->gfxoutputdrv_data->data);
     free(screenshot->gfxoutputdrv_data->bmp_data);
