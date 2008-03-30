@@ -58,7 +58,7 @@ static inline void ted_irq_set_line_clk(CLOCK mclk)
 
 void ted_irq_raster_set(CLOCK mclk)
 {
-    ted.irq_status |= 0x2;
+    ted.irq_status |= 0x02;
     ted_irq_set_line_clk(mclk);
 }
 
@@ -66,6 +66,42 @@ void ted_irq_raster_clear(CLOCK mclk)
 {
     ted.irq_status &= 0xfd;
     ted_irq_set_line_clk(mclk);
+}
+
+void ted_irq_timer1_set(void)
+{
+    ted.irq_status |= 0x08;
+    ted_irq_set_line();
+}
+
+void ted_irq_timer1_clear(void)
+{
+    ted.irq_status &= 0xf7;
+    ted_irq_set_line();
+}
+
+void ted_irq_timer2_set(void)
+{
+    ted.irq_status |= 0x10;
+    ted_irq_set_line();
+}
+
+void ted_irq_timer2_clear(void)
+{
+    ted.irq_status &= 0xef;
+    ted_irq_set_line();
+}
+
+void ted_irq_timer3_set(void)
+{
+    ted.irq_status |= 0x40;
+    ted_irq_set_line();
+}
+
+void ted_irq_timer3_clear(void)
+{
+    ted.irq_status &= 0xbf;
+    ted_irq_set_line();
 }
 
 void ted_irq_set_raster_line(unsigned int line)
@@ -107,13 +143,17 @@ void ted_irq_set_raster_line(unsigned int line)
 
 void ted_irq_check_state(BYTE value, unsigned int high)
 {
-    unsigned int irq_line, line;
+    unsigned int irq_line, line, user_irq_line;
     unsigned int old_raster_irq_line;
 
+    user_irq_line = TED_LINE_RTOU(ted.raster_irq_line);
+
     if (high)
-        irq_line = (ted.raster_irq_line & 0xff) | ((value & 0x01) << 8);
+        irq_line = (user_irq_line & 0xff) | ((value & 0x01) << 8);
     else
-        irq_line = (ted.raster_irq_line & 0x100) | value;
+        irq_line = (user_irq_line & 0x100) | value;
+
+    irq_line = TED_LINE_UTOR(irq_line);
 
     if (irq_line == ted.raster_irq_line)
         return;
