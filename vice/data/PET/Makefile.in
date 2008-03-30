@@ -103,7 +103,10 @@ roms = \
 	edit4.b40 \
 	pet3032
 
-keymaps =
+keymaps = \
+	busi_uk.vkm \
+	graphics.vkm \
+	posg_de.vkm
 
 EXTRA_DIST = $(keymaps) $(roms) $(palettes)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -279,9 +282,6 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-	busi_uk.vkm \
-	graphics.vkm \
-	posg_de.vkm
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
