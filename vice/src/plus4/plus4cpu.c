@@ -1,5 +1,5 @@
 /*
- * plus4cpu.c - Emulation of the main processor.
+ * plus4cpu.c - Emulation of the main 6510 processor.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -26,28 +26,12 @@
 
 #include "vice.h"
 
-/* ------------------------------------------------------------------------- */
+#include "mem.h"
+#include "types.h"
 
-/* MACHINE_STUFF should define/undef
+extern void ted_delay_clk(void);
 
- - NEED_REG_PC
- - TRACE
-
- The following are optional:
-
- - PAGE_ZERO
- - PAGE_ONE
- - STORE_IND
- - LOAD_IND
- - DMA_FUNC
- - DMA_ON_RESET
-
-*/
-
-/* ------------------------------------------------------------------------- */
-
-#define LOAD_ZERO(addr) \
-    read_zero(addr)
+#define CPU_DELAY_CLK ted_delay_clk();
 
 #include "../maincpu.c"
 
