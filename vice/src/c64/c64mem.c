@@ -135,6 +135,11 @@ static int number_romsets;
 
 static char *romset_name = 0;
 
+/* Adjust this pointer when the MMU changes banks.  */
+static BYTE **bank_base;
+static int *bank_limit = NULL;
+unsigned int old_reg_pc;
+
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
     "CartridgeType", "CartridgeFile",
@@ -461,6 +466,14 @@ static inline void pla_config_changed(void)
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
+
+    if (bank_limit != NULL) {
+        *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8];
+        if (*bank_base != 0)
+            *bank_base = _mem_read_base_tab_ptr[old_reg_pc >> 8] 
+                         - (old_reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[old_reg_pc >> 8];
+    }
 }
 
 void mem_toggle_watchpoints(int flag)
@@ -1440,6 +1453,12 @@ static void cartridge_config_changed(BYTE mode)
     if (mode & 0x40)
         cartridge_release_freeze();
     ultimax = export.game & (export.exrom ^ 1);
+}
+
+void mem_set_bank_pointer(BYTE **base, int *limit)
+{
+    bank_base = base;
+    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */
