@@ -38,6 +38,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
+#include "vicii-fetch.h"
 #include "vicii-resources.h"
 #include "vicii-sprites.h"
 #include "vicii-mem.h"
@@ -112,7 +113,7 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
                 vic_ii.store_addr = addr;
             }
 
-            vic_ii_raster_fetch_alarm_handler(maincpu_clk - vic_ii.fetch_clk);
+            vic_ii_fetch_alarm_handler(maincpu_clk - vic_ii.fetch_clk);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
