@@ -36,6 +36,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "snapshot.h"
+#include "ted-irq.h"
 #include "ted-snapshot.h"
 #include "ted.h"
 #include "tedtypes.h"
@@ -270,8 +271,8 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: Recalculate alarms and derived values.  */
 
-    ted_set_raster_irq(ted.regs[0x12]
-                          | ((ted.regs[0x11] & 0x80) << 1));
+    ted_irq_set_raster_line(ted.regs[0x12]
+                            | ((ted.regs[0x11] & 0x80) << 1));
 
     ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
 

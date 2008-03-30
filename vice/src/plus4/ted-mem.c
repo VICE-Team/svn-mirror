@@ -41,8 +41,9 @@
 #include "plus4pio2.h"
 #include "ted-badline.h"
 #include "ted-fetch.h"
-#include "ted-resources.h"
+#include "ted-irq.h"
 #include "ted-mem.h"
+#include "ted-resources.h"
 #include "ted-sound.h"
 #include "ted-timer.h"
 #include "ted.h"
@@ -432,19 +433,18 @@ inline static void ted08_store(BYTE value)
 
 inline static void ted09_store(BYTE value)
 {
-    if (maincpu_rmw_flag) { /* (emulates the Read-Modify-Write bug) */
+    /* Emulates Read-Modify-Write behaviour. */
+    if (maincpu_rmw_flag) {
         ted.irq_status = 0;
         if (maincpu_clk >= ted.raster_irq_clk) {
-            ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-            alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+            ted_irq_next_frame();
         }
     } else {
         ted.irq_status &= ~((value & 0x5e) | 0x80);
         if (ted.irq_status & ted.regs[0x0a])
             ted.irq_status |= 0x80;
         if ((value & 1) && maincpu_clk >= ted.raster_irq_clk) {
-            ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-            alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+            ted_irq_next_frame();
         }
     }
 
@@ -465,7 +465,7 @@ inline static void ted0a_store(BYTE value)
     int new_irq_line;
 
     new_irq_line = ((ted.raster_irq_line & 0xff) | ((value & 1) << 8));
-    ted_set_raster_irq(new_irq_line);
+    ted_irq_set_raster_line(new_irq_line);
 
     ted.regs[0x0a] = value & 0x5f;
 
@@ -500,7 +500,7 @@ inline static void ted0b_store(BYTE value)
                           ted.raster_irq_line));
 
     old_raster_irq_line = ted.raster_irq_line;
-    ted_set_raster_irq((ted.raster_irq_line & 0x100) | value);
+    ted_irq_set_raster_line((ted.raster_irq_line & 0x100) | value);
 
     /* Check whether we should activate the IRQ line now.  */
     if (ted.regs[0x0a] & 0x2) {

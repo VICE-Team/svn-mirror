@@ -35,7 +35,6 @@
 #include "archdep.h"
 #include "clkguard.h"
 #include "dma.h"
-#include "interrupt.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -52,6 +51,7 @@
 #include "ted-color.h"
 #include "ted-draw.h"
 #include "ted-fetch.h"
+#include "ted-irq.h"
 #include "ted-mem.h"
 #include "ted-resources.h"
 #include "ted-snapshot.h"
@@ -276,7 +276,7 @@ raster_t *ted_init(void)
 {
     ted.log = log_open("TED");
 
-    ted.int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+    ted_irq_init();
 
     ted.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
                                        "TEDRasterFetch",
@@ -427,12 +427,13 @@ void ted_prepare_for_snapshot(void)
     alarm_unset(ted.raster_irq_alarm);
 }
 
+#if 0
 void ted_set_raster_irq(unsigned int line)
 {
     if (line == ted.raster_irq_line && ted.raster_irq_clk != CLOCK_MAX)
         return;
 
-    if ((int)line < ted.screen_height) {
+    if (line < (unsigned int)ted.screen_height) {
         unsigned int current_line = TED_RASTER_Y(maincpu_clk);
 
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
@@ -450,8 +451,8 @@ void ted_set_raster_irq(unsigned int line)
         alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
         TED_DEBUG_RASTER(("TED: update_raster_irq(): "
-                         "raster compare out of range ($%04X)!",
-                         line));
+                         "raster compare out of range ($%04X)!", line));
+        ted.raster_irq_clk = CLOCK_MAX;
         alarm_unset(ted.raster_irq_alarm);
     }
 
@@ -459,12 +460,11 @@ void ted_set_raster_irq(unsigned int line)
                      "ted.raster_irq_clk = %ul, "
                      "line = $%04X, "
                      "ted.regs[0x0a] & 2 = %d\n",
-                     ted.raster_irq_clk,
-                     line,
-                     ted.regs[0x0a] & 2));
+                     ted.raster_irq_clk, line, ted.regs[0x0a] & 2));
 
     ted.raster_irq_line = line;
 }
+#endif
 
 /* Set the memory pointers according to the values in the registers.  */
 void ted_update_memory_ptrs(unsigned int cycle)
@@ -770,18 +770,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
    line counter matches the value stored in the raster line register.  */
 static void ted_raster_irq_alarm_handler(CLOCK offset)
 {
-    ted.irq_status |= 0x2;
-    if (ted.regs[0x0a] & 0x2) {
-        maincpu_set_irq_clk(ted.int_num, 1, ted.raster_irq_clk);
-        ted.irq_status |= 0x80;
-        TED_DEBUG_RASTER(("TED: *** IRQ requested at line $%04X, "
-                         "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.",
-                         TED_RASTER_Y(clk), ted.raster_irq_line, offset,
-                         TED_RASTER_CYCLE(clk)));
-    }
-
-    ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-    alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
+    ted_irq_raster_set(ted.raster_irq_clk);
+    ted_irq_next_frame();
 }
 
 void ted_shutdown(void)
