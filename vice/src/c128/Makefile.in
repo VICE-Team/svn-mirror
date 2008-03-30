@@ -278,13 +278,8 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/serial.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/tape.h ../../src/traps.h ../../src/mem.h \
 	../../src/utils.h ../../src/vicii/vicii.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/vdc/vdc.h \
-	../../src/vsync.h z80.h z80mem.h ../../src/rs232.h \
-	../../src/c64/c64acia.h ../../src/rsuser.h \
+	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
+	../../src/rs232.h ../../src/c64/c64acia.h ../../src/rsuser.h \
 	../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/alarm.h \

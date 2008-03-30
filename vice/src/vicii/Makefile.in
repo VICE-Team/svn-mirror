@@ -304,12 +304,7 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	vicii.h vicii-cmdline-options.h vicii-draw.h vicii-sprites.h \
 	vicii-resources.h viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vicii-mem.h vicii-snapshot.h \
-	../../src/vsync.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h
+	../../src/vsync.h ../../src/video.h
 
 info-am:
 info: info-am
