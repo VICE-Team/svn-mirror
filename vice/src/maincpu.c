@@ -49,7 +49,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+#define TRACE
 
 /* MACHINE_STUFF should define/undef
 
@@ -91,9 +91,6 @@
 /* ------------------------------------------------------------------------- */
 
 /* The following #defines are useful for debugging and speed tuning.  */
-
-/* Do not handle CPU alarms, but measure speed instead.  */
-#undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
    makes debugging easier.  This is needed by the VIC-II emulation, so avoid
@@ -166,7 +163,7 @@ inline static BYTE *mem_read_base(int addr)
 {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
-    if (p == 0)
+    if (p == NULL)
         return p;
 
     return p - (addr & 0xff00);
@@ -301,77 +298,6 @@ monitor_interface_t maincpu_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef EVALUATE_SPEED
-
-#include <sys/time.h>
-
-#define EVALUATE_INTERVAL       10000000L
-
-#ifdef WIN32
-#undef BYTE
-#undef WORD
-#undef DWORD
-#include <mmsystem.h>
-#endif
-
-inline static void evaluate_speed(unsigned long clk)
-{
-#ifdef WIN32
-    static unsigned long old_clk;
-    static unsigned long next_clk = EVALUATE_INTERVAL;
-    static DWORD old_time;
-
-    if (clk>next_clk) {
-        DWORD current_time;
-        DWORD diff_time;
-        float diff_sec;
-
-        current_time=timeGetTime();
-        diff_time=current_time-old_time;
-        diff_sec=diff_time/1000.0;
-        if (old_clk)
-            log_debug ("%ld cycles in %f seconds: %f%% speed\n",
-                    clk - old_clk, diff_sec,
-                    100.0 * (((double)(clk - old_clk)
-                              / diff_sec) / 1108405.0));
-        old_clk = clk;
-        next_clk = old_clk + EVALUATE_INTERVAL;
-        old_time = current_time;
-    }
-#else
-#ifdef HAVE_GETTIMEOFDAY
-    static unsigned long old_clk;
-    static unsigned long next_clk = EVALUATE_INTERVAL;
-    static double old_time;
-
-    if (clk > next_clk) {
-        struct timeval tv;
-        double current_time;
-
-        gettimeofday (&tv, NULL);
-        current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
-
-        if (old_clk)
-            fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
-                    clk - old_clk, current_time - old_time,
-                    100.0 * (((double)(clk - old_clk)
-                              / (current_time - old_time)) / 1108405.0));
-
-        old_clk = clk;
-        next_clk = old_clk + EVALUATE_INTERVAL;
-        old_time = current_time;
-    }
-#else
-    /* Sorry, can't evaluate performance.  */
-    return;
-#endif
-#endif
-}
-
-#endif /* EVALUATE_SPEED */
-
-/* ------------------------------------------------------------------------- */
-
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
     alarm_context_time_warp(maincpu_alarm_context, sub, -1);
@@ -445,10 +371,6 @@ void maincpu_mainloop(void)
     log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
 
     while (1) {
-
-#ifdef EVALUATE_SPEED
-    evaluate_speed(clk);
-#endif /* !EVALUATE_SPEED */
 
 #define CLK clk
 #define RMW_FLAG rmw_flag
