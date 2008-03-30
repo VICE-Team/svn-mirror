@@ -185,12 +185,12 @@ static char *try_uncompress_with_gzip(const char *name)
     }
 
     do {
-       char buf[256];
+        char buf[256];
 
-       len = gzread(fdsrc, (void *)buf, 256);
-       if (len > 0) {
-         fwrite((void *)buf, 1, (size_t)len, fddest);
-       }
+        len = gzread(fdsrc, (void *)buf, 256);
+        if (len > 0) {
+            fwrite((void *)buf, 1, (size_t)len, fddest);
+        }
     } while (len > 0);
 
     gzclose(fdsrc);
