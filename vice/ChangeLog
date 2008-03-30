@@ -1,3 +1,19 @@
+2003-10-11  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.13.6
+
+	* configure.in: Fixed typo.
+
+2003-10-11  pottendo  <pottendo@utanet.at>
+
+	* configure.in: Added preconditioning preprocessor directives
+	for: XShm.h, xf86vmode.h, xf86dga.h, regexp.h
+
+2003-10-09  pottendo  <pottendo@utanet.at>
+
+	* acconfig.h: 
+	* configure.in: moved gettext related macros 
+
 2003-10-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.5
