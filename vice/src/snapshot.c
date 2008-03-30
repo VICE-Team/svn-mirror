@@ -470,7 +470,7 @@ snapshot_t *snapshot_open(const char *filename,
 
     f = zfopen(filename, "rb");
     if (f == NULL)
-        goto fail;
+        return NULL;
 
     /* Magic string.  */
     if (snapshot_read_byte_array(f, (BYTE*)magic, SNAPSHOT_MAGIC_LEN) < 0
