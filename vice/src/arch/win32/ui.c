@@ -50,6 +50,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "mos6510.h"
 #include "mouse.h"
 #include "res.h"
 #include "resources.h"

@@ -35,6 +35,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+#include "diskimage.h"
 #include "imagecontents.h"
 #include "resources.h"
 #include "ui.h"
