@@ -73,11 +73,11 @@ inline static void iec_update_cpu_bus(BYTE data)
 inline static void iec_update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
-                          & iec_info.drive2_bus;
+                        & iec_info.drive2_bus;
     iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
-                           & 0x4)
-                           | (iec_info.cpu_port >> 7)
-                           | ((iec_info.cpu_bus << 3) & 0x80));
+                          & 0x4)
+                          | (iec_info.cpu_port >> 7)
+                          | ((iec_info.cpu_bus << 3) & 0x80));
 }
 
 void iec_update_ports_embedded(void)
@@ -88,8 +88,8 @@ void iec_update_ports_embedded(void)
 void iec_drive0_write(BYTE data)
 {
     iec_info.drive_bus = (((data << 3) & 0x40)
-                          | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+                         | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
+                         & 0x80));
     iec_info.drive_data = data;
     iec_update_ports();
 }
@@ -98,7 +98,7 @@ void iec_drive1_write(BYTE data)
 {
     iec_info.drive2_bus = (((data << 3) & 0x40)
                           | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+                          & 0x80));
     iec_info.drive2_data = data;
     iec_update_ports();
 }
@@ -313,6 +313,7 @@ BYTE parallel_cable_cpu_read(void)
         drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
+
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
