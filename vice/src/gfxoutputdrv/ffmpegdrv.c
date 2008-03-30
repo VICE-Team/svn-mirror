@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "ffmpegdrv.h"
 #include "ffmpeglib.h"
 #include "gfxoutput.h"
@@ -38,7 +39,7 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "utils.h"
+#include "ui.h"
 
 
 /* function pointers for dynamic library loading */
@@ -72,21 +73,85 @@ static int file_init_done;
 static AVStream *audio_st;
 static ffmpegdrv_audio_in_t ffmpegdrv_audio_in;
 static int audio_init_done;
+static int audio_is_open;
 static unsigned char *audio_outbuf;
 static int audio_outbuf_size;
-double audio_pts;
+static double audio_pts;
 
 /* video */
 static AVStream *video_st;
 static int video_init_done;
+static int video_is_open;
 static AVFrame *picture, *tmp_picture;
 static unsigned char *video_outbuf;
 static int video_outbuf_size;
 static int video_width, video_height;
 static AVFrame *picture, *tmp_picture;
-double video_pts;
+static double video_pts;
+
+/* resources */
+static int audio_bitrate;
+static int video_bitrate;
 
 static int ffmpegdrv_init_file(void);
+
+static int set_audio_bitrate(resource_value_t v, void *param)
+{
+    audio_bitrate = (CLOCK)v;
+    if (audio_bitrate < 16000 || audio_bitrate > 128000)
+        audio_bitrate = 64000;
+
+    return 0;
+}
+
+static int set_video_bitrate(resource_value_t v, void *param)
+{
+    video_bitrate = (CLOCK)v;
+    if (video_bitrate < 100000 || audio_bitrate > 10000000)
+        video_bitrate = 800000;
+
+    return 0;
+}
+
+/*---------- Resources ------------------------------------------------*/
+static const resource_t resources[] = {
+    { "FFMPEGAudioBitrate", RES_INTEGER, (resource_value_t)64000,
+      (void *)&audio_bitrate,
+      set_audio_bitrate, NULL },
+    { "FFMPEGVideoBitrate", RES_INTEGER, (resource_value_t)800000,
+      (void *)&video_bitrate,
+      set_video_bitrate, NULL },
+    { NULL }
+};
+
+
+int ffmpegdrv_resources_init(void)
+{
+    return resources_register(resources);
+}
+/*---------------------------------------------------------------------*/
+
+
+/*---------- Commandline options --------------------------------------*/
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
+      "FFMPEGAudioBitrate", NULL,
+      "<value>", "Set bitrate for audio stream in media file" },
+    { "-ffmpegvideobitrate", SET_RESOURCE, 1, NULL, NULL,
+      "FFMPEGVideoBitrate", NULL,
+      "<value>", "Set bitrate for video stream in media file" },
+    { NULL }
+};
+
+
+int ffmpegdrv_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/*---------------------------------------------------------------------*/
+
 
 
 /*-----------------------*/
@@ -112,9 +177,10 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
         log_debug("ffmpegdrv: could not open audio codec");
         return -1;
     }
-
+    
+    audio_is_open = 1;
     audio_outbuf_size = 10000;
-    audio_outbuf = (unsigned char*) lib_malloc(audio_outbuf_size);
+    audio_outbuf = (unsigned char*)lib_malloc(audio_outbuf_size);
 
     /* ugly hack for PCM codecs (will be removed ASAP with new PCM
        support to compute the input frame size in samples */
@@ -145,12 +211,18 @@ static void ffmpegdrv_close_audio(void)
 {
     if (audio_st == NULL)
         return;
-    
-    (*p_avcodec_close)(&audio_st->codec);
+
+    if (audio_is_open)
+        (*p_avcodec_close)(&audio_st->codec);
+
+    audio_is_open = 0;
     lib_free(ffmpegdrv_audio_in.buffer);
     ffmpegdrv_audio_in.buffer = NULL;
     ffmpegdrv_audio_in.buffersamples = 0;
-    lib_free(audio_outbuf);
+    if (audio_outbuf) {
+        lib_free(audio_outbuf);
+        audio_outbuf = NULL;
+    }
 }
 
 
@@ -184,7 +256,7 @@ void ffmpegdrv_init_audio(int speed, int channels,
     c->codec_type = CODEC_TYPE_AUDIO;
 
     /* put sample parameters */
-    c->bit_rate = 64000; /* FIXME: constant for now */
+    c->bit_rate = audio_bitrate;
     c->sample_rate = speed;
     c->channels = channels;
     audio_st = st;
@@ -293,6 +365,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
         return -1;
     }
 
+    video_is_open = 1;
     video_outbuf = NULL;
     if (!(oc->oformat->flags & AVFMT_RAWPICTURE)) {
         /* allocate output buffer */
@@ -326,18 +399,24 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
 
 static void ffmpegdrv_close_video(void)
 {
-    if (video_st != NULL) {
+    if (video_st == NULL)
+        return;
+
+    if (video_is_open)
         (*p_avcodec_close)(&video_st->codec);
-        if (video_outbuf != NULL)
-            lib_free(video_outbuf);
+
+    video_is_open = 0;
+    if (video_outbuf != NULL)
+        lib_free(video_outbuf);
+    if (picture) {
         lib_free(picture->data[0]);
         lib_free(picture);
         picture = NULL;
-        if (tmp_picture) {
-            lib_free(tmp_picture->data[0]);
-            lib_free(tmp_picture);
-            tmp_picture = NULL;
-        }
+    }
+    if (tmp_picture) {
+        lib_free(tmp_picture->data[0]);
+        lib_free(tmp_picture);
+        tmp_picture = NULL;
     }
 }
 
@@ -366,7 +445,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->codec_type = CODEC_TYPE_VIDEO;
 
     /* put sample parameters */
-    c->bit_rate = 800000; /* FIXME: constant for now */
+    c->bit_rate = video_bitrate;
     /* resolution should be a multiple of 16 */
     video_width = c->width = (screenshot->width + 15) & ~0xf; 
     video_height = c->height = (screenshot->height + 15) & ~0xf;
@@ -395,17 +474,26 @@ static int ffmpegdrv_init_file(void)
 
     (*p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
 
-    if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0))
+    if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0)) {
+        ui_error("ffmpegdrv: Cannot open video stream");
+        screenshot_stop_recording();
         return -1;
-    if (audio_st && (ffmpegdrv_open_audio(ffmpegdrv_oc, audio_st) < 0))
+    }
+    if (audio_st && (ffmpegdrv_open_audio(ffmpegdrv_oc, audio_st) < 0)) {
+        ui_error("ffmpegdrv: Cannot open audio stream");
+        screenshot_stop_recording();
         return -1;
+    }
 
     if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
         if ((*p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename, 
-                            URL_WRONLY) < 0) {
-            log_debug("ffmpegdrv: Cannot open %s", ffmpegdrv_oc->filename);
+                            URL_WRONLY) < 0) 
+        {
+            ui_error("ffmpegdrv: Cannot open %s", ffmpegdrv_oc->filename);
+            screenshot_stop_recording();
             return -1;
         }
+
     }
 
     (*p_av_write_header)(ffmpegdrv_oc);
@@ -437,9 +525,12 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    /* force MP3 audio stream */
-    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_MP2)
+    /* force MP3 audio stream if possible */
+    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_MP2
+        && (*p_avcodec_find_encoder)(CODEC_ID_MP3) != NULL)
+    {
         ffmpegdrv_fmt->audio_codec = CODEC_ID_MP3;
+    }
 
     ffmpegdrv_oc = (AVFormatContext*)lib_malloc(sizeof(AVFormatContext));
     memset(ffmpegdrv_oc, 0, sizeof(AVFormatContext));
@@ -472,23 +563,27 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
         ffmpegdrv_close_audio();
 
     /* write the trailer, if any */
-    (*p_av_write_trailer)(ffmpegdrv_oc);
+    if (file_init_done) {
+        (*p_av_write_trailer)(ffmpegdrv_oc);
+        if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
+            /* close the output file */
+            (*p_url_fclose)(&ffmpegdrv_oc->pb);
+        }
+    }
     
     /* free the streams */
     for(i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
         (*p___av_freep)((void**)&ffmpegdrv_oc->streams[i]);
     }
 
-    if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
-        /* close the output file */
-        (*p_url_fclose)(&ffmpegdrv_oc->pb);
-    }
 
     /* free the stream */
     lib_free(ffmpegdrv_oc);
     log_debug("ffmpegdrv: Closed successfully");
 
     resources_set_value("SoundRecordDeviceName", "");
+
+    file_init_done = 0;
 
     return 0;
 }
