@@ -7,6 +7,7 @@
  * Patches by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Teemu Rantanen (tvr@cs.hut.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,6 +39,10 @@
  *
  */
 
+/* Warning!  This implementation works only on the C64.  Before trying to use
+   with the other machines, check out all the `FIXME's and the constants
+   #defined after the #includes.  */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -47,7 +52,6 @@
 #include <unistd.h>
 
 #include "tapeunit.h"
-#include "macro.h"
 #include "maincpu.h"
 #include "serial.h"
 #include "file.h"
@@ -63,9 +67,19 @@
 
 /* #define  DEBUG_TAPE */
 
+/* Warning: this only works for C64!  (FIXME!)  */
+#define SET_ST(b)	   STORE(0x90, (LOAD(0x90) | b))
+#define BSOUR		   0x95	/* Buffered Character for Serial Bus */
+#define TMP_IN		   0xA4	/* Temp Data Area */
+#define CAS_BUFFER_OFFSET  (ram[0xB2] | (ram[0xB3] << 8))  /* C64,128 TAPE1 */
+#define VERCK		   0x93
+#define IRQTMP             0x02A0
 
-/* ------------------------------------------------------------------------- */
+static int  fn (void);
+static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf);
 
+static const trap_t *tape_traps;
+static TAPE  *tape = NULL;
 static char *typenames[] = {
     "Tape Index", "CBM Binary", "SFX Archive", "LYNX Archive",
     "P00", "T64 Image", "X64 Disk Image"
@@ -73,241 +87,45 @@ static char *typenames[] = {
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Functions
- */
-
-static void findheader (void);
-static void writeheader (void);
-/* static void checkplay (void); */
-static void tapereceive (void);
-static int  fn (void);
-static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf);
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Initialize tape module. Set up traps.
- */
-
-#ifdef PET
-
-/* PET BASIC 1.0 Traps */
-static trap_t b1_tape_traps[] = {
-    {
-	"FindHeader",
-	0x00,			/* FIXME */
-	{0x20, 0xF2, 0xE9},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0x00,			/* FIXME */
-	{0x20, 0x1C, 0xEA},
-	writeheader
-    },
-    {
-	"TapeReceive",
-	0x00,			/* FIXME */
-	{0x20, 0x9B, 0xEE},
-	tapereceive
-    }
-};
-
-/* PET BASIC 2.0 Traps */
-static trap_t b2_tape_traps[] = {
-    {
-	"FindHeader",
-	0x00,			/* FIXME */
-	{0x20, 0xF2, 0xE9},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0x00,			/* FIXME */
-	{0x20, 0x1C, 0xEA},
-	writeheader
-    },
-    {
-	"TapeReceive",
-	0xF89B,
-	{0x20, 0x9B, 0xFC},
-	tapereceive
-    }
-};
-
-/* PET BASIC 4.0 Traps */
-static trap_t b4_tape_traps[] = {
-    {
-	"FindHeader",
-	0x00,			/* FIXME */
-	{0x20, 0xF2, 0xE9},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0x00,			/* FIXME */
-	{0x20, 0x1C, 0xEA},
-	writeheader
-    },
-    {
-	"TapeReceive",
-	0xF8E0,
-	{0x20, 0xE0, 0xFC},
-	tapereceive
-    }
-};
-
-#else  /* Not PET */
-
-static trap_t tape_traps[] = {
-#ifndef C128
-#ifdef VIC20
-/* VIC20 Traps */
-    {
-	"FindHeader",
-	0xF7B2,
-	{0x20, 0xC0, 0xF8},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0xF83B,
-	{0x20, 0xEA, 0xF8},
-	writeheader
-    },
-    {
-	"TapeReceive",
-	0xF90B,
-	{0x20, 0xE7, 0xF7},
-	tapereceive
-    }
-
-#else
-/* C64 Traps */
-    {
-	"FindHeader",
-	0xF72F,
-	{0x20, 0x41, 0xF8},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0xF7BE,
-	{0x20, 0x6B, 0xF8},
-	writeheader
-    },
-/*  {
-	"AskPlayOnTape",
-	0xF81E,
-	{0x20, 0x2F, 0xF1},
-	checkplay
-    },*/
-    {
-	"TapeReceive",
-	0xF8A1,
-	{0x20, 0xBD, 0xFC},
-	tapereceive
-    }
-
-#endif  /* VIC20 */
-#else
-/* C128 Traps */
-    {
-	"FindHeader",
-	0xE8D3,
-	{0x20, 0xF2, 0xE9},
-	findheader
-    },
-    {
-	"WriteHeader",
-	0xE96E,
-	{0x20, 0x1C, 0xEA},
-	writeheader
-    },
-    {
-	"TapeReceive",
-	0xEA60,
-	{0x20, 0x9B, 0xEE},
-	tapereceive
-    }
-
-#endif
-};
-#endif  /* Not PET */
-
-
-/* ------------------------------------------------------------------------- */
-
-static TAPE  *tape = NULL;
-
-int  initialize_tape (int number)
+/* Initialize the tape emulation, using the traps in `trap_list'.  */
+int  initialize_tape (const trap_t *trap_list)
 {
-    /*TAPE  *tape;*/
-#ifdef PET
-     trap_t *tape_traps;
+    const trap_t *p;
 
-     if (0)			/* FIXME */
-	tape_traps = b1_tape_traps;
-     else if (0)		/* FIXME */
-	tape_traps = b2_tape_traps;
-     else
-	tape_traps = b4_tape_traps;
-#endif
-
-
-    /*
-     * Which traps to initialize
-     */
-
-    set_trap(&tape_traps[0]);
-    set_trap(&tape_traps[1]);
-    set_trap(&tape_traps[2]);
-    /* set_trap(&tape_traps[3]); */
-
+    tape_traps = trap_list;
+    if (tape_traps != 0) {
+        for (p = tape_traps; p->func != NULL; p++)
+            set_trap(p);
+    }
 
     /*
      * Create instance of the tape
      */
 
-    tape = (TAPE *)malloc(sizeof(TAPE));
-    assert(tape);
+    tape = (TAPE *) xmalloc(sizeof(TAPE));
     memset (tape, 0, sizeof(TAPE));		/* init all pointers */
 
-    tape->type      = DT_TAPE;
+    tape->type = DT_TAPE;
 
 
-    /*
-     * Add cassette drive to serial device list, so that Monitor
-     * can handle it.
-     */
-
-    if (attach_serial_device (number, (char *)tape, "Cassette unit",
-#if 0
-	     read_tape, write_tape, open_tape, close_tape, flush_tape
-#else
-	     (int (*)(void *, BYTE *, int))fn,
-	     (int (*)(void *, BYTE, int))fn,
-	     (int (*)(void *, char *, int, int))fn,
-	     (int (*)(void *, int))fn,
-	     (void (*)(void *, int))fn
-#endif
-	 )) {
+    /* Add cassette drive to serial device list, so that Monitor
+       can handle it.  The device number (1) is hardcoded.  */
+    if (attach_serial_device (1, (char *)tape, "Cassette unit",
+                              (int (*)(void *, BYTE *, int))fn,
+                              (int (*)(void *, BYTE, int))fn,
+                              (int (*)(void *, char *, int, int))fn,
+                              (int (*)(void *, int))fn,
+                              (void (*)(void *, int))fn)) {
 	printf("could not initialize Cassette ????\n");
-	return(-1);
+	return -1;
     }
 
-    printf("Cassette #%d installed.\n", number);
     return 0;
 }
 
-
 /* ------------------------------------------------------------------------- */
 
-/*
- * Functions to attach the tape image files.
- */
+/* Functions to attach the tape image files.  */
 
 void  detach_tape_image (TAPE *tape)
 {
@@ -329,27 +147,30 @@ void  detach_tape_image (TAPE *tape)
     mem_set_tape_sense(0);
 }
 
-/* check if this image is a CBM binary program file */
+/* Check if this image is a CBM binary program file.  */
 static int is_valid_prgfile(FILE *fd)
 {
-    int		len, ret = 0;
-    BYTE	tmp[2];
+    int len, ret = 0;
+    BYTE tmp[2];
+
     /* size is right? */
     fseek(fd, 0, SEEK_SET);
     len = file_length(fileno(fd));
     if (len >= 65536 || len < 2)
 	return 0;
+
     /* check load address */
     if (fread(tmp, 1, 2, fd) != 2)
 	return 1;
     if (tmp[0] == 1 && (tmp[1] == 8 || tmp[1] == 4))
 	ret = 1;
+
     /* rewind */
     fseek(fd, 0, SEEK_SET);
     return ret;
 }
 
-
+/* Attach a tape image.  */
 int   attach_tape_image (TAPE *tape, const char *name, int mode)
 {
     char   realname[24];
@@ -361,7 +182,7 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 
     if (!name || !*name) {
 	printf("No name, detaching image.\n");
-	return (-1);
+	return -1;
     }
 
     if ((tape->FileDs = zfopen (name, mode ? "rwb" : "rb")) == NULL ||
@@ -369,7 +190,7 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 	perror (name);
 
 	printf("Tape: cannot open file `%s'.\n", name);
-	return (FD_NOTRD);
+	return FD_NOTRD;
     }
 
 
@@ -381,7 +202,7 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
     if (flen == 0) {
 	if (!mode) {
 	    printf("Tape: Cannot open file `%s'.\n", name);
-	    return (FD_BADIMAGE);
+	    return FD_BADIMAGE;
 	}
 
 
@@ -406,10 +227,10 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 	  fprintf(stderr, "cannot create tape %s: %s format specified.\n",
 		  name, (format < 0) ? "No" : "Illegal");
 
-	  return (FD_BADIMAGE);
+	  return FD_BADIMAGE;
 	}  /* switch */
 
-	return (FD_OK);
+	return FD_OK;
     }
 
 
@@ -436,32 +257,6 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 	fread(tape->directory, TAPE_DIR_SIZE, entries, tape->FileDs);
 	tape->entry = -1;		/* Number of current entry slot */
     }
-#if 0
-    else if ( FD_OK) {			/* Is it SFX Archive ? */
-	rewind (f);
-
-
-	format = TFF_SFX;
-    }
-    else if ( FD_OK) {			/* Is it LYNX Archive ? */
-	rewind (f);
-
-
-	format = TFF_LYNX;
-    }
-    else if ( FD_OK) {			/* Special index file */
-	rewind (f);
-
-
-	format = TFF_INDEX;
-    }
-    else if ( FD_OK) {			/* Try Disk Image */
-	rewind (f);
-
-
-	format = TFF_DISK;
-    }
-#endif
 
     if (format < 0) {			/* There is no header */
 	if (is_valid_prgfile(tape->FileDs)) {
@@ -472,7 +267,7 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 	    printf ("Tape: realtype %d  entries %d.\n", realtype, entries);
 #endif
 	    fprintf (stderr, "Tape: Invalid fileformat.\n");
-	    return (-1);
+	    return -1;
 	}
     }
 
@@ -494,84 +289,53 @@ int   attach_tape_image (TAPE *tape, const char *name, int mode)
 }
 
 
-/*
- * This function is called whenever the Cassette Motor is turned on, to
- * uncover any custom tape routines.
- */
-
+/* Argh.  We could probably get rid of this.  FIXME!  */
 int   check_tape (void)
 {
-
-#ifndef DEBUG_TAPE
-    if (app_resources.debugFlag)
-#endif
-	fprintf (stderr, "Tape: Motor on Tape 1.\n");
-
-    return (1);
+    return 1;
 }
 
 
 /* ------------------------------------------------------------------------- */
 
-
-/*
- * Cassette device is not attached on the Serial Bus.
- *  -128 == device not present
- */
+/* Cassette device is not attached on the Serial Bus.  */
 
 static int  fn()
 {
-    return (0x80);
+    return 0x80;
 }
 
-
-/* ------------------------------------------------------------------------- */
-
 /*
- * Find the next Tape Header and load it onto the Tape Buffer.
- * Both Find-Any-Header and Find-Specific-Header (which calls the previous)
- * only need to trap the Tape-Read-Block routine.
- *
- * An interface to select the image file is provided.
- *
- * Entry Format:
- *	 0	File type flag:
- *		1	Binary Program or RAM image
- *		3	Relocatable Program
- *		4	Data File
- *		5	End-of-Tape (EOT)
- *	1-2	Start Address
- *	3-4	End Address
- *	5-21	Filename
- *
- *  FYI: Simon's Basic supports filenames much longer than 16 characters.
- *
+   Find the next Tape Header and load it onto the Tape Buffer.
+   Both Find-Any-Header and Find-Specific-Header (which calls the previous)
+   only need to trap the Tape-Read-Block routine.
+
+   An interface to select the image file is provided.
+
+   Entry Format:
+                0	File type flag:
+                       1	Binary Program or RAM image
+                       3	Relocatable Program
+                       4	Data File
+                       5	End-of-Tape (EOT)
+               1-2	Start Address
+               3-4	End Address
+               5-21	Filename
+
+    FYI: Simon's Basic supports filenames much longer than 16 characters.
  */
 
-static void findheader (void)
+void findheader (void)
 {
     BYTE  *s;
     int    start, end;
     int    sense = 0;
     int    err = 0;
 
-
-#if 0
-    /* Do we have cassette ? */
-    if (tape->FileDs == NULL) {
-	/* Call fileselector window ... */
-	if (attach_tape_image (tape, fileselector(0), 0) < 0) {
-	    fprintf (stderr, "No Tape.\n");
-	    err++;
-	}
-    }
-#else
     if (tape->FileDs == NULL) {
 	fprintf(stderr, "No Tape.\n");
 	err++;
     }
-#endif
-
 
     /*
      * Load next filename record
@@ -652,66 +416,42 @@ static void findheader (void)
 #endif
 
 
-#ifdef PET
-    STORE(0x96, 0);
-#else
+    /* FIXME: Only works for C64 */
     STORE(0x90, 0);			/* Clear the STATUS word */
-#endif
 
     ram[VERCK] = 0;
     ram[IRQTMP] = 0;
 
-#if defined(VIC20) || defined(CBM64)
-    /* Check if STOP has been pressed. */
+    /* Check if STOP has been pressed.  FIXME: only works with C64.  */
     {
 	int i, n = LOAD_ZERO(0xC6);
 
-	SET_CARRY(0);
+	maincpu_regs.psp.c = 0;
 	for (i = 0; i < n; i++)
 	    if (LOAD(0x277 + i) == 0x3) {
-		SET_CARRY(1);	/* Carry set flags BREAK error. */
+		maincpu_regs.psp.c = 1;	/* Carry set flags BREAK error. */
 		break;
 	    }
     }
-#else
-    SET_CARRY(!sense);
-#endif
 
-    SET_ZERO(0);
-
-    PC =  FIND_RET;
-
+    maincpu_regs.psp.z = 1;
 }
 
 
-/*
- * Write the Tape Header onto the Tape Buffer and pad the buffer with $20's.
- * Then send it to tape along with a 10-second sync leader (short pulses).
- * We only need to trap the Tape-Write-Block routine.
- * For details on the Entry format see the description above.
- *
- * Always confirm the file to save onto.
- */
+/* Write the Tape Header onto the Tape Buffer and pad the buffer with $20's.
+   Then send it to tape along with a 10-second sync leader (short pulses).
+   We only need to trap the Tape-Write-Block routine.  For details on the
+   Entry format see the description above.
 
-static void writeheader (void)
+   Always confirm the file to save onto.  */
+
+void writeheader (void)
 {
     BYTE  *s;
     int    sense = 0;
 
-#if 0
-    /* Do we have cassette ? */
-    if (tape->FileDs == NULL) {
-	/* Call fileselector window ... */
-
-	if (attach_tape_image (tape, fileselector(0), 1) < 0) {
-	    fprintf (stderr, "No Tape.\n");
-	}
-    }
-#else
     if (tape->FileDs == NULL)
 	fprintf(stderr, "No Tape.\n");
-#endif
-
 
     /* Write the filename record on tape */
 
@@ -773,21 +513,16 @@ static void writeheader (void)
 
     ram[IRQTMP] = 0;
 
-    SET_CARRY(0);			/* Carry set flags BREAK error */
-
-    SET_ZERO(0);
-
-    PC = WRITE_RET;
+    maincpu_regs.psp.c = 0;     /* Carry flag sets BREAK error */
+    maincpu_regs.psp.z = 1;
 }
 
 
-/*
- * This function is unreliable (open/close) and thus not used. It's easier
- * to just check for any transitions on the Motor Control line.
- */
+/* This function is unreliable (open/close) and thus not used. It's easier
+   to just check for any transitions on the Motor Control line.  */
 
-/*
-static void checkplay (void)
+#if 0
+void checkplay (void)
 {
 
 #ifdef DEBUG_TAPE
@@ -795,27 +530,26 @@ static void checkplay (void)
 #endif
 
 }
-*/
-
+#endif
 
 
 /* ------------------------------------------------------------------------- */
 
 /*
- * Cassette Data transfer trap.
- *
- * XR flags the function to be performed on IRQ:
- *
- *	08	Write tape
- *	0a	Write tape leader
- *	0c	Normal keyscan
- *	0e	Read tape
- *
- * Luckily enough, these offset values are valid for PETs, C64 and C128.
- *
+   Cassette Data transfer trap.
+
+   XR flags the function to be performed on IRQ:
+
+               08	Write tape
+               0a	Write tape leader
+               0c	Normal keyscan
+               0e	Read tape
+
+   Luckily enough, these offset values are valid for PETs, C64 and C128.
+
  */
 
-static void tapereceive (void)
+void tapereceive (void)
 {
     int   start, end, len;
     int   st = 0;
@@ -836,7 +570,7 @@ static void tapereceive (void)
 #endif
 
 
-    switch (XR) {
+    switch (maincpu_regs.x) {
     case 0x0a:		/* Write Leader */
       break;
 
@@ -894,20 +628,14 @@ static void tapereceive (void)
     ram[IRQTMP] = 0;
 
     SET_ST(st);			/* EOF and possible errors */
-    SET_CARRY(0);
-
-    PC = TRANSFER_RET;		/* Restore Normal IRQ */
+    maincpu_regs.psp.c = 0;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * Find the next applicable file on a *.T64 tape.
- * On success, filename and both start and end addresses are copied to
- * the cassette input buffer.
- */
-
+/* Find the next applicable file on a *.T64 tape.
+   On success, filename and both start and end addresses are copied to
+   the cassette input buffer.  */
 
 static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf)
 {
@@ -917,22 +645,21 @@ static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf)
 
 
     if (tape->entry >= tape->entries) {
-	return (-1);
+	return -1;
     }
 
     while (1) {
 
 	if (tape->entry < tape->entries - 1) {
 	    tape->entry ++;
-	}
-	else {
+	} else {
 	    tape->entry = 0;
 	}
 
         dirp = tape->directory + TAPE_DIR_SIZE * tape->entry;
 
 	if (!type && *dirp == 0) {	/* found empty slot */
-	    return (0);
+	    return 0;
 	}
 
 	if (type && *dirp == 1) {	/* found a file */
@@ -970,6 +697,6 @@ static int  t64_find_next (TAPE *tape, char *pattern, int type, BYTE *cbuf)
 
     }
 
-    return (0);
+    return 0;
 }
 

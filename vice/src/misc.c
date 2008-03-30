@@ -53,7 +53,6 @@
 
 #include "maincpu.h"
 #include "misc.h"
-#include "macro.h"
 #include "mshell.h"
 #include "asm.h"
 #include "resources.h"
@@ -71,10 +70,10 @@ void    show_bases(char *line, int mode)
     char buf[20];
     int temparg = sconv(line, 0, mode);
 
-    strcpy(buf, sprint_binary(UPPER(temparg)) );
+    strcpy(buf, sprint_binary((temparg >> 8) & 0xff) );
     printf("\n %17x x\n %17d d\n %17o o\n %s %s b\n\n",
 	   temparg, temparg, temparg, buf,
-	   sprint_binary(LOWER(temparg)));
+	   sprint_binary(temparg & 0xff));
 }
 
 
@@ -84,18 +83,9 @@ void    show_bases(char *line, int mode)
 
 void    show(void)
 {
-#if 0
-    if (verflg)
-	printf(hexflg ?
-	    "PC=%4X AC=%2X XR=%2X YR=%2X PF=%s SP=%2X %3X %3d %s\n" :
-	    "PC=%04d AC=%03d XR=%03d YR=%03d PF=%s SP=%03d %3d %2X %s\n",
-	    (int) PC, (int) AC, (int) XR, (int) YR,
-	    sprint_status(), (int) SP,
-	    LOAD(PC), LOAD(PC), sprint_opcode(PC, hexflg));
-    else
-#endif
-	printf(app_resources.hexFlag ? "%lx %4X %s\n" : "%ld %4d %s\n",
-	       clk, PC, sprint_opcode(PC, app_resources.hexFlag));
+    printf(app_resources.hexFlag ? "%lx %4X %s\n" : "%ld %4d %s\n",
+           clk, maincpu_regs.pc,
+           sprint_opcode(maincpu_regs.pc, app_resources.hexFlag));
 }
 
 
@@ -157,7 +147,8 @@ char   *sprint_opcode(ADDRESS counter, int base)
 }
 
 
-char   *sprint_disassembled(ADDRESS counter, BYTE x, BYTE p1, BYTE p2, int base)
+char   *sprint_disassembled(ADDRESS counter,
+                            BYTE x, BYTE p1, BYTE p2, int base)
 {
     static char buff[20];
     const char *string;
@@ -171,7 +162,7 @@ char   *sprint_disassembled(ADDRESS counter, BYTE x, BYTE p1, BYTE p2, int base)
     string = lookup[x].mnemonic;
     addr_mode = lookup[x].addr_mode;
 
-    sprintf(buff, "$%02X %s", x, string);	/* Print opcode and mnemonic. */
+    sprintf(buff, "$%02X %s", x, string); /* Print opcode and mnemonic. */
     while (*++buffp);
 
     switch (addr_mode) {
@@ -284,11 +275,11 @@ int     eff_address(ADDRESS counter, int step)
 	break;
 
       case ZERO_PAGE_X:
-	eff = (p1 + XR) & 0xff;
+	eff = (p1 + maincpu_regs.x) & 0xff;
 	break;
 
       case ZERO_PAGE_Y:
-	eff = (p1 + YR) & 0xff;
+	eff = (p1 + maincpu_regs.y) & 0xff;
 	break;
 
       case ABSOLUTE:
@@ -296,11 +287,11 @@ int     eff_address(ADDRESS counter, int step)
 	break;
 
       case ABSOLUTE_X:
-	eff = p2 + XR;
+	eff = p2 + maincpu_regs.x;
 	break;
 
       case ABSOLUTE_Y:
-	eff = p2 + YR;
+	eff = p2 + maincpu_regs.y;
 	break;
 
       case ABS_INDIRECT:  /* loads 2-byte address */
@@ -308,15 +299,15 @@ int     eff_address(ADDRESS counter, int step)
 	break;
 
       case INDIRECT_X:
-	eff = LOAD_ZERO_ADDR(p1 + XR);
+	eff = LOAD_ZERO_ADDR(p1 + maincpu_regs.x);
 	break;
 
       case INDIRECT_Y:
-	eff = LOAD_ZERO_ADDR(p1) + YR;
+	eff = LOAD_ZERO_ADDR(p1) + maincpu_regs.y;
 	break;
 
       case RELATIVE:
-	eff = REL_ADDR(counter +2, p1);
+        eff = (counter + 2) + (signed char)p1;
 	break;
 
       default:

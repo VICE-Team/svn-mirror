@@ -63,50 +63,25 @@
 #include <fcntl.h>
 #endif
 
-#include "maincpu.h"
-#include "vmachine.h"
-#include "mem.h"
-#include "serial.h"
 #include "patchlevel.h"
+#include "maincpu.h"
+#include "serial.h"
 #include "interrupt.h"
 #include "sid.h"
 #include "ui.h"
-#include "true1541.h"
 #include "vsync.h"
 #include "video.h"
 #include "kbd.h"
 #include "resources.h"
-#include "reu.h"
-#include "patchrom.h"
-#include "traps.h"
-#include "tapeunit.h"
 #include "mon.h"
 #include "autostart.h"
 #include "findpath.h"
 #include "machspec.h"
+#include "utils.h"
+#include "joystick.h"
 
 #ifdef __MSDOS__
 #include "vmidas.h"
-#endif
-
-#ifdef HAS_JOYSTICK
-#include "joystick.h"
-#endif
-
-#ifdef PET
-#include "crtc.h"
-#endif
-
-#ifdef VIC20
-#include "vic.h"
-#endif
-
-#ifdef CBM64
-#include "vicii.h"
-#endif
-
-#ifdef AUTOSTART
-#include "utils.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -114,18 +89,10 @@
 const char *progname;
 const char *boot_path;
 
-extern CLOCK   clk;
-extern int     halt;
-
-#ifdef SUN
-extern int getpagesize(void);
-#endif
-
 static RETSIGTYPE break64(int sig);
-
 static void exit64(void);
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 #ifdef __MSDOS__
 
@@ -180,16 +147,10 @@ static void set_boot_path(const char *prg_path)
 
 #endif /* __MSDOS__ */
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 int main(int argc, char **argv)
 {
-#ifdef AUTOSTART
-    FILE		*autostartfd;
-    char		*autostartprg;
-    char		*autostartfile;
-    char		*tmp;
-#endif
     ADDRESS start_addr;
 
     if (atexit (exit64) < 0) {
@@ -270,110 +231,7 @@ int main(int argc, char **argv)
     signal(SIGTERM,  break64);
     signal(SIGPIPE,  break64);
 
-    if (mem_load() < 0 && !app_resources.asmFlag)
-	exit (1);
-
-#ifdef PATCH_ROM
-#ifdef C128
-    if (app_resources.basicRev) {
-	(void)patch_rom (app_resources.basicRev);
-    }
-#endif
-    if (app_resources.kernalRev) {
-	(void)patch_rom (app_resources.kernalRev);
-    }
-#endif  /* PATCH_ROM */
-
-    printf("\nInitializing Serial Bus...\n");
-
-    /* Setup trap handling. */
-    initialize_traps();
-
-    /* Initialize serial traps.  If user does not want them, or if the
-       ``true1541'' emulation is used, do not install them. */
-    initialize_serial(app_resources.noTraps || app_resources.true1541);
-
-#if 0
-    /* This is disabled because it's currently broken. */
-    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
-#endif
-
-    initialize_1541(8, DT_DISK | DT_1541);
-    initialize_1541(9, DT_DISK | DT_1541);
-    initialize_1541(11, DT_FS | DT_1541);
-
-#ifdef HAVE_TRUE1541
-    putchar('\n');
-
-    /* Fire up the hardware-level 1541 emulation. */
-    initialize_true1541();
-#endif
-
-    /* Attach specified disk images. */
-
-    if (app_resources.floppyName
-	&& serial_select_file(DT_DISK | DT_1541, 8,
-			      app_resources.floppyName) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #8 failed.\n");
-    if (app_resources.floppy9Name
-	&& serial_select_file(DT_DISK | DT_1541, 9,
-			      app_resources.floppy9Name) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #9 failed.\n");
-    if (app_resources.floppy10Name
-	&& serial_select_file(DT_DISK | DT_1541, 10,
-			      app_resources.floppy10Name) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #10 failed.\n");
-
-#ifdef CBMTAPE
-    if (!app_resources.noTraps)
-	initialize_tape (1);
-    if (app_resources.tapeName && *app_resources.tapeName)
-	if (serial_select_file(DT_TAPE, 1, app_resources.tapeName) < 0) {
-	    fprintf (stderr, "No Tape.\n");
-	}
-#endif
-
-#ifdef AUTOSTART
-    autostart_init();
-
-    /* Check for image:prg -format.  */
-    if (app_resources.autostartName != NULL) {
-	tmp = strrchr(app_resources.autostartName, ':');
-	if (tmp) {
-	    autostartfile = stralloc(app_resources.autostartName);
-	    autostartprg = strrchr(autostartfile, ':');
-	    *autostartprg++ = '\0';
-	    autostartfd = fopen(autostartfile, "r");
-	    /* image exists? */
-	    if (autostartfd) {
-		fclose(autostartfd);
-		autostart_autodetect(autostartfile, autostartprg);
-	    }
-	    else
-		autostart_autodetect(app_resources.autostartName, NULL);
-	    free(autostartfile);
-	} else {
-	    autostart_autodetect(app_resources.autostartName, NULL);
-	}
-    }
-#endif
-
-#ifdef SOUND
-
-#ifdef __MSDOS__
-    if (app_resources.doSoundSetup) {
-	vmidas_startup();
-	vmidas_config();
-    }
-#endif
-
-    /* Fire up the sound emulation. */
-    initialize_sound();
-#endif
-
-    putchar ('\n');
-
-#if defined(HAS_JOYSTICK) /* && !defined(PET) */
+#ifdef HAS_JOYSTICK
     /* Initialize real joystick. */
     joyini();
 #endif
@@ -393,19 +251,51 @@ int main(int argc, char **argv)
 	exit (-1);
 
     /* Machine-specific initialization. */
-    machine_init();
-    
+    if (machine_init() < 0) {
+        fprintf(stderr, "Machine initialization failed.\n");
+        exit(1);
+    }
+
+    /* Attach specified disk images. */
+
+    if (app_resources.floppyName
+	&& serial_select_file(DT_DISK | DT_1541, 8,
+			      app_resources.floppyName) < 0)
+	fprintf (stderr, "\nFloppy attachment on drive #8 failed.\n");
+    if (app_resources.floppy9Name
+	&& serial_select_file(DT_DISK | DT_1541, 9,
+			      app_resources.floppy9Name) < 0)
+	fprintf (stderr, "\nFloppy attachment on drive #9 failed.\n");
+    if (app_resources.floppy10Name
+	&& serial_select_file(DT_DISK | DT_1541, 10,
+			      app_resources.floppy10Name) < 0)
+	fprintf (stderr, "\nFloppy attachment on drive #10 failed.\n");
+
+    if (app_resources.tapeName && *app_resources.tapeName)
+	if (serial_select_file(DT_TAPE, 1, app_resources.tapeName) < 0) {
+	    fprintf (stderr, "No Tape.\n");
+	}
+
+#ifdef SOUND
+#ifdef __MSDOS__
+    if (app_resources.doSoundSetup) {
+	vmidas_startup();
+	vmidas_config();
+    }
+#endif
+
+    /* Fire up the sound emulation. */
+    initialize_sound();
+#endif
+
+    putchar ('\n');
+
     /* Use the specified start address for booting up. */
     if (app_resources.startAddr)
 	start_addr = (ADDRESS) strtol(app_resources.startAddr, NULL,
 				      app_resources.hexFlag ? 16 : 10);
     else
         start_addr = 0;		/* Use normal RESET vector. */
-
-    /* Here we go ... */
-
-    /* Initialize the monitor */
-    init_monitor();
 
     if (app_resources.asmFlag)
 	mon(start_addr);
@@ -439,21 +329,13 @@ static void exit64(void)
     signal(SIGINT, SIG_IGN);
 
     printf("\nExiting...\n");
-    video_free ();
 
-    remove_serial(-1);
-
-#if defined(HAS_JOYSTICK) /* && !defined(PET) */
-    joyclose();
-#endif
-
-#ifdef REU
-    if (app_resources.reu)
-	close_reu(app_resources.reuName);
-#endif
-
-#ifdef SOUND
+    machine_shutdown();
+    video_free();
     close_sound();
+
+#ifdef HAS_JOYSTICK
+    joyclose();
 #endif
 
     putchar ('\n');
