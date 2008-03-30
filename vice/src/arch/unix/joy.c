@@ -44,6 +44,7 @@
 
 #include "cmdline.h"
 #include "joy.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
 #include "resources.h"
@@ -281,8 +282,11 @@ void old_joystick(void)
                     log_error(joystick_log,
                               _("Error reading digital joystick device."));
                 } else {
-                    joystick_value[i] = ((joystick_value[i] & 0xe0)
-                                        | ((~(djs.switches >> 3)) & 0x1f));
+                    BYTE newval;
+
+                    newval = ((joystick_get_value_absolute & 0xe0)
+                             | ((~(djs.switches >> 3)) & 0x1f));
+                    joystick_set_value_absolute(i, newval);
                 }
             }
         } else
@@ -298,22 +302,22 @@ void old_joystick(void)
                     log_error(joystick_log,
                               _("Error reading joystick device."));
                 } else {
-                    joystick_value[i] = 0;
+                    joystick_set_value_absolute(i, 0);
 
                     if (js.y < joyymin[ajoyport])
-                        joystick_value[i] |= 1;
+                        joystick_set_value_or(i, 1);
                     if (js.y > joyymax[ajoyport])
-                        joystick_value[i] |= 2;
+                        joystick_set_value_or(i, 2);
                     if (js.x < joyxmin[ajoyport])
-                        joystick_value[i] |= 4;
+                        joystick_set_value_or(i, 4);
                     if (js.x > joyxmax[ajoyport])
-                        joystick_value[i] |= 8;
+                        joystick_set_value_or(i, 8);
 #ifdef LINUX_JOYSTICK
                     if (js.buttons)
-                        joystick_value[i] |= 16;
+                        joystick_set_value_or(i, 16);
 #elif defined(BSD_JOYSTICK)
                     if (js.b1 || js.b2)
-                        joystick_value[i] |= 16;
+                        joystick_set_value_or(i, 16);
 #endif
                 }
             }
@@ -430,25 +434,25 @@ void new_joystick(void)
 	{
             switch (e.type & ~JS_EVENT_INIT) {
             case JS_EVENT_BUTTON:
-                joystick_value[i] &= ~16; // reset fire bit
+                joystick_set_value_and(i, ~16); // reset fire bit
                 if (e.value)
-		    joystick_value[i] |= 16;
+		    joystick_set_value_or(i, 16);
 		break;
 
 	    case JS_EVENT_AXIS:
                 if (e.number == 0) {
-		    joystick_value[i] &= 19; // reset 2 bit
+		    joystick_set_value_and(i, 19); // reset 2 bit
 		    if (e.value > 16384)
-		        joystick_value[i] |= 8;
+		        joystick_set_value_or(i, 8);
 		    else if (e.value < -16384)
-		        joystick_value[i] |= 4;
+		        joystick_set_value_or(i, 4);
 		}
 		if (e.number == 1) {
-		    joystick_value[i] &= 28; // reset 2 bit
+		    joystick_set_value_and(i, 28); // reset 2 bit
 		    if (e.value > 16384)
-		        joystick_value[i] |= 2;
+		        joystick_set_value_or(i, 2);
 		    else if (e.value < -16384)
-		        joystick_value[i] |= 1;
+		        joystick_set_value_or(i, 1);
 		}
 		break;
 	    }
