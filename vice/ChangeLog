@@ -1,3 +1,13 @@
+2004-08-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.40.
+
+	* configure.in: Do not define `UNSTABLE'.
+	Fixed `--disable-realdevice' configure switch.
+
+	* README, vice.spec, doc/vice.texi, doc/html/index.html,
+	doc/html/plain/NEWS: Updated.
+
 2004-08-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.39.
@@ -224,7 +234,7 @@
 	* Version 1.13.48.
 
 	* AUTHORS, FEEDBACK, README, vice.spec, doc/Readme.dos,
-	doc/vice.texi
+	doc/vice.texi: Updated.
 
 	* doc/html/plain/Walkthrough-Howto.txt: Moved here.
 
