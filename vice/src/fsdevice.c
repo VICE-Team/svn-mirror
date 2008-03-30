@@ -135,133 +135,59 @@ static char *fsdevice_9_dir;
 static char *fsdevice_10_dir;
 static char *fsdevice_11_dir;
 
-static int set_fsdevice_8_convert_p00(resource_value_t v)
-{
-    fsdevice_convert_p00_enabled[0] = (int) v;
-    return 0;
+#define SET_FSDEVIE_CONVERT_P00(num)                             \
+static int set_fsdevice_##num##_convert_p00(resource_value_t v)  \
+{                                                                \
+    fsdevice_convert_p00_enabled[num - 8] = (int) v;             \
+    return 0;                                                    \
+}                                                                \
+
+SET_FSDEVIE_CONVERT_P00(8)
+SET_FSDEVIE_CONVERT_P00(9)
+SET_FSDEVIE_CONVERT_P00(10)
+SET_FSDEVIE_CONVERT_P00(11)
+
+#define SET_FSDEVICE_DIR(num)                             \
+static int set_fsdevice_##num##_dir(resource_value_t v)   \
+{                                                         \
+    const char *name = (const char *) v;                  \
+    if (fsdevice_##num##_dir != NULL && name != NULL      \
+        && strcmp(name, fsdevice_##num##_dir) == 0)       \
+        return 0;                                         \
+    string_set(&fsdevice_##num##_dir, name ? name : "");  \
+    return 0;                                             \
 }
 
-static int set_fsdevice_9_convert_p00(resource_value_t v)
-{
-    fsdevice_convert_p00_enabled[1] = (int) v;
-    return 0;
+SET_FSDEVICE_DIR(8)
+SET_FSDEVICE_DIR(9)
+SET_FSDEVICE_DIR(10)
+SET_FSDEVICE_DIR(11)
+
+#define SET_FSDEVICE_SAVE_P00(num)                            \
+static int set_fsdevice_##num##_save_p00(resource_value_t v)  \
+{                                                             \
+    fsdevice_save_p00_enabled[num - 8] = (int) v;             \
+    return 0;                                                 \
 }
 
-static int set_fsdevice_10_convert_p00(resource_value_t v)
-{
-    fsdevice_convert_p00_enabled[2] = (int) v;
-    return 0;
+SET_FSDEVICE_SAVE_P00(8)
+SET_FSDEVICE_SAVE_P00(9)
+SET_FSDEVICE_SAVE_P00(10)
+SET_FSDEVICE_SAVE_P00(11)
+
+#define SET_FSDEVICE_HIDE(num)                                      \
+static int set_fsdevice_##num##_hide_cbm_files(resource_value_t v)  \
+{                                                                   \
+    if (!fsdevice_convert_p00_enabled[num - 8])                     \
+        return -1;                                                  \
+    fsdevice_hide_cbm_files_enabled[num - 8] = (int)v;              \
+    return 0;                                                       \
 }
 
-static int set_fsdevice_11_convert_p00(resource_value_t v)
-{
-    fsdevice_convert_p00_enabled[3] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_8_dir(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (fsdevice_8_dir != NULL && name != NULL
-        && strcmp(name, fsdevice_8_dir) == 0)
-        return 0;
-
-    string_set(&fsdevice_8_dir, name ? name : "");
-    return 0;
-}
-
-static int set_fsdevice_9_dir(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (fsdevice_9_dir != NULL && name != NULL
-        && strcmp(name, fsdevice_9_dir) == 0)
-        return 0;
-
-    string_set(&fsdevice_9_dir, name ? name : "");
-    return 0;
-}
-
-static int set_fsdevice_10_dir(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (fsdevice_10_dir != NULL && name != NULL
-        && strcmp(name, fsdevice_10_dir) == 0)
-        return 0;
-
-    string_set(&fsdevice_10_dir, name ? name : "");
-    return 0;
-}
-
-static int set_fsdevice_11_dir(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (fsdevice_11_dir != NULL && name != NULL
-        && strcmp(name, fsdevice_11_dir) == 0)
-        return 0;
-
-    string_set(&fsdevice_11_dir, name ? name : "");
-    return 0;
-}
-
-static int set_fsdevice_8_save_p00(resource_value_t v)
-{
-    fsdevice_save_p00_enabled[0] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_9_save_p00(resource_value_t v)
-{
-    fsdevice_save_p00_enabled[1] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_10_save_p00(resource_value_t v)
-{
-    fsdevice_save_p00_enabled[2] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_11_save_p00(resource_value_t v)
-{
-    fsdevice_save_p00_enabled[3] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_8_hide_cbm_files(resource_value_t v)
-{
-    if (!fsdevice_convert_p00_enabled[0])
-        return -1;
-    fsdevice_hide_cbm_files_enabled[0] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_9_hide_cbm_files(resource_value_t v)
-{
-    if (!fsdevice_convert_p00_enabled[1])
-        return -1;
-    fsdevice_hide_cbm_files_enabled[1] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_10_hide_cbm_files(resource_value_t v)
-{
-    if (!fsdevice_convert_p00_enabled[2])
-        return -1;
-    fsdevice_hide_cbm_files_enabled[2] = (int) v;
-    return 0;
-}
-
-static int set_fsdevice_11_hide_cbm_files(resource_value_t v)
-{
-    if (!fsdevice_convert_p00_enabled[3])
-        return -1;
-    fsdevice_hide_cbm_files_enabled[3] = (int) v;
-    return 0;
-}
+SET_FSDEVICE_HIDE(8)
+SET_FSDEVICE_HIDE(9)
+SET_FSDEVICE_HIDE(10)
+SET_FSDEVICE_HIDE(11)
 
 static resource_t resources[] = {
     { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t) 1,
