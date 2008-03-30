@@ -63,6 +63,7 @@
 #include "vicii.h"
 #include "vdc.h"
 #include "vsync.h"
+#include "z80.h"
 #include "z80mem.h"
 
 #ifdef HAVE_RS232
@@ -363,6 +364,8 @@ void machine_reset(void)
 
     autostart_reset();
     drive_reset();
+
+    z80_reset();
 }
 
 void machine_powerup(void)

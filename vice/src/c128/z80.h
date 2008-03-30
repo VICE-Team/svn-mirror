@@ -29,6 +29,7 @@
 
 #include "types.h"
 
+extern void z80_reset(void);
 extern void z80_mainloop(void);
 extern void z80_trigger_dma(void);
 
