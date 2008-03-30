@@ -1,9 +1,9 @@
 /*
- * petiec.c - IEC bus handling for the VIC20.
+ * c610iec.c - IEC bus handling for the CBM2.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,9 +27,16 @@
 
 #include "vice.h"
 
-#include "types.h"
+#include <stdio.h>
+
 #include "drive.h"
 #include "iecdrive.h"
+#include "types.h"
+
+void iec_init(void)
+{
+
+}
 
 void iec_update_ports(void)
 {
@@ -65,7 +72,7 @@ BYTE iec_drive1_read(void)
 
 void iec_fast_drive_write(BYTE data)
 {
-/* The VIC20 does not use fast IEC.  */
+/* The CBM2 does not use fast IEC.  */
 }
 
 iec_info_t *iec_get_drive_port(void)
