@@ -1,3 +1,59 @@
+2003-04-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.25.
+
+	* color.c, color.h (color_shutdown): New function.
+
+	* video.h, arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (video_shutdown): New function.
+
+	* machine.c (machine_shutdown): Call `video_shutdown()'.
+
+	* arch/unix/x11/x11menu.c (make_menu_label): Fixed memory
+	leak.
+
+	* raster/raster.c (raster_destroy_cache): New function.
+	(raster_free): Call `raster_destroy_cache()'.
+	(raster_invalidate_cache): Renamed.
+
+	* raster/raster-cache.c, raster/raster-cache.h
+	(raster_cache_destroy, raster_cache_realloc): New functions.
+	(raster_cache_init): Renamed.
+
+	* drive/drive.c (drive_shutdown): Destroy GCR image.
+
+	* attach.c (file_system_shutdown): Free vdrive struct.
+
+	* vdrive/vdrive.c (vdrive_device_shutdown): Fixed number of
+	buffers to be freed.
+
+	* arch/unix/x11/uihotkey.c, arch/unix/uihotkey.h
+	(ui_hotkey_shutdown): New function.
+
+	* uiapi.h, arch/unix/x11/xaw/x11ui.c, arch/win32/ui.c,
+	arch/unix/x11/gnome/x11ui.c, arch/msdos/ui.c,
+	arch/riscos/ui.c, arch/os2/ui.c, arch/beos/ui.cc
+	(ui_shutdown): New function.
+
+	* serial/serial.c (serial_detach_device): Free name.
+	(serial_attach_device): Detach attached device first.
+	(serial_shutdown): New function.
+
+	* raster/raster-sprite-status.c,
+	raster/raster-sprite-status.h (raster_sprite_status_shutdown):
+	New function.
+
+	* raster/raster-modes.c, raster/raster-modes.h
+	(raster_modes_shutdown): New function.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c
+	(archdep_default_sysfile_pathlist): Removed `const'.
+
+	* sysfile.c, sysfile.h (sysfile_shutdown): New function.
+
 2003-04-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.24.
