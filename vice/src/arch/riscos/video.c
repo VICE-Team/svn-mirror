@@ -118,13 +118,19 @@ static void canvas_redraw_all(void);
 static void video_canvas_get_full_scale(const video_canvas_t *canvas, int *sx, int *sy)
 {
   const video_render_config_t *vc = canvas->videoconfig;
+  int rendermode = vc->rendermode;
 
   *sx = 1; *sy = 1;
   if ((ActualPALDepth != 0)
-      && ((vc->rendermode == VIDEO_RENDER_PAL_1X1) || (vc->rendermode == VIDEO_RENDER_PAL_2X2)))
+      && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
   {
     if (vc->doublesizex != 0)
       *sx = 2;
+    if (vc->doublesizey != 0)
+      *sy = 2;
+  }
+  if (rendermode == VIDEO_RENDER_RGB_1X2)
+  {
     if (vc->doublesizey != 0)
       *sy = 2;
   }
@@ -140,6 +146,10 @@ static void video_canvas_get_soft_scale(const video_canvas_t *canvas, int *sx, i
   else
   {
     *sx = 2; *sy = 2;
+  }
+  if (canvas->videoconfig->rendermode == VIDEO_RENDER_RGB_1X2)
+  {
+    *sy *= 2;
   }
 }
 
@@ -1215,12 +1225,6 @@ void video_canvas_unmap(video_canvas_t *s)
 
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-  if (canvas->videoconfig->doublesizex)
-    width *= 2;
-
-  if (canvas->videoconfig->doublesizey)
-    height *= 2;
-
   /* Make a note of the resize, too */
   canvas->width = width; canvas->height = height;
   if (FullScreenMode == 0)
@@ -1248,20 +1252,10 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			  unsigned int w, unsigned int h)
 {
   video_redraw_desc_t vrd;
-  int rendermode;
 
   if (ModeChanging != 0) return;
 
   if (canvas->fb.framedata == NULL) return;
-
-  rendermode = canvas->videoconfig->rendermode;
-  if ((rendermode != VIDEO_RENDER_PAL_1X1) && (rendermode != VIDEO_RENDER_PAL_2X2))
-  {
-    if (canvas->videoconfig->doublesizey)
-    {
-      ys *= 2; yi *= 2; h *= 2;
-    }
-  }
 
   FrameBufferUpdate = 0;
   canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
@@ -1650,7 +1644,7 @@ int video_full_screen_refresh(void)
   ColourTrans_SetGCOL(0, 0x100, 0);
   OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
 
-  video_canvas_refresh(canvas, canvas->fb.framedata, canvas->fb.pitch, -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
+  video_canvas_refresh(canvas, -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
 
   video_full_screen_init_status();
 

@@ -450,5 +450,10 @@ void new_joystick(void)
 }
 #endif  /* NEW_JOYSTICK */
 
-#endif
+#else /* HAS_JOYSTICK */
+int joy_arch_init(void)
+{
+    return 0;
+}
+#endif /* HAS_JOYSTICK */
 
