@@ -29,13 +29,14 @@
 
 #include <stdio.h>
 
+#include "c610mem.h"
+#include "datasette.h"
+#include "joystick.h"
 #include "petui.h"
-#include "uimenu.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uisettings.h"
-#include "joystick.h"
-#include "c610mem.h"
+#include "uimenu.h"
 #include "vsync.h"
 
 #ifdef XPM
@@ -377,6 +378,36 @@ static ui_menu_entry_t c610_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(ui_datasette_control)
+{
+    int command = (int)client_data;
+    datasette_control(command);
+}
+
+static ui_menu_entry_t datasette_control_submenu[] = {
+    { "Stop", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
+    { "Play", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
+    { "Forward", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
+    { "Rewind", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
+    { "Record", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
+    { "Reset", (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_datasette_commands_menu[] = {
+    { "Datassette control",
+      NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 int c610_ui_init(void)
 {
 #ifdef XPM
@@ -392,6 +423,9 @@ int c610_ui_init(void)
 
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
+                                    ui_menu_separator,
+                                    ui_tape_commands_menu,
+                                    ui_datasette_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
