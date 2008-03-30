@@ -276,8 +276,7 @@ void render_yuv_image(int double_size,
                            double_scan, pal_scanline_shade);
         break;
       default:
-      case VIDEO_RESOURCE_PAL_MODE_SHARP:
-      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+      case VIDEO_RESOURCE_PAL_MODE_TRUE:
         renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
                                src, src_pitch, src_color,
                                src_x, src_y, src_w, src_h, dest_x, dest_y,
@@ -294,8 +293,7 @@ void render_yuv_image(int double_size,
                            double_scan, pal_scanline_shade);
         break;
       default:
-      case VIDEO_RESOURCE_PAL_MODE_SHARP:
-      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+      case VIDEO_RESOURCE_PAL_MODE_TRUE:
         renderyuv_2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
                                src, src_pitch, src_color,
                                src_x, src_y, src_w, src_h, dest_x, dest_y,
@@ -314,8 +312,7 @@ void render_yuv_image(int double_size,
                         src_x, src_y, src_w, src_h, dest_x, dest_y);
         break;
       default:
-      case VIDEO_RESOURCE_PAL_MODE_SHARP:
-      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+      case VIDEO_RESOURCE_PAL_MODE_TRUE:
         renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
                             src, src_pitch, src_color,
                             src_x, src_y, src_w, src_h, dest_x, dest_y,
@@ -331,8 +328,7 @@ void render_yuv_image(int double_size,
                         src_x, src_y, src_w, src_h, dest_x, dest_y);
         break;
       default:
-      case VIDEO_RESOURCE_PAL_MODE_SHARP:
-      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+      case VIDEO_RESOURCE_PAL_MODE_TRUE:
         renderyuv_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
                             src, src_pitch, src_color,
                             src_x, src_y, src_w, src_h, dest_x, dest_y,
