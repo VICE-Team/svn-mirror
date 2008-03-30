@@ -658,9 +658,11 @@ canvas_t vic_ii_init(void)
     char title[256];
 
 #ifdef NEED_2x
-    init_raster(1, 2, 2);
+    if (init_raster(1, 2, 2) < 0)
+        return NULL;
 #else
-    init_raster(1, 1, 1);
+    if (init_raster(1, 1, 1) < 0)
+        return NULL;
 #endif
 
     video_resize();
@@ -1098,13 +1100,13 @@ static void set_sprite_x(int num, int new_x, int raster_x)
     }
 
     if (new_x < sprites[num].x) {
-	if (raster_x <= new_x)
+	if (raster_x + 8 <= new_x)
 	    sprites[num].x = new_x;
-	else if (raster_x < sprites[num].x)
+	else if (raster_x + 8 < sprites[num].x)
 	    sprites[num].x = SCREEN_WIDTH;
 	add_int_change_next_line(&sprites[num].x, new_x);
     } else {			/* new_x >= sprites[num].x */
-	if (raster_x < sprites[num].x)
+	if (raster_x + 8 < sprites[num].x)
 	    sprites[num].x = new_x;
 	add_int_change_next_line(&sprites[num].x, new_x);
     }

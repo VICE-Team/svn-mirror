@@ -73,7 +73,7 @@
 #define MAXDRIVE	1
 
 #define C1541_VERSION_MAJOR	2
-#define C1541_VERSION_MINOR	4
+#define C1541_VERSION_MINOR	5
 
 /* Global */
 
@@ -454,7 +454,7 @@ static int  disk_gcrformat (void)
     }
 
     if ((fd = open(args[1], O_RDWR | O_CREAT, 0666)) < 0) {
-	printf("could not create image %s\n", args[1]);
+	printf("Could not create image `%s'.\n", args[1]);
 	return (FD_BADIMAGE);
     }
 
@@ -1369,6 +1369,32 @@ static int  disk_sectordump(void)
  * Extract all files (gwesp@cosy.sbg.ac.at)
  */
 
+/* FIXME!!!  This code is non-portable!!!  */
+
+/* This structure is from cbmargc.c of fvcbm by Dan Fandrich */
+
+#ifdef __GNUC__
+#define PACK __attribute__ ((packed))	/* pack structures on byte boundaries */
+#else
+#define PACK			/* pack using a compiler switch instead */
+#endif
+
+typedef struct {
+    BYTE Link[2];		/* On the 1st entry only */
+
+    BYTE FileType PACK;
+    BYTE FirstTrack PACK;
+    BYTE FirstSector PACK;
+    BYTE FileName[16] PACK;
+    BYTE FirstSideTrack PACK;
+    BYTE FirstSideSector PACK;
+    BYTE RecordSize PACK;
+    BYTE Filler[4] PACK;
+    BYTE FirstReplacementTrack PACK;
+    BYTE FirstReplacementSector PACK;
+    BYTE FileBlocks[2] PACK;
+} dirslot;
+
 static int  disk_extract(void)
 {
     int  drive = 8, track = DSK_DIR_TRACK, sector = DSK_DIR_SECTOR;
@@ -1790,6 +1816,10 @@ int     main(argc, argv)
     char   *progname, *line;
     int     flg = 0, i;
 
+#if defined __MSDOS__ || defined WIN32
+    /* Set the default file mode.  */
+    _fmode = O_BINARY;
+#endif
 
     progname = argv[0];
     nargs    = 0;
