@@ -177,6 +177,16 @@ void REGPARM2 store_bios(ADDRESS addr, BYTE value)
     z80bios_rom[addr] = value;
 }
 
+static BYTE REGPARM1 z80_read_zero(ADDRESS addr)
+{
+    return page_zero[addr];
+}
+
+static void REGPARM2 z80_store_zero(ADDRESS addr, BYTE value)
+{
+    page_zero[addr] = value;
+}
+
 static BYTE REGPARM1 read_one(ADDRESS addr)
 {
     return page_one[addr - 0x100];
@@ -216,21 +226,21 @@ void z80mem_initialize(void)
     }
 
     mem_read_tab[0][0] = read_bios;
-    mem_write_tab[0][0] = store_zero;
+    mem_write_tab[0][0] = z80_store_zero;
     mem_read_tab[1][0] = read_bios;
-    mem_write_tab[1][0] = store_zero;
-    mem_read_tab[2][0] = read_zero;
-    mem_write_tab[2][0] = store_zero;
-    mem_read_tab[3][0] = read_zero;
-    mem_write_tab[3][0] = store_zero;
-    mem_read_tab[4][0] = read_zero;
-    mem_write_tab[4][0] = store_zero;
-    mem_read_tab[5][0] = read_zero;
-    mem_write_tab[5][0] = store_zero;
-    mem_read_tab[6][0] = read_zero;
-    mem_write_tab[6][0] = store_zero;
-    mem_read_tab[7][0] = read_zero;
-    mem_write_tab[7][0] = store_zero;
+    mem_write_tab[1][0] = z80_store_zero;
+    mem_read_tab[2][0] = z80_read_zero;
+    mem_write_tab[2][0] = z80_store_zero;
+    mem_read_tab[3][0] = z80_read_zero;
+    mem_write_tab[3][0] = z80_store_zero;
+    mem_read_tab[4][0] = z80_read_zero;
+    mem_write_tab[4][0] = z80_store_zero;
+    mem_read_tab[5][0] = z80_read_zero;
+    mem_write_tab[5][0] = z80_store_zero;
+    mem_read_tab[6][0] = z80_read_zero;
+    mem_write_tab[6][0] = z80_store_zero;
+    mem_read_tab[7][0] = z80_read_zero;
+    mem_write_tab[7][0] = z80_store_zero;
  
     mem_read_tab[0][1] = read_bios;
     mem_write_tab[0][1] = store_one;
