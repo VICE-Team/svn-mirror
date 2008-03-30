@@ -1,3 +1,64 @@
+2001-04-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.19.
+
+	* arch/msdos/uisnapshot.c, palette.c: Use util_add_extension.
+
+	* utils.h, utils.c, arch/unix/x11/xaw/uiedisk.c,
+	arch/unix/x11/xaw/uisnapshot.c, arch/win32/uiconsole.c,
+	arch/win32/uisnapshot.c (xadd_extension): Renamed to
+	`util_add_extension'.
+
+	* autostart.c, utils.c, utils.h, arch/unix/c64ui.c,
+	arch/unix/uicommands.c, arch/unix/uisettings.c,
+	arch/unix/vic20ui.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/xaw/ui.c, arch/unix/x11/xaw/widgets/FileSel.c,
+	arch/win32/archdep.c, arch/msdos/archdep.c,
+	arch/msdos/c64ui.c, arch/msdos/menudefs.c,
+	arch/msdos/uiattach.c, arch/msdos/vic20ui.c,
+	arch/beos/archdep.c, arch/beos/ui.cc (fname_split): Renamed to
+	`util_fname_split).
+	
+	* utils.c, utils.h, arch/msdos/menudefs.c,
+	arch/msdos/uiattach.c, arch/msdos/uisnapshot.c (remove_spaces):
+	Renamed to `util_remove_spaces'.
+
+	* fsdevice.c, resources.c, snapshot.c, utils.c, zfile.c,
+	utils.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c (remove_file): Renamed to `util_remove_file'.
+
+	* sysfile.c, utils.c, utils.h, arch/unix/archdep.c,
+	arch/unix/x11/gnome/ui.c, arch/unix/x11/xaw/ui.c,
+	arch/msdos/tuifs.c, arch/os2/archdep.c (get_current_dir):
+	Renamed to `util_get_current_dir'.
+
+	* utils.c, utils.h (make_backup_file): Removed.
+
+2001-04-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c64ui.cc, arch/beos/ui.cc, arch/beos/ui_cbm2.cc,
+	arch/beos/ui_datasette.cc, arch/beos/ui_device.cc,
+	arch/beos/ui_drive.cc, arch/beos/ui_joystick.cc,
+	arch/beos/ui_pet.cc, arch/beos/ui_sound.cc,
+	arch/beos/ui_vic20.cc, arch/beos/ui_vicii.cc
+	(suspend_speed_eval): renamed to vsync_suspend_speed_eval
+
+2001-04-19  Markus Brenner  <markus@brenner.de>
+
+	* c64/reu.c: fixed REC register 0 to read only in reu_store()
+
+2001-04-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c, arch/riscos/uiimage.c,
+	arch/riscos/video.c, arch/riscos/vsidui.c: added lots of
+	missing calls to vsync_suspend_speed_eval()
+
+	* arch/riscos/vsyncarch.h, arch/riscos/vsync.c: implemented
+	vsync_suspend_speed_eval(); new function vsync_resync_poll().
+
+	* arch/riscos/uimsgwin.c: improved log window opening and
+	updating code.
+
 2001-04-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.18.

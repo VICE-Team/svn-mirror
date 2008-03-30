@@ -1428,7 +1428,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
         return;
 
     strcpy(&(last_attached_images[drive_number][0]), image);
-    fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
+    util_fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
     
     if (strcmp(name, "") == 0)
     {
@@ -1599,7 +1599,7 @@ void ui_display_tape_current_image(const char *image)
     if (last_attached_tape)
 	free(last_attached_tape);
     last_attached_tape = stralloc(image);
-    fname_split(image, NULL, &name);
+    util_fname_split(image, NULL, &name);
 
     for (i = 0; i < num_app_shells; i++)
     {
@@ -1893,7 +1893,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 
     mask = unit << 24;
     memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
-    fname_split(name, NULL, &title);
+    util_fname_split(name, NULL, &title);
     for (tmp = title; *tmp; tmp++)
 	*tmp = toupper(*tmp);
     menu[fno].string = title;
@@ -2086,7 +2086,7 @@ char *ui_select_file(const char *title,
     ui_set_selected_file(0);
 
     /* we preserve the current directory over the invocations */
-    current_dir = get_current_dir();	/* might be changed elsewhere */
+    current_dir = util_get_current_dir();	/* might be changed elsewhere */
     if (filesel_dir != NULL) {
       chdir(filesel_dir);
     }
@@ -2116,7 +2116,7 @@ char *ui_select_file(const char *title,
 					    default_dir);
 	}
     }  else {
-        char *newdir = get_current_dir();
+        char *newdir = util_get_current_dir();
         if(default_pattern) {
 	    path = concat(newdir,"/",default_pattern,NULL);
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
@@ -2173,7 +2173,7 @@ char *ui_select_file(const char *title,
     if (filesel_dir != NULL) {
         free(filesel_dir);
     }
-    filesel_dir = get_current_dir();
+    filesel_dir = util_get_current_dir();
     if (current_dir != NULL) {
         chdir(current_dir);
 	free(current_dir);

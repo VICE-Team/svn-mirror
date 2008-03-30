@@ -190,7 +190,7 @@ char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
 
 /* Remove spaces from start and end of string `s'.  The string is not
    reallocated even if it becomes smaller.  */
-void remove_spaces(char *s)
+void util_remove_spaces(char *s)
 {
     char *p;
     size_t l = strlen(s);
@@ -330,25 +330,8 @@ char *subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Make a backup for file `fname'.  */
-int make_backup_file(const char *fname)
-{
-    char *backup_name = archdep_make_backup_filename(fname);
-    int retval;
-
-    /* Cannot do it...  */
-    if (backup_name == NULL)
-	return -1;
-
-    remove_file(backup_name);
-    retval = rename(fname, backup_name);
-
-    free(backup_name);
-    return retval;
-}
-
 /* Get the current working directory as a malloc'ed string.  */
-char *get_current_dir(void)
+char *util_get_current_dir(void)
 {
 #ifdef __riscos
     return GetCurrentDirectory();
@@ -427,7 +410,7 @@ int save_file(const char *name, const void *src, int size)
     return 0;
 }
 
-int remove_file(const char *name)
+int util_remove_file(const char *name)
 {
     return unlink(name);
 }
@@ -467,7 +450,8 @@ int util_get_line(char *buf, int bufsize, FILE *f)
 
 /* Split `path' into a file name and a directory component.  Unlike
    the MS-DOS `fnsplit', the directory does not have a trailing '/'.  */
-void fname_split(const char *path, char **directory_return, char **name_return)
+void util_fname_split(const char *path, char **directory_return,
+                      char **name_return)
 {
     const char *p;
 
@@ -740,15 +724,18 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n)
 
 /* ------------------------------------------------------------------------- */
 
-/* xadd_extension() add the extension if not already there.
+/* util_add_extension() add the extension if not already there.
    If the extension is added `name' is realloced. */
 
-void xadd_extension(char **name, const char *extension)
+void util_add_extension(char **name, const char *extension)
 {
-    unsigned int name_len, ext_len;
+    size_t name_len, ext_len;
 
     name_len = strlen(*name);
     ext_len = strlen(extension);
+
+    if (ext_len == 0)
+        return;
 
     if ((name_len > ext_len + 1)
         && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0))
@@ -767,11 +754,11 @@ void xadd_extension(char **name, const char *extension)
 
 static int xmvsprintf_skip_atoi(const char **s)
 {
-	int i=0;
+    int i = 0;
 
-	while (xmvsprintf_is_digit(**s))
-		i = i*10 + *((*s)++) - '0';
-	return i;
+    while (xmvsprintf_is_digit(**s))
+        i = i * 10 + *((*s)++) - '0';
+    return i;
 }
 
 #define ZEROPAD	1		/* pad with zero */
@@ -807,7 +794,7 @@ static void xmvsprintf_add(char **buf, unsigned int *bufsize,
         *buf = xrealloc(*buf, *bufsize);
     }
     (*buf)[*position] = write;
-    *position +=  1;
+    *position += 1;
 }
 
 static void xmvsprintf_number(char **buf, unsigned int *bufsize,
@@ -815,7 +802,7 @@ static void xmvsprintf_number(char **buf, unsigned int *bufsize,
                               int size, int precision, int type)
 {
     char c, sign, tmp[66];
-    const char *digits="0123456789abcdefghijklmnopqrstuvwxyz";
+    const char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
     int i;
 
     if (type & LARGE)
@@ -847,21 +834,21 @@ static void xmvsprintf_number(char **buf, unsigned int *bufsize,
     }
     i = 0;
     if (num == 0)
-        tmp[i++]='0';
+        tmp[i++] = '0';
     else while (num != 0)
         tmp[i++] = digits[xmvsprintf_do_div(&num, base)];
     if (i > precision)
         precision = i;
         size -= precision;
-    if (!(type&(ZEROPAD+LEFT)))
+    if (!(type & (ZEROPAD + LEFT)))
         while(size-->0)
             xmvsprintf_add(buf, bufsize, position, ' ');
     if (sign)
         xmvsprintf_add(buf, bufsize, position, sign);
     if (type & SPECIAL) {
-        if (base==8)
+        if (base == 8)
             xmvsprintf_add(buf, bufsize, position, '0');
-        else if (base==16) {
+        else if (base == 16) {
             xmvsprintf_add(buf, bufsize, position, '0');
             xmvsprintf_add(buf, bufsize, position, digits[33]);
         }
@@ -1011,7 +998,7 @@ repeat:
             break;
           case 'X':
             flags |= LARGE;
-            case 'x':
+          case 'x':
             base = 16;
             break;
           case 'd':

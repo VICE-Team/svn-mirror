@@ -329,7 +329,7 @@ int archdep_expand_path(char **return_path, const char *filename)
         *return_path = stralloc(filename);
     else
     {
-        char *cwd = get_current_dir();
+        char *cwd = util_get_current_dir();
         *return_path = concat(cwd, "\\", filename, NULL);
         free(cwd);
     }

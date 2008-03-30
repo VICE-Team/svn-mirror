@@ -301,7 +301,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     } else {
         static char *cwd;
 
-        cwd = get_current_dir();
+        cwd = util_get_current_dir();
         *return_path = concat(cwd, "/", orig_name, NULL);
         free(cwd);
     }

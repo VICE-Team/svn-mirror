@@ -70,7 +70,7 @@ static int set_system_path(resource_value_t v, void *param)
 
     tmp_path_save = subst(system_path, "$$", default_path);	/* malloc'd */
 
-    current_dir = get_current_dir();				/* malloc'd */
+    current_dir = util_get_current_dir();	/* malloc'd */
 
     tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {

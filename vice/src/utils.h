@@ -44,19 +44,18 @@ extern char *xmvsprintf(const char *fmt, va_list args);
 extern char *concat(const char *s1, ...);
 extern char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
                     const char *src, int src_size);
-extern void remove_spaces(char *s);
-extern void xadd_extension(char **name, const char *extension);
-extern int make_backup_file(const char *fname);
-extern char *get_current_dir(void);
+extern void util_remove_spaces(char *s);
+extern void util_add_extension(char **name, const char *extension);
+extern char *util_get_current_dir(void);
 
 extern size_t file_length(FILE *fd);
 extern int load_file(const char *name, void *dest, size_t size);
 extern int save_file(const char *name, const void *src, int size);
-extern int remove_file(const char *name);
+extern int util_remove_file(const char *name);
 
 extern int util_get_line(char *buf, int bufsize, FILE *f);
-extern void fname_split(const char *path, char **directory_return,
-                        char **name_return);
+extern void util_fname_split(const char *path, char **directory_return,
+                             char **name_return);
 
 extern int util_string_to_long(const char *str, const char **endptr, int base,
                                long *result);

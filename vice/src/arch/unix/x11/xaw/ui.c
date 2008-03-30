@@ -1287,7 +1287,7 @@ static void ui_display_drive_current_image2 (void)
             /* now fill the j'th widget */
             w = app_shells[i].drive_widgets[n].current_image;
 
-            fname_split(&(last_attached_images[j][0]), NULL, &name);
+            util_fname_split(&(last_attached_images[j][0]), NULL, &name);
             XtVaSetValues(w, XtNlabel, name, NULL);
             free(name);
         }
@@ -1587,7 +1587,7 @@ char *ui_select_file(const char *title,
     char *current_dir;
 
     /* we preserve the current directory over the invocations */
-    current_dir = get_current_dir();    /* might be changed elsewhere */
+    current_dir = util_get_current_dir();    /* might be changed elsewhere */
     if (filesel_dir != NULL) {
         chdir(filesel_dir);
     }
@@ -1608,7 +1608,7 @@ char *ui_select_file(const char *title,
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
                                         default_dir);
     } else {
-        char *newdir = get_current_dir();
+        char *newdir = util_get_current_dir();
 
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
                                         newdir);
@@ -1654,7 +1654,7 @@ char *ui_select_file(const char *title,
     if (filesel_dir != NULL) {
         free(filesel_dir);
     }
-    filesel_dir = get_current_dir();
+    filesel_dir = util_get_current_dir();
     if (current_dir != NULL) {
         chdir(current_dir);
         free(current_dir);
