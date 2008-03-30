@@ -373,3 +373,13 @@ int archdep_mkdir(const char *pathname, int mode)
     return _mkdir(pathname);
 }
 
+int archdep_file_is_blockdev(const char *name)
+{
+    return 0;
+}
+
+int archdep_file_is_chardev(const char *name)
+{
+    return 0;
+}
+

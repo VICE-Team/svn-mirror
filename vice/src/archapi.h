@@ -50,7 +50,7 @@ extern int archdep_mkdir(const char *pathname, int mode);
 extern const char *archdep_default_resource_file_name(void);
 extern const char *archdep_default_save_resource_file_name(void);
 
-/* Fliplist */
+/* Fliplist.  */
 const char *archdep_default_fliplist_file_name(void);
 
 /* Logfile stuff.  */
@@ -64,19 +64,23 @@ extern int archdep_default_logger(const char *level_string, const char *txt);
 extern int archdep_spawn(const char *name, char **argv,
                          const char *stdout_redir, const char *stderr_redir);
 
-/* Spawn need quoting the params or expanding the filename in some archs */
+/* Spawn need quoting the params or expanding the filename in some archs.  */
 extern char *archdep_filename_parameter(const char *name);
 extern char *archdep_quote_parameter(const char *name);
 
 extern int archdep_num_text_lines(void);
 extern int archdep_num_text_columns(void);
 
-/* Allocates a filename for a tempfile */
+/* Allocates a filename for a tempfile.  */
 extern char *archdep_tmpnam(void);
 
-/* Check file for gzip extension. */
+/* Check file for gzip extension.  */
 extern int archdep_file_is_gzip(const char *name);
 extern int archdep_file_set_gzip(const char *name);
+
+/* Check file name for block or char device.  */
+extern int archdep_file_is_blockdev(const char *name);
+extern int archdep_file_is_chardev(const char *name);
 
 #endif
 
