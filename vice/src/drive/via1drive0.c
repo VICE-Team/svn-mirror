@@ -77,6 +77,8 @@
 
 /* #define VIA1D0_TIMER_DEBUG */
 
+static char snap_module_name[] = "VIA1D0";
+
 static int parieee_is_out = 1;    /* 0= listener, 1= talker */
 
 void drive0_parallel_set_atn(int state)

@@ -1026,7 +1026,8 @@ int mem_load_romset_file(const char *name)
     char romsetname[101], romsetpath[101];
     char *c;
     
-    romsets = calloc(sizeof(mem_romset_t*), 20);
+    /* Fixme: Only 20 different RomSets at the moment */
+    romsets = xcalloc(sizeof(mem_romset_t*), 20);
 
     fp = sysfile_open(name, &complete_path);
     if (fp == NULL)
@@ -1045,9 +1046,9 @@ int mem_load_romset_file(const char *name)
       for(c=romsetname; *c != '\0'; c++)
 	  if( *c=='\n'|| *c=='\r')
 	      *c='\0';
-      romsets[number_romsets] = (mem_romset_t*) malloc(sizeof(mem_romset_t));
-      romsets[number_romsets]->name = strdup(romsetname);
-      romsets[number_romsets]->path = strdup(romsetpath);
+      romsets[number_romsets] = (mem_romset_t*) xmalloc(sizeof(mem_romset_t));
+      romsets[number_romsets]->name = stralloc(romsetname);
+      romsets[number_romsets]->path = stralloc(romsetpath);
       log_message(LOG_DEFAULT, "Adding RomSet `%s'.", romsetname);
       number_romsets++;
     }

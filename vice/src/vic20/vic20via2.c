@@ -81,6 +81,8 @@ static int tape_sense = 0;
 
 /* #define VIA2_TIMER_DEBUG */
 
+static char snap_module_name[] = "VIA2";
+
 void mem_set_tape_sense(int v)
 {
     tape_sense = v;

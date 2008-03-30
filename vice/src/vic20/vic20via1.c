@@ -71,7 +71,7 @@
 
 /* #define VIA1_TIMER_DEBUG */
 
-#define	PRE_VIA_FUNCS
+static char snap_module_name[] = "VIA1";
 
 static void undump_acr(BYTE byte)
 {

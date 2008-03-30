@@ -1,3 +1,20 @@
+1999-01-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.8.
+
+	* viacore.c, drive/via1drive0.c, drive/via1drive1.c,
+	drive/via2drive0.c, drive/via2drive1.c, vic20/vic20via1.c,
+	vic20/vic20via2.c, pet/petvia.c: Set correct snapshot name.
+
+1999-01-19  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c, arch/unix/xaw/ui.h,
+	arch/unix/xaw/uimenu.c:
+	Added automatic hide of mouse-pointer in fullscreenmode.
+
+	* c64/c64mem.c: (mem_load_romset_file): Use allocation
+	functions of util.c instead of unix functions.
+	
 1999-01-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.7.
@@ -61,7 +78,7 @@
 
 	* utils.c, utils.h: (xcalloc): New function (like calloc).
 
-	* arch/unix/xaw/ui.c, atch/unix/xaw/c64ui.c:
+	* arch/unix/xaw/ui.c, arch/unix/xaw/c64ui.c:
 	Replaced all `calloc' with `xcalloc'.
 
 	* arch/unix/xaw/ui.c: (set_fullscreen): Consider

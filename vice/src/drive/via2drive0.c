@@ -69,6 +69,8 @@
 
 /* #define VIA2D0_TIMER_DEBUG */
 
+static char snap_module_name[] = "VIA2D0";
+
 inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
 {
     if (drive[0].byte_ready_active == 0x06)

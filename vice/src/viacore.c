@@ -753,7 +753,7 @@ void myvia_prevent_clk_overflow(CLOCK sub)
  * The version of this dump description is 0/0
  */
 
-static char snap_module_name[] = "MYVIA";
+/* The name of the modul must be defined before including this file.  */
 #define VIA_DUMP_VER_MAJOR      1
 #define VIA_DUMP_VER_MINOR      0
 

@@ -84,6 +84,8 @@ void myvia_signal(int line, int edge);
 
 /* #define VIA_TIMER_DEBUG */
 
+static char snap_module_name[] = "VIA";
+
 static void undump_pra(BYTE byte)
 {
 #ifdef HAVE_PRINTER

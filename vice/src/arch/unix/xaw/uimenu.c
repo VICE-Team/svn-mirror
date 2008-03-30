@@ -149,7 +149,6 @@ static void position_submenu_action(Widget w, XEvent * event,
     Widget new_active_submenu, new_active_entry;
 
     new_active_entry = XawSimpleMenuGetActiveEntry(w);
-
     if (new_active_entry != active_entry) {
 	int i, level;
         int level_found, active_found;
@@ -202,6 +201,9 @@ static void popdown_submenus_action(Widget w, XEvent * event,
     XtPopdown(top_menu);
     top_menu = NULL;
 
+#ifdef USE_VIDMODE_EXTENSION
+    ui_set_mouse_timeout();
+#endif
     menu_popup = 0;
 }
 
