@@ -355,15 +355,6 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
                                            &changed_end_char,
                                            sprites_need_update);
 
-    /* If the background color changes, we might get the wrong color in
-       the left part of the screen, between the border and the start of
-       the graphics.  */
-    if (raster->ysmooth > 0
-        && ((cache->overscan_background_color
-        != raster->overscan_background_color)
-        || cache->xsmooth_color != raster->xsmooth_color))
-        needs_update = 1;
-
     if (needs_update) {
         raster_modes_draw_line_cached(raster->modes,
                                       video_mode,
@@ -381,37 +372,23 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
             /* FIXME: Could be optimized better.  */
             draw_sprites_when_cache_enabled(raster, cache);
             draw_borders(raster);
-        } else if (raster->xsmooth > 0) {
-            /* If xsmooth > 0, drawing the graphics might have corrupted
-               part of the border... fix it here.  */
-            if (!raster->open_right_border)
-                draw_blank(raster,
-                           raster->geometry.gfx_position.x
-                           + raster->geometry.gfx_size.width,
-                           raster->geometry.gfx_position.x
-                           + raster->geometry.gfx_size.width + 8);
+        } else {
+            if (raster->xsmooth > 0) {
+                /* If xsmooth > 0, drawing the graphics might have corrupted
+                   part of the border... fix it here.  */
+                if (!raster->open_right_border)
+                    draw_blank(raster,
+                               raster->geometry.gfx_position.x
+                               + raster->geometry.gfx_size.width,
+                               raster->geometry.gfx_position.x
+                               + raster->geometry.gfx_size.width + 8);
 
+            }
         }
-
         /* Calculate the interval in pixel coordinates.  */
-
         *changed_start = raster->geometry.gfx_position.x;
-
-        if (cache->overscan_background_color
-            != raster->overscan_background_color) {
-            /* FIXME: ???  */
-
-            if (raster->ysmooth <= 0)
-                *changed_start += raster->xsmooth + 8 * changed_start_char;
-
-            cache->overscan_background_color
-                = raster->overscan_background_color;
-        }
-
-        *changed_end = raster->geometry.gfx_position.x
-                       + raster->xsmooth
-                       + 8 * (changed_end_char + 1)
-                       - 1;
+        *changed_end = raster->geometry.gfx_position.x + raster->xsmooth
+                       + 8 * (changed_end_char + 1) - 1;
 
         if (sprites_need_update) {
             /* FIXME: wrong.  */
@@ -580,7 +557,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         || (cache->open_left_border && !raster->open_left_border)
         || cache->xsmooth_color != raster->xsmooth_color
         || (cache->overscan_background_color
-            != raster->overscan_background_color)) {
+        != raster->overscan_background_color)) {
 
         int changed_start_char, changed_end_char;
         int r;
@@ -834,7 +811,7 @@ inline static void handle_visible_line(raster_t *raster)
 
     if (raster->changes.have_on_this_line)
         handle_visible_line_with_changes(raster);
-    else if (!CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
+    else if (!CANVAS_USES_TRIPLE_BUFFERING(raster->viewport.canvas)
         && raster->cache_enabled
         && !raster->open_left_border
         && !raster->open_right_border)       /* FIXME: shortcut! */
