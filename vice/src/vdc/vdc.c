@@ -182,6 +182,7 @@ void vdc_reset(void)
     vdc.text_blink_counter = 0;
     vdc.text_blink_visible = 0;
     vdc.screen_text_cols = VDC_SCREEN_TEXTCOLS;
+    vdc.xsmooth = 0;
     alarm_set(&vdc.raster_draw_alarm, VDC_CYCLES_PER_LINE());
 }
 
@@ -264,8 +265,7 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
                                  vdc.raster.border_color);
 #endif
 
-    if (in_visible_area)
-    {
+    if (in_visible_area) {
         vdc.mem_counter_inc = vdc.screen_text_cols;
         if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
             vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
