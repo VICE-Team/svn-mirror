@@ -35,11 +35,9 @@
 static cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_PAL,
-      NULL, "Use PAL sync factor" },
+      (void *)MACHINE_SYNC_PAL, NULL, "Use PAL sync factor" },
     { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
-      (void *)MACHINE_SYNC_NTSC,
-      NULL, "Use NTSC sync factor" },
+      (void *)MACHINE_SYNC_NTSC, NULL, "Use NTSC sync factor" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },
     { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
