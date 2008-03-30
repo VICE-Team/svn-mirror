@@ -46,7 +46,7 @@
 #include "ui.h"
 #include "ui_status.h"
 #include "utils.h"
-#include "vicii.h"  // video_free()
+//#include "vicii.h"  // video_free()
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -327,7 +327,6 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     }
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
-//#include "sound.h"
 
 void PM_mainloop(VOID *arg)
 {

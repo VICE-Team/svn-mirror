@@ -1,9 +1,9 @@
 /*
- * zfile.h - Transparent handling of compressed files.
+ * petui.c - PET-specific user interface.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,24 +25,10 @@
  *
  */
 
-#ifndef _ZFILE_H
-#define _ZFILE_H
+#include "vice.h"
 
-#include <stdio.h>
-
-/* actions to be done when a zfile is closed */
-typedef enum {
-	ZFILE_KEEP,	/* Nothing, keep original file (default).  */
-	ZFILE_REQUEST,	/* Request the user what to do.  */
-	ZFILE_DEL	/* Remove original file.  */
-} zfile_action_t;
-
-extern FILE *zfopen(const char *name, const char *mode);
-extern int zfclose(FILE *stream);
-extern int zclose_all(void);
-
-extern int zfile_close_action(const char *filename, zfile_action_t action,
-                              const char *request_string);
-
-#endif /* _ZFILE_H */
+int pet_ui_init(void)
+{
+    return 0;
+}
 

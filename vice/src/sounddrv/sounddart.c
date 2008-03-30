@@ -68,7 +68,11 @@ static void dart_close()
     // prevent sound from clicking
     mute(MUTE_ON);
 
-    DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT);
+    if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: dart_close, DosRequestMutexSem rc=%i", rc);
+        return;
+    }
 
     //DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
     for (rc=0; rc<BufferParms.ulNumBuffers; rc++)
@@ -94,7 +98,7 @@ static void dart_close()
     if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
 
     usDeviceID = 0;
-    //log_message(LOG_DEFAULT, "sounddrv.c: Sound closed.");
+    log_message(LOG_DEFAULT, "sounddrv.c: Sound closed.");
 
     free(buffers);
     //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
@@ -127,7 +131,7 @@ LONG APIENTRY DARTEvent (ULONG ulStatus, PMCI_MIX_BUFFER pBuffer, ULONG ulFlags)
     case MIX_WRITE_COMPLETE: /* for playback  */
         rc=MixSetupParms.pmixWrite(MixSetupParms.ulMixHandle,
                                    &(buffers[play]), 1);
-        DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
+        if (DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)) break;
         memset(buffers[last].pBuffer,0,BufferParms.ulBufferSize);
         last  = play++;
         play %= BufferParms.ulNumBuffers;
@@ -151,7 +155,11 @@ void set_volume(int vol)
     ULONG          rc;
     MCI_SET_PARMS  MciSetParms;
 
-    DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT);
+    if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: set_volume, DosRequestMutexSem rc=%i", rc);
+        return;
+    }
     if (usDeviceID)
     {
         memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
@@ -355,7 +363,13 @@ static int dart_write(SWORD *pbuf, size_t nr)
      MCI_STATUS with the MCI_STATUS_POSITION flag to retrieve the current
      time of the device in MMTIME units.*/
 
-    DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
+    APIRET rc;
+    if ((rc=DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: dart_write, DosRequestMutexSem rc=%i", rc);
+        return 1;
+    }
+;
     // if we wanna write the buffer which is played next
     // write the overnext.
     if (play==(pos+1)%BufferParms.ulNumBuffers)
@@ -369,6 +383,9 @@ static int dart_write(SWORD *pbuf, size_t nr)
 
 static int dart_write2(SWORD *pbuf, size_t nr)
 {
+    APIRET rc;
+    int nrtowrite;
+
     if (rest>BufferParms.ulBufferSize) rest=BufferParms.ulBufferSize;
 
     written += nr;
@@ -376,13 +393,17 @@ static int dart_write2(SWORD *pbuf, size_t nr)
 
     while (nr)
     {
-        int nrtowrite = nr>rest ? rest : nr;
+        nrtowrite = nr>rest ? rest : nr;
 
-        DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT);
+        if ((rc=DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)))
+        {
+            log_debug("sounddart.c: dart_write2, DosRequestMutexSem rc=%i", rc);
+            return 1;
+        }
         if (play==(pos+1)%BufferParms.ulNumBuffers)
             pos = (++pos)%BufferParms.ulNumBuffers;
 
-        memcpy((ULONG)buffers[pos].pBuffer+(BufferParms.ulBufferSize-rest),
+        memcpy((void*)((ULONG)buffers[pos].pBuffer+(BufferParms.ulBufferSize-rest)),
                pbuf, nrtowrite);
 
         rest -= nrtowrite;

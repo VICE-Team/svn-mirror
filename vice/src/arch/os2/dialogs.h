@@ -95,7 +95,12 @@
 
 #define DLG_EMULATOR  0x1090
 #define SPB_SPEED     0x1091
-#define CBS_REFRATE   0x1092
+#define PB_SPEED100   0x1092
+#define CBS_REFRATE   0x1093
+#define CB_PAUSE      0x1094
+#define CB_VCACHE     0x1095
+#define CB_SBCOLL     0x1096
+#define CB_SSCOLL     0x1097
 
 void drive_dialog     (HWND hwnd);
 void sound_dialog     (HWND hwnd);

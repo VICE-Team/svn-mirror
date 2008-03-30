@@ -81,22 +81,20 @@ END
 
 DLGTEMPLATE DLG_SOUND 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Sound Setup", DLG_SOUND, 162, 122, 165, 163, FS_NOBYTEALIGN |
-                FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
-                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    DIALOG "Sound Setup", DLG_SOUND, 162, 122, 165, 163, STY_DIALOG
     BEGIN
         CONTROL "Close",        DID_CLOSE,  5,   5,  38,  12, STY_CLOSEBUTTON |
         			WS_GROUP
         CONTROL "Sound",        ID_NONE,    7,  22, 148, 137, STY_GROUPBOX
         CONTROL "Sound",        CB_SOUND,  17, 141,  40,   9, STY_AUTOCHECKBOX
         TEXT("Vol", 129, 125, 20, 8)
-        CONTROL "",             CS_VOLUME, 127, 46,  16,  80, WC_SLIDER,
+        CONTROL "",             CS_VOLUME, 127, 46,  16,  71/*80*/, WC_SLIDER,
                                 SLS_VERTICAL | SLS_CENTER |
                                 SLS_BUTTONSTOP | SLS_HOMELEFT |
                                 SLS_RIBBONSTRIP | SLS_PRIMARYSCALE1 |
                                 STY_STD
                 // cbSize-lo, cbSizeHi, Increment1, Space1, Increment2, Space2
-                CTLDATA 12, 0, 21, 0, 5, 5
+                CTLDATA 12, 0, 8/*21*/, 0, 5, 5
         TEXT("Frequency", 17, 125, 55, 8)
         CONTROL "8000Hz",       RB_8000HZ,  17, 115, 45, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
@@ -126,9 +124,7 @@ END
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Drive Setup", DLG_DRIVE, 162, 122, 135, 88, FS_NOBYTEALIGN |
-                FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
-                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    DIALOG "Drive Setup", DLG_DRIVE, 162, 122, 135, 88, STY_DIALOG
     BEGIN
         CONTROL "Close",                 DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
                                          WS_GROUP 
@@ -184,20 +180,29 @@ END
 
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 135, 88, STY_DIALOG
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 142, 128, STY_DIALOG
     BEGIN
-        CONTROL "Close",     DID_CLOSE,   5,  5,  38, 12, STY_CLOSEBUTTON |
+        CONTROL "Close",     DID_CLOSE,  5,  5,  38, 12, STY_CLOSEBUTTON |
                              WS_GROUP 
-        CONTROL "Emulator",  ID_NONE,      7, 22, 118, 62, STY_GROUPBOX
+        CONTROL "Emulator",  ID_NONE,    7, 22, 128, 82, STY_GROUPBOX
 
-	TEXT("Refrash Rate", 17, 43, 50, 8)
-        CONTROL "",          CBS_REFRATE, 70, 5, 33, 48, WC_COMBOBOX,
+        CONTROL "Pause",                       CB_PAUSE,  14, 85,  40,  9, STY_AUTOCHECKBOX
+        CONTROL "Video Cache",                 CB_VCACHE, 14, 75,  60,  9, STY_AUTOCHECKBOX
+#if defined __X64__ || defined __X128__
+        CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 65, 115,  9, STY_AUTOCHECKBOX
+        CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 55, 105,  9, STY_AUTOCHECKBOX
+#endif
+
+	TEXT("Refrash Rate", 13, 43, 50, 8)
+        CONTROL "",          CBS_REFRATE, 64, 5, 33, 48, WC_COMBOBOX,
          		     CBS_DROPDOWNLIST | STY_STD
 
-	TEXT("Max.Speed", 17, 30, 50, 8)
+	TEXT("Max.Speed", 13, 30, 50, 8)
 
-        CONTROL "",          SPB_SPEED, 70, 29, 33, 12, STY_SPINBUTTON
+        CONTROL "",          SPB_SPEED, 64, 29, 33, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 1, 0, 9999, 0, 0, 0, 0, 0
+        CONTROL "100%",      PB_SPEED100, 102, 28,  29, 12, STY_PUSHBUTTON
+
     END
 END
 

@@ -2,14 +2,12 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
     opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
     define("HAVE_CONFIG_H", ),
-    define("HAS_JOYSTICK", ),
-    define("HAVE_RESID", ),
-    define("__X128__", ),
+    define("__XPET__", ),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
-    incl(searchpath, "..\\..\\..\\c128"),
-    incl(searchpath, "..\\..\\..\\vdc"),
-    incl(searchpath, "..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\crtc"),
+    incl(searchpath, "..\\..\\..\\pet"),
+//    incl(searchpath, "..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\resid"),
     incl(searchpath, "..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\vdrive"),
@@ -19,13 +17,12 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     incl(searchpath, ".."), incl(searchpathfirst, "yes"),
     gen(debug, "no"), file(genobject, "Yes"),
     file(genpch, "no"), file(usepch, "no"), info(cnd, "no"),
-    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i ..")
+    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i .. -x1")
 {
-    target type(exe) "..\\..\\..\\..\\data\\x128.exe"
+    target type(exe) "..\\..\\..\\..\\data\\xpet.exe"
     {
-        source type (lib) "mmpm2.lib"
-        source type (lib) "resid.lib"
         source type (rc)  "dialogs.rc"
+        source type (lib) "mmpm2.lib"
         source type(c)
             "alarm.c",
             "asm.c",
@@ -49,7 +46,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "keyboard.c",
             "log.c",
             "main.c",
-//            "maincpu.c",
+            "maincpu.c",
             "mon.c",
             "mon_lex.c",
             "mon_parse.c",
@@ -57,7 +54,6 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "palette.c",
             "parallel.c",
             "resources.c",
-            "reu.c",
             "romset.c",
             "rsuser.c",
             "serial.c",
@@ -78,9 +74,8 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "kbd.c",
             "vsync.c",
             "video.c",
-            "c128ui.c",
-            "rs232.c",
-            "kbd\\kbd-c128.c",
+            "petui.c",
+            "kbd\\kbd-pet.c",
             "vsidui.c",
             "archdep.c",
             "joystick.c",
@@ -94,27 +89,38 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "pm\\winaddon.c",
             "pm\\scrollbars.c",
             "snippets\\dirport.c"
-        source type(c)
-            "c64tpi.c",
+/*        source type(c)
+            "c64.c",
+            "c64acia1.c",
+            "c64cia1.c",
             "c64cia2.c",
-            "c64datasette.c"
+            "c64datasette.c",
+            "c64iec.c",
+            "c64mem.c",
+            "c64cartmem.c",
+            "c64rsuser.c",
+            "c64tpi.c",
+            "cartridge.c",
+            "patchrom.c",
+            "reu.c",
+            "psid.c"*/
+        source type (c)
+            "pet.c",
+            "petmem.c",
+            "petacia1.c",
+            "petdatasette.c",
+            "petiec.c",
+            "petpia1.c",
+            "petpia2.c",
+            "petsound.c",
+            "petvia.c"
         source type(c)
-            "c128.c",
-            "c128cia1.c",
-            "c128cpu.c",
-            "c128iec.c",
-            "c128mem.c",
-            "c128mmu.c",
-            "z80.c",
-            "z80mem.c"
-        source type(c)
-            "vdc.c",
-            "vdc-mem.c",
-            "vdc-draw.c",
-            "vdc-draw.c",
-            "vdc-resources.c",
-            "vdc-snapshot.c",
-            "vdc-cmdline-options.c"
+            "crtc.c",
+            "crtc-mem.c",
+            "crtc-draw.c",
+            "crtc-snapshot.c",
+            "crtc-resources.c",
+            "crtc-cmdline-options.c"
         source type(c)
             "fdc.c",
             "riot1d.c",
@@ -153,42 +159,28 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "sounddart.c",
             "soundspeed.c",
             "soundwav.c"
-        source type(c)
+/*        source type(c)
             "vicii.c",
             "vicii-mem.c",
             "vicii-draw.c",
             "vicii-resources.c",
             "vicii-snapshot.c",
             "vicii-sprites.c"  ,
-            "vicii-cmdline-options.c"
+            "vicii-cmdline-options.c"*/
 
-        source type (cpp) "resid.cc"
-        source type (c)   "sid.c"
-
-/*        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.7\""), define("SIZEOF_INT", "\"4\"")
+        option macros('global', 'yes')
         {
-            source type(cpp) "envelope.cc"
-            source type(cpp) "extfilt.cc"
-            source type(cpp) "filter.cc"
-            source type(cpp) "pot.cc"
-            source type(cpp) "sid.cc"
-            source type(cpp) "version.cc"
-            source type(cpp) "voice.cc"
-            source type(cpp) "wave.cc"
-            source type(cpp) "wave6581_PST.cc"
-            source type(cpp) "wave6581_PS_.cc"
-            source type(cpp) "wave6581_P_T.cc"
-            source type(cpp) "wave6581__ST.cc"
-            source type(cpp) "wave8580_PST.cc"
-            source type(cpp) "wave8580_PS_.cc"
-            source type(cpp) "wave8580_P_T.cc"
-            source type(cpp) "wave8580__ST.cc"
-        }*/
+           source type('cpp') 'stdio.h'
+           source type('cpp') 'math.h'
+           source type('cpp') 'limits.h'
+           source type('cpp') 'types.h'
+        }
+
+//        source type (cpp) "resid.cc"
+//        source type (c)   "sid.c"
+
+//        source type (lib) "resid.lib"
     }
-    //option ipf_preopt("/i")
-    //{
-    //   source type(ipf) "vice2.ipf"
-    //}
 }
 
 

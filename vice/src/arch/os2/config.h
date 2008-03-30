@@ -82,6 +82,9 @@
 /* Is digital joystick support avaiable?  */
 /* #undef HAS_DIGITAL_JOYSTICK */
 
+/* see zfile.c */
+#define NAME_NEED_QM          1
+
 /* This seems to be needed to prevent the emulator from FPEs */
 #define FIXPOINT_ARITHMETIC   1  
 

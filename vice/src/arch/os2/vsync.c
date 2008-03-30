@@ -60,11 +60,6 @@
 #include "joystick.h"
 #endif
 
-#ifndef SA_RESTART
-#define SA_RESTART 0
-#endif
-
-
 /* ------------------------------------------------------------------------- */
 
 /* Relative speed of the emulation (%).  0 means "don't limit speed".  */
@@ -75,6 +70,9 @@ static int refresh_rate;
 
 /* "Warp mode".  If nonzero, attempt to run as fast as possible.  */
 static int warp_mode_enabled;
+
+/* o if Emulator is paused */
+static int emulator_paused=FALSE;
 
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)
@@ -259,7 +257,7 @@ static void clk_overflow_callback(CLOCK amount, void *data)
    emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
-    sound_suspend();
+    //    sound_suspend();
     speed_eval_suspended = 1;
 }
 
@@ -307,6 +305,25 @@ void vsync_prevent_clk_overflow(CLOCK sub)
     speed_eval_prev_clk -= sub;
 }
 
+/* OS/2 functions to handle emulator paused */
+
+void emulator_pause()
+{
+    suspend_speed_eval();
+    emulator_paused = TRUE;
+}
+
+void emulator_resume()
+{
+    emulator_paused=FALSE;
+}
+
+int isEmulatorPaused()
+{
+    return emulator_paused;
+}
+    
+
 /* ------------------------------------------------------------------------- */
 
 /* This is called at the end of each screen frame.  It flushes the audio buffer
@@ -318,6 +335,8 @@ int do_vsync(int been_skipped)
     static int skip_counter;
     int skip_next_frame = 0;
 
+    while (emulator_paused) DosSleep(1);
+    
     vsync_hook();
 
     if (been_skipped) num_skipped_frames++;

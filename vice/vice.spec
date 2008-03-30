@@ -20,7 +20,7 @@ PET and CBM-II 8-bit computers, all of which run under the X Window
 System.
 
 %prep
-%setup
+%setup -q
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -DNO_REGPARM" ./configure --prefix=%{prefix}
@@ -31,6 +31,7 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{prefix}
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 strip $RPM_BUILD_ROOT%{prefix}/bin/*
+gzip -9 $RPM_BUILD_ROOT%{prefix}/man/man1/*
 gzip -9 $RPM_BUILD_ROOT%{prefix}/info/*
 
 %clean
@@ -48,12 +49,12 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/c1541
 %{prefix}/bin/petcat
 %{prefix}/lib/vice
-%{prefix}/man/man1/c1541.1
-%{prefix}/man/man1/petcat.1
-%{prefix}/man/man1/vice.1
-%{prefix}/info/vice.info
-%{prefix}/info/vice.info-1
-%{prefix}/info/vice.info-2
-%{prefix}/info/vice.info-3
-%{prefix}/info/vice.info-4
-%{prefix}/info/vice.info-5
+%{prefix}/man/man1/c1541.1.gz
+%{prefix}/man/man1/petcat.1.gz
+%{prefix}/man/man1/vice.1.gz
+%{prefix}/info/vice.info.gz
+%{prefix}/info/vice.info-1.gz
+%{prefix}/info/vice.info-2.gz
+%{prefix}/info/vice.info-3.gz
+%{prefix}/info/vice.info-4.gz
+%{prefix}/info/vice.info-5.gz

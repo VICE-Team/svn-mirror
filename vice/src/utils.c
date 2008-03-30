@@ -69,10 +69,11 @@ void *xmalloc(size_t size)
 {
     void *p = malloc(size);
 
-    if (p == NULL) {
+    if (!p) {
 	log_error(LOG_DEFAULT,
                   "Virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size);
+        if (!size) return NULL;
 	exit(-1);
     }
 
@@ -84,10 +85,11 @@ void *xcalloc(size_t nmemb, size_t size)
 {
     void *p = calloc(nmemb, size);
 
-    if (p == NULL) {
+    if (!p) {
 	log_error(LOG_DEFAULT,
                   "Virtual memory exhausted: cannot allocate %lu bytes.",
                   (unsigned long)size * (unsigned long)nmemb);
+        if (!size) return NULL;
 	exit(-1);
     }
 
@@ -472,7 +474,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 
     p = strrchr(path, '/');
 
-#if defined __MSDOS__ || defined WIN32
+#if defined __MSDOS__ || defined WIN32 || defined OS2
     /* Both `/' and `\' are valid.  */
     {
         const char *p1;

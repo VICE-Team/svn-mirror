@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c128mem.h"
 #include "c128mmu.h"

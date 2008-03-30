@@ -1,5 +1,5 @@
 /*
- * zfile.h - Transparent handling of compressed files.
+ * petui.h - Definition of the PET-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -25,24 +25,10 @@
  *
  */
 
-#ifndef _ZFILE_H
-#define _ZFILE_H
+#ifndef _PETUI_H
+#define _PETUI_H
 
-#include <stdio.h>
+extern int pet_ui_init(void);
 
-/* actions to be done when a zfile is closed */
-typedef enum {
-	ZFILE_KEEP,	/* Nothing, keep original file (default).  */
-	ZFILE_REQUEST,	/* Request the user what to do.  */
-	ZFILE_DEL	/* Remove original file.  */
-} zfile_action_t;
-
-extern FILE *zfopen(const char *name, const char *mode);
-extern int zfclose(FILE *stream);
-extern int zclose_all(void);
-
-extern int zfile_close_action(const char *filename, zfile_action_t action,
-                              const char *request_string);
-
-#endif /* _ZFILE_H */
+#endif
 

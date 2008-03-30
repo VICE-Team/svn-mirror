@@ -42,8 +42,9 @@ static int set_serial_file(resource_value_t v)
 {
   const char *name = (const char*)v;
 
-  if ((SerialFile == NULL) && (name != NULL) && (strcmp(name, SerialFile) == 0))
-    return 0;
+  if ((SerialFile != NULL) && (name != NULL)
+      && (strcmp(name, SerialFile) == 0))
+      return 0;
 
   string_set(&SerialFile, name);
   return 0;

@@ -172,7 +172,7 @@ static void ui_attach(HWND hwnd, int number)
         return;
     if ((number?file_system_attach_disk(number, result):tape_attach_image(result)) < 0)
     {
-        ui_error("Cannot attach specified file");
+        WinError(hwnd, "Cannot attach specified file.");
         return;
     }
     drive[0]=result[0];
@@ -200,7 +200,7 @@ static void ui_soft_reset(HWND hwnd)
     }
 }
 
-int toggle(char *resource_name)
+static int toggle(char *resource_name)
 {
     int value;
     if (resources_get_value(resource_name, (resource_value_t *) &value) < 0)
@@ -212,8 +212,7 @@ int toggle(char *resource_name)
 void toggle_dialog(char *resource_name, const char *text)
 {
     char *str = xcalloc(1,strlen(text)+15);
-    strcat(strcat(strcpy(str, text)," switched "),
-           toggle(resource_name) ? "ON." : "OFF.");
+    sprintf(str, "%s%s%s", text, " switched ", toggle(resource_name)?"ON.":"OFF.");
     ui_OK_dialog(resource_name, str);
     free(str);
 }

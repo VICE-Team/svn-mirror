@@ -9,6 +9,7 @@ libvac_a_SOURCES =
 EXTRA_DIST = \
 	X64.ICC \
         X128.ICC \
+        Xpet.ICC \
         C1541.ICC \
         RESID.ICC \
         VICE_INF.ICC

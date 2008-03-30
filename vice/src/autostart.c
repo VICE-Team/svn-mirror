@@ -452,17 +452,24 @@ int autostart_prg(const char *file_name)
         return -1;
     }
 
+/* FIXME: I'm sorry, i don't find the reason, why I need this here */
+#ifdef OS2
+    p00_type = os2_p00_check_name(file_name);
+#else
     /* First check if it's a P00 file.  */
-
     p00_type = p00_check_name(file_name);
-    if (p00_type >= 0) {
-        if (p00_type == FT_PRG
-            && p00_read_header(f, (BYTE *)p00_header_file_name, NULL) != 0)
+#endif
+    if (p00_type >= 0)
+    {
+        if (p00_type == FT_PRG &&
+            p00_read_header(f, (BYTE *)p00_header_file_name, NULL))
             p00_type = -1;
-        else if (p00_type != FT_PRG) {
-            fclose(f);
-            return -1;
-        }
+        else
+            if (p00_type != FT_PRG)
+            {
+                fclose(f);
+                return -1;
+            }
     }
 
     /* Extract the directory path to allow FS-based drive emulation to
@@ -470,17 +477,14 @@ int autostart_prg(const char *file_name)
     fname_split(file_name, &directory, &file);
 
     if (directory) {
-        char *tmpdir;
-        tmpdir = concat(directory, FSDEV_DIR_SEP_STR, NULL);
+        char *tmpdir = concat(directory, FSDEV_DIR_SEP_STR, NULL);
         free(directory);
         directory = tmpdir;
     }
 
     if (archdep_path_is_relative(directory)) {
-        char *tmp, *cwd;
-
-        cwd = get_current_dir();
-        tmp = concat(cwd, "/", directory, NULL);
+        char *tmp;
+        archdep_expand_path(&tmp, directory);
         free(directory);
         directory = tmp;
 

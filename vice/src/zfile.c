@@ -57,6 +57,18 @@
 #include "zfile.h"
 #include "zipcode.h"
 
+
+#ifdef NAME_NEED_QM
+#define MAKE_NAME(a,n) {\
+    char *exp; \
+    archdep_expand_path(&exp, n);\
+    a = concat("\"", exp, "\"", NULL); \
+    free(exp); \
+    }
+#else
+#define MAKE_NAME(a,n) a=stralloc(n)
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* #define DEBUG_ZFILE */
@@ -171,20 +183,19 @@ static char *try_uncompress_with_gzip(const char *name)
        extension.  The last case (3-character extensions whose last character
        is a `z' (or 'Z'), is the standard convention for the MS-DOS version
        of gzip.  */
-    if ((l < 4 || strcasecmp(name + l - 3, ".gz") != 0)
-	&& (l < 3 || strcasecmp(name + l - 2, ".z") != 0)
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
+	&& (l < 3 || strcasecmp(name + l - 2, ".z"))
 	&& (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.'))
 	return NULL;
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = stralloc("gzip");
     argv[1] = stralloc("-cd");
-    argv[2] = stralloc(name);
+    MAKE_NAME(argv[2], name);
     argv[3] = NULL;
 
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
-    tmpnam(tmp_name);
-    exit_status = archdep_spawn("gzip", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("gzip", argv, tmpnam(tmp_name), NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -220,12 +231,11 @@ static char *try_uncompress_with_bzip(const char *name)
     /* `exec*()' does not want these to be constant...  */
     argv[0] = stralloc("bzip2");
     argv[1] = stralloc("-cd");
-    argv[2] = stralloc(name);
+    MAKE_NAME(argv[2], name);
     argv[3] = NULL;
 
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
-    tmpnam(tmp_name);
-    exit_status = archdep_spawn("bzip2", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("bzip2", argv, tmpnam(tmp_name), NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -258,12 +268,11 @@ static char *try_uncompress_with_tzx(const char *name)
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = stralloc("64tzxtap");
-    argv[1] = stralloc(name);
+    MAKE_NAME(argv[1], name);
     argv[2] = NULL;
 
     ZDEBUG(("try_uncompress_with_tzx: spawning 64tzxtap %s", name));
-    tmpnam(tmp_name);
-    exit_status = archdep_spawn("64tzxtap", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("64tzxtap", argv, tmpnam(tmp_name), NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -355,13 +364,12 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     /* First run listing and search for first recognizeable extension.  */
     argv[0] = stralloc(program);
     argv[1] = stralloc(listopts);
-    argv[2] = stralloc(name);
+    MAKE_NAME(argv[2], name);
     argv[3] = NULL;
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s'",
 	    program, listopts, name));
-    tmpnam(tmp_name);
-    exit_status = archdep_spawn(program, argv, tmp_name, NULL);
+    exit_status = archdep_spawn(program, argv, tmpnam(tmp_name), NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -518,7 +526,7 @@ static const char *try_uncompress_zipcode(const char *name, int write_mode)
     argv[0] = stralloc(C1541_NAME);
     argv[1] = stralloc("-zcreate");
     argv[2] = stralloc(tmp_name);
-    argv[3] = stralloc(name);
+    MAKE_NAME(argv[3], name);
     argv[4] = NULL;
 
     exit_status = archdep_spawn(C1541_NAME, argv, NULL, NULL);
@@ -608,7 +616,7 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
     argv[3] = stralloc("x64");
     argv[4] = stralloc(tmp_name);
     argv[5] = stralloc("-unlynx");
-    argv[6] = stralloc(name);
+    MAKE_NAME(argv[6], name);
     argv[7] = NULL;
 
     exit_status = archdep_spawn("c1541", argv, NULL, NULL);

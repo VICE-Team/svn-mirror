@@ -68,6 +68,22 @@
 #define WinLboxQuerySelectedItem(hwnd, id) \
     WinQueryLboxSelectedItem (WinWindowFromID(hwnd, id))
 
+static int toggle(char *resource_name)
+{
+    int val;
+    resources_get_value(resource_name, (resource_value_t *) &val);
+    resources_set_value(resource_name, (resource_value_t)   !val);
+    return !val;
+}
+
+#if defined __X64__ || defined __X128__
+#define VIDEO_CACHE "VideoCache"
+#endif
+
+#ifdef __XPET__
+#define VIDEO_CACHE "CrtcVideoCache"
+#endif
+
 /* Is-this-dialog-open handling                                     */
 /*----------------------------------------------------------------- */
 
@@ -156,11 +172,7 @@ MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             switch (SHORT1FROMMP(mp1))
             {
             case CB_SOUND:
-                {
-                    int sound;
-                    resources_get_value("Sound", (resource_value_t *) &sound);
-                    resources_set_value("Sound", (resource_value_t) !sound);
-                }
+                toggle("Sound");
                 break;
             case CS_VOLUME:
                 {
@@ -195,19 +207,11 @@ MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 resources_set_value("SidModel", (resource_value_t)(SHORT1FROMMP(mp1)&0x1));
                 break;
             case CB_SIDFILTER:
-                {
-                    int sound;
-                    resources_get_value("SidFilters", (resource_value_t *) &sound);
-                    resources_set_value("SidFilters", (resource_value_t) !sound);
-                }
+                toggle("SidFilters");
                 break;
 #ifdef HAVE_RESID
             case CB_RESID:
-                {
-                    int sound;
-                    resources_get_value("SidUseResid", (resource_value_t *) &sound);
-                    resources_set_value("SidUseResid", (resource_value_t) !sound);
-                }
+                toggle("SidUseResid");
                 break;
 #endif
             case SPB_BUFFER:
@@ -252,11 +256,7 @@ MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_CONTROL:
         {
             if (SHORT1FROMMP(mp1) == CB_TRUEDRIVE)
-            {
-                int emu;
-                resources_get_value("DriveTrueEmulation", (resource_value_t*) &emu);
-                resources_set_value("DriveTrueEmulation", (resource_value_t)  !emu);
-            }
+                toggle("DriveTrueEmulation");
         }
         break;
     }
@@ -524,6 +524,10 @@ MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 }
 #endif
 
+extern void emulator_pause(void);
+extern void emulator_resume(void);
+extern int isEmulatorPaused(void);
+
 MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first = TRUE;
@@ -540,7 +544,19 @@ MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         first = TRUE;
         break;
     case WM_COMMAND:
-        if (LONGFROMMP(mp1)!=DID_CLOSE) break;
+        switch (LONGFROMMP(mp1))
+        {
+        case PB_SPEED100:
+            WinSetSpinVal(hwnd, SPB_SPEED, 100);
+            suspend_speed_eval();
+            resources_set_value("Speed", (resource_value_t)100);
+            WinEnableControl(hwnd, PB_SPEED100, FALSE);
+            return FALSE;
+        case DID_CLOSE:
+            delDlgOpen(DLGO_CALIBRATE);
+            break;
+        }
+        break;
     case WM_CLOSE:
         delDlgOpen(DLGO_EMULATOR);
         break;
@@ -549,10 +565,20 @@ MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (first)
             {
                 int val;
+                WinCheckButton(hwnd, CB_PAUSE, isEmulatorPaused());
+                resources_get_value(VIDEO_CACHE,  (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_VCACHE, val);
+#ifdef __X64__
+                resources_get_value("CheckSbColl", (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_SBCOLL, val);
+                resources_get_value("CheckSsColl", (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_SSCOLL, val);
+#endif
                 for (val=0; val<11; val++)
                     WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
                 resources_get_value("Speed", (resource_value_t *) &val);
                 WinSetSpinVal(hwnd, SPB_SPEED, val);
+                WinEnableControl(hwnd, PB_SPEED100, (val!=100));
                 resources_get_value("RefreshRate", (resource_value_t *) &val);
                 WinLboxSelectItem(hwnd, CBS_REFRATE, val);
                 first=FALSE;
@@ -571,6 +597,7 @@ MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     WinGetSpinVal(hwnd, ctrl, &val);
                     suspend_speed_eval();
                     resources_set_value("Speed", (resource_value_t)val);
+                    WinEnableControl(hwnd, PB_SPEED100, (val!=100));
                 }
                 break;
             case CBS_REFRATE:
@@ -580,6 +607,21 @@ MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                                         (resource_value_t)WinLboxQuerySelectedItem (hwnd, CBS_REFRATE));
                 }
                 break;
+            case CB_PAUSE:
+                if (isEmulatorPaused()) emulator_resume();
+                else                    emulator_pause();
+                break;
+            case CB_VCACHE:
+                toggle(VIDEO_CACHE);
+                break;
+#ifdef __X64__
+            case CB_SBCOLL:
+                toggle("CheckSbColl");
+                break;
+            case CB_SSCOLL:
+                toggle("CheckSsColl");
+                break;
+#endif
             }
             break;
         }

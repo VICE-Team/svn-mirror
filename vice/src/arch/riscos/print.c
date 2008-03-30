@@ -46,8 +46,9 @@ static int set_printer_file(resource_value_t v)
 {
   const char *name = (const char*)v;
 
-  if ((PrinterFile == NULL) && (name != NULL) && (strcmp(name, PrinterFile) == 0))
-    return 0;
+  if ((PrinterFile != NULL) && (name != NULL)
+      && (strcmp(name, PrinterFile) == 0))
+      return 0;
 
   string_set(&PrinterFile, name);
   return 0;

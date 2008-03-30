@@ -261,6 +261,15 @@ void ui_error(const char *format,...)
     ui_OK_dialog("VICE/2 Error", txt);
 }
 
+void WinError(HWND hwnd, const char *format,...)
+{
+    char txt[1024];
+    va_list ap;
+    va_start(ap, format);
+    vsprintf(txt, format, ap);
+    WinOkDlg(hwnd, "VICE/2 Error", txt);
+}
+
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
     char txt[1024];
@@ -283,9 +292,14 @@ int ui_extend_image_dialog(void)
 
 /* ------------------------ OS/2 specific stuff ------------------------ */
 
+void WinOkDlg(HWND hwnd, char *title, char *msg)
+{
+    WinMessageBox(HWND_DESKTOP, hwnd, msg, title, 0, MB_OK);
+}
+
 void ui_OK_dialog(char *title, char *msg)
 {
-    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, msg, title, 0, MB_OK);
+    WinOkDlg(HWND_DESKTOP, title, msg);
 }
 
 int ui_yesno_dialog(HWND hwnd, char *title, char *msg)

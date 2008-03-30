@@ -126,7 +126,7 @@ const char *archdep_boot_path(void)
 
     if (!boot_path) {
         _splitpath(argv0, drive, dir, fname, ext);
-        if (strlen(dir)) *(dir+strlen(dir)-1) = 0; // cut last backslash
+        if (strlen(dir)) *(dir+strlen(dir)-1) = '\0'; // cut last backslash
         boot_path = concat(drive, dir, NULL);
     }
     return boot_path;
@@ -235,8 +235,11 @@ void archdep_setup_signals(int do_core_dumps)
 
 int archdep_path_is_relative(const char *path)
 {
-    return (isalpha(path[0]) && path[1] == ':'   &&
-            (path[2] == '/' || path[2] == '\\'));
+    log_debug("relative? %s", path);
+    return (isalpha(path[0]) && path[1] == ':'  &&
+            (path[2] == '/' || path[2] == '\\') ||
+            (path[0] == '/' || path[0] == '\\')
+           );
 }
 
 /* Return a malloc'ed backup file name for file `fname'.  */
@@ -247,12 +250,13 @@ char *archdep_make_backup_filename(const char *fname)
     return name;
 }
 
-/* return malloc´d version of full pathname of filename */
+/* return malloced version of full pathname of filename */
 int archdep_expand_path(char **return_path, const char *filename)
 {
     if (filename[0] == '\\' || filename[1] == ':')
         *return_path = stralloc(filename);
-    else {
+    else
+    {
         char *cwd = get_current_dir();
         *return_path = concat(cwd, "\\", filename, NULL);
         free(cwd);
@@ -322,7 +326,7 @@ int archdep_spawn(const char *name, char **argv,
     char       *cmdline;
 
     if (archdep_search_path(name, fqName, sizeof(fqName))) return -1;
-    ;
+
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
     log_message(LOG_DEFAULT, "archdep.c: Spawning \"cmd.exe %s\"", cmdline);
@@ -361,7 +365,7 @@ int archdep_spawn(const char *name, char **argv,
     }
     free(cmdline);
     //    DosSleep(1000);
-    log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
+    if (rc) log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
     return rc;
 }
 
@@ -374,3 +378,36 @@ void archdep_close_monitor_console(FILE *mon_input, FILE *mon_output)
 {
 }
 
+/* FIXME: WHY DO I NEED THIS ????????????????? */
+#include "vdrive.h"
+int os2_p00_check_name(const char *name)
+{
+    int t = -1;
+    char *p;
+
+    if (!name || !(p = strrchr(name, '.')) || strlen(++p) != 3)
+	return -1;
+
+    if (!isdigit((int) p[1]) || !isdigit((int) p[2]))
+	return -1;
+
+    switch (toupper(*p)) {
+      case 'D':
+	  t = FT_DEL;
+	  break;
+      case 'S':
+	  t = FT_SEQ;
+	  break;
+      case 'P':
+	  t = FT_PRG;
+	  break;
+      case 'U':
+	  t = FT_USR;
+	  break;
+      case 'R':
+	  t = FT_REL;
+	  break;
+    }
+
+    return t;
+}
