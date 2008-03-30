@@ -42,7 +42,6 @@
 #include "vicii.h"
 #include "cia.h"
 #include "sid.h"
-#include "stdlib.h"
 #include "memutils.h"
 #include "maincpu.h"
 #include "parallel.h"
@@ -75,7 +74,7 @@ static int emu_id_enabled;
 /* Flag: Do we enable the IEEE488 interface emulation?  */
 static int ieee488_enabled;
 
-/* Flag: Do we enable the internal REU?  */
+/* Flag: Do we enable the external REU?  */
 static int reu_enabled;
 
 /* Flag: Do we enable Action Replay Cartridge support?  */
@@ -271,7 +270,7 @@ BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
 
-/* Size of */
+/* Size of RAM...  */
 int ram_size = C64_RAM_SIZE;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
@@ -502,7 +501,7 @@ static inline void pla_config_changed(void)
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
 
-    /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed. */
+    /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed.  */
     if (tape_sense)
 	ram[1] = (pport.data | ~pport.dir) & 0x2f;
     else
@@ -600,8 +599,8 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	if (ieee488_enabled)
 	    store_tpi(addr & 0x07, value);
     }
-    if (action_replay_enabled && export_ram)
-	export_ram0[0x1f00 + (addr & 0xff)] = value;
+	if (action_replay_enabled && export_ram)
+	    export_ram0[0x1f00 + (addr & 0xff)] = value;
     return;
 }
 
@@ -619,8 +618,8 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 	if (ieee488_enabled)
 	    return read_tpi(addr & 0x07);
 	if (action_replay_enabled) {
-	    if (export_ram)
-		return export_ram0[0x1f00 + (addr & 0xff)];
+        if (export_ram)
+            return export_ram0[0x1f00 + (addr & 0xff)];
 	    switch (roml_bank) {
 	      case 0:
 		return roml_banks[addr & 0x1fff];
@@ -764,7 +763,7 @@ void initialize_memory(void)
     /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
     int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
                             1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-    /* ROMH is enabled at memory configs 10, 11, 14, 15, 26, 27, 30, 31 
+    /* ROMH is enabled at memory configs 10, 11, 14, 15, 26, 27, 30, 31
        and Ultimax.  */
     int romh_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1 };
@@ -958,12 +957,12 @@ void initialize_memory(void)
 
     /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
     for (j = 0; j < NUM_CONFIGS; j++) {
-	if (romh_config[j]) {
-	    for (i = romh_mapping[j]; i <= (romh_mapping[j] + 0x1f); i++) {
-		mem_read_tab[j][i] = read_romh;
-		mem_read_base_tab[j][i] = NULL;
-	    }
-	}
+        if (romh_config[j]) {
+            for (i = romh_mapping[j]; i <= (romh_mapping[j] + 0x1f); i++) {
+                mem_read_tab[j][i] = read_romh;
+                mem_read_base_tab[j][i] = NULL;
+            }
+        }
     }
 
     for (i = 0; i < NUM_CONFIGS; i++) {
@@ -1088,7 +1087,7 @@ int setup_action_replay(void)
 	fprintf(stderr, "Could not load Action Replay ROM image.\n");
 	return -1;
     }
-    memcpy(romh_banks, roml_banks, 0x8000);
+	memcpy(romh_banks, roml_banks, 0x8000);
     return 0;
 }
 
