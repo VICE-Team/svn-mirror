@@ -64,9 +64,9 @@
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
-#define SET_ST(b)		STORE(0x96, (LOAD(0x96) | b))
-#define BSOUR			0xA5	/* Buffered Character for IEEE Bus */
-#define TMP_IN			0xA5
+#define SET_ST(b)		STORE(0x90, (LOAD(0x90) | b))
+#define BSOUR			0x95    /* Buffered Character for IEEE Bus */
+#define TMP_IN			0xA4
 
 /* Initialized serial devices.  */
 
