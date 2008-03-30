@@ -53,9 +53,15 @@ static WORD mcmsktable[512];
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
+#if 1
+    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+               vic_ii.raster.xsmooth_color,
+               end_pixel - start_pixel + 1);
+#else
     vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                vic_ii.raster.overscan_background_color,
                end_pixel - start_pixel + 1);
+#endif
 
     /* The background color in the xsmooth region is set by xsmooth color.  */
     if (vic_ii.raster.xsmooth
