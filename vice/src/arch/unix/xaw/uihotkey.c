@@ -32,14 +32,6 @@
 
 #include "utils.h"
 
-/* If this is #defined, `Alt' is handled the same as `Meta'.  On
-   systems which have Meta, it's better to use Meta instead of Alt as
-   a shortcut modifier (because Alt is usually used by Window
-   Managers), but systems that don't have Meta (eg. GNU/Linux, HP-UX)
-   would suffer then.  So it's easier to just handle Meta as Alt in
-   such cases.  */
-#define ALT_AS_META
-
 typedef struct {
     ui_hotkey_modifier_t modifier;
     KeySym keysym;
@@ -51,9 +43,7 @@ static registered_hotkey_t *registered_hotkeys;
 static int num_registered_hotkeys;
 static int num_allocated_hotkeys;
 
-static int alt_count;
-static int right_ctrl_count;
-static int meta_count;
+static int meta_count, control_count, shift_count;
 
 /* ------------------------------------------------------------------------- */
 
@@ -62,7 +52,7 @@ int ui_hotkey_init(void)
     if (registered_hotkeys != NULL) {
         free(registered_hotkeys);
         num_registered_hotkeys = num_allocated_hotkeys = 0;
-        alt_count = right_ctrl_count = meta_count = 0;
+        meta_count = control_count = shift_count = 0;
     }
     return 0;
 }
@@ -113,59 +103,50 @@ void ui_hotkey_event_handler(Widget w, XtPointer closure,
     /* Bad things could happen if focus goes away and then comes
        back...  */
     if (xevent->type == FocusOut) {
-        alt_count = right_ctrl_count = meta_count = 0;
+        meta_count = control_count = shift_count = 0;
         return;
     }
 
     switch (keysym) {
-#ifndef ALT_AS_META
-      case XK_Alt_L:
-      case XK_Alt_R:
+      case XK_Shift_L:
+      case XK_Shift_R:
         if (xevent->type == KeyPress)
-            alt_count++;
-        else if (xevent->type == KeyRelease && alt_count > 0)
-            alt_count--;
+            shift_count++;
+        else if (xevent->type == KeyRelease && shift_count > 0)
+            shift_count--;
         break;
-#endif
+
+      case XK_Control_L:
+      case XK_Control_R:
+        if (xevent->type == KeyPress)
+            control_count++;
+        else if (xevent->type == KeyRelease && control_count > 0)
+            control_count--;
+        break;
+
+      case XK_Meta_L:
+      case XK_Meta_R:
 #ifdef ALT_AS_META
       case XK_Alt_L:
       case XK_Alt_R:
 #endif
-      case XK_Meta_L:
-      case XK_Meta_R:
+#ifdef MODE_SWITCH_AS_META
+      case XK_Mode_switch:
+#endif
         if (xevent->type == KeyPress)
             meta_count++;
         else if (xevent->type == KeyRelease && meta_count > 0)
             meta_count--;
         break;
-      /* case XK_Control_L: */
-      case XK_Control_R:
-        if (xevent->type == KeyPress)
-            right_ctrl_count++;
-        else if (xevent->type == KeyRelease && right_ctrl_count > 0)
-            right_ctrl_count--;
-        break;
+
       default:
-        if (xevent->type == KeyPress && right_ctrl_count != 0) {
+        if (xevent->type == KeyPress && meta_count != 0) {
             registered_hotkey_t *p = registered_hotkeys;
 
+            /* XXX: Notice that we don't actually check the hotkey modifiers
+               here.  */
             for (i = 0; i < num_registered_hotkeys; i++, p++) {
                 if (p->keysym == keysym) {
-                    if ((p->modifier & UI_HOTMOD_ALT)) {
-                        if (alt_count == 0)
-                            continue;
-                    } else if (alt_count > 0)
-                        continue;
-                    if (p->modifier & UI_HOTMOD_CTRL) {
-                        if (right_ctrl_count == 0)
-                            continue;
-                    } else if (right_ctrl_count > 0)
-                        continue;
-                    if (p->modifier & UI_HOTMOD_META) {
-                        if (meta_count == 0)
-                            continue;
-                    } else if (meta_count > 0)
-                        continue;
                     p->callback(NULL, p->client_data, NULL);
                     *continue_to_dispatch = False;
                     break;
