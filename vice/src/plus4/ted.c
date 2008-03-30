@@ -34,6 +34,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "clkguard.h"
+#include "dma.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -141,7 +142,7 @@ inline void ted_delay_clk(void)
 
     if (ted.fastmode == 0) {
         diff = maincpu_clk - old_maincpu_clk;
-        maincpu_steal_cycles(maincpu_clk, diff, 0);
+        dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
     }
 
     old_maincpu_clk = maincpu_clk;

@@ -30,7 +30,7 @@
 #include <string.h>
 
 #include "alarm.h"
-#include "interrupt.h"
+#include "dma.h"
 #include "maincpu.h"
 #include "ted-fetch.h"
 #include "tedtypes.h"
@@ -103,8 +103,8 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.ycounter_reset_checked = 1;
             ted.memory_fetch_done = 2;
 
-            maincpu_steal_cycles(ted.fetch_clk,
-                                 (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
+            dma_maincpu_steal_cycles(ted.fetch_clk,
+                                     (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
             ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
             ted.bad_line = 1;
             return 1;
@@ -124,8 +124,8 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.ycounter_reset_checked = 1;
             ted.memory_fetch_done = 2;
 */
-            maincpu_steal_cycles(ted.fetch_clk,
-                                 (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
+            dma_maincpu_steal_cycles(ted.fetch_clk,
+                                     (TED_SCREEN_TEXTCOLS + 3) * 2 - sub, 0);
             ted_delay_oldclk((TED_SCREEN_TEXTCOLS + 3) * 2 - sub);
 
 /*            ted.bad_line = 1;*/

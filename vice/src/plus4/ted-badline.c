@@ -28,7 +28,7 @@
 
 #include <string.h>
 
-#include "interrupt.h"
+#include "dma.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "ted-badline.h"
@@ -86,7 +86,7 @@ void ted_badline_check_state(BYTE value, int cycle, int line)
                          - (cycle - (TED_FETCH_CYCLE + 3)));
 
             /* Take over the bus until the memory fetch is done.  */
-            maincpu_steal_cycles(maincpu_clk, num_chars, 0);
+            dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
             ted_delay_oldclk(num_chars);
 
             if (num_chars <= TED_SCREEN_TEXTCOLS) {
