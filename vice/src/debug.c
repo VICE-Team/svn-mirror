@@ -46,7 +46,7 @@
 debug_t debug;
 
 
-inline static debug_history_step(const char *st);
+inline static void debug_history_step(const char *st);
 
 static int set_do_core_dumps(resource_value_t v, void *param)
 {
@@ -307,7 +307,7 @@ static void debug_create_new_file(void)
     lib_free(filename);
 }
 
-static debug_open_new_file(void)
+static void debug_open_new_file(void)
 {
     char *filename, *directory;
     char st[256];
@@ -321,7 +321,7 @@ static debug_open_new_file(void)
     debug_file = fopen(filename, MODE_READ_TEXT);
     if (debug_file != NULL) {
         debug_buffer_size = fread(debug_buffer, sizeof(char), 
-                                    DEBUG_HISTORY_MAXFILESIZE, debug_file);
+                                  DEBUG_HISTORY_MAXFILESIZE, debug_file);
         debug_buffer_ptr = 0;
         debug_file_current++;
     } else {
@@ -331,10 +331,9 @@ static debug_open_new_file(void)
     debug_file_line = 0;
 
     lib_free(filename);
-
 }
 
-inline static debug_history_step(const char *st)
+inline static void debug_history_step(const char *st)
 {
     if (event_record_active()) {
         

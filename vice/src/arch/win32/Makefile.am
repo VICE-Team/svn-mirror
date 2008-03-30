@@ -5,6 +5,7 @@ SUFFIXES = .rc
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@ARCH_INCLUDES@/msvc/wpcap \
+	@ARCH_INCLUDES@/mingw32 \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
@@ -22,6 +23,7 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	mingw32/system.h \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
@@ -60,7 +62,6 @@ libarch_a_SOURCES = \
 	statusbar.c \
 	statusbar.h \
 	system.c \
-	system.h \
 	tfearch.c \
 	types.h \
 	ui.c \
@@ -136,7 +137,10 @@ libarch_a_DEPENDENCIES = \
 
 EXTRA_DIST = \
 	evc/config.h \
+	evc/system.c \
+	evc/system.h \
 	msvc/config.h \
+	msvc/system.h \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
 	msvc/wpcap/pcap-stdinc.h \

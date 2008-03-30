@@ -1,3 +1,38 @@
+2004-02-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.5.
+
+	* vic20/vic20iec.c, c64/c64iec.c, drive/iec/iec.c,
+	plus4/plus4iec.c, iecdrive.h, drive/drivetypes.h,
+	drive/iec/cia1581d.c, drive/iec/via1d1541.c: Added VIC20 four
+	drives support.
+
+	* c64/c64parallel.c, pet/petiec.c, cbm2/cbm2iec.c, iecdrive.h,
+	drive/iec/iec.c, drive/drive-snapshot.c, vic20/vic20iec.c,
+	plus4/plus4parallel.c, drive/iec/via1d1541.c,
+	drive/drivetypes.h: Added parallel cable four drives support.
+
+	* arch/win32/uivideo.c, arch/win32/uireu.c: Replaced some char
+	usage.
+
+	* arch/win32/system.c (system_wcstombs, system_mbs_free,
+	system_mbstowcs, system_mbs_free): New functions.
+
+	* arch/win32/system.h: Moved to msvc and mingw32 directory.
+
+	* arch/win32/evc/system.c, arch/win32/evc/system.h: New files.
+
+	* arch/win32/Makefile.am: Updated.
+
+	* debug.c (debug_history_step, debug_open_new_file): Fixed
+	prototypes.
+
+2004-02-16  Tibor Biczo  <crown@axelero.hu>
+
+	* fliplist.c (fliplist_resources_init): Fixed memory
+	corruption caused by freeing default factory_value resource
+	tag.
+
 2004-02-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.4.

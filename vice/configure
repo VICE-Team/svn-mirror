@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.4
+ VERSION=1.14.5
 
 
 cat >>confdefs.h <<_ACEOF
@@ -12101,7 +12101,7 @@ done
 
 
 
-if test x"$is_win32" = "xno" -a test x"$is_riscos" = "xno"; then
+if test x"$is_win32" = "xno" -a x"$is_riscos" = "xno"; then
 
 for ac_func in usleep
 do
