@@ -330,4 +330,5 @@ void vsid_ui_display_time(unsigned int sec)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
+    log_message(LOG_DEFAULT, "Using %s interrupt", irq);
 }

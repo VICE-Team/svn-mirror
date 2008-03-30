@@ -93,6 +93,8 @@ static long CALLBACK dummywindowproc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
 static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
+int ui_emulation_is_paused(void);
+
 
 /* List of resources that can be switched on and off from the menus.  */
 ui_menu_toggle  toggle_list[] = {

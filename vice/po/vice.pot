@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-07-15 15:48+0200\n"
+"POT-Creation-Date: 2001-07-18 22:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -310,13 +310,13 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:53 src/arch/unix/c610ui.c:53
 #: src/arch/unix/c64ui.c:209 src/arch/unix/vic20ui.c:396
-#: src/arch/unix/vsidui.c:117
+#: src/arch/unix/vsidui.c:118
 msgid "*PAL-G"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:55 src/arch/unix/c610ui.c:55
 #: src/arch/unix/c64ui.c:211 src/arch/unix/vic20ui.c:398
-#: src/arch/unix/vsidui.c:119
+#: src/arch/unix/vsidui.c:120
 msgid "*NTSC-M"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgid "*Use reSID emulation"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:124 src/arch/unix/c64ui.c:298
-#: src/arch/unix/uisettings.c:1018 src/arch/unix/vsidui.c:143
+#: src/arch/unix/uisettings.c:1018 src/arch/unix/vsidui.c:144
 msgid "*Enable sound playback"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:399 src/arch/unix/c128ui.c:415
 #: src/arch/unix/c64ui.c:527 src/arch/unix/c64ui.c:541
-#: src/arch/unix/vsidui.c:162
+#: src/arch/unix/vsidui.c:163
 msgid "SID settings"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:468 src/arch/unix/c610ui.c:501
 #: src/arch/unix/c64ui.c:594 src/arch/unix/petui.c:498
-#: src/arch/unix/vic20ui.c:488 src/arch/unix/vsidui.c:246
+#: src/arch/unix/vic20ui.c:488 src/arch/unix/vsidui.c:247
 msgid "File"
 msgstr ""
 
@@ -615,7 +615,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:507 src/arch/unix/c610ui.c:536
 #: src/arch/unix/c64ui.c:635 src/arch/unix/petui.c:533
-#: src/arch/unix/vic20ui.c:523 src/arch/unix/vsidui.c:259
+#: src/arch/unix/vic20ui.c:523 src/arch/unix/vsidui.c:260
 #: src/arch/unix/x11/gnome/ui.c:1088 src/arch/unix/x11/gnome/ui.c:1180
 msgid "Settings"
 msgstr ""
@@ -872,7 +872,7 @@ msgstr ""
 msgid "*Cartridge control"
 msgstr ""
 
-#: src/arch/unix/c64ui.c:213 src/arch/unix/vsidui.c:121
+#: src/arch/unix/c64ui.c:213 src/arch/unix/vsidui.c:122
 msgid "*Old NTSC-M"
 msgstr ""
 
@@ -1170,7 +1170,7 @@ msgstr ""
 msgid "*Trap idle"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:957 src/arch/unix/vsidui.c:131
+#: src/arch/unix/uisettings.c:957 src/arch/unix/vsidui.c:132
 msgid "*1.00 sec"
 msgstr ""
 
@@ -1178,7 +1178,7 @@ msgstr ""
 msgid "*0.75 sec"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:961 src/arch/unix/vsidui.c:133
+#: src/arch/unix/uisettings.c:961 src/arch/unix/vsidui.c:134
 msgid "*0.50 sec"
 msgstr ""
 
@@ -1202,7 +1202,7 @@ msgstr ""
 msgid "*0.15 sec"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:973 src/arch/unix/vsidui.c:135
+#: src/arch/unix/uisettings.c:973 src/arch/unix/vsidui.c:136
 msgid "*0.10 sec"
 msgstr ""
 
@@ -1242,11 +1242,11 @@ msgstr ""
 msgid "Sound synchronization"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1024 src/arch/unix/vsidui.c:146
+#: src/arch/unix/uisettings.c:1024 src/arch/unix/vsidui.c:147
 msgid "Sample rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1026 src/arch/unix/vsidui.c:148
+#: src/arch/unix/uisettings.c:1026 src/arch/unix/vsidui.c:149
 msgid "Buffer size"
 msgstr ""
 
@@ -1254,7 +1254,7 @@ msgstr ""
 msgid "Suspend time"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1030 src/arch/unix/vsidui.c:150
+#: src/arch/unix/uisettings.c:1030 src/arch/unix/vsidui.c:151
 msgid "Oversample"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr ""
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1273 src/arch/unix/vsidui.c:156
+#: src/arch/unix/uisettings.c:1273 src/arch/unix/vsidui.c:157
 msgid "Sound settings"
 msgstr ""
 
@@ -1453,7 +1453,7 @@ msgid "*GoDot"
 msgstr ""
 
 #: src/arch/unix/uivicii.c:64 src/arch/unix/vic20ui.c:415
-#: src/arch/unix/vsidui.c:164
+#: src/arch/unix/vsidui.c:165
 msgid "Video standard"
 msgstr ""
 
@@ -1953,19 +1953,19 @@ msgstr ""
 msgid "`%s' is not a valid PSID file."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:105
+#: src/arch/unix/vsidui.c:106
 msgid "Load PSID file..."
 msgstr ""
 
-#: src/arch/unix/vsidui.c:129
+#: src/arch/unix/vsidui.c:130
 msgid "*3.00 sec"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:183
+#: src/arch/unix/vsidui.c:184
 msgid "*Default Tune"
 msgstr ""
 
-#: src/arch/unix/vsidui.c:206
+#: src/arch/unix/vsidui.c:207
 #, c-format
 msgid "*Tune %d"
 msgstr ""

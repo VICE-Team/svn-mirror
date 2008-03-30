@@ -249,11 +249,14 @@ int psid_load_file(const char* filename)
     int used[] = { 0x00, 0x03,
 		   0xa0, 0xbf,
 		   0xd0, 0xff,
-		   startp, endp };
+		   0x00, 0x00 };	/* calculated below */
     int pages[256];
     int last_page = 0;
     int i, page, tmp;
 
+    /* finish initialization */
+    used[6] = startp; used[7] = endp;
+    
     /* Mark used pages in table. */
     memset(pages, 0, sizeof(pages));
     for (i = 0; i < sizeof(used)/sizeof(*used); i += 2) {
@@ -371,37 +374,57 @@ void psid_init_tune(void)
   irq = psid->speed & speedbit ? "CIA 1" : "VICII";
 
   if (psid->play_addr) {
-      vsid_ui_display_irqtype(irq);
-      log_message(LOG_DEFAULT, "Using %s interrupt", irq);
+    strcpy(irq_str, irq);
   }
   else {
-    log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
+    sprintf(irq_str, "custom (%s ?)", irq);
   }
-  
-  /*
-  vsid_ui_display_irq(psid->play_addr, psid->speed & speedbit);
-  */
-  vsid_ui_display_tune_nr(start_song);
-  vsid_ui_set_default_tune(psid->start_song);
-  vsid_ui_display_nr_of_tunes(psid->songs);
-  vsid_ui_display_time(0);
 
-  /* Store parameters for psid player. */
-  ram_store(0x0306, (BYTE)(psid->init_addr & 0xff));
-  ram_store(0x0307, (BYTE)(psid->init_addr >> 8));
-  ram_store(0x0308, (BYTE)(psid->play_addr & 0xff));
-  ram_store(0x0309, (BYTE)(psid->play_addr >> 8));
-  ram_store(0x030a, (BYTE)(psid->songs));
-  ram_store(0x030b, (BYTE)(start_song));
-  ram_store(0x030c, (BYTE)(psid->speed & 0x0f));
-  ram_store(0x030d, (BYTE)((psid->speed >> 8) & 0x0f));
-  ram_store(0x030e, (BYTE)((psid->speed >> 16) & 0x0f));
-  ram_store(0x030f, (BYTE)(psid->speed >> 24));
-
-  /* Store binary C64 data. */
-  for (i = 0; i < psid->data_size; i++) {
-    ram_store((ADDRESS)(psid->load_addr + i), (BYTE)(psid->data[i]));
+  if (console_mode) {
+    log_message(LOG_DEFAULT,
+		"Name: %s\n"
+		"Author: %s\n"
+		"Copyright: %s\n"
+		"Using %s sync\n"
+		"Using %s emulation\n"
+		"Using %s interrupt\n"
+		"Playing tune: %d\n"
+		"Default tune: %d\n"
+		"Number of tunes: %d",
+		(char *)(psid->name),
+		(char *)(psid->author),
+		(char *)(psid->copyright),
+                (int)sync == DRIVE_SYNC_PAL ? "PAL" : "NTSC",
+		(int)sid_model == 0 ? "MOS6581" : "MOS8580",
+		irq_str,
+		start_song,
+		psid->start_song,
+		psid->songs
+		);
   }
+  else {
+    vsid_ui_display_name((char *)(psid->name));
+    vsid_ui_display_author((char *)(psid->author));
+    vsid_ui_display_copyright((char *)(psid->copyright));
+
+    vsid_ui_display_sync((int)sync);
+    vsid_ui_display_sid_model((int)sid_model);
+    vsid_ui_display_irqtype(irq_str);
+    vsid_ui_display_tune_nr(start_song);
+    vsid_ui_set_default_tune(psid->start_song);
+    vsid_ui_display_nr_of_tunes(psid->songs);
+    vsid_ui_display_time(0);
+  } 
+
+  /* Store parameters for PSID player. */
+
+  /* Skip JMP. */
+  addr = reloc_addr + 3;
+
+  /* CBM80 reset vector. */
+  addr += psid_set_cbm80(reloc_addr, addr);
+
+  ram_store(addr, (BYTE)(start_song));
 }
 
 void psid_set_tune(int tune)
@@ -439,7 +462,7 @@ void psid_init_driver(void)
   BYTE psid_driver[] = {
 #include "psiddrv.h"
   };
-  char* psid_reloc;
+  char* psid_reloc = psid_driver;
   int psid_size;
 
   ADDRESS reloc_addr;
@@ -466,11 +489,9 @@ void psid_init_driver(void)
   /* Relocation of C64 PSID driver code. */
   reloc_addr = psid->start_page << 8;
   psid_size = sizeof(psid_driver);
-  psid_reloc = memcpy(xmalloc(psid_size), psid_driver, psid_size);
 
   if (!reloc65(&psid_reloc, &psid_size, reloc_addr)) {
     log_error(LOG_DEFAULT, "VSID: Relocation error.");
-    free(psid_reloc);
     psid_set_tune(-1);
     return;
   }
@@ -478,8 +499,6 @@ void psid_init_driver(void)
   for (i = 0; i < psid_size; i++) {
     ram_store(reloc_addr + i, psid_reloc[i]);
   }
-
-  free(psid_reloc);
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {

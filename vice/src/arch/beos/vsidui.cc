@@ -45,6 +45,7 @@ static BTextControl *tc_default_tune;
 static BTextControl *tc_current_tune;
 static BTextControl *tc_last_tune;
 static BTextControl *tc_time;
+static BTextControl *tc_irqtype;
 
 int vsid_ui_init(void)
 {
@@ -96,7 +97,7 @@ int vsid_ui_init(void)
 	box->AddChild(tc_default_tune);
 	
 	tc_sync = new BTextControl(
-		BRect(10,100,120,110), NULL, "Sync mode:", "", NULL);
+		BRect(10,100,120,110), NULL, "Sync/IRQ:", "", NULL);
 	tc_sync->SetDivider(70);
 	tc_sync->SetAlignment(B_ALIGN_LEFT, B_ALIGN_CENTER);
 	box->AddChild(tc_sync);
@@ -106,6 +107,12 @@ int vsid_ui_init(void)
 	tc_time->SetDivider(30);
 	tc_time->SetAlignment(B_ALIGN_LEFT, B_ALIGN_CENTER);
 	box->AddChild(tc_time);
+	
+	tc_irqtype = new BTextControl(
+		BRect(125,100,165,130), NULL, "", "", NULL);
+	tc_irqtype->SetDivider(0);
+	tc_irqtype->SetAlignment(B_ALIGN_LEFT, B_ALIGN_CENTER);
+	box->AddChild(tc_irqtype);
 	
 	window->AddChild(view);
 	
@@ -150,6 +157,14 @@ void vsid_ui_display_sid_model(int model)
     /* FIXME */
     log_message(LOG_DEFAULT, "Using %s emulation",
 		model == 0 ? "MOS6581" : "MOS8580");
+}
+
+void vsid_ui_display_irqtype(const char *irq)
+{
+	if (window->Lock()) {
+		tc_irqtype->SetText(irq);
+		window->Unlock();
+	}
 }
 
 void vsid_ui_set_default_tune(int nr)
