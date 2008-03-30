@@ -53,13 +53,15 @@ libarch_a_SOURCES = \
 	resc128.rc \
 	resc64.rc \
 	rescbm2.rc \
+	resdrivec64vic20.rc \
+	resdrivepetcbm2.rc \
 	reside64.rc \
 	respet.rc \
 	resplus4.rc \
 	resreu.rc \
 	ressid.rc \
 	restfe.rc \
-	resvic.rc \
+	resvic20.rc \
 	resvicii.rc \
 	rs232.c \
 	signals.c \
@@ -142,7 +144,7 @@ libarch_a_SOURCES = \
 	winmain.h
 
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
+	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic20.o
 
 EXTRA_DIST = \
 	evc/config.h \
@@ -209,18 +211,18 @@ EXTRA_DIST = \
 resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc
+resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc reside64.rc resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.rc res.rc res.h ressid.rc
+rescbm2.o : rescbm2.rc res.rc res.h ressid.rc resdrivepetcbm2.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.rc res.rc res.h
+respet.o : respet.rc res.rc res.h resdrivepetcbm2.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 resplus4.o : resplus4.rc res.rc res.h
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.rc res.rc res.h
+resvic20.o : resvic20.rc res.rc res.h resdrivec64vic20.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32

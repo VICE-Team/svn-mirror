@@ -2,6 +2,7 @@
 //
 #include "debug.h"
 #include "res.rc"
+#include "resdrivepetcbm2.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
 

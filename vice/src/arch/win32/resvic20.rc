@@ -1,24 +1,15 @@
-// C64 specific resources.
+// VIC20 specific resources.
 //
-#include "config.h"
 #include "debug.h"
 #include "res.rc"
 #include "resdrivec64vic20.rc"
-#include "reside64.rc"
-#include "resreu.rc"
-#include "ressid.rc"
-#include "resvicii.rc"
-
-#ifdef HAVE_TFE
-#include "restfe.rc"
-#endif // #ifdef HAVE_TFE
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MENUC64 MENU DISCARDABLE
+IDR_MENUVIC MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
@@ -66,35 +57,17 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Attach &cartridge image..."
         BEGIN
-            MENUITEM "&CRT image...",               IDM_CART_ATTACH_CRT
-            MENUITEM SEPARATOR
-            MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
-            MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
-            MENUITEM "&Epyx fastload image...",     IDM_CART_ATTACH_EPYX
-            MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
-            MENUITEM "&Retro Replay image...",      IDM_CART_ATTACH_RR
-            MENUITEM "IDE&64 interface image...",   IDM_CART_ATTACH_IDE64
-            MENUITEM "Super Snapshot &4 image...",  IDM_CART_ATTACH_SS4
-            MENUITEM "Super Snapshot &5 image...",  IDM_CART_ATTACH_SS5
-            POPUP "Expert Cartridge"
-            BEGIN
-                MENUITEM "Enable", IDM_CART_ENABLE_EXPERT
-                MENUITEM SEPARATOR
-                MENUITEM "Off",    IDM_CART_MODE_OFF
-                MENUITEM "Prg",    IDM_CART_MODE_PRG
-                MENUITEM "On",     IDM_CART_MODE_ON
-            END
-            MENUITEM SEPARATOR
-            MENUITEM "Set cartridge as &default", IDM_CART_SET_DEFAULT
-            MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
+            MENUITEM "4/8/16KB image at $&2000...", IDM_CART_VIC20_8KB_2000
+            MENUITEM "4/8/16KB image at $&4000...", IDM_CART_VIC20_16KB_4000
+            MENUITEM "4/8/16KB image at $&6000...", IDM_CART_VIC20_8KB_6000
+            MENUITEM "4/8KB image at $&A000...",    IDM_CART_VIC20_8KB_A000
+            MENUITEM "4KB image at $&B000...",      IDM_CART_VIC20_4KB_B000
         END
-        MENUITEM "Detach cartridge &image",  IDM_CART_DETACH
-        MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
+        MENUITEM "Detach c&artridge image", IDM_CART_DETACH
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
-        MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
+        MENUITEM "&Pause\tAlt+Pause",       IDM_PAUSE
+        , CHECKED
+        MENUITEM "&Monitor\tAlt+M",         IDM_MONITOR
         POPUP "&Reset"
         BEGIN
             MENUITEM "&Hard\tCtrl+Alt+R", IDM_RESET_HARD
@@ -106,7 +79,7 @@ BEGIN
             MENUITEM "Drive #&11",        IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-        POPUP "&Debug"
+		POPUP "&Debug"
         BEGIN
             MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
@@ -118,8 +91,8 @@ BEGIN
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Load snapshot &image...", IDM_SNAPSHOT_LOAD
-        MENUITEM "Save sna&pshot image...", IDM_SNAPSHOT_SAVE
+        MENUITEM "Load snapshot &image...",  IDM_SNAPSHOT_LOAD
+        MENUITEM "Save sna&pshot image...",  IDM_SNAPSHOT_SAVE
         MENUITEM "&Load quicksnapshot image\tAlt+L", IDM_LOADQUICK
         MENUITEM "&Save quicksnapshot image\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -142,17 +115,17 @@ BEGIN
     BEGIN
         POPUP "&Refresh rate"
         BEGIN
-            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
+            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
@@ -167,62 +140,58 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "No &limit", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Custom", IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Custom",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE
+            , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
-        MENUITEM "&Double size", IDM_TOGGLE_DOUBLESIZE, CHECKED
-        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL, CHECKED
-        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X, CHECKED
+        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
+        , CHECKED
+        MENUITEM "&Double size", IDM_TOGGLE_DOUBLESIZE
+        , CHECKED
+        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN
+        , CHECKED
+        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
+        , CHECKED
+        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X
+        , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
-        MENUITEM SEPARATOR
-        MENUITEM "&Sound playback", IDM_TOGGLE_SOUND, CHECKED
+	MENUITEM "Swap &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+	MENUITEM SEPARATOR
+        MENUITEM "&Sound playback",       IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
-        MENUITEM SEPARATOR
+	MENUITEM SEPARATOR
         POPUP "Vide&o standard"
         BEGIN
-            MENUITEM "&PAL-G",      IDM_SYNC_FACTOR_PAL
-            MENUITEM "&NTSC-M",     IDM_SYNC_FACTOR_NTSC
-            MENUITEM "&Old NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
+            MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
+            MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
-        MENUITEM SEPARATOR
-        MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
-        MENUITEM "&1351 mouse emulation\tAlt+Q", IDM_MOUSE
+	MENUITEM SEPARATOR
+	MENUITEM "Emulator &Identification",  IDM_TOGGLE_EMUID
+	MENUITEM "VIC-1112 IEEE &488 module", IDM_IEEE488
     END
     POPUP "S&ettings"
     BEGIN
         MENUITEM "&Video settings...",     IDM_VIDEO_SETTINGS
+        MENUITEM "V&IC settings...",       IDM_VIC_SETTINGS
         MENUITEM "&Peripheral settings...",IDM_DEVICEMANAGER
         MENUITEM "&Drive settings...",     IDM_DRIVE_SETTINGS
         MENUITEM "D&atasette settings...", IDM_DATASETTE_SETTINGS
-        MENUITEM "VIC-II settings...",     IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",     IDM_SOUND_SETTINGS
-        MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
-        POPUP "&Cartridge Settings"
-        BEGIN
-            MENUITEM "&REU settings...",      IDM_REU_SETTINGS
-            MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
-#ifdef HAVE_TFE
-            MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
-#endif
-        END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
         MENUITEM "Set de&fault settings",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
+	MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "&Confirm on exit",	   IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Help"
     BEGIN
@@ -238,25 +207,30 @@ BEGIN
     END
 END
 
-IDD_C64ROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 70
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_VIC20ROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ROM Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC,9,8,40,8
-    EDITTEXT    IDC_C64ROM_KERNAL_FILE, 55,7,125,12,WS_TABSTOP
-    PUSHBUTTON  "Browse...", IDC_C64ROM_KERNAL_BROWSE, 185,7,50,14, 0
+    EDITTEXT    IDC_VIC20ROM_KERNAL_FILE, 55,7,125,12,WS_TABSTOP
+    PUSHBUTTON  "&Browse...", IDC_VIC20ROM_KERNAL_BROWSE, 185,7,50,14, 0
 
     LTEXT       "Basic", IDC_STATIC, 9,28,40,8
-    EDITTEXT    IDC_C64ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP
-    PUSHBUTTON  "Browse...", IDC_C64ROM_BASIC_BROWSE, 185,27,50,14, 0
+    EDITTEXT    IDC_VIC20ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP
+    PUSHBUTTON  "&Browse...", IDC_VIC20ROM_BASIC_BROWSE, 185,27,50,14, 0
 
     LTEXT       "Character", IDC_STATIC, 9,48,40,8
-    EDITTEXT    IDC_C64ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
-    PUSHBUTTON  "Browse...", IDC_C64ROM_CHARGEN_BROWSE, 185,47,50,14, 0
+    EDITTEXT    IDC_VIC20ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
+    PUSHBUTTON  "&Browse...", IDC_VIC20ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 END
 
-IDD_C64DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 210
+IDD_VIC20DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ROM Settings"
 FONT 8, "MS Sans Serif"
@@ -302,25 +276,59 @@ BEGIN
     PUSHBUTTON  "Browse...", IDC_DRIVEROM_1001_BROWSE, 185,187,50,14, 0
 END
 
-IDD_C64ROM_RESOURCE_DIALOG DIALOG DISCARDABLE  0, 0, 160, 85
+IDD_VIC_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 215, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "VIC Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,30,110,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,130,110,50,14
+    GROUPBOX        "&Memory",IDC_STATIC,7,7,200,95
+    AUTORADIOBUTTON "&no expansion memory",IDC_VIC_NOEXPANSION,
+                    12,23,90,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "3&K (block 0)",IDC_VIC_3KEXPANSION,
+                    12,36,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&8K (block 1)",IDC_VIC_8KEXPANSION,
+                    12,49,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "1&6K (blocks 1/2)",IDC_VIC_16KEXPANSION,
+                    12,62,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "2&4K (blocks 1/2/3)",IDC_VIC_24KEXPANSION,
+                    12,75,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&Full (blocks 0/1/2/3/5)",IDC_VIC_FULLEXPANSION,
+                    12,88,90,10,BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&custom",IDC_VIC_CUSTOMEXPANSION,
+                    120,23,50,10,BS_AUTORADIOBUTTON
+    AUTOCHECKBOX    "Block &0",IDC_VIC_MEMORY_BLOCK0,
+                    132,35,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block &1",IDC_VIC_MEMORY_BLOCK1,
+                    132,47,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block &2",IDC_VIC_MEMORY_BLOCK2,
+                    132,59,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block &3",IDC_VIC_MEMORY_BLOCK3,
+                    132,71,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Block &5",IDC_VIC_MEMORY_BLOCK5,
+                    132,83,50,10,BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+IDD_VIC20ROM_RESOURCE_DIALOG DIALOG DISCARDABLE  0, 0, 160, 85
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Computer resources"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Computer resources saved to romset",
                     IDC_STATIC,4,3,151,55
-    AUTOCHECKBOX    "Kernal",IDC_C64ROM_KERNAL_RESOURCE,
+    AUTOCHECKBOX    "Kernal",IDC_VIC20ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Basic",IDC_C64ROM_BASIC_RESOURCE,
+    AUTOCHECKBOX    "Basic",IDC_VIC20ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Character",IDC_C64ROM_CHARGEN_RESOURCE,
+    AUTOCHECKBOX    "Character",IDC_VIC20ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,65,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 80,65,50,14, WS_TABSTOP
 END
 
-IDD_C64ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE  0, 0, 160, 190
+IDD_VIC20ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE  0, 0, 160, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Drive resources"
 FONT 8, "MS Sans Serif"
@@ -351,5 +359,4 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 20,170,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 80,170,50,14, WS_TABSTOP
 END
-
 

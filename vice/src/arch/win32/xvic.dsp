@@ -97,7 +97,7 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\resvic.rc
+SOURCE=.\resvic20.rc
 # End Source File
 # End Target
 # End Project
