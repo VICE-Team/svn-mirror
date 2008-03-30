@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "debug.h"
 #include "icon.h"
@@ -47,8 +48,6 @@
 #include "uisound.h"
 #include "vsync.h"
 
-
-/* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 
