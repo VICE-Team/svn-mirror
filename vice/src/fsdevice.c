@@ -112,12 +112,13 @@ static unsigned int fs_cptr = 0;
 
 static char fs_dirmask[MAXPATHLEN];
 
-static FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname);
-static void fs_test_pc64_name(void *flp, char *rname, int secondary);
+static FILE *fs_find_pc64_name(vdrive_t *vdrive, char *name, int length,
+                               char *pname);
+static void fs_test_pc64_name(vdrive_t *vdrive, char *rname, int secondary);
 static int fsdevice_compare_wildcards(char *name, char *p00name);
-static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
-                                       int secondary);
-static int fsdevice_create_file_p00(void *flp, char *name, int length,
+static void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
+                                       char *fsname, int secondary);
+static int fsdevice_create_file_p00(vdrive_t *vdrive, char *name, int length,
                                     char *fsname, int secondary);
 static int fsdevice_reduce_filename_p00(char *filename, int len);
 static size_t fsdevice_eliminate_char_p00(char *filename, int pos);
@@ -510,7 +511,7 @@ static void flush_fs(void *flp, int secondary)
         }
     } else if (*cmd == 's' && arg != NULL) {
         er = IPE_DELETED;
-        fd = fs_find_pc64_name(flp, realarg, strlen(realarg), name1);
+        fd = fs_find_pc64_name(vdrive, realarg, strlen(realarg), name1);
             if (fd != NULL) {
                 fclose(fd);
             } else {
@@ -535,7 +536,8 @@ static void flush_fs(void *flp, int secondary)
             *arg2++ = 0;
             realarg2 = strchr(realarg, '=');
             *realarg2++ = 0;
-            fd = fs_find_pc64_name(flp, realarg2, strlen(realarg2), name2long);
+            fd = fs_find_pc64_name(vdrive, realarg2, strlen(realarg2),
+                                   name2long);
             if (fd != NULL) {
                 /* Rename P00 file.  */
                 int name1len;
@@ -667,200 +669,199 @@ static int read_fs(void *flp, BYTE * data, int secondary)
     switch (info->mode) {
       case Write:
       case Append:
-          return FLOPPY_ERROR;
+        return FLOPPY_ERROR;
 
       case Read:
-          if (info->fd) {
-              i = fgetc(info->fd);
-              if (ferror(info->fd))
-                  return FLOPPY_ERROR;
-              if (feof(info->fd)) {
-                  *data = 0xc7;
-                  return SERIAL_EOF;
-              }
-              *data = i;
-              return SERIAL_OK;
-          }
-          break;
+        if (info->fd) {
+            i = fgetc(info->fd);
+            if (ferror(info->fd))
+                return FLOPPY_ERROR;
+            if (feof(info->fd)) {
+                *data = 0xc7;
+                return SERIAL_EOF;
+            }
+            *data = i;
+            return SERIAL_OK;
+        }
+        break;
       case Directory:
-          if (info->dp) {
-              if (info->buflen <= 0) {
-                  char buf[MAXPATHLEN];
+        if (info->dp) {
+            if (info->buflen <= 0) {
+                char buf[MAXPATHLEN];
 
-                  info->bufp = info->name;
+                info->bufp = info->name;
 
-                  if (info->eof) {
-                      *data = 0xc7;
-                      return SERIAL_EOF;
-                  }
-                  /*
-                   * Find the next directory entry and return it as a CBM
-                   * directory line.
-                   */
+                if (info->eof) {
+                    *data = 0xc7;
+                    return SERIAL_EOF;
+                }
+                /*
+                 * Find the next directory entry and return it as a CBM
+                 * directory line.
+                 */
 
-                  /* first test if dirmask is needed - maybe this should be
-                     replaced by some regex functions... */
-                  f = 1;
-                  do {
-                      char *p;
-                      dirp = readdir(info->dp);
-                      if (!dirp)
-                          break;
-                      fs_info[secondary].type = FT_PRG;
-                      strcpy(rname, dirp->d_name);
-                      if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
-                          fs_test_pc64_name(flp, rname, secondary);
-                          if (strcmp(rname, dirp->d_name) == 0
-                          && fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
-                              continue;
-                      if (!*fs_dirmask)
-                          break;
-                      l = strlen(fs_dirmask);
-                      for (p = rname, i = 0; *p && fs_dirmask[i] && i < l;
-                          i++) {
-                          if (fs_dirmask[i] == '?') {
-                              p++;
-                          } else if (fs_dirmask[i] == '*') {
-                              if (!fs_dirmask[i + 1]) {
-                                  f = 0;
-                                  break;
-                              } /* end mask */
-                              while (*p && (*p != fs_dirmask[i + 1]))
-                                  p++;
-                          } else {
-                              if (*p != fs_dirmask[i])
-                                  break;
-                              p++;
-                          }
-                          if ((!*p) && (!fs_dirmask[i + 1])) {
-                              f = 0;
-                              break;
-                          }
-                      }
-                  } while (f);
+                /* first test if dirmask is needed - maybe this should be
+                   replaced by some regex functions... */
+                f = 1;
+                do {
+                    char *p;
+                    dirp = readdir(info->dp);
+                    if (!dirp)
+                        break;
+                    fs_info[secondary].type = FT_PRG;
+                    strcpy(rname, dirp->d_name);
+                    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+                        fs_test_pc64_name(vdrive, rname, secondary);
+                        if (strcmp(rname, dirp->d_name) == 0
+                        && fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+                            continue;
+                    if (!*fs_dirmask)
+                        break;
+                    l = strlen(fs_dirmask);
+                    for (p = rname, i = 0; *p && fs_dirmask[i] && i < l;
+                        i++) {
+                        if (fs_dirmask[i] == '?') {
+                            p++;
+                        } else if (fs_dirmask[i] == '*') {
+                            if (!fs_dirmask[i + 1]) {
+                                f = 0;
+                                break;
+                            } /* end mask */
+                            while (*p && (*p != fs_dirmask[i + 1]))
+                                p++;
+                        } else {
+                            if (*p != fs_dirmask[i])
+                                break;
+                            p++;
+                        }
+                        if ((!*p) && (!fs_dirmask[i + 1])) {
+                            f = 0;
+                            break;
+                        }
+                    }
+                } while (f);
 
-                  if (dirp != NULL) {
-                      BYTE *p = info->name;
-                      char *tp;
+                if (dirp != NULL) {
+                    BYTE *p = info->name;
+                    char *tp;
 
-                      strcpy(buf, info->dir);
-                      strcat(buf, FSDEV_DIR_SEP_STR);
-                      tp = buf + strlen(buf);
-                      strcat(buf, dirp->d_name);
+                    strcpy(buf, info->dir);
+                    strcat(buf, FSDEV_DIR_SEP_STR);
+                    tp = buf + strlen(buf);
+                    strcat(buf, dirp->d_name);
 
-                      /* Line link, Length and spaces */
+                    /* Line link, Length and spaces */
 
-                      p += 2;   /* skip link addr, fill in later */
+                    p += 2;   /* skip link addr, fill in later */
 #ifdef __riscos
-                     if ((objType = ReadCatalogueInfo(buf, catInfo)) != 0)
-                         blocks = (unsigned short) ((catInfo[2] + 253) / 254);
+                    if ((objType = ReadCatalogueInfo(buf, catInfo)) != 0)
+                        blocks = (unsigned short) ((catInfo[2] + 253) / 254);
 #else
-                     if (stat(buf, &statbuf) >= 0)
-                         blocks = (unsigned short) ((statbuf.st_size + 253) / 254);
+                    if (stat(buf, &statbuf) >= 0)
+                        blocks = (unsigned short) ((statbuf.st_size + 253)
+                                 / 254);
 #endif
-                     else
-                         blocks = 0;   /* this file can't be opened */
+                    else
+                        blocks = 0;   /* this file can't be opened */
 
-                      SET_LO_HI(p, blocks);
+                    SET_LO_HI(p, blocks);
 
-                      if (blocks < 10)
-                          *p++ = ' ';
-                      if (blocks < 100)
-                          *p++ = ' ';
-                      if (blocks < 1000)
-                          *p++ = ' ';
+                    if (blocks < 10)
+                        *p++ = ' ';
+                    if (blocks < 100)
+                        *p++ = ' ';
+                    if (blocks < 1000)
+                        *p++ = ' ';
 
-                      /*
-                       * Filename
-                       */
+                    /*
+                     * Filename
+                     */
 
-                      *p++ = '"';
+                    *p++ = '"';
 
-                      if (strcmp(rname, dirp->d_name)) {
-                          for (i = 0; rname[i] && (*p = rname[i]); ++i, ++p);
-                      } else {
-                          for (i = 0; tp[i] /*i < dirp->d_namlen */ &&
-                               (*p = p_topetcii(tp[i])); ++i, ++p);
-                      }
+                    if (strcmp(rname, dirp->d_name)) {
+                        for (i = 0; rname[i] && (*p = rname[i]); ++i, ++p);
+                    } else {
+                        for (i = 0; tp[i] /*i < dirp->d_namlen */ &&
+                             (*p = p_topetcii(tp[i])); ++i, ++p);
+                    }
 
-                      *p++ = '"';
-                      for (; i < 17; i++)
-                          *p++ = ' ';
+                    *p++ = '"';
+                    for (; i < 17; i++)
+                        *p++ = ' ';
 
 #ifdef __riscos
-                     if ((objType & 2) != 0)
+                    if ((objType & 2) != 0)
 #else
-                     if (S_ISDIR(statbuf.st_mode))
+                    if (S_ISDIR(statbuf.st_mode))
 #endif
-                     {
-                          *p++ = 'D';
-                          *p++ = 'I';
-                          *p++ = 'R';
-                      } else {
-                          switch(fs_info[secondary].type) {
-                            case FT_DEL:
-                              *p++ = 'D';
-                              *p++ = 'E';
-                              *p++ = 'L';
-                              break;
-                            case FT_SEQ:
-                              *p++ = 'S';
-                              *p++ = 'E';
-                              *p++ = 'Q';
-                              break;
-                            case FT_PRG:
-                              *p++ = 'P';
-                              *p++ = 'R';
-                              *p++ = 'G';
-                              break;
-                            case FT_USR:
-                              *p++ = 'U';
-                              *p++ = 'S';
-                              *p++ = 'R';
-                              break;
-                            case FT_REL:
-                              *p++ = 'R';
-                              *p++ = 'E';
-                              *p++ = 'L';
-                              break;
-                          }
-                      }
+                    {
+                        *p++ = 'D';
+                        *p++ = 'I';
+                        *p++ = 'R';
+                    } else {
+                        switch(fs_info[secondary].type) {
+                          case FT_DEL:
+                            *p++ = 'D';
+                            *p++ = 'E';
+                            *p++ = 'L';
+                            break;
+                          case FT_SEQ:
+                            *p++ = 'S';
+                            *p++ = 'E';
+                            *p++ = 'Q';
+                            break;
+                          case FT_PRG:
+                            *p++ = 'P';
+                            *p++ = 'R';
+                            *p++ = 'G';
+                            break;
+                          case FT_USR:
+                            *p++ = 'U';
+                            *p++ = 'S';
+                            *p++ = 'R';
+                            break;
+                          case FT_REL:
+                            *p++ = 'R';
+                            *p++ = 'E';
+                            *p++ = 'L';
+                            break;
+                        }
+                    }
 
-                      *p = '\0';        /* to allow strlen */
+                    *p = '\0';        /* to allow strlen */
 
-                      /* some (really very) old programs rely on the directory
-                         entry to be 32 Bytes in total (incl. nullbyte) */
-                      l = strlen((char *) (info->name + 4)) + 4;
-                      while (l < 31) {
-                          *p++ = ' ';
-                          l++;
-                      }
+                    /* some (really very) old programs rely on the directory
+                       entry to be 32 Bytes in total (incl. nullbyte) */
+                    l = strlen((char *) (info->name + 4)) + 4;
+                    while (l < 31) {
+                        *p++ = ' ';
+                        l++;
+                    }
 
-                      *p++ = '\0';
+                    *p++ = '\0';
 
-                      info->dirmpos += p - info->name;
-                      *info->name = info->dirmpos & 0xff;
-                      *(info->name + 1) = (info->dirmpos >> 8) & 0xff;
+                    info->dirmpos += p - info->name;
+                    *info->name = info->dirmpos & 0xff;
+                    *(info->name + 1) = (info->dirmpos >> 8) & 0xff;
 
-                      info->buflen = (int) (p - info->name);
+                    info->buflen = (int) (p - info->name);
 
-                  } else {
+                } else {
 
-                      /* EOF => End file */
+                    /* EOF => End file */
 
-                      memset(info->name, 0, 2);
-                      info->buflen = 2;
-                      info->eof++;
-                  }
-              }                 /* info->buflen */
-              *data = *info->bufp++;
-              info->buflen--;
-              return SERIAL_OK;
-
-          }                     /* info->dp */
-          break;
+                    memset(info->name, 0, 2);
+                    info->buflen = 2;
+                    info->eof++;
+                }
+            }                 /* info->buflen */
+            *data = *info->bufp++;
+            info->buflen--;
+            return SERIAL_OK;
+        }                     /* info->dp */
+        break;
     }
-
     return FLOPPY_ERROR;
 }
 
@@ -1028,7 +1029,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 fs_error(vdrive, IPE_BAD_NAME);
                 return FLOPPY_ERROR;
             } else {
-                fsdevice_compare_file_name(flp, fsname2, fsname, secondary);
+                fsdevice_compare_file_name(vdrive, fsname2, fsname, secondary);
             }
         }
 
@@ -1041,7 +1042,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 return FLOPPY_ERROR;
             }
             if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
-                fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
+                fd = fs_find_pc64_name(vdrive, rname, reallength, fsname2);
                 if (fd != NULL) {
                     fclose(fd);
                     fs_error(vdrive, IPE_FILE_EXISTS);
@@ -1049,8 +1050,8 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 }
             }
             if (fsdevice_save_p00_enabled[(vdrive->unit) - 8]) {
-                if (fsdevice_create_file_p00(flp, rname, reallength, fsname,
-                                                        secondary) > 0) {
+                if (fsdevice_create_file_p00(vdrive, rname, reallength, fsname,
+                                             secondary) > 0) {
                     fs_error(vdrive, IPE_FILE_EXISTS);
                     return FLOPPY_ERROR;
                 } else {
@@ -1075,7 +1076,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                     fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
-                fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
+                fd = fs_find_pc64_name(vdrive, rname, reallength, fsname2);
                 if (!fd) {
                     fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
@@ -1109,7 +1110,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
             }
-            fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
+            fd = fs_find_pc64_name(vdrive, rname, reallength, fsname2);
             if (!fd) {
                 fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
@@ -1170,9 +1171,8 @@ static int close_fs(void *flp, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
-void fs_test_pc64_name(void *flp, char *rname, int secondary)
+void fs_test_pc64_name(vdrive_t *vdrive, char *rname, int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     char p00id[8];
     char p00name[17];
     char pathname[MAXPATHLEN];
@@ -1210,9 +1210,8 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
     }
 }
 
-FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
+FILE *fs_find_pc64_name(vdrive_t *vdrive, char *name, int length, char *pname)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     struct dirent *dirp;
     char *p;
     DIR *dp;
@@ -1287,10 +1286,9 @@ static int fsdevice_compare_wildcards(char *name, char *p00name)
     return 1;
 }
 
-static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
-                                       int secondary)
+static void fsdevice_compare_file_name(vdrive_t *vdrive, char *fsname2,
+                                       char *fsname, int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     struct dirent *dirp;
     DIR *dp;
     char rname[MAXPATHLEN];
@@ -1301,7 +1299,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
         if (dirp != NULL) {
             if (fsdevice_compare_wildcards(fsname2, dirp->d_name) > 0) {
                 strcpy(rname, dirp->d_name);
-                fs_test_pc64_name(flp, rname, secondary);
+                fs_test_pc64_name(vdrive, rname, secondary);
                 if (strcmp(rname, dirp->d_name) == 0) {
                     strcpy(fsname, fsdevice_get_path(vdrive->unit));
                     strcat(fsname, FSDEV_DIR_SEP_STR);
@@ -1317,10 +1315,9 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
     return;
 }
 
-static int fsdevice_create_file_p00(void *flp, char *name, int length,
+static int fsdevice_create_file_p00(vdrive_t *vdrive, char *name, int length,
                                      char *fsname, int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     char filename[17], realname[16];
     int i;
     size_t len;
