@@ -1,3 +1,98 @@
+2007-06-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.10.
+
+	* network.c: Changed back closesocket define.
+
+2007-06-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c: Changed the asmarray
+	initialization.
+
+2007-06-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* network.c: Fixed.
+
+2007-05-31  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am, arch/win32/res.rc,
+	arch/win32/uiacia.c, arch/win32/watcom/README.txt,
+	arch/win32/watcom/arch.tgt, arch/win32/watcom/base.tgt,
+	arch/win32/watcom/c128-c64-snapshot.c,
+	arch/win32/watcom/c128-c64acia1.c,
+	arch/win32/watcom/c128-c64bus.c,
+	arch/win32/watcom/c128-c64cia2.c,
+	arch/win32/watcom/c128-c64datasette.c,
+	arch/win32/watcom/c128-c64export.c,
+	arch/win32/watcom/c128-c64iec.c,
+	arch/win32/watcom/c128-c64io.c,
+	arch/win32/watcom/c128-c64keyboard.c,
+	arch/win32/watcom/c128-c64meminit.c,
+	arch/win32/watcom/c128-c64memrom.c,
+	arch/win32/watcom/c128-c64parallel.c,
+	arch/win32/watcom/c128-c64pla.c,
+	arch/win32/watcom/c128-c64printer.c,
+	arch/win32/watcom/c128-c64rsuser.c,
+	arch/win32/watcom/c128-c64sound.c,
+	arch/win32/watcom/c128-c64tpi.c,
+	arch/win32/watcom/c128-digimax.c,
+	arch/win32/watcom/c128-georam.c,
+	arch/win32/watcom/c128-mmc64.c,
+	arch/win32/watcom/c128-patchrom.c,
+	arch/win32/watcom/c128-ramcart.c,
+	arch/win32/watcom/c128-reu.c,
+	arch/win32/watcom/c128-tfe.c, arch/win32/watcom/c128.tgt,
+	arch/win32/watcom/c1541.tgt, arch/win32/watcom/c64.tgt,
+	arch/win32/watcom/c64c128.tgt, arch/win32/watcom/c64cart.tgt,
+	arch/win32/watcom/c64exp.tgt, arch/win32/watcom/cartconv.tgt,
+	arch/win32/watcom/cbm2.tgt, arch/win32/watcom/config.h,
+	arch/win32/watcom/core.tgt, arch/win32/watcom/crtc.tgt,
+	arch/win32/watcom/diskimage.tgt, arch/win32/watcom/drive.tgt,
+	arch/win32/watcom/fileio.tgt, arch/win32/watcom/fsdevice.tgt,
+	arch/win32/watcom/gentranslate.tgt,
+	arch/win32/watcom/genwinres.tgt,
+	arch/win32/watcom/gfxoutputdrv.tgt, arch/win32/watcom/iec.tgt,
+	arch/win32/watcom/iec128dcr.tgt, arch/win32/watcom/iecbus.tgt,
+	arch/win32/watcom/iecieee.tgt, arch/win32/watcom/ieee.tgt,
+	arch/win32/watcom/imagecontents.tgt,
+	arch/win32/watcom/maincpu.tgt, arch/win32/watcom/monitor.tgt,
+	arch/win32/watcom/parallel.tgt, arch/win32/watcom/pet.tgt,
+	arch/win32/watcom/petcat.tgt, arch/win32/watcom/plus4.tgt,
+	arch/win32/watcom/plus4exp.tgt,
+	arch/win32/watcom/printerdrv.tgt,
+	arch/win32/watcom/raster.tgt, arch/win32/watcom/rs232drv.tgt,
+	arch/win32/watcom/serial.tgt, arch/win32/watcom/sid.tgt,
+	arch/win32/watcom/sounddrv.tgt, arch/win32/watcom/system.h,
+	arch/win32/watcom/tape.tgt, arch/win32/watcom/tcbm.tgt,
+	arch/win32/watcom/vdc.tgt, arch/win32/watcom/vdrive.tgt,
+	arch/win32/watcom/vic20.tgt, arch/win32/watcom/vice.wpj,
+	arch/win32/watcom/vicii.tgt, arch/win32/watcom/video.tgt,
+	arch/win32/watcom/x128.tgt, arch/win32/watcom/x128main.c,
+	arch/win32/watcom/x64.tgt, arch/win32/watcom/x64main.c,
+	arch/win32/watcom/xcbm2.tgt, arch/win32/watcom/xcbm2main.c,
+	arch/win32/watcom/xpet.tgt, arch/win32/watcom/xpetmain.c,
+	arch/win32/watcom/xplus4.tgt, arch/win32/watcom/xplus4main.c,
+	arch/win32/watcom/xvic.tgt, arch/win32/watcom/xvicmain.c,
+	c128/c128.c, c64/c64.c, cbm2/cbm2.c, monitor/mon_parse.c,
+	pet/pet.c, plus4/plus4.c, vic20/vic20.c: Added openwatcom
+	compiler support to the win32 port.
+
+2007-05-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* raster/raster.c: Fixed.
+
+2007-05-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/archdep.h, network.c: Added netplay support to
+	Amiga OS3 and AROS ports.
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.txt,
+	arch/amigaos/mui/uisound.c: Added volume control UI element to
+	the Amiga ports.
+
+	* sound.c: Fixed.
+
 2007-05-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.9.

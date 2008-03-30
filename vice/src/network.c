@@ -42,15 +42,24 @@
 
 
 #ifdef AMIGA_SUPPORT
-#ifdef AMIGA_MORPHOS
+#ifndef AMIGA_OS4
+#ifdef AMIGA_M68K
+#include <utility/tagitem.h>
+#endif
+#ifdef AMIGA_AROS
+#include <proto/exec.h>
+#endif
 #include <proto/socket.h>
 struct Library *SocketBase;
 #else
 #define __USE_INLINE__
 #include <proto/bsdsocket.h>
 #endif
-#define select(nfds, read_fds, write_fds, except_fds, timeout) \
+#ifndef AMIGA_AROS
+#define select(nfds, read_fds, write_fds, except_fds, 
+timeout) \
         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
+#endif
 #endif
 
 #ifdef WIN32
@@ -86,13 +95,16 @@ typedef struct timeval TIMEVAL;
 #ifndef AMIGA_SUPPORT
 #include <sys/select.h>
 #endif
+#if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)
 #include <unistd.h>
+#endif
 #endif
 
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #ifndef AMIGA_MORPHOS
+/*#ifdef AMIGA_OS4*/
 #define closesocket close
 #else
 #define closesocket CloseSocket
@@ -208,7 +220,7 @@ static int network_init(void)
     if (network_init_done)
         return 0;
 
-#if defined(HAVE_NETWORK) && defined(AMIGA_MORPHOS)
+#if defined(AMIGA_SUPPORT) && defined(HAVE_NETWORK) && !defined(AMIGA_OS4)
     if (SocketBase == NULL) {
         SocketBase = OpenLibrary("bsdsocket.library", 3);
         if (SocketBase == NULL) {
@@ -1129,7 +1141,7 @@ void network_shutdown(void)
     network_free_frame_event_list();
     lib_free(server_name);
 
-#ifdef AMIGA_MORPHOS
+#if defined(AMIGA_SUPPORT) && !defined(AMIGA_OS4)
     if (SocketBase != NULL) {
         CloseLibrary(SocketBase);
         SocketBase = NULL;
