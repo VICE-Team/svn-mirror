@@ -30,8 +30,15 @@
 #include "types.h"
 
 struct pport_s {
+    /* Value written to processor port.  */
     BYTE dir;
     BYTE data;
+
+    /* Value read from processor port.  */
+    BYTE dir_read;
+    BYTE data_read;
+
+    /* State of processor port pins.  */
     BYTE data_out;
 };
 typedef struct pport_s pport_t;

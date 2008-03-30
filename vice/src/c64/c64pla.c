@@ -46,16 +46,16 @@ void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup)
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
 
-    mem_ram[1] = (pport.data | ~pport.dir) & (pport.data_out | pullup);
+    pport.data_read = (pport.data | ~pport.dir) & (pport.data_out | pullup);
 
     if ((pullup & 0x40) && !caps_sense)
-        mem_ram[1] &= 0xbf;
+        pport.data_read &= 0xbf;
 
     if (!(pport.dir & 0x20))
-        mem_ram[1] &= 0xdf;
+        pport.data_read &= 0xdf;
 
     if (tape_sense && !(pport.dir & 0x10))
-        mem_ram[1] &= 0xef;
+        pport.data_read &= 0xef;
 
     if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
         old_port_data_out = (pport.dir & pport.data) & 0x20;
@@ -67,6 +67,6 @@ void c64pla_config_changed(int tape_sense, int caps_sense, BYTE pullup)
         datasette_toggle_write_bit((~pport.dir | pport.data) & 0x8);
     }
 
-    mem_ram[0] = pport.dir;
+    pport.dir_read = pport.dir;
 }
 
