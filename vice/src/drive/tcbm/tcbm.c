@@ -33,6 +33,7 @@
 #include "tcbm-resources.h"
 #include "tcbm.h"
 #include "tcbmrom.h"
+#include "tpi.h"
 #include "tpid.h"
 #include "types.h"
 
@@ -61,7 +62,7 @@ void tcbm_drive_init(struct drive_context_s *drv)
 
 void tcbm_drive_reset(struct drive_context_s *drv)
 {
-    tpid_reset(&(drv->tpid));
+    tpicore_reset(&(drv->tpid));
     glue1551_reset(drv);
 }
 

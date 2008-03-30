@@ -35,11 +35,11 @@
 #include "c128memsnapshot.h"
 #include "c128mmu.h"
 #include "c128rom.h"
-#include "c64tpi.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "tpi.h"
 #include "types.h"
 #include "ui.h"
 
@@ -195,8 +195,8 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     /* REU module: FIXME.  */
 
     /* IEEE 488 module.  */
-    if (ieee488_enabled && tpi_snapshot_write_module(&(machine_context.tpi1),
-        s) < 0)
+    if (ieee488_enabled
+        && tpicore_snapshot_write_module(&(machine_context.tpi1), s) < 0)
         goto fail;
 
 #ifdef HAVE_RS232
@@ -257,7 +257,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     /* REU module: FIXME.  */
 
     /* IEEE488 module.  */
-    if (tpi_snapshot_read_module(&(machine_context.tpi1), s) < 0) {
+    if (tpicore_snapshot_read_module(&(machine_context.tpi1), s) < 0) {
         ieee488_enabled = 0;
     } else {
         ieee488_enabled = 1;
