@@ -147,7 +147,6 @@
 #define HAVE_FCNTL_H          1   /* Define if you have the <fcntl.h> header file.    */
 #define HAVE_LIMITS_H         1   /* Define if you have the <limits.h> header file.   */
 #define HAVE_REGEXP_H         1   /* Define if you have the <regexp.h> header file.   */
-#define HAVE_SYS_PARAM_H      1   /* Define if you have the <sys/param.h> header file.*/
 #define HAVE_SYS_TIME_H       1   /* Define if you have the <sys/time.h> header file. */
 
 /* #undef HAVE_USLEEP *//* Define if you have the usleep function.  */

@@ -75,28 +75,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* This code comes from GNU make:
-   Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95
-     Free Software Foundation, Inc.
-   It makes sure `GET_PATH_MAX' is set to the maximum length of path strings.
-   Notice that `GET_PATH_MAX' might call a function!  */
-
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-
-/* For some reason, our DJGPP setup does not like to have both `limits.h' and
-   `sys/param.h' #included.  */
-#if !defined(__OS2__) && !defined(DJGPP) && defined(HAVE_SYS_PARAM_H)
-#include <sys/param.h>
-#endif
-
-#ifndef MAXPATHLEN
-#define MAXPATHLEN 1024
-#endif  /* No MAXPATHLEN.  */
-
-/* ------------------------------------------------------------------------- */
-
 /* Internationalization stuff */
 #if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
 #    include <libintl.h>
