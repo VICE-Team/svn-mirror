@@ -36,7 +36,6 @@
 
 #include "reu.h"
 #include "maincpu.h"
-#include "macro.h"
 #include "mem.h"
 #include "utils.h"
 #include "resources.h"
@@ -64,7 +63,7 @@ int    reset_reu(const char *file_name, int size)
 
     if (file_name == NULL)
 	file_name = app_resources.reuName;
-    
+
     if (size > 0)
 	ReuSize = size;
 
@@ -77,7 +76,7 @@ int    reset_reu(const char *file_name, int size)
 	reu[0] = 0x40;
 
     reu[1] = 0x4A;
-	
+
     if (reuram == NULL) {
 	reuram = xmalloc(ReuSize);
 	printf("REU: %dKB unit installed.\n", REUSIZE);
@@ -90,7 +89,7 @@ int    reset_reu(const char *file_name, int size)
 
     return 0;
 }
-  
+
 void	activate_reu(void)
 {
     if (app_resources.reu && reuram == NULL)
@@ -101,7 +100,7 @@ void    close_reu(const char *file_name)
 {
     if (reuram == NULL)
 	return;
-    
+
     if (file_name == NULL)
 	file_name = app_resources.reuName;
 
@@ -118,7 +117,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 
     if (reuram == NULL)
 	reset_reu(NULL, 0);
-    
+
     switch (addr) {
       case 0x0:
 	/* fixed by [EP], 04-16-97. */
@@ -126,7 +125,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 	reu[0] &= ~0xe0;	/* Bits 7-5 are cleared when register is
 				   read. */
 	break;
-	
+
       case 0x6:
 	/* wrong address of bank register corrected - RH */
 	retval = reu[6] | 0xf8;
@@ -159,7 +158,7 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
 	reset_reu(NULL, 0);
-    
+
     reu[addr] = byte;
 
 #ifdef REU_DEBUG
@@ -173,12 +172,12 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 }
 
 /* This function is called when write to REC command register or memory
- * location FF00 is detected. 
+ * location FF00 is detected.
  *
  * If host address exceeds ffff transfer contiues at 0000.
  * If reu address exceeds 7ffff transfer continues at 00000.
  * If address is fixed the same value is used during the whole transfer.
- */ 
+ */
 /* Added correct handling of fixed addresses with transfer length 1  - RH */
 /* Added fixed address support - [EP] */
 
@@ -190,7 +189,7 @@ void    reu_dma(int immed)
     ADDRESS host_addr;
     int reu_addr;
     BYTE c;
-    
+
     if (!immed) {
 	delay++;
 	return;
@@ -276,12 +275,12 @@ void    reu_dma(int immed)
 	printf("No autoload\n");
 #endif
         if ( !(reu[0xA] & 0x80)) {
-	    reu[2] = LOWER(host_addr);
-	    reu[3] = UPPER(host_addr);
+	    reu[2] = host_addr & 0xff;
+	    reu[3] = (host_addr >> 8) & 0xff;
 	}
         if ( !(reu[0xA] & 0x40)) {
-	    reu[4] = LOWER(reu_addr);
-	    reu[5] = UPPER(reu_addr);
+	    reu[4] = reu_addr & 0xff;
+	    reu[5] = (reu_addr >> 8) & 0xff;
 	    reu[6] = (reu_addr>>16);
 	}
 

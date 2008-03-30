@@ -33,7 +33,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "macro.h"
 #include "mem.h"
 #include "patchrom.h"
 
@@ -293,6 +292,6 @@ int  patch_rom(const char *str)
     }
     if (lcount != 0)
 	putchar('\n');
-    
+
     return (0);
 }

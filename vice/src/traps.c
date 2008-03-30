@@ -33,7 +33,6 @@
 
 #include "traps.h"
 #include "maincpu.h"
-#include "macro.h"
 #include "mem.h"
 #include "interrupt.h"
 
@@ -41,7 +40,7 @@
 
 typedef struct _traplist_t {
     struct _traplist_t *next;
-    trap_t *trap;
+    const trap_t *trap;
 } traplist_t;
 
 static traplist_t *traplist;
@@ -68,7 +67,7 @@ void    initialize_traps()
 }
 
 
-int     set_trap(trap_t *t)
+int     set_trap(const trap_t *t)
 {
     int     i;
     traplist_t *p;
@@ -89,7 +88,7 @@ int     set_trap(trap_t *t)
      * BRK (0x00) is trap-opcode
      */
     store_rom(t -> address, 0x00);
-    
+
     p = (traplist_t *) malloc (sizeof (traplist_t));
     p->next = traplist;
     p->trap = t;
@@ -99,7 +98,7 @@ int     set_trap(trap_t *t)
 }
 
 
-int     remove_trap(trap_t *t)
+int     remove_trap(const trap_t *t)
 {
     traplist_t *p = traplist, *prev = NULL;
 
@@ -111,15 +110,15 @@ int     remove_trap(trap_t *t)
 	printf("incorrect checkbyte for trap %s.\n", t -> name);
 
     store_rom(t -> address, t->check[0]);
-    
-    
+
+
     while (p) {
 	if (p -> trap -> address == t -> address)
 	    break;
 	prev = p;
 	p = p -> next;
     }
-    
+
     if (!p) {
 	printf("cannot remove trap %s.\n", t -> name);
 	return -1;
@@ -137,10 +136,11 @@ int     remove_trap(trap_t *t)
 int     trap_handler(void)
 {
     traplist_t *p = traplist;
-    
+
     while (p) {
-	if (p -> trap -> address == PC) {
+	if (p -> trap -> address == maincpu_regs.pc) {
 	    (*p -> trap -> func) ();
+            maincpu_regs.pc = p->trap->resume_address;
 	    return 0;
 	}
 	p = p -> next;
@@ -156,13 +156,13 @@ static void trap_idle_E5D4()
 {
     if (!IF_ZERO())
     {
-	PC = 0xe5d6;
+	maincpu_regs.pc = 0xe5d6;
 	clk += 2;
     }
     else {
 	clk = next_alarm_clk(&maincpu_int_status);
 	if (LOAD(0xc6))
-	    PC = 0xe5cd;
+	    maincpu_regs.pc = 0xe5cd;
     }
 }
 

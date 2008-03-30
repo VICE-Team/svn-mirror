@@ -61,10 +61,6 @@
 #include <assert.h>
 #include <errno.h>
 
-#ifndef STANDALONE_1541
-#include "macro.h"
-#endif
-
 #include "serial.h"
 #include "drive.h"
 #include "file.h"
@@ -247,15 +243,14 @@ static errortext_t floppy_error_messages[] =
 /* ------------------------------------------------------------------------- */
 
 
-int     initialize_1541(int dev, int type)
+int     initialize_1541(int dev, int type,
+                        drive_attach_func_t attach_func,
+                        drive_detach_func_t detach_func)
 {
     DRIVE  *floppy = NULL;
     int     i;
 
-    /*
-     * Create instances of the disk drive
-     */
-
+    /* Create instances of the disk drive.  */
     if (!floppy) {
 	floppy = (DRIVE *)malloc(sizeof(DRIVE));
 	assert(floppy);
@@ -271,11 +266,8 @@ int     initialize_1541(int dev, int type)
     floppy->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
     floppy->buffers[15].buffer = (BYTE *) malloc(256);
 
-
-    /* Initialise format constants */
-
+    /* Initialise format constants.  */
     set_disk_geometry(floppy, type);
-
 
 #ifdef STANDALONE_1541
     DriveData[dev & 3] = floppy;
@@ -300,6 +292,9 @@ int     initialize_1541(int dev, int type)
 	}
     }
 #endif
+
+    floppy->attach_func = attach_func;
+    floppy->detach_func = detach_func;
 
     floppy_error(&floppy->buffers[15], IPE_DOS_VERSION, 0, 0);
     fs_error(IPE_DOS_VERSION);
@@ -2742,6 +2737,7 @@ void    detach_floppy_image(DRIVE *floppy)
 	zclose(floppy->ActiveFd);
 	floppy->ActiveFd = -1;
 	floppy->ActiveName[0] = 0;		/* Name is used as flag */
+        floppy->detach_func(floppy);
     }
 }
 
@@ -2819,7 +2815,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
 	floppy->ErrFlg     = hdr.errblk;
 	floppy->D64_Header = hdr.d64;
-	floppy->GCR_Header = hdr.gcr; 
+	floppy->GCR_Header = hdr.gcr;
 
 	if(!hdr.gcr) {
 	    /* Initialise format constants */
@@ -2850,6 +2846,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	return -1;
     }
 
+    floppy->attach_func(floppy);
     return (0);
 }
 
