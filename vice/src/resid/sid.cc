@@ -463,7 +463,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   sampling = method;
 
   cycles_per_sample =
-    cycle_count(clock_freq/sample_freq*(1 << 10) + 0.5);
+    cycle_count(clock_freq/sample_freq*(1 << FIXP_SHIFT) + 0.5);
 
   sample_offset = 0;
   sample_prev = 0;
@@ -507,9 +507,13 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // The filter length must be an odd number (sinc is symmetric about x = 0).
   fir_N = int(N*f_cycles_per_sample) + 1;
   fir_N |= 1;
+
+  // We clamp the filter table resolution to 2^n, making the fixpoint
+  // sample_offset a whole multiple of the filter table resolution.
   int res = method == SAMPLE_RESAMPLE_INTERPOLATE ?
     (int)FIR_RES_INTERPOLATE : (int)FIR_RES_FAST;
-  fir_RES = int(res/f_cycles_per_sample);
+  int n = (int)ceil(log(res/f_cycles_per_sample)/log(2));
+  fir_RES = 1 << n;
 
   // Allocate memory for FIR tables.
   delete[] fir;
@@ -564,7 +568,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 void SID::adjust_sampling_frequency(double sample_freq)
 {
   cycles_per_sample =
-    cycle_count(clock_frequency/sample_freq*(1 << 10) + 0.5);
+    cycle_count(clock_frequency/sample_freq*(1 << FIXP_SHIFT) + 0.5);
 }
 
 
@@ -705,7 +709,7 @@ void SID::clock(cycle_count delta_t)
 
 // ----------------------------------------------------------------------------
 // SID clocking with audio sampling.
-// Fixpoint arithmetic (22.10 bits) is used.
+// Fixpoint arithmetics is used.
 //
 // The example below shows how to clock the SID a specified amount of cycles
 // while producing audio output:
@@ -742,8 +746,8 @@ int SID::clock_fast(cycle_count& delta_t, short* buf, int n,
   int s = 0;
 
   for (;;) {
-    cycle_count next_sample_offset = sample_offset + cycles_per_sample + (1 << 9);
-    cycle_count delta_t_sample = next_sample_offset >> 10;
+    cycle_count next_sample_offset = sample_offset + cycles_per_sample + (1 << (FIXP_SHIFT - 1));
+    cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
     if (delta_t_sample > delta_t) {
       break;
     }
@@ -752,12 +756,12 @@ int SID::clock_fast(cycle_count& delta_t, short* buf, int n,
     }
     clock(delta_t_sample);
     delta_t -= delta_t_sample;
-    sample_offset = (next_sample_offset & 0x3ff) - (1 << 9);
+    sample_offset = (next_sample_offset & FIXP_MASK) - (1 << (FIXP_SHIFT - 1));
     buf[s++*interleave] = output();
   }
 
   clock(delta_t);
-  sample_offset -= delta_t << 10;
+  sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
   return s;
 }
@@ -781,7 +785,7 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 
   for (;;) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
-    cycle_count delta_t_sample = next_sample_offset >> 10;
+    cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
     if (delta_t_sample > delta_t) {
       break;
     }
@@ -797,11 +801,11 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
     }
 
     delta_t -= delta_t_sample;
-    sample_offset = next_sample_offset & 0x3ff;
+    sample_offset = next_sample_offset & FIXP_MASK;
 
     short sample_now = output();
     buf[s++*interleave] =
-      sample_prev + (sample_offset*(sample_now - sample_prev) >> 10);
+      sample_prev + (sample_offset*(sample_now - sample_prev) >> FIXP_SHIFT);
     sample_prev = sample_now;
   }
 
@@ -812,7 +816,7 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
     sample_prev = output();
     clock();
   }
-  sample_offset -= delta_t << 10;
+  sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
   return s;
 }
@@ -862,7 +866,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 
   for (;;) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
-    cycle_count delta_t_sample = next_sample_offset >> 10;
+    cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
     if (delta_t_sample > delta_t) {
       break;
     }
@@ -876,10 +880,10 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
       sample_index &= 0x3fff;
     }
     delta_t -= delta_t_sample;
-    sample_offset = next_sample_offset & 0x3ff;
+    sample_offset = next_sample_offset & FIXP_MASK;
 
-    int fir_offset = sample_offset*fir_RES >> 10;
-    int fir_offset_rmd = sample_offset*fir_RES & 0x3ff;
+    int fir_offset = sample_offset*fir_RES >> FIXP_SHIFT;
+    int fir_offset_rmd = sample_offset*fir_RES & FIXP_MASK;
     short* fir_start = fir + fir_offset*fir_N;
     short* sample_start = sample + sample_index - fir_N + RINGSIZE;
 
@@ -906,7 +910,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     // Linear interpolation.
     // fir_offset_rmd is equal for all samples, it can thus be factorized out:
     // sum(v1 + rmd*(v2 - v1)) = sum(v1) + rmd*(sum(v2) - sum(v1))
-    int v = v1 + (fir_offset_rmd*(v2 - v1) >> 10);
+    int v = v1 + (fir_offset_rmd*(v2 - v1) >> FIXP_SHIFT);
 
     v >>= FIR_SHIFT;
 
@@ -928,7 +932,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     ++sample_index;
     sample_index &= 0x3fff;
   }
-  sample_offset -= delta_t << 10;
+  sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
   return s;
 }
@@ -945,7 +949,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
 
   for (;;) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
-    cycle_count delta_t_sample = next_sample_offset >> 10;
+    cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
     if (delta_t_sample > delta_t) {
       break;
     }
@@ -959,9 +963,9 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
       sample_index &= 0x3fff;
     }
     delta_t -= delta_t_sample;
-    sample_offset = next_sample_offset & 0x3ff;
+    sample_offset = next_sample_offset & FIXP_MASK;
 
-    int fir_offset = sample_offset*fir_RES >> 10;
+    int fir_offset = sample_offset*fir_RES >> FIXP_SHIFT;
     short* fir_start = fir + fir_offset*fir_N;
     short* sample_start = sample + sample_index - fir_N + RINGSIZE;
 
@@ -991,7 +995,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
     ++sample_index;
     sample_index &= 0x3fff;
   }
-  sample_offset -= delta_t << 10;
+  sample_offset -= delta_t << FIXP_SHIFT;
   delta_t = 0;
   return s;
 }

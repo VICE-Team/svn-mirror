@@ -30,8 +30,10 @@
 #include <string.h>
 
 #include "alarm.h"
+#include "debug.h"
 #include "c64cart.h"
 #include "dma.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
@@ -346,7 +348,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 {
     const vicii_sprites_fetch_t *sf;
     unsigned int i;
-    int next_cycle;
+    int next_cycle, num_cycles;
     raster_sprite_status_t *sprite_status;
     BYTE *bank, *spr_base;
 
@@ -365,7 +367,8 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             BYTE *dest;
             int my_memptr;
 
-            /*log_debug("SDMA %i",i);*/
+            if (debug.maincpu_traceflg)
+                log_debug("SDMA %i",i);
 
             src = bank + (*spr_base << 6);
             my_memptr = sprite_status->sprites[i].memptr;
@@ -388,9 +391,18 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         }
     }
 
-    dma_maincpu_steal_cycles(vicii.fetch_clk, sf->num - sub, sub);
+    num_cycles = sf->num;
 
-    *write_offset = sub == 0 ? sf->num : 0;
+    /*log_debug("SF %i VBL %i SUB %i",sf->num,vicii.bad_line,sub);*/
+
+#if 0
+    if (sf->first == 0 && vicii.bad_line != 0)
+        num_cycles--;
+#endif
+
+    dma_maincpu_steal_cycles(vicii.fetch_clk, num_cycles - sub, sub);
+
+    *write_offset = sub == 0 ? num_cycles : 0;
 
     next_cycle = (sf + 1)->cycle;
     vicii.sprite_fetch_idx++;

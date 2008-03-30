@@ -121,6 +121,10 @@ protected:
   enum { FIR_SHIFT = 15 };
   enum { RINGSIZE = 16384 };
 
+  // Fixpoint constants (16.16 bits).
+  enum { FIXP_SHIFT = 16 };
+  enum { FIXP_MASK = 0xffff };
+
   // Sampling variables.
   sampling_method sampling;
   cycle_count cycles_per_sample;

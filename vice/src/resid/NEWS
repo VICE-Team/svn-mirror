@@ -17,7 +17,7 @@ The resampling code has been split into two functions, one using
 interpolation and a small set of shifted filter tables, and one using
 direct lookup and a large set of shifted filter tables. The accuracy
 is the same, the difference is that the direct lookup runs at almost
-twice the speed at the cost of approximately 12MB more memory. It is
+twice the speed at the cost of approximately 16MB more memory. It is
 now possible to run high quality resampling in real time on quite
 modest hardware, provided that a vectorizing compiler is used.
 
@@ -34,7 +34,7 @@ fully synchronize the CPU with envelope 3, so the measurements relied
 on averaging. Because of pipelining in the envelope logic the effects
 of a write are delayed, and this caused the test code to miss the
 target by exactly one rate counter period on a real SID. The current
-test code does achieves full synchronization with envelope 3, so this
+test code does achieve full synchronization with envelope 3, so this
 time the delay should be 100% correct. There are still side effects
 caused by pipelining which are not implemented in reSID, however these
 effects are not controllable without full synchronization with the

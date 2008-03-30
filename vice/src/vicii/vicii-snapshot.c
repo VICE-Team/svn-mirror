@@ -405,8 +405,23 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     vicii.sprite_fetch_msk = vicii.raster.sprite_status->new_dma_msk;
-    vicii.sprite_fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)
-                             + vicii.sprite_fetch_cycle);
+    vicii.sprite_fetch_clk = VICII_LINE_START_CLK(maincpu_clk)
+                             + vicii.sprite_fetch_cycle
+                             - vicii.cycles_per_line;
+
+    /* calculate the sprite_fetch_idx */
+    {
+        const vicii_sprites_fetch_t *sf;
+
+        sf = vicii_sprites_fetch_table[vicii.sprite_fetch_msk];
+        i = 0;
+        while (sf[i].cycle >= 0 
+            && sf[i].cycle + vicii.sprite_fetch_cycle <= vicii.cycles_per_line)
+        {
+            i++;
+        }
+        vicii.sprite_fetch_idx = i;
+    }
 
     vicii.raster.xsmooth = vicii.regs[0x16] & 0x7;
     vicii.raster.ysmooth = vicii.regs[0x11] & 0x7;

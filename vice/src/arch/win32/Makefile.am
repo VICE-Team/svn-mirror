@@ -59,6 +59,7 @@ libarch_a_SOURCES = \
 	restfe.rc \
 	resvic.rc \
 	resvicii.rc \
+	rs232.c \
 	signals.c \
 	statusbar.c \
 	statusbar.h \

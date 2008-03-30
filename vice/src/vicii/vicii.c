@@ -142,6 +142,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     vicii.last_emulate_line_clk -= sub;
     vicii.fetch_clk -= sub;
     vicii.draw_clk -= sub;
+    vicii.sprite_fetch_clk -= sub;
 }
 
 void vicii_change_timing(machine_timing_t *machine_timing)
