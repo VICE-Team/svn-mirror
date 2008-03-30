@@ -379,6 +379,21 @@ int sound_register_device(sound_device_t *pdevice)
     return 0;
 }
 
+unsigned int sound_device_num(void)
+{
+    const int max = sizeof(sound_devices) / sizeof(sound_devices[0]);
+    unsigned int i;
+
+    for (i = 0; sound_devices[i] && i < max; i++);
+
+    return i;
+}
+
+const char *sound_device_name(unsigned int num)
+{
+    return sound_devices[num]->name;
+}
+
 
 /* code to disable sid for a given number of seconds if needed */
 static int disabletime;
