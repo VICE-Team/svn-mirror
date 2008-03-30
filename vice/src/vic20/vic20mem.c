@@ -650,7 +650,7 @@ void initialize_memory(void)
 	    read_ram, store_ram,
 	    ram, 0xffff);
 
-    /* Setup more low RAM at $1000-$1FFFF.  */
+    /* Setup more low RAM at $1000-$1FFF.  */
     set_mem(0x10, 0x1b,
 	    read_ram, store_ram,
 	    ram, 0xffff);
