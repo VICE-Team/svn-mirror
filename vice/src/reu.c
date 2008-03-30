@@ -38,7 +38,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "utils.h"
-#include "resources.h"
 
 /* #define REU_DEBUG */
 
@@ -55,14 +54,13 @@
 static int     ReuSize = REUSIZE << 10;
 static BYTE    reu[16];        /* REC registers */
 static BYTE   *reuram = 0;
+static char   *reu_file_name;
 
+/* ------------------------------------------------------------------------- */
 
-int    reset_reu(const char *file_name, int size)
+int    reset_reu(int size)
 {
     int i;
-
-    if (file_name == NULL)
-	file_name = app_resources.reuName;
 
     if (size > 0)
 	ReuSize = size;
@@ -80,8 +78,8 @@ int    reset_reu(const char *file_name, int size)
     if (reuram == NULL) {
 	reuram = xmalloc(ReuSize);
 	printf("REU: %dKB unit installed.\n", REUSIZE);
-	if (load_file(file_name, reuram, ReuSize) == 0) {
-	    printf ("REU: image `%s' loaded successfully.\n", file_name);
+	if (load_file(reu_file_name, reuram, ReuSize) == 0) {
+	    printf ("REU: image `%s' loaded successfully.\n", reu_file_name);
 	} else {
 	    printf ("REU: (no image loaded).\n");
 	}
@@ -92,22 +90,19 @@ int    reset_reu(const char *file_name, int size)
 
 void	activate_reu(void)
 {
-    if (app_resources.reu && reuram == NULL)
-	reset_reu(NULL, 0);
+    if (reuram == NULL)
+	reset_reu(0);
 }
 
-void    close_reu(const char *file_name)
+void    close_reu(void)
 {
-    if (reuram == NULL)
+    if (reuram == NULL || reu_file_name == NULL)
 	return;
 
-    if (file_name == NULL)
-	file_name = app_resources.reuName;
-
-    if (save_file(file_name, reuram, ReuSize) == 0)
-	printf("REU: image `%s' saved successfully.\n", file_name);
+    if (save_file(reu_file_name, reuram, ReuSize) == 0)
+	printf("REU: image `%s' saved successfully.\n", reu_file_name);
     else
-	fprintf(stderr,"REU: cannot save image `%s'.\n", file_name);
+	fprintf(stderr,"REU: cannot save image `%s'.\n", reu_file_name);
 }
 
 
@@ -116,7 +111,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
     BYTE retval;
 
     if (reuram == NULL)
-	reset_reu(NULL, 0);
+	reset_reu(0);
 
     switch (addr) {
       case 0x0:
@@ -157,7 +152,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
-	reset_reu(NULL, 0);
+	reset_reu(0);
 
     reu[addr] = byte;
 
