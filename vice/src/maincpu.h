@@ -53,6 +53,9 @@ extern CLOCK maincpu_clk;
 /* 8502 cycle stretch indicator */
 extern int maincpu_stretch;
 
+/* 8502 memory refresh alarm */
+extern CLOCK c128cpu_memory_refresh_clk;
+
 /* ------------------------------------------------------------------------- */
 
 struct alarm_context_s;

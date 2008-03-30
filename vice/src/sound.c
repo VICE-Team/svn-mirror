@@ -83,6 +83,7 @@ static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
 static int oversampling_factor;       /* app_resources.soundOversample */
+static int volume;
 
 /* I need this to serialize close_sound and enablesound/sound_open in
    the OS/2 Multithreaded environment                              */
@@ -178,6 +179,22 @@ static int set_oversampling_factor(int val, void *param)
     sound_state_changed = TRUE;
     return 0;
 }
+
+static int set_volume(int val, void *param)
+{
+    volume = val;
+
+    if (volume < 0)
+        volume = 0;
+
+    if (volume > 100)
+        volume = 100;
+
+    ui_display_volume(volume);
+
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "SoundDeviceName", "", RES_EVENT_NO, NULL,
       &device_name, set_device_name, NULL },
@@ -203,6 +220,8 @@ static const resource_int_t resources_int[] = {
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
     { "SoundOversample", 0, RES_EVENT_NO, NULL,
       (void *)&oversampling_factor, set_oversampling_factor, NULL },
+    { "SoundVolume", 100, RES_EVENT_NO, NULL,
+      (void *)&volume, set_volume, NULL },
     { NULL }
 };
 
@@ -808,6 +827,7 @@ static int sound_run_sound(void)
 {
     int nr = 0, c, i;
     int delta_t = 0;
+    SWORD *bufferptr;
 
     /* XXX: implement the exact ... */
     if (!playback_enabled || (suspend_time > 0 && disabletime))
@@ -830,13 +850,17 @@ static int sound_run_sound(void)
     if (cycle_based) {
         for (c = 0; c < snddata.channels; c++) {
             delta_t = maincpu_clk - snddata.lastclk;
+            bufferptr = snddata.buffer + snddata.bufptr * snddata.channels + c;
             nr = sound_machine_calculate_samples(snddata.psid[c],
-                                                 snddata.buffer
-                                                 + snddata.bufptr
-                                                 * snddata.channels + c,
+                                                 bufferptr,
                                                  SOUND_BUFSIZE - snddata.bufptr,
                                                  snddata.channels,
                                                  &delta_t);
+            if (volume < 100) {
+                for (i = 0; i < nr; i ++)
+                    bufferptr[i] *= (volume / 100.0f);
+            }
+
             if (delta_t) {
 #ifdef HAS_TRANSLATION
                 return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
@@ -859,13 +883,16 @@ static int sound_run_sound(void)
 #endif
         }
         for (c = 0; c < snddata.channels; c++) {
+            bufferptr = snddata.buffer + snddata.bufptr * snddata.channels + c;
             sound_machine_calculate_samples(snddata.psid[c],
-                                            snddata.buffer
-                                            + snddata.bufptr
-                                            * snddata.channels + c,
+                                            bufferptr,
                                             nr,
                                             snddata.channels,
                                             &delta_t);
+            if (volume < 100) {
+                for (i = 0; i < nr; i ++)
+                    bufferptr[i] *= (volume / 100.0f);
+            }
         }
         snddata.fclk += nr * snddata.clkstep;
     }

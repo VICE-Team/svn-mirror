@@ -367,3 +367,7 @@ void ui_display_statustext(const char *text, int fade_out)
 {
   statusbar_set_statustext(text, fade_out);
 }
+
+void ui_display_volume(int vol)
+{
+}

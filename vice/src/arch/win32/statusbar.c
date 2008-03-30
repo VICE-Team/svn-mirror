@@ -35,6 +35,7 @@
 #include "drive.h"
 #include "lib.h"
 #include "res.h"
+#include "resources.h"
 #include "system.h"
 #include "translate.h"
 #include "ui.h"
@@ -42,6 +43,7 @@
 
 
 static HWND status_hwnd[2];
+static HWND slider_hwnd[2];
 static int number_of_status_windows = 0;
 static int status_height;
 
@@ -86,8 +88,8 @@ static void SetStatusWindowParts(HWND hwnd)
     int i;
     int disk_update_part;
 
-    /* one part for statusinfo, one for joystick and tape */
-    last_part = 2;
+    /* one for the volume, one part for statusinfo, one for joystick and tape */
+    last_part = 3;
 
     /* the disk parts */
     enabled_drives = 0;
@@ -100,14 +102,14 @@ static void SetStatusWindowParts(HWND hwnd)
                 last_part++;
                 status_map[enabled_drives] = -1;
             }
-            status_partindex[i] = last_part - 1;
+            status_partindex[i] = last_part - 2;
         }
     }
-    disk_update_part = last_part - 1;
+    disk_update_part = last_part - 2;
 
     /* the event history part */
     if (event_mode != EVENT_OFF) {
-        event_part = last_part;
+        event_part = last_part - 1;
         last_part++;
     }
 
@@ -115,6 +117,9 @@ static void SetStatusWindowParts(HWND hwnd)
     i = last_part - 1;
     GetWindowRect(hwnd, &rect);
     width = rect.right-rect.left;
+
+    posx[i--] = width;
+    width -= 20;
 
     if (event_mode != EVENT_OFF) {
         posx[i--] = width;
@@ -137,9 +142,10 @@ static void SetStatusWindowParts(HWND hwnd)
 }
 
 
-void statusbar_create(HWND hwnd)
+void statusbar_create(HWND hwnd, int width)
 {
     RECT rect;
+    int res_val;
 
     status_hwnd[number_of_status_windows] =
         CreateStatusWindow(WS_CHILD | WS_VISIBLE, TEXT(""), hwnd,
@@ -149,9 +155,28 @@ void statusbar_create(HWND hwnd)
     SendMessage(status_hwnd[number_of_status_windows], WM_SIZE, 0, (LPARAM)0);
     
     GetClientRect(status_hwnd[number_of_status_windows], &rect);
-    status_height = rect.bottom - rect.top;
+    status_height = rect.bottom;
     SetStatusWindowParts(status_hwnd[number_of_status_windows]);
+
+    /* the volume part */
+    slider_hwnd[number_of_status_windows] = CreateWindow(
+                               TRACKBAR_CLASS,
+                               TEXT(""),
+                               WS_CHILD|WS_VISIBLE|TBS_VERT|TBS_NOTICKS,
+                               width - 20, 3, 20, 36,
+                               status_hwnd[number_of_status_windows],
+                               (HMENU)IDC_SLIDER,
+                               NULL,NULL);
+    /* Max Steps */
+    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETRANGEMAX, 1, 100);
+
+    /* Steps Wide for display the small lines */
+    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETTICFREQ, 25, 0);
+
     number_of_status_windows++;
+
+    resources_get_int("SoundVolume", &res_val);
+    statusbar_display_volume(res_val);
 }
 
 void statusbar_destroy(void)
@@ -491,7 +516,7 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
             }
             return;
         }
-        if (itemID > ((enabled_drives + 3) >> 1)) {
+        if (event_mode != EVENT_OFF && itemID == ((enabled_drives + 5) >> 1)) {
             /* it's the event history part */
             switch (event_mode) {
                 case EVENT_RECORDING:
@@ -519,3 +544,23 @@ void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam)
     }
 }
 
+void statusbar_notify(HWND window, WPARAM wparam, LPARAM lparam)
+{
+    int slider_pos;
+    NMHDR *nmhdr = (NMHDR*)lparam;
+
+    if (wparam == IDC_SLIDER) {
+        slider_pos = SendMessage(slider_hwnd[0], TBM_GETPOS, 0, 0);
+        resources_set_int("SoundVolume", 100 - slider_pos);
+
+    }
+}
+
+
+void statusbar_display_volume(int vol)
+{
+    int i;
+
+    for (i = 0; i < number_of_status_windows; i++)
+        SendMessage(slider_hwnd[i], TBM_SETPOS, 1, 100 - vol);
+}

@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include "clkguard.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "vicii.h"
 #include "z80.h"
@@ -67,6 +69,9 @@ static int opcode_cycle[2];
 /* 8502 cycle stretch indicator */
 int maincpu_stretch=0;
 
+/* 8502 memory refresh alarm counter */
+CLOCK c128cpu_memory_refresh_clk;
+
 #define PAGE_ZERO mem_page_zero
 
 #define PAGE_ONE mem_page_one
@@ -87,6 +92,17 @@ inline static void c128cpu_clock_add(CLOCK *clock, int amount)
         *clock=vicii_clock_add(*clock, amount);
 }
 
+inline static void c128cpu_memory_refresh_alarm_handler()
+{
+    if (maincpu_clk>=c128cpu_memory_refresh_clk)
+        vicii_memory_refresh_alarm_handler();
+}
+
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
+{
+    c128cpu_memory_refresh_clk -= sub;
+}
+
 #define CLK_ADD(clock, amount) c128cpu_clock_add(&clock, amount)
 
 #define REWIND_FETCH_OPCODE(clock) vicii_clock_add(clock, -(2+opcode_cycle[0]+opcode_cycle[1]))
@@ -94,5 +110,11 @@ inline static void c128cpu_clock_add(CLOCK *clock, int amount)
 extern void vicii_delay_clk(void);
 
 #define CPU_DELAY_CLK vicii_delay_clk();
+
+#define CPU_REFRESH_CLK c128cpu_memory_refresh_alarm_handler();
+
+#define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk=11
+
+#define CPU_ADDITIONAL_INIT() clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL)
 
 #include "../maincpu.c"

@@ -5231,6 +5231,9 @@ void ui_display_joyport(BYTE *joyport)
 {
 }
 
+void ui_display_volume(int vol)
+{
+}
 
 void ui_display_paused(int flag)
 {

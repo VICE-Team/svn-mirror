@@ -299,6 +299,7 @@ static HBRUSH tape_motor_on_brush;
 static HBRUSH tape_motor_off_brush;
 */
 static HWND main_hwnd;
+static HWND slider_hwnd;
 
 static int emu_menu;
 
@@ -475,7 +476,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     number_of_windows++;
 
     if (!fullscreen) {
-        statusbar_create(hwnd);
+        statusbar_create(hwnd, width);
     }
 
     ui_resize_canvas_window(hwnd, width, height);
@@ -1574,6 +1575,9 @@ static long CALLBACK window_proc(HWND window, UINT msg,
       case WM_NCLBUTTONDOWN:
         vsync_suspend_speed_eval();
         break;
+      case WM_NOTIFY:
+        statusbar_notify(window, wparam, lparam);
+        break;
     }
 
     return DefWindowProc(window, msg, wparam, lparam);
@@ -1624,3 +1628,7 @@ int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
     return ret;
 }
 
+void ui_display_volume(int vol)
+{
+    statusbar_display_volume(vol);
+}

@@ -87,8 +87,11 @@ extern void ui_display_playback(int playback_status, char *version);
 extern void ui_display_recording(int recording_status);
 extern void ui_display_event_time(unsigned int current, unsigned int total);
 
-/* joystick UI */
+/* Joystick UI */
 extern void ui_display_joyport(BYTE *joyport);
+
+/* Volume UI */
+void ui_display_volume(int vol);
 
 #endif
 

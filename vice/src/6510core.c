@@ -64,6 +64,10 @@
 #define CPU_DELAY_CLK
 #endif
 
+#ifndef CPU_REFRESH_CLK
+#define CPU_REFRESH_CLK
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
@@ -1511,39 +1515,53 @@ static const BYTE rewind_fetch_tab[] = {
 
 #define opcode_t DWORD
 
-#define FETCH_OPCODE(o)                                         \
-    do {                                                        \
-        if (((int)reg_pc) < bank_limit) {                       \
-            opcode_cycle[0] = 0;                                \
-            opcode_cycle[1] = 0;                                \
-            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);  \
-            CLK_ADD(CLK,2);                                     \
-            if (fetch_tab[o & 0xff]) {                          \
-                 CLK_ADD(CLK,1);                                \
-            }                                                   \
-        } else {                                                \
-            maincpu_stretch = 0;                                \
-            o = LOAD(reg_pc);                                   \
-            if (rewind_fetch_tab[o & 0xff])                     \
-            {                                                   \
-                opcode_cycle[0] = maincpu_stretch;              \
-                CLK_ADD(CLK,1);                                 \
-                maincpu_stretch = 0;                            \
-                o |= LOAD(reg_pc + 1) << 8;                     \
-                opcode_cycle[1] = maincpu_stretch;              \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-            else                                                \
-            {                                                   \
-                CLK_ADD(CLK,1);                                 \
-                o |= LOAD(reg_pc + 1) << 8;                     \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-            if (fetch_tab[o & 0xff]) {                          \
-                 o |= (LOAD(reg_pc + 2) << 16);                 \
-                 CLK_ADD(CLK,1);                                \
-            }                                                   \
-        }                                                       \
+#define FETCH_OPCODE(o)                                                \
+    do {                                                               \
+        if (((int)reg_pc) < bank_limit) {                              \
+            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);         \
+            if (rewind_fetch_tab[o & 0xff])                            \
+            {                                                          \
+                opcode_cycle[0] = vicii_check_memory_refresh(CLK);     \
+                CLK_ADD(CLK,1);                                        \
+                opcode_cycle[1] = vicii_check_memory_refresh(CLK);     \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+            else                                                       \
+            {                                                          \
+                opcode_cycle[0] = 0;                                   \
+                opcode_cycle[1] = 0;                                   \
+                CLK_ADD(CLK,2);                                        \
+            }                                                          \
+            if (fetch_tab[o & 0xff]) {                                 \
+                 CLK_ADD(CLK,1);                                       \
+            }                                                          \
+        } else {                                                       \
+            maincpu_stretch = 0;                                       \
+            o = LOAD(reg_pc);                                          \
+            if (rewind_fetch_tab[o & 0xff])                            \
+            {                                                          \
+                opcode_cycle[0] = maincpu_stretch;                     \
+                if (opcode_cycle[0] == 0)                              \
+                    opcode_cycle[0] = vicii_check_memory_refresh(CLK); \
+                CLK_ADD(CLK,1);                                        \
+                maincpu_stretch = 0;                                   \
+                o |= LOAD(reg_pc + 1) << 8;                            \
+                opcode_cycle[1] = maincpu_stretch;                     \
+                if (opcode_cycle[1] == 0)                              \
+                    opcode_cycle[1] = vicii_check_memory_refresh(CLK); \
+               CLK_ADD(CLK,1);                                         \
+            }                                                          \
+            else                                                       \
+            {                                                          \
+                CLK_ADD(CLK,1);                                        \
+                o |= LOAD(reg_pc + 1) << 8;                            \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+            if (fetch_tab[o & 0xff]) {                                 \
+                 o |= (LOAD(reg_pc + 2) << 16);                        \
+                 CLK_ADD(CLK,1);                                       \
+            }                                                          \
+        }                                                              \
     } while (0)
 
 #define p0 (opcode & 0xff)
@@ -1561,41 +1579,55 @@ static const BYTE rewind_fetch_tab[] = {
         } op;             \
     }
 
-#define FETCH_OPCODE(o)                                         \
-    do {                                                        \
-        if (((int)reg_pc) < bank_limit) {                       \
-            opcode_cycle[0] = 0;                                \
-            opcode_cycle[1] = 0;                                \
-            (o).ins = *(bank_base + reg_pc);                    \
-            (o).op.op16 = (*(bank_base + reg_pc + 1)            \
-                          | (*(bank_base + reg_pc + 2) << 8));  \
-            CLK_ADD(CLK,2);                                     \
-            if (fetch_table[(o).ins)) {                         \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-        } else {                                                \
-            maincpu_stretch = 0;                                \
-            (o).ins = LOAD(reg_pc);                             \
-            if (rewind_fetch_tab[(o).ins])                      \
-            {                                                   \
-                opcode_cycle[0] = maincpu_stretch;              \
-                CLK_ADD(CLK,1);                                 \
-                maincpu_stretch = 0;                            \
-                (o).op.op16 = LOAD(reg_pc + 1);                 \
-                opcode_cycle[1] = maincpu_stretch;              \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-            else                                                \
-            {                                                   \
-                CLK_ADD(CLK,1);                                 \
-                (o).op.op16 = LOAD(reg_pc + 1);                 \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-            if (fetch_tab[(o).ins]) {                           \
-                 (o).op.op16 |= (LOAD(reg_pc + 2) << 8);        \
-                 CLK_ADD(CLK,1);                                \
-            }                                                   \
-        }                                                       \
+#define FETCH_OPCODE(o)                                                \
+    do {                                                               \
+        if (((int)reg_pc) < bank_limit) {                              \
+            (o).ins = *(bank_base + reg_pc);                           \
+            (o).op.op16 = (*(bank_base + reg_pc + 1)                   \
+                          | (*(bank_base + reg_pc + 2) << 8));         \
+            if (rewind_fetch_tab[(o).ins])                             \
+            {                                                          \
+                opcode_cycle[0] = vicii_check_memory_refresh(CLK);     \
+                CLK_ADD(CLK,1);                                        \
+                opcode_cycle[1] = vicii_check_memory_refresh(CLK);     \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+            else                                                       \
+            {                                                          \
+                opcode_cycle[0] = 0;                                   \
+                opcode_cycle[1] = 0;                                   \
+                CLK_ADD(CLK,2);                                        \
+            }                                                          \
+            if (fetch_table[(o).ins)) {                                \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+        } else {                                                       \
+            maincpu_stretch = 0;                                       \
+            (o).ins = LOAD(reg_pc);                                    \
+            if (rewind_fetch_tab[(o).ins])                             \
+            {                                                          \
+                opcode_cycle[0] = maincpu_stretch;                     \
+                if (opcode_cycle[0] == 0)                              \
+                    opcode_cycle[0] = vicii_check_memory_refresh(CLK); \
+                CLK_ADD(CLK,1);                                        \
+                maincpu_stretch = 0;                                   \
+                (o).op.op16 = LOAD(reg_pc + 1);                        \
+                opcode_cycle[1] = maincpu_stretch;                     \
+                if (opcode_cycle[1] == 0)                              \
+                    opcode_cycle[1] = vicii_check_memory_refresh(CLK); \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+            else                                                       \
+            {                                                          \
+                CLK_ADD(CLK,1);                                        \
+                (o).op.op16 = LOAD(reg_pc + 1);                        \
+                CLK_ADD(CLK,1);                                        \
+            }                                                          \
+            if (fetch_tab[(o).ins]) {                                  \
+                 (o).op.op16 |= (LOAD(reg_pc + 2) << 8);               \
+                 CLK_ADD(CLK,1);                                       \
+            }                                                          \
+        }                                                              \
     } while (0)
 
 #define p0 (opcode.ins)
@@ -1711,6 +1743,9 @@ static const BYTE rewind_fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
+    /* handle 8502 fast mode refresh cycles */
+    CPU_REFRESH_CLK
+
     CPU_DELAY_CLK
 
     while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {

@@ -1013,7 +1013,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_GO64_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_GO64_MODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_GO64_MODE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_GO64_MODE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_GO64_MODE_NL, "Start altijd op in C64 modus na reset"},
 /* pl */ {IDCLS_GO64_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_GO64_MODE_SV, ""},  /* fuzzy */
 
@@ -1023,7 +1023,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_GO128_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_GO128_MODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_GO128_MODE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_GO128_MODE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_GO128_MODE_NL, "Start altijd op in C128 modus na reset"},
 /* pl */ {IDCLS_GO128_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_GO128_MODE_SV, ""},  /* fuzzy */
 

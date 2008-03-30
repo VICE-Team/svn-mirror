@@ -854,7 +854,7 @@ void SwitchToWindowedMode(HWND hwnd)
     c->client_height = old_client_height;
     LockWindowUpdate(NULL);
 
-    statusbar_create(hwnd);
+    statusbar_create(hwnd, old_client_width);
 
     ddresult = DirectDrawCreate(NULL, &c->dd_object, NULL);
     ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,

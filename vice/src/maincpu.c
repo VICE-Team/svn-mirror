@@ -147,6 +147,14 @@ static void maincpu_generic_dma(void)
 #define DMA_ON_RESET
 #endif
 
+#ifndef CPU_ADDITIONAL_RESET
+#define CPU_ADDITIONAL_RESET()
+#endif
+
+#ifndef CPU_ADDITIONAL_INIT
+#define CPU_ADDITIONAL_INIT()
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 struct interrupt_cpu_status_s *maincpu_int_status = NULL;
@@ -239,6 +247,9 @@ void maincpu_early_init(void)
 void maincpu_init(void)
 {
     interrupt_cpu_status_init(maincpu_int_status, &last_opcode_info);
+
+    /* cpu specifix additional init routine */
+    CPU_ADDITIONAL_INIT();
 }
 
 void maincpu_shutdown(void)
@@ -258,6 +269,10 @@ static void cpu_reset(void)
         interrupt_monitor_trap_on(maincpu_int_status);
 
     maincpu_clk = 6; /* # of clock cycles needed for RESET.  */
+
+    /* CPU specific extra reset routine, currently only used
+       for 8502 fast mode refresh cycle. */
+    CPU_ADDITIONAL_RESET();
 
     /* Do machine-specific initialization.  */
     machine_reset();

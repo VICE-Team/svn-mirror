@@ -934,7 +934,6 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
 
 static BYTE tfe_read_rx_buffer(int odd_address)
 {
-    BYTE read_value;
     if(rx_state != TFE_RX_GOT_FRAME) {
 #ifdef TFE_DEBUG_WARN_RXTX
         log_message(tfe_log, "WARNING! RX Read without frame available! (odd=%d)",
@@ -1016,7 +1015,6 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
     case TFE_PP_ADDR_CC_RXCFG:
         /* Skip_1 Flag: remove current (partial) tx frame and restore state */
         if (content & 0x40) {
-            WORD bus_status;
             
 /*          tfe_arch_receive_remove_committed_frame(); */            
             

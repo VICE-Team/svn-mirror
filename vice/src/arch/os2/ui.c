@@ -316,6 +316,10 @@ void ui_display_joyport(BYTE *joyport)
 {
 }
 
+void ui_display_volume(int vol)
+{
+}
+
 /* --------------------------- Dialog Windows --------------------------- */
 
 void ui_error(const char *format,...)

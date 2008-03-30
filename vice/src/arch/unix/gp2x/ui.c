@@ -37,3 +37,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 {
   /* needed */
 }
+
+void ui_display_volume(int vol)
+{
+}

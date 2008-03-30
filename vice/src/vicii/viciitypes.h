@@ -262,7 +262,7 @@ struct vicii_s {
     /* Data to display in idle state.  */
     int idle_data;
 
-    /* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are
+    /* Where do we currently fetch idle state from?  If `IDLE_NONE', we are
        not in idle state and thus do not need to update `idle_data'.  */
     vicii_idle_data_location_t idle_data_location;
 

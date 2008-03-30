@@ -1323,3 +1323,6 @@ int ui_set_window_mode(int use_direct_window)
 	return use_direct_window;
 }
 
+void ui_display_volume(int vol)
+{
+}
