@@ -60,41 +60,34 @@ static log_t attach_log = LOG_ERR;
 static unsigned int attach_device_readonly_enabled[4];
 static unsigned int file_system_device_enabled[4];
 
-static int set_attach_device8_readonly(resource_value_t v, void *param);
-static int set_attach_device9_readonly(resource_value_t v, void *param);
-static int set_attach_device10_readonly(resource_value_t v, void *param);
-static int set_attach_device11_readonly(resource_value_t v, void *param);
-
-static int set_file_system_device8(resource_value_t v, void *param);
-static int set_file_system_device9(resource_value_t v, void *param);
-static int set_file_system_device10(resource_value_t v, void *param);
-static int set_file_system_device11(resource_value_t v, void *param);
+static int set_attach_device_readonly(resource_value_t v, void *param);
+static int set_file_system_device(resource_value_t v, void *param);
 
 static resource_t resources[] = {
     { "AttachDevice8Readonly", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &attach_device_readonly_enabled[0],
-      set_attach_device8_readonly, NULL },
+      set_attach_device_readonly, (void *)8 },
     { "AttachDevice9Readonly", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &attach_device_readonly_enabled[1],
-      set_attach_device9_readonly, NULL },
+      set_attach_device_readonly, (void *)9 },
     { "AttachDevice10Readonly", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &attach_device_readonly_enabled[2],
-      set_attach_device10_readonly, NULL },
+      set_attach_device_readonly, (void *)10 },
     { "AttachDevice11Readonly", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &attach_device_readonly_enabled[3],
-      set_attach_device11_readonly, NULL },
+      set_attach_device_readonly, (void *)11 },
     { "FileSystemDevice8", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[0],
-      set_file_system_device8, NULL },
+      set_file_system_device, (void *)8 },
     { "FileSystemDevice9", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[1],
-      set_file_system_device9, NULL },
+      set_file_system_device, (void *)9 },
     { "FileSystemDevice10", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[2],
-      set_file_system_device10, NULL },
+      set_file_system_device, (void *)10 },
     { "FileSystemDevice11", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[3],
-      set_file_system_device11, NULL },
+      set_file_system_device, (void *)11 },
     { NULL }
 };
 
@@ -201,69 +194,29 @@ char *file_system_get_disk_name(unsigned int unit)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_attach_device_readonly(resource_value_t v, unsigned int unit)
+static int set_attach_device_readonly(resource_value_t v, void *param)
 {
-    attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+    attach_device_readonly_enabled[(int)param - 8] = (unsigned int)v;
     return 0;
-}
-
-static int set_attach_device8_readonly(resource_value_t v, void *param)
-{
-    return set_attach_device_readonly(v, 8);
-}
-
-static int set_attach_device9_readonly(resource_value_t v, void *param)
-{
-    return set_attach_device_readonly(v, 9);
-}
-
-static int set_attach_device10_readonly(resource_value_t v, void *param)
-{
-    return set_attach_device_readonly(v, 10);
-}
-
-static int set_attach_device11_readonly(resource_value_t v, void *param)
-{
-    return set_attach_device_readonly(v, 11);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static int set_file_system_device(resource_value_t v, unsigned int unit)
+static int set_file_system_device(resource_value_t v, void *param)
 {
     vdrive_t *vdrive;
 
-    file_system_device_enabled[unit - 8] = (unsigned int) v;
+    file_system_device_enabled[(int)param - 8] = (unsigned int) v;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    vdrive = (vdrive_t *)file_system_get_vdrive((unsigned int)param);
     if (vdrive != NULL) {
         if (vdrive->image == NULL) {
-            vdrive_setup_device(vdrive, unit);
-            file_system_set_serial_hooks(unit,
-                                         file_system_device_enabled[unit - 8]);
+            vdrive_setup_device(vdrive, (unsigned int)param);
+            file_system_set_serial_hooks((unsigned int)param,
+                          file_system_device_enabled[(unsigned int)param - 8]);
         }
     }
     return 0;
-}
-
-static int set_file_system_device8(resource_value_t v, void *param)
-{
-    return set_file_system_device(v, 8);
-}
-
-static int set_file_system_device9(resource_value_t v, void *param)
-{
-    return set_file_system_device(v, 9);
-}
-
-static int set_file_system_device10(resource_value_t v, void *param)
-{
-    return set_file_system_device(v, 10);
-}
-
-static int set_file_system_device11(resource_value_t v, void *param)
-{
-    return set_file_system_device(v, 11);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -396,7 +349,8 @@ void file_system_detach_disk(int unit)
             if (vdrive != NULL)
                 detach_disk_image_and_free(vdrive->image, vdrive, i + 8);
             set_file_system_device((resource_value_t)
-                                   file_system_device_enabled[i], i + 8);
+                                   file_system_device_enabled[i],
+                                   (void *)(i + 8));
             ui_display_drive_current_image(i, "");
         }
     } else {
@@ -407,7 +361,7 @@ void file_system_detach_disk(int unit)
 
             set_file_system_device((resource_value_t)
                                    file_system_device_enabled[unit - 8],
-                                   (unsigned int)unit);
+                                   (void *)unit);
             ui_display_drive_current_image(unit - 8, "");
         } else {
             log_error(attach_log, "Cannot detach unit %i.", unit);
