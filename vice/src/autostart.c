@@ -122,6 +122,7 @@ static enum { YES, NO, NOT_YET } check(const char *s)
 static void set_true1541_mode(int on)
 {
     resources_set_value("True1541", (resource_value_t) on);
+    ui_update_menus();
 }
 
 static int get_true1541_state(void)

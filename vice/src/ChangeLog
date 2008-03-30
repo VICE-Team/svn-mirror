@@ -1,3 +1,32 @@
+Thu Aug 27 18:51:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.72.
+
+	* autostart.c (set_true1541_mode): Update menus.
+
+	* 6510core.c (BRANCH): Aaargh!  Check for page boundary crossing
+	was broken by accident on Jun 2, 1998.  Fixed now.
+
+	* attach.c (file_system_attach_disk): If `serial_select_file()'
+	fails, call `file_system_detach_disk()' on the same unit to make
+	sure the FS is still visible if enabled.
+
+	* c64/c64.c (machine_reset): Reset the VIC-II last.
+	* c128/c128.c (machine_reset): Likewise.
+
+Thu Aug 27 12:29:05 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c: Menu items for selecting
+ 	`SoundSpeedAdjustment'.
+
+	* arch/msdos/vsync.c: Made finetuning available to Allegro too.
+
+Wed Aug 26 22:02:05 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* c64/arch/msdos/vsync.c (my_timer_callback, patch_timer,
+ 	do_vsync): Implemented VICE runspeed finetuning (`Exact'
+ 	-synchronization) for MSDOS too.
+
 Wed Aug 26 19:23:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.71.
@@ -2400,19 +2429,19 @@ Thu Jun 18 13:02:21 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 	(sound_flush): Added sound chip state dumping to dump-device
 	output file.
 	(sound_prevent_clk_overflow): Call machine_prevent_clk_overflow().
-	(sound_read): New function. Handles all operations needed when reading
-	from sound chip.
-	(sound_store): New function. Handles all operations needed when
+	(sound_read): New function.  Handles all operations needed when
+	reading from sound chip.
+	(sound_store): New function.  Handles all operations needed when
 	writing to sound chip. Reimplemented dump -device support, which
 	was temporarily dropped at sound code reorganization.
 
 	* pet/petsound.c: Added include stdio.h.
 
-	* pet/petsound.c: Changed machine -callbacks to new structure (lots
-	of changes).
+	* pet/petsound.c: Changed machine -callbacks to new structure
+	(lots of changes).
 
-	* c64/sid.h: Removed sid_prevent_clk_overflow() prototype. It is now
-	replaced with machine -callback.
+	* c64/sid.h: Removed sid_prevent_clk_overflow() prototype.  It is
+	now replaced with machine -callback.
 
 	* c64/sid.c: Changed machine -callbacks to new structure (lots of
  	changes).
@@ -2422,9 +2451,9 @@ Thu Jun 18 13:02:21 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 	* c128/c128.c (vsync_hook): Replaced sid_prevent_clk_overflow() with
 	sound_prevent_clk_overflow().
 
-	* sounddrv/sounddummy.c (dummy_write): Added write-callback to dummy
- 	-device. Now this is identical to speed -device, but it's not a big
-	deal.
+	* sounddrv/sounddummy.c (dummy_write): Added write-callback to
+	dummy -device.  Now this is identical to speed -device, but it's
+	not a big deal.
 
 Wed Jun 17 22:07:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

@@ -449,6 +449,8 @@ sid.o: sid.c ../../src/vice.h ../../src/config.h sid.h ../../src/sound.h \
 	../../src/resources.h ../../src/utils.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/mos6510.h ../../src/6510core.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/vmachine.h \
+	vicii.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	wave6581.h wave8580.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h vicii.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
