@@ -62,7 +62,7 @@
 #endif
 
 /* Windows portability cruft.  */
-#ifdef WIN32
+#if defined (WIN32) && !defined(__GNUC__)
 #include "lose32.h"
 #endif
 #ifdef UNDER_CE
@@ -72,11 +72,6 @@
 /* RISC OS specific stuff */
 #ifdef __riscos
 #include "ROlib.h"
-#endif
-
-/* BeOS specific stuff */
-#ifdef __BEOS__
-#include "beos.h"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -129,13 +124,6 @@ extern unsigned int get_path_max();
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-/* Some platforms (most notably BeOS and Windows), do not call `main()' as
-   the first function.  If this has not been decided so far, fall back to the
-   standard way.  */
-#ifndef MAIN_PROGRAM
-#define MAIN_PROGRAM(argc, argv)        main(argc, argv)
-#endif
 
 /* Internationalization stuff */
 #if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)

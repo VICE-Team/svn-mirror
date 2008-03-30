@@ -21,7 +21,7 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	beos.h \
+	beosmain.c \
 	c128ui.cc \
 	c128ui.h \
 	cbm2ui.cc \
@@ -36,8 +36,6 @@ libarch_a_SOURCES = \
 	kbd.h \
 	main.cc \
 	main.h \
-	main_exit.c \
-	main_exit.h \
 	mouse.cc \
 	mouse.h \
 	petui.cc \
