@@ -262,7 +262,7 @@ int t64_seek_to_next_file(t64_t *t64, int allow_rewind)
         }
 
         rec = t64->file_records + n;
-        if (rec->entry_type != T64_FILE_RECORD_FREE) {
+        if (rec->entry_type == T64_FILE_RECORD_NORMAL) {
             t64->current_file_number = n;
             t64->current_file_seek_position = 0;
             return t64->current_file_number;
