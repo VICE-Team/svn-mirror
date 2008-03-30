@@ -90,9 +90,6 @@ static int mem_cartridge_type = CARTRIDGE_NONE;
 #ifdef HAVE_RS232
 /* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
 static int acia_de_enabled;
-
-/* Flag: Do we enable the $D6** ACIA RS232 interface emulation?  */
-static int acia_d6_enabled;
 #endif
 
 static void cartridge_config_changed(BYTE mode);
@@ -193,17 +190,13 @@ static int set_kernal_revision(resource_value_t v)
 }
 
 #ifdef HAVE_RS232
-static int set_acia_d6_enabled(resource_value_t v)
-{
-    acia_d6_enabled = (int) v;
-    return 0;
-}
 
 static int set_acia_de_enabled(resource_value_t v)
 {
     acia_de_enabled = (int) v;
     return 0;
 }
+
 #endif
 
 static resource_t resources[] = {
@@ -224,8 +217,6 @@ static resource_t resources[] = {
 #ifdef HAVE_RS232
     { "AciaDE", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) &acia_de_enabled, set_acia_de_enabled },
-    { "AciaD6", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &acia_d6_enabled, set_acia_d6_enabled },
 #endif
     { NULL }
 };
@@ -571,26 +562,6 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
     return rand();
 }
 
-void REGPARM2 store_d6(ADDRESS addr, BYTE value)
-{
-#if 0                           /*def HAVE_RS232 */
-    if (acia_d6_enabled)
-        store_acia2(addr, value);
-    else
-#endif
-        store_sid(addr, value);
-    return;
-}
-
-BYTE REGPARM1 read_d6(ADDRESS addr)
-{
-#if 0                           /*def HAVE_RS232 */
-    if (acia_d6_enabled)
-        return read_acia2(addr);
-#endif
-    return read_sid(addr);
-}
-
 BYTE REGPARM1 read_rom(ADDRESS addr)
 {
     switch (addr & 0xf000) {
@@ -795,8 +766,8 @@ void initialize_memory(void)
                 set_write_hook(j, i, store_sid);
             }
             for (i = 0xd6; i <= 0xd7; i++) {
-                mem_read_tab[j][i] = read_d6;
-                set_write_hook(j, i, store_d6);
+                mem_read_tab[j][i] = read_sid;
+                set_write_hook(j, i, store_sid);
             }
             for (i = 0xd8; i <= 0xdb; i++) {
                 mem_read_tab[j][i] = read_colorram;
@@ -1144,7 +1115,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
         break;
       case 0xd600:
       case 0xd700:
-        store_d6(addr, byte);
+        store_sid(addr, byte);
         break;
       case 0xd800:
       case 0xd900:
@@ -1178,10 +1149,9 @@ static BYTE read_bank_io(ADDRESS addr)
         return read_vic(addr);
       case 0xd400:
       case 0xd500:
-        return read_sid(addr);
       case 0xd600:
       case 0xd700:
-        return read_d6(addr);
+        return read_sid(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
@@ -1206,13 +1176,12 @@ static BYTE peek_bank_io(ADDRESS addr)
       case 0xd100:
       case 0xd200:
       case 0xd300:
-        return read_vic(addr);  /* FIXME */
+        return peek_vic(addr);
       case 0xd400:
       case 0xd500:
-        return read_sid(addr);
       case 0xd600:
       case 0xd700:
-        return read_d6(addr);   /* FIXME */
+        return read_sid(addr);
       case 0xd800:
       case 0xd900:
       case 0xda00:
@@ -1365,9 +1334,16 @@ int mem_write_snapshot_module(snapshot_t *s)
     if (snapshot_module_close(m) < 0)
         goto fail;
 
-    /* REU Module.  */
-
+    /* REU module.  */
     if (reu_enabled && reu_write_snapshot_module(s) < 0)
+        goto fail;
+
+    /* IEEE 488 module.  */
+    if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
+        goto fail;
+
+    /* ACIA module.  */
+    if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
         goto fail;
 
     return 0;
@@ -1412,11 +1388,30 @@ int mem_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     /* REU module.  */
-
     if (reu_read_snapshot_module(s) < 0)
         reu_enabled = 0;
     else
         reu_enabled = 1;
+
+    /* IEEE488 module.  */
+    if (tpi_read_snapshot_module(s) < 0)
+        ieee488_enabled = 0;
+    else {
+        /* FIXME: Why do we need to do so???  */
+        reset_tpi();
+        ieee488_enabled = 1;
+    }
+
+#ifdef HAVE_RS232
+    /* ACIA module.  */
+    if (acia1_read_snapshot_module(s) < 0)
+        acia_de_enabled = 0;
+    else {
+        /* FIXME: Why do we need to do so???  */
+        reset_acia1();          /* Clear interrupts.  */
+        acia_de_enabled = 1;
+    }
+#endif
 
     ui_update_menus();
 
