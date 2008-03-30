@@ -188,6 +188,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
     if (been_activated) {
         char *default_item, *directory;
         char *name, *file;
+        unsigned int file_number = 0;
 
         s = (char *)file_system_get_disk_name((unsigned int)param);
         fname_split(s, &directory, &default_item);
@@ -195,18 +196,21 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         name = tui_file_selector("Attach a disk image", directory,
                                  "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;"
                                  "*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip;*.gz;*.lzh",
-                                 default_item, image_contents_read_disk, &file);
-        if (file != NULL) {
-            if (autostart_disk(name, file, 0) < 0)
+                                 default_item, image_contents_read_disk, &file,
+                                 &file_number);
+        if (file_number > 0) {
+            if (autostart_disk(name, NULL, file_number) < 0)
                 tui_error("Cannot autostart disk image.");
             else
                 *behavior = TUI_MENU_BEH_RESUME;
-            free(file);
         } else  if (name != NULL
                     && (s == NULL || strcasecmp(name, s) != 0)
                     && file_system_attach_disk((int)param, name) < 0) {
             tui_error("Invalid disk image.");
         }
+
+        if (file != NULL)
+            free(file);
 
         ui_update_menus();
 
@@ -248,7 +252,7 @@ static TUI_MENU_CALLBACK(create_set_disk_image_type_callback)
 
 static char *create_image_selector(const char *title)
 {
-    return tui_file_selector(title, NULL, "*.d64", NULL, NULL, NULL);
+    return tui_file_selector(title, NULL, "*.d64", NULL, NULL, NULL, NULL);
 }
 
 static TUI_MENU_CALLBACK(create_disk_image_name_callback)
