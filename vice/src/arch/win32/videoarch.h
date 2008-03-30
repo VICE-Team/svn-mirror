@@ -38,31 +38,9 @@
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
-#if 0
 typedef struct video_frame_buffer_s {
-    LPDIRECTDRAWSURFACE dd_surface;
-    DDSURFACEDESC dd_surface_desc;
+    BYTE dummy;
 } video_frame_buffer_t;
-/* Warning: This assumes the surface has been properly locked and
-   corresponding values have been copied in the `dd_surface_desc' member.
-   This is guarranteed by the module itself.  */
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->dd_surface_desc.dwWidth;
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((PIXEL *)(f)->dd_surface_desc.lpSurface \
-                                            + (n) * (f)->dd_surface_desc.lPitch)
-#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
-
-#else
-
-typedef struct video_frame_buffer_s {
-    int     width;
-    int     height;
-    PIXEL   *buffer;
-} video_frame_buffer_t;
-
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer + (n) * (f)->width)
-#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
-#endif
 
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
@@ -79,7 +57,6 @@ typedef struct video_canvas_s {
     PIXEL *pixels;
     PIXEL *pixel_translate;
     HWND hwnd;
-//    video_frame_buffer_t      frame_buffer;
     LPDIRECTDRAW        dd_object;
     LPDIRECTDRAW2       dd_object2;
     LPDIRECTDRAWSURFACE primary_surface;
@@ -95,19 +72,18 @@ typedef struct video_canvas_s {
 
 const char *dd_error(HRESULT ddrval);
 
-int set_palette(video_canvas_t *c);
-int set_physical_colors(video_canvas_t *c);
-void video_frame_buffer_translate(video_canvas_t *c);
+extern int set_palette(video_canvas_t *c);
+extern int set_physical_colors(video_canvas_t *c);
 
+extern video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
 
-video_canvas_t *canvas_find_canvas_for_hwnd(HWND hwnd);
+extern void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
 
-void canvas_set_border_color(video_canvas_t *canvas, BYTE color);
+extern void canvas_render(video_canvas_t *c, video_frame_buffer_t *f,
+                         int xs, int ys, int xi, int yi, int w, int h);
 
-void canvas_render(video_canvas_t *c, video_frame_buffer_t *f,
-                   int xs, int ys, int xi, int yi, int w, int h);
-
-void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h);
+extern void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w,
+                          int h);
 
 #endif
 
