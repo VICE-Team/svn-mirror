@@ -36,6 +36,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c128-resources.h"
 #include "c128.h"
 #include "c128mem.h"
 #include "c128mmu.h"
@@ -187,7 +188,7 @@ int machine_init_resources(void)
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
         || video_init_resources() < 0
-        || c128_mem_init_resources() < 0
+        || c128_init_resources() < 0
         || vic_ii_init_resources() < 0
         || vdc_init_resources() < 0
         || sound_init_resources() < 0
