@@ -13,6 +13,8 @@ libplus4_a_SOURCES = \
 	plus4-cmdline-options.h \
 	plus4-resources.c \
 	plus4-resources.h \
+	plus4-snapshot.c \
+	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
 	plus4cpu.c \

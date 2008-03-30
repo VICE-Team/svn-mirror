@@ -33,6 +33,7 @@
 #include "autostart.h"
 #include "c610-cmdline-options.h"
 #include "c610-resources.h"
+#include "c610-snapshot.h"
 #include "c610.h"
 #include "c610acia.h"
 #include "c610cia.h"
@@ -436,7 +437,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
     }
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0
+        || c610_snapshot_write_module(s, save_roms) < 0
         || ((!isC500) && crtc_write_snapshot_module(s) < 0)
         || cia1_write_snapshot_module(s) < 0
         || tpi1_write_snapshot_module(s) < 0
@@ -481,7 +482,7 @@ int machine_read_snapshot(const char *name)
         || ((!isC500) && crtc_read_snapshot_module(s) < 0)
         || (isC500 && vic_ii_read_snapshot_module(s) < 0)
         || (isC500 && c500_read_snapshot_module(s) < 0)
-        || mem_read_snapshot_module(s) < 0
+        || c610_snapshot_read_module(s) < 0
         || cia1_read_snapshot_module(s) < 0
         || tpi1_read_snapshot_module(s) < 0
         || tpi2_read_snapshot_module(s) < 0

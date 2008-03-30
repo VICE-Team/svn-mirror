@@ -40,7 +40,6 @@
 #include "plus4memlimit.h"
 #include "plus4tia1.h"
 #include "resources.h"
-#include "snapshot.h"
 #include "sysfile.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -640,26 +639,5 @@ void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
     *base = 0x0c00;
     *rows = 25;
     *columns = 40;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Snapshot.  */
-
-#define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
-
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
-static const char snap_mem_module_name[] = "C64MEM";
-
-int mem_write_snapshot_module(snapshot_t *s, int save_roms)
-{
-    return -1;
-}
-
-int mem_read_snapshot_module(snapshot_t *s)
-{
-    return -1;
 }
 

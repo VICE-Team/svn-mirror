@@ -42,6 +42,9 @@
 #define CBM2_KERNAL     "kernal"
 #define CBM2_KERNAL500  "kernal" FSDEV_EXT_SEP_STR "500"
 
+extern BYTE rom[C610_ROM_SIZE];
+extern BYTE chargen_rom[C610_CHARGEN_ROM_SIZE];
+
 extern int c610_mem_init_resources(void);
 extern int c610_mem_init_cmdline_options(void);
 
@@ -72,6 +75,10 @@ extern int mem_load_cart_6(const char *rom_name);
 extern void mem_initialize_memory(void);
 extern void mem_powerup(void);
 extern void mem_initialize_memory_bank(int i);
+extern int mem_checksum(void);
+
+extern int bank_exec;
+extern int bank_ind;
 
 #endif
 

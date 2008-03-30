@@ -64,6 +64,7 @@
                                         / (double)C500_PAL_CYCLES_PER_SEC))
 
 extern int cbm2_is_c500(void);
+extern int isC500;
 
 #endif
 

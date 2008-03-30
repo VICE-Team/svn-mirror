@@ -49,6 +49,7 @@
 #include "mon.h"
 #include "plus4-cmdline-options.h"
 #include "plus4-resources.h"
+#include "plus4-snapshot.h"
 #include "plus4.h"
 #include "plus4mem.h"
 #include "plus4ui.h"
@@ -396,7 +397,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         drive1_cpu_execute(clk);
 
     if (maincpu_write_snapshot_module(s) < 0
-        || mem_write_snapshot_module(s, save_roms) < 0
+        || plus4_snapshot_write_module(s, save_roms) < 0
         || ted_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         util_file_remove(name);
@@ -426,7 +427,7 @@ int machine_read_snapshot(const char *name)
     ted_prepare_for_snapshot();
 
     if (maincpu_read_snapshot_module(s) < 0
-        || mem_read_snapshot_module(s) < 0
+        || plus4_snapshot_read_module(s) < 0
         || ted_snapshot_read_module(s) < 0)
         goto fail;
 
