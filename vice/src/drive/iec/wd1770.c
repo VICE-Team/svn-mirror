@@ -89,54 +89,30 @@ static log_t wd1770_log = LOG_ERR;
 /* WD1770 external interface.  */
 
 /* Clock overflow handling.  */
-static void d0_clk_overflow_callback(CLOCK sub, void *data)
+static void clk_overflow_callback(CLOCK sub, void *data)
 {
-    if (wd1770[0].busy_clk > (CLOCK) 0)
-        wd1770[0].busy_clk -= sub;
-    if (wd1770[0].motor_spinup_clk > (CLOCK) 0)
-        wd1770[0].motor_spinup_clk -= sub;
-    if (wd1770[0].led_delay_clk > (CLOCK) 0)
-        wd1770[0].led_delay_clk -= sub;
-    if (wd1770[0].set_drq > (CLOCK) 0)
-        wd1770[0].set_drq -= sub;
+    unsigned int dnr;
+
+    dnr = (unsigned int)data;
+
+    if (wd1770[dnr].busy_clk > (CLOCK) 0)
+        wd1770[dnr].busy_clk -= sub;
+    if (wd1770[dnr].motor_spinup_clk > (CLOCK) 0)
+        wd1770[dnr].motor_spinup_clk -= sub;
+    if (wd1770[dnr].led_delay_clk > (CLOCK) 0)
+        wd1770[dnr].led_delay_clk -= sub;
+    if (wd1770[dnr].set_drq > (CLOCK) 0)
+        wd1770[dnr].set_drq -= sub;
 }
 
-static void d1_clk_overflow_callback(CLOCK sub, void *data)
-{
-    if (wd1770[1].busy_clk > (CLOCK) 0)
-        wd1770[1].busy_clk -= sub;
-    if (wd1770[1].motor_spinup_clk > (CLOCK) 0)
-        wd1770[1].motor_spinup_clk -= sub;
-    if (wd1770[1].led_delay_clk > (CLOCK) 0)
-        wd1770[1].led_delay_clk -= sub;
-    if (wd1770[1].set_drq > (CLOCK) 0)
-        wd1770[1].set_drq -= sub;
-}
-
-static void wd1770d0_init(void)
-{
-    clk_guard_add_callback(drive0_context.cpu->clk_guard,
-                           d0_clk_overflow_callback, NULL);
-}
-
-static void wd1770d1_init(void)
-{
-    clk_guard_add_callback(drive1_context.cpu->clk_guard,
-                           d1_clk_overflow_callback, NULL);
-}
-
-
-/* functions using drive context */
-
+/* Functions using drive context.  */
 void wd1770d_init(drive_context_t *drv)
 {
     if (wd1770_log == LOG_ERR)
         wd1770_log = log_open("WD1770");
 
-    if (drv->mynumber == 0)
-        wd1770d0_init();
-    else
-        wd1770d1_init();
+    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
+                           (void *)(drv->mynumber));
 }
 
 void REGPARM3 wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
