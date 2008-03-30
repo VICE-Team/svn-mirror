@@ -154,7 +154,7 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
 static void set_true_drive_emulation_mode(int on)
 {
-    resources_set_value("DriveTrueEmulation", (resource_value_t) on);
+    resources_set_value("DriveTrueEmulation", (resource_value_t)on);
     ui_update_menus();
 }
 
@@ -163,7 +163,7 @@ static int get_true_drive_emulation_state(void)
     int value;
 
     if (resources_get_value("DriveTrueEmulation",
-                            (resource_value_t *) & value) < 0)
+                            (resource_value_t *)&value) < 0)
         return 0;
 
     return value;
@@ -693,6 +693,7 @@ void autostart_reset(void)
         && autostartmode != AUTOSTART_NONE
         && autostartmode != AUTOSTART_ERROR) {
         autostartmode = AUTOSTART_NONE;
+        disk_eof_callback();
         deallocate_program_name();
         log_message(autostart_log, "Turned off.");
     }
