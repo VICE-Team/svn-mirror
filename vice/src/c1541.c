@@ -754,7 +754,6 @@ static int check_drive(int dev, int flags)
 
 static int attach_cmd(int nargs, char **args)
 {
-    char *name = NULL;
     int dev;
 
     switch (nargs) {
@@ -781,7 +780,7 @@ static int block_cmd(int nargs, char **args)
     int drive, track, sector, disp;
     DRIVE *floppy;
     BYTE *buf, str[20];
-    int err, cnt;
+    int cnt;
     int channel = 2;
 
     /* block <track> <sector> <disp> [<drive>]  show disk blocks in hex form */
@@ -1057,8 +1056,7 @@ static int copy_cmd(int nargs, char **args)
 
 static int delete_cmd(int nargs, char **args)
 {
-    DRIVE *floppy;
-    int err, i = 1;
+    int i = 1;
 
     if (check_drive(drive_number, CHK_RDY) < 0)
         return FD_NOTREADY;
@@ -1599,12 +1597,16 @@ static int rename_cmd(int nargs, char **args)
     if (p == NULL) {
         src_unit = drive_number;
         src_name = stralloc(args[1]);
+    } else {
+        src_name = stralloc(p);
     }
 
     p = extract_unit_from_file_name(args[2], &dest_unit);
     if (p == NULL) {
         dest_unit = drive_number;
         dest_name = stralloc(args[2]);
+    } else {
+        dest_name = stralloc(p);
     }
 
     if (dest_unit != src_unit) {
@@ -1646,9 +1648,6 @@ static int rename_cmd(int nargs, char **args)
 static int show_cmd(int nargs, char **args)
 {
     const char *text;
-    const char *p;
-    int x, y;
-    int num_lines, num_cols;
 
     if (strcasecmp(args[1], "copying") == 0) {
         text = license_text;
@@ -1963,7 +1962,6 @@ static int unlynx_cmd(int nargs, char **args)
 static int validate_cmd(int nargs, char **args)
 {
     int unit;
-    int err;
 
     switch (nargs) {
       case 1:
