@@ -41,6 +41,7 @@
 #include "uidatasette.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
+#include "uisid.h"
 #include "uimenu.h"
 #include "uivicii.h"
 #include "vsync.h"
@@ -245,6 +246,47 @@ static ui_menu_entry_t model_settings_submenu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_TOGGLE(SidFilters)
+
+#ifdef HAVE_RESID
+UI_MENU_DEFINE_TOGGLE(SidUseResid)
+#endif
+
+static ui_menu_entry_t sid_submenu[] = {
+    { N_("*Emulate filters"),
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("Chip model"),
+      NULL, NULL, sid_model_submenu },
+#ifdef HAVE_RESID
+    { "--" },
+    { N_("*Use reSID emulation"),
+      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
+    { N_("reSID sampling method"),
+      NULL, NULL, sid_resid_sampling_submenu },
+    { N_("reSID resampling passband..."),
+      (ui_callback_t)set_sid_resid_passband, NULL, NULL },
+#endif
+    { NULL },
+};
+
+UI_MENU_DEFINE_TOGGLE(Sound)
+
+static ui_menu_entry_t sid_options_submenu[] = {
+    { N_("*Enable sound playback"),
+      (ui_callback_t)toggle_Sound, NULL, NULL },
+#ifdef HAVE_RESID
+    { N_("*Use reSID emulation"),
+      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
+#endif
+    { N_("*Emulate filters"),
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("Chip model"),
+      NULL, NULL, sid_model_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
 /* FIXME: this is the same for all emulators besides the VIC20 so this
    should better go to uisettings.c, so we have only one copy for
    all of them, not 4 copies */
@@ -422,6 +464,8 @@ static ui_menu_entry_t c610_menu[] = {
       (ui_callback_t)CrtcMenu, NULL, crtc_palette_submenu },
     { N_("*VIC-II settings"),
       (ui_callback_t)VicMenu, NULL, vic_submenu },
+    { N_("SID settings"),
+      NULL, NULL, sid_submenu },
     { NULL }
 };
 
@@ -530,6 +574,8 @@ int c610_ui_init(void)
                                   ui_menu_separator,
 #endif
                                   joystick_options_submenu,
+                                  ui_menu_separator,
+                                  sid_options_submenu,
                                   ui_menu_separator,
                                   ui_drive_options_submenu,
                                   NULL),
