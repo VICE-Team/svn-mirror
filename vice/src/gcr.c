@@ -50,58 +50,47 @@ static const BYTE From_GCR_conv_data[32] =
       0,  9, 10, 11,  0, 13, 14,  0 };
 
 
-void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr)
+void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
 {
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 3;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] >> 2;
-    ptr++;
+    int i;
+    register unsigned int tdest = 0;    /* at least 16 bits for overflow shifting */
 
-    *ptr = GCR_conv_data[(*buffer) & 0x0f] << 6;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] << 1;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] >> 4;
-    ptr++;
+    for(i = 2; i < 10; i += 2, source++, dest++)
+    {
+        tdest <<= 5;  /* make room for the upper nybble */
+        tdest  |= GCR_conv_data[(*source) >> 4];
 
-    *ptr = GCR_conv_data[(*buffer) & 0x0f] << 4;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] >> 1;
-    ptr++;
+        tdest <<= 5;  /* make room for the lower nybble */
+        tdest  |= GCR_conv_data[(*source) & 0x0f];
 
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 7;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f] << 2;
-    buffer++;
-    *ptr |= GCR_conv_data[(*buffer) >> 4] >> 3;
-    ptr++;
+        *dest   = (BYTE)(tdest >> i);
+    }
 
-    *ptr = GCR_conv_data[(*buffer) >> 4] << 5;
-    *ptr |= GCR_conv_data[(*buffer) & 0x0f];
+    *dest   = (BYTE)tdest;
 }
 
-void gcr_convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr)
+void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
 {
-    BYTE gcr_bytes[8];
     int i;
+        /* at least 24 bits for shifting into bits 16...20 */
+    register DWORD tdest = *source;
 
-    gcr_bytes[0] =  (*buffer) >> 3;
-    gcr_bytes[1] =  ((*buffer) & 0x07) << 2;
-    buffer++;
-    gcr_bytes[1] |= (*buffer) >> 6;
-    gcr_bytes[2] =  ((*buffer) & 0x3e) >> 1;
-    gcr_bytes[3] =  ((*buffer) & 0x01) << 4;
-    buffer++;
-    gcr_bytes[3] |= ((*buffer) & 0xf0) >> 4;
-    gcr_bytes[4] =  ((*buffer) & 0x0f) << 1;
-    buffer++;
-    gcr_bytes[4] |= (*buffer) >> 7;
-    gcr_bytes[5] =  ((*buffer) & 0x7c) >> 2;
-    gcr_bytes[6] =  ((*buffer) & 0x03) << 3;
-    buffer++;
-    gcr_bytes[6] |= ((*buffer) & 0xe0) >> 5;
-    gcr_bytes[7] = (*buffer) & 0x1f;
+    tdest <<= 13;
 
-    for (i = 0; i < 4; i++, ptr++) {
-        *ptr = From_GCR_conv_data[gcr_bytes[2 * i]] << 4;
-        *ptr |= From_GCR_conv_data[gcr_bytes[2 * i + 1]];
+    for(i = 5; i < 13; i += 2, dest++)
+    {
+        source++;
+        tdest  |= ((DWORD)(*source)) << i;
+
+            /*  "tdest >> 16" could be optimized to a word
+             *  aligned access, hopefully the compiler does
+             *  this for us (in a portable way)
+             */
+        *dest   = From_GCR_conv_data[ (tdest >> 16) & 0x1f ] << 4;
+        tdest <<= 5;
+
+        *dest  |= From_GCR_conv_data[ (tdest >> 16) & 0x1f ];
+        tdest <<= 5;
     }
 }
 

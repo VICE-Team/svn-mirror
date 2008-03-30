@@ -48,8 +48,9 @@ typedef struct gcr_s {
 
 } gcr_t;
 
-extern void gcr_convert_4bytes_to_GCR(BYTE *buffer, BYTE *ptr);
-extern void gcr_convert_GCR_to_4bytes(BYTE *buffer, BYTE *ptr);
+extern void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest);
+extern void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest);
+
 extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
                                       unsigned int track, unsigned int sector,
                                       BYTE diskID1, BYTE diskID2,
