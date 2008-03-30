@@ -71,12 +71,16 @@ static enum {
     AUTOSTART_NONE,
     AUTOSTART_ERROR,
     AUTOSTART_HASTAPE,
+    AUTOSTART_PRESSPLAYONTAPE,
     AUTOSTART_LOADINGTAPE,
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
+
+#define AUTOSTART_WAIT_BLINK   0
+#define AUTOSTART_NOWAIT_BLINK 1
 
 /* Log descriptor.  */
 static log_t autostart_log = LOG_ERR;
@@ -111,7 +115,7 @@ static void deallocate_program_name(void)
     }
 }
 
-static enum { YES, NO, NOT_YET } check(const char *s)
+static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
     int screen_addr = (int)(mem_read((ADDRESS)(pnt))
                       | (mem_read((ADDRESS)(pnt + 1)) << 8));
@@ -119,13 +123,23 @@ static enum { YES, NO, NOT_YET } check(const char *s)
     int cursor_column = (int)mem_read((ADDRESS)(pntr));
     int addr, i;
 
-    if (!kbd_buf_is_empty() || cursor_column != 0 || mem_read(blnsw) != 0)
+    if (!kbd_buf_is_empty())
         return NOT_YET;
 
-    addr = screen_addr - line_length;
+    if (blink_mode == AUTOSTART_WAIT_BLINK && cursor_column != 0)
+        return NOT_YET;
+
+    if (blink_mode == AUTOSTART_WAIT_BLINK && mem_read(blnsw) != 0)
+        return NOT_YET;
+
+    if (blink_mode == AUTOSTART_WAIT_BLINK)
+        addr = screen_addr - line_length;
+    else
+        addr = screen_addr;
+
     for (i = 0; s[i] != '\0'; i++) {
-        if (mem_read((ADDRESS) (addr + i)) != s[i] % 64) {
-            if (mem_read((ADDRESS) (addr + i)) != (BYTE) 32)
+        if (mem_read((ADDRESS)(addr + i)) != s[i] % 64) {
+            if (mem_read((ADDRESS)(addr + i)) != (BYTE)32)
                 return NO;
             return NOT_YET;
         }
@@ -254,7 +268,7 @@ void autostart_advance(void)
 
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
-        switch (check("READY.")) {
+        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
           case YES:
             log_message(autostart_log, "Loading file.");
             if (autostart_program_name) {
@@ -264,8 +278,20 @@ void autostart_advance(void)
             } else {
                 kbd_buf_feed("LOAD\r");
             }
-            autostartmode = AUTOSTART_LOADINGTAPE;
+            autostartmode = AUTOSTART_PRESSPLAYONTAPE;
             deallocate_program_name();
+            break;
+          case NO:
+            autostart_disable();
+            break;
+          case NOT_YET:
+            break;
+        }
+        break;
+      case AUTOSTART_PRESSPLAYONTAPE:
+        switch (check("PRESS PLAY ON TAPE", AUTOSTART_NOWAIT_BLINK)) {
+          case YES:
+            autostartmode = AUTOSTART_LOADINGTAPE;
             datasette_control(DATASETTE_CONTROL_START);
             break;
           case NO:
@@ -276,7 +302,7 @@ void autostart_advance(void)
         }
         break;
       case AUTOSTART_LOADINGTAPE:
-        switch (check("READY.")) {
+        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
           case YES:
             log_message(autostart_log, "Starting program.");
             kbd_buf_feed("RUN\r");
@@ -290,7 +316,7 @@ void autostart_advance(void)
         }
         break;
       case AUTOSTART_HASDISK:
-        switch (check("READY.")) {
+        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
           case YES:
             {
                 int traps;
@@ -345,7 +371,7 @@ void autostart_advance(void)
         }
         break;
       case AUTOSTART_HASSNAPSHOT:
-        switch (check("READY.")) {
+        switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
           case YES:
             log_message(autostart_log, "Restoring snapshot.");
             maincpu_trigger_trap(load_snapshot_trap, (void*)0);
