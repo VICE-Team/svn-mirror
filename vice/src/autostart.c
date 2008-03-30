@@ -43,6 +43,7 @@
 #include "charsets.h"
 #include "datasette.h"
 #include "fsdevice.h"
+#include "imagecontents.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
 #include "log.h"
@@ -387,7 +388,8 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 }
 
 /* Autostart tape image `file_name'.  */
-int autostart_tape(const char *file_name, const char *program_name)
+int autostart_tape(const char *file_name, const char *program_name,
+                   unsigned int program_number)
 {
     if (file_name == NULL || !autostart_enabled)
 	return -1;
@@ -401,13 +403,31 @@ int autostart_tape(const char *file_name, const char *program_name)
     log_message(autostart_log, "Attached file `%s' as a tape image.",
                 file_name);
     autostartmode = AUTOSTART_HASTAPE;
-    reboot_for_autostart(program_name);
+
+    if (program_name == NULL && program_number > 0) {
+        char *number_name;
+
+        number_name = image_contents_tape_filename_by_number(file_name,
+                                                             program_number);
+
+        if (number_name == NULL) {
+            autostartmode = AUTOSTART_ERROR;
+            deallocate_program_name();
+            return -1;
+        }
+
+        reboot_for_autostart(number_name);
+        free (number_name);
+    } else {
+        reboot_for_autostart(program_name);
+    }
 
     return 0;
 }
 
 /* Autostart disk image `file_name'.  */
-int autostart_disk(const char *file_name, const char *program_name)
+int autostart_disk(const char *file_name, const char *program_name,
+                   unsigned int program_number)
 {
     if (file_name == NULL || !autostart_enabled)
 	return -1;
@@ -423,8 +443,25 @@ int autostart_disk(const char *file_name, const char *program_name)
                 file_name);
 
     autostartmode = AUTOSTART_HASDISK;
-    reboot_for_autostart(program_name);
 
+    if (program_name == NULL && program_number > 0) {
+        char *number_name;
+
+        number_name = image_contents_disk_filename_by_number(file_name,
+                                                             program_number);
+
+        if (number_name == NULL) {
+            file_system_detach_disk(8);
+            autostartmode = AUTOSTART_ERROR;
+            deallocate_program_name();
+            return -1;
+        }
+
+        reboot_for_autostart(number_name);
+        free (number_name);
+    } else {
+        reboot_for_autostart(program_name);
+    }
     return 0;
 }
 
@@ -526,7 +563,8 @@ int autostart_prg(const char *file_name)
 /* ------------------------------------------------------------------------- */
 
 /* Autostart `file_name', trying to auto-detect its type.  */
-int autostart_autodetect(const char *file_name, const char *program_name)
+int autostart_autodetect(const char *file_name, const char *program_name,
+                         unsigned int program_number)
 {
     if (file_name == NULL)
         return -1;
@@ -539,11 +577,11 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 
     log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
 
-    if (autostart_disk(file_name, program_name) == 0) {
+    if (autostart_disk(file_name, program_name, program_number) == 0) {
         log_message(autostart_log, "`%s' recognized as disk image.", file_name);
         return 0;
     }
-    if (autostart_tape(file_name, program_name) == 0) {
+    if (autostart_tape(file_name, program_name, program_number) == 0) {
         log_message(autostart_log, "`%s' recognized as tape image.", file_name);
         return 0;
     }
