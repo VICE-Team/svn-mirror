@@ -80,25 +80,6 @@ char   *sprint_binary(BYTE code)
 
 /* ------------------------------------------------------------------------- */
 
-char   *sprint_ophex (ADDRESS p)
-{
-    static char hexbuf [20];
-    char *bp;
-    int   j, len;
-
-    len = clength[lookup[mem_read(p)].addr_mode];
-    *hexbuf = '\0';
-    for (j = 0, bp = hexbuf; j < 3 ; j++, bp += 3) {
-	if (j < len) {
-	    sprintf (bp, "%02X ", mem_read(p+j));
-	} else {
-	    strcat (bp, "   ");
-	}
-    }
-    return hexbuf;
-}
-
-
 char   *sprint_opcode(ADDRESS counter, int base)
 {
     BYTE    x = mem_read(counter);

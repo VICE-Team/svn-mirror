@@ -57,7 +57,6 @@
 
 #define ASS_CODE	13
 
-
 extern struct lookup_tag {
     const char    *mnemonic;	/* Selfdocumenting? */
     short          addr_mode;
@@ -68,7 +67,6 @@ extern struct lookup_tag {
 } lookup[];
 
 extern int clength[];
-extern char *modename[];
 
 /* Addressing mode (addr_mode) is used when instruction is diassembled
  * or assembled by diassembler or assembler. This is used i.e.
@@ -136,120 +134,5 @@ extern char *modename[];
 
 #define M_MAX	23
 #endif
-
-/* optimise searching a little */
-#define OP_MNEM_SPC	0x04
-
-#define OP_IMPL_MIN	0x00
-#define OP_IMPL_MAX	0xfa
-#define OP_IMPL_SPC	0x02
-
-#define OP_IMM_MIN	0x09
-#define OP_IMM_MAX	0xeb
-#define OP_IMM_SPC	0x01	/* not used */
-
-#define OP_ACCU_MIN	0x0a
-#define OP_ACCU_MAX	0x6a
-#define OP_ACCU_SPC	0x20
-
-#define OP_ABS_MIN	0x0c
-#define OP_ABS_MAX	0xff
-#define OP_ABS_SPC	0x04
-
-
-/* Symbol definitions */
-
-#define SYMBOL_BYTE	1
-#define SYMBOL_WORD	2
-#define SYMBOL_FOUND	16
-#define SYMBOL_SET	32
-#define SYMBOL_VALID	64
-
-#define SYMBOL_MAX_CHARS 8
-	/* For portability, labels should be 6 characters or less. */
-
-/* Error messages */
-
-#define ERRORS_TO_STOP	20	/* screenfull on terminal */
-
-#define E_OK			0
-
- /* Warnings */
-
-#define E_UNDOCUMENTED		(-1)
-#define E_SIZE			(-2)
-#define E_LARGE_VALUE		(-3)
-#define E_LONG_NAME		(-4)
-#define E_FORWARD_REF		(-5)
-
- /* Errors */
-#define E_ERROR			(-64)	/* General error */
-
-/* Line Syntax */
-#define E_SYNTAX		(E_ERROR)
-#define E_PARSE_ERROR		(E_ERROR -1)
-#define E_TOO_MANY_ERRORS	(E_ERROR -2)
-
-/* Assembler */
-#define E_BAD_IDENTIFIER	(E_ERROR -8)
-#define E_BAD_DIRECTIVE		(E_ERROR -9)
-#define E_SYMBOL_UNDEFINED	(E_ERROR -10)
-#define E_SYMBOL_REDEF		(E_ERROR -11)
-#define E_PC_DECREMENT		(E_ERROR -12)
-
-/* Mnemonic */
-#define E_BAD_MNEM		(E_ERROR -16)
-#define E_LONG_BRANCH		(E_ERROR -17)
-#define E_MISSING_OPER		(E_ERROR -18)
-
-/* Operand Syntax */
-#define E_PARAMETER_SYNTAX	(E_ERROR -24)
-#define E_TOO_MANY_COMMAS	(E_ERROR -25)
-#define E_RIGHT_PARENTHESIS	(E_ERROR -26)
-#define E_LEFT_PARENTHESIS	(E_ERROR -27)
-#define E_PARENTHESIS		(E_ERROR -28)
-
-#define E_MIXED_XY		(E_ERROR -30)
-#define E_MISSING_XY		(E_ERROR -31)
-#define E_BAD_INDEX		(E_ERROR -32)
-
-
-
- /* Warnings */
-#define EM_UNDOCUMENTED		"Undocumented opcode used"
-#define EM_SIZE			"Operand length changed"
-#define EM_LARGE_VALUE		"Value too large"
-#define EM_LONG_NAME		"Symbol name too long"
-#define EM_FORWARD_REF		"Forward reference"
-
- /* Errors */
-#define EM_SYNTAX		"Syntax error"
-#define EM_PARSE_ERROR		"Parse error - I don't get it"
-#define EM_TOO_MANY_ERRORS	"Keep your filthy fingers off here!"
-
-#define EM_BAD_IDENTIFIER	"Identifier error"
-#define EM_BAD_DIRECTIVE	"Unrecognised directive"
-#define EM_SYMBOL_UNDEFINED	"Undefined symbol"
-#define EM_SYMBOL_REDEF 	"Symbol redefined"
-#define EM_PC_DECREMENT		"PC decrement"
-
-#define EM_BAD_MNEM		"Illegal mnemonic"
-#define EM_LONG_BRANCH		"Branch out of range"
-#define EM_MISSING_OPER		"Operand missing"
-
-#define EM_PARAMETER_SYNTAX 	"Parameter syntax error"
-#define EM_TOO_MANY_COMMAS  	"Too many commas found"
-#define EM_RIGHT_PARENTHESIS	"Too many right parenthesis, 1 is maximum"
-#define EM_LEFT_PARENTHESIS 	"Too many left parenthesis, 1 is maximum"
-#define EM_PARENTHESIS	    	"Not equally right and left parenthesis"
-
-#define EM_MIXED_XY         	"Too many index registers"
-#define EM_MISSING_XY		"Index register missing"
-#define EM_BAD_INDEX		"Invalid index register"
-
-/* ------------------------------------------------------------------------- */
-
-extern int ass(ADDRESS addr, int mode);
-extern int interpret_instr(char *line, ADDRESS adr, int mode);
 
 #endif  /* _ASM_H */

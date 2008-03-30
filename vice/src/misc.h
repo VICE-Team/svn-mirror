@@ -31,10 +31,8 @@
 
 #include "types.h"
 
-
 extern void    show ( void );
 extern char   *sprint_binary ( BYTE code );
-extern char   *sprint_ophex ( ADDRESS p);
 extern char   *sprint_opcode ( ADDRESS counter, int base );
 extern char   *sprint_disassembled ( ADDRESS counter, BYTE x, BYTE p1, BYTE p2, int base );
 
