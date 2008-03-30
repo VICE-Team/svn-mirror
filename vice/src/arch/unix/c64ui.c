@@ -53,43 +53,46 @@
 static UI_CALLBACK(attach_cartridge)
 {
     int type = (int)UI_MENU_CB_PARAM;
-    char *filename;
-    ui_button_t button;
-    static char *last_dir;
 
     suspend_speed_eval();
 
-    switch (type)
-		{
-		case CARTRIDGE_EXPERT:
-			/*
-			 * Expert cartridge has *no* image file.
-			 * It's only emulation that should be enabled!
-			 */
-			if (cartridge_attach_image(type, NULL) < 0)
-				ui_error(_("Invalid cartridge"));
-			break;
+    switch (type) {
+      case CARTRIDGE_EXPERT:
+        /*
+         * Expert cartridge has *no* image file.
+         * It's only emulation that should be enabled!
+         */
+        if (cartridge_attach_image(type, NULL) < 0)
+            ui_error(_("Invalid cartridge"));
+        break;
 
-		default:
-			{
-			filename = ui_select_file(_("Attach cartridge image"),
-				NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]",
-				&button, False);
+        default:
+        {
+            char *filename;
+            ui_button_t button;
+            static char *last_dir;
 
-			switch (button) {
-				case UI_BUTTON_OK:
-					if (cartridge_attach_image(type, filename) < 0)
-						ui_error(_("Invalid cartridge image"));
-					if (last_dir)
-						free(last_dir);
-					fname_split(filename, &last_dir, NULL);
-					break;
-				default:
-					/* Do nothing special. */
-					break;
-				}
-			}
-		}
+            filename = ui_select_file(_("Attach cartridge image"),
+                                      NULL, False, last_dir,
+                                      "*.[cCbB][rRiI][tTnN]",
+                                      &button, False);
+
+            switch (button) {
+              case UI_BUTTON_OK:
+                if (cartridge_attach_image(type, filename) < 0)
+                    ui_error(_("Invalid cartridge image"));
+                if (last_dir)
+                    free(last_dir);
+                fname_split(filename, &last_dir, NULL);
+                break;
+              default:
+                /* Do nothing special. */
+                break;
+            }
+            if (filename != NULL)
+                free(filename);
+        }
+    }
     ui_update_menus();
 }
 
