@@ -1,17 +1,11 @@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
-	64doc.txt \
-	Evaluation \
 	NLS-Howto.txt \
-	PETdoc.txt \
 	Readme.beos \
 	Readme.dos \
 	Win32-Howto.txt \
-	cbm_basic_tokens.txt \
-	drive_info.txt \
-	mon.txt \
-	serial.txt
+	mon.txt
 
 info_TEXINFOS = \
 	vice.texi
