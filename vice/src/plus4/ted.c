@@ -233,7 +233,7 @@ static int init_raster(void)
         return -1;
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
-    raster_enable_cache(raster, ted_resources.video_cache_enabled);
+    resources_touch("TEDVideoCache");
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled

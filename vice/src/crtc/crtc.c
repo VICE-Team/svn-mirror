@@ -50,6 +50,7 @@
 #include "raster-canvas.h"
 #include "raster-line.h"
 #include "raster-modes.h"
+#include "resources.h"
 #include "screenshot.h"
 #include "types.h"
 #include "utils.h"
@@ -382,7 +383,7 @@ raster_t *crtc_init(void)
 
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
-    raster_enable_cache(raster, crtc_resources.video_cache_enabled);
+    resources_touch("CrtcVideoCache");
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
                               ? crtc_resources.fullscreen_double_scan_enabled

@@ -68,6 +68,7 @@
 
 vic_t vic;
 
+
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&vic.raster, width, height);
@@ -175,8 +176,7 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
 
     /* check if row step is pending */
     if (vic.row_increase_line == vic.raster.ycounter
-        || 2 * vic.row_increase_line == vic.raster.ycounter)
-    {
+        || 2 * vic.row_increase_line == vic.raster.ycounter) {
         vic.row_counter++;
         
         vic.raster.ycounter = 0;
@@ -279,7 +279,7 @@ static int init_raster(void)
 
     raster_modes_set_idle_mode(raster->modes, VIC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_exposure_handler);
-    raster_enable_cache(raster, vic_resources.video_cache_enabled);
+    resources_touch("VICVideoCache");
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
                               ? vic_resources.fullscreen_double_scan_enabled

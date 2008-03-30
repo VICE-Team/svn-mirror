@@ -40,6 +40,7 @@
 #include "raster.h"
 #include "raster-line.h"
 #include "raster-modes.h"
+#include "resources.h"
 #include "screenshot.h"
 #include "snapshot.h"
 #include "utils.h"
@@ -145,7 +146,7 @@ static int init_raster(void)
 
     raster_modes_set_idle_mode(raster->modes, VDC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vdc_exposure_handler);
-    raster_enable_cache(raster, vdc_resources.video_cache_enabled);
+    resources_touch("VDCVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
     vdc_set_geometry();

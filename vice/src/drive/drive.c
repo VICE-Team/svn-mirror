@@ -260,7 +260,7 @@ CLOCK drive_clk[2];
 int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 {
     unsigned int track;
-    int i, sync_factor;
+    int i;
 
     if (rom_loaded)
         return 0;
@@ -366,10 +366,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
-    resources_get_value("MachineVideoStandard",
-                        (resource_value_t *)&sync_factor);
-    resources_set_value("MachineVideoStandard",
-                        (resource_value_t)sync_factor);
+    resources_touch("MachineVideoStandard");
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
@@ -450,8 +447,6 @@ static void drive_set_clock_frequency(unsigned int type, unsigned int dnr)
 
 int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
 {
-    int sync_factor;
-
     if (drive_rom_check_loaded(type) < 0)
         return -1;
 
@@ -464,10 +459,7 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     drive[dnr].type = type;
     drive[dnr].side = 0;
     drive_rom_setup_image(dnr);
-    resources_get_value("MachineVideoStandard",
-                        (resource_value_t *)&sync_factor);
-    resources_set_value("MachineVideoStandard",
-                        (resource_value_t)sync_factor);
+    resources_touch("MachineVideoStandard");
     drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
@@ -1310,17 +1302,12 @@ void drive_set_ntsc_sync_factor(void)
 
 void drive_set_1571_sync_factor(int new_sync, unsigned int dnr)
 {
-    int sync_factor;
-
     if (rom_loaded) {
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
         initialize_rotation(new_sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
-        resources_get_value("MachineVideoStandard",
-                             (resource_value_t *)&sync_factor);
-        resources_set_value("MachineVideoStandard",
-                            (resource_value_t)sync_factor);
+        resources_touch("MachineVideoStandard");
     }
 }
 

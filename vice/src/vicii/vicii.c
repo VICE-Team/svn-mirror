@@ -334,7 +334,7 @@ static int init_raster(void)
         return -1;
     raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
-    raster_enable_cache(raster, vic_ii_resources.video_cache_enabled);
+    resources_touch("VICIIVideoCache");
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan(raster, fullscreen_is_enabled
@@ -398,6 +398,11 @@ raster_t *vic_ii_init(void)
 
     vic_ii_draw_init();
     vic_ii_sprites_init();
+
+    vic_ii.num_idle_3fff = 0;
+    vic_ii.num_idle_3fff_old = 0;
+    vic_ii.idle_3fff = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
+    vic_ii.idle_3fff_old = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
 
     vic_ii.initialized = 1;
 

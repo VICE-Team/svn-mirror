@@ -130,8 +130,8 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
 
     if (snapshot_module_read_byte_array(m, mem_kernal_rom,
                                         C64_KERNAL_ROM_SIZE) < 0

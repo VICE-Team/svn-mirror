@@ -448,6 +448,16 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     return status;
 }
 
+int resources_touch(const char *name)
+{
+    void *tmp;
+
+    if (resources_get_value(name, (resource_value_t *)&tmp) < 0)
+        return -1;
+
+    return resources_set_value(name, (resource_value_t)tmp);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Check whether `buf' is the emulator ID for the machine we are emulating.  */
