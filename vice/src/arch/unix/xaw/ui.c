@@ -341,6 +341,7 @@ CallbackFunc(UiToggleSpriteToBackgroundCollisions);
 CallbackFunc(UiToggleEmuID);
 CallbackFunc(UiToggleIEEE488);
 CallbackFunc(UiToggleREU);
+CallbackFunc(UiToggleActionReplay);
 #endif
 #if defined(CBM64) || defined(C128) || defined(PET)
 CallbackFunc(UiSwapJoystickPorts);
@@ -364,6 +365,7 @@ CallbackFunc(UiToggleFileSystemDevice8);
 CallbackFunc(UiToggleFileSystemDevice9);
 CallbackFunc(UiToggleFileSystemDevice10);
 CallbackFunc(UiToggleFileSystemDevice11);
+CallbackFunc(UiToggleFSDeviceConvertP00);
 
 #ifdef SOUND
 CallbackFunc(UiToggleSound);
@@ -2692,10 +2694,9 @@ CallbackFunc(UiSwapJoystickPorts)
 #endif /* HAS_JOYSTICK */
 
 DEFINE_TOGGLE(UiToggleEmuID, EmuID)
-
 DEFINE_TOGGLE(UiToggleIEEE488, IEEE488)
-
 DEFINE_TOGGLE(UiToggleREU, REU)
+DEFINE_TOGGLE(UiToggleActionReplay, ActionReplay)
 
 /* ------------------------------------------------------------------------- */
 
@@ -2759,6 +2760,7 @@ DEFINE_TOGGLE(UiToggleFileSystemDevice8, FileSystemDevice8)
 DEFINE_TOGGLE(UiToggleFileSystemDevice9, FileSystemDevice9)
 DEFINE_TOGGLE(UiToggleFileSystemDevice10, FileSystemDevice10)
 DEFINE_TOGGLE(UiToggleFileSystemDevice11, FileSystemDevice11)
+DEFINE_TOGGLE(UiToggleFSDeviceConvertP00, FSDeviceConvertP00)
 
 /* ------------------------------------------------------------------------- */
 

@@ -348,6 +348,8 @@ MenuEntry ChangeFileSystemDeviceSubmenu[] = {
 
 MenuEntry SerialSettingsSubmenu[] = {
     { "File system access", NULL, NULL, ChangeFileSystemDeviceSubmenu },
+    { "*Convert P00 file names", (UiMenuCallback) UiToggleFSDeviceConvertP00,
+      NULL, NULL },
     { "--" },
     { "*Disable serial traps", (UiMenuCallback) UiToggleNoTraps, NULL, NULL },
     { NULL }
@@ -370,6 +372,8 @@ MenuEntry SpecialFeaturesSubmenu[] = {
     { "*512K RAM Expansion Unit",
       (UiMenuCallback) UiToggleREU, NULL, NULL },
 #endif
+    { "*Action Replay Cartridge",
+      (UiMenuCallback) UiToggleActionReplay, NULL, NULL },
 #endif
     { NULL }
 };
