@@ -27,6 +27,8 @@
 #ifndef _RENDERYUV_H
 #define _RENDERYUV_H
 
+#include "types.h"
+
 /* Image struct, modeled after XvImage. */
 typedef struct {
   int width, height;
@@ -34,7 +36,7 @@ typedef struct {
   int num_planes;
   int *pitches;               /* bytes */
   int *offsets;               /* bytes */
-  char *data;
+  BYTE *data;
 } image_t;
 
 /* A FOURCC consists of four bytes that can be interpreted either as

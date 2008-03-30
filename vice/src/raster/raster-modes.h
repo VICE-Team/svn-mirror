@@ -91,8 +91,8 @@ extern int raster_modes_set_idle_mode(raster_modes_t *modes,
 inline static int raster_modes_fill_cache(raster_modes_t *modes,
                                           unsigned int mode_num,
                                           struct raster_cache_s *c,
-                                          int *changed_start,
-                                          int *changed_end,
+                                          unsigned int *changed_start,
+                                          unsigned int *changed_end,
                                           int no_check)
 {
     raster_modes_def_t *mode;

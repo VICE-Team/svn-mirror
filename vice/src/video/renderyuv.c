@@ -505,9 +505,9 @@ void render_4_1_1(image_t* image,
 		  int dest_x, int dest_y)
 {
   unsigned int x, y;
-  unsigned char* Yptr = image->data + image->offsets[plane_y];
-  unsigned char* Uptr = image->data + image->offsets[plane_u];
-  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  BYTE *Yptr = image->data + image->offsets[plane_y];
+  BYTE *Uptr = image->data + image->offsets[plane_u];
+  BYTE *Vptr = image->data + image->offsets[plane_v];
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
@@ -572,9 +572,9 @@ void render2x_4_1_1(image_t* image,
 		    int double_scan, int pal_scanline_shade)
 {
   unsigned int x, y;
-  unsigned char* Yptr = image->data + image->offsets[plane_y];
-  unsigned char* Uptr = image->data + image->offsets[plane_u];
-  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  BYTE *Yptr = image->data + image->offsets[plane_y];
+  BYTE *Uptr = image->data + image->offsets[plane_u];
+  BYTE *Vptr = image->data + image->offsets[plane_v];
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
@@ -627,9 +627,9 @@ void render_4_1_1_pal(image_t* image,
   unsigned int
     YUVm10, YUV00, YUV10, YUV20,
     YUVm11, YUV01, YUV11, YUV21;
-  unsigned char* Yptr = image->data + image->offsets[plane_y];
-  unsigned char* Uptr = image->data + image->offsets[plane_u];
-  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  BYTE *Yptr = image->data + image->offsets[plane_y];
+  BYTE *Uptr = image->data + image->offsets[plane_u];
+  BYTE *Vptr = image->data + image->offsets[plane_v];
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
@@ -772,9 +772,9 @@ void render2x_4_1_1_pal(image_t* image,
   int lineno = 0;
   YUV_avg* linepre;
   YUV_avg* line;
-  unsigned char* Yptr = image->data + image->offsets[plane_y];
-  unsigned char* Uptr = image->data + image->offsets[plane_u];
-  unsigned char* Vptr = image->data + image->offsets[plane_v];
+  BYTE *Yptr = image->data + image->offsets[plane_y];
+  BYTE *Uptr = image->data + image->offsets[plane_u];
+  BYTE *Vptr = image->data + image->offsets[plane_v];
   int Ypitch = image->pitches[plane_y];
   int Upitch = image->pitches[plane_u];
   int Vpitch = image->pitches[plane_v];
