@@ -41,6 +41,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
+#include "uiide64.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
@@ -230,6 +231,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--" },
     { N_("RAM Expansion Unit"),
       NULL, NULL, reu_submenu },
+    { N_("IDE64 Emulation"),
+      NULL, NULL, ide64_submenu },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { N_("*IEEE488 interface emulation"),

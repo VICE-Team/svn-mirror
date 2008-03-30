@@ -41,6 +41,7 @@
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
+#include "uiide64.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
@@ -258,6 +259,8 @@ UI_MENU_DEFINE_TOGGLE(Mouse)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("RAM Expansion Unit"),
       NULL, NULL, reu_submenu },
+    { N_("IDE64 Emulation"),
+      NULL, NULL, ide64_submenu },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
 #ifdef HAVE_MOUSE
@@ -326,7 +329,7 @@ static ui_menu_entry_t c64_menu[] = {
       NULL, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
-    { N_("I/O extensions at $DFxx"),
+    { N_("I/O extensions"),
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
       NULL, NULL, rs232_submenu },
