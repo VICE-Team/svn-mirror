@@ -74,14 +74,6 @@ extern int debugflg;
 #  define INTERRUPT_DELAY 0
 #endif
 
-/* Maximum value of a CLOCK.  */
-#define CLOCK_MAX (~((CLOCK)0))
-
-/* Define the tick when the clock counter overflow must be prevented and what
-   value should be subtracted from the counter when the tick is reached.
-   FIXME: To be moved somewhere else.  */
-#define PREVENT_CLK_OVERFLOW_TICK (CLOCK_MAX - 0x100000)
-
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
     IK_NONE = 0,
@@ -376,6 +368,9 @@ extern void do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
 
 extern void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
 				opcode_info_t *last_opcode_info_ptr);
+extern void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
+                                     int warp_direction);
+
 extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
 extern int interrupt_write_snapshot(cpu_int_status_t *cs,
                                     snapshot_module_t *m);

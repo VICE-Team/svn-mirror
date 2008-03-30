@@ -81,6 +81,8 @@ typedef signed long SWORD;
 typedef WORD ADDRESS;
 
 typedef DWORD CLOCK;
+/* Maximum value of a CLOCK.  */
+#define CLOCK_MAX (~((CLOCK)0))
 
 #if X_DISPLAY_DEPTH == 16
 typedef WORD		  		PIXEL;

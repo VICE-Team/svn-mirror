@@ -51,39 +51,26 @@ void cpu_int_status_init(cpu_int_status_t *cs, int num_ints,
     cs->global_pending_int = IK_NONE;
 }
 
-#if 0
-/* This is used to avoid clock counter overflows.  Return the number of
-   cycles subtracted, which is always a multiple of `baseval'.  */
-CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
+/* Move all the CLOCK time references forward/backward.  */
+void cpu_int_status_time_warp(cpu_int_status_t *cs, CLOCK warp_amount,
+                              int warp_direction)
 {
-#if 0
-    if (*clk > PREVENT_CLK_OVERFLOW_TICK) {
-	int i;
-        CLOCK prevent_clk_overflow_sub =
-            (((PREVENT_CLK_OVERFLOW_TICK & ~((CLOCK)0xffff))
-              / baseval - 1) * baseval);
+    if (warp_direction == 0)
+        return;
 
-	*clk -= prevent_clk_overflow_sub;
-	cs->next_alarm_clk -= prevent_clk_overflow_sub;
-	cs->irq_clk -= prevent_clk_overflow_sub;
-	cs->nmi_clk -= prevent_clk_overflow_sub;
-	if (cs->last_stolen_cycles_clk > prevent_clk_overflow_sub)
-	    cs->last_stolen_cycles_clk -= prevent_clk_overflow_sub;
-	else
-	    cs->last_stolen_cycles_clk = (CLOCK) 0;
-	for (i = 0; i < cs->num_alarms; i++) {
-	    if (cs->alarm_clk[i] != CLOCK_MAX)
-		cs->alarm_clk[i] -= prevent_clk_overflow_sub;
-	}
-	return prevent_clk_overflow_sub;
-    } else
-	return 0;
-#else
-    /* FIXME FIXME FIXME */
-    return 0;
-#endif
+    if (warp_direction > 0) {
+        cs->irq_clk += warp_amount;
+        cs->nmi_clk += warp_amount;
+        cs->last_stolen_cycles_clk += warp_amount;
+    } else {
+        cs->irq_clk -= warp_amount;
+        cs->nmi_clk -= warp_amount;
+        if (cs->last_stolen_cycles_clk > warp_amount)
+            cs->last_stolen_cycles_clk -= warp_amount;
+        else
+            cs->last_stolen_cycles_clk = (CLOCK) 0;
+    }
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -158,15 +145,6 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 
 int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
-#if 0
-    int i;
-
-    for (i = 0; i < cs->num_ints; i++) {
-        if (snapshot_module_write_byte(m, cs->pending_int[i]) < 0)
-            return -1;
-    }
-#endif
-
     /* FIXME: could we avoid some of this info?  */
     if (snapshot_module_write_dword(m, cs->irq_clk) < 0
         || snapshot_module_write_dword(m, cs->nmi_clk) < 0

@@ -1183,11 +1183,11 @@ inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
 	/* Argh... this is a dirty kludge!  We should probably find a cleaner
 	   solution.  */
 	int f;
-	CLOCK mclk;
-
-	/* WARNING: Assumes `rmw_flag' is 0 or 1. */
-	mclk = clk - rmw_flag - 1;
 	do {
+            CLOCK mclk;
+
+            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+            mclk = clk - rmw_flag - 1;
 	    f = 0;
 	    if (mclk >= vic_ii_fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should

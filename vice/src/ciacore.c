@@ -112,25 +112,30 @@ inline static void check_ciatodalarm(CLOCK rclk)
 #  define _CIA_FUNC static
 #endif
 
-_CIA_FUNC void cia_do_update_ta(CLOCK rclk) {
+_CIA_FUNC void cia_do_update_ta(CLOCK rclk)
+{
     int n;
+
     if((n=ciat_update(&ciata, rclk))) {
         ciaint |= CIA_IM_TA;
 	cia_tat = (cia_tat + n) & 1;
     }
 }
 
-_CIA_FUNC void cia_do_update_tb(CLOCK rclk) {
+_CIA_FUNC void cia_do_update_tb(CLOCK rclk)
+{
     int n;
+
     if((n=ciat_update(&ciatb, rclk))) {
         ciaint |= CIA_IM_TB;
 	cia_tbt = (cia_tbt + n) & 1;
     }
 }
 
-_CIA_FUNC void cia_do_step_tb(CLOCK rclk) {
+_CIA_FUNC void cia_do_step_tb(CLOCK rclk)
+{
     int n;
-/*printf("do_step_tb\n");*/
+    
     if((n=ciat_single_step(&ciatb, rclk))) {
         ciaint |= CIA_IM_TB;
 	cia_tbt = (cia_tbt + n) & 1;
@@ -142,7 +147,8 @@ _CIA_FUNC void cia_do_step_tb(CLOCK rclk) {
  */
 
 
-_CIA_FUNC void cia_update_ta(CLOCK rclk) {
+_CIA_FUNC void cia_update_ta(CLOCK rclk)
+{
     CLOCK tmp, last_tmp;
 
     last_tmp = 0;
@@ -158,8 +164,10 @@ _CIA_FUNC void cia_update_ta(CLOCK rclk) {
     }
 }
 
-_CIA_FUNC void cia_update_tb(CLOCK rclk) {
+_CIA_FUNC void cia_update_tb(CLOCK rclk)
+{
     CLOCK tmp, last_tmp;
+
     if( (cia[CIA_CRB] & 0x41) == 0x41 ) {
 	cia_update_ta(rclk);
     }
@@ -197,8 +205,6 @@ _CIA_FUNC void cia_do_set_int(CLOCK rclk)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-printf("mycia_prevent_clk_overflow()\n");
-
     cia_update_ta(myclk);
     cia_update_tb(myclk);
 

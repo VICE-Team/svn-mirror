@@ -52,14 +52,17 @@
 #endif
 
 #include "vsync.h"
-#include "ui.h"
-#include "interrupt.h"
-#include "log.h"
-#include "video.h"
-#include "kbdbuf.h"
-#include "sound.h"
-#include "resources.h"
+
+#include "clkguard.h"
 #include "cmdline.h"
+#include "interrupt.h"
+#include "kbdbuf.h"
+#include "log.h"
+#include "maincpu.h"
+#include "resources.h"
+#include "sound.h"
+#include "ui.h"
+#include "video.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -163,6 +166,9 @@ static int timer_patch = 0;
 static int timer_ticks;
 static struct timeval timer_time;
 
+static int speed_eval_suspended = 1;
+static CLOCK speed_eval_prev_clk;
+
 static void update_elapsed_frames(int want)
 {
     struct timeval now;
@@ -238,37 +244,6 @@ static void patch_timer(int patch)
     timer_patch += patch;
 }
 
-int vsync_disable_timer(void)
-{
-    if (!timer_disabled)
-	return set_timer_speed(0);
-    else
-	return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static int speed_eval_suspended = 1;
-
-/* This should be called whenever something that has nothing to do with the
-   emulation happens, so that we don't display bogus speed values. */
-void suspend_speed_eval(void)
-{
-    sound_suspend();
-    speed_eval_suspended = 1;
-}
-
-void vsync_init(double hertz, long cycles, void (*hook)(void))
-{
-    vsync_hook = hook;
-    refresh_frequency = hertz;
-    cycles_per_sec = cycles;
-    suspend_speed_eval();
-    vsync_disable_timer();
-}
-
-static CLOCK speed_eval_prev_clk;
-
 static void display_speed(int num_frames)
 {
 #ifdef HAVE_GETTIMEOFDAY
@@ -300,12 +275,39 @@ static void display_speed(int num_frames)
 #endif /* HAVE_GETTIMEOFDAY */
 }
 
-void vsync_prevent_clk_overflow(CLOCK sub)
+static void clk_overflow_callback(CLOCK amount, void *data)
 {
-    speed_eval_prev_clk -= sub;
+    speed_eval_prev_clk -= amount;
 }
 
 /* ------------------------------------------------------------------------- */
+
+void vsync_init(double hertz, long cycles, void (*hook)(void))
+{
+    vsync_hook = hook;
+    refresh_frequency = hertz;
+    cycles_per_sec = cycles;
+    suspend_speed_eval();
+    vsync_disable_timer();
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+}
+
+int vsync_disable_timer(void)
+{
+    if (!timer_disabled)
+	return set_timer_speed(0);
+    else
+	return 0;
+}
+
+/* This should be called whenever something that has nothing to do with the
+   emulation happens, so that we don't display bogus speed values. */
+void suspend_speed_eval(void)
+{
+    sound_suspend();
+    speed_eval_suspended = 1;
+}
 
 /* This is called at the end of each screen frame.  It flushes the audio buffer
    and keeps control of the emulation speed.  */
