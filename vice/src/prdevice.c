@@ -173,7 +173,8 @@ static int write_pr(vdrive_t *var, BYTE byte, unsigned int secondary)
 
 	er = open_pr(var, NULL, 0, secondary);
 
-	if (er < 0) return er;
+	if (er < 0)
+            return er;
     }
 
     return print_putc(currfd, (BYTE)byte);
