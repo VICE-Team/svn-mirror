@@ -345,7 +345,7 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_romset_submenu[] = {
-    { "default ROMs",
+    { "Load default ROMs",
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
     { "Load new kernal ROM",
