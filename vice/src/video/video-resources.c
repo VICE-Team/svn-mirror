@@ -309,7 +309,10 @@ static int set_fullscreen_enabled(resource_value_t v, void *param)
 
     video_resource_chip->fullscreen_enabled = (int)v;
 
-    return (video_chip_cap->fullscreen.enable)(canvas, (int)v);
+    if (canvas->initialized)
+        return (video_chip_cap->fullscreen.enable)(canvas, (int)v);
+
+    return 0;
 }
 
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
