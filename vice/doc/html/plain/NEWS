@@ -121,6 +121,8 @@ list of all the changes in the code.
 
 - Fixed monitor hang if an unknown opcode is entered.
 
+- The monitor can assemble a JSR to a ZP location now.
+
 - Added '-h' as alias for '-?' and '-help'
 
 - Added a NLS-Howto to guide new translators. Credits to Andrea

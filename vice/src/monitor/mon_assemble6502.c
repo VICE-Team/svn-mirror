@@ -49,9 +49,6 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
 
-    /* FIXME (???) : It is impossible to specify absolute mode if the
-     * address < 0x100 and there is a zero page mode available.
-     */
     do {
         asm_opcode_info_t *opinfo;
 
@@ -108,6 +105,18 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
                 opcode = i;
                 operand_mode = ASM_ADDR_MODE_ABSOLUTE;
                 operand_value = 0x000a;
+                found = TRUE;
+                break;
+            }
+
+            /* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since
+             * ZERO_PAGE versions always precede ABSOLUTE versions if they
+             * exist.
+             */
+            if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE
+                && opinfo->addr_mode == ASM_ADDR_MODE_ABSOLUTE) {
+                opcode = i;
+                operand_mode = ASM_ADDR_MODE_ABSOLUTE;
                 found = TRUE;
                 break;
             }
