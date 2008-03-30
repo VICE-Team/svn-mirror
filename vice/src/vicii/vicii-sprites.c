@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>		/* memset() */
 
+#include "raster-cache.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
@@ -506,7 +507,7 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
     collmsk = (collmsk >> (32 - size1));
 
     cmsk = 0;
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size1, sbit, ptr, sptr,
@@ -538,7 +539,7 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
 
     collmsk = (collmsk >> (24 - size1));
 
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size1, sbit, ptr + 32, sptr + 32,
@@ -589,7 +590,7 @@ inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
 
     collmsk = (collmsk >> (32 - size));
 
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
     if (sprite_status->sprites[n].in_background) {
         SPRITE_MASK(sprmsk, collmsk, size, sbit, ptr, sptr,
@@ -657,7 +658,7 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
         mcsprmsk = (mcsprmsk << shift_sprmsk);
     }
 
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
@@ -670,7 +671,7 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     collmsk = ((((msk_ptr[5] << 8) | msk_ptr[6]) << lshift)
               | (msk_ptr[7] >> (8 - lshift)));
 
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
@@ -746,7 +747,7 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
         mcsprmsk = (mcsprmsk << (24 - size));
     }
 
-    if (/*!vic_ii.idle_state &&*/ (sprmsk & collmsk) != 0)
+    if (sprmsk & collmsk)
         sprite_status->sprite_background_collisions |= sbit;
 
     if (sprite_status->sprites[n].in_background) {
@@ -907,6 +908,12 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     }
 }
 
+static void update_cached_sprite_collisions(raster_cache_t *cache)
+{
+    vic_ii.sprite_sprite_collisions |= cache->sprite_sprite_collisions;
+    vic_ii.sprite_background_collisions |= cache->sprite_background_collisions;
+}
+
 void vic_ii_sprites_init(void)
 {
     init_drawing_tables();
@@ -914,6 +921,8 @@ void vic_ii_sprites_init(void)
     raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
                                            draw_all_sprites);
 
+    raster_sprite_status_set_cache_function(vic_ii.raster.sprite_status,
+                                            update_cached_sprite_collisions);
     return;
 }
 
