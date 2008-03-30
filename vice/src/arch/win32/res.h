@@ -32,12 +32,13 @@
 #define IDR_MENUC128                    102
 #define IDR_MENUVIC                     103
 #define IDR_MENUPET                     104
-#define IDR_MENUCBM2                    105
-#define IDR_MENUMONITOR                 106
-#define IDR_MONTOOLBAR                  107
-#define IDI_ICON1                       108
+#define IDR_MENUPLUS4                   105
+#define IDR_MENUCBM2                    106
+#define IDR_MENUMONITOR                 107
+#define IDR_MONTOOLBAR                  108
+#define IDI_ICON1                       109
 
-#define IDD_ABOUT                       109
+#define IDD_ABOUT                       110
 #define IDC_ABOUT_VERSION               1002
 #define IDC_BROWSEDISK                  1006
 #define IDC_SELECTDISK                  1007

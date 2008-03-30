@@ -339,6 +339,10 @@ static ACCEL pet_accel[] = {
     UI_COMMON_HOTKEYS
 };
 
+static ACCEL plus4_accel[] = {
+    UI_COMMON_HOTKEYS
+};
+
 /*static HBRUSH   led_red;
 static HBRUSH   led_green;
 static HBRUSH   led_black;
@@ -369,6 +373,10 @@ WORD        menu;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
             ui_accelerator=CreateAcceleratorTable(pet_accel, 24);
+            break;
+        case VICE_MACHINE_PLUS4:
+            menu = IDR_MENUPLUS4;
+            ui_accelerator=CreateAcceleratorTable(plus4_accel, 24);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
