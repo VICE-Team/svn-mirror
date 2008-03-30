@@ -45,9 +45,13 @@ static struct _drive_type {
 } drive_type[] = {
 	{"1541", DRIVE_TYPE_1541 },
 	{"1541-II", DRIVE_TYPE_1541II },
+	{"1551", DRIVE_TYPE_1551 },
 	{"1571", DRIVE_TYPE_1571 },
 	{"1581", DRIVE_TYPE_1581 },
 	{"2031", DRIVE_TYPE_2031 },
+	{"2040", DRIVE_TYPE_2040 },
+	{"3040", DRIVE_TYPE_3040 },
+	{"4040", DRIVE_TYPE_4040 },
 	{"1001", DRIVE_TYPE_1001 },
 	{"8050", DRIVE_TYPE_8050 },
 	{"8250", DRIVE_TYPE_8250 },
@@ -105,22 +109,20 @@ class DriveView : public BView {
 void DriveView::EnableControlsForDriveSettings(int type_index) {
 	int i;
 	int current_drive_type;
-	bool extend_is_possible;
 	bool expand_is_possible;
 	
 	current_drive_type = drive_type[type_index].id;
 	
-	extend_is_possible = (current_drive_type == DRIVE_TYPE_1541
-		|| current_drive_type == DRIVE_TYPE_1541II
-		|| current_drive_type == DRIVE_TYPE_2031);
-	
 	for (i=0; drive_extendimagepolicy[i].name; i++) {
-		rb_extendimagepolicy[i]->SetEnabled(extend_is_possible);
+		rb_extendimagepolicy[i]->SetEnabled(
+			drive_check_extend_policy(current_drive_type));
 	}
 	for (i=0; drive_idlemethod[i].name; i++) {
-		rb_idlemethod[i]->SetEnabled(extend_is_possible);
+		rb_idlemethod[i]->SetEnabled(
+			drive_check_idle_method(current_drive_type));
 	}
-	cb_parallelcable->SetEnabled(extend_is_possible);
+	cb_parallelcable->SetEnabled(
+		drive_check_parallel_cable(current_drive_type));
 	for (i=0; drive_expansion[i].name; i++) {
 		switch (i) {
 			case 0:
@@ -258,7 +260,7 @@ DriveView::DriveView(BRect r, int drive_num)
 	/* at last drive type, so we can enable/disable other controls */
 	r.OffsetTo(0,0);
 	r.right = 80;
-	r.bottom = 245;
+	r.bottom = 295;
 	box = new BBox(r);
 	box->SetLabel("Drive type");
 	AddChild(box);
@@ -298,7 +300,7 @@ static DriveWindow *drivewindow = NULL;
 
 
 DriveWindow::DriveWindow() 
-	: BWindow(BRect(50,50,400,340),"Drive settings",
+	: BWindow(BRect(50,50,400,385),"Drive settings",
 		B_TITLED_WINDOW, 
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {

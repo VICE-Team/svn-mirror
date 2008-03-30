@@ -7,18 +7,18 @@
 CFG=xplus4 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "xplus4.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "xplus4.mak" CFG="xplus4 - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
-!MESSAGE "xplus4 - Win32 Release" (basierend auf  "Win32 (x86) Application")
-!MESSAGE "xplus4 - Win32 Debug" (basierend auf  "Win32 (x86) Application")
+!MESSAGE 
+!MESSAGE "xplus4 - Win32 Release" (based on "Win32 (x86) Application")
+!MESSAGE "xplus4 - Win32 Debug" (based on "Win32 (x86) Application")
 !MESSAGE 
 
 # Begin Project
@@ -90,10 +90,6 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=..\..\main.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 

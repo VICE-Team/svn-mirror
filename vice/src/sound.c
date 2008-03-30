@@ -34,6 +34,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "archdep.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
@@ -507,7 +508,7 @@ int sound_open(void)
     /* Calculate optimal fragments.
        fragsize is rounded up to 2^i.
        fragnr is rounded up to bufsize/fragsize. */
-    fragsize = speed / ((int)rfsh_per_sec);
+    fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec));
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
