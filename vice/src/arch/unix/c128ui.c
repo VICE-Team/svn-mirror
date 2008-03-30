@@ -78,30 +78,30 @@ static ui_menu_entry_t vdc_palette_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(VDC_Revision)
+UI_MENU_DEFINE_RADIO(VDCRevision)
 
 static ui_menu_entry_t set_vdc_revison_submenu[] = {
-    { N_("*Revison 0"), (ui_callback_t)radio_VDC_Revision,
+    { N_("*Revison 0"), (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)0, NULL },
-    { N_("*Revison 1"), (ui_callback_t)radio_VDC_Revision,
+    { N_("*Revison 1"), (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)1, NULL },
-    { N_("*Revison 2"), (ui_callback_t)radio_VDC_Revision,
+    { N_("*Revison 2"), (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
-UI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
+UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
+UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(VDC64KB)
 
 static ui_menu_entry_t vdc_submenu[] = {
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { N_("*Double size"),
       (ui_callback_t)toggle_VDC_DoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t)toggle_VDC_DoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
+    { N_("*Video cache"),
+      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { "--" },
     { N_("*64KB display memory"),
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },

@@ -47,7 +47,7 @@ static cmdline_option_t cmdline_options[] =
     { "-64KB", SET_RESOURCE, 0, NULL, NULL,
       "VDC64KB", (void *)1,
       NULL, "Set the VDC memory size to 64KB" },
-    { "-VDC_Revision", SET_RESOURCE, 1, NULL, NULL,
+    { "-VDCRevision", SET_RESOURCE, 1, NULL, NULL,
       "VDCRevision", (void *)2,
       "<number>", "Set VDC revision (0..2)" },
     { NULL }
@@ -62,9 +62,9 @@ static cmdline_option_t cmdline_options_2x[] =
       (void *)1, NULL, "Enable double size" },
     { "+VDC_dsize", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleSize",
       (void *)0, NULL, "Disable double size" },
-    { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleScan",
+    { "-VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleScan",
       (void *)1, NULL, "Enable double scan" },
-    { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDC_DoubleScan",
+    { "+VDC_dscan", SET_RESOURCE, 0, NULL, NULL, "VDCDoubleScan",
       (void *)0, NULL, "Disable double scan" },
     { NULL }
 };
