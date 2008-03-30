@@ -220,11 +220,14 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
         if (ctxptr->drive_ptr->byte_ready_active == 0x06)
             drive_rotate_disk(ctxptr->drive_ptr);
     }
+
     byte = ((ctxptr->drive_ptr->GCR_read & ~myvia[VIA_DDRA])
-        | (myvia[VIA_PRA] & myvia[VIA_DDRA] ));
+           | (myvia[VIA_PRA] & myvia[VIA_DDRA] ));
+
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571)
         if (ctxptr->drive_ptr->byte_ready)
             ctxptr->drive_ptr->byte_ready = 0;
+
     return byte;
 }
 
@@ -232,8 +235,9 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
 {
     BYTE byte;
 
-        byte = (drive_read_viad2_prb(ctxptr->drive_ptr) & ~myvia[VIA_DDRB])
-                        | (myvia[VIA_PRB] & myvia[VIA_DDRB] );
+    byte = (drive_read_viad2_prb(ctxptr->drive_ptr) & ~myvia[VIA_DDRB])
+           | (myvia[VIA_PRB] & myvia[VIA_DDRB] );
+
     return byte;
 }
 
