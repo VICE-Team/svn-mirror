@@ -53,10 +53,10 @@
 #define mycpu_alarm_context maincpu_alarm_context
 
 #include "cbm2.h"
-#include "cbm2tpi.h"
+#include "tpi.h"
 
-#define mycpu_set_int(b,a)       tpi1_set_int(&(machine_context.tpi1), 4,(a))
-#define mycpu_set_int_noclk(b,c) tpi1_restore_int(&(machine_context.tpi1), 4,(c))
+#define mycpu_set_int(b,a)       tpicore_set_int(&(machine_context.tpi1), 4,(a))
+#define mycpu_set_int_noclk(b,c) tpicore_restore_int(&(machine_context.tpi1), 4,(c))
 
 #include "aciacore.c"
 

@@ -72,6 +72,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
+#include "tpi.h"
 #include "traps.h"
 #include "types.h"
 #include "via.h"
@@ -184,9 +185,9 @@ int machine_cmdline_options_init(void)
 /* ------------------------------------------------------------------------- */
 /* provide the 50(?)Hz IRQ signal for the standard IRQ */
 
-#define SIGNAL_VERT_BLANK_OFF   tpi1_set_int(&(machine_context.tpi1), 0, 1);
+#define SIGNAL_VERT_BLANK_OFF tpicore_set_int(&(machine_context.tpi1), 0, 1);
 
-#define SIGNAL_VERT_BLANK_ON    tpi1_set_int(&(machine_context.tpi1), 0, 0);
+#define SIGNAL_VERT_BLANK_ON  tpicore_set_int(&(machine_context.tpi1), 0, 0);
 
 /* ------------------------------------------------------------------------- */
 /* for the C500 there is a powerline IRQ... */
@@ -342,8 +343,8 @@ void machine_specific_reset(void)
 
     acia1_reset();
     ciacore_reset(&(machine_context.cia1));
-    tpi1_reset(&(machine_context.tpi1));
-    tpi2_reset(&(machine_context.tpi2));
+    tpicore_reset(&(machine_context.tpi1));
+    tpicore_reset(&(machine_context.tpi2));
 
     sid_reset();
 

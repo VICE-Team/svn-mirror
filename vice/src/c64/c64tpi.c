@@ -43,19 +43,8 @@
 
 
 #define mytpi_init tpi_init
-#define mytpi_reset tpi_reset
-#define mytpi_store tpicore_store
-#define mytpi_read tpicore_read
-#define mytpi_peek tpicore_peek
 #define mytpi_set_int tpi_set_int
-#define mytpi_snapshot_write_module tpi_snapshot_write_module
-#define mytpi_snapshot_read_module tpi_snapshot_read_module
 
-
-void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context, WORD addr, BYTE
-byte);
-BYTE REGPARM2 tpicore_read(struct tpi_context_s *tpi_context, WORD addr);
-BYTE REGPARM2 tpicore_peek(struct tpi_context_s *tpi_context, WORD addr);
 
 void REGPARM3 tpi_store(WORD addr, BYTE data)
 {
@@ -72,26 +61,26 @@ BYTE REGPARM2 tpi_peek(WORD addr)
     return tpicore_peek(&(machine_context.tpi1), addr);
 }
 
-static void mycpu_set_int(unsigned int int_num, int value)
+static void set_int(unsigned int int_num, int value)
 {
 }
 
-static void mycpu_restore_int(unsigned int int_num, int value)
+static void restore_int(unsigned int int_num, int value)
 {
 }
 
-static void tpi_set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_context, int a)
 {
 }
 
-static void tpi_set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
 static int ieee_is_dev = 1;
 static BYTE ieee_is_out = 1;
 
-static void _tpi_reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_context)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);
@@ -257,7 +246,20 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->irq_previous = 0;
     tpi_context->irq_stack = 0;
     tpi_context->tpi_last_read = 0;
-}
 
-#include "tpicore.c"
+    tpi_context->store_pa = store_pa;
+    tpi_context->store_pb = store_pb;
+    tpi_context->store_pc = store_pc;
+    tpi_context->read_pa = read_pa;
+    tpi_context->read_pb = read_pb;
+    tpi_context->read_pc = read_pc;
+    tpi_context->undump_pa = undump_pa;
+    tpi_context->undump_pb = undump_pb;
+    tpi_context->undump_pc = undump_pc;
+    tpi_context->reset = reset;
+    tpi_context->set_ca = set_ca;
+    tpi_context->set_cb = set_cb;
+    tpi_context->set_int = set_int;
+    tpi_context->restore_int = restore_int;
+}
 

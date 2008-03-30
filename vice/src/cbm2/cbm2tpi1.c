@@ -41,45 +41,36 @@
 #include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
+#include "tpi.h"
 #include "types.h"
 
 
 #define mytpi_init tpi1_init
-#define mytpi_reset tpi1_reset
-#define mytpi_store tpicore1_store
-#define mytpi_read tpicore1_read
-#define mytpi_peek tpicore1_peek
 #define mytpi_set_int tpi1_set_int
 #define mytpi_restore_int tpi1_restore_int
-#define mytpi_snapshot_write_module tpi1_snapshot_write_module
-#define mytpi_snapshot_read_module tpi1_snapshot_read_module
 
-
-void REGPARM3 tpicore1_store(struct tpi_context_s *tpi_context, WORD addr, BYTE byte);
-BYTE REGPARM2 tpicore1_read(struct tpi_context_s *tpi_context, WORD addr);
-BYTE REGPARM2 tpicore1_peek(struct tpi_context_s *tpi_context, WORD addr);
 
 void REGPARM3 tpi1_store(WORD addr, BYTE data)
 {
-    tpicore1_store(&(machine_context.tpi1), addr, data);
+    tpicore_store(&(machine_context.tpi1), addr, data);
 }
 
 BYTE REGPARM2 tpi1_read(WORD addr)
 {
-    return tpicore1_read(&(machine_context.tpi1), addr);
+    return tpicore_read(&(machine_context.tpi1), addr);
 }
 
 BYTE REGPARM2 tpi1_peek(WORD addr)
 {
-    return tpicore1_peek(&(machine_context.tpi1), addr);
+    return tpicore_peek(&(machine_context.tpi1), addr);
 }
 
-static void mycpu_set_int(unsigned int int_num, int value)
+static void set_int(unsigned int int_num, int value)
 {
     maincpu_set_irq(int_num, value);
 }
 
-static void mycpu_restore_int(unsigned int int_num, int value)
+static void restore_int(unsigned int int_num, int value)
 {
     interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
@@ -97,17 +88,17 @@ void tpi1_set_tape_sense(int v)
 /*----------------------------------------------------------------------*/
 /* I/O */
 
-static void tpi_set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_context, int a)
 {
     cbm2_set_tpi1ca(a);
 }
 
-static void tpi_set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_context, int a)
 {
     cbm2_set_tpi1cb(a);
 }
 
-static void _tpi_reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_context)
 {
     /* assuming input after reset */
     parallel_cpu_set_atn(0);
@@ -121,8 +112,7 @@ static void _tpi_reset(tpi_context_t *tpi_context)
 
 static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
-    if (byte != tpi_context->oldpa)
-    {
+    if (byte != tpi_context->oldpa) {
         BYTE tmp = ~byte;
         cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
         if (byte & 2) {
@@ -251,7 +241,20 @@ void tpi1_setup_context(machine_context_t *machine_context)
     tpi_context->tpi_last_read = 0;
 
     tpi_context->irq_line = IK_IRQ;
-}
 
-#include "tpicore.c"
+    tpi_context->store_pa = store_pa;
+    tpi_context->store_pb = store_pb;
+    tpi_context->store_pc = store_pc;
+    tpi_context->read_pa = read_pa;
+    tpi_context->read_pb = read_pb;
+    tpi_context->read_pc = read_pc;
+    tpi_context->undump_pa = undump_pa;
+    tpi_context->undump_pb = undump_pb;
+    tpi_context->undump_pc = undump_pc;
+    tpi_context->reset = reset;
+    tpi_context->set_ca = set_ca;
+    tpi_context->set_cb = set_cb;
+    tpi_context->set_int = set_int;
+    tpi_context->restore_int = restore_int;
+}
 

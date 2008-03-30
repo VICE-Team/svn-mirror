@@ -40,19 +40,9 @@
 
 
 #define mytpi_init tpid_init
-#define mytpi_reset tpid_reset
-#define mytpi_store tpicore_store
-#define mytpi_read tpicore_read
-#define mytpi_peek tpicore_peek
 #define mytpi_set_int tpid_set_int
 #define mytpi_restore_int tpid_restore_int
-#define mytpi_snapshot_write_module tpid_snapshot_write_module
-#define mytpi_snapshot_read_module tpid_snapshot_read_module
 
-
-void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context, WORD addr, BYTE byte);
-BYTE REGPARM2 tpicore_read(struct tpi_context_s *tpi_context, WORD addr);
-BYTE REGPARM2 tpicore_peek(struct tpi_context_s *tpi_context, WORD addr);
 
 void REGPARM3 tpid_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
@@ -69,23 +59,23 @@ BYTE REGPARM2 tpid_peek(drive_context_t *ctxptr, WORD addr)
     return tpicore_peek(&(ctxptr->tpid), addr);
 }
 
-static void mycpu_set_int(unsigned int int_num, int value)
+static void set_int(unsigned int int_num, int value)
 {
 }
 
-static void mycpu_restore_int(unsigned int int_num, int value)
+static void restore_int(unsigned int int_num, int value)
 {
 }
 
-static void tpi_set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_context, int a)
 {
 }
 
-static void tpi_set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
-static void _tpi_reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_context)
 {
     drivetpi_context_t *tpip;
 
@@ -240,7 +230,20 @@ void tpid_setup_context(drive_context_t *ctxptr)
                                        tpi_context->myname);
     tpi_context->irq_line = IK_IRQ;
     tpip->drive_ptr = ctxptr->drive_ptr;
-}
 
-#include "tpicore.c"
+    tpi_context->store_pa = store_pa;
+    tpi_context->store_pb = store_pb;
+    tpi_context->store_pc = store_pc;
+    tpi_context->read_pa = read_pa;
+    tpi_context->read_pb = read_pb;
+    tpi_context->read_pc = read_pc;
+    tpi_context->undump_pa = undump_pa;
+    tpi_context->undump_pb = undump_pb;
+    tpi_context->undump_pc = undump_pc;
+    tpi_context->reset = reset;
+    tpi_context->set_ca = set_ca;
+    tpi_context->set_cb = set_cb;
+    tpi_context->set_int = set_int;
+    tpi_context->restore_int = restore_int;
+}
 

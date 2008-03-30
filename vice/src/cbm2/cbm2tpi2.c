@@ -36,45 +36,35 @@
 #include "keyboard.h"
 #include "log.h"
 #include "maincpu.h"
+#include "tpi.h"
 #include "types.h"
 
 
 #define mytpi_init tpi2_init
-#define mytpi_reset tpi2_reset
-#define mytpi_store tpicore2_store
-#define mytpi_read tpicore2_read
-#define mytpi_peek tpicore2_peek
 #define mytpi_set_int tpi2_set_int
 #define mytpi_restore_int tpi2_restore_int
-#define mytpi_snapshot_write_module tpi2_snapshot_write_module
-#define mytpi_snapshot_read_module tpi2_snapshot_read_module
 
-
-void REGPARM3 tpicore2_store(struct tpi_context_s *tpi_context, WORD addr, BYTE
-byte);
-BYTE REGPARM2 tpicore2_read(struct tpi_context_s *tpi_context, WORD addr);
-BYTE REGPARM2 tpicore2_peek(struct tpi_context_s *tpi_context, WORD addr);
 
 void REGPARM3 tpi2_store(WORD addr, BYTE data)
 {
-    tpicore2_store(&(machine_context.tpi2), addr, data);
+    tpicore_store(&(machine_context.tpi2), addr, data);
 }
 
 BYTE REGPARM2 tpi2_read(WORD addr)
 {
-    return tpicore2_read(&(machine_context.tpi2), addr);
+    return tpicore_read(&(machine_context.tpi2), addr);
 }
 
 BYTE REGPARM2 tpi2_peek(WORD addr)
 {
-    return tpicore2_peek(&(machine_context.tpi2), addr);
+    return tpicore_peek(&(machine_context.tpi2), addr);
 }
 
-static void mycpu_set_int(unsigned int int_num, int value)
+static void set_int(unsigned int int_num, int value)
 {
 }
 
-static void mycpu_restore_int(unsigned int int_num, int value)
+static void restore_int(unsigned int int_num, int value)
 {
 }
 
@@ -85,15 +75,15 @@ void set_cbm2_model_port_mask(BYTE val)
     cbm2_model_port_mask = val & 0xc0;
 }
 
-static void tpi_set_ca(tpi_context_t *tpi_context, int a)
+static void set_ca(tpi_context_t *tpi_context, int a)
 {
 }
 
-static void tpi_set_cb(tpi_context_t *tpi_context, int a)
+static void set_cb(tpi_context_t *tpi_context, int a)
 {
 }
 
-static void _tpi_reset(tpi_context_t *tpi_context)
+static void reset(tpi_context_t *tpi_context)
 {
 }
 
@@ -178,7 +168,20 @@ void tpi2_setup_context(machine_context_t *machine_context)
     tpi_context->irq_previous = 0;
     tpi_context->irq_stack = 0;
     tpi_context->tpi_last_read = 0;
-}
 
-#include "tpicore.c"
+    tpi_context->store_pa = store_pa;
+    tpi_context->store_pb = store_pb;
+    tpi_context->store_pc = store_pc;
+    tpi_context->read_pa = read_pa;
+    tpi_context->read_pb = read_pb;
+    tpi_context->read_pc = read_pc;
+    tpi_context->undump_pa = undump_pa;
+    tpi_context->undump_pb = undump_pb;
+    tpi_context->undump_pc = undump_pc;
+    tpi_context->reset = reset;
+    tpi_context->set_ca = set_ca;
+    tpi_context->set_cb = set_cb;
+    tpi_context->set_int = set_int;
+    tpi_context->restore_int = restore_int;
+}
 

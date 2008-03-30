@@ -2,7 +2,8 @@
  * tpi.h - Chip register definitions.
  *
  * Written by
- *   Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,6 +39,8 @@
 #define TPI_CREG        6
 #define TPI_AIR         7
 
+struct snapshot_s;
+
 typedef struct tpi_context_s {
     BYTE c_tpi[8];
 
@@ -66,7 +69,38 @@ typedef struct tpi_context_s {
 
     void *prv;
     void *context;
+
+    void (*store_pa)(struct tpi_context_s *, BYTE);
+    void (*store_pb)(struct tpi_context_s *, BYTE);
+    void (*store_pc)(struct tpi_context_s *, BYTE);
+    BYTE (*read_pa)(struct tpi_context_s *);
+    BYTE (*read_pb)(struct tpi_context_s *);
+    BYTE (*read_pc)(struct tpi_context_s *);
+    void (*undump_pa)(struct tpi_context_s *, BYTE);
+    void (*undump_pb)(struct tpi_context_s *, BYTE);
+    void (*undump_pc)(struct tpi_context_s *, BYTE);
+    void (*reset)(struct tpi_context_s *);
+    void (*set_ca)(struct tpi_context_s *, int);
+    void (*set_cb)(struct tpi_context_s *, int);
+    void (*set_int)(unsigned int, int);
+    void (*restore_int)(unsigned int, int);
 } tpi_context_t;
+
+extern void tpicore_reset(tpi_context_t *tpi_context);
+extern void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context,
+                                   WORD addr, BYTE byte);
+extern BYTE REGPARM2 tpicore_read(struct tpi_context_s *tpi_context,
+                                  WORD addr);
+extern BYTE REGPARM2 tpicore_peek(struct tpi_context_s *tpi_context,
+                                  WORD addr);
+extern void tpicore_set_int(tpi_context_t *tpi_context, int bit, int state);
+extern void tpicore_restore_int(tpi_context_t *tpi_context, int bit,
+                                int state);
+
+extern int tpicore_snapshot_write_module(tpi_context_t *tpi_context,
+                                         struct snapshot_s *p);
+extern int tpicore_snapshot_read_module(tpi_context_t *tpi_context,
+                                        struct snapshot_s *p);
 
 #endif
 
