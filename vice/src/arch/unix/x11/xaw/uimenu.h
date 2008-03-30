@@ -55,23 +55,23 @@ extern void uimenu_shutdown(void);
    For this reason, to update the checkmarks, we simply have to call all the
    callbacks with a NULL `call_data' parameter.  */
 
-#define UI_MENU_DEFINE_TOGGLE(resource)                                 \
-    static UI_CALLBACK(toggle_##resource)                               \
-    {                                                                   \
-        _ui_menu_toggle_helper(w, client_data, call_data, #resource);   \
-    }
+#define UI_MENU_DEFINE_TOGGLE(resource)                             \
+static UI_CALLBACK(toggle_##resource)                               \
+{                                                                   \
+    _ui_menu_toggle_helper(w, client_data, call_data, #resource);   \
+}
 
-#define UI_MENU_DEFINE_RADIO(resource)                                  \
-    static UI_CALLBACK(radio_##resource)                                \
-    {                                                                   \
-        _ui_menu_radio_helper(w, client_data, call_data, #resource);    \
-    }
+#define UI_MENU_DEFINE_RADIO(resource)                              \
+static UI_CALLBACK(radio_##resource)                                \
+{                                                                   \
+    _ui_menu_radio_helper(w, client_data, call_data, #resource);    \
+}
 
-#define UI_MENU_DEFINE_STRING_RADIO(resource)                               \
-    static UI_CALLBACK(radio_##resource)                                    \
-    {                                                                       \
-        _ui_menu_string_radio_helper(w, client_data, call_data, #resource); \
-    }
+#define UI_MENU_DEFINE_STRING_RADIO(resource)                           \
+static UI_CALLBACK(radio_##resource)                                    \
+{                                                                       \
+    _ui_menu_string_radio_helper(w, client_data, call_data, #resource); \
+}
 
 #define UI_MENU_DEFINE_TOGGLE_COND(name, res, comp)   \
 static UI_CALLBACK(toggle_##name)                     \
