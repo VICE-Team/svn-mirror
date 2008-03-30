@@ -1,3 +1,73 @@
+2003-12-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.44.
+
+	* c1541.c (write_cmd): Fixed printed file names.
+
+	* fliplist.c, fliplist.h (set_fliplist_file_name,
+	fliplist_resources_init, fliplist_cmdline_options_init): New
+	functions.
+
+	* main.c (main_program): Removed fliplist hook.
+
+	* init.c (init_resources, init_cmdline_options): Init flip
+	list resources and command line options.
+
+	* arch/win32/uifliplist.c, arch/win32/uifliplist.h,
+	arch/win32/uic64cart.c, arch/win32/uic64cart.h,
+	arch/win32/uirom.c, arch/win32/uirom.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/resvic.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/rescbm2.rc,
+	arch/win32/res.h, arch/win32/ui.c: Added fliplist, drive reset
+	and firmware ROM UI.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h: Added fliplist file
+	selector style.
+
+	* arch/win32/c64ui.c, arch/win32/c128ui.c: Moved C64 cart UI
+	to separate file.  Added firmware ROM settings.
+
+	* arch/win32/ui.c, arch/win32/ui.h, arch/win32/plus4ui.c,
+	arch/win32/vic20ui.c, arch/win32/c64ui.c, arch/win32/cbm2ui.c,
+	arch/win32/c128ui.c, arch/win32/petui.c,
+	arch/win32/uic64cart.c: Fixed struct names.
+
+	* arch/win32/uivideo.c: Grey out external palette UI if
+	external palette is not selected.
+
+2003-12-31  David Hansel  <hansel@reactive-systems.com>
+
+	* tap.h, tape/tap.c, tape/tapeimage.c: implemented tap_read()
+
+	* imagecontents/tapecontents.c: correctly list tape SEQ files
+
+	* c1541.c: differentiate between PRG and SEQ files when
+	copying from tape
+
+	* fsdevice/fsdevice-open.c:  when reading from tape, ignore
+	load address for sequential files.
+
+2003-12-30  David Hansel  <hansel@reactive-systems.com>
+
+	* iecbus.h, iecbus/iecbus.c, serial/serial-iec-device.c:
+	More warning fixes
+
+	* arch/win32/uiperipheral.c:  Disable "Formfeed" button
+	when printer is off.
+
+2003-12-29  David Hansel  <hansel@reactive-systems.com>
+
+	* fsdevice/fsdevice-open.c:  Fixed tape access via fsdevice
+
+2003-12-29  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/spritedrv.c: removed recording call from driver
+
 2003-12-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.43.
