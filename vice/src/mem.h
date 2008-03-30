@@ -60,6 +60,8 @@ extern BYTE chargen_rom[];
 extern BYTE *page_zero;
 extern BYTE *page_one;
 
+extern unsigned int old_reg_pc;
+
 extern const char *mem_romset_resources_list[];
 
 extern void initialize_memory(void);
@@ -73,6 +75,7 @@ extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern void mem_set_tape_sense(int value);
 extern void mem_toggle_watchpoints(int flag);
 extern int mem_rom_trap_allowed(ADDRESS addr);
+extern void mem_set_bank_pointer(BYTE **base, int *limit);
 
 extern read_func_t read_rom, read_zero;
 extern store_func_t store_rom, store_zero;
