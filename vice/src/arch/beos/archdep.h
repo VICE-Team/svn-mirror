@@ -49,5 +49,10 @@
 #define MODE_APPEND            "wb"
 #define MODE_APPEND_READ_WRITE "a+b"
 
+/* Printer default devices.  */
+#define PRINTER_DEFAULT_DEV1 "PrinterFile"
+#define PRINTER_DEFAULT_DEV2 "LPT:"
+#define PRINTER_DEFAULT_DEV3 "hmm"
+
 #endif
 

@@ -47,7 +47,6 @@ libarch_a_SOURCES = \
 	petkbd.c \
 	petui.c \
 	petui.h \
-	print.c \
 	res.h \
 	res.rc \
 	resc128.rc \
