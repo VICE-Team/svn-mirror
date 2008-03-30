@@ -69,7 +69,7 @@ static void init_dialog(HWND hwnd, int num)
     int n;
     char tmp[256];
 
-    disk_image = serial_get_file_name(num);
+    disk_image = file_system_get_disk_name(num);
     SetDlgItemText(hwnd, IDC_DISKIMAGE, disk_image != NULL ? disk_image : "");
 
     sprintf(tmp, "FSDevice%dDir", num);

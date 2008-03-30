@@ -33,6 +33,7 @@
 
 extern int file_system_init_resources(void);
 extern void file_system_init(void);
+extern char *file_system_get_disk_name(int unit);
 extern int file_system_attach_disk(int unit, const char *filename);
 extern void file_system_detach_disk(int unit);
 

@@ -35,6 +35,7 @@
 
 #include "menudefs.h"
 
+#include "attach.h"
 #include "datasette.h"
 #include "grabkey.h"
 #include "imagecontents.h"
@@ -92,7 +93,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         char *default_item, *directory;
         char *name, *file;
 
-        s = (char *)serial_get_file_name((int)param);
+        s = (char *)file_system_get_disk_name((int)param);
         fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory,
@@ -118,7 +119,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
             free(name);
     }
 
-    s = (char *)serial_get_file_name((int)param);
+    s = (char *)file_system_get_disk_name((int)param);
     if (s == NULL || *s == '\0')
         return "(none)";
     else
@@ -190,7 +191,7 @@ static TUI_MENU_CALLBACK(detach_disk_callback)
 	ui_update_menus();
     }
 
-    s = (char *)serial_get_file_name((int)param);
+    s = (char *)file_system_get_disk_name((int)param);
     if (s == NULL || *s == '\0')
 	return "(none)";
     else

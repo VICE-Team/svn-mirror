@@ -777,28 +777,6 @@ serial_t *serial_get_device(int device)
     return &serialdevices[device];
 }
 
-/* Return the name of the image attached at unit `number', NULL if none.  */
-char *serial_get_file_name(int number)
-{
-    char *p;
-
-    if (!serialdevices[number].inuse)
-	return NULL;
-
-    switch (number) {
-      case 8:
-      case 9:
-      case 10:
-	  p = ((DRIVE *) serialdevices[number].info)->ActiveName;
-	  if (*p != 0)
-	      return p;
-	  else
-	      return NULL;
-      default:
-	  return NULL;
-    }
-}
-
 /* Close all files.  */
 void serial_reset(void)
 {
