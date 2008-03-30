@@ -73,6 +73,7 @@ tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
 tui_menu_t ui_special_submenu;
 tui_menu_t ui_video_submenu;
+tui_menu_t ui_settings_submenu;
 
 /* ------------------------------------------------------------------------ */
 
@@ -243,7 +244,9 @@ TUI_MENU_DEFINE_RADIO(RefreshRate)
 
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
 
+#ifndef USE_MIDAS_SOUND
 TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -312,21 +315,17 @@ static TUI_MENU_CALLBACK(toggle_True1541SyncFactor_callback)
     }
 }
 
-static TUI_MENU_CALLBACK(toggle_True1541IdleMethod_callback)
+TUI_MENU_DEFINE_RADIO(True1541IdleMethod)
+
+static TUI_MENU_CALLBACK(true1541_idle_method_submenu_callback)
 {
     int value;
 
     resources_get_value("True1541IdleMethod", (resource_value_t *) &value);
 
-    if (been_activated) {
-	if (value == TRUE1541_IDLE_SKIP_CYCLES)
-	    value = TRUE1541_IDLE_TRAP_IDLE;
-	else
-	    value = TRUE1541_IDLE_SKIP_CYCLES;
-        resources_set_value("True1541IdleMethod", (resource_value_t) value);
-    }
-
     switch (value) {
+      case TRUE1541_IDLE_NO_IDLE:
+        return "None";
       case TRUE1541_IDLE_TRAP_IDLE:
 	return "Trap idle";
       case TRUE1541_IDLE_SKIP_CYCLES:
@@ -335,6 +334,22 @@ static TUI_MENU_CALLBACK(toggle_True1541IdleMethod_callback)
 	return "(Unknown)";
     }
 }
+
+static tui_menu_item_def_t true1541_idle_method_submenu[] = {
+    { "_None",
+      "Always run the 1541 CPU as on the real thing",
+      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_NO_IDLE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Trap Idle",
+      "Stop running the 1541 CPU when entering the idle DOS loop",
+      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_TRAP_IDLE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Skip Cycles",
+      "Skip 1541 CPU cycles when the IEC bus is not used for a while",
+      radio_True1541IdleMethod_callback, (void *) TRUE1541_IDLE_SKIP_CYCLES, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
 
 TUI_MENU_DEFINE_TOGGLE(True1541ParallelCable)
 
@@ -349,8 +364,9 @@ static tui_menu_item_def_t true1541_settings_submenu[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "True 1541 _Idle Method:",
       "Select method for disk drive idle",
-      toggle_True1541IdleMethod_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+      true1541_idle_method_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, true1541_idle_method_submenu,
+      "True 1541 idle method" },
     { "--" },
     { "Enable _Parallel Cable:",
       "Enable a SpeedDOS-compatible parallel cable",
@@ -496,6 +512,10 @@ static tui_menu_item_def_t sound_oversample_submenu[] = {
     { "_3x",
       "Enable 3x oversampling",
       radio_SoundOversample_callback, (void *) 3, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_4x",
+      "Enable 4x oversampling",
+      radio_SoundOversample_callback, (void *) 4, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
@@ -1074,10 +1094,13 @@ static void create_ui_video_submenu(void)
 		      "Enable screen cache (disabled when using triple buffering)",
 		      toggle_VideoCache_callback, NULL, 3,
 		      TUI_MENU_BEH_CONTINUE);
+
+#ifndef USE_MIDAS_SOUND
     tui_menu_add_item(ui_video_submenu, "_Triple Buffering:",
 		      "Enable triple buffering for smoother animations (when available)",
 		      toggle_TripleBuffering_callback, NULL, 3,
 		      TUI_MENU_BEH_CONTINUE);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1231,7 +1254,7 @@ static void create_special_submenu(int has_serial_traps)
 {
     static tui_menu_t speed_submenu;
 
-    ui_special_submenu = tui_menu_create("Special Features", 1);
+    ui_special_submenu = tui_menu_create("Other Settings", 1);
 
     /* Speed limit submenu.  */
     {
@@ -1294,7 +1317,7 @@ static void create_special_submenu(int has_serial_traps)
     tui_menu_add_separator(ui_special_submenu);
     tui_menu_add_item(ui_special_submenu,
                       "Use _Keyboard LEDs:",
-                      "Use PC keyboard LEDs to emulate the 1541 drive LED and to show the state of Warp Mode",
+                      "Use PC keyboard LEDs for the 1541 drive and Warp Mode",
                       toggle_UseLeds_callback, NULL, 4,
                       TUI_MENU_BEH_CONTINUE);
 }
@@ -1423,25 +1446,32 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps,
 
     create_special_submenu(has_serial_traps);
 
-    tui_menu_add_submenu(ui_main_menu, "Special _Options...",
+    tui_menu_add_submenu(ui_main_menu, "_Other Settings...",
 			 "Extra emulation features",
 			 ui_special_submenu, NULL, 0,
 			 TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add_separator(ui_main_menu);
 
-    tui_menu_add_item(ui_main_menu, "_Write Settings",
+    ui_settings_submenu = tui_menu_create("Configuration Commands", 1);
+
+    tui_menu_add_item(ui_settings_submenu, "_Write Configuration",
 		      "Save current settings as default for next session",
 		      save_settings_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_main_menu, "_Load Settings",
+    tui_menu_add_item(ui_settings_submenu, "_Load Configuration",
 		      "Load saved settings from previous session",
 		      load_settings_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_item(ui_main_menu, "Restore _Factory Defaults",
+    tui_menu_add_item(ui_settings_submenu, "Restore _Factory Defaults",
 		      "Set default settings",
 		      restore_default_settings_callback, NULL, 0,
 		      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_submenu(ui_main_menu, "_Configuration Commands...",
+                         "Commands to save, retrieve and restore settings",
+                         ui_settings_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add_separator(ui_main_menu);
 

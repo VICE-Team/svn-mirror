@@ -238,10 +238,6 @@ static int speed_eval_suspended = 1;
 void suspend_speed_eval(void)
 {
     speed_eval_suspended = 1;
-#if 0
-    remove_int(my_timer_callback);
-    timer_speed = 0;
-#endif
 }
 
 static void calc_avg_performance(int num_frames)

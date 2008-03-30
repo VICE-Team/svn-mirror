@@ -71,15 +71,17 @@ static int in_gfx_mode;
 /* VGA Video mode to use.  */
 static int vga_mode;
 
-/* Flag: do we try to use triple buffering if possible?  */
-static int try_triple_buffering;
-
 static int set_vga_mode(resource_value_t v)
 {
     /* FIXME: Sanity check!  */
     vga_mode = (int) v;
     return 0;
 }
+
+#ifndef USE_MIDAS_SOUND
+
+/* Flag: do we try to use triple buffering if possible?  */
+static int try_triple_buffering;
 
 static int set_try_triple_buffering(resource_value_t v)
 {
@@ -89,11 +91,15 @@ static int set_try_triple_buffering(resource_value_t v)
     return 0;
 }
 
+#endif
+
 static resource_t resources[] = {
     { "VGAMode", RES_INTEGER, (resource_value_t) VGA_320x200,
       (resource_value_t *) &vga_mode, set_vga_mode },
+#ifndef USE_MIDAS_SOUND
     { "TripleBuffering", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &try_triple_buffering, set_try_triple_buffering },
+#endif
     { NULL }
 };
 
@@ -110,12 +116,14 @@ static cmdline_option_t cmdline_options[] = {
     { "-vgamode", SET_RESOURCE, 1, NULL, NULL,
       "VGAMode", NULL,
       "<mode>", "Set VGA mode to <mode>" },
+#ifndef USE_MIDAS_SOUND
     { "-triplebuf", SET_RESOURCE, 0, NULL, NULL,
       "TripleBuffering", (resource_value_t) 1,
       NULL, "Try to use triple buffering when possible" },
     { "+triplebuf", SET_RESOURCE, 0, NULL, NULL,
       "TripleBuffering", (resource_value_t) 1,
       NULL, "Disable usage of triple buffering" },
+#endif
     { NULL }
 };
 
@@ -172,6 +180,7 @@ static void canvas_set_vga_mode(canvas_t c)
 {
     int i;
 
+#ifndef USE_MIDAS_SOUND
     /* If the user wants triple buffering, try Mode X first of all, as that
        is (currently) the only reliable way to achieve the result.  Virtual
        height is twice visible height to allow smooth page flipping.  */
@@ -181,10 +190,11 @@ static void canvas_set_vga_mode(canvas_t c)
         DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d",
                c->width, c->height, c->height * 2));
         c->use_triple_buffering = 1;
-    }
+    } else
+#endif
     /* If we don't want triple buffering, try to get a VESA linear mode
        first, which might not be the default. */
-    else if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
+    if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
         DEBUG(("GFX_VESA2L successful with width=%d height=%d",
                c->width, c->height));
         c->use_triple_buffering = 0;
@@ -204,9 +214,11 @@ static void canvas_set_vga_mode(canvas_t c)
            c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
 
+#ifndef USE_MIDAS_SOUND
     /* If using triple buffering, setup the timer used by Allegro to emulate
        vertical retrace interrupts.  Wish I had $D012/$D011 on VGA.  */
     timer_simulate_retrace(c->use_triple_buffering);
+#endif
 
     if (c->use_triple_buffering) {
         c->pages[0] = create_sub_bitmap(screen,
