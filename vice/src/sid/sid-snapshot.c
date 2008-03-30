@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "log.h"
 #include "resources.h"
@@ -80,15 +81,13 @@ static int sid_snapshot_write_module_simple(snapshot_t *s)
 static int sid_snapshot_read_module_simple(snapshot_t *s)
 {
     BYTE major_version, minor_version;
-    BYTE sound, sid_engine;
     snapshot_module_t *m;
-
-    sound_close();
+    BYTE tmp[34];
 
     m = snapshot_module_open(s, snap_module_name_simple,
                              &major_version, &minor_version);
     if (m == NULL)
-        return -1;
+        goto fail;
 
     if (major_version > SNAP_MAJOR_SIMPLE
         || minor_version > SNAP_MINOR_SIMPLE) {
@@ -96,34 +95,40 @@ static int sid_snapshot_read_module_simple(snapshot_t *s)
                   "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
                   major_version, minor_version,
                   SNAP_MAJOR_SIMPLE, SNAP_MINOR_SIMPLE);
-        return snapshot_module_close(m);
-    }
-
-    if (SMR_B(m, &sound) < 0) {
         snapshot_module_close(m);
-        return -1;
+        goto fail;
     }
 
-    resources_set_value("Sound", (resource_value_t)sound);
-
-    if (sound) {
-        if (SMR_B(m, &sid_engine) < 0) {
-            snapshot_module_close(m);
-            return -1;
+    /* If more than 32 bytes are present then the resource "Sound" and
+       "SidEngine" come first! If there is only one byte present, then
+       sound is disabled. */
+    if (SMR_BA(m, tmp, 34) < 0) {
+        if (SMR_BA(m, tmp, 32) < 0) {
+            if (SMR_BA(m, tmp, 1) < 0) {
+                snapshot_module_close(m);
+                goto fail;
+            } else {
+                sound_close();
+            }
+        } else {
+            memcpy(sid_get_siddata(0), &tmp[0], 32);
         }
-        resources_set_value("SidEngine", (resource_value_t)sid_engine);
-
-
-        /* FIXME: Only data for first SID read. */
-        if (SMR_BA(m, sid_get_siddata(0), 32) < 0) {
-            snapshot_module_close(m);
-            return -1;
+    } else {
+        sound_close();
+        resources_set_value("Sound", (resource_value_t)(tmp[0]));
+        if (tmp[0]) {
+            resources_set_value("SidEngine", (resource_value_t)(tmp[1]));
+            /* FIXME: Only data for first SID read. */
+            memcpy(sid_get_siddata(0), &tmp[2], 32);
+            sound_open();
         }
-
-        sound_open();
     }
 
     return snapshot_module_close(m);
+
+fail:
+    log_error(LOG_DEFAULT, "Failed reading SID snapshot");
+    return -1;
 }
 
 static const char snap_module_name_extended[] = "SIDEXTENDED";
