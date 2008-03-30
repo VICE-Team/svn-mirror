@@ -1,5 +1,5 @@
 /*
- * drv-mps803.h - MPS803 printer driver.
+ * drv-mps803.c - MPS803 printer driver.
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
@@ -31,32 +31,33 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "driver-select.h"
 #include "log.h"
+#include "output-file.h"
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
 
-#define MPS803_ROM_SIZE 8192
-#define MPS803_ROM_FONT_OFFSET 4096
+#define MPS803_ROM_SIZE (7 * 256)
+#define MPS803_ROM_FONT_OFFSET 0
 
 #define MAX_COL 480
 
 struct mps_s
 {
-    FILE *f;
-    char line[MAX_COL][7];
+    BYTE line[MAX_COL][7];
     int  bitcnt;
     int  repeatn;
     int  pos;
     int  tab;
     char tabc[3];
     int  mode;
-    char charset[255][7];
+    BYTE charset[256][7];
 };
 typedef struct mps_s mps_t;
 
 /* We will make this dynamic later.  */
-mps_t drv_mps803;
+static mps_t drv_mps803;
 
 #define MPS_REVERSE 0x01
 #define MPS_CRSRUP  0x02
@@ -64,6 +65,9 @@ mps_t drv_mps803;
 #define MPS_DBLWDTH 0x08
 #define MPS_REPEAT  0x10
 #define MPS_ESC     0x20
+
+/* Logging goes here.  */
+static log_t drv803_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 /* MPS803 printer engine. */
@@ -83,22 +87,28 @@ static int is_mode(mps_t *mps, int m)
     return mps->mode & m;
 }
 
-static int get_charset_bit(mps_t *mps, int nr, int col, int row)
+static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
+                           unsigned int row)
 {
-    int reverse = is_mode(mps, MPS_REVERSE);
-    return mps->charset[nr][row]&(1<<(7-col)) ? !reverse : reverse;
+    int reverse, result;
+
+    reverse = is_mode(mps, MPS_REVERSE);
+
+    result = mps->charset[nr][row] & (1 << (7 - col)) ? !reverse : reverse;
+
+    return result;
 }
 
 static void print_cbm_char(mps_t *mps, char c)
 {
-    int y, x;
+    unsigned int y, x;
 
     if (is_mode(mps, MPS_CRSRUP))
         c += 128;
 
     for (y = 0; y < 7; y++) {
         if (is_mode(mps, MPS_DBLWDTH))
-            for (x=0; x<6; x++) {
+            for (x = 0; x < 6; x++) {
                 mps->line[mps->pos + x * 2][y]
                     = get_charset_bit(mps, c, x, y);
                 mps->line[mps->pos + x * 2 + 1][y]
@@ -112,24 +122,23 @@ static void print_cbm_char(mps_t *mps, char c)
     mps->pos += is_mode(mps, MPS_DBLWDTH) ? 12 : 6;
 }
 
-static void write_line(mps_t *mps)
+static void write_line(mps_t *mps, int fi)
 {
-    int x, y;
+    unsigned int x, y;
 
     for (y = 0; y < 7; y++) {
         for (x = 0; x < 480; x++)
-            fprintf(mps->f, "%c", mps->line[x][y] ? '*' : ' ');
+            output_file_putc(fi, mps->line[x][y] ? '*' : ' ');
 
-        fprintf(mps->f, "\n");
+        output_file_putc(fi, 10);
     }
 
-    mps->pos=0;
+    mps->pos = 0;
 }
 
 static void clear_buffer(mps_t *mps)
 {
-    int x;
-    int y;
+    unsigned int x, y;
 
     for (x = 0; x < 480; x++)
         for (y = 0; y < 7; y++)
@@ -138,10 +147,9 @@ static void clear_buffer(mps_t *mps)
 
 static void bitmode_off(mps_t *mps)
 {
-    int i, x, y;
+    unsigned int i, x, y;
 
-    for (i=0; i<mps->repeatn; i++)
-    {
+    for (i = 0; i < mps->repeatn; i++) {
         for (x = 0; x < mps->bitcnt; x++)
             for (y = 0; y < 7; y++)
                 mps->line[mps->pos + x][y]
@@ -154,7 +162,7 @@ static void bitmode_off(mps_t *mps)
 
 static void print_bitmask(mps_t *mps, const char c)
 {
-    int y;
+    unsigned int y;
 
     for (y = 0; y < 7; y++)
         mps->line[mps->pos][y] = c & (1 << (6 - y)) ? 1 : 0;
@@ -163,16 +171,15 @@ static void print_bitmask(mps_t *mps, const char c)
     mps->pos++;
 }
 
-static void print_char(mps_t *mps, const BYTE c)
+static void print_char(mps_t *mps, int fi, const BYTE c)
 {
 
-    if (mps->pos > 479) {  // flush buffer
-        write_line(mps);
+    if (mps->pos > 479) {  /* flush buffer*/
+        write_line(mps, fi);
         clear_buffer(mps);
-        return;
     }
 
-    if (mps->tab) {     // decode tab-number
+    if (mps->tab) {     /* decode tab-number*/
         mps->tabc[2 - mps->tab] = c;
 
         if (mps->tab == 1)
@@ -201,58 +208,60 @@ static void print_char(mps_t *mps, const BYTE c)
     switch (c) {
       case 8:
         set_mode(mps, MPS_BITMODE);
-        mps->bitcnt  = 0;
+        mps->bitcnt = 0;
         return;
 
-      case 10:  // LF
-        write_line(mps);
+      case 10:  /* LF*/
+        write_line(mps, fi);
         clear_buffer(mps);
         return;
 
-      case 13:  // CR
+      case 13:  /* CR*/
         mps->pos = 0;
         del_mode(mps, MPS_CRSRUP);
         return;
 
-        // By sending the cursor up code [CHR$(145)] to your printer, folowing charac-
-        // ters will be printed in cursor up (graphic) mode until either a carriage
-        // return or cursor down code [CHR$(17)] is detected.
-
-        // By sending the cursor down code [CHR$(145)] to your printer, following
-        // characters will be printed in business mode until either a carriage return or
-        // cursor up code [CHR$(145)] is detected.
-
-        // 1. GRAPHIC MODE Code & Front Table, OMITTED
-        // When an old number of CHR$(34) is detected in a line, the control
-        // codes $00-$1F and $80-$9F will be made visible by printing a
-        // reverse character for each of these controls. This will continue until
-        // an even number of quotes [CHR$(34)] has been received or until
-        // end of this line.
-
-        // 2. BUSINESS MODE Code & Font Table, OMITTED
-        // When an old number of CHR$(34) is detected in a line, the control
-        // codes $00-$1F and $80-$9F will be made visible by printing a
-        // reverse character for each of these controls. This will continue until
-        // an even number of quotes [CHR$(34)] has been received or until
-        // end of this line.
-
-      case 14:  // EN on
+        /*
+         * By sending the cursor up code [CHR$(145)] to your printer, folowing
+         * characters will be printed in cursor up (graphic) mode until either
+         * a carriage return or cursor down code [CHR$(17)] is detected.
+         *
+         * By sending the cursor down code [CHR$(145)] to your printer,
+         * following characters will be printed in business mode until either
+         * a carriage return or cursor up code [CHR$(145)] is detected.
+         *
+         * 1. GRAPHIC MODE Code & Front Table, OMITTED
+         * When an old number of CHR$(34) is detected in a line, the control
+         * codes $00-$1F and $80-$9F will be made visible by printing a
+         * reverse character for each of these controls. This will continue
+         * until an even number of quotes [CHR$(34)] has been received or until
+         * end of this line.
+         *
+         * 2. BUSINESS MODE Code & Font Table, OMITTED
+         * When an old number of CHR$(34) is detected in a line, the control
+         * codes $00-$1F and $80-$9F will be made visible by printing a
+         * reverse character for each of these controls. This will continue
+         * until an even number of quotes [CHR$(34)] has been received or until
+         * end of this line.
+         */
+	 
+      case 14:  /* EN on*/
         set_mode(mps, MPS_DBLWDTH);
         if (is_mode(mps, MPS_BITMODE))
             bitmode_off(mps);
         return;
 
-      case 15:  // EN off
+      case 15:  /* EN off*/
         del_mode(mps, MPS_DBLWDTH);
         if (is_mode(mps, MPS_BITMODE))
             bitmode_off(mps);
         return;
 
-      case 16:  // POS
-        mps->tab = 2; // 2 chars (digits) following, number of first char
+      case 16:  /* POS*/
+        mps->tab = 2; /* 2 chars (digits) following, number of first char*/
         return;
 
-      case 17:   // crsr dn
+      case 17:   /* crsr dn*/
         del_mode(mps, MPS_CRSRUP);
         return;
 
@@ -260,21 +269,21 @@ static void print_char(mps_t *mps, const BYTE c)
         set_mode(mps, MPS_REVERSE);
         return;
 
-      case 26:   // repeat last chr$(8) c times.
+      case 26:   /* repeat last chr$(8) c times.*/
         set_mode(mps, MPS_REPEAT);
         mps->repeatn = 0;
         mps->bitcnt  = 0;
         return;
 
       case 27:
-        set_mode(mps, MPS_ESC); // followed by 16, and number MSB, LSB
+        set_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
         return;
 
-      case 145: // CRSR up
+      case 145: /* CRSR up*/
         set_mode(mps, MPS_CRSRUP);
         return;
 
-      case 146: // 18+128
+      case 146: /* 18+128*/
         del_mode(mps, MPS_REVERSE);
         return;
     }
@@ -289,9 +298,10 @@ static int init_charset(mps_t *mps, const char *name)
 {
     BYTE romimage[MPS803_ROM_SIZE];
 
-    if (sysfile_load(name, romimage, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0)
-        log_error(LOG_ERR, "Could not load %s.", name);
+    if (sysfile_load(name, romimage, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0) {
+        log_error(drv803_log, "Could not load %s.", name);
         return -1;
+    }
 
     memcpy(mps->charset, &romimage[MPS803_ROM_FONT_OFFSET], 256 * 7);
 
@@ -301,31 +311,52 @@ static int init_charset(mps_t *mps, const char *name)
 /* ------------------------------------------------------------------------- */
 /* Interface to the upper layer.  */
 
-int drv_mps803_open(int device)
+static int drv_mps803_open(int device)
 {
-    drv_mps803.f = fopen("output", "w");
-
-    return init_charset(&drv_mps803, "cbm1526");
+    return output_file_open(device);
 }
 
-void drv_mps803_close(int fi)
+static void drv_mps803_close(int fi)
 {
-    fclose(drv_mps803.f);
+    output_file_close(fi);
 }
 
-int drv_mps803_putc(int fi, BYTE b)
+static int drv_mps803_putc(int fi, BYTE b)
 {
-    print_char(&drv_mps803, b);
+    print_char(&drv_mps803, fi, b);
     return 0;
 }
 
-int drv_mps803_getc(int fi, BYTE *b)
+static int drv_mps803_getc(int fi, BYTE *b)
 {
+    return output_file_getc(fi, b);
+}
+
+static int drv_mps803_flush(int fi)
+{
+    return output_file_flush(fi);
+}
+
+int drv_mps803_init_resources(void)
+{
+    driver_select_t driver_select;
+
+    driver_select.drv_name = "mps803";
+    driver_select.drv_open = drv_mps803_open;
+    driver_select.drv_close = drv_mps803_close;
+    driver_select.drv_putc = drv_mps803_putc;
+    driver_select.drv_getc = drv_mps803_getc;
+    driver_select.drv_flush = drv_mps803_flush;
+
+    driver_select_register(&driver_select);
+
     return 0;
 }
 
-int drv_mps803_flush(int fi)
+void drv_mps803_init(void)
 {
-    return 0;
+    drv803_log = log_open("MPS803");
+
+    init_charset(&drv_mps803, "mps803");
 }
 
