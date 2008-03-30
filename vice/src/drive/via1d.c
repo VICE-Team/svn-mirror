@@ -42,7 +42,6 @@
 #include "parallel.h"
 #include "rotation.h"
 #include "types.h"
-#include "utils.h"
 #include "via.h"
 #include "viad.h"
 
@@ -488,13 +487,10 @@ void via_drive_init(drive_context_t *ctxptr, const via_initdesc_t *via_desc)
     if (vd->via_ptr->log == LOG_ERR)
         vd->via_ptr->log = log_open(vd->via_ptr->my_module_name);
 
-    vd->via_ptr->t1_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    vd->via_ptr->t2_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
     sprintf(buffer, "%sT1", vd->via_ptr->myname);
-    alarm_init(vd->via_ptr->t1_alarm, mycpu_alarm_context, buffer, vd->int_t1);
+    vd->via_ptr->t1_alarm = alarm_new(mycpu_alarm_context, buffer, vd->int_t1);
     sprintf(buffer, "%sT2", vd->via_ptr->myname);
-    alarm_init(vd->via_ptr->t2_alarm, mycpu_alarm_context, buffer, vd->int_t2);
+    vd->via_ptr->t2_alarm = alarm_new(mycpu_alarm_context, buffer, vd->int_t2);
 
     clk_guard_add_callback(mycpu_clk_guard, vd->clk, NULL);
 }

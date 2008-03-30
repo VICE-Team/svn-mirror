@@ -75,7 +75,6 @@ struct drive_context_s;
 #include "parallel.h"
 #include "riotd.h"
 #include "types.h"
-#include "utils.h"
 
 
 /* renaming formerly global symbols */
@@ -190,10 +189,8 @@ void riot_drive_init(drive_context_t *ctxptr, const riot_initdesc_t *riot_desc)
     if (rd->riot_ptr->log == LOG_ERR)
         rd->riot_ptr->log = log_open(rd->riot_ptr->myname);
 
-    rd->riot_ptr->alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
     sprintf(buffer, "%sT1", rd->riot_ptr->myname);
-    alarm_init(rd->riot_ptr->alarm, mycpu_alarm_context, buffer, rd->int_t1);
+    rd->riot_ptr->alarm = alarm_new(mycpu_alarm_context, buffer, rd->int_t1);
 
     clk_guard_add_callback(mycpu_clk_guard, rd->clk, NULL);
 }

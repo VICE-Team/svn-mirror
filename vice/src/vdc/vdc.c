@@ -176,10 +176,8 @@ raster_t *vdc_init(void)
 
     vdc.log = log_open("VDC");
 
-    vdc.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
-    alarm_init(vdc.raster_draw_alarm, maincpu_alarm_context,
-               "VdcRasterDraw", vdc_raster_draw_alarm_handler);
+    vdc.raster_draw_alarm = alarm_new(maincpu_alarm_context, "VdcRasterDraw",
+                                      vdc_raster_draw_alarm_handler);
 
     vdc_powerup();
 
@@ -482,7 +480,6 @@ void vdc_async_refresh(struct canvas_refresh_s *refresh)
 
 void vdc_shutdown(void)
 {
-    alarm_destroy(vdc.raster_draw_alarm);
     raster_free(&vdc.raster);
 }
 

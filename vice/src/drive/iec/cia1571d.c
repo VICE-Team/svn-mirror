@@ -41,7 +41,7 @@ struct drive_context_s;
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "types.h"
-#include "utils.h"
+
 
 /* set mycia_debugFlag to 1 to get output */
 #undef CIA_TIMER_DEBUG
@@ -246,19 +246,13 @@ void cia_drive_init(drive_context_t *ctxptr, const cia_initdesc_t *cia_desc)
     if (cd->cia_ptr->log == LOG_ERR)
         cd->cia_ptr->log = log_open(cd->cia_ptr->myname);
 
-    cd->cia_ptr->ta_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    cd->cia_ptr->tb_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-    cd->cia_ptr->tod_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
-
     sprintf(buffer, "%s_TA", cd->cia_ptr->myname);
-    alarm_init(cd->cia_ptr->ta_alarm, mycpu_alarm_context,
-               buffer, cd->int_ta);
+    cd->cia_ptr->ta_alarm = alarm_new(mycpu_alarm_context, buffer, cd->int_ta);
     sprintf(buffer, "%s_TB", cd->cia_ptr->myname);
-    alarm_init(cd->cia_ptr->tb_alarm, mycpu_alarm_context,
-               buffer, cd->int_tb);
+    cd->cia_ptr->tb_alarm = alarm_new(mycpu_alarm_context, buffer, cd->int_tb);
     sprintf(buffer, "%s_TOD", cd->cia_ptr->myname);
-    alarm_init(cd->cia_ptr->tod_alarm, mycpu_alarm_context,
-               buffer, cd->int_tod);
+    cd->cia_ptr->tod_alarm = alarm_new(mycpu_alarm_context, buffer,
+                                       cd->int_tod);
 
     clk_guard_add_callback(mycpu_clk_guard, cd->clk, NULL);
 

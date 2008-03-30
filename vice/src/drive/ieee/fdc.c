@@ -84,7 +84,7 @@ static log_t fdc_log = LOG_ERR;
 
 typedef struct fdc_t {
     int fdc_state;
-    alarm_t     fdc_alarm;
+    alarm_t     *fdc_alarm;
     CLOCK       alarm_clk;
     BYTE        *buffer;
     BYTE        *iprom;
@@ -119,10 +119,10 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
     if (DRIVE_IS_OLDTYPE(drive_type)) {
         fdc[fnum].drive_type = drive_type;
         fdc[fnum].fdc_state = FDC_RESET0;
-        alarm_set(&fdc[fnum].fdc_alarm, drive_clk[fnum] + 20);
+        alarm_set(fdc[fnum].fdc_alarm, drive_clk[fnum] + 20);
     } else {
         fdc[fnum].drive_type = DRIVE_TYPE_NONE;
-        alarm_unset(&fdc[fnum].fdc_alarm);
+        alarm_unset(fdc[fnum].fdc_alarm);
         fdc[fnum].fdc_state = FDC_UNUSED;
     }
 
@@ -592,7 +592,7 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
             fdc[fnum].fdc_state++;
         }
         fdc[fnum].alarm_clk = rclk + 2000;
-        alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+        alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
         break;
       case FDC_RESET1:
         if (DOS_IS_80(fdc[fnum].drive_type)) {
@@ -607,7 +607,7 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
             }
         }
         fdc[fnum].alarm_clk = rclk + 2000;
-        alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+        alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
         break;
       case FDC_RESET2:
         if (DOS_IS_80(fdc[fnum].drive_type)) {
@@ -640,7 +640,7 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
                 fdc[fnum].alarm_clk = rclk + 2000;
             }
         }
-        alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+        alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
         break;
     case FDC_RUN:
         /* check write protect switch */
@@ -700,7 +700,7 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
             }
         }
         fdc[fnum].alarm_clk = rclk + 30000;
-        alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+        alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
         /* job loop */
         break;
     }
@@ -736,16 +736,15 @@ void fdc_init(drive_context_t *drv)
     log_message(fdc_log, "fdc_init(drive %d)", fnum);
 #endif
 
-
     if (fnum == 0) {
-        alarm_init(&fdc[fnum].fdc_alarm, drive0_context.cpu.alarm_context,
-               "fdc0", int_fdc0);
+        fdc[fnum].fdc_alarm = alarm_new(drive0_context.cpu.alarm_context,
+                                        "fdc0", int_fdc0);
         clk_guard_add_callback(drive0_context.cpu.clk_guard,
                                clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
-        alarm_init(&fdc[fnum].fdc_alarm, drive1_context.cpu.alarm_context,
-                   "fdc1", int_fdc1);
+        fdc[fnum].fdc_alarm = alarm_new(drive1_context.cpu.alarm_context,
+                                        "fdc1", int_fdc1);
         clk_guard_add_callback(drive1_context.cpu.clk_guard,
                                clk_overflow_callback1, NULL);
     }
@@ -978,7 +977,7 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     SMR_DW(m, &dword);
 
     fdc[fnum].alarm_clk = drive_clk[fnum] + dword;
-    alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
+    alarm_set(fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
 
     /* number of drives - so far 1 only */
     SMR_B(m, &ndrv);
