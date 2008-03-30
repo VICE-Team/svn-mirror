@@ -261,6 +261,9 @@ void drive_shutdown(void)
 {
     drive_cpu_shutdown(&drive0_context);
     drive_cpu_shutdown(&drive1_context);
+
+    gcr_destroy_image(drive[0].gcr);
+    gcr_destroy_image(drive[1].gcr);
 }
 
 void drive_set_active_led_color(unsigned int type, unsigned int dnr)

@@ -212,6 +212,7 @@ void file_system_shutdown(void)
 
     for (i = 0; i < 4; i++) {
         vdrive_device_shutdown(file_system[i].vdrive);
+        lib_free(file_system[i].vdrive);
     }
 }
 
