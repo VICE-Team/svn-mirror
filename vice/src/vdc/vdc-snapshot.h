@@ -3,8 +3,8 @@
  * emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Markus Brenner (markus@brenner.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,7 +31,8 @@
 
 #include "snapshot.h"
 
-int vdc_snapshot_write_module (snapshot_t *s);
-int vdc_snapshot_read_module (snapshot_t *s);
+extern int vdc_snapshot_write_module (snapshot_t *s);
+extern int vdc_snapshot_read_module (snapshot_t *s);
 
 #endif
+

@@ -27,8 +27,6 @@
 #ifndef _Z80MEM_H
 #define _Z80MEM_H
 
-#include "vice.h"
-
 #include "mem.h"
 #include "types.h"
 

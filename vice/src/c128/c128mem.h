@@ -72,8 +72,6 @@ extern BYTE *page_zero, *page_one, *ram_bank;
 
 #if 0 /* def _C128CPU_C */
 
-#include "types.h"
-
 extern read_func_ptr_t _mem_read_tab[];
 extern store_func_ptr_t _mem_write_tab[];
 

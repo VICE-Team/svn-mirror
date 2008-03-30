@@ -2,12 +2,12 @@
  * crtc-mem.h - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,13 +33,15 @@
 #ifndef _CRTC_MEM_H
 #define _CRTC_MEM_H
 
-void REGPARM2 store_crtc(ADDRESS addr, BYTE value);
-BYTE REGPARM1 read_crtc(ADDRESS addr);
-BYTE REGPARM1 peek_crtc(ADDRESS addr);
+#include "types.h"
 
-void crtc_set_char(int crom);
+extern void REGPARM2 crtc_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 crtc_read(ADDRESS addr);
+extern BYTE REGPARM1 crtc_peek(ADDRESS addr);
 
-void crtc_update_memory_ptrs(void);
+extern void crtc_set_char(int crom);
+
+extern void crtc_update_memory_ptrs(void);
 
 #endif
 

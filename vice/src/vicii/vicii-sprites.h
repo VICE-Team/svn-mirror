@@ -2,7 +2,7 @@
  * vicii-sprites.h - Sprites for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -49,3 +49,4 @@ void vic_ii_sprites_set_x_position (unsigned int num,
                                     int new_x, int raster_x);
 
 #endif
+

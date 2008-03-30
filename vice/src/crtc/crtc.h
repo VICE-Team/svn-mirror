@@ -2,12 +2,12 @@
  * crtc.h - A CRTC emulation (under construction)
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -191,38 +191,39 @@ extern crtc_t crtc;
 
 
 
-canvas_t crtc_init (void);
-void crtc_reset (void);
+extern canvas_t crtc_init (void);
+extern void crtc_reset (void);
 
-int crtc_init_resources (void);
-int crtc_init_cmdline_options (void);
+extern int crtc_init_resources (void);
+extern int crtc_init_cmdline_options (void);
 
-int crtc_write_snapshot_module(snapshot_t *s);
-int crtc_read_snapshot_module(snapshot_t *s);
+extern int crtc_write_snapshot_module(snapshot_t *s);
+extern int crtc_read_snapshot_module(snapshot_t *s);
 
-void crtc_set_screen_addr(BYTE *screen);
-void crtc_set_chargen_offset(int offset);
-void crtc_set_chargen_addr(BYTE *chargen, int cmask);
-void crtc_set_screen_options(int num_cols, int rasterlines);
-void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
+extern void crtc_set_screen_addr(BYTE *screen);
+extern void crtc_set_chargen_offset(int offset);
+extern void crtc_set_chargen_addr(BYTE *chargen, int cmask);
+extern void crtc_set_screen_options(int num_cols, int rasterlines);
+extern void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
                                                                 int vrevmask);
-void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
-void crtc_set_retrace_type(int type);
-void crtc_enable_hw_screen_blank(int enable);
+extern void crtc_set_retrace_callback(machine_crtc_retrace_signal_t callback);
+extern void crtc_set_retrace_type(int type);
+extern void crtc_enable_hw_screen_blank(int enable);
 
-void crtc_screen_enable(int);
+extern void crtc_screen_enable(int);
 
-int crtc_offscreen(void);
+extern int crtc_offscreen(void);
 
-void crtc_update_window(void);
+extern void crtc_update_window(void);
 
 
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
-int crtc_load_palette (const char *name);
-void crtc_resize (void);
-void crtc_exposure_handler (unsigned int width, unsigned int height);
-int crtc_raster_draw_alarm_handler (long offset);
+extern int crtc_load_palette (const char *name);
+extern void crtc_resize (void);
+extern void crtc_exposure_handler (unsigned int width, unsigned int height);
+extern int crtc_raster_draw_alarm_handler (long offset);
 
-#endif                          /* _CRTC_H */
+#endif /* _CRTC_H */
+

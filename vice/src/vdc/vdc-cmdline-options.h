@@ -3,8 +3,8 @@
  * emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Markus Brenner (markus@brenner.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,6 +29,7 @@
 #ifndef _VDC_CMDLINE_OPTIONS_H
 #define _VDC_CMDLINE_OPTIONS_H
 
-int vdc_cmdline_options_init (void);
+extern int vdc_cmdline_options_init (void);
 
 #endif
+

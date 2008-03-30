@@ -2,7 +2,7 @@
  * vicii-draw.h - Rendering for the MOS6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,7 +27,8 @@
 #ifndef _VIC_II_DRAW_H
 #define _VIC_II_DRAW_H
 
-void vic_ii_draw_init (void);
-void vic_ii_draw_set_double_size (int enabled);
+extern void vic_ii_draw_init (void);
+extern void vic_ii_draw_set_double_size (int enabled);
 
 #endif
+

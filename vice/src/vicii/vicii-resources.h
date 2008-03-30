@@ -2,7 +2,7 @@
  * vicii-resources.h - Resources for the MOS 6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,8 +28,6 @@
 #define _VIC_II_RESOURCES_H
 
 #include "vice.h"
-
-#include "vicii.h"
 
 /* VIC-II resources.  */
 struct _vic_ii_resources
@@ -79,3 +77,4 @@ extern vic_ii_resources_t vic_ii_resources;
 int vic_ii_resources_init (void);
 
 #endif
+

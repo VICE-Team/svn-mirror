@@ -349,10 +349,10 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/log.h \
 	../../../src/snapshot.h ../../../src/kbdbuf.h \
-	../../../src/maincpu.h ../../../src/alarm.h ../../../src/mem.h \
-	../../../src/mon.h ../../../src/mos6510.h ../../../src/sound.h \
-	../../../src/warn.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h video.h ../../../src/vsync.h joystick.h
+	../../../src/maincpu.h ../../../src/alarm.h ../../../src/mon.h \
+	../../../src/mos6510.h ../../../src/sound.h ../../../src/warn.h \
+	ui.h xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	video.h ../../../src/vsync.h joystick.h
 
 info-am:
 info: info-recursive

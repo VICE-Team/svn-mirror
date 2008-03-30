@@ -2,8 +2,8 @@
  * vdc-mem.h - Memory interface for the MOS 8563 (VDC) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Markus Brenner (markus@brenner.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,7 +28,10 @@
 #ifndef _VDC_MEM_H
 #define _VDC_MEM_H
 
-void REGPARM2 store_vdc (ADDRESS addr, BYTE value);
-BYTE REGPARM1 read_vdc (ADDRESS addr);
+#include "types.h"
+
+extern void REGPARM2 vdc_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 vdc_read(ADDRESS addr);
 
 #endif
+

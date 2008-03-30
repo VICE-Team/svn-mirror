@@ -301,10 +301,9 @@ vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h vdc.h \
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/log.h ../../src/arch/unix/types.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/mos6510.h ../../src/palette.h \
-	../../src/utils.h vdc.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
+	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
+	../../src/mos6510.h ../../src/palette.h ../../src/utils.h vdc.h \
+	../../src/raster/raster.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

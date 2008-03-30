@@ -3,7 +3,7 @@
  * emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,3 +34,4 @@ int vic_ii_snapshot_write_module (snapshot_t *s);
 int vic_ii_snapshot_read_module (snapshot_t *s);
 
 #endif
+

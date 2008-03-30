@@ -265,12 +265,12 @@ distdir: $(DISTFILES)
 	done
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h \
-	../../src/autostart.h c64.h c64cia.h ../../src/cia.h c64mem.h \
-	../../src/mem.h c64tpi.h ../../src/arch/unix/xaw/c64ui.h \
-	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/log.h ../../src/clkguard.h ../../src/datasette.h \
-	../../src/tap.h ../../src/drive/drive.h ../../src/diskimage.h \
-	../../src/gcr.h ../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/autostart.h c64.h c64cia.h c64mem.h ../../src/mem.h \
+	c64tpi.h ../../src/arch/unix/xaw/c64ui.h ../../src/cartridge.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/log.h \
+	../../src/clkguard.h ../../src/datasette.h ../../src/tap.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/drive/drivecpu.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
 	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
@@ -294,10 +294,10 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/mos6510.h ../../src/aciacore.c \
-	../../src/acia.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/machine.h ../../src/rs232.h
+	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
+	../../src/mos6510.h ../../src/aciacore.c ../../src/acia.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
+	../../src/rs232.h
 c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
 	../../src/snapshot.h c64tpi.h ../../src/cartridge.h \
@@ -307,7 +307,7 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/resources.h ../../src/maincpu.h ../../src/clkguard.h \
-	../../src/mem.h ../../src/mon.h ../../src/mos6510.h c64cia.h \
+	../../src/mon.h ../../src/mos6510.h c64cia.h \
 	../../src/arch/unix/kbd.h ../../src/keyboard.h \
 	../../src/rsuser.h ../../src/vicii/vicii.h c64.h \
 	../../src/raster/raster.h ../../src/palette.h \
@@ -325,7 +325,7 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/resources.h ../../src/maincpu.h ../../src/clkguard.h \
-	../../src/mem.h ../../src/mon.h ../../src/mos6510.h c64mem.h \
+	../../src/mon.h ../../src/mos6510.h c64mem.h ../../src/mem.h \
 	c64iec.h ../../src/iecdrive.h c64cia.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/vicii/vicii.h c64.h \
@@ -341,27 +341,26 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/pruser.h ../../src/rsuser.h ../../src/ciacore.c \
 	../../src/ciatimer.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
-	c64cia.h ../../src/arch/unix/types.h ../../src/cia.h \
-	../../src/snapshot.h c64mem.h ../../src/mem.h
+	c64cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
+	c64mem.h ../../src/mem.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
-	../../src/arch/unix/types.h ../../src/cia.h \
-	../../src/snapshot.h c64iec.h ../../src/iecdrive.h \
-	../../src/cartridge.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
+	../../src/snapshot.h ../../src/arch/unix/types.h c64iec.h \
+	../../src/iecdrive.h ../../src/cartridge.h \
+	../../src/drive/ciad.h ../../src/drive/drive.h \
+	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
+	../../src/drive/drivecpu.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h ../../src/mos6510.h \
-	../../src/maincpu.h ../../src/resources.h \
-	../../src/drive/viad.h ../../src/via.h
+	../../src/6510core.h ../../src/mos6510.h ../../src/maincpu.h \
+	../../src/resources.h ../../src/via.h ../../src/drive/viad.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
-	../../src/arch/unix/types.h c64cia.h ../../src/cia.h \
-	../../src/snapshot.h c64mem.h ../../src/mem.h \
-	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/datasette.h ../../src/tap.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
-	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/parallel.h \
+	../../src/arch/unix/types.h c64cia.h ../../src/snapshot.h \
+	c64mem.h ../../src/mem.h ../../src/cartridge.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/datasette.h \
+	../../src/tap.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/parallel.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	patchrom.h reu.h ../../src/sid/sid.h ../../src/sysfile.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
@@ -375,13 +374,12 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite.h ../../src/arch/unix/video.h \
 	../../src/vicii/vicii-mem.h c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
-	c64cia.h ../../src/arch/unix/types.h ../../src/cia.h \
-	../../src/snapshot.h ../../src/machine.h ../../src/rsuser.h
-c64tpi.o: c64tpi.c c64mem.h ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
+	c64cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
+	../../src/machine.h ../../src/rsuser.h
+c64tpi.o: c64tpi.c c64mem.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/log.h ../../src/drive/drivecpu.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mos6510.h ../../src/parallel.h \
 	../../src/maincpu.h ../../src/tpi.h ../../src/tpicore.h \
@@ -395,16 +393,16 @@ cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h patchrom.h ../../src/utils.h
-psid.o: psid.c ../../src/vice.h ../../src/config.h psid.h c64mem.h \
-	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/log.h ../../src/machine.h ../../src/utils.h \
-	../../src/zfile.h psiddrv.h
+psid.o: psid.c ../../src/vice.h ../../src/config.h c64mem.h \
+	../../src/mem.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/log.h ../../src/machine.h \
+	psid.h ../../src/utils.h ../../src/zfile.h psiddrv.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h reu.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/snapshot.h ../../src/mos6510.h ../../src/mem.h reu.h \
 	../../src/utils.h
 
 info-am:

@@ -314,15 +314,15 @@ c128ui.o: c128ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
 	uihotkey.h uisettings.h ../../../../src/vsync.h c128icon.xpm
 c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/cbm2/c610mem.h \
-	../../../../src/arch/unix/types.h ../../../../src/datasette.h \
-	../../../../src/tap.h ../../../../src/arch/unix/joystick.h \
-	petui.h ../../../../src/resources.h uicommands.h ui.h \
+	../../../../src/cbm2/c610mem.h ../../../../src/datasette.h \
+	../../../../src/tap.h ../../../../src/arch/unix/types.h \
+	../../../../src/arch/unix/joystick.h petui.h \
+	../../../../src/resources.h uicommands.h ui.h \
 	../../../../src/palette.h ../../../../src/uiapi.h uimenu.h \
 	uihotkey.h uisettings.h ../../../../src/vsync.h c610icon.xpm
 c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/c64/c64mem.h ../../../../src/arch/unix/types.h \
-	../../../../src/mem.h ../../../../src/snapshot.h \
+	../../../../src/c64/c64mem.h ../../../../src/mem.h \
+	../../../../src/snapshot.h ../../../../src/arch/unix/types.h \
 	../../../../src/cartridge.h ../../../../src/datasette.h \
 	../../../../src/tap.h ../../../../src/drive/drive.h \
 	../../../../src/diskimage.h ../../../../src/gcr.h \
@@ -349,11 +349,10 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/snapshot.h ../../../../src/machine.h \
 	../../../../src/maincpu.h ../../../../src/6510core.h \
 	../../../../src/alarm.h ../../../../src/clkguard.h \
-	../../../../src/mem.h ../../../../src/mon.h \
-	../../../../src/interrupt.h ../../../../src/mos6510.h \
-	../../../../src/arch/unix/mouse.h ../../../../src/c64/psid.h \
-	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
-	../../../../src/vsync.h
+	../../../../src/mon.h ../../../../src/interrupt.h \
+	../../../../src/mos6510.h ../../../../src/arch/unix/mouse.h \
+	../../../../src/c64/psid.h uihotkey.h uimenu.h uisettings.h \
+	../../../../src/utils.h ../../../../src/vsync.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/palette.h \
@@ -365,8 +364,8 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/6510core.h ../../../../src/log.h \
 	../../../../src/machine.h ../../../../src/maincpu.h \
 	../../../../src/alarm.h ../../../../src/clkguard.h \
-	../../../../src/mem.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/resources.h \
+	../../../../src/mon.h ../../../../src/mos6510.h \
+	../../../../src/mem.h ../../../../src/resources.h \
 	../../../../src/sound.h ../../../../src/warn.h \
 	../../../../src/tape.h ../../../../src/traps.h uiedisk.h \
 	uisnapshot.h ../../../../src/utils.h ../../../../src/vsync.h \

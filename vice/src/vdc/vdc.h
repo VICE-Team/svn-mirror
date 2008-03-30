@@ -2,8 +2,8 @@
  * vdc.h - A first attempt at a MOS8563 (VDC) emulation.
  *
  * Written by
- *  Markus Brenner   (markus@brenner.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Markus Brenner <markus@brenner.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,7 +34,6 @@
 #include "log.h"
 #include "raster.h"
 #include "snapshot.h"
-
 #include "vdc-mem.h"
 
 /* Screen constants.  */
@@ -155,31 +154,32 @@ typedef struct _vdc vdc_t;
 extern vdc_t vdc;
 
 
-int vdc_init_resources(void);
-int vdc_init_cmdline_options (void);
-canvas_t vdc_init (void);
-void vdc_reset (void);
-void vdc_exposure_handler (unsigned int width, unsigned int height);
-void vdc_prepare_for_snapshot (void);
-void vdc_powerup (void);
-void vdc_resize (void);
+extern int vdc_init_resources(void);
+extern int vdc_init_cmdline_options (void);
+extern canvas_t vdc_init (void);
+extern void vdc_reset (void);
+extern void vdc_exposure_handler (unsigned int width, unsigned int height);
+extern void vdc_prepare_for_snapshot (void);
+extern void vdc_powerup (void);
+extern void vdc_resize (void);
 
-int vdc_write_snapshot_module (snapshot_t *s);
-int vdc_read_snapshot_module (snapshot_t *s);
+extern int vdc_write_snapshot_module (snapshot_t *s);
+extern int vdc_read_snapshot_module (snapshot_t *s);
 
-void video_free (void);
+extern void video_free (void);
 #if 0				/*  def USE_VIDMODE_EXTENSION */
-void video_setfullscreen (int v, int width, int height);
+extern void video_setfullscreen (int v, int width, int height);
 #endif
 
 
 /* Private function calls, used by the other VDC modules.  FIXME:
    Prepend names with `_'?  */
-int vdc_load_palette (const char *name);
-void vdc_fetch_matrix (int offs, int num);
-void vdc_update_memory_ptrs (unsigned int cycle);
-void vdc_update_video_mode (unsigned int cycle);
-int vdc_raster_draw_alarm_handler (long offset);
-void vdc_set_set_canvas_refresh(int enable);
+extern int vdc_load_palette (const char *name);
+extern void vdc_fetch_matrix (int offs, int num);
+extern void vdc_update_memory_ptrs (unsigned int cycle);
+extern void vdc_update_video_mode (unsigned int cycle);
+extern int vdc_raster_draw_alarm_handler (long offset);
+extern void vdc_set_set_canvas_refresh(int enable);
 
 #endif /* _VDC_H */
+

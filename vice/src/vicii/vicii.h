@@ -2,7 +2,7 @@
  * vicii.h - A cycle-exact event-driven MOS6569 (VIC-II) emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,9 +36,8 @@
 #include "raster.h"
 #include "snapshot.h"
 #include "types.h"
-#include "video.h"
-
 #include "vicii-mem.h"
+#include "video.h"
 
 /* Screen constants.  */
 
@@ -370,42 +369,42 @@ extern vic_ii_t vic_ii;
 
 
 
-int vic_ii_init_resources (void);
-int vic_ii_init_cmdline_options (void);
-canvas_t vic_ii_init (void);
-void vic_ii_reset (void);
-void vic_ii_exposure_handler (unsigned int width, unsigned int height);
-void vic_ii_trigger_light_pen (CLOCK mclk);
-void vic_ii_set_vbank (int new_vbank);
-void vic_ii_set_ram_base (BYTE * base);
-void vic_ii_enable_extended_keyboard_rows (int flag);
-void vic_ii_prepare_for_snapshot (void);
-void vic_ii_powerup (void);
-void vic_ii_resize (void);
-void vic_ii_set_set_canvas_refresh(int enable);
-void vic_ii_change_timing(void);
-void vic_ii_reset_registers(void);
+extern int vic_ii_init_resources (void);
+extern int vic_ii_init_cmdline_options (void);
+extern canvas_t vic_ii_init (void);
+extern void vic_ii_reset (void);
+extern void vic_ii_exposure_handler (unsigned int width, unsigned int height);
+extern void vic_ii_trigger_light_pen (CLOCK mclk);
+extern void vic_ii_set_vbank (int new_vbank);
+extern void vic_ii_set_ram_base (BYTE * base);
+extern void vic_ii_enable_extended_keyboard_rows (int flag);
+extern void vic_ii_prepare_for_snapshot (void);
+extern void vic_ii_powerup (void);
+extern void vic_ii_resize (void);
+extern void vic_ii_set_set_canvas_refresh(int enable);
+extern void vic_ii_change_timing(void);
+extern void vic_ii_reset_registers(void);
 
-int vic_ii_write_snapshot_module (snapshot_t *s);
-int vic_ii_read_snapshot_module (snapshot_t *s);
+extern int vic_ii_write_snapshot_module (snapshot_t *s);
+extern int vic_ii_read_snapshot_module (snapshot_t *s);
 
-void video_free (void);
+extern void video_free (void);
 #if 0				/*  def USE_VIDMODE_EXTENSION */
-void video_setfullscreen (int v, int width, int height);
+extern void video_setfullscreen (int v, int width, int height);
 #endif
 
 
 
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
-int vic_ii_load_palette (const char *name);
-void vic_ii_fetch_matrix (int offs, int num);
-void vic_ii_set_raster_irq (unsigned int line);
-void vic_ii_update_memory_ptrs (unsigned int cycle);
-void vic_ii_update_video_mode (unsigned int cycle);
-int vic_ii_raster_draw_alarm_handler (long offset);
-int vic_ii_raster_fetch_alarm_handler (long offset);
-int vic_ii_raster_irq_alarm_handler (long offset);
+extern int vic_ii_load_palette (const char *name);
+extern void vic_ii_fetch_matrix (int offs, int num);
+extern void vic_ii_set_raster_irq (unsigned int line);
+extern void vic_ii_update_memory_ptrs (unsigned int cycle);
+extern void vic_ii_update_video_mode (unsigned int cycle);
+extern int vic_ii_raster_draw_alarm_handler (long offset);
+extern int vic_ii_raster_fetch_alarm_handler (long offset);
+extern int vic_ii_raster_irq_alarm_handler (long offset);
 
 
 

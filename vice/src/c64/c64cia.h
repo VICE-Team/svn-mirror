@@ -2,7 +2,7 @@
  * cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,16 +27,14 @@
 #ifndef _C64_CIA_H
 #define _C64_CIA_H
 
-#include "types.h"
-
-#include "cia.h"
 #include "snapshot.h"
+#include "types.h"
 
 extern void cia1_init(void);
 extern void cia1_reset(void);
-extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia1(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia1(ADDRESS addr);
+extern void REGPARM2 cia1_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia1_read(ADDRESS addr);
+extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
@@ -46,12 +44,13 @@ extern int cia1_read_snapshot_module(snapshot_t *p);
 
 extern void cia2_init(void);
 extern void cia2_reset(void);
-extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_cia2(ADDRESS addr);
-extern BYTE REGPARM1 peek_cia2(ADDRESS addr);
+extern void REGPARM2 cia2_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 cia2_read(ADDRESS addr);
+extern BYTE REGPARM1 cia2_peek(ADDRESS addr);
 extern void cia2_set_flag(void);
 extern void cia2_set_sdr(BYTE received_byte);
 extern int cia2_write_snapshot_module(snapshot_t *p);
 extern int cia2_read_snapshot_module(snapshot_t *p);
 
 #endif /* _C64_CIA_H */
+

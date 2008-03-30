@@ -1,3 +1,54 @@
+1999-10-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.18.
+
+	* mem.h, c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+        pet/petmem.c, cbm2/c610mem.c (mem_get_screen_parameter): New
+	function.
+
+	* vicii/vicii-mem.h, vicii/vicii-mem.c, c64/c64mem.c, mem.h,
+	c128/c128mem.c, c128/z80mem.c, sid/sid.h, sid/sid.c, traps.c,
+	cbm2/c610mem.c, c64/psid.c, c64/patchrom.c, vic20/vic20mem.c,
+	pet/petmem.c, c64/c64mem.h, c64/c64cia1.c, c64/c64cia2.c,
+	c64/c64cia.h, c128/c128cia1.c, c64/reu.h, c64/reu.c,
+	drive/ciad.h, drive/cia1571drive0.c, drive/cia1571drive1.c,
+	drive/cia1581drive0.c, drive/cia1581drive1.c, cbm2/c610cia.h,
+	drive/drivecpu0.c, drive/drivecpu1.c, drive/drivecpucore.c,
+	drive/wd1770.h, drive/wd1770.c, drive/via1drive0.c, c64/c64.c,
+	drive/via1drive1.c, drive/via2drive0.c, drive/via2drive1.c,
+	drive/viad.h, vic20/vic20via.h, vic20/vic20via1.c, ciacore.c,
+	vic20/vic20via2.c, vic20/vic20ieeevia1.c, pet/petvia.h,
+	vic20/vic20ieeevia2.c, vic20/vic20ieeevia.h, pet/petvia.c,
+	c64/c64tpi.h, c64/c64tpi.c, c128/c128.c, cbm2/c610tpi.h,
+	c64/c64cartmem.c, cbm2/c610tpi1.c, cbm2/c610tpi2.c, piacore.c,
+	pet/petpia.h, pet/pet.c, pet/petpia1.c, pet/petpia2.c,
+	riotcore.c, drive/riot1drive0.c, drive/riot1drive1.c,
+	drive/riot2drive0.c, drive/riot2drive1.c, drive/riotd.h,
+	aciacore.c, c64/c64acia.h, c64/c64acia1.c, pet/petacia.h,
+	pet/petacia1.c, cbm2/c610acia.h, cbm2/c610acia1.c,
+	crtc/crtc-mem.h, crtc/crtc-mem.c, crtc/crtc-snapshot.c,
+	vic20/vic-mem.h, vic20/vic-mem.c, vdc/vdc-mem.h,
+	vdc/vdc-mem.c: Changed names of memory and IO access
+	functions.
+
+	* vic20/vic20datasette.c, vic20/vic20rsuser.c, vic20/vic20.c:
+	#include "via.h".
+
+	* c128/c128.c: #include "datasette.h".
+
+	* mon.h, maincpu.h: Do not #include "mem.h".
+
+	* drive/drivecpucore.c, mon.c, vicii/vicii-snapshot.c,
+	vicii/vicii-snapshot.c, pet/pet.c, pet/petmem.c, cbm2/c610.c,
+	cbm2/c610mem.c, kbdbuf.c, serial.c: #include "mem.h".
+
+	* vicii/vicii-mem.h, vdc/vdc-mem.h, crtc/crtc-mem.h,
+	vdrive/vdrive-bam.h, raster/raster-sprite-status.h,
+	raster/raster.h, crtc/crtc-snapshot.c: #include "types.h".
+
+	* c64/c64iec.c, c128/c128iec.c, vic20/vic20iec.c: #include
+	"via.h".
+
 1999-10-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.17.

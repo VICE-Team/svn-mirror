@@ -2,12 +2,12 @@
  * crtc-draw.h - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,7 +32,8 @@
 #ifndef _CRTC_DRAW_H
 #define _CRTC_DRAW_H
 
-void crtc_draw_init(void);
-void crtc_draw_set_double_size(int enabled);
+extern void crtc_draw_init(void);
+extern void crtc_draw_set_double_size(int enabled);
 
 #endif
+

@@ -2,12 +2,12 @@
  * crtc-snapshot.c - A line-based CRTC emulation (under construction).
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * 16/24bpp support added by
- *  Steven Tieu (stieu@physics.ubc.ca)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Steven Tieu <stieu@physics.ubc.ca>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,6 +33,7 @@
 
 #include "crtc.h"
 #include "maincpu.h"
+#include "types.h"
 
 
 
@@ -202,8 +203,8 @@ int crtc_read_snapshot_module (snapshot_t * s)
     /* read the registers */
     for (i = 0; (!ef) && (i < 20); i++) {
         if (!(ef = snapshot_module_read_byte (m, &b))) {
-	    store_crtc(0, i);
-	    store_crtc(1, b);
+	    crtc_store(0, i);
+	    crtc_store(1, b);
 	}
     }
 
