@@ -410,72 +410,73 @@ static void export_registers(void)
 
 /* Interrupt handling.  */
 
-#define DO_INTERRUPT(int_kind)                                           \
-    do {                                                                 \
-        BYTE ik = (int_kind);                                            \
-                                                                         \
-        if (ik & (IK_IRQ | IK_NMI)) {                                    \
-            if ((ik & IK_NMI) && 0) {                                    \
-            } else if ((ik & IK_IRQ) && iff1                             \
-                && !OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) {             \
-                WORD jumpdst;                                            \
-                /*TRACE_IRQ();*/                                         \
-                if (mon_mask[e_comp_space] & (MI_STEP)) {                \
-                    mon_check_icount_interrupt();                        \
-                }                                                        \
-                CLK += 4;                                                \
-                --reg_sp;                                                \
-                STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));              \
-                CLK += 4;                                                \
-                --reg_sp;                                                \
-                STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));            \
-                iff1 = 0;                                                \
-                iff2 = 0;                                                \
-                if (im_mode == 1) {                                      \
-                    jumpdst = 0x38;                                      \
-                    CLK += 4;                                            \
-                    JUMP(jumpdst);                                       \
-                    CLK += 3;                                            \
-                } else {                                                 \
-                    jumpdst = (LOAD(reg_i << 8) << 8);                   \
-                    CLK += 4;                                            \
-                    jumpdst |= (LOAD((reg_i << 8) + 1));                 \
-                    JUMP(jumpdst);                                       \
-                    CLK += 3;                                            \
-                }                                                        \
-            }                                                            \
-        }                                                                \
-        if (ik & (IK_TRAP | IK_RESET)) {                                 \
-            if (ik & IK_TRAP) {                                          \
-                export_registers();                                      \
-                interrupt_do_trap(cpu_int_status, (WORD)z80_reg_pc);     \
-                import_registers();                                      \
-                if (cpu_int_status->global_pending_int & IK_RESET)       \
-                    ik |= IK_RESET;                                      \
-            }                                                            \
-            if (ik & IK_RESET) {                                         \
-                interrupt_ack_reset(cpu_int_status);                     \
-                maincpu_reset();                                         \
-            }                                                            \
-        }                                                                \
-        if (ik & (IK_MONITOR)) {                                         \
-            caller_space = e_comp_space;                                 \
-            if (mon_force_import(e_comp_space))                          \
-                import_registers();                                      \
-            if (mon_mask[e_comp_space])                                  \
-                export_registers();                                      \
-            if (mon_mask[e_comp_space] & (MI_BREAK)) {                   \
-                if (check_breakpoints(e_comp_space, (WORD)z80_reg_pc)) { \
-                   monitor_startup();                                    \
-                }                                                        \
-            }                                                            \
-            if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
-                mon_check_icount((WORD)z80_reg_pc);                      \
-            }                                                            \
-            if (mon_mask[e_comp_space] & (MI_WATCH)) {                   \
-                mon_check_watchpoints((WORD)z80_reg_pc);                 \
-            }                                                            \
-        }                                                                \
+#define DO_INTERRUPT(int_kind)                                       \
+    do {                                                             \
+        BYTE ik = (int_kind);                                        \
+                                                                     \
+        if (ik & (IK_IRQ | IK_NMI)) {                                \
+            if ((ik & IK_NMI) && 0) {                                \
+            } else if ((ik & IK_IRQ) && iff1                         \
+                && !OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) {         \
+                WORD jumpdst;                                        \
+                /*TRACE_IRQ();*/                                     \
+                if (monitor_mask[e_comp_space] & (MI_STEP)) {        \
+                    monitor_check_icount_interrupt();                \
+                }                                                    \
+                CLK += 4;                                            \
+                --reg_sp;                                            \
+                STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));          \
+                CLK += 4;                                            \
+                --reg_sp;                                            \
+                STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));        \
+                iff1 = 0;                                            \
+                iff2 = 0;                                            \
+                if (im_mode == 1) {                                  \
+                    jumpdst = 0x38;                                  \
+                    CLK += 4;                                        \
+                    JUMP(jumpdst);                                   \
+                    CLK += 3;                                        \
+                } else {                                             \
+                    jumpdst = (LOAD(reg_i << 8) << 8);               \
+                    CLK += 4;                                        \
+                    jumpdst |= (LOAD((reg_i << 8) + 1));             \
+                    JUMP(jumpdst);                                   \
+                    CLK += 3;                                        \
+                }                                                    \
+            }                                                        \
+        }                                                            \
+        if (ik & (IK_TRAP | IK_RESET)) {                             \
+            if (ik & IK_TRAP) {                                      \
+                export_registers();                                  \
+                interrupt_do_trap(cpu_int_status, (WORD)z80_reg_pc); \
+                import_registers();                                  \
+                if (cpu_int_status->global_pending_int & IK_RESET)   \
+                    ik |= IK_RESET;                                  \
+            }                                                        \
+            if (ik & IK_RESET) {                                     \
+                interrupt_ack_reset(cpu_int_status);                 \
+                maincpu_reset();                                     \
+            }                                                        \
+        }                                                            \
+        if (ik & (IK_MONITOR)) {                                     \
+            caller_space = e_comp_space;                             \
+            if (monitor_force_import(e_comp_space))                  \
+                import_registers();                                  \
+            if (monitor_mask[e_comp_space])                          \
+                export_registers();                                  \
+            if (monitor_mask[e_comp_space] & (MI_BREAK)) {           \
+                if (monitor_check_breakpoints(e_comp_space,          \
+                    (WORD)z80_reg_pc)) {                             \
+                    monitor_startup();                               \
+                }                                                    \
+            }                                                        \
+            if (monitor_mask[e_comp_space] & (MI_STEP)) {            \
+                monitor_check_icount((WORD)z80_reg_pc);              \
+            }                                                        \
+            if (monitor_mask[e_comp_space] & (MI_WATCH)) {           \
+                monitor_check_watchpoints((WORD)z80_reg_pc);         \
+            }                                                        \
+        }                                                            \
     } while (0)
 
 /* ------------------------------------------------------------------------- */

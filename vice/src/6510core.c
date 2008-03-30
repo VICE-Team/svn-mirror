@@ -186,8 +186,8 @@
             if ((ik & IK_NMI)                                         \
                 && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {  \
                 TRACE_NMI();                                          \
-                if (mon_mask[CALLER] & (MI_STEP)) {                   \
-                    mon_check_icount_interrupt();                     \
+                if (monitor_mask[CALLER] & (MI_STEP)) {               \
+                    monitor_check_icount_interrupt();                 \
                 }                                                     \
                 interrupt_ack_nmi(CPU_INT_STATUS);                    \
                 LOCAL_SET_BREAK(0);                                   \
@@ -204,8 +204,8 @@
                        && interrupt_check_irq_delay(CPU_INT_STATUS,   \
                                                     CLK)) {           \
                 TRACE_IRQ();                                          \
-                if (mon_mask[CALLER] & (MI_STEP)) {                   \
-                    mon_check_icount_interrupt();                     \
+                if (monitor_mask[CALLER] & (MI_STEP)) {               \
+                    monitor_check_icount_interrupt();                 \
                 }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
@@ -235,22 +235,23 @@
         if (ik & (IK_MONITOR | IK_DMA)) {                             \
             if (ik & IK_MONITOR) {                                    \
                 caller_space = CALLER;                                \
-                if (mon_force_import(CALLER))                         \
+                if (monitor_force_import(CALLER))                     \
                     IMPORT_REGISTERS();                               \
-                if (mon_mask[CALLER])                                 \
+                if (monitor_mask[CALLER])                             \
                     EXPORT_REGISTERS();                               \
-                if (mon_mask[CALLER] & (MI_BREAK)) {                  \
-                    if (check_breakpoints(CALLER, (WORD)reg_pc)) {    \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {              \
+                    if (monitor_check_breakpoints(CALLER,             \
+                        (WORD)reg_pc)) {                              \
                         monitor_startup();                            \
                         IMPORT_REGISTERS();                           \
                     }                                                 \
                 }                                                     \
-                if (mon_mask[CALLER] & (MI_STEP)) {                   \
-                    mon_check_icount((WORD)reg_pc);                   \
+                if (monitor_mask[CALLER] & (MI_STEP)) {               \
+                    monitor_check_icount((WORD)reg_pc);               \
                     IMPORT_REGISTERS();                               \
                 }                                                     \
-                if (mon_mask[CALLER] & (MI_WATCH)) {                  \
-                    mon_check_watchpoints((WORD)reg_pc);              \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {              \
+                    monitor_check_watchpoints((WORD)reg_pc);          \
                     IMPORT_REGISTERS();                               \
                 }                                                     \
             }                                                         \

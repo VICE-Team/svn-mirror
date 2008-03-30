@@ -115,14 +115,14 @@ struct monitor_interface_s {
 };
 typedef struct monitor_interface_s monitor_interface_t;
 
-
 /* Externals */
 struct break_list_s;
 extern struct break_list_s *watchpoints_load[NUM_MEMSPACES];
 extern struct break_list_s *watchpoints_store[NUM_MEMSPACES];
-extern MEMSPACE caller_space;
-extern unsigned mon_mask[NUM_MEMSPACES];
+extern struct break_list_s *breakpoints[NUM_MEMSPACES];
 
+extern MEMSPACE caller_space;
+extern unsigned monitor_mask[NUM_MEMSPACES];
 
 
 /* Prototypes */
@@ -133,17 +133,17 @@ extern void monitor_shutdown(void);
 extern void monitor_startup(void);
 extern void monitor_startup_trap(void);
 
-extern void mon_abort(void);
+extern void monitor_abort(void);
 
-extern int mon_force_import(MEMSPACE mem);
-extern void mon_check_icount(WORD a);
-extern void mon_check_icount_interrupt(void);
-extern void mon_check_watchpoints(WORD a);
+extern int monitor_force_import(MEMSPACE mem);
+extern void monitor_check_icount(WORD a);
+extern void monitor_check_icount_interrupt(void);
+extern void monitor_check_watchpoints(WORD a);
 
 extern void monitor_cpu_type_set(const char *cpu_type);
 
-extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
-extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
+extern void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem);
+extern void monitor_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
 extern monitor_interface_t *monitor_interface_new(void);
 extern void monitor_interface_destroy(monitor_interface_t *monitor_interface);
@@ -153,15 +153,12 @@ extern int monitor_diskspace_mem(int dnr);
 
 /** Breakpoint interface.  */
 /* Defines */
-#define check_breakpoints(mem, addr) \
-    mon_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
-
-/* Externals */
-extern struct break_list_s *breakpoints[NUM_MEMSPACES];
+#define monitor_check_breakpoints(mem, addr) \
+    monitor_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
 
 /* Prototypes */
-extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
-                                           struct break_list_s *list);
+extern int monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
+                                               struct break_list_s *list);
 
 /** Disassemble interace */
 /* Prototypes */

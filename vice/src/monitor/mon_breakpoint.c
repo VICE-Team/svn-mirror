@@ -236,8 +236,8 @@ void mon_breakpoint_delete_checkpoint(int brknum)
             remove_checkpoint_from_list(&(breakpoints[mem]), bp);
 
             if (!any_breakpoints(mem)) {
-                mon_mask[mem] &= ~MI_BREAK;
-                if (!mon_mask[mem])
+                monitor_mask[mem] &= ~MI_BREAK;
+                if (!monitor_mask[mem])
                     interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);            }
         } else {
             if (bp->watch_load)
@@ -246,11 +246,11 @@ void mon_breakpoint_delete_checkpoint(int brknum)
                 remove_checkpoint_from_list(&(watchpoints_store[mem]), bp);
 
             if (!any_watchpoints(mem)) {
-                mon_mask[mem] &= ~MI_WATCH;
+                monitor_mask[mem] &= ~MI_WATCH;
                 mon_interfaces[mem]->toggle_watchpoints_func(0,
                     mon_interfaces[mem]->context);
 
-                if (!mon_mask[mem])
+                if (!monitor_mask[mem])
                     interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);            }
         }
     }
@@ -333,8 +333,8 @@ static int compare_checkpoints(breakpoint_t *bp1, breakpoint_t *bp2)
     return 0;
 }
 
-bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
-                                     break_list_t *list)
+bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
+                                         break_list_t *list)
 {
     break_list_t *ptr;
     breakpoint_t *bp;
@@ -453,14 +453,14 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     mem = addr_memspace(start_addr);
     if (!is_load && !is_store) {
         if (!any_breakpoints(mem)) {
-            mon_mask[mem] |= MI_BREAK;
+            monitor_mask[mem] |= MI_BREAK;
             interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
         }
 
         add_to_checkpoint_list(&(breakpoints[mem]), new_bp);
     } else {
         if (!any_watchpoints(mem)) {
-            mon_mask[mem] |= MI_WATCH;
+            monitor_mask[mem] |= MI_WATCH;
             mon_interfaces[mem]->toggle_watchpoints_func(1,
                 mon_interfaces[mem]->context);
             interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);

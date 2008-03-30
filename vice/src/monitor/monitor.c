@@ -33,12 +33,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#else
-#error "Need signals"
-#endif
-
 #ifdef __IBMC__
 #include <direct.h>
 #endif
@@ -62,14 +56,12 @@
 #include "mon_util.h"
 #include "monitor.h"
 #include "montypes.h"
+#include "signals.h"
 #include "sysfile.h"
 #include "types.h"
 #include "uimon.h"
 #include "vsync.h"
 
-
-/* May be called different things on various platforms... */
-typedef void (*signal_handler_t)(int);
 
 int mon_stop_output;
 
@@ -155,7 +147,7 @@ unsigned int data_buf_len;
 bool asm_mode;
 MON_ADDR asm_mode_addr;
 static unsigned int next_or_step_stop;
-unsigned mon_mask[NUM_MEMSPACES];
+unsigned monitor_mask[NUM_MEMSPACES];
 
 static bool watch_load_occurred;
 static bool watch_store_occurred;
@@ -593,7 +585,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
         dot_addr[i] = new_addr(e_default_space + i, 0);
         watch_load_count[i] = 0;
         watch_store_count[i] = 0;
-        mon_mask[i] = MI_NONE;
+        monitor_mask[i] = MI_NONE;
         monitor_labels[i].name_list = NULL;
         for (j = 0; j < HASH_ARRAY_SIZE; j++)
             monitor_labels[i].addr_hash_table[j] = NULL;
@@ -1074,7 +1066,7 @@ void mon_instructions_step(int count)
     if (instruction_count == 1)
         mon_console_close_on_leaving = 0;
 
-    mon_mask[caller_space] |= MI_STEP;
+    monitor_mask[caller_space] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
@@ -1092,7 +1084,7 @@ void mon_instructions_next(int count)
     if (instruction_count == 1)
         mon_console_close_on_leaving = 0;
 
-    mon_mask[caller_space] |= MI_STEP;
+    monitor_mask[caller_space] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
@@ -1106,7 +1098,7 @@ void mon_instruction_return(void)
     skip_jsrs = TRUE;
     exit_mon = 1;
 
-    mon_mask[caller_space] |= MI_STEP;
+    monitor_mask[caller_space] |= MI_STEP;
     interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
 
@@ -1222,7 +1214,7 @@ void mon_delete_conditional(cond_node_t *cnode)
 /* *** WATCHPOINTS *** */
 
 
-void mon_watch_push_load_addr(WORD addr, MEMSPACE mem)
+void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
 {
     if (inside_monitor)
         return;
@@ -1235,7 +1227,7 @@ void mon_watch_push_load_addr(WORD addr, MEMSPACE mem)
     watch_load_count[mem]++;
 }
 
-void mon_watch_push_store_addr(WORD addr, MEMSPACE mem)
+void monitor_watch_push_store_addr(WORD addr, MEMSPACE mem)
 {
     if (inside_monitor)
         return;
@@ -1259,7 +1251,8 @@ static bool watchpoints_check_loads(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_load_array[count][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, watchpoints_load[mem]))
+        if (monitor_breakpoint_check_checkpoint(mem, addr,
+                                                watchpoints_load[mem]))
             trap = TRUE;
     }
     return trap;
@@ -1277,7 +1270,8 @@ static bool watchpoints_check_stores(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_store_array[count][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, watchpoints_store[mem]))
+        if (monitor_breakpoint_check_checkpoint(mem, addr,
+            watchpoints_store[mem]))
             trap = TRUE;
     }
     return trap;
@@ -1287,7 +1281,7 @@ static bool watchpoints_check_stores(MEMSPACE mem)
 /* *** CPU INTERFACES *** */
 
 
-int mon_force_import(MEMSPACE mem)
+int monitor_force_import(MEMSPACE mem)
 {
     bool result;
 
@@ -1297,7 +1291,7 @@ int mon_force_import(MEMSPACE mem)
     return result;
 }
 
-void mon_check_icount(WORD a)
+void monitor_check_icount(WORD a)
 {
     if (!instruction_count)
         return;
@@ -1335,29 +1329,29 @@ void mon_check_icount(WORD a)
     if (instruction_count != 0)
         return;
 
-    if (mon_mask[caller_space] & MI_STEP) {
-        mon_mask[caller_space] &= ~MI_STEP;
+    if (monitor_mask[caller_space] & MI_STEP) {
+        monitor_mask[caller_space] &= ~MI_STEP;
         disassemble_on_entry = 1;
     }
-    if (!mon_mask[caller_space])
+    if (!monitor_mask[caller_space])
         interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
 
     monitor_startup();
 }
 
-void mon_check_icount_interrupt(void)
+void monitor_check_icount_interrupt(void)
 {
-    /* this is a helper for mon_check_icount.
+    /* This is a helper for monitor_check_icount.
     It's called whenever a IRQ or NMI is executed
-    and the mon_mask[caller_space] | MI_STEP is
-    active, i.e., we're in the single step mode */
+    and the monitor_mask[caller_space] | MI_STEP is
+    active, i.e., we're in the single step mode.   */
 
     if (instruction_count)
         if (skip_jsrs == TRUE)
             wait_for_return_level++;
 }
 
-void mon_check_watchpoints(WORD a)
+void monitor_check_watchpoints(WORD a)
 {
     unsigned int dnr;
 
@@ -1432,17 +1426,9 @@ static void make_prompt(char *str)
                 addr_location(dot_addr[default_memspace]));
 }
 
-static signal_handler_t old_handler;
-
-void mon_abort(void)
+void monitor_abort(void)
 {
     mon_stop_output = 1;
-}
-
-static void handle_abort(int signo)
-{
-    mon_abort();
-    signal(SIGINT, (signal_handler_t) handle_abort);
 }
 
 static void monitor_open(void)
@@ -1457,7 +1443,7 @@ static void monitor_open(void)
         mon_console_close_on_leaving = 1;
     }
 
-    old_handler = signal(SIGINT, handle_abort);
+    signals_abort_set();
 
     inside_monitor = TRUE;
     vsync_suspend_speed_eval();
@@ -1554,7 +1540,7 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    signal(SIGINT, old_handler);
+    signals_abort_unset();
 
     if (console_log->console_can_stay_open == 0)
                 mon_console_close_on_leaving = 1;

@@ -216,8 +216,5 @@ extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
 
-extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
-extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
-
 #endif
 

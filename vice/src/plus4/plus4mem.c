@@ -289,14 +289,14 @@ static void mem_config_rom_set(unsigned int config)
 
 static BYTE REGPARM1 read_watch(WORD addr)
 {
-    mon_watch_push_load_addr(addr, e_comp_space);
+    monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
 
 static void REGPARM2 store_watch(WORD addr, BYTE value)
 {
-    mon_watch_push_store_addr(addr, e_comp_space);
+    monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
