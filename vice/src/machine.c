@@ -34,6 +34,10 @@
 #include "utils.h"
 #include "vsync.h"
 
+
+unsigned int machine_keymap_index;
+
+
 unsigned int machine_jam(const char *format, ...)
 {
     char *str;
