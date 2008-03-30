@@ -2720,6 +2720,9 @@ void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
    if (inside_monitor)
       return;
 
+   if (watch_load_count[mem] == 9)
+       return;
+
    watch_load_occurred = TRUE;
    watch_load_array[watch_load_count[mem]][mem] = addr;
    watch_load_count[mem]++;
@@ -2729,6 +2732,9 @@ void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
 {
    if (inside_monitor)
       return;
+
+   if (watch_load_count[mem] == 9)
+       return;
 
    watch_store_occurred = TRUE;
    watch_store_array[watch_store_count[mem]][mem] = addr;

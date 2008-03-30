@@ -821,7 +821,7 @@ tape.o: tape.c vice.h config.h datasette.h tap.h arch/unix/types.h log.h \
 	tape.h utils.h zfile.h
 traps.o: traps.c vice.h config.h traps.h arch/unix/types.h log.h \
 	maincpu.h 6510core.h mem.h snapshot.h alarm.h clkguard.h mon.h \
-	mos6510.h interrupt.h resources.h cmdline.h utils.h
+	mos6510.h interrupt.h parallel.h resources.h cmdline.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 warn.o: warn.c vice.h config.h warn.h log.h utils.h arch/unix/types.h

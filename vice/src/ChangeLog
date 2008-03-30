@@ -1,3 +1,51 @@
+1999-07-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.50.
+
+	* mon.c (mon_watch_push_load_addr, mon_watch_push_store_addr):
+	Limit number of watchpoint hits to 10.
+
+1999-07-21  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: added support for 40/80 key and 8050/8250
+	drive types.
+
+	* arch/riscos/video.c: some changes to the handling of frame
+	buffers and active windows.
+
+1999-07-19  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: Remove IeeeFS docs, rename "NoTraps" to 
+	"VirtualDevices"
+
+	* arch/unix/xaw/uisettings.c (VirtualDevices, NoTraps, IeeeFS):
+	remove IeeeFS, and rename NoTraps to VirtualDevices
+
+	* c128/c128.c, c64/c64.c, cbm2/c610.c, pet/pet.c
+	(machine_init_resources, machine_init_cmdline_options): do not call
+	parallel_init_*()
+
+	* parallel.c (set_paremu_enabled, resources, parallel_init_resources,
+	cmdline_options, parallel_init_cmdline_options): removed
+	(parallel_bus_enable): new function
+
+	* traps.c (no_traps_enabled, traps_enabled): named former to latter.
+	fix all occurances
+	(resources, cmdline_options): rename "NoTraps" to "VirtualDevices"
+
+1999-07-18  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: add RIOT 6532 module description
+
+	* riotcore.c (ti_N, ti_write_clk, ti_divider, ti_irqen):
+	new values to save the timer state
+	(update_irq): new function to update the IRQ line.
+	(update_timer): new function to update timer to current clk.
+	(myriot_reset, store_myriot, read_myriot): handle timer
+	read/writes
+	(myriot_read_snapshot_module, myriot_write_snapshot_module):
+	load/save timer snapshot.
+
 1999-07-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.49.
