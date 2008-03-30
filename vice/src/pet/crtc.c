@@ -33,7 +33,7 @@
 #include "types.h"
 #include "snapshot.h"
 #include "petpia.h"
-#include "crtc.h"
+/* #include "crtc.h" */
 
 static void do_update_memory_ptrs(void);
 
@@ -41,7 +41,9 @@ static void do_update_memory_ptrs(void);
 
 #define	SIGNAL_VERT_BLANK_ON	signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
 
-#include "crtccore.c"
+#if 0
+
+#include "crtccore.c" 
 
 static void do_update_memory_ptrs(void)
 {
@@ -56,4 +58,6 @@ static void do_update_memory_ptrs(void)
 
     chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
 }
+
+#endif
 

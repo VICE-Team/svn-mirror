@@ -31,244 +31,274 @@
 
 #define _CRTC_C
 
-#define CRTC_WINDOW_TITLE            MY_WINDOW_TITLE
-
-/*
-#define NDEBUG
-#include <assert.h>
-#define memset(a,b,c)   (assert((a)),memset((a),(b),(c)))
-*/
-
 #include "vice.h"
 
-#include "cmdline.h"
-#include "crtc.h"
-#include "interrupt.h"
-#include "log.h"
 #include "machine.h"
-#include "mem.h"
-#include "raster.h"
-#include "resources.h"
-#include "snapshot.h"
-#include "utils.h"
-#include "alarm.h"
 #include "maincpu.h"
+#include "utils.h"
+#include "vsync.h"
 
-#define	crtc_max(a,b)	(((a)>(b))?(a):(b))
-#define	crtc_min(a,b)	(((a)<(b))?(a):(b))
+#include "crtc.h"
+#include "crtc-cmdline-options.h"
+#include "crtc-draw.h"
+#include "crtc-resources.h"
 
 
-/* CRTC alarms.  */
-static alarm_t raster_draw_alarm;
 
-static void crtc_init_dwg_tables(void);
+crtc_t crtc;
 
-#define IS_DOUBLE_WIDTH_ALLOWED(a)      \
-        (((a) * 8 + 2 * SCREEN_BORDERWIDTH) <= (FRAMEB_WIDTH / MAX_PIXEL_WIDTH))
-#define IS_DOUBLE_HEIGHT_ALLOWED(a)     \
-        (((a) + 2 * SCREEN_BORDERHEIGHT) <= (FRAMEB_HEIGHT / MAX_PIXEL_HEIGHT))
 
-log_t crtc_log = LOG_ERR;
 
-static PIXEL4 dwg_table_0[256], dwg_table_1[256];
-static PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
-static PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
-
-/* -------------------------------------------------------------------------- */
-
-canvas_t crtc_init(void)
+canvas_t 
+crtc_init (void)
 {
-    static const char *color_names[CRTC_NUM_COLORS] = {
-        "Background", "Foreground"
+  raster_t *raster;
+  unsigned int width, height;
+  char *title;
+
+  crtc.log = log_open ("CRTC");
+
+  alarm_init (&crtc.raster_draw_alarm, &maincpu_alarm_context,
+              "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
+
+  raster = &crtc.raster;
+
+  raster_init (raster, CRTC_NUM_VMODES, 0);
+  raster_modes_set_idle_mode (&raster->modes, CRTC_IDLE_MODE);
+  raster_set_exposure_handler (raster, crtc_exposure_handler);
+  raster_enable_cache (raster, crtc_resources.video_cache_enabled);
+  raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
+
+#define CRTC_SCREEN_WIDTH  400
+#define CRTC_SCREEN_HEIGHT 250
+#define CRTC_SCREEN_XPIX   320
+#define CRTC_SCREEN_YPIX   200
+#define CRTC_SCREEN_TEXTCOLS 40
+#define CRTC_SCREEN_TEXTLINES 25
+#define CRTC_SCREEN_BORDERWIDTH  40
+#define CRTC_SCREEN_BORDERHEIGHT 25
+#define CRTC_FIRST_DISPLAYED_LINE CRTC_SCREEN_BORDERHEIGHT
+#define CRTC_LAST_DISPLAYED_LINE (CRTC_FIRST_DISPLAYED_LINE + CRTC_SCREEN_YPIX)
+
+  /* FIXME */
+  width = CRTC_SCREEN_WIDTH;
+  height = CRTC_SCREEN_HEIGHT;
+  if (crtc_resources.double_size_enabled)
+    {
+      width *= 2;
+      height *= 2;
+      raster_set_pixel_size (raster, 2, 2);
+    }
+
+  raster_set_geometry (raster,
+                       CRTC_SCREEN_WIDTH, CRTC_SCREEN_HEIGHT,
+                       CRTC_SCREEN_XPIX, CRTC_SCREEN_YPIX,
+                       CRTC_SCREEN_TEXTCOLS, CRTC_SCREEN_TEXTLINES,
+                       CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT,
+                       FALSE,
+                       CRTC_FIRST_DISPLAYED_LINE,
+                       CRTC_LAST_DISPLAYED_LINE,
+                       0);
+  raster_resize_viewport (raster, width, height);
+
+  if (crtc_load_palette (crtc_resources.palette_file_name) < 0)
+    log_error (crtc.log, "Cannot load palette.");
+
+  title = concat ("VICE: ", machine_name, " emulator", NULL);
+  raster_set_title (raster, title);
+  free (title);
+
+  raster_realize (raster);
+
+  crtc_draw_init ();
+  crtc_draw_set_double_size (crtc_resources.double_size_enabled);
+  crtc_reset ();
+
+  raster->display_ystart = 0;
+  raster->display_ystop = CRTC_SCREEN_YPIX;
+  raster->display_xstart = 0;
+  raster->display_xstop = CRTC_SCREEN_XPIX;
+
+  return crtc.raster.viewport.canvas;
+}
+
+/* Reset the VIC-II chip.  */
+void 
+crtc_reset (void)
+{
+  raster_reset (&crtc.raster);
+
+  alarm_set (&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE);
+}
+
+
+
+/* WARNING: This does not change the resource value.  External modules are
+   expected to set the resource value to change the VIC-II palette instead of
+   calling this function directly.  */
+int
+crtc_load_palette (const char *name)
+{
+  static const char *color_names[CRTC_NUM_COLORS] =
+    {
+      "Background", "Foreground"
     };
+  palette_t *palette;
 
-    if (crtc_log == LOG_ERR)
-        crtc_log = log_open("CRTC");
+  palette = palette_create (CRTC_NUM_COLORS, color_names);
+  if (palette == NULL)
+    return -1;
 
-    if (init_raster(1, MAX_PIXEL_WIDTH, MAX_PIXEL_HEIGHT) < 0)
-        return NULL;
-
-    alarm_init(&raster_draw_alarm, &maincpu_alarm_context,
-               "CrtcRasterDraw", int_rasterdraw);
-
-    video_resize();
-
-    palette = palette_create(CRTC_NUM_COLORS, color_names);
-    if (palette == NULL)
-        return NULL;
-    if (palette_load(crtc_resources.palette_file_name, palette) < 0) {
-        log_message(crtc_log, "Cannot load palette file `%s'.",
-                    crtc_resources.palette_file_name);
-        return NULL;
+  if (palette_load (name, palette) < 0)
+    {
+      log_message (crtc.log, "Cannot load palette file `%s'.", name);
+      return -1;
     }
 
-    if (open_output_window(CRTC_WINDOW_TITLE,
-                           SCREEN_WIDTH,
-                           SCREEN_HEIGHT,
-                           palette,
-                           (canvas_redraw_t) crtc_arrange_window)) {
-        log_error(crtc_log, "Cannot open window for CRTC emulation.");
-        return NULL;
-    }
-
-    video_mode = CRTC_STANDARD_MODE;
-
-    if (canvas) {
-        refresh_changed();
-        refresh_all();
-    }
-
-    chargen_rel = 0;
-    chargen_ptr = chargen_rom + chargen_rel;
-    border_color = 0;
-    background_color = 0;
-    display_ystart = SCREEN_BORDERHEIGHT;
-
-    crtc_init_dwg_tables();
-
-    if (canvas) {
-/*
-        store_crtc(0, 49);
-        store_crtc(1, 40);
-*/
-        store_crtc(4, 49);
-        store_crtc(5, 0);
-        store_crtc(6, 25);
-        store_crtc(9, 7);
-        crtc_update_timing(1);
-    }
-    return canvas;
+  raster_set_palette (&crtc.raster, palette);
+  return 0;
 }
 
-static void crtc_init_dwg_tables(void)
-{
-    int byte, p;
-    BYTE msk;
 
-    for (byte = 0; byte < 0x0100; byte++) {
-        *((PIXEL *) (dwg_table2x_0 + byte))
-            = *((PIXEL *) (dwg_table2x_0 + byte) + 1)
-            = PIXEL(byte & 0x80 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_0 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_0 + byte) + 3)
-            = PIXEL(byte & 0x40 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_1 + byte))
-            = *((PIXEL *) (dwg_table2x_1 + byte) + 1)
-            = PIXEL(byte & 0x20 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_1 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_1 + byte) + 3)
-            = PIXEL(byte & 0x10 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_2 + byte))
-            = *((PIXEL *) (dwg_table2x_2 + byte) + 1)
-            = PIXEL(byte & 0x08 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_2 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_2 + byte) + 3)
-            = PIXEL(byte & 0x04 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_3 + byte))
-            = *((PIXEL *) (dwg_table2x_3 + byte) + 1)
-            = PIXEL(byte & 0x02 ? 1 : 0);
-        *((PIXEL *) (dwg_table2x_3 + byte) + 2)
-            = *((PIXEL *) (dwg_table2x_3 + byte) + 3)
-            = PIXEL(byte & 0x01 ? 1 : 0);
-    }
-
-    for (byte = 0; byte < 0x0100; byte++) {
-        for (msk = 0x80, p = 0; p < 4; msk >>= 1, p++)
-            *((PIXEL *)(dwg_table_0 + byte) + p) = PIXEL(byte & msk ? 1 : 0);
-        for (p = 0; p < 4; msk >>= 1, p++)
-            *((PIXEL *)(dwg_table_1 + byte) + p) = PIXEL(byte & msk ? 1 : 0);
-    }
-}
-
-/* -------------------------------------------------------------------------- */
 
 /* Set proper functions and constants for the current video settings. */
-void crtc_resize(void)
+void 
+crtc_resize (void)
 {
-    static int old_size = 0;
+  if (! crtc.initialized)
+    return;
 
-    if (DOUBLE_SIZE_ENABLED()) {
-        if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc)) {
-            pixel_width = 2;
-            video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
-            video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached_2x;
-            video_modes[CRTC_STANDARD_MODE].draw_line = draw_standard_line_2x;
-            video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
-            video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached_2x;
-            video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line_2x;
-            if (old_size == 1)
-                window_width *= 2;
-        } else {
-            /* When in 80 column mode, only the height is doubled. */
-            pixel_width = 1;
-            video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
-            video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached;
-            video_modes[CRTC_STANDARD_MODE].draw_line = draw_standard_line;
-            video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
-            video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached;
-            video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line;
-        }
-        if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight)) {
-            pixel_height = 2;
-            if (old_size == 1) {
-                window_height *= 2;
-            }
-        } else {
-            pixel_height = 1;
-        }
-    } else {
-        pixel_width = 1;
-        pixel_height = 1;
-        video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
-        video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached;
-        video_modes[CRTC_STANDARD_MODE].draw_line = draw_standard_line;
-        video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
-        video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached;
-        video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line;
-        if (old_size == 2) {
-            if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc))
-                window_width /= 2;
-            if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight))
-                window_height /= 2;
-        }
+  if (crtc_resources.double_size_enabled)
+    {
+      if (crtc.raster.viewport.pixel_size.width == 1
+          && crtc.raster.viewport.canvas != NULL)
+        raster_resize_viewport (&crtc.raster,
+                                crtc.raster.viewport.width * 2,
+                                crtc.raster.viewport.height * 2);
+
+      raster_set_pixel_size (&crtc.raster, 2, 2);
+
+      crtc_draw_set_double_size (1);
     }
-    old_size = DOUBLE_SIZE_ENABLED() ? 2 : 1;
+  else
+    {
+      if (crtc.raster.viewport.pixel_size.width == 2
+          && crtc.raster.viewport.canvas != NULL)
+        raster_resize_viewport (&crtc.raster,
+                                crtc.raster.viewport.width / 2,
+                                crtc.raster.viewport.height / 2);
 
-    if (canvas) {
-        resize(window_width, window_height);
-        frame_buffer_clear(&frame_buffer, pixel_table[0]);
-        force_repaint();
-        refresh_changed();
-        refresh_all();
+      raster_set_pixel_size (&crtc.raster, 1, 1);
+
+      crtc_draw_set_double_size (0);
     }
 }
 
 
-/* -------------------------------------------------------------------------- */
 
-#if 0	/* def USE_VIDMODE_EXTENSION */
-void video_setfullscreen(int v,int width, int height) {
-    fullscreen = v;
-    fullscreen_width = width;
-    fullscreen_height = height;
+void
+crtc_set_screen_mode (BYTE *screen,
+                      int vmask,
+                      int num_cols,
+                      int hwflags)
+{
+  /* FIXME: All of this should go into the `crtc' struct.  */
+#if 0
+  addr_mask = vmask;
 
-    video_resize();
-    if(v) {
-        resize(width, height);
-	refresh_changed();
-	refresh_all();
-    }
-    video_resize();
-}
+  if (screen)
+    screenmem = screen;
 
-void fullscreen_forcerepaint() {
-    if(fullscreen) {
-	video_resize();
-        resize(fullscreen_width, fullscreen_height);
-	refresh_changed();
-	refresh_all();
-	video_resize();
-    }
-}
+  crsr_enable = hwflags & 1;
+  hw_double_cols = hwflags & 2;
+
+  if (!num_cols)
+    new_memptr_inc = 1;
+  else
+    new_memptr_inc = num_cols;
+
+  /* no *2 for hw_double_cols, as the caller should have done it.
+     This num_cols flag should be gone sometime.... */
+  new_memptr_inc = crtc_min (SCREEN_MAX_TEXTCOLS, new_memptr_inc);
+
+#ifdef __MSDOS__
+  /* FIXME: This does not have any effect until there is a gfx -> text ->
+     gfx mode transition.  Moreover, no resources should be changed behind
+     user's back...  So this is definitely a Bad Thing (tm).  For now, it's
+     fine with us, though.  */
+  resources_set_value ("VGAMode",
+                       (resource_value_t)  (num_cols > 40
+                                            ? VGA_640x480 : VGA_320x200));
 #endif
+
+  /* vmask has changed -> */
+  crtc_update_memory_ptrs ();
+
+  /* force window reset with parameter =1 */
+  crtc_update_timing (1);
+#endif
+}
+
+
+
+/* Redraw the current raster line.  This happens at cycle the last
+   cycle of each line.  */
+int 
+crtc_raster_draw_alarm_handler (long offset)
+{
+  raster_emulate_line (&crtc.raster);
+
+  if (crtc.raster.current_line == 0)
+    {
+      raster_skip_frame (&crtc.raster, do_vsync (crtc.raster.skip_frame));
+
+      /* Do vsync stuff.  */
+    }
+
+  alarm_set (&crtc.raster_draw_alarm, clk + CRTC_CYCLES_PER_LINE - offset);
+
+  return 0;
+}
+
+
+
+void 
+crtc_exposure_handler (unsigned int width,
+                       unsigned int height)
+{
+  raster_resize_viewport (&crtc.raster, width, height);
+
+  /* FIXME: Needed?  Maybe this should be triggered by
+     `raster_resize_viewport()' automatically.  */
+  raster_force_repaint (&crtc.raster);
+}
+
+
+
+/* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
+void
+video_free(void)
+{
+  frame_buffer_free (&crtc.raster.frame_buffer);
+}
+
+void video_setfullscreen (int v, int width, int height)
+{
+}
+
+/* ------------------------------------------------------------------- */
+
+int crtc_offscreen(void)
+{
+    return 0;
+}
+
+void crtc_screen_enable(int enable)
+{
+}
+
+void crtc_set_char(int crom)
+{
+}
+
 

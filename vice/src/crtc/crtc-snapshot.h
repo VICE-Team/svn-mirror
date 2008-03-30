@@ -34,8 +34,8 @@
 
 #include "snapshot.h"
 
-int crtc_write_snapshot_module(snapshot_t *s);
-int crtc_read_snapshot_module(snapshot_t *s);
+int crtc_snapshot_write_module(snapshot_t *s);
+int crtc_snapshot_read_module(snapshot_t *s);
 
 #endif
 

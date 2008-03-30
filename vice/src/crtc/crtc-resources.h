@@ -36,39 +36,23 @@
 
 /* CRTC resources.  */
 struct _crtc_resources
-{
+  {
     /* Name of palette file.  */
-    static char *palette_file_name;
+    char *palette_file_name;
 
     /* Flag: Do we use double size?  */
-    static int double_size_enabled;
+    int double_size_enabled;
 
     /* Flag: Do we enable the video cache?  */
-    static int video_cache_enabled;
+    int video_cache_enabled;
 
     /* Flag: Do we copy lines in double size mode?  */
-    static int double_scan_enabled;
-
-#if 0	/* def USE_VIDMODE_EXTENSION */
-    /* Flag: Fullscreenmode?  */
-    static int fullscreen = 0; 
-
-    /* Flag: Do we use double size?  */
-    static int fullscreen_double_size_enabled;
-
-    /* Flag: Do we copy lines in double size mode?  */
-    static int fullscreen_double_scan_enabled;
-
-    static int fullscreen_width;
-    static int fullscreen_height;
-#endif
-};
+    int double_scan_enabled;
+  };
 
 typedef struct _crtc_resources crtc_resources_t;
 
 extern crtc_resources_t crtc_resources;
-
-int crtc_init_resources(void);
 
 #endif
 

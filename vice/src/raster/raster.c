@@ -1068,6 +1068,10 @@ raster_init (raster_t *raster,
 
   raster->fake_frame_buffer_line = NULL;
 
+  raster->border_color = 0;
+  raster->background_color = 0;
+  raster->overscan_background_color = 0;
+
   memset (raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
   memset (raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
 }
@@ -1088,9 +1092,6 @@ raster_reset (raster_t *raster)
   raster->xsmooth = raster->ysmooth = 0;
   raster->skip_frame = 0;
 
-  raster->border_color = 0;
-  raster->background_color = 0;
-  raster->overscan_background_color = 0;
   raster->blank_enabled = 0;
   raster->blank_this_line = 0;
   raster->open_right_border = 0;

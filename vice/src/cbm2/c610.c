@@ -242,7 +242,7 @@ void machine_reset(void)
     reset_tpi1();
     reset_tpi2();
 
-    reset_crtc();
+    crtc_reset();
     sid_reset();
 
 #ifdef HAVE_PRINTER

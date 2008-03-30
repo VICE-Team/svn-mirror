@@ -288,7 +288,6 @@ xpet_libs =  \
 	$(drive_lib) \
 	$(pet_lib) \
 	$(sounddrv_lib) \
-	$(rs232_printer_ldadd) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(common_libs)
@@ -314,7 +313,6 @@ xcbm2_libs = \
 	$(drive_lib) \
 	$(xcbm2_lib) \
 	$(sounddrv_lib) \
-	$(rs232_printer_ldadd) \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \

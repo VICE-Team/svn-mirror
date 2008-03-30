@@ -32,7 +32,5 @@
 #ifndef _CRTC_CMDLINE_OPTIONS_H
 #define _CRTC_CMDLINE_OPTIONS_H
 
-int crtc_init_cmdline_options(void);
-
 #endif
 

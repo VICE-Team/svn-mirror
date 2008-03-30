@@ -39,7 +39,7 @@ BYTE REGPARM1 peek_crtc(ADDRESS addr);
 
 void crtc_set_char(int crom);
 
-void crtc_update_memory_ptrs(void):
+void crtc_update_memory_ptrs(void);
 
 #endif
 

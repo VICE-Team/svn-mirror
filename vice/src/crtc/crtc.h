@@ -34,96 +34,93 @@
 
 #include "vice.h"
 
-#include "snapshot.h"
-#include "types.h"
-#include "video.h"
+#include "alarm.h"
 #include "log.h"
-
-#ifdef _CRTC_C
-#define __CRTC__
-
-/* border around the crtc screen in the window. We do not have border effects,
-   so keep it small. */
-#define SCREEN_BORDERWIDTH		 12
-#define SCREEN_BORDERHEIGHT		 12
-
-/* Size of the screen for the timing */
-#define CYCLES_PER_LINE			crtc_cycles_per_line
-#define	SCREEN_LAST_RASTERLINE		(screen_rasterlines - 1)
-
-/* size of chars in the chargen_rom in bytes/char */
-#define	BYTES_PER_CHAR			16
-
-/* size of the bitmaped rasterline cache */
-#define CRTC_SCREEN_MAX_YPIX		(16*35)
-#define CRTC_SCREEN_MAX_TEXTCOLS	(100)
-
-/* size of character in pixels, and derived window size in pixels */
-#define	SCREEN_CHARHEIGHT		screen_charheight
-#define	SCREEN_XPIX			screen_xpix
-#define	SCREEN_YPIX			screen_ypix
-
-/* size of crtc window for the display - variable */
-#define	SCREEN_HEIGHT			(SCREEN_YPIX + 2 * SCREEN_BORDERHEIGHT)
-#define	SCREEN_WIDTH			(SCREEN_XPIX + 2 * SCREEN_BORDERWIDTH)
-
-/* size of character-filled window part - variable */
-#define	SCREEN_TEXTCOLS			memptr_inc
-#define	SCREEN_TEXTLINES		crtc_screen_textlines
-
-/*  Define proper screen constants for raster.c. */
-
-/* some constants */
-#define CRTC_STANDARD_MODE		0
-#define CRTC_REVERSE_MODE       	1
-#define CRTC_IDLE_MODE			CRTC_STANDARD_MODE
-#define CRTC_NUM_COLORS 		2
-
-#define SCREEN_NUM_COLORS 		CRTC_NUM_COLORS
-#define SCREEN_NUM_VMODES		2
-#define SCREEN_IDLE_MODE		CRTC_IDLE_MODE
-
-#define NEEDS_GetCharData
-
-#define SCREEN_MAX_HEIGHT		(CRTC_SCREEN_MAX_YPIX \
-						+ 2*SCREEN_BORDERHEIGHT)
-#define SCREEN_MAX_TEXTCOLS		CRTC_SCREEN_MAX_TEXTCOLS
-#define SCREEN_FIRST_DISPLAYED_LINE	SCREEN_BORDERHEIGHT
-#define SCREEN_LAST_DISPLAYED_LINE      (SCREEN_BORDERHEIGHT-1+SCREEN_YPIX)
+#include "raster.h"
+#include "snapshot.h"
+#include "crtc-mem.h"
 
 
-/* Framebuffer size. The buffer itself is fixed size,
-   only the data area changes. The data area is determined by the 
-   SCREEN_HEIGHT and SCREEN_WIDTH values. Those values times the current
-   pixel_height/width must never be larger then the framebuffer */
-#define	FRAMEB_WIDTH			(8*CRTC_SCREEN_MAX_TEXTCOLS \
-						+ 2*SCREEN_BORDERWIDTH)
-#define FRAMEB_HEIGHT			(CRTC_SCREEN_MAX_YPIX \
-						+ 2*SCREEN_BORDERHEIGHT)
+
+/* Border around the crtc screen in the window.  We do not have border
+   effects, so keep it small.  */
+#define CRTC_SCREEN_BORDER 12
+
+/* FIXME  */
+#define CRTC_CYCLES_PER_LINE 63
+
+#define CRTC_NUM_COLORS 2
+
+
+
+/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
+   memory and (little) speed.  */
+#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
+#define CRTC_NEED_2X 1
 #endif
 
-extern int crtc_init_resources(void);
-extern int crtc_init_cmdline_options(void);
-extern canvas_t crtc_init(void);
-extern void reset_crtc(void);
-extern int int_rasterdraw(long offset);
-extern void crtc_set_screen_mode(BYTE *base, int vmask, int cols, int hwcrsr);
-extern void video_resize(void);
-extern void video_free(void);
-extern void crtc_prevent_clk_overflow(CLOCK sub);
-extern void REGPARM2 store_crtc(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 read_crtc(ADDRESS addr);
-extern void crtc_set_char(int crom);
-extern int crtc_offscreen(void);
-extern void crtc_screen_enable(int);
+
 
-extern int crtc_write_snapshot_module(snapshot_t *s);
-extern int crtc_read_snapshot_module(snapshot_t *s);
+enum _crtc_video_mode
+  {
+    CRTC_STANDARD_MODE,
+    CRTC_REVERSE_MODE,
+    CRTC_NUM_VMODES
+  };
+typedef enum _crtc_video_mode crtc_video_mode_t;
 
-#ifdef USE_VIDMODE_EXTENSION
-extern void video_setfullscreen(int v,int width, int height);
-#endif
+#define CRTC_IDLE_MODE CRTC_STANDARD_MODE
 
-extern log_t crtc_log;
+
 
-#endif				/* _CRTC_H */
+struct _crtc
+  {
+    /* Flag: Are we initialized?  */
+    int initialized;
+
+    /* All the CRTC logging goes here.  */
+    log_t log;
+
+    /* CRTC raster.  */
+    raster_t raster;
+
+    /* CRTC registers.  */
+    int regs[64];
+
+    /* Internal memory counter.  */
+    int mem_counter;
+
+    /* Alarm to update a raster line.  */
+    alarm_t raster_draw_alarm;
+  };
+typedef struct _crtc crtc_t;
+
+extern crtc_t crtc;
+
+
+
+canvas_t crtc_init (void);
+void crtc_reset (void);
+
+int crtc_init_resources (void);
+int crtc_init_cmdline_options (void);
+
+int crtc_write_snapshot_module(snapshot_t *s);
+int crtc_read_snapshot_module(snapshot_t *s);
+
+void crtc_set_char(int crom);
+int crtc_offscreen(void);
+void crtc_screen_enable(int);
+
+
+
+
+/* Private function calls, used by the other VIC-II modules.  FIXME:
+   Prepend names with `_'?  */
+int crtc_load_palette (const char *name);
+void crtc_resize (void);
+void crtc_exposure_handler (unsigned int width, unsigned int height);
+void crtc_set_screen_mode (BYTE *base, int vmask, int cols, int hwcrsr);
+int crtc_raster_draw_alarm_handler (long offset);
+
+#endif                          /* _CRTC_H */

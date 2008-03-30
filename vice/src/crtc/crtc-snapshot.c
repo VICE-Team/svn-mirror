@@ -34,7 +34,7 @@
 #include "crtc.h"
 #include "crtc-snapshot.h"
 
-/* ------------------------------------------------------------------------- */
+
 
 /* Snapshot.  */
 
@@ -52,104 +52,123 @@ static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int crtc_write_snapshot_module(snapshot_t *s)
+int 
+crtc_write_snapshot_module (snapshot_t * s)
 {
-    int i, ef = 0;
-    snapshot_module_t *m;
+#if 0
+  int i, ef = 0;
+  snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
-        return -1;
+  m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+  if (m == NULL)
+    return -1;
 
-    if (ef
-	|| snapshot_module_write_byte(m, (BYTE) clk-rasterline_start_clk) < 0
-        || snapshot_module_write_word(m, (WORD) rasterline) < 0
-        || snapshot_module_write_word(m, (WORD) addr_mask) < 0
-        || snapshot_module_write_byte(m, (BYTE) 
-		((crsr_enable ? 1 : 0) | (hw_double_cols ? 2 : 0))) < 0
-	) {
-	ef = -1;
+  if (ef
+      || snapshot_module_write_byte (m, (BYTE) clk - rasterline_start_clk) < 0
+      || snapshot_module_write_word (m, (WORD) rasterline) < 0
+      || snapshot_module_write_word (m, (WORD) addr_mask) < 0
+      || snapshot_module_write_byte (m, (BYTE)
+		     ((crsr_enable ? 1 : 0) | (hw_double_cols ? 2 : 0))) < 0
+    )
+    {
+      ef = -1;
     }
 
-    for (i = 0; (!ef) && (i < 20); i++)
-        ef = snapshot_module_write_byte(m, crtc[i]);
+  for (i = 0; (!ef) && (i < 20); i++)
+    ef = snapshot_module_write_byte (m, crtc[i]);
 
-    if (ef 
-	|| snapshot_module_write_byte(m, crsrcnt + (crsrstate ? 0x80 : 0)) < 0
-	) {
-	ef = -1;
+  if (ef
+      || snapshot_module_write_byte (m, crsrcnt + (crsrstate ? 0x80 : 0)) < 0
+    )
+    {
+      ef = -1;
     }
 
-    if (ef) {
-        snapshot_module_close(m);
-    } else {
-    	ef = snapshot_module_close(m);
+  if (ef)
+    {
+      snapshot_module_close (m);
+    }
+  else
+    {
+      ef = snapshot_module_close (m);
     }
 
-    crtc_update_memory_ptrs();
-    return ef;
+  crtc_update_memory_ptrs ();
+  return ef;
+#endif
+
+  return -1;
 }
 
-int crtc_read_snapshot_module(snapshot_t *s)
+
+
+int 
+crtc_read_snapshot_module (snapshot_t * s)
 {
-    int i;
-    snapshot_module_t *m;
-    WORD w;
-    BYTE b;
-    WORD vmask;
-    BYTE hwflags;
-    BYTE major, minor;
+#if 0
+  int i;
+  snapshot_module_t *m;
+  WORD w;
+  BYTE b;
+  WORD vmask;
+  BYTE hwflags;
+  BYTE major, minor;
 
-    m = snapshot_module_open(s, snap_module_name, &major, &minor);
-    if (m == NULL)
-        return -1;
+  m = snapshot_module_open (s, snap_module_name, &major, &minor);
+  if (m == NULL)
+    return -1;
 
-    if (major != SNAP_MAJOR) {
-        log_error(crtc_log,
-                  "Major snapshot number (%d) invalid; %d expected.",
-                  major, SNAP_MAJOR);
-        goto fail;
+  if (major != SNAP_MAJOR)
+    {
+      log_error (crtc_log,
+		 "Major snapshot number (%d) invalid; %d expected.",
+		 major, SNAP_MAJOR);
+      goto fail;
     }
 
-    if (snapshot_module_read_byte(m, &b) < 0)
-        goto fail;
-    /* for the moment simply ignore this value */
+  if (snapshot_module_read_byte (m, &b) < 0)
+    goto fail;
+  /* for the moment simply ignore this value */
 
-    if (snapshot_module_read_word(m, &w) < 0)
-        goto fail;
-    /* for the moment simply ignore this value */
+  if (snapshot_module_read_word (m, &w) < 0)
+    goto fail;
+  /* for the moment simply ignore this value */
 
-    if ( 0 
-        || snapshot_module_read_word(m, &vmask) < 0
-        || snapshot_module_read_byte(m, &hwflags))
-        goto fail;
+  if (0
+      || snapshot_module_read_word (m, &vmask) < 0
+      || snapshot_module_read_byte (m, &hwflags))
+    goto fail;
 
-    crtc_set_screen_mode(NULL, vmask, memptr_inc, hwflags);
-    crtc_update_memory_ptrs();
+  crtc_set_screen_mode (NULL, vmask, memptr_inc, hwflags);
+  crtc_update_memory_ptrs ();
 
-    for (i = 0; i < 20; i++) {
-        if (snapshot_module_read_byte(m, &b) < 0)
-            goto fail;
+  for (i = 0; i < 20; i++)
+    {
+      if (snapshot_module_read_byte (m, &b) < 0)
+	goto fail;
 
-        /* XXX: This assumes that there are no side effects. 
-	   Well, there are, but the cursor state is restored later */
-        store_crtc(i, b);
+      /* XXX: This assumes that there are no side effects. 
+         Well, there are, but the cursor state is restored later */
+      store_crtc (i, b);
     }
 
-    if ( snapshot_module_read_byte(m, &b) < 0 ) goto fail;
-    crsrcnt = b & 0x3f;
-    crsrstate = (b & 0x80) ? 1 : 0;
+  if (snapshot_module_read_byte (m, &b) < 0)
+    goto fail;
+  crsrcnt = b & 0x3f;
+  crsrstate = (b & 0x80) ? 1 : 0;
 
-    alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE /* - RASTER_CYCLE*/);
+  alarm_set (&raster_draw_alarm, clk + CYCLES_PER_LINE /* - RASTER_CYCLE */ );
 
-    SIGNAL_VERT_BLANK_OFF
+  SIGNAL_VERT_BLANK_OFF
 
-    force_repaint();
-    return snapshot_module_close(m);
+    force_repaint ();
+  return snapshot_module_close (m);
 
 fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
-}
+  if (m != NULL)
+    snapshot_module_close (m);
+  return -1;
+#endif
 
+  return -1;
+}

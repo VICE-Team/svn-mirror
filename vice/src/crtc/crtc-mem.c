@@ -29,14 +29,25 @@
  *
  */
 
+
 
-/* -------------------------------------------------------------------------- */
+#include "vice.h"
+
+#include "types.h"
+
+#include "crtc.h"
+
+#include "crtc-mem.h"
+
+
 
 /* CRTC interface functions.
    FIXME: Several registers are not implemented.  */
 
-void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
+void REGPARM2
+store_crtc (ADDRESS addr, BYTE value)
 {
+#if 0
     crtc[addr] = value;
 
     switch (addr) {
@@ -154,10 +165,13 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
       case 19:			/* R18-9 Update address HI/LO (only 6545)  */
 	break;
     }
+#endif
 }
 
-BYTE REGPARM1 read_crtc(ADDRESS addr)
+BYTE REGPARM1
+read_crtc (ADDRESS addr)
 {
+#if 0
     switch (addr) {
       case 14:
       case 15:			/* Cursor location HI/LO */
@@ -170,9 +184,13 @@ BYTE REGPARM1 read_crtc(ADDRESS addr)
       default:
 	return 0;		/* All the rest are write-only registers */
     }
+#endif
+
+  return 0;
 }
 
-BYTE REGPARM1 peek_crtc(ADDRESS addr)
+BYTE REGPARM1
+peek_crtc(ADDRESS addr)
 {
     return read_crtc(addr);
 }
@@ -190,13 +208,15 @@ BYTE read_colorram(ADDRESS addr)
 }
 #endif
 
+/* FIXME: to be moved to `crtc.c'.  */
+
+#if 0
 void crtc_set_char(int crom)
 {
     chargen_rel = (chargen_rel & ~0x800) | (crom ? 0x800 : 0);
     /* chargen_rel is computed for 8bytes/char, but charom is 16bytes/char */
     chargen_ptr = chargen_rom + (chargen_rel << 1);
 }
-
 
 static void crtc_update_memory_ptrs(void)
 {
@@ -211,3 +231,4 @@ static void crtc_update_memory_ptrs(void)
     scraddr &= addr_mask;
 }
 
+#endif

@@ -4,6 +4,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/crtc \
+	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libcbm2.a

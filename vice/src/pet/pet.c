@@ -280,7 +280,7 @@ void machine_reset(void)
     reset_pia2();
     via_reset();
     reset_acia1();
-    reset_crtc();
+    crtc_reset();
     petsnd_reset();
     petmem_reset();
 #ifdef HAVE_RS232

@@ -29,12 +29,16 @@
  *
  */
 
+#include "cmdline.h"
 
-/* ------------------------------------------------------------------------- */
+#include "crtc-cmdline-options.h"
+
+
 
 /* CRTC command-line options.  */
 
-static cmdline_option_t cmdline_options[] = {
+static cmdline_option_t cmdline_options[] =
+  {
     { "-vcache", SET_RESOURCE, 0, NULL, NULL,
       "VideoCache", (resource_value_t) 1,
       NULL, "Enable the video cache" },
@@ -44,7 +48,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-palette", SET_RESOURCE, 1, NULL, NULL,
       "PaletteFile", NULL,
       "<name>", "Specify palette file name" },
-#ifdef NEED_2x
+#ifdef CRTC_NEED_2X
     { "-dsize", SET_RESOURCE, 0, NULL, NULL,
       "DoubleSize", (resource_value_t) 1,
       NULL, "Enable double size" },
@@ -57,27 +61,12 @@ static cmdline_option_t cmdline_options[] = {
     { "+dscan", SET_RESOURCE, 0, NULL, NULL,
       "DoubleScan", (resource_value_t) 0,
       NULL, "Disable double scan" },
-#ifdef USE_VIDMODE_EXTENSION
-    { "-fsdsize", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleSize", (resource_value_t) 1,
-      NULL, "Enable fullscreen double size" },
-    { "+fsdsize", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleSize", (resource_value_t) 0,
-      NULL, "Disable fullscreen double size" },
-    { "-fsdscan", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleScan", (resource_value_t) 1,
-      NULL, "Enable fullscreen double scan" },
-    { "+fsdscan", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleScan", (resource_value_t) 0,
-      NULL, "Disable fullscreen double scan" },
-#endif
 #endif
     { NULL }
-};
+  };
 
-int crtc_init_cmdline_options(void)
+
+int crtc_init_cmdline_options (void)
 {
-    return cmdline_register_options(cmdline_options);
+  return cmdline_register_options (cmdline_options);
 }
-
-
