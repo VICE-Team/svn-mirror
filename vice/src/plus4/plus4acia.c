@@ -33,7 +33,7 @@
 #define myacia acia
 
 /* resource defaults */
-#define MYACIA   "Acia"
+#define MYACIA   "Acia1"
 #define MyDevice 0
 #define MyIrq    IK_IRQ
 
