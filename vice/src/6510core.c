@@ -157,9 +157,9 @@
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
 #ifdef DEBUG
-#define TRACE_NMI() do { if (TRACEFLG) puts("*** NMI"); } while (0)
-#define TRACE_IRQ() do { if (TRACEFLG) puts("*** IRQ"); } while (0)
-#define TRACE_BRK() do { if (TRACEFLG) puts("*** BRK"); } while (0)
+#define TRACE_NMI() do { if (TRACEFLG) log_debug("*** NMI"); } while (0)
+#define TRACE_IRQ() do { if (TRACEFLG) log_debug("*** IRQ"); } while (0)
+#define TRACE_BRK() do { if (TRACEFLG) log_debug("*** BRK"); } while (0)
 #else
 #define TRACE_NMI()
 #define TRACE_IRQ()
@@ -1518,7 +1518,7 @@
                       mon_disassemble_to_string(e_comp_space, reg_pc, op, lo,
                                                 hi, 0, 1),
                       reg_a, reg_x, reg_y);
-       }
+        }
 #endif
 #endif
 
@@ -1526,52 +1526,52 @@
 
         switch (p0) {
 
-        case 0x00:                      /* BRK */
+          case 0x00:            /* BRK */
             BRK();
             break;
 
-        case 0x01:                      /* ORA ($nn,X) */
+          case 0x01:            /* ORA ($nn,X) */
             ORA(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0x02:                      /* JAM */
-        case 0x12:                      /* JAM */
-        case 0x22:                      /* JAM */
-        case 0x32:                      /* JAM */
-        case 0x42:                      /* JAM */
-        case 0x52:                      /* JAM */
-        case 0x62:                      /* JAM */
-        case 0x72:                      /* JAM */
-        case 0x92:                      /* JAM */
-        case 0xb2:                      /* JAM */
-        case 0xd2:                      /* JAM */
-        case 0xf2:                      /* JAM */
+          case 0x02:            /* JAM */
+          case 0x12:            /* JAM */
+          case 0x22:            /* JAM */
+          case 0x32:            /* JAM */
+          case 0x42:            /* JAM */
+          case 0x52:            /* JAM */
+          case 0x62:            /* JAM */
+          case 0x72:            /* JAM */
+          case 0x92:            /* JAM */
+          case 0xb2:            /* JAM */
+          case 0xd2:            /* JAM */
+          case 0xf2:            /* JAM */
             JAM();
             break;
 
-        case 0x03:                      /* SLO ($nn,X) */
+          case 0x03:                      /* SLO ($nn,X) */
             SLO(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x04:                      /* NOOP $nn */
-        case 0x44:                      /* NOOP $nn */
-        case 0x64:                      /* NOOP $nn */
+          case 0x04:            /* NOOP $nn */
+          case 0x44:            /* NOOP $nn */
+          case 0x64:            /* NOOP $nn */
             NOOP(3, 2);
             break;
 
-        case 0x05:                      /* ORA $nn */
+          case 0x05:            /* ORA $nn */
             ORA(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0x06:                      /* ASL $nn */
+          case 0x06:            /* ASL $nn */
             ASL(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x07:                      /* SLO $nn */
+          case 0x07:            /* SLO $nn */
             SLO(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x08:                      /* PHP */
+          case 0x08:            /* PHP */
 #ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
@@ -1579,274 +1579,274 @@
             PHP();
             break;
 
-        case 0x09:                      /* ORA #$nn */
+          case 0x09:            /* ORA #$nn */
             ORA(p1, 2, 0, 2);
             break;
 
-        case 0x0a:                      /* ASL A */
+          case 0x0a:            /* ASL A */
             ASL_A();
             break;
 
-        case 0x0b:                      /* ANC #$nn */
+          case 0x0b:            /* ANC #$nn */
             ANC(p1, 2, 0, 2);
             break;
 
-        case 0x0c:                      /* NOOP $nnnn */
+          case 0x0c:            /* NOOP $nnnn */
             NOOP_ABS();
             break;
 
-        case 0x0d:                      /* ORA $nnnn */
+          case 0x0d:            /* ORA $nnnn */
             ORA(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0x0e:                      /* ASL $nnnn */
+          case 0x0e:            /* ASL $nnnn */
             ASL(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x0f:                      /* SLO $nnnn */
+          case 0x0f:            /* SLO $nnnn */
             SLO(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x10:                      /* BPL $nnnn */
+          case 0x10:            /* BPL $nnnn */
             BRANCH(!LOCAL_SIGN(), p1);
             break;
 
-        case 0x11:                      /* ORA ($nn),Y */
+          case 0x11:            /* ORA ($nn),Y */
             ORA(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x13:                      /* SLO ($nn),Y */
+          case 0x13:            /* SLO ($nn),Y */
             SLO_IND_Y(p1);
             break;
 
-        case 0x14:                      /* NOOP $nn,X */
-        case 0x34:                      /* NOOP */
-        case 0x54:                      /* NOOP $nn,X */
-        case 0x74:                      /* NOOP $nn,X */
-        case 0xd4:                      /* NOOP $nn,X */
-        case 0xf4:                      /* NOOP ($nn,X) */
+          case 0x14:            /* NOOP $nn,X */
+          case 0x34:            /* NOOP */
+          case 0x54:            /* NOOP $nn,X */
+          case 0x74:            /* NOOP $nn,X */
+          case 0xd4:            /* NOOP $nn,X */
+          case 0xf4:            /* NOOP ($nn,X) */
             NOOP(4, 2);
             break;
 
-        case 0x15:                      /* ORA $nn,X */
+          case 0x15:            /* ORA $nn,X */
             ORA(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0x16:                      /* ASL $nn,X */
+          case 0x16:            /* ASL $nn,X */
             ASL((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x17:                      /* SLO $nn,X */
+          case 0x17:            /* SLO $nn,X */
             SLO((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x18:                      /* CLC */
+          case 0x18:            /* CLC */
             CLC();
             break;
 
-        case 0x19:                      /* ORA $nnnn,Y */
+          case 0x19:            /* ORA $nnnn,Y */
             ORA(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x1a:                      /* NOOP */
-        case 0x3a:                      /* NOOP */
-        case 0x5a:                      /* NOOP */
-        case 0x7a:                      /* NOOP */
-        case 0xda:                      /* NOOP */
-        case 0xfa:                      /* NOOP */
+          case 0x1a:                      /* NOOP */
+          case 0x3a:                      /* NOOP */
+          case 0x5a:                      /* NOOP */
+          case 0x7a:                      /* NOOP */
+          case 0xda:                      /* NOOP */
+          case 0xfa:                      /* NOOP */
             NOOP(2, 1);
             break;
 
-        case 0x1b:                      /* SLO $nnnn,Y */
+          case 0x1b:            /* SLO $nnnn,Y */
             SLO(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0x1c:                      /* NOOP $nnnn,X */
-        case 0x3c:                      /* NOOP $nnnn,X */
-        case 0x5c:                      /* NOOP $nnnn,X */
-        case 0x7c:                      /* NOOP $nnnn,X */
-        case 0xdc:                      /* NOOP $nnnn,X */
-        case 0xfc:                      /* NOOP $nnnn,X */
+          case 0x1c:                      /* NOOP $nnnn,X */
+          case 0x3c:                      /* NOOP $nnnn,X */
+          case 0x5c:                      /* NOOP $nnnn,X */
+          case 0x7c:                      /* NOOP $nnnn,X */
+          case 0xdc:                      /* NOOP $nnnn,X */
+          case 0xfc:                      /* NOOP $nnnn,X */
             NOOP_ABS_X();
             break;
 
-        case 0x1d:                      /* ORA $nnnn,X */
+          case 0x1d:            /* ORA $nnnn,X */
             ORA(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0x1e:                      /* ASL $nnnn,X */
+          case 0x1e:            /* ASL $nnnn,X */
             ASL(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x1f:                      /* SLO $nnnn,X */
+          case 0x1f:            /* SLO $nnnn,X */
             SLO(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x20:                      /* JSR $nnnn */
+          case 0x20:            /* JSR $nnnn */
             JSR(p2, 3, 3, 3);
             break;
 
-        case 0x21:                      /* AND ($nn,X) */
+          case 0x21:            /* AND ($nn,X) */
             AND(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0x23:                      /* RLA ($nn,X) */
+          case 0x23:            /* RLA ($nn,X) */
             RLA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x24:                      /* BIT $nn */
+          case 0x24:            /* BIT $nn */
             BIT(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0x25:                      /* AND $nn */
+          case 0x25:            /* AND $nn */
             AND(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0x26:                      /* ROL $nn */
+          case 0x26:            /* ROL $nn */
             ROL(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x27:                      /* RLA $nn */
+          case 0x27:            /* RLA $nn */
             RLA(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x28:                      /* PLP */
+          case 0x28:            /* PLP */
             PLP();
             break;
 
-        case 0x29:                      /* AND #$nn */
+          case 0x29:            /* AND #$nn */
             AND(p1, 2, 0, 2);
             break;
 
-        case 0x2a:                      /* ROL A */
+          case 0x2a:            /* ROL A */
             ROL_A();
             break;
 
-        case 0x2b:                      /* ANC #$nn */
+          case 0x2b:            /* ANC #$nn */
             ANC(p1, 2, 0, 2);
             break;
 
-        case 0x2c:                      /* BIT $nnnn */
+          case 0x2c:            /* BIT $nnnn */
             BIT(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0x2d:                      /* AND $nnnn */
+          case 0x2d:            /* AND $nnnn */
             AND(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0x2e:                      /* ROL $nnnn */
+          case 0x2e:            /* ROL $nnnn */
             ROL(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x2f:                      /* RLA $nnnn */
+          case 0x2f:            /* RLA $nnnn */
             RLA(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x30:                      /* BMI $nnnn */
+          case 0x30:            /* BMI $nnnn */
             BRANCH(LOCAL_SIGN(), p1);
             break;
 
-        case 0x31:                      /* AND ($nn),Y */
+          case 0x31:            /* AND ($nn),Y */
             AND(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x33:                      /* RLA ($nn),Y */
+          case 0x33:            /* RLA ($nn),Y */
             RLA_IND_Y(p1);
             break;
 
-        case 0x35:                      /* AND $nn,X */
+          case 0x35:            /* AND $nn,X */
             AND(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0x36:                      /* ROL $nn,X */
+          case 0x36:            /* ROL $nn,X */
             ROL((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x37:                      /* RLA $nn,X */
+          case 0x37:            /* RLA $nn,X */
             RLA((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x38:                      /* SEC */
+          case 0x38:            /* SEC */
             SEC();
             break;
 
-        case 0x39:                      /* AND $nnnn,Y */
+          case 0x39:            /* AND $nnnn,Y */
             AND(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x3b:                      /* RLA $nnnn,Y */
+          case 0x3b:            /* RLA $nnnn,Y */
             RLA(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0x3d:                      /* AND $nnnn,X */
+          case 0x3d:            /* AND $nnnn,X */
             AND(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0x3e:                      /* ROL $nnnn,X */
+          case 0x3e:            /* ROL $nnnn,X */
             ROL(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x3f:                      /* RLA $nnnn,X */
+          case 0x3f:            /* RLA $nnnn,X */
             RLA(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x40:                      /* RTI */
+          case 0x40:            /* RTI */
             RTI();
             break;
 
-        case 0x41:                      /* EOR ($nn,X) */
+          case 0x41:            /* EOR ($nn,X) */
             EOR(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0x43:                      /* SRE ($nn,X) */
+          case 0x43:            /* SRE ($nn,X) */
             SRE(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x45:                      /* EOR $nn */
+          case 0x45:            /* EOR $nn */
             EOR(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0x46:                      /* LSR $nn */
+          case 0x46:            /* LSR $nn */
             LSR(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x47:                      /* SRE $nn */
+          case 0x47:            /* SRE $nn */
             SRE(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x48:                      /* PHA */
+          case 0x48:            /* PHA */
             PHA();
             break;
 
-        case 0x49:                      /* EOR #$nn */
+          case 0x49:            /* EOR #$nn */
             EOR(p1, 2, 0, 2);
             break;
 
-        case 0x4a:                      /* LSR A */
+          case 0x4a:            /* LSR A */
             LSR_A();
             break;
 
-        case 0x4b:                      /* ASR #$nn */
+          case 0x4b:            /* ASR #$nn */
             ASR(p1, 2, 0, 2);
             break;
 
-        case 0x4c:                      /* JMP $nnnn */
+          case 0x4c:            /* JMP $nnnn */
             JMP(p2, 3, 0);
             break;
 
-        case 0x4d:                      /* EOR $nnnn */
+          case 0x4d:            /* EOR $nnnn */
             EOR(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0x4e:                      /* LSR $nnnn */
+          case 0x4e:            /* LSR $nnnn */
             LSR(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x4f:                      /* SRE $nnnn */
+          case 0x4f:            /* SRE $nnnn */
             SRE(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x50:                      /* BVC $nnnn */
+          case 0x50:            /* BVC $nnnn */
 #ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
@@ -1854,107 +1854,107 @@
             BRANCH(!LOCAL_OVERFLOW(), p1);
             break;
 
-        case 0x51:                      /* EOR ($nn),Y */
+          case 0x51:            /* EOR ($nn),Y */
             EOR(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x53:                      /* SRE ($nn),Y */
+          case 0x53:            /* SRE ($nn),Y */
             SRE_IND_Y(p1);
             break;
 
-        case 0x55:                      /* EOR $nn,X */
+          case 0x55:            /* EOR $nn,X */
             EOR(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0x56:                      /* LSR $nn,X */
+          case 0x56:            /* LSR $nn,X */
             LSR((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x57:                      /* SRE $nn,X */
+          case 0x57:            /* SRE $nn,X */
             SRE((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x58:                      /* CLI */
+          case 0x58:            /* CLI */
             CLI();
             break;
 
-        case 0x59:                      /* EOR $nnnn,Y */
+          case 0x59:            /* EOR $nnnn,Y */
             EOR(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x5b:                      /* SRE $nnnn,Y */
+          case 0x5b:            /* SRE $nnnn,Y */
             SRE(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0x5d:                      /* EOR $nnnn,X */
+          case 0x5d:            /* EOR $nnnn,X */
             EOR(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0x5e:                      /* LSR $nnnn,X */
+          case 0x5e:            /* LSR $nnnn,X */
             LSR(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x5f:                      /* SRE $nnnn,X */
+          case 0x5f:            /* SRE $nnnn,X */
             SRE(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x60:                      /* RTS */
+          case 0x60:            /* RTS */
             RTS();
             break;
 
-        case 0x61:                      /* ADC ($nn,X) */
+          case 0x61:            /* ADC ($nn,X) */
             ADC(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0x63:                      /* RRA ($nn,X) */
+          case 0x63:            /* RRA ($nn,X) */
             RRA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x65:                      /* ADC $nn */
+          case 0x65:            /* ADC $nn */
             ADC(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0x66:                      /* ROR $nn */
+          case 0x66:            /* ROR $nn */
             ROR(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x67:                      /* RRA $nn */
+          case 0x67:            /* RRA $nn */
             RRA(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x68:                      /* PLA */
+          case 0x68:            /* PLA */
             PLA();
             break;
 
-        case 0x69:                      /* ADC #$nn */
+          case 0x69:            /* ADC #$nn */
             ADC(p1, 2, 0, 2);
             break;
 
-        case 0x6a:                      /* ROR A */
+          case 0x6a:            /* ROR A */
             ROR_A();
             break;
 
-        case 0x6b:                      /* ARR #$nn */
+          case 0x6b:            /* ARR #$nn */
             ARR(p1, 2, 0, 2);
             break;
 
-        case 0x6c:                      /* JMP ($nnnn) */
+          case 0x6c:            /* JMP ($nnnn) */
             JMP_IND();
             break;
 
-        case 0x6d:                      /* ADC $nnnn */
+          case 0x6d:            /* ADC $nnnn */
             ADC(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0x6e:                      /* ROR $nnnn */
+          case 0x6e:            /* ROR $nnnn */
             ROR(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x6f:                      /* RRA $nnnn */
+          case 0x6f:            /* RRA $nnnn */
             RRA(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0x70:                      /* BVS $nnnn */
+          case 0x70:            /* BVS $nnnn */
 #ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
@@ -1962,507 +1962,507 @@
             BRANCH(LOCAL_OVERFLOW(), p1);
             break;
 
-        case 0x71:                      /* ADC ($nn),Y */
+          case 0x71:            /* ADC ($nn),Y */
             ADC(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0x73:                      /* RRA ($nn),Y */
+          case 0x73:            /* RRA ($nn),Y */
             RRA_IND_Y(p1);
             break;
 
-        case 0x75:                      /* ADC $nn,X */
+          case 0x75:            /* ADC $nn,X */
             ADC(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0x76:                      /* ROR $nn,X */
+          case 0x76:            /* ROR $nn,X */
             ROR((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x77:                      /* RRA $nn,X */
+          case 0x77:            /* RRA $nn,X */
             RRA((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0x78:                      /* SEI */
+          case 0x78:            /* SEI */
             SEI();
             break;
 
-        case 0x79:                      /* ADC $nnnn,Y */
+          case 0x79:            /* ADC $nnnn,Y */
             ADC(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0x7b:                      /* RRA $nnnn,Y */
+          case 0x7b:            /* RRA $nnnn,Y */
             RRA(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0x7d:                      /* ADC $nnnn,X */
+          case 0x7d:            /* ADC $nnnn,X */
             ADC(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0x7e:                      /* ROR $nnnn,X */
+          case 0x7e:            /* ROR $nnnn,X */
             ROR(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x7f:                      /* RRA $nnnn,X */
+          case 0x7f:            /* RRA $nnnn,X */
             RRA(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0x80:                      /* NOOP #$nn */
-        case 0x82:                      /* NOOP #$nn */
-        case 0x89:                      /* NOOP #$nn */
-        case 0xc2:                      /* NOOP #$nn */
-        case 0xe2:                      /* NOOP #$nn */
+          case 0x80:                      /* NOOP #$nn */
+          case 0x82:                      /* NOOP #$nn */
+          case 0x89:                      /* NOOP #$nn */
+          case 0xc2:                      /* NOOP #$nn */
+          case 0xe2:                      /* NOOP #$nn */
             NOOP(2, 2);
             break;
 
-        case 0x81:                      /* STA ($nn,X) */
+          case 0x81:            /* STA ($nn,X) */
             STA(LOAD_ZERO_ADDR(p1 + reg_x), 2, 4, 2, STORE_ABS);
             break;
 
-        case 0x83:                      /* SAX ($nn,X) */
+          case 0x83:            /* SAX ($nn,X) */
             SAX(LOAD_ZERO_ADDR(p1 + reg_x), 2, 4, 2);
             break;
 
-        case 0x84:                      /* STY $nn */
+          case 0x84:            /* STY $nn */
             STY_ZERO(p1, 3, 2);
             break;
 
-        case 0x85:                      /* STA $nn */
+          case 0x85:            /* STA $nn */
             STA_ZERO(p1, 3, 2);
             break;
 
-        case 0x86:                      /* STX $nn */
+          case 0x86:            /* STX $nn */
             STX_ZERO(p1, 3, 2);
             break;
 
-        case 0x87:                      /* SAX $nn */
+          case 0x87:            /* SAX $nn */
             SAX_ZERO(p1, 3, 2);
             break;
 
-        case 0x88:                      /* DEY */
+          case 0x88:            /* DEY */
             DEY();
             break;
 
-        case 0x8a:                      /* TXA */
+          case 0x8a:            /* TXA */
             TXA();
             break;
 
-        case 0x8b:                      /* ANE #$nn */
+          case 0x8b:            /* ANE #$nn */
             ANE(p1, 2, 0, 2);
             break;
 
-        case 0x8c:                      /* STY $nnnn */
+          case 0x8c:            /* STY $nnnn */
             STY(p2, 3, 1, 3);
             break;
 
-        case 0x8d:                      /* STA $nnnn */
+          case 0x8d:            /* STA $nnnn */
             STA(p2, 3, 1, 3, STORE_ABS);
             break;
 
-        case 0x8e:                      /* STX $nnnn */
+          case 0x8e:            /* STX $nnnn */
             STX(p2, 3, 1, 3);
             break;
 
-        case 0x8f:                      /* SAX $nnnn */
+          case 0x8f:            /* SAX $nnnn */
             SAX(p2, 3, 1, 3);
             break;
 
-        case 0x90:                      /* BCC $nnnn */
+          case 0x90:            /* BCC $nnnn */
             BRANCH(!LOCAL_CARRY(), p1);
             break;
 
-        case 0x91:                      /* STA ($nn),Y */
+          case 0x91:            /* STA ($nn),Y */
             STA_IND_Y(p1);
             break;
 
-        case 0x93:                      /* SHA ($nn),Y */
+          case 0x93:            /* SHA ($nn),Y */
             SHA_IND_Y(p1);
             break;
 
-        case 0x94:                      /* STY $nn,X */
+          case 0x94:            /* STY $nn,X */
             STY_ZERO(p1 + reg_x, 4, 2);
             break;
 
-        case 0x95:                      /* STA $nn,X */
+          case 0x95:            /* STA $nn,X */
             STA_ZERO(p1 + reg_x, 4, 2);
             break;
 
-        case 0x96:                      /* STX $nn,Y */
+          case 0x96:            /* STX $nn,Y */
             STX_ZERO(p1 + reg_y, 4, 2);
             break;
 
-        case 0x97:                      /* SAX $nn,Y */
+          case 0x97:            /* SAX $nn,Y */
             SAX((p1 + reg_y) & 0xff, 2, 2, 2);
             break;
 
-        case 0x98:                      /* TYA */
+          case 0x98:            /* TYA */
             TYA();
             break;
 
-        case 0x99:                      /* STA $nnnn,Y */
+          case 0x99:            /* STA $nnnn,Y */
             STA(p2, 3, 2, 3, STORE_ABS_Y);
             break;
 
-        case 0x9a:                      /* TXS */
+          case 0x9a:            /* TXS */
             TXS();
             break;
 
-        case 0x9b:                      /* SHS $nnnn,Y */
+          case 0x9b:            /* SHS $nnnn,Y */
             SHS_ABS_Y(p2);
             break;
 
-        case 0x9c:                      /* SHY $nnnn,X */
+          case 0x9c:            /* SHY $nnnn,X */
             SHY_ABS_X(p2);
             break;
 
-        case 0x9d:                      /* STA $nnnn,X */
+          case 0x9d:            /* STA $nnnn,X */
             STA(p2, 3, 2, 3, STORE_ABS_X);
             break;
 
-        case 0x9e:                      /* SHX $nnnn,Y */
+          case 0x9e:            /* SHX $nnnn,Y */
             SHX_ABS_Y(p2);
             break;
 
-        case 0x9f:                      /* SHA $nnnn,Y */
+          case 0x9f:            /* SHA $nnnn,Y */
             SHA_ABS_Y(p2);
             break;
 
-        case 0xa0:                      /* LDY #$nn */
+          case 0xa0:            /* LDY #$nn */
             LDY(p1, 2, 0, 2);
             break;
 
-        case 0xa1:                      /* LDA ($nn,X) */
+          case 0xa1:            /* LDA ($nn,X) */
             LDA(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0xa2:                      /* LDX #$nn */
+          case 0xa2:            /* LDX #$nn */
             LDX(p1, 2, 0, 2);
             break;
 
-        case 0xa3:                      /* LAX ($nn,X) */
+          case 0xa3:            /* LAX ($nn,X) */
             LAX(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0xa4:                      /* LDY $nn */
+          case 0xa4:            /* LDY $nn */
             LDY(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xa5:                      /* LDA $nn */
+          case 0xa5:            /* LDA $nn */
             LDA(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xa6:                      /* LDX $nn */
+          case 0xa6:            /* LDX $nn */
             LDX(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xa7:                      /* LAX $nn */
+          case 0xa7:            /* LAX $nn */
             LAX(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xa8:                      /* TAY */
+          case 0xa8:            /* TAY */
             TAY();
             break;
 
-        case 0xa9:                      /* LDA #$nn */
+          case 0xa9:            /* LDA #$nn */
             LDA(p1, 2, 0, 2);
             break;
 
-        case 0xaa:                      /* TAX */
+          case 0xaa:            /* TAX */
             TAX();
             break;
 
-        case 0xab:                      /* LXA #$nn */
+          case 0xab:            /* LXA #$nn */
             LXA(p1, 2, 0, 2);
             break;
 
-        case 0xac:                      /* LDY $nnnn */
+          case 0xac:            /* LDY $nnnn */
             LDY(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xad:                      /* LDA $nnnn */
+          case 0xad:            /* LDA $nnnn */
             LDA(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xae:                      /* LDX $nnnn */
+          case 0xae:            /* LDX $nnnn */
             LDX(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xaf:                      /* LAX $nnnn */
+          case 0xaf:            /* LAX $nnnn */
             LAX(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xb0:                      /* BCS $nnnn */
+          case 0xb0:            /* BCS $nnnn */
             BRANCH(LOCAL_CARRY(), p1);
             break;
 
-        case 0xb1:                      /* LDA ($nn),Y */
+          case 0xb1:            /* LDA ($nn),Y */
             LDA(LOAD_IND_Y_BANK(p1), 2, 3, 2);
             break;
 
-        case 0xb3:                      /* LAX ($nn),Y */
+          case 0xb3:            /* LAX ($nn),Y */
             LAX(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0xb4:                      /* LDY $nn,X */
+          case 0xb4:            /* LDY $nn,X */
             LDY(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0xb5:                      /* LDA $nn,X */
+          case 0xb5:            /* LDA $nn,X */
             LDA(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0xb6:                      /* LDX $nn,Y */
+          case 0xb6:            /* LDX $nn,Y */
             LDX(LOAD_ZERO_Y(p1), 2, 2, 2);
             break;
 
-        case 0xb7:                      /* LAX $nn,Y */
+          case 0xb7:            /* LAX $nn,Y */
             LAX(LOAD_ZERO_Y(p1), 2, 2, 2);
             break;
 
-        case 0xb8:                      /* CLV */
+          case 0xb8:            /* CLV */
             CLV();
             break;
 
-        case 0xb9:                      /* LDA $nnnn,Y */
+          case 0xb9:            /* LDA $nnnn,Y */
             LDA(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xba:                      /* TSX */
+          case 0xba:            /* TSX */
             TSX();
             break;
 
-        case 0xbb:                      /* LAS $nnnn,Y */
+          case 0xbb:            /* LAS $nnnn,Y */
             LAS(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xbc:                      /* LDY $nnnn,X */
+          case 0xbc:            /* LDY $nnnn,X */
             LDY(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0xbd:                      /* LDA $nnnn,X */
+          case 0xbd:            /* LDA $nnnn,X */
             LDA(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0xbe:                      /* LDX $nnnn,Y */
+          case 0xbe:            /* LDX $nnnn,Y */
             LDX(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xbf:                      /* LAX $nnnn,Y */
+          case 0xbf:            /* LAX $nnnn,Y */
             LAX(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xc0:                      /* CPY #$nn */
+          case 0xc0:            /* CPY #$nn */
             CPY(p1, 2, 0, 2);
             break;
 
-        case 0xc1:                      /* CMP ($nn,X) */
+          case 0xc1:            /* CMP ($nn,X) */
             CMP(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0xc3:                      /* DCP ($nn,X) */
+          case 0xc3:            /* DCP ($nn,X) */
             DCP(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xc4:                      /* CPY $nn */
+          case 0xc4:            /* CPY $nn */
             CPY(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xc5:                      /* CMP $nn */
+          case 0xc5:            /* CMP $nn */
             CMP(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xc6:                      /* DEC $nn */
+          case 0xc6:            /* DEC $nn */
             DEC(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xc7:                      /* DCP $nn */
+          case 0xc7:            /* DCP $nn */
             DCP(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xc8:                      /* INY */
+          case 0xc8:            /* INY */
             INY();
             break;
 
-        case 0xc9:                      /* CMP #$nn */
+          case 0xc9:            /* CMP #$nn */
             CMP(p1, 2, 0, 2);
             break;
 
-        case 0xca:                      /* DEX */
+          case 0xca:            /* DEX */
             DEX();
             break;
 
-        case 0xcb:                      /* SBX #$nn */
+          case 0xcb:            /* SBX #$nn */
             SBX(p1, 2, 0, 2);
             break;
 
-        case 0xcc:                      /* CPY $nnnn */
+          case 0xcc:            /* CPY $nnnn */
             CPY(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xcd:                      /* CMP $nnnn */
+          case 0xcd:            /* CMP $nnnn */
             CMP(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xce:                      /* DEC $nnnn */
+          case 0xce:            /* DEC $nnnn */
             DEC(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xcf:                      /* DCP $nnnn */
+          case 0xcf:            /* DCP $nnnn */
             DCP(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xd0:                      /* BNE $nnnn */
+          case 0xd0:            /* BNE $nnnn */
             BRANCH(!LOCAL_ZERO(), p1);
             break;
 
-        case 0xd1:                      /* CMP ($nn),Y */
+          case 0xd1:            /* CMP ($nn),Y */
             CMP(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0xd3:                      /* DCP ($nn),Y */
+          case 0xd3:            /* DCP ($nn),Y */
             DCP_IND_Y(p1);
             break;
 
-        case 0xd5:                      /* CMP $nn,X */
+          case 0xd5:            /* CMP $nn,X */
             CMP(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0xd6:                      /* DEC $nn,X */
+          case 0xd6:            /* DEC $nn,X */
             DEC((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xd7:                      /* DCP $nn,X */
+          case 0xd7:            /* DCP $nn,X */
             DCP((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xd8:                      /* CLD */
+          case 0xd8:            /* CLD */
             CLD();
             break;
 
-        case 0xd9:                      /* CMP $nnnn,Y */
+          case 0xd9:            /* CMP $nnnn,Y */
             CMP(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xdb:                      /* DCP $nnnn,Y */
+          case 0xdb:            /* DCP $nnnn,Y */
             DCP(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0xdd:                      /* CMP $nnnn,X */
+          case 0xdd:            /* CMP $nnnn,X */
             CMP(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0xde:                      /* DEC $nnnn,X */
+          case 0xde:            /* DEC $nnnn,X */
             DEC(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0xdf:                      /* DCP $nnnn,X */
+          case 0xdf:            /* DCP $nnnn,X */
             DCP(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0xe0:                      /* CPX #$nn */
+          case 0xe0:            /* CPX #$nn */
             CPX(p1, 2, 0, 2);
             break;
 
-        case 0xe1:                      /* SBC ($nn,X) */
+          case 0xe1:            /* SBC ($nn,X) */
             SBC(LOAD_IND_X(p1), 2, 4, 2);
             break;
 
-        case 0xe3:                      /* ISB ($nn,X) */
+          case 0xe3:            /* ISB ($nn,X) */
             ISB(LOAD_ZERO_ADDR(p1 + reg_x), 2, 6, 2, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xe4:                      /* CPX $nn */
+          case 0xe4:            /* CPX $nn */
             CPX(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xe5:                      /* SBC $nn */
+          case 0xe5:            /* SBC $nn */
             SBC(LOAD_ZERO(p1), 2, 1, 2);
             break;
 
-        case 0xe6:                      /* INC $nn */
+          case 0xe6:            /* INC $nn */
             INC(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xe7:                      /* ISB $nn */
+          case 0xe7:            /* ISB $nn */
             ISB(p1, 2, 3, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xe8:                      /* INX */
+          case 0xe8:            /* INX */
             INX();
             break;
 
-        case 0xe9:                      /* SBC #$nn */
+          case 0xe9:            /* SBC #$nn */
             SBC(p1, 2, 0, 2);
             break;
 
-        case 0xea:                      /* NOP */
+          case 0xea:            /* NOP */
             NOP();
             break;
 
-        case 0xeb:                      /* USBC #$nn (same as SBC) */
+          case 0xeb:            /* USBC #$nn (same as SBC) */
             SBC(p1, 2, 0, 2);
             break;
 
-        case 0xec:                      /* CPX $nnnn */
+          case 0xec:            /* CPX $nnnn */
             CPX(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xed:                      /* SBC $nnnn */
+          case 0xed:            /* SBC $nnnn */
             SBC(LOAD(p2), 3, 1, 3);
             break;
 
-        case 0xee:                      /* INC $nnnn */
+          case 0xee:            /* INC $nnnn */
             INC(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xef:                      /* ISB $nnnn */
+          case 0xef:            /* ISB $nnnn */
             ISB(p2, 3, 3, 3, LOAD_ABS, STORE_ABS);
             break;
 
-        case 0xf0:                      /* BEQ $nnnn */
+          case 0xf0:            /* BEQ $nnnn */
             BRANCH(LOCAL_ZERO(), p1);
             break;
 
-        case 0xf1:                      /* SBC ($nn),Y */
+          case 0xf1:            /* SBC ($nn),Y */
             SBC(LOAD_IND_Y(p1), 2, 3, 2);
             break;
 
-        case 0xf3:                      /* ISB ($nn),Y */
+          case 0xf3:            /* ISB ($nn),Y */
             ISB_IND_Y(p1);
             break;
 
-        case 0xf5:                      /* SBC $nn,X */
+          case 0xf5:            /* SBC $nn,X */
             SBC(LOAD_ZERO_X(p1), 2, 2, 2);
             break;
 
-        case 0xf6:                      /* INC $nn,X */
+          case 0xf6:            /* INC $nn,X */
             INC((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xf7:                      /* ISB $nn,X */
+          case 0xf7:            /* ISB $nn,X */
             ISB((p1 + reg_x) & 0xff, 2, 4, 2, LOAD_ZERO, STORE_ABS);
             break;
 
-        case 0xf8:                      /* SED */
+          case 0xf8:            /* SED */
             SED();
             break;
 
-        case 0xf9:                      /* SBC $nnnn,Y */
+          case 0xf9:            /* SBC $nnnn,Y */
             SBC(LOAD_ABS_Y(p2), 3, 1, 3);
             break;
 
-        case 0xfb:                      /* ISB $nnnn,Y */
+          case 0xfb:            /* ISB $nnnn,Y */
             ISB(p2, 3, 3, 3, LOAD_ABS_Y_RMW, STORE_ABS_Y_RMW);
             break;
 
-        case 0xfd:                      /* SBC $nnnn,X */
+          case 0xfd:            /* SBC $nnnn,X */
             SBC(LOAD_ABS_X(p2), 3, 1, 3);
             break;
 
-        case 0xfe:                      /* INC $nnnn,X */
+          case 0xfe:            /* INC $nnnn,X */
             INC(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
 
-        case 0xff:                      /* ISB $nnnn,X */
+          case 0xff:            /* ISB $nnnn,X */
             ISB(p2, 3, 3, 3, LOAD_ABS_X_RMW, STORE_ABS_X_RMW);
             break;
         }
