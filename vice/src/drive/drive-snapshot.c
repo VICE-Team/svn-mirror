@@ -55,6 +55,8 @@
 #include "zfile.h"
 
 
+/* Currently the drive snapshot only handles 2 drives.  */
+
 /* Logging.  */
 static log_t drive_snapshot_log = LOG_ERR;
 
@@ -395,6 +397,9 @@ int drive_snapshot_read_module(snapshot_t *s)
         return -1;
     if (drive_snapshot_read_rom_module(s, 1) < 0)
         return -1;
+
+    for (i = 0; i < 2; i++)
+        drive_current_track_size_set(drive_context[i]->drive);
 
     for (i = 0; i < 2; i++) {
          drive = drive_context[i]->drive;
