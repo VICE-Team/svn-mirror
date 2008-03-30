@@ -37,11 +37,11 @@
 extern DWORD last_opcode_info;
 
 /* The lowest 8 bits are the opcode number.  */
-#define OPINFO_NUMBER_MASK	       	(last_opcode_info & 0xff)
+#define OPINFO_NUMBER_MASK              (last_opcode_info & 0xff)
 
 /* If this is set to 1, the opcode has delayed interrupts by one more cycle
    (this happens with conditional jumps when jump is taken).  */
-#define OPINFO_DELAYS_INTERRUPT_MASK	(last_opcode_info & 0x100)
+#define OPINFO_DELAYS_INTERRUPT_MASK    (last_opcode_info & 0x100)
 
 /* The VIC-II emulation needs this ugly hack.  */
 #define EXTERN_PC

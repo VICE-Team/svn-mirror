@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +38,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_disassemble.h"
 #include "mos6510.h"
 #include "snapshot.h"
 #include "traps.h"
@@ -90,10 +92,6 @@
 
 /* The following #defines are useful for debugging and speed tuning.  */
 
-/* Print a message whenever a program attempts to execute instructions fetched
-   from the I/O area.  */
-#undef IO_AREA_WARNING
-
 /* Do not handle CPU alarms, but measure speed instead.  */
 #undef EVALUATE_SPEED
 
@@ -132,7 +130,7 @@
 
 #else  /* !INSTRUCTION_FETCH_HACK */
 
-#  define JUMP(addr)	(reg_pc = (addr))
+#  define JUMP(addr)    (reg_pc = (addr))
 
 #endif /* !INSTRUCTION_FETCH_HACK */
 
@@ -169,7 +167,7 @@ inline static BYTE *mem_read_base(int addr)
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     if (p == 0)
-	return p;
+        return p;
 
     return p - (addr & 0xff00);
 }
@@ -189,7 +187,7 @@ void maincpu_generic_dma(void)
    the .def files, but if most of the machines do not use, we might keep it
    here and only override it where needed.  */
 #ifndef PAGE_ZERO
-#define	PAGE_ZERO ram
+#define PAGE_ZERO ram
 #endif
 
 #ifndef PAGE_ONE
@@ -235,7 +233,7 @@ DWORD last_opcode_info;
 
 /* Number of write cycles for each 6510 opcode.  */
 CLOCK _maincpu_opcode_write_cycles[] = {
-	    /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
+            /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
     /* $00 */  3, 0, 0, 2, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0, 2, 2, /* $00 */
     /* $10 */  0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, /* $10 */
     /* $20 */  2, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, /* $20 */
@@ -252,7 +250,7 @@ CLOCK _maincpu_opcode_write_cycles[] = {
     /* $D0 */  0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2, /* $D0 */
     /* $E0 */  0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, /* $E0 */
     /* $F0 */  0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 2, 0, 0, 2, 2  /* $F0 */
-	    /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
+            /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
 };
 
 /* Public copy of the CPU registers.  As putting the registers into the
@@ -297,7 +295,7 @@ monitor_interface_t maincpu_monitor_interface = {
 
 #include <sys/time.h>
 
-#define EVALUATE_INTERVAL	10000000L
+#define EVALUATE_INTERVAL       10000000L
 
 #ifdef WIN32
 #undef BYTE
@@ -321,14 +319,14 @@ inline static void evaluate_speed(unsigned long clk)
         current_time=timeGetTime();
         diff_time=current_time-old_time;
         diff_sec=diff_time/1000.0;
-	if (old_clk)
-	    log_debug ("%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, diff_sec,
-		    100.0 * (((double)(clk - old_clk)
-			      / diff_sec) / 1108405.0));
-	old_clk = clk;
-	next_clk = old_clk + EVALUATE_INTERVAL;
-	old_time = current_time;
+        if (old_clk)
+            log_debug ("%ld cycles in %f seconds: %f%% speed\n",
+                    clk - old_clk, diff_sec,
+                    100.0 * (((double)(clk - old_clk)
+                              / diff_sec) / 1108405.0));
+        old_clk = clk;
+        next_clk = old_clk + EVALUATE_INTERVAL;
+        old_time = current_time;
     }
 #else
 #ifdef HAVE_GETTIMEOFDAY
@@ -337,21 +335,21 @@ inline static void evaluate_speed(unsigned long clk)
     static double old_time;
 
     if (clk > next_clk) {
-	struct timeval tv;
-	double current_time;
+        struct timeval tv;
+        double current_time;
 
-	gettimeofday (&tv, NULL);
-	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
+        gettimeofday (&tv, NULL);
+        current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
 
-	if (old_clk)
-	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
-		    clk - old_clk, current_time - old_time,
-		    100.0 * (((double)(clk - old_clk)
-			      / (current_time - old_time)) / 1108405.0));
+        if (old_clk)
+            fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
+                    clk - old_clk, current_time - old_time,
+                    100.0 * (((double)(clk - old_clk)
+                              / (current_time - old_time)) / 1108405.0));
 
-	old_clk = clk;
-	next_clk = old_clk + EVALUATE_INTERVAL;
-	old_time = current_time;
+        old_clk = clk;
+        next_clk = old_clk + EVALUATE_INTERVAL;
+        old_time = current_time;
     }
 #else
     /* Sorry, can't evaluate performance.  */
@@ -361,7 +359,7 @@ inline static void evaluate_speed(unsigned long clk)
 }
 
 #endif /* EVALUATE_SPEED */
- 
+
 /* ------------------------------------------------------------------------- */
 
 static void clk_overflow_callback(CLOCK sub, void *data)
@@ -389,11 +387,10 @@ static void cpu_reset(void)
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     interrupt_cpu_status_init(&maincpu_int_status, NUMOFINT, &last_opcode_info);
-
     if (preserve_monitor)
         interrupt_monitor_trap_on(&maincpu_int_status);
 
-    clk = 6;			/* # of clock cycles needed for RESET.  */
+    clk = 6;                    /* # of clock cycles needed for RESET.  */
 
     /* Do machine-specific initialization.  */
     machine_reset();
@@ -441,19 +438,12 @@ void mainloop(ADDRESS start_address)
     evaluate_speed(clk);
 #endif /* !EVALUATE_SPEED */
 
-#ifdef IO_AREA_WARNING
-    if (!bank_base)
-        log_debug ("Main CPU: Executing from I/O area at $%04X: "
-                   "$%02X $%02X $%04X at clk %ld\n",
-                   reg_pc, p0, p1, p2, clk);
-#endif
-
 #define CLK clk
 #define RMW_FLAG rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
 #define TRACEFLG traceflg
 
-#define CPU_INT_STATUS	maincpu_int_status
+#define CPU_INT_STATUS maincpu_int_status
 
 #define ALARM_CONTEXT maincpu_alarm_context
 
@@ -493,11 +483,11 @@ void mainloop(ADDRESS start_address)
       }                                                             \
    } while (0)
 
-#define CALLER		e_comp_space
+#define CALLER e_comp_space
 
-#define ROM_TRAP_ALLOWED()    mem_rom_trap_allowed(reg_pc)
+#define ROM_TRAP_ALLOWED() mem_rom_trap_allowed(reg_pc)
 
-#define GLOBAL_REGS           maincpu_regs
+#define GLOBAL_REGS maincpu_regs
 
 #include "6510core.c"
 
@@ -587,3 +577,4 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
+

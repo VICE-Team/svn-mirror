@@ -1,7 +1,7 @@
 /*
  * drivecpu.c - 6502 processor emulation of the Commodore 1541, 1541-II,
- *              1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and 
- * 		8250 floppy disk drive.
+ *              1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
+ *              8250 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -47,6 +47,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
+#include "mon_disassemble.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
@@ -69,13 +70,16 @@ static void drive_jam(drive_context_t *drv);
 
 static BYTE drive_bank_read(drive_context_t *drv, int bank, ADDRESS address);
 static BYTE drive_bank_peek(drive_context_t *drv, int bank, ADDRESS address);
-static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address, BYTE value);
+static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address,
+                             BYTE value);
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
 
 /* export these special pointers */
-monitor_interface_t *drive0_monitor_interface_ptr = &drive0_context.cpu.monitor_interface;
-monitor_interface_t *drive1_monitor_interface_ptr = &drive1_context.cpu.monitor_interface;
+monitor_interface_t *drive0_monitor_interface_ptr
+    = &drive0_context.cpu.monitor_interface;
+monitor_interface_t *drive1_monitor_interface_ptr
+    = &drive1_context.cpu.monitor_interface;
 cpu_int_status_t *drive0_int_status_ptr = &drive0_context.cpu.int_status;
 cpu_int_status_t *drive1_int_status_ptr = &drive1_context.cpu.int_status;
 
@@ -154,11 +158,11 @@ void drive_cpu_setup_context(drive_context_t *drv)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)		  (drv->cpud.read_func[(a) >> 8](drv, (ADDRESS)(a)))
-#define LOAD_ZERO(a)	  (drv->cpud.drive_ram[(a) & 0xff])
+#define LOAD(a)           (drv->cpud.read_func[(a) >> 8](drv, (ADDRESS)(a)))
+#define LOAD_ZERO(a)      (drv->cpud.drive_ram[(a) & 0xff])
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)	  (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), (BYTE)(b)))
+#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), (BYTE)(b)))
 #define STORE_ZERO(a, b)  (drv->cpud.drive_ram[(a) & 0xff] = (b))
 
 #define pagezero (drv->cpud.drive_ram)
@@ -169,10 +173,10 @@ void drive_cpu_setup_context(drive_context_t *drv)
 #define JUMP(addr)                                      \
     do {                                                \
         reg_pc = (addr);                                \
-	if (drv->drive_ptr->type == 1001) {             \
-	    drv->cpu.d_bank_base = NULL;	        \
-	    drv->cpu.d_bank_limit = -1; 	        \
-	} else if (reg_pc < 0x2000) {                   \
+        if (drv->drive_ptr->type == 1001) {             \
+            drv->cpu.d_bank_base = NULL;                \
+            drv->cpu.d_bank_limit = -1;                 \
+        } else if (reg_pc < 0x2000) {                   \
             drv->cpu.d_bank_base = drv->cpud.drive_ram; \
             drv->cpu.d_bank_limit = 0x07fd;             \
         } else if (reg_pc >= drv->drive_ptr->rom_start) {        \
@@ -255,7 +259,7 @@ static void cpu_reset(drive_context_t *drv)
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
 
     if (preserve_monitor)
-	interrupt_monitor_trap_on(&(drv->cpu.int_status));
+        interrupt_monitor_trap_on(&(drv->cpu.int_status));
 }
 
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
@@ -289,11 +293,11 @@ void drive_cpu_reset(drive_context_t *drv)
     preserve_monitor = drv->cpu.int_status.global_pending_int & IK_MONITOR;
 
     interrupt_cpu_status_init(&(drv->cpu.int_status),
-			DRIVE_NUMOFINT,
-			&(drv->cpu.last_opcode_info));
+                        DRIVE_NUMOFINT,
+                        &(drv->cpu.last_opcode_info));
 
     if (preserve_monitor)
-	interrupt_monitor_trap_on(&(drv->cpu.int_status));
+        interrupt_monitor_trap_on(&(drv->cpu.int_status));
 
     /* FIXME -- ugly, should be changed in interrupt.h */
     interrupt_trigger_reset(&(drv->cpu.int_status), *(drv->clk_ptr));
@@ -342,8 +346,8 @@ inline void drive_cpu_sleep(drive_context_t *drv)
     /* Currently does nothing.  But we might need this hook some day.  */
 }
 
-/* Make sure the 1541 clock counters never overflow; return nonzero if they
-   have been decremented to prevent overflow.  */
+/* Make sure the drive clock counters never overflow; return nonzero if
+   they have been decremented to prevent overflow.  */
 CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 {
     if (sub != 0) {
@@ -397,7 +401,6 @@ static void drive_generic_dma(void)
 }
 
 /* -------------------------------------------------------------------------- */
-
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
 void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
@@ -427,33 +430,24 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
     while (cycles > 0) {
         CLOCK stop_clk;
 
-	if (cycles > MAX_TICKS) {
-	    stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[MAX_TICKS]
-			- drv->cpu.last_exc_cycles);
-	    drv->cpu.cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
-	    cycles -= MAX_TICKS;
-	} else {
-	    stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[cycles]
-			- drv->cpu.last_exc_cycles);
-	    drv->cpu.cycle_accum += drv->cpud.clk_mod_table[cycles];
-	    cycles = 0;
-	}
+        if (cycles > MAX_TICKS) {
+            stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[MAX_TICKS]
+                        - drv->cpu.last_exc_cycles);
+            drv->cpu.cycle_accum += drv->cpud.clk_mod_table[MAX_TICKS];
+            cycles -= MAX_TICKS;
+        } else {
+            stop_clk = (*(drv->clk_ptr) + drv->cpud.clk_conv_table[cycles]
+                        - drv->cpu.last_exc_cycles);
+            drv->cpu.cycle_accum += drv->cpud.clk_mod_table[cycles];
+            cycles = 0;
+        }
 
-	if (drv->cpu.cycle_accum >= 0x10000) {
-	    drv->cpu.cycle_accum -= 0x10000;
-	    stop_clk++;
-	}
+        if (drv->cpu.cycle_accum >= 0x10000) {
+            drv->cpu.cycle_accum -= 0x10000;
+            stop_clk++;
+        }
 
         while (*(drv->clk_ptr) < stop_clk) {
-
-#ifdef IO_AREA_WARNING
-#warning IO_AREA_WARNING
-	    if (!drv->cpu.d_bank_base)
-		fprintf(drv->drive_ptr->log,
-                        "Executing from I/O area at $%04X: "
-                        "$%02X $%02X $%04X at clk %ld\n",
-                        reg_pc, p0, p1, p2, clk_value);
-#endif
 
 /* Include the 6502/6510 CPU emulation core.  */
 
@@ -481,9 +475,9 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define _drive_set_byte_ready(value) drv->drive_ptr->byte_ready = value
 
-#define _drive_byte_ready() ((drv->drive_ptr->byte_ready_active == 0x6)	\
-                                ? drive_rotate_disk(drv->drive_ptr),	\
-                                drv->drive_ptr->byte_ready : 0)		\
+#define _drive_byte_ready() ((drv->drive_ptr->byte_ready_active == 0x6) \
+                                ? drive_rotate_disk(drv->drive_ptr),    \
+                                drv->drive_ptr->byte_ready : 0)         \
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (drv->cpu.d_bank_limit)
@@ -531,19 +525,19 @@ static void drive_jam(drive_context_t *drv)
         break;
       case DRIVE_TYPE_1001:
         dname = "  1001";
-	break;
+        break;
       case DRIVE_TYPE_2040:
         dname = "  2040";
-	break;
+        break;
       case DRIVE_TYPE_3040:
         dname = "  3040";
-	break;
+        break;
       case DRIVE_TYPE_4040:
         dname = "  4040";
-	break;
+        break;
       case DRIVE_TYPE_8050:
         dname = "  8050";
-	break;
+        break;
       case DRIVE_TYPE_8250:
         dname = "  8250";
       break;
@@ -580,23 +574,23 @@ int drive_cpu_write_snapshot_module(drive_context_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, drv->cpu.snap_module_name, ((BYTE)(SNAP_MAJOR)),
-                               ((BYTE)(SNAP_MINOR)));
+    m = snapshot_module_create(s, drv->cpu.snap_module_name,
+                               ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)));
     if (m == NULL)
         return -1;
 
     if (0
         || snapshot_module_write_dword(m, (DWORD) *(drv->clk_ptr)) < 0
-        || snapshot_module_write_byte(m, (BYTE) reg_a) < 0
-        || snapshot_module_write_byte(m, (BYTE) reg_x) < 0
-        || snapshot_module_write_byte(m, (BYTE) reg_y) < 0
-        || snapshot_module_write_byte(m, (BYTE) reg_sp) < 0
-        || snapshot_module_write_word(m, (WORD) reg_pc) < 0
-        || snapshot_module_write_byte(m, (BYTE) reg_p) < 0
-        || snapshot_module_write_dword(m, (DWORD) (drv->cpu.last_opcode_info)) < 0
-        || snapshot_module_write_dword(m, (DWORD) (drv->cpu.last_clk)) < 0
-        || snapshot_module_write_dword(m, (DWORD) (drv->cpu.cycle_accum)) < 0
-        || snapshot_module_write_dword(m, (DWORD) (drv->cpu.last_exc_cycles)) < 0
+        || snapshot_module_write_byte(m, (BYTE)reg_a) < 0
+        || snapshot_module_write_byte(m, (BYTE)reg_x) < 0
+        || snapshot_module_write_byte(m, (BYTE)reg_y) < 0
+        || snapshot_module_write_byte(m, (BYTE)reg_sp) < 0
+        || snapshot_module_write_word(m, (WORD)reg_pc) < 0
+        || snapshot_module_write_byte(m, (BYTE)reg_p) < 0
+        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_opcode_info)) < 0
+        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_clk)) < 0
+        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.cycle_accum)) < 0
+        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_exc_cycles)) < 0
         )
         goto fail;
 

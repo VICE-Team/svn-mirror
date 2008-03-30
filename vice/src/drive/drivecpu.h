@@ -41,12 +41,15 @@ extern void drive_cpu_init(struct drive_context_s *drv, int type);
 extern void drive_cpu_reset(struct drive_context_s *drv);
 extern void drive_cpu_sleep(struct drive_context_s *drv);
 extern void drive_cpu_wake_up(struct drive_context_s *drv);
-extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv, CLOCK sub);
-extern void drive_cpu_set_sync_factor(struct drive_context_s *drv, unsigned int factor);
+extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv,
+                                            CLOCK sub);
+extern void drive_cpu_set_sync_factor(struct drive_context_s *drv,
+                                      unsigned int factor);
 extern void drive_cpu_early_init(struct drive_context_s *drv);
 extern void drive_cpu_reset_clk(struct drive_context_s *drv);
 
-extern void REGPARM3 drive_store(struct drive_context_s *drv, ADDRESS addr, BYTE value);
+extern void REGPARM3 drive_store(struct drive_context_s *drv, ADDRESS addr,
+                                 BYTE value);
 extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, ADDRESS addr);
 extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
 extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
@@ -57,12 +60,12 @@ extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
 
 /* to minimize changes in other modules */
-#define drive0_cpu_execute(c)	drivex_cpu_execute(&drive0_context, c)
-#define drive1_cpu_execute(c)	drivex_cpu_execute(&drive1_context, c)
-#define drive0_cpu_early_init()	drive_cpu_early_init(&drive0_context)
-#define drive1_cpu_early_init()	drive_cpu_early_init(&drive1_context)
-#define drive0_set_bank_base()	drive_set_bank_base(&drive0_context)
-#define drive1_set_bank_base()	drive_set_bank_base(&drive1_context)
+#define drive0_cpu_execute(c)   drivex_cpu_execute(&drive0_context, c)
+#define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
+#define drive0_cpu_early_init() drive_cpu_early_init(&drive0_context)
+#define drive1_cpu_early_init() drive_cpu_early_init(&drive1_context)
+#define drive0_set_bank_base()  drive_set_bank_base(&drive0_context)
+#define drive1_set_bank_base()  drive_set_bank_base(&drive1_context)
 
 /* don't use these pointers before the context is set up! */
 struct monitor_interface_s;
