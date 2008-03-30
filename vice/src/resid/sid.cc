@@ -642,7 +642,7 @@ int SID::clock_fast(cycle_count& delta_t, short* buf, int n)
     }
     clock(delta_t_sample);
     delta_t -= delta_t_sample;
-    sample_offset = next_sample_offset & 0x3ff - (1 << 9);
+    sample_offset = (next_sample_offset & 0x3ff) - (1 << 9);
     buf[s++] = output();
   }
 

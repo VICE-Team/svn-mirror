@@ -572,9 +572,13 @@ void sound_synthesize(SWORD *buffer, int length)
 
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
+#if __MSDOS__ || __riscos
 int sound_flush(int relative_speed)
+#else
+double sound_flush(int relative_speed)
+#endif
 {
-    int	i, nr, space, used, fill = 0, dir = 0;
+    int	i, nr, space, used, fill = 0;
 
     if (!playback_enabled) {
         if (sdev_open) sound_close();
@@ -704,25 +708,10 @@ int sound_flush(int relative_speed)
 	}
 	snddata.prevused = used;
 	snddata.prevfill = fill;
-	if (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT)
-	{
-	    /* finetune VICE timer */
-	    static int lasttime = 0;
-	    int t = time(0);
-	    if (t != lasttime)
-	    {
-		/* Aim for utilization of bufsize - fragsize. */
-		int remspace = space - snddata.bufptr;
-		if (remspace <= 0)
-		    dir = -1;
-		if (remspace > snddata.fragsize)
-		    dir = 1;
-		lasttime = t;
-	    }
-	}
-	else
+	if (!cycle_based && speed_adjustment_setting != SOUND_ADJUST_EXACT) {
 	    snddata.clkfactor = SOUNDCLK_MULT(snddata.clkfactor, SOUNDCLK_CONSTANT(0.9)
 	                      + ((used+nr)*SOUNDCLK_CONSTANT(0.12))/snddata.bufsize);
+	}
 	snddata.clkstep = SOUNDCLK_MULT(snddata.origclkstep, snddata.clkfactor);
 	if (SOUNDCLK_CONSTANT(cycles_per_rfsh) / snddata.clkstep >= snddata.bufsize)
 	{
@@ -747,13 +736,43 @@ int sound_flush(int relative_speed)
     snddata.lastsample = snddata.buffer[nr-1];
     snddata.bufptr -= nr;
 
-    if (snddata.bufptr <= 0)
-        return dir;
-
     for (i = 0; i < snddata.bufptr; i++)
         snddata.buffer[i] = snddata.buffer[i + nr];
 
-    return dir;
+    if (snddata.pdev->bufferspace
+	&& (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
+#if __MSDOS__ || __riscos
+    {
+        /* finetune VICE timer */
+        static int lasttime = 0;
+	int t = time(0);
+	if (t != lasttime)
+	{
+	    /* Aim for utilization of bufsize - fragsize. */
+	    int dir = 0;
+	    int remspace = space - snddata.bufptr;
+	    if (remspace <= 0)
+	        dir = -1;
+	    if (remspace > snddata.fragsize)
+	        dir = 1;
+	    lasttime = t;
+	    return dir;
+	}
+    }
+#else
+    {
+        /* finetune VICE timer */
+        /* Read bufferspace() just before returning to minimize the possibility
+	   of getting interrupted before vsync delay calculation. */
+	/* Aim for utilization of bufsize - fragsize. */
+	int remspace =
+	    snddata.pdev->bufferspace() - snddata.fragsize - snddata.bufptr;
+	/* Return delay in seconds. */
+	return (double)remspace/sample_rate;
+    }
+#endif
+
+    return 0;
 }
 
 /* close sid */

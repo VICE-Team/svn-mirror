@@ -133,6 +133,9 @@ vic_snapshot_read_module (snapshot_t *s)
   if (snapshot_module_read_byte_array (m, ram + 0x9400, 0x800) < 0)
     goto fail;
 
+  vic.last_emulate_line_clk = clk - VIC_RASTER_CYCLE (clk);
+  vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
+
   for (i = 0; i < 0x10; i++)
     {
       if (snapshot_module_read_byte (m, &b) < 0)
@@ -142,8 +145,6 @@ vic_snapshot_read_module (snapshot_t *s)
       vic_store(i, b);
     }
 
-  vic.last_emulate_line_clk = clk - VIC_RASTER_CYCLE (clk);
-  vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
   alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
 
   raster_force_repaint (&vic.raster);

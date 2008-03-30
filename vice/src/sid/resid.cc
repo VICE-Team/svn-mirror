@@ -33,7 +33,6 @@ extern "C" {
 #include "log.h"
 #include "utils.h"
 #include "sound.h"
-#include "fixpoint.h"
 
 struct sound_s
 {
