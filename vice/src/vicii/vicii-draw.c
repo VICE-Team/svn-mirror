@@ -55,38 +55,82 @@ static WORD mcmsktable[512];
 static void draw_std_background(int start_pixel, int end_pixel)
 {
     BYTE background_color;
+    unsigned int gfxstart, gfxend;
 
-    background_color = (BYTE)vic_ii.raster.xsmooth_color;
+    background_color = (BYTE)vic_ii.raster.background_color;
+
+    gfxstart = vic_ii.raster.geometry.gfx_position.x + vic_ii.raster.xsmooth;
+    gfxend = gfxstart + vic_ii.raster.geometry.gfx_size.width;
+
+    if (start_pixel < gfxstart) {
+        if (end_pixel < gfxstart) {
+            vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                       vic_ii.raster.xsmooth_color,
+                       end_pixel - start_pixel + 1);
+        } else {
+            if (end_pixel < gfxend) {
+                vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                           vic_ii.raster.xsmooth_color,
+                           gfxstart - start_pixel + 1);
+                vid_memset(vic_ii.raster.draw_buffer_ptr + gfxstart,
+                           background_color,
+                           end_pixel - gfxstart + 1);
+            } else {
+                vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                           vic_ii.raster.xsmooth_color,
+                           gfxstart - start_pixel + 1);
+                vid_memset(vic_ii.raster.draw_buffer_ptr + gfxstart,
+                           background_color,
+                           gfxend - gfxstart + 1);
+                vid_memset(vic_ii.raster.draw_buffer_ptr + gfxend,
+                           vic_ii.raster.xsmooth_color,
+                           end_pixel - gfxend + 1);
+            }
+        }
+    } else {
+        if (start_pixel < gfxend) {
+            if (end_pixel < gfxend) {
+                vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                           background_color,
+                           end_pixel - start_pixel + 1);
+            } else {
+                vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                           background_color,
+                           gfxend - start_pixel + 1);
+                vid_memset(vic_ii.raster.draw_buffer_ptr + gfxend,
+                           vic_ii.raster.xsmooth_color,
+                           end_pixel - gfxend + 1);
+            }
+        } else {
+            vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
+                       vic_ii.raster.xsmooth_color,
+                       end_pixel - start_pixel + 1);
+        }
+    }
 
     if (vic_ii.raster.xsmooth_shift_right) {
         int pos;
-
-        vic_ii.raster.xsmooth_shift_right = 0;
 
         pos = (start_pixel - vic_ii.raster.geometry.gfx_position.x) / 8;
 
         if (pos >= 0 && pos < VIC_II_SCREEN_TEXTCOLS) {
             if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
                 background_color = vic_ii.vbuf[pos] & 0xf;
+            if (vic_ii.raster.video_mode == VIC_II_EXTENDED_TEXT_MODE) {
+                int bg_idx;
+
+                bg_idx = vic_ii.vbuf[pos] >> 6;
+
+                if (bg_idx > 0)
+                    background_color = vic_ii.ext_background_color[bg_idx - 1];
+            }
+            vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel + 8,
+                       background_color,
+                       vic_ii.raster.xsmooth_shift_right);
+
         }
+        vic_ii.raster.xsmooth_shift_right = 0;
     }
-
-    vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
-               background_color,
-               end_pixel - start_pixel + 1);
-
-#if 0
-    /* The background color in the xsmooth region is set by xsmooth color.  */
-    if (vic_ii.raster.xsmooth
-        && start_pixel
-        <= vic_ii.raster.geometry.gfx_position.x
-        && end_pixel
-        >= vic_ii.raster.geometry.gfx_position.x + vic_ii.raster.xsmooth)
-        vid_memset((vic_ii.raster.draw_buffer_ptr
-                   + vic_ii.raster.geometry.gfx_position.x),
-                   vic_ii.raster.xsmooth_color,
-                   vic_ii.raster.xsmooth);
-#endif
 }
 
 static void draw_idle_std_background(int start_pixel, int end_pixel)

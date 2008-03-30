@@ -602,14 +602,6 @@ inline static void store_d016(ADDRESS addr, BYTE value)
     xsmooth = value & 7;
 
     if (xsmooth != (vic_ii.regs[addr] & 7)) {
-#if 0
-        if (raster->skip_frame || VIC_II_RASTER_CHAR(cycle) <= 1)
-            raster->xsmooth = xsmooth;
-        else
-            raster_add_int_change_next_line(raster,
-                                            &raster->xsmooth,
-                                            xsmooth);
-#else
         if (xsmooth < (vic_ii.regs[addr] & 7)) {
             /* shift left: we need to care for std_text_mode */
             /* the number of pixels to leave out has
@@ -629,7 +621,6 @@ inline static void store_d016(ADDRESS addr, BYTE value)
                                          VIC_II_RASTER_CHAR(cycle) - 1,
                                          &raster->xsmooth,
                                          xsmooth);
-#endif
     }
 
     /* Bit 4 (CSEL) selects 38/40 column mode.  */
