@@ -30,45 +30,42 @@
 #define _UILIB_H
 
 #include <windows.h>
+#include <tchar.h>
+
+#define UILIB_SELECTOR_TYPE_FILE_LOAD 0
+#define UILIB_SELECTOR_TYPE_FILE_SAVE 1
+#define UILIB_SELECTOR_TYPE_DIR_EXIST 2
+#define UILIB_SELECTOR_TYPE_DIR_NEW   3
+  
+#define UILIB_SELECTOR_STYLE_DEFAULT       0
+#define UILIB_SELECTOR_STYLE_TAPE          1
+#define UILIB_SELECTOR_STYLE_DISK          2
+#define UILIB_SELECTOR_STYLE_DISK_AND_TAPE 3
+#define UILIB_SELECTOR_STYLE_CART          4
+#define UILIB_SELECTOR_STYLE_SNAPSHOT      5
+#define UILIB_SELECTOR_STYLE_EVENT         6
+#define UILIB_SELECTOR_STYLES_NUM          7
+
+#define UILIB_FILTER_ALL        1
+#define UILIB_FILTER_PALETTE    2
+#define UILIB_FILTER_SNAPSHOT   4
+#define UILIB_FILTER_DISK       8
+#define UILIB_FILTER_TAPE       16
+#define UILIB_FILTER_ZIP        32
+#define UILIB_FILTER_CRT        64
+#define UILIB_FILTER_BIN        128
+#define UILIB_FILTER_FLIPLIST   256
+#define UILIB_FILTER_LENGTH_MAX 1024
 
 
-/*  Parameter structure for ui_attach_cartridge */
-typedef struct {
-    WPARAM wparam;
-    int type;
-    char *title;
-    DWORD filter;
-} ui_cartridge_params;
-
-
-extern char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
-                            int style, int *autostart);
-extern void ui_set_res_num(char *res, int value, int num);
+extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
+                                unsigned int type, int style);
+extern TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
+                                          DWORD filterlist, unsigned int type,
+                                          int style, int *autostart);
 
 extern void ui_show_text(HWND hParent, const char *szCaption,
                          const char *szHeader, const char *szText);
-
-#define FILE_SELECTOR_DEFAULT_STYLE         0
-#define FILE_SELECTOR_TAPE_STYLE            1
-#define FILE_SELECTOR_DISK_STYLE            2
-#define FILE_SELECTOR_DISK_AND_TAPE_STYLE   3
-#define FILE_SELECTOR_CART_STYLE            4
-#define FILE_SELECTOR_SNAPSHOT_STYLE        5
-#define DIR_SELECTOR_EVENT_STYLE            6
-#define NUM_OF_FILE_SELECTOR_STYLES         7
-
-
-#define UI_LIB_FILTER_ALL           1
-#define UI_LIB_FILTER_PALETTE       2
-#define UI_LIB_FILTER_SNAPSHOT      4
-#define UI_LIB_FILTER_DISK          8
-#define UI_LIB_FILTER_TAPE          16
-#define UI_LIB_FILTER_ZIP           32
-#define UI_LIB_FILTER_CRT           64
-#define UI_LIB_FILTER_BIN           128
-#define UI_LIB_FILTER_FLIPLIST      256
-
-#define UI_LIB_MAX_FILTER_LENGTH    1024
 
 extern int ui_messagebox(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 

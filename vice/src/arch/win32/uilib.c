@@ -65,28 +65,35 @@ static int *autostart_result;
 static char* fontfile;
 static int font_loaded;
 
-static struct { char *name; char *pattern; } uilib_filefilter[] = {
+struct uilib_filefilter_s {
+    char *name;
+    char *pattern;
+};
+typedef struct uilib_filefilter_s uilib_filefilter_t;
+
+static uilib_filefilter_t uilib_filefilter[] = {
     { "All files (*.*)", "*.*" },
     { "VICE palette files (*.vpl)", "*.vpl" },
     { "VICE snapshot files (*.vsf)", "*.vsf" },
     { "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
-        "*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64" },
+      "*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64" },
     { "Tape image files (*.t64;*.p00;*.tap;*.prg)",
-        "*.t64;*.p00;*.tap;*.prg" },
+      "*.t64;*.p00;*.tap;*.prg" },
     { "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
-        "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
+      "*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z" },
     { "CRT cartridge image files (*.crt)", "*.crt" },
     { "Raw cartridge image files (*.bin)", "*.bin" },
     { "Flip list files (*.vfl)", "*.vfl" },
     { NULL, NULL }
 };
 
-typedef struct {
+struct uilib_fs_style_type_s {
     char *(*content_read_function)(const char *);
     LPOFNHOOKPROC hook_proc;
     int TemplateID;
     char *initialdir_resource;
-} ui_file_selector_style_type;
+};
+typedef struct uilib_fs_style_type_s uilib_fs_style_type_t;
 
 static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                                     LPARAM lparam);
@@ -97,26 +104,26 @@ static char *read_disk_image_contents(const char *name);
 static char *read_tape_image_contents(const char *name);
 static char *read_disk_or_tape_image_contents(const char *name);
 
-static ui_file_selector_style_type styles[NUM_OF_FILE_SELECTOR_STYLES + 1] = {
-    /* FILE_SELECTOR_DEFAULT_STYLE */
+static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
+    /* UILIB_SELECTOR_STYLE_DEFAULT */
     { NULL,
       NULL, 0, "InitialDefaultDir" },
-    /* FILE_SELECTOR_TAPE_STYLE */
+    /* UILIB_SELECTOR_STYLE_TAPE */
     { read_tape_image_contents,
       tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir" },
-    /* FILE_SELECTOR_DISK_STYLE */
+    /* UILIB_SELECTOR_STYLE_DISK */
     { read_disk_image_contents,
       hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir" },
-    /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
+    /* UILIB_SELECTOR_STYLE_DISK_AND_TAPE */
     { read_disk_or_tape_image_contents,
       hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir"},
-    /* FILE_SELECTOR_CART_STYLE */
+    /* UILIB_SELECTOR_STYLE_CART */
     { NULL,
       NULL, 0, "InitialCartDir" },
-    /* FILE_SELECTOR_SNAPSHOT_STYLE */
+    /* UILIB_SELECTOR_STYLE_SNAPSHOT */
     { NULL,
       NULL, 0, "InitialSnapshotDir" },
-    /* DIR_SELECTOR_EVENT_STYLE */
+    /* UILIB_SELECTOR_STYLE_EVENT */
     { NULL,
       NULL, 0, "EventSnapshotDir" },
     /* DUMMY entry Insert new styles before this */
@@ -124,7 +131,7 @@ static ui_file_selector_style_type styles[NUM_OF_FILE_SELECTOR_STYLES + 1] = {
       NULL, 0, NULL }
 };
 
-static TCHAR *ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
+static TCHAR *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
 
 
 static char *read_disk_image_contents(const char *name)
@@ -575,13 +582,14 @@ static int CALLBACK EnumFontProc(
 }
 
 
-char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
-                     int style, int *autostart)
+TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
+                                   DWORD filterlist, unsigned int type,
+                                   int style, int *autostart)
 {
-    TCHAR st_name[1024] = TEXT("");
+    TCHAR st_name[1024];
     char name[1024];
     char *initialdir;
-    char filter[UI_LIB_MAX_FILTER_LENGTH];
+    char filter[UILIB_FILTER_LENGTH_MAX];
     DWORD filterindex;
     OPENFILENAME ofn;
     int result;
@@ -594,8 +602,10 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     if (ui_file_selector_initialfile[style] != NULL)
         _tcscpy(st_name, ui_file_selector_initialfile[style]);
 
-    if (style == DIR_SELECTOR_EVENT_STYLE)
+    if (type == UILIB_SELECTOR_TYPE_DIR_EXIST)
         _tcscpy(st_name, TEXT("FilenameNotUsed"));
+    else
+        _tcscpy(st_name, TEXT(""));
 
     if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
@@ -623,36 +633,34 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = initialdir;
     ofn.lpstrTitle = title;
-    if (styles[style].TemplateID!=0) {
-        ofn.Flags = (OFN_EXPLORER
-                     | OFN_HIDEREADONLY
-                     | OFN_NOTESTFILECREATE
-                     | OFN_ENABLEHOOK
-                     | OFN_ENABLETEMPLATE
-                     | OFN_SHAREAWARE
-                     | OFN_ENABLESIZING);
+    ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_NOTESTFILECREATE
+                | OFN_SHAREAWARE | OFN_ENABLESIZING;
+    if (styles[style].TemplateID != 0) {
+        ofn.Flags |= OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
         ofn.lpfnHook = styles[style].hook_proc;
         ofn.lpTemplateName = MAKEINTRESOURCE(styles[style].TemplateID);
     } else {
-        ofn.Flags = (OFN_EXPLORER
-                     | OFN_HIDEREADONLY
-                     | OFN_NOTESTFILECREATE
-                     | OFN_SHAREAWARE);
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
     }
-    if (style != DIR_SELECTOR_EVENT_STYLE)
+    if (type == UILIB_SELECTOR_TYPE_FILE_LOAD)
         ofn.Flags |= OFN_FILEMUSTEXIST;
 
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
 
-    read_content_func=styles[style].content_read_function;
-    autostart_result=autostart;
+    read_content_func = styles[style].content_read_function;
+    autostart_result = autostart;
     vsync_suspend_speed_eval();
-    result = GetOpenFileName(&ofn);
+
+    if (type == UILIB_SELECTOR_TYPE_FILE_SAVE)
+        result = GetSaveFileName(&ofn);
+    else
+        result = GetOpenFileName(&ofn);
+
     update_filter_history(ofn.nFilterIndex);
+
     if (result) {
         char *tmp;
 
@@ -669,6 +677,12 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     return ret;
 }
 
+TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
+                         unsigned int type, int style)
+{
+    return uilib_select_file_autostart(hwnd, title, filterlist, type, style,
+                                       NULL);
+}
 
 BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 {
