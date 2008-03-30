@@ -73,6 +73,7 @@ CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
+EXEEXT = @EXEEXT@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
 GFXOUTPUT_DRIVERS = @GFXOUTPUT_DRIVERS@
@@ -129,7 +130,7 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	serial 	tape 	imagecontents 	video 	raster 	vicii         vdc 	crtc 	gfxoutputdrv 	printerdrv 	rs232drv 	sid 	monitor 	c64 	c128 	vic20 	pet 	plus4 	cbm2 	arch
+SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	serial 	tape 	imagecontents 	video 	raster 	vicii 	vdc 	crtc 	gfxoutputdrv 	printerdrv 	rs232drv 	sid 	monitor 	c64 	c128 	vic20 	pet 	plus4 	cbm2 	arch
 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
@@ -263,6 +264,8 @@ petcat_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =  version.h
+bin_PROGRAMS =  x64$(EXEEXT) x128$(EXEEXT) xvic$(EXEEXT) xpet$(EXEEXT) \
+xplus4$(EXEEXT) xcbm2$(EXEEXT) c1541$(EXEEXT) petcat$(EXEEXT)
 PROGRAMS =  $(bin_PROGRAMS)
 
 
@@ -430,36 +433,36 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-x64: $(x64_OBJECTS) $(x64_DEPENDENCIES)
-	@rm -f x64
+x64$(EXEEXT): $(x64_OBJECTS) $(x64_DEPENDENCIES)
+	@rm -f x64$(EXEEXT)
 	$(LINK) $(x64_LDFLAGS) $(x64_OBJECTS) $(x64_LDADD) $(LIBS)
 
-x128: $(x128_OBJECTS) $(x128_DEPENDENCIES)
-	@rm -f x128
+x128$(EXEEXT): $(x128_OBJECTS) $(x128_DEPENDENCIES)
+	@rm -f x128$(EXEEXT)
 	$(LINK) $(x128_LDFLAGS) $(x128_OBJECTS) $(x128_LDADD) $(LIBS)
 
-xvic: $(xvic_OBJECTS) $(xvic_DEPENDENCIES)
-	@rm -f xvic
+xvic$(EXEEXT): $(xvic_OBJECTS) $(xvic_DEPENDENCIES)
+	@rm -f xvic$(EXEEXT)
 	$(LINK) $(xvic_LDFLAGS) $(xvic_OBJECTS) $(xvic_LDADD) $(LIBS)
 
-xpet: $(xpet_OBJECTS) $(xpet_DEPENDENCIES)
-	@rm -f xpet
+xpet$(EXEEXT): $(xpet_OBJECTS) $(xpet_DEPENDENCIES)
+	@rm -f xpet$(EXEEXT)
 	$(LINK) $(xpet_LDFLAGS) $(xpet_OBJECTS) $(xpet_LDADD) $(LIBS)
 
-xplus4: $(xplus4_OBJECTS) $(xplus4_DEPENDENCIES)
-	@rm -f xplus4
+xplus4$(EXEEXT): $(xplus4_OBJECTS) $(xplus4_DEPENDENCIES)
+	@rm -f xplus4$(EXEEXT)
 	$(LINK) $(xplus4_LDFLAGS) $(xplus4_OBJECTS) $(xplus4_LDADD) $(LIBS)
 
-xcbm2: $(xcbm2_OBJECTS) $(xcbm2_DEPENDENCIES)
-	@rm -f xcbm2
+xcbm2$(EXEEXT): $(xcbm2_OBJECTS) $(xcbm2_DEPENDENCIES)
+	@rm -f xcbm2$(EXEEXT)
 	$(LINK) $(xcbm2_LDFLAGS) $(xcbm2_OBJECTS) $(xcbm2_LDADD) $(LIBS)
 
-c1541: $(c1541_OBJECTS) $(c1541_DEPENDENCIES)
-	@rm -f c1541
+c1541$(EXEEXT): $(c1541_OBJECTS) $(c1541_DEPENDENCIES)
+	@rm -f c1541$(EXEEXT)
 	$(LINK) $(c1541_LDFLAGS) $(c1541_OBJECTS) $(c1541_LDADD) $(LIBS)
 
-petcat: $(petcat_OBJECTS) $(petcat_DEPENDENCIES)
-	@rm -f petcat
+petcat$(EXEEXT): $(petcat_OBJECTS) $(petcat_DEPENDENCIES)
+	@rm -f petcat$(EXEEXT)
 	$(LINK) $(petcat_LDFLAGS) $(petcat_OBJECTS) $(petcat_LDADD) $(LIBS)
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -803,7 +806,7 @@ x64-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	x64
+	x64$(EXEEXT)
 
 .PHONY: x128-all
 x128-all: \
@@ -831,7 +834,7 @@ x128-all: \
 	libtape \
 	libimagecontents \
 	@RESID_DEP@ \
-	x128
+	x128$(EXEEXT)
 
 .PHONY: xvic-all
 xvic-all: \
@@ -853,7 +856,7 @@ xvic-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xvic
+	xvic$(EXEEXT)
 
 .PHONY: xpet-all
 xpet-all: \
@@ -875,7 +878,7 @@ xpet-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xpet 
+	xpet$(EXEEXT)
 
 .PHONY: xplus4-all
 xplus4-all: \
@@ -897,7 +900,7 @@ xplus4-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xplus4
+	xplus4$(EXEEXT)
 
 .PHONY: xcbm2-all
 xcbm2-all: \
@@ -922,7 +925,7 @@ xcbm2-all: \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-	xcbm2
+	xcbm2$(EXEEXT)
 
 # Special targets to build libraries in subdirectories.
 

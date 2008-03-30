@@ -1,3 +1,39 @@
+2003-01-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.39.
+
+	* arch/unix/uidrivec64c128vic20.c,
+	arch/unix/uidrivec64c128vic20.h, arch/unix/uidrivepetcbm2.c,
+	arch/unix/uidrivepetcbm2.h, arch/unix/uidriveplus4.c,
+	arch/unix/uidriveplus4.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/uicommands.c, arch/unix/petui.c,
+	arch/unix/cbm2ui.c, arch/unix/c64ui.c, arch/unix/c128ui.c,
+	arch/unix/vic20ui.c, arch/unix/uidrive.c, arch/unix/uidrive.h:
+	Changed to new drive UI API.
+
+	* info.c: Updated.
+
+2003-01-01  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/uisid.c: Added 8580 w/ digi boost.
+
+	* sid/resid.cc: Likewise.
+
+	* sid/sid-cmdline-options.c: Likewise.
+
+	* resid/: reSID 0.14.
+
+2002-12-31  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.c: fixed machine_read_snapshot() call.
+
+2002-12-30  Fabrizio Gennari  <fabrizio.ge@tiscalinet.it>
+
+        * Makefile.am: Add executable filename extension.
+
 2002-12-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.38.
