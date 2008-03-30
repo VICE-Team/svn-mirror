@@ -219,9 +219,9 @@ MenuEntry Change1541ExtendImageSubmenu[] = {
 
 MenuEntry Change1541SyncFactorSubmenu[] = {
     { "*PAL", (UiMenuCallback) UiSet1541SyncFactor,
-      (UiCallbackDataPtr) TRUE1541_PAL_SYNC_FACTOR, NULL },
+      (UiCallbackDataPtr) TRUE1541_SYNC_PAL, NULL },
     { "*NTSC", (UiMenuCallback) UiSet1541SyncFactor,
-      (UiCallbackDataPtr) TRUE1541_NTSC_SYNC_FACTOR, NULL },
+      (UiCallbackDataPtr) TRUE1541_SYNC_NTSC, NULL },
     { "*Custom...", (UiMenuCallback) UiSetCustom1541SyncFactor,
       NULL, NULL },
     { NULL }
@@ -406,7 +406,7 @@ MenuEntry True1541Submenu[] = {
 
 MenuEntry KeyboardSubmenu[] = {
 #ifndef PET
-    { "Default Map (Symbol mapping)", 
+    { "Default Map (Symbol mapping)",
       (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "vice.vkm", NULL },
     { "--" },
     { "Position mapping - uk",
@@ -420,9 +420,9 @@ MenuEntry KeyboardSubmenu[] = {
     { "Position mapping - fi",
       (UiMenuCallback) UiLoadKeymap, (UiCallbackDataPtr) "orig_fi.vkm", NULL },
 #else
-    { "Graphics Keyboard (Symbol mapping)", 
+    { "Graphics Keyboard (Symbol mapping)",
       (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "graphics.vkm", NULL },
-    { "UK Business Keyboard (Symbol mapping)", 
+    { "UK Business Keyboard (Symbol mapping)",
       (UiMenuCallback) UiSetKeymap, (UiCallbackDataPtr) "busi_uk.vkm", NULL },
     { "--" },
     { "Position mapping - uk/graph",

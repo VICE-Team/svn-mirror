@@ -66,6 +66,136 @@ extern int usleep(unsigned long);
 #include "resources.h"
 #include "utils.h"
 
+/* ------------------------------------------------------------------------- */
+
+/* Resource handling -- Added by Ettore 98-04-26.  */
+
+/* FIXME: We need sanity checks!  And do we really need all of these
+   `close_sound()' calls?  */
+
+static int playback_enabled;          /* app_resources.sound */
+static int sample_rate;               /* app_resources.soundSampleRate */
+static char *device_name;             /* app_resources.soundDeviceName */
+static char *device_arg;              /* app_resources.soundDeviceArg */
+static int buffer_size;               /* app_resources.soundBufferSize */
+static int suspend_time;              /* app_resources.soundSuspendTime */
+static int speed_adjustment_enabled;  /* app_resources.soundSpeedAdjustment */
+static int oversampling_factor;       /* app_resources.soundOversample */
+static int sid_filters_enabled;       /* app_resources.sidFilters */
+static int sid_model;                 /* app_resources.sidModel */
+
+static int set_playback_enabled(resource_value_t v)
+{
+    playback_enabled = (int)v;
+    if (playback_enabled)
+        vsync_disable_timer();
+    close_sound();
+    return 0;
+}
+
+static int set_sample_rate(resource_value_t v)
+{
+    sample_rate = (int) v;
+    close_sound();
+    return 0;
+}
+
+static int set_device_name(resource_value_t v)
+{
+    device_name = (char *)v;
+    close_sound();
+    return 0;
+}
+
+static int set_device_arg(resource_value_t v)
+{
+    device_arg = (char *)v;
+    close_sound();
+    return 0;
+}
+
+static int set_buffer_size(resource_value_t v)
+{
+    buffer_size = (int)v;
+    close_sound();
+    return 0;
+}
+
+static int set_suspend_time(resource_value_t v)
+{
+    suspend_time = (int)v;
+    if (suspend_time < 0)
+        suspend_time = 0;
+    close_sound();
+    return 0;
+}
+
+static int set_speed_adjustment_enabled(resource_value_t v)
+{
+    speed_adjustment_enabled = (int)v;
+    close_sound();
+    return 0;
+}
+
+static int set_oversampling_factor(resource_value_t v)
+{
+    oversampling_factor = (int)v;
+    if (oversampling_factor < 0 || oversampling_factor > 3) {
+        fprintf(stderr, "Warning: invalid oversampling factor %d."
+                "  Forcing 3.\n", oversampling_factor);
+        oversampling_factor = 3;
+    }
+    close_sound();
+    return 0;
+}
+
+static int set_sid_filters_enabled(resource_value_t v)
+{
+    sid_filters_enabled = (int)v;
+    close_sound();
+    return 0;
+}
+
+static int set_sid_model(resource_value_t v)
+{
+    sid_model = (int)v;
+    close_sound();
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "Sound", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &playback_enabled, set_playback_enabled },
+    { "SoundSampleRate", RES_INTEGER,
+      (resource_value_t) SOUND_SAMPLE_RATE,
+      (resource_value_t *) &sample_rate, set_sample_rate },
+    { "SoundDeviceName", RES_STRING, (resource_value_t) NULL,
+      (resource_value_t) &device_name, set_device_name },
+    { "SoundDeviceArg", RES_STRING, (resource_value_t) NULL,
+      (resource_value_t *) &device_arg, set_device_arg },
+    { "SoundBufferSize", RES_INTEGER, (resource_value_t) SOUND_SAMPLE_BUFFER_SIZE,
+      (resource_value_t *) &buffer_size, set_buffer_size },
+    { "SoundSuspendTime", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &suspend_time, set_suspend_time },
+    { "SoundSpeedAdjustment", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &speed_adjustment_enabled,
+      set_speed_adjustment_enabled },
+    { "SoundOversample", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &oversampling_factor, set_oversampling_factor },
+    { "SidFilters", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &sid_filters_enabled, set_sid_filters_enabled },
+    { "SidModel", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &sid_model, set_sid_model },
+    { NULL }
+};
+
+int sid_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
 #ifdef SOUND
 
 /* needed datatypes */
@@ -908,7 +1038,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
 #ifdef OVERSAMPLE
     psid->oversampleval = 0;
     psid->oversamplecnt = 0;
-    psid->oversampleshift = app_resources.soundOversample;
+    psid->oversampleshift = oversampling_factor;
     psid->oversamplenr = 1 << psid->oversampleshift;
 #endif
     psid->speed1 = (CYCLES_PER_SEC << 8) / speed;
@@ -934,7 +1064,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     else
 	warn_reset(psid->pwarn);
     psid->update = 1;
-    psid->emulatefilter = app_resources.sidFilters;
+    psid->emulatefilter = sid_filters_enabled;
     setup_sid(psid);
 #ifdef OVERSAMPLE
     init_filter(psid, speed*psid->oversampleshift);
@@ -961,7 +1091,7 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     psid->v[3].d = psid->d + 57;
 #endif
 #ifdef WAVETABLES
-    psid->newsid = app_resources.sidModel;
+    psid->newsid = sid_model;
     for (i = 0; i < 4096; i++)
     {
 	wavetable10[i] = i < 2048 ? i << 4 : 0xffff - (i << 4);
@@ -2361,7 +2491,7 @@ static int closesid(char *msg)
 	if (strcmp(msg, ""))
 	{
 	    UiError(msg);
-	    app_resources.sound = 0;
+	    playback_enabled = 0;
 	    UiUpdateMenus();
 	}
     }
@@ -2376,7 +2506,7 @@ static void suspendsid(char *reason)
 {
     disabletime = time(0);
     warn(siddata.sid.pwarn, -1, "SUSPEND: disabling sid for %d secs (%s)",
-	 app_resources.soundSuspendTime, reason);
+	 suspend_time, reason);
     closesid("");
 }
 
@@ -2387,7 +2517,7 @@ static void enablesid(void)
         return;
     now = time(0);
     diff = now - disabletime;
-    if (diff < 0 || diff >= app_resources.soundSuspendTime)
+    if (diff < 0 || diff >= suspend_time)
     {
         warn(siddata.sid.pwarn, -1, "ENABLE");
         disabletime = 0;
@@ -2407,17 +2537,17 @@ static int initsid(void)
     double				 bufsize;
     char				 err[1024];
 
-    if (app_resources.soundSuspendTime > 0 && disabletime)
+    if (suspend_time > 0 && disabletime)
         return 1;
 
-    name = app_resources.soundDeviceName;
-    param = app_resources.soundDeviceArg;
-    tmp = app_resources.soundBufferSize;
+    name = device_name;
+    param = device_arg;
+    tmp = buffer_size;
     if (tmp < 100 || tmp > 1000)
 	tmp = SOUND_SAMPLE_BUFFER_SIZE;
     bufsize = tmp / 1000.0;
 
-    speed = app_resources.soundSampleRate;
+    speed = sample_rate;
     if (speed < 8000 || speed > 50000)
 	speed = SOUND_SAMPLE_RATE;
     /* calculate optimal fragments */
@@ -2454,7 +2584,7 @@ static int initsid(void)
 		 "opened device '%s' speed %dHz fragsize %.3fs bufsize %.3fs",
 		 pdev->name, speed, (double)fragsize / speed,
 		 (double)siddata.bufsize / speed);
-	    app_resources.soundSampleRate = speed;
+	    sample_rate = speed;
 	    if (pdev->write)
 		init_sid(&siddata.sid, siddata.buffer, speed);
 	    else
@@ -2485,9 +2615,9 @@ static int initsid(void)
 static int run_sid(void)
 {
     int				nr, i;
-    if (!app_resources.sound)
+    if (!playback_enabled)
 	return 1;
-    if (app_resources.soundSuspendTime > 0 && disabletime)
+    if (suspend_time > 0 && disabletime)
         return 1;
     if (!siddata.pdev)
     {
@@ -2516,11 +2646,14 @@ static int run_sid(void)
 
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
-int flush_sound(void)
+int flush_sound(int relative_speed)
 {
     int			i, nr, space, used, fill = 0;
 
-    if (app_resources.soundSuspendTime > 0)
+    if (!playback_enabled)
+        return 0;
+
+    if (suspend_time > 0)
         enablesid();
     i = run_sid();
     if (i)
@@ -2559,7 +2692,7 @@ int flush_sound(void)
 	    int			 j;
 	    static int		 prev;
 	    int			 now;
-	    if (app_resources.soundSuspendTime > 0)
+	    if (suspend_time > 0)
 	    {
 	        now = time(0);
 		if (now == prev)
@@ -2571,8 +2704,8 @@ int flush_sound(void)
 	    }
 	    j = siddata.fragsize*siddata.fragnr - nr;
 	    if (j > siddata.bufsize / 2 &&
-		!app_resources.soundSpeedAdjustment &&
-		app_resources.speed)
+		!speed_adjustment_enabled &&
+		relative_speed)
 	    {
 		j = siddata.fragsize*(siddata.fragnr/2);
 	    }
@@ -2595,9 +2728,8 @@ int flush_sound(void)
 	    }
 	    fill = j;
 	}
-	if (!app_resources.soundSpeedAdjustment &&
-	    app_resources.speed > 0)
-	    siddata.clkfactor = app_resources.speed / 100.0;
+	if (!speed_adjustment_enabled && relative_speed > 0)
+	    siddata.clkfactor = relative_speed / 100.0;
 	else
 	{
 	    if (siddata.prevfill)
@@ -2611,7 +2743,7 @@ int flush_sound(void)
 	siddata.clkstep = siddata.origclkstep * siddata.clkfactor;
 	if (CYCLES_PER_RFSH / siddata.clkstep >= siddata.bufsize)
 	{
-	    if (app_resources.soundSuspendTime > 0)
+	    if (suspend_time > 0)
 	        suspendsid("running too slow");
 	    else
 	        closesid("Audio: running too slow.");
