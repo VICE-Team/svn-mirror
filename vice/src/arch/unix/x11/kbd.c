@@ -125,8 +125,8 @@ static int set_keymap_index(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &keymap_index, set_keymap_index, NULL },
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&keymap_index, set_keymap_index, NULL },
     { NULL }
 };
 
@@ -277,6 +277,11 @@ int vic20_kbd_init(void)
 }
 
 int pet_kbd_init(void)
+{
+    return kbd_init();
+}
+
+int plus4_kbd_init(void)
 {
     return kbd_init();
 }

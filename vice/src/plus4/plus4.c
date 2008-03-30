@@ -200,6 +200,9 @@ int machine_init(void)
     if (!vic_ii_init())
         return -1;
 
+    if (plus4_kbd_init() < 0)
+        return -1;
+
     plus4_monitor_init();
 
     /* Initialize vsync and register our hook function.  */

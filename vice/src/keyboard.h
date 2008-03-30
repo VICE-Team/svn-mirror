@@ -67,6 +67,7 @@ extern int c64_kbd_init(void);
 extern int c128_kbd_init(void);
 extern int vic20_kbd_init(void);
 extern int pet_kbd_init(void);
+extern int plus4_kbd_init(void);
 extern int c610_kbd_init(void);
 
 extern int kbd_init_cmdline_options(void);
