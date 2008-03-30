@@ -42,6 +42,7 @@
 #include "datasette.h"
 #include "debug.h"
 #include "drive.h"
+#include "drivecpu.h"
 #include "event.h"
 #include "fliplist.h"
 #include "fullscrn.h"
@@ -1542,11 +1543,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_RESET_DRIVE8:
         vsync_suspend_speed_eval();
-        drive0_trigger_reset();
+        drivecpu_trigger_reset(0);
         break;
       case IDM_RESET_DRIVE9:
         vsync_suspend_speed_eval();
-        drive1_trigger_reset();
+        drivecpu_trigger_reset(1);
         break;
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);
