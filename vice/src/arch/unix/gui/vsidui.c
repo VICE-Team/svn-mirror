@@ -46,6 +46,7 @@
 #include "uicommands.h"
 #include "uimenu.h"
 #include "uisettings.h"
+#include "uisid.h"
 #include "uisound.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -53,7 +54,169 @@
 #include "vsiduiunix.h"
 
 extern struct ui_menu_entry_s sid_submenu[];
+UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 
+#if 0
+static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
+    { "*$D420", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd420, NULL },
+    { "*$D440", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd440, NULL },
+    { "*$D460", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd460, NULL },
+    { "*$D480", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd480, NULL },
+    { "*$D4A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4a0, NULL },
+    { "*$D4C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4c0, NULL },
+    { "*$D4E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_d5xx_submenu[] = {
+    { "*$D500", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd500, NULL },
+    { "*$D520", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd520, NULL },
+    { "*$D540", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd540, NULL },
+    { "*$D560", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd560, NULL },
+    { "*$D580", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd580, NULL },
+    { "*$D5A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd5a0, NULL },
+    { "*$D5C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd5c0, NULL },
+    { "*$D5E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd5e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_d6xx_submenu[] = {
+    { "*$D600", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd600, NULL },
+    { "*$D620", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd620, NULL },
+    { "*$D640", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd640, NULL },
+    { "*$D660", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd660, NULL },
+    { "*$D680", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd680, NULL },
+    { "*$D6A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd6a0, NULL },
+    { "*$D6C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd6c0, NULL },
+    { "*$D6E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd6e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_d7xx_submenu[] = {
+    { "*$D700", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd700, NULL },
+    { "*$D720", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd720, NULL },
+    { "*$D740", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd740, NULL },
+    { "*$D760", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd760, NULL },
+    { "*$D780", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd780, NULL },
+    { "*$D7A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7a0, NULL },
+    { "*$D7C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7c0, NULL },
+    { "*$D7E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd7e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_dexx_submenu[] = {
+    { "*$DE00", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde00, NULL },
+    { "*$DE20", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde20, NULL },
+    { "*$DE40", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde40, NULL },
+    { "*$DE60", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde60, NULL },
+    { "*$DE80", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde80, NULL },
+    { "*$DEA0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdea0, NULL },
+    { "*$DEC0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdec0, NULL },
+    { "*$DEE0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdee0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_dfxx_submenu[] = {
+    { "*$DF00", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf00, NULL },
+    { "*$DF20", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf20, NULL },
+    { "*$DF40", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf40, NULL },
+    { "*$DF60", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf60, NULL },
+    { "*$DF80", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf80, NULL },
+    { "*$DFA0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfa0, NULL },
+    { "*$DFC0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfc0, NULL },
+    { "*$DFE0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfe0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
+    { "$D4xx",
+      NULL, NULL, set_sid_stereo_address_d4xx_submenu },
+    { "$D5xx",
+      NULL, NULL, set_sid_stereo_address_d5xx_submenu },
+    { "$D6xx",
+      NULL, NULL, set_sid_stereo_address_d6xx_submenu },
+    { "$D7xx",
+      NULL, NULL, set_sid_stereo_address_d7xx_submenu },
+    { "$DExx",
+      NULL, NULL, set_sid_stereo_address_dexx_submenu },
+    { "$DFxx",
+      NULL, NULL, set_sid_stereo_address_dfxx_submenu },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(SidStereo)
+UI_MENU_DEFINE_TOGGLE(SidFilters)
+
+ui_menu_entry_t sid_submenu[] = {
+    { N_("SID engine"),
+      NULL, NULL, sid_engine_submenu },
+    { "--" },
+    { N_("*Second SID"),
+      (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { N_("*Second SID base address"),
+      NULL, NULL, set_sid_stereo_address_submenu },
+    { "--" },
+    { N_("*Emulate filters"),
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("Chip model"),
+      NULL, NULL, sid_model_submenu },
+#ifdef HAVE_RESID
+    { "--" },
+    { N_("reSID sampling method"),
+      NULL, NULL, sid_resid_sampling_submenu },
+    { N_("reSID resampling passband..."),
+      (ui_callback_t)set_sid_resid_passband, NULL, NULL },
+#endif
+    { NULL },
+};
+#endif
 
 static log_t vsid_log = LOG_ERR;
 static void vsid_create_menus(void);

@@ -239,6 +239,8 @@ UNIX_QNX4_COMPILE_FALSE = @UNIX_QNX4_COMPILE_FALSE@
 UNIX_QNX4_COMPILE_TRUE = @UNIX_QNX4_COMPILE_TRUE@
 UNIX_QNX6_COMPILE_FALSE = @UNIX_QNX6_COMPILE_FALSE@
 UNIX_QNX6_COMPILE_TRUE = @UNIX_QNX6_COMPILE_TRUE@
+UNIX_SKYOS_COMPILE_FALSE = @UNIX_SKYOS_COMPILE_FALSE@
+UNIX_SKYOS_COMPILE_TRUE = @UNIX_SKYOS_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
 UNIX_SOLARIS_COMPILE_TRUE = @UNIX_SOLARIS_COMPILE_TRUE@
 UNIX_UNIXWARE_COMPILE_FALSE = @UNIX_UNIXWARE_COMPILE_FALSE@
@@ -383,6 +385,7 @@ libarch_a_SOURCES = \
 	uimenu.h \
 	unixmain.c \
 	videoarch.h \
+	vmstermios.h \
 	vsyncarch.c \
 	vsiduiunix.h
 
@@ -400,6 +403,14 @@ EXTRA_DIST = \
 	qnx6/make-bindist.sh \
 	sco_sol/convertprototype.c \
 	sco_sol/make-bindist.sh \
+	skyos/icons/x64.ico \
+	skyos/icons/x128.ico \
+	skyos/icons/xcbm2.ico \
+	skyos/icons/xpet.ico \
+	skyos/icons/xplus4.ico \
+	skyos/icons/xvic.ico \
+	skyos/make-bindist.sh \
+	vms/config.h \
 	vsid
 
 all: all-recursive
@@ -634,7 +645,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/hpux $(distdir)/minix $(distdir)/qnx4 $(distdir)/qnx6 $(distdir)/sco_sol
+	$(mkdir_p) $(distdir)/hpux $(distdir)/minix $(distdir)/qnx4 $(distdir)/qnx6 $(distdir)/sco_sol $(distdir)/skyos $(distdir)/skyos/icons $(distdir)/vms
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

@@ -215,6 +215,8 @@ UNIX_QNX4_COMPILE_FALSE = @UNIX_QNX4_COMPILE_FALSE@
 UNIX_QNX4_COMPILE_TRUE = @UNIX_QNX4_COMPILE_TRUE@
 UNIX_QNX6_COMPILE_FALSE = @UNIX_QNX6_COMPILE_FALSE@
 UNIX_QNX6_COMPILE_TRUE = @UNIX_QNX6_COMPILE_TRUE@
+UNIX_SKYOS_COMPILE_FALSE = @UNIX_SKYOS_COMPILE_FALSE@
+UNIX_SKYOS_COMPILE_TRUE = @UNIX_SKYOS_COMPILE_TRUE@
 UNIX_SOLARIS_COMPILE_FALSE = @UNIX_SOLARIS_COMPILE_FALSE@
 UNIX_SOLARIS_COMPILE_TRUE = @UNIX_SOLARIS_COMPILE_TRUE@
 UNIX_UNIXWARE_COMPILE_FALSE = @UNIX_UNIXWARE_COMPILE_FALSE@
@@ -312,7 +314,7 @@ xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 fontsdir = $(VICEDIR)/fonts
 fonts_DATA = \
-	vice-cbm.bdf
+	CBM.ttf
 
 EXTRA_DIST = $(fonts_DATA) cbm-directory-charset.fon 
 all: all-am
@@ -486,11 +488,18 @@ uninstall-am: uninstall-fontsDATA uninstall-info-am
 
 
 install: install-data-am
-	@echo "Preparing fontdir..." ; \
-	cd $(DESTDIR)$(fontsdir) ; \
-	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
-	rm vice-cbm.bdf ; \
-	mkfontdir .
+	@echo "Preparing fontdir, please wait..." ; \
+	if [ ! `fc-cache --list > /dev/null 2>&1` ] ; then \
+	  if test "x${HOME}" != "x" ; then \
+	    mkdir ${HOME}/.fonts > /dev/null 2>&1 ; \
+	    cp $(fontsdir)/CBM.ttf ${HOME}/.fonts ; \
+	    fc-cache ; \
+	  else \
+	    echo '$$HOME not set... giving up.' ; \
+	  fi \
+	else \
+	  echo 'fc-cache not available... giving up.' ; \
+	fi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

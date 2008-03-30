@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-27 18:47+0100\n"
+"POT-Creation-Date: 2008-03-24 20:25+0100\n"
 "PO-Revision-Date: 2007-07-26 11:57+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -2129,67 +2129,67 @@ msgstr "Terug vallen op oude api-routine"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel stuurprogramma versie : %d.%d.%d"
 
-#: src/arch/unix/rs232.c:119
+#: src/arch/unix/rs232.c:167
 msgid "Specify baudrate of first RS232 device"
 msgstr "Geef de baudrate van het eerste RS232-apparaat"
 
-#: src/arch/unix/rs232.c:121
+#: src/arch/unix/rs232.c:169
 msgid "Specify baudrate of second RS232 device"
 msgstr "Geef de baudrate van het tweede RS232-apparaat"
 
-#: src/arch/unix/rs232.c:123
+#: src/arch/unix/rs232.c:171
 msgid "Specify baudrate of third RS232 device"
 msgstr "Geef de baudrate van het derde RS232-apparaat"
 
-#: src/arch/unix/rs232.c:125
+#: src/arch/unix/rs232.c:173
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Geef de baudrate van het vierde RS232-apparaat"
 
-#: src/arch/unix/rs232.c:256
+#: src/arch/unix/rs232.c:304
 msgid "No more devices available."
 msgstr "Geen apparaten meer beschikbaar."
 
-#: src/arch/unix/rs232.c:261
+#: src/arch/unix/rs232.c:309
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(apparaat=%d)."
 
-#: src/arch/unix/rs232.c:281
+#: src/arch/unix/rs232.c:329
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Kan bestand \"%s\" niet openen: %s"
 
-#: src/arch/unix/rs232.c:308
+#: src/arch/unix/rs232.c:356
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Poging om ongeldig fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:312
+#: src/arch/unix/rs232.c:360
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Poging om niet-open fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:332
+#: src/arch/unix/rs232.c:380
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Poging om te schrijven naar ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:336
+#: src/arch/unix/rs232.c:384
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Poging om te schrijven naar niet-open fs %d."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:396
 #, c-format
 msgid "Error writing: %s."
 msgstr "Fout bij schrijven: %s."
 
-#: src/arch/unix/rs232.c:363
+#: src/arch/unix/rs232.c:411
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Poging om te lezen van ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:367
+#: src/arch/unix/rs232.c:415
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Poging om te lezen van niet-open fd %d."
@@ -2214,13 +2214,13 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:71 src/arch/unix/gui/c64ui.c:74
 #: src/arch/unix/gui/cbm2ui.c:64 src/arch/unix/gui/uited.c:56
-#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:123
+#: src/arch/unix/gui/uivic.c:45 src/arch/unix/gui/vsidui.c:286
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/gui/c128ui.c:73 src/arch/unix/gui/c64ui.c:76
 #: src/arch/unix/gui/cbm2ui.c:66 src/arch/unix/gui/uited.c:58
-#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:125
+#: src/arch/unix/gui/uivic.c:47 src/arch/unix/gui/vsidui.c:288
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -2228,19 +2228,21 @@ msgstr "*NTSC-M"
 #: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:250
 #: src/arch/unix/gui/cbm2ui.c:293 src/arch/unix/gui/cbm2ui.c:318
 #: src/arch/unix/gui/petui.c:119 src/arch/unix/gui/plus4ui.c:106
-#: src/arch/unix/gui/vic20ui.c:142
+#: src/arch/unix/gui/vic20ui.c:142 src/arch/unix/gui/vsidui.c:198
 msgid "SID engine"
 msgstr "SID-kern"
 
 #: src/arch/unix/gui/c128ui.c:157 src/arch/unix/gui/c128ui.c:183
 #: src/arch/unix/gui/c64ui.c:228 src/arch/unix/gui/c64ui.c:254
 #: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:322
+#: src/arch/unix/gui/vsidui.c:201
 msgid "*Second SID"
 msgstr "*Tweede SID"
 
 #: src/arch/unix/gui/c128ui.c:159 src/arch/unix/gui/c128ui.c:185
 #: src/arch/unix/gui/c64ui.c:230 src/arch/unix/gui/c64ui.c:256
 #: src/arch/unix/gui/cbm2ui.c:298 src/arch/unix/gui/cbm2ui.c:324
+#: src/arch/unix/gui/vsidui.c:203
 msgid "*Second SID base address"
 msgstr "*Tweede SID-basisadres"
 
@@ -2248,7 +2250,7 @@ msgstr "*Tweede SID-basisadres"
 #: src/arch/unix/gui/c64ui.c:233 src/arch/unix/gui/c64ui.c:258
 #: src/arch/unix/gui/cbm2ui.c:301 src/arch/unix/gui/cbm2ui.c:327
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:110
-#: src/arch/unix/gui/vic20ui.c:146
+#: src/arch/unix/gui/vic20ui.c:146 src/arch/unix/gui/vsidui.c:206
 msgid "*Emulate filters"
 msgstr "*Emuleer filters"
 
@@ -2256,17 +2258,17 @@ msgstr "*Emuleer filters"
 #: src/arch/unix/gui/c64ui.c:235 src/arch/unix/gui/c64ui.c:260
 #: src/arch/unix/gui/cbm2ui.c:303 src/arch/unix/gui/cbm2ui.c:329
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:108
-#: src/arch/unix/gui/vic20ui.c:144
+#: src/arch/unix/gui/vic20ui.c:144 src/arch/unix/gui/vsidui.c:208
 msgid "Chip model"
 msgstr "Chipmodel"
 
 #: src/arch/unix/gui/c128ui.c:168 src/arch/unix/gui/c64ui.c:239
-#: src/arch/unix/gui/cbm2ui.c:307
+#: src/arch/unix/gui/cbm2ui.c:307 src/arch/unix/gui/vsidui.c:212
 msgid "reSID sampling method"
 msgstr "reSID-samplingmethode"
 
 #: src/arch/unix/gui/c128ui.c:170 src/arch/unix/gui/c64ui.c:241
-#: src/arch/unix/gui/cbm2ui.c:309
+#: src/arch/unix/gui/cbm2ui.c:309 src/arch/unix/gui/vsidui.c:214
 msgid "reSID resampling passband..."
 msgstr "resamplingdoorlaatband van reSID..."
 
@@ -2442,7 +2444,7 @@ msgid "VDC settings"
 msgstr "VDC-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:380 src/arch/unix/gui/c64ui.c:366
-#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:173
+#: src/arch/unix/gui/cbm2ui.c:360 src/arch/unix/gui/vsidui.c:336
 #: src/arch/win32/ressid.rc.po.c:59
 msgid "SID settings"
 msgstr "SID-instellingen"
@@ -2464,7 +2466,7 @@ msgstr "Modelinstellingen"
 #: src/arch/unix/gui/c128ui.c:510 src/arch/unix/gui/c64ui.c:494
 #: src/arch/unix/gui/cbm2ui.c:505 src/arch/unix/gui/petui.c:487
 #: src/arch/unix/gui/plus4ui.c:314 src/arch/unix/gui/vic20ui.c:603
-#: src/arch/unix/gui/vsidui.c:230 src/arch/amigaos/intl.c.po.c:96
+#: src/arch/unix/gui/vsidui.c:393 src/arch/amigaos/intl.c.po.c:96
 msgid "File"
 msgstr "Bestand"
 
@@ -2485,7 +2487,7 @@ msgstr "Opties"
 #: src/arch/unix/gui/c128ui.c:516 src/arch/unix/gui/c64ui.c:500
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:320 src/arch/unix/gui/vic20ui.c:609
-#: src/arch/unix/gui/vsidui.c:232 src/arch/unix/x11/gnome/uinetplay.c:66
+#: src/arch/unix/gui/vsidui.c:395 src/arch/unix/x11/gnome/uinetplay.c:66
 #: src/arch/win32/res.rc.po.c:4418 src/arch/amigaos/intl.c.po.c:1221
 msgid "Settings"
 msgstr "Instellingen"
@@ -2498,7 +2500,7 @@ msgstr "Instellingen"
 msgid "RJHelp"
 msgstr "RJHelp"
 
-#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:127
+#: src/arch/unix/gui/c64ui.c:78 src/arch/unix/gui/vsidui.c:290
 msgid "*Old NTSC-M"
 msgstr "*Oud NTSC-M"
 
@@ -3300,7 +3302,7 @@ msgstr "Over VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:171
-#: src/arch/unix/x11/gnome/x11ui.c:1950 src/arch/amigaos/intl.c.po.c:312
+#: src/arch/unix/x11/gnome/x11ui.c:1822 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
 
@@ -3332,24 +3334,24 @@ msgstr "Laad aangepast"
 
 #: src/arch/unix/gui/uicrtc.c:69 src/arch/unix/gui/uifullscreen-menu.h:100
 #: src/arch/unix/gui/uited.c:95 src/arch/unix/gui/uivdc.c:71
-#: src/arch/unix/gui/uivic.c:94 src/arch/unix/gui/uivicii.c:117
+#: src/arch/unix/gui/uivic.c:94 src/arch/unix/gui/uivicii.c:119
 msgid "*Double size"
 msgstr "*Dubbele grootte"
 
 #: src/arch/unix/gui/uicrtc.c:71 src/arch/unix/gui/uifullscreen-menu.h:102
 #: src/arch/unix/gui/uited.c:97 src/arch/unix/gui/uivdc.c:73
-#: src/arch/unix/gui/uivic.c:96 src/arch/unix/gui/uivicii.c:119
+#: src/arch/unix/gui/uivic.c:96 src/arch/unix/gui/uivicii.c:121
 msgid "*Double scan"
 msgstr "*Dubbele scan"
 
 #: src/arch/unix/gui/uicrtc.c:73 src/arch/unix/gui/uited.c:99
 #: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:98
-#: src/arch/unix/gui/uivicii.c:121
+#: src/arch/unix/gui/uivicii.c:123
 msgid "*Video cache"
 msgstr "*Videocache"
 
 #: src/arch/unix/gui/uicrtc.c:76 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:133
+#: src/arch/unix/gui/uivic.c:108 src/arch/unix/gui/uivicii.c:135
 msgid "*Scale 2x render"
 msgstr "*Schaal 2x render"
 
@@ -3358,20 +3360,20 @@ msgid "*CRTC Screen color"
 msgstr "*CRTC-scherm kleur"
 
 #: src/arch/unix/gui/uicrtc.c:83 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:152
+#: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivicii.c:154
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL Rastersynchronisatie"
 
 #: src/arch/unix/gui/uicrtc.c:87 src/arch/unix/gui/uited.c:128
 #: src/arch/unix/gui/uivdc.c:79 src/arch/unix/gui/uivic.c:123
-#: src/arch/unix/gui/uivicii.c:156
+#: src/arch/unix/gui/uivicii.c:158
 #, fuzzy
 msgid "*Fullscreen settings"
 msgstr "Volschermapparaat"
 
 #: src/arch/unix/gui/uicrtc.c:90 src/arch/unix/gui/uited.c:131
 #: src/arch/unix/gui/uivdc.c:82 src/arch/unix/gui/uivic.c:126
-#: src/arch/unix/gui/uivicii.c:159
+#: src/arch/unix/gui/uivicii.c:161
 msgid "*Use XSync()"
 msgstr "*Gebruik XSync()"
 
@@ -3780,8 +3782,8 @@ msgid "Next: "
 msgstr "Volgende: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:863 src/arch/unix/x11/gnome/x11ui.c:866
-#: src/arch/unix/x11/gnome/x11ui.c:877 src/arch/unix/x11/gnome/x11ui.c:1522
+#: src/arch/unix/x11/gnome/x11ui.c:734 src/arch/unix/x11/gnome/x11ui.c:737
+#: src/arch/unix/x11/gnome/x11ui.c:748 src/arch/unix/x11/gnome/x11ui.c:1394
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -4764,7 +4766,7 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1330
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1205
 #: src/arch/unix/x11/xaw/x11ui.c:1117 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
@@ -5008,17 +5010,17 @@ msgstr "Stop tijd"
 msgid "Oversample"
 msgstr "Oversample"
 
-#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:163
+#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:326
 msgid "Sound settings"
 msgstr "Geluidsinstellingen"
 
 #: src/arch/unix/gui/uited.c:102 src/arch/unix/gui/uivic.c:101
-#: src/arch/unix/gui/uivicii.c:126
+#: src/arch/unix/gui/uivicii.c:128
 msgid "*External color set"
 msgstr "*Externe kleurenset"
 
 #: src/arch/unix/gui/uited.c:104 src/arch/unix/gui/uivic.c:103
-#: src/arch/unix/gui/uivicii.c:128
+#: src/arch/unix/gui/uivicii.c:130
 msgid "*Color set"
 msgstr "*Kleurenset"
 
@@ -5026,7 +5028,7 @@ msgstr "*Kleurenset"
 msgid "*Fast PAL emulation"
 msgstr "*Snelle PAL-emulatie"
 
-#: src/arch/unix/gui/uited.c:111 src/arch/unix/gui/uivicii.c:131
+#: src/arch/unix/gui/uited.c:111 src/arch/unix/gui/uivicii.c:133
 #: src/arch/win32/resc128.rc.po.c:182 src/arch/win32/resc64.rc.po.c:187
 #: src/arch/win32/resplus4.rc.po.c:170 src/arch/win32/resvic20.rc.po.c:168
 #: src/arch/amigaos/intl.c.po.c:4151
@@ -5034,13 +5036,13 @@ msgid "PAL Emulation"
 msgstr "PAL-emulatie"
 
 #: src/arch/unix/gui/uited.c:116 src/arch/unix/gui/uivic.c:111
-#: src/arch/unix/gui/uivicii.c:136 src/arch/unix/gui/vsidui.c:175
+#: src/arch/unix/gui/uivicii.c:138 src/arch/unix/gui/vsidui.c:338
 #: src/arch/amigaos/intl.c.po.c:1149
 msgid "Video standard"
 msgstr "Videostandaard"
 
 #: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uivic.c:115
-#: src/arch/unix/gui/uivicii.c:148
+#: src/arch/unix/gui/uivicii.c:150
 msgid "*Hardware scaling"
 msgstr "*Hardwareschaling"
 
@@ -5113,19 +5115,19 @@ msgstr "*Volledig"
 msgid "*Debug"
 msgstr "*Debug"
 
-#: src/arch/unix/gui/uivicii.c:124
+#: src/arch/unix/gui/uivicii.c:126
 msgid "*New Luminances"
 msgstr "*New Luminances"
 
-#: src/arch/unix/gui/uivicii.c:139
+#: src/arch/unix/gui/uivicii.c:141
 msgid "*Border mode"
 msgstr "*Bordermodus"
 
-#: src/arch/unix/gui/uivicii.c:142
+#: src/arch/unix/gui/uivicii.c:144
 msgid "*Sprite-sprite collisions"
 msgstr "*Sprite-sprite botsingen"
 
-#: src/arch/unix/gui/uivicii.c:144
+#: src/arch/unix/gui/uivicii.c:146
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-achtergrond botsingen"
 
@@ -5236,37 +5238,37 @@ msgstr "Ontkoppel cartridgebestand(en)"
 msgid "VIC settings"
 msgstr "VIC-instellingen"
 
-#: src/arch/unix/gui/vsidui.c:66
+#: src/arch/unix/gui/vsidui.c:229
 msgid "Tunes"
 msgstr "Deuntjes"
 
-#: src/arch/unix/gui/vsidui.c:76
+#: src/arch/unix/gui/vsidui.c:239
 msgid "Load PSID file"
 msgstr "Laad PSID-bestand"
 
-#: src/arch/unix/gui/vsidui.c:84
+#: src/arch/unix/gui/vsidui.c:247
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr "`%s' is geen geldig PSID-bestand."
 
-#: src/arch/unix/gui/vsidui.c:111
+#: src/arch/unix/gui/vsidui.c:274
 msgid "Load PSID file..."
 msgstr "Laad PSID-bestand..."
 
-#: src/arch/unix/gui/vsidui.c:171
+#: src/arch/unix/gui/vsidui.c:334
 msgid "*Override PSID settings"
 msgstr "*Overschrijf PSID-instellingen"
 
-#: src/arch/unix/gui/vsidui.c:250
+#: src/arch/unix/gui/vsidui.c:413
 msgid "*Default Tune"
 msgstr "*Standaarddeuntje"
 
-#: src/arch/unix/gui/vsidui.c:273
+#: src/arch/unix/gui/vsidui.c:436
 #, c-format
 msgid "*Tune %d"
 msgstr "*Deuntje %d"
 
-#: src/arch/unix/gui/vsidui.c:301
+#: src/arch/unix/gui/vsidui.c:464
 msgid "VSID: The SID Emulator"
 msgstr "VSID: De SID Emulator"
 
@@ -5608,163 +5610,138 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2594
+#: src/arch/unix/x11/gnome/x11ui.c:2496
 msgid "all files"
 msgstr "alle bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:436
-#, c-format
-msgid "Can't add fontpath `%s'.\n"
-msgstr "Kan fontpad `%s' niet toevoegen.\n"
-
-#: src/arch/unix/x11/gnome/x11ui.c:438
-#, c-format
-msgid "Set fontpath: `%s'.\n"
-msgstr "Zet fontpad: `%s'.\n"
-
-#: src/arch/unix/x11/gnome/x11ui.c:640 src/arch/unix/x11/xaw/x11ui.c:518
-#: src/arch/unix/x11/xaw/x11ui.c:535
-#, c-format
-msgid "Found %dbit/%s visual."
-msgstr "Gevonden %dbit/%s beeld."
-
-#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:543
-msgid "Cannot autodetect a proper visual."
-msgstr "Kan het beeld niet automatisch detecteren."
-
-#: src/arch/unix/x11/gnome/x11ui.c:655
-#, c-format
-msgid "Cannot load text font %s."
-msgstr "Kan de tekst font %s niet laden."
-
-#: src/arch/unix/x11/gnome/x11ui.c:662
+#: src/arch/unix/x11/gnome/x11ui.c:537
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan de CBM-font %s niet laden."
 
-#: src/arch/unix/x11/gnome/x11ui.c:762
+#: src/arch/unix/x11/gnome/x11ui.c:633
 msgid "PAL Controls"
 msgstr "PAL-bediening"
 
-#: src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:658
 msgid "audio/video recording"
 msgstr "geluid-/beeldopname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:799 src/arch/unix/x11/gnome/x11ui.c:817
+#: src/arch/unix/x11/gnome/x11ui.c:670 src/arch/unix/x11/gnome/x11ui.c:688
 msgid "click to stop recording"
 msgstr "klik om de opname te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:805
+#: src/arch/unix/x11/gnome/x11ui.c:676
 msgid "event recording"
 msgstr "gebeurtenisopname"
 
-#: src/arch/unix/x11/gnome/x11ui.c:824
+#: src/arch/unix/x11/gnome/x11ui.c:695
 msgid "event playback"
 msgstr "gebeurtenis terugspelen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:836
+#: src/arch/unix/x11/gnome/x11ui.c:707
 msgid "click to stop playback"
 msgstr "klik om het terugspelen te stoppen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:848
+#: src/arch/unix/x11/gnome/x11ui.c:719
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:963
+#: src/arch/unix/x11/gnome/x11ui.c:834
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1046 src/arch/unix/x11/xaw/x11ui.c:629
+#: src/arch/unix/x11/gnome/x11ui.c:917 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1313 src/arch/unix/x11/xaw/x11ui.c:1103
+#: src/arch/unix/x11/gnome/x11ui.c:1188 src/arch/unix/x11/xaw/x11ui.c:1103
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1320 src/arch/unix/x11/xaw/x11ui.c:1107
+#: src/arch/unix/x11/gnome/x11ui.c:1195 src/arch/unix/x11/xaw/x11ui.c:1107
 msgid "Do you really want to exit?"
 msgstr "Wilt u echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1327 src/arch/unix/x11/xaw/x11ui.c:1114
+#: src/arch/unix/x11/gnome/x11ui.c:1202 src/arch/unix/x11/xaw/x11ui.c:1114
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1366 src/arch/unix/x11/gnome/x11ui.c:1369
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/gnome/x11ui.c:1241
 #: src/arch/unix/x11/xaw/x11ui.c:1183 src/arch/unix/x11/xaw/x11ui.c:1188
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1669
+#: src/arch/unix/x11/gnome/x11ui.c:1541
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1721 src/arch/unix/x11/xaw/x11ui.c:1430
+#: src/arch/unix/x11/gnome/x11ui.c:1593 src/arch/unix/x11/xaw/x11ui.c:1430
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1909 src/arch/amigaos/intl.c.po.c:1854
+#: src/arch/unix/x11/gnome/x11ui.c:1781 src/arch/amigaos/intl.c.po.c:1854
 msgid "VICE Message"
 msgstr "VICE-bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1920 src/arch/amigaos/intl.c.po.c:1926
+#: src/arch/unix/x11/gnome/x11ui.c:1792 src/arch/amigaos/intl.c.po.c:1926
 msgid "VICE Error"
 msgstr "Vice-fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1951
+#: src/arch/unix/x11/gnome/x11ui.c:1823
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1952 src/arch/amigaos/intl.c.po.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:1824 src/arch/amigaos/intl.c.po.c:636
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1996 src/arch/unix/x11/xaw/x11ui.c:1745
+#: src/arch/unix/x11/gnome/x11ui.c:1868 src/arch/unix/x11/xaw/x11ui.c:1745
 msgid "Extend disk image"
 msgstr "40-sporen schijfbestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1997
+#: src/arch/unix/x11/gnome/x11ui.c:1869
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U het schijfbestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2010
+#: src/arch/unix/x11/gnome/x11ui.c:1882
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor drive %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2027
+#: src/arch/unix/x11/gnome/x11ui.c:1890 src/arch/unix/x11/gnome/x11ui.c:1899
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in schijfbestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2154 src/arch/unix/x11/gnome/x11ui.c:2164
+#: src/arch/unix/x11/gnome/x11ui.c:2058 src/arch/unix/x11/gnome/x11ui.c:2068
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2617
+#: src/arch/unix/x11/gnome/x11ui.c:2525
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2665
+#: src/arch/unix/x11/gnome/x11ui.c:2574
 msgid "Attach write protected"
 msgstr "Koppel schrijfbeveiligd aan"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2671
+#: src/arch/unix/x11/gnome/x11ui.c:2580
 msgid "Show hidden files"
 msgstr "Toon verborgen bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2683
+#: src/arch/unix/x11/gnome/x11ui.c:2592
 msgid "Autostart"
 msgstr "Autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2700
+#: src/arch/unix/x11/gnome/x11ui.c:2609
 msgid "Text cannot be displayed.\n"
 msgstr "Tekst kan niet worden weergegeven.\n"
 
@@ -6002,6 +5979,15 @@ msgstr "Deze weergave ondersteunt geen %dbit afbeeldingen."
 msgid "Please select a bit depth supported by your display."
 msgstr "Selecteer a.u.b. een bitdiepte die ondersteunt wordt door uw weergave."
 
+#: src/arch/unix/x11/xaw/x11ui.c:518 src/arch/unix/x11/xaw/x11ui.c:535
+#, c-format
+msgid "Found %dbit/%s visual."
+msgstr "Gevonden %dbit/%s beeld."
+
+#: src/arch/unix/x11/xaw/x11ui.c:543
+msgid "Cannot autodetect a proper visual."
+msgstr "Kan het beeld niet automatisch detecteren."
+
 #: src/arch/unix/x11/xaw/x11ui.c:822
 msgid "recording..."
 msgstr "opname..."
@@ -6064,61 +6050,66 @@ msgstr "MITSHM extensies versie %d.%d gevonden."
 msgid "Cannot release shared memory!"
 msgstr "Kan het gedeelde geheugen niet vrij geven!"
 
-#: src/arch/unix/x11/xaw/x11video.c:515
+#: src/arch/unix/x11/xaw/x11video.c:512
 #, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Met succes geinitialiseerd met gebruik van XVideo (%dx%d %.4s)."
 
-#: src/arch/unix/x11/xaw/x11video.c:535
+#: src/arch/unix/x11/xaw/x11video.c:532
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan XImage met XShm niet toewijzen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:548
+#: src/arch/unix/x11/xaw/x11video.c:545
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan geen gedeeld geheugen krijgen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:559
+#: src/arch/unix/x11/xaw/x11video.c:556
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan geen gedeeld geheugen adres krijgen; terug vallen op niet-MITSHM "
 "extensie modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:574 src/arch/unix/x11/xaw/x11video.c:591
+#: src/arch/unix/x11/xaw/x11video.c:571 src/arch/unix/x11/xaw/x11video.c:588
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Kan gedeeld geheugen niet koppelen; terug vallen op niet-MITSHM extensie "
 "modus."
 
-#: src/arch/unix/x11/xaw/x11video.c:598
+#: src/arch/unix/x11/xaw/x11video.c:595
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM initialisatie voltooid.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:619
+#: src/arch/unix/x11/xaw/x11video.c:616
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "%s gedeeld geheugen met succes geinitialiseerd."
 
-#: src/arch/unix/x11/xaw/x11video.c:620
+#: src/arch/unix/x11/xaw/x11video.c:617
 msgid ", using"
 msgstr ", gebruikt"
 
-#: src/arch/unix/x11/xaw/x11video.c:620
+#: src/arch/unix/x11/xaw/x11video.c:617
 msgid " without"
 msgstr " zonder"
 
-#: src/arch/unix/x11/xaw/x11video.c:623
+#: src/arch/unix/x11/xaw/x11video.c:620
 msgid "Performance will be poor."
 msgstr "Prestatie zal slecht zijn."
 
-#: src/arch/unix/x11/xaw/x11video.c:626
+#: src/arch/unix/x11/xaw/x11video.c:623
 msgid "Successfully initialized without shared memory."
 msgstr "met succes zonder gedeeld geheugen geinitialiseerd."
+
+#: src/arch/unix/x11/xaw/x11video.c:694
+#, fuzzy
+msgid "HW scaling not available"
+msgstr "Welke commando opties zijn beschikbaar?"
 
 #: src/arch/win32/res.rc.po.c:81 src/arch/win32/resc128.rc.po.c:16
 #: src/arch/win32/resc64.rc.po.c:16 src/arch/win32/rescbm2.rc.po.c:15
@@ -11174,6 +11165,15 @@ msgstr "*Activeer muis"
 #: src/arch/amigaos/intl.c.po.c:4727
 msgid "Amiga mouse"
 msgstr ""
+
+#~ msgid "Can't add fontpath `%s'.\n"
+#~ msgstr "Kan fontpad `%s' niet toevoegen.\n"
+
+#~ msgid "Set fontpath: `%s'.\n"
+#~ msgstr "Zet fontpad: `%s'.\n"
+
+#~ msgid "Cannot load text font %s."
+#~ msgstr "Kan de tekst font %s niet laden."
 
 #~ msgid "Enable emulation of the 1351 proportional mouse"
 #~ msgstr "Activeer emulatie van de proportionele muis 1351"

@@ -1,3 +1,125 @@
+2008-03-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.9.
+
+	* arch/unix/gui/vsidui.c: Reversed `sid_submenu' change for
+	now as it won't link otherwise.
+
+2008-03-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* core/ciacore.c (cia_do_set_int): Don't trigger an
+	interrupt if ICR is read on the underrun cycle. This
+	fixes ICR01 in Lorenz test suite.
+
+2008-02-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/uimenu.h, arch/unix/videoarch.h,
+	arch/unix/x11/x11menu.h, arch/unix/x11/x11ui.h,
+	arch/unix/x11/xaw/uimenu.h,
+	arch/unix/x11/xaw/widgets/Directory.c,
+	arch/unix/x11/xaw/widgets/Directory.h, c128/Makefile.am,
+	c128/z80vms.c, ioutil.c: Updated to include support for
+	building for vax, alpha and ia64 vms.
+
+	* core/ciatimer.h, gcr.c, gcr.h, vdc/vdc-mem.c, vdc/vdc.c,
+	vdc/vdctypes.h: Got rid of some CR's.
+
+2008-02-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am, arch/unix/archdep.c,
+	arch/unix/gui/plus4ui.c, arch/unix/gui/uisound.c,
+	arch/unix/gui/uited.c, arch/unix/gui/vic20ui.c,
+	arch/unix/gui/vsidui.c, arch/unix/rs232.c,
+	arch/unix/vms/config.h, arch/unix/vmstermios.h,
+	arch/unix/x11/xaw/uiarch.h, network.c, rawfile.c,
+	vdc/Makefile.am: Added preliminary OpenVMS support.
+
+2008-02-11  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am, arch.dsp, genmenuid.sh: Added new
+	file. Modification for creation of menuid.h.
+
+	* arch/win32/c128ui.c, c64ui.c, ui.c, uiattach.c, uic64cart.c,
+	uievent.c, uifliplist.c, uiperipheral.c: Unified and
+	simplified the test for shortcut commands.
+
+	* uikeyboard.c (uikeyboard_create_accelerator_table): New
+	function.
+
+	* arch/win32/uilib.c, uilib.h: Changed order of filters to
+	make disk images the default filter for autostart.
+	(set_filter): Use memcopy instead of memcpy when moving
+	inside the filter string.
+
+	* arch/win32/uimediafile.c: Make PNG the default driver at
+	startup.
+
+	* arch/win32/utils/genwinres.c: Modified to create menuid.h.
+
+2008-02-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/x11/gnome/x11ui.c: always draw with OpenGL on Macs
+	if hardware scaling is enabled
+
+2008-02-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/make-bindist.sh: added missing type role
+
+2008-02-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/archdep.c, arch/unix/coproc.c, arch/unix/rs232.c,
+	arch/unix/x11/xaw/widgets/Directory.c,
+	arch/unix/x11/xaw/widgets/Directory.h, ioutil.c,
+	lib/zlib/zconf.h: Added initial nextstep/openstep support.
+
+2008-02-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/unix/Makefile.am,
+	arch/unix/skyos/make-bindist.sh: Added support for SkyOS.
+
+	* arch/unix/x11/gnome/x11ui.c: Fixed the
+	gtk_widget_set_tooltip_text() issue.
+
+2008-02-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster-changes.h (raster_changes_add_sorted_int):
+	New function to add change in correct order.
+
+	* raster/raster.h (raster_changes_sprites_add_int): Uses
+	raster_changes_add_sorted_int.
+
+2008-02-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (convert_utf8): Fixed bug for
+	0xa0 handling.
+
+2008-01-31  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/x11ui.c: Do not exit the program if HW
+	scaling not available at runtime.
+
+	* video/video-resources.c, src/video.h: Move resources vars
+	from video_resource_chip_t to video_render_config_t, which
+	were often unnecessarily duplicated, and made modification of
+	resources a nightmare.
+
+	* video/video-resources.c: Add resource HwScalePossible, to
+	enable/disable HW scaling menu entry.
+
+2008-01-31  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c: (all): removed some dead code.
+	(convert_utf8): New function: basic UTF-8 conversion for
+	PETSCII.
+	(ui_init_finish): Reworked CBM font handling. Credits to Chris
+	Vogelgsang for providing a proper converted CBM truetype font.
+	(rebuild_contents_menu): ditto.
+	(ui_fill_preview): ditto.
+	(build_file_selector): ditto.
+
+	* arch/unix/x11/gnome/uicolor.c: Removed x11 dependent
+	headers.
+
 2008-01-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.8.
