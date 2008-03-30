@@ -202,7 +202,7 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART },
     { "-cartstb", CALL_FUNCTION, 1, attach_cartridge_cmdline,
       (void *)CARTRIDGE_STRUCTURED_BASIC, NULL, NULL,
-      IDCLS_P_NAME, "Attach Structured Basic cartridge image" },
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_STB_CART },
     { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
       (void *)CARTRIDGE_EXPERT, NULL, NULL,
       0, IDCLS_ENABLE_EXPERT_CART },
