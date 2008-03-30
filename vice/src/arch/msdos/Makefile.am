@@ -24,6 +24,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	log.c \
 	log.h \
+	mouse.c \
+	mouse.h \
 	menudefs.c \
 	menudefs.h \
 	petkbd.c \
