@@ -38,7 +38,7 @@ struct fliplist_t {
 };
 
 static struct fliplist_t *fliplist = (struct fliplist_t *) NULL;
-static const char *current_image;
+static char *current_image = NULL;
 static int current_drive;
 
 static void show_fliplist(void);
@@ -46,15 +46,15 @@ static void show_fliplist(void);
 /* ------------------------------------------------------------------------- */
 /* interface functions */
 
-void
-flip_set_current(int unit, const char *filename)
+void flip_set_current(int unit, const char *filename)
 {
-    current_image = filename;
+    if (current_image != NULL)
+        free(current_image);
+    current_image = stralloc(filename);
     current_drive = unit;
 }
 
-void
-flip_add_image (void)
+void flip_add_image (void)
 {
     struct fliplist_t *n;
  
@@ -83,8 +83,7 @@ flip_add_image (void)
     show_fliplist();
 }
 
-void
-flip_remove(int unit, char *image)
+void flip_remove(int unit, char *image)
 {
     struct fliplist_t *tmp;
 
@@ -119,8 +118,7 @@ flip_remove(int unit, char *image)
     }
 }
 
-void
-flip_attach_head (int direction)
+void flip_attach_head (int direction)
 {
     if (fliplist == (struct fliplist_t *)NULL)
 	return;
@@ -140,8 +138,7 @@ flip_attach_head (int direction)
 
 /* ------------------------------------------------------------------------- */
 
-static void
-show_fliplist(void)
+static void show_fliplist(void)
 {
     struct fliplist_t *it = fliplist;
     
