@@ -84,7 +84,7 @@ void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
     return;
 }
 
-static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
+static int write_sequential_buffer(vdrive_t *floppy, bufferinfo_t *bi,
                                    int length )
 {
     int t_new, s_new, e;
@@ -120,9 +120,7 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
         buf[0] = t_new;
         buf[1] = s_new;
 
-        floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-                           bi->track, bi->sector, floppy->D64_Header,
-                           floppy->GCR_Header, floppy->unit);
+        disk_image_write_sector(floppy->image, buf, bi->track, bi->sector);
 
         bi->track = t_new;
         bi->sector = s_new;
@@ -133,9 +131,7 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
         buf[0] = 0;
         buf[1] = length - 1;
 
-        floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-                           bi->track, bi->sector, floppy->D64_Header,
-                           floppy->GCR_Header, floppy->unit);
+        disk_image_write_sector(floppy->image, buf, bi->track, bi->sector);
     }
 
     if (!(++slot[SLOT_NR_BLOCKS]))
@@ -157,7 +153,7 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
 
 int vdrive_open(void *flp, const char *name, int length, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
     char realname[256];
     int reallength, readmode, filetype, rl;
@@ -175,7 +171,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      * If ActiveName exists, the file may have been temporarily closed.
      */
 
-   if (floppy->ActiveFd == NULL
+   if (floppy->image->fd == NULL
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
@@ -186,7 +182,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
 #ifdef DEBUG_DRIVE
     fprintf(logfile, "VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d\n",
-	        floppy->unit, floppy->ActiveFd, name, length, secondary);
+	        floppy->unit, floppy->image->fd, name, length, secondary);
 #endif
 #ifdef __riscos
     ui_set_drive_leds(floppy->unit - 8, 1);
@@ -343,10 +339,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
             p->bufptr = 2;
             p->buffer = (BYTE *)xmalloc(256);
 
-            status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                       p->buffer, track, sector,
-                                       floppy->D64_Header,
-                                       floppy->GCR_Header, floppy->unit);
+            status = disk_image_read_sector(floppy->image, p->buffer, track,
+                                            sector);
             if (status < 0) {
                 vdrive_close(floppy, secondary);
                 return SERIAL_ERROR;
@@ -408,10 +402,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     fprintf(logfile, "DEBUG: create, write DIR slot (%d %d).\n",
             floppy->Curr_track, floppy->Curr_sector);
 #endif
-    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                       floppy->Dir_buffer, floppy->Curr_track,
-                       floppy->Curr_sector, floppy->D64_Header,
-                       floppy->GCR_Header, floppy->unit);
+    disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                            floppy->Curr_track, floppy->Curr_sector);
     /*vdrive_bam_write_bam(floppy);*/
 #endif  /* BAM write */
     return SERIAL_OK;
@@ -420,8 +412,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
 int vdrive_close(void *flp, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
-    BYTE   *e;
+    vdrive_t *floppy = (vdrive_t *)flp;
+    BYTE *e;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
@@ -483,10 +475,8 @@ int vdrive_close(void *flp, int secondary)
             fprintf(logfile, "DEBUG: closing, write DIR slot (%d %d) and BAM.\n",
                     floppy->Curr_track, floppy->Curr_sector);
 #endif
-            floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                               floppy->Dir_buffer, floppy->Curr_track,
-                               floppy->Curr_sector, floppy->D64_Header,
-                               floppy->GCR_Header, floppy->unit);
+            disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                                    floppy->Curr_track, floppy->Curr_sector);
             vdrive_bam_write_bam(floppy);
         }
         p->mode = BUFFER_NOT_IN_USE;
@@ -511,7 +501,7 @@ int vdrive_close(void *flp, int secondary)
 
 int vdrive_read(void *flp, BYTE *data, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
@@ -551,11 +541,8 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 	 */
 	if (p->buffer[0]) {
 	    if (p->bufptr >= 256) {
-		floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-				  p->buffer,
-				  (int) p->buffer[0],
-				  (int) p->buffer[1],
-				  floppy->D64_Header, floppy->GCR_Header, floppy->unit);
+		disk_image_read_sector(floppy->image, p->buffer, (int) p->buffer[0],
+				  (int) p->buffer[1]);
 		p->bufptr = 2;
 	    }
 	} else {
@@ -593,7 +580,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 
 int vdrive_write(void *flp, BYTE data, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
     if (floppy->ReadOnly && p->mode != BUFFER_COMMAND_CHANNEL) {
@@ -652,7 +639,7 @@ int vdrive_write(void *flp, BYTE data, int secondary)
 
 void vdrive_flush(void *flp, int secondary)
 {
-    DRIVE *floppy = (DRIVE *)flp;
+    vdrive_t *floppy = (vdrive_t *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
     int status;
 

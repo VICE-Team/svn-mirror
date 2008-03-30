@@ -88,7 +88,7 @@ static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
     return 1;
 }
 
-static void vdrive_dir_free_chain(DRIVE *floppy, int t, int s)
+static void vdrive_dir_free_chain(vdrive_t *floppy, int t, int s)
 {
     BYTE buf[256];
 
@@ -102,22 +102,20 @@ static void vdrive_dir_free_chain(DRIVE *floppy, int t, int s)
 
         /* FIXME: This seems to be redundant.  AB19981124  */
         vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam, t, s);
-        floppy_read_block(floppy->ActiveFd, floppy->ImageFormat, buf, t, s,
-                          floppy->D64_Header, floppy->GCR_Header, floppy->unit);        t = (int) buf[0];
+        disk_image_read_sector(floppy->image, buf, t, s);
+        t = (int) buf[0];
         s = (int) buf[1];
     }
 }
 
-static BYTE *find_next_directory_sector(DRIVE *floppy, int track, int sector)
+static BYTE *find_next_directory_sector(vdrive_t *floppy, int track, int sector)
 {
     if (vdrive_bam_allocate_sector(floppy->ImageFormat, floppy->bam, track,
         sector)) {
         floppy->Dir_buffer[0] = track;
         floppy->Dir_buffer[1] = sector;
-        floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                           floppy->Dir_buffer, floppy->Curr_track,
-                           floppy->Curr_sector, floppy->D64_Header,
-                           floppy->GCR_Header, floppy->unit);
+        disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                                floppy->Curr_track, floppy->Curr_sector);
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
                 track, sector, floppy->Curr_track, floppy->Curr_sector);
@@ -136,7 +134,7 @@ static BYTE *find_next_directory_sector(DRIVE *floppy, int track, int sector)
  * replace') and from ip_execute() for 'SCRATCH'.
  */
 
-void vdrive_dir_remove_slot(DRIVE *floppy, BYTE *slot)
+void vdrive_dir_remove_slot(vdrive_t *floppy, BYTE *slot)
 {
     int tmp, t, s;
 
@@ -171,14 +169,12 @@ void vdrive_dir_remove_slot(DRIVE *floppy, BYTE *slot)
 
         /* Update directory entry */
         floppy->Dir_buffer[floppy->SlotNumber * 32 + SLOT_TYPE_OFFSET] = 0;
-        floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                           floppy->Dir_buffer, floppy->Curr_track,
-                           floppy->Curr_sector, floppy->D64_Header,
-                           floppy->GCR_Header, floppy->unit);
+        disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                                floppy->Curr_track, floppy->Curr_sector);
     }
 }
 
-void vdrive_dir_find_first_slot(DRIVE *floppy, const char *name, int length,
+void vdrive_dir_find_first_slot(vdrive_t *floppy, const char *name, int length,
                                 int type)
 {
     floppy->find_name   = name;
@@ -189,13 +185,11 @@ void vdrive_dir_find_first_slot(DRIVE *floppy, const char *name, int length,
     floppy->Curr_sector = floppy->Dir_Sector;
     floppy->SlotNumber = -1;
 
-    floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                      floppy->Dir_buffer, floppy->Dir_Track,
-                      floppy->Dir_Sector, floppy->D64_Header,
-                      floppy->GCR_Header, floppy->unit);
+    disk_image_read_sector(floppy->image, floppy->Dir_buffer,
+                           floppy->Dir_Track, floppy->Dir_Sector);
 }
 
-BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
+BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy)
 {
     static BYTE return_slot[32];
     int status;
@@ -220,10 +214,9 @@ BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
             floppy->Curr_track  = (int) floppy->Dir_buffer[0];
             floppy->Curr_sector = (int) floppy->Dir_buffer[1];
 
-            status = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                       floppy->Dir_buffer, floppy->Curr_track,
-                                       floppy->Curr_sector, floppy->D64_Header,
-                                       floppy->GCR_Header, floppy->unit);
+            status = disk_image_read_sector(floppy->image, floppy->Dir_buffer,
+                                            floppy->Curr_track,
+                                            floppy->Curr_sector);
         }
         while (floppy->SlotNumber < 8) {
             if (vdrive_dir_name_match(&floppy->Dir_buffer[floppy->SlotNumber * 32],
@@ -320,7 +313,7 @@ void vdrive_dir_no_a0_pads(BYTE *ptr, int l)
  * if successful, -1 if the directory is not valid.
  */
 
-int vdrive_dir_create_directory(DRIVE *floppy, const char *name,
+int vdrive_dir_create_directory(vdrive_t *floppy, const char *name,
                                 int length, int filetype, int secondary,
                                 BYTE *outputptr)
 {

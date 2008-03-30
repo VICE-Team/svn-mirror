@@ -42,7 +42,7 @@
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
-int vdrive_bam_alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track,
+int vdrive_bam_alloc_first_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
                                        int *sector)
 {
     int t, s, d, max_tracks;
@@ -95,7 +95,7 @@ int vdrive_bam_alloc_first_free_sector(DRIVE *floppy, BYTE *bam, int *track,
  * XXX the interleave is not taken into account yet.
  * FIXME: does this handle double-sided formats?
  */
-int vdrive_bam_alloc_next_free_sector(DRIVE *floppy, BYTE *bam, int *track,
+int vdrive_bam_alloc_next_free_sector(vdrive_t *floppy, BYTE *bam, int *track,
                                       int *sector)
 {
     int t, s, d;
@@ -156,7 +156,7 @@ int vdrive_bam_isset(int type, BYTE *bamp, int sector)
     return bamp[1 + sector / 8] & (1 << (sector % 8));
 }
 
-int vdrive_bam_allocate_chain(DRIVE *floppy, int t, int s)
+int vdrive_bam_allocate_chain(vdrive_t *floppy, int t, int s)
 {
     BYTE tmp[256];
 
@@ -172,8 +172,8 @@ int vdrive_bam_allocate_chain(DRIVE *floppy, int t, int s)
             vdrive_command_set_error(&floppy->buffers[15], IPE_NO_BLOCK, s, t);
             return IPE_NO_BLOCK;
         }
-        floppy_read_block(floppy->ActiveFd, floppy->ImageFormat, tmp, t, s,
-                          floppy->D64_Header, floppy->GCR_Header, floppy->unit);        t = (int) tmp[0];
+        disk_image_read_sector(floppy->image, tmp, t, s);
+        t = (int) tmp[0];
         s = (int) tmp[1];
     }
     return IPE_OK;
@@ -311,7 +311,7 @@ static int mystrncpy(BYTE *d, BYTE *s, int n)
     return (n);
 }
 
-void vdrive_bam_create_empty_bam(DRIVE *floppy, const char *name, BYTE *id)
+void vdrive_bam_create_empty_bam(vdrive_t *floppy, const char *name, BYTE *id)
 {
     /* Create Disk Format for 1541/1571/1581 disks.  */
     /* FIXME: use a define for the length? */
@@ -413,8 +413,14 @@ void vdrive_bam_create_empty_bam(DRIVE *floppy, const char *name, BYTE *id)
     return;
 }
 
-int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id)
+int vdrive_bam_get_disk_id(int unit, BYTE *id)
 {
+    serial_t *p;
+    vdrive_t *floppy;
+    p = serial_get_device(unit);
+
+    floppy = (vdrive_t *)p->info;
+
     if (floppy == NULL || id == NULL)
         return -1;
 
@@ -423,8 +429,14 @@ int vdrive_bam_get_disk_id(DRIVE *floppy, BYTE *id)
     return 0;
 }
 
-int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id)
+int vdrive_bam_set_disk_id(int unit, BYTE *id)
 {
+    serial_t *p;
+    vdrive_t *floppy;
+    p = serial_get_device(unit);
+
+    floppy = (vdrive_t *)p->info;
+
     if (floppy == NULL || id == NULL)
         return -1;
 
@@ -440,67 +452,45 @@ int vdrive_bam_set_disk_id(DRIVE *floppy, BYTE *id)
  */
 
 /* probably we should make a list with BAM blocks for each drive type... (AF)*/
-int vdrive_bam_read_bam(DRIVE *floppy)
+int vdrive_bam_read_bam(vdrive_t *floppy)
 {
     int err = 0;
 
     switch(floppy->ImageFormat) {
       case 1541:
-        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                floppy->bam, BAM_TRACK_1541,
-                                BAM_SECTOR_1541, floppy->D64_Header,
-                                floppy->GCR_Header, floppy->unit);
+        err = disk_image_read_sector(floppy->image, floppy->bam,
+                                     BAM_TRACK_1541, BAM_SECTOR_1541);
         break;
       case 1571:
-        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                floppy->bam, BAM_TRACK_1571,
-                                BAM_SECTOR_1571, floppy->D64_Header,
-                                floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam+256, BAM_TRACK_1571+35,
-                                 BAM_SECTOR_1571, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
+        err = disk_image_read_sector(floppy->image, floppy->bam,
+                                BAM_TRACK_1571, BAM_SECTOR_1571);
+        err |= disk_image_read_sector(floppy->image, floppy->bam+256,
+                                 BAM_TRACK_1571+35, BAM_SECTOR_1571);
         break;
       case 1581:
-        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                floppy->bam, BAM_TRACK_1581,
-                                BAM_SECTOR_1581, floppy->D64_Header,
-                                floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam+256, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581 + 1, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam+512, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581 + 2, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
+        err = disk_image_read_sector(floppy->image, floppy->bam,
+                                BAM_TRACK_1581, BAM_SECTOR_1581);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 256,
+                                 BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 512,
+                                 BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
         break;
       case 8050:
       case 8250:
-        err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam, BAM_TRACK_8050,
-                                 BAM_SECTOR_8050, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+256, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+512, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 3, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err = disk_image_read_sector(floppy->image, floppy->bam,
+                                 BAM_TRACK_8050, BAM_SECTOR_8050);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 256,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 512,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
 
         if (floppy->ImageFormat == 8050)
             break;
 
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+768, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 6, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
-        err |= floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+1024, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 9, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 768,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
+        err |= disk_image_read_sector(floppy->image, floppy->bam + 1024,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
       default:
         err = -1;
@@ -513,71 +503,49 @@ int vdrive_bam_reread_bam(int unit)
 {
     serial_t *p;
     p = serial_get_device(unit);
-    return vdrive_bam_read_bam((DRIVE *)p->info);
+    return vdrive_bam_read_bam((vdrive_t *)p->info);
 }
 
 
-int vdrive_bam_write_bam(DRIVE *floppy)
+int vdrive_bam_write_bam(vdrive_t *floppy)
 {
     int err = 0;
 
     switch(floppy->ImageFormat) {
       case 1541:
-        err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam, BAM_TRACK_1541,
-                                 BAM_SECTOR_1541, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
+        err = disk_image_write_sector(floppy->image, floppy->bam,
+                                 BAM_TRACK_1541, BAM_SECTOR_1541);
         break;
       case 1571:
-        err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam, BAM_TRACK_1571,
-                                 BAM_SECTOR_1571, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+256, BAM_TRACK_1571+35,
-                                  BAM_SECTOR_1571, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err = disk_image_write_sector(floppy->image, floppy->bam,
+                                 BAM_TRACK_1571, BAM_SECTOR_1571);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 256,
+                                  BAM_TRACK_1571 + 35, BAM_SECTOR_1571);
         break;
       case 1581:
-        err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+256, BAM_TRACK_1581,
-                                  BAM_SECTOR_1581+1, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+512, BAM_TRACK_1581,
-                                  BAM_SECTOR_1581+2, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err = disk_image_write_sector(floppy->image, floppy->bam,
+                                 BAM_TRACK_1581, BAM_SECTOR_1581);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 256, 
+                                  BAM_TRACK_1581, BAM_SECTOR_1581 + 1);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 512,
+                                  BAM_TRACK_1581, BAM_SECTOR_1581 + 2);
         break;
       case 8050:
       case 8250:
-        err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                 floppy->bam, BAM_TRACK_8050,
-                                 BAM_SECTOR_8050, floppy->D64_Header,
-                                 floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+256, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+512, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 3, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err = disk_image_write_sector(floppy->image, floppy->bam,
+                                 BAM_TRACK_8050, BAM_SECTOR_8050);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 256,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 512,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 3);
 
         if (floppy->ImageFormat == 8050)
             break;
 
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+768, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 6, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
-        err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                  floppy->bam+1024, BAM_TRACK_8050 - 1,
-                                  BAM_SECTOR_8050 + 9, floppy->D64_Header,
-                                  floppy->GCR_Header, floppy->unit);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 768,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 6);
+        err |= disk_image_write_sector(floppy->image, floppy->bam + 1024,
+                                  BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
       default:
         err = -1;
@@ -591,7 +559,7 @@ int vdrive_bam_write_bam(DRIVE *floppy)
  * Return the number of free blocks on disk.
  */
 
-int vdrive_bam_free_block_count(DRIVE *floppy)
+int vdrive_bam_free_block_count(vdrive_t *floppy)
 {
     int blocks, i;
 

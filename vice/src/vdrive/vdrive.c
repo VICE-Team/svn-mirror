@@ -69,7 +69,6 @@
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
-#include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -95,14 +94,15 @@ char const *slot_type[] = {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
 };
 
-static int  set_error_data(DRIVE *floppy, int flags);
-static int  vdrive_command_block(DRIVE *floppy, char command, char *buffer);
-static int  vdrive_command_memory(DRIVE *floppy, BYTE *buffer, int length);
-static int  vdrive_command_initialize(DRIVE *floppy);
-static int  vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
-            BYTE *minus);
-static int  vdrive_command_copy(DRIVE *floppy, char *dest, int length);
-static int  vdrive_command_rename(DRIVE *floppy, char *dest, int length);
+static int compare_filename (char *name, char *pattern);
+static int set_error_data(vdrive_t *floppy, int flags);
+static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer);
+static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length);
+static int vdrive_command_initialize(vdrive_t *floppy);
+static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
+                                 BYTE *minus);
+static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length);
+static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length);
 
 /* ------------------------------------------------------------------------- */
 
@@ -141,61 +141,51 @@ errortext_t floppy_error_messages[] =
 
 };
 
-
 /* ------------------------------------------------------------------------- */
 
-
-int initialize_1541(int dev, int type, DRIVE *oldinfo)
+int vdrive_setup_device(vdrive_t *vdrive, int unit, int type)
 {
-    DRIVE *floppy;
     int i;
 
     if (vdrive_log == LOG_ERR)
         vdrive_log = log_open("VDrive");
 
-    floppy = oldinfo;
+    memset(vdrive, 0, sizeof(vdrive_t));  /* Init all pointers.  */
 
-    /* Create instances of the disk drive.  */
-    if (!floppy)
-        floppy = (DRIVE *)xmalloc(sizeof(DRIVE));
-
-    memset(floppy, 0, sizeof(DRIVE));  /* init all pointers */
-
-    floppy->type     = type;
-    floppy->ActiveFd = NULL;
-    floppy->unit     = dev;
+    vdrive->type = type;
+    vdrive->unit = unit;
 
     for (i = 0; i < 15; i++)
-        floppy->buffers[i].mode = BUFFER_NOT_IN_USE;
+        vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
 
-    floppy->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    floppy->buffers[15].buffer = (BYTE *)xmalloc(256);
+    vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
+    vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
 
     /* Initialise format constants.  */
-    set_disk_geometry(floppy, type);
+    set_disk_geometry(vdrive, type);
 
     /*
      * 'type' specifies what kind of emulation is selected
      */
 
     if (!(type & DT_FS)) {
-        if (serial_attach_device(dev, (char *)floppy, "1541 Disk Drive",
+        if (serial_attach_device(unit, (char *)vdrive, "1541 Disk Drive",
                                  vdrive_read, vdrive_write,
                                  vdrive_open, vdrive_close,
                                  vdrive_flush)) {
             log_error(vdrive_log,
                       "Could not initialize virtual drive emulation for device #%d.", 
-                      floppy->unit);
+                      vdrive->unit);
             return(-1);
         }
     } else {
-        if (attach_fsdevice(dev, (char *)floppy, "1541 FS Drive")) {
+        if (attach_fsdevice(unit, (char *)vdrive, "1541 FS Drive")) {
             log_error(vdrive_log, "Could not initialize FS drive for device #%d.",
-                    floppy->unit);
+                    vdrive->unit);
             return(-1);
         }
     }
-    vdrive_command_set_error(&floppy->buffers[15], IPE_DOS_VERSION, 0, 0);
+    vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
 
@@ -255,7 +245,7 @@ void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
  * the error messages according to return values.
  */
 
-int vdrive_command_execute(DRIVE *floppy, BYTE *buf, int length)
+int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
 {
     int status = IPE_OK;
     BYTE *p, *p2;
@@ -473,7 +463,7 @@ static int  get_block_parameters(char *buf, int *p1, int *p2, int *p3, int *p4)
     return -ip;			/* negative of # arguments found */
 }
 
-static int vdrive_command_block(DRIVE *floppy, char command, char *buffer)
+static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
 {
     int channel = 0, drive = 0, track = 0, sector = 0, position = 0;
     int l;
@@ -496,16 +486,14 @@ static int vdrive_command_block(DRIVE *floppy, char command, char *buffer)
             if (command == 'W') {
                 if (floppy->ReadOnly)
                     return IPE_WRITE_PROTECT_ON;
-                if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                                       floppy->buffers[channel].buffer,
-                                       track, sector, floppy->D64_Header,
-                                       floppy->GCR_Header, floppy->unit))
+                if (disk_image_write_sector(floppy->image,
+                                            floppy->buffers[channel].buffer,
+                                            track, sector) < 0)
                     return IPE_NOT_READY;
             } else {
-                if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
+                if (disk_image_read_sector(floppy->image,
                                       floppy->buffers[channel].buffer,
-                                      track, sector, floppy->D64_Header,
-                                      floppy->GCR_Header, floppy->unit) < 0)
+                                      track, sector) < 0)
                     return IPE_NOT_READY;
             }
             floppy->buffers[channel].bufptr = 0;
@@ -559,7 +547,7 @@ static int vdrive_command_block(DRIVE *floppy, char command, char *buffer)
 }
 
 
-static int vdrive_command_memory(DRIVE *floppy, BYTE *buffer, int length)
+static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length)
 {
 #if 0
     int addr = 0;
@@ -739,7 +727,7 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 /* ------------------------------------------------------------------------- */
 
 
-static int vdrive_command_copy(DRIVE *floppy, char *dest, int length)
+static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length)
 {
     char *name, *files, *p, c;
 
@@ -796,7 +784,7 @@ static int vdrive_command_copy(DRIVE *floppy, char *dest, int length)
  * Rename disk entry
  */
 
-static int vdrive_command_rename(DRIVE *floppy, char *dest, int length)
+static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length)
 {
     char *src;
     char dest_name[256], src_name[256];
@@ -853,10 +841,8 @@ static int vdrive_command_rename(DRIVE *floppy, char *dest, int length)
         slot[SLOT_TYPE_OFFSET] = dest_filetype; /* FIXME: is this right? */
 
     /* Update the directory.  */
-    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                       floppy->Dir_buffer, floppy->Curr_track,
-                       floppy->Curr_sector, floppy->D64_Header,
-                       floppy->GCR_Header, floppy->unit);
+    disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                       floppy->Curr_track, floppy->Curr_sector);
     return(IPE_OK);
 }
 
@@ -867,7 +853,7 @@ static int vdrive_command_rename(DRIVE *floppy, char *dest, int length)
  * channel close.
  */
 
-void floppy_close_all_channels(DRIVE *floppy)
+void floppy_close_all_channels(vdrive_t *floppy)
 {
     int     i;
     bufferinfo_t *p;
@@ -882,12 +868,12 @@ void floppy_close_all_channels(DRIVE *floppy)
 }
 
 
-static int vdrive_command_initialize(DRIVE *floppy)
+static int vdrive_command_initialize(vdrive_t *floppy)
 {
     floppy_close_all_channels(floppy);
 
     /* Update BAM in memory.  */
-    if (floppy->ActiveFd != NULL)
+    if (floppy->image->fd != NULL)
         vdrive_bam_read_bam(floppy);
     if (floppy->ErrFlg)
         set_error_data(floppy, 3); /* Clear or read error data.  */
@@ -895,7 +881,7 @@ static int vdrive_command_initialize(DRIVE *floppy)
     return IPE_OK;
 }
 
-int vdrive_command_validate(DRIVE *floppy)
+int vdrive_command_validate(vdrive_t *floppy)
 {
     int t, s, status;
     /* FIXME: size of BAM define */
@@ -957,10 +943,8 @@ int vdrive_command_validate(DRIVE *floppy)
             }
         } else {
             *filetype = FT_DEL;
-            floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                               floppy->Dir_buffer, floppy->Curr_track,
-                               floppy->Curr_sector, floppy->D64_Header,
-                               floppy->GCR_Header, floppy->unit);
+            disk_image_write_sector(floppy->image, floppy->Dir_buffer,
+                                    floppy->Curr_track, floppy->Curr_sector);
         }
     }
 
@@ -969,7 +953,7 @@ int vdrive_command_validate(DRIVE *floppy)
     return status;
 }
 
-static int vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
+static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
                                  BYTE *minus)
 {
     BYTE tmp[256];
@@ -982,7 +966,7 @@ static int vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
     if (floppy->ReadOnly)
         return IPE_WRITE_PROTECT_ON;
 
-    if (floppy->ActiveFd < 0)
+    if (floppy->image->fd != NULL)
         return IPE_NOT_READY;
 
     /*
@@ -1002,12 +986,9 @@ static int vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
      */
     memset(tmp, 0, 256);
     tmp[1] = 255;
-    floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-                       tmp, floppy->Dir_Track, floppy->Dir_Sector,
-                       floppy->D64_Header, floppy->GCR_Header, floppy->unit);
-
+    disk_image_write_sector(floppy->image, tmp, floppy->Dir_Track,
+                            floppy->Dir_Sector);
     vdrive_bam_create_empty_bam(floppy, name, id);
-
     vdrive_bam_write_bam(floppy);
 
     /* Validate is called to clear the BAM.  */
@@ -1025,7 +1006,7 @@ static int vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
  * Sync (update) the Error Block image in memory
  */
 
-static int  set_error_data(DRIVE *floppy, int flags)
+static int  set_error_data(vdrive_t *floppy, int flags)
 {
     int    size;
     off_t  offset;
@@ -1041,17 +1022,17 @@ static int  set_error_data(DRIVE *floppy, int flags)
 
     size   = num_blocks (floppy->ImageFormat, floppy->NumTracks);
     offset = ((off_t)size << 8) + (off_t)(floppy->D64_Header?0:HEADER_LENGTH);
-    fseek(floppy->ActiveFd, offset, SEEK_SET);
+    fseek(floppy->image->fd, offset, SEEK_SET);
 
     if (flags & 2) {		/* read from file */
-        if (fread((char *)floppy->ErrData, size, 1, floppy->ActiveFd) < 1) {
+        if (fread((char *)floppy->ErrData, size, 1, floppy->image->fd) < 1) {
             log_error(vdrive_log, "Floppy image read error.");
             return(-2);
         }
     }
 
     if (flags & 4) {		/* write to file */
-        if (fwrite((char *)floppy->ErrData, size, 1, floppy->ActiveFd) < 1) {
+        if (fwrite((char *)floppy->ErrData, size, 1, floppy->image->fd) < 1) {
             log_error(vdrive_log, "Floppy image write error.");
             return(-2);
         }
@@ -1067,7 +1048,7 @@ static int  set_error_data(DRIVE *floppy, int flags)
  * Return 'error' according to track and sector
  */
 
-static int  get_disk_error(DRIVE *floppy, int track, int sector)
+static int  get_disk_error(vdrive_t *floppy, int track, int sector)
 {
     int     sectors, i;
 
@@ -1086,100 +1067,6 @@ static int  get_disk_error(DRIVE *floppy, int track, int sector)
 }
 
 #endif
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Return block offset on 'disk file' according to track and sector
- */
-
-static off_t offset_from_track_and_sector(int format, int track,
-					  int sector, int d64)
-{
-    int     sectors;
-
-    if ((sectors = disk_image_check_sector(format, track, sector)) < 0)
-	return -1;
-
-#ifdef DEBUG_DRIVE
-    fprintf(logfile, "DEBUG SECTOR %3d (%2d,%2d) OFF_T: %ld\n",
-	   sectors, track, sector,
-	   ((off_t)sectors << 8) /* + (off_t)HEADER_LENGTH*/ );
-#endif
-
-    return ( ((off_t)sectors << 8) +
-		(off_t)(d64?0:HEADER_LENGTH) );
-
-}
-
-
-/*
- * Read one block
- */
-
-int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
-                      int sector, int d64, int g64, int unit)
-{
-    if (fd == NULL)
-        return -1;
-
-    if (g64 && (unit == 8 || unit == 9)) {
-        if (drive_read_block(track, sector, buf, unit - 8) < 0) {
-            log_error(vdrive_log, "Error reading from disk image.");
-            return(-2);
-        }
-    } else {
-        off_t offset;
-        offset = offset_from_track_and_sector(format, track, sector, d64);
-
-        if (offset < 0)
-            return -1;
-
-        fseek(fd, offset, SEEK_SET);
-
-        if (fread((char *)buf, 256, 1, fd) < 1) {
-            log_error(vdrive_log, "Error reading from disk image.\n");
-            return(-2);
-        }
-        return 0;
-    }
-    return 0;
-}
-
-
-/*
- * Write one block
- */
-
-int floppy_write_block(FILE *fd, int format, BYTE *buf, int track,
-                       int sector, int d64, int g64, int unit)
-{
-    if (fd == NULL)
-        return -1;
-
-    if (g64 && (unit == 8 || unit == 9)) {
-        if (drive_write_block(track, sector, buf, unit - 8) < 0) {
-            log_error(vdrive_log, "Error writing disk image.\n");
-            return(-2);
-        }
-    } else {
-        off_t offset;
-
-        offset = offset_from_track_and_sector(format, track, sector, d64);
-
-        if (offset < 0)
-            return -1;
-
-        if (fseek(fd, offset, SEEK_SET) < 0
-            || fwrite((char *)buf, 256, 1, fd) < 1) {
-            log_error(vdrive_log, "Cannot write T:%d S:%d: %s",
-                      track, sector, strerror(errno));
-            return -2;
-        }
-    }
-    return 0;
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -1225,7 +1112,7 @@ int vdrive_get_max_sectors(int type, int track)
  * Functions to attach the disk image files.
  */
 
-void vdrive_detach_image(disk_image_t *image, int unit, DRIVE *floppy)
+void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 {
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
@@ -1252,58 +1139,60 @@ void vdrive_detach_image(disk_image_t *image, int unit, DRIVE *floppy)
         return;
     }
 
-    floppy_close_all_channels(floppy);
+    floppy_close_all_channels(vdrive);
 
-    floppy->ActiveFd = NULL;
-    floppy->ActiveName[0] = 0; /* Name is used as flag */
+    vdrive->ActiveName[0] = 0; /* Name is used as flag */
+
+    vdrive->image = NULL;
 }
 
-int vdrive_attach_image(disk_image_t *image, int unit, DRIVE *floppy)
+int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 {
     /* Compatibily cruft (soon to be removed).  */
-    floppy->ImageFormat = image->type;
-    floppy->ActiveFd = image->fd;
-    strcpy(floppy->ActiveName, image->name);
-    floppy->NumTracks  = image->tracks;
-    floppy->NumBlocks  = num_blocks(image->type, image->tracks);
-    floppy->ErrFlg = 0;
+    vdrive->ImageFormat = image->type;
+    strcpy(vdrive->ActiveName, image->name);
+    vdrive->NumTracks  = image->tracks;
+    vdrive->NumBlocks  = num_blocks(image->type, image->tracks);
+    vdrive->ErrFlg = 0;
 
-    floppy->D64_Header = (image->type == DISK_IMAGE_TYPE_D64
+    vdrive->D64_Header = (image->type == DISK_IMAGE_TYPE_D64
                          || image->type == DISK_IMAGE_TYPE_D71
                          || image->type == DISK_IMAGE_TYPE_D81
                          || image->type == DISK_IMAGE_TYPE_D80
                          || image->type == DISK_IMAGE_TYPE_D82) ? 1 : 0;
-    floppy->GCR_Header = (image->type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
+    vdrive->GCR_Header = (image->type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
 
     /* Initialise format constants */
-    set_disk_geometry(floppy, image->type);
-
-    vdrive_bam_read_bam(floppy);
+    set_disk_geometry(vdrive, image->type);
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
         log_message(vdrive_log, "Unit %d: D64 disk image attached: %s.",
-                    floppy->unit, image->name);
+                    vdrive->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D71:
         log_message(vdrive_log, "Unit %d: D71 disk image attached: %s.",
-                    floppy->unit, image->name);
+                    vdrive->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D81:
         log_message(vdrive_log, "Unit %d: D81 disk image attached: %s.",
-                    floppy->unit, image->name);
+                    vdrive->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D80:
         log_message(vdrive_log, "Unit %d: D80 disk image attached: %s.",
-                    floppy->unit, image->name);
+                    vdrive->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D82:
         log_message(vdrive_log, "Unit %d: D82 disk image attached: %s.",
-                    floppy->unit, image->name);
+                    vdrive->unit, image->name);
         break;
       default:
         return -1;
     }
+
+    vdrive->image = image;
+    vdrive_bam_read_bam(vdrive);
+
     return 0;
 }
 
@@ -1399,7 +1288,7 @@ int  num_blocks (int format, int tracks)
  * Initialise format constants
  */
 
-void set_disk_geometry(DRIVE *floppy, int type)
+void set_disk_geometry(vdrive_t *floppy, int type)
 {
     switch (type) {
       case 1541:
@@ -1457,7 +1346,7 @@ void set_disk_geometry(DRIVE *floppy, int type)
  * However, a null character cannot be protected.
  */
 
-int  compare_filename (char *name, char *pattern)
+static int compare_filename (char *name, char *pattern)
 {
     char *p, *q;
     int   literal = 0;
@@ -1508,7 +1397,7 @@ int  compare_filename (char *name, char *pattern)
 
 /* Read the directory and return it as a long malloc'ed ASCII string.
    FIXME: Should probably be made more robust.  */
-char *floppy_read_directory(DRIVE *floppy, const char *pattern)
+char *floppy_read_directory(vdrive_t *floppy, const char *pattern)
 {
     BYTE *p;
     int outbuf_size, max_outbuf_size, len;
@@ -1546,3 +1435,4 @@ char *floppy_read_directory(DRIVE *floppy, const char *pattern)
 
     return outbuf;
 }
+

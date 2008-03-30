@@ -175,10 +175,10 @@ static int circular_check(unsigned int track, unsigned int sector)
 /* Argh!  Really ugly!  FIXME!  */
 extern char *slot_type[];
 
-static DRIVE *open_image(const char *name)
+static vdrive_t *open_image(const char *name)
 {
     static BYTE fake_command_buffer[256];
-    DRIVE *floppy;
+    vdrive_t *floppy;
     hdrinfo hdr;
     FILE *fd;
     int image_format;
@@ -202,9 +202,11 @@ static DRIVE *open_image(const char *name)
         return NULL;
     }
 
-    floppy = xmalloc(sizeof(DRIVE));
+    floppy = xmalloc(sizeof(vdrive_t));
 
+/*
     floppy->ActiveFd = fd;
+*/
     floppy->ImageFormat = image_format;
     floppy->NumTracks = hdr.tracks;
     floppy->NumBlocks = num_blocks(floppy->ImageFormat, hdr.tracks);
@@ -228,7 +230,7 @@ static DRIVE *open_image(const char *name)
 image_contents_t *image_contents_read_disk(const char *file_name)
 {
     image_contents_t *new;
-    DRIVE *floppy;
+    vdrive_t *floppy;
     BYTE buffer[256];
     int retval;
     image_contents_file_list_t *lp;
@@ -240,7 +242,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     retval = vdrive_bam_read_bam(floppy);
 
     if (retval < 0) {
-        zfclose(floppy->ActiveFd);
+        zfclose(floppy->image->fd);
         free(floppy);
         return NULL;
     }
@@ -267,19 +269,14 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         BYTE *p;
         int j;
 
-        retval = floppy_read_block(floppy->ActiveFd,
-                                   floppy->ImageFormat,
-                                   buffer,
-                                   floppy->Curr_track,
-                                   floppy->Curr_sector,
-                                   floppy->D64_Header,
-                                   floppy->GCR_Header,
-                                   floppy->unit);
+        retval = disk_image_read_sector(floppy->image, buffer,
+                                        floppy->Curr_track,
+                                        floppy->Curr_sector);
 
         if (retval < 0
             || circular_check(floppy->Curr_track, floppy->Curr_sector)) {
             image_contents_destroy(new);
-            zfclose(floppy->ActiveFd);
+            zfclose(floppy->image->fd);
             free(floppy);
             return NULL;
         }
@@ -326,7 +323,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
         floppy->Curr_sector = (int) buffer[1];
     }
 
-    zfclose(floppy->ActiveFd);
+    zfclose(floppy->image->fd);
     free(floppy);
     return new;
 }

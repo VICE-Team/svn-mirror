@@ -52,6 +52,7 @@
 #include "archdep.h"
 #include "asm.h"
 #include "charsets.h"
+#include "diskimage.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "mon.h"
@@ -2135,15 +2136,15 @@ void mon_stack_down(int count)
 void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
     serial_t *p;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     evaluate_default_addr(&addr);
 
     /* FIXME */
     p = serial_get_device(8);
-    floppy = (DRIVE *)p->info;
+    floppy = (vdrive_t *)p->info;
 
-    if (!floppy || floppy->ActiveFd == NULL) {
+    if (!floppy || floppy->image == NULL) {
         fprintf(mon_output, "No disk attached\n");
         return;
     }
@@ -2154,9 +2155,8 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         int i,j, dst;
         MEMSPACE dest_mem;
 
-        if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
-            readdata, track, sector, floppy->D64_Header,
-            floppy->GCR_Header, floppy->unit) < 0) {
+        if (disk_image_read_sector(floppy->image, readdata, track, sector)
+            < 0) {
             fprintf(mon_output, "Error reading track %d sector %d\n",
                     track, sector);
             return;
@@ -2193,9 +2193,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         for (i = 0; i < 256; i++)
             writedata[i] = get_mem_val(src_mem, ADDR_LIMIT(src+i));
 
-        if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
-            writedata, track, sector, floppy->D64_Header,
-            floppy->GCR_Header, floppy->unit)) {
+        if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
             fprintf(mon_output, "Error writing track %d sector %d\n",
                     track, sector);
             return;
@@ -2212,11 +2210,11 @@ void mon_execute_disk_command(char *cmd)
 {
    int len, rc;
    serial_t *p;
-   DRIVE *floppy;
+   vdrive_t *floppy;
 
    /* FIXME */
    p = serial_get_device(8);
-   floppy = (DRIVE *)p->info;
+   floppy = (vdrive_t *)p->info;
 
    len = strlen(cmd);
    rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);
