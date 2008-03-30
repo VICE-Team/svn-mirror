@@ -106,7 +106,7 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
     { "Detach cartridge image",
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { "Freeze",
-      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_F11, UI_HOTMOD_CTRL },
+      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_CTRL },
     { NULL }
 };
 

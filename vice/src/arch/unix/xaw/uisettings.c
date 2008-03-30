@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -89,7 +90,7 @@ static UI_CALLBACK(set_custom_refresh_rate)
     static char input_string[32];
     char msg_string[256];
     ui_button_t button;
-    int i, found;
+    int i;
     int current_refresh_rate;
 
     resources_get_value("RefreshRate",
@@ -164,7 +165,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
     static char input_string[32];
     char msg_string[256];
     ui_button_t button;
-    int i, found;
+    int i;
     int current_speed;
 
     resources_get_value("Speed", (resource_value_t *) &current_speed);
@@ -253,13 +254,13 @@ static UI_CALLBACK(set_keymap_type)
 {
      int kindex, newindex = (int) client_data;
 
-     if(resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
-	return;
+     if (resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
+         return;
 
-     if(!call_data) {
-	if((kindex & 1) != newindex) {
+     if (!call_data) {
+	if ((kindex & 1) != newindex) {
             resources_set_value("KeymapIndex", (resource_value_t)
-		((kindex & ~1) + newindex));
+                                ((kindex & ~1) + newindex));
             ui_update_menus();
         }
      } else {
@@ -268,9 +269,9 @@ static UI_CALLBACK(set_keymap_type)
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
-    { "*Symbol Mapping", (ui_callback_t) set_keymap_type,
+    { "*Symbolic mapping", (ui_callback_t) set_keymap_type,
 	(ui_callback_data_t) 0, NULL },
-    { "*Positional Mapping", (ui_callback_t) set_keymap_type,
+    { "*Positional mapping", (ui_callback_t) set_keymap_type,
 	(ui_callback_data_t) 1, NULL },
     { NULL }
 };
@@ -317,7 +318,7 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
     { "Keyboard mapping type",
       NULL, NULL, keyboard_maptype_submenu },
     { "--" },
-    { "Set symbol keymap file", (ui_callback_t)select_user_keymap,
+    { "Set symbolic keymap file", (ui_callback_t)select_user_keymap,
 		(ui_callback_data_t)0, NULL},
     { "Set positional keymap file", (ui_callback_t)select_user_keymap,
 		(ui_callback_data_t)1, NULL},
@@ -565,7 +566,6 @@ static UI_CALLBACK(set_fsdevice_directory)
 {
     int unit = (int)client_data;
     char title[1024];
-    ui_button_t button;
 
     suspend_speed_eval();
     sprintf(title, "Attach file system directory to device #%d", unit);
@@ -963,7 +963,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { "Maximum speed",
       NULL, NULL, set_maximum_speed_submenu },
     { "*Enable warp mode",
-      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_F9, UI_HOTMOD_META },
+      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_w, UI_HOTMOD_CTRL },
     { NULL }
 };
 

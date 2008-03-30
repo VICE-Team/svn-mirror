@@ -211,15 +211,11 @@ static void menu_unhighlight_action(Widget w, XEvent * event, String * params,
 
 static char *make_menu_label(ui_menu_entry_t *e)
 {
-    static char *p = NULL;
     const char *key_string;
     char *tmp = alloca(1024);
 
     if (e->hotkey_keysym == (KeySym) 0)
         return e->string;
-
-    if (p != NULL)
-        free(p);
 
     *tmp = '\0';
     if (e->hotkey_modifier & UI_HOTMOD_CTRL)
