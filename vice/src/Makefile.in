@@ -208,7 +208,6 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
 SOURCES = $(c1541_SOURCES) $(cartconv_SOURCES) $(petcat_SOURCES) \
 	$(x128_SOURCES) $(x64_SOURCES) $(xcbm2_SOURCES) \
 	$(xpet_SOURCES) $(xplus4_SOURCES) $(xvic_SOURCES)
@@ -471,6 +470,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(LDFLAGS) -o $@
+CCLD = @LINKCC@
 SUBDIRS = \
 	@RESID_DIR@ \
 	@VICE_LIBPNG_DIR@ \
