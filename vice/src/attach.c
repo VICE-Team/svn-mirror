@@ -183,7 +183,13 @@ int file_system_attach_disk(int unit, const char *filename)
                         detach_hooks[unit - 8],
                         floppy);
     }
-    return serial_select_file(DT_DISK | DT_1541, unit, filename);
+
+    if (serial_select_file(DT_DISK | DT_1541, unit, filename) < 0) {
+        file_system_detach_disk(unit);
+        return -1;
+    } else {
+        return 0;
+    }
 }
 
 void file_system_detach_disk(int unit)
