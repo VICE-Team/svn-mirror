@@ -36,12 +36,10 @@ What are we going to do next
 
 - More accurate REU emulation, with 16 Mbyte mode.
 
-- Fix Emulator test suite (CPUPORT and CIA are still broken in this respect)
-
 * C128 improvements
 -------------------
 
-- Support missing keys (Caps Lock, 40/80 Display).
+- Support missing keys (Caps Lock).
 
 * VIC20 improvements
 --------------------
