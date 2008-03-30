@@ -40,6 +40,7 @@
 #include "pets.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uipetset.h"
@@ -270,13 +271,13 @@ void ui_pet_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = "Model";
+    psp[0].pszTitle = TEXT("Model");
     psp[1].pfnDlgProc = dialog_proc;
-    psp[1].pszTitle = "Input/Output";
+    psp[1].pszTitle = TEXT("Input/Output");
     psp[2].pfnDlgProc = dialog_proc;
-    psp[2].pszTitle = "Super PET";
+    psp[2].pszTitle = TEXT("Super PET");
     psp[3].pfnDlgProc = dialog_proc;
-    psp[3].pszTitle = "8296 PET";
+    psp[3].pszTitle = TEXT("8296 PET");
 
 #ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
@@ -294,7 +295,7 @@ void ui_pet_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "PET settings";
+    psh.pszCaption = TEXT("PET settings");
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
@@ -307,5 +308,6 @@ void ui_pet_settings_dialog(HWND hwnd)
 #endif
     psh.pfnCallback = NULL;
 
+    system_psh_settings(&psh);
     PropertySheet(&psh);
 }

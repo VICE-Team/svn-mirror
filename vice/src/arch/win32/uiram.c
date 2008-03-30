@@ -26,13 +26,14 @@
 
 #include "vice.h"
 
-#include <string.h>
+#include <tchar.h>
 #include <windows.h>
 
 #include "lib.h"
 #include "ram.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uiram.h"
 #include "winmain.h"
@@ -54,19 +55,19 @@ static int orig_patterninvert;
 static void update_preview(HWND hwnd)
 {
     const char *s;
-    char *s_win;
+    TCHAR *s_win;
     int i, j;
 
     s = ram_init_print_pattern();
 
-    s_win = lib_malloc(2 * strlen(s) + 1);
+    s_win = lib_malloc((2 * strlen(s) + 1) * sizeof(TCHAR));
     i = j =0;
     while(s[i] != '\0') {
         if(s[i] == '\n')
-            s_win[j++] = '\r';
-        s_win[j++] = s[i++];
+            s_win[j++] = TEXT('\r');
+        s_win[j++] = (TCHAR)s[i++];
     }
-    s_win[j] = '\0';
+    s_win[j] = TEXT('\0');
 
     SetDlgItemText(hwnd, IDC_RAMINIT_PREVIEW, s_win);
     lib_free(s_win);
@@ -75,12 +76,11 @@ static void update_preview(HWND hwnd)
 
 static void init_ram_dialog(HWND hwnd)
 {
-HWND    temp_hwnd, temp_hwnd2;
-int     i;
-HFONT hfont;
-
-    hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-                    DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+    HWND    temp_hwnd, temp_hwnd2;
+    int     i;
+    LOGFONT logfont = {-12,-7,0,0,400,0,0,0,0,0,0,
+        DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,TEXT("")};
+    HFONT   hfont = CreateFontIndirect(&logfont);
 
     if (hfont)
         SendDlgItemMessage(hwnd,IDC_RAMINIT_PREVIEW,WM_SETFONT,
@@ -91,9 +91,9 @@ HFONT hfont;
 
     for (i = 0; ui_ram_startvalue[i] >= 0; i++)
     {
-        char s[16];
+        TCHAR s[16];
 
-        itoa(ui_ram_startvalue[i], s, 10);
+        _stprintf(s, TEXT("%d"), ui_ram_startvalue[i]);
         SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)s);
         if (orig_startvalue == ui_ram_startvalue[i])
             SendMessage(temp_hwnd,CB_SETCURSEL,(WPARAM)i,0);
@@ -106,9 +106,9 @@ HFONT hfont;
     
     for (i = 0; ui_ram_invertvalue[i] >= 0; i++)
     {
-        char s[16];
+        TCHAR s[16];
 
-        itoa(ui_ram_invertvalue[i],s,10);
+        _stprintf(s, TEXT("%d"), ui_ram_invertvalue[i]);
         SendMessage(temp_hwnd,CB_ADDSTRING,0,(LPARAM)s);
         SendMessage(temp_hwnd2,CB_ADDSTRING,0,(LPARAM)s);
         if (ui_ram_invertvalue[i] == orig_valueinvert)
@@ -170,6 +170,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
             EndDialog(hwnd,0);
             return TRUE;
         case WM_INITDIALOG:
+            system_init_dialog(hwnd);
             init_ram_dialog(hwnd);
             return TRUE;
     }
@@ -179,6 +180,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
 
 void ui_ram_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_RAM_SETTINGS_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance,MAKEINTRESOURCE(IDD_RAM_SETTINGS_DIALOG),hwnd,dialog_proc);
 }
 

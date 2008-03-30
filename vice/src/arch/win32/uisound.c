@@ -30,18 +30,20 @@
 #include "res.h"
 #include "resources.h"
 #include "sound.h"
+#include "system.h"
 #include "ui.h"
+#include "utils.h"
 #include "winmain.h"
-#include "ui.h"
 
-static int ui_sound_freq[]={
+
+static int ui_sound_freq[] = {
     8000,
     11025,
     22050,
     44100
 };
 
-static int ui_sound_buffer[]={
+static int ui_sound_buffer[] = {
     100,
     150,
     200,
@@ -50,7 +52,7 @@ static int ui_sound_buffer[]={
     350
 };
 
-static int ui_sound_adjusting[]={
+static int ui_sound_adjusting[] = {
     SOUND_ADJUST_FLEXIBLE,
     SOUND_ADJUST_ADJUSTING,
     SOUND_ADJUST_EXACT
@@ -63,10 +65,10 @@ static void init_sound_dialog(HWND hwnd)
     char *devicename;
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"8000 Hz");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"11025 Hz");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"22050 Hz");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"44100 Hz");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("8000 Hz"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("11025 Hz"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("22050 Hz"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("44100 Hz"));
     resources_get_value("SoundSampleRate", (resource_value_t *)&res_value);
     switch (res_value) {
       case 8000:
@@ -86,12 +88,12 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_BUFFER);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"100 msec");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"150 msec");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"200 msec");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"250 msec");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"300 msec");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"350 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("100 msec"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("150 msec"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("200 msec"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("250 msec"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("300 msec"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("350 msec"));
     resources_get_value("SoundBufferSize", (resource_value_t *)&res_value);
     switch (res_value) {
       case 100:
@@ -117,17 +119,17 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"None");
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"2x");
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"4x");
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"8x");
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("None"));
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));
     resources_get_value("SoundOversample", (resource_value_t *)&res_value);
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Flexible");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Adjusting");
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Exact");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Flexible"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Adjusting"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Exact"));
     resources_get_value("SoundSpeedAdjustment", (resource_value_t *)&res_value);
     switch (res_value) {
       case SOUND_ADJUST_FLEXIBLE:
@@ -160,6 +162,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
     switch (msg) {
       case WM_INITDIALOG:
+        system_init_dialog(hwnd);
         init_sound_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
@@ -202,7 +205,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_sound_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_SOUND_SETTINGS_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG),
+              hwnd, dialog_proc);
 }
 

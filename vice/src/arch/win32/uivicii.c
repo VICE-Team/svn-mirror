@@ -41,10 +41,12 @@
 
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "utils.h"
 #include "winmain.h"
+
 
 static void enable_controls_for_vicii_settings(HWND hwnd, int type)
 {
@@ -77,6 +79,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
         EndDialog(hwnd,0);
         return TRUE;
       case WM_INITDIALOG:
+        system_init_dialog(hwnd);
         init_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
@@ -111,6 +114,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_VICII_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd,
+              dialog_proc);
 }
 

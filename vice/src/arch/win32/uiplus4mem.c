@@ -30,6 +30,7 @@
 
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "utils.h"
@@ -68,6 +69,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
     switch (msg) {
       case WM_INITDIALOG:
+        system_init_dialog(hwnd);
         init_dialog(hwnd);
         return TRUE;
       case WM_COMMAND:
@@ -97,7 +99,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_plus4_memory_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_PLUS4_MEMORY_DIALOG, hwnd,
-              dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_PLUS4_MEMORY_DIALOG),
+              hwnd, dialog_proc);
 }
 

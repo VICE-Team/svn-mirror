@@ -30,6 +30,7 @@
 
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uivicset.h"
@@ -144,65 +145,68 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
     int command;
 
     switch (msg) {
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDOK:
-                    resources_set_value("RAMBlock0", (resource_value_t) block0);
-                    resources_set_value("RAMBlock1", (resource_value_t) block1);
-                    resources_set_value("RAMBlock2", (resource_value_t) block2);
-                    resources_set_value("RAMBlock3", (resource_value_t) block3);
-                    resources_set_value("RAMBlock5", (resource_value_t) block5);
-        		case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    break;
-                case IDC_VIC_NOEXPANSION:
-                    update_blocks(MEM_NONE);
-                    break;
-                case IDC_VIC_3KEXPANSION:
-                    update_blocks(MEM_3K);
-                    break;
-                case IDC_VIC_8KEXPANSION:
-                    update_blocks(MEM_8K);
-                    break;
-                case IDC_VIC_16KEXPANSION:
-                    update_blocks(MEM_16K);
-                    break;
-                case IDC_VIC_24KEXPANSION:
-                    update_blocks(MEM_24K);
-                    break;
-                case IDC_VIC_FULLEXPANSION:
-                    update_blocks(MEM_ALL);
-                    break;
-                case IDC_VIC_MEMORY_BLOCK0:
-                    block0 = 1-block0;
-                    break;
-                case IDC_VIC_MEMORY_BLOCK1:
-                    block1 = 1-block1;
-                    break;
-                case IDC_VIC_MEMORY_BLOCK2:
-                    block2 = 1-block2;
-                    break;
-                case IDC_VIC_MEMORY_BLOCK3:
-                    block3 = 1-block3;
-                    break;
-                case IDC_VIC_MEMORY_BLOCK5:
-                    block5 = 1-block5;
-                    break;
-                default:
-                    return FALSE;
-            }
-            update_config(hwnd);
-            return TRUE;
+      case WM_COMMAND:
+        command=LOWORD(wparam);
+        switch (command) {
+          case IDOK:
+            resources_set_value("RAMBlock0", (resource_value_t) block0);
+            resources_set_value("RAMBlock1", (resource_value_t) block1);
+            resources_set_value("RAMBlock2", (resource_value_t) block2);
+            resources_set_value("RAMBlock3", (resource_value_t) block3);
+            resources_set_value("RAMBlock5", (resource_value_t) block5);
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            break;
+          case IDC_VIC_NOEXPANSION:
+            update_blocks(MEM_NONE);
+            break;
+          case IDC_VIC_3KEXPANSION:
+            update_blocks(MEM_3K);
+            break;
+          case IDC_VIC_8KEXPANSION:
+            update_blocks(MEM_8K);
+            break;
+          case IDC_VIC_16KEXPANSION:
+            update_blocks(MEM_16K);
+            break;
+          case IDC_VIC_24KEXPANSION:
+            update_blocks(MEM_24K);
+            break;
+          case IDC_VIC_FULLEXPANSION:
+            update_blocks(MEM_ALL);
+            break;
+          case IDC_VIC_MEMORY_BLOCK0:
+            block0 = 1-block0;
+            break;
+          case IDC_VIC_MEMORY_BLOCK1:
+            block1 = 1-block1;
+            break;
+          case IDC_VIC_MEMORY_BLOCK2:
+            block2 = 1-block2;
+            break;
+          case IDC_VIC_MEMORY_BLOCK3:
+            block3 = 1-block3;
+            break;
+          case IDC_VIC_MEMORY_BLOCK5:
+            block5 = 1-block5;
+            break;
+          default:
+            return FALSE;
+        }
+        update_config(hwnd);
+        return TRUE;
 
-        case WM_INITDIALOG:
-            init_dialog(hwnd);
-            return TRUE;
+      case WM_INITDIALOG:
+        system_init_dialog(hwnd);
+        init_dialog(hwnd);
+        return TRUE;
     }
     return FALSE;
 }
 
 void ui_vic_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_VIC_SETTINGS_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd,
+              dialog_proc);
 }
+

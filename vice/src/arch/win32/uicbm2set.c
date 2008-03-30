@@ -40,6 +40,7 @@
 #include "cbm2mem.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uicbm2set.h"
 #include "uilib.h"
@@ -228,9 +229,9 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = "Model";
+    psp[0].pszTitle = TEXT("Model");
     psp[1].pfnDlgProc = dialog_proc;
-    psp[1].pszTitle = "Memory";
+    psp[1].pszTitle = TEXT("Memory");
 
 #ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
@@ -244,7 +245,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "CBM2 settings";
+    psh.pszCaption = TEXT("CBM2 settings");
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
@@ -257,6 +258,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
 #endif
     psh.pfnCallback = NULL;
 
+    system_psh_settings(&psh);
     PropertySheet(&psh);
 }
 

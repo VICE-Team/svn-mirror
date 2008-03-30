@@ -42,6 +42,7 @@
 #include "res.h"
 #include "resources.h"
 #include "serial.h"
+#include "system.h"
 #include "ui.h"
 #include "uidrive.h"
 #include "uilib.h"
@@ -392,15 +393,15 @@ void ui_drive_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = "Drive 8";
+    psp[0].pszTitle = TEXT("Drive 8");
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = "Drive 9";
+    psp[1].pszTitle = TEXT("Drive 9");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "Drive Settings";
+    psh.pszCaption = TEXT("Drive Settings");
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
@@ -413,6 +414,7 @@ void ui_drive_settings_dialog(HWND hwnd)
 #endif
     psh.pfnCallback = NULL;
 
+    system_psh_settings(&psh);
     PropertySheet(&psh);
 }
 
