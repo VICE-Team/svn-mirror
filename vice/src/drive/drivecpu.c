@@ -244,8 +244,8 @@ static void cpu_reset(drive_context_t *drv)
     preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
     log_message(drv->drive_ptr->log, "RESET.");
-    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
-                               &(drv->cpu.last_opcode_info));
+
+    interrupt_cpu_status_reset(drv->cpu.int_status);
 
     *(drv->clk_ptr) = 6;
     rotation_reset(drv->mynumber);
@@ -285,8 +285,7 @@ void drive_cpu_reset(drive_context_t *drv)
 
     preserve_monitor = drv->cpu.int_status->global_pending_int & IK_MONITOR;
 
-    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
-                               &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_reset(drv->cpu.int_status);
 
     if (preserve_monitor)
         interrupt_monitor_trap_on(drv->cpu.int_status);
@@ -302,6 +301,8 @@ void drive_cpu_early_init(drive_context_t *drv)
 
     drv->cpu.alarm_context = alarm_context_new(drv->cpu.identification_string);
 
+    interrupt_cpu_status_init(drv->cpu.int_status, DRIVE_NUMOFINT,
+                              &(drv->cpu.last_opcode_info));
     machine_drive_init(drv);
 }
 
@@ -704,8 +705,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
-    interrupt_cpu_status_reset(drv->cpu.int_status, DRIVE_NUMOFINT,
-                               &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_reset(drv->cpu.int_status);
 
     machine_drive_reset(drv);
 
