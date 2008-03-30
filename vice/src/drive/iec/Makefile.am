@@ -22,6 +22,8 @@ libdriveiec_a_SOURCES = \
 	mc6821.c \
 	memiec.c \
 	memiec.h \
+	profdos.c \
+	profdos.h \
 	via1d1541.c \
 	via1d1541.h \
 	wd1770.c \

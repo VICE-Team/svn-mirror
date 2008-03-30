@@ -118,6 +118,10 @@ SOURCE=..\..\drive\iec\memiec.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\profdos.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\via1d1541.c
 # End Source File
 # Begin Source File
