@@ -96,9 +96,6 @@ static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,
 
 void raster_draw_buffer_ptr_update(raster_t *raster)
 {
-    if (console_mode || vsid_mode)
-        return;
-
     raster->draw_buffer_ptr
         = raster->canvas->draw_buffer->draw_buffer
         + raster->current_line * raster_calc_frame_buffer_width(raster)
@@ -129,15 +126,17 @@ static int realize_canvas(raster_t *raster)
 
     raster->intialized = 1;
 
-    new_canvas = video_canvas_create(raster->canvas,
-                                     &raster->canvas->draw_buffer->canvas_width,
-                                     &raster->canvas->draw_buffer->canvas_height,
-                                     1, raster->palette);
+    if (!console_mode && !vsid_mode) {
+        new_canvas = video_canvas_create(raster->canvas,
+					 &raster->canvas->draw_buffer->canvas_width,
+					 &raster->canvas->draw_buffer->canvas_height,
+					 1, raster->palette);
 
-    if (new_canvas == NULL)
-        return -1;
+	if (new_canvas == NULL)
+	    return -1;
 
-    raster->canvas = new_canvas;
+	raster->canvas = new_canvas;
+    }
 
     if (raster_realize_frame_buffer(raster) < 0)
         return -1;
@@ -152,13 +151,12 @@ int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
 
-    if (!console_mode && !vsid_mode)
-        raster_draw_buffer_free(raster->canvas);
+    raster_draw_buffer_free(raster->canvas);
 
     fb_width = raster_calc_frame_buffer_width(raster);
     fb_height = raster->geometry->screen_size.height;
 
-    if (!console_mode && !vsid_mode && fb_width > 0 && fb_height > 0) {
+    if (fb_width > 0 && fb_height > 0) {
         if (raster_draw_buffer_alloc(raster->canvas, fb_width, fb_height,
             &fb_pitch))
         return -1;
@@ -386,9 +384,8 @@ int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;
 
-    if (!console_mode && !vsid_mode)
-        if (realize_canvas(raster) < 0)
-            return -1;
+    if (realize_canvas(raster) < 0)
+        return -1;
 
     video_canvas_refresh_all(raster->canvas);
 
@@ -500,12 +497,10 @@ void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
 
 void raster_free(raster_t *raster)
 {
-    if (!console_mode && !vsid_mode) {
-        if (raster->canvas)
-            raster_draw_buffer_free(raster->canvas);
+    if (raster->canvas)
+        raster_draw_buffer_free(raster->canvas);
+    video_canvas_destroy(raster->canvas);
 
-        video_canvas_destroy(raster->canvas);
-    }
     free(raster->modes);
     free(raster->sprite_status);
     free(raster->cache);

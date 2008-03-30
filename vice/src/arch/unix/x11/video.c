@@ -441,11 +441,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
         fs_draw_buffer_clear;
 #endif
 #endif
-
-#ifdef HAVE_XVIDEO
-    /* Request specified video format. */
-    canvas->xv_format.id = fourcc;
-#endif
 }
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
@@ -468,33 +463,32 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (canvas->videoconfig->doublesizey)
         new_height *= 2;
 
+#ifdef HAVE_XVIDEO
+    /* Request specified video format. */
+    canvas->xv_format.id = fourcc;
+#endif
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
-        free(canvas);
         return NULL;
     }
 
     res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
                                    new_width, new_height, 1);
+    if (res < 0) {
+        return NULL;
+    }
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);
 
-    if (res < 0) {
-        free(canvas);
-        return NULL;
-    }
-
     canvas->width = new_width;
     canvas->height = new_height;
+
     ui_finish_canvas(canvas);
 
     if (canvas->depth > 8)
 	uicolor_init_video_colors();
 
     video_add_handlers(canvas);
-
-    if (console_mode || vsid_mode)
-        return 0;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_palette(canvas, palette);

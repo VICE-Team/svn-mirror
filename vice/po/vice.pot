@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-25 22:57+0200\n"
+"POT-Creation-Date: 2002-08-02 00:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2193,7 +2193,7 @@ msgstr ""
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:114
+#: src/arch/unix/x11/gnome/gnomevideo.c:111
 msgid "Successfully initialized video."
 msgstr ""
 

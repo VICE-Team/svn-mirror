@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "machine.h"
 #include "types.h"
 #include "utils.h"
 #include "video-render.h"
@@ -77,6 +78,10 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
 {
     viewport_t *viewport;
     geometry_t *geometry;
+
+    if (console_mode || vsid_mode) {
+        return;
+    }
 
     viewport = canvas->viewport;
     geometry = canvas->geometry;

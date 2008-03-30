@@ -102,9 +102,6 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     if (!canvas->x_image)
 	return -1;
 
-    if (canvas->emuwindow != NULL)
-        ui_finish_canvas(canvas);
- 
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
     if (video_convert_func(canvas, width, height) < 0)
