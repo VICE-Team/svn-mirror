@@ -59,7 +59,8 @@ static BYTE mcmsktable[512];
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 
-static void draw_std_background(int start_pixel, int end_pixel)
+static void draw_std_background(unsigned int start_pixel,
+                                unsigned int end_pixel)
 {
     BYTE background_color;
     unsigned int gfxstart, gfxend;
@@ -144,7 +145,8 @@ static void draw_std_background(int start_pixel, int end_pixel)
     }
 }
 
-static void draw_idle_std_background(int start_pixel, int end_pixel)
+static void draw_idle_std_background(unsigned int start_pixel,
+                                     unsigned int end_pixel)
 {
     memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
            vic_ii.raster.overscan_background_color,
@@ -183,7 +185,8 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 
 /* Standard text mode.  */
 
-static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_std_text(raster_cache_t *cache, unsigned int *xs,
+                        unsigned int *xe, int rr)
 {
     int r;
 
@@ -212,7 +215,8 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_std_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
+inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
+                                  BYTE *gfx_msk_ptr)
 {
     DWORD *table_ptr;
     BYTE *char_ptr, *msk_ptr;
@@ -231,7 +235,8 @@ inline static void _draw_std_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-inline static void _draw_std_text_cached(BYTE *p, int xs, int xe,
+inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
+                                         unsigned int xe,
                                          raster_cache_t *cache)
 {
     DWORD *table_ptr;
@@ -252,7 +257,8 @@ inline static void _draw_std_text_cached(BYTE *p, int xs, int xe,
     }
 }
 
-static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
+                                 unsigned int xe)
 {
     ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache);
 }
@@ -275,7 +281,8 @@ static void draw_std_text(void)
         if ((b) & 0x01) *((p) + 7) = (f); \
     } while (0)                           \
 
-static void draw_std_text_foreground(int start_char, int end_char)
+static void draw_std_text_foreground(unsigned int start_char,
+                                     unsigned int end_char)
 {
     unsigned int i;
     BYTE *char_ptr, *msk_ptr, *p;
@@ -302,7 +309,8 @@ static void draw_std_text_foreground(int start_char, int end_char)
 
 /* Hires Bitmap mode.  */
 
-static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
+                            unsigned int *xe, int rr)
 {
     int r;
 
@@ -322,8 +330,8 @@ static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_hires_bitmap(BYTE *p, int xs, int xe,
-                                      BYTE *gfx_msk_ptr)
+inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
+                                      unsigned int xe, BYTE *gfx_msk_ptr)
 {
     BYTE *bmptr, *msk_ptr;
     unsigned int i, j;
@@ -344,7 +352,8 @@ inline static void _draw_hires_bitmap(BYTE *p, int xs, int xe,
     }
 }
 
-inline static void _draw_hires_bitmap_cached(BYTE *p, int xs, int xe,
+inline static void _draw_hires_bitmap_cached(BYTE *p, unsigned int xs,
+                                             unsigned int xe,
                                              raster_cache_t *cache)
 {
     BYTE *foreground_data, *background_data, *msk_ptr;
@@ -370,12 +379,14 @@ static void draw_hires_bitmap(void)
                     vic_ii.raster.gfx_msk);
 }
 
-static void draw_hires_bitmap_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_hires_bitmap_cached(raster_cache_t *cache, unsigned int xs,
+                                     unsigned int xe)
 {
     ALIGN_DRAW_FUNC(_draw_hires_bitmap_cached, xs, xe, cache);
 }
 
-inline static void _draw_hires_bitmap_foreground(BYTE *p, int xs, int xe,
+inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
+                                                 unsigned int xe,
                                                  BYTE *gfx_msk_ptr)
 {
     BYTE *bmptr, *msk_ptr;
@@ -397,7 +408,8 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, int xs, int xe,
     }
 }
 
-static void draw_hires_bitmap_foreground(int start_char, int end_char)
+static void draw_hires_bitmap_foreground(unsigned int start_char,
+                                         unsigned int end_char)
 {
     ALIGN_DRAW_FUNC(_draw_hires_bitmap_foreground, start_char, end_char,
                     vic_ii.raster.gfx_msk);
@@ -405,7 +417,8 @@ static void draw_hires_bitmap_foreground(int start_char, int end_char)
 
 /* Multicolor text mode.  */
 
-static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
+                       unsigned int *xe, int rr)
 {
     int r;
 
@@ -437,7 +450,8 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
+inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
+                                 BYTE *gfx_msk_ptr)
 {
     BYTE c[12];
     BYTE *char_ptr, *msk_ptr;
@@ -472,8 +486,8 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-inline static void _draw_mc_text_cached(BYTE *p, int xs, int xe,
-                                        raster_cache_t *cache)
+inline static void _draw_mc_text_cached(BYTE *p, unsigned int xs,
+                                        unsigned int xe, raster_cache_t *cache)
 {
     BYTE c[12];
     BYTE *foreground_data, *color_data_3, *msk_ptr;
@@ -514,7 +528,8 @@ static void draw_mc_text(void)
                     vic_ii.raster.gfx_msk);
 }
 
-static void draw_mc_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_mc_text_cached(raster_cache_t *cache, unsigned int xs,
+                                unsigned int xe)
 {
     ALIGN_DRAW_FUNC(_draw_mc_text_cached, xs, xe, cache);
 }
@@ -555,7 +570,8 @@ static void draw_mc_text_cached(raster_cache_t *cache, int xs, int xe)
             *((p) + 6) = *((p) + 7) = (f1);     \
     } while (0)
 
-static void draw_mc_text_foreground(int start_char, int end_char)
+static void draw_mc_text_foreground(unsigned int start_char,
+                                    unsigned int end_char)
 {
     BYTE *char_ptr, *msk_ptr;
     BYTE c1, c2;
@@ -610,7 +626,8 @@ static void draw_mc_text_foreground(int start_char, int end_char)
 
 /* Multicolor Bitmap Mode.  */
 
-static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
+                         unsigned int *xe, int rr)
 {
     int r;
 
@@ -642,7 +659,8 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
+inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
+                                   BYTE *gfx_msk_ptr)
 {
     BYTE *colptr, *bmptr, *msk_ptr, *ptmp;
     BYTE c[4];
@@ -677,7 +695,8 @@ inline static void _draw_mc_bitmap(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-inline static void _draw_mc_bitmap_cached(BYTE *p, int xs, int xe,
+inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
+                                          unsigned int xe,
                                           raster_cache_t *cache)
 {
     BYTE *foreground_data, *color_data_1, *color_data_2, *color_data_3;
@@ -720,12 +739,14 @@ static void draw_mc_bitmap(void)
                     vic_ii.raster.gfx_msk);
 }
 
-static void draw_mc_bitmap_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_mc_bitmap_cached(raster_cache_t *cache, unsigned int xs,
+                                  unsigned int xe)
 {
     _draw_mc_bitmap_cached(GFX_PTR(), xs, xe, cache);
 }
 
-static void draw_mc_bitmap_foreground(int start_char, int end_char)
+static void draw_mc_bitmap_foreground(unsigned int start_char,
+                                      unsigned int end_char)
 {
     BYTE *p, *bmptr, *msk_ptr;
     unsigned int i, j;
@@ -765,7 +786,8 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
 
 /* Extended Text Mode.  */
 
-static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_ext_text(raster_cache_t *cache, unsigned int *xs,
+                        unsigned int *xe, int rr)
 {
     int r;
 
@@ -801,7 +823,8 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_ext_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
+inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
+                                  BYTE *gfx_msk_ptr)
 {
     BYTE *char_ptr, *msk_ptr;
     unsigned int i;
@@ -829,7 +852,8 @@ inline static void _draw_ext_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     }
 }
 
-inline static void _draw_ext_text_cached(BYTE *p, int xs, int xe,
+inline static void _draw_ext_text_cached(BYTE *p, unsigned int xs,
+                                         unsigned int xe,
                                          raster_cache_t *cache)
 {
     BYTE *foreground_data, *color_data_1, *color_data_2, *color_data_3;
@@ -863,12 +887,14 @@ static void draw_ext_text(void)
                     vic_ii.raster.gfx_msk);
 }
 
-static void draw_ext_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_ext_text_cached(raster_cache_t *cache, unsigned int xs,
+                                 unsigned int xe)
 {
     ALIGN_DRAW_FUNC(_draw_ext_text_cached, xs, xe, cache);
 }
 
-static void draw_ext_text_foreground(int start_char, int end_char)
+static void draw_ext_text_foreground(unsigned int start_char,
+                                     unsigned int end_char)
 {
     unsigned int i;
     BYTE *char_ptr, *msk_ptr, *p;
@@ -902,7 +928,8 @@ static void draw_ext_text_foreground(int start_char, int end_char)
 
 /* Illegal text mode.  */
 
-static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_illegal_text(raster_cache_t *cache, unsigned int *xs,
+                            unsigned int *xe, int rr)
 {
     int r;
 
@@ -930,8 +957,8 @@ static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     return r;
 }
 
-inline static void _draw_illegal_text(BYTE *p, int xs, int xe,
-                                      BYTE *gfx_msk_ptr)
+inline static void _draw_illegal_text(BYTE *p, unsigned int xs,
+                                      unsigned int xe, BYTE *gfx_msk_ptr)
 {
     BYTE *char_ptr, *msk_ptr;
     unsigned int i;
@@ -951,7 +978,8 @@ inline static void _draw_illegal_text(BYTE *p, int xs, int xe,
     }
 }
 
-inline static void _draw_illegal_text_cached(BYTE *p, int xs, int xe,
+inline static void _draw_illegal_text_cached(BYTE *p, unsigned int xs,
+                                             unsigned int xe,
                                              raster_cache_t *cache)
 {
     BYTE *foreground_data, *color_data_1, *msk_ptr;
@@ -978,12 +1006,14 @@ static void draw_illegal_text(void)
                        vic_ii.raster.gfx_msk);
 }
 
-static void draw_illegal_text_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_illegal_text_cached(raster_cache_t *cache, unsigned int xs,
+                                     unsigned int xe)
 {
     _draw_illegal_text_cached(GFX_PTR(), xs, xe, cache);
 }
 
-static void draw_illegal_text_foreground(int start_char, int end_char)
+static void draw_illegal_text_foreground(unsigned int start_char,
+                                         unsigned int end_char)
 {
     BYTE *char_ptr, *msk_ptr, *p;
     unsigned int i;
@@ -1006,8 +1036,8 @@ static void draw_illegal_text_foreground(int start_char, int end_char)
 
 /* Illegal bitmap mode 1.  */
 
-static int get_illegal_bitmap_mode1(raster_cache_t *cache, int *xs, int *xe,
-                                    int rr)
+static int get_illegal_bitmap_mode1(raster_cache_t *cache, unsigned int *xs,
+                                    unsigned int *xe, int rr)
 {
     int r;
 
@@ -1028,7 +1058,8 @@ static int get_illegal_bitmap_mode1(raster_cache_t *cache, int *xs, int *xe,
     return r;
 }
 
-inline static void _draw_illegal_bitmap_mode1(BYTE *p, int xs, int xe,
+inline static void _draw_illegal_bitmap_mode1(BYTE *p, unsigned int xs,
+                                              unsigned int xe,
                                               BYTE *gfx_msk_ptr)
 {
     BYTE *bmptr, *msk_ptr;
@@ -1047,7 +1078,8 @@ inline static void _draw_illegal_bitmap_mode1(BYTE *p, int xs, int xe,
     }
 }
 
-inline static void _draw_illegal_bitmap_mode1_cached(BYTE *p, int xs, int xe,
+inline static void _draw_illegal_bitmap_mode1_cached(BYTE *p, unsigned int xs,
+                                                     unsigned int xe,
                                                      raster_cache_t *cache)
 {
     BYTE *foreground_data, *msk_ptr;
@@ -1068,13 +1100,14 @@ static void draw_illegal_bitmap_mode1(void)
                                vic_ii.raster.gfx_msk);
 }
 
-static void draw_illegal_bitmap_mode1_cached(raster_cache_t *cache, int xs,
-                                             int xe)
+static void draw_illegal_bitmap_mode1_cached(raster_cache_t *cache,
+                                             unsigned int xs, unsigned int xe)
 {
     _draw_illegal_bitmap_mode1_cached(GFX_PTR(), xs, xe, cache);
 }
 
-static void draw_illegal_bitmap_mode1_foreground(int start_char, int end_char)
+static void draw_illegal_bitmap_mode1_foreground(unsigned int start_char,
+                                                 unsigned int end_char)
 {
     _draw_illegal_bitmap_mode1(GFX_PTR(), start_char, end_char,
                                vic_ii.raster.gfx_msk);
@@ -1082,8 +1115,8 @@ static void draw_illegal_bitmap_mode1_foreground(int start_char, int end_char)
 
 /* Illegal bitmap mode 2.  */
 
-static int get_illegal_bitmap_mode2(raster_cache_t *cache, int *xs, int *xe,
-                                    int rr)
+static int get_illegal_bitmap_mode2(raster_cache_t *cache, unsigned int *xs,
+                                    unsigned int *xe, int rr)
 {
     int r;
 
@@ -1111,7 +1144,8 @@ static int get_illegal_bitmap_mode2(raster_cache_t *cache, int *xs, int *xe,
     return r;
 }
 
-inline static void _draw_illegal_bitmap_mode2(BYTE *p, int xs, int xe,
+inline static void _draw_illegal_bitmap_mode2(BYTE *p, unsigned int xs,
+                                              unsigned int xe,
                                               BYTE *gfx_msk_ptr)
 {
     BYTE *bmptr, *msk_ptr;
@@ -1128,7 +1162,8 @@ inline static void _draw_illegal_bitmap_mode2(BYTE *p, int xs, int xe,
         *(msk_ptr + i) = mcmsktable[bmptr[j & 0x39ff] | 0x100];
 }
 
-inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, int xs, int xe,
+inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, unsigned int xs,
+                                                     unsigned int xe,
                                                      raster_cache_t *cache)
 {
     BYTE *foreground_data, *msk_ptr;
@@ -1149,13 +1184,14 @@ static void draw_illegal_bitmap_mode2(void)
                                vic_ii.raster.gfx_msk);
 }
 
-static void draw_illegal_bitmap_mode2_cached(raster_cache_t *cache, int xs,
-                                             int xe)
+static void draw_illegal_bitmap_mode2_cached(raster_cache_t *cache,
+                                             unsigned int xs, unsigned int xe)
 {
     _draw_illegal_bitmap_mode2_cached(GFX_PTR(), xs, xe, cache);
 }
 
-static void draw_illegal_bitmap_mode2_foreground(int start_char, int end_char)
+static void draw_illegal_bitmap_mode2_foreground(unsigned int start_char,
+                                                 unsigned int end_char)
 {
     _draw_illegal_bitmap_mode2(GFX_PTR(), start_char, end_char,
                                vic_ii.raster.gfx_msk);
@@ -1163,7 +1199,8 @@ static void draw_illegal_bitmap_mode2_foreground(int start_char, int end_char)
 
 /* Idle state.  */
 
-static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
+static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
+                    int rr)
 {
     if (rr
         || cache->foreground_data[0] != vic_ii.idle_data
@@ -1182,7 +1219,8 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
     }
 }
 
-inline static void _draw_idle(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
+inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
+                              BYTE *gfx_msk_ptr)
 {
     BYTE *msk_ptr;
     BYTE d;
@@ -1241,12 +1279,14 @@ static void draw_idle(void)
                     vic_ii.raster.gfx_msk);
 }
 
-static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
+static void draw_idle_cached(raster_cache_t *cache, unsigned int xs,
+                             unsigned int xe)
 {
     ALIGN_DRAW_FUNC(_draw_idle, xs, xe, cache->gfx_msk);
 }
 
-static void draw_idle_foreground(int start_char, int end_char)
+static void draw_idle_foreground(unsigned int start_char,
+                                 unsigned int end_char)
 {
     BYTE *p, *msk_ptr;
     BYTE d;
