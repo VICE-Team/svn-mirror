@@ -1,5 +1,5 @@
 
-  VICE  1.11 							January 2003
+  VICE  1.12 							June 2003
 
 
 		 _______________
@@ -19,10 +19,10 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.11 of VICE, the multi-platform C64, C128, VIC20, PET
- and CBM-II emulator.  This version can be compiled for MSDOS, Win32,
- RiscOS, OS/2, BeOS and for most Unix system provided with the X Window
- System version 11, R5 or later.
+ This is version 1.12 of VICE, the multi-platform C64, C128, VIC20,
+ PET, PLUS4 and CBM-II emulator.  This version can be compiled for
+ MSDOS, Win32, RiscOS, OS/2, BeOS and for most Unix system provided
+ with the X Window System version 11, R5 or later.
 
  The following programs are included:
 
@@ -33,6 +33,8 @@
    - xvic, a VIC20 emulator;
 
    - xpet, a PET emulator;
+
+   - xplus4, a PLUS4 emulator;
 
    - xcbm2, a CBM-II emulator;
 

@@ -1,4 +1,4 @@
-%define version 1.11
+%define version 1.12
 %define rel     1
 %define prefix  /usr/local
 
@@ -44,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/x128
 %{prefix}/bin/xvic
 %{prefix}/bin/xpet
+%{prefix}/bin/xplus4
 %{prefix}/bin/xcbm2
 %{prefix}/bin/c1541
 %{prefix}/bin/petcat

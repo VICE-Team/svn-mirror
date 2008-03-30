@@ -288,14 +288,14 @@ There is currently no documentation how to compile under RiscOS or BeOS.
 
       make
 
-    to build all the emulators and utilities (`x64', `xvic', `xpet',
-    `x128', `xcbm2', `petcat', `c1541') under the `src' directory.  
-    It is possible that `configure' is not able to find all the needed
-    libraries automatically (this is usually due to a weird setup); if
-    this happens, the script will report a warning message but the
-    `Makefile' will be produced anyway.  In this case, you can try to
-    re-run `configure' with different options or edit the `Makefile's
-    by hand to add the missing options.
+    to build all the emulators and utilities (`x128', `x64', `xcbm2',
+    `xpet', `xplus4', `xvic', `c1541', `petcat') under the `src'
+    directory.  It is possible that `configure' is not able to find all
+    the needed libraries automatically (this is usually due to a weird
+    setup); if this happens, the script will report a warning message
+    but the `Makefile' will be produced anyway.  In this case, you can
+    try to re-run `configure' with different options or edit the
+    `Makefile's by hand to add the missing options.
 
     If you are cross-compiling for MS-DOS, check that all the DJGPP
     libraries and include files, together with Allegro, are in the

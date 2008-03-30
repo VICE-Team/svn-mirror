@@ -24,8 +24,8 @@ ettore@comm2000.it.
 OVERVIEW
 ========
 
-VICE is a set of advanced emulators for the Commodore PET, CBM-II, 
-VIC20, C64 and C128.  It runs on Unix, MS-DOS, MS-Windows, RiscOS,
+VICE is a set of advanced emulators for the Commodore C64, C128, VIC20,
+PET, PLUS4 and CBM-II.  It runs on Unix, MS-DOS, MS-Windows, RiscOS,
 OS/2 and BeOS systems.
 
 VICE is Free Software, released under the GNU General Public License,
@@ -100,8 +100,9 @@ emulators:
 
       x64.exe, the C64 emulator
       x128.exe, the C128 emulator
-      xpet.exe, the PET emulator
       xvic.exe, the VIC20 emulator
+      xpet.exe, the PET emulator
+      xplus4.exe, the PLUS4 emulator
       xcbm2.exe, the CBM-II emulator
 
 To run them, just type the corresponding name at the DOS prompt.

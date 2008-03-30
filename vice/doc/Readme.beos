@@ -13,7 +13,7 @@ INSTALLATION
 ------------------------
 No nice package installer so far, just expand the binary archive to 
 wherever you like, enter the directory 'vice-1.*' and start your
-favourite emulator (x64, x128, xvic, xpet, xcbm2).
+favourite emulator (x64, x128, xvic, xpet, xplus4, xcbm2).
 
 COMPILATION
 -----------------------
