@@ -165,7 +165,7 @@ static int set_timer_speed(int speed)
 
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
-        frame_ticks = vsyncarch_freq / refresh_frequency * 100 / speed;
+        frame_ticks = (long)(vsyncarch_freq / refresh_frequency * 100 / speed);
         frame_ticks_orig = frame_ticks;
     } else {
         timer_speed = 0;

@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -75,17 +76,17 @@ static log_t drv803_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 /* MPS803 printer engine. */
 
-static void set_mode(mps_t *mps, int m)
+static void set_mode(mps_t *mps, unsigned int m)
 {
     mps->mode |= m;
 }
 
-static void del_mode(mps_t *mps, int m)
+static void del_mode(mps_t *mps, unsigned int m)
 {
     mps->mode &= ~m;
 }
 
-static int is_mode(mps_t *mps, int m)
+static int is_mode(mps_t *mps, unsigned int m)
 {
     return mps->mode & m;
 }
@@ -131,9 +132,9 @@ static void write_line(mps_t *mps, unsigned int prnr)
 
     for (y = 0; y < 7; y++) {
         for (x = 0; x < 480; x++)
-            output_select_putc(prnr, mps->line[x][y] ? OUTPUT_PIXEL_BLACK
-                               : OUTPUT_PIXEL_WHITE);
-        output_select_putc(prnr, OUTPUT_NEWLINE);
+            output_select_putc(prnr, (BYTE)(mps->line[x][y]
+                               ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
+        output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
     }
 
     if (!is_mode(mps, MPS_BITMODE)) {

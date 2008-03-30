@@ -783,9 +783,9 @@ int keyboard_set_keymap_index(resource_value_t v, void *param)
 
 int keyboard_set_keymap_file(resource_value_t v, void *param)
 {
-    int oldindex, newindex;
+    unsigned int oldindex, newindex;
 
-    newindex = (int)param;
+    newindex = (unsigned int)param;
 
     if (newindex >= machine_num_keyboard_mappings())
         return -1;

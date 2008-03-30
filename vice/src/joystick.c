@@ -164,7 +164,8 @@ static int joyreleaseval(int column, int *status)
 
 int joystick_check_set(signed long key, int joynum)
 {
-    int column, joyport;
+    int column;
+    unsigned int joyport;
 
     if (joystick_port_map[0] == joynum)
         joyport = 1;
@@ -194,7 +195,8 @@ int joystick_check_set(signed long key, int joynum)
 
 int joystick_check_clr(signed long key, int joynum)
 {
-    int column, joyport;
+    int column;
+    unsigned int joyport;
 
     if (joystick_port_map[0] == joynum)
         joyport = 1;

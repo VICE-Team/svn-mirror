@@ -333,8 +333,8 @@ int psid_set_cbm80(ADDRESS vec, ADDRESS addr)
   cbm80[1] = vec >> 8;
 
   for (i = 0; i < sizeof(cbm80); i++) {
-    ram_store(addr + i, ram_read(0x8000 + i));
-    ram_store(0x8000 + i, cbm80[i]);
+    ram_store((ADDRESS)(addr + i), ram_read((ADDRESS)(0x8000 + i)));
+    ram_store((ADDRESS)(0x8000 + i), cbm80[i]);
   }
 
   return i;
@@ -533,12 +533,12 @@ void psid_init_driver(void)
   }
 
   for (i = 0; i < psid_size; i++) {
-    ram_store(reloc_addr + i, psid_reloc[i]);
+    ram_store((ADDRESS)(reloc_addr + i), psid_reloc[i]);
   }
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
-    ram_store(psid->load_addr + i, psid->data[i]);
+    ram_store((ADDRESS)(psid->load_addr + i), psid->data[i]);
   }
 
   /* Skip JMP and CBM80 reset vector. */

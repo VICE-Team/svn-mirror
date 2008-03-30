@@ -47,13 +47,13 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
 {
     unsigned int i;
 
-    iecbus_open(unit, secondary, serial_iec_set_st);
+    iecbus_open(unit, (BYTE)secondary, serial_iec_set_st);
 
     for (i = 0; i < length; i++) {
         iecbus_write(unit, secondary, name[i], serial_iec_set_st);
     }
 
-    iecbus_unlisten(unit, secondary, serial_iec_set_st);
+    iecbus_unlisten(unit, (BYTE)secondary, serial_iec_set_st);
 
     return 0;
 }
@@ -61,16 +61,16 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
 int serial_iec_close(unsigned int unit, unsigned int secondary)
 {
     if (listen) {
-        iecbus_unlisten(unit, secondary, serial_iec_set_st);
+        iecbus_unlisten(unit, (BYTE)secondary, serial_iec_set_st);
         listen = 0;
     }
 
     if (talk) {
-        iecbus_untalk(unit, secondary, serial_iec_set_st);
+        iecbus_untalk(unit, (BYTE)secondary, serial_iec_set_st);
         talk = 0;
     }
 
-    iecbus_close(unit, secondary, serial_iec_set_st);
+    iecbus_close(unit, (BYTE)secondary, serial_iec_set_st);
 
     return 0;
 }
@@ -78,16 +78,16 @@ int serial_iec_close(unsigned int unit, unsigned int secondary)
 int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
 {
     if (listen) {
-        iecbus_unlisten(unit, secondary, serial_iec_set_st);
+        iecbus_unlisten(unit, (BYTE)secondary, serial_iec_set_st);
         listen = 0;
     }
 
     if (!talk) {
-        iecbus_listentalk(unit | 0x40, secondary, serial_iec_set_st);
+        iecbus_listentalk(unit | 0x40, (BYTE)secondary, serial_iec_set_st);
         talk = 1;
     }
 
-    *data = iecbus_read(unit, secondary, serial_iec_set_st);
+    *data = iecbus_read(unit, (BYTE)secondary, serial_iec_set_st);
 
     return serial_iec_st;
 }
@@ -95,12 +95,12 @@ int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
 int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
 {
     if (talk) {
-        iecbus_untalk(unit, secondary, serial_iec_set_st);
+        iecbus_untalk(unit, (BYTE)secondary, serial_iec_set_st);
         talk = 0;
     }
 
     if (!listen) {
-        iecbus_listentalk(unit | 0x20, secondary, serial_iec_set_st);
+        iecbus_listentalk(unit | 0x20, (BYTE)secondary, serial_iec_set_st);
         listen = 1;
     }
 

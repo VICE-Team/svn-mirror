@@ -236,7 +236,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
             p->nextok[secadr] = 1;
     }
 
-    st_func(st);
+    st_func((BYTE)st);
 
     return data;
 }

@@ -332,7 +332,9 @@ static int sound_error(const char *msg)
 static void fill_buffer(int size, int rise)
 {
     int c, i;
-    SWORD *p = (SWORD *)xmalloc(size * sizeof(SWORD) * snddata.channels);
+    SWORD *p;
+
+    p = (SWORD *)xmalloc(size * sizeof(SWORD) * snddata.channels);
 
     if (!p)
         return;
@@ -340,19 +342,24 @@ static void fill_buffer(int size, int rise)
     for (c = 0; c < snddata.channels; c++) {
         for (i = 0; i < size; i++) {
             double factor;
-            if (rise < 0) factor = (double)(size - i)/size;
-            else if (rise > 0) factor = (double)i/size;
-            else factor = 1.0;
-            p[i * snddata.channels + c] =
-                snddata.lastsample[c]*factor;
+            if (rise < 0)
+                factor = (double)(size - i)/size;
+            else
+                if (rise > 0) factor = (double)i/size;
+            else
+                factor = 1.0;
+
+            p[i * snddata.channels + c] = (SWORD)(snddata.lastsample[c]
+                                          * factor);
         }
     }
 
     i = snddata.pdev->write(p, size * snddata.channels);
+
     free(p);
-    if (i) {
+
+    if (i)
         sound_error("write to sound device failed.");
-    }
 }
 
 
