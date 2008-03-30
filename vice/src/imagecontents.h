@@ -56,7 +56,12 @@ typedef struct image_contents_s image_contents_t;
 
 extern void image_contents_destroy(image_contents_t *contents);
 extern image_contents_t *image_contents_new(void);
-extern char *image_contents_to_string(image_contents_t *contents);
+
+#define IMAGE_CONTENTS_STRING_PETSCII 0
+#define IMAGE_CONTENTS_STRING_ASCII   1
+
+extern char *image_contents_to_string(image_contents_t *contents,
+                                      unsigned int conversion_rule);
 
 /* FIXME: Some day this will have to be removed to the disk/tape image
    -specific modules.  */
