@@ -1,3 +1,45 @@
+2004-04-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.18.
+
+	* arch/win32/res.rc, arch/win32/res.h, arch/win32/uirom.c,
+	romset.c, romset.h: Further romset improvements.
+
+	* init.c (init_resources): initialize romset resources.
+
+2004-04-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* uiapi.h, arch/beos/ui.cc, arch/msdos/ui.c, arch/os2/ui.c,
+	arch/riscos/ui.c, arch/unix/ui.c: Added new prototype and
+	dummies for ui_display_event_time.
+
+	* arch/win32/statusbar.c, statusbar.h: New functions
+	statusbar_event_status, statusbar_event_time.
+	(SetStatusWindowParts): Handles another part for the event
+	playback and recording UI.
+	(statusbar_handle_WMDRAWITEM): Event UI implemented,
+	statustext uses DT_WORDBREAK now, some code cleanup.
+
+	* arch/win32/ui.c (ui_display_event_time): New function using
+	the statusbar to display recording/playback time.
+
+	* event.h: New event ID EVENT_TIMESTAMP. Renamed
+	event_playback_reset_ack to event_reset_ack as this is even
+	used when recording.
+
+	* event.c: Implemented another event EVENT_TIMESTAMP.
+	event_alarm is used to record these events once a second.
+	Recording and playing back these events is used to update the
+	event UI. Counting these events in the end snapshot file is
+	used to determine the total playing time.
+
+	* machine.c (machine_reset) Fixed call.
+
+2004-04-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c (statusbar_create): Send WM_SIZE
+	message after height is set.
+
 2004-04-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.17.
