@@ -1,10 +1,68 @@
 1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.17.
+
+	* Makefile.am: Added `raster' to `SUBDIRS'.
+	Added `libarch' to targets `x64-all' and `x128-all'.
+
+1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drive.c: include <errno.h>
+	(drive_write_gcrimage_snapshot_module, 
+	drive_read_gcrimage_snapshot_module): new prototypes
+	(drive_write_snapshot_module, drive_read_snapshot_module): call
+	drive_{read|write}_gcrimage_snapshot_module()
+	(drive_write_image_snapshot_module, drive_read_image_snapshot_module):
+	new functions to read/write normal disk snapshot modules.
+	(drive_write_gcrimage_snapshot_module,
+	drive_read_gcrimage_snapshot_module): renamed from 
+	drive_write_image_snapshot_module, drive_read_image_snapshot_module.
+
+1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.16.
 
 	* raster.c, raster.h: Moved definition of `MIN' and `MAX' to
 	`raster.h.
 
+1999-05-17  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am: Replaced hardcoded windres binary with
+	  $(WINDRES).
+
+	* arch/win32/archdep.h: Include <stdio.h>, <stdarg.h>.
+
+	* arch/win32/c64.dsp: Added psid.c.
+
+1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* prdevice.c (prdevice_late_init): new function to attach the printer
+	_after_ serial_init(), because serial_init() removes an attached
+	printer (that comes from the resource "Printer4=1")
+
+	* prdevice.h (prdevice_late_init): new prototype
+
+	* serial.c (serial_init): call prdevice_late_init() after initializing.
+	Clear the serialdevices[].inuse flag.
+
+1998-05-17  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/ui.c (app_shells): add two widgets for half-width
+	LEDs.
+	(ui_open_canvas_window): create additional widgets for half-width 
+	LEDs.
+	(ui_enable_drive_status): call drive_num_leds() to determine whether
+	drive has one or two LEDs. enable the appropriate widgets
+	(ui_display_drive_led): also set the status of the half-width LED
+	widgets
+
+	* drive/drive.c (set_drive0_type): if type has changed, set
+	default track (when SFD1001 has left the track at 38, the 1541
+	cannot read anything)
+	* drive/drive.c (set_drive0_type): likewise
+
+	* drive/fdc.c (int_fdc): set drive at reset.
+ 
 1999-05-17  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* vic20/vic20mem.c (store_wrap): Made static.

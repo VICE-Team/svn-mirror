@@ -1,5 +1,15 @@
 1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.17.
+
+1999-05-17  Tibor Biczo  <crown@mail.matav.hu>
+
+	* configure.in: Import WINDRES environment variable. This variable
+	  must be set to point to the mingw32 binary of windres, when
+	  compiling the Win32 target.
+
+1999-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.16.
 
 	* configure.in: Trimmed warnings.

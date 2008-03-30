@@ -53,6 +53,7 @@
 #include <assert.h>
 #include <string.h>
 #include <math.h>
+#include <errno.h>
 #endif
 
 #ifdef OS2
@@ -634,7 +635,9 @@ inline static BYTE drive_write_protect_sense(drive_t *dptr);
 static int drive_load_rom_images(void);
 static void drive_setup_rom_image(int dnr);
 static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
+static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
+static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr);
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
 static void drive_clk_overflow_callback(CLOCK sub, void *data);
@@ -2409,12 +2412,22 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
 	}
     }
 
-    if (save_disks && GCR_image[0] > 0)
-        if (drive_write_image_snapshot_module(s, 0) < 0)
-            return -1;
-    if (save_disks && GCR_image[1] > 0)
-        if (drive_write_image_snapshot_module(s, 1) < 0)
-            return -1;
+    if (save_disks) {
+	if (GCR_image[0] > 0) {
+            if (drive_write_gcrimage_snapshot_module(s, 0) < 0)
+                return -1;
+	} else {
+            if (drive_write_image_snapshot_module(s, 0) < 0)
+		return -1;
+	}
+        if (GCR_image[1] > 0) {
+            if (drive_write_gcrimage_snapshot_module(s, 1) < 0)
+                return -1;
+	} else {
+            if (drive_write_image_snapshot_module(s, 1) < 0)
+		return -1;
+	}
+    }
     if (save_roms && drive[0].enable)
         if (drive_write_rom_snapshot_module(s, 0) < 0)
             return -1;
@@ -2649,9 +2662,11 @@ int drive_read_snapshot_module(snapshot_t *s)
 		return -1;
 	}
     }
-    if (drive_read_image_snapshot_module(s, 0) < 0)
+    if (drive_read_image_snapshot_module(s, 0) < 0
+	|| drive_read_gcrimage_snapshot_module(s, 0) < 0)
         return -1;
-    if (drive_read_image_snapshot_module(s, 1) < 0)
+    if (drive_read_image_snapshot_module(s, 1) < 0
+	|| drive_read_gcrimage_snapshot_module(s, 1) < 0)
         return -1;
     if (drive_read_rom_snapshot_module(s, 0) < 0)
         return -1;
@@ -2673,10 +2688,188 @@ int drive_read_snapshot_module(snapshot_t *s)
     return 0;
 }
 
+/* -------------------------------------------------------------------- */
+/* read/write "normal" disk image snapshot module */
+
 #define IMAGE_SNAP_MAJOR 1
 #define IMAGE_SNAP_MINOR 0
 
+/*
+ * This image format is pretty simple:
+ *
+ * WORD Type		Disk image type (1581, 8050, 8250)
+ * 256 * blocks(disk image type) BYTE 
+ *			disk image
+ *
+ */
+
 static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
+{
+    char snap_module_name[10];
+    snapshot_module_t *m;
+    BYTE sector_data[0x100];
+    WORD word;
+    int track, sector;
+    int rc;
+
+    if (drive[dnr].drive_floppy == NULL) {
+	return 0;
+    }
+
+    sprintf(snap_module_name, "IMAGE%i", dnr);
+
+    m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
+                               IMAGE_SNAP_MINOR);
+    if (m == NULL)
+       return -1;
+
+    word = drive[dnr].drive_floppy->ImageFormat;
+    snapshot_module_write_word(m, word);
+
+    /* we use the return code to step through the tracks. So we do not
+       need any geometry info. */
+    for (track = 1; ; track++) {
+	rc = 0;
+	for (sector = 0; ; sector++) {
+	    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
+				   drive[dnr].drive_floppy->ImageFormat,
+				   sector_data, track, sector,
+				   drive[dnr].drive_floppy->D64_Header,
+                                   drive[dnr].drive_floppy->GCR_Header,
+                                   drive[dnr].drive_floppy->unit);
+	    if (rc == 0) {
+		snapshot_module_write_byte_array(m, sector_data, 0x100);
+	    } else {
+		break;
+	    }
+	}
+	if (sector == 0) {
+	    break;
+	}
+    }
+
+    if (snapshot_module_close(m) < 0)
+        return -1;
+    return 0;
+}
+
+static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    char snap_module_name[10];
+    WORD word;
+    char *p, filename[L_tmpnam];
+    int len = 0;
+    FILE *fp;
+    BYTE sector_data[0x100];
+    int track, sector;
+    int rc;
+
+    sprintf(snap_module_name, "IMAGE%i", dnr);
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return 0;
+
+    if (major_version > IMAGE_SNAP_MAJOR || minor_version > IMAGE_SNAP_MINOR) {
+        log_error(drive_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR);
+    }
+
+    if (snapshot_module_read_word(m, &word) < 0) {
+	snapshot_module_close(m);
+	return -1;
+    }
+
+    switch(word) {
+    case 1581:
+	len = D81_FILE_SIZE;
+	break;
+    case 8050:
+	len = D80_FILE_SIZE;
+	break;
+    case 8250:
+	len = D82_FILE_SIZE;
+	break;
+    default:
+	log_error(drive_log, "Snapshot of disk image unknown (type %d)",
+		(int)word);
+        snapshot_module_close(m);
+	return -1;
+    }
+
+    /* create temporary file of the right size */
+    p = tmpnam(filename);
+    if (!p) {
+	log_error(drive_log, "Could not create temporary filename");
+        snapshot_module_close(m);
+	return -1;
+    }
+    fp = fopen(filename, "w+b");
+    if (!fp) {
+	log_error(drive_log, "Could not create temporary file (%s)",
+			strerror(errno));
+	log_error(drive_log, "filename=%s", filename);
+        snapshot_module_close(m);
+	return -1;
+    }
+    /* blow up the file to needed size */
+    if (fseek(fp, len - 1, SEEK_SET) < 0
+	|| (fputc(0, fp) == EOF)) {
+	log_error(drive_log, "Could not create large temporary file");
+	fclose(fp);
+        snapshot_module_close(m);
+	return -1;
+    }
+    fclose(fp);
+    if (file_system_attach_disk(dnr + 8, filename) < 0) {
+        log_error(drive_log, "Invalid Disk Image");
+        snapshot_module_close(m);
+	return -1;
+    }
+
+    /* we use the return code to step through the tracks. So we do not
+       need any geometry info. */
+    snapshot_module_read_byte_array(m, sector_data, 0x100);
+    for (track = 1; ; track++) {
+	rc = 0;
+	for (sector = 0; ; sector++) {
+	    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
+				   drive[dnr].drive_floppy->ImageFormat,
+				   sector_data, track, sector,
+				   drive[dnr].drive_floppy->D64_Header,
+                                   drive[dnr].drive_floppy->GCR_Header,
+                                   drive[dnr].drive_floppy->unit);
+	    if (rc == 0) {
+		snapshot_module_read_byte_array(m, sector_data, 0x100);
+	    } else {
+		break;
+	    }
+	}
+	if (sector == 0) {
+	    break;
+	}
+    }
+
+    vdrive_bam_read_bam(drive[dnr].drive_floppy);
+
+    snapshot_module_close(m);
+    m = NULL;
+
+    return 0;
+}
+
+/* -------------------------------------------------------------------- */
+/* read/write GCR disk image snapshot module */
+
+#define GCRIMAGE_SNAP_MAJOR 1
+#define GCRIMAGE_SNAP_MINOR 0
+
+static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -2685,8 +2878,8 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
 
     sprintf(snap_module_name, "GCRIMAGE%i", dnr);
 
-    m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
-                               IMAGE_SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
+                               GCRIMAGE_SNAP_MINOR);
     if (m == NULL)
        return -1;
 
@@ -2717,7 +2910,7 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
-static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
+static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -2732,11 +2925,12 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
         return 0;
 
-    if (major_version > IMAGE_SNAP_MAJOR || minor_version > IMAGE_SNAP_MINOR) {
+    if (major_version > GCRIMAGE_SNAP_MAJOR 
+	|| minor_version > GCRIMAGE_SNAP_MINOR) {
         log_error(drive_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
                   major_version, minor_version,
-                  IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR);
+                  GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
     }
 
     tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
@@ -2765,6 +2959,8 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     drive[dnr].drive_floppy = NULL;
     return 0;
 }
+
+/* -------------------------------------------------------------------- */
 
 #define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
@@ -2886,6 +3082,8 @@ static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
     snapshot_module_close(m);
     return 0;
 }
+
+/* -------------------------------------------------------------------- */
 
 int reload_rom_1541(char *name) {
     char romsetnamebuffer[MAXPATHLEN];
