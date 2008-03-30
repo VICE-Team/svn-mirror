@@ -41,7 +41,11 @@ int rev_keyarr[KBD_COLS];
 static int latch_keyarr[KBD_ROWS];
 static int latch_rev_keyarr[KBD_COLS];
 
+/* Latched joystick status.  */
+static BYTE latch_joystick_value[3] = { 0, 0, 0 };
+
 static alarm_t keyboard_alarm;
+static alarm_t joystick_alarm;
 
 static int keyboard_latch_matrix(CLOCK offset)
 {
@@ -54,10 +58,22 @@ static int keyboard_latch_matrix(CLOCK offset)
     return 0;
 }
 
+static int joystick_latch_matrix(CLOCK offset)
+{
+    alarm_unset(&joystick_alarm);
+    alarm_context_update_next_pending(joystick_alarm.context);
+
+    memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+
+    return 0;
+}
+
 void keyboard_init(void)
 {
     alarm_init(&keyboard_alarm, &maincpu_alarm_context,
                "Keyboard", keyboard_latch_matrix);
+    alarm_init(&joystick_alarm, &maincpu_alarm_context,
+               "Joystick", joystick_latch_matrix);
 }
 
 void keyboard_set_keyarr(int row, int col, int value)
@@ -81,5 +97,23 @@ void keyboard_clear_keymatrix(void)
     memset(rev_keyarr, 0, sizeof(rev_keyarr));
     memset(latch_keyarr, 0, sizeof(latch_keyarr));
     memset(latch_rev_keyarr, 0, sizeof(latch_rev_keyarr));
+}
+
+void joystick_set_value_absolute(unsigned int joyport, BYTE value)
+{
+    latch_joystick_value[joyport] = value;
+    alarm_set(&joystick_alarm, clk + 1000);
+}
+
+void joystick_set_value_or(unsigned int joyport, BYTE value)
+{
+    latch_joystick_value[joyport] |= value;
+    alarm_set(&joystick_alarm, clk + 1000);
+}
+
+void joystick_set_value_and(unsigned int joyport, BYTE value)
+{
+    latch_joystick_value[joyport] &= value;
+    alarm_set(&joystick_alarm, clk + 1000);
 }
 

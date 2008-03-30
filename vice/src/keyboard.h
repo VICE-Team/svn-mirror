@@ -44,6 +44,10 @@ extern void keyboard_init(void);
 extern void keyboard_set_keyarr(int row, int col, int value);
 extern void keyboard_clear_keymatrix(void);
 
+extern void joystick_set_value_absolute(unsigned int joyport, BYTE value);
+extern void joystick_set_value_or(unsigned int joyport, BYTE value);
+extern void joystick_set_value_and(unsigned int joyport, BYTE value);
+
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
