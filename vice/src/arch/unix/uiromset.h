@@ -29,12 +29,13 @@
 
 #include "uimenu.h"
 
+extern struct ui_menu_entry_s uiromset_type_submenu[];
+extern struct ui_menu_entry_s uiromset_file_submenu[];
+extern struct ui_menu_entry_s uiromset_archive_submenu[];
+
 extern UI_CALLBACK(ui_set_romset);
-extern UI_CALLBACK(ui_load_romset);
 extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_unload_rom_file);
-extern UI_CALLBACK(ui_dump_romset);
-extern UI_CALLBACK(ui_list_romset);
 
 #endif
 
