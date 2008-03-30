@@ -91,5 +91,7 @@ typedef struct uilib_dialogbox_param_s uilib_dialogbox_param_t;
 
 extern void uilib_dialogbox(uilib_dialogbox_param_t *param);
 
+extern void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize);
+
 #endif
 

@@ -33,7 +33,37 @@
 #include "cmdline.h"
 #include "sid-cmdline-options.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
+    IDCLS_P_ENGINE, IDCLS_SPECIFY_SID_ENGINE },
+    { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
+      (void *)1,
+      0, IDCLS_ENABLE_SECOND_SID },
+    { "-sidstereoaddress", SET_RESOURCE, 1, NULL, NULL,
+      "SidStereoAddressStart", NULL,
+      IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_2_ADDRESS },
+    { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
+      IDCLS_P_MODEL, IDCLS_SPECIFY_SID_MODEL },
+    { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
+      (void *)1,
+      0, IDCLS_ENABLE_SID_FILTERS },
+    { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
+      (void *)0,
+      0, IDCLS_DISABLE_SID_FILTERS },
+#ifdef HAVE_RESID
+    { "-residsamp", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
+      (void *)0, IDCLS_P_METHOD,
+      IDCLS_RESID_SAMPLING_METHOD },
+    { "-residpass", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
+      (void *)90, IDCLS_P_PERCENT,
+      IDCLS_PASSBAND_PERCENTAGE },
+#endif
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
     "<engine>", "Specify SID engine (0: FastSID"
@@ -62,18 +92,22 @@ static const cmdline_option_t cmdline_options[] = {
       (void *)0,
       NULL, "Do not emulate SID filters" },
 #ifdef HAVE_RESID
-    { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
-      (void *)0, NULL,
+    { "-residsamp", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
+      (void *)0, "<method>",
       "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)" },
-    { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
-      (void *)90, NULL,
+    { "-residpass", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
+      (void *)90, "<percent>",
       "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
 #endif
     { NULL }
 };
+#endif
 
 int sid_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
-

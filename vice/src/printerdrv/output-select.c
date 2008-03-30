@@ -33,6 +33,9 @@
 #include "lib.h"
 #include "output-select.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "util.h"
 
@@ -99,6 +102,19 @@ void output_select_shutdown_resources(void)
     lib_free(output_device[2]);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME },
+    { "-pr5output", SET_RESOURCE, 1, NULL, NULL, "Printer5Output", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME },
+    { "-pruseroutput", SET_RESOURCE, 1, NULL, NULL,
+      "PrinterUserportOutput", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
@@ -110,10 +126,15 @@ static const cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of output device for the userport printer" },
     { NULL }
 };
+#endif
 
 int output_select_init_cmdline_options(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 

@@ -911,7 +911,7 @@ static void ciacore_intta(CLOCK offset, void *data)
         if ((!(cia_context->sr_bits)) && cia_context->sdr_valid) {
             cia_context->shifter = cia_context->c_cia[CIA_SDR];
             cia_context->sdr_valid = 0;
-            cia_context->sr_bits = 8;
+            cia_context->sr_bits = 14;
         }
     }
     if ((cia_context->c_cia[CIA_CRB] & 0x41) == 0x41) {

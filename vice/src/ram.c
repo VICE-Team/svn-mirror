@@ -32,6 +32,9 @@
 #include "cmdline.h"
 #include "ram.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 
 
@@ -78,6 +81,20 @@ int ram_resources_init(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
+      "RAMInitStartValue", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE },
+    { "-raminitvalueinvert" , SET_RESOURCE, 1, NULL, NULL,
+      "RAMInitValueInvert", NULL,
+      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_VALUE },
+    { "-raminitpatterninvert", SET_RESOURCE, 1, NULL, NULL,
+      "RAMInitPatternInvert", NULL,
+      IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_PATTERN },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitStartValue", NULL,
@@ -90,10 +107,15 @@ static const cmdline_option_t cmdline_options[] = {
       "<num of bytes>", "Length of memory block initialized with the same pattern" },
     { NULL }
 };
+#endif
 
 int ram_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 

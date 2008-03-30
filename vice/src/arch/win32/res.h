@@ -448,36 +448,30 @@
 #define IDC_RAMCART_RO                  1364
 
 #define IDD_SID_GENERAL_SETTINGS_DIALOG    1340
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_DE 10108
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_FR 10109
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_IT 10110
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_NL 10111
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_PL 10112
-#define IDD_SID_GENERAL_SETTINGS_DIALOG_SV 10113
 #define IDD_SID_RESID_SETTINGS_DIALOG      1341
-#define IDD_SID_RESID_SETTINGS_DIALOG_DE   10114
-#define IDD_SID_RESID_SETTINGS_DIALOG_FR   10115
-#define IDD_SID_RESID_SETTINGS_DIALOG_IT   10116
-#define IDD_SID_RESID_SETTINGS_DIALOG_NL   10117
-#define IDD_SID_RESID_SETTINGS_DIALOG_PL   10118
-#define IDD_SID_RESID_SETTINGS_DIALOG_SV   10119
 #define IDD_SID_HARDSID_SETTINGS_DIALOG    1342
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_DE 10120
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_FR 10121
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_IT 10122
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_NL 10123
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_PL 10124
-#define IDD_SID_HARDSID_SETTINGS_DIALOG_SV 10125
+#define IDC_SID_GENGROUP1                  2000
+#define IDC_SID_GENGROUP2                  2001
+#define IDC_SID_GENGROUP3                  2002
+
 #define IDC_SID_FILTERS                    1343
 #define IDC_SID_6581                       1344
 #define IDC_SID_8580                       1345
 #define IDC_SID_STEREO                     1346
 #define IDC_SID_ENGINE                     1347
 #define IDC_SID_RESID_SAMPLING             1348
-#define IDC_SID_RESID_PASSBAND             1349
+#define IDC_SID_RESID_PASSBAND_VALUE       1349
 #define IDC_SID_STEREOADDRESS              1350
 #define IDC_SID_HARDSID_LEFT_ENGINE        1351
 #define IDC_SID_HARDSID_RIGHT_ENGINE       1352
+
+#define IDC_SID_RESID_GROUP              2003
+#define IDC_SID_RESID_SAMPLE             2004
+#define IDC_SID_RESID_PASSBAND           2005
+
+#define IDC_HARDSID_GROUP           2006
+#define IDC_HARDSID_LEFT_LABEL      2007
+#define IDC_HARDSID_RIGHT_LABEL     2008
 
 #define IDD_CUSTOM_SPEED_DIALOG         1390
 #define IDD_CUSTOM_SPEED_DIALOG_DE      10426
@@ -2868,60 +2862,25 @@
 /* ---------------------------------------------------- */
 
 #define IDS_THIS_MACHINE_NO_SID          15840
-#define IDS_THIS_MACHINE_NO_SID_DE       15841
-#define IDS_THIS_MACHINE_NO_SID_FR       15842
-#define IDS_THIS_MACHINE_NO_SID_IT       15843
-#define IDS_THIS_MACHINE_NO_SID_NL       15844
-#define IDS_THIS_MACHINE_NO_SID_PL       15845
-#define IDS_THIS_MACHINE_NO_SID_SV       15846
-
-#define IDS_GENERAL                      15847
-#define IDS_GENERAL_DE                   15848
-#define IDS_GENERAL_FR                   15849
-#define IDS_GENERAL_IT                   15850
-#define IDS_GENERAL_NL                   15851
-#define IDS_GENERAL_PL                   15852
-#define IDS_GENERAL_SV                   15853
-
-#define IDS_SID_SETTINGS                 15854
-#define IDS_SID_SETTINGS_DE              15855
-#define IDS_SID_SETTINGS_FR              15856
-#define IDS_SID_SETTINGS_IT              15857
-#define IDS_SID_SETTINGS_NL              15858
-#define IDS_SID_SETTINGS_PL              15859
-#define IDS_SID_SETTINGS_SV              15860
-
-#define IDS_FAST                         15861
-#define IDS_FAST_DE                      15862
-#define IDS_FAST_FR                      15863
-#define IDS_FAST_IT                      15864
-#define IDS_FAST_NL                      15865
-#define IDS_FAST_PL                      15866
-#define IDS_FAST_SV                      15867
-
-#define IDS_INTERPOLATING                15868
-#define IDS_INTERPOLATING_DE             15869
-#define IDS_INTERPOLATING_FR             15870
-#define IDS_INTERPOLATING_IT             15871
-#define IDS_INTERPOLATING_NL             15872
-#define IDS_INTERPOLATING_PL             15873
-#define IDS_INTERPOLATING_SV             15874
-
-#define IDS_RESAMPLING                   15875
-#define IDS_RESAMPLING_DE                15876
-#define IDS_RESAMPLING_FR                15877
-#define IDS_RESAMPLING_IT                15878
-#define IDS_RESAMPLING_NL                15879
-#define IDS_RESAMPLING_PL                15880
-#define IDS_RESAMPLING_SV                15881
-
-#define IDS_FAST_RESAMPLING              15882
-#define IDS_FAST_RESAMPLING_DE           15883
-#define IDS_FAST_RESAMPLING_FR           15884
-#define IDS_FAST_RESAMPLING_IT           15885
-#define IDS_FAST_RESAMPLING_NL           15886
-#define IDS_FAST_RESAMPLING_PL           15887
-#define IDS_FAST_RESAMPLING_SV           15888
+#define IDS_GENERAL                      15841
+#define IDS_SID_SETTINGS                 15842
+#define IDS_FAST                         15843
+#define IDS_INTERPOLATING                15844
+#define IDS_RESAMPLING                   15845
+#define IDS_FAST_RESAMPLING              15846
+#define IDS_SID_GENGROUP1                15847
+#define IDS_SID_GENGROUP2                15848
+#define IDS_SID_GENGROUP3                15849
+#define IDS_SID_6581                     15850
+#define IDS_SID_8580                     15851
+#define IDS_SID_STEREO_AT                15852
+#define IDS_SID_FILTERS                  15853
+#define IDS_SID_RESID_GROUP              15954
+#define IDS_SID_RESID_SAMPLE             15955
+#define IDS_SID_RESID_PASSBAND           15956
+#define IDS_HARDSID_GROUP                15957
+#define IDS_HARDSID_LEFT_LABEL           15958
+#define IDS_HARDSID_RIGHT_LABEL          15959
 
 /* ---------------------------------------------------- */
 /* ---------------------------------------------------- */

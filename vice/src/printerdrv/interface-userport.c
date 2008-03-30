@@ -34,6 +34,9 @@
 #include "interface-userport.h"
 #include "printer.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 
 
@@ -73,6 +76,17 @@ int interface_userport_init_resources(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
+      (resource_value_t) 1, 0,
+      IDCLS_ENABLE_USERPORT_PRINTER },
+    { "+pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
+      (resource_value_t) 0, 0,
+      IDCLS_DISABLE_USERPORT_PRINTER },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-pruser", SET_RESOURCE, 0, NULL, NULL, "PrinterUserport",
       (resource_value_t) 1, NULL,
@@ -82,10 +96,15 @@ static const cmdline_option_t cmdline_options[] = {
       "Disable the userport printer emulation" },
     { NULL }
 };
+#endif
 
 int interface_userport_init_cmdline_options(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

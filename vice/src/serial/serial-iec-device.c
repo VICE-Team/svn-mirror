@@ -39,6 +39,9 @@
 #include "maincpu.h"
 #include "clkguard.h"
 #include "serial-iec-bus.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 
 void serial_iec_device_enable(unsigned int devnr);
 void serial_iec_device_disable(unsigned int devnr);
@@ -98,6 +101,47 @@ int serial_iec_device_resources_init(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-iecdevice4", SET_RESOURCE, 0, NULL, NULL, "IECDevice4",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_4 },
+    { "+iecdevice4", SET_RESOURCE, 0, NULL, NULL, "IECDevice4",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_4 },
+    { "-iecdevice5", SET_RESOURCE, 0, NULL, NULL, "IECDevice5",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_5 },
+    { "+iecdevice5", SET_RESOURCE, 0, NULL, NULL, "IECDevice5",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_5 },
+    { "-iecdevice8", SET_RESOURCE, 0, NULL, NULL, "IECDevice8",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_8 },
+    { "+iecdevice8", SET_RESOURCE, 0, NULL, NULL, "IECDevice8",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_8 },
+    { "-iecdevice9", SET_RESOURCE, 0, NULL, NULL, "IECDevice9",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_9 },
+    { "+iecdevice9", SET_RESOURCE, 0, NULL, NULL, "IECDevice9",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_9 },
+    { "-iecdevice10", SET_RESOURCE, 0, NULL, NULL, "IECDevice10",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_10 },
+    { "+iecdevice10", SET_RESOURCE, 0, NULL, NULL, "IECDevice10",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_10 },
+    { "-iecdevice11", SET_RESOURCE, 0, NULL, NULL, "IECDevice11",
+      (resource_value_t)1,
+      0, IDCLS_ENABLE_IEC_11 },
+    { "+iecdevice11", SET_RESOURCE, 0, NULL, NULL, "IECDevice11",
+      (resource_value_t)0,
+      0, IDCLS_DISABLE_IEC_11 },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-iecdevice4", SET_RESOURCE, 0, NULL, NULL, "IECDevice4",
       (resource_value_t)1,
@@ -137,11 +181,15 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, "Disable IEC device emulation for device #11" },
     { NULL }
 };
-
+#endif
 
 int serial_iec_device_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /*------------------------------------------------------------------------*/

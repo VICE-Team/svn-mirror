@@ -307,7 +307,8 @@ extern int translate_res(int en_resource);
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_USE_PAL_SYNC_FACTOR               0x11000
 #define IDCLS_USE_PAL_SYNC_FACTOR_DE            0x11001
 #define IDCLS_USE_PAL_SYNC_FACTOR_FR            0x11002
@@ -317,7 +318,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_USE_PAL_SYNC_FACTOR_SV            0x11006
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_USE_NTSC_SYNC_FACTOR              0x11007
 #define IDCLS_USE_NTSC_SYNC_FACTOR_DE           0x11008
 #define IDCLS_USE_NTSC_SYNC_FACTOR_FR           0x11009
@@ -333,7 +335,11 @@ extern int translate_res(int en_resource);
    drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
    drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
+   printerdrv/output-select.c, printerdrv/output-text.c,
+   rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
+   vic20/vic20cartridge.c, video/video-cmdline-options.c,
+   fliplist.c, initcmdline.c, log.c, sound.c */
 #define IDCLS_P_NAME                            0x1100e
 #define IDCLS_P_NAME_DE                         0x1100f
 #define IDCLS_P_NAME_FR                         0x11010
@@ -478,7 +484,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_C64_MODE_BASIC_NAME_SV    0x1107d
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_ENABLE_EMULATOR_ID                0x1107e
 #define IDCLS_ENABLE_EMULATOR_ID_DE             0x1107f
 #define IDCLS_ENABLE_EMULATOR_ID_FR             0x11080
@@ -488,7 +495,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_EMULATOR_ID_SV             0x11084
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_DISABLE_EMULATOR_ID               0x11085
 #define IDCLS_DISABLE_EMULATOR_ID_DE            0x11086
 #define IDCLS_DISABLE_EMULATOR_ID_FR            0x11087
@@ -553,10 +561,10 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV    0x110b5
 #endif
 
-#ifdef COMMON_KBD
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
 #define IDCLS_P_NUMBER                          0x110b6
 #define IDCLS_P_NUMBER_DE                       0x110b7
 #define IDCLS_P_NUMBER_FR                       0x110b8
@@ -565,7 +573,9 @@ extern int translate_res(int en_resource);
 #define IDCLS_P_NUMBER_PL                       0x110bb
 #define IDCLS_P_NUMBER_SV                       0x110bc
 
-/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c */
+#ifdef COMMON_KBD
+/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX         0x110bd
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE      0x110be
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR      0x110bf
@@ -575,7 +585,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV      0x110c3
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME      0x110c4
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE   0x110c5
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR   0x110c6
@@ -585,7 +595,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_SV   0x110ca
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME      0x110cb
 #define IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE   0x110cc
 #define IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR   0x110cd
@@ -677,7 +687,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_USE_OLD_NTSC_SYNC_FACTOR_SV       0x11110
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_KERNAL_ROM_NAME           0x11111
 #define IDCLS_SPECIFY_KERNAL_ROM_NAME_DE        0x11112
 #define IDCLS_SPECIFY_KERNAL_ROM_NAME_FR        0x11113
@@ -687,7 +698,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_KERNAL_ROM_NAME_SV        0x11117
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_BASIC_ROM_NAME            0x11118
 #define IDCLS_SPECIFY_BASIC_ROM_NAME_DE         0x11119
 #define IDCLS_SPECIFY_BASIC_ROM_NAME_FR         0x1111a
@@ -697,7 +709,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_BASIC_ROM_NAME_SV         0x1111e
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c */
+   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_CHARGEN_ROM_NAME          0x1111f
 #define IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE       0x11120
 #define IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR       0x11121
@@ -1034,7 +1046,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_IDE64_NAME_PL             0x11220
 #define IDCLS_SPECIFY_IDE64_NAME_SV             0x11221
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c */
+/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+   debug.c, mouse.c, ram.c, sound.c, vsync.c */
 #define IDCLS_P_VALUE                           0x11222
 #define IDCLS_P_VALUE_DE                        0x11223
 #define IDCLS_P_VALUE_FR                        0x11224
@@ -1387,7 +1400,8 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_TRUE_DRIVE_PL             0x1130b
 #define IDCLS_DISABLE_TRUE_DRIVE_SV             0x1130c
 
-/* drive/drive-cmdline-options.c */
+/* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
+   attach.c */
 #define IDCLS_P_TYPE                            0x1130d
 #define IDCLS_P_TYPE_DE                         0x1130e
 #define IDCLS_P_TYPE_FR                         0x1130f
@@ -1938,7 +1952,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_RAM_INSTALLED_PL          0x114b6
 #define IDCLS_SPECIFY_RAM_INSTALLED_SV          0x114b7
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 #define IDCLS_P_0_2000                          0x114b8
 #define IDCLS_P_0_2000_DE                       0x114b9
 #define IDCLS_P_0_2000_FR                       0x114ba
@@ -1947,7 +1961,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_P_0_2000_PL                       0x114bd
 #define IDCLS_P_0_2000_SV                       0x114be
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 #define IDCLS_SET_SATURATION                    0x114bf
 #define IDCLS_SET_SATURATION_DE                 0x114c0
 #define IDCLS_SET_SATURATION_FR                 0x114c1
@@ -1956,7 +1970,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_SATURATION_PL                 0x114c4
 #define IDCLS_SET_SATURATION_SV                 0x114c5
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 #define IDCLS_SET_CONTRAST                      0x114c6
 #define IDCLS_SET_CONTRAST_DE                   0x114c7
 #define IDCLS_SET_CONTRAST_FR                   0x114c8
@@ -1965,7 +1979,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_CONTRAST_PL                   0x114cb
 #define IDCLS_SET_CONTRAST_SV                   0x114cc
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 #define IDCLS_SET_BRIGHTNESS                    0x114cd
 #define IDCLS_SET_BRIGHTNESS_DE                 0x114ce
 #define IDCLS_SET_BRIGHTNESS_FR                 0x114cf
@@ -1974,7 +1988,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_BRIGHTNESS_PL                 0x114d2
 #define IDCLS_SET_BRIGHTNESS_SV                 0x114d3
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 #define IDCLS_SET_GAMMA                         0x114d4
 #define IDCLS_SET_GAMMA_DE                      0x114d5
 #define IDCLS_SET_GAMMA_FR                      0x114d6
@@ -1983,5 +1997,1484 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_GAMMA_PL                      0x114d9
 #define IDCLS_SET_GAMMA_SV                      0x114da
 
+/* printerdrv/driver-select.c */
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME         0x114db
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE      0x114dc
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR      0x114dd
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT      0x114de
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL      0x114df
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL      0x114e0
+#define IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV      0x114e1
+
+/* printerdrv/driver-select.c */
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME         0x114e2
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE      0x114e3
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR      0x114e4
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT      0x114e5
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL      0x114e6
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL      0x114e7
+#define IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV      0x114e8
+
+/* printerdrv/driver-select.c */
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME       0x114e9
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE    0x114ea
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR    0x114eb
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT    0x114ec
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL    0x114ed
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL    0x114ee
+#define IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV    0x114ef
+
+/* printerdrv/interface-serial.c */
+#define IDCLS_SET_DEVICE_TYPE_4                 0x114f0
+#define IDCLS_SET_DEVICE_TYPE_4_DE              0x114f1
+#define IDCLS_SET_DEVICE_TYPE_4_FR              0x114f2
+#define IDCLS_SET_DEVICE_TYPE_4_IT              0x114f3
+#define IDCLS_SET_DEVICE_TYPE_4_NL              0x114f4
+#define IDCLS_SET_DEVICE_TYPE_4_PL              0x114f5
+#define IDCLS_SET_DEVICE_TYPE_4_SV              0x114f6
+
+/* printerdrv/interface-serial.c */
+#define IDCLS_SET_DEVICE_TYPE_5                 0x114f7
+#define IDCLS_SET_DEVICE_TYPE_5_DE              0x114f8
+#define IDCLS_SET_DEVICE_TYPE_5_FR              0x114f9
+#define IDCLS_SET_DEVICE_TYPE_5_IT              0x114fa
+#define IDCLS_SET_DEVICE_TYPE_5_NL              0x114fb
+#define IDCLS_SET_DEVICE_TYPE_5_PL              0x114fc
+#define IDCLS_SET_DEVICE_TYPE_5_SV              0x114fd
+
+/* printerdrv/interface-userport.c */
+#define IDCLS_ENABLE_USERPORT_PRINTER           0x114fe
+#define IDCLS_ENABLE_USERPORT_PRINTER_DE        0x114ff
+#define IDCLS_ENABLE_USERPORT_PRINTER_FR        0x11500
+#define IDCLS_ENABLE_USERPORT_PRINTER_IT        0x11501
+#define IDCLS_ENABLE_USERPORT_PRINTER_NL        0x11502
+#define IDCLS_ENABLE_USERPORT_PRINTER_PL        0x11503
+#define IDCLS_ENABLE_USERPORT_PRINTER_SV        0x11504
+
+/* printerdrv/interface-userport.c */
+#define IDCLS_DISABLE_USERPORT_PRINTER          0x11505
+#define IDCLS_DISABLE_USERPORT_PRINTER_DE       0x11506
+#define IDCLS_DISABLE_USERPORT_PRINTER_FR       0x11507
+#define IDCLS_DISABLE_USERPORT_PRINTER_IT       0x11508
+#define IDCLS_DISABLE_USERPORT_PRINTER_NL       0x11509
+#define IDCLS_DISABLE_USERPORT_PRINTER_PL       0x1150a
+#define IDCLS_DISABLE_USERPORT_PRINTER_SV       0x1150b
+
+/* printerdrv/output-select.c */
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME      0x1150c
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DE   0x1150d
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_FR   0x1150e
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_IT   0x1150f
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_NL   0x11510
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_PL   0x11511
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_SV   0x11512
+
+/* printerdrv/output-select.c */
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME      0x11513
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DE   0x11514
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_FR   0x11515
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_IT   0x11516
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_NL   0x11517
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_PL   0x11518
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_SV   0x11519
+
+/* printerdrv/output-select.c */
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME    0x1151a
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE 0x1151b
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR 0x1151c
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_IT 0x1151d
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_NL 0x1151e
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_PL 0x1151f
+#define IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_SV 0x11520
+
+/* printerdrv/output-text.c */
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME     0x11521
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DE  0x11522
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_FR  0x11523
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_IT  0x11524
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_NL  0x11525
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_PL  0x11526
+#define IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_SV  0x11527
+
+/* printerdrv/output-text.c */
+#define IDCLS_P_0_2                             0x11528
+#define IDCLS_P_0_2_DE                          0x11529
+#define IDCLS_P_0_2_FR                          0x1152a
+#define IDCLS_P_0_2_IT                          0x1152b
+#define IDCLS_P_0_2_NL                          0x1152c
+#define IDCLS_P_0_2_PL                          0x1152d
+#define IDCLS_P_0_2_SV                          0x1152e
+
+/* printerdrv/output-text.c */
+#define IDCLS_SPECIFY_TEXT_DEVICE_4             0x1152f
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_DE          0x11530
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_FR          0x11531
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_IT          0x11532
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_NL          0x11533
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_PL          0x11534
+#define IDCLS_SPECIFY_TEXT_DEVICE_4_SV          0x11535
+
+/* printerdrv/output-text.c */
+#define IDCLS_SPECIFY_TEXT_DEVICE_5             0x11536
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_DE          0x11537
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_FR          0x11538
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_IT          0x11539
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_NL          0x1153a
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_PL          0x1153b
+#define IDCLS_SPECIFY_TEXT_DEVICE_5_SV          0x1153c
+
+/* printerdrv/output-text.c */
+#define IDCLS_SPECIFY_TEXT_USERPORT             0x1153d
+#define IDCLS_SPECIFY_TEXT_USERPORT_DE          0x1153e
+#define IDCLS_SPECIFY_TEXT_USERPORT_FR          0x1153f
+#define IDCLS_SPECIFY_TEXT_USERPORT_IT          0x11540
+#define IDCLS_SPECIFY_TEXT_USERPORT_NL          0x11541
+#define IDCLS_SPECIFY_TEXT_USERPORT_PL          0x11542
+#define IDCLS_SPECIFY_TEXT_USERPORT_SV          0x11543
+
+/* raster/raster-cmdline-options.c */
+#define IDCLS_ENABLE_VIDEO_CACHE                0x11544
+#define IDCLS_ENABLE_VIDEO_CACHE_DE             0x11545
+#define IDCLS_ENABLE_VIDEO_CACHE_FR             0x11546
+#define IDCLS_ENABLE_VIDEO_CACHE_IT             0x11547
+#define IDCLS_ENABLE_VIDEO_CACHE_NL             0x11548
+#define IDCLS_ENABLE_VIDEO_CACHE_PL             0x11549
+#define IDCLS_ENABLE_VIDEO_CACHE_SV             0x1154a
+
+/* raster/raster-cmdline-options.c */
+#define IDCLS_DISABLE_VIDEO_CACHE               0x1154b
+#define IDCLS_DISABLE_VIDEO_CACHE_DE            0x1154c
+#define IDCLS_DISABLE_VIDEO_CACHE_FR            0x1154d
+#define IDCLS_DISABLE_VIDEO_CACHE_IT            0x1154e
+#define IDCLS_DISABLE_VIDEO_CACHE_NL            0x1154f
+#define IDCLS_DISABLE_VIDEO_CACHE_PL            0x11550
+#define IDCLS_DISABLE_VIDEO_CACHE_SV            0x11551
+
+#ifdef HAVE_RS232
+/* rs232drv/rs232drv.c */
+#define IDCLS_SPECIFY_RS232_1_NAME              0x11552
+#define IDCLS_SPECIFY_RS232_1_NAME_DE           0x11553
+#define IDCLS_SPECIFY_RS232_1_NAME_FR           0x11554
+#define IDCLS_SPECIFY_RS232_1_NAME_IT           0x11555
+#define IDCLS_SPECIFY_RS232_1_NAME_NL           0x11556
+#define IDCLS_SPECIFY_RS232_1_NAME_PL           0x11557
+#define IDCLS_SPECIFY_RS232_1_NAME_SV           0x11558
+
+/* rs232drv/rs232drv.c */
+#define IDCLS_SPECIFY_RS232_2_NAME              0x11559
+#define IDCLS_SPECIFY_RS232_2_NAME_DE           0x1155a
+#define IDCLS_SPECIFY_RS232_2_NAME_FR           0x1155b
+#define IDCLS_SPECIFY_RS232_2_NAME_IT           0x1155c
+#define IDCLS_SPECIFY_RS232_2_NAME_NL           0x1155d
+#define IDCLS_SPECIFY_RS232_2_NAME_PL           0x1155e
+#define IDCLS_SPECIFY_RS232_2_NAME_SV           0x1155f
+
+/* rs232drv/rs232drv.c */
+#define IDCLS_SPECIFY_RS232_3_NAME              0x11560
+#define IDCLS_SPECIFY_RS232_3_NAME_DE           0x11561
+#define IDCLS_SPECIFY_RS232_3_NAME_FR           0x11562
+#define IDCLS_SPECIFY_RS232_3_NAME_IT           0x11563
+#define IDCLS_SPECIFY_RS232_3_NAME_NL           0x11564
+#define IDCLS_SPECIFY_RS232_3_NAME_PL           0x11565
+#define IDCLS_SPECIFY_RS232_3_NAME_SV           0x11566
+
+/* rs232drv/rs232drv.c */
+#define IDCLS_SPECIFY_RS232_4_NAME              0x11567
+#define IDCLS_SPECIFY_RS232_4_NAME_DE           0x11568
+#define IDCLS_SPECIFY_RS232_4_NAME_FR           0x11569
+#define IDCLS_SPECIFY_RS232_4_NAME_IT           0x1156a
+#define IDCLS_SPECIFY_RS232_4_NAME_NL           0x1156b
+#define IDCLS_SPECIFY_RS232_4_NAME_PL           0x1156c
+#define IDCLS_SPECIFY_RS232_4_NAME_SV           0x1156d
 #endif
+
+/* rs232drv/rsuser.c */
+#define IDCLS_ENABLE_RS232_USERPORT             0x1156e
+#define IDCLS_ENABLE_RS232_USERPORT_DE          0x1156f
+#define IDCLS_ENABLE_RS232_USERPORT_FR          0x11570
+#define IDCLS_ENABLE_RS232_USERPORT_IT          0x11571
+#define IDCLS_ENABLE_RS232_USERPORT_NL          0x11572
+#define IDCLS_ENABLE_RS232_USERPORT_PL          0x11573
+#define IDCLS_ENABLE_RS232_USERPORT_SV          0x11574
+
+/* rs232drv/rsuser.c */
+#define IDCLS_DISABLE_RS232_USERPORT            0x11575
+#define IDCLS_DISABLE_RS232_USERPORT_DE         0x11576
+#define IDCLS_DISABLE_RS232_USERPORT_FR         0x11577
+#define IDCLS_DISABLE_RS232_USERPORT_IT         0x11578
+#define IDCLS_DISABLE_RS232_USERPORT_NL         0x11579
+#define IDCLS_DISABLE_RS232_USERPORT_PL         0x1157a
+#define IDCLS_DISABLE_RS232_USERPORT_SV         0x1157b
+
+/* rs232drv/rsuser.c */
+#define IDCLS_P_BAUD                            0x1157c
+#define IDCLS_P_BAUD_DE                         0x1157d
+#define IDCLS_P_BAUD_FR                         0x1157e
+#define IDCLS_P_BAUD_IT                         0x1157f
+#define IDCLS_P_BAUD_NL                         0x11580
+#define IDCLS_P_BAUD_PL                         0x11581
+#define IDCLS_P_BAUD_SV                         0x11582
+
+/* rs232drv/rsuser.c */
+#define IDCLS_SET_BAUD_RS232_USERPORT           0x11583
+#define IDCLS_SET_BAUD_RS232_USERPORT_DE        0x11584
+#define IDCLS_SET_BAUD_RS232_USERPORT_FR        0x11585
+#define IDCLS_SET_BAUD_RS232_USERPORT_IT        0x11586
+#define IDCLS_SET_BAUD_RS232_USERPORT_NL        0x11587
+#define IDCLS_SET_BAUD_RS232_USERPORT_PL        0x11588
+#define IDCLS_SET_BAUD_RS232_USERPORT_SV        0x11589
+
+/* rs232drv/rsuser.c, aciacore.c */
+#define IDCLS_P_0_3                             0x1158a
+#define IDCLS_P_0_3_DE                          0x1158b
+#define IDCLS_P_0_3_FR                          0x1158c
+#define IDCLS_P_0_3_IT                          0x1158d
+#define IDCLS_P_0_3_NL                          0x1158e
+#define IDCLS_P_0_3_PL                          0x1158f
+#define IDCLS_P_0_3_SV                          0x11590
+
+/* rs232drv/rsuser.c */
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT     0x11591
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE  0x11592
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_FR  0x11593
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_IT  0x11594
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_NL  0x11595
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_PL  0x11596
+#define IDCLS_SPECIFY_RS232_DEVICE_USERPORT_SV  0x11597
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_4                      0x11598
+#define IDCLS_ENABLE_IEC_4_DE                   0x11599
+#define IDCLS_ENABLE_IEC_4_FR                   0x1159a
+#define IDCLS_ENABLE_IEC_4_IT                   0x1159b
+#define IDCLS_ENABLE_IEC_4_NL                   0x1159c
+#define IDCLS_ENABLE_IEC_4_PL                   0x1159d
+#define IDCLS_ENABLE_IEC_4_SV                   0x1159e
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_4                     0x1159f
+#define IDCLS_DISABLE_IEC_4_DE                  0x115a0
+#define IDCLS_DISABLE_IEC_4_FR                  0x115a1
+#define IDCLS_DISABLE_IEC_4_IT                  0x115a2
+#define IDCLS_DISABLE_IEC_4_NL                  0x115a3
+#define IDCLS_DISABLE_IEC_4_PL                  0x115a4
+#define IDCLS_DISABLE_IEC_4_SV                  0x115a5
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_5                      0x115a6
+#define IDCLS_ENABLE_IEC_5_DE                   0x115a7
+#define IDCLS_ENABLE_IEC_5_FR                   0x115a8
+#define IDCLS_ENABLE_IEC_5_IT                   0x115a9
+#define IDCLS_ENABLE_IEC_5_NL                   0x115aa
+#define IDCLS_ENABLE_IEC_5_PL                   0x115ab
+#define IDCLS_ENABLE_IEC_5_SV                   0x115ac
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_5                     0x115ad
+#define IDCLS_DISABLE_IEC_5_DE                  0x115ae
+#define IDCLS_DISABLE_IEC_5_FR                  0x115af
+#define IDCLS_DISABLE_IEC_5_IT                  0x115b0
+#define IDCLS_DISABLE_IEC_5_NL                  0x115b1
+#define IDCLS_DISABLE_IEC_5_PL                  0x115b2
+#define IDCLS_DISABLE_IEC_5_SV                  0x115b3
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_8                      0x115b4
+#define IDCLS_ENABLE_IEC_8_DE                   0x115b5
+#define IDCLS_ENABLE_IEC_8_FR                   0x115b6
+#define IDCLS_ENABLE_IEC_8_IT                   0x115b7
+#define IDCLS_ENABLE_IEC_8_NL                   0x115b8
+#define IDCLS_ENABLE_IEC_8_PL                   0x115b9
+#define IDCLS_ENABLE_IEC_8_SV                   0x115ba
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_8                     0x115bb
+#define IDCLS_DISABLE_IEC_8_DE                  0x115bc
+#define IDCLS_DISABLE_IEC_8_FR                  0x115bd
+#define IDCLS_DISABLE_IEC_8_IT                  0x115be
+#define IDCLS_DISABLE_IEC_8_NL                  0x115bf
+#define IDCLS_DISABLE_IEC_8_PL                  0x115c0
+#define IDCLS_DISABLE_IEC_8_SV                  0x115c1
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_9                      0x115c2
+#define IDCLS_ENABLE_IEC_9_DE                   0x115c3
+#define IDCLS_ENABLE_IEC_9_FR                   0x115c4
+#define IDCLS_ENABLE_IEC_9_IT                   0x115c5
+#define IDCLS_ENABLE_IEC_9_NL                   0x115c6
+#define IDCLS_ENABLE_IEC_9_PL                   0x115c7
+#define IDCLS_ENABLE_IEC_9_SV                   0x115c8
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_9                     0x115c9
+#define IDCLS_DISABLE_IEC_9_DE                  0x115ca
+#define IDCLS_DISABLE_IEC_9_FR                  0x115cb
+#define IDCLS_DISABLE_IEC_9_IT                  0x115cc
+#define IDCLS_DISABLE_IEC_9_NL                  0x115cd
+#define IDCLS_DISABLE_IEC_9_PL                  0x115ce
+#define IDCLS_DISABLE_IEC_9_SV                  0x115cf
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_10                     0x115d0
+#define IDCLS_ENABLE_IEC_10_DE                  0x115d1
+#define IDCLS_ENABLE_IEC_10_FR                  0x115d2
+#define IDCLS_ENABLE_IEC_10_IT                  0x115d3
+#define IDCLS_ENABLE_IEC_10_NL                  0x115d4
+#define IDCLS_ENABLE_IEC_10_PL                  0x115d5
+#define IDCLS_ENABLE_IEC_10_SV                  0x115d6
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_10                    0x115d7
+#define IDCLS_DISABLE_IEC_10_DE                 0x115d8
+#define IDCLS_DISABLE_IEC_10_FR                 0x115d9
+#define IDCLS_DISABLE_IEC_10_IT                 0x115da
+#define IDCLS_DISABLE_IEC_10_NL                 0x115db
+#define IDCLS_DISABLE_IEC_10_PL                 0x115dc
+#define IDCLS_DISABLE_IEC_10_SV                 0x115dd
+
+/* serial/serial-iec-device.c */
+#define IDCLS_ENABLE_IEC_11                     0x115de
+#define IDCLS_ENABLE_IEC_11_DE                  0x115df
+#define IDCLS_ENABLE_IEC_11_FR                  0x115e0
+#define IDCLS_ENABLE_IEC_11_IT                  0x115e1
+#define IDCLS_ENABLE_IEC_11_NL                  0x115e2
+#define IDCLS_ENABLE_IEC_11_PL                  0x115e3
+#define IDCLS_ENABLE_IEC_11_SV                  0x115e4
+
+/* serial/serial-iec-device.c */
+#define IDCLS_DISABLE_IEC_11                    0x115e5
+#define IDCLS_DISABLE_IEC_11_DE                 0x115e6
+#define IDCLS_DISABLE_IEC_11_FR                 0x115e7
+#define IDCLS_DISABLE_IEC_11_IT                 0x115e8
+#define IDCLS_DISABLE_IEC_11_NL                 0x115e9
+#define IDCLS_DISABLE_IEC_11_PL                 0x115ea
+#define IDCLS_DISABLE_IEC_11_SV                 0x115eb
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_P_ENGINE                          0x115ec
+#define IDCLS_P_ENGINE_DE                       0x115ed
+#define IDCLS_P_ENGINE_FR                       0x115ee
+#define IDCLS_P_ENGINE_IT                       0x115ef
+#define IDCLS_P_ENGINE_NL                       0x115f0
+#define IDCLS_P_ENGINE_PL                       0x115f1
+#define IDCLS_P_ENGINE_SV                       0x115f2
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_SPECIFY_SID_ENGINE                0x115f3
+#define IDCLS_SPECIFY_SID_ENGINE_DE             0x115f4
+#define IDCLS_SPECIFY_SID_ENGINE_FR             0x115f5
+#define IDCLS_SPECIFY_SID_ENGINE_IT             0x115f6
+#define IDCLS_SPECIFY_SID_ENGINE_NL             0x115f7
+#define IDCLS_SPECIFY_SID_ENGINE_PL             0x115f8
+#define IDCLS_SPECIFY_SID_ENGINE_SV             0x115f9
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_ENABLE_SECOND_SID                 0x115fa
+#define IDCLS_ENABLE_SECOND_SID_DE              0x115fb
+#define IDCLS_ENABLE_SECOND_SID_FR              0x115fc
+#define IDCLS_ENABLE_SECOND_SID_IT              0x115fd
+#define IDCLS_ENABLE_SECOND_SID_NL              0x115fe
+#define IDCLS_ENABLE_SECOND_SID_PL              0x115ff
+#define IDCLS_ENABLE_SECOND_SID_SV              0x11600
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_P_BASE_ADDRESS                    0x11601
+#define IDCLS_P_BASE_ADDRESS_DE                 0x11602
+#define IDCLS_P_BASE_ADDRESS_FR                 0x11603
+#define IDCLS_P_BASE_ADDRESS_IT                 0x11604
+#define IDCLS_P_BASE_ADDRESS_NL                 0x11605
+#define IDCLS_P_BASE_ADDRESS_PL                 0x11606
+#define IDCLS_P_BASE_ADDRESS_SV                 0x11607
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_SPECIFY_SID_2_ADDRESS             0x11608
+#define IDCLS_SPECIFY_SID_2_ADDRESS_DE          0x11609
+#define IDCLS_SPECIFY_SID_2_ADDRESS_FR          0x1160a
+#define IDCLS_SPECIFY_SID_2_ADDRESS_IT          0x1160b
+#define IDCLS_SPECIFY_SID_2_ADDRESS_NL          0x1160c
+#define IDCLS_SPECIFY_SID_2_ADDRESS_PL          0x1160d
+#define IDCLS_SPECIFY_SID_2_ADDRESS_SV          0x1160e
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_P_MODEL                           0x1160f
+#define IDCLS_P_MODEL_DE                        0x11610
+#define IDCLS_P_MODEL_FR                        0x11611
+#define IDCLS_P_MODEL_IT                        0x11612
+#define IDCLS_P_MODEL_NL                        0x11613
+#define IDCLS_P_MODEL_PL                        0x11614
+#define IDCLS_P_MODEL_SV                        0x11615
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_SPECIFY_SID_MODEL                 0x11616
+#define IDCLS_SPECIFY_SID_MODEL_DE              0x11617
+#define IDCLS_SPECIFY_SID_MODEL_FR              0x11618
+#define IDCLS_SPECIFY_SID_MODEL_IT              0x11619
+#define IDCLS_SPECIFY_SID_MODEL_NL              0x1161a
+#define IDCLS_SPECIFY_SID_MODEL_PL              0x1161b
+#define IDCLS_SPECIFY_SID_MODEL_SV              0x1161c
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_ENABLE_SID_FILTERS                0x1161d
+#define IDCLS_ENABLE_SID_FILTERS_DE             0x1161e
+#define IDCLS_ENABLE_SID_FILTERS_FR             0x1161f
+#define IDCLS_ENABLE_SID_FILTERS_IT             0x11620
+#define IDCLS_ENABLE_SID_FILTERS_NL             0x11621
+#define IDCLS_ENABLE_SID_FILTERS_PL             0x11622
+#define IDCLS_ENABLE_SID_FILTERS_SV             0x11623
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_DISABLE_SID_FILTERS               0x11624
+#define IDCLS_DISABLE_SID_FILTERS_DE            0x11625
+#define IDCLS_DISABLE_SID_FILTERS_FR            0x11626
+#define IDCLS_DISABLE_SID_FILTERS_IT            0x11627
+#define IDCLS_DISABLE_SID_FILTERS_NL            0x11628
+#define IDCLS_DISABLE_SID_FILTERS_PL            0x11629
+#define IDCLS_DISABLE_SID_FILTERS_SV            0x1162a
+
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+#define IDCLS_RESID_SAMPLING_METHOD             0x1162b
+#define IDCLS_RESID_SAMPLING_METHOD_DE          0x1162c
+#define IDCLS_RESID_SAMPLING_METHOD_FR          0x1162d
+#define IDCLS_RESID_SAMPLING_METHOD_IT          0x1162e
+#define IDCLS_RESID_SAMPLING_METHOD_NL          0x1162f
+#define IDCLS_RESID_SAMPLING_METHOD_PL          0x11630
+#define IDCLS_RESID_SAMPLING_METHOD_SV          0x11631
+
+/* sid/sid-cmdline-options.c, vsync.c */
+#define IDCLS_P_PERCENT                         0x11632
+#define IDCLS_P_PERCENT_DE                      0x11633
+#define IDCLS_P_PERCENT_FR                      0x11634
+#define IDCLS_P_PERCENT_IT                      0x11635
+#define IDCLS_P_PERCENT_NL                      0x11636
+#define IDCLS_P_PERCENT_PL                      0x11637
+#define IDCLS_P_PERCENT_SV                      0x11638
+
+/* sid/sid-cmdline-options.c */
+#define IDCLS_PASSBAND_PERCENTAGE               0x11639
+#define IDCLS_PASSBAND_PERCENTAGE_DE            0x1163a
+#define IDCLS_PASSBAND_PERCENTAGE_FR            0x1163b
+#define IDCLS_PASSBAND_PERCENTAGE_IT            0x1163c
+#define IDCLS_PASSBAND_PERCENTAGE_NL            0x1163d
+#define IDCLS_PASSBAND_PERCENTAGE_PL            0x1163e
+#define IDCLS_PASSBAND_PERCENTAGE_SV            0x1163f
+#endif
+
+/* vdc/vdc-cmdline-options.c */
+#define IDCLS_SET_VDC_MEMORY_16KB               0x11640
+#define IDCLS_SET_VDC_MEMORY_16KB_DE            0x11641
+#define IDCLS_SET_VDC_MEMORY_16KB_FR            0x11642
+#define IDCLS_SET_VDC_MEMORY_16KB_IT            0x11643
+#define IDCLS_SET_VDC_MEMORY_16KB_NL            0x11644
+#define IDCLS_SET_VDC_MEMORY_16KB_PL            0x11645
+#define IDCLS_SET_VDC_MEMORY_16KB_SV            0x11646
+
+/* vdc/vdc-cmdline-options.c */
+#define IDCLS_SET_VDC_MEMORY_64KB               0x11647
+#define IDCLS_SET_VDC_MEMORY_64KB_DE            0x11648
+#define IDCLS_SET_VDC_MEMORY_64KB_FR            0x11649
+#define IDCLS_SET_VDC_MEMORY_64KB_IT            0x1164a
+#define IDCLS_SET_VDC_MEMORY_64KB_NL            0x1164b
+#define IDCLS_SET_VDC_MEMORY_64KB_PL            0x1164c
+#define IDCLS_SET_VDC_MEMORY_64KB_SV            0x1164d
+
+/* vdc/vdc-cmdline-options.c */
+#define IDCLS_SET_VDC_REVISION                  0x1164e
+#define IDCLS_SET_VDC_REVISION_DE               0x1164f
+#define IDCLS_SET_VDC_REVISION_FR               0x11650
+#define IDCLS_SET_VDC_REVISION_IT               0x11651
+#define IDCLS_SET_VDC_REVISION_NL               0x11652
+#define IDCLS_SET_VDC_REVISION_PL               0x11653
+#define IDCLS_SET_VDC_REVISION_SV               0x11654
+
+/* vic20/vic20-cmdline-options.c */
+#define IDCLS_P_SPEC                            0x11655
+#define IDCLS_P_SPEC_DE                         0x11656
+#define IDCLS_P_SPEC_FR                         0x11657
+#define IDCLS_P_SPEC_IT                         0x11658
+#define IDCLS_P_SPEC_NL                         0x11659
+#define IDCLS_P_SPEC_PL                         0x1165a
+#define IDCLS_P_SPEC_SV                         0x1165b
+
+/* vic20/vic20-cmdline-options.c */
+#define IDCLS_SPECIFY_MEMORY_CONFIG             0x1165c
+#define IDCLS_SPECIFY_MEMORY_CONFIG_DE          0x1165d
+#define IDCLS_SPECIFY_MEMORY_CONFIG_FR          0x1165e
+#define IDCLS_SPECIFY_MEMORY_CONFIG_IT          0x1165f
+#define IDCLS_SPECIFY_MEMORY_CONFIG_NL          0x11660
+#define IDCLS_SPECIFY_MEMORY_CONFIG_PL          0x11661
+#define IDCLS_SPECIFY_MEMORY_CONFIG_SV          0x11662
+
+/* vic20/vic20-cmdline-options.c */
+#define IDCLS_ENABLE_VIC1112_IEEE488            0x11663
+#define IDCLS_ENABLE_VIC1112_IEEE488_DE         0x11664
+#define IDCLS_ENABLE_VIC1112_IEEE488_FR         0x11665
+#define IDCLS_ENABLE_VIC1112_IEEE488_IT         0x11666
+#define IDCLS_ENABLE_VIC1112_IEEE488_NL         0x11667
+#define IDCLS_ENABLE_VIC1112_IEEE488_PL         0x11668
+#define IDCLS_ENABLE_VIC1112_IEEE488_SV         0x11669
+
+/* vic20/vic20-cmdline-options.c */
+#define IDCLS_DISABLE_VIC1112_IEEE488           0x1166a
+#define IDCLS_DISABLE_VIC1112_IEEE488_DE        0x1166b
+#define IDCLS_DISABLE_VIC1112_IEEE488_FR        0x1166c
+#define IDCLS_DISABLE_VIC1112_IEEE488_IT        0x1166d
+#define IDCLS_DISABLE_VIC1112_IEEE488_NL        0x1166e
+#define IDCLS_DISABLE_VIC1112_IEEE488_PL        0x1166f
+#define IDCLS_DISABLE_VIC1112_IEEE488_SV        0x11670
+
+/* vic20/vic20cartridge.c */
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME         0x11671
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_DE      0x11672
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_FR      0x11673
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_IT      0x11674
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_NL      0x11675
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_PL      0x11676
+#define IDCLS_SPECIFY_EXT_ROM_2000_NAME_SV      0x11677
+
+/* vic20/vic20cartridge.c */
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME         0x11678
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_DE      0x11679
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_FR      0x1167a
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_IT      0x1167b
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_NL      0x1167c
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_PL      0x1167d
+#define IDCLS_SPECIFY_EXT_ROM_4000_NAME_SV      0x1167e
+
+/* vic20/vic20cartridge.c */
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME         0x11680
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_DE      0x11681
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_FR      0x11682
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_IT      0x11683
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_NL      0x11684
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_PL      0x11685
+#define IDCLS_SPECIFY_EXT_ROM_6000_NAME_SV      0x11686
+
+/* vic20/vic20cartridge.c */
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME         0x11687
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE      0x11688
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_FR      0x11689
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_IT      0x1168a
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_NL      0x1168b
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_PL      0x1168c
+#define IDCLS_SPECIFY_EXT_ROM_A000_NAME_SV      0x1168d
+
+/* vic20/vic20cartridge.c */
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME         0x1168e
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE      0x1168f
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_FR      0x11690
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_IT      0x11691
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_NL      0x11692
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_PL      0x11693
+#define IDCLS_SPECIFY_EXT_ROM_B000_NAME_SV      0x11694
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_ENABLE_SPRITE_BACKGROUND          0x11695
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_DE       0x11696
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_FR       0x11697
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_IT       0x11698
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_NL       0x11699
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_PL       0x1169a
+#define IDCLS_ENABLE_SPRITE_BACKGROUND_SV       0x1169b
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_DISABLE_SPRITE_BACKGROUND         0x1169c
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_DE      0x1169d
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_FR      0x1169e
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_IT      0x1169f
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_NL      0x116a0
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_PL      0x116a1
+#define IDCLS_DISABLE_SPRITE_BACKGROUND_SV      0x116a2
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_ENABLE_SPRITE_SPRITE              0x116a3
+#define IDCLS_ENABLE_SPRITE_SPRITE_DE           0x116a4
+#define IDCLS_ENABLE_SPRITE_SPRITE_FR           0x116a5
+#define IDCLS_ENABLE_SPRITE_SPRITE_IT           0x116a6
+#define IDCLS_ENABLE_SPRITE_SPRITE_NL           0x116a7
+#define IDCLS_ENABLE_SPRITE_SPRITE_PL           0x116a8
+#define IDCLS_ENABLE_SPRITE_SPRITE_SV           0x116a9
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_DISABLE_SPRITE_SPRITE             0x116aa
+#define IDCLS_DISABLE_SPRITE_SPRITE_DE          0x116ab
+#define IDCLS_DISABLE_SPRITE_SPRITE_FR          0x116ac
+#define IDCLS_DISABLE_SPRITE_SPRITE_IT          0x116ad
+#define IDCLS_DISABLE_SPRITE_SPRITE_NL          0x116ae
+#define IDCLS_DISABLE_SPRITE_SPRITE_PL          0x116af
+#define IDCLS_DISABLE_SPRITE_SPRITE_SV          0x116b0
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_USE_NEW_LUMINANCES                0x116b1
+#define IDCLS_USE_NEW_LUMINANCES_DE             0x116b2
+#define IDCLS_USE_NEW_LUMINANCES_FR             0x116b3
+#define IDCLS_USE_NEW_LUMINANCES_IT             0x116b4
+#define IDCLS_USE_NEW_LUMINANCES_NL             0x116b5
+#define IDCLS_USE_NEW_LUMINANCES_PL             0x116b6
+#define IDCLS_USE_NEW_LUMINANCES_SV             0x116b7
+
+/* vicii/vicii-cmdline-options.c */
+#define IDCLS_USE_OLD_LUMINANCES                0x116b8
+#define IDCLS_USE_OLD_LUMINANCES_DE             0x116b9
+#define IDCLS_USE_OLD_LUMINANCES_FR             0x116ba
+#define IDCLS_USE_OLD_LUMINANCES_IT             0x116bb
+#define IDCLS_USE_OLD_LUMINANCES_NL             0x116bc
+#define IDCLS_USE_OLD_LUMINANCES_PL             0x116bd
+#define IDCLS_USE_OLD_LUMINANCES_SV             0x116be
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_DOUBLE_SIZE                0x116bf
+#define IDCLS_ENABLE_DOUBLE_SIZE_DE             0x116c0
+#define IDCLS_ENABLE_DOUBLE_SIZE_FR             0x116c1
+#define IDCLS_ENABLE_DOUBLE_SIZE_IT             0x116c2
+#define IDCLS_ENABLE_DOUBLE_SIZE_NL             0x116c3
+#define IDCLS_ENABLE_DOUBLE_SIZE_PL             0x116c4
+#define IDCLS_ENABLE_DOUBLE_SIZE_SV             0x116c5
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_DOUBLE_SIZE               0x116c6
+#define IDCLS_DISABLE_DOUBLE_SIZE_DE            0x116c7
+#define IDCLS_DISABLE_DOUBLE_SIZE_FR            0x116c8
+#define IDCLS_DISABLE_DOUBLE_SIZE_IT            0x116c9
+#define IDCLS_DISABLE_DOUBLE_SIZE_NL            0x116ca
+#define IDCLS_DISABLE_DOUBLE_SIZE_PL            0x116cb
+#define IDCLS_DISABLE_DOUBLE_SIZE_SV            0x116cc
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_DOUBLE_SCAN                0x116cd
+#define IDCLS_ENABLE_DOUBLE_SCAN_DE             0x116ce
+#define IDCLS_ENABLE_DOUBLE_SCAN_FR             0x116cf
+#define IDCLS_ENABLE_DOUBLE_SCAN_IT             0x116d0
+#define IDCLS_ENABLE_DOUBLE_SCAN_NL             0x116d1
+#define IDCLS_ENABLE_DOUBLE_SCAN_PL             0x116d2
+#define IDCLS_ENABLE_DOUBLE_SCAN_SV             0x116d3
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_DOUBLE_SCAN               0x116d4
+#define IDCLS_DISABLE_DOUBLE_SCAN_DE            0x116d5
+#define IDCLS_DISABLE_DOUBLE_SCAN_FR            0x116d6
+#define IDCLS_DISABLE_DOUBLE_SCAN_IT            0x116d7
+#define IDCLS_DISABLE_DOUBLE_SCAN_NL            0x116d8
+#define IDCLS_DISABLE_DOUBLE_SCAN_PL            0x116d9
+#define IDCLS_DISABLE_DOUBLE_SCAN_SV            0x116da
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_HARDWARE_SCALING           0x116db
+#define IDCLS_ENABLE_HARDWARE_SCALING_DE        0x116dc
+#define IDCLS_ENABLE_HARDWARE_SCALING_FR        0x116dd
+#define IDCLS_ENABLE_HARDWARE_SCALING_IT        0x116de
+#define IDCLS_ENABLE_HARDWARE_SCALING_NL        0x116df
+#define IDCLS_ENABLE_HARDWARE_SCALING_PL        0x116e0
+#define IDCLS_ENABLE_HARDWARE_SCALING_SV        0x116e1
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_HARDWARE_SCALING          0x116e2
+#define IDCLS_DISABLE_HARDWARE_SCALING_DE       0x116e3
+#define IDCLS_DISABLE_HARDWARE_SCALING_FR       0x116e4
+#define IDCLS_DISABLE_HARDWARE_SCALING_IT       0x116e5
+#define IDCLS_DISABLE_HARDWARE_SCALING_NL       0x116e6
+#define IDCLS_DISABLE_HARDWARE_SCALING_PL       0x116e7
+#define IDCLS_DISABLE_HARDWARE_SCALING_SV       0x116e8
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_SCALE2X                    0x116e9
+#define IDCLS_ENABLE_SCALE2X_DE                 0x116ea
+#define IDCLS_ENABLE_SCALE2X_FR                 0x116eb
+#define IDCLS_ENABLE_SCALE2X_IT                 0x116ec
+#define IDCLS_ENABLE_SCALE2X_NL                 0x116ed
+#define IDCLS_ENABLE_SCALE2X_PL                 0x116ee
+#define IDCLS_ENABLE_SCALE2X_SV                 0x116ef
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_SCALE2X                   0x116f0
+#define IDCLS_DISABLE_SCALE2X_DE                0x116f1
+#define IDCLS_DISABLE_SCALE2X_FR                0x116f2
+#define IDCLS_DISABLE_SCALE2X_IT                0x116f3
+#define IDCLS_DISABLE_SCALE2X_NL                0x116f4
+#define IDCLS_DISABLE_SCALE2X_PL                0x116f5
+#define IDCLS_DISABLE_SCALE2X_SV                0x116f6
+
+/* video/video-cmdline-options.c */
+#define IDCLS_USE_INTERNAL_CALC_PALETTE         0x116f7
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_DE      0x116f8
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_FR      0x116f9
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_IT      0x116fa
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_NL      0x116fb
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_PL      0x116fc
+#define IDCLS_USE_INTERNAL_CALC_PALETTE_SV      0x116fd
+
+/* video/video-cmdline-options.c */
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE         0x116fe
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_DE      0x116ff
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_FR      0x11700
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_IT      0x11701
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_NL      0x11702
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_PL      0x11703
+#define IDCLS_USE_EXTERNAL_FILE_PALETTE_SV      0x11704
+
+/* video/video-cmdline-options.c */
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME     0x11705
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE  0x11706
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_FR  0x11707
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_IT  0x11708
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_NL  0x11709
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_PL  0x1170a
+#define IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_SV  0x1170b
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_FULLSCREEN_MODE            0x1170c
+#define IDCLS_ENABLE_FULLSCREEN_MODE_DE         0x1170d
+#define IDCLS_ENABLE_FULLSCREEN_MODE_FR         0x1170e
+#define IDCLS_ENABLE_FULLSCREEN_MODE_IT         0x1170f
+#define IDCLS_ENABLE_FULLSCREEN_MODE_NL         0x11710
+#define IDCLS_ENABLE_FULLSCREEN_MODE_PL         0x11711
+#define IDCLS_ENABLE_FULLSCREEN_MODE_SV         0x11712
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_FULLSCREEN_MODE           0x11713
+#define IDCLS_DISABLE_FULLSCREEN_MODE_DE        0x11714
+#define IDCLS_DISABLE_FULLSCREEN_MODE_FR        0x11715
+#define IDCLS_DISABLE_FULLSCREEN_MODE_IT        0x11716
+#define IDCLS_DISABLE_FULLSCREEN_MODE_NL        0x11717
+#define IDCLS_DISABLE_FULLSCREEN_MODE_PL        0x11718
+#define IDCLS_DISABLE_FULLSCREEN_MODE_SV        0x11719
+
+/* video/video-cmdline-options.c */
+#define IDCLS_P_DEVICE                          0x1171a
+#define IDCLS_P_DEVICE_DE                       0x1171b
+#define IDCLS_P_DEVICE_FR                       0x1171c
+#define IDCLS_P_DEVICE_IT                       0x1171d
+#define IDCLS_P_DEVICE_NL                       0x1171e
+#define IDCLS_P_DEVICE_PL                       0x1171f
+#define IDCLS_P_DEVICE_SV                       0x11720
+
+/* video/video-cmdline-options.c */
+#define IDCLS_SELECT_FULLSCREEN_DEVICE          0x11721
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_DE       0x11722
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_FR       0x11723
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_IT       0x11724
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_NL       0x11725
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_PL       0x11726
+#define IDCLS_SELECT_FULLSCREEN_DEVICE_SV       0x11727
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN     0x11728
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_DE  0x11729
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_FR  0x1172a
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_IT  0x1172b
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_NL  0x1172c
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_PL  0x1172d
+#define IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_SV  0x1172e
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN    0x1172f
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DE 0x11730
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_FR 0x11731
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_IT 0x11732
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_NL 0x11733
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_PL 0x11734
+#define IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_SV 0x11735
+
+/* video/video-cmdline-options.c */
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN     0x11736
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_DE  0x11737
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_FR  0x11738
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_IT  0x11739
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_NL  0x1173a
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_PL  0x1173b
+#define IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_SV  0x1173c
+
+/* video/video-cmdline-options.c */
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN    0x1173d
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DE 0x1173e
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_FR 0x1173f
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_IT 0x11740
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_NL 0x11741
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_PL 0x11742
+#define IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_SV 0x11743
+
+/* video/video-cmdline-options.c */
+#define IDCLS_P_MODE                            0x11744
+#define IDCLS_P_MODE_DE                         0x11745
+#define IDCLS_P_MODE_FR                         0x11746
+#define IDCLS_P_MODE_IT                         0x11747
+#define IDCLS_P_MODE_NL                         0x11748
+#define IDCLS_P_MODE_PL                         0x11749
+#define IDCLS_P_MODE_SV                         0x1174a
+
+/* video/video-cmdline-options.c */
+#define IDCLS_SELECT_FULLSCREEN_MODE            0x1174b
+#define IDCLS_SELECT_FULLSCREEN_MODE_DE         0x1174c
+#define IDCLS_SELECT_FULLSCREEN_MODE_FR         0x1174d
+#define IDCLS_SELECT_FULLSCREEN_MODE_IT         0x1174e
+#define IDCLS_SELECT_FULLSCREEN_MODE_NL         0x1174f
+#define IDCLS_SELECT_FULLSCREEN_MODE_PL         0x11750
+#define IDCLS_SELECT_FULLSCREEN_MODE_SV         0x11751
+
+/* aciacore.c */
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE         0x11752
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_DE      0x11753
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_FR      0x11754
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT      0x11755
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_NL      0x11756
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_PL      0x11757
+#define IDCLS_SPECIFY_ACIA_RS232_DEVICE_SV      0x11758
+
+/* attach.c */
+#define IDCLS_SET_DEVICE_TYPE_8                 0x11759
+#define IDCLS_SET_DEVICE_TYPE_8_DE              0x1175a
+#define IDCLS_SET_DEVICE_TYPE_8_FR              0x1175b
+#define IDCLS_SET_DEVICE_TYPE_8_IT              0x1175c
+#define IDCLS_SET_DEVICE_TYPE_8_NL              0x1175d
+#define IDCLS_SET_DEVICE_TYPE_8_PL              0x1175e
+#define IDCLS_SET_DEVICE_TYPE_8_SV              0x1175f
+
+/* attach.c */
+#define IDCLS_SET_DEVICE_TYPE_9                 0x11760
+#define IDCLS_SET_DEVICE_TYPE_9_DE              0x11761
+#define IDCLS_SET_DEVICE_TYPE_9_FR              0x11762
+#define IDCLS_SET_DEVICE_TYPE_9_IT              0x11763
+#define IDCLS_SET_DEVICE_TYPE_9_NL              0x11764
+#define IDCLS_SET_DEVICE_TYPE_9_PL              0x11765
+#define IDCLS_SET_DEVICE_TYPE_9_SV              0x11766
+
+/* attach.c */
+#define IDCLS_SET_DEVICE_TYPE_10                0x11767
+#define IDCLS_SET_DEVICE_TYPE_10_DE             0x11768
+#define IDCLS_SET_DEVICE_TYPE_10_FR             0x11769
+#define IDCLS_SET_DEVICE_TYPE_10_IT             0x1176a
+#define IDCLS_SET_DEVICE_TYPE_10_NL             0x1176b
+#define IDCLS_SET_DEVICE_TYPE_10_PL             0x1176c
+#define IDCLS_SET_DEVICE_TYPE_10_SV             0x1176d
+
+/* attach.c */
+#define IDCLS_SET_DEVICE_TYPE_11                0x1176e
+#define IDCLS_SET_DEVICE_TYPE_11_DE             0x1176f
+#define IDCLS_SET_DEVICE_TYPE_11_FR             0x11770
+#define IDCLS_SET_DEVICE_TYPE_11_IT             0x11771
+#define IDCLS_SET_DEVICE_TYPE_11_NL             0x11772
+#define IDCLS_SET_DEVICE_TYPE_11_PL             0x11773
+#define IDCLS_SET_DEVICE_TYPE_11_SV             0x11774
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_ONLY_8                0x11775
+#define IDCLS_ATTACH_READ_ONLY_8_DE             0x11776
+#define IDCLS_ATTACH_READ_ONLY_8_FR             0x11777
+#define IDCLS_ATTACH_READ_ONLY_8_IT             0x11778
+#define IDCLS_ATTACH_READ_ONLY_8_NL             0x11779
+#define IDCLS_ATTACH_READ_ONLY_8_PL             0x1177a
+#define IDCLS_ATTACH_READ_ONLY_8_SV             0x1177b
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_WRITE_8               0x1177c
+#define IDCLS_ATTACH_READ_WRITE_8_DE            0x1177d
+#define IDCLS_ATTACH_READ_WRITE_8_FR            0x1177e
+#define IDCLS_ATTACH_READ_WRITE_8_IT            0x1177f
+#define IDCLS_ATTACH_READ_WRITE_8_NL            0x11780
+#define IDCLS_ATTACH_READ_WRITE_8_PL            0x11781
+#define IDCLS_ATTACH_READ_WRITE_8_SV            0x11782
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_ONLY_9                0x11783
+#define IDCLS_ATTACH_READ_ONLY_9_DE             0x11784
+#define IDCLS_ATTACH_READ_ONLY_9_FR             0x11785
+#define IDCLS_ATTACH_READ_ONLY_9_IT             0x11786
+#define IDCLS_ATTACH_READ_ONLY_9_NL             0x11787
+#define IDCLS_ATTACH_READ_ONLY_9_PL             0x11788
+#define IDCLS_ATTACH_READ_ONLY_9_SV             0x11789
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_WRITE_9               0x1178a
+#define IDCLS_ATTACH_READ_WRITE_9_DE            0x1178b
+#define IDCLS_ATTACH_READ_WRITE_9_FR            0x1178c
+#define IDCLS_ATTACH_READ_WRITE_9_IT            0x1178d
+#define IDCLS_ATTACH_READ_WRITE_9_NL            0x1178e
+#define IDCLS_ATTACH_READ_WRITE_9_PL            0x1178f
+#define IDCLS_ATTACH_READ_WRITE_9_SV            0x11790
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_ONLY_10               0x11791
+#define IDCLS_ATTACH_READ_ONLY_10_DE            0x11792
+#define IDCLS_ATTACH_READ_ONLY_10_FR            0x11793
+#define IDCLS_ATTACH_READ_ONLY_10_IT            0x11794
+#define IDCLS_ATTACH_READ_ONLY_10_NL            0x11795
+#define IDCLS_ATTACH_READ_ONLY_10_PL            0x11796
+#define IDCLS_ATTACH_READ_ONLY_10_SV            0x11797
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_WRITE_10              0x11798
+#define IDCLS_ATTACH_READ_WRITE_10_DE           0x11799
+#define IDCLS_ATTACH_READ_WRITE_10_FR           0x1179a
+#define IDCLS_ATTACH_READ_WRITE_10_IT           0x1179b
+#define IDCLS_ATTACH_READ_WRITE_10_NL           0x1179c
+#define IDCLS_ATTACH_READ_WRITE_10_PL           0x1179d
+#define IDCLS_ATTACH_READ_WRITE_10_SV           0x1179e
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_ONLY_11               0x1179f
+#define IDCLS_ATTACH_READ_ONLY_11_DE            0x117a0
+#define IDCLS_ATTACH_READ_ONLY_11_FR            0x117a1
+#define IDCLS_ATTACH_READ_ONLY_11_IT            0x117a2
+#define IDCLS_ATTACH_READ_ONLY_11_NL            0x117a3
+#define IDCLS_ATTACH_READ_ONLY_11_PL            0x117a4
+#define IDCLS_ATTACH_READ_ONLY_11_SV            0x117a5
+
+/* attach.c */
+#define IDCLS_ATTACH_READ_WRITE_11              0x117a6
+#define IDCLS_ATTACH_READ_WRITE_11_DE           0x117a7
+#define IDCLS_ATTACH_READ_WRITE_11_FR           0x117a8
+#define IDCLS_ATTACH_READ_WRITE_11_IT           0x117a9
+#define IDCLS_ATTACH_READ_WRITE_11_NL           0x117aa
+#define IDCLS_ATTACH_READ_WRITE_11_PL           0x117ab
+#define IDCLS_ATTACH_READ_WRITE_11_SV           0x117ac
+
+/* datasette.c */
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET       0x117ad
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_DE    0x117ae
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_FR    0x117af
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_IT    0x117b0
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_NL    0x117b1
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_PL    0x117b2
+#define IDCLS_ENABLE_AUTO_DATASETTE_RESET_SV    0x117b3
+
+/* datasette.c */
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET      0x117b4
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_DE   0x117b5
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_FR   0x117b6
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_IT   0x117b7
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_NL   0x117b8
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_PL   0x117b9
+#define IDCLS_DISABLE_AUTO_DATASETTE_RESET_SV   0x117ba
+
+/* datasette.c */
+#define IDCLS_SET_ZERO_TAP_DELAY                0x117bb
+#define IDCLS_SET_ZERO_TAP_DELAY_DE             0x117bc
+#define IDCLS_SET_ZERO_TAP_DELAY_FR             0x117bd
+#define IDCLS_SET_ZERO_TAP_DELAY_IT             0x117be
+#define IDCLS_SET_ZERO_TAP_DELAY_NL             0x117bf
+#define IDCLS_SET_ZERO_TAP_DELAY_PL             0x117c0
+#define IDCLS_SET_ZERO_TAP_DELAY_SV             0x117c1
+
+/* datasette.c */
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP          0x117c2
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_DE       0x117c3
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_FR       0x117c4
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_IT       0x117c5
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_NL       0x117c6
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_PL       0x117c7
+#define IDCLS_SET_CYCLES_ADDED_GAP_TAP_SV       0x117c8
+
+#ifdef DEBUG
+/* debug.c */
+#define IDCLS_TRACE_MAIN_CPU                    0x117c9
+#define IDCLS_TRACE_MAIN_CPU_DE                 0x117ca
+#define IDCLS_TRACE_MAIN_CPU_FR                 0x117cb
+#define IDCLS_TRACE_MAIN_CPU_IT                 0x117cc
+#define IDCLS_TRACE_MAIN_CPU_NL                 0x117cd
+#define IDCLS_TRACE_MAIN_CPU_PL                 0x117ce
+#define IDCLS_TRACE_MAIN_CPU_SV                 0x117cf
+
+/* debug.c */
+#define IDCLS_DONT_TRACE_MAIN_CPU               0x117d0
+#define IDCLS_DONT_TRACE_MAIN_CPU_DE            0x117d1
+#define IDCLS_DONT_TRACE_MAIN_CPU_FR            0x117d2
+#define IDCLS_DONT_TRACE_MAIN_CPU_IT            0x117d3
+#define IDCLS_DONT_TRACE_MAIN_CPU_NL            0x117d4
+#define IDCLS_DONT_TRACE_MAIN_CPU_PL            0x117d5
+#define IDCLS_DONT_TRACE_MAIN_CPU_SV            0x117d6
+
+/* debug.c */
+#define IDCLS_TRACE_DRIVE0_CPU                  0x117d7
+#define IDCLS_TRACE_DRIVE0_CPU_DE               0x117d8
+#define IDCLS_TRACE_DRIVE0_CPU_FR               0x117d9
+#define IDCLS_TRACE_DRIVE0_CPU_IT               0x117da
+#define IDCLS_TRACE_DRIVE0_CPU_NL               0x117db
+#define IDCLS_TRACE_DRIVE0_CPU_PL               0x117dc
+#define IDCLS_TRACE_DRIVE0_CPU_SV               0x117dd
+
+/* debug.c */
+#define IDCLS_DONT_TRACE_DRIVE0_CPU             0x117de
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_DE          0x117df
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_FR          0x117e0
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_IT          0x117e1
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_NL          0x117e2
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_PL          0x117e3
+#define IDCLS_DONT_TRACE_DRIVE0_CPU_SV          0x117e4
+
+/* debug.c */
+#define IDCLS_TRACE_DRIVE1_CPU                  0x117e5
+#define IDCLS_TRACE_DRIVE1_CPU_DE               0x117e6
+#define IDCLS_TRACE_DRIVE1_CPU_FR               0x117e7
+#define IDCLS_TRACE_DRIVE1_CPU_IT               0x117e8
+#define IDCLS_TRACE_DRIVE1_CPU_NL               0x117e9
+#define IDCLS_TRACE_DRIVE1_CPU_PL               0x117ea
+#define IDCLS_TRACE_DRIVE1_CPU_SV               0x117eb
+
+/* debug.c */
+#define IDCLS_DONT_TRACE_DRIVE1_CPU             0x117ec
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_DE          0x117ed
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_FR          0x117ee
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_IT          0x117ef
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_NL          0x117f0
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_PL          0x117f1
+#define IDCLS_DONT_TRACE_DRIVE1_CPU_SV          0x117f2
+#endif
+
+#if DRIVE_NUM > 2
+/* debug.c */
+#define IDCLS_TRACE_DRIVE2_CPU                  0x117f3
+#define IDCLS_TRACE_DRIVE2_CPU_DE               0x117f4
+#define IDCLS_TRACE_DRIVE2_CPU_FR               0x117f5
+#define IDCLS_TRACE_DRIVE2_CPU_IT               0x117f6
+#define IDCLS_TRACE_DRIVE2_CPU_NL               0x117f7
+#define IDCLS_TRACE_DRIVE2_CPU_PL               0x117f8
+#define IDCLS_TRACE_DRIVE2_CPU_SV               0x117f9
+
+/* debug.c */
+#define IDCLS_DONT_TRACE_DRIVE2_CPU             0x117fa
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_DE          0x117fb
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_FR          0x117fc
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_IT          0x117fd
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_NL          0x117fe
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_PL          0x117ff
+#define IDCLS_DONT_TRACE_DRIVE2_CPU_SV          0x11800
+#endif
+
+#if DRIVE_NUM > 3
+/* debug.c */
+#define IDCLS_TRACE_DRIVE3_CPU                  0x11801
+#define IDCLS_TRACE_DRIVE3_CPU_DE               0x11802
+#define IDCLS_TRACE_DRIVE3_CPU_FR               0x11803
+#define IDCLS_TRACE_DRIVE3_CPU_IT               0x11804
+#define IDCLS_TRACE_DRIVE3_CPU_NL               0x11805
+#define IDCLS_TRACE_DRIVE3_CPU_PL               0x11806
+#define IDCLS_TRACE_DRIVE3_CPU_SV               0x11807
+
+/* debug.c */
+#define IDCLS_DONT_TRACE_DRIVE3_CPU             0x11808
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_DE          0x11809
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_FR          0x1180a
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_IT          0x1180b
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_NL          0x1180c
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_PL          0x1180d
+#define IDCLS_DONT_TRACE_DRIVE3_CPU_SV          0x1180e
+#endif
+
+/* debug.c */
+#define IDCLS_TRACE_MODE                        0x1180f
+#define IDCLS_TRACE_MODE_DE                     0x11810
+#define IDCLS_TRACE_MODE_FR                     0x11811
+#define IDCLS_TRACE_MODE_IT                     0x11812
+#define IDCLS_TRACE_MODE_NL                     0x11813
+#define IDCLS_TRACE_MODE_PL                     0x11814
+#define IDCLS_TRACE_MODE_SV                     0x11815
+#endif
+
+/* event.c */
+#define IDCLS_PLAYBACK_RECORDED_EVENTS          0x11816
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_DE       0x11817
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_FR       0x11818
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_IT       0x11819
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_NL       0x1181a
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_PL       0x1181b
+#define IDCLS_PLAYBACK_RECORDED_EVENTS_SV       0x1181c
+
+/* fliplist.c */
+#define IDCLS_SPECIFY_FLIP_LIST_NAME            0x1181d
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_DE         0x1181e
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_FR         0x1181f
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_IT         0x11820
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_NL         0x11821
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_PL         0x11822
+#define IDCLS_SPECIFY_FLIP_LIST_NAME_SV         0x11823
+
+/* initcmdline.c */
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS         0x11824
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_DE      0x11825
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_FR      0x11826
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_IT      0x11827
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_NL      0x11828
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_PL      0x11829
+#define IDCLS_SHOW_COMMAND_LINE_OPTIONS_SV      0x1182a
+
+#if (!defined  __OS2__ && !defined __BEOS__)
+/* initcmdline.c */
+#define IDCLS_CONSOLE_MODE                      0x1182b
+#define IDCLS_CONSOLE_MODE_DE                   0x1182c
+#define IDCLS_CONSOLE_MODE_FR                   0x1182d
+#define IDCLS_CONSOLE_MODE_IT                   0x1182e
+#define IDCLS_CONSOLE_MODE_NL                   0x1182f
+#define IDCLS_CONSOLE_MODE_PL                   0x11830
+#define IDCLS_CONSOLE_MODE_SV                   0x11831
+
+/* initcmdline.c */
+#define IDCLS_ALLOW_CORE_DUMPS                  0x11832
+#define IDCLS_ALLOW_CORE_DUMPS_DE               0x11833
+#define IDCLS_ALLOW_CORE_DUMPS_FR               0x11834
+#define IDCLS_ALLOW_CORE_DUMPS_IT               0x11835
+#define IDCLS_ALLOW_CORE_DUMPS_NL               0x11836
+#define IDCLS_ALLOW_CORE_DUMPS_PL               0x11837
+#define IDCLS_ALLOW_CORE_DUMPS_SV               0x11838
+
+/* initcmdline.c */
+#define IDCLS_DONT_ALLOW_CORE_DUMPS             0x11839
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_DE          0x1183a
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_FR          0x1183b
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_IT          0x1183c
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_NL          0x1183d
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_PL          0x1183e
+#define IDCLS_DONT_ALLOW_CORE_DUMPS_SV          0x1183f
+#else
+/* initcmdline.c */
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER       0x11840
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_DE    0x11841
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_FR    0x11842
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_IT    0x11843
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_NL    0x11844
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_PL    0x11845
+#define IDCLS_DONT_CALL_EXCEPTION_HANDLER_SV    0x11846
+
+/* initcmdline.c */
+#define IDCLS_CALL_EXCEPTION_HANDLER            0x11847
+#define IDCLS_CALL_EXCEPTION_HANDLER_DE         0x11848
+#define IDCLS_CALL_EXCEPTION_HANDLER_FR         0x11849
+#define IDCLS_CALL_EXCEPTION_HANDLER_IT         0x1184a
+#define IDCLS_CALL_EXCEPTION_HANDLER_NL         0x1184b
+#define IDCLS_CALL_EXCEPTION_HANDLER_PL         0x1184c
+#define IDCLS_CALL_EXCEPTION_HANDLER_SV         0x1184d
+#endif
+
+/* initcmdline.c */
+#define IDCLS_RESTORE_DEFAULT_SETTINGS          0x1184e
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_DE       0x1184f
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_FR       0x11850
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_IT       0x11851
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_NL       0x11852
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_PL       0x11853
+#define IDCLS_RESTORE_DEFAULT_SETTINGS_SV       0x11854
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AND_AUTOSTART              0x11855
+#define IDCLS_ATTACH_AND_AUTOSTART_DE           0x11856
+#define IDCLS_ATTACH_AND_AUTOSTART_FR           0x11857
+#define IDCLS_ATTACH_AND_AUTOSTART_IT           0x11858
+#define IDCLS_ATTACH_AND_AUTOSTART_NL           0x11859
+#define IDCLS_ATTACH_AND_AUTOSTART_PL           0x1185a
+#define IDCLS_ATTACH_AND_AUTOSTART_SV           0x1185b
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AND_AUTOLOAD               0x1185c
+#define IDCLS_ATTACH_AND_AUTOLOAD_DE            0x1185d
+#define IDCLS_ATTACH_AND_AUTOLOAD_FR            0x1185e
+#define IDCLS_ATTACH_AND_AUTOLOAD_IT            0x1185f
+#define IDCLS_ATTACH_AND_AUTOLOAD_NL            0x11860
+#define IDCLS_ATTACH_AND_AUTOLOAD_PL            0x11861
+#define IDCLS_ATTACH_AND_AUTOLOAD_SV            0x11862
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AS_TAPE                    0x11863
+#define IDCLS_ATTACH_AS_TAPE_DE                 0x11864
+#define IDCLS_ATTACH_AS_TAPE_FR                 0x11865
+#define IDCLS_ATTACH_AS_TAPE_IT                 0x11866
+#define IDCLS_ATTACH_AS_TAPE_NL                 0x11867
+#define IDCLS_ATTACH_AS_TAPE_PL                 0x11868
+#define IDCLS_ATTACH_AS_TAPE_SV                 0x11869
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AS_DISK_8                  0x1186a
+#define IDCLS_ATTACH_AS_DISK_8_DE               0x1186b
+#define IDCLS_ATTACH_AS_DISK_8_FR               0x1186c
+#define IDCLS_ATTACH_AS_DISK_8_IT               0x1186d
+#define IDCLS_ATTACH_AS_DISK_8_NL               0x1186e
+#define IDCLS_ATTACH_AS_DISK_8_PL               0x1186f
+#define IDCLS_ATTACH_AS_DISK_8_SV               0x11870
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AS_DISK_9                  0x11871
+#define IDCLS_ATTACH_AS_DISK_9_DE               0x11872
+#define IDCLS_ATTACH_AS_DISK_9_FR               0x11873
+#define IDCLS_ATTACH_AS_DISK_9_IT               0x11874
+#define IDCLS_ATTACH_AS_DISK_9_NL               0x11875
+#define IDCLS_ATTACH_AS_DISK_9_PL               0x11876
+#define IDCLS_ATTACH_AS_DISK_9_SV               0x11877
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AS_DISK_10                 0x11878
+#define IDCLS_ATTACH_AS_DISK_10_DE              0x11879
+#define IDCLS_ATTACH_AS_DISK_10_FR              0x1187a
+#define IDCLS_ATTACH_AS_DISK_10_IT              0x1187b
+#define IDCLS_ATTACH_AS_DISK_10_NL              0x1187c
+#define IDCLS_ATTACH_AS_DISK_10_PL              0x1187d
+#define IDCLS_ATTACH_AS_DISK_10_SV              0x1187e
+
+/* initcmdline.c */
+#define IDCLS_ATTACH_AS_DISK_11                 0x1187f
+#define IDCLS_ATTACH_AS_DISK_11_DE              0x11880
+#define IDCLS_ATTACH_AS_DISK_11_FR              0x11881
+#define IDCLS_ATTACH_AS_DISK_11_IT              0x11882
+#define IDCLS_ATTACH_AS_DISK_11_NL              0x11883
+#define IDCLS_ATTACH_AS_DISK_11_PL              0x11884
+#define IDCLS_ATTACH_AS_DISK_11_SV              0x11885
+
+/* kbdbuf.c */
+#define IDCLS_P_STRING                          0x11886
+#define IDCLS_P_STRING_DE                       0x11887
+#define IDCLS_P_STRING_FR                       0x11888
+#define IDCLS_P_STRING_IT                       0x11889
+#define IDCLS_P_STRING_NL                       0x1188a
+#define IDCLS_P_STRING_PL                       0x1188b
+#define IDCLS_P_STRING_SV                       0x1188c
+
+/* kbdbuf.c */
+#define IDCLS_PUT_STRING_INTO_KEYBUF            0x1188d
+#define IDCLS_PUT_STRING_INTO_KEYBUF_DE         0x1188e
+#define IDCLS_PUT_STRING_INTO_KEYBUF_FR         0x1188f
+#define IDCLS_PUT_STRING_INTO_KEYBUF_IT         0x11890
+#define IDCLS_PUT_STRING_INTO_KEYBUF_NL         0x11891
+#define IDCLS_PUT_STRING_INTO_KEYBUF_PL         0x11892
+#define IDCLS_PUT_STRING_INTO_KEYBUF_SV         0x11893
+
+/* log.c */
+#define IDCLS_SPECIFY_LOG_FILE_NAME             0x11894
+#define IDCLS_SPECIFY_LOG_FILE_NAME_DE          0x11895
+#define IDCLS_SPECIFY_LOG_FILE_NAME_FR          0x11896
+#define IDCLS_SPECIFY_LOG_FILE_NAME_IT          0x11897
+#define IDCLS_SPECIFY_LOG_FILE_NAME_NL          0x11898
+#define IDCLS_SPECIFY_LOG_FILE_NAME_PL          0x11899
+#define IDCLS_SPECIFY_LOG_FILE_NAME_SV          0x1189a
+
+/* mouse.c */
+#define IDCLS_ENABLE_1351_MOUSE                 0x1189b
+#define IDCLS_ENABLE_1351_MOUSE_DE              0x1189c
+#define IDCLS_ENABLE_1351_MOUSE_FR              0x1189d
+#define IDCLS_ENABLE_1351_MOUSE_IT              0x1189e
+#define IDCLS_ENABLE_1351_MOUSE_NL              0x1189f
+#define IDCLS_ENABLE_1351_MOUSE_PL              0x118a0
+#define IDCLS_ENABLE_1351_MOUSE_SV              0x118a1
+
+/* mouse.c */
+#define IDCLS_DISABLE_1351_MOUSE                0x118a2
+#define IDCLS_DISABLE_1351_MOUSE_DE             0x118a3
+#define IDCLS_DISABLE_1351_MOUSE_FR             0x118a4
+#define IDCLS_DISABLE_1351_MOUSE_IT             0x118a5
+#define IDCLS_DISABLE_1351_MOUSE_NL             0x118a6
+#define IDCLS_DISABLE_1351_MOUSE_PL             0x118a7
+#define IDCLS_DISABLE_1351_MOUSE_SV             0x118a8
+
+/* mouse.c */
+#define IDCLS_SELECT_MOUSE_JOY_PORT             0x118a9
+#define IDCLS_SELECT_MOUSE_JOY_PORT_DE          0x118aa
+#define IDCLS_SELECT_MOUSE_JOY_PORT_FR          0x118ab
+#define IDCLS_SELECT_MOUSE_JOY_PORT_IT          0x118ac
+#define IDCLS_SELECT_MOUSE_JOY_PORT_NL          0x118ad
+#define IDCLS_SELECT_MOUSE_JOY_PORT_PL          0x118ae
+#define IDCLS_SELECT_MOUSE_JOY_PORT_SV          0x118af
+
+/* ram.c */
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE       0x118b0
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DE    0x118b1
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR    0x118b2
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_IT    0x118b3
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_NL    0x118b4
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_PL    0x118b5
+#define IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_SV    0x118b6
+
+/* ram.c */
+#define IDCLS_P_NUM_OF_BYTES                    0x118b7
+#define IDCLS_P_NUM_OF_BYTES_DE                 0x118b8
+#define IDCLS_P_NUM_OF_BYTES_FR                 0x118b9
+#define IDCLS_P_NUM_OF_BYTES_IT                 0x118ba
+#define IDCLS_P_NUM_OF_BYTES_NL                 0x118bb
+#define IDCLS_P_NUM_OF_BYTES_PL                 0x118bc
+#define IDCLS_P_NUM_OF_BYTES_SV                 0x118bd
+
+/* ram.c */
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE           0x118be
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_DE        0x118bf
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_FR        0x118c0
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_IT        0x118c1
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_NL        0x118c2
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_PL        0x118c3
+#define IDCLS_LENGTH_BLOCK_SAME_VALUE_SV        0x118c4
+
+/* ram.c */
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN         0x118c5
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_DE      0x118c6
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_FR      0x118c7
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_IT      0x118c8
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_NL      0x118c9
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_PL      0x118ca
+#define IDCLS_LENGTH_BLOCK_SAME_PATTERN_SV      0x118cb
+
+/* sound.c */
+#define IDCLS_ENABLE_SOUND_PLAYBACK             0x118cc
+#define IDCLS_ENABLE_SOUND_PLAYBACK_DE          0x118cd
+#define IDCLS_ENABLE_SOUND_PLAYBACK_FR          0x118ce
+#define IDCLS_ENABLE_SOUND_PLAYBACK_IT          0x118cf
+#define IDCLS_ENABLE_SOUND_PLAYBACK_NL          0x118d0
+#define IDCLS_ENABLE_SOUND_PLAYBACK_PL          0x118d1
+#define IDCLS_ENABLE_SOUND_PLAYBACK_SV          0x118d2
+
+/* sound.c */
+#define IDCLS_DISABLE_SOUND_PLAYBACK            0x118d3
+#define IDCLS_DISABLE_SOUND_PLAYBACK_DE         0x118d4
+#define IDCLS_DISABLE_SOUND_PLAYBACK_FR         0x118d5
+#define IDCLS_DISABLE_SOUND_PLAYBACK_IT         0x118d6
+#define IDCLS_DISABLE_SOUND_PLAYBACK_NL         0x118d7
+#define IDCLS_DISABLE_SOUND_PLAYBACK_PL         0x118d8
+#define IDCLS_DISABLE_SOUND_PLAYBACK_SV         0x118d9
+
+/* sound.c */
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ          0x118da
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DE       0x118db
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_FR       0x118dc
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT       0x118dd
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_NL       0x118de
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_PL       0x118df
+#define IDCLS_SET_SAMPLE_RATE_VALUE_HZ_SV       0x118e0
+
+/* sound.c */
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC        0x118e1
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DE     0x118e2
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_FR     0x118e3
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT     0x118e4
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_NL     0x118e5
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_PL     0x118e6
+#define IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_SV     0x118e7
+
+/* sound.c */
+#define IDCLS_SPECIFY_SOUND_DRIVER              0x118e8
+#define IDCLS_SPECIFY_SOUND_DRIVER_DE           0x118e9
+#define IDCLS_SPECIFY_SOUND_DRIVER_FR           0x118ea
+#define IDCLS_SPECIFY_SOUND_DRIVER_IT           0x118eb
+#define IDCLS_SPECIFY_SOUND_DRIVER_NL           0x118ec
+#define IDCLS_SPECIFY_SOUND_DRIVER_PL           0x118ed
+#define IDCLS_SPECIFY_SOUND_DRIVER_SV           0x118ee
+
+/* sound.c */
+#define IDCLS_P_ARGS                            0x118ef
+#define IDCLS_P_ARGS_DE                         0x118f0
+#define IDCLS_P_ARGS_FR                         0x118f1
+#define IDCLS_P_ARGS_IT                         0x118f2
+#define IDCLS_P_ARGS_NL                         0x118f3
+#define IDCLS_P_ARGS_PL                         0x118f4
+#define IDCLS_P_ARGS_SV                         0x118f5
+
+/* sound.c */
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM        0x118f6
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DE     0x118f7
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_FR     0x118f8
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_IT     0x118f9
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_NL     0x118fa
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_PL     0x118fb
+#define IDCLS_SPECIFY_SOUND_DRIVER_PARAM_SV     0x118fc
+
+/* sound.c */
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER    0x118fd
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_DE 0x118fe
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_FR 0x118ff
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_IT 0x11900
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_NL 0x11901
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_PL 0x11902
+#define IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_SV 0x11903
+
+/* sound.c */
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM    0x11904
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DE 0x11905
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR 0x11906
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT 0x11907
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_NL 0x11908
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_PL 0x11909
+#define IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_SV 0x1190a
+
+/* sound.c */
+#define IDCLS_P_SYNC                            0x1190b
+#define IDCLS_P_SYNC_DE                         0x1190c
+#define IDCLS_P_SYNC_FR                         0x1190d
+#define IDCLS_P_SYNC_IT                         0x1190e
+#define IDCLS_P_SYNC_NL                         0x1190f
+#define IDCLS_P_SYNC_PL                         0x11910
+#define IDCLS_P_SYNC_SV                         0x11911
+
+/* sound.c */
+#define IDCLS_SET_SOUND_SPEED_ADJUST            0x11912
+#define IDCLS_SET_SOUND_SPEED_ADJUST_DE         0x11913
+#define IDCLS_SET_SOUND_SPEED_ADJUST_FR         0x11914
+#define IDCLS_SET_SOUND_SPEED_ADJUST_IT         0x11915
+#define IDCLS_SET_SOUND_SPEED_ADJUST_NL         0x11916
+#define IDCLS_SET_SOUND_SPEED_ADJUST_PL         0x11917
+#define IDCLS_SET_SOUND_SPEED_ADJUST_SV         0x11918
+
+/* sysfile.c */
+#define IDCLS_P_PATH                            0x11919
+#define IDCLS_P_PATH_DE                         0x1191a
+#define IDCLS_P_PATH_FR                         0x1191b
+#define IDCLS_P_PATH_IT                         0x1191c
+#define IDCLS_P_PATH_NL                         0x1191d
+#define IDCLS_P_PATH_PL                         0x1191e
+#define IDCLS_P_PATH_SV                         0x1191f
+
+/* sysfile.c */
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH          0x11920
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_DE       0x11921
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_FR       0x11922
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_IT       0x11923
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_NL       0x11924
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_PL       0x11925
+#define IDCLS_DEFINE_SYSTEM_FILES_PATH_SV       0x11926
+
+/* traps.c */
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION       0x11927
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_DE    0x11928
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR    0x11929
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_IT    0x1192a
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_NL    0x1192b
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_PL    0x1192c
+#define IDCLS_ENABLE_TRAPS_FAST_EMULATION_SV    0x1192d
+
+/* traps.c */
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION      0x1192e
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_DE   0x1192f
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR   0x11930
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT   0x11931
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_NL   0x11932
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_PL   0x11933
+#define IDCLS_DISABLE_TRAPS_FAST_EMULATION_SV   0x11934
+
+/* vsync.c */
+#define IDCLS_LIMIT_SPEED_TO_VALUE              0x11935
+#define IDCLS_LIMIT_SPEED_TO_VALUE_DE           0x11936
+#define IDCLS_LIMIT_SPEED_TO_VALUE_FR           0x11937
+#define IDCLS_LIMIT_SPEED_TO_VALUE_IT           0x11938
+#define IDCLS_LIMIT_SPEED_TO_VALUE_NL           0x11939
+#define IDCLS_LIMIT_SPEED_TO_VALUE_PL           0x1193a
+#define IDCLS_LIMIT_SPEED_TO_VALUE_SV           0x1193b
+
+/* vsync.c */
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES         0x1193c
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_DE      0x1193d
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_FR      0x1193e
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_IT      0x1193f
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_NL      0x11940
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_PL      0x11941
+#define IDCLS_UPDATE_EVERY_VALUE_FRAMES_SV      0x11942
+
+/* vsync.c */
+#define IDCLS_ENABLE_WARP_MODE                  0x11943
+#define IDCLS_ENABLE_WARP_MODE_DE               0x11944
+#define IDCLS_ENABLE_WARP_MODE_FR               0x11945
+#define IDCLS_ENABLE_WARP_MODE_IT               0x11946
+#define IDCLS_ENABLE_WARP_MODE_NL               0x11947
+#define IDCLS_ENABLE_WARP_MODE_PL               0x11948
+#define IDCLS_ENABLE_WARP_MODE_SV               0x11949
+
+/* vsync.c */
+#define IDCLS_DISABLE_WARP_MODE                 0x1194a
+#define IDCLS_DISABLE_WARP_MODE_DE              0x1194b
+#define IDCLS_DISABLE_WARP_MODE_FR              0x1194c
+#define IDCLS_DISABLE_WARP_MODE_IT              0x1194d
+#define IDCLS_DISABLE_WARP_MODE_NL              0x1194e
+#define IDCLS_DISABLE_WARP_MODE_PL              0x1194f
+#define IDCLS_DISABLE_WARP_MODE_SV              0x11950
+
 #endif

@@ -58,6 +58,9 @@
 #include "machine.h"
 #include "resources.h"
 #include "sound.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -118,6 +121,19 @@ int vsync_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Vsync-related command-line options. */
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
+      IDCLS_P_PERCENT, IDCLS_LIMIT_SPEED_TO_VALUE },
+    { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
+      IDCLS_P_VALUE, IDCLS_UPDATE_EVERY_VALUE_FRAMES },
+    { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
+      0, IDCLS_ENABLE_WARP_MODE },
+    { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,
+      0, IDCLS_DISABLE_WARP_MODE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
       "<percent>", N_("Limit emulation speed to specified value") },
@@ -129,10 +145,15 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, N_("Disable warp mode") },
     { NULL }
 };
+#endif
 
 int vsync_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

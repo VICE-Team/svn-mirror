@@ -32,11 +32,29 @@
 
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "vdc-cmdline-options.h"
 #include "vdctypes.h"
 
 
 /* VDC command-line options.  */
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
+      "VDC64KB", (void *)0,
+      0, IDCLS_SET_VDC_MEMORY_16KB },
+    { "-VDC64KB", SET_RESOURCE, 0, NULL, NULL,
+      "VDC64KB", (void *)1,
+      0, IDCLS_SET_VDC_MEMORY_64KB },
+    { "-VDCRevision", SET_RESOURCE, 1, NULL, NULL,
+      "VDCRevision", (void *)2,
+      IDCLS_P_NUMBER, IDCLS_SET_VDC_REVISION },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
@@ -50,12 +68,17 @@ static const cmdline_option_t cmdline_options[] =
       "<number>", "Set VDC revision (0..2)" },
     { NULL }
 };
+#endif
 
 int vdc_cmdline_options_init(void)
 {
     if (raster_cmdline_options_chip_init("VDC", vdc.video_chip_cap) < 0)
         return -1;
 
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

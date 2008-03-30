@@ -3,6 +3,8 @@
 
 #define UNSTABLE
 
+#pragma warning(disable:4996)
+
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
 #define HAVE_RESID              1
@@ -52,6 +54,7 @@
 #define MSVC_RC                 1
 
 #define strcasecmp(s1, s2)      _stricmp(s1, s2)
+#define HAVE_STRCASECMP         1
 
 #define snprintf _snprintf
 

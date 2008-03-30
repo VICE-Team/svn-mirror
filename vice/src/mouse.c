@@ -33,7 +33,9 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
-
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 
 int _mouse_enabled = 0;
 
@@ -75,6 +77,17 @@ int mouse_resources_init(void)
     return mousedrv_resources_init();
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-mouse", SET_RESOURCE, 1, NULL, NULL,
+      "Mouse", NULL, 0, IDCLS_ENABLE_1351_MOUSE },
+    { "+mouse", SET_RESOURCE, 0, NULL, NULL,
+      "Mouse", NULL, 0, IDCLS_DISABLE_1351_MOUSE },
+    { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
+      "Mouseport", NULL, IDCLS_P_VALUE, IDCLS_SELECT_MOUSE_JOY_PORT },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 1, NULL, NULL,
       "Mouse", NULL, NULL, N_("Enable emulation of the 1351 proportional mouse") },
@@ -84,10 +97,15 @@ static const cmdline_option_t cmdline_options[] = {
       "Mouseport", NULL, "<value>", "Select the joystick port the mouse is attached to" },
     { NULL }
 };
+#endif
 
 int mouse_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    if (cmdline_register_options_trans(cmdline_options) < 0)
+#else
     if (cmdline_register_options(cmdline_options) < 0)
+#endif
         return -1;
 
     return mousedrv_cmdline_options_init();

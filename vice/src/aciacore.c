@@ -38,6 +38,9 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "snapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 
 
@@ -127,14 +130,26 @@ int myacia_init_resources(void) {
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIA "Dev", NULL,
+      IDCLS_P_0_3, IDCLS_SPECIFY_ACIA_RS232_DEVICE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIA "Dev", NULL,
       "<0-3>", "Specify RS232 device this ACIA should work on" },
     { NULL }
 };
+#endif
 
 int myacia_init_cmdline_options(void) {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /******************************************************************/

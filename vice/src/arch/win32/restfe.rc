@@ -81,7 +81,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_TFE_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 270, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del Ethernet"
@@ -102,7 +101,6 @@ BEGIN
     DEFPUSHBUTTON   "&OK", IDOK, 20,75,50,14, WS_TABSTOP
     PUSHBUTTON      "&Annulla", IDCANCEL, 80,75,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog

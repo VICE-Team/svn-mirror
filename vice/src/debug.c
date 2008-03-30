@@ -120,6 +120,50 @@ int debug_resources_init(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+#ifdef DEBUG
+    { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
+      "MainCPU_TRACE", (resource_value_t)1,
+      0, IDCLS_TRACE_MAIN_CPU },
+    { "+trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
+      "MainCPU_TRACE", (resource_value_t)0,
+      0, IDCLS_DONT_TRACE_MAIN_CPU },
+    { "-trace_drive0", SET_RESOURCE, 0, NULL, NULL,
+      "Drive0CPU_TRACE", (resource_value_t)1,
+      0, IDCLS_TRACE_DRIVE0_CPU },
+    { "+trace_drive0", SET_RESOURCE, 0, NULL, NULL,
+      "Drive0CPU_TRACE", (resource_value_t)0,
+      0, IDCLS_DONT_TRACE_DRIVE0_CPU },
+    { "-trace_drive1", SET_RESOURCE, 0, NULL, NULL,
+      "Drive1CPU_TRACE", (resource_value_t)1,
+      0, IDCLS_TRACE_DRIVE1_CPU },
+    { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
+      "Drive1CPU_TRACE", (resource_value_t)0,
+      0, IDCLS_DONT_TRACE_DRIVE1_CPU },
+#if DRIVE_NUM > 2
+    { "-trace_drive2", SET_RESOURCE, 0, NULL, NULL,
+      "Drive2CPU_TRACE", (resource_value_t)1,
+      0, IDCLS_TRACE_DRIVE2_CPU },
+    { "+trace_drive2", SET_RESOURCE, 0, NULL, NULL,
+      "Drive2CPU_TRACE", (resource_value_t)0,
+      0, IDCLS_DONT_TRACE_DRIVE2_CPU },
+#endif
+#if DRIVE_NUM > 3
+    { "-trace_drive3", SET_RESOURCE, 0, NULL, NULL,
+      "Drive3CPU_TRACE", (resource_value_t)1,
+      0, IDCLS_TRACE_DRIVE3_CPU },
+    { "+trace_drive3", SET_RESOURCE, 0, NULL, NULL,
+      "Drive3CPU_TRACE", (resource_value_t)0,
+      0, IDCLS_DONT_TRACE_DRIVE3_CPU },
+#endif
+    { "-trace_mode", SET_RESOURCE, 1, NULL, NULL,
+      "TraceMode", NULL,
+      IDCLS_P_VALUE, IDCLS_TRACE_MODE },
+#endif
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
 #ifdef DEBUG
     { "-trace_maincpu", SET_RESOURCE, 0, NULL, NULL,
@@ -158,14 +202,19 @@ static const cmdline_option_t cmdline_options[] = {
 #endif
     { "-trace_mode", SET_RESOURCE, 1, NULL, NULL,
       "TraceMode", NULL,
-      "<value>", "0=normal 1=small 2=history" },
+      "<value>", "Trace mode (0=normal 1=small 2=history)" },
 #endif
     { NULL }
 };
+#endif
 
 int debug_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 static unsigned int cycles_per_line;

@@ -378,7 +378,11 @@ static FILE *source, *dest;
 static int kwlen;
 
 /* dummy function */
+#ifdef HAS_TRANSLATION
+int cmdline_register_options_trans(const cmdline_option_trans_t *c)
+#else
 int cmdline_register_options(const cmdline_option_t *c)
+#endif
 {
   return 0;
 }

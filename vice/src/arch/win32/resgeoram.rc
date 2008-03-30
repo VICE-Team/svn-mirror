@@ -78,7 +78,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_GEORAM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del GEORAM"
@@ -98,7 +97,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 90,90,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -199,12 +197,10 @@ END
 
 // ITALIAN text
 
-#pragma code_page(28605)
 STRINGTABLE
 BEGIN
   IDS_SELECT_FILE_GEORAM_IT   "Select file for GEORAM"
 END
-#pragma code_page(28591)
 
 
 // DUTCH text

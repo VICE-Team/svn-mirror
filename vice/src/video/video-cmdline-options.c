@@ -30,6 +30,9 @@
 
 #include "cmdline.h"
 #include "lib.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "util.h"
 #include "video.h"
 
@@ -41,6 +44,16 @@ static const char *cname_chip_size[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_size[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SIZE },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SIZE },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_size[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -49,6 +62,7 @@ static cmdline_option_t cmdline_options_chip_size[] =
       (void *)0, NULL, "Disable double size" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_scan[] =
 {
@@ -57,6 +71,16 @@ static const char *cname_chip_scan[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_scan[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SCAN },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SCAN },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_scan[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -65,6 +89,7 @@ static cmdline_option_t cmdline_options_chip_scan[] =
       (void *)0, NULL, "Disable double scan" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_hwscale[] =
 {
@@ -73,6 +98,16 @@ static const char *cname_chip_hwscale[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_hwscale[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_HARDWARE_SCALING },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_HARDWARE_SCALING },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_hwscale[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -81,6 +116,7 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
       (void *)0, NULL, "Disable hardware scaling" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_scale2x[] =
 {
@@ -89,6 +125,16 @@ static const char *cname_chip_scale2x[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_scale2x[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_SCALE2X },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_SCALE2X },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_scale2x[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -97,6 +143,7 @@ static cmdline_option_t cmdline_options_chip_scale2x[] =
       (void *)0, NULL, "Disable Scale2x" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_internal_palette[] =
 {
@@ -105,6 +152,16 @@ static const char *cname_chip_internal_palette[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_internal_palette[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_USE_INTERNAL_CALC_PALETTE },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_USE_EXTERNAL_FILE_PALETTE },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_internal_palette[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -113,6 +170,7 @@ static cmdline_option_t cmdline_options_chip_internal_palette[] =
       (void *)1, NULL, "Use an external palette (file)" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_palette[] =
 {
@@ -120,12 +178,21 @@ static const char *cname_chip_palette[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_palette[] =
+{
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
+      NULL, IDCLS_P_NAME, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_palette[] =
 {
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
       NULL, "<name>", "Specify name of file of external palette" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_fullscreen[] =
 {
@@ -139,6 +206,26 @@ static const char *cname_chip_fullscreen[] =
    NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_fullscreen[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_FULLSCREEN_MODE },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_FULLSCREEN_MODE },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
+      NULL, IDCLS_P_DEVICE, IDCLS_SELECT_FULLSCREEN_DEVICE },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, 0, IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, 0, IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
@@ -157,6 +244,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
       (void *)0, NULL, "Disable double scan in fullscreen mode" },
     { NULL }
 };
+#endif
 
 static const char *cname_chip_fullscreen_mode[] =
 {
@@ -164,12 +252,21 @@ static const char *cname_chip_fullscreen_mode[] =
     NULL
 };
 
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t cmdline_options_chip_fullscreen_mode[] =
+{
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
+      NULL, IDCLS_P_MODE, IDCLS_SELECT_FULLSCREEN_MODE },
+    { NULL }
+};
+#else
 static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 {
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
       NULL, "<mode>", "Select fullscreen mode" },
     { NULL }
 };
+#endif
 
 int video_cmdline_options_chip_init(const char *chipname,
                                     video_chip_cap_t *video_chip_cap)
@@ -185,7 +282,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 = util_concat(chipname, cname_chip_size[i * 3 + 2], NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_size) < 0)
+#else
         if (cmdline_register_options(cmdline_options_chip_size) < 0)
+#endif
             return -1;
 
         for (i = 0; cname_chip_size[i * 3] != NULL; i++) {
@@ -203,7 +304,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 = util_concat(chipname, cname_chip_scan[i * 3 + 2], NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_scan) < 0)
+#else
         if (cmdline_register_options(cmdline_options_chip_scan) < 0)
+#endif
             return -1;
 
         for (i = 0; cname_chip_scan[i * 3] != NULL; i++) {
@@ -221,7 +326,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 = util_concat(chipname, cname_chip_hwscale[i * 3 + 2], NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_hwscale) < 0)
+#else
         if (cmdline_register_options(cmdline_options_chip_hwscale) < 0)
+#endif
             return -1;
 
         for (i = 0; cname_chip_hwscale[i * 3] != NULL; i++) {
@@ -239,7 +348,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 = util_concat(chipname, cname_chip_scale2x[i * 3 + 2], NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_scale2x) < 0)
+#else
         if (cmdline_register_options(cmdline_options_chip_scale2x) < 0)
+#endif
             return -1;
 
         for (i = 0; cname_chip_scale2x[i * 3] != NULL; i++) {
@@ -258,7 +371,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_internal_palette)
+#else
         if (cmdline_register_options(cmdline_options_chip_internal_palette)
+#endif
             < 0)
             return -1;
 
@@ -277,7 +394,11 @@ int video_cmdline_options_chip_init(const char *chipname,
             NULL);
     }
 
+#ifdef HAS_TRANSLATION
+    if (cmdline_register_options_trans(cmdline_options_chip_palette) < 0)
+#else
     if (cmdline_register_options(cmdline_options_chip_palette) < 0)
+#endif
         return -1;
 
     for (i = 0; cname_chip_palette[i * 3] != NULL; i++) {
@@ -294,7 +415,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                 = util_concat(chipname, cname_chip_fullscreen[i * 3 + 2], NULL);
         }
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmdline_options_chip_fullscreen) < 0)
+#else
         if (cmdline_register_options(cmdline_options_chip_fullscreen) < 0)
+#endif
             return -1;
 
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
@@ -314,7 +439,11 @@ int video_cmdline_options_chip_init(const char *chipname,
                     cname_chip_fullscreen_mode[i * 3 + 2], NULL);
             }
 
+#ifdef HAS_TRANSLATION
+            if (cmdline_register_options_trans(cmdline_options_chip_fullscreen_mode)
+#else
             if (cmdline_register_options(cmdline_options_chip_fullscreen_mode)
+#endif
                 < 0)
                 return -1;
 

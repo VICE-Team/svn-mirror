@@ -100,10 +100,6 @@ SOURCE=..\..\charset.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\cmdline.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\findpath.c
 # End Source File
 # Begin Source File

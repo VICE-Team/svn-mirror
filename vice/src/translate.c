@@ -97,7 +97,7 @@ static int language_cp_table[] = {
   28591,	/* ISO 8859-1 */
 
 /* italian */
-  28605,	/* ISO 8859-15 */
+  28591,	/* ISO 8859-1 */
 
 /* dutch */
   28591,	/* ISO 8859-1 */
@@ -388,7 +388,8 @@ translate_t string_table[] = {
 /* ----------------------------------- COMMAND LINE OPTION STRINGS ------------------------------- */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    "Use PAL sync factor"},
 /* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_USE_PAL_SYNC_FACTOR_FR, ""},  /* fuzzy */
@@ -398,7 +399,8 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_USE_PAL_SYNC_FACTOR_SV, ""},  /* fuzzy */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_NTSC_SYNC_FACTOR,    "Use NTSC sync factor"},
 /* de */ {IDCLS_USE_NTSC_SYNC_FACTOR_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_USE_NTSC_SYNC_FACTOR_FR, ""},  /* fuzzy */
@@ -414,7 +416,11 @@ translate_t string_table[] = {
    drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
    drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
+   printerdrv/output-select.c, printerdrv/output-text.c,
+   rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
+   vic20/vic20cartridge.c, video/video-cmdline-options.c,
+   fliplist.c, initcmdline.c, log.c, sound.c */
 /* en */ {IDCLS_P_NAME,    "<name>"},
 /* de */ {IDCLS_P_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
@@ -559,7 +565,8 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_SV, ""},  /* fuzzy */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_EMULATOR_ID,    "Enable emulator identification"},
 /* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_EMULATOR_ID_FR, ""},  /* fuzzy */
@@ -569,7 +576,8 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_ENABLE_EMULATOR_ID_SV, ""},  /* fuzzy */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_EMULATOR_ID,    "Disable emulator identification"},
 /* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_EMULATOR_ID_FR, ""},  /* fuzzy */
@@ -634,10 +642,10 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
 #endif
 
-#ifdef COMMON_KBD
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_P_NUMBER,    "<number>"},
 /* de */ {IDCLS_P_NUMBER_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_NUMBER_FR, ""},  /* fuzzy */
@@ -646,7 +654,9 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_P_NUMBER_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_NUMBER_SV, ""},  /* fuzzy */
 
-/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c */
+#ifdef COMMON_KBD
+/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    "Specify index of keymap file (0=symbol, 1=positional)"},
 /* de */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR, ""},  /* fuzzy */
@@ -656,7 +666,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV, ""},  /* fuzzy */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    "Specify name of symbolic keymap file"},
 /* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR, ""},  /* fuzzy */
@@ -666,7 +676,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_SV, ""},  /* fuzzy */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,    "Specify name of positional keymap file"},
 /* de */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR, ""},  /* fuzzy */
@@ -758,7 +768,8 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_SV, ""},  /* fuzzy */
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,    "Specify name of Kernal ROM image"},
 /* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_FR, ""},  /* fuzzy */
@@ -768,7 +779,8 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_SV, ""},  /* fuzzy */
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,    "Specify name of BASIC ROM image"},
 /* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_FR, ""},  /* fuzzy */
@@ -778,7 +790,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_BASIC_ROM_NAME_SV, ""},  /* fuzzy */
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c */
+   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    "Specify name of character generator ROM image"},
 /* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1115,7 +1127,8 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_IDE64_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_IDE64_NAME_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c */
+/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+   debug.c, mouse.c, ram.c, sound.c, vsync.c */
 /* en */ {IDCLS_P_VALUE,    "<value>"},
 /* de */ {IDCLS_P_VALUE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_VALUE_FR, ""},  /* fuzzy */
@@ -1468,7 +1481,8 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_TRUE_DRIVE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TRUE_DRIVE_SV, ""},  /* fuzzy */
 
-/* drive/drive-cmdline-options.c */
+/* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
+   attach.c */
 /* en */ {IDCLS_P_TYPE,    "<type>"},
 /* de */ {IDCLS_P_TYPE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_TYPE_FR, ""},  /* fuzzy */
@@ -2020,7 +2034,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_RAM_INSTALLED_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_RAM_INSTALLED_SV, ""},  /* fuzzy */
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_P_0_2000,    "<0-2000>"},
 /* de */ {IDCLS_P_0_2000_DE, "<0-2000>"},
 /* fr */ {IDCLS_P_0_2000_FR, "<0-2000>"},
@@ -2029,7 +2043,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_P_0_2000_PL, "<0-2000>"},
 /* sv */ {IDCLS_P_0_2000_SV, "<0-2000>"},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_SATURATION,    "Set saturation of internal calculated palette [1000]"},
 /* de */ {IDCLS_SET_SATURATION_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_SATURATION_FR, ""},  /* fuzzy */
@@ -2038,7 +2052,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_SATURATION_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SATURATION_SV, ""},  /* fuzzy */
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_CONTRAST,    "Set contrast of internal calculated palette [1100]"},
 /* de */ {IDCLS_SET_CONTRAST_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_CONTRAST_FR, ""},  /* fuzzy */
@@ -2047,7 +2061,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_CONTRAST_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_CONTRAST_SV, ""},  /* fuzzy */
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BRIGHTNESS,    "Set brightness of internal calculated palette [1100]"},
 /* de */ {IDCLS_SET_BRIGHTNESS_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_BRIGHTNESS_FR, ""},  /* fuzzy */
@@ -2056,14 +2070,1572 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_BRIGHTNESS_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BRIGHTNESS_SV, ""},  /* fuzzy */
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_GAMMA,    "Set gamma of internal calculated palette [900]"},
 /* de */ {IDCLS_SET_GAMMA_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_GAMMA_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_GAMMA_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleuren palette [900]"},
 /* pl */ {IDCLS_SET_GAMMA_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_GAMMA_SV, ""}   /* fuzzy */
+/* sv */ {IDCLS_SET_GAMMA_SV, ""},  /* fuzzy */
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,    "Specify name of printer driver for device #4"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #4"},
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,    "Specify name of printer driver for device #5"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL, "Geef de naam van het stuurprogramma voor apparaat #5"},
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,    "Specify name of printer driver for the userport printer"},
+/* de */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL, "Geef de naam van het stuurprogramma voor de userport printer"},
+/* pl */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_4,    "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_4_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_4_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_4_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, "Zet apparaat soort voor apparaat #4 (0: GEEN, 1: FS, 2: ECHT)"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_4_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_4_SV, ""},  /* fuzzy */
+
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_5,    "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_5_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_5_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, "Zet apparaat soort voor apparaat #5 (0: GEEN, 1: FS, 2: ECHT)"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, ""},  /* fuzzy */
+
+/* printerdrv/interface-userport.c */
+/* en */ {IDCLS_ENABLE_USERPORT_PRINTER,    "Enable the userport printer emulation"},
+/* de */ {IDCLS_ENABLE_USERPORT_PRINTER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_PRINTER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_PRINTER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_PRINTER_NL, "Aktiveer de userport printer emulatie"},
+/* pl */ {IDCLS_ENABLE_USERPORT_PRINTER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_PRINTER_SV, ""},  /* fuzzy */
+
+/* printerdrv/interface-userport.c */
+/* en */ {IDCLS_DISABLE_USERPORT_PRINTER,    "Disable the userport printer emulation"},
+/* de */ {IDCLS_DISABLE_USERPORT_PRINTER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_PRINTER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_PRINTER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_PRINTER_NL, "De userport printer emulatie afsluiten"},
+/* pl */ {IDCLS_DISABLE_USERPORT_PRINTER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_PRINTER_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,    "Specify name of output device for device #4"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_NL, "Geef de naam van het uitvoer apparaat voor apparaat #4"},
+/* pl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,    "Specify name of output device for device #5"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_NL, "Geef de naam van het uitvoer apparaat voor apparaat #5"},
+/* pl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,    "Specify name of output device for the userport printer"},
+/* de */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_NL, "Geef de naam van het uitvoer apparaat voor de userport printer"},
+/* pl */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME,    "Specify name of printer text device or dump file"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_NL, "Geef de naam van het text apparaat of het dump bestand"},
+/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_P_0_2,    "<0-2>"},
+/* de */ {IDCLS_P_0_2_DE, "<0-2>"},
+/* fr */ {IDCLS_P_0_2_FR, "<0-2>"},
+/* it */ {IDCLS_P_0_2_IT, "<0-2>"},
+/* nl */ {IDCLS_P_0_2_NL, "<0-2>"},
+/* pl */ {IDCLS_P_0_2_PL, "<0-2>"},
+/* sv */ {IDCLS_P_0_2_SV, "<0-2>"},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_4,    "Specify printer text output device for IEC printer #4"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_4_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_4_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_4_NL, "Geef het text uitvoer apparaat voor IEC printer #4"},
+/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_4_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_4_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_5,    "Specify printer text output device for IEC printer #5"},
+/* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TEXT_DEVICE_5_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_DEVICE_5_NL, "Geef het text uitvoer apparaat voor IEC printer #5"},
+/* pl */ {IDCLS_SPECIFY_TEXT_DEVICE_5_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TEXT_DEVICE_5_SV, ""},  /* fuzzy */
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_USERPORT,    "Specify printer text output device for userport printer"},
+/* de */ {IDCLS_SPECIFY_TEXT_USERPORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_TEXT_USERPORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_TEXT_USERPORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_TEXT_USERPORT_NL, "Geef het text uitvoer apparaat voor de userport printer"},
+/* pl */ {IDCLS_SPECIFY_TEXT_USERPORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_TEXT_USERPORT_SV, ""},  /* fuzzy */
+
+/* raster/raster-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VIDEO_CACHE,    "Enable the video cache"},
+/* de */ {IDCLS_ENABLE_VIDEO_CACHE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VIDEO_CACHE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VIDEO_CACHE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VIDEO_CACHE_NL, "Aktiveer de video cache"},
+/* pl */ {IDCLS_ENABLE_VIDEO_CACHE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VIDEO_CACHE_SV, ""},  /* fuzzy */
+
+/* raster/raster-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VIDEO_CACHE,    "Disable the video cache"},
+/* de */ {IDCLS_DISABLE_VIDEO_CACHE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VIDEO_CACHE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VIDEO_CACHE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VIDEO_CACHE_NL, "De video cache afsluiten"},
+/* pl */ {IDCLS_DISABLE_VIDEO_CACHE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VIDEO_CACHE_SV, ""},  /* fuzzy */
+
+#ifdef HAVE_RS232
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_1_NAME,    "Specify name of first RS232 device"},
+/* de */ {IDCLS_SPECIFY_RS232_1_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RS232_1_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RS232_1_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RS232_1_NAME_NL, "Geef de naam van het eerste RS232 apparaat"},
+/* pl */ {IDCLS_SPECIFY_RS232_1_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RS232_1_NAME_SV, ""},  /* fuzzy */
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_2_NAME,    "Specify name of second RS232 device"},
+/* de */ {IDCLS_SPECIFY_RS232_2_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RS232_2_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RS232_2_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RS232_2_NAME_NL, "Geef de naam van het tweede RS232 apparaat"},
+/* pl */ {IDCLS_SPECIFY_RS232_2_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RS232_2_NAME_SV, ""},  /* fuzzy */
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_3_NAME,    "Specify name of third RS232 device"},
+/* de */ {IDCLS_SPECIFY_RS232_3_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RS232_3_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RS232_3_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RS232_3_NAME_NL, "Geef de naam van het derde RS232 apparaat"},
+/* pl */ {IDCLS_SPECIFY_RS232_3_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RS232_3_NAME_SV, ""},  /* fuzzy */
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_4_NAME,    "Specify name of fourth RS232 device"},
+/* de */ {IDCLS_SPECIFY_RS232_4_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RS232_4_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RS232_4_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RS232_4_NAME_NL, "Geef de naam van het vierde RS232 apparaat"},
+/* pl */ {IDCLS_SPECIFY_RS232_4_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RS232_4_NAME_SV, ""},  /* fuzzy */
+#endif
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_ENABLE_RS232_USERPORT,    "Enable RS232 userport emulation"},
+/* de */ {IDCLS_ENABLE_RS232_USERPORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_RS232_USERPORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_RS232_USERPORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_RS232_USERPORT_NL, "Aktiveer RS232 userport emulatie"},
+/* pl */ {IDCLS_ENABLE_RS232_USERPORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_RS232_USERPORT_SV, ""},  /* fuzzy */
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_DISABLE_RS232_USERPORT,    "Disable RS232 userport emulation"},
+/* de */ {IDCLS_DISABLE_RS232_USERPORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_RS232_USERPORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_RS232_USERPORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_RS232_USERPORT_NL, "RS232 userport emulatie afsluiten"},
+/* pl */ {IDCLS_DISABLE_RS232_USERPORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_RS232_USERPORT_SV, ""},  /* fuzzy */
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_P_BAUD,    "<baud>"},
+/* de */ {IDCLS_P_BAUD_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_BAUD_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_BAUD_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_BAUD_NL, "<baud>"},
+/* pl */ {IDCLS_P_BAUD_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_BAUD_SV, ""},  /* fuzzy */
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_SET_BAUD_RS232_USERPORT,    "Set the baud rate of the RS232 userport emulation."},
+/* de */ {IDCLS_SET_BAUD_RS232_USERPORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BAUD_RS232_USERPORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_BAUD_RS232_USERPORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BAUD_RS232_USERPORT_NL, "Zet de baud rate van de RS232 userport emulatie."},
+/* pl */ {IDCLS_SET_BAUD_RS232_USERPORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BAUD_RS232_USERPORT_SV, ""},  /* fuzzy */
+
+/* rs232drv/rsuser.c, aciacore.c */
+/* en */ {IDCLS_P_0_3,    "<0-3>"},
+/* de */ {IDCLS_P_0_3_DE, "<0-3>"},
+/* fr */ {IDCLS_P_0_3_FR, "<0-3>"},
+/* it */ {IDCLS_P_0_3_IT, "<0-3>"},
+/* nl */ {IDCLS_P_0_3_NL, "<0-3>"},
+/* pl */ {IDCLS_P_0_3_PL, "<0-3>"},
+/* sv */ {IDCLS_P_0_3_SV, "<0-3>"},
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT,    "Specify VICE RS232 device for userport"},
+/* de */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_NL, "Geef VICE RS232 apparaat voor userport"},
+/* pl */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_4,    "Enable IEC device emulation for device #4"},
+/* de */ {IDCLS_ENABLE_IEC_4_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_4_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_4_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_4_NL, "Aktiveer IEC apparaat emulatie voor apparaat #4"},
+/* pl */ {IDCLS_ENABLE_IEC_4_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_4_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_4,    "Disable IEC device emulation for device #4"},
+/* de */ {IDCLS_DISABLE_IEC_4_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_4_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_4_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_4_NL, "IEC apparaat emulatie voor apparaat #4 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_4_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_4_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_5,    "Enable IEC device emulation for device #5"},
+/* de */ {IDCLS_ENABLE_IEC_5_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_5_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_5_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_5_NL, "Aktiveer IEC apparaat emulatie voor apparaat #5"},
+/* pl */ {IDCLS_ENABLE_IEC_5_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_5_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_5,    "Disable IEC device emulation for device #5"},
+/* de */ {IDCLS_DISABLE_IEC_5_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_5_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_5_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_5_NL, "IEC apparaat emulatie voor apparaat #5 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_5_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_5_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_8,    "Enable IEC device emulation for device #8"},
+/* de */ {IDCLS_ENABLE_IEC_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_8_NL, "Aktiveer IEC apparaat emulatie voor apparaat #8"},
+/* pl */ {IDCLS_ENABLE_IEC_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_8_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_8,    "Disable IEC device emulation for device #8"},
+/* de */ {IDCLS_DISABLE_IEC_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_8_NL, "IEC apparaat emulatie voor apparaat #8 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_8_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_9,    "Enable IEC device emulation for device #9"},
+/* de */ {IDCLS_ENABLE_IEC_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_9_NL, "Aktiveer IEC apparaat emulatie voor apparaat #9"},
+/* pl */ {IDCLS_ENABLE_IEC_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_9_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_9,    "Disable IEC device emulation for device #9"},
+/* de */ {IDCLS_DISABLE_IEC_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_9_NL, "IEC apparaat emulatie voor apparaat #9 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_9_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_10,    "Enable IEC device emulation for device #10"},
+/* de */ {IDCLS_ENABLE_IEC_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_10_NL, "Aktiveer IEC apparaat emulatie voor apparaat #10"},
+/* pl */ {IDCLS_ENABLE_IEC_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_10_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_10,    "Disable IEC device emulation for device #10"},
+/* de */ {IDCLS_DISABLE_IEC_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_10_NL, "IEC apparaat emulatie voor apparaat #10 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_10_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_11,    "Enable IEC device emulation for device #11"},
+/* de */ {IDCLS_ENABLE_IEC_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEC_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEC_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEC_11_NL, "Aktiveer IEC apparaat emulatie voor apparaat #11"},
+/* pl */ {IDCLS_ENABLE_IEC_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEC_11_SV, ""},  /* fuzzy */
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_11,    "Disable IEC device emulation for device #11"},
+/* de */ {IDCLS_DISABLE_IEC_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEC_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEC_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEC_11_NL, "IEC apparaat emulatie voor apparaat #11 afsluiten"},
+/* pl */ {IDCLS_DISABLE_IEC_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEC_11_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_ENGINE,    "<engine>"},
+/* de */ {IDCLS_P_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ENGINE_NL, "<kern>"},
+/* pl */ {IDCLS_P_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ENGINE_SV, ""},  /* fuzzy */
+
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 3: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 2: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 3: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 2: Catweasel, 3: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SECOND_SID,    "Enable second SID"},
+/* de */ {IDCLS_ENABLE_SECOND_SID_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SECOND_SID_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SECOND_SID_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SECOND_SID_NL, "Aktiveer stereo SID"},
+/* pl */ {IDCLS_ENABLE_SECOND_SID_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SECOND_SID_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_BASE_ADDRESS,    "<base address>"},
+/* de */ {IDCLS_P_BASE_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_BASE_ADDRESS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_BASE_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<basis adres>"},
+/* pl */ {IDCLS_P_BASE_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_BASE_ADDRESS_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_2_ADDRESS,    "Specify base address for 2nd SID"},
+/* de */ {IDCLS_SPECIFY_SID_2_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_2_ADDRESS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_2_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_2_ADDRESS_NL, "Geef het basis adres van de 2e SID"},
+/* pl */ {IDCLS_SPECIFY_SID_2_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_2_ADDRESS_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_MODEL,    "<model>"},
+/* de */ {IDCLS_P_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_MODEL_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_MODEL_NL, "<model>"},
+/* pl */ {IDCLS_P_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_MODEL_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_MODEL,    "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"},
+/* de */ {IDCLS_SPECIFY_SID_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_MODEL_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_MODEL_NL, "Geef het SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"},
+/* pl */ {IDCLS_SPECIFY_SID_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_MODEL_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SID_FILTERS,    "Emulate SID filters"},
+/* de */ {IDCLS_ENABLE_SID_FILTERS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SID_FILTERS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SID_FILTERS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SID_FILTERS_NL, "SID filters emuleren"},
+/* pl */ {IDCLS_ENABLE_SID_FILTERS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SID_FILTERS_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SID_FILTERS,    "Do not emulate SID filters"},
+/* de */ {IDCLS_DISABLE_SID_FILTERS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SID_FILTERS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SID_FILTERS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SID_FILTERS_NL, "SID filters niet emuleren"},
+/* pl */ {IDCLS_DISABLE_SID_FILTERS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SID_FILTERS_SV, ""},  /* fuzzy */
+
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESID_SAMPLING_METHOD,    "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)"},
+/* de */ {IDCLS_RESID_SAMPLING_METHOD_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESID_SAMPLING_METHOD_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_RESID_SAMPLING_METHOD_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESID_SAMPLING_METHOD_NL, "reSID sampling methode (0: snel, 1: interpoleren, 2: resampling, 3: snelle resampling)"},
+/* pl */ {IDCLS_RESID_SAMPLING_METHOD_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESID_SAMPLING_METHOD_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c, vsync.c */
+/* en */ {IDCLS_P_PERCENT,    "<percent>"},
+/* de */ {IDCLS_P_PERCENT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_PERCENT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_PERCENT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_PERCENT_NL, "<procent>"},
+/* pl */ {IDCLS_P_PERCENT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_PERCENT_SV, ""},  /* fuzzy */
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_PASSBAND_PERCENTAGE,    "reSID resampling passband in percentage of total bandwidth (0 - 90)"},
+/* de */ {IDCLS_PASSBAND_PERCENTAGE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PASSBAND_PERCENTAGE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_PASSBAND_PERCENTAGE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PASSBAND_PERCENTAGE_NL, "reSID resampling passband in percentage van de totale bandbreedte (0 - 90)"},
+/* pl */ {IDCLS_PASSBAND_PERCENTAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PASSBAND_PERCENTAGE_SV, ""},  /* fuzzy */
+#endif
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_MEMORY_16KB,    "Set the VDC memory size to 16KB"},
+/* de */ {IDCLS_SET_VDC_MEMORY_16KB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VDC_MEMORY_16KB_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VDC_MEMORY_16KB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VDC_MEMORY_16KB_NL, "Zet de VDC geheugen grootte als 16KB"},
+/* pl */ {IDCLS_SET_VDC_MEMORY_16KB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VDC_MEMORY_16KB_SV, ""},  /* fuzzy */
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_MEMORY_64KB,    "Set the VDC memory size to 64KB"},
+/* de */ {IDCLS_SET_VDC_MEMORY_64KB_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VDC_MEMORY_64KB_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VDC_MEMORY_64KB_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VDC_MEMORY_64KB_NL, "Zet de VDC geheugen grootte als 64KB"},
+/* pl */ {IDCLS_SET_VDC_MEMORY_64KB_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VDC_MEMORY_64KB_SV, ""},  /* fuzzy */
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_REVISION,    "Set VDC revision (0..2)"},
+/* de */ {IDCLS_SET_VDC_REVISION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VDC_REVISION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VDC_REVISION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VDC_REVISION_NL, "Zet de VDC revisie (0..2)"},
+/* pl */ {IDCLS_SET_VDC_REVISION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VDC_REVISION_SV, ""},  /* fuzzy */
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_P_SPEC,    "<spec>"},
+/* de */ {IDCLS_P_SPEC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_SPEC_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_SPEC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_SPEC_NL, "<spec>"},
+/* pl */ {IDCLS_P_SPEC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_SPEC_SV, ""},  /* fuzzy */
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_MEMORY_CONFIG,    "Specify memory configuration"},
+/* de */ {IDCLS_SPECIFY_MEMORY_CONFIG_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_MEMORY_CONFIG_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_MEMORY_CONFIG_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, "Geef geheugen konfiguratie"},
+/* pl */ {IDCLS_SPECIFY_MEMORY_CONFIG_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_MEMORY_CONFIG_SV, ""},  /* fuzzy */
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VIC1112_IEEE488,    "Enable VIC-1112 IEEE488 interface"},
+/* de */ {IDCLS_ENABLE_VIC1112_IEEE488_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_VIC1112_IEEE488_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_VIC1112_IEEE488_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_VIC1112_IEEE488_NL, "Aktiveer VIC-1112 IEEE488 interface"},
+/* pl */ {IDCLS_ENABLE_VIC1112_IEEE488_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_VIC1112_IEEE488_SV, ""},  /* fuzzy */
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VIC1112_IEEE488,    "Disable VIC-1112 IEEE488 interface"},
+/* de */ {IDCLS_DISABLE_VIC1112_IEEE488_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_VIC1112_IEEE488_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_VIC1112_IEEE488_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_VIC1112_IEEE488_NL, "VIC-1112 IEEE488 interface afsluiten"},
+/* pl */ {IDCLS_DISABLE_VIC1112_IEEE488_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_VIC1112_IEEE488_SV, ""},  /* fuzzy */
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME,    "Specify 4/8/16K extension ROM name at $2000"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_NL, "Geef de naam van het bestand voor de 4/8/16K ROM op $2000"},
+/* pl */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME_SV, ""},  /* fuzzy */
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME,    "Specify 4/8/16K extension ROM name at $4000"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_NL, "Geef de naam van het bestand voor de 4/8/16K ROM op $4000"},
+/* pl */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME_SV, ""},  /* fuzzy */
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME,    "Specify 4/8/16K extension ROM name at $6000"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_NL, "Geef de naam van het bestand voor de 4/8/16K ROM op $6000"},
+/* pl */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME_SV, ""},  /* fuzzy */
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME,    "Specify 4/8K extension ROM name at $A000"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_NL, "Geef de naam van het bestand voor de 4/8K ROM op $A000"},
+/* pl */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME_SV, ""},  /* fuzzy */
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME,    "Specify 4K extension ROM name at $B000"},
+/* de */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_NL, "Geef de naam van het bestand voor de 4K ROM op $B000"},
+/* pl */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SPRITE_BACKGROUND,    "Enable sprite-background collision registers"},
+/* de */ {IDCLS_ENABLE_SPRITE_BACKGROUND_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SPRITE_BACKGROUND_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SPRITE_BACKGROUND_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SPRITE_BACKGROUND_NL, "Aktiveer sprite-achtergrond botsing registers"},
+/* pl */ {IDCLS_ENABLE_SPRITE_BACKGROUND_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SPRITE_BACKGROUND_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SPRITE_BACKGROUND,    "Disable sprite-background collision registers"},
+/* de */ {IDCLS_DISABLE_SPRITE_BACKGROUND_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SPRITE_BACKGROUND_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SPRITE_BACKGROUND_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SPRITE_BACKGROUND_NL, "Sprite-achtergrond botsing registers afsluiten"},
+/* pl */ {IDCLS_DISABLE_SPRITE_BACKGROUND_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SPRITE_BACKGROUND_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SPRITE_SPRITE,    "Enable sprite-sprite collision registers"},
+/* de */ {IDCLS_ENABLE_SPRITE_SPRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SPRITE_SPRITE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SPRITE_SPRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SPRITE_SPRITE_NL, "Aktiveer sprite-sprite botsing registers"},
+/* pl */ {IDCLS_ENABLE_SPRITE_SPRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SPRITE_SPRITE_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SPRITE_SPRITE,    "Disable sprite-sprite collision registers"},
+/* de */ {IDCLS_DISABLE_SPRITE_SPRITE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SPRITE_SPRITE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SPRITE_SPRITE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SPRITE_SPRITE_NL, "Aktiveer sprite-sprite botsing registers"},
+/* pl */ {IDCLS_DISABLE_SPRITE_SPRITE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SPRITE_SPRITE_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_USE_NEW_LUMINANCES,    "Use new luminances"},
+/* de */ {IDCLS_USE_NEW_LUMINANCES_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_NEW_LUMINANCES_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_NEW_LUMINANCES_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_NEW_LUMINANCES_NL, "Gebruik nieuwe kleuren"},
+/* pl */ {IDCLS_USE_NEW_LUMINANCES_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_NEW_LUMINANCES_SV, ""},  /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_USE_OLD_LUMINANCES,    "Use old luminances"},
+/* de */ {IDCLS_USE_OLD_LUMINANCES_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_OLD_LUMINANCES_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_OLD_LUMINANCES_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_OLD_LUMINANCES_NL, "Gebruik oude kleuren"},
+/* pl */ {IDCLS_USE_OLD_LUMINANCES_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_OLD_LUMINANCES_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SIZE,    "Enable double size"},
+/* de */ {IDCLS_ENABLE_DOUBLE_SIZE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DOUBLE_SIZE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DOUBLE_SIZE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DOUBLE_SIZE_NL, "Aktiveer dubbele grootte"},
+/* pl */ {IDCLS_ENABLE_DOUBLE_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DOUBLE_SIZE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SIZE,    "Disable double size"},
+/* de */ {IDCLS_DISABLE_DOUBLE_SIZE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DOUBLE_SIZE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DOUBLE_SIZE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DOUBLE_SIZE_NL, "Dubbele grootte afsluiten"},
+/* pl */ {IDCLS_DISABLE_DOUBLE_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DOUBLE_SIZE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SCAN,    "Enable double scan"},
+/* de */ {IDCLS_ENABLE_DOUBLE_SCAN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DOUBLE_SCAN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DOUBLE_SCAN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DOUBLE_SCAN_NL, "Aktiveer dubbele scan"},
+/* pl */ {IDCLS_ENABLE_DOUBLE_SCAN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DOUBLE_SCAN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SCAN,    "Disable double scan"},
+/* de */ {IDCLS_DISABLE_DOUBLE_SCAN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DOUBLE_SCAN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DOUBLE_SCAN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DOUBLE_SCAN_NL, "Dubbele scan afsluiten"},
+/* pl */ {IDCLS_DISABLE_DOUBLE_SCAN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DOUBLE_SCAN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_HARDWARE_SCALING,    "Enable hardware scaling"},
+/* de */ {IDCLS_ENABLE_HARDWARE_SCALING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_HARDWARE_SCALING_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_HARDWARE_SCALING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_HARDWARE_SCALING_NL, "Aktiveer hardware schalering"},
+/* pl */ {IDCLS_ENABLE_HARDWARE_SCALING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_HARDWARE_SCALING_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_HARDWARE_SCALING,    "Disable hardware scaling"},
+/* de */ {IDCLS_DISABLE_HARDWARE_SCALING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_HARDWARE_SCALING_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_HARDWARE_SCALING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_HARDWARE_SCALING_NL, "Hardware schalering afsluiten"},
+/* pl */ {IDCLS_DISABLE_HARDWARE_SCALING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_HARDWARE_SCALING_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SCALE2X,    "Enable Scale2x"},
+/* de */ {IDCLS_ENABLE_SCALE2X_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SCALE2X_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SCALE2X_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SCALE2X_NL, "Aktiveer Scale2x"},
+/* pl */ {IDCLS_ENABLE_SCALE2X_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SCALE2X_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SCALE2X,    "Disable Scale2x"},
+/* de */ {IDCLS_DISABLE_SCALE2X_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SCALE2X_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SCALE2X_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SCALE2X_NL, "Scale2x afsluiten"},
+/* pl */ {IDCLS_DISABLE_SCALE2X_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SCALE2X_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_USE_INTERNAL_CALC_PALETTE,    "Use an internal calculated palette"},
+/* de */ {IDCLS_USE_INTERNAL_CALC_PALETTE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_INTERNAL_CALC_PALETTE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_INTERNAL_CALC_PALETTE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_INTERNAL_CALC_PALETTE_NL, "Gebruik een intern berekend kleuren palette"},
+/* pl */ {IDCLS_USE_INTERNAL_CALC_PALETTE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_INTERNAL_CALC_PALETTE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_USE_EXTERNAL_FILE_PALETTE,    "Use an external palette (file)"},
+/* de */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_NL, "Gebruik een extern kleuren palette (bestand)"},
+/* pl */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_EXTERNAL_FILE_PALETTE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,    "Specify name of file of external palette"},
+/* de */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_NL, "Geef de naam van het extern kleuren palette bestand"},
+/* pl */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FULLSCREEN_MODE,    "Enable fullscreen mode"},
+/* de */ {IDCLS_ENABLE_FULLSCREEN_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_FULLSCREEN_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_FULLSCREEN_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_FULLSCREEN_MODE_NL, "Aktiveer volscherm modus"},
+/* pl */ {IDCLS_ENABLE_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_FULLSCREEN_MODE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FULLSCREEN_MODE,    "Disable fullscreen mode"},
+/* de */ {IDCLS_DISABLE_FULLSCREEN_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_FULLSCREEN_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_FULLSCREEN_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_FULLSCREEN_MODE_NL, "Volscherm modus afsluiten"},
+/* pl */ {IDCLS_DISABLE_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_FULLSCREEN_MODE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_P_DEVICE,    "<device>"},
+/* de */ {IDCLS_P_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_DEVICE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_DEVICE_NL, "<apparaat>"},
+/* pl */ {IDCLS_P_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_DEVICE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SELECT_FULLSCREEN_DEVICE,    "Select fullscreen device"},
+/* de */ {IDCLS_SELECT_FULLSCREEN_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_FULLSCREEN_DEVICE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_FULLSCREEN_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_FULLSCREEN_DEVICE_NL, "Selecteer volscherm apparaat"},
+/* pl */ {IDCLS_SELECT_FULLSCREEN_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_FULLSCREEN_DEVICE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN,    "Enable double size in fullscreen mode"},
+/* de */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_NL, "Aktiveer dubbele grootte in volscherm modus"},
+/* pl */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,    "Disable double size in fullscreen mode"},
+/* de */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_NL, "Dubbele grootte in volscherm modus afsluiten"},
+/* pl */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN,    "Enable double scan in fullscreen mode"},
+/* de */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_NL, "Aktiveer dubbele scan in volscherm modus"},
+/* pl */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,    "Disable double scan in fullscreen mode"},
+/* de */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_NL, "Dubbele scan in volscherm modus afsluiten"},
+/* pl */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_P_MODE,    "<mode>"},
+/* de */ {IDCLS_P_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_MODE_NL, "<modus>"},
+/* pl */ {IDCLS_P_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_MODE_SV, ""},  /* fuzzy */
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SELECT_FULLSCREEN_MODE,    "Select fullscreen mode"},
+/* de */ {IDCLS_SELECT_FULLSCREEN_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_FULLSCREEN_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_FULLSCREEN_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_FULLSCREEN_MODE_NL, "Selecteer volscherm modus"},
+/* pl */ {IDCLS_SELECT_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_FULLSCREEN_MODE_SV, ""},  /* fuzzy */
+
+/* aciacore.c */
+/* en */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE,    "Specify RS232 device this ACIA should work on"},
+/* de */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_NL, "Geef het RS232 apparaat waarmee deze ACIA moet werken"},
+/* pl */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_8,    "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_8_NL, "Zet het apparaat soort voor apparaat #8 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_8_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_9,    "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_9_NL, "Zet het apparaat soort voor apparaat #9 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_9_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_10,    "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_10_NL, "Zet het apparaat soort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_10_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_11,    "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"},
+/* de */ {IDCLS_SET_DEVICE_TYPE_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DEVICE_TYPE_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DEVICE_TYPE_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DEVICE_TYPE_11_NL, "Zet het apparaat soort voor apparaat #11 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"},
+/* pl */ {IDCLS_SET_DEVICE_TYPE_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DEVICE_TYPE_11_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_8,    "Attach disk image for drive #8 read only"},
+/* de */ {IDCLS_ATTACH_READ_ONLY_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_ONLY_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_ONLY_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_ONLY_8_NL, "Koppel disk bestand voor station #8 als alleen lezen"},
+/* pl */ {IDCLS_ATTACH_READ_ONLY_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_ONLY_8_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_8,    "Attach disk image for drive #8 read write (if possible)"},
+/* de */ {IDCLS_ATTACH_READ_WRITE_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_WRITE_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_WRITE_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_WRITE_8_NL, "Koppel disk bestand voor station #8 als alleen schrijfbaar (indien mogelijk)"},
+/* pl */ {IDCLS_ATTACH_READ_WRITE_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_WRITE_8_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_9,    "Attach disk image for drive #9 read only"},
+/* de */ {IDCLS_ATTACH_READ_ONLY_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_ONLY_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_ONLY_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_ONLY_9_NL, "Koppel disk bestand voor station #9 als alleen lezen"},
+/* pl */ {IDCLS_ATTACH_READ_ONLY_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_ONLY_9_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_9,    "Attach disk image for drive #9 read write (if possible)"},
+/* de */ {IDCLS_ATTACH_READ_WRITE_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_WRITE_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_WRITE_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_WRITE_9_NL, "Koppel disk bestand voor station #9 als alleen schrijfbaar (indien mogelijk)"},
+/* pl */ {IDCLS_ATTACH_READ_WRITE_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_WRITE_9_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_10,    "Attach disk image for drive #10 read only"},
+/* de */ {IDCLS_ATTACH_READ_ONLY_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_ONLY_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_ONLY_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_ONLY_10_NL, "Koppel disk bestand voor station #10 als alleen lezen"},
+/* pl */ {IDCLS_ATTACH_READ_ONLY_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_ONLY_10_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_10,    "Attach disk image for drive #10 read write (if possible)"},
+/* de */ {IDCLS_ATTACH_READ_WRITE_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_WRITE_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_WRITE_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_WRITE_10_NL, "Koppel disk bestand voor station #10 als alleen schrijfbaar (indien mogelijk)"},
+/* pl */ {IDCLS_ATTACH_READ_WRITE_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_WRITE_10_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_11,    "Attach disk image for drive #11 read only"},
+/* de */ {IDCLS_ATTACH_READ_ONLY_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_ONLY_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_ONLY_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_ONLY_11_NL, "Koppel disk bestand voor station #11 als alleen lezen"},
+/* pl */ {IDCLS_ATTACH_READ_ONLY_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_ONLY_11_SV, ""},  /* fuzzy */
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_11,    "Attach disk image for drive #11 read write (if possible)"},
+/* de */ {IDCLS_ATTACH_READ_WRITE_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_READ_WRITE_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_READ_WRITE_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_READ_WRITE_11_NL, "Koppel disk bestand voor station #11 als alleen schrijfbaar (indien mogelijk)"},
+/* pl */ {IDCLS_ATTACH_READ_WRITE_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_READ_WRITE_11_SV, ""},  /* fuzzy */
+
+/* datasette.c */
+/* en */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET,    "Enable automatic Datasette-Reset"},
+/* de */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_NL, "Aktiveer automatische Datasette-Reset"},
+/* pl */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET_SV, ""},  /* fuzzy */
+
+/* datasette.c */
+/* en */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET,    "Disable automatic Datasette-Reset"},
+/* de */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_NL, "Automatische Datasette-Reset afsluiten"},
+/* pl */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET_SV, ""},  /* fuzzy */
+
+/* datasette.c */
+/* en */ {IDCLS_SET_ZERO_TAP_DELAY,    "Set delay in cycles for a zero in the tap"},
+/* de */ {IDCLS_SET_ZERO_TAP_DELAY_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_ZERO_TAP_DELAY_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_ZERO_TAP_DELAY_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_ZERO_TAP_DELAY_NL, "Zet de vertraging in cylcli voor een nul in de tap"},
+/* pl */ {IDCLS_SET_ZERO_TAP_DELAY_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_ZERO_TAP_DELAY_SV, ""},  /* fuzzy */
+
+/* datasette.c */
+/* en */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP,    "Set number of cycles added to each gap in the tap"},
+/* de */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_NL, "Zet aantal extra cylcli voor elk gat in de tap"},
+/* pl */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP_SV, ""},  /* fuzzy */
+
+#ifdef DEBUG
+/* debug.c */
+/* en */ {IDCLS_TRACE_MAIN_CPU,    "Trace the main CPU"},
+/* de */ {IDCLS_TRACE_MAIN_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_MAIN_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_MAIN_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_MAIN_CPU_NL, "Traceer de hoofd CPU"},
+/* pl */ {IDCLS_TRACE_MAIN_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_MAIN_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_MAIN_CPU,    "Do not trace the main CPU"},
+/* de */ {IDCLS_DONT_TRACE_MAIN_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_TRACE_MAIN_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_TRACE_MAIN_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_TRACE_MAIN_CPU_NL, "Traceer de hoofd CPU niet"},
+/* pl */ {IDCLS_DONT_TRACE_MAIN_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_TRACE_MAIN_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE0_CPU,    "Trace the drive0 CPU"},
+/* de */ {IDCLS_TRACE_DRIVE0_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_DRIVE0_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_DRIVE0_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_DRIVE0_CPU_NL, "Traceer de CPU van drive 0/8"},
+/* pl */ {IDCLS_TRACE_DRIVE0_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_DRIVE0_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE0_CPU,    "Do not trace the drive0 CPU"},
+/* de */ {IDCLS_DONT_TRACE_DRIVE0_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_TRACE_DRIVE0_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_TRACE_DRIVE0_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_TRACE_DRIVE0_CPU_NL, "Traceer de CPU van drive 0/8 niet"},
+/* pl */ {IDCLS_DONT_TRACE_DRIVE0_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_TRACE_DRIVE0_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE1_CPU,    "Trace the drive1 CPU"},
+/* de */ {IDCLS_TRACE_DRIVE1_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_DRIVE1_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_DRIVE1_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_DRIVE1_CPU_NL, "Traceer de CPU van drive 1/9"},
+/* pl */ {IDCLS_TRACE_DRIVE1_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_DRIVE1_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE1_CPU,    "Do not trace the drive1 CPU"},
+/* de */ {IDCLS_DONT_TRACE_DRIVE1_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_TRACE_DRIVE1_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_TRACE_DRIVE1_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_TRACE_DRIVE1_CPU_NL, "Traceer de CPU van drive 1/9 niet"},
+/* pl */ {IDCLS_DONT_TRACE_DRIVE1_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_TRACE_DRIVE1_CPU_SV, ""},  /* fuzzy */
+
+#if DRIVE_NUM > 2
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE2_CPU,    "Trace the drive2 CPU"},
+/* de */ {IDCLS_TRACE_DRIVE2_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_DRIVE2_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_DRIVE2_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_DRIVE2_CPU_NL, "Traceer de CPU van drive 2/10"},
+/* pl */ {IDCLS_TRACE_DRIVE2_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_DRIVE2_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE2_CPU,    "Do not trace the drive2 CPU"},
+/* de */ {IDCLS_DONT_TRACE_DRIVE2_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_TRACE_DRIVE2_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_TRACE_DRIVE2_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_TRACE_DRIVE2_CPU_NL, "Traceer de CPU van drive 2/10 niet"},
+/* pl */ {IDCLS_DONT_TRACE_DRIVE2_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_TRACE_DRIVE2_CPU_SV, ""},  /* fuzzy */
+#endif
+
+#if DRIVE_NUM > 3
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE3_CPU,    "Trace the drive3 CPU"},
+/* de */ {IDCLS_TRACE_DRIVE3_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_DRIVE3_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_DRIVE3_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_DRIVE3_CPU_NL, "Traceer de CPU van drive 3/11"},
+/* pl */ {IDCLS_TRACE_DRIVE3_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_DRIVE3_CPU_SV, ""},  /* fuzzy */
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE3_CPU,    "Do not trace the drive3 CPU"},
+/* de */ {IDCLS_DONT_TRACE_DRIVE3_CPU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_TRACE_DRIVE3_CPU_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_TRACE_DRIVE3_CPU_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_NL, "Traceer de CPU van drive 3/11 niet"},
+/* pl */ {IDCLS_DONT_TRACE_DRIVE3_CPU_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_TRACE_DRIVE3_CPU_SV, ""},  /* fuzzy */
+#endif
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_MODE,    "Trace mode (0=normal 1=small 2=history)"},
+/* de */ {IDCLS_TRACE_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_TRACE_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_TRACE_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_TRACE_MODE_NL, "Traceer modus (0=normaal 1=klein 2=geschiedenis)"},
+/* pl */ {IDCLS_TRACE_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_TRACE_MODE_SV, ""},  /* fuzzy */
+#endif
+
+/* event.c */
+/* en */ {IDCLS_PLAYBACK_RECORDED_EVENTS,    "Playback recorded events"},
+/* de */ {IDCLS_PLAYBACK_RECORDED_EVENTS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PLAYBACK_RECORDED_EVENTS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_PLAYBACK_RECORDED_EVENTS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PLAYBACK_RECORDED_EVENTS_NL, "Afspelen opgenomen gebeurtenissen"},
+/* pl */ {IDCLS_PLAYBACK_RECORDED_EVENTS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PLAYBACK_RECORDED_EVENTS_SV, ""},  /* fuzzy */
+
+/* fliplist.c */
+/* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,    "Specify name of the flip list file image"},
+/* de */ {IDCLS_SPECIFY_FLIP_LIST_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_FLIP_LIST_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_FLIP_LIST_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_FLIP_LIST_NAME_NL, "Geef de naam van het flip lijst bestand"},
+/* pl */ {IDCLS_SPECIFY_FLIP_LIST_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_FLIP_LIST_NAME_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS,    "Show a list of the available options and exit normally"},
+/* de */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_NL, "Toon een lijst van de beschikbare opties en exit zoals normaal"},
+/* pl */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_SV, ""},  /* fuzzy */
+
+#if (!defined  __OS2__ && !defined __BEOS__)
+/* initcmdline.c */
+/* en */ {IDCLS_CONSOLE_MODE,    "Console mode (for music playback)"},
+/* de */ {IDCLS_CONSOLE_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_CONSOLE_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_CONSOLE_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_CONSOLE_MODE_NL, "Console modus (voor afspelen voor muziek)"},
+/* pl */ {IDCLS_CONSOLE_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_CONSOLE_MODE_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ALLOW_CORE_DUMPS,    "Allow production of core dumps"},
+/* de */ {IDCLS_ALLOW_CORE_DUMPS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ALLOW_CORE_DUMPS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ALLOW_CORE_DUMPS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ALLOW_CORE_DUMPS_NL, "Maken van core dumps toestaan"},
+/* pl */ {IDCLS_ALLOW_CORE_DUMPS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ALLOW_CORE_DUMPS_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_DONT_ALLOW_CORE_DUMPS,    "Do not produce core dumps"},
+/* de */ {IDCLS_DONT_ALLOW_CORE_DUMPS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_ALLOW_CORE_DUMPS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_ALLOW_CORE_DUMPS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_ALLOW_CORE_DUMPS_NL, "Maken van core dumps niet toestaan"},
+/* pl */ {IDCLS_DONT_ALLOW_CORE_DUMPS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_ALLOW_CORE_DUMPS_SV, ""},  /* fuzzy */
+#else
+/* initcmdline.c */
+/* en */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER,    "Don't call exception handler"},
+/* de */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_NL, "Geen gebruik maken van de exception handler"},
+/* pl */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_CALL_EXCEPTION_HANDLER,    "Call exception handler (default)"},
+/* de */ {IDCLS_CALL_EXCEPTION_HANDLER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_CALL_EXCEPTION_HANDLER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_CALL_EXCEPTION_HANDLER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_CALL_EXCEPTION_HANDLER_NL, "Gebruik maken van de exception handler (standaard)"},
+/* pl */ {IDCLS_CALL_EXCEPTION_HANDLER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_CALL_EXCEPTION_HANDLER_SV, ""},  /* fuzzy */
+#endif
+
+/* initcmdline.c */
+/* en */ {IDCLS_RESTORE_DEFAULT_SETTINGS,    "Restore default (factory) settings"},
+/* de */ {IDCLS_RESTORE_DEFAULT_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_RESTORE_DEFAULT_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_NL, "Herstel standaard instelling"},
+/* pl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESTORE_DEFAULT_SETTINGS_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AND_AUTOSTART,    "Attach and autostart tape/disk image <name>"},
+/* de */ {IDCLS_ATTACH_AND_AUTOSTART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AND_AUTOSTART_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AND_AUTOSTART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AND_AUTOSTART_NL, "Koppel en autostart een tape/disk bestand <naam>"},
+/* pl */ {IDCLS_ATTACH_AND_AUTOSTART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AND_AUTOSTART_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AND_AUTOLOAD,    "Attach and autoload tape/disk image <name>"},
+/* de */ {IDCLS_ATTACH_AND_AUTOLOAD_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AND_AUTOLOAD_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AND_AUTOLOAD_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AND_AUTOLOAD_NL, "Koppel en autolaad een tape/disk bestand <naam>"},
+/* pl */ {IDCLS_ATTACH_AND_AUTOLOAD_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AND_AUTOLOAD_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_TAPE,    "Attach <name> as a tape image"},
+/* de */ {IDCLS_ATTACH_AS_TAPE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AS_TAPE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AS_TAPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AS_TAPE_NL, "Koppel <naam> als een tape bestand"},
+/* pl */ {IDCLS_ATTACH_AS_TAPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AS_TAPE_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_8,    "Attach <name> as a disk image in drive #8"},
+/* de */ {IDCLS_ATTACH_AS_DISK_8_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AS_DISK_8_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AS_DISK_8_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AS_DISK_8_NL, "Koppel <naam> als een disk bestand in station #8"},
+/* pl */ {IDCLS_ATTACH_AS_DISK_8_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AS_DISK_8_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_9,    "Attach <name> as a disk image in drive #9"},
+/* de */ {IDCLS_ATTACH_AS_DISK_9_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AS_DISK_9_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AS_DISK_9_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AS_DISK_9_NL, "Koppel <naam> als een disk bestand in station #9"},
+/* pl */ {IDCLS_ATTACH_AS_DISK_9_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AS_DISK_9_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_10,    "Attach <name> as a disk image in drive #10"},
+/* de */ {IDCLS_ATTACH_AS_DISK_10_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AS_DISK_10_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AS_DISK_10_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AS_DISK_10_NL, "Koppel <naam> als een disk bestand in station #10"},
+/* pl */ {IDCLS_ATTACH_AS_DISK_10_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AS_DISK_10_SV, ""},  /* fuzzy */
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_11,    "Attach <name> as a disk image in drive #11"},
+/* de */ {IDCLS_ATTACH_AS_DISK_11_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ATTACH_AS_DISK_11_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_AS_DISK_11_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_AS_DISK_11_NL, "Koppel <naam> als een disk bestand in station #11"},
+/* pl */ {IDCLS_ATTACH_AS_DISK_11_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_AS_DISK_11_SV, ""},  /* fuzzy */
+
+/* kbdbuf.c */
+/* en */ {IDCLS_P_STRING,    "<string>"},
+/* de */ {IDCLS_P_STRING_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_STRING_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_STRING_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_STRING_NL, "<string>"},
+/* pl */ {IDCLS_P_STRING_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_STRING_SV, ""},  /* fuzzy */
+
+/* kbdbuf.c */
+/* en */ {IDCLS_PUT_STRING_INTO_KEYBUF,    "Put the specified string into the keyboard buffer"},
+/* de */ {IDCLS_PUT_STRING_INTO_KEYBUF_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_PUT_STRING_INTO_KEYBUF_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_PUT_STRING_INTO_KEYBUF_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PUT_STRING_INTO_KEYBUF_NL, "Stop de opgegeven string in de toetsenbord buffer"},
+/* pl */ {IDCLS_PUT_STRING_INTO_KEYBUF_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PUT_STRING_INTO_KEYBUF_SV, ""},  /* fuzzy */
+
+/* log.c */
+/* en */ {IDCLS_SPECIFY_LOG_FILE_NAME,    "Specify log file name"},
+/* de */ {IDCLS_SPECIFY_LOG_FILE_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_LOG_FILE_NAME_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_LOG_FILE_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_LOG_FILE_NAME_NL, "Geef de naam van het log bestand"},
+/* pl */ {IDCLS_SPECIFY_LOG_FILE_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_LOG_FILE_NAME_SV, ""},  /* fuzzy */
+
+/* mouse.c */
+/* en */ {IDCLS_ENABLE_1351_MOUSE,    "Enable emulation of the 1351 proportional mouse"},
+/* de */ {IDCLS_ENABLE_1351_MOUSE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_1351_MOUSE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_1351_MOUSE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_1351_MOUSE_NL, "Aktiveer emulatie van de 1351 proportionele muis"},
+/* pl */ {IDCLS_ENABLE_1351_MOUSE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_1351_MOUSE_SV, ""},  /* fuzzy */
+
+/* mouse.c */
+/* en */ {IDCLS_DISABLE_1351_MOUSE,    "Disable emulation of the 1351 proportional mouse"},
+/* de */ {IDCLS_DISABLE_1351_MOUSE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_1351_MOUSE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_1351_MOUSE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_1351_MOUSE_NL, "Emulatie van de 1351 proportionele muis afsluiten"},
+/* pl */ {IDCLS_DISABLE_1351_MOUSE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_1351_MOUSE_SV, ""},  /* fuzzy */
+
+/* mouse.c */
+/* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,    "Select the joystick port the mouse is attached to"},
+/* de */ {IDCLS_SELECT_MOUSE_JOY_PORT_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MOUSE_JOY_PORT_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_JOY_PORT_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_MOUSE_JOY_PORT_NL, "Selecteer de joystick poort waar de muis aan gekoppelt is"},
+/* pl */ {IDCLS_SELECT_MOUSE_JOY_PORT_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_JOY_PORT_SV, ""},  /* fuzzy */
+
+/* ram.c */
+/* en */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,    "Set the value for the very first RAM address after powerup"},
+/* de */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_NL, "Zet de waarde voor het allereerste RAM adres na koude start"},
+/* pl */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_SV, ""},  /* fuzzy */
+
+/* ram.c */
+/* en */ {IDCLS_P_NUM_OF_BYTES,    "<num of bytes>"},
+/* de */ {IDCLS_P_NUM_OF_BYTES_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_NUM_OF_BYTES_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_NUM_OF_BYTES_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_NUM_OF_BYTES_NL, "<aantal bytes>"},
+/* pl */ {IDCLS_P_NUM_OF_BYTES_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_NUM_OF_BYTES_SV, ""},  /* fuzzy */
+
+/* ram.c */
+/* en */ {IDCLS_LENGTH_BLOCK_SAME_VALUE,    "Length of memory block initialized with the same value"},
+/* de */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_NL, "Geheugen blok grootte die dezelfde waarde krijgt bij initialisatie"},
+/* pl */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_LENGTH_BLOCK_SAME_VALUE_SV, ""},  /* fuzzy */
+
+/* ram.c */
+/* en */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN,    "Length of memory block initialized with the same pattern"},
+/* de */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_NL, "Geheugen blok grootte met hetzelfde patroon bij initialisatie"},
+/* pl */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_ENABLE_SOUND_PLAYBACK,    "Enable sound playback"},
+/* de */ {IDCLS_ENABLE_SOUND_PLAYBACK_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SOUND_PLAYBACK_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SOUND_PLAYBACK_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SOUND_PLAYBACK_NL, "Aktiveer geluid"},
+/* pl */ {IDCLS_ENABLE_SOUND_PLAYBACK_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SOUND_PLAYBACK_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_DISABLE_SOUND_PLAYBACK,    "Disable sound playback"},
+/* de */ {IDCLS_DISABLE_SOUND_PLAYBACK_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SOUND_PLAYBACK_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SOUND_PLAYBACK_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SOUND_PLAYBACK_NL, "Geluid afsluiten"},
+/* pl */ {IDCLS_DISABLE_SOUND_PLAYBACK_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SOUND_PLAYBACK_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ,    "Set sound sample rate to <value> Hz"},
+/* de */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_NL, "Zet de geluid sample rate naar <waarde> Hz"},
+/* pl */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,    "Set sound buffer size to <value> msec"},
+/* de */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_NL, "Zet de geluid buffer grootte naar <waarde> msec"},
+/* pl */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_SOUND_DRIVER,    "Specify sound driver"},
+/* de */ {IDCLS_SPECIFY_SOUND_DRIVER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SOUND_DRIVER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SOUND_DRIVER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SOUND_DRIVER_NL, "Geef geluid stuurprogramma"},
+/* pl */ {IDCLS_SPECIFY_SOUND_DRIVER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SOUND_DRIVER_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_P_ARGS,    "<args>"},
+/* de */ {IDCLS_P_ARGS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ARGS_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ARGS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ARGS_NL, "<parameters>"},
+/* pl */ {IDCLS_P_ARGS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ARGS_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM,    "Specify initialization parameters for sound driver"},
+/* de */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_NL, "Geef initialisatie paremeters voor het geluid stuurprogramma"},
+/* pl */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,    "Specify recording sound driver"},
+/* de */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_NL, "Geef geluid stuurprogramma voor opname"},
+/* pl */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,    "Specify initialization parameters for recording sound driver"},
+/* de */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_NL, "Geef initialisatie paremeters voor het geluid stuurprogramma voor opname"},
+/* pl */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_P_SYNC,    "<sync>"},
+/* de */ {IDCLS_P_SYNC_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_SYNC_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_SYNC_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_SYNC_NL, "<sync>"},
+/* pl */ {IDCLS_P_SYNC_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_SYNC_SV, ""},  /* fuzzy */
+
+/* sound.c */
+/* en */ {IDCLS_SET_SOUND_SPEED_ADJUST,    "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"},
+/* de */ {IDCLS_SET_SOUND_SPEED_ADJUST_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SOUND_SPEED_ADJUST_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SOUND_SPEED_ADJUST_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SOUND_SPEED_ADJUST_NL, "Zet geluid snelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"},
+/* pl */ {IDCLS_SET_SOUND_SPEED_ADJUST_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SOUND_SPEED_ADJUST_SV, ""},  /* fuzzy */
+
+/* sysfile.c */
+/* en */ {IDCLS_P_PATH,    "<path>"},
+/* de */ {IDCLS_P_PATH_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_P_PATH_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_PATH_NL, "<pad>"},
+/* pl */ {IDCLS_P_PATH_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_PATH_SV, ""},  /* fuzzy */
+
+/* sysfile.c */
+/* en */ {IDCLS_DEFINE_SYSTEM_FILES_PATH,    "Define search path to locate system files"},
+/* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_NL, "Geef het zoek pad waar de systeem bestanden te vinden zijn"},
+/* pl */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_SV, ""},  /* fuzzy */
+
+/* traps.c */
+/* en */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION,    "Enable general mechanisms for fast disk/tape emulation"},
+/* de */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_NL, "Aktiveer algemene methoden voor snelle disk/tape emulatie"},
+/* pl */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_SV, ""},  /* fuzzy */
+
+/* traps.c */
+/* en */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION,    "Disable general mechanisms for fast disk/tape emulation"},
+/* de */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_NL, "Algemene methoden voor snelle disk/tape emulatie afsluiten"},
+/* pl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_SV, ""},  /* fuzzy */
+
+/* vsync.c */
+/* en */ {IDCLS_LIMIT_SPEED_TO_VALUE,    "Limit emulation speed to specified value"},
+/* de */ {IDCLS_LIMIT_SPEED_TO_VALUE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_LIMIT_SPEED_TO_VALUE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_LIMIT_SPEED_TO_VALUE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_LIMIT_SPEED_TO_VALUE_NL, "Algemene methoden voor snelle disk/tape emulatie afsluiten"},
+/* pl */ {IDCLS_LIMIT_SPEED_TO_VALUE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_LIMIT_SPEED_TO_VALUE_SV, ""},  /* fuzzy */
+
+/* vsync.c */
+/* en */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES,    "Update every <value> frames (`0' for automatic)"},
+/* de */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_NL, "Scherm opbouw elke <waarde> frames (`0' voor automatisch)"},
+/* pl */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES_SV, ""},  /* fuzzy */
+
+/* vsync.c */
+/* en */ {IDCLS_ENABLE_WARP_MODE,    "Enable warp mode"},
+/* de */ {IDCLS_ENABLE_WARP_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_WARP_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_WARP_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_WARP_MODE_NL, "Aktiveer warp modus"},
+/* pl */ {IDCLS_ENABLE_WARP_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_WARP_MODE_SV, ""},  /* fuzzy */
+
+/* vsync.c */
+/* en */ {IDCLS_DISABLE_WARP_MODE,    "Disable warp mode"},
+/* de */ {IDCLS_DISABLE_WARP_MODE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_WARP_MODE_FR, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_WARP_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_WARP_MODE_NL, "Warp modus afsluiten"},
+/* pl */ {IDCLS_DISABLE_WARP_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_WARP_MODE_SV, ""}   /* fuzzy */
 
 };
 
@@ -2333,7 +3905,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDGS_RESOURCE_S_BLOCKED_BY_S_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,
 /* de */  IDCLS_USE_PAL_SYNC_FACTOR_DE,
 /* fr */  IDCLS_USE_PAL_SYNC_FACTOR_FR,
@@ -2343,7 +3916,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_USE_PAL_SYNC_FACTOR_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c */
+   c64/psid.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_NTSC_SYNC_FACTOR,
 /* de */  IDCLS_USE_NTSC_SYNC_FACTOR_DE,
 /* fr */  IDCLS_USE_NTSC_SYNC_FACTOR_FR,
@@ -2359,7 +3933,11 @@ static int translate_text_table[][countof(language_table)] = {
    drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
    drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
+   printerdrv/output-select.c, printerdrv/output-text.c,
+   rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
+   vic20/vic20cartridge.c, video/video-cmdline-options.c,
+   fliplist.c, initcmdline.c, log.c, sound.c */
 /* en */ {IDCLS_P_NAME,
 /* de */  IDCLS_P_NAME_DE,
 /* fr */  IDCLS_P_NAME_FR,
@@ -2504,7 +4082,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_C64_MODE_BASIC_NAME_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_EMULATOR_ID,
 /* de */  IDCLS_ENABLE_EMULATOR_ID_DE,
 /* fr */  IDCLS_ENABLE_EMULATOR_ID_FR,
@@ -2514,7 +4093,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_ENABLE_EMULATOR_ID_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
+   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_EMULATOR_ID,
 /* de */  IDCLS_DISABLE_EMULATOR_ID_DE,
 /* fr */  IDCLS_DISABLE_EMULATOR_ID_FR,
@@ -2579,10 +4159,10 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV},
 #endif
 
-#ifdef COMMON_KBD
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_P_NUMBER,
 /* de */  IDCLS_P_NUMBER_DE,
 /* fr */  IDCLS_P_NUMBER_FR,
@@ -2591,7 +4171,9 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_P_NUMBER_PL,
 /* sv */  IDCLS_P_NUMBER_SV},
 
-/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c */
+#ifdef COMMON_KBD
+/* c128/c128-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,
 /* de */  IDCLS_SPECIFY_KEYMAP_FILE_INDEX_DE,
 /* fr */  IDCLS_SPECIFY_KEYMAP_FILE_INDEX_FR,
@@ -2601,7 +4183,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
 /* de */  IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE,
 /* fr */  IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_FR,
@@ -2611,7 +4193,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
 /* de */  IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DE,
 /* fr */  IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_FR,
@@ -2703,7 +4285,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_USE_OLD_NTSC_SYNC_FACTOR_SV},
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,
 /* de */  IDCLS_SPECIFY_KERNAL_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_KERNAL_ROM_NAME_FR,
@@ -2713,7 +4296,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_KERNAL_ROM_NAME_SV},
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c */
+   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
+   vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,
 /* de */  IDCLS_SPECIFY_BASIC_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_BASIC_ROM_NAME_FR,
@@ -2723,7 +4307,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_SPECIFY_BASIC_ROM_NAME_SV},
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c */
+   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,
 /* de */  IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR,
@@ -3060,7 +4644,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_IDE64_NAME_PL,
 /* sv */  IDCLS_SPECIFY_IDE64_NAME_SV},
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c */
+/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+   debug.c, mouse.c, ram.c, sound.c, vsync.c */
 /* en */ {IDCLS_P_VALUE,
 /* de */  IDCLS_P_VALUE_DE,
 /* fr */  IDCLS_P_VALUE_FR,
@@ -3413,7 +4998,8 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_TRUE_DRIVE_PL,
 /* sv */  IDCLS_DISABLE_TRUE_DRIVE_SV},
 
-/* drive/drive-cmdline-options.c */
+/* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
+   attach.c */
 /* en */ {IDCLS_P_TYPE,
 /* de */  IDCLS_P_TYPE_DE,
 /* fr */  IDCLS_P_TYPE_FR,
@@ -3964,7 +5550,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_RAM_INSTALLED_PL,
 /* sv */  IDCLS_SPECIFY_RAM_INSTALLED_SV},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_P_0_2000,
 /* de */  IDCLS_P_0_2000_DE,
 /* fr */  IDCLS_P_0_2000_FR,
@@ -3973,7 +5559,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_P_0_2000_PL,
 /* sv */  IDCLS_P_0_2000_SV},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_SATURATION,
 /* de */  IDCLS_SET_SATURATION_DE,
 /* fr */  IDCLS_SET_SATURATION_FR,
@@ -3982,7 +5568,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_SATURATION_PL,
 /* sv */  IDCLS_SET_SATURATION_SV},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_CONTRAST,
 /* de */  IDCLS_SET_CONTRAST_DE,
 /* fr */  IDCLS_SET_CONTRAST_FR,
@@ -3991,7 +5577,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_CONTRAST_PL,
 /* sv */  IDCLS_SET_CONTRAST_SV},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BRIGHTNESS,
 /* de */  IDCLS_SET_BRIGHTNESS_DE,
 /* fr */  IDCLS_SET_BRIGHTNESS_FR,
@@ -4000,14 +5586,1493 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_BRIGHTNESS_PL,
 /* sv */  IDCLS_SET_BRIGHTNESS_SV},
 
-/* plus4/ted-cmdline-options.c */
+/* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_GAMMA,
 /* de */  IDCLS_SET_GAMMA_DE,
 /* fr */  IDCLS_SET_GAMMA_FR,
 /* it */  IDCLS_SET_GAMMA_IT,
 /* nl */  IDCLS_SET_GAMMA_NL,
 /* pl */  IDCLS_SET_GAMMA_PL,
-/* sv */  IDCLS_SET_GAMMA_SV}
+/* sv */  IDCLS_SET_GAMMA_SV},
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_4_NAME,
+/* de */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_FR,
+/* it */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PRT_DRIVER_4_NAME_SV},
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
+/* de */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_FR,
+/* it */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PRT_DRIVER_5_NAME_SV},
+
+/* printerdrv/driver-select.c */
+/* en */ {IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,
+/* de */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_DE,
+/* fr */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_FR,
+/* it */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_IT,
+/* nl */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_NL,
+/* pl */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_PL,
+/* sv */  IDCLS_SPECIFY_PRT_DRIVER_USR_NAME_SV},
+
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_4,
+/* de */  IDCLS_SET_DEVICE_TYPE_4_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_4_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_4_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_4_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_4_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_4_SV},
+
+/* printerdrv/interface-serial.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_5,
+/* de */  IDCLS_SET_DEVICE_TYPE_5_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_5_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_5_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_5_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_5_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_5_SV},
+
+/* printerdrv/interface-userport.c */
+/* en */ {IDCLS_ENABLE_USERPORT_PRINTER,
+/* de */  IDCLS_ENABLE_USERPORT_PRINTER_DE,
+/* fr */  IDCLS_ENABLE_USERPORT_PRINTER_FR,
+/* it */  IDCLS_ENABLE_USERPORT_PRINTER_IT,
+/* nl */  IDCLS_ENABLE_USERPORT_PRINTER_NL,
+/* pl */  IDCLS_ENABLE_USERPORT_PRINTER_PL,
+/* sv */  IDCLS_ENABLE_USERPORT_PRINTER_SV},
+
+/* printerdrv/interface-userport.c */
+/* en */ {IDCLS_DISABLE_USERPORT_PRINTER,
+/* de */  IDCLS_DISABLE_USERPORT_PRINTER_DE,
+/* fr */  IDCLS_DISABLE_USERPORT_PRINTER_FR,
+/* it */  IDCLS_DISABLE_USERPORT_PRINTER_IT,
+/* nl */  IDCLS_DISABLE_USERPORT_PRINTER_NL,
+/* pl */  IDCLS_DISABLE_USERPORT_PRINTER_PL,
+/* sv */  IDCLS_DISABLE_USERPORT_PRINTER_SV},
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,
+/* de */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_DE,
+/* fr */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_FR,
+/* it */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_IT,
+/* nl */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_NL,
+/* pl */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_PL,
+/* sv */  IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME_SV},
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
+/* de */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_DE,
+/* fr */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_FR,
+/* it */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_IT,
+/* nl */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_NL,
+/* pl */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_PL,
+/* sv */  IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME_SV},
+
+/* printerdrv/output-select.c */
+/* en */ {IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,
+/* de */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_DE,
+/* fr */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_FR,
+/* it */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_IT,
+/* nl */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_NL,
+/* pl */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_PL,
+/* sv */  IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME_SV},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME,
+/* de */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_DE,
+/* fr */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_FR,
+/* it */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_IT,
+/* nl */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_NL,
+/* pl */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_PL,
+/* sv */  IDCLS_SPECIFY_TEXT_DEVICE_DUMP_NAME_SV},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_P_0_2,
+/* de */  IDCLS_P_0_2_DE,
+/* fr */  IDCLS_P_0_2_FR,
+/* it */  IDCLS_P_0_2_IT,
+/* nl */  IDCLS_P_0_2_NL,
+/* pl */  IDCLS_P_0_2_PL,
+/* sv */  IDCLS_P_0_2_SV},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_4,
+/* de */  IDCLS_SPECIFY_TEXT_DEVICE_4_DE,
+/* fr */  IDCLS_SPECIFY_TEXT_DEVICE_4_FR,
+/* it */  IDCLS_SPECIFY_TEXT_DEVICE_4_IT,
+/* nl */  IDCLS_SPECIFY_TEXT_DEVICE_4_NL,
+/* pl */  IDCLS_SPECIFY_TEXT_DEVICE_4_PL,
+/* sv */  IDCLS_SPECIFY_TEXT_DEVICE_4_SV},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_DEVICE_5,
+/* de */  IDCLS_SPECIFY_TEXT_DEVICE_5_DE,
+/* fr */  IDCLS_SPECIFY_TEXT_DEVICE_5_FR,
+/* it */  IDCLS_SPECIFY_TEXT_DEVICE_5_IT,
+/* nl */  IDCLS_SPECIFY_TEXT_DEVICE_5_NL,
+/* pl */  IDCLS_SPECIFY_TEXT_DEVICE_5_PL,
+/* sv */  IDCLS_SPECIFY_TEXT_DEVICE_5_SV},
+
+/* printerdrv/output-text.c */
+/* en */ {IDCLS_SPECIFY_TEXT_USERPORT,
+/* de */  IDCLS_SPECIFY_TEXT_USERPORT_DE,
+/* fr */  IDCLS_SPECIFY_TEXT_USERPORT_FR,
+/* it */  IDCLS_SPECIFY_TEXT_USERPORT_IT,
+/* nl */  IDCLS_SPECIFY_TEXT_USERPORT_NL,
+/* pl */  IDCLS_SPECIFY_TEXT_USERPORT_PL,
+/* sv */  IDCLS_SPECIFY_TEXT_USERPORT_SV},
+
+/* raster/raster-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VIDEO_CACHE,
+/* de */  IDCLS_ENABLE_VIDEO_CACHE_DE,
+/* fr */  IDCLS_ENABLE_VIDEO_CACHE_FR,
+/* it */  IDCLS_ENABLE_VIDEO_CACHE_IT,
+/* nl */  IDCLS_ENABLE_VIDEO_CACHE_NL,
+/* pl */  IDCLS_ENABLE_VIDEO_CACHE_PL,
+/* sv */  IDCLS_ENABLE_VIDEO_CACHE_SV},
+
+/* raster/raster-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VIDEO_CACHE,
+/* de */  IDCLS_DISABLE_VIDEO_CACHE_DE,
+/* fr */  IDCLS_DISABLE_VIDEO_CACHE_FR,
+/* it */  IDCLS_DISABLE_VIDEO_CACHE_IT,
+/* nl */  IDCLS_DISABLE_VIDEO_CACHE_NL,
+/* pl */  IDCLS_DISABLE_VIDEO_CACHE_PL,
+/* sv */  IDCLS_DISABLE_VIDEO_CACHE_SV},
+
+#ifdef HAVE_RS232
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_1_NAME,
+/* de */  IDCLS_SPECIFY_RS232_1_NAME_DE,
+/* fr */  IDCLS_SPECIFY_RS232_1_NAME_FR,
+/* it */  IDCLS_SPECIFY_RS232_1_NAME_IT,
+/* nl */  IDCLS_SPECIFY_RS232_1_NAME_NL,
+/* pl */  IDCLS_SPECIFY_RS232_1_NAME_PL,
+/* sv */  IDCLS_SPECIFY_RS232_1_NAME_SV},
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_2_NAME,
+/* de */  IDCLS_SPECIFY_RS232_2_NAME_DE,
+/* fr */  IDCLS_SPECIFY_RS232_2_NAME_FR,
+/* it */  IDCLS_SPECIFY_RS232_2_NAME_IT,
+/* nl */  IDCLS_SPECIFY_RS232_2_NAME_NL,
+/* pl */  IDCLS_SPECIFY_RS232_2_NAME_PL,
+/* sv */  IDCLS_SPECIFY_RS232_2_NAME_SV},
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_3_NAME,
+/* de */  IDCLS_SPECIFY_RS232_3_NAME_DE,
+/* fr */  IDCLS_SPECIFY_RS232_3_NAME_FR,
+/* it */  IDCLS_SPECIFY_RS232_3_NAME_IT,
+/* nl */  IDCLS_SPECIFY_RS232_3_NAME_NL,
+/* pl */  IDCLS_SPECIFY_RS232_3_NAME_PL,
+/* sv */  IDCLS_SPECIFY_RS232_3_NAME_SV},
+
+/* rs232drv/rs232drv.c */
+/* en */ {IDCLS_SPECIFY_RS232_4_NAME,
+/* de */  IDCLS_SPECIFY_RS232_4_NAME_DE,
+/* fr */  IDCLS_SPECIFY_RS232_4_NAME_FR,
+/* it */  IDCLS_SPECIFY_RS232_4_NAME_IT,
+/* nl */  IDCLS_SPECIFY_RS232_4_NAME_NL,
+/* pl */  IDCLS_SPECIFY_RS232_4_NAME_PL,
+/* sv */  IDCLS_SPECIFY_RS232_4_NAME_SV},
+#endif
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_ENABLE_RS232_USERPORT,
+/* de */  IDCLS_ENABLE_RS232_USERPORT_DE,
+/* fr */  IDCLS_ENABLE_RS232_USERPORT_FR,
+/* it */  IDCLS_ENABLE_RS232_USERPORT_IT,
+/* nl */  IDCLS_ENABLE_RS232_USERPORT_NL,
+/* pl */  IDCLS_ENABLE_RS232_USERPORT_PL,
+/* sv */  IDCLS_ENABLE_RS232_USERPORT_SV},
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_DISABLE_RS232_USERPORT,
+/* de */  IDCLS_DISABLE_RS232_USERPORT_DE,
+/* fr */  IDCLS_DISABLE_RS232_USERPORT_FR,
+/* it */  IDCLS_DISABLE_RS232_USERPORT_IT,
+/* nl */  IDCLS_DISABLE_RS232_USERPORT_NL,
+/* pl */  IDCLS_DISABLE_RS232_USERPORT_PL,
+/* sv */  IDCLS_DISABLE_RS232_USERPORT_SV},
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_P_BAUD,
+/* de */  IDCLS_P_BAUD_DE,
+/* fr */  IDCLS_P_BAUD_FR,
+/* it */  IDCLS_P_BAUD_IT,
+/* nl */  IDCLS_P_BAUD_NL,
+/* pl */  IDCLS_P_BAUD_PL,
+/* sv */  IDCLS_P_BAUD_SV},
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_SET_BAUD_RS232_USERPORT,
+/* de */  IDCLS_SET_BAUD_RS232_USERPORT_DE,
+/* fr */  IDCLS_SET_BAUD_RS232_USERPORT_FR,
+/* it */  IDCLS_SET_BAUD_RS232_USERPORT_IT,
+/* nl */  IDCLS_SET_BAUD_RS232_USERPORT_NL,
+/* pl */  IDCLS_SET_BAUD_RS232_USERPORT_PL,
+/* sv */  IDCLS_SET_BAUD_RS232_USERPORT_SV},
+
+/* rs232drv/rsuser.c, aciacore.c */
+/* en */ {IDCLS_P_0_3,
+/* de */  IDCLS_P_0_3_DE,
+/* fr */  IDCLS_P_0_3_FR,
+/* it */  IDCLS_P_0_3_IT,
+/* nl */  IDCLS_P_0_3_NL,
+/* pl */  IDCLS_P_0_3_PL,
+/* sv */  IDCLS_P_0_3_SV},
+
+/* rs232drv/rsuser.c */
+/* en */ {IDCLS_SPECIFY_RS232_DEVICE_USERPORT,
+/* de */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_DE,
+/* fr */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_FR,
+/* it */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_IT,
+/* nl */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_NL,
+/* pl */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_PL,
+/* sv */  IDCLS_SPECIFY_RS232_DEVICE_USERPORT_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_4,
+/* de */  IDCLS_ENABLE_IEC_4_DE,
+/* fr */  IDCLS_ENABLE_IEC_4_FR,
+/* it */  IDCLS_ENABLE_IEC_4_IT,
+/* nl */  IDCLS_ENABLE_IEC_4_NL,
+/* pl */  IDCLS_ENABLE_IEC_4_PL,
+/* sv */  IDCLS_ENABLE_IEC_4_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_4,
+/* de */  IDCLS_DISABLE_IEC_4_DE,
+/* fr */  IDCLS_DISABLE_IEC_4_FR,
+/* it */  IDCLS_DISABLE_IEC_4_IT,
+/* nl */  IDCLS_DISABLE_IEC_4_NL,
+/* pl */  IDCLS_DISABLE_IEC_4_PL,
+/* sv */  IDCLS_DISABLE_IEC_4_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_5,
+/* de */  IDCLS_ENABLE_IEC_5_DE,
+/* fr */  IDCLS_ENABLE_IEC_5_FR,
+/* it */  IDCLS_ENABLE_IEC_5_IT,
+/* nl */  IDCLS_ENABLE_IEC_5_NL,
+/* pl */  IDCLS_ENABLE_IEC_5_PL,
+/* sv */  IDCLS_ENABLE_IEC_5_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_5,
+/* de */  IDCLS_DISABLE_IEC_5_DE,
+/* fr */  IDCLS_DISABLE_IEC_5_FR,
+/* it */  IDCLS_DISABLE_IEC_5_IT,
+/* nl */  IDCLS_DISABLE_IEC_5_NL,
+/* pl */  IDCLS_DISABLE_IEC_5_PL,
+/* sv */  IDCLS_DISABLE_IEC_5_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_8,
+/* de */  IDCLS_ENABLE_IEC_8_DE,
+/* fr */  IDCLS_ENABLE_IEC_8_FR,
+/* it */  IDCLS_ENABLE_IEC_8_IT,
+/* nl */  IDCLS_ENABLE_IEC_8_NL,
+/* pl */  IDCLS_ENABLE_IEC_8_PL,
+/* sv */  IDCLS_ENABLE_IEC_8_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_8,
+/* de */  IDCLS_DISABLE_IEC_8_DE,
+/* fr */  IDCLS_DISABLE_IEC_8_FR,
+/* it */  IDCLS_DISABLE_IEC_8_IT,
+/* nl */  IDCLS_DISABLE_IEC_8_NL,
+/* pl */  IDCLS_DISABLE_IEC_8_PL,
+/* sv */  IDCLS_DISABLE_IEC_8_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_9,
+/* de */  IDCLS_ENABLE_IEC_9_DE,
+/* fr */  IDCLS_ENABLE_IEC_9_FR,
+/* it */  IDCLS_ENABLE_IEC_9_IT,
+/* nl */  IDCLS_ENABLE_IEC_9_NL,
+/* pl */  IDCLS_ENABLE_IEC_9_PL,
+/* sv */  IDCLS_ENABLE_IEC_9_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_9,
+/* de */  IDCLS_DISABLE_IEC_9_DE,
+/* fr */  IDCLS_DISABLE_IEC_9_FR,
+/* it */  IDCLS_DISABLE_IEC_9_IT,
+/* nl */  IDCLS_DISABLE_IEC_9_NL,
+/* pl */  IDCLS_DISABLE_IEC_9_PL,
+/* sv */  IDCLS_DISABLE_IEC_9_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_10,
+/* de */  IDCLS_ENABLE_IEC_10_DE,
+/* fr */  IDCLS_ENABLE_IEC_10_FR,
+/* it */  IDCLS_ENABLE_IEC_10_IT,
+/* nl */  IDCLS_ENABLE_IEC_10_NL,
+/* pl */  IDCLS_ENABLE_IEC_10_PL,
+/* sv */  IDCLS_ENABLE_IEC_10_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_10,
+/* de */  IDCLS_DISABLE_IEC_10_DE,
+/* fr */  IDCLS_DISABLE_IEC_10_FR,
+/* it */  IDCLS_DISABLE_IEC_10_IT,
+/* nl */  IDCLS_DISABLE_IEC_10_NL,
+/* pl */  IDCLS_DISABLE_IEC_10_PL,
+/* sv */  IDCLS_DISABLE_IEC_10_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_ENABLE_IEC_11,
+/* de */  IDCLS_ENABLE_IEC_11_DE,
+/* fr */  IDCLS_ENABLE_IEC_11_FR,
+/* it */  IDCLS_ENABLE_IEC_11_IT,
+/* nl */  IDCLS_ENABLE_IEC_11_NL,
+/* pl */  IDCLS_ENABLE_IEC_11_PL,
+/* sv */  IDCLS_ENABLE_IEC_11_SV},
+
+/* serial/serial-iec-device.c */
+/* en */ {IDCLS_DISABLE_IEC_11,
+/* de */  IDCLS_DISABLE_IEC_11_DE,
+/* fr */  IDCLS_DISABLE_IEC_11_FR,
+/* it */  IDCLS_DISABLE_IEC_11_IT,
+/* nl */  IDCLS_DISABLE_IEC_11_NL,
+/* pl */  IDCLS_DISABLE_IEC_11_PL,
+/* sv */  IDCLS_DISABLE_IEC_11_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_ENGINE,
+/* de */  IDCLS_P_ENGINE_DE,
+/* fr */  IDCLS_P_ENGINE_FR,
+/* it */  IDCLS_P_ENGINE_IT,
+/* nl */  IDCLS_P_ENGINE_NL,
+/* pl */  IDCLS_P_ENGINE_PL,
+/* sv */  IDCLS_P_ENGINE_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_ENGINE,
+/* de */  IDCLS_SPECIFY_SID_ENGINE_DE,
+/* fr */  IDCLS_SPECIFY_SID_ENGINE_FR,
+/* it */  IDCLS_SPECIFY_SID_ENGINE_IT,
+/* nl */  IDCLS_SPECIFY_SID_ENGINE_NL,
+/* pl */  IDCLS_SPECIFY_SID_ENGINE_PL,
+/* sv */  IDCLS_SPECIFY_SID_ENGINE_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SECOND_SID,
+/* de */  IDCLS_ENABLE_SECOND_SID_DE,
+/* fr */  IDCLS_ENABLE_SECOND_SID_FR,
+/* it */  IDCLS_ENABLE_SECOND_SID_IT,
+/* nl */  IDCLS_ENABLE_SECOND_SID_NL,
+/* pl */  IDCLS_ENABLE_SECOND_SID_PL,
+/* sv */  IDCLS_ENABLE_SECOND_SID_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_BASE_ADDRESS,
+/* de */  IDCLS_P_BASE_ADDRESS_DE,
+/* fr */  IDCLS_P_BASE_ADDRESS_FR,
+/* it */  IDCLS_P_BASE_ADDRESS_IT,
+/* nl */  IDCLS_P_BASE_ADDRESS_NL,
+/* pl */  IDCLS_P_BASE_ADDRESS_PL,
+/* sv */  IDCLS_P_BASE_ADDRESS_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_2_ADDRESS,
+/* de */  IDCLS_SPECIFY_SID_2_ADDRESS_DE,
+/* fr */  IDCLS_SPECIFY_SID_2_ADDRESS_FR,
+/* it */  IDCLS_SPECIFY_SID_2_ADDRESS_IT,
+/* nl */  IDCLS_SPECIFY_SID_2_ADDRESS_NL,
+/* pl */  IDCLS_SPECIFY_SID_2_ADDRESS_PL,
+/* sv */  IDCLS_SPECIFY_SID_2_ADDRESS_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_MODEL,
+/* de */  IDCLS_P_MODEL_DE,
+/* fr */  IDCLS_P_MODEL_FR,
+/* it */  IDCLS_P_MODEL_IT,
+/* nl */  IDCLS_P_MODEL_NL,
+/* pl */  IDCLS_P_MODEL_PL,
+/* sv */  IDCLS_P_MODEL_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_MODEL,
+/* de */  IDCLS_SPECIFY_SID_MODEL_DE,
+/* fr */  IDCLS_SPECIFY_SID_MODEL_FR,
+/* it */  IDCLS_SPECIFY_SID_MODEL_IT,
+/* nl */  IDCLS_SPECIFY_SID_MODEL_NL,
+/* pl */  IDCLS_SPECIFY_SID_MODEL_PL,
+/* sv */  IDCLS_SPECIFY_SID_MODEL_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SID_FILTERS,
+/* de */  IDCLS_ENABLE_SID_FILTERS_DE,
+/* fr */  IDCLS_ENABLE_SID_FILTERS_FR,
+/* it */  IDCLS_ENABLE_SID_FILTERS_IT,
+/* nl */  IDCLS_ENABLE_SID_FILTERS_NL,
+/* pl */  IDCLS_ENABLE_SID_FILTERS_PL,
+/* sv */  IDCLS_ENABLE_SID_FILTERS_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SID_FILTERS,
+/* de */  IDCLS_DISABLE_SID_FILTERS_DE,
+/* fr */  IDCLS_DISABLE_SID_FILTERS_FR,
+/* it */  IDCLS_DISABLE_SID_FILTERS_IT,
+/* nl */  IDCLS_DISABLE_SID_FILTERS_NL,
+/* pl */  IDCLS_DISABLE_SID_FILTERS_PL,
+/* sv */  IDCLS_DISABLE_SID_FILTERS_SV},
+
+#ifdef HAVE_RESID
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_RESID_SAMPLING_METHOD,
+/* de */  IDCLS_RESID_SAMPLING_METHOD_DE,
+/* fr */  IDCLS_RESID_SAMPLING_METHOD_FR,
+/* it */  IDCLS_RESID_SAMPLING_METHOD_IT,
+/* nl */  IDCLS_RESID_SAMPLING_METHOD_NL,
+/* pl */  IDCLS_RESID_SAMPLING_METHOD_PL,
+/* sv */  IDCLS_RESID_SAMPLING_METHOD_SV},
+
+/* sid/sid-cmdline-options.c, vsync.c */
+/* en */ {IDCLS_P_PERCENT,
+/* de */  IDCLS_P_PERCENT_DE,
+/* fr */  IDCLS_P_PERCENT_FR,
+/* it */  IDCLS_P_PERCENT_IT,
+/* nl */  IDCLS_P_PERCENT_NL,
+/* pl */  IDCLS_P_PERCENT_PL,
+/* sv */  IDCLS_P_PERCENT_SV},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_PASSBAND_PERCENTAGE,
+/* de */  IDCLS_PASSBAND_PERCENTAGE_DE,
+/* fr */  IDCLS_PASSBAND_PERCENTAGE_FR,
+/* it */  IDCLS_PASSBAND_PERCENTAGE_IT,
+/* nl */  IDCLS_PASSBAND_PERCENTAGE_NL,
+/* pl */  IDCLS_PASSBAND_PERCENTAGE_PL,
+/* sv */  IDCLS_PASSBAND_PERCENTAGE_SV},
+#endif
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_MEMORY_16KB,
+/* de */  IDCLS_SET_VDC_MEMORY_16KB_DE,
+/* fr */  IDCLS_SET_VDC_MEMORY_16KB_FR,
+/* it */  IDCLS_SET_VDC_MEMORY_16KB_IT,
+/* nl */  IDCLS_SET_VDC_MEMORY_16KB_NL,
+/* pl */  IDCLS_SET_VDC_MEMORY_16KB_PL,
+/* sv */  IDCLS_SET_VDC_MEMORY_16KB_SV},
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_MEMORY_64KB,
+/* de */  IDCLS_SET_VDC_MEMORY_64KB_DE,
+/* fr */  IDCLS_SET_VDC_MEMORY_64KB_FR,
+/* it */  IDCLS_SET_VDC_MEMORY_64KB_IT,
+/* nl */  IDCLS_SET_VDC_MEMORY_64KB_NL,
+/* pl */  IDCLS_SET_VDC_MEMORY_64KB_PL,
+/* sv */  IDCLS_SET_VDC_MEMORY_64KB_SV},
+
+/* vdc/vdc-cmdline-options.c */
+/* en */ {IDCLS_SET_VDC_REVISION,
+/* de */  IDCLS_SET_VDC_REVISION_DE,
+/* fr */  IDCLS_SET_VDC_REVISION_FR,
+/* it */  IDCLS_SET_VDC_REVISION_IT,
+/* nl */  IDCLS_SET_VDC_REVISION_NL,
+/* pl */  IDCLS_SET_VDC_REVISION_PL,
+/* sv */  IDCLS_SET_VDC_REVISION_SV},
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_P_SPEC,
+/* de */  IDCLS_P_SPEC_DE,
+/* fr */  IDCLS_P_SPEC_FR,
+/* it */  IDCLS_P_SPEC_IT,
+/* nl */  IDCLS_P_SPEC_NL,
+/* pl */  IDCLS_P_SPEC_PL,
+/* sv */  IDCLS_P_SPEC_SV},
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_MEMORY_CONFIG,
+/* de */  IDCLS_SPECIFY_MEMORY_CONFIG_DE,
+/* fr */  IDCLS_SPECIFY_MEMORY_CONFIG_FR,
+/* it */  IDCLS_SPECIFY_MEMORY_CONFIG_IT,
+/* nl */  IDCLS_SPECIFY_MEMORY_CONFIG_NL,
+/* pl */  IDCLS_SPECIFY_MEMORY_CONFIG_PL,
+/* sv */  IDCLS_SPECIFY_MEMORY_CONFIG_SV},
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_VIC1112_IEEE488,
+/* de */  IDCLS_ENABLE_VIC1112_IEEE488_DE,
+/* fr */  IDCLS_ENABLE_VIC1112_IEEE488_FR,
+/* it */  IDCLS_ENABLE_VIC1112_IEEE488_IT,
+/* nl */  IDCLS_ENABLE_VIC1112_IEEE488_NL,
+/* pl */  IDCLS_ENABLE_VIC1112_IEEE488_PL,
+/* sv */  IDCLS_ENABLE_VIC1112_IEEE488_SV},
+
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_VIC1112_IEEE488,
+/* de */  IDCLS_DISABLE_VIC1112_IEEE488_DE,
+/* fr */  IDCLS_DISABLE_VIC1112_IEEE488_FR,
+/* it */  IDCLS_DISABLE_VIC1112_IEEE488_IT,
+/* nl */  IDCLS_DISABLE_VIC1112_IEEE488_NL,
+/* pl */  IDCLS_DISABLE_VIC1112_IEEE488_PL,
+/* sv */  IDCLS_DISABLE_VIC1112_IEEE488_SV},
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_2000_NAME,
+/* de */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXT_ROM_2000_NAME_SV},
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_4000_NAME,
+/* de */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXT_ROM_4000_NAME_SV},
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_6000_NAME,
+/* de */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXT_ROM_6000_NAME_SV},
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_A000_NAME,
+/* de */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXT_ROM_A000_NAME_SV},
+
+/* vic20/vic20cartridge.c */
+/* en */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME,
+/* de */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXT_ROM_B000_NAME_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SPRITE_BACKGROUND,
+/* de */  IDCLS_ENABLE_SPRITE_BACKGROUND_DE,
+/* fr */  IDCLS_ENABLE_SPRITE_BACKGROUND_FR,
+/* it */  IDCLS_ENABLE_SPRITE_BACKGROUND_IT,
+/* nl */  IDCLS_ENABLE_SPRITE_BACKGROUND_NL,
+/* pl */  IDCLS_ENABLE_SPRITE_BACKGROUND_PL,
+/* sv */  IDCLS_ENABLE_SPRITE_BACKGROUND_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SPRITE_BACKGROUND,
+/* de */  IDCLS_DISABLE_SPRITE_BACKGROUND_DE,
+/* fr */  IDCLS_DISABLE_SPRITE_BACKGROUND_FR,
+/* it */  IDCLS_DISABLE_SPRITE_BACKGROUND_IT,
+/* nl */  IDCLS_DISABLE_SPRITE_BACKGROUND_NL,
+/* pl */  IDCLS_DISABLE_SPRITE_BACKGROUND_PL,
+/* sv */  IDCLS_DISABLE_SPRITE_BACKGROUND_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SPRITE_SPRITE,
+/* de */  IDCLS_ENABLE_SPRITE_SPRITE_DE,
+/* fr */  IDCLS_ENABLE_SPRITE_SPRITE_FR,
+/* it */  IDCLS_ENABLE_SPRITE_SPRITE_IT,
+/* nl */  IDCLS_ENABLE_SPRITE_SPRITE_NL,
+/* pl */  IDCLS_ENABLE_SPRITE_SPRITE_PL,
+/* sv */  IDCLS_ENABLE_SPRITE_SPRITE_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SPRITE_SPRITE,
+/* de */  IDCLS_DISABLE_SPRITE_SPRITE_DE,
+/* fr */  IDCLS_DISABLE_SPRITE_SPRITE_FR,
+/* it */  IDCLS_DISABLE_SPRITE_SPRITE_IT,
+/* nl */  IDCLS_DISABLE_SPRITE_SPRITE_NL,
+/* pl */  IDCLS_DISABLE_SPRITE_SPRITE_PL,
+/* sv */  IDCLS_DISABLE_SPRITE_SPRITE_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_USE_NEW_LUMINANCES,
+/* de */  IDCLS_USE_NEW_LUMINANCES_DE,
+/* fr */  IDCLS_USE_NEW_LUMINANCES_FR,
+/* it */  IDCLS_USE_NEW_LUMINANCES_IT,
+/* nl */  IDCLS_USE_NEW_LUMINANCES_NL,
+/* pl */  IDCLS_USE_NEW_LUMINANCES_PL,
+/* sv */  IDCLS_USE_NEW_LUMINANCES_SV},
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_USE_OLD_LUMINANCES,
+/* de */  IDCLS_USE_OLD_LUMINANCES_DE,
+/* fr */  IDCLS_USE_OLD_LUMINANCES_FR,
+/* it */  IDCLS_USE_OLD_LUMINANCES_IT,
+/* nl */  IDCLS_USE_OLD_LUMINANCES_NL,
+/* pl */  IDCLS_USE_OLD_LUMINANCES_PL,
+/* sv */  IDCLS_USE_OLD_LUMINANCES_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SIZE,
+/* de */  IDCLS_ENABLE_DOUBLE_SIZE_DE,
+/* fr */  IDCLS_ENABLE_DOUBLE_SIZE_FR,
+/* it */  IDCLS_ENABLE_DOUBLE_SIZE_IT,
+/* nl */  IDCLS_ENABLE_DOUBLE_SIZE_NL,
+/* pl */  IDCLS_ENABLE_DOUBLE_SIZE_PL,
+/* sv */  IDCLS_ENABLE_DOUBLE_SIZE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SIZE,
+/* de */  IDCLS_DISABLE_DOUBLE_SIZE_DE,
+/* fr */  IDCLS_DISABLE_DOUBLE_SIZE_FR,
+/* it */  IDCLS_DISABLE_DOUBLE_SIZE_IT,
+/* nl */  IDCLS_DISABLE_DOUBLE_SIZE_NL,
+/* pl */  IDCLS_DISABLE_DOUBLE_SIZE_PL,
+/* sv */  IDCLS_DISABLE_DOUBLE_SIZE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SCAN,
+/* de */  IDCLS_ENABLE_DOUBLE_SCAN_DE,
+/* fr */  IDCLS_ENABLE_DOUBLE_SCAN_FR,
+/* it */  IDCLS_ENABLE_DOUBLE_SCAN_IT,
+/* nl */  IDCLS_ENABLE_DOUBLE_SCAN_NL,
+/* pl */  IDCLS_ENABLE_DOUBLE_SCAN_PL,
+/* sv */  IDCLS_ENABLE_DOUBLE_SCAN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SCAN,
+/* de */  IDCLS_DISABLE_DOUBLE_SCAN_DE,
+/* fr */  IDCLS_DISABLE_DOUBLE_SCAN_FR,
+/* it */  IDCLS_DISABLE_DOUBLE_SCAN_IT,
+/* nl */  IDCLS_DISABLE_DOUBLE_SCAN_NL,
+/* pl */  IDCLS_DISABLE_DOUBLE_SCAN_PL,
+/* sv */  IDCLS_DISABLE_DOUBLE_SCAN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_HARDWARE_SCALING,
+/* de */  IDCLS_ENABLE_HARDWARE_SCALING_DE,
+/* fr */  IDCLS_ENABLE_HARDWARE_SCALING_FR,
+/* it */  IDCLS_ENABLE_HARDWARE_SCALING_IT,
+/* nl */  IDCLS_ENABLE_HARDWARE_SCALING_NL,
+/* pl */  IDCLS_ENABLE_HARDWARE_SCALING_PL,
+/* sv */  IDCLS_ENABLE_HARDWARE_SCALING_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_HARDWARE_SCALING,
+/* de */  IDCLS_DISABLE_HARDWARE_SCALING_DE,
+/* fr */  IDCLS_DISABLE_HARDWARE_SCALING_FR,
+/* it */  IDCLS_DISABLE_HARDWARE_SCALING_IT,
+/* nl */  IDCLS_DISABLE_HARDWARE_SCALING_NL,
+/* pl */  IDCLS_DISABLE_HARDWARE_SCALING_PL,
+/* sv */  IDCLS_DISABLE_HARDWARE_SCALING_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SCALE2X,
+/* de */  IDCLS_ENABLE_SCALE2X_DE,
+/* fr */  IDCLS_ENABLE_SCALE2X_FR,
+/* it */  IDCLS_ENABLE_SCALE2X_IT,
+/* nl */  IDCLS_ENABLE_SCALE2X_NL,
+/* pl */  IDCLS_ENABLE_SCALE2X_PL,
+/* sv */  IDCLS_ENABLE_SCALE2X_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SCALE2X,
+/* de */  IDCLS_DISABLE_SCALE2X_DE,
+/* fr */  IDCLS_DISABLE_SCALE2X_FR,
+/* it */  IDCLS_DISABLE_SCALE2X_IT,
+/* nl */  IDCLS_DISABLE_SCALE2X_NL,
+/* pl */  IDCLS_DISABLE_SCALE2X_PL,
+/* sv */  IDCLS_DISABLE_SCALE2X_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_USE_INTERNAL_CALC_PALETTE,
+/* de */  IDCLS_USE_INTERNAL_CALC_PALETTE_DE,
+/* fr */  IDCLS_USE_INTERNAL_CALC_PALETTE_FR,
+/* it */  IDCLS_USE_INTERNAL_CALC_PALETTE_IT,
+/* nl */  IDCLS_USE_INTERNAL_CALC_PALETTE_NL,
+/* pl */  IDCLS_USE_INTERNAL_CALC_PALETTE_PL,
+/* sv */  IDCLS_USE_INTERNAL_CALC_PALETTE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_USE_EXTERNAL_FILE_PALETTE,
+/* de */  IDCLS_USE_EXTERNAL_FILE_PALETTE_DE,
+/* fr */  IDCLS_USE_EXTERNAL_FILE_PALETTE_FR,
+/* it */  IDCLS_USE_EXTERNAL_FILE_PALETTE_IT,
+/* nl */  IDCLS_USE_EXTERNAL_FILE_PALETTE_NL,
+/* pl */  IDCLS_USE_EXTERNAL_FILE_PALETTE_PL,
+/* sv */  IDCLS_USE_EXTERNAL_FILE_PALETTE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,
+/* de */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_DE,
+/* fr */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_FR,
+/* it */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_IT,
+/* nl */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_NL,
+/* pl */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_PL,
+/* sv */  IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_FULLSCREEN_MODE,
+/* de */  IDCLS_ENABLE_FULLSCREEN_MODE_DE,
+/* fr */  IDCLS_ENABLE_FULLSCREEN_MODE_FR,
+/* it */  IDCLS_ENABLE_FULLSCREEN_MODE_IT,
+/* nl */  IDCLS_ENABLE_FULLSCREEN_MODE_NL,
+/* pl */  IDCLS_ENABLE_FULLSCREEN_MODE_PL,
+/* sv */  IDCLS_ENABLE_FULLSCREEN_MODE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_FULLSCREEN_MODE,
+/* de */  IDCLS_DISABLE_FULLSCREEN_MODE_DE,
+/* fr */  IDCLS_DISABLE_FULLSCREEN_MODE_FR,
+/* it */  IDCLS_DISABLE_FULLSCREEN_MODE_IT,
+/* nl */  IDCLS_DISABLE_FULLSCREEN_MODE_NL,
+/* pl */  IDCLS_DISABLE_FULLSCREEN_MODE_PL,
+/* sv */  IDCLS_DISABLE_FULLSCREEN_MODE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_P_DEVICE,
+/* de */  IDCLS_P_DEVICE_DE,
+/* fr */  IDCLS_P_DEVICE_FR,
+/* it */  IDCLS_P_DEVICE_IT,
+/* nl */  IDCLS_P_DEVICE_NL,
+/* pl */  IDCLS_P_DEVICE_PL,
+/* sv */  IDCLS_P_DEVICE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SELECT_FULLSCREEN_DEVICE,
+/* de */  IDCLS_SELECT_FULLSCREEN_DEVICE_DE,
+/* fr */  IDCLS_SELECT_FULLSCREEN_DEVICE_FR,
+/* it */  IDCLS_SELECT_FULLSCREEN_DEVICE_IT,
+/* nl */  IDCLS_SELECT_FULLSCREEN_DEVICE_NL,
+/* pl */  IDCLS_SELECT_FULLSCREEN_DEVICE_PL,
+/* sv */  IDCLS_SELECT_FULLSCREEN_DEVICE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN,
+/* de */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_DE,
+/* fr */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_FR,
+/* it */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_IT,
+/* nl */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_NL,
+/* pl */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_PL,
+/* sv */  IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,
+/* de */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DE,
+/* fr */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_FR,
+/* it */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_IT,
+/* nl */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_NL,
+/* pl */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_PL,
+/* sv */  IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN,
+/* de */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_DE,
+/* fr */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_FR,
+/* it */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_IT,
+/* nl */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_NL,
+/* pl */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_PL,
+/* sv */  IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,
+/* de */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DE,
+/* fr */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_FR,
+/* it */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_IT,
+/* nl */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_NL,
+/* pl */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_PL,
+/* sv */  IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_P_MODE,
+/* de */  IDCLS_P_MODE_DE,
+/* fr */  IDCLS_P_MODE_FR,
+/* it */  IDCLS_P_MODE_IT,
+/* nl */  IDCLS_P_MODE_NL,
+/* pl */  IDCLS_P_MODE_PL,
+/* sv */  IDCLS_P_MODE_SV},
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_SELECT_FULLSCREEN_MODE,
+/* de */  IDCLS_SELECT_FULLSCREEN_MODE_DE,
+/* fr */  IDCLS_SELECT_FULLSCREEN_MODE_FR,
+/* it */  IDCLS_SELECT_FULLSCREEN_MODE_IT,
+/* nl */  IDCLS_SELECT_FULLSCREEN_MODE_NL,
+/* pl */  IDCLS_SELECT_FULLSCREEN_MODE_PL,
+/* sv */  IDCLS_SELECT_FULLSCREEN_MODE_SV},
+
+/* aciacore.c */
+/* en */ {IDCLS_SPECIFY_ACIA_RS232_DEVICE,
+/* de */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_DE,
+/* fr */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_FR,
+/* it */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_IT,
+/* nl */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_NL,
+/* pl */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_PL,
+/* sv */  IDCLS_SPECIFY_ACIA_RS232_DEVICE_SV},
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_8,
+/* de */  IDCLS_SET_DEVICE_TYPE_8_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_8_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_8_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_8_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_8_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_8_SV},
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_9,
+/* de */  IDCLS_SET_DEVICE_TYPE_9_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_9_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_9_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_9_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_9_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_9_SV},
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_10,
+/* de */  IDCLS_SET_DEVICE_TYPE_10_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_10_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_10_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_10_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_10_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_10_SV},
+
+/* attach.c */
+/* en */ {IDCLS_SET_DEVICE_TYPE_11,
+/* de */  IDCLS_SET_DEVICE_TYPE_11_DE,
+/* fr */  IDCLS_SET_DEVICE_TYPE_11_FR,
+/* it */  IDCLS_SET_DEVICE_TYPE_11_IT,
+/* nl */  IDCLS_SET_DEVICE_TYPE_11_NL,
+/* pl */  IDCLS_SET_DEVICE_TYPE_11_PL,
+/* sv */  IDCLS_SET_DEVICE_TYPE_11_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_8,
+/* de */  IDCLS_ATTACH_READ_ONLY_8_DE,
+/* fr */  IDCLS_ATTACH_READ_ONLY_8_FR,
+/* it */  IDCLS_ATTACH_READ_ONLY_8_IT,
+/* nl */  IDCLS_ATTACH_READ_ONLY_8_NL,
+/* pl */  IDCLS_ATTACH_READ_ONLY_8_PL,
+/* sv */  IDCLS_ATTACH_READ_ONLY_8_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_8,
+/* de */  IDCLS_ATTACH_READ_WRITE_8_DE,
+/* fr */  IDCLS_ATTACH_READ_WRITE_8_FR,
+/* it */  IDCLS_ATTACH_READ_WRITE_8_IT,
+/* nl */  IDCLS_ATTACH_READ_WRITE_8_NL,
+/* pl */  IDCLS_ATTACH_READ_WRITE_8_PL,
+/* sv */  IDCLS_ATTACH_READ_WRITE_8_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_9,
+/* de */  IDCLS_ATTACH_READ_ONLY_9_DE,
+/* fr */  IDCLS_ATTACH_READ_ONLY_9_FR,
+/* it */  IDCLS_ATTACH_READ_ONLY_9_IT,
+/* nl */  IDCLS_ATTACH_READ_ONLY_9_NL,
+/* pl */  IDCLS_ATTACH_READ_ONLY_9_PL,
+/* sv */  IDCLS_ATTACH_READ_ONLY_9_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_9,
+/* de */  IDCLS_ATTACH_READ_WRITE_9_DE,
+/* fr */  IDCLS_ATTACH_READ_WRITE_9_FR,
+/* it */  IDCLS_ATTACH_READ_WRITE_9_IT,
+/* nl */  IDCLS_ATTACH_READ_WRITE_9_NL,
+/* pl */  IDCLS_ATTACH_READ_WRITE_9_PL,
+/* sv */  IDCLS_ATTACH_READ_WRITE_9_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_10,
+/* de */  IDCLS_ATTACH_READ_ONLY_10_DE,
+/* fr */  IDCLS_ATTACH_READ_ONLY_10_FR,
+/* it */  IDCLS_ATTACH_READ_ONLY_10_IT,
+/* nl */  IDCLS_ATTACH_READ_ONLY_10_NL,
+/* pl */  IDCLS_ATTACH_READ_ONLY_10_PL,
+/* sv */  IDCLS_ATTACH_READ_ONLY_10_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_10,
+/* de */  IDCLS_ATTACH_READ_WRITE_10_DE,
+/* fr */  IDCLS_ATTACH_READ_WRITE_10_FR,
+/* it */  IDCLS_ATTACH_READ_WRITE_10_IT,
+/* nl */  IDCLS_ATTACH_READ_WRITE_10_NL,
+/* pl */  IDCLS_ATTACH_READ_WRITE_10_PL,
+/* sv */  IDCLS_ATTACH_READ_WRITE_10_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_ONLY_11,
+/* de */  IDCLS_ATTACH_READ_ONLY_11_DE,
+/* fr */  IDCLS_ATTACH_READ_ONLY_11_FR,
+/* it */  IDCLS_ATTACH_READ_ONLY_11_IT,
+/* nl */  IDCLS_ATTACH_READ_ONLY_11_NL,
+/* pl */  IDCLS_ATTACH_READ_ONLY_11_PL,
+/* sv */  IDCLS_ATTACH_READ_ONLY_11_SV},
+
+/* attach.c */
+/* en */ {IDCLS_ATTACH_READ_WRITE_11,
+/* de */  IDCLS_ATTACH_READ_WRITE_11_DE,
+/* fr */  IDCLS_ATTACH_READ_WRITE_11_FR,
+/* it */  IDCLS_ATTACH_READ_WRITE_11_IT,
+/* nl */  IDCLS_ATTACH_READ_WRITE_11_NL,
+/* pl */  IDCLS_ATTACH_READ_WRITE_11_PL,
+/* sv */  IDCLS_ATTACH_READ_WRITE_11_SV},
+
+/* datasette.c */
+/* en */ {IDCLS_ENABLE_AUTO_DATASETTE_RESET,
+/* de */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_DE,
+/* fr */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_FR,
+/* it */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_IT,
+/* nl */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_NL,
+/* pl */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_PL,
+/* sv */  IDCLS_ENABLE_AUTO_DATASETTE_RESET_SV},
+
+/* datasette.c */
+/* en */ {IDCLS_DISABLE_AUTO_DATASETTE_RESET,
+/* de */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_DE,
+/* fr */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_FR,
+/* it */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_IT,
+/* nl */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_NL,
+/* pl */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_PL,
+/* sv */  IDCLS_DISABLE_AUTO_DATASETTE_RESET_SV},
+
+/* datasette.c */
+/* en */ {IDCLS_SET_ZERO_TAP_DELAY,
+/* de */  IDCLS_SET_ZERO_TAP_DELAY_DE,
+/* fr */  IDCLS_SET_ZERO_TAP_DELAY_FR,
+/* it */  IDCLS_SET_ZERO_TAP_DELAY_IT,
+/* nl */  IDCLS_SET_ZERO_TAP_DELAY_NL,
+/* pl */  IDCLS_SET_ZERO_TAP_DELAY_PL,
+/* sv */  IDCLS_SET_ZERO_TAP_DELAY_SV},
+
+/* datasette.c */
+/* en */ {IDCLS_SET_CYCLES_ADDED_GAP_TAP,
+/* de */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_DE,
+/* fr */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_FR,
+/* it */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_IT,
+/* nl */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_NL,
+/* pl */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_PL,
+/* sv */  IDCLS_SET_CYCLES_ADDED_GAP_TAP_SV},
+
+#ifdef DEBUG
+/* debug.c */
+/* en */ {IDCLS_TRACE_MAIN_CPU,
+/* de */  IDCLS_TRACE_MAIN_CPU_DE,
+/* fr */  IDCLS_TRACE_MAIN_CPU_FR,
+/* it */  IDCLS_TRACE_MAIN_CPU_IT,
+/* nl */  IDCLS_TRACE_MAIN_CPU_NL,
+/* pl */  IDCLS_TRACE_MAIN_CPU_PL,
+/* sv */  IDCLS_TRACE_MAIN_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_MAIN_CPU,
+/* de */  IDCLS_DONT_TRACE_MAIN_CPU_DE,
+/* fr */  IDCLS_DONT_TRACE_MAIN_CPU_FR,
+/* it */  IDCLS_DONT_TRACE_MAIN_CPU_IT,
+/* nl */  IDCLS_DONT_TRACE_MAIN_CPU_NL,
+/* pl */  IDCLS_DONT_TRACE_MAIN_CPU_PL,
+/* sv */  IDCLS_DONT_TRACE_MAIN_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE0_CPU,
+/* de */  IDCLS_TRACE_DRIVE0_CPU_DE,
+/* fr */  IDCLS_TRACE_DRIVE0_CPU_FR,
+/* it */  IDCLS_TRACE_DRIVE0_CPU_IT,
+/* nl */  IDCLS_TRACE_DRIVE0_CPU_NL,
+/* pl */  IDCLS_TRACE_DRIVE0_CPU_PL,
+/* sv */  IDCLS_TRACE_DRIVE0_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE0_CPU,
+/* de */  IDCLS_DONT_TRACE_DRIVE0_CPU_DE,
+/* fr */  IDCLS_DONT_TRACE_DRIVE0_CPU_FR,
+/* it */  IDCLS_DONT_TRACE_DRIVE0_CPU_IT,
+/* nl */  IDCLS_DONT_TRACE_DRIVE0_CPU_NL,
+/* pl */  IDCLS_DONT_TRACE_DRIVE0_CPU_PL,
+/* sv */  IDCLS_DONT_TRACE_DRIVE0_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE1_CPU,
+/* de */  IDCLS_TRACE_DRIVE1_CPU_DE,
+/* fr */  IDCLS_TRACE_DRIVE1_CPU_FR,
+/* it */  IDCLS_TRACE_DRIVE1_CPU_IT,
+/* nl */  IDCLS_TRACE_DRIVE1_CPU_NL,
+/* pl */  IDCLS_TRACE_DRIVE1_CPU_PL,
+/* sv */  IDCLS_TRACE_DRIVE1_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE1_CPU,
+/* de */  IDCLS_DONT_TRACE_DRIVE1_CPU_DE,
+/* fr */  IDCLS_DONT_TRACE_DRIVE1_CPU_FR,
+/* it */  IDCLS_DONT_TRACE_DRIVE1_CPU_IT,
+/* nl */  IDCLS_DONT_TRACE_DRIVE1_CPU_NL,
+/* pl */  IDCLS_DONT_TRACE_DRIVE1_CPU_PL,
+/* sv */  IDCLS_DONT_TRACE_DRIVE1_CPU_SV},
+
+#if DRIVE_NUM > 2
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE2_CPU,
+/* de */  IDCLS_TRACE_DRIVE2_CPU_DE,
+/* fr */  IDCLS_TRACE_DRIVE2_CPU_FR,
+/* it */  IDCLS_TRACE_DRIVE2_CPU_IT,
+/* nl */  IDCLS_TRACE_DRIVE2_CPU_NL,
+/* pl */  IDCLS_TRACE_DRIVE2_CPU_PL,
+/* sv */  IDCLS_TRACE_DRIVE2_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE2_CPU,
+/* de */  IDCLS_DONT_TRACE_DRIVE2_CPU_DE,
+/* fr */  IDCLS_DONT_TRACE_DRIVE2_CPU_FR,
+/* it */  IDCLS_DONT_TRACE_DRIVE2_CPU_IT,
+/* nl */  IDCLS_DONT_TRACE_DRIVE2_CPU_NL,
+/* pl */  IDCLS_DONT_TRACE_DRIVE2_CPU_PL,
+/* sv */  IDCLS_DONT_TRACE_DRIVE2_CPU_SV},
+#endif
+
+#if DRIVE_NUM > 3
+/* debug.c */
+/* en */ {IDCLS_TRACE_DRIVE3_CPU,
+/* de */  IDCLS_TRACE_DRIVE3_CPU_DE,
+/* fr */  IDCLS_TRACE_DRIVE3_CPU_FR,
+/* it */  IDCLS_TRACE_DRIVE3_CPU_IT,
+/* nl */  IDCLS_TRACE_DRIVE3_CPU_NL,
+/* pl */  IDCLS_TRACE_DRIVE3_CPU_PL,
+/* sv */  IDCLS_TRACE_DRIVE3_CPU_SV},
+
+/* debug.c */
+/* en */ {IDCLS_DONT_TRACE_DRIVE3_CPU,
+/* de */  IDCLS_DONT_TRACE_DRIVE3_CPU_DE,
+/* fr */  IDCLS_DONT_TRACE_DRIVE3_CPU_FR,
+/* it */  IDCLS_DONT_TRACE_DRIVE3_CPU_IT,
+/* nl */  IDCLS_DONT_TRACE_DRIVE3_CPU_NL,
+/* pl */  IDCLS_DONT_TRACE_DRIVE3_CPU_PL,
+/* sv */  IDCLS_DONT_TRACE_DRIVE3_CPU_SV},
+#endif
+
+/* debug.c */
+/* en */ {IDCLS_TRACE_MODE,
+/* de */  IDCLS_TRACE_MODE_DE,
+/* fr */  IDCLS_TRACE_MODE_FR,
+/* it */  IDCLS_TRACE_MODE_IT,
+/* nl */  IDCLS_TRACE_MODE_NL,
+/* pl */  IDCLS_TRACE_MODE_PL,
+/* sv */  IDCLS_TRACE_MODE_SV},
+#endif
+
+/* event.c */
+/* en */ {IDCLS_PLAYBACK_RECORDED_EVENTS,
+/* de */  IDCLS_PLAYBACK_RECORDED_EVENTS_DE,
+/* fr */  IDCLS_PLAYBACK_RECORDED_EVENTS_FR,
+/* it */  IDCLS_PLAYBACK_RECORDED_EVENTS_IT,
+/* nl */  IDCLS_PLAYBACK_RECORDED_EVENTS_NL,
+/* pl */  IDCLS_PLAYBACK_RECORDED_EVENTS_PL,
+/* sv */  IDCLS_PLAYBACK_RECORDED_EVENTS_SV},
+
+/* fliplist.c */
+/* en */ {IDCLS_SPECIFY_FLIP_LIST_NAME,
+/* de */  IDCLS_SPECIFY_FLIP_LIST_NAME_DE,
+/* fr */  IDCLS_SPECIFY_FLIP_LIST_NAME_FR,
+/* it */  IDCLS_SPECIFY_FLIP_LIST_NAME_IT,
+/* nl */  IDCLS_SPECIFY_FLIP_LIST_NAME_NL,
+/* pl */  IDCLS_SPECIFY_FLIP_LIST_NAME_PL,
+/* sv */  IDCLS_SPECIFY_FLIP_LIST_NAME_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS,
+/* de */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_DE,
+/* fr */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_FR,
+/* it */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_IT,
+/* nl */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_NL,
+/* pl */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_PL,
+/* sv */  IDCLS_SHOW_COMMAND_LINE_OPTIONS_SV},
+
+#if (!defined  __OS2__ && !defined __BEOS__)
+/* initcmdline.c */
+/* en */ {IDCLS_CONSOLE_MODE,
+/* de */  IDCLS_CONSOLE_MODE_DE,
+/* fr */  IDCLS_CONSOLE_MODE_FR,
+/* it */  IDCLS_CONSOLE_MODE_IT,
+/* nl */  IDCLS_CONSOLE_MODE_NL,
+/* pl */  IDCLS_CONSOLE_MODE_PL,
+/* sv */  IDCLS_CONSOLE_MODE_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ALLOW_CORE_DUMPS,
+/* de */  IDCLS_ALLOW_CORE_DUMPS_DE,
+/* fr */  IDCLS_ALLOW_CORE_DUMPS_FR,
+/* it */  IDCLS_ALLOW_CORE_DUMPS_IT,
+/* nl */  IDCLS_ALLOW_CORE_DUMPS_NL,
+/* pl */  IDCLS_ALLOW_CORE_DUMPS_PL,
+/* sv */  IDCLS_ALLOW_CORE_DUMPS_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_DONT_ALLOW_CORE_DUMPS,
+/* de */  IDCLS_DONT_ALLOW_CORE_DUMPS_DE,
+/* fr */  IDCLS_DONT_ALLOW_CORE_DUMPS_FR,
+/* it */  IDCLS_DONT_ALLOW_CORE_DUMPS_IT,
+/* nl */  IDCLS_DONT_ALLOW_CORE_DUMPS_NL,
+/* pl */  IDCLS_DONT_ALLOW_CORE_DUMPS_PL,
+/* sv */  IDCLS_DONT_ALLOW_CORE_DUMPS_SV},
+#else
+/* initcmdline.c */
+/* en */ {IDCLS_DONT_CALL_EXCEPTION_HANDLER,
+/* de */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_DE,
+/* fr */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_FR,
+/* it */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_IT,
+/* nl */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_NL,
+/* pl */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_PL,
+/* sv */  IDCLS_DONT_CALL_EXCEPTION_HANDLER_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_CALL_EXCEPTION_HANDLER,
+/* de */  IDCLS_CALL_EXCEPTION_HANDLER_DE,
+/* fr */  IDCLS_CALL_EXCEPTION_HANDLER_FR,
+/* it */  IDCLS_CALL_EXCEPTION_HANDLER_IT,
+/* nl */  IDCLS_CALL_EXCEPTION_HANDLER_NL,
+/* pl */  IDCLS_CALL_EXCEPTION_HANDLER_PL,
+/* sv */  IDCLS_CALL_EXCEPTION_HANDLER_SV},
+#endif
+
+/* initcmdline.c */
+/* en */ {IDCLS_RESTORE_DEFAULT_SETTINGS,
+/* de */  IDCLS_RESTORE_DEFAULT_SETTINGS_DE,
+/* fr */  IDCLS_RESTORE_DEFAULT_SETTINGS_FR,
+/* it */  IDCLS_RESTORE_DEFAULT_SETTINGS_IT,
+/* nl */  IDCLS_RESTORE_DEFAULT_SETTINGS_NL,
+/* pl */  IDCLS_RESTORE_DEFAULT_SETTINGS_PL,
+/* sv */  IDCLS_RESTORE_DEFAULT_SETTINGS_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AND_AUTOSTART,
+/* de */  IDCLS_ATTACH_AND_AUTOSTART_DE,
+/* fr */  IDCLS_ATTACH_AND_AUTOSTART_FR,
+/* it */  IDCLS_ATTACH_AND_AUTOSTART_IT,
+/* nl */  IDCLS_ATTACH_AND_AUTOSTART_NL,
+/* pl */  IDCLS_ATTACH_AND_AUTOSTART_PL,
+/* sv */  IDCLS_ATTACH_AND_AUTOSTART_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AND_AUTOLOAD,
+/* de */  IDCLS_ATTACH_AND_AUTOLOAD_DE,
+/* fr */  IDCLS_ATTACH_AND_AUTOLOAD_FR,
+/* it */  IDCLS_ATTACH_AND_AUTOLOAD_IT,
+/* nl */  IDCLS_ATTACH_AND_AUTOLOAD_NL,
+/* pl */  IDCLS_ATTACH_AND_AUTOLOAD_PL,
+/* sv */  IDCLS_ATTACH_AND_AUTOLOAD_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_TAPE,
+/* de */  IDCLS_ATTACH_AS_TAPE_DE,
+/* fr */  IDCLS_ATTACH_AS_TAPE_FR,
+/* it */  IDCLS_ATTACH_AS_TAPE_IT,
+/* nl */  IDCLS_ATTACH_AS_TAPE_NL,
+/* pl */  IDCLS_ATTACH_AS_TAPE_PL,
+/* sv */  IDCLS_ATTACH_AS_TAPE_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_8,
+/* de */  IDCLS_ATTACH_AS_DISK_8_DE,
+/* fr */  IDCLS_ATTACH_AS_DISK_8_FR,
+/* it */  IDCLS_ATTACH_AS_DISK_8_IT,
+/* nl */  IDCLS_ATTACH_AS_DISK_8_NL,
+/* pl */  IDCLS_ATTACH_AS_DISK_8_PL,
+/* sv */  IDCLS_ATTACH_AS_DISK_8_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_9,
+/* de */  IDCLS_ATTACH_AS_DISK_9_DE,
+/* fr */  IDCLS_ATTACH_AS_DISK_9_FR,
+/* it */  IDCLS_ATTACH_AS_DISK_9_IT,
+/* nl */  IDCLS_ATTACH_AS_DISK_9_NL,
+/* pl */  IDCLS_ATTACH_AS_DISK_9_PL,
+/* sv */  IDCLS_ATTACH_AS_DISK_9_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_10,
+/* de */  IDCLS_ATTACH_AS_DISK_10_DE,
+/* fr */  IDCLS_ATTACH_AS_DISK_10_FR,
+/* it */  IDCLS_ATTACH_AS_DISK_10_IT,
+/* nl */  IDCLS_ATTACH_AS_DISK_10_NL,
+/* pl */  IDCLS_ATTACH_AS_DISK_10_PL,
+/* sv */  IDCLS_ATTACH_AS_DISK_10_SV},
+
+/* initcmdline.c */
+/* en */ {IDCLS_ATTACH_AS_DISK_11,
+/* de */  IDCLS_ATTACH_AS_DISK_11_DE,
+/* fr */  IDCLS_ATTACH_AS_DISK_11_FR,
+/* it */  IDCLS_ATTACH_AS_DISK_11_IT,
+/* nl */  IDCLS_ATTACH_AS_DISK_11_NL,
+/* pl */  IDCLS_ATTACH_AS_DISK_11_PL,
+/* sv */  IDCLS_ATTACH_AS_DISK_11_SV},
+
+/* kbdbuf.c */
+/* en */ {IDCLS_P_STRING,
+/* de */  IDCLS_P_STRING_DE,
+/* fr */  IDCLS_P_STRING_FR,
+/* it */  IDCLS_P_STRING_IT,
+/* nl */  IDCLS_P_STRING_NL,
+/* pl */  IDCLS_P_STRING_PL,
+/* sv */  IDCLS_P_STRING_SV},
+
+/* kbdbuf.c */
+/* en */ {IDCLS_PUT_STRING_INTO_KEYBUF,
+/* de */  IDCLS_PUT_STRING_INTO_KEYBUF_DE,
+/* fr */  IDCLS_PUT_STRING_INTO_KEYBUF_FR,
+/* it */  IDCLS_PUT_STRING_INTO_KEYBUF_IT,
+/* nl */  IDCLS_PUT_STRING_INTO_KEYBUF_NL,
+/* pl */  IDCLS_PUT_STRING_INTO_KEYBUF_PL,
+/* sv */  IDCLS_PUT_STRING_INTO_KEYBUF_SV},
+
+/* log.c */
+/* en */ {IDCLS_SPECIFY_LOG_FILE_NAME,
+/* de */  IDCLS_SPECIFY_LOG_FILE_NAME_DE,
+/* fr */  IDCLS_SPECIFY_LOG_FILE_NAME_FR,
+/* it */  IDCLS_SPECIFY_LOG_FILE_NAME_IT,
+/* nl */  IDCLS_SPECIFY_LOG_FILE_NAME_NL,
+/* pl */  IDCLS_SPECIFY_LOG_FILE_NAME_PL,
+/* sv */  IDCLS_SPECIFY_LOG_FILE_NAME_SV},
+
+/* mouse.c */
+/* en */ {IDCLS_ENABLE_1351_MOUSE,
+/* de */  IDCLS_ENABLE_1351_MOUSE_DE,
+/* fr */  IDCLS_ENABLE_1351_MOUSE_FR,
+/* it */  IDCLS_ENABLE_1351_MOUSE_IT,
+/* nl */  IDCLS_ENABLE_1351_MOUSE_NL,
+/* pl */  IDCLS_ENABLE_1351_MOUSE_PL,
+/* sv */  IDCLS_ENABLE_1351_MOUSE_SV},
+
+/* mouse.c */
+/* en */ {IDCLS_DISABLE_1351_MOUSE,
+/* de */  IDCLS_DISABLE_1351_MOUSE_DE,
+/* fr */  IDCLS_DISABLE_1351_MOUSE_FR,
+/* it */  IDCLS_DISABLE_1351_MOUSE_IT,
+/* nl */  IDCLS_DISABLE_1351_MOUSE_NL,
+/* pl */  IDCLS_DISABLE_1351_MOUSE_PL,
+/* sv */  IDCLS_DISABLE_1351_MOUSE_SV},
+
+/* mouse.c */
+/* en */ {IDCLS_SELECT_MOUSE_JOY_PORT,
+/* de */  IDCLS_SELECT_MOUSE_JOY_PORT_DE,
+/* fr */  IDCLS_SELECT_MOUSE_JOY_PORT_FR,
+/* it */  IDCLS_SELECT_MOUSE_JOY_PORT_IT,
+/* nl */  IDCLS_SELECT_MOUSE_JOY_PORT_NL,
+/* pl */  IDCLS_SELECT_MOUSE_JOY_PORT_PL,
+/* sv */  IDCLS_SELECT_MOUSE_JOY_PORT_SV},
+
+/* ram.c */
+/* en */ {IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,
+/* de */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_DE,
+/* fr */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_FR,
+/* it */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_IT,
+/* nl */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_NL,
+/* pl */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_PL,
+/* sv */  IDCLS_SET_FIRST_RAM_ADDRESS_VALUE_SV},
+
+/* ram.c */
+/* en */ {IDCLS_P_NUM_OF_BYTES,
+/* de */  IDCLS_P_NUM_OF_BYTES_DE,
+/* fr */  IDCLS_P_NUM_OF_BYTES_FR,
+/* it */  IDCLS_P_NUM_OF_BYTES_IT,
+/* nl */  IDCLS_P_NUM_OF_BYTES_NL,
+/* pl */  IDCLS_P_NUM_OF_BYTES_PL,
+/* sv */  IDCLS_P_NUM_OF_BYTES_SV},
+
+/* ram.c */
+/* en */ {IDCLS_LENGTH_BLOCK_SAME_VALUE,
+/* de */  IDCLS_LENGTH_BLOCK_SAME_VALUE_DE,
+/* fr */  IDCLS_LENGTH_BLOCK_SAME_VALUE_FR,
+/* it */  IDCLS_LENGTH_BLOCK_SAME_VALUE_IT,
+/* nl */  IDCLS_LENGTH_BLOCK_SAME_VALUE_NL,
+/* pl */  IDCLS_LENGTH_BLOCK_SAME_VALUE_PL,
+/* sv */  IDCLS_LENGTH_BLOCK_SAME_VALUE_SV},
+
+/* ram.c */
+/* en */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN,
+/* de */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_DE,
+/* fr */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_FR,
+/* it */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_IT,
+/* nl */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_NL,
+/* pl */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_PL,
+/* sv */  IDCLS_LENGTH_BLOCK_SAME_PATTERN_SV},
+
+/* sound.c */
+/* en */ {IDCLS_ENABLE_SOUND_PLAYBACK,
+/* de */  IDCLS_ENABLE_SOUND_PLAYBACK_DE,
+/* fr */  IDCLS_ENABLE_SOUND_PLAYBACK_FR,
+/* it */  IDCLS_ENABLE_SOUND_PLAYBACK_IT,
+/* nl */  IDCLS_ENABLE_SOUND_PLAYBACK_NL,
+/* pl */  IDCLS_ENABLE_SOUND_PLAYBACK_PL,
+/* sv */  IDCLS_ENABLE_SOUND_PLAYBACK_SV},
+
+/* sound.c */
+/* en */ {IDCLS_DISABLE_SOUND_PLAYBACK,
+/* de */  IDCLS_DISABLE_SOUND_PLAYBACK_DE,
+/* fr */  IDCLS_DISABLE_SOUND_PLAYBACK_FR,
+/* it */  IDCLS_DISABLE_SOUND_PLAYBACK_IT,
+/* nl */  IDCLS_DISABLE_SOUND_PLAYBACK_NL,
+/* pl */  IDCLS_DISABLE_SOUND_PLAYBACK_PL,
+/* sv */  IDCLS_DISABLE_SOUND_PLAYBACK_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SET_SAMPLE_RATE_VALUE_HZ,
+/* de */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_DE,
+/* fr */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_FR,
+/* it */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_IT,
+/* nl */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_NL,
+/* pl */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_PL,
+/* sv */  IDCLS_SET_SAMPLE_RATE_VALUE_HZ_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SET_SOUND_BUFFER_SIZE_MSEC,
+/* de */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_DE,
+/* fr */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_FR,
+/* it */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_IT,
+/* nl */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_NL,
+/* pl */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_PL,
+/* sv */  IDCLS_SET_SOUND_BUFFER_SIZE_MSEC_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_SOUND_DRIVER,
+/* de */  IDCLS_SPECIFY_SOUND_DRIVER_DE,
+/* fr */  IDCLS_SPECIFY_SOUND_DRIVER_FR,
+/* it */  IDCLS_SPECIFY_SOUND_DRIVER_IT,
+/* nl */  IDCLS_SPECIFY_SOUND_DRIVER_NL,
+/* pl */  IDCLS_SPECIFY_SOUND_DRIVER_PL,
+/* sv */  IDCLS_SPECIFY_SOUND_DRIVER_SV},
+
+/* sound.c */
+/* en */ {IDCLS_P_ARGS,
+/* de */  IDCLS_P_ARGS_DE,
+/* fr */  IDCLS_P_ARGS_FR,
+/* it */  IDCLS_P_ARGS_IT,
+/* nl */  IDCLS_P_ARGS_NL,
+/* pl */  IDCLS_P_ARGS_PL,
+/* sv */  IDCLS_P_ARGS_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_SOUND_DRIVER_PARAM,
+/* de */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_DE,
+/* fr */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_FR,
+/* it */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_IT,
+/* nl */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_NL,
+/* pl */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_PL,
+/* sv */  IDCLS_SPECIFY_SOUND_DRIVER_PARAM_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,
+/* de */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_DE,
+/* fr */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_FR,
+/* it */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_IT,
+/* nl */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_NL,
+/* pl */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_PL,
+/* sv */  IDCLS_SPECIFY_RECORDING_SOUND_DRIVER_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,
+/* de */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_DE,
+/* fr */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_FR,
+/* it */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_IT,
+/* nl */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_NL,
+/* pl */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_PL,
+/* sv */  IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM_SV},
+
+/* sound.c */
+/* en */ {IDCLS_P_SYNC,
+/* de */  IDCLS_P_SYNC_DE,
+/* fr */  IDCLS_P_SYNC_FR,
+/* it */  IDCLS_P_SYNC_IT,
+/* nl */  IDCLS_P_SYNC_NL,
+/* pl */  IDCLS_P_SYNC_PL,
+/* sv */  IDCLS_P_SYNC_SV},
+
+/* sound.c */
+/* en */ {IDCLS_SET_SOUND_SPEED_ADJUST,
+/* de */  IDCLS_SET_SOUND_SPEED_ADJUST_DE,
+/* fr */  IDCLS_SET_SOUND_SPEED_ADJUST_FR,
+/* it */  IDCLS_SET_SOUND_SPEED_ADJUST_IT,
+/* nl */  IDCLS_SET_SOUND_SPEED_ADJUST_NL,
+/* pl */  IDCLS_SET_SOUND_SPEED_ADJUST_PL,
+/* sv */  IDCLS_SET_SOUND_SPEED_ADJUST_SV},
+
+/* sysfile.c */
+/* en */ {IDCLS_P_PATH,
+/* de */  IDCLS_P_PATH_DE,
+/* fr */  IDCLS_P_PATH_FR,
+/* it */  IDCLS_P_PATH_IT,
+/* nl */  IDCLS_P_PATH_NL,
+/* pl */  IDCLS_P_PATH_PL,
+/* sv */  IDCLS_P_PATH_SV},
+
+/* sysfile.c */
+/* en */ {IDCLS_DEFINE_SYSTEM_FILES_PATH,
+/* de */  IDCLS_DEFINE_SYSTEM_FILES_PATH_DE,
+/* fr */  IDCLS_DEFINE_SYSTEM_FILES_PATH_FR,
+/* it */  IDCLS_DEFINE_SYSTEM_FILES_PATH_IT,
+/* nl */  IDCLS_DEFINE_SYSTEM_FILES_PATH_NL,
+/* pl */  IDCLS_DEFINE_SYSTEM_FILES_PATH_PL,
+/* sv */  IDCLS_DEFINE_SYSTEM_FILES_PATH_SV},
+
+/* traps.c */
+/* en */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION,
+/* de */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_DE,
+/* fr */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR,
+/* it */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_IT,
+/* nl */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_NL,
+/* pl */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_PL,
+/* sv */  IDCLS_ENABLE_TRAPS_FAST_EMULATION_SV},
+
+/* traps.c */
+/* en */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION,
+/* de */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_DE,
+/* fr */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR,
+/* it */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT,
+/* nl */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_NL,
+/* pl */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_PL,
+/* sv */  IDCLS_DISABLE_TRAPS_FAST_EMULATION_SV},
+
+/* vsync.c */
+/* en */ {IDCLS_LIMIT_SPEED_TO_VALUE,
+/* de */  IDCLS_LIMIT_SPEED_TO_VALUE_DE,
+/* fr */  IDCLS_LIMIT_SPEED_TO_VALUE_FR,
+/* it */  IDCLS_LIMIT_SPEED_TO_VALUE_IT,
+/* nl */  IDCLS_LIMIT_SPEED_TO_VALUE_NL,
+/* pl */  IDCLS_LIMIT_SPEED_TO_VALUE_PL,
+/* sv */  IDCLS_LIMIT_SPEED_TO_VALUE_SV},
+
+/* vsync.c */
+/* en */ {IDCLS_UPDATE_EVERY_VALUE_FRAMES,
+/* de */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_DE,
+/* fr */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_FR,
+/* it */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_IT,
+/* nl */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_NL,
+/* pl */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_PL,
+/* sv */  IDCLS_UPDATE_EVERY_VALUE_FRAMES_SV},
+
+/* vsync.c */
+/* en */ {IDCLS_ENABLE_WARP_MODE,
+/* de */  IDCLS_ENABLE_WARP_MODE_DE,
+/* fr */  IDCLS_ENABLE_WARP_MODE_FR,
+/* it */  IDCLS_ENABLE_WARP_MODE_IT,
+/* nl */  IDCLS_ENABLE_WARP_MODE_NL,
+/* pl */  IDCLS_ENABLE_WARP_MODE_PL,
+/* sv */  IDCLS_ENABLE_WARP_MODE_SV},
+
+/* vsync.c */
+/* en */ {IDCLS_DISABLE_WARP_MODE,
+/* de */  IDCLS_DISABLE_WARP_MODE_DE,
+/* fr */  IDCLS_DISABLE_WARP_MODE_FR,
+/* it */  IDCLS_DISABLE_WARP_MODE_IT,
+/* nl */  IDCLS_DISABLE_WARP_MODE_NL,
+/* pl */  IDCLS_DISABLE_WARP_MODE_PL,
+/* sv */  IDCLS_DISABLE_WARP_MODE_SV}
 
 };
 

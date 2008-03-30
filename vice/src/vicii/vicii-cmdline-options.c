@@ -31,11 +31,40 @@
 
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "vicii-cmdline-options.h"
 #include "viciitypes.h"
 
 
 /* VIC-II command-line options.  */
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
+      (void *)1, 0, IDCLS_ENABLE_SPRITE_BACKGROUND },
+    { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
+      (void *)0, 0, IDCLS_DISABLE_SPRITE_BACKGROUND },
+    { "-VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
+      (void *)1, 0, IDCLS_ENABLE_SPRITE_SPRITE },
+    { "+VICIIcheckss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
+      (void *)0, 0, IDCLS_DISABLE_SPRITE_SPRITE },
+    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
+      (void *)1, 0, IDCLS_USE_NEW_LUMINANCES },
+    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
+      (void *)0, 0, IDCLS_USE_OLD_LUMINANCES },
+    { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_SATURATION },
+    { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_CONTRAST },
+    { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_BRIGHTNESS },
+    { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_GAMMA },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
@@ -60,12 +89,17 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2000>", "Set gamma of internal calculated palette [900]" },
     { NULL }
 };
+#endif
 
 int vicii_cmdline_options_init(void)
 {
     if (raster_cmdline_options_chip_init("VICII", vicii.video_chip_cap) < 0)
         return -1;
 
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

@@ -215,6 +215,29 @@ void sound_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
+      0, IDCLS_ENABLE_SOUND_PLAYBACK },
+    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
+      0, IDCLS_DISABLE_SOUND_PLAYBACK },
+    { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_SAMPLE_RATE_VALUE_HZ },
+    { "-soundbufsize", SET_RESOURCE, 1, NULL, NULL, "SoundBufferSize", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_SOUND_BUFFER_SIZE_MSEC },
+    { "-sounddev", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SOUND_DRIVER },
+    { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
+      IDCLS_P_ARGS, IDCLS_SPECIFY_SOUND_DRIVER_PARAM },
+    { "-soundrecdev", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceName",
+      NULL, IDCLS_P_NAME, IDCLS_SPECIFY_RECORDING_SOUND_DRIVER },
+    { "-soundrecarg", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceArg", NULL,
+      IDCLS_P_ARGS, IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM },
+    { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
+      IDCLS_P_SYNC, IDCLS_SET_SOUND_SPEED_ADJUST },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
       NULL, "Enable sound playback" },
@@ -236,10 +259,15 @@ static const cmdline_option_t cmdline_options[] = {
       "<sync>", "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
     { NULL }
 };
+#endif
 
 int sound_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

@@ -37,6 +37,9 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "vic20-cmdline-options.h"
 #include "vic20mem.h"
 
@@ -162,7 +165,40 @@ static int cmdline_memory(const char *param, void *extra_param)
     return 0;
 }
 
-
+#ifdef HAS_TRANSLATION
+static cmdline_option_trans_t const cmdline_options[] =
+{
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_NTSC, 0, IDCLS_USE_NTSC_SYNC_FACTOR },
+    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME },
+    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME },
+    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME },
+    { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
+      IDCLS_P_SPEC, IDCLS_SPECIFY_MEMORY_CONFIG},
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
+      0, IDCLS_ENABLE_EMULATOR_ID},
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
+      0, IDCLS_DISABLE_EMULATOR_ID},
+    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
+      0, IDCLS_ENABLE_VIC1112_IEEE488},
+    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
+      0, IDCLS_DISABLE_VIC1112_IEEE488},
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_KEYMAP_FILE_INDEX },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME },
+#endif
+    { NULL}
+};
+#else
 static cmdline_option_t const cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
@@ -195,9 +231,14 @@ static cmdline_option_t const cmdline_options[] =
 #endif
     { NULL}
 };
+#endif
 
 int vic20_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

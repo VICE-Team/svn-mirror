@@ -69,7 +69,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_RS232USER_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Impostazioni del RS232 Userport"
@@ -86,7 +85,6 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,70,50,14, WS_TABSTOP
     PUSHBUTTON      "Annulla", IDCANCEL, 85,70,50,14, WS_TABSTOP
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog

@@ -43,6 +43,9 @@
 #include "machine.h"
 #include "resources.h"
 #include "tape.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "util.h"
 
 
@@ -123,6 +126,30 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t common_cmdline_options[] = {
+    { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      0, IDCLS_SHOW_COMMAND_LINE_OPTIONS },
+    { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      0, IDCLS_SHOW_COMMAND_LINE_OPTIONS },
+    { "-h", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      0, IDCLS_SHOW_COMMAND_LINE_OPTIONS },
+#if (!defined  __OS2__ && !defined __BEOS__)
+    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
+      0, IDCLS_CONSOLE_MODE },
+    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
+      0, IDCLS_ALLOW_CORE_DUMPS },
+    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
+      0, IDCLS_DONT_ALLOW_CORE_DUMPS },
+#else
+    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
+      0, IDCLS_DONT_CALL_EXCEPTION_HANDLER },
+    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
+      0, IDCLS_CALL_EXCEPTION_HANDLER },
+#endif
+    { NULL }
+};
+#else
 static const cmdline_option_t common_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
@@ -145,13 +172,39 @@ static const cmdline_option_t common_cmdline_options[] = {
 #endif
     { NULL }
 };
+#endif
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t vsid_cmdline_options[] = {
+#else
 static const cmdline_option_t vsid_cmdline_options[] = {
+#endif
     { NULL }
 };
 
 /* These are the command-line options for the initialization sequence.  */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
+      0, IDCLS_RESTORE_DEFAULT_SETTINGS },
+    { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AND_AUTOSTART },
+    { "-autoload", CALL_FUNCTION, 1, cmdline_autoload, NULL, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AND_AUTOLOAD },
+    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *)1, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AS_TAPE },
+    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *)8, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AS_DISK_8 },
+    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *)9, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AS_DISK_9 },
+    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *)10, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AS_DISK_10 },
+    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *)11, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_AS_DISK_11 },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default (factory) settings" },
@@ -171,16 +224,29 @@ static const cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #11" },
     { NULL }
 };
+#endif
 
 int initcmdline_init(void)
 {
+#ifdef HAS_TRANSLATION
+    const cmdline_option_trans_t *main_cmdline_options =
+#else
     const cmdline_option_t *main_cmdline_options =
+#endif
         vsid_mode ? vsid_cmdline_options : cmdline_options;
 
+#ifdef HAS_TRANSLATION
+    if (cmdline_register_options_trans(common_cmdline_options) < 0)
+#else
     if (cmdline_register_options(common_cmdline_options) < 0)
+#endif
         return -1;
 
+#ifdef HAS_TRANSLATION
+    if (cmdline_register_options_trans(main_cmdline_options) < 0)
+#else
     if (cmdline_register_options(main_cmdline_options) < 0)
+#endif
         return -1;
 
     return 0;

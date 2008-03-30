@@ -11,178 +11,23 @@
 
 IDD_SID_GENERAL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configure SID Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "SID Engine",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
+    GROUPBOX        "", IDC_SID_GENGROUP1, 10, 5, 125, 25
+    COMBOBOX        IDC_SID_ENGINE, 15, 15, 70, 50, CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "SID Model",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (old)",IDC_SID_6581,15,45,55,10,
+    GROUPBOX        "", IDC_SID_GENGROUP2, 10, 35, 125, 25
+    AUTORADIOBUTTON "", IDC_SID_6581, 15, 45, 55, 10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (new)",IDC_SID_8580,70,45,55,10,
+    AUTORADIOBUTTON "", IDC_SID_8580, 70, 45, 55, 10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "SID Stereo",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Stereo SID at", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
+    GROUPBOX        "", IDC_SID_GENGROUP3, 10, 65, 125, 25
+    AUTOCHECKBOX    "", IDC_SID_STEREO,
+                    15, 75, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    COMBOBOX        IDC_SID_STEREOADDRESS, 85, 73, 45, 100, CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "SID Filters", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SID_GENERAL_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "SID Engine",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "SID Modell",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (alt)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (neu)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Zweiter SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Zweiter SID auf", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "SID Filters", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SID_GENERAL_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Engin SID",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "Modèle de SID",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (ancien)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (nouveau)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Second SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Adresse du second SID", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "les filtres du SID", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// ITALIAN version of dialog
-
-#pragma code_page(28605)
-IDD_SID_GENERAL_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Motore SID",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "Modello",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (vecchio)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (nuovo)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Secondo SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Indirizzo secondo SID", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "i filtri SID", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// DUTCH version of dialog
-
-IDD_SID_GENERAL_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID Instellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "SID Kern",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "SID Model",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (oud)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (nieuw)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Stereo SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Stereo SID op", IDC_SID_STEREO,
-                    15,75,57,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "SID Filters", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SID_GENERAL_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "Ustawienia uk³adu SID",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "Model SID",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (stary)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (nowy)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Drugi SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Adres drugiego SID", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "SID filtry", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SID_GENERAL_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID-inställningar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "SID-motor",IDC_STATIC,10,5,125,25
-    COMBOBOX        IDC_SID_ENGINE, 15,15,70,50, CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    GROUPBOX        "SID-modell",IDC_STATIC,10,35,125,25
-    AUTORADIOBUTTON "6581 (gammal)",IDC_SID_6581,15,45,55,10,
-                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "8580 (ny)",IDC_SID_8580,70,45,55,10,
-                            BS_AUTORADIOBUTTON
-    GROUPBOX        "Andra SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "adress för andra SID", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    AUTOCHECKBOX    "SID filter", IDC_SID_FILTERS,
-                    15,105,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SID_FILTERS,
+                    15, 105, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -191,115 +36,14 @@ END
 
 IDD_SID_RESID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configure SID Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "reSID options",IDC_STATIC,10,5,125,50
-    LTEXT           "Sample method",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
+    GROUPBOX        "", IDC_SID_RESID_GROUP, 10, 5, 125, 50
+    LTEXT           "", IDC_SID_RESID_SAMPLE, 15, 17, 50, 8
+    COMBOBOX        IDC_SID_RESID_SAMPLING, 70, 15, 60, 50, CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_SID_RESID_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID optionen",IDC_STATIC,10,5,125,50
-    LTEXT           "Sampling Methode",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_SID_RESID_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID options",IDC_STATIC,10,5,125,50
-    LTEXT           "Méthode d'échantillonnage",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Bande passante (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-
-
-// ITALIAN version of dialog
-
-#pragma code_page(28605)
-IDD_SID_RESID_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID opzioni",IDC_STATIC,10,5,125,50
-    LTEXT           "Metodo di campionamento",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Banda passante (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// DUTCH version of dialog
-
-IDD_SID_RESID_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID Instellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID opties",IDC_STATIC,10,5,125,50
-    LTEXT           "Sample methode",IDC_STATIC,15,17,53,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_SID_RESID_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia SID"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID Opcje",IDC_STATIC,10,5,125,50
-    LTEXT           "Metoda samplowania",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_SID_RESID_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 145, 130
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "SID-inställningar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    GROUPBOX        "reSID alternativ",IDC_STATIC,10,5,125,50
-    LTEXT           "Samplingsmetod",IDC_STATIC,15,17,50,8
-    COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
-                    WS_GROUP | WS_TABSTOP
-    LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
-    EDITTEXT        IDC_SID_RESID_PASSBAND, 80,35,20,12,WS_TABSTOP
+    LTEXT           "", IDC_SID_RESID_PASSBAND, 15, 37, 60, 8
+    EDITTEXT        IDC_SID_RESID_PASSBAND_VALUE, 80, 35, 20, 12, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -308,19 +52,18 @@ END
 
 IDD_SID_HARDSID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Configure SID Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Device selection",IDC_STATIC,10,5,125,50
-    LTEXT           "Left/Main device",IDC_STATIC,15,17,70,8
-    COMBOBOX        IDC_SID_HARDSID_LEFT_ENGINE, 80,15,50,50,
+    GROUPBOX        "", IDC_HARDSID_GROUP, 10, 5, 125, 50
+    LTEXT           "", IDC_HARDSID_LEFT_LABEL, 15, 17, 70, 8
+    COMBOBOX        IDC_SID_HARDSID_LEFT_ENGINE, 80, 15, 50, 50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
-    LTEXT           "Right device",IDC_STATIC,15,37,70,8
-    COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
+    LTEXT           "", IDC_HARDSID_RIGHT_LABEL, 15, 37, 70, 8
+    COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80, 35, 50, 50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
 
-
+#if 0
 // GERMAN version of dialog
 
 IDD_SID_HARDSID_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 145, 130
@@ -357,7 +100,6 @@ END
 
 // ITALIAN version of dialog
 
-#pragma code_page(28605)
 IDD_SID_HARDSID_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 145, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Configure SID Settings"
@@ -371,7 +113,6 @@ BEGIN
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
-#pragma code_page(28591)
 
 
 // DUTCH version of dialog
@@ -425,12 +166,13 @@ BEGIN
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
 END
-
+#endif
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH text
 
 STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
   IDS_GENERAL               "General"
@@ -439,64 +181,131 @@ BEGIN
   IDS_INTERPOLATING         "interpolating"
   IDS_RESAMPLING            "resampling"
   IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "SID Engine"
+  IDS_SID_GENGROUP2         "SID Model"
+  IDS_SID_6581              "6581 (old)"  
+  IDS_SID_8580              "8580 (new)"
+  IDS_SID_GENGROUP3         "SID Stereo"
+  IDS_SID_STEREO_AT         "Stereo SID at"
+  IDS_SID_FILTERS           "SID Filters"
+  IDS_SID_RESID_GROUP       "reSID options"
+  IDS_SID_RESID_SAMPLE      "Sample method"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END
 
 
 // GERMAN text
 
 STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_DE   "This machine may not have a SID"
-  IDS_GENERAL_DE               "General"
-  IDS_SID_SETTINGS_DE          "SID settings"
-  IDS_FAST_DE                  "fast"
-  IDS_INTERPOLATING_DE         "interpolating"
-  IDS_RESAMPLING_DE            "resampling"
-  IDS_FAST_RESAMPLING_DE       "fast resampling"
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "SID Engine"
+  IDS_SID_GENGROUP2         "SID Modell"
+  IDS_SID_6581              "6581 (alt)"
+  IDS_SID_8580              "8580 (neu)"
+  IDS_SID_GENGROUP3         "Zweiter SID"
+  IDS_SID_STEREO_AT         "Zweiter SID auf"
+  IDS_SID_FILTERS           "SID Filters"
+  IDS_SID_RESID_GROUP       "reSID optionen"
+  IDS_SID_RESID_SAMPLE      "Sampling Methode"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END
 
 
 // FRENCH text
 
 STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_FR   "This machine may not have a SID"
-  IDS_GENERAL_FR               "General"
-  IDS_SID_SETTINGS_FR          "SID settings"
-  IDS_FAST_FR                  "fast"
-  IDS_INTERPOLATING_FR         "interpolating"
-  IDS_RESAMPLING_FR            "resampling"
-  IDS_FAST_RESAMPLING_FR       "fast resampling"
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "Engin SID"
+  IDS_SID_GENGROUP2         "Modèle de SID"
+  IDS_SID_6581              "6581 (ancien)"
+  IDS_SID_8580              "8580 (nouveau)"
+  IDS_SID_GENGROUP3         "Second SID"
+  IDS_SID_STEREO_AT         "Adresse du second SID"
+  IDS_SID_FILTERS           "les filtres du SID"
+  IDS_SID_RESID_GROUP       "reSID options"
+  IDS_SID_RESID_SAMPLE      "Méthode d'échantillonnage"
+  IDS_SID_RESID_PASSBAND    "Bande passante (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END
 
 
 // ITALIAN text
 
-#pragma code_page(28605)
 STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_IT   "This machine may not have a SID"
-  IDS_GENERAL_IT               "General"
-  IDS_SID_SETTINGS_IT          "SID settings"
-  IDS_FAST_IT                  "fast"
-  IDS_INTERPOLATING_IT         "interpolating"
-  IDS_RESAMPLING_IT            "resampling"
-  IDS_FAST_RESAMPLING_IT       "fast resampling"
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "Motore SID"
+  IDS_SID_GENGROUP2         "Modello"
+  IDS_SID_6581              "6581 (vecchio)"
+  IDS_SID_8580              "8580 (nuovo)"
+  IDS_SID_GENGROUP3         "Secondo SID"
+  IDS_SID_STEREO_AT         "Indirizzo secondo SID"
+  IDS_SID_FILTERS           "i filtri SID"
+  IDS_SID_RESID_GROUP       "reSID opzioni"
+  IDS_SID_RESID_SAMPLE      "Metodo di campionamento"
+  IDS_SID_RESID_PASSBAND    "Banda passante (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END
-#pragma code_page(28591)
 
 
 // DUTCH text
 
 STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_NL   "Deze machine heeft mogelijk geen SID"
-  IDS_GENERAL_NL               "Algemeen"
-  IDS_SID_SETTINGS_NL          "SID instellingen"
-  IDS_FAST_NL                  "snel"
-  IDS_INTERPOLATING_NL         "interpolating"
-  IDS_RESAMPLING_NL            "resampling"
-  IDS_FAST_RESAMPLING_NL       "snelle resampling"
+  IDS_THIS_MACHINE_NO_SID   "Deze machine heeft mogelijk geen SID"
+  IDS_GENERAL               "Algemeen"
+  IDS_SID_SETTINGS          "SID instellingen"
+  IDS_FAST                  "snel"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "snelle resampling"
+  IDS_SID_GENGROUP1         "SID Kern"
+  IDS_SID_GENGROUP2         "SID Model"
+  IDS_SID_6581              "6581 (oud)"
+  IDS_SID_8580              "8580 (nieuw)"
+  IDS_SID_GENGROUP3         "Stereo SID"
+  IDS_SID_STEREO_AT         "Stereo SID op"
+  IDS_SID_FILTERS           "SID Filters"
+  IDS_SID_RESID_GROUP       "reSID opties"
+  IDS_SID_RESID_SAMPLE      "Sample methode"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Apparaat selectie"
+  IDS_HARDSID_LEFT_LABEL    "Linker/Hoofd apparaat"
+  IDS_HARDSID_RIGHT_LABEL   "Rechter apparaat"
 END
 
 
@@ -504,14 +313,28 @@ END
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_PL   "This machine may not have a SID"
-  IDS_GENERAL_PL               "General"
-  IDS_SID_SETTINGS_PL          "SID settings"
-  IDS_FAST_PL                  "fast"
-  IDS_INTERPOLATING_PL         "interpolating"
-  IDS_RESAMPLING_PL            "resampling"
-  IDS_FAST_RESAMPLING_PL       "fast resampling"
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "Ustawienia uk³adu SID"
+  IDS_SID_GENGROUP2         "Model SID"
+  IDS_SID_6581              "6581 (stary)"
+  IDS_SID_8580              "8580 (nowy)"
+  IDS_SID_GENGROUP3         "Drugi SID"
+  IDS_SID_STEREO_AT         "Adres drugiego SID"
+  IDS_SID_FILTERS           "SID filtry"
+  IDS_SID_RESID_GROUP       "reSID Opcje"
+  IDS_SID_RESID_SAMPLE      "Metoda samplowania"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END
 #pragma code_page(28591)
 
@@ -519,12 +342,26 @@ END
 // SWEDISH text
 
 STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID_SV   "This machine may not have a SID"
-  IDS_GENERAL_SV               "General"
-  IDS_SID_SETTINGS_SV          "SID settings"
-  IDS_FAST_SV                  "fast"
-  IDS_INTERPOLATING_SV         "interpolating"
-  IDS_RESAMPLING_SV            "resampling"
-  IDS_FAST_RESAMPLING_SV       "fast resampling"
+  IDS_THIS_MACHINE_NO_SID   "This machine may not have a SID"
+  IDS_GENERAL               "General"
+  IDS_SID_SETTINGS          "SID settings"
+  IDS_FAST                  "fast"
+  IDS_INTERPOLATING         "interpolating"
+  IDS_RESAMPLING            "resampling"
+  IDS_FAST_RESAMPLING       "fast resampling"
+  IDS_SID_GENGROUP1         "SID-motor"
+  IDS_SID_GENGROUP2         "SID-modell"
+  IDS_SID_6581              "6581 (gammal)"
+  IDS_SID_8580              "8580 (ny)"
+  IDS_SID_GENGROUP3         "Andra SID"
+  IDS_SID_STEREO_AT         "adress för andra SID"
+  IDS_SID_FILTERS           "SID filter"
+  IDS_SID_RESID_GROUP       "reSID alternativ"
+  IDS_SID_RESID_SAMPLE      "Samplingsmetod"
+  IDS_SID_RESID_PASSBAND    "Passband (0-90%)"
+  IDS_HARDSID_GROUP         "Device selection"
+  IDS_HARDSID_LEFT_LABEL    "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL   "Right device"
 END

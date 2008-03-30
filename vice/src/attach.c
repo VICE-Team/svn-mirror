@@ -43,6 +43,9 @@
 #include "resources.h"
 #include "serial.h"
 #include "snapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "vdrive-bam.h"
@@ -109,6 +112,47 @@ int file_system_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-device8", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice8",
+      (void *)ATTACH_DEVICE_FS, IDCLS_P_TYPE,
+      IDCLS_SET_DEVICE_TYPE_8 },
+    { "-device9", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice9",
+      (void *)ATTACH_DEVICE_FS, IDCLS_P_TYPE,
+      IDCLS_SET_DEVICE_TYPE_9 },
+    { "-device10", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice10",
+      (void *)ATTACH_DEVICE_FS, IDCLS_P_TYPE,
+      IDCLS_SET_DEVICE_TYPE_10 },
+    { "-device11", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice11",
+      (void *)ATTACH_DEVICE_FS, IDCLS_P_TYPE,
+      IDCLS_SET_DEVICE_TYPE_11 },
+    { "-attach8ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Readonly",
+      (resource_value_t)1,
+      0, IDCLS_ATTACH_READ_ONLY_8 },
+    { "-attach8rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Readonly",
+      (resource_value_t)0,
+      0, IDCLS_ATTACH_READ_WRITE_8 },
+    { "-attach9ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Readonly",
+      (resource_value_t)1,
+      0, IDCLS_ATTACH_READ_ONLY_9 },
+    { "-attach9rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice9Readonly",
+      (resource_value_t)0,
+      0, IDCLS_ATTACH_READ_WRITE_9 },
+    { "-attach10ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Readonly",
+      (resource_value_t)1,
+      0, IDCLS_ATTACH_READ_ONLY_10 },
+    { "-attach10rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice10Readonly",
+      (resource_value_t)0,
+      0, IDCLS_ATTACH_READ_WRITE_10 },
+    { "-attach11ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Readonly",
+      (resource_value_t)1,
+      0, IDCLS_ATTACH_READ_ONLY_11 },
+    { "-attach11rw", SET_RESOURCE, 0, NULL, NULL, "AttachDevice11Readonly",
+      (resource_value_t)0,
+      0, IDCLS_ATTACH_READ_WRITE_11 },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-device8", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice8",
       (void *)ATTACH_DEVICE_FS, "<type>",
@@ -148,10 +192,15 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, "Attach disk image for drive #11 read write (if possible)" },
     { NULL }
 };
+#endif
 
 int file_system_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

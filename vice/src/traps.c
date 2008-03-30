@@ -40,6 +40,9 @@
 #include "mem.h"
 #include "mos6510.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "traps.h"
 #include "types.h"
 
@@ -105,6 +108,17 @@ int traps_resources_init(void)
 
 /* Trap-related command-line options.  */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
+        (resource_value_t)1,
+      0, IDCLS_ENABLE_TRAPS_FAST_EMULATION },
+    { "+virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
+        (resource_value_t)0,
+      0, IDCLS_DISABLE_TRAPS_FAST_EMULATION },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
         (resource_value_t)1,
@@ -114,10 +128,15 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, "Disable general mechanisms for fast disk/tape emulation" },
     { NULL }
 };
+#endif
 
 int traps_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

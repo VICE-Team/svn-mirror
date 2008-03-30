@@ -944,3 +944,30 @@ void uilib_dialogbox(uilib_dialogbox_param_t *param)
 
 }
 
+void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
+{
+    HDC hdc;
+    HFONT hFont;
+    HFONT hOldFont;
+    int strlen;
+    char *buffer;
+    SIZE  size;
+
+    hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
+    strlen = SendMessage(hwnd, WM_GETTEXTLENGTH, 0, 0);
+    buffer = malloc(strlen + 1);
+    GetWindowText(hwnd, buffer, strlen + 1);
+
+    hdc = GetDC(hwnd);
+    hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+    GetTextExtentPoint32(hdc, buffer, strlen, &size);
+
+    free(buffer);
+
+    SelectObject(hdc, hOldFont);
+    ReleaseDC(hwnd, hdc);
+
+    *xsize = size.cx;
+    *ysize = size.cy;
+}

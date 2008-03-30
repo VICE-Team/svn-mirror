@@ -38,6 +38,9 @@
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "util.h"
 
 
@@ -112,12 +115,19 @@ static const resource_t resources[] = {
 
 /* Command-line options.  */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
+      IDCLS_P_PATH, IDCLS_DEFINE_SYSTEM_FILES_PATH },
+    { NULL },
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
       "<path>", "Define search path to locate system files" },
     { NULL },
 };
-
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -146,7 +156,11 @@ void sysfile_resources_shutdown(void)
 
 int sysfile_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* Locate a system file called `name' by using the search path in

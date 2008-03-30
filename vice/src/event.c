@@ -1120,15 +1120,27 @@ static int cmdline_help(const char *param, void *extra_param)
     return event_playback_start();
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      0, IDCLS_PLAYBACK_RECORDED_EVENTS },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Playback recorded events" },
     { NULL }
 };
+#endif
 
 int event_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /*-----------------------------------------------------------------------*/
