@@ -17,5 +17,7 @@ libdiskimage_a_SOURCES = \
 	fsimage.h \
 	rawimage.c \
 	rawimage.h \
+	realimage.c \
+	realimage.h \
 	x64.h
 

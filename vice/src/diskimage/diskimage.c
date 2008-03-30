@@ -37,6 +37,7 @@
 #include "fsimage.h"
 #include "log.h"
 #include "rawimage.h"
+#include "realimage.h"
 #include "types.h"
 #include "utils.h"
 
@@ -51,6 +52,7 @@ void disk_image_init(void)
     disk_image_log = log_open("Disk Access");
     disk_image_createdisk_init();
     fsimage_init();
+    realimage_init();
     rawimage_init();
 }
 
@@ -248,10 +250,18 @@ int disk_image_open(disk_image_t *image)
 {
     int rc = 0;
 
-    if (image->raw) {
-        rc = rawimage_open(image);
-    } else {
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_open(image);
+        break;
+      case DISK_IMAGE_DEVICE_REAL:
+        rc = realimage_open(image);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        rc = rawimage_open(image);
+        break;
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device);
     }
 
     return rc;
@@ -262,10 +272,18 @@ int disk_image_close(disk_image_t *image)
 {
     int rc = 0;
 
-    if (image->raw) {
-        rc = rawimage_close(image);
-    } else {
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_close(image);
+        break;
+      case DISK_IMAGE_DEVICE_REAL:
+        rc = realimage_close(image);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        rc = rawimage_close(image);
+        break;
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device);
     }
 
     return rc;
@@ -278,10 +296,18 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 {
     int rc = 0;
 
-    if (image->raw) {
-         rc = rawimage_read_sector(image, buf, track, sector);
-    } else {
-         rc = fsimage_read_sector(image, buf, track, sector);
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        rc = fsimage_read_sector(image, buf, track, sector);
+        break;
+      case DISK_IMAGE_DEVICE_REAL:
+        rc = realimage_read_sector(image, buf, track, sector);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        rc = rawimage_read_sector(image, buf, track, sector);
+        break;
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device); 
     }
 
     return rc;
@@ -292,10 +318,18 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 {
     int rc = 0;
 
-    if (image->raw) {
-         rc = rawimage_write_sector(image, buf, track, sector);
-    } else {
-         rc = fsimage_write_sector(image, buf, track, sector);
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        rc = fsimage_write_sector(image, buf, track, sector);
+        break;
+      case DISK_IMAGE_DEVICE_REAL:
+        rc = realimage_write_sector(image, buf, track, sector);
+        break;
+      case DISK_IMAGE_DEVICE_RAW:
+        rc = rawimage_write_sector(image, buf, track, sector);
+        break;
+      default:
+        log_error(disk_image_log, "Unknow image device %i.", image->device);
     }
 
     return rc;
