@@ -299,13 +299,25 @@ void raster_mode_change(void)
 }
 
 
-void raster_invalidate_cache(raster_t *raster, unsigned int screen_height)
+void raster_new_cache(raster_t *raster, unsigned int screen_height)
 {
     unsigned int i;
 
     for (i = 0; i < screen_height; i++)
-        raster_cache_init(&(raster->cache)[i],
-                          raster->sprite_status->num_sprites);
+        raster_cache_new(&(raster->cache)[i],
+                         raster->sprite_status->num_sprites);
+}
+
+void raster_destroy_cache(raster_t *raster, unsigned int screen_height)
+{
+    unsigned int i;
+
+    if (raster->cache == NULL)
+        return;
+
+    for (i = 0; i < screen_height; i++)
+        raster_cache_destroy(&(raster->cache)[i],
+                             raster->sprite_status->num_sprites);
 }
 
 void raster_set_geometry(raster_t *raster,
@@ -326,9 +338,9 @@ void raster_set_geometry(raster_t *raster,
     geometry = raster->geometry;
     if (screen_height != geometry->screen_size.height
         || raster->cache == NULL) {
-        raster->cache = lib_realloc(raster->cache,
-                                    sizeof(*raster->cache) * screen_height);
-        raster_invalidate_cache(raster, screen_height);
+        raster_destroy_cache(raster, geometry->screen_size.height);
+        raster_cache_realloc(&(raster->cache), screen_height);
+        raster_new_cache(raster, screen_height);
     }
 
     if (geometry->screen_size.width != screen_width
@@ -488,9 +500,21 @@ void raster_free(raster_t *raster)
 
     palette_free(raster->palette);
 
-    lib_free(raster->modes);
-    lib_free(raster->sprite_status);
-    lib_free(raster->cache);
+    if (raster->cache) {
+        raster_destroy_cache(raster, raster->geometry->screen_size.height);
+        lib_free(raster->cache);
+    }
+
+    if (raster->sprite_status) {
+        raster_sprite_status_shutdown(raster->sprite_status,
+                                      raster->sprite_status->num_sprites);
+        lib_free(raster->sprite_status);
+    }
+
+    if (raster->modes) {
+        raster_modes_shutdown(raster->modes);
+        lib_free(raster->modes);
+    }
 
     lib_free(raster->fake_draw_buffer_line);
     /* FIXME: there may be more stuff to be freed */

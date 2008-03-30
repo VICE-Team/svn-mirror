@@ -123,10 +123,14 @@ static const cmdline_option_t cmdline_options[] = {
 
 int sysfile_init(const char *emu_id)
 {
-
-    default_path = lib_stralloc(archdep_default_sysfile_pathlist(emu_id));
+    default_path = archdep_default_sysfile_pathlist(emu_id);
 
     return 0;
+}
+
+void sysfile_shutdown(void)
+{
+    lib_free(default_path);
 }
 
 int sysfile_resources_init(void)

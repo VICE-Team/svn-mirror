@@ -48,11 +48,14 @@
 #include "monitor.h"
 #include "printer.h"
 #include "resources.h"
+#include "serial.h"
 #include "sound.h"
+#include "sysfile.h"
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
+#include "video.h"
 #include "vsync.h"
 
 #ifdef HAS_JOYSTICK
@@ -146,6 +149,8 @@ void machine_shutdown(void)
 
     traps_shutdown();
 
+    serial_shutdown();
+
     kbd_buf_shutdown();
     keyboard_shutdown();
 
@@ -160,6 +165,12 @@ void machine_shutdown(void)
     drive_shutdown();
 
     machine_maincpu_shutdown();
+
+    video_shutdown();
+
+    ui_shutdown();
+
+    sysfile_shutdown();
 
     log_close_all();
 

@@ -194,7 +194,7 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
     return boot_path;
 }
 
-const char *archdep_default_sysfile_pathlist(const char *emu_id)
+char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     static char *default_path;
 

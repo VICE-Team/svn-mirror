@@ -77,6 +77,7 @@ typedef struct raster_modes_s raster_modes_t;
 
 
 extern void raster_modes_init(raster_modes_t *modes, unsigned int num_modes);
+extern void raster_modes_shutdown(raster_modes_t *modes);
 extern raster_modes_t *raster_modes_new(unsigned int num_modes);
 extern void raster_modes_set(raster_modes_t *modes,
                              unsigned int num_mode,

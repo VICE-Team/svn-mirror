@@ -143,14 +143,9 @@ const char *archdep_default_save_resource_file_name(void)
 }
 
 
-const char *archdep_default_sysfile_pathlist(const char *emu_id)
+char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-  char *name;
-
-  if ((name = (char*)lib_malloc(strlen("Vice:") + strlen(emu_id) + 2)) != NULL)
-    sprintf(name, "Vice:%s.", emu_id);
-
-  return name;
+  return lib_msprintf("Vice:%s.", emu_id);
 }
 
 

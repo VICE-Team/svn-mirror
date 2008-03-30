@@ -187,7 +187,7 @@ const char *archdep_boot_path(void)
     return boot_path;
 }
 
-const char *archdep_default_sysfile_pathlist(const char *emu_id)
+char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     static char *pathlist=NULL;
 
