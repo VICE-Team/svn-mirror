@@ -33,11 +33,11 @@
 #include <X11/Xlib.h>
 
 #include "color.h"
+#include "lib.h"
 #include "log.h"
 #include "palette.h"
 #include "types.h"
 #include "uicolor.h"
-#include "utils.h"
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"
@@ -52,11 +52,11 @@ extern Pixel drive_led_off_pixel;
 
 static int uicolor_alloc_system_colors(void)
 {
-    palette_t *p = (palette_t *)xmalloc(sizeof(palette_t));
+    palette_t *p = (palette_t *)lib_malloc(sizeof(palette_t));
     unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;
-    p->entries = xmalloc(sizeof(palette_entry_t) * NUM_ENTRIES);
+    p->entries = lib_malloc(sizeof(palette_entry_t) * NUM_ENTRIES);
     memset(p->entries, 0, sizeof(palette_entry_t) * NUM_ENTRIES);
 
     p->entries[0].red = 0;
@@ -77,8 +77,8 @@ static int uicolor_alloc_system_colors(void)
     drive_led_on_red_pixel = (Pixel)color_return[1];
     drive_led_on_green_pixel = (Pixel)color_return[2];
 
-    free(p->entries);
-    free(p);
+    lib_free(p->entries);
+    lib_free(p);
 
     return 0;
 }
@@ -115,7 +115,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 {
     XColor color;
     XImage *im;
-    BYTE *data = (BYTE *)xmalloc(4);
+    BYTE *data = (BYTE *)lib_malloc(4);
     Display *display = x11ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
@@ -205,9 +205,9 @@ void uicolor_init_video_colors()
                       colorb.red, colorb.green, colorb.blue);
         }
         video_render_setrawrgb(i,
-                               (DWORD) colorr.pixel,
-                               (DWORD) colorg.pixel,
-                               (DWORD) colorb.pixel);
+                               (DWORD)colorr.pixel,
+                               (DWORD)colorg.pixel,
+                               (DWORD)colorb.pixel);
     }
     
     video_render_initraw();
