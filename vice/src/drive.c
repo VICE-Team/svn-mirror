@@ -764,7 +764,7 @@ int     write_1541(void *flp, BYTE data, int secondary)
     DRIVE *floppy = (DRIVE *)flp;
     bufferinfo_t *p = &(floppy->buffers[secondary]);
 
-    if (floppy->ReadOnly) {
+    if (floppy->ReadOnly && p->mode != BUFFER_COMMAND_CHANNEL) {
 	floppy_error(&floppy->buffers[15], IPE_WRITE_PROTECT_ON, 0, 0);
 	return SERIAL_ERROR;
     }
