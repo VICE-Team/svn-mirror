@@ -1,4 +1,18 @@
-1999-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-07-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.45.
+
+	* arch/unix/kbd.c, arch/unix/kbd.h: (kbd_parse_entry): Added
+	support for 40/80 column key.
+	(kbd_register_column4080_key): New function.
+	* arch/msdos/kbd.c, arch/msdos/kbd.h, arch/win32/kbd.c,
+	arch/win32/kbd.h, arch/riscos/kbd.c, arch/riscos/kbd.h,
+	arch/os2/kbd.c, arch/os2/kbd.h: Changed likewise.
+
+	* c128/c128mem.c (mmu_toggle_column4080_key): New function.
+	(read_mmu): Set the correct value for the 40/80 column key.
+
+1999-07-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.44.
 

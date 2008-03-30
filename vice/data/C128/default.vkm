@@ -215,3 +215,5 @@ Prior -3 1
 Page_Up -3 0
 Prior -3 1
 
+# 40/80 column key
+F7 -4 0

@@ -44,6 +44,7 @@
 #include "c64tpi.h"
 #include "cmdline.h"
 #include "emuid.h"
+#include "kbd.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
@@ -380,6 +381,9 @@ int ultimax = 0;
 /* Logging goes here.  */
 static log_t c128_mem_log = LOG_ERR;
 
+/* State of the 40/80 column key.  */
+static BYTE mmu_column4080_key = 0x80;
+
 /* ------------------------------------------------------------------------- */
 
 /* MMU Implementation.  */
@@ -391,7 +395,7 @@ BYTE REGPARM1 read_mmu(ADDRESS addr)
     if (addr < 0xb) {
         if (addr == 5) {
             /* 0x80 = 40/80 key released.  */
-            return mmu[5] | 0x80;
+            return (mmu[5] & 0x7f) | mmu_column4080_key;
         } else {
             return mmu[addr];
         }
@@ -508,6 +512,13 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 {
     bank_base = base;
     bank_limit = limit;
+}
+
+void mmu_toggle_column4080_key(void)
+{
+    mmu_column4080_key ^= 0x80;
+    log_message(LOG_DEFAULT, "40/80 column key %s.",
+                (mmu_column4080_key) ? "released" : "pressed");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1278,6 +1289,8 @@ void initialize_memory(void)
     _mem_write_tab_ptr = mem_write_tab[7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
+
+    kbd_register_column4080_key(mmu_toggle_column4080_key);
 }
 
 #ifdef _MSC_VER
