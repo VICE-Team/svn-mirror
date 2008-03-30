@@ -103,12 +103,12 @@ BEGIN
     AUTOCHECKBOX    "&Aktiveer REU",IDC_REU_ENABLE,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "REU grootte",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
+                    IDC_STATIC,9,24,60,8
+    COMBOBOX        IDC_REU_SIZE,75,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "REU bestand",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Bladeren...",IDC_REU_BROWSE,45,42,50,14, 0
+                    IDC_STATIC,9,44,60,8
+    PUSHBUTTON      "&Bladeren...",IDC_REU_BROWSE,75,42,50,14, 0
     EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP

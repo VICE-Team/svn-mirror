@@ -989,7 +989,7 @@ CAPTION "Drive resources"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "Drive resources opgeslagen naar romset",
-                    IDC_STATIC,4,3,151,85
+                    IDC_STATIC,4,3,156,85
     AUTOCHECKBOX    "2031",IDC_DRIVEROM_2031_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "2040",IDC_DRIVEROM_2040_RESOURCE,

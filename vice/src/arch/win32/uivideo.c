@@ -40,6 +40,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
@@ -510,16 +511,16 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
-        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_FULLSCREEN_SETTINGS_DIALOG));
+        psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_ADVANCED_DIALOG));
+        psp[2].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_COLORS_DIALOG));
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_ADVANCED_DIALOG));
         psp[2].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_COLORS_DIALOG));
 #endif
         psh.nPages = 3;
     } else {
@@ -531,14 +532,14 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
-            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_PALETTE_DIALOG));
 #else
         psp[0].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_FULLSCREEN_SETTINGS_DIALOG));
         psp[1].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_PALETTE_DIALOG));
 #endif
         psh.nPages = 2;
     }
@@ -554,10 +555,10 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
 #ifdef _ANONYMOUS_UNION
         psp[index].pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_PALETTE_DIALOG));
 #else
         psp[index].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_VIDEO_PALETTE_DIALOG));
 #endif
         psh.nPages++;
     }

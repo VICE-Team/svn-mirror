@@ -32,6 +32,7 @@
 
 #include "c64cart.h"
 #include "c64export.h"
+#include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -128,6 +129,7 @@ static int set_ramcart_enabled(resource_value_t v, void *param)
 static int set_ramcart_readonly(resource_value_t v, void *param)
 {
   ramcart_readonly=(int)v;
+  return 0;
 }
 
 static int set_ramcart_size(resource_value_t v, void *param)

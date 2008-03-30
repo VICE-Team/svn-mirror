@@ -66,6 +66,8 @@ END
 // Menu
 //
 
+// original and default ENGLISH version of menu
+
 IDR_MENUMONITOR MENU DISCARDABLE
 BEGIN
     POPUP "&File"
@@ -101,6 +103,294 @@ BEGIN
         MENUITEM "&Computer", IDM_MON_COMPUTER
         MENUITEM "Drive &8", IDM_MON_DRIVE8
         MENUITEM "Drive &9", IDM_MON_DRIVE9
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// GERMAN version of menu
+
+IDR_MENUMONITOR_DE MENU DISCARDABLE
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "Ö&ffnen", IDM_MON_OPEN
+        MENUITEM "&Sspeichern", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer", IDM_MON_COMPUTER
+        MENUITEM "Laufwerk &8", IDM_MON_DRIVE8
+        MENUITEM "Laufwerk &9", IDM_MON_DRIVE9
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// FRENCH version of menu
+
+IDR_MENUMONITOR_FR MENU DISCARDABLE
+BEGIN
+    POPUP "&Fichier"
+    BEGIN
+        MENUITEM "&Open", IDM_MON_OPEN
+        MENUITEM "&Sauvegarde", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "&Quitter\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Ordinateur", IDM_MON_COMPUTER
+        MENUITEM "Lecteur &8", IDM_MON_DRIVE8
+        MENUITEM "Lecteur &9", IDM_MON_DRIVE9
+    END
+    POPUP "F&enêtre"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// ITALIAN version of menu
+
+IDR_MENUMONITOR_IT MENU DISCARDABLE
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Aprire", IDM_MON_OPEN
+        MENUITEM "&Salva", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "Es&ci\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer", IDM_MON_COMPUTER
+        MENUITEM "Drive &8", IDM_MON_DRIVE8
+        MENUITEM "Drive &9", IDM_MON_DRIVE9
+    END
+    POPUP "Fi&nestre"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// DUTCH version of menu
+
+IDR_MENUMONITOR_NL MENU DISCARDABLE
+BEGIN
+    POPUP "&Bestand"
+    BEGIN
+        MENUITEM "&Open", IDM_MON_OPEN
+        MENUITEM "Op&slaan", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "A&fsluiten\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop &Uitvoering", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Stap i&n", IDM_MON_STEP_INTO
+        MENUITEM "Stap o&ver", IDM_MON_STEP_OVER
+        MENUITEM "Stap tot &terugkeer", IDM_MON_SKIP_RETURN
+        MENUITEM "Ga naar &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evalueren", IDM_MON_EVAL
+    END
+    POPUP "&Beeld"
+    BEGIN
+        MENUITEM "&Huidige instructie", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Ev&aluatie venster", IDM_MON_WND_EVAL
+        MENUITEM "&Register venster", IDM_MON_WND_REG
+        MENUITEM "&Geheugen venster", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly venster", IDM_MON_WND_DIS
+        MENUITEM "&Console venster", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer", IDM_MON_COMPUTER
+        MENUITEM "Drive &8", IDM_MON_DRIVE8
+        MENUITEM "Drive &9", IDM_MON_DRIVE9
+    END
+    POPUP "&Venster"
+    BEGIN
+        MENUITEM "&Alle vensters", IDM_MON_CASCADE
+        MENUITEM "&Naast elkaar", IDM_MON_TILE_VERT
+        MENUITEM "Onder &elkaar", IDM_MON_TILE_HORIZ
+        MENUITEM "&Rangschik iconen", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// POLISH version of menu
+
+IDR_MENUMONITOR_PL MENU DISCARDABLE
+BEGIN
+    POPUP "&Plik"
+    BEGIN
+        MENUITEM "&Open", IDM_MON_OPEN
+        MENUITEM "&Zapisz", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "W&yjd¼ z\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Znak", IDM_MON_COMPUTER
+        MENUITEM "Edytor &8", IDM_MON_DRIVE8
+        MENUITEM "Edytor &9", IDM_MON_DRIVE9
+    END
+    POPUP "&Okna"
+    BEGIN
+        MENUITEM "&Cascade", IDM_MON_CASCADE
+        MENUITEM "Tile &vertically", IDM_MON_TILE_VERT
+        MENUITEM "Tile &horizontally", IDM_MON_TILE_HORIZ
+        MENUITEM "&Arrange icons", IDM_MON_ARRANGE_ICONS
+    END
+END
+
+
+// SWEDISH version of menu
+
+IDR_MENUMONITOR_SV MENU DISCARDABLE
+BEGIN
+    POPUP "&Arkiv"
+    BEGIN
+        MENUITEM "Ö&ppna", IDM_MON_OPEN
+        MENUITEM "&Spara", IDM_MON_SAVE
+        MENUITEM "&Print", IDM_MON_PRINT
+        MENUITEM SEPARATOR
+        MENUITEM "A&vsluta\tAlt+F4", IDM_EXIT
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "&Stop Debug", IDM_MON_STOP_DEBUG
+        MENUITEM "Stop E&xecution", IDM_MON_STOP_EXEC
+        MENUITEM SEPARATOR
+        MENUITEM "Step &into", IDM_MON_STEP_INTO
+        MENUITEM "Step &over", IDM_MON_STEP_OVER
+        MENUITEM "Step until &return", IDM_MON_SKIP_RETURN
+        MENUITEM "Go to &cursor", IDM_MON_GOTO_CURSOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate", IDM_MON_EVAL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Current instruction", IDM_MON_CURRENT
+        MENUITEM SEPARATOR
+        MENUITEM "Evaluation &window", IDM_MON_WND_EVAL
+        MENUITEM "&Register window", IDM_MON_WND_REG
+        MENUITEM "&Memory window", IDM_MON_WND_MEM
+        MENUITEM "&Disassembly window", IDM_MON_WND_DIS
+        MENUITEM "&Console window", IDM_MON_WND_CONSOLE
+        MENUITEM SEPARATOR
+        MENUITEM "&Dator", IDM_MON_COMPUTER
+        MENUITEM "Diskettstation &8", IDM_MON_DRIVE8
+        MENUITEM "Diskettstation &9", IDM_MON_DRIVE9
     END
     POPUP "&Window"
     BEGIN
@@ -478,7 +768,7 @@ BEGIN
     AUTOCHECKBOX    "&Gebruik IEC Apparaat",IDC_TOGGLE_USEIECDEVICE,15,10,100,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     AUTORADIOBUTTON "Disk &bestand",IDC_SELECTDISK,
-                    15,30,51,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+                    15,30,60,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "&Directory",IDC_SELECTDIR,15,75,44,10,BS_AUTORADIOBUTTON
 #ifdef HAVE_OPENCBM
     AUTORADIOBUTTON "echt IEC appa&raat",IDC_SELECTREAL,
@@ -489,17 +779,17 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Bladeren...",IDC_BROWSEDISK,81,47,50,14,WS_GROUP
     PUSHBUTTON      "&Autostart",IDC_AUTOSTART,141,47,50,14,WS_GROUP
-    AUTOCHECKBOX    "Gebruiken als alleen lezen",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
+    AUTOCHECKBOX    "Alleen lezen",IDC_TOGGLE_ATTACH_READONLY,201,47,80,14,
                     BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX        IDC_DIR,81,74,190,12,CBS_DROPDOWN | CBS_SORT |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "Bla&deren...",IDC_BROWSEDIR,81,92,50,14,WS_GROUP
-    GROUPBOX        "&Opties",IDC_STATIC,175,90,95,63
-    AUTOCHECKBOX    "&Lees P00 bestanden",IDC_TOGGLE_READP00,185,105,62,10,
+    GROUPBOX        "&Opties",IDC_STATIC,145,90,125,63
+    AUTOCHECKBOX    "&Lees P00 bestanden",IDC_TOGGLE_READP00,155,105,92,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "&Schrijf P00 bestanden",IDC_TOGGLE_WRITEP00,185,120,61,10,
+    AUTOCHECKBOX    "&Schrijf P00 bestanden",IDC_TOGGLE_WRITEP00,155,120,91,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Verberg geen-P00 bestanden",IDC_TOGGLE_HIDENONP00,185,135,73,10,
+    AUTOCHECKBOX    "&Verberg non-P00 bestanden",IDC_TOGGLE_HIDENONP00,155,135,103,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -673,7 +963,7 @@ BEGIN
     AUTOCHECKBOX    "&Reset Datasette met CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Snelheid van de motor tijdens lezen",IDC_STATIC,5,25,160,60
-    LTEXT           "Snelheids instellingen van de datasette",
+    LTEXT           "Snelheids instellingen",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
@@ -940,9 +1230,9 @@ BEGIN
     COMBOBOX        IDC_JOY_AUTOFIRE2_BUTTON, 122,102,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     PUSHBUTTON      "Configureer Keyset &A", IDC_JOY_CONFIG_A,
-                    8,120,60,14, WS_TABSTOP
+                    1,120,74,14, WS_TABSTOP
     PUSHBUTTON      "Configureer Keyset &B", IDC_JOY_CONFIG_B,
-                    159,120,60,14, WS_TABSTOP
+                    149,120,75,14, WS_TABSTOP
     PUSHBUTTON      "&Kalibreer Joystick(s)", IDC_JOY_CALIBRATE,
                     78,120,70,14, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 48,141,50,14, WS_TABSTOP
@@ -1067,11 +1357,191 @@ BEGIN
     PUSHBUTTON      "Cancel", IDCANCEL, 70,170,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_DE DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Sü&dwesten",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&Süd",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "Süd&ost",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&West",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "O&st",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "No&rdwesten",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&Nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Nordos&ten",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Feuertaste",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_FR DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "&Ouest du sud",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&Sud",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "Est d&u sud",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "O&uest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&Est",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "Ouest du no&rd",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "Du &nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Es&t du nord",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "Bouton du &feu",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_IT DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "&Ovest del sud",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "Del &sud",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "S&udorientale",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "Ad o&vest",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "Ori&entale",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "Ovest del no&rd",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "Del &nord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Es&t del nord",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "Tasto del &fuoco",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_NL DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Z&uid West",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&Zuiden",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "Z&uid Oost",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&West",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&Oost",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "Noo&rd West",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&Noord",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Noord Oos&t",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Vuur knop",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_PL DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "S&outh West",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&South",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "So&uth East",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&West",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&East",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "No&rth West",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&North",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Nor&th East",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Fire button",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_CONFIG_KEYSET_DIALOG_SV DIALOG DISCARDABLE 0, 0, 130, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "S&outh West",IDC_KEYSET_SW,7,5,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SW,80,8,100,8
+    PUSHBUTTON      "&South",IDC_KEYSET_S,7,23,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_S,80,26,100,8
+    PUSHBUTTON      "So&uth East",IDC_KEYSET_SE,7,41,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_SE,80,44,100,8
+    PUSHBUTTON      "&West",IDC_KEYSET_W,7,59,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_W,80,62,100,8
+    PUSHBUTTON      "&East",IDC_KEYSET_E,7,77,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_E,80,80,100,8
+    PUSHBUTTON      "No&rth West",IDC_KEYSET_NW,7,95,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NW,80,98,100,8
+    PUSHBUTTON      "&North",IDC_KEYSET_N,7,113,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_N,80,116,100,8
+    PUSHBUTTON      "Nor&th East",IDC_KEYSET_NE,7,131,60,14, WS_TABSTOP
+    LTEXT           "",IDC_KEY_NE,80,134,100,8
+    PUSHBUTTON      "&Fire button",IDC_KEYSET_FIRE,7,149,60,14,WS_TABSTOP
+    LTEXT           "",IDC_KEY_FIRE,80,152,100,8
+    DEFPUSHBUTTON   "OK", IDOK, 15,170,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 70,170,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
 IDD_CONFIG_KEY_DIALOG DIALOG DISCARDABLE 0, 0, 120, 24
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
 END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 100
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1098,6 +1568,178 @@ BEGIN
     PUSHBUTTON      "Cancel", IDCANCEL, 95,80,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sound Gerät Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX treiber",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM treiber",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Sample &Frequency :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Puffergröße :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Oversampling Factor :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synchronization &Method :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres de son"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Pilote DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Pilote WMM",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Tau&x d'échantillonage :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Taille du tampon :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Rééchantill&onage :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "S&ynchronisation du son :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni del suono"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Driver del DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Driver del WMM",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "&Frequenza di campionamento :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Dimen&sione del buffer :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "S&ovracampionamento :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synchronization &Method :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 190, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Geluidsapparaat Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX stuurprogramma",IDC_SOUND_DIRECTX,10,10,87,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM stuurprogramma",IDC_SOUND_WMM,101,10,88,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Sample &Frequency :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Geluid Buffer &Grootte :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "&Oversampling Faktor :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synchronisatie &Methode :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia d¼wiêku"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Sterownik DirectX",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Sterownik WMM",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Prê&dko¶æ sampli :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Ro&zmiar buffora :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Przesampl&owanie :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Synchronizac&ja d¼wiêku :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_SOUND_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 180, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ljudinställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "DirectX drivrutin",IDC_SOUND_DIRECTX,10,10,60,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "WMM drivrutin",IDC_SOUND_WMM,75,10,60,10,
+                            BS_AUTORADIOBUTTON
+    LTEXT           "Samplings&hastighet :",IDC_STATIC,7,25,118,8
+    COMBOBOX        IDC_SOUND_FREQ,100,22,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Buffert&storlek :",IDC_STATIC,7,38,118,8
+    COMBOBOX        IDC_SOUND_BUFFER,100,35,70,76,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Öve&rsampling :",IDC_STATIC,7,51,118,8
+    COMBOBOX        IDC_SOUND_OVERSAMPLE,100,48,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    LTEXT           "Ljudsyn&kronisering :",IDC_STATIC,7,64,118,8
+    COMBOBOX        IDC_SOUND_SYNCH,100,61,70,68,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 40,80,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 95,80,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_OPEN_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1118,6 +1760,148 @@ BEGIN
     PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_OPEN_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Image Verzeichnis ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Attach schreibgeschützt",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Name",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Typ",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Disk Image erzeugen", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_OPEN_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Contenu d'Image",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Protéger contre l'écriture",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Nom",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Type",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Créer une image de disque", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_OPEN_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Contenuti dell'Immagine ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Seleziona la protezione contro la scrittura",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Nome",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Tipo",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Crea un disco", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_OPEN_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Bestand Inhoud ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Alleen lezen",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "Nieuw Bestand",IDC_STATIC,190,25,80,90
+    LTEXT           "Naam",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Soort",IDC_STATIC,233,73,25,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Maak Bestand", IDC_BLANK_IMAGE, 203,93,52,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_OPEN_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "zawarto¶ci obrazu ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "W³ó¿ zabezpieczone przed zapisem",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Nazwa",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Typ",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Stwórz dyskietkê", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_OPEN_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "INNEH]LLSF\\RTECKNING ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    AUTOCHECKBOX    "Anslut skrivskyddat",IDC_TOGGLE_ATTACH_READONLY,195,0,80,20,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    GROUPBOX        "New Image",IDC_STATIC,190,25,80,90
+    LTEXT           "Namn",IDC_STATIC,198,40,20,8
+    EDITTEXT        IDC_BLANK_IMAGE_NAME, 195,48,70,12,WS_TABSTOP
+    LTEXT           "ID",IDC_STATIC,198,63,15,8
+    EDITTEXT        IDC_BLANK_IMAGE_ID, 195,71,20,12,WS_TABSTOP
+    LTEXT           "Typ",IDC_STATIC,233,73,20,8
+    COMBOBOX        IDC_BLANK_IMAGE_TYPE, 230,71,35,80,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "Skapa diskett", IDC_BLANK_IMAGE, 205,93,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_OPENTAPE_TEMPLATE DIALOG DISCARDABLE 0,0, 350, 140
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1129,6 +1913,93 @@ BEGIN
     PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_OPENTAPE_TEMPLATE_DE DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Image Verzeichnis ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Image erzeugen", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_OPENTAPE_TEMPLATE_FR DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Contenu d'Image ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "créer l'image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_OPENTAPE_TEMPLATE_IT DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Contenuti dell'Immagine ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Crea l'immagine", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_OPENTAPE_TEMPLATE_NL DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Bestand Inhoud ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "Nieuw TAP Bestand",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Maak Bestand", IDC_BLANK_IMAGE, 203,20,52,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_OPENTAPE_TEMPLATE_PL DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "zawarto¶ci obrazu ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Stwórz obraz", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_OPENTAPE_TEMPLATE_SV DIALOG DISCARDABLE 0,0, 350, 140
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "INNEH]LLSF\\RTECKNING ",IDC_STATIC,3,0,185,138
+    LISTBOX         IDC_PREVIEW,6,9,178,125,
+                    WS_BORDER|WS_VSCROLL|LBS_NOTIFY|LBS_NOINTEGRALHEIGHT
+    GROUPBOX        "New TAP Image",IDC_STATIC,190,0,80,40
+    PUSHBUTTON      "Create Image", IDC_BLANK_IMAGE, 205,20,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_SNAPSHOT_SAVE_DIALOG DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
@@ -1143,6 +2014,99 @@ BEGIN
 END
 
 
+// GERMAN version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_DE DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Aktuell eingelegte &Diskimages mitspeichern",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Aktuelle &ROMs mitspeichern",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Sauvegarder aussi les &disques insérés",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Sauvegarder aussi les &ROMs insérés",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Salva i &dischi attualmente selezionati",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Salva le &ROM attualmente selezionate",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Opslaan huidige &disks in gebruik",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Opslaan huidige &ROMs in gebruik",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Zapisz obecnie w³o¿ony &dysk",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Zapisz obecnie w³o¿ony &ROM",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_SNAPSHOT_SAVE_DIALOG_SV DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Spara anslutna &disketter",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Spara anslutna &ROMar",
+                    IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
+                    10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_MEDIAFILE_DIALOG DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1153,6 +2117,81 @@ BEGIN
 END
 
 
+// GERMAN version of dialog
+
+IDD_MEDIAFILE_DIALOG_DE DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Speichern als",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_MEDIAFILE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enregistrer",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_MEDIAFILE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Salva",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_MEDIAFILE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Opslaan als",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_MEDIAFILE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Zapisz",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_MEDIAFILE_DIALOG_SV DIALOG DISCARDABLE 0,0, 250, 35
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Spara",IDC_STATIC,5,0,40,20
+    COMBOBOX        IDC_SCREENSHOT_DRIVER, 53,0,155,200,CBS_DROPDOWNLIST |
+                    WS_GROUP | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_CONSOLE_SAVE_DIALOG DIALOG DISCARDABLE 0,0, 250, 22
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1161,6 +2200,82 @@ BEGIN
                     IDC_TOGGLE_CONSOLE_APPEND,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
+
+
+// GERMAN version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_DE DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_FR DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_IT DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Logboek aan bestaand bestand toevoegen",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_PL DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_CONSOLE_SAVE_DIALOG_SV DIALOG DISCARDABLE 0,0, 250, 22
+STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Append log to existing file",
+                    IDC_TOGGLE_CONSOLE_APPEND,
+                    10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_TEXTDLG DIALOG DISCARDABLE  0, 0, 279, 242
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1173,11 +2288,102 @@ BEGIN
 //                  ES_MULTILINE
 END
 
+
+// GERMAN version of dialog
+
+IDD_TEXTDLG_DE DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// FRENCH version of dialog
+
+IDD_TEXTDLG_FR DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// ITALIAN version of dialog
+
+IDD_TEXTDLG_IT DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// DUTCH version of dialog
+
+IDD_TEXTDLG_NL DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Lees dit:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// POLISH version of dialog
+
+IDD_TEXTDLG_PL DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+
+// SWEDISH version of dialog
+
+IDD_TEXTDLG_SV DIALOG DISCARDABLE  0, 0, 279, 242
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,118,221,50,14
+    LTEXT           "Read this:",IDC_HEADER,7,7,156,10
+    EDITTEXT        IDC_TEXT,7,23,265,187, (0x4L) | WS_VSCROLL | WS_HSCROLL
+//                  ES_MULTILINE
+END
+
+// -----------------------------------------------------------------------------
+
 /*
 IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Fullscreen Settings"
 FONT 8, "MS Sans Serif"*/
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_FULLSCREEN_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180,87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1200,6 +2406,160 @@ BEGIN
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Treiber:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Farbtiefe:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Auflösung:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Wiederholrate:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK Synchronisation", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Pilote:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Profondeur de couleurs:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Résolution:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Le taux de rafraîchissement:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "Synchronisation du VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Driver:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Profondita:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Risoluzioni:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "La velocità di aggiornamento:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "Sincronizzazione del VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Stuurprogramma:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bitdiepte:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Resolutie:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Vernieuwingssnelheid:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK synchronisatie", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render naar DX Primaire oppervlakte", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,160,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sterownik:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "G³êbiê koloru:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Rozdzielczo¶æ:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Czêstotliwo¶æ od¶wierzania:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "Synchronizacja VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_FULLSCREEN_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180,87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Drivrutins:",IDC_STATIC,9,2,120,8
+    COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bitdjup som stöds:",IDC_STATIC,9,32,100,8
+    COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Upplösningar:",IDC_STATIC,9,47,100,8
+    COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Uppdateringsfrekvens:",IDC_STATIC,9,62,100,8
+    COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "VBLANK synkronisering", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                    9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                    9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_VIDEO_COLORS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1214,6 +2574,118 @@ BEGIN
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
+
+
+// GERMAN version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sättigung",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Kontrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Helligkeit",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Saturation",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Contraste",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Luminosité",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Saturazione",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Contrasto",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Luminosità",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Verzadiging",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Contrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Helderheid",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Nasycenie",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Kontrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Jaskrawo¶æ",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_VIDEO_COLORS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Mättnad",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_SAT, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Kontrast",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Ljusstyrka",IDC_STATIC,12,36,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_VIDEO_ADVANCED_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1243,6 +2715,196 @@ BEGIN
     PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
 END
 
+
+// GERMAN version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "PAL Schatten",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL Unschärfe",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "PAL Modus",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Externe Farbtabelle:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Stöbern...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// FRENCH version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Intensité",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "PAL Opacité",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "Flou PAL",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "Mode de PAL",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Palette de couleurs externe:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Parcourir...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Ombra delle PAL",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "Sfuocatura PAL",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "Modalità PAL",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Palette esterna:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Sfoglia...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// DUTCH version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Fase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Schaduw",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "Wazigheid",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "PAL Modus",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Extern Palette:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Bladeren...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// POLISH version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Cieniowane PAL",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL Blur",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "PAL tryb",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Zewnêtrzne ustawienia kolorów:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Przegl±daj...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_VIDEO_ADVANCED_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Gamma",IDC_STATIC,12,12,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,12,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_GAM, 85,10,32,12,WS_TABSTOP
+    LTEXT           "Phase",IDC_STATIC,12,24,40,8
+    LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
+    EDITTEXT        IDC_VIDEO_COLORS_PHA, 85,22,32,12,WS_TABSTOP
+    LTEXT           "Skuggning av PAL",IDC_STATIC,12,36+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,36+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_SHADE, 85,34+5,32,12,WS_TABSTOP
+    LTEXT           "PAL-suddighet",IDC_STATIC,12,48+5,40,8
+    LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
+    EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
+
+    LTEXT           "PAL-läge",IDC_STATIC,12,48+12+5,40,8
+    COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    AUTOCHECKBOX    "Extern färguppsättning:", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                    12,47+23+12,70,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,85,45+23+12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Bläddra...",IDC_VIDEO_CUSTOM_BROWSE,85,63+23+12,50,14,WS_GROUP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_VIDEO_PALETTE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
@@ -1251,6 +2913,82 @@ BEGIN
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON      "&Browse...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
 END
+
+
+// GERMAN version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Stöbern...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// FRENCH version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Parcourir...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Sfoglia...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// DUTCH version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Bladeren...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// POLISH version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Przegl±daj...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_VIDEO_PALETTE_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 87
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_VIDEO_CUSTOM_NAME,12,12,120,112,CBS_DROPDOWN |
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON      "&Bläddra...",IDC_VIDEO_CUSTOM_BROWSE,12,12+18,50,14,WS_GROUP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_RAM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 210
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1274,6 +3012,160 @@ BEGIN
     PUSHBUTTON      "Cancel", IDCANCEL, 90,187,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres de la RAM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni delle RAM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialisatie bij opstarten",IDC_STATIC,5,5,160,180
+    LTEXT           "Waarde van eerste byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Lengte van constante waarden",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Lengte van constant patroon",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia RAM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_RAM_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 170, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAM-inställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Initialization at powerup",IDC_STATIC,5,5,160,180
+    LTEXT           "Value of first byte",
+                    IDC_STATIC,55,17,100,8
+    COMBOBOX        IDC_RAMINIT_STARTVALUE,9,15,40,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant values",IDC_STATIC,55,32,100,8
+    COMBOBOX        IDC_RAMINIT_VALUEINVERT,9,30,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Length of constant pattern",IDC_STATIC,55,47,100,8
+    COMBOBOX        IDC_RAMINIT_PATTERNINVERT,9,45,40,80,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_RAMINIT_PREVIEW, 9,60,152,110, (0x4L) | WS_VSCROLL | 
+                    ES_READONLY
+    DEFPUSHBUTTON   "OK", IDOK, 30,187,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 90,187,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_CUSTOM_SPEED_DIALOG DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Custom speed"
@@ -1285,6 +3177,100 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 85,35,50,14, WS_TABSTOP
 END
+
+
+// GERMAN version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_DE DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Geschwindigkeit einstellen [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Entrez la vitesse [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Inserire la velocità [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_NL DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Eigen snelheid"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Geef snelheid op [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_PL DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Wprowad¼ prêdko¶æ [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_CUSTOM_SPEED_DIALOG_SV DIALOG DISCARDABLE  0, 0, 160, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Ange hastighet [%]", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 85,35,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_PRINTER_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 285, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1314,6 +3300,202 @@ BEGIN
     LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
 END
+
+
+// GERMAN version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_DE DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Drucker Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Drucker Emulation",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Drucker Driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_FR DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres d'imprimante"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Émulation d'imprimante",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_IT DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni delle stampanti"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Stampante emulazione",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_NL DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Printer Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Gebruik IEC Apparaat",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Printer emulatie",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Zend Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer stuurprogramma",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Uitvoer",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Uitvoer bestand #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Uitvoer bestand #1 naam", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Uitvoer bestand #2 naam", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Uitvoer bestand #3 naam", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_PL DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia drukarki"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Port emulacji drukarki",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_PRINTER_SETTINGS_DIALOG_SV DIALOG DISCARDABLE 0, 0, 285, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Skrivarinställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Use IEC Device",IDC_PRINTER_USEIECDEVICE,15,10,100,10,
+                    BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "Emulering av skrivare",IDC_STATIC,15,25,70,8
+    COMBOBOX        IDC_PRINTER_TYPE, 80,23,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Send Formfeed", IDC_PRINTER_FORMFEED, 220,23,60,15
+    GROUPBOX        "File system printer",IDC_STATIC,5,40,275,130
+    LTEXT           "Printer driver",IDC_STATIC,15,52,70,8
+    COMBOBOX        IDC_PRINTER_DRIVER, 80,50,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output",IDC_STATIC,15,72,70,8
+    COMBOBOX        IDC_PRINTER_OUTPUT, 80,70,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output to file #",IDC_STATIC,15,92,70,8
+    COMBOBOX        IDC_PRINTER_TEXTOUT, 80,90,55,50,
+                    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT           "Output file #1 name", IDC_STATIC,15,112,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME, 80,110,190,12,WS_TABSTOP
+    LTEXT           "Output file #2 name", IDC_STATIC,15,132,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME, 80,130,190,12,WS_TABSTOP
+    LTEXT           "Output file #3 name", IDC_STATIC,15,152,70,8
+    EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME, 80,150,190,12,WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_ROMSET_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 265, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1347,6 +3529,220 @@ BEGIN
 #endif
 END
 
+
+// GERMAN version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "ROM Archiv",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Stöbern", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Archiv laden", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Archiv speichern", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Konfiguration",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Neues", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Löschen", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "ROM Satz Archivdatei",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Stöbern", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "ROM laden", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "ROM speichern", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Floppy", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+
+// FRENCH version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres ROM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "le fichier ROM",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Parcourir", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Charger une ROM fichier", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "sauvegarde une ROM fichier", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Configuration",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Nouveau", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Supprimer", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Parcourir", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Ordinateur", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Lecteur", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+
+// ITALIAN version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni delle ROM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Archivio del ROM set",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Sfoglia", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Load archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Save archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Configurazione",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Nuovo", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Cancella", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Sfoglia", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+
+// DUTCH version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Romset archief",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Bladeren", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Laad archief", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Opslaan archief", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Configuratie",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Toepassen", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Nieuw", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Verwijderen", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset bestand",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Bladeren", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Laad romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Opslaan romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Drive", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+
+// POLISH version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia ROM"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Plik ustawieñ ROM",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Przegl±daj", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Load archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Save archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Konfiguracja",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Nowy", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "pozosta³ych elementów", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Przegl±daj", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Znak", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "edytor", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+
+// SWEDISH version of dialog
+
+IDD_ROMSET_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 265, 265
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ROM-inställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "ROM-uppsättningsarkiv",IDC_ROMSET_SELECT_ARCHIVE,
+                    13,8,70,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    EDITTEXT        IDC_ROMSET_ARCHIVE_NAME, 13,23,150,12,WS_TABSTOP
+    PUSHBUTTON      "Bläddra", IDC_ROMSET_ARCHIVE_BROWSE, 178,22,60,15
+    PUSHBUTTON      "Load archive", IDC_ROMSET_ARCHIVE_LOAD, 13,42,60,15
+    PUSHBUTTON      "Save archive", IDC_ROMSET_ARCHIVE_SAVE, 85,42,60,15
+    GROUPBOX        "&Inställningar",IDC_STATIC,13,60,230,60
+    COMBOBOX        IDC_ROMSET_ARCHIVE_ACTIVE,23,75,90,80,CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    PUSHBUTTON      "Apply", IDC_ROMSET_ARCHIVE_APPLY, 23,95,60,15
+    PUSHBUTTON      "Ny", IDC_ROMSET_ARCHIVE_NEW, 95,95,60,15
+    PUSHBUTTON      "Ta bort", IDC_ROMSET_ARCHIVE_DELETE, 167,95,60,15
+    AUTORADIOBUTTON "Romset file",IDC_ROMSET_SELECT_FILE,
+                    13,130,60,10,BS_AUTORADIOBUTTON
+    EDITTEXT        IDC_ROMSET_FILE_NAME, 13,145,150,12,WS_TABSTOP
+    PUSHBUTTON      "Bläddra", IDC_ROMSET_FILE_BROWSE, 178,145,60,15
+    PUSHBUTTON      "Load romset", IDC_ROMSET_FILE_LOAD, 13,165,60,15
+    PUSHBUTTON      "Save romset", IDC_ROMSET_FILE_SAVE, 85,165,60,15
+    EDITTEXT        IDC_ROMSET_PREVIEW, 13,195,180,60, (0x4L) | WS_VSCROLL |
+                    ES_READONLY
+    PUSHBUTTON      "Dator", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
+    PUSHBUTTON      "Diskettstation", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
+#if 0
+    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+#endif
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
+
 IDD_ROMSET_ENTER_NAME_DIALOG DIALOG DISCARDABLE  0, 0, 180, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New configuration"
@@ -1358,6 +3754,100 @@ BEGIN
     DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
     PUSHBUTTON      "Cancel", IDCANCEL, 95,35,50,14, WS_TABSTOP
 END
+
+
+// GERMAN version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Neues Konfiguration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Nieuwe configuratie"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Geef configuratie naam", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_ROMSET_ENTER_NAME_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Enter configuration name", IDC_STATIC,5,7,80,8
+    EDITTEXT        IDC_ROMSET_ENTER_NAME, 90,7,80,12,WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 35,35,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 95,35,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH version of dialog
 
 IDD_RS232_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 120
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -1376,6 +3866,127 @@ BEGIN
     PUSHBUTTON      "Cancel", IDCANCEL, 90,100,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232 Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 Gerät 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232 Gerät 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232 Gerät 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232 Gerät 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres RS232"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 port 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232 port 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232 port 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232 port 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni della RS232"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232 Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232 apparaat 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232 apparaat 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232 apparaat 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232 apparaat 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia RS232"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "urz±dzenia RS232 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "urz±dzenia RS232 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "urz±dzenia RS232 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "urz±dzenia RS232 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog
+
+IDD_RS232_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RS232-inställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "RS232-enheten 1",IDC_STATIC, 9,8,60,8
+    EDITTEXT        IDC_RS232_DEVICE1, 75,7,85,12,WS_TABSTOP
+    LTEXT           "RS232-enheten 2", IDC_STATIC, 9,28,60,8
+    EDITTEXT        IDC_RS232_DEVICE2, 75,27,85,12,WS_TABSTOP
+    LTEXT           "RS232-enheten 3", IDC_STATIC, 9,48,60,8
+    EDITTEXT        IDC_RS232_DEVICE3, 75,47,85,12,WS_TABSTOP
+    LTEXT           "RS232-enheten 4",IDC_STATIC, 9,68,60,8
+    EDITTEXT        IDC_RS232_DEVICE4, 75,67,85,12,WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30,100,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 90,100,50,14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
 
 /////////////////////////////////////////////////////////////////////////////
 //

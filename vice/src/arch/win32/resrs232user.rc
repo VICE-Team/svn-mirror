@@ -90,7 +90,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Aktiveer RS232 userport",IDC_RS232USER_ENABLE,
                     7,7,120,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Userport apparaat", IDC_STATIC,9,24,55,8
+    LTEXT           "Userport apparaat", IDC_STATIC,9,24,65,8
     COMBOBOX        IDC_RS232USER_DEVICE,75,22,75,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "Userport baud rate", IDC_STATIC,9,44,60,8

@@ -37,6 +37,7 @@
 #include <commdlg.h>
 
 #include "drive.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -114,7 +115,7 @@ static char *ui_save_as_console(const TCHAR *title, const char *filter,
                  | OFN_SHAREAWARE
                  | OFN_ENABLESIZING);
     ofn.lpfnHook = hook_save_as_console;
-    ofn.lpTemplateName = MAKEINTRESOURCE(IDD_CONSOLE_SAVE_DIALOG);
+    ofn.lpTemplateName = MAKEINTRESOURCE(intl_translate_dialog(IDD_CONSOLE_SAVE_DIALOG));
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;

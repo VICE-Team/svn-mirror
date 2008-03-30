@@ -444,12 +444,12 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_CONFIG_A:
             current_keyset_index = 0;
-            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,
+            DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_CONFIG_B:
             current_keyset_index = 1;
-            DialogBox(winmain_instance, (LPCTSTR)IDD_CONFIG_KEYSET_DIALOG,
+            DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_CONFIG_KEYSET_DIALOG),
                       hwnd, keyset_dialog);
             return TRUE;
           case IDC_JOY_DEV1:

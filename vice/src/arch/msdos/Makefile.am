@@ -17,7 +17,12 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/sid
 
-noinst_LIBRARIES = libarch.a @DOS_TFE_PCAP_LIB@
+libarch_a_DEPENDENCIES = @DOS_TFE_PCAP_LIB@
+
+noinst_LIBRARIES = libarch.a
+
+libpcap_nodma.a:
+	(echo fixing dos_pcap; cp `gcc -print-file-name=libpcap.a` libpcap_nodma.a; ar -d libpcap_nodma.a dma.o)
 
 libarch_a_SOURCES = \
 	archdep.c \

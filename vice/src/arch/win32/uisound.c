@@ -27,6 +27,7 @@
 #include <string.h>
 #include <windows.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "sound.h"
@@ -217,7 +218,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_sound_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_SOUND_SETTINGS_DIALOG),
+    DialogBox(winmain_instance, MAKEINTRESOURCE(intl_translate_dialog(IDD_SOUND_SETTINGS_DIALOG)),
               hwnd, dialog_proc);
 }
 

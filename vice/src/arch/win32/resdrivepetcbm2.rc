@@ -156,13 +156,13 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&Geen",IDC_SELECT_DRIVE_TYPE_NONE,15,135,35,10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "40 &sporen ondersteuning",IDC_STATIC,75,15,90,60
-    AUTORADIOBUTTON "Nooit uitbreiden",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
+    GROUPBOX        "40 &sporen ondersteuning",IDC_STATIC,75,15,100,60
+    AUTORADIOBUTTON "Nooit uitbreiden",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,85,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Vragen bij uitbreiden",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
+    AUTORADIOBUTTON "Vragen bij uitbreiden",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,85,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "Uitbreiden bij toegang",IDC_SELECT_DRIVE_EXTEND_ACCESS,
-                            85,60,65,10, BS_AUTORADIOBUTTON
+                            85,60,85,10, BS_AUTORADIOBUTTON
 END
 
 

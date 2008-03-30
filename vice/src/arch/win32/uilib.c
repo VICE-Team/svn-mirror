@@ -44,6 +44,7 @@
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
@@ -677,7 +678,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     if (styles[style].TemplateID != 0) {
         ofn.Flags |= OFN_ENABLEHOOK | OFN_ENABLETEMPLATE;
         ofn.lpfnHook = styles[style].hook_proc;
-        ofn.lpTemplateName = MAKEINTRESOURCE(styles[style].TemplateID);
+        ofn.lpTemplateName = MAKEINTRESOURCE(intl_translate_dialog(styles[style].TemplateID));
     } else {
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
@@ -807,7 +808,7 @@ void ui_show_text(HWND hWnd,
 // of the executable that created the current process.
 // Win32: module handle == instance handle == task [Win3.1 legacy]
 
-                   MAKEINTRESOURCE(IDD_TEXTDLG),
+                   MAKEINTRESOURCE(intl_translate_dialog(IDD_TEXTDLG)),
                    hWnd,
                    TextDlgProc,
                    (LPARAM)&info);

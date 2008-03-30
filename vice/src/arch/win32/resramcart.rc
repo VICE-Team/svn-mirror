@@ -113,12 +113,12 @@ BEGIN
     AUTOCHECKBOX    "Alleen &Lezen",IDC_RAMCART_RO,
                     87,7,50,10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "RAMCART grootte",
-                    IDC_STATIC,9,24,53,8
-    COMBOBOX        IDC_RAMCART_SIZE,66,22,50,80,CBS_DROPDOWNLIST |
+                    IDC_STATIC,9,24,60,8
+    COMBOBOX        IDC_RAMCART_SIZE,75,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "RAMCART bstand",
-                    IDC_STATIC,9,44,50,8
-    PUSHBUTTON      "&Bladeren...",IDC_RAMCART_BROWSE,59,42,50,14, 0
+                    IDC_STATIC,9,44,60,8
+    PUSHBUTTON      "&Bladeren...",IDC_RAMCART_BROWSE,75,42,50,14, 0
     EDITTEXT        IDC_RAMCART_FILE, 9,58,160,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP

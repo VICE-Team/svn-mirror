@@ -37,6 +37,7 @@
 #include "drive.h"
 #include "fullscrn.h"
 #include "interrupt.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -139,7 +140,7 @@ static void ui_snapshot_save_dialog(HWND hwnd)
     char *s;
     s = ui_save_snapshot(TEXT("Save snapshot image"),
                          "VICE snapshot files (*.vsf)\0*.vsf\0",
-                         hwnd, IDD_SNAPSHOT_SAVE_DIALOG);
+                         hwnd, intl_translate_dialog(IDD_SNAPSHOT_SAVE_DIALOG));
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 

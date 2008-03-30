@@ -35,6 +35,7 @@ src/arch/unix/uidriveiec.c
 src/arch/unix/uidrivepetcbm2.c
 src/arch/unix/uidriveplus4.c
 src/arch/unix/uifliplist.c
+src/arch/unix/uigeoram.c
 src/arch/unix/uiide64.c
 src/arch/unix/uijoystick2.c
 src/arch/unix/uikeyboard.c
@@ -48,6 +49,7 @@ src/arch/unix/uiperipheralieee.c
 src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
 src/arch/unix/uiprinterieee.c
+src/arch/unix/uiramcart.c
 src/arch/unix/uireu.c
 src/arch/unix/uiromset.c
 src/arch/unix/uirs232.c

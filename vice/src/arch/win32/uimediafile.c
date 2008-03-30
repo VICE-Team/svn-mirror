@@ -34,6 +34,7 @@
 #include <commdlg.h>
 
 #include "gfxoutput.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -160,7 +161,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
     s = ui_save_mediafile(TEXT("Save media image"),
         TEXT("Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0"),
         hwnd,
-        IDD_MEDIAFILE_DIALOG);
+        intl_translate_dialog(IDD_MEDIAFILE_DIALOG));
 
     if (s != NULL) {
         selected_driver = gfxoutput_get_driver(screendrivername);

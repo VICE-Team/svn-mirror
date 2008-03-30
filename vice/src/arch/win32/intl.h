@@ -32,5 +32,6 @@ extern int intl_translate_menu(int en_resource);
 extern int intl_resources_init(void);
 extern void intl_resources_shutdown(void);
 extern int intl_cmdline_options_init(void);
+extern void intl_pre_ui_init(int argc, char **argv);
 
 #endif

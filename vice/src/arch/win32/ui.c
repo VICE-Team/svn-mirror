@@ -47,6 +47,7 @@
 #include "fullscrn.h"
 #include "imagecontents.h"
 #include "interrupt.h"
+#include "intl.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -278,6 +279,7 @@ int ui_init(int *argc, char **argv)
     WNDCLASS window_class;
     WORD menu;
 
+    intl_pre_ui_init(*argc, argv);
     switch (machine_class) {
       case VICE_MACHINE_C64:
         menu = IDR_MENUC64;
@@ -285,7 +287,7 @@ int ui_init(int *argc, char **argv)
             sizeof(c64_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_C128:
-        menu = IDR_MENUC128;
+        menu = intl_translate_menu(IDR_MENUC128);
         ui_accelerator = CreateAcceleratorTable(c128_accel, 
             sizeof(c128_accel) / sizeof(ACCEL));
         break;

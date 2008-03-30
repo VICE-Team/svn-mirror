@@ -35,6 +35,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -335,7 +336,7 @@ static void new_archive_romset_dialog(HWND hwnd)
     uilib_dialogbox_param_t param;
 
     param.hwnd = hwnd;
-    param.idd_dialog = IDD_ROMSET_ENTER_NAME_DIALOG;
+    param.idd_dialog = intl_translate_dialog(IDD_ROMSET_ENTER_NAME_DIALOG);
     param.idc_dialog = IDC_ROMSET_ENTER_NAME;
     _tcscpy(param.string, TEXT(""));
 
@@ -478,7 +479,7 @@ static void uirom_resources_computer(HWND hwnd)
 static void uirom_resources_drive(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_DRIVE], hwnd,
+              (LPCTSTR)intl_translate_dialog(romset_dialog_resources[UIROM_TYPE_DRIVE]), hwnd,
               resources_drive_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -486,7 +487,7 @@ static void uirom_resources_drive(HWND hwnd)
 static void uirom_resources_other(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_OTHER], hwnd,
+              (LPCTSTR)intl_translate_dialog(romset_dialog_resources[UIROM_TYPE_OTHER]), hwnd,
               resources_other_dialog_proc);
     update_romset_list(hwnd);
 }
@@ -578,11 +579,11 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_ROMSET_SETTINGS_DIALOG));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_ROMSET_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_ROMSET_SETTINGS_DIALOG));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;

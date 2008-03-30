@@ -36,6 +36,7 @@ extern int ramcart_resources_init(void);
 extern void ramcart_resources_shutdown(void);
 extern int ramcart_cmdline_options_init(void);
 
+extern void ramcart_init_config(void);
 extern void ramcart_reset(void);
 extern void ramcart_shutdown(void);
 extern BYTE REGPARM1 ramcart_reg_read(WORD addr);

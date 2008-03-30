@@ -47,6 +47,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "ram.h"
+#include "ramcart.h"
 #include "reu.h"
 #include "sid.h"
 #include "vicii-mem.h"

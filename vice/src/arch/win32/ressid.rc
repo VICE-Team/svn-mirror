@@ -117,8 +117,8 @@ BEGIN
     AUTORADIOBUTTON "8580 (nieuw)",IDC_SID_8580,70,45,55,10,
                             BS_AUTORADIOBUTTON
     GROUPBOX        "Stereo SID",IDC_STATIC,10,65,125,25
-    AUTOCHECKBOX    "Stereo SID adres", IDC_SID_STEREO,
-                    15,75,55,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Stereo SID op", IDC_SID_STEREO,
+                    15,75,57,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     COMBOBOX        IDC_SID_STEREOADDRESS,85,73,45,100,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP | WS_VSCROLL
     AUTOCHECKBOX    "SID Filters", IDC_SID_FILTERS,
@@ -249,7 +249,7 @@ CAPTION "SID Instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "reSID opties",IDC_STATIC,10,5,125,50
-    LTEXT           "Sample methode",IDC_STATIC,15,17,50,8
+    LTEXT           "Sample methode",IDC_STATIC,15,17,53,8
     COMBOBOX        IDC_SID_RESID_SAMPLING,70,15,60,50,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Passband (0-90%)",IDC_STATIC,15,37,60,8
@@ -365,9 +365,9 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "SID Instellingen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Apparaat selectie",IDC_STATIC,10,5,125,50
-    LTEXT           "Linker/Hoofd apparaat",IDC_STATIC,15,17,70,8
-    COMBOBOX        IDC_SID_HARDSID_LEFT_ENGINE, 80,15,50,50,
+    GROUPBOX        "Apparaat selectie",IDC_STATIC,10,5,133,50
+    LTEXT           "Linker/Hoofd apparaat",IDC_STATIC,15,17,76,8
+    COMBOBOX        IDC_SID_HARDSID_LEFT_ENGINE, 91,15,50,50,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Rechter apparaat",IDC_STATIC,15,37,70,8
     COMBOBOX        IDC_SID_HARDSID_RIGHT_ENGINE, 80,35,50,50,

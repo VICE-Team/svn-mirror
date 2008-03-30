@@ -693,11 +693,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
+        psp[i].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PRINTER_SETTINGS_DIALOG));
         psp[i].pszIcon = NULL;
 #else
         psp[i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_PRINTER_SETTINGS_DIALOG));
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
