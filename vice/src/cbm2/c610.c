@@ -253,6 +253,7 @@ void machine_reset(void)
     rs232_reset();
 #endif
 
+    autostart_reset();
     drive_reset();
 
     set_bank_exec(15);
@@ -289,20 +290,8 @@ static void vsync_hook(void)
 
     sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
 
-#if 0
-    sub = maincpu_prevent_clk_overflow(C610_PAL_CYCLES_PER_RFSH);
-
-    if (sub > 0) {
-	crtc_prevent_clk_overflow(sub);
-	cia1_prevent_clk_overflow(sub);
-        sound_prevent_clk_overflow(sub);
-        vsync_prevent_clk_overflow(sub);
-        acia1_prevent_clk_overflow(sub);
-    }
-#endif
-
-    /* The 1541 has to deal both with our overflowing and its own one, so it
-       is called even when there is no overflowing in the main CPU.  */
+    /* The drive has to deal both with our overflowing and its own one, so
+       it is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
     drive_prevent_clk_overflow(sub, 0);
     drive_prevent_clk_overflow(sub, 1);
