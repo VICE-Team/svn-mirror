@@ -183,7 +183,7 @@ static int palette_load_core(FILE *f, const char *file_name,
         entry_num++;
     }
 
-    if (line_num==0) {
+    if (line_num == 0) {
         log_error(palette_log, "Could not read from palette file.");
         return -1;
     }
@@ -209,6 +209,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
     int rc;
 
     f = sysfile_open(file_name, &complete_path, MODE_READ_TEXT);
+
     if (f == NULL) {
         /* Try to add the extension.  */
         char *tmp = stralloc(file_name);
