@@ -31,6 +31,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "cartridge.h"
+#include "ciatimer.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -55,7 +56,6 @@
 #include "vic20ui.h"
 #include "vic20via.h"
 #include "vsync.h"
-#include "ciatimer.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -273,7 +273,9 @@ int machine_init(void)
                  &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_init(VIC20_PAL_RFSH_PER_SEC, VIC20_PAL_CYCLES_PER_SEC, vsync_hook);
+    vsync_set_machine_parameter(VIC20_PAL_RFSH_PER_SEC,
+                                VIC20_PAL_CYCLES_PER_SEC);
+    vsync_init(vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
