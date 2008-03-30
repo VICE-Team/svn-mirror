@@ -29,8 +29,9 @@
 
 #include "vice.h"
 
-#include "drive.h"
 #include "log.h"
+#include "machine.h"
+
 
 int vsid_ui_init(void)
 {
@@ -54,7 +55,8 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
-    log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
+    log_message(LOG_DEFAULT, "Using %s sync",
+                sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
 }
 
 void vsid_ui_display_sid_model(int model)
@@ -89,3 +91,4 @@ void vsid_ui_display_irqtype(const char *irq)
 void vsid_ui_close(void)
 {
 }
+
