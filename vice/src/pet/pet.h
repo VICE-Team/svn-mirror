@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,6 +28,8 @@
 #ifndef _PET_H
 #define _PET_H
 
+#include "via.h"
+
 /* Except for the exact CYCLES_PER_SEC those are only reasonable defaults.
    They get overwritten when writing to the CRTC */
 
@@ -49,6 +52,12 @@
 */
 
 extern void pet_crtc_set_screen(void);
+
+typedef struct machine_context_s {
+    via_context_t via;
+} machine_context_t;
+
+extern machine_context_t machine_context;
 
 #endif
 

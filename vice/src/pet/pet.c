@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -81,6 +82,8 @@
 #include "video.h"
 #include "vsync.h"
 
+
+machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 6
 
@@ -244,6 +247,11 @@ void pet_monitor_init(void)
                  drive1_monitor_interface_get(), asmarray);
 }
 
+void machine_setup_context(void)
+{
+    petvia_setup_context(&machine_context);
+}
+
 /* PET-specific initialization.  */
 int machine_init(void)
 {
@@ -283,7 +291,7 @@ int machine_init(void)
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
 
-    via_init();
+    via_init(&(machine_context.via));
     pia1_init();
     pia2_init();
     acia1_init();
@@ -333,7 +341,7 @@ void machine_specific_reset(void)
 
     pia1_reset();
     pia2_reset();
-    via_reset();
+    via_reset(&(machine_context.via));
     acia1_reset();
     crtc_reset();
     petsnd_reset();
