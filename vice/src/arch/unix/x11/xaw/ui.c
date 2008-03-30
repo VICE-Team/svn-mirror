@@ -132,7 +132,7 @@ static void ui_display_drive_current_image2(void);
 
 /* ------------------------------------------------------------------------- */
 
-_ui_resources_t _ui_resources;
+ui_resources_t _ui_resources;
 
 #ifdef USE_VIDMODE_EXTENSION
 

@@ -28,7 +28,6 @@
 #ifndef _UI_COMMANDS_H
 #define _UI_COMMANDS_H
 
-#include "ui.h"
 #include "uimenu.h"
 
 extern ui_menu_entry_t ui_directory_commands_menu[];

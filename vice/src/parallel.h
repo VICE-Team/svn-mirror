@@ -37,7 +37,6 @@
 #ifndef _PARALLEL_H
 #define _PARALLEL_H
 
-#include "maincpu.h"
 #include "types.h"
 
 /* debug variable - set to 1 to generate output */
@@ -91,17 +90,6 @@ extern void parallel_restore_clr_atn(char mask);
     	}								\
     }
 
-#define	PARALLEL_CPU_SET_LINE(line,dev,mask)				\
-    static inline void parallel_##dev##_set_##line##( char val ) 	\
-    {									\
-	parallel_drive_cpu_execute(clk);				\
-    	if (val) {							\
-	    parallel_set_##line##(PARALLEL_##mask##);			\
-        } else {							\
-	    parallel_clr_##line##(~PARALLEL_##mask##);			\
-    	}								\
-    }
-
 #define	PARALLEL_RESTORE_LINE(line,dev,mask)				\
     static inline void parallel_##dev##_restore_##line##( char val ) 	\
     {									\
@@ -129,7 +117,9 @@ PARALLEL_SET_LINE(eoi,cpu,CPU)
 PARALLEL_SET_LINE(dav,cpu,CPU)
 PARALLEL_SET_LINE(nrfd,cpu,CPU)
 PARALLEL_SET_LINE(ndac,cpu,CPU)
-PARALLEL_CPU_SET_LINE(atn,cpu,CPU)
+
+extern void parallel_cpu_set_atn(char val);
+
 PARALLEL_RESTORE_LINE(atn,cpu,CPU)
 
 extern void parallel_cpu_set_bus(BYTE b);

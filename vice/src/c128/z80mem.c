@@ -40,6 +40,7 @@
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
+#include "vdc-mem.h"
 #include "vdc.h"
 #include "vicii-mem.h"
 #include "vicii.h"

@@ -61,13 +61,15 @@ typedef enum {
 } ui_button_t;
 
 /* These resources are used only by the UI modules.  */
-typedef struct {
+struct ui_resources_s {
     char *html_browser_command;
     int use_private_colormap;
     int save_resources_on_exit;
     int depth;
-} _ui_resources_t;
-extern _ui_resources_t _ui_resources;
+};
+typedef struct ui_resources_s ui_resources_t;
+
+extern ui_resources_t _ui_resources;
 
 /* ------------------------------------------------------------------------- */
 /* Prototypes */

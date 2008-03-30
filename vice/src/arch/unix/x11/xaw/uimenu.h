@@ -33,11 +33,11 @@
 #include "ui.h"
 #include "uihotkey.h"
 
-typedef struct _ui_menu_entry {
+typedef struct ui_menu_entry_s {
     const char *string;
     ui_callback_t callback;
     ui_callback_data_t callback_data;
-    struct _ui_menu_entry *sub_menu;
+    struct ui_menu_entry_s *sub_menu;
     KeySym hotkey_keysym;
     ui_hotkey_modifier_t hotkey_modifier;
 } ui_menu_entry_t;

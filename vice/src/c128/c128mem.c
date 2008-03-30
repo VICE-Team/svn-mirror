@@ -53,6 +53,7 @@
 #include "types.h"
 #include "ui.h"
 #include "utils.h"
+#include "vdc-mem.h"
 #include "vdc.h"
 #include "vicii-mem.h"
 #include "vicii.h"

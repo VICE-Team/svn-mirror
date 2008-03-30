@@ -31,8 +31,6 @@
 
 #include "vice.h"
 
-#include "vdc-mem.h"
-
 struct snapshot_s;
 
 extern int vdc_init_resources(void);
