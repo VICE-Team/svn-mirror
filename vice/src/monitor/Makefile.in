@@ -136,7 +136,7 @@ noinst_LIBRARIES = libmonitor.a
 noinst_HEADERS =  	mon_parse.h
 
 
-libmonitor_a_SOURCES =  	asm.c 	asm.h 	mon.c 	mon.h 	mon_lex.l 	mon_parse.y
+libmonitor_a_SOURCES =  	asm6502.c 	asmz80.c 	asm.h 	mon.c 	mon.h 	mon_lex.l 	mon_parse.y
 
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
@@ -153,7 +153,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libmonitor_a_LIBADD = 
-libmonitor_a_OBJECTS =  asm.o mon.o mon_lex.o mon_parse.o
+libmonitor_a_OBJECTS =  asm6502.o asmz80.o mon.o mon_lex.o mon_parse.o
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
@@ -270,6 +270,10 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 asm.o: asm.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h
+asm6502.o: asm6502.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h
+asmz80.o: asmz80.c ../../src/vice.h ../../src/config.h asm.h \
 	../../src/arch/unix/types.h
 mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
