@@ -333,6 +333,8 @@ raster_t *vicii_init(unsigned int flag)
     else
         vic_ii.log = log_open("VIC-II");
 
+    vicii_irq_init();
+
     vic_ii.raster_fetch_alarm = alarm_new(maincpu_alarm_context,
                                           "VicIIRasterFetch",
                                           vicii_fetch_alarm_handler);
@@ -342,7 +344,6 @@ raster_t *vicii_init(unsigned int flag)
     vic_ii.raster_irq_alarm = alarm_new(maincpu_alarm_context,
                                         "VicIIRasterIrq",
                                         vicii_raster_irq_alarm_handler);
-
     if (init_raster() < 0)
         return NULL;
 

@@ -59,22 +59,22 @@ struct drive_context_s;
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 
 /*
-#define my_set_irq(fl, clk)                          \
-        do {                                         \
-        printf("set_int_d0(%d)\n",(fl));             \
-        interrupt_set_irq(ctxptr->cpu.int_status,    \
-                          (ctxptr->riot2p.irq_type), \
-                          (fl) ? IK_IRQ : 0, (clk))  \
+#define my_set_irq(fl, clk)                         \
+        do {                                        \
+        printf("set_int_d0(%d)\n",(fl));            \
+        interrupt_set_irq(ctxptr->cpu.int_status,   \
+                          (ctxptr->riot2p.int_num), \
+                          (fl) ? IK_IRQ : 0, (clk)) \
         ; } while(0)
 */
-#define my_set_irq(fl, clk)                          \
-        interrupt_set_irq(ctxptr->cpu.int_status,    \
-                          (ctxptr->riot2p.irq_type), \
+#define my_set_irq(fl, clk)                         \
+        interrupt_set_irq(ctxptr->cpu.int_status,   \
+                          (ctxptr->riot2p.int_num), \
                           (fl) ? IK_IRQ : 0, (clk))
 
 #define my_restore_irq(fl)                              \
         interrupt_set_irq_noclk(ctxptr->cpu.int_status, \
-                                (ctxptr->riot2p.irq_type),(fl) ? IK_IRQ : 0)
+                                ctxptr->riot2p.int_num, (fl) ? IK_IRQ : 0)
 
 /*************************************************************************
  * I/O
@@ -120,7 +120,9 @@ void riot2_setup_context(drive_context_t *ctxptr)
     ctxptr->riot2.r_irqfl = 0;
     ctxptr->riot2.r_irqline = 0;
     ctxptr->riot2p.r_atn_active = 0;
-    ctxptr->riot2p.irq_type = (ctxptr->mynumber == 0) ? I_RIOTD0FL : I_RIOTD1FL;
+    ctxptr->riot2p.int_num =
+        interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
+
     sprintf(ctxptr->riot2.myname, "RIOT2D%d", ctxptr->mynumber);
 }
 

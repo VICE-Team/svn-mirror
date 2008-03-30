@@ -61,6 +61,8 @@ static char *cartfile;
 
 static alarm_t *cartridge_alarm = NULL;
 
+static unsigned int cartridge_int_num;
+
 
 static int set_cartridge_type(resource_value_t v, void *param)
 {
@@ -335,6 +337,7 @@ void cartridge_init(void)
 {
     cartridge_alarm = alarm_new(maincpu_alarm_context, "Cartridge",
                                 cartridge_change_mapping);
+    cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
 }
 
 void cartridge_trigger_freeze(void)
@@ -349,12 +352,12 @@ void cartridge_trigger_freeze(void)
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
       case CARTRIDGE_ATOMIC_POWER:
       case CARTRIDGE_FINAL_I:
-        maincpu_set_nmi(I_FREEZE, IK_NMI);
+        maincpu_set_nmi(cartridge_int_num, IK_NMI);
         alarm_set(cartridge_alarm, maincpu_clk + 3);
         break;
       case CARTRIDGE_RETRO_REPLAY:
         if (retroreplay_freeze_allowed()) {
-            maincpu_set_nmi(I_FREEZE, IK_NMI);
+            maincpu_set_nmi(cartridge_int_num, IK_NMI);
             alarm_set(cartridge_alarm, maincpu_clk + 3);
         }
         break;
@@ -363,7 +366,7 @@ void cartridge_trigger_freeze(void)
 
 void cartridge_release_freeze(void)
 {
-    maincpu_set_nmi(I_FREEZE, 0);
+    maincpu_set_nmi(cartridge_int_num, 0);
 }
 
 const char *cartridge_get_file_name(WORD addr_ignored)

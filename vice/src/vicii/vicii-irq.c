@@ -39,10 +39,10 @@ inline void vicii_irq_set_line(void)
 {
     if (vic_ii.irq_status & vic_ii.regs[0x1a]) {
         vic_ii.irq_status |= 0x80;
-        maincpu_set_irq(I_RASTER, 1);
+        maincpu_set_irq(vic_ii.int_num, 1);
     } else {
         vic_ii.irq_status &= 0x7f;
-        maincpu_set_irq(I_RASTER, 0);
+        maincpu_set_irq(vic_ii.int_num, 0);
     }
 }
 
@@ -50,10 +50,10 @@ static inline void vicii_irq_set_line_clk(CLOCK mclk)
 {
     if (vic_ii.irq_status & vic_ii.regs[0x1a]) {
         vic_ii.irq_status |= 0x80;
-        maincpu_set_irq_clk(I_RASTER, 1, mclk);
+        maincpu_set_irq_clk(vic_ii.int_num, 1, mclk);
     } else {
         vic_ii.irq_status &= 0x7f;
-        maincpu_set_irq_clk(I_RASTER, 0, mclk);
+        maincpu_set_irq_clk(vic_ii.int_num, 0, mclk);
     }
 }
 
@@ -208,5 +208,10 @@ void vicii_irq_next_frame(void)
 {
     vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
     alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+}
+
+void vicii_irq_init(void)
+{
+    vic_ii.int_num = interrupt_cpu_status_int_new(maincpu_int_status);
 }
 

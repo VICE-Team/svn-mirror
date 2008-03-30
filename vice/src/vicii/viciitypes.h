@@ -387,6 +387,8 @@ struct vicii_s {
 
     /* Video chip capabilities.  */
     struct video_chip_cap_s *video_chip_cap;
+
+    unsigned int int_num;
 };
 typedef struct vicii_s vicii_t;
 

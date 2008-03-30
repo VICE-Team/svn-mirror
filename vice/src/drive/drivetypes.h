@@ -164,8 +164,8 @@ typedef struct drivevia_context_s {
     int read_offset;              /* init to 0 */
     BYTE last_read;               /* init to 0 */
 
-    int irq_type;                 /* I_... */
     int irq_line;                 /* IK_... */
+    unsigned int int_num;
 
     char myname[12];              /* init to "DriveXViaY" */
     char my_module_name[8];       /* init to "VIAXDY" */
@@ -240,6 +240,7 @@ typedef struct drivecia_context_s {
     int debugFlag;                /* init to 0 */
 
     int irq_line;                 /* IK_IRQ */
+    unsigned int int_num;
 
     char myname[12];
 
@@ -291,7 +292,7 @@ typedef struct driveriot_context_s {
 typedef struct driveriot2_context_s {
 
     int r_atn_active;     /* init to 0 */
-    int irq_type;         /* I_RIOTD#FL */
+    unsigned int int_num;
 
 } driveriot2_context_t;
 

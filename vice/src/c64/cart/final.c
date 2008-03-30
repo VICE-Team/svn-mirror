@@ -33,6 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64mem.h"
+#include "cartridge.h"
 #include "final.h"
 #include "interrupt.h"
 #include "types.h"
@@ -96,7 +97,7 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
         cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
         cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
         if ((value & 0x30) == 0x10)
-            maincpu_set_nmi(I_FREEZE, IK_NMI);
+            cartridge_trigger_freeze();
         if (value & 0x40)
             cartridge_release_freeze();
     }
