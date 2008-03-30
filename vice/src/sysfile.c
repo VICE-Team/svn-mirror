@@ -50,7 +50,7 @@
 
 static char *default_path;
 static char *system_path;
-static char *expanded_system_path;
+static char *expanded_system_path = NULL;
 
 static int set_system_path(resource_value_t v)
 {
@@ -62,49 +62,49 @@ static int set_system_path(resource_value_t v)
         free(expanded_system_path);
     }
 
-    expanded_system_path = NULL;	/* will subsequently be replaced */
+    expanded_system_path = NULL; /* will subsequently be replaced */
 
     tmp_path_save = subst(system_path, "$$", default_path);	/* malloc'd */
 
     current_dir = get_current_dir();				/* malloc'd */
 
-    tmp_path = tmp_path_save;	/* tmp_path points into tmp_path_save */
+    tmp_path = tmp_path_save; /* tmp_path points into tmp_path_save */
     do {
-	p=strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
+        p=strstr(tmp_path,FINDPATH_SEPARATOR_STRING);
 
-        /* printf("tmp_p='%s'\np='%s'\nexp_p='%s'\n",
-					tmp_path, p, expanded_system_path); */
-	if (p!=NULL) {
-	    *p = 0;
-	}
-	if (*tmp_path == FSDEV_DIR_SEP_CHR) {	/* absolute path */
-	    if (expanded_system_path == NULL) {
-	        s = concat(tmp_path, NULL );	/* concat allocs a new str. */
-	    } else {
-	        s = concat(expanded_system_path,
-			FINDPATH_SEPARATOR_STRING,
-			tmp_path, NULL );
-	    }
-	} else {				/* relative path */
-	    if (expanded_system_path == NULL) {
-	        s = concat(current_dir,
-			FSDEV_DIR_SEP_STR,
-			tmp_path, NULL );
-	    } else {
-	        s = concat(expanded_system_path,
-			FINDPATH_SEPARATOR_STRING,
-			current_dir,
-			FSDEV_DIR_SEP_STR,
-			tmp_path, NULL );
-	    }
-	}
-	free(expanded_system_path);
-	expanded_system_path = s;
+        if (p != NULL) {
+            *p = 0;
+        }
+        if (*tmp_path == FSDEV_DIR_SEP_CHR
+#ifdef __MSDOS__
+            || tmp_path[1] == ':'
+#endif
+            ) { /* absolute path */
+            if (expanded_system_path == NULL) {
+                s = concat(tmp_path, NULL ); /* concat allocs a new str. */
+            } else {
+                s = concat(expanded_system_path,
+                    FINDPATH_SEPARATOR_STRING,
+                    tmp_path, NULL );
+            }
+        } else { /* relative path */
+            if (expanded_system_path == NULL) {
+                s = concat(current_dir,
+                    FSDEV_DIR_SEP_STR,
+                    tmp_path, NULL );
+            } else {
+                s = concat(expanded_system_path,
+                    FINDPATH_SEPARATOR_STRING,
+                    current_dir,
+                    FSDEV_DIR_SEP_STR,
+                    tmp_path, NULL );
+            }
+        }
+        free(expanded_system_path);
+        expanded_system_path = s;
 
-	tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
-    } while(p!=NULL);
-
-    /* printf("p='%s'\nexp_p='%s'\n",p, expanded_system_path); */
+        tmp_path = p + strlen(FINDPATH_SEPARATOR_STRING);
+    } while(p != NULL);
 
     free(current_dir);
     free(tmp_path_save);

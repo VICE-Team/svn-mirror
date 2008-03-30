@@ -542,3 +542,22 @@ int num_text_lines(void)
     else
 	return 24;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* Refresh a canvas.  */
+void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
+                    unsigned int xs, unsigned int ys,
+                    unsigned int xi, unsigned int yi,
+                    unsigned int w, unsigned int h)
+{
+#if X_DISPLAY_DEPTH == 0
+    if (_convert_func)
+        _convert_func(&frame_buffer, xs, ys, w, h);
+#endif
+    _refresh_func(display, canvas->drawable, _video_gc,
+                   frame_buffer.x_image, xs, ys, xi, yi, w, h, False);
+    if (_video_use_xsync)
+        XSync(display, False);
+}
+

@@ -27,6 +27,8 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -49,6 +51,7 @@
 
 #include "machine.h"
 #include "ui.h"
+#include "utils.h"
 
 static Widget emptydisk_dialog;
 static Widget emptydisk_dialog_pane;
