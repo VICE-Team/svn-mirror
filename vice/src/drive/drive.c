@@ -983,7 +983,7 @@ static void drive_set_half_track(int num, drive_t *dptr)
                                 * NUM_MAX_BYTES_TRACK));
 
     if (dptr->GCR_current_track_size != 0)
-#if 1
+#if 0
         dptr->GCR_head_offset
             *= (dptr->gcr->track_size[dptr->current_half_track
             / 2 - 1]) / dptr->GCR_current_track_size;
