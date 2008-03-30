@@ -1,3 +1,55 @@
+2007-05-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.8.
+
+	* c128/c128mmu.c [resources_int]: Changed default value to
+	C128 mode.
+
+	* zfile.c (try_uncompress_with_bzip): Removed debug cruft.
+
+	* kbdbuf.c, kbdbuf.h (kbdbuf_reset): New function.
+	(kbdbuf_init): Return void.
+
+	* c128/c128.c, c128/c128.h (machine_kbdbuf_reset_c128,
+	machine_kbdbuf_reset_c64, machine_autostart_reset_c128,
+	machine_autostart_reset_c64): New functions.
+
+	* c128/c128mmu.c (mmu_switch_to_c64mode,
+	mmu_switch_to_c128mode): New functions.
+
+	* autostart.c, autostart.h (autostart_reinit): New function.
+
+2007-05-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c, c128/c128cpu.c, maincpu.c, maincpu.h,
+	vicii/vicii-clock-stretch.c, vicii/viciitypes.h,
+	vicii.h: Added 8502 fast mode memory refresh cycle support.
+
+	* translate.c, translate.txt: Updated.
+
+2007-05-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/amigaos/uiapi.c, arch/beos/ui.cc, arch/msdos/ui.c,
+	arch/os2/ui.c, arch/riscos/ui.c, arch/unix/gp2x/ui.c,
+	arch/unix/gui/ui.c, arch/win32/ui.c, uiapi.h: Added new
+	function ui_display_volume (dummies for non-win32).
+
+	* arch/win32/fullscrn.c, statusbar.c, statusbar.h, ui.c:
+	Added width parameter for statusbar_create. Changed statusbar
+	handling for additional slider part.
+
+	* arch/win32/resdialogs.txt: Added IDC_SLIDER.
+
+	* sound.c: Added resource "SoundVolume". (sound_run_sound)
+	Scales the sound buffer if volume isn't maximal.
+
+	* translate.txt: Added missing IDCLS_GO64_MODE,
+	IDCLS_GO64_MODE.
+
+2007-05-01  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: Removed unused variables.
+
 2007-04-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.7.

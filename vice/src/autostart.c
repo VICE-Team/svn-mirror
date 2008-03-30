@@ -190,20 +190,14 @@ static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 
 /* ------------------------------------------------------------------------- */
 
-/* Initialize autostart.  */
-int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
-                   int _blnsw, int _pnt, int _pntr, int _lnmx)
+/* Reset autostart.  */
+void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
+                      int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
     blnsw = (WORD)(_blnsw);
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;
-
-    if (autostart_log == LOG_ERR) {
-        autostart_log = log_open("AUTOSTART");
-        if (autostart_log == LOG_ERR)
-            return -1;
-    }
 
     min_cycles = _min_cycles;
     handle_drive_true_emulation = _handle_drive_true_emulation;
@@ -212,6 +206,20 @@ int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
         autostart_enabled = 1;
     else
         autostart_enabled = 0;
+}
+
+/* Initialize autostart.  */
+int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
+                   int blnsw, int pnt, int pntr, int lnmx)
+{
+    autostart_reinit(min_cycles, handle_drive_true_emulation, blnsw, pnt,
+                     pntr, lnmx);
+
+    if (autostart_log == LOG_ERR) {
+        autostart_log = log_open("AUTOSTART");
+        if (autostart_log == LOG_ERR)
+            return -1;
+    }
 
     return 0;
 }

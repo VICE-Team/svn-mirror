@@ -66,5 +66,10 @@ typedef struct machine_context_s {
 
 extern machine_context_t machine_context;
 
+extern void machine_kbdbuf_reset_c128(void);
+extern void machine_kbdbuf_reset_c64(void);
+extern void machine_autostart_reset_c128(void);
+extern void machine_autostart_reset_c64(void);
+
 #endif
 

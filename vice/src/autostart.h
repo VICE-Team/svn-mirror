@@ -34,9 +34,12 @@
 #define AUTOSTART_MODE_RUN  0
 #define AUTOSTART_MODE_LOAD 1
 
-extern int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
-                          int _blnsw, int _pnt, int _pntr, int _lnmx);
+extern int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
+                          int blnsw, int pnt, int pntr, int lnmx);
 extern void autostart_shutdown(void);
+extern void autostart_reinit(CLOCK _min_cycles,
+                             int _handle_drive_true_emulation, int _blnsw,
+                             int _pnt, int _pntr, int _lnmx);
 
 extern int autostart_autodetect(const char *file_name,
                                 const char *program_name,

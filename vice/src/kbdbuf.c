@@ -145,24 +145,26 @@ int kbdbuf_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Initialization.  */
-int kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
+void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
 {
     buffer_location = location;
     num_pending_location = plocation;
     buffer_size = size;
     kernal_init_cycles = mincycles;
 
-    if (mincycles) {
+    if (mincycles)
         kbd_buf_enabled = 1;
-    } else {
+    else
         kbd_buf_enabled = 0;
-    }
+}
+
+/* Initialization.  */
+void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
+{
+    kbdbuf_reset(location, plocation, size, mincycles);
 
     if (kbd_buf_string != NULL)
         kbdbuf_feed(kbd_buf_string);
-
-    return 0;
 }
 
 void kbdbuf_shutdown(void)

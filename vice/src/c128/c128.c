@@ -691,6 +691,36 @@ void machine_handle_pending_alarms(int num_write_cycles)
 
 /* ------------------------------------------------------------------------- */
 
+void machine_kbdbuf_reset_c128(void)
+{
+    kbdbuf_reset(842, 208, 10, (CLOCK)(machine_timing.rfsh_per_sec
+                 * machine_timing.cycles_per_rfsh));
+}
+
+void machine_kbdbuf_reset_c64(void)
+{
+    kbdbuf_reset(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
+                 * machine_timing.cycles_per_rfsh));
+}
+
+void machine_autostart_reset_c128(void)
+{
+
+    /* FIXME: at least 0xa26 is only for 40 cols */
+    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec
+                     * machine_timing.cycles_per_rfsh),
+                     1, 0xa27, 0xe0, 0xec, 0xee);
+}
+
+void machine_autostart_reset_c64(void)
+{
+    autostart_reinit((CLOCK)(3 * machine_timing.rfsh_per_sec
+                       * machine_timing.cycles_per_rfsh),
+                       1, 0xcc, 0xd1, 0xd3, 0xd5);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* This hook is called at the end of every frame.  */
 static void machine_vsync_hook(void)
 {

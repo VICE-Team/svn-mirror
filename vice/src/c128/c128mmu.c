@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c128.h"
 #include "c128fastiec.h"
 #include "c128mem.h"
 #include "c128memrom.h"
@@ -91,7 +92,7 @@ static int set_force_c64_mode(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "40/80ColumnKey", 1, RES_EVENT_SAME, NULL,
       &mmu_column4080_key, set_column4080_key, NULL },
-    { "Go64Mode", 1, RES_EVENT_SAME, NULL,
+    { "Go64Mode", 0, RES_EVENT_SAME, NULL,
       &force_c64_mode_res, set_force_c64_mode, NULL },
     { NULL }
 };
@@ -174,6 +175,30 @@ static void mmu_set_ram_bank(BYTE value)
 #endif
 }
 
+static void mmu_switch_to_c64mode(void)
+{
+    mem_update_config(0x80 + mmu_config64);
+    keyboard_alternative_set(1);
+    machine_kbdbuf_reset_c64();
+    machine_autostart_reset_c64();
+    force_c64_mode = 0;
+}
+
+static void mmu_switch_to_c128mode(void)
+{
+    mem_update_config(((mmu[0] & 0x2) ? 0 : 1)
+                      | ((mmu[0] & 0x0c) >> 1)
+                      | ((mmu[0] & 0x30) >> 1)
+                      | ((mmu[0] & 0x40) ? 32 : 0)
+                      | ((mmu[0] & 0x1) ? 0 : 64));
+    z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
+                      | ((mmu[0] & 0x40) ? 2 : 0)
+                      | ((mmu[0] & 0x80) ? 4 : 0));
+    keyboard_alternative_set(0);
+    machine_kbdbuf_reset_c128();
+    machine_autostart_reset_c128();
+}
+
 static void mmu_update_config(void)
 {
 #ifdef MMU_DEBUG
@@ -181,21 +206,10 @@ static void mmu_update_config(void)
                 mmu[5] & 0x40, mmu[0], mmu_config64);
 #endif
 
-    if (mmu[5] & 0x40) {
-        mem_update_config(0x80 + mmu_config64);
-        keyboard_alternative_set(1);
-        force_c64_mode = 0;
-    } else {
-        mem_update_config(((mmu[0] & 0x2) ? 0 : 1)
-                          | ((mmu[0] & 0x0c) >> 1)
-                          | ((mmu[0] & 0x30) >> 1)
-                          | ((mmu[0] & 0x40) ? 32 : 0)
-                          | ((mmu[0] & 0x1) ? 0 : 64));
-        z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
-                          | ((mmu[0] & 0x40) ? 2 : 0)
-                          | ((mmu[0] & 0x80) ? 4 : 0));
-        keyboard_alternative_set(0);
-    }
+    if (mmu[5] & 0x40)
+        mmu_switch_to_c64mode();
+    else
+        mmu_switch_to_c128mode();
 }
 
 void mmu_set_config64(int config)
