@@ -398,16 +398,6 @@ int MAIN_PROGRAM(int argc, char **argv)
             /* The resource file might contain errors, and thus certain
                resources might have been initialized anyway.  */
             resources_set_defaults();
-#if 0 /* Does no work, fails with "X Error of failed request".  */
-#ifndef __MSDOS__
-            /* XXX: This assumes that it's safe to call `ui_error()' before
-               `ui_init_finish()'.  */
-            if (retval == RESERR_FILE_INVALID)
-                ui_error("Configuration file not valid\n"
-                         "(maybe from an older version?).\n\n"
-                         "Using default settings.");
-#endif
-#endif
         }
     }
 

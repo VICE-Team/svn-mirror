@@ -34,9 +34,7 @@
 #ifdef __riscos
 #include "ROlib.h"
 #else
-#ifdef OS2
 #include <sys/types.h>
-#endif
 #include <sys/stat.h>
 #include <errno.h>
 #endif

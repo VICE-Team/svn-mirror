@@ -26,14 +26,11 @@
 
 #include "vice.h"
 
-#include "alarm.h"
+#include <stdlib.h>
 
+#include "alarm.h"
 #include "log.h"
 #include "utils.h"
-
-#ifdef OS2
-#include <stdlib.h>
-#endif
 
 /* ------------------------------------------------------------------------- */
 

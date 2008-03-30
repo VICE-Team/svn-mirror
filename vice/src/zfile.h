@@ -27,24 +27,7 @@
 #ifndef _ZFILE_H
 #define _ZFILE_H
 
-#ifdef STDC_HEADERS
-#ifndef __riscos
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#endif
 #include <stdio.h>
-#endif
-
-#if defined(WIN32) || defined(WINCE) || defined(__riscos)
-#ifndef _MODE_T_
-typedef int mode_t;
-#endif
-#endif
-
-#ifdef OS2
-#include <string.h>
-#endif
 
 /* actions to be done when a zfile is closed */
 typedef enum {
@@ -53,8 +36,6 @@ typedef enum {
 	ZFILE_DEL		/* remove original file */
 } zfile_action_t;
 
-int zopen(const char *name, mode_t mode, int flags);
-int zclose(int fd);
 FILE *zfopen(const char *name, const char *mode);
 int zfclose(FILE *stream);
 int zclose_all(void);

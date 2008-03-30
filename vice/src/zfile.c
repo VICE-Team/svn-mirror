@@ -851,7 +851,7 @@ static int compress(const char *src, const char *dest,
 
 /* ------------------------------------------------------------------------ */
 
-/* Here we have the actual open/fopen and close/fclose wrappers.
+/* Here we have the actual fopen and fclose wrappers.
 
    These functions work exactly like the standard library versions, but
    handle compression and decompression automatically.  When a file is
@@ -859,68 +859,6 @@ static int compress(const char *src, const char *dest,
    If so, we uncompress it and then actually open the uncompressed version.
    When a file that was opened for writing is closed, we re-compress the
    uncompressed version and update the original file.  */
-
-#if 0
-/* `open()' wrapper.  */
-file_desc_t zopen(const char *name, mode_t opt, int flags)
-{
-    const char *tmp_name;
-    file_desc_t fd;
-    enum compression_type type;
-    int write_mode;
-
-    if (!zinit_done)
-	zinit();
-
-    /* Do we want to write to this file?  */
-    write_mode = opt & (O_RDWR | O_WRONLY);
-
-    /* Check for write permissions.  */
-    if (write_mode && access(name, W_OK) < 0)
-        return -1;
-
-    type = try_uncompress(name, &tmp_name, write_mode);
-    if (type == COMPR_NONE) {
-	fd = open(name, opt, flags);
-        if (fd == -1)
-	    return fd;
-        zfile_list_add(NULL, name, type, write_mode, NULL, fd);
-	return fd;
-    } else if (*tmp_name == '\0') {
-	errno = EACCES;
-	return -1;
-    }
-
-    /* (Arghl...  The following code is very nice, except that it cannot work
-       backwards, and it also clobbers `type' causing even "plain"
-       compression not to work correctly anymore.)  */
-
-#if 0
-    /* OK, we managed to decompress that. Let's see if we can do that again.
-       If we can, we can delete the previous tmpfile */
-    while (1) {
-	type = try_uncompress(tmp_name, &tmp_name2, write_mode);
-	if (type == COMPR_NONE)
-	    break;
-	if (*tmp_name == '\0') {
-	    remove_file(tmp_name);
-	    errno = EACCES;
-	    return -1;
-	}
-	remove_file(tmp_name);
-	tmp_name = tmp_name2;
-    }
-#endif
-
-    /* Open the uncompressed version of the file.  */
-    fd = open(tmp_name, opt, flags);
-    if (fd == -1)
-	return fd;
-
-    zfile_list_add(tmp_name, name, type, write_mode, NULL, fd);
-    return fd;
-}
-#endif
 
 /* `fopen()' wrapper.  */
 FILE *zfopen(const char *name, const char *mode)
@@ -1025,47 +963,6 @@ static int handle_close(struct zfile *ptr)
 
     return 0;
 }
-
-#if 0
-/* `close()' wrapper.  */
-int zclose(file_desc_t fd)
-{
-    struct zfile *ptr;
-
-    if (!zinit_done) {
-        ZDEBUG(("zclose: closing without init!?"));
-	errno = EBADF;
-	return -1;
-    }
-
-    ZDEBUG(("zclose: searching for the matching file..."));
-
-    /* Search for the matching file in the list.  */
-    for (ptr = zfile_list; ptr != NULL; ptr = ptr->next) {
-	if (ptr->fd == fd) {
-
-	    ZDEBUG(("zclose: file found, closing."));
-
-	    /* Close temporary file.  */
-	    if (close(fd) == -1) {
-	        ZDEBUG(("zclose: cannot close temporary file: %s",
-	                strerror(errno)));
-		return -1;
-	    }
-
-	    if (handle_close(ptr) < 0) {
-		errno = EBADF;
-		return -1;
-	    }
-
-	    return 0;
-	}
-    }
-
-    ZDEBUG(("zclose: file descriptor not in the list, closing normally."));
-    return close(fd);
-}
-#endif
 
 /* `fclose()' wrapper.  */
 int zfclose(FILE *stream)
