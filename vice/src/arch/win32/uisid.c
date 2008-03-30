@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <windows.h>
+#include <prsht.h>
 
 #include "hardsid.h"
 #include "machine.h"

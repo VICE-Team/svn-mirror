@@ -38,7 +38,7 @@
 
 
 int _mouse_x, _mouse_y;
-static int mouse_acquired=0;
+static int mouse_acquired = 0;
 LPDIRECTINPUTDEVICE di_mouse = NULL;
 
 #ifndef HAVE_GUIDLIB
