@@ -156,6 +156,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "screendrv"=".\screendrv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "resid"=".\resid.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -291,6 +303,9 @@ Package=<4>
     Project_Dep_Name resid
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name screendrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -342,6 +357,9 @@ Package=<4>
     Project_Dep_Name resid
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name screendrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -384,6 +402,9 @@ Package=<4>
     Project_Dep_Name resid
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name screendrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -423,6 +444,9 @@ Package=<4>
     Project_Dep_Name pet
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name screendrv
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sounddrv
     End Project Dependency
     Begin Project Dependency
@@ -454,6 +478,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name screendrv
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name sounddrv

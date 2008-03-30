@@ -725,6 +725,7 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		   (VICE) would be closed - as it occurred in the old version
 		   with the standard console
 		*/
+		UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
 		return 0;
 
 	case WM_TIMER:
@@ -864,24 +865,6 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		}
 		break;
 
-	case WM_SYSKEYDOWN:
-		{
-			int nVirtKey = (int) wParam;
-
-			switch (nVirtKey)
-			{
-            case VK_RETURN:
-
-                if (pcp->fileOutput)
-                    FileClose( pcp );
-                else
-                    FileOpen ( pcp );
-
-                return 0;
-            }
-        }
-        break;
-
 	case WM_CHAR:
 		{
 			/* a key is pressed, process it! */
@@ -995,6 +978,25 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		}
 		break;
 
+
+	case WM_ACTIVATE:
+		// @@@SRT
+		if (LOWORD(wParam)!=WA_INACTIVE)
+			RegisterHotKey( hwnd, IDHOT_SNAPWINDOW, MOD_ALT, VK_SNAPSHOT );
+		else
+			UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
+		break;
+
+
+	case WM_HOTKEY:
+		if ((int)wParam == IDHOT_SNAPWINDOW)
+		{   
+			if (pcp->fileOutput)
+				FileClose( pcp );
+			else
+				FileOpen ( pcp );
+		}
+		break;
 
 	case WM_PAINT:
 		{

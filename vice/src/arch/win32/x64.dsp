@@ -209,6 +209,10 @@ SOURCE=..\..\romset.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\screenshot.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\serial.c
 # End Source File
 # Begin Source File
