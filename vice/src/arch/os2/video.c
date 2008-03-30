@@ -74,7 +74,7 @@
 #include "screenshot.h"      // screenshot_t
 
 #ifdef HAVE_MOUSE
-#include "mouse.h"
+#include "mousedrv.h"
 #endif
 
 #include "version.h"

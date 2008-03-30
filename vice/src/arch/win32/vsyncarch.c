@@ -33,7 +33,7 @@
 #include "kbdbuf.h"
 #include "machine.h"
 #include "ui.h"
-#include "mouse.h"
+#include "mousedrv.h"
 #include "videoarch.h"
 
 #ifdef HAS_JOYSTICK

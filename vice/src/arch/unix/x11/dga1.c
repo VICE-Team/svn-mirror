@@ -44,8 +44,6 @@
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
-#include "mouse.h"
-#include "resources.h"
 #include "types.h"
 #include "uimenu.h"
 #include "video.h"

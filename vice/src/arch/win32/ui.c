@@ -56,7 +56,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
-#include "mouse.h"
+#include "mousedrv.h"
 #include "res.h"
 #include "resources.h"
 #include "tape.h"
