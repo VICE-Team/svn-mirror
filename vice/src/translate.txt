@@ -401,6 +401,9 @@ IDCLS_ATTACH_GENERIC_8KB_CART
 IDCLS_ATTACH_GENERIC_16KB_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_ACTION_REPLAY_CART
 
 /* c64/cart/c64cart.c */
@@ -554,7 +557,7 @@ IDCLS_ENABLE_TRUE_DRIVE
 IDCLS_DISABLE_TRUE_DRIVE
 
 /* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
-   attach.c */
+   attach.c, drive/iec/iec-cmdline-options.c */
 IDCLS_P_TYPE
 
 /* drive/drive-cmdline-options.c */
@@ -582,10 +585,7 @@ IDCLS_SPECIFY_1571_DOS_ROM_NAME
 IDCLS_SPECIFY_1581_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */
-IDCLS_ENABLE_PAR_CABLE
-
-/* drive/iec/iec-cmdline-options.c */
-IDCLS_DISABLE_PAR_CABLE
+IDCLS_PAR_CABLE_TYPE
 
 /* drive/iec/iec-cmdline-options.c */
 IDCLS_SET_IDLE_METHOD
