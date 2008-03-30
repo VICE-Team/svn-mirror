@@ -27,9 +27,6 @@
 #ifndef _ALARM_H
 #define _ALARM_H
 
-#include "vice.h"
-
-#include "log.h"
 #include "types.h"
 
 #define ALARM_CONTEXT_MAX_PENDING_ALARMS 0x100
@@ -97,6 +94,7 @@ extern void alarm_init(alarm_t *alarm, alarm_context_t *context,
                        const char *name, alarm_callback_t callback);
 extern void alarm_destroy(alarm_t *alarm);
 extern void alarm_unset(alarm_t *alarm);
+extern void alarm_log_too_many_alarms(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,7 +155,7 @@ inline static void alarm_set(alarm_t *alarm, CLOCK clk)
 
         new_idx = context->num_pending_alarms;
         if (new_idx >= ALARM_CONTEXT_MAX_PENDING_ALARMS) {
-            log_error(LOG_DEFAULT, "alarm_set(): Too many alarms set!");
+            alarm_log_too_many_alarms();
             return;
         }
 

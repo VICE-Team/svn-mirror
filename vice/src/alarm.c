@@ -193,3 +193,9 @@ void alarm_unset(alarm_t *alarm)
 
     alarm->pending_idx = -1;
 }
+
+void alarm_log_too_many_alarms(void)
+{
+    log_error(LOG_DEFAULT, "alarm_set(): Too many alarms set!");
+}
+
