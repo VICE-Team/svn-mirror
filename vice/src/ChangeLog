@@ -1,3 +1,10 @@
+2002-04-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9a.
+
+	* vsync.c (vsync_do_vsync) [WIN32]: Only use vblank sync if
+	frame rate is 50Hz.
+
 2002-04-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.

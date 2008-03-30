@@ -350,18 +350,17 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* This is the time between the start of the next frame and now. */
     delay = (signed long)(now - next_frame_start);
 #ifdef WIN32
-	refresh_cmp = (float)(c->refreshrate / refresh_frequency);
-	refresh_div = (int)(refresh_cmp + 0.5f);
-	refresh_cmp /= (float)refresh_div;
+    refresh_cmp = (float)(c->refreshrate / refresh_frequency);
+    refresh_div = (int)(refresh_cmp + 0.5f);
+    refresh_cmp /= (float)refresh_div;
 
-	if ((timer_speed == 100) && (!warp_mode_enabled) && (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
-	{
-		vsyncarch_verticalblank(c, c->refreshrate, refresh_div);
+    if ((timer_speed == 100) && (!warp_mode_enabled) &&
+        (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f) &&
+        (refresh_div == 1)) {
+        vsyncarch_verticalblank(c, c->refreshrate, refresh_div);
         skip_next_frame = 0;
         skipped_redraw = 0;
-	}
-	else
-	{
+    } else {
 #endif
     /*
      * We sleep until the start of the next frame, if:
