@@ -427,15 +427,16 @@ void findheader(void)
     {
 	int i, n = mem_read(nkeys);
 
-	maincpu_regs.p.c = 0;
-	for (i = 0; i < n; i++)
+        MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+	for (i = 0; i < n; i++) {
 	    if (mem_read(kbdbuf + i) == 0x3) {
-		maincpu_regs.p.c = 1;	/* Carry set flags BREAK error. */
+                MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
 		break;
 	    }
+        }
     }
 
-    maincpu_regs.p.z = 1;
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
 }
 
 
@@ -514,8 +515,10 @@ void writeheader(void)
 	mem_store(irqtmp, irqval & 0xff);
 	mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
     }
-    maincpu_regs.p.c = 0;	/* Carry flag sets BREAK error */
-    maincpu_regs.p.z = 1;
+
+    /* Carry flag sets BREAK error */
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+    MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
 }
 
 
@@ -572,7 +575,7 @@ void tapereceive(void)
 #endif
 
 
-    switch (maincpu_regs.x) {
+    switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
       case 0x0a:		/* Write Leader */
         break;
 
@@ -630,8 +633,9 @@ void tapereceive(void)
 	mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
     }
     SET_ST(st);			/* EOF and possible errors */
-    maincpu_regs.p.c = 0;
-    maincpu_regs.p.i = 0;
+
+    MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
+    MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
 /* ------------------------------------------------------------------------- */
