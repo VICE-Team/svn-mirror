@@ -1,3 +1,75 @@
+1999-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.50.
+
+1998-04-02  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* aciacore.c (fd): change type from file_desc_t to int, because
+	it simply is _no_ File descriptor, but an index in a table in 
+	arch/unix/rs232.c. Fix all occurances.
+	(clk_overflow_callback): renamed from acia_prevent_clk_overflow.
+	(myacia_init): add a clk_guard callback registration
+	Open the log for the ACIA.
+	(int_acia): when issuing CPU interrupts use the IRQ enabling
+	bits in the command register.
+
+	* arch/unix/rs232.c (rs232_open): truncate the dump file when
+	it already exists.
+
+	* c64/c64acia1.c (mycpu_clk_guard): new definition
+	(MYACIA): change the name to include the '"'. 
+	* cbm2/c610acia1.c: likewise
+	* pet/petacia1.c: likewise
+
+	* rs232.h (rs232_open): return type is int.
+
+1998-04-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: add section "Printer problems"
+	update default printer settings
+	Make PETMEM version 1.1 and PETROM version 1.0
+
+	* arch/unix/print.c (resources): change default entries
+
+	* arch/unix/xaw/uisettings.c (flush_printer4): new function
+	(printer_settings_menu): add entry to flush IEC4 printer device
+
+	* prdevice.c (prdevice_close_printer): new function to flush the
+	printer device
+	(currfd): changed from file_desc_t to int - this is an index in a
+	table in arch/unix/print.c, who got the idea this is a real fd?
+	Fixed all occurances.
+	* print.h (print_open): change return value to int.
+
+	* prdevice.h (prdevice_close_printer): new prototype
+
+	* pruser.c (set_up_enabled): do not check for ILLEGAL_FILE_DESC,
+	because print_open return value is not an fd.
+
+1998-04-01  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: updated snapshot docs for PETMEM and CIA modules
+
+	* ciacore.c (mycia_init): use the correct names for alarms and
+	timer states.
+	(mycia_read_snapshot_module, mycia_write_snapshot_module): use
+	correct names for the snapshot modules.
+
+	* ciatimer.c (ciat_print_state): new function to print a timer
+	state, including human-readable versions of the state bits.
+	(ciat_table): moved from header file to c file.
+
+	* ciatimer.h (CIAT_STACKLEN): removed
+	(ciat_tstate_t, ciat_t, ciat_table): rearranged prototypes within file.
+	Made ciat_table extern
+	(ciat_set_alarm, ciat_update): propagate oneshot bits before 
+	doing a "warp stopped".
+	(ciat_set_latchlo, ciat_set_latchhi): set alarm in case there is
+	a load in the next few cycles that has been taken into account by
+	set_alarm.
+	(ciat_load_snapshot): set alarm after restoring timer, and if 
+	reading V1.0 snapshot, auto-propagate oneshot bits too.
+
 1999-03-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.49.

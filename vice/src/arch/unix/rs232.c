@@ -317,7 +317,7 @@ int rs232_open(int device)
 	fds[i].inuse = 1;
 	fds[i].file = devfile[device];
     } else {
-	fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT,
+	fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC,
 		  S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0) {
             log_error(rs232_log, "Cannot open file \"%s\": %s",

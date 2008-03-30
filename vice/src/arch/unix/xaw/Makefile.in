@@ -392,7 +392,8 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/snapshot.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
 	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \
-	../../../../src/iecdrive.h ../../../../src/romset.h
+	../../../../src/iecdrive.h ../../../../src/romset.h \
+	../../../../src/prdevice.h
 uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../src/machine.h ../../../../src/types.h ui.h \

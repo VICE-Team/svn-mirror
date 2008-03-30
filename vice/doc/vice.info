@@ -19,10 +19,10 @@ permission notice identical to this one.
 
 Indirect:
 vice.info-1: 631
-vice.info-2: 50530
-vice.info-3: 99284
-vice.info-4: 147409
-vice.info-5: 197295
+vice.info-2: 48682
+vice.info-3: 98475
+vice.info-4: 148437
+vice.info-5: 198318
 
 Tag Table:
 (Indirect)
@@ -39,153 +39,154 @@ Node: Joystick emulation31489
 Node: Disk drive emulation32205
 Node: Supported file formats34843
 Node: Common problems35753
-Node: Sound problems36032
-Node: Shared memory problems37212
-Node: Usage38443
-Node: Command-line initialization39281
-Node: Command-line autostart40327
-Node: System files41632
-Node: ROM files43800
-Node: Keymap files47797
-Node: Palette files50530
-Node: Romset files51774
-Node: Basics52563
-Node: Emulation window53166
-Node: Menus54409
-Node: Help55980
-Node: File Selector56626
-Node: Disk and tape images57913
-Node: Previewing contents60105
-Node: Autostart60808
-Node: Compressed files61863
-Node: Zipcode and Lynx62663
-Node: Reset64060
-Node: Settings and resources65071
-Node: Resource files67351
-Node: Resources and command-line68873
-Node: Performance settings70139
-Node: Performance resources71768
-Node: Performance options72301
-Node: Video settings72895
-Node: Video resources74442
-Node: Video options76045
-Node: Keyboard settings76983
-Node: Keyboard resources77694
-Node: Keyboard options78890
-Node: Sound settings79789
-Node: Sound resources81667
-Node: Sound options84273
-Node: Drive settings84976
-Node: Drive resources89487
-Node: Drive options90775
-Node: Peripheral settings92032
-Node: File system device settings92711
-Node: File system device resources93907
-Node: File system device options94977
-Node: Printer settings95415
-Node: Printer resources96830
-Node: Printer options97550
-Node: No kernal traps98215
-Node: No traps resources98747
-Node: No traps options99016
-Node: RS232 settings99284
-Node: RS232 resources102202
-Node: RS232 options103417
-Node: RS232 usage104415
-Node: Misc settings106167
-Node: Misc resources106435
-Node: Misc options108532
-Node: Machine-specific features109128
-Node: C64/128-specific109745
-Node: C64 cartridges110452
-Node: VIC-II settings111464
-Node: VIC-II resources113053
-Node: VIC-II options113558
-Node: SID settings114100
-Node: SID resources114909
-Node: SID options115339
-Node: C64 I/O extension settings115809
-Node: C64 I/O extension resources117306
-Node: C64 I/O extension options117828
-Node: C64/128 system ROM settings118360
-Node: C64/128 system ROM resources118751
-Node: C64/128 system ROM options119965
-Node: VIC20-specific120475
-Node: VIC20 cartridges120881
-Node: VIC20 memory expansions121814
-Node: VIC20 memconf resources123613
-Node: VIC20 memconf options124077
-Node: VIC20 system ROM settings125196
-Node: VIC20 system ROM resources125569
-Node: VIC20 system ROM options126046
-Node: PET-specific126479
-Node: PET model126879
-Node: PET diagnostic pin129439
-Node: PET commandline options129773
-Node: PET colors130674
-Node: CBM-II-specific131239
-Node: CBM-II model131611
-Node: CBM-II commandline options133560
-Node: CBM-II colors134508
-Node: Snapshots135082
-Node: Snapshot usage135499
-Node: Snapshot format136299
-Node: Emulator modules136632
-Node: x64 modules136988
-Node: x128 modules138972
-Node: xvic modules140890
-Node: xpet modules142052
-Node: xcbm2 modules143520
-Node: Drive modules145366
-Node: Module formats145854
-Node: Module Terminology146686
-Node: Module framework147409
-Node: CPU 6502 module149410
-Node: CIA 6526 module151233
-Node: VIA 6522 module154423
-Node: PIA 6520 module156640
-Node: TPI 6525 module157745
-Node: SID 6581 module159258
-Node: ACIA 6551 module159404
-Node: VIC-I module160978
-Node: VIC-II module161123
-Node: CRTC module161264
-Node: C64 memory module162729
-Node: C128 memory module164173
-Node: VIC20 memory module165496
-Node: PET memory module168803
-Node: CBM-II memory module172460
-Node: Monitor176724
-Node: Terminology177567
-Node: Machine state commands179422
-Node: Memory commands180234
-Node: Assembly commands182184
-Node: Checkpoint commands182932
-Node: General commands185143
-Node: Disk commands185995
-Node: Command file commands186883
-Node: Label commands187406
-Node: Miscellaneous commands188296
-Node: c1541188697
-Node: c1541 file specification190270
-Node: c1541 quoting190867
-Node: c1541 commands and options191712
-Node: c1541 executing shell commands194711
-Node: File formats195107
-Node: T64195474
-Node: T64 file structure195879
-Node: T64 tape record196395
-Node: T64 file record197295
-Node: G64199002
-Node: Acknowledgments213925
-Node: Copyright221077
-Node: Contacts222274
-Node: Home page222780
-Node: Sending feedback223327
-Node: Contributing226072
-Node: Newsgroups227272
-Node: FAQs you should read227903
-Node: Concept Index228218
-Node: Resource Index238764
+Node: Sound problems36053
+Node: Shared memory problems37233
+Node: Printer problems38489
+Node: Usage39328
+Node: Command-line initialization40166
+Node: Command-line autostart41212
+Node: System files42517
+Node: ROM files44685
+Node: Keymap files48682
+Node: Palette files51415
+Node: Romset files52659
+Node: Basics53448
+Node: Emulation window54051
+Node: Menus55294
+Node: Help56865
+Node: File Selector57511
+Node: Disk and tape images58798
+Node: Previewing contents60990
+Node: Autostart61693
+Node: Compressed files62748
+Node: Zipcode and Lynx63548
+Node: Reset64945
+Node: Settings and resources65956
+Node: Resource files68236
+Node: Resources and command-line69758
+Node: Performance settings71024
+Node: Performance resources72653
+Node: Performance options73186
+Node: Video settings73780
+Node: Video resources75327
+Node: Video options76930
+Node: Keyboard settings77868
+Node: Keyboard resources78579
+Node: Keyboard options79775
+Node: Sound settings80674
+Node: Sound resources82552
+Node: Sound options85158
+Node: Drive settings85861
+Node: Drive resources90372
+Node: Drive options91660
+Node: Peripheral settings92917
+Node: File system device settings93596
+Node: File system device resources94792
+Node: File system device options95862
+Node: Printer settings96300
+Node: Printer resources97755
+Node: Printer options98475
+Node: No kernal traps99140
+Node: No traps resources99672
+Node: No traps options99941
+Node: RS232 settings100209
+Node: RS232 resources103139
+Node: RS232 options104369
+Node: RS232 usage105367
+Node: Misc settings107119
+Node: Misc resources107387
+Node: Misc options109484
+Node: Machine-specific features110080
+Node: C64/128-specific110697
+Node: C64 cartridges111404
+Node: VIC-II settings112416
+Node: VIC-II resources114005
+Node: VIC-II options114510
+Node: SID settings115052
+Node: SID resources115861
+Node: SID options116291
+Node: C64 I/O extension settings116761
+Node: C64 I/O extension resources118258
+Node: C64 I/O extension options118780
+Node: C64/128 system ROM settings119312
+Node: C64/128 system ROM resources119703
+Node: C64/128 system ROM options120917
+Node: VIC20-specific121427
+Node: VIC20 cartridges121833
+Node: VIC20 memory expansions122766
+Node: VIC20 memconf resources124565
+Node: VIC20 memconf options125029
+Node: VIC20 system ROM settings126148
+Node: VIC20 system ROM resources126521
+Node: VIC20 system ROM options126998
+Node: PET-specific127431
+Node: PET model127831
+Node: PET diagnostic pin130391
+Node: PET commandline options130725
+Node: PET colors131626
+Node: CBM-II-specific132191
+Node: CBM-II model132563
+Node: CBM-II commandline options134512
+Node: CBM-II colors135460
+Node: Snapshots136034
+Node: Snapshot usage136451
+Node: Snapshot format137251
+Node: Emulator modules137584
+Node: x64 modules137940
+Node: x128 modules140000
+Node: xvic modules141918
+Node: xpet modules143080
+Node: xcbm2 modules144548
+Node: Drive modules146394
+Node: Module formats146882
+Node: Module Terminology147714
+Node: Module framework148437
+Node: CPU 6502 module150438
+Node: CIA 6526 module152261
+Node: VIA 6522 module156237
+Node: PIA 6520 module158453
+Node: TPI 6525 module159558
+Node: SID 6581 module161071
+Node: ACIA 6551 module161217
+Node: VIC-I module162791
+Node: VIC-II module162936
+Node: CRTC module163077
+Node: C64 memory module164542
+Node: C128 memory module165986
+Node: VIC20 memory module167309
+Node: PET memory module170616
+Node: CBM-II memory module174899
+Node: Monitor179163
+Node: Terminology180006
+Node: Machine state commands181861
+Node: Memory commands182673
+Node: Assembly commands184623
+Node: Checkpoint commands185371
+Node: General commands187582
+Node: Disk commands188434
+Node: Command file commands189322
+Node: Label commands189845
+Node: Miscellaneous commands190735
+Node: c1541191136
+Node: c1541 file specification192709
+Node: c1541 quoting193306
+Node: c1541 commands and options194151
+Node: c1541 executing shell commands197150
+Node: File formats197546
+Node: T64197913
+Node: T64 file structure198318
+Node: T64 tape record198834
+Node: T64 file record199734
+Node: G64201441
+Node: Acknowledgments216364
+Node: Copyright223516
+Node: Contacts224713
+Node: Home page225219
+Node: Sending feedback225766
+Node: Contributing228511
+Node: Newsgroups229711
+Node: FAQs you should read230342
+Node: Concept Index230657
+Node: Resource Index241203
 
 End Tag Table

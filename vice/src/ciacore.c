@@ -222,17 +222,17 @@ printf("mycia_prevent_clk_overflow()\n");
 
 void mycia_init(void)
 {
-    alarm_init(&cia_ta_alarm, &mycpu_alarm_context, "ciaTimerA",
+    alarm_init(&cia_ta_alarm, &mycpu_alarm_context, MYCIA_NAME "_TA",
                int_ciata);
-    alarm_init(&cia_tb_alarm, &mycpu_alarm_context, "ciaTimerB",
+    alarm_init(&cia_tb_alarm, &mycpu_alarm_context, MYCIA_NAME "_TB",
                int_ciatb);
     alarm_init(&cia_tod_alarm, &mycpu_alarm_context, "ciaTimeOfDay",
                int_ciatod);
 
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 
-    ciat_init(&ciata, "ciaTimerA", myclk, &cia_ta_alarm);
-    ciat_init(&ciatb, "ciaTimerB", myclk, &cia_tb_alarm);
+    ciat_init(&ciata, MYCIA_NAME "_TA", myclk, &cia_ta_alarm);
+    ciat_init(&ciatb, MYCIA_NAME "_TB", myclk, &cia_tb_alarm);
 }
 
 void reset_mycia(void)
@@ -1022,6 +1022,11 @@ static int int_ciatod(long offset)
  * DWORD	TOD_TICKS	clk ticks till next tenth of second
  *
  * UBYTE	IRQ		0=IRQ line inactive, 1=IRQ line active
+ *
+ *				These bits have been added in V1.1
+ *
+ * WORD		TA		Timer A state bits (see ciatimer.h)
+ * WORD		TB		Timer B state bits (see ciatimer.h)
  */
 
 /* FIXME!!!  Error check.  */
@@ -1033,7 +1038,7 @@ int mycia_write_snapshot_module(snapshot_t *p)
     cia_update_ta(myclk);
     cia_update_tb(myclk);
 
-    m = snapshot_module_create(p, "cia",
+    m = snapshot_module_create(p, MYCIA_NAME,
                                CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -1117,15 +1122,14 @@ int mycia_read_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     WORD cia_tal, cia_tbl, cia_tac, cia_tbc;
 
-    m = snapshot_module_open(p, "cia", &vmajor, &vminor);
+    m = snapshot_module_open(p, MYCIA_NAME, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
     if (vmajor != CIA_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-    if (vminor > CIA_DUMP_VER_MINOR) {
+        log_error(cia_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  vmajor, vminor, CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }

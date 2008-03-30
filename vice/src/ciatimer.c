@@ -34,6 +34,7 @@
 #include "alarm.h"
 #include "interrupt.h"
 
+#include "ciatimer.h"
 
 #if 1 /* def CIAT_NEED_LOG */
 
@@ -80,10 +81,37 @@ void ciat_log(const char *format,...) {
     }
 }
 
+void ciat_print_state(const ciat_t *state) 
+{
+    printf("%s print: clk=%d, cnt=%04x (%d), latch=%04x (%d)\n",
+	state->name, state->clk, 
+	state->cnt, state->cnt, 
+	state->latch, state->latch
+    );
+    printf("          state=%04x = %s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+	state->state,
+	(state->state & CIAT_CR_START) 	? "start " : "",
+	(state->state & CIAT_CR_ONESHOT)? "cr_oneshot " : "",
+	(state->state & CIAT_CR_FLOAD) 	? "cr_fload " : "",
+	(state->state & CIAT_PHI2IN) 	? "Phi2 " : "",
+	(state->state & CIAT_STEP) 	? "step " : "",
+	(state->state & CIAT_COUNT2) 	? "cnt2 " : "",
+	(state->state & CIAT_COUNT3) 	? "cnt3 " : "",
+	(state->state & CIAT_COUNT) 	? "cnt " : "",
+	(state->state & CIAT_LOAD1) 	? "load1 " : "",
+	(state->state & CIAT_LOAD) 	? "load " : "",
+	(state->state & CIAT_ONESHOT0) 	? "oneshot0 " : "",
+	(state->state & CIAT_ONESHOT) 	? "oneshot " : "",
+	(state->state & CIAT_OUT) 	? "out " : ""
+    );
+    printf("          alarm at %d\n", state->alarmclk);
+}
+
 #endif
 
 
-#include "ciatimer.h"
+
+ciat_tstate_t ciat_table[CIAT_TABLEN];
 
 void ciat_init_table(void) 
 {

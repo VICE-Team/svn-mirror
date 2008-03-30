@@ -42,9 +42,9 @@
 #include "print.h"
 #include "utils.h"
 
-#define        MAXPRINT        4
+#define	MAXPRINT	4
 
-/* #define DEBUG */
+/* #define	DEBUG */
 
 /* ------------------------------------------------------------------------- */
 
@@ -94,9 +94,9 @@ static resource_t resources[] =
 {
     { "PrDevice1", RES_STRING, (resource_value_t) "print.dump",
      (resource_value_t *) & devfile[0], set_dev1_file },
-    { "PrDevice2", RES_STRING, (resource_value_t) "|petlp -F PS|lpr",
+    { "PrDevice2", RES_STRING, (resource_value_t) "|lpr",
      (resource_value_t *) & devfile[1], set_dev2_file },
-    { "PrDevice3", RES_STRING, (resource_value_t) "|lpr",
+    { "PrDevice3", RES_STRING, (resource_value_t) "|petlp -F PS|lpr",
      (resource_value_t *) & devfile[2], set_dev3_file },
     { NULL }
 };
@@ -161,7 +161,7 @@ void print_reset(void)
     }
 }
 
-/* opens a rs232 window, returns handle to give to functions below. */
+/* opens an rs232 window, returns handle to give to functions below. */
 int print_open(int device)
 {
     int i;

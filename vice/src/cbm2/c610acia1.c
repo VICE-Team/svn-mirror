@@ -26,23 +26,20 @@
  */
 
 
-#define mycpu maincpu
-
-#define myclk clk
+#define mycpu 		maincpu
+#define myclk 		clk
+#define	mycpu_clk_guard	maincpu_clk_guard
 
 #define myacia acia1
 
 #define I_MYACIA I_ACIA1
 
-
 /* resource defaults */
-#define        MyAcia          Acia1
+#define        MYACIA          "Acia1"
 #define        MyDevice        0
 #define        MyIrq           IK_IRQ
 
 #define myaciadev       acia1dev
-#define MYACIADEV       "Acia1Dev"
-#define MYACIAIRQ       "Acia1Irq"
 
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_init_cmdline_options

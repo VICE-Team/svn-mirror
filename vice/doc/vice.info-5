@@ -16,6 +16,34 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+File: vice.info,  Node: T64 file structure,  Next: T64 tape record,  Prev: T64,  Up: T64
+
+T64 File structure
+------------------
+
+Offset                 Size                   Description                   
+0                      64                     tape record                   
+64                     32*n                   file records for n directory  
+                                              entries                       
+64+32*n                varies                 binary contents of the files  
+
+
+File: vice.info,  Node: T64 tape record,  Next: T64 file record,  Prev: T64 file structure,  Up: T64
+
+Tape Record
+-----------
+
+Offset                 Size                   Description                   
+0                      32                     DOS tape description + EOF    
+                                              (for type)                    
+32                     2                      tape version ($0200)          
+34                     2                      number of directory entries   
+36                     2                      number of used entries (can   
+                                              be 0 in my loader)            
+38                     2                      free                          
+40                     24                     user description as           
+                                              displayed in tape menu        
 
 
 File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64

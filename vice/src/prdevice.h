@@ -35,5 +35,8 @@ extern int prdevice_init_cmdline_options(void);
 extern int detach_prdevice(PRINTER *info);
 extern int attach_prdevice(PRINTER *info, const char *file, int mode);
 
+/* this is needed because not all CLOSE are sent to the IEC bus... :-( */
+extern int prdevice_close_printer(int device);
+
 #endif
 

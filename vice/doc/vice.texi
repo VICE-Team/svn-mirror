@@ -865,6 +865,7 @@ and how to resolve them.
 @menu
 * Sound problems::              
 * Shared memory problems::      
+* Printer problems::
 @end menu
 
 @node Sound problems, Shared memory problems, Common problems, Common problems
@@ -893,7 +894,7 @@ was significantly delayed and, apparently, the allocated buffer size was
 completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 
-@node Shared memory problems,  , Sound problems, Common problems
+@node Shared memory problems, Printer problems , Sound problems, Common problems
 @subsection Shared memory problems
 
 @cindex MITSHM
@@ -924,6 +925,22 @@ If you want to avoid running the emulator with @samp{+mitshm} every
 time, run it once with @samp{+mitshm} and then choose ``Save settings''
 from the right-button menu.
 
+@node Printer problems, ,Shared memory problems, Common problems
+@subsection Printer problems
+
+VICE supports the emulation of a printer either on the userport or as 
+IEC device 4. Unfortunately the Commodore IEC routines do not
+send all commands to the IEC bus. For example an @code{OPEN 1,4}
+is not seen on the IEC bus. Also a @code{CLOSE 1} after that
+is not seen. VICE can see from printing that there was an @code{OPEN},
+but it cannot see when the close was. Also a "finish print job" 
+cannot be seen on the userport device.
+To flush the printer buffer (write to @code{print.dump} or to the 
+printer) now a menu entry can be used. Disabling and re-enabling the printer
+should work as well.
+
+The printing services have not been extensively tested but apart
+from the problem mentioned above it should work fine now.
 
 @node Usage, System files, Preface, Top
 @chapter Invoking the emulators
@@ -2766,16 +2783,17 @@ resources:
 @item
 device 1, whose default value is @code{print.dump};
 @item
-device 2, whose default value is @code{|petlp |lpr};
+device 2, whose default value is @code{|lpr}.
 @item
-device 3, whose default value is @code{|lpr}.
+device 3, whose default value is @code{|petlp -F PS|lpr};
 @end itemize
 
-So, basically, by default printer device 1 will simply dump printer
+So, basically, by default printer device 1 will dump printer
 output to @file{print.dump}; printer device 2 will print it via
+@code{lpr} directly to the printer and device 3 will print it via
 @code{petlp} (a not-yet-complete utility that will produce Postscript
-output from the Commodore printer code) and @code{lpr}; printer 
-device 3 will print it with @code{lpr}.
+output from the Commodore printer code) and then to the printer via 
+@code{lpr}.
 
 
 @menu
@@ -2920,7 +2938,7 @@ It is possible to define up to four UNIX serial devices, and then decide
 which interface should be connected to which device.  This is done by
 so-called @dfn{rs232 device file names}; an rs232 device file name can
 be either a simple path, or a command name preceeded by a pipe symbol
-@samp{|}.  If the path specifies a special device (@file{/dev/ttyS0}) it
+@samp{|}.  If the path specifies a special device (e.g. @file{/dev/ttyS0}) it
 is recognized by VICE and the emulator can set the baudrate.
 
 For example, rs232 device @samp{filename} will cause the output to be
@@ -2928,8 +2946,8 @@ written (not appended) to the file @file{filename}, while printer device
 @samp{|lpr} will cause the @code{lpr} command to be executed and be fed
 the rs232 output.  The rs232 output will not be converted but saved as
 sent by the emulated machine.  The same holds true for the rs232 input.
-If the command writes data to standard out it will be caught by VICE and
-sent back to the emulator.  Also the data sent by the pseudo device will
+If the command writes data to the standard output it will be caught by VICE 
+and sent back to the emulator.  Also the data sent by the pseudo device will
 be sent back to VICE.
 
 For example you can setup a null-modem cable between two serial ports
@@ -3011,14 +3029,14 @@ Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI
 
 @vindex RsUser
 @item RsUser
-Integer specifying if the user-port printer is being emulated and at which
-baudrate it should have for the emulator. 0 = off; > 0 specifies the
+Integer specifying if the user-port RS232 interface is being emulated and 
+at which baudrate it should have for the emulator. 0 = off; > 0 specifies the
 baudrate (C64, C128 and VIC20).
 
 @vindex RsUserDev
 @item RsUserDev
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
-the user-port printer is using (C64, C128 and VIC20).
+the user-port interface is using (C64, C128 and VIC20).
 
 @end table
 
@@ -4407,7 +4425,7 @@ The modules in the x64 emulator are:
 @tab The RAM Extension Unit state (optional)
 @item ACIA1
 @tab 6551
-@tab An ACIA at $DE00 (optional)
+@tab An ACIA (RS232 interface) at $DE00 (optional)
 @item TPI
 @tab 6525
 @tab A TPI at $DF00 for a parallel IEEE488 interface (optional)
@@ -4770,7 +4788,7 @@ the source.
 The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift register,
 two timers, a Time of Day clock and interrupts.
 
-Version numbers: Major 1, Minor 0.
+Version numbers: Major 1, Minor 1.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -4866,7 +4884,23 @@ Version numbers: Major 1, Minor 0.
 @item DWORD
 @tab TOD_TICKS
 @tab clk ticks till next tenth of second
+@item --
+@tab --
+@tab The next items have been added in V1.1
+@item WORD
+@tab TASTATE
+@tab The state bits of the CIA timer A, according to ciatimer.h
+@item WORD
+@tab TBSTATE
+@tab The state bits of the CIA timer B, according to ciatimer.h
 @end multitable
+
+The last two items have been added in CIA snapshot version 1.1 due
+to the improved CIA emulation in the newer VICE versions. 
+Some state bits correspond to the CIA state as described in the
+"A Software Model of the CIA 6526" document by Wolfgang Lorenz,
+some are delayed versions. For more read the source file 
+@code{ciatimer.h}.
 
 @node VIA 6522 module, PIA 6520 module, CIA 6526 module, Module formats
 @subsubsection VIA module
@@ -5306,9 +5340,9 @@ The size of the PET memory modules differs with each different memory
 configuration.  The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
-Version numbers: Major 1, Minor 0
-
 @b{The PETMEM module}
+
+Version numbers: Major 1, Minor 1
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -5341,9 +5375,21 @@ Version numbers: Major 1, Minor 0
 @item ARRAY
 @tab RAM
 @tab 128k RAM (8296 only)
+@item --
+@tab --
+@tab The following item has been added in V1.1
+@item BYTE
+@tab POSITIONAL
+@tab bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.
 @end multitable
 
+The last item has been added in PETMEM snapshot version 1.1. It is
+ignored by earlier restore routines (V1.0) and the V1.1 restore routines
+do not change the current setting when reading a V1.0 snapshot.
+
 @b{The PETROM module}
+
+Version numbers: Major 1, Minor 0
 
 @multitable @columnfractions .1 .4 .5
 @item Type

@@ -48,7 +48,7 @@
 static alarm_t acia_alarm;
 
 static int acia_ticks = 21111;	/* number of clock ticks per char */
-static file_desc_t fd = ILLEGAL_FILE_DESC;
+static int fd = -1;
 static int intx = 0;	/* indicates that a transmit is currently ongoing */
 static int irq = 0;
 static BYTE cmd;
@@ -99,7 +99,7 @@ static int acia_irq_res;
 
 static int acia_set_device(resource_value_t v) {
 
-    if(fd!=ILLEGAL_FILE_DESC) {
+    if (fd >= 0) {
 	log_error(acia_log,
                   "Device open, change effective only after close!");
     }
@@ -116,9 +116,9 @@ static int acia_set_irq(resource_value_t v) {
 
     new_irq = irq_tab[new_irq_res];
 
-    if(acia_irq != new_irq) {
+    if (acia_irq != new_irq) {
 	mycpu_set_int(I_MYACIA, 0);
-	if(irq) {
+	if (irq) {
 	    mycpu_set_int(I_MYACIA, new_irq);
 	}
     }
@@ -129,9 +129,9 @@ static int acia_set_irq(resource_value_t v) {
 }
 
 static resource_t resources[] = {
-    { MYACIADEV, RES_INTEGER, (resource_value_t) MyDevice,
+    { MYACIA "Dev", RES_INTEGER, (resource_value_t) MyDevice,
       (resource_value_t *) & acia_device, acia_set_device },
-    { MYACIAIRQ, RES_INTEGER, (resource_value_t) MyIrq,
+    { MYACIA "Irq", RES_INTEGER, (resource_value_t) MyIrq,
       (resource_value_t *) & acia_irq_res, acia_set_irq },
     { NULL }
 };
@@ -141,7 +141,7 @@ int myacia_init_resources(void) {
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIADEV, NULL,
+    { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIA "Dev", NULL,
 	"<0-3>", "Specify RS232 device this ACIA should work on" },
     { NULL }
 };
@@ -160,14 +160,25 @@ static double acia_baud_table[16] = {
 
 /******************************************************************/
 
+static void clk_overflow_callback(CLOCK sub, void *var)
+{
+    if(alarm_active)
+        acia_alarm_clk -= sub;
+}
+
 void myacia_init(void) {
-    alarm_init(&acia_alarm, &mycpu_alarm_context, "MYACIA", int_acia);
+    alarm_init(&acia_alarm, &mycpu_alarm_context, MYACIA, int_acia);
+
+    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
+
+    if (acia_log == LOG_ERR)
+        acia_log = log_open(MYACIA);
 }
 
 void reset_myacia(void) {
 
 #ifdef DEBUG
-	log_message(myacia_log, "reset_myacia");
+	log_message(acia_log, "reset_myacia");
 #endif
 
 	cmd = 0;
@@ -179,8 +190,8 @@ void reset_myacia(void) {
 	status = 0x10;
 	intx = 0;
 
-	if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
-	fd = ILLEGAL_FILE_DESC;
+	if (fd >= 0) rs232_close(fd);
+	fd = -1;
 
 	alarm_unset(&acia_alarm);
 	alarm_active = 0;
@@ -214,7 +225,7 @@ void reset_myacia(void) {
  * DWORD	TICKS	ticks till the next TDR empty interrupt
  */
 
-static const char module_name[] = "MYACIA";
+static const char module_name[] = MYACIA;
 
 /* FIXME!!!  Error check.  */
 /* FIXME!!!  If no connection, emulate carrier lost or so */
@@ -280,12 +291,12 @@ int myacia_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &cmd);
-    if((cmd & 1) && (fd == ILLEGAL_FILE_DESC)) {
+    if((cmd & 1) && (fd < 0)) {
         fd = rs232_open(acia_device);
     } else
-        if(fd != ILLEGAL_FILE_DESC && !(cmd&1)) {
+        if((fd >= 0) && !(cmd&1)) {
         rs232_close(fd);
-        fd = ILLEGAL_FILE_DESC;
+        fd = -1;
     }
 
     snapshot_module_read_byte(m, &ctrl);
@@ -335,8 +346,8 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		}
 		break;
 	case ACIA_SR:
-		if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
-		fd = ILLEGAL_FILE_DESC;
+		if(fd >= 0) rs232_close(fd);
+		fd = -1;
 		status &= ~4;
 		cmd &= 0xe0;
 		intx = 0;
@@ -352,17 +363,17 @@ void REGPARM2 store_myacia(ADDRESS a, BYTE b) {
 		break;
 	case ACIA_CMD:
 		cmd = b;
-		if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
+		if((cmd & 1) && (fd < 0)) {
 		  fd = rs232_open(acia_device);
 	          acia_alarm_clk = myclk + acia_ticks;
 		  alarm_set(&acia_alarm, acia_alarm_clk);
                   alarm_active = 1;
 		} else
-		if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
+		if((fd >= 0) && !(cmd&1)) {
 		  rs232_close(fd);
 		  alarm_unset(&acia_alarm);
                   alarm_active = 0;
-		  fd = ILLEGAL_FILE_DESC;
+		  fd = -1;
 		}
 		break;
 	}
@@ -423,19 +434,28 @@ BYTE peek_myacia(ADDRESS a) {
 
 static int int_acia(long offset) 
 {
-	if(intx==2 && fd!=ILLEGAL_FILE_DESC) rs232_putc(fd,txdata);
+	int rxirq;
+
+#if 0 /* def DEBUG */
+	log_message(acia_log, "int_acia(offset=%ld, myclk=%d", offset, myclk);
+#endif
+	if((intx == 2) && (fd >= 0)) rs232_putc(fd,txdata);
 	if(intx) intx--;
+
+	rxirq = 0;
+        if( (fd >= 0) && (!(status&8)) && rs232_getc(fd, &rxdata)) {
+          status |= 8;
+	  rxirq = 1;
+        }
+
+	if ( (rxirq && (!(cmd & 0x02))) || ((cmd & 0x0c) == 0x04) ) {
+	    mycpu_set_int(I_MYACIA, acia_irq);
+	    irq = 1;
+	}
 
 	if(!(status&0x10)) {
 	  status |= 0x10;
 	}
-
-        if( fd!=ILLEGAL_FILE_DESC && (!(status&8)) && rs232_getc(fd, &rxdata)) {
-          status |= 8;
-        }
-
-	mycpu_set_int(I_MYACIA, acia_irq);
-	irq = 1;
 
 	acia_alarm_clk = myclk + acia_ticks;
 	alarm_set(&acia_alarm, acia_alarm_clk);
@@ -444,9 +464,4 @@ static int int_acia(long offset)
 	return 0;
 }
 
-void myacia_prevent_clk_overflow(CLOCK sub)
-{
-    if(alarm_active)
-        acia_alarm_clk -= sub;
-}
 

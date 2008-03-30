@@ -763,6 +763,7 @@ VICE, and how to resolve them.
 
 * Sound problems::
 * Shared memory problems::
+* Printer problems::
 
 
 File: vice.info,  Node: Sound problems,  Next: Shared memory problems,  Prev: Common problems,  Up: Common problems
@@ -791,7 +792,7 @@ was significantly delayed and, apparently, the allocated buffer size was
 completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 
-File: vice.info,  Node: Shared memory problems,  Prev: Sound problems,  Up: Common problems
+File: vice.info,  Node: Shared memory problems,  Next: Printer problems,  Prev: Sound problems,  Up: Common problems
 
 Shared memory problems
 ----------------------
@@ -818,6 +819,25 @@ updates.  Of course, this will also result in a big loss in speed.
    If you want to avoid running the emulator with `+mitshm' every time,
 run it once with `+mitshm' and then choose "Save settings" from the
 right-button menu.
+
+
+File: vice.info,  Node: Printer problems,  Prev: Shared memory problems,  Up: Common problems
+
+Printer problems
+----------------
+
+   VICE supports the emulation of a printer either on the userport or as
+IEC device 4. Unfortunately the Commodore IEC routines do not send all
+commands to the IEC bus. For example an `OPEN 1,4' is not seen on the
+IEC bus. Also a `CLOSE 1' after that is not seen. VICE can see from
+printing that there was an `OPEN', but it cannot see when the close
+was. Also a "finish print job" cannot be seen on the userport device.
+To flush the printer buffer (write to `print.dump' or to the printer)
+now a menu entry can be used. Disabling and re-enabling the printer
+should work as well.
+
+   The printing services have not been extensively tested but apart
+from the problem mentioned above it should work fine now.
 
 
 File: vice.info,  Node: Usage,  Next: System files,  Prev: Preface,  Up: Top
@@ -1086,78 +1106,4 @@ full (256 char) character set is computed by inverting.
    * `chargen.600', character generator ROM for the C6x0 (4k)
 
    * `chargen.700', character generator ROM for the C7x0 (4k)
-
-
-File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
-
-Keymap files
-============
-
-   "Keymap files" are used to define the keyboard layout, defining which
-key (or combination of keys) must be mapped to each keysym.
-
-   In other words, the keyboard emulation works like this: whenever the
-user presses or releases a key while the emulation window has the input
-focus, the emulator receives an X-Window event with a value that
-identifies that key.  That value is called a "keysym" and is unique to
-that key.  The emulator then looks up that keysym in an internal table
-that tells it which key(s) to press or release on the emulated keyboard.
-
-   This table is described by the keymap file, which is made up of lines
-like the following:
-
-     KEYSYM ROW COLUMN SHIFTFLAG
-
-   Where:
-
-   * `KEYSYM' is a string identifying the keysym: you can use the `xev'
-     utility (shipped with the X Window system) to see what keysym is
-     bound to any key;
-
-   * `ROW' and `COLUMN' identify the key on the emulated keyboard;
-
-   * `SHIFTFLAG' can have one of the following values:
-
-        * `0': the key is never shifted;
-
-        * `1': the key is shifted;
-
-        * `2': the key is the left shift;
-
-        * `4': the key is the right shift;
-
-        * `8': the key can be (optionally) shifted by the user.
-
-   The `SHIFTFLAG' is useful if you want certain keys to be
-"artificially" shifted by the emulator, and not by the user.  For
-example, <F2> is shifted on the C64 keyboard, but you might want it to
-be mapped to the unshifted <F2> key on the PC keyboard.  To do so, you
-just have to use a line like the following:
-
-     F2 0 4 1
-
-   where `0' and `4' identify the key (row 0, column 4 on the keyboard
-matrix), and `1' specifies that every time the user presses <F2> the
-shift key on the C64 keyboard must be pressed.
-
-   There are also some special commands you can put into the keyboard
-file; they are recognized because they start with an exclamation mark:
-
-   * `!CLEAR' clears the currently loaded keyboard map; it is necessary
-     to put this at the beginning of the file if you want the keymap
-     file to override all of the current internal settings;
-
-   * `!LSHIFT', `!RSHIFT', followed by a row and a column value,
-     specify where the left and right shift keys are located on the
-     emulated keyboard; for example, C64 default keymaps will specify
-
-          !LSHIFT 1 7
-          !RSHIFT 6 4
-
-   Any line starting with the `#' sign, instead, is completely ignored.
-This is useful for adding comments within the keymap file.
-
-   VICE keymap files have the `.vkm' default extension, and every
-emulator comes with a default positional mapping and a default symbolic
-mapping.
 

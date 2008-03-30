@@ -48,6 +48,7 @@
 #include "iecdrive.h"
 #include "romset.h"
 #include "mem.h"
+#include "prdevice.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -1104,11 +1105,18 @@ static UI_CALLBACK(set_printer_exec_file)
 UI_MENU_DEFINE_TOGGLE(Printer4)
 UI_MENU_DEFINE_TOGGLE(PrUser)
 
+static UI_CALLBACK(flush_printer4)
+{
+    prdevice_close_printer(4);
+}
+
 static ui_menu_entry_t printer_settings_menu[] = {
     { "*IEC device 4 printer emulation",
       (ui_callback_t) toggle_Printer4, NULL, NULL },
     { "IEC printer device",
       NULL, NULL, pr4_device_submenu  },
+    { "flush IEC printer device",
+      (ui_callback_t) flush_printer4, NULL, NULL },
     { "--" },
     { "*Userport printer emulation",
       (ui_callback_t) toggle_PrUser, NULL, NULL },

@@ -56,6 +56,7 @@
 
 static int prdevice_attach(int);
 static int prdevice_detach(int);
+static int close_pr(void *var, int secondary);
 
 /***********************************************************************
  * resource handling
@@ -116,9 +117,21 @@ int prdevice_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
+int prdevice_close_printer(int device)
+{
+    if (device == 4) {
+	close_pr(NULL, -1);
+    }
+    return 0;
+}
+
 /***********************************************************************/
 
-static file_desc_t currfd;
+/* These two variables have to be put into a table and the var 
+ * argument to the functions below has to be used to select the right 
+ * value to support multiple IEC printer devices */
+
+static int currfd;
 static int inuse;
 
 static int open_pr(void *var, const char *name, int length, int secondary)
@@ -129,7 +142,7 @@ static int open_pr(void *var, const char *name, int length, int secondary)
     }
 
     currfd = print_open(pr4_device);
-    if(currfd == ILLEGAL_FILE_DESC) {
+    if(currfd < 0) {
 	log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
 	return -1;
     }

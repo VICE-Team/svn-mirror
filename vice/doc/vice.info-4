@@ -96,7 +96,7 @@ CIA module
    The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift
 register, two timers, a Time of Day clock and interrupts.
 
-   Version numbers: Major 1, Minor 0.
+   Version numbers: Major 1, Minor 1.
 
 Type    Name                          Description                          
 BYTE    ORA                           Output register A                    
@@ -136,6 +136,18 @@ BYTE    TODL_SEC                      Time of Day - latched seconds
 BYTE    TODL_MIN                      Time of Day - latched minutes        
 BYTE    TODL_HR                       Time of Day - latched hours          
 DWORD   TOD_TICKS                     clk ticks till next tenth of second  
+-       -                             The next items have been added in    
+                                      V1.1                                 
+WORD    TASTATE                       The state bits of the CIA timer A,   
+                                      according to ciatimer.h              
+WORD    TBSTATE                       The state bits of the CIA timer B,   
+                                      according to ciatimer.h              
+
+   The last two items have been added in CIA snapshot version 1.1 due
+to the improved CIA emulation in the newer VICE versions.  Some state
+bits correspond to the CIA state as described in the "A Software Model
+of the CIA 6526" document by Wolfgang Lorenz, some are delayed
+versions. For more read the source file `ciatimer.h'.
 
 
 File: vice.info,  Node: VIA 6522 module,  Next: PIA 6520 module,  Prev: CIA 6526 module,  Up: Module formats
@@ -439,9 +451,9 @@ module is optional and contains a dump of the ROM images.
 configuration.  The RAM configuration is saved in the snapshot, and
 restored when the snapshot is loaded.
 
-   Version numbers: Major 1, Minor 0
-
    The PETMEM module
+
+   Version numbers: Major 1, Minor 1
 
 Type    Name                          Description                          
 BYTE    CONFIG                        Configuration value. Bits 0-3: 0=    
@@ -468,8 +480,19 @@ ARRAY   VRAM                          2/4k RAM (not 8296, size depends on
 ARRAY   EXTRAM                        64k expansion RAM (SuperPET and      
                                       8096 only)                           
 ARRAY   RAM                           128k RAM (8296 only)                 
+-       -                             The following item has been added    
+                                      in V1.1                              
+BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard          
+                                      mapping, bit 0=1 = positional        
+                                      mapping.                             
+
+   The last item has been added in PETMEM snapshot version 1.1. It is
+ignored by earlier restore routines (V1.0) and the V1.1 restore routines
+do not change the current setting when reading a V1.0 snapshot.
 
    The PETROM module
+
+   Version numbers: Major 1, Minor 0
 
 Type    Name                          Description                          
 BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit    
@@ -1147,31 +1170,3 @@ the C64S emulator.  It is easy to use and allows future extensions.
 * T64 tape record::
 * T64 file record::
 
-
-File: vice.info,  Node: T64 file structure,  Next: T64 tape record,  Prev: T64,  Up: T64
-
-T64 File structure
-------------------
-
-Offset                 Size                   Description                   
-0                      64                     tape record                   
-64                     32*n                   file records for n directory  
-                                              entries                       
-64+32*n                varies                 binary contents of the files  
-
-
-File: vice.info,  Node: T64 tape record,  Next: T64 file record,  Prev: T64 file structure,  Up: T64
-
-Tape Record
------------
-
-Offset                 Size                   Description                   
-0                      32                     DOS tape description + EOF    
-                                              (for type)                    
-32                     2                      tape version ($0200)          
-34                     2                      number of directory entries   
-36                     2                      number of used entries (can   
-                                              be 0 in my loader)            
-38                     2                      free                          
-40                     24                     user description as           
-                                              displayed in tape menu        

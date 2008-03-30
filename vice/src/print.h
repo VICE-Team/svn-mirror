@@ -41,7 +41,7 @@ extern void print_init(void);
 extern void print_reset(void);
 
 /* opens a print window, returns handle to give to functions below. */
-extern file_desc_t print_open(int device);
+extern int print_open(int device);
 
 /* closes the print window again */
 extern void print_close(file_desc_t fd);

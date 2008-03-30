@@ -47,7 +47,7 @@ extern void rs232_init(void);
 extern void rs232_reset(void);
 
 /* opens a rs232 window, returns handle to give to functions below. */
-extern file_desc_t rs232_open(int device);
+extern int rs232_open(int device);
 
 /* closes the rs232 window again */
 extern void rs232_close(file_desc_t fd);

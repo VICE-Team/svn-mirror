@@ -45,12 +45,10 @@
 
 /* #define	CIAT_DEBUG */
 /* #undef	NO_INLINE */
-#define CIAT_NEED_LOG
+/* #define CIAT_NEED_LOG */
 
 /***************************************************************************/
 /* constants */
-
-#define	CIAT_STACKLEN	4
 
 #define	CIAT_TABLEN	(2<<13)
 
@@ -70,11 +68,28 @@
 #define	CIAT_LOAD	0x200
 #define	CIAT_OUT	0x400
 
-typedef short ciat_tstate_t;
+/***************************************************************************/
+/* types */
 
-ciat_tstate_t ciat_table[CIAT_TABLEN];
+typedef WORD ciat_tstate_t;		/* 16 bit type */
 
-void ciat_init_table(void);
+typedef struct ciat_t {
+    const char 		*name;		/* name of timer */
+    ciat_tstate_t	state;		/* timer bits */
+    WORD		latch;
+    WORD		cnt;
+    CLOCK		alarmclk;
+    CLOCK		clk;
+    alarm_t		*alarm;
+} ciat_t;
+
+/***************************************************************************/
+/* external prototypes */
+
+extern ciat_tstate_t ciat_table[CIAT_TABLEN];
+
+extern void ciat_init_table(void);
+
 
 /***************************************************************************/
 /* Timer debug stuff */
@@ -103,6 +118,8 @@ extern void ciat_login(const char *format,...);
 extern void ciat_logout(const char *format,...);
 extern void ciat_log(const char *format,...);
 
+extern void ciat_print_state(const ciat_t *state);
+
 #endif
 
 /***************************************************************************/
@@ -117,18 +134,6 @@ extern void ciat_log(const char *format,...);
 #else
 #  undef INLINE_CIAT_FUNCS
 #endif
-
-/***************************************************************************/
-
-typedef struct ciat_t {
-    const char 		*name;		/* name of timer */
-    ciat_tstate_t	state;		/* timer bits */
-    WORD		latch;
-    WORD		cnt;
-    CLOCK		alarmclk;
-    CLOCK		clk;
-    alarm_t		*alarm;
-} ciat_t;
 
 /***************************************************************************/
 
@@ -193,7 +198,12 @@ _CIAT_FUNC void ciat_set_alarm(ciat_t *state, CLOCK cclk)
 	} else
 	if ( (!(t & (CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT))) 
 	    && ((!(t & CIAT_CR_START)) 
-		|| (!(t & (CIAT_PHI2IN | CIAT_STEP))))) {
+		|| (!(t & (CIAT_PHI2IN | CIAT_STEP))))
+	    && ( ((t & CIAT_CR_ONESHOT) && (t & CIAT_ONESHOT0)
+					&& (t & CIAT_ONESHOT))
+		|| ( (!(t & CIAT_CR_ONESHOT)) && (!(t & CIAT_ONESHOT0))
+					&& (!(t & CIAT_ONESHOT)) )) ) 
+	{
 	    /* warp stopped */
 	    tmp = CLOCK_MAX;
 	    break;
@@ -288,10 +298,14 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
 		/* here we have cnt=0 and clk <= cclk */
 	    }
 	} else
-	if ( (!(t & (CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT))) 
+	if ( (!(t & (CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT)))
 	    && ((!(t & CIAT_CR_START)) 
 		|| (!(t & (CIAT_PHI2IN | CIAT_STEP))))
-	    && (!(t & (CIAT_CR_FLOAD | CIAT_LOAD1 | CIAT_LOAD)))) {
+	    && (!(t & (CIAT_CR_FLOAD | CIAT_LOAD1 | CIAT_LOAD)))
+	    && ( ((t & CIAT_CR_ONESHOT) && (t & CIAT_ONESHOT0) 
+						&& (t & CIAT_ONESHOT))
+		|| ( (!(t & CIAT_CR_ONESHOT)) && (!(t & CIAT_ONESHOT0))
+						&& (!(t & CIAT_ONESHOT)))) ) {
 	    /* warp stopped */
 	    state->clk = cclk;
 	} else {
@@ -396,15 +410,15 @@ _CIAT_FUNC int ciat_single_step(ciat_t *state, CLOCK cclk)
 _CIAT_FUNC void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 {
     CIAT_LOGIN(("%s set_latchhi: cclk=%d, byte=%02x", state->name, cclk, byte));
-/*
-if (byte == 1) ciat_logfl=1;
-else ciat_logfl=0;
-*/
+
     state->latch = (state->latch & 0xff) | (byte << 8);
     if ( (state->state & CIAT_LOAD) 
     	|| !(state->state & CIAT_CR_START) ) {
         state->cnt = state->latch;
     }
+
+    /* just in case we have an underflow or force load and a scheduled alarm */
+    ciat_set_alarm(state, cclk);
 
     CIAT_LOGOUT((""));
 }
@@ -412,20 +426,14 @@ else ciat_logfl=0;
 _CIAT_FUNC void ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte)
 {
     CIAT_LOGIN(("%s set_latchlo(byte=%02x)", state->name, byte));
-/*
-if (byte == 0x25) ciat_logfl = 0;
-*/
-/*
-    CIAT_LOGIN(("%s set_latchlo: nst=%d, st0.clk=%d, st1.clk=%d, cclk=%d, "
-	"st0.cnt=%d, st1.cnt=%d, byte=%02x, last_update=%d, lastz=%d\n", 
-	state->name, state->nst, state->st[0].clk, state->st[1].clk, 
-	cclk, state->st[0].cnt, state->st[1].cnt, byte, state->last_update, 
-	state->lastz));
-*/
+
     state->latch = (state->latch & 0xff00) | byte;
     if (state->state & CIAT_LOAD) {
         state->cnt = (state->cnt & 0xff00) | byte;
     }
+
+    /* just in case we have an underflow or force load and a scheduled alarm */
+    ciat_set_alarm(state, cclk);
 
     CIAT_LOGOUT((""));
 }
@@ -440,9 +448,7 @@ _CIAT_FUNC void ciat_set_ctrl(ciat_t *state, CLOCK cclk, BYTE byte)
     /* bit 0= start/stop, 3=oneshot 4=force load, 5=0:count phi2 1:singlestep */
     state->state &= ~(CIAT_CR_MASK);
     state->state |= (byte & CIAT_CR_MASK) ^ CIAT_PHI2IN;
-/*
-if ((byte & CIAT_CR_MASK) == 0x31) ciat_logfl=1;
-*/
+
     ciat_set_alarm(state, cclk);
 
     CIAT_LOGOUT((""));
@@ -453,7 +459,6 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
     CIAT_LOGIN(("%s ack_alarm: cclk=%d, alarmclk=%d", 
 					state->name, cclk, state->alarmclk));
 
-    /* FIXME */
     alarm_unset(state->alarm);
     state->alarmclk = CLOCK_MAX;
 
@@ -464,6 +469,9 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
 
 _CIAT_FUNC void ciat_save_snapshot(ciat_t *state, CLOCK cclk, 
 					snapshot_module_t *m, int ver) {
+
+    /* ciat_print_state(state); */
+
     if (ver >= 0x100) {
 	/* major 1, minor >= 1 */
 	/* cnt & latch are saved from cia module already */
@@ -486,7 +494,13 @@ _CIAT_FUNC void ciat_load_snapshot(ciat_t *state, CLOCK cclk,
 	state->state = cr;
 	if (cr & CIAT_CR_START)
 	    state->state |= CIAT_COUNT2 | CIAT_COUNT3 | CIAT_COUNT;
+	if (cr & CIAT_CR_ONESHOT)
+	    state->state |= CIAT_ONESHOT0 | CIAT_ONESHOT;
     }
+
+    ciat_set_alarm(state, cclk);
+
+    /* ciat_print_state(state); */
 }
 
 /***************************************************************************/

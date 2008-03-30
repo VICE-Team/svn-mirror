@@ -17,6 +17,70 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
+
+Printer command-line options
+............................
+
+`-prdev1 NAME'
+`-prdev2 NAME'
+`-prdev3 NAME'
+     Specify `NAME' as printer devices 1, 2 and 3, respectively
+     (`PrDevice1', `PrDevice2' and `PrDevice3').
+
+`-printer4'
+`+printer4'
+     Enable/disable emulation of the IEC printer (`Printer4=1',
+     `Printer4=0').
+
+`-pr4dev DEV'
+     Specify device for the IEC printer (`Printer4Dev').
+
+`-pruser'
+`+pruser'
+     Enable/disable emulation of the IEC printer (`PrUser=1',
+     `PrUser=0').
+
+`-pruserdev DEV'
+     Specify device for the IEC printer (`PrUserDev').
+
+
+File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
+
+Disabling kernal traps
+----------------------
+
+   If you have compatibility problems, you can completely disable Kernal
+traps with the "Disable kernal traps" option.  This will of course
+disable all the features that depend on it, such as the fast 1541
+emulation (so you will have to turn true 1541 emulation on if you want
+to be able to read or write disk images) and tape support.
+
+* Menu:
+
+* No traps resources::
+* No traps options::
+
+
+File: vice.info,  Node: No traps resources,  Next: No traps options,  Prev: No kernal traps,  Up: No kernal traps
+
+Resources to control Kernal traps
+.................................
+
+`NoTraps'
+     Boolean specifying whether all the Kernal trap should be disabled.
+
+
+File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
+
+Command-line options to control Kernal traps
+............................................
+
+`-traps'
+`+traps'
+     Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
+
+
 File: vice.info,  Node: RS232 settings,  Next: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
 
 RS232 settings
@@ -43,17 +107,17 @@ for example) as extension at `$de**'.
 decide which interface should be connected to which device.  This is
 done by so-called "rs232 device file names"; an rs232 device file name
 can be either a simple path, or a command name preceeded by a pipe
-symbol `|'.  If the path specifies a special device (`/dev/ttyS0') it
-is recognized by VICE and the emulator can set the baudrate.
+symbol `|'.  If the path specifies a special device (e.g. `/dev/ttyS0')
+it is recognized by VICE and the emulator can set the baudrate.
 
    For example, rs232 device `filename' will cause the output to be
 written (not appended) to the file `filename', while printer device
 `|lpr' will cause the `lpr' command to be executed and be fed the rs232
 output.  The rs232 output will not be converted but saved as sent by
 the emulated machine.  The same holds true for the rs232 input.  If the
-command writes data to standard out it will be caught by VICE and sent
-back to the emulator.  Also the data sent by the pseudo device will be
-sent back to VICE.
+command writes data to the standard output it will be caught by VICE
+and sent back to the emulator.  Also the data sent by the pseudo device
+will be sent back to VICE.
 
    For example you can setup a null-modem cable between two serial ports
 of your PC, setup one port for login and use the other in VICE.  Then
@@ -122,13 +186,14 @@ RS232 resources
      NMI (C64 and C128 only)
 
 `RsUser'
-     Integer specifying if the user-port printer is being emulated and
-     at which baudrate it should have for the emulator. 0 = off; > 0
-     specifies the baudrate (C64, C128 and VIC20).
+     Integer specifying if the user-port RS232 interface is being
+     emulated and at which baudrate it should have for the emulator. 0
+     = off; > 0 specifies the baudrate (C64, C128 and VIC20).
 
 `RsUserDev'
      Integer (ranging from 0 to 3, for device 1-4) specifying what
-     RS232 device the user-port printer is using (C64, C128 and VIC20).
+     RS232 device the user-port interface is using (C64, C128 and
+     VIC20).
 
 
 File: vice.info,  Node: RS232 options,  Next: RS232 usage,  Prev: RS232 resources,  Up: RS232 settings
@@ -1234,7 +1299,8 @@ CIA2    6526                          The CIA for the userport, IEC-bus
 SID     6581                          The SID sound chip of the C64/C128   
 REU*                                  The RAM Extension Unit state         
                                       (optional)                           
-ACIA1   6551                          An ACIA at $DE00 (optional)          
+ACIA1   6551                          An ACIA (RS232 interface) at $DE00   
+                                      (optional)                           
 TPI     6525                          A TPI at $DF00 for a parallel        
                                       IEEE488 interface (optional)         
 *       Drive modules                 The emulated drive(s) have their     
