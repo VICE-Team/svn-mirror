@@ -42,6 +42,8 @@
 
 static log_t x11video_log = LOG_ERR;
 
+video_canvas_t *dangling_canvas = NULL;
+
 void video_init_arch(void)
 {
     if (x11video_log == LOG_ERR)
@@ -192,6 +194,11 @@ tryagain:
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_set_framebuffer(i);
 #endif 
+
+    if (dangling_canvas != NULL)
+        i->canvas = dangling_canvas;
+    else
+        i->canvas = NULL;
 
     return 0;
 }
