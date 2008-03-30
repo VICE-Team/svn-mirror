@@ -46,47 +46,45 @@
 #include "types.h"
 #include "uiapi.h"
 
+
 static log_t cs256k_log = LOG_ERR;
 
 static int cs256k_activate(void);
 static int cs256k_deactivate(void);
 
-int cs256k_enabled=0;
+int cs256k_enabled = 0;
 
-static int cs256k_block=0xf;
-static int cs256k_segment=3;
+static int cs256k_block = 0xf;
+static int cs256k_segment = 3;
 
-BYTE *cs256k_ram=NULL;
+BYTE *cs256k_ram = NULL;
 
-static int set_cs256k_enabled(resource_value_t v, void *param)
+
+static int set_cs256k_enabled(int val, void *param)
 {
-  if (!(int)v)
-  {
-    if (cs256k_enabled)
-    {
-      if (cs256k_deactivate() < 0)
-      {
-        return -1;
-      }
+    if (!val) {
+        if (cs256k_enabled) {
+            if (cs256k_deactivate() < 0) {
+                return -1;
+            }
+        }
+        cs256k_enabled = 0;
+        return 0;
+    } else {
+        if (!cs256k_enabled) {
+            if (cs256k_activate() < 0) {
+                return -1;
+            }
+        }
+
+        cs256k_enabled = 1;
+
+        if (h256k_enabled)
+            resources_set_value("H256K", (resource_value_t)0);
+        resources_set_value("RamSize", (resource_value_t)256);
+
+        return 0;
     }
-    cs256k_enabled = 0;
-    return 0;
-  }
-  else
-  { 
-    if (!cs256k_enabled)
-    {
-      if (cs256k_activate() < 0)
-      {
-        return -1;
-      }
-    }
-    cs256k_enabled = 1;
-    if (h256k_enabled)
-      resources_set_value("H256K", (resource_value_t)0);
-    resources_set_value("RamSize", (resource_value_t)256);
-    return 0;
-  }
 }
 
 static const resource_int_t resources_int[] = {
