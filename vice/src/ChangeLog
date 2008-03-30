@@ -1,3 +1,105 @@
+Tue Apr  7 15:33:40 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.1.
+
+	* c64/autostart.c (feed): Removed; all callers use
+ 	`kbd_buf_feed()' instead.
+
+	* arch/msdos/vsync.c, arch/unix/vsync.c (do_vsync): Call
+ 	`kbd_buf_flush'.
+
+	* kbdbuf.c, include/kbdbuf.h (kbd_buf_flush, kbd_buf_feed): New
+ 	file, new functions.
+
+	* c64/vicii.c (draw_ext_text_foreground): Rewritten to handle
+	changes to the registers within the line correctly.
+	(draw_ext_text_foreground_2x): Likewise.
+
+	* main.c (main): Do not try to use the `autostartName' resource if
+	NULL.
+
+	* resources.c (parse_cmd_line): An argument without an option goes
+	into `autostartName'.
+
+Tue Apr  7 15:23:57 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* include/autostart.h: Added optional parameter `program_name' to
+ 	functions `autostart_tape()', `autostart_disk()' and
+ 	`autostart_autodetect()'.
+
+	* arch/unix/ui_xaw.c (UiAttachDisk, UiAttachTape, UiSmartAttach):
+ 	Added NULL paramater to changed autostart calls (to be changed
+ 	later when UI supports this feature).
+
+	* main.c (main): Changed autostart to support `image:prgname'
+ 	-format to start a named program on image.  Checks that image
+ 	exists.
+
+	* main.c: Added needed includes for autostart.
+
+	* c64/autostart.c: Added new include "utils.h"
+
+	* c64/autostart.c (autostart_program_name): New variable.
+
+	* c64/autostart.c (deallocate_program_name): New function.  Frees
+ 	autostart_program_name if it exists.  Added calls to this function
+ 	to every place where autostarting is stopped.
+
+	* c64/autostart.c (feed): Feed the data into next column compared
+ 	to the cursor.  This is a temporary fix before full keyboard feed
+ 	is implemented.
+
+	* c64/autostart.c (autostart_advance): Changed loads to include
+	the program name if we have one.
+
+	* c64/autostart.c (reboot_for_autostart): Set the program name
+	here which we are going to autostart.
+
+	* c64/autostart.c (autostart_advance): Check that we receive
+ 	"LOADING" -message when loading from disk.  If not, interrupt
+ 	autostart.
+
+Wed Apr 7 14:26:13 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* include/crtc.h (crtc_screen_enable): New prototype.
+
+	* pet/crtc.c (crtc_screen_enable): New function to immediately
+ 	disable screen output.
+
+	* pet/petmem.c (initialize_memory): Fix the video RAM size setting
+ 	to 2k, not 4.  Make $8800-$9000 appear unused (except for CBM
+ 	8296)
+	(patch_2001): Copy string behind the ROM patch to identify what
+ 	has been done.
+
+	* pet/pets.c: Fix 8096 I/O size to $800 (same as 8032, as the 8096
+	is just a 8032 with expansion board).
+
+	* pet/pia.c (reset_pia1): Call `crtc_screen_enable()'.
+	(store_pia1): Call `crtc_screen_enable()' when EOI line is handled
+ 	and we have a PET 2001.
+
+Mon Apr  6 12:02:59 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* tapeunit.c (attach_tape_image): Removed unused variable
+ 	`realtype'.
+	(findheader): Removed unused variable `buf'.
+
+Mon Apr 6  11:58:34 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* drive.c (floppy_free_block_count, do_validate): Changed to use
+ 	extended BAM if a disk with 40 tracks is attached.
+	(allocate_sector, free_sector): Changed likewise.
+
+	* include/fs_cbm.h: Added new SpeedDOS compatible extended BAM
+ 	offset.  Increased MAX drive constants to 42 tracks.
+
+	* true1541.c (read_image_GCR, true1541_set_half_track): Changed to
+ 	handle 40 tracks.  Expanded `speed_map' to 42 tracks.
+	(GCR_data_writeback): Write back valid tracks only.
+
+	* true1541.c (read_image_GCR): Commented out disk ID hack.
+
 Sun Apr  5 01:11:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2 released.
