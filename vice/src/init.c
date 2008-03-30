@@ -51,6 +51,7 @@
 #include "palette.h"
 #include "ram.h"
 #include "resources.h"
+#include "romset.h"
 #include "screenshot.h"
 #include "signals.h"
 #include "sysfile.h"
@@ -212,6 +213,8 @@ int init_main(void)
 {
     signals_init(debug.do_core_dumps);
 
+    romset_init();
+
     if (!vsid_mode) {
         palette_init();
         gfxoutput_init();
@@ -221,7 +224,6 @@ int init_main(void)
     }
 
     machine_bus_init();
-
     machine_maincpu_init();
 
     event_init();

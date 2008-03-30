@@ -27,8 +27,10 @@
 #ifndef _ROMSET_H
 #define _ROMSET_H
 
+extern void romset_init(void);
+
 extern int romset_load(const char *filename);
-extern int romset_dump(const char *filename, const char **resource_list);
+extern int romset_save(const char *filename, const char **resource_list);
 
 extern int romset_load_archive(const char *filename, int autostart);
 extern int romset_dump_archive(const char *filename);
@@ -41,5 +43,5 @@ extern void romset_clear_archive(void);
 extern int romset_get_number(void);
 extern char *romset_get_item(int number);
 
-#endif /* _ROMSET_H */
+#endif
 
