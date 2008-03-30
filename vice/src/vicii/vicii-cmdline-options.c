@@ -100,3 +100,4 @@ int vic_ii_cmdline_options_init(void)
 
     return cmdline_register_options(cmdline_options);
 }
+
