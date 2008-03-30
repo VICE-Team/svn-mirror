@@ -356,10 +356,10 @@ ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	ted-mem.h ted-sound.h ted-timer.h ted.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ted-resources.h tedtypes.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
-	ted.h ../../src/utils.h
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	ted-resources.h tedtypes.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h ted.h ../../src/utils.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \

@@ -269,7 +269,8 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	crtc-resources.h crtc.h ../../src/arch/unix/types.h crtctypes.h \
 	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/resources.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
 	../../src/utils.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
@@ -284,8 +285,9 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/palette.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/raster/raster-canvas.h ../../src/raster/raster-line.h \
 	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h ../../src/screenshot.h \
-	../../src/utils.h ../../src/vsync.h ../../src/video.h
+	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
+	../../src/screenshot.h ../../src/utils.h ../../src/vsync.h \
+	../../src/video.h
 
 info-am:
 info: info-am

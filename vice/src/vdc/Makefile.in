@@ -269,9 +269,9 @@ vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h
 vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vdc-resources.h vdc.h vdctypes.h \
-	../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/unix/types.h vdc-resources.h \
+	vdc.h vdctypes.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h
 vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h vdc-snapshot.h \
@@ -283,10 +283,10 @@ vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
 	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h ../../src/screenshot.h \
-	../../src/snapshot.h ../../src/utils.h vdc-cmdline-options.h \
-	vdc-draw.h vdc-resources.h vdc-snapshot.h vdc.h vdctypes.h \
-	../../src/video.h
+	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
+	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
+	vdc-cmdline-options.h vdc-draw.h vdc-resources.h vdc-snapshot.h \
+	vdc.h vdctypes.h ../../src/video.h
 
 info-am:
 info: info-am

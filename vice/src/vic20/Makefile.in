@@ -283,9 +283,9 @@ vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
 	../../src/video.h vic20mem.h vic20sound.h
 vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vic-resources.h vic.h \
-	../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	../../src/utils.h ../../src/arch/unix/types.h vic-resources.h \
+	vic.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
 	../../src/video.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \

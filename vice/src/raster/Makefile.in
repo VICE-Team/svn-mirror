@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libraster.a
 
-libraster_a_SOURCES =  	raster-cache.c 	raster-cache.h 	raster-canvas.c 	raster-canvas.h 	raster-changes.c 	raster-changes.h 	raster-line.c 	raster-line.h 	raster-modes.c 	raster-modes.h 	raster-sprite.c 	raster-sprite.h 	raster-sprite-status.c 	raster-sprite-status.h 	raster-sprite-cache.c 	raster-sprite-cache.h 	raster.c 	raster.h
+libraster_a_SOURCES =  	raster-cache.c 	raster-cache.h 	raster-canvas.c 	raster-canvas.h 	raster-changes.c 	raster-changes.h 	raster-line.c 	raster-line.h 	raster-modes.c 	raster-modes.h 	raster-resources.c 	raster-resources.h 	raster-sprite.c 	raster-sprite.h 	raster-sprite-status.c 	raster-sprite-status.h 	raster-sprite-cache.c 	raster-sprite-cache.h 	raster.c 	raster.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -151,8 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libraster_a_LIBADD = 
 libraster_a_OBJECTS =  raster-cache.o raster-canvas.o raster-changes.o \
-raster-line.o raster-modes.o raster-sprite.o raster-sprite-status.o \
-raster-sprite-cache.o raster.o
+raster-line.o raster-modes.o raster-resources.o raster-sprite.o \
+raster-sprite-status.o raster-sprite-cache.o raster.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -283,6 +283,10 @@ raster-line.o: raster-line.c ../../src/vice.h ../../src/config.h \
 raster-modes.o: raster-modes.c ../../src/vice.h ../../src/config.h \
 	raster-modes.h raster-cache.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/utils.h
+raster-resources.o: raster-resources.c ../../src/vice.h \
+	../../src/config.h raster.h raster-changes.h \
+	../../src/arch/unix/types.h ../../src/resources.h \
+	../../src/utils.h
 raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
 	../../src/config.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h ../../src/utils.h

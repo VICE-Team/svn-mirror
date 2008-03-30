@@ -1,3 +1,43 @@
+2002-06-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.35.
+
+	* vicii/viciitypes.h: Added `idle_3fff_t'.
+
+	* vicii/vicii.c (vic_ii_init): Initialize `idle_3fff_t'.
+
+	* vicii/vicii-mem.c (vicii_mem_vbank_3fxx_store): Save idle
+	0x3fff store.
+
+	* vicii/vicii-fetch.c (handle_check_sprite_dma): Clear 0x3fff
+	idle data counter.
+
+	* vicii/vicii-sprites.c (calculate_idle_sprite_data): New
+	function.
+
+	* raster/raster-resources.c, raster/raster-resources.h:
+	New files.
+
+	* raster/Makefile.am: Added new files.
+
+	* vicii/vicii-resources.c, vicii/vicii-resources.h,
+	crtc/crtc-resources.c, crtc/crtc-resources.h,
+	vdc/vdc-resources.c, vdc/vdc-resources.h,
+	vic20/vic-resources.c, vic20/vic-resources.h,
+ 	plus4/ted-resources.c, plus4/ted-resources.h: Removed raster
+	specific resources.
+
+	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
+	plus4/ted.c: Do not directly access raster specific resources.
+
+	* arch/unix/uisettings.c, arch/unix/uivicii.c,
+	arch/unix/vic20ui.c, arch/unix/c128ui.c, arch/unix/plus4ui.c:
+	Added video cache resource for any chip.
+
+	* resources.c, resources.h (resources_touch): New function.
+
+	* drive/drive.c: Use `resources_touch()'.
+
 2002-06-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.34.
@@ -639,10 +679,12 @@
 	* c64/c64-resources.c, c128/c128-resources.c,
 	vic20/vic20-resources.c, pet/pet-resources.c,
 	plus4/plus4-resources.c, cbm2/c610-resources.c:
+	Added keyboard resources.
 
 	* c64/c64-cmdline-options.c, c128/c128-cmdline-options.c,
 	vic20/vic20-cmdline-options.c, pet/pet-cmdline-options.c,
-	plus4/plus4-cmdline-options.c, cbm2/c610-cmdline-options.c
+	plus4/plus4-cmdline-options.c, cbm2/c610-cmdline-options.c:
+	Added keyboard command line options.
 
 	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
 	plus4/plus4.c, cbm2/c610.c (machine_num_keyboard_mappings):
