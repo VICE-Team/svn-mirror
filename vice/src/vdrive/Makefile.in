@@ -285,20 +285,21 @@ distdir: $(DISTFILES)
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
 	../../src/snapshot.h ../../src/log.h vdrive-bam.h vdrive.h \
-	../../src/diskimage.h
+	../../src/diskimage.h ../../src/gcr.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
-	../../src/diskimage.h ../../src/arch/unix/types.h vdrive-bam.h \
-	vdrive.h ../../src/attach.h ../../src/snapshot.h \
-	../../src/log.h vdrive-dir.h
+	../../src/diskimage.h ../../src/gcr.h \
+	../../src/arch/unix/types.h vdrive-bam.h vdrive.h \
+	../../src/attach.h ../../src/snapshot.h ../../src/log.h \
+	vdrive-dir.h
 vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
-	../../src/serial.h ../../src/diskimage.h \
+	../../src/serial.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/arch/unix/types.h ../../src/traps.h ../../src/utils.h \
 	vdrive-bam.h vdrive.h ../../src/attach.h ../../src/snapshot.h \
 	../../src/log.h vdrive-dir.h vdrive-iec.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/charsets.h ../../src/arch/unix/types.h \
-	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \

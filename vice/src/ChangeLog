@@ -1,5 +1,23 @@
 1999-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.36.
+
+	* imagecontents.c (open_disk_image, close_disk_image): Added
+	support for GCR images.
+
+	* vdrive.h: Removed cruft.
+
+	* diskimage.c, diskimage.h (disk_image_write_track,
+	disk_image_read_gcr_image): New functions.
+
+	* gcr.c, gcr.h (gcr_find_sector_header, gcr_find_sector_data,
+	gcr_read_sector, gcr_write_sector, gcr_create_image,
+	gcr_destroy_image): New function.
+
+	* drive/drive.c (drive_read_block, drive_write_block): Removed.
+
+1999-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.35.
 
 	* prdevice.c (prdevice_attach): Do not pass info pointer.

@@ -293,7 +293,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/snapshot.h ../../src/autostart.h c128mem.h \
 	../../src/arch/unix/xaw/c128ui.h ../../src/c64/c64cia.h \
 	../../src/cia.h ../../src/c64/c64rsuser.h ../../src/clkguard.h \
-	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
 	../../src/interrupt.h ../../src/6510core.h \
@@ -322,7 +322,7 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/maincpu.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/c64/c64cia.h \
-	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
 	../../src/iecdrive.h ../../src/keyboard.h ../../src/rsuser.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h \
@@ -348,7 +348,7 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64iec.h \
 	../../src/iecdrive.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/diskimage.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \

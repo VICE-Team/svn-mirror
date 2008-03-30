@@ -35,6 +35,7 @@
 #include "archdep.h"
 #include "charsets.h"
 #include "diskimage.h"
+#include "gcr.h"
 #include "log.h"
 #include "serial.h"
 #include "t64.h"
@@ -182,10 +183,10 @@ static vdrive_t *open_disk_image(const char *name)
 {
     vdrive_t *vdrive;
     disk_image_t *image;
-    int i;
 
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
     image->name = stralloc(name);
+    image->gcr = gcr_create_image();
 
     if (disk_image_open(image) < 0) {
         free(image->name);
@@ -194,25 +195,9 @@ static vdrive_t *open_disk_image(const char *name)
     }
 
     vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+    memset(vdrive, 0, sizeof(vdrive_t));
 
-#if 1  /* FIXME: This will done by `vdrive_setup_device' once the
-                 serial bus handling is thrown out.  */
-    memset(vdrive, 0, sizeof(vdrive_t));  /* Init all pointers.  */
-
-    vdrive->type = image->type;
-
-    for (i = 0; i < 15; i++)
-        vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
-
-    vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
-
-    /* Initialise format constants.  */
-    vdrive_set_disk_geometry(vdrive, DT_DISK);
-
-    vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
-#endif
-
+    vdrive_setup_device(vdrive, 100);
     vdrive->image = image;
     vdrive_attach_image(image, 100, vdrive);
     return vdrive;
@@ -225,6 +210,7 @@ static void close_disk_image(vdrive_t *vdrive)
     image = vdrive->image;
 
     vdrive_detach_image(image, 100, vdrive);
+    gcr_destroy_image(image->gcr);
     disk_image_close(image);
 
     free(image);
