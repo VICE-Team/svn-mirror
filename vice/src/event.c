@@ -818,8 +818,8 @@ static void event_playback_start_trap(WORD addr, void *data)
                 return;
             }
 
-            if (event_list->current->size > strlen(&data[1]) + 2)
-                strncpy(event_version, (char *)(&data[strlen(&data[1]) + 2]), 15);
+            if (event_list->current->size > strlen((char *)&data[1]) + 2)
+                strncpy(event_version, (char *)(&data[strlen((char *)&data[1]) + 2]), 15);
 
             next_current_list();
             next_alarm_set();
