@@ -157,6 +157,7 @@ static PIXEL4 real_pixel4[256];
 static long real_pixel[256];
 static BYTE shade_table[256];
 
+#ifndef USE_COLOR_MANAGEMENT
 static PIXEL my_real_pixel1[256];
 static PIXEL2 my_real_pixel2[256];
 static PIXEL4 my_real_pixel4[256];
@@ -199,6 +200,28 @@ void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
     if (im->bits_per_pixel == 1)
         shade_table[i] = palette->entries[i].dither;
 }
+#else
+void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
+                               unsigned int bits_per_pixel,
+                               unsigned int dither, long col)
+{
+/*log_message(LOG_DEFAULT, "DEPTH %i BPP %i DATA %x",
+              ui_get_display_depth(), bits_per_pixel, *data);*/
+    *pixel_return = i;
+    if (ui_get_display_depth() == 8)
+        *pixel_return = *data;
+    else if (bits_per_pixel == 8)
+        real_pixel1[i] = *(PIXEL *)data;
+    else if (bits_per_pixel == 16)
+        real_pixel2[i] = (PIXEL2)col /**(PIXEL2 *)data*/;
+    else if (bits_per_pixel == 32)
+        real_pixel4[i] = (PIXEL4)col /**(PIXEL4 *)data*/;
+    else
+        real_pixel[i] = col;
+    if (bits_per_pixel == 1)
+        shade_table[i] = dither;
+}
+#endif
 
 /* Conversion routines between 8bit and other sizes. */
 
@@ -360,7 +383,8 @@ int video_init(void)
 
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
-#if 0
+
+#ifdef USE_COLOR_MANAGEMENT
     color_init();
 #endif
 
