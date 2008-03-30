@@ -92,6 +92,7 @@ struct {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "REU", IDM_TOGGLE_REU },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
     { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
@@ -1050,7 +1051,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 RECT    led;
 char    text[256];
 RECT    client_rect;
-POINT   *point;
+/* POINT   *point; */
 
     switch (msg) {
         case WM_SIZE:
