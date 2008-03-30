@@ -46,6 +46,7 @@
 #include "joystick.h"
 #include "kbd.h"
 #include "kbdef.h"
+#include "log.h"
 #include "machine.h"
 #include "memutils.h"
 #include "resources.h"
@@ -94,7 +95,6 @@ static int joypad_bits[10] = {
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
-
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling.  */
@@ -114,8 +114,8 @@ static int set_keymap_index(resource_value_t v)
 	    keymap_index = (int) v;
 	    return 0;
         } else {
-            fprintf(stderr,"Cannot load keymap `%s'\n",
-                    name ? name : "<null>");
+            log_error(LOG_DEFAULT, "Cannot load keymap `%s'.",
+                      name ? name : "(null)");
         }
         return -1;
     }
@@ -151,13 +151,13 @@ static inline void set_keyarr(int row, int col, int value)
 {
     if (value) {
 #ifdef DEBUG_KBD
-	printf("Set keyarr row %d col %d\n", row, col);
+	log_debug("Set keyarr row %d col %d.", row, col);
 #endif
 	keyarr[row] |= 1 << col;
 	rev_keyarr[col] |= 1 << row;
     } else {
 #ifdef DEBUG_KBD
-	printf("Unset keyarr row %d col %d\n", row, col);
+	log_debug("Unset keyarr row %d col %d.", row, col);
 #endif
 	keyarr[row] &= ~(1 << col);
 	rev_keyarr[col] &= ~(1 << row);
@@ -211,8 +211,9 @@ static int check_set_joykeys(KeySym key, int joynum)
                 memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
             }
 #ifdef DEBUG_JOY
-            printf("got joyport %d, joynum %d, keysym=%s\n", joyport, joynum,
-                   XKeysymToString(joykeys[joynum][column].sym));
+            log_debug("got joyport %d, joynum %d, keysym=`%s'.",
+                      joyport, joynum,
+                      XKeysymToString(joykeys[joynum][column].sym));
 #endif
             return 1;
         }
@@ -271,7 +272,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
       case KeyPress:
 
 #ifdef DEBUG_KBD
-        printf("KeyPress %s\n", XKeysymToString(key));
+        log_debug("KeyPress `%s'.", XKeysymToString(key));
 #endif
 
         if (key == XK_Meta_R
@@ -326,7 +327,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
       case KeyRelease:
 
 #ifdef DEBUG_KBD
-        printf("KeyRelease %s\n", XKeysymToString(key));
+        log_debug("KeyRelease `%s'.", XKeysymToString(key));
 #endif
 
 	if (IsModifierKey(key)) {
@@ -511,7 +512,7 @@ static void kbd_parse_entry(char *buffer)
     key = strtok(buffer, " \t:");
     sym = XStringToKeysym(key);
     if (sym == NoSymbol) {
-	printf("Could not find KeySym `%s'!\n", key);
+	log_error(LOG_DEFAULT, "Could not find KeySym `%s'!", key);
     } else {
 	p = strtok(NULL, " \t,");
 	if (p) {
@@ -561,9 +562,9 @@ static void kbd_parse_entry(char *buffer)
 			if (row == -3 && col == 1) {
 			    key_ctrl_restore2 = sym;
 			} else {
-                            fprintf(stderr,
-                                    "Bad row/column value (%d/%d) for keysym %s\n",
-                                    row, col, key);
+                            log_error(LOG_DEFAULT,
+                                      "Bad row/column value (%d/%d) for keysym `%s'.",
+                                      row, col, key);
                         }
                 }
             }
@@ -582,12 +583,11 @@ static int kbd_parse_keymap(const char *filename)
 
     fp = sysfile_open(filename, &complete_path);
     if (!fp) {
-        perror(complete_path);
         free(complete_path);
         return -1;
     }
 
-    printf("Loading keymap `%s'.\n", complete_path);
+    log_message(LOG_DEFAULT, "Loading keymap `%s'.", complete_path);
 
     do {
         buffer[0] = 0;

@@ -49,6 +49,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "log.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "patchrom.h"
@@ -147,13 +148,6 @@ static trap_t c64_tape_traps[] = {
         findheader
     },
     {
-        "WriteHeader",
-        0xF7BE,
-        0xF7C1,
-        {0x20, 0x6B, 0xF8},
-        writeheader
-    },
-    {
         "TapeReceive",
         0xF8A1,
         0xFC93,
@@ -168,6 +162,8 @@ static trap_t c64_tape_traps[] = {
         NULL
     }
 };
+
+static log_t c64_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------ */
 
@@ -236,10 +232,11 @@ int machine_init_cmdline_options(void)
 /* C64-specific initialization.  */
 int machine_init(void)
 {
+    if (c64_log != LOG_ERR)
+        c64_log = log_open("C64");
+
     if (mem_load() < 0)
         return -1;
-
-    fprintf(logfile, "\nInitializing Serial Bus...\n");
 
     /* Setup trap handling.  */
     traps_init();
@@ -469,13 +466,12 @@ int machine_read_snapshot(const char *name)
     if (s == NULL)
         return -1;
 
-#if 0
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
-               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_error(c64_log,
+                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                  major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
-#endif
 
     vic_ii_prepare_for_snapshot();
 
