@@ -55,7 +55,7 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
 
     delayloop = video_resources.delayloop_emulation;
 
-    if (video_resources.ext_palette)
+    if (config->external_palette)
         delayloop = 0;
 
     palmode = video_resources.pal_mode;
