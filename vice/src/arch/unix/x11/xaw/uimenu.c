@@ -393,6 +393,10 @@ Widget ui_menu_create(const char *menu_name, ...)
 
     level--;
 
+#ifdef UI_MENU_DEBUG
+    fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n",
+	    num_checkmark_menu_items, num_submenus);
+#endif
     va_end(ap);
     return w;
 }
