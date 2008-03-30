@@ -49,7 +49,6 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
-#include "memutils.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "ui.h"
