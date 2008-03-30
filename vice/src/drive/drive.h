@@ -42,6 +42,8 @@
 #define I_CIA1581D0FL   3
 /* RIOT 1001 drive 0 interrupts. */
 #define I_RIOTD0FL      4
+/* GLUE 1551 drive 0 interrupts. */
+#define I_GLUE1551D0FL  4
 
 /* VIA 1 drive 1 interrupts. */
 #define I_VIA1D1FL      0
@@ -53,25 +55,13 @@
 #define I_CIA1581D1FL   3
 /* RIOT 1001 drive 1 interrupts. */
 #define I_RIOTD1FL      4
+/* GLUE 1551 drive 1 interrupts. */
+#define I_GLUE1551D1FL  4
 
 #define DRIVE_NUMOFINT  5
 
-
-#define DRIVE_ROM1541_SIZE          0x4000
-#define DRIVE_ROM1541_SIZE_EXPANDED 0x8000
-#define DRIVE_ROM1541II_SIZE        0x4000
-#define DRIVE_ROM1551_SIZE          0x8000
-#define DRIVE_ROM1571_SIZE          0x8000
-#define DRIVE_ROM1581_SIZE          0x8000
-#define DRIVE_ROM2031_SIZE          0x4000
-#define DRIVE_ROM1001_SIZE          0x4000 /* same as ROM8050 and ROM8250 !*/
-#define DRIVE_ROM2040_SIZE          0x2000
-#define DRIVE_ROM3040_SIZE          0x3000
-#define DRIVE_ROM4040_SIZE          0x3000
 #define DRIVE_ROM_SIZE              0x8000
 #define DRIVE_RAM_SIZE              0x2000
-
-#define DRIVE_ROM1541_CHECKSUM      1988651
 
 /* Sync factors.  */
 #define DRIVE_SYNC_PAL     -1
@@ -331,30 +321,6 @@ extern struct drive_context_s drive1_context;
 
 extern int rom_loaded;
 
-/* RAM/ROM.  */
-extern BYTE drive_rom1541[];
-extern BYTE drive_rom1541ii[];
-extern BYTE drive_rom1551[];
-extern BYTE drive_rom1571[];
-extern BYTE drive_rom1581[];
-extern BYTE drive_rom2031[];
-extern BYTE drive_rom1001[];
-extern BYTE drive_rom2040[];
-extern BYTE drive_rom3040[];
-extern BYTE drive_rom4040[];
-
-/* If nonzero, the ROM image has been loaded.  */
-extern unsigned int rom1541_loaded;
-extern unsigned int rom1541ii_loaded;
-extern unsigned int rom1551_loaded;
-extern unsigned int rom1571_loaded;
-extern unsigned int rom1581_loaded;
-extern unsigned int rom2031_loaded;
-extern unsigned int rom1001_loaded;
-extern unsigned int rom2040_loaded;
-extern unsigned int rom3040_loaded;
-extern unsigned int rom4040_loaded;
-
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern int drive_enable(unsigned int dnr);
 extern void drive_disable(unsigned int dnr);
@@ -377,26 +343,15 @@ extern void drive_set_1571_sync_factor(int new_sync, unsigned int dnr);
 extern void drive_set_1571_side(int side, unsigned int dnr);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(unsigned int dnr);
-extern void drive_setup_rom_image(unsigned int dnr);
-extern void drive_initialize_rom_traps(unsigned int dnr);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
 extern void drive_initialize_rotation_table(int freq, unsigned int dnr);
-extern int drive_do_1541_checksum(void);
 /*
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 */
+extern BYTE drive_sync_found(drive_t *dptr);
+extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
-extern int drive_load_1541(void);
-extern int drive_load_1541ii(void);
-extern int drive_load_1551(void);
-extern int drive_load_1571(void);
-extern int drive_load_1581(void);
-extern int drive_load_2031(void);
-extern int drive_load_1001(void);
-extern int drive_load_2040(void);
-extern int drive_load_3040(void);
-extern int drive_load_4040(void);
 extern void drive_set_sync_factor(unsigned int factor);
 extern void drive_set_ntsc_sync_factor(void);
 extern void drive_set_pal_sync_factor(void);
