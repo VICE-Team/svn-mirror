@@ -24,6 +24,8 @@
  *
  */
 
+/* Warning: this could be optimized a lot.  */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -65,6 +67,9 @@ static int detect_done;
 /* Flag: are we running in 16bit mode?  */
 static int is_16bit;
 
+/* Last sample played by the SB interrupt.  */
+static WORD last_played_sample;
+
 /* ------------------------------------------------------------------------- */
 
 static void interrupt_function(unsigned long buf)
@@ -72,18 +77,18 @@ static void interrupt_function(unsigned long buf)
     if (num_bytes_in_buffer < fragment_size) {
         int i;
 
-        /* Underflowing: be silent.  */
+        /* Underflowing: repeat the last sample.  */
 
         _farsetsel(_dos_ds);
 
         if (is_16bit) {
             for (i = 0; i < fragment_size / 2; i++) {
-                _farnspokew(buf, 0x0);
+                _farnspokew(buf, last_played_sample);
                 buf += 2;
             }
         } else {
             for (i = 0; i < fragment_size; i++) {
-                _farnspokeb(buf, 0x80);
+                _farnspokeb(buf, (BYTE) last_played_sample);
                 buf++;
             }
         }
@@ -94,6 +99,13 @@ static void interrupt_function(unsigned long buf)
 
         movedata(_my_ds(), (unsigned long) (audio_buffer + first_sample),
                  _dos_ds, buf, fragment_size);
+
+        if (is_16bit)
+            last_played_sample = *((WORD *)(audio_buffer + first_sample +
+                                            fragment_size) - 1);
+        else
+            last_played_sample = *((BYTE *)(audio_buffer + first_sample +
+                                            fragment_size) - 1);
 
         num_bytes_in_buffer -= fragment_size;
 
@@ -171,6 +183,8 @@ static int sb_init(warn_t *w, char *param, int *speed,
     num_bytes_in_buffer = 0;
     first_sample = 0;
     next_sample = 0;
+
+    last_played_sample = is_16bit ? 0x0 : 0x80;
 
     return 0;
 }
