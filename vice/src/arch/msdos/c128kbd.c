@@ -156,5 +156,6 @@ static keyconv c128_keyboard[256] = {
 
 int c128_kbd_init(void)
 {
-    return kbd_init(7, 1, c128_keyboard, sizeof(c128_keyboard), NULL);
+    return kbd_init(1,
+                    1, 7, c128_keyboard, sizeof(c128_keyboard));
 }

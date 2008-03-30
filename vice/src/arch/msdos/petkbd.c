@@ -258,7 +258,7 @@ static keyconv pet80_keyboard[256] = {
 
 int pet_kbd_init(void)
 {
-    return kbd_init(6, 0,
-                    pet80_keyboard, sizeof(pet80_keyboard),
-                    pet40_keyboard, sizeof(pet40_keyboard), NULL);
+    return kbd_init(2,
+                    6, 0, pet80_keyboard, sizeof(pet80_keyboard),
+                    8, 0, pet40_keyboard, sizeof(pet40_keyboard));
 }

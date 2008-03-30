@@ -382,7 +382,6 @@ void sound_machine_close(sound_t *psid)
 /* write register value to sid */
 static void store_sid(sound_t *psid, ADDRESS addr, BYTE byte)
 {
-    int				i;
     switch (addr)
     {
     case 4:
