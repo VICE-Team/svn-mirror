@@ -18,4 +18,5 @@ libgnomeui_a_SOURCES = \
 	gnomevideo.c \
 	uiedisk.c \
 	uisnapshot.c \
-	about.c
+	about.c \
+	uicartridge.c

@@ -269,7 +269,7 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
     unsigned int i, j;
     ui_menu_entry_t *list;
     va_list ap;
-    ui_menu_cb_obj *obj;
+    ui_menu_cb_obj *obj = NULL;
 
     level++;
     va_start(ap, menu_name);
