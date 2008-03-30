@@ -55,15 +55,15 @@
 static char *devfile[NUM_DEVICES];
 /*  static int devbaud[NUM_DEVICES]; */
 
-static int set_devfile(char *v, int dev)
+static int set_devfile(resource_value_t v, void *param)
 {
     const char *name = (const char *) v;
 
-    if (devfile[dev] != NULL && name != NULL
-	&& strcmp(name, devfile[dev]) == 0)
+    if (devfile[(int)param] != NULL && name != NULL
+	&& strcmp(name, devfile[(int)param]) == 0)
 	return 0;
 
-    string_set(&devfile[dev], name);
+    string_set(&devfile[(int)param], name);
     return 0;
 }
 
@@ -77,29 +77,14 @@ static int set_devbaud(int v, int dev)
 
 /* ------------------------------------------------------------------------- */
 
-static int set_dev1_file(resource_value_t v, void *param)
-{
-    return set_devfile((char *) v, 0);
-}
-
-static int set_dev2_file(resource_value_t v, void *param)
-{
-    return set_devfile((char *) v, 1);
-}
-
-static int set_dev3_file(resource_value_t v, void *param)
-{
-    return set_devfile((char *) v, 2);
-}
-
 static resource_t resources[] =
 {
     { "PrDevice1", RES_STRING, (resource_value_t) "print.dump",
-     (resource_value_t *) & devfile[0], set_dev1_file, NULL },
+     (resource_value_t *) & devfile[0], set_devfile, (void *)0 },
     { "PrDevice2", RES_STRING, (resource_value_t) "|lpr",
-     (resource_value_t *) & devfile[1], set_dev2_file, NULL },
+     (resource_value_t *) & devfile[1], set_devfile, (void *)1 },
     { "PrDevice3", RES_STRING, (resource_value_t) "|petlp -F PS|lpr",
-     (resource_value_t *) & devfile[2], set_dev3_file, NULL },
+     (resource_value_t *) & devfile[2], set_devfile, (void *)2 },
     { NULL }
 };
 
