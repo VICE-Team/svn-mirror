@@ -44,28 +44,28 @@ IDD_MMC64_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable MMC64", IDC_MMC64_ENABLE,
+    AUTOCHECKBOX    "MMC64 aktivier&en", IDC_MMC64_ENABLE,
                     7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "BIOS Revision",
                     IDC_MMC64_REVISION_LABEL, 9, 24, 53, 8
     COMBOBOX        IDC_MMC64_REVISION, 66, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    AUTOCHECKBOX    "Enable BIOS &Flash Jumper", IDC_MMC64_FLASHJUMPER,
+    AUTOCHECKBOX    "BIOS &Flashjumper aktivieren", IDC_MMC64_FLASHJUMPER,
                     7, 40, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "&Save BIOS when changed", IDC_MMC64_BIOS_SAVE,
+    AUTOCHECKBOX    "BIOS bei Änderung &speichern", IDC_MMC64_BIOS_SAVE,
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "&BIOS File",
+    LTEXT           "&BIOS Datei",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    PUSHBUTTON      "Stöbern...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
-    AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
+    AUTOCHECKBOX    "MMC/SD Image Schreibschutz", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "MMC/SD &Image File",
+    LTEXT           "MMC/SD &Image Name",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    PUSHBUTTON      "Stöbern...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
 
 
@@ -87,16 +87,16 @@ BEGIN
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "&BIOS File",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    PUSHBUTTON      "Parcourir...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
     AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "MMC/SD &Image File",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    PUSHBUTTON      "Parcourir...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
 
 
@@ -119,16 +119,16 @@ BEGIN
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "&BIOS File",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    PUSHBUTTON      "Tallózás...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
     AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "MMC/SD &Image File",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    PUSHBUTTON      "Tallózás...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Mégsem", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
 #pragma code_page(28591)
 
@@ -151,16 +151,16 @@ BEGIN
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "&BIOS File",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    PUSHBUTTON      "Sfoglia...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
     AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "MMC/SD &Image File",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    PUSHBUTTON      "Sfoglia...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END
 
 
@@ -246,14 +246,14 @@ BEGIN
                     7, 50, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "&BIOS File",
                     IDC_MMC64_BIOS_FILE_LABEL, 9, 62, 50, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
+    PUSHBUTTON      "Bläddra...", IDC_MMC64_BIOS_BROWSE, 66, 62, 50, 14, 0
     EDITTEXT        IDC_MMC64_BIOS_FILE, 9, 78, 160, 12, WS_TABSTOP
     AUTOCHECKBOX    "MMC/SD Image read-only", IDC_MMC64_IMAGE_RO,
                     7, 98, 107, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "MMC/SD &Image File",
                     IDC_MMC64_IMAGE_FILE_LABEL, 9, 110, 56, 8
-    PUSHBUTTON      "Browse...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
+    PUSHBUTTON      "Bläddra...", IDC_MMC64_IMAGE_BROWSE, 66, 110, 50, 14, 0
     EDITTEXT        IDC_MMC64_IMAGE_FILE, 9, 126, 160, 12, WS_TABSTOP
     DEFPUSHBUTTON   "OK", IDOK, 30, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 90, 150, 50, 14, WS_TABSTOP
 END

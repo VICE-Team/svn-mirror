@@ -412,7 +412,7 @@ BEGIN
         MENUITEM "&Englisch", IDM_LANG_EN
         MENUITEM "&Deutsch", IDM_LANG_DE
         MENUITEM "&Französisch", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Ungarisch", IDM_LANG_HU
         MENUITEM "&Italienisch", IDM_LANG_IT
         MENUITEM "&Holländisch", IDM_LANG_NL
         MENUITEM "&Polnisch", IDM_LANG_PL

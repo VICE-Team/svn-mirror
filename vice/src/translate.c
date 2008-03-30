@@ -141,7 +141,7 @@ translate_t string_table[] = {
 
 /* event.c */
 /* en */ {IDGS_CANNOT_CREATE_IMAGE,    "Cannot create image file!"},
-/* de */ {IDGS_CANNOT_CREATE_IMAGE_DE, "Kann Datei nicht erzeugen!"},
+/* de */ {IDGS_CANNOT_CREATE_IMAGE_DE, "Kann Imagedatei nicht erzeugen!"},
 /* fr */ {IDGS_CANNOT_CREATE_IMAGE_FR, "Impossible de créer le fichier image!"},
 /* hu */ {IDGS_CANNOT_CREATE_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare l'immagine!"},
@@ -1284,7 +1284,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_ENABLE_MMC64,    "Enable the MMC64 expansion"},
-/* de */ {IDCLS_ENABLE_MMC64_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_MMC64_DE, "MMC64 Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_MMC64_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_MMC64_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_MMC64_IT, ""},  /* fuzzy */
@@ -1294,7 +1294,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_DISABLE_MMC64,    "Disable the MMC64 expansion"},
-/* de */ {IDCLS_DISABLE_MMC64_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_MMC64_DE, "MMC64 Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_MMC64_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_MMC64_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_MMC64_IT, ""},  /* fuzzy */
@@ -1304,7 +1304,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_BIOS_NAME,    "Specify name of MMC64 BIOS image"},
-/* de */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_DE, "Name für MMC64 BIOS Datei spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_MMC64_BIOS_NAME_IT, ""},  /* fuzzy */
@@ -1314,7 +1314,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME,    "Specify name of MMC64 image"},
-/* de */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_DE, "Name der MMC64 Image Datei definieren"},
 /* fr */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_MMC64_IMAGE_NAME_IT, ""},  /* fuzzy */
@@ -1324,7 +1324,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_READONLY,    "Set the MMC64 card to read-only"},
-/* de */ {IDCLS_MMC64_READONLY_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_READONLY_DE, "MMC64 Karte Schreibschutz"},
 /* fr */ {IDCLS_MMC64_READONLY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MMC64_READONLY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_READONLY_IT, ""},  /* fuzzy */
@@ -1334,7 +1334,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_READWRITE,    "Set the MMC64 card to read/write"},
-/* de */ {IDCLS_MMC64_READWRITE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_READWRITE_DE, "MMC64 Karte Schreibzugriff"},
 /* fr */ {IDCLS_MMC64_READWRITE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MMC64_READWRITE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_READWRITE_IT, ""},  /* fuzzy */
@@ -1344,7 +1344,7 @@ translate_t string_table[] = {
 
 /* c64/mmc64.c */
 /* en */ {IDCLS_MMC64_BIOS_WRITE,    "Save the MMC64 bios when changed"},
-/* de */ {IDCLS_MMC64_BIOS_WRITE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_MMC64_BIOS_WRITE_DE, "MMC64 BIOS speichern bei Änderung"},
 /* fr */ {IDCLS_MMC64_BIOS_WRITE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MMC64_BIOS_WRITE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_MMC64_BIOS_WRITE_IT, ""},  /* fuzzy */
@@ -1466,7 +1466,7 @@ translate_t string_table[] = {
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART,    "Attach raw 16KB Action Replay III cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16K Action Replay III Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16KB Action Replay Image III (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, ""},  /* fuzzy */
@@ -2070,16 +2070,6 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_SV, "Ange namn på 1581-DOS-ROM-avbildning"},
 
 /* drive/iec/iec-cmdline-options.c */
-/* en */ {IDCLS_PAR_CABLE_TYPE,    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"},
-/* de */ {IDCLS_PAR_CABLE_TYPE_DE, "Setze Parallelkabeltyp (0: keins, 1: Standard, 2: Dolphin DOS 3)"},
-/* fr */ {IDCLS_PAR_CABLE_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_PAR_CABLE_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_PAR_CABLE_TYPE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_PAR_CABLE_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard, 2: Dolphin DOS 3)"},
-/* pl */ {IDCLS_PAR_CABLE_TYPE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_PAR_CABLE_TYPE_SV, ""},  /* fuzzy */
-
-/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SET_IDLE_METHOD,    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"},
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"},
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, "Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap idle)"},
@@ -2188,6 +2178,56 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_DRIVE_RAM_A000_NL, "8KB RAM uitbreiding op adres $A000-$BFFF afsluiten"},
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_A000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_A000_SV, "Inaktivera 8KB RAM-expansion på $A000-$BFFF"},
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_PAR_CABLE_C64EXP_TYPE,    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"},
+/* de */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DE, "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3)"},
+/* fr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PAR_CABLE_C64EXP_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PAR_CABLE_C64EXP_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard, 2: Dolphin DOS 3)"},
+/* pl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PAR_CABLE_C64EXP_TYPE_SV, ""},  /* fuzzy */
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_PROFDOS,    "Enable Professional DOS"},
+/* de */ {IDCLS_ENABLE_PROFDOS_DE, "Professional DOS aktivieren"},
+/* fr */ {IDCLS_ENABLE_PROFDOS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_PROFDOS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PROFDOS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PROFDOS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_PROFDOS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PROFDOS_SV, ""},  /* fuzzy */
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_PROFDOS,    "Disable Professional DOS"},
+/* de */ {IDCLS_DISABLE_PROFDOS_DE, "Professional DOS deaktivieren"},
+/* fr */ {IDCLS_DISABLE_PROFDOS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_PROFDOS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PROFDOS_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_PROFDOS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_PROFDOS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PROFDOS_SV, ""},  /* fuzzy */
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME,    "Specify name of Professional DOS 1571 ROM image"},
+/* de */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_DE, "Name der Professional DOS 1571 ROM Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_SV, ""},  /* fuzzy */
+
+/* drive/iec/plus4exp/plus4exp-cmdline-options.c */
+/* en */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE,    "Set parallel cable type (0: none, 1: standard)"},
+/* de */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_DE, "Parallelkabel Typ (0: kein, 1: Standard)"},
+/* fr */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_NL, "Zet parallel kabel soort (0: geen, 1: standaard)"},
+/* pl */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE_SV, ""},  /* fuzzy */
 
 /* drive/iec128dcr/iec128dcr-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,    "Specify name of 1571CR DOS ROM image"},
@@ -4467,7 +4507,7 @@ translate_t string_table[] = {
 
 /* translate.c */
 /* en */ {IDCLS_P_ISO_LANGUAGE_CODE,    "<iso language code>"},
-/* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, "<iso Sprachcode>"},
 /* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, ""},  /* fuzzy */
@@ -4477,7 +4517,7 @@ translate_t string_table[] = {
 
 /* translate.c */
 /* en */ {IDCLS_SPECIFY_ISO_LANG_CODE,    "Specify the iso code of the language"},
-/* de */ {IDCLS_SPECIFY_ISO_LANG_CODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_ISO_LANG_CODE_DE, "Iso Sprachcode spezifizieren"},
 /* fr */ {IDCLS_SPECIFY_ISO_LANG_CODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_ISO_LANG_CODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_ISO_LANG_CODE_IT, ""},  /* fuzzy */

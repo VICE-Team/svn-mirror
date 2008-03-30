@@ -487,7 +487,7 @@ static int intl_table[][countof(language_table)] = {
 
 /* resmmc64.rc */
 /* en */ {IDD_MMC64_SETTINGS_DIALOG,
-/* de */  IDD_MMC64_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* de */  IDD_MMC64_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_MMC64_SETTINGS_DIALOG_FR,    /* fuzzy, size */
 /* hu */  IDD_MMC64_SETTINGS_DIALOG_HU,    /* fuzzy, size */
 /* it */  IDD_MMC64_SETTINGS_DIALOG_IT,    /* fuzzy, size */

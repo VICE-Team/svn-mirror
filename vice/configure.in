@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=14
+VICE_VERSION_BUILD=15
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1607,7 +1607,7 @@ if test x"$is_unix" = "xyes"; then
       ARCH_INCLUDES="-I$ARCH_SRC_DIR"
     else
       ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a"
-      ARCH_INCLUDES="-I$ARCH_SRC_DIR `pkg-config --cflags libgnomeui-2.0`"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR `pkg-config --cflags gtk+-2.0`"
     fi
     
     AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
@@ -1860,6 +1860,8 @@ if false ; then
     mkdir -p diskimage
     mkdir -p drive
     mkdir -p drive/iec
+    mkdir -p drive/iec/c64exp
+    mkdir -p drive/iec/plus4exp
     mkdir -p drive/iec128dcr
     mkdir -p drive/iecieee
     mkdir -p drive/ieee
@@ -1950,6 +1952,8 @@ AC_OUTPUT([Makefile
            src/diskimage/Makefile
            src/drive/Makefile
            src/drive/iec/Makefile
+           src/drive/iec/c64exp/Makefile
+           src/drive/iec/plus4exp/Makefile
            src/drive/iec128dcr/Makefile
            src/drive/iecieee/Makefile
            src/drive/ieee/Makefile

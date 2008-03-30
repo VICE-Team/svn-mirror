@@ -488,7 +488,7 @@ BEGIN
             MENUITEM "PLUS&60K Einstellungen...",      IDM_PLUS60K_SETTINGS
             MENUITEM "PLUS2&56K Einstellungen...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K Einstellungen...",      IDM_C64_256K_SETTINGS
-            MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&MMC64 Einstellungen...",    IDM_MMC64_SETTINGS
             MENUITEM "&IDE64 Einstellungen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet Einstellungen...", IDM_TFE_SETTINGS
@@ -509,7 +509,7 @@ BEGIN
         MENUITEM "&Englisch", IDM_LANG_EN
         MENUITEM "&Deutsch", IDM_LANG_DE
         MENUITEM "&Französisch", IDM_LANG_FR
-        MENUITEM "&Hungarian", IDM_LANG_HU
+        MENUITEM "&Ungarisch", IDM_LANG_HU
         MENUITEM "&Italienisch", IDM_LANG_IT
         MENUITEM "&Holländisch", IDM_LANG_NL
         MENUITEM "&Polnisch", IDM_LANG_PL

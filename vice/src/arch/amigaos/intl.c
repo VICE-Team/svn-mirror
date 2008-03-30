@@ -1667,7 +1667,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_LANGUAGE_FRENCH_SV, "Franska"},
 
 /* en */ {IDMS_LANGUAGE_HUNGARIAN,    "Hungarian"},
-/* de */ {IDMS_LANGUAGE_HUNGARIAN_DE, ""},  /* fuzzy */
+/* de */ {IDMS_LANGUAGE_HUNGARIAN_DE, "Ungarisch"},
 /* fr */ {IDMS_LANGUAGE_HUNGARIAN_FR, ""},  /* fuzzy */
 /* hu */ {IDMS_LANGUAGE_HUNGARIAN_HU, ""},  /* fuzzy */
 /* it */ {IDMS_LANGUAGE_HUNGARIAN_IT, ""},  /* fuzzy */
