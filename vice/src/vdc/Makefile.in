@@ -249,9 +249,9 @@ vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/uiapi.h ../../src/snapshot.h vdc-mem.h \
 	vdc-cmdline-options.h
-vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h vdc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	../../src/raster/raster.h ../../src/palette.h \
+vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -261,9 +261,9 @@ vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h vdc.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/uiapi.h ../../src/resources.h ../../src/snapshot.h \
 	vdc-mem.h vdc-draw.h
-vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h vdc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	../../src/raster/raster.h ../../src/palette.h \
+vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -286,9 +286,9 @@ vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/uiapi.h ../../src/snapshot.h vdc-mem.h \
 	vdc-resources.h
-vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h vdc.h \
-	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
-	../../src/raster/raster.h ../../src/palette.h \
+vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
+	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \

@@ -648,7 +648,8 @@ sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
 	arch/unix/types.h utils.h
-t64.o: t64.c vice.h config.h t64.h arch/unix/types.h utils.h zfile.h
+t64.o: t64.c vice.h config.h log.h t64.h arch/unix/types.h utils.h \
+	zfile.h
 tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
 	tap.h arch/unix/types.h utils.h zfile.h
 tape.o: tape.c vice.h config.h datasette.h tap.h arch/unix/types.h log.h \

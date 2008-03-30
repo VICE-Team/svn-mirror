@@ -269,8 +269,8 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/resources.h ../../src/maincpu.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/mos6510.h ../../src/c64/c64cia.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
-	../../src/iecdrive.h ../../src/keyboard.h ../../src/rsuser.h \
+	../../src/drive/drivecpu.h ../../src/iecdrive.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
@@ -281,7 +281,7 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/raster/raster-sprite.h ../../src/arch/unix/video.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/uiapi.h ../../src/vicii/vicii-mem.h \
-	../../src/ciacore.c ../../src/ciatimer.h
+	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h z80.h \
 	../../src/alarm.h ../../src/log.h ../../src/interrupt.h \
