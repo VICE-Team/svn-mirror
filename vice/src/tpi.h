@@ -28,6 +28,8 @@
 #ifndef _TPI_H
 #define _TPI_H
 
+#include "types.h"
+
 #define TPI_PA          0
 #define TPI_PB          1
 #define TPI_PC          2
