@@ -27,15 +27,35 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "snapshot.h"
+
+#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
 char snapshot_magic_string[] = "VICE Snapshot File\032";
 
 #define SNAPSHOT_MAGIC_LEN              19
+
+struct snapshot_module {
+    /* File descriptor.  */
+    FILE *file;
+
+    /* Flag: are we writing it?  */
+    int write_mode;
+
+    /* Size of the module.  */
+    DWORD size;
+
+    /* Offset of the module in the file.  */
+    long offset;
+
+    /* Offset of the size field in the file.  */
+    long size_offset;
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -139,6 +159,158 @@ int snapshot_read_byte_array(FILE *f, BYTE *b_return, int size)
 
 /* ------------------------------------------------------------------------- */
 
+int snapshot_module_write_byte(snapshot_module_t *m, BYTE b)
+{
+    if (snapshot_write_byte(m->file, b) < 0)
+        return -1;
+
+    m->size++;
+    return 0;
+}
+
+int snapshot_module_write_word(snapshot_module_t *m, WORD w)
+{
+    if (snapshot_write_word(m->file, w) < 0)
+        return -1;
+
+    m->size += 2;
+    return 0;
+}
+
+int snapshot_module_write_dword(snapshot_module_t *m, DWORD dw)
+{
+    if (snapshot_write_dword(m->file, dw) < 0)
+        return -1;
+
+    m->size += 4;
+    return 0;
+}
+
+int snapshot_module_write_padded_string(snapshot_module_t *m, const char *s,
+                                        BYTE pad_char, int len)
+{
+    if (snapshot_write_padded_string(m->file, s, pad_char, len) < 0)
+        return -1;
+
+    m->size += len;
+    return 0;
+}
+
+int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b, int len)
+{
+    if (snapshot_write_byte_array(m->file, b, len) < 0)
+        return -1;
+
+    m->size += len;
+    return 0;
+}
+
+int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return)
+{
+    if (ftell(m->file) + sizeof(BYTE) > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_byte(m->file, b_return);
+}
+
+int snapshot_module_read_word(snapshot_module_t *m, WORD *w_return)
+{
+    if (ftell(m->file) + sizeof(WORD) > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_word(m->file, w_return);
+}
+
+int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
+{
+    if (ftell(m->file) + sizeof(DWORD) > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_dword(m->file, dw_return);
+}
+
+int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,
+                                    int size)
+{
+    if (ftell(m->file) + size > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_byte_array(m->file, b_return, size);
+}
+
+snapshot_module_t *snapshot_module_create(FILE *f,
+                                          const char *name,
+                                          BYTE major_version,
+                                          BYTE minor_version)
+{
+    snapshot_module_t *m;
+
+    m = xmalloc(sizeof(snapshot_module_t));
+    m->file = f;
+    m->offset = ftell(f);
+    if (m->offset == -1) {
+        free(m);
+        return NULL;
+    }
+    m->write_mode = 1;
+
+    if (snapshot_write_padded_string(f, name, 0, SNAPSHOT_MODULE_NAME_LEN) < 0
+        || snapshot_write_byte(f, major_version) < 0
+        || snapshot_write_byte(f, minor_version) < 0
+        || snapshot_write_dword(f, 0) < 0)
+        return NULL;
+
+    m->size = ftell(f) - m->offset;
+    m->size_offset = ftell(f) - sizeof(DWORD);
+
+    return m;
+}
+
+snapshot_module_t *snapshot_module_open(FILE *f,
+                                        char *name_return,
+                                        BYTE *major_version_return,
+                                        BYTE *minor_version_return)
+{
+    snapshot_module_t *m;
+
+    m = xmalloc(sizeof(snapshot_module_t));
+    m->file = f;
+    m->offset = ftell(f);
+    if (m->offset == -1) {
+        free(m);
+        return NULL;
+    }
+    m->write_mode = 0;
+
+    if (snapshot_read_byte_array(f, name_return, SNAPSHOT_MODULE_NAME_LEN) < 0
+        || snapshot_read_byte(f, major_version_return) < 0
+        || snapshot_read_byte(f, minor_version_return) < 0
+        || snapshot_read_dword(f, &m->size))
+        return NULL;
+
+    m->size_offset = ftell(f) - sizeof(DWORD);
+
+    return m;
+}
+
+int snapshot_module_close(snapshot_module_t *m)
+{
+    /* Backpatch module size if writing.  */
+    if (m->write_mode
+        && (fseek(m->file, m->size_offset, SEEK_SET) < 0
+            || snapshot_write_dword(m->file, m->size) < 0))
+        return -1;
+
+    /* Skip module.  */
+    if (fseek(m->file, m->offset + m->size, SEEK_SET) < 0)
+        return -1;
+
+    free(m);
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 FILE *snapshot_create(const char *filename,
                       BYTE major_version, BYTE minor_version,
                       const char *machine_name)
@@ -203,32 +375,6 @@ FILE *snapshot_open(const char *filename,
 fail:
     fclose(f);
     return NULL;
-}
-
-int snapshot_write_module_header(FILE *f,
-                                 const char *name,
-                                 BYTE major_version,
-                                 BYTE minor_version)
-{
-    if (snapshot_write_padded_string(f, name, 0, SNAPSHOT_MODULE_NAME_LEN) < 0
-        || snapshot_write_byte(f, major_version) < 0
-        || snapshot_write_byte(f, minor_version) < 0)
-        return -1;
-
-    return 0;
-}
-
-int snapshot_read_module_header(FILE *f,
-                                char *name_return,
-                                BYTE *major_version_return,
-                                BYTE *minor_version_return)
-{
-    if (snapshot_read_byte_array(f, name_return, SNAPSHOT_MODULE_NAME_LEN) < 0
-        || snapshot_read_byte(f, major_version_return) < 0
-        || snapshot_read_byte(f, minor_version_return) < 0)
-        return -1;
-
-    return 0;
 }
 
 int snapshot_close(FILE *f)

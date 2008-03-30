@@ -306,22 +306,28 @@ int machine_set_restore_key(int v)
 #define	PET_DUMP_VER_MAJOR	0
 #define	PET_DUMP_VER_MINOR	0
 
+/* FIXME: Error check.  */
 int pet_dump(FILE *p)
 {
-    snapshot_write_module_header(p, "PET",
-		PET_DUMP_VER_MAJOR, PET_DUMP_VER_MINOR);
+    snapshot_module_t *m;
 
-    snapshot_write_word(p, pet.ramSize);	/* in k */
-    snapshot_write_word(p, pet.IOSize);		/* in byte */
-    snapshot_write_byte(p, pet.video);		/* screen width */
-    snapshot_write_byte(p, (pet.mem9 ? 1 : 0) | (pet.memA ? 2 : 0)
-		| (pet.pet2k ? 4 : 0) | (pet.superpet ? 8 : 0)
-		| (pet.crtc ? 16 : 0) );
-    snapshot_write_byte(p, pet.kbd_type);	/* 1 = graph, 0 = business */
+    m = snapshot_module_create(p, "PET",
+                               PET_DUMP_VER_MAJOR, PET_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
 
-    return 0;
+    snapshot_module_write_word(m, pet.ramSize);	/* in k */
+    snapshot_module_write_word(m, pet.IOSize);		/* in byte */
+    snapshot_module_write_byte(m, pet.video);		/* screen width */
+    snapshot_module_write_byte(m, (pet.mem9 ? 1 : 0) | (pet.memA ? 2 : 0)
+                               | (pet.pet2k ? 4 : 0) | (pet.superpet ? 8 : 0)
+                               | (pet.crtc ? 16 : 0) );
+    snapshot_module_write_byte(m, pet.kbd_type);	/* 1 = graph, 0 = business */
+
+    return snapshot_module_close(m);
 }
 
+/* FIXME: Error check.  */
 int pet_undump(FILE *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
@@ -329,19 +335,25 @@ int pet_undump(FILE *p)
     BYTE byte;
     WORD word;
     int ival;
+    snapshot_module_t *m;
 
-    snapshot_read_module_header(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
 
-    if(strcmp(name, "PET") || vmajor != PET_DUMP_VER_MAJOR) return -1;
+    if (strcmp(name, "PET") || vmajor != PET_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
-    snapshot_read_word(p, &word); ival = word;
+    snapshot_module_read_word(m, &word); ival = word;
     resources_set_value("RamSize", (resource_value_t) ival);
-    snapshot_read_word(p, &word); ival = word;
+    snapshot_module_read_word(m, &word); ival = word;
     resources_set_value("IOSize", (resource_value_t) ival);
-    snapshot_read_byte(p, &byte); ival = byte;
+    snapshot_module_read_byte(m, &byte); ival = byte;
     resources_set_value("VideoSize", (resource_value_t) ival);
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     ival = byte & 1;
     resources_set_value("Ram9", (resource_value_t) ival);
     ival = (byte & 2) ? 1 : 0;
@@ -353,7 +365,7 @@ int pet_undump(FILE *p)
     ival = (byte & 16) ? 1 : 0;
     resources_set_value("Crtc", (resource_value_t) ival);
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     resources_get_value("KeymapIndex", (resource_value_t *) &ival);
     resources_set_value("KeymapIndex", (resource_value_t) ((ival & 1)
                                        + 2 * (byte ? 1 : 0)));
@@ -361,7 +373,7 @@ int pet_undump(FILE *p)
     /* what about the ROM names? */
     mem_load();
 
-    return 0;
+    return snapshot_module_close(m);
 }
 
 /* ------------------------------------------------------------------------- */

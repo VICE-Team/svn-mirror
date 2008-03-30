@@ -1,4 +1,207 @@
+1998-09-11  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.5.
+
+	* pet/petmem.c (petmem_dump): Use the new `snapshot_module_*'
+ 	functions.
+	(petmem_undump): Use the new `snapshot_module_*' functions.
+
+	* pet/pet.c (pet_dump): Use the new `snapshot_module_*' functions.
+	(pet_undump): Use the new `snapshot_module_*' functions.
+
+	* interrupt.h: #include "snapshot.h".
+
+	* via-tmpl.c (myvia_write_snapshot_module): Use the new
+ 	`snapshot_module_*' functions.
+	(myvia_read_snapshot_module): Use the new `snapshot_module_*'
+ 	functions.
+
+	* c64/c64mem.c (mem_write_snapshot_module): Use the new
+ 	`snapshot_module_*' functions.
+	(mem_read_snapshot_module): Use the new `snapshot_module_*'
+ 	functions.
+
+	* interrupt.c (interrupt_write_snapshot): Parameter `FILE *f'
+ 	replaced by parameter `snapshot_module_t *m'.  Use the new
+ 	`snapshot_module_*' functions.
+	(interrupt_read_snapshot): Likewise.
+
+	* maincpu.c (maincpu_write_snapshot_module): Use the new
+ 	`snapshot_module_*' functions.
+	(maincpu_read_snapshot_module): Use the new `snapshot_module_*'
+ 	functions.
+
+	* cia-tmpl.c (mycia_write_snapshot_module): Use the new
+ 	`snapshot_module_*' functions.
+	(mycia_read_snapshot_module): Use the new `snapshot_module_*'
+ 	functions.
+
+	* snapshot.c: New type `snapshot_module_t'.
+	(snapshot_module_write_byte): New function.
+	(snapshot_module_write_word): New function.
+	(snapshot_module_write_dword): New function.
+	(snapshot_module_write_padded_string): New function.
+	(snapshot_module_write_byte_array): New function.
+	(snapshot_module_read_byte): New function.
+	(snapshot_module_read_word): New function.
+	(snapshot_module_read_dword): New function.
+	(snapshot_module_read_byte_array): New function.
+	(snapshot_write_module_header): Removed.
+	(snapshot_read_module_header): Removed.
+	(snapshot_module_create): New function.
+	(snapshot_module_open): New function.
+	(snapshot_module_close): New function.
+
+1998-09-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* drive/drive.c (drive_read_image_d64_d71): Handle D64 images
+	attached to a 1571 like D71 images.
+
+1998-09-11  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/kbd.c (kbd_event_handler): `XK_Prior' works as Restore
+ 	too.
+
+	* arch/msdos/menudefs.c (ui_create_main_menu): Added back "Change
+ 	working directory" command.
+
+1998-09-10  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/vicii.c (vic_ii_set_ram_base): Dispatch pending alarms and
+	update memory pointers.
+
+	* c128/c128cia1.def (UNDUMP_CIAPA, UNDUMP_CIAPB): #define to
+ 	empty.
+	(STORE_CIAPB): Handle light pen as in `c64cia1.def'.
+	(READ_CIAPB): Use `oldpa' as in `c64cia1.def'.
+	(READ_CIAPA): Use `oldpa' and `oldpb' as in `c64cia1.def'.
+
+1998-09-10  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* c64/c64rsuser.c (c64_rsuser_init): call rsuser with the number of
+	cycles for the CPU.
+	* vic20/vic20rsuser.c (vic20_rsuser_init): ditto.
+
+	* rsuser.c (rsuser_init): change parameter from clk ratio to
+	cycles per seconds for the CPU. Compute cycles per bit and per
+	character accurately.
+
+	* rsuser.h (rsuser_init): changed prototype
+
+1998-09-09  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/c64rsuser.h: New file.  Include `c64_rsuser_init()'
+ 	prototype.
+
+	* rsuser.h: Removed prototypes of `c64_rsuser_init()' and
+ 	`vic20_rsuser_init()'.
+
+1998-09-08  Tibor Biczo  <crown@mail.matav.hu>
+
+	* Makefile.am: Removed -lm from x64_LDADD, x128_LDADD, xvic_LDADD,
+        xpet_LDADD.  It's now set in LIBS in ../configure.in .
+
+1998-09-09  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128mem.c (store_mmu): Argh.  When calculating the VIC-II
+ 	RAM base, shift bits 7 & 6 in RCR by 10 positions, not 2!
+
+1998-09-09  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* data/C128/default.vkm: move alternate keyboard joystick one col
+ 	to the right, to fit german keyboards
+
+	* data/C64/default.vkm: ditto
+
+	* data/PET/busi_uk.vkm: ditto
+
+	* doc/vice.texi: change custom joystick mapping description
+
+	* Makefile.am (printer_ldadd, rs232_printer_ldadd): change
+	printer_ldadd to rs232_printer_ldadd, add check for HAVE_RS232
+	and rsuser.o
+	(rs232_source): new define for rsuser.[ch]
+
+	* arch/unix/xaw/petui.c (pet_rs232_submenu): moved from uisettings.c
+	here.
+
+	* arch/unix/xaw/uisettings.c (rsuser_device_submenu,
+	acia1_device_submenu, ser1_baud_submenu, ser2_baud_submenu,
+	set_rs232_device_file, set_rs232_exec_file): exported (i.e.
+	removed the "static" keyword. Now they are used in the petui.c and
+	vic20ui.c files
+	(pet_rs232_submenu): removed -> petui.c
+
+	* arch/unix/xaw/uisettings.h (ser1_baud_submenu, ser2_baud_submenu,
+	rsuser_device_submenu, acia1_device_submenu, set_rs232_device_file,
+	set_rs232_exec_file): new prototypes
+
+	* arch/unix/xaw/vic20ui.c: new toggle `RsUser'
+	(vic20_rs232_submenu): new menu for VIC20 RS232 emulation settings
+	(rs232_settings_menu): new menu to include in right button menu
+	(vic20_ui_init): use rs232_settings_menu) for right button menu
+
+	* c128/c128.c (machine_init): change rsuser_init to c64_rsuser_init
+
+	* c128/c128cia1.def [STORE_SDR]: change userport_serial_write_sr
+	to rsuser_tx_byte.
+
+	* c64/Makefile.am (resid_acia_libadd): change rsuser.o to c64rsuser.o
+	(EXTRA_libc64_a_SOURCES, EXTRA_libc64c128_a_SOURCES): remove
+	rsuser.[ch], add c64rsuser.c
+
+	* c64/c64.c (machine_init): change rsuser_init to c64rsuser_init
+
+	* c64/c64cia1.def (STORE_SDR): change userport_serial_write_sr
+        to rsuser_tx_byte.
+
+	* c64/c64cia2.def (RESET): change userport_serial_write_ctrl to
+	rsuser_write_ctrl, add call to rsuser_set_tx_bit.
+	(STORE_CIAPB): change userport_serial_write_ctrl to
+        rsuser_write_ctrl
+
+	* c64/c64rsuser.c: new file for C64 specific userport RS232 init
+	(c64_rsuser_init): new function
+
+	* c64/rsuser.c, c64/rsuser.h: removed
+
+	* rsuser.c: new file (moved from c64/rsuser.c)
+	changed userport_serial_* to rsuser_*
+	(rsuser_init): three new parameter: clk ratio (factor to 1MHz
+	CPU clock), and functions to call for start bit trigger and
+	if a full byte has been received
+
+	* rsuser.h: new file (moved from c64/rsuser.h)
+
+	* via-tmpl.c (store_myvia): for timer B, call mycpu_set_alarm_clk
+	instead of mycpu_set_alarm.
+	(int_myviat2): reset myviatbi to 0 when alarm disabled.
+	(myvia_read_snapshot_module): for timer B, call mycpu_set_alarm_clk
+        instead of mycpu_set_alarm
+
+	* vic20/Makefile.am (rs232_libadd): new define for vic20rsuser.o
+
+	* vic20/vic20.c: include rs232.h and rsuser.h if HAVE_RS232
+	(machine_init_resources): call rs232_init_resources and
+	rsuser_init_resources.
+	(machine_init_cmdline_options): call rs232_init_cmdline_options and
+	rsuser_init_cmdline_options
+	(machine_reset): set maincpu_int_status.alarm_handler[A_RSUSER]
+	to int_rsuser; call rs232_reset and rsuser_reset
+	(vsync_hook): call rsuser_prevent_clk_overflow
+
+	* vic20/vic20rsuser.c: new file for VIC20 specific RS232
+	initialization
+
+	* vic20/vic20via2.def: include rsuser.h
+	(STORE_PRB): call rsuser_write_ctrl
+	(STORE_PCR): call rsuser_set_tx_bit
+	(RESET): call rsuser_write_ctrl and rsuser_set_tx_bit.
+	(READ_PRB): call rsuser_read_ctrl
+
 1998-09-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/ui.c (ui_jam_dialog): Return `UI_JAM_HARD_RESET'.
 
 	* Version 0.15.0.4.
 
@@ -109,7 +312,7 @@
 	* cia-tmpl.c (mycia_undump): instead of STORE_* use UNDUMP_* for
 	the port values.
 
-	* via-tmpl.c (myvia_undump): dito
+	* via-tmpl.c (myvia_undump): ditto
 
 	* c64/c64cia1.def, c64/c64cia2.def, c64/c64tpi.def,
  	drive/cia1571drive0.def, drive/cia1571drive1.def,

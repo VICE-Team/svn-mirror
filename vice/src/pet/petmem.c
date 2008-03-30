@@ -224,8 +224,8 @@ void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-/* SuperPET handling 
- * 
+/* SuperPET handling
+ *
  * This adds some write-only registers at $eff*, an ACIA at $eff0 and
  * 64k RAM that are mapped in 4k pages at $9***
  * Here the 8x96 expansion RAM doubles as the SuperPET banked RAM.
@@ -252,7 +252,7 @@ void superpet_powerup(void)
     superpet_reset();
 }
 
-int superpet_diag(void) 
+int superpet_diag(void)
 {
     return pet.superpet && spet_diag;
 }
@@ -261,13 +261,13 @@ BYTE REGPARM1 read_super_io(ADDRESS addr)
 {
     if(addr >= 0xeff4) {	/* unused / readonly */
         return read_unused(addr);
-    } else 
+    } else
     if(addr >= 0xeff0) {	/* ACIA */
 	return read_acia1(addr & 0x03);
     } else
     if(addr >= 0xefe4) {	/* unused */
         return read_unused(addr);
-    } else 
+    } else
     if(addr >= 0xefe0) {	/* dongle */
     }
     return read_unused(addr);	/* fallback */
@@ -281,7 +281,7 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
     if(addr >= 0xeffc) {	/* Bank select */
 	spet_bank = value & 0x0f;
 	spet_ctrlwp = !(value & 0x80);
-    } else 
+    } else
     if(addr >= 0xeff8) {
 	if(!spet_ctrlwp) {
 	    if(!(value & 1)) {
@@ -293,12 +293,12 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
 	}
     } else
     if(addr >= 0xeff4) {	/* unused */
-    } else 
+    } else
     if(addr >= 0xeff0) {	/* ACIA */
 	store_acia1(addr & 0x03, value);
-    } else 
+    } else
     if(addr >= 0xefe4) {	/* unused */
-    } else 
+    } else
     if(addr >= 0xefe0) {	/* dongle? */
     }
 }
@@ -307,7 +307,7 @@ BYTE REGPARM1 read_super_9(ADDRESS addr)
 {
     if (spet_ramen) {
 	return (ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
-    } 
+    }
     return read_rom(addr);
 }
 
@@ -1245,46 +1245,42 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
 
 /*
  * PET memory dump should be 4-32k or 128k, depending on the config, as RAM.
- * Plus 64k expansion RAM (8096 or SuperPET) if necessary. Also there 
+ * Plus 64k expansion RAM (8096 or SuperPET) if necessary. Also there
  * is the 1/2k video RAM as "VRAM".
  * In this prototype we save the full ram......
  */
 #define	PETMEM_DUMP_VER_MAJOR	0
 #define	PETMEM_DUMP_VER_MINOR	0
 
-int petmem_dump(FILE *p) 
+int petmem_dump(FILE *p)
 {
-    snapshot_write_module_header(p, "RAM", 
-		PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
+    snapshot_module_t *m;
 
-    snapshot_write_byte_array(p, ram, RAM_ARRAY);
-/*
-    snapshot_write_module_header(p, "VRAM", 
-		PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, "RAM",
+                               PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
 
-    snapshot_write_byte_array(p, ram + 0x8000, 0x800);
-*/
+    snapshot_module_write_byte_array(m, ram, RAM_ARRAY);
 
-    return 0;
+    return snapshot_module_close(m);
 }
 
-int petmem_undump(FILE *p) 
+int petmem_undump(FILE *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
+    snapshot_module_t *m;
 
-    snapshot_read_module_header(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
 
-    if(strcmp(name, "RAM") || vmajor != PETMEM_DUMP_VER_MAJOR) return -1;
+    if (strcmp(name, "RAM") || vmajor != PETMEM_DUMP_VER_MAJOR)
+        return -1;
 
-    snapshot_read_byte_array(p, ram, RAM_ARRAY);
-/*
-    snapshot_read_module_header(p, name, vmajor, vminor);
+    snapshot_module_read_byte_array(p, ram, RAM_ARRAY);
 
-    if(strcmp(name, "VRAM") || vmajor != PETMEM_DUMP_VER_MAJOR) return -1;
-
-    snapshot_read_byte_array(p, ram + 0x8000, 0x800);
-*/
-    return 0;
+    return snapshot_module_close(m);
 }
 
