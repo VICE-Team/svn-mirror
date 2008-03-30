@@ -508,14 +508,14 @@ inline static void update_sprite_collisions(raster_t *raster)
 
 #ifndef VIDEO_REMOVE_2X
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                            + raster->geometry.extra_offscreen_border
-                            * raster->viewport.pixel_size.width);
+                          + raster->geometry.extra_offscreen_border
+                          * raster->viewport.pixel_size.width);
 #else /* VIDEO_REMOVE_2X */
   fake_frame_buffer_ptr = (raster->fake_frame_buffer_line
-                            + raster->geometry.extra_offscreen_border);
+                          + raster->geometry.extra_offscreen_border);
 #endif /* VIDEO_REMOVE_2X */
   raster->sprite_status->draw_function(fake_frame_buffer_ptr,
-                                         raster->zero_gfx_msk);
+                                       raster->zero_gfx_msk);
 }
 
 
@@ -531,9 +531,9 @@ inline static void draw_blank(raster_t *raster,
                RASTER_PIXEL(raster, raster->border_color),
                (end - start + 1) * pixel_width);
 #else /* VIDEO_REMOVE_2X */
-    vid_memset((PIXEL *)(raster->frame_buffer_ptr + start /* *2 */),
+    vid_memset((PIXEL *)(raster->frame_buffer_ptr + start),
                RASTER_PIXEL(raster, raster->border_color),
-               (end - start + 1) /* *2 */);
+               end - start + 1);
 #endif /* VIDEO_REMOVE_2X */
 }
 
@@ -564,9 +564,7 @@ inline static void add_line_and_double_scan(raster_t *raster,
                      raster->current_line + 1,
                      start, end);
 #else /* VIDEO_REMOVE_2X */
-    add_line_to_area(&raster->update_area,
-                     raster->current_line,
-                     0, raster->geometry.screen_size.width - 1);
+    add_line_to_area(&raster->update_area, raster->current_line, start, end);
 #endif /* VIDEO_REMOVE_2X */
 }
 
