@@ -611,3 +611,44 @@ int tui_menu_handle(tui_menu_t menu, char hotkey)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* These functions are called by radio and toggle menu items if the callback
+   functions are defined through `TUI_MENU_DEFINE_TOGGLE()',
+   `TUI_MENU_DEFINE_RADIO()' or `TUI_MENU_DEFINE_STRING_RADIO()'.  */
+
+const char *_tui_menu_toggle_helper(int been_activated,
+                                    const char *resource_name)
+{
+    int value, r;
+
+    if (been_activated) {
+        r = resources_toggle(resource_name, (resource_value_t *) &value);
+        if (r < 0)
+            r = resources_get_value(resource_name,
+            (resource_value_t *) &value);
+    } else
+        r = resources_get_value(resource_name, (resource_value_t *) &value);
+
+    if (r < 0)
+        return "Unknown";
+    else
+        return value ? "On" : "Off";
+}
+
+const char *_tui_menu_radio_helper(int been_activated,
+                                   void *param,
+                                   int *become_default,
+                                   const char *resource_name)
+{
+    if (been_activated) {
+        resources_set_value(resource_name, (resource_value_t) param);
+        *become_default = 1;
+    } else {
+        resource_value_t v;
+        resources_get_value(resource_name, &v);
+        if (v == (resource_value_t) param)
+            *become_default = 1;
+    }
+    return NULL;
+}
