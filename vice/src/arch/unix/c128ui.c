@@ -64,6 +64,8 @@ ui_menu_entry_t set_video_standard_submenu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
@@ -114,8 +116,77 @@ static ui_menu_entry_t vdc_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(SidStereo)
+UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 
+static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
+    { "*$D420", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd420, NULL },
+    { "*$D440", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd440, NULL },
+    { "*$D460", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd460, NULL },
+    { "*$D480", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd480, NULL },
+    { "*$D4A0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4a0, NULL },
+    { "*$D4C0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4c0, NULL },
+    { "*$D4E0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xd4e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_dexx_submenu[] = {
+    { "*$DE00", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde00, NULL },
+    { "*$DE20", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde20, NULL },
+    { "*$DE40", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde40, NULL },
+    { "*$DE60", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde60, NULL },
+    { "*$DE80", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xde80, NULL },
+    { "*$DEA0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdea0, NULL },
+    { "*$DEC0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdec0, NULL },
+    { "*$DEE0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdee0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_dfxx_submenu[] = {
+    { "*$DF00", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf00, NULL },
+    { "*$DF20", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf20, NULL },
+    { "*$DF40", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf40, NULL },
+    { "*$DF60", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf60, NULL },
+    { "*$DF80", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdf80, NULL },
+    { "*$DFA0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfa0, NULL },
+    { "*$DFC0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfc0, NULL },
+    { "*$DFE0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdfe0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
+    { "$D4xx",
+      NULL, NULL, set_sid_stereo_address_d4xx_submenu },
+    { "$DExx",
+      NULL, NULL, set_sid_stereo_address_dexx_submenu },
+    { "$DFxx",
+      NULL, NULL, set_sid_stereo_address_dfxx_submenu },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 #ifdef HAVE_RESID
@@ -123,8 +194,10 @@ UI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("*Second SID at $DE00"),
+    { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { N_("*Second SID base address"),
+      NULL, NULL, set_sid_stereo_address_submenu },
     { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
@@ -147,8 +220,10 @@ UI_MENU_DEFINE_TOGGLE(Sound)
 static ui_menu_entry_t sid_options_submenu[] = {
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
-    { N_("*Second SID at $DE00"),
+    { N_("*Second SID"),
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { N_("*Second SID base address"),
+      NULL, NULL, set_sid_stereo_address_submenu },
 #ifdef HAVE_RESID
     { N_("*Use reSID emulation"),
       (ui_callback_t)toggle_SidUseResid, NULL, NULL },

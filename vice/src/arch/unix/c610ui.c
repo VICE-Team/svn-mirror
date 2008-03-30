@@ -254,6 +254,27 @@ static ui_menu_entry_t model_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
+
+static ui_menu_entry_t set_sid_stereo_address_daxx_submenu[] = {
+    { "*$DA20", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xda20, NULL },
+    { "*$DA40", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xda40, NULL },
+    { "*$DA60", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xda60, NULL },
+    { "*$DA80", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xda80, NULL },
+    { "*$DAA0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdaa0, NULL },
+    { "*$DAC0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdac0, NULL },
+    { "*$DAE0", (ui_callback_t)radio_SidStereoAddressStart,
+      (ui_callback_data_t)0xdae0, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_TOGGLE(SidStereo)
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 #ifdef HAVE_RESID
@@ -261,6 +282,11 @@ UI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 
 static ui_menu_entry_t sid_submenu[] = {
+    { N_("*Second SID"),
+      (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { N_("*Second SID base address"),
+      NULL, NULL, set_sid_stereo_address_daxx_submenu },
+    { "--" },
     { N_("*Emulate filters"),
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
@@ -282,6 +308,11 @@ UI_MENU_DEFINE_TOGGLE(Sound)
 static ui_menu_entry_t sid_options_submenu[] = {
     { N_("*Enable sound playback"),
       (ui_callback_t)toggle_Sound, NULL, NULL },
+    { N_("*Second SID"),
+      (ui_callback_t)toggle_SidStereo, NULL, NULL },
+    { N_("*Second SID base address"),
+      NULL, NULL, set_sid_stereo_address_daxx_submenu },
+    { "--" },
 #ifdef HAVE_RESID
     { N_("*Use reSID emulation"),
       (ui_callback_t)toggle_SidUseResid, NULL, NULL },
