@@ -1,4 +1,3 @@
-
 /*
  * ciad.h - Drive CIA definitions.
  *
@@ -38,10 +37,14 @@ extern void cia1571_setup_context(struct drive_context_s *ctxptr);
 extern void cia1581_setup_context(struct drive_context_s *ctxptr);
 
 extern void cia1571_init(struct drive_context_s *ctxptr);
-extern void REGPARM3 cia1571_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE value);
-extern BYTE REGPARM2 cia1571_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern BYTE REGPARM2 cia1571_peek(struct drive_context_s *ctxptr, ADDRESS addr);
-extern void cia1571_prevent_clk_overflow(struct drive_context_s *ctxptr, CLOCK sub);
+extern void REGPARM3 cia1571_store(struct drive_context_s *ctxptr,
+                                   ADDRESS addr, BYTE value);
+extern BYTE REGPARM2 cia1571_read(struct drive_context_s *ctxptr,
+                                  ADDRESS addr);
+extern BYTE REGPARM2 cia1571_peek(struct drive_context_s *ctxptr,
+                                  ADDRESS addr);
+extern void cia1571_prevent_clk_overflow(struct drive_context_s *ctxptr,
+                                         CLOCK sub);
 extern void cia1571_set_flag(struct drive_context_s *ctxptr);
 extern void cia1571_set_sdr(struct drive_context_s *ctxptr, BYTE received_byte);
 extern void cia1571_reset(struct drive_context_s *ctxptr);
@@ -51,14 +54,16 @@ extern int cia1571_read_snapshot_module(struct drive_context_s *ctxptr,
                                         struct snapshot_s *p);
 
 extern void cia1581_init(struct drive_context_s *ctxptr);
-extern void REGPARM3 cia1581_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE value);
-extern BYTE REGPARM2 cia1581_read(struct drive_context_s *ctxptr, ADDRESS addr);
-extern BYTE REGPARM2 cia1581_peek(struct drive_context_s *ctxptr, ADDRESS addr);
+extern void REGPARM3 cia1581_store(struct drive_context_s *ctxptr,
+                                   ADDRESS addr, BYTE value);
+extern BYTE REGPARM2 cia1581_read(struct drive_context_s *ctxptr,
+                                  ADDRESS addr);
+extern BYTE REGPARM2 cia1581_peek(struct drive_context_s *ctxptr,
+                                  ADDRESS addr);
 extern void cia1581_prevent_clk_overflow(struct drive_context_s *ctxptr,
                                          CLOCK sub);
 extern void cia1581_set_flag(struct drive_context_s *ctxptr);
-extern void cia1581_set_sdr(struct drive_context_s *ctxptr, BYTE received_byte);
-extern void cia1581_reset(struct drive_context_s *ctxptr);
+extern void cia1581_set_sdr(struct drive_context_s *ctxptr, BYTE received_byte);extern void cia1581_reset(struct drive_context_s *ctxptr);
 extern int cia1581_write_snapshot_module(struct drive_context_s *ctxptr,
                                          struct snapshot_s *p);
 extern int cia1581_read_snapshot_module(struct drive_context_s *ctxptr,
@@ -73,10 +78,11 @@ typedef struct cia_initdesc_s {
 } cia_initdesc_t;
 
 /* init callbacks, shared by both cias; defined in cia1571d. */
-extern void cia_drive_init(struct drive_context_s *ctxptr, const cia_initdesc_t *cia_desc);
+extern void cia_drive_init(struct drive_context_s *ctxptr,
+                           const cia_initdesc_t *cia_desc);
 
-#define cia1581d0_set_flag()	cia1581_set_flag(&drive0_context)
-#define cia1581d1_set_flag()	cia1581_set_flag(&drive1_context)
+#define cia1581d0_set_flag()    cia1581_set_flag(&drive0_context)
+#define cia1581d1_set_flag()    cia1581_set_flag(&drive1_context)
 
 #endif
 
