@@ -207,6 +207,8 @@ raster_t *vdc_init(void)
 
     vdc.initialized = 1;
 
+    raster_set_pixel_size(&vdc.raster, 1, 1, VIDEO_RENDER_RGB_1X1);
+
     return &vdc.raster;
 }
 
@@ -359,6 +361,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
         in_idle_state = (vdc.raster.current_line < vdc.border_height)
                         || (vdc.raster.current_line >
                         (vdc.border_height + vdc.screen_ypix));
+    }
+
+    if (vdc.raster.current_line == vdc.first_displayed_line * 2 + 1) {
+        vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
+                         & vdc.vdc_address_mask;
     }
 
     if (vdc.raster.current_line == 0) {
