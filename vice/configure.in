@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.4)
+AM_INIT_AUTOMAKE(vice, 0.15.0.5)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -27,7 +27,7 @@ AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field w
 AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
 AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
 AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
-AC_ARG_WITH(resid, [  --with-resid=PATH       link with the reSID engine located at PATH])
+AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
 
 if test x"$enable_autobpp" = "xyes"; then
   AC_DEFINE(X_DISPLAY_DEPTH, 0)
@@ -175,9 +175,18 @@ RESID_DIR=
 RESID_LIBS=
 RESID_INCLUDES=
 
+dnl Disable installation of reSID in $prefix.
 ac_cv_install_resid=no
 
-if test x"$with_resid" != "xno"; then
+if test x"$with_resid" = "xno"; then
+  dnl Do not attempt to configure reSID.
+  dnl NOTE: no_recursion is set because directories specified with
+  dnl AC_CONFIG_SUBDIRS are always recursed into regardless of where the
+  dnl macro is used.
+  dnl Another workaround must be found if other self-contained packages go
+  dnl into VICE.
+  no_recursion=yes
+else
   AC_PROG_CXX
   AC_PROG_CXXCPP
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
@@ -341,13 +350,29 @@ AC_STRUCT_TM
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 
-if test x"$with_readline" != "xno" -a x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
-  READLINE=""
-  dnl FIXME: Some SuSE distro needs this?!  Why?
-  dnl AC_CHECK_LIB(ncurses, tputs, [READLINE="-lncurses $READLINE"],,,)
-  AC_CHECK_LIB(readline, readline,
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
+  if test x"$with_readline" != "xno" ; then
+    READLINE=""
+    unset ac_cv_lib_readline_readline
+    AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline $LIBS"],
-               [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],,)
+               [ ],,)
+    if test "$ac_cv_lib_readline_readline" = "no"; then
+      unset ac_cv_lib_readline_readline
+      AC_CHECK_LIB(readline, readline,
+               [ READLINE="" LIBS="-lncurses -lreadline $LIBS"],
+               [ ], "-lncurses",)
+      if test "$ac_cv_lib_readline_readline" = "no"; then
+        unset ac_cv_lib_readline_readline
+        AC_CHECK_LIB(readline, readline,
+               [ READLINE="" LIBS="-lcurses -lreadline $LIBS"],
+               [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],
+		"-lcurses",)
+      fi
+    fi
+  else
+    READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
+  fi
 else
   READLINE=""
 fi
@@ -418,11 +443,13 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
 
   AC_CHECK_HEADERS(X11/extensions/XShm.h X11/Sunkeysym.h X11/xpm.h)
 
+  LIBS="$LIBS -lm"
+
 elif [[ x"$is_dos" != "xno" ]]; then
 
   dnl On MS-DOS, we already know what we want.
 
-  LIBS="-lalleg $LIBMIDAS"
+  LIBS="-lm -lalleg $LIBMIDAS"
   AC_SUBST(LDFLAGS)
 
 elif [[ x"$is_win32" != "xno" ]]; then
