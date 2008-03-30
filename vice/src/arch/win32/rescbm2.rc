@@ -1000,7 +1000,7 @@ BEGIN
         MENUITEM "Du&bbele scan", IDM_TOGGLE_CRTCDOUBLESCAN
             , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Verwissel &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Verwissel &Joysticks\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Geluid&suitvoer", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR

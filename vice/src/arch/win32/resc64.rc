@@ -1077,9 +1077,9 @@ BEGIN
             BEGIN
                 MENUITEM "Aktiveer", IDM_CART_ENABLE_EXPERT
                 MENUITEM SEPARATOR
-                MENUITEM "Aan",    IDM_CART_MODE_OFF
+                MENUITEM "Uit",    IDM_CART_MODE_OFF
                 MENUITEM "Prg",    IDM_CART_MODE_PRG
-                MENUITEM "Uit",     IDM_CART_MODE_ON
+                MENUITEM "Aan",     IDM_CART_MODE_ON
             END
             MENUITEM SEPARATOR
             MENUITEM "Zet cartridge als stan&daard", IDM_CART_SET_DEFAULT
@@ -1181,7 +1181,7 @@ BEGIN
         MENUITEM "PAL Emulatie", IDM_TOGGLE_FASTPAL, CHECKED
         MENUITEM "Schaal2x", IDM_TOGGLE_SCALE2X, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Verwissel &Joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Verwissel &Joysticks\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
         MENUITEM "Geluid&suitvoer", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
@@ -1505,7 +1505,6 @@ BEGIN
         MENUITEM "Bez g&warancji",          IDM_WARRANTY
     END
 END
-LANGUAGE 0x00,0x00
 #pragma code_page(28591)
 
 
