@@ -1426,7 +1426,7 @@ static BYTE peek_bank_io(ADDRESS addr)
 {
     BYTE v1, v2, v3, v4;
 
-    if (emu_id_enabled && addr >= 0xE8A0) {
+    if (emu_id_enabled && addr >= 0xe8A0) {
         addr &= 0xff;
         if (addr == 0xff)
             emulator_id[addr - 0xa0] ^= 0xff;
@@ -1505,11 +1505,11 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         return ram[addr + 0x10000];
         break;
       case 3:                   /* io */
-        if (addr >= 0xE000 && addr <= 0xE0FF) {
+        if (addr >= 0xe000 && addr <= 0xe0ff) {
             return read_io(addr);
         }
       case 2:                   /* rom */
-        if (addr >= 0x9000 && addr <= 0xFFFF) {
+        if (addr >= 0x9000 && addr <= 0xffff) {
             return rom[addr & 0x7fff];
         }
       case 1:                   /* ram */
@@ -1525,7 +1525,7 @@ BYTE mem_bank_peek(int bank, ADDRESS addr)
         return mem_read(addr);  /* FIXME */
         break;
       case 3:                   /* io */
-        if (addr >= 0xE000 && addr <= 0xE0FF) {
+        if (addr >= 0xe000 && addr <= 0xe0ff) {
             return peek_bank_io(addr);
         }
     }
@@ -1542,18 +1542,51 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         ram[addr + 0x10000] = byte;
         return;
       case 3:                   /* io */
-        if (addr >= 0xE000 && addr <= 0xE0FF) {
+        if (addr >= 0xe000 && addr <= 0xe0ff) {
             store_io(addr, byte);
             return;
         }
       case 2:                   /* rom */
-        if (addr >= 0x9000 && addr <= 0xFFFF) {
+        if (addr >= 0x9000 && addr <= 0xffff) {
             return;
         }
       case 1:                   /* ram */
         break;
     }
     ram[addr] = byte;
+}
+
+mem_ioreg_list_t *mem_ioreg_list_get(void)
+{
+    mem_ioreg_list_t *mem_ioreg_list;
+
+    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 4);
+
+    mem_ioreg_list[0].name = "PIA1";
+    mem_ioreg_list[0].start = 0x0010;
+    mem_ioreg_list[0].end = 0x001f;
+    mem_ioreg_list[0].next = &mem_ioreg_list[1];
+
+    mem_ioreg_list[1].name = "PIA2";
+    mem_ioreg_list[1].start = 0x0020;
+    mem_ioreg_list[1].end = 0x002f;
+    mem_ioreg_list[1].next = &mem_ioreg_list[2];
+
+    mem_ioreg_list[2].name = "VIA";
+    mem_ioreg_list[2].start = 0x0040;
+    mem_ioreg_list[2].end = 0x004f;
+    mem_ioreg_list[2].next = NULL;
+
+    if (petres.crtc) {
+        mem_ioreg_list[2].next = &mem_ioreg_list[3];
+
+        mem_ioreg_list[3].name = "CRTC";
+        mem_ioreg_list[3].start = 0x0080;
+        mem_ioreg_list[3].end = 0x0093;
+        mem_ioreg_list[3].next = NULL;
+    }
+
+    return mem_ioreg_list;
 }
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
