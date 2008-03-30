@@ -46,6 +46,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "magicformel.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "ide64.h"
@@ -134,6 +135,8 @@ BYTE REGPARM1 cartridge_read_io1(WORD addr)
         return supersnapshot_v5_io1_read(addr);
       case CARTRIDGE_EXPERT:
         return expert_io1_read(addr);
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_io1_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -212,6 +215,9 @@ void REGPARM2 cartridge_store_io1(WORD addr, BYTE value)
             export.exrom = 1;  /* turn off cart ROM */
         mem_pla_config_changed();
         break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_io1_store(addr, value);
+        break;
     }
     return;
 }
@@ -255,6 +261,8 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return roml_banks[0x1f00 + (addr & 0xff)];
       case CARTRIDGE_EXPERT:
         return expert_io2_read(addr);
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_io2_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -301,8 +309,10 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
       case CARTRIDGE_EXPERT:
         expert_io2_store(addr, value);
         break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_io2_store(addr, value);
+        break;
     }
-    return;
 }
 
 BYTE REGPARM1 roml_read(WORD addr)
@@ -328,28 +338,14 @@ BYTE REGPARM1 roml_read(WORD addr)
         return final_v1_roml_read(addr);
       case CARTRIDGE_FINAL_III:
         return final_v3_roml_read(addr);
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_roml_read(addr);
     }
 
     if (export_ram)
         return export_ram0[addr & 0x1fff];
 
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-BYTE REGPARM1 romh_read(WORD addr)
-{
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_ATOMIC_POWER:
-        return atomicpower_romh_read(addr);
-      case CARTRIDGE_EXPERT:
-        return expert_romh_read(addr);
-      case CARTRIDGE_OCEAN:
-        /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
-        return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
-      case CARTRIDGE_IDE64:
-        return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
-    }
-    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
 void REGPARM2 roml_store(WORD addr, BYTE value)
@@ -379,12 +375,61 @@ void REGPARM2 roml_store(WORD addr, BYTE value)
       case CARTRIDGE_FINAL_III:
         final_v3_roml_store(addr, value);
         return;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_roml_store(addr, value);
+        return;
     }
 
     if (export_ram)
         export_ram0[addr & 0x1fff] = value;
+}
 
-    return;
+BYTE REGPARM1 romh_read(WORD addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ATOMIC_POWER:
+        return atomicpower_romh_read(addr);
+      case CARTRIDGE_EXPERT:
+        return expert_romh_read(addr);
+      case CARTRIDGE_OCEAN:
+        /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
+        return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+      case CARTRIDGE_IDE64:
+        return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
+    }
+    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+}
+
+void REGPARM2 romh_store(WORD addr, BYTE value)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_romh_store(addr, value);
+        return;
+    }
+}
+
+BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        return export_ram0[addr & 0x7fff];
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_1000_7fff_read(addr);
+    }
+    return vicii_read_phi1();
+}
+
+void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        export_ram0[addr & 0x7fff] = value;
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_1000_7fff_store(addr, value);
+        break;
+    }
 }
 
 BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
@@ -394,24 +439,8 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
         return atomicpower_a000_bfff_read(addr);
       case CARTRIDGE_IDE64:
         return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
-    }
-    return vicii_read_phi1();
-}
-
-BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
-{
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_IDE64:
-        return export_ram0[addr & 0x7fff];
-    }
-    return vicii_read_phi1();
-}
-
-BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
-{
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_IDE64:
-        return export_ram0[addr & 0x7fff];
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_a000_bfff_read(addr);
     }
     return vicii_read_phi1();
 }
@@ -421,26 +450,53 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
         atomicpower_a000_bfff_store(addr, value);
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_a000_bfff_store(addr, value);
+        break;
     }
-    return;
 }
 
-void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
+BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
-        export_ram0[addr & 0x7fff]=value;
+        return export_ram0[addr & 0x7fff];
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_c000_cfff_read(addr);
     }
-    return;
+    return vicii_read_phi1();
 }
 
 void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
-        export_ram0[addr & 0x7fff]=value;
+        export_ram0[addr & 0x7fff] = value;
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_c000_cfff_store(addr, value);
+        break;
     }
-    return;
+}
+
+BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_MAGIC_FORMEL:
+        return magicformel_d000_dfff_read(addr);
+    }
+    return read_bank_io(addr);
+}
+
+void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_d000_dfff_store(addr, value);
+        break;
+    }
+    store_bank_io(addr, value);
 }
 
 void REGPARM1 cartridge_decode_address(WORD addr)
@@ -524,6 +580,9 @@ void cartridge_init_config(void)
       case CARTRIDGE_MAGIC_DESK:
         cartridge_config_changed(0, 0, CMODE_READ);
         cartridge_store_io1((WORD)0xde00, 0);
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_config_init();
         break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
@@ -615,6 +674,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_MAGIC_DESK:
         memcpy(roml_banks, rawcart, 0x2000 * 64);
         cartridge_config_changed(0, 0, CMODE_READ);
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_config_setup(rawcart);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

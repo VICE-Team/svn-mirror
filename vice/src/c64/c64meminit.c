@@ -42,7 +42,7 @@
 const unsigned int c64meminit_io_config[32] = 
     { 0, 0, 0, 0, 0, 1, 1, 1,
       0, 0, 0, 0, 0, 1, 1, 1,
-      1, 1, 1, 1, 1, 1, 1, 1,
+      2, 2, 2, 2, 2, 2, 2, 2,
       0, 0, 0, 0, 0, 1, 1, 1 };
 
 /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
@@ -90,7 +90,7 @@ void c64meminit(unsigned int base)
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
     for (j = 0; j < 32; j++) {
-        if (c64meminit_io_config[j]) {
+        if (c64meminit_io_config[j] == 1) {
             for (i = 0xd0; i <= 0xd3; i++) {
                 mem_read_tab_set(base+j, i, vicii_read);
                 mem_set_write_hook(base+j, i, vicii_store);
@@ -116,6 +116,13 @@ void c64meminit(unsigned int base)
 
             for (i = 0xd0; i <= 0xdf; i++)
                 mem_read_base_set(base+j, i, NULL);
+        }
+        if (c64meminit_io_config[j] == 2) {
+            for (i = 0xd0; i <= 0xdf; i++) {
+                mem_read_tab_set(base+j, i, ultimax_d000_dfff_read);
+                mem_set_write_hook(base+j, i, ultimax_d000_dfff_store);
+                mem_read_base_set(base+j, i, NULL);
+            }
         }
     }
 
@@ -196,6 +203,9 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base+j, i, ultimax_c000_cfff_read);
             mem_set_write_hook(base+j, i, ultimax_c000_cfff_store);
             mem_read_base_set(base+j, i, NULL);
+        }
+        for (i = 0xe0; i <= 0xff; i++) {
+            mem_set_write_hook(base+j, i, romh_store);
         }
     }
 }

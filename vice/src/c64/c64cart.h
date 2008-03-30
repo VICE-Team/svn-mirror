@@ -31,17 +31,17 @@
 
 extern BYTE REGPARM1 roml_read(WORD addr);
 extern void REGPARM2 roml_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 romh_read(WORD addr);
+extern void REGPARM2 romh_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
 extern void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr);
 extern void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value);
-
 extern BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr);
 extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr);
+extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 cartridge_read_io1(WORD addr);
 extern BYTE REGPARM1 cartridge_read_io2(WORD addr);
