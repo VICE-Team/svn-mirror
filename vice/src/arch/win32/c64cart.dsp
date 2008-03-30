@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "c64cart - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\c64\cart\actionreplay3.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\actionreplay.c"
 # End Source File
 # Begin Source File

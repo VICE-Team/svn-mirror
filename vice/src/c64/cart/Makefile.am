@@ -8,6 +8,8 @@ INCLUDES = \
 noinst_LIBRARIES = libc64cart.a
 
 libc64cart_a_SOURCES = \
+	actionreplay3.c \
+	actionreplay3.h \
 	actionreplay.c \
 	actionreplay.h \
 	atomicpower.c \
