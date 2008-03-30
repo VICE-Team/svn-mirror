@@ -40,7 +40,6 @@
 #include "video.h"
 
 extern int screen;
-extern int have_truecolor;
 extern Colormap colormap;
 extern Pixel drive_led_on_red_pixel, drive_led_on_green_pixel;
 extern Pixel drive_led_off_pixel;
