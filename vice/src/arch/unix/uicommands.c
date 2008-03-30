@@ -329,8 +329,12 @@ static UI_CALLBACK(powerup_reset)
 
 static UI_CALLBACK(browse_manual)
 {
-    if (_ui_resources.html_browser_command == NULL ||
-	*_ui_resources.html_browser_command == '\0') {
+    const char *bcommand = NULL;
+
+    resources_get_value("HTMLBrowserCommand", (resource_value_t *)&bcommand);
+
+    if (bcommand == NULL ||
+	*bcommand == '\0') {
 	ui_error(_("No HTML browser is defined."));
     } else {
 	/* FIXME: Argh.  Ugly!  */
@@ -343,17 +347,17 @@ static UI_CALLBACK(browse_manual)
 #ifdef USE_VIDMODE_EXTENSION
         ui_set_windowmode();
 #endif
-	cmd_len = strlen(_ui_resources.html_browser_command);
+	cmd_len = strlen(bcommand);
 	manual_path_len = strlen(manual_path);
 
-	res_ptr = strstr(_ui_resources.html_browser_command, "%s");
+	res_ptr = strstr(bcommand, "%s");
 	if (res_ptr == NULL) {
 	    /* No substitution. */
 	    if (cmd_len + 2 > BROWSE_CMD_BUF_MAX - 1) {
 		ui_error(_("Browser command too long."));
 		return;
 	    }
-	    sprintf(buf, "%s &", _ui_resources.html_browser_command);
+	    sprintf(buf, "%s &", bcommand);
 	} else {
 	    char *tmp_ptr, *cmd_ptr;
 	    int offs;
@@ -368,8 +372,8 @@ static UI_CALLBACK(browse_manual)
 		return;
 	    }
 
-	    offs = res_ptr - _ui_resources.html_browser_command;
-	    memcpy(buf, _ui_resources.html_browser_command, offs);
+	    offs = res_ptr - bcommand;
+	    memcpy(buf, bcommand, offs);
 	    strcpy(buf + offs, manual_path);
 	    cmd_ptr = buf + offs + manual_path_len;
 	    res_ptr += 2;
