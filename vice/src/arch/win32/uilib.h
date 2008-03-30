@@ -58,7 +58,8 @@
 #define UILIB_FILTER_FLIPLIST       (1 << 8)
 #define UILIB_FILTER_ROMSET_FILE    (1 << 9)
 #define UILIB_FILTER_ROMSET_ARCHIVE (1 << 10)
-#define UILIB_FILTER_LENGTH_MAX     (1 << 11)
+#define UILIB_FILTER_KEYMAP         (1 << 11)
+#define UILIB_FILTER_LENGTH_MAX     (1 << 12)
 
 
 extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,

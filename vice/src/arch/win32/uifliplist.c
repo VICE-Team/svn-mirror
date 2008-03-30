@@ -66,9 +66,10 @@ static void uifliplist_save_dialog(HWND hwnd)
         UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
         char *name;
 
-        util_add_extension(&st_name, "vfl");
-
         name = system_wcstombs_alloc(st_name);
+
+        util_add_extension(&name, "vfl");
+
         if (flip_save_list((unsigned int)-1, name) != 0)
             ui_error("Cannot write flip list file");
         system_wcstombs_free(name);

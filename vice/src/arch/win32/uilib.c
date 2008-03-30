@@ -84,9 +84,10 @@ static uilib_filefilter_t uilib_filefilter[] = {
       TEXT("*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z") },
     { TEXT("CRT cartridge image files (*.crt)"), TEXT("*.crt") },
     { TEXT("Raw cartridge image files (*.bin)"), TEXT("*.bin") },
-    { TEXT("Flip list files (*.vfl)"), TEXT("*.vfl") },
+    { TEXT("VICE flip list files (*.vfl)"), TEXT("*.vfl") },
     { TEXT("VICE romset files (*.vrs)"), TEXT("*.vrs") },
     { TEXT("VICE romset archives (*.vra)"), TEXT("*.vra") },
+    { TEXT("VICE keymap files (*.vkm)"), TEXT("*.vkm") },
     { NULL, NULL }
 };
 
