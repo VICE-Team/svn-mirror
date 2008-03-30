@@ -35,35 +35,38 @@
 
 #include "types.h"
 
-char *stralloc(const char *str);
-void *xmalloc(size_t s);
-void *xcalloc(size_t nmemb, size_t size);
-void *xrealloc(void *p, size_t s);
-char *concat(const char *s1, ...);
-char *bufcat(char *buf, int *buf_size, int *max_buf_size,
-		    const char *src, int src_size);
-void remove_spaces(char *s);
-char *make_backup_filename(const char *fname);
-int make_backup_file(const char *fname);
-char *get_current_dir(void);
-unsigned long file_length(file_desc_t fd);
-int load_file(const char *name, void *dest, int size);
-int save_file(const char *name, const void *src, int size);
-int get_line(char *buf, int bufsize, FILE *f);
-void fname_split(const char *path, char **directory_return, char **name_return);
+extern char *stralloc(const char *str);
+extern void *xmalloc(size_t s);
+extern void *xcalloc(size_t nmemb, size_t size);
+extern void *xrealloc(void *p, size_t s);
+extern char *concat(const char *s1, ...);
+extern char *bufcat(char *buf, int *buf_size, int *max_buf_size,
+                    const char *src, int src_size);
+extern void remove_spaces(char *s);
+extern char *make_backup_filename(const char *fname);
+extern int make_backup_file(const char *fname);
+extern char *get_current_dir(void);
 
-int string_to_long(const char *str, const char **endptr, int base,
-		   long *result);
-char *subst(const char *s, const char *string, const char *replacement);
-void string_set(char **str, const char *new_value);
+extern unsigned long file_length(FILE *fd);
+extern int load_file(const char *name, void *dest, int size);
+extern int save_file(const char *name, const void *src, int size);
 
-int read_dword(file_desc_t fd, DWORD *buf, int num);
-int write_dword(file_desc_t fd, DWORD *buf, int num);
+extern int get_line(char *buf, int bufsize, FILE *f);
+extern void fname_split(const char *path, char **directory_return,
+                        char **name_return);
 
-int file_exists_p(const char *name);
+extern int string_to_long(const char *str, const char **endptr, int base,
+                          long *result);
+extern char *subst(const char *s, const char *string, const char *replacement);
+extern void string_set(char **str, const char *new_value);
 
-char *find_prev_line(const char *text, const char *pos);
-char *find_next_line(const char *text, const char *pos);
+extern int read_dword(FILE *fd, DWORD *buf, int num);
+extern int write_dword(FILE *fd, DWORD *buf, int num);
+
+extern int file_exists_p(const char *name);
+
+extern char *find_prev_line(const char *text, const char *pos);
+extern char *find_next_line(const char *text, const char *pos);
 
 #if !defined HAVE_MEMMOVE
 void *memmove(void *target, const void *source, unsigned int length);

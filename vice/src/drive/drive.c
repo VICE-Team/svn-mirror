@@ -65,21 +65,20 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "drive.h"
+#include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
-#include "memutils.h"
 #include "resources.h"
 #include "riotd.h"
 #include "serial.h"
 #include "snapshot.h"
+#include "sysfile.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "viad.h"
 #include "wd1770.h"
-#include "sysfile.h"
-#include "fdc.h"
 #include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
@@ -733,14 +732,14 @@ static int drive_read_image_gcr(int dnr)
 
     NumTracks = drive[dnr].drive_floppy->NumTracks;
 
-    lseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
+    fseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image.");
 	return 0;
     }
 
-    lseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    fseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image.");
@@ -759,8 +758,8 @@ static int drive_read_image_gcr(int dnr)
 
 	    offset = gcr_track_p[track * 2];
 
-	    lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
-	    if (read(drive[dnr].drive_floppy->ActiveFd, (char *)len, 2) < 2) {
+	    fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
+	    if (fread((char *)len, 2, 1, drive[dnr].drive_floppy->ActiveFd) < 1) {
 		log_error(drive[dnr].log, "Could not read GCR disk image.");
 		return 0;
 	    }
@@ -776,9 +775,9 @@ static int drive_read_image_gcr(int dnr)
 
 	    drive[dnr].GCR_track_size[track] = track_len;
 
-	    lseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET);
-	    if (read(drive[dnr].drive_floppy->ActiveFd, (char *)track_data,
-                     track_len) < track_len) {
+	    fseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET);
+	    if (fread((char *)track_data, track_len, 1,
+                drive[dnr].drive_floppy->ActiveFd) < 1) {
 		log_error(drive[dnr].log, "Could not read GCR disk image.");
 		return 0;
 	    }
@@ -789,9 +788,9 @@ static int drive_read_image_gcr(int dnr)
 
 		offset = gcr_speed_p[track * 2];
 
-		lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
-		if (read(drive[dnr].drive_floppy->ActiveFd, (char *)comp_speed,
-                         zone_len) < zone_len) {
+		fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
+		if (fread((char *)comp_speed, zone_len, 1,
+                drive[dnr].drive_floppy->ActiveFd) < 1) {
 		    log_error(drive[dnr].log,
                               "Could not read GCR disk image.");
 		    return 0;
@@ -821,14 +820,14 @@ static void write_track_gcr(int track, int dnr)
 
     NumTracks = drive[dnr].drive_floppy->NumTracks;
 
-    lseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
+    fseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image header.");
 	return;
     }
 
-    lseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
+    fseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
                    NumTracks * 8) < 0) {
 	log_error(drive[dnr].log, "Could not read GCR disk image header.");
@@ -836,7 +835,7 @@ static void write_track_gcr(int track, int dnr)
     }
 
     if (gcr_track_p[(track - 1) * 2] == 0) {
-	offset = lseek(drive[dnr].drive_floppy->ActiveFd, 0, SEEK_END);
+	offset = fseek(drive[dnr].drive_floppy->ActiveFd, 0, SEEK_END);
 	if (offset < 0) {
 	    log_error(drive[dnr].log, "Could not extend GCR disk image.");
 	    return;
@@ -849,8 +848,8 @@ static void write_track_gcr(int track, int dnr)
     len[0] = drive[dnr].GCR_track_size[track - 1] % 256;
     len[1] = drive[dnr].GCR_track_size[track - 1] / 256;
 
-    if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
-        || write(drive[dnr].drive_floppy->ActiveFd, (char *)len, 2) < 0) {
+    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
+        || fwrite((char *)len, 2, 1, drive[dnr].drive_floppy->ActiveFd) < 1) {
 	log_error(drive[dnr].log, "Could not write GCR disk image.");
 	return;
     }
@@ -861,9 +860,9 @@ static void write_track_gcr(int track, int dnr)
     if (gap > 0)
 	memset(drive[dnr].GCR_track_start_ptr + drive[dnr].GCR_track_size[track - 1], 0, gap);
 
-    if (lseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
-        || write(drive[dnr].drive_floppy->ActiveFd,
-                 (char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK) < 0) {
+    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
+        || fwrite((char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK,
+        1, drive[dnr].drive_floppy->ActiveFd) < 1) {
 	log_error(drive[dnr].log, "Could not write GCR disk image.");
 	return;
     }
@@ -887,7 +886,7 @@ static void write_track_gcr(int track, int dnr)
     }
 
     offset = 12 + NumTracks * 8 + (track - 1) * 8;
-    if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
+    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
         || write_dword(drive[dnr].drive_floppy->ActiveFd,
                        &gcr_speed_p[(track - 1) * 2], 4) < 0) {
         log_error(drive[dnr].log, "Could not write GCR disk image.");
@@ -908,9 +907,9 @@ static void write_track_gcr(int track, int dnr)
                          | (zone_data[i * 4 + 2] << 4)
                          | (zone_data[i * 4 + 3] << 6));
 
-    if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
-        || write(drive[dnr].drive_floppy->ActiveFd, (char *)comp_speed,
-                 NUM_MAX_BYTES_TRACK / 4) < 0) {
+    if (fseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
+        || fwrite((char *)comp_speed, NUM_MAX_BYTES_TRACK / 4, 1
+        drive[dnr].drive_floppy->ActiveFd) < 1) {
         log_error(drive[dnr].log, "Could not write GCR disk image");
         return;
     }
@@ -1228,8 +1227,8 @@ static int drive_load_1541(void)
     if (!drive_rom_load_ok) return 0;
 
     /* Load the ROMs. */
-    if (mem_load_sys_file(dos_rom_name_1541, drive_rom1541, DRIVE_ROM1541_SIZE,
-                          DRIVE_ROM1541_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_1541, drive_rom1541, DRIVE_ROM1541_SIZE,
+        DRIVE_ROM1541_SIZE) < 0) {
         log_error(drive_log,
                   "1541 ROM image not found.  "
                   "Hardware-level 1541 emulation is not available.");
@@ -1244,8 +1243,8 @@ static int drive_load_1541ii(void)
 {
     if (!drive_rom_load_ok) return 0;
 
-    if (mem_load_sys_file(dos_rom_name_1541ii, drive_rom1541ii,
-                          DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_1541ii, drive_rom1541ii,
+        DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
         log_error(drive_log,
                   "1541-II ROM image not found.  "
                   "Hardware-level 1541-II emulation is not available.");
@@ -1260,8 +1259,8 @@ static int drive_load_1571(void)
 {
     if (!drive_rom_load_ok) return 0;
 
-    if (mem_load_sys_file(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
-                          DRIVE_ROM1571_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
+        DRIVE_ROM1571_SIZE) < 0) {
         log_error(drive_log,
                   "1571 ROM image not found.  "
                   "Hardware-level 1571 emulation is not available.");
@@ -1276,8 +1275,8 @@ static int drive_load_1581(void)
 {
     if (!drive_rom_load_ok) return 0;
 
-    if (mem_load_sys_file(dos_rom_name_1581, drive_rom1581, DRIVE_ROM1581_SIZE,
-                          DRIVE_ROM1581_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_1581, drive_rom1581, DRIVE_ROM1581_SIZE,
+        DRIVE_ROM1581_SIZE) < 0) {
         log_error(drive_log,
                   "1581 ROM image not found.  "
                   "Hardware-level 1581 emulation is not available.");
@@ -1292,8 +1291,8 @@ static int drive_load_2031(void)
 {
     if (!drive_rom_load_ok) return 0;
 
-    if (mem_load_sys_file(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
-                          DRIVE_ROM2031_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
+        DRIVE_ROM2031_SIZE) < 0) {
         log_error(drive_log,
                   "2031 ROM image not found.  "
                   "Hardware-level 2031 emulation is not available.");
@@ -1308,8 +1307,8 @@ static int drive_load_1001(void)
 {
     if (!drive_rom_load_ok) return 0;
 
-    if (mem_load_sys_file(dos_rom_name_1001, drive_rom1001, DRIVE_ROM1001_SIZE,
-                          DRIVE_ROM1001_SIZE) < 0) {
+    if (sysfile_load(dos_rom_name_1001, drive_rom1001, DRIVE_ROM1001_SIZE,
+        DRIVE_ROM1001_SIZE) < 0) {
         log_error(drive_log,
                   "1001 ROM image not found.  "
                   "Hardware-level 1001 emulation is not available.");

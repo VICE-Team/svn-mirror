@@ -105,7 +105,7 @@ static int set_file_system_device8(resource_value_t v)
     p = serial_get_device(8);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(8, (file_system_device_enabled[0]
                                 ? DT_FS : DT_DISK) | DT_1541,
@@ -125,7 +125,7 @@ static int set_file_system_device9(resource_value_t v)
     p = serial_get_device(9);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(9, (file_system_device_enabled[1]
                                 ? DT_FS : DT_DISK) | DT_1541,
@@ -145,7 +145,7 @@ static int set_file_system_device10(resource_value_t v)
     p = serial_get_device(10);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(10, (file_system_device_enabled[2]
                                  ? DT_FS : DT_DISK) | DT_1541,
@@ -165,7 +165,7 @@ static int set_file_system_device11(resource_value_t v)
     p = serial_get_device(11);
     floppy = (DRIVE *)p->info;
     if (floppy != NULL) {
-	if (floppy->ActiveFd == ILLEGAL_FILE_DESC) {
+	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(11, (file_system_device_enabled[3]
                                  ? DT_FS : DT_DISK) | DT_1541,
