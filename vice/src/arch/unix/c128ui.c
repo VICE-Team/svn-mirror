@@ -348,33 +348,20 @@ UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
 
 UI_CALLBACK(set_function_rom_name)
 {
-    char *resname = (char*)UI_MENU_CB_PARAM;
-    char *title;
+    char *resname = (char *)UI_MENU_CB_PARAM;
     ui_button_t button;
-    char *value;
-    char *new_value;
-    int len;
+    char *filename;
+    static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = stralloc(_("Name of the function ROM image"));
 
-    resources_get_value(resname, (resource_value_t *)&value);
-    len = strlen(value) * 2;
-    if (len < 255)
-        len = 255;
+    filename = ui_select_file(_("Function ROM image"), NULL, False, last_dir,
+                              "*", &button, False, NULL);
 
-    new_value = xmalloc(len + 1);
-    strcpy(new_value, value);
-
-    button = ui_input_string(title, _("Command:"), new_value, len);
-    free(title);
-
-    if (button == UI_BUTTON_OK) {
-        if (resources_set_value(resname, (resource_value_t)new_value) < 0)
-            ui_error(_("Could not load function ROM image\n'%s'"), new_value);
+    if (button == UI_BUTTON_OK && filename != NULL) {
+        if (resources_set_value(resname, (resource_value_t)filename) < 0)
+            ui_error(_("Could not load function ROM image\n'%s'"), filename);
     }
-
-    free(new_value);
 }
 
 static ui_menu_entry_t io_extensions_submenu[] = {
@@ -456,7 +443,7 @@ static UI_CALLBACK(save_screenshot)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_screenshot_dialog(filename, wid) < 0) 
+    if (ui_screenshot_dialog(filename, wid) < 0)
         return;
 }
 
@@ -536,7 +523,7 @@ int c128_ui_init(void)
                                      ui_menu_separator,
                                      ui_video_settings_menu,
 #ifdef USE_XF86_EXTENSIONS
-				     ui_fullscreen_settings_menu,
+                                     ui_fullscreen_settings_menu,
 #endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
@@ -550,69 +537,69 @@ int c128_ui_init(void)
                                      NULL));
 
     ui_set_topmenu("TopLevelMenu",
-		   _("File"),
-		   ui_menu_create("File",
-				  ui_smart_attach_commands_menu,
-				  ui_menu_separator,
-				  ui_disk_commands_menu,
-				  ui_menu_separator,
+                   _("File"),
+                   ui_menu_create("File",
+                                  ui_smart_attach_commands_menu,
+                                  ui_menu_separator,
+                                  ui_disk_commands_menu,
+                                  ui_menu_separator,
                                   ui_tape_commands_menu,
                                   ui_datasette_commands_menu,
                                   ui_menu_separator,
-				  ui_directory_commands_menu,
-				  ui_menu_separator,
-				  ui_tool_commands_menu,
-				  ui_menu_separator,
-				  ui_run_commands_menu,
-				  ui_menu_separator,
-				  ui_exit_commands_menu,
-				  NULL),
-		   _("Snapshot"),
-		   ui_menu_create("Snapshot",
-				  ui_snapshot_commands_submenu,
-				  ui_menu_separator,
-				  screenshot_submenu,
-				  NULL),
-		   _("Options"),
-		   ui_menu_create("Options",
-				  ui_performance_settings_menu,
-				  ui_menu_separator,
+                                  ui_directory_commands_menu,
+                                  ui_menu_separator,
+                                  ui_tool_commands_menu,
+                                  ui_menu_separator,
+                                  ui_run_commands_menu,
+                                  ui_menu_separator,
+                                  ui_exit_commands_menu,
+                                  NULL),
+                   _("Snapshot"),
+                   ui_menu_create("Snapshot",
+                                  ui_snapshot_commands_submenu,
+                                  ui_menu_separator,
+                                  screenshot_submenu,
+                                  NULL),
+                   _("Options"),
+                   ui_menu_create("Options",
+                                  ui_performance_settings_menu,
+                                  ui_menu_separator,
 #ifdef USE_XF86_EXTENSIONS
-				  ui_fullscreen_settings_menu,
-				  ui_menu_separator,
+                                  ui_fullscreen_settings_menu,
+                                  ui_menu_separator,
 #endif
-				  joystick_options_submenu,
-				  ui_menu_separator,
-				  sid_options_submenu,
-				  ui_menu_separator,
-				  ui_drive_options_submenu,
-				  ui_menu_separator,
-				  vic_options_submenu,
-				  ui_menu_separator,
-				  io_extensions_submenu,
-				  NULL),
-		   _("Settings"),
-		   ui_menu_create("Settings",
-				  ui_peripheral_settings_menu,
-				  ui_drive_settings_menu,
-				  ui_keyboard_settings_menu,
-				  joystick_settings_menu,
-				  ui_sound_settings_menu,
-				  ui_menu_separator,
-				  c128_settings_menu,
-				  ui_menu_separator,
-				  ui_settings_settings_menu,
-				  NULL),
-		   /* Translators: RJ means right justify and should be
-		      saved in your tranlation! e.g. german "RJHilfe" */
-		   _("RJHelp"),
-		   ui_menu_create("Help",
-				  ui_help_commands_menu,
-				  NULL),
-		   NULL);
+                                  joystick_options_submenu,
+                                  ui_menu_separator,
+                                  sid_options_submenu,
+                                  ui_menu_separator,
+                                  ui_drive_options_submenu,
+                                  ui_menu_separator,
+                                  vic_options_submenu,
+                                  ui_menu_separator,
+                                  io_extensions_submenu,
+                                  NULL),
+                   _("Settings"),
+                   ui_menu_create("Settings",
+                                  ui_peripheral_settings_menu,
+                                  ui_drive_settings_menu,
+                                  ui_keyboard_settings_menu,
+                                  joystick_settings_menu,
+                                  ui_sound_settings_menu,
+                                  ui_menu_separator,
+                                  c128_settings_menu,
+                                  ui_menu_separator,
+                                  ui_settings_settings_menu,
+                                  NULL),
+                   /* Translators: RJ means right justify and should be
+                      saved in your tranlation! e.g. german "RJHilfe" */
+                   _("RJHelp"),
+                   ui_menu_create("Help",
+                                  ui_help_commands_menu,
+                                  NULL),
+                   NULL);
     ui_set_speedmenu(ui_menu_create("SpeedMenu",
-				    ui_performance_settings_menu, 
-				    NULL));
+                                    ui_performance_settings_menu,
+                                    NULL));
     ui_set_tape_menu(ui_menu_create("TapeMenu",
                                     ui_tape_commands_menu,
                                     ui_menu_separator,
