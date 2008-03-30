@@ -56,6 +56,7 @@
 #include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
+#include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
@@ -99,7 +100,7 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
         e = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
                                                &s_new);
         if (e < 0) {
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_DISK_FULL, 0, 0);
+            vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
             return -1;
         }
         slot[SLOT_FIRST_TRACK]  = bi->track  = t_new;
@@ -115,7 +116,7 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
         e = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_new,
                                               &s_new);
         if (e < 0) {
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_DISK_FULL, 0, 0);
+            vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
             return -1;
         }
         buf[0] = t_new;
@@ -175,7 +176,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
-       vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_READY, 18, 0);
+       vdrive_command_set_error(vdrive, IPE_NOT_READY, 18, 0);
        log_message(vdrive_iec_log, "Drive not ready.");
        return SERIAL_ERROR;
    }
@@ -208,7 +209,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
     /*
      * Clear error flag
      */
-    vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
+    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
 
     /*
      * In use ?
@@ -217,17 +218,12 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 #ifdef DEBUG_DRIVE
 	log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
 #endif
-	vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_CHANNEL, 0, 0);
+	vdrive_command_set_error(vdrive, IPE_NO_CHANNEL, 0, 0);
         return SERIAL_ERROR;
     }
 
-    /*
-     * Filemode / type
-     */
-    if (secondary == 1)
-        readmode = FAM_WRITE;
-    else
-        readmode = FAM_READ;
+    /* Default filemodes.  */
+    readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
 
     filetype = 0;
     rl = 0;  /* REL */
@@ -239,6 +235,12 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
         log_debug("Raw file name: `%s', length: %i.", name, length);
         log_debug("Parsed file name: `%s', reallength: %i.", name, reallength);
 #endif
+
+    /* Override read mode if secondary is 0 or 1.  */
+    if (secondary == 0)
+        readmode = FAM_READ;
+    if (secondary == 1)
+        readmode = FAM_WRITE;
 
     /* Limit file name to 16 chars.  */
     reallength = (reallength > 16) ? 16 : reallength;
@@ -276,7 +278,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
             p->mode = BUFFER_NOT_IN_USE;
             free(p->buffer);
             p->length = 0;
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_FOUND, 0, 0);
+            vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
         p->bufptr = 0;
@@ -315,7 +317,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
         if (!slot) {
             vdrive_close(vdrive, secondary);
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_FOUND, 0, 0);
+            vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
             return SERIAL_ERROR;
         }
 
@@ -323,7 +325,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
         /*  I don't think that this one is needed - EP
         if (filetype && type != filetype) {
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_BAD_TYPE, 0, 0);
+            vdrive_command_set_error(vdrive, IPE_BAD_TYPE, 0, 0);
             return SERIAL_ERROR;
 	    }
         */
@@ -361,8 +363,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      */
 
     if (vdrive->read_only) {
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_WRITE_PROTECT_ON,
-                                 0, 0);
+        vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
 
@@ -371,8 +372,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
             vdrive_dir_remove_slot(vdrive, slot);
         else {
             vdrive_close(vdrive, secondary);
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_FILE_EXISTS,
-                                     0, 0);
+            vdrive_command_set_error(vdrive, IPE_FILE_EXISTS, 0, 0);
             return SERIAL_ERROR;
         }
     }
@@ -390,7 +390,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
         p->mode = BUFFER_NOT_IN_USE;
         free((char *)p->buffer);
         p->buffer = NULL;
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_DISK_FULL, 0, 0);
+        vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
         return SERIAL_ERROR;
     }
 
@@ -433,8 +433,7 @@ int vdrive_close(void *flp, int secondary)
              */
 
             if (vdrive->read_only) {
-                vdrive_command_set_error(&vdrive->buffers[15],
-                                         IPE_WRITE_PROTECT_ON, 0, 0);
+                vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
                 return SERIAL_ERROR;
             }
 
@@ -454,8 +453,7 @@ int vdrive_close(void *flp, int secondary)
                 free((char *)p->buffer);
                 p->buffer = NULL;
 
-                vdrive_command_set_error(&vdrive->buffers[15], IPE_DISK_FULL,
-                                         0, 0);
+                vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
                 return SERIAL_ERROR;
             }
             p->slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
@@ -479,7 +477,7 @@ int vdrive_close(void *flp, int secondary)
         /* I'm not sure if this is correct, but really closing the buffer
            should reset the read pointer to the beginning for the next
            write! */
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
+        vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
         vdrive_close_all_channels(vdrive);
         break;
       default:
@@ -503,7 +501,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
-	vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_OPEN, 0, 0);
+	vdrive_command_set_error(vdrive, IPE_NOT_OPEN, 0, 0);
 	return SERIAL_ERROR;
 
       case BUFFER_DIRECTORY_READ:
@@ -550,7 +548,7 @@ int vdrive_read(void *flp, BYTE *data, int secondary)
 
       case BUFFER_COMMAND_CHANNEL:
 	if (p->bufptr > p->length) {
-	    vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
+	    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
 #ifdef DEBUG_DRIVE
 	    log_debug("End of buffer in command channel.");
 #endif
@@ -576,8 +574,7 @@ int vdrive_write(void *flp, BYTE data, int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
     if (vdrive->read_only && p->mode != BUFFER_COMMAND_CHANNEL) {
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_WRITE_PROTECT_ON,
-                                 0, 0);
+        vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
 
@@ -589,10 +586,10 @@ int vdrive_write(void *flp, BYTE data, int secondary)
 
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_OPEN, 0, 0);
+        vdrive_command_set_error(vdrive, IPE_NOT_OPEN, 0, 0);
         return SERIAL_ERROR;
       case BUFFER_DIRECTORY_READ:
-        vdrive_command_set_error(&vdrive->buffers[15], IPE_NOT_WRITE, 0, 0);
+        vdrive_command_set_error(vdrive, IPE_NOT_WRITE, 0, 0);
         return SERIAL_ERROR;
       case BUFFER_MEMORY_BUFFER:
         if (p->bufptr >= 256)
@@ -659,8 +656,6 @@ void vdrive_flush(void *flp, int secondary)
         /* If no command, do nothing - keep error code.  */
         status = vdrive_command_execute(vdrive, p->buffer, p->bufptr);
         p->bufptr = 0;
-        if (status == IPE_OK)
-            vdrive_command_set_error(&vdrive->buffers[15], IPE_OK, 0, 0);
     }
 }
 

@@ -76,6 +76,7 @@
 #include "resources.h"
 #include "serial.h"
 #include "utils.h"
+#include "vdrive-command.h"
 #include "vdrive.h"
 
 #ifdef __IBMC__
@@ -103,10 +104,10 @@ struct fs_buffer_info {
 
 /* this should somehow go into the fs_info struct... */
 
-static char fs_errorl[MAXPATHLEN];
+static BYTE fs_errorl[MAXPATHLEN];
 static unsigned int fs_eptr;
 static size_t fs_elen;
-static char fs_cmdbuf[MAXPATHLEN];
+static BYTE fs_cmdbuf[MAXPATHLEN];
 static unsigned int fs_cptr = 0;
 
 static char fs_dirmask[MAXPATHLEN];
@@ -127,6 +128,7 @@ extern errortext_t floppy_error_messages;
 
 /* ------------------------------------------------------------------------- */
 
+static void fs_error(vdrive_t *vdrive, int code);
 static int fsdevice_convert_p00_enabled[4];
 static int fsdevice_save_p00_enabled[4];
 static int fsdevice_hide_cbm_files_enabled[4];
@@ -407,7 +409,7 @@ static char *fsdevice_get_path(unsigned int unit)
     return NULL;
 }
 
-void fs_error(int code)
+static void fs_error(vdrive_t *vdrive, int code)
 {
     static int last_code;
     const char *message;
@@ -418,31 +420,37 @@ void fs_error(int code)
 
     last_code = code;
 
-    if (code == IPE_DOS_VERSION) {
-        message = "VICE FS DRIVER V2.0";
+    if (code != IPE_MEMORY_READ) {
+        if (code == IPE_DOS_VERSION) {
+            message = "VICE FS DRIVER V2.0";
+        } else {
+            errortext_t *e;
+            e = &floppy_error_messages;
+            while (e->nr >= 0 && e->nr != code)
+                e++;
+            if (e->nr >= 0)
+                message = e->text;
+            else
+                message = "UNKNOWN ERROR NUMBER";
+        }
+
+        sprintf(fs_errorl, "%02d,%s,00,00\015", code, message);
+
+        fs_elen = strlen(fs_errorl);
+
+        if (code && code != IPE_DOS_VERSION)
+            log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
     } else {
-        errortext_t *e;
-        e = &floppy_error_messages;
-        while (e->nr >= 0 && e->nr != code)
-            e++;
-        if (e->nr >= 0)
-            message = e->text;
-        else
-            message = "UNKNOWN ERROR NUMBER";
+        memcpy((char *)fs_errorl, vdrive->mem_buf, vdrive->mem_length);
+        fs_elen  = vdrive->mem_length;
+
     }
-
-    sprintf(fs_errorl, "%02d,%s,00,00\015", code, message);
-
-    fs_elen = strlen(fs_errorl);
     fs_eptr = 0;
-
-    if (code && code != IPE_DOS_VERSION)
-        log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
 }
 
 static void flush_fs(void *flp, int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
     char cbmcmd[MAXPATHLEN], name1[MAXPATHLEN], name2[MAXPATHLEN];
     int er = IPE_SYNTAX;
@@ -471,7 +479,11 @@ static void flush_fs(void *flp, int secondary)
         *realarg++ = '\0';
     }
 
-    if (!strcmp(cmd, "cd")) {
+    if (!strncmp(fs_cmdbuf, "M-R", 3)) {
+        ADDRESS addr = 0;
+        addr = fs_cmdbuf[3] | (fs_cmdbuf[4] << 8);
+        er = vdrive_command_memory_read(vdrive, addr, fs_cmdbuf[5]);
+    } else if (!strcmp(cmd, "cd")) {
         er = IPE_OK;
         if (chdir(arg)) {
             er = IPE_NOT_FOUND;
@@ -502,12 +514,12 @@ static void flush_fs(void *flp, int secondary)
             if (fd != NULL) {
                 fclose(fd);
             } else {
-                if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
-                    fs_error(IPE_NOT_FOUND);
+                if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     fs_cptr = 0;
                     return;
                 }
-                strcpy(name1, fsdevice_get_path(floppy->unit));
+                strcpy(name1, fsdevice_get_path(vdrive->unit));
                 strcat(name1, FSDEV_DIR_SEP_STR);
                 strcat(name1, arg);
             }
@@ -554,7 +566,7 @@ static void flush_fs(void *flp, int secondary)
                     int i;
                     for (i = 0; i < 100; i++) {
                         memset(name1p00, 0, MAXPATHLEN);
-                        strcpy(name1p00, fsdevice_get_path(floppy->unit));
+                        strcpy(name1p00, fsdevice_get_path(vdrive->unit));
                         strcat(name1p00, FSDEV_DIR_SEP_STR);
                         strcat(name1p00, name1);
                         strcat(name1p00, FSDEV_EXT_SEP_STR);
@@ -575,15 +587,15 @@ static void flush_fs(void *flp, int secondary)
                 }
             } else {
                 /* Rename CBM file.  */
-                if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
-                    fs_error(IPE_NOT_FOUND);
+                if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     fs_cptr = 0;
                     return;
                 }
-                strcpy(name1, fsdevice_get_path(floppy->unit));
+                strcpy(name1, fsdevice_get_path(vdrive->unit));
                 strcat(name1, FSDEV_DIR_SEP_STR);
                 strcat(name1, arg);
-                strcpy(name2, fsdevice_get_path(floppy->unit));
+                strcpy(name2, fsdevice_get_path(vdrive->unit));
                 strcat(name2, FSDEV_DIR_SEP_STR);
                 strcat(name2, arg2);
 #ifdef WIN32
@@ -597,18 +609,20 @@ static void flush_fs(void *flp, int secondary)
             }
         }
     }
-    fs_error(er);
+    fs_error(vdrive, er);
     fs_cptr = 0;
 }
 
 static int write_fs(void *flp, BYTE data, int secondary)
 {
+    vdrive_t *vdrive = (vdrive_t *)flp;
+
     if (secondary == 15) {
         if (fs_cptr < MAXPATHLEN - 1) {         /* keep place for nullbyte */
             fs_cmdbuf[fs_cptr++] = data;
             return SERIAL_OK;
         } else {
-            fs_error(IPE_LONG_LINE);
+            fs_error(vdrive, IPE_LONG_LINE);
             return SERIAL_ERROR;
         }
     }
@@ -625,7 +639,7 @@ static int write_fs(void *flp, BYTE data, int secondary)
 
 static int read_fs(void *flp, BYTE * data, int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     int i, l, f;
     unsigned short blocks;
     struct dirent *dirp;        /* defined in /usr/include/sys/dirent.h */
@@ -640,12 +654,12 @@ static int read_fs(void *flp, BYTE * data, int secondary)
 
     if (secondary == 15) {
         if (!fs_elen)
-            fs_error(IPE_OK);
+            fs_error(vdrive, IPE_OK);
         if (fs_eptr < fs_elen) {
             *data = fs_errorl[fs_eptr++];
             return SERIAL_OK;
         } else {
-            fs_error(IPE_OK);
+            fs_error(vdrive, IPE_OK);
             *data = 0xc7;
             return SERIAL_EOF;
         }
@@ -694,10 +708,10 @@ static int read_fs(void *flp, BYTE * data, int secondary)
                           break;
                       fs_info[secondary].type = FT_PRG;
                       strcpy(rname, dirp->d_name);
-                      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
+                      if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
                           fs_test_pc64_name(flp, rname, secondary);
                           if (strcmp(rname, dirp->d_name) == 0
-                          && fsdevice_hide_cbm_files_enabled[floppy->unit - 8])
+                          && fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
                               continue;
                       if (!*fs_dirmask)
                           break;
@@ -852,7 +866,7 @@ static int read_fs(void *flp, BYTE * data, int secondary)
 
 static int open_fs(void *flp, const char *name, int length, int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     FILE *fd;
     DIR *dp;
     BYTE *p, *linkp;
@@ -872,10 +886,8 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
         return status;
     }
 
-    if (secondary == 1)
-        readmode = FAM_WRITE;
-    else
-        readmode = FAM_READ;
+    /* Default filemodes.  */
+    readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
 
     rl = 0;
 
@@ -885,6 +897,12 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
 
     if (fs_info[secondary].type == FT_DEL)
         fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
+
+    /* Override read mode if secondary is 0 or 1.  */
+    if (secondary == 0)
+        readmode = FAM_READ;
+    if (secondary == 1)
+        readmode = FAM_WRITE;
 
     fsname[reallength] = 0;
     strncpy(rname, fsname, reallength);
@@ -905,7 +923,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
 
     if (*name == '$') { /* Directory read */
         if ((secondary != 0) || (fs_info[secondary].mode != Read)) {
-            fs_error(IPE_NOT_WRITE);
+            fs_error(vdrive, IPE_NOT_WRITE);
             return FLOPPY_ERROR;
         }
         /* Test on wildcards.  */
@@ -917,12 +935,12 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 *mask++ = 0;
             } else {
                 strcpy(fs_dirmask, mask);
-                strcpy(fsname, fsdevice_get_path(floppy->unit));
+                strcpy(fsname, fsdevice_get_path(vdrive->unit));
             }
         } else {
             *fs_dirmask = 0;
             if (!*fsname)
-                strcpy(fsname, fsdevice_get_path(floppy->unit));
+                strcpy(fsname, fsdevice_get_path(vdrive->unit));
         }
         /* trying to open */
         if (!(dp = opendir((char *) fsname))) {
@@ -930,7 +948,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 if (isupper((int) *p))
                     *p = tolower((int) *p);
             if (!(dp = opendir((char *) fsname))) {
-                fs_error(IPE_NOT_FOUND);
+                fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
             }
         }
@@ -999,7 +1017,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
                 *comma = '\0';
         }
         strcpy(fsname2, fsname);
-        strcpy(fsname, fsdevice_get_path(floppy->unit));
+        strcpy(fsname, fsdevice_get_path(vdrive->unit));
         strcat(fsname, FSDEV_DIR_SEP_STR);
         strcat(fsname, fsname2);
 
@@ -1007,7 +1025,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
         if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
             if (fs_info[secondary].mode == Write
                                 || fs_info[secondary].mode == Append) {
-                fs_error(IPE_BAD_NAME);
+                fs_error(vdrive, IPE_BAD_NAME);
                 return FLOPPY_ERROR;
             } else {
                 fsdevice_compare_file_name(flp, fsname2, fsname, secondary);
@@ -1019,32 +1037,32 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
             fd = fopen(fsname, MODE_READ);
             if (fd != NULL) {
                 fclose(fd);
-                fs_error(IPE_FILE_EXISTS);
+                fs_error(vdrive, IPE_FILE_EXISTS);
                 return FLOPPY_ERROR;
             }
-            if (fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
+            if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
                 fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
                 if (fd != NULL) {
                     fclose(fd);
-                    fs_error(IPE_FILE_EXISTS);
+                    fs_error(vdrive, IPE_FILE_EXISTS);
                     return FLOPPY_ERROR;
                 }
             }
-            if (fsdevice_save_p00_enabled[(floppy->unit) - 8]) {
+            if (fsdevice_save_p00_enabled[(vdrive->unit) - 8]) {
                 if (fsdevice_create_file_p00(flp, rname, reallength, fsname,
                                                         secondary) > 0) {
-                    fs_error(IPE_FILE_EXISTS);
+                    fs_error(vdrive, IPE_FILE_EXISTS);
                     return FLOPPY_ERROR;
                 } else {
                     fd = fopen(fsname, MODE_APPEND_READ_WRITE);
                     fs_info[secondary].fd = fd;
-                    fs_error(IPE_OK);
+                    fs_error(vdrive, IPE_OK);
                     return FLOPPY_COMMAND_OK;
                 }
             } else {
                 fd = fopen(fsname, MODE_WRITE);
                 fs_info[secondary].fd = fd;
-                fs_error(IPE_OK);
+                fs_error(vdrive, IPE_OK);
                 return FLOPPY_COMMAND_OK;
             }
         }
@@ -1053,33 +1071,33 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
         if (fs_info[secondary].mode == Append) {
             fd = fopen(fsname, MODE_READ);
             if (!fd) {
-                if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
-                    fs_error(IPE_NOT_FOUND);
+                if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
                 fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
                 if (!fd) {
-                    fs_error(IPE_NOT_FOUND);
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
                 fclose(fd);
                 fd = fopen(fsname2, MODE_APPEND_READ_WRITE);
                 if (!fd) {
-                    fs_error(IPE_NOT_FOUND);
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
                 fs_info[secondary].fd = fd;
-                fs_error(IPE_OK);
+                fs_error(vdrive, IPE_OK);
                 return FLOPPY_COMMAND_OK;
             } else {
                 fclose(fd);
                 fd = fopen(fsname, MODE_APPEND_READ_WRITE);
                 if (!fd) {
-                    fs_error(IPE_NOT_FOUND);
+                    fs_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
                 fs_info[secondary].fd = fd;
-                fs_error(IPE_OK);
+                fs_error(vdrive, IPE_OK);
                 return FLOPPY_COMMAND_OK;
             }
         }
@@ -1087,46 +1105,46 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
         /* Open file for read mode access.  */
         fd = fopen(fsname, MODE_READ);
         if (!fd) {
-            if (!fsdevice_convert_p00_enabled[(floppy->unit) - 8]) {
-                fs_error(IPE_NOT_FOUND);
+            if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
+                fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
             }
             fd = fs_find_pc64_name(flp, rname, reallength, fsname2);
             if (!fd) {
-                fs_error(IPE_NOT_FOUND);
+                fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
             }
             fs_info[secondary].fd = fd;
-            fs_error(IPE_OK);
+            fs_error(vdrive, IPE_OK);
             return FLOPPY_COMMAND_OK;
         } else {
-            if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
+            if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
                 fclose(fd);
-                fs_error(IPE_NOT_FOUND);
+                fs_error(vdrive, IPE_NOT_FOUND);
                 return FLOPPY_ERROR;
             }
             fs_info[secondary].fd = fd;
-            fs_error(IPE_OK);
+            fs_error(vdrive, IPE_OK);
             return FLOPPY_COMMAND_OK;
         }
     }
 #ifdef __riscos
-    ui_set_drive_leds(floppy->unit - 8, 1);
+    ui_set_drive_leds(vdrive->unit - 8, 1);
 #endif
-    fs_error(IPE_OK);
+    fs_error(vdrive, IPE_OK);
     return FLOPPY_COMMAND_OK;
 }
 
 static int close_fs(void *flp, int secondary)
 {
-#ifdef __riscos
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
 
-    ui_set_drive_leds(floppy->unit - 8, 0);
+#ifdef __riscos
+    ui_set_drive_leds(vdrive->unit - 8, 0);
 #endif
 
     if (secondary == 15) {
-        fs_error(IPE_OK);
+        fs_error(vdrive, IPE_OK);
         return FLOPPY_COMMAND_OK;
     }
     switch (fs_info[secondary].mode) {
@@ -1154,7 +1172,7 @@ static int close_fs(void *flp, int secondary)
 
 void fs_test_pc64_name(void *flp, char *rname, int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     char p00id[8];
     char p00name[17];
     char pathname[MAXPATHLEN];
@@ -1163,7 +1181,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
 
     tmptype = p00_check_name(rname);
     if (tmptype >= 0) {
-        strcpy(pathname, fsdevice_get_path(floppy->unit));
+        strcpy(pathname, fsdevice_get_path(vdrive->unit));
         strcat(pathname, FSDEV_DIR_SEP_STR);
         strcat(pathname, rname);
         fd = fopen(pathname, MODE_READ);
@@ -1194,7 +1212,7 @@ void fs_test_pc64_name(void *flp, char *rname, int secondary)
 
 FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     struct dirent *dirp;
     char *p;
     DIR *dp;
@@ -1203,14 +1221,14 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 
     name[length] = '\0';
 
-    dp = opendir(fsdevice_get_path(floppy->unit));
+    dp = opendir(fsdevice_get_path(vdrive->unit));
     if (dp == NULL)
         return NULL;
 
     do {
         dirp = readdir(dp);
         if (dirp != NULL) {
-            strcpy(pname, fsdevice_get_path(floppy->unit));
+            strcpy(pname, fsdevice_get_path(vdrive->unit));
             strcat(pname, FSDEV_DIR_SEP_STR);
             strcat(pname, dirp->d_name);
             p = pname;
@@ -1272,12 +1290,12 @@ static int fsdevice_compare_wildcards(char *name, char *p00name)
 static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
                                        int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     struct dirent *dirp;
     DIR *dp;
     char rname[MAXPATHLEN];
 
-    dp = opendir(fsdevice_get_path(floppy->unit));
+    dp = opendir(fsdevice_get_path(vdrive->unit));
     do {
         dirp = readdir(dp);
         if (dirp != NULL) {
@@ -1285,7 +1303,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
                 strcpy(rname, dirp->d_name);
                 fs_test_pc64_name(flp, rname, secondary);
                 if (strcmp(rname, dirp->d_name) == 0) {
-                    strcpy(fsname, fsdevice_get_path(floppy->unit));
+                    strcpy(fsname, fsdevice_get_path(vdrive->unit));
                     strcat(fsname, FSDEV_DIR_SEP_STR);
                     strcat(fsname, dirp->d_name);
                     closedir(dp);
@@ -1302,7 +1320,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
                                      char *fsname, int secondary)
 {
-    vdrive_t *floppy = (vdrive_t *)flp;
+    vdrive_t *vdrive = (vdrive_t *)flp;
     char filename[17], realname[16];
     int i;
     size_t len;
@@ -1315,7 +1333,7 @@ static int fsdevice_create_file_p00(void *flp, char *name, int length,
 
     len = fsdevice_evaluate_name_p00(name, length, filename);
 
-    strcpy(fsname, fsdevice_get_path(floppy->unit));
+    strcpy(fsname, fsdevice_get_path(vdrive->unit));
     strcat(fsname, FSDEV_DIR_SEP_STR);
     strncat(fsname, filename, len);
     switch (fs_info[secondary].type) {
@@ -1440,10 +1458,16 @@ static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
 
 int fsdevice_attach(int device, const char *name)
 {
+    vdrive_t *vdrive;
+
+    vdrive = (vdrive_t *)file_system_get_vdrive(device);
+
     if (serial_attach_device(device, name,
                              read_fs, write_fs, open_fs, close_fs, flush_fs))
         return 1;
-    fs_error(IPE_DOS_VERSION);
+
+    vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+    fs_error(vdrive, IPE_DOS_VERSION);
     return 0;
 }
 
