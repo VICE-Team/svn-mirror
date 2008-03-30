@@ -148,7 +148,8 @@ static int state_find_mark2(BYTE *buf, int length, int *index)
 static int state_find_type(BYTE *buf, int length, int *index)
 {
     BYTE data, scratch[40];
-    unsigned int count = 0, copynum = 0;
+    unsigned int count = 0;
+    /*unsigned int copynum = 0;*/
 
     memset(scratch, 0, sizeof(scratch));
     memset(&(currfl.type), 0, IMAGE_CONTENTS_TYPE_LEN + 1);
