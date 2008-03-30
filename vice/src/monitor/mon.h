@@ -68,7 +68,8 @@ struct monitor_cpu_type_s {
     void (*mon_register_set_val)(int mem, int reg_id, WORD val);
     void (*mon_register_print)(int mem);
     struct mon_reg_list_s *(*mon_register_list_get)(int mem);
-    void (*mon_register_list_set)(struct mon_reg_list_s *mon_reg_list, int mem);};
+    void (*mon_register_list_set)(struct mon_reg_list_s *mon_reg_list, int mem);
+};
 typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 
 /* This is the standard interface through which the monitor accesses a
