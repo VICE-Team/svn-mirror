@@ -31,7 +31,7 @@
 #define HAVE_WINIOCTL_H         1
 #define HAVE_GUIDLIB            1
 #define DWORD_IS_LONG           1
-/*#define HAVE_TFE                1*/ /* @@@@@@@SRT */
+#define HAVE_TFE                1
 
 #define __i386__                1
 

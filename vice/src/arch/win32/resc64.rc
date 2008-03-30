@@ -6,6 +6,10 @@
 #include "ressid.rc"
 #include "resvicii.rc"
 
+#ifdef HAVE_TFE
+#include "restfe.rc"
+#endif // #ifdef HAVE_TFE
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
@@ -169,9 +173,6 @@ BEGIN
             MENUITEM "&Old NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
         END
         MENUITEM SEPARATOR
-#ifdef HAVE_TFE
-        MENUITEM "TFE &ethernet emulation", IDM_TOGGLE_TFE
-#endif /* #ifdef HAVE_TFE */
         MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
         MENUITEM "&1351 mouse emulation\tAlt+Q", IDM_MOUSE
     END
@@ -188,6 +189,9 @@ BEGIN
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "R&EU settings...",       IDM_REU_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
+#ifdef HAVE_TFE
+        MENUITEM "E&thernet settings...", IDM_TFE_SETTINGS
+#endif /* #ifdef HAVE_TFE */
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD

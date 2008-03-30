@@ -168,8 +168,9 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
-            memset(name, 0, sizeof(name));
+		  {
             OPENFILENAME ofn;
+            memset(name, 0, sizeof(name));
 
             memset(&ofn, 0, sizeof(ofn));
             ofn.lStructSize = sizeof(ofn);
@@ -205,6 +206,7 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                     name);
             }
             break;
+		  }
         }
         return FALSE;
       case WM_NOTIFY:

@@ -102,13 +102,18 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 static int ui_emulation_is_paused(void);
 
 
+/* List of resources that can be grayed out from the menus.  */
+static const ui_menu_toggle grayed_list[] = {
+#ifdef HAVE_TFE
+    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS },
+#endif /* #ifdef HAVE_TFE */
+    { NULL, 0 }
+};
+
 /* List of resources that can be switched on and off from the menus.  */
 static const ui_menu_toggle toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
-#ifdef HAVE_TFE
-    { "TFE", IDM_TOGGLE_TFE },
-#endif /* #ifdef HAVE_TFE */
     { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
@@ -719,6 +724,12 @@ static void update_menus(HWND hwnd)
     int value;
     int result;
 
+    for (i = 0; grayed_list[i].name != NULL; i++) {
+        resources_get_value(grayed_list[i].name, (void *)&value);
+        EnableMenuItem(menu, grayed_list[i].item_id,
+                      value ? MF_GRAYED : MF_ENABLED);
+    }
+    
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_value(toggle_list[i].name, (void *)&value);
         CheckMenuItem(menu, toggle_list[i].item_id,

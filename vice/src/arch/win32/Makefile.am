@@ -57,6 +57,7 @@ libarch_a_SOURCES = \
 	resplus4.rc \
 	resreu.rc \
 	ressid.rc \
+	restfe.rc \
 	resvic.rc \
 	resvicii.rc \
 	statusbar.c \
@@ -107,6 +108,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uispeed.c \
 	uispeed.h \
+	uitfe.c \
+	uitfe.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \
@@ -128,6 +131,11 @@ libarch_a_DEPENDENCIES = \
 
 EXTRA_DIST = \
 	msvc/config.h \
+	msvc/wpcap/bittypes.h \
+	msvc/wpcap/ip6_misc.h \
+	msvc/wpcap/pcap-stdinc.h \
+	msvc/wpcap/PCAP.H \
+	msvc/wpcap/NET/bpf.h \
 	arch.dsp \
 	base.dsp \
 	c128.dsp \

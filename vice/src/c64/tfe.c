@@ -78,8 +78,16 @@ static int tfe_started_tx       = 0;
 #endif
 
 
+/* Flag: Can we even use TFE, or is the hardware not available? */
+static int tfe_cannot_use = 0;
+
 /* Flag: Do we have the TFE enabled?  */
 int tfe_enabled;
+
+/* Flag: Do we use the "original" memory map or the memory map of the RR-Net? */
+static int tfe_as_rr_net = 0;
+
+static char *tfe_interface = NULL;
 
 /* TFE registers */
 /* these are the 8 16-bit-ports for "I/O space configuration"
@@ -344,7 +352,10 @@ void tfe_init(void)
 {
     tfe_log = log_open("TFE");
 
-    tfe_arch_init();
+    if (!tfe_arch_init()) {
+        tfe_enabled = 0;
+        tfe_cannot_use = 1;
+    }
 }
 
 void tfe_reset(void)
@@ -420,7 +431,8 @@ int tfe_activate(void)
 #ifdef TFE_DEBUG_INIT
         log_message(tfe_log, "tfe_activate: Allocating tfe failed.");
 #endif
-        return -1;
+        tfe_enabled = 0;
+        return 0;
     }
 
     /* allocate memory for PacketPage register */
@@ -432,7 +444,8 @@ int tfe_activate(void)
 #endif
         lib_free(tfe);
         tfe=NULL;
-        return -1;
+        tfe_enabled = 0;
+        return 0;
     }
 
 #ifdef TFE_DEBUG_INIT
@@ -440,7 +453,15 @@ int tfe_activate(void)
     log_message(tfe_log, "\ttfe at 0x%08X, tfe_packetpage at 0x%08X", tfe, tfe_packetpage );
 #endif
 
-    tfe_arch_activate();
+    if (!tfe_arch_activate(tfe_interface)) {
+        lib_free(tfe_packetpage);
+        lib_free(tfe);
+        tfe=NULL;
+        tfe_packetpage=NULL;
+        tfe_enabled = 0;
+        tfe_cannot_use = 1;
+        return 0;
+    }
 
 	return 0;
 }
@@ -949,6 +970,16 @@ BYTE REGPARM1 tfe_read(WORD ioaddress)
 
 	assert( ioaddress < 0x10);
 
+    if (tfe_as_rr_net) {
+        if (ioaddress < 0x02) {
+#ifdef TFE_DEBUG_WARN
+            log_message(tfe_log, "Reading RR-Net address $DE00 or $DE01 - no valid result!" );
+#endif
+            return 0;
+        }
+        ioaddress ^= 0x08;
+    }
+
     switch (ioaddress) {
 
     case TFE_ADDR_TXCMD:
@@ -1038,6 +1069,17 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
     assert( tfe_packetpage );
 
 	assert( ioaddress < 0x10);
+
+    if (tfe_as_rr_net) {
+        if (ioaddress < 0x02) {
+#ifdef TFE_DEBUG_WARN
+            log_message(tfe_log, "Writing RR-Net address $DE00 or $DE01 - Ignoring!" );
+#endif
+            return;
+        }
+
+        ioaddress ^= 0x08;
+    }
 
     switch (ioaddress)
     {
@@ -1168,36 +1210,94 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 /*    resources support functions                                            */
 
 static
+int set_tfe_dummy(resource_value_t v, void *param)
+{
+    return 0;
+}
+
+static
+int set_tfe_rr_net(resource_value_t v, void *param)
+{
+	if (!tfe_cannot_use) {
+
+        if (!(int)v) {
+		    /* TFE should not be used as rr net */
+            if (tfe_as_rr_net) {
+                tfe_as_rr_net = 0;
+            }
+            return 0;
+        } else { 
+            if (!tfe_as_rr_net) {
+                tfe_as_rr_net = 1;
+				tfe_enabled = 1;
+            }
+
+            /* virtually reset the LAN chip */
+            tfe_reset();
+            return 0;
+        }
+
+    }
+    return 0;
+}
+
+static
 int set_tfe_enabled(resource_value_t v, void *param)
 {
-    if (!(int)v) {
-		/* TFE should be deactived */
-        if (tfe_enabled) {
-            if (tfe_deactivate() < 0) {
-                return -1;
-            }
-        }
-        tfe_enabled = 0;
-        return 0;
-    } else { 
-        if (!tfe_enabled) {
-            if (tfe_activate() < 0) {
-                return -1;
-            }
-        }
-        tfe_enabled = 1;
+    if (!tfe_cannot_use) {
 
-        /* virtually reset the LAN chip */
-        tfe_reset();
-        return 0;
+        if (!(int)v) {
+		    /* TFE should be deactived */
+            if (tfe_enabled) {
+                tfe_enabled = 0;
+				tfe_as_rr_net = 0;
+                if (tfe_deactivate() < 0) {
+                    return -1;
+                }
+            }
+            return 0;
+        } else { 
+            if (!tfe_enabled) {
+                tfe_enabled = 1;
+                if (tfe_activate() < 0) {
+                    return -1;
+                }
+            }
+
+            /* virtually reset the LAN chip */
+            tfe_reset();
+            return 0;
+        }
+
     }
+    return 0;
+}
+
+
+static 
+int set_tfe_interface(resource_value_t v, void *param)
+{
+    const char *name = (const char *)v;
+
+    if (tfe_interface != NULL && name != NULL
+        && strcmp(name, tfe_interface) == 0)
+        return 0;
+
+    util_string_set(&tfe_interface, name);
+    return 0;
 }
 
 
 static 
 const resource_t resources[] = {
-    { "TFE", RES_INTEGER, (resource_value_t)0,
+    { "ETHERNET_DISABLED", RES_INTEGER, (resource_value_t)0,
+      (void *)&tfe_cannot_use, set_tfe_dummy, NULL },
+    { "ETHERNET_ACTIVE", RES_INTEGER, (resource_value_t)0,
       (void *)&tfe_enabled, set_tfe_enabled, NULL },
+    { "ETHERNET_AS_RR", RES_INTEGER, (resource_value_t)0,
+      (void *)&tfe_as_rr_net, set_tfe_rr_net, NULL },
+    { "ETHERNET_INTERFACE", RES_STRING, (resource_value_t)"",
+      (void *)&tfe_interface, set_tfe_interface, NULL },
     { NULL }
 };
 
@@ -1212,9 +1312,9 @@ int tfe_resources_init(void)
 static 
 const cmdline_option_t cmdline_options[] =
 {
-    { "-tfe", SET_RESOURCE, 0, NULL, NULL, "TFE", (resource_value_t)1,
+    { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
       NULL, "Enable the TFE (\"the final ethernet\") unit" },
-    { "+tfe", SET_RESOURCE, 0, NULL, NULL, "TFE", (resource_value_t)0,
+    { "+tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
       NULL, "Disable the TFE (\"the final ethernet\") unit" },
     { NULL }
 };

@@ -35,10 +35,10 @@
 
 #include "types.h"
 
-extern void tfe_arch_init(void);
+extern int  tfe_arch_init(void);
 extern void tfe_arch_pre_reset(void);
 extern void tfe_arch_post_reset(void);
-extern void tfe_arch_activate(void);
+extern int  tfe_arch_activate(const char *interface_name);
 extern void tfe_arch_deactivate(void);
 extern void tfe_arch_set_mac(const BYTE mac[6]);
 extern void tfe_arch_set_hashfilter(const DWORD hash_mask[2]);

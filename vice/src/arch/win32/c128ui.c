@@ -46,6 +46,7 @@
 #include "uidrivec64c128vic20.h"
 #include "uireu.h"
 #include "uisid.h"
+#include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
 #include "vsync.h"
@@ -198,6 +199,11 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
         break;
+#ifdef HAVE_TFE
+      case IDM_TFE_SETTINGS:
+        ui_tfe_settings_dialog(hwnd);
+        break;
+#endif
       case IDM_C128_SETTINGS:
         ui_c128_dialog(hwnd);
         break;
