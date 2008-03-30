@@ -1,3 +1,7 @@
+Mon Jun  1 01:19:44 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Added `AC_FUNC_ALLOCA' test.
+
 Wed May 27 19:24:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* data/VIC20/Makefile.am: Install under
