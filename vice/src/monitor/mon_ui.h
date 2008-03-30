@@ -55,16 +55,19 @@ enum MON_SCROLL_TYPE_TAG {
     MON_SCROLL_PAGE_DOWN
 } MON_SCROLL_TYPE;
 
-struct mon_disassembly_private *mon_disassembly_init(void);
-void mon_disassembly_deinit(struct mon_disassembly_private *);
-void mon_disassembly_update(struct mon_disassembly_private *);
-struct mon_disassembly *mon_disassembly_get_lines(
+extern struct mon_disassembly_private *mon_disassembly_init(void);
+extern void mon_disassembly_deinit(struct mon_disassembly_private *);
+extern void mon_disassembly_update(struct mon_disassembly_private *);
+extern struct mon_disassembly *mon_disassembly_get_lines(
     struct mon_disassembly_private *,
     int lines_visible, int lines_full_visible);
-void mon_disassembly_set_memspace(struct mon_disassembly_private *, MEMSPACE);
-MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
-ADDRESS mon_scroll(struct mon_disassembly_private *, MON_SCROLL_TYPE);
-ADDRESS mon_scroll_to(struct mon_disassembly_private *, ADDRESS);
+extern void mon_disassembly_set_memspace(struct mon_disassembly_private *,
+                                         MEMSPACE);
+extern MEMSPACE mon_disassembly_get_memspace(struct mon_disassembly_private *);
+extern ADDRESS mon_scroll(struct mon_disassembly_private *, MON_SCROLL_TYPE);
+extern ADDRESS mon_scroll_to(struct mon_disassembly_private *, ADDRESS);
+
+extern void mon_ui_init(void);
 
 #endif
 

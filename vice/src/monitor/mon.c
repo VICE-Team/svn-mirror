@@ -60,6 +60,7 @@
 #include "mon_disassemble.h"
 #include "mon_parse.h"
 #include "mon_register.h"
+#include "mon_ui.h"
 #include "montypes.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -612,6 +613,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     next_or_step_stop = 0;
     recording = FALSE;
     playback = FALSE;
+
+    mon_ui_init();
 
     monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
