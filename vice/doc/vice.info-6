@@ -17,6 +17,35 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
+
+How to contribute
+=================
+
+   If you want to make a major contribution, please *ask* first.  It
+has already happened a couple of times that somebody started working at
+something that had already been done but not released to the public yet,
+and we really do *not* want anybody to waste time.
+
+   If you are going to make a patch, please make sure the patch is
+relative to the very latest version, and provide us with the following:
+
+   * a diff file containing all the changes you have made (`diff -c' or
+     `diff -u' (better) is fine; please don't use plain `diff');
+
+   * GNU-style `ChangeLog' entries with a description of the changes you
+     have made (look at the `ChangeLog's provided with the original VICE
+     sources for an example).
+
+   This is very important, and makes adding patches much smoother and
+safer.
+
+   People willing to port VICE to other platforms are always welcome.
+Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
+interested in those platforms, please let us know.  There is plenty of
+work to do and any sort of help can be very useful.
+
+
 File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
 
 Interesting newsgroups
@@ -115,7 +144,6 @@ Concept Index
 * -help:                                 Command-line initialization.
 * -htmlbrowser:                          Misc options.
 * -ieee488, +ieee488:                    C64 I/O extension options.
-* -ieeefs, +ieeefs:                      File system device options.
 * -install, +install:                    Video options.
 * -joydev1, -joydev2:                    Misc options.
 * -kernal <1>:                           CBM-II commandline options.
@@ -178,9 +206,9 @@ Concept Index
 * -speed:                                Performance options.
 * -superpet:                             PET commandline options.
 * -symkeymap:                            Keyboard options.
-* -traps, +traps:                        No traps options.
 * -truedrive, +truedrive:                Drive options.
 * -vcache, +vcache:                      Video options.
+* -virtualdev, +virtualdev:              No traps options.
 * -warp, +warp:                          Performance options.
 * -xsync, +xsync:                        Video options.
 * Audio buffer size:                     Sound settings.
@@ -309,7 +337,6 @@ Index of Resources
 * FSDevice9SaveP00:                      File system device resources.
 * HTMLBrowserCommand:                    Misc resources.
 * IEEE488:                               C64 I/O extension resources.
-* IeeeFS:                                File system device resources.
 * JoyDevice1, JoyDevice2:                Misc resources.
 * KeymapBusinessDESymFile KeymapBusinessDEPosFile: Keyboard resources.
 * KeymapBusinessUKSymFile KeymapBusinessUKPosFile: Keyboard resources.
@@ -318,7 +345,6 @@ Index of Resources
 * KeymapPosFile:                         Keyboard resources.
 * KeymapSymFile:                         Keyboard resources.
 * MITSHM:                                Video resources.
-* NoTraps:                               No traps resources.
 * PaletteFile:                           Video resources.
 * PrDevice1:                             Printer resources.
 * PrDevice2:                             Printer resources.
@@ -360,6 +386,7 @@ Index of Resources
 * Speed:                                 Performance resources.
 * UseXSync:                              Video resources.
 * VideoCache:                            Video resources.
+* VirtualDevices:                        No traps resources.
 * WarpMode:                              Performance resources.
 
 

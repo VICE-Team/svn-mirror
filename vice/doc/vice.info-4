@@ -223,6 +223,7 @@ emulator, or even in other emulators.
 * VIA 6522 module::
 * PIA 6520 module::
 * TPI 6525 module::
+* RIOT 6532 module::
 * SID 6581 module::
 * ACIA 6551 module::
 * VIC-I module::
@@ -454,7 +455,7 @@ UBYTE   CABSTATE                      Bit 7 = state of CA2, Bit 6 = state
                                       of CB2                               
 
 
-File: vice.info,  Node: TPI 6525 module,  Next: SID 6581 module,  Prev: PIA 6520 module,  Up: Module formats
+File: vice.info,  Node: TPI 6525 module,  Next: RIOT 6532 module,  Prev: PIA 6520 module,  Up: Module formats
 
 TPI module
 ..........
@@ -482,7 +483,38 @@ BYTE    CABSTATE                      State of CA/CB pins.  Bit 7 = state
                                       of CA, Bit 6 = state of CB           
 
 
-File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 6525 module,  Up: Module formats
+File: vice.info,  Node: RIOT 6532 module,  Next: SID 6581 module,  Prev: TPI 6525 module,  Up: Module formats
+
+RIOT module
+...........
+
+   The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer.
+The chip contains 128 byte RAM, but the RAM is not saved in the RIOT
+snapshot, but in the memory section.
+
+   Warning: This module is still under construction
+
+   Version numbers: Major 0, Minor 0.
+
+Type    Name                          Description                          
+BYTE    ORA                           Port A output register               
+BYTE    DDRA                          Port A data direction register       
+BYTE    ORB                           Port B output register               
+BYTE    DDRB                          Port B data direction register       
+BYTE    EDGECTRL                      Bit 0/1: A0/A1 address bits written  
+                                      to edgecontrol registers             
+BYTE    IRQFL                         Bit 6/7: A6/A7 IRQ flag register.    
+                                      Bit 0: state of the IRQ line         
+                                      (0=inactive, 1=active)               
+BYTE    N                             timer value                          
+WORD    DIVIDER                       Pre-scale divider value (1, 8, 64,   
+                                      or 1024)                             
+WORD    REST                          cycles since the last counter change 
+BYTE    IRQEN                         Bit 0: 0= timer IRQ disabled, 1=     
+                                      timer IRQ enabled                    
+
+
+File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: RIOT 6532 module,  Up: Module formats
 
 SID module
 ..........
@@ -918,33 +950,3 @@ ARRAY   ROM4                          8k cartridge ROM image for
                                       $4000-$5fff (if CONFIG & 8)          
 ARRAY   ROM6                          8k cartridge ROM image for           
                                       $6000-$7fff (if CONFIG & 16)         
-
-
-File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
-
-Monitor
-*******
-
-   Every VICE emulator has a complete built-in monitor, which can be
-used to examine, disassemble and assemble machine language programs, as
-well as debug them through breakpoints.  It can be activated by using
-the "Activate monitor" command (left button menu).  Notice that you have
-to run the emulator from a terminal emulation program (such as `rxvt'
-or `xterm') in order to use the monitor.
-
-   Warning: this version of the monitor is still under construction,
-and some of the features are not fully working yet.
-
-* Menu:
-
-* Terminology::
-* Machine state commands::
-* Memory commands::
-* Assembly commands::
-* Checkpoint commands::
-* General commands::
-* Disk commands::
-* Command file commands::
-* Label commands::
-* Miscellaneous commands::
-

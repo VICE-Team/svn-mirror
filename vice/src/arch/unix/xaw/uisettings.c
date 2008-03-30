@@ -692,8 +692,7 @@ UI_MENU_DEFINE_RADIO(Drive9IdleMethod)
 
 /* Peripheral settings.  */
 
-UI_MENU_DEFINE_TOGGLE(NoTraps)
-UI_MENU_DEFINE_TOGGLE(IeeeFS)
+UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice9)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice10)
@@ -1201,9 +1200,6 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
 };
 
 static ui_menu_entry_t peripheral_settings_submenu[] = {
-    { "*Enable FS access via IEEE488", (ui_callback_t) toggle_IeeeFS, 
-	NULL, NULL }, 
-    { "--" },
     { "Device #8", NULL, NULL, fsdevice_drive8_submenu },
     { "Device #9", NULL, NULL, fsdevice_drive9_submenu },
     { "Device #10", NULL, NULL, fsdevice_drive10_submenu },
@@ -1211,7 +1207,8 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
     { "--" },
     { "Printer settings", NULL, NULL, printer_settings_menu },
     { "--" },
-    { "*Disable Kernal traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
+    { "*Enable Virtual Devices", (ui_callback_t) toggle_VirtualDevices, 
+								NULL, NULL },
     { NULL }
 };
 

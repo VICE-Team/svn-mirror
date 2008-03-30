@@ -144,10 +144,6 @@ File: vice.info,  Node: File system device resources,  Next: File system device 
 Resources for file system devices
 .................................
 
-`IeeeFS'
-     Boolean that specifies whether the VICE IEEE488 engine to access
-     the filesystem is enabled.
-
 `FSDevice8ConvertP00'
 `FSDevice9ConvertP00'
 `FSDevice10ConvertP00'
@@ -182,10 +178,6 @@ File: vice.info,  Node: File system device options,  Prev: File system device re
 
 Command-line options for file system devices
 ............................................
-
-`-ieeefs'
-`+ieeefs'
-     Enable resp. disable peripheral access via IEEE488 interface.
 
 `-fs8 PATH'
 `-fs9 PATH'
@@ -311,8 +303,11 @@ File: vice.info,  Node: No traps resources,  Next: No traps options,  Prev: No k
 Resources to control Kernal traps
 .................................
 
-`NoTraps'
-     Boolean specifying whether all the Kernal trap should be disabled.
+`VirtualDevices'
+     Boolean specifying whether all the mechanisms for virtual device
+     emulation should be enabled. Serial IEC devices use kernal traps,
+     parallel IEEE488 devices use an own IEEE488 engine. Both are
+     switched on and off with this resource.
 
 
 File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
@@ -320,9 +315,10 @@ File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No ker
 Command-line options to control Kernal traps
 ............................................
 
-`-traps'
-`+traps'
-     Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
+`-virtualdev'
+`+virtualdev'
+     Enable (`VirtualDevices=1') or disable (`VirtualDevices=0')
+     virtual devices.
 
 
 File: vice.info,  Node: RS232 settings,  Next: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources

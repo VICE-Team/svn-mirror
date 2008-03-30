@@ -40,6 +40,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "interrupt.h"
+#include "parallel.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "utils.h"
@@ -61,14 +62,14 @@ static log_t traps_log = LOG_ERR;
 /* Trap-related resources.  */
 
 /* Flag: Should we avoid installing traps at all?  */
-static int no_traps_enabled;
+static int traps_enabled;
 
-static int set_no_traps_enabled(resource_value_t v)
+static int set_traps_enabled(resource_value_t v)
 {
     int new_value = (int) v;
 
-    if ((!no_traps_enabled && new_value) || (no_traps_enabled && !new_value)) {
-        if (new_value) {
+    if ((!traps_enabled && new_value) || (traps_enabled && !new_value)) {
+        if (!new_value) {
             /* Traps have been disabled.  */
             traplist_t *p;
 
@@ -83,13 +84,16 @@ static int set_no_traps_enabled(resource_value_t v)
         }
     }
 
-    no_traps_enabled = new_value;
+    traps_enabled = new_value;
+
+    parallel_bus_enable(new_value);
+
     return 0;
 }
 
 static resource_t resources[] = {
-    { "NoTraps", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t) &no_traps_enabled, set_no_traps_enabled },
+    { "VirtualDevices", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t) &traps_enabled, set_traps_enabled },
     { NULL }
 };
 
@@ -103,10 +107,12 @@ int traps_init_resources(void)
 /* Trap-related command-line options.  */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-traps", SET_RESOURCE, 0, NULL, NULL, "NoTraps", (resource_value_t) 0,
-      NULL, "Enable Kernal serial traps for fast serial/tape emulation" },
-    { "+traps", SET_RESOURCE, 0, NULL, NULL, "NoTraps", (resource_value_t) 1,
-      NULL, "Do not install any Kernal traps" },
+    { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices", 
+	(resource_value_t) 0,
+      NULL, "Enable general mechanisms for fast disk/tape emulation" },
+    { "+virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices", 
+	(resource_value_t) 1,
+      NULL, "Disable general mechanisms for fast disk/tape emulation" },
     { NULL }
 };
 
@@ -153,7 +159,7 @@ int traps_add(const trap_t *t)
     p->trap = t;
     traplist = p;
 
-    if (!no_traps_enabled)
+    if (traps_enabled)
         install_trap(t);
 
     return 0;
@@ -195,7 +201,7 @@ int traps_remove(const trap_t *t)
 
     free(p);
 
-    if (!no_traps_enabled)
+    if (traps_enabled)
         remove_trap(t);
 
     return 0;

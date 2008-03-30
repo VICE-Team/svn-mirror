@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 18 July 1999 -->
+     from ../vice.texi on 21 July 1999 -->
 
 <TITLE>VICE Manual - 8  Snapshots</TITLE>
 </HEAD>
@@ -1097,7 +1097,83 @@ Version numbers: Major 1, Minor 0.
 
 
 
-<H4><A NAME="SEC124" HREF="vice_toc.html#TOC124">8.2.2.8  SID module</A></H4>
+<H4><A NAME="SEC124" HREF="vice_toc.html#TOC124">8.2.2.8  RIOT module</A></H4>
+
+<P>
+The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer. 
+The chip contains 128 byte RAM, but the RAM is not saved in the 
+RIOT snapshot, but in the memory section.
+
+</P>
+<P>
+<B>Warning:</B> This module is still under construction
+
+</P>
+<P>
+Version numbers: Major 0, Minor 0.
+
+</P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ORA</TD>
+<TD>Port A output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>DDRA</TD>
+<TD>Port A data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ORB</TD>
+<TD>Port B output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>DDRB</TD>
+<TD>Port B data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>EDGECTRL</TD>
+<TD>Bit 0/1: A0/A1 address bits written to edgecontrol registers</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>IRQFL</TD>
+<TD>Bit 6/7: A6/A7 IRQ flag register. Bit 0: state of the IRQ line (0=inactive, 1=active)</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>N</TD>
+<TD>timer value</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>DIVIDER</TD>
+<TD>Pre-scale divider value (1, 8, 64, or 1024)</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>REST</TD>
+<TD>cycles since the last counter change</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>IRQEN</TD>
+<TD>Bit 0: 0= timer IRQ disabled, 1= timer IRQ enabled</TD>
+</TR></TABLE>
+
+
+
+<H4><A NAME="SEC125" HREF="vice_toc.html#TOC125">8.2.2.9  SID module</A></H4>
 
 <P>
 TODO
@@ -1105,7 +1181,7 @@ TODO
 </P>
 
 
-<H4><A NAME="SEC125" HREF="vice_toc.html#TOC125">8.2.2.9  ACIA module</A></H4>
+<H4><A NAME="SEC126" HREF="vice_toc.html#TOC126">8.2.2.10  ACIA module</A></H4>
 
 <P>
 The ACIA 6551 is an RS232 interface chip.  VICE emulates RS232 connections
@@ -1165,7 +1241,7 @@ Version numbers: Major 1, Minor 0.
 
 
 
-<H4><A NAME="SEC126" HREF="vice_toc.html#TOC126">8.2.2.10  VIC-I module</A></H4>
+<H4><A NAME="SEC127" HREF="vice_toc.html#TOC127">8.2.2.11  VIC-I module</A></H4>
 
 <P>
 TODO 
@@ -1173,7 +1249,7 @@ TODO
 </P>
 
 
-<H4><A NAME="SEC127" HREF="vice_toc.html#TOC127">8.2.2.11  VIC-II module</A></H4>
+<H4><A NAME="SEC128" HREF="vice_toc.html#TOC128">8.2.2.12  VIC-II module</A></H4>
 
 <P>
 TODO 
@@ -1181,7 +1257,7 @@ TODO
 </P>
 
 
-<H4><A NAME="SEC128" HREF="vice_toc.html#TOC128">8.2.2.12  CRTC module</A></H4>
+<H4><A NAME="SEC129" HREF="vice_toc.html#TOC129">8.2.2.13  CRTC module</A></H4>
 
 <P>
 <B>Warning:</B> After VICE version 1.0 the CRTC emulation has improved
@@ -1417,7 +1493,7 @@ Version numbers: Major 0, Minor 0.
 
 
 
-<H4><A NAME="SEC129" HREF="vice_toc.html#TOC129">8.2.2.13  C64 memory module</A></H4>
+<H4><A NAME="SEC130" HREF="vice_toc.html#TOC130">8.2.2.14  C64 memory module</A></H4>
 
 <P>
 The C64 memory module actually consists of two modules.  The "C128MEM" module
@@ -1502,7 +1578,7 @@ Version numbers: Major 0, Minor 0
 
 
 
-<H4><A NAME="SEC130" HREF="vice_toc.html#TOC130">8.2.2.14  C128 memory module</A></H4>
+<H4><A NAME="SEC131" HREF="vice_toc.html#TOC131">8.2.2.15  C128 memory module</A></H4>
 
 <P>
 The C128 memory module actually consists of two modules.  The "C128MEM" module
@@ -1577,7 +1653,7 @@ Version numbers: Major 0, Minor 0
 
 
 
-<H4><A NAME="SEC131" HREF="vice_toc.html#TOC131">8.2.2.15  VIC20 memory module</A></H4>
+<H4><A NAME="SEC132" HREF="vice_toc.html#TOC132">8.2.2.16  VIC20 memory module</A></H4>
 
 <P>
 The VIC20 memory module actually consists of two modules.  The "VIC20MEM" module
@@ -1731,7 +1807,7 @@ Version numbers: Major 1, Minor 1
 
 
 
-<H4><A NAME="SEC132" HREF="vice_toc.html#TOC132">8.2.2.16  PET memory module</A></H4>
+<H4><A NAME="SEC133" HREF="vice_toc.html#TOC133">8.2.2.17  PET memory module</A></H4>
 
 <P>
 The PET memory module actually consists of two modules.  The "PETMEM" module
@@ -1906,7 +1982,7 @@ Version numbers: Major 1, Minor 0
 
 
 
-<H4><A NAME="SEC133" HREF="vice_toc.html#TOC133">8.2.2.17  CBM-II memory module</A></H4>
+<H4><A NAME="SEC134" HREF="vice_toc.html#TOC134">8.2.2.18  CBM-II memory module</A></H4>
 
 <P>
 The CBM-II memory module actually consists of two modules.  The

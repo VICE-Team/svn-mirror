@@ -54,38 +54,9 @@
 int parallel_debug = 0;
 int parallel_emu = 1;
 
-/***************************************************************************
- * resources & cmdline options
- */
-
-static int set_paremu_enabled(resource_value_t v)
+void parallel_bus_enable(int enable) 
 {
-    parallel_emu = (int) v;
-    return 0;
-}
-
-static resource_t resources[] = {
-    {"IeeeFS", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) & parallel_emu, set_paremu_enabled},
-    { NULL }
-};
-
-int parallel_init_resources(void)
-{
-    return resources_register(resources);
-}
-
-static cmdline_option_t cmdline_options[] = {
-    {"-ieeefs", SET_RESOURCE, 0, NULL, NULL, "IeeeFS", (resource_value_t) 1,
-     NULL, "Enable IEEE488 filesystem access"},
-    {"+ieeefs", SET_RESOURCE, 0, NULL, NULL, "IeeeFS", (resource_value_t) 0,
-     NULL, "Disable IEEE488 filesystem access"},
-    { NULL }
-};
-
-int parallel_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
+    parallel_emu = enable;
 }
 
 /***************************************************************************

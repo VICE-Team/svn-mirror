@@ -16,6 +16,36 @@ this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
+
+
+File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
+
+Monitor
+*******
+
+   Every VICE emulator has a complete built-in monitor, which can be
+used to examine, disassemble and assemble machine language programs, as
+well as debug them through breakpoints.  It can be activated by using
+the "Activate monitor" command (left button menu).  Notice that you have
+to run the emulator from a terminal emulation program (such as `rxvt'
+or `xterm') in order to use the monitor.
+
+   Warning: this version of the monitor is still under construction,
+and some of the features are not fully working yet.
+
+* Menu:
+
+* Terminology::
+* Machine state commands::
+* Memory commands::
+* Assembly commands::
+* Checkpoint commands::
+* General commands::
+* Disk commands::
+* Command file commands::
+* Label commands::
+* Miscellaneous commands::
+
 
 File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monitor,  Up: Monitor
 
@@ -1251,33 +1281,4 @@ about VICE.  We cannot always answer all the email, but we surely read
 all of it.
 
    Thanks!
-
-
-File: vice.info,  Node: Contributing,  Next: Newsgroups,  Prev: Sending feedback,  Up: Contacts
-
-How to contribute
-=================
-
-   If you want to make a major contribution, please *ask* first.  It
-has already happened a couple of times that somebody started working at
-something that had already been done but not released to the public yet,
-and we really do *not* want anybody to waste time.
-
-   If you are going to make a patch, please make sure the patch is
-relative to the very latest version, and provide us with the following:
-
-   * a diff file containing all the changes you have made (`diff -c' or
-     `diff -u' (better) is fine; please don't use plain `diff');
-
-   * GNU-style `ChangeLog' entries with a description of the changes you
-     have made (look at the `ChangeLog's provided with the original VICE
-     sources for an example).
-
-   This is very important, and makes adding patches much smoother and
-safer.
-
-   People willing to port VICE to other platforms are always welcome.
-Windows, MacOS and Acorn RISC-OS ports are in the works, so if you are
-interested in those platforms, please let us know.  There is plenty of
-work to do and any sort of help can be very useful.
 

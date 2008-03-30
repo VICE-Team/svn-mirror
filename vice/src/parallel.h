@@ -42,9 +42,8 @@
 /* debug variable - set to 1 to generate output */
 extern int parallel_debug;
 
-/* resource handling - to switch off IEEE488 filesystem engine */
-extern int parallel_init_resources(void);
-extern int parallel_init_cmdline_options(void);
+/* to switch on/off IEEE488 filesystem engine */
+void parallel_bus_enable(int enable);
 
 /* state of the bus lines -> "if(parallel_eoi) { eoi is active }" */
 extern char parallel_eoi;
