@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -254,7 +255,7 @@ void iec_fast_drive_direction(int direction, unsigned int dnr)
 {
 }
 
-iec_info_t *iec_get_drive_port(void)
+iecbus_t *iecbus_drive_port(void)
 {
     return NULL;
 }

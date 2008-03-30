@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "petiec.h"
 #include "types.h"
@@ -49,7 +50,7 @@ void iec_update_ports_embedded(void)
     iec_update_ports();
 }
 
-iec_info_t *iec_get_drive_port(void)
+iecbus_t *iecbus_drive_port(void)
 {
     return NULL;
 }
