@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.15
+ VERSION=1.13.16
 
 
 cat >>confdefs.h <<_ACEOF
@@ -3098,6 +3098,40 @@ _ACEOF
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_MOUSE
+_ACEOF
+
+
+
+if false; then
+  HAVE_RS232_TRUE=
+  HAVE_RS232_FALSE='#'
+else
+  HAVE_RS232_TRUE='#'
+  HAVE_RS232_FALSE=
+fi
+
+
+
+if false; then
+  HAVE_RAWDRIVE_TRUE=
+  HAVE_RAWDRIVE_FALSE='#'
+else
+  HAVE_RAWDRIVE_TRUE='#'
+  HAVE_RAWDRIVE_FALSE=
+fi
+
+
+elif test x"$host_os" = "xriscos"; then
+
+    ac_cv_c_compiler_gnu=yes
+  GCC=yes
+  READLINE=""
+
+  is_riscos=yes
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
 
@@ -10584,6 +10618,10 @@ if [ x"$is_beos" = "xyes" ] ; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o"
 fi
 
+if [ x"$is_riscos" = "xyes" ]; then
+    SOUND_DRIVERS="$SOUND_DRIVERS soundacorn.o"
+fi
+
 
 
 if test x"$with_arts" = "xyes"; then
@@ -10917,7 +10955,7 @@ fi
 
 
 
-if test x"$is_dos" = "xno" -a x"$is_win32" = "xno"; then
+if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a -x"$is_riscos" = "xno"; then
   echo "$as_me:$LINENO: checking for working memcmp" >&5
 echo $ECHO_N "checking for working memcmp... $ECHO_C" >&6
 if test "${ac_cv_func_memcmp_working+set}" = set; then
@@ -11606,7 +11644,7 @@ done
 
 
 
-if [ x"$is_win32" = "xno" ]; then
+if test x"$is_win32" = "xno" -a test x"$is_riscos" = "xno"; then
 
 for ac_func in usleep
 do
@@ -11809,7 +11847,7 @@ fi
 
 
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes"; then
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
     unset ac_cv_lib_readline_readline
@@ -16590,6 +16628,20 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_RS232_TRUE}" && test -z "${HAVE_RS232_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_RS232\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_RS232\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${HAVE_RAWDRIVE_TRUE}" && test -z "${HAVE_RAWDRIVE_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"HAVE_RAWDRIVE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"HAVE_RAWDRIVE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi

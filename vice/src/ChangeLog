@@ -1,3 +1,54 @@
+2003-11-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.16.
+
+	* gfxoutput.h: Fixed prototypes.
+
+	* arch/win32/mousedrv.c (mousedrv_resources_init,
+	mousedrv_cmdline_options_init): Return zero.
+
+	* arch/unix/x11/renderxv.c (find_yuv_port): Fixed warning.
+
+2003-11-07  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c: (ui_style_red): new global.
+	(x11ui_open_canvas_window): Set video_ctrl_checkbox label to
+	red font.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (build_screenshot_dialog):
+	Added widgets for FFMPEG resources.
+	(ffmpg_widget): new_function.
+	(ui_screenshot_dialog): set resources for ffmpeg in case the
+	driver is selected.
+
+2003-11-07  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/mousedrv.{c,h}: new files (ATM dummies only)
+
+	* arch/riscos/Makefile.am: restructured for use on RISC OS
+
+2003-11-06  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c: New global
+	`video_ctrl_checkbox'.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (ui_screenshot_dialog):
+	Show video control button in case of recording.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_create_status_bar): Added
+	record control button.
+
+2003-11-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* gfxoutputdrv/ffmpegdrv.h: Added prototypes.
+
+	* gfxoutput.h, gfxoutput.c: New functions
+	gfxoutput_resources_init, gfxoutput_cmdline_options_init
+	calling the ffmpegdrv registration functions.
+
+	* init.c (init_resources): Call gfxoutput_resources_init.
+	(init_cmdline_options): Call gfxoutput_cmdline_options_init.
+
 2003-11-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.15.

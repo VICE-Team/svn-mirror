@@ -112,7 +112,7 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
     format_list = XvListImageFormats(display, adaptor_info[i].base_id,
 				     &num_formats);
 
-    for (j = 0; j < sizeof(fourcc_list)/sizeof(*fourcc_list); j++) {
+    for (j = 0; j < (int)(sizeof(fourcc_list) / sizeof(*fourcc_list)); j++) {
       if (format->id && fourcc_list[j].id != format->id) {
 	continue;
       }
