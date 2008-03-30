@@ -35,72 +35,17 @@
 
 #include "ui.h"
 
+#include "log.h"
 #include "machine.h"
 #include "menudefs.h"
 #include "mon.h"
+#include "sound.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "types.h"
 #include "utils.h"
 #include "video.h"
 #include "vsync.h"
-
-/* ------------------------------------------------------------------------- */
-
-static int log_fd = -1;
-
-static void enable_log(int new)
-{
-    char *path = concat(boot_path, "/", "vice.log", NULL);
-
-    printf("Writing log to `%s'\n", path);
-
-    if (new)
-	log_fd = open(path, O_TEXT | O_WRONLY | O_CREAT | O_TRUNC, 0666);
-    else
-	log_fd = open(path, O_TEXT | O_WRONLY | O_APPEND);
-    if (log_fd == -1) {
-	perror(path);
-	exit(-1);
-    }
-
-    free(path);
-
-    setvbuf(stdout, NULL, _IONBF, 0);
-    setvbuf(stderr, NULL, _IONBF, 0);
-    dup2(log_fd, STDOUT_FILENO);
-    dup2(log_fd, STDERR_FILENO);
-    close(log_fd);
-}
-
-static void disable_log(void)
-{
-    if (log_fd != -1) {
-	close(log_fd);
-	freopen("CON", "wt", stdout);
-	freopen("CON", "wt", stderr);
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-static void mon_trap(ADDRESS addr)
-{
-    int old_mode;
-
-    disable_log();
-    enable_text();
-    clrscr();
-    _set_screen_lines(43);
-    _setcursortype(_SOLIDCURSOR);
-    old_mode = setmode(STDIN_FILENO, O_TEXT);
-
-    mon(addr);
-
-    setmode(STDIN_FILENO, old_mode);
-    enable_log(0);
-    disable_text();
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -121,7 +66,7 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
-    enable_log(1);
+    log_enable(1);
     tui_init();
     atexit(ui_exit);
     return 0;
@@ -132,6 +77,8 @@ void ui_main(ADDRESS addr)
     char s[256];
     double speed_index, frame_rate;
     int old_stdin_mode = setmode(STDIN_FILENO, O_BINARY);
+
+    sound_close();
 
     speed_index = vsync_get_avg_speed_index();
     frame_rate = vsync_get_avg_frame_rate();
@@ -148,20 +95,10 @@ void ui_main(ADDRESS addr)
     tui_set_attr(FIRST_LINE_FORE, FIRST_LINE_BACK, 0);
     tui_display(tui_num_cols() - strlen(s), 0, 0, "%s", s);
 
+    /* FIXME: This should not be necessary.  */
     tui_menu_update(ui_main_menu);
-    tui_menu_handle(ui_main_menu);
 
-#if 0
-    /* FIXME: This is an ugly kludge.  I really think this should be handled
-       transparently, i.e. without messing with the resource values, in the
-       sound driver.  */
-    if (app_resources.sound) {
-	/* With the current version of the sound driver, we must always
-	   force 100% speed (no automatic sound speed adjustment is
-	   implemented for MS-DOS).  */
-	app_resources.speed = 100;
-    }
-#endif
+    tui_menu_handle(ui_main_menu);
 
     disable_text();
     suspend_speed_eval();
