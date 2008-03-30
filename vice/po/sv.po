@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-04-24 17:50+0200\n"
+"POT-Creation-Date: 2004-05-03 00:23+0200\n"
 "PO-Revision-Date: 2004-01-21 23:05+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -122,36 +122,36 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:287
+#: src/event.c:466
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfil."
 
-#: src/event.c:301 src/event.c:541
+#: src/event.c:480 src/event.c:720
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfil."
 
-#: src/event.c:352 src/event.c:515
+#: src/event.c:531 src/event.c:694
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfil."
 
-#: src/event.c:411
+#: src/event.c:590
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfil."
 
-#: src/event.c:422
+#: src/event.c:601
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:442
+#: src/event.c:621
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:462
+#: src/event.c:641
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
@@ -400,8 +400,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
 #: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
-#: src/arch/unix/x11/gnome/x11ui.c:1287
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1194
+#: src/arch/unix/x11/gnome/x11ui.c:1286
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -932,19 +932,19 @@ msgstr "Enhet 10..."
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:394
+#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:397
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:396
+#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:399
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:398
+#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:401
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:400
+#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:403
 msgid "Unit #11"
 msgstr "Enhet 11"
 
@@ -1087,7 +1087,7 @@ msgstr ""
 "Tillgängliga kommandoradsflaggor:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:314
+#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:317
 #: src/arch/unix/uikeyboard.c:109
 msgid "VICE setting"
 msgstr "VICE-inställning"
@@ -1096,50 +1096,50 @@ msgstr "VICE-inställning"
 msgid "Change current working directory"
 msgstr "Ändra aktuell arbetskatalog"
 
-#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:319
+#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:322
 msgid "Directory not found"
 msgstr "Katalogen ej funnen"
 
-#: src/arch/unix/uicommands.c:96
+#: src/arch/unix/uicommands.c:99
 msgid "Couldn't run /bin/sh???"
 msgstr "Kunde inte köra \"/bin/sh\"?"
 
-#: src/arch/unix/uicommands.c:99
+#: src/arch/unix/uicommands.c:102
 msgid "Couldn't run xterm"
 msgstr "Kunde inte köra \"xterm\""
 
-#: src/arch/unix/uicommands.c:104
+#: src/arch/unix/uicommands.c:107
 msgid "Unknown error while running c1541"
 msgstr "Okänt fel vid körning av c1541"
 
-#: src/arch/unix/uicommands.c:134
+#: src/arch/unix/uicommands.c:137
 msgid "No HTML browser is defined."
 msgstr "Ingen HTML-läsare angiven."
 
-#: src/arch/unix/uicommands.c:153 src/arch/unix/uicommands.c:167
-#: src/arch/unix/uicommands.c:180
+#: src/arch/unix/uicommands.c:156 src/arch/unix/uicommands.c:170
+#: src/arch/unix/uicommands.c:183
 msgid "Browser command too long."
 msgstr "Kommandorad för webbläsare för lång."
 
-#: src/arch/unix/uicommands.c:193
+#: src/arch/unix/uicommands.c:196
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Kör \"%s\"..."
 
-#: src/arch/unix/uicommands.c:195
+#: src/arch/unix/uicommands.c:198
 msgid "Cannot run HTML browser."
 msgstr "Kan inte köra HTML-läsare."
 
-#: src/arch/unix/uicommands.c:234
+#: src/arch/unix/uicommands.c:237
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Snabbladdar fil %s."
 
-#: src/arch/unix/uicommands.c:237
+#: src/arch/unix/uicommands.c:240
 msgid "Load snapshot"
 msgstr "Laddar ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:251
+#: src/arch/unix/uicommands.c:254
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1149,12 +1149,12 @@ msgstr ""
 "\"%s\""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:281
+#: src/arch/unix/uicommands.c:284
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Snabbsparar fil %s."
 
-#: src/arch/unix/uicommands.c:283 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:286 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -1164,117 +1164,117 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:315 src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:318 src/arch/unix/uicommands.c:441
 msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:371
+#: src/arch/unix/uicommands.c:374
 msgid "Record sound to file"
 msgstr "Spela in ljud till fil"
 
-#: src/arch/unix/uicommands.c:387
+#: src/arch/unix/uicommands.c:390
 msgid "Soft"
 msgstr "Mjuk"
 
-#: src/arch/unix/uicommands.c:390
+#: src/arch/unix/uicommands.c:393
 msgid "Hard"
 msgstr "Hård"
 
-#: src/arch/unix/uicommands.c:406
+#: src/arch/unix/uicommands.c:409
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:414
+#: src/arch/unix/uicommands.c:417
 msgid "*Save new snapshot"
 msgstr "*Spara ny ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:416
+#: src/arch/unix/uicommands.c:419
 msgid "*Load existing snapshot"
 msgstr "*Ladda existerande ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:418
+#: src/arch/unix/uicommands.c:421
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:427
 msgid "Load snapshot..."
 msgstr "Ladda ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:430
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:431
+#: src/arch/unix/uicommands.c:434
 msgid "Quickload snapshot"
 msgstr "Snabbladda ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:437
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:443
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:442
+#: src/arch/unix/uicommands.c:445
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:447
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:446
+#: src/arch/unix/uicommands.c:449
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:448
+#: src/arch/unix/uicommands.c:451
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:450
+#: src/arch/unix/uicommands.c:453
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:456
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:462
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:465
+#: src/arch/unix/uicommands.c:468
 msgid "Sound record..."
 msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:472
+#: src/arch/unix/uicommands.c:475
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:475
+#: src/arch/unix/uicommands.c:478
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:483
+#: src/arch/unix/uicommands.c:486
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:485
+#: src/arch/unix/uicommands.c:488
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:491 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:494 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1928
+#: src/arch/unix/x11/gnome/x11ui.c:1927
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:493
+#: src/arch/unix/uicommands.c:496
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:500
+#: src/arch/unix/uicommands.c:503
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -1666,7 +1666,7 @@ msgstr "Ladda "
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:254
+#: src/arch/unix/x11/xaw/uiscreenshot.c:253
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Spara"
@@ -1738,8 +1738,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
-#: src/arch/unix/x11/gnome/x11ui.c:1533
+#: src/arch/unix/x11/gnome/x11ui.c:846 src/arch/unix/x11/gnome/x11ui.c:856
+#: src/arch/unix/x11/gnome/x11ui.c:1532
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -2062,71 +2062,71 @@ msgstr "Kommando att köra för utskrift (inled med \"|\")"
 msgid "Command:"
 msgstr "Kommando:"
 
-#: src/arch/unix/uiprinteriec.c:47 src/arch/unix/uiprinterieee.c:44
+#: src/arch/unix/uiprinteriec.c:42 src/arch/unix/uiprinterieee.c:40
 msgid "*IEC printer #4 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 4"
 
-#: src/arch/unix/uiprinteriec.c:49
+#: src/arch/unix/uiprinteriec.c:44
 msgid "*IEC printer #4 enable IEC device"
 msgstr "*Aktivera IEC-enhet för IEC-skrivare 4"
 
-#: src/arch/unix/uiprinteriec.c:51 src/arch/unix/uiprinterieee.c:46
+#: src/arch/unix/uiprinteriec.c:46 src/arch/unix/uiprinterieee.c:42
 msgid "IEC printer #4 driver"
 msgstr "Skrivardrivrutin för IEC-enhet 4"
 
-#: src/arch/unix/uiprinteriec.c:53 src/arch/unix/uiprinterieee.c:48
+#: src/arch/unix/uiprinteriec.c:48 src/arch/unix/uiprinterieee.c:44
 msgid "IEC printer #4 text output device"
 msgstr "Textutenhet för IEC-enhet 4"
 
-#: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
+#: src/arch/unix/uiprinteriec.c:50 src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 formfeed"
 msgstr "Mata fram sida för IEC-enhet 4"
 
-#: src/arch/unix/uiprinteriec.c:59 src/arch/unix/uiprinterieee.c:54
+#: src/arch/unix/uiprinteriec.c:54 src/arch/unix/uiprinterieee.c:50
 msgid "*IEC printer #5 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 5"
 
-#: src/arch/unix/uiprinteriec.c:61
+#: src/arch/unix/uiprinteriec.c:56
 msgid "*IEC printer #5 enable IEC device"
 msgstr "*Aktivera IEC-enhet för IEC-skrivare 5"
 
-#: src/arch/unix/uiprinteriec.c:63 src/arch/unix/uiprinterieee.c:56
+#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:52
 msgid "IEC printer #5 driver"
 msgstr "Skrivardrivrutin för IEC-enhet 5"
 
-#: src/arch/unix/uiprinteriec.c:65 src/arch/unix/uiprinterieee.c:58
+#: src/arch/unix/uiprinteriec.c:60 src/arch/unix/uiprinterieee.c:54
 msgid "IEC printer #5 text output device"
 msgstr "Textutenhet för IEC-enhet 5"
 
-#: src/arch/unix/uiprinteriec.c:67 src/arch/unix/uiprinterieee.c:60
+#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 formfeed"
 msgstr "Mata fram sida för IEC-enhet 5"
 
-#: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
+#: src/arch/unix/uiprinteriec.c:66 src/arch/unix/uiprinterieee.c:60
 msgid "*Userport printer emulation"
 msgstr "*Emulering av skrivare på användarporten"
 
-#: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
+#: src/arch/unix/uiprinteriec.c:68 src/arch/unix/uiprinterieee.c:62
 msgid "Userport printer driver"
 msgstr "Skrivardrivrutin för användarporten"
 
-#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:68
+#: src/arch/unix/uiprinteriec.c:70 src/arch/unix/uiprinterieee.c:64
 msgid "Userport printer text output device"
 msgstr "Textutenhet för användarportskrivare"
 
-#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:70
+#: src/arch/unix/uiprinteriec.c:72 src/arch/unix/uiprinterieee.c:66
 msgid "Userport printer formfeed"
 msgstr "Mata fram sida för användarportskrivare"
 
-#: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
+#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:69
 msgid "Printer text device 1..."
 msgstr "Skrivartextenhet 1..."
 
-#: src/arch/unix/uiprinteriec.c:82 src/arch/unix/uiprinterieee.c:75
+#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:71
 msgid "Printer text device 2..."
 msgstr "Skrivartextenhet 2..."
 
-#: src/arch/unix/uiprinteriec.c:84 src/arch/unix/uiprinterieee.c:77
+#: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Skrivartextenhet 3..."
 
@@ -2308,36 +2308,36 @@ msgstr "*Emulering av 9600 baud-CIA"
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
-#: src/arch/unix/uisettings.c:113
+#: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
 msgstr "Ange uppdateringsfrekvens"
 
-#: src/arch/unix/uisettings.c:114 src/arch/unix/uisettings.c:313
+#: src/arch/unix/uisettings.c:113 src/arch/unix/uisettings.c:312
 msgid "Refresh rate"
 msgstr "Uppdateringshastighet"
 
-#: src/arch/unix/uisettings.c:186
+#: src/arch/unix/uisettings.c:185
 msgid "Enter speed"
 msgstr "Ange hastighet"
 
-#: src/arch/unix/uisettings.c:187
+#: src/arch/unix/uisettings.c:186
 msgid "Maximum run speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/uisettings.c:201
+#: src/arch/unix/uisettings.c:200
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:215 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1335
 #: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
-#: src/arch/unix/uisettings.c:218
+#: src/arch/unix/uisettings.c:217
 msgid "Settings saved successfully."
 msgstr "Inställningarna har sparats."
 
-#: src/arch/unix/uisettings.c:235
+#: src/arch/unix/uisettings.c:234
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2345,7 +2345,7 @@ msgstr ""
 "Kan inte ladda inställningar:\n"
 "resursfilen ogiltig."
 
-#: src/arch/unix/uisettings.c:237
+#: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2353,47 +2353,47 @@ msgstr ""
 "Kan inte ladda inställningar:\n"
 "resursfilen ej funnen."
 
-#: src/arch/unix/uisettings.c:241
+#: src/arch/unix/uisettings.c:240
 msgid "Settings loaded."
 msgstr "Inställnigarna har laddats."
 
-#: src/arch/unix/uisettings.c:263
+#: src/arch/unix/uisettings.c:262
 msgid "*Auto"
 msgstr "*Auto"
 
-#: src/arch/unix/uisettings.c:286 src/arch/unix/uisettings.c:305
+#: src/arch/unix/uisettings.c:285 src/arch/unix/uisettings.c:304
 msgid "*Custom..."
 msgstr "*Egen..."
 
-#: src/arch/unix/uisettings.c:302
+#: src/arch/unix/uisettings.c:301
 msgid "*No limit"
 msgstr "*Ingen gräns"
 
-#: src/arch/unix/uisettings.c:315
+#: src/arch/unix/uisettings.c:314
 msgid "Maximum speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/uisettings.c:317
+#: src/arch/unix/uisettings.c:316
 msgid "*Enable warp mode"
 msgstr "*Aktivera warpläge"
 
-#: src/arch/unix/uisettings.c:323
+#: src/arch/unix/uisettings.c:322
 msgid "Save settings"
 msgstr "Spara inställningar"
 
-#: src/arch/unix/uisettings.c:325
+#: src/arch/unix/uisettings.c:324
 msgid "Load settings"
 msgstr "Ladda inställningar"
 
-#: src/arch/unix/uisettings.c:327
+#: src/arch/unix/uisettings.c:326
 msgid "Restore default settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/arch/unix/uisettings.c:329
+#: src/arch/unix/uisettings.c:328
 msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
-#: src/arch/unix/uisettings.c:331
+#: src/arch/unix/uisettings.c:330
 msgid "*Confirm on exit"
 msgstr "*Bekräfta avslutning"
 
@@ -2832,7 +2832,7 @@ msgid "Filename: "
 msgstr "Filnamn: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:223
+#: src/arch/unix/x11/gnome/uiscreenshot.c:216
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Ogiltigt filnamn"
@@ -2930,7 +2930,7 @@ msgstr "Exakt emulering"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
-#: src/arch/unix/x11/gnome/uiscreenshot.c:213
+#: src/arch/unix/x11/gnome/uiscreenshot.c:207
 msgid "Save Screenshot"
 msgstr "Spara skärmdump"
 
@@ -2938,20 +2938,20 @@ msgstr "Spara skärmdump"
 msgid "Image Format"
 msgstr "Bildformat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:156
+#: src/arch/unix/x11/gnome/uiscreenshot.c:153
 msgid "Audio Bitrate"
 msgstr "Ljudbithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:171
+#: src/arch/unix/x11/gnome/uiscreenshot.c:168
 msgid "Video Bitrate"
 msgstr "Videobithastighet"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:253
+#: src/arch/unix/x11/gnome/uiscreenshot.c:245
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:261
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Skrev \"%s\""
@@ -2988,176 +2988,176 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:401
+#: src/arch/unix/x11/gnome/x11ui.c:400
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:403
+#: src/arch/unix/x11/gnome/x11ui.c:402
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:485
+#: src/arch/unix/x11/gnome/x11ui.c:609 src/arch/unix/x11/xaw/x11ui.c:485
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:488
+#: src/arch/unix/x11/gnome/x11ui.c:612 src/arch/unix/x11/xaw/x11ui.c:488
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:616 src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/gnome/x11ui.c:615 src/arch/unix/x11/gnome/x11ui.c:639
 #: src/arch/unix/x11/xaw/x11ui.c:491 src/arch/unix/x11/xaw/x11ui.c:508
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-vy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:625
+#: src/arch/unix/x11/gnome/x11ui.c:624
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:516
+#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/xaw/x11ui.c:516
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:656
+#: src/arch/unix/x11/gnome/x11ui.c:655
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:663
+#: src/arch/unix/x11/gnome/x11ui.c:662
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:749
+#: src/arch/unix/x11/gnome/x11ui.c:748
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:768
+#: src/arch/unix/x11/gnome/x11ui.c:767
 msgid "audio/video recording"
 msgstr "ljud-/bild-inspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
+#: src/arch/unix/x11/gnome/x11ui.c:781 src/arch/unix/x11/gnome/x11ui.c:800
 msgid "click to stop recording"
 msgstr "avbryt inspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:786
 msgid "event recording"
 msgstr "händelseinspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:807
+#: src/arch/unix/x11/gnome/x11ui.c:806
 msgid "event playback"
 msgstr "händelseåterspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:821
+#: src/arch/unix/x11/gnome/x11ui.c:820
 msgid "click to stop playback"
 msgstr "avbryt återspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:833
+#: src/arch/unix/x11/gnome/x11ui.c:832
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:943
+#: src/arch/unix/x11/gnome/x11ui.c:942
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:597
+#: src/arch/unix/x11/gnome/x11ui.c:1011 src/arch/unix/x11/xaw/x11ui.c:597
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1193 src/arch/unix/x11/gnome/x11ui.c:1276
+#: src/arch/unix/x11/gnome/x11ui.c:1192 src/arch/unix/x11/gnome/x11ui.c:1275
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1199
+#: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1022
+#: src/arch/unix/x11/gnome/x11ui.c:1318 src/arch/unix/x11/xaw/x11ui.c:1022
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1325 src/arch/unix/x11/xaw/x11ui.c:1026
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1034
+#: src/arch/unix/x11/gnome/x11ui.c:1332 src/arch/unix/x11/xaw/x11ui.c:1034
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1075
+#: src/arch/unix/x11/gnome/x11ui.c:1377 src/arch/unix/x11/xaw/x11ui.c:1075
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1398 src/arch/unix/x11/gnome/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1397 src/arch/unix/x11/gnome/x11ui.c:1400
 #: src/arch/unix/x11/xaw/x11ui.c:1096 src/arch/unix/x11/xaw/x11ui.c:1102
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1685
+#: src/arch/unix/x11/gnome/x11ui.c:1684
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1323
+#: src/arch/unix/x11/gnome/x11ui.c:1736 src/arch/unix/x11/xaw/x11ui.c:1323
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1890
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1902
+#: src/arch/unix/x11/gnome/x11ui.c:1901
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1928
+#: src/arch/unix/x11/gnome/x11ui.c:1927
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1929
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1601
+#: src/arch/unix/x11/gnome/x11ui.c:1972 src/arch/unix/x11/xaw/x11ui.c:1601
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974
+#: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1987
+#: src/arch/unix/x11/gnome/x11ui.c:1986
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
+#: src/arch/unix/x11/gnome/x11ui.c:1994 src/arch/unix/x11/gnome/x11ui.c:2003
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2131 src/arch/unix/x11/gnome/x11ui.c:2136
+#: src/arch/unix/x11/gnome/x11ui.c:2130 src/arch/unix/x11/gnome/x11ui.c:2135
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2601
+#: src/arch/unix/x11/gnome/x11ui.c:2600
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2648
+#: src/arch/unix/x11/gnome/x11ui.c:2647
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2674
+#: src/arch/unix/x11/gnome/x11ui.c:2673
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -3373,19 +3373,19 @@ msgid "Save cartridge image file"
 msgstr "Spara insticksmodulfil"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:162
+#: src/arch/unix/x11/xaw/uiscreenshot.c:161
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Filnamn:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:191
+#: src/arch/unix/x11/xaw/uiscreenshot.c:190
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr "Bläddra..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:261
+#: src/arch/unix/x11/xaw/uiscreenshot.c:260
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr "Avbryt"
@@ -3418,15 +3418,15 @@ msgstr "Diskettnamn:"
 msgid "Disk format:"
 msgstr "Diskettformat:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:88
+#: src/arch/unix/x11/xaw/uiscreenshot.c:87
 msgid "Save screenshot file"
 msgstr "Spara skärmdump"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:211
+#: src/arch/unix/x11/xaw/uiscreenshot.c:210
 msgid "Image format:"
 msgstr "Bildformat:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:278
+#: src/arch/unix/x11/xaw/uiscreenshot.c:277
 msgid "Screen Snapshot"
 msgstr "Skärmdump"
 

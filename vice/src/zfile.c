@@ -770,8 +770,7 @@ static int compress_with_gzip(const char *src, const char *dest)
         return -1;
 
     fddest = gzopen(src, MODE_WRITE"9");
-    if (fddest == NULL)
-    {
+    if (fddest == NULL) {
         fclose(fdsrc);
         return -1;
     }
@@ -913,14 +912,14 @@ static int zfile_compress(const char *src, const char *dest,
     }
 
     switch (type) {
-        case COMPR_GZIP:
-            retval = compress_with_gzip(src, dest);
-            break;
-        case COMPR_BZIP:
-            retval = compress_with_bzip(src, dest);
-            break;
-        default:
-            retval = -1;
+      case COMPR_GZIP:
+        retval = compress_with_gzip(src, dest);
+        break;
+      case COMPR_BZIP:
+        retval = compress_with_bzip(src, dest);
+        break;
+      default:
+        retval = -1;
     }
 
     if (retval == -1) {
@@ -971,6 +970,9 @@ FILE *zfopen(const char *name, const char *mode)
     if (!zinit_done)
         zinit();
 
+    if (name == NULL || name[0] == 0)
+        return NULL;
+
     /* Do we want to write to this file?  */
     if ((strchr(mode, 'w') != NULL) || (strchr(mode, '+') != NULL))
         write_mode = 1;
@@ -1011,18 +1013,18 @@ static int handle_close_action(zfile_t *ptr)
         return -1;
 
     switch(ptr->action) {
-        case ZFILE_KEEP:
-            break;
-        case ZFILE_REQUEST:
-        /*
-            ui_zfile_close_request(ptr->orig_name, ptr->request_string);
-            break;
-        */
-        case ZFILE_DEL:
-            if (ioutil_remove(ptr->orig_name) < 0)
-                log_error(zlog, "Cannot unlink `%s': %s",
-                    ptr->orig_name, strerror(errno));
-            break;
+      case ZFILE_KEEP:
+        break;
+      case ZFILE_REQUEST:
+      /*
+        ui_zfile_close_request(ptr->orig_name, ptr->request_string);
+        break;
+      */
+      case ZFILE_DEL:
+        if (ioutil_remove(ptr->orig_name) < 0)
+            log_error(zlog, "Cannot unlink `%s': %s",
+                ptr->orig_name, strerror(errno));
+        break;
     }
     return 0;
 }

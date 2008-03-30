@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-04-24 17:50+0200\n"
+"POT-Creation-Date: 2004-05-03 00:23+0200\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -127,44 +127,44 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:287
+#: src/event.c:466
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:301 src/event.c:541
+#: src/event.c:480 src/event.c:720
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:352 src/event.c:515
+#: src/event.c:531 src/event.c:694
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:411
+#: src/event.c:590
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:422
+#: src/event.c:601
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:442
+#: src/event.c:621
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:462
+#: src/event.c:641
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
@@ -415,8 +415,8 @@ msgstr "Opcje"
 #: src/arch/unix/c128ui.c:474 src/arch/unix/c64ui.c:451
 #: src/arch/unix/cbm2ui.c:509 src/arch/unix/petui.c:432
 #: src/arch/unix/plus4ui.c:228 src/arch/unix/vic20ui.c:520
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
-#: src/arch/unix/x11/gnome/x11ui.c:1287
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1194
+#: src/arch/unix/x11/gnome/x11ui.c:1286
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -948,19 +948,19 @@ msgstr "Napêd #10..."
 msgid "Unit #11..."
 msgstr "Napêd #11..."
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:394
+#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:397
 msgid "Unit #8"
 msgstr "Napêd #8"
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:396
+#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:399
 msgid "Unit #9"
 msgstr "Napêd #9"
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:398
+#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:401
 msgid "Unit #10"
 msgstr "Napêd #10"
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:400
+#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:403
 msgid "Unit #11"
 msgstr "Napêd #11"
 
@@ -1103,7 +1103,7 @@ msgstr ""
 "Dostêpne opcje z linii poleceñ:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:314
+#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:317
 #: src/arch/unix/uikeyboard.c:109
 msgid "VICE setting"
 msgstr "Ustawienia VICE"
@@ -1112,50 +1112,50 @@ msgstr "Ustawienia VICE"
 msgid "Change current working directory"
 msgstr "Zmieñ aktualny katalog roboczy"
 
-#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:319
+#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:322
 msgid "Directory not found"
 msgstr "Katalog nie znaleziony"
 
-#: src/arch/unix/uicommands.c:96
+#: src/arch/unix/uicommands.c:99
 msgid "Couldn't run /bin/sh???"
 msgstr "Nie mo¿na uruchomiæ /bin/sh???"
 
-#: src/arch/unix/uicommands.c:99
+#: src/arch/unix/uicommands.c:102
 msgid "Couldn't run xterm"
 msgstr "Nie mo¿na uruchomiæ xterm"
 
-#: src/arch/unix/uicommands.c:104
+#: src/arch/unix/uicommands.c:107
 msgid "Unknown error while running c1541"
 msgstr "Nieznany b³±d przy uruchamianiu c1541"
 
-#: src/arch/unix/uicommands.c:134
+#: src/arch/unix/uicommands.c:137
 msgid "No HTML browser is defined."
 msgstr "Brak zdefiniowanej przegl±darki HTML."
 
-#: src/arch/unix/uicommands.c:153 src/arch/unix/uicommands.c:167
-#: src/arch/unix/uicommands.c:180
+#: src/arch/unix/uicommands.c:156 src/arch/unix/uicommands.c:170
+#: src/arch/unix/uicommands.c:183
 msgid "Browser command too long."
 msgstr "Komenda przegl±darki jest zbyt d³uga."
 
-#: src/arch/unix/uicommands.c:193
+#: src/arch/unix/uicommands.c:196
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Wykonywanie `%s'..."
 
-#: src/arch/unix/uicommands.c:195
+#: src/arch/unix/uicommands.c:198
 msgid "Cannot run HTML browser."
 msgstr "Nie mo¿na uruchomiæ przegl±darki HTML"
 
-#: src/arch/unix/uicommands.c:234
+#: src/arch/unix/uicommands.c:237
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Szybkie ³adowanie pliku %s."
 
-#: src/arch/unix/uicommands.c:237
+#: src/arch/unix/uicommands.c:240
 msgid "Load snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:251
+#: src/arch/unix/uicommands.c:254
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1165,12 +1165,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:281
+#: src/arch/unix/uicommands.c:284
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Szybkie zapisywanie pliku %s."
 
-#: src/arch/unix/uicommands.c:283 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:286 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -1180,120 +1180,120 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:315 src/arch/unix/uicommands.c:438
+#: src/arch/unix/uicommands.c:318 src/arch/unix/uicommands.c:441
 #, fuzzy
 msgid "Select history directory"
 msgstr "Katalog systemu plików..."
 
-#: src/arch/unix/uicommands.c:371
+#: src/arch/unix/uicommands.c:374
 msgid "Record sound to file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:387
+#: src/arch/unix/uicommands.c:390
 msgid "Soft"
 msgstr "Miêkki"
 
-#: src/arch/unix/uicommands.c:390
+#: src/arch/unix/uicommands.c:393
 msgid "Hard"
 msgstr "Twardy"
 
-#: src/arch/unix/uicommands.c:406
+#: src/arch/unix/uicommands.c:409
 msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
-#: src/arch/unix/uicommands.c:414
+#: src/arch/unix/uicommands.c:417
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/uicommands.c:416
+#: src/arch/unix/uicommands.c:419
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:418
+#: src/arch/unix/uicommands.c:421
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/uicommands.c:424
+#: src/arch/unix/uicommands.c:427
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:430
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/uicommands.c:431
+#: src/arch/unix/uicommands.c:434
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:437
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:443
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/uicommands.c:442
+#: src/arch/unix/uicommands.c:445
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:444
+#: src/arch/unix/uicommands.c:447
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:446
+#: src/arch/unix/uicommands.c:449
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:448
+#: src/arch/unix/uicommands.c:451
 #, fuzzy
 msgid "Set recording milestone"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:450
+#: src/arch/unix/uicommands.c:453
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:456
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:462
 msgid "Snapshot commands"
 msgstr "Komendy zapisywania zrzutu"
 
-#: src/arch/unix/uicommands.c:465
+#: src/arch/unix/uicommands.c:468
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:472
+#: src/arch/unix/uicommands.c:475
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:475
+#: src/arch/unix/uicommands.c:478
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:483
+#: src/arch/unix/uicommands.c:486
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:485
+#: src/arch/unix/uicommands.c:488
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:491 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:494 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1928
+#: src/arch/unix/x11/gnome/x11ui.c:1927
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:493
+#: src/arch/unix/uicommands.c:496
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:500
+#: src/arch/unix/uicommands.c:503
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 
@@ -1699,7 +1699,7 @@ msgstr "Za³aduj "
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:254
+#: src/arch/unix/x11/xaw/uiscreenshot.c:253
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Zapisz"
@@ -1771,8 +1771,8 @@ msgid "Next: "
 msgstr "Nastêpny: "
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
-#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
-#: src/arch/unix/x11/gnome/x11ui.c:1533
+#: src/arch/unix/x11/gnome/x11ui.c:846 src/arch/unix/x11/gnome/x11ui.c:856
+#: src/arch/unix/x11/gnome/x11ui.c:1532
 msgid "<empty>"
 msgstr "<pusty>"
 
@@ -2101,76 +2101,76 @@ msgstr "Polecenie do uruchomienia dla drukowania (przekaz przez '|')"
 msgid "Command:"
 msgstr "Komenda:"
 
-#: src/arch/unix/uiprinteriec.c:47 src/arch/unix/uiprinterieee.c:44
+#: src/arch/unix/uiprinteriec.c:42 src/arch/unix/uiprinterieee.c:40
 msgid "*IEC printer #4 emulation"
 msgstr "*Emulacja drukarki #4 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:49
+#: src/arch/unix/uiprinteriec.c:44
 #, fuzzy
 msgid "*IEC printer #4 enable IEC device"
 msgstr "*Napêd #8 - w³±cz kabel równoleg³y"
 
-#: src/arch/unix/uiprinteriec.c:51 src/arch/unix/uiprinterieee.c:46
+#: src/arch/unix/uiprinteriec.c:46 src/arch/unix/uiprinterieee.c:42
 msgid "IEC printer #4 driver"
 msgstr "Sterownik drukarki #4 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:53 src/arch/unix/uiprinterieee.c:48
+#: src/arch/unix/uiprinteriec.c:48 src/arch/unix/uiprinterieee.c:44
 msgid "IEC printer #4 text output device"
 msgstr "Wyj¶cie urz±dzenie #4 drukarki - IEC"
 
-#: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
+#: src/arch/unix/uiprinteriec.c:50 src/arch/unix/uiprinterieee.c:46
 #, fuzzy
 msgid "IEC printer #4 formfeed"
 msgstr "Sterownik drukarki #4 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:59 src/arch/unix/uiprinterieee.c:54
+#: src/arch/unix/uiprinteriec.c:54 src/arch/unix/uiprinterieee.c:50
 msgid "*IEC printer #5 emulation"
 msgstr "*Emulacja drukarki #5 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:61
+#: src/arch/unix/uiprinteriec.c:56
 #, fuzzy
 msgid "*IEC printer #5 enable IEC device"
 msgstr "*Napêd #8 - w³±cz kabel równoleg³y"
 
-#: src/arch/unix/uiprinteriec.c:63 src/arch/unix/uiprinterieee.c:56
+#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:52
 msgid "IEC printer #5 driver"
 msgstr "Sterownik drukarki #5 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:65 src/arch/unix/uiprinterieee.c:58
+#: src/arch/unix/uiprinteriec.c:60 src/arch/unix/uiprinterieee.c:54
 msgid "IEC printer #5 text output device"
 msgstr "Wyj¶cie urz±dzenia #5 drukarki - IEC"
 
-#: src/arch/unix/uiprinteriec.c:67 src/arch/unix/uiprinterieee.c:60
+#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:56
 #, fuzzy
 msgid "IEC printer #5 formfeed"
 msgstr "Sterownik drukarki #5 - IEC"
 
-#: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
+#: src/arch/unix/uiprinteriec.c:66 src/arch/unix/uiprinterieee.c:60
 msgid "*Userport printer emulation"
 msgstr "*Port emulacji drukarki"
 
-#: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
+#: src/arch/unix/uiprinteriec.c:68 src/arch/unix/uiprinterieee.c:62
 msgid "Userport printer driver"
 msgstr "Port sterownika drukarki"
 
-#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:68
+#: src/arch/unix/uiprinteriec.c:70 src/arch/unix/uiprinterieee.c:64
 msgid "Userport printer text output device"
 msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 
-#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:70
+#: src/arch/unix/uiprinteriec.c:72 src/arch/unix/uiprinterieee.c:66
 #, fuzzy
 msgid "Userport printer formfeed"
 msgstr "Port sterownika drukarki"
 
-#: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
+#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:69
 msgid "Printer text device 1..."
 msgstr "Urz±dzenie drukarki 1..."
 
-#: src/arch/unix/uiprinteriec.c:82 src/arch/unix/uiprinterieee.c:75
+#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:71
 msgid "Printer text device 2..."
 msgstr "Urz±dzenie drukarki 2..."
 
-#: src/arch/unix/uiprinteriec.c:84 src/arch/unix/uiprinterieee.c:77
+#: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Urz±dzenie drukarki 4..."
 
@@ -2372,37 +2372,37 @@ msgstr "*Emulacja RS232 o prêdko¶ci CIA 9600 bodów"
 msgid "Userport RS232 device"
 msgstr "Urz±dzenie portu RS232"
 
-#: src/arch/unix/uisettings.c:113
+#: src/arch/unix/uisettings.c:112
 msgid "Enter refresh rate"
 msgstr "Wprowad¼ czêstotliwo¶æ od¶wierzania"
 
-#: src/arch/unix/uisettings.c:114 src/arch/unix/uisettings.c:313
+#: src/arch/unix/uisettings.c:113 src/arch/unix/uisettings.c:312
 msgid "Refresh rate"
 msgstr "Czêstotliwo¶æ od¶wie¿ania"
 
-#: src/arch/unix/uisettings.c:186
+#: src/arch/unix/uisettings.c:185
 msgid "Enter speed"
 msgstr "Wprowad¼ prêdko¶æ"
 
-#: src/arch/unix/uisettings.c:187
+#: src/arch/unix/uisettings.c:186
 msgid "Maximum run speed"
 msgstr "Maksymalna prêdko¶æ dzia³ania"
 
-#: src/arch/unix/uisettings.c:201
+#: src/arch/unix/uisettings.c:200
 msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
-#: src/arch/unix/uisettings.c:215 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1335
 #: src/arch/unix/x11/xaw/x11ui.c:1037
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
-#: src/arch/unix/uisettings.c:218
+#: src/arch/unix/uisettings.c:217
 msgid "Settings saved successfully."
 msgstr "Zapisywanie ustawieñ powiod³o siê."
 
 # src/arch/unix/uisettings.c:235 
-#: src/arch/unix/uisettings.c:235
+#: src/arch/unix/uisettings.c:234
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -2411,7 +2411,7 @@ msgstr ""
 "plik zasobów nieprawid³owy."
 
 # src/arch/unix/uisettings.c:237 
-#: src/arch/unix/uisettings.c:237
+#: src/arch/unix/uisettings.c:236
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -2419,47 +2419,47 @@ msgstr ""
 "Nie mo¿na za³adowaæ ustawieñ\n"
 "plik zasobów nie znaleziony."
 
-#: src/arch/unix/uisettings.c:241
+#: src/arch/unix/uisettings.c:240
 msgid "Settings loaded."
 msgstr "Ustawienia za³adowane."
 
-#: src/arch/unix/uisettings.c:263
+#: src/arch/unix/uisettings.c:262
 msgid "*Auto"
 msgstr "*Automatycznie"
 
-#: src/arch/unix/uisettings.c:286 src/arch/unix/uisettings.c:305
+#: src/arch/unix/uisettings.c:285 src/arch/unix/uisettings.c:304
 msgid "*Custom..."
 msgstr "*W³asne..."
 
-#: src/arch/unix/uisettings.c:302
+#: src/arch/unix/uisettings.c:301
 msgid "*No limit"
 msgstr "*Bez limitu"
 
-#: src/arch/unix/uisettings.c:315
+#: src/arch/unix/uisettings.c:314
 msgid "Maximum speed"
 msgstr "Maksymalna prêdko¶æ"
 
-#: src/arch/unix/uisettings.c:317
+#: src/arch/unix/uisettings.c:316
 msgid "*Enable warp mode"
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/arch/unix/uisettings.c:323
+#: src/arch/unix/uisettings.c:322
 msgid "Save settings"
 msgstr "Zapisz ustawienia"
 
-#: src/arch/unix/uisettings.c:325
+#: src/arch/unix/uisettings.c:324
 msgid "Load settings"
 msgstr "Za³aduj ustawienia"
 
-#: src/arch/unix/uisettings.c:327
+#: src/arch/unix/uisettings.c:326
 msgid "Restore default settings"
 msgstr "Przywróæ domy¶lne ustawienia"
 
-#: src/arch/unix/uisettings.c:329
+#: src/arch/unix/uisettings.c:328
 msgid "*Save settings on exit"
 msgstr "*Zapisz ustawienia przy wyj¶ciu"
 
-#: src/arch/unix/uisettings.c:331
+#: src/arch/unix/uisettings.c:330
 msgid "*Confirm on exit"
 msgstr ""
 
@@ -2900,7 +2900,7 @@ msgid "Filename: "
 msgstr "Nazwa pliku:"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:223
+#: src/arch/unix/x11/gnome/uiscreenshot.c:216
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Z³a nazwa pliku"
@@ -3001,7 +3001,7 @@ msgstr "Emulacja PAL"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
-#: src/arch/unix/x11/gnome/uiscreenshot.c:213
+#: src/arch/unix/x11/gnome/uiscreenshot.c:207
 msgid "Save Screenshot"
 msgstr "Zapisz zrzut ekranu"
 
@@ -3009,21 +3009,21 @@ msgstr "Zapisz zrzut ekranu"
 msgid "Image Format"
 msgstr "Format obrazu"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:156
+#: src/arch/unix/x11/gnome/uiscreenshot.c:153
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:171
+#: src/arch/unix/x11/gnome/uiscreenshot.c:168
 #, fuzzy
 msgid "Video Bitrate"
 msgstr "Rozmiar video"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:253
+#: src/arch/unix/x11/gnome/uiscreenshot.c:245
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Nie mo¿na zapisaæ zrzutu ekranu do `%s' z sterownikiem `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:261
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
@@ -3060,179 +3060,179 @@ msgstr ""
 "Model: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:401
+#: src/arch/unix/x11/gnome/x11ui.c:400
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:403
+#: src/arch/unix/x11/gnome/x11ui.c:402
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Ustaw ¶cie¿kê czcionki: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:485
+#: src/arch/unix/x11/gnome/x11ui.c:609 src/arch/unix/x11/xaw/x11ui.c:485
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Ten wy¶wietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
 
-#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:488
+#: src/arch/unix/x11/gnome/x11ui.c:612 src/arch/unix/x11/xaw/x11ui.c:488
 msgid "Please select a bit depth supported by your display."
 msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan± przez twój ekran."
 
-#: src/arch/unix/x11/gnome/x11ui.c:616 src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/gnome/x11ui.c:615 src/arch/unix/x11/gnome/x11ui.c:639
 #: src/arch/unix/x11/xaw/x11ui.c:491 src/arch/unix/x11/xaw/x11ui.c:508
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 
-#: src/arch/unix/x11/gnome/x11ui.c:625
+#: src/arch/unix/x11/gnome/x11ui.c:624
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit "
 
-#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:516
+#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/xaw/x11ui.c:516
 msgid "Cannot autodetect a proper visual."
 msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz±dzenia wizualnego"
 
-#: src/arch/unix/x11/gnome/x11ui.c:656
+#: src/arch/unix/x11/gnome/x11ui.c:655
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Nie mo¿na za³adowaæ tekstowej czcionki %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:663
+#: src/arch/unix/x11/gnome/x11ui.c:662
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Nie mo¿na za³adowaæ czcionki %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:749
+#: src/arch/unix/x11/gnome/x11ui.c:748
 msgid "PAL Controls"
 msgstr "Kontrola PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:768
+#: src/arch/unix/x11/gnome/x11ui.c:767
 #, fuzzy
 msgid "audio/video recording"
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
+#: src/arch/unix/x11/gnome/x11ui.c:781 src/arch/unix/x11/gnome/x11ui.c:800
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:786
 #, fuzzy
 msgid "event recording"
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/gnome/x11ui.c:807
+#: src/arch/unix/x11/gnome/x11ui.c:806
 #, fuzzy
 msgid "event playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/arch/unix/x11/gnome/x11ui.c:821
+#: src/arch/unix/x11/gnome/x11ui.c:820
 msgid "click to stop playback"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:833
+#: src/arch/unix/x11/gnome/x11ui.c:832
 #, c-format
 msgid "Drive %d: "
 msgstr "Napêd %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:943
+#: src/arch/unix/x11/gnome/x11ui.c:942
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:597
+#: src/arch/unix/x11/gnome/x11ui.c:1011 src/arch/unix/x11/xaw/x11ui.c:597
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1193 src/arch/unix/x11/gnome/x11ui.c:1276
+#: src/arch/unix/x11/gnome/x11ui.c:1192 src/arch/unix/x11/gnome/x11ui.c:1275
 msgid "Commands"
 msgstr "Komendy"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1199
+#: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1022
+#: src/arch/unix/x11/gnome/x11ui.c:1318 src/arch/unix/x11/xaw/x11ui.c:1022
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1325 src/arch/unix/x11/xaw/x11ui.c:1026
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1034
+#: src/arch/unix/x11/gnome/x11ui.c:1332 src/arch/unix/x11/xaw/x11ui.c:1034
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1075
+#: src/arch/unix/x11/gnome/x11ui.c:1377 src/arch/unix/x11/xaw/x11ui.c:1075
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1398 src/arch/unix/x11/gnome/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1397 src/arch/unix/x11/gnome/x11ui.c:1400
 #: src/arch/unix/x11/xaw/x11ui.c:1096 src/arch/unix/x11/xaw/x11ui.c:1102
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1685
+#: src/arch/unix/x11/gnome/x11ui.c:1684
 #, c-format
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1323
+#: src/arch/unix/x11/gnome/x11ui.c:1736 src/arch/unix/x11/xaw/x11ui.c:1323
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1890
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1902
+#: src/arch/unix/x11/gnome/x11ui.c:1901
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1928
+#: src/arch/unix/x11/gnome/x11ui.c:1927
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1929
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1601
+#: src/arch/unix/x11/gnome/x11ui.c:1972 src/arch/unix/x11/xaw/x11ui.c:1601
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974
+#: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1987
+#: src/arch/unix/x11/gnome/x11ui.c:1986
 #, fuzzy, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
+#: src/arch/unix/x11/gnome/x11ui.c:1994 src/arch/unix/x11/gnome/x11ui.c:2003
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2131 src/arch/unix/x11/gnome/x11ui.c:2136
+#: src/arch/unix/x11/gnome/x11ui.c:2130 src/arch/unix/x11/gnome/x11ui.c:2135
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2601
+#: src/arch/unix/x11/gnome/x11ui.c:2600
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2648
+#: src/arch/unix/x11/gnome/x11ui.c:2647
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2674
+#: src/arch/unix/x11/gnome/x11ui.c:2673
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -3452,19 +3452,19 @@ msgid "Save cartridge image file"
 msgstr "Zapisz obraz kartrid¿a w pliku"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:162
+#: src/arch/unix/x11/xaw/uiscreenshot.c:161
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Nazwa pliku:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:191
+#: src/arch/unix/x11/xaw/uiscreenshot.c:190
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr "Przegl±daj..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:261
+#: src/arch/unix/x11/xaw/uiscreenshot.c:260
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr "Anuluj"
@@ -3497,15 +3497,15 @@ msgstr "Nazwa dysku"
 msgid "Disk format:"
 msgstr "Format dysku"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:88
+#: src/arch/unix/x11/xaw/uiscreenshot.c:87
 msgid "Save screenshot file"
 msgstr "Zapisz plik"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:211
+#: src/arch/unix/x11/xaw/uiscreenshot.c:210
 msgid "Image format:"
 msgstr "Format obrazu:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:278
+#: src/arch/unix/x11/xaw/uiscreenshot.c:277
 msgid "Screen Snapshot"
 msgstr "Zrób zrzut ekranu"
 
