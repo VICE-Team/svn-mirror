@@ -906,6 +906,20 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: Add PET specific cartridge support here.  */
+
+void mem_attach_cartridge(int type, BYTE *rawcart)
+{
+    return;
+}
+
+void mem_detach_cartridge(int type)
+{
+    return;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* FIXME: this is plain wrong. */
 
 void mem_get_basic_text(ADDRESS * start, ADDRESS * end)
@@ -929,4 +943,9 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 /* Dummy... */
 void mem_set_tape_sense(int v)
 {
+}
+
+int mem_rom_trap_allowed(ADDRESS addr)
+{
+    return 0;
 }

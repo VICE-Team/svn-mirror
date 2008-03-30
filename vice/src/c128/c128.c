@@ -181,7 +181,7 @@ int machine_init(void)
 
     /* Initialize the keyboard.  */
 #ifndef __MSDOS__
-    if (kbd_init("vice.vkm") < 0)
+    if (kbd_init("default.vkm") < 0)
         return -1;
 #else
     if (c128_kbd_init() < 0)
@@ -227,8 +227,6 @@ void machine_reset(void)
     sid_reset();
     reset_tpi();
 
-    /* reset_reu(); */                /* FIXME */
-
     autostart_reset();
 
     true1541_reset();
@@ -236,20 +234,8 @@ void machine_reset(void)
 
 void machine_shutdown(void)
 {
-#if 0                           /* FIXME */
-    /* Detach REU.  */
-    if (app_resources.reu)
-	close_reu(app_resources.reuName);
-#endif
-
     /* Detach all devices.  */
     serial_remove(-1);
-}
-
-/* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(ADDRESS addr)
-{
-    return 1; /* FIXME */
 }
 
 /* ------------------------------------------------------------------------- */

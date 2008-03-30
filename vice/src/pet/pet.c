@@ -99,8 +99,7 @@ int machine_init_resources(void)
     if (resources_register(resources) < 0)
         return -1;
 
-    if (traps_init_resources() < 0
-        || vsync_init_resources() < 0
+    if (vsync_init_resources() < 0
         || video_init_resources() < 0
         || pet_mem_init_resources() < 0
         || crtc_init_resources() < 0
@@ -117,8 +116,7 @@ int machine_init_cmdline_options(void)
     if (cmdline_register_options(cmdline_options) < 0)
         return -1;
 
-    if (traps_init_cmdline_options() < 0
-        || vsync_init_cmdline_options() < 0
+    if (vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || pet_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
@@ -194,12 +192,6 @@ void machine_shutdown(void)
 {
     /* Detach all devices.  */
     serial_remove(-1);
-}
-
-/* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(ADDRESS addr)
-{
-    return 1; /* FIXME */
 }
 
 /* ------------------------------------------------------------------------- */

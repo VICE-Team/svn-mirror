@@ -187,8 +187,8 @@ static int cmdline_memory(const char *param, void *extra_param)
 #define VIC_BLK2 4
 #define VIC_BLK3 8
 #define VIC_BLK5 16
-#define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK3 | VIC_BLK5)
-    int memconf = VIC_BLK_ALL;
+#define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
+    int memconf = 0;
     const char *memstring = param, *optend;
     char *opt = alloca(strlen(param) + 1);
 
@@ -489,7 +489,6 @@ int vic20_mem_enable_ram_block(int num)
 
 int vic20_mem_disable_ram_block(int num)
 {
-    printf(__FUNCTION__ ": Disabling RAM block %d\n", num);
     if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_dummy, store_dummy,
@@ -684,6 +683,20 @@ int mem_load(void)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* FIXME: Add VIC20 specific cartridge support here.  */
+
+void mem_attach_cartridge(int type, BYTE *rawcart)
+{
+    return;
+}
+
+void mem_detach_cartridge(int type)
+{
+    return;
+}
+
+/* ------------------------------------------------------------------------- */
 /* FIXME: this part needs to be checked. */
 
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
@@ -707,4 +720,9 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
 /* Dummy... */
 void mem_set_tape_sense(int v)
 {
+}
+
+int mem_rom_trap_allowed(ADDRESS addr)
+{
+    return addr >= 0xe000;
 }

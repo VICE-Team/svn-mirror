@@ -211,7 +211,7 @@ int machine_init(void)
     /* Initialize the keyboard.  */
     /* FIXME */
 #ifndef __MSDOS__
-    if (kbd_init("vice.vkm") < 0)
+    if (kbd_init("default.vkm") < 0)
         return -1;
 #else
     if (c64_kbd_init() < 0)
@@ -273,12 +273,6 @@ void machine_shutdown(void)
 
     /* Detach all devices.  */
     serial_remove(-1);
-}
-
-/* Return nonzero if `addr' is in the trappable address space.  */
-int rom_trap_allowed(ADDRESS addr)
-{
-    return 1; /* FIXME */
 }
 
 /* ------------------------------------------------------------------------- */

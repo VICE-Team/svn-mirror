@@ -6,9 +6,9 @@ c64_DATA = \
 	ccs64.vpl \
 	frodo.vpl \
 	godot.vpl \
+ 	default.vkm \
 	default.vpl \
 	dos1541 \
-	kernal \
- 	vice.vkm
+	kernal
  
 EXTRA_DIST = $(c64_DATA)

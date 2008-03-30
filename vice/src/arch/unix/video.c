@@ -112,7 +112,7 @@ int video_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are exported by ui_xaw.c.  FIXME: Ugly!  */
+/* These are exported by `ui.c'.  FIXME: Ugly!  */
 extern Display *display;
 extern int screen;
 extern Visual *visual;

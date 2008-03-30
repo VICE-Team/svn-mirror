@@ -51,6 +51,7 @@
 #include "mon.h"
 #include "utils.h"
 #include "patchrom.h"
+#include "cartridge.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -77,11 +78,10 @@ static int ieee488_enabled;
 /* Flag: Do we enable the external REU?  */
 static int reu_enabled;
 
-/* Flag: Do we enable Action Replay Cartridge support?  */
-static int action_replay_enabled;
+/* Type of the cartridge attached.  */
+static int mem_cartridge_type = CARTRIDGE_NONE;
 
-static void action_config_changed(BYTE mode);
-static int setup_action_replay(void);
+static void cartridge_config_changed(BYTE mode);
 
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
@@ -127,7 +127,7 @@ static int set_emu_id_enabled(resource_value_t v)
     if (!(int)v) {
 	emu_id_enabled = 0;
 	return 0;
-    } else if (!action_replay_enabled) {
+    } else if (mem_cartridge_type == CARTRIDGE_NONE) {
 	emu_id_enabled = 1;
 	return 0;
     } else {
@@ -142,7 +142,7 @@ static int set_ieee488_enabled(resource_value_t v)
     if (!(int)v) {
         ieee488_enabled = 0;
         return 0;
-    } else if (!reu_enabled && !action_replay_enabled) {
+    } else if (!reu_enabled && (mem_cartridge_type == CARTRIDGE_NONE)) {
         ieee488_enabled = 1;
         return 0;
     } else {
@@ -158,7 +158,7 @@ static int set_reu_enabled(resource_value_t v)
     if (!(int)v) {
         reu_enabled = 0;
         return 0;
-    } else if (!ieee488_enabled && !action_replay_enabled) {
+    } else if (!ieee488_enabled && (mem_cartridge_type == CARTRIDGE_NONE)) {
         reu_enabled = 1;
         return 0;
     } else {
@@ -167,26 +167,6 @@ static int set_reu_enabled(resource_value_t v)
         return -1;
     }
 }
-
-static int set_action_replay_enabled(resource_value_t v)
-{
-    if (!(int)v) {
-	action_replay_enabled = 0;
-	action_config_changed(6);
-	return 0;
-    } else if (!ieee488_enabled && !reu_enabled && !emu_id_enabled) {
-	if (setup_action_replay() < 0)
-	    return -1;
-	action_replay_enabled = 1;
-	action_config_changed(0);
-	return 0;
-    } else {
-	/* Other extensions share the same address space, so they cannot be
-	enabled at the same time.  */
-	return -1;
-    }
-}
-
 
 /* FIXME: Should patch the ROM on-the-fly.  */
 static int set_kernal_revision(resource_value_t v)
@@ -210,8 +190,6 @@ static resource_t resources[] = {
       (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
-    { "ActionReplay", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &action_replay_enabled, set_action_replay_enabled },
     { "KernalRev", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &kernal_revision, set_kernal_revision },
     { NULL }
@@ -453,7 +431,7 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	if (ieee488_enabled)
 	    store_tpi(addr & 0x07, value);
     }
-	if (action_replay_enabled && export_ram)
+	if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
 	    export_ram0[0x1f00 + (addr & 0xff)] = value;
     return;
 }
@@ -471,7 +449,7 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 	    return read_reu(addr & 0x0f);
 	if (ieee488_enabled)
 	    return read_tpi(addr & 0x07);
-	if (action_replay_enabled) {
+	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) {
         if (export_ram)
             return export_ram0[0x1f00 + (addr & 0xff)];
 	    switch (roml_bank) {
@@ -492,8 +470,8 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xde00) {
-        if (action_replay_enabled)
-            action_config_changed(value);
+        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
+            cartridge_config_changed(value);
     }
     return;
 }
@@ -501,7 +479,7 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_io1(ADDRESS addr)
 {
     if ((addr & 0xff00) == 0xde00) {
-        if (action_replay_enabled)
+        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
             return rand();
     }
     return rand();
@@ -546,8 +524,6 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
        return export_ram0[addr & 0x1fff];
     switch (roml_bank) {
       case 0:
-/*	printf("Read ROM bank 0 at %x byte %x\n",
-               addr, roml_banks[addr & 0x1fff]);*/
 	return roml_banks[addr & 0x1fff];
       case 1:
 	return roml_banks[(addr & 0x1fff) + 0x2000];
@@ -803,8 +779,11 @@ void initialize_memory(void)
     /* Setup initial memory configuration. */
     pla_config_changed();
 
-    if(action_replay_enabled > 0)
-	action_config_changed(0);
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY:
+	cartridge_config_changed(0);
+	break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -902,14 +881,35 @@ int mem_load(void)
     return 0;
 }
 
-int setup_action_replay(void)
+void mem_attach_cartridge(int type, BYTE *rawcart)
 {
-    if (mem_load_sys_file("action", roml_banks, 0x8000, 0x8000) < 0) {
-	fprintf(stderr, "Could not load Action Replay ROM image.\n");
-	return -1;
+    mem_cartridge_type = type;
+    switch (type) {
+      case CARTRIDGE_GENERIC_8KB:
+	memcpy(roml_banks, rawcart, 0x2000);
+	cartridge_config_changed(0);
+	break;
+      case CARTRIDGE_GENERIC_16KB:
+	memcpy(roml_banks, rawcart, 0x2000);
+	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+	cartridge_config_changed(1);
+	break;
+      case CARTRIDGE_ACTION_REPLAY:
+	memcpy(roml_banks, rawcart, 0x8000);
+	memcpy(romh_banks, rawcart, 0x8000);
+	cartridge_config_changed(0);
+	break;
+      default:
+	mem_cartridge_type = CARTRIDGE_NONE;
     }
-	memcpy(romh_banks, roml_banks, 0x8000);
-    return 0;
+    return;
+}
+
+void mem_detach_cartridge(int type)
+{
+    cartridge_config_changed(6);
+    mem_cartridge_type = CARTRIDGE_NONE;
+    return;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -949,7 +949,7 @@ void mem_toggle_emu_id(int flag)
     emu_id_enabled = flag;
 }
 
-static void action_config_changed(BYTE mode)
+static void cartridge_config_changed(BYTE mode)
 {
     export.game = mode & 1;
     export.exrom = ((mode >> 1) & 1) ^ 1;
@@ -976,4 +976,11 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
     ram[0x2c] = ram[0xad] = start >> 8;
     ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
     ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int mem_rom_trap_allowed(ADDRESS addr)
+{
+    return addr >= 0xe000 && (mem_config & 0x2);
 }

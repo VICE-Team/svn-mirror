@@ -955,6 +955,20 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: Add C128 specific cartridge support here.  */
+
+void mem_attach_cartridge(int type, BYTE *rawcart)
+{
+    return;
+}
+
+void mem_detach_cartridge(int type)
+{
+    return;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Change the current video bank.  */
 void mem_set_vbank(int new_vbank)
 {
@@ -1008,4 +1022,11 @@ void mem_set_basic_text(ADDRESS start, ADDRESS end)
     ram[0x2c] = ram[0xad] = start >> 8;
     ram[0x2d] = ram[0x2f] = ram[0x31] = ram[0xae] = end & 0xff;
     ram[0x2e] = ram[0x30] = ram[0x32] = ram[0xaf] = end >> 8;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int mem_rom_trap_allowed(ADDRESS addr)
+{
+    return 1;
 }

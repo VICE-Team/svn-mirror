@@ -325,7 +325,7 @@ void mainloop(ADDRESS start_address)
 
 #  define CALLER		e_comp_space
 
-#  define ROM_TRAP_ALLOWED()    rom_trap_allowed(reg_pc)
+#  define ROM_TRAP_ALLOWED()    mem_rom_trap_allowed(reg_pc)
 
 #  define GLOBAL_REGS           maincpu_regs
 

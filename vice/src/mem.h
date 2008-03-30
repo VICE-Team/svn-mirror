@@ -47,10 +47,13 @@ extern int rom_loaded;		/* FIXME: ugly! */
 extern void initialize_memory(void);
 extern void mem_powerup(void);
 extern int mem_load(void);
+extern void mem_attach_cartridge(int type, BYTE *rawcart);
+extern void mem_detach_cartridge(int type);
 extern void mem_get_basic_text(ADDRESS *start, ADDRESS *end);
 extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern void mem_set_tape_sense(int value);
 extern void mem_toggle_watchpoints(int flag);
+extern int mem_rom_trap_allowed(ADDRESS addr);
 
 extern read_func_t read_rom, read_zero;
 extern store_func_t store_rom, store_zero;

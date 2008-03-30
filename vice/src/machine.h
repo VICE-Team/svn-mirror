@@ -49,8 +49,4 @@ void machine_reset(void);
 /* Shutdown th emachine.  */
 void machine_shutdown(void);
 
-/* Return nonzero if `addr' is in a trappable address space (i.e. BRK could
-   trigger a trap).  */
-int rom_trap_allowed(ADDRESS addr);
-
 #endif /* _MACHINE_H */
