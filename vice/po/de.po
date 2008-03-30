@@ -1,0 +1,394 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: VICE 1.4\n"
+"POT-Creation-Date: 2000-05-01 18:12+0200\n"
+"PO-Revision-Date: 2000-04-25 23:49+02:00\n"
+"Last-Translator: Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bin\n"
+
+#: src/arch/unix/uicommands.c:95
+#, c-format
+msgid "Attach Disk Image as unit #%d"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:103
+msgid "Invalid Disk Image"
+msgstr "Ungültiges Disk Image."
+
+#: src/arch/unix/uicommands.c:110
+msgid "Invalid Disk Image or Filename"
+msgstr "Ungültiges Disk Image oder Filename falsch."
+
+#: src/arch/unix/uicommands.c:173
+msgid "Attach a tape image"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:179 src/arch/unix/uicommands.c:188
+msgid "Invalid Tape Image"
+msgstr "Ungültiges Band Image."
+
+#: src/arch/unix/uicommands.c:226
+msgid "Smart-attach a file"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:234 src/arch/unix/uicommands.c:242
+msgid "Unknown image type"
+msgstr "Unbekannter Image Typ."
+
+#: src/arch/unix/uicommands.c:262
+msgid "VICE setting"
+msgstr "VICE Einstellungen"
+
+#: src/arch/unix/uicommands.c:262
+msgid "Change current working directory"
+msgstr "Arbeitsverzeichnis ändern."
+
+#: src/arch/unix/uicommands.c:266
+msgid "Directory not found"
+msgstr "Verzeichnis nicht gefunden."
+
+#: src/arch/unix/uicommands.c:305
+msgid "Couldn't run /bin/sh???"
+msgstr "Kann /bin/sh nicht starten."
+
+#: src/arch/unix/uicommands.c:308
+msgid "Couldn't run xterm"
+msgstr "Kann xterm nicht starten."
+
+#: src/arch/unix/uicommands.c:313
+msgid "Unknown error while running c1541"
+msgstr "Unbekannter Fehler beim starten von c1541."
+
+#: src/arch/unix/uicommands.c:333
+msgid "No HTML browser is defined."
+msgstr "Kein HTML Browser definiert."
+
+#: src/arch/unix/uicommands.c:352 src/arch/unix/uicommands.c:379
+msgid "Browser command too long."
+msgstr "Browser Kommando zu lang."
+
+#: src/arch/unix/uicommands.c:392
+#, c-format
+msgid "Executing `%s'..."
+msgstr "Führe `%s' aus..."
+
+#: src/arch/unix/uicommands.c:394
+msgid "Cannot run HTML browser."
+msgstr "Kann HTML Browser nicht starten."
+
+#: src/arch/unix/uicommands.c:431
+#, c-format
+msgid "Quickloading file %s."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:444
+#, c-format
+msgid ""
+"Cannot load snapshot file\n"
+"`%s'"
+msgstr ""
+
+#. quick snapshot, save ROMs & disks (??)
+#: src/arch/unix/uicommands.c:473
+#, c-format
+msgid "Quicksaving file %s."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:475
+#, c-format
+msgid ""
+"Cannot write snapshot file\n"
+"`%s'\n"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:576
+#, c-format
+msgid "Attach #%d"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:584
+#, c-format
+msgid "Detach #%d"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:613
+msgid "Next: "
+msgstr "Nächstes: "
+
+#: src/arch/unix/uicommands.c:613 src/arch/unix/uicommands.c:624
+#: src/arch/unix/x11/gnome/ui.c:1228 src/arch/unix/x11/gnome/ui.c:1238
+#: src/arch/unix/x11/gnome/ui.c:2062
+msgid "<empty>"
+msgstr "<leer>"
+
+#: src/arch/unix/uicommands.c:624
+msgid "Previous: "
+msgstr "Vorheriges: "
+
+#: src/arch/unix/uicommands.c:635
+msgid "Add: "
+msgstr "Hinzufügen: "
+
+#: src/arch/unix/uicommands.c:646
+msgid "Remove: "
+msgstr "Entfernen: "
+
+#: src/arch/unix/uicommands.c:704 src/arch/unix/uicommands.c:716
+msgid "Unit #8..."
+msgstr "Laufwerk #8..."
+
+#: src/arch/unix/uicommands.c:706 src/arch/unix/uicommands.c:719
+msgid "Unit #9..."
+msgstr "Laufwerk #9..."
+
+#: src/arch/unix/uicommands.c:708 src/arch/unix/uicommands.c:722
+msgid "Unit #10..."
+msgstr "Laufwerk #10..."
+
+#: src/arch/unix/uicommands.c:710 src/arch/unix/uicommands.c:725
+msgid "Unit #11..."
+msgstr "Laufwerk #11..."
+
+#: src/arch/unix/uicommands.c:732
+#, fuzzy
+msgid "Unit #8"
+msgstr "Laufwerk #8..."
+
+#: src/arch/unix/uicommands.c:734
+#, fuzzy
+msgid "Unit #9"
+msgstr "Laufwerk #9..."
+
+#: src/arch/unix/uicommands.c:736
+#, fuzzy
+msgid "Unit #10"
+msgstr "Laufwerk #10..."
+
+#: src/arch/unix/uicommands.c:738
+#, fuzzy
+msgid "Unit #11"
+msgstr "Laufwerk #11..."
+
+#: src/arch/unix/uicommands.c:741
+msgid "All"
+msgstr "Alle"
+
+#: src/arch/unix/uicommands.c:747
+msgid "Soft"
+msgstr "Weich"
+
+#: src/arch/unix/uicommands.c:750
+msgid "Hard"
+msgstr "Hart"
+
+#: src/arch/unix/uicommands.c:757
+msgid "Add current image"
+msgstr "Aktuelle Image hinzufügen"
+
+#: src/arch/unix/uicommands.c:760
+msgid "Remove current image"
+msgstr "Aktuelle Image entfernen"
+
+#: src/arch/unix/uicommands.c:763
+msgid "Attach next image"
+msgstr "Nächstes Image"
+
+#: src/arch/unix/uicommands.c:766
+msgid "Attach previous image"
+msgstr "Voriges Image"
+
+#: src/arch/unix/uicommands.c:773
+msgid "Attach a disk image"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:775
+msgid "Create and attach an empty disk"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:777
+msgid "Detach disk image"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:779
+msgid "Fliplist for drive #8"
+msgstr "Flipliste für Laufwerk #8"
+
+#: src/arch/unix/uicommands.c:785
+msgid "Attach a tape image..."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:788
+msgid "Detach tape image"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:794
+msgid "Smart-attach disk/tape..."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:801
+msgid "Change working directory..."
+msgstr "Arbeitsverzeichnis ändern."
+
+#: src/arch/unix/uicommands.c:807
+msgid "Load snapshot..."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/ui.c:200
+msgid "Unable to query video extension version"
+msgstr "Versionsnummer der Video Extension ist nicht verfügbar"
+
+#: src/arch/unix/x11/gnome/ui.c:880
+#, c-format
+msgid "Can't add fontpath `%s'.\n"
+msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
+
+#: src/arch/unix/x11/gnome/ui.c:882
+#, c-format
+msgid "Set fontpath: `%s'.\n"
+msgstr "Setze Fontpfad: `%s'.\n"
+
+#: src/arch/unix/x11/gnome/ui.c:1115
+#, c-format
+msgid "This display does not support suitable %dbit visuals."
+msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
+
+#: src/arch/unix/x11/gnome/ui.c:1119
+msgid "Please select a bit depth supported by your display."
+msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
+
+#: src/arch/unix/x11/gnome/ui.c:1122
+msgid "Please recompile the program for a supported bit depth."
+msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
+
+#: src/arch/unix/x11/gnome/ui.c:1126 src/arch/unix/x11/gnome/ui.c:1144
+#, c-format
+msgid "Found %dbit/%s visual."
+msgstr "%dbit/%s Farbtiefe erkannt."
+
+#: src/arch/unix/x11/gnome/ui.c:1152
+msgid "Cannot autodetect a proper visual."
+msgstr "Fehler beim automatischen erkennen der Farbtiefe."
+
+#: src/arch/unix/x11/gnome/ui.c:1159
+#, c-format
+msgid "Cannot load text font %s."
+msgstr "Laden der Textschrift `%s' fehlgeschlagen."
+
+#: src/arch/unix/x11/gnome/ui.c:1166
+#, c-format
+msgid "Cannot load CBM font %s."
+msgstr "Laden der CBM font `%s' fehlgeschlagen."
+
+#: src/arch/unix/x11/gnome/ui.c:1214
+#, c-format
+msgid "Drive %d: "
+msgstr "Laufwerk %d: "
+
+#. Tape Label
+#: src/arch/unix/x11/gnome/ui.c:1324
+msgid "Tape 000"
+msgstr "Band 000"
+
+#: src/arch/unix/x11/gnome/ui.c:1396
+msgid "Maximum number of toplevel windows reached."
+msgstr "Maximale Anzahl an Hauptfenster erreicht."
+
+#: src/arch/unix/x11/gnome/ui.c:1555 src/arch/unix/x11/gnome/ui.c:1590
+msgid "Commands"
+msgstr "Kommandos"
+
+#: src/arch/unix/x11/gnome/ui.c:1557 src/arch/unix/x11/gnome/ui.c:1601
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: src/arch/unix/x11/gnome/ui.c:1561
+msgid "Help"
+msgstr "Hilfe"
+
+#: src/arch/unix/x11/gnome/ui.c:1632
+msgid " emulator"
+msgstr " Emulator"
+
+#: src/arch/unix/x11/gnome/ui.c:1634
+msgid "Do you really want to exit?"
+msgstr "Wirklich beenden?"
+
+#: src/arch/unix/x11/gnome/ui.c:1640
+msgid "Save the current settings?"
+msgstr "Einstellungen speichern?"
+
+#: src/arch/unix/x11/gnome/ui.c:1644
+msgid "Cannot save settings."
+msgstr "Fehler beim Speichern der Einstellungen."
+
+#: src/arch/unix/x11/gnome/ui.c:1684
+msgid "Using private colormap."
+msgstr "Benutze private Farbpalette."
+
+#: src/arch/unix/x11/gnome/ui.c:1719
+#, c-format
+msgid "Cannot allocate color \"#%04X%04X%04X\"."
+msgstr "Allokieren der Farbe \"#%04X%04X%04X\" fehlgeschlagen."
+
+#: src/arch/unix/x11/gnome/ui.c:1835
+msgid "Automagically using a private colormap."
+msgstr "Automatische Benutzung einer privaten Farbtabelle."
+
+#: src/arch/unix/x11/gnome/ui.c:1894
+msgid "Cannot allocate enough colors."
+msgstr "Nicht alle benötigten Farben konnten allokiert werden."
+
+#: src/arch/unix/x11/gnome/ui.c:2212
+#, c-format
+msgid "Tape %03d"
+msgstr "Band %03d"
+
+#: src/arch/unix/x11/gnome/ui.c:2249
+#, c-format
+msgid "%s (paused)"
+msgstr "%s (pausiert)"
+
+#: src/arch/unix/x11/gnome/ui.c:2379
+msgid "VICE Message"
+msgstr "VICE Nachricht"
+
+#: src/arch/unix/x11/gnome/ui.c:2390
+msgid "VICE Error"
+msgstr "VICE Fehler"
+
+#: src/arch/unix/x11/gnome/ui.c:2423
+msgid "Hard Reset"
+msgstr "Harter Reset"
+
+#: src/arch/unix/x11/gnome/ui.c:2467
+msgid "Extend disk image"
+msgstr "Erweiterung Disk Image"
+
+#: src/arch/unix/x11/gnome/ui.c:2468
+msgid "Do you want to extend the disk image to 40 tracks?"
+msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
+
+#: src/arch/unix/x11/gnome/ui.c:2481
+msgid "Autostart not possible for unit 9"
+msgstr "Autostart für Laufwerk 9 nicht möglich."
+
+#: src/arch/unix/x11/gnome/ui.c:2488 src/arch/unix/x11/gnome/ui.c:2496
+#, c-format
+msgid "Can't autostart selection %d in image %s"
+msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
+
+#: src/arch/unix/x11/gnome/ui.c:2624 src/arch/unix/x11/gnome/ui.c:2629
+msgid "NO IMAGE CONTENTS AVAILABLE"
+msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
+
+#: src/arch/unix/x11/gnome/ui.c:3077
+msgid "Contents"
+msgstr "Verzeichnis"

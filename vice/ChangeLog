@@ -1,3 +1,21 @@
+2000-05-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.4.
+
+2000-05-01  Pottendo  <pottendo@utanet.at>
+
+	* intl/*: Another try to get the gettext distribution into the
+	VICE package.
+	* po/* ditto.
+
+	* configure.in (ALL_LINGUAS): Reintroduced.
+	Added `LOCALEDIR' handling.
+
+	* aclocal.m4: Reran `aclocal' to get gettext autoconf
+	macros.
+
+	* Makefile.am (SUBDIRS): Reintroduced `intl po'.
+
 2000-04-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.3.

@@ -1,3 +1,30 @@
+2000-05-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.4.
+
+2000-05-01  Pottendo  <pottendo@utanet.at>
+
+	* vice.h: Added gettext instrumentation macros. This comes from a
+	gnome package, so it should work.
+
+	* main.c:
+	Added `#include <locale.h>'. This is necessary when building with
+	the included gettext package.
+	(MAIN_PROGRAM): Added initialization of the gettext
+	package.
+
+	* arch/unix/x11/xaw/uimenu.c (make_menu_label): Call `_'
+	explicitely for translation if we have NLS.
+
+	* arch/unix/x11/gnome/ui.c (archdep_ui_init): Removed
+	intl-initialization. This is now in main.c.
+
+	* arch/unix/uicommands.c: Removed NLS-stuff. This now is in
+	vice.h.
+
+	* Makefile.am (INCLUDES): Added `@NLS_LOCALEDIR@'. Uncommented
+	`@INTLLIBS@'. 
+
 2000-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.3.
