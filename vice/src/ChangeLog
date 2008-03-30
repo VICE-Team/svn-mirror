@@ -1,3 +1,166 @@
+2007-07-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.11.
+
+2007-06-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/Makefile.am, arch/os2/archdep.c, arch/os2/config.h,
+	arch/os2/dialogs/dialogs.c, arch/os2/dialogs/dialogs.h,
+	arch/os2/dialogs/dialogs.rc, arch/os2/dialogs/dlg-color.rc,
+	arch/os2/dialogs/dlg-datasette.rc,
+	arch/os2/dialogs/dlg-drive.rc,
+	arch/os2/dialogs/dlg-emulator.rc,
+	arch/os2/dialogs/dlg-fileio.c, arch/os2/dialogs/dlg-fileio.rc,
+	arch/os2/dialogs/dlg-joystick.rc,
+	arch/os2/dialogs/dlg-monitor.rc, arch/os2/dialogs/menubar.rc,
+	arch/os2/fullscr.c, arch/os2/gradd.h, arch/os2/joy.c,
+	arch/os2/joy.h, arch/os2/mousedrv.c, arch/os2/signals.c,
+	arch/os2/snippets/dirport.c, arch/os2/snippets/dirport.h,
+	arch/os2/snippets/pmwin2.c, arch/os2/sounddrv.c,
+	arch/os2/vac++/Makefile.am, arch/os2/vac++/X1541.ICC,
+	arch/os2/vac++/config.h, arch/os2/vac++/x128/X128.ICC,
+	arch/os2/vac++/x64/X64.ICC, arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	arch/os2/vac++/xpet/Xpet.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC,
+	arch/os2/vac++/xvic/Xvic.ICC, arch/os2/video.c,
+	arch/os2/watcom/README.txt, arch/os2/watcom/archdep.tgt,
+	arch/os2/watcom/c128-c64-snapshot.c,
+	arch/os2/watcom/c128-c64acia1.c,
+	arch/os2/watcom/c128-c64bus.c,
+	arch/os2/watcom/c128-c64cia2.c,
+	arch/os2/watcom/c128-c64datasette.c,
+	arch/os2/watcom/c128-c64export.c,
+	arch/os2/watcom/c128-c64iec.c,
+	arch/os2/watcom/c128-c64io.c,
+	arch/os2/watcom/c128-c64keyboard.c,
+	arch/os2/watcom/c128-c64meminit.c,
+	arch/os2/watcom/c128-c64memrom.c,
+	arch/os2/watcom/c128-c64parallel.c,
+	arch/os2/watcom/c128-c64pla.c,
+	arch/os2/watcom/c128-c64printer.c,
+	arch/os2/watcom/c128-c64rsuser.c,
+	arch/os2/watcom/c128-c64sound.c,
+	arch/os2/watcom/c128-c64tpi.c,
+	arch/os2/watcom/c128-digimax.c, arch/os2/watcom/c128-georam.c,
+	arch/os2/watcom/c128-mmc64.c, arch/os2/watcom/c128-patchrom.c,
+	arch/os2/watcom/c128-ramcart.c, arch/os2/watcom/c128-reu.c,
+	arch/os2/watcom/c128-tfe.c, arch/os2/watcom/c128.tgt,
+	arch/os2/watcom/c128c64.tgt, arch/os2/watcom/c64.tgt,
+	arch/os2/watcom/c64cart.tgt, arch/os2/watcom/cartconv.tgt,
+	arch/os2/watcom/cbm2.tgt, arch/os2/watcom/config.h,
+	arch/os2/watcom/core.tgt, arch/os2/watcom/crtc.tgt,
+	arch/os2/watcom/dialogs.tgt, arch/os2/watcom/diskimage.tgt,
+	arch/os2/watcom/drive.tgt, arch/os2/watcom/fileio.tgt,
+	arch/os2/watcom/fsdevice.tgt,
+	arch/os2/watcom/gfxoutputdrv.tgt,
+	arch/os2/watcom/iec.tgt, arch/os2/watcom/iecbus.tgt,
+	arch/os2/watcom/iecc64exp.tgt, arch/os2/watcom/iecieee.tgt,
+	arch/os2/watcom/iecplus4exp.tgt, arch/os2/watcom/ieee.tgt,
+	arch/os2/watcom/imagecontents.tgt, arch/os2/watcom/kbd.tgt,
+	arch/os2/watcom/mainsrc.tgt, arch/os2/watcom/monitor.tgt,
+	arch/os2/watcom/nonresid-sid-cmdline-options.c,
+	arch/os2/watcom/nonresid-sid-resources.c,
+	arch/os2/watcom/nonresid-sid-snapshot.c,
+	arch/os2/watcom/nonresid-sid.c,
+	arch/os2/watcom/nonresid-specific.tgt,
+	arch/os2/watcom/nonvic1or2-specific.tgt,
+	arch/os2/watcom/nonvic1or2-video.c,
+	arch/os2/watcom/nonx128-proc.c,
+	arch/os2/watcom/nonx128-specific.tgt,
+	arch/os2/watcom/nonx1541-log.c,
+	arch/os2/watcom/nonx1541-specific.tgt,
+	arch/os2/watcom/nonx64-dragndrop.c,
+	arch/os2/watcom/nonx64-specific.tgt,
+	arch/os2/watcom/nonx64-vsyncarch.c,
+	arch/os2/watcom/parallel.tgt,
+	arch/os2/watcom/pet.tgt, arch/os2/watcom/petcat-archdep.c,
+	arch/os2/watcom/petcat-signals.c,
+	arch/os2/watcom/petcat-specific.tgt,
+	arch/os2/watcom/petcat.tgt,
+	arch/os2/watcom/plus4.tgt, arch/os2/watcom/printerdrv.tgt,
+	arch/os2/watcom/raster.tgt, arch/os2/watcom/resid-fastsid.c,
+	arch/os2/watcom/resid-sid.cc,
+	arch/os2/watcom/resid-specific.tgt,
+	arch/os2/watcom/resid.tgt, arch/os2/watcom/rs232drv.tgt,
+	arch/os2/watcom/serial.tgt, arch/os2/watcom/sounddrv.tgt,
+	arch/os2/watcom/tape.tgt, arch/os2/watcom/tcbm.tgt,
+	arch/os2/watcom/vdc.tgt, arch/os2/watcom/vdrive.tgt,
+	arch/os2/watcom/vic20.tgt, arch/os2/watcom/vice.wpj,
+	arch/os2/watcom/vicii.tgt, arch/os2/watcom/video.tgt,
+	arch/os2/watcom/vsid.tgt, arch/os2/watcom/x128-dlg-fileio.c,
+	arch/os2/watcom/x128-main.c, arch/os2/watcom/x128-menubar.c,
+	arch/os2/watcom/x128-specific.tgt,
+	arch/os2/watcom/x128-video.c,
+	arch/os2/watcom/x128.tgt, arch/os2/watcom/x1541-archdep.c,
+	arch/os2/watcom/x1541-signals.c,
+	arch/os2/watcom/x1541-specific.tgt, arch/os2/watcom/x1541.tgt,
+	arch/os2/watcom/x64-specific.tgt, arch/os2/watcom/x64.tgt,
+	arch/os2/watcom/x64x128-sid.c,
+	arch/os2/watcom/x64x128-specific.tgt,
+	arch/os2/watcom/xall-specific.tgt, arch/os2/watcom/xall.tgt,
+	arch/os2/watcom/xcbm2-dlg-fileio.c,
+	arch/os2/watcom/xcbm2-kbd-pet.c, arch/os2/watcom/xcbm2-main.c,
+	arch/os2/watcom/xcbm2-menubar.c,
+	arch/os2/watcom/xcbm2-specific.tgt, arch/os2/watcom/xcbm2.tgt,
+	arch/os2/watcom/xpet-dlg-fileio.c,
+	arch/os2/watcom/xpet-main.c,
+	arch/os2/watcom/xpet-maincpu.c,
+	arch/os2/watcom/xpet-menubar.c,
+	arch/os2/watcom/xpet-specific.tgt, arch/os2/watcom/xpet.tgt,
+	arch/os2/watcom/xplus4-dlg-fileio.c,
+	arch/os2/watcom/xplus4-main.c,
+	arch/os2/watcom/xplus4-menubar.c,
+	arch/os2/watcom/xplus4-specific.tgt,
+	arch/os2/watcom/xplus4.tgt,
+	arch/os2/watcom/xvic-dlg-fileio.c,
+	arch/os2/watcom/xvic-main.c,
+	arch/os2/watcom/xvic-maincpu.c,
+	arch/os2/watcom/xvic-menubar.c,
+	arch/os2/watcom/xvic-specific.tgt,
+	arch/os2/watcom/xvic-video.c,
+	arch/os2/watcom/xvic.tgt, c128/c128mmu.c: Added watcom compile
+	support for the os/2 port.
+
+2007-06-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic20mem.c (mem_patch_kernal): Also patch the
+	vic20memrom_kernal_trap_rom.
+
+2007-06-20  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* joystick.c: read resources from correct variables, fix size
+	of joypad_status array
+
+2007-06-17  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/Makefile.am: added Resources and source
+	tree of new cocoa port
+
+	* arch/unix/macosx/Info.plist,
+	arch/unix/macosx/make-bindist.sh:
+	support all types of images for drag & drop
+
+	* arch/unix/mousedrv.c: disable generic unix mouse driver
+	if using cocoa. it has its own implementation.
+
+2007-06-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c (statusbar_notify): Gets index
+	of the windows as parameter and handles correct volume
+	slider. Focus issue fixed like Tibor suggested.
+
+	* arch/win32/statusbar.h, ui.c: Fixed prototype and call of
+	statusbar_notify.
+
+	* core/ciacore.c (ciacore_snapshot_write_module): sr_bits
+	is directly written into snapshot now since nobody could
+	explain the factor 2 and problems with Athena history
+	recording are fixed with this.
+
+2007-06-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* network.c: Fixed.
+
 2007-06-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.10.

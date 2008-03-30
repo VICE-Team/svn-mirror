@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-10 23:51+0200\n"
+"POT-Creation-Date: 2007-07-01 21:23+0200\n"
 "PO-Revision-Date: 2006-10-01 17:44+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -400,88 +400,88 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:248 src/translate.c.po.c:548
+#: src/network.c:251 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:473 src/translate.c.po.c:397
+#: src/network.c:476 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:523 src/translate.c.po.c:407
+#: src/network.c:526 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:548 src/translate.c.po.c:417
+#: src/network.c:551 src/translate.c.po.c:417
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:561 src/translate.c.po.c:427
+#: src/network.c:564 src/translate.c.po.c:427
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:571 src/translate.c.po.c:437
+#: src/network.c:574 src/translate.c.po.c:437
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:601 src/translate.c.po.c:447
+#: src/network.c:604 src/translate.c.po.c:447
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:641 src/translate.c.po.c:457
+#: src/network.c:644 src/translate.c.po.c:457
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:791 src/translate.c.po.c:467
+#: src/network.c:794 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:828 src/translate.c.po.c:477
+#: src/network.c:831 src/translate.c.po.c:477
 #, fuzzy
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:847 src/translate.c.po.c:487
+#: src/network.c:850 src/translate.c.po.c:487
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/network.c:892 src/translate.c.po.c:497
+#: src/network.c:895 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:906 src/translate.c.po.c:507
+#: src/network.c:909 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:993 src/network.c:1023 src/translate.c.po.c:527
+#: src/network.c:996 src/network.c:1026 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1035 src/translate.c.po.c:537
+#: src/network.c:1038 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1079 src/translate.c.po.c:517
+#: src/network.c:1082 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

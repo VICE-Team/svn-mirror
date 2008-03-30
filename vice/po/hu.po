@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-10 23:51+0200\n"
+"POT-Creation-Date: 2007-07-01 21:23+0200\n"
 "PO-Revision-Date: 2007-02-14 16:16+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -384,73 +384,73 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Visszajátszási hiba: %s különbözik a %d. sorban a debug%06d fájl esetén"
 
-#: src/network.c:248 src/translate.c.po.c:548
+#: src/network.c:251 src/translate.c.po.c:548
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"
 
-#: src/network.c:473 src/translate.c.po.c:397
+#: src/network.c:476 src/translate.c.po.c:397
 msgid "Testing best frame delay..."
 msgstr "Legjobb képkocka késleltetés tesztelése..."
 
-#: src/network.c:523 src/translate.c.po.c:407
+#: src/network.c:526 src/translate.c.po.c:407
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d képkocka késleltetés használata."
 
-#: src/network.c:548 src/translate.c.po.c:417
+#: src/network.c:551 src/translate.c.po.c:417
 msgid "Cannot load snapshot file for transfer"
 msgstr "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"
 
-#: src/network.c:561 src/translate.c.po.c:427
+#: src/network.c:564 src/translate.c.po.c:427
 msgid "Sending snapshot to client..."
 msgstr "Pillanatkép küldése a kliensnek..."
 
-#: src/network.c:571 src/translate.c.po.c:437
+#: src/network.c:574 src/translate.c.po.c:437
 msgid "Cannot send snapshot to client"
 msgstr "Nem sikerült pillanatképet elküldeni a klienshez"
 
-#: src/network.c:601 src/translate.c.po.c:447
+#: src/network.c:604 src/translate.c.po.c:447
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt létrehozni (%s)"
 
-#: src/network.c:641 src/translate.c.po.c:457
+#: src/network.c:644 src/translate.c.po.c:457
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt megnyitni (%s)"
 
-#: src/network.c:791 src/translate.c.po.c:467
+#: src/network.c:794 src/translate.c.po.c:467
 msgid "Server is waiting for a client..."
 msgstr "A kiszolgáló kliensre vár..."
 
-#: src/network.c:828 src/translate.c.po.c:477
+#: src/network.c:831 src/translate.c.po.c:477
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
 "Nem sikerült pillanatkép fájlt létrehozni. Kérem válasszon más könyvtárat!"
 
-#: src/network.c:847 src/translate.c.po.c:487
+#: src/network.c:850 src/translate.c.po.c:487
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Nem sikerült %s-t feloldani"
 
-#: src/network.c:892 src/translate.c.po.c:497
+#: src/network.c:895 src/translate.c.po.c:497
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"
 
-#: src/network.c:906 src/translate.c.po.c:507
+#: src/network.c:909 src/translate.c.po.c:507
 msgid "Receiving snapshot from server..."
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/network.c:993 src/network.c:1023 src/translate.c.po.c:527
+#: src/network.c:996 src/network.c:1026 src/translate.c.po.c:527
 msgid "Remote host disconnected."
 msgstr "A távoli számítogép lekapcsolódott."
 
-#: src/network.c:1035 src/translate.c.po.c:537
+#: src/network.c:1038 src/translate.c.po.c:537
 msgid "Remote host suspending..."
 msgstr "A távoli számítógép felfüggesztést kért..."
 
-#: src/network.c:1079 src/translate.c.po.c:517
+#: src/network.c:1082 src/translate.c.po.c:517
 msgid "Network out of sync - disconnecting."
 msgstr "A hálózat kiesett a szinkronból - szétkapcsolódás"
 

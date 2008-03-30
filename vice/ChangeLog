@@ -1,3 +1,16 @@
+2007-07-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.11.
+
+2007-06-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added an extra check for the type/version of
+	the win32 prefered resource compile (wrc).
+
+2007-06-17  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: added new cocoa directories
+
 2007-06-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.10.

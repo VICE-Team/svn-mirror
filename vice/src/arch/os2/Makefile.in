@@ -327,7 +327,6 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
-	config.h \
 	console.c \
 	fullscr.c \
 	fullscr.h \
@@ -416,7 +415,137 @@ EXTRA_DIST = \
 	fonts/vice-cbm.cmd \
 	fonts/vice2.asm \
 	fonts/vice2.def \
-	fonts/vice2.rc
+	fonts/vice2.rc \
+	watcom/archdep.tgt \
+	watcom/c128-c64-snapshot.c \
+	watcom/c128-c64acia1.c \
+	watcom/c128-c64bus.c \
+	watcom/c128-c64cia2.c \
+	watcom/c128-c64datasette.c \
+	watcom/c128-c64export.c \
+	watcom/c128-c64iec.c \
+	watcom/c128-c64io.c \
+	watcom/c128-c64keyboard.c \
+	watcom/c128-c64meminit.c \
+	watcom/c128-c64memrom.c \
+	watcom/c128-c64parallel.c \
+	watcom/c128-c64pla.c \
+	watcom/c128-c64printer.c \
+	watcom/c128-c64rsuser.c \
+	watcom/c128-c64sound.c \
+	watcom/c128-c64tpi.c \
+	watcom/c128-digimax.c \
+	watcom/c128-georam.c \
+	watcom/c128-mmc64.c \
+	watcom/c128-patchrom.c \
+	watcom/c128-ramcart.c \
+	watcom/c128-reu.c \
+	watcom/c128-tfe.c \
+	watcom/c128.tgt \
+	watcom/c128c64.tgt \
+	watcom/c64.tgt \
+	watcom/c64cart.tgt \
+	watcom/cartconv.tgt \
+	watcom/cbm2.tgt \
+	watcom/config.h \
+	watcom/core.tgt \
+	watcom/crtc.tgt \
+	watcom/dialogs.tgt \
+	watcom/diskimage.tgt \
+	watcom/drive.tgt \
+	watcom/fileio.tgt \
+	watcom/fsdevice.tgt \
+	watcom/gfxoutputdrv.tgt \
+	watcom/iec.tgt \
+	watcom/iecbus.tgt \
+	watcom/iecc64exp.tgt \
+	watcom/iecieee.tgt \
+	watcom/iecplus4exp.tgt \
+	watcom/ieee.tgt \
+	watcom/imagecontents.tgt \
+	watcom/kbd.tgt \
+	watcom/mainsrc.tgt \
+	watcom/monitor.tgt \
+	watcom/nonresid-sid-cmdline-options.c \
+	watcom/nonresid-sid-resources.c \
+	watcom/nonresid-sid-snapshot.c \
+	watcom/nonresid-sid.c \
+	watcom/nonresid-specific.tgt \
+	watcom/nonvic1or2-specific.tgt \
+	watcom/nonvic1or2-video.c \
+	watcom/nonx128-proc.c \
+	watcom/nonx128-specific.tgt \
+	watcom/nonx1541-log.c \
+	watcom/nonx1541-specific.tgt \
+	watcom/nonx64-dragndrop.c \
+	watcom/nonx64-specific.tgt \
+	watcom/nonx64-vsyncarch.c \
+	watcom/parallel.tgt \
+	watcom/pet.tgt \
+	watcom/petcat-archdep.c \
+	watcom/petcat-signals.c \
+	watcom/petcat-specific.tgt \
+	watcom/petcat.tgt \
+	watcom/plus4.tgt \
+	watcom/printerdrv.tgt \
+	watcom/raster.tgt \
+	watcom/resid-fastsid.c \
+	watcom/resid-sid.cc \
+	watcom/resid-specific.tgt \
+	watcom/resid.tgt \
+	watcom/rs232drv.tgt \
+	watcom/serial.tgt \
+	watcom/sounddrv.tgt \
+	watcom/tape.tgt \
+	watcom/tcbm.tgt \
+	watcom/vdc.tgt \
+	watcom/vdrive.tgt \
+	watcom/vic20.tgt \
+	watcom/vice.wpj \
+	watcom/vicii.tgt \
+	watcom/video.tgt \
+	watcom/vsid.tgt \
+	watcom/x128-dlg-fileio.c \
+	watcom/x128-main.c \
+	watcom/x128-menubar.c \
+	watcom/x128-specific.tgt \
+	watcom/x128-video.c \
+	watcom/x128.tgt \
+	watcom/x1541-archdep.c \
+	watcom/x1541-signals.c \
+	watcom/x1541-specific.tgt \
+	watcom/x1541.tgt \
+	watcom/x64-specific.tgt \
+	watcom/x64.tgt \
+	watcom/x64x128-sid.c \
+	watcom/x64x128-specific.tgt \
+	watcom/xall-specific.tgt \
+	watcom/xall.tgt \
+	watcom/xcbm2-dlg-fileio.c \
+	watcom/xcbm2-kbd-pet.c \
+	watcom/xcbm2-main.c \
+	watcom/xcbm2-menubar.c \
+	watcom/xcbm2-specific.tgt \
+	watcom/xcbm2.tgt \
+	watcom/xpet-dlg-fileio.c \
+	watcom/xpet-main.c \
+	watcom/xpet-maincpu.c \
+	watcom/xpet-menubar.c \
+	watcom/xpet-specific.tgt \
+	watcom/xpet.tgt \
+	watcom/xplus4-dlg-fileio.c \
+	watcom/xplus4-main.c \
+	watcom/xplus4-menubar.c \
+	watcom/xplus4-specific.tgt \
+	watcom/xplus4.tgt \
+	watcom/xvic-dlg-fileio.c \
+	watcom/xvic-main.c \
+	watcom/xvic-maincpu.c \
+	watcom/xvic-menubar.c \
+	watcom/xvic-specific.tgt \
+	watcom/xvic-video.c \
+	watcom/xvic.tgt \
+	watcom/README.txt
 
 all: all-recursive
 
@@ -632,7 +761,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/doc $(distdir)/fonts $(distdir)/icons $(distdir)/texi2ipf $(distdir)/unused $(distdir)/unused/pm
+	$(mkdir_p) $(distdir)/doc $(distdir)/fonts $(distdir)/icons $(distdir)/texi2ipf $(distdir)/unused $(distdir)/unused/pm $(distdir)/watcom
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
