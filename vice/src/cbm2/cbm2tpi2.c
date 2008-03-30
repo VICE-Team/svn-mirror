@@ -159,10 +159,9 @@ void tpi2_setup_context(machine_context_t *machine_context)
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
 
-    sprintf(tpi_context->myname, "TPI2");
-    tpi_context->irq_previous = 0;
-    tpi_context->irq_stack = 0;
-    tpi_context->tpi_last_read = 0;
+    tpi_context->myname = lib_msprintf("TPI2");
+
+    tpicore_setup_context(tpi_context);
 
     tpi_context->store_pa = store_pa;
     tpi_context->store_pb = store_pb;

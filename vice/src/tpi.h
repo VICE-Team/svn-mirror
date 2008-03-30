@@ -59,7 +59,7 @@ typedef struct tpi_context_s {
 
     signed int log;
 
-    char myname[12];
+    char *myname;
 
     int irq_line;                 /* IK_... */
     unsigned int int_num;
@@ -86,6 +86,8 @@ typedef struct tpi_context_s {
     void (*restore_int)(unsigned int, int);
 } tpi_context_t;
 
+extern void tpicore_setup_context(struct tpi_context_s *tpi_context);
+extern void tpicore_shutdown(struct tpi_context_s *tpi_context);
 extern void tpicore_reset(tpi_context_t *tpi_context);
 extern void REGPARM3 tpicore_store(struct tpi_context_s *tpi_context,
                                    WORD addr, BYTE byte);

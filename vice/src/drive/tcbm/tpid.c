@@ -221,10 +221,10 @@ void tpid_setup_context(drive_context_t *ctxptr)
     tpi_context->rmw_flag = &(ctxptr->cpu.rmw_flag);
     tpi_context->clk_ptr = ctxptr->clk_ptr;
 
-    sprintf(tpi_context->myname, "Drive%dTPI", ctxptr->mynumber);
-    tpi_context->irq_previous = 0;
-    tpi_context->irq_stack = 0;
-    tpi_context->tpi_last_read = 0;
+    tpi_context->myname = lib_msprintf("Drive%dTPI", ctxptr->mynumber);
+
+    tpicore_setup_context(tpi_context);
+
     tpi_context->tpi_int_num
         = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
                                        tpi_context->myname);

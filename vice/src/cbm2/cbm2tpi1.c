@@ -38,6 +38,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "parallel.h"
@@ -230,10 +231,9 @@ void tpi1_setup_context(machine_context_t *machine_context)
     tpi_context->rmw_flag = &maincpu_rmw_flag;
     tpi_context->clk_ptr = &maincpu_clk;
 
-    sprintf(tpi_context->myname, "TPI1");
-    tpi_context->irq_previous = 0;
-    tpi_context->irq_stack = 0;
-    tpi_context->tpi_last_read = 0;
+    tpi_context->myname = lib_msprintf("TPI1");
+
+    tpicore_setup_context(tpi_context);
 
     tpi_context->irq_line = IK_IRQ;
 
