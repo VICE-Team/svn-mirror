@@ -198,15 +198,15 @@ SOURCE="..\..\mouse.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\p00.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\palette.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\ram.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\rawfile.c"
 # End Source File
 # Begin Source File
 
