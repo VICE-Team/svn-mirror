@@ -54,6 +54,7 @@
 #include "sid.h"
 #include "snapshot.h"
 #include "tapeunit.h"
+#include "ui.h"
 #include "utils.h"
 #include "vicii.h"
 #include "vmachine.h"

@@ -71,4 +71,6 @@ extern char *strerror(int errnum);
 extern int read_dword(int fd, DWORD *buf, int num);
 extern int write_dword(int fd, DWORD *buf, int num);
 
+int file_exists_p(const char *name);
+
 #endif /* UTILS_H */

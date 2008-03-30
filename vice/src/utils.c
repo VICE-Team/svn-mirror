@@ -717,3 +717,19 @@ int write_dword(int fd, DWORD *buf, int num)
     free(tmpbuf);
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* Check for existance of file named `name'.  */
+int file_exists_p(const char *name)
+{
+    FILE *f;
+
+    f = fopen(name, "r");
+    if (f != NULL) {
+        fclose(f);
+        return 1;
+    } else {
+        return 0;
+    }
+}
