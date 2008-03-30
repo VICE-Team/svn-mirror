@@ -51,7 +51,6 @@
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
 extern BYTE joy[3];
 
-extern int kbd_init(const char *keymap_name);
 extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 			      Boolean *ctd);
 extern int kbd_load_keymap(const char *filename);
@@ -59,5 +58,16 @@ extern int kbd_dump_keymap(const char *filename);
 
 extern void kbd_flag_joykeys(int,int);
 
+extern int kbd_init(void);
+extern int do_kbd_init_cmdline_options(void);
+extern int do_kbd_init_resources(void);
+
+extern int kbd_init_cmdline_options(void);
+extern int kbd_init_resources(void);
+
+extern int pet_kbd_init_cmdline_options(void);
+extern int pet_kbd_init_resources(void);
+
+extern char **keymap_res_name_list;
 
 #endif

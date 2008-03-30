@@ -84,6 +84,9 @@ static int bankCoffset = 0;
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
+/* prototype */
+void set_screen(void);
+
 /* ------------------------------------------------------------------------- */
 
 BYTE REGPARM1 read_zero(ADDRESS addr)

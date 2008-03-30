@@ -111,6 +111,7 @@ int machine_init_resources(void)
         || vic20_mem_init_resources() < 0
         || vic_init_resources() < 0
         || sound_init_resources() < 0
+        || kbd_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
 
@@ -126,6 +127,7 @@ int machine_init_cmdline_options(void)
         || vic20_mem_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+        || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
 
@@ -163,7 +165,7 @@ int machine_init(void)
 
     /* Load the default keymap file.  */
 #ifndef __MSDOS__
-    if (kbd_init("default.vkm") < 0)
+    if (kbd_init(/* "default.vkm" */) < 0)
         return -1;
 #else
     if (vic20_kbd_init() < 0)

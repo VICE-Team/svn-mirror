@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
 
 #include <X11/Intrinsic.h>
 
@@ -38,6 +40,7 @@
 #include "vsync.h"
 #include "true1541.h"
 #include "fsdevice.h"
+#include "kbd.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -244,29 +247,50 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: This should come back some day.  */
+/* this is modelled after the toggle_* calls */
 
-#if 0
-static UI_CALLBACK(set_keymap)
+static UI_CALLBACK(set_keymap_type)
 {
-    kbd_load_keymap((char*)client_data);
+     int kindex, newindex = (int) client_data;
+
+     if(resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
+	return;
+
+     if(!call_data) {
+	if((kindex & 1) != newindex) {
+            resources_set_value("KeymapIndex", (resource_value_t)
+		((kindex & ~1) + newindex));
+            ui_update_menus();
+        }
+     } else {
+        ui_menu_set_tick(w, (kindex & 1) == newindex);
+     }
 }
 
-static UI_CALLBACK(load_keymap)
-{
-    kbd_load_keymap((char*)client_data);
-}
+static ui_menu_entry_t keyboard_maptype_submenu[] = {
+    { "*Symbol Mapping", (ui_callback_t) set_keymap_type,
+	(ui_callback_data_t) 0, NULL },
+    { "*Positional Mapping", (ui_callback_t) set_keymap_type,
+	(ui_callback_data_t) 1, NULL },
+    { NULL }
+};
 
-static UI_CALLBACK(load_user_keymap)
+static UI_CALLBACK(select_user_keymap)
 {
-    char *filename;
+    char *filename, *resname;
     ui_button_t button;
+    int kindex;
+
+    resources_get_value("KeymapIndex", (resource_value_t)&kindex);
+    kindex = (kindex & ~1) + (int)client_data;
+    resname = keymap_res_name_list[kindex];
+
     suspend_speed_eval();
     filename = ui_select_file("Read Keymap File", NULL, False, &button);
 
     switch (button) {
       case UI_BUTTON_OK:
-	kbd_load_keymap(filename);
+	resources_set_value(resname, (resource_value_t)filename);
         break;
       default:
         /* Do nothing special.  */
@@ -274,7 +298,7 @@ static UI_CALLBACK(load_user_keymap)
     }
 }
 
-static UI_CALLBACK(dump_keyap)
+static UI_CALLBACK(dump_keymap)
 {
     PATH_VAR(wd);
     int path_max = GET_PATH_MAX;
@@ -287,7 +311,21 @@ static UI_CALLBACK(dump_keyap)
     else if (kbd_dump_keymap(wd) < 0)
 	ui_error(strerror(errno));
 }
-#endif
+
+static ui_menu_entry_t keyboard_settings_submenu[] = {
+    { "Keyboard mapping type",
+      NULL, NULL, keyboard_maptype_submenu },
+    { "--" },
+    { "Set symbol keymap file", (ui_callback_t)select_user_keymap,
+		(ui_callback_data_t)0, NULL},
+    { "Set positional keymap file", (ui_callback_t)select_user_keymap,
+		(ui_callback_data_t)1, NULL},
+    { "--" },
+    { "Dump keymap to file",
+      (ui_callback_t) dump_keymap, NULL, NULL },
+    { NULL }
+};
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -672,13 +710,11 @@ ui_menu_entry_t ui_video_settings_menu[] = {
     { NULL }
 };
 
-#if 0
 ui_menu_entry_t ui_keyboard_settings_menu[] = {
     { "Keyboard settings",
       NULL, NULL, keyboard_settings_submenu },
     { NULL }
 };
-#endif
 
 ui_menu_entry_t ui_sound_settings_menu[] = {
     { "Sound settings",

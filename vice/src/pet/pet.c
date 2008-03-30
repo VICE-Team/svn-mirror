@@ -108,7 +108,12 @@ int machine_init_resources(void)
         || pet_mem_init_resources() < 0
         || crtc_init_resources() < 0
         || pia_init_resources() < 0
-        || sound_init_resources() < 0)
+        || sound_init_resources() < 0
+#ifdef __MSDOS__
+        || kbd_init_resources() < 0)
+#else
+        || pet_kbd_init_resources() < 0)
+#endif
         return -1;
 
     return 0;
@@ -127,7 +132,12 @@ int machine_init_cmdline_options(void)
         || pet_mem_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
         || pia_init_cmdline_options() < 0
-        || sound_init_cmdline_options() < 0)
+        || sound_init_cmdline_options() < 0
+#ifdef __MSDOS__
+        || kbd_init_cmdline_options() < 0)
+#else
+        || pet_kbd_init_cmdline_options() < 0)
+#endif
         return -1;
 
     return 0;
@@ -154,14 +164,12 @@ int machine_init(void)
 
     /* Initialize the keyboard.  FIXME!  */
 #ifdef __MSDOS__
-    if (pet_kbd_init() < 0)
-        return -1;
+    if (pet_kbd_init() < 0) {
 #else
-    if (1)
-        kbd_init("busi_uk.vkm");
-    else
-        kbd_init("graphics.vkm");
+    if (kbd_init() < 0) {
 #endif
+        return -1;
+    }
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, NULL);

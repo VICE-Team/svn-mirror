@@ -35,25 +35,6 @@
 #define PET_EDITOR4B80NAME  "edit4.b80"
 #define PET_COLS	80
 
-#if 0
-typedef struct PetInfo {
-	char		*model;
-	char 		*kernalName;
-	char 		*editorName;
-	int		ramSize;	/* 0 = 2001, 1 = later */
-	int		romSize;	/* expected length of ROM */
-	int		videoSize;	/* video RAM size (1k or 2k) */
-	int		IOSize;		/* 256 Byte / 2k I/O */
-	int		pet2k;		/* 1 = 2001, 0 = later */
-	int		crtc;		/* 0 = no CRTC, 1 = has one */
-	int		map;		/* 0 = linear map, 1 = 8096 mapping */
-					/* 2 = 8296 mapping */
-	int		vmask;		/* valid CRTC address bits */
-	int		video;		/* 0 = autodetect, 40, or 80 */
-	char		*keyb;		/* keymap name */
-} PetInfo;
-#endif
-
 typedef struct PetInfo {
 	/* hardware options (resources) */
 	int		ramSize;	/* 0 = 2001, 1 = later */
@@ -62,7 +43,7 @@ typedef struct PetInfo {
 	int		video;		/* 0 = autodetect, 40, or 80 */
 	int		mem9;		/* 0 = open/ROM, 1 = RAM */
 	int		memA;		/* 0 = open/ROM, 1 = RAM */
-	int		kbd_type;	/* 0 = graphics, 1 = business (UK) */
+	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
 
 	/* ROM image resources */
 	char		*chargenName;	/* Character ROM */

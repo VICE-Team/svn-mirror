@@ -51,44 +51,46 @@ PetInfo pet;
 #define	PET_CHARGEN_NAME	"chargen"
 
 /*
- * table with Model information 
+ * table with Model information
  */
-static struct { const char *model; PetInfo info; } pet_table[] =
-{
-   {"2001",  { 8, 0x0800, 0, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL2001NAME, NULL, NULL, NULL, NULL } },
-   {"3008",  { 8, 0x0800, 0, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-   {"3016",  { 16, 0x0800, 0, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-   {"3032",  { 32, 0x0800, 0, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
-   {"3032B", { 32, 0x0800, 0, 40, 0, 0, 1, 
-	PET_CHARGEN_NAME, PET_KERNAL3032NAME, PET_EDITOR2B40NAME, 
-	NULL, NULL, NULL } },
-   {"4016",  { 16, 0x0800, 1, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
-   {"4032",  { 32, 0x0800, 1, 40, 0, 0, 0, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
-   {"4032B", { 32, 0x0800, 1, 40, 0, 0, 1, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B40NAME, 
-	NULL, NULL, NULL } },
-   {"8032",  { 32, 0x0800, 1, 80, 0, 0, 1, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME, 
-	NULL, NULL, NULL } },
-   {"8096",  { 96, 0x0800, 1, 80, 0, 0, 1, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME, 
-	NULL, NULL, NULL } },
-   {"8296",  { 128, 0x0100, 1, 80, 0, 0, 1, 
-	PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME, 
-	NULL, NULL, NULL } },
+static struct {
+    const char *model;
+    PetInfo info;
+} pet_table[] = {
+    {"2001",  { 8, 0x0800, 0, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL2001NAME, NULL, NULL, NULL, NULL } },
+    {"3008",  { 8, 0x0800, 0, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
+    {"3016",  { 16, 0x0800, 0, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
+    {"3032",  { 32, 0x0800, 0, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL } },
+    {"3032B", { 32, 0x0800, 0, 40, 0, 0, 0,
+	     PET_CHARGEN_NAME, PET_KERNAL3032NAME, PET_EDITOR2B40NAME,
+	     NULL, NULL, NULL } },
+    {"4016",  { 16, 0x0800, 1, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
+    {"4032",  { 32, 0x0800, 1, 40, 0, 0, 1,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL } },
+    {"4032B", { 32, 0x0800, 1, 40, 0, 0, 0,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B40NAME,
+	     NULL, NULL, NULL } },
+    {"8032",  { 32, 0x0800, 1, 80, 0, 0, 0,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
+	     NULL, NULL, NULL } },
+    {"8096",  { 96, 0x0800, 1, 80, 0, 0, 0,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
+	     NULL, NULL, NULL } },
+    {"8296",  { 128, 0x0100, 1, 80, 0, 0, 0,
+	     PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
+	     NULL, NULL, NULL } },
     {NULL}
 };
 
 
 int pet_set_model(const char *model_name, void* extra)
 {
-    int i;
+    int i, kindex = 0;
 
     i = 0;
     while (pet_table[i].model) {
@@ -96,32 +98,34 @@ int pet_set_model(const char *model_name, void* extra)
 #ifdef DEBUG
 	    printf("PET: setting model to PET %s\n", pet_table[i].model);
 #endif
-	    resources_set_value("RamSize", 
+	    resources_set_value("RamSize",
 		(resource_value_t) pet_table[i].info.ramSize);
-	    resources_set_value("IOSize", 
+	    resources_set_value("IOSize",
 		(resource_value_t) pet_table[i].info.IOSize);
-	    resources_set_value("Crtc", 
+	    resources_set_value("Crtc",
 		(resource_value_t) pet_table[i].info.crtc);
-	    resources_set_value("VideoSize", 
+	    resources_set_value("VideoSize",
 		(resource_value_t) pet_table[i].info.video);
-	    resources_set_value("Ram9", 
+	    resources_set_value("Ram9",
 		(resource_value_t) pet_table[i].info.mem9);
-	    resources_set_value("RamA", 
+	    resources_set_value("RamA",
 		(resource_value_t) pet_table[i].info.memA);
-	    resources_set_value("KeyboardType", 
-		(resource_value_t) pet_table[i].info.kbd_type);
 
-	    resources_set_value("ChargenName", 
+ 	    resources_get_value("KeymapIndex", (resource_value_t*) &kindex);
+ 	    resources_set_value("KeymapIndex", (resource_value_t)
+ 		((kindex & 1) + 2 * pet_table[i].info.kbd_type));
+
+	    resources_set_value("ChargenName",
 		(resource_value_t) pet_table[i].info.chargenName);
-	    resources_set_value("KernalName", 
+	    resources_set_value("KernalName",
 		(resource_value_t) pet_table[i].info.kernalName);
-	    resources_set_value("EditorName", 
+	    resources_set_value("EditorName",
 		(resource_value_t) pet_table[i].info.editorName);
-	    resources_set_value("RomModule9Name", 
+	    resources_set_value("RomModule9Name",
 		(resource_value_t) pet_table[i].info.mem9name);
-	    resources_set_value("RomModuleAName", 
+	    resources_set_value("RomModuleAName",
 		(resource_value_t) pet_table[i].info.memAname);
-	    resources_set_value("RomModuleBName", 
+	    resources_set_value("RomModuleBName",
 		(resource_value_t) pet_table[i].info.memBname);
 
 	    mem_load();
@@ -195,7 +199,7 @@ static int set_ramsize(resource_value_t v)
     petres.map = 0;
     if(size==96) {
 	petres.map = 1; 	/* 8096 mapping */
-    } else 
+    } else
     if(size==128) {
 	petres.map = 2;		/* 8296 mapping */
     }
@@ -287,13 +291,15 @@ static resource_t resources[] = {
     { "RamSize", RES_INTEGER, (resource_value_t) 32,
       (resource_value_t *) &petres.ramSize, set_ramsize },
     { "IOSize", RES_INTEGER, (resource_value_t) 0x800,
-      (resource_value_t *) &petres.ramSize, set_iosize },
+      (resource_value_t *) &petres.IOSize, set_iosize },
     { "Crtc", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &petres.crtc, set_crtc_enabled },
     { "VideoSize", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &petres.video, set_video },
+/*
     { "KeyboardType", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &petres.kbd_type, set_kbd_type },
+*/
     { "Ram9", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &petres.mem9, set_ram_9_enabled },
     { "RamA", RES_INTEGER, (resource_value_t) 0,
@@ -326,7 +332,7 @@ int pet_mem_init_resources(void)
 /* PET-specific command-line options.  */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-model", CALL_FUNCTION, 1, pet_set_model, NULL, NULL, NULL, 
+    { "-model", CALL_FUNCTION, 1, pet_set_model, NULL, NULL, NULL,
       "<modelnumber>", "Specify PET model to emulate" },
     { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
       "<name>", "Specify name of Kernal ROM image" },

@@ -43,6 +43,7 @@
 #include "video.h"
 #include "ui.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "memutils.h"
 #include "kbd.h"
 #include "kbdef.h"
@@ -81,7 +82,62 @@ static int joypad_bits[10] = {
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
-static const char *default_keymap_name;
+
+/* ------------------------------------------------------------------------- */
+/* resource handling.
+ */
+
+static int keymap_index;
+static int load_keymap_ok = 0;
+
+static int set_keymap_index(resource_value_t v)
+{
+    const char *name, *resname = keymap_res_name_list[(int) v];
+
+printf("set_keymap_index(index=%d, resname=%s\n",
+	(int)v, resname);
+
+    if(resources_get_value(resname, (resource_value_t*) &name) < 0)
+ 	return -1;
+
+    if(load_keymap_ok) { /* to reduce multiple parsing during startup */
+
+printf(" --> load %s\n", name);
+
+        if(kbd_load_keymap(name)>=0) {
+	    keymap_index = (int) v;
+	    return 0;
+        } else {
+            fprintf(stderr,"Cannot parse Keymap filename %s\n",
+	       name ? name : "<null>");
+        }
+        return -1;
+    }
+    keymap_index = (int) v;
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &keymap_index, set_keymap_index },
+    { NULL }
+};
+
+int do_kbd_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      "<number>", "Specify index of keymap file (0=symbol, 1=positional)" },
+    { NULL },
+};
+
+int do_kbd_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -297,28 +353,34 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
 /* Handling of different keyboard mappings.  */
 
+/* list with resource names for different keymap filenames */
+char **keymap_res_name_list;
+
 /* Memory size of array in sizeof(keyconv), 0 = static.  */
 static int keyc_mem = 0;
 /* Number of convs used in sizeof(keyconv).  */
 static int keyc_num = 0;
 
-int kbd_init(const char *keymap_name)
+int kbd_init(void)
 {
     int i,j;
-
-    default_keymap_name = keymap_name;
 
     for(i=0;i<2;i++) {
         for(j=0;j<10;j++) {
             joykeys[i][j].sym = NoSymbol;
         }
     }
+
+    /* load current keymap table */
+    load_keymap_ok = 1;
+    set_keymap_index((resource_value_t)keymap_index);
+/*
     if (kbd_load_keymap(NULL) < 0) {
 	fprintf(stderr,"Couldn't load default keymap file `%s', aborting!\n",
-                keymap_name);
+                default_keymap_name);
 	return -1;
     }
-
+*/
     return 0;
 }
 
@@ -493,8 +555,9 @@ int kbd_load_keymap(const char *filename)
 {
     keyconv *p;
 
-    if (filename == NULL)
-        filename = default_keymap_name;
+    if (filename == NULL) {
+	return -1;
+    }
 
     /* Dynamicalize keymap table.  */
     if (!keyc_mem) {
@@ -573,7 +636,8 @@ int kbd_dump_keymap(const char *filename)
                 if (joykeys[i][j].sym != NoSymbol) {
                     fprintf(fp, "%s %d %d\n",
                             XKeysymToString(joykeys[i][j].sym),
-                            joykeys[i][j].row, joykeys[i][j].column);
+                            /*joykeys[i][j].row, joykeys[i][j].column*/
+			    -1-i,j);
 		}
             }
         }

@@ -181,6 +181,7 @@ static void pia2_update_irq(void) {
 void signal_pia1(int line, int edge) {
     switch(line) {
     case PIA_SIG_CB1:
+/*printf("signal_pia1(line=%d, edge=%d, ctrl=%02x)\n",line,edge,pia1.ctrl_b);*/
 	/* this currently relies on each edge being called only once,
 	 * otherwise multiple IRQs could occur. */
 	if( ((pia1.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
@@ -245,6 +246,7 @@ if(pardebug) printf("write pia1.ctrl_a(%x)\n",byte);
 	pia1.ctrl_b = (pia1.ctrl_b & 0xc0) | (byte & 0x3f);
 	if(pia1.ctrl_b & 0x20) pia1.ctrl_b &= 0xbf;
 	pia1_update_irq();
+/*if(1) printf("write pia1.ctrl_b(%x)\n",byte);*/
 	break;
 
 

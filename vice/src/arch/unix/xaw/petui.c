@@ -69,11 +69,28 @@ UI_MENU_DEFINE_RADIO(RamSize)
 
 UI_MENU_DEFINE_RADIO(IOSize)
 
-UI_MENU_DEFINE_RADIO(KeyboardType)
-
 static UI_CALLBACK(petui_set_model)
 {
     pet_set_model(client_data, NULL);
+    ui_update_menus();
+}
+
+/* this is partially modeled after the radio_* callbacks */
+static UI_CALLBACK(set_KeyboardType)
+{
+    int current_value, new_value = 2 * (int) client_data;
+    extern char *keymap_file_resource_names[];
+
+    resources_get_value("KeymapIndex", (resource_value_t) &current_value);
+    if(!call_data) {
+	if((current_value & ~1) != new_value) {
+	    resources_set_value("KeymapIndex", (resource_value_t)
+		(current_value & 1) + new_value);
+	    ui_update_menus();
+	}
+    } else {
+	ui_menu_set_tick(w, current_value == new_value);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -200,9 +217,9 @@ static ui_menu_entry_t pet_iosize_submenu[] = {
 
 static ui_menu_entry_t pet_keybd_submenu[] = {
     { "*Graphics",
-	(ui_callback_t) radio_KeyboardType, (ui_callback_data_t) 0, NULL },
+	(ui_callback_t) set_KeyboardType, (ui_callback_data_t) 1, NULL },
     { "*Business (UK)",
-	(ui_callback_t) radio_KeyboardType, (ui_callback_data_t) 1, NULL },
+	(ui_callback_t) set_KeyboardType, (ui_callback_data_t) 0, NULL },
     { NULL }
 };
 
@@ -216,27 +233,7 @@ static ui_menu_entry_t pet_video_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t pet_custom_model_submenu[] = {
-    { "Video size",
-      NULL, NULL, pet_video_submenu },
-    { "Memory size",
-      NULL, NULL, pet_memsize_submenu },
-    { "I/O size",
-      NULL, NULL, pet_iosize_submenu },
-    { "*CRTC chip enable",
-      (ui_callback_t) toggle_Crtc, NULL, NULL },
-    { "--" },
-    { "*$9*** as RAM (8296 only)",
-      (ui_callback_t) toggle_Ram9, NULL, NULL },
-    { "*$A*** as RAM (8296 only)",
-      (ui_callback_t) toggle_RamA, NULL, NULL },
-    { "--" },
-    { "Keyboard type",
-      NULL, NULL, pet_keybd_submenu },
-    { NULL }
-};
-
-static ui_menu_entry_t model_settings_submenu[] = {
+static ui_menu_entry_t model_defaults_submenu[] = {
     { "PET 2001",
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"2001", NULL },
     { "PET 3008",
@@ -259,14 +256,34 @@ static ui_menu_entry_t model_settings_submenu[] = {
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"8096", NULL },
     { "PET 8296",
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"8296", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t model_settings_submenu[] = {
+    { "Model defaults",
+      NULL, NULL, model_defaults_submenu },
     { "--" },
-    { "Custom settings",
-      NULL, NULL, pet_custom_model_submenu },
+    { "Video size",
+      NULL, NULL, pet_video_submenu },
+    { "Memory size",
+      NULL, NULL, pet_memsize_submenu },
+    { "I/O size",
+      NULL, NULL, pet_iosize_submenu },
+    { "*CRTC chip enable",
+      (ui_callback_t) toggle_Crtc, NULL, NULL },
+    { "--" },
+    { "*$9*** as RAM (8296 only)",
+      (ui_callback_t) toggle_Ram9, NULL, NULL },
+    { "*$A*** as RAM (8296 only)",
+      (ui_callback_t) toggle_RamA, NULL, NULL },
+    { "--" },
+    { "Keyboard type",
+      NULL, NULL, pet_keybd_submenu },
     { NULL }
 };
 
 static ui_menu_entry_t pet_menu[] = {
-    { "Model settings",
+    { "PET model settings",
       NULL, NULL, model_settings_submenu },
     { "*PET Userport Diagnostic Pin",
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
@@ -311,6 +328,7 @@ int pet_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
+                                     ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_serial_settings_menu,
                                      ui_menu_separator,

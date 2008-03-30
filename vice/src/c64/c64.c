@@ -164,6 +164,7 @@ int machine_init_resources(void)
         || acia2_init_resources() < 0
         || rs232_init_resources() < 0
 #endif
+        || kbd_init_resources() < 0
         || true1541_init_resources() < 0)
         return -1;
 
@@ -183,6 +184,7 @@ int machine_init_cmdline_options(void)
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
 #endif
+        || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
         return -1;
 
@@ -224,7 +226,7 @@ int machine_init(void)
     /* Initialize the keyboard.  */
     /* FIXME */
 #ifndef __MSDOS__
-    if (kbd_init("default.vkm") < 0)
+    if (kbd_init(/* "default.vkm" */) < 0)
         return -1;
 #else
     if (c64_kbd_init() < 0)

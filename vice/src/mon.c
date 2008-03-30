@@ -229,15 +229,15 @@ static char *cond_op_string[] = { "",
                                  };
 
 
-static int default_display_number[] = {80, /* default = hex */
-                                       80, /* hexadecimal */
+static int default_display_number[] = {128, /* default = hex */
+                                       128, /* hexadecimal */
                                        80, /* decimal */
                                        40, /* octal */
                                        24, /* binary */
                                       };
 
-static int default_display_per_line[] = { 8, /* default = hex */
-                                          8, /* hexadecimal */
+static int default_display_per_line[] = { 16, /* default = hex */
+                                          16, /* hexadecimal */
                                           8, /* decimal */
                                           8, /* octal */
                                           3, /* binary */
@@ -910,6 +910,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
             case e_hexadecimal:
                memset(printables,0,50);
                if (cnt < len) {
+		  if(!(cnt%4)) fprintf(mon_output, " ");
                   fprintf(mon_output, "%02x ",get_mem_val(mem,ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
@@ -946,7 +947,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
 
       if (radix_type != 0) {
          memory_to_string(printables, mem, addr, real_width, FALSE);
-         fprintf(mon_output, "\t%s",printables);
+         fprintf(mon_output, "  %s",printables);
       }
       fprintf(mon_output, "\n");
       addr = ADDR_LIMIT(addr+real_width);

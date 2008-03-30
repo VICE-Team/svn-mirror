@@ -224,7 +224,7 @@ int vic20_ui_init(void)
                                      ui_menu_separator,
                                      ui_joystick_settings_menu,
                                      ui_video_settings_menu,
-                                     /* ui_keyboard_settings_menu, */
+                                     ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
