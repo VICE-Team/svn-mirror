@@ -1,3 +1,21 @@
+2002-05-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.22.
+
+	* keyboard.c (keyboard_keyconvmap_alloc,
+	keyboard_keyconvmap_free, keyboard_keyconvmap_realloc,
+	keyboard_keyword_lshift, keyboard_keyword_rshift,
+	keyboard_keyword_vshift, keyboard_keyword_clear,
+	keyboard_keyword_include, keyboard_keyword_undef,
+	keyboard_parse_set_pos_row, keyboard_parse_set_neg_row): New
+	functions.
+	(keyboard_keymap_dump, keyboard_parse_keyword,
+	keyboard_parse_entry): Rewritten.
+
+2002-05-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic20mem.c (read_dummy): Return high byte of address.
+
 2002-05-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.21.
