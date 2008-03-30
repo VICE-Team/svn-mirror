@@ -451,11 +451,10 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     free(argv[1]);
     free(argv[2]);
     free(argv[3]);
-    free(argv[4]);
     if (is_zipcode_name(tmp + nameoffset)) {
-	free(argv[5]);
-	free(argv[6]);
-	free(argv[7]);
+        free(argv[4]);
+        free(argv[5]);
+        free(argv[6]);
     }
 
     if (exit_status != 0) {
@@ -1063,7 +1062,7 @@ int zclose_all(void)
 #endif
 
 int zfile_close_action(const char *filename, zfile_action_t action,
-						const char *request_str)
+                       const char *request_str)
 {
     char *fullname = NULL;
     struct zfile *p = zfile_list;
