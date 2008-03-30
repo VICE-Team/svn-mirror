@@ -235,7 +235,10 @@ void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 
 void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
 {
-    vicii_mem_vbank_3fxx_store(addr, value);
+    if (vbank == 3)
+        vicii_mem_vbank_3fxx_store(addr, value);
+    else
+        ram[addr] = value;
 
     if (addr == 0xff00)
         reu_dma(-1);
