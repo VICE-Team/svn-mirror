@@ -175,7 +175,7 @@ struct monitor_cpu_type_list_s {
 };
 typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
 
-static monitor_cpu_type_list_t *monitor_cpu_type_list;
+static monitor_cpu_type_list_t *monitor_cpu_type_list = NULL;
 
 static const char *cond_op_string[] = { "",
                                         "==",
@@ -538,7 +538,6 @@ void mon_add_number_to_buffer(int number)
     data_buf[data_buf_len] = '\0';
 }
 
-
 void mon_add_string_to_buffer(char *str)
 {
     strcpy((char *) &(data_buf[data_buf_len]), str);
@@ -547,6 +546,15 @@ void mon_add_string_to_buffer(char *str)
     free(str);
 }
 
+static monitor_cpu_type_list_t *montor_list_new(void)
+{
+    return (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+}
+
+static void montor_list_destroy(monitor_cpu_type_list_t *list)
+{
+    free(list);
+}
 
 /* *** MISC COMMANDS *** */
 
@@ -574,15 +582,14 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     mon_ui_init();
 
-    monitor_cpu_type_list = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+    monitor_cpu_type_list = montor_list_new();
     monitor_cpu_type_list_ptr = monitor_cpu_type_list;
 
     i = 0;
     while(asmarray[i] != NULL) {
         memcpy(&(monitor_cpu_type_list_ptr->monitor_cpu_type),
                asmarray[i], sizeof(monitor_cpu_type_t));
-        monitor_cpu_type_list_ptr->next_monitor_cpu_type
-            = (monitor_cpu_type_list_t *)xmalloc(sizeof(monitor_cpu_type_list_t));
+        monitor_cpu_type_list_ptr->next_monitor_cpu_type = montor_list_new();
         monitor_cpu_type_list_ptr
             = monitor_cpu_type_list_ptr->next_monitor_cpu_type;
         monitor_cpu_type_list_ptr->next_monitor_cpu_type = NULL;
@@ -611,6 +618,29 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_interfaces[e_comp_space] = maincpu_interface_init;
     mon_interfaces[e_disk8_space] = drive8_interface_init;
     mon_interfaces[e_disk9_space] = drive9_interface_init;
+}
+
+void monitor_shutdown(void)
+{
+    monitor_cpu_type_list_t *list, *list_next;
+
+    list = monitor_cpu_type_list;
+
+    while (list != NULL) {
+        list_next = list->next_monitor_cpu_type;
+        montor_list_destroy(list);
+        list = list_next;
+    }
+}
+
+monitor_interface_t *monitor_interface_new(void)
+{
+    return (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
+}
+
+void monitor_interface_destroy(monitor_interface_t *monitor_interface)
+{
+    free(monitor_interface);
 }
 
 void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
@@ -756,7 +786,7 @@ void mon_load_symbols(MEMSPACE mem, const char *filename)
             break;
         }
         /* FIXME: Check name is a valid label name */
-        name_ptr = (char *) xmalloc((strlen(name)+1) * sizeof(char));
+        name_ptr = (char *)xmalloc((strlen(name) + 1) * sizeof(char));
         strcpy(name_ptr, name);
         mon_out("Read ($%x:%s)\n", adr, name_ptr);
         mon_add_name_to_symbol_table(new_addr(mem, adr), name_ptr);
@@ -1494,11 +1524,11 @@ void mon_close(int check)
 }
 
 
-void mon(WORD a)
+void mon(WORD address)
 {
     char prompt[40];
 
-    mon_open(a);
+    mon_open(address);
     while (!exit_mon) {
         make_prompt(prompt);
         mon_process(uimon_in(prompt));

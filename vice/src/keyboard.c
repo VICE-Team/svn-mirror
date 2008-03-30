@@ -877,3 +877,10 @@ void keyboard_init(void)
 #endif
 }
 
+void keyboard_shutdown(void)
+{
+#ifdef COMMON_KBD
+    keyboard_keyconvmap_free();
+#endif
+}
+
