@@ -134,7 +134,9 @@ libdrive_a_SOURCES = \
         fdc.h \
         fdc.c \
         riot1drive0.c \
+        riot1drive1.c \
         riot2drive0.c \
+        riot2drive1.c \
         riotd.h \
         viad.h \
         via1drive0.c \
@@ -163,8 +165,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
 libdrive_a_OBJECTS =  cia1571drive0.o cia1571drive1.o cia1581drive0.o \
 cia1581drive1.o drive.o drivecpu0.o drivecpu1.o fdc.o riot1drive0.o \
-riot2drive0.o via1drive0.o via2drive0.o via1drive1.o via2drive1.o \
-wd1770.o
+riot1drive1.o riot2drive0.o riot2drive1.o via1drive0.o via2drive0.o \
+via1drive1.o via2drive1.o wd1770.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -387,7 +389,25 @@ riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/traps.h drivecpu.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/iecdrive.h riotd.h \
 	../../src/parallel.h ../../src/riotcore.c
+riot1drive1.o: riot1drive1.c ../../src/riotcore.h ../../src/vice.h \
+	../../src/config.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/iecdrive.h riotd.h \
+	../../src/parallel.h ../../src/riotcore.c
 riot2drive0.o: riot2drive0.c ../../src/riotcore.h ../../src/vice.h \
+	../../src/config.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/riot.h drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h drivecpu.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/iecdrive.h riotd.h \
+	../../src/parallel.h ../../src/riotcore.c
+riot2drive1.o: riot2drive1.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \
 	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \

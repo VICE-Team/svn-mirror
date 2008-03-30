@@ -318,6 +318,9 @@ sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h \
 	../../src/utils.h
+soundsb.o: soundsb.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/arch/msdos/types.h ../../src/warn.h \
+	../../src/log.h ../../src/utils.h ../../src/arch/msdos/vicesb.h
 soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/warn.h
 sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \

@@ -689,10 +689,11 @@ attach.o: attach.c vice.h config.h attach.h arch/unix/types.h vdrive.h \
 	fs_cbm.h serial.h traps.h log.h snapshot.h fliplist.h \
 	resources.h
 autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
-	attach.h vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h \
-	charsets.h datasette.h tap.h fsdevice.h interrupt.h 6510core.h \
-	mem.h kbdbuf.h machine.h p00.h resources.h tape.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h zfile.h
+	arch/unix/archdep.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
+	log.h snapshot.h charsets.h datasette.h tap.h fsdevice.h \
+	interrupt.h 6510core.h mem.h kbdbuf.h machine.h p00.h \
+	resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h \
+	utils.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h charsets.h \
 	arch/unix/types.h gcr.h info.h p00.h serial.h traps.h t64.h \
 	utils.h vdrive-iec.h vdrive.h fs_cbm.h log.h zipcode.h
@@ -708,7 +709,7 @@ datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	6510core.h mem.h clkguard.h mon.h mos6510.h interrupt.h
 emuid.o: emuid.c vice.h config.h arch/unix/types.h
 findpath.o: findpath.c vice.h config.h findpath.h utils.h \
-	arch/unix/types.h
+	arch/unix/types.h arch/unix/archdep.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h arch/unix/types.h \
 	fliplist.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
 	snapshot.h
