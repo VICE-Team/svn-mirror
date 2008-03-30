@@ -56,22 +56,15 @@ typedef enum {
     UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
 } ui_button_t;
 
-/* These resources are used only by the UI modules.  */
-struct ui_resources_s {
-    char *html_browser_command;
-    int use_private_colormap;
-    int save_resources_on_exit;
-    int depth;
-};
-typedef struct ui_resources_s ui_resources_t;
-
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
+struct canvas_s;
 struct palette_s;
 
 extern int ui_proc_read_msg(char* msg, size_t size, int block);
-extern ui_window_t ui_open_canvas_window(const char *title, int width,
+extern ui_window_t ui_open_canvas_window(struct canvas_s *c,
+                                         const char *title, int width,
                                          int height, int no_autorepeat,
                                          ui_exposure_handler_t exposure_proc,
                                          const struct palette_s *p,
@@ -79,7 +72,8 @@ extern ui_window_t ui_open_canvas_window(const char *title, int width,
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
-extern int ui_canvas_set_palette(ui_window_t w, const struct palette_s *palette,
+extern int ui_canvas_set_palette(struct canvas_s *c, ui_window_t w,
+                                 const struct palette_s *palette,
                                  PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
@@ -106,8 +100,6 @@ extern void ui_create_dynamic_menues(void);
 extern void ui_check_mouse_cursor(void);
 extern void ui_update_flip_menus(int from_unit, int to_unit);
 
-extern int ui_proc_create(void);
-extern int ui_proc_wait(void);
 extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
 extern void ui_display_tape_current_image(char *image);

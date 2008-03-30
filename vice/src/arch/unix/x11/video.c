@@ -134,7 +134,7 @@ int video_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 static GC _video_gc;
-static void (*_refresh_func) ();
+static void (*_refresh_func)();
 
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
@@ -489,16 +489,19 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     ui_window_t w;
     XGCValues gc_values;
 
-    w = ui_open_canvas_window(win_name, *width, *height, 1, exposure_handler,
-			      palette, pixel_return);
+    c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
+
+    w = ui_open_canvas_window(c, win_name, *width, *height, 1,
+                              exposure_handler, palette, pixel_return);
 
     if (!_video_gc)
 	_video_gc = video_get_gc(&gc_values);
     
-    if (!w)
-	return (canvas_t *) NULL;
+    if (!w) {
+        free(c);
+	return (canvas_t *)NULL;
+    }
 
-    c = (canvas_t *)xmalloc(sizeof(struct canvas_s));
     c->emuwindow = w;
     c->width = *width;
     c->height = *height;
@@ -514,7 +517,7 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
 int canvas_set_palette(canvas_t *c, const palette_t * palette,
 		       PIXEL * pixel_return)
 {
-    return ui_canvas_set_palette(c->emuwindow, palette, pixel_return);
+    return ui_canvas_set_palette(c, c->emuwindow, palette, pixel_return);
 }
 
 /* Change the size of the canvas. */
