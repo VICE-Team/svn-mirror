@@ -26,162 +26,132 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <string.h>
+
+#include "cmdline.h"
 #include "driver-select.h"
 #include "drv-ascii.h"
+#include "resources.h"
 #include "types.h"
+#include "utils.h"
 
-int driver_select_open(int device)
+
+struct driver_select_list_s {
+    driver_select_t driver_select;
+    struct driver_select_list_s *next;
+};
+typedef struct driver_select_list_s driver_select_list_t;
+
+
+/* Names of currently used printer driver.  To be removed.  */
+static char *printer_driver[] = { NULL, NULL };
+
+/* Currently used printer driver.  */
+static driver_select_t driver_select[2];
+
+/* Pointer to registered printer driver.  */
+static driver_select_list_t *driver_select_list = NULL;
+
+
+static int set_printer_driver(resource_value_t v, void *param)
 {
-    return drv_ascii_flush(device);
+    const char *name = (const char *)v;
+    driver_select_list_t *list;
+
+    list = driver_select_list;
+
+    if (list == NULL)
+        return -1;
+
+    do {
+        if (!strcmp(list->driver_select.drv_name, name)) {
+            util_string_set(&printer_driver[(int)param], name);
+            memcpy(&driver_select[(int)param], &(list->driver_select),
+                   sizeof(driver_select_t));
+            return 0;
+        }
+        list = list->next;
+    } while (list != NULL);
+
+    return -1;
 }
 
-void driver_select_close(int fi)
-{
-    drv_ascii_flush(fi);
-}
-
-int driver_select_putc(int fi, BYTE b)
-{
-    return drv_ascii_putc(fi, b);
-}
-
-int driver_select_getc(int fi, BYTE *b)
-{
-    return drv_ascii_getc(fi, b);
-}
-
-int driver_select_flush(int fi)
-{
-    return drv_ascii_flush(fi);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#if 0
-static int set_printer_device(resource_value_t v, void *param)
-{
-    util_string_set(&PrinterDev[(int)param], (const char*)v);
-    return 0;
-}
-
-resource_t resources[] = {
-    {"PrinterDevice1", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV1,
-      (resource_value_t *)&PrinterDev[0], set_printer_device, (void *)0 },
-    {"PrinterDevice2", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV2,
-      (resource_value_t *)&PrinterDev[1], set_printer_device, (void *)1 },
-    {"PrinterDevice3", RES_STRING, (resource_value_t)PRINTER_DEFAULT_DEV3,
-      (resource_value_t *)&PrinterDev[2], set_printer_device, (void *)2 },
+static resource_t resources[] = {
+    {"Printer4Driver", RES_STRING, (resource_value_t)"ascii",
+      (resource_value_t *)&printer_driver[0], set_printer_driver, (void *)0 },
+    {"Printer5Driver", RES_STRING, (resource_value_t)"ascii",
+      (resource_value_t *)&printer_driver[1], set_printer_driver, (void *)1 },
     {NULL}
 };
 
-int output_file_init_resources(void)
+int driver_select_init_resources(void)
 {
     return resources_register(resources);
 }
 
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-prdev1", SET_RESOURCE, 1, NULL, NULL, "PrinterDevice1", NULL,
-     "<name>", N_("Specify name of printer device or dump file") },
-    { "-prdev2", SET_RESOURCE, 1, NULL, NULL, "PrinterDevice2", NULL,
-     "<name>", N_("Specify name of printer device or dump file") },
-    { "-prdev3", SET_RESOURCE, 1, NULL, NULL, "PrinterDevice3", NULL,
-     "<name>", N_("Specify name of printer device or dump file") },
+    { "-printer4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
+     "<name>", "Specify name of printer driver for device #4" },
+    { "-printer5drv", SET_RESOURCE, 1, NULL, NULL, "Printer5Driver", NULL,
+     "<name>", "Specify name of printer driver for device #5" },
     { NULL }
 };
 
-int output_file_init_cmdline_options(void)
+int driver_select_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
 }
 
-void output_file_init(void)
+
+void driver_select_init(void)
 {
+
 }
 
 
-void output_file_reset(void)
+void driver_select_register(driver_select_t *driver_select)
 {
+    driver_select_list_t *list, *prev;
+
+    prev = driver_select_list;
+    while (prev != NULL && prev->next != NULL)
+        prev = prev->next;
+
+    list = (driver_select_list_t *)xmalloc(sizeof(driver_select_list_t));
+    memcpy(&(list->driver_select), driver_select, sizeof(driver_select_t));
+    list->next = NULL;
+
+    if (driver_select_list != NULL)
+        prev->next = list;
+    else
+        driver_select_list = list;
 }
 
 
-int output_file_open(int device)
+int driver_select_open(int device)
 {
-    switch (device) {
-      case 0:
-      case 1:
-      case 2:
-        if (PrinterDev[device] == NULL)
-            return -1;
-        if (fd[device] == NULL)
-            fd[device] = fopen(PrinterDev[device], MODE_APPEND);
-        return 0;
-      default:
-        return -1;
-    }
+    return driver_select[0].drv_open(device);
 }
 
-
-void output_file_close(int fi)
+void driver_select_close(int fi)
 {
-    if (fd[fi] != NULL)
-        fclose(fd[fi]);
-    fd[fi] = NULL;
+    driver_select[0].drv_close(fi);
 }
 
-
-int output_file_putc(int fi, BYTE b)
+int driver_select_putc(int fi, BYTE b)
 {
-    if (fd[fi] == NULL)
-        return -1;
-    fputc(b, fd[fi]);
-
-#if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
-    if (b == 13)
-        fputc(10, fd[fi]);
-#endif
-
-    return 0;
+    return driver_select[0].drv_putc(fi, b);
 }
 
-
-int output_file_getc(int fi, BYTE *b)
+int driver_select_getc(int fi, BYTE *b)
 {
-    if (fd[fi] == NULL)
-        return -1;
-    *b = fgetc(fd[fi]);
-    return 0;
+    return driver_select[0].drv_getc(fi, b);
 }
 
-
-int output_file_flush(int fi)
+int driver_select_flush(int fi)
 {
-    if (fd[fi] == NULL)
-        return -1;
-    fflush(fd[fi]);
-    return 0;
+    return driver_select[0].drv_flush(fi);
 }
-#endif
 
