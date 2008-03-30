@@ -198,10 +198,10 @@ static const resource_t resources[] = {
 #ifdef COMMON_KBD
     { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_C64_DEFAULT,
       (void *)&machine_keymap_index, keyboard_set_keymap_index, NULL },
-    { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_C64_SYM,
+    { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_C64_SYM_US,
       (void *)&machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
-    { "KeymapSymDeFile", RES_STRING, (resource_value_t)KBD_C64_SYMDE,
+    { "KeymapSymDeFile", RES_STRING, (resource_value_t)KBD_C64_SYM_DE,
       (void *)&machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
     { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_C64_POS,
