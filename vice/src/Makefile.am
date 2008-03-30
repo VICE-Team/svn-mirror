@@ -117,42 +117,43 @@ bin_PROGRAMS = x64 x128 xvic xpet
 x64_SOURCES = $(base_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) @ARCH_LIBS@
+x64_DEPENDENCIES = libc64 libtrue1541 libsounddrv libarch @ARCH_LIBS@
 
 # x128
 # Notice that this works by overriding some symbols from the C64 library.
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-x128_DEPENDENCIES = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+x128_DEPENDENCIES = libc128 libc64 libtrue1541 libsounddrv libarch \
 	@ARCH_LIBS@
 
 # xvic
 xvic_SOURCES = $(base_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) @ARCH_LIBS@
+xvic_DEPENDENCIES = libvic20 libtrue1541 libsounddrv libarch @ARCH_LIBS@
 
 # xpet
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
 	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) @ARCH_LIBS@
+xpet_DEPENDENCIES = libpet libsounddrv libarch @ARCH_LIBS@
 
 
-# Special targets for building the subdirectories.  This only works
-# with GNU make, though.  FIXME?
+# Special targets to build libraries in subdirectories.
 
-.PHONY: c64 c128 vic20 pet true1541 sounddrv
-c64:
+.PHONY: libc64 libc128 libvic20 libpet libtrue1541 libsounddrv
+libc64:
 	(cd c64 && $(MAKE))
-c128:
+libc128:
 	(cd c128 && $(MAKE))
-vic20:
+libvic20:
 	(cd vic20 && $(MAKE))
-pet:
+libpet:
 	(cd pet && $(MAKE))
-true1541:
+libtrue1541:
 	(cd true1541 && $(MAKE))
-sounddrv:
+libsounddrv:
 	(cd sounddrv && $(MAKE))
+libarch:
+	(cd arch && $(MAKE))
