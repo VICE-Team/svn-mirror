@@ -360,8 +360,9 @@ int video_init(void)
 
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
-
+#if 0
     color_init();
+#endif
 
 #ifdef USE_MITSHM
     if (!try_mitshm)

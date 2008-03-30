@@ -145,7 +145,10 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 
+#if 0
     color_alloc_colors(c, palette, pixel_return);
+    return 0;
+#endif
 
     failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
@@ -173,8 +176,10 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
 	PIXEL  *xpixel = xmalloc(sizeof(PIXEL) * palette->num_entries);
 	unsigned long *ypixel = xmalloc(sizeof(unsigned long)
                                         * n_allocated_pixels);
-
+#if 0
         color_alloc_colors(c, palette, pixel_return);
+        return 0;
+#endif
 
 #if X_DISPLAY_DEPTH == 0
         video_convert_save_pixel();
@@ -230,3 +235,56 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
     return uicolor_alloc_colors(c, palette, pixel_return);
 }
 
+/*-----------------------------------------------------------------------*/
+#if 0
+int uicolor_alloc_color(unsigned int red, unsigned int green,
+                        unsigned int blue, unsigned long *color_pixel,
+                        PIXEL *pixel_return)
+{
+    XColor color;
+    XImage *im;
+    PIXEL *data = (PIXEL *)xmalloc(4);
+
+    /* This is a kludge to map pixels to zimage values. Is there a better
+       way to do this? //tvr */
+    im = XCreateImage(display, visual, ui_get_display_depth(),
+                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
+    if (!im) {
+        log_error(LOG_DEFAULT, "XCreateImage failed.");
+        return -1;
+    }
+
+    color.flags = DoRed | DoGreen | DoBlue;
+    color.red =  red << 8;
+    color.green =  green << 8;
+    color.blue = blue << 8;
+
+    if (!XAllocColor(display, colormap, &color)) {
+        log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
+                  color.red, color.green, color.blue);
+    }
+    XPutPixel(im, 0, 0, color.pixel);
+
+#if X_DISPLAY_DEPTH == 0
+    video_convert_color_table(i, pixel_return, data, im, palette,
+                             (long)color.pixel, ui_get_display_depth());
+#else
+    *pixel_return = *data;
+#endif
+
+    *color_pixel = color.pixel;
+
+    XDestroyImage(im);
+
+    return 0;
+}
+
+
+
+void uicolor_free_color(unsigned int red, unsigned int green,
+                        unsigned int blue, unsigned long color_pixel)
+{
+    if (!XFreeColors(display, colormap, &color_pixel, 1, 0))
+        log_error(LOG_DEFAULT, "XFreeColors failed.");
+}
+#endif
