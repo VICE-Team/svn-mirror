@@ -20,6 +20,11 @@ list of all the changes in the code.
 
 - Fixed color RAM support.
 
+** PET changes
+--------------
+
+- A crash at startup has been fixed.
+
 ** VIC-II
 ---------
 
@@ -326,6 +331,7 @@ list of all the changes in the code.
 
 - Added a NLS-Howto to guide new translators. Credits to Andrea
   Musuruane
+
 
 * Changes in VICE 1.7
 =====================
