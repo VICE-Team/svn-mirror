@@ -85,10 +85,10 @@ BEGIN
         BEGIN
             POPUP "M&ode"
             BEGIN
-                MENUITEM "&Normal" IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small" IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History" IDM_DEBUG_MODE_HISTORY
-                MENUITEM "&History Autoplay" IDM_DEBUG_MODE_AUTOPLAY
+                MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
+                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
             MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
