@@ -730,6 +730,8 @@ cartridge ROM images instead of disk images.
 
    * Retro Replay images.
 
+   * IDE64 interface cartridge.  (`http://www.volny.cz/dundera/')
+
    * Super Snapshot 4 images.
 
    * Super Snapshot 5 images.
@@ -748,6 +750,9 @@ command.
 
    Attaching the IEEE488 cartridge automatically enables the IEEE488
 interface emulation on the `$DF**' I/O ports.
+
+   Attaching the IDE64 cartridge automatically enables the IDE64
+interface emulation on the `$DE**' I/O ports.
 
 
 File: vice.info,  Node: VIC-II settings,  Next: SID settings,  Prev: C64 cartridges,  Up: C64/128-specific
