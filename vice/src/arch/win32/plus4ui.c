@@ -37,12 +37,12 @@
 #include "ui.h"
 #include "uidriveplus4.h"
 #include "uilib.h"
+#include "uiplus4mem.h"
 #include "uivideo.h"
 #include "winmain.h"
-#include "uiplus4mem.h"
 
 
-static const ui_menu_toggle plus4_ui_menu_toggles[] = {
+static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -51,7 +51,7 @@ static const ui_menu_toggle plus4_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-static const ui_res_value_list plus4_ui_res_values[] = {
+static const ui_res_value_list_t plus4_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
 

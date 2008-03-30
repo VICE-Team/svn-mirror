@@ -33,7 +33,6 @@
 #include "petui.h"
 #include "res.h"
 #include "resources.h"
-#include "sid.h"
 #include "ui.h"
 #include "uicbm2set.h"
 #include "uidrivepetcbm2.h"
@@ -42,14 +41,14 @@
 #include "winmain.h"
 
 
-static const ui_menu_toggle cbm2_ui_menu_toggles[] = {
+static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
     { NULL, 0 }
 };
 
-static const ui_res_value_list cbm2_ui_res_values[] = {
+static const ui_res_value_list_t cbm2_ui_res_values[] = {
     { NULL, NULL, 0 }
 };
 

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -48,23 +49,26 @@ typedef enum {
     UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
 } ui_button_t;
 
-typedef struct {
+struct ui_menu_toggle_s {
     /* Name of resource.  */
     const char *name;
     /* ID of the corresponding menu item.  */
     UINT item_id;
-} ui_menu_toggle;
+};
+typedef struct ui_menu_toggle_s ui_menu_toggle_t;
 
-typedef struct {
+struct ui_res_possible_values_s {
     int value;
     UINT item_id; /* The last item_id has to be zero.  */
-} ui_res_possible_values;
+};
+typedef struct ui_res_possible_values_s ui_res_possible_values_t;
 
-typedef struct {
+struct ui_res_value_list_s {
     const char *name;
-    const ui_res_possible_values *vals;
+    const ui_res_possible_values_t *vals;
     UINT default_item_id;
-} ui_res_value_list;
+};
+typedef struct ui_res_value_list_s ui_res_value_list_t;
 
 extern int  ui_active;
 extern HWND ui_active_window;
@@ -86,8 +90,8 @@ extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 typedef void (*ui_machine_specific_t) (WPARAM wparam, HWND hwnd);
 
 extern void ui_register_machine_specific(ui_machine_specific_t func);
-extern void ui_register_menu_toggles(const ui_menu_toggle *toggles);
-extern void ui_register_res_values(const ui_res_value_list *valuelist);
+extern void ui_register_menu_toggles(const ui_menu_toggle_t *toggles);
+extern void ui_register_res_values(const ui_res_value_list_t *valuelist);
 
 /* ------------------------------------------------------------------------ */
 

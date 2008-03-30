@@ -39,7 +39,7 @@
 #include "winmain.h"
 
 
-static const ui_menu_toggle pet_ui_menu_toggles[] = {
+static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
@@ -51,7 +51,7 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
     switch (wparam) {
       case IDM_PET_SETTINGS:
         ui_pet_settings_dialog(hwnd);
-		break;
+        break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
         break;
