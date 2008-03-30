@@ -94,6 +94,8 @@ libarch_a_SOURCES = \
 	uivicii.c \
 	uivicset.h \
 	uivicset.c \
+	uivideo.c \
+	uivideo.h \
 	vic20kbd.c \
 	vic20ui.c \
 	vic20ui.h \

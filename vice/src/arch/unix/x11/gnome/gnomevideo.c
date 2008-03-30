@@ -110,8 +110,11 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
 	  e.g. 	gdk_window_destroy(GDK_WINDOW(i->canvas->drawable));
 	  FIXME!
 	*/
+        i->canvas = dangling_canvas;
 	ui_finish_canvas(dangling_canvas);
 	dangling_canvas = NULL;
+    } else {
+        i->canvas = NULL;
     }
  
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
