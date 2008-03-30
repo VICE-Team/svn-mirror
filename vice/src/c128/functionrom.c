@@ -93,30 +93,34 @@ static int set_external_function_rom_name(resource_value_t v, void *param)
     return functionrom_load_external();
 }
 
-static const resource_t resources[] =
+static const resource_string_t resources_string[] =
 {
-    { "InternalFunctionROM", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&internal_function_rom_enabled,
-      set_internal_function_rom_enabled, NULL },
-    { "InternalFunctionName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&internal_function_rom_name,
+    { "InternalFunctionName", "", RES_EVENT_NO, NULL,
+      &internal_function_rom_name,
       set_internal_function_rom_name, NULL },
-    { "ExternalFunctionROM", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&external_function_rom_enabled,
-      set_external_function_rom_enabled, NULL },
-    { "ExternalFunctionName", RES_STRING, (resource_value_t)"",
-      RES_EVENT_NO, NULL,
-      (void *)&external_function_rom_name,
+    { "ExternalFunctionName", "", RES_EVENT_NO, NULL,
+      &external_function_rom_name,
       set_external_function_rom_name, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] =
+{
+    { "InternalFunctionROM", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &internal_function_rom_enabled,
+      set_internal_function_rom_enabled, NULL },
+    { "ExternalFunctionROM", 0, RES_EVENT_NO, NULL,
+      &external_function_rom_enabled,
+      set_external_function_rom_enabled, NULL },
     { NULL }
 };
 
 int functionrom_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void functionrom_resources_shutdown(void)
