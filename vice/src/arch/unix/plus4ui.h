@@ -1,5 +1,5 @@
 /*
- * icon.h
+ * plus4ui.h - Implementation of the Plus4-specific part of the UI.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef _ICON_H
-#define _ICON_H
+#ifndef _PLUS4UI_H
+#define _PLUS4UI_H
 
-extern const char *c128_icon_data[];
-extern const char *c610_icon_data[];
-extern const char *c64_icon_data[];
-extern const char *pet_icon_data[];
-extern const char *plus4_icon_data[];
-extern const char *vic20_icon_data[];
+extern int plus4_ui_init(void);
 
 #endif
 

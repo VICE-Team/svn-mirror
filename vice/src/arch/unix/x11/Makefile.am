@@ -24,6 +24,7 @@ libx11ui_a_SOURCES = \
 	kbd.c \
 	kbdef.h \
 	peticon.c \
+	plus4icon.c \
 	ui-cmdline-options.c \
 	ui-resources.c \
 	uihotkey.c \

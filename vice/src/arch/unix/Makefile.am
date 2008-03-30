@@ -44,6 +44,8 @@ libarch_a_SOURCES = \
 	petkmap.c \
 	petui.c \
 	petui.h \
+	plus4ui.c \
+	plus4ui.h \
 	rs232.c \
 	types.h \
 	ui.h \
