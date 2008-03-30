@@ -256,7 +256,7 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/envelope.h ../../src/resid/filter.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
 	../../src/resid/pot.h ../../src/vice.h ../../src/config.h \
-	../../src/log.h sid.h ../../src/snapshot.h \
+	../../src/fixpoint.h ../../src/log.h sid.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h ../../src/sound.h ../../src/warn.h \
 	../../src/utils.h
 sid.o: sid.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \

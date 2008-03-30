@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.15
+VERSION=1.1.16
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6900,6 +6900,10 @@ rm -f conftest*
   XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
 
   
+
+  if test -z "$WINDRES" ; then
+    WINDRES="windres"
+  fi
 
   
 

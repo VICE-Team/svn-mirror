@@ -239,16 +239,16 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
 	../../src/crtc/crtc-mem.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/raster/raster-cache.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/datasette.h \
-	../../src/tap.h ../../src/drive/drive.h ../../src/diskimage.h \
-	../../src/gcr.h ../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/raster/raster-sprite.h ../../src/arch/unix/video.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/datasette.h ../../src/tap.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/drive/drivecpu.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
@@ -275,12 +275,12 @@ c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
 	c610cia.h c610tpi.h ../../src/ciacore.c ../../src/ciatimer.h
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/mem.h \
-	../../src/snapshot.h ../maincpu.c ../vice.h ../maincpu.h \
-	../6510core.h ../alarm.h ../log.h ../clkguard.h ../mem.h \
-	../mon.h ../interrupt.h ../snapshot.h ../mos6510.h \
-	../datasette.h ../tap.h ../machine.h ../traps.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../6510core.c
+	../../src/snapshot.h ../maincpu.c ../vice.h ../6510core.h \
+	../alarm.h ../log.h ../clkguard.h ../datasette.h ../tap.h \
+	../interrupt.h ../snapshot.h ../machine.h ../maincpu.h ../mem.h \
+	../mon.h ../mos6510.h ../traps.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../6510core.c
 c610datasette.o: c610datasette.c ../../src/vice.h ../../src/config.h \
 	c610cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
 	c610tpi.h
@@ -293,35 +293,33 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h c610cia.h c610mem.h c610tpi.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
 	../../src/alarm.h ../../src/log.h ../../src/crtc/crtc-mem.h \
-	../../src/raster/raster.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
+	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/emuid.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/maincpu.h ../../src/clkguard.h ../../src/mem.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/sid/sid.h \
-	../../src/sysfile.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/vsync.h
+	../../src/raster/raster-sprite.h ../../src/arch/unix/video.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/maincpu.h ../../src/clkguard.h \
+	../../src/mem.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/sid/sid.h ../../src/sysfile.h ../../src/tape.h \
+	../../src/traps.h ../../src/utils.h ../../src/vsync.h
 c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h ../../src/tpi.h c610cia.h \
 	../../src/crtc/crtc.h ../../src/alarm.h \
 	../../src/crtc/crtc-mem.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/uiapi.h ../../src/resources.h \
-	../../src/raster/raster-cache.h \
+	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/datasette.h \
+	../../src/raster/raster-sprite.h ../../src/arch/unix/video.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h ../../src/datasette.h \
 	../../src/tap.h ../../src/drive/drive.h ../../src/diskimage.h \
 	../../src/gcr.h ../../src/drive/drivecpu.h ../../src/clkguard.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/6510core.h \

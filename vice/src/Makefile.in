@@ -598,9 +598,9 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	sound.h warn.h sysfile.h tape.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h uiapi.h utils.h arch/unix/video.h \
 	vsync.h arch/unix/mouse.h
-maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h \
-	arch/unix/types.h alarm.h log.h clkguard.h mem.h snapshot.h \
-	mon.h interrupt.h mos6510.h datasette.h tap.h machine.h traps.h \
+maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
+	alarm.h log.h clkguard.h datasette.h tap.h interrupt.h \
+	snapshot.h machine.h maincpu.h mem.h mon.h mos6510.h traps.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h palette.h uiapi.h 6510core.c
 mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	snapshot.h arch/unix/types.h asm.h charsets.h diskimage.h gcr.h \
