@@ -38,14 +38,12 @@
 
 #include <string.h>
 
+#include "diskimage.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
 #include "vdrive.h"
 
 extern char *slot_type[]; /* FIXME: Away with this!  */
-extern char sector_map_1541[43];
-extern char sector_map_1571[71];
-extern char pet_sector_map[78];
 
 static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
                                  int type){
@@ -96,7 +94,7 @@ static void vdrive_dir_free_chain(DRIVE *floppy, int t, int s)
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (vdrive_check_track_sector(floppy->ImageFormat, t, s) < 0)
+        if (disk_image_check_sector(floppy->ImageFormat, t, s) < 0)
         break;
         /* Check if this sector is really allocated.  */
         if (!vdrive_bam_free_sector(floppy->ImageFormat, floppy->bam, t, s))
@@ -248,9 +246,10 @@ BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
     if (floppy->find_length < 0) {
         int sector;
         switch (floppy->ImageFormat) {
-          case 1541:
-            for (sector = 1; sector < sector_map_1541[DIR_TRACK_1541];
-                sector++) {
+          case DISK_IMAGE_TYPE_D64:
+            for (sector = 1;
+                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64,
+                DIR_TRACK_1541); sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1541,
                                                     sector);
@@ -258,24 +257,26 @@ BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
                     return dirbuf;
             }
             break;
-          case 1571:
-            for (sector = 1; sector < sector_map_1571[DIR_TRACK_1571];
-                sector++) {
+          case DISK_IMAGE_TYPE_D71:
+            for (sector = 1;
+                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D71,
+                DIR_TRACK_1571); sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1571,
                                                     sector);
                 if (dirbuf != NULL)
                     return dirbuf;
             }
-            for (sector = 0; sector < sector_map_1571[DIR_TRACK_1571 + 35];
-                sector++) {
+            for (sector = 0;
+                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D71,
+                DIR_TRACK_1571 + 35); sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1571 + 35,                                                    sector);
                 if (dirbuf != NULL)
                     return dirbuf;
             }
             break;
-          case 1581:
+          case DISK_IMAGE_TYPE_D81:
             for (sector = 3; sector < NUM_SECTORS_1581; sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_1581,
@@ -284,10 +285,11 @@ BYTE *vdrive_dir_find_next_slot(DRIVE *floppy)
                     return dirbuf;
             }
             break;
-          case 8050:
-          case 8250:
-            for (sector = 1; sector < pet_sector_map[DIR_TRACK_8050];
-                sector++) {
+          case DISK_IMAGE_TYPE_D80:
+          case DISK_IMAGE_TYPE_D82:
+            for (sector = 1;
+                sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D80,
+                DIR_TRACK_8050); sector++) {
                 BYTE *dirbuf;
                 dirbuf = find_next_directory_sector(floppy, DIR_TRACK_8050,
                                                     sector);

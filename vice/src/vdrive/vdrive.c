@@ -75,30 +75,6 @@
 
 log_t vdrive_log = LOG_ERR;
 
-/* FIXME: `drive.c' needs this arrays too.  */
-char sector_map_1541[43] =
-{
-    0,
-    21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/*  1 - 10 */
-    21, 21, 21, 21, 21, 21, 21, 19, 19, 19,	/* 11 - 20 */
-    19, 19, 19, 19, 18, 18, 18, 18, 18, 18,	/* 21 - 30 */
-    17, 17, 17, 17, 17,                    	/* 31 - 35 */
-    17, 17, 17, 17, 17, 17, 17		/* Tracks 36 - 42 are non-standard. */
-};
-
-char sector_map_1571[71] =
-{
-    0,
-    21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/*  1 - 10 */
-    21, 21, 21, 21, 21, 21, 21, 19, 19, 19,	/* 11 - 20 */
-    19, 19, 19, 19, 18, 18, 18, 18, 18, 18,	/* 21 - 30 */
-    17, 17, 17, 17, 17,                    	/* 31 - 35 */
-    21, 21, 21, 21, 21, 21, 21, 21, 21, 21,	/* 36 - 45 */
-    21, 21, 21, 21, 21, 21, 21, 19, 19, 19,	/* 46 - 55 */
-    19, 19, 19, 19, 18, 18, 18, 18, 18, 18,	/* 56 - 65 */
-    17, 17, 17, 17, 17                     	/* 66 - 70 */
-};
-
 int speed_map_1541[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
                            1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -110,19 +86,6 @@ int speed_map_1571[70] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
                            3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
                            1, 1, 1, 1, 0, 0, 0, 0, 0 };
-
-char pet_sector_map[78] =
-{
-    0,
-    29, 29, 29, 29, 29, 29, 29, 29, 29, 29,	/*  1 - 10 */
-    29, 29, 29, 29, 29, 29, 29, 29, 29, 29,	/* 11 - 20 */
-    29, 29, 29, 29, 29, 29, 29, 29, 29, 29,	/* 21 - 30 */
-    29, 29, 29, 29, 29, 29, 29, 29, 29, 27,	/* 31 - 40 */
-    27, 27, 27, 27, 27, 27, 27, 27, 27, 27,	/* 41 - 50 */
-    27, 27, 27, 25, 25, 25, 25, 25, 25, 25,	/* 51 - 60 */
-    25, 25, 25, 25, 23, 23, 23, 23, 23, 23,	/* 61 - 70 */
-    23, 23, 23, 23, 23, 23, 23			/* 71 - 77 */
-};
 
 /* Keeps the number of entries deleted with the `S' command */
 static int deleted_files;
@@ -182,10 +145,7 @@ errortext_t floppy_error_messages[] =
 /* ------------------------------------------------------------------------- */
 
 
-int initialize_1541(int dev, int type,
-                    drive_attach_func_t attach_func,
-                    drive_detach_func_t detach_func,
-                    DRIVE *oldinfo)
+int initialize_1541(int dev, int type, DRIVE *oldinfo)
 {
     DRIVE *floppy;
     int i;
@@ -235,9 +195,6 @@ int initialize_1541(int dev, int type,
             return(-1);
         }
     }
-
-    floppy->attach_func = attach_func;
-    floppy->detach_func = detach_func;
     vdrive_command_set_error(&floppy->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
@@ -1134,70 +1091,6 @@ static int  get_disk_error(DRIVE *floppy, int track, int sector)
 /* ------------------------------------------------------------------------- */
 
 /*
- * Check that requested Track and Sector are within limits.
- * Return the index number of the block.
- */
-
-int vdrive_check_track_sector(int format, int track, int sector)
-{
-    int sectors = 0, i;
-
-    if (track < 1 || sector < 0)
-        return (-1);
-
-    switch (format) {
-      case 1541:
-        if (track > MAX_TRACKS_1541 || sector >= sector_map_1541[track])
-            return (-1);
-        for (i = 1; i < track; i++)
-            sectors += sector_map_1541[i];
-        sectors += sector;
-        break;
-      case 1571:
-        if (track > MAX_TRACKS_1571)
-            return (-1);
-        if (track > NUM_TRACKS_1541) {		/* The second side */
-            track -= NUM_TRACKS_1541;
-            sectors = NUM_BLOCKS_1541;
-        }
-        if (sector >= sector_map_1541[track])
-            return (-1);
-        for (i = 1; i < track; i++)
-            sectors += sector_map_1541[i];
-        sectors += sector;
-        break;
-      case 1581:
-        if (track > MAX_TRACKS_1581 || sector >=  NUM_SECTORS_1581)
-            return (-1);
-        sectors = (track - 1) * NUM_SECTORS_1581 + sector;
-        break;
-      case 8050:
-        if (track > MAX_TRACKS_8050 || sector >= pet_sector_map[track])
-            return (-1);
-        for (i = 1; i < track; i++)
-            sectors += pet_sector_map[i];
-        sectors += sector;
-        break;
-      case 8250:
-        if (track > MAX_TRACKS_8250)
-            return (-1);
-        if (track > NUM_TRACKS_8050) {		/* The second side */
-            track -= NUM_TRACKS_8050;
-            sectors = NUM_BLOCKS_8050;
-        }
-        if (sector >= pet_sector_map[track])
-            return (-1);
-        for (i = 1; i < track; i++)
-            sectors += pet_sector_map[i];
-        sectors += sector;
-        break;
-      default:
-        sectors = -1;
-    }
-    return (sectors);
-}
-
-/*
  * Return block offset on 'disk file' according to track and sector
  */
 
@@ -1206,7 +1099,7 @@ static off_t offset_from_track_and_sector(int format, int track,
 {
     int     sectors;
 
-    if ((sectors = vdrive_check_track_sector(format, track, sector)) < 0)
+    if ((sectors = disk_image_check_sector(format, track, sector)) < 0)
 	return -1;
 
 #ifdef DEBUG_DRIVE
@@ -1309,20 +1202,19 @@ int vdrive_calculate_disk_half(int type)
 int vdrive_get_max_sectors(int type, int track)
 {
     switch (type) {
-      case 1541:
-        return sector_map_1541[track];
-      case 1571:
-        return sector_map_1571[track];
-      case 1581:
+      case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_D71:
+      case DISK_IMAGE_TYPE_D80:
+        return disk_image_sector_per_track(type, track);
+      case DISK_IMAGE_TYPE_D81:
         return 40;
-      case 8050:
-        return pet_sector_map[track];
-      case 8250:
-	if (track <= NUM_TRACKS_8250 / 2) {
-            return pet_sector_map[track];
-	} else {
-            return pet_sector_map[track - (NUM_TRACKS_8250 / 2)];
-	}
+      case DISK_IMAGE_TYPE_D82:
+        if (track <= NUM_TRACKS_8250 / 2) {
+            return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track);
+        } else {
+            return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track
+                                               - (NUM_TRACKS_8250 / 2));
+        }
     }
     return -1;
 }
@@ -1333,242 +1225,87 @@ int vdrive_get_max_sectors(int type, int track)
  * Functions to attach the disk image files.
  */
 
-void detach_floppy_image(DRIVE *floppy)
+void vdrive_detach_image(disk_image_t *image, int unit, DRIVE *floppy)
 {
+    switch(image->type) {
+      case DISK_IMAGE_TYPE_D64:
+        log_message(vdrive_log, "Unit %d: D64 disk image detached: %s.",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D71:
+        log_message(vdrive_log, "Unit %d: D71 disk image detached: %s.",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D81:
+        log_message(vdrive_log, "Unit %d: D81 disk image detached: %s.",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D80:
+        log_message(vdrive_log, "Unit %d: D80 disk image detached: %s.",
+                    unit, image->name);
+        break;
+      case DISK_IMAGE_TYPE_D82:
+        log_message(vdrive_log, "Unit %d: D82 disk image detached: %s.",
+                    unit, image->name);
+        break;
+      default:
+        return;
+    }
+
     floppy_close_all_channels(floppy);
 
-    if (floppy->ActiveFd != NULL) {
-        log_message(vdrive_log, "Detaching disk image %s from unit %i.",
-                    floppy->ActiveName, floppy->unit);
-        if (floppy->detach_func != NULL)
-            floppy->detach_func(floppy);
-        zfclose(floppy->ActiveFd);
-        floppy->ActiveFd = NULL;
-        floppy->ActiveName[0] = 0; /* Name is used as flag */
-    }
+    floppy->ActiveFd = NULL;
+    floppy->ActiveName[0] = 0; /* Name is used as flag */
 }
 
-void vdrive_detach_image(disk_image_t *image)
+int vdrive_attach_image(disk_image_t *image, int unit, DRIVE *floppy)
 {
-    if (image->name != NULL)
-        free(image->name);
-}
-
-int vdrive_attach_image(disk_image_t *image, DRIVE *floppy,
-                        const char *filename)
-{
-    disk_image_t new_image;
-
-    if (!filename) {
-        log_error(vdrive_log, "No name, cannot attach floppy image.");
-        return -1;
-    }
-
-    new_image.name = stralloc(filename);
-
-    if (disk_image_open(&new_image) < 0) {
-        free(new_image.name);
-        log_error(vdrive_log, "Cannot open file `%s'.", filename);
-        return -1;
-    }
-
-    vdrive_detach_image(image);
-
-    memcpy(image, &new_image, sizeof(disk_image_t));
-
     /* Compatibily cruft (soon to be removed).  */
-    floppy->ImageFormat = new_image.type;
-    floppy->ActiveFd = new_image.fd;
-    strcpy(floppy->ActiveName, new_image.name);
-    floppy->NumTracks  = new_image.tracks;
-    floppy->NumBlocks  = num_blocks(new_image.type, new_image.tracks);
+    floppy->ImageFormat = image->type;
+    floppy->ActiveFd = image->fd;
+    strcpy(floppy->ActiveName, image->name);
+    floppy->NumTracks  = image->tracks;
+    floppy->NumBlocks  = num_blocks(image->type, image->tracks);
     floppy->ErrFlg = 0;
 
-    floppy->D64_Header = (new_image.type == DISK_IMAGE_TYPE_D64
-                         || new_image.type == DISK_IMAGE_TYPE_D71
-                         || new_image.type == DISK_IMAGE_TYPE_D81
-                         || new_image.type == DISK_IMAGE_TYPE_D80
-                         || new_image.type == DISK_IMAGE_TYPE_D82) ? 1 : 0;
-    floppy->GCR_Header = (new_image.type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
+    floppy->D64_Header = (image->type == DISK_IMAGE_TYPE_D64
+                         || image->type == DISK_IMAGE_TYPE_D71
+                         || image->type == DISK_IMAGE_TYPE_D81
+                         || image->type == DISK_IMAGE_TYPE_D80
+                         || image->type == DISK_IMAGE_TYPE_D82) ? 1 : 0;
+    floppy->GCR_Header = (image->type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
 
     /* Initialise format constants */
-    set_disk_geometry(floppy, new_image.type);
+    set_disk_geometry(floppy, image->type);
 
     vdrive_bam_read_bam(floppy);
 
-    switch(new_image.type) {
+    switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(vdrive_log, "Unit %d: D64 disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
+        log_message(vdrive_log, "Unit %d: D64 disk image attached: %s.",
+                    floppy->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(vdrive_log, "Unit %d: D71 disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
+        log_message(vdrive_log, "Unit %d: D71 disk image attached: %s.",
+                    floppy->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D81:
-        log_message(vdrive_log, "Unit %d: D81 disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
+        log_message(vdrive_log, "Unit %d: D81 disk image attached: %s.",
+                    floppy->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D80:
-        log_message(vdrive_log, "Unit %d: D80 disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
+        log_message(vdrive_log, "Unit %d: D80 disk image attached: %s.",
+                    floppy->unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D82:
-        log_message(vdrive_log, "Unit %d: D82 disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
+        log_message(vdrive_log, "Unit %d: D82 disk image attached: %s.",
+                    floppy->unit, image->name);
         break;
-      case DISK_IMAGE_TYPE_GCR:
-        log_message(vdrive_log, "Unit %d: GCR disk image attached: %s%s.",
-                    floppy->unit, new_image.name,
-                    floppy->ReadOnly ? " (read only)" : "");
-        break;
+      default:
+        return -1;
     }
-
     return 0;
 }
-
-#if 0
-int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
-{
-    int DType;
-    FILE *fd;
-    hdrinfo hdr;
-
-
-    if (!(floppy->type & DT_DISK)) {
-        log_error(vdrive_log,
-                  "Incompatible emulator mode for drive %d: FS Device.",
-                  floppy->unit);
-        return -1;
-    }
-
-    if (!name) {
-        log_error(vdrive_log, "No name, cannot attach floppyimage.");
-        return -1;
-    }
-
-
-    fd = zfopen(name, MODE_READ_WRITE);
-
-    /* If we cannot open the image read/write, try to open it read only. */
-    if (fd == NULL) {
-        fd = zfopen(name, MODE_READ);
-        floppy->ReadOnly = 1;
-    } else {
-        floppy->ReadOnly = 0;
-    }
-
-    if (fd == NULL) {
-        log_error(vdrive_log, "Cannot open file `%s'.", name);
-        return -1;
-    } else{
-        if (check_header(fd, &hdr)) {
-            log_error(vdrive_log,
-                      "File `%s' was not recognized as a disk image in unit %d.",
-                      name, floppy->unit);
-            zfclose(fd);
-            return (-2);
-        }
-        if (hdr.v_major > HEADER_VERSION_MAJOR
-            || (hdr.v_major == HEADER_VERSION_MAJOR
-            && hdr.v_minor > HEADER_VERSION_MINOR)) {
-            log_error(vdrive_log, "Disk image file `%s' (V %d.%02d) "
-                      "version higher than emulator (V %d.%02d).",
-                      name, hdr.v_major, hdr.v_minor,
-                      HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
-            zfclose(fd);
-            return (-2);
-        }
-
-
-        /*
-         * Check that the disk format on the image is compatible.
-         */
-
-        DType = get_diskformat(hdr.devtype);
-        if (DType < 0) {
-            log_error(vdrive_log, "Disk drive type mismatch for unit %d.",
-                      floppy->unit);
-            /*
-             * mode defines what to do if the attached disk image is
-             * altered or incompatible
-             */
-             return (-2);
-        }
-
-        detach_floppy_image(floppy);
-
-        floppy->ImageFormat = DType;
-        floppy->ActiveFd = fd;
-        strcpy(floppy->ActiveName, name);
-
-        floppy->NumTracks  = hdr.tracks;
-        floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
-        floppy->ErrFlg     = hdr.errblk;
-        floppy->D64_Header = hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82;
-        floppy->GCR_Header = hdr.gcr;
-
-        if (floppy->attach_func != NULL) {
-            if (floppy->attach_func(floppy) < 0) {
-                log_error(vdrive_log, "Unit %d: Wrong disk type.",
-                          floppy->unit);
-                zfclose(floppy->ActiveFd);
-                floppy->ActiveFd = NULL;
-                floppy->ActiveName[0] = 0;
-                return -1;
-            }
-        }
-
-        /* Initialise format constants */
-        set_disk_geometry(floppy, DType);
-
-        /* Initialize */
-        if (hdr.errblk)
-            set_error_data(floppy, 3);      /* clear or read error data */
-
-        vdrive_bam_read_bam(floppy);
-
-        if (hdr.d64)
-            log_message(vdrive_log, "Unit %d: D64 disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-        if (hdr.d71)
-            log_message(vdrive_log, "Unit %d: D71 disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-        if (hdr.d81)
-            log_message(vdrive_log, "Unit %d: D81 disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-        if (hdr.d80)
-            log_message(vdrive_log, "Unit %d: D80 disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-        if (hdr.d82)
-            log_message(vdrive_log, "Unit %d: D82 disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-        if (hdr.gcr)
-            log_message(vdrive_log, "Unit %d: GCR disk image attached: %s%s.",
-                        floppy->unit, name,
-                        floppy->ReadOnly ? " (read only)" : "");
-
-        if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.d80 | hdr.d82 | hdr.gcr))
-            log_message(vdrive_log,
-                        "Unit %d: VICE disk image version %d.%02d "
-                        "attached (CBM%d format%s): `%s'.",
-                        floppy->unit, hdr.v_major, hdr.v_minor, DType,
-                        floppy->ReadOnly ? ", read only" : "", name);
-    }
-
-    return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 
