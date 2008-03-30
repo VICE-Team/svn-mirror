@@ -108,7 +108,8 @@
 /* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:
-   Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95 Free Software Foundation, Inc.
+   Copyright (C) 1988, 89, 90, 91, 92, 93, 94, 95
+     Free Software Foundation, Inc.
    It makes sure `GET_PATH_MAX' is set to the maximum length of path strings.
    Notice that `GET_PATH_MAX' might call a function!  */
 
