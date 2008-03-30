@@ -328,7 +328,7 @@ ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h plus4mem.h ../../src/mem.h plus4tia1.h \
 	ted-resources.h tedtypes.h ../../src/alarm.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	ted-mem.h ted-timer.h ted.h
+	ted-mem.h ted-sound.h ted-timer.h ted.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ted-resources.h tedtypes.h \
 	../../src/alarm.h ../../src/arch/unix/types.h ../../src/log.h \
@@ -343,7 +343,8 @@ ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ted-sound.h \
+	../../src/maincpu.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/sound.h ted-sound.h \
 	../../src/utils.h
 ted-timer.o: ted-timer.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
@@ -360,8 +361,9 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/screenshot.h ../../src/snapshot.h \
 	ted-cmdline-options.h ted-color.h ted-draw.h ted-mem.h \
 	ted-resources.h tedtypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ted-snapshot.h ted-timer.h \
-	ted.h ../../src/utils.h ../../src/vsync.h ../../src/video.h
+	../../src/raster/raster-changes.h ted-snapshot.h ted-sound.h \
+	ted-timer.h ted.h ../../src/utils.h ../../src/vsync.h \
+	../../src/video.h
 
 info-am:
 info: info-am

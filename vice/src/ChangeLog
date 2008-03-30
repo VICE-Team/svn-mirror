@@ -1,3 +1,41 @@
+2002-01-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.53.
+
+	* plus4/plus4mem.c: Removed support for separate video banks.
+	(mem_proc_port_read): Use IEC read function.
+	(mem_initialize_memory): Fixed write pointer.
+	(pio1_read, pio1_store): New functions.
+	(rom_ffxx_read, rom_ffxx_store, ram_ffxx_read,
+	ram_ffxx_store, rom_read): Fixed banking.
+
+	* plus4/ted.c (ted_fetch_color): New functions.
+	(do_matrix_fetch): Added separate color fetch DMA.
+
+	* plus4/tedtypes.h: Removed `ted_fetch_idx_t'.
+
+	* plus4/ted-sound.c, plus4/ted-sound.h (ted_sound_read,
+	ted_sound_store): New functions.  First try of implementing
+	sound.
+
+	* plus4/ted-mem.c (ted_store, ted_read, ted_peek): Added calls
+	to TED sound.
+	(ted12_store): Care about bit #2..5 only.
+
+	* vicii/vicii-color.c: Commented out `vic_ii_color_dither'.
+
+	* plus4/ted-color.c, vic20/vic-color.c, vicii/vicii-color.c:
+	Removed comma at end of struct video_cbm_palette_t.
+
+	* maincpu.c: Removed `EVALUATE_SPEED' hack.
+
+	* vic20/vic20sound.c, vic20/vic20sound.h, vic20/vic-mem.c
+	(store_vic_sound): Renamed.
+
+	* vic20/vic20sound.c, pet/petsound.c
+	(sound_machine_dump_state): Use `xmsprintf()'.
+	(sound_machine_open): Clear the entire malloc'ed struct.
+
 2001-12-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.52.
