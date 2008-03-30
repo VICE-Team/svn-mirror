@@ -360,3 +360,8 @@ int vsid_ui_exit(void)
   ui_proc_wait();
   return 0;
 }
+
+void vsid_set_tune(char *msg)
+{
+    ui_proc_write_msg(msg);
+}

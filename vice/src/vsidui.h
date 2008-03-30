@@ -30,5 +30,7 @@
 extern int vsid_ui_init(void);
 extern int vsid_ui_exit(void);
 
+extern void vsid_set_tune(char *msg);
+
 #endif
 

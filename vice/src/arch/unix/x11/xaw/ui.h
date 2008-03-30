@@ -85,7 +85,6 @@ extern int screen;
 extern Visual *visual;
 extern int depth;
 
-extern void ui_proc_write_msg(char* msg);
 extern int ui_proc_read_msg(char* msg, size_t size, int block);
 
 /* ------------------------------------------------------------------------- */
