@@ -126,12 +126,13 @@ inline static void alarm_context_update_next_pending(alarm_context_t *context)
     context->next_pending_alarm_idx = next_pending_alarm_idx;
 }
 
-inline static void alarm_context_dispatch(alarm_context_t *context, CLOCK clk)
+inline static void alarm_context_dispatch(alarm_context_t *context,
+                                          CLOCK cpu_clk)
 {
     long offset;
     unsigned int idx;
 
-    offset = (long) (clk - context->next_pending_alarm_clk);
+    offset = (long) (cpu_clk - context->next_pending_alarm_clk);
     if (offset < 0)
         return;
 
@@ -140,7 +141,7 @@ inline static void alarm_context_dispatch(alarm_context_t *context, CLOCK clk)
     (context->pending_alarms[idx].alarm->callback)((CLOCK)(offset));
 }
 
-inline static void alarm_set(alarm_t *alarm, CLOCK clk)
+inline static void alarm_set(alarm_t *alarm, CLOCK cpu_clk)
 {
     alarm_context_t *context;
     int idx;
@@ -160,12 +161,12 @@ inline static void alarm_set(alarm_t *alarm, CLOCK clk)
         }
 
         context->pending_alarms[new_idx].alarm = alarm;
-        context->pending_alarms[new_idx].clk = clk;
+        context->pending_alarms[new_idx].clk = cpu_clk;
 
         context->num_pending_alarms++;
 
-        if (clk < context->next_pending_alarm_clk) {
-            context->next_pending_alarm_clk = clk;
+        if (cpu_clk < context->next_pending_alarm_clk) {
+            context->next_pending_alarm_clk = cpu_clk;
             context->next_pending_alarm_idx = new_idx;
         }
 
@@ -173,8 +174,8 @@ inline static void alarm_set(alarm_t *alarm, CLOCK clk)
     } else {
         /* Already pending: modify.  */
 
-        context->pending_alarms[idx].clk = clk;
-        if (context->next_pending_alarm_clk > clk
+        context->pending_alarms[idx].clk = cpu_clk;
+        if (context->next_pending_alarm_clk > cpu_clk
             || idx == context->next_pending_alarm_idx)
             alarm_context_update_next_pending(context);
     }

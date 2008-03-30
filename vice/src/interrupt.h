@@ -164,7 +164,7 @@ extern void interrupt_log_wrong_nnmi(void);
 
 /* Set the IRQ line state.  */
 _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
-		                 CLOCK clk)
+                                 CLOCK cpu_clk)
 {
     if (value) {		/* Trigger the IRQ.  */
 	if (!(cs->pending_int[int_num] & IK_IRQ)) {
@@ -175,8 +175,8 @@ _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
 #ifdef HANDLE_INTERRUPT_DELAY
 	    /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
-	    if (cs->last_stolen_cycles_clk <= clk) {
-  	        cs->irq_clk = clk;
+	    if (cs->last_stolen_cycles_clk <= cpu_clk) {
+  	        cs->irq_clk = cpu_clk;
 	    } else {
 		cs->irq_clk = cs->last_stolen_cycles_clk - 1;
 	    }
@@ -196,7 +196,7 @@ _INT_FUNC void interrupt_set_irq(cpu_int_status_t *cs, int int_num, int value,
 
 /* Set the NMI line state.  */
 _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
-                                 CLOCK clk)
+                                 CLOCK cpu_clk)
 {
     if (value) {                /* Trigger the NMI.  */
         if (!(cs->pending_int[int_num] & IK_NMI)) {
@@ -205,8 +205,8 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
 #ifdef HANDLE_INTERRUPT_DELAY
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
-                if (cs->last_stolen_cycles_clk <= clk) {
-                    cs->nmi_clk = clk;
+                if (cs->last_stolen_cycles_clk <= cpu_clk) {
+                    cs->nmi_clk = cpu_clk;
                 } else {
                     cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
                 }
@@ -222,7 +222,7 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
             if (cs->nnmi > 0) {
                 cs->nnmi--;
                 cs->pending_int[int_num] &= ~IK_NMI;
-                if (clk == cs->nmi_clk)
+                if (cpu_clk == cs->nmi_clk)
                     cs->global_pending_int &= ~IK_NMI;
             } else
                 interrupt_log_wrong_nnmi();
@@ -230,7 +230,7 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
     }
 }
 
-_INT_FUNC void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     cs->global_pending_int |= IK_DMA;
 }
@@ -245,10 +245,10 @@ _INT_FUNC void interrupt_ack_dma(cpu_int_status_t *cs)
    `interrupt_set_irq()', but is left for backward compatibility (it works
    like the old `setirq()').  */
 _INT_FUNC void interrupt_set_int(cpu_int_status_t *cs, int int_num,
-		                 enum cpu_int value, CLOCK clk)
+		                 enum cpu_int value, CLOCK cpu_clk)
 {
-    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
-    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
+    interrupt_set_nmi(cs, int_num, (int)(value & IK_NMI), cpu_clk);
+    interrupt_set_irq(cs, int_num, (int)(value & IK_IRQ), cpu_clk);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -262,7 +262,7 @@ _INT_FUNC enum cpu_int interrupt_check_pending_interrupt(cpu_int_status_t *cs)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-_INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -271,7 +271,7 @@ _INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
     if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
 	nmi_clk++;
 
-    if (clk >= nmi_clk)
+    if (cpu_clk >= nmi_clk)
 	return 1;
 
     return 0;
@@ -280,7 +280,7 @@ _INT_FUNC int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-_INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
+_INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 
@@ -291,7 +291,7 @@ _INT_FUNC int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK clk)
 
     /* If an opcode changes the I flag from 1 to 0, the 6510 needs
        one more opcode before it triggers the IRQ routine.  */
-    if (clk >= irq_clk && !OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
+    if (cpu_clk >= irq_clk && !OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr))
 	return 1;
 
     return 0;
@@ -352,12 +352,12 @@ extern void interrupt_ack_dma(cpu_int_status_t *cs);
 
 struct snapshot_module_s;
 
-extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK clk);
+extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(cpu_int_status_t *cs);
 extern void interrupt_trigger_trap(cpu_int_status_t *cs,
                                    void (*trap_func)(ADDRESS, void *data),
-                                   void *data, CLOCK clk);
-extern void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS reg_pc);
+                                   void *data, CLOCK cpu_clk);
+extern void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS address);
 
 extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
 extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);
