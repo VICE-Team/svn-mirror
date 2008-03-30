@@ -820,7 +820,7 @@ static int compress(const char *src, const char *dest,
 #endif
 	if (dest_backup_name != NULL && rename(dest, dest_backup_name) < 0) {
 	    ZDEBUG(("failed."));
-	    log_error(LOG_DEFAULT, "Could not make pre-compression backup.");
+	    log_error(zlog, "Could not make pre-compression backup.");
 	    return -1;
 	} else {
 	    ZDEBUG(("OK."));
@@ -927,10 +927,8 @@ static int handle_close_action(struct zfile *ptr)
 	break;
 */
     case ZFILE_DEL:
-printf("zfile_close_action(%d): file='%s', request_str='%s'\n",
-		ptr->action, ptr->orig_name, ptr->request_string);
         if (remove_file(ptr->orig_name) < 0)
-	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+	    log_error(zlog, "Cannot unlink `%s': %s",
                   ptr->orig_name, strerror(errno));
 	break;
     }
@@ -953,7 +951,7 @@ static int handle_close(struct zfile *ptr)
 
         /* Remove temporary file.  */
         if (remove_file(ptr->tmp_name) < 0)
-	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+	    log_error(zlog, "Cannot unlink `%s': %s",
                   ptr->tmp_name, strerror(errno));
     }
 
@@ -1044,7 +1042,7 @@ int zclose_all(void)
 	        return -1;
 	    }
 	    if (remove_file(p->tmp_name) < 0)
-                log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
+                log_error(zlog, "Cannot unlink `%s': %s",
                       p->tmp_name, strerror(errno));
 	}
 
@@ -1085,5 +1083,4 @@ int zfile_close_action(const char *filename, zfile_action_t action,
     free(fullname);
     return -1;
 }
-
 

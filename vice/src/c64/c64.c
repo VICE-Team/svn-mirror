@@ -517,7 +517,7 @@ void machine_change_timing(int timeval)
       default:
         log_error(c64_log, "Unknown machine timing.");
     }
-printf("RF: %i CY: %i\n",(int)rfsh_per_sec,(int)cycles_per_second);
+
     vsync_set_machine_parameter(rfsh_per_sec, cycles_per_second);
 }
 

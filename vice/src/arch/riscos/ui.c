@@ -341,6 +341,8 @@ static const char ResourceDriveDir[] = "DRIVES";
 #define Icon_Conf_C128Size	5
 #define Icon_Conf_C1284080	6
 #define Icon_Conf_C128z80bios	8
+#define Icon_Conf_C128dblsize	9
+#define Icon_Conf_C128dblscan	10
 
 
 
@@ -997,6 +999,8 @@ static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_VDCcache[] = "VDC_VideoCache";
 static const char Rsrc_VDCsize[] = "VDC_64KB";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
+static const char Rsrc_VDCdblsze[] = "VDC_DoubleSize";
+static const char Rsrc_VDCdblscn[] = "VDC_DoubleScan";
 
 /*static const char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
@@ -1887,6 +1891,8 @@ static config_item Configurations[] = {
   {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Cache}},
   {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Size}},
   {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128z80bios}},
+  {Rsrc_VDCdblsze, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblsize}},
+  {Rsrc_VDCdblscn, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblscan}},
   {NULL, 0, {0, 0}}
 };
 
