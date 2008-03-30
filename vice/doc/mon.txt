@@ -17,16 +17,238 @@ prompt = [X,R:Y,W:Z]
          Z = default write memory space
 ###
 
-COMMAND: sidefx
-ABBREVIATIONS: none
-SYNTAX: sidefx [on|off|toggle]
+COMMAND: add_label
+ABBREVIATIONS: al
+SYNTAX: add_label <address> <label>
 
-FUNCTION: This command controls how monitor generated
-reads affect memory locations that have read side-effects.
-If the argument is 'on' then reads may cause side-effects.
-If the argument is 'off' then reads don't cause side-effects.
-If the argument is 'toggle' then the current mode is switched.
-No argument displays the current state.
+FUNCTION: This function maps a given address to a label.
+This label can be used when entering assembly code and is shown
+during disassembly.
+ TODO: Allow label to specify address in commands.
+
+
+COMMAND: Assemble
+ABBREVIATIONS: a
+SYNTAX: a <address> [ <instruction> [: <instruction>]* ]
+
+FUNCTION: Assemble instructions to the specified address.
+If more than one instruction is given, the command does not
+cause the monitor to enter assembly mode.
+
+COMMAND: bank
+ABBREVIATIONS: b
+SYNTAX: bank <number>
+
+FUNCTION: None yet.
+
+
+COMMAND: block read
+ABBREVIATIONS: none
+SYNTAX: br <track> <sector> [<address>]
+
+FUNCTION: This command reads the block at the specified track
+and sector. If an address is specified, the data is loaded into
+memory. If no address is given, the data is displayed on the 
+screen using the default datatype.
+
+
+COMMAND: block write
+ABBREVIATIONS: none
+SYNTAX: bw <track> <sector> <address>
+
+FUNCTION: This command writes a block of data at address
+to the specified track and sector. 
+
+
+COMMAND: set or list breakpoints
+ABBREVIATIONS: none
+SYNTAX: break [<address> [if <cond_expr>] ]
+
+FUNCTION: This command allows setting a breakpoint or
+listing the current breakpoints. If no address is given,
+the currently valid checkpoints are printed. If an address
+is given, a breakpoint is set for that address and the
+breakpoint number is printed. A conditional expression can
+also be specified for the breakpoint. For more information
+on conditions, see the CONDITION command.
+
+
+COMMAND: Enter monitor on break.
+ABBREVIATIONS: none
+SYNTAX: brmon
+
+FUNCTION: None yet. Will toggle monitor entry on BRK.
+
+
+COMMAND: Change directory.
+ABBREVIATIONS: none
+SYNTAX: cd <directory>
+
+FUNCTION: Change the working directory.
+
+
+COMMAND: enable and disable checkpoints
+ABBREVIATIONS: none
+SYNTAX: enable/disable <checknum>
+
+FUNCTION: Each checkpoint can be enabled or disabled. This
+command allows changing between these states.
+
+
+COMMAND: Set a command to execute on checkpoint.
+ABBREVIATIONS: none
+SYNTAX: command <check_num> "<command>"
+
+FUNCTION: When checkpoint check_num is hit, the specified
+command is executed by the monitor. Note that the 'x' command
+is not yet supported as a command argument.
+
+
+COMMAND: Compare memory contents.
+ABBREVIATIONS: c
+SYNTAX: compare <address_range> <address>
+
+FUNCTION: Compare memory from the source specified by the address range to
+the destination specified by the address. The regions may overlap. Any values
+that miscompare are displayed using the default displaytype.
+
+
+COMMAND: Add a condition to a checkpoint.
+ABBREVIATIONS: cond
+SYNTAX: condition <checknum> if <cond_expr>
+
+FUNCTION: Each time the specified checkpoint is examined, the
+condition is evaluated. If it evalutes to true, the checkpoint
+is activated. Otherwise, it is ignores. If registers are specified
+in the expression, the values used are those at the time the
+checkpoint is examined, not when the condition is set.
+ TODO: Add memory dereferencing.
+
+
+COMMAND: Delete a label.
+ABBREVIATIONS: dl
+SYNTAX: delete_label [<memspace>] <label>
+
+FUNCTION: The specified label is removed from label tables. If
+no memspace is checked, all tables are checked.
+
+
+COMMAND: Delete checkpoint.
+ABBREVIATIONS: del
+SYNTAX: delete <check_num>
+
+FUNCTION: Delete the specified checkpoint.
+
+
+COMMAND: Set the default device to read/write memory.
+ABBREVIATIONS: none
+SYNTAX: device [c:|d:]
+
+FUNCTION: Set the default memory device to either the computer
+or the disk. This is equivalent to setting both the default
+readspace and the default writespace.
+
+
+COMMAND: Disassemble instructions.
+ABBREVIATIONS: none
+SYNTAX: d [<address> [<address>]]
+
+FUNCTION: Disassemble instructions. If two addresses are specified,
+they are used as a start and end address. If only one is specified, it
+is treated as the start address and a default number of instructions
+are disassembled. If no addresses are specified, a default number of
+instructions are disassembled from the dot address.
+
+
+COMMAND: Disk command.
+ABBREVIATIONS: none
+SYNTAX: @<disk command>
+
+FUNCTION: Perform a disk command on the currently attached disk
+image. The specified disk command is sent to the drive's channel #15.
+ TODO: Allow drives other than 8, and support for GCR images.
+
+
+COMMAND: Change displaytype.
+ABBREVIATIONS: dt
+SYNTAX: displaytype data_type
+
+FUNCTION: This command sets the default data displaytype.
+
+
+COMMAND: Dump/undump machine state.
+ABBREVIATIONS: none
+SYNTAX: dump/undump
+
+FUNCTION: Save and restore machine state.
+
+
+COMMAND: exit
+ABBREVIATIONS: x
+SYNTAX: exit
+
+FUNCTION: Leave the monitor and return to execution.
+
+
+COMMAND: Fill memory contents.
+ABBREVIATIONS: f
+SYNTAX: fill <address_range> <data_list>
+
+FUNCTION: Fill memory in the specified address range with the
+data in <data_list>. If the size of the address range is greater
+than the size of the data_list, the data_list is repeated.
+
+
+COMMAND: goto
+ABBREVIATIONS: none
+SYNTAX: goto <address>
+
+FUNCTION: Change the PC to address and continue execution.
+
+
+COMMAND: Help.
+ABBREVIATIONS: ?
+SYNTAX: help [topic]
+
+FUNCTION: Nothing yet.
+
+
+COMMAND: Hunt memory for data.
+ABBREVIATIONS: h
+SYNTAX: hunt <address_range> <data_list>
+
+FUNCTION: Hunt memory in the specified address range for the
+data in <data_list>. If the data is found, the starting address
+of the match is displayed. The entire range is searched for all
+possible matches. 
+
+
+COMMAND: Ignore checkpoints.
+ABBREVIATIONS: none
+SYNTAX: ignore <checknum> [<count>]
+
+FUNCTION: This command allows ignoring a checkpoint
+a given number of crossings. If no count is given, the
+default value is 1.
+
+
+COMMAND: display memory contents
+ABBREVIATIONS: none
+SYNTAX: m [data_type] [address_opt_range]
+
+FUNCTION: Display the contents of memory. If no datatype
+is given, the default is used. If only address is specified,
+the length of data displayed is based on the datatype. If
+no addresses are given, the 'dot' address is used.
+
+
+COMMAND: move memory contents
+ABBREVIATIONS: t
+SYNTAX: move address_range address 
+SYNTAX: transfer address_range address 
+
+FUNCTION: Move memory from the source specified by the address range to
+the destination specified by the address. The regions may overlap.
 
 
 COMMAND: registers
@@ -46,34 +268,16 @@ FUNCTION: This command continues the execution of the 6502 and returns
 to the monitor just before(after?) the next RTS or RTI is executed.
 
 
-COMMAND: block read
+COMMAND: sidefx
 ABBREVIATIONS: none
-SYNTAX: br track sector [address]
+SYNTAX: sidefx [on|off|toggle]
 
-FUNCTION: This command reads the block at the specified track
-and sector. If an address is specified, the data is loaded into
-memory. If no address is given, the data is displayed on the 
-screen using the default datatype.
-
-
-COMMAND: block write
-ABBREVIATIONS: none
-SYNTAX: bw track sector address
-
-FUNCTION: This command writes a block of data at address
-to the specified track and sector. 
-
-
-COMMAND: set or list breakpoints
-ABBREVIATIONS: none
-SYNTAX: break [address]
-
-FUNCTION: This command allows setting a breakpoint or
-listing the current breakpoints. If no address is given,
-the currently valid checkpoints are printed. If an address
-is given, a breakpoint is set for that address and the
-breakpoint number is printed.
-
+FUNCTION: This command controls how monitor generated
+reads affect memory locations that have read side-effects.
+If the argument is 'on' then reads may cause side-effects.
+If the argument is 'off' then reads don't cause side-effects.
+If the argument is 'toggle' then the current mode is switched.
+No argument displays the current state.
 
 
 COMMAND: set or list tracepoints
@@ -99,107 +303,9 @@ an address or range of addresses. If no addresses are given,
 a list of all the checkpoints is printed.
 
 
-COMMAND: enable and disable checkpoints
-ABBREVIATIONS: none
-SYNTAX: enable/disable checknum
-
-FUNCTION: Each checkpoint can be enabled or disabled. This
-command allows changing between these states.
-
-
-COMMAND: ignore
-ABBREVIATIONS: none
-SYNTAX: ignore check_num [count]
-
-FUNCTION: This command allows ignoring a checkpoint
-a given number of crossings. If no count is given, the
-default value is 1.
-
-
-COMMAND: move memory contents
-ABBREVIATIONS: t
-SYNTAX: move address_range address 
-SYNTAX: transfer address_range address 
-
-FUNCTION: Move memory from the source specified by the address range to
-the destination specified by the address. The regions may overlap.
-
-
-COMMAND: compare memory contents
-ABBREVIATIONS: c
-SYNTAX: compare address_range address 
-
-FUNCTION: Compare memory from the source specified by the address range to
-the destination specified by the address. The regions may overlap. Any values
-that miscompare are displayed using the default displaytype.
-
-
-COMMAND: goto
-ABBREVIATIONS: none
-SYNTAX: goto address
-
-FUNCTION: Change the PC to address and continue execution.
-
-
-COMMAND: delete checkpoint
-ABBREVIATIONS: none
-SYNTAX: delete check_num
-
-FUNCTION: Delete the specified checkpoint.
-
-
-COMMAND: exit
-ABBREVIATIONS: x
-SYNTAX: exit
-
-FUNCTION: Leave the monitor and return to execution.
-
-
-COMMAND: Change displaytype.
-ABBREVIATIONS: dt
-SYNTAX: displaytype data_type
-
-FUNCTION: This command sets the default data displaytype.
-
-
-COMMAND: Dump/undump machine state.
-ABBREVIATIONS: none
-SYNTAX: dump/undump
-
-FUNCTION: Save and restore machine state.
-
-
-COMMAND: display memory contents
-ABBREVIATIONS: none
-SYNTAX: m [data_type] [address_opt_range]
-
-FUNCTION: Display the contents of memory. If no datatype
-is given, the default is used. If only address is specified,
-the length of data displayed is based on the datatype. If
-no addresses are given, the 'dot' address is used.
-
-
-COMMAND: set a command to execute on checkpoint
-ABBREVIATIONS: none
-SYNTAX: command check_num "your_command"
-
-FUNCTION: When checkpoint check_num is hit, the specified
-command is executed by the monitor. Note that the 'x' command
-is not yet supported as a command argument.
-
-
-COMMAND: set the default device to read/write memory
-ABBREVIATIONS: none
-SYNTAX: device [c|d]
-
-FUNCTION: Set the default memory device to either the computer
-or the disk. This is equivalent to setting both the default
-readspace and the default writespace.
-
-
 ---------------
 
- There are some more undocumented commands. See mon_cli.l and mon_cli.y
+ There are some more undocumented commands. See mon_cmd_array[] in mon.c.
 
 ----------------
 

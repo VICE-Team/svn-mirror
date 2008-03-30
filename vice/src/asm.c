@@ -392,6 +392,8 @@ char *modename[] = {
 
 /* local */
 
+#if 0
+/* DS : NO LONGER USED */
 static int interpret_line(char *, ADDRESS *, int );
 int interpret_instr(char *, ADDRESS , int );
 int find_instr(char *);
@@ -905,3 +907,4 @@ static int parse_arguments(ADDRESS adr, int code, char *line, BYTE *arg, int *le
 
     return E_SYNTAX;	/* Illegal address mode */
 }
+#endif

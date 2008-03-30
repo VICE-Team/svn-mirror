@@ -49,6 +49,20 @@ typedef int bool;
 #define LO32_TO_HI32(x) (((x)&0xffffffff)<<16)
 #define HI32_TO_LO32(x) (((x)>>16)&0xffffffff)
 
+struct mon_cmds {
+   char *str;
+   char *abbrev;
+   int token;
+   int next_state;
+};
+
+#define STATE_INITIAL  0
+#define STATE_FNAME    1
+#define STATE_REG_ASGN 2
+#define STATE_ROL      3
+
+extern struct mon_cmds mon_cmd_array[];
+
 enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
@@ -82,6 +96,9 @@ enum t_memspace {
    e_invalid_space
 };
 typedef enum t_memspace MEMSPACE;
+
+#define FIRST_SPACE e_comp_space
+#define LAST_SPACE e_disk_space
 
 typedef unsigned int M_ADDR;
 
@@ -137,6 +154,7 @@ struct t_cond_node {
    int value;
    int reg_num;
    bool is_reg;
+   bool is_parenthized;
    struct t_cond_node *child1;
    struct t_cond_node *child2;
 };
@@ -275,7 +293,10 @@ extern void add_number_to_buffer(int number);
 extern void add_string_to_buffer(char *str);
 void monitor_init(monitor_interface_t *maincpu_interface,
                   monitor_interface_t *true1541_interface_init);
-extern void print_help(void);
+extern void print_help(int cmd_num);
+extern int cmd_lookup_index(char *str);
+extern int cmd_get_token(int index);
+extern int cmd_get_next_state(int index);
 extern void start_assemble_mode(M_ADDR addr, char *asm_line);
 extern void disassemble_lines(M_ADDR_RANGE range);
 extern void display_memory(int data_type, M_ADDR_RANGE range);
@@ -316,6 +337,10 @@ extern void print_symbol_table(MEMSPACE mem);
 extern void free_symbol_table(MEMSPACE mem);
 extern void mon_load_symbols(MEMSPACE mem, char *filename);
 extern void mon_save_symbols(MEMSPACE mem, char *filename);
+extern void record_commands(char *filename);
+extern void end_recording(void);
+extern void playback_commands(char *filename);
+extern void execute_disk_command(char *cmd);
 
 extern void watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
