@@ -354,7 +354,7 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
      * If ActiveName exists, the file may have been temporarily closed.
      */
 
-   if (floppy->ActiveFd == ILLEGAL_FILE_DESC
+   if (floppy->ActiveFd == NULL
        && p->mode != BUFFER_COMMAND_CHANNEL
        && secondary != 15
        && *name != '#') {
@@ -364,8 +364,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
    }
 
 #ifdef DEBUG_DRIVE
-    fprintf(logfile, "VDRIVE#%i: OPEN: FD = %d - Name '%s' (%d) on ch %d\n",
-	        floppy->unit, (int)(floppy->ActiveFd), name, length, secondary);
+    fprintf(logfile, "VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d\n",
+	        floppy->unit, floppy->ActiveFd, name, length, secondary);
 #endif
 #ifdef __riscos
     ui_set_drive_leds(floppy->unit - 8, 1);
