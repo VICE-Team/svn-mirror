@@ -52,11 +52,6 @@
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/AsciiText.h>
 
-#ifdef XPM
-#include <X11/xpm.h>
-#include "icon.h"
-#endif
-
 #include <X11/keysym.h>
 
 #ifdef HAVE_X11_SUNKEYSYM_H
@@ -69,33 +64,13 @@
 
 #include "ui.h"
 #include "uimenu.h"
-#include "serial.h"
-#include "interrupt.h"
-#include "patchlevel.h"
-#include "info.h"
-#include "vsync.h"
-#include "mem.h"
-#include "sound.h"
-#include "drive.h"
-#include "tape.h"
+#include "machine.h"
 #include "resources.h"
 #include "cmdline.h"
-#include "mon.h"
 #include "utils.h"
-#include "kbd.h"
-#include "true1541.h"
-#include "attach.h"
-#include "autostart.h"
+#include "vsync.h"
 
-#ifdef HAS_JOYSTICK
-#include "joystick.h"
-#endif
-
-#ifdef REU
-#include "reu.h"
-#endif
-
-/* These are used by video_x.[ch].  FIXME: I (EP) want these to be static.  */
+/* FIXME: We want these to be static.  */
 Display *display;
 int screen;
 Visual *visual;
@@ -192,16 +167,14 @@ static int popped_up_count = 0;
 /* Left-button and right-button menu.  */
 static Widget left_menu, right_menu;
 
+/* Translations for the left and right menus.  */
+static XtTranslations left_menu_translations, right_menu_translations;
+
 /* Application context. */
 static XtAppContext app_context;
 
 /* This is needed to catch the `Close' command from the Window Manager. */
 static Atom wm_delete_window;
-
-#ifdef XPM
-/* Icon.  */
-static Pixmap icon_pixmap;
-#endif
 
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
@@ -211,6 +184,9 @@ static Widget xdebugger;
 
 /* Our colormap. */
 static Colormap colormap;
+
+/* Application icon.  */
+static Pixmap icon_pixmap;
 
 /* This allows us to pop up the transient shells centered to the last visited
    shell. */
@@ -461,15 +437,15 @@ int ui_init_finish(void)
 	XtDestroyWidget(_ui_top_level);
 
 	/* Create the new _ui_top_level. */
-	_ui_top_level = XtVaAppCreateShell(EMULATOR, "VICE",
-                                       applicationShellWidgetClass, display,
-                                       XtNvisual, visual,
-                                       XtNdepth, depth,
-                                       XtNcolormap, colormap,
-                                       XtNmappedWhenManaged, False,
-                                       XtNwidth, 1,
-                                       XtNheight, 1,
-                                       NULL);
+	_ui_top_level = XtVaAppCreateShell(machine_name, "VICE",
+                                           applicationShellWidgetClass, display,
+                                           XtNvisual, visual,
+                                           XtNdepth, depth,
+                                           XtNcolormap, colormap,
+                                           XtNmappedWhenManaged, False,
+                                           XtNwidth, 1,
+                                           XtNheight, 1,
+                                           NULL);
 	XtRealizeWidget(_ui_top_level);
 
 	/* Set the `WM_COMMAND' property in the new _ui_top_level. */
@@ -481,12 +457,6 @@ int ui_init_finish(void)
 	    XtFree(wm_command_data);
 	}
     }
-
-#ifdef XPM
-    /* Create the icon pixmap. */
-    XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
-			    &icon_pixmap, NULL, NULL);
-#endif
 
     wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
 
@@ -504,7 +474,6 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     static int menus_created = 0;
-    XtTranslations translations;
     Widget shell, canvas, pane, speed_label;
     Widget drive_track_label, drive_led;
     XSetWindowAttributes attr;
@@ -524,10 +493,6 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     shell = XtVaCreatePopupShell(title, applicationShellWidgetClass,
                                  _ui_top_level, XtNinput, True, XtNtitle, title,
                                  XtNiconName, title, NULL);
-
-#ifdef XPM
-    XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
-#endif
 
     pane = XtVaCreateManagedWidget("Form", formWidgetClass, shell,
                                    XtNdefaultDistance, 2,
@@ -603,18 +568,16 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
                                             NULL);
     }
 
-    /* Assign proper translations to open the menus. */
+    /* Assign proper translations to open the menus, if already
+       defined.  */
+    if (left_menu_translations != NULL)
+        XtOverrideTranslations(canvas, left_menu_translations);
+    if (right_menu_translations != NULL)
+        XtOverrideTranslations(canvas, right_menu_translations);
 
-    translations = XtParseTranslationTable
-  	("<Btn1Down>: XawPositionSimpleMenu(LeftMenu) MenuPopup(LeftMenu)\n"
-	 "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(LeftMenu) MenuPopup(LeftMenu)\n"
-	 "Lock <Btn1Down>: XawPositionSimpleMenu(LeftMenu) MenuPopup(LeftMenu)\n"
-	 "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(LeftMenu) MenuPopup(LeftMenu)\n"
-	 "<Btn3Down>: XawPositionSimpleMenu(RightMenu) MenuPopup(RightMenu)\n"
-	 "@Num_Lock<Btn3Down>: XawPositionSimpleMenu(RightMenu) MenuPopup(RightMenu)\n"
-	 "Lock <Btn3Down>: XawPositionSimpleMenu(RightMenu) MenuPopup(RightMenu)\n"
-	 "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(RightMenu) MenuPopup(RightMenu)\n");
-    XtOverrideTranslations(canvas, translations);
+    /* Attach the icon pixmap, if already defined.  */
+    if (icon_pixmap)
+        XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
 
     if (no_autorepeat) {
 	XtAddEventHandler(canvas, EnterWindowMask, False,
@@ -648,18 +611,64 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     return canvas;
 }
 
+/* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(Widget w)
 {
+    char *translation_table;
+    char *name = XtName(w);
+    int i;
+
+    printf("Attaching left menu, name `%s'\n", name);
+
+    translation_table =
+        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+               "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               NULL);
+    left_menu_translations = XtParseTranslationTable(translation_table);
+    free(translation_table);
+
+    for (i = 0; i < num_app_shells; i++)
+        XtOverrideTranslations(app_shells[i].canvas, left_menu_translations);
+
     if (left_menu != NULL)
-        XtDestroyWidget(w);
+        XtDestroyWidget(left_menu);
     left_menu = w;
 }
 
+/* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(Widget w)
 {
+    char *translation_table;
+    char *name = XtName(w);
+    int i;
+
+    printf("Attaching right menu, name `%s'\n", name);
+
+    translation_table =
+        concat("<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "@Num_Lock<Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+               "@Scroll_Lock <Btn3Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               NULL);
+    right_menu_translations = XtParseTranslationTable(translation_table);
+    free(translation_table);
+
+    for (i = 0; i < num_app_shells; i++)
+        XtOverrideTranslations(app_shells[i].canvas, right_menu_translations);
+
     if (right_menu != NULL)
-        XtDestroyWidget(w);
+        XtDestroyWidget(right_menu);
     right_menu = w;
+}
+
+void ui_set_application_icon(Pixmap icon_pixmap)
+{
+    int i;
+
+    for (i = 0; i < num_app_shells; i++)
+        XtVaSetValues(app_shells[i].shell, XtNiconPixmap, icon_pixmap, NULL);
 }
 
 /* ------------------------------------------------------------------------- */

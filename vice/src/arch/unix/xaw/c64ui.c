@@ -33,6 +33,13 @@
 #include "uicommands.h"
 #include "uisettings.h"
 
+#ifdef XPM
+#include <X11/xpm.h>
+#include "c64icon.xpm"
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
@@ -93,6 +100,17 @@ static ui_menu_entry_t c64_menu[] = {
 
 int c64_ui_init(void)
 {
+#ifdef XPM
+    {
+        Pixmap icon_pixmap;
+
+        /* Create the icon pixmap. */
+        XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
+                                &icon_pixmap, NULL, NULL);
+        ui_set_application_icon(icon_pixmap);
+    }
+#endif
+
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,

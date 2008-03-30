@@ -68,6 +68,11 @@ extern _ui_resources_t _ui_resources;
 
 extern Widget _ui_top_level;
 
+extern Display *display;
+extern int screen;
+extern Visual *visual;
+extern int depth;
+
 /* ------------------------------------------------------------------------- */
 
 extern int ui_init_resources(void);
@@ -77,6 +82,7 @@ extern int ui_init(int *argc, char **argv);
 extern int ui_init_finish(void);
 extern void ui_set_left_menu(Widget w);
 extern void ui_set_right_menu(Widget w);
+extern void ui_set_application_icon(Pixmap icon_pixmap);
 extern ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
@@ -103,6 +109,5 @@ extern int ui_extend_image_dialog(void);
 extern Widget ui_create_transient_shell(Widget parent, const char *name);
 extern void ui_popdown(Widget w);
 extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
-
 
 #endif /* !defined (_UI_XAW_H) */
