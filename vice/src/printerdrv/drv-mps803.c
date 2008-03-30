@@ -33,17 +33,40 @@
 #include "driver-select.h"
 #include "log.h"
 #include "output-select.h"
+#include "output.h"
+#include "palette.h"
 #include "sysfile.h"
 #include "types.h"
 #include "utils.h"
-#include "drv-mps803.h"
+
+#define MAX_COL 480
+#define MAX_ROW 66 * 9
 
 #define MPS803_ROM_SIZE (7 * 512)
-#define MPS803_ROM_FONT_OFFSET 0
+
+#define MPS_REVERSE 0x01
+#define MPS_CRSRUP  0x02
+#define MPS_BITMODE 0x04
+#define MPS_DBLWDTH 0x08
+#define MPS_REPEAT  0x10
+#define MPS_ESC     0x20
+
+struct mps_s
+{
+    BYTE line[MAX_COL][7];
+    int  bitcnt;
+    int  repeatn;
+    int  pos;
+    int  tab;
+    BYTE tabc[3];
+    int  mode;
+};
+typedef struct mps_s mps_t;
 
 /* We will make this dynamic later.  */
 static BYTE charset[512][7];
-mps_t drv_mps803[3];
+static mps_t drv_mps803[3];
+static palette_t *palette;
 
 /* Logging goes here.  */
 static log_t drv803_log = LOG_ERR;
@@ -61,7 +84,7 @@ static void del_mode(mps_t *mps, int m)
     mps->mode &= ~m;
 }
 
-int is_mode(mps_t *mps, int m)
+static int is_mode(mps_t *mps, int m)
 {
     return mps->mode & m;
 }
@@ -103,7 +126,25 @@ static void print_cbm_char(mps_t *mps, char c)
 
 static void write_line(mps_t *mps, unsigned int prnr)
 {
-    output_select_writeline(prnr);
+    int x, y;
+
+    for (y = 0; y < 7; y++) {
+        for (x = 0; x < 480; x++)
+            output_select_putc(prnr, mps->line[x][y] ? OUTPUT_PIXEL_BLACK
+                               : OUTPUT_PIXEL_WHITE);
+        output_select_putc(prnr, OUTPUT_NEWLINE);
+    }
+
+    if (!is_mode(mps, MPS_BITMODE)) {
+        /* bitmode:  9 rows/inch (7lines/row * 9rows/inch=63 lines/inch) */
+        /* charmode: 6 rows/inch (7lines/row * 6rows/inch=42 lines/inch) */
+        /*   --> 63lines/inch - 42lines/inch = 21lines/inch missing */
+        /*   --> 21lines/inch / 9row/inch = 3lines/row missing */
+        output_select_putc(prnr, OUTPUT_NEWLINE);
+        output_select_putc(prnr, OUTPUT_NEWLINE);
+        output_select_putc(prnr, OUTPUT_NEWLINE);
+    }
+
     mps->pos=0;
 }
 
@@ -280,7 +321,7 @@ static int init_charset(BYTE charset[512][7], const char *name)
         return -1;
     }
 
-    memcpy(charset, &romimage[MPS803_ROM_FONT_OFFSET], MPS803_ROM_SIZE);
+    memcpy(charset, romimage, MPS803_ROM_SIZE);
 
     return 0;
 }
@@ -290,10 +331,16 @@ static int init_charset(BYTE charset[512][7], const char *name)
 
 static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 {
-    if (secondary==7)
+    output_parameter_t output_parameter;
+
+    output_parameter.maxcol = MAX_COL;
+    output_parameter.maxrow = MAX_ROW;
+    output_parameter.palette = palette;
+
+    if (secondary == 7)
         set_mode(&drv_mps803[prnr], MPS_CRSRUP);
 
-    return output_select_open(prnr);
+    return output_select_open(prnr, &output_parameter);
 }
 
 static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
@@ -333,10 +380,27 @@ int drv_mps803_init_resources(void)
     return 0;
 }
 
-void drv_mps803_init(void)
+int drv_mps803_init(void)
 {
+    static const char *color_names[2] =
+    {
+      "Black", "White"
+    };
+
     drv803_log = log_open("MPS-803");
 
     init_charset(charset, "mps803");
+
+    palette = palette_create(2, color_names);
+
+    if (palette == NULL)
+        return -1;
+
+    if (palette_load("mps803.vpl", palette) < 0) {
+        log_error(drv803_log, "Cannot load palette file `%s'.", "mps803.vpl");
+        return -1;
+    }
+
+    return 0;
 }
 
