@@ -116,35 +116,22 @@ static ui_file_selector_style_type styles[] = {
 static char* ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
 
 
-static char *read_image_contents(unsigned int type, const char *name)
-{
-    image_contents_t *contents;
-    char *s;
-
-    contents = image_contents_read(type, name, 0);
-
-    if (contents == NULL)
-        return NULL;
-
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
-    image_contents_destroy(contents);
-
-    return s;
-}
-
 static char *read_disk_image_contents(const char *name)
 {
-    return read_image_contents(IMAGE_CONTENTS_DISK, name);
+    return image_contents_read_string(IMAGE_CONTENTS_DISK, name, 0,
+                                      IMAGE_CONTENTS_STRING_PETSCII);
 }
 
 static char *read_tape_image_contents(const char *name)
 {
-    return read_image_contents(IMAGE_CONTENTS_TAPE, name);
+    return image_contents_read_string(IMAGE_CONTENTS_TAPE, name, 0,
+                                      IMAGE_CONTENTS_STRING_PETSCII);
 }
 
 static char *read_disk_or_tape_image_contents(const char *name)
 {
-    return read_image_contents(IMAGE_CONTENTS_AUTO, name);
+    return image_contents_read_string(IMAGE_CONTENTS_AUTO, name, 0,
+                                      IMAGE_CONTENTS_STRING_PETSCII);
 }
 
 static void create_content_list(char *text, HWND list)
