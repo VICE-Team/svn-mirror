@@ -87,16 +87,8 @@
  * I/O
  */
 
-/* Flag: Are the 3 C128 extended rows enabled?  */
-static int extended_keyboard_rows_enabled;
-
 /* Mask for the extended keyboard rows.  */
 static BYTE extended_keyboard_rows_mask;
-
-void cia1_enable_extended_keyboard_rows(int flag)
-{
-    extended_keyboard_rows_enabled = flag;
-}
 
 void cia1_set_extended_keyboard_rows_mask(BYTE value)
 {
@@ -144,28 +136,31 @@ static inline void store_sdr(BYTE byte)
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
-    /* Handle software-triggered light pen.  */
-    if ((byte ^ oldpb) & 0x10) {
+    /* Falling edge triggers light pen.  */
+    if ((byte ^ 0x10) & oldpb & 0x10)
         vicii_trigger_light_pen(rclk);
-    }
 }
 
-static inline void undump_ciapb(CLOCK rclk, BYTE byte) {}
+static inline void undump_ciapb(CLOCK rclk, BYTE byte)
+{
+
+}
 
 /* read_* functions must return 0xff if nothing to read!!! */
 static inline BYTE read_ciapa(void)
 {
     BYTE byte;
     {
-        BYTE val = oldpa;
-        BYTE msk = (oldpb) & ~joystick_value[2];
+        BYTE val = ~cia[CIA_DDRA];
+        BYTE msk = oldpb & ~joystick_value[1];
         BYTE m;
         int i;
 
         for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
             if (!(msk & m))
                 val &= ~rev_keyarr[i];
-        byte = val & ~joystick_value[2];
+
+        byte = (val | (cia[CIA_PRA] & cia[CIA_DDRA])) & ~joystick_value[2];
     }
     return byte;
 }
@@ -176,7 +171,7 @@ static inline BYTE read_ciapb(void)
     BYTE byte;
     {
         BYTE val = ~cia[CIA_DDRB];
-        BYTE msk = (oldpa) & ~joystick_value[1];
+        BYTE msk = oldpa & ~joystick_value[2];
         BYTE m;
         int i;
 
@@ -184,12 +179,11 @@ static inline BYTE read_ciapb(void)
             if (!(msk & m))
                 val &= ~keyarr[i];
 
-        if (extended_keyboard_rows_enabled)
-            for (m = 0x1, i = 8; i < 11; m <<= 1, i++)
-                if (!(extended_keyboard_rows_mask & m))
-                    val &= ~keyarr[i];
+        for (m = 0x1, i = 8; i < 11; m <<= 1, i++)
+            if (!(extended_keyboard_rows_mask & m))
+                val &= ~keyarr[i];
 
-        byte = (val | (cia[CIA_PRB] & cia[CIA_DDRB]) ) & ~joystick_value[1];
+        byte = (val | (cia[CIA_PRB] & cia[CIA_DDRB])) & ~joystick_value[1];
     }
     return byte;
 }

@@ -361,8 +361,6 @@ int machine_init(void)
     if (!vicii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
         return -1;
 
-    cia1_enable_extended_keyboard_rows(0);
-
     ciat_init_table();
     cia1_init();
     cia2_init();

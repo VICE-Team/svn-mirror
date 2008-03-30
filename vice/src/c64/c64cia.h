@@ -39,7 +39,6 @@ extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
-extern void cia1_enable_extended_keyboard_rows(int flag);
 extern int cia1_snapshot_write_module(struct snapshot_s *p);
 extern int cia1_snapshot_read_module(struct snapshot_s *p);
 

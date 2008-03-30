@@ -431,8 +431,6 @@ int machine_init(void)
     if (vicii_init(VICII_EXTENDED) == NULL)
         return -1;
 
-    cia1_enable_extended_keyboard_rows(1);
-
     ciat_init_table();
     cia1_init();
     cia2_init();

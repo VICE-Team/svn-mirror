@@ -63,7 +63,10 @@ int mem_cartridge_type = CARTRIDGE_NONE;
 int romh_bank;
 BYTE romh_banks[1];
 
-void cia1_set_extended_keyboard_rows_mask(BYTE foo) {}
+void cia1_set_extended_keyboard_rows_mask(BYTE foo)
+{
+
+}
 
 /* ------------------------------------------------------------------------- */
 /* The CBM-II memory. */
