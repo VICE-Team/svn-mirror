@@ -53,60 +53,83 @@
 #define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
 #define ANGLE_BRN        157.5f
 
-/* new luminances */
+#define ANGLE_YLG       -168.75f
+#define ANGLE_PNK         78.75f
+#define ANGLE_BLG       -101.25f
+#define ANGLE_LBL        -22.5f
+#define ANGLE_DBL         11.25f
+#define ANGLE_LGN       -157.5f
 
-#define LUMN0     0.0f
-#define LUMN1    56.0f
-#define LUMN2    74.0f
-#define LUMN3    92.0f
-#define LUMN4   117.0f
-#define LUMN5   128.0f
-#define LUMN6   163.0f
-#define LUMN7   199.0f
-#define LUMN8   256.0f
+/* luminances */
 
-/* default dithering */
-
-static char vic_ii_color_dither[16]=
+static float ted_luminances[8]=
 {
-    0x00,0x0E,0x04,0x0C,
-    0x08,0x04,0x04,0x0C,
-    0x04,0x04,0x08,0x04,
-    0x08,0x08,0x08,0x0C
+	 40.0f,
+	 56.0f,
+	 64.0f,
+	 80.0f,
+	128.0f,
+	160.0f,
+	192.0f,
+	256.0f
 };
 
-/* the wellknown vic-ii palette used for 99% of all vic-ii chips */
+/* the base ted palette without luminances */
 
-static video_cbm_color_t ted_colors[TED_NUM_COLORS]=
+static video_cbm_color_t ted_colors[16]=
 {
-    { LUMN0, ANGLE_ORN, -0, "Black"       },
-    { LUMN8, ANGLE_BRN,  0, "White"       },
-    { LUMN2, ANGLE_RED,  1, "Red"         },
-    { LUMN6, ANGLE_RED, -1, "Cyan"        },
-    { LUMN3, ANGLE_GRN, -1, "Purple"      },
-    { LUMN5, ANGLE_GRN,  1, "Green"       },
-    { LUMN1, ANGLE_BLU,  1, "Blue"        },
-    { LUMN7, ANGLE_BLU, -1, "Yellow"      },
-    { LUMN3, ANGLE_ORN, -1, "Orange"      },
-    { LUMN1, ANGLE_BRN,  1, "Brown"       },
-    { LUMN5, ANGLE_RED,  1, "Yellow-Green"},
-    { LUMN2, ANGLE_RED, -1, "Pink"        },
-    { LUMN4, ANGLE_GRN, -1, "Blue-Green"  },
-    { LUMN7, ANGLE_GRN,  1, "Light Blue"  },
-    { LUMN4, ANGLE_BLU,  1, "Dark Blue"   },
-    { LUMN6, ANGLE_BLU, -1, "Light Green" }
+    { 0.0f, ANGLE_ORN, -0, "Black"       },
+    { 0.0f, ANGLE_BRN,  0, "White"       },
+    { 0.0f, ANGLE_RED,  1, "Red"         },
+    { 0.0f, ANGLE_RED, -1, "Cyan"        },
+    { 0.0f, ANGLE_GRN, -1, "Purple"      },
+    { 0.0f, ANGLE_GRN,  1, "Green"       },
+    { 0.0f, ANGLE_BLU,  1, "Blue"        },
+    { 0.0f, ANGLE_BLU, -1, "Yellow"      },
+    { 0.0f, ANGLE_ORN, -1, "Orange"      },
+    { 0.0f, ANGLE_BRN,  1, "Brown"       },
+    { 0.0f, ANGLE_YLG,  1, "Yellow-Green"},
+    { 0.0f, ANGLE_PNK, -1, "Pink"        },
+    { 0.0f, ANGLE_BLG, -1, "Blue-Green"  },
+    { 0.0f, ANGLE_LBL,  1, "Light Blue"  },
+    { 0.0f, ANGLE_DBL,  1, "Dark Blue"   },
+    { 0.0f, ANGLE_LGN, -1, "Light Green" }
 };
+
+static video_cbm_color_t ted_colors_with_lum[TED_NUM_COLORS];
 
 static video_cbm_palette_t ted_palette=
 {
     TED_NUM_COLORS,
-    ted_colors,
+    ted_colors_with_lum,
     TED_SATURATION,
     TED_PHASE,
 };
 
 int ted_update_palette(void)
 {
+	int col,lum,cl;
+	float tedlum;
+	video_cbm_color_t *vc;
+
+	cl=0;
+	for (lum=0;lum<8;lum++)
+	{
+		tedlum = ted_luminances[lum] * 0.867f;
+		for (col=0;col<16;col++)
+		{
+			vc = &ted_colors_with_lum[cl];
+			if (col)
+				vc->luminance = tedlum;
+			else
+				vc->luminance = 0.0f;
+			vc->angle     = ted_colors[col].angle;
+			vc->direction = ted_colors[col].direction;
+			vc->name      = ted_colors[col].name;
+			cl++;
+		}
+	}
+
     video_color_set_palette(&ted_palette);
     return video_color_update_palette();
 }
