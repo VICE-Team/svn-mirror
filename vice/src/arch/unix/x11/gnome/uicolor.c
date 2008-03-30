@@ -61,10 +61,11 @@ extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
 #ifdef USE_COLOR_MANAGEMENT
 #define NUM_ENTRIES 5
 
-void uicolor_alloc_system_colors(void)
+static int uicolor_alloc_system_colors(void)
 {
     palette_t *p = (palette_t*)xmalloc(sizeof(palette_t));
     PIXEL pixel_return[NUM_ENTRIES];
+    unsigned long color_return[NUM_ENTRIES];
 
     p->num_entries = NUM_ENTRIES;
     p->entries = xmalloc(sizeof(palette_entry_t) * NUM_ENTRIES);
@@ -90,16 +91,18 @@ void uicolor_alloc_system_colors(void)
     p->entries[4].green = 0xaf;
     p->entries[4].blue = 0xaf;
 
-    color_alloc_colors((void *)-1, p, pixel_return);
-/*
-    drive_led_off_pixel = pixel_return[0];
-    drive_led_on_red_pixel = pixel_return[1];
-    drive_led_on_green_pixel = pixel_return[2];
-    motor_running_pixel = pixel_return[3];
-    tape_control_pixel = pixel_return[4];
-*/
+    color_alloc_colors((void *)-1, p, pixel_return, color_return);
+
+    drive_led_off_pixel = (GdkColor *)color_return[0];
+    drive_led_on_red_pixel = (GdkColor *)color_return[1];
+    drive_led_on_green_pixel = (GdkColor *)color_return[2];
+    motor_running_pixel = (GdkColor *)color_return[3];
+    tape_control_pixel = (GdkColor *)color_return[4];
+
     free(p->entries);
     free(p);
+
+    return 0;
 }
 #endif
 
@@ -232,7 +235,8 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 #ifdef USE_COLOR_MANAGEMENT
-    if (color_alloc_colors(c, palette, pixel_return) < 0) {
+    if (uicolor_alloc_system_colors() < 0
+        || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
 /*
         if (colormap == DefaultColormap(display, screen)) {
             log_warning(LOG_DEFAULT,
@@ -240,7 +244,7 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
             colormap = XCreateColormap(display, RootWindow(display, screen),
                                        visual, AllocNone);
             XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
-            return color_alloc_colors(c, palette, pixel_return);
+            return color_alloc_colors(c, palette, pixel_return, NULL);
         }
 */
     }
@@ -268,7 +272,7 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
     log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
 #ifdef USE_COLOR_MANAGEMENT
     uicolor_alloc_system_colors();
-    color_alloc_colors(c, palette, pixel_return);
+    color_alloc_colors(c, palette, pixel_return, NULL);
     return 0;
 #else
     if (!have_truecolor) {
@@ -319,10 +323,12 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
                         PIXEL *pixel_return)
 {
-    GdkColor color;
+    GdkColor *color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
     Display *display = ui_get_display_ptr();
+
+    color = (GdkColor *)xmalloc(sizeof(GdkColor));
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -333,22 +339,22 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
         return -1;
     }
 
-    color.red =  red << 8;
-    color.green =  green << 8;
-    color.blue = blue << 8;
+    color->red =  red << 8;
+    color->green =  green << 8;
+    color->blue = blue << 8;
 
-    if (!gdk_color_alloc(colormap, &color)) {
+    if (!gdk_color_alloc(colormap, color)) {
         log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
-                  color.red, color.green, color.blue);
+                  color->red, color->green, color->blue);
         XDestroyImage(im);
         return -1;
     }
-    XPutPixel(im, 0, 0, color.pixel);
+    XPutPixel(im, 0, 0, color->pixel);
 
     bits_per_pixel = im->bits_per_pixel;
 
     *pixel_return = *data;
-    *color_pixel = color.pixel;
+    *color_pixel = (unsigned long)color /*color.pixel*/;
 
     XDestroyImage(im);
 
@@ -358,7 +364,15 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 void uicolor_free_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long color_pixel)
 {
-    gdk_colors_free(colormap, &color_pixel, 1, 0);
+    GdkColor *color;
+
+    color = (GdkColor *)color_pixel;
+
+    gdk_colors_free(colormap, &(color->pixel), 1, 0);
+/*
+    if (color_pixel != 0)
+        free((unsigned char *)color_pixel);
+*/
 }
 
 void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
