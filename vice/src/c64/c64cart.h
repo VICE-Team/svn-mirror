@@ -29,6 +29,12 @@
 
 #include "types.h"
 
+extern BYTE REGPARM1 cartridge_read_io1(ADDRESS addr);
+extern BYTE REGPARM1 cartridge_read_io2(ADDRESS addr);
+extern void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value);
+extern void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value);
+extern void cartridge_init_config(void);
+
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 extern int ultimax;
 
@@ -37,6 +43,15 @@ extern BYTE roml_banks[], romh_banks[];
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
+
+/* Expansion port signals.  */
+typedef struct {
+    BYTE exrom;
+    BYTE game;
+} export_t;
+
+extern export_t export;
+extern int mem_cartridge_type;
 
 #endif 
 
