@@ -594,12 +594,12 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
-	resources.h diskimage.h gcr.h drive/drive.h log.h \
-	drive/drivecpu.h mon.h console.h interrupt.h 6510core.h \
-	snapshot.h mos6510.h fsdevice.h arch/unix/joystick.h \
-	arch/unix/kbd.h kbdbuf.h keyboard.h machine.h maincpu.h alarm.h \
-	clkguard.h arch/unix/main_exit.h sysfile.h tape.h traps.h \
-	arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
+	resources.h console.h diskimage.h gcr.h drive/drive.h log.h \
+	drive/drivecpu.h mon.h interrupt.h 6510core.h snapshot.h \
+	mos6510.h fsdevice.h arch/unix/joystick.h arch/unix/kbd.h \
+	kbdbuf.h keyboard.h machine.h maincpu.h alarm.h clkguard.h \
+	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
+	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
 	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
 	arch/unix/x11/xaw/videoarch.h arch/unix/x11/xaw/../videoarch.h \
 	arch/unix/mouse.h

@@ -69,6 +69,15 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
     return NULL;
 }
 
+static TUI_MENU_CALLBACK(cartridge_set_default_callback)
+{
+    if (been_activated)
+        cartridge_set_default();
+
+    return NULL;
+}
+
+
 static TUI_MENU_CALLBACK(cartridge_callback)
 {
     const char *s = cartridge_get_file_name((ADDRESS) 0);
@@ -112,6 +121,11 @@ static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
       "Attach an Super Snapshot 4 cartridge image",
       attach_cartridge_callback, (void *) CARTRIDGE_SUPER_SNAPSHOT, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "--" },
+    { "Set cartridge as _default",
+      "Save the current cartridge to the settings",
+      cartridge_set_default_callback, NULL, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -151,10 +165,15 @@ static tui_menu_item_def_t detach_cartridge_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
+TUI_MENU_DEFINE_TOGGLE(VideoCache)
 TUI_MENU_DEFINE_TOGGLE(CheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static tui_menu_item_def_t vic_ii_menu_items[] = {
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_VideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
     { "Sprite-_Background Collisions:",
       "Emulate sprite-background collision register",
@@ -312,7 +331,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new BASIC ROM",
       load_rom_file_callback, "BasicName", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new Character ROM...",
+    { "Load new _Character ROM...",
       "Load new Character ROM",
       load_rom_file_callback, "ChargenName", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },

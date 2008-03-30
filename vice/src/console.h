@@ -38,6 +38,8 @@ typedef struct console_s {
     int console_can_stay_open;
 } console_t;
 
+extern int console_init(void);
+
 extern console_t *console_open(const char *id);
 extern int console_close(console_t *log);
 

@@ -43,6 +43,7 @@
 #include "cartridge.h"
 #include "charsets.h"
 #include "cmdline.h"
+#include "console.h"
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -523,9 +524,13 @@ int MAIN_PROGRAM(int argc, char **argv)
         drive1_cpu_early_init();
 
         /* Machine-specific initialization.  */
-        if (machine_init() < 0)
-        {
+        if (machine_init() < 0) {
             log_error(LOG_DEFAULT, "Machine initialization failed.");
+            return -1;
+        }
+
+        if (console_init() < 0) {
+            log_error(LOG_DEFAULT, "Console initialization failed.");
             return -1;
         }
 

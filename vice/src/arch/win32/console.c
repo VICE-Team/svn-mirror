@@ -964,6 +964,11 @@ static TWindow *find_console_entry(const char *id)
 	return NULL;
 }
 
+int console_init(void)
+{
+    return 0;
+}
+
 console_t *console_open(const char *id)
 {
 	TWindow *tw;

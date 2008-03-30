@@ -41,6 +41,11 @@
 static int old_input_mode, old_output_mode;
 static FILE *mon_output, *mon_input;
 
+int console_init(void)
+{
+    return 0;
+}
+
 console_t *console_open(const char *id)
 {
     console_t *console;

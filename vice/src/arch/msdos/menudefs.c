@@ -228,8 +228,6 @@ static TUI_MENU_CALLBACK(refresh_rate_submenu_callback)
 
 TUI_MENU_DEFINE_RADIO(RefreshRate)
 
-TUI_MENU_DEFINE_TOGGLE(VideoCache)
-
 #ifndef USE_MIDAS_SOUND
 TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
 #endif
@@ -1099,11 +1097,11 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
 #endif
 	    "",
             "Copyright (c) 1996-1999 Ettore Perazzoli",
-            "Copyright (c) 1996-1999 Andre' Fachat",
-            "Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen",
             "Copyright (c) 1997-1999 Daniel Sladic",
             "Copyright (c) 1998-1999 Andreas Boose",
             "Copyright (c) 1998-1999 Tibor Biczo",
+            "Copyright (c) 1996-1999 Andre' Fachat",
+            "Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen",
             "Copyright (c) 1993-1996 Jouko Valta",
             "Copyright (c) 1993-1994 Jarkko Sonninen",
 #ifdef HAVE_RESID
@@ -1242,10 +1240,6 @@ static void create_ui_video_submenu(void)
 			 "Choose frequency of screen refresh",
 			 refresh_rate_submenu,
 			 refresh_rate_submenu_callback, NULL, 4);
-    tui_menu_add_item(ui_video_submenu, "Video _Cache:",
-		      "Enable screen cache (disabled when using triple buffering)",
-		      toggle_VideoCache_callback, NULL, 3,
-		      TUI_MENU_BEH_CONTINUE);
 
 #ifndef USE_MIDAS_SOUND
     tui_menu_add_item(ui_video_submenu, "_Triple Buffering:",
@@ -1556,7 +1550,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                   datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
                   TUI_MENU_BEH_RESUME);
         tui_menu_add_item(ui_datasette_submenu, "Re_cord",
-                  "Press the REWIND key of the datassette",
+                  "Press the RECORD key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
                   TUI_MENU_BEH_RESUME);
 #if 0
@@ -1612,7 +1606,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
 
     ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
     tui_menu_add(ui_rom_submenu, rom_submenu);
-    tui_menu_add_submenu(ui_main_menu, "_ROM Settings...",
+    tui_menu_add_submenu(ui_main_menu, "Firm_ware ROM Settings...",
              "Firmware ROMs the emulator is using",
              ui_rom_submenu, NULL, 0,
              TUI_MENU_BEH_CONTINUE);

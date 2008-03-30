@@ -40,6 +40,11 @@
 
 HWND hwndMonitor=NULLHANDLE;
 
+int console_init(void)
+{
+    return 0;
+}
+
 console_t *console_open(const char *id)
 {
     console_t *console;

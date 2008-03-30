@@ -1,3 +1,54 @@
+1999-12-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.14.
+
+	* arch/unix/x11/xaw/uiedisk.c: New "G64" button.
+
+	* vdrive/vdrive-command.c, vdrive/vdrive-command.h: Check for
+	errors on disk access.
+
+	* diskimage.h, diskimage.c, drive/drive.c, vdrive/vdrive.c,
+	c1541.c, arch/win32/uilib.c, arch/msdos/uiattach.c: Changed
+	name to `DISK_IMAGE_TYPE_G64'.
+
+	* vdrive/vdrive.c (vdrive_internal_close_disk_image,
+	vdrive_internal_create_format_disk_image,
+	vdrive_internal_format_disk_image): Check for errors.
+
+	* arch/msdos/c64ui.c: New "set cartridge as default" as menu
+	entry.
+
+	* arch/msdos/menudefs.c, arch/msdos/c64ui.c,
+	arch/msdos/c128ui.c,  arch/msdos/vic20ui.c,
+	arch/msdos/petui.c,  arch/msdos/c610ui.c: Separated video
+	cache, palette and double scan settings.
+
+	* arch/msdos/tuifs.c (file_list_sort_func): Use `strcasecmp'
+	instead of `strcmp'.
+	(file_list_read_lfn, file_list_read_nolfn): Use `FNM_NOCASE'
+	as flag for `fnmatch'.
+
+	* arch/msdos/menudefs.c: Use `o' as shortcut for ROM settings.
+	Fixed datasette RECORD description.
+
+	* main.c, console.h, arch/unix/console.c, arch/os2/console.c,
+	arch/riscos/console.c, arch/win32/console.c,
+	arch/msdos/console.c (console_init): New function.
+
+1999-12-29  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/win32/arch.dsp,arch/win32/xvic.dsp: updated project-files
+	and include-paths
+
+	* arch/win32/res.h: new IDs IDC_BLANK_IMAGE_NAME and ~ID
+
+	* arch/win32/res.rc: improved "create new image" dialog; changed
+	dialog font back to MS Sans Serif
+
+	* arch/win32/ulib.c (hook_proc): handles new dialog controls to
+	format new image with specified name and ID; preview listbox gets
+	new font with fixed width
+
 1999-12-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.13.
