@@ -50,7 +50,7 @@ int vm_is_enabled = 0;
 int vm_is_suspended = 0;
 
 static log_t vidmode_log = LOG_ERR;
-unsigned int vm_mode_count;
+int vm_mode_count;
 static unsigned int vm_index = 0;
 static int vm_available = 0;
 static int saved_h, saved_w;
@@ -63,7 +63,8 @@ extern int screen;
 
 int vidmode_init(void)
 {
-    unsigned int hz, i;
+    unsigned int hz;
+    int i;
     Display *display;
 
     vidmode_log = log_open("VidMode");

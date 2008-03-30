@@ -40,7 +40,7 @@ typedef struct vm_bestvideomode_s vm_bestvideomode_t;
 extern vm_bestvideomode_t *vm_bestmodes;
 
 extern int vm_is_enabled;
-extern unsigned int vm_mode_count;
+extern int vm_mode_count;
 
 extern int vidmode_init(void);
 extern int vidmode_available(void);

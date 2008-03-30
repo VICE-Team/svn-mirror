@@ -160,7 +160,7 @@ static video_canvas_t *active_canvas = NULL;
 int dga1_enable(struct video_canvas_s *canvas, int enable)
 {
     static int interval, prefer_blanking, allow_exposures;
-    static unsigned int dotclock;
+    static int dotclock;
 
     if (enable) {
         XF86VidModeModeInfo *vm;
@@ -235,7 +235,7 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
         set_alarm_timeout();
 #endif
     } else {
-        unsigned int i;
+        int i;
 
         if (!dga1_is_enabled)
             return 0;
@@ -256,7 +256,7 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
         for (i = 0; i < vm_mode_count; i++) {
             if (vm_modes[i]->hdisplay == restoremodeline.hdisplay &&
                 vm_modes[i]->vdisplay == restoremodeline.vdisplay &&
-                vm_modes[i]->dotclock == dotclock) {
+                vm_modes[i]->dotclock == (unsigned int)dotclock) {
                 XF86VidModeSwitchToMode(display, screen, vm_modes[i]);
                 break;
             }
