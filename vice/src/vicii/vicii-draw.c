@@ -229,7 +229,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    if (vic_ii.raster.background_color != cache->background_data[0]
+    if (cache->background_data[0] != vic_ii.raster.background_color
         || cache->chargen_ptr != vic_ii.chargen_ptr) {
         cache->background_data[0] = vic_ii.raster.background_color;
         cache->chargen_ptr = vic_ii.chargen_ptr;
@@ -287,7 +287,7 @@ inline static void _draw_std_text_cached(BYTE *p, int xs, int xe,
     BYTE *msk_ptr, *foreground_data, *color_data;
     unsigned int i;
 
-    table_ptr = hr_table + (vic_ii.raster.background_color << 4);
+    table_ptr = hr_table + (cache->background_data[0] << 4);
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
     foreground_data = cache->foreground_data;
     color_data = cache->color_data_1;
@@ -466,7 +466,7 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    if (vic_ii.raster.background_color != cache->background_data[0]
+    if (cache->background_data[0] != vic_ii.raster.background_color
         || cache->color_data_1[0] != vic_ii.ext_background_color[0]
         || cache->color_data_1[1] != vic_ii.ext_background_color[1]
         || cache->chargen_ptr != vic_ii.chargen_ptr) {
@@ -549,10 +549,10 @@ inline static void _draw_mc_text_cached(BYTE *p, int xs, int xe,
     color_data_3 = cache->color_data_3;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
-    c[1] = c[0] = vic_ii.raster.background_color;
-    c[3] = c[2] = vic_ii.ext_background_color[0];
-    c[5] = c[4] = vic_ii.ext_background_color[1];
-    c[11] = c[8] = vic_ii.raster.background_color;
+    c[1] = c[0] = cache->background_data[0];
+    c[3] = c[2] = cache->color_data_1[0];
+    c[5] = c[4] = cache->color_data_1[1];
+    c[11] = c[8] = cache->background_data[0];
 
     ptmp = (WORD *)(p + xs * 8);
 
@@ -679,7 +679,7 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    if (vic_ii.raster.background_color != cache->background_data[0]) {
+    if (cache->background_data[0] != vic_ii.raster.background_color) {
         cache->background_data[0] = vic_ii.raster.background_color;
         rr = 1;
     }
@@ -763,7 +763,7 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, int xs, int xe,
     color_data_3 = cache->color_data_3;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
-    c[0] = vic_ii.raster.background_color;
+    c[0] = cache->background_data[0];
 
     ptmp = p + xs * 8;
 
@@ -841,14 +841,16 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     int r;
 
-    if (vic_ii.raster.background_color != cache->color_data_2[0]
-        || vic_ii.ext_background_color[0] != cache->color_data_2[1]
-        || vic_ii.ext_background_color[1] != cache->color_data_2[2]
-        || vic_ii.ext_background_color[2] != cache->color_data_2[3]) {
+    if (cache->color_data_2[0] != vic_ii.raster.background_color
+        || cache->color_data_2[1] != vic_ii.ext_background_color[0]
+        || cache->color_data_2[2] != vic_ii.ext_background_color[1]
+        || cache->color_data_2[3] != vic_ii.ext_background_color[2]
+        || cache->chargen_ptr != vic_ii.chargen_ptr) {
         cache->color_data_2[0] = vic_ii.raster.background_color;
         cache->color_data_2[1] = vic_ii.ext_background_color[0];
         cache->color_data_2[2] = vic_ii.ext_background_color[1];
         cache->color_data_2[3] = vic_ii.ext_background_color[2];
+        cache->chargen_ptr = vic_ii.chargen_ptr;
         rr = 1;
     }
 
@@ -916,17 +918,12 @@ inline static void _draw_ext_text_cached(BYTE *p, int xs, int xe,
 
     for (i = xs; i <= xe; i++) {
         DWORD *ptr;
-        int bg_idx;
         int d;
 
         ptr = hr_table + (color_data_1[i] << 8);
-        bg_idx = foreground_data[i] >> 6;
         d = *(char_ptr + (foreground_data[i] & 0x3f) * 8);
 
-        if (bg_idx == 0)
-            ptr += vic_ii.raster.background_color << 4;
-        else
-            ptr += vic_ii.ext_background_color[bg_idx - 1] << 4;
+        ptr += cache->color_data_2[foreground_data[i] >> 6] << 4;
 
         *(msk_ptr + i) = d;
         *((DWORD *)p + 2 * i) = *(ptr + (d >> 4));
@@ -984,14 +981,16 @@ static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     int r;
 
     /* FIXME: Is this necessary?  */
-    if (vic_ii.raster.background_color != cache->color_data_2[0]
-        || vic_ii.ext_background_color[0] != cache->color_data_2[1]
-        || vic_ii.ext_background_color[1] != cache->color_data_2[2]
-        || vic_ii.ext_background_color[2] != cache->color_data_2[3]) {
+    if (cache->color_data_2[0] != vic_ii.raster.background_color
+        || cache->color_data_2[1] != vic_ii.ext_background_color[0]
+        || cache->color_data_2[2] != vic_ii.ext_background_color[1]
+        || cache->color_data_2[3] != vic_ii.ext_background_color[2]
+        || cache->chargen_ptr != vic_ii.chargen_ptr) {
         cache->color_data_2[0] = vic_ii.raster.background_color;
         cache->color_data_2[1] = vic_ii.ext_background_color[0];
         cache->color_data_2[2] = vic_ii.ext_background_color[1];
         cache->color_data_2[3] = vic_ii.ext_background_color[2];
+        cache->chargen_ptr = vic_ii.chargen_ptr;
         rr = 1;
     }
 
@@ -1273,10 +1272,14 @@ static void draw_illegal_bitmap_mode2_foreground(int start_char, int end_char)
 static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
     if (rr
-        || vic_ii.raster.background_color != cache->color_data_1[0]
-        || vic_ii.idle_data != cache->foreground_data[0]) {
-        cache->color_data_1[0] = vic_ii.raster.background_color;
+        || cache->foreground_data[0] != vic_ii.idle_data
+        || cache->color_data_1[0] != vic_ii.raster.background_color
+        || cache->color_data_1[1] != vic_ii.raster.overscan_background_color
+        || cache->color_data_1[2] != vic_ii.raster.video_mode) {
         cache->foreground_data[0] = (BYTE)vic_ii.idle_data;
+        cache->color_data_1[0] = vic_ii.raster.background_color;
+        cache->color_data_1[1] = vic_ii.raster.overscan_background_color;
+        cache->color_data_1[2] = vic_ii.raster.video_mode;
         *xs = 0;
         *xe = VIC_II_SCREEN_TEXTCOLS - 1;
         return 1;
