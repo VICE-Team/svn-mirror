@@ -8,6 +8,6 @@ noinst_LIBRARIES = libdriveiecieee.a
 
 libdriveiecieee_a_SOURCES = \
 	iecieee.c \
-	via1d.c \
+	via1d.c	\
 	via2d.c
 
