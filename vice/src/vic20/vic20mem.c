@@ -272,13 +272,14 @@ static int cmdline_memory(const char *param, void *extra_param)
 {
     int memconf = 0;
     const char *memstring = param, *optend;
-    char *opt = alloca(strlen(param) + 1);
 
     /* Default is all banks. */
     if (!memstring) {
         memconf = VIC_BLK_ALL;
     } else {
-        /* Maybe we should use strtok for this? */
+        char *opt;
+
+        opt = xmalloc(strlen(param) + 1);
         while (*memstring) {
             for (optend = memstring; *optend && *optend != ','; optend++);
 
@@ -311,12 +312,14 @@ static int cmdline_memory(const char *param, void *extra_param)
             } else {
                 log_error(vic20_mem_log,
                           "Unsupported memory extension option: `%s'.", opt);
+                free(opt);
                 return -1;
             }
             memstring = optend;
             if (*memstring)
                 memstring++;    /* skip ',' */
         }
+        free(opt);
     }
 
     /* FIXME: this is before log is initialized, right? */
