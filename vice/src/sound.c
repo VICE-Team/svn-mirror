@@ -47,6 +47,10 @@
 #include "utils.h"
 #include "vsync.h"
 
+#ifdef HAVE_CATWEASELMKIII
+#include "catweaselmkiii.h"
+#endif
+
 static log_t sound_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
@@ -969,6 +973,10 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
     cycles_per_rfsh = ticks_per_frame;
     rfsh_per_sec    = (1.0 /
                       ((double)cycles_per_rfsh / (double)cycles_per_sec));
+
+#ifdef HAVE_CATWEASELMKIII
+    catweaselmkiii_set_machine_parameter(clock_rate);
+#endif
 }
 
 /* initialize sid at program start -time */
