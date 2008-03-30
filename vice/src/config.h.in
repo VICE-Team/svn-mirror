@@ -120,8 +120,14 @@
 /* Define if you have the memmove function.  */
 #undef HAVE_MEMMOVE
 
+/* Define if you have the strcasecmp function.  */
+#undef HAVE_STRCASECMP
+
 /* Define if you have the strerror function.  */
 #undef HAVE_STRERROR
+
+/* Define if you have the strncasecmp function.  */
+#undef HAVE_STRNCASECMP
 
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
