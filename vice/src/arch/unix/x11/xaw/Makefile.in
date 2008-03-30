@@ -353,7 +353,8 @@ uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h
 vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
-	../../../../../src/attach.h ../../../../../src/snapshot.h \
+	../../../../../src/attach.h ../../../../../src/c64/c64mem.h \
+	../../../../../src/mem.h ../../../../../src/snapshot.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/machine.h ../../../../../src/c64/psid.h \
 	../../../../../src/resources.h \
@@ -363,7 +364,6 @@ vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h uihotkey.h \
 	uimenu.h ../../../../../src/arch/unix/uisettings.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
-	../../../../../src/c64/c64mem.h ../../../../../src/mem.h \
 	c64icon.xpm
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \

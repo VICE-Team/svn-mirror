@@ -108,12 +108,12 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 
 noinst_LIBRARIES = libvdrive.a
 
-libvdrive_a_SOURCES =  	vdrive-bam.c 	vdrive-bam.h 	vdrive-command.c 	vdrive-command.h 	vdrive-dir.c 	vdrive-dir.h 	vdrive-iec.c 	vdrive-iec.h 	vdrive.c 	vdrive.h
+libvdrive_a_SOURCES =  	vdrive-bam.c 	vdrive-bam.h 	vdrive-command.c 	vdrive-command.h 	vdrive-dir.c 	vdrive-dir.h 	vdrive-iec.c 	vdrive-iec.h 	vdrive-snapshot.c 	vdrive-snapshot.h 	vdrive.c 	vdrive.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -129,7 +129,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libvdrive_a_LIBADD = 
 libvdrive_a_OBJECTS =  vdrive-bam.o vdrive-command.o vdrive-dir.o \
-vdrive-iec.o vdrive.o
+vdrive-iec.o vdrive-snapshot.o vdrive.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -233,32 +233,34 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
-	vdrive.h ../../src/diskimage.h ../../src/gcr.h vdrive-command.h
+	../../src/attach.h ../../src/log.h ../../src/arch/unix/types.h \
+	vdrive-bam.h vdrive.h ../../src/diskimage.h ../../src/gcr.h \
+	vdrive-command.h
 vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/arch/unix/types.h ../../src/log.h ../../src/serial.h \
-	../../src/traps.h ../../src/utils.h vdrive-bam.h vdrive.h \
-	../../src/attach.h ../../src/snapshot.h vdrive-command.h \
+	../../src/log.h ../../src/serial.h ../../src/diskimage.h \
+	../../src/gcr.h ../../src/arch/unix/types.h ../../src/traps.h \
+	../../src/utils.h vdrive-bam.h vdrive.h vdrive-command.h \
 	vdrive-dir.h vdrive-iec.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/gcr.h \
 	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
-	vdrive.h ../../src/attach.h ../../src/snapshot.h vdrive-dir.h
+	vdrive.h vdrive-dir.h
 vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/serial.h ../../src/diskimage.h \
 	../../src/gcr.h ../../src/arch/unix/types.h ../../src/traps.h \
-	../../src/utils.h vdrive-bam.h vdrive.h ../../src/attach.h \
-	../../src/snapshot.h vdrive-command.h vdrive-dir.h vdrive-iec.h
+	../../src/utils.h vdrive-bam.h vdrive.h vdrive-command.h \
+	vdrive-dir.h vdrive-iec.h
+vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/log.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h \
+	../../src/diskimage.h ../../src/gcr.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/charsets.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
-	../../src/arch/unix/types.h ../../src/log.h \
-	../../src/fsdevice.h ../../src/serial.h ../../src/traps.h \
-	../../src/utils.h vdrive-bam.h vdrive.h ../../src/attach.h \
-	../../src/snapshot.h vdrive-command.h vdrive-dir.h vdrive-iec.h
+	../../src/charsets.h ../../src/fsdevice.h ../../src/log.h \
+	../../src/serial.h ../../src/diskimage.h ../../src/gcr.h \
+	../../src/arch/unix/types.h ../../src/traps.h ../../src/utils.h \
+	vdrive-bam.h vdrive.h vdrive-command.h vdrive-dir.h \
+	vdrive-iec.h vdrive-snapshot.h ../../src/snapshot.h
 
 info-am:
 info: info-am

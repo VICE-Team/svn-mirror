@@ -113,7 +113,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libraster.a
 
-libraster_a_SOURCES =  	raster.c 	raster.h 	raster-cache.c 	raster-cache.h 	raster-changes.c 	raster-changes.h 	raster-modes.c 	raster-modes.h 	raster-sprite.c 	raster-sprite.h 	raster-sprite-status.c 	raster-sprite-status.h 	raster-sprite-cache.c 	raster-sprite-cache.h
+libraster_a_SOURCES =  	raster-cache.c 	raster-cache.h 	raster-changes.c 	raster-changes.h 	raster-modes.c 	raster-modes.h 	raster-sprite.c 	raster-sprite.h 	raster-sprite-status.c 	raster-sprite-status.h 	raster-sprite-cache.c 	raster-sprite-cache.h 	raster.c 	raster.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -128,9 +128,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libraster_a_LIBADD = 
-libraster_a_OBJECTS =  raster.o raster-cache.o raster-changes.o \
-raster-modes.o raster-sprite.o raster-sprite-status.o \
-raster-sprite-cache.o
+libraster_a_OBJECTS =  raster-cache.o raster-changes.o raster-modes.o \
+raster-sprite.o raster-sprite-status.o raster-sprite-cache.o raster.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

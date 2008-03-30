@@ -110,7 +110,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @HAVE_RS232_TRUE@acia_libadd = c64acia1.o c64rsuser.o
 @HAVE_RS232_FALSE@acia_libadd = 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii
 
 
 noinst_LIBRARIES = libc64.a libc64c128.a
@@ -264,9 +264,9 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/snapshot.h ../../src/arch/unix/types.h \
-	../../src/autostart.h c64.h c64cia.h c64mem.h ../../src/mem.h \
-	c64tpi.h ../../src/arch/unix/c64ui.h ../../src/cartridge.h \
+	../../src/autostart.h ../../src/arch/unix/types.h c64.h \
+	c64cia.h ../../src/snapshot.h c64mem.h ../../src/mem.h c64tpi.h \
+	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
 	../../src/datasette.h ../../src/tap.h \
 	../../src/drive/drive-cmdline-options.h \
@@ -280,21 +280,14 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	patchrom.h psid.h ../../src/resources.h reu.h \
 	../../src/serial.h ../../src/traps.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/tape.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
+	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/vicii/vicii-mem.h \
-	../../src/vsidui.h ../../src/vsync.h c64acia.h c64rsuser.h \
-	../../src/rs232.h ../../src/rsuser.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h \
+	../../src/uiapi.h ../../src/vsidui.h ../../src/vsync.h \
+	c64acia.h c64rsuser.h ../../src/rs232.h ../../src/rsuser.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h \
 	../../src/arch/unix/mouse.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
@@ -314,18 +307,7 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/log.h ../../src/resources.h ../../src/maincpu.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	c64cia.h ../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/vicii/vicii.h c64.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/vicii/vicii-mem.h \
+	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h \
 	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
@@ -335,21 +317,9 @@ c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
 	c64mem.h ../../src/mem.h c64iec.h ../../src/iecdrive.h c64cia.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/drive/drivecpu.h ../../src/vicii/vicii.h c64.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/vicii/vicii-mem.h \
-	../../src/pruser.h ../../src/rsuser.h ../../src/ciacore.c \
-	../../src/ciatimer.h
+	../../src/drive/drivecpu.h ../../src/vicii/vicii.h \
+	../../src/vicii/vicii-mem.h ../../src/pruser.h \
+	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
 	c64mem.h ../../src/mem.h
@@ -374,17 +344,7 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/sid/sid.h ../../src/sysfile.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
 	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vicii/vicii.h c64.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/vicii/vicii-mem.h c64acia.h
+	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 	c64cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
 	../../src/machine.h ../../src/rsuser.h

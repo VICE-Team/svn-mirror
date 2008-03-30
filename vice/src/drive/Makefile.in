@@ -262,19 +262,19 @@ drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/mos6510.h drivemem.h ../../src/iecdrive.h \
 	../../src/machine.h ../../src/resources.h ../../src/utils.h \
-	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h \
-	../../src/attach.h
+	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h
 drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
-	ciad.h ../../src/snapshot.h ../../src/arch/unix/types.h drive.h \
-	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	drivemem.h fdc.h ../../src/iecdrive.h ../../src/resources.h \
-	riotd.h ../../src/utils.h ../../src/vdrive/vdrive-bam.h \
-	../../src/vdrive/vdrive.h ../../src/attach.h viad.h drivecpu.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
-	wd1770.h ../../src/zfile.h
+	../../src/attach.h ciad.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h drive.h ../../src/diskimage.h \
+	../../src/gcr.h ../../src/log.h drivemem.h fdc.h \
+	../../src/iecdrive.h ../../src/resources.h riotd.h \
+	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
+	../../src/vdrive/vdrive.h ../../src/vdrive/vdrive-snapshot.h \
+	viad.h drivecpu.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mos6510.h wd1770.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	../../src/snapshot.h ../../src/arch/unix/types.h ciad.h \
+	ciad.h ../../src/snapshot.h ../../src/arch/unix/types.h \
 	../../src/clkguard.h ../../src/diskimage.h ../../src/gcr.h \
 	drive.h ../../src/log.h drivecpu.h ../../src/alarm.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/6510core.h \
@@ -309,8 +309,7 @@ fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/snapshot.h ../../src/mos6510.h \
 	drivetypes.h ../../src/ciatimer.h fdc.h \
-	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h \
-	../../src/attach.h
+	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h
 riot1d.o: riot1d.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
@@ -348,7 +347,7 @@ wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
 	drivecpu.h ../../src/alarm.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/mos6510.h drivetypes.h ../../src/ciatimer.h \
-	../../src/vdrive/vdrive.h ../../src/attach.h wd1770.h
+	../../src/vdrive/vdrive.h wd1770.h
 
 info-am:
 info: info-am

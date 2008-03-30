@@ -373,10 +373,10 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
 uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	archdep.h ../../../src/archapi.h ../../../src/attach.h \
-	../../../src/snapshot.h types.h ../../../src/autostart.h \
-	../../../src/fliplist.h ../../../src/imagecontents.h \
-	../../../src/info.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/log.h \
+	../../../src/autostart.h types.h ../../../src/fliplist.h \
+	../../../src/imagecontents.h ../../../src/info.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/snapshot.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/maincpu.h \
 	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
 	../../../src/mos6510.h ../../../src/mem.h \
