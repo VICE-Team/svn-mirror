@@ -14,6 +14,8 @@ libvdrive_a_SOURCES = \
 	vdrive-dir.h \
 	vdrive-iec.c \
 	vdrive-iec.h \
+	vdrive-internal.c \
+	vdrive-internal.h \
 	vdrive-rel.c \
 	vdrive-rel.h \
 	vdrive-snapshot.c \

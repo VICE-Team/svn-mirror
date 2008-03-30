@@ -53,7 +53,7 @@
 #include "uiarch.h"
 #include "uiedisk.h"
 #include "utils.h"
-#include "vdrive.h"
+#include "vdrive-internal.h"
 
 
 static Widget emptydisk_dialog;
@@ -90,8 +90,8 @@ static UI_CALLBACK(browse_callback)
     ui_button_t button;
     char *filename;
 
-    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, "*",
-                              &button, 0, NULL);
+    filename = ui_select_file(_("Save emptydisk file"), NULL, 0, False, NULL,
+                              "*", &button, 0, NULL);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

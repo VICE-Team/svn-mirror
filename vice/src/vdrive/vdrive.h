@@ -192,16 +192,5 @@ extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
                                  BYTE **buffer);
 extern void vdrive_set_last_read(unsigned int track, unsigned int sector,
                                  BYTE *buffer);
-
-extern vdrive_t *vdrive_internal_open_disk_image(const char *name,
-                                                 unsigned int read_only);
-
-#define vdrive_create_image vdrive_internal_create_format_disk_image
-
-extern int vdrive_internal_close_disk_image(vdrive_t *vdrive);
-extern int vdrive_internal_create_format_disk_image(const char *filename,
-                                                    const char *diskname,
-                                                    unsigned int type);
-
 #endif
 

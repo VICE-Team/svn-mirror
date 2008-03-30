@@ -32,7 +32,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "diskimage.h"
-#include "vdrive/vdrive.h"
+#include "vdrive/vdrive-internal.h"
 #include "utils.h"
 
 static struct {

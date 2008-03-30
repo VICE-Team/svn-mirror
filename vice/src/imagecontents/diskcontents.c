@@ -37,6 +37,7 @@
 #include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
+#include "vdrive-internal.h"
 #include "vdrive.h"
 
 
@@ -86,7 +87,7 @@ static int circular_check(unsigned int track, unsigned int sector)
     return 0;
 }
 
-image_contents_t *image_contents_read_disk(const char *file_name)
+image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
 {
     image_contents_t *new;
     vdrive_t *vdrive;
@@ -94,7 +95,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     int retval;
     image_contents_file_list_t *lp;
 
-    vdrive = vdrive_internal_open_disk_image(file_name, 1);
+    vdrive = vdrive_internal_open_disk_image(file_name, unit, 1);
     if (vdrive == NULL)
         return NULL;
 
@@ -184,17 +185,17 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     return new;
 }
 
-char *image_contents_disk_filename_by_number(const char *filename,
-                                             unsigned int file_index)
+char *diskcontents_filename_by_number(const char *filename, unsigned int unit,
+                                      unsigned int file_index)
 {
     image_contents_t *contents;
     image_contents_file_list_t *current;
     char *s;
 
-    contents = image_contents_read_disk(filename);
-    if (contents == NULL) {
+    contents = diskcontents_read(filename, unit);
+
+    if (contents == NULL)
         return NULL;
-    }
 
     s = NULL;
 
@@ -202,7 +203,7 @@ char *image_contents_disk_filename_by_number(const char *filename,
         current = contents->file_list;
         file_index--;
         while ((file_index != 0) && (current != NULL)) {
-            current=current->next;
+            current = current->next;
             file_index--;
         }
         if (current != NULL) {

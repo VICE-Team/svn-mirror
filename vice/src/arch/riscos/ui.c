@@ -78,7 +78,7 @@
 #include "drive/drive.h"
 #include "monitor/mon.h"
 #include "raster/raster.h"
-#include "vdrive/vdrive.h"
+#include "vdrive/vdrive-internal.h"
 #include "vicii/vicii.h"
 
 

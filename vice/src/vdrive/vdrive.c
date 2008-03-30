@@ -59,11 +59,11 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-internal.h"
 #include "vdrive-rel.h"
 #include "vdrive-snapshot.h"
 #include "vdrive.h"
 
-/* ------------------------------------------------------------------------- */
 
 static log_t vdrive_log = LOG_ERR;
 
@@ -74,7 +74,6 @@ char const *slot_type[] = {
 
 static void vdrive_set_disk_geometry(vdrive_t *vdrive);
 
-/* ------------------------------------------------------------------------- */
 
 void vdrive_init(void)
 {
@@ -83,9 +82,12 @@ void vdrive_init(void)
     vdrive_command_init();
     vdrive_dir_init();
     vdrive_iec_init();
+    vdrive_internal_init();
     vdrive_rel_init();
     vdrive_snapshot_init();
 }
+
+/* ------------------------------------------------------------------------- */
 
 int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
 {
@@ -516,92 +518,5 @@ void vdrive_set_last_read(unsigned int track, unsigned int sector,
     last_read_track = track;
     last_read_sector = sector;
     memcpy(last_read_buffer, buffer, 256);
-}
-
-/* ------------------------------------------------------------------------- */
-
-vdrive_t *vdrive_internal_open_disk_image(const char *name,
-                                          unsigned int read_only)
-{
-    vdrive_t *vdrive;
-    disk_image_t *image;
-
-    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
-
-    image->gcr = NULL;
-    image->read_only = read_only;
-
-    image->device = DISK_IMAGE_DEVICE_FS;
-
-    disk_image_media_create(image);
-
-    ((fsimage_t *)(image->media))->name = stralloc(name);
-
-    if (disk_image_open(image) < 0) {
-        disk_image_media_destroy(image);
-        free(image);
-        log_error(LOG_ERR, "Cannot open file `%s'", name);
-        return NULL;
-    }
-
-    vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
-
-    vdrive_setup_device(vdrive, 100);
-    vdrive->image = image;
-    vdrive_attach_image(image, 100, vdrive);
-    return vdrive;
-}
-
-int vdrive_internal_close_disk_image(vdrive_t *vdrive)
-{
-    disk_image_t *image;
-
-    image = vdrive->image;
-
-    vdrive_detach_image(image, 100, vdrive);
-
-    if (disk_image_close(image) < 0)
-        return -1;
-
-    disk_image_media_destroy(image);
-    free(image);
-    free(vdrive);
-
-    return 0;
-}
-
-int vdrive_internal_format_disk_image(const char *filename,
-                                      const char *disk_name)
-{
-    vdrive_t *vdrive;
-    const char *format_name;
-    int status = 0;
-
-    format_name = (disk_name == NULL) ? " " : disk_name;
-
-    vdrive = vdrive_internal_open_disk_image(filename, 0);
-
-    if (vdrive == NULL)
-        return -1;
-
-    if (vdrive_command_format(vdrive, format_name) != IPE_OK)
-        status = -1;
-
-    if (vdrive_internal_close_disk_image(vdrive) < 0)
-        return -1;
-
-    return status;
-}
-
-int vdrive_internal_create_format_disk_image(const char *filename,
-                                             const char *diskname,
-                                             unsigned int type)
-{
-    if (disk_image_create(filename, type) < 0)
-        return -1;
-    if (vdrive_internal_format_disk_image(filename, diskname) < 0)
-        return -1;
-
-    return 0;
 }
 
