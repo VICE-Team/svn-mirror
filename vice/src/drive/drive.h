@@ -30,6 +30,7 @@
 #define _DRIVE_H
 
 #include "types.h"
+#include "diskimage.h"
 #include "drivecpu.h"
 #include "log.h"
 
@@ -253,6 +254,8 @@ typedef struct drive_s {
     /* Drive-specific logging goes here.  */
     log_t log;
 
+    /* Pointer to the attached disk image.  */
+    disk_image_t *image;
 } drive_t;
 
 extern drive_t drive[2];
@@ -267,8 +270,8 @@ extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
-extern int drive_attach_floppy(void *flp);
-extern int drive_detach_floppy(void *flp);
+extern int drive_attach_image(disk_image_t *image, int unit, void *flp);
+extern int drive_detach_image(disk_image_t *image, int unit, void *flp);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr);

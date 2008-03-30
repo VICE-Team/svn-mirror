@@ -2,7 +2,7 @@
  * attach.c - File system attach management.
  *
  * Written by
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,16 +29,19 @@
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #endif
 
 #include "attach.h"
 #include "diskimage.h"
+#include "drive.h"
 #include "fliplist.h"
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "wd1770.h"
 
 static int file_system_device_enabled[4];
 
@@ -65,26 +68,9 @@ static resource_t resources[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static drive_attach_func_t attach_hooks[4];
-static drive_detach_func_t detach_hooks[4];
-
 int file_system_init_resources(void)
 {
     return resources_register(resources);
-}
-
-/* Warning: this must be called /before/ `file_system_init()'.  */
-int file_system_set_hooks(int unit,
-                          int (*attach_func)(void *),
-                          int (*detach_func)(void *))
-{
-    if (unit < 8 || unit > 11)
-        return -1;
-
-    attach_hooks[unit - 8] = attach_func;
-    detach_hooks[unit - 8] = detach_func;
-
-    return 0;
 }
 
 void file_system_init(void)
@@ -94,8 +80,7 @@ void file_system_init(void)
 
     for (i = 0; i < 4; i++) {
         initialize_1541(i + 8, ((file_system_device_enabled[0] 
-                        ? DT_FS : DT_DISK) | DT_1541),
-                        attach_hooks[i], detach_hooks[i], NULL);
+                        ? DT_FS : DT_DISK) | DT_1541), NULL);
         p = serial_get_device(i + 8);
         p->image = xmalloc(sizeof(disk_image_t));    
         p->image->name = NULL;
@@ -115,8 +100,7 @@ static int set_file_system_device8(resource_value_t v)
 	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(8, (file_system_device_enabled[0]
-                                ? DT_FS : DT_DISK) | DT_1541,
-                            attach_hooks[0], detach_hooks[0], floppy);
+                                ? DT_FS : DT_DISK) | DT_1541, floppy);
 	}
     }
     return 0;
@@ -135,8 +119,7 @@ static int set_file_system_device9(resource_value_t v)
 	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(9, (file_system_device_enabled[1]
-                                ? DT_FS : DT_DISK) | DT_1541,
-                            attach_hooks[1], detach_hooks[1], floppy);
+                                ? DT_FS : DT_DISK) | DT_1541, floppy);
 	}
     }
     return 0;
@@ -155,8 +138,7 @@ static int set_file_system_device10(resource_value_t v)
 	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(10, (file_system_device_enabled[2]
-                                 ? DT_FS : DT_DISK) | DT_1541,
-                            attach_hooks[2], detach_hooks[2], floppy);
+                                 ? DT_FS : DT_DISK) | DT_1541, floppy);
 	}
     }
     return 0;
@@ -175,11 +157,99 @@ static int set_file_system_device11(resource_value_t v)
 	if (floppy->ActiveFd == NULL) {
 	    p->inuse = 0;
 	    initialize_1541(11, (file_system_device_enabled[3]
-                                 ? DT_FS : DT_DISK) | DT_1541,
-                            attach_hooks[3], detach_hooks[3], floppy);
+                                 ? DT_FS : DT_DISK) | DT_1541, floppy);
 	}
     }
     return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
+int attach_disk_image(disk_image_t *image, DRIVE *floppy, const char *filename,
+                      int unit)
+{
+    disk_image_t new_image;
+
+    if (!filename) {
+        log_error(LOG_ERR, "No name, cannot attach floppy image.");
+        return -1;
+    }
+
+    new_image.name = stralloc(filename);
+
+    if (disk_image_open(&new_image) < 0) {
+        free(new_image.name);
+        log_error(LOG_ERR, "Cannot open file `%s'", filename);
+        return -1;
+    }
+
+    switch (unit) {
+      case 8:
+        wd1770_detach_image(image, 8);
+        drive_detach_image(image, 8, (void *)floppy);
+        vdrive_detach_image(image, 8, floppy);
+        break;
+      case 9:
+        wd1770_detach_image(image, 9);
+        drive_detach_image(image, 8, (void *)floppy);
+        vdrive_detach_image(image, 9, floppy);
+        break;
+      case 10:
+        vdrive_detach_image(image, 10, floppy);
+        break;
+      case 11:
+        vdrive_detach_image(image, 11, floppy);
+        break;
+    }
+
+    memcpy(image, &new_image, sizeof(disk_image_t));
+
+    switch (unit) {
+      case 8:
+        vdrive_attach_image(image, 8, floppy);
+        drive_attach_image(image, 8, (void *)floppy);
+        wd1770_attach_image(image, 8);
+        break;
+      case 9:
+        vdrive_attach_image(image, 9, floppy);
+        drive_attach_image(image, 9, (void *)floppy);
+        wd1770_attach_image(image, 9);
+        break;
+      case 10:
+        vdrive_attach_image(image, 10, floppy);
+        break;
+      case 11:
+        vdrive_attach_image(image, 11, floppy);
+        break;
+    }
+    return 0;
+}
+
+void detach_disk_image(disk_image_t *image, DRIVE *floppy, int unit)
+{
+    if (image->name != NULL) {
+        switch (unit) {
+          case 8:
+            wd1770_detach_image(image, 8);
+            drive_detach_image(image, 8, (void *)floppy);
+            vdrive_detach_image(image, 8, floppy);
+            break;
+          case 9:
+            wd1770_detach_image(image, 9);
+            drive_detach_image(image, 9, (void *)floppy);
+            vdrive_detach_image(image, 9, floppy);
+            break;
+          case 10:
+            vdrive_detach_image(image, 10, floppy);
+            break;
+          case 11:
+            vdrive_detach_image(image, 11, floppy);
+            break;
+        }
+
+        free(image->name);
+        image->name = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -193,17 +263,10 @@ int file_system_attach_disk(int unit, const char *filename)
     floppy = (DRIVE *)p->info;
     if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
         p->inuse = 0;
-        initialize_1541(unit, DT_DISK | DT_1541,
-                        attach_hooks[unit - 8],
-                        detach_hooks[unit - 8],
-                        floppy);
+        initialize_1541(unit, DT_DISK | DT_1541, floppy);
     }
 
-#if 0
-    if (serial_select_file(DT_DISK | DT_1541, unit, filename) < 0) {
-#else
-    if (vdrive_attach_image(p->image, (DRIVE *)p->info, filename) < 0) {
-#endif
+    if (attach_disk_image(p->image, (DRIVE *)p->info, filename, unit) < 0) {
         file_system_detach_disk(unit);
         return -1;
     } else {
@@ -211,51 +274,59 @@ int file_system_attach_disk(int unit, const char *filename)
         ui_display_drive_current_image(unit - 8, filename);
         return 0;
     }
+    return 0;
 }
 
 void file_system_detach_disk(int unit)
 {
     int i;
+    serial_t *p;
     
     if (unit < 0) {
-	serial_remove_file(8);
-	set_file_system_device8((resource_value_t)
-                                 file_system_device_enabled[0]);
-	serial_remove_file(9);
-	set_file_system_device9((resource_value_t)
-                                 file_system_device_enabled[1]);
-	serial_remove_file(10);
-	set_file_system_device10((resource_value_t)
-                                  file_system_device_enabled[2]);
-	serial_remove_file(11);
-	set_file_system_device11((resource_value_t)
-                                  file_system_device_enabled[3]);
-	/* XXX Fixme: Hardcoded 2 drives here! */
-	for (i = 8; i<=9; i++)
-	    ui_display_drive_current_image(i - 8, "");
+        p = serial_get_device(8);
+        detach_disk_image(p->image, (DRIVE *)p->info, 8);
+        set_file_system_device8((resource_value_t)
+                                file_system_device_enabled[0]);
+        p = serial_get_device(9);
+        detach_disk_image(p->image, (DRIVE *)p->info, 9);
+        set_file_system_device9((resource_value_t)
+                                file_system_device_enabled[1]);
+        p = serial_get_device(10);
+        detach_disk_image(p->image, (DRIVE *)p->info, 10);
+        set_file_system_device10((resource_value_t)
+                                 file_system_device_enabled[2]);
+        p = serial_get_device(11);
+        detach_disk_image(p->image, (DRIVE *)p->info, 11);
+        set_file_system_device11((resource_value_t)
+                                 file_system_device_enabled[3]);
+
+        /* XXX Fixme: Hardcoded 2 drives here! */
+        for (i = 8; i <= 9; i++)
+            ui_display_drive_current_image(i - 8, "");
 	    
     } else {
-	serial_remove_file(unit);
-	switch(unit) {
-	  case 8:
-	    set_file_system_device8((resource_value_t)
-                                     file_system_device_enabled[0]);
-	    ui_display_drive_current_image(0, "");
-	    break;
-	  case 9:
-	    set_file_system_device9((resource_value_t)
-                                     file_system_device_enabled[1]);
-	    ui_display_drive_current_image(1, "");
-	    break;
-	  case 10:
-	    set_file_system_device10((resource_value_t)
-                                      file_system_device_enabled[2]);
-	    break;
-	  case 11:
-	    set_file_system_device11((resource_value_t)
-                                      file_system_device_enabled[3]);
-	    break;
-	}
+        p = serial_get_device(unit);
+        detach_disk_image(p->image, (DRIVE *)p->info, unit);
+        switch(unit) {
+          case 8:
+            set_file_system_device8((resource_value_t)
+                                    file_system_device_enabled[0]);
+            ui_display_drive_current_image(0, "");
+            break;
+          case 9:
+            set_file_system_device9((resource_value_t)
+                                    file_system_device_enabled[1]);
+            ui_display_drive_current_image(1, "");
+            break;
+          case 10:
+            set_file_system_device10((resource_value_t)
+                                     file_system_device_enabled[2]);
+            break;
+          case 11:
+            set_file_system_device11((resource_value_t)
+                                     file_system_device_enabled[3]);
+            break;
+        }
     }
 }
 

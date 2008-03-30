@@ -27,6 +27,7 @@
 #ifndef _WD1770_H
 #define _WD1770_H
 
+#include "diskimage.h"
 #include "types.h"
 
 /* WD1770 register.  */
@@ -55,6 +56,8 @@ typedef struct wd1770_s {
     CLOCK led_delay_clk;
     /* Interrupt line.  */
     CLOCK set_drq;
+    /* Pointer to the disk image.  */
+    disk_image_t *image;
 } wd1770_t;
 
 extern void wd1770d0_init(void);
@@ -70,8 +73,8 @@ extern void wd1770d1_reset(void);
 extern void wd1770_handle_job_code(int dnr);
 extern void wd1770_vsync_hook(void);
 
-extern int wd1770_attach_disk(void *flp);
-extern int wd1770_detach_disk(void *flp);
+extern int wd1770_attach_image(disk_image_t *image, int unit);
+extern int wd1770_detach_image(disk_image_t *image, int unit);
 
 #endif                          /* _WD1770_H */
 
