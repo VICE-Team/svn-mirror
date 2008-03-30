@@ -53,16 +53,16 @@
 typedef struct serial_s
 {
     int inuse;
-    int isopen[16];                 /* isopen flag for each secondary address */
-    disk_image_t *image;            /* pointer to the disk image data  */ 
-    char *name;                     /* name of the device */
-    int (*getf)(void *, BYTE *, int); /* serial read function */
-    int (*putf)(void *, BYTE, int); /* serial write function */
-    int (*openf)(void *, const char *, int, int); /* serial open function */
-    int (*closef)(void *, int);	    /* serial close function */
-    void (*flushf)(void *, int);    /* tell device that write completed */
-    BYTE nextbyte[16];              /* next byte to send, per sec. addr. */
-    char nextok[16];                /* flag if nextbyte is valid */
+    int isopen[16]; /* isopen flag for each secondary address */
+    disk_image_t *image; /* pointer to the disk image data  */ 
+    char *name; /* name of the device */
+    int (*getf)(void *, BYTE *, unsigned int); /* serial read function */
+    int (*putf)(void *, BYTE, unsigned int); /* serial write function */
+    int (*openf)(void *, const char *, int, unsigned int); /* serial open */
+    int (*closef)(void *, unsigned int);/* serial close function */
+    void (*flushf)(void *, unsigned int);/* tell device that write completed */
+    BYTE nextbyte[16]; /* next byte to send, per sec. addr. */
+    char nextok[16]; /* flag if nextbyte is valid */
 
     int nextst[16];
 
@@ -78,12 +78,13 @@ typedef struct serial_s
 extern int serial_init(const trap_t *trap_list);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
-extern int serial_attach_device(int device, const char *name,
-                                int (*getf)(void *, BYTE *, int),
-                                int (*putf)(void *, BYTE, int),
-                                int (*openf)(void *, const char *, int, int),
-                                int (*closef)(void *, int),
-                                void (*flushf)(void *, int));
+extern int serial_attach_device(unsigned int device, const char *name,
+                                int (*getf)(void *, BYTE *, unsigned int),
+                                int (*putf)(void *, BYTE, unsigned int),
+                                int (*openf)(void *, const char *, int,
+                                unsigned int),
+                                int (*closef)(void *, unsigned int),
+                                void (*flushf)(void *, unsigned int));
 extern int serial_detach_device(int device);
 extern serial_t *serial_get_device(int number);
 extern void serial_reset(void);
@@ -99,5 +100,5 @@ extern void trap_serial_ready(void);
 extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));
 
-#endif  /* _SERIAL_H */
+#endif
 

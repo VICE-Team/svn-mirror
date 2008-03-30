@@ -450,7 +450,7 @@ static void fs_error(vdrive_t *vdrive, int code)
     fs_eptr = 0;
 }
 
-static void flush_fs(void *flp, int secondary)
+static void flush_fs(void *flp, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
@@ -616,7 +616,7 @@ static void flush_fs(void *flp, int secondary)
     fs_cptr = 0;
 }
 
-static int write_fs(void *flp, BYTE data, int secondary)
+static int write_fs(void *flp, BYTE data, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
 
@@ -640,7 +640,7 @@ static int write_fs(void *flp, BYTE data, int secondary)
     return FLOPPY_ERROR;
 }
 
-static int read_fs(void *flp, BYTE * data, int secondary)
+static int read_fs(void *flp, BYTE * data, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     int i, l, f;
@@ -866,7 +866,8 @@ static int read_fs(void *flp, BYTE * data, int secondary)
     return FLOPPY_ERROR;
 }
 
-static int open_fs(void *flp, const char *name, int length, int secondary)
+static int open_fs(void *flp, const char *name, int length,
+                   unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
     FILE *fd;
@@ -1137,7 +1138,7 @@ static int open_fs(void *flp, const char *name, int length, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
-static int close_fs(void *flp, int secondary)
+static int close_fs(void *flp, unsigned int secondary)
 {
     vdrive_t *vdrive = (vdrive_t *)flp;
 
@@ -1454,7 +1455,7 @@ static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
     return ((j > 8) ? fsdevice_reduce_filename_p00(filename, j) : j);
 }
 
-int fsdevice_attach(int device, const char *name)
+int fsdevice_attach(unsigned int device, const char *name)
 {
     vdrive_t *vdrive;
 

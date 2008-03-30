@@ -2224,17 +2224,17 @@ void disable_text(void)
 {
 }
 
-int serial_attach_device(int device, const char *name,
-                         int (*getf)(void *, BYTE *, int),
-                         int (*putf)(void *, BYTE, int),
-                         int (*openf)(void *, const char *, int, int),
-                         int (*closef)(void *, int),
-                         void (*flushf)(void *, int))
+int serial_attach_device(unsigned int device, const char *name,
+                         int (*getf)(void *, BYTE *, unsigned int),
+                         int (*putf)(void *, BYTE, unsigned int),
+                         int (*openf)(void *, const char *, int, unsigned int),
+                         int (*closef)(void *, unsigned int),
+                         void (*flushf)(void *, unsigned int))
 {
     return 0;
 }
 
-void *file_system_get_vdrive(int unit)
+void *file_system_get_vdrive(unsigned int unit)
 {
     if (unit < 8 || unit > 11) {
         printf("Wrong unit for vdrive");
