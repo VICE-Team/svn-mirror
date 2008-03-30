@@ -529,6 +529,7 @@ static warn_t *drive_warn;
 
 static void GCR_data_writeback(int dnr);
 static void initialize_rotation(int freq, int dnr);
+static void initialize_rotation_table(int freq, int dnr);
 static void drive_extend_disk_image(int dnr);
 static void drive_set_half_track(int num, int dnr);
 inline static BYTE drive_sync_found(int dnr);
@@ -968,6 +969,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 	drive[i].side = 0;
 	drive[i].GCR_image_loaded = 0;
 	drive[i].read_only = 0;
+	drive[i].clock_frequency = 1;
 	for (track = 0; track < MAX_TRACKS_1541; track++)
 	    drive[i].GCR_track_size[track] = raw_track_size[speed_map_1541[track]];
 	/* Position the R/W head on the directory track.  */
@@ -1303,6 +1305,12 @@ int drive_detach_floppy(DRIVE *floppy)
 /* Initialization.  */
 static void initialize_rotation(int freq, int dnr)
 {
+    initialize_rotation_table(freq, dnr);
+    drive[dnr].bits_moved = drive[dnr].accum = 0;
+}
+
+static void initialize_rotation_table(int freq, int dnr)
+{
     int i, j;
 
     for (i = 0; i < 4; i++) {
@@ -1316,8 +1324,6 @@ static void initialize_rotation(int freq, int dnr)
                                           (unsigned long)bits) * ACCUM_MAX);
         }
     }
-
-    drive[dnr].bits_moved = drive[dnr].accum = 0;
 }
 
 /* Rotate the disk according to the current value of `drive_clk[]'.  If
@@ -1687,33 +1693,12 @@ void drive_set_1571_side(int side, int dnr)
     drive_set_half_track(num, dnr);
 }
 
-/* ------------------------------------------------------------------------- */
-
-/* Handle a ROM trap. */
-int drive0_trap_handler(void)
+void drive_cpu_execute(void)
 {
-    if (MOS6510_REGS_GET_PC(&drive0_cpu_regs) == 0xec9b) {
-	/* Idle loop */
-	MOS6510_REGS_SET_PC(&drive0_cpu_regs, 0xebff);
-	if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE)
-	    drive_clk[0] = next_alarm_clk(&drive0_int_status);
-	} else
-	    return 1;
-
-    return 0;
-}
-
-int drive1_trap_handler(void)
-{
-    if (MOS6510_REGS_GET_PC(&drive1_cpu_regs) == 0xec9b) {
-	/* Idle loop */
-	MOS6510_REGS_SET_PC(&drive1_cpu_regs, 0xebff);
-	if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE)
-	    drive_clk[1] = next_alarm_clk(&drive1_int_status);
-	} else
-	    return 1;
-
-    return 0;
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1833,8 +1818,8 @@ Type               DWORD  2      drive type
 
 */
 
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define DRIVE_SNAP_MAJOR 0
+#define DRIVE_SNAP_MINOR 1
 
 int drive_write_snapshot_module(snapshot_t *s, int save_disks)
 {
@@ -1844,6 +1829,9 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks)
     DWORD rotation_table_ptr[2];
     BYTE GCR_image[2];
 
+    if (!drive_true_emulation)
+        return 0;
+
     /* Save changes to disk before taking a snapshot.  */
     GCR_data_writeback(0);
     GCR_data_writeback(1);
@@ -1851,18 +1839,14 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks)
     for (i = 0; i < 2; i++) {
         rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
                                          - drive[i].rotation_table[0]);
-        GCR_image[i] = (drive[i].GCR_image_loaded == 0) ? 0 : 1;
+        GCR_image[i] = (drive[i].GCR_image_loaded == 0 
+                         || !save_disks) ? 0 : 1;
     }
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, DRIVE_SNAP_MAJOR,
+                               DRIVE_SNAP_MINOR);
     if (m == NULL)
         return -1;
-
-    if (snapshot_module_write_byte(m, (BYTE) drive_true_emulation) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
 
     for (i = 0; i < 2; i++) {
         if (0
@@ -1875,13 +1859,16 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks)
             || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID1) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID2) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].extend_image_policy) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].finish_byte) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].GCR_head_offset) < 0
             || snapshot_module_write_byte(m, (BYTE) GCR_image[i]) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_read) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].have_new_disk) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].idling_method) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].parallel_cable_enabled) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].read_only) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
             || snapshot_module_write_dword(m, (DWORD) (rotation_table_ptr[i])) < 0
@@ -1993,21 +1980,21 @@ int drive_read_snapshot_module(snapshot_t *s)
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
-    if (m == NULL)
-        return -1;
+    if (m == NULL) {
+        /* If this module is not found true emulation is off.  */
+        set_drive_true_emulation((resource_value_t) 0);
+        return 0;
+    }
 
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+    if (major_version > DRIVE_SNAP_MAJOR || minor_version > DRIVE_SNAP_MINOR) {
         fprintf(stderr,
                 "DRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
+                DRIVE_SNAP_MAJOR, DRIVE_SNAP_MINOR);
     }
 
-    if (read_byte_into_int(m, &drive_true_emulation) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
+    /* If this module exists true emulation is enabled.  */
+    drive_true_emulation = 1;
 
     for (i = 0; i < 2; i++) {
         if (0
@@ -2020,13 +2007,16 @@ int drive_read_snapshot_module(snapshot_t *s)
             || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
+            || read_byte_into_int(m, &drive[i].extend_image_policy) < 0
             || read_byte_into_int(m, &drive[i].finish_byte) < 0
             || snapshot_module_read_dword(m, &drive[i].GCR_head_offset) < 0
             || snapshot_module_read_byte(m, &GCR_image[i]) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
             || read_byte_into_int(m, &drive[i].have_new_disk) < 0
+            || read_byte_into_int(m, &drive[i].idling_method) < 0
             || read_byte_into_int(m, &drive[i].last_mode) < 0
+            || read_byte_into_int(m, &drive[i].parallel_cable_enabled) < 0
             || read_byte_into_int(m, &drive[i].read_only) < 0
             || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
             || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
@@ -2039,9 +2029,6 @@ int drive_read_snapshot_module(snapshot_t *s)
     }
     snapshot_module_close(m);
 
-    /* Switch drives on/off if necessary.  */
-    set_drive_true_emulation((resource_value_t) drive_true_emulation);
- 
     for (i = 0; i < 2; i++) {
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
             + rotation_table_ptr[i];
@@ -2049,14 +2036,51 @@ int drive_read_snapshot_module(snapshot_t *s)
                            + ((drive[i].current_half_track / 2 - 1)
                               * NUM_MAX_BYTES_TRACK));
         if (drive[i].type != DRIVE_TYPE_1571) {
-            if (drive[i].type == DRIVE_TYPE_1581)
-                drive_set_1571_sync_factor(1, i);
-            else {
-                drive_set_1571_sync_factor(0, i);
+            if (drive[i].type == DRIVE_TYPE_1581) {
+                initialize_rotation_table(1, i);
+                set_sync_factor((resource_value_t) sync_factor);
+            } else {
                 drive[i].side = 0;
+                initialize_rotation_table(0, i);
+                set_sync_factor((resource_value_t) sync_factor);
             }
         }
-        drive_initialize_rom_traps(i);
+    }
+
+    switch (drive[0].type) {
+      case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2031:
+        drive[0].enable = 1;
+        drive_setup_rom_image(0);
+        drive0_mem_init(drive[0].type);
+        set_drive0_idling_method((resource_value_t) drive[0].idling_method);
+        drive_initialize_rom_traps(0);
+       break;
+      case DRIVE_TYPE_NONE:
+        drive_disable(0);
+        break;
+      default:
+        return -1;
+    }
+
+    switch (drive[1].type) {
+      case DRIVE_TYPE_1541:
+      case DRIVE_TYPE_1571:
+      case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2031:
+        drive[1].enable = 1;
+        drive_setup_rom_image(1);
+        drive1_mem_init(drive[1].type);
+        set_drive1_idling_method((resource_value_t) drive[1].idling_method);
+        drive_initialize_rom_traps(1);
+        break;
+      case DRIVE_TYPE_NONE:
+        drive_disable(1);
+        break;
+      default:
+        return -1;
     }
 
     if (drive[0].enable) {
@@ -2079,6 +2103,7 @@ int drive_read_snapshot_module(snapshot_t *s)
                 return -1;
         }
     }
+
     if (drive[1].enable) {
         if (drive1_cpu_read_snapshot_module(s) < 0)
             return -1;
@@ -2108,17 +2133,20 @@ int drive_read_snapshot_module(snapshot_t *s)
             return -1;
     }
 
-    drive[0].old_half_track = 36;
-    drive[0].old_led_status = 0;
-    drive[1].old_half_track = 36;
-    drive[1].old_led_status = 0;
+    if (drive[0].type != DRIVE_TYPE_NONE)
+        drive_enable(0);
+    if (drive[1].type != DRIVE_TYPE_NONE)
+        drive_enable(1);
+
+    iec_calculate_callback_index();
+    iec_update_ports();
     drive_update_ui_status();
 
     return 0;
 }
 
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define IMAGE_SNAP_MAJOR 0
+#define IMAGE_SNAP_MINOR 0
 
 static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
 {
@@ -2129,7 +2157,8 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
 
     sprintf(snap_module_name, "GCRIMAGE%i", dnr);
 
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
+                               IMAGE_SNAP_MINOR);
     if (m == NULL)
        return -1;
 
@@ -2175,11 +2204,11 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
         return -1;
 
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+    if (major_version > IMAGE_SNAP_MAJOR || minor_version > IMAGE_SNAP_MINOR) {
         fprintf(stderr,
                 "DRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
+                IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR);
     }
 
     tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);

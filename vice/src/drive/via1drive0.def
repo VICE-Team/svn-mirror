@@ -83,6 +83,7 @@ PRE_VIA_FUNCS()
 
 UNDUMP_PRA()
 {
+    iec_info = iec_get_drive_port();
     if (drive[0].type == DRIVE_TYPE_1571) {
         drive_set_1571_sync_factor(byte & 0x20, 0);        
         drive_set_1571_side((byte >> 2) & 1, 0);

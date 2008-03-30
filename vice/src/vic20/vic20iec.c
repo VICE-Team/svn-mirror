@@ -59,6 +59,11 @@ inline void resolve_bus_signals(void)
 #endif
 }
 
+void iec_update_ports(void)
+{
+    /* Not used for now.  */
+}
+
 void iec_drive0_write(BYTE data)
 {
     static int last_write = 0;

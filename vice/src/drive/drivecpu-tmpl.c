@@ -293,7 +293,7 @@ static void reset(void)
 	monitor_trap_on(&mydrive_int_status);
 }
 
-static void mydrive_mem_init(int type)
+void mydrive_mem_init(int type)
 {
     int i;
 
@@ -438,6 +438,20 @@ CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
     return our_sub;
 }
 
+/* Handle a ROM trap. */
+inline static int mydrive_trap_handler(void)
+{
+    if (MOS6510_REGS_GET_PC(&mydrive_cpu_regs) == 0xec9b) {
+        /* Idle loop */
+        MOS6510_REGS_SET_PC(&mydrive_cpu_regs, 0xebff);
+        if (drive[mynumber].idling_method == DRIVE_IDLE_TRAP_IDLE)
+            drive_clk[mynumber] = next_alarm_clk(&mydrive_int_status);
+        } else
+            return 1;
+
+    return 0;
+}
+
 /* -------------------------------------------------------------------------- */
 
 /* Execute up to the current main CPU clock value.  This automatically
@@ -522,8 +536,7 @@ void mydrive_cpu_execute(void)
 
 #define ROM_TRAP_ALLOWED() 1
 
-#define ROM_TRAP_HANDLER() \
-    mydrive_trap_handler()
+#define ROM_TRAP_HANDLER() mydrive_trap_handler()
 
 #define CALLER e_disk_space
 
@@ -617,6 +630,9 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
+    /* Before we start make sure all devices are reset.  */
+    mydrive_cpu_reset();
+
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
         || snapshot_module_read_dword(m, &drive_clk[mynumber]) < 0
@@ -632,6 +648,26 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         || snapshot_module_read_dword(m, &last_exc_cycles) < 0
         )
         goto fail;
+
+    printf("MYIDENTIFICATION: RESET (UNDUMP)\n");
+    cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
+            DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
+    mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
+    mydrive_int_status.alarm_handler[A_MYVIA1T2] = int_myvia1t2;
+    mydrive_int_status.alarm_handler[A_MYVIA2T1] = int_myvia2t1;
+    mydrive_int_status.alarm_handler[A_MYVIA2T2] = int_myvia2t2;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TOD] = int_mycia1571tod;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TA] = int_mycia1571ta;
+    mydrive_int_status.alarm_handler[A_MYCIA1571TB] = int_mycia1571tb;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TOD] = int_mycia1581tod;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TA] = int_mycia1581ta;
+    mydrive_int_status.alarm_handler[A_MYCIA1581TB] = int_mycia1581tb;
+
+    reset_myvia1();
+    reset_myvia2();
+    reset_mycia1571();
+    reset_mycia1581();
+    reset_mywd1770();
 
     if (interrupt_read_snapshot(&mydrive_int_status, m) < 0)
         goto fail;

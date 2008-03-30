@@ -34,6 +34,7 @@
 #define mycia1581 cia1581d1
 #define mywd1770 wd1770d1
 #define mynumber 1
+#define MYCPU DRIVECPU1
 #define MYVIA1 VIA1D1
 #define MYVIA2 VIA2D1
 #define MYCIA1571 CIA1571D1

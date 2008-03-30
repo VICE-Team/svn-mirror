@@ -380,7 +380,7 @@ long machine_get_cycles_per_second(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MACHINE_NAME   "VIC20"
+/* #define SNAP_MACHINE_NAME   "VIC20" */
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
@@ -388,7 +388,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
     if (s == NULL) {
         perror(name);
         return -1;
@@ -414,7 +414,7 @@ int machine_read_snapshot(const char *name)
     snapshot_t *s;
     BYTE minor, major;
 
-    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL)
         return -1;
 

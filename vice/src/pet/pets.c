@@ -40,7 +40,7 @@
 #include "vsync.h"
 #include "petmem.h"
 
-#define	DEBUG
+#undef	DEBUG
 
 extern void video_resize(void);
 

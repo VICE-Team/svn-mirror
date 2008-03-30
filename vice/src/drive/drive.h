@@ -301,8 +301,8 @@ extern int drive_init_cmdline_options(void);
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern void serial_bus_drive_write(BYTE data);
 extern BYTE serial_bus_drive_read(void);
-extern int drive0_trap_handler(void);
-extern int drive1_trap_handler(void);
+extern void drive0_mem_init(int type);
+extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, int dnr);
 extern void drive_rotate_disk(int dnr);
 extern BYTE drive_read_disk_byte(int dnr);
@@ -319,6 +319,7 @@ extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
 extern void drive_update_ui_status(void);
+extern void drive_cpu_execute(void);
 
 extern int drive_write_snapshot_module(snapshot_t *s, int save_disks);
 extern int drive_read_snapshot_module(snapshot_t *s);

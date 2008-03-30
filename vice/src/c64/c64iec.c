@@ -46,7 +46,7 @@ static BYTE parallel_cable_drive_value = 0xff;
 
 int iec_callback_index = 0;
 
-inline static void update_ports(void)
+inline void iec_update_ports(void)
 {
     iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
                           & iec_info.drive2_bus;
@@ -62,7 +62,7 @@ void iec_drive0_write(BYTE data)
                           | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
                              & 0x80));
     iec_info.drive_data = data;
-    update_ports();
+    iec_update_ports();
 }
 
 void iec_drive1_write(BYTE data)
@@ -71,7 +71,7 @@ void iec_drive1_write(BYTE data)
                           | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
                              & 0x80));
     iec_info.drive2_data = data;
-    update_ports();
+    iec_update_ports();
 }
 
 BYTE iec_drive0_read(void)
@@ -126,7 +126,7 @@ void iec_cpu_write_conf1(BYTE data)
                           & 0x80));
 
     }
-    update_ports();
+    iec_update_ports();
 }
 
 /* Only the second drive is enabled.  */
@@ -160,7 +160,7 @@ void iec_cpu_write_conf2(BYTE data)
                           & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
                           & 0x80));
     }
-    update_ports();
+    iec_update_ports();
 }
 
 /* Both drive are enabled.  */
@@ -214,7 +214,7 @@ void iec_cpu_write_conf3(BYTE data)
                           & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
                           & 0x80));
     }
-    update_ports();
+    iec_update_ports();
 }
 
 void iec_cpu_undump(BYTE data)

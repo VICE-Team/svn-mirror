@@ -350,16 +350,19 @@ void machine_set_cycles_per_frame(long cpf) {
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MACHINE_NAME   "PET"
+/*#define SNAP_MACHINE_NAME   "PET"*/
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
+
+/* now machine_name[] is used */
+/* const char machine_snapshot_name[] = SNAP_MACHINE_NAME; */
 
 int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
     int ef = 0;
 
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
     if (s == NULL) {
         perror(name);
         return -1;
@@ -393,7 +396,7 @@ int machine_read_snapshot(const char *name)
     BYTE minor, major;
     int ef = 0;
 
-    s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
+    s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL) {
         return -1;
     }

@@ -51,6 +51,24 @@
 
 #include "vsync.h"
 
+/************************************************************************/
+/* FIXME: This is ugly and currently a workaround... */
+
+#ifndef FRAMEB_WIDTH
+#define	FRAMEB_WIDTH	\
+	((SCREEN_WIDTH + 2 * 2 * SCREEN_MAX_SPRITE_WIDTH) * max_pixel_width)
+#endif
+
+#ifndef FRAMEB_HEIGHT
+#define	FRAMEB_HEIGHT	\
+	(SCREEN_MAX_HEIGHT + 1) * max_pixel_height
+#endif
+
+#ifndef SCREEN_LAST_RASTERLINE
+#define	SCREEN_LAST_RASTERLINE	SCREEN_HEIGHT
+#endif
+
+/************************************************************************/
 #undef MIN
 #undef MAX
 #define MIN(a, b)	((a) < (b) ? (a) : (b))
@@ -270,10 +288,7 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
 {
     /* Keep enough space on the left and the right for one sprite of the
        maximum size.  This way we can clip sprites more easily.  */
-    if (frame_buffer_alloc(&frame_buffer,
-			   ((SCREEN_WIDTH + 2 * 2 * SCREEN_MAX_SPRITE_WIDTH)
-			    * max_pixel_width),
-			   (SCREEN_MAX_HEIGHT + 1) * max_pixel_height))
+    if (frame_buffer_alloc(&frame_buffer, FRAMEB_WIDTH, FRAMEB_HEIGHT))
 	return -1;
 
     reset_raster();
@@ -1282,6 +1297,9 @@ inline static void emulate_line(void)
 	    update_sprite_collisions();
 #endif
 
+#ifdef __CRTC__
+	if (rasterline < SCREEN_HEIGHT) 
+#endif
         if (have_changes_on_this_line) {
             apply_all_changes(&background_changes);
             apply_all_changes(&foreground_changes);
@@ -1289,16 +1307,24 @@ inline static void emulate_line(void)
             have_changes_on_this_line = 0;
         }
 	rasterline++;
-	if (rasterline == SCREEN_HEIGHT) {
+	if (rasterline == SCREEN_LAST_RASTERLINE) {
 	    handle_end_of_frame();
 	} else {
+#ifdef __CRTC__
+	  if (rasterline < SCREEN_HEIGHT) {
+#endif
 	    frame_buffer_ptr = FRAME_BUFFER_LINE_START(frame_buffer,
-						    rasterline * pixel_height);
+					    rasterline * pixel_height);
 	    frame_buffer_ptr += 2 * SCREEN_MAX_SPRITE_WIDTH;
+#ifdef __CRTC__
+	  }
+#endif
 	}
 
     }
-
+#ifdef __CRTC__
+    if (rasterline < SCREEN_HEIGHT)
+#endif
     apply_all_changes(&next_line_changes);
 
 #ifdef __VIC_II__

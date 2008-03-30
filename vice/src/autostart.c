@@ -48,6 +48,8 @@
 #include "utils.h"
 #include "vdrive.h"
 #include "vmachine.h"
+#include "machine.h"
+#include "snapshot.h"
 #include "warn.h"
 
 
@@ -66,6 +68,7 @@ static enum {
     AUTOSTART_LOADINGTAPE,
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
+    AUTOSTART_HASSNAPSHOT,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -136,6 +139,18 @@ static int get_true1541_state(void)
 	return 0;
 
     return value;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    if (autostart_program_name 
+		&& machine_read_snapshot(autostart_program_name) < 0) {
+        ui_error("Cannot load snapshot file\n`%s'", autostart_program_name
+		? autostart_program_name : "<null>");
+    }
+    ui_update_menus();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -303,6 +318,11 @@ void autostart_advance(void)
             break;
         }
         break;
+      case AUTOSTART_HASSNAPSHOT:
+        warn(pwarn, -1, "loading snapshot");
+	maincpu_trigger_trap(load_snapshot_trap,(void*)0);
+        autostartmode = AUTOSTART_DONE;
+	break;
       default:
         return;
     }
@@ -332,6 +352,31 @@ static void reboot_for_autostart(const char *program_name)
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* Autostart snapshot file `file_name'.  */
+int autostart_snapshot(const char *file_name, const char *program_name)
+{
+    BYTE vmajor, vminor;
+    snapshot_t *snap;
+
+    if (file_name == NULL || !autostart_enabled)
+	return -1;
+
+    deallocate_program_name();	/* not needed at all */
+
+    if ( !(snap = snapshot_open(file_name, &vmajor, &vminor, 
+					machine_name)) ) {
+	warn(pwarn, -1, "cannot attach file '%s' (as a snapshot)", file_name);
+	autostartmode = AUTOSTART_ERROR;
+	return -1;
+    }
+    snapshot_close(snap);
+    warn(pwarn, -1, "attached file `%s' as a snapshot file", file_name);
+    autostartmode = AUTOSTART_HASSNAPSHOT;
+    reboot_for_autostart(file_name);	/* use for snapshot */
+
+    return 0;
+}
 
 /* Autostart tape image `file_name'.  */
 int autostart_tape(const char *file_name, const char *program_name)
@@ -387,6 +432,8 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 	warn(pwarn, -1, "`%s' detected as a disk image", file_name);
     else if (autostart_tape(file_name, program_name) == 0)
 	warn(pwarn, -1, "`%s' detected as a tape image", file_name);
+    else if (autostart_snapshot(file_name, program_name) == 0)
+	warn(pwarn, -1, "`%s' detected as a snapshot file", file_name);
     else {
 	warn(pwarn, -1, "type of file `%s' unrecognized", file_name);
 	return -1;
