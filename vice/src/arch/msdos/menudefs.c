@@ -34,6 +34,7 @@
 
 #include "menudefs.h"
 
+#include "imagecontents.h"
 #include "grabkey.h"
 #include "joystick.h"
 #include "kbd.h"
@@ -87,21 +88,28 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 
     if (been_activated) {
         char *default_item, *directory;
-	char *name;
+	char *name, *file;
 
 	s = (char *)serial_get_file_name((int)param);
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a disk image", directory,
 				 "*.[dxg]6[4z]", default_item,
-				 read_disk_image_contents);
+				 image_contents_read_disk, &file);
 
-	if (name != NULL
-	    && (s == NULL || strcasecmp(name, s) != 0)
-	    && file_system_attach_disk((int)param, name) < 0) {
+        if (file != NULL) {
+            if (autostart_disk(name, file) < 0)
+                tui_error("Cannot autostart disk image.");
+            else
+                *behavior = TUI_MENU_BEH_RESUME;
+            free(file);
+        } else	if (name != NULL
+                    && (s == NULL || strcasecmp(name, s) != 0)
+                    && file_system_attach_disk((int)param, name) < 0) {
 	    tui_error("Invalid disk image.");
 	}
-	ui_update_menus();
+
+        ui_update_menus();
 
 	free(directory), free(default_item);
         if (name != NULL)
@@ -121,16 +129,23 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 
     if (been_activated) {
         char *directory, *default_item;
-	char *name;
+	char *name, *file;
 
 	s = (char *)serial_get_file_name(1);
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
 				 "*.t6[4z]", default_item,
-				 read_tape_image_contents);
+				 image_contents_read_tape,
+                                 &file);
 
-	if (name != NULL
+        if (file != NULL) {
+            if (autostart_tape(name, file) < 0)
+                tui_error("Cannot autostart tape image.");
+            else
+                *behavior = TUI_MENU_BEH_RESUME;
+            free(file);
+        } else if (name != NULL
 	    && (s == NULL || strcasecmp(s, name) != 0)
 	    && serial_select_file(DT_TAPE, 1, name) < 0) {
 	    tui_error("Invalid tape image.");
@@ -1051,6 +1066,11 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 1998 Andreas Boose",
             "Copyright (c) 1993-1996 Jouko Valta",
             "Copyright (c) 1993-1994 Jarkko Sonninen",
+#ifdef USE_RESID
+            "",
+            "reSID engine:"
+            "Copyright (c) 1998 Dag Lem",
+#endif
             "",
 	    "Official VICE homepage:",
 	    "http://www.tu-chemnitz.de/~fachat/vice/vice.html",

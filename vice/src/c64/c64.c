@@ -431,8 +431,8 @@ long machine_get_cycles_per_second(void)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MAJOR          0
-#define SNAP_MINOR          0
+#define SNAP_MAJOR 1
+#define SNAP_MINOR 0
 
 const char machine_name[] = "C64";
 

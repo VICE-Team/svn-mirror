@@ -1053,6 +1053,7 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 	}
         ret = psid->laststore;
     }
+
     return ret;
 }
 
@@ -1145,7 +1146,7 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 /* ------------------------------------------------------------------------- */
 
 static char snap_module_name[] = "SID";
-#define SNAP_MAJOR 0
+#define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
 int sid_write_snapshot_module(snapshot_t *s)

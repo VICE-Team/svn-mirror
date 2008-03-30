@@ -2698,7 +2698,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
 static void draw_std_background_2x(int start_pixel, int end_pixel)
 {
     vid_memset(frame_buffer_ptr + 2 * start_pixel,
-	       PIXEL2(overscan_background_color),
+	       PIXEL(overscan_background_color),
 	       2 * (end_pixel - start_pixel + 1));
 }
 #endif
@@ -3892,7 +3892,7 @@ FetchEventType     BYTE   1      type of event (0: matrix, 1: sprite check, 2: s
 */
 
 static char snap_module_name[] = "VIC-II";
-#define SNAP_MAJOR 0
+#define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
 int vic_ii_write_snapshot_module(snapshot_t *s)
