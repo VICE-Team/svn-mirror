@@ -282,11 +282,14 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
     crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES
                          + 2 * CRTC_SCREEN_BORDERHEIGHT;
 
-/* printf("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
-        num_cols, rasterlines, crtc.screen_width, crtc.screen_height); */
+#if 0
+    log_debug("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
+              num_cols, rasterlines, crtc.screen_width, crtc.screen_height);
+#endif
 
-    resources_touch("CrtcDoubleSize");
     crtc_update_window();
+    resources_touch("CrtcDoubleSize");
+
     if (crtc.raster.canvas != NULL)
         video_viewport_resize(crtc.raster.canvas);
 }
@@ -375,6 +378,7 @@ raster_t *crtc_init(void)
     crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
     crtc.retrace_callback = NULL;
 
+#if 0
     log_debug("scr_width=%d, scr_height=%d",
               crtc.screen_width, crtc.screen_height);
     log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
@@ -382,6 +386,7 @@ raster_t *crtc_init(void)
               CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
     log_debug("displayed lines: first=%d, last=%d",
               CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
+#endif
 
     crtc.initialized = 1;
 

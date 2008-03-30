@@ -87,6 +87,7 @@ static int set_double_size_enabled(resource_value_t v, void *param)
     video_chip_cap_t *video_chip_cap;
     cap_render_t *cap_render;
     video_canvas_t *canvas;
+    int old_doublesizex, old_doublesizey;
 
     video_resource_chip = (video_resource_chip_t *)param;
     video_chip_cap = video_resource_chip->video_chip_cap;
@@ -99,18 +100,23 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
     canvas->videoconfig->rendermode = cap_render->rmode;
 
+    old_doublesizex = canvas->videoconfig->doublesizex;
+    old_doublesizey = canvas->videoconfig->doublesizey;
+
     if (cap_render->sizex > 1
         && (video_chip_cap->dsize_limit_width == 0
-        || canvas->draw_buffer->canvas_width
-        <= video_chip_cap->dsize_limit_width))
+        || (canvas->draw_buffer->canvas_width > 0
+        && canvas->draw_buffer->canvas_width
+        <= video_chip_cap->dsize_limit_width)))
         canvas->videoconfig->doublesizex = 1;
     else
         canvas->videoconfig->doublesizex = 0;
 
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
-        || canvas->draw_buffer->canvas_height
-        <= video_chip_cap->dsize_limit_height))
+        || (canvas->draw_buffer->canvas_height > 0
+        && canvas->draw_buffer->canvas_height
+        <= video_chip_cap->dsize_limit_height)))
         canvas->videoconfig->doublesizey = 1;
     else
         canvas->videoconfig->doublesizey = 0;
@@ -125,7 +131,9 @@ static int set_double_size_enabled(resource_value_t v, void *param)
             canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X1;
     }
 
-    if (video_resource_chip->double_size_enabled != (int)v
+    if ((video_resource_chip->double_size_enabled != (int)v
+        || old_doublesizex != canvas->videoconfig->doublesizex
+        || old_doublesizey != canvas->videoconfig->doublesizey)
         && canvas->initialized
         && canvas->viewport->update_canvas > 0) {
         video_viewport_resize(canvas);
