@@ -177,6 +177,20 @@ enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
 
 /* ------------------------------------------------------------------------- */
 
+void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk)
+{
+    cs->global_pending_int = (enum cpu_int)
+        (cs->global_pending_int | IK_DMA);
+}
+
+void interrupt_ack_dma(cpu_int_status_t *cs)
+{
+    cs->global_pending_int = (enum cpu_int)
+        (cs->global_pending_int & ~IK_DMA);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Trigger a RESET.  This resets the machine.  */
 void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk)
 {

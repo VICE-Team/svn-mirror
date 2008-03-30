@@ -132,7 +132,7 @@ struct cpu_int_status_s {
     void *trap_data;
 
     /* Pointer to the last executed opcode information.  */
-    opcode_info_t *last_opcode_info_ptr;
+    DWORD /*opcode_info_t*/ *last_opcode_info_ptr;
 
     /* Number of cycles we have stolen to the processor last time.  */
     int num_last_stolen_cycles;
@@ -152,6 +152,9 @@ typedef struct cpu_int_status_s cpu_int_status_t;
 
 extern void interrupt_log_wrong_nirq(void);
 extern void interrupt_log_wrong_nnmi(void);
+
+extern void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk);
+extern void interrupt_ack_dma(cpu_int_status_t *cs);
 
 /* If we do not want the interrupt functions to be inlined, they are only
    compiled once when included in `maincpu.c'.  */
@@ -238,18 +241,6 @@ _INT_FUNC void interrupt_set_nmi(cpu_int_status_t *cs, int int_num, int value,
                 interrupt_log_wrong_nnmi();
         }
     }
-}
-
-_INT_FUNC void interrupt_trigger_dma(cpu_int_status_t *cs, CLOCK cpu_clk)
-{
-    cs->global_pending_int = (enum cpu_int)
-    	(cs->global_pending_int | IK_DMA);
-}
-
-_INT_FUNC void interrupt_ack_dma(cpu_int_status_t *cs)
-{
-    cs->global_pending_int = (enum cpu_int)
-    	(cs->global_pending_int & ~IK_DMA);
 }
 
 /* Change the interrupt line state: this can be used to change both NMI
