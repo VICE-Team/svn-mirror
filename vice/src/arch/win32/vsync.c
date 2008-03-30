@@ -61,8 +61,7 @@ static void vsync_debug(const char *format, ...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        OutputDebugString(tmp);
-        printf(tmp);
+        fprintf(logfile,tmp);
 }
 #define DEBUG(x) vsync_debug x
 #else
@@ -285,15 +284,21 @@ int do_vsync(int been_skipped)
     ui_dispatch_events();
 
     if (timer_speed != relative_speed) {
-        int interval = (int)(((100.0 / (double) relative_speed)
-                              / refresh_frequency) * 1000.0 + .5);
+        int interval;
 
         if (timer_id != 0)
             timeKillEvent(timer_id);
-        DEBUG(("Setting up timer -- interval = %d msec.\n", interval));
-        timer_id = timeSetEvent(interval, 0, timer_callback, 0, TIME_PERIODIC);
-        if (timer_id == 0) {
-            DEBUG(("timeSetEvent failed!\n"));
+        if (relative_speed!=0) {
+            interval = (int)(((100.0 / (double) relative_speed)
+                                / refresh_frequency) * 1000.0 + .5);
+            DEBUG(("Setting up timer -- interval = %d msec.\n", interval));
+            timer_id = timeSetEvent(interval, 0, timer_callback, 0, TIME_PERIODIC);
+            if (timer_id == 0) {
+                DEBUG(("timeSetEvent failed!\n"));
+                timer_speed = 0;
+            } else {
+                timer_speed = relative_speed;
+            }
         } else {
             timer_speed = relative_speed;
         }
@@ -445,4 +450,6 @@ void suspend_speed_eval(void)
 
 void vsync_disable_timer(void)
 {
+     if (timer_id != 0) timeKillEvent(timer_id);
+     timer_speed=-1;
 }

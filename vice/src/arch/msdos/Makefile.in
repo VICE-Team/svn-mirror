@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AR = @AR@
+ARCH_DIR = @ARCH_DIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
@@ -125,6 +126,8 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdep.c \
+	archdep.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -155,8 +158,6 @@ libarch_a_SOURCES = \
 	petui.h \
 	sidui.c \
 	sidui.h \
-	sysdep.c \
-	sysdep.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \
@@ -203,9 +204,9 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
-libarch_a_OBJECTS =  c128kbd.o c128ui.o c610ui.o c610kbd.o c64kbd.o \
-c64ui.o cbmcharsets.o grabkey.o joystick.o kbd.o mouse.o menudefs.o \
-petkbd.o petui.o sidui.o sysdep.o tui.o tui_backend.o tuicharset.o \
+libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610ui.o c610kbd.o \
+c64kbd.o c64ui.o cbmcharsets.o grabkey.o joystick.o kbd.o mouse.o \
+menudefs.o petkbd.o petui.o sidui.o tui.o tui_backend.o tuicharset.o \
 tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uisnapshot.o \
 vic20kbd.o vic20ui.o video.o vsync.o
 CFLAGS = @CFLAGS@

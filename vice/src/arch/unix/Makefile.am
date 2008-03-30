@@ -16,6 +16,8 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdep.c \
+	archdep.h \
 	coproc.h \
 	coproc.c \
 	joystick.c \
@@ -27,8 +29,6 @@ libarch_a_SOURCES = \
 	petkmap.c \
 	print.c \
 	rs232.c \
-	sysdep.c \
-	sysdep.h \
 	ui.h \
 	video.c \
 	video.h \

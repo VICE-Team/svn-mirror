@@ -20,6 +20,8 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
+	archdep.c \
+	archdep.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -50,8 +52,6 @@ libarch_a_SOURCES = \
 	petui.h \
 	sidui.c \
 	sidui.h \
-	sysdep.c \
-	sysdep.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \

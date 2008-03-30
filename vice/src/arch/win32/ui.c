@@ -39,7 +39,7 @@
 #include "kbd.h"
 #include "machine.h"
 #include "mem.h"
-#include "resc64.h"
+#include "res.h"
 #include "resources.h"
 #include "tapeunit.h"
 #include "uiattach.h"
@@ -80,6 +80,46 @@ struct {
 #endif
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { NULL, 0 }
+};
+
+/*  List of resources which can have multiple mutual exclusive menu entries. */
+typedef struct {
+    int value;
+    UINT item_id;
+} res_possible_values;
+
+res_possible_values RefreshRateValues[]={
+        0, IDM_REFRESH_RATE_AUTO,
+        1, IDM_REFRESH_RATE_1,
+        2, IDM_REFRESH_RATE_2,
+        3, IDM_REFRESH_RATE_3,
+        4, IDM_REFRESH_RATE_4,
+        5, IDM_REFRESH_RATE_5,
+        6, IDM_REFRESH_RATE_6,
+        7, IDM_REFRESH_RATE_7,
+        8, IDM_REFRESH_RATE_8,
+        9, IDM_REFRESH_RATE_9,
+        10, IDM_REFRESH_RATE_10,
+        -1, 0
+};
+
+res_possible_values SpeedValues[]={
+        0, IDM_MAXIMUM_SPEED_NO_LIMIT,
+        10, IDM_MAXIMUM_SPEED_10,
+        20, IDM_MAXIMUM_SPEED_20,
+        50, IDM_MAXIMUM_SPEED_50,
+        100, IDM_MAXIMUM_SPEED_100,
+        200, IDM_MAXIMUM_SPEED_200,
+        -1, 0
+};
+
+struct {
+    const char *name;
+    const res_possible_values *vals;
+} value_list[]={
+    "RefreshRate", RefreshRateValues,
+    "Speed", SpeedValues,
+    NULL,NULL
 };
 
 /* ------------------------------------------------------------------------ */
@@ -239,14 +279,24 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 void ui_update_menus(void)
 {
     HMENU menu = GetMenu(main_hwnd);
-    int i;
+    int i,j;
+    int value;
 
     for (i = 0; toggle_list[i].name != NULL; i++) {
-        int value;
-
         resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
         CheckMenuItem(menu, toggle_list[i].item_id,
                       value ? MF_CHECKED : MF_UNCHECKED);
+    }
+
+    for (i=0; value_list[i].name!=NULL; i++) {
+        resources_get_value(value_list[i].name, (resource_value_t *) &value);
+        for (j=0; value_list[i].vals[j].value!=-1; j++) {
+            if (value==value_list[i].vals[j].value) {
+                CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_CHECKED);
+            } else {
+                CheckMenuItem(menu,value_list[i].vals[j].item_id,MF_UNCHECKED);
+            }
+        }
     }
 }
 
@@ -260,6 +310,7 @@ void ui_register_machine_specific(ui_machine_specific_t func)
 }
 
 /* ------------------------------------------------------------------------- */
+
 /* Report an error to the user (`printf()' style).  */
 void ui_error(const char *format,...)
 {
@@ -358,7 +409,7 @@ void ui_dispatch_next_event(void)
     MSG msg;
 
     if (!GetMessage(&msg, NULL, 0, 0))
-        ExitProcess(msg.wParam);
+        exit(msg.wParam);
     TranslateMessage(&msg);
     DispatchMessage(&msg);
 }
@@ -381,16 +432,19 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
     char version[256];
 
     switch (msg) {
-      case WM_INITDIALOG:
-        sprintf(version, "Version %s", VERSION);
-        SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
-        return TRUE;
-      case WM_COMMAND:
-        if (wparam == IDOK) {
-            EndDialog(dialog, 0);
+        case WM_INITDIALOG:
+            sprintf(version, "Version %s", VERSION);
+            SetDlgItemText(dialog, IDC_ABOUT_VERSION, version);
             return TRUE;
-        }
-        break;
+        case WM_CLOSE:
+            EndDialog(dialog,0);
+            return TRUE;
+        case WM_COMMAND:
+            if (wparam == IDOK) {
+                EndDialog(dialog, 0);
+                return TRUE;
+            }
+            break;
     }
     return FALSE;
 }
@@ -517,34 +571,34 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         resources_set_value("RefreshRate", (resource_value_t) 0);
         break;
       case IDM_REFRESH_RATE_1:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 1);
         break;
       case IDM_REFRESH_RATE_2:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 2);
         break;
       case IDM_REFRESH_RATE_3:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 3);
         break;
       case IDM_REFRESH_RATE_4:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 4);
         break;
       case IDM_REFRESH_RATE_5:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 5);
         break;
       case IDM_REFRESH_RATE_6:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 6);
         break;
       case IDM_REFRESH_RATE_7:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 7);
         break;
       case IDM_REFRESH_RATE_8:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 8);
         break;
       case IDM_REFRESH_RATE_9:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 9);
         break;
       case IDM_REFRESH_RATE_10:
-        resources_set_value("RefreshRate", (resource_value_t) 0);
+        resources_set_value("RefreshRate", (resource_value_t) 10);
         break;
       case IDM_MAXIMUM_SPEED_200:
         resources_set_value("Speed", (resource_value_t) 200);
@@ -574,14 +628,17 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             ui_message("Settings saved successfully.");
         break;
       case IDM_SETTINGS_LOAD:
-        if (resources_load(NULL) < 0)
+        if (resources_load(NULL) < 0) {
             ui_error("Cannot load settings.");
-        else
+        } else {
             ui_message("Settings loaded successfully.");
+            ui_update_menus();
+        }
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
         ui_message("Default settings restored.");
+        ui_update_menus();
         break;
       default:
         {
@@ -590,7 +647,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             for (i = 0; toggle_list[i].name != NULL; i++)
                 if (toggle_list[i].item_id == wparam) {
                     resources_toggle(toggle_list[i].name, NULL);
-                    ui_update_menus();
                     break;
                 }
             break;
@@ -607,9 +663,11 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         handle_wm_command(wparam, lparam);
         return 0;
       case WM_ENTERSIZEMOVE:
+        suspend_speed_eval();
+        break;
       case WM_ENTERMENULOOP:
         suspend_speed_eval();
-        sound_close();
+        ui_update_menus();
         break;
       case WM_KEYDOWN:
         kbd_handle_keydown(wparam, lparam);
@@ -641,7 +699,6 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         return 0;
       case WM_DESTROY:
         PostQuitMessage(0);
-        vsync_cleanup();
         return 0;
       case WM_PAINT:
         {

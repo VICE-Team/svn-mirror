@@ -156,6 +156,9 @@ static int                  lag_offset;
 /*  Last played sample. This will be played in underflow condition */
 static WORD                 last_played_sample=0;
 
+/*  Flag: is soundcard a 16bit or 8bit card? */
+static int                  is16bit;
+
 /* ------------------------------------------------------------------------ */
 
 DWORD WINAPI HandleNotifications(LPVOID lpparam)
@@ -166,8 +169,9 @@ DWORD       buffer_lock_size;
 LPVOID      lpvPtr1,lpvPtr2;
 DWORD       dwBytes1,dwBytes2;
 int         i;
+SWORD       *copyptr;
 
-    buffer_lock_size=fragment_size*sizeof(SWORD);
+    buffer_lock_size=fragment_size*(is16bit ? sizeof(SWORD) : 1);
 
     while (WaitForSingleObject(notifyevent,INFINITE)!=WAIT_FAILED) {
         result=IDirectSoundBuffer_GetCurrentPosition(buffer,&play_cursor,&write_cursor);
@@ -182,20 +186,44 @@ int         i;
         if (result==DS_OK) {
             /*  Now lets check underflow condition */
             if (!fragment_waiting) {
-                for (i=0; i<dwBytes1/2; i++) {
-                    ((WORD*)lpvPtr1)[i]=last_played_sample;
-                }
-                if (lpvPtr2!=NULL) {
-                    for (i=0; i<dwBytes2/2; i++) {
-                        ((WORD*)lpvPtr2)[i]=last_played_sample;
+                if (is16bit) {
+                    for (i=0; i<dwBytes1/2; i++) {
+                        ((WORD*)lpvPtr1)[i]=last_played_sample;
+                    }
+                    if (lpvPtr2!=NULL) {
+                        for (i=0; i<dwBytes2/2; i++) {
+                            ((WORD*)lpvPtr2)[i]=last_played_sample;
+                        }
+                    }
+                } else {
+                    for (i=0; i<dwBytes1; i++) {
+                        ((BYTE*)lpvPtr1)[i]=last_played_sample;
+                    }
+                    if (lpvPtr2!=NULL) {
+                        for (i=0; i<dwBytes2; i++) {
+                            ((BYTE*)lpvPtr2)[i]=last_played_sample;
+                        }
                     }
                 }
             } else {
-                memcpy(lpvPtr1,fragment_pointer,dwBytes1);
-                if (lpvPtr2!=NULL) {
-                    memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
+                if (is16bit) {
+                    memcpy(lpvPtr1,fragment_pointer,dwBytes1);
+                    if (lpvPtr2!=NULL) {
+                        memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
+                    }
+                    last_played_sample=*((WORD*)(fragment_pointer+buffer_lock_size)-1);
+                } else {
+                    copyptr=fragment_pointer;
+                    for (i=0; i<dwBytes1; i++) {
+                        ((BYTE*)lpvPtr1)[i]=(*(copyptr++)>>8)+0x80;
+                    }
+                    if (lpvPtr2!=NULL) {
+                        for (i=0; i<dwBytes2; i++) {
+                            ((BYTE*)lpvPtr2)[i]=(*(copyptr++)>>8)+0x80;
+                        }
+                    }
+                    last_played_sample=(*(--copyptr)>>8)+0x80;
                 }
-                last_played_sample=*((WORD*)(fragment_pointer+buffer_lock_size)-1);
                 fragment_waiting=0;
             }
             result=IDirectSoundBuffer_Unlock(buffer,lpvPtr1,dwBytes1,lpvPtr2,dwBytes2);
@@ -210,6 +238,7 @@ int         i;
 
 DSBUFFERDESC desc;
 PCMWAVEFORMAT pcmwf;
+DSCAPS  capabilities;
 
 static int dx_init(warn_t *w, char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize)
@@ -264,15 +293,22 @@ int     i;
         IDirectSoundBuffer_Release(buffer);
     }
 
+    IDirectSound_GetCaps(ds,&capabilities);
+    if (capabilities.dwFlags&DSCAPS_SECONDARY16BIT) {
+        is16bit=1;
+    } else {
+        is16bit=0;
+    }
+
     memset(&pcmwf, 0, sizeof(PCMWAVEFORMAT));
     pcmwf.wf.wFormatTag = WAVE_FORMAT_PCM;
     pcmwf.wf.nChannels = 1;
     pcmwf.wf.nSamplesPerSec = *speed;
-    pcmwf.wBitsPerSample = 16;
+    pcmwf.wBitsPerSample = is16bit ? 16 : 8;
 /* Hack to fix if mmsystem header is bad
     ((WORD*)&pcmwf)[7]=16;
 */
-    pcmwf.wf.nBlockAlign = 2;
+    pcmwf.wf.nBlockAlign = is16bit ? 2 : 1;
     pcmwf.wf.nAvgBytesPerSec = pcmwf.wf.nSamplesPerSec * pcmwf.wf.nBlockAlign;
 
     memset(&desc, 0, sizeof(DSBUFFERDESC));
@@ -281,7 +317,7 @@ int     i;
 
     fragment_size = *fragsize;
 
-    buffer_size = *fragsize * *fragnr * sizeof(SWORD);
+    buffer_size = *fragsize * *fragnr * (is16bit ? sizeof(SWORD) : 1);
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
 
@@ -303,11 +339,11 @@ int     i;
         notifypositions=malloc(*fragnr*sizeof(DSBPOSITIONNOTIFY));
         notifyevent=CreateEvent(NULL,FALSE,FALSE,NULL);
         for (i=0; i<*fragnr; i++) {
-            notifypositions[i].dwOffset=*fragsize*i*sizeof(SWORD);
+            notifypositions[i].dwOffset=*fragsize*i*(is16bit ? sizeof(SWORD) : 1);
             notifypositions[i].hEventNotify=notifyevent;
         }
         /*  Set write pointer for last fragment in buffer, to guarantee maximum safe area */
-        buffer_offset=*fragsize*sizeof(SWORD)*(*fragnr-1);
+        buffer_offset=*fragsize*(is16bit ? sizeof(SWORD) : 1)*(*fragnr-1);
         lag_offset=buffer_offset;
         notifyThreadHandle=CreateThread(NULL,0,HandleNotifications,NULL,0,&notifyThreadID);
         notify->lpVtbl->SetNotificationPositions(notify,*fragnr,notifypositions);
@@ -367,7 +403,11 @@ static int dx_bufferstatus(warn_t *s, int first)
 //    value-=lag_offset;
 //    if (value<0) value=0;
     DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
-    return value / sizeof(SWORD);
+    if (is16bit) {
+        return value / sizeof(SWORD);
+    } else {
+        return value;
+    }
 }
 
 static int dx_write(warn_t *w, SWORD *pbuf, int nr)
@@ -382,7 +422,7 @@ static int dx_write(warn_t *w, SWORD *pbuf, int nr)
 
     /* XXX: Assumes `nr' is multiple of `fragment_size'.  */
     count = nr / fragment_size;
-    buffer_lock_size = fragment_size * sizeof(SWORD);
+    buffer_lock_size = fragment_size * (is16bit ? sizeof(SWORD) : 1);
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++) {
@@ -441,9 +481,22 @@ static int dx_write(warn_t *w, SWORD *pbuf, int nr)
                 }
 
                 if (result == DS_OK) {
-                    memcpy(lpvPtr1, pbuf, dwBytes1);
-                    if (lpvPtr2 != NULL)
-                        memcpy(lpvPtr2, (BYTE *) pbuf + dwBytes1, dwBytes2);
+                    if (is16bit) {
+                        memcpy(lpvPtr1, pbuf, dwBytes1);
+                        if (lpvPtr2 != NULL)
+                            memcpy(lpvPtr2, (BYTE *) pbuf + dwBytes1, dwBytes2);
+                    } else {
+                        SWORD *copybuff=pbuf;
+
+                        for (i=0; i<dwBytes1; i++) {
+                            ((BYTE*)lpvPtr1)[i]=(*(copybuff++)>>8)+0x80;
+                        }
+                        if (lpvPtr2!=NULL) {
+                            for (i=0; i<dwBytes2; i++) {
+                                ((BYTE*)lpvPtr2)[i]=(*(copybuff++)>>8)+0x80;
+                            }
+                        }
+                    }
                     result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1, lpvPtr2,
                                                     dwBytes2);
                     if (result != DS_OK)

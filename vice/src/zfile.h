@@ -39,7 +39,9 @@
 #include "types.h"
 
 #if defined(WIN32) || defined(WINCE) || defined(__riscos)
+#ifndef _MODE_T_
 typedef int mode_t;
+#endif
 #endif
 
 file_desc_t zopen(const char *name, mode_t mode, int flags);

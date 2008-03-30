@@ -28,10 +28,9 @@
 
 #include <stdlib.h>
 
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <windowsx.h>
 #include <ddraw.h>
+#include <mmsystem.h>
 
 #include "video.h"
 
@@ -57,8 +56,7 @@ static void video_debug(const char *format, ...)
         va_start(args, format);
         vsprintf(tmp, format, args);
         va_end(args);
-        OutputDebugString(tmp);
-        printf(tmp);
+        fprintf(logfile,tmp);
 }
 #define DEBUG(x) video_debug x
 #else
@@ -704,8 +702,15 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     RECT rect;
     int depth, pitch;
 
+    DWORD   starttime;
+    DWORD   difftime;
+    int     bytesmoved;
+
     if (IsIconic(c->hwnd))
         return;
+
+    starttime=timeGetTime();
+    bytesmoved=0;
 
     {
         extern int syscolorchanged, displaychanged, querynewpalette, palettechanged;
@@ -851,6 +856,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
                 for (j = 0; j < w; j++)
                     dp[j] = ((BYTE *)sp)[j];
+                bytesmoved+=w;
             }
 #elif 0
             /* This alternative and the next one cannot work, because
@@ -878,6 +884,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
             for (i = 0; i < w; i++)
                 *((WORD *)dp + i) = (WORD) c->physical_colors[sp[i]];
+            bytesmoved+=w*2;
         }
         break;
       case 24:
@@ -896,6 +903,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
                 p[2] = s[2];
                 p += 3;
             }
+            bytesmoved+=w*3;
         }
         break;
       case 32:
@@ -907,6 +915,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
             for (i = 0; i < w; i++)
                 *((DWORD *)dp + i) = (DWORD) c->physical_colors[sp[i]];
+            bytesmoved+=w*4;
         }
         break;
     }
@@ -959,4 +968,6 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             }
         }
     }
+      difftime=timeGetTime()-starttime;
+      DEBUG(("screen update took %d msec, moved %d bytes\n",difftime,bytesmoved));
 }
