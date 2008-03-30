@@ -164,6 +164,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         switch (command) {
           case IDC_IDE64_HDIMAGE_BROWSE:
             uilib_select_browse(hwnd, TEXT("Select HD image file"),
+                                UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_IDE64_HDIMAGE_FILE);
             break;

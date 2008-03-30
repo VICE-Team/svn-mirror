@@ -87,6 +87,7 @@
 #include "x11ui.h"
 #include "screenshot.h"
 #include "event.h"
+#include "uifliplist.h"
 
 
 /* FIXME: We want these to be static.  */
@@ -228,9 +229,17 @@ static GtkWidget* build_file_selector(ui_button_t *button_return,
 				      GtkWidget **attach_write_protect);
 static GtkWidget* build_show_text(const String text, int width, int height);
 static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message);
-UI_CALLBACK(enter_window_callback);
-UI_CALLBACK(exposure_callback_app);
-UI_CALLBACK(exposure_callback_canvas);
+static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
+static gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer p);
+static gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
+					 gpointer p);
+static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, 
+				  gpointer data);
+static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
+static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data);
+static void filesel_autostart_cb(GtkWidget *w, gpointer data);
+static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
+
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
 extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
@@ -469,7 +478,7 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
     }
 }
 
-void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     int d = (int) data;
     if (event->type == GDK_BUTTON_PRESS) {
@@ -495,7 +504,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		if (last_menus)
 		    lib_free(last_menus[d]);
 		last_menus[d] = NULL;
-		return;
+		return 0;
 	    }
 	    
 	    if ((last_menus[d] == NULL) ||
@@ -515,9 +524,10 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 			       bevent->button, bevent->time);
 	}
     }
+    return 0;
 }
 
-static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if(event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
@@ -540,7 +550,7 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 		if (lasttapemenu)
 		    lib_free(lasttapemenu);
 		lasttapemenu = NULL;
-		return;
+		return 0;
 	    }
 
 	    if ((lasttapemenu == NULL) ||
@@ -558,11 +568,13 @@ static void tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 			       bevent->button, bevent->time);
 	}
     }
+    return 0;
 }
 
-void update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
+static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
 {
     ui_menu_update_all_GTK();
+    return 0;
 }
 
 static void filesel_autostart_cb(GtkWidget *w, gpointer data)
@@ -570,7 +582,7 @@ static void filesel_autostart_cb(GtkWidget *w, gpointer data)
     *((ui_button_t *)data) = UI_BUTTON_AUTOSTART;
 }
 
-static void speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if(event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
@@ -582,6 +594,7 @@ static void speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 			   bevent->button, bevent->time);
 	}
     }
+    return 0;
 }
 
 /* Continue GUI initialization after resources are set. */
@@ -2742,12 +2755,13 @@ static GtkWidget* build_confirm_dialog(GtkWidget **confirm_dialog_message)
 
 /* Miscellaneous callbacks.  */
 
-UI_CALLBACK(enter_window_callback)
+gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     _ui_top_level = gtk_widget_get_toplevel(w);
+    return 0;
 }
 
-UI_CALLBACK(exposure_callback_app)
+gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
@@ -2758,14 +2772,16 @@ UI_CALLBACK(exposure_callback_app)
     {
         video_canvas_refresh_all(canvas);
     }
+    return 0;
 }
 
-UI_CALLBACK(exposure_callback_canvas)
+gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e, 
+				  gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     if (!canvas) {
-        return;
+        return 0;
     }
 
     /* No resize for XVideo. */
@@ -2783,6 +2799,7 @@ UI_CALLBACK(exposure_callback_canvas)
 	/* FIXME: This makes the canvas grow uncontrolled. */
         /* video_canvas_redraw_size(canvas, req.width, req.height); */
     }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */

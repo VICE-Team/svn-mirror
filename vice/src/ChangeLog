@@ -1,3 +1,61 @@
+2004-06-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.32.
+
+	* Makefile.am: Added `crc32.h'.
+
+	* parallel/parallel-trap.c, fileio/cbmfile.c, fileio/p00.c,
+	vicii/vicii-irq.c, monitor/mon_file.c, serial/fsdrive.c,
+	vic20/vic-mem.c, plus4/ted-irq.c, arch/unix/uicommands.c,
+	c1541.c, drive/iecieee/via2d.c, drive/drivecpu.c, traps.c,
+	vicii/vicii-sprites.c, printerdrv/interface-serial.c,
+	findpath.c, vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, drive/iec/via1d1541.c,
+	drive/ieee/via1d2031.c: Fixed some warnings.
+
+	* arch/win32/uirom.c, arch/win32/res.rc, arch/win32/res.h:
+	Further ROM set work.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h (uilib_dialogbox):
+	New function.
+
+	* arch/win32/uispeed.c (ui_speed_settings_dialog): Use
+	`uilib_dialogbox()'.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h,
+	arch/win32/uiide64.c, arch/win32/uic128.c, arch/win32/uireu.c,
+	arch/win32/uirom.c (uilib_select_browse): Added filter
+	parameter.
+
+	* sound.h: Include C standard file `stdio.h' instead of
+	`unistd.h' to define `size_t'.
+
+2004-06-23  pottendo  <pottendo@utanet.at>
+
+	* sound.h: Added `unistd.h' for size_t.
+
+	* arch/unix/x11/gnome/x11ui.c: include `uifliplist.h'.
+	Fixed signature of `enter_window_callback',
+	`exposure_callback_app', `exposure_callback_canvas',
+	`fliplist_popup_cb', `tape_popup_cb', `update_menu_cb',
+	filesel_autostart_cb', `speed_popup_cb' to proper
+	callbacks.
+	(fliplist_popup_cb): made static, introduced proper prototype.
+
+	* arch/unix/x11/gnome/uiarch.h: Changed `ui_callback_t' to
+	`GtkSignalFunc'.
+	(UI_CALLBACK): Removed unused 3'rd parameter.
+	This fixes the `-O2' gcc optimizer triggered bug.
+
+2004-06-20  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/types.h: added PATH_MAX macro
+
+	* arch/riscos/ui.c, arch/riscos/uiimage.c,
+	arch/riscos/video.c: missing limits.h include
+
+	* fsdevice/fsdevice-cmdline-options.c: include types.h
+
 2004-06-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.31.

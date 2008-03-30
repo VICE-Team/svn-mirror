@@ -169,12 +169,14 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
             uilib_select_browse(hwnd,
                                 TEXT("Select internal function ROM image"),
+                                UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_INTERNAL_NAME);
             break;
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
             uilib_select_browse(hwnd,
                                 TEXT("Select external function ROM image"),
+                                UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
             break;

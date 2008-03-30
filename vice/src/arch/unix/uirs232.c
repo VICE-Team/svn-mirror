@@ -143,7 +143,7 @@ UI_CALLBACK(set_rs232_exec_file)
 UI_CALLBACK(set_rs232_dump_file)
 {
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"),
-                        _("Command:"));
+                        _("Dump file:"));
 }
 
 

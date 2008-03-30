@@ -127,6 +127,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         switch (command) {
           case IDC_REU_BROWSE:
             uilib_select_browse(hwnd, TEXT("Select File for REU"),
+                                UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_REU_FILE);
             break;
           case IDC_REU_ENABLE:

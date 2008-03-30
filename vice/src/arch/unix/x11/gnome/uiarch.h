@@ -39,13 +39,13 @@
 #include "ui.h"
 
 typedef GtkWidget *ui_window_t;
-typedef gpointer ui_callback_t;
+typedef GtkSignalFunc ui_callback_t;
 typedef gpointer ui_callback_data_t;
 typedef KeySym ui_keysym_t;
 
-#define UI_CALLBACK(name)                               \
-    void name(GtkWidget *w, ui_callback_data_t event_data, \
-              ui_callback_data_t client_data)
+#define UI_CALLBACK(name) \
+    void name(GtkWidget *w, ui_callback_data_t event_data)
+
 #define CHECK_MENUS (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 

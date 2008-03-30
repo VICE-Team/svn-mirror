@@ -96,6 +96,7 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
                       settings[n].realname);
 
             uilib_select_browse(hwnd, st_realname,
+                                UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 settings[n].idc_filename);
             return TRUE;
@@ -194,6 +195,7 @@ static void update_romset_archive(HWND hwnd)
     resources_get_value("RomsetArchiveActive", (void *)&conf);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
+    SendMessage(temp_hwnd, CB_RESETCONTENT, 0, 0);
     for (index = 0; index < num; index++) {
         TCHAR *st_name;
         char *name;
@@ -205,7 +207,6 @@ static void update_romset_archive(HWND hwnd)
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_name);
         system_mbstowcs_free(st_name);
     }
-
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active, 0);
 
     update_romset_list(hwnd);
@@ -268,7 +269,7 @@ static void end_romset_dialog(HWND hwnd)
 static void browse_archive_romset_dialog(HWND hwnd)
 {
     uilib_select_browse(hwnd, TEXT("Select romset archive"),
-                        UILIB_SELECTOR_TYPE_FILE_SAVE,
+                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
                         IDC_ROMSET_ARCHIVE_NAME);
 }
 
@@ -296,25 +297,62 @@ static void save_archive_romset_dialog(HWND hwnd)
         ui_error("Cannot save romset archive!");
 }
 
-static void apply_archive_romset_dialog(HWND hwnd)
+static TCHAR *active_archive_name(HWND hwnd)
 {
-/*
     HWND temp_hwnd;
-    int active;
+    int active, len;
+    TCHAR *st_name;
 
     temp_hwnd = GetDlgItem(hwnd, IDC_ROMSET_ARCHIVE_ACTIVE);
     active = SendMessage(temp_hwnd, CB_GETCURSEL, 0, 0);
-*/
+    len = SendMessage(temp_hwnd, CB_GETLBTEXTLEN, active, 0);
+    st_name = lib_malloc((len + 1) * sizeof(TCHAR));
+    SendMessage(temp_hwnd, CB_GETLBTEXT, active, (LPARAM)st_name);
+
+    return st_name;
+}
+
+static void apply_archive_romset_dialog(HWND hwnd)
+{
+    char *name;
+    TCHAR *st_name;
+
+    st_name = active_archive_name(hwnd);
+    name = system_wcstombs_alloc(st_name);
+    romset_archive_item_select(name);
+    system_wcstombs_free(name);
+    lib_free(st_name);
 }
 
 static void new_archive_romset_dialog(HWND hwnd)
 {
+    uilib_dialogbox_param_t param;
 
+    param.hwnd = hwnd;
+    param.idd_dialog = IDD_ROMSET_ENTER_NAME_DIALOG;
+    param.idc_dialog = IDC_ROMSET_ENTER_NAME;
+    _tcscpy(param.string, TEXT(""));
+
+    uilib_dialogbox(&param);
+
+    if (param.updated > 0) {
+        machine_romset_archive_item_create(param.string);
+        update_romset_archive(hwnd);
+    }
 }
 
 static void delete_archive_romset_dialog(HWND hwnd)
 {
+    char *name;
+    TCHAR *st_name;
 
+    st_name = active_archive_name(hwnd);
+    name = system_wcstombs_alloc(st_name);
+    romset_archive_item_delete(name);
+    system_wcstombs_free(name);
+    lib_free(st_name);
+
+    update_romset_archive(hwnd);
 }
 
 static void load_file_romset_dialog(HWND hwnd)
@@ -365,6 +403,7 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_ROMSET_ARCHIVE_BROWSE:
             uilib_select_browse(hwnd, TEXT("Select romset archive"),
+                                UILIB_FILTER_ROMSET_ARCHIVE,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_ARCHIVE_NAME);
             break;
@@ -385,6 +424,7 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_ROMSET_FILE_BROWSE:
             uilib_select_browse(hwnd, TEXT("Select romset file"),
+                                UILIB_FILTER_ROMSET_FILE,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_FILE_NAME);
             break;
