@@ -53,12 +53,14 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
-        uicmdline.c \
-        uicmdline.h \
 	uiattach.c \
 	uiattach.h \
 	uicbm2set.c \
 	uicbm2set.h \
+	uicmdline.c \
+	uicmdline.h \
+	uidatasette.c \
+	uidatasette.h \
 	uidrive.c \
 	uidrive.h \
 	uijoystick.c \

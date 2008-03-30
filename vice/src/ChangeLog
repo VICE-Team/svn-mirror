@@ -1,3 +1,26 @@
+1999-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.22.
+
+	* arch/win32/Makefile.am: Added `uidatasette.c' and
+	`uidatasette.h'.
+
+1999-10-29  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/xaw/Makefile.am (libxawui_a_SOURCES): Added video.c,
+	video.h.
+
+	* arch/unix/gnome/*: New Files. Implementation of a gnome gui.
+
+	* arch/unix/empty-ui/*: New files. This resolves everthing of 
+	a new gui with dummy functions. It's not used in normal builds, no
+	support is there in `configure.in' to enable the `empty-gui'.
+
+	* arch/unix/Makefile.am: Check GNOMEUI and set SUBDIR
+	accordingly.
+	Removed video.c, video.h. Those are now in xaw.
+	(gnome): New rule to build the gnomeui.
+
 1999-10-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.21.
