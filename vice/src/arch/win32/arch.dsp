@@ -271,7 +271,7 @@ SOURCE=.\uidrivec128.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uidrivec64vic20.c
+SOURCE=.\uidrivec64.c
 # End Source File
 # Begin Source File
 
@@ -280,6 +280,10 @@ SOURCE=.\uidrivepetcbm2.c
 # Begin Source File
 
 SOURCE=.\uidriveplus4.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uidrivevic20.c
 # End Source File
 # Begin Source File
 

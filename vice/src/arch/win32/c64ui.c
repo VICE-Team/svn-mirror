@@ -40,7 +40,7 @@
 #include "uic64_256k.h"
 #include "uic64cart.h"
 #include "uidigimax.h"
-#include "uidrivec64vic20.h"
+#include "uidrivec64.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uikeyboard.h"
@@ -187,7 +187,7 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
         break;
       case IDM_DRIVE_SETTINGS:
-        uidrivec64vic20_settings_dialog(hwnd);
+        uidrivec64_settings_dialog(hwnd);
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog(hwnd, 1, NULL, 1, 1);

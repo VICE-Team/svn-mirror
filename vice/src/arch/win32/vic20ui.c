@@ -37,7 +37,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uicart.h"
-#include "uidrivec64vic20.h"
+#include "uidrivevic20.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uirom.h"
@@ -188,7 +188,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);
         break;
       case IDM_DRIVE_SETTINGS:
-        uidrivec64vic20_settings_dialog(hwnd);
+        uidrivevic20_settings_dialog(hwnd);
         break;
       case IDM_RS232USER_SETTINGS:
         ui_rs232user_settings_dialog(hwnd);
