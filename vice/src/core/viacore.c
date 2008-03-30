@@ -227,8 +227,8 @@ void viacore_reset(via_context_t *via_context)
     for (i = 11; i < 16; i++)
         via_context->via[i] = 0;
 
-    via_context->tal = 0;
-    via_context->tbl = 0;
+    via_context->tal = 0xffff;
+    via_context->tbl = 0xffff;
     via_context->tau = *(via_context->clk_ptr);
     via_context->tbu = *(via_context->clk_ptr);
 

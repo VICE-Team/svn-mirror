@@ -59,7 +59,8 @@ extern void debug_set_machine_parameter(unsigned int cycles,
                                         unsigned int lines);
 extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
                           BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
-extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a);
+extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
+                        BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
 extern void debug_irq(struct interrupt_cpu_status_s *cs);
 extern void debug_nmi(struct interrupt_cpu_status_s *cs);
 extern void debug_text(const char *text);

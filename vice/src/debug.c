@@ -141,12 +141,9 @@ static const cmdline_option_t cmdline_options[] = {
       "Drive3CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive3 CPU" },
 #endif
-    { "-trace_small", SET_RESOURCE, 0, NULL, NULL,
-      "TraceSmall", (resource_value_t)1,
-      NULL, "Make debug output small and compact" },
-    { "+trace_small", SET_RESOURCE, 0, NULL, NULL,
-      "TraceSmall", (resource_value_t)0,
-      NULL, "Do not make debug output small and compact" },
+    { "-trace_mode", SET_RESOURCE, 1, NULL, NULL,
+      "TraceMode", NULL,
+      "<value>", "0=normal 1=small 2=history" },
 #endif
     { NULL }
 };
@@ -221,10 +218,17 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
     }
 }
 
-void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a)
+void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
+                 BYTE reg_a,BYTE reg_x, BYTE reg_y, BYTE reg_sp)
 {
-    log_debug("Drive: .%04X %10ld %-20s A=$%02x.", (unsigned int)reg_pc,
-              (long)mclk, dis, reg_a);
+    char st[DEBUG_MAXLINELEN];
+
+    sprintf(st, "Drive: .%04X %10ld %-20s %02x%02x%02x%02x", (unsigned int)reg_pc,
+              (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
+    if (debug.trace_mode == DEBUG_HISTORY)
+        debug_history_step(st);
+    else
+        log_debug(st);
 }
 
 void debug_text(const char *text)

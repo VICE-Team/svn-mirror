@@ -18,10 +18,10 @@ VPATH = @srcdir@
 
 prefix = @prefix@
 exec_prefix = @exec_prefix@
-datadir = $(prefix)/@DATADIRNAME@
-localedir = $(datadir)/locale
-gnulocaledir = $(prefix)/share/locale
-gettextsrcdir = $(prefix)/share/gettext/po
+datadir = $(DESTDIR)$(prefix)/@DATADIRNAME@
+localedir = $(DESTDIR)$(datadir)/locale
+gnulocaledir = $(DESTDIR)$(prefix)/share/locale
+gettextsrcdir = $(DESTDIR)$(prefix)/share/gettext/po
 subdir = po
 
 INSTALL = @INSTALL@

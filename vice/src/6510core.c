@@ -1623,7 +1623,8 @@ static const BYTE fetch_tab[] = {
 
             debug_drive(reg_pc, CLK,
                         mon_disassemble_to_string(e_disk8_space, reg_pc, op,
-                        lo, hi, (BYTE)0, 1, "6502"), reg_a);
+                        lo, hi, (BYTE)0, 1, "6502"), 
+                        reg_a, reg_x, reg_y, reg_sp);
         }
 #else
         if (TRACEFLG) {
