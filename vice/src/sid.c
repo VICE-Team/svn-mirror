@@ -1708,7 +1708,7 @@ static int sun_bufferstatus(sound_t *s, int first)
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
     if (st < 0)
 	return -1;
-#ifdef NetBSD
+#ifdef __NetBSD__
     if (!sun_8bit)
 	return sun_written - info.play.samples / sizeof(s16_t);
 #endif
@@ -1727,7 +1727,7 @@ static void sun_close(void)
 
 static sid_device_t sun_device =
 {
-#ifdef NetBSD
+#ifdef __NetBSD__
     "netbsd",
 #else
     "sun",

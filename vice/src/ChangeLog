@@ -1,6 +1,65 @@
+Fri Apr 17 00:14:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.5.
+
+	* sid.c: `#ifdef NetBSD' -> `#ifdef __NetBSD__'.
+
+Wed Apr 15 11:48:45 MEST 1998 Andre Fachat (a.fachat@physik.tu-chemnitz.de)
+
+	* viad1.def, viad2.def: READ_PRB does not immediately return, but
+ 	only sets the variable "byte"
+	* pet/viap.def, vic20/via1.def, vic20/via2.def: Likewise.
+
+	* via-tmpl.c (update_myviatal): Timer underflow now sets portbit
+ 	PB7 state.
+	(myviapb7, myviapb7x): PB7 state, and invert flag for one special
+ 	cycle in the timing diagram...
+	(store_myvia): T1CH: clear pb7 state, ACR: pb7 handling
+	(read_myvia): PRB: macro returns "byte" variable, if pb7 output is
+ 	set then replace bit 7 with pb7 state.
+
+Tue Apr 15 04:00:00 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* mon.c: New monitor!
+
+	* mon_cli.l, mon_cli.y: Flex and bison files to handle monitor
+        command line.
+
+	* Makefile.in: Added newfiles mon_cli.y and mon_cli.l and related
+        files.
+
+	* asm.c, include/asm.h: Made function `interpret_instr' global.
+
+	* 6510core.c: Added breakpoint checks.
+
+	* 1541cpu.c: Added #include "mon.h".  Made read and store function
+ 	arrays global.
+
+	* main.c (main): Added `init_monitor()' call.
+
+	* include/mon.h: Added a whole bunch of new variable and function
+        declarations for the new monitor.
+
 Tue Apr 14 19:40:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.4.
+
+Tue Apr 14 23:48:47 1998  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+
+	* via*.def: Introduced "myrmwf" definitions for either `rmwf_flag'
+ 	of `true1541_rmw_flag'.
+
+	* via-tmpl.c: New timer handling:
+	(update_myviata, update_myviatb): Removed functions.
+	(myviata, myviatb): New cpp macros to compute the current counter
+ 	value
+	(update_myviatal, update_myviatbl): New cpp macros to update timer
+ 	information before changing the timer latches.
+	(myviata, myviatb): Removed variables for the counter values.
+	(myviatal, myviatbl): New variables for the latch values.
+	(reset_myvia): Clear latch values.
+	(store_myvia, read_myvia): New timer handling
+	(myvia_prevent_clk_overflow): New timer handling.
 
 Tue Apr 14 19:00:10 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 

@@ -113,6 +113,8 @@ VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/drive.c $(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c \
 	$(SRCDIR)/main.c $(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c \
 	$(SRCDIR)/memutils.c $(SRCDIR)/misc.c $(SRCDIR)/mon.c \
+	$(SRCDIR)/mon_cli.l $(SRCDIR)/mon_cli.y \
+        $(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c \
 	$(SRCDIR)/mshell.c $(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c \
 	$(SRCDIR)/petcat.c $(SRCDIR)/raster.c $(SRCDIR)/resources.c \
 	$(SRCDIR)/reu.c $(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/tape.c \
@@ -130,17 +132,17 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/kbdbuf.h \
 	$(INCLUDEDIR)/macro.h $(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h \
 	$(INCLUDEDIR)/memutils.h $(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h \
-	$(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h \
-	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
-	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
-	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
-	$(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h $(INCLUDEDIR)/sprcycles.h \
-	$(INCLUDEDIR)/sprcrunch.h $(INCLUDEDIR)/tape.h\
-	$(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h \
-	$(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h \
-	$(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h \
-	$(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
-	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
+	$(INCLUDEDIR)/mon_parse.h $(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h \
+	$(INCLUDEDIR)/parallel.h $(INCLUDEDIR)/patchlevel.h \
+	$(INCLUDEDIR)/patchrom.h $(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h \
+	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
+	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
+	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/sprcrunch.h \
+	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
+	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
+	$(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h \
+	$(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h \
+        $(INCLUDEDIR)/warn.h $(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
 	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/acconfig.h \
 	$(INCLUDEDIR)/autoconf.h.in
 
@@ -277,7 +279,8 @@ XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
 JOY_OBJS = @JOY_OBJS@
 
 COMMON_OBJS = charsets.o info.o mshell.o tape.o warn.o utils.o zfile.o \
-	memutils.o drive.o asm.o kbdbuf.o @SYSPEC_OBJS@ @LIBOBJS@
+	mon_parse.o mon_lex.o memutils.o drive.o asm.o kbdbuf.o \
+        @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
@@ -433,6 +436,16 @@ $(SRCDIR)/viad1.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.def $(SRCDIR)/convio
 
 $(SRCDIR)/viad2.c: $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/convio
 	if [ -s $(PERL) ] ; then $(PERL) $(SRCDIR)/convio $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad2.def $(SRCDIR)/viad2.c; fi
+
+
+### Monitor
+
+$(SRCDIR)/mon_parse.c: $(SRCDIR)/mon_cli.y
+	bison -dtv -o mon_parse.c mon_cli.y
+	mv mon_parse.h $(INCLUDEDIR)/mon_parse.h
+
+$(SRCDIR)/mon_lex.c: $(SRCDIR)/mon_cli.l
+	flex -I -omon_lex.c mon_cli.l
 
 
 ### Utilities: c1541 and petcat
