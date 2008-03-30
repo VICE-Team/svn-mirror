@@ -1,3 +1,71 @@
+1999-09-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.6.
+
+	* c128/z80.c: Fixed CCF, SCF, ADD, SBC, BIT, CPI, CPIR, DEC,
+	INC, IN, RRA, RRCA and SUB opcodes.
+	(ADC n): New opcode.
+
+1999-09-15  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/joystick.c: Include "ui.h".
+	  (joystick_init): Init mouse device.
+	  (joystick_close): Destroy mouse device.
+
+	* arch/win32/mouse.c: Include "dinput.h" and "ui.h".
+	  (mouse_acquired) (di_mouse): New variables.
+	  (GUID_SysMouse) (GUID_XAxis) (GUID_YAxis) (GUID_ZAxis): Define
+	  consts when no dxguid.lib is available.
+	  (set_mouse_enabled): Call mouse_update_mouse_acquire.
+	  (mouse_update_mouse): Changed to handle mouse through DirectX.
+	  (mouse_set_cooperative_level): New function.
+	  (mouse_update_mouse_acquire): New function.
+
+	* arch/win32/mouse.h (mouse_update_mouse): Updated prototype.
+	  (mouse_set_cooperative_level) (mouse_update_mouse_acquire): New
+	  prototypes.
+
+	* arch/win32/msvc/config.h: Define HAVE_GUIDLIB.
+
+	* arch/win32/types.h: Define DWORD as unsigned long, when compiling
+	  with MSVC or GCC2.95 or higher.
+
+	* arch/win32/ui.c (ui_active) (ui_active_window): New variables.
+	  (window_proc): Handle WM_ACTIVATE. Handle WM_ENTERMENULOOP.
+	  Call mouse_update_mouse_acquire when handling WM_ENTERSIZEMOVE.
+	  Handle WM_EXITMENULOOP, WM_EXITSIZEMOVE.
+	  Removed handling of Mouse messages.
+	  When handling WM_CLOSE, call dialog box so that it locks down
+	  all windows of the task. (This has to be changed at all dialog
+	  box calls.)
+
+	* arch/win32/ui.h (ui_active) (ui_active_window): Added variable
+	  definitions.
+
+	* arch/win32/uiattach.c: Introduced using DUMMYUNIONNAME to enable
+	  compiling with older and newer Mingw32 headers.
+
+	* arch/win32/uicbm2set.c: Same here.
+	
+	* arch/win32/uidrive.c: Same here.
+
+	* arch/win32/uipetset.c: Same here.
+
+	* arch/win32/uivicii.c: Same here.
+
+	* arch/win32/vsync.c: Include "mouse.h"
+	  (do_vsync): Call mouse_update_mouse.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp, arch/win32/xcbm2.dsp,
+	  arch/win32/xpet.dsp, arch/win32/xvic.dsp: Link with dxguid.lib.
+
+	* sounddrv/sounddx.c: Define IID_IDirectSoundNotify when no dxguid.lib
+	  is available.
+	  (pbuffer): New variable for primary soundbuffer.
+	  (dx_init): Set cooperative level to DSSCL_EXCLUSIVE.
+	  Create primary sound buffer, and set it's format to the requested
+	  sound output format.
+
 1999-09-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.5.

@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.5
+VERSION=1.1.6
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6873,7 +6873,7 @@ fi
 
     fi
   fi
-  
+
   X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
 
   LIBS="$LIBS -lm"
@@ -6893,6 +6893,50 @@ elif [ x"$is_win32" != "xno" ]; then
 
   
   LIBS="-lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -ldinput"
+
+  echo $ac_n "checking for GUID_SysMouse in -ldxguid""... $ac_c" 1>&6
+echo "configure:6899: checking for GUID_SysMouse in -ldxguid" >&5
+ac_lib_var=`echo dxguid'_'GUID_SysMouse | sed 'y%./+-%__p_%'`
+if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  ac_save_LIBS="$LIBS"
+LIBS="-ldxguid $LIBS $LIBS"
+cat > conftest.$ac_ext <<EOF
+#line 6907 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char GUID_SysMouse();
+
+int main() {
+GUID_SysMouse()
+; return 0; }
+EOF
+if { (eval echo configure:6918: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=yes"
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  eval "ac_cv_lib_$ac_lib_var=no"
+fi
+rm -f conftest*
+LIBS="$ac_save_LIBS"
+
+fi
+if eval "test \"`echo '$ac_cv_lib_'$ac_lib_var`\" = yes"; then
+  echo "$ac_t""yes" 1>&6
+  LIBS="$LIBS -ldxguid"; cat >> confdefs.h <<\EOF
+#define HAVE_GUIDLIB 1
+EOF
+
+else
+  echo "$ac_t""no" 1>&6
+fi
+
 
   x64_LDFLAGS="-mwindows"
   x128_LDFLAGS="-mwindows"
