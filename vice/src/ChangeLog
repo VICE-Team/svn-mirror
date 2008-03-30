@@ -1,3 +1,20 @@
+1999-01-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.4.
+
+	* main.c (MAIN_PROGRAM): Disabled error message as this can crash
+	the emulator. Some real fix is required here.
+
+1999-01-11  Oliver Schaertel  <orschaer@hermes.hawo.stw.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c, arch/unix/xaw/uisettings.c, main.c,
+	arch/unix/xaw/ui.h: Added support for fullscreen mode.
+
+	* c64/vicii.c, c64/vicii.h, crtc-tmpl.c, crtc.h, vic20/vic.c,
+	vic20/vic.h (video_setfullscreen): New function.
+
+	* types.h: Always define `BYTE' as `unsigned char'.
+
 1999-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.3.
