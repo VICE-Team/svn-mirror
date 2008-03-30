@@ -36,6 +36,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final.h"
+#include "interrupt.h"
 #include "types.h"
 
 
@@ -106,7 +107,7 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
         cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
         cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
         if ((value & 0x30) == 0x10)
-            cartridge_trigger_freeze();
+            cartridge_trigger_freeze_nmi_only();
         if (value & 0x40)
             cartridge_release_freeze();
     }

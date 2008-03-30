@@ -363,6 +363,11 @@ void cartridge_trigger_freeze(void)
     }
 }
 
+void cartridge_trigger_freeze_nmi_only(void)
+{
+    maincpu_set_nmi(cartridge_int_num, IK_NMI);
+}
+
 void cartridge_release_freeze(void)
 {
     maincpu_set_nmi(cartridge_int_num, 0);
