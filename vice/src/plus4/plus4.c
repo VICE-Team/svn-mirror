@@ -362,7 +362,7 @@ int machine_init(void)
     kbd_buf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
                  * machine_timing.cycles_per_rfsh));
 
-    plus4_ui_init();
+    plus4ui_init();
 
     plus4iec_init();
 
@@ -402,6 +402,8 @@ void machine_specific_shutdown(void)
     tape_image_detach(1);
 
     ted_shutdown();
+
+    plus4ui_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

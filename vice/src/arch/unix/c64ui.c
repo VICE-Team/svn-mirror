@@ -332,15 +332,20 @@ static ui_menu_entry_t c64_menu[] = {
     { NULL }
 };
 
-static void ui_create_dynamic_menus(void)
+static void c64ui_dynamic_menu_create(void)
 {
-    uivicii_create_menus();
+    uivicii_menu_create();
 }
 
-int c64_ui_init(void)
+static void c64ui_dynamic_menu_shutdown(void)
+{
+    uivicii_menu_shutdown();
+}
+
+int c64ui_init(void)
 {
     ui_set_application_icon(c64_icon_data);
-    ui_create_dynamic_menus();
+    c64ui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -457,5 +462,10 @@ int c64_ui_init(void)
     ui_update_menus();
 
     return 0;
+}
+
+void c64ui_shutdown(void)
+{
+    c64ui_dynamic_menu_shutdown();
 }
 

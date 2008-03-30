@@ -406,15 +406,20 @@ static ui_menu_entry_t vic20_menu[] = {
     { NULL }
 };
 
-static void ui_create_dynamic_menus(void)
+static void vic20ui_dynamic_menu_create(void)
 {
-    uivic_create_menus();
+    uivic_menu_create();
 }
 
-int vic20_ui_init(void)
+static void vic20ui_dynamic_menu_shutdown(void)
+{
+    uivic_menu_shutdown();
+}
+
+int vic20ui_init(void)
 {
     ui_set_application_icon(vic20_icon_data);
-    ui_create_dynamic_menus();
+    vic20ui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -526,5 +531,10 @@ int vic20_ui_init(void)
     ui_update_menus();
 
     return 0;
+}
+
+void vic20ui_shutdown(void)
+{
+    vic20ui_dynamic_menu_shutdown();
 }
 

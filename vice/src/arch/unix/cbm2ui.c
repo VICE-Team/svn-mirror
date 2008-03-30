@@ -399,16 +399,22 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-static void ui_create_dynamic_menus(void)
+static void cbm2ui_dynamic_menu_create(void)
 {
-    uicrtc_create_menus();
-    uivicii_create_menus();
+    uicrtc_menu_create();
+    uivicii_menu_create();
 }
 
-int cbm2_ui_init(void)
+static void cbm2ui_dynamic_menu_shutdown(void)
+{
+    uicrtc_menu_shutdown();
+    uivicii_menu_shutdown();
+}
+
+int cbm2ui_init(void)
 {
     ui_set_application_icon(cbm2_icon_data);
-    ui_create_dynamic_menus();
+    cbm2ui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -513,5 +519,10 @@ int cbm2_ui_init(void)
     ui_update_menus();
 
     return 0;
+}
+
+void cbm2ui_shutdown(void)
+{
+    cbm2ui_dynamic_menu_shutdown();
 }
 

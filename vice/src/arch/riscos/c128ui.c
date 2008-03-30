@@ -73,9 +73,13 @@ static struct MenuDisplayVideoCache {
 };
 
 
-int c128_ui_init(void)
+int c128ui_init(void)
 {
   return ui_init_named_app("Vice128", IBarIconName);
+}
+
+void c128ui_shutdown(void)
+{
 }
 
 int c128_kbd_init(void)

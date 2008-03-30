@@ -493,7 +493,7 @@ int machine_init(void)
                  * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C128-specific part of the UI.  */
-    c128_ui_init();
+    c128ui_init();
 
     /* Initialize the REU.  */
     reu_init();
@@ -571,6 +571,8 @@ void machine_specific_shutdown(void)
     vdc_shutdown();
 
     reu_shutdown();
+
+    c128ui_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

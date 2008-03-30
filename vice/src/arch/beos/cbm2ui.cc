@@ -53,11 +53,15 @@ void cbm2_ui_specific(void *msg, void *window)
     }
 }
 
-int cbm2_ui_init(void)
+int cbm2ui_init(void)
 {
     ui_register_machine_specific(cbm2_ui_specific);
     ui_register_menu_toggles(cbm2_ui_menu_toggles);
     ui_update_menus();
     return 0;
+}
+
+void cbm2ui_shutdown(void)
+{
 }
 

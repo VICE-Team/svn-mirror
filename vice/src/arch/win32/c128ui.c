@@ -203,11 +203,15 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
      }
 }
 
-int c128_ui_init(void)
+int c128ui_init(void)
 {
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);
     ui_register_res_values(c128_ui_res_values);
     return 0;
+}
+
+void c128ui_shutdown(void)
+{
 }
 

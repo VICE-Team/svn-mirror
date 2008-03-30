@@ -70,11 +70,15 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
     }
 }
 
-int plus4_ui_init(void)
+int plus4ui_init(void)
 {
     ui_register_machine_specific(plus4_ui_specific);
     ui_register_menu_toggles(plus4_ui_menu_toggles);
     ui_register_res_values(plus4_ui_res_values);
     return 0;
+}
+
+void plus4ui_shutdown(void)
+{
 }
 

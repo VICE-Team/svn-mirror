@@ -93,15 +93,20 @@ static ui_menu_entry_t plus4_menu[] = {
     { NULL }
 };
 
-static void ui_create_dynamic_menus(void)
+static void plus4ui_dynamic_menu_create(void)
 {
-    uited_create_menus();
+    uited_menu_create();
 }
 
-int plus4_ui_init(void)
+static void plus4ui_dynamic_menu_shutdown(void)
+{
+    uited_menu_shutdown();
+}
+
+int plus4ui_init(void)
 {
     ui_set_application_icon(plus4_icon_data);
-    ui_create_dynamic_menus();
+    plus4ui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -210,5 +215,10 @@ int plus4_ui_init(void)
     ui_update_menus();
 
     return 0;
+}
+
+void plus4ui_shutdown(void)
+{
+    plus4ui_dynamic_menu_shutdown();
 }
 

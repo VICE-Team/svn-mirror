@@ -54,11 +54,15 @@ void pet_ui_specific(void *msg, void *window)
 }
 
 
-int pet_ui_init(void)
+int petui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
     ui_register_menu_toggles(pet_ui_menu_toggles);
     ui_update_menus();
     return 0;
+}
+
+void petui_shutdown(void)
+{
 }
 

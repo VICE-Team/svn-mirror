@@ -430,7 +430,7 @@ int machine_init(void)
         if (vsid_mode)
             vsid_ui_init();
         else
-            c64_ui_init();
+            c64ui_init();
     }
 
     if (!vsid_mode)
@@ -524,6 +524,8 @@ void machine_specific_shutdown(void)
     if (vsid_mode) {
         vsid_ui_close();
     }
+
+    c64ui_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
@@ -540,7 +542,7 @@ static void machine_vsync_hook(void)
 
     if (vsid_mode) {
         unsigned int playtime;
-        static unsigned int time=0;
+        static unsigned int time = 0;
 
         playtime = (psid_increment_frames() * machine_timing.cycles_per_rfsh)
                    / machine_timing.cycles_per_sec;

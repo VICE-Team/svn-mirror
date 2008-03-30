@@ -1,8 +1,9 @@
 /*
- * plus4ui.c - C64-specific user interface.
+ * vic20ui.h - Implementation of the C64-specific part of the UI.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,42 +25,11 @@
  *
  */
 
-#include "vice.h"
+#ifndef _VIC20UI_H
+#define _VIC20UI_H
 
-#include <stdio.h>
+extern int vic20ui_init(void);
+extern void vic20ui_shutdown(void);
 
-extern "C" {
-#include "constants.h" 
-#include "plus4ui.h"
-#include "resources.h"
-#include "ui.h"
-}
-
-ui_menu_toggle  plus4_ui_menu_toggles[] = {
-    { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", MENU_TOGGLE_SCALE2X },
-    { NULL, 0 }
-};
-
-ui_res_value_list plus4_ui_res_values[] = {
-    { NULL, NULL }
-};
-
-static void plus4_ui_specific(void *msg, void *window)
-{
-}
-
-int plus4ui_init(void)
-{
-    ui_register_machine_specific(plus4_ui_specific);
-    ui_register_menu_toggles(plus4_ui_menu_toggles);
-    ui_register_res_values(plus4_ui_res_values);
-    return 0;
-}
-
-void plus4ui_shutdown(void)
-{
-}
+#endif
 

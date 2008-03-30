@@ -119,9 +119,13 @@ static struct MenuDisplayVideoCache {
 };
 
 
-int plus4_ui_init(void)
+int plus4ui_init(void)
 {
   return ui_init_named_app("VicePlus4", IBarIconName);
+}
+
+void plus4ui_shutdown(void)
+{
 }
 
 int plus4_kbd_init(void)

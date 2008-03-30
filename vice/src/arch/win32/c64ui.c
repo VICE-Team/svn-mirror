@@ -228,11 +228,15 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
     }
 }
 
-int c64_ui_init(void)
+int c64ui_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
     ui_register_res_values(c64_ui_res_values);
     return 0;
+}
+
+void c64ui_shutdown(void)
+{
 }
 

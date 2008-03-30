@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -327,7 +328,7 @@ int machine_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize the CBM-II-specific part of the UI.  */
-    cbm2_ui_init();
+    cbm2ui_init();
 
     cbm2iec_init();
 
@@ -385,6 +386,8 @@ void machine_specific_shutdown(void)
     } else {
         crtc_shutdown();
     }
+
+    cbm2ui_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

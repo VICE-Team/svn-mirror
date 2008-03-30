@@ -189,11 +189,15 @@ char *pet_get_keyboard_name(void)
   return PETkeyGraphicName;
 }
 
-int pet_ui_init(void)
+int petui_init(void)
 {
   PetModelName = "8032";
 
   return ui_init_named_app("VicePET", IBarIconName);
+}
+
+void petui_shutdown(void)
+{
 }
 
 int pet_kbd_init(void)

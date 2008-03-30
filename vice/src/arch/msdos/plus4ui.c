@@ -196,7 +196,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int plus4_ui_init(void)
+int plus4ui_init(void)
 {
     ui_create_main_menu(0, 1, 0, 0, 1);
 
@@ -210,3 +210,8 @@ int plus4_ui_init(void)
 
     return 0;
 }
+
+void plus4ui_shutdown(void)
+{
+}
+

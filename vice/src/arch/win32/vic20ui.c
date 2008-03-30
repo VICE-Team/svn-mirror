@@ -139,10 +139,14 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
     }
 }
 
-int vic20_ui_init(void)
+int vic20ui_init(void)
 {
     ui_register_machine_specific(vic20_ui_specific);
     ui_register_menu_toggles(vic20_ui_menu_toggles);
     return 0;
+}
+
+void vic20ui_shutdown(void)
+{
 }
 

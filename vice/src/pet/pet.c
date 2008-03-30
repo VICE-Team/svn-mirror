@@ -326,7 +326,7 @@ int machine_init(void)
     */
 
     /* Initialize the PET-specific part of the UI.  */
-    pet_ui_init();
+    petui_init();
 
     petiec_init();
 
@@ -367,6 +367,8 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     crtc_shutdown();
+
+    petui_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */

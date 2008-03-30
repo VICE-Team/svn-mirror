@@ -427,7 +427,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int vic20_ui_init(void)
+int vic20ui_init(void)
 {
     ui_create_main_menu(1, 1, 1, 1, 1);
 
@@ -438,5 +438,9 @@ int vic20_ui_init(void)
     tui_menu_add(ui_video_submenu, vic_menu_items);
 
     return 0;
+}
+
+void vic20ui_shutdown(void)
+{
 }
 

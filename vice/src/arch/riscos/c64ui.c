@@ -73,9 +73,13 @@ static struct MenuDisplayVideoCache {
 };
 
 
-int c64_ui_init(void)
+int c64ui_init(void)
 {
   return ui_init_named_app("Vice64", ui_get_machine_ibar_icon());
+}
+
+void c64ui_shutdown(void)
+{
 }
 
 int c64_kbd_init(void)

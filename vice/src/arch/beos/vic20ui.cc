@@ -138,12 +138,16 @@ void vic20_ui_specific(void *msg, void *window)
 }
 
 
-int vic20_ui_init(void)
+int vic20ui_init(void)
 {
     ui_register_machine_specific(vic20_ui_specific);
     ui_register_menu_toggles(vic20_ui_menu_toggles);
     ui_update_menus();
     return 0;
+}
+
+void vic20ui_shutdown(void)
+{
 }
 
 int vic20_cartridge_attach_image(int type, const char *filename)

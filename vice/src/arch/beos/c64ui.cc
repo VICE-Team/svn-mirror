@@ -241,7 +241,7 @@ void c64_ui_specific(void *msg, void *window)
     }
 }
 
-int c64_ui_init(void)
+int c64ui_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
@@ -249,3 +249,8 @@ int c64_ui_init(void)
     ui_update_menus();
     return 0;
 }
+
+void c64ui_shutdown(void)
+{
+}
+

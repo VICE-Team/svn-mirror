@@ -208,7 +208,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int cbm2_ui_init(void)
+int cbm2ui_init(void)
 {
     ui_create_main_menu(0, 1, 0, 0, 1);
 
@@ -222,3 +222,8 @@ int cbm2_ui_init(void)
 
     return 0;
 }
+
+void cbm2ui_shutdown(void)
+{
+}
+

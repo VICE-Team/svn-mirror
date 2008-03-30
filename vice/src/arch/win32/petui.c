@@ -61,10 +61,14 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
     }
 }
 
-int pet_ui_init(void)
+int petui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
     ui_register_menu_toggles(pet_ui_menu_toggles);
     return 0;
+}
+
+void petui_shutdown(void)
+{
 }
 

@@ -121,9 +121,13 @@ static struct MenuDisplayVideoCache {
 };
 
 
-int vic20_ui_init(void)
+int vic20ui_init(void)
 {
   return ui_init_named_app("ViceVIC", IBarIconName);
+}
+
+void vic20ui_shutdown(void)
+{
 }
 
 int vic20_kbd_init(void)

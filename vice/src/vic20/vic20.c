@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -361,7 +362,7 @@ int machine_init(void)
                  * machine_timing.rfsh_per_sec));
 
     /* Initialize the VIC20-specific part of the UI.  */
-    vic20_ui_init();
+    vic20ui_init();
 
     vic20iec_init();
 
@@ -410,6 +411,8 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     vic_shutdown();
+
+    vic20ui_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */

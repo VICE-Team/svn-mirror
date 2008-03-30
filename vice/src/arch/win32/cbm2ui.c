@@ -71,11 +71,15 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
     }
 }
 
-int cbm2_ui_init(void)
+int cbm2ui_init(void)
 {
     ui_register_machine_specific(cbm2_ui_specific);
     ui_register_menu_toggles(cbm2_ui_menu_toggles);
     ui_register_res_values(cbm2_ui_res_values);
     return 0;
+}
+
+void cbm2ui_shutdown(void)
+{
 }
 

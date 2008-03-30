@@ -322,15 +322,20 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-static void ui_create_dynamic_menus(void)
+static void petui_dynamic_menu_create(void)
 {
-    uicrtc_create_menus();
+    uicrtc_menu_create();
 }
 
-int pet_ui_init(void)
+static void petui_dynamic_menu_shutdown(void)
+{
+    uicrtc_menu_shutdown();
+}
+
+int petui_init(void)
 {
     ui_set_application_icon(pet_icon_data);
-    ui_create_dynamic_menus();
+    petui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -436,5 +441,10 @@ int pet_ui_init(void)
     /* ui_toggle_drive_status(0); */
 
     return 0;
+}
+
+void petui_shutdown(void)
+{
+    petui_dynamic_menu_shutdown();
 }
 

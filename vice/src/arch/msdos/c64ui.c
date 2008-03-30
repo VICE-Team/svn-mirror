@@ -473,7 +473,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int c64_ui_init(void)
+int c64ui_init(void)
 {
     ui_create_main_menu(1, 1, 1, 2, 1);
 
@@ -490,5 +490,9 @@ int c64_ui_init(void)
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     return 0;
+}
+
+void c64ui_shutdown(void)
+{
 }
 

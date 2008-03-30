@@ -137,11 +137,15 @@ char *cbm2_get_keyboard_name(void)
   return CBM2keyGraphicName;
 }
 
-int cbm2_ui_init(void)
+int cbm2ui_init(void)
 {
   CBM2ModelName = "610";
 
   return ui_init_named_app("ViceCBM2", IBarIconName);
+}
+
+void cbm2ui_shutdown(void)
+{
 }
 
 int cbm2_kbd_init(void)
