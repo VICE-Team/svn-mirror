@@ -198,7 +198,7 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
 
   // NB! This requires two's complement integer.
   int rate_step = rate_period - rate_counter;
-  if (rate_step < 0) {
+  if (rate_step <= 0) {
     rate_step += 0x7fff;
   }
 

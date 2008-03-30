@@ -8,7 +8,7 @@ This library can be linked into programs emulating the MOS6510 MPU to
 play music made for the Commodore 64 computer. reSID has been successfully
 linked into VICE, a full-fledged Commodore 64 emulator, and SIDPLAY, a
 popular SID tune player. The VICE home page is:
-http://www.cs.cmu.edu/~dsladic/vice/
+http://www.viceteam.org/
 A patch for SIDPLAY can be found on the SIDPLAY home page:
 http://www.geocities.com/SiliconValley/Lakes/5147/
 

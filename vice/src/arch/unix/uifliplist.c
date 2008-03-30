@@ -37,6 +37,7 @@
 #include "log.h"
 #include "resources.h"
 #include "uifliplist.h"
+#include "uidrive.h"
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
@@ -160,6 +161,11 @@ static UI_CALLBACK(attach_from_fliplist)
     flip_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit,
                      (int) ((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
 }
+
+#ifdef USE_GNOMEUI
+UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
+#endif
 
 #define FLIPLIST_MENU_LIMIT 256
 void uifliplist_update_menus(int from_unit, int to_unit)
