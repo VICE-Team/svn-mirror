@@ -502,6 +502,8 @@ const char contrib_text[] =
 "  Luca Montecchiani <m.luca@usa.net> contributed a new Unix\n"
 "  joystick driver.\n"
 "\n"
+"  Dirk Farin <farin@ti.uni-mannheim.de> rewrote the MITSHM code.\n"
+"\n"
 "(We hope we have not forgotten anybody; if you think we have,\n"
 "please tell us.)\n"
 "\n"
