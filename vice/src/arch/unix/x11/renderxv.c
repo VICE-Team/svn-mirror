@@ -1163,6 +1163,7 @@ void render_yuv_image(int double_size,
   switch (format.id) {
   case FOURCC_UYVY:
     planar = 0;
+    plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
     shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
 #else
@@ -1171,6 +1172,7 @@ void render_yuv_image(int double_size,
     break;
   case FOURCC_YUY2:
     planar = 0;
+    plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
     shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
 #else
@@ -1179,6 +1181,7 @@ void render_yuv_image(int double_size,
     break;
   case FOURCC_YVYU:
     planar = 0;
+    plane_y = plane_u = plane_v = 0;
 #ifdef WORDS_BIGENDIAN
     shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
 #else
@@ -1187,11 +1190,13 @@ void render_yuv_image(int double_size,
     break;
   case FOURCC_YV12:
     planar = 1;
+    shift_y0 = shift_u = shift_v = shift_y1 = 0;
     plane_y = 0; plane_u = 2; plane_v = 1;
     break;
   case FOURCC_I420:
   case FOURCC_IYUV:
     planar = 1;
+    shift_y0 = shift_u = shift_v = shift_y1 = 0;
     plane_y = 0; plane_u = 1; plane_v = 2;
     break;
   default:

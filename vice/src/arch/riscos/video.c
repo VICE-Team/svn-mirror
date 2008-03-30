@@ -101,6 +101,63 @@ static void video_full_screen_colours(void);
 static void canvas_redraw_all(void);
 
 
+/*
+ *  Some code to encapsulate canvas scaling.
+ *  ``Full'' refers to the settings in videoconfig (all that's needed in full screen mode)
+ *  ``Soft'' is the setting of the RISC OS plotter (at the very end of the rendering pipeline)
+ */
+
+static void video_canvas_get_full_scale(const video_canvas_t *canvas, int *sx, int *sy)
+{
+  const video_render_config_t *vc = &(canvas->videoconfig);
+
+  *sx = 1; *sy = 1;
+  if ((ActualPALDepth != 0)
+      && ((vc->rendermode == VIDEO_RENDER_PAL_1X1) || (vc->rendermode == VIDEO_RENDER_PAL_2X2)))
+  {
+    if (vc->doublesizex != 0)
+      *sx = 2;
+    if (vc->doublesizey != 0)
+      *sy = 2;
+  }
+}
+
+
+static void video_canvas_get_soft_scale(const video_canvas_t *canvas, int *sx, int *sy)
+{
+  if (canvas->scale == 1)
+  {
+    *sx = 1; *sy = 1;
+  }
+  else
+  {
+    *sx = 2; *sy = 2;
+  }
+}
+
+
+static void video_canvas_apply_soft_scale(const video_canvas_t *canvas, int *sx, int *sy)
+{
+  if (canvas->scale != 1)
+  {
+    *sx *= 2; *sy *= 2;
+  }
+}
+
+
+static void video_canvas_get_scale(const video_canvas_t *canvas, int *sx, int *sy)
+{
+  video_canvas_get_full_scale(canvas, sx, sy);
+  video_canvas_apply_soft_scale(canvas, sx, sy);
+}
+
+
+
+
+/*
+ *  Convert a PAL depth handle to an actual depth
+ */
+
 static void video_init_pal_depth(void)
 {
   switch (PALEmuDepth)
@@ -129,16 +186,19 @@ static void video_init_pal_depth(void)
 }
 
 
-static void video_init_pal_videoconfig(video_render_config_t *vc)
+static int video_init_pal_videoconfig(video_render_config_t *vc)
 {
-  vc->doublesizex = PALEmuDouble;
-  vc->doublesizey = PALEmuDouble;
-  vc->doublescan  = PALEmuDouble;
-
   if ((vc->rendermode == VIDEO_RENDER_PAL_1X1) || (vc->rendermode == VIDEO_RENDER_PAL_2X2))
   {
+    vc->doublesizex = PALEmuDouble;
+    vc->doublesizey = PALEmuDouble;
+    vc->doublescan  = PALEmuDouble;
+
     vc->rendermode = (PALEmuDouble == 0) ? VIDEO_RENDER_PAL_1X1 : VIDEO_RENDER_PAL_2X2;
+
+    return 1;
   }
+  return 0;
 }
 
 
@@ -148,7 +208,10 @@ static void video_init_pal_double(void)
 
   while (cl != NULL)
   {
-    video_init_pal_videoconfig(&(cl->canvas->videoconfig));
+    if (video_init_pal_videoconfig(&(cl->canvas->videoconfig)) != 0)
+    {
+      video_canvas_update_size(cl->canvas);
+    }
     cl = cl->next;
   }
 }
@@ -231,6 +294,8 @@ static int set_pal_emu_depth(resource_value_t v, void *param)
   PALEmuDepth = (int)v;
   video_init_pal_depth();
   video_color_update_palette();
+  /* to rescale canvases if necessary */
+  video_init_pal_double();
   canvas_redraw_all();
   return 0;
 }
@@ -640,12 +705,16 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   sprite_desc_t *sprite;
   video_frame_buffer_t *fb = &(canvas->fb);
   int xt, yt, px, py, w, h, pw, ph;
+  int scalex, scaley, softx, softy;
 
-  pw = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
-  ph = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
+  video_canvas_get_full_scale(canvas, &scalex, &scaley);
 
-  xt = vrd->xs + canvas->shiftx;
-  yt = vrd->ys - canvas->shifty;
+  pw = (canvas->width) * scalex;
+  ph = (canvas->height) * scaley;
+
+  /* in 2x mode, ALL coordinates are 2x (even xs, ys!!!) */
+  xt = (vrd->xs + canvas->shiftx) * scalex;
+  yt = (vrd->ys - canvas->shifty) * scaley;
   if ((xt >= pw) || (yt >= ph))
     return;
 
@@ -657,19 +726,22 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   video_canvas_ensure_pal_trans(canvas);
 
-  w = vrd->w; h = vrd->h;
+  w = vrd->w * scalex;
+  h = vrd->h * scaley;
   if (xt < 0) xt = 0;
   if (xt + w > pw) w = pw - xt;
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
   /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
-                    vrd->xs, vrd->ys, xt, yt, pitchs, pitcht, ActualPALDepth);
+                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   sprite = SpriteGetSprite(fb->palsprite);
 
-  px = vrd->ge.x - (canvas->shiftx << ScreenMode.eigx) * (canvas->scale);
-  py = vrd->ge.y - ((canvas->shifty + ph) << ScreenMode.eigy) * (canvas->scale);
+  video_canvas_get_soft_scale(canvas, &softx, &softy);
+
+  px = vrd->ge.x - (canvas->shiftx << ScreenMode.eigx) * softx;
+  py = vrd->ge.y - ((canvas->shifty + ph) << ScreenMode.eigy) * softy;
   /*log_message(LOG_DEFAULT, "Plot at %d,%d (clip %d,%d)", px, py, vrd->block[RedrawB_CMinX], vrd->block[RedrawB_CMinY]);*/
 
   if (canvas->scale == 1)
@@ -732,13 +804,16 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   video_frame_buffer_t *fb = &(canvas->fb);
   const int *b = vrd->block;
   int xt, yt, px, py, w, h, pw, ph;
+  int scalex, scaley;
 
-  pw = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
-  ph = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
+  video_canvas_get_full_scale(canvas, &scalex, &scaley);
 
-  xt = vrd->xs + canvas->shiftx;
-  yt = vrd->ys - canvas->shifty;
-  if ((xt >= canvas->width) || (yt >= canvas->height))
+  pw = (canvas->width) * scalex;
+  ph = (canvas->height) * scaley;
+
+  xt = (vrd->xs + canvas->shiftx) * scalex;
+  yt = (vrd->ys - canvas->shifty) * scaley;
+  if ((xt >= pw) || (yt >= ph))
     return;
 
   video_set_clipping_rectangle(b[0], b[1], b[2], b[3]);
@@ -751,14 +826,15 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
 
   video_canvas_ensure_pal_trans(canvas);
 
-  w = vrd->w; h = vrd->h;
+  w = vrd->w * scalex;
+  h = vrd->h * scaley;
   if (xt < 0) xt = 0;
   if (xt + w > pw) w = pw - xt;
   if (yt < 0) yt = 0;
   if (yt + h > ph) h = ph - yt;
 
   video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
-                    vrd->xs, vrd->ys, xt, yt, pitchs, pitcht, ActualPALDepth);
+                    vrd->xs*scalex, vrd->ys*scaley, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   sprite = SpriteGetSprite(fb->palsprite);
 
@@ -866,9 +942,12 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
   {
     int shiftx, shifty;
     const int *b = vrd->block;
+    int scalex, scaley;
 
-    shiftx = (canvas->shiftx << UseEigen) * (canvas->scale);
-    shifty = (canvas->shifty << UseEigen) * (canvas->scale);
+    video_canvas_get_soft_scale(canvas, &scalex, &scaley);
+
+    shiftx = (canvas->shiftx << UseEigen) * scalex;
+    shifty = (canvas->shifty << UseEigen) * scaley;
 
     /* Coordinates of top left corner of canvas */
     vrd->ge.x = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + shiftx;
@@ -994,6 +1073,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   memset(&(canvas->fb), 0, sizeof(video_frame_buffer_t));
   canvas->fb.transdirty = 1;
 
+  canvas->videoconfig.doublesizex = 0;
+  canvas->videoconfig.doublesizey = 0;
   video_render_initconfig(&(canvas->videoconfig));
   video_init_pal_videoconfig(&(canvas->videoconfig));
 
@@ -1114,9 +1195,12 @@ void video_canvas_resize(video_canvas_t *s, unsigned int width, unsigned int hei
   s->width = width; s->height = height;
   if (FullScreenMode == 0)
   {
+    int scalex, scaley;
     int w, h;
 
-    w = (s->scale * width) << UseEigen; h = (s->scale * height) << UseEigen;
+    video_canvas_get_scale(s, &scalex, &scaley);
+
+    w = (scalex * width) << UseEigen; h = (scaley * height) << UseEigen;
     wimp_window_set_extent(s->window, 0, -h, w, 0);
     Wimp_GetWindowState((int*)(s->window));
     /* Only open window if it was open to begin with */
@@ -1146,17 +1230,22 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 
   vrd.xs = xs; vrd.ys = ys; vrd.w = w; vrd.h = h;
 
+  /*log_message(LOG_DEFAULT, "Refresh s(%d,%d), t(%d,%d), d(%d,%d)", xs, ys, xi, yi, w, h);*/
+
   if (FullScreenMode == 0)
   {
     int block[11];
+    int scalex, scaley;
     int more;
+
+    video_canvas_get_scale(canvas, &scalex, &scaley);
 
     block[0] = canvas->window->Handle;
     /* The canvas size is only used for the clipping */
-    block[1] = (xi << UseEigen) * (canvas->scale);
-    block[2] = (- (yi + h) << UseEigen) * (canvas->scale);
-    block[3] = ((xi + w) << UseEigen) * (canvas->scale);
-    block[4] = (-yi << UseEigen) * (canvas->scale);
+    block[1] = (xi << UseEigen) * scalex;
+    block[2] = (- (yi + h) << UseEigen) * scaley;
+    block[3] = ((xi + w) << UseEigen) * scalex;
+    block[4] = (-yi << UseEigen) * scaley;
 
     vrd.block = block;
 
@@ -1170,9 +1259,10 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
   else if (canvas == ActiveCanvas)
   {
     int clip[4];
-    int dx, dy;
+    int dx, dy, orgx, orgy;
     int clipYlow;
     int shiftx, shifty;
+    int scalex, scaley;
 
     video_canvas_ensure_translation(canvas);
 
@@ -1181,15 +1271,22 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     else
       clipYlow = (StatusLineHeight << FullScrDesc.eigy);
 
-    dx = (canvas->width << FullUseEigen); dy = (canvas->height << FullUseEigen);
+    video_canvas_get_full_scale(canvas, &scalex, &scaley);
+
+    dx = (canvas->width << FullUseEigen) * scalex;
+    dy = (canvas->height << FullUseEigen) * scaley;
     shiftx = (canvas->shiftx << FullUseEigen);
     shifty = (canvas->shifty << FullUseEigen);
-    vrd.ge.x = (FullScrDesc.resx - dx)/2 + shiftx;
-    vrd.ge.y = (FullScrDesc.resy - dy)/2 + dy + shifty;
-    clip[0] = (FullScrDesc.resx - dx) / 2 + (xi << FullUseEigen);
-    clip[2] = clip[0] + (w << FullUseEigen);
-    clip[1] = (FullScrDesc.resy - dy) / 2 + dy - ((yi + h) << FullUseEigen);
-    clip[3] = clip[1] + (h << FullUseEigen);
+    orgx = (FullScrDesc.resx - dx)/2;
+    orgy = (FullScrDesc.resy - dy)/2 + dy;
+    vrd.ge.x = orgx + shiftx;
+    vrd.ge.y = orgy + shifty;
+    clip[0] = orgx + (xi << FullUseEigen) * scalex;
+    clip[2] = clip[0] + (w << FullUseEigen) * scalex;
+    clip[1] = orgy - ((yi + h) << FullUseEigen) * scaley;
+    clip[3] = clip[1] + (h << FullUseEigen) * scaley;
+    /*log_message(LOG_DEFAULT, "CLIP %d,%d,%d,%d", clip[0], clip[1], clip[2], clip[3]);*/
+
     if ((clip[0] >= FullScrDesc.resx) || (clip[2] < 0)) return;
     if ((clip[1] >= FullScrDesc.resy) || (clip[3] < clipYlow)) return;
     if (clip[0] < 0) clip[0] = 0;
@@ -1200,7 +1297,7 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 
     vrd.block = clip;
 
-    /*log_message(LOG_DEFAULT, "dx %d, dy %d, px %d, py %d, w %d, h %d, clip %d:%d:%d:%d", dx, dy, ge.x, ge.y, w, h, clip[0], clip[1], clip[2], clip[3]);*/
+    /*log_message(LOG_DEFAULT, "dx %d, dy %d, px %d, py %d, w %d, h %d, clip %d:%d:%d:%d", dx, dy, vrd.ge.x, vrd.ge.y, w, h, clip[0], clip[1], clip[2], clip[3]);*/
 
     if (canvas->redraw_full == NULL)
       video_get_redraw_full(canvas);
@@ -1236,6 +1333,43 @@ static void canvas_redraw_all(void)
     canvas_force_redraw(clist->canvas);
     clist = clist->next;
   }
+}
+
+
+void video_canvas_update_extent(video_canvas_t *canvas)
+{
+  int scalex, scaley;
+  int dx, dy;
+
+  UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
+
+  video_canvas_get_scale(canvas, &scalex, &scaley);
+
+  dx = (canvas->width << UseEigen) * scalex;
+  dy = (canvas->height << UseEigen) * scaley;
+
+  wimp_window_set_extent(canvas->window, 0, -dy, dx, 0);
+}
+
+
+void video_canvas_update_size(video_canvas_t *canvas)
+{
+  RO_Window *win;
+  int block[WindowB_WFlags+1];
+  int dx, dy;
+
+  win = canvas->window;
+  video_canvas_update_extent(canvas);
+  block[WindowB_Handle] = win->Handle;
+  Wimp_GetWindowState(block);
+  dx = win->wmaxx - win->wminx;
+  dy = win->wmaxy - win->wminy;
+  block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
+  block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
+  Wimp_OpenWindow(block);
+  Wimp_GetWindowState(block);
+  ui_open_emu_window(win, block);
+  Wimp_ForceRedraw(win->Handle, 0, -dy, dx, 0);
 }
 
 
@@ -1567,10 +1701,12 @@ void video_full_screen_display_image(unsigned int num, const char *img)
 
 void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y, int *cx, int *cy)
 {
-  int shs = (canvas->scale == 1) ? 0 : 1;
+  int scalex, scaley;
 
-  *cx = (((x - (block[RedrawB_VMinX] - block[RedrawB_ScrollX])) >> ScreenMode.eigx) >> shs) - canvas->shiftx;
-  *cy = ((((block[RedrawB_VMaxY] - block[RedrawB_ScrollY]) - y) >> ScreenMode.eigy) >> shs) + canvas->shifty;
+  video_canvas_get_scale(canvas, &scalex, &scaley);
+
+  *cx = (((x - (block[RedrawB_VMinX] - block[RedrawB_ScrollX])) >> ScreenMode.eigx) / scalex) - canvas->shiftx;
+  *cy = ((((block[RedrawB_VMaxY] - block[RedrawB_ScrollY]) - y) >> ScreenMode.eigy) / scaley) + canvas->shifty;
 }
 
 

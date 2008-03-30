@@ -2571,7 +2571,6 @@ static void ui_redraw_window(int *b)
   {
     video_redraw_desc_t vrd;
     video_frame_buffer_t *fb = &(canvas->fb);
-    /*int shs = (canvas->scale == 1) ? 0 : 1;*/
 
     vrd.ge.dimx = fb->pitch; vrd.ge.dimy = fb->height;
     vrd.block = b;
@@ -2583,11 +2582,6 @@ static void ui_redraw_window(int *b)
       video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMinX], b[RedrawB_CMaxY], &vrd.xs, &vrd.ys);
       video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMaxX], b[RedrawB_CMinY], &vrd.w, &vrd.h);
       vrd.w -= vrd.xs; vrd.h -= vrd.ys;
-      /*vrd.xs = (((b[RedrawB_CMinX]-(b[RedrawB_VMinX]-b[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
-      vrd.ys = ((((b[RedrawB_VMaxY]-b[RedrawB_ScrollY])-b[RedrawB_CMaxY]) >> ScreenMode.eigy) + canvas->shifty) >> shs;
-      vrd.w = (b[RedrawB_CMaxX] - b[RedrawB_CMinX]) >> (ScreenMode.eigx + shs);
-      vrd.h = (b[RedrawB_CMaxY] - b[RedrawB_CMinY]) >> (ScreenMode.eigy + shs);*/
-      /*log_message(LOG_DEFAULT, "REDRAW %d,%d,%d,%d", vrd.xs, vrd.ys, vrd.w, vrd.h);*/
       video_canvas_redraw_core(canvas, &vrd);
       more = Wimp_GetRectangle(b);
     }
@@ -2657,29 +2651,6 @@ static void ui_close_window(int *b)
     }
     Wimp_CloseWindow(b);
   }
-}
-
-
-static void ui_set_emu_window_size(RO_Window *win)
-{
-  int dx, dy;
-  struct video_canvas_s *canvas;
-
-  UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
-
-  canvas = canvas_for_handle(win->Handle);
-
-  if (canvas == NULL)
-  {
-    dx = (default_screen_width << UseEigen) * EmuZoom;
-    dy = (default_screen_height << UseEigen) * EmuZoom;
-  }
-  else
-  {
-    dx = (canvas->width << UseEigen) * (canvas->scale);
-    dy = (canvas->height << UseEigen) * (canvas->scale);
-  }
-  wimp_window_set_extent(win, 0, -dy, dx, 0);
 }
 
 
@@ -2810,25 +2781,12 @@ static void ui_mouse_click_pane(int *b)
     {
       case Icon_Pane_Toggle:
         {
-          RO_Window *win;
           struct video_canvas_s *canvas;
-          int block[WindowB_WFlags+1];
-          int dx, dy;
 
-          canvas = ActiveCanvas; win = canvas->window;
+          canvas = ActiveCanvas;
           canvas->scale = (canvas->scale == 1) ? 2 : 1;
           ui_show_emu_scale();
-          ui_set_emu_window_size(win);
-          block[WindowB_Handle] = win->Handle;
-          Wimp_GetWindowState(block);
-          dx = win->wmaxx - win->wminx;
-          dy = win->wmaxy - win->wminy;
-          block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
-          block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
-          Wimp_OpenWindow(block);
-          Wimp_GetWindowState(block);
-          ui_open_emu_window(win, block);
-          Wimp_ForceRedraw(win->Handle, 0, -dy, dx, 0);
+          video_canvas_update_size(canvas);
         }
         break;
       case Icon_Pane_Reset:
@@ -4385,8 +4343,8 @@ static void ui_user_msg_mode_change(int *b)
   /* Change in eigen factors might make this necessary */
   while (clist != NULL)
   {
+    video_canvas_update_extent(clist->canvas);
     win = clist->canvas->window;
-    ui_set_emu_window_size(win);
     clist = clist->next;
 
     block[WindowB_Handle] = win->Handle;

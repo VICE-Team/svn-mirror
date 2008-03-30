@@ -49,7 +49,8 @@
 #include "uisound.h"
 #include "utils.h"
 #include "vsync.h"
-
+#include "archapi.h"
+#include "fliplist.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -223,6 +224,7 @@ static UI_CALLBACK(save_resources)
         if (w != NULL)
             ui_message(_("Settings saved successfully."));
     }
+    flip_save_list((unsigned int) -1, archdep_default_fliplist_file_name());
     ui_update_menus();
 }
 

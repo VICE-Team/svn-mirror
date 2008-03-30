@@ -151,6 +151,11 @@ const char *archdep_default_resource_file_name(void)
     return fname;
 }
 
+const char *archdep_default_fliplist_file_name(void)
+{
+    return NULL;
+}
+
 FILE *archdep_open_default_log_file(void)
 {
     char *fname;

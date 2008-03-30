@@ -147,7 +147,9 @@ extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
 extern void fullscreen_set_raster(struct raster_s *raster);
 extern void fullscreen_set_canvas(video_canvas_t *c);
 extern void fullscreen_set_palette(video_canvas_t *vc,
-                                   struct palette_s *p, BYTE *pixel_return);
+                                   const struct palette_s *p,
+				   BYTE *pixel_return);
+extern void fullscreen_resize(int w, int h);
 extern int fs_draw_buffer_alloc(struct video_canvas_s *c,
 				BYTE **db, unsigned int w, unsigned int h,
 				unsigned int *pitch);

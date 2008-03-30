@@ -59,6 +59,7 @@
 #include "utils.h"
 #include "version.h"
 #include "video.h"
+#include "fliplist.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -150,6 +151,8 @@ int MAIN_PROGRAM(int argc, char **argv)
                resources might have been initialized anyway.  */
             resources_set_defaults();
         }
+	flip_load_list((unsigned int) -1, archdep_default_fliplist_file_name(),
+		       0);
     }
 
     if (initcmdline_check_args(argc, argv) < 0)

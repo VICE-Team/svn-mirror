@@ -1101,7 +1101,7 @@ void mon_record_commands(char *filename)
     recording_name = filename;
 
     if (NULL == (recording_fp = fopen(recording_name, MODE_WRITE))) {
-        mon_out("Cannot create `%s': %s.\n", recording_name);
+        mon_out("Cannot create `%s'.\n", recording_name);
         return;
     }
 

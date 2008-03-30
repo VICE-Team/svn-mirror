@@ -49,6 +49,9 @@ extern char *archdep_make_backup_filename(const char *fname);
 extern const char *archdep_default_resource_file_name(void);
 extern const char *archdep_default_save_resource_file_name(void);
 
+/* Fliplist */
+const char *archdep_default_fliplist_file_name(void);
+
 /* Logfile stuff.  */
 extern FILE *archdep_open_default_log_file(void);
 extern int archdep_default_logger(const char *level_string, const char *txt);

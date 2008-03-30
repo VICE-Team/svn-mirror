@@ -108,6 +108,8 @@ extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
 
 extern void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd);
+extern void video_canvas_update_extent(video_canvas_t *canvas);
+extern void video_canvas_update_size(video_canvas_t *canvas);
 
 extern int video_full_screen_on(int *sprites);
 extern int video_full_screen_off(void);

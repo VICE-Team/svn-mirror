@@ -597,6 +597,45 @@ static UI_CALLBACK(remove_from_fliplist2)
                          ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
+static UI_CALLBACK(load_save_fliplist)
+{
+    char *filename, *title;
+    int what = (int)UI_MENU_CB_PARAM;
+    ui_button_t button;
+    static char *last_dir;
+
+    vsync_suspend_speed_eval();
+    title = concat (what?_("Load "):_("Save"), _("Fliplist File"), NULL);
+    filename = ui_select_file(title, 0, False, last_dir, "*.vfl", &button,
+			      True, NULL);
+    free (title);
+    switch (button)
+    {
+    case UI_BUTTON_OK:
+	if (what)
+	{
+ 	    if (flip_load_list((unsigned int) -1, filename, 0) == 0)
+		ui_message(_("Successfully read `%s'."), filename);
+	    else
+		ui_error(_("Error reading `%s'."), filename);
+	}
+	else
+	{
+ 	    if (flip_save_list((unsigned int) -1, filename) == 0)
+		ui_message(_("Successfully wrote `%s'."), filename);
+	    else
+		ui_error(_("Error writing `%s'."), filename);
+	}
+	if (last_dir)
+	    free(last_dir);
+	util_fname_split(filename, &last_dir, NULL);
+	break;
+    default:
+	break;
+    }
+    
+}
+
 #ifdef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
@@ -870,18 +909,22 @@ static ui_menu_entry_t reset_submenu[] = {
 };
 
 static ui_menu_entry_t flip_submenu[] = {
-    { N_("Add current image"),
+    { N_("Add current image (Unit 8)"),
       (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
       XK_i, UI_HOTMOD_META },
-    { N_("Remove current image"),
+    { N_("Remove current image (Unit 8)"),
       (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
       XK_k, UI_HOTMOD_META },
-    { N_("Attach next image"),
+    { N_("Attach next image (Unit 8)"),
       (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 1, NULL,
       XK_n, UI_HOTMOD_META },
-    { N_("Attach previous image"),
+    { N_("Attach previous image (Unit 8)"),
       (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 0, NULL,
       XK_N, UI_HOTMOD_META },
+    { N_("Load fliplist file"),
+      (ui_callback_t) load_save_fliplist, (ui_callback_data_t) 1, NULL },
+    { N_("Save fliplist file"),
+      (ui_callback_t) load_save_fliplist, (ui_callback_data_t) 0, NULL },
     { NULL }
 };
 
@@ -892,7 +935,7 @@ ui_menu_entry_t ui_disk_commands_menu[] = {
       NULL, NULL, attach_empty_disk_image_submenu },
     { N_("Detach disk image"),
       NULL, NULL, detach_disk_image_submenu },
-    { N_("Fliplist for drive #8"),
+    { N_("Fliplist"),
       NULL, NULL, flip_submenu },
     { NULL }
 };

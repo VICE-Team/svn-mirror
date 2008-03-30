@@ -130,6 +130,12 @@ const char *archdep_default_resource_file_name(void)
 }
 
 
+const char *archdep_default_fliplist_file_name(void)
+{
+    return NULL;
+}
+
+
 const char *archdep_default_save_resource_file_name(void)
 {
   return archdep_default_resource_file_name();

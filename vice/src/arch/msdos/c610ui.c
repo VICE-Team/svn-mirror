@@ -109,14 +109,14 @@ static void add_palette_submenu(tui_menu_t parent)
                           palette_items[i].long_description,
                           palette_callback,
                           (void *) palette_items[i].name, 0,
-                          TUI_MENU_BEH_CLOSE);
+                          TUI_MENU_BEH_RESUME);
 
     tui_menu_add_item(palette_menu,
                       "C_ustom",
                       "Load a custom palette",
                       custom_palette_callback,
                       NULL, 0,
-                      TUI_MENU_BEH_CLOSE);
+                      TUI_MENU_BEH_RESUME);
 
     tui_menu_add_submenu(parent, "Color _Palette:",
 			 "Choose color palette",

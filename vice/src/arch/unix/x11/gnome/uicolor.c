@@ -52,8 +52,6 @@ extern GdkColormap *colormap;
 extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
     *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
 
-static video_canvas_t ui_canvas;
-
 #define NUM_ENTRIES 5
 
 static int uicolor_alloc_system_colors(void)
@@ -86,7 +84,7 @@ static int uicolor_alloc_system_colors(void)
     p->entries[4].green = 0xaf;
     p->entries[4].blue = 0xaf;
 
-    color_alloc_colors((void *)&ui_canvas, p, pixel_return, color_return);
+    color_alloc_colors(NULL, p, pixel_return, color_return);
 
     drive_led_off_pixel = (GdkColor *)color_return[0];
     drive_led_on_red_pixel = (GdkColor *)color_return[1];
@@ -192,6 +190,10 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                                  BYTE *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
+    if (!c) {
+        return;
+    }
+
     video_convert_color_table(colnr, pixel_return, data, dither,
                               (long)(((GdkColor *)(color_pixel))->pixel),
                               (video_canvas_t *)c);

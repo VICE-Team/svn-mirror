@@ -215,6 +215,11 @@ const char *archdep_default_resource_file_name(void)
     return filename;
 }
 
+const char *archdep_default_fliplist_file_name(void)
+{
+    return NULL;
+}
+
 FILE *fLog=NULL;
 
 int archdep_default_logger(const char *lvl, const char *txt)

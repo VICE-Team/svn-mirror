@@ -387,6 +387,18 @@ static void canvas_change_palette(video_canvas_t *c)
         video_render_setphysicalcolor(&c->videoconfig, i, col, c->depth);
     }
 
+	if (c->depth > 8)
+	{
+		for (i=0;i<256;i++)
+		{
+			video_render_setrawrgb(i,
+				makecol_depth(c->depth, i, 0, 0),
+				makecol_depth(c->depth, 0, i, 0),
+				makecol_depth(c->depth, 0, 0, i));
+		}
+		video_render_initraw();
+	}
+
     canvas_update_colors(c);
 
     statusbar_register_colors(next_avail, c->colors);

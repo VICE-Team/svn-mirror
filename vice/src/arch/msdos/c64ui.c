@@ -240,8 +240,8 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
       "Enable screen cache (disabled when using triple buffering)",
       toggle_VideoCache_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Fast _PAL Emulation:",
-      "Enable fast PAL emulation",
+    { "_PAL Emulation:",
+      "Enable PAL emulation",
       toggle_DelayLoopEmulation_callback, NULL, 3,
       TUI_MENU_BEH_RESUME, NULL, NULL },
     { "--" },
@@ -348,6 +348,8 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     return "Custom";
 }
 
+TUI_MENU_DEFINE_TOGGLE(ExternalPalette)
+
 static void add_palette_submenu(tui_menu_t parent)
 {
     int i;
@@ -359,15 +361,20 @@ static void add_palette_submenu(tui_menu_t parent)
                           palette_items[i].long_description,
                           palette_callback,
                           (void *) palette_items[i].name, 0,
-                          TUI_MENU_BEH_CLOSE);
+                          TUI_MENU_BEH_RESUME);
 
     tui_menu_add_item(palette_menu,
                       "C_ustom",
                       "Load a custom palette",
                       custom_palette_callback,
                       NULL, 0,
-                      TUI_MENU_BEH_CLOSE);
+                      TUI_MENU_BEH_RESUME);
 
+    tui_menu_add_item(parent, "Use external Palette",
+                      "Use the palette file below",
+                      toggle_ExternalPalette_callback,
+                      NULL, 3, TUI_MENU_BEH_RESUME);
+            
     tui_menu_add_submenu(parent, "Color _Palette:",
 			 "Choose color palette",
 			 palette_menu,

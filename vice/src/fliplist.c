@@ -257,26 +257,43 @@ void flip_clear_list(unsigned int unit)
 
 int flip_save_list(unsigned int unit, const char *filename)
 {
-    struct fliplist_t *flip = fliplist[unit - 8];
+    int all_units = 0;
+    struct fliplist_t *flip;
+    FILE *fp = NULL;
 
-    if (flip != (struct fliplist_t *)NULL)
+    if (unit == (unsigned int ) -1)
     {
-        FILE *fp;
-
-        if ((fp = fopen(filename, MODE_WRITE)) == NULL)
-            return -1;
-
-        fprintf(fp, "%s\n\n", flip_file_header);
-
-        do
-        {
-            fprintf(fp, "%s\n", flip->image);
-            flip = flip->next;
-        }
-        while (flip != fliplist[unit - 8]);
-
-        fclose(fp);
+	all_units = 1;
+	unit = 8;
     }
+    
+    do 
+    {
+	flip = fliplist[unit - 8];
+
+	if (flip != (struct fliplist_t *)NULL)
+	{
+	    if (!fp)
+	    {
+		if ((fp = fopen(filename, MODE_WRITE)) == NULL)
+		    return -1;
+		fprintf(fp, "%s\n\n", flip_file_header);
+	    }
+    
+	    fprintf(fp, "UNIT %d\n", unit);
+	    do
+	    {
+		fprintf(fp, "%s\n", flip->image);
+		flip = flip->next;
+	    }
+	    while (flip != fliplist[unit - 8]);
+	    
+	}
+	unit++;
+    } while (all_units && ((unit - 8) < NUM_DRIVES));
+
+    if (fp)
+	fclose(fp);
     return 0;
 }
 
@@ -284,7 +301,8 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 {
     FILE *fp;
     char buffer[buffer_size];
-
+    int all_units = 0, i;
+    
     if ((fp = fopen(filename, MODE_READ)) == NULL)
         return -1;
 
@@ -297,8 +315,14 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
         fclose(fp);
         return -1;
     }
-
-    flip_clear_list(unit);
+    if (unit == (unsigned int) -1)
+    {
+	all_units = 1;
+	for (i = 0; i < NUM_DRIVES; i++)
+	    flip_clear_list(i+8);
+    }
+    else
+	flip_clear_list(unit);
 
     while (!feof(fp))
     {
@@ -306,6 +330,13 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 
         buffer[0] = '\0';
         fgets(buffer, buffer_size, fp);
+
+	if (all_units && strncmp ("UNIT ", buffer, 5) == 0)
+	{
+	    util_string_to_long(buffer + 5, NULL, 10, (long *) &unit);
+	    continue;
+	}
+	
         /* remove trailing whitespace (linefeeds etc) */
         b = buffer + strlen(buffer);
         while ((b > buffer) && (isspace((unsigned int)(b[-1]))))
@@ -317,6 +348,12 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 
             *b = '\0';
 
+	    if (unit == (unsigned int) -1)
+	    {
+		log_message(LOG_DEFAULT, "Fliplist has inconsistent view for unit, assuming 8.\n");
+		unit = 8;
+	    }
+	    
             tmp = (struct fliplist_t*)xmalloc(sizeof(struct fliplist_t));
             tmp->image = stralloc(buffer);
             tmp->unit = unit;
@@ -342,7 +379,14 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
 
     fclose(fp);
 
-    show_fliplist(unit);
+    if (all_units)
+    {
+	for (i = 0; i < NUM_DRIVES; i++)
+	    show_fliplist(i + 8);
+    }
+    else
+	show_fliplist(unit);
+    
 
     if (autoattach)
         flip_attach_head(unit, 1);

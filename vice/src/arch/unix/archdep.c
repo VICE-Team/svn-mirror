@@ -50,6 +50,7 @@
 #include "findpath.h"
 #include "log.h"
 #include "utils.h"
+#include "machine.h"
 
 static char *argv0;
 
@@ -165,6 +166,18 @@ const char *archdep_default_resource_file_name(void)
 
     fname = concat(home, "/.vice/vicerc", NULL);
 
+    return fname;
+}
+
+const char *archdep_default_fliplist_file_name(void)
+{
+    static char *fname;
+    const char *home;
+
+    if (fname != NULL)
+        free(fname);
+    home = archdep_home_path();
+    fname = concat(home, "/.vice/fliplist-", machine_name, ".vfl", NULL);
     return fname;
 }
 
