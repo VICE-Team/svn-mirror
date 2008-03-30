@@ -33,10 +33,11 @@
 
 #include "sysfile.h"
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "findpath.h"
+#include "log.h"
 #include "resources.h"
-#include "archdep.h"
 #include "utils.h"
 
 #ifdef __riscos
@@ -228,3 +229,50 @@ int sysfile_locate(const char *name, char **complete_path_return)
     } else
         return -1;
 }
+
+/* ------------------------------------------------------------------------- */
+
+int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
+{
+    FILE *fp = NULL;
+    size_t rsize = 0;
+    char *complete_path;
+
+    fp = sysfile_open(name, &complete_path);
+    if (fp == NULL)
+        goto fail;
+
+    log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
+
+    rsize = file_length(fp);
+
+    if (rsize < minsize) {
+        log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);
+        goto fail;
+    }
+    if (rsize == maxsize + 2) {
+        log_warning(LOG_DEFAULT,
+                    "ROM `%s': two bytes too large - removing assumed "
+                    "start address.", complete_path);
+        fread((char*)dest, 1, 2, fp);
+        rsize -= 2;
+    }
+    if (rsize < maxsize) {
+        dest += maxsize-rsize;
+    } else if (rsize > maxsize) {
+        log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
+                    complete_path);
+        rsize = maxsize;
+    }
+    if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)
+        goto fail;
+
+    fclose(fp);
+    free(complete_path);
+    return rsize;  /* return ok */
+
+fail:
+    free(complete_path);
+    return -1;
+}
+
