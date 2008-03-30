@@ -94,6 +94,9 @@ int rom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
+/* Number of bytes in one raw sector.  */
+#define NUM_BYTES_SECTOR_GCR 360
+
 /* Speed (in bps) of the disk in the 4 disk areas.  */
 static int rot_speed_bps[2][4] = { { 250000, 266667, 285714, 307692 },
                                    { 125000, 133333, 142857, 153846 } };
@@ -823,7 +826,7 @@ inline BYTE drive_sync_found(drive_t *dptr)
 {
     BYTE val = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
 
-    if (val != 0xff || dptr->last_mode == 0) {
+    if (val != 0xff || dptr->last_mode == 0 || dptr->attach_clk != (CLOCK)0) {
         return 0x80;
     } else {
         unsigned int previous_head_offset;

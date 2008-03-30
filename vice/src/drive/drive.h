@@ -166,9 +166,6 @@
    detached.  */
 #define DRIVE_ATTACH_DETACH_DELAY    (3*400000)
 
-/* Number of bytes in one raw sector.  */
-#define NUM_BYTES_SECTOR_GCR 360
-
 /* ------------------------------------------------------------------------- */
 
 #define ROTATION_TABLE_SIZE      0x1000
