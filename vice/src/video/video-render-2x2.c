@@ -43,11 +43,11 @@ static void video_render_2x2_main(video_render_config_t *config,
                                   const unsigned int pitcht,
                                   int depth)
 {
-    DWORD *colortab;
+    const video_render_color_tables_t *colortab;
     int doublescan, scale2x;
 
     doublescan = config->doublescan;
-    colortab = config->physical_colors;
+    colortab = &config->color_tables;
     scale2x = config->scale2x;
 
     if (scale2x) {
@@ -95,4 +95,3 @@ void video_render_2x2_init(void)
 {
     video_render_2x2func_set(video_render_2x2_main);
 }
-

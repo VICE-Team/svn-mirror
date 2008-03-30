@@ -1316,7 +1316,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=13
+VICE_VERSION_BUILD=14
 
 
 
@@ -1328,7 +1328,7 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 
-if test x"$VICE_VERSION_BUILD" == "x" -o x"$VICE_VERSION_BUILD" == "x0" ; then
+if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
 else
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR"."$VICE_VERSION_BUILD
@@ -1728,7 +1728,7 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
           ac_config_headers="$ac_config_headers src/config.h"
 
 
-if test x"$VICE_VERSION_BUILD" == "x" -o x"$VICE_VERSION_BUILD" == "x0" ; then
+if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR",0,0"
 else
   VERSION_RC=$VICE_VERSION_MAJOR","$VICE_VERSION_MINOR","$VICE_VERSION_BUILD",0"
@@ -3064,7 +3064,7 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
 
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_PARSID
@@ -3148,6 +3148,11 @@ _ACEOF
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_NETWORK
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_XVIDEO
 _ACEOF
 
     is_amigaos4=no
@@ -3275,7 +3280,7 @@ cat >>confdefs.h <<\_ACEOF
 #define HAVE_NETWORK
 _ACEOF
 
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_PARSID
@@ -11366,7 +11371,7 @@ done
   fi
 fi
 
-if test x"$is_beos" == "xyes"; then
+if test x"$is_beos" = "xyes"; then
 
 
   BEOS_NETWORK_HEADERS_PRESENT=yes
@@ -15591,7 +15596,7 @@ fi
 
 if test x"$is_win32" != "xyes" -a x"$is_msdos" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
 
-  if test x"$enable_parsid" == "xyes"; then
+  if test x"$enable_parsid" = "xyes"; then
 
     LIBIEEE1284_HEADERS_PRESENT=yes
     QNX_MMAN_HEADERS_PRESENT=yes

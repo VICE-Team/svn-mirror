@@ -1,3 +1,122 @@
+2006-06-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.14.
+
+	* video/video-render-2x2.c, video/renderscale2x.c,
+	video/renderscale2x.h: Fixed prototypes.
+
+	* sounddrv/soundcoreaudio.c: Added Intel CoreAudio patch by
+	Christian Vogelgsang.
+
+2006-06-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* attach.c (detach_disk_image), diskimage/diskimage.c
+	(disk_image_media_destroy, disk_image_close),
+	drive/iec/wd1770.c (wd1770_detach_image), drive/ieee/fdc.c
+	(fdc_detach_image), vdrive/vdrive.c (vdrive_detach_image):
+	Moved test for image set to the functions called here cause
+	image isn't set after snapshot loading but we need to call
+	drive_image_detach for correct detach_clk values.
+
+	* drive/drive-snapshot.c (drive_snapshot_read_module):
+	Remember the attach/detach_clk values read from snapshot
+	and set them later to avoid changes triggered by attaching
+	disk image or calling drive_enable.
+	(drive_snapshot_write_image_module): Write NOIMAGE module
+	if no image is attached.
+	(drive_snapshot_read_image_module): If NOIMAGE module is
+	present call file_system_detach_disk.
+
+2006-06-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h,
+	arch/amigaos/joy.c, arch/amigaos/joyll.c,
+	arch/amigaos/mui/uidrivec128.c,
+	arch/amigaos/mui/uidrivec64vic20.c,
+	arch/amigaos/mui/uidrivepetcbm2.c,
+	arch/amigaos/mui/uidriveplus4.c, arch/amigaos/mui/uigeoram.c,
+	arch/amigaos/mui/uijoystick.c,
+	arch/amigaos/mui/uijoystickll.c, arch/amigaos/mui/uipetreu.c,
+	arch/amigaos/mui/uiplus256k.c, arch/amigaos/mui/uiplus60k.c,
+	arch/amigaos/mui/uiram.c, arch/amigaos/mui/uiramcart.c,
+	arch/amigaos/mui/uireu.c, arch/amigaos/mui/uirs232user.c,
+	arch/amigaos/mui/uisid.c, arch/amigaos/mui/uisound.c,
+	arch/amigaos/mui/uivic20mem.c, arch/amigaos/mui/uivicii.c,
+	arch/amigaos/uiapi.c: Finished the intl support for the
+	AmigaOS port, swedish translation help by Johan Samuelsson
+	<spot@triad.se>.
+
+2006-06-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h,
+	arch/amigaos/mui/filereq.c, arch/amigaos/mui/mui.c,
+	arch/amigaos/mui/mui.h, arch/amigaos/mui/uiacia.c,
+	arch/amigaos/mui/uic64_256k.c,
+	arch/amigaos/mui/uicbm2settings.c,
+	arch/amigaos/mui/uidatasette.c,
+	arch/amigaos/mui/uidrivec128.c, arch/amigaos/screenshot.c,
+	arch/amigaos/statusbar.c, arch/amigaos/ui.c,
+	arch/amigaos/uic64cart.c, arch/amigaos/uicart.c,
+	arch/amigaos/uicart.h, arch/amigaos/uicmdline.c,
+	arch/amigaos/vic20ui.c, arch/amigaos/vsyncapi.c: Continued the
+	intl support for the AmigaOS ports.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc: Fixed some
+	translations.
+
+2006-05-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/archdep.c: Fixed some path issues, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/vic20uires.h: Added
+	the fullscreen statusbar and overlay support toggles to the
+	menus.
+
+	* arch/amigaos/intl.c, arch/amigaos/intl.h: Fixed default
+	locale detection and added the fullscreen statusbar and
+	overlay items.
+
+	* arch/amigaos/kbd.c: Deleted unneeded memset, patch provided
+	by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/mousedrv.c, arch/amigaos/mousedrv.h: Fixed
+	"1351 mouse emulation" inputhandler crash, now removes the
+	"1351 mouse emulation" inputhandler when VICE quits, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/mui/filereq.c: Fixed the custom file requester
+	not to list RAM: among the initial directory contents, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/private.h, arch/amigaos/ui.c,
+	arch/amigaos/ui.h, arch/amigaos/uiapi.c, arch/amigaos/uires.h,
+	arch/amigaos/video.c, arch/amigaos/videoarch.h: Added overlay
+	support for MorphOS, patch provided by Harry Sintonen
+	<sintonen@iki.fi>.
+
+	* arch/unix/x11/dga2.c, arch/unix/x11/video.c,
+	video/render1x1.c, video/render1x1.h, video/render1x1pal.c,
+	video/render1x1pal.h, video/render1x2.c, video/render1x2.h,
+	video/render2x2.c, video/render2x2.h, video/render2x2pal.c,
+	video/render2x2pal.h, video/video-render-1x2.c,
+	video/video-render-2x2.c. video/video-render-pal.c,
+	video/video-render.c, src/video.h: Moved some global variables
+	to a new structure that makes future expansion easier, patch
+	provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* arch/amigaos/screenshot.c: Fixed for non v38 asl names.
+
+	* arch/amigaos/statusbar.c: Added the fullscreen statusbar
+	toggle, patch provided by Harry Sintonen <sintonen@iki.fi>.
+
+	* video/video-color.c: Fixed generic problem in VICE; multiple
+	windows would corrupt each other's palette, and fixed RGB to
+	YCbCr conversion routine, patch provided by Harry Sintonen
+	<sintonen@iki.fi>.
+
 2006-05-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.13.

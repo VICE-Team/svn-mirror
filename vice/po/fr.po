@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-05-28 23:46+0200\n"
+"POT-Creation-Date: 2006-06-12 00:35+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -5584,41 +5584,41 @@ msgstr "Désactiver le mode plein écran"
 msgid "Specify X display depth (1..32)"
 msgstr "Sécifiez la profondeur des couleurs de votre affichage X (1..32)"
 
-#: src/arch/unix/x11/video.c:191
+#: src/arch/unix/x11/video.c:190
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:193
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "Ne pas appeller `XSync()' après la mise à jour de la fenêtre d'émulation"
 
-#: src/arch/unix/x11/video.c:197
+#: src/arch/unix/x11/video.c:196
 msgid "Use shared memory"
 msgstr "Utiliser la mémoire partagée"
 
-#: src/arch/unix/x11/video.c:200
+#: src/arch/unix/x11/video.c:199
 msgid "Never use shared memory (slower)"
 msgstr "Ne pas utiliser la mémoire partagée (plus lent)"
 
-#: src/arch/unix/x11/video.c:203
+#: src/arch/unix/x11/video.c:202
 msgid "Request YUV FOURCC format"
 msgstr "Demander le format YUV FOURCC"
 
-#: src/arch/unix/x11/video.c:205
+#: src/arch/unix/x11/video.c:204
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Définir le ratio d'aspect (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:286
+#: src/arch/unix/x11/video.c:285
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'extension MITSHM n'est pas supportée sur cet affichage."
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:289
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/video.c:360
+#: src/arch/unix/x11/video.c:359
 msgid "Cannot release shared memory!"
 msgstr "Impossible de relâcher la mémoire partagée!"
 

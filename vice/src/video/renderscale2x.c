@@ -31,9 +31,9 @@
 #include "renderscale2x.h"
 #include "types.h"
 
-static DWORD scale2x(const DWORD *colortab, const BYTE **srcx1, 
-                    const BYTE **srcx2, const BYTE **srcy1, 
-                    const BYTE **srcy2, const BYTE **srce)
+static DWORD scale2x(const DWORD *colortab, const BYTE **srcx1,
+                     const BYTE **srcx2, const BYTE **srcy1,
+                     const BYTE **srcy2, const BYTE **srce)
 {
     register DWORD colx1, colx2, coly1, coly2, cole;
 
@@ -54,19 +54,22 @@ static DWORD scale2x(const DWORD *colortab, const BYTE **srcx1,
         (*srce)++;
     }
 
-    if ((colx1 == coly1 && colx2 != coly1 && colx1 != coly2 ? colx1 : cole) != cole)
+    if ((colx1 == coly1 && colx2 != coly1 && colx1 != coly2 ? colx1 : cole)
+        != cole)
         cole = cole;
 
     return (colx1 == coly1 && colx2 != coly1 && colx1 != coly2 ? colx1 : cole);
 }
 
 
-void render_08_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht)
+void render_08_scale2x(const video_render_color_tables_t *color_tab,
+                       const BYTE *src, BYTE *trg,
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     BYTE *tmptrg;
     unsigned int x, y, yys;
@@ -95,12 +98,14 @@ void render_08_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
 }
 
 
-void render_16_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht)
+void render_16_scale2x(const video_render_color_tables_t *color_tab,
+                       const BYTE *src, BYTE *trg,
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     WORD *tmptrg;
     unsigned int x, y, yys;
@@ -129,12 +134,14 @@ void render_16_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
 }
 
 
-void render_24_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht)
+void render_24_scale2x(const video_render_color_tables_t *color_tab,
+                       const BYTE *src, BYTE *trg,
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     BYTE *tmptrg;
     unsigned int x, y, yys;
@@ -171,12 +178,14 @@ void render_24_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
 }
 
 
-void render_32_scale2x(const DWORD *colortab, const BYTE *src, BYTE *trg,
-                      unsigned int width, const unsigned int height,
-                      const unsigned int xs, const unsigned int ys,
-                      const unsigned int xt, const unsigned int yt,
-                      const unsigned int pitchs, const unsigned int pitcht)
+void render_32_scale2x(const video_render_color_tables_t *color_tab,
+                       const BYTE *src, BYTE *trg,
+                       unsigned int width, const unsigned int height,
+                       const unsigned int xs, const unsigned int ys,
+                       const unsigned int xt, const unsigned int yt,
+                       const unsigned int pitchs, const unsigned int pitcht)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     DWORD *tmptrg;
     const BYTE *srcx1, *srcx2, *srcy1, *srcy2;
