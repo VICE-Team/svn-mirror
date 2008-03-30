@@ -39,7 +39,7 @@ extern struct mem_ioreg_list_s *drive0_ioreg_list_get(void);
 extern struct mem_ioreg_list_s *drive1_ioreg_list_get(void);
 
 extern BYTE REGPARM2 drive_read_rom(struct drive_context_s *drv,
-                                    ADDRESS address);
+                                    WORD address);
 
 #endif
 

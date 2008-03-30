@@ -35,8 +35,8 @@
 typedef struct trap_s
 {
     const char *name;
-    ADDRESS address;
-    ADDRESS resume_address;
+    WORD address;
+    WORD resume_address;
     BYTE check[3];
 #if defined(__STDC__) || defined(__IBMC__)
     int (*func)(void);

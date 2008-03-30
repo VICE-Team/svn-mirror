@@ -217,7 +217,7 @@ void iecrom_setup_image(unsigned int dnr)
     }
 }
 
-int iecrom_read(unsigned int type, ADDRESS addr, BYTE *data)
+int iecrom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
       case DRIVE_TYPE_1541:

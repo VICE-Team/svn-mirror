@@ -77,7 +77,7 @@ void tcbm_drive_rom_setup_image(unsigned int dnr)
     tcbmrom_setup_image(dnr);
 }
 
-int tcbm_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+int tcbm_drive_rom_read(unsigned int type, WORD addr, BYTE *data)
 {
     return tcbmrom_read(type, addr, data);
 }

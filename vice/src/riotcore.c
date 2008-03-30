@@ -175,7 +175,7 @@ void myriot_reset(RIOT_CONTEXT_PARVOID)
     riot_reset(RIOT_CONTEXT_CALLVOID);
 }
 
-void RIOTRPARM2 myriot_store(RIOT_CONTEXT_PARAM ADDRESS addr, BYTE byte)
+void RIOTRPARM2 myriot_store(RIOT_CONTEXT_PARAM WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -252,10 +252,10 @@ void RIOTRPARM2 myriot_store(RIOT_CONTEXT_PARAM ADDRESS addr, BYTE byte)
     }
 }
 
-BYTE RIOTRPARM1 myriot_read(RIOT_CONTEXT_PARAM ADDRESS addr)
+BYTE RIOTRPARM1 myriot_read(RIOT_CONTEXT_PARAM WORD addr)
 {
 #ifdef MYRIOT_TIMER_DEBUG
-    BYTE REGPARM1 myriot_read_(RIOT_CONTEXT_CALL ADDRESS);
+    BYTE REGPARM1 myriot_read_(RIOT_CONTEXT_CALL WORD);
     BYTE retv = myriot_read_(RIOT_CONTEXT_CALL addr);
     addr &= 0x1f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
@@ -263,7 +263,7 @@ BYTE RIOTRPARM1 myriot_read(RIOT_CONTEXT_PARAM ADDRESS addr)
                     MYRIOT_NAME "(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
-BYTE RIOTRPARM1 myriot_read_(RIOT_CONTEXT_PARAM ADDRESS addr)
+BYTE RIOTRPARM1 myriot_read_(RIOT_CONTEXT_PARAM WORD addr)
 {
 #endif
     CLOCK rclk;

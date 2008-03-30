@@ -61,9 +61,9 @@
 
 static void drive_jam(drive_context_t *drv);
 
-static BYTE drive_bank_read(drive_context_t *drv, int bank, ADDRESS address);
-static BYTE drive_bank_peek(drive_context_t *drv, int bank, ADDRESS address);
-static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address,
+static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address);
+static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address);
+static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
                              BYTE value);
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
@@ -81,17 +81,17 @@ monitor_interface_t *drive1_get_monitor_interface_ptr(void)
 }
 
 /* non-time critical monitor functions; should be OK */
-static BYTE drive0_bank_read(int bank, ADDRESS adr)
+static BYTE drive0_bank_read(int bank, WORD adr)
 {
     return drive_bank_read(&drive0_context, bank, adr);
 }
 
-static BYTE drive0_bank_peek(int bank, ADDRESS adr)
+static BYTE drive0_bank_peek(int bank, WORD adr)
 {
     return drive_bank_peek(&drive0_context, bank, adr);
 }
 
-static void drive0_bank_store(int bank, ADDRESS adr, BYTE val)
+static void drive0_bank_store(int bank, WORD adr, BYTE val)
 {
     drive_bank_store(&drive0_context, bank, adr, val);
 }
@@ -101,17 +101,17 @@ static void drive0_toggle_watchpoints(int flag)
     drive_toggle_watchpoints(&drive0_context, flag);
 }
 
-static BYTE drive1_bank_read(int bank, ADDRESS adr)
+static BYTE drive1_bank_read(int bank, WORD adr)
 {
     return drive_bank_read(&drive1_context, bank, adr);
 }
 
-static BYTE drive1_bank_peek(int bank, ADDRESS adr)
+static BYTE drive1_bank_peek(int bank, WORD adr)
 {
     return drive_bank_peek(&drive1_context, bank, adr);
 }
 
-static void drive1_bank_store(int bank, ADDRESS adr, BYTE val)
+static void drive1_bank_store(int bank, WORD adr, BYTE val)
 {
     drive_bank_store(&drive1_context, bank, adr, val);
 }
@@ -180,13 +180,13 @@ void drive_cpu_setup_context(drive_context_t *drv)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)           (drv->cpud.read_func[(a) >> 8](drv, (ADDRESS)(a)))
+#define LOAD(a)           (drv->cpud.read_func[(a) >> 8](drv, (WORD)(a)))
 #define LOAD_ZERO(a)      (drv->cpud.drive_ram[(a) & 0xff])
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (ADDRESS)(a), \
+#define STORE(a, b)       (drv->cpud.store_func[(a) >> 8](drv, (WORD)(a), \
                           (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud.store_func[0](drv, (ADDRESS)(a), \
+#define STORE_ZERO(a, b)  (drv->cpud.store_func[0](drv, (WORD)(a), \
                           (BYTE)(b)))
 
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
@@ -214,30 +214,31 @@ void drive_cpu_setup_context(drive_context_t *drv)
 
 /* This is the external interface for memory access.  */
 
-BYTE REGPARM2 drive_read(drive_context_t *drv, ADDRESS address)
+BYTE REGPARM2 drive_read(drive_context_t *drv, WORD address)
 {
     return drv->cpud.read_func[address >> 8](drv, address);
 }
 
-void REGPARM3 drive_store(drive_context_t *drv, ADDRESS address, BYTE value)
+void REGPARM3 drive_store(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud.store_func[address >> 8](drv, address, value);
 }
 
 /* This is the external interface for banked memory access.  */
 
-static BYTE drive_bank_read(drive_context_t *drv, int bank, ADDRESS address)
+static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address)
 {
     return drv->cpud.read_func[address >> 8](drv, address);
 }
 
 /* FIXME: use peek in IO area */
-static BYTE drive_bank_peek(drive_context_t *drv, int bank, ADDRESS address)
+static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address)
 {
     return drv->cpud.read_func[address >> 8](drv, address);
 }
 
-static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address, BYTE value)
+static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
+                             BYTE value)
 {
     drv->cpud.store_func[address >> 8](drv, address, value);
 }
@@ -384,7 +385,7 @@ inline static int drive_trap_handler(drive_context_t *drv)
         machine_drive_handle_job_code(drv->mynumber);
         return 0;
     }
-    return 1;
+    return -1;
 }
 
 static void drive_generic_dma(void)
@@ -599,7 +600,7 @@ static void drive_jam(drive_context_t *drv)
         break;
       case JAM_MONITOR:
         caller_space = drv->cpu.monspace;
-        mon((ADDRESS)(reg_pc));
+        mon((WORD)(reg_pc));
         break;
       default:
         CLK++;

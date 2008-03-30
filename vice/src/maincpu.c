@@ -76,22 +76,22 @@
 
 #ifndef STORE
 #define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
 #endif
 
 #ifndef LOAD
 #define LOAD(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+    (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
 #endif
 
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
-    zero_store((ADDRESS)(addr), (BYTE)(value))
+    zero_store((WORD)(addr), (BYTE)(value))
 #endif
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    zero_read((ADDRESS)(addr))
+    zero_read((WORD)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \
@@ -361,7 +361,7 @@ void maincpu_mainloop(void)
           break;                                                    \
         case JAM_MONITOR:                                           \
           caller_space = e_comp_space;                              \
-          mon((ADDRESS)reg_pc);                                     \
+          mon((WORD)reg_pc);                                        \
           IMPORT_REGISTERS();                                       \
           break;                                                    \
         default:                                                    \
@@ -371,7 +371,7 @@ void maincpu_mainloop(void)
 
 #define CALLER e_comp_space
 
-#define ROM_TRAP_ALLOWED() mem_rom_trap_allowed((ADDRESS)reg_pc)
+#define ROM_TRAP_ALLOWED() mem_rom_trap_allowed((WORD)reg_pc)
 
 #define GLOBAL_REGS maincpu_regs
 

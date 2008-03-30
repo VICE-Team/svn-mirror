@@ -37,7 +37,7 @@ extern int cartridge_attach_image(int type, const char *filename);
 extern void cartridge_detach_image(void);
 extern void cartridge_set_default(void);
 extern void cartridge_trigger_freeze(void);
-extern const char *cartridge_get_file_name(ADDRESS addr);
+extern const char *cartridge_get_file_name(WORD addr);
 
 extern int cartridge_save_image(const char *filename);
 

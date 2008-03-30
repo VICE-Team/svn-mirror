@@ -299,7 +299,7 @@ void mycia_reset(CIA_CONTEXT_PARVOID)
 }
 
 
-void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
+void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -562,11 +562,11 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 /* ------------------------------------------------------------------------- */
 
 
-BYTE CIARPARM1 mycia_read(CIA_CONTEXT_PARAM ADDRESS addr)
+BYTE CIARPARM1 mycia_read(CIA_CONTEXT_PARAM WORD addr)
 {
 #if defined(CIA_TIMER_DEBUG)
 
-    BYTE cia_read_(CIA_CONTEXT_CALL ADDRESS addr);
+    BYTE cia_read_(CIA_CONTEXT_CALL WORD addr);
     BYTE tmp = cia_read_(addr);
 
     if (mycia_debugFlag)
@@ -575,7 +575,7 @@ BYTE CIARPARM1 mycia_read(CIA_CONTEXT_PARAM ADDRESS addr)
     return tmp;
 }
 
-BYTE cia_read_(CIA_CONTEXT_PARAM ADDRESS addr)
+BYTE cia_read_(CIA_CONTEXT_PARAM WORD addr)
 {
 
 #endif
@@ -745,7 +745,7 @@ BYTE cia_read_(CIA_CONTEXT_PARAM ADDRESS addr)
     return (cia[addr]);
 }
 
-BYTE CIARPARM1 mycia_peek(CIA_CONTEXT_PARAM ADDRESS addr)
+BYTE CIARPARM1 mycia_peek(CIA_CONTEXT_PARAM WORD addr)
 {
     /* This code assumes that update_cia is a projector - called at
      * the same cycle again it doesn't change anything. This way
@@ -1180,7 +1180,7 @@ int mycia_snapshot_read_module(CIA_CONTEXT_PARAM snapshot_t *p)
     BYTE vmajor, vminor;
     BYTE byte;
     DWORD dword;
-    ADDRESS addr;
+    WORD addr;
     CLOCK rclk = myclk;
     snapshot_module_t *m;
     WORD cia_tal, cia_tbl, cia_tac, cia_tbc;

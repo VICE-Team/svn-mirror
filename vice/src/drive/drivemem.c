@@ -45,30 +45,30 @@
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
 
-static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     return drv->cpud.drive_ram[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
                                      BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     drv->cpud.drive_ram[address & 0x1fff] = value;
 }
 
-BYTE REGPARM2 drive_read_rom(drive_context_t *drv, ADDRESS address)
+BYTE REGPARM2 drive_read_rom(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->rom[address & 0x7fff];
 }
 
-static BYTE REGPARM2 drive_read_free(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_free(drive_context_t *drv, WORD address)
 {
     return address >> 8;
 }
 
-static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     return;
@@ -77,12 +77,12 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, ADDRESS address,
 /* ------------------------------------------------------------------------- */
 /* Zero page access.  */
 
-static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
 {
     return drv->cpud.drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_zero(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->cpud.drive_ram[address & 0xff] = value;
@@ -91,17 +91,17 @@ static void REGPARM3 drive_store_zero(drive_context_t *drv, ADDRESS address,
 /* ------------------------------------------------------------------------- */
 /* Watchpoint memory access.  */
 
-static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, WORD address)
 {
     mon_watch_push_load_addr(address, drv->cpu.monspace);
-    return drv->cpud.read_func_nowatch[address>>8](drv,address);
+    return drv->cpud.read_func_nowatch[address >> 8](drv, address);
 }
 
-static void REGPARM3 drive_store_watch(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
                                        BYTE value)
 {
     mon_watch_push_store_addr(address, drv->cpu.monspace);
-    drv->cpud.store_func_nowatch[address>>8](drv,address, value);
+    drv->cpud.store_func_nowatch[address >> 8](drv, address, value);
 }
 
 /* ------------------------------------------------------------------------- */

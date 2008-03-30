@@ -164,7 +164,7 @@ static void destroy_list(void)
 
 /*-----------------------------------------------------------------------*/
 
-static void event_record_start_trap(ADDRESS addr, void *data)
+static void event_record_start_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(event_start_snapshot, 1, 1, 0) < 0) {
         ui_error("Could not create start snapshot file.");
@@ -190,7 +190,7 @@ int event_record_start(void)
     return 0;
 }
 
-static void event_record_stop_trap(ADDRESS addr, void *data)
+static void event_record_stop_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(event_end_snapshot, 1, 1, 1) < 0) {
         ui_error("Could not create end snapshot file.");
@@ -210,7 +210,7 @@ int event_record_stop(void)
     return 0;
 }
 
-static void event_playback_start_trap(ADDRESS addr, void *data)
+static void event_playback_start_trap(WORD addr, void *data)
 {
     snapshot_t *s;
     BYTE minor, major;

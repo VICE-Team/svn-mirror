@@ -46,8 +46,8 @@ struct drive_context_s;         /* forward declaration */
 struct monitor_interface_s;
 
 /* This defines the memory access for the drive CPU.  */
-typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, ADDRESS);
-typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, ADDRESS,
+typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, WORD);
+typedef void REGPARM3 drive_store_func_t(struct drive_context_s *, WORD,
                                          BYTE);
 
 

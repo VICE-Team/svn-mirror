@@ -202,7 +202,7 @@ void ieeerom_setup_image(unsigned int dnr)
     }
 }
 
-int ieeerom_read(unsigned int type, ADDRESS addr, BYTE *data)
+int ieeerom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
       case DRIVE_TYPE_2031:

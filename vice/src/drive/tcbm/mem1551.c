@@ -34,7 +34,7 @@
 #include "types.h"
 
 
-static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, WORD address)
 {
     switch (address & 0xff) {
       case 0:
@@ -46,7 +46,7 @@ static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, ADDRESS address)
     return drv->cpud.drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_1551zero(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_1551zero(drive_context_t *drv, WORD address,
                                           BYTE value)
 {
     switch (address & 0xff) {

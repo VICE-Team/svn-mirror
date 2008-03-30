@@ -32,8 +32,8 @@
 extern int catweaselmkiii_init(void);
 extern int catweaselmkiii_open(void);
 extern int catweaselmkiii_close(void);
-extern int catweaselmkiii_read(ADDRESS addr, int chipno);
-extern void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno);
+extern int catweaselmkiii_read(WORD addr, int chipno);
+extern void catweaselmkiii_store(WORD addr, BYTE val, int chipno);
 extern void catweaselmkiii_set_machine_parameter(long cycles_per_sec);
 #endif
 

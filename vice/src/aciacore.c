@@ -297,7 +297,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
 }
 
 
-void REGPARM2 myacia_store(ADDRESS a, BYTE b)
+void REGPARM2 myacia_store(WORD a, BYTE b)
 {
 #ifdef DEBUG
     log_message(acia_log, "store_myacia(%04x,%02x)", a, b);
@@ -360,12 +360,12 @@ void REGPARM2 myacia_store(ADDRESS a, BYTE b)
         }
 }
 
-BYTE REGPARM1 myacia_read(ADDRESS a)
+BYTE REGPARM1 myacia_read(WORD a)
 {
 #if 0 /* def DEBUG */
-    BYTE myacia_read_(ADDRESS);
+    BYTE myacia_read_(WORD);
     BYTE b = myacia_read_(a);
-    static ADDRESS lasta = 0;
+    static WORD lasta = 0;
     static BYTE lastb = 0;
 
     if ((a != lasta) || (b != lastb)) {
@@ -374,7 +374,7 @@ BYTE REGPARM1 myacia_read(ADDRESS a)
     lasta = a; lastb = b;
     return b;
 }
-BYTE myacia_read_(ADDRESS a)
+BYTE myacia_read_(WORD a)
 {
 #endif
     switch(a & 3) {
@@ -401,7 +401,7 @@ BYTE myacia_read_(ADDRESS a)
     return 0;
 }
 
-BYTE myacia_peek(ADDRESS a)
+BYTE myacia_peek(WORD a)
 {
     switch(a & 3) {
       case ACIA_DR:

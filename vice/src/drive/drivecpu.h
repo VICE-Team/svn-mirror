@@ -46,9 +46,9 @@ extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv,
 extern void drive_cpu_early_init(struct drive_context_s *drv);
 extern void drive_cpu_reset_clk(struct drive_context_s *drv);
 
-extern void REGPARM3 drive_store(struct drive_context_s *drv, ADDRESS addr,
+extern void REGPARM3 drive_store(struct drive_context_s *drv, WORD addr,
                                  BYTE value);
-extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, ADDRESS addr);
+extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, WORD addr);
 extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
 extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drive_set_bank_base(struct drive_context_s *drv);

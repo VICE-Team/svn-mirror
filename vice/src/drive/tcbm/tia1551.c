@@ -53,8 +53,8 @@ BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
 static tia1551_t tia1551[2];
 static log_t tia1551_log = LOG_ERR;
 
-static void tia1551d_store(ADDRESS addr, BYTE byte, unsigned int dnr);
-static BYTE tia1551d_read(ADDRESS addr, unsigned int dnr);
+static void tia1551d_store(WORD addr, BYTE byte, unsigned int dnr);
+static BYTE tia1551d_read(WORD addr, unsigned int dnr);
 static void tia1551d_reset(unsigned int dnr);
 
 
@@ -79,14 +79,14 @@ void tia1551_init(drive_context_t *drv)
         tia1551d1_init();
 }
 
-void REGPARM3 tia1551_store(drive_context_t *drv, ADDRESS addr, BYTE byte)
+void REGPARM3 tia1551_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
-    tia1551d_store((ADDRESS)(addr & 3), byte, drv->mynumber);
+    tia1551d_store((WORD)(addr & 3), byte, drv->mynumber);
 }
 
-BYTE REGPARM2 tia1551_read(drive_context_t *drv, ADDRESS addr)
+BYTE REGPARM2 tia1551_read(drive_context_t *drv, WORD addr)
 {
-    return tia1551d_read((ADDRESS)(addr & 3), drv->mynumber);
+    return tia1551d_read((WORD)(addr & 3), drv->mynumber);
 }
 
 void tia1551_reset(drive_context_t *drv)
@@ -229,7 +229,7 @@ static void tia1551d_reset(unsigned int dnr)
 {
 }
 
-static void tia1551d_store(ADDRESS addr, BYTE byte, unsigned int dnr)
+static void tia1551d_store(WORD addr, BYTE byte, unsigned int dnr)
 {
     switch (addr & 7) {
       case 0:
@@ -253,7 +253,7 @@ static void tia1551d_store(ADDRESS addr, BYTE byte, unsigned int dnr)
     }
 }
 
-static BYTE tia1551d_read(ADDRESS addr, unsigned int dnr)
+static BYTE tia1551d_read(WORD addr, unsigned int dnr)
 {
     switch (addr & 7) {
       case 0:

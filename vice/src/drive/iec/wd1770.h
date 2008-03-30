@@ -56,19 +56,20 @@ typedef struct wd1770_s {
     struct disk_image_s *image;
 } wd1770_t;
 
-extern void REGPARM2 wd1770d0_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 wd1770d0_read(ADDRESS addr);
+extern void REGPARM2 wd1770d0_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 wd1770d0_read(WORD addr);
 extern void wd1770d0_reset(void);
 
-extern void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte);
-extern BYTE REGPARM1 wd1770d1_read(ADDRESS addr);
+extern void REGPARM2 wd1770d1_store(WORD addr, BYTE byte);
+extern BYTE REGPARM1 wd1770d1_read(WORD addr);
 extern void wd1770d1_reset(void);
 
 /* alternative functions with drive context */
 struct drive_context_s;
 extern void wd1770d_init(struct drive_context_s *drv);
-extern void REGPARM3 wd1770d_store(struct drive_context_s *drv, ADDRESS addr, BYTE byte);
-extern BYTE REGPARM2 wd1770d_read(struct drive_context_s *drv, ADDRESS addr);
+extern void REGPARM3 wd1770d_store(struct drive_context_s *drv, WORD addr,
+                                   BYTE byte);
+extern BYTE REGPARM2 wd1770d_read(struct drive_context_s *drv, WORD addr);
 extern void wd1770d_reset(struct drive_context_s *drv);
 
 extern void wd1770_handle_job_code(unsigned int dnr);

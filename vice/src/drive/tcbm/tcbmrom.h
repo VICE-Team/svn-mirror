@@ -31,7 +31,7 @@
 
 extern void tcbmrom_init(void);
 extern void tcbmrom_setup_image(unsigned int dnr);
-extern int tcbmrom_read(unsigned int type, ADDRESS addr, BYTE *data);
+extern int tcbmrom_read(unsigned int type, WORD addr, BYTE *data);
 extern int tcbmrom_check_loaded(unsigned int type);
 
 extern int tcbmrom_load_1551(void);

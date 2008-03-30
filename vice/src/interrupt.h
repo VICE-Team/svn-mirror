@@ -98,7 +98,7 @@ struct cpu_int_status_s {
     int trap;
 
     /* Debugging function.  */
-    void (*trap_func)(ADDRESS, void *data);
+    void (*trap_func)(WORD, void *data);
 
     /* Data to pass to the debugging function when called.  */
     void *trap_data;
@@ -243,9 +243,9 @@ extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(cpu_int_status_t *cs);
 extern void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
                                         void (*reset_trap_func)(void));
-extern void interrupt_maincpu_trigger_trap(void (*trap_func)(ADDRESS,
+extern void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD,
                                            void *data), void *data);
-extern void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS address);
+extern void interrupt_do_trap(cpu_int_status_t *cs, WORD address);
 
 extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
 extern void interrupt_monitor_trap_off(cpu_int_status_t *cs);

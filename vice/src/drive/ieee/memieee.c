@@ -36,7 +36,7 @@
 
 /* SFD1001 specific memory.  */
 
-static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, WORD address)
 {
     if (address & 0x80) {
         return riot2_read(drv, address);
@@ -45,7 +45,7 @@ static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
 }
 
 static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
-                                         ADDRESS address, BYTE byte)
+                                         WORD address, BYTE byte)
 {
     if (address & 0x80) {
         riot2_store(drv, address, byte);
@@ -55,26 +55,26 @@ static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
 }
 
 static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv,
-                                             ADDRESS address)
+                                             WORD address)
 {
     return drv->cpud.drive_ram[address & 0xff];
 }
 
 static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv,
-                                              ADDRESS address, BYTE byte)
+                                              WORD address, BYTE byte)
 {
     drv->cpud.drive_ram[address & 0xff] = byte;
 }
 
 static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv,
-                                               ADDRESS address)
+                                               WORD address)
 {
     return drv->cpud.drive_ram[(((address >> 2) & 0x1c00)
                                | (address & 0x03ff)) - 0x300];
 }
 
 static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv,
-                     ADDRESS address, BYTE byte)
+                                                WORD address, BYTE byte)
 {
     drv->cpud.drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
                         - 0x300] = byte;

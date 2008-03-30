@@ -67,7 +67,7 @@ typedef struct sound_device_s
        buffer is full */
     int (*write)(SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
-    int (*dump)(ADDRESS addr, BYTE byte,
+    int (*dump)(WORD addr, BYTE byte,
                                         CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
@@ -138,8 +138,8 @@ extern int sound_init_wmm_device(void);
 extern int sound_register_device(sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
-extern int sound_read(ADDRESS addr, int chipno);
-extern void sound_store(ADDRESS addr, BYTE val, int chipno);
+extern int sound_read(WORD addr, int chipno);
+extern void sound_store(WORD addr, BYTE val, int chipno);
 extern long sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
@@ -149,8 +149,8 @@ extern int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 					   int interleave, int *delta_t);
-extern void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val);
-extern BYTE sound_machine_read(sound_t *psid, ADDRESS addr);
+extern void sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+extern BYTE sound_machine_read(sound_t *psid, WORD addr);
 extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
 extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);

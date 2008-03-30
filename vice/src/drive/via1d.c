@@ -168,7 +168,7 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
 }
 
 inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
-                             BYTE oldpa_value, ADDRESS addr)
+                             BYTE oldpa_value, WORD addr)
 {
     {
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
@@ -238,7 +238,7 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
 }
 
 inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb,
-                             ADDRESS addr)
+                             WORD addr)
 {
     if (byte != p_oldpb) {
         if (iec_info != NULL) {
@@ -299,7 +299,7 @@ static void undump_pcr(drive_context_t *ctxptr, BYTE byte)
         drive_update_viad2_pcr(byte, &drive[0]);
 }
 
-inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, WORD addr)
 {
     return byte;
 }
@@ -338,7 +338,7 @@ static void res_via(drive_context_t *ctxptr)
     }
 }
 
-inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
+inline static BYTE read_pra(drive_context_t *ctxptr, WORD addr)
 {
     BYTE byte;
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {

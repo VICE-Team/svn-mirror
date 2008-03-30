@@ -143,7 +143,7 @@ void mytpi_reset(void)
     _tpi_reset();
 }
 
-void REGPARM2 mytpi_store(ADDRESS addr, BYTE byte)
+void REGPARM2 mytpi_store(WORD addr, BYTE byte)
 {
 
     if (mycpu_rmw_flag) {
@@ -231,7 +231,7 @@ void REGPARM2 mytpi_store(ADDRESS addr, BYTE byte)
     tpi[addr] = byte;
 }
 
-BYTE REGPARM1 mytpi_read(ADDRESS addr)
+BYTE REGPARM1 mytpi_read(WORD addr)
 {
     BYTE byte = 0xff;
 
@@ -269,7 +269,7 @@ BYTE REGPARM1 mytpi_read(ADDRESS addr)
     }
 }
 
-BYTE mytpi_peek(ADDRESS addr)
+BYTE mytpi_peek(WORD addr)
 {
     BYTE b = mytpi_read(addr);
     return b;

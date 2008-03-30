@@ -49,7 +49,7 @@ static int dump_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int dump_dump(ADDRESS addr, BYTE byte, CLOCK clks)
+static int dump_dump(WORD addr, BYTE byte, CLOCK clks)
 {
     return (fprintf(dump_fd, "%d %d %d\n", (int)clks, addr, byte) < 0);
 }

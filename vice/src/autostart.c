@@ -61,7 +61,7 @@
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
-static ADDRESS blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
+static WORD blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
 static int pnt;                 /* Pointer: Current Screen Line Address */
 static int pntr;                /* Cursor Column on Current Line */
 static int lnmx;                /* Physical Screen Line Length */
@@ -121,11 +121,11 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
     int screen_addr, line_length, cursor_column, addr, i;
 
-    screen_addr = (int)(mem_read((ADDRESS)(pnt))
-                  | (mem_read((ADDRESS)(pnt + 1)) << 8));
-    cursor_column = (int)mem_read((ADDRESS)(pntr));
+    screen_addr = (int)(mem_read((WORD)(pnt))
+                  | (mem_read((WORD)(pnt + 1)) << 8));
+    cursor_column = (int)mem_read((WORD)(pntr));
 
-    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((ADDRESS)(lnmx)) + 1);
+    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
 
     if (!kbd_buf_is_empty())
         return NOT_YET;
@@ -144,8 +144,8 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
     for (i = 0; s[i] != '\0'; i++) {
 
-        if (mem_read((ADDRESS)(addr + i)) != s[i] % 64) {
-            if (mem_read((ADDRESS)(addr + i)) != (BYTE)32)
+        if (mem_read((WORD)(addr + i)) != s[i] % 64) {
+            if (mem_read((WORD)(addr + i)) != (BYTE)32)
                 return NO;
             return NOT_YET;
         }
@@ -173,7 +173,7 @@ static int get_true_drive_emulation_state(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
@@ -187,7 +187,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
                    int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
-    blnsw = (ADDRESS)(_blnsw);
+    blnsw = (WORD)(_blnsw);
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;

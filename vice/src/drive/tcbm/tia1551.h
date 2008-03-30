@@ -30,9 +30,9 @@
 #include "types.h"
 
 extern void tia1551_init(struct drive_context_s *drv);
-extern void REGPARM3 tia1551_store(struct drive_context_s *drv, ADDRESS addr,
+extern void REGPARM3 tia1551_store(struct drive_context_s *drv, WORD addr,
                                    BYTE byte);
-extern BYTE REGPARM2 tia1551_read(struct drive_context_s *drv, ADDRESS addr);
+extern BYTE REGPARM2 tia1551_read(struct drive_context_s *drv, WORD addr);
 extern void tia1551_reset(struct drive_context_s *drv);
 
 #endif

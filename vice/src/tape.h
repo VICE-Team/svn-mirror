@@ -46,15 +46,15 @@ struct tape_image_s {
 typedef struct tape_image_s tape_image_t;
 
 struct tape_init_s {
-    ADDRESS buffer_pointer_addr;
-    ADDRESS st_addr;
-    ADDRESS verify_flag_addr;
-    ADDRESS irqtmp;
+    WORD buffer_pointer_addr;
+    WORD st_addr;
+    WORD verify_flag_addr;
+    WORD irqtmp;
     int irqval;
-    ADDRESS stal_addr;
-    ADDRESS eal_addr;
-    ADDRESS kbd_buf_addr;
-    ADDRESS kbd_buf_pending_addr;
+    WORD stal_addr;
+    WORD eal_addr;
+    WORD kbd_buf_addr;
+    WORD kbd_buf_pending_addr;
     const struct trap_s *trap_list;
     int pulse_short_min;
     int pulse_short_max;
@@ -68,8 +68,8 @@ typedef struct tape_init_s tape_init_t;
 struct tape_file_record_s {
     BYTE name[17];
     BYTE type;
-    ADDRESS start_addr;
-    ADDRESS end_addr;
+    WORD start_addr;
+    WORD end_addr;
 };
 typedef struct tape_file_record_s tape_file_record_t;
 

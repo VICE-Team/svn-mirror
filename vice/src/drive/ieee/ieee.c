@@ -87,7 +87,7 @@ void ieee_drive_rom_setup_image(unsigned int dnr)
     ieeerom_setup_image(dnr);
 }
 
-int ieee_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+int ieee_drive_rom_read(unsigned int type, WORD addr, BYTE *data)
 {
     return ieeerom_read(type, addr, data);
 }

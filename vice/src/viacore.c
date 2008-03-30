@@ -343,7 +343,7 @@ void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
     }
 }
 
-void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
+void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -582,10 +582,10 @@ void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE VIARPARM1 myvia_read(VIA_CONTEXT_PARAM ADDRESS addr)
+BYTE VIARPARM1 myvia_read(VIA_CONTEXT_PARAM WORD addr)
 {
 #ifdef MYVIA_TIMER_DEBUG
-    BYTE myvia_read_(VIA_CONTEXT_PARAM ADDRESS);
+    BYTE myvia_read_(VIA_CONTEXT_PARAM WORD);
     BYTE retv = myvia_read_(VIA_CONTEXT_CALL addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
@@ -593,7 +593,7 @@ BYTE VIARPARM1 myvia_read(VIA_CONTEXT_PARAM ADDRESS addr)
                     "myvia_read(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
-BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM ADDRESS addr)
+BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM WORD addr)
 {
 #endif
     BYTE byte = 0xff;
@@ -728,7 +728,7 @@ BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM ADDRESS addr)
     return (myvia[addr]);
 }
 
-BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
+BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM WORD addr)
 {
     CLOCK rclk = myclk;
 
@@ -927,7 +927,7 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
     BYTE vmajor, vminor;
     BYTE byte;
     WORD word;
-    ADDRESS addr;
+    WORD addr;
     CLOCK rclk = myclk;
     snapshot_module_t *m;
 

@@ -287,7 +287,7 @@ typedef struct drive_s {
         drive_ram8_enabled, drive_rama_enabled;
 
     /* Drive ROM starts here.  */
-    ADDRESS rom_start;
+    WORD rom_start;
 
     /* Current ROM image.  */
     BYTE rom[DRIVE_ROM_SIZE];

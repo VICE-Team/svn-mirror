@@ -143,7 +143,7 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
 /* Return nonzero if the keyboard buffer is empty.  */
 int kbd_buf_is_empty(void)
 {
-    return (int)(mem_read((ADDRESS)(num_pending_location)) == 0);
+    return (int)(mem_read((WORD)(num_pending_location)) == 0);
 }
 
 /* Feed `s' into the queue.  */
@@ -183,9 +183,9 @@ void kbd_buf_flush(void)
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
-        mem_store((ADDRESS)(buffer_location + i), queue[head_idx]);
+        mem_store((WORD)(buffer_location + i), queue[head_idx]);
 
-    mem_store((ADDRESS)(num_pending_location), (BYTE)(n));
+    mem_store((WORD)(num_pending_location), (BYTE)(n));
     num_pending -= n;
 }
 

@@ -114,7 +114,7 @@ void drive_via2_setup_context(drive_context_t *ctxptr)
 
 
 inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
-                             BYTE oldpa_value, ADDRESS addr)
+                             BYTE oldpa_value, WORD addr)
 {
     if (ctxptr->drive_ptr->byte_ready_active == 0x06)
         rotation_rotate_disk(ctxptr->drive_ptr);
@@ -127,7 +127,7 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
 }
 
 inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb,
-                             ADDRESS addr)
+                             WORD addr)
 {
     ctxptr->drive_ptr->led_status = (byte & 8) ? 1 : 0;
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
@@ -153,7 +153,7 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
         = (ctxptr->drive_ptr->byte_ready_active & ~0x04) | (byte & 0x04);
 }
 
-inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, ADDRESS addr)
+inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, WORD addr)
 {
     /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != myvia[VIA_PCR]) {
@@ -203,7 +203,7 @@ static void res_via(drive_context_t *ctxptr)
     drive_update_ui_status();
 }
 
-inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
+inline static BYTE read_pra(drive_context_t *ctxptr, WORD addr)
 {
     BYTE byte;
 

@@ -38,56 +38,56 @@
 #include "wd1770.h"
 
 
-static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_ram2(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->drive_ram_expand2[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram2(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_ram2(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->drive_ptr->drive_ram_expand2[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_ram4(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->drive_ram_expand4[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram4(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_ram4(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->drive_ptr->drive_ram_expand4[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_ram6(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->drive_ram_expand6[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram6(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_ram6(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->drive_ptr->drive_ram_expand6[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_ram8(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->drive_ram_expand8[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram8(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_ram8(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->drive_ptr->drive_ram_expand8[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, ADDRESS address)
+static BYTE REGPARM2 drive_read_rama(drive_context_t *drv, WORD address)
 {
     return drv->drive_ptr->drive_ram_expanda[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_rama(drive_context_t *drv, ADDRESS address,
+static void REGPARM3 drive_store_rama(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->drive_ptr->drive_ram_expanda[address & 0x1fff] = value;

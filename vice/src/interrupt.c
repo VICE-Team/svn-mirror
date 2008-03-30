@@ -208,7 +208,7 @@ void interrupt_ack_reset(cpu_int_status_t *cs)
 /* Trigger a TRAP.  This is a special condition that can be used for
    debugging.  `trap_func' will be called with PC as the argument when this
    condition is detected.  */
-void interrupt_maincpu_trigger_trap(void (*trap_func)(ADDRESS, void *data),
+void interrupt_maincpu_trigger_trap(void (*trap_func)(WORD, void *data),
                                     void *data)
 {
     cpu_int_status_t *cs = &maincpu_int_status;
@@ -220,7 +220,7 @@ void interrupt_maincpu_trigger_trap(void (*trap_func)(ADDRESS, void *data),
 
 
 /* Dispatch the TRAP condition.  */
-void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS address)
+void interrupt_do_trap(cpu_int_status_t *cs, WORD address)
 {
     cs->global_pending_int &= ~IK_TRAP;
     cs->trap_func(address, cs->trap_data);

@@ -38,11 +38,11 @@ extern void cia1581_setup_context(struct drive_context_s *ctxptr);
 
 extern void cia1571_init(struct drive_context_s *ctxptr);
 extern void REGPARM3 cia1571_store(struct drive_context_s *ctxptr,
-                                   ADDRESS addr, BYTE value);
+                                   WORD addr, BYTE value);
 extern BYTE REGPARM2 cia1571_read(struct drive_context_s *ctxptr,
-                                  ADDRESS addr);
+                                  WORD addr);
 extern BYTE REGPARM2 cia1571_peek(struct drive_context_s *ctxptr,
-                                  ADDRESS addr);
+                                  WORD addr);
 extern void cia1571_prevent_clk_overflow(struct drive_context_s *ctxptr,
                                          CLOCK sub);
 extern void cia1571_set_flag(struct drive_context_s *ctxptr);
@@ -55,11 +55,11 @@ extern int cia1571_snapshot_read_module(struct drive_context_s *ctxptr,
 
 extern void cia1581_init(struct drive_context_s *ctxptr);
 extern void REGPARM3 cia1581_store(struct drive_context_s *ctxptr,
-                                   ADDRESS addr, BYTE value);
+                                   WORD addr, BYTE value);
 extern BYTE REGPARM2 cia1581_read(struct drive_context_s *ctxptr,
-                                  ADDRESS addr);
+                                  WORD addr);
 extern BYTE REGPARM2 cia1581_peek(struct drive_context_s *ctxptr,
-                                  ADDRESS addr);
+                                  WORD addr);
 extern void cia1581_prevent_clk_overflow(struct drive_context_s *ctxptr,
                                          CLOCK sub);
 extern void cia1581_set_flag(struct drive_context_s *ctxptr);
