@@ -1,3 +1,47 @@
+2003-11-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.18.
+
+	* drive/drive.c, drive/drive.h, drive/tcbm/glue1551.c,
+	drive/iecieee/via2d.c, c64/c64iec.c, c128/c128iec.c,
+	drive/iec/wd1770.c, drive/iec/iec-resources.c,
+	drive/driveimage.c, drive/drive-snapshot.c: Do not use
+	`drive[]' as global variable.
+
+	* drive/drivecpu.c, drive/drivecpu.h, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, plus4/plus4.c, cbm2/cbm2.c,
+	c64/c64cia2.c, drive/iec/via1d1541.c, drive/iec/cia1571d.c,
+	drive/iec/cia1581d.c, drive/iec/jobcode1581.c,
+	drive/ieee/fdc.c, drive/ieee/via1d2031.c, drive/ieee/ieee.c,
+	drive/ieee/riot1d.c, drive/ieee/riot2d.c, drive/drivemem.c,
+	drive/tcbm/glue1551.c, drive/iecieee/via2d.c,
+	vic20/vic20iec.c, autostart.c, init.c: Dynamically allocate
+	drive context struct.
+
+	* monitor.h, monitor/monitor.c, mem.h, drive/drivecpu.c, 
+	c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c, pet/petmem.c,
+	plus4/plus4mem.c, cbm2/cbm2mem.c, drive/drivemem.c,
+	monitor/mon_breakpoint.c, monitor/mon_register6502.c,
+	drive/drivemem.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c: Mae monitor interface
+	more flexible.
+
+	* drive/ieee/ieee.c, drive/ieee.h, parallel/parallel.c:
+	Changed ATN signal functions.
+
+	* drive/drivecpu.c, drive/drivecpu.h, interrupt.h,
+	arch/unix/uicommands.c, arch/msdos/menudefs.c,
+	arch/win32/ui.c: Changed drive reset functions.
+
+	* debug.c, debug.h: Increased number drives to debug.
+
+	* arch/unix/console.c (console_in): Allocate line using lib
+	functions.
+
+	* arch/unix/readline/editline.h: Do not use lib functions.
+
+	* arch/msdos/mousedrv.c (my_mouse_callback): Fixed typo.
+
 2003-11-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.17.

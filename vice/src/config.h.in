@@ -101,11 +101,20 @@
 /* Define to 1 if you have the `audio' library (-laudio). */
 #undef HAVE_LIBAUDIO
 
+/* Define to 1 if you have the `avcodec' library (-lavcodec). */
+#undef HAVE_LIBAVCODEC
+
+/* Define to 1 if you have the `avformat' library (-lavformat). */
+#undef HAVE_LIBAVFORMAT
+
 /* Define to 1 if you have the `esd' library (-lesd). */
 #undef HAVE_LIBESD
 
 /* use libintl for NLS. */
 #undef HAVE_LIBINTL_H
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
 
 /* Define to 1 if you have the `resid' library (-lresid). */
 #undef HAVE_LIBRESID

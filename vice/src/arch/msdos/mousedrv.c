@@ -70,7 +70,7 @@ static void my_mouse_callback(int flags)
 {
     if (flags & MOUSE_FLAG_MOVE)
         _mouse_coords_dirty = 1;
-    if (flags MOUSE_FLAG_LEFT_DOWN)
+    if (flags & MOUSE_FLAG_LEFT_DOWN)
         mouse_button_left(1);
     if (flags & MOUSE_FLAG_LEFT_UP)
         mouse_button_left(0);

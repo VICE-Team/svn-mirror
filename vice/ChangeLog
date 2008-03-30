@@ -1,3 +1,10 @@
+2003-11-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.18.
+
+	* configure.in: Check for libm and libz before checking for
+	libavcodec and libavfomat.
+
 2003-11-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.17.
