@@ -537,6 +537,35 @@ DWORD util_le_buf_to_dword(BYTE *buf)
     return data;
 }
 
+DWORD util_be_buf_to_dword(BYTE *buf)
+{
+    DWORD data;
+
+    data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+
+    return data;
+}
+
+void util_int_to_be_buf4(BYTE *buf, int data)
+{
+    util_dword_to_be_buf(buf, (DWORD)data);
+}
+
+void util_int_to_le_buf4(BYTE *buf, int data)
+{
+    util_dword_to_le_buf(buf, (DWORD)data);
+}
+
+int util_le_buf4_to_int(BYTE *buf)
+{
+    return (int)util_le_buf_to_dword(buf);
+}
+
+int util_be_buf4_to_int(BYTE *buf)
+{
+    return (int)util_be_buf_to_dword(buf);
+}
+
 void util_word_to_be_buf(BYTE *buf, WORD data)
 {
     buf[1] = (BYTE)(data & 0xff);
