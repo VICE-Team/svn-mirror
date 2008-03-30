@@ -2103,5 +2103,5 @@ static void close_action(Widget w, XEvent * event, String * params,
 
 void ui_display_statustext(const char *text, int fade_out)
 {
+    log_message(LOG_DEFAULT, text);
 }
-

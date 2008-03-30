@@ -138,6 +138,7 @@ static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
 static video_canvas_t *ui_cached_video_canvas;
+static int statustext_display_time = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -205,6 +206,7 @@ typedef struct {
     GtkWidget *canvas;
     GtkWidget *topmenu;
     GtkLabel *speed_label;
+    GtkLabel *statustext;
     drive_status_widget drive_status[NUM_DRIVES];
     tape_status_widget tape_status;
 } app_shell_type;
@@ -724,10 +726,18 @@ static void ui_update_event_checkbox (GtkWidget *w, gpointer data)
 	event_record_stop();
 }
 
+static void statusbar_setstatustext(const char *t)
+{
+    int i;
+    
+    for (i = 0; i < num_app_shells; i++)
+	gtk_label_set_text(app_shells[i].statustext, t);
+}
+
 void ui_create_status_bar(GtkWidget *pane, int width, int height)
 {
     /* Create the status bar on the bottom.  */
-    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb;
+    GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp;
     int i;
     app_shell_type *as;
     GtkTooltips *video_tooltip;
@@ -754,6 +764,17 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_misc_set_alignment (GTK_MISC (speed_label), 0, -1);
     gtk_container_add(GTK_CONTAINER(frame), speed_label);
     gtk_widget_show(speed_label);      
+
+    frame = gtk_frame_new(NULL);
+    gtk_frame_set_shadow_type (GTK_FRAME(frame), GTK_SHADOW_IN);
+    
+    tmp = gtk_label_new("");
+    app_shells[num_app_shells - 1].statustext = (GtkLabel*) tmp;
+    gtk_misc_set_alignment (GTK_MISC (tmp), 0, -1);
+    gtk_container_add(GTK_CONTAINER(frame), tmp);
+    gtk_widget_show(tmp);      
+    gtk_box_pack_start(GTK_BOX(status_bar), frame, TRUE, TRUE,0);
+    gtk_widget_show(frame);
 
     as=&app_shells[num_app_shells - 1];
 
@@ -1125,9 +1146,9 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
 		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
     gtk_signal_connect(GTK_OBJECT(new_window),"leave-notify-event",
 		       GTK_SIGNAL_FUNC(kbd_event_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"button-press-event",
+    gtk_signal_connect(GTK_OBJECT(new_canvas),"button-press-event",
 		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
-    gtk_signal_connect(GTK_OBJECT(new_window),"button-release-event",
+    gtk_signal_connect(GTK_OBJECT(new_canvas),"button-release-event",
 		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
     gtk_signal_connect(GTK_OBJECT(new_window),"motion-notify-event",
 		       GTK_SIGNAL_FUNC(mouse_handler),NULL);
@@ -1415,6 +1436,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 		percent_int, framerate_int, warp_flag ? _("(warp)") : "");
 	gtk_label_set_text(app_shells[i].speed_label, str);
       }
+    }
+    if (statustext_display_time > 0) {
+        statustext_display_time--;
+        if (statustext_display_time == 0)
+            statusbar_setstatustext("");
     }
 }
 
@@ -1770,7 +1796,10 @@ void ui_dispatch_events(void)
     if (!screenshot_is_recording())
 	gtk_widget_hide(video_ctrl_checkbox);
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    dga2_mode_update();
+    {
+	void dga2_mode_update(void);
+	dga2_mode_update();
+    }
 #endif
 }
 
@@ -2080,7 +2109,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
 
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = charset_petconvstring(tmp2, 1);
+	    tmp2 = (char *)charset_petconvstring((BYTE *)tmp2, 1);
 
 	menu[fno].string = tmp2;
 	if (menu[fno].string[0] == '-')
@@ -2173,7 +2202,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     {
 	*(tmp1 - 1) = '\0';
 	if (!have_cbm_font)
-	    tmp2 = charset_petconvstring(tmp2, 1);
+	    tmp2 = (char *) charset_petconvstring((BYTE *)tmp2, 1);
 	text[0] = tmp2;
 	gtk_clist_append(GTK_CLIST(image_preview_list), text);
 	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
@@ -2830,5 +2859,9 @@ void ui_set_tape_menu(GtkWidget *w)
 
 void ui_display_statustext(const char *text, int fade_out)
 {
+    statusbar_setstatustext(text);
+    if (fade_out)
+	statustext_display_time = 5;
+    else
+	statustext_display_time = 0;
 }
-

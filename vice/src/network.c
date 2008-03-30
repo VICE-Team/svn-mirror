@@ -108,6 +108,7 @@ static int frame_delta;
 static int frame_buffer_full;
 static int current_frame, frame_to_play;
 static event_list_state_t *frame_event_list = NULL;
+static char *snapshotfilename;
 
 #ifdef HAVE_IPV6
 static int netplay_ipv6=0;
@@ -423,20 +424,17 @@ static void network_server_connect_trap(WORD addr, void *data)
     BYTE *buf;
     long buf_size;
     long i;
-    char *directory, *filename;
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    filename = util_concat(directory, "server", FSDEV_EXT_SEP_STR, "vsf", NULL);
-
-    if (machine_write_snapshot(filename, 1, 1, 0) == 0) {
-        f = fopen(filename, MODE_READ);
+    snapshotfilename = archdep_tmpnam();
+    if (machine_write_snapshot(snapshotfilename, 1, 1, 0) == 0) {
+        f = fopen(snapshotfilename, MODE_READ);
         if (f == NULL) {
 #ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER));
 #else
             ui_error(_("Cannot load snapshot file for transfer"));
 #endif
-            lib_free(filename);
+            lib_free(snapshotfilename);
             return;
         }
         buf_size = util_file_length(f);
@@ -459,7 +457,7 @@ static void network_server_connect_trap(WORD addr, void *data)
             ui_error(_("Cannot send snapshot to client"));
 #endif
             ui_display_statustext("", 0);
-            lib_free(filename);
+            lib_free(snapshotfilename);
             return;
         }
 
@@ -470,28 +468,24 @@ static void network_server_connect_trap(WORD addr, void *data)
         network_test_delay();
     } else {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), snapshotfilename);
 #else
-        ui_error(_("Cannot create snapshot file %s"), filename);
+        ui_error(_("Cannot create snapshot file %s"), snapshotfilename);
 #endif
     }
-    lib_free(filename);
+    lib_free(snapshotfilename);
 }
 
 static void network_client_connect_trap(WORD addr, void *data)
 {
-    char *directory, *filename;
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
-
-    if (machine_read_snapshot(filename, 0) != 0) {
+    if (machine_read_snapshot(snapshotfilename, 0) != 0) {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), filename);
+        ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), snapshotfilename);
 #else
-        ui_error(_("Cannot open snapshot file %s"), filename);
+        ui_error(_("Cannot open snapshot file %s"), snapshotfilename);
 #endif
-        lib_free(filename);
+        lib_free(snapshotfilename);
         return;
     }
 
@@ -500,7 +494,7 @@ static void network_client_connect_trap(WORD addr, void *data)
 
     network_mode = NETWORK_CLIENT;
     network_test_delay();
-    lib_free(filename);
+    lib_free(snapshotfilename);
 }
 #endif
 /*-------------------------------------------------------------------------*/
@@ -548,30 +542,12 @@ int network_start_server(void)
 #endif
     int return_value;
     struct sockaddr_in server_addr;
-    char *directory, *filename;
-    FILE *fd;
 
     if (network_init() < 0)
         return -1;
 
     if (network_mode != NETWORK_IDLE)
         return -1;
-
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    filename = util_concat(directory, "server", FSDEV_EXT_SEP_STR, "vsf", NULL);
-    fd = fopen(filename, MODE_WRITE);
-    if (fd == NULL) {
-#ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
-#else
-        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), filename);
-#endif
-        lib_free(filename);
-        return -1;
-    }
-
-    lib_free(filename);
-    fclose(fd);
 
 #ifdef HAVE_IPV6
     if (netplay_ipv6) {
@@ -642,7 +618,6 @@ int network_connect_client(void)
     BYTE *buf;
     long buf_size;
     int return_value;
-    char *directory, *filename;
 
     if (network_init() < 0)
         return -1;
@@ -650,16 +625,15 @@ int network_connect_client(void)
     if (network_mode != NETWORK_IDLE)
         return -1;
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
-    f = fopen(filename, MODE_WRITE);
+    snapshotfilename = archdep_tmpnam();
+    f = fopen(snapshotfilename, MODE_WRITE);
     if (f == NULL) {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), filename);
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), snapshotfilename);
 #else
-        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), filename);
+        ui_error(_("Cannot create snapshot file %s. Select different history directory!"), snapshotfilename);
 #endif
-        lib_free(filename);
+        lib_free(snapshotfilename);
         return -1;
     }
 
@@ -700,7 +674,7 @@ int network_connect_client(void)
 #endif
     network_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (network_socket == INVALID_SOCKET) {
-        lib_free(filename);
+        lib_free(snapshotfilename);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
         if (netplay_ipv6)
             freehostent(server_hostent);
@@ -725,7 +699,7 @@ int network_connect_client(void)
         ui_error(_("Cannot connect to %s (no server running on port %d)."),
                     server_name, server_port);
 #endif
-        lib_free(filename);
+        lib_free(snapshotfilename);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
         if (netplay_ipv6)
             freehostent(server_hostent);
@@ -741,7 +715,7 @@ int network_connect_client(void)
     if (network_recv_buffer(network_socket, (BYTE*)&buf_size, 
 sizeof(long)) < 0)
     {
-        lib_free(filename);
+        lib_free(snapshotfilename);
         closesocket(network_socket);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
         if (netplay_ipv6)
@@ -753,7 +727,7 @@ sizeof(long)) < 0)
     buf = lib_malloc(buf_size);
 
     if (network_recv_buffer(network_socket, buf, buf_size) < 0) {
-        lib_free(filename);
+        lib_free(snapshotfilename);
         closesocket(network_socket);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
         if (netplay_ipv6)
@@ -765,7 +739,6 @@ sizeof(long)) < 0)
     fwrite(buf, 1, buf_size, f);
     fclose(f);
     lib_free(buf);
-    lib_free(filename);
 #if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
     if (netplay_ipv6)
         freehostent(server_hostent);

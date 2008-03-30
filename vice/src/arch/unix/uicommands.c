@@ -394,6 +394,7 @@ static UI_CALLBACK(sound_record)
 #if defined(HAVE_NETWORK) && defined(USE_GNOMEUI)
 static UI_CALLBACK(netplay)
 {
+    vsync_suspend_speed_eval();
     ui_netplay_dialog();
 }
 #endif
