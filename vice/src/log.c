@@ -170,7 +170,7 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
     char *txt = lib_mvsprintf(fmt, ap);
 
     char *beg = txt;
-    char *end = txt + strlen(txt)+1;
+    char *end = txt + strlen(txt) + 1;
 
     while (beg < end) {
         char *eol = strchr(beg, '\n');
@@ -186,7 +186,7 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
         if (!eol)
             break;
 
-        beg = eol+1;
+        beg = eol + 1;
     }
 
     lib_free(txt);
@@ -207,8 +207,8 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     int rc = 0;
     char *logtxt = NULL;
 
-    if (logi == LOG_ERR || logs == NULL
-        || (logi != LOG_DEFAULT && logs[logi] == NULL))
+    if (logi == LOG_ERR
+        || (logi != LOG_DEFAULT && (logs == NULL || logs[logi] == NULL)))
         return -1;
 
     if (logi != LOG_DEFAULT && *logs[logi] != '\0')
