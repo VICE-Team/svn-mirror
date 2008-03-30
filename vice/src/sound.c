@@ -701,6 +701,15 @@ void sound_resume(void)
     }
 }
 
+/* set PAL/NTSC clock speed */
+void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
+{
+    sound_state_changed = TRUE;
+
+    cycles_per_sec  = clock_rate;
+    cycles_per_rfsh = ticks_per_frame;
+    rfsh_per_sec    = (1.0 / ((double)cycles_per_rfsh / (double)cycles_per_sec));
+}
 
 /* initialize sid at program start -time */
 void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)

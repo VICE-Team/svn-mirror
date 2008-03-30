@@ -175,6 +175,10 @@ static trap_t c128_tape_traps[] = {
 
 static log_t c128_log = LOG_ERR;
 
+static long cycles_per_sec = C128_PAL_CYCLES_PER_SEC;
+static long cycles_per_rfsh = C128_PAL_CYCLES_PER_RFSH;
+static double rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
+
 /* ------------------------------------------------------------------------ */
 
 /* C128-specific resource initialization.  This is called before initializing
@@ -292,7 +296,7 @@ int machine_init(void)
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
     autostart_init((CLOCK)
-                   (3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH),
+                   (3 * rfsh_per_sec * cycles_per_rfsh),
                    1, 0xa27, 0xe0, 0xec, 0xee);
 
     /* Initialize the VDC emulation.  */
@@ -325,17 +329,16 @@ int machine_init(void)
                  drive1_monitor_interface_ptr);
 
     /* Initialize vsync and register our hook function.  */
-    vsync_set_machine_parameter(C128_PAL_RFSH_PER_SEC,
-                                C128_PAL_CYCLES_PER_SEC);
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
     vsync_init(vsync_hook);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(C128_PAL_CYCLES_PER_SEC, C128_PAL_CYCLES_PER_RFSH);
+    sound_init(cycles_per_sec, cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
     kbd_buf_init(842, 208, 10,
-                 (CLOCK)(C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC));
+                 (CLOCK)(rfsh_per_sec * cycles_per_rfsh));
 
     /* Initialize the C128-specific part of the UI.  */
     c128_ui_init();
@@ -442,30 +445,30 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return C128_PAL_CYCLES_PER_SEC;
+    return cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
 {
-    double rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
-    long cycles_per_second = C128_PAL_CYCLES_PER_SEC;
-
     maincpu_trigger_reset();
 
     switch (timeval) {
       case DRIVE_SYNC_PAL:
+        cycles_per_sec = C128_PAL_CYCLES_PER_SEC;
+        cycles_per_rfsh = C128_PAL_CYCLES_PER_RFSH;
         rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
-        cycles_per_second = C128_PAL_CYCLES_PER_SEC;
         break;
       case DRIVE_SYNC_NTSC:
+        cycles_per_sec = C128_NTSC_CYCLES_PER_SEC;
+        cycles_per_rfsh = C128_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = C128_NTSC_RFSH_PER_SEC;
-        cycles_per_second = C128_NTSC_CYCLES_PER_SEC;
         break;
       default:
         log_error(c128_log, "Unknown machine timing.");
     }
 
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_second);
+    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
+    sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
 }
 
 /* ------------------------------------------------------------------------- */

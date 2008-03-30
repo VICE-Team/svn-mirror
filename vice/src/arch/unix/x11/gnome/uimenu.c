@@ -447,7 +447,6 @@ void _ui_menu_toggle_helper(GtkWidget *w,
                             const char *resource_name)
 {
     int current_value;
-    char buf[100];
 
     if (resources_get_value(resource_name,
                             (resource_value_t *) &current_value) < 0)
@@ -466,7 +465,6 @@ void _ui_menu_radio_helper(GtkWidget *w,
                            const char *resource_name)
 {
     int current_value;
-    char buf[100];
 
     resources_get_value(resource_name, (resource_value_t *) &current_value);
 
