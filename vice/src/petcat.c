@@ -170,11 +170,8 @@
 
 #define KW_NONE		0xFE	/* flag unused token */
 
-
 #define CLARIF_LP	'<'	/* control code left delimiter */
 #define CLARIF_RP	'>'	/* control code right delimiter */
-
-FILE *logfile, *errfile;
 
 #if (!defined(GEMDOS) && defined(__STDC__))
 static int    parse_version ( char *str );
@@ -432,9 +429,6 @@ int    main(argc, argv)
     int     load_addr = 0, ctrls= -1, hdr = 1, show_words = 0;
     int     fil = 0, outf = 0, overwrt = 0, textmode = 0;
     int     flg = 0;				/* files on stdin */
-
-    logfile = stdout;
-    errfile = stderr;
 
     /* Parse arguments */
 
