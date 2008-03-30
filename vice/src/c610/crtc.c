@@ -52,6 +52,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "snapshot.h"
 #include "crtc.h"
 #include "raster.h"
 #include "vmachine.h"
@@ -917,7 +918,7 @@ static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int vic_write_snapshot_module(snapshot_t *s)
+int crtc_write_snapshot_module(snapshot_t *s)
 {
     int i;
     snapshot_module_t *m;
@@ -998,6 +999,8 @@ int crtc_read_snapshot_module(snapshot_t *s)
         /* XXX: This assumes that there are no side effects.  */
         store_crtc(i, b);
     }
+
+    maincpu_set_alarm(A_RASTERDRAW, CYCLES_PER_LINE - RASTER_CYCLE);
 
     force_repaint();
     return snapshot_module_close(m);

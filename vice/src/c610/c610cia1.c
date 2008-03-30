@@ -89,6 +89,8 @@
 #include "resources.h"
 #include "snapshot.h"
 
+#include "interrupt.h"
+
 
 #include "pruser.h"
 #include "parallel.h"
@@ -96,9 +98,8 @@
 #include "c610tpi.h"
 
 #define cia1_set_int_clk(a,b,c)      tpi1_set_int(2,(b))
-#define	set_int_noclk(a,b,c)
+#define	set_int_noclk(a,b,c)	     tpi1_restore_int(2,(c))
 
-#include "interrupt.h"
 
 #undef CIA1_TIMER_DEBUG
 #undef CIA1_IO_DEBUG
@@ -1404,9 +1405,6 @@ printf("CIA1: write cia1int=%02x, cia1ier=%02x\n", cia1int, cia1ier);
     snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_CIA1TOD]
                                     - clk));
 
-    snapshot_module_write_byte(m, (get_int(&maincpu_int_status, I_CIA1FL)
-                                   ? 0xff : 0x00));
-
     snapshot_module_close(m);
 
     return 0;
@@ -1422,14 +1420,6 @@ int cia1_read_snapshot_module(snapshot_t *p)
     CLOCK rclk = clk;
     snapshot_module_t *m;
 
-    /* stop timers, just in case */
-    cia1_tas = CIAT_STOPPED;
-    cia1_tau = 0;
-    my_unset_tai();
-    cia1_tbs = CIAT_STOPPED;
-    cia1_tbu = 0;
-    my_unset_tbi();
-
     m = snapshot_module_open(p, "CIA1", &vmajor, &vminor);
     if (m == NULL)
         return -1;
@@ -1438,6 +1428,15 @@ int cia1_read_snapshot_module(snapshot_t *p)
         snapshot_module_close(m);
         return -1;
     }
+
+    /* stop timers, just in case */
+    cia1_tas = CIAT_STOPPED;
+    cia1_tau = 0;
+    my_unset_tai();
+    cia1_tbs = CIAT_STOPPED;
+    cia1_tbu = 0;
+    my_unset_tbi();
+    maincpu_unset_alarm(A_CIA1TOD);
 
     {
         snapshot_module_read_byte(m, &cia1[CIA_PRA]);
@@ -1557,8 +1556,7 @@ printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1_tai, cia1_tau, cia1_tac, cia1
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1_tbi, cia1_tbu, cia1_tbc, cia1_tbl);
 #endif
 
-    snapshot_module_read_byte(m, &byte);
-    if (byte) {
+    if (cia1[CIA_ICR] & 0x80) {
         set_int_noclk(&maincpu_int_status, I_CIA1FL, IK_IRQ);
     } else {
         set_int_noclk(&maincpu_int_status, I_CIA1FL, 0);

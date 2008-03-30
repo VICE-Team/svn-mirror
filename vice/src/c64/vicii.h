@@ -142,6 +142,7 @@ extern int vic_ii_init_cmdline_options(void);
 extern canvas_t vic_ii_init(void);
 extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
 extern BYTE REGPARM1 read_vic(ADDRESS addr);
+extern BYTE REGPARM1 peek_vic(ADDRESS addr);
 extern void REGPARM2 store_vic(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_colorram(ADDRESS addr);
 extern void REGPARM2 store_colorram(ADDRESS addr, BYTE value);

@@ -24,6 +24,7 @@
 #include "types.h"
 #include "vmachine.h"
 #include "interrupt.h"
+#include "snapshot.h"
 #include "rs232.h"
 #include "acia.h"
 
@@ -31,7 +32,11 @@
 #include "c610tpi.h"
 
 #undef maincpu_set_int
-#define        maincpu_set_int(b,a)    tpi1_set_int(4,(a))
+#define maincpu_set_int(b,a)         tpi1_set_int(4,(a))
+
+#undef set_int_noclk
+#define set_int_noclk(a,b,c)         tpi1_restore_int(4,(c))
+
 
 #undef	DEBUG
 
@@ -177,14 +182,15 @@ void reset_acia1(void) {
  * DWORD	TICKS	ticks till the next TDR empty interrupt
  */
 
+static const char module_name[] = "ACIA1";
+
 /* FIXME!!!  Error check.  */
 /* FIXME!!!  If no connection, emulate carrier lost or so */
 int acia1_write_snapshot_module(snapshot_t * p)
 {
     snapshot_module_t *m;
-    int byte;
 
-    m = snapshot_module_create(p, "ACIA1",
+    m = snapshot_module_create(p, module_name,
                                ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -205,17 +211,19 @@ int acia1_write_snapshot_module(snapshot_t * p)
 
 int acia1_read_snapshot_module(snapshot_t * p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     BYTE byte;
     DWORD dword;
     snapshot_module_t *m;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    maincpu_unset_alarm(A_ACIA1);   /* just in case we don't find module */
+    set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
+
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
-    if (strcmp(name, "ACIA1") || vmajor != ACIA_DUMP_VER_MAJOR) {
+    if (vmajor != ACIA_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
     }
