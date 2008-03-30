@@ -58,6 +58,7 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-rel.h"
 #include "vdrive-snapshot.h"
 #include "vdrive.h"
 
@@ -93,6 +94,7 @@ void vdrive_init(void)
     vdrive_command_init();
     vdrive_dir_init();
     vdrive_iec_init();
+    vdrive_rel_init();
     vdrive_snapshot_init();
 }
 
@@ -242,7 +244,7 @@ void vdrive_close_all_channels(vdrive_t *vdrive)
     for (i = 0; i <= 15; i++) {
         p = &(vdrive->buffers[i]);
         if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
-            vdrive_close(vdrive, i);
+            vdrive_iec_close(vdrive, i);
     }
 }
 
