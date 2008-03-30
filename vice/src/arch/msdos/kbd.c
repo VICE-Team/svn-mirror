@@ -375,6 +375,8 @@ static void my_kbd_interrupt_handler(void)
 	}
 
 	switch (kcode) {
+          case K_ESC:
+            break;
 #ifndef PET
 	  case K_PGUP:
 	    queue_command(KCMD_RESTORE_RELEASED);

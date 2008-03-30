@@ -648,6 +648,9 @@ static char *quit_callback(int been_activated, void *param_unused)
 	_setcursortype(_NORMALCURSOR);
 	normvideo();
 	clrscr();
+#ifdef HAVE_TRUE1541
+        true1541_detach_floppy();
+#endif
 	disable_log();
 #ifdef UNSTABLE
 	printf("VICE version %s (unstable).\n", VERSION);
@@ -678,8 +681,8 @@ static void mon_trap(ADDRESS addr)
     mon(addr);
 
     setmode(STDIN_FILENO, old_mode);
-    disable_text();
     enable_log(0);
+    disable_text();
 }
 
 static char *monitor_callback(int been_activated, void *param_unused)
@@ -1261,11 +1264,11 @@ void UiMain(ADDRESS addr)
 
     /* FIXME: This is an ugly kludge.  I really think this should be handled
        transparently, i.e. without messing with the resource values, in the
-       sound driver. */
+       sound driver.  */
     if (app_resources.sound) {
 	/* With the current version of the sound driver, we must always
 	   force 100% speed (no automatic sound speed adjustment is
-	   implemented for MS-DOS). */
+	   implemented for MS-DOS).  */
 	app_resources.speed = 100;
     }
 
