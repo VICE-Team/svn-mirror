@@ -89,8 +89,5 @@ typedef struct asm_opcode_info_s asm_opcode_info_t;
 
 struct monitor_cpu_type_s;
 
-extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
-extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
-
-#endif  /* _ASM_H */
+#endif
 

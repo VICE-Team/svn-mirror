@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "asm.h"
 #include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
@@ -295,8 +294,9 @@ static void plus4_monitor_init(void)
     asmarray[1] = NULL;
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, drive0_get_monitor_interface_ptr(),
-                 drive1_get_monitor_interface_ptr(), asmarray);
+    monitor_init(maincpu_monitor_interface_get(),
+                 drive0_monitor_interface_get(),
+                 drive1_monitor_interface_get(), asmarray);
 }
 
 /* Plus4-specific initialization.  */

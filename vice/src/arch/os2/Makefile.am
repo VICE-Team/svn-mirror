@@ -6,8 +6,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/monitor
+	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libarch.a
 
