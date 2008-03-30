@@ -97,13 +97,13 @@ BEGIN
     CTEXT    "VICE",IDC_STATIC,7,5,118,8
     CTEXT    "Versatile Commodore Emulator",IDC_STATIC,7,18,118,8
     CTEXT    "Preview " VERSION "- ALPHA version",IDC_STATIC,7,31,118,8
-    CTEXT    "Copyright (c) 1996-1998 Ettore Perazzoli",IDC_STATIC,16,50,158,8
-    CTEXT    "Copyright (c) 1996-1998 André Fachat",IDC_STATIC,16,59,158,8
-    CTEXT    "Copyright (c) 1993-1994, 1997-1998 Teemu Rantanen",IDC_STATIC,5,68,180,8
-    CTEXT    "Copyright (c) 1997-1998 Daniel Sladic",IDC_STATIC,16,77,158,8
-    CTEXT    "Copyright (c) 1998 Andreas Boose",IDC_STATIC,36,86,118,8
-    CTEXT    "Copyright (c) 1998 Dag Lem",IDC_STATIC,36,95,118,8
-    CTEXT    "Copyright (c) 1998 Tibor Biczo",IDC_STATIC,16,104,158,8
+    CTEXT    "Copyright (c) 1996-1999 Ettore Perazzoli",IDC_STATIC,16,50,158,8
+    CTEXT    "Copyright (c) 1996-1999 André Fachat",IDC_STATIC,16,59,158,8
+    CTEXT    "Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen",IDC_STATIC,5,68,180,8
+    CTEXT    "Copyright (c) 1997-1999 Daniel Sladic",IDC_STATIC,16,77,158,8
+    CTEXT    "Copyright (c) 1998-1999 Andreas Boose",IDC_STATIC,36,86,118,8
+    CTEXT    "Copyright (c) 1998-1999 Dag Lem",IDC_STATIC,36,95,118,8
+    CTEXT    "Copyright (c) 1998-1999 Tibor Biczo",IDC_STATIC,16,104,158,8
     CTEXT    "Copyright (c) 1993-1996 Jouko Valta",IDC_STATIC,36,113,118,8
     CTEXT    "Copyright (c) 1993-1994 Jarkko Sonninen",IDC_STATIC,16,122,158,8
 END

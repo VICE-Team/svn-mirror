@@ -238,7 +238,7 @@ void file_system_detach_disk(int unit)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MAJOR 0
+#define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
 int vdrive_write_snapshot_module(snapshot_t *s, int start)

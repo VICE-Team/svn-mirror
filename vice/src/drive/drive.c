@@ -1881,8 +1881,8 @@ Type                 DWORD  2      drive type
 
 */
 
-#define DRIVE_SNAP_MAJOR 0
-#define DRIVE_SNAP_MINOR 2
+#define DRIVE_SNAP_MAJOR 1
+#define DRIVE_SNAP_MINOR 0
 
 int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
 {
@@ -2237,7 +2237,7 @@ int drive_read_snapshot_module(snapshot_t *s)
     return 0;
 }
 
-#define IMAGE_SNAP_MAJOR 0
+#define IMAGE_SNAP_MAJOR 1
 #define IMAGE_SNAP_MINOR 0
 
 static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
@@ -2330,7 +2330,7 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     return 0;
 }
 
-#define ROM_SNAP_MAJOR 0
+#define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
 
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)

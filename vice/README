@@ -81,6 +81,8 @@
    - doc/Evaluation, VICE evaluation query form: please fill this in
      and send it to tell us what you think about this project.
 
+   - doc/Readme.dos, MS-DOS specific documentation;
+
  For the latest news, have a look at the VICE home page:
 
      http://www.cs.cmu.edu/~dsladic/vice/vice.html
