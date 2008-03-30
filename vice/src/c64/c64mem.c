@@ -33,11 +33,11 @@
 #include <string.h>
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
 #endif
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 
 #include "archdep.h"
