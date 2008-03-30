@@ -1002,6 +1002,9 @@ involved in the development of X64 and VICE:
    * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
      sound support for NetBSD.
 
+   * Mattias Engdeg^ard (<f91-men@nada.kth.se>) got non-default depths
+     to work.
+
    * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
      fixed a couple of bugs in the fast serial emulation.
 

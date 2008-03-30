@@ -22,7 +22,7 @@ vice.info-1: 631
 vice.info-2: 49504
 vice.info-3: 97410
 vice.info-4: 145182
-vice.info-5: 192769
+vice.info-5: 192855
 
 Tag Table:
 (Indirect)
@@ -167,14 +167,14 @@ Node: Miscellaneous commands179562
 Node: c1541179963
 Node: c1541 commands and options180981
 Node: Acknowledgments183507
-Node: Copyright190566
-Node: Contacts191713
-Node: Home page192219
-Node: Sending feedback192769
-Node: Contributing195447
-Node: Newsgroups196636
-Node: FAQs you should read197267
-Node: Concept Index197582
-Node: Resource Index210464
+Node: Copyright190652
+Node: Contacts191799
+Node: Home page192305
+Node: Sending feedback192855
+Node: Contributing195603
+Node: Newsgroups196792
+Node: FAQs you should read197423
+Node: Concept Index197738
+Node: Resource Index210620
 
 End Tag Table

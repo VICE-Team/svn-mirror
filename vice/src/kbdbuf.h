@@ -30,7 +30,7 @@
 int kbd_buf_is_empty(void);
 int kbd_buf_init(int location, int plocation, int buffer_size,
                  CLOCK mincycles);
-int kbd_buf_feed(const char *s);
+int kbd_buf_feed(const BYTE *s);
 void kbd_buf_flush(void);
 
 #endif
