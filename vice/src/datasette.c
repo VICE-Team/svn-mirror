@@ -65,8 +65,20 @@ int datasette_read_bit(long offset)
 
             current_image->current_file_seek_position++;
   
-            gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)256) * 8 - offset;
-  
+            if (current_image->version >= 1 && !comp_gap) {
+                BYTE long_gap[3];
+                int i;
+                for (i = 0; i < 3; i++) {
+                    if (fread(&long_gap[i], 1, 1, current_image->fd) < 1) {
+                        current_image->mode = DATASETTE_CONTROL_STOP;
+                        return 0;
+                    }
+                }
+                gap = long_gap[0] + (long_gap[1] << 8) + (long_gap[2] << 16);
+            } else {
+                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)512) * 8 - offset;
+            }
+
             if (gap > 0) {
                 alarm_set(&datasette_alarm, clk + gap);
                 return 0;
