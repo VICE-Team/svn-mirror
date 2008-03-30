@@ -33,27 +33,21 @@
 #include <windows.h>
 
 #include "c128ui.h"
-#include "cartridge.h"
-#include "fullscrn.h"
-#include "kbd.h"
-#include "keyboard.h"
-#include "lib.h"
 #include "res.h"
-#include "resources.h"
-#include "sid.h"
 #include "ui.h"
 #include "uic128.h"
+#include "uic64cart.h"
 #include "uidrivec128.h"
 #include "uireu.h"
+#include "uirom.h"
 #include "uisid.h"
 #include "uitfe.h"
 #include "uivicii.h"
 #include "uivideo.h"
-#include "uisnapshot.h"
 #include "uilib.h"
 
 
-static const ui_menu_toggle c128_ui_menu_toggles[] = {
+static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -71,112 +65,46 @@ static const ui_menu_toggle c128_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-static const ui_res_possible_values CartMode128[] = {
-    { CARTRIDGE_MODE_OFF, IDM_CART_MODE_OFF },
-    { CARTRIDGE_MODE_PRG, IDM_CART_MODE_PRG },
-    { CARTRIDGE_MODE_ON, IDM_CART_MODE_ON },
-    { -1, 0 }
+static const uirom_settings_t uirom_settings[] = {
+    { "International Kernal", "KernalIntName",
+      IDC_C128ROM_KERNALINT_FILE, IDC_C128ROM_KERNALINT_BROWSE },
+    { "German Kernal", "KernalDEName",
+      IDC_C128ROM_KERNALDE_FILE, IDC_C128ROM_KERNALDE_BROWSE },
+    { "Finnish Kernal", "KernalFRName",
+      IDC_C128ROM_KERNALFI_FILE, IDC_C128ROM_KERNALFI_BROWSE },
+    { "French Kernal", "KernalFIName",
+      IDC_C128ROM_KERNALFR_FILE, IDC_C128ROM_KERNALFR_BROWSE },
+    { "Italian Kernal", "KernalITName",
+      IDC_C128ROM_KERNALIT_FILE, IDC_C128ROM_KERNALIT_BROWSE },
+    { "Norwegain Kernal", "KernalNOName",
+      IDC_C128ROM_KERNALNO_FILE, IDC_C128ROM_KERNALNO_BROWSE },
+    { "Swedish Kernal", "KernalSEName",
+      IDC_C128ROM_KERNALSE_FILE, IDC_C128ROM_KERNALSE_BROWSE },
+    { "Basic LO", "BasicLoName",
+      IDC_C128ROM_BASICLO_FILE, IDC_C128ROM_BASICLO_BROWSE },
+    { "Basic HI", "BasicHiName",
+      IDC_C128ROM_BASICHI_FILE, IDC_C128ROM_BASICHI_BROWSE },
+    { "International Charcater", "ChargenIntName",
+      IDC_C128ROM_CHARGENINT_FILE, IDC_C128ROM_CHARGENINT_BROWSE },
+    { "German Charcater", "ChargenDEName",
+      IDC_C128ROM_CHARGENDE_FILE, IDC_C128ROM_CHARGENDE_BROWSE },
+    { "French Charcater", "ChargenFRName",
+      IDC_C128ROM_CHARGENFR_FILE, IDC_C128ROM_CHARGENFR_BROWSE },
+    { "Swedish Charcater", "ChargenSEName",
+      IDC_C128ROM_CHARGENSE_FILE, IDC_C128ROM_CHARGENSE_BROWSE },
+    { "C64 mode Kernal", "Kernal64Name",
+      IDC_C128ROM_KERNAL64_FILE, IDC_C128ROM_KERNAL64_BROWSE },
+    { "C64 mode Basic", "Basic64Name",
+      IDC_C128ROM_BASIC64_FILE, IDC_C128ROM_BASIC64_BROWSE },
+    { NULL, NULL, 0, 0 }
 };
-
-static const ui_res_value_list c128_ui_res_values[] = {
-    { "CartridgeMode", CartMode128, 0 },
-    { NULL, NULL, 0 }
-};
-
-static const ui_cartridge_params c128_ui_cartridges[] = {
-    {   IDM_CART_ATTACH_CRT, CARTRIDGE_CRT,
-        "Attach CRT cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT },
-    {   IDM_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB,
-        "Attach raw 8KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_16KB, CARTRIDGE_GENERIC_16KB,
-        "Attach raw 16KB cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_AR, CARTRIDGE_ACTION_REPLAY,
-        "Attach Action Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_AT, CARTRIDGE_ATOMIC_POWER,
-        "Attach Atomic Power cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD,
-        "Attach Epyx fastload cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488,
-        "Attach IEEE interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_RR, CARTRIDGE_RETRO_REPLAY,
-        "Attach Retro Replay cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_IDE64, CARTRIDGE_IDE64,
-        "Attach IDE64 interface cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT,
-        "Attach Super Snapshot 4 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   IDM_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5,
-        "Attach Super Snapshot 5 cartridge image",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN },
-    {   0, 0, NULL, 0 }
-};
-
-static void c128_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                                     const ui_cartridge_params *cartridges)
-{
-    int i;
-    char *s;
-
-    if (wparam == IDM_CART_ENABLE_EXPERT) {
-        if (cartridge_attach_image(CARTRIDGE_EXPERT, NULL) < 0)
-            ui_error("Invalid cartridge");
-        return;
-    }
-
-    i = 0;
-    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
-        i++;
-    if (cartridges[i].wparam == 0) {
-        ui_error("Bad cartridge config in UI!");
-        return;
-    }
-    if ((s = ui_select_file(hwnd, cartridges[i].title,
-        cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
-        if (cartridge_attach_image(cartridges[i].type, s) < 0)
-            ui_error("Invalid cartridge image");
-        lib_free(s);
-    }
-}
-
 
 
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
+    uic64cart_proc(wparam, hwnd);
+
     switch (wparam) {
-      case IDM_CART_ATTACH_CRT:
-      case IDM_CART_ATTACH_8KB:
-      case IDM_CART_ATTACH_16KB:
-      case IDM_CART_ATTACH_AR:
-      case IDM_CART_ATTACH_AT:
-      case IDM_CART_ATTACH_EPYX:
-      case IDM_CART_ATTACH_IEEE488:
-      case IDM_CART_ATTACH_RR:
-      case IDM_CART_ATTACH_IDE64:
-      case IDM_CART_ATTACH_SS4:
-      case IDM_CART_ATTACH_SS5:
-      case IDM_CART_ENABLE_EXPERT:
-        c128_ui_attach_cartridge(wparam, hwnd, c128_ui_cartridges);
-        break;
-      case IDM_CART_SET_DEFAULT:
-        cartridge_set_default();
-        break;
-      case IDM_CART_DETACH:
-        cartridge_detach_image();
-        break;
-      case IDM_CART_FREEZE|0x00010000:
-      case IDM_CART_FREEZE:
-        keyboard_clear_keymatrix();
-        cartridge_trigger_freeze();
-        break;
       case IDM_VICII_SETTINGS:
         ui_vicii_settings_dialog(hwnd);
         break;
@@ -185,6 +113,10 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
+        break;
+      case IDM_ROM_SETTINGS:
+        uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG,
+                              uirom_settings);
         break;
 #ifdef HAVE_TFE
       case IDM_TFE_SETTINGS:
@@ -205,9 +137,11 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 
 int c128ui_init(void)
 {
+    uic64cart_init();
+
     ui_register_machine_specific(c128_ui_specific);
     ui_register_menu_toggles(c128_ui_menu_toggles);
-    ui_register_res_values(c128_ui_res_values);
+
     return 0;
 }
 
