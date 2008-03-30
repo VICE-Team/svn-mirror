@@ -1,3 +1,7 @@
+Sun Jun  7 17:35:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.34.
+
 Mon Jun  1 01:19:44 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* configure.in: Added `AC_FUNC_ALLOCA' test.

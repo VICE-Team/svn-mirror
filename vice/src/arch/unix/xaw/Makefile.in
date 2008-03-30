@@ -324,7 +324,7 @@ uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm uimenu.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uihotkey.h \
-	../../../../src/arch/unix/vsync.h
+	../../../../src/arch/unix/vsync.h ../../../../src/utils.h
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \
