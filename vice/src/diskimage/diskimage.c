@@ -95,13 +95,13 @@ int disk_image_read_gcr_image(disk_image_t *image)
     num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
-    if (read_dword(image->fd, gcr_track_p, num_tracks * 8) < 0) {
+    if (util_dword_read(image->fd, gcr_track_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
         return -1;
     }
 
     fseek(image->fd, 12 + num_tracks * 8, SEEK_SET);
-    if (read_dword(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
+    if (util_dword_read(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
         return -1;
     }
@@ -406,7 +406,7 @@ int disk_image_read_track(disk_image_t *image, unsigned int track,
     }
 
     fseek(image->fd, 12 + (track - 1) * 8, SEEK_SET);
-    if (read_dword(image->fd, &gcr_track_p, 4) < 0) {
+    if (util_dword_read(image->fd, &gcr_track_p, 4) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image.");
         return -1;
     }
@@ -592,13 +592,13 @@ int disk_image_write_track(disk_image_t *image, unsigned int track,
     num_tracks = image->tracks;
 
     fseek(image->fd, 12, SEEK_SET);
-    if (read_dword(image->fd, gcr_track_p, num_tracks * 8) < 0) {
+    if (util_dword_read(image->fd, gcr_track_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
         return -1;
     }
 
     fseek(image->fd, 12 + num_tracks * 8, SEEK_SET);
-    if (read_dword(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
+    if (util_dword_read(image->fd, gcr_speed_p, num_tracks * 8) < 0) {
         log_error(disk_image_log, "Could not read GCR disk image header.");
         return -1;
     }
@@ -657,7 +657,8 @@ int disk_image_write_track(disk_image_t *image, unsigned int track,
 
         offset = 12 + num_tracks * 8 + (track - 1) * 8;
         if (fseek(image->fd, offset, SEEK_SET) < 0
-            || write_dword(image->fd, &gcr_speed_p[(track - 1) * 2], 4) < 0) {
+            || util_dword_write(image->fd, &gcr_speed_p[(track - 1) * 2], 4)
+            < 0) {
             log_error(disk_image_log, "Could not write GCR disk image.");
             return -1;
         }

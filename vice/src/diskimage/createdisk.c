@@ -72,11 +72,11 @@ static int disk_image_create_gcr(disk_image_t *image)
         gcr_speed_p[track * 2 + 1] = 0;
     }
 
-    if (write_dword(image->fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
+    if (util_dword_write(image->fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
         log_error(createdisk_log, "Cannot write track header.");
         return -1;
     }
-    if (write_dword(image->fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
+    if (util_dword_write(image->fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
         log_error(createdisk_log, "Cannot write speed header.");
         return -1;
     }

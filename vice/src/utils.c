@@ -501,7 +501,7 @@ void util_fname_split(const char *path, char **directory_return,
 
 /* ------------------------------------------------------------------------- */
 
-int read_dword(FILE *fd, DWORD *buf, size_t num)
+int util_dword_read(FILE *fd, DWORD *buf, size_t num)
 {
     int i;
     BYTE *tmpbuf;
@@ -521,7 +521,7 @@ int read_dword(FILE *fd, DWORD *buf, size_t num)
     return 0;
 }
 
-int write_dword(FILE *fd, DWORD *buf, size_t num)
+int util_dword_write(FILE *fd, DWORD *buf, size_t num)
 {
     int i;
     BYTE *tmpbuf;
@@ -543,8 +543,6 @@ int write_dword(FILE *fd, DWORD *buf, size_t num)
     free(tmpbuf);
     return 0;
 }
-
-/* ------------------------------------------------------------------------- */
 
 void util_dword_to_le_buf(BYTE *buf, DWORD data)
 {
