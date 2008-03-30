@@ -33,32 +33,32 @@
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
-/* FIXME: handshake with a 2031 disk drive has a timing issue, where 
+/* FIXME: handshake with a 2031 disk drive has a timing issue, where
    the CBM-II is slightly too fast. Reducing speed for about 1.3% from
    the real 2MHz seems to help here...
 
-#define C610_PAL_CYCLES_PER_SEC		2000000
+#define C610_PAL_CYCLES_PER_SEC         2000000
 */
-#define C610_PAL_CYCLES_PER_SEC		1974000
+#define C610_PAL_CYCLES_PER_SEC         1974000
 
-#define C610_PAL_CYCLES_PER_LINE 	128
-#define C610_PAL_SCREEN_LINES    	312
+#define C610_PAL_CYCLES_PER_LINE        128
+#define C610_PAL_SCREEN_LINES           312
 #define C610_PAL_CYCLES_PER_RFSH (C610_PAL_SCREEN_LINES \
                                  * C610_PAL_CYCLES_PER_LINE)
 #define C610_PAL_RFSH_PER_SEC    (1.0 / ((double)C610_PAL_CYCLES_PER_RFSH    \
                                         / (double)C610_PAL_CYCLES_PER_SEC))
 
-#define C610_NTSC_CYCLES_PER_SEC  	C610_PAL_CYCLES_PER_SEC
+#define C610_NTSC_CYCLES_PER_SEC        C610_PAL_CYCLES_PER_SEC
 /*
-#define C610_NTSC_CYCLES_PER_LINE 	C610_PAL_CYCLES_PER_LINE
-#define C610_NTSC_SCREEN_LINES	 	C610_PAL_SCREEN_LINES
-#define C610_NTSC_CYCLES_PER_RFSH 	C610_PAL_CYCLES_PER_RFSH
-#define C610_NTSC_RFSH_PER_SEC		C610_PAL_RFSH_PER_SEC
+#define C610_NTSC_CYCLES_PER_LINE       C610_PAL_CYCLES_PER_LINE
+#define C610_NTSC_SCREEN_LINES          C610_PAL_SCREEN_LINES
+#define C610_NTSC_CYCLES_PER_RFSH       C610_PAL_CYCLES_PER_RFSH
+#define C610_NTSC_RFSH_PER_SEC          C610_PAL_RFSH_PER_SEC
 */
 
-#define C500_PAL_CYCLES_PER_SEC		985248
-#define C500_PAL_CYCLES_PER_LINE 	63
-#define C500_PAL_SCREEN_LINES    	312
+#define C500_PAL_CYCLES_PER_SEC         985248
+#define C500_PAL_CYCLES_PER_LINE        63
+#define C500_PAL_SCREEN_LINES           312
 #define C500_PAL_CYCLES_PER_RFSH (C500_PAL_SCREEN_LINES \
                                  * C500_PAL_CYCLES_PER_LINE)
 #define C500_PAL_RFSH_PER_SEC    (1.0 / ((double)C500_PAL_CYCLES_PER_RFSH    \

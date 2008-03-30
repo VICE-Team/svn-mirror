@@ -30,23 +30,24 @@
 
 #include <stdio.h>
 
-#include "pets.h"
 #include "types.h"
 
-#define PET_RAM_SIZE		0x8000
-#define PET_ROM_SIZE		0x8000
-#define PET_CHARGEN_ROM_SIZE	0x2000
+#define PET_RAM_SIZE            0x8000
+#define PET_ROM_SIZE            0x8000
+#define PET_CHARGEN_ROM_SIZE    0x2000
 
-#define	PET_KERNAL1_CHECKSUM	3236
-#define	PET_KERNAL2_CHECKSUM	31896
-#define	PET_KERNAL4_CHECKSUM	53017
+#define PET_KERNAL1_CHECKSUM    3236
+#define PET_KERNAL2_CHECKSUM    31896
+#define PET_KERNAL4_CHECKSUM    53017
 
-#define	PET_EDIT1G_CHECKSUM	51858
-#define	PET_EDIT2G_CHECKSUM	64959
-#define	PET_EDIT2B_CHECKSUM	1514
-#define	PET_EDIT4G40_CHECKSUM	14162
-#define	PET_EDIT4B40_CHECKSUM	27250
-#define	PET_EDIT4B80_CHECKSUM	21166
+#define PET_EDIT1G_CHECKSUM     51858
+#define PET_EDIT2G_CHECKSUM     64959
+#define PET_EDIT2B_CHECKSUM     1514
+#define PET_EDIT4G40_CHECKSUM   14162
+#define PET_EDIT4B40_CHECKSUM   27250
+#define PET_EDIT4B80_CHECKSUM   21166
+
+struct petres_s;
 
 extern int pet_mem_init_resources(void);
 extern int pet_mem_init_cmdline_options(void);
@@ -54,7 +55,7 @@ extern int pet_mem_init_cmdline_options(void);
 extern void mem_initialize_memory(void);
 extern void petmem_patch_2001(void);
 extern void petmem_unpatch_2001(void);
-extern void pet_check_info(PetRes *pi);
+extern void pet_check_info(struct petres_s *pi);
 extern void petmem_convert_chargen_2k(void);
 
 extern void petmem_reset(void);
