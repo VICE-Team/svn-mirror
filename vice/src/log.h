@@ -34,6 +34,7 @@ typedef signed int log_t;
 #define LOG_DEFAULT ((log_t)-2)
 
 extern int log_resources_init(void);
+extern void log_resources_shutdown(void);
 extern int log_cmdline_options_init(void);
 extern int log_init(void);
 extern int log_init_with_fd(FILE *f);

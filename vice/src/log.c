@@ -67,6 +67,11 @@ int log_resources_init(void)
     return resources_register(resources);
 }
 
+void log_resources_shutdown(void)
+{
+    lib_free(log_file_name);
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-logfile", SET_RESOURCE, 1, NULL, NULL,
       "LogFileName", NULL, "<name>", "Specify log file name" },
