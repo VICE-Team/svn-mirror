@@ -191,7 +191,6 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	ChangeLog.3 \
 	aciacore.c \
-	ciacore.c \
 	fixpoint.c \
 	piacore.c \
 	riotcore.c \

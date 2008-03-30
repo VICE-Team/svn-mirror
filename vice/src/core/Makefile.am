@@ -6,5 +6,6 @@ INCLUDES = \
 noinst_LIBRARIES = libcore.a
 
 libcore_a_SOURCES = \
+	ciacore.c \
 	viacore.c
 
