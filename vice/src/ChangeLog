@@ -1,3 +1,103 @@
+2003-10-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.12.
+
+	* drive/drivetypes.h, drive/iec/cia1581d.c: Removed obsolete
+	IEC struct.
+
+	* drive/drivetypes.h, drive/drivecpu.c: Removed static char
+	arrays.
+
+	* drive/drivetypes.h, drive/iec/memiec.c, drive/ieee/fdc.c,
+	drive/ieee/memieee.c, drive/tcbm/glue1551.c, drive/drive.c,
+	drive/tcbm/mem1551.c, drive/drivecpu.c, drive/drivemem.c,
+	drive/drivesync.c: Dynamically allocate drive CPU struct.
+
+	* drive/drivetypes.h, drive/iec/cia1581d.c, drive/iec/iec.c,
+	drive/iec/via1d1541.c, drive/ieee/ieee.c, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c, drive/ieee/via1d2031.c: Dynamically
+	allocate CPU function struct.
+
+	* drive/iec/iec-cmdline-options.c: Added support for 1570 and
+	1571CR drives.
+
+	* drive/iec/iecrom.c (iecrom_load_1571cr): Fixed typo.
+
+	* video/video-render.c (render_yuv_image): Replaced obsolete
+	video resource defines.
+
+2003-10-27  John Selck  <selck_j@informatik.haw-hamburg.de>
+
+	* video/video-resources.h: Removed all true PAL emulation
+	defines and replaced them by one common PAL emu define.
+	Added pal_blur member to video_resources_t.
+
+	* video/video-resources.c: Added default value for pal_blur.
+
+	* video/video-resources-pal.c: Made VIDEO_RESOURCE_PAL_MODE_TRUE
+	default setting for PAL emulation mode.
+	Added new resource variable PALBlur, default value 0.5 (500).
+
+	* video/video-color.c: video_calc_ycbcrtable() now calculates
+	weighted luminance tables for variable blurring.
+
+	* video/render1x1pal.c: Removed render_16_1x1_palyc() and
+	render_32_1x1_palyc().
+	render_16_1x1_pal() and render_32_1x1_pal() are now able to
+	render different degrees of blurriness.
+
+	* video/render2x2pal.c: Removed render_16_2x2_palyc() and
+	render_32_2x2_palyc().
+	render_16_2x2_pal() and render_32_2x2_pal() are now able to
+	render different degrees of blurriness.
+
+	* video/render1x1pal.h: Remove obsolete prototypes.
+
+	* video/render2x2pal.h: Remove obsolete prototypes.
+
+	* video/renderyuv.c: Disabled VIDEO_RESOURCE_PAL_MODE_BLUR
+	dependant code.
+
+	* video/video-render-pal.c: Changed PAL emu calls.
+
+	* arch/win32/uivideo.c: Removed old PAL emulation modes and
+	replaced them by a single general mode.
+	Added code for IDC_VIDEO_ADVANCED_BLUR.
+	
+	* arch/win32/res.rc: Added PAL Blur EDITTEXT to video dialog.
+	
+	* arch/win32/res.h: Added IDC_VIDEO_ADVANCED_BLUR define.
+
+2003-10-26  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/*: cleanup: fixed email-address, removed
+	superfluous includes, better encapsulation
+
+2003-10-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.12.
+
+	* drive/drivetypes.h, drive/iec/cia1581d.c: Removed obsolete
+	IEC struct.
+
+	* drive/drivetypes.h, drive/drivecpu.c: Removed static char
+	arrays.
+
+	* drive/drivetypes.h, drive/iec/memiec.c, drive/ieee/fdc.c,
+	drive/ieee/memieee.c, drive/tcbm/glue1551.c, drive/drive.c,
+	drive/tcbm/mem1551.c, drive/drivecpu.c, drive/drivemem.c,
+	drive/drivesync.c: Dynamically allocate drive CPU struct.
+
+	* drive/drivetypes.h, drive/iec/cia1581d.c, drive/iec/iec.c,
+	drive/iec/via1d1541.c, drive/ieee/ieee.c, drive/ieee/riot1d.c,
+	drive/ieee/riot2d.c, drive/ieee/via1d2031.c: Dynamically
+	allocate CPU function struct.
+
+	* drive/iec/iec-cmdline-options.c: Added support for 1570 and
+	1571CR drives.
+
+	* drive/iec/iecrom.c (iecrom_load_1571cr): Fixed typo.
+
 2003-10-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.11.

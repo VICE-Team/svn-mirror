@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.11
+ VERSION=1.13.12
 
 
 cat >>confdefs.h <<_ACEOF
@@ -16877,7 +16877,7 @@ if false ; then
 
 fi
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ac_config_files="$ac_config_files Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/ui/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/win32/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/imagecontents/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ac_config_files="$ac_config_files Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/win32/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/imagecontents/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -17813,7 +17813,6 @@ do
   "src/arch/os2/dialogs/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/os2/dialogs/Makefile" ;;
   "src/arch/os2/kbd/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/os2/kbd/Makefile" ;;
   "src/arch/os2/snippets/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/os2/snippets/Makefile" ;;
-  "src/arch/os2/ui/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/os2/ui/Makefile" ;;
   "src/arch/os2/vac++/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/os2/vac++/Makefile" ;;
   "src/arch/riscos/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/riscos/Makefile" ;;
   "src/arch/unix/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/Makefile" ;;

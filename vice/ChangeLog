@@ -1,3 +1,9 @@
+2003-10-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.12.
+
+	* configure.in: Removed OS2 UI directory.
+
 2003-10-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.11.
