@@ -32,15 +32,18 @@
 #include "crtc-resources.h"
 #include "crtc.h"
 #include "crtctypes.h"
+#include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
 
+
 crtc_resources_t crtc_resources;
 
-static int set_palette_file_name (resource_value_t v, void *param)
+
+static int set_palette_file_name(resource_value_t v, void *param)
 {
     util_string_set(&crtc_resources.palette_file_name, (char *)v);
     if (crtc.initialized)
@@ -49,15 +52,9 @@ static int set_palette_file_name (resource_value_t v, void *param)
     return 0;
 }
 
-static int set_video_cache_enabled (resource_value_t v, void *param)
-{
-    crtc_resources.video_cache_enabled = (int)v;
-    return 0;
-}
-
 #ifdef CRTC_NEED_2X
 
-static int set_double_size_enabled (resource_value_t v, void *param)
+static int set_double_size_enabled(resource_value_t v, void *param)
 {
     crtc_resources.double_size_enabled = (int)v;
 
@@ -71,7 +68,7 @@ static int set_double_size_enabled (resource_value_t v, void *param)
 #endif
 
 #if defined CRTC_NEED_2X || defined __MSDOS__
-static int set_double_scan_enabled (resource_value_t v, void *param)
+static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     crtc_resources.double_scan_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
@@ -130,14 +127,14 @@ static resource_t resources[] =
     (resource_value_t *)&crtc_resources.double_scan_enabled,
     set_double_scan_enabled, NULL },
 #endif
-  { "CrtcVideoCache", RES_INTEGER, (resource_value_t)0,
-    (resource_value_t *)&crtc_resources.video_cache_enabled,
-    set_video_cache_enabled, NULL },
   { NULL }
 };
 
 int crtc_resources_init(void)
 {
+    if (raster_resources_chip_init("Crtc", &crtc.raster) < 0)
+        return -1;
+
     return resources_register(resources);
 }
 

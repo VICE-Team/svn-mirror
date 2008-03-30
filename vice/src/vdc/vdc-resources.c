@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
 #include "vdc-resources.h"
@@ -35,25 +36,8 @@
 #include "vdctypes.h"
 
 
-#ifdef __MSDOS__
-#define DEFAULT_VideoCache_VALUE 0
-#else
-#define DEFAULT_VideoCache_VALUE 1
-#endif
-
-
 vdc_resources_t vdc_resources;
 
-
-static int set_video_cache_enabled(resource_value_t v, void *param)
-{
-    vdc_resources.video_cache_enabled = (int)v;
-    if (vdc.initialized)
-        raster_enable_cache(&vdc.raster,
-            vdc_resources.video_cache_enabled);
-
-    return 0;
-}
 
 static int set_palette_file_name(resource_value_t v, void *param)
 {
@@ -91,10 +75,6 @@ static resource_t resources[] =
     { "VDC_PaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
       (resource_value_t *)&vdc_resources.palette_file_name,
       set_palette_file_name, NULL },
-    { "VDC_VideoCache", RES_INTEGER,
-      (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)&vdc_resources.video_cache_enabled,
-      set_video_cache_enabled, NULL },
     { "VDC_64KB", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&vdc_resources.vdc_64kb_expansion,
       set_64kb_expansion, NULL },
@@ -143,6 +123,9 @@ static resource_t resources_2x[] =
 int vdc_resources_init(void)
 {
     if (resources_register(resources_2x) < 0)
+        return -1;
+
+    if (raster_resources_chip_init("VDC", &vdc.raster) < 0)
         return -1;
 
     return resources_register(resources);

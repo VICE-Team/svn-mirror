@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
 #include "vicii-color.h"
@@ -40,13 +41,9 @@
 #include "fullscreen.h"
 #endif
 
-#ifdef __MSDOS__
-#define DEFAULT_VideoCache_VALUE 0
-#else
-#define DEFAULT_VideoCache_VALUE 1
-#endif
 
 vic_ii_resources_t vic_ii_resources;
+
 
 static int set_new_luminances(resource_value_t v, void *param)
 {
@@ -67,16 +64,6 @@ static int set_sprite_background_collisions_enabled(resource_value_t v,
     return 0;
 }
 
-static int set_video_cache_enabled (resource_value_t v, void *param)
-{
-    vic_ii_resources.video_cache_enabled = (int)v;
-    if (vic_ii.initialized)
-        raster_enable_cache(&vic_ii.raster,
-                            vic_ii_resources.video_cache_enabled);
-
-    return 0;
-}
-
 static resource_t resources[] =
 {
     { "NewLuminances", RES_INTEGER, (resource_value_t)1,
@@ -88,9 +75,6 @@ static resource_t resources[] =
     { "CheckSbColl", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&vic_ii_resources.sprite_background_collisions_enabled,
       set_sprite_background_collisions_enabled, NULL },
-    { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)&vic_ii_resources.video_cache_enabled,
-      set_video_cache_enabled, NULL },
     { NULL }
 };
 
@@ -172,6 +156,8 @@ int vic_ii_resources_init(void)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
+    if (raster_resources_chip_init("VICII", &vic_ii.raster) < 0)
+        return -1;
 
     return resources_register(resources);
 }

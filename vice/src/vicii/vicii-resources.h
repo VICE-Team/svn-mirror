@@ -53,9 +53,6 @@ struct vic_ii_resources_s
     int double_scan_enabled;
 #endif
 
-    /* Flag: Do we enable the video cache?  */
-    int video_cache_enabled;
-
 #ifdef USE_XF86_EXTENSIONS
     /* Flag: Do we use double size?  */
     int fullscreen_double_size_enabled;
