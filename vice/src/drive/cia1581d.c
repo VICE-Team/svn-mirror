@@ -102,10 +102,10 @@ struct drive_context_s;
 #define iec_info        (ctxptr->c_iec_info)
 
 #define cia_set_int_clk(value,clk) \
-        interrupt_set_irq(&(ctxptr->cpu.int_status),(I_CIA1FL),(value),(clk))
+        interrupt_set_irq((ctxptr->cpu.int_status),(I_CIA1FL),(value),(clk))
 
 #define cia_restore_int(value) \
-        interrupt_set_irq_noclk(&(ctxptr->cpu.int_status),(I_CIA1FL),(value))
+        interrupt_set_irq_noclk((ctxptr->cpu.int_status),(I_CIA1FL),(value))
 
 
 void cia1581_setup_context(drive_context_t *ctxptr)
