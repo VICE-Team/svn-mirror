@@ -267,7 +267,7 @@ static int realize_frame_buffer(raster_t *raster)
 
 /* Recalculate frame buffer for new display mode? */
 #ifdef __riscos
-#if ((X_DISPLAY_DEPTH == 8) || (X_DISPLAY_DEPTH == 0))
+#if ((VIDEO_DISPLAY_DEPTH == 8) || (VIDEO_DISPLAY_DEPTH == 0))
 #define RECALC_FRAME_BUFFER
 #endif
 #endif

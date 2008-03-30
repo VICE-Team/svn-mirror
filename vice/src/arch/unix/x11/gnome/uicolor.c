@@ -194,7 +194,7 @@ void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
                                  PIXEL *data, unsigned int dither,
                                  long color_pixel)
 {
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     video_convert_color_table(colnr, pixel_return, data, bits_per_pixel,
                               dither,
                               (long)(((GdkColor *)(color_pixel))->pixel));

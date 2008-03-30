@@ -46,8 +46,8 @@
 /* Define if we want to use aRts */
 #undef USE_ARTS
 
-/* Define to your X11 display depth.  */
-#undef X_DISPLAY_DEPTH
+/* Define to your video display depth.  */
+#undef VIDEO_DISPLAY_DEPTH
 
 /* Define if you want to use Rober W. McMullen's TextField widget.  */
 #undef ENABLE_TEXTFIELD

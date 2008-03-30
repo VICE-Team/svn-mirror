@@ -86,7 +86,7 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     /* Round up to 32-bit boundary. */
     width = (width + 3) & ~0x3;
 
-#if X_DISPLAY_DEPTH == 0
+#if VIDEO_DISPLAY_DEPTH == 0
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
     if (depth > 8)

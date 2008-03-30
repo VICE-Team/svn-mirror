@@ -12,8 +12,8 @@
 /* Define if lex declares yytext as a char * by default, not a char[].  */
 #define YYTEXT_POINTER 1
 
-/* Define to your X11 display depth.  */
-#define X_DISPLAY_DEPTH 0
+/* Define to your video display depth.  */
+#define VIDEO_DISPLAY_DEPTH 0
 
 /* The number of bytes in an unsigned long.  */
 #define SIZEOF_UNSIGNED_LONG 4

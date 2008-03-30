@@ -412,7 +412,7 @@ inline static void vid_memcpy(PIXEL *dst, PIXEL *src, unsigned int count)
     memcpy(dst, src, count * sizeof(PIXEL));
 }
 
-#if X_DISPLAY_DEPTH > 8
+#if VIDEO_DISPLAY_DEPTH > 8
 
 inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
 {

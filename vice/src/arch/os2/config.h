@@ -58,8 +58,8 @@
 /* Define if lex declares yytext as a char * by default, not a char[].  */
 #define YYTEXT_POINTER 1
 
-/* Define to your X11 display depth.  */
-#define X_DISPLAY_DEPTH 0
+/* Define to your video display depth.  */
+#define VIDEO_DISPLAY_DEPTH 0
 
 /* Define if you want to use Rober W. McMullen's TextField widget.  */
 //#define ENABLE_TEXTFIELD 1
@@ -79,7 +79,9 @@
 #endif
 
 /* Do we support a 1351 mouse?  */
+#if !defined __XPET__ && !defined __XVIC__
 #define HAVE_MOUSE            1
+#endif
 
 /* Do we have to emulate a joystick?  */
 #define HAS_JOYSTICK          1
