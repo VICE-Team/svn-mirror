@@ -36,7 +36,7 @@
 #include "video-resources.h"
 #include "video.h"
 
-SDWORD  ytable[128];
+SDWORD ytable[128];
 SDWORD cbtable[128];
 SDWORD crtable[128];
 
@@ -52,11 +52,11 @@ DWORD color_red[256];
 DWORD color_grn[256];
 DWORD color_blu[256];
 
-void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b)
+void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
 {
-	color_red[index] = r;
-	color_grn[index] = g;
-	color_blu[index] = b;
+    color_red[index] = r;
+    color_grn[index] = g;
+    color_blu[index] = b;
 }
 
 /* FIXME: Video layer should not call raster layer.  */
