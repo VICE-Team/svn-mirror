@@ -103,14 +103,23 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             if (mclk >= vic_ii.fetch_clk) {
                 /* If the fetch starts here, the sprite fetch routine should
                    get the new value, not the old one.  */
-                if (mclk == vic_ii.fetch_clk
-                    || mclk - 1 == vic_ii.fetch_clk) {
+                if (mclk == vic_ii.fetch_clk)
                     vic_ii.ram_base_phi2[addr] = value;
+
+                /* The sprite DMA check can be followed by a real fetch.
+                   Save the location to execute the store if a real
+                   fetch actually happens.  */
+                if (vic_ii.fetch_idx == VIC_II_CHECK_SPRITE_DMA) {
+                    vic_ii.store_clk = mclk;
+                    vic_ii.store_value = value;
+                    vic_ii.store_addr = addr;
                 }
+
                 vic_ii_raster_fetch_alarm_handler(clk - vic_ii.fetch_clk);
                 f = 1;
                 /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
                 mclk = clk - rmw_flag - 1;
+                vic_ii.store_clk = CLOCK_MAX;
             }
 
             if (mclk >= vic_ii.draw_clk) {
@@ -119,6 +128,19 @@ inline void REGPARM2 vic_ii_local_store_vbank(ADDRESS addr, BYTE value)
             }
         } while (f);
     }
+
+#if 0
+#a1 rrrw xxxXX   -
+#a2  rrrwxxxXX   vor     mclk + 1 = vic_ii.fetch_clk
+#a3   rrrwxxXX   vor     mclk = vic_ii.fetch_clk
+#a4    rrxxxXXrw -
+
+#b1 rrrrww xxxXX    -
+#b2  rrrrwwxxxXX    vor  
+#b3   rrrrwwxxXX    vor  mclk + 1 = vic_ii.fetch_clkv
+#b4    rrrrwwxXX    vor  mclk = vic_ii.fetch_clk
+#b5     rrrxxxXXrww -
+#endif
 
     vic_ii.ram_base_phi2[addr] = value;
 }
