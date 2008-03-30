@@ -25,32 +25,6 @@
  *
  */
 
-#if 0
-#define mycpu maincpu
-#define myclk maincpu_clk
-#define myvia via
-#define myvia_init via_init
-
-#define MYVIA_INT VIA_INT
-#define MYVIA_NAME "Via"
-
-#define mycpu_rmw_flag maincpu_rmw_flag
-#define mycpu_int_status maincpu_int_status
-#define mycpu_alarm_context maincpu_alarm_context
-#define mycpu_clk_guard maincpu_clk_guard
-
-#define myvia_reset via_reset
-#define myvia_store via_store
-#define myvia_read via_read
-#define myvia_peek via_peek
-
-#define myvia_log via_log
-#define myvia_signal via_signal
-#define myvia_prevent_clk_overflow via_prevent_clk_overflow
-#define myvia_snapshot_read_module via_snapshot_read_module
-#define myvia_snapshot_write_module via_snapshot_write_module
-#endif
-
 #include "vice.h"
 
 #include "alarm.h"
@@ -71,104 +45,38 @@
 #include "types.h"
 
 
-#define myclk           (*(via_context->clk_ptr))
-#define myvia           (via_context->via)
-#define myviaifr        (via_context->ifr)
-#define myviaier        (via_context->ier)
-#define myviatal        (via_context->tal)
-#define myviatbl        (via_context->tbl)
-#define myviatau        (via_context->tau)
-#define myviatbu        (via_context->tbu)
-#define myviatai        (via_context->tai)
-#define myviatbi        (via_context->tbi)
-#define myviapb7        (via_context->pb7)
-#define myviapb7x       (via_context->pb7x)
-#define myviapb7o       (via_context->pb7o)
-#define myviapb7xx      (via_context->pb7xx)
-#define myviapb7sx      (via_context->pb7sx)
-#define oldpa           (via_context->oldpa)
-#define oldpb           (via_context->oldpb)
-#define myvia_ila       (via_context->ila)
-#define myvia_ilb       (via_context->ilb)
-#define ca2_state       (via_context->ca2_state)
-#define cb2_state       (via_context->cb2_state)
-#define myvia_t1_alarm  (via_context->t1_alarm)
-#define myvia_t2_alarm  (via_context->t2_alarm)
-
-#define via_read_clk    (via_context->read_clk)
-#define via_read_offset (via_context->read_offset)
-#define via_last_read   (via_context->last_read)
-#define snap_module_name (via_context->my_module_name)
-
-#define myvia_int_num   (via_context->int_num)
-#define MYVIA_INT       (via_context->irq_line)
-
-#define mycpu_rmw_flag  (*(via_context->rmw_flag))
-
-#define myvia_reset     via_reset
-
-#define myvia_store     viax_store
-#define myvia_read      viax_read
-#define myvia_peek      viax_peek
-
-void REGPARM2 myvia_store(via_context_t *via_context, WORD addr, BYTE data);
-BYTE REGPARM1 myvia_read(via_context_t *via_context, WORD addr);
-BYTE REGPARM1 myvia_peek(via_context_t *via_context, WORD addr);
-
 void REGPARM2 via_store(WORD addr, BYTE data)
 {
-    myvia_store(&(machine_context.via), addr, data);
+    viacore_store(&(machine_context.via), addr, data);
 }
 
 BYTE REGPARM1 via_read(WORD addr)
 {
-    return myvia_read(&(machine_context.via), addr);
+    return viacore_read(&(machine_context.via), addr);
 }
 
 BYTE REGPARM1 via_peek(WORD addr)
 {
-    return myvia_peek(&(machine_context.via), addr);
+    return viacore_peek(&(machine_context.via), addr);
 }
 
-#define myvia_log       (via_context->log)
-#define myvia_signal    via_signal
-#define myvia_snapshot_read_module via_snapshot_read_module
-#define myvia_snapshot_write_module via_snapshot_write_module
-
-
 /* switching PET charrom with CA2 */
-static void via_set_ca2(int state)
+static void set_ca2(int state)
 {
     crtc_set_chargen_offset(state ? 256 : 0);
 }
 
 /* switching userport strobe with CB2 */
-static void via_set_cb2(int state)
+static void set_cb2(int state)
 {
     printer_interface_userport_write_strobe(state);
 }
 
-static void via_set_int(via_context_t *via_context, unsigned int int_num,
-                        int value)
+static void set_int(via_context_t *via_context, unsigned int int_num,
+                    int value)
 {
     interrupt_set_irq(maincpu_int_status, int_num, value,
                       *(via_context->clk_ptr));
-}
-
-void petvia_setup_context(machine_context_t *machine_context)
-{
-    machine_context->via.context = NULL;
-
-    machine_context->via.rmw_flag = &maincpu_rmw_flag;
-    machine_context->via.clk_ptr = &maincpu_clk;
-
-    sprintf(machine_context->via.myname, "Via");
-    sprintf(machine_context->via.my_module_name, "VIA");
-    machine_context->via.read_clk = 0;
-    machine_context->via.read_offset = 0;
-    machine_context->via.last_read = 0;
-    machine_context->via.irq_line = IK_IRQ;
-    machine_context->via.log = LOG_ERR;
 }
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
@@ -191,13 +99,15 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 inline static void store_prb(via_context_t *via_context, BYTE byte,
                              BYTE myoldpb, WORD addr)
 {
-    if ((addr == VIA_DDRB) && (myvia[addr] & 0x20)) {
-        log_warning(myvia_log, "PET: Killer POKE! might kill a real PET!\n");
+    if ((addr == VIA_DDRB) && (via_context->via[addr] & 0x20)) {
+        log_warning(via_context->log,
+                    "PET: Killer POKE! might kill a real PET!\n");
     }
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
     parallel_cpu_set_atn((BYTE)(!(byte & 0x04)));
     if ((byte ^ myoldpb) & 0x8)
-        datasette_toggle_write_bit((~myvia[VIA_DDRB] | byte) & 0x8);
+        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte)
+                                   & 0x8);
 }
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
@@ -214,10 +124,10 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 #endif
 }
 
-inline static void store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
 #if 0
-    if (byte != myvia[VIA_PCR]) {
+    if (byte != via_context->via[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
         if((tmp & 0x0c) != 0x0c)
@@ -229,16 +139,19 @@ inline static void store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
         printer_interface_userport_write_strobe(byte & 0x20);
     }
 #endif
+    return byte;
 }
 
 static void undump_acr(via_context_t *via_context, BYTE byte)
 {
-    store_petsnd_onoff(myvia[VIA_T2LL] ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
+    store_petsnd_onoff(via_context->via[VIA_T2LL]
+                       ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
 inline void static store_acr(via_context_t *via_context, BYTE byte)
 {
-    store_petsnd_onoff(myvia[VIA_T2LL] ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
+    store_petsnd_onoff(via_context->via[VIA_T2LL]
+                       ? (((byte & 0x1c) == 0x10) ? 1 : 0) : 0);
 }
 
 inline void static store_sr(via_context_t *via_context, BYTE byte)
@@ -252,11 +165,12 @@ inline void static store_t2l(via_context_t *via_context, BYTE byte)
     if (!byte) {
         store_petsnd_onoff(0);
     } else {
-        store_petsnd_onoff(((myvia[VIA_ACR] & 0x1c) == 0x10) ? 1 : 0);
+        store_petsnd_onoff(((via_context->via[VIA_ACR] & 0x1c) == 0x10)
+                           ? 1 : 0);
     }
 }
 
-static void res_via(via_context_t *via_context)
+static void reset(via_context_t *via_context)
 {
     /* set IEC output lines */
     parallel_cpu_set_atn(0);
@@ -284,7 +198,8 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 
     /* joystick always pulls low, even if high output, so no
        masking with DDRA */
-    /*return ((j & ~myvia[VIA_DDRA]) | (myvia[VIA_PRA] & myvia[VIA_DDRA]));*/
+    /*return ((j & ~(via_context->via[VIA_DDRA]))
+        | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));*/
     return byte;
 }
 
@@ -306,33 +221,30 @@ inline static BYTE read_prb(via_context_t *via_context)
     byte -= crtc_offscreen() ? 32 : 0;
 
     /* none of the load changes output register value -> std. masking */
-    byte = ((byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]));
+    byte = ((byte & ~(via_context->via[VIA_DDRB]))
+           | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
     return byte;
 }
 
 void printer_interface_userport_set_busy(int b)
 {
-    via_signal(&(machine_context.via),
-               VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    viacore_signal(&(machine_context.via),
+                   VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
-
-static void clk_overflow_callback(via_context_t *, CLOCK, void *);
-static void int_myviat1(via_context_t *, CLOCK);
-static void int_myviat2(via_context_t *, CLOCK);
 
 static void clk_overflow_callback_via(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&(machine_context.via), sub, data);
+    viacore_clk_overflow_callback(&(machine_context.via), sub, data);
 }
 
 static void int_viat1(CLOCK c)
 {
-    int_myviat1(&(machine_context.via), c);
+    viacore_intt1(&(machine_context.via), c);
 }
 
 static void int_viat2(CLOCK c)
 {
-    int_myviat2(&(machine_context.via), c);
+    viacore_intt2(&(machine_context.via), c);
 }
 
 void via_init(via_context_t *via_context)
@@ -354,7 +266,40 @@ void via_init(via_context_t *via_context)
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_via, NULL);
 }
 
-#define VIA_SHARED_CODE
+void petvia_setup_context(machine_context_t *machine_context)
+{
+    via_context_t *via;
 
-#include "viacore.c"
+    via = &(machine_context->via);
+
+    via->context = NULL;
+
+    via->rmw_flag = &maincpu_rmw_flag;
+    via->clk_ptr = &maincpu_clk;
+
+    sprintf(via->myname, "Via");
+    sprintf(via->my_module_name, "VIA");
+    via->read_clk = 0;
+    via->read_offset = 0;
+    via->last_read = 0;
+    via->irq_line = IK_IRQ;
+    via->log = LOG_ERR;
+
+    via->undump_pra = undump_pra;
+    via->undump_prb = undump_prb;
+    via->undump_pcr = undump_pcr;
+    via->undump_acr = undump_acr;
+    via->store_pra = store_pra;
+    via->store_prb = store_prb;
+    via->store_pcr = store_pcr;
+    via->store_acr = store_acr;
+    via->store_sr = store_sr;
+    via->store_t2l = store_t2l;
+    via->read_pra = read_pra;
+    via->read_prb = read_prb;
+    via->set_int = set_int;
+    via->set_ca2 = set_ca2;
+    via->set_cb2 = set_cb2;
+    via->reset = reset;
+}
 

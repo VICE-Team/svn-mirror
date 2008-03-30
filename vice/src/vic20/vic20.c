@@ -374,13 +374,13 @@ void machine_specific_reset(void)
 {
     serial_reset();
 
-    via1_reset(&(machine_context.via1));
-    via2_reset(&(machine_context.via2));
+    viacore_reset(&(machine_context.via1));
+    viacore_reset(&(machine_context.via2));
     vic_reset();
     vic_sound_reset();
 
-    ieeevia1_reset(&(machine_context.ieeevia1));
-    ieeevia2_reset(&(machine_context.ieeevia2));
+    viacore_reset(&(machine_context.ieeevia1));
+    viacore_reset(&(machine_context.ieeevia2));
 
     rs232drv_reset();
     rsuser_reset();
@@ -428,8 +428,8 @@ static void machine_vsync_hook(void)
 
 int machine_set_restore_key(int v)
 {
-    via2_signal(&(machine_context.via2),
-                VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
+    viacore_signal(&(machine_context.via2),
+                   VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
     return 1;
 }
 

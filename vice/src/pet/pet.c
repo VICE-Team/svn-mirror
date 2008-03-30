@@ -341,7 +341,7 @@ void machine_specific_reset(void)
 
     pia1_reset();
     pia2_reset();
-    via_reset(&(machine_context.via));
+    viacore_reset(&(machine_context.via));
     acia1_reset();
     crtc_reset();
     petsnd_reset();

@@ -48,6 +48,7 @@
 #include "sound.h"
 #include "tape-snapshot.h"
 #include "types.h"
+#include "via.h"
 
 
 #define SNAP_MAJOR 0
@@ -74,7 +75,7 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
         || crtc_snapshot_write_module(s) < 0
         || pia1_snapshot_write_module(s) < 0
         || pia2_snapshot_write_module(s) < 0
-        || via_snapshot_write_module(&(machine_context.via), s) < 0
+        || viacore_snapshot_write_module(&(machine_context.via), s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0) {
@@ -116,7 +117,7 @@ int pet_snapshot_read(const char *name, int event_mode)
         || crtc_snapshot_read_module(s) < 0
         || pia1_snapshot_read_module(s) < 0
         || pia2_snapshot_read_module(s) < 0
-        || via_snapshot_read_module(&(machine_context.via), s) < 0
+        || viacore_snapshot_read_module(&(machine_context.via), s) < 0
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0) {
