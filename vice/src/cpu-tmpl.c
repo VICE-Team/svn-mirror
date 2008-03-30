@@ -34,6 +34,7 @@
 
 #include "6510core.h"
 #include "interrupt.h"
+#include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "misc.h"
@@ -211,7 +212,7 @@ static void reset(void)
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
-    fprintf(logfile, "Main CPU: RESET\n");
+    log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     serial_reset();
 
@@ -259,7 +260,7 @@ PRE_CPU_LOOP
     else
 	JUMP(LOAD_ADDR(0xfffc));
 
-    fprintf(logfile, "Main CPU: starting at $%04X.\n", reg_pc);
+    log_message(LOG_DEFAULT, "Main CPU: starting at $%04X.", reg_pc);
 
     while (1) {
 
