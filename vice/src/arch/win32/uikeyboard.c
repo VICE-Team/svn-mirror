@@ -113,6 +113,9 @@ static void end_mapping_dialog(HWND hwnd)
         system_wcstombs(s, st, MAX_PATH);
         resources_set_value(mapping_entry[i].res_filename,
                             (resource_value_t)s);
+        if (IsDlgButtonChecked(hwnd, mapping_entry[i].idc_select)
+            == BST_CHECKED)
+            resources_set_value("KeymapIndex", (resource_value_t)i);
     }
 }
 
