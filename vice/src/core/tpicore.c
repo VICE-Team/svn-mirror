@@ -371,6 +371,7 @@ void tpicore_setup_context(tpi_context_t *tpi_context)
 void tpicore_shutdown(tpi_context_t *tpi_context)
 {
     lib_free(tpi_context->myname);
+    lib_free(tpi_context->prv);
 }
 
 /* -------------------------------------------------------------------------- */
