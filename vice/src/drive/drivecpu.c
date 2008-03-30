@@ -50,6 +50,7 @@
 #include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
+#include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -254,7 +255,7 @@ static void cpu_reset(drive_context_t *drv)
                               &(drv->cpu.last_opcode_info));
 
     *(drv->clk_ptr) = 6;
-    drive_rotation_reset(drv->mynumber);
+    rotation_reset(drv->mynumber);
     via1d_reset(drv);
     via2d_reset(drv);
     machine_drive_reset(drv);
@@ -508,12 +509,12 @@ void drivex_cpu_execute(drive_context_t *drv, CLOCK clk_value)
 #define _drive_byte_ready_egde_clear()                \
     do {                                              \
         if (drv->drive_ptr->byte_ready_active == 0x6) \
-            drive_rotate_disk(drv->drive_ptr);        \
+            rotation_rotate_disk(drv->drive_ptr);     \
         drv->drive_ptr->byte_ready_edge = 0;          \
     } while (0)
 
 #define _drive_byte_ready() ((drv->drive_ptr->byte_ready_active == 0x6) \
-                                ? drive_rotate_disk(drv->drive_ptr),    \
+                                ? rotation_rotate_disk(drv->drive_ptr), \
                                 drv->drive_ptr->byte_ready_edge : 0)    \
 
 #define cpu_reset() (cpu_reset)(drv)

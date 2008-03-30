@@ -31,6 +31,7 @@
 #include "drive.h"
 #include "drivesync.h"
 #include "drivetypes.h"
+#include "rotation.h"
 
 
 static unsigned int sync_factor;
@@ -70,8 +71,8 @@ void drive_sync_set_1571(int new_sync, unsigned int dnr)
 {
     if (rom_loaded) {
         if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
-        drive_initialize_rotation(new_sync ? 1 : 0, dnr);
+            rotation_rotate_disk(&drive[dnr]);
+        rotation_init(new_sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
         drive_sync_factor();
     }

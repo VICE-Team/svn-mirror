@@ -40,6 +40,7 @@
 #include "interrupt.h"
 #include "log.h"
 #include "parallel.h"
+#include "rotation.h"
 #include "types.h"
 #include "utils.h"
 #include "via.h"
@@ -343,7 +344,7 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
         BYTE tmp;
         if (ctxptr->drive_ptr->byte_ready_active == 0x6)
-            drive_rotate_disk(ctxptr->drive_ptr);
+            rotation_rotate_disk(ctxptr->drive_ptr);
         tmp = (ctxptr->drive_ptr->byte_ready_level ? 0 : 0x80)
             | (ctxptr->drive_ptr->current_half_track == 2 ? 0 : 1);
         return (tmp & ~myvia[VIA_DDRA])

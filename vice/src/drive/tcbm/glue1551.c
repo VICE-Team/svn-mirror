@@ -31,6 +31,7 @@
 #include "drivetypes.h"
 #include "glue1551.h"
 #include "interrupt.h"
+#include "rotation.h"
 #include "types.h"
 
 
@@ -72,7 +73,7 @@ static void glue_pport_update(drive_context_t *drv)
     drv->drive_ptr->led_status = (output & 8) ? 0 : 1;
 
     if (drv->drive_ptr->byte_ready_active == 0x06)
-        drive_rotate_disk(drv->drive_ptr);
+        rotation_rotate_disk(drv->drive_ptr);
 
     input = drive_write_protect_sense(drv->drive_ptr);
 
