@@ -1,3 +1,93 @@
+2002-05-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.20.
+
+	* joystick.c, joystick.h: New files.
+
+	* keyboard.c, keyboard.h: Moved joystick specific code to
+	`joystick.c' and `joystick.h'.
+
+	* arch/unix/joy.c, arch/unix/joy.h, arch/win32/joy.c,
+	arch/win32/joy.h, arch/msdos/joy.c, arch/msdos/joy.h,
+	arch/riscos/joy.c, arch/riscos/joy.h, arch/os2/joy.c,
+	arch/os2/joy.h, arch/beos/joy.cc, arch/beos/joy.h
+	(joystick_init): Renamed to `joy_init', return error code.
+
+	* init.c, arch/unix/joystick.c, arch/unix/joystick.h,
+	arch/unix/main_exit.c, arch/unix/vic20ui.c,
+	arch/unix/vsyncarch.c, arch/unix/Makefile.am,
+	arch/win32/joystick.c, arch/win32/joystick.h,
+	arch/win32/Makefile.am, arch/win32/kbd.c,
+	arch/win32/main_exit.c, arch/win32/ui.c,
+	arch/win32/uijoystick.c, arch/win32/vsyncarch.c,
+	arch/msdos/joystick.c, arch/msdos/joystick.h,
+	arch/msdos/Makefile.am, arch/msdos/kbd.c,
+	arch/msdos/main_exit.c, arch/msdos/menudefs.c,
+	arch/msdos/vsync.c, arch/riscos/Makefile.am,
+	arch/riscos/joystick.c, arch/riscos/joystick.h,
+	arch/riscos/kbd.c, arch/riscos/ui.c, arch/riscos/uiconfig.c,
+	arch/riscos/vsync.c, arch/os2/joystick.c, arch/os2/joystick.h,
+	arch/os2/Makefile.am, arch/os2/vsyncarch.c,
+	arch/os2/kbd/proc.c, arch/os2/dialogs/dlg-joystick.c,
+	arch/os2/unused/vsync.c, arch/beos/joystick.cc,
+	arch/beos/joystick.h, arch/beos/Makefile.am, arch/beos/kbd.c,
+	arch/beos/main_exit.c, arch/beos/vsyncarch.c,
+	arch/beos/vsyncarch.c, arch/beos/ui_joystick.cc: Renamed
+	arch dependant joystick support files to `joy.*'.
+
+	* arch/os2/mouse.c: #include "joystick.h".
+
+	* vic20/vic20via2.c: #include "vic.h".
+
+	* vic20/vic.c [__MSDOS__]: #include "videoarch.h".
+
+	* cbm2/c610-resources.c: Fixed kbd resources.
+
+	* arch/msdos/c128kbd.c, arch/msdos/c610kbd.c,
+	arch/msdos/c64kbd.c, arch/msdos/petkbd.c,
+	arch/msdos/plus4kbd.c, arch/msdos/vic20kbd.c: Removed.
+
+	* arch/msdos/Makefile.am: Updated.
+
+2002-05-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/vidmode.c: Updated: move window, position cursor,
+	calculate sizes, etc.
+
+	* arch/unix/x11/video.c (video_register_raster): call
+	fullscreen_set_raster() for both DGA2 and vidmode.
+
+	* arch/unix/x11/gnome/ui.c: Made `status_bar' global, added
+	new functions `ui_move_canvas_window(), ui_canvas_position(),
+	ui_get_widget_size()' 
+	* arch/unix/x11/xaw/ui.c: Likewise.
+
+	* arch/unix/x11/fullscreen-common.c (fullscreen_set_raster):
+	Moved function from dga2.c.
+
+	* arch/unix/x11/dga2.c (fullscreen_vidmode_available): Set
+	initial resource for a default value in the menu.
+	(fullscreen_create_menus): Fixed bug to store modeindex
+	instead of fs_bestmode index.
+
+	* arch/unix/ui.h: New prototypes.
+
+2002-05-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* autostart.c (autostart_prg): Undone patch in 1.9.8 (problem
+	with FILE NOT FOUND errors when autostarting prg).
+
+	* vic20/vic-mem.c (vic_read): Implemented lightpen registers.
+
+	* vic20/vic.c: New function vic_trigger_light_pen. (vic_init)
+	initializes light_pen, (vic_raster_draw_alarm_handler) resets
+	lightpen trigger.
+
+	* vic20/vic.h: New member light_pen in vic_s.
+
+	* vic20/vic20via1.c: Includes vic.h. (store_pra) calls
+	vic_trigger_light_pen when bit#5 is reset.
+
 2002-05-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.19.

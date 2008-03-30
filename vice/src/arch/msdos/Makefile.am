@@ -24,13 +24,10 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
-	c128kbd.c \
 	c128ui.c \
 	c128ui.h \
 	c610ui.c \
 	c610ui.h \
-	c610kbd.c \
-	c64kbd.c \
 	c64ui.c \
 	c64ui.h \
 	cbmcharsets.c \
@@ -38,8 +35,8 @@ libarch_a_SOURCES = \
 	console.c \
 	grabkey.c \
 	grabkey.h \
-	joystick.c \
-	joystick.h \
+	joy.c \
+	joy.h \
 	kbd.c \
 	kbd.h \
 	main_exit.c \
@@ -48,10 +45,8 @@ libarch_a_SOURCES = \
 	mouse.h \
 	menudefs.c \
 	menudefs.h \
-	petkbd.c \
 	petui.c \
 	petui.h \
-	plus4kbd.c \
 	plus4ui.c \
 	plus4ui.h \
 	sidui.c \
@@ -82,7 +77,6 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uisnapshot.c \
 	uisnapshot.h \
-	vic20kbd.c \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \
