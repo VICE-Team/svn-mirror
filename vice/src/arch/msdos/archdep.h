@@ -28,8 +28,6 @@
 #ifndef _ARCHDEP_H
 #define _ARCHDEP_H
 
-#include <stdio.h>
-
 #include "archapi.h"
 
 /* Filesystem dependant operators.  */

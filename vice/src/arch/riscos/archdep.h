@@ -24,12 +24,8 @@
  *
  */
 
-#ifndef _ARCHDEFS_H
-#define _ARCHDEFS_H
-
-#include "vice.h"
-
-#include <stdarg.h>
+#ifndef _ARCHDEP_H
+#define _ARCHDEP_H
 
 #include "archapi.h"
 

@@ -2,7 +2,7 @@
  * archdep.h - Miscellaneous system-specific stuff.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,10 +29,6 @@
 
 #include "archapi.h"
 #include "ui.h"      // ui_drive_enable_t
-
-#ifdef __IBMC__
-#include <stdarg.h>
-#endif
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR   "."
