@@ -276,7 +276,7 @@ static void REGPARM2 io2_store(ADDRESS addr, BYTE value)
 
 static BYTE REGPARM1 read_dummy(ADDRESS addr)
 {
-    return 0xff;
+    return (addr >> 8);
 }
 
 static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
@@ -961,15 +961,15 @@ int mem_patch_kernal(void)
     resources_get_value("MachineVideoStandard", (resource_value_t*)&video_mode);
 
     switch (video_mode) {
-        case MACHINE_SYNC_PAL:    
-            rev = 0;    /* use kernal 901486-07 */
-            break;
-        case MACHINE_SYNC_NTSC:    
-            rev = 1;    /* use kernal 901486-06 */
-            break;
-        default:
-            log_message(LOG_ERR, "VIC20MEM: unknown sync, cannot patch kernal.");
-            return -1;
+      case MACHINE_SYNC_PAL:    
+        rev = 0;    /* use kernal 901486-07 */
+        break;
+      case MACHINE_SYNC_NTSC:    
+        rev = 1;    /* use kernal 901486-06 */
+        break;
+      default:
+        log_message(LOG_ERR, "VIC20MEM: unknown sync, cannot patch kernal.");
+        return -1;
     }
 
     while ((bytes = patch_bytes[i++]) > 0) {
@@ -986,3 +986,4 @@ int mem_patch_kernal(void)
 
     return 0;
 }
+
