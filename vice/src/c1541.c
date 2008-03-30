@@ -53,7 +53,6 @@
 #include "ROlib.h"
 #else
 #include <sys/types.h>
-#include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -104,40 +103,50 @@ void ui_set_drive_leds(unsigned int led, int status)
 
 /* Local functions */
 
-static int  check_drive ( int dev, int mode );
-static int  open_image ( int dev, char *name, int create );
-static int  create_image ( file_desc_t fd, int devtyp, int tracks, int errb, char *label );
-static void usage( void );
+static int check_drive (int dev, int mode);
+static int open_image (int dev, char *name, int create, int disktype);
+static int create_image (file_desc_t fd, int devtyp, int tracks, int errb,
+                          char *label, int disktype);
+static void usage(void);
 
-static int  disk_attach ( void );
-static int  disk_cdd ( void );
-static int  disk_format ( void );
-static int  disk_gcrformat ( void );
-static int  disk_delete ( void );
-static int  disk_list ( void );
-static int  disk_validate ( void );
-static int  disk_copy ( void );
-static int  disk_rename ( void );
-static int  disk_read ( void );
-static int  disk_write ( void );
-static int  disk_import ( void );
-static int  disk_import_zipfile ( void );
-static int  disk_unlynx ( void );
-static int  disk_copy_tape ( void );
-static int  disk_sectordump ( void );
-static int  disk_extract ( void );
-static int  disk_raw_command ( void );
-static int  disk_info ( void );
-static int  disk_help ( void );
-static int  disk_quit ( void );
-static int  disk_system ( void );
+static int disk_attach(void);
+static int disk_cdd(void);
+static int disk_format_x64(void);
+static int disk_format_d64(void);
+static int disk_format_d71(void);
+static int disk_format_d81(void);
+static int disk_gcrformat(void);
+static int disk_delete(void);
+static int disk_list(void);
+static int disk_validate(void);
+static int disk_copy(void);
+static int disk_rename(void);
+static int disk_read(void);
+static int disk_write(void);
+static int disk_import(void);
+static int disk_import_zipfile(void);
+static int disk_unlynx(void);
+static int disk_copy_tape(void);
+static int disk_sectordump(void);
+static int disk_extract(void);
+static int disk_raw_command(void);
+static int disk_info(void);
+static int disk_help(void);
+static int disk_quit(void);
+static int disk_system(void);
 
 extern char sector_map_1541[43]; /* Ugly: FIXME! */
 extern int speed_map_1541[42];
 
 struct ms_table disk_cmds[] = {
-    {"format", 1, 2, disk_format,
-    "format  [imagename] 'diskname,id'\t(create X64 disk & format)\n"},
+    {"format", 1, 2, disk_format_x64,
+    "format  imagename 'diskname,id'\t(create X64 disk & format)\n"},
+    {"d64format", 1, 2, disk_format_d64,
+    "d64format  imagename 'diskname,id'\t(create D64 disk & format)\n"},
+    {"d71format", 1, 2, disk_format_d71,
+    "d71format  imagename\t\t\t(create D71 disk)\n"},
+    {"d81format", 1, 2, disk_format_d81,
+    "d81format  imagename\t\t\t(create D81 disk)\n"},
     {"gcrformat", 1, 2, disk_gcrformat,
     "gcrformat  imagename ['diskname,id']\t(create GCR disk & format)\n"},
     {"delete", 1, MAXARG, disk_delete,
@@ -212,7 +221,8 @@ struct ms_table disk_cmds[] = {
  * Create Floppy Image
  */
 
-static int  create_image (file_desc_t fd, int devtype, int tracks, int errb, char *label)
+static int create_image (file_desc_t fd, int devtype, int tracks, int errb,
+                         char *label, int disktype)
 {
     BYTE    header[HEADER_LENGTH];
     BYTE    block[256];
@@ -230,48 +240,46 @@ static int  create_image (file_desc_t fd, int devtype, int tracks, int errb, cha
 
     blks = num_blocks (get_diskformat (devtype), tracks);
 
+    if (disktype == DISK_IMAGE_TYPE_X64) {
+        header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
+        header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
+        header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
+        header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+        header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
+        header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+        header[HEADER_FLAGS_OFFSET + 0] = devtype;
+        header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+        if (label)
+            strncpy((char *)header + HEADER_LABEL_OFFSET, label,
+                    HEADER_LABEL_LEN);
 
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+        header[HEADER_LABEL_OFFSET + HEADER_LABEL_LEN] = 0; /* terminator */
 
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (label)
-	strncpy((char *)header + HEADER_LABEL_OFFSET, label, HEADER_LABEL_LEN);
-
-    header[HEADER_LABEL_OFFSET + HEADER_LABEL_LEN] = 0;	  /* terminator */
-
-    printf("writing header\n");
-    if (write(fd, (char *)header, sizeof (header)) != sizeof (header)) {
-	printf("cannot write header\n");
-	exit(1);
+        printf("writing header\n");
+        if (write(fd, (char *)header, sizeof (header)) != sizeof (header)) {
+            printf("cannot write header\n");
+            exit(1);
+        }
     }
 
     printf("creating blocks\n");
     for (i = 0; i < blks; i++) {
-	if (write(fd, (char *)block, sizeof (block)) != sizeof (block)) {
-	    printf("cannot write block %d\n", i);
-	    exit(1);
-	}
+        if (write(fd, (char *)block, sizeof (block)) != sizeof (block)) {
+            printf("cannot write block %d\n", i);
+            exit(1);
+        }
     }
 
-
-    if (errb) {
-	printf("creating error data\n");
 #if 0
-	if (set_error_data(floppy, 5) < 0) {	/* clear and write */
-	    printf("cannot write error data block.\n");
-	    exit(1);
-	}
-#endif
+    if (errb) {
+        printf("creating error data\n");
+        if (set_error_data(floppy, 5) < 0) {	/* clear and write */
+            printf("cannot write error data block.\n");
+            exit(1);
+        }
     }
-
+#endif
     return (0);
 }
 
@@ -325,11 +333,11 @@ static int  set_disk_size(file_desc_t fd, int tracks, int sides, int errblk)
  * If the file exists, it must have valid header.
  */
 
-static int  open_image(int dev, char *name, int create)
+static int  open_image(int dev, char *name, int create, int disktype)
 {
     DRIVE  *floppy;
     file_desc_t fd;
-
+    int cdev = DT_1541, num_tracks = NUM_TRACKS_1541;
 
     if (dev < 0 || dev > MAXDRIVE)
 	return (-1);  /* FD_BADDEV */
@@ -338,19 +346,38 @@ static int  open_image(int dev, char *name, int create)
     floppy = DriveData[dev & 3];
 
     if (create) {
-	if ((fd = open(name, O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
-	    printf("could not create image %s\n", name);
-	    return (-1);
-	}
+        if ((fd = open(name, O_RDWR | O_CREAT, 0666)) == ILLEGAL_FILE_DESC) {
+            printf("could not create image %s\n", name);
+            return (-1);
+        }
 
+        /*
+         * Get default geometry
+         * make a new image file and format it
+         */
 
-	/*
-	 * Get default geometry
-	 * make a new image file and format it
-	 */
+        switch(disktype) {
+          case DISK_IMAGE_TYPE_X64:
+            /* FIXME: X64 images can also contain other image types.  */
+            cdev = DT_1541;
+            num_tracks = NUM_TRACKS_1541;
+            break;
+          case DISK_IMAGE_TYPE_D64:
+            cdev = DT_1541;
+            num_tracks = NUM_TRACKS_1541;
+            break;
+          case DISK_IMAGE_TYPE_D71:
+            cdev = DT_1571;
+            num_tracks = NUM_TRACKS_1571;
+            break;
+          case DISK_IMAGE_TYPE_D81:
+            cdev = DT_1581;
+            num_tracks = NUM_TRACKS_1571;
+            break;
+        }
 
-	create_image(fd, DEFAULT_DEVICE_TYPE, NUM_TRACKS_1541, 0, NULL);
-	close(fd);
+        create_image(fd, cdev, num_tracks, 0, NULL, disktype);
+        close(fd);
     }
 
 
@@ -562,15 +589,17 @@ static int  disk_gcrformat (void)
  * Simulate the 1541 DOS commands
  */
 
-static int  disk_format (void)
+static int disk_format(int disktype)
 {
 
     strcpy(newname, "N:");
     strcpy(newname + 2, ((nargs > 2) ? args[2] : args[1]) );
 
-    if (!memchr(newname, ',', strlen(newname))) {
-	printf("There must be ID on the name\n");
-	return (0);
+    if (disktype == DISK_IMAGE_TYPE_X64 || disktype == DISK_IMAGE_TYPE_D64) {
+        if (!memchr(newname, ',', strlen(newname))) {
+            printf("There must be ID on the name\n");
+            return 0;
+        }
     }
 
     /* Open image or create a new one.
@@ -579,20 +608,41 @@ static int  disk_format (void)
      * without the image name.
      */
 
-    /*printf("DriveNum = %d\n", DriveNum);*/
-    if (nargs > 2) {
-	if (open_image(DriveNum, args[1], 1) < 0)
-	    return (FD_BADIMAGE);
+    if (nargs > 1) {
+        if (open_image(DriveNum, args[1], 1, disktype) < 0)
+            return (FD_BADIMAGE);
     }
 
-    printf("formatting image\n");
-    petconvstring(newname +2, 1);
-
-    ip_execute(DriveData[DriveNum], (BYTE *)newname, strlen(newname));
-
+    if (disktype == DISK_IMAGE_TYPE_X64 || disktype == DISK_IMAGE_TYPE_D64) {
+        printf("formatting image\n");
+        petconvstring(newname +2, 1);
+        ip_execute(DriveData[DriveNum], (BYTE *)newname, strlen(newname));
+    } else {
+        detach_floppy_image(DriveData[DriveNum]);
+        printf("C1541: Use the emulator to format this disk.\n");
+    }
     return(0);
 }
 
+static int disk_format_x64(void)
+{
+    return disk_format(DISK_IMAGE_TYPE_X64);
+}
+
+static int disk_format_d64(void)
+{
+    return disk_format(DISK_IMAGE_TYPE_D64);
+}
+
+static int disk_format_d71(void)
+{
+    return disk_format(DISK_IMAGE_TYPE_D71);
+}
+
+static int disk_format_d81(void)
+{
+    return disk_format(DISK_IMAGE_TYPE_D81);
+}
 
 static int  disk_delete (void)
 {
@@ -965,7 +1015,7 @@ static int  disk_import_zipfile (void)
      * Open image or create a new one.
      * If the file exists, it must have valid header.
      */
-    if (open_image(DriveNum, args[1], 1) < 0) {
+    if (open_image(DriveNum, args[1], 1, DISK_IMAGE_TYPE_D64) < 0) {
 	return (FD_BADIMAGE);
     }
 
@@ -1081,7 +1131,7 @@ static int  disk_import (void)
      * Open image or create a new one.
      * If the file exists, it must have valid header.
      */
-    if (open_image(DriveNum, args[1], 1) < 0)
+    if (open_image(DriveNum, args[1], 1, DISK_IMAGE_TYPE_D64) < 0)
 	return (FD_BADIMAGE);
 
     if ((fsfd = open(args[2], O_RDONLY)) == ILLEGAL_FILE_DESC) {
@@ -1878,7 +1928,7 @@ int     main(argc, argv)
 	}
 
 	if (strncmp(args[0], "f", 1) && strncmp(args[0], "cr", 2))
-	    if (open_image(0, ImageName, 0) < 0) {
+	    if (open_image(0, ImageName, 0, DISK_IMAGE_TYPE_D64) < 0) {
 		printf ("Cannot open image\n");
 		exit (1);
 	    }
@@ -1902,7 +1952,8 @@ int     main(argc, argv)
 
 	while (--argc && ++argv && nargs <= MAXDRIVE) {		/* Images */
 	    if (*argv[0])
-		if (open_image(nargs, argv[0], 0) < 0) {	/* open each */
+		if (open_image(nargs, argv[0], 0, DISK_IMAGE_TYPE_D64) < 0) {
+            /* open each */
 		    printf ("Invalid image\n");
 		    exit (1);
 		}

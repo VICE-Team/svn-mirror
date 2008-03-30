@@ -48,6 +48,10 @@ libarch_a_SOURCES = \
 	uiattach.h \
 	uidrive.c \
 	uidrive.h \
+	uilib.c \
+	uilib.h \
+	uisnapshot.h \
+	uisnapshot.c \
 	vic20kbd.c \
 	vic20kbd.h \
 	vic20ui.c \

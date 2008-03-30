@@ -698,8 +698,8 @@ int     close_1541(void *flp, int secondary)
 	break;
 
       default:
-	fprintf (errfile, "\nFatal: unknown floppy-close-mode\n");
-	exit(-1);
+        fprintf(errfile, "\nFatal: unknown floppy-close-mode: %i\n", p->mode);
+        exit (-1);
     }
 
     return SERIAL_OK;
@@ -1501,7 +1501,7 @@ static int  floppy_name_match (BYTE *slot, char *name, int length, int type)
  * Return the number of free blocks on disk.
  */
 
-static int  floppy_free_block_count (DRIVE *floppy)
+int  floppy_free_block_count (DRIVE *floppy)
 {
     int blocks, i;
 
@@ -2433,7 +2433,7 @@ static BYTE *find_next_slot(DRIVE *floppy)
 	int     s;
 
 #ifdef DEBUG_DRIVE
-		printf(logfile, "create a new entry.\n");
+        printf(logfile, "create a new entry.\n");
 #endif
 
 	for (s = 1; s < sector_map_1541[DSK_DIR_TRACK]; s++) {
@@ -2902,8 +2902,8 @@ int get_std64_header(file_desc_t fd, BYTE *header)
         }
     }
     if (blk <  NUM_BLOCKS_1541) {
-            fprintf(logfile, "Cannot read block %d\n", blk);
-            return (FD_NOTRD);
+        fprintf(logfile, "Cannot read block %d\n", blk);
+        return (FD_NOTRD);
     }
 
     switch (blk) {

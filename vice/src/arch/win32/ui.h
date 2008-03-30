@@ -73,6 +73,9 @@ extern ui_jam_action_t ui_jam_dialog(const char *format,...);
 
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 
+typedef void (*ui_machine_specific_t) (WPARAM wparam, HWND hwnd);
+extern void ui_register_machine_specific(ui_machine_specific_t func);
+
 /* ------------------------------------------------------------------------ */
 
 /* Windows-specific functions.  */
@@ -85,3 +88,4 @@ extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);
 
 #endif
+

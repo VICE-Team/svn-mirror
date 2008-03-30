@@ -1,8 +1,9 @@
 /*
- * c64ui.h - C64-specific user interface.
+ * uilib.h - Common UI elements for the Windows user interface.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +25,7 @@
  *
  */
 
-#ifndef _C64UI_H
-#define _C64UI_H
+extern char *ui_select_file(const char *title, const char *filter,
+                            HWND hwnd);
+extern void ui_set_res_num(char *res, int value, int num);
 
-extern int c64_ui_init(void);
-
-#endif

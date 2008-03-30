@@ -26,9 +26,96 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <windows.h>
+#include <windowsx.h>
+
+#include "ui.h"
+
 #include "c64ui.h"
+#include "cartridge.h"
+#include "resc64.h"
+#include "uilib.h"
+#include "winmain.h"
+
+void c64_ui_specific(WPARAM wparam, HWND hwnd)
+{
+    switch (wparam) {
+      case IDM_CART_ATTACH_CRT:
+      case IDM_CART_ATTACH_8KB:
+      case IDM_CART_ATTACH_16KB:
+      case IDM_CART_ATTACH_AR:
+      case IDM_CART_ATTACH_SS4:
+        {
+            char *s, text1[100], text2[100];
+            int type;
+
+            switch (wparam) {
+              case IDM_CART_ATTACH_CRT:
+                type = CARTRIDGE_CRT;
+                if ((s = ui_select_file("Attach CRT cartridge image",
+                    "CRT cartridge image files (*.crt)\0*.crt\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
+              case IDM_CART_ATTACH_8KB:
+                type = CARTRIDGE_GENERIC_8KB;
+                if ((s = ui_select_file("Attach raw 8KB cartridge image",
+                    "Raw 8KB cartridge image files (*.bin)\0*.bin\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
+              case IDM_CART_ATTACH_16KB:
+                type = CARTRIDGE_GENERIC_16KB;
+                if ((s = ui_select_file("Attach raw 16KB cartridge image",
+                    "Raw 16KB cartrdige image files (*.bin)\0*.bin\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
+              case IDM_CART_ATTACH_AR:
+                type = CARTRIDGE_ACTION_REPLAY;
+                if ((s = ui_select_file("Attach Action Replay cartridge image",
+                    "Raw AR cartridge image files (*.bin)\0*.bin\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
+              case IDM_CART_ATTACH_SS4:
+                type = CARTRIDGE_SUPER_SNAPSHOT;
+                if ((s = ui_select_file("Attach Super Snapshot 4 cartridge image",
+                    "Raw SS4 cartridge image files (*.bin)\0*.bin\0"
+                    "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                    if (cartridge_attach_image(type, s) < 0)
+                        ui_error("Invalid cartridge image");
+                    free(s);
+                }
+                break;
+            }
+        }
+        break;
+      case IDM_CART_SET_DEFAULT:
+        cartridge_set_default();
+        break;
+      case IDM_CART_DETACH:
+        cartridge_detach_image();
+        break;
+    }
+}
 
 int c64_ui_init(void)
 {
+    ui_register_machine_specific(c64_ui_specific);
     return 0;
 }
+

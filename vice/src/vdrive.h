@@ -192,6 +192,12 @@ struct _DRIVE {
 		       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
 #define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
 #define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
+
+#define DISK_IMAGE_TYPE_X64 0
+#define DISK_IMAGE_TYPE_D64 1
+#define DISK_IMAGE_TYPE_D71 2
+#define DISK_IMAGE_TYPE_D81 3
+
 /*
  * Input Processor Error Codes
  */
@@ -261,6 +267,7 @@ extern int ip_execute(DRIVE *floppy, BYTE *buf, int length);
 extern int do_validate(DRIVE *floppy);
 extern int check_track_sector(int format, int track, int sector);
 
+extern int floppy_free_block_count (DRIVE *floppy);
 extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 			     int sector, int d64);
 extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,

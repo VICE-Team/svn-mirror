@@ -77,6 +77,8 @@ static long   	cbm2_cycles_per_rfsh 	= C610_PAL_CYCLES_PER_RFSH;
 
 const char machine_name[] = "CBM-II";
 
+int machine_class = VICE_MACHINE_CBM2;
+
 /* ------------------------------------------------------------------------- */
 
 /* CBM-II resources.  */

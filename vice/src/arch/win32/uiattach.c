@@ -28,11 +28,14 @@
 
 #include <windows.h>
 
+#include "attach.h"
+#include "autostart.h"
 #include "resc64.h"
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"
 #include "uiattach.h"
+#include "uilib.h"
 #include "winmain.h"
 
 static void enable_controls_for_disk_device_type(HWND hwnd, int type)
@@ -106,10 +109,76 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
               enable_controls_for_disk_device_type(hwnd,
                                                    LOWORD(wparam));
               break;
+            case IDC_BROWSEDISK:
+              {
+                  char *s;
+                  if ((s = ui_select_file("Attach disk image",
+                      "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                      "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                      SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                      if (file_system_attach_disk(8, s) < 0)
+                          ui_error("Cannot attach specified file");
+                      free(s);
+                  }
+              }
+              break;
+            case IDC_AUTOSTART:
+              {
+                  char *s;
+                  if ((s = ui_select_file("Autostart disk image",
+                      "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                      "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                      SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                      if (autostart_autodetect(s, "*") < 0)
+                          ui_error("Cannot autostart specified file.");
+                      free(s);
+                  }
+              }
+              break;
+            case IDC_BROWSEDIR:
+              {
+                  char *s;
+                  /* FIXME: We must select a directory, not a file!  */
+                  if ((s = ui_select_file("Select file system directory",
+                      "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                      char tmp[256];
+                      SetDlgItemText(hwnd, IDC_DIR, s);
+                      sprintf(tmp, "FSDevice%dDir", num);
+                      resources_set_value(tmp, (resource_value_t) s);
+                      free(s);
+                  }
+              }
+              break;
+            case IDC_TOGGLE_READP00:
+              {
+                  int n;
+                  char tmp[256];
+                  sprintf(tmp, "FSDevice%dConvertP00", num);
+                  resources_get_value(tmp, (resource_value_t *) &n);
+                  resources_set_value(tmp, (resource_value_t) !n);
+                  break;
+              }
+            case IDC_TOGGLE_WRITEP00:
+              {
+                  int n;
+                  char tmp[256];
+                  sprintf(tmp, "FSDevice%dSaveP00", num);
+                  resources_get_value(tmp, (resource_value_t *) &n);
+                  resources_set_value(tmp, (resource_value_t) !n);
+                  break;
+              }
+            case IDC_TOGGLE_HIDENONP00:
+              {
+                  int n;
+                  char tmp[256];
+                  sprintf(tmp, "FSDevice%dHideCBMFiles", num);
+                  resources_get_value(tmp, (resource_value_t *) &n);
+                  resources_set_value(tmp, (resource_value_t) !n);
+                  break;
+              }
           }
           return TRUE;
     }
-
     return FALSE;
 }
 

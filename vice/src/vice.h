@@ -82,7 +82,7 @@
 #endif
 #endif  /* __hpux */
 
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(WIN32)
 #undef EDIT
 #elif !defined EDIT
 #define EDIT
@@ -121,17 +121,6 @@
 #endif
 #ifdef UNDER_CE
 #include "ce32.h"
-#endif
-
-/* Apparently mingw32 lacks complete ANSI C header.  But it is enough to
-   compile VICE.  Also WORDS_BIGENDIAN is defined by mistake!?  */
-#ifdef __MINGW32__
-#ifndef STDC_HEADERS
-#define STDC_HEADERS 1
-#endif
-#ifdef WORDS_BIGENDIAN
-#undef WORDS_BIGENDIAN
-#endif
 #endif
 
 /* ------------------------------------------------------------------------- */

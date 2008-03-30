@@ -1,8 +1,8 @@
 /*
- * c64ui.h - C64-specific user interface.
+ * uisnapshot.h - Implementation of the snapshot load/save dialogs.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,9 +24,10 @@
  *
  */
 
-#ifndef _C64UI_H
-#define _C64UI_H
+#ifndef _UISNAPSHOT_H
+#define _UISNAPSHOT_H
 
-extern int c64_ui_init(void);
+void ui_snapshot_load_dialog(HWND hwnd);
+void ui_snapshot_save_dialog(HWND hwnd);
 
 #endif

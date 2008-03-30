@@ -57,7 +57,7 @@ static resource_t *resources;
 static const char *machine_id;
 
 /* FIXME: I don't like this to be here.  */
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined (WIN32)
 #define RESOURCE_FILE_NAME	"VICERC"
 #else
 #define RESOURCE_FILE_NAME	".vicerc"

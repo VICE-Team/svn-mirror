@@ -40,6 +40,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_C128      2
 #define VICE_MACHINE_VIC20     3
 #define VICE_MACHINE_PET       4
+#define VICE_MACHINE_CBM2      5
 extern int machine_class;
 
 /* Initialize the machine's resources.  */

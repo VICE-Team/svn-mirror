@@ -37,12 +37,15 @@
 #include "cmdline.h"
 #include "interrupt.h"
 #include "kbd.h"
+#include "machine.h"
 #include "mem.h"
 #include "resc64.h"
 #include "resources.h"
 #include "tapeunit.h"
 #include "uiattach.h"
 #include "uidrive.h"
+#include "uilib.h"
+#include "uisnapshot.h"
 #include "utils.h"
 #include "winmain.h"
 
@@ -72,6 +75,10 @@ struct {
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "SidFilters", IDM_TOGGLE_SIDFILTERS },
+#ifdef HAVE_RESID
+    { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
+#endif
+    { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { NULL, 0 }
 };
 
@@ -107,6 +114,29 @@ int ui_init_cmdline_options(void)
 int ui_init(int *argc, char **argv)
 {
     WNDCLASS window_class;
+    WORD menu;
+
+    switch (machine_class) {
+      case VICE_MACHINE_C64:
+        menu = IDR_MENUC64;
+        break;
+      case VICE_MACHINE_C128:
+        menu = IDR_MENUC128;
+        break;
+      case VICE_MACHINE_VIC20:
+        menu = IDR_MENUVIC;
+        break;
+      case VICE_MACHINE_PET:
+        menu = IDR_MENUPET;
+        break;
+      case VICE_MACHINE_CBM2:
+        menu = IDR_MENUCBM2;
+        break;
+      default:
+        fprintf(errfile, "UI: No menu entries for this machine defined!\n");
+        fprintf(errfile, "UI: Using C64 type UI menues.\n");
+        menu = IDR_MENUC64;
+    }
 
     /* Register the window class.  */
     window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -118,7 +148,7 @@ int ui_init(int *argc, char **argv)
                                   MAKEINTRESOURCE(IDI_ICON1));
     window_class.hCursor = LoadCursor(NULL, IDC_ARROW);
     window_class.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0) + 1);
-    window_class.lpszMenuName = MAKEINTRESOURCE(IDR_MENU);
+    window_class.lpszMenuName = MAKEINTRESOURCE(menu);
     window_class.lpszClassName = APPLICATION_CLASS;
     RegisterClass(&window_class);
 
@@ -222,6 +252,14 @@ void ui_update_menus(void)
 
 /* ------------------------------------------------------------------------- */
 
+static ui_machine_specific_t ui_machine_specific = NULL;
+
+void ui_register_machine_specific(ui_machine_specific_t func)
+{
+    ui_machine_specific = func;
+}
+
+/* ------------------------------------------------------------------------- */
 /* Report an error to the user (`printf()' style).  */
 void ui_error(const char *format,...)
 {
@@ -232,6 +270,18 @@ void ui_error(const char *format,...)
         vsprintf(tmp, format, args);
         va_end(args);
         MessageBox(main_hwnd, tmp, "VICE Error!", MB_OK | MB_ICONSTOP);
+}
+
+/* Report a message to the user (`printf()' style).  */
+void ui_message(const char *format,...)
+{
+        char tmp[1024];
+        va_list args;
+
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        MessageBox(main_hwnd, tmp, "VICE Information", MB_OK | MB_ICONSTOP);
 }
 
 /* Handle the "CPU JAM" case.  */
@@ -325,43 +375,6 @@ void ui_dispatch_events(void)
 
 /* ------------------------------------------------------------------------ */
 
-/* FIXME: We could move this somewhere else.  */
-static char *select_file(const char *title, const char *filter)
-{
-    char name[1024] = "";
-    OPENFILENAME ofn;
-
-    memset(&ofn, 0, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = main_hwnd;
-    ofn.hInstance = winmain_instance;
-    ofn.lpstrFilter = filter;
-    ofn.lpstrCustomFilter = NULL;
-    ofn.nMaxCustFilter = 0;
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFile = name;
-    ofn.nMaxFile = sizeof(name);
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.lpstrTitle = NULL;
-    ofn.Flags = (OFN_EXPLORER
-                 | OFN_HIDEREADONLY
-                 | OFN_NOTESTFILECREATE
-                 | OFN_FILEMUSTEXIST
-                 /* | OFN_NOCHANGEDIR */
-                 | OFN_SHAREAWARE);
-    ofn.nFileOffset = 0;
-    ofn.nFileExtension = 0;
-    ofn.lpstrDefExt = NULL;
-    ofn.lpfnHook = NULL;
-    ofn.lpTemplateName = NULL;
-    if (GetOpenFileName(&ofn))
-        return stralloc(name);
-    else
-        return NULL;
-}
-
 int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
                                UINT wparam, LONG lparam)
 {
@@ -389,6 +402,10 @@ int syscolorchanged, displaychanged, querynewpalette, palettechanged;
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam)
 {
+    /* Handle machine specific commands first.  */
+    if (ui_machine_specific)
+        ui_machine_specific(wparam, main_hwnd);
+
     switch (wparam) {
       case IDM_DEVICEMANAGER:
         ui_attach_dialog(main_hwnd);
@@ -422,9 +439,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
                 unit = 11;
                 break;
             }
-            if ((s = select_file("Autostart disk/tape image",
-                                 "C64 disk image files (*.d64;*.x64)\0*.d64;*.x64)\0"
-                                 "All files (*.*)\0*.*\0")) != NULL) {
+            if ((s = ui_select_file("Attach disk image",
+                "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (file_system_attach_disk(8, s) < 0)
                     ui_error("Cannot attach specified file");
                 free(s);
@@ -453,9 +470,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         {
             char *s;
 
-            if ((s = select_file("Autostart disk/tape image",
-                                 "C64 disk image files (*.d64;*.x64)\0*.d64;*.x64)\0"
-                                 "All files (*.*)\0*.*\0")) != NULL) {
+            if ((s = ui_select_file("Attach tape image",
+                "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00)\0"
+                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (serial_select_file(DT_TAPE, 1, s) < 0)
                     ui_error("Cannot attach specified file");
                 free(s);
@@ -469,15 +486,21 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
         {
             char *s;
 
-            if ((s = select_file("Autostart disk/tape image",
-                                 "C64 disk image files (*.d64;*.x64)\0*.d64;*.x64)\0"
-                                 "C64 tape image files (*.t64)\0*.t64\0"
-                                 "All files (*.*)\0*.*\0")) != NULL) {
+            if ((s = ui_select_file("Autostart disk/tape image",
+                "C64 disk image files (*.d64;*.g64:*.x64)\0*.d64;*.g64;*.x64)\0"
+                "C64 tape image files (*.t64;*.p00)\0*.t64;*.p00\0"
+                "All files (*.*)\0*.*\0", main_hwnd)) != NULL) {
                 if (autostart_autodetect(s, "*") < 0)
                     ui_error("Cannot autostart specified file.");
                 free(s);
             }
         }
+        break;
+      case IDM_SNAPSHOT_LOAD:
+        ui_snapshot_load_dialog(main_hwnd);
+        break;
+      case IDM_SNAPSHOT_SAVE:
+        ui_snapshot_save_dialog(main_hwnd);
         break;
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
@@ -490,8 +513,75 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam)
             maincpu_trigger_reset();
         }
         break;
+      case IDM_REFRESH_RATE_AUTO:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_1:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_2:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_3:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_4:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_5:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_6:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_7:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_8:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_9:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_REFRESH_RATE_10:
+        resources_set_value("RefreshRate", (resource_value_t) 0);
+        break;
+      case IDM_MAXIMUM_SPEED_200:
+        resources_set_value("Speed", (resource_value_t) 200);
+        break;
+      case IDM_MAXIMUM_SPEED_100:
+        resources_set_value("Speed", (resource_value_t) 100);
+        break;
+      case IDM_MAXIMUM_SPEED_50:
+        resources_set_value("Speed", (resource_value_t) 50);
+        break;
+      case IDM_MAXIMUM_SPEED_20:
+        resources_set_value("Speed", (resource_value_t) 20);
+        break;
+      case IDM_MAXIMUM_SPEED_10:
+        resources_set_value("Speed", (resource_value_t) 10);
+        break;
+      case IDM_MAXIMUM_SPEED_NO_LIMIT:
+        resources_set_value("Speed", (resource_value_t) 0);
+        break;
       case IDM_DRIVE_SETTINGS:
         ui_drive_settings_dialog(main_hwnd);
+        break;
+      case IDM_SETTINGS_SAVE:
+        if (resources_save(NULL) < 0)
+            ui_error("Cannot save settings.");
+        else
+            ui_message("Settings saved successfully.");
+        break;
+      case IDM_SETTINGS_LOAD:
+        if (resources_load(NULL) < 0)
+            ui_error("Cannot save settings.");
+        else
+            ui_message("Settings saved successfully.");
+        break;
+      case IDM_SETTINGS_DEFAULT:
+        resources_set_defaults();
+        ui_message("Default settings restored.");
         break;
       default:
         {
