@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-03-28 21:23+0200\n"
+"POT-Creation-Date: 2005-04-03 20:10+0200\n"
 "PO-Revision-Date: 2005-01-11 23:04+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1686,7 +1686,7 @@ msgstr "Za³aduj "
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:254
+#: src/arch/unix/x11/xaw/uiscreenshot.c:255
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Zapisz"
@@ -3539,19 +3539,19 @@ msgid "Save cartridge image file"
 msgstr "Zapisz obraz kartrid¿a w pliku"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:162
+#: src/arch/unix/x11/xaw/uiscreenshot.c:163
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr "Nazwa pliku:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:191
+#: src/arch/unix/x11/xaw/uiscreenshot.c:192
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr "Przegl±daj..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:261
+#: src/arch/unix/x11/xaw/uiscreenshot.c:262
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr "Anuluj"
@@ -3584,15 +3584,15 @@ msgstr "Nazwa dysku"
 msgid "Disk format:"
 msgstr "Format dysku"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:87
+#: src/arch/unix/x11/xaw/uiscreenshot.c:88
 msgid "Save screenshot file"
 msgstr "Zapisz plik"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:211
+#: src/arch/unix/x11/xaw/uiscreenshot.c:212
 msgid "Image format:"
 msgstr "Format obrazu:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:278
+#: src/arch/unix/x11/xaw/uiscreenshot.c:279
 msgid "Screen Snapshot"
 msgstr "Zrób zrzut ekranu"
 

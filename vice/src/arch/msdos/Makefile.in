@@ -68,6 +68,7 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DOS_OR_WIN_FALSE = @DOS_OR_WIN_FALSE@
 DOS_OR_WIN_TRUE = @DOS_OR_WIN_TRUE@
+DOS_TFE_PCAP_LIB = @DOS_TFE_PCAP_LIB@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -238,7 +239,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libarch.a @DOS_TFE_PCAP_LIB@
 
 libarch_a_SOURCES = \
 	archdep.c \
@@ -265,6 +266,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
+	tfearch.c \
 	tui.c \
 	tui.h \
 	tui_backend.c \
@@ -308,6 +310,8 @@ libarch_a_SOURCES = \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \
+	uitfe.c \
+	uitfe.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \
@@ -333,14 +337,15 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	console.$(OBJEXT) grabkey.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
 	menudefs.$(OBJEXT) mousedrv.$(OBJEXT) msdosmain.$(OBJEXT) \
 	petui.$(OBJEXT) plus4ui.$(OBJEXT) signals.$(OBJEXT) \
-	statusbar.$(OBJEXT) tui.$(OBJEXT) tui_backend.$(OBJEXT) \
-	tuicharset.$(OBJEXT) tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) \
-	tuimenu.$(OBJEXT) tuiview.$(OBJEXT) ui.$(OBJEXT) \
-	uiattach.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
-	uidrive.$(OBJEXT) uijoystick.$(OBJEXT) uimon.$(OBJEXT) \
-	uiperipherial.$(OBJEXT) uiprinter.$(OBJEXT) uireu.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uiramcart.$(OBJEXT) uisid.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) vic20ui.$(OBJEXT) \
+	statusbar.$(OBJEXT) tfearch.$(OBJEXT) tui.$(OBJEXT) \
+	tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
+	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
+	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uidrive.$(OBJEXT) \
+	uijoystick.$(OBJEXT) uimon.$(OBJEXT) uiperipherial.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uireu.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uitfe.$(OBJEXT) vic20ui.$(OBJEXT) \
 	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
@@ -355,7 +360,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/mousedrv.Po ./$(DEPDIR)/msdosmain.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tui.Po ./$(DEPDIR)/tui_backend.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tfearch.Po ./$(DEPDIR)/tui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tui_backend.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuicharset.Po ./$(DEPDIR)/tuifs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuiimagebrowser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
@@ -367,8 +373,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uiramcart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uisid.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/uisound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/vic20ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -416,6 +423,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tfearch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tui_backend.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuicharset.Po@am__quote@
@@ -438,6 +446,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitfe.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@

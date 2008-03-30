@@ -68,6 +68,7 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DOS_OR_WIN_FALSE = @DOS_OR_WIN_FALSE@
 DOS_OR_WIN_TRUE = @DOS_OR_WIN_TRUE@
+DOS_TFE_PCAP_LIB = @DOS_TFE_PCAP_LIB@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -224,6 +225,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
+	MSDOS-Ethernet-Howto.txt \
 	MSDOS-Howto.txt \
 	NLS-Howto.txt \
 	Readme.beos \
