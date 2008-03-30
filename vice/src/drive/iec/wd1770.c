@@ -795,7 +795,9 @@ static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
     wd1770[dnr].busy_clk = drive_clk[dnr];
     wd1770_clear_errors(dnr);
 
-    if (drive[dnr].type == DRIVE_TYPE_1571) {
+    if (drive[dnr].type == DRIVE_TYPE_1570
+        || drive[dnr].type == DRIVE_TYPE_1571
+        || drive[dnr].type == DRIVE_TYPE_1571CR) {
         /* 1571 MFM disk images are not supported.  */
         wd1770[dnr].record_not_found = 1;
     } else {
