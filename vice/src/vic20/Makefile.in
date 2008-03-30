@@ -298,6 +298,86 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
+	../../src/cartridge.h ../../src/types.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/file.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/log.h ../../src/utils.h \
+	../../src/zfile.h
+vic.o: vic.c ../../src/vice.h ../../src/config.h vic.h \
+	../../src/snapshot.h ../../src/types.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/resources.h vic20.h ../../src/vmachine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/raster.h vic20sound.h ../../src/sound.h \
+	../../src/warn.h ../../src/log.h ../../src/cmdline.h \
+	../../src/utils.h ../../src/raster.c \
+	../../src/arch/unix/vsync.h
+vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
+	../../src/types.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/log.h \
+	../../src/snapshot.h ../../src/autostart.h \
+	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/tape.h vic.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h vic20.h \
+	vic20mem.h vic20sound.h ../../src/sound.h ../../src/warn.h \
+	../../src/arch/unix/xaw/vic20ui.h vic20via.h ../../src/via.h \
+	../../src/arch/unix/vsync.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h ../../src/rs232.h \
+	../../src/rsuser.h vic20rsuser.h
+vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/iecdrive.h ../../src/resources.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/log.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h \
+	../../src/drive/viad.h ../../src/via.h ../../src/drive/ciad.h \
+	../../src/cia.h
+vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
+	../../src/types.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/memutils.h ../../src/utils.h ../../src/emuid.h vic.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	vic20via.h ../../src/via.h ../../src/cartridge.h
+vic20rsuser.o: vic20rsuser.c ../../src/vice.h ../../src/config.h \
+	../../src/machine.h ../../src/types.h ../../src/rsuser.h \
+	vic20via.h ../../src/via.h ../../src/snapshot.h vic20.h
+vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/types.h ../../src/warn.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/utils.h \
+	vic20sound.h
+vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/interrupt.h ../../src/types.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/log.h ../../src/resources.h \
+	../../src/via.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/arch/unix/kbd.h vic20iec.h ../../src/iecdrive.h \
+	vic20via.h ../../src/viacore.c
+vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
+	../../src/viacore.h ../../src/interrupt.h ../../src/types.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/log.h ../../src/resources.h \
+	../../src/via.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/arch/unix/kbd.h vic20iec.h ../../src/iecdrive.h \
+	vic20via.h ../../src/pruser.h ../../src/rsuser.h \
+	../../src/viacore.c
+
 info: info-recursive
 dvi: dvi-recursive
 check: all-am

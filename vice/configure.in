@@ -6,13 +6,14 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.1.6)
+AM_INIT_AUTOMAKE(vice, 0.16.1.7)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no
+is_riscos=no
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -82,6 +83,9 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
   AM_CONDITIONAL(HAVE_RS232, false)
   AM_CONDITIONAL(HAVE_PRINTER, false)
+
+  dnl We always have a joystick on MSDOS.
+  AC_DEFINE(HAS_JOYSTICK)
 
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 
@@ -556,13 +560,14 @@ AC_SUBST(XCBM2_WINRES)
 
 dnl Setup the system-specific object files.
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
+if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/xaw/libxawui.a $ARCH_DIR/xaw/widgets/libwidgets.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
   AM_CONDITIONAL(UNIX_COMPILE, true)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
+  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AC_DEFINE(HAVE_READLINE)
 elif [[ x"$is_win32" != "xno" ]]; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
@@ -571,13 +576,23 @@ elif [[ x"$is_win32" != "xno" ]]; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-else
+  AM_CONDITIONAL(RISCOS_COMPILE, false)
+elif [[ x"$is_dos" != "xno" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
+  AM_CONDITIONAL(RISCOS_COMPILE, false)
+else
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos/"
+  ARCH_DIR="\$(top_builddir)/src/arch/riscos"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
+  AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(WIN32_COMPILE, false)
+  AM_CONDITIONAL(MSDOS_COMPILE, false)
+  AM_CONDITIONAL(RISCOS_COMPILE, true)
 fi
 
 AC_SUBST(HAVE_READLINE)
@@ -597,6 +612,7 @@ if false ; then
     dnl Now produce the directories & Makefiles.
 
     mkdir -p arch/msdos
+    mkdir -p arch/riscos
     mkdir -p arch/win32
     mkdir -p arch/unix/widgets
     mkdir -p arch/unix/readline
@@ -624,6 +640,7 @@ AC_OUTPUT(Makefile
           src/sounddrv/Makefile \
           src/arch/Makefile \
           src/arch/msdos/Makefile \
+          src/arch/riscos/Makefile \
           src/arch/win32/Makefile \
           src/arch/unix/Makefile \
           src/arch/unix/xaw/Makefile \

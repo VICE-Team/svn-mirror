@@ -1,5 +1,12 @@
 1999-01-18 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.7.
+
+	* configure.in: Always define `HAS_JOYSTICK' on MSDOS.
+	Added rules to compile for the RISC OS target.
+
+1999-01-18 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.6.
 
 1999-01-16 Andreas Boose  <boose@linux.rz.fh-hannover.de>

@@ -112,6 +112,8 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @WIN32_COMPILE_TRUE@SUBDIRS = win32
 
 @MSDOS_COMPILE_TRUE@SUBDIRS = msdos
+
+@RISCOS_COMPILE_TRUE@SUBDIRS = riscos
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -122,7 +124,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DIST_SUBDIRS =  unix win32 msdos
+DIST_SUBDIRS =  unix win32 msdos riscos
 all: all-recursive all-am
 
 .SUFFIXES:
