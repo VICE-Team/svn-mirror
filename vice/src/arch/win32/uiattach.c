@@ -28,7 +28,10 @@
 #include "vice.h"
 
 #include <windows.h>
+
+#ifdef _MSC_VER
 #include <shlobj.h>
+#endif
 
 #include "attach.h"
 #include "autostart.h"
