@@ -60,9 +60,11 @@
 #include "memutils.h"
 #include "viad.h"
 #include "via.h"
+#include "ciad.h"
 #include "cia.h"
 #include "utils.h"
 #include "ui.h"
+#include "snapshot.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -402,7 +404,6 @@ static void GCR_data_writeback(int dnr);
 static void initialize_rotation(int freq, int dnr);
 static void drive_extend_disk_image(int dnr);
 static void drive_set_half_track(int num, int dnr);
-static void drive_update_ui_status(void);
 static int drive_sync_found(int dnr);
 static int drive_write_protect_sense(int dnr);
 static int drive_load_rom_images(void);
@@ -1601,7 +1602,7 @@ void drive_set_1571_sync_factor(int sync, int dnr)
 /* ------------------------------------------------------------------------- */
 
 /* Update the status bar in the UI.  */
-static void drive_update_ui_status(void)
+void drive_update_ui_status(void)
 {
     int i;
 
@@ -1642,3 +1643,251 @@ void drive_vsync_hook(void)
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
 	drive1_cpu_execute();
 }
+
+/* ------------------------------------------------------------------------- */
+
+/*
+
+This is the format of the DRIVE snapshot module.
+
+Name               Type   Size   Description
+
+Accum              DWORD  2
+AttachClk          CLOCK  2      write protect handling on attach
+BitsMoved          DWORD  2      number of bits moved since last access
+ByteReady          BYTE   2      flag: Byte ready
+ByteReadyActive    BYTE   2      flag: Byte ready line is active
+ClockFrequency     BYTE   2      current clock frequency
+CurrentHalfTrack   WORD   2      current half track of the r/w head
+DetachClk          CLOCK  2      write protect handling on detach
+DiskID1            BYTE   2      disk ID1
+DiskID2            BYTE   2      disk ID2
+Enable             BYTE   2      flag: Is the drive enabled?
+FinishByte         BYTE   2      flag: Mode changed, finish byte
+GCRDirtyTrack      BYTE   2      flag: Is there something to write back
+GCR_head_offset    DWORD  2      offset from the begin of the track
+GCR_read           BYTE   2      next value to read from disk
+GCRWriteValue      BYTE   2      next value to write to disk
+HaveNewDisk        BYTE   2      flag: A new disk is inserted
+LastMode           BYTE   2      flag: Was the last mode read or write
+OldHalfTrack       WORD   2      old UI track status
+OldLedStatus       BYTE   2      old UI LED status
+ReadWriteMode      BYTE   2      current read/write mode
+RomIdleTrap        BYTE   2      original ROM code is saved here
+RotationLastClk    CLOCK  2
+Side               BYTE   2      current activated side
+Type               DWORD  2      drive type
+
+*/
+
+static char snap_module_name[] = "DRIVE";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int drive_write_snapshot_module(snapshot_t *s)
+{
+    int i;
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    for (i = 0; i < 2; i++) {
+        if (0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].accum) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].attach_clk) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].bits_moved) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].byte_ready) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].byte_ready_active) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].clock_frequency) < 0
+            || snapshot_module_write_word(m, (WORD) drive[i].current_half_track) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].diskID1) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].diskID2) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].enable) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].finish_byte) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].have_new_disk) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
+            || snapshot_module_write_word(m, (WORD) drive[i].old_half_track) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].old_led_status) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].read_write_mode) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].rom_idle_trap) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].side) < 0
+            || snapshot_module_write_dword(m, (DWORD) drive[i].type) < 0
+        ) {
+            if (m != NULL)
+                snapshot_module_close(m);
+            return -1;
+          }
+    }
+    if (snapshot_module_close(m) < 0)
+        return -1;
+
+    if (drive[0].enable) {
+        if (drive[0].type == DRIVE_TYPE_1541) {
+            if (via1d0_write_snapshot_module(s) < 0
+                || via2d0_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[0].type == DRIVE_TYPE_1571) {
+            if (via1d0_write_snapshot_module(s) < 0
+                || via2d0_write_snapshot_module(s) < 0
+                || cia1571d0_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[0].type == DRIVE_TYPE_1581) {
+            if (cia1581d0_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive0_cpu_write_snapshot_module(s) < 0)
+            return -1;
+    }    
+    if (drive[1].enable) {
+        if (drive[1].type == DRIVE_TYPE_1541) {
+            if (via1d1_write_snapshot_module(s) < 0
+                || via2d1_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[1].type == DRIVE_TYPE_1571) {
+            if (via1d1_write_snapshot_module(s) < 0
+                || via2d1_write_snapshot_module(s) < 0
+                || cia1571d1_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[1].type == DRIVE_TYPE_1581) {
+            if (cia1581d1_write_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive1_cpu_write_snapshot_module(s) < 0)
+            return -1;
+    }
+    return 0;
+}
+
+static int read_byte_into_int(snapshot_module_t *m, int *value_return)
+{
+    BYTE b;
+
+    if (snapshot_module_read_byte(m, &b) < 0)
+        return -1;
+    *value_return = (int) b;
+    return 0;
+}
+
+static int read_word_into_int(snapshot_module_t *m, int *value_return)
+{
+    WORD b;
+
+    if (snapshot_module_read_word(m, &b) < 0)
+        return -1;
+    *value_return = (int) b;
+    return 0;
+}
+
+static int read_dword_into_unsigned_long(snapshot_module_t *m,
+                                        unsigned long *value_return)
+{
+    DWORD b;
+
+    if (snapshot_module_read_dword(m, &b) < 0)
+        return -1;
+    *value_return = (unsigned long) b;
+    return 0;
+}
+
+int drive_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    int i;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "DRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+    }
+
+    for (i = 0; i < 2; i++) {
+        if (0
+            || read_dword_into_unsigned_long(m, &drive[i].accum) < 0
+            || snapshot_module_read_dword(m, &drive[i].attach_clk) < 0
+            || read_dword_into_unsigned_long(m, &drive[i].bits_moved) < 0
+            || read_byte_into_int(m, &drive[i].byte_ready) < 0
+            || read_byte_into_int(m, &drive[i].byte_ready_active) < 0
+            || read_byte_into_int(m, &drive[i].clock_frequency) < 0
+            || read_word_into_int(m, &drive[i].current_half_track) < 0
+            || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
+            || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
+            || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
+            || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
+            || read_byte_into_int(m, &drive[i].enable) < 0
+            || read_byte_into_int(m, &drive[i].finish_byte) < 0
+            || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
+            || read_byte_into_int(m, &drive[i].have_new_disk) < 0
+            || read_byte_into_int(m, &drive[i].last_mode) < 0
+            || read_word_into_int(m, &drive[i].old_half_track) < 0
+            || read_byte_into_int(m, &drive[i].old_led_status) < 0
+            || read_byte_into_int(m, &drive[i].read_write_mode) < 0
+            || snapshot_module_read_byte(m, &drive[i].rom_idle_trap) < 0
+            || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
+            || read_byte_into_int(m, &drive[i].side) < 0
+            || snapshot_module_read_dword(m, &drive[i].type) < 0
+        ) {
+            if (m != NULL)
+                snapshot_module_close(m);
+            return -1;
+        }
+    }
+    snapshot_module_close(m);
+
+    if (drive[0].enable) {
+        if (drive[0].type == DRIVE_TYPE_1541) {
+            if (via1d0_read_snapshot_module(s) < 0
+                || via2d0_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[0].type == DRIVE_TYPE_1571) {
+            if (via1d0_read_snapshot_module(s) < 0
+                || via2d0_read_snapshot_module(s) < 0
+                || cia1571d0_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[0].type == DRIVE_TYPE_1581) {
+            if (cia1581d0_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive0_cpu_read_snapshot_module(s) < 0)
+            return -1;
+    }
+    if (drive[1].enable) {
+        if (drive[1].type == DRIVE_TYPE_1541) {
+            if (via1d1_read_snapshot_module(s) < 0
+                || via2d1_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[1].type == DRIVE_TYPE_1571) {
+            if (via1d1_read_snapshot_module(s) < 0
+                || via2d1_read_snapshot_module(s) < 0
+                || cia1571d1_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive[1].type == DRIVE_TYPE_1581) {
+            if (cia1581d1_read_snapshot_module(s) < 0)
+                return -1;
+        }
+        if (drive1_cpu_read_snapshot_module(s) < 0)
+            return -1;
+    }
+    return 0;
+}
+

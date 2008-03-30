@@ -299,6 +299,10 @@ extern void drive_motor_control(int flag, int dnr);
 extern void drive_vsync_hook(void);
 extern void drive_set_1571_sync_factor(int sync, int dnr);
 extern void drive_set_1571_side(int side, int dnr);
+extern void drive_update_ui_status(void);
+
+extern int drive_write_snapshot_module(snapshot_t *s);
+extern int drive_read_snapshot_module(snapshot_t *s);
 
 extern BYTE drive_rom[DRIVE_ROM_SIZE];
 extern BYTE drive0_ram[DRIVE_RAM_SIZE];

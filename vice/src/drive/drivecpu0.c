@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/drivecpu0.c
- * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu0.def,
+ * ../../src/drive/drivecpu0.c
+ * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu0.def,
  * Do not edit!
  */
 /*
@@ -51,6 +51,7 @@
 #include "misc.h"
 #include "mon.h"
 #include "drivecpu.h"
+#include "snapshot.h"
 
 /* -------------------------------------------------------------------------- */
 
@@ -527,3 +528,107 @@ void drive0_cpu_execute(void)
     old_reg_pc = reg_pc;
     drive0_cpu_sleep();
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "MYCPU";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int drive0_cpu_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (0
+        || snapshot_module_write_dword(m, (DWORD) drive_clk[0]) < 0
+        || snapshot_module_write_byte(m, (BYTE) reg_a) < 0
+        || snapshot_module_write_byte(m, (BYTE) reg_x) < 0
+        || snapshot_module_write_byte(m, (BYTE) reg_y) < 0
+        || snapshot_module_write_byte(m, (BYTE) reg_sp) < 0
+        || snapshot_module_write_word(m, (WORD) reg_pc) < 0
+        || snapshot_module_write_byte(m, (BYTE) reg_p) < 0
+        || snapshot_module_write_dword(m, (DWORD) drive0_last_opcode_info) < 0
+        )
+        goto fail;
+
+    if (interrupt_write_snapshot(&drive0_int_status, m) < 0)
+        goto fail;
+
+    if (drive[0].type == DRIVE_TYPE_1541 
+        || drive[0].type == DRIVE_TYPE_1571) {
+        if (snapshot_module_write_byte_array(m, drive0_ram, 0x800) < 0)
+            goto fail;
+    }
+
+    if (drive[0].type == DRIVE_TYPE_1581) {
+        if (snapshot_module_write_byte_array(m, drive0_ram, 0x2000) < 0)
+            goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+static int read_word_into_unsigned_int(snapshot_module_t *m,
+                                       unsigned int *value_return)
+{
+    WORD b;
+
+    if (snapshot_module_read_word(m, &b) < 0)
+        return -1;
+    *value_return = (unsigned int) b;
+    return 0;
+}
+
+int drive0_cpu_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major, minor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, snap_module_name, &major, &minor);
+    if (m == NULL)
+        return -1;
+
+    /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
+    if (0
+        || snapshot_module_read_dword(m, &drive_clk[0]) < 0
+        || snapshot_module_read_byte(m, &reg_a) < 0
+        || snapshot_module_read_byte(m, &reg_x) < 0
+        || snapshot_module_read_byte(m, &reg_y) < 0
+        || snapshot_module_read_byte(m, &reg_sp) < 0
+        || read_word_into_unsigned_int(m, &reg_pc) < 0
+        || snapshot_module_read_byte(m, &reg_p) < 0
+        || snapshot_module_read_dword(m, &drive0_last_opcode_info) < 0
+        )
+        goto fail;
+
+    if (interrupt_read_snapshot(&drive0_int_status, m) < 0)
+        goto fail;
+
+    if (drive[0].type == DRIVE_TYPE_1541
+        || drive[0].type == DRIVE_TYPE_1571) {
+        if (snapshot_module_read_byte_array(m, drive0_ram, 0x800) < 0)
+            goto fail;
+    }
+
+    if (drive[0].type == DRIVE_TYPE_1581) {
+        if (snapshot_module_read_byte_array(m, drive0_ram, 0x2000) < 0)
+            goto fail;
+    }
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+

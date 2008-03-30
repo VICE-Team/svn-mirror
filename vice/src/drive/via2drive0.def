@@ -113,7 +113,11 @@ STORE_PCR()
 
 #define	STORE_T2L
 
-#define	RESET_VIA
+RESET_VIA()
+{
+    drive[0].led_status = 8;
+    drive_update_ui_status();
+}
 
 READ_PRA()
 {
