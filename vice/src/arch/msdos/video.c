@@ -165,8 +165,7 @@ int video_init(void)
 {
     int i;
 
-    if (video_log == LOG_ERR)
-        video_log = log_open("Video");
+    video_log = log_open("Video");
 
     if (allegro_init())
         log_error(video_log, "Cannot initialize Allegro.");
@@ -205,9 +204,11 @@ static void canvas_update_colors(video_canvas_t *c)
 {
     int i;
 
-    if (c == NULL) return;
+    if (c == NULL)
+        return;
+
     for (i = 0; i < NUM_AVAILABLE_COLORS; i++)
-            set_color(i, &c->colors[i]);
+        set_color(i, &c->colors[i]);
 }
 
 
@@ -339,18 +340,19 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
     return 0;
 }
 
-void video_canvas_destroy(video_canvas_t *c)
+void video_canvas_destroy(video_canvas_t *canvas)
 {
     int i;
 
-    if (c == NULL)
+    if (canvas == NULL)
         return;
 
-    for (i=0; i<MAX_CANVAS_NUM; i++)
-        if (canvaslist[i] == c) canvaslist[i] = NULL;
+    for (i = 0; i < MAX_CANVAS_NUM; i++)
+        if (canvaslist[i] == canvas)
+            canvaslist[i] = NULL;
 
-    canvas_free_bitmaps(c);
-    free(c);
+    canvas_free_bitmaps(canvas);
+    free(canvas);
 }
 
 static void canvas_change_palette(video_canvas_t *c)
@@ -398,33 +400,34 @@ static void canvas_change_palette(video_canvas_t *c)
     canvas_update_colors(c);
 
     statusbar_register_colors(next_avail, c->colors);
-
 }
 
 
-int video_canvas_set_palette(struct video_canvas_s *c,
+int video_canvas_set_palette(struct video_canvas_s *canvas,
                              const palette_t *palette)
 {
     DEBUG(("Allocating %d colors", palette->num_entries));
 
-    canvas_change_palette(c);
+    canvas->palette = (palette_t *)palette;
+
+    canvas_change_palette(canvas);
 
     return 0;
 }
 
-void video_canvas_map(video_canvas_t *c)
+void video_canvas_map(video_canvas_t *canvas)
 {
     /* Not implemented. */
 }
 
-void video_canvas_unmap(video_canvas_t *c)
+void video_canvas_unmap(video_canvas_t *canvas)
 {
     /* Not implemented. */
 }
 
 /* Warning: this does not do what you would expect from it.  It just sets the
    canvas size according to the `VGAMode' resource. */
-void video_canvas_resize(video_canvas_t *c, unsigned int width,
+void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
     if (canvas->videoconfig.doublesizex)
@@ -437,14 +440,14 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
     FIXME: the possible height for the statusbar isn't calculated,
     it's only checked whether VGA-mode has >200 lines
     */
-    statusbar_set_height(vga_modes[vga_mode].height>200 ?
+    statusbar_set_height(vga_modes[vga_mode].height > 200 ?
         STATUSBAR_HEIGHT : 0);
 
     DEBUG(("Resizing, vga_mode=%d", vga_mode));
-    c->width = vga_modes[vga_mode].width;
-    c->height = vga_modes[vga_mode].height;
-    c->depth = vga_modes[vga_mode].depth;
-    c->bytes_per_line = c->width * c->depth / 8;
+    canvas->width = vga_modes[vga_mode].width;
+    canvas->height = vga_modes[vga_mode].height;
+    canvas->depth = vga_modes[vga_mode].depth;
+    canvas->bytes_per_line = canvas->width * canvas->depth / 8;
 }
 
 void video_ack_vga_mode(void)
