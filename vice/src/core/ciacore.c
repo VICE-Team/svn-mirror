@@ -74,8 +74,10 @@ static inline void my_set_int(cia_context_t *cia_context, int value,
         /* cia_context->irqflags |= 0x80; */
         (cia_context->cia_set_int_clk)(cia_context, cia_context->irq_line,
                                        (rclk));
+        cia_context->irq_enabled = 1;
     } else {
         (cia_context->cia_set_int_clk)(cia_context, 0, (rclk));
+        cia_context->irq_enabled = 0;
     }
 }
 
@@ -252,6 +254,8 @@ void ciacore_reset(cia_context_t *cia_context)
     alarm_set(cia_context->tod_alarm, cia_context->todclk);
 
     cia_context->irqflags = 0;
+    cia_context->irq_enabled = 0;
+
     my_set_int(cia_context, 0, *(cia_context->clk_ptr));
 
     cia_context->old_pa = 0xff;
@@ -1209,7 +1213,9 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 
     SMW_B(m, cia_context->shifter);
     SMW_B(m, (BYTE)(cia_context->sdr_valid));
-
+    /* TODO: This should be enabled after 1.13 to fix cia snapshot problems
+    SMW_B(m, cia_context->irq_enabled);
+    */
     snapshot_module_close(m);
 
     return 0;
@@ -1358,7 +1364,12 @@ log_message(cia_context->log,
                 cia_tbi, cia_tbu, cia_tbc, cia_tbl);
 #endif
 
-    if (cia_context->c_cia[CIA_ICR] & 0x80) {
+    if (SMR_B(m, &(cia_context->irq_enabled)) < 0)
+        /* old (buggy) way to restore interrupt */
+        /* still enabled; will be fixed in 1.13.x */
+        cia_context->irq_enabled = (cia_context->c_cia[CIA_ICR] & 0x80) ? 1 : 0;
+
+    if (cia_context->irq_enabled) {
         (cia_context->cia_restore_int)(cia_context, cia_context->irq_line);
     } else {
         (cia_context->cia_restore_int)(cia_context, 0);

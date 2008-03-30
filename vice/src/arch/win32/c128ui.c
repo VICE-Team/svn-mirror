@@ -80,8 +80,8 @@ static const ui_res_possible_values CartMode128[] = {
 };
 
 static const ui_res_value_list c128_ui_res_values[] = {
-    { "CartridgeMode", CartMode128 },
-    { NULL, NULL }
+    { "CartridgeMode", CartMode128, 0 },
+    { NULL, NULL, 0 }
 };
 
 static const ui_cartridge_params c128_ui_cartridges[] = {
@@ -166,18 +166,6 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_SS5:
       case IDM_CART_ENABLE_EXPERT:
         c128_ui_attach_cartridge(wparam, hwnd, c128_ui_cartridges);
-        break;
-      case IDM_CART_MODE_OFF:
-        resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_OFF);
-        break;
-      case IDM_CART_MODE_PRG:
-        resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_PRG);
-        break;
-      case IDM_CART_MODE_ON:
-        resources_set_value("CartridgeMode",
-            (resource_value_t)CARTRIDGE_MODE_ON);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();

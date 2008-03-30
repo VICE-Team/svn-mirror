@@ -52,7 +52,7 @@ static const ui_menu_toggle plus4_ui_menu_toggles[] = {
 };
 
 static const ui_res_value_list plus4_ui_res_values[] = {
-    { NULL, NULL }
+    { NULL, NULL, 0 }
 };
 
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)

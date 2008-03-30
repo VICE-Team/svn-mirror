@@ -63,6 +63,7 @@ typedef struct {
 typedef struct {
     const char *name;
     const ui_res_possible_values *vals;
+    UINT default_item_id;
 } ui_res_value_list;
 
 extern int  ui_active;

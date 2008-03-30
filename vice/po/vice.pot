@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-09-06 22:31+0200\n"
+"POT-Creation-Date: 2003-09-07 19:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1121,7 +1121,7 @@ msgid "*Save new snapshot"
 msgstr ""
 
 #: src/arch/unix/uicommands.c:965
-msgid "*Load existing snapsot"
+msgid "*Load existing snapshot"
 msgstr ""
 
 #: src/arch/unix/uicommands.c:967

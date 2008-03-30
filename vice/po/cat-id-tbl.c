@@ -269,7 +269,7 @@ Cannot write snapshot file\n\
   {"Smart-attach disk/tape...", 251},
   {"Change working directory...", 252},
   {"*Save new snapshot", 253},
-  {"*Load existing snapsot", 254},
+  {"*Load existing snapshot", 254},
   {"*Start with reset", 255},
   {"Load snapshot...", 256},
   {"Save snapshot...", 257},

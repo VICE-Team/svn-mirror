@@ -50,7 +50,7 @@ static const ui_menu_toggle cbm2_ui_menu_toggles[] = {
 };
 
 static const ui_res_value_list cbm2_ui_res_values[] = {
-    { NULL, NULL }
+    { NULL, NULL, 0 }
 };
 
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)

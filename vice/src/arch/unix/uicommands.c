@@ -962,7 +962,7 @@ UI_MENU_DEFINE_RADIO(EventStartMode)
 static ui_menu_entry_t set_event_start_mode_submenu[] = {
     { N_("*Save new snapshot"), (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE, NULL },
-    { N_("*Load existing snapsot"), (ui_callback_t)radio_EventStartMode,
+    { N_("*Load existing snapshot"), (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD, NULL },
     { N_("*Start with reset"), (ui_callback_t)radio_EventStartMode,
       (ui_callback_data_t)EVENT_START_MODE_RESET, NULL },

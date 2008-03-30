@@ -53,10 +53,6 @@
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"
 #define EVENT_END_SNAPSHOT "end" FSDEV_EXT_SEP_STR "vsf"
 
-#define EVENT_START_MODE_FILE_SAVE 0
-#define EVENT_START_MODE_FILE_LOAD 1
-#define EVENT_START_MODE_RESET     2
-
 
 struct event_list_s {
     unsigned int type;

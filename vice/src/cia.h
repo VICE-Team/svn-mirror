@@ -78,6 +78,7 @@ typedef struct cia_context_s {
     struct alarm_s *tb_alarm;
     struct alarm_s *tod_alarm;
     int irqflags;
+    BYTE irq_enabled;
     CLOCK rdi;
     unsigned int tat;
     unsigned int tbt;
