@@ -86,6 +86,8 @@ static UI_CALLBACK(psid_load)
     /* Do nothing special.  */
     break;
   }
+  if (filename != NULL)
+     free(filename);
 }
 
 static UI_CALLBACK(psid_tune)

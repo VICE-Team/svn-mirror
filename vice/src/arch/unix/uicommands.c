@@ -117,6 +117,9 @@ static UI_CALLBACK(attach_disk)
 	/* Do nothing special.  */
         break;
     }
+
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(attach_empty_disk)
@@ -171,7 +174,8 @@ static UI_CALLBACK(attach_tape)
 
     suspend_speed_eval();
 
-    filename = ui_select_file(_("Attach a tape image"), read_tape_image_contents,
+    filename = ui_select_file(_("Attach a tape image"),
+                              read_tape_image_contents,
 			      True, last_dir, "*.[tT]*", &button, True);
 
     switch (button) {
@@ -197,6 +201,8 @@ static UI_CALLBACK(attach_tape)
 	/* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(detach_tape)
@@ -249,6 +255,8 @@ static UI_CALLBACK(smart_attach)
 	/* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -436,12 +444,15 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 
     if (data) {
         log_debug(_("Quickloading file %s."), (char *)data);
-	filename = data;
+	filename = (char *)data;
     } else {
         filename = ui_select_file(_("Load snapshot"), NULL, False, last_dir,
                               "*.vsf", &button, False);
-        if (button != UI_BUTTON_OK)
+        if (button != UI_BUTTON_OK) {
+            if (filename)
+                free(filename);
             return;
+        }
     }
     if (last_dir)
 	free(last_dir);
@@ -451,7 +462,8 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
         ui_error(_("Cannot load snapshot file\n`%s'"), filename);
     ui_update_menus();
 
-    if (data) free(data);
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(load_snapshot)
@@ -468,9 +480,9 @@ static UI_CALLBACK(load_quicksnap)
 	machine_name, ".vsf", NULL);
 
     if (!ui_emulation_is_paused())
-        maincpu_trigger_trap(load_snapshot_trap, (void *) fname);
+        maincpu_trigger_trap(load_snapshot_trap, (void *)fname);
     else
-        load_snapshot_trap(0, fname);
+        load_snapshot_trap(0, (void *)fname);
 }
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *data)
@@ -572,6 +584,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     char *t4 = NULL, *t5 = NULL, *dir;
     void *fl_iterator;
     int i, drive, true_emu, fliplist_start = 0;
+    static int name_count = 0;
+    char *menuname;
 
     resources_get_value("DriveTrueEmulation", 
 			(resource_value_t *) &true_emu);
@@ -612,11 +626,13 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	       sizeof (ui_menu_entry_t));
 	i++;
 #endif
+
+	fliplist_start = i;	/* if we take the goto don't free anythin */
 	
 	/* don't update menu deeply when drive has not been enabled 
 	   or nothing has been attached */
 	if (true_emu) {
-	    if (! (1 << drive) & enabled_drives)
+	    if (! ((1 << drive) & enabled_drives))
 		goto update_menu;
 	} else {
 	    if (strcmp(last_attached_images[drive], "") == 0)
@@ -719,23 +735,27 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     update_menu:
 	/* make sure the menu is well terminated */
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-	i++;
 	
+        menuname = xmalloc(100);
+        sprintf(menuname, "LeftDrive%iMenu%i", drive + 8, name_count);
+
 	/* ugly ... */
 	if (drive == 0)
 	{
             ui_destroy_drive8_menu();
             /* FIXME: Make sure the widget is really destroyed! */
-	    ui_set_drive8_menu(ui_menu_create("LeftDrive8Menu", 
+	    ui_set_drive8_menu(ui_menu_create(menuname /*"LeftDrive8Menu"*/, 
 					      flipmenu[drive], NULL));
 	}
 	else
 	{
             ui_destroy_drive9_menu();
             /* FIXME: Make sure the widget is really destroyed! */
-	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
+	    ui_set_drive9_menu(ui_menu_create(menuname /*"LeftDrive9Menu"*/,
 					      flipmenu[drive], NULL));
 	}
+
+        free(menuname);
 
 	if (t0)
 	    free(t0);
@@ -749,14 +769,12 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	    free(t4);
 	if (t5)
 	    free(t5);
-/*
 	while (fliplist_start < i)
 	{
 	    if (flipmenu[drive][fliplist_start].string)
 		free(flipmenu[drive][fliplist_start].string);
 	    fliplist_start++;
 	}
-*/
     }
 }
 

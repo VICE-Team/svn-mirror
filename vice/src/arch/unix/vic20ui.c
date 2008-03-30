@@ -205,6 +205,8 @@ static UI_CALLBACK(attach_cartridge)
         /* Do nothing special.  */
         break;
     }
+    if (filename != NULL)
+        free(filename);
 }
 
 static UI_CALLBACK(detach_cartridge)
