@@ -41,8 +41,8 @@ ui_display_tape_motor_status() {fprintf(stderr, "** Function `%s' still unimplem
 ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 /* ui_jam_dialog() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 vsid_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-c64_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-vic20_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
+/* c64_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
+/* vic20_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 vsid_ui_exit() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 /* ui_enable_drive_status() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 /* ui_extend_image_dialog() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
@@ -56,9 +56,6 @@ vsid_ui_exit() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUN
 /* video_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 /* video_init_resources() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 /* video_init_cmdline_options() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-frame_buffer_free() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-frame_buffer_alloc() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-frame_buffer_clear() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 /* canvas_create() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 /* canvas_resize() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 /* canvas_set_palette() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */

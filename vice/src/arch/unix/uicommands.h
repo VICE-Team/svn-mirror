@@ -1,8 +1,9 @@
 /*
- * psid.h - PSID file handling.
+ * uicommands.h - Implementation of common UI commands.
  *
  * Written by
- *  Dag Lem <resid@nimrod.no>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +25,21 @@
  *
  */
 
-#ifndef _PSID_H
-#define _PSID_H
+#ifndef _UI_COMMANDS_H
+#define _UI_COMMANDS_H
 
-extern int psid_init_resources(void);
-extern int psid_init_cmdline_options(void);
-extern int psid_load_file(const char* filename);
-extern void psid_init_tune(void);
-extern void psid_set_tune(int tune);
-extern int psid_tunes(int* default_tune);
-extern void psid_init_driver(void);
+#include "ui.h"
+#include "uimenu.h"
+
+extern ui_menu_entry_t ui_directory_commands_menu[];
+extern ui_menu_entry_t ui_disk_commands_menu[];
+extern ui_menu_entry_t ui_exit_commands_menu[];
+extern ui_menu_entry_t ui_help_commands_menu[];
+extern ui_menu_entry_t ui_run_commands_menu[];
+extern ui_menu_entry_t ui_smart_attach_commands_menu[];
+extern ui_menu_entry_t ui_snapshot_commands_menu[];
+extern ui_menu_entry_t ui_tape_commands_menu[];
+extern ui_menu_entry_t ui_tool_commands_menu[];
 
 #endif
 

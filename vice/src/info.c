@@ -417,6 +417,8 @@ const char contrib_text[] =
 "  implemented the \"Contents\" button in the file selector and\n"
 "  provided us with several suggestions and constant testing of\n"
 "  constantly broken snapshots.\n"
+"  Implemented the fliplists + ui (unix).\n"
+"  Started Gnome Port based on Oliver Schaertels GTK+ port\n"
 "\n"
 "  Chris Sharp <sharpc@hurlsey.ibm.com> wrote the AIX sound\n"
 "  driver.\n"

@@ -17,7 +17,7 @@ libx11ui_a_SOURCES = \
 	kbd.c \
 	kbdef.h \
 	video.c \
-	videoarch.h
+	videoarch.h 
 
 .PHONY: xaw gnome
 xaw:

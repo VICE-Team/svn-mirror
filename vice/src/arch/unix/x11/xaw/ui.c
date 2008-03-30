@@ -2131,7 +2131,6 @@ void ui_dispatch_events(void)
       char resource_name[100];
       int resource_value;
       sscanf(buf + 9, "%s %d", resource_name, &resource_value);
-      printf("resource %s, value %d\n", resource_name, resource_value);
       resources_set_value(resource_name, (resource_value_t)resource_value);
     }
     else if (strncmp(buf, "tune", 4) == 0) {

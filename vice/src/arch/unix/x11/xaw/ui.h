@@ -114,6 +114,8 @@ extern Window ui_canvas_get_drawable(ui_window_t w);
 extern int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                                  PIXEL *pixel_return);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
+extern void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
+extern void ui_display_drive_track(int drive_number, int drive_base, double track_number);
 extern void ui_display_drive_current_image(int drive_number, const char *image);
 extern void ui_display_paused(int flag);
 extern void ui_dispatch_next_event(void);
@@ -151,6 +153,11 @@ extern int ui_is_fullscreen_available(void);
 
 extern int ui_proc_create(void);
 extern int ui_proc_wait(void);
+extern void ui_about (Widget w, ui_callback_data_t cd, ui_callback_data_t cl);
+
+/* fill callback variables */
+#define CHECK_MENUS call_data
+#define UI_MENU_CB_PARAM client_data
 
 #endif /* !defined (_UI_XAW_H) */
 

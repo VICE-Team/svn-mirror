@@ -130,12 +130,6 @@ int video_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are exported by `ui.c'.  FIXME: Ugly!  */
-extern Display *display;
-extern int screen;
-extern Visual *visual;
-extern int depth;
-
 /* These are made public so that the other modules can use them via macros. */
 GC _video_gc;
 void (*_refresh_func) ();

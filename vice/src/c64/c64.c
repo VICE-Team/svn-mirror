@@ -202,6 +202,9 @@ int machine_init_resources(void)
         )
         return -1;
 
+    if (psid_mode && psid_init_resources() < 0)
+        return -1;
+
     return 0;
 }
 
@@ -607,5 +610,5 @@ int machine_autodetect_psid(const char *name)
 
 void machine_play_psid(int tune)
 {
-  psid_play_tune(tune);
+  psid_set_tune(tune);
 }

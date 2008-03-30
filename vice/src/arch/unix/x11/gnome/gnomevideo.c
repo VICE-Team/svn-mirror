@@ -77,7 +77,7 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 #endif
 
 
-#ifdef MITSHM
+#ifdef USE_MITSHM
     if(use_mitshm)
         typ = GDK_IMAGE_SHARED;
     else
@@ -108,8 +108,10 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 
 	_refresh_func = (void (*)()) GDK_PUTIMAGE;
 
-	_refresh_func(_video_gc,
+#if 0				/* Hmm, GDK doesnt' like this anymore */
+	_refresh_func(NULL, NULL, _video_gc,
 		      i->gdk_image, 0, 0, 0, 0, 200, 200, False);
+#endif
 
     }
 

@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef _UI_XAW_H
-#define _UI_XAW_H
+#ifndef _UI_H
+#define _UI_H
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -36,6 +36,9 @@
 #include "vice.h"
 #include "types.h"
 #include "palette.h"
+
+/* FIXME, this doesn't belong to here ! */
+#define NUM_DRIVES      2
 
 /* If this is #defined, `Alt' is handled the same as `Meta'.  On
    systems which have Meta, it's better to use Meta instead of Alt as
@@ -134,7 +137,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color);
-void ui_display_drive_track(int drive_number, double track_number);
+void ui_display_drive_track(int drive_number, int drive_base, double track_number);
 void ui_display_drive_led(int drive_number, int status);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
@@ -159,7 +162,7 @@ int ui_emulation_is_paused(void);
 void ui_create_dynamic_menues(void);
 void ui_check_mouse_cursor(void);
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window);
-
+void ui_about(gpointer data);
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void);
@@ -169,4 +172,4 @@ void ui_set_mouse_timeout(void);
 int ui_is_fullscreen_available();
 #endif
 
-#endif /* !defined (_UI_XAW_H) */
+#endif /* !defined (_UI_H) */

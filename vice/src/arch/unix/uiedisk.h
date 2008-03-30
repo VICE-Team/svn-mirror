@@ -1,8 +1,8 @@
 /*
- * psid.h - PSID file handling.
+ * uiedisk.h - Snapshot dialog for the Xaw widget set.
  *
  * Written by
- *  Dag Lem <resid@nimrod.no>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,10 @@
  *
  */
 
-#ifndef _PSID_H
-#define _PSID_H
+#ifndef UIEDISK_H
+#define UIEDISK_H
 
-extern int psid_init_resources(void);
-extern int psid_init_cmdline_options(void);
-extern int psid_load_file(const char* filename);
-extern void psid_init_tune(void);
-extern void psid_set_tune(int tune);
-extern int psid_tunes(int* default_tune);
-extern void psid_init_driver(void);
+extern int ui_empty_disk_dialog(char *);
 
 #endif
 

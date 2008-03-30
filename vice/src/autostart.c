@@ -442,8 +442,13 @@ int autostart_prg(const char *file_name)
 
     f = fopen(file_name, "rb");
     if (f == NULL) {
+#ifdef HAVE_ERRNO_H
         log_error(autostart_log, "Cannot open `%s': %s",
                   file_name, strerror(errno));
+#else
+        log_error(autostart_log, "Cannot open `%s'.",
+                  file_name);
+#endif
         return -1;
     }
 

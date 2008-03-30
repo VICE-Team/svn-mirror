@@ -105,7 +105,7 @@ extern void _ui_menu_string_radio_helper(GtkWidget *w,
 
 /*#define CHECK_MENUS (event_data != &refresh_dummy)*/
 
-#define CHECK_MENUS (((ui_menu_cb_obj*)event_data)->status == CB_NORMAL)
+#define CHECK_MENUS (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 
 

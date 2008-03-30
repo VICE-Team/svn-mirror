@@ -1,0 +1,10 @@
+# This is a lsit for me to gather already identified problems. It's not 
+# systematic and not complete!
+
+- Implement all dummies
+- VIC20 Memory expansion doesn't work properly
+- What about fullscreen?
+- x128 segfaults immediately
+- Derive Mainmenu from popup-menu information (or however the seperation
+  should be done)
+- Segfault on exit

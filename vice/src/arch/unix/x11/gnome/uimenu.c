@@ -38,9 +38,6 @@
 #include <X11/Xaw/SmeLine.h>
 #include <X11/Xaw/SmeBSB.h>
 
-#include "checkmark.xbm"
-#include "right_arrow.xbm"
-
 #include "resources.h"
 #include "utils.h"
 #include "vsync.h"
@@ -296,7 +293,7 @@ void _ui_menu_toggle_helper(GtkWidget *w,
                             (resource_value_t *) &current_value) < 0)
         return;
 
-    if(CHECK_MENUS) {
+    if(!CHECK_MENUS) {
         resources_set_value(resource_name, (resource_value_t) !current_value);
 	ui_update_menus();
     } else {
@@ -312,7 +309,7 @@ void _ui_menu_radio_helper(GtkWidget *w,
 
     resources_get_value(resource_name, (resource_value_t *) &current_value);
 
-    if (CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         if (current_value != (int) UI_MENU_CB_PARAM) {
             resources_set_value(resource_name,
 				(resource_value_t) UI_MENU_CB_PARAM);
@@ -333,7 +330,7 @@ void _ui_menu_string_radio_helper(GtkWidget *w,
 
     if( current_value == 0) return;
 
-    if (CHECK_MENUS) {
+    if (!CHECK_MENUS) {
         if (strcmp((const char *) current_value, (const char *) UI_MENU_CB_PARAM) != 0) {
 	   resources_set_value(resource_name,(resource_value_t*) UI_MENU_CB_PARAM);
 	   ui_update_menus();

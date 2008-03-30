@@ -78,7 +78,7 @@ static Widget top_menu;
    some setting is changed, we have to update them. */
 #define MAX_UPDATE_MENU_LIST_SIZE 1024
 static Widget checkmark_menu_items[MAX_UPDATE_MENU_LIST_SIZE];
-static int num_checkmark_menu_items = 0;
+int num_checkmark_menu_items = 0;
 
 static Display *my_display;
 static int my_screen;

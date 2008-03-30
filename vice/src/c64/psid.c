@@ -36,12 +36,16 @@
 
 #include "c64mem.h"
 #include "cmdline.h"
+#include "drive.h"
+#include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
 #include "types.h"
+#include "ui.h"
 #include "utils.h"
+#include "vsync.h"
 #include "zfile.h"
 
 typedef struct psid {
@@ -66,9 +70,21 @@ typedef struct psid {
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
 
+int psid_ui_set_tune(resource_value_t tune);
 
 static psid_t* psid = NULL;
-static int psid_tune = 0;
+static int psid_tune = 0;    /* app_resources.PSIDTune */
+
+static resource_t resources[] = {
+    { "PSIDTune", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &psid_tune, psid_ui_set_tune },
+    { NULL }
+};
+
+int psid_init_resources(void)
+{
+    return resources_register(resources);
+}
 
 static int cmdline_psid_mode(const char *param, void *extra_param)
 {
@@ -95,6 +111,7 @@ int psid_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
 }
+
 
 static WORD psid_extract_word(BYTE** buf)
 {
@@ -218,9 +235,9 @@ void psid_init_tune(void)
   log_message(LOG_DEFAULT, "\n%s\n%s\n%s\n",
 	      psid->name, psid->author, psid->copyright);
 
-  if (psid->speed != 0) {
-    log_message(LOG_DEFAULT, "Warning: Cannot play at NTSC speed\n");
-  }
+  /* PAL/NTSC. */
+  resources_set_value("VideoStandard", (resource_value_t)
+  		      (psid->speed == 0 ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC));
 
   /* Check tune number. */
   if (start_song == 0) {
@@ -232,8 +249,8 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
 
-  log_message(LOG_DEFAULT, "Playing tune %i of %i.\n",
-	      start_song, (int)psid->songs);
+  log_message(LOG_DEFAULT, "Playing tune %i of %i (%s).\n",
+	      start_song, (int)psid->songs, psid->speed == 0 ? "PAL" : "NTSC");
 
   /* Store parameters for psid player. */
   ram_store(0x0306, psid->init_addr & 0xff);
@@ -250,7 +267,7 @@ void psid_init_tune(void)
   }
 }
 
-void psid_play_tune(int tune)
+void psid_set_tune(int tune)
 {
   if (tune == -1) {
     psid_tune = 0;
@@ -260,6 +277,21 @@ void psid_play_tune(int tune)
   else {
     psid_tune = tune;
   }
+}
+
+int psid_ui_set_tune(resource_value_t tune)
+{
+  char buf[10];
+  psid_tune = (int)tune == -1 ? 0 : (int)tune;
+  sprintf(buf, "tune %d\n", (int)tune);
+  ui_proc_write_msg(buf);
+  return 0;
+}
+
+int psid_tunes(int* default_tune)
+{
+  *default_tune = psid ? psid->start_song : 0;
+  return psid ? psid->songs : 0;
 }
 
 void psid_init_driver(void) {
