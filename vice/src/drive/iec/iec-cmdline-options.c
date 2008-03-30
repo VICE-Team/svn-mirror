@@ -31,27 +31,10 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "iec-cmdline-options.h"
+#include "lib.h"
 
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
-      (void *)1,
-      NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel8", SET_RESOURCE, 0, NULL, NULL, "Drive8ParallelCable",
-      (void *)0,
-      NULL, "Disable SpeedDOS-compatible parallel cable" },
-    { "-parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
-      (void *)1,
-      NULL, "Enable SpeedDOS-compatible parallel cable" },
-    { "+parallel9", SET_RESOURCE, 0, NULL, NULL, "Drive9ParallelCable",
-      (void *)0,
-      NULL, "Disable SpeedDOS-compatible parallel cable" },
-    { "-drive8idle", SET_RESOURCE, 1, NULL, NULL, "Drive8IdleMethod",
-      (void *)DRIVE_IDLE_TRAP_IDLE, "<method>",
-      "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
-    { "-drive9idle", SET_RESOURCE, 1, NULL, NULL, "Drive9IdleMethod",
-      (void *)DRIVE_IDLE_TRAP_IDLE, "<method>",
-      "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image" },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
@@ -64,71 +47,95 @@ static const cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of 1571CR DOS ROM image" },
     { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",
       "<name>", "Specify name of 1581 DOS ROM image" },
-    { "-drive8ram2000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM2000",
-      (void *)1,
+    { NULL }
+};
+
+static cmdline_option_t cmd_drive[] = {
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      NULL, "Enable SpeedDOS-compatible parallel cable" },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      NULL, "Disable SpeedDOS-compatible parallel cable" },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
+      "<method>",
+      "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       NULL, "Enable 8KB RAM expansion from $2000-$3FFF" },
-    { "+drive8ram2000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM2000",
-      (void *)0,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
       NULL, "Disable 8KB RAM expansion from $2000-$3FFF" },
-    { "-drive9ram2000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM2000",
-      (void *)1,
-      NULL, "Enable 8KB RAM expansion from $2000-$3FFF" },
-    { "+drive9ram2000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM2000",
-      (void *)0,
-      NULL, "Disable 8KB RAM expansion from $2000-$3FFF" },
-    { "-drive8ram4000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM4000",
-      (void *)1,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       NULL, "Enable 8KB RAM expansion from $4000-$5FFF" },
-    { "+drive8ram4000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM4000",
-      (void *)0,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
       NULL, "Disable 8KB RAM expansion from $4000-$5FFF" },
-    { "-drive9ram4000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM4000",
-      (void *)1,
-      NULL, "Enable 8KB RAM expansion from $4000-$5FFF" },
-    { "+drive9ram4000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM4000",
-      (void *)0,
-      NULL, "Disable 8KB RAM expansion from $4000-$5FFF" },
-    { "-drive8ram6000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM6000",
-      (void *)1,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       NULL, "Enable 8KB RAM expansion from $6000-$7FFF" },
-    { "+drive8ram6000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM6000",
-      (void *)0,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
       NULL, "Disable 8KB RAM expansion from $6000-$7FFF" },
-    { "-drive9ram6000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM6000",
-      (void *)1,
-      NULL, "Enable 8KB RAM expansion from $6000-$7FFF" },
-    { "+drive9ram6000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM6000",
-      (void *)0,
-      NULL, "Disable 8KB RAM expansion from $6000-$7FFF" },
-    { "-drive8ram8000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM8000",
-      (void *)1,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       NULL, "Enable 8KB RAM expansion from $8000-$9FFF" },
-    { "+drive8ram8000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAM8000",
-      (void *)0,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
       NULL, "Disable 8KB RAM expansion from $8000-$9FFF" },
-    { "-drive9ram8000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM8000",
-      (void *)1,
-      NULL, "Enable 8KB RAM expansion from $8000-$9FFF" },
-    { "+drive9ram8000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAM8000",
-      (void *)0,
-      NULL, "Disable 8KB RAM expansion from $8000-$9FFF" },
-    { "-drive8rama000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAMA000",
-      (void *)1,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
       NULL, "Enable 8KB RAM expansion from $A000-$BFFF" },
-    { "+drive8rama000", SET_RESOURCE, 0, NULL, NULL, "Drive8RAMA000",
-      (void *)0,
-      NULL, "Disable 8KB RAM expansion from $A000-$BFFF" },
-    { "-drive9rama000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAMA000",
-      (void *)1,
-      NULL, "Enable 8KB RAM expansion from $A000-$BFFF" },
-    { "+drive9rama000", SET_RESOURCE, 0, NULL, NULL, "Drive9RAMA000",
-      (void *)0,
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
       NULL, "Disable 8KB RAM expansion from $A000-$BFFF" },
     { NULL }
 };
 
 int iec_cmdline_options_init(void)
 {
+    unsigned int dnr, i;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        cmd_drive[0].name = lib_msprintf("-parallel%i", dnr + 8);
+        cmd_drive[0].resource_name
+            = lib_msprintf("Drive%iParallelCable", dnr + 8);
+        cmd_drive[1].name = lib_msprintf("+parallel%i", dnr + 8);
+        cmd_drive[1].resource_name
+            = lib_msprintf("Drive%iParallelCable", dnr + 8);
+        cmd_drive[2].name = lib_msprintf("-drive%iidle", dnr + 8);
+        cmd_drive[2].resource_name
+            = lib_msprintf("Drive%iIdleMethod", dnr + 8);
+        cmd_drive[3].name = lib_msprintf("-drive%iram2000", dnr + 8);
+        cmd_drive[3].resource_name
+            = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        cmd_drive[4].name = lib_msprintf("+drive%iram2000", dnr + 8);
+        cmd_drive[4].resource_name
+            = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        cmd_drive[5].name = lib_msprintf("-drive%iram4000", dnr + 8);
+        cmd_drive[5].resource_name
+            = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        cmd_drive[6].name = lib_msprintf("+drive%iram4000", dnr + 8);
+        cmd_drive[6].resource_name
+            = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        cmd_drive[7].name = lib_msprintf("-drive%iram6000", dnr + 8);
+        cmd_drive[7].resource_name
+            = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        cmd_drive[8].name = lib_msprintf("+drive%iram6000", dnr + 8);
+        cmd_drive[8].resource_name
+            = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        cmd_drive[9].name = lib_msprintf("-drive%iram8000", dnr + 8);
+        cmd_drive[9].resource_name
+            = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        cmd_drive[10].name = lib_msprintf("+drive%iram8000", dnr + 8);
+        cmd_drive[10].resource_name
+            = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        cmd_drive[11].name = lib_msprintf("-drive%irama000", dnr + 8);
+        cmd_drive[11].resource_name
+            = lib_msprintf("Drive%iRAMA000", dnr + 8);
+        cmd_drive[12].name = lib_msprintf("+drive%irama000", dnr + 8);
+        cmd_drive[12].resource_name
+            = lib_msprintf("Drive%iRAMA000", dnr + 8);
+
+        if (cmdline_register_options(cmd_drive) < 0)
+            return -1;
+
+        for (i = 0; i < 13; i++) {
+            lib_free((char *)cmd_drive[i].name);
+            lib_free((char *)cmd_drive[i].resource_name);
+        }
+    }
+
+
     return cmdline_register_options(cmdline_options);
 }
 
