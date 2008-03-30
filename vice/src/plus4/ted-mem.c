@@ -513,7 +513,7 @@ inline static void ted0a_store(BYTE value)
         ted_set_irq(I_RASTER, 0);
     }
 
-    TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[addr]));
+    TED_DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", ted.regs[0x0a]));
 }
 
 inline static void ted0b_store(BYTE value)

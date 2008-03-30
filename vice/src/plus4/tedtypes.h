@@ -53,10 +53,10 @@
 
 #define TED_PAL_FIRST_DISPLAYED_LINE    0x10
 #define TED_PAL_LAST_DISPLAYED_LINE     0x11f
-#define TED_PAL_25ROW_START_LINE        0x33
-#define TED_PAL_25ROW_STOP_LINE         0xfb
-#define TED_PAL_24ROW_START_LINE        0x37
-#define TED_PAL_24ROW_STOP_LINE         0xf7
+#define TED_PAL_25ROW_START_LINE        (0x33 + 1)
+#define TED_PAL_25ROW_STOP_LINE         (0xfb + 1)
+#define TED_PAL_24ROW_START_LINE        (0x37 + 1)
+#define TED_PAL_24ROW_STOP_LINE         (0xf7 + 1)
 
 #define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
 #define TED_NTSC_LAST_DISPLAYED_LINE    0x102
