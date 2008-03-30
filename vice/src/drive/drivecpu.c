@@ -247,22 +247,6 @@ static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address, BY
 
 /* ------------------------------------------------------------------------- */
 
-void drive_cpu_set_sync_factor(drive_context_t *drv, unsigned int sync_factor)
-{
-    unsigned long i;
-
-    for (i = 0; i <= MAX_TICKS; i++) {
-        unsigned long tmp;
-
-        tmp = i * (unsigned long)sync_factor;
-
-        drv->cpud.clk_conv_table[i] = tmp / 0x10000;
-        drv->cpud.clk_mod_table[i] = tmp % 0x10000;
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 static void cpu_reset(drive_context_t *drv)
 {
     int preserve_monitor;

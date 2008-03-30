@@ -32,6 +32,7 @@
 #include "clkguard.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivesync.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
@@ -150,7 +151,7 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
 {
     iec_info = iec_get_drive_port();
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
-        drive_set_1571_sync_factor(byte & 0x20, ctxptr->mynumber);
+        drive_sync_set_1571(byte & 0x20, ctxptr->mynumber);
         drive_set_1571_side((byte >> 2) & 1, ctxptr->mynumber);
     } else
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
@@ -168,7 +169,7 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
     {
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
             if ((oldpa_value ^ byte) & 0x20)
-                drive_set_1571_sync_factor(byte & 0x20, ctxptr->mynumber);
+                drive_sync_set_1571(byte & 0x20, ctxptr->mynumber);
             if ((oldpa_value ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, ctxptr->mynumber);
         } else

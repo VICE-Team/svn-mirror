@@ -305,6 +305,8 @@ typedef struct drive_s {
 
 extern drive_t drive[2];
 
+extern CLOCK drive_clk[2];
+
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
 struct drive_context_s;
@@ -313,7 +315,7 @@ extern struct drive_context_s drive1_context;
 
 extern int rom_loaded;
 
-extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
+extern int drive_init(void);
 extern int drive_enable(unsigned int dnr);
 extern void drive_disable(unsigned int dnr);
 extern void serial_bus_drive_write(BYTE data);
@@ -325,8 +327,6 @@ extern void drive1_mem_init(int type);
 extern void drive_move_head(int step, unsigned int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
-extern int drive_attach_image(struct disk_image_s *image, unsigned int unit);
-extern int drive_detach_image(struct disk_image_s *image, unsigned int unit);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);
 extern BYTE drive_read_viad2_prb(drive_t *dptr);
 extern CLOCK drive_prevent_clk_overflow(CLOCK sub, unsigned int dnr);
@@ -341,12 +341,12 @@ extern void drive_initialize_rotation_table(int freq, unsigned int dnr);
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 */
+extern void drive_initialize_rotation(int freq, unsigned int dnr);
 extern BYTE drive_sync_found(drive_t *dptr);
 extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
-extern void drive_set_sync_factor(unsigned int factor);
-extern void drive_set_ntsc_sync_factor(void);
-extern void drive_set_pal_sync_factor(void);
+extern void drive_set_half_track(int num, drive_t *dptr);
+extern void drive_set_machine_parameter(long cycles_per_sec);
 extern void drive_set_disk_memory(unsigned int dnr, BYTE *id,
                                   unsigned int track, unsigned int sector);
 extern void drive_set_last_read(unsigned int dnr, unsigned int track,

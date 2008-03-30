@@ -43,8 +43,6 @@ extern void drive_cpu_sleep(struct drive_context_s *drv);
 extern void drive_cpu_wake_up(struct drive_context_s *drv);
 extern CLOCK drive_cpu_prevent_clk_overflow(struct drive_context_s *drv,
                                             CLOCK sub);
-extern void drive_cpu_set_sync_factor(struct drive_context_s *drv,
-                                      unsigned int factor);
 extern void drive_cpu_early_init(struct drive_context_s *drv);
 extern void drive_cpu_reset_clk(struct drive_context_s *drv);
 

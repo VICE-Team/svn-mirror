@@ -22,9 +22,13 @@ libdrive_a_SOURCES = \
 	drivecpu.c \
 	drivecpu.h \
 	drivemem.c \
+	driveimage.c \
+	driveimage.h \
 	drivemem.h \
 	driverom.c \
 	driverom.h \
+	drivesync.c \
+	drivesync.h \
 	drivetypes.h \
 	fdc.h \
 	fdc.c \
