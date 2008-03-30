@@ -138,10 +138,10 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)
 {
-char    *tmp;
+    char *tmp;
 
-    tmp=concat(fname,NULL);
-    tmp[strlen(tmp)-1]='~';
+    tmp = concat(fname, NULL);
+    tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
 
@@ -205,8 +205,8 @@ void archdep_setup_signals(int do_core_dumps)
     signal(SIGTERM, break64);
 
     if (!do_core_dumps) {
-        signal(SIGSEGV,  break64);
-        signal(SIGILL,   break64);
+        signal(SIGSEGV, break64);
+        signal(SIGILL, break64);
     }
 }
 
@@ -262,7 +262,7 @@ int archdep_spawn(const char *name, char **argv,
                            _S_IWRITE | _S_IREAD);
         if (new_stderr == -1) {
             log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                        stderr_redir, strerror(errno));
+                      stderr_redir, strerror(errno));
             retval = -1;
             goto cleanup;
         }
@@ -303,13 +303,15 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 
 void archdep_startup_log_error(const char *format, ...)
 {
-        char tmp[1024];
-        va_list args;
+    char *tmp;
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
-        ui_error_string(tmp);
+    va_start(args, format);
+    tmp = xmvsprintf(format, args);
+    va_end(args);
+
+    ui_error_string(tmp);
+    free(tmp);
 }
 
 
@@ -334,9 +336,9 @@ char *archdep_filename_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
     if (getenv("temp"))
-        return concat(getenv("temp"),tmpnam(NULL),NULL);
+        return concat(getenv("temp"), tmpnam(NULL), NULL);
     else if (getenv("tmp"))
-        return concat(getenv("tmp"),tmpnam(NULL),NULL);
+        return concat(getenv("tmp"), tmpnam(NULL), NULL);
     else
         return stralloc(tmpnam(NULL));
 }

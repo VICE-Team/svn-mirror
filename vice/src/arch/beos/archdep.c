@@ -62,7 +62,7 @@ static char *argv0;
 
 int archdep_startup(int *argc, char **argv)
 {
-   	argv0 = stralloc(argv[0]);
+    argv0 = stralloc(argv[0]);
     orig_workdir = getcwd(NULL, GET_PATH_MAX);
 
     return 0;
@@ -128,8 +128,8 @@ char *archdep_make_backup_filename(const char *fname)
 {
 char    *tmp;
 
-    tmp=concat(fname,NULL);
-    tmp[strlen(tmp)-1]='~';
+    tmp = concat(fname, NULL);
+    tmp[strlen(tmp) - 1] = '~';
     return tmp;
 }
 
@@ -220,33 +220,34 @@ int archdep_spawn(const char *name, char **argv,
 
     child_pid = vfork();
     if (child_pid < 0) {
-    log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
-    return -1;
-    } else if (child_pid == 0) {
-    if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
-        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
-                      stdout_redir, strerror(errno));
-        _exit(-1);
-    }
-    if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
-        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
-                      stderr_redir, strerror(errno));
-        _exit(-1);
-    }
-    execvp(name, argv);
-    _exit(-1);
+        log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
+        return -1;
+    } else {
+        if (child_pid == 0) {
+            if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                          stdout_redir, strerror(errno));
+                _exit(-1);
+            }
+            if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                          stderr_redir, strerror(errno));
+                _exit(-1);
+            }
+            execvp(name, argv);
+            _exit(-1);
+        }
     }
 
     if (waitpid(child_pid, &child_status, 0) != child_pid) {
         log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
-    return -1;
+        return -1;
     }
 
     if (WIFEXITED(child_status))
-    return WEXITSTATUS(child_status);
+        return WEXITSTATUS(child_status);
     else
-    return -1;
-
+        return -1;
 }
 
 
@@ -260,12 +261,14 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 
 void archdep_startup_log_error(const char *format, ...)
 {
-        char tmp[1024];
-        va_list args;
+    char *tmp;
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
+    va_start(args, format);
+    tmp = xmvsprintf(format, args);
+    va_end(args);
+
+    free(tmp);
 }
 
 char *archdep_quote_parameter(const char *name)
@@ -277,6 +280,7 @@ char *archdep_filename_parameter(const char *name)
 {
     char *exp;
     char *a;
+
     archdep_expand_path(&exp, name);
     a = archdep_quote_parameter(exp);
     free(exp);
@@ -301,5 +305,6 @@ int archdep_file_is_gzip(const char *name)
 
 int archdep_file_set_gzip(const char *name)
 {
-  return 0;
+    return 0;
 }
+
