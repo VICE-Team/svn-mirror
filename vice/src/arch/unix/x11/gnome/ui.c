@@ -922,7 +922,8 @@ Display *ui_get_display_ptr(void)
 void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* Create a shell with a canvas widget in it.  */
-ui_window_t ui_open_canvas_window(const char *title, int width, int height,
+ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
+                                  int width, int height,
                                   int no_autorepeat,
                                   ui_exposure_handler_t exposure_proc,
                                   const palette_t *palette,
@@ -1373,7 +1374,7 @@ static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
 /* Change the colormap of window `w' on the fly.  This only works for
    TrueColor visuals.  Otherwise, it would be too messy to re-allocate the
    new colormap.  */
-int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
+int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
 

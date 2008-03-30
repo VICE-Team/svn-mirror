@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-06-10 14:45+0200\n"
+"POT-Creation-Date: 2000-06-11 21:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,7 +125,7 @@ msgstr ""
 
 #: src/arch/unix/uicommands.c:618 src/arch/unix/uicommands.c:629
 #: src/arch/unix/x11/gnome/ui.c:767 src/arch/unix/x11/gnome/ui.c:777
-#: src/arch/unix/x11/gnome/ui.c:1571
+#: src/arch/unix/x11/gnome/ui.c:1572
 msgid "<empty>"
 msgstr ""
 
@@ -289,98 +289,98 @@ msgstr ""
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:935
+#: src/arch/unix/x11/gnome/ui.c:936
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1097 src/arch/unix/x11/gnome/ui.c:1132
+#: src/arch/unix/x11/gnome/ui.c:1098 src/arch/unix/x11/gnome/ui.c:1133
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1099 src/arch/unix/x11/gnome/ui.c:1143
+#: src/arch/unix/x11/gnome/ui.c:1100 src/arch/unix/x11/gnome/ui.c:1144
 msgid "Settings"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1103
+#: src/arch/unix/x11/gnome/ui.c:1104
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1174
+#: src/arch/unix/x11/gnome/ui.c:1175
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1176
+#: src/arch/unix/x11/gnome/ui.c:1177
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1186
+#: src/arch/unix/x11/gnome/ui.c:1187
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1190
+#: src/arch/unix/x11/gnome/ui.c:1191
 msgid "Cannot save settings."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1232
+#: src/arch/unix/x11/gnome/ui.c:1233
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1267
+#: src/arch/unix/x11/gnome/ui.c:1268
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1364
+#: src/arch/unix/x11/gnome/ui.c:1365
 msgid "Automagically using a private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1403
+#: src/arch/unix/x11/gnome/ui.c:1404
 msgid "Cannot allocate enough colors."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1721
+#: src/arch/unix/x11/gnome/ui.c:1722
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1758
+#: src/arch/unix/x11/gnome/ui.c:1759
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1883
+#: src/arch/unix/x11/gnome/ui.c:1884
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1894
+#: src/arch/unix/x11/gnome/ui.c:1895
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1920
+#: src/arch/unix/x11/gnome/ui.c:1921
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1964
+#: src/arch/unix/x11/gnome/ui.c:1965
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1965
+#: src/arch/unix/x11/gnome/ui.c:1966
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1978
+#: src/arch/unix/x11/gnome/ui.c:1979
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1985 src/arch/unix/x11/gnome/ui.c:1993
+#: src/arch/unix/x11/gnome/ui.c:1986 src/arch/unix/x11/gnome/ui.c:1994
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2121 src/arch/unix/x11/gnome/ui.c:2126
+#: src/arch/unix/x11/gnome/ui.c:2122 src/arch/unix/x11/gnome/ui.c:2127
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2574
+#: src/arch/unix/x11/gnome/ui.c:2575
 msgid "Contents"
 msgstr ""

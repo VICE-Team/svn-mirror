@@ -82,6 +82,12 @@
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
 #include "vsync.h"
+#include "video.h"
+
+/* FIXME: PAL/NTSC constants should be moved from drive.h */
+#define DRIVE_SYNC_PAL     -1
+#define DRIVE_SYNC_NTSC    -2
+#define DRIVE_SYNC_NTSCOLD -3
 
 vic_ii_t vic_ii;
 
@@ -109,7 +115,7 @@ void vic_ii_change_timing(void)
     resources_get_value("VideoStandard", &mode);
 
     switch ((int)mode) {
-      case -2:
+      case DRIVE_SYNC_NTSC:
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
@@ -127,7 +133,7 @@ void vic_ii_change_timing(void)
         vic_ii.last_dma_line = VIC_II_NTSC_LAST_DMA_LINE;
         vic_ii.offset = VIC_II_NTSC_OFFSET;
         break;
-      case -3:
+      case DRIVE_SYNC_NTSCOLD:
         vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSCOLD_LAST_DISPLAYED_LINE;
@@ -145,6 +151,7 @@ void vic_ii_change_timing(void)
         vic_ii.last_dma_line = VIC_II_NTSCOLD_LAST_DMA_LINE;
         vic_ii.offset = VIC_II_NTSCOLD_OFFSET;
         break;
+      case DRIVE_SYNC_PAL:
       default:
         vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
@@ -413,8 +420,23 @@ raster_t *vic_ii_init(void)
 
   clk_guard_add_callback (&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-  if (clk_guard_get_clk_base (&maincpu_clk_guard) == 0)
-    clk_guard_set_clk_base (&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
+  if (clk_guard_get_clk_base (&maincpu_clk_guard) == 0) {
+    double cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
+    resource_value_t mode;
+
+    resources_get_value("VideoStandard", &mode);
+
+    switch ((int)mode) {
+      case DRIVE_SYNC_NTSC:
+	cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
+        break;
+      case DRIVE_SYNC_NTSCOLD:
+	cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
+        break;
+    }
+
+    clk_guard_set_clk_base (&maincpu_clk_guard, cycles_per_rfsh);
+  }
   else
     /* Safety measure.  */
     log_error (vic_ii.log, "Trying to override clk base!?  Code is broken.");
