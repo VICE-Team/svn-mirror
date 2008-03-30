@@ -676,21 +676,21 @@ BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM ADDRESS addr)
       case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
         myviaifr &= ~VIA_IM_T1;
         update_myviairq(VIA_CONTEXT_CALLVOID);
-        via_last_read = myviata(VIA_CONTEXT_CALLVOID) & 0xff;
+        via_last_read = (BYTE)(myviata(VIA_CONTEXT_CALLVOID) & 0xff);
 	return via_last_read;
 
       case VIA_T1CH /*TIMER_AH */ :	/* timer A high */
-        via_last_read = (myviata(VIA_CONTEXT_CALLVOID) >> 8) & 0xff;
+        via_last_read = (BYTE)((myviata(VIA_CONTEXT_CALLVOID) >> 8) & 0xff);
 	return via_last_read;
 
       case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
         myviaifr &= ~VIA_IM_T2;
         update_myviairq(VIA_CONTEXT_CALLVOID);
-        via_last_read = myviatb(VIA_CONTEXT_CALLVOID) & 0xff;
+        via_last_read = (BYTE)(myviatb(VIA_CONTEXT_CALLVOID) & 0xff);
 	return via_last_read;
 
       case VIA_T2CH /*TIMER_BH */ :	/* timer B high */
-        via_last_read = (myviatb(VIA_CONTEXT_CALLVOID) >> 8) & 0xff;
+        via_last_read = (BYTE)((myviatb(VIA_CONTEXT_CALLVOID) >> 8) & 0xff);
 	return via_last_read;
 
       case VIA_SR:		/* Serial Port Shift Register */
@@ -756,10 +756,10 @@ BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
         /* Timers */
 
       case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
-        return myviata(VIA_CONTEXT_CALLVOID) & 0xff;
+        return (BYTE)(myviata(VIA_CONTEXT_CALLVOID) & 0xff);
 
       case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
-        return myviatb(VIA_CONTEXT_CALLVOID) & 0xff;
+        return (BYTE)(myviatb(VIA_CONTEXT_CALLVOID) & 0xff);
 
       default:
         break;

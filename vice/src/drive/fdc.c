@@ -296,7 +296,7 @@ static BYTE fdc_do_job_(int fnum, int buf,
 	   to buffers 0-3 */
 	if(DOS_IS_80(fdc[fnum].drive_type)) {
 	    if (!memcmp(fdc[fnum].iprom, &fdc[fnum].buffer[0x100], 0x300)) {
-	        int ntracks, nsectors = 0;
+	        unsigned int ntracks, nsectors = 0;
 	        /* detected format code */
 #ifdef FDC_DEBUG
 	        log_message(fdc_log, "format code: ");
@@ -366,7 +366,7 @@ static BYTE fdc_do_job_(int fnum, int buf,
 	    || DOS_IS_30(fdc[fnum].drive_type)) {
 	    if (!memcmp(fdc[fnum].iprom + 0x1000, &fdc[fnum].buffer[0x100], 0x200)) {
                 static unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
-	        int ntracks, nsectors = 0;
+	        unsigned int ntracks, nsectors = 0;
 
 #ifdef FDC_DEBUG
 	        log_message(fdc_log, "format code: ");
@@ -852,7 +852,7 @@ int fdc_write_snapshot_module(snapshot_t *p, int fnum)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, fdc[fnum].fdc_state);
+    snapshot_module_write_byte(m, (BYTE)(fdc[fnum].fdc_state));
 
     /* clk till next invocation */
     snapshot_module_write_dword(m,
