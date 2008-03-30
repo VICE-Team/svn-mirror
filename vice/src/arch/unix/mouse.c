@@ -40,7 +40,7 @@
 
 int _mouse_enabled = 0;
 int mouse_x, mouse_y;
-int mouse_accel;
+int mouse_accelx, mouse_accely;
 
 /* ------------------------------------------------------------------------- */
 

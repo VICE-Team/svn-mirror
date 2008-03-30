@@ -102,6 +102,7 @@ Widget canvas, pane;
 
 Cursor blankCursor;
 /*static*/ int cursor_is_blank = 0;
+static video_canvas_t *ui_cached_video_canvas;
 
 static void ui_display_drive_current_image2(void);
 
@@ -121,12 +122,13 @@ void ui_check_mouse_cursor()
                                     (resource_value_t *)&window_doublesize) < 0)                return;
         } else
 #endif
-        {
-            if (resources_get_value("DoubleSize",
-                                    (resource_value_t *)&window_doublesize) < 0)                return;
-        }
 
-        mouse_accel = 4 - 2 * window_doublesize;
+	if (ui_cached_video_canvas->videoconfig->doublesizex)
+	    mouse_accelx = 2;   
+	
+	if (ui_cached_video_canvas->videoconfig->doublesizey)
+	    mouse_accely = 2;   
+
         XDefineCursor(display,XtWindow(canvas), blankCursor);
         cursor_is_blank = 1;
 
@@ -827,6 +829,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     initBlankCursor();
 
     c->emuwindow = canvas;
+    ui_cached_video_canvas = c;
+    
     return 0;
 }
 

@@ -121,70 +121,7 @@ static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
 static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
 static int have_cbm_font = 0;
 static int cursor_is_blank = 0;
-
-/* ------------------------------------------------------------------------- */
-
-void ui_check_mouse_cursor()
-{
-    int window_doublesize;
-
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        return;
-#endif
-
-    if(_mouse_enabled) {
-#ifdef USE_XF86_EXTENSIONS
-        if(fullscreen_is_enabled) { 
-	     if (resources_get_value("FullscreenDoubleSize",
-				     (resource_value_t *) &window_doublesize) < 0)
-	       return;
-	} else
-#endif
-	{      
-	    if (resources_get_value("DoubleSize",
-				    (resource_value_t *) &window_doublesize) < 0)
-	      return;
-	}
-	mouse_accel = 4 - 2 * window_doublesize;   
-	/*	XDefineCursor(display,XtWindow(canvas), blankCursor);*/
-	cursor_is_blank = 1;
-	gdk_keyboard_grab(_ui_top_level->window,
-			  1,
-			  CurrentTime);
-	gdk_pointer_grab(_ui_top_level->window,
-			 1,
-			 GDK_POINTER_MOTION_MASK |
-			 GDK_BUTTON_PRESS_MASK |			 
-			 GDK_BUTTON_RELEASE_MASK,
-			 _ui_top_level->window,
-			 blankCursor,
-			 CurrentTime);
-    }
-    else if (cursor_is_blank) {
-      /*        XUndefineCursor(display,XtWindow(canvas));*/
-        gdk_keyboard_ungrab(CurrentTime);
-        gdk_pointer_ungrab(CurrentTime);
-    }
-}
-
-void ui_restore_mouse() {
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        return;
-#endif
-
-    if(_mouse_enabled && cursor_is_blank) {
-	/*        XUndefineCursor(display,XtWindow(canvas));*/
-        gdk_keyboard_ungrab(CurrentTime);
-        gdk_pointer_ungrab(CurrentTime);
-	cursor_is_blank = 0; 
-    }
-}
-
-void initBlankCursor() {
-    blankCursor = gdk_cursor_new(GDK_MOUSE);
-}
+static video_canvas_t *ui_cached_video_canvas;
 
 /* ------------------------------------------------------------------------- */
 
@@ -357,6 +294,74 @@ static String fallback_resources[] = {
 #endif
 /* ------------------------------------------------------------------------- */
 
+void ui_check_mouse_cursor()
+{
+    int window_doublesize;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
+
+    if(_mouse_enabled) 
+    {
+#ifdef USE_XF86_EXTENSIONS
+        if(fullscreen_is_enabled) 
+	{ 
+	    if (resources_get_value("FullscreenDoubleSize",
+				    (resource_value_t *) 
+				    &window_doublesize) < 0)
+		return;
+	} 
+#endif
+	if (ui_cached_video_canvas->videoconfig->doublesizex)
+	    mouse_accelx = 2;   
+	
+	if (ui_cached_video_canvas->videoconfig->doublesizey)
+	    mouse_accely = 2;   
+
+	/*	XDefineCursor(display,XtWindow(canvas), blankCursor);*/
+	cursor_is_blank = 1;
+	gdk_keyboard_grab(_ui_top_level->window,
+			  1,
+			  CurrentTime);
+	gdk_pointer_grab(_ui_top_level->window,
+			 1,
+			 GDK_POINTER_MOTION_MASK |
+			 GDK_BUTTON_PRESS_MASK |			 
+			 GDK_BUTTON_RELEASE_MASK,
+/*			 _ui_top_level->window,*/
+			 app_shells[0].canvas->window,
+			 blankCursor,
+			 CurrentTime);
+    }
+    else if (cursor_is_blank) {
+      /*        XUndefineCursor(display,XtWindow(canvas));*/
+        gdk_keyboard_ungrab(CurrentTime);
+        gdk_pointer_ungrab(CurrentTime);
+    }
+}
+
+void ui_restore_mouse() {
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+        return;
+#endif
+
+    if(_mouse_enabled && cursor_is_blank) {
+	/*        XUndefineCursor(display,XtWindow(canvas));*/
+        gdk_keyboard_ungrab(CurrentTime);
+        gdk_pointer_ungrab(CurrentTime);
+	cursor_is_blank = 0; 
+    }
+}
+
+void initBlankCursor() {
+    blankCursor = gdk_cursor_new(GDK_MOUSE);
+}
+
+/* ------------------------------------------------------------------------- */
+
 void archdep_ui_init(int argc, char *argv[])
 {
     /* Fake Gnome to see empty arguments; 
@@ -435,7 +440,7 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 	mouse_button(bevent->button-1,FALSE);
     } else if (event->type == GDK_MOTION_NOTIFY && _mouse_enabled) {
         GdkEventMotion *mevent = (GdkEventMotion*) event;
-        mouse_move(mevent->x,mevent->y);
+        mouse_move((int)mevent->x, (int)mevent->y);
     }
 }
 
@@ -1070,6 +1075,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     initBlankCursor();
 
     c->emuwindow = new_canvas;
+    ui_cached_video_canvas = c;
+    
     return 0;
 }
 

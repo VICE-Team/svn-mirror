@@ -37,7 +37,7 @@ extern void mouse_button(int bnumber, int state);
 
 extern int _mouse_enabled;
 extern int mouse_x, mouse_y;
-extern int mouse_accel;
+extern int mouse_accelx, mouse_accely;
 
 /* ------------------------------------------------------------------------- */
 
@@ -47,14 +47,14 @@ inline static BYTE mouse_get_x(void)
 
     if(last_mouse_x - mouse_x > 16) {
       last_mouse_x -= 16;
-      return (BYTE) ((last_mouse_x * mouse_accel) >> 1) & 0x7e;
+      return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
     }
     if(last_mouse_x - mouse_x < -16) {
       last_mouse_x += 16;
-      return (BYTE) ((last_mouse_x * mouse_accel) >> 1) & 0x7e;
+      return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
     }
     last_mouse_x = mouse_x;
-    return (BYTE) ((last_mouse_x * mouse_accel) >> 1) & 0x7e;
+    return (BYTE) ((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
 }
 
 inline static BYTE mouse_get_y(void)
@@ -63,14 +63,14 @@ inline static BYTE mouse_get_y(void)
 
     if(last_mouse_y - mouse_y > 16) {
       last_mouse_y -= 16;
-      return (BYTE) ((last_mouse_y * mouse_accel) >> 1) & 0x7e;
+      return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
     } 
     if(last_mouse_y - mouse_y < -16) {
       last_mouse_y += 16;
-      return (BYTE) ((last_mouse_y * mouse_accel) >> 1) & 0x7e;
+      return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
     }
     last_mouse_y = mouse_y;
-    return (BYTE) ((last_mouse_y * mouse_accel) >> 1) & 0x7e;
+    return (BYTE) ((last_mouse_y * mouse_accely) >> 1) & 0x7e;
 }
 
 inline static void mouse_move(int x, int y)
