@@ -29,6 +29,13 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&All",                        IDM_DETACH_ALL
         END
+        POPUP "&Flip list"
+        BEGIN
+            MENUITEM "&Add current image\tAlt-i",          IDM_FLIP_ADD
+            MENUITEM "&Remove current image\tAlt-k",       IDM_FLIP_REMOVE
+            MENUITEM "Attach &next image\tAlt-n",          IDM_FLIP_NEXT
+            MENUITEM "Attach &previous image\tCtrl+Alt-n", IDM_FLIP_PREVIOUS
+        END
         MENUITEM SEPARATOR
         MENUITEM "Attach &tape image...\tAlt+T",    IDM_ATTACH_TAPE
         MENUITEM "Detac&h tape image",              IDM_DETACH_TAPE
@@ -53,11 +60,6 @@ BEGIN
         END
         MENUITEM "Detach c&artridge image",         IDM_CART_DETACH
         MENUITEM SEPARATOR
-        MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
-        MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
-        MENUITEM "Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
-        MENUITEM "Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
-        MENUITEM SEPARATOR
         MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -66,6 +68,13 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
+    END
+    POPUP "S&napshot"
+    BEGIN
+        MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
+        MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
+        MENUITEM "Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
+        MENUITEM "Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
     END
     POPUP "&Options"
     BEGIN
