@@ -73,6 +73,7 @@ noinst_HEADERS = \
 	gcr.h \
 	gfxoutput.h \
 	iecdrive.h \
+	image.h \
 	imagecontents.h \
 	info.h \
 	init.h \
@@ -149,6 +150,7 @@ base_sources = \
 	findpath.c \
 	fliplist.c \
 	gcr.c \
+	image.c \
 	info.c \
 	init.c \
 	initcmdline.c \
@@ -524,6 +526,7 @@ c1541_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	gcr.c \
+	image.c \
 	info.c \
 	ioutil.c \
 	lib.c \

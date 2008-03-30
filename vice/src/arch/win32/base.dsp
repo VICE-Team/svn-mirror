@@ -146,6 +146,10 @@ SOURCE="..\..\gcr.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\image.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\info.c"
 # End Source File
 # Begin Source File
