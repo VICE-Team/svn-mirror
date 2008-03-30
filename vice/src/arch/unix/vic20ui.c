@@ -342,15 +342,13 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 /*------------------------------------------------------------*/
 
-UI_MENU_DEFINE_RADIO(RsUser)
+UI_MENU_DEFINE_TOGGLE(RsUserEnable)
 
 static ui_menu_entry_t vic20_rs232_submenu[] = {
-    { N_("*No Userport RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)0, NULL },
-    { N_("*Userport 300 baud RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)300, NULL },
-    { N_("*Userport 1200 baud RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)1200, NULL },
+    { N_("*Userport RS232 emulation"),
+      (ui_callback_t)toggle_RsUserEnable, NULL, NULL },
+    { N_("Userport RS232 baud rate"),
+      NULL, NULL, rs232user_baudrate_submenu },
     { N_("Userport RS232 device"),
       NULL, NULL, rs232user_device_submenu },
     { "--" },

@@ -143,7 +143,7 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
 #ifdef HAVE_RS232
-    if(rsuser_enabled) {
+    if (rsuser_enabled) {
         rsuser_set_tx_bit((int)(byte & 4));
     }
 #endif

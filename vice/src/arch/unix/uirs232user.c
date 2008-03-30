@@ -47,3 +47,20 @@ ui_menu_entry_t rs232user_device_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(RsUserBaud)
+
+ui_menu_entry_t rs232user_baudrate_submenu[] = {
+    { N_("*300 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)300, NULL },
+    { N_("*600 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)600, NULL },
+    { N_("*1200 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)1200, NULL },
+    { N_("*2400 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)2400, NULL },
+    { N_("*4800 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)4800, NULL },
+    { N_("*9600 baud"),
+      (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)9600, NULL },
+};
+
