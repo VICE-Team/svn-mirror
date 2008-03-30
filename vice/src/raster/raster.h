@@ -270,6 +270,8 @@ struct raster_s {
         WORD doub[0x100];
         DWORD quad[0x100];
     } pixel_table;
+
+    struct video_render_config_s *videoconfig;
 };
 typedef struct raster_s raster_t;
 
@@ -304,7 +306,7 @@ extern void raster_invalidate_cache(raster_t *raster,
 extern void raster_resize_viewport(raster_t *raster,
                                    unsigned int width, unsigned int height);
 extern void raster_set_pixel_size(raster_t *raster, unsigned int width,
-                                  unsigned int height, int videorendermode);
+                                  unsigned int height);
 extern void raster_force_repaint(raster_t *raster);
 extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
 extern void raster_set_title(raster_t *raster, const char *title);
