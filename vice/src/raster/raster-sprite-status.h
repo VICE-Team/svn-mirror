@@ -85,6 +85,7 @@ typedef struct raster_sprite_status_s raster_sprite_status_t;
 
 extern void raster_sprite_status_init(raster_sprite_status_t *status,
                                       unsigned int num_sprites);
+extern void raster_sprite_status_reset(raster_sprite_status_t *status);
 extern void raster_sprite_status_shutdown(raster_sprite_status_t *status,
                                           unsigned int num_sprites);
 extern raster_sprite_status_t *raster_sprite_status_new(

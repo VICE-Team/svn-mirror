@@ -423,6 +423,8 @@ void vicii_reset_registers(void)
 
     for (i = 0; i <= 0x3f; i++)
         vicii_store(i, 0);
+
+    raster_sprite_status_reset(vic_ii.raster.sprite_status);
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if

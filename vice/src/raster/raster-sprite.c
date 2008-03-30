@@ -29,7 +29,7 @@
 #include "raster-sprite.h"
 
 
-void raster_sprite_init(raster_sprite_t *s)
+void raster_sprite_reset(raster_sprite_t *s)
 {
     s->x = 0;
     s->y = 0;

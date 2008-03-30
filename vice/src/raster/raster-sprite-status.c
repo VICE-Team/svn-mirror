@@ -35,16 +35,9 @@
 #include "types.h"
 
 
-void raster_sprite_status_init(raster_sprite_status_t *status,
-                               unsigned int num_sprites)
+void raster_sprite_status_reset(raster_sprite_status_t *status)
 {
     unsigned int i;
-
-    status->num_sprites = num_sprites;
-
-    status->draw_function = NULL;
-    status->draw_partial_function = NULL;
-    status->cache_function = NULL;
 
     status->visible_msk = 0;
     status->dma_msk = 0;
@@ -52,6 +45,22 @@ void raster_sprite_status_init(raster_sprite_status_t *status,
 
     status->mc_sprite_color_1 = 0;
     status->mc_sprite_color_2 = 0;
+
+    status->sprite_data = status->sprite_data_1;
+    status->new_sprite_data = status->sprite_data_2;
+
+    for (i = 0; i < status->num_sprites; i++)
+        raster_sprite_reset(&status->sprites[i]);
+}
+
+void raster_sprite_status_init(raster_sprite_status_t *status,
+                               unsigned int num_sprites)
+{
+    status->num_sprites = num_sprites;
+
+    status->draw_function = NULL;
+    status->draw_partial_function = NULL;
+    status->cache_function = NULL;
 
     if (num_sprites > 0) {
         status->sprites = lib_malloc(sizeof(*status->sprites) * num_sprites);
@@ -63,11 +72,7 @@ void raster_sprite_status_init(raster_sprite_status_t *status,
         status->sprite_data_2 = NULL;
     }
 
-    status->sprite_data = status->sprite_data_1;
-    status->new_sprite_data = status->sprite_data_2;
-
-    for (i = 0; i < num_sprites; i++)
-        raster_sprite_init(&status->sprites[i]);
+    raster_sprite_status_reset(status);
 }
 
 void raster_sprite_status_shutdown(raster_sprite_status_t *status,
