@@ -241,8 +241,8 @@ struct snapshot_module_s;
 
 extern interrupt_cpu_status_t *interrupt_cpu_status_new(void);
 extern void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs);
-extern void interrupt_cpu_status_init(interrupt_cpu_status_t *cs, int num_ints,
-                                      unsigned int *last_opcode_info_ptr);
+extern void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs, int num_ints,
+                                       unsigned int *last_opcode_info_ptr);
 
 extern void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(interrupt_cpu_status_t *cs);

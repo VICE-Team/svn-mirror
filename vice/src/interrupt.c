@@ -40,8 +40,8 @@
 
 
 /* Initialization.  */
-void interrupt_cpu_status_init(interrupt_cpu_status_t *cs, int num_ints,
-                               unsigned int *last_opcode_info_ptr)
+void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs, int num_ints,
+                                unsigned int *last_opcode_info_ptr)
 {
     memset(cs, 0, sizeof(interrupt_cpu_status_t));
     cs->num_ints = num_ints;
