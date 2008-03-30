@@ -37,10 +37,10 @@
 #include "interrupt.h"
 #include "true1541.h"
 #include "c64mem.h"
+#include "c64cia.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "vicii.h"
-#include "cia.h"
 #include "sid.h"
 #include "memutils.h"
 #include "maincpu.h"
@@ -307,7 +307,6 @@ static int vbank;
 static int mem_config;
 
 /* Emulation identification string.  */
-#if defined (EMULATOR_ID)
 static BYTE emulator_id[] = {
     0x56, 0x49, 0x43, 0x45, 0x20, 0x30, 0x2e, 0x31,
     0x34, 0x0d, 0x28, 0x43, 0x29, 0x20, 0x31, 0x39, 	/* VICE 0.14.(C) 19 */
@@ -322,7 +321,6 @@ static BYTE emulator_id[] = {
     0x44, 0x49, 0x43, 0x0d, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x02, 0x14, 0x56, 0x55	/* DIC...........VU */
 };
-#endif
 
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed. */
 static int tape_sense = 0;

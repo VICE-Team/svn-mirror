@@ -40,4 +40,7 @@
 #define	PET8032_CHECKSUM_A	8647	/* my kernel (a.fachat) */
 #define	PET8032_CHECKSUM_B	8227	/* jouko's kernel */
 
+extern int pet_mem_init_resources(void);
+extern int pet_mem_init_cmdline_options(void);
+
 #endif
