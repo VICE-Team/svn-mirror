@@ -15,6 +15,12 @@ INCLUDES = \
 noinst_LIBRARIES = libsid.a
 
 libsid_a_SOURCES = \
+	sid-cmdline-options.c \
+	sid-cmdline-options.h \
+	sid-resources.c \
+	sid-resources.h \
+	sid-snapshot.c \
+	sid-snapshot.h \
 	sid.c \
 	sid.h \
 	wave6581.h \
