@@ -274,6 +274,7 @@ CallbackFunc(UiSetNumpadJoystickPort);
 #ifdef HAVE_TRUE1541
 CallbackFunc(UiToggleTrue1541);
 CallbackFunc(UiToggleParallelCable);
+CallbackFunc(UiSet1541ExtendImage);
 CallbackFunc(UiSet1541SyncFactor);
 CallbackFunc(UiSet1541IdleMethod);
 CallbackFunc(UiSetCustom1541SyncFactor);
@@ -1188,6 +1189,16 @@ int UiJamDialog(const char *format, ...)
     if (button==Button_Debug)
 	return 2;
     return 0;
+}
+
+int UiExtendImageDialog(void)
+{
+    UiButton b;
+
+    suspend_speed_eval();
+    b = UiAskConfirmation("Extend disk image",
+                          "Do you want to extend the disk image to 40 tracks?");
+    return (b == Button_Yes) ? 1 : 0;
 }
 
 /* File browser. */
@@ -2590,6 +2601,21 @@ CallbackFunc(UiSetCustom1541SyncFactor)
 		UiUpdateMenus();
 	    }
 	}
+    }
+}
+
+CallbackFunc(UiSet1541ExtendImage)
+{
+    if (!call_data) {
+	if (app_resources.true1541ExtendImage != (int)client_data) {
+	    app_resources.true1541ExtendImage = (int)client_data;
+	    UiUpdateMenus();
+	    resources_have_changed = 1;
+	}
+    } else {
+	XtVaSetValues(w, XtNleftBitmap,
+		      (app_resources.true1541ExtendImage == (int) client_data
+		       ? CheckmarkBitmap : 0), NULL);
     }
 }
 

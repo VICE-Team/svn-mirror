@@ -207,6 +207,16 @@ MenuEntry SetJoystickDevice2Submenu[] = {
 
 #ifdef HAVE_TRUE1541
 
+MenuEntry Change1541ExtendImageSubmenu[] = {
+    { "*Never extend", (UiMenuCallback) UiSet1541ExtendImage,
+      (UiCallbackDataPtr) TRUE1541_EXTEND_NEVER, NULL },
+    { "*Ask on extend", (UiMenuCallback) UiSet1541ExtendImage,
+      (UiCallbackDataPtr) TRUE1541_EXTEND_ASK, NULL },
+    { "*Extend on access", (UiMenuCallback) UiSet1541ExtendImage,
+      (UiCallbackDataPtr) TRUE1541_EXTEND_ACCESS, NULL },
+    { NULL }
+};
+
 MenuEntry Change1541SyncFactorSubmenu[] = {
     { "*PAL", (UiMenuCallback) UiSet1541SyncFactor,
       (UiCallbackDataPtr) TRUE1541_PAL_SYNC_FACTOR, NULL },
@@ -373,6 +383,9 @@ MenuEntry True1541Submenu[] = {
       NULL, NULL, Change1541SyncFactorSubmenu },
     { "True 1541 idle method",
       NULL, NULL, Change1541IdleMethodSubmenu },
+    { "--" },
+    { "40-track image support",
+      NULL, NULL, Change1541ExtendImageSubmenu },
     { NULL }
 };
 #endif
