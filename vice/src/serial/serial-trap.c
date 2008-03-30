@@ -51,6 +51,14 @@ static WORD tmp_in;
 static BYTE TrapDevice;
 static BYTE TrapSecondary;
 
+/* Function to call when EOF happens in `serialreceivebyte()'.  */
+static void (*eof_callback_func)(void);
+
+/* Function to call when the `serialattention()' trap is called.  */
+static void (*attention_callback_func)(void);
+
+static unsigned int serial_truedrive;
+
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
    Secondary Address to Serial Bus under Attention.  */
@@ -205,5 +213,22 @@ void serial_traps_reset(void)
 {
     serial_iec_bus_reset();
     serial_iec_device_reset();
+}
+
+/* Specify a function to call when EOF happens in `serialreceivebyte()'.  */
+void serial_trap_eof_callback_set(void (*func)(void))
+{
+    eof_callback_func = func;
+}
+
+/* Specify a function to call when the `serialattention()' trap is called.  */
+void serial_trap_attention_callback_set(void (*func)(void))
+{
+    attention_callback_func = func;
+}
+
+void serial_trap_truedrive_set(unsigned int flag)
+{
+    serial_truedrive = flag;
 }
 

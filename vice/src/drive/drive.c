@@ -67,7 +67,6 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "rotation.h"
-#include "serial.h"
 #include "types.h"
 #include "ui.h"
 
@@ -330,9 +329,7 @@ int drive_enable(drive_context_t *drv)
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     /* Always disable kernal traps. */
-    if (drive_true_emulation)
-        serial_set_truedrive(1);
-    else
+    if (!drive_true_emulation)
         return 0;
 
     if (drive->type == DRIVE_TYPE_NONE)
@@ -379,9 +376,6 @@ void drive_disable(drive_context_t *drv)
     drive->enable = 0;
 
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-
-    if (rom_loaded && !drive_true_emulation)
-        serial_set_truedrive(0);
 
     if (rom_loaded) {
         drive_cpu_sleep(drv);
