@@ -33,22 +33,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "vmachine.h"
-#include "mem.h"
-#include "serial.h"
-#include "warn.h"
-#include "resources.h"
-#include "drive.h"
-#include "tape.h"
-#include "attach.h"
-#include "interrupt.h"
-#include "ui.h"
-
 #include "autostart.h"
-#include "utils.h"
-#include "kbdbuf.h"
 
-/* Kernal addresses. set by autostart_init */
+#include "attach.h"
+#include "drive.h"
+#include "interrupt.h"
+#include "kbdbuf.h"
+#include "mem.h"
+#include "resources.h"
+#include "serial.h"
+#include "tape.h"
+#include "ui.h"
+#include "utils.h"
+#include "vmachine.h"
+#include "warn.h"
+
+
+/* Kernal addresses.  Set by `autostart_init()'.  */
 
 static int blnsw;		/* Cursor Blink enable: 0 = Flash Cursor */
 static int pnt;			/* Pointer: Current Screen Line Address */
@@ -180,11 +181,11 @@ static void disk_eof_callback(void)
 {
     if (handle_true1541) {
         if (orig_true1541_state)
-            warn(pwarn, -1, "switching true 1541 on and starting program");
-        else
-            warn(pwarn, -1, "starting program");
+            warn(pwarn, -1, "switching true 1541 on");
         set_true1541_mode(orig_true1541_state);
     }
+
+    warn(pwarn, -1, "starting program");
 
     kbd_buf_feed("run\r");
     autostartmode = AUTOSTART_DONE;

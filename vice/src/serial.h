@@ -142,4 +142,6 @@ extern void serialsendbyte(void);
 extern void serialreceivebyte(void);
 extern void trap_serial_ready(void);
 
+extern void serial_set_eof_callback(void (*func)(void));
+
 #endif  /* _SERIAL_H */
