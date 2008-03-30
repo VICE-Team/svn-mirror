@@ -39,7 +39,7 @@
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void ted_fetch_matrix(int offs, int num)
+void ted_fetch_matrix(int offs, int num)
 {
     BYTE *p;
     int start_char;

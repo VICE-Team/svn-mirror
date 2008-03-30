@@ -36,6 +36,7 @@
 #include "mem.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
+#include "raster.h"
 #include "types.h"
 #include "vicii-fetch.h"
 #include "vicii-irq.h"
@@ -45,7 +46,7 @@
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void vicii_fetch_matrix(int offs, int num, int num_0xff)
+void vicii_fetch_matrix(int offs, int num, int num_0xff)
 {
     int start_char;
     int c;
