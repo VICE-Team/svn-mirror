@@ -1,3 +1,44 @@
+2002-09-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.4.
+
+	* vicii/vicii-draw.c (get_ext_text, _draw_ext_text_cached,
+	get_illegal_text, _draw_illegal_text_cached): Fixed video
+	cache.
+
+	* plus4/ted-draw.c: Lots of fixes and optimizations.
+
+	* raster/raster-cache-const.h,
+	raster/raster-cache-fill-1fff.h,
+	raster/raster-cache-fill-39ff.h, raster/raster-cache-fill.h,
+	raster/raster-cache-nibbles.h, raster/raster-cache-text-ext.h,
+	raster/raster-cache-text-std.h: New files.
+
+	* raster/raster-cache.h: Moved cache fill routines to separate
+	files.
+
+	* raster/Makefile.am: Added new files.
+
+	* vicii/vicii-draw.c, vic20/vic-draw.c, plus4/ted-draw.c,
+	vdc/vdc-draw.c: Added includes.
+
+	* fsdevice/fsdevice.c (read_fs): Removed.
+
+	* raster/raster.c (raster_invalidate_cache): Pass number of
+	sprites.
+
+	* raster/raster-cache.c (raster_cache_init): Only allocate
+	`gfx_msk' if sprites are avialable.
+
+	* raster/raster-cache.h: Changed `gfx_msk' from array to
+	pointer.
+
+	* raster/raster-sprite.c, raster/raster-sprite.h: Removed
+	unused code.
+
+	* screenshot.c, screenshot.h, raster/raster.c, vic20/vic.h,
+	vic20/vic.c: Moved pixel tables to vic20 code.
+
 2002-09-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.3.
