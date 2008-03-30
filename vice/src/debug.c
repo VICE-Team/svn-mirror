@@ -36,6 +36,7 @@
 #include "log.h"
 #include "resources.h"
 #include "types.h"
+#include "utils.h"
 
 
 debug_t debug;
@@ -146,40 +147,34 @@ void debug_text(const char *text)
     log_debug(text);
 }
 
-void debug_irq(interrupt_cpu_status_t *cs)
+static void debug_int(interrupt_cpu_status_t *cs, const char *name,
+                      unsigned int type)
 {
     unsigned int i;
-    char *textout;
+    char *textout, *texttmp;
 
-    textout = lib_malloc(cs->num_ints * 4 + 20);
-
-    sprintf(textout, "*** IRQ");
+    textout = lib_stralloc(name);
 
     for (i = 0; i < cs->num_ints; i++) {
-        if (cs->pending_int[i] & IK_IRQ)
-            sprintf(&textout[strlen(textout)], " %i", i);
+        if (cs->pending_int[i] & type) {
+            texttmp = util_concat(textout, " ", cs->int_name[i], NULL);
+            lib_free(textout);
+            textout = texttmp;
+        }
     }
 
     log_debug(textout);
     lib_free(textout);
 }
 
+void debug_irq(interrupt_cpu_status_t *cs)
+{
+    debug_int(cs, "*** IRQ", IK_IRQ);
+}
+
 void debug_nmi(interrupt_cpu_status_t *cs)
 {
-    unsigned int i;
-    char *textout;
-
-    textout = lib_malloc(cs->num_ints * 4 + 20);
-
-    sprintf(textout, "*** NMI");
-
-    for (i = 0; i < cs->num_ints; i++) {
-        if (cs->pending_int[i] & IK_NMI)
-            sprintf(&textout[strlen(textout)], " %i", i);
-    }
-
-    log_debug(textout);
-    lib_free(textout);
+    debug_int(cs, "*** NMI", IK_NMI);
 }
 #endif
 
