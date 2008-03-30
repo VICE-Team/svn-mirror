@@ -51,6 +51,7 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "patchrom.h"
+#include "reu.h"
 #include "serial.h"
 #include "sid.h"
 #include "tape.h"
@@ -309,6 +310,9 @@ int machine_init(void)
 
     /* Initialize the C128-specific part of the UI.  */
     c128_ui_init();
+
+    /* Initialize the REU.  */
+    reu_init();
 
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */
