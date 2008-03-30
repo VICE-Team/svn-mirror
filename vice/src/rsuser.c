@@ -102,11 +102,11 @@ static int set_up_enabled(resource_value_t v) {
 
     rsuser_enabled = newval;
     if(newval) {
- 	char_clk_ticks = 10.0 * cycles_per_sec / ((double)newval);
+ 	char_clk_ticks = (int)(10.0 * cycles_per_sec / ((double)newval));
     } else {
 	char_clk_ticks = RSUSER_TICKS;
     }
-    bit_clk_ticks = char_clk_ticks / 10.0;
+    bit_clk_ticks = (int)((double)(char_clk_ticks) / 10.0);
 #ifdef DEBUG
     log_debug("RS232: %d cycles per char (cycles_per_sec=%ld).",
               char_clk_ticks, cycles_per_sec);

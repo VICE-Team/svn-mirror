@@ -48,7 +48,8 @@ static const char *magic_headers[] = {
 
 static DWORD get_number(BYTE *p, unsigned int n)
 {
-    int weight, retval, i;
+    DWORD retval;
+    unsigned int weight, i;
 
     weight = 1;
     retval = 0;

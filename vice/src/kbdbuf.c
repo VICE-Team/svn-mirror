@@ -74,7 +74,7 @@ static char *kdb_buf_startup_string = NULL;
 
 static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
 {
-    int i, j;
+    unsigned int i, j;
     size_t len;
 
     len = strlen(param);
@@ -143,7 +143,7 @@ int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
 /* Return nonzero if the keyboard buffer is empty.  */
 int kbd_buf_is_empty(void)
 {
-    return (int)(mem_read(num_pending_location) == 0);
+    return (int)(mem_read((ADDRESS)(num_pending_location)) == 0);
 }
 
 /* Feed `s' into the queue.  */
@@ -173,7 +173,7 @@ int kbd_buf_feed(const char *s)
 /* Flush pending characters into the kernal's queue if possible.  */
 void kbd_buf_flush(void)
 {
-    int i, n;
+    unsigned int i, n;
 
     if ( (!kbd_buf_enabled)
 	  || num_pending == 0
@@ -185,6 +185,6 @@ void kbd_buf_flush(void)
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
 	mem_store((ADDRESS)(buffer_location + i), queue[head_idx]);
 
-    mem_store((ADDRESS)(num_pending_location), n);
+    mem_store((ADDRESS)(num_pending_location), (BYTE)(n));
     num_pending -= n;
 }
