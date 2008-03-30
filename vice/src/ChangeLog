@@ -1,3 +1,40 @@
+2001-10-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.14.
+
+	* c64/cart/c64cart.c, c64/cart/c64cartmem.c, c64/cart/crt.c,
+	c64/cart/c64cartmem.h, c64/cart/crt.h, c64/cart/generic.c,
+	c64/cart/generic.h, c64/cart/Makefile.am, c64/c64io.c,
+	c64/c64io.h, c128/c128io.c, c128/c128io.h: New files.
+
+	* c64/c64cartridge.c, c64/c64cartmem.c: Removed.
+
+	* c64/Makefile.am, c128/Makefile.am, Makefile.am: Added new
+	files and cart library.
+
+	* machine.h, c64/c64.c, c128/c128.c
+	(machine_update_memory_ptrs): New function.
+
+	* c128/c128mem.h: Removed io* prototypes.
+
+	* c128/z80mem.c: #include "c128io.h".
+
+	* c64/c64mem.c, c128/c128mem.c: Removed io* functions.
+
+	* vdc/vdc-mem.c (vdc_store): Disable xsmooth if unaligned
+	access is not allowed.
+
+2001-10-09  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/c128ui.c: Added reSID resampling menu.
+
+2001-10-08  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* sid/sid.h: replaced C++ commentary
+
+	* c64/c64mem.c, c128/c128mem.c: don't return value from void
+	function (not even void value).
+
 2001-10-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.13.
