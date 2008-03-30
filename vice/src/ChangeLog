@@ -1,3 +1,57 @@
+2003-09-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.33.
+
+	* lib.c: Added support to detect memory corruptions.
+
+	* arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/rescbm2.rc, arch/win32/ui.c: Added support for
+	drive reset.
+
+	* raster/raster-line.c: Reverted last patch.
+
+2003-09-11  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/fullscrn.c (init_fullscreen_dialog): Init Vblank
+	sync checkbox.
+	(dialog_fullscreen_proc): Handle Vblank sync checkbox
+	operations.
+
+	* arch/win32/res.h (IDC_TOGGLE_VBLANK_SYNC): Command ID for
+	Vblank sync checkbox.
+
+	* arch/win32/res.rc (IDD_FULLSCREEN_SETTINGS_DIALOG): Vblank
+	sync checkbox added.
+
+	* arch/win32/ui.c (ui_resources, set_vblank_sync, resources,
+	ui_vblank_sync_enabled): Variable, resource, support functions
+	added for Vblank sync checkbox.
+
+	* arch/win32/ui.c (ui_vblank_sync_enabled): Prototype added.
+
+	* plus4/plus4iec.h: Include ted.h.
+	(iec_cpu_write_conf1, iec_cpu_write_conf2,
+	iec_cpu_write_conf3, parallel_cable_cpu_write): Advance drive
+	cpu up to last_write_cycle.
+
+	* plus4/plus4pio1.c: (pio1_read, pio1_store,
+	pio1_set_tape_sense): Fixed user port operation, and updated
+	tape_sense line emulation.
+
+	* vsync.c (vsync_do_vsync): Do vblank sync only if Vblank sync
+	checkbox was enabled.
+
+	* vsyncapi.h (vsyncarch_vbl_sync_enabled): Added prototype,
+	only used on Win32 platform.
+
+2003-09-11  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfearch.h, c64/tfe.c: tfe_should_accept() now has a
+	buffer of *unsigned* chars as its input. Before, it could not
+	recognize a broadcast because of a signed/unsigned-mismatch.
+
 2003-09-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.32.
