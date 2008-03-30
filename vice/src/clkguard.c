@@ -2,7 +2,7 @@
  * clkguard.c - Handle clock counter overflows.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#include <stdlib.h>
 
 #include "clkguard.h"
 #include "utils.h"

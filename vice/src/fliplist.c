@@ -2,7 +2,7 @@
  * fliplist.c
  *
  * Written by
- *  Martin Pottendorfer
+ *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,12 +25,15 @@
  */
 
 #include "vice.h"
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include "attach.h"
+#include "fliplist.h"
 #include "log.h"
 #include "utils.h"
-#include "fliplist.h"
-#include "attach.h"
 
 #define NUM_DRIVES 2
 

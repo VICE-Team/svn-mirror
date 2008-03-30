@@ -32,6 +32,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "log.h"
 #include "mem.h"
 #include "machine.h"

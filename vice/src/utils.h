@@ -30,11 +30,7 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#include <stdlib.h>
-#include <types.h>
-#endif
 
 #include "types.h"
 
@@ -92,3 +88,4 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n);
 #endif
 
 #endif /* UTILS_H */
+

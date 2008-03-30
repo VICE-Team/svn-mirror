@@ -2,7 +2,7 @@
  * log.c - Logging facility.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,13 +27,14 @@
 #include "vice.h"
 
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "log.h"
-
-#include "cmdline.h"
-#include "resources.h"
 #include "archdep.h"
+#include "cmdline.h"
+#include "log.h"
+#include "resources.h"
 #include "utils.h"
 
 #ifdef __riscos

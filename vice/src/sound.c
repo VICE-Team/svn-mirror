@@ -29,10 +29,9 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
-#endif
 
 #include "clkguard.h"
 #include "cmdline.h"

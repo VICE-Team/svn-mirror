@@ -2,7 +2,7 @@
  * tpicore.h - TPI 6525 template
  *
  * Written by
- *   André Fachat (a.fachat@physik.tu-chemnitz.de)
+ *   André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,14 +26,12 @@
 
 #include "vice.h"
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
-#include "types.h"
 #include "log.h"
 #include "snapshot.h"
 #include "tpi.h"
+#include "types.h"
 
 #if defined(NO_INLINE)
 #define _TPI_FUNC       static

@@ -1,11 +1,11 @@
 /*
- * tape.c - (Guess what?) Tape unit emulation.
+ * tape.c - Tape unit emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
- *  Jouko Valta (jopi@stekt.oulu.fi)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,6 +37,7 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef __riscos

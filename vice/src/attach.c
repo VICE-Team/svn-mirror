@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "attach.h"

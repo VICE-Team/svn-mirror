@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef HAVE_SYS_TYPES_H
@@ -571,7 +572,7 @@ static int disk_image_create_gcr(disk_image_t *image)
             rawdata[257] = chksum;
 
             convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
-                                  id[0], id[1]);
+                                  id[0], id[1], 0);
             gcrptr += 360;
         }
         if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, image->fd) < 1 ) {

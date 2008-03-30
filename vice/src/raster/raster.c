@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "machine.h"
 #include "utils.h"
 #include "video.h"
