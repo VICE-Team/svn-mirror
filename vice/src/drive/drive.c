@@ -187,7 +187,7 @@ static int set_drive0_idling_method(resource_value_t v)
         return -1;
 
     if (rom_loaded && drive[0].type == DRIVE_TYPE_1541)
-        drive[0].rom[0xec9b - 0x8000] = 
+        drive[0].rom[0xec9b - 0x8000] =
             (drive[0].idling_method != DRIVE_IDLE_TRAP_IDLE)
             ? 0x00 : drive[0].rom_idle_trap;
     drive[0].idling_method = (int) v;
@@ -430,9 +430,9 @@ static void drive_read_image_d64_d71(int dnr)
     if (drive[dnr].drive_floppy->ImageFormat == 1541
         && drive[dnr].type == DRIVE_TYPE_1541) {
         for (track = 0; track < MAX_TRACKS_1541; track++) {
-            drive[dnr].GCR_track_size[track] = 
+            drive[dnr].GCR_track_size[track] =
                 raw_track_size[speed_map_1541[track]];
-            memset(drive[dnr].GCR_speed_zone, speed_map_1541[track], 
+            memset(drive[dnr].GCR_speed_zone, speed_map_1541[track],
                 NUM_MAX_BYTES_TRACK);
         }
     }
@@ -456,7 +456,7 @@ static void drive_read_image_d64_d71(int dnr)
         max_sector = sector_map_1541[track];
     if (drive[dnr].drive_floppy->ImageFormat == 1571)
         max_sector = sector_map_1571[track];
- 
+
 	/* Clear track to avoid read errors.  */
 	memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
 
@@ -910,7 +910,7 @@ static int drive_load_rom_images(void)
         if (s != DRIVE_ROM1541_CHECKSUM)
             fprintf(stderr,
                     "Drive: Warning: unknown 1541 ROM image.  Sum: %lu\n", s);
-    } 
+    }
 
     if (mem_load_sys_file(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
                           DRIVE_ROM1571_SIZE) < 0) {
@@ -976,12 +976,15 @@ static void drive_initialize_rom_traps(int dnr)
 /* Activate full drive emulation. */
 static int drive_enable(int dnr)
 {
+    int i;
+
     /* This must come first, because this might be called before the drive
        initialization.  */
     drive[dnr].enable = 1;
 
     if (!rom_loaded)
         return -1;
+
     /* Always disable kernal traps. */
     serial_remove_traps();
 
@@ -990,23 +993,35 @@ static int drive_enable(int dnr)
     if (drive[1].drive_floppy != NULL)
 	drive_attach_floppy(drive[1].drive_floppy);
 
-    if (dnr == 0) 
+    if (dnr == 0)
 	drive0_cpu_wake_up();
     if (dnr == 1)
 	drive1_cpu_wake_up();
 
-    ui_toggle_drive_status(1);
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
+
+    /* Make sure the UI is updated.  */
+    for (i = 0; i < 2; i++) {
+        if (drive[i].enable) {
+            drive[i].old_led_status = -1;
+            drive[i].old_half_track = -1;
+        }
+    }
+
     return 0;
 }
 
 /* Disable full drive emulation.  */
 static void drive_disable(int dnr)
 {
+    int i;
+
     /* This must come first, because this might be called before the true
        drive initialization.  */
     drive[dnr].enable = 0;
 
-    if (rom_loaded && drive[0].enable == 0 && drive[1].enable == 0) 
+    if (rom_loaded && drive[0].enable == 0 && drive[1].enable == 0)
 	serial_install_traps();
 
     if (rom_loaded){
@@ -1028,7 +1043,17 @@ static void drive_disable(int dnr)
     if (dnr == 1)
         GCR_data_writeback(1);
     }
-    ui_toggle_drive_status(0);
+
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
+
+    /* Make sure the UI is updated.  */
+    for (i = 0; i < 2; i++) {
+        if (drive[i].enable) {
+            drive[i].old_led_status = -1;
+            drive[i].old_half_track = -1;
+        }
+    }
 }
 
 void drive_reset(void)
@@ -1303,7 +1328,7 @@ static void drive_set_half_track(int num, int dnr)
 			   + ((drive[dnr].current_half_track / 2 - 1)
 			      * NUM_MAX_BYTES_TRACK));
 
-    drive[dnr].GCR_current_track_size = 
+    drive[dnr].GCR_current_track_size =
         drive[dnr].GCR_track_size[drive[dnr].current_half_track / 2 - 1];
     drive[dnr].GCR_head_offset = 0;
 }
@@ -1318,8 +1343,6 @@ void drive_move_head(int step, int dnr)
             return;
     }
     drive_set_half_track(drive[dnr].current_half_track + step, dnr);
-    /* FIXME: We are using one track display for both drives.  */
-    ui_display_drive_track((double)drive[dnr].current_half_track / 2.0);
 }
 
 /* Write one GCR byte to the disk. */
@@ -1427,7 +1450,7 @@ static void GCR_data_writeback(int dnr)
 		dnr + 8, track, sector);
 	    else {
 
-		convert_GCR_to_sector(buffer, offset, 
+		convert_GCR_to_sector(buffer, offset,
 		    drive[dnr].GCR_track_start_ptr,
 		    drive[dnr].GCR_current_track_size);
 		if (buffer[0] != 0x7)
@@ -1578,36 +1601,34 @@ void drive_set_1571_sync_factor(int sync, int dnr)
 /* ------------------------------------------------------------------------- */
 
 /* Update the status bar in the UI.  */
-/* FIXME: We have only one drive LED.  */
 static void drive_update_ui_status(void)
 {
-    int my_led_status;
-    if (!drive[0].enable) {
-        if (drive[0].old_led_status >= 0) {
-            drive[0].old_led_status = drive[0].old_half_track = -1;
-            ui_toggle_drive_status(0);
+    int i;
+
+    /* Update the LEDs and the track indicators.  */
+    for (i = 0; i < 2; i++)
+        if (drive[i].enable) {
+            int my_led_status = 0;
+
+            /* Actually update the LED status only if the `trap idle'
+               idling method is being used, as the LED status could be
+               incorrect otherwise.  */
+
+            if (drive[i].idling_method != DRIVE_IDLE_SKIP_CYCLES)
+                my_led_status = drive[i].led_status;
+
+            if (my_led_status != drive[i].old_led_status) {
+                ui_display_drive_led(i, my_led_status);
+                drive[i].old_led_status = my_led_status;
+            }
+
+            if (drive[i].current_half_track != drive[i].old_half_track) {
+                drive[i].old_half_track = drive[i].current_half_track;
+                ui_display_drive_track(i,
+                                       ((float) drive[i].current_half_track
+                                        / 2.0));
+            }
         }
-        return;
-    }
-
-    /* Actually update the LED status only if the `trap idle' idling method
-       is being used, as the LED status could be incorrect otherwise.  */
-    if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES)
-	/* FIXME: Hack to use one LED for both drives.  */
-	my_led_status = (drive[0].led_status | drive[1].led_status) ? 1 : 0;
-    else
-	my_led_status = 0;
-
-    if (my_led_status != drive[0].old_led_status) {
-        ui_display_drive_led(my_led_status);
-	drive[0].old_led_status = my_led_status;
-    }
-
-    /* FIXME: Only the track of drive #8 is shown.  */
-    if (drive[0].current_half_track != drive[0].old_half_track) {
-	drive[0].old_half_track = drive[0].current_half_track;
-	ui_display_drive_track((float) drive[0].current_half_track / 2.0);
-    }
 }
 
 /* This is called at every vsync.  */
