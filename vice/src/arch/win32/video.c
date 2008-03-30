@@ -323,7 +323,7 @@ int set_physical_colors(video_canvas_t *c)
 {
     HDC hdc;
     DDSURFACEDESC ddsd;
-    int i;
+    unsigned int i;
     HRESULT result;
     COLORREF oldcolor = (COLORREF)0;
     DDPIXELFORMAT format;
@@ -901,8 +901,10 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     if (c->draw_buffer->draw_buffer) {
         cut_rightline = safex + c->draw_buffer->canvas_width * pixel_width;
         cut_bottomline = safey + c->draw_buffer->canvas_height * pixel_height;
-        if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
-            cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
+        if (cut_rightline > (int)(c->draw_buffer->draw_buffer_width
+            * pixel_width)) {
+            cut_rightline = (int)(c->draw_buffer->draw_buffer_width
+                            * pixel_width);
         }
         if (cut_bottomline
             > c->draw_buffer->draw_buffer_height * pixel_height) {
@@ -1231,7 +1233,7 @@ float video_refresh_rate(video_canvas_t *c)
     /* get performance counter frequency */
     vsyncarch_init();
     frq = vsyncarch_frequency();
-    /* get current process and it's priority */
+    /* get current process and its priority */
     prc = GetCurrentProcess();
     cls = GetPriorityClass(prc);
 
@@ -1308,6 +1310,7 @@ float video_refresh_rate(video_canvas_t *c)
 
         return retval;
     }
+
     return 0.0f;
 }
 
