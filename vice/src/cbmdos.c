@@ -223,8 +223,15 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
             if (p[1] == ',') {
                 cmd_parse->recordlength = p[2]; /* Changing RL causes error */
 
-                if (cmd_parse->recordlength > 254)
+                /* Don't allow REL file record lengths less than 2 or
+                   greater than 254.  The 1541/71/81 lets you create a
+                   REL file of record length 0, but it locks up the CPU
+                   on the drive - nice. */
+                if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254)
                     return CBMDOS_IPE_OVERFLOW;
+                /* skip the REL length */
+                p+=3;
+                cmdlen-=3;
             }
             cmd_parse->filetype = CBMDOS_FT_REL;
             break;

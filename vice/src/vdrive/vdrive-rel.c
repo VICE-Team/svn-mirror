@@ -140,7 +140,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
                                   unsigned int *track, unsigned int *sector)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    unsigned int i, j, k, l, m, n, side, o;
+    unsigned int i, j, k, l, m, side, o;
     unsigned int t_new, s_new, t_super, s_super, current;
     int retval;
     BYTE *slot = p->slot;
@@ -153,11 +153,8 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
     {
         /* If we are equal or over, report error 52 */
         vdrive_command_set_error(vdrive, CBMDOS_IPE_TOOLARGE, 0, 0);
-        return -1;
+        return 1;
     }
-
-    /* number of blocks added. */
-    n = 0;
 
     /* find the number of side sector groups */
     o = OFFSET_SUPER_POINTER;
@@ -166,12 +163,6 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
     /* If the file isn't new, find the last record */
     if ( side )
     {
-        /* If block count is zero, but the sectors are all present
-           the we need to add the original sectors to the count. */
-        if (!i) {
-            n = 2 + vdrive_rel_has_super(vdrive);
-        }
-
         side--;
 
         /* Find last side sector; guaranteed find. */
@@ -236,10 +227,8 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
     /* Leave if no space left */
     if (retval < 0) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
-        return -1;
+        return 1;
     }
-    n++;
-
     /* Check if this side sector is full or if we need on in general. */
     if ( j == SIDE_INDEX_MAX || j == 0 ) {
         /* Allocate a new sector for the new side sector. */
@@ -250,11 +239,10 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         /* If no space, leave with no changes */
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
-            return -1;
+            return 1;
         }
         /* We will adjust the side sector later, but atleast we know
             we have a place to make adjustments. */
-        n++;
     }
 
     /* setup for later */
@@ -288,11 +276,10 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
             /* If no space, leave with no changes */
             if (retval < 0) {
                 vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
-                return -1;
+                return 1;
             }
             p->super_side_sector_track = t_super;
             p->super_side_sector_sector = s_super;
-            n++;
         } else {
             /* No super side sector required for this image */
             p->super_side_sector_track = 0;
@@ -305,6 +292,9 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         /* set up first data block */
         p->track_next = *track;
         p->sector_next = *sector;
+
+        /* Update the directory entry */
+        vdrive_iec_update_dirent(vdrive, secondary);
     } else {
         /* Existing... */
         /* Move to last sector, use position command - this will flush
@@ -426,8 +416,8 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
             p->super_side_sector[o+1] = s_new;
             p->super_side_sector_needsupdate = 1;
 
-            /* correct side sector reference. */
-            i = -1;
+            /* Set up reference to the first side sector. */
+            o = ( side * SIDE_SECTORS_MAX);
         } else {
             /* Nope, update old group. */
             /* Update side sector indices. */
@@ -448,10 +438,10 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
             for ( k=0; k<=i; k++, o++) {
                 p->side_sector_needsupdate[o] = 1;
             }
+            /* Set up the reference to the new side sector. */
+            o = ( (i+1) + side * SIDE_SECTORS_MAX);
         }
 
-        /* Update the new side sector. */
-        o = ( (i+1) + side * SIDE_SECTORS_MAX);
         /* dirty the side sector. */
         p->side_sector_needsupdate[ o ] = 1;
         /* update the internal references. */
@@ -477,12 +467,6 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         /* update track and sector of data. */
         p->side_sector[o] = *track;
         p->side_sector[o + 1] = *sector;
-    }
-
-    /* Update block count. */
-    for ( k=0;k<n;k++ ) {
-        if (!(++slot[SLOT_NR_BLOCKS]))
-            ++slot[SLOT_NR_BLOCKS + 1];
     }
 
     /* Move back to original record - it may not even exist. */
@@ -581,13 +565,13 @@ static int vdrive_rel_grow(vdrive_t *vdrive, unsigned int secondary,
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     unsigned int track, sector;
-    int j = 0;
+    unsigned int i, j, k, l = 0;
 
     /* Add a sector to the rel file until we meet the required
         records. */
     while( records >= p->record_max ) {
-        j = vdrive_rel_add_sector(vdrive, secondary, &track, &sector);
-        if (j<0) break;
+        l = vdrive_rel_add_sector(vdrive, secondary, &track, &sector);
+        if (l) break;
     }
 
     /* Flush the side sectors, since they have changed */
@@ -596,13 +580,33 @@ static int vdrive_rel_grow(vdrive_t *vdrive, unsigned int secondary,
     /* Update the BAM. */
     vdrive_bam_write_bam(vdrive);
 
-    /* If this is a NEW REL file, don't set the block count. */
-    if (!records) {
-        p->slot[SLOT_NR_BLOCKS] = 0;
-        p->slot[SLOT_NR_BLOCKS + 1] = 0;
+    /* Update block count on file expansions. */
+
+    /* Find the total blocks this REL file uses. */
+    k = p->slot[SLOT_NR_BLOCKS] + (p->slot[SLOT_NR_BLOCKS + 1] << 8);
+
+    /* determine the block count of the data */
+    i = p->record_max * p->slot[SLOT_RECORD_LENGTH];
+    j = i / 254;
+    if (i % 254) j++;
+    /* determine the block count of the side sectors */
+    i = j / SIDE_INDEX_MAX;
+    if (j % SIDE_INDEX_MAX) i++;
+    /* Add another block for a super side sector */
+    if (p->super_side_sector_track) i++;
+    /* Sum them up */
+    i = i + j;
+
+    /* Compare with the current */
+    if (i != k) {
+        /* Convert to high/low */
+        p->slot[SLOT_NR_BLOCKS] = i % 256;
+        p->slot[SLOT_NR_BLOCKS + 1] = i / 256;
+        /* Update the directory entry (block count) */
+        vdrive_iec_update_dirent(vdrive, secondary);
     }
 
-    return j;
+    return l;
 }
 
 static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
@@ -965,7 +969,9 @@ static unsigned int vdrive_rel_record_max(vdrive_t *vdrive, unsigned int seconda
         p->buffer, track, sector) != 0) {
         log_error(vdrive_rel_log,
             "Cannot read relative file data sector.");
-        return -1;
+        vdrive_command_set_error(vdrive, 
+            CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR, track, sector);
+        return 0;
     }
 
     /* calculate the total bytes based on the number of super side, side
@@ -1408,12 +1414,6 @@ int vdrive_rel_close(vdrive_t *vdrive, unsigned int secondary)
     /* Commit the buffers. */
     vdrive_rel_commit(vdrive, p);
 
-    /* Flush the side sectors */
-    vdrive_rel_flush_sidesectors(vdrive, p);
-
-    /* Update the directory entry (block count) */
-    vdrive_iec_update_dirent(vdrive, secondary);
-
     p->mode = BUFFER_NOT_IN_USE;
 
     lib_free((char *)p->buffer);
@@ -1459,26 +1459,6 @@ void vdrive_rel_listen(vdrive_t *vdrive, unsigned int secondary)
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
     if (p->needsupdate & WRITTEN_RECORD) {
-        /* Update block count if this is the first record and the
-           number of blocks is zero.  I don't know what the
-           commodore engineers were thinking at the time, but the
-           firmwares DON'T update the block count on a REL file until
-           it has been written to.  You would think it would have
-           been done while it was created - nope.  This is a lame
-           way to do it, but it works and it emulates what the
-           drives would really do. */
-        if (!p->record) {
-            unsigned int i;
-
-            /* Find the total blocks this REL file uses. */
-            i = p->slot[SLOT_NR_BLOCKS] + (p->slot[SLOT_NR_BLOCKS + 1] << 8);
-
-            /* only when the block count is zero */
-            if (!i) {
-                p->slot[SLOT_NR_BLOCKS] = 2 + vdrive_rel_has_super(vdrive);
-            }
-        }
-
         /* Fill the rest of the currently written record. */
         vdrive_rel_fillrecord(vdrive, secondary);
 

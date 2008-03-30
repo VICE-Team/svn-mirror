@@ -162,7 +162,7 @@ void fsdrive_listentalk(unsigned int device, BYTE secondary,
     st_func(st);
 
     p = serial_device_get(device & 0x0f);
-	if (p->listenf) {
+    if (p->listenf) {
         /* send listen/talk to emulated devices for flushing of
            REL file write buffer. */
         if ((device & 0x0f) >= 8)
@@ -179,14 +179,23 @@ void fsdrive_unlisten(unsigned int device, BYTE secondary,
 {
     BYTE st;
     serial_t *p;
+    void *vdrive;
 
+    p = serial_device_get(device & 0x0f);
     if ((secondary & 0xf0) == 0xf0
         || (secondary & 0x0f) == 0x0f) {
         st = serialcommand(device, secondary);
         st_func(st);
         /* Flush serial read ahead buffer too.  */
-        p = serial_device_get(device & 0x0f);
         p->nextok[secondary & 0x0f] = 0;
+    } else if (p->listenf) {
+        /* send unlisten to emulated devices for flushing of
+           REL file write buffer. */
+        if ((device & 0x0f) >= 8)
+        {
+            vdrive = (void *)file_system_get_vdrive(device & 0x0f);
+            (*(p->listenf))(vdrive, secondary & 0x0f);
+        }
     }
 }
 

@@ -2,7 +2,7 @@
  * vic20sound.c - Implementation of VIC20 sound code.
  *
  * Written by
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Rami Räsänen <raipsu@users.sf.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,79 +36,43 @@
 #include "types.h"
 #include "vic20sound.h"
 
-
-/* argh */
 static BYTE siddata[16];
 
-/* noise magic */
-#define NSHIFT(v, n) \
-    (((v) << (n)) | \
-    ((((v) >> (23 - (n))) ^ (v >> (18 - (n)))) & (( 1<< (n)) - 1)))
-#define NVALUE(v) \
-    (noiseLSB[v&0xff] | noiseMID[(v >> 8) & 0xff] | noiseMSB[(v >> 16) & 0xff])
-#define NSEED 0x7ffff8
-
-/* Noise tables */
-#define NOISETABLESIZE 256
-static BYTE noiseMSB[NOISETABLESIZE];
-static BYTE noiseMID[NOISETABLESIZE];
-static BYTE noiseLSB[NOISETABLESIZE];
-
-/* needed data for one voice */
-typedef struct voice_s
-{
-    /* counter value */
-    DWORD f;
-    /* counter step / sample */
-    DWORD fs;
-
-    /* noise shift register. Note! rv may be 0 to 15 shifts 'behind' the
-       real noise shift register value. Remaining shifts are done when
-       it is referenced */
-    DWORD rv;
-} voice_t;
-
-/* needed data for SID */
 struct sound_s
 {
-    /* number of voices */
-    voice_t v[4];
-    /* 4-bit volume value */
-    BYTE vol;
-
-    /* internal constant used for sample rate dependent calculations */
-    DWORD speed1;
+  unsigned char div;
+  unsigned char bassreg;
+  unsigned char basscntr;
+  unsigned char bassshift;
+  unsigned char altoreg;
+  unsigned char altocntr;
+  unsigned char altoshift;
+  unsigned char soprreg;
+  unsigned char soprcntr;
+  unsigned char soprshift;
+  unsigned char noisereg;
+  unsigned char noisecntr;
+  unsigned short noiseshift;
+  unsigned short noisefoo;
+  unsigned char vol;
+  int cycles_per_sample;
 };
+
+static struct sound_s snd;
+
+int vic_sound_run(int cycles);
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
-    DWORD o0, o1, o2, o3;
 
     for (i = 0; i < nr; i++) {
-        /* addfptrs */
-        psid->v[0].f += psid->v[0].fs;
-        psid->v[1].f += psid->v[1].fs;
-        psid->v[2].f += psid->v[2].fs;
-        psid->v[3].f += psid->v[3].fs;
-        /* noise */
-        if (psid->v[3].f < psid->v[3].fs)
-            psid->v[3].rv = NSHIFT(psid->v[3].rv, 16);
-        /* voices */
-        o0 = (psid->v[0].f & 0x80000000) >> 2;
-        o1 = (psid->v[1].f & 0x80000000) >> 2;
-        o2 = (psid->v[2].f & 0x80000000) >> 2;
-        o3 = (DWORD)NVALUE(NSHIFT(psid->v[3].rv, psid->v[3].f >> 28)) << 22;
-        /* sample */
-        pbuf[i * interleave] = ((SDWORD)((o0 + o1 + o2 + o3) >> 20) - 0x800)
-                               * psid->vol;
+      pbuf[i * interleave] = (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - 32768;
     }
     return 0;
 }
 
-
-/* SID initialization routine */
 sound_t *sound_machine_open(int chipno)
 {
     return (sound_t*)lib_calloc(1, sizeof(sound_t));
@@ -118,17 +82,10 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DWORD i;
 
-    psid->speed1 = (cycles_per_sec << 8) / speed;
-    psid->v[3].rv = NSEED;
-    for (i = 0; i < NOISETABLESIZE; i++) {
-        noiseLSB[i] = (BYTE)(((i >> (7 - 2)) & 0x04) | ((i >> (4 - 1)) &0x02)
-                      | ((i >> (2 - 0)) & 0x01));
-        noiseMID[i] = (BYTE)(((i >> (13 - 8 - 4)) & 0x10)
-                      | ((i << (3- (11 - 8))) & 0x08));
-        noiseMSB[i] = (BYTE)(((i << (7 - (22 - 16))) & 0x80)
-                      | ((i << (6 - (20 - 16))) & 0x40)
-                      | ((i << (5 - (16 - 16))) & 0x20));
-    }
+    memset((unsigned char*)&snd, 0, sizeof(snd));
+
+    snd.cycles_per_sample = cycles_per_sec / speed;
+
     for (i = 0; i < 16; i++)
         sound_machine_store(psid, (WORD)i, siddata[i]);
 
@@ -149,12 +106,6 @@ void vic_sound_reset(void)
         vic_sound_store(i, 0);
 }
 
-
-/*
- * XXX: This is _really_ experimental
- */
-#define VIC20FREQBASE    65535
-
 void vic_sound_store(WORD addr, BYTE value)
 {
     addr &= 0x0f;
@@ -162,33 +113,79 @@ void vic_sound_store(WORD addr, BYTE value)
     sound_store(addr, value, 0);
 }
 
+int vic_sound_run(int cycles) {
+  int i;
+  int ret = cycles*4;  /* Initial offset */
+
+  for (i=0;i<cycles;i++) {
+    snd.div++;
+    if (!(snd.div&0x3)) {
+      snd.soprcntr++; snd.soprcntr &= 0x7F;
+      if (snd.soprcntr == 0x7F) {
+        unsigned char tmp = snd.soprshift;
+        snd.soprcntr = snd.soprreg & ~0x80;
+        snd.soprshift <<= 1;
+        if (snd.soprreg&0x80) {
+          snd.soprshift |= ((tmp^128) & 128) >> 7;
+        }
+      }
+      snd.noisecntr++; snd.noisecntr &= 0x7F;
+      if (snd.noisecntr == 0x7F) {
+        unsigned short tmp = snd.noiseshift;
+        snd.noisecntr = snd.noisereg & ~0x80;
+        snd.noiseshift <<= 1;
+        if (snd.noisereg&0x80) {
+          snd.noiseshift |= ( ( (tmp&0x4000) ^ ((tmp&0x400)<<4) ^ (0x4000) ) >> (6+8) );
+          if (!(snd.noiseshift & 1) && (tmp & 1))
+            snd.noisefoo++;
+        } else
+          snd.noisefoo = 4;
+      }
+    }
+    if (!(snd.div&0x7)) {
+      snd.altocntr++; snd.basscntr &= 0x7F;
+      if (snd.altocntr == 0x7F) {
+        unsigned char tmp = snd.altoshift;
+        snd.altocntr = snd.altoreg & ~0x80;
+        snd.altoshift <<= 1;
+        if (snd.altoreg&0x80) {
+          snd.altoshift |= ((tmp^128) & 128) >> 7;
+        }
+      }
+    }
+    if (!(snd.div&0xF)) {
+      snd.basscntr++; snd.basscntr &= 0x7F;
+      if (snd.basscntr == 0x7F) {
+        unsigned char tmp = snd.bassshift;
+        snd.basscntr = snd.bassreg & ~0x80;
+        snd.bassshift <<= 1;
+        if (snd.bassreg&0x80) {
+          snd.bassshift |= ((tmp^128) & 128) >> 7;
+        }
+      }
+    }
+    ret += (snd.soprshift & 1) + (snd.altoshift & 1) + (snd.bassshift & 1) + (!(snd.noisefoo & 4));
+  }
+  return ret;
+}
+
 void sound_machine_store(sound_t *psid, WORD addr, BYTE value)
 {
-    DWORD freq;
-    int sbase, shift, divide;
-
     switch (addr) {
-      case 10:
-      case 11:
-      case 12:
-      case 13:
-        sbase = (addr - 10) * 4;
-        shift = addr - 10;
-        if (addr == 13)
-            shift = 0;
-        divide = 255 - value;
-        /* XXX: ? */
-        if (!divide)
-            divide = 127;
-        if (!(value & 0x80))
-            freq = 0;
-        else
-            freq = VIC20FREQBASE * (1 << shift) / divide;
-        psid->v[addr - 10].fs = psid->speed1 * freq;
+      case 0xA:
+        snd.bassreg = value;
         break;
-      case 14:
-        /* volume */
-        psid->vol = value & 0x0f;
+      case 0xB:
+        snd.altoreg = value;
+        break;
+      case 0xC:
+        snd.soprreg = value;
+        break;
+      case 0xD:
+        snd.noisereg = value;
+        break;
+      case 0xE:
+        snd.vol = value & 0x0f;
         break;
     }
 }
@@ -209,7 +206,7 @@ BYTE sound_machine_read(sound_t *psid, WORD addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    return lib_msprintf("#SID: clk=%d v=%d\n", maincpu_clk, psid->vol);
+    return lib_msprintf("#SID: clk=%d v=%d\n", maincpu_clk, snd.vol);
 }
 
 int sound_machine_cycle_based(void)
@@ -224,6 +221,4 @@ int sound_machine_channels(void)
 
 void sound_machine_enable(int enable)
 {
-
 }
-

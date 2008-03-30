@@ -1,3 +1,66 @@
+2004-07-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.36.
+
+2004-07-12  Rami Rasanen  <raipe@neutech.fi>
+
+	* vic20/vic20sound.c: Rewritten.
+
+2004-07-08  Roberto Muscedere  <cococommie@cogeco.ca>
+
+	* cbmdos.c: cbmdos_command_parse() was fixed to skip parsing
+	the text after the record size was processed.  IE: opening
+	"FILENAME,L,P" would result in a program file, not a REL file
+	of record length 80.
+
+	* cbmdos.c: cbmdos_command_parse() was fixed to not allow
+	the creation of REL files less than 2 bytes.  This is
+	noted in one of the CBM drive manuals, although most drives
+	don't check for it.
+
+	* parallel/parallel-trap.c: parallelattention() was corrected
+	to call the vdrive->listenf function after unlistens also.
+
+	* serial/fsdrive.c: fsdrive_unlisten() was corrected to call
+	the vdrive->listenf function after unlistens also.
+
+	* vdrive/vdrive-dir.c: vdrive_dir_create_slot() changed
+	malloc to calloc to clear out the sequential write buffer.
+	This keeps the disk images a little more cleaner.
+
+	* vdrive/vdrive-iec.c: iec_open_write() changed malloc to
+	calloc to clear out the sequential write buffer on replace
+	mode.
+
+	* vdrive/vdrive-iec.c: iec_open_write() changed the method
+	used to update the block count of a sequential file during
+	append mode.  We now recount the block number when following
+	the links to find the end of the file.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_add_sector() fixed not to
+	update the block count.  Deferred to vdrive_rel_grow()
+	function.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_add_sector() corrected
+	signed/unsigned variable assignments.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_grow() added block count
+	update code here.  Also removed excessive writes to disk.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_open_existing() added DOS
+	error message if sector couldn't be read.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_close() removed excessive
+	disk writes.
+
+	* vdrive/vdrive-rel.c: vdrive_rel_listen() removed block
+	count code and placed it in vdrive_rel_grow() function.
+
+2004-07-08  <fabrizio.ge@tiscali.it>
+
+	* sound.c, sounddrv/sounduss.c: Added support for
+	`HAVE_SYS_SOUNDCARD_H' define.
+
 2004-06-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.35.

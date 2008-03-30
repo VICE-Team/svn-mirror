@@ -176,7 +176,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
             /* replace mode: we don't want the dirent updated at all until
                 close */
             /* allocate buffers */
-            p->buffer = (BYTE *)lib_malloc(256);
+            p->buffer = (BYTE *)lib_calloc(1, 256);
             p->mode = BUFFER_SEQUENTIAL;
             p->bufptr = 2;
 
@@ -214,6 +214,13 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                 p->track = track = slot[SLOT_FIRST_TRACK];
                 p->sector = sector = slot[SLOT_FIRST_SECTOR];
 
+                /* update block count as we find the end of the file */
+                /* the real drives actually don't do this, so each time you
+                    append to a file, the block count increases by 1.  I think it
+                    is safer to correct the block count. */
+                slot[SLOT_NR_BLOCKS] = 255;
+                slot[SLOT_NR_BLOCKS + 1] = 255;
+
                 /* scan to the end of the file */
                 while (track) {
                     p->track = track;
@@ -230,9 +237,17 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                     /* setup next link */
                     track = p->buffer[0];
                     sector = p->buffer[1];
+
+                    /* Increment block count. */
+                    if (!(++slot[SLOT_NR_BLOCKS]))
+                        ++slot[SLOT_NR_BLOCKS + 1];
                 }
-                /* compensate if the link is 0 (rare possibility) */
+                /* compensate if the dir link is 0 (rare possibility) */
                 if (!p->track) {
+                    /* Our loop didn't even execute once, set the block
+                       size to 0 */
+                    slot[SLOT_NR_BLOCKS] = 0;
+                    slot[SLOT_NR_BLOCKS + 1] = 0;
                     /* set buffer pointer to 2 */
                     sector = 1;
                 }
@@ -284,18 +299,6 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
     p->dir_track = vdrive->Curr_track;
     p->dir_sector = vdrive->Curr_sector;
     p->dir_slot = vdrive->SlotNumber;
-
-    /* reduce block count by 1 for append mode after the dirent is
-       updated */
-    /* the real drives actually don't do this, so each time you
-        append to a file, the block count increases by 1.  I think it
-        is safer to correct the block count. */
-    if (p->readmode == CBMDOS_FAM_APPEND) {
-        /* Decrement block count by 1, write routine will increment
-            by 1. */
-        if (!(slot[SLOT_NR_BLOCKS]--))
-            slot[SLOT_NR_BLOCKS + 1]--;
-    }
 
     return SERIAL_OK;
 }

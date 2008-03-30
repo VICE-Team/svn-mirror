@@ -1,3 +1,11 @@
+2004-07-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.36.
+
+2004-07-08  <fabrizio.ge@tiscali.it>
+
+	* configure.in: Check for `sys/soundcard.h'.
+
 2004-06-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.35.

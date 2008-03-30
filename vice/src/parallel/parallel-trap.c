@@ -176,20 +176,17 @@ int parallelattention(int b)
     if (!(p->inuse))
         st |= 0x80;
 
-    switch (b & 0xf0) {
-      case 0x20:
-      case 0x40:
-      case 0x60:
+    if ( ((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40) || ((b & 0xf0) == 0x60)
+        || (b == 0x3f) ) {
         if (p->listenf) {
-            /* send talk/listen to emulated devices for flushing of
-               REL file write buffer. */
+            /* send talk/listen/unlisten to emulated devices for
+               flushing of REL file write buffer. */
             if ((TrapDevice & 0x0f) >= 8)
             {
                 vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
                 (*(p->listenf))(vdrive, TrapSecondary & 0x0f);
             }
         }
-        break;
     }
 
     if ((b == 0x3f) || (b == 0x5f)) {
