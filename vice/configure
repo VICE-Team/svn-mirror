@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.6.34
+VERSION=1.6.35
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -8421,6 +8421,7 @@ if false ; then
     mkdir -p drive
     mkdir -p monitor
     mkdir -p pet
+    mkdir -p printerdrv
     mkdir -p resid
     mkdir -p screendrv
     mkdir -p sid
@@ -8552,6 +8553,7 @@ trap 'rm -fr `echo "Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
+           data/PRINTER/Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
            doc/Makefile
@@ -8584,6 +8586,7 @@ trap 'rm -fr `echo "Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/screendrv/Makefile
+           src/printerdrv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/vdc/Makefile
@@ -8784,6 +8787,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            data/CBM-II/Makefile
            data/DRIVES/Makefile
            data/PET/Makefile
+           data/PRINTER/Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
            doc/Makefile
@@ -8816,6 +8820,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/screendrv/Makefile
+           src/printerdrv/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/vdc/Makefile
