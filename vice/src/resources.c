@@ -198,7 +198,9 @@ int resources_toggle(const char *name, resource_value_t *new_value_return)
     }
 
     value = !(*(int *)r->value_ptr);
-    *(int *)new_value_return = value;
+
+    if (new_value_return != NULL)
+        *(int *)new_value_return = value;
 
     return r->set_func((resource_value_t) value);
 }
