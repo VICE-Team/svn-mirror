@@ -196,7 +196,7 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
 
     /* IEEE 488 module.  */
     if (ieee488_enabled
-        && tpicore_snapshot_write_module(&(machine_context.tpi1), s) < 0)
+        && tpicore_snapshot_write_module(machine_context.tpi1, s) < 0)
         goto fail;
 
 #ifdef HAVE_RS232
@@ -257,7 +257,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     /* REU module: FIXME.  */
 
     /* IEEE488 module.  */
-    if (tpicore_snapshot_read_module(&(machine_context.tpi1), s) < 0) {
+    if (tpicore_snapshot_read_module(machine_context.tpi1, s) < 0) {
         ieee488_enabled = 0;
     } else {
         ieee488_enabled = 1;

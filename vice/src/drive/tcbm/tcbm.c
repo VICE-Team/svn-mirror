@@ -62,12 +62,12 @@ void tcbm_drive_init(struct drive_context_s *drv)
 
 void tcbm_drive_shutdown(struct drive_context_s *drv)
 {
-    tpicore_shutdown(&(drv->tpid));
+    tpicore_shutdown(drv->tpid);
 }
 
 void tcbm_drive_reset(struct drive_context_s *drv)
 {
-    tpicore_reset(&(drv->tpid));
+    tpicore_reset(drv->tpid);
     glue1551_reset(drv);
 }
 
