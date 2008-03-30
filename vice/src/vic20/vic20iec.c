@@ -40,7 +40,9 @@
 #include "viad.h"
 #include "via.h"
 
+
 #define NOT(x) ((x)^1)
+
 
 static BYTE cpu_data, cpu_clock, cpu_atn;
 static BYTE drive_data, drive_clock, drive_atna, drive_data_modifier;
@@ -265,7 +267,7 @@ int iec_available_busses(void)
 {
     int ieee488_enabled;
 
-    resources_get_value("IEEE488", (resource_value_t*) &ieee488_enabled);
+    resources_get_value("IEEE488", (void *)&ieee488_enabled);
 
     return IEC_BUS_IEC | (ieee488_enabled ? IEC_BUS_IEEE : 0);
 }

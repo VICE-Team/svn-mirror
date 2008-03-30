@@ -127,13 +127,13 @@ static int set_datasette_speed_tuning(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DatasetteResetWithCPU", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&reset_datasette_with_maincpu,
+      (void *)&reset_datasette_with_maincpu,
       set_reset_datasette_with_maincpu, NULL },
     { "DatasetteZeroGapDelay", RES_INTEGER, (resource_value_t)20000,
-      (resource_value_t *)&datasette_zero_gap_delay,
+      (void *)&datasette_zero_gap_delay,
       set_datasette_zero_gap_delay, NULL },
     { "DatasetteSpeedTuning", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&datasette_speed_tuning,
+      (void *)&datasette_speed_tuning,
       set_datasette_speed_tuning, NULL },
     { NULL }
 };
@@ -610,8 +610,8 @@ void datasette_reset(void)
 {
     int ds_reset;
 
-    resources_get_value("DatasetteResetWithCPU",
-                        (resource_value_t *)&ds_reset);
+    resources_get_value("DatasetteResetWithCPU", (void *)&ds_reset);
+
     if (ds_reset)
         datasette_internal_reset();
 }

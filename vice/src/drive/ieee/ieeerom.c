@@ -69,7 +69,7 @@ int ieeerom_load_2031(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName2031", (resource_value_t *)&rom_name);
+    resources_get_value("DosName2031", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom2031, DRIVE_ROM2031_SIZE,
                      DRIVE_ROM2031_SIZE) < 0) {
@@ -91,7 +91,7 @@ int ieeerom_load_2040(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName2040", (resource_value_t *)&rom_name);
+    resources_get_value("DosName2040", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom2040, DRIVE_ROM2040_SIZE,
                      DRIVE_ROM2040_SIZE) < 0) {
@@ -113,7 +113,7 @@ int ieeerom_load_3040(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName3040", (resource_value_t *)&rom_name);
+    resources_get_value("DosName3040", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom3040, DRIVE_ROM3040_SIZE,
                      DRIVE_ROM3040_SIZE) < 0) {
@@ -135,7 +135,7 @@ int ieeerom_load_4040(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName4040", (resource_value_t *)&rom_name);
+    resources_get_value("DosName4040", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom4040, DRIVE_ROM4040_SIZE,
                      DRIVE_ROM4040_SIZE) < 0) {
@@ -157,7 +157,7 @@ int ieeerom_load_1001(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1001", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1001", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom1001, DRIVE_ROM1001_SIZE,
                      DRIVE_ROM1001_SIZE) < 0) {

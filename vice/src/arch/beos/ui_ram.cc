@@ -82,8 +82,7 @@ RamWindow::RamWindow()
 
 
 	/* Start value */
-    resources_get_value("RAMInitStartValue",
-    	(resource_value_t *)&start_value);
+    resources_get_value("RAMInitStartValue", (void *)&start_value);
 	r = Bounds();
 	r.InsetBy(10,5);
 	r.bottom = r.top + 40;
@@ -104,10 +103,8 @@ RamWindow::RamWindow()
 	}
 
 	/* invert lists*/
-    resources_get_value("RAMInitValueInvert", 
-    	(resource_value_t *)&orig_valueinvert);
-    resources_get_value("RAMInitPatternInvert", 
-    	(resource_value_t *)&orig_patterninvert);
+    resources_get_value("RAMInitValueInvert", (void *)&orig_valueinvert);
+    resources_get_value("RAMInitPatternInvert",  (void *)&orig_patterninvert);
 
 	r = Bounds();
 	r.InsetBy(10,10);

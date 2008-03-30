@@ -108,8 +108,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     int drive_true_emulation;
     DWORD sync_factor;
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     if (vdrive_snapshot_module_write(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;
@@ -133,8 +132,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     if (m == NULL)
         return -1;
 
-    resources_get_value("MachineVideoStandard",
-                        (resource_value_t *)&sync_factor);
+    resources_get_value("MachineVideoStandard", (void *)&sync_factor);
 
     if (SMW_DW(m, (DWORD)sync_factor) < 0) {
         if (m != NULL)
@@ -387,8 +385,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     iec_update_ports_embedded();
     drive_update_ui_status();
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     if (vdrive_snapshot_module_read(s, drive_true_emulation ? 10 : 8) < 0)
         return -1;

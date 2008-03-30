@@ -79,14 +79,14 @@ void ViceWindow::Update_Menus(
 	
 	/* the general toggle items */
 	for (i = 0; toggle_list[i].name != NULL; i++) {
-        resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
+        resources_get_value(toggle_list[i].name, (void *)&value);
         if (item = menubar->FindItem(toggle_list[i].item_id))
         	item->SetMarked(value ? true : false);
     }
     /* the machine specific toggle items */
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
-            resources_get_value(machine_specific_toggles[i].name, (resource_value_t *) &value);
+            resources_get_value(machine_specific_toggles[i].name, (void *)&value);
     	    if (item = menubar->FindItem(machine_specific_toggles[i].item_id))
 	        	item->SetMarked(value ? true : false);
         }
@@ -94,8 +94,7 @@ void ViceWindow::Update_Menus(
 
 	/* the general multiple-value-items */
     for (i = 0; value_list[i].name != NULL; i++) {
-        result=resources_get_value(value_list[i].name,
-                                   (resource_value_t *) &value);
+        result=resources_get_value(value_list[i].name, (void *) &value);
         if (result==0) {
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value) {
@@ -110,7 +109,7 @@ void ViceWindow::Update_Menus(
     if (machine_specific_values){
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             result=resources_get_value(machine_specific_values[i].name,
-                                       (resource_value_t *) &value);
+                                       (void *)&value);
             if (result==0) {
                 for (j = 0; machine_specific_values[i].vals[j].item_id != 0; j++) {
                     if (value == machine_specific_values[i].vals[j].value) {
@@ -217,8 +216,7 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	fcliplist_count = 0;
 
 	/* use the resource to initialize stuff */
-	resources_get_value("DirectWindow",
-		(resource_value_t *) &use_direct_window);
+	resources_get_value("DirectWindow", (void *)&use_direct_window);
 	if (!SupportsWindowMode())
 		use_direct_window = 0;
 	resources_set_value("DirectWindow",

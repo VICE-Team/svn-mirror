@@ -118,7 +118,7 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int *cha
 
   DigitalRenderer_NumBuffers((sync == 0) ? 0 : *fragnr);
 
-  resources_get_value("Use16BitSound", (resource_value_t*)&newsound);
+  resources_get_value("Use16BitSound", (void *)&newsound);
 
   channelnum = *chanptr;
 
@@ -167,7 +167,7 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
 {
   int sidEngine;
 
-  if (resources_get_value("SidEngine", (resource_value_t*)&sidEngine) == 0)
+  if (resources_get_value("SidEngine", (void *)&sidEngine) == 0)
   {
     if (sidEngine == SID_ENGINE_RESID)
     {

@@ -95,8 +95,7 @@ void CreateAndGetAddressList(BListView *addresslistview, int mode)
 	BListItem *item;
 	int cursel = addresslistview->CurrentSelection();
 
-    resources_get_value("SidStereoAddressStart",
-        (resource_value_t *)&res_value);
+    resources_get_value("SidStereoAddressStart", (void *)&res_value);
 
 	switch (machine_class) {
 		case VICE_MACHINE_C64:
@@ -157,7 +156,7 @@ SidWindow::SidWindow()
 	AddChild(background);
 
 	/* SID model */
-    resources_get_value("SidModel",(resource_value_t *)&res_val);
+    resources_get_value("SidModel",(void *)&res_val);
 	r = Bounds();
 	r.bottom = r.top + 50;
 	r.InsetBy(10,5);
@@ -177,7 +176,7 @@ SidWindow::SidWindow()
 	background->AddChild(box);
 
 	/* SID filter */
-    resources_get_value("SidFilters",(resource_value_t *)&res_val);
+    resources_get_value("SidFilters",(void *)&res_val);
 	checkbox = new BCheckBox(BRect(10, 60, r.Width()/2-40, 75),
 		"SID Filters", "SID Filters",
 		new BMessage(MESSAGE_SID_FILTERS));
@@ -185,8 +184,7 @@ SidWindow::SidWindow()
 	background->AddChild(checkbox);
 	
 	/* SID address */
-    resources_get_value("SidStereoAddressStart",
-    	(resource_value_t *)&res_val);
+    resources_get_value("SidStereoAddressStart", (void *)&res_val);
 	addresslistview = new BListView(BRect(
 		r.Width()-45, 65, r.Width()-10, 100), "");
 	addresslistview->SetSelectionMessage(
@@ -199,7 +197,7 @@ SidWindow::SidWindow()
 	addresslistview->ScrollToSelection();
 
 	/* Stereo SID */
-    resources_get_value("SidStereo",(resource_value_t *)&res_val);
+    resources_get_value("SidStereo",(void *)&res_val);
 	checkbox = new BCheckBox(BRect(r.Width()/2-20, 60, r.Width()-50, 75),
 		"Stereo SID at", "Stereo SID at",
 		new BMessage(MESSAGE_SID_STEREO));
@@ -209,7 +207,7 @@ SidWindow::SidWindow()
 		scrollview->Hide();
 	
 	/* ReSID */
-    resources_get_value("SidEngine",(resource_value_t *)&res_val);
+    resources_get_value("SidEngine",(void *)&res_val);
 	checkbox = new BCheckBox(BRect(10, 90, r.Width()/2-20, 105),
 		"Enable reSID", "Enable reSID",
 		new BMessage(MESSAGE_SID_RESID));
@@ -224,7 +222,7 @@ SidWindow::SidWindow()
 	r = residbox->Bounds();
 
     /* sampling method */
-    resources_get_value("SidResidSampling",(resource_value_t *)&res_val);
+    resources_get_value("SidResidSampling",(void *)&res_val);
 	for (i=0; samplingmode[i]!=NULL; i++) {
 		msg = new BMessage(MESSAGE_SID_RESIDSAMPLING);
 		msg->AddInt32("mode", i);
@@ -235,7 +233,7 @@ SidWindow::SidWindow()
 		residbox->AddChild(radiobutton);
 	}
 
-    resources_get_value("SidResidPassband",(resource_value_t *)&res_val);
+    resources_get_value("SidResidPassband",(void *)&res_val);
 	passbandslider = new BSlider(
 			BRect(r.Width()/2+10,20,r.Width()-10,60), 
 			"Passband", "Passband",
@@ -247,7 +245,7 @@ SidWindow::SidWindow()
 	passbandslider->SetLimitLabels("0", "90");
 	residbox->AddChild(passbandslider);
 
-    resources_get_value("SidEngine",(resource_value_t *)&res_val);
+    resources_get_value("SidEngine",(void *)&res_val);
 	if (res_val != SID_ENGINE_RESID) residbox->Hide();
 
 	Show();

@@ -79,7 +79,7 @@ void vic_change_timing(void)
 {
     resource_value_t mode;
 
-    resources_get_value("MachineVideoStandard", &mode);
+    resources_get_value("MachineVideoStandard", (void *)&mode);
 
     switch ((int)mode) {
       case MACHINE_SYNC_NTSC:

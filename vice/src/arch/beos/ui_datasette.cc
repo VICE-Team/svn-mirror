@@ -83,7 +83,7 @@ DatasetteWindow::DatasetteWindow()
 
 	/* Reset with CPU */
     resources_get_value("DatasetteResetWithCPU",
-    	(resource_value_t *)&res_value);
+    	(void *)&res_value);
 	checkbox = new BCheckBox(BRect(145,10,295,20),
 		"RESET",
 		"Reset Datasette with CPU",
@@ -99,7 +99,7 @@ DatasetteWindow::DatasetteWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Motor Tuning");
 
-    resources_get_value("DatasetteSpeedTuning",(resource_value_t *)&res_value);
+    resources_get_value("DatasetteSpeedTuning",(void *)&res_value);
 	
 	for (i=0; i<8; i++) {
 		msg = new BMessage(MESSAGE_DATASETTE_SPEED);
@@ -121,7 +121,7 @@ DatasetteWindow::DatasetteWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Delay for Zero");
 
-    resources_get_value("DatasetteZeroGapDelay",(resource_value_t *)&res_value);
+    resources_get_value("DatasetteZeroGapDelay",(void *)&res_value);
 	
 	for (i=0; i<ui_datasette_zero_gap_delay_count; i++) {
 		msg = new BMessage(MESSAGE_DATASETTE_ZEROGAP);

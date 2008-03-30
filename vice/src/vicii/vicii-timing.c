@@ -55,7 +55,7 @@ void vicii_timing_set(machine_timing_t *machine_timing)
 {
     resource_value_t mode;
 
-    resources_get_value("MachineVideoStandard", &mode);
+    resources_get_value("MachineVideoStandard", (void *)&mode);
 
     switch ((int)mode) {
       case MACHINE_SYNC_NTSC:

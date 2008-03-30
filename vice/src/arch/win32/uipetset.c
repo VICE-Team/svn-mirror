@@ -55,20 +55,20 @@ static void init_dialog(HWND hwnd)
 {
     int n, res;
 
-    resources_get_value("Crtc", (resource_value_t *) &n);
+    resources_get_value("Crtc", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_CRTC,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("SuperPET", (resource_value_t *) &n);
+    resources_get_value("SuperPET", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_SUPER_IO_ENABLE,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("Ram9", (resource_value_t *) &n);
+    resources_get_value("Ram9", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAM9,
                    n ? BST_CHECKED : BST_UNCHECKED);
-    resources_get_value("RamA", (resource_value_t *) &n);
+    resources_get_value("RamA", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_PET_8296_RAMA,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("RamSize", (resource_value_t *) &res);
+    resources_get_value("RamSize", (void *)&res);
     switch (res) {
       case 4:
         n = IDC_SELECT_PET_MEM4K;
@@ -91,7 +91,7 @@ static void init_dialog(HWND hwnd)
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_MEM4K, IDC_SELECT_PET_MEM128K, n);
 
-    resources_get_value("VideoSize", (resource_value_t *) &res);
+    resources_get_value("VideoSize", (void *)&res);
     switch (res) {
       case 0:
         n = IDC_SELECT_PET_VIDEO_AUTO;
@@ -106,7 +106,7 @@ static void init_dialog(HWND hwnd)
     CheckRadioButton(hwnd, IDC_SELECT_PET_VIDEO_AUTO, IDC_SELECT_PET_VIDEO_80,
                      n);
 
-    resources_get_value("IOSize", (resource_value_t *) &res);
+    resources_get_value("IOSize", (void *)&res);
     switch (res) {
       case 0x100:
         n = IDC_SELECT_PET_IO256;
@@ -117,7 +117,7 @@ static void init_dialog(HWND hwnd)
     }
     CheckRadioButton(hwnd, IDC_SELECT_PET_IO2K, IDC_SELECT_PET_IO256, n);
 
-    resources_get_value("KeymapIndex", (resource_value_t *) &res);
+    resources_get_value("KeymapIndex", (void *)&res);
     switch (res) {
       case 2:
         n = IDC_SELECT_PET_KEYB_GRAPHICS;
@@ -220,29 +220,29 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
             case IDC_TOGGLE_PET_CRTC:
               {
                   int n;
-                  resources_get_value("Crtc", (resource_value_t *) &n);
-                  resources_set_value("Crtc", (resource_value_t) !n);
+                  resources_get_value("Crtc", (void *)&n);
+                  resources_set_value("Crtc", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_PET_SUPER_IO_ENABLE:
               {
                   int n;
-                  resources_get_value("SuperPET", (resource_value_t *) &n);
-                  resources_set_value("SuperPET", (resource_value_t) !n);
+                  resources_get_value("SuperPET", (void *)&n);
+                  resources_set_value("SuperPET", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_PET_8296_RAM9:
               {
                   int n;
-                  resources_get_value("Ram9", (resource_value_t *) &n);
-                  resources_set_value("Ram9", (resource_value_t) !n);
+                  resources_get_value("Ram9", (void *)&n);
+                  resources_set_value("Ram9", (resource_value_t)!n);
                   break;
               }
             case IDC_TOGGLE_PET_8296_RAMA:
               {
                   int n;
-                  resources_get_value("RamA", (resource_value_t *) &n);
-                  resources_set_value("RamA", (resource_value_t) !n);
+                  resources_get_value("RamA", (void *)&n);
+                  resources_set_value("RamA", (resource_value_t)!n);
                   break;
               }
           }

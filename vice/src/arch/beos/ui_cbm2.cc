@@ -117,7 +117,7 @@ Cbm2Window::Cbm2Window()
 	box->SetLabel("Model line");
 	background->AddChild(box);				    
 
-    resources_get_value("ModelLine", (resource_value_t *) &res);
+    resources_get_value("ModelLine", (void *)&res);
 	for (i=0; cbm2_modelline[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_CBM2_MODELLINE);
@@ -137,7 +137,7 @@ Cbm2Window::Cbm2Window()
 	box->SetLabel("Memory");
 	background->AddChild(box);				    
 
-    resources_get_value("RamSize", (resource_value_t *) &res);
+    resources_get_value("RamSize", (void *)&res);
 	for (i=0; cbm2_memory[i]; i++)
 	{
 		msg = new BMessage(MESSAGE_CBM2_MEMORY);
@@ -166,7 +166,7 @@ Cbm2Window::Cbm2Window()
 			rambank_text[i],
 			rambank_text[i],
 			msg);
-	    resources_get_value(rambank_res[i], (resource_value_t *) &res);
+	    resources_get_value(rambank_res[i], (void *)&res);
 		checkbox->SetValue(res);
 		box->AddChild(checkbox);
 	}

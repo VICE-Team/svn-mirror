@@ -95,44 +95,26 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
 static void init_keyset_dialog(HWND hwnd)
 {
     if (current_keyset_index==0) {
-        resources_get_value("KeySet1NorthWest",
-                            (resource_value_t *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet1North",
-                            (resource_value_t *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet1NorthEast",
-                            (resource_value_t *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet1East",
-                            (resource_value_t *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet1SouthEast",
-                            (resource_value_t *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet1South",
-                            (resource_value_t *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet1SouthWest",
-                            (resource_value_t *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet1West",
-                            (resource_value_t *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet1Fire",
-                            (resource_value_t *)&keyset[KEYSET_FIRE]);
+        resources_get_value("KeySet1NorthWest", (void *)&keyset[KEYSET_NW]);
+        resources_get_value("KeySet1North", (void *)&keyset[KEYSET_N]);
+        resources_get_value("KeySet1NorthEast", (void *)&keyset[KEYSET_NE]);
+        resources_get_value("KeySet1East", (void *)&keyset[KEYSET_E]);
+        resources_get_value("KeySet1SouthEast", (void *)&keyset[KEYSET_SE]);
+        resources_get_value("KeySet1South", (void *)&keyset[KEYSET_S]);
+        resources_get_value("KeySet1SouthWest", (void *)&keyset[KEYSET_SW]);
+        resources_get_value("KeySet1West", (void *)&keyset[KEYSET_W]);
+        resources_get_value("KeySet1Fire", (void *)&keyset[KEYSET_FIRE]);
         SetWindowText(hwnd,"Configure Keyset A");
     } else {
-        resources_get_value("KeySet2NorthWest",
-                            (resource_value_t *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet2North",
-                            (resource_value_t *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet2NorthEast",
-                            (resource_value_t *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet2East",
-                            (resource_value_t *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet2SouthEast",
-                            (resource_value_t *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet2South",
-                            (resource_value_t *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet2SouthWest",
-                            (resource_value_t *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet2West",
-                            (resource_value_t *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet2Fire",
-                            (resource_value_t *)&keyset[KEYSET_FIRE]);
+        resources_get_value("KeySet2NorthWest", (void *)&keyset[KEYSET_NW]);
+        resources_get_value("KeySet2North", (void *)&keyset[KEYSET_N]);
+        resources_get_value("KeySet2NorthEast", (void *)&keyset[KEYSET_NE]);
+        resources_get_value("KeySet2East", (void *)&keyset[KEYSET_E]);
+        resources_get_value("KeySet2SouthEast", (void *)&keyset[KEYSET_SE]);
+        resources_get_value("KeySet2South", (void *)&keyset[KEYSET_S]);
+        resources_get_value("KeySet2SouthWest", (void *)&keyset[KEYSET_SW]);
+        resources_get_value("KeySet2West", (void *)&keyset[KEYSET_W]);
+        resources_get_value("KeySet2Fire", (void *)&keyset[KEYSET_FIRE]);
         SetWindowText(hwnd,"Configure Keyset B");
     }
     SetDlgItemText(hwnd, IDC_KEY_NW,
@@ -297,11 +279,11 @@ static void init_joystick_dialog(HWND hwnd)
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
-    resources_get_value("JoyDevice1", (resource_value_t *)&res_value);
+    resources_get_value("JoyDevice1", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     device = res_value;
 
-    resources_get_value("JoyAutofire1Speed", (resource_value_t*)&res_value);
+    resources_get_value("JoyAutofire1Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
@@ -309,7 +291,7 @@ static void init_joystick_dialog(HWND hwnd)
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
-    resources_get_value("JoyAutofire1Axis", (resource_value_t*)&res_value);
+    resources_get_value("JoyAutofire1Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_SPEED),
                             ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
@@ -324,11 +306,11 @@ static void init_joystick_dialog(HWND hwnd)
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"Keyset B");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #1");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"PC joystick #2");
-    resources_get_value("JoyDevice2", (resource_value_t *)&res_value);
+    resources_get_value("JoyDevice2", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     device = res_value;
 
-    resources_get_value("JoyAutofire2Speed", (resource_value_t*)&res_value);
+    resources_get_value("JoyAutofire2Speed", (void *)&res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"numeric (see above)");
@@ -336,7 +318,7 @@ static void init_joystick_dialog(HWND hwnd)
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"V-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"U-axis");
     SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)"R-axis");
-    resources_get_value("JoyAutofire2Axis", (resource_value_t*)&res_value);
+    resources_get_value("JoyAutofire2Axis", (void *)&res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_SPEED),
                             ((device == JOYDEV_HW1) || (device == JOYDEV_HW2))
@@ -476,53 +458,53 @@ void ui_joystick_swap_joystick(void)
     int device1;
     int device2;
 
-    resources_get_value("JoyDevice1",(resource_value_t *)&device1);
-    resources_get_value("JoyDevice2",(resource_value_t *)&device2);
+    resources_get_value("JoyDevice1",(void *)&device1);
+    resources_get_value("JoyDevice2",(void *)&device2);
     resources_set_value("JoyDevice1",(resource_value_t)device2);
     resources_set_value("JoyDevice2",(resource_value_t)device1);
-    resources_get_value("JoyAutofire1Speed",(resource_value_t *)&device1);
-    resources_get_value("JoyAutofire2Speed",(resource_value_t *)&device2);
+    resources_get_value("JoyAutofire1Speed",(void *)&device1);
+    resources_get_value("JoyAutofire2Speed",(void *)&device2);
     resources_set_value("JoyAutofire1Speed",(resource_value_t)device2);
     resources_set_value("JoyAutofire2Speed",(resource_value_t)device1);
-    resources_get_value("JoyAutofire1Axis",(resource_value_t *)&device1);
-    resources_get_value("JoyAutofire2Axis",(resource_value_t *)&device2);
+    resources_get_value("JoyAutofire1Axis",(void *)&device1);
+    resources_get_value("JoyAutofire2Axis",(void *)&device2);
     resources_set_value("JoyAutofire1Axis",(resource_value_t)device2);
     resources_set_value("JoyAutofire2Axis",(resource_value_t)device1);
 
-    resources_get_value("KeySet1NorthWest",(resource_value_t *)&device1);
-    resources_get_value("KeySet2NorthWest",(resource_value_t *)&device2);
+    resources_get_value("KeySet1NorthWest",(void *)&device1);
+    resources_get_value("KeySet2NorthWest",(void *)&device2);
     resources_set_value("KeySet1NorthWest",(resource_value_t)device2);
     resources_set_value("KeySet2NorthWest",(resource_value_t)device1);
-    resources_get_value("KeySet1North",(resource_value_t *)&device1);
-    resources_get_value("KeySet2North",(resource_value_t *)&device2);
+    resources_get_value("KeySet1North",(void *)&device1);
+    resources_get_value("KeySet2North",(void *)&device2);
     resources_set_value("KeySet1North",(resource_value_t)device2);
     resources_set_value("KeySet2North",(resource_value_t)device1);
-    resources_get_value("KeySet1NorthEast",(resource_value_t *)&device1);
-    resources_get_value("KeySet2NorthEast",(resource_value_t *)&device2);
+    resources_get_value("KeySet1NorthEast",(void *)&device1);
+    resources_get_value("KeySet2NorthEast",(void *)&device2);
     resources_set_value("KeySet1NorthEast",(resource_value_t)device2);
     resources_set_value("KeySet2NorthEast",(resource_value_t)device1);
-    resources_get_value("KeySet1East",(resource_value_t *)&device1);
-    resources_get_value("KeySet2East",(resource_value_t *)&device2);
+    resources_get_value("KeySet1East",(void *)&device1);
+    resources_get_value("KeySet2East",(void *)&device2);
     resources_set_value("KeySet1East",(resource_value_t)device2);
     resources_set_value("KeySet2East",(resource_value_t)device1);
-    resources_get_value("KeySet1SouthEast",(resource_value_t *)&device1);
-    resources_get_value("KeySet2SouthEast",(resource_value_t *)&device2);
+    resources_get_value("KeySet1SouthEast",(void *)&device1);
+    resources_get_value("KeySet2SouthEast",(void *)&device2);
     resources_set_value("KeySet1SouthEast",(resource_value_t)device2);
     resources_set_value("KeySet2SouthEast",(resource_value_t)device1);
-    resources_get_value("KeySet1South",(resource_value_t *)&device1);
-    resources_get_value("KeySet2South",(resource_value_t *)&device2);
+    resources_get_value("KeySet1South",(void *)&device1);
+    resources_get_value("KeySet2South",(void *)&device2);
     resources_set_value("KeySet1South",(resource_value_t)device2);
     resources_set_value("KeySet2South",(resource_value_t)device1);
-    resources_get_value("KeySet1SouthWest",(resource_value_t *)&device1);
-    resources_get_value("KeySet2SouthWest",(resource_value_t *)&device2);
+    resources_get_value("KeySet1SouthWest",(void *)&device1);
+    resources_get_value("KeySet2SouthWest",(void *)&device2);
     resources_set_value("KeySet1SouthWest",(resource_value_t)device2);
     resources_set_value("KeySet2SouthWest",(resource_value_t)device1);
-    resources_get_value("KeySet1West",(resource_value_t *)&device1);
-    resources_get_value("KeySet2West",(resource_value_t *)&device2);
+    resources_get_value("KeySet1West",(void *)&device1);
+    resources_get_value("KeySet2West",(void *)&device2);
     resources_set_value("KeySet1West",(resource_value_t)device2);
     resources_set_value("KeySet2West",(resource_value_t)device1);
-    resources_get_value("KeySet1Fire",(resource_value_t *)&device1);
-    resources_get_value("KeySet2Fire",(resource_value_t *)&device2);
+    resources_get_value("KeySet1Fire",(void *)&device1);
+    resources_get_value("KeySet2Fire",(void *)&device2);
     resources_set_value("KeySet1Fire",(resource_value_t)device2);
     resources_set_value("KeySet2Fire",(resource_value_t)device1);
 }

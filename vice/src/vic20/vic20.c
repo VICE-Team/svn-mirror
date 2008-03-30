@@ -515,7 +515,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks,
         return -1;
     }
 
-    resources_get_value("IEEE488", (resource_value_t*) &ieee488);
+    resources_get_value("IEEE488", (void *)&ieee488);
     if (ieee488) {
         if (ieeevia1_snapshot_write_module(s) < 0
             || ieeevia2_snapshot_write_module(s) < 0) {

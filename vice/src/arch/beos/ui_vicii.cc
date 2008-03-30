@@ -89,7 +89,7 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"Sprite-Sprite",
 		new BMessage(MESSAGE_VICII_SSCOLL));
-	resources_get_value("VICIICheckSsColl", (resource_value_t *) &res_val);
+	resources_get_value("VICIICheckSsColl", (void *)&res_val);
 	checkbox->SetValue(res_val);
 	box->AddChild(checkbox);	
 	
@@ -98,7 +98,7 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"Sprite-Background",
 		new BMessage(MESSAGE_VICII_SBCOLL));
-	resources_get_value("VICIICheckSbColl", (resource_value_t *) &res_val);
+	resources_get_value("VICIICheckSbColl", (void *)&res_val);
 	checkbox->SetValue(res_val);
 	box->AddChild(checkbox);	
 	
@@ -108,8 +108,7 @@ ViciiWindow::ViciiWindow()
 		NULL,
 		"New Colors",
 		new BMessage(MESSAGE_VICII_NEWLUMINANCE));
-	resources_get_value("VICIINewLuminances",
-                            (resource_value_t *)&res_val);
+	resources_get_value("VICIINewLuminances", (void *)&res_val);
 	checkbox->SetValue(res_val);
 	background->AddChild(checkbox);	
 	

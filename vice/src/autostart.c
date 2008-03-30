@@ -165,8 +165,7 @@ static int get_true_drive_emulation_state(void)
 {
     int value;
 
-    if (resources_get_value("DriveTrueEmulation",
-                            (resource_value_t *)&value) < 0)
+    if (resources_get_value("DriveTrueEmulation", (void *)&value) < 0)
         return 0;
 
     return value;
@@ -344,8 +343,7 @@ static void advance_hasdisk(void)
             log_message(autostart_log, "Loading program '*'");
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
         if (handle_drive_true_emulation) {
-            resources_get_value("VirtualDevices",
-                                (resource_value_t *)&traps);
+            resources_get_value("VirtualDevices", (void *)&traps);
             if (traps) {
                 if (orig_drive_true_emulation_state)
                     log_message(autostart_log,

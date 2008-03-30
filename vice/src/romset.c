@@ -385,7 +385,7 @@ int romset_create_item(const char *romset_name, const char **resource_list)
         resource_value_t val;
         int len;
 
-        if (resources_get_value(*res, &val) == 0) {
+        if (resources_get_value(*res, (void *)&val) == 0) {
             char buffer[256];
 
             tp = resources_query_type(*res);

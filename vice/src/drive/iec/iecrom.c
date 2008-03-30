@@ -90,7 +90,7 @@ int iecrom_load_1541(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1541", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1541", (void *)&rom_name);
 
     filesize = sysfile_load(rom_name, drive_rom1541, DRIVE_ROM1541_SIZE,
                             DRIVE_ROM1541_SIZE_EXPANDED);
@@ -117,7 +117,7 @@ int iecrom_load_1541ii(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1541ii", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1541ii", (void *)&rom_name);
 
     filesize = sysfile_load(rom_name, drive_rom1541ii, DRIVE_ROM1541II_SIZE,
                             DRIVE_ROM1541II_SIZE_EXPANDED);
@@ -142,7 +142,7 @@ int iecrom_load_1571(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1571", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1571", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom1571, DRIVE_ROM1571_SIZE,
                      DRIVE_ROM1571_SIZE) < 0) {
@@ -164,7 +164,7 @@ int iecrom_load_1581(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1581", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1581", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom1581, DRIVE_ROM1581_SIZE,
                      DRIVE_ROM1581_SIZE) < 0) {

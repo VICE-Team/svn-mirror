@@ -116,7 +116,7 @@ Vic20Window::Vic20Window()
 
 	for (i=0; i<5; i++)
 	{
-		resources_get_value(block_resource[i], (resource_value_t *) &block[i]);
+		resources_get_value(block_resource[i], (void *)&block[i]);
 	}
 
 	r = Bounds();

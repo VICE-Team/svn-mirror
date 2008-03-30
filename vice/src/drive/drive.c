@@ -327,8 +327,7 @@ int drive_enable(unsigned int dnr)
     if (!rom_loaded)
         return -1;
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     /* Always disable kernal traps. */
     if (drive_true_emulation)
@@ -376,8 +375,7 @@ void drive_disable(unsigned int dnr)
     drive[dnr].enable = 0;
     iec_calculate_callback_index();
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     if (rom_loaded && !drive_true_emulation)
         serial_set_truedrive(0);

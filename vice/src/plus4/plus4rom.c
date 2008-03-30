@@ -54,7 +54,7 @@ int plus4rom_load_kernal(const char *rom_name)
     /* serial_remove_traps(); */
     /* we also need the TAPE traps!!! therefore -> */
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     /* Load Kernal ROM.  */
@@ -131,22 +131,22 @@ int mem_load(void)
 
     plus4_rom_loaded = 1;
 
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("KernalName", (void *)&rom_name) < 0)
         return -1;
     if (plus4rom_load_kernal(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("BasicName", (void *)&rom_name) < 0)
         return -1;
     if (plus4rom_load_basic(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("3plus1loName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("3plus1loName", (void *)&rom_name) < 0)
         return -1;
     if (plus4rom_load_3plus1lo(rom_name) < 0)
         return -1;
 
-    if (resources_get_value("3plus1hiName", (resource_value_t)&rom_name) < 0)
+    if (resources_get_value("3plus1hiName", (void *)&rom_name) < 0)
         return -1;
     if (plus4rom_load_3plus1hi(rom_name) < 0)
         return -1;

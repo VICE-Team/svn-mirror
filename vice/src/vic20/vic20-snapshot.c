@@ -218,8 +218,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
 
     config = mem_rom_blocks;
 
@@ -282,8 +282,8 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
 
     SMR_B(m, &config);
 

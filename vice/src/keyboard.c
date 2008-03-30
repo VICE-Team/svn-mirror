@@ -818,7 +818,7 @@ int keyboard_set_keymap_index(resource_value_t v, void *param)
 
     resname = machine_keymap_res_name_list[(unsigned int)v];
 
-    if (resources_get_value(resname, (resource_value_t *)&name) < 0)
+    if (resources_get_value(resname, (void *)&name) < 0)
         return -1;
 
     if (load_keymap_ok) {
@@ -845,7 +845,7 @@ int keyboard_set_keymap_file(resource_value_t v, void *param)
     if (newindex >= machine_num_keyboard_mappings())
         return -1;
 
-    if (resources_get_value("KeymapIndex", (resource_value_t *)&oldindex) < 0)
+    if (resources_get_value("KeymapIndex", (void *)&oldindex) < 0)
         return -1;
 
     if (util_string_set(&machine_keymap_file_list[newindex], (const char *)v))

@@ -75,8 +75,7 @@ static int set_direct_window(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DirectWindow", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&use_direct_window,
-      set_direct_window, NULL },
+      (void *)&use_direct_window, set_direct_window, NULL },
     { NULL }
 };
 

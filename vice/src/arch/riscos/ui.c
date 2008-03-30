@@ -868,29 +868,29 @@ static int set_16bit_sound(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
   {Rsrc_SndEvery, RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&SoundPollEvery, set_sound_every, NULL },
+    (void *)&SoundPollEvery, set_sound_every, NULL },
   {Rsrc_AutoPause, RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&AutoPauseEmu, set_auto_pause, NULL },
+    (void *)&AutoPauseEmu, set_auto_pause, NULL },
   {Rsrc_DriveT8, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType8, set_drive_type8, NULL },
+    (void *)&DriveType8, set_drive_type8, NULL },
   {Rsrc_DriveT9, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType9, set_drive_type9, NULL },
+    (void *)&DriveType9, set_drive_type9, NULL },
   {Rsrc_DriveT10, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType10, set_drive_type10, NULL },
+    (void *)&DriveType10, set_drive_type10, NULL },
   {Rsrc_DriveT11, RES_INTEGER, (resource_value_t)DRIVE_TYPE_FS,
-    (resource_value_t*)&DriveType11, set_drive_type11, NULL },
+    (void *)&DriveType11, set_drive_type11, NULL },
   {Rsrc_DriveF8, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile8, set_drive_file8, NULL },
+    (void *)&DriveFile8, set_drive_file8, NULL },
   {Rsrc_DriveF9, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile9, set_drive_file9, NULL },
+    (void *)&DriveFile9, set_drive_file9, NULL },
   {Rsrc_DriveF10, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile10, set_drive_file10, NULL },
+    (void *)&DriveFile10, set_drive_file10, NULL },
   {Rsrc_DriveF11, RES_STRING, (resource_value_t)"@",
-    (resource_value_t*)&DriveFile11, set_drive_file11, NULL },
+    (void *)&DriveFile11, set_drive_file11, NULL },
   {Rsrc_TapeFile, RES_STRING, (resource_value_t)"",
-    (resource_value_t*)&TapeFile, set_tape_file, NULL },
+    (void *)&TapeFile, set_tape_file, NULL },
   {Rsrc_Snd16Bit, RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&Use16BitSound, set_16bit_sound, NULL },
+    (void *)&Use16BitSound, set_16bit_sound, NULL },
   {NULL}
 };
 
@@ -1116,7 +1116,7 @@ static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
 
   ds = ((disp_strshow_t*)(dd->resource));
   resources = (char**)(dd + 1);
-  if (resources_get_value(resources[ds->item], &val) == 0)
+  if (resources_get_value(resources[ds->item], (void *)&val) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
     greyflag = 0;
@@ -1225,7 +1225,7 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
     {
       int greyflag;
 
-      if (resources_get_value(values[i], &val) == 0)
+      if (resources_get_value(values[i], (void *)&val) == 0)
       {
         if (val != 0) bits |= (1<<i);
         greyflag = 0;
@@ -1246,7 +1246,7 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
   else if (dd->resource != NULL)
   {
     int greyflag;
-    if (resources_get_value(dd->resource, &val) == 0)
+    if (resources_get_value(dd->resource, (void *)&val) == 0)
     {
       ui_setup_menu_disp_core(dd, val);
       greyflag = 0;
@@ -1322,7 +1322,7 @@ static void ui_set_menu_display_value(const disp_desc_t *dd, int number)
     char **values;
 
     values = (char**)(dd + 1);
-    resources_get_value(values[number], &val);
+    resources_get_value(values[number], (void *)&val);
     state = ((int)val == 0) ? 1 : 0;
     if (resources_set_value(values[number], (resource_value_t)state) == 0)
     {
@@ -1955,7 +1955,7 @@ static void ui_safe_exit(void)
 
   sound_wimp_safe_exit();
 
-  if (resources_get_value(Rsrc_CoreDump, (resource_value_t)&docoredump) != 0)
+  if (resources_get_value(Rsrc_CoreDump, (void *)&docoredump) != 0)
     docoredump = 0;
 
   if (docoredump != NULL)
@@ -2210,7 +2210,7 @@ int ui_init_finish(void)
 
   if (machine_class != VICE_MACHINE_PET)
   {
-    if (resources_get_value(Rsrc_True, &val) == 0)
+    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
       TrueDriveEmulation = (int)val;
   }
 
@@ -2228,7 +2228,7 @@ int ui_init_finish(void)
   else
     ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
 
-  if (resources_get_value(Rsrc_Sound, &val) == 0)
+  if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
     ui_set_sound_enable((int)val);
 
   CMOS_DragType = ReadDragType();
@@ -2286,7 +2286,7 @@ int ui_init_finish(void)
 
     sound_get_vidc_frequency(values + i, NULL);
   }
-  if (resources_get_value(Rsrc_SndRate, &val) == 0)
+  if (resources_get_value(Rsrc_SndRate, (void *)&val) == 0)
   {
     int rate = (int)val;
 
@@ -2294,7 +2294,7 @@ int ui_init_finish(void)
     resources_set_value(Rsrc_SndRate, (resource_value_t)rate);
   }
   /* Sound buffer size sanity check */
-  if (resources_get_value(Rsrc_SndBuff, &val) == 0)
+  if (resources_get_value(Rsrc_SndBuff, (void *)&val) == 0)
   {
     if ((int)val > Maximum_Latency)
     {
@@ -2302,7 +2302,7 @@ int ui_init_finish(void)
     }
   }
   /* resid active? */
-  if (resources_get_value(Rsrc_SidEngine, (resource_value_t*)&CycleBasedSound) == 0)
+  if (resources_get_value(Rsrc_SidEngine, (void *)&CycleBasedSound) == 0)
     CycleBasedSound = (CycleBasedSound == SID_ENGINE_RESID);
   else
     CycleBasedSound = 0;
@@ -2343,7 +2343,7 @@ static void ui_setup_config_item(config_item_t *ci)
 {
   resource_value_t val;
 
-  if (resources_get_value(ci->resource, &val) != 0)
+  if (resources_get_value(ci->resource, (void *)&val) != 0)
   {
     wimp_window_set_icon_state(ConfWindows[ci->id.win], ci->id.icon, IFlg_Grey, IFlg_Grey);
     return;
@@ -2989,15 +2989,15 @@ static int ui_mouse_click_config(int *b, int wnum)
             }
             /* Configure submenu */
             flags = 0;
-            if (resources_get_value(Rsrc_ConvP00[number], (resource_value_t*)&state) == 0)
+            if (resources_get_value(Rsrc_ConvP00[number], (void *)&state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_ConvP00);
             }
-            if (resources_get_value(Rsrc_SaveP00[number], (resource_value_t*)&state) == 0)
+            if (resources_get_value(Rsrc_SaveP00[number], (void *)&state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_SaveP00);
             }
-            if (resources_get_value(Rsrc_HideCBM[number], (resource_value_t*)&state) == 0)
+            if (resources_get_value(Rsrc_HideCBM[number], (void *)&state) == 0)
             {
               if (state != 0) flags |= (1<<Menu_DriveFS_HideCBM);
             }
@@ -3277,7 +3277,7 @@ static void ui_mouse_click(int *b)
                     else if (Configurations[i].id.icon == Icon_ConfSnd_Sound16Bit)
                     {
                       int sndstate;
-                      resources_get_value(Rsrc_Sound, (resource_value_t*)&sndstate);
+                      resources_get_value(Rsrc_Sound, (void *)&sndstate);
                       if (sndstate != 0)
                       {
                         /* if sound enabled and 16bit state changed, close sound device
@@ -4227,11 +4227,11 @@ static void ui_load_snapshot_trap(WORD unused_address, void *unused_data)
   if (status == 0)
   {
     resource_value_t val;
-    if (resources_get_value(Rsrc_True, &val) == 0)
+    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
     {
       ui_display_truedrv_emulation((int)val);
     }
-    if (resources_get_value(Rsrc_Sound, &val) == 0)
+    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
     {
       ui_display_sound_enable((int)val);
     }
@@ -5316,11 +5316,11 @@ void ui_update_menus(void)
 {
   resource_value_t val;
 
-  if (resources_get_value(Rsrc_True, &val) == 0)
+  if (resources_get_value(Rsrc_True, (void *)&val) == 0)
   {
     ui_display_truedrv_emulation((int)val);
   }
-  if (resources_get_value(Rsrc_Sound, &val) == 0)
+  if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
   {
     ui_display_sound_enable((int)val);
   }

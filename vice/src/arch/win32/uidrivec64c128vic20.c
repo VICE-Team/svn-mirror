@@ -350,33 +350,33 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
             break;
           case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
             sprintf(tmp, "Drive%dParallelCable", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_2000:
             sprintf(tmp, "Drive%dRAM2000", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_4000:
             sprintf(tmp, "Drive%dRAM4000", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_6000:
             sprintf(tmp, "Drive%dRAM6000", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_8000:
             sprintf(tmp, "Drive%dRAM8000", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_DRIVE_EXPANSION_A000:
             sprintf(tmp, "Drive%dRAMA000", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (void *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           default:
             return FALSE;

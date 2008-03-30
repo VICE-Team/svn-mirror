@@ -135,17 +135,17 @@ void vsync_sync_reset(void)
 
 static const resource_t resources[] = {
   {"RefreshRate", RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&refresh_rate, set_refresh_rate, NULL },
+    (void *)&refresh_rate, set_refresh_rate, NULL },
   {"WarpMode", RES_INTEGER, (resource_value_t)0,
-    (resource_value_t*)&warp_mode_enabled, set_warp_mode, NULL },
+    (void *)&warp_mode_enabled, set_warp_mode, NULL },
   {"PollEvery", RES_INTEGER, (resource_value_t)20,
-    (resource_value_t*)&PollEvery, set_poll_every, NULL },
+    (void *)&PollEvery, set_poll_every, NULL },
   {"SpeedEvery", RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&SpeedEvery, set_speed_every, NULL },
+    (void *)&SpeedEvery, set_speed_every, NULL },
   {"Speed", RES_INTEGER, (resource_value_t)100,
-    (resource_value_t*)&CurrentSpeedLimit, set_speed_limit, NULL },
+    (void *)&CurrentSpeedLimit, set_speed_limit, NULL },
   {"MaxSkippedFrames", RES_INTEGER, (resource_value_t)MAX_SKIPPED_FRAMES,
-    (resource_value_t*)&MaxSkippedFrames, set_max_skipped_frames, NULL },
+    (void *)&MaxSkippedFrames, set_max_skipped_frames, NULL },
   {NULL}
 };
 
@@ -291,7 +291,7 @@ int vsync_do_vsync(struct video_canvas_s *canvas, int been_skipped)
       RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
       ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
       LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-      resources_get_value("MachineVideoStandard", &val);
+      resources_get_value("MachineVideoStandard", (void *)&val);
       FramesPerSecond = ((int)val == MACHINE_SYNC_PAL) ? 50 : 60;
     }
   }

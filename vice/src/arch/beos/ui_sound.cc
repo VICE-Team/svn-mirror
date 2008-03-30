@@ -116,7 +116,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Frequency");
 
-    resources_get_value("SoundSampleRate",(resource_value_t *)&res_value);
+    resources_get_value("SoundSampleRate",(void *)&res_value);
 	
 	for (i=0; i<ui_sound_freq_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_FREQ);
@@ -138,7 +138,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Buffer Size");
 
-    resources_get_value("SoundBufferSize",(resource_value_t *)&res_value);
+    resources_get_value("SoundBufferSize",(void *)&res_value);
 	
 	for (i=0; i<ui_sound_buffer_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_BUFF);
@@ -161,7 +161,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Oversample");
 
-    resources_get_value("SoundOversample",(resource_value_t *)&res_value);
+    resources_get_value("SoundOversample",(void *)&res_value);
 	
 	for (i=0; i<ui_sound_oversample_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_SAMPLE);
@@ -183,7 +183,7 @@ SoundWindow::SoundWindow()
 	box->SetViewColor(220,220,220,0);
 	box->SetLabel("Sync Method");
 
-    resources_get_value("SoundSpeedAdjustment",(resource_value_t *)&res_value);
+    resources_get_value("SoundSpeedAdjustment",(void *)&res_value);
 	
 	for (i=0; i<ui_sound_adjusting_count; i++) {
 		msg = new BMessage(MESSAGE_SOUND_SYNC);

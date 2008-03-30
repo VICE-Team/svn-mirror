@@ -81,8 +81,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
 
     int drive_true_emulation;
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     if (num >= 8 && num <= 11) {
         disk_image = file_system_get_disk_name(num);
@@ -134,7 +133,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
         enable_controls_for_disk_device_type(hwnd, n);
     }
     if (num == 4) {
-        resources_get_value("Printer4", (resource_value_t *)&n);
+        resources_get_value("Printer4", (void *)&n);
         CheckDlgButton(hwnd, IDC_TOGGLE_PRINTER,
                        n ? BST_CHECKED : BST_UNCHECKED);
     }
@@ -263,26 +262,26 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             break;
           case IDC_TOGGLE_READP00:
             sprintf(tmp, "FSDevice%dConvertP00", num);
-            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_get_value(tmp, (void *)&n);
             resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_WRITEP00:
             sprintf(tmp, "FSDevice%dSaveP00", num);
-            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_get_value(tmp, (void *)&n);
             resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_HIDENONP00:
             sprintf(tmp, "FSDevice%dHideCBMFiles", num);
-            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_get_value(tmp, (void *)&n);
             resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_ATTACH_READONLY:
             sprintf(tmp, "AttachDevice%dReadonly", num);
-            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_get_value(tmp, (void *)&n);
             resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_PRINTER:
-            resources_get_value("Printer4", (resource_value_t *)&n);
+            resources_get_value("Printer4", (void *)&n);
             resources_set_value("Printer4", (resource_value_t)!n);
             break;
         }
@@ -313,8 +312,7 @@ void ui_attach_dialog(HWND hwnd)
     int drive_true_emulation;
     int no_of_drives;
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     no_of_drives = drive_true_emulation ? 3 : 5;
 

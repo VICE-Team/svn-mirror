@@ -811,7 +811,7 @@ int mem_patch_kernal(void)
     short bytes, n, i = 0;
     WORD a;
 
-    resources_get_value("MachineVideoStandard", (resource_value_t*)&video_mode);
+    resources_get_value("MachineVideoStandard", (void *)&video_mode);
 
     switch (video_mode) {
       case MACHINE_SYNC_PAL:    

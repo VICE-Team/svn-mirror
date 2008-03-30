@@ -131,7 +131,7 @@ char *cbm2_get_keyboard_name(void)
   resource_value_t val;
   int idx;
 
-  if (resources_get_value("KeymapIndex", &val) != 0) val = 0;
+  if (resources_get_value("KeymapIndex", (void *)&val) != 0) val = 0;
   idx = (int)val;
   if ((idx & 2) == 0) return CBM2keyBusinessName;
   return CBM2keyGraphicName;

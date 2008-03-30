@@ -61,7 +61,7 @@ int tcbmrom_load_1551(void)
     if (!drive_rom_load_ok)
         return 0;
 
-    resources_get_value("DosName1551", (resource_value_t *)&rom_name);
+    resources_get_value("DosName1551", (void *)&rom_name);
 
     if (sysfile_load(rom_name, drive_rom1551, DRIVE_ROM1551_SIZE,
                      DRIVE_ROM1551_SIZE) < 0) {

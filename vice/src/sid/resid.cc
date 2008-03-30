@@ -68,19 +68,17 @@ int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     double passband;
     int filters_enabled, model, sampling, passband_percentage;
 
-    if (resources_get_value("SidFilters",
-        (resource_value_t *)&filters_enabled) < 0)
+    if (resources_get_value("SidFilters", (void *)&filters_enabled) < 0)
         return 0;
 
-    if (resources_get_value("SidModel", (resource_value_t *)&model) < 0)
+    if (resources_get_value("SidModel", (void *)&model) < 0)
         return 0;
 
-    if (resources_get_value("SidResidSampling",
-        (resource_value_t *)&sampling) < 0)
+    if (resources_get_value("SidResidSampling", (void *)&sampling) < 0)
         return 0;
 
     if (resources_get_value("SidResidPassband",
-        (resource_value_t *)&passband_percentage) < 0)
+        (void *)&passband_percentage) < 0)
         return 0;
 
     passband = speed * passband_percentage / 200.0;

@@ -179,7 +179,7 @@ JoystickWindow::JoystickWindow()
 	r.InsetBy(10,10);
 	checkbox = new BCheckBox(r, "Joydisplay", "Enable display for joysticks",
 		new BMessage(JOYMESSAGE_DISPLAY));
-   	resources_get_value("JoystickDisplay", (resource_value_t *)&res_value);
+   	resources_get_value("JoystickDisplay", (void *)&res_value);
    	checkbox->SetValue(res_value);
    	background->AddChild(checkbox);
 
@@ -214,7 +214,7 @@ void JoystickWindow::MessageReceived(BMessage *msg) {
 			while (keysetwindow);
 			break;
 		case JOYMESSAGE_DISPLAY:
-		   	resources_get_value("JoystickDisplay", (resource_value_t *)&res_value);
+		   	resources_get_value("JoystickDisplay", (void *)&res_value);
 		   	resources_set_value("JoystickDisplay", (resource_value_t )!res_value);
 		   	break;
 		default:

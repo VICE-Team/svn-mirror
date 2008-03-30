@@ -196,14 +196,12 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
 
 
 static const resource_t resources[] = {
-    { "JoystickDisplay", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &joystickdisplay, set_joystickdisplay, NULL },
-    {"SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
-     (resource_value_t *)&save_resources_on_exit,
-     set_save_resources_on_exit, NULL },
-    {"ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
-     (resource_value_t *)&confirm_on_exit,
-     set_confirm_on_exit, NULL },
+    { "JoystickDisplay", RES_INTEGER, (resource_value_t)0,
+      (void *)&joystickdisplay, set_joystickdisplay, NULL },
+    { "SaveResourcesOnExit",RES_INTEGER, (resource_value_t)0,
+      (void *)&save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit",RES_INTEGER, (resource_value_t)1,
+      (void *)&confirm_on_exit, set_confirm_on_exit, NULL },
     { NULL }
 };
 

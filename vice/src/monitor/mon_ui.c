@@ -313,8 +313,7 @@ void mon_disassembly_determine_popup_commands(
 
     int drive_true_emulation;
 
-    resources_get_value("DriveTrueEmulation",
-        (resource_value_t *)&drive_true_emulation);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
     CurrentAddress = new_addr(pmdp->memspace, determine_address_of_line(pmdp,
                               pmdp->StartAddress, yPos));

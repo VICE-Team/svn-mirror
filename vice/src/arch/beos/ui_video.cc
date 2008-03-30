@@ -114,7 +114,7 @@ VideoWindow::VideoWindow()
 	for (i=0; color_control[i].name; i++)
 	{
 		if (resources_get_value(color_control[i].res_name, 
-			(resource_value_t *) &res_val) == 0)
+			(void *)&res_val) == 0)
 		{
 			msg = new BMessage(MESSAGE_VIDEO_COLOR);
 			msg->AddInt32("index", i);
@@ -130,15 +130,14 @@ VideoWindow::VideoWindow()
 	}
 	
 	/* External Palette */
-	resources_get_value("ExternalPalette",
-		(resource_value_t *) &res_val);
+	resources_get_value("ExternalPalette", (void *)&res_val);
 	checkbox = new BCheckBox(BRect(110, 10, 240, 25),
 		"External Palette", "External Palette",
 		new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE));
 	checkbox->SetValue(res_val);
 	background->AddChild(checkbox);
 	
-	resources_get_value("PaletteFile",	(resource_value_t *) &palettefile);
+	resources_get_value("PaletteFile",	(void *)&palettefile);
 	palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
 	palettelistview->SetSelectionMessage(
 		new BMessage(MESSAGE_VIDEO_PALETTEFILE));
@@ -161,7 +160,7 @@ VideoWindow::VideoWindow()
 
 	/* PAL settings */
 	if (resources_get_value("PALMode", 
-		(resource_value_t *) &res_val) == 0)
+		(void *)&res_val) == 0)
 	{
 		box = new BBox(BRect(110, 140, 240, 220));
 		box->SetLabel("PAL Mode");
@@ -205,8 +204,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			break;
 		case MESSAGE_VIDEO_EXTERNALPALETTE:
-			resources_get_value("ExternalPalette",
-				(resource_value_t*)&val);
+			resources_get_value("ExternalPalette", (void *)&val);
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
 			msr->AddString("resname", "ExternalPalette");
 			msr->AddInt32("resval", 1-val);
@@ -231,8 +229,7 @@ void VideoWindow::MessageReceived(BMessage *msg) {
 			ui_add_event((void*)msr);
 			/* reset ExternalPalette to update the canvas */
 			msr = new BMessage(MESSAGE_SET_RESOURCE);
-			resources_get_value("ExternalPalette",
-				(resource_value_t*)&val);
+			resources_get_value("ExternalPalette", (void *)&val);
 			msr->AddString("resname", "ExternalPalette");
 			msr->AddInt32("resval", val);
 			ui_add_event((void*)msr);
