@@ -535,8 +535,28 @@ ui_menu_entry_t rs232_submenu[] = {
 /* Drive emulation support items.  */
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-UI_MENU_DEFINE_TOGGLE(Drive8Enable)
-UI_MENU_DEFINE_TOGGLE(Drive9Enable)
+
+static UI_CALLBACK(toggle_DriveEnable)
+{
+    char name[256];
+    int current_value;
+
+    sprintf(name, "Drive%dEnable", (int) client_data);
+    if (resources_get_value(name, (resource_value_t *) &current_value) < 0)
+        return;
+
+    if (!call_data) {
+        resources_set_value(name, (resource_value_t) !current_value);
+        ui_update_menus();
+    } else {
+        int true_drive;
+
+        if (resources_get_value ("DriveTrueEmulation",
+                                 (resource_value_t *) &true_drive) >= 0)
+            ui_menu_set_sensitive(w, true_drive);
+        ui_menu_set_tick(w, current_value);
+    }
+}
 
 UI_MENU_DEFINE_TOGGLE(DriveParallelCable)
 
@@ -1031,9 +1051,9 @@ static ui_menu_entry_t drive_settings_submenu[] = {
        this switch is zero.  */
       (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
     { "*Enable emulation of drive #8",
-      (ui_callback_t) toggle_Drive8Enable, NULL, NULL },
+      (ui_callback_t) toggle_DriveEnable, (ui_callback_data_t) 8, NULL },
     { "*Enable emulation of drive #9",
-      (ui_callback_t) toggle_Drive9Enable, NULL, NULL },
+      (ui_callback_t) toggle_DriveEnable, (ui_callback_data_t) 9, NULL },
     { "--" },
     { "Drive #8 floppy disk type",
       NULL, NULL, set_drive8_type_submenu },
