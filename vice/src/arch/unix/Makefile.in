@@ -362,8 +362,7 @@ archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
 	../../../src/ioutil.h ../../../src/log.h ../../../src/machine.h \
 	ui.h types.h ../../../src/uiapi.h ../../../src/utils.h
 blockdev.o: blockdev.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/blockdev.h types.h ../../../src/diskimage.h \
-	../../../src/log.h
+	../../../src/blockdev.h types.h ../../../src/log.h
 c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h types.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \

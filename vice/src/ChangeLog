@@ -1,3 +1,66 @@
+2002-12-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.30.
+
+	* drive/wd1770.c: Check if disk image is actually present.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c
+	(archdep_file_is_blockdev, archdep_file_is_chardev): New
+	functions.
+
+	* c1541.c (open_disk_image): Check for block and char device.
+
+	* diskimage/diskimage.c, diskimage.h, arch/win32/uilib.c,
+	c1541.c, vdrive/vdrive-internal.c (disk_image_create):
+	Renamed.
+
+	* diskimage/diskimage.c, diskimage.h, diskimage/rawimage.c,
+	diskimage/rawimage.h (disk_image_rawimage_name_set,
+	rawimage_name_set, disk_image_name_set): New functions.
+
+	* attach.c, diskimage.h, diskimage/diskimage.c,
+	diskimage/rawimage.c, diskimage/rawimage.h
+	(disk_image_rawimage_driver_name_set,
+	rawimage_driver_name_set): New functions.
+
+	* arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/msdos/archdep.h, arch/riscos/archdep.h,
+	arch/os2/archdep.h, arch/beos/archdep.h: New define
+	`ARCHDEP_RAWDRIVE_DEFAULT'.
+
+	* arch/unix/blockdev.c, blockdev.h (blockdev_open): Use given
+	drive name and read only flag.
+	(blockdev_write_sector): Added write support
+
+	* diskimage/diskimage.c (disk_image_attach_log,
+	disk_image_detach_log): Use `*_name_get' functions.
+	(disk_image_check_sector): Moved fsimage specific code to
+	separate file.
+
+	* serial/serial-iec-lib.c, serial/serial-iec-lib.h,
+	serial/serial-realdevice.c, serial/serial-realdevice.h,
+	diskimage/fsimage-check.c, diskimage/fsimage-check.h: New
+	files.
+
+	* serial/Makefile.am, diskimage/Makefile.am: Updated.
+
+	* serial/serial-iec.h: Moved prototypes here.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_allocate_chain): Pass image
+	type instead generating an own one.
+
+	* vdrive/vdrive-dir.c (vdrive_dir_free_chain): Likewise.
+
+	* diskimage.h, diskimage/diskimage.c, c1541.c,
+	vdrive/vdrive-bam.c, vdrive/vdrive-dir.c, diskimage/fsimage.c
+	(disk_image_check_sector): Use `struct diskimage_s'.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_open): Fixed file type bug.
+
+	* diskimage/realimage.c (realimage_read_sector): Implemented.
+
 2002-12-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.29.

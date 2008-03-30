@@ -29,10 +29,11 @@
 #include "diskimage.h"
 #include "log.h"
 #include "realimage.h"
+#include "serial.h"
 #include "types.h"
 
 
-static log_t realimage_log = LOG_ERR;
+static log_t realimage_log = LOG_DEFAULT;
 
 
 void realimage_media_create(disk_image_t *image)
@@ -62,7 +63,7 @@ int realimage_close(disk_image_t *image)
 int realimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                           unsigned int sector)
 {
-    return 0;
+    return serial_iec_lib_read_sector(8, track, sector, buf);
 }
 
 int realimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
