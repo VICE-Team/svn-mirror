@@ -61,6 +61,7 @@
 #include <errno.h>
 #endif
 
+#include "archdep.h"
 #include "charsets.h"
 #include "drive.h"
 #include "fsdevice.h"
@@ -215,7 +216,7 @@ int initialize_1541(int dev, int type,
     memset(floppy, 0, sizeof(DRIVE));  /* init all pointers */
 
     floppy->type     = type;
-    floppy->ActiveFd = ILLEGAL_FILE_DESC;
+    floppy->ActiveFd = NULL;
     floppy->unit     = dev;
 
     for (i = 0; i < 15; i++)
@@ -1064,7 +1065,7 @@ static int vdrive_command_initialize(DRIVE *floppy)
     floppy_close_all_channels(floppy);
 
     /* Update BAM in memory.  */
-    if (floppy->ActiveFd != ILLEGAL_FILE_DESC)
+    if (floppy->ActiveFd != NULL)
         vdrive_bam_read_bam(floppy);
     if (floppy->ErrFlg)
         set_error_data(floppy, 3); /* Clear or read error data.  */
@@ -1337,20 +1338,20 @@ static int  set_error_data(DRIVE *floppy, int flags)
 
     size   = num_blocks (floppy->ImageFormat, floppy->NumTracks);
     offset = ((off_t)size << 8) + (off_t)(floppy->D64_Header?0:HEADER_LENGTH);
-    lseek(floppy->ActiveFd, offset, SEEK_SET);
+    fseek(floppy->ActiveFd, offset, SEEK_SET);
 
     if (flags & 2) {		/* read from file */
-	if (read(floppy->ActiveFd, (char *)floppy->ErrData, size) < size) {
-	    log_error(vdrive_log, "Floppy image read error.");
-	    return(-2);
-	}
+        if (fread((char *)floppy->ErrData, size, 1, floppy->ActiveFd) < 1) {
+            log_error(vdrive_log, "Floppy image read error.");
+            return(-2);
+        }
     }
 
     if (flags & 4) {		/* write to file */
-	if (write(floppy->ActiveFd, (char *)floppy->ErrData, size) < size) {
-	    log_error(vdrive_log, "Floppy image write error.");
-	    return(-2);
-	}
+        if (fwrite((char *)floppy->ErrData, size, 1, floppy->ActiveFd) < 1) {
+            log_error(vdrive_log, "Floppy image write error.");
+            return(-2);
+        }
     }
 
     return (0);
@@ -1478,10 +1479,10 @@ static off_t offset_from_track_and_sector(int format, int track,
  * Read one block
  */
 
-int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
+int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
                       int sector, int d64, int g64, int unit)
 {
-    if (fd == ILLEGAL_FILE_DESC)
+    if (fd == NULL)
         return -1;
 
     if (g64 && (unit == 8 || unit == 9)) {
@@ -1496,9 +1497,9 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
         if (offset < 0)
             return -1;
 
-        lseek(fd, offset, SEEK_SET);
+        fseek(fd, offset, SEEK_SET);
 
-        if (read(fd, (char *)buf, 256) < 256) {
+        if (fread((char *)buf, 256, 1, fd) < 1) {
             log_error(vdrive_log, "Error reading from disk image.\n");
             return(-2);
         }
@@ -1512,10 +1513,10 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
  * Write one block
  */
 
-int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
+int floppy_write_block(FILE *fd, int format, BYTE *buf, int track,
                        int sector, int d64, int g64, int unit)
 {
-    if (fd == ILLEGAL_FILE_DESC)
+    if (fd == NULL)
         return -1;
 
     if (g64 && (unit == 8 || unit == 9)) {
@@ -1531,8 +1532,8 @@ int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
         if (offset < 0)
             return -1;
 
-        if (lseek(fd, offset, SEEK_SET) < 0
-            || write(fd, (char *)buf, 256) < 0) {
+        if (fseek(fd, offset, SEEK_SET) < 0
+            || fwrite((char *)buf, 256, 1, fd) < 1) {
             log_error(vdrive_log, "Cannot write T:%d S:%d: %s",
                       track, sector, strerror(errno));
             return -2;
@@ -2253,13 +2254,13 @@ void detach_floppy_image(DRIVE *floppy)
 {
     floppy_close_all_channels(floppy);
 
-    if (floppy->ActiveFd != ILLEGAL_FILE_DESC) {
+    if (floppy->ActiveFd != NULL) {
         log_message(vdrive_log, "Detaching disk image %s from unit %i.",
                     floppy->ActiveName, floppy->unit);
         if (floppy->detach_func != NULL)
             floppy->detach_func(floppy);
-        zclose(floppy->ActiveFd);
-        floppy->ActiveFd = ILLEGAL_FILE_DESC;
+        zfclose(floppy->ActiveFd);
+        floppy->ActiveFd = NULL;
         floppy->ActiveName[0] = 0; /* Name is used as flag */
     }
 }
@@ -2267,7 +2268,7 @@ void detach_floppy_image(DRIVE *floppy)
 int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 {
     int DType;
-    file_desc_t fd;
+    FILE *fd;
     hdrinfo hdr;
 
 
@@ -2283,17 +2284,17 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
         return (-1);
     }
 
-    fd = zopen(name, O_RDWR, 0);
+    fd = zfopen(name, MODE_READ_WRITE /*, 0 */);
 
     /* If we cannot open the image read/write, try to open it read only. */
-    if (fd == ILLEGAL_FILE_DESC) {
-        fd = zopen(name, O_RDONLY, 0);
+    if (fd == NULL) {
+        fd = zfopen(name, MODE_READ /*, 0 */);
         floppy->ReadOnly = 1;
     } else {
         floppy->ReadOnly = 0;
     }
 
-    if (fd == ILLEGAL_FILE_DESC) {
+    if (fd == NULL) {
         log_error(vdrive_log, "Cannot open file `%s'.", name);
         return -1;
     } else{
@@ -2301,7 +2302,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
             log_error(vdrive_log,
                       "File `%s' was not recognized as a disk image in unit %d.",
                       name, floppy->unit);
-            zclose(fd);
+            zfclose(fd);
             return (-2);
         }
         if (hdr.v_major > HEADER_VERSION_MAJOR
@@ -2311,7 +2312,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
                       "version higher than emulator (V %d.%02d).",
                       name, hdr.v_major, hdr.v_minor,
                       HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
-            zclose(fd);
+            zfclose(fd);
             return (-2);
         }
 
@@ -2347,8 +2348,8 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
             if (floppy->attach_func(floppy) < 0) {
                 log_error(vdrive_log, "Unit %d: Wrong disk type.",
                           floppy->unit);
-                zclose(floppy->ActiveFd);
-                floppy->ActiveFd = ILLEGAL_FILE_DESC;
+                zfclose(floppy->ActiveFd);
+                floppy->ActiveFd = NULL;
                 floppy->ActiveName[0] = 0;
                 return -1;
             }
@@ -2405,7 +2406,7 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
  * Information Acquisition routines.
  */
 
-int get_std64_header(file_desc_t fd, BYTE *header)
+int get_std64_header(FILE *fd, BYTE *header)
 {
     int devtype = DT_1541;
     int tracks = NUM_TRACKS_1541;
@@ -2431,9 +2432,9 @@ int get_std64_header(file_desc_t fd, BYTE *header)
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if (lseek(fd, 256*blk, SEEK_SET)<0)
-	return FD_BADIMAGE;
-    while ((len = read(fd, block, 256)) == 256) {
+    if (fseek(fd, 256*blk, SEEK_SET)<0)
+        return FD_BADIMAGE;
+    while ((len = fread(block, 1, 256, fd)) == 256) {
         if (++blk > 771) {
             /* FIXME */
             log_message(vdrive_log, "Nice try.");
@@ -2483,7 +2484,7 @@ int get_std64_header(file_desc_t fd, BYTE *header)
     return(0);
 }
 
-int get_std71_header(file_desc_t fd, BYTE *header)
+int get_std71_header(FILE *fd, BYTE *header)
 {
     int devtype = DT_1571;
     int tracks = NUM_TRACKS_1571;
@@ -2509,9 +2510,9 @@ int get_std71_header(file_desc_t fd, BYTE *header)
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if (lseek(fd, 256*blk, SEEK_SET)<0)
+    if (fseek(fd, 256*blk, SEEK_SET)<0)
         return FD_BADIMAGE;
-    while ((len = read(fd, block, 256)) == 256) {
+    while ((len = fread(block, 1, 256, fd)) == 256) {
         if (++blk > 1372) {
             log_message(vdrive_log, "Nice try.");
             break;
@@ -2538,7 +2539,7 @@ int get_std71_header(file_desc_t fd, BYTE *header)
     return(0);
 }
 
-int get_std81_header(file_desc_t fd, BYTE *header)
+int get_std81_header(FILE *fd, BYTE *header)
 {
     int devtype = DT_1581;
     int tracks = NUM_TRACKS_1581;
@@ -2564,9 +2565,9 @@ int get_std81_header(file_desc_t fd, BYTE *header)
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if (lseek(fd, 256*blk, SEEK_SET)<0)
+    if (fseek(fd, 256*blk, SEEK_SET)<0)
         return FD_BADIMAGE;
-    while ((len = read(fd, block, 256)) == 256) {
+    while ((len = fread(block, 1, 256, fd)) == 256) {
         if (++blk > 3213) {
             log_message(vdrive_log, "Nice try.");
             break;
@@ -2593,7 +2594,7 @@ int get_std81_header(file_desc_t fd, BYTE *header)
     return(0);
 }
 
-int get_std80_header(file_desc_t fd, BYTE *header)
+int get_std80_header(FILE *fd, BYTE *header)
 {
     int devtype = DT_8050;
     int tracks = NUM_TRACKS_8050;
@@ -2619,9 +2620,9 @@ int get_std80_header(file_desc_t fd, BYTE *header)
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if (lseek(fd, 256*blk, SEEK_SET)<0)
+    if (fseek(fd, 256*blk, SEEK_SET)<0)
         return FD_BADIMAGE;
-    while ((len = read(fd, block, 256)) == 256) {
+    while ((len = fread(block, 1, 256, fd)) == 256) {
         if (++blk > NUM_BLOCKS_8050 + 6) {
             log_message(vdrive_log, "Nice try.");
             break;
@@ -2648,7 +2649,7 @@ int get_std80_header(file_desc_t fd, BYTE *header)
     return(0);
 }
 
-int get_std82_header(file_desc_t fd, BYTE *header)
+int get_std82_header(FILE *fd, BYTE *header)
 {
     int devtype = DT_8250;
     int tracks = NUM_TRACKS_8250;
@@ -2674,9 +2675,9 @@ int get_std82_header(file_desc_t fd, BYTE *header)
     header[HEADER_FLAGS_OFFSET + 0] = devtype;
     header[HEADER_FLAGS_OFFSET + 1] = tracks;
 
-    if (lseek(fd, 256*blk, SEEK_SET)<0)
+    if (fseek(fd, 256*blk, SEEK_SET)<0)
         return FD_BADIMAGE;
-    while ((len = read(fd, block, 256)) == 256) {
+    while ((len = fread(block, 1, 256, fd)) == 256) {
         if (++blk > NUM_BLOCKS_8250 + 6) {
             log_message(vdrive_log, "Nice try.");
             break;
@@ -2704,12 +2705,12 @@ int get_std82_header(file_desc_t fd, BYTE *header)
 }
 
 
-int check_header(file_desc_t fd, hdrinfo *hdr)
+int check_header(FILE *fd, hdrinfo *hdr)
 {
     BYTE header[HEADER_LENGTH];
 
-    lseek (fd, (off_t) 0, SEEK_SET);
-    if (read(fd, (BYTE *)header, sizeof (header)) != sizeof (header)) {
+    fseek (fd, (off_t) 0, SEEK_SET);
+    if (fread((BYTE *)header, sizeof (header), 1, fd) < 1) {
         log_error(vdrive_log, "Cannot read image header.");
         return FD_RDERR;
     }
@@ -2729,23 +2730,9 @@ int check_header(file_desc_t fd, hdrinfo *hdr)
         header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
 
         size_t image_size;
-#ifdef __riscos
-        size_t current;
 
-        current = ftell(fd);
-        fseek(fd, 0, SEEK_END);
-        image_size = ftell(fd);
-        fseek(fd, current, SEEK_SET);
-#else
-        struct stat s;
+        image_size = file_length(fd);
 
-        if (fstat (fd, &s)) {
-            log_error(vdrive_log, "stat() failed: %s", strerror(errno));
-            return FD_BADIMAGE;
-        } else {
-            image_size = s.st_size;
-        }
-#endif
         if (IS_D64_LEN(image_size)) {
             if (get_std64_header(fd, header))
                 return FD_BADIMAGE;
