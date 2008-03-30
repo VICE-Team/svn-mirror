@@ -39,39 +39,40 @@
 
 /* base saturation of all colors except the grey tones */
 
-#define VIC_II_SATURATION	48.0f
+#define VIC_II_SATURATION       48.0f
 
 /* phase shift of all colors */
 
-#define VIC_II_PHASE		-4.5f
+#define VIC_II_PHASE            -4.5f
 
 /* chroma angles in UV space */
 
-#define ANGLE_RED	 112.5f
-#define ANGLE_GRN	-135.0f
-#define ANGLE_BLU	   0.0f
-#define ANGLE_ORN	 -45.0f	/* negative orange (orange is at +135.0 degree) */
-#define ANGLE_BRN	 157.5f
+#define ANGLE_RED        112.5f
+#define ANGLE_GRN       -135.0f
+#define ANGLE_BLU          0.0f
+#define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree)
+*/
+#define ANGLE_BRN        157.5f
 
 /* new luminances */
 
-#define LUMN0	  0.0f
-#define LUMN1	 56.0f
-#define LUMN2	 74.0f
-#define LUMN3	 92.0f
-#define LUMN4	117.0f
-#define LUMN5	128.0f
-#define LUMN6	163.0f
-#define LUMN7	199.0f
-#define LUMN8	256.0f
+#define LUMN0     0.0f
+#define LUMN1    56.0f
+#define LUMN2    74.0f
+#define LUMN3    92.0f
+#define LUMN4   117.0f
+#define LUMN5   128.0f
+#define LUMN6   163.0f
+#define LUMN7   199.0f
+#define LUMN8   256.0f
 
 /* old luminances */
 
-#define LUMO0	  0.0f
-#define LUMO1	 56.0f
-#define LUMO2	128.0f
-#define LUMO3	191.0f
-#define LUMO4	256.0f
+#define LUMO0     0.0f
+#define LUMO1    56.0f
+#define LUMO2   128.0f
+#define LUMO3   191.0f
+#define LUMO4   256.0f
 
 /* default dithering */
 

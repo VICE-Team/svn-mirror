@@ -49,8 +49,8 @@
 /*----------------------------------------------------------------------*/
 /* CPU binding */
 
-#define mycpu_set_int(a,b)		do {} while(0)
-#define mycpu_restore_int(a,b)		do {} while(0)
+#define mycpu_set_int(a,b)              do {} while(0)
+#define mycpu_restore_int(a,b)          do {} while(0)
 
 #define mycpu_rmw_flag  rmw_flag
 #define myclk           clk
@@ -60,7 +60,7 @@
 
 static BYTE cbm2_model_port_mask = 0xc0;
 
-void set_cbm2_model_port_mask(BYTE val) 
+void set_cbm2_model_port_mask(BYTE val)
 {
     cbm2_model_port_mask = val & 0xc0;
 }
@@ -128,10 +128,6 @@ _TPI_FUNC BYTE read_pc(void)
     for (m = 0x1, i = 0; i < 16; m <<= 1, i++)
         if (!(msk & m))
             val &= ~keyarr[i];
-/*
-if(val) printf("mask=%04x, val=%02x (pa=%02x/%02x, pb=%02x/%02x)\n",
-		msk, b, tpi[TPI_PA], tpi[TPI_DDPA], tpi[TPI_PB], tpi[TPI_DDPB]);
-*/
     byte = (val & 0x3f) | cbm2_model_port_mask;
 
     return byte;

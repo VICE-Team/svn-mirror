@@ -1,5 +1,4 @@
 /*
- *
  * ieeevia2.c - IEEE488 interface VIA2 emulation in the VIC-1112.
  *
  * Written by
@@ -30,10 +29,10 @@
 #define myvia ieeevia2
 #define myvia_init ieeevia2_init
 
-#define	via_set_int maincpu_set_irq
+#define via_set_int maincpu_set_irq
 #define I_MYVIAFL I_IEEEVIA2FL
 #define MYVIA_INT IK_IRQ
-#define	MYVIA_NAME "IeeeVia2"
+#define MYVIA_NAME "IeeeVia2"
 
 #define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
@@ -60,18 +59,8 @@
 #include "types.h"
 #include "viacore.h"
 
-#if 0
-
-extern int traceflg;
-#define VIA_SET_CA2(a)	do { parallel_cpu_set_atn(((a)?0:1)); if ((a)==0) { traceflg=1; drive0_traceflg=1; parallel_debug=1; } } while(0);
-#define VIA_SET_CB2(a)	do { printf("set eoi to %d\n", (a)); parallel_cpu_set_eoi(((a)?0:1)); } while(0);
-
-#else
-
-#define VIA_SET_CA2(a)	parallel_cpu_set_atn(((a)?0:1)); 
-#define VIA_SET_CB2(a)	parallel_cpu_set_eoi(((a)?0:1)); 
-
-#endif
+#define VIA_SET_CA2(a)  parallel_cpu_set_atn(((a)?0:1));
+#define VIA_SET_CB2(a)  parallel_cpu_set_eoi(((a)?0:1));
 
 /* #define VIA1_TIMER_DEBUG */
 
@@ -117,7 +106,8 @@ static void undump_pcr(BYTE byte)
 
 static void res_via(void)
 {
-    parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */}
+    parallel_cpu_set_bus(0xff); /* all data lines high, because of input mode */
+}
 
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 {
@@ -127,7 +117,7 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
           /* first set bit 1 and 5 to the real output values */
           if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
           if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-          parallel_cpu_set_atn( (byte & 2) ? 0 : 1 ); 
+          parallel_cpu_set_atn( (byte & 2) ? 0 : 1 );
           parallel_cpu_set_eoi( (byte & 0x20) ? 0 : 1 );
         }
 #endif
@@ -143,8 +133,8 @@ inline static BYTE read_prb(void)
     if (drive[1].enable)
         drive1_cpu_execute(clk);
 
-    byte = (parallel_bus & ~myvia[VIA_DDRB]) 
-				| (myvia[VIA_PRB] & myvia[VIA_DDRB]);
+    byte = (parallel_bus & ~myvia[VIA_DDRB])
+                                | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
     return byte;
 }
 

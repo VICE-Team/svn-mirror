@@ -398,8 +398,8 @@ uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 uivsidcontrol.o: uivsidcontrol.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/arch/unix/vsiduiunix.h \
-	../../../../../src/utils.h
+	uiarch.h ../../../../../src/utils.h \
+	../../../../../src/arch/unix/vsiduiunix.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
 	../../../../../src/arch/unix/types.h \

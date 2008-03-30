@@ -1,5 +1,4 @@
 /*
- *
  * via1.c - VIA1 emulation in the VIC20.
  *
  * Written by
@@ -34,7 +33,7 @@
 
 #define I_MYVIAFL I_VIA1FL
 #define MYVIA_INT VIA1_INT
-#define	MYVIA_NAME "Via1"
+#define MYVIA_NAME "Via1"
 
 #define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
@@ -70,8 +69,8 @@
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)
 
-#define	via_set_int		maincpu_set_irq
-#define	VIA1_INT		IK_IRQ
+#define via_set_int             maincpu_set_irq
+#define VIA1_INT                IK_IRQ
 
 /* #define VIA1_TIMER_DEBUG */
 
@@ -117,18 +116,18 @@ static void undump_pcr(BYTE byte)
 
 static void res_via(void)
 {
-/*	iec_pcr_write(0x22);*/
+/*      iec_pcr_write(0x22);*/
 }
 
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 {
     /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
-    if(byte != via1[VIA_PCR]) {
+    if (byte != via1[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if((tmp & 0x0c) != 0x0c)
+        if ((tmp & 0x0c) != 0x0c)
             tmp |= 0x02;
-        if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+        if ((tmp & 0xc0) != 0xc0) tmp |= 0x20;
            iec_pcr_write(tmp);
     }
     return byte;
@@ -147,7 +146,7 @@ inline static BYTE read_pra(ADDRESS addr)
         if (!(msk & m))
             val &= ~rev_keyarr[i];
 
-    byte = val | (via1[VIA_PRA] & via1[VIA_DDRA]); 
+    byte = val | (via1[VIA_PRA] & via1[VIA_DDRA]);
     return byte;
 }
 

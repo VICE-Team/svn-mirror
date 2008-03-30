@@ -38,15 +38,15 @@
 
 struct sound_s
 {
-    int				 on;
-    CLOCK			 t;
-    BYTE			 sample;
+    int on;
+    CLOCK t;
+    BYTE sample;
 
-    double			 b;
-    double			 bs;
+    double b;
+    double bs;
 
-    int				 speed;
-    int				 cycles_per_sec;
+    int speed;
+    int cycles_per_sec;
 };
 
 static BYTE snddata[4];
@@ -54,38 +54,42 @@ static BYTE snddata[4];
 /* XXX: this is not correct */
 static WORD pet_makesample(double s, double e, BYTE sample)
 {
-    double				v;
-    int					sc, ec, sf, ef, i, nr;
+    double v;
+    int sc, ec, sf, ef, i, nr;
+
     sc = (int)ceil(s);
     sf = (int)floor(s);
     ec = (int)ceil(e);
     ef = (int)floor(e);
     nr = 0;
+
     for (i = sc; i < ef; i++)
-	if (sample & (1 << (i%8)))
-	    nr++;
+        if (sample & (1 << (i % 8)))
+            nr++;
+
     v = nr;
+
     if (sample & (1 << (sf % 8)))
-	v += sc - s;
+        v += sc - s;
     if (sample & (1 << (ef % 8)))
-	v += e - ef;
-    return ((WORD)(v * 4095.0 / (e-s)));
+        v += e - ef;
+
+    return ((WORD)(v * 4095.0 / (e - s)));
 }
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int interleave, int *delta_t)
+                                    int interleave, int *delta_t)
 {
-    int				 i;
-    WORD			 v = 0;
+    int i;
+    WORD v = 0;
 
-    for (i = 0; i < nr; i++)
-    {
-	if (psid->on)
-	    v = pet_makesample(psid->b, psid->b + psid->bs, psid->sample);
-	pbuf[i*interleave] = v;
-	psid->b += psid->bs;
-	while (psid->b >= 8.0)
-	    psid->b -= 8.0;
+    for (i = 0; i < nr; i++) {
+        if (psid->on)
+            v = pet_makesample(psid->b, psid->b + psid->bs, psid->sample);
+        pbuf[i * interleave] = v;
+        psid->b += psid->bs;
+        while (psid->b >= 8.0)
+            psid->b -= 8.0;
     }
     return 0;
 }
@@ -102,9 +106,9 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     psid->speed = speed;
     psid->cycles_per_sec = cycles_per_sec;
     if (!psid->t)
-	psid->t = 32;
+        psid->t = 32;
     psid->b = 0.0;
-    psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
+    psid->bs = (double)psid->cycles_per_sec / (psid->t * psid->speed);
 
     snddata[0] = 0;
     snddata[1] = 0;
@@ -112,7 +116,7 @@ int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snddata[3] = 0;
 
     for (i = 0; i < 4; i++)
-	sound_machine_store(psid, i, snddata[i]);
+        sound_machine_store(psid, i, snddata[i]);
 
     return 1;
 }
@@ -144,25 +148,24 @@ void store_petsnd_sample(BYTE sample)
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)
 {
-    switch (addr)
-    {
-    case 0:
-	psid->on = val;
-	break;
-    case 1:
-	psid->sample = val;
-	while (psid->b >= 1.0)
-	    psid->b -= 1.0;
-	break;
-    case 2:
-	psid->t = val;
-	break;
-    case 3:
-	psid->t = (psid->t & 0xff) | (val << 8);
-	psid->bs = (double)psid->cycles_per_sec/(psid->t*psid->speed);
-	break;
-    default:
-	abort();
+    switch (addr) {
+      case 0:
+        psid->on = val;
+        break;
+      case 1:
+        psid->sample = val;
+        while (psid->b >= 1.0)
+            psid->b -= 1.0;
+        break;
+      case 2:
+        psid->t = val;
+        break;
+      case 3:
+        psid->t = (psid->t & 0xff) | (val << 8);
+        psid->bs = (double)psid->cycles_per_sec / (psid->t * psid->speed);
+        break;
+      default:
+        abort();
     }
 }
 
@@ -201,3 +204,4 @@ int sound_machine_channels(void)
 {
     return 1;
 }
+

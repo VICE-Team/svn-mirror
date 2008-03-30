@@ -1,5 +1,4 @@
 /*
- *
  * via2.c - VIA2 emulation in the VIC20.
  *
  * Written by
@@ -34,7 +33,7 @@
 
 #define I_MYVIAFL I_VIA2FL
 #define MYVIA_INT VIA2_INT
-#define	MYVIA_NAME "Via2"
+#define MYVIA_NAME "Via2"
 
 #define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
@@ -77,8 +76,8 @@
 
 static int tape_sense = 0;
 
-#define	via_set_int		maincpu_set_nmi
-#define	VIA2_INT		IK_NMI
+#define via_set_int             maincpu_set_nmi
+#define VIA2_INT                IK_NMI
 
 /* #define VIA2_TIMER_DEBUG */
 
@@ -132,22 +131,22 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 {
     /* FIXME: should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != via2[VIA_PCR]) {
-	register BYTE tmp = byte;
-	/* first set bit 1 and 5 to the real output values */
-	if ((tmp & 0x0c) != 0x0c)
-	    tmp |= 0x02;
-	if ((tmp & 0xc0) != 0xc0)
-	    tmp |= 0x20;
+        register BYTE tmp = byte;
+        /* first set bit 1 and 5 to the real output values */
+        if ((tmp & 0x0c) != 0x0c)
+            tmp |= 0x02;
+        if ((tmp & 0xc0) != 0xc0)
+            tmp |= 0x20;
 
     datasette_set_motor(!(byte & 0x02));
 
 #ifdef HAVE_RS232
     /* switching userport strobe with CB2 */
-	if(rsuser_enabled) {
-	    rsuser_set_tx_bit(byte & 0x20);
-	}
+        if(rsuser_enabled) {
+            rsuser_set_tx_bit(byte & 0x20);
+        }
 #endif
-	printer_interface_userport_write_strobe(byte & 0x20);
+        printer_interface_userport_write_strobe(byte & 0x20);
     }
     return byte;
 }
@@ -198,7 +197,7 @@ inline static BYTE read_pra(ADDRESS addr)
     /* We assume `iec_pa_read()' returns the non-IEC bits
        as zeroes. */
     byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
-           | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
+           | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
     return byte;
 }
 

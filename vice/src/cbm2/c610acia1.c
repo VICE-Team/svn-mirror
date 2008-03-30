@@ -24,10 +24,10 @@
  *
  */
 
-#define mycpu 		maincpu
-#define myclk 		clk
+#define mycpu           maincpu
+#define myclk           clk
 #define mycpu_rmw_flag  rmw_flag
-#define	mycpu_clk_guard	maincpu_clk_guard
+#define mycpu_clk_guard maincpu_clk_guard
 
 #define myacia acia1
 
@@ -56,8 +56,8 @@
 
 #include "c610tpi.h"
 
-#define mycpu_set_int(b,a)         	tpi1_set_int(4,(a))
-#define mycpu_set_int_noclk(b,c)	tpi1_restore_int(4,(c))
+#define mycpu_set_int(b,a)              tpi1_set_int(4,(a))
+#define mycpu_set_int_noclk(b,c)        tpi1_restore_int(4,(c))
 
 #include "aciacore.c"
 

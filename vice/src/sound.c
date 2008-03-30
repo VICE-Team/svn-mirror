@@ -188,9 +188,9 @@ int sound_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 static cmdline_option_t cmdline_options[] = {
-    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t) 1,
+    { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
       NULL, "Enable sound playback" },
-    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t) 0,
+    { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
       NULL, "Disable sound playback" },
     { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
       "<value>", "Set sound sample rate to <value> Hz" },
@@ -339,13 +339,13 @@ static void fill_buffer(int size, int rise)
 
     for (c = 0; c < snddata.channels; c++) {
         for (i = 0; i < size; i++) {
-	    double factor;
-	    if (rise < 0) factor = (double)(size - i)/size;
-	    else if (rise > 0) factor = (double)i/size;
-	    else factor = 1.0;
+            double factor;
+            if (rise < 0) factor = (double)(size - i)/size;
+            else if (rise > 0) factor = (double)i/size;
+            else factor = 1.0;
             p[i * snddata.channels + c] =
                 snddata.lastsample[c]*factor;
-	}
+        }
     }
 
     i = snddata.pdev->write(p, size * snddata.channels);
@@ -908,7 +908,8 @@ void sound_suspend(void)
     if (!snddata.pdev)
         return;
 
-    if (snddata.pdev->write && !snddata.issuspended && snddata.pdev->need_attenuation) {
+    if (snddata.pdev->write && !snddata.issuspended
+        && snddata.pdev->need_attenuation) {
         fill_buffer(snddata.fragsize, -1);
     }
     if (snddata.pdev->suspend && !snddata.issuspended) {
@@ -926,15 +927,16 @@ void sound_resume(void)
 
     if (snddata.issuspended) {
         if (snddata.pdev->resume) {
-	    snddata.issuspended = snddata.pdev->resume();
-	}
-	else {
-	    snddata.issuspended = 0;
-	}
+            snddata.issuspended = snddata.pdev->resume();
+        }
+        else {
+            snddata.issuspended = 0;
+        }
 
-	if (snddata.pdev->write && !snddata.issuspended && snddata.pdev->need_attenuation) {
-	    fill_buffer(snddata.fragsize, 1);
-	}
+        if (snddata.pdev->write && !snddata.issuspended
+            && snddata.pdev->need_attenuation) {
+            fill_buffer(snddata.fragsize, 1);
+        }
     }
 }
 
@@ -1034,7 +1036,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 long sound_sample_position(void)
 {
     return (snddata.clkstep == 0)
-        ? 0 : (long)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);}
+        ? 0 : (long)((SOUNDCLK_CONSTANT(clk) - snddata.fclk)
+        / snddata.clkstep);
+}
 
 int sound_read(ADDRESS addr, int chipno)
 {

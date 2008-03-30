@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-03-24 13:39+0100\n"
+"POT-Creation-Date: 2002-04-01 15:52+0200\n"
 "PO-Revision-Date: 2002-01-19 20:00+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: PL <LL@li.org>\n"
@@ -2596,7 +2596,7 @@ msgid "Reset PAL Settings"
 msgstr "Przywróæ domyœlne ustawienia"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:43
-#: src/arch/unix/x11/xaw/uivsidcontrol.c:42
+#: src/arch/unix/x11/xaw/uivsidcontrol.c:43
 #, c-format
 msgid ""
 "Name: %s\n"

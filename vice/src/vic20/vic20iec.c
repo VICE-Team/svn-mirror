@@ -60,12 +60,12 @@ inline void resolve_bus_signals(void)
                                & (drive[1].enable ? NOT(drive2_clock) : 0x01);
     bus_data = (drive[0].enable
                      ? NOT(drive_data) & NOT(drive_data_modifier) : 0x01)
-                 & (drive[1].enable 
+                 & (drive[1].enable
                      ? NOT(drive2_data) & NOT(drive2_data_modifier) : 0x01)
                  & NOT(cpu_data);
 #if BUS_DBG
     fprintf(logfile, "SB: [%ld]  data:%d clock:%d atn:%d\n",
-	   drive_clk[0], bus_data, bus_clock, bus_atn);
+           drive_clk[0], bus_data, bus_clock, bus_atn);
 #endif
 }
 
@@ -208,15 +208,15 @@ void iec_pa_write(BYTE data)
 
 /* This routine is called for VIA1 PCR (= CA2 and CB2).
    Although Cx2 uses three bits for control, we assume the calling routine has
-   set bit 5 and bit 1 to the real output value for CB2 (DATA out) and CA2 (CLK
-   out) resp. (25apr1997 AF) */
+   set bit 5 and bit 1 to the real output value for CB2 (DATA out) and CA2
+   (CLK out) resp. (25apr1997 AF) */
 
 void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
     if (!drive[0].enable && !drive[1].enable)
-	return;
+        return;
 
     if (drive[0].enable)
         drive0_cpu_execute(clk);
