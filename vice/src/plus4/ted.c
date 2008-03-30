@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include "alarm.h"
-#include "archdep.h"
 #include "clkguard.h"
 #include "dma.h"
 #include "lib.h"
@@ -62,7 +61,6 @@
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
-#include "util.h"
 #include "vsync.h"
 #include "videoarch.h"
 #include "video.h"
@@ -275,7 +273,6 @@ static void ted_set_geometry(void)
 static int init_raster(void)
 {
     raster_t *raster;
-    char *title;
 
     raster = &ted.raster;
     video_color_set_canvas(raster->canvas);
@@ -295,9 +292,8 @@ static int init_raster(void)
         log_error(ted.log, "Cannot load palette.");
         return -1;
     }
-    title = util_concat("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title(raster, title);
-    lib_free(title);
+
+    raster_set_title(raster, machine_name);
 
     if (raster_realize(raster) < 0)
         return -1;

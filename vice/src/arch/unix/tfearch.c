@@ -41,7 +41,6 @@
 #include "log.h"
 #include "tfe.h"
 #include "tfearch.h"
-#include "utils.h"
 
 /** #define TFE_DEBUG_ARCH 1 **/
 /** #define TFE_DEBUG_PKTDUMP 1 **/

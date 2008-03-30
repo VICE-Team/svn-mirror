@@ -49,7 +49,6 @@
 #include "screenshot.h"
 #include "snapshot.h"
 #include "types.h"
-#include "util.h"
 #include "vic-cmdline-options.h"
 #include "vic-draw.h"
 #include "vic-mem.h"
@@ -262,7 +261,6 @@ static void update_pixel_tables(raster_t *raster)
 static int init_raster(void)
 {
     raster_t *raster;
-    char *title;
 
     raster = &vic.raster;
     video_color_set_canvas(raster->canvas);
@@ -282,9 +280,7 @@ static int init_raster(void)
 
     vic_color_update_palette(raster->canvas);
 
-    title = util_concat("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title(raster, title);
-    lib_free(title);
+    raster_set_title(raster, machine_name);
 
     if (raster_realize(raster) < 0)
         return -1;

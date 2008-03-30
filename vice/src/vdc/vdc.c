@@ -43,7 +43,6 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "snapshot.h"
-#include "util.h"
 #include "vdc-cmdline-options.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"
@@ -136,7 +135,6 @@ static video_cbm_palette_t vdc_palette =
 static int init_raster(void)
 {
     raster_t *raster;
-    char *title;
 
     raster = &vdc.raster;
 
@@ -157,9 +155,7 @@ static int init_raster(void)
         return -1;
     }
 
-    title = util_concat("VICE: ", machine_name, " emulator VDC window", NULL);
-    raster_set_title(raster, title);
-    lib_free(title);
+    raster_set_title(raster, machine_name);
 
     if (raster_realize(raster) < 0)
         return -1;

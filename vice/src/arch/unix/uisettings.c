@@ -42,7 +42,6 @@
 #include "uirs232.h"
 #include "uisettings.h"
 #include "uisound.h"
-#include "util.h"
 #include "vsync.h"
 
 

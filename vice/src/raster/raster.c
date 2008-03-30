@@ -43,6 +43,7 @@
 #include "raster.h"
 #include "screenshot.h"
 #include "types.h"
+#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 
@@ -409,8 +410,7 @@ static void raster_destroy_raster(raster_t *raster)
         rlist = rlist->next;
     }
 
-    if (rlist != NULL)
-    {
+    if (rlist != NULL) {
         if (tmplist == NULL)
             ActiveRasters = rlist->next;
         else
@@ -425,9 +425,14 @@ void raster_force_repaint(raster_t *raster)
     raster->num_cached_lines = 0;
 }
 
-void raster_set_title(raster_t *raster, const char *title)
+void raster_set_title(raster_t *raster, const char *name)
 {
+    char *title;
+
+    title = util_concat("VICE: ", name, " emulator", NULL);
     video_viewport_title_set(raster->canvas, title);
+
+    lib_free(title);
 }
 
 void raster_skip_frame(raster_t *raster, int skip)

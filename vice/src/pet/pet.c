@@ -46,7 +46,6 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"

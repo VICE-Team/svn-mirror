@@ -44,7 +44,6 @@
 #include "uic64cart.h"
 #include "uireu.h"
 #include "uisid.h"
-#include "util.h"
 
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)

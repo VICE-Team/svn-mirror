@@ -29,12 +29,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "lib.h"
 #include "printer.h"
-#include "resources.h"
 #include "uimenu.h"
-#include "util.h"
-#include "vsync.h"
 #include "uiprinter.h"
 
 

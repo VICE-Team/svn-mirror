@@ -51,7 +51,6 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "types.h"
-#include "util.h"
 #include "vsync.h"
 #include "video.h"
 
@@ -340,7 +339,6 @@ static video_cbm_palette_t crtc_palette =
 raster_t *crtc_init(void)
 {
     raster_t *raster;
-    char *title;
 
     crtc.log = log_open("CRTC");
 
@@ -398,9 +396,7 @@ raster_t *crtc_init(void)
         return NULL;
     }
 
-    title = util_concat("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title(raster, title);
-    lib_free(title);
+    raster_set_title(raster, machine_name);
 
     if (raster_realize(raster) < 0)
         return NULL;

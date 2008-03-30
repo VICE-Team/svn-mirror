@@ -62,7 +62,6 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "types.h"
-#include "util.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-color.h"
 #include "vicii-draw.h"
@@ -281,7 +280,6 @@ static void vicii_set_geometry(void)
 static int init_raster(void)
 {
     raster_t *raster;
-    char *title;
 
     raster = &vicii.raster;
     video_color_set_canvas(raster->canvas);
@@ -300,9 +298,8 @@ static int init_raster(void)
         log_error(vicii.log, "Cannot load palette.");
         return -1;
     }
-    title = util_concat("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title(raster, title);
-    lib_free(title);
+
+    raster_set_title(raster, machine_name);
 
     if (raster_realize(raster) < 0)
         return -1;
