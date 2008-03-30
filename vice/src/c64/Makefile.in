@@ -432,6 +432,10 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h c64acia.h
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tpi.h ../../src/parallel.h
+cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/file.h ../../src/mem.h \
+	../../src/types.h ../../src/vmachine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/utils.h ../../src/cartridge.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/types.h patchrom.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h ../../src/types.h \
