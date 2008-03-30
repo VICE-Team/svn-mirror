@@ -37,7 +37,7 @@
 
 #define TED_SCREEN_WIDTH                384
 
-#define TED_PAL_OFFSET                  0
+#define TED_PAL_OFFSET                  48
 #define TED_NTSC_OFFSET                 0
 
 #define TED_SCREEN_XPIX                 320
@@ -92,18 +92,8 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 
 /* Note: we measure cycles from 0 to 62, not from 1 to 63.  */
 
-/* Number of cycles per line.  */
-#define TED_PAL_CYCLES_PER_LINE     PLUS4_PAL_CYCLES_PER_LINE
-#define TED_NTSC_CYCLES_PER_LINE    PLUS4_NTSC_CYCLES_PER_LINE
-
 /* Cycle # at which the TED takes the bus in a bad line (BA goes low).  */
 #define TED_FETCH_CYCLE             11
-
-/* Cycle # at which the current raster line is re-drawn.  It is set to
-   `TED_CYCLES_PER_LINE', so this actually happens at the very beginning
-   (i.e. cycle 0) of the next line.  */
-#define TED_PAL_DRAW_CYCLE          TED_PAL_CYCLES_PER_LINE
-#define TED_NTSC_DRAW_CYCLE         TED_NTSC_CYCLES_PER_LINE
 
 /* Delay for the raster line interrupt.  This is not due to the VIC-II, since
    it triggers the IRQ line at the beginning of the line, but to the 6510
@@ -138,9 +128,10 @@ typedef enum ted_video_mode_s ted_video_mode_t;
                                  ? (line) - 1 : ted.screen_height - 1)
 #define TED_NEXT_LINE(line)      (((line) + 1) % ted.screen_height)
 
-#define TED_LINE_RTOU(line) ((line + ted.offset) % ted.screen_height)
-#define TED_LINE_UTOR(line) ((line - ted.offset) % ted.screen_height)
-
+#define TED_LINE_RTOU(line) ((line + ted.screen_height - ted.offset) \
+                            % ted.screen_height)
+#define TED_LINE_UTOR(line) ((line + ted.screen_height + ted.offset) \
+                            % ted.screen_height)
 
 /* Bad line range.  */
 #define TED_PAL_FIRST_DMA_LINE      0x30

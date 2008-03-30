@@ -468,7 +468,7 @@ void machine_change_timing(int timeval)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
-    ted_change_timing();
+    ted_change_timing(&machine_timing);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }

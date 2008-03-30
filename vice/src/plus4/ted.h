@@ -30,9 +30,10 @@
 
 #include "types.h"
 
+struct canvas_refresh_s;
+struct machine_timing_s;
 struct snapshot_s;
 struct screenshot_s;
-struct canvas_refresh_s;
 
 extern int ted_resources_init(void);
 extern int ted_cmdline_options_init(void);
@@ -46,7 +47,7 @@ extern void ted_handle_pending_alarms(int num_write_cycles);
 extern void ted_screenshot(struct screenshot_s *screenshot);
 extern void ted_async_refresh(struct canvas_refresh_s *r);
 extern void ted_shutdown(void);
-extern void ted_change_timing(void);
+extern void ted_change_timing(struct machine_timing_s *machine_timing);
 
 extern void ted_snapshot_prepare(void);
 extern int ted_snapshot_write_module(struct snapshot_s *s);

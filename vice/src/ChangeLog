@@ -1,3 +1,48 @@
+2003-05-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.42.
+
+	* plus4/ted-irq.c, plus4/ted-irq.h: Added timer IRQ functions.
+
+	* plus4/ted-timer.c: Use IRQ API.
+
+	* tape/tape-snapshot.c (tape_snapshot_read_tapimage_module):
+	Fixed a warning.
+
+	* vicii/vicii-mem.c (d01e_read, d01f_read): New functions.
+
+	* plus4/tedtypes.h: Defined raster offset.
+
+	* plus4/ted-mem.c (ted1c1d_read): Apply offset.
+
+	* plus4/ted-irq.c (ted_irq_check_state): Likewise.
+
+	* plus4/ted.c, plus4/ted.h, plus4/tedtypes.h: Moved timing
+	related code to separate file.
+
+	* plus4/ted.c (ted_change_timing): New function.
+
+	* drive/tcbm/tia1551.c (tia1551_store, tia1551_read): Do not
+	limit address.
+
+	* drive/drivemem.c (drive_ioreg_list_get): Fixed TIA range.
+
+	* drive/tcbm/tpid.c, drive/tcbm/tpid.h: New files.
+
+	* plus4/Makefile.am, drive/tcbm/Makefile.am,
+	arch/win32/plus4.dsp, arch/win32/tcbm.dsp: Added new files.
+
+	* tpicore.c, tpicore.h: Added drive context.
+
+2003-05-03  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/ui.c, arch/riscos/uiconfig.{c,h},
+	arch/riscos/uihelp.c, arch/riscos/uisharedef.h: migrated from
+	resource SidUseResid to SidEngine.
+
+	* sounddrv/soundacorn.c: return error when asynchronous sound
+	is started in reSID mode.
+
 2003-05-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.41.
@@ -616,8 +661,8 @@
 
 	* Version 1.11.28.
 
-	* vicii/vicii-mem.c (vicii_read): The raster IRQ flag even if
-	raster IRQ is masked.
+	* vicii/vicii-mem.c (vicii_read): The raster IRQ flag is set
+	even if raster IRQ is masked.
 
 	* vicii/vicii-irq.c, vicii/vicii-irq.h (vicii_irq_next_frame):
 	New function.

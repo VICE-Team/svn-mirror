@@ -56,6 +56,7 @@
 #include "ted-snapshot.h"
 #include "ted-sound.h"
 #include "ted-timer.h"
+#include "ted-timing.h"
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
@@ -78,47 +79,9 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     ted.draw_clk -= sub;
 }
 
-void ted_change_timing(void)
+void ted_change_timing(machine_timing_t *machine_timing)
 {
-    resource_value_t mode;
-
-    resources_get_value("MachineVideoStandard", &mode);
-
-    switch ((int)mode) {
-      case MACHINE_SYNC_NTSC:
-        ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
-        ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_NTSC_LAST_DISPLAYED_LINE;
-        ted.row_25_start_line = TED_NTSC_25ROW_START_LINE;
-        ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
-        ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
-        ted.row_24_stop_line = TED_NTSC_24ROW_STOP_LINE;
-        ted.screen_borderwidth = TED_SCREEN_NTSC_BORDERWIDTH;
-        ted.screen_borderheight = TED_SCREEN_NTSC_BORDERHEIGHT;
-        ted.cycles_per_line = TED_NTSC_CYCLES_PER_LINE;
-        ted.draw_cycle = TED_NTSC_DRAW_CYCLE;
-        ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
-        ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
-        ted.offset = TED_NTSC_OFFSET;
-        break;
-      case MACHINE_SYNC_PAL:
-      default:
-        ted.screen_height = TED_PAL_SCREEN_HEIGHT;
-        ted.first_displayed_line = TED_PAL_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_PAL_LAST_DISPLAYED_LINE;
-        ted.row_25_start_line = TED_PAL_25ROW_START_LINE;
-        ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
-        ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
-        ted.row_24_stop_line = TED_PAL_24ROW_STOP_LINE;
-        ted.screen_borderwidth = TED_SCREEN_PAL_BORDERWIDTH;
-        ted.screen_borderheight = TED_SCREEN_PAL_BORDERHEIGHT;
-        ted.cycles_per_line = TED_PAL_CYCLES_PER_LINE;
-        ted.draw_cycle = TED_PAL_DRAW_CYCLE;
-        ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
-        ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
-        ted.offset = TED_PAL_OFFSET;
-        break;
-    }
+    ted_timing_set(machine_timing);
 
     if (ted.initialized) {
         ted_set_geometry();
@@ -284,7 +247,8 @@ raster_t *ted_init(void)
                                       "TEDRasterDraw",
                                       ted_raster_draw_alarm_handler);
 
-    ted_change_timing();
+    /* For now.  */
+    ted_change_timing(NULL);
 
     ted_timer_init();
 
@@ -466,7 +430,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
 
     screen_addr = ((ted.regs[0x14] & 0xf8) << 8) | 0x400;
     screen_base = mem_get_tedmem_base((screen_addr >> 14) | romsel)
-                  + (screen_addr& 0x3fff);
+                  + (screen_addr & 0x3fff);
 
     TED_DEBUG_REGISTER(("\tVideo memory at $%04X", screen_addr));
 
