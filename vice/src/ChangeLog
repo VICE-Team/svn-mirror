@@ -1,3 +1,24 @@
+2000-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.1
+
+	* drive/drive.c (drive_load_1541, drive_do_1541_checksum.
+	drive_setup_rom_image): Cope with expanded ROM images.
+	* drive/drivemem.c (drive_mem_init): Changed likewise.
+
+	* ciacore.c: Removed debugging cruft.
+
+	* c128/c128mem.c: Renamed debugging macro.
+
+	* c128/c128mem.c, crtc/crtctypes.h, aciacore.c, parallel.h,
+	parallel.c, tpicore.c, c64/psid.c, cmdline.c, diskimage.c,
+	crtc/crtc.c, drive/drive.c, drive/drivecpu.c, drive/fdc.c,
+	viacore.c, autostart.c, c128/z80.c, kbdbuf.c, rsuser.c, t64.c,
+	utils.c, pet/petsound.c, vdc/vdctypes.h, vdrive/vdrive-bam.c,
+	vdrive/vdrive-bam.h, imagecontents.c, vic20/vic-snapshot.c,
+	vicii/vicii-draw.c, vicii/vicii-sprites.c, vdc/vdc-draw.c,
+	mem.h: Fixed variable types.
+
 2000-04-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.

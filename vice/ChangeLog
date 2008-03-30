@@ -1,3 +1,9 @@
+2000-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.1
+
+	* configure.in: Define `UNSTABLE'.
+
 2000-04-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.
