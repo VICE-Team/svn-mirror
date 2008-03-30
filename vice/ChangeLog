@@ -1,3 +1,10 @@
+1999-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.1.
+
+	* configure.in: Set the X11 library path before linking the X11
+	libraries.  Define `AC_DEFINE(UNSTABLE)'.
+
 1999-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* NEWS: Removed announcement of new jostick driver.
