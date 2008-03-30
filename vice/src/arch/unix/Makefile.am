@@ -50,59 +50,7 @@ libarch_a_SOURCES = \
 	tfearch.c \
 	types.h \
 	ui.h \
-	uiacia1.h \
-	uiattach.h \
-	uic64_256k.h \
-	uic64cart.h \
-	uicartridge.h \
-	uicommands.h \
-	uicrtc.h \
-	uidatasette.h \
-	uidrive.h \
-	uidrivec128.h \
-	uidrivec64vic20.h \
-	uidriveiec.h \
-	uidrivepetcbm2.h \
-	uidriveplus4.h \
-	uiedisk.h \
-	uifliplist.h \
-	uigeoram.h \
-	uihotkey.h \
-	uiide64.h \
-	uijoystick2.h \
-	uikeyboard.h \
-	uilib.h \
 	uimenu.h \
-	uinetplay.h \
-	uipalemu.h \
-	uipalette.h \
-	uiperipheral.h \
-	uiperipheraliec.h \
-	uiperipheralieee.h \
-	uipetreu.h \
- 	uiplus256k.h \
-	uiplus60k.h \
-	uiprinter.h \
-	uiprinteriec.h \
-	uiprinteriecplus4.h \
-	uiprinterieee.h \
-	uiramcart.h \
-	uireu.h \
-	uiromset.h \
-	uirs232.h \
-	uirs232c64c128.h \
-	uirs232petplus4cbm2.h \
-	uirs232user.h \
-	uiscreenshot.h \
-	uisettings.h \
-	uisid.h \
-	uisnapshot.h \
-	uisound.h \
-	uited.h \
-	uitfe.h \
-	uivdc.h \
-	uivic.h \
-	uivicii.h \
 	unixmain.c \
 	videoarch.h \
 	vsyncarch.c \
