@@ -101,7 +101,8 @@ char *image_contents_to_string(image_contents_t *contents)
     }
 
     for (p = contents->file_list; p != NULL; p = p->next) {
-        int name_len, i;
+        size_t name_len;
+        int i;
         char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];
 
         memset(print_name, 0, IMAGE_CONTENTS_FILE_NAME_LEN + 1);

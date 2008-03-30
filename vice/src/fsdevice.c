@@ -104,7 +104,8 @@ struct fs_buffer_info {
 /* this should somehow go into the fs_info struct... */
 
 static char fs_errorl[MAXPATHLEN];
-static unsigned int fs_elen, fs_eptr;
+static unsigned int fs_eptr;
+static size_t fs_elen;
 static char fs_cmdbuf[MAXPATHLEN];
 static unsigned int fs_cptr = 0;
 
@@ -118,7 +119,7 @@ static void fsdevice_compare_file_name(void *flp, char *fsname2, char *fsname,
 static int fsdevice_create_file_p00(void *flp, char *name, int length,
                                     char *fsname, int secondary);
 static int fsdevice_reduce_filename_p00(char *filename, int len);
-static int fsdevice_eliminate_char_p00(char *filename, int pos);
+static size_t fsdevice_eliminate_char_p00(char *filename, int pos);
 static int fsdevice_evaluate_name_p00(char *name, int length, char *filename);
 
 /* FIXME: ugly.  */
@@ -1251,7 +1252,7 @@ FILE *fs_find_pc64_name(void *flp, char *name, int length, char *pname)
 
 static int fsdevice_compare_wildcards(char *name, char *p00name)
 {
-    unsigned int i, len;
+    size_t i, len;
 
     len = strlen(name);
     if (len == 0)
@@ -1401,7 +1402,7 @@ static int fsdevice_reduce_filename_p00(char *filename, int len)
     return 1;
 }
 
-static int fsdevice_eliminate_char_p00(char *filename, int pos)
+static size_t fsdevice_eliminate_char_p00(char *filename, int pos)
 {
     memcpy(&filename[pos], &filename[pos+1], 16 - pos);
     return strlen(filename);

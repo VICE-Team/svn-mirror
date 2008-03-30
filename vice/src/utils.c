@@ -163,7 +163,7 @@ char *concat(const char *s, ...)
    malloc'ed block of `max_buf_size' bytes of which only the first `buf_size'
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
    pointer to the new block.  */
-char *bufcat(char *buf, int *buf_size, int *max_buf_size,
+char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
 	     const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
@@ -185,7 +185,7 @@ char *bufcat(char *buf, int *buf_size, int *max_buf_size,
 void remove_spaces(char *s)
 {
     char *p;
-    int l = strlen(s);
+    size_t l = strlen(s);
 
     for (p = s; *p == ' '; p++)
         ;
@@ -431,7 +431,7 @@ int remove_file(const char *name)
 int get_line(char *buf, int bufsize, FILE *f)
 {
     char *r;
-    int len;
+    size_t len;
 
     r = fgets(buf, bufsize, f);
     if (r == NULL)
@@ -612,7 +612,7 @@ unsigned int get_path_max(void)
     return value;
 }
 #endif
-#ifdef __IBMC__
+/*#ifdef __IBMC__
 #define STDOUT_FILENO (0xFFFF & fileno(stdout))
 #define STDERR_FILENO (0xFFFF & fileno(stderr))
 #define _O_BINARY O_BINARY
@@ -620,7 +620,7 @@ unsigned int get_path_max(void)
 #define _O_WRONLY O_WRONLY
 #define _O_CREAT  O_CREAT
 #define _P_WAIT   P_WAIT
-#endif
+#endif*/
 
 /* The following are replacements for libc functions that could be missing.  */
 
