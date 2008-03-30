@@ -53,17 +53,17 @@ static UI_CALLBACK(ui_datasette_control)
 }
 
 static ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Stop"), (ui_callback_t) ui_datasette_control,
+    { N_("Stop"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
-    { N_("Play"), (ui_callback_t) ui_datasette_control,
+    { N_("Play"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_START, NULL },
-    { N_("Forward"), (ui_callback_t) ui_datasette_control,
+    { N_("Forward"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL },
-    { N_("Rewind"), (ui_callback_t) ui_datasette_control,
+    { N_("Rewind"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL },
-    { N_("Record"), (ui_callback_t) ui_datasette_control,
+    { N_("Record"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
-    { N_("Reset"), (ui_callback_t) ui_datasette_control,
+    { N_("Reset"), (ui_callback_t)ui_datasette_control,
       (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
@@ -79,9 +79,9 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(VideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
+    { N_("*PAL-G"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
+    { N_("*NTSC-M"), (ui_callback_t)radio_VideoStandard,
       (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
     { NULL }
 };
@@ -103,8 +103,8 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
     { "--" },
     { N_("Load custom"),
-      (ui_callback_t) ui_load_palette,
-      (ui_callback_data_t) "PaletteFile", NULL },
+      (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"PaletteFile", NULL },
     { NULL }
 };
 
@@ -257,27 +257,27 @@ static UI_CALLBACK(swap_joystick_ports)
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_data_t)JOYDEV_NONE, NULL },
     { N_("*Numpad"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
       (ui_callback_t)set_joystick_device_1,
-      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
     { NULL }
@@ -286,27 +286,27 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { N_("*None"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_data_t)JOYDEV_NONE, NULL },
     { N_("*Numpad"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_data_t)JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
       (ui_callback_t)set_joystick_device_2,
-      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
     { NULL }
@@ -340,6 +340,7 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(REU)
+UI_MENU_DEFINE_RADIO(REUsize)
 #ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(Mouse)
 #endif
@@ -364,7 +365,7 @@ UI_CALLBACK(set_function_rom_name)
     }
 }
 
-static ui_menu_entry_t io_extensions_submenu[] = {
+static ui_menu_entry_t functionrom_submenu[] = {
     { N_("*Enable internal Function ROM"),
       (ui_callback_t)toggle_InternalFunctionROM, NULL, NULL },
     { N_("Internal Function ROM name..."),
@@ -376,13 +377,83 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("External Function ROM name..."),
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },
+    { NULL }
+};
+
+UI_CALLBACK(set_reu_image_name)
+{
+    char *resname = (char *)UI_MENU_CB_PARAM;
+    char *title;
+    ui_button_t button;
+    char *value;
+    char *new_value;
+    int len;
+
+    vsync_suspend_speed_eval();
+    title = stralloc(_("REU image name"));
+
+    resources_get_value(resname, (resource_value_t *)&value);
+
+    if (value == NULL)
+        value = "";
+
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+
+    new_value = xmalloc(len + 1);
+    strcpy(new_value, value);
+
+    button = ui_input_string(title, _("Name:"), new_value, len);
+    free(title);
+
+    if (button == UI_BUTTON_OK)
+        resources_set_value(resname, (resource_value_t)new_value);
+
+    free(new_value);
+}
+
+static ui_menu_entry_t reu_size_submenu[] = {
+    { "*128KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)128, NULL },
+    { "*256KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)256, NULL },
+    { "*512KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)512, NULL },
+    { "*1024KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)1024, NULL },
+    { "*2048KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)2048, NULL },
+    { "*4096KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)4096, NULL },
+    { "*8192KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)8192, NULL },
+    { "*16384KB", (ui_callback_t)radio_REUsize,
+      (ui_callback_data_t)16384, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t reu_submenu[] = {
+    { N_("*Enable REU"),
+      (ui_callback_t)toggle_REU, NULL, NULL },
+    { N_("REU size"),
+      NULL, NULL, reu_size_submenu },
+    { N_("REU image name..."),
+      (ui_callback_t)set_reu_image_name,
+      (ui_callback_data_t)"REUfilename", NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t io_extensions_submenu[] = {
+    { N_("Function ROM"),
+      NULL, NULL, functionrom_submenu },
     { "--" },
+    { N_("RAM Expansion Unit"),
+      NULL, NULL, reu_submenu },
     { N_("*Emulator identification"),
       (ui_callback_t)toggle_EmuID, NULL, NULL },
     { N_("*IEEE488 interface emulation"),
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
-    { N_("*512K RAM Expansion Unit"),
-      (ui_callback_t)toggle_REU, NULL, NULL },
 #ifdef HAVE_MOUSE
     { N_("*1351 Mouse Emulation"),
       (ui_callback_t)toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },

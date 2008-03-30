@@ -1,11 +1,13 @@
 /*
- * reu.c - REU 1750 emulation.
+ * reu.c - REU emulation.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ * 
+ * Based on old code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
  *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,12 +32,17 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
+#include "c64cart.h"
+#include "cartridge.h"
+#include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
 #include "types.h"
@@ -43,96 +50,248 @@
 
 /* #define REU_DEBUG */
 
-#define REUSIZE 512
-
 /*
  * Status and Command Registers
- * bit	7	6	5	4	3	2	1	0
- * 00	Int	EOB	Fault	RamSize	________ Version ________
- * 01	Exec	0	Load	Delayed	0	0	   Mode
+ * bit  7       6       5       4       3       2       1       0
+ * 00   Int     EOB     Fault   RamSize ________ Version ________
+ * 01   Exec    0       Load    Delayed 0       0          Mode
  */
 
-static int ReuSize = REUSIZE << 10;
-static BYTE reu[16];        /* REC registers */
-static BYTE *reuram = NULL;
-static char *reu_file_name = NULL;
+/* REU registers */
+static BYTE reu[16];
 
-static int reu_active = 0;
+/* REU image.  */
+static BYTE *reu_ram = NULL;
 
 static log_t reu_log = LOG_ERR;
+
+static int reu_activate(void);
+static int reu_deactivate(void);
+
+/* ------------------------------------------------------------------------- */
+
+/* Flag: Do we enable the external REU?  */
+int reu_enabled;
+
+/* Size of the REU.  */
+DWORD reu_size = 0;
+
+/* Size of the REU in KB.  */
+DWORD reu_size_kb = 0;
+
+/* Filename of the REU image.  */
+char *reu_filename = NULL;
+
+/*
+ * Some cartridges can coexist with the REU.
+ * This list might not be complete, but atleast these are known
+ * to work. Feel free to add more coexisting cartridges to this list.
+ */
+static int reu_coexist_cartridge(void)
+{
+    int result;
+
+    switch (mem_cartridge_type) {
+      case (CARTRIDGE_NONE):
+      case (CARTRIDGE_SUPER_SNAPSHOT_V5):
+      case (CARTRIDGE_EXPERT):
+        result = 1;
+        break;
+      default:
+        result = 0;
+    }
+    return result;
+}
+
+static int set_reu_enabled(resource_value_t v, void *param)
+{
+    if (!(int)v) {
+        if (reu_enabled) {
+            if (reu_deactivate() < 0) {
+                return -1;
+            }
+        }
+        reu_enabled = 0;
+        return 0;
+    } else { 
+        if (reu_coexist_cartridge() == 1) {
+            if (!reu_enabled) {
+                if (reu_activate() < 0) {
+                    return -1;
+                }
+            }
+            reu_enabled = 1;
+            return 0;
+        } else {
+            /* The REU and the IEEE488 interface share the same address
+               space, so they cannot be enabled at the same time.  */
+            return -1;
+        }
+    }
+}
+
+static int set_reu_size(resource_value_t v, void *param)
+{
+    if ((DWORD)v == reu_size_kb)
+        return 0;
+
+    switch ((DWORD)v) {
+      case 128:
+      case 256:
+      case 512:
+      case 1024:
+      case 2048:
+      case 4096:
+      case 8192:
+      case 16384:
+        break;
+      default:
+        return -1;
+    }
+
+    if (reu_enabled) {
+        reu_deactivate();
+        reu_size_kb = (DWORD)v;
+        reu_size = reu_size_kb << 10;
+        reu_activate();
+    } else {
+        reu_size_kb = (DWORD)v;
+        reu_size = reu_size_kb << 10;
+    }
+
+    return 0;
+}
+
+static int set_reu_filename(resource_value_t v, void *param)
+{
+    const char *name = (const char *)v;
+
+    if (reu_filename != NULL && name != NULL
+        && strcmp(name, reu_filename) == 0)
+        return 0;
+
+    if (reu_enabled) {
+        reu_deactivate();
+        util_string_set(&reu_filename, name);
+        reu_activate();
+    }
+
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "REU", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&reu_enabled, set_reu_enabled, NULL },
+    { "REUsize", RES_INTEGER, (resource_value_t)512,
+      (resource_value_t *)&reu_size_kb, set_reu_size, NULL },
+    { "REUfilename", RES_STRING, (resource_value_t)NULL,
+      (resource_value_t *)&reu_filename, set_reu_filename, NULL },
+    { NULL }
+};
+
+int reu_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static cmdline_option_t cmdline_options[] =
+{
+    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
+      NULL, "Enable the RAM expansion unit" },
+    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
+      NULL, "Disable the RAM expansion unit" },
+    { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
+      "<name>", "Specify name of REU image" },
+    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REU", NULL,
+      "<size in KB>", "Size of the RAM expansion unit" },
+    { NULL }
+};
+
+int reu_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 
 void reu_init(void)
 {
-    if (reu_log == LOG_ERR)
-        reu_log = log_open("REU");
+    reu_log = log_open("REU");
 }
 
-int reu_reset(int size)
+void reu_reset(void)
 {
     int i;
-
-    if (size > 0)
-        ReuSize = size << 10;
 
     for (i = 0; i < 16; i++)
         reu[i] = 0;
 
-    if (ReuSize >= (256 << 10))
+    if (reu_size >= (256 << 10))
         reu[0] = 0x50;
     else
         reu[0] = 0x40;
 
     reu[1] = 0x4A;
+}
 
-    if (reuram == NULL) {
-        reuram = (BYTE *)xmalloc(ReuSize);
-        log_message(reu_log, "%dKB unit installed.", ReuSize >> 10);
-        if (reu_file_name != NULL) {
-            if (util_load_file(reu_file_name, reuram, ReuSize) == 0) {
-                log_message(reu_log, "Image `%s' loaded successfully.",
-                            reu_file_name);
-            } else {
-                log_message(reu_log, "(No image loaded).");
+static int reu_activate(void)
+{
+    if (!reu_size)
+        return 0;
+
+    reu_ram = (BYTE *)xrealloc((void *)reu_ram, (size_t)reu_size);
+    log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
+
+    if (reu_filename != NULL) {
+        if (util_load_file(reu_filename, (void *)reu_ram, reu_size) < 0) {
+            log_message(reu_log,
+                        "Reading REU image %s failed.", reu_filename);
+            if (util_save_file(reu_filename, (const void *)reu_ram,
+                reu_size) < 0) {
+                log_message(reu_log,
+                            "Creating REU image %s failed.", reu_filename);
+                return -1;
             }
+            log_message(reu_log, "Creating REU image %s.", reu_filename);
+            return 0;
         }
+        log_message(reu_log, "Reading REU image %s.", reu_filename);
     }
+
+    reu_reset();
     return 0;
 }
 
-void reu_activate(void)
+static int reu_deactivate(void)
 {
-    reu_active = 1;
+    if (reu_ram == NULL)
+        return 0;
 
-    if (reuram == NULL)
-        reu_reset(0);
+    if (reu_filename != NULL) {
+        if (util_save_file(reu_filename, (const void *)reu_ram, reu_size) < 0) {
+            log_message(reu_log,
+                        "Writing REU image %s failed.", reu_filename);
+            return -1;
+        }
+        log_message(reu_log, "Writing REU image %s.", reu_filename);
+    }
+
+    free(reu_ram);
+    reu_ram = NULL;
+
+    return 0;
 }
 
-void reu_deactivate(void)
+void reu_shutdown(void)
 {
-    reu_active = 0;
+    reu_deactivate();
 }
-
-void close_reu(void)
-{
-    if (reuram == NULL || reu_file_name == NULL)
-        return;
-
-    if (util_save_file(reu_file_name, reuram, ReuSize) == 0)
-        log_message(reu_log, "image `%s' saved successfully.", reu_file_name);
-    else
-        log_error(reu_log, "cannot save image `%s'.", reu_file_name);
-}
-
-/*static BYTE latch4, latch5, latched45 = 0;*/
 
 BYTE REGPARM1 reu_read(ADDRESS addr)
 {
     BYTE retval;
-
-    if (reuram == NULL)
-        reu_reset(0);
 
     switch (addr) {
       case 0x0:
@@ -145,7 +304,7 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
         break;
 
       case 0x6:
-	/* wrong address of bank register corrected - RH */
+        /* wrong address of bank register corrected - RH */
         retval = reu[6] | 0xf8;
         break;
 
@@ -178,9 +337,6 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
 
 void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 {
-    if (reuram == NULL)
-        reu_reset(0);
-
     if (addr != 0) /* REC status register is Read Only */
         reu[addr] = byte;
 
@@ -207,13 +363,13 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 void reu_dma(int immed)
 {
     static int delay = 0;
-    int len;
+    unsigned int len;
     int reu_step, host_step;
     ADDRESS host_addr;
-    unsigned int reu_addr;
+    unsigned int reu_addr, reu6_mask;
     BYTE c;
 
-    if (!reu_active)
+    if (!reu_enabled)
         return;
 
     if (!immed) {
@@ -225,11 +381,13 @@ void reu_dma(int immed)
         delay = 0;
     }
 
+    reu6_mask = (reu_size >> 16) - 1;
+
     /* wrong address of bank register & calculations corrected  - RH */
     host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
-    reu_addr  = ((int)reu[4] | ((int)reu[5] << 8)
-                 | (((int)reu[6] & 7) << 16));
-    if (( len = ((int)(reu[7]) | ((int)(reu[8]) << 8))) == 0)
+    reu_addr  = ((unsigned int)reu[4] | ((unsigned int)reu[5] << 8)
+                 | (((unsigned int)reu[6] & reu6_mask) << 16));
+    if ((len = ((unsigned int)(reu[7]) | ((unsigned int)(reu[8]) << 8))) == 0)
         len = 0x10000;
 
     /* Fixed addresses implemented -- [EP] 04-16-97. */
@@ -255,7 +413,7 @@ void reu_dma(int immed)
                     "Transferring byte: %x from main $%04X to ext $%05X.",
                     value, host_addr, reu_addr);
 #endif
-            reuram[reu_addr % ReuSize] = value;
+            reu_ram[reu_addr % reu_size] = value;
         }
         len = 0x1;
         reu[0] |= 0x40;
@@ -272,9 +430,9 @@ void reu_dma(int immed)
 #ifdef REU_DEBUG
         log_message(reu_log,
                     "Transferring byte: %x from ext $%05X to main $%04X.",
-                    reuram[reu_addr % ReuSize], reu_addr, host_addr);
+                    reu_ram[reu_addr % reu_size], reu_addr, host_addr);
 #endif
-            mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
+            mem_store((host_addr & 0xffff), reu_ram[reu_addr % reu_size]);
         }
         len = 1;
         reu[0] |= 0x40;
@@ -288,8 +446,8 @@ void reu_dma(int immed)
                     host_step ? "" : " (fixed)", len, len);
 #endif
         for (; len--; host_addr += host_step, reu_addr += reu_step ) {
-            c = reuram[reu_addr % ReuSize];
-            reuram[reu_addr % ReuSize] = mem_read(host_addr & 0xffff);
+            c = reu_ram[reu_addr % reu_size];
+            reu_ram[reu_addr % reu_size] = mem_read(host_addr & 0xffff);
             mem_store((host_addr & 0xffff), c);
         }
         len = 1;
@@ -307,7 +465,7 @@ void reu_dma(int immed)
         reu[0] &= ~0x60;
 
         while (len--) {
-            if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
+            if (reu_ram[reu_addr % reu_size] != mem_read(host_addr & 0xffff)) {
 
                 host_addr += host_step; reu_addr += reu_step;
 
@@ -360,7 +518,7 @@ void reu_dma(int immed)
             reu[6] = (reu_addr >> 16);
         }
 
-/* FIXME: [SRT] 17xxTester doesn't like a value of 1 here 
+/* FIXME: [SRT] 17xxTester doesn't like a value of 1 here
    after transferring to REU, it expects that at least the
    low byte is zero.
    According to the manual of the 1750, after a transfer,
@@ -397,9 +555,9 @@ int reu_write_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
-    if (snapshot_module_write_dword(m, (DWORD) (ReuSize >> 10)) < 0
+    if (snapshot_module_write_dword(m, (reu_size >> 10)) < 0
         || snapshot_module_write_byte_array(m, reu, sizeof(reu)) < 0
-        || snapshot_module_write_byte_array(m, reuram, ReuSize) < 0) {
+        || snapshot_module_write_byte_array(m, reu_ram, reu_size) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -429,7 +587,7 @@ int reu_read_snapshot_module(snapshot_t *s)
     if (snapshot_module_read_dword(m, &size) < 0)
         goto fail;
 
-    if (size > REUSIZE) {
+    if (size > 512) {
         log_error(reu_log, "Size %ld in snapshot not supported.", (long)size);
         goto fail;
     }
@@ -437,10 +595,10 @@ int reu_read_snapshot_module(snapshot_t *s)
     /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
     /* FIXED? I hope. [SRT], 01-18-2000. */
 
-    reu_reset(size);
+    reu_reset();
 
     if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
-        || snapshot_module_read_byte_array(m, reuram, ReuSize) < 0)
+        || snapshot_module_read_byte_array(m, reu_ram, reu_size) < 0)
         goto fail;
 
     if (reu[0] & 0x80)
