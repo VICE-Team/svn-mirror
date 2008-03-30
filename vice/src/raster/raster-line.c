@@ -341,7 +341,6 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
                                                    cache,
                                                    &sprite_changed_start,
                                                    &sprite_changed_end);
-
     /* If sprites have changed, do not bother trying to reduce the amount
        of recalculated data, but simply redraw everything.  */
     needs_update = raster_modes_fill_cache(raster->modes,
@@ -438,7 +437,6 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
                                            &changed_start_char,
                                            &changed_end_char,
                                            0);
-
     if (needs_update) {
         raster_modes_draw_line_cached(raster->modes,
                                       video_mode,
@@ -601,7 +599,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 inline static void handle_visible_line_with_cache(raster_t *raster)
 {
     int needs_update;
-    int changed_start, changed_end;
+    int changed_start = 0, changed_end = 0;
     raster_cache_t *cache;
 
     cache = &raster->cache[raster->current_line];

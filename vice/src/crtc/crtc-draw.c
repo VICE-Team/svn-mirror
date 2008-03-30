@@ -193,8 +193,8 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
 
 static int get_rev_text(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
-    *xe = 0;
-    *xs = (crtc.rl_len + 1) * crtc.hw_cols;
+    *xs = 0;
+    *xe = (crtc.rl_len + 1) * crtc.hw_cols;
 
     return 1;
 }

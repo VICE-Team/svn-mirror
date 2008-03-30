@@ -180,17 +180,17 @@ static cmdline_option_t cmdline_options[] = {
       "UseXSync", (resource_value_t)0,
       NULL, N_("Do not call `XSync()' after updating the emulation window") },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t) 1,
+      "MITSHM", (resource_value_t)1,
       NULL, N_("Use shared memory") },
     { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t) 0,
+      "MITSHM", (resource_value_t)0,
       NULL, N_("Never use shared memory (slower)") },
 #ifdef HAVE_XVIDEO
     { "-xvideo", SET_RESOURCE, 0, NULL, NULL,
-      "XVIDEO", (resource_value_t) 1,
+      "XVIDEO", (resource_value_t)1,
       NULL, N_("Use XVideo Extension (hardware scaling)") },
     { "+xvideo", SET_RESOURCE, 0, NULL, NULL,
-      "XVIDEO", (resource_value_t) 0,
+      "XVIDEO", (resource_value_t)0,
       NULL, N_("Use software rendering") },
     { "-fourcc", SET_RESOURCE, 1, NULL, NULL, "FOURCC", NULL,
       "<fourcc>", N_("Request YUV FOURCC format") },
@@ -531,28 +531,30 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     /* Find XVideo color setting limits. */
     if (use_xvideo && canvas->xv_image) {
         int i, j;
-	int numattr = 0;
+        int numattr = 0;
         Display *dpy = x11ui_get_display_ptr();
-        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
-	for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
-	    xv_settings[i].atom = 0;
+        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port,
+                                                  &numattr);
+        for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+            xv_settings[i].atom = 0;
 
-	    for (j = 0; j < numattr; j++) {
-	        if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
-		    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name, False);
-		    xv_settings[i].min = attr[j].min_value;
-		    xv_settings[i].max = attr[j].max_value;
-		    break;
-		}
-	    }
-	}
+            for (j = 0; j < numattr; j++) {
+                if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
+                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name,
+                                                      False);
+                    xv_settings[i].min = attr[j].min_value;
+                    xv_settings[i].max = attr[j].max_value;
+                    break;
+                }
+            }
+        }
 
-	if (attr) {
-	    XFree(attr);
-	}
+        if (attr) {
+            XFree(attr);
+        }
 
-	/* Apply color settings to XVideo. */
-	video_canvas_set_palette(canvas, palette);
+        /* Apply color settings to XVideo. */
+        video_canvas_set_palette(canvas, palette);
     }
 #endif
 
@@ -575,25 +577,26 @@ int video_canvas_set_palette(video_canvas_t *c,
     if (use_xvideo && c->xv_image) {
         int i;
 
-	Display *dpy = x11ui_get_display_ptr();
+        Display *dpy = x11ui_get_display_ptr();
 
-	for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
-	    /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
-	    int v_min = 0, v_max = 2000;
-	    int v_zero = (v_min + v_max)/2;
-	    int v_range = v_max - v_min;
+        for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+            /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
+            int v_min = 0, v_max = 2000;
+            int v_zero = (v_min + v_max)/2;
+            int v_range = v_max - v_min;
 
-	    int xv_zero = (xv_settings[i].min + xv_settings[i].max)/2;
-	    int xv_range = xv_settings[i].max - xv_settings[i].min;
+            int xv_zero = (xv_settings[i].min + xv_settings[i].max) / 2;
+            int xv_range = xv_settings[i].max - xv_settings[i].min;
 
-	    int xv_val = (*xv_settings[i].value - v_zero)*xv_range/v_range + xv_zero;
+            int xv_val = (*xv_settings[i].value - v_zero)*xv_range / v_range
+                         + xv_zero;
 
-	    if (!xv_settings[i].atom) {
-	        continue;
-	    }
+            if (!xv_settings[i].atom) {
+                continue;
+            }
 
-	    XvSetPortAttribute(dpy, c->xv_port, xv_settings[i].atom, xv_val);
-	}
+            XvSetPortAttribute(dpy, c->xv_port, xv_settings[i].atom, xv_val);
+        }
     }
 #endif
 
@@ -652,60 +655,64 @@ void video_canvas_refresh(video_canvas_t *canvas,
     /*log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
               canvas->draw_buffer->draw_buffer_width);*/
 
+if (xs >= 800)
+    *(int *)0 = 0;
+
     if (console_mode || vsid_mode)
         return;
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo && canvas->xv_image) {
         int doublesize = canvas->videoconfig->doublesizex
-	  && canvas->videoconfig->doublesizey;
+          && canvas->videoconfig->doublesizey;
 
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
         Window root;
-	int x, y;
-	unsigned int dest_w, dest_h, border_width, depth;
+        int x, y;
+        unsigned int dest_w, dest_h, border_width, depth;
 
-	display = x11ui_get_display_ptr();
+        display = x11ui_get_display_ptr();
 
-	render_yuv_image(doublesize,
-			 canvas->videoconfig->doublescan,
-			 video_resources.pal_mode,
-			 video_resources.pal_scanlineshade * 1024 / 1000,
-			 canvas->xv_format,
-			 &canvas->yuv_image,
-			 canvas->draw_buffer->draw_buffer,
+        render_yuv_image(doublesize,
+                         canvas->videoconfig->doublescan,
+                         video_resources.pal_mode,
+                         video_resources.pal_scanlineshade * 1024 / 1000,
+                         canvas->xv_format,
+                         &canvas->yuv_image,
+                         canvas->draw_buffer->draw_buffer,
                          canvas->draw_buffer->draw_buffer_width,
-			 yuv_table,
-			 xs, ys, w, h,
-			 xi, yi);
+                         yuv_table,
+                         xs, ys, w, h,
+                         xi, yi);
 
-	XGetGeometry(display,
+        XGetGeometry(display,
 #ifdef USE_GNOMEUI
-		     GDK_WINDOW_XWINDOW(canvas->drawable),
+                     GDK_WINDOW_XWINDOW(canvas->drawable),
 #else
-		     canvas->drawable,
+                     canvas->drawable,
 #endif
-		     &root, &x, &y,
-		     &dest_w, &dest_h, &border_width, &depth);
+                     &root, &x, &y,
+                     &dest_w, &dest_h, &border_width, &depth);
 
-	/* Xv does subpixel scaling. Since coordinates are in integers we
-	   refresh the entire image to get it right. */
-	display_yuv_image(display, canvas->xv_port,
+        /* Xv does subpixel scaling. Since coordinates are in integers we
+           refresh the entire image to get it right. */
+        display_yuv_image(display, canvas->xv_port,
 #ifdef USE_GNOMEUI
-			  GDK_WINDOW_XWINDOW(canvas->drawable), GDK_GC_XGC(_video_gc),
+                          GDK_WINDOW_XWINDOW(canvas->drawable),
+                          GDK_GC_XGC(_video_gc),
 #else
-			  canvas->drawable, _video_gc,
+                          canvas->drawable, _video_gc,
 #endif
-			  canvas->xv_image, shminfo,
-			  0, 0,
-			  canvas->width, canvas->height,
-			  dest_w, dest_h,
-			  aspect_ratio);
+                          canvas->xv_image, shminfo,
+                          0, 0,
+                          canvas->width, canvas->height,
+                          dest_w, dest_h,
+                          aspect_ratio);
 
-	if (_video_use_xsync)
-	    XSync(display, False);
+        if (_video_use_xsync)
+            XSync(display, False);
 
-	return;
+        return;
     }
 #endif
 
@@ -743,3 +750,4 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
+
