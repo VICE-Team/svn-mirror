@@ -255,6 +255,8 @@ libc128_a_SOURCES = \
 	c128meminit.h \
 	c128memlimit.c \
 	c128memlimit.h \
+	c128memrom.c \
+	c128memrom.h \
 	c128memsnapshot.c \
 	c128memsnapshot.h \
 	c128mmu.c \
@@ -285,10 +287,10 @@ am_libc128_a_OBJECTS = c128-cmdline-options.$(OBJEXT) \
 	c128-resources.$(OBJEXT) c128-snapshot.$(OBJEXT) c128.$(OBJEXT) \
 	c128cia1.$(OBJEXT) c128cpu.$(OBJEXT) c128drive.$(OBJEXT) \
 	c128fastiec.$(OBJEXT) c128mem.$(OBJEXT) c128meminit.$(OBJEXT) \
-	c128memlimit.$(OBJEXT) c128memsnapshot.$(OBJEXT) \
-	c128mmu.$(OBJEXT) c128rom.$(OBJEXT) c128romset.$(OBJEXT) \
-	c128video.$(OBJEXT) daa.$(OBJEXT) functionrom.$(OBJEXT) \
-	z80.$(OBJEXT) z80mem.$(OBJEXT)
+	c128memlimit.$(OBJEXT) c128memrom.$(OBJEXT) \
+	c128memsnapshot.$(OBJEXT) c128mmu.$(OBJEXT) c128rom.$(OBJEXT) \
+	c128romset.$(OBJEXT) c128video.$(OBJEXT) daa.$(OBJEXT) \
+	functionrom.$(OBJEXT) z80.$(OBJEXT) z80mem.$(OBJEXT)
 libc128_a_OBJECTS = $(am_libc128_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -301,6 +303,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c128drive.Po ./$(DEPDIR)/c128fastiec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128mem.Po ./$(DEPDIR)/c128meminit.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128memlimit.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c128memrom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128mmu.Po ./$(DEPDIR)/c128rom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c128romset.Po ./$(DEPDIR)/c128video.Po \
@@ -348,6 +351,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128mem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128meminit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128memlimit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128memrom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128memsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128mmu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128rom.Po@am__quote@
