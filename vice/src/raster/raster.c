@@ -43,11 +43,11 @@
 #include "video.h"
 #include "videoarch.h"
 
-static void update_pixel_tables (raster_t *raster);
-static int realize_canvas (raster_t *raster);
-static int realize_frame_buffer (raster_t *raster);
-static void update_canvas (raster_t *raster);
-static void update_canvas_all (raster_t *raster);
+static void update_pixel_tables(raster_t *raster);
+static int realize_canvas(raster_t *raster);
+static int realize_frame_buffer(raster_t *raster);
+static void update_canvas(raster_t *raster);
+static void update_canvas_all(raster_t *raster);
 
 inline static int raster_fill_sprite_cache(raster_t *raster,
                                            raster_cache_t *cache,
@@ -229,10 +229,10 @@ static int realize_frame_buffer(raster_t *raster)
 #if 0
     /* Boooh...  Amazingly broken API.  FIXME.  */
     if (raster->frame_buffer != NULL)
-        video_frame_buffer_free (raster->frame_buffer);
+        video_frame_buffer_free(raster->frame_buffer);
 #else
     if (!console_mode && !vsid_mode) {
-        video_frame_buffer_free (raster->frame_buffer);
+        video_frame_buffer_free(raster->frame_buffer);
         raster->frame_buffer = NULL;
     }
 #endif
@@ -258,7 +258,7 @@ static int realize_frame_buffer(raster_t *raster)
     if (raster->fake_frame_buffer_line != NULL)
         free(raster->fake_frame_buffer_line);
 
-    raster->fake_frame_buffer_line = xmalloc (fb_width * sizeof (PIXEL));
+    raster->fake_frame_buffer_line = xmalloc(fb_width * sizeof(PIXEL));
 
     return 0;
 }
@@ -563,7 +563,7 @@ inline static void handle_blank_line(raster_t *raster)
 
         add_line_and_double_scan (raster,
                                 0, raster->geometry.screen_size.width - 1);
-    } else if (CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
+    } else if (CANVAS_USES_TRIPLE_BUFFERING(raster->viewport.canvas)
         || raster->dont_cache
         || raster->cache[raster->current_line].is_dirty
         || (raster->border_color
@@ -1102,7 +1102,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
             }
             raster_changes_apply(&raster->changes.border, i);
         }
-        if (xs <= (int) geometry->screen_size.width - 1)
+        if (xs <= (int)geometry->screen_size.width - 1)
             draw_blank(raster, xs, geometry->screen_size.width - 1);
     } else {
         for (i = 0; i < raster->changes.border.count; i++)
@@ -1264,9 +1264,9 @@ void raster_reset(raster_t *raster)
     raster->changes.have_on_this_line = 0;
 
     if (!console_mode && !vsid_mode) {
-      raster->frame_buffer_ptr
-          = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
-          + 2 * raster->geometry.extra_offscreen_border);
+        raster->frame_buffer_ptr
+            = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
+            + 2 * raster->geometry.extra_offscreen_border);
     }
 
     raster->current_line = 0;
@@ -1462,15 +1462,21 @@ void raster_resize_viewport(raster_t *raster,
         if (geometry->gfx_area_moves) {
             viewport->first_line = (screen_size->height
                                     - height / pixel_size->height) / 2;
-        }
-        /* FIXME: Somewhat buggy.  */
-        else if (height > gfx_size->height * pixel_size->height) {
-            viewport->first_line = (gfx_position->y
-                                   - (height / pixel_size->height
-                                   - gfx_size->height) / 2);
+        } else {
+            /* FIXME: Somewhat buggy.  */
+            if (height > gfx_size->height * pixel_size->height) {
+                if ((height / pixel_size->height - gfx_size->height)
+                    > gfx_position->y) {
+                    viewport->first_line = 0;
+                } else {
+                    viewport->first_line = (gfx_position->y
+                                           - (height / pixel_size->height
+                                           - gfx_size->height) / 2);
+                }
             } else {
                 viewport->first_line = gfx_position->y;
             }
+        }
         viewport->last_line = (viewport->first_line
                                + height / pixel_size->height) - 1;
     }
@@ -1541,8 +1547,8 @@ void raster_emulate_line(raster_t *raster)
                 raster_changes_apply_all(&raster->changes.foreground);
                 raster_changes_apply_all(&raster->changes.border);
                 raster->changes.have_on_this_line = 0;
-            }
-        }
+           }
+       }
 
        raster->current_line++;
       
@@ -1684,7 +1690,7 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     return 0;
 }
 
-void raster_free (raster_t *raster)
+void raster_free(raster_t *raster)
 {
     canvas_destroy(raster->viewport.canvas);
     video_frame_buffer_free(raster->frame_buffer);
