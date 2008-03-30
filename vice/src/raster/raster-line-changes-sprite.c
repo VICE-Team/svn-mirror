@@ -177,8 +177,8 @@ inline static int fill_sprite_cache(raster_t *raster,
     return rr;
 }
 
-inline static void draw_sprites_when_cache_enabled(raster_t *raster,
-                                                   raster_cache_t *cache)
+static void draw_sprites_when_cache_enabled(raster_t *raster,
+                                            raster_cache_t *cache)
 {
     if (raster->sprite_status == NULL
         || raster->sprite_status->draw_function == NULL)
@@ -271,7 +271,8 @@ static int update_for_minor_changes_sprite(raster_t *raster,
 
             /* The borders have not changed, so do not repaint them even
                if there are sprites under them.  */
-            *changed_start = MAX((int)(*changed_start), raster->display_xstart);            *changed_end = MIN((int)(*changed_end), raster->display_xstop);
+            *changed_start = MAX((int)(*changed_start), raster->display_xstart);
+            *changed_end = MIN((int)(*changed_end), raster->display_xstop);
         }
     } else {
         update_cached_sprite_collisions(raster);
