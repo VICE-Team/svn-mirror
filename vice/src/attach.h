@@ -28,7 +28,6 @@
 #ifndef _ATTACH_H
 #define _ATTACH_H
 
-#include "types.h"
 #include "snapshot.h"
 
 extern int file_system_init_resources(void);

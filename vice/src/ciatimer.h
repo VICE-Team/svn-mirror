@@ -41,7 +41,7 @@
 #define _CIATIMER_H
 
 #include "alarm.h"
-#include "interrupt.h"
+#include "snapshot.h"
 #include "types.h"
 
 /* #define	CIAT_DEBUG */
@@ -293,7 +293,7 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
 	{
 	    /* warp counting */
 	    if (state->clk + state->cnt > cclk) {
-	        state->cnt -= cclk - state->clk;
+	        state->cnt -= ((WORD)(cclk - state->clk));
 	        state->clk = cclk;
 	    } else {
 	        if (t & (CIAT_CR_ONESHOT | CIAT_ONESHOT0)) {
@@ -304,7 +304,7 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
 		    state->clk = state->clk + state->cnt; 
 		    state->cnt = 0;
 		    /* n++; */
-		    if (cclk - state->clk >= state->latch + 1) {
+		    if (((WORD)(cclk - state->clk)) >= state->latch + 1) {
 		        m = (cclk - state->clk) / (state->latch + 1);
 		        n += m;
 		        state->clk += m * (state->latch + 1);

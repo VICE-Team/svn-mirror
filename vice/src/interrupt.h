@@ -28,12 +28,8 @@
 #ifndef _INTERRUPT_H
 #define _INTERRUPT_H
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#include <string.h>
-#endif
-
 #include "6510core.h"
+#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 
@@ -163,8 +159,6 @@ typedef struct cpu_int_status cpu_int_status_t;
 
 #if defined INLINE_INTERRUPT_FUNCS || defined _INTERRUPT_C
 
-#include <string.h>		/* memset() */
-
 /* Set the IRQ line state.  */
 _INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
 		       CLOCK clk)
@@ -192,7 +186,7 @@ _INT_FUNC void set_irq(cpu_int_status_t *cs, int int_num, int value,
  		if (--cs->nirq == 0)
 		    cs->global_pending_int &= ~IK_IRQ;
 	    } else
-		printf("set_irq(): wrong nirq!\n");
+		log_error(LOG_DEFAULT, "set_irq(): wrong nirq!");
 	}
     }
 }
@@ -226,7 +220,7 @@ _INT_FUNC void set_nmi(cpu_int_status_t *cs, int int_num, int value,
 		if (clk == cs->nmi_clk)
 		    cs->global_pending_int &= ~IK_NMI;
 	    } else
-		printf("set_nmi(): wrong nnmi!\n");
+		log_error(LOG_DEFAULT, "set_nmi(): wrong nnmi!");
 	}
     }
 }

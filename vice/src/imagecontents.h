@@ -2,7 +2,7 @@
  * imagecontents.h - Extract the directory from disk/tape images.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -54,13 +54,14 @@ typedef struct _image_contents image_contents_t;
 
 /* ------------------------------------------------------------------------- */
 
-void image_contents_destroy(image_contents_t *contents);
-image_contents_t *image_contents_new(void);
-char *image_contents_to_string(image_contents_t *contents);
+extern void image_contents_destroy(image_contents_t *contents);
+extern image_contents_t *image_contents_new(void);
+extern char *image_contents_to_string(image_contents_t *contents);
 
 /* FIXME: Some day this will have to be removed to the disk/tape image
    -specific modules.  */
-image_contents_t *image_contents_read_disk(const char *file_name);
-image_contents_t *image_contents_read_tape(const char *file_name);
+extern image_contents_t *image_contents_read_disk(const char *file_name);
+extern image_contents_t *image_contents_read_tape(const char *file_name);
 
 #endif
+

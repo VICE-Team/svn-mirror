@@ -28,6 +28,8 @@
 #ifndef _EMUID_H
 #define _EMUID_H
 
+#include "types.h"
+
 extern BYTE emulator_id[];
 
 #endif

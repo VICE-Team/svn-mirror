@@ -60,15 +60,16 @@ typedef struct _clk_guard {
 
 /* ------------------------------------------------------------------------ */
 
-clk_guard_t *clk_guard_new (CLOCK *_clk_ptr, CLOCK _clk_max_value);
-void clk_guard_init(clk_guard_t *guard, CLOCK *_clk_ptr, CLOCK _clk_max_value);
-void clk_guard_set_clk_base(clk_guard_t *guard, CLOCK _clk_base);
-CLOCK clk_guard_get_clk_base(clk_guard_t *guard);
-void clk_guard_add_callback (clk_guard_t *guard,
-                             clk_guard_callback_t function,
-                             void *data);
-void clk_guard_destroy (clk_guard_t *guard);
-CLOCK clk_guard_prevent_overflow (clk_guard_t *guard);
+extern clk_guard_t *clk_guard_new (CLOCK *_clk_ptr, CLOCK _clk_max_value);
+extern void clk_guard_init(clk_guard_t *guard, CLOCK *_clk_ptr,
+                           CLOCK _clk_max_value);
+extern void clk_guard_set_clk_base(clk_guard_t *guard, CLOCK _clk_base);
+extern CLOCK clk_guard_get_clk_base(clk_guard_t *guard);
+extern void clk_guard_add_callback (clk_guard_t *guard,
+                                    clk_guard_callback_t function,
+                                    void *data);
+extern void clk_guard_destroy (clk_guard_t *guard);
+extern CLOCK clk_guard_prevent_overflow (clk_guard_t *guard);
 
 #endif
 

@@ -2,8 +2,8 @@
  * cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +27,6 @@
 
 #ifndef _CIA_H
 #define _CIA_H
-
-#include "types.h"
 
 #define byte2bcd(byte)  (((((byte) / 10) << 4) + ((byte) % 10)) & 0xff)
 #define bcd2byte(bcd)   (((10*(((bcd) & 0xf0) >> 4)) + ((bcd) & 0xf)) & 0xff)
@@ -66,3 +64,4 @@
 #define CIA_IM_FLG	16	/* Handshake */
 
 #endif  /* _CIA_H */
+

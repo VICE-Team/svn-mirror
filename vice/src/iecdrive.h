@@ -29,22 +29,22 @@
  */
 
 
-#ifndef _IEC_H
-#define _IEC_H
+#ifndef _IECDRIVE_H
+#define _IECDRIVE_H
 
 #include "types.h"
 
-void iec_init(void);
-void iec_update_ports_embedded(void);
-void iec_drive0_write(BYTE data);
-void iec_drive1_write(BYTE data);
-BYTE iec_drive0_read(void);
-BYTE iec_drive1_read(void);
-void iec_fast_drive_write(BYTE data);
-void iec_fast_cpu_write(BYTE data);
-void parallel_cable_drive0_write(BYTE data, int handshake);
-void parallel_cable_drive1_write(BYTE data, int handshake);
-BYTE parallel_cable_drive_read(int handshake);
+extern void iec_init(void);
+extern void iec_update_ports_embedded(void);
+extern void iec_drive0_write(BYTE data);
+extern void iec_drive1_write(BYTE data);
+extern BYTE iec_drive0_read(void);
+extern BYTE iec_drive1_read(void);
+extern void iec_fast_drive_write(BYTE data);
+extern void iec_fast_cpu_write(BYTE data);
+extern void parallel_cable_drive0_write(BYTE data, int handshake);
+extern void parallel_cable_drive1_write(BYTE data, int handshake);
+extern BYTE parallel_cable_drive_read(int handshake);
 
 typedef struct {
     BYTE drive_bus;
@@ -68,3 +68,4 @@ extern int iec_available_busses(void);
 extern void iec_calculate_callback_index(void);
 
 #endif
+

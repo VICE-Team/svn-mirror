@@ -2,7 +2,7 @@
  * fliplist.h
  *
  * Written by
- *  Martin Pottendorfer
+ *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,16 +27,17 @@
 #ifndef _FLIPLIST_H
 #define _FLIPLIST_H
 
-void flip_set_current(int unit, const char *image);
-void flip_add_image(int unit);
-void flip_remove(int unit, char *image);
-void flip_attach_head(int unit, int direction);
-void *flip_init_iterate(int unit);
-void *flip_next_iterate(int unit);
-char *flip_get_head(int unit);
-char *flip_get_next(int unit);
-char *flip_get_prev(int unit);
-char *flip_get_image(void *fl);
-int flip_get_unit(void *fl);
+extern void flip_set_current(int unit, const char *image);
+extern void flip_add_image(int unit);
+extern void flip_remove(int unit, char *image);
+extern void flip_attach_head(int unit, int direction);
+extern void *flip_init_iterate(int unit);
+extern void *flip_next_iterate(int unit);
+extern char *flip_get_head(int unit);
+extern char *flip_get_next(int unit);
+extern char *flip_get_prev(int unit);
+extern char *flip_get_image(void *fl);
+extern int flip_get_unit(void *fl);
 
 #endif /* _FLIPLIST_H */
+
