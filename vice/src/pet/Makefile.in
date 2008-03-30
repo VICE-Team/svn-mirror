@@ -65,6 +65,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+CXX = @CXX@
 HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
@@ -78,6 +79,8 @@ PACKAGE = @PACKAGE@
 PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
+RESID_INCLUDES = @RESID_INCLUDES@
+RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -296,7 +299,8 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
 	petmem.h pets.h petsound.h ../../src/arch/unix/xaw/petui.h \
 	petvia.h pia.h ../../src/sound.h ../../src/warn.h \
-	../../src/utils.h ../../src/via.h ../../src/arch/unix/vsync.h
+	../../src/utils.h ../../src/via.h ../../src/arch/unix/vsync.h \
+	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/memutils.h pia.h petvia.h crtc.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
@@ -317,11 +321,12 @@ petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
-	../../src/parallel.h ../../src/types.h petsound.h \
-	../../src/arch/unix/kbd.h crtc.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mem.h
+	../../src/parallel.h ../../src/types.h ../c64/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/arch/unix/kbd.h \
+	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/pruser.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h
 pia.o: pia.c ../../src/vice.h ../../src/config.h ../../src/types.h pia.h \
 	../../src/vmachine.h ../../src/parallel.h \
 	../../src/arch/unix/kbd.h ../../src/interrupt.h \

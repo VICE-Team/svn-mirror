@@ -64,6 +64,7 @@ ARCH_INCLUDES = @ARCH_INCLUDES@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+CXX = @CXX@
 HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
@@ -77,6 +78,8 @@ PACKAGE = @PACKAGE@
 PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
+RESID_INCLUDES = @RESID_INCLUDES@
+RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -134,6 +137,9 @@ noinst_HEADERS = \
 	op.h \
 	palette.h \
 	parallel.h \
+	prdevice.h \
+	pruser.h \
+	print.h \
 	printer.h \
 	raster.h \
 	resources.h \
@@ -175,6 +181,8 @@ base_sources = \
 	mshell.c \
 	palette.c \
 	parallel.c \
+	prdevice.c \
+	pruser.c \
 	resources.c \
 	serial.c \
 	sound.c \
@@ -215,16 +223,18 @@ bin_PROGRAMS = x64 x128 xvic xpet c1541 petcat
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+        @X_LIBS@ @READLINE@ -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x128
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @READLINE@ -lm
+	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+        @X_LIBS@ @READLINE@ -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(true1541_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -277,26 +287,26 @@ X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
 memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
+tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
 memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o
+parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
+tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
 memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
+tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
 cmdline.o drive.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o \
 memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+parallel.o prdevice.o pruser.o resources.o serial.o sound.o sysfile.o \
+tape.o tapeunit.o traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o drive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
@@ -523,7 +533,7 @@ attach.o: attach.c vice.h config.h resources.h drive.h types.h fs_cbm.h \
 	serial.h traps.h attach.h
 autostart.o: autostart.c vice.h config.h vmachine.h mem.h types.h \
 	serial.h traps.h warn.h resources.h drive.h fs_cbm.h tape.h \
-	fsdevice.h interrupt.h 6510core.h arch/unix/ui.h \
+	attach.h interrupt.h 6510core.h arch/unix/ui.h \
 	arch/unix/xaw/ui.h palette.h autostart.h utils.h kbdbuf.h
 c1541.o: c1541.c vice.h config.h c1541.h drive.h types.h fs_cbm.h \
 	serial.h traps.h mshell.h gcr.h file.h charsets.h tape.h \
@@ -571,6 +581,11 @@ palette.o: palette.c vice.h config.h utils.h types.h palette.h sysfile.h
 parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
 	traps.h
 petcat.o: petcat.c vice.h config.h charsets.h types.h
+prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h drive.h \
+	types.h fs_cbm.h serial.h traps.h file.h charsets.h utils.h \
+	prdevice.h print.h
+pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
+	cmdline.h
 resources.o: resources.c vice.h config.h resources.h utils.h \
 	arch/unix/ui.h arch/unix/xaw/ui.h types.h palette.h
 serial.o: serial.c vice.h config.h maincpu.h types.h mem.h mos6510.h \

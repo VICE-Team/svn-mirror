@@ -65,6 +65,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+CXX = @CXX@
 HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
@@ -78,6 +79,8 @@ PACKAGE = @PACKAGE@
 PERL = @PERL@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
+RESID_INCLUDES = @RESID_INCLUDES@
+RESID_LIBS = @RESID_LIBS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -279,7 +282,10 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/utils.h ../../src/c64/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/arch/unix/vsync.h
+	../../src/resources.h ../../src/arch/unix/vsync.h \
+	../../src/rs232.h ../../src/c64/c64acia.h \
+	../../src/c64/rsuser.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/types.h ../../src/mem.h \
 	../../src/mos6510.h ../../src/6510core.h ../../src/mon.h \
@@ -299,9 +305,10 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/sid.h ../../src/sound.h ../../src/warn.h \
 	../../src/memutils.h ../../src/maincpu.h ../../src/parallel.h \
 	../../src/c64/tpi.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/utils.h vdc.h ../c64/vicii.h \
+	../../src/utils.h vdc.h ../../src/rs232.h ../c64/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/c64/c64acia.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/types.h
 
