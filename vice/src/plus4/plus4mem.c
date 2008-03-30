@@ -110,6 +110,65 @@ static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
     iec_cpu_write_conf2, iec_cpu_write_conf3
 };
 
+
+/* ------------------------------------------------------------------------- */
+
+#define RAM0 ram + 0x0000
+#define RAM4 ram + 0x4000
+#define RAM8 ram + 0x8000
+#define RAMC ram + 0xc000
+
+static BYTE *chargen_tab[8][16] = {
+    /* 0000-3fff, RAM selected  */
+    {       RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0 },
+    /* 4000-7fff, RAM selected  */
+    {       RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4 },
+    /* 8000-bfff, RAM selected  */
+    {       RAM8,       RAM8,       RAM8,       RAM8,
+            RAM8,       RAM8,       RAM8,       RAM8,
+            RAM8,       RAM8,       RAM8,       RAM8,
+            RAM8,       RAM8,       RAM8,       RAM8 },
+    /* c000-ffff, RAM selected  */
+    {       RAMC,       RAMC,       RAMC,       RAMC,
+            RAMC,       RAMC,       RAMC,       RAMC,
+            RAMC,       RAMC,       RAMC,       RAMC,
+            RAMC,       RAMC,       RAMC,       RAMC },
+
+    /* 0000-3fff, ROM selected  */
+    {       RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0,
+            RAM0,       RAM0,       RAM0,       RAM0 },
+    /* 4000-7fff, ROM selected  */
+    {       RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4,
+            RAM4,       RAM4,       RAM4,       RAM4 },
+    /* 8000-bfff, ROM selected  */
+    {  basic_rom,  extromlo1,  extromlo2,  extromlo3,
+       basic_rom,  extromlo1,  extromlo2,  extromlo3,
+       basic_rom,  extromlo1,  extromlo2,  extromlo3,
+       basic_rom,  extromlo1,  extromlo2,  extromlo3 },
+    /* c000-ffff, ROM selected  */
+    { kernal_rom, kernal_rom, kernal_rom, kernal_rom,
+       extromhi1,  extromhi1,  extromhi1,  extromhi1,
+       extromhi2,  extromhi2,  extromhi2,  extromhi2,
+       extromhi3,  extromhi3,  extromhi3,  extromhi3 }
+};
+
+BYTE *mem_get_tedmem_base(unsigned int segment)
+{
+    return chargen_tab[segment][mem_config >> 1];
+}
+
+/* ------------------------------------------------------------------------- */
+
 inline void pla_config_changed(void)
 {
 }
@@ -671,12 +730,12 @@ int mem_rom_trap_allowed(ADDRESS addr)
 
 static const char *banknames[] =
 {
-    "default", "cpu", "ram", "rom", "io", NULL
+    "default", "cpu", "ram", "rom", "funcrom", "cart1rom", "cart2rom", NULL
 };
 
 static int banknums[] =
 {
-    1, 0, 1, 2, 3
+    1, 0, 1, 2, 3, 4, 5
 };
 
 const char **mem_bank_list(void)
@@ -710,6 +769,31 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         if (addr >= 0xc000 && addr <= 0xffff) {
             return kernal_rom[addr & 0x3fff];
         }
+        break;
+      case 3:                   /* funcrom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return extromlo1[addr & 0x3fff];
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return extromhi1[addr & 0x3fff];
+        }
+        break;
+      case 4:                   /* cart1rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return extromlo2[addr & 0x3fff];
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return extromhi2[addr & 0x3fff];
+        }
+        break;
+      case 5:                   /* cart2rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return extromlo3[addr & 0x3fff];
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return extromhi3[addr & 0x3fff];
+        }
+        break;
       case 1:                   /* ram */
         break;
     }
@@ -734,6 +818,31 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
         if (addr >= 0xc000 && addr <= 0xffff) {
             return;
         }
+        break;
+      case 3:                   /* funcrom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return;
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return;
+        }
+        break;
+      case 4:                   /* cart1rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return;
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return;
+        }
+        break;
+      case 5:                   /* cart2rom */
+        if (addr >= 0x8000 && addr <= 0xbfff) {
+            return;
+        }
+        if (addr >= 0xc000 && addr <= 0xffff) {
+            return;
+        }
+        break;
       case 1:                   /* ram */
         break;
     }
@@ -744,19 +853,24 @@ mem_ioreg_list_t *mem_ioreg_list_get(void)
 {
     mem_ioreg_list_t *mem_ioreg_list;
 
-    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 1);
+    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
 
-    mem_ioreg_list[0].name = "TED";
+    mem_ioreg_list[0].name = "ACIA";
     mem_ioreg_list[0].start = 0xfd00;
-    mem_ioreg_list[0].end = 0xfd3f;
-    mem_ioreg_list[0].next = NULL;
+    mem_ioreg_list[0].end = 0xfd0f;
+    mem_ioreg_list[0].next = &mem_ioreg_list[1];
+
+    mem_ioreg_list[1].name = "TED";
+    mem_ioreg_list[1].start = 0xff00;
+    mem_ioreg_list[1].end = 0xff3f;
+    mem_ioreg_list[1].next = NULL;
 
     return mem_ioreg_list;
 }
 
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 {
-    *base = 0x0c00;
+    *base = (ted_peek(0xff14) & 0xf8) << 8 | 0x400;
     *rows = 25;
     *columns = 40;
 }
