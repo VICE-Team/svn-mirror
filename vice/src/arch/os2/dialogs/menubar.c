@@ -367,12 +367,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_TOGGLEPAL:
         {
             long val1, val2;
-            resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+            resources_get_value("PALEmulation", (resource_value_t*)&val1);
             resources_get_value("PALMode",            (resource_value_t*)&val2);
             if (!val1)
             {
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
-                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
             }
 
@@ -380,36 +380,36 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             {
             case VIDEO_RESOURCE_PAL_MODE_FAST:
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
-                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
             case VIDEO_RESOURCE_PAL_MODE_SHARP:
                 resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
-                resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+                resources_set_value("PALEmulation", (resource_value_t*)1);
                 return;
             case VIDEO_RESOURCE_PAL_MODE_BLUR:
-                resources_set_value("DelayLoopEmulation", (resource_value_t*)0);
+                resources_set_value("PALEmulation", (resource_value_t*)0);
                 return;
             }
         }
         return;
     case IDM_PALOFF:
-        resources_set_value("DelayLoopEmulation", (resource_value_t*)0);
+        resources_set_value("PALEmulation", (resource_value_t*)0);
         return;
     case IDM_PALFAST:
         resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_FAST);
-        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
     case IDM_PALSHARP:
         resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_SHARP);
-        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
     case IDM_PALBLUR:
         resources_set_value("PALMode", (resource_value_t*)VIDEO_RESOURCE_PAL_MODE_BLUR);
-        resources_set_value("DelayLoopEmulation", (resource_value_t*)1);
+        resources_set_value("PALEmulation", (resource_value_t*)1);
         return;
         /*
     case IDM_FAKEPAL:
-        toggle("DelayLoopEmulation");
+        toggle("PALEmulation");
         return;
      */
     case IDM_DSIZE:
@@ -1290,7 +1290,7 @@ void menu_select(HWND hwnd, USHORT item)
         {
             long val1, val2;
 
-            resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+            resources_get_value("PALEmulation", (resource_value_t*)&val1);
             resources_get_value("ExternalPalette",    (resource_value_t*)&val2);
             WinEnableMenuItem(hwnd, IDM_PALEMU,      !val2);
             WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
@@ -1306,7 +1306,7 @@ void menu_select(HWND hwnd, USHORT item)
     {
         long val1, val2;
 
-        resources_get_value("DelayLoopEmulation", (resource_value_t*)&val1);
+        resources_get_value("PALEmulation", (resource_value_t*)&val1);
         resources_get_value("PALMode",            (resource_value_t*)&val2);
 
         WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);

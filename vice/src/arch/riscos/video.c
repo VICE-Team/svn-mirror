@@ -222,7 +222,7 @@ static void video_init_pal_depth(void)
   }
   video_init_raw_rgb();
 
-  resources_set_value("DelayLoopEmulation", (resource_value_t)(ActualPALDepth != 0));
+  resources_set_value("PALEmulation", (resource_value_t)(ActualPALDepth != 0));
 }
 
 

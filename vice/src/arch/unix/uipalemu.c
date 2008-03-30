@@ -34,10 +34,10 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
     int delayloopemulation;
 
-    resources_get_value("DelayLoopEmulation",
+    resources_get_value("PALEmulation",
                         (resource_value_t *)&delayloopemulation);
     if (!CHECK_MENUS) {
-        resources_set_value("DelayLoopEmulation",
+        resources_set_value("PALEmulation",
                             (resource_value_t)!delayloopemulation);
         ui_update_menus();
     } else {

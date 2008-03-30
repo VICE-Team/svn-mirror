@@ -47,7 +47,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "VDC_DoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
     { "VDC_DoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
     { "VDC_64KB", MENU_TOGGLE_VDC_64KB },
-    { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
+    { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
 

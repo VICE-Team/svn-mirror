@@ -358,13 +358,13 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 	}
 
 	refresh_cmp /= refresh_div;
-	if ((refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
+	if ((timer_speed == 100) && (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f))
 	{
 		{
 //			log_debug("%f %f",c->refreshrate,refresh_div);
 		    if (!warp_mode_enabled && timer_speed && delay < 0)
 			{
-				vsyncarch_verticalblank(c, 1.005f*c->refreshrate/refresh_div);
+				vsyncarch_verticalblank(c, (1.01f*c->refreshrate*(float)timer_speed)/(refresh_div*100.0f));
 			}
 	        skip_next_frame = 0;
 	        skipped_redraw = 0;

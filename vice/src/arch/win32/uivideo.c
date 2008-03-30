@@ -63,6 +63,14 @@ static char *palettes[8]=
 	NULL
 };
 
+static char *modes[4]=
+{
+	"Fast PAL",
+	"Y/C cable (sharp)",
+	"Composite (blurry)",
+	NULL
+};
+
 static void enable_controls_for_video_settings(HWND hwnd, int type)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME),
@@ -109,6 +117,22 @@ static void init_advanced_dialog(HWND hwnd)
 
     /* As long as 'phase' isn't implemented, set a constant entry  */ 
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, "N/A");
+
+    resources_get_value("PALScanLineShade", (resource_value_t *) &val);
+	fval=((double)val)/1000.0;
+	sprintf(newval,"%.3f",(float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
+
+    filename_hwnd=GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE);
+    SendMessage(filename_hwnd,CB_RESETCONTENT,0,0);
+	n=0;
+	while (modes[n] != NULL)
+	{
+        SendMessage(filename_hwnd,CB_ADDSTRING,0,(LPARAM)modes[n]);
+		n++;
+	}
+    resources_get_value("PALMode", (resource_value_t *) &val);
+    SendMessage(filename_hwnd, CB_SETCURSEL, (WPARAM)val, 0);
 
     resources_get_value("ExternalPalette", (resource_value_t *) &n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n ? BST_CHECKED : BST_UNCHECKED);
@@ -191,6 +215,13 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                 resources_set_value("ColorGamma", (resource_value_t) ival);
 
                 resources_set_value("ExternalPalette", (resource_value_t) res_extpalette);
+
+                GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, (LPSTR)s, 100);
+                ival=(int)(atof(s)*1000.0+0.5);
+                resources_set_value("PALScanLineShade", (resource_value_t) ival);
+
+				ival = SendMessage(GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE), CB_GETCURSEL, 0, 0);
+                resources_set_value("PALMode", (resource_value_t) ival);
 
                 querynewpalette = 1;
                 if (resources_set_value("PaletteFile", (resource_value_t) palette_file) < 0) {

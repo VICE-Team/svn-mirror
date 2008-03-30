@@ -755,7 +755,7 @@ static const char Rsrc_ColourSat[] = "ColorSaturation";
 static const char Rsrc_Contrast[] = "ColorContrast";
 static const char Rsrc_Brightness[] = "ColorBrightness";
 static const char Rsrc_Gamma[] = "ColorGamma";
-static const char Rsrc_DelLoop[] = "DelayLoopEmulation";
+static const char Rsrc_DelLoop[] = "PALEmulation";
 static const char Rsrc_LineShade[] = "PALScanLineShade";
 
 static const char *Rsrc_ConvP00[4] = {

@@ -63,6 +63,11 @@ list of all the changes in the code.
 
 - Fixed the monitor close button.
 
+** BeOS changes
+---------------
+
+- Uses DirectWindow interface to save up to 20% of performance.
+
 ** Miscellaneous changes
 ------------------------
 

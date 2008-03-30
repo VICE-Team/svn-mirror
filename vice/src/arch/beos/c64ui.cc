@@ -53,7 +53,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
+    { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
 

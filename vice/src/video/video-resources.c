@@ -126,7 +126,13 @@ static int set_delayloop_emulation(resource_value_t v, void *param)
 
 static int set_pal_scanlineshade(resource_value_t v, void *param)
 {
-    video_resources.pal_scanlineshade = (int)v;
+    int val;
+    val = (int)v;
+    if (val < 0)
+        val = 0;
+    if (val > 1000)
+        val = 1000;
+    video_resources.pal_scanlineshade = val;
     return video_color_update_palette();
 }
 
@@ -161,7 +167,7 @@ static resource_t resources_pal[] =
     { "ColorGamma", RES_INTEGER, (resource_value_t)880,
       (resource_value_t *)&video_resources.color_gamma,
       set_color_gamma, NULL },
-    { "DelayLoopEmulation", RES_INTEGER, (resource_value_t)0,
+    { "PALEmulation", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&video_resources.delayloop_emulation,
       set_delayloop_emulation, NULL },
     { "PALScanLineShade", RES_INTEGER, (resource_value_t)667,
