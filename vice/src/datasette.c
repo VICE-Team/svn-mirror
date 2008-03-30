@@ -29,7 +29,7 @@
 #include <stdio.h>
 
 #include "alarm.h"
-#include "c64/c64cia.h"
+#include "clkguard.h"
 #include "datasette.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -37,7 +37,11 @@
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
 
+/* State of the datasette motor.  */
 static int datasette_motor = 0;
+
+/* Last time we have recorded a flux change.  */
+static CLOCK last_write_clk = (CLOCK)0;
 
 static alarm_t datasette_alarm;
 
@@ -109,10 +113,18 @@ static int datasette_read_bit(long offset)
     return 0;
 }
 
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (last_write_clk > (CLOCK)0)
+        last_write_clk -= sub;
+}
+
 void datasette_init(void)
 {
     alarm_init(&datasette_alarm, &maincpu_alarm_context,
                "Datasette", datasette_read_bit);
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 void datasette_set_tape_image(tap_t *image)
@@ -151,7 +163,7 @@ void datasette_reset(void)
             alarm_unset(&datasette_alarm);
         datasette_control(DATASETTE_CONTROL_STOP);
         current_image->current_file_seek_position = 0;
-        fseek(current_image->fd, 0, SEEK_SET);
+        fseek(current_image->fd, current_image->offset, SEEK_SET);
     }
 }
 
@@ -162,22 +174,29 @@ void datasette_control(int command)
           case DATASETTE_CONTROL_STOP:
             current_image->mode = DATASETTE_CONTROL_STOP;
             mem_set_tape_sense(0);
+            last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_START:
             current_image->mode = DATASETTE_CONTROL_START;
             mem_set_tape_sense(1);
+            last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_FORWARD:
             current_image->mode = DATASETTE_CONTROL_FORWARD;
             datasette_forward();
             mem_set_tape_sense(0);
+            last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_REWIND:
             current_image->mode = DATASETTE_CONTROL_REWIND;
             datasette_rewind();
             mem_set_tape_sense(0);
+            last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RECORD:
+            current_image->mode = DATASETTE_CONTROL_RECORD;
+            mem_set_tape_sense(1);
+            last_write_clk = (CLOCK)0;
             break;
           case DATASETTE_CONTROL_RESET:
             break;
@@ -192,8 +211,8 @@ void datasette_set_motor(int flag)
         && current_image->mode != DATASETTE_CONTROL_FORWARD) {
         if (flag && !datasette_motor)
         {
-            fseek(current_image->fd, current_image->current_file_seek_position,
-                  SEEK_SET);
+            fseek(current_image->fd, current_image->current_file_seek_position
+                  + current_image->offset, SEEK_SET);
             alarm_set(&datasette_alarm, clk + 1000);
         }
         if (!flag && datasette_motor)
@@ -203,5 +222,47 @@ void datasette_set_motor(int flag)
         }
     }
     datasette_motor = flag;
+}
+
+void datasette_toggle_write_bit(int write_bit)
+{
+    if (current_image != NULL && datasette_motor && write_bit
+        && current_image->mode == DATASETTE_CONTROL_RECORD) {
+        if (last_write_clk == (CLOCK)0) {
+            last_write_clk = clk;
+        } else {
+            CLOCK write_time;
+            BYTE write_gap;
+            write_time = clk - last_write_clk;
+            last_write_clk = clk;
+            if (write_time < (CLOCK)7)
+                return;
+            if (write_time < (CLOCK)(255 * 8 + 7)) {
+                write_gap = (write_time / (CLOCK)8);
+                if (fwrite(&write_gap, 1, 1, current_image->fd) < 1) {
+                    datasette_control(DATASETTE_CONTROL_STOP);
+                    return;
+                }
+                current_image->current_file_seek_position++;
+            } else {
+                write_gap = 0;
+                fwrite(&write_gap, 1, 1, current_image->fd);
+                current_image->current_file_seek_position++;
+                if (current_image->version >= 1) {
+                    BYTE long_gap[3];
+                    int bytes_written;
+                    long_gap[0] = write_time & 0xff;
+                    long_gap[1] = (write_time >> 8) & 0xff;
+                    long_gap[2] = (write_time >> 16) & 0xff;
+                    bytes_written = fwrite(long_gap, 3, 1, current_image->fd);
+                    current_image->current_file_seek_position += bytes_written;
+                    if (bytes_written < 3) {
+                        datasette_control(DATASETTE_CONTROL_STOP);
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }
 
