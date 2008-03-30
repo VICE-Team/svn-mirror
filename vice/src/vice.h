@@ -57,14 +57,6 @@
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
-/* Windows portability cruft.  */
-#if defined (WIN32) && !defined(__GNUC__)
-#define strcasecmp(s1, s2)      _stricmp(s1, s2)
-#endif
-#ifdef UNDER_CE
-#include "ce32.h"
-#endif
-
 /* RISC OS specific stuff */
 #ifdef __riscos
 #include "ROlib.h"

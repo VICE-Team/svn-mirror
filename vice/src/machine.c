@@ -115,7 +115,7 @@ void machine_trigger_reset(const unsigned int mode)
     if (event_playback_active())
         return;
 
-    event_record(EVENT_RESET, (void *)&mode, sizeof(mode));
+    event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
 
     machine_trigger_reset_internal(mode);
 }

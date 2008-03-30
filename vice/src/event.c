@@ -108,7 +108,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
       case EVENT_DATASETTE:
       case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
-      case EVENT_RESET:
+      case EVENT_RESETCPU:
       case EVENT_INITIAL:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
@@ -173,7 +173,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
       case EVENT_ATTACHTAPE:
         tape_image_event_playback(offset, event_list_current->data);
         break;
-      case EVENT_RESET:
+      case EVENT_RESETCPU:
         machine_reset_event_playback(offset, event_list_current->data);
         break;
       case EVENT_LIST_END:
@@ -184,7 +184,7 @@ static void event_alarm_handler(CLOCK offset, void *data)
     }
 
     if (event_list_current->type != EVENT_LIST_END
-        && event_list_current->type != EVENT_RESET) {
+        && event_list_current->type != EVENT_RESETCPU) {
         next_current_list();
         next_alarm_set();
     }
@@ -343,7 +343,7 @@ void event_playback_reset_ack(void)
     }
 
     if (event_list_current 
-        && event_list_current->type == EVENT_RESET)
+        && event_list_current->type == EVENT_RESETCPU)
     {
         next_current_list();
         next_alarm_set();

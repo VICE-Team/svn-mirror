@@ -35,7 +35,7 @@
 #define EVENT_INITIAL           5
 #define EVENT_ATTACHDISK        6
 #define EVENT_ATTACHTAPE        7
-#define EVENT_RESET             8
+#define EVENT_RESETCPU          8
 
 #define EVENT_START_MODE_FILE_SAVE 0
 #define EVENT_START_MODE_FILE_LOAD 1

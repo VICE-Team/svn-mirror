@@ -135,6 +135,7 @@ libarch_a_DEPENDENCIES = \
 	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
 
 EXTRA_DIST = \
+	evc/config.h \
 	msvc/config.h \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
