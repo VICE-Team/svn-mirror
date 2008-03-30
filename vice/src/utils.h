@@ -50,6 +50,7 @@ extern char *get_current_dir(void);
 extern unsigned long file_length(FILE *fd);
 extern int load_file(const char *name, void *dest, int size);
 extern int save_file(const char *name, const void *src, int size);
+extern int remove_file(const char *name);
 
 extern int get_line(char *buf, int bufsize, FILE *f);
 extern void fname_split(const char *path, char **directory_return,

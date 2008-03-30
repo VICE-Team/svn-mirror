@@ -31,16 +31,11 @@
 #include <stdlib.h>
 #ifdef __riscos
 typedef int off_t;
-#else
-#ifndef _MSC_VER
-#include <unistd.h>
 #endif
 #endif
-#endif
-
-#include "snapshot.h"
 
 #include "log.h"
+#include "snapshot.h"
 #include "utils.h"
 #include "zfile.h"
 
@@ -455,7 +450,7 @@ snapshot_t *snapshot_create(const char *filename,
 
 fail:
     fclose(f);
-    unlink(filename);
+    remove_file(filename);
     return NULL;
 }
 

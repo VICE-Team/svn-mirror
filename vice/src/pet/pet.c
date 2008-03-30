@@ -30,9 +30,6 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
-#if !defined (__riscos) && !defined (_MSC_VER)
-#include <unistd.h>
-#endif
 #endif
 
 #include "pet.h"
@@ -400,9 +397,9 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 
     snapshot_close(s);
 
-    if (ef) {
-	unlink(name);
-    }
+    if (ef)
+        remove_file(name);
+
     return ef;
 }
 

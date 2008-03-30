@@ -51,19 +51,18 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <fcntl.h>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include <memory.h>
 #endif
 #include <errno.h>
 #endif
-
-#include "fsdevice.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #include "archdep.h"
 #include "charsets.h"
 #include "cmdline.h"
+#include "fsdevice.h"
 #include "log.h"
 #include "p00.h"
 #include "resources.h"
@@ -506,7 +505,7 @@ void flush_fs(void *flp, int secondary)
                 strcat(name1, FSDEV_DIR_SEP_STR);
                 strcat(name1, arg);
             }
-        if (unlink(name1)) {
+        if (remove_file(name1)) {
             er = IPE_NOT_FOUND;
             if (errno == EPERM)
                 er = IPE_PERMISSION;

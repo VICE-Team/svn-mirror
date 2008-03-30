@@ -31,9 +31,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#if !defined (__riscos) && !defined (_MSC_VER)
-#include <unistd.h>
-#endif
 
 #include "c128.h"
 
@@ -430,7 +427,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || drive_write_snapshot_module(s, save_disks, save_roms) < 0
         || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
-        unlink(name);
+        remove_file(name);
         return -1;
     }
 

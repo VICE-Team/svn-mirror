@@ -37,10 +37,6 @@
 #include <stdio.h>
 #ifdef __riscos
 #include "ROlib.h"
-#else
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #endif
 #include <limits.h>
 #include <string.h>
@@ -50,6 +46,9 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #include "archdep.h"
@@ -196,7 +195,7 @@ static char *try_uncompress_with_gzip(const char *name)
 	return tmp_name;
     } else {
 	ZDEBUG(("try_uncompress_with_gzip: failed"));
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
 #endif
@@ -238,7 +237,7 @@ static char *try_uncompress_with_bzip(const char *name)
 	return tmp_name;
     } else {
 	ZDEBUG(("try_uncompress_with_bzip: failed"));
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
 }
@@ -274,7 +273,7 @@ static char *try_uncompress_with_tzx(const char *name)
         return tmp_name;
     } else {
         ZDEBUG(("try_uncompress_with_tzx: failed"));
-        unlink(tmp_name);
+        remove_file(tmp_name);
         return NULL;
     }
 #endif
@@ -372,7 +371,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     if (exit_status != 0) {
 	ZDEBUG(("try_uncompress_archive: `%s %s' failed.", program,
 		listopts));
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
 
@@ -383,7 +382,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     if (!fd) {
 	ZDEBUG(("try_uncompress_archive: cannot read `%s %s' output.",
 		program, tmp_name));
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
 
@@ -411,7 +410,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     }
 
     fclose(fd);
-    unlink(tmp_name);
+    remove_file(tmp_name);
     if (!found) {
 	ZDEBUG(("try_uncompress_archive: no valid file found."));
 	return NULL;
@@ -462,7 +461,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     if (exit_status != 0) {
 	ZDEBUG(("try_uncompress_archive: `%s %s' failed.",
 		program, extractopts));
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
 
@@ -527,7 +526,7 @@ static const char *try_uncompress_zipcode(const char *name, int write_mode)
     free(argv[3]);
 
     if (exit_status) {
-        unlink(tmp_name);
+        remove_file(tmp_name);
         return NULL;
     }
     /* everything ok */
@@ -620,7 +619,7 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
     free(argv[6]);
 
     if (exit_status) {
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	return NULL;
     }
     /* everything ok */
@@ -839,7 +838,7 @@ static int compress(const char *src, const char *dest,
 	}
     } else {
 	/* Compression succeeded: remove backup file.  */
-	if (dest_backup_name != NULL && unlink(dest_backup_name) < 0) {
+	if (dest_backup_name != NULL && remove_file(dest_backup_name) < 0) {
 	    log_error(zlog, "Warning: could not remove backup file.");
 	    /* Do not return an error anyway (no data is lost).  */
 	}
@@ -904,11 +903,11 @@ file_desc_t zopen(const char *name, mode_t opt, int flags)
 	if (type == COMPR_NONE)
 	    break;
 	if (*tmp_name == '\0') {
-	    unlink(tmp_name);
+	    remove_file(tmp_name);
 	    errno = EACCES;
 	    return -1;
 	}
-	unlink(tmp_name);
+	remove_file(tmp_name);
 	tmp_name = tmp_name2;
     }
 #endif
@@ -979,7 +978,7 @@ static int handle_close_action(struct zfile *ptr)
     case ZFILE_DEL:
 printf("zfile_close_action(%d): file='%s', request_str='%s'\n", 
 		ptr->action, ptr->orig_name, ptr->request_string);
-        if (unlink(ptr->orig_name) < 0)
+        if (remove_file(ptr->orig_name) < 0)
 	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
                   ptr->orig_name, strerror(errno));
 	break;
@@ -1002,7 +1001,7 @@ static int handle_close(struct zfile *ptr)
 	    return -1;
 
         /* Remove temporary file.  */
-        if (unlink(ptr->tmp_name) < 0)
+        if (remove_file(ptr->tmp_name) < 0)
 	    log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
                   ptr->tmp_name, strerror(errno));
     }
@@ -1134,7 +1133,7 @@ int zclose_all(void)
 		&& compress(p->tmp_name, p->orig_name, p->type)) {
 	        return -1;
 	    }
-	    if (unlink(p->tmp_name) < 0)
+	    if (remove_file(p->tmp_name) < 0)
                 log_error(LOG_DEFAULT, "Cannot unlink `%s': %s",
                       p->tmp_name, strerror(errno));
 	}
