@@ -1,3 +1,96 @@
+Sun Aug 23 00:36:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* true1541/1541cpu.c (true1541_cpu_execute): Let the CPU use
+	`true1541_cpu_regs' instead of local copies of the registers.
+
+	* true1541/true1541.c (true1541_trap_handler): Updated to use the
+ 	new `MOS6510_REGS_*' macros.
+
+	* traps.c (traps_handler): Updated to use the new `MOS6510_REGS_*'
+ 	macros.
+
+	* true1541/true1541.c: Removed unused variable `init_complete'.
+
+	* tapeunit.c (findheader): Updated to use the new
+ 	`MOS6510_REGS_*' macros.
+	(writeheader): Likewise.
+	(tapereceive): Likewise.
+
+	* 6510core.c (EXPORT_REGISTERS): Updated to use the
+ 	`mos6510_regs_t'.
+	(IMPORT_REGISTERS): Likewise.
+
+	* mon.c (mon_get_reg_val): Updated to use the new `MOS6510_REGS_*'
+ 	macros.
+	(mon_set_reg_val): Likewise.
+	(mon_print_registers): Likewise.
+
+	* serial.c (serialcommand): Updated to use the new
+ 	`MOS6510_REGS_*' macros.
+	(serialattention): Likewise.
+	(serialsendbyte): Likewise.
+	(serialreceivebyte): Likewise.
+	(trap_serial_ready): Likewise.
+
+	* misc.c (eff_address): Removed.
+
+	* mos6510.h: `p' in `mos6510_regs_t' made a BYTE.  Added `_flag_n'
+ 	and `_flag_z'.  Definitions of `P_SIGN', `P_OVERFLOW', `P_UNUSED',
+ 	`P_BREAK', `P_DECIMAL', `P_INTERRUPT', `P_ZERO' and `P_CARRY'
+ 	moved here.  With these changes, `mos6510_regs_t' is compatible
+ 	with the setup used in the CPU emulations.
+	(MOS6510_REGS_SET_A): New macro.
+	(MOS6510_REGS_SET_X): New macro.
+	(MOS6510_REGS_SET_Y): New macro.
+	(MOS6510_REGS_SET_SP): New macro.
+	(MOS6510_REGS_SET_PC): New macro.
+	(MOS6510_REGS_SET_OVERFLOW): New macro.
+	(MOS6510_REGS_SET_BREAK): New macro.
+	(MOS6510_REGS_SET_DECIMAL): New macro.
+	(MOS6510_REGS_SET_INTERRUPT): New macro.
+	(MOS6510_REGS_SET_CARRY): New macro.
+	(MOS6510_REGS_SET_SIGN): New macro.
+	(MOS6510_REGS_SET_ZERO): New macro.
+	(MOS6510_REGS_SET_STATUS): New macro.
+	(MOS6510_REGS_GET_A): New macro.
+	(MOS6510_REGS_GET_X): New macro.
+	(MOS6510_REGS_GET_Y): New macro.
+	(MOS6510_REGS_GET_SP): New macro.
+	(MOS6510_REGS_GET_PC): New macro.
+	(MOS6510_REGS_GET_OVERFLOW): New macro.
+	(MOS6510_REGS_GET_BREAK): New macro.
+	(MOS6510_REGS_GET_DECIMAL): New macro.
+	(MOS6510_REGS_GET_INTERRUPT): New macro.
+	(MOS6510_REGS_GET_CARRY): New macro.
+	(MOS6510_REGS_GET_SIGN): New macro.
+	(MOS6510_REGS_GET_ZERO): New macro.
+	(MOS6510_REGS_GET_STATUS): New macro.
+
+	* 6510core.c: Definitions of `P_SIGN', `P_OVERFLOW', `P_UNUSED',
+ 	`P_BREAK', `P_DECIMAL', `P_INTERRUPT', `P_ZERO' and `P_CARRY'
+ 	moved here.
+
+	* mon_parse.y (monitor_state_rules): Use `_mon_space_strings'
+	instead of `SPACESTRING'.
+
+	* mon.c: New const `_mon_space_strings'.
+
+	* mon.h (SPACESTRING): Removed.
+
+	* mon.c (mon_assemble_instr): Use current memspace instead of
+ 	`ram'.
+	(make_prompt): Turned into a static function.
+
+	* via-tmpl.c: Code cleaned up a bit.  Some huge #defines turned
+ 	into inline functions.
+	(myviata): If the latch is zero, always return 0.  I am not sure
+ 	this is correct, but at least it makes Chris' Geos 1.1 "beta"
+ 	image work.
+	(update_myviatal): New parameter `rclk'.
+
+	* arch/unix/xaw/uicommands.c (attach_disk): Added `[GDX] to the
+ 	file mask.
+
 Sat Aug 22 19:52:12 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/menudefs.c (quit_callback): Removed Greeting message.

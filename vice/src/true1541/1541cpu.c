@@ -46,7 +46,7 @@
 
 /* Define this to enable tracing of 1541 instructions.  Warning: this slows
    it down!  */
-#undef TRACE
+/* #define TRACE */
 
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
@@ -332,13 +332,31 @@ CLOCK true1541_cpu_prevent_clk_overflow(CLOCK sub)
    calculates the corresponding number of clock ticks in the drive.  */
 void true1541_cpu_execute(void)
 {
-    static BYTE reg_a, reg_x, reg_y, reg_sp, reg_p, flag_n, flag_z;
     static BYTE *bank_base;
-    static unsigned int reg_pc;
     static CLOCK cycle_accum;
+    static int old_reg_pc;
     CLOCK cycles;
 
+/* #Define the variables for the CPU registers.  In the 1541, there is no
+   exporting/importing and we just use global variables.  This also makes it
+   possible to let the monitor access the CPU status without too much
+   headache.   */
+#define reg_a   true1541_cpu_regs.reg_a
+#define reg_x   true1541_cpu_regs.reg_x
+#define reg_y   true1541_cpu_regs.reg_y
+#define reg_pc  true1541_cpu_regs.reg_pc
+#define reg_sp  true1541_cpu_regs.reg_sp
+#define reg_p   true1541_cpu_regs.reg_p
+#define flag_z  true1541_cpu_regs.flag_z
+#define flag_n  true1541_cpu_regs.flag_n
+
     true1541_cpu_wake_up();
+
+    if (old_reg_pc != reg_pc) {
+        /* Update `bank_base'.  */
+        JUMP(reg_pc);
+        old_reg_pc = reg_pc;
+    }
 
     cycles = clk - last_clk;
 
@@ -396,8 +414,6 @@ void true1541_cpu_execute(void)
 
 #define CALLER e_disk_space
 
-#define GLOBAL_REGS true1541_cpu_regs
-
 #include "6510core.c"
 
 	}
@@ -406,5 +422,7 @@ void true1541_cpu_execute(void)
     }
 
     last_clk = clk;
+    old_reg_pc = reg_pc;
+
     true1541_cpu_sleep();
 }
