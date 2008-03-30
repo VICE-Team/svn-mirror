@@ -118,3 +118,6 @@
 /* Support for Catweasel MKIII */
 #undef HAVE_CATWEASELMKIII
 
+/* Support for The final Ethernet */
+#undef HAVE_TFE
+
