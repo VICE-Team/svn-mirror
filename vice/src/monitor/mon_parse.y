@@ -119,9 +119,11 @@ extern int cur_len, last_len;
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
-%token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL
+%token<i> CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
-%token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME
+%token<i> REG_B REG_C REG_D REG_E REG_H REG_L REG_AF REG_BC REG_DE REG_HL REG_SP
+%token<i> CPUTYPE_6502 CPUTYPE_Z80
+%token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME CPUTYPE
 %token<reg> REGISTER
 %left<cond_op> COMPARE_OP
 %token<rt> RADIX_TYPE INPUT_SPEC
@@ -133,7 +135,7 @@ extern int cur_len, last_len;
 %type<i> memspace memloc memaddr breakpt_num opt_mem_op
 %type<i> register_mod opt_count command_list top_level value
 %type<i> asm_operand_mode assembly_instruction end_cmd register
-%type<i> assembly_instr_list post_assemble opt_memspace
+%type<i> assembly_instr_list post_assemble opt_memspace cputype
 %type<str> rest_of_line data_list data_element filename opt_bankname
 
 %type<i> symbol_table_rules asm_rules memory_rules checkpoint_rules
@@ -177,6 +179,7 @@ command: machine_state_rules
 machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd { mon_bank($2,$3); }
                    | CMD_GOTO address end_cmd { mon_jump($2); }
                    | CMD_IO end_cmd { mon_display_io_regs(); }
+                   | CMD_CPU CPUTYPE end_cmd { mon_cpu_type($2); }
                    | CMD_RETURN end_cmd { mon_instruction_return(); }
                    | CMD_DUMP filename end_cmd { machine_write_snapshot($2,0,0); /* FIXME */ }
                    | CMD_UNDUMP filename end_cmd { machine_read_snapshot($2); }
@@ -357,6 +360,10 @@ memspace: MEM_COMP { $$ = e_comp_space; }
         | MEM_DISK9 { $$ = e_disk9_space; }
         ;
 
+cputype : CPUTYPE_6502 { $$ = CPU_6502; }
+        | CPUTYPE_Z80 { $$ = CPU_Z80 }
+        ; 
+
 memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; }
       ;
 
@@ -434,29 +441,47 @@ post_assemble: assembly_instruction
              | assembly_instr_list { asm_mode = 0; }
              ;
 
-asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) return ERR_IMM_TOO_BIG;
-                                         $$ = join_ints(ASM_ADDR_MODE_IMMEDIATE,$2); }
-                | number { if ($1 < 0x100)
-                              $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE,$1);
-                           else
-                              $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE,$1);
-                         }
-                | number COMMA REG_X  { if ($1 < 0x100)
-                                           $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_X,$1);
-                                        else
-                                           $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_X,$1);
-                                      }
-                | number COMMA REG_Y  { if ($1 < 0x100)
-                                           $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_Y,$1);
-                                        else
-                                           $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_Y,$1);
-                                      }
-                | L_PAREN number R_PAREN  { $$ = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,$2); }
-                | L_PAREN number COMMA REG_X R_PAREN { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_X,$2); }
-                | L_PAREN number R_PAREN COMMA REG_Y { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_Y,$2); }
-                | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
-                | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
-                ;
+asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff)
+                          $$ = join_ints(ASM_ADDR_MODE_IMMEDIATE_16,$2);
+                        else
+                          $$ = join_ints(ASM_ADDR_MODE_IMMEDIATE,$2); }
+  | number { if ($1 < 0x100)
+               $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE,$1);
+             else
+               $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE,$1);
+           }
+  | number COMMA REG_X  { if ($1 < 0x100)
+                            $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_X,$1);
+                          else
+                            $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_X,$1);
+                        }
+  | number COMMA REG_Y  { if ($1 < 0x100)
+                            $$ = join_ints(ASM_ADDR_MODE_ZERO_PAGE_Y,$1);
+                          else
+                            $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_Y,$1);
+                        }
+  | L_PAREN number R_PAREN  { $$ = join_ints(ASM_ADDR_MODE_ABS_INDIRECT,$2); }
+  | L_PAREN number COMMA REG_X R_PAREN { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_X,$2); }
+  | L_PAREN number R_PAREN COMMA REG_Y { $$ = join_ints(ASM_ADDR_MODE_INDIRECT_Y,$2); }
+  | L_PAREN REG_BC R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_BC,0); }
+  | L_PAREN REG_DE R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_DE,0); }
+  | L_PAREN REG_HL R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_HL,0); }
+  | L_PAREN REG_SP R_PAREN { $$ = join_ints(ASM_ADDR_MODE_REG_IND_SP,0); }
+  | L_PAREN number R_PAREN COMMA REG_A { $$ = join_ints(ASM_ADDR_MODE_ABSOLUTE_A,$2); }
+  | { $$ = join_ints(ASM_ADDR_MODE_IMPLIED,0); }
+  | REG_A { $$ = join_ints(ASM_ADDR_MODE_ACCUMULATOR,0); }
+  | REG_B { $$ = join_ints(ASM_ADDR_MODE_REG_B,0); }
+  | REG_C { $$ = join_ints(ASM_ADDR_MODE_REG_C,0); }
+  | REG_D { $$ = join_ints(ASM_ADDR_MODE_REG_D,0); }
+  | REG_E { $$ = join_ints(ASM_ADDR_MODE_REG_E,0); }
+  | REG_H { $$ = join_ints(ASM_ADDR_MODE_REG_H,0); }
+  | REG_L { $$ = join_ints(ASM_ADDR_MODE_REG_L,0); }
+  | REG_AF { $$ = join_ints(ASM_ADDR_MODE_REG_AF,0); }
+  | REG_BC { $$ = join_ints(ASM_ADDR_MODE_REG_BC,0); }
+  | REG_DE { $$ = join_ints(ASM_ADDR_MODE_REG_DE,0); }
+  | REG_HL { $$ = join_ints(ASM_ADDR_MODE_REG_HL,0); }
+  | REG_SP { $$ = join_ints(ASM_ADDR_MODE_REG_SP,0); }
+ ;
 
 
 %%

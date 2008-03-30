@@ -44,6 +44,12 @@ struct mon_cmds {
    const char *description;
 };
 
+enum CPU_TYPE_s {
+    CPU_6502,
+    CPU_Z80
+};
+typedef enum CPU_TYPE_s CPU_TYPE_t;
+
 enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
@@ -201,6 +207,7 @@ typedef struct monitor_interface_s monitor_interface_t;
 #define STATE_REG_ASGN 2
 #define STATE_ROL      3
 #define STATE_BNAME    4
+#define STATE_CTYPE    5
 
 #define FIRST_SPACE e_comp_space
 #define LAST_SPACE e_disk9_space

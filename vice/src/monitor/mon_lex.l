@@ -52,7 +52,7 @@ YY_BUFFER_STATE my_state;
 
 %}
 
-%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN BNAME
+%x FNAME CMD STR ROL ASM_MODE COND_MODE REG_ASGN BNAME CTYPE
 
 %%
 
@@ -86,6 +86,9 @@ YY_BUFFER_STATE my_state;
                             break;
                          case STATE_BNAME:
                             BEGIN (BNAME);
+                            break;
+                         case STATE_CTYPE:
+                            BEGIN (CTYPE);
                             break;
                          case STATE_ROL:
                             BEGIN (ROL);
@@ -151,6 +154,7 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 <BNAME,INITIAL>8:              { return MEM_DISK8; }
 <BNAME,INITIAL>9:              { return MEM_DISK9; }
 
+<CTYPE>[_a-zA-Z0-9]*      { yylval.str = stralloc(yytext); return CPUTYPE; }
 
 <*>[ \t]*
 <*>\n          { dont_match_reg_a = 0;
@@ -199,18 +203,35 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
         \)		{ return R_PAREN; }
 }
 
-<ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,[a-zA-Z]    { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,\([a-zA-Z][a-zA-Z]\) { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\,[a-zA-Z] { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\, { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,            { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]\ [a-zA-Z]\, { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z][a-zA-Z]\,    { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>af|AF         { return REG_AF; }
+<ASM_MODE>bc|BC         { return REG_BC; }
+<ASM_MODE>de|DE         { return REG_DE; }
+<ASM_MODE>hl|HL         { return REG_HL; }
+<ASM_MODE>[a-zA-Z]{2,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 <ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }
+<ASM_MODE>b|B           { return REG_B; }
+<ASM_MODE>c|C           { return REG_C; }
+<ASM_MODE>d|D           { return REG_D; }
+<ASM_MODE>e|E           { return REG_E; }
+<ASM_MODE>h|H           { return REG_H; }
+<ASM_MODE>l|L           { return REG_L; }
 <ASM_MODE>x|X           { return REG_X; }
 <ASM_MODE>y|Y           { return REG_Y; }
 
 <ASM_MODE>,             { return COMMA; }
 <ASM_MODE>\(            { dont_match_reg_a = 1; return L_PAREN; }
-<ASM_MODE>\)            { return R_PAREN; }
+<ASM_MODE>\)            { dont_match_reg_a = 0; return R_PAREN; }
 <ASM_MODE>#             { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
 
