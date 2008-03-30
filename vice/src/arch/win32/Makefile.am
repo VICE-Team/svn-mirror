@@ -48,6 +48,7 @@ libarch_a_SOURCES = \
 	petkbd.c \
 	petui.c \
 	petui.h \
+	plus4kbd.c \
 	plus4ui.c \
 	plus4ui.h \
 	res.h \
