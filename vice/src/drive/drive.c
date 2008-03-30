@@ -278,6 +278,17 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
         return -1;
     }
 
+    drive[0].drive_ram_expand2 = NULL;
+    drive[0].drive_ram_expand4 = NULL;
+    drive[0].drive_ram_expand6 = NULL;
+    drive[0].drive_ram_expand8 = NULL;
+    drive[0].drive_ram_expanda = NULL;
+    drive[1].drive_ram_expand2 = NULL;
+    drive[1].drive_ram_expand4 = NULL;
+    drive[1].drive_ram_expand6 = NULL;
+    drive[1].drive_ram_expand8 = NULL;
+    drive[1].drive_ram_expanda = NULL;
+
     iec_info = iec_get_drive_port();
     /* Set IEC lines of disabled drives to `1'.  */
     if (iec_info != NULL) {
