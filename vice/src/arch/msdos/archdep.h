@@ -67,5 +67,8 @@
 #define ARCHDEP_TED_DSIZE   0
 #define ARCHDEP_TED_DSCAN   0
 
+/* Default location of raw disk images.  */
+#define ARCHDEP_RAWDRIVE_DEFAULT "A:"
+
 #endif
 

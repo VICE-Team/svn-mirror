@@ -47,16 +47,16 @@
 static int drive_true_emulation;
 
 /* Name of the DOS ROMs.  */
-static char *dos_rom_name_1541 = 0;
-static char *dos_rom_name_1541ii = 0;
-static char *dos_rom_name_1551 = 0;
-static char *dos_rom_name_1571 = 0;
-static char *dos_rom_name_1581 = 0;
-static char *dos_rom_name_2031 = 0;
-static char *dos_rom_name_1001 = 0;
-static char *dos_rom_name_2040 = 0;
-static char *dos_rom_name_3040 = 0;
-static char *dos_rom_name_4040 = 0;
+static char *dos_rom_name_1541 = NULL;
+static char *dos_rom_name_1541ii = NULL;
+static char *dos_rom_name_1551 = NULL;
+static char *dos_rom_name_1571 = NULL;
+static char *dos_rom_name_1581 = NULL;
+static char *dos_rom_name_2031 = NULL;
+static char *dos_rom_name_1001 = NULL;
+static char *dos_rom_name_2040 = NULL;
+static char *dos_rom_name_3040 = NULL;
+static char *dos_rom_name_4040 = NULL;
 
 static int set_drive_idling_method(resource_value_t v, void *param);
 static int set_drive0_type(resource_value_t v, void *param);

@@ -70,6 +70,9 @@
 #define ARCHDEP_TED_DSIZE   1
 #define ARCHDEP_TED_DSCAN   1
 
+/* Default location of raw disk images.  */
+#define ARCHDEP_RAWDRIVE_DEFAULT "A:FIXME!!!"
+
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);
