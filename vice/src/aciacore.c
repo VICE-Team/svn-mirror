@@ -242,7 +242,7 @@ int myacia_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, (BYTE)(status | (irq?0x80:0)));
     snapshot_module_write_byte(m, cmd);
     snapshot_module_write_byte(m, ctrl);
-    snapshot_module_write_byte(m, intx);
+    snapshot_module_write_byte(m, (BYTE)(intx));
 
     if(alarm_active) {
         snapshot_module_write_dword(m, (acia_alarm_clk - myclk));

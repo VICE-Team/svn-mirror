@@ -336,7 +336,7 @@ static BYTE SZP[256] = {
       BYTE tmp, carry;                                                \
                                                                       \
       carry = LOCAL_CARRY();                                          \
-      tmp = reg_a + reg_val + carry;                                  \
+      tmp = reg_a + (BYTE)(reg_val) + carry;                          \
       reg_f = SZP[tmp];                                               \
       LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val              \
                       + (WORD)(carry)) & 0x100);                      \
@@ -380,7 +380,7 @@ static BYTE SZP[256] = {
   do {                                                                \
       BYTE tmp;                                                       \
                                                                       \
-      tmp = reg_a + reg_val;                                          \
+      tmp = reg_a + (BYTE)(reg_val);                                  \
       reg_f = SZP[tmp];                                               \
       LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100);   \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);          \
@@ -489,7 +489,7 @@ static BYTE SZP[256] = {
   do {                                                             \
       BYTE tmp;                                                    \
                                                                    \
-      tmp = reg_a - reg_val;                                       \
+      tmp = reg_a - (BYTE)(reg_val);                               \
       reg_f = N_FLAG | SZP[tmp];                                   \
       LOCAL_SET_CARRY(reg_val > reg_a);                            \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
@@ -507,18 +507,18 @@ static BYTE SZP[256] = {
       INC_PC(1);               \
   } while (0)
 
-#define DECHLIND()                                   \
-  do {                                               \
-      BYTE tmp;                                      \
-                                                     \
-      tmp = LOAD(HL_WORD());                         \
-      tmp--;                                         \
-      STORE(HL_WORD(), tmp);                         \
-      reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();     \
-      LOCAL_SET_PARITY((tmp == 0x7f));               \
-      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));   \
-      CLK += 11;                                     \
-      INC_PC(1);                                     \
+#define DECHLIND()                                  \
+  do {                                              \
+      BYTE tmp;                                     \
+                                                    \
+      tmp = LOAD(HL_WORD());                        \
+      tmp--;                                        \
+      STORE(HL_WORD(), tmp);                        \
+      reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();    \
+      LOCAL_SET_PARITY((tmp == 0x7f));              \
+      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));  \
+      CLK += 11;                                    \
+      INC_PC(1);                                    \
   } while (0)
 
 #define DECINC(FUNC)  \
@@ -528,14 +528,14 @@ static BYTE SZP[256] = {
       INC_PC(1);      \
   } while (0)
 
-#define DECREG(reg_val)                                  \
-  do {                                                   \
-      CLK += 4;                                          \
-      reg_val--;                                         \
-      reg_f = N_FLAG | SZP[reg_val] | LOCAL_CARRY();     \
-      LOCAL_SET_PARITY((reg_val == 0x7f));               \
-      LOCAL_SET_HALFCARRY(((reg_val & 0x0f) == 0x0f));   \
-      INC_PC(1);                                         \
+#define DECREG(reg_val)                                 \
+  do {                                                  \
+      CLK += 4;                                         \
+      reg_val--;                                        \
+      reg_f = N_FLAG | SZP[reg_val] | LOCAL_CARRY();    \
+      LOCAL_SET_PARITY((reg_val == 0x7f));              \
+      LOCAL_SET_HALFCARRY(((reg_val & 0x0f) == 0x0f));  \
+      INC_PC(1);                                        \
   } while (0)
 
 #define DJNZ(value)          \
@@ -645,36 +645,36 @@ static BYTE SZP[256] = {
       INC_PC(2);          \
   } while (0)
 
-#define INBC(value, clk_inc, pc_inc)                 \
-  do {                                               \
-      CLK += (clk_inc);                              \
-      value = IN(BC_WORD());                         \
-      reg_f = SZP[value & 0xff] | LOCAL_CARRY();     \
-      INC_PC(pc_inc);                                \
+#define INBC(value, clk_inc, pc_inc)              \
+  do {                                            \
+      CLK += (clk_inc);                           \
+      value = IN(BC_WORD());                      \
+      reg_f = SZP[value & 0xff] | LOCAL_CARRY();  \
+      INC_PC(pc_inc);                             \
   } while (0)
 
-#define INCHLIND()                          \
-  do {                                      \
-      BYTE tmp;                             \
-                                            \
-      tmp = LOAD(HL_WORD());                \
-      tmp++;                                \
-      STORE(HL_WORD(), tmp);                \
-      reg_f = SZP[tmp] | LOCAL_CARRY();     \
-      LOCAL_SET_PARITY((tmp == 0x80));      \
-      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));   \
-      CLK += 11;                            \
-      INC_PC(1);                            \
+#define INCHLIND()                         \
+  do {                                     \
+      BYTE tmp;                            \
+                                           \
+      tmp = LOAD(HL_WORD());               \
+      tmp++;                               \
+      STORE(HL_WORD(), tmp);               \
+      reg_f = SZP[tmp] | LOCAL_CARRY();    \
+      LOCAL_SET_PARITY((tmp == 0x80));     \
+      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));  \
+      CLK += 11;                           \
+      INC_PC(1);                           \
   } while (0)
 
-#define INCREG(reg_val)                         \
-  do {                                          \
-      CLK += 4;                                 \
-      reg_val++;                                \
-      reg_f = SZP[reg_val] | LOCAL_CARRY();     \
-      LOCAL_SET_PARITY((reg_val == 0x80));      \
-      LOCAL_SET_HALFCARRY(!(reg_val & 0x0f));   \
-      INC_PC(1);                                \
+#define INCREG(reg_val)                        \
+  do {                                         \
+      CLK += 4;                                \
+      reg_val++;                               \
+      reg_f = SZP[reg_val] | LOCAL_CARRY();    \
+      LOCAL_SET_PARITY((reg_val == 0x80));     \
+      LOCAL_SET_HALFCARRY(!(reg_val & 0x0f));  \
+      INC_PC(1);                               \
   } while (0)
 
 #define JMP(addr, clk_inc)  \
@@ -694,13 +694,13 @@ static BYTE SZP[256] = {
   } while (0)
 
 #define LDAI()  \
-  do {                                        \
-      CLK += 6;                               \
-      reg_a = reg_i;                          \
-      reg_f = SZP[reg_a] | LOCAL_CARRY();     \
-      LOCAL_SET_PARITY(reg_iff & 1);          \
-      CLK += 3;                               \
-      INC_PC(2);                              \
+  do {                                     \
+      CLK += 6;                            \
+      reg_a = reg_i;                       \
+      reg_f = SZP[reg_a] | LOCAL_CARRY();  \
+      LOCAL_SET_PARITY(reg_iff & 1);       \
+      CLK += 3;                            \
+      INC_PC(2);                           \
   } while (0)
 
 #define LDDR()                                \
@@ -745,7 +745,7 @@ static BYTE SZP[256] = {
 #define LDSP(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                           \
       CLK += (clk_inc1);                         \
-      reg_sp = (value);                          \
+      reg_sp = (WORD)(value);                    \
       CLK += (clk_inc2);                         \
       INC_PC(pc_inc);                            \
   } while (0)
@@ -763,7 +763,7 @@ static BYTE SZP[256] = {
       BYTE tmp;                                              \
                                                              \
       CLK += (clk_inc1);                                     \
-      tmp = (value);                                         \
+      tmp = (BYTE)(value);                                   \
       reg_value = tmp;                                       \
       CLK += (clk_inc2);                                     \
       INC_PC(pc_inc);                                        \
@@ -772,8 +772,8 @@ static BYTE SZP[256] = {
 #define LDW(value, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
   do {                                                              \
       CLK += (clk_inc1);                                            \
-      reg_vall = ((value) & 0xff);                                  \
-      reg_valh = ((value) >> 8);                                    \
+      reg_vall = (BYTE)((value) & 0xff);                            \
+      reg_valh = (BYTE)((value) >> 8);                              \
       CLK += (clk_inc2);                                            \
       INC_PC(pc_inc);                                               \
   } while (0)
@@ -836,11 +836,11 @@ static BYTE SZP[256] = {
       INC_PC(1);                    \
   } while (0)
 
-#define RES(reg_val, value)         \
-  do {                              \
-      reg_val &= (~(1 << value));   \
-      CLK += 8;                     \
-      INC_PC(2);                    \
+#define RES(reg_val, value)        \
+  do {                             \
+      reg_val &= (~(1 << value));  \
+      CLK += 8;                    \
+      INC_PC(2);                   \
   } while (0)
 
 #define RESHL(value)           \
@@ -974,7 +974,7 @@ static BYTE SZP[256] = {
       BYTE tmp, carry;                                             \
                                                                    \
       carry = LOCAL_CARRY();                                       \
-      tmp = reg_a - reg_val - carry;                               \
+      tmp = reg_a - (BYTE)(reg_val) - carry;                       \
       reg_f = N_FLAG | SZP[tmp];                                   \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
       LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
@@ -1055,7 +1055,7 @@ static BYTE SZP[256] = {
   do {                                                             \
       BYTE tmp;                                                    \
                                                                    \
-      tmp = reg_a - reg_val;                                       \
+      tmp = reg_a - (BYTE)(reg_val);                               \
       reg_f = N_FLAG | SZP[tmp];                                   \
       LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
       LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
