@@ -1,5 +1,92 @@
 2003-05-25  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.11.47.
+
+	* raster/raster-line.c (raster_fill_sprite_cache): Fixed range
+	of sprite changes calculation.
+
+	* monitor/mon_command.c [mon_cmd_array]: Fixed help for load
+	and save commands.
+
+	* c64/cart/c64cart.c, c64/reu.c, c64/tfe.c, c64/psid.c,
+	c64/c64drive.c, c64/c64-resources.c, pet/pet.c, attach.c,
+	pet/pet-resources.c, pet/petdrive.c, pet/petpia1.c,
+	sid/sid-resources.c, vdc/vdc-resources.c, rs232drv/rsuser.c,
+	diskimage/rawimage.c, c128/functionrom.c, datasette.c,
+	c128/c128-resources.c, c128/c128mmu.c, vsync.c,
+	arch/os2/kbd/kmap-pet.c, arch/os2/kbd/kmap.c, arch/os2/ui.c,
+	arch/os2/kbd.c, arch/os2/joy.c, arch/os2/rs232.c,
+	arch/os2/mouse.c, arch/os2/unused/video_gpi.c, traps.c,
+	arch/os2/unused/vsync.c, arch/os2/video.c, arch/beos/kbd.c,
+	arch/unix/x11/ui-resources.c, arch/unix/x11/video.c,
+	arch/unix/joy.c, arch/unix/rs232.c, arch/unix/mouse.c,
+	arch/msdos/ui.c, arch/msdos/joy.c, arch/msdos/mouse.c,
+	arch/msdos/video.c, arch/msdos/vsync.c, arch/win32/ui.c,
+	arch/win32/joy.c, arch/win32/mouse.c, arch/riscos/ui.c,
+	arch/riscos/kbd.c, arch/riscos/joy.c, arch/riscos/rs232.c,
+	arch/riscos/video.c, arch/riscos/vsync.c, cbm2/cbm2drive.c,
+	cbm2/cbm2-resources.c, crtc/crtc-resources.c, debug.c,
+	drive/iec/iec-resources.c, drive/ieee/ieee-resources.c,
+	drive/tcbm/tcbm-resources.c, drive/drive-resources.c, log.c,
+	plus4/plus4drive.c, plus4/plus4-resources.c, ram.c, sound.c,
+	vic20/vic20drive.c, vic20/vic20cartridge.c, sysfile.c,
+	vic20/vic20-resources.c, vicii/vicii-resources.c, aciacore.c,
+	video/video-resources.c, video/video-resources-pal.c, event.c,
+	fsdevice/fsdevice-resources.c, printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c, printerdrv/driver-select.c,
+	printerdrv/output-text.c, printerdrv/output-select.c,
+	printerdrv/output-graphics.c, arch/beos/ui.cc,
+	arch/beos/joy.cc, arch/beos/mouse.cc, arch/beos/video.cc,
+	resources.h: Use `void *' for resource value pointer.
+
+	* c64/c64-snapshot.c, c64/c64rom.c, c64/psid.c, pet/petmem.c,
+	pet/pet-snapshot.c, sid/sid-snapshot.c, sid/sid.c,
+	sid/fastsid.c, c128/c128-resources.c, c128/c128rom.c,
+	c128/c128-snapshot.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/dlg-datasette.c, arch/os2/kbd.c,
+	arch/os2/dialogs/dlg-emulator.c, arch/os2/archdep.c,
+	arch/os2/dialogs/dlg-joystick.c, arch/os2/dialogs/dlg-color.c,
+	arch/os2/dialogs/dlg-drive.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/x11/xaw/uimenu.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/gnome/uipalcontrol.c, arch/unix/vic20ui.c,
+	arch/unix/x11/gnome/uimenu.c, arch/unix/uipalemu.c,
+	arch/unix/cbm2ui.c, arch/unix/uisettings.c, arch/unix/uireu.c,
+	arch/unix/uisid.c, arch/unix/uijoystick2.c,
+	arch/unix/uirs232.c, arch/unix/uidrive.c, arch/unix/petui.c,
+	arch/unix/uicommands.c, arch/unix/uidatasette.c,
+	arch/unix/uiprinter.c, arch/msdos/tuimenu.c,
+	arch/msdos/plus4ui.c, arch/msdos/vic20ui.c,
+	arch/msdos/c64ui.c, arch/msdos/sidui.c, arch/msdos/menudefs.c,
+	arch/msdos/cbm2ui.c, arch/msdos/c128ui.c, arch/msdos/petui.c,
+	arch/msdos/statusbar.c, arch/win32/ui.c, arch/win32/uivicii.c,
+	arch/win32/uidriveplus4.c, arch/win32/uivideo.c,
+	arch/win32/fullscrn.c, arch/win32/uiplus4mem.c,
+	arch/win32/uicbm2set.c, arch/win32/uilib.c,
+	arch/win32/uimon.c, arch/win32/uiram.c, arch/win32/uireu.c,
+	arch/win32/uisid.c, arch/win32/uisnapshot.c,
+	arch/win32/uivicset.c, arch/win32/uisound.c,
+	arch/win32/uidatasette.c, arch/win32/uijoystick.c,
+	arch/win32/uipetset.c, arch/win32/uidrivec64c128vic20.c,
+	arch/win32/uiattach.c, arch/riscos/ui.c, arch/riscos/cbm2ui.c,
+	arch/riscos/petui.c, arch/riscos/vsync.c, cbm2/cbm2rom.c,
+	cbm2/cbm2-snapshot.c, drive/iec/iecrom.c, drive/drive.c,
+	drive/ieee/ieeerom.c, drive/tcbm/tcbmrom.c, plus4/plus4mem.c,
+	drive/drive-snapshot.c, plus4/plus4rom.c, plus4/ted-timing.c,
+	vic20/vic.c, vic20/vic20.c, vic20/vic20-snapshot.c, romset.c,
+	vic20/vic20iec.c, vic20/vic20mem.c, vic20/vic20rom.c,
+	vicii/vicii-timing.c, sounddrv/soundacorn.c, autostart.c,
+	monitor/mon_ui.c, datasette.c, keyboard.c, sid/resid.cc,
+	arch/beos/ui_device.cc, arch/beos/vicewindow.cc,
+	arch/beos/ui_vic20.cc, arch/beos/ui_vicii.cc,
+	arch/beos/ui_video.cc, arch/beos/ui_datasette.cc,
+	arch/beos/ui_joystick.cc, arch/beos/ui_sound.cc,
+	arch/beos/ui_pet.cc, arch/beos/ui_ram.cc, arch/beos/ui_sid.cc,
+	arch/beos/ui_cbm2.cc, resources.c, resources.h
+	(resources_get_value): Changed prototype.
+
+2003-05-25  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.11.46.
 
 	* arch/win32/fullscrn.c: Fixed warnings.

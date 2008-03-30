@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-05-18 17:49+0200\n"
+"POT-Creation-Date: 2003-05-25 21:35+0200\n"
 "PO-Revision-Date: 2003-04-24 16:13+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -57,46 +57,46 @@ msgstr "*NTSC-M"
 
 #: src/arch/unix/c128ui.c:144 src/arch/unix/c128ui.c:169
 #: src/arch/unix/c64ui.c:211 src/arch/unix/c64ui.c:236
-#: src/arch/unix/cbm2ui.c:281 src/arch/unix/cbm2ui.c:306
+#: src/arch/unix/cbm2ui.c:282 src/arch/unix/cbm2ui.c:307
 msgid "SID engine"
 msgstr "SID Engine"
 
 #: src/arch/unix/c128ui.c:147 src/arch/unix/c128ui.c:173
 #: src/arch/unix/c64ui.c:214 src/arch/unix/c64ui.c:240
-#: src/arch/unix/cbm2ui.c:284 src/arch/unix/cbm2ui.c:310
+#: src/arch/unix/cbm2ui.c:285 src/arch/unix/cbm2ui.c:311
 msgid "*Second SID"
 msgstr "*Zweiter SID"
 
 #: src/arch/unix/c128ui.c:149 src/arch/unix/c128ui.c:175
 #: src/arch/unix/c64ui.c:216 src/arch/unix/c64ui.c:242
-#: src/arch/unix/cbm2ui.c:286 src/arch/unix/cbm2ui.c:312
+#: src/arch/unix/cbm2ui.c:287 src/arch/unix/cbm2ui.c:313
 msgid "*Second SID base address"
 msgstr "*Zweiter SID Chip, Basisadresse auf $DE00"
 
 #: src/arch/unix/c128ui.c:152 src/arch/unix/c128ui.c:177
 #: src/arch/unix/c64ui.c:219 src/arch/unix/c64ui.c:244
-#: src/arch/unix/cbm2ui.c:289 src/arch/unix/cbm2ui.c:315
+#: src/arch/unix/cbm2ui.c:290 src/arch/unix/cbm2ui.c:316
 msgid "*Emulate filters"
 msgstr "*Filter Emulation"
 
 #: src/arch/unix/c128ui.c:154 src/arch/unix/c128ui.c:179
 #: src/arch/unix/c64ui.c:221 src/arch/unix/c64ui.c:246
-#: src/arch/unix/cbm2ui.c:291 src/arch/unix/cbm2ui.c:317
+#: src/arch/unix/cbm2ui.c:292 src/arch/unix/cbm2ui.c:318
 msgid "Chip model"
 msgstr "Chip Modell"
 
 #: src/arch/unix/c128ui.c:158 src/arch/unix/c64ui.c:225
-#: src/arch/unix/cbm2ui.c:295
+#: src/arch/unix/cbm2ui.c:296
 msgid "reSID sampling method"
 msgstr "reSID Sampling Methode"
 
 #: src/arch/unix/c128ui.c:160 src/arch/unix/c64ui.c:227
-#: src/arch/unix/cbm2ui.c:297
+#: src/arch/unix/cbm2ui.c:298
 msgid "reSID resampling passband..."
 msgstr "reSID resampling Passband"
 
 #: src/arch/unix/c128ui.c:171 src/arch/unix/c64ui.c:238
-#: src/arch/unix/cbm2ui.c:308 src/arch/unix/uisound.c:120
+#: src/arch/unix/cbm2ui.c:309 src/arch/unix/uisound.c:120
 msgid "*Enable sound playback"
 msgstr "*Sound Einschalten"
 
@@ -208,7 +208,7 @@ msgstr "Screenshots..."
 msgid "Machine type"
 msgstr "Maschinen Typ"
 
-#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:227
+#: src/arch/unix/c128ui.c:334 src/arch/unix/cbm2ui.c:228
 #: src/arch/unix/petui.c:261 src/arch/unix/vic20ui.c:168
 msgid "ROM sets"
 msgstr "ROM Satz"
@@ -222,7 +222,7 @@ msgid "VDC settings"
 msgstr "VDC Einstellungen"
 
 #: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
-#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:173
+#: src/arch/unix/cbm2ui.c:374 src/arch/unix/vsidui.c:173
 msgid "SID settings"
 msgstr "SID Einstellungen"
 
@@ -231,7 +231,7 @@ msgid "Memory and I/O extensions"
 msgstr "Speicher und I/O Erweiterungen"
 
 #: src/arch/unix/c128ui.c:350 src/arch/unix/c64ui.c:331
-#: src/arch/unix/cbm2ui.c:366 src/arch/unix/vic20ui.c:355
+#: src/arch/unix/cbm2ui.c:367 src/arch/unix/vic20ui.c:355
 msgid "RS232 settings"
 msgstr "RS232 Einstellungen"
 
@@ -240,26 +240,26 @@ msgid "Model settings"
 msgstr "Modell Einstellungen"
 
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
-#: src/arch/unix/cbm2ui.c:455 src/arch/unix/petui.c:380
+#: src/arch/unix/cbm2ui.c:456 src/arch/unix/petui.c:380
 #: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:470
 #: src/arch/unix/vsidui.c:257
 msgid "File"
 msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:407
-#: src/arch/unix/cbm2ui.c:472 src/arch/unix/petui.c:397
+#: src/arch/unix/cbm2ui.c:473 src/arch/unix/petui.c:397
 #: src/arch/unix/plus4ui.c:164 src/arch/unix/vic20ui.c:489
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:435 src/arch/unix/c64ui.c:413
-#: src/arch/unix/cbm2ui.c:478 src/arch/unix/petui.c:403
+#: src/arch/unix/cbm2ui.c:479 src/arch/unix/petui.c:403
 #: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:495
 msgid "Options"
 msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
-#: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:411
+#: src/arch/unix/cbm2ui.c:489 src/arch/unix/petui.c:411
 #: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
 #: src/arch/unix/vsidui.c:270 src/arch/unix/x11/gnome/x11ui.c:1121
 #: src/arch/unix/x11/gnome/x11ui.c:1213
@@ -269,7 +269,7 @@ msgstr "Einstellungen"
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:439
-#: src/arch/unix/cbm2ui.c:502 src/arch/unix/petui.c:425
+#: src/arch/unix/cbm2ui.c:503 src/arch/unix/petui.c:425
 #: src/arch/unix/plus4ui.c:192 src/arch/unix/vic20ui.c:516
 msgid "RJHelp"
 msgstr "RJHilfe"
@@ -290,7 +290,7 @@ msgstr "Basic ROM Laden"
 msgid "Load new character ROM"
 msgstr "Zeichensatz ROM Laden"
 
-#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:396
+#: src/arch/unix/c64ui.c:315 src/arch/unix/cbm2ui.c:397
 #: src/arch/unix/petui.c:320 src/arch/unix/plus4ui.c:68
 #: src/arch/unix/vic20ui.c:396
 msgid "Screenshot..."
@@ -368,97 +368,97 @@ msgstr "Modul bei $6-7*** Laden"
 msgid "Unload Cart $6-7***"
 msgstr "Modul bei $6-7*** entfernen"
 
-#: src/arch/unix/cbm2ui.c:200 src/arch/unix/petui.c:116
+#: src/arch/unix/cbm2ui.c:201 src/arch/unix/petui.c:116
 msgid "*Graphics"
 msgstr "*Grafik"
 
-#: src/arch/unix/cbm2ui.c:202 src/arch/unix/petui.c:118
+#: src/arch/unix/cbm2ui.c:203 src/arch/unix/petui.c:118
 msgid "*Business (UK)"
 msgstr "*Business (UK)"
 
-#: src/arch/unix/cbm2ui.c:224 src/arch/unix/petui.c:258
+#: src/arch/unix/cbm2ui.c:225 src/arch/unix/petui.c:258
 msgid "Model defaults"
 msgstr "Modell Standardeinstellungen"
 
-#: src/arch/unix/cbm2ui.c:230 src/arch/unix/petui.c:266
+#: src/arch/unix/cbm2ui.c:231 src/arch/unix/petui.c:266
 msgid "Memory size"
 msgstr "Speichergröße"
 
-#: src/arch/unix/cbm2ui.c:232
+#: src/arch/unix/cbm2ui.c:233
 msgid "Hardwired switches"
 msgstr "Hardware Einstellungen"
 
-#: src/arch/unix/cbm2ui.c:235
+#: src/arch/unix/cbm2ui.c:236
 msgid "*Bank 15 $0800-$0FFF RAM"
 msgstr "*Bank 15 $0800-$0FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:237
+#: src/arch/unix/cbm2ui.c:238
 msgid "*Bank 15 $1000-$1FFF RAM"
 msgstr "*Bank 15 $1000-$1FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:239
+#: src/arch/unix/cbm2ui.c:240
 msgid "*Bank 15 $2000-$3FFF RAM"
 msgstr "*Bank 15 $2000-$3FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:241
+#: src/arch/unix/cbm2ui.c:242
 msgid "*Bank 15 $4000-$5FFF RAM"
 msgstr "*Bank 15 $4000-$5FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:243
+#: src/arch/unix/cbm2ui.c:244
 msgid "*Bank 15 $6000-$7FFF RAM"
 msgstr "*Bank 15 $6000-$7FFF RAM"
 
-#: src/arch/unix/cbm2ui.c:245
+#: src/arch/unix/cbm2ui.c:246
 msgid "*Bank 15 $C000-$CFFF RAM"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/cbm2ui.c:249 src/arch/unix/petui.c:283
+#: src/arch/unix/cbm2ui.c:250 src/arch/unix/petui.c:283
 msgid "Keyboard type"
 msgstr "Tastaturtyp"
 
-#: src/arch/unix/cbm2ui.c:325 src/arch/unix/petui.c:236
+#: src/arch/unix/cbm2ui.c:326 src/arch/unix/petui.c:236
 msgid "ACIA device"
 msgstr "ACIA Gerät"
 
-#: src/arch/unix/cbm2ui.c:328 src/arch/unix/petui.c:239
-#: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:336
+#: src/arch/unix/cbm2ui.c:329 src/arch/unix/petui.c:239
+#: src/arch/unix/uirs232.c:217 src/arch/unix/vic20ui.c:336
 msgid "Serial 1 device..."
 msgstr "Serielles Gerät 1..."
 
-#: src/arch/unix/cbm2ui.c:330 src/arch/unix/petui.c:241
-#: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/cbm2ui.c:331 src/arch/unix/petui.c:241
+#: src/arch/unix/uirs232.c:219 src/arch/unix/vic20ui.c:338
 msgid "Serial 1 baudrate"
 msgstr "Seriell 1 Baudrate"
 
-#: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:244
+#: src/arch/unix/cbm2ui.c:334 src/arch/unix/petui.c:244
 #: src/arch/unix/vic20ui.c:341
 msgid "Serial 2 device..."
 msgstr "Serielles Geräte 2..."
 
-#: src/arch/unix/cbm2ui.c:335 src/arch/unix/petui.c:246
-#: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:343
+#: src/arch/unix/cbm2ui.c:336 src/arch/unix/petui.c:246
+#: src/arch/unix/uirs232.c:224 src/arch/unix/vic20ui.c:343
 msgid "Serial 2 baudrate"
 msgstr "Seriell 2 Baudrate"
 
-#: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:249
-#: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:346
+#: src/arch/unix/cbm2ui.c:339 src/arch/unix/petui.c:249
+#: src/arch/unix/uirs232.c:227 src/arch/unix/vic20ui.c:346
 msgid "Dump filename..."
 msgstr "Dump Dateiname"
 
-#: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:252
-#: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:349
+#: src/arch/unix/cbm2ui.c:342 src/arch/unix/petui.c:252
+#: src/arch/unix/uirs232.c:230 src/arch/unix/vic20ui.c:349
 msgid "Program name to exec..."
 msgstr "Auszuführendes Programm..."
 
-#: src/arch/unix/cbm2ui.c:364
+#: src/arch/unix/cbm2ui.c:365
 msgid "CBM-II model settings"
 msgstr "CBM-II Modell Einstellungen"
 
-#: src/arch/unix/cbm2ui.c:369 src/arch/unix/petui.c:297
+#: src/arch/unix/cbm2ui.c:370 src/arch/unix/petui.c:297
 msgid "Crtc settings"
 msgstr "Crtc Einstellungen"
 
-#: src/arch/unix/cbm2ui.c:371
+#: src/arch/unix/cbm2ui.c:372
 msgid "*VIC-II settings"
 msgstr "*VIC-II Einstellungen"
 
@@ -672,83 +672,83 @@ msgstr "RAM Einstellungen"
 msgid "TED settings"
 msgstr "TED Einstellungen"
 
-#: src/arch/unix/rs232.c:128
+#: src/arch/unix/rs232.c:120
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
 msgstr "Device Name für erstes RS232 Gerät definieren (/dev/ttyS0)"
 
-#: src/arch/unix/rs232.c:130
+#: src/arch/unix/rs232.c:122
 msgid "Specify baudrate of first RS232 device"
 msgstr "Baudrate für erstes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:132
+#: src/arch/unix/rs232.c:124
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
 msgstr "Name für zweites RS232 Gerät definieren (/dev/ttyS1)"
 
-#: src/arch/unix/rs232.c:134
+#: src/arch/unix/rs232.c:126
 msgid "Specify baudrate of second RS232 device"
 msgstr "Baudrate für zweites RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:136
+#: src/arch/unix/rs232.c:128
 msgid "Specify name of third RS232 device (rs232.dump)"
 msgstr "Name für drittes RS232 Gerät definieren (rs232.dump)"
 
-#: src/arch/unix/rs232.c:138
+#: src/arch/unix/rs232.c:130
 msgid "Specify baudrate of third RS232 device"
 msgstr "Baudrate für drittes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:140
+#: src/arch/unix/rs232.c:132
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 msgstr "Kommando für Daten in-/output definieren, '|' voranstellen (|lpr)"
 
-#: src/arch/unix/rs232.c:142
+#: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Baudrate für viertes RS232 Gerät definieren"
 
-#: src/arch/unix/rs232.c:273
+#: src/arch/unix/rs232.c:265
 msgid "No more devices available."
 msgstr "Keine Devices mehr verfügbar"
 
-#: src/arch/unix/rs232.c:278
+#: src/arch/unix/rs232.c:270
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:293
+#: src/arch/unix/rs232.c:285
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Cannot open file \"%s\": %s"
 
-#: src/arch/unix/rs232.c:320
+#: src/arch/unix/rs232.c:312
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Attempt to close invalid fd %d."
 
-#: src/arch/unix/rs232.c:324
+#: src/arch/unix/rs232.c:316
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Attempt to close non-open fd %d."
 
-#: src/arch/unix/rs232.c:344
+#: src/arch/unix/rs232.c:336
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Attempt to write to invalid fd %d."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:340
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Attempt to write to non-open fd %d."
 
-#: src/arch/unix/rs232.c:360
+#: src/arch/unix/rs232.c:352
 #, c-format
 msgid "Error writing: %s."
 msgstr "Error writing: %s."
 
-#: src/arch/unix/rs232.c:375
+#: src/arch/unix/rs232.c:367
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Attempt to read from invalid fd %d."
 
-#: src/arch/unix/rs232.c:379
+#: src/arch/unix/rs232.c:371
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Attempt to read from non-open fd %d."
@@ -876,7 +876,7 @@ msgstr "Smart Datei einleigen"
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/uicommands.c:272 src/arch/unix/uisettings.c:335
+#: src/arch/unix/uicommands.c:272 src/arch/unix/uisettings.c:334
 msgid "VICE setting"
 msgstr "VICE Einstellungen"
 
@@ -983,200 +983,200 @@ msgstr "`%s' erfolgreich gespeichert."
 msgid "Error writing `%s'."
 msgstr "Fehler beim Schreiben: %s."
 
-#: src/arch/unix/uicommands.c:665
+#: src/arch/unix/uicommands.c:664
 #, c-format
 msgid "Attach #%d"
 msgstr "Laufwerk #%d"
 
-#: src/arch/unix/uicommands.c:672
+#: src/arch/unix/uicommands.c:671
 #, c-format
 msgid "Detach #%d"
 msgstr "Entfernen #%d"
 
-#: src/arch/unix/uicommands.c:714
+#: src/arch/unix/uicommands.c:713
 msgid "Next: "
 msgstr "Nächstes: "
 
-#: src/arch/unix/uicommands.c:714 src/arch/unix/uicommands.c:729
+#: src/arch/unix/uicommands.c:713 src/arch/unix/uicommands.c:728
 #: src/arch/unix/x11/gnome/x11ui.c:788 src/arch/unix/x11/gnome/x11ui.c:798
-#: src/arch/unix/x11/gnome/x11ui.c:1457
+#: src/arch/unix/x11/gnome/x11ui.c:1456
 msgid "<empty>"
 msgstr "<leer>"
 
-#: src/arch/unix/uicommands.c:729
+#: src/arch/unix/uicommands.c:728
 msgid "Previous: "
 msgstr "Vorheriges: "
 
-#: src/arch/unix/uicommands.c:744
+#: src/arch/unix/uicommands.c:743
 msgid "Add: "
 msgstr "Hinzufügen: "
 
-#: src/arch/unix/uicommands.c:759
+#: src/arch/unix/uicommands.c:758
 msgid "Remove: "
 msgstr "Entfernen: "
 
-#: src/arch/unix/uicommands.c:850 src/arch/unix/uicommands.c:862
+#: src/arch/unix/uicommands.c:849 src/arch/unix/uicommands.c:861
 msgid "Unit #8..."
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:852 src/arch/unix/uicommands.c:865
+#: src/arch/unix/uicommands.c:851 src/arch/unix/uicommands.c:864
 msgid "Unit #9..."
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:854 src/arch/unix/uicommands.c:868
+#: src/arch/unix/uicommands.c:853 src/arch/unix/uicommands.c:867
 msgid "Unit #10..."
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:856 src/arch/unix/uicommands.c:871
+#: src/arch/unix/uicommands.c:855 src/arch/unix/uicommands.c:870
 msgid "Unit #11..."
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:878 src/arch/unix/uicommands.c:900
+#: src/arch/unix/uicommands.c:877 src/arch/unix/uicommands.c:899
 msgid "Unit #8"
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:880 src/arch/unix/uicommands.c:902
+#: src/arch/unix/uicommands.c:879 src/arch/unix/uicommands.c:901
 msgid "Unit #9"
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:882
+#: src/arch/unix/uicommands.c:881
 msgid "Unit #10"
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:884
+#: src/arch/unix/uicommands.c:883
 msgid "Unit #11"
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:887
+#: src/arch/unix/uicommands.c:886
 msgid "All"
 msgstr "Alle"
 
-#: src/arch/unix/uicommands.c:893
+#: src/arch/unix/uicommands.c:892
 msgid "Soft"
 msgstr "Weich"
 
-#: src/arch/unix/uicommands.c:896
+#: src/arch/unix/uicommands.c:895
 msgid "Hard"
 msgstr "Hart"
 
-#: src/arch/unix/uicommands.c:908
+#: src/arch/unix/uicommands.c:907
 msgid "Add current image (Unit 8)"
 msgstr "Aktuelles Image hinzufügen (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:911
+#: src/arch/unix/uicommands.c:910
 msgid "Remove current image (Unit 8)"
 msgstr "Aktuelles Image entfernen (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:914
+#: src/arch/unix/uicommands.c:913
 msgid "Attach next image (Unit 8)"
 msgstr "Nächstes Image (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:917
+#: src/arch/unix/uicommands.c:916
 msgid "Attach previous image (Unit 8)"
 msgstr "Voriges Image (Gerät 8)"
 
-#: src/arch/unix/uicommands.c:920
+#: src/arch/unix/uicommands.c:919
 msgid "Load fliplist file"
 msgstr "Fliplist Datei Laden"
 
-#: src/arch/unix/uicommands.c:922
+#: src/arch/unix/uicommands.c:921
 msgid "Save fliplist file"
 msgstr "Fliplist Datei Speichern"
 
-#: src/arch/unix/uicommands.c:928
+#: src/arch/unix/uicommands.c:927
 msgid "Attach a disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/unix/uicommands.c:930
+#: src/arch/unix/uicommands.c:929
 msgid "Create and attach an empty disk"
 msgstr "Leeres Disk Image erzeugen"
 
-#: src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:931
 msgid "Detach disk image"
 msgstr "Disk Image entfernen"
 
-#: src/arch/unix/uicommands.c:934
+#: src/arch/unix/uicommands.c:933
 msgid "Fliplist"
 msgstr "Flipliste"
 
-#: src/arch/unix/uicommands.c:940
+#: src/arch/unix/uicommands.c:939
 msgid "Attach a tape image..."
 msgstr "Band Image einlegen..."
 
-#: src/arch/unix/uicommands.c:943
+#: src/arch/unix/uicommands.c:942
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/uicommands.c:949
+#: src/arch/unix/uicommands.c:948
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
-#: src/arch/unix/uicommands.c:956
+#: src/arch/unix/uicommands.c:955
 msgid "Change working directory..."
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:962
+#: src/arch/unix/uicommands.c:961
 msgid "Load snapshot..."
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:965
+#: src/arch/unix/uicommands.c:964
 msgid "Save snapshot..."
 msgstr "Snapshot Speichern..."
 
-#: src/arch/unix/uicommands.c:969
+#: src/arch/unix/uicommands.c:968
 msgid "Quickload snapshot"
 msgstr "Snapshot schnell Laden..."
 
-#: src/arch/unix/uicommands.c:972
+#: src/arch/unix/uicommands.c:971
 msgid "Quicksave snapshot"
 msgstr "Snapshot schnell Speichern"
 
-#: src/arch/unix/uicommands.c:976
+#: src/arch/unix/uicommands.c:975
 msgid "Start recording events"
 msgstr "Aufnahme Start"
 
-#: src/arch/unix/uicommands.c:978
+#: src/arch/unix/uicommands.c:977
 msgid "Stop recording events"
 msgstr "Aufnahme Stop"
 
-#: src/arch/unix/uicommands.c:980
+#: src/arch/unix/uicommands.c:979
 msgid "Start playing back events"
 msgstr "Aufnahme Wiedergabe Start"
 
-#: src/arch/unix/uicommands.c:982
+#: src/arch/unix/uicommands.c:981
 msgid "Stop playing back events"
 msgstr "Aufnahme Wiedergabe Stop"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:987
 msgid "Snapshot commands"
 msgstr "Snapshot Kommandos"
 
-#: src/arch/unix/uicommands.c:994
+#: src/arch/unix/uicommands.c:993
 msgid "Activate monitor"
 msgstr "Monitor Aktivieren"
 
-#: src/arch/unix/uicommands.c:997
+#: src/arch/unix/uicommands.c:996
 msgid "Run C1541"
 msgstr "C1541 starten"
 
-#: src/arch/unix/uicommands.c:1005
+#: src/arch/unix/uicommands.c:1004
 msgid "Browse manuals"
 msgstr "Dokumentation durchstöbern"
 
-#: src/arch/unix/uicommands.c:1007
+#: src/arch/unix/uicommands.c:1006
 msgid "About VICE..."
 msgstr "Über VICE..."
 
-#: src/arch/unix/uicommands.c:1013 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1844
+#: src/arch/unix/uicommands.c:1012 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/x11/gnome/x11ui.c:1843
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1015
+#: src/arch/unix/uicommands.c:1014
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:1022
+#: src/arch/unix/uicommands.c:1021
 msgid "Exit emulator"
 msgstr "Emulator beenden"
 
@@ -1259,44 +1259,44 @@ msgstr "DGA2 Auflösungen"
 msgid "*CRTC Screen color"
 msgstr "*CRTC Bildschirmfarbe"
 
-#: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
+#: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:85
 msgid "Datasette speed tuning"
 msgstr "Bandlaufwerk Geschwindigkeitskontrolle"
 
-#: src/arch/unix/uidatasette.c:58 src/arch/unix/uidatasette.c:86
+#: src/arch/unix/uidatasette.c:56 src/arch/unix/uidatasette.c:83
 msgid "Datasette zero gap delay"
 msgstr "Bandlaufwerk Zero Gap Verzögerung"
 
-#: src/arch/unix/uidatasette.c:70 src/arch/unix/uipalemu.c:81
+#: src/arch/unix/uidatasette.c:67 src/arch/unix/uipalemu.c:81
 #, c-format
 msgid "Invalid value: %s"
 msgstr "Ungültiger Wert: %s"
 
-#: src/arch/unix/uidatasette.c:84
+#: src/arch/unix/uidatasette.c:81
 msgid "*Reset Datasette on CPU Reset"
 msgstr "*Zurücksetzen des Bandlaufwerks bei CPU Reset"
 
-#: src/arch/unix/uidatasette.c:91
+#: src/arch/unix/uidatasette.c:88
 msgid "Stop"
 msgstr "Stop"
 
-#: src/arch/unix/uidatasette.c:93
+#: src/arch/unix/uidatasette.c:90
 msgid "Play"
 msgstr "Play"
 
-#: src/arch/unix/uidatasette.c:95
+#: src/arch/unix/uidatasette.c:92
 msgid "Forward"
 msgstr "Forward"
 
-#: src/arch/unix/uidatasette.c:97
+#: src/arch/unix/uidatasette.c:94
 msgid "Rewind"
 msgstr "Rewind"
 
-#: src/arch/unix/uidatasette.c:99
+#: src/arch/unix/uidatasette.c:96
 msgid "Record"
 msgstr "Record"
 
-#: src/arch/unix/uidatasette.c:107
+#: src/arch/unix/uidatasette.c:104
 msgid "Datassette control"
 msgstr "Bandlaufwerk Kontrolle"
 
@@ -1624,8 +1624,8 @@ msgstr "Drucker Ausgabedatei definieren"
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
 
-#: src/arch/unix/uiprinter.c:158 src/arch/unix/uirs232.c:155
-#: src/arch/unix/uirs232.c:184
+#: src/arch/unix/uiprinter.c:158 src/arch/unix/uirs232.c:156
+#: src/arch/unix/uirs232.c:185
 msgid "Command:"
 msgstr "Kommando:"
 
@@ -1741,72 +1741,72 @@ msgstr "RS232 Gerät Datei selektieren"
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando zur Ausführung für RS232 Geräte ('|' voranstellen!)"
 
-#: src/arch/unix/uirs232.c:174
+#: src/arch/unix/uirs232.c:175
 msgid "File to dump RS232 to"
 msgstr "Datei für RS232 Ausgabe"
 
-#: src/arch/unix/uirs232.c:198
+#: src/arch/unix/uirs232.c:199
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*ACIA $DExx RS232 Schnittstellen-Emulation"
 
-#: src/arch/unix/uirs232.c:200
+#: src/arch/unix/uirs232.c:201
 msgid "ACIA $DExx device"
 msgstr "ACIA $DExx Gerät"
 
-#: src/arch/unix/uirs232.c:202
+#: src/arch/unix/uirs232.c:203
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx Interrupt"
 
-#: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:327
+#: src/arch/unix/uirs232.c:206 src/arch/unix/vic20ui.c:327
 msgid "*No Userport RS232 emulation"
 msgstr "*Keine Userport RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:329
+#: src/arch/unix/uirs232.c:208 src/arch/unix/vic20ui.c:329
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Userport 300 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:331
+#: src/arch/unix/uirs232.c:210 src/arch/unix/vic20ui.c:331
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Userport 1200 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:211
+#: src/arch/unix/uirs232.c:212
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*CIA 9600 Baud RS232 Emulation"
 
-#: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:333
+#: src/arch/unix/uirs232.c:214 src/arch/unix/vic20ui.c:333
 msgid "Userport RS232 device"
 msgstr "Userport RS232 Gerät"
 
-#: src/arch/unix/uisettings.c:121
+#: src/arch/unix/uisettings.c:120
 msgid "Enter refresh rate"
 msgstr "Wiederholrate einstellen"
 
-#: src/arch/unix/uisettings.c:122 src/arch/unix/uisettings.c:505
+#: src/arch/unix/uisettings.c:121 src/arch/unix/uisettings.c:504
 msgid "Refresh rate"
 msgstr "Wiederholrate"
 
-#: src/arch/unix/uisettings.c:194
+#: src/arch/unix/uisettings.c:193
 msgid "Enter speed"
 msgstr "Geschwindigkeit einstellen"
 
-#: src/arch/unix/uisettings.c:195
+#: src/arch/unix/uisettings.c:194
 msgid "Maximum run speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:209
+#: src/arch/unix/uisettings.c:208
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:223 src/arch/unix/x11/gnome/x11ui.c:1260
-#: src/arch/unix/x11/xaw/x11ui.c:1022
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1260
+#: src/arch/unix/x11/xaw/x11ui.c:1023
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
-#: src/arch/unix/uisettings.c:226
+#: src/arch/unix/uisettings.c:225
 msgid "Settings saved successfully."
 msgstr "Einstellungen erfolgreich gespeichert"
 
-#: src/arch/unix/uisettings.c:243
+#: src/arch/unix/uisettings.c:242
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
@@ -1814,7 +1814,7 @@ msgstr ""
 "Kann Einstellungen nicht Laden:\n"
 "Ungültige Resource Datei."
 
-#: src/arch/unix/uisettings.c:245
+#: src/arch/unix/uisettings.c:244
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
@@ -1822,109 +1822,109 @@ msgstr ""
 "Kann Einstellungen nicht Laden:\n"
 "Resource Datei nicht gefunden."
 
-#: src/arch/unix/uisettings.c:249
+#: src/arch/unix/uisettings.c:248
 msgid "Settings loaded."
 msgstr "Einstellungen geladen."
 
-#: src/arch/unix/uisettings.c:290
+#: src/arch/unix/uisettings.c:289
 msgid "*Symbolic mapping"
 msgstr "*Symbolische Zuordnung"
 
-#: src/arch/unix/uisettings.c:292
+#: src/arch/unix/uisettings.c:291
 msgid "*Positional mapping (US)"
 msgstr "*Positions Zuordnung (US)"
 
-#: src/arch/unix/uisettings.c:310
+#: src/arch/unix/uisettings.c:309
 msgid "Read Keymap File"
 msgstr "Keymap Datei Laden"
 
-#: src/arch/unix/uisettings.c:335
+#: src/arch/unix/uisettings.c:334
 msgid "Write to Keymap File:"
 msgstr "Keymap in Datei speichern:"
 
-#: src/arch/unix/uisettings.c:344
+#: src/arch/unix/uisettings.c:343
 msgid "Keyboard mapping type"
 msgstr "Tastatur Mapping"
 
-#: src/arch/unix/uisettings.c:347
+#: src/arch/unix/uisettings.c:346
 msgid "Set symbolic keymap file"
 msgstr "Symbolische Keymap Datei definieren"
 
-#: src/arch/unix/uisettings.c:349
+#: src/arch/unix/uisettings.c:348
 msgid "Set positional keymap file"
 msgstr "Positions Keymap Datei definieren"
 
-#: src/arch/unix/uisettings.c:352
+#: src/arch/unix/uisettings.c:351
 msgid "Dump keymap to file"
 msgstr "Aktuelle Keymap auf Datei speichern"
 
-#: src/arch/unix/uisettings.c:374
+#: src/arch/unix/uisettings.c:373
 msgid "Load custom ROM set definition"
 msgstr "Benutzerdefinierten ROM Satz Laden"
 
-#: src/arch/unix/uisettings.c:382
+#: src/arch/unix/uisettings.c:381
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr "Kann ROM Satz `%s' nicht laden."
 
-#: src/arch/unix/uisettings.c:403
+#: src/arch/unix/uisettings.c:402
 msgid "File to dump ROM set definition to"
 msgstr "Aktuellen Rom Satz speichern unter"
 
-#: src/arch/unix/uisettings.c:408
+#: src/arch/unix/uisettings.c:407
 msgid "ROM set file:"
 msgstr "ROM Satz Datei:"
 
-#: src/arch/unix/uisettings.c:424
+#: src/arch/unix/uisettings.c:423
 msgid "Load ROM file"
 msgstr "Benutzerdefinierten ROM Satz Laden"
 
-#: src/arch/unix/uisettings.c:433
+#: src/arch/unix/uisettings.c:432
 #, c-format
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr "Kann ROM Datei `%s' nicht laden."
 
-#: src/arch/unix/uisettings.c:455
+#: src/arch/unix/uisettings.c:454
 msgid "*Auto"
 msgstr "*Automatisch"
 
-#: src/arch/unix/uisettings.c:478 src/arch/unix/uisettings.c:497
+#: src/arch/unix/uisettings.c:477 src/arch/unix/uisettings.c:496
 msgid "*Custom..."
 msgstr "*Benutzerdefiniert..."
 
-#: src/arch/unix/uisettings.c:494
+#: src/arch/unix/uisettings.c:493
 msgid "*No limit"
 msgstr "*Kein Limit"
 
-#: src/arch/unix/uisettings.c:507
+#: src/arch/unix/uisettings.c:506
 msgid "Maximum speed"
 msgstr "Maximale Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:509
+#: src/arch/unix/uisettings.c:508
 msgid "*Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/arch/unix/uisettings.c:515
+#: src/arch/unix/uisettings.c:514
 msgid "Keyboard settings"
 msgstr "Tastatur Einstellungen"
 
-#: src/arch/unix/uisettings.c:521
+#: src/arch/unix/uisettings.c:520
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
-#: src/arch/unix/uisettings.c:523
+#: src/arch/unix/uisettings.c:522
 msgid "Load settings"
 msgstr "Einstellungen Laden"
 
-#: src/arch/unix/uisettings.c:525
+#: src/arch/unix/uisettings.c:524
 msgid "Restore default settings"
 msgstr "Wiederherstellen Standard Einstellungen"
 
-#: src/arch/unix/uisettings.c:527
+#: src/arch/unix/uisettings.c:526
 msgid "*Save settings on exit"
 msgstr "*Einstellungen beim Beenden speichern"
 
@@ -2476,51 +2476,51 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:389
+#: src/arch/unix/x11/gnome/x11ui.c:387
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:391
+#: src/arch/unix/x11/gnome/x11ui.c:389
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/xaw/x11ui.c:474
+#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:475
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:634 src/arch/unix/x11/xaw/x11ui.c:477
+#: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/xaw/x11ui.c:478
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/x11ui.c:637 src/arch/unix/x11/gnome/x11ui.c:661
-#: src/arch/unix/x11/xaw/x11ui.c:480 src/arch/unix/x11/xaw/x11ui.c:497
+#: src/arch/unix/x11/gnome/x11ui.c:635 src/arch/unix/x11/gnome/x11ui.c:659
+#: src/arch/unix/x11/xaw/x11ui.c:481 src/arch/unix/x11/xaw/x11ui.c:498
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:646
+#: src/arch/unix/x11/gnome/x11ui.c:644
 #, c-format
 msgid "Found %dbit visual."
 msgstr "%dbit Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:669 src/arch/unix/x11/xaw/x11ui.c:505
+#: src/arch/unix/x11/gnome/x11ui.c:667 src/arch/unix/x11/xaw/x11ui.c:506
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:677
+#: src/arch/unix/x11/gnome/x11ui.c:675
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:684
+#: src/arch/unix/x11/gnome/x11ui.c:682
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:749
+#: src/arch/unix/x11/gnome/x11ui.c:747
 msgid "PAL Controls"
 msgstr "PAL Steuerung"
 
@@ -2534,7 +2534,7 @@ msgstr "Laufwerk %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:586
+#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:587
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
@@ -2546,85 +2546,85 @@ msgstr "Kommandos"
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1010
+#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1011
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1012
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1013
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1019
+#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1020
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1303 src/arch/unix/x11/xaw/x11ui.c:1061
+#: src/arch/unix/x11/gnome/x11ui.c:1302 src/arch/unix/x11/xaw/x11ui.c:1061
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1323 src/arch/unix/x11/gnome/x11ui.c:1326
+#: src/arch/unix/x11/gnome/x11ui.c:1322 src/arch/unix/x11/gnome/x11ui.c:1325
 #: src/arch/unix/x11/xaw/x11ui.c:1082 src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1609
+#: src/arch/unix/x11/gnome/x11ui.c:1608
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1653 src/arch/unix/x11/xaw/x11ui.c:1306
+#: src/arch/unix/x11/gnome/x11ui.c:1652 src/arch/unix/x11/xaw/x11ui.c:1308
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1807
+#: src/arch/unix/x11/gnome/x11ui.c:1806
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1818
+#: src/arch/unix/x11/gnome/x11ui.c:1817
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1844
+#: src/arch/unix/x11/gnome/x11ui.c:1843
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1845
+#: src/arch/unix/x11/gnome/x11ui.c:1844
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1889 src/arch/unix/x11/xaw/x11ui.c:1584
+#: src/arch/unix/x11/gnome/x11ui.c:1888 src/arch/unix/x11/xaw/x11ui.c:1586
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1889
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1903
+#: src/arch/unix/x11/gnome/x11ui.c:1902
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart für Laufwerk 9 nicht möglich."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1911 src/arch/unix/x11/gnome/x11ui.c:1920
+#: src/arch/unix/x11/gnome/x11ui.c:1910 src/arch/unix/x11/gnome/x11ui.c:1919
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2047 src/arch/unix/x11/gnome/x11ui.c:2052
+#: src/arch/unix/x11/gnome/x11ui.c:2046 src/arch/unix/x11/gnome/x11ui.c:2051
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
 
-#: src/arch/unix/x11/gnome/x11ui.c:2517
+#: src/arch/unix/x11/gnome/x11ui.c:2516
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2564
+#: src/arch/unix/x11/gnome/x11ui.c:2563
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2590
+#: src/arch/unix/x11/gnome/x11ui.c:2589
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2922,16 +2922,16 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot Speichern"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1171
+#: src/arch/unix/x11/xaw/x11ui.c:1173
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1469
+#: src/arch/unix/x11/xaw/x11ui.c:1471
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1652
+#: src/arch/unix/x11/xaw/x11ui.c:1654
 msgid "Unknown image type."
 msgstr "Unbekannter Image Typ."
 
