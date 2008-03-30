@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -91,69 +91,53 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-SUBDIRS = widgets
+@HAVE_RESID_TRUE@resid_libadd = resid.o
+@HAVE_RESID_FALSE@resid_libadd =
+
+SUFFIXES = .def
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
-        -I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/c610 \
-	@JOYSTICK@
+	@RESID_INCLUDES@ \
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src
 
-noinst_LIBRARIES = libxawui.a
+noinst_LIBRARIES = libsid.a
 
-libxawui_a_SOURCES = \
-	c128icon.xpm \
-	c128ui.c \
-	c128ui.h \
-	c610icon.xpm \
-	c610ui.c \
-	c610ui.h \
-	c64icon.xpm \
-	c64ui.c \
-	c64ui.h \
-	checkmark.xbm \
-	peticon.xpm \
-	petui.c \
-	petui.h \
-	right_arrow.xbm \
-	ui.c \
-	ui.h \
-	uicommands.c \
-	uicommands.h \
-	uihotkey.c \
-	uihotkey.h \
-	uimenu.c \
-	uimenu.h \
-	uisettings.c \
-	uisettings.h \
-	vic20icon.xpm \
-	vic20ui.c \
-	vic20ui.h
+libsid_a_SOURCES = \
+        sid.c \
+	wave6581.h \
+	wave8580.h
+
+EXTRA_libsid_a_SOURCES = \
+	resid.cc \
+	resid.h
+
+libsid_a_LIBADD = $(resid_libadd)
+
+siddir = $(top_srcdir)/src/sid
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uihotkey.o uimenu.o uisettings.o vic20ui.o
+@HAVE_RESID_TRUE@libsid_a_DEPENDENCIES =  resid.o
+@HAVE_RESID_FALSE@libsid_a_DEPENDENCIES = 
+libsid_a_OBJECTS =  sid.o
+CXXFLAGS = @CXXFLAGS@
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CXXFLAGS)
+CXXLINK = $(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -164,15 +148,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libxawui_a_SOURCES)
-OBJECTS = $(libxawui_a_OBJECTS)
+SOURCES = $(libsid_a_SOURCES) $(EXTRA_libsid_a_SOURCES)
+OBJECTS = $(libsid_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .cc .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/sid/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -207,10 +191,12 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libxawui.a: $(libxawui_a_OBJECTS) $(libxawui_a_DEPENDENCIES)
-	-rm -f libxawui.a
-	$(AR) cru libxawui.a $(libxawui_a_OBJECTS) $(libxawui_a_LIBADD)
-	$(RANLIB) libxawui.a
+libsid.a: $(libsid_a_OBJECTS) $(libsid_a_DEPENDENCIES)
+	-rm -f libsid.a
+	$(AR) cru libsid.a $(libsid_a_OBJECTS) $(libsid_a_LIBADD)
+	$(RANLIB) libsid.a
+.cc.o:
+	$(CXXCOMPILE) -c $<
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -279,7 +265,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw
+subdir = src/sid
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \

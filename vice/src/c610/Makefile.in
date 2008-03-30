@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -91,69 +91,57 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-SUBDIRS = widgets
+SUFFIXES = .def
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
-        -I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/c610 \
-	@JOYSTICK@
+	-I$(top_builddir)/src \
+	-I$(top_srcdir)/src
 
-noinst_LIBRARIES = libxawui.a
+noinst_LIBRARIES = libc610.a
 
-libxawui_a_SOURCES = \
-	c128icon.xpm \
-	c128ui.c \
-	c128ui.h \
-	c610icon.xpm \
-	c610ui.c \
-	c610ui.h \
-	c64icon.xpm \
-	c64ui.c \
-	c64ui.h \
-	checkmark.xbm \
-	peticon.xpm \
-	petui.c \
-	petui.h \
-	right_arrow.xbm \
-	ui.c \
-	ui.h \
-	uicommands.c \
-	uicommands.h \
-	uihotkey.c \
-	uihotkey.h \
-	uimenu.c \
-	uimenu.h \
-	uisettings.c \
-	uisettings.h \
-	vic20icon.xpm \
-	vic20ui.c \
-	vic20ui.h
+libc610_a_SOURCES = \
+	crtc.c \
+	crtc.def \
+	c610.c \
+	c610.h \
+	c610acia.h \
+	c610acia1.c \
+	c610cia.h \
+	c610cia1.c \
+	c610cia1.def \
+	c610cpu.c \
+	c610cpu.def \
+	c610mem.c \
+	c610mem.h \
+	c610tpi.h \
+	c610tpi1.c \
+	c610tpi1.def \
+	c610tpi2.c \
+	c610tpi2.def
+
+BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c c610cpu.c
+
+c610dir = $(top_srcdir)/src/c610
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uihotkey.o uimenu.o uisettings.o vic20ui.o
+libc610_a_LIBADD = 
+libc610_a_OBJECTS =  crtc.o c610.o c610acia1.o c610cia1.o c610cpu.o \
+c610mem.o c610tpi1.o c610tpi2.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -164,15 +152,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libxawui_a_SOURCES)
-OBJECTS = $(libxawui_a_OBJECTS)
+SOURCES = $(libc610_a_SOURCES)
+OBJECTS = $(libc610_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/c610/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -207,10 +195,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libxawui.a: $(libxawui_a_OBJECTS) $(libxawui_a_DEPENDENCIES)
-	-rm -f libxawui.a
-	$(AR) cru libxawui.a $(libxawui_a_OBJECTS) $(libxawui_a_LIBADD)
-	$(RANLIB) libxawui.a
+libc610.a: $(libc610_a_OBJECTS) $(libc610_a_DEPENDENCIES)
+	-rm -f libc610.a
+	$(AR) cru libc610.a $(libc610_a_OBJECTS) $(libc610_a_LIBADD)
+	$(RANLIB) libc610.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -279,7 +267,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw
+subdir = src/c610
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -372,6 +360,54 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+c610acia1.c: c610acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610acia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/acia-tmpl.c \
+	           $(c610dir)/c610acia1.def $(c610dir)/c610acia1.c; \
+	   fi )
+
+c610tpi1.c: c610tpi1.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610tpi1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/tpi-tmpl.c \
+	           $(c610dir)/c610tpi1.def $(c610dir)/c610tpi1.c; \
+	   fi )
+
+c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610tpi2.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/tpi-tmpl.c \
+	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
+	   fi )
+
+c610cia1.c: c610cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610cia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+	           $(c610dir)/c610cia1.def $(c610dir)/c610cia1.c; \
+	   fi )
+
+crtc.c: crtc.def $(top_srcdir)/src/crtc-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`crtc.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/crtc-tmpl.c \
+	           $(c610dir)/crtc.def $(c610dir)/crtc.c; \
+	   fi )
+
+c610cpu.c: c610cpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610cpu.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cpu-tmpl.c \
+	           $(c610dir)/c610cpu.def $(c610dir)/c610cpu.c; \
+	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

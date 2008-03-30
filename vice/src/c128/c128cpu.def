@@ -1,0 +1,113 @@
+/* -*- C -*-
+ *
+ * c128cpu.def - Emulation of the main 6510 processor in the C128.
+ *
+ * Written by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/* MACHINE_STUFF should define/undef
+
+ - NEED_REG_PC
+ - NO_OPCODES
+ - TRACE
+
+ The following are optional:
+
+ - PAGE_ZERO
+ - PAGE_ONE
+ - STORE_IND
+ - LOAD_IND
+ - FETCH_OPCODE
+
+*/
+
+MACHINE_STUFF()
+{
+
+/* ------------------------------------------------------------------------- */
+
+/* The following #defines are useful for debugging and speed tuning.  */
+
+/* If this is #defined, you can set the `traceflg' variable to non-zero to
+   trace all the opcodes being executed.  This is mainly useful for
+   debugging, and also makes things a bit slower.  */
+/* #define TRACE */
+
+/* Run without interpreting opcodes (just fetch them from memory).  */
+#undef NO_OPCODES
+
+/* Force `TRACE' in unstable versions.  */
+#if 0 && defined UNSTABLE && !defined TRACE
+#  define TRACE
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+/* C128 needs external reg_pc */
+#  define	NEED_REG_PC
+
+/* ------------------------------------------------------------------------- */
+
+#  define	JUMP(addr)	(reg_pc = (addr))
+
+#  define	PAGE_ONE	(ram + 0x100)
+
+/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
+   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
+#  define FETCH_OPCODE(x)
+#  define p0                    LOAD(reg_pc)
+#  define p1                    LOAD(reg_pc + 1)
+#  define p2                    LOAD_ADDR(reg_pc + 1)
+
+/* FIXME: This might cause complaints about unused variables...  Well, who
+   cares?  */
+#  define opcode_t	int
+
+} 	/* end of MACHINE_STUFF */
+
+/* ------------------------------------------------------------------------- */
+
+PRE_CPU_FUNCS()
+{
+}	/* end of PRE_CPU_FUNCS */
+
+/* ------------------------------------------------------------------------- */
+
+PRE_CPU_LOOP()
+{
+
+#ifdef INSTRUCTION_FETCH_HACK
+    BYTE *bank_base;
+#endif
+
+}
+
+/* ------------------------------------------------------------------------- */
+
+CPU_LOOP_STUFF()
+{
+} 	/* end of CPU_LOOP_STUFF */
+
+

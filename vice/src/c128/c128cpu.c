@@ -1,5 +1,11 @@
+
 /*
- * c128cpu.c - Emulation of the main 6510 processor in the C128.
+ * ../../../src/c128/c128cpu.c
+ * This file is generated from ../../../src/cpu-tmpl.c and ../../../src/c128/c128cpu.def,
+ * Do not edit!
+ */
+/*
+ * cpu-tmpl.c - Emulation of the main 6510 processor.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -24,41 +30,44 @@
  *
  */
 
-/* Because of the different memory access scheme, the C128 needs a special
-   version of the CPU: we implement it here, keeping compatibility with the
-   standard version.  Notice that this is not very well optimized, and surely
-   looks like a big hack.  Well, that's fine with me for now.  */
-
 #include "vice.h"
 
 #include <stdio.h>
-#include <sys/time.h>
-
-#define _MAINCPU_C
-#define _C128CPU_C
 
 #include "maincpu.h"
-#include "types.h"
-#include "machine.h"
-#include "vmachine.h"
-#include "ui.h"
-#include "resources.h"
-#include "traps.h"
-#include "mon.h"
-#include "c128mem.h"
-#include "misc.h"
-#include "vdrive.h"
-#include "6510core.h"
 
+#include "6510core.h"
 #include "interrupt.h"
+#include "machine.h"
+#include "mem.h"
+#include "misc.h"
+#include "mon.h"
+#include "resources.h"
+#include "snapshot.h"
+#include "traps.h"
+#include "types.h"
+#include "ui.h"
+#include "vdrive.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 
-/* This enables a special hack that can speed up the instruction fetch quite
-   a lot, but does not work when a conditional branch instruction jumps from
-   ROM to RAM or vice versa.  It does not work for the C128, so we disable
-   it.  */
-#undef INSTRUCTION_FETCH_HACK
+/* MACHINE_STUFF should define/undef
+
+ - NEED_REG_PC
+ - NO_OPCODES
+ - TRACE
+
+ The following are optional:
+
+ - PAGE_ZERO
+ - PAGE_ONE
+ - STORE_IND
+ - LOAD_IND
+
+*/
+
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -69,9 +78,84 @@
    debugging, and also makes things a bit slower.  */
 /* #define TRACE */
 
+/* Run without interpreting opcodes (just fetch them from memory).  */
+#undef NO_OPCODES
+
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
-#define TRACE
+#  define TRACE
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+/* C128 needs external reg_pc */
+#  define	NEED_REG_PC
+
+/* ------------------------------------------------------------------------- */
+
+#  define	JUMP(addr)	(reg_pc = (addr))
+
+#  define	PAGE_ONE	(ram + 0x100)
+
+/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
+   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
+#  define FETCH_OPCODE(x)
+#  define p0                    LOAD(reg_pc)
+#  define p1                    LOAD(reg_pc + 1)
+#  define p2                    LOAD_ADDR(reg_pc + 1)
+
+/* FIXME: This might cause complaints about unused variables...  Well, who
+   cares?  */
+#  define opcode_t	int
+
+
+/* ------------------------------------------------------------------------- */
+
+#define STORE(addr, value) \
+    (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+
+#define LOAD(addr) \
+    (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+
+#define STORE_ZERO(addr, value) \
+    store_zero((ADDRESS)(addr), (BYTE)(value))
+
+#define LOAD_ZERO(addr) \
+    PAGE_ZERO[(addr) & 0xff]
+
+#define LOAD_ADDR(addr) \
+    ((LOAD((addr) + 1) << 8) | LOAD(addr))
+
+#define LOAD_ZERO_ADDR(addr) \
+    ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
+
+inline static BYTE *mem_read_base(int addr)
+{
+    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+
+    if (p == 0)
+	return p;
+
+    return p - (addr & 0xff00);
+}
+
+/* Those may be overridden by the machine stuff.  Probably we want them in
+   the .def files, but if most of the machines do not use, we might keep it
+   here and only override it where needed.  */
+#ifndef PAGE_ZERO
+#define	PAGE_ZERO ram
+#endif
+
+#ifndef PAGE_ONE
+#define PAGE_ONE (ram + 0x100)
+#endif
+
+#ifndef STORE_IND
+#define STORE_IND(addr, value) STORE((addr),(value))
+#endif
+
+#ifndef LOAD_IND
+#define LOAD_IND(addr) LOAD((addr))
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -140,14 +224,6 @@ monitor_interface_t maincpu_monitor_interface = {
     /* Pointer to the machine's clock counter.  */
     &clk,
 
-#if 0
-    /* Pointer to a function that writes to memory.  */
-    mem_read,
-
-    /* Pointer to a function that reads from memory.  */
-    mem_store,
-#endif
-
     0,
     mem_bank_list,
     mem_bank_from_name,
@@ -161,14 +237,25 @@ monitor_interface_t maincpu_monitor_interface = {
 
 /* ------------------------------------------------------------------------- */
 
+
+
+/* ------------------------------------------------------------------------- */
+
 static void reset(void)
 {
+    int preserve_monitor;
+
+    preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
+
     printf("Main CPU: RESET\n");
 
     serial_reset();
 
     cpu_int_status_init(&maincpu_int_status,
 			NUMOFALRM, NUMOFINT, &last_opcode_info);
+
+    if (preserve_monitor)
+        monitor_trap_on(&maincpu_int_status);
 
     /* Do machine-specific initialization.  */
     machine_reset();
@@ -180,8 +267,9 @@ static void reset(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef NEED_REG_PC
 unsigned int reg_pc;
-#define JUMP(addr)	(reg_pc = (addr))
+#endif
 
 void mainloop(ADDRESS start_address)
 {
@@ -194,6 +282,16 @@ void mainloop(ADDRESS start_address)
     BYTE reg_sp = 0;
     BYTE flag_n = 0;
     BYTE flag_z = 0;
+#ifndef NEED_REG_PC
+    unsigned int reg_pc;
+#endif
+
+
+
+#ifdef INSTRUCTION_FETCH_HACK
+    BYTE *bank_base;
+#endif
+
 
     reset();
 
@@ -206,13 +304,20 @@ void mainloop(ADDRESS start_address)
 
     while (1) {
 
+
+
+#ifdef NO_OPCODES
+
+	clk += 4;
+
+#else  /* !NO_OPCODES */
+
 #  define CLK clk
 #  define RMW_FLAG rmw_flag
-#  define PAGE_ONE page_one
 #  define LAST_OPCODE_INFO last_opcode_info
 #  define TRACEFLG traceflg
 
-#  define CPU_INT_STATUS maincpu_int_status
+#  define CPU_INT_STATUS	maincpu_int_status
 
 #  define CHECK_PENDING_ALARM() \
      (clk >= next_alarm_clk(&maincpu_int_status))
@@ -256,18 +361,100 @@ void mainloop(ADDRESS start_address)
 
 #  define GLOBAL_REGS           maincpu_regs
 
-/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
-   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
-#  define FETCH_OPCODE(x)
-#  define p0                    LOAD(reg_pc)
-#  define p1                    LOAD(reg_pc + 1)
-#  define p2                    LOAD_ADDR(reg_pc + 1)
-
-/* FIXME: This might cause complaints about unused variables...  Well, who
-   cares?  */
-#  define opcode_t      int
-
 #  include "6510core.c"
 
+#endif /* !NO_OPCODES */
+
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "MAINCPU";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int maincpu_write_snapshot_module(FILE *f)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(f, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (0
+        || snapshot_module_write_dword(m, clk) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
+        || snapshot_module_write_word(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || snapshot_module_write_byte(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || snapshot_module_write_dword(m, last_opcode_info) < 0
+        )
+        goto fail;
+
+    if (interrupt_write_snapshot(&maincpu_int_status, m) < 0)
+        goto fail;
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+int maincpu_read_snapshot_module(FILE *f)
+{
+    BYTE a, x, y, sp, status;
+    WORD pc;
+    BYTE major, minor;
+    char module_name[SNAPSHOT_MODULE_NAME_LEN];
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(f, module_name, &major, &minor);
+    if (m == NULL)
+        return -1;
+
+    if (strcmp(module_name, snap_module_name) != 0) {
+        fprintf(stderr,
+                "MAINCPU: Snapshot module name (`%s') incorrect; should be `%s'.\n",
+                module_name, snap_module_name);
+        goto fail;
+    }
+
+    /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
+       wrong number of cycles.  */
+    rmw_flag = -1;
+
+    /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
+    if (0
+        || snapshot_module_read_dword(m, &clk) < 0
+        || snapshot_module_read_byte(m, &a) < 0
+        || snapshot_module_read_byte(m, &x) < 0
+        || snapshot_module_read_byte(m, &y) < 0
+        || snapshot_module_read_byte(m, &sp) < 0
+        || snapshot_module_read_word(m, &pc) < 0
+        || snapshot_module_read_byte(m, &status) < 0
+        || snapshot_module_read_dword(m, &last_opcode_info) < 0
+        )
+        goto fail;
+
+    MOS6510_REGS_SET_A(&maincpu_regs, a);
+    MOS6510_REGS_SET_X(&maincpu_regs, x);
+    MOS6510_REGS_SET_Y(&maincpu_regs, y);
+    MOS6510_REGS_SET_SP(&maincpu_regs, sp);
+    MOS6510_REGS_SET_PC(&maincpu_regs, pc);
+    MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
+
+    if (interrupt_read_snapshot(&maincpu_int_status, m) < 0)
+        goto fail;
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }

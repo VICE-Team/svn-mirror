@@ -1,3 +1,83 @@
+1998-09-12  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.6.
+
+	* arch/unix/vsync.c (set_timer_speed): Restored correct
+	calculation of `timer_ticks'.
+
+	* Makefile.am: Added `@RESID_LIBS@' to the X610 library list.
+
+	* sid/resid.cc (resid_sound_machine_read): Added `int' cast to
+ 	shut down compiler.
+	(resid_sound_machine_store): Likewise.
+	(resid_sound_machine_calculate_samples): Likewise.
+
+	* arch/unix/xaw/c64ui.c: Fixed `CheckSsColl' -> `CheckSbColl'
+ 	typo.
+
+1998-09-11  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am (cpucore_sources): define for dependencies of
+	6510core.c
+	(maincpu_sources): added maincpu.def
+	(EXTRA_DIST): added cpu-tmpl.c
+	(BUILT_SOURCES): added maincpu.c
+	(maincpu.c): added rule to build from maincpu.def and cpu-tmpl.c
+
+	* c128/Makefile.am (libc128_a_SOURCES): added c128cpu.def
+	(c128cpu.c): added rule to build from c128cpu.def and ../cpu-tmpl.c
+
+	* c128/c128cpu.def: new file to make a cpu-tmpl.c a c128cpu.c
+
+	* c610/Makefile.am (libc610_a_SOURCES): added c610cpu.def
+	(c610cpu.c): added rule to build from c610cpu.def and ../cpu-tmpl.c
+
+	* c610/c610cpu.def: new file to make a cpu-tmpl a c610cpu.c
+
+	* cpu-tmpl.c: new file. maincpu template, derived from maincpu.c,
+	c128cpu.c and c610cpu.c
+
+	* maincpu.def: new file to make a maincpu.c out of cpu-tmpl.c
+
+	* mem.h: removed MOS6509 and _MAINCPU_C conditional defines
+
+	* arch/unix/xaw/c610ui.c (c610_memsize_submenu): add 1M memory
+	size entry
+	(model_defaults_submenu): add 620+ model (1M)
+	(model_settings_submenu): add toggles for Ram1, Ram2, Ram4, Ram6
+
+	* c610/c610cia1.def (cia1_set_ieee_dir): use oldpa
+	[STORE_CIAPA]: comply with new I/O port handling
+	[READ_CIAPA]: dito
+
+	* c610/c610mem.c (set_ramsize): allow 512 and 1024k as well
+	(cart1_ram, cart2_ram, cart4_ram, cart6_ram): new resources
+	for setting bank15 at those places to RAM instead of ROM.
+	(ram): now 1M in size for 16 possible banks of 64k
+	[STORE_ZERO, STORE_RAM, READ_ZERO, READ_RAM]: defines to
+	build banked memory access functions.
+	(initialize_memory): check ramsize and set RAM memory functions
+	as well as check cart*_ram and set RAM in bank 15
+	(banknames, banknums): add more RAM banks for monitor access.
+	(mem_bank_read, mem_bank_write): handle new banks
+
+	* c610/c610mem.h [C610_RAM_SIZE]: change to 1M
+
+	* c610/c610tpi.def [STORE_PA]: fix call to cia1_set_ieee_dir
+
+	* crtc-tmpl.c, pet/crtc.def, c610/crtc.def [MY_WINDOW_TITLE]:
+	new define for the window title.
+
+	* c64/c64mem.c (page_zero): removed
+
+	* pet/petmem.c (page_zero): removed
+
+	* vic20/vic20mem.c (page_zero): removed
+
+	* mem.h (page_zero, PAGE_ZERO): if MOS6509, then define PAGE_ZERO
+	to page_zero, otherwise define PAGE_ZERO to ram
+	[LOAD_ZERO]: use PAGE_ZERO instead of page_zero
+
 1998-09-11  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.5.
