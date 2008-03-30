@@ -403,7 +403,7 @@ static void REGPARM2 store_dummy(WORD addr, BYTE value)
 static void set_std_9tof(void)
 {
     int i, l;
-    static void (*store)(WORD, BYTE);
+    static void REGPARM2 (*store)(WORD, BYTE);
     int ram9, rama;
 
     store = (petres.map == 2) ? ram_store : store_dummy;
