@@ -129,7 +129,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int pet_kbd_init_resources(void)
+int pet_kbd_resources_init(void)
 {
     keymap_res_name_list = my_keymap_res_name_list;
     resources_register(resources);
@@ -162,7 +162,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int pet_kbd_init_cmdline_options(void)
+int pet_kbd_cmdline_options_init(void)
 {
     keymap_res_name_list = my_keymap_res_name_list;
     cmdline_register_options(cmdline_options);

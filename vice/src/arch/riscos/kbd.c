@@ -212,20 +212,20 @@ const char *kbd_intkey_to_string(int intkey)
 
 int kbd_init(void)
 {
-  /*kbd_init_resources();*/
+  /*kbd_resources_init();*/
   memset(last_keys, 0, 32);
   return 0;
 }
 
 /* PET-specific stuff */
-int pet_kbd_init_resources(void)
+int pet_kbd_resources_init(void)
 {
-    return kbd_init_resources();
+    return kbd_resources_init();
 }
 
-int pet_kbd_init_cmdline_options(void)
+int pet_kbd_cmdline_options_init(void)
 {
-    return kbd_init_cmdline_options();
+    return kbd_cmdline_options_init();
 }
 
 static const char Rsrc_JoyKeys1[] = "JoystickKeys1";
@@ -314,7 +314,7 @@ static resource_t resources[] = {
   {NULL}
 };
 
-int kbd_init_resources(void)
+int kbd_resources_init(void)
 {
   sprintf(DefaultJoyKeys1, "%2x%2x%2x%2x%2x", KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire);
   sprintf(DefaultJoyKeys2, "%2x%2x%2x%2x%2x", KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire);
@@ -323,7 +323,7 @@ int kbd_init_resources(void)
 }
 
 
-int kbd_init_cmdline_options(void)
+int kbd_cmdline_options_init(void)
 {
   return 0;
 }
