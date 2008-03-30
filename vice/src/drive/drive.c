@@ -52,14 +52,12 @@
 #endif
 
 #include "attach.h"
-#include "cia.h"
 #include "ciad.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
-#include "mem.h"
 #include "memutils.h"
 #include "resources.h"
 #include "serial.h"
@@ -67,9 +65,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
-#include "via.h"
 #include "viad.h"
-#include "warn.h"
 #include "wd1770.h"
 #include "sysfile.h"
 
@@ -566,11 +562,6 @@ static CLOCK ntsc_cycles_per_sec;
 
 static int drive_led_color[2];
 
-/* Warnings.  */
-enum drive_warnings { WARN_GCRWRITE };
-#define DRIVE_NUM_WARNINGS (WARN_GCRWRITE + 1)
-static warn_t *drive_warn;
-
 #define GCR_OFFSET(track, sector)  ((track - 1) * NUM_MAX_BYTES_TRACK \
 				    + sector * NUM_BYTES_SECTOR_GCR)
 
@@ -990,10 +981,8 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive[0].clk = &drive_clk[0];
     drive[1].clk = &drive_clk[1];
 
-    drive_warn = warn_init("DRIVE", DRIVE_NUM_WARNINGS);
-
     if (drive_load_rom_images() < 0)
-	return -1;
+        return -1;
 
     iec_info = iec_get_drive_port();
     /* Set IEC lines of disabled drives to `1'.  */
@@ -1418,7 +1407,6 @@ void drive_reset(void)
 {
     drive0_cpu_reset();
     drive1_cpu_reset();
-    warn_reset(drive_warn);
 }
 
 /* ------------------------------------------------------------------------- */
