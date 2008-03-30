@@ -88,6 +88,7 @@
 #endif
 
 #include "cia.h"
+#include "log.h"
 #include "resources.h"
 #include "snapshot.h"
 
@@ -155,6 +156,8 @@ static int cia1581d0todticks = 100000;	/* approx. a 1/10 sec. */
 
 static BYTE cia1581d0flag = 0;
 
+static log_t cia1581d0_log = LOG_ERR;
+
 /* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
 #ifndef CYCLES_PER_SEC
 #define	CYCLES_PER_SEC 	1000000
@@ -196,7 +199,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 {
 #ifdef CIA1581D0_TIMER_DEBUG
     if(cia1581d0_debugFlag) {
-        fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",
+        log_message(cia1581d0_log, "set_int(rclk=%d, int=%d, d=%d pc=).",
            rclk,(int_num),(value));
     }
 #endif
@@ -215,7 +218,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 #define	my_set_int(value, rclk)						\
     do {								\
         if (cia1581d0_debugFlag)						\
-	    fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
+	    log_message(cia1581d0_log, "set_int(rclk=%d, int=%d, d=%d pc=).",		\
 		   rclk,(int_num),(value));				\
 	drive0_set_irq_clk((I_CIA1581D0FL), (value), (rclk));		\
 	if ((value))							\
@@ -380,7 +383,7 @@ static int update_cia1581d0(CLOCK rclk)
 
 #ifdef CIA1581D0_TIMER_DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "CIA1581D0: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
+	log_message(cia1581d0_log, "update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
 	       rclk, cia1581d0_tas, cia1581d0_tau, cia1581d0_tal);
 #endif
 
@@ -432,7 +435,8 @@ static int update_cia1581d0(CLOCK rclk)
     }
 #ifdef CIA1581D0_TIMER_DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, cia1581d0_tac, cia1581d0_tau, tmp);
+	log_message(cia1581d0_log, "aic=%d, tac-> %u, tau-> %d tmp=%u",
+                    added_int_clk, cia1581d0_tac, cia1581d0_tau, tmp);
 #endif
 
     if (cia1581d0[CIA_CRA] & 0x04) {
@@ -483,7 +487,7 @@ static int update_cia1581d0(CLOCK rclk)
 
 #ifdef CIA1581D0_TIMER_DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "tbc-> %u, tbu-> %d, int %02x ->",
+	log_message(cia1581d0_log, "tbc-> %u, tbu-> %d, int %02x ->",
 	       cia1581d0_tbc, cia1581d0_tbu, cia1581d0int);
 #endif
 
@@ -500,7 +504,7 @@ static int update_cia1581d0(CLOCK rclk)
 		cia1581d0int &= 0x7f;
 #ifdef CIA1581D0_TIMER_DEBUG
 		if (cia1581d0_debugFlag)
-		    fprintf(logfile, "CIA1581D0: TA Reading ICR at rclk=%d prevented IRQ\n",
+		    log_message(cia1581d0_log, "TA Reading ICR at rclk=%d prevented IRQ.",
 			   rclk);
 #endif
 	    } else {
@@ -513,7 +517,7 @@ static int update_cia1581d0(CLOCK rclk)
     }
 #ifdef CIA1581D0_TIMER_DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "%02x\n", cia1581d0int);
+	log_message(cia1581d0_log, "%02x.", cia1581d0int);
 #endif
 
     /* return true sif interrupt line is set at this clock time */
@@ -525,6 +529,9 @@ static int update_cia1581d0(CLOCK rclk)
 void reset_cia1581d0(void)
 {
     int i;
+
+    if (cia1581d0_log == LOG_ERR)
+        cia1581d0_log = log_open("CIA1581D0");
 
     cia1581d0todticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
@@ -573,8 +580,8 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 
 #ifdef CIA1581D0_TIMER_DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "store cia1581d0[%02x] %02x @ clk=%d, pc=\n",
-	       (int) addr, (int) byte, rclk);
+	log_message(cia1581d0_log, "store cia1581d0[%02x] %02x @ clk=%d",
+                    (int) addr, (int) byte, rclk);
 #endif
 
     switch (addr) {
@@ -723,7 +730,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1581D0_TIMER_DEBUG)
 	        if (cia1581d0_debugFlag)
-	    	    fprintf(logfile, "CIA1581D0: start SDR rclk=%d\n", rclk);
+	    	    log_message(cia1581d0_log, "start SDR rclk=%d.", rclk);
 #endif
   	    }
 	}
@@ -736,7 +743,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "CIA1581D0 set CIA_ICR: 0x%x\n", byte);
+	    log_message(cia1581d0_log, "CIA1581D0 set CIA_ICR: 0x%x.", byte);
 #endif
 
 	if (byte & CIA_IM_SET) {
@@ -748,8 +755,8 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 	/* This must actually be delayed one cycle! */
 #if defined(CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
-		   cia1581d0ier & cia1581d0int & 0x7f, cia1581d0int);
+	    log_message(cia1581d0_log, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x.",
+                        cia1581d0ier & cia1581d0int & 0x7f, cia1581d0int);
 #endif
 	if (cia1581d0ier & cia1581d0int & 0x7f) {
 	    my_set_int(IK_IRQ, rclk);
@@ -770,7 +777,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 	update_cia1581d0(rclk);
 #if defined (CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "CIA1581D0 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
+	    log_message(cia1581d0_log, "CIA1581D0 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u).",
 		   byte, rclk, /*program_counter,*/ cia1581d0_tal, cia1581d0_tac);
 #endif
 
@@ -813,7 +820,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 	}
 #if defined (CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "    -> tas=%d, tau=%d\n", cia1581d0_tas, cia1581d0_tau);
+	    log_message(cia1581d0_log, "    -> tas=%d, tau=%d.", cia1581d0_tas, cia1581d0_tau);
 #endif
 	cia1581d0[addr] = byte & 0xef;	/* remove strobe */
 
@@ -825,7 +832,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 
 #if defined (CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "CIA1581D0 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
+	    log_message(cia1581d0_log, "CIA1581D0 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u).",
 		   byte, rclk, cia1581d0_tbl, cia1581d0_tbc);
 #endif
 
@@ -838,7 +845,7 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 		cia1581d0_tbu = rclk + cia1581d0_tbc + 2;
 #if defined(CIA1581D0_TIMER_DEBUG)
 		if (cia1581d0_debugFlag)
-		    fprintf(logfile, "CIA1581D0: rclk=%d force load: set tbu alarm to %d\n", rclk, cia1581d0_tbu);
+		    log_message(cia1581d0_log, "rclk=%d force load: set tbu alarm to %d.", rclk, cia1581d0_tbu);
 #endif
 		my_set_tbi_clk(cia1581d0_tbu + 1);
 	    }
@@ -855,14 +862,14 @@ void REGPARM2 store_cia1581d0(ADDRESS addr, BYTE byte)
 		cia1581d0_tbu = rclk + (cia1581d0_tbc + 1) + ((byte & 0x10) >> 4);
 #if defined(CIA1581D0_TIMER_DEBUG)
 		if (cia1581d0_debugFlag)
-		    fprintf(logfile, "CIA1581D0: rclk=%d start timer: set tbu alarm to %d\n", rclk, cia1581d0_tbu);
+		    log_message(cia1581d0_log, "rclk=%d start timer: set tbu alarm to %d.", rclk, cia1581d0_tbu);
 #endif
 		my_set_tbi_clk(cia1581d0_tbu + 1);
 		cia1581d0_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
 #if defined(CIA1581D0_TIMER_DEBUG)
 		if (cia1581d0_debugFlag)
-		    fprintf(logfile, "CIA1581D0: rclk=%d stop timer: set tbu alarm\n", rclk);
+		    log_message(cia1581d0_log, "rclk=%d stop timer: set tbu alarm.", rclk);
 #endif
 		my_unset_tbi();
 		cia1581d0_tbu = 0;
@@ -907,8 +914,8 @@ BYTE REGPARM1 read_cia1581d0(ADDRESS addr)
     BYTE tmp = read_cia1581d0_(addr);
 
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "read cia1581d0[%x] returns %02x @ clk=%d, pc=\n",
-	       addr, tmp, drive_clk[0] - READ_OFFSET);
+	log_message(cia1581d0_log, "read cia1581d0[%x] returns %02x @ clk=%d.",
+                    addr, tmp, drive_clk[0] - READ_OFFSET);
     return tmp;
 }
 
@@ -999,18 +1006,6 @@ BYTE read_cia1581d0_(ADDRESS addr)
 	return cia1581d0todlatch[addr - CIA_TOD_TEN];
 
       case CIA_SDR:		/* Serial Port Shift Register */
-#if 0				/*def DEBUG */
-	cia1581d0_dump(stdout);
-	/* little hack .... */
-	{
-	    int i;
-	    fprintf(logfile, "\ndrive0_ints:");
-	    for (i = 0; i < NUMOFINT; i++) {
-		fprintf(logfile, " %d", drive0_int_status.pending_int[i]);
-	    }
-	    fprintf(logfile, "\n");
-	}
-#endif
 	return (cia1581d0[addr]);
 
 	/* Interrupts */
@@ -1023,7 +1018,7 @@ BYTE read_cia1581d0_(ADDRESS addr)
 
 #ifdef CIA1581D0_TIMER_DEBUG
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		log_message(cia1581d0_log, "CIA1581D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d",
 			rclk, drive0_int_status.alarm_clk[A_CIA1581D0TA],
 			drive0_int_status.alarm_clk[A_CIA1581D0TB]);
 #endif
@@ -1044,11 +1039,12 @@ BYTE read_cia1581d0_(ADDRESS addr)
 
 #ifdef CIA1581D0_TIMER_DEBUG
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0 read intfl gives cia1581d0int=%02x -> %02x @"
-		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1581d0int, t, cia1581d0sr_bits, clk,
-			(cia1581d0_tac ? cia1581d0_tac : cia1581d0_tal),
-			cia1581d0_tbc);
+		log_message(cia1581d0_log,
+                            "read intfl gives cia1581d0int=%02x -> %02x "
+                            "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
+                            cia1581d0int, t, cia1581d0sr_bits, clk,
+                            (cia1581d0_tac ? cia1581d0_tac : cia1581d0_tal),
+                            cia1581d0_tbc);
 #endif
 
 	    cia1581d0flag = 0;
@@ -1107,9 +1103,10 @@ BYTE REGPARM1 peek_cia1581d0(ADDRESS addr)
 
 #ifdef CIA1581D0_TIMER_DEBUG
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
-			rclk, drive0_int_status.alarm_clk[A_CIA1581D0TA],
-			drive0_int_status.alarm_clk[A_CIA1581D0TB]);
+		log_message(cia1581d0_log,
+                            "CIA1581D0 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d.",
+                            rclk, drive0_int_status.alarm_clk[A_CIA1581D0TA],
+                            drive0_int_status.alarm_clk[A_CIA1581D0TB]);
 #endif
 
 	    /* cia1581d0rdi = rclk; makes int_* and update_cia1581d0 fiddle with IRQ */
@@ -1128,11 +1125,12 @@ BYTE REGPARM1 peek_cia1581d0(ADDRESS addr)
 
 #ifdef CIA1581D0_TIMER_DEBUG
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0 read intfl gives cia1581d0int=%02x -> %02x @"
-		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia1581d0int, t, cia1581d0sr_bits, clk,
-			(cia1581d0_tac ? cia1581d0_tac : cia1581d0_tal),
-			cia1581d0_tbc);
+		log_message(cia1581d0_log,
+                            "read intfl gives cia1581d0int=%02x -> %02x "
+                            "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
+                            cia1581d0int, t, cia1581d0sr_bits, clk,
+                            (cia1581d0_tac ? cia1581d0_tac : cia1581d0_tal),
+                            cia1581d0_tbc);
 #endif
 
 /*
@@ -1157,8 +1155,9 @@ int int_cia1581d0ta(long offset)
 
 #if defined(CIA1581D0_TIMER_DEBUG)
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "CIA1581D0: int_cia1581d0ta(rclk = %u, tal = %u, cra=%02x\n",
-	       rclk, cia1581d0_tal, cia1581d0[CIA_CRA]);
+	log_message(cia1581d0_log,
+                    "int_cia1581d0ta(rclk = %u, tal = %u, cra=%02x.",
+                    rclk, cia1581d0_tal, cia1581d0[CIA_CRA]);
 #endif
 
     cia1581d0_tat = (cia1581d0_tat + 1) & 1;
@@ -1177,17 +1176,9 @@ int int_cia1581d0ta(long offset)
 	        my_set_tai_clk(rclk + cia1581d0_tal + 1 );
 	    }
 	} else {
-	    /* cia1581d0_tai = rclk + cia1581d0_tal +1; - now keeps tai */
-	    /* fprintf(logfile, "cia1581d0 unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
-			drive_clk[0], rclk, cia1581d0rdi, cia1581d0_tai); */
 	    drive0_unset_alarm(A_CIA1581D0TA);	/* do _not_ clear cia1581d0_tai */
 	}
     } else {
-#if 0
-	cia1581d0_tas = CIAT_STOPPED;
-	cia1581d0[CIA_CRA] &= 0xfe;	/* clear run flag. Correct? */
-	cia1581d0_tau = 0;
-#endif
 	my_unset_tai();
     }
 
@@ -1195,7 +1186,7 @@ int int_cia1581d0ta(long offset)
 	if (cia1581d0sr_bits) {
 #if defined(CIA1581D0_TIMER_DEBUG)
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0: rclk=%d SDR: timer A underflow, bits=%d\n",
+		log_message(cia1581d0_log, "rclk=%d SDR: timer A underflow, bits=%d",
 		       rclk, cia1581d0sr_bits);
 #endif
 	    if (!(--cia1581d0sr_bits)) {
@@ -1213,7 +1204,8 @@ int int_cia1581d0ta(long offset)
 	    cia1581d0_tbu = rclk;
 #if defined(CIA1581D0_TIMER_DEBUG)
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
+		log_message(cia1581d0_log,
+                            "timer B underflow when counting timer A occured, rclk=%d!", rclk);
 #endif
 	    cia1581d0int |= CIA_IM_TB;
 	    my_set_tbi_clk(rclk);
@@ -1250,7 +1242,8 @@ int int_cia1581d0tb(long offset)
 
 #if defined(CIA1581D0_TIMER_DEBUG)
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "CIA1581D0: timer B int_cia1581d0tb(rclk=%d, tbs=%d)\n", rclk, cia1581d0_tbs);
+	log_message(cia1581d0_log,
+                    "timer B int_cia1581d0tb(rclk=%d, tbs=%d).", rclk, cia1581d0_tbs);
 #endif
 
     cia1581d0_tbt = (cia1581d0_tbt + 1) & 1;
@@ -1260,7 +1253,9 @@ int int_cia1581d0tb(long offset)
 	if (!(cia1581d0[CIA_CRB] & 8)) {
 #if defined(CIA1581D0_TIMER_DEBUG)
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0: rclk=%d cia1581d0tb: set tbu alarm to %d\n", rclk, rclk + cia1581d0_tbl + 1);
+		log_message(cia1581d0_log,
+                            "rclk=%d cia1581d0tb: set tbu alarm to %d.",
+                            rclk, rclk + cia1581d0_tbl + 1);
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia1581d0ier & CIA_IM_TB) {
@@ -1282,7 +1277,8 @@ int int_cia1581d0tb(long offset)
 #endif /* 0 */
 #if defined(CIA1581D0_TIMER_DEBUG)
 	    if (cia1581d0_debugFlag)
-		fprintf(logfile, "CIA1581D0: rclk=%d cia1581d0tb: unset tbu alarm\n", rclk);
+		log_message(cia1581d0_log,
+                            "rclk=%d cia1581d0tb: unset tbu alarm.", rclk);
 #endif
 	    my_unset_tbi();
 	}
@@ -1298,7 +1294,8 @@ int int_cia1581d0tb(long offset)
 	my_unset_tbi();
 #if defined(CIA1581D0_TIMER_DEBUG)
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "CIA1581D0: rclk=%d cia1581d0tb: unset tbu alarm\n", rclk);
+	    log_message(cia1581d0_log,
+                        "rclk=%d cia1581d0tb: unset tbu alarm.", rclk);
 #endif
     }
 
@@ -1340,9 +1337,10 @@ int int_cia1581d0tod(long offset)
 
 #ifdef DEBUG
     if (cia1581d0_debugFlag)
-	fprintf(logfile, "CIA1581D0: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
-	       cia1581d0[CIA_TOD_HR], cia1581d0[CIA_TOD_MIN], cia1581d0[CIA_TOD_SEC],
-	       cia1581d0[CIA_TOD_TEN]);
+	log_message(cia1581d0_log,
+                    "TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x.",
+                    cia1581d0[CIA_TOD_HR], cia1581d0[CIA_TOD_MIN], cia1581d0[CIA_TOD_SEC],
+                    cia1581d0[CIA_TOD_TEN]);
 #endif
 
     /* set up new int */
@@ -1374,9 +1372,10 @@ int int_cia1581d0tod(long offset)
 	}
 #ifdef DEBUG
 	if (cia1581d0_debugFlag)
-	    fprintf(logfile, "CIA1581D0: TOD after event :tod=%02x:%02x,%02x.%x\n",
-	       cia1581d0[CIA_TOD_HR], cia1581d0[CIA_TOD_MIN], cia1581d0[CIA_TOD_SEC],
-		   cia1581d0[CIA_TOD_TEN]);
+	    log_message(cia1581d0_log,
+                        "TOD after event :tod=%02x:%02x,%02x.%x.",
+                        cia1581d0[CIA_TOD_HR], cia1581d0[CIA_TOD_MIN], cia1581d0[CIA_TOD_SEC],
+                        cia1581d0[CIA_TOD_TEN]);
 #endif
 	/* check alarm */
 	check_cia1581d0todalarm(rclk);
@@ -1477,10 +1476,10 @@ int cia1581d0_write_snapshot_module(snapshot_t *p)
     update_cia1581d0(drive_clk[0]);
 
 #ifdef CIA1581D0_DUMP_DEBUG
-fprintf(logfile, "CIA1581D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
-fprintf(logfile, "CIA1581D0: write cia1581d0int=%02x, cia1581d0ier=%02x\n", cia1581d0int, cia1581d0ier);
+    log_message(cia1581d0_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
+    log_message(cia1581d0_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
+    log_message(cia1581d0_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
+    log_message(cia1581d0_log, "write cia1581d0int=%02x, cia1581d0ier=%02x", cia1581d0int, cia1581d0ier);
 #endif
 
     snapshot_module_write_byte(m, cia1581d0[CIA_PRA]);
@@ -1609,7 +1608,7 @@ int cia1581d0_read_snapshot_module(snapshot_t *p)
     cia1581d0int = byte;
 
 #ifdef CIA1581D0_DUMP_DEBUG
-fprintf(logfile, "CIA1581D0: read cia1581d0int=%02x, cia1581d0ier=%02x\n", cia1581d0int, cia1581d0ier);
+log_message(cia1581d0_log, "read cia1581d0int=%02x, cia1581d0ier=%02x.", cia1581d0int, cia1581d0ier);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1633,8 +1632,8 @@ fprintf(logfile, "CIA1581D0: read cia1581d0int=%02x, cia1581d0ier=%02x\n", cia15
 	cia1581d0rdi = 0;
     }
 #ifdef CIA1581D0_DUMP_DEBUG
-fprintf(logfile, "CIA1581D0: snap read rdi=%02x\n", byte);
-fprintf(logfile, "CIA1581D0: snap setting rdi to %d (rclk=%d)\n", cia1581d0rdi, drive_clk[0]);
+log_message(cia1581d0_log, "snap read rdi=%02x", byte);
+log_message(cia1581d0_log, "snap setting rdi to %d (rclk=%d)", cia1581d0rdi, drive_clk[0]);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1651,9 +1650,9 @@ fprintf(logfile, "CIA1581D0: snap setting rdi to %d (rclk=%d)\n", cia1581d0rdi, 
     /* timer switch-on code from store_cia1581d0[CIA_CRA/CRB] */
 
 #ifdef CIA1581D0_DUMP_DEBUG
-fprintf(logfile, "CIA1581D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
+log_message(cia1581d0_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
+log_message(cia1581d0_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
+log_message(cia1581d0_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
 #endif
 
     if ((cia1581d0[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
@@ -1677,9 +1676,9 @@ fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d0_tbi, cia1581d0
     }
 
 #ifdef CIA1581D0_DUMP_DEBUG
-fprintf(logfile, "CIA1581D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
+log_message(cia1581d0_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",drive_clk[0], cia1581d0[CIA_CRA], cia1581d0[CIA_CRB],cia1581d0_tas, cia1581d0_tbs);
+log_message(cia1581d0_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia1581d0_tai, cia1581d0_tau, cia1581d0_tac, cia1581d0_tal);
+log_message(cia1581d0_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia1581d0_tbi, cia1581d0_tbu, cia1581d0_tbc, cia1581d0_tbl);
 #endif
 
     if (cia1581d0[CIA_ICR] & 0x80) {

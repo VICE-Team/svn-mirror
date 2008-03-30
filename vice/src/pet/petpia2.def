@@ -1,4 +1,4 @@
-/*
+/* -*- C -*- 
  * petpia2.def -- PIA 2 chip emulation.
  *
  * Written by
@@ -94,9 +94,11 @@ READ_PA()
 	        drive1_cpu_execute();
 
 	    if (parallel_debug)
-		fprintf(logfile, "read pia2 port A %x, parallel_bus=%x, gives %x\n",
-			pia2.port_a, parallel_bus,
-			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
+		log_message(pia2_log,
+                            "read pia2 port A %x, parallel_bus=%x, gives %x.",
+                            pia2.port_a, parallel_bus,
+                            ((parallel_bus & ~pia2.ddr_a)
+                             | (pia2.port_a & pia2.ddr_a)));
 
 	    byte = (parallel_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
 }

@@ -35,14 +35,14 @@
 #endif
 
 #include "sound.h"
+
 #include "cmdline.h"
-#include "resources.h"
-#include "vsync.h"
-#include "ui.h"
+#include "log.h"
 #include "maincpu.h"
+#include "resources.h"
+#include "ui.h"
 #include "utils.h"
-
-
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -117,8 +117,9 @@ static int set_oversampling_factor(resource_value_t v)
 {
     oversampling_factor = (int)v;
     if (oversampling_factor < 0 || oversampling_factor > 3) {
-        fprintf(errfile, "Warning: invalid oversampling factor %d."
-                "  Forcing 3.\n", oversampling_factor);
+        log_warning(LOG_DEFAULT,
+                    "Invalid oversampling factor %d.  Forcing 3.",
+                    oversampling_factor);
         oversampling_factor = 3;
     }
     sound_close();
@@ -570,9 +571,6 @@ int sound_flush(int relative_speed)
 		    dir = -1;
 		if (minspace > snddata.fragsize)
 		    dir = 1;
-#if 0
-		fprintf(logfile, "sync %d %d %f\n", dir, minspace, snddata.clkfactor);
-#endif
 		minspace = snddata.bufsize;
 	    }
 	}

@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "mem.h"
 #include "interrupt.h"
+#include "log.h"
 #include "parallel.h"
 #include "resources.h"
 #include "vmachine.h"
@@ -107,10 +108,15 @@ typedef struct {
 static piareg  pia2;
 static int is_peek_access = 0;
 
+static log_t pia2_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 void    reset_pia2(void)
 {
+   if (pia2_log == LOG_ERR)
+       pia2_log = log_open("PIA2");
+
    /* clear _all_ internal registers */
 
    pia2.ctrl_a = 0;	/* PIA 1 Port A Control */
@@ -163,8 +169,6 @@ void signal_pia2(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*fprintf(logfile, "signal_pia2(line=%d, edge=%d, ctrl=%02x)\n",
-						line,edge,pia2.ctrl_b);*/
 	if ( ((pia2.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    pia2.ctrl_b |= 0x80;
 	    pia2_update_irq();
@@ -185,10 +189,6 @@ void REGPARM2 store_pia2(ADDRESS addr, BYTE byte)
 {
 
     addr &= 3;
-
-#if 0
-    fprintf(logfile, "store pia2 [%x] %x\n", (int) addr, (int) byte);
-#endif
 
     switch (addr) {
 
@@ -278,13 +278,6 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 
     addr &= 3;
 
-#if 0
-    fprintf(logfile, "read pia2 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
-           addr,
-           pia2.port_a, pia2.ddr_a, pia2.ctrl_a,
-           pia2.port_b, pia2.ddr_b, pia2.ctrl_b);
-#endif
-
     switch (addr) {
 
       case P_PORT_A: /* port A */
@@ -304,9 +297,11 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	        drive1_cpu_execute();
 
 	    if (parallel_debug)
-		fprintf(logfile, "read pia2 port A %x, parallel_bus=%x, gives %x\n",
-			pia2.port_a, parallel_bus,
-			(parallel_bus & ~pia2.ddr_a) |(pia2.port_a & pia2.ddr_a));
+		log_message(pia2_log,
+                            "read pia2 port A %x, parallel_bus=%x, gives %x.",
+                            pia2.port_a, parallel_bus,
+                            ((parallel_bus & ~pia2.ddr_a)
+                             | (pia2.port_a & pia2.ddr_a)));
 
 	    byte = (parallel_bus & ~pia2.ddr_a) | (pia2.port_a & pia2.ddr_a);
 	    return byte;

@@ -28,6 +28,7 @@
  */
 
 /* FIXME: P00 should be moved from here. */
+/* FIXME: Logging should be separate from `LOG_DEFAULT'.  */
 
 #include "vice.h"
 
@@ -61,20 +62,17 @@ typedef long       fpos_t;
 #define PACK		/* pack using a compiler switch instead */
 #endif
 
-
 typedef struct {
 	BYTE Magic[8] PACK;
 	char CbmName[17] PACK;
 	BYTE RecordSize PACK;		/* REL file record size */
 } X00HDR;
 
-
 /* Global */
 
 extern char *slot_type[];
 
 static const BYTE MagicHeaderP00[8] = "C64File\0";
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -116,9 +114,8 @@ int  read_pc64header (FILE *fd, char *name, int *reclen)
 {
     X00HDR  hdr;
 
-
     if (fread (&hdr, sizeof(X00HDR), 1, fd) != 1) {
-	fprintf (errfile, "\nP00 header read failed.\n");
+	log_error(LOG_DEFAULT, "P00 header read failed.");
 	return (FD_RDERR);
     }
 
@@ -339,18 +336,18 @@ int  check_t64_header (FILE *fd)
 
 
     if (buf[32] != 0 || buf[33] != 1)
-	fprintf (errfile, "Warning: Unknown tape version.\n");
+	log_error (LOG_DEFAULT, "Unknown tape version.");
 
     maxentries = buf[34];
     maxentries |= (buf[35] << 8);
 
     if (!maxentries) {
-	fprintf(logfile, "Cannot locate any files on the tape.\n");
+	log_error(LOG_DEFAULT, "Cannot locate any files on the tape.");
 	return (FD_BADIMAGE);		/* tapeimage, that is */
     }
 
-    fprintf(logfile, "Tape version %d.%.2d with %2d out of %d files.\n",
-	   buf[33], buf[32], (buf[37] << 8) | buf[36], maxentries);
+    log_message(LOG_DEFAULT, "Tape version %d.%.2d with %2d out of %d files.",
+                buf[33], buf[32], (buf[37] << 8) | buf[36], maxentries);
 
     return (maxentries);
 }
@@ -388,7 +385,7 @@ char *read_tape_image_contents(const char *fname)
 
     /* Check a little bit... */
     if (no_entries > max_entries) {
-	fprintf(errfile, "Tape inconsistency, giving up!\n");
+	log_error(LOG_DEFAULT, "Tape inconsistency, giving up!");
 	zclose(fd);
 	return NULL;
     }
@@ -399,7 +396,6 @@ char *read_tape_image_contents(const char *fname)
 
     /* Seek to start of file records. */
     if (lseek (fd, 64, SEEK_SET) < 0) {
-	perror("lseek to file records failed");
 	zclose(fd);
 	return NULL;
     }
@@ -420,7 +416,6 @@ char *read_tape_image_contents(const char *fname)
 
 	res = read(fd, inbuf, 32);
 	if (res != 32) {
-	    perror("read of file record failed");
 	    zclose(fd);
 	    free(outbuf);
 	    return NULL;

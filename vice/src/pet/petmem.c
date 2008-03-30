@@ -33,27 +33,28 @@
 
 #include <stdio.h>
 
-#include "types.h"
-#include "memutils.h"
-#include "snapshot.h"
-#include "petpia.h"
-#include "pet.h"
-#include "petvia.h"
-#include "petacia.h"
+#include "autostart.h"
+#include "cmdline.h"
 #include "crtc.h"
+#include "emuid.h"
+#include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
-#include "autostart.h"
-#include "resources.h"
-#include "cmdline.h"
-#include "tapeunit.h"
-#include "pets.h"
-#include "interrupt.h"
-#include "vmachine.h"
+#include "log.h"
 #include "maincpu.h"
+#include "memutils.h"
+#include "pet.h"
+#include "petacia.h"
 #include "petmem.h"
-#include "emuid.h"
+#include "petpia.h"
+#include "pets.h"
+#include "petvia.h"
+#include "resources.h"
+#include "snapshot.h"
+#include "tapeunit.h"
+#include "types.h"
 #include "utils.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -92,6 +93,8 @@ static BYTE map_reg = 0;
 static int bank8offset = 0;
 static int bankCoffset = 0;
 
+static log_t pet_mem_log = LOG_ERR;
+
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
 /* prototype */
@@ -108,13 +111,6 @@ static trap_t pet4_tape_traps[] =
         0xF5EB,
         {0x20, 0x9A, 0xF8},
         findheader
-    },
-    {
-        "WriteHeader",
-        0xF66B,
-        0xF66E,
-        {0x20, 0xD5, 0xF8},
-        writeheader
     },
     {
         "TapeReceive",
@@ -142,13 +138,6 @@ static trap_t pet3_tape_traps[] =
         findheader
     },
     {
-        "WriteHeader",
-        0xF62C,
-        0xF62F,
-        {0x20, 0x90, 0xF8},
-        writeheader
-    },
-    {
         "TapeReceive",
         0xF89B,
         0xFC7B,
@@ -172,13 +161,6 @@ static trap_t pet2_tape_traps[] =
         0xF5B5,
         {0x20, 0x7F, 0xF8},
         findheader
-    },
-    {
-        "WriteHeader",
-        0xF63D,
-        0xF640,
-        {0x20, 0xC4, 0xF8},
-        writeheader
     },
     {
         "TapeReceive",
@@ -383,7 +365,7 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
     if(addr >= 0xeff8) {
 	if(!spet_ctrlwp) {
 	    if(!(value & 1)) {
-		fprintf(logfile, "SuperPET: 6809 not emulated!\n");
+		log_error(pet_mem_log, "SuperPET: 6809 not emulated!");
 		maincpu_trigger_reset();
 	    }
 	    spet_ramwp = !(value & 0x2);
@@ -661,9 +643,6 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
     changed = map_reg ^ value;
 
     if (addr == 0xfff0 && changed && ((map_reg | changed) & 0x80)) {
-#if 0
-        fprintf(logfile, "Change $fff0 to %02x\n", value);
-#endif
         if (value & 0x80) {     /* ext. RAM enabled */
             if (changed & 0xa5) {       /* $8000-$bfff */
                 protected = value & 0x01;
@@ -729,11 +708,12 @@ void initialize_memory(void)
 {
     int i, l;
 
+    if (pet_mem_log == LOG_ERR)
+        pet_mem_log = log_open("PETMEM");
+
     l = pet.ramSize << 2;       /* ramSize in kB, l in 256 Byte */
     if (l > 128)
         l = 128;                /* fix 8096 / 8296 */
-
-    /*fprintf(logfile, "PET: initialize memory, ramSize=%04x -> l=%d\n", pet.ramSize * 1024,l); */
 
     /* Setup RAM from $0000 to pet.ramSize */
     for (i = 0x00; i < l; i++) {
@@ -819,7 +799,7 @@ void patch_2001(void)
     BYTE dat5[] = {0xae, 0x0c, 0x02, 0x70, 0x46, 0x20, 0x87, 0xf1};
     BYTE dat6[] = {0x20, 0x2c, 0xf1, 0x4c, 0x7e, 0xf1};
 
-    fprintf(logfile, "PET: patching 2001 ROM to make IEEE488 work!\n");
+    log_warning(pet_mem_log, "PET: patching 2001 ROM to make IEEE488 work!");
 
     /* Patch PET2001 IEEE488 routines to make them work */
     rom[0x7471] = rom[0x7472] = 0xea;   /* NOP */
@@ -863,9 +843,6 @@ void mem_powerup(void)
 {
     int i;
 
-#ifndef __MSDOS__
-    fprintf(logfile, "Initializing RAM for power-up...\n");
-#endif
     for (i = 0; i < RAM_ARRAY; i += 0x80) {
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
@@ -916,7 +893,7 @@ int mem_load(void)
        for the CRTC, filling the rest with zeros */
 
     if (mem_load_sys_file(pet.chargenName, chargen_rom, 0x800, 0x800) < 0) {
-        fprintf(errfile, "Couldn't load character ROM.\n");
+        log_error(pet_mem_log, "Couldn't load character ROM.");
         return -1;
     }
 
@@ -944,7 +921,7 @@ int mem_load(void)
 
         if ((krsize = mem_load_sys_file(name,
                                         rom, 0x2000, PET_ROM_SIZE)) < 0) {
-            fprintf(errfile, "Couldn't load ROM `%s'.\n\n", name);
+            log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
         if (krsize > 0x4000) {
@@ -952,25 +929,13 @@ int mem_load(void)
 	}
     }
 
-    /* Load extension ROMs.  */
-#if 0
-    if (!IS_NULL(basic_rom_name)
-        && ((rsize = mem_load_sys_file(basic_rom_name,
-                                   rom + 0x3000, 0x2000, 0x3000)) < 0)) {
-        fprintf(errfile, "Couldn't load ROM `%s'.\n\n",
-                basic_rom_name);
-        return -1;
-    }
-#endif
-
     {
         const char *name = pet.editorName;
 
         if (!IS_NULL(name)
             && ((rsize = mem_load_sys_file(name, rom + 0x6000,
                                            0x0800, 0x0800)) < 0)) {
-            fprintf(errfile, "Couldn't load ROM `%s'.\n\n",
-                    name);
+            log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
     }
@@ -978,8 +943,7 @@ int mem_load(void)
     if (!IS_NULL(pet.mem9name)) {
         if ((rsize = mem_load_sys_file(pet.mem9name,
                                    rom + 0x1000, 0x0800, 0x1000)) < 0) {
-            fprintf(errfile, "Couldn't load ROM `%s'.\n\n",
-                pet.mem9name);
+            log_error(pet_mem_log, "Couldn't load ROM `%s'.", pet.mem9name);
             return -1;
 	}
 	if (rsize == 0x800) {
@@ -991,8 +955,7 @@ int mem_load(void)
     if (!IS_NULL(pet.memAname)) {
         if ((rsize = mem_load_sys_file(pet.memAname,
                                    rom + 0x2000, 0x0800, 0x1000)) < 0) {
-            fprintf(errfile, "Couldn't load ROM `%s'.\n\n",
-                pet.memAname);
+            log_error(pet_mem_log, "Couldn't load ROM `%s'.", pet.memAname);
             return -1;
 	}
 	if (rsize == 0x800) {
@@ -1005,8 +968,8 @@ int mem_load(void)
         if (krsize <= 0x4000) {
             if ((rsize = mem_load_sys_file(pet.memBname, rom + 0x3000,
                                            0x0800, 0x1000)) < 0) {
-                fprintf(errfile, "Couldn't load ROM `%s'.\n\n",
-                        pet.memBname);
+                log_error(pet_mem_log, "Couldn't load ROM `%s'.",
+                          pet.memBname);
                 return -1;
             }
   	    if (rsize == 0x800) {
@@ -1015,8 +978,10 @@ int mem_load(void)
     	    }
 	    rom_B_loaded = 1;
         } else {
-            fprintf(logfile, "PET: internal ROM too large for extension ROM at $b000 - "
-                   "ignoring `%s'\n", pet.memBname);
+            log_error(pet_mem_log,
+                      "Internal ROM too large for extension ROM at $b000 - "
+                      "ignoring `%s'.",
+                      pet.memBname);
         }
     }
 
@@ -1029,11 +994,14 @@ int mem_load(void)
     for (i = 0x6000; i < 0x6800; i++)
         sum += rom[i];
 
-    fprintf(logfile, "PET: Loaded ROM, checksum is %d ($%04X).\n", sum, sum);
+    log_message(pet_mem_log, "Loaded ROM, checksum is %d ($%04X).",
+                sum, sum);
 
     if (pet.pet2k) {
         if (sum != PET2001_CHECKSUM) {
-            fprintf(logfile, "PET2001 model chosen, but ROM is unknown.  Cannot patch IEEE488!\n");
+            log_warning(pet_mem_log,
+                        "PET2001 model chosen, but ROM is unknown.  "
+                        "Cannot patch IEEE488!");
         } else {
             patch_2001();
         }
@@ -1044,7 +1012,7 @@ int mem_load(void)
        memory locations (0xe3 and 0x3eb) but by default (power-up) it's 10
        anyway.  AF 30jun1998 */
     if (sum == PET8032_CHECKSUM_A || sum == PET8032_CHECKSUM_B) {
-        fprintf(logfile, "Identified PET 8032 ROM by checksum.\n");
+        log_message(pet_mem_log, "Identified PET 8032 ROM by checksum.");
         pet.screen_width = 80;
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
@@ -1053,7 +1021,7 @@ int mem_load(void)
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, pet4_tape_traps,
                   0x26f, 0x9e);
     } else if (sum == PET3032_CHECKSUM_A || sum == PET3032_CHECKSUM_B) {
-        fprintf(logfile, "Identified PET 3032 ROM by checksum.\n");
+        log_message(pet_mem_log, "Identified PET 3032 ROM by checksum.");
         pet.screen_width = 40;
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
@@ -1062,7 +1030,7 @@ int mem_load(void)
         tape_init(214, 150, 157, 144, 0xe62e, 251, 201, pet3_tape_traps,
                   0x26f, 0x9e);
     } else if (sum == PET4032_CHECKSUM_A || sum == PET4032_CHECKSUM_B) {
-        fprintf(logfile, "Identified PET 4032 ROM by checksum.\n");
+        log_message(pet_mem_log, "Identified PET 4032 ROM by checksum.");
         pet.screen_width = 40;
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
@@ -1071,7 +1039,7 @@ int mem_load(void)
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, pet4_tape_traps,
                   0x26f, 0x9e);
     } else if (sum == PET2001_CHECKSUM) {
-        fprintf(logfile, "Identified PET 2001 ROM by checksum.\n");
+        log_message(pet_mem_log, "Identified PET 2001 ROM by checksum.");
         pet.screen_width = 40;
         kbd_buf_init(0x20f, 0x20d, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
@@ -1080,7 +1048,7 @@ int mem_load(void)
         tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, pet2_tape_traps,
                   0x20f, 0x20d);
     } else {
-        fprintf(logfile, "Unknown PET ROM.\n");
+        log_warning(pet_mem_log, "Unknown PET ROM.");
     }
 
     if (pet.screen_width) {
@@ -1107,7 +1075,6 @@ void set_screen(void)
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
     }
 
-    fprintf(logfile, "Setting screen width to %d columns (vmask=%04x).\n", cols, vmask);
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
     if(!pet.crtc) {
 	store_crtc(0,49);

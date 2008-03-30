@@ -1,4 +1,5 @@
-/*
+/* -*- C -*-
+ *
  * petpia1.def -- PIA1 chip emulation.
  *
  * Written by
@@ -174,18 +175,13 @@ READ_PB()
 	    if (row < KBD_ROWS)
 		j = ~keyarr[row];
 
-#if 0
-            fprintf(logfile, "read pia1 port B %d\n", j);
-            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                   (int) pia1.port_a, (int) j,
-                   (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
-#endif
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
 	    if (j < 255)
-                fprintf(logfile, "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
-                       keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
-                       keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
-                       row, j);
+                log_message(pia1_log,
+                            "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
+                            keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
+                            keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
+                            row, j);
 #endif
 
             byte = j;

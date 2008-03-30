@@ -31,6 +31,7 @@
 
 #include "types.h"
 #include "cia.h"
+#include "snapshot.h"
 
 extern void reset_cia1(void);
 extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);

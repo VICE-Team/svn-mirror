@@ -43,6 +43,7 @@
 #endif
 #include <ctype.h>
 #include <assert.h>
+#include <errno.h>
 #endif
 
 #ifdef __MSDOS__
@@ -1190,20 +1191,6 @@ static unsigned disassemble_instr(MON_ADDR addr)
    return clength[lookup[op].addr_mode];
 }
 
-#if 0
-void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
-{
-  long len;
-
-  len = evaluate_address_range(&start_addr, &end_addr, FALSE, -1);
-  if (len < 0) {
-     fprintf(mon_output, "Invalid range.\n");
-     return;
-  }
-  fprintf(logfile, "len:%d (%s:%04x) (%s:%04x)\n",len,memspace_string[addr_memspace(start_addr)],addr_location(start_addr),
-         memspace_string[addr_memspace(end_addr)], addr_location(end_addr));
-}
-#else
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
    MEMSPACE mem;
@@ -1225,11 +1212,8 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
       if (stop_output != 0) break;
    }
 }
-#endif
-
 
 /* *** MEMORY COMMANDS *** */
-
 
 void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
@@ -1480,11 +1464,12 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
 void mon_change_dir(char *path)
 {
-    if (chdir(path) < 0) {
-	perror(path);
-    }
+    if (chdir(path) < 0) 
+        fprintf(mon_output,
+                "Cannot change to directory `%s':\n%s",
+                path, strerror(errno));
 
-    fprintf(mon_output, "Changing to directory: %s\n",path);
+    fprintf(mon_output, "Changing to directory: `%s'\n",path);
 }
 
 
@@ -1534,14 +1519,13 @@ void mon_bload_file(char *filename, MON_ADDR start_addr)
     int     ch;
 
     if (NULL == (fp = fopen(filename, READ))) {
-	perror(filename);
-	fprintf(mon_output, "Loading failed.\n");
+	fprintf(mon_output, "Loading for `%s' failed: %s.\n",
+                filename, strerror(errno));
 	return;
     }
 
     evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
-	perror(filename);
 	fprintf(mon_output, "No LOAD address given.\n");
 	return;
     }
@@ -1573,10 +1557,10 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
    end = addr_location(end_addr);
 
    if (NULL == (fp = fopen(filename, WRITE))) {
-	perror(filename);
-	fprintf(mon_output, "Saving failed.\n");
+	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+                filename, strerror(errno));
    } else {
-	fprintf(logfile, "Saving file `%s'...\n", filename);
+	printf("Saving file `%s'...\n", filename);
 	fputc((BYTE) adr & 0xff, fp);
 	fputc((BYTE) (adr >> 8) & 0xff, fp);
         if (end < adr) {
@@ -1605,10 +1589,10 @@ void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
    end = addr_location(end_addr);
 
    if (NULL == (fp = fopen(filename, WRITE))) {
-	perror(filename);
-	fprintf(mon_output, "Saving failed.\n");
+	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+                filename, strerror(errno));
    } else {
-	fprintf(logfile, "Saving file `%s'...\n", filename);
+	fprintf(mon_output, "Saving file `%s'...\n", filename);
         if (end < adr) {
 	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
 	   fwrite((char *) ram, 1, end, fp);
@@ -1635,12 +1619,12 @@ void mon_load_symbols(MEMSPACE mem, char *filename)
     bool found = FALSE;
 
     if (NULL == (fp = fopen(filename, READ))) {
-	perror(filename);
-	fprintf(mon_output, "Loading failed.\n");
+	fprintf(mon_output, "Loading for `%s' failed: %s.\n",
+                filename, strerror(errno));
 	return;
     }
 
-    fprintf(mon_output, "Loading symbol table from %s\n", filename);
+    fprintf(mon_output, "Loading symbol table from `%s'...\n", filename);
 
     if (mem == e_default_space) {
        fscanf(fp, "%s\n", name);
@@ -1673,12 +1657,12 @@ void mon_save_symbols(MEMSPACE mem, char *filename)
     symbol_entry_t *sym_ptr;
 
     if (NULL == (fp = fopen(filename, WRITE))) {
-	perror(filename);
-	fprintf(mon_output, "Saving failed : cannot open file for writing.\n");
+	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+                filename, strerror(errno));
 	return;
     }
 
-    fprintf(mon_output, "Saving symbol table to %s\n", filename);
+    fprintf(mon_output, "Saving symbol table to `%s'...\n", filename);
 
     if (mem == e_default_space)
        mem = default_memspace;
@@ -1709,8 +1693,8 @@ void mon_record_commands(char *filename)
    recording_name = filename;
 
    if (NULL == (recording_fp = fopen(recording_name, WRITE))) {
-       perror(recording_name);
-       fprintf(mon_output, "Record %s failed.\n", recording_name);
+       fprintf(mon_output, "Cannot create `%s': %s.\n",
+               recording_name, strerror(errno));
        return;
    }
    recording = TRUE;
@@ -1734,8 +1718,8 @@ static void playback_commands(char *filename)
    char string[255];
 
    if (NULL == (fp = fopen(filename, READ))) {
-       perror(filename);
-       fprintf(mon_output, "Playback %s failed.\n", filename);
+       fprintf(mon_output, "Playback for `%s' failed: %s.\n",
+               filename, strerror(errno));
        return;
    }
 
@@ -2319,11 +2303,6 @@ void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode)
       fprintf(mon_output, "Setting breakpoint %d condition to: ",brk_num);
       print_conditional(cnode);
       fprintf(mon_output, "\n");
-#if 0
-      /* DEBUG */
-      evaluate_conditional(cnode);
-      fprintf(logfile, "Condition evaluates to: %d\n",cnode->value);
-#endif
    }
 }
 

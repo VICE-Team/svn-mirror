@@ -34,6 +34,7 @@
 
 #include "cmdline.h"
 #include "interrupt.h"
+#include "log.h"
 #include "pets.h"
 #include "resources.h"
 #include "utils.h"
@@ -156,9 +157,6 @@ int pet_set_model(const char *model_name, void *extra)
     i = 0;
     while (pet_table[i].model) {
 	if (!strcmp(pet_table[i].model, model_name)) {
-#ifdef DEBUG
-	    printf("PET: setting model to PET %s\n", pet_table[i].model);
-#endif
 
 	    pet_set_model_info(&pet_table[i].info);
 
@@ -204,9 +202,6 @@ static void pet_check_info(PetInfo * pi)
 
 static int set_iosize(resource_value_t v)
 {
-#ifdef DEBUG
-    printf("Setting I/O size to $%x\n", (int) v);
-#endif
     petres.IOSize = (int) v;
 
     initialize_memory();
@@ -230,9 +225,6 @@ static int set_ramsize(resource_value_t v)
     int size = (int) v;
     int i, sizes[] = {4, 8, 16, 32, 96, 128};
 
-#ifdef DEBUG
-    printf("Setting ramsize to %d kB\n", size);
-#endif
     for (i = 0; i < 6; i++) {
 	if (size <= sizes[i])
 	    break;
@@ -259,7 +251,7 @@ static int set_video(resource_value_t v)
     int col = (int) v;
 
     if (col != petres.video) {
-	fprintf(logfile, "Setting screen width to %d columns.\n", col);
+	log_message(LOG_DEFAULT, "Setting screen width to %d columns.", col);
 
 	if (col == 0 || col == 40 || col == 80) {
 	    petres.video = col;

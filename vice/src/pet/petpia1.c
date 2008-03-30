@@ -41,6 +41,7 @@
 #include "cmdline.h"
 #include "mem.h"
 #include "interrupt.h"
+#include "log.h"
 #include "parallel.h"
 #include "resources.h"
 #include "vmachine.h"
@@ -155,10 +156,15 @@ typedef struct {
 static piareg  pia1;
 static int is_peek_access = 0;
 
+static log_t pia1_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 void    reset_pia1(void)
 {
+   if (pia1_log == LOG_ERR)
+       pia1_log = log_open("PIA1");
+
    /* clear _all_ internal registers */
 
    pia1.ctrl_a = 0;	/* PIA 1 Port A Control */
@@ -210,8 +216,6 @@ void signal_pia1(int line, int edge) {
 	    }
 	}
     case PIA_SIG_CB1:
-        /*fprintf(logfile, "signal_pia1(line=%d, edge=%d, ctrl=%02x)\n",
-						line,edge,pia1.ctrl_b);*/
 	if ( ((pia1.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
 	    pia1.ctrl_b |= 0x80;
 	    pia1_update_irq();
@@ -232,10 +236,6 @@ void REGPARM2 store_pia1(ADDRESS addr, BYTE byte)
 {
 
     addr &= 3;
-
-#if 0
-    fprintf(logfile, "store pia1 [%x] %x\n", (int) addr, (int) byte);
-#endif
 
     switch (addr) {
 
@@ -324,13 +324,6 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 
     addr &= 3;
 
-#if 0
-    fprintf(logfile, "read pia1 [%d]  [%02x %02x] [%02x] [%02x %02x] [%02x]\n",
-           addr,
-           pia1.port_a, pia1.ddr_a, pia1.ctrl_a,
-           pia1.port_b, pia1.ddr_b, pia1.ctrl_b);
-#endif
-
     switch (addr) {
 
       case P_PORT_A: /* port A */
@@ -378,18 +371,13 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	    if (row < KBD_ROWS)
 		j = ~keyarr[row];
 
-#if 0
-            fprintf(logfile, "read pia1 port B %d\n", j);
-            fprintf(logfile, "a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                   (int) pia1.port_a, (int) j,
-                   (int) pia1.ddr_a, (int) pia1.ddr_b, joy[2]);
-#endif
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
 	    if (j < 255)
-                fprintf(logfile, "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x\n",
-                       keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
-                       keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
-                       row, j);
+                log_message(pia1_log,
+                            "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
+                            keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
+                            keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
+                            row, j);
 #endif
 
             byte = j;

@@ -59,6 +59,8 @@
 
 #include "utils.h"
 
+#include "log.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* Like malloc, but abort if not enough memory is available.  */
@@ -67,9 +69,9 @@ void *xmalloc(size_t size)
     void *p = malloc(size);
 
     if (p == NULL) {
-	fprintf(errfile,
-		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
-		(unsigned long)size);
+	log_error(LOG_DEFAULT,
+                  "Virtual memory exhausted: cannot allocate %lu bytes.",
+                  (unsigned long)size);
 	exit(-1);
     }
 
@@ -82,9 +84,9 @@ void *xrealloc(void *p, size_t size)
     void *new_p = realloc(p, size);
 
     if (new_p == NULL) {
-	fprintf(errfile,
-		"Virtual memory exhausted: cannot allocate %lu bytes.\n",
-		(unsigned long)size);
+	log_error(LOG_DEFAULT,
+                  "Virtual memory exhausted: cannot allocate %lu bytes.",
+                  (unsigned long)size);
 	exit(-1);
     }
 
@@ -403,8 +405,6 @@ int load_file(const char *name, void *dest, int size)
     r = read(fd, (char *)dest, size);
 
     if (r != size) {
-	if (r < 0)
-	    perror(name);
 	close(fd);
 	return -1;
     } else {
@@ -428,8 +428,6 @@ int save_file(const char *name, const void *src, int size)
     r = write(fd, (char *)src, size);
 
     if (r != size) {
-	if (r < 0)
-	    perror(name);
 	close(fd);
 	return -1;
     } else {
@@ -525,15 +523,17 @@ int spawn(const char *name, char **argv,
 
     child_pid = vfork();
     if (child_pid < 0) {
-	perror("vfork");
+	log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
 	return -1;
     } else if (child_pid == 0) {
 	if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
-	    perror(stdout_redir);
+	    log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                      stdout_redir, strerror(errno));
 	    _exit(-1);
 	}
 	if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
-	    perror(stderr_redir);
+	    log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                      stderr_redir, strerror(errno));
 	    _exit(-1);
 	}
 	execvp(name, argv);
@@ -541,7 +541,7 @@ int spawn(const char *name, char **argv,
     }
 
     if (waitpid(child_pid, &child_status, 0) != child_pid) {
-	perror("waitpid");
+        log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
 	return -1;
     }
 
@@ -571,7 +571,8 @@ int spawn(const char *name, char **argv,
 	old_stdout = dup(STDOUT_FILENO);
 	new_stdout = open(stdout_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	if (new_stdout == -1) {
-	    perror(stdout_redir);
+	    log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
+                      stdout_redir, strerror(errno));
 	    retval = -1;
 	    goto cleanup;
 	}
@@ -581,7 +582,8 @@ int spawn(const char *name, char **argv,
 	old_stderr = dup(STDERR_FILENO);
 	new_stderr = open(stderr_redir, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	if (new_stderr == -1) {
-	    perror(stderr_redir);
+	    log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
+                      stderr_redir, strerror(errno));
 	    retval = -1;
 	    goto cleanup;
 	}

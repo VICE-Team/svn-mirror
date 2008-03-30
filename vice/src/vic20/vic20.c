@@ -39,6 +39,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -131,13 +132,6 @@ static trap_t vic20_tape_traps[] = {
         findheader
     },
     {
-        "WriteHeader",
-        0xF83B,
-        0xF83E,
-        {0x20, 0xEA, 0xF8},
-        writeheader
-    },
-    {
         "TapeReceive",
         0xF90B,
         0xFCCF,
@@ -153,6 +147,7 @@ static trap_t vic20_tape_traps[] = {
     }
 };
 
+static log_t vic20_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------ */
 
@@ -212,10 +207,11 @@ int machine_init_cmdline_options(void)
 /* VIC20-specific initialization.  */
 int machine_init(void)
 {
+    if (vic20_log == LOG_ERR)
+        vic20_log = log_open("VIC20");
+
     if (mem_load() < 0)
         return -1;
-
-    fprintf(logfile, "\nInitializing Serial Bus...\n");
 
     /* Setup trap handling.  */
     traps_init();
@@ -426,8 +422,9 @@ int machine_read_snapshot(const char *name)
         return -1;
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
-               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_error(vic20_log,
+                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                  major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 

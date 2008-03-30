@@ -88,6 +88,7 @@
 #endif
 
 #include "cia.h"
+#include "log.h"
 #include "resources.h"
 #include "snapshot.h"
 
@@ -165,6 +166,8 @@ static int cia2todticks = 100000;	/* approx. a 1/10 sec. */
 
 static BYTE cia2flag = 0;
 
+static log_t cia2_log = LOG_ERR;
+
 /* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
 #ifndef CYCLES_PER_SEC
 #define	CYCLES_PER_SEC 	1000000
@@ -206,7 +209,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 {
 #ifdef CIA2_TIMER_DEBUG
     if(cia2_debugFlag) {
-        fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",
+        log_message(cia2_log, "set_int(rclk=%d, int=%d, d=%d pc=).",
            rclk,(int_num),(value));
     }
 #endif
@@ -225,7 +228,7 @@ static inline void my_set_int(int value, CLOCK rclk)
 #define	my_set_int(value, rclk)						\
     do {								\
         if (cia2_debugFlag)						\
-	    fprintf(logfile, "set_int(rclk=%d, int=%d, d=%d pc=)\n",		\
+	    log_message(cia2_log, "set_int(rclk=%d, int=%d, d=%d pc=).",		\
 		   rclk,(int_num),(value));				\
 	maincpu_set_nmi_clk((I_CIA2FL), (value), (rclk));		\
 	if ((value))							\
@@ -398,7 +401,7 @@ static int update_cia2(CLOCK rclk)
 
 #ifdef CIA2_TIMER_DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "CIA2: update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
+	log_message(cia2_log, "update: rclk=%d, tas=%d, tau=%d, tal=%u, ",
 	       rclk, cia2_tas, cia2_tau, cia2_tal);
 #endif
 
@@ -449,7 +452,8 @@ static int update_cia2(CLOCK rclk)
     }
 #ifdef CIA2_TIMER_DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "aic=%d, tac-> %u, tau-> %d\n              tmp=%u, ", added_int_clk, cia2_tac, cia2_tau, tmp);
+	log_message(cia2_log, "aic=%d, tac-> %u, tau-> %d tmp=%u",
+                    added_int_clk, cia2_tac, cia2_tau, tmp);
 #endif
 
     if (cia2[CIA_CRA] & 0x04) {
@@ -500,7 +504,7 @@ static int update_cia2(CLOCK rclk)
 
 #ifdef CIA2_TIMER_DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "tbc-> %u, tbu-> %d, int %02x ->",
+	log_message(cia2_log, "tbc-> %u, tbu-> %d, int %02x ->",
 	       cia2_tbc, cia2_tbu, cia2int);
 #endif
 
@@ -517,7 +521,7 @@ static int update_cia2(CLOCK rclk)
 		cia2int &= 0x7f;
 #ifdef CIA2_TIMER_DEBUG
 		if (cia2_debugFlag)
-		    fprintf(logfile, "CIA2: TA Reading ICR at rclk=%d prevented IRQ\n",
+		    log_message(cia2_log, "TA Reading ICR at rclk=%d prevented IRQ.",
 			   rclk);
 #endif
 	    } else {
@@ -530,7 +534,7 @@ static int update_cia2(CLOCK rclk)
     }
 #ifdef CIA2_TIMER_DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "%02x\n", cia2int);
+	log_message(cia2_log, "%02x.", cia2int);
 #endif
 
     /* return true sif interrupt line is set at this clock time */
@@ -542,6 +546,9 @@ static int update_cia2(CLOCK rclk)
 void reset_cia2(void)
 {
     int i;
+
+    if (cia2_log == LOG_ERR)
+        cia2_log = log_open("CIA2");
 
     cia2todticks = CYCLES_PER_SEC / 10;  /* cycles per tenth of a second */
 
@@ -599,8 +606,8 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
 #ifdef CIA2_TIMER_DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "store cia2[%02x] %02x @ clk=%d, pc=\n",
-	       (int) addr, (int) byte, rclk);
+	log_message(cia2_log, "store cia2[%02x] %02x @ clk=%d",
+                    (int) addr, (int) byte, rclk);
 #endif
 
     switch (addr) {
@@ -760,7 +767,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
 #if defined (CIA2_TIMER_DEBUG)
 	        if (cia2_debugFlag)
-	    	    fprintf(logfile, "CIA2: start SDR rclk=%d\n", rclk);
+	    	    log_message(cia2_log, "start SDR rclk=%d.", rclk);
 #endif
   	    }
 	}
@@ -773,7 +780,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
 #if defined (CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "CIA2 set CIA_ICR: 0x%x\n", byte);
+	    log_message(cia2_log, "CIA2 set CIA_ICR: 0x%x.", byte);
 #endif
 
 	if (byte & CIA_IM_SET) {
@@ -785,8 +792,8 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	/* This must actually be delayed one cycle! */
 #if defined(CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x\n",
-		   cia2ier & cia2int & 0x7f, cia2int);
+	    log_message(cia2_log, "    set icr: ifr & ier & 0x7f -> %02x, int=%02x.",
+                        cia2ier & cia2int & 0x7f, cia2int);
 #endif
 	if (cia2ier & cia2int & 0x7f) {
 	    my_set_int(IK_NMI, rclk);
@@ -807,7 +814,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	update_cia2(rclk);
 #if defined (CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "CIA2 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u)\n",
+	    log_message(cia2_log, "CIA2 set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u).",
 		   byte, rclk, /*program_counter,*/ cia2_tal, cia2_tac);
 #endif
 
@@ -850,7 +857,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	}
 #if defined (CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "    -> tas=%d, tau=%d\n", cia2_tas, cia2_tau);
+	    log_message(cia2_log, "    -> tas=%d, tau=%d.", cia2_tas, cia2_tau);
 #endif
 	cia2[addr] = byte & 0xef;	/* remove strobe */
 
@@ -862,7 +869,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
 #if defined (CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "CIA2 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u)\n",
+	    log_message(cia2_log, "CIA2 set CIA_CRB: 0x%x (clk=%d, pc=, tbl=%u, tbc=%u).",
 		   byte, rclk, cia2_tbl, cia2_tbc);
 #endif
 
@@ -875,7 +882,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 		cia2_tbu = rclk + cia2_tbc + 2;
 #if defined(CIA2_TIMER_DEBUG)
 		if (cia2_debugFlag)
-		    fprintf(logfile, "CIA2: rclk=%d force load: set tbu alarm to %d\n", rclk, cia2_tbu);
+		    log_message(cia2_log, "rclk=%d force load: set tbu alarm to %d.", rclk, cia2_tbu);
 #endif
 		my_set_tbi_clk(cia2_tbu + 1);
 	    }
@@ -892,14 +899,14 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 		cia2_tbu = rclk + (cia2_tbc + 1) + ((byte & 0x10) >> 4);
 #if defined(CIA2_TIMER_DEBUG)
 		if (cia2_debugFlag)
-		    fprintf(logfile, "CIA2: rclk=%d start timer: set tbu alarm to %d\n", rclk, cia2_tbu);
+		    log_message(cia2_log, "rclk=%d start timer: set tbu alarm to %d.", rclk, cia2_tbu);
 #endif
 		my_set_tbi_clk(cia2_tbu + 1);
 		cia2_tbs = CIAT_RUNNING;
 	    } else {		/* timer just stopped */
 #if defined(CIA2_TIMER_DEBUG)
 		if (cia2_debugFlag)
-		    fprintf(logfile, "CIA2: rclk=%d stop timer: set tbu alarm\n", rclk);
+		    log_message(cia2_log, "rclk=%d stop timer: set tbu alarm.", rclk);
 #endif
 		my_unset_tbi();
 		cia2_tbu = 0;
@@ -944,8 +951,8 @@ BYTE REGPARM1 read_cia2(ADDRESS addr)
     BYTE tmp = read_cia2_(addr);
 
     if (cia2_debugFlag)
-	fprintf(logfile, "read cia2[%x] returns %02x @ clk=%d, pc=\n",
-	       addr, tmp, clk - READ_OFFSET);
+	log_message(cia2_log, "read cia2[%x] returns %02x @ clk=%d.",
+                    addr, tmp, clk - READ_OFFSET);
     return tmp;
 }
 
@@ -1052,18 +1059,6 @@ BYTE read_cia2_(ADDRESS addr)
 	return cia2todlatch[addr - CIA_TOD_TEN];
 
       case CIA_SDR:		/* Serial Port Shift Register */
-#if 0				/*def DEBUG */
-	cia2_dump(stdout);
-	/* little hack .... */
-	{
-	    int i;
-	    fprintf(logfile, "\nmaincpu_ints:");
-	    for (i = 0; i < NUMOFINT; i++) {
-		fprintf(logfile, " %d", maincpu_int_status.pending_int[i]);
-	    }
-	    fprintf(logfile, "\n");
-	}
-#endif
 	return (cia2[addr]);
 
 	/* Interrupts */
@@ -1079,7 +1074,7 @@ BYTE read_cia2_(ADDRESS addr)
         drive1_cpu_execute();
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+		log_message(cia2_log, "CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d",
 			rclk, maincpu_int_status.alarm_clk[A_CIA2TA],
 			maincpu_int_status.alarm_clk[A_CIA2TB]);
 #endif
@@ -1100,11 +1095,12 @@ BYTE read_cia2_(ADDRESS addr)
 
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2 read intfl gives cia2int=%02x -> %02x @"
-		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia2int, t, cia2sr_bits, clk,
-			(cia2_tac ? cia2_tac : cia2_tal),
-			cia2_tbc);
+		log_message(cia2_log,
+                            "read intfl gives cia2int=%02x -> %02x "
+                            "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
+                            cia2int, t, cia2sr_bits, clk,
+                            (cia2_tac ? cia2_tac : cia2_tal),
+                            cia2_tbc);
 #endif
 
 	    cia2flag = 0;
@@ -1167,9 +1163,10 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
         drive1_cpu_execute();
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
-			rclk, maincpu_int_status.alarm_clk[A_CIA2TA],
-			maincpu_int_status.alarm_clk[A_CIA2TB]);
+		log_message(cia2_log,
+                            "CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d.",
+                            rclk, maincpu_int_status.alarm_clk[A_CIA2TA],
+                            maincpu_int_status.alarm_clk[A_CIA2TB]);
 #endif
 
 	    /* cia2rdi = rclk; makes int_* and update_cia2 fiddle with IRQ */
@@ -1188,11 +1185,12 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2 read intfl gives cia2int=%02x -> %02x @"
-		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
-		       cia2int, t, cia2sr_bits, clk,
-			(cia2_tac ? cia2_tac : cia2_tal),
-			cia2_tbc);
+		log_message(cia2_log,
+                            "read intfl gives cia2int=%02x -> %02x "
+                            "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
+                            cia2int, t, cia2sr_bits, clk,
+                            (cia2_tac ? cia2_tac : cia2_tal),
+                            cia2_tbc);
 #endif
 
 /*
@@ -1217,8 +1215,9 @@ int int_cia2ta(long offset)
 
 #if defined(CIA2_TIMER_DEBUG)
     if (cia2_debugFlag)
-	fprintf(logfile, "CIA2: int_cia2ta(rclk = %u, tal = %u, cra=%02x\n",
-	       rclk, cia2_tal, cia2[CIA_CRA]);
+	log_message(cia2_log,
+                    "int_cia2ta(rclk = %u, tal = %u, cra=%02x.",
+                    rclk, cia2_tal, cia2[CIA_CRA]);
 #endif
 
     cia2_tat = (cia2_tat + 1) & 1;
@@ -1237,17 +1236,9 @@ int int_cia2ta(long offset)
 	        my_set_tai_clk(rclk + cia2_tal + 1 );
 	    }
 	} else {
-	    /* cia2_tai = rclk + cia2_tal +1; - now keeps tai */
-	    /* fprintf(logfile, "cia2 unset alarm: clk=%d, rclk=%d, rdi=%d -> tai=%d\n",
-			clk, rclk, cia2rdi, cia2_tai); */
 	    maincpu_unset_alarm(A_CIA2TA);	/* do _not_ clear cia2_tai */
 	}
     } else {
-#if 0
-	cia2_tas = CIAT_STOPPED;
-	cia2[CIA_CRA] &= 0xfe;	/* clear run flag. Correct? */
-	cia2_tau = 0;
-#endif
 	my_unset_tai();
     }
 
@@ -1255,7 +1246,7 @@ int int_cia2ta(long offset)
 	if (cia2sr_bits) {
 #if defined(CIA2_TIMER_DEBUG)
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2: rclk=%d SDR: timer A underflow, bits=%d\n",
+		log_message(cia2_log, "rclk=%d SDR: timer A underflow, bits=%d",
 		       rclk, cia2sr_bits);
 #endif
 	    if (!(--cia2sr_bits)) {
@@ -1272,7 +1263,8 @@ int int_cia2ta(long offset)
 	    cia2_tbu = rclk;
 #if defined(CIA2_TIMER_DEBUG)
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2: timer B underflow when counting timer A occured, rclk=%d!\n", rclk);
+		log_message(cia2_log,
+                            "timer B underflow when counting timer A occured, rclk=%d!", rclk);
 #endif
 	    cia2int |= CIA_IM_TB;
 	    my_set_tbi_clk(rclk);
@@ -1309,7 +1301,8 @@ int int_cia2tb(long offset)
 
 #if defined(CIA2_TIMER_DEBUG)
     if (cia2_debugFlag)
-	fprintf(logfile, "CIA2: timer B int_cia2tb(rclk=%d, tbs=%d)\n", rclk, cia2_tbs);
+	log_message(cia2_log,
+                    "timer B int_cia2tb(rclk=%d, tbs=%d).", rclk, cia2_tbs);
 #endif
 
     cia2_tbt = (cia2_tbt + 1) & 1;
@@ -1319,7 +1312,9 @@ int int_cia2tb(long offset)
 	if (!(cia2[CIA_CRB] & 8)) {
 #if defined(CIA2_TIMER_DEBUG)
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2: rclk=%d cia2tb: set tbu alarm to %d\n", rclk, rclk + cia2_tbl + 1);
+		log_message(cia2_log,
+                            "rclk=%d cia2tb: set tbu alarm to %d.",
+                            rclk, rclk + cia2_tbl + 1);
 #endif
 	    /* if no interrupt flag we can safely skip alarms */
 	    if (cia2ier & CIA_IM_TB) {
@@ -1341,7 +1336,8 @@ int int_cia2tb(long offset)
 #endif /* 0 */
 #if defined(CIA2_TIMER_DEBUG)
 	    if (cia2_debugFlag)
-		fprintf(logfile, "CIA2: rclk=%d cia2tb: unset tbu alarm\n", rclk);
+		log_message(cia2_log,
+                            "rclk=%d cia2tb: unset tbu alarm.", rclk);
 #endif
 	    my_unset_tbi();
 	}
@@ -1357,7 +1353,8 @@ int int_cia2tb(long offset)
 	my_unset_tbi();
 #if defined(CIA2_TIMER_DEBUG)
 	if (cia2_debugFlag)
-	    fprintf(logfile, "CIA2: rclk=%d cia2tb: unset tbu alarm\n", rclk);
+	    log_message(cia2_log,
+                        "rclk=%d cia2tb: unset tbu alarm.", rclk);
 #endif
     }
 
@@ -1399,9 +1396,10 @@ int int_cia2tod(long offset)
 
 #ifdef DEBUG
     if (cia2_debugFlag)
-	fprintf(logfile, "CIA2: TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x\n",
-	       cia2[CIA_TOD_HR], cia2[CIA_TOD_MIN], cia2[CIA_TOD_SEC],
-	       cia2[CIA_TOD_TEN]);
+	log_message(cia2_log,
+                    "TOD timer event (1/10 sec tick), tod=%02x:%02x,%02x.%x.",
+                    cia2[CIA_TOD_HR], cia2[CIA_TOD_MIN], cia2[CIA_TOD_SEC],
+                    cia2[CIA_TOD_TEN]);
 #endif
 
     /* set up new int */
@@ -1433,9 +1431,10 @@ int int_cia2tod(long offset)
 	}
 #ifdef DEBUG
 	if (cia2_debugFlag)
-	    fprintf(logfile, "CIA2: TOD after event :tod=%02x:%02x,%02x.%x\n",
-	       cia2[CIA_TOD_HR], cia2[CIA_TOD_MIN], cia2[CIA_TOD_SEC],
-		   cia2[CIA_TOD_TEN]);
+	    log_message(cia2_log,
+                        "TOD after event :tod=%02x:%02x,%02x.%x.",
+                        cia2[CIA_TOD_HR], cia2[CIA_TOD_MIN], cia2[CIA_TOD_SEC],
+                        cia2[CIA_TOD_TEN]);
 #endif
 	/* check alarm */
 	check_cia2todalarm(rclk);
@@ -1536,10 +1535,10 @@ int cia2_write_snapshot_module(snapshot_t *p)
     update_cia2(clk);
 
 #ifdef CIA2_DUMP_DEBUG
-fprintf(logfile, "CIA2: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
-fprintf(logfile, "CIA2: write cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
+    log_message(cia2_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
+    log_message(cia2_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
+    log_message(cia2_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
+    log_message(cia2_log, "write cia2int=%02x, cia2ier=%02x", cia2int, cia2ier);
 #endif
 
     snapshot_module_write_byte(m, cia2[CIA_PRA]);
@@ -1681,7 +1680,7 @@ int cia2_read_snapshot_module(snapshot_t *p)
     cia2int = byte;
 
 #ifdef CIA2_DUMP_DEBUG
-fprintf(logfile, "CIA2: read cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
+log_message(cia2_log, "read cia2int=%02x, cia2ier=%02x.", cia2int, cia2ier);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1705,8 +1704,8 @@ fprintf(logfile, "CIA2: read cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
 	cia2rdi = 0;
     }
 #ifdef CIA2_DUMP_DEBUG
-fprintf(logfile, "CIA2: snap read rdi=%02x\n", byte);
-fprintf(logfile, "CIA2: snap setting rdi to %d (rclk=%d)\n", cia2rdi, clk);
+log_message(cia2_log, "snap read rdi=%02x", byte);
+log_message(cia2_log, "snap setting rdi to %d (rclk=%d)", cia2rdi, clk);
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1723,9 +1722,9 @@ fprintf(logfile, "CIA2: snap setting rdi to %d (rclk=%d)\n", cia2rdi, clk);
     /* timer switch-on code from store_cia2[CIA_CRA/CRB] */
 
 #ifdef CIA2_DUMP_DEBUG
-fprintf(logfile, "CIA2: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
+log_message(cia2_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
+log_message(cia2_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
+log_message(cia2_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
 #endif
 
     if ((cia2[CIA_CRA] & 0x21) == 0x01) {        /* timer just started */
@@ -1749,9 +1748,9 @@ fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2
     }
 
 #ifdef CIA2_DUMP_DEBUG
-fprintf(logfile, "CIA2: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
-fprintf(logfile, "tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
-fprintf(logfile, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
+log_message(cia2_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",clk, cia2[CIA_CRA], cia2[CIA_CRB],cia2_tas, cia2_tbs);
+log_message(cia2_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
+log_message(cia2_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
 #endif
 
     if (cia2[CIA_ICR] & 0x80) {

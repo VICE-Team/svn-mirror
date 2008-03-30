@@ -47,6 +47,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
@@ -146,13 +147,6 @@ static trap_t c128_tape_traps[] = {
         findheader
     },
     {
-        "WriteHeader",
-        0xE96E,
-        0xE971,
-        {0x20, 0x1C, 0xEA},
-        writeheader
-    },
-    {
         "TapeReceive",
         0xEA60,
         0xEE57,
@@ -167,6 +161,8 @@ static trap_t c128_tape_traps[] = {
         NULL
     }
 };
+
+static log_t c128_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------ */
 
@@ -234,10 +230,11 @@ int machine_init_cmdline_options(void)
 /* C128-specific initialization.  */
 int machine_init(void)
 {
+    if (c128_log == LOG_ERR)
+        c128_log = log_open("C128");
+
     if (mem_load() < 0)
 	return -1;
-
-    fprintf(logfile, "\nInitializing Serial Bus...\n");
 
     /* Setup trap handling.  */
     traps_init();
@@ -467,8 +464,9 @@ int machine_read_snapshot(const char *name)
         return -1;
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
-               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_message(c128_log,
+                    "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                    major, minor, SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 

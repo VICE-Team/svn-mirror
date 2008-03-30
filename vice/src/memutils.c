@@ -38,14 +38,17 @@
 #include "ROlib.h"
 #else
 #include <sys/stat.h>
+#include <errno.h>
 #endif
 #endif
 
 #include "memutils.h"
-#include "resources.h"
+
 #include "file.h"
-#include "utils.h"
+#include "log.h"
+#include "resources.h"
 #include "sysfile.h"
+#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -59,7 +62,7 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
     if (fp == NULL)
         goto fail;
 
-    fprintf(logfile, "Loading file `%s'\n", complete_path);
+    log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
 
     {
 #ifdef __riscos
@@ -74,34 +77,29 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
 
 	/* Check if the file is large enough before loading it. */
 	if (fstat(fileno(fp), &s) == -1) {
-	    perror(complete_path);
+	    log_error(LOG_DEFAULT, "Cannot stat `%s': %s.",
+                      complete_path, strerror(errno));
             goto fail;
         }
 	rsize = s.st_size - ftell(fp);
 #endif
 
-#if 0
-	fprintf(logfile, "ROM %s: size=%04x, minsize=%04x, maxsize=%04x romp=%p\n",
-	       complete_path, rsize, minsize, maxsize, dest);
-#endif
-
 	if (rsize < minsize) {
-	    fprintf(errfile, "ROM %s: short file.\n", complete_path);
+	    log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);
             goto fail;
 	}
 	if (rsize == maxsize + 2) {
-	    fprintf(logfile, "ROM %s: two bytes too large - removing assumed start "
-		   "address\n", complete_path);
+	    log_warning(LOG_DEFAULT,
+                        "ROM `%s': two bytes too large - removing assumed "
+                        "start address.", complete_path);
 	    fread((char*)dest, 1, 2, fp);
 	    rsize -= 2;
 	}
 	if (rsize < maxsize) {
-#if 0
-	    fprintf(logfile, "ROM %s: short file, reading to the end\n", complete_path);
-#endif
 	    dest += maxsize-rsize;
 	} else if (rsize > maxsize) {
-	    fprintf(logfile, "ROM %s: long file, discarding end\n", complete_path);
+	    log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
+                        complete_path);
 	    rsize = maxsize;
 	}
 	if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)

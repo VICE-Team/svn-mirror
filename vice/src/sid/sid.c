@@ -38,6 +38,7 @@
 #include "sid.h"
 
 #include "cmdline.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -1189,10 +1190,10 @@ int sid_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(errfile,
-                "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
+        log_error(LOG_DEFAULT,
+                  "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                  major_version, minor_version,
+                  SNAP_MAJOR, SNAP_MINOR);
         return snapshot_module_close(m);
     }
 
