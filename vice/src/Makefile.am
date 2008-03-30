@@ -58,6 +58,7 @@ noinst_HEADERS = \
 	info.h \
 	interrupt.h \
 	kbdbuf.h \
+	log.h \
 	machine.h \
 	maincpu.h \
 	mem.h \
@@ -106,6 +107,7 @@ base_sources = \
 	interrupt.c \
 	imagecontents.c \
 	kbdbuf.c \
+	log.c \
 	main.c \
 	memutils.c \
 	misc.c \
@@ -195,7 +197,7 @@ x64-all: libc64 libsounddrv libdrive libarch libsid @RESID_DEP@ x64
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) @X128_WINRES@
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ $(READLINE) @X128_WINRES@
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
 	@LIBOBJS@ @ARCH_LIBS@
@@ -207,8 +209,8 @@ x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid @RESID_DEP@ \
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) \
-        @XVIC_WINRES@
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
+	$(READLINE) @XVIC_WINRES@
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
@@ -217,9 +219,9 @@ xvic-all: libvic20 libsounddrv libdrive libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd)\
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE) \
-        @XPET_WINRES@
+xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
+	$(READLINE) @XPET_WINRES@
 xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
@@ -228,9 +230,9 @@ xpet-all: libpet libsounddrv libarch libdrive xpet
 
 # xcbm2
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
-	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-	@X_LIBS@ $(READLINE) @XCBM2_WINRES@
+xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
+	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ $(READLINE) @XCBM2_WINRES@
 xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@

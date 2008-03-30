@@ -36,10 +36,11 @@
 #include <stdio.h>
 #endif
 
-#include "types.h"
-#include "tpi.h"
 #include "interrupt.h"
+#include "log.h"
 #include "snapshot.h"
+#include "tpi.h"
+#include "types.h"
 
 
 #include "kbd.h"
@@ -87,12 +88,16 @@ static BYTE oldpc;
 static BYTE ca_state;
 static BYTE cb_state;
 
+static log_t tpi2_log = LOG_ERR;
+
 /*------------------------------------------------------------------------*/
 /* Handle irq stack etc */
 
 static void set_latch_bit(int bit) {
+    
     if(tpi2_debug && !(bit & irq_latches)) {
-	fprintf(logfile, "tpi2: set_latch_bit(%02x, mask=%02x)\n",bit, irq_mask);
+	log_message(tpi2_log, "set_latch_bit(%02x, mask=%02x)",
+                    bit, irq_mask);
     }
 
     irq_latches |= bit;
@@ -116,7 +121,7 @@ static void set_latch_bit(int bit) {
 
 static void pop_irq_state(void) {
     if(tpi2_debug) {
-        fprintf(logfile, "tpi2: pop_irq_state(latches=%02x, stack=%02x, active=%02x)\n",
+        log_message(tpi2_log, "pop_irq_state(latches=%02x, stack=%02x, active=%02x)",
                 (int)irq_latches, (int)irq_stack, (int)irq_active);
     }
     if(irq_priority) {
@@ -139,9 +144,10 @@ static BYTE push_irq_state(void) {
     old_active = irq_active;
 
     if(tpi2_debug) {
-        fprintf(logfile, "tpi2: push_irq_state(latches=%02x, act=%02x, stack=%02x, "
-		"mask=%02x)\n", (int)irq_latches, (int)irq_active,
-		(int)irq_stack, (int)irq_mask);
+        log_message(tpi2_log,
+                    "push_irq_state(latches=%02x, act=%02x, stack=%02x mask=%02x).",
+                    (int)irq_latches, (int)irq_active,
+                    (int)irq_stack, (int)irq_mask);
     }
 
     irq_latches &= ~irq_active;
@@ -160,6 +166,10 @@ static BYTE push_irq_state(void) {
 
 void reset_tpi2 ( void ) {
 	int i;
+
+        if (tpi2_log == LOG_ERR)
+            tpi2_log = log_open("TPI2");
+
 	for(i=0;i<8;i++) {
 	  tpi[0] = 0;
 	}
@@ -234,7 +244,7 @@ void store_tpi2 ( ADDRESS addr, BYTE byte ) {
 	case TPI_CREG:
 	    tpi[addr] = byte;
 	    if(tpi2_debug) {
-		fprintf(logfile, "write %02x to CREG\n",byte);
+		log_message(tpi2_log, "write %02x to CREG",byte);
 	    }
 	    if(tpi[TPI_CREG] & 0x20) {
 		ca_state = (tpi[TPI_CREG] & 0x10);

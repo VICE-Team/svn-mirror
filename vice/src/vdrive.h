@@ -42,6 +42,7 @@
 #include <time.h>
 #endif
 
+#include "log.h"
 #include "types.h"
 #include "fs_cbm.h"
 
@@ -245,6 +246,8 @@ typedef struct errortext_s {
 
 /* ------------------------------------------------------------------------- */
 
+extern log_t vdrive_log;
+
 extern int initialize_1541(int dev, int type,
                            drive_attach_func_t attach_func,
                            drive_detach_func_t detach_func,
@@ -267,8 +270,8 @@ extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern void no_a0_pads(BYTE *ptr, int l);
-extern int free_sector(BYTE *bam, int track, int sector);
-extern int allocate_sector(BYTE *bam, int track, int sector);
+extern int vdrive_free_sector(int type, BYTE *bam, int track, int sector);
+extern int vdrive_allocate_sector(int type, BYTE *bam, int track, int sector);
 
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
 extern int floppy_parse_name(char *name, int length, char *realname,

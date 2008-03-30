@@ -277,7 +277,7 @@ static UI_CALLBACK(browse_manual)
 	    sprintf(cmd_ptr, "%s &", res_ptr);
 	}
 
-	printf("Executing `%s'...\n", buf);
+	log_debug("Executing `%s'...", buf);
 	if (system(buf) != 0)
 	    ui_error("Cannot run HTML browser.");
     }

@@ -78,11 +78,6 @@
 #define BAM_BIT_MAP_1581        16
 #define BAM_VERSION             165
 
-#define BAM_SET(n)    (bamp[1+(n)/8] |= (1 << ((n) % 8)))
-#define BAM_CLR(n)    (bamp[1+(n)/8] &= ~(1 << ((n) % 8)))
-#define BAM_ISSET(n)  (bamp[1+(n)/8] & (1 << ((n) % 8)))
-
-
 /*
  * At the beginning of each image is header that makes sure
  * only c1541 images are used. There is room for additional

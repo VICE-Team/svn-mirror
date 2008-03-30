@@ -63,13 +63,15 @@
 #include "widgets/TextField.h"
 
 #include "ui.h"
-#include "uimenu.h"
+
+#include "cmdline.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
-#include "cmdline.h"
+#include "uihotkey.h"
+#include "uimenu.h"
 #include "utils.h"
 #include "vsync.h"
-#include "uihotkey.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -218,6 +220,9 @@ Pixel drive_led_on_pixel, drive_led_off_pixel;
 
 /* If != 0, we should save the settings. */
 static int resources_have_changed = 0;
+
+/* UI logging goes here.  */
+static log_t ui_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -397,6 +402,9 @@ int ui_init_finish(void)
     };
     XVisualInfo visualinfo;
 
+    if (ui_log == LOG_ERR)
+        ui_log = log_open("X11");
+
     if (depth != 0) {
 	int i;
 
@@ -406,17 +414,20 @@ int ui_init_finish(void)
 		break;
 	}
 	if (!classes[i].name) {
-	    fprintf(stderr,
-		    "\nThis display does not support suitable %dbit visuals.\n"
+	    log_error(ui_log,
+                      "This display does not support suitable %dbit visuals.",
+                      depth);
 #if X_DISPLAY_DEPTH == 0
-		    "Please select a bit depth supported by your display.\n",
+            log_error(ui_log,
+                      "Please select a bit depth supported by your display.");
 #else
-		    "Please recompile the program for a supported bit depth.\n",
+            log_error(ui_log,
+                      "Please recompile the program for a supported bit depth.");
 #endif
-		    depth);
 	    return -1;
 	} else {
-	    printf("Found %dbit/%s visual.\n", depth, classes[i].name);
+	    log_message(ui_log, "Found %dbit/%s visual.",
+                        depth, classes[i].name);
             have_truecolor = (classes[i].class == TrueColor);
         }
     } else {
@@ -432,15 +443,15 @@ int ui_init_finish(void)
 		if (XMatchVisualInfo(display, screen, depths[i],
 				     classes[j].class, &visualinfo)) {
 		    depth = depths[i];
-		    printf("Found %dbit/%s visual.\n",
-			   depth, classes[j].name);
+		    log_message(ui_log, "Found %dbit/%s visual.",
+                                depth, classes[j].name);
                     have_truecolor = (classes[j].class == TrueColor);
 		    done = 1;
 		    break;
 		}
 	    }
 	if (!done) {
-	    fprintf(stderr, "Couldn't autodetect a proper visual.\n");
+	    log_error(ui_log, "Cannot autodetect a proper visual.");
 	    return -1;
 	}
     }
@@ -501,8 +512,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
 
     if (++num_app_shells > MAX_APP_SHELLS) {
-	fprintf(stderr,
-	  	"ui_open_canvas_window(): maximum number of open windows reached.\n");
+	log_error(ui_log, "Maximum number of toplevel windows reached.");
 	return NULL;
     }
 
@@ -772,7 +782,7 @@ static int alloc_colormap(void)
         && !have_truecolor) {
 	colormap = DefaultColormap(display, screen);
     } else {
-        printf("Using private colormap.\n");
+        log_message(ui_log, "Using private colormap.");
 	colormap = XCreateColormap(display, RootWindow(display, screen),
 				   visual, AllocNone);
     }
@@ -806,9 +816,8 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
         color.blue = palette->entries[i].blue << 8;
         if (!XAllocColor(display, colormap, &color)) {
             failed = 1;
-            fprintf(stderr,
-                    "Warning: cannot allocate color \"#%04X%04X%04X\"\n",
-                    color.red, color.green, color.blue);
+            log_warning(ui_log, "Cannot allocate color \"#%04X%04X%04X\".",
+                        color.red, color.green, color.blue);
         } else {
             allocated_pixels[n_allocated_pixels++] = color.pixel;
 	}
@@ -886,7 +895,7 @@ static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
     failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
 	if (colormap == DefaultColormap(display, screen)) {
-            printf("Automagically using a private colormap.\n");
+            log_warning(ui_log, "Automagically using a private colormap.");
 	    colormap = XCreateColormap(display, RootWindow(display, screen),
 				       visual, AllocNone);
 	    XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
@@ -949,8 +958,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
 	    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
 #endif
-	    fprintf(stderr,"Could not alloc enough colors.\n"
-			"Color change will take effect after restart!\n");
+	    log_error(ui_log, "Cannot allocate enough colors.");
 	} else {					/* successful */
 	    /* copy the new return values to the real return values */
 	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);

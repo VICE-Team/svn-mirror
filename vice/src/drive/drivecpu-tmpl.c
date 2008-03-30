@@ -272,7 +272,7 @@ static void reset(void)
 
     preserve_monitor = mydrive_int_status.global_pending_int & IK_MONITOR;
 
-    fprintf(logfile, "MYIDENTIFICATION: RESET\n");
+    log_message(drive[mynumber].log, "RESET.");
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
 			DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
     mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;
@@ -341,10 +341,8 @@ void mydrive_mem_init(int type)
     if (type == DRIVE_TYPE_1571) {
         read_func_nowatch[0x10] = read_mycia1571;
         store_func_nowatch[0x10] = store_mycia1571;
-        /* FIXME: Do not use WD1770 yet.
-        read_func_nowatch[0x18] = read_mywd1770;
-        store_func_nowatch[0x18] = store_mywd1770;
-        */
+        read_func_nowatch[0x8] = read_mywd1770;
+        store_func_nowatch[0x8] = store_mywd1770;
     }
 
     /* Setup 1581 CIA.  */
@@ -405,7 +403,7 @@ inline void mydrive_cpu_wake_up(void)
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
     if (clk - last_clk > 0xffffff && drive_clk[mynumber] > 934639) {
-	fprintf(logfile, "MYIDENTIFICATION: skipping cycles.\n");
+	log_message(drive[mynumber].log, "Skipping cycles.");
 	last_clk = clk;
     }
 }
@@ -512,9 +510,10 @@ void mydrive_cpu_execute(void)
 #ifdef IO_AREA_WARNING
 #warning IO_AREA_WARNING
 	    if (!bank_base)
-		fprintf (logfile, "Executing from I/O area at $%04X: "
-			"$%02X $%02X $%04X at clk %ld\n",
-			reg_pc, p0, p1, p2, clk);
+		fprintf(drive[mynumber].log,
+                        "Executing from I/O area at $%04X: "
+                        "$%02X $%02X $%04X at clk %ld\n",
+                        reg_pc, p0, p1, p2, clk);
 #endif
 
 /* Include the 6502/6510 CPU emulation core.  */
@@ -676,7 +675,7 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         )
         goto fail;
 
-    fprintf(logfile, "MYIDENTIFICATION: RESET (UNDUMP)\n");
+    log_message(drive[mynumber].log, "RESET (For undump).");
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
             DRIVE_NUMOFALRM, &mydrive_last_opcode_info);
     mydrive_int_status.alarm_handler[A_MYVIA1T1] = int_myvia1t1;

@@ -67,7 +67,7 @@
 /* #define DEBUG_MMU */
 
 #ifdef DEBUG_MMU
-#define DEBUG(x) fprintf x
+#define DEBUG(x) printf x
 #else
 #define DEBUG(x)
 #endif
@@ -338,6 +338,9 @@ int roml_bank, romh_bank, export_ram;
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 int ultimax = 0;
 
+/* Logging goes here.  */
+static log_t c128_mem_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 /* MMU Implementation.  */
@@ -375,8 +378,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 kernal_in = chargen_in = editor_in = !(value & 0x30);
                 /* (We handle only 128K here.)  */
                 ram_bank = ram + (((long) value & 0x40) << 10);
-                DEBUG((logfile, "MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
-                DEBUG((logfile, "MMU: RAM bank at $%05X\n", ram_bank - ram));
+                DEBUG(("MMU: Store CR = $%02x, PC = $%04X\n", value, reg_pc));
+                DEBUG(("MMU: RAM bank at $%05X\n", ram_bank - ram));
             }
             break;
 
@@ -388,8 +391,8 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 /* XXX: We only support 128K here.  */
                 vic_ii_set_ram_base(ram + ((value & 0x40) << 10));
 
-                DEBUG((logfile, "MMU: Store RCR = $%02x\n", value));
-                DEBUG((logfile, "MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
+                DEBUG(("MMU: Store RCR = $%02x\n", value));
+                DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
                 if ((value & 0x3) == 0)
                     shared_size = 1024;
@@ -399,21 +402,21 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                 /* Share high memory?  */
                 if (value & 0x8) {
                     top_shared_limit = 0xffff - shared_size;
-                    DEBUG((logfile, "MMU: Sharing high RAM from $%04X\n",
+                    DEBUG(("MMU: Sharing high RAM from $%04X\n",
                            top_shared_limit + 1));
                 } else {
                     top_shared_limit = 0xffff;
-                    DEBUG((logfile, "MMU: No high shared RAM\n"));
+                    DEBUG(("MMU: No high shared RAM\n"));
                 }
 
                 /* Share low memory?  */
                 if (value & 0x4) {
                     bottom_shared_limit = shared_size;
-                    DEBUG((logfile, "MMU: Sharing low RAM up to $%04X\n",
+                    DEBUG(("MMU: Sharing low RAM up to $%04X\n",
                            bottom_shared_limit - 1));
                 } else {
                     bottom_shared_limit = 0;
-                    DEBUG((logfile, "MMU: No low shared RAM\n"));
+                    DEBUG(("MMU: No low shared RAM\n"));
                 }
             }
             break;
@@ -421,9 +424,9 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
           case 5:
             value = (value & 0x7f) | 0x30;
             if ((value & 0x41) != 0x01)
-                fprintf(errfile,
-                        "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.\n",
-                        value);
+                log_error(c128_mem_log,
+                          "MMU: Attempted accessing unimplemented mode: $D505 <- $%02X.",
+                          value);
             break;
 
           case 7:
@@ -434,7 +437,7 @@ inline void REGPARM2 store_mmu(ADDRESS address, BYTE value)
                          + (mmu[0x7] << 8));
             page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
                         + (mmu[0x9] << 8));
-            DEBUG((logfile, "MMU: Page Zero at $%05X, Page One at $%05X\n",
+            DEBUG(("MMU: Page Zero at $%05X, Page One at $%05X\n",
                    page_zero - ram, page_one - ram));
             break;
         }
@@ -912,6 +915,9 @@ void initialize_memory(void)
 {
     int i;
 
+    if (c128_mem_log != LOG_ERR)
+        c128_mem_log = log_open("C128MEM");
+        
     _mem_read_tab[0] = read_zero;
     _mem_write_tab[0] = store_zero;
     _mem_read_tab[1] = read_one;
@@ -997,10 +1003,6 @@ void mem_powerup(void)
 {
     int i;
 
-#ifndef __MSDOS__
-    fprintf(logfile, "Initializing RAM for power-up...\n");
-#endif
-
     for (i = 0; i < 0x20000; i += 0x80) {
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
@@ -1026,8 +1028,7 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
                           kernal_rom, C128_KERNAL_ROM_SIZE,
                           C128_KERNAL_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load kernal ROM `%s'.\n",
-                kernal_rom_name);
+        log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", kernal_rom_name);
         return -1;
     }
     /* Check Kernal ROM.  */
@@ -1036,20 +1037,20 @@ int mem_load(void)
 
     id = read_rom(0xff80);
 
-    fprintf(logfile, "Kernal rev #%d.\n", id);
+    log_message(c128_mem_log, "Kernal rev #%d.", id);
     if (id == 1
         && sum != C128_KERNAL_CHECKSUM_R01
         && sum != C128_KERNAL_CHECKSUM_R01SWE
         && sum != C128_KERNAL_CHECKSUM_R01GER)
-        fprintf(errfile, "Warning: Kernal image may be corrupted. Sum: %d\n",
-                sum);
+        log_error(c128_mem_log, "Warning: Kernal image may be corrupted. Sum: %d.",
+                  sum);
 
     /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
-                   basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
-                       C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load basic ROM `%s'.\n",
-                basic_rom_name);
+                          basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
+                          C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
+        log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
+                  basic_rom_name);
         return -1;
     }
     /* Check Basic ROM.  */
@@ -1057,9 +1058,9 @@ int mem_load(void)
         sum += basic_rom[i];
 
     if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
-        fprintf(errfile,
-                "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
-                basic_rom_name, sum, sum);
+        log_error(c128_mem_log,
+                  "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X).",
+                  basic_rom_name, sum, sum);
 
     /* Check Editor ROM.  */
     for (i = C128_BASIC_ROM_SIZE, sum = 0;
@@ -1071,16 +1072,16 @@ int mem_load(void)
         && sum != C128_EDITOR_CHECKSUM_R01
         && sum != C128_EDITOR_CHECKSUM_R01SWE
         && sum != C128_EDITOR_CHECKSUM_R01GER) {
-        fprintf(errfile, "Warning: EDITOR image may be corrupted. Sum: %d\n",
-                sum);
-        fprintf(errfile, "Check your Basic ROM\n");
+        log_error(c128_mem_log, "Warning: EDITOR image may be corrupted. Sum: %d.",
+                  sum);
+        log_error(c128_mem_log, "Check your Basic ROM.");
     }
     /* Load chargen ROM.  */
     if (mem_load_sys_file(chargen_rom_name,
                           chargen_rom, C128_CHARGEN_ROM_SIZE,
                           C128_CHARGEN_ROM_SIZE) < 0) {
-        fprintf(errfile, "Couldn't load character ROM `%s'.\n",
-                chargen_rom_name);
+        log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
+                  chargen_rom_name);
         return -1;
     }
     /* Fake BIOS initialization.  This is needed because the real C128 is
@@ -1383,19 +1384,19 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
     /* Main memory module.  */
 
     m = snapshot_module_create(s, snap_rom_module_name, 
-					SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+                               SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
     if (m == NULL)
         return -1;
 
     if (0
         || snapshot_module_write_byte_array(m, kernal_rom, 
-						C128_KERNAL_ROM_SIZE) < 0
+                                            C128_KERNAL_ROM_SIZE) < 0
         || snapshot_module_write_byte_array(m, basic_rom, 
-						C128_BASIC_ROM_SIZE) < 0
+                                            C128_BASIC_ROM_SIZE) < 0
         || snapshot_module_write_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
-						C128_EDITOR_ROM_SIZE) < 0
+                                            C128_EDITOR_ROM_SIZE) < 0
         || snapshot_module_write_byte_array(m, chargen_rom, 
-						C128_CHARGEN_ROM_SIZE) < 0
+                                            C128_CHARGEN_ROM_SIZE) < 0
 	)
         goto fail;
 
@@ -1413,7 +1414,7 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
 
     return 0;
 
-fail:
+ fail:
     if (m != NULL)
         snapshot_module_close(m);
     return -1;
@@ -1423,33 +1424,33 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    BYTE byte;
 
     /* Main memory module.  */
 
     m = snapshot_module_open(s, snap_rom_module_name,
                              &major_version, &minor_version);
+    /* This module is optional.  */
     if (m == NULL)
-        return -1;
+        return 0;
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version,
-                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
+        log_error(c128_mem_log,
+                  "MEM: Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
         goto fail;
     }
 
 
     if (0
         || snapshot_module_read_byte_array(m, kernal_rom, 
-						C128_KERNAL_ROM_SIZE) < 0
+                                           C128_KERNAL_ROM_SIZE) < 0
         || snapshot_module_read_byte_array(m, basic_rom, 
-						C128_BASIC_ROM_SIZE) < 0
+                                           C128_BASIC_ROM_SIZE) < 0
         || snapshot_module_read_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
-						C128_EDITOR_ROM_SIZE) < 0
+                                           C128_EDITOR_ROM_SIZE) < 0
         || snapshot_module_read_byte_array(m, chargen_rom, 
-						C128_CHARGEN_ROM_SIZE) < 0
+                                           C128_CHARGEN_ROM_SIZE) < 0
 	)
         goto fail;
 
@@ -1458,7 +1459,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
 
     return 0;
 
-fail:
+ fail:
     if (m != NULL)
         snapshot_module_close(m);
     return -1;
@@ -1478,7 +1479,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
     if (m == NULL)
         return -1;
 
-    /* assuming no side-effects */
+    /* Assuming no side-effects.  */
     for (i=0; i<11; i++) {
 	if ( snapshot_module_write_byte(m, read_mmu(i)) < 0)
 	    goto fail;
@@ -1495,11 +1496,8 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
     if (save_roms && mem_write_rom_snapshot_module(s) <0)
 	goto fail;
 
-    /* REU module.  */
-/*
-    if (reu_enabled && reu_write_snapshot_module(s) < 0)
-        goto fail;
-*/
+    /* REU module: FIXME.  */
+
     /* IEEE 488 module.  */
     if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
         goto fail;
@@ -1533,10 +1531,10 @@ int mem_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
+        log_error(c128_mem_log,
+                  "MEM: Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  SNAP_MAJOR, SNAP_MINOR);
         goto fail;
     }
 
@@ -1559,14 +1557,7 @@ int mem_read_snapshot_module(snapshot_t *s)
     if (mem_read_rom_snapshot_module(s) < 0)
 	goto fail;
 
-    /* REU module.  */
-/*
-    if (reu_read_snapshot_module(s) < 0) {
-        reu_enabled = 0;
-    } else {
-        reu_enabled = 1;
-    }
-*/
+    /* REU module: FIXME.  */
 
     /* IEEE488 module.  */
     if (tpi_read_snapshot_module(s) < 0) {

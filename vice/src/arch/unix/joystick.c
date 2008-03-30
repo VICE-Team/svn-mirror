@@ -1,5 +1,5 @@
 /*
- * joystick.c - Joystick support for Linux.
+ * joystick.c - Linux joystick support.
  *
  * Written by
  *  Bernhard Kuhn    (kuhn@eikon.e-technik.tu-muenchen.de)
@@ -40,13 +40,15 @@
 #include "vice.h"
 #include "types.h"
 #include "kbd.h"
+#include "log.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "joystick.h"
 
+/* (Used by `kbd.c').  */
 int joystick_port_map[2];
 
-/* Resources */
+/* Resources.  */
 
 static int joyport1select(resource_value_t v)
 {
@@ -62,11 +64,11 @@ static int joyport2select(resource_value_t v)
 
 
 static resource_t resources[] = {
-    {"JoyDevice1", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & joystick_port_map[0], joyport1select},
-    {"JoyDevice2", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) & joystick_port_map[1], joyport2select},
-    {NULL},
+    { "JoyDevice1", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) & joystick_port_map[0], joyport1select },
+    { "JoyDevice2", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) & joystick_port_map[1], joyport2select },
+    { NULL },
 };
 
 /* Command-line options.  */
@@ -89,6 +91,7 @@ int joystick_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
+/* ------------------------------------------------------------------------- */
 
 #ifdef HAS_JOYSTICK
 
@@ -102,21 +105,28 @@ int joystick_init_cmdline_options(void)
 #error Unknown Joystick
 #endif
 
-int ajoyfd[2] = {-1, -1};
-int djoyfd[2] = {-1, -1};
+static int ajoyfd[2] = {-1, -1};
+static int djoyfd[2] = {-1, -1};
 
 #define JOYCALLOOPS 100
 #define JOYSENSITIVITY 5
-int joyxcal[2];
-int joyycal[2];
-int joyxmin[2];
-int joyxmax[2];
-int joyymin[2];
-int joyymax[2];
+static int joyxcal[2];
+static int joyycal[2];
+static int joyxmin[2];
+static int joyxmax[2];
+static int joyymin[2];
+static int joyymax[2];
+
+static log_t joystick_log = LOG_ERR;
+
+/* ------------------------------------------------------------------------- */
 
 void joystick_init(void)
 {
     int i;
+
+    if (joystick_log == LOG_ERR)
+        joystick_log = log_open("Joystick");
 
     /* close all device files */
     for (i = 0; i < 2; i++) {
@@ -138,7 +148,8 @@ void joystick_init(void)
 
 	ajoyfd[i] = open(dev, O_RDONLY);
 	if (ajoyfd[i] < 0) {
-	    fprintf(stderr, "Warning: couldn't open the joystick device %s!\n", dev);
+	    log_warning(joystick_log,
+                        "Cannot open joystick device `%s'.", dev);
 	} else {
 	    int j;
 
@@ -148,8 +159,8 @@ void joystick_init(void)
 		int status = read(ajoyfd[i], &js, JS_RETURN);
 
 		if (status != JS_RETURN) {
-		    fprintf(stderr, "Warning: error reading the joystick device%s!\n",
-			    dev);
+		    log_warning(joystick_log,
+                                "Error reading joystick device `%s'.", dev);
 		} else {
 		    /* determine average */
 		    joyxcal[i] += js.x;
@@ -167,11 +178,14 @@ void joystick_init(void)
 	    joyymin[i] = joyycal[i] - joyycal[i] / JOYSENSITIVITY;
 	    joyymax[i] = joyycal[i] + joyycal[i] / JOYSENSITIVITY;
 
-	    printf("hardware joystick calibration %s:\n", dev);
-	    printf("X: min: %i , mid: %i , max: %i\n", joyxmin[i], joyxcal[i],
-		   joyxmax[i]);
-	    printf("Y: min: %i , mid: %i , max: %i\n", joyymin[i], joyycal[i],
-		   joyymax[i]);
+	    log_message(joystick_log,
+                        "Hardware joystick calibration for device `%s':", dev);
+	    log_message(joystick_log,
+                        "  X: min: %i , mid: %i , max: %i.",
+                        joyxmin[i], joyxcal[i], joyxmax[i]);
+	    log_message(joystick_log,
+                        "  Y: min: %i , mid: %i , max: %i.",
+                        joyymin[i], joyycal[i], joyymax[i]);
 	}
     }
 
@@ -182,9 +196,9 @@ void joystick_init(void)
 	dev = (i == 0) ? "/dev/djs0" : "/dev/djs1";
 
 	djoyfd[i] = open(dev, O_RDONLY);
-	if (djoyfd[i] < 0) {
-	    fprintf(stderr, "Warning: couldn't open the joystick device %s!\n", dev);
-	}
+	if (djoyfd[i] < 0)
+	    log_message(joystick_log,
+                        "Cannot open joystick device `%s'.", dev);
     }
 #endif
 }
@@ -217,8 +231,8 @@ void joystick(void)
 	    if (djoyfd[djoyport] > 0) {
 		status = read(djoyfd[djoyport], &djs, DJS_RETURN);
 		if (status != DJS_RETURN) {
-		    fprintf(stderr,
-			    "Warning: error reading the digital joystick device!\n");
+		    log_error(joystick_log,
+                              "Error reading digital joystick device.");
 		} else {
 		    joy[2 - i] = ((joy[2 - i] & 0xe0)
 				  | ((~(djs.switches >> 3)) & 0x1f));
@@ -234,7 +248,7 @@ void joystick(void)
 	    if (ajoyfd[ajoyport] > 0) {
 		status = read(ajoyfd[ajoyport], &js, JS_RETURN);
 		if (status != JS_RETURN) {
-		    fprintf(stderr, "Warning: error reading the joystick device!\n");
+		    log_error(joystick_log, "Error reading joystick device.");
 		} else {
 		    joy[i] = 0;
 
