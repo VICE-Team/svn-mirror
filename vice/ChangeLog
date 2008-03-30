@@ -1,3 +1,15 @@
+2000-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.20.
+
+2000-01-09  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* configure.in: if `enable_gnomeui': Removed
+	`AC_DEFINE(USE_MITSHM)', GDK takes care of this.
+	Added AC_DEFINE(HAVE_MOUSE).
+	Added `libarch.a' a second time as last lib in ARCH_LIBS. This
+	is needed for `ui_proc'(vsid) support.
+
 2000-01-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.19.

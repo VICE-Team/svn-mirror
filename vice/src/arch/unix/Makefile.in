@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	uihotkey.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c 	vsidproc.h 	vsidproc.c 	vsidui.c
 
 
 bin_SCRIPTS = vsid
@@ -138,7 +138,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o console.o \
 coproc.o joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o \
-print.o rs232.o uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o
+print.o rs232.o uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o \
+vsidproc.o vsidui.o
 SCRIPTS =  $(bin_SCRIPTS)
 
 CFLAGS = @CFLAGS@
@@ -333,31 +334,35 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
-	../../../src/archapi.h ../../../src/findpath.h \
-	../../../src/log.h ../../../src/utils.h types.h
-c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h types.h \
-	joystick.h ../../../src/resources.h uicommands.h ui.h \
-	x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
-	uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
-	../../../src/vsync.h x11/xaw/c128icon.xpm
-c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h \
+archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
+	types.h ../../../src/palette.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h archdep.h ../../../src/archapi.h \
+	../../../src/findpath.h ../../../src/log.h ../../../src/utils.h
+c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
+	x11/xaw/videoarch.h ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h x11/xaw/../c128icon.xpm \
+	../../../src/drive/drive.h ../../../src/log.h joystick.h \
+	uicommands.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
+	uisettings.h ../../../src/vsync.h
+c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
+	x11/xaw/videoarch.h ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h x11/xaw/../c610icon.xpm \
 	../../../src/cbm2/c610mem.h ../../../src/datasette.h \
-	../../../src/tap.h types.h joystick.h petui.h \
-	../../../src/resources.h uicommands.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
+	../../../src/tap.h joystick.h petui.h uicommands.h uimenu.h \
 	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
-	../../../src/vsync.h x11/xaw/c610icon.xpm
-c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/c64/c64mem.h ../../../src/mem.h types.h \
+	../../../src/vsync.h
+c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
+	x11/xaw/videoarch.h ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h x11/xaw/../c64icon.xpm \
+	../../../src/c64/c64mem.h ../../../src/mem.h \
 	../../../src/cartridge.h ../../../src/datasette.h \
 	../../../src/tap.h ../../../src/drive/drive.h \
-	../../../src/log.h joystick.h ../../../src/resources.h \
-	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uisettings.h ../../../src/utils.h \
-	../../../src/vsync.h x11/xaw/c64icon.xpm
+	../../../src/log.h joystick.h uicommands.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/utils.h ../../../src/vsync.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
@@ -370,23 +375,24 @@ kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
 main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
 	main_exit.h ../../../src/sound.h types.h ../../../src/video.h \
-	videoarch.h x11/xaw/videoarch.h x11/xaw/../videoarch.h \
-	../../../src/palette.h ../../../src/resources.h ui.h \
-	x11/xaw/ui.h ../../../src/uiapi.h
+	videoarch.h x11/xaw/videoarch.h ui.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
-	mouse.h ../../../src/log.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h
+	mouse.h ../../../src/log.h ui.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/utils.h ../../../src/resources.h \
 	../../../src/cmdline.h kbd.h
-petui.o: petui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/datasette.h ../../../src/tap.h types.h joystick.h \
-	../../../src/pet/pets.h petui.h ../../../src/resources.h \
-	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uisettings.h ../../../src/vsync.h \
-	x11/xaw/peticon.xpm
+petui.o: petui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
+	x11/xaw/videoarch.h ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h x11/xaw/../peticon.xpm \
+	../../../src/datasette.h ../../../src/tap.h joystick.h \
+	../../../src/pet/pets.h petui.h uicommands.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/vsync.h
 print.o: print.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/log.h ../../../src/print.h types.h \
@@ -405,33 +411,50 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/maincpu.h ../../../src/mem.h \
 	../../../src/monitor/mon.h ../../../src/mos6510.h \
 	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h uicommands.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
-	x11/xaw/uimenu.h x11/xaw/uihotkey.h uiedisk.h uisnapshot.h \
+	../../../src/tape.h uicommands.h ui.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h uisettings.h uiedisk.h uisnapshot.h \
 	../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h \
 	../../../src/fsdevice.h kbd.h ../../../src/mem.h \
 	../../../src/prdevice.h ../../../src/resources.h \
 	../../../src/romset.h ../../../src/sound.h uisettings.h ui.h \
-	x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	../../../src/palette.h ../../../src/uiapi.h x11/xaw/uiarch.h \
 	uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
 	../../../src/utils.h ../../../src/vsync.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cartridge.h types.h ../../../src/datasette.h \
-	../../../src/tap.h joystick.h ../../../src/resources.h \
-	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uisettings.h ../../../src/vsync.h \
-	x11/xaw/vic20icon.xpm
+	videoarch.h x11/xaw/videoarch.h ui.h types.h \
+	../../../src/palette.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../videoarch.h ../../../src/resources.h \
+	x11/xaw/../vic20icon.xpm ../../../src/cartridge.h \
+	../../../src/datasette.h ../../../src/tap.h joystick.h \
+	uicommands.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
+	uisettings.h ../../../src/vsync.h ../../../src/utils.h
+vsidproc.o: vsidproc.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/interrupt.h ../../../src/6510core.h types.h \
+	../../../src/log.h ../../../src/machine.h \
+	../../../src/c64/psid.h ../../../src/resources.h ui.h \
+	../../../src/palette.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	../../../src/vsync.h
+vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
+	x11/xaw/videoarch.h ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../videoarch.h \
+	../../../src/resources.h x11/xaw/../c64icon.xpm \
+	../../../src/attach.h ../../../src/c64/c64mem.h \
+	../../../src/mem.h ../../../src/machine.h \
+	../../../src/c64/psid.h vsidproc.h uicommands.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/utils.h ../../../src/vsync.h
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/kbdbuf.h \
 	../../../src/log.h ../../../src/maincpu.h ../../../src/sound.h \
-	ui.h x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	x11/xaw/../videoarch.h ../../../src/vsync.h joystick.h
+	ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h ../../../src/video.h videoarch.h \
+	x11/xaw/videoarch.h x11/xaw/../videoarch.h ../../../src/vsync.h \
+	joystick.h
 
 info-am:
 info: info-recursive

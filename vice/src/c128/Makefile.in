@@ -252,14 +252,14 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/vicii/vicii-mem.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h ../../src/vsync.h \
-	z80.h z80mem.h ../../src/mem.h ../../src/rs232.h \
-	../../src/c64/c64acia.h ../../src/rsuser.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/vdc/vdc.h \
+	../../src/vdc/vdc-mem.h ../../src/vsync.h z80.h z80mem.h \
+	../../src/mem.h ../../src/rs232.h ../../src/c64/c64acia.h \
+	../../src/rsuser.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h ../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
@@ -275,8 +275,8 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../6510core.h ../alarm.h ../clkguard.h ../datasette.h ../tap.h \
 	../interrupt.h ../log.h ../machine.h ../maincpu.h ../mem.h \
 	../../src/monitor/mon.h ../mos6510.h ../snapshot.h ../traps.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../resources.h \
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h ../resources.h \
 	../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
@@ -292,8 +292,8 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
 	../../src/sid/sid.h ../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h \
 	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h z80mem.h \
 	../../src/mem.h ../../src/c64/c64acia.h

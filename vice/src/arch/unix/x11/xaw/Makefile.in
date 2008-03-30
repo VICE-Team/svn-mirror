@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libxawui.a
 
-libxawui_a_SOURCES =  	c128icon.xpm 	c610icon.xpm 	c64icon.xpm 	checkmark.xbm 	peticon.xpm 	right_arrow.xbm 	ui.c 	ui.h 	uiedisk.c 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisnapshot.c 	vic20icon.xpm 	vsidui.c 	videoarch.h 	x11video.c 	x11kbd.c 	about.c
+libxawui_a_SOURCES =  	checkmark.xbm 	right_arrow.xbm 	ui.c 	uiarch.h 	uiedisk.c 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisnapshot.c 	videoarch.h 	x11video.c 	x11kbd.c 	about.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -131,7 +131,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  ui.o uiedisk.o uihotkey.o uimenu.o uisnapshot.o \
-vsidui.o x11video.o x11kbd.o about.o
+x11video.o x11kbd.o about.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -306,9 +306,10 @@ distdir: $(DISTFILES)
 	done
 about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/info.h ../../../../../src/version.h \
-	videoarch.h ../videoarch.h ../../../../../src/palette.h \
+	videoarch.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h uiarch.h ../videoarch.h ../../../../../src/resources.h \
 	../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/cmdline.h ../../../../../src/resources.h \
@@ -317,10 +318,11 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/interrupt.h ../../../../../src/6510core.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
-	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h uihotkey.h uimenu.h \
+	../../../../../src/c64/psid.h \
+	../../../../../src/arch/unix/vsidproc.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/palette.h \
+	../../../../../src/uiapi.h uiarch.h uihotkey.h uimenu.h \
 	../../../../../src/arch/unix/uisettings.h \
-	../../../../../src/arch/unix/ui.h ui.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
@@ -330,50 +332,45 @@ uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/diskimage.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/machine.h ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h \
-	../../../../../src/arch/unix/uiedisk.h \
+	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/arch/unix/uiedisk.h \
 	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h
 uihotkey.o: uihotkey.c ../../../../../src/vice.h \
-	../../../../../src/config.h uihotkey.h ui.h \
+	../../../../../src/config.h uihotkey.h \
+	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	../../../../../src/utils.h
+	uiarch.h ../../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm ../../../../../src/machine.h \
-	../../../../../src/resources.h ../../../../../src/utils.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/vsync.h \
-	uimenu.h ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h uihotkey.h
+	../../../../../src/resources.h uimenu.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h uihotkey.h ../../../../../src/utils.h \
+	../../../../../src/arch/unix/vsidproc.h \
+	../../../../../src/vsync.h
 uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/arch/unix/uisnapshot.h \
-	../../../../../src/machine.h ui.h \
+	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h
-vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
-	../../../../../src/attach.h ../../../../../src/c64/c64mem.h \
-	../../../../../src/mem.h ../../../../../src/arch/unix/types.h \
-	../../../../../src/machine.h ../../../../../src/c64/psid.h \
-	../../../../../src/resources.h \
-	../../../../../src/arch/unix/uicommands.h \
-	../../../../../src/arch/unix/ui.h ui.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	../../../../../src/arch/unix/uimenu.h uimenu.h uihotkey.h \
-	uimenu.h ../../../../../src/arch/unix/uisettings.h \
-	../../../../../src/utils.h ../../../../../src/vsync.h \
-	c64icon.xpm
+	uiarch.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/arch/unix/x11/kbdef.h \
-	../../../../../src/keyboard.h ../../../../../src/machine.h ui.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h
+	../../../../../src/keyboard.h ../../../../../src/machine.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/palette.h \
+	../../../../../src/uiapi.h uiarch.h
 x11video.o: x11video.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
-	videoarch.h ../videoarch.h ../../../../../src/palette.h \
-	../../../../../src/resources.h ui.h ../../../../../src/uiapi.h \
+	videoarch.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h uiarch.h ../videoarch.h ../../../../../src/resources.h \
 	../../../../../src/video.h
 
 info-am:

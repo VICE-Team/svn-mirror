@@ -246,9 +246,10 @@ crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc-mem.h \
 	../../src/arch/unix/types.h crtc.h crtctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
@@ -260,10 +261,10 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc-mem.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/maincpu.h ../../src/6510core.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/maincpu.h ../../src/6510core.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	crtc-resources.h crtc.h crtc-mem.h ../../src/arch/unix/types.h \
 	crtctypes.h ../../src/alarm.h ../../src/log.h \
@@ -275,10 +276,10 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/utils.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/utils.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	crtc.h crtc-mem.h ../../src/arch/unix/types.h crtctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
@@ -290,10 +291,11 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/snapshot.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/snapshot.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/arch/unix/types.h crtc-cmdline-options.h crtc-draw.h \
 	crtc-resources.h crtc.h crtc-mem.h crtctypes.h \
@@ -306,11 +308,11 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/utils.h ../../src/vsync.h
+	../../src/arch/unix/ui.h ../../src/palette.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/utils.h ../../src/vsync.h
 
 info-am:
 info: info-am

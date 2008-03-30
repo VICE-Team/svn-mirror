@@ -113,7 +113,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libgnomeui.a
 
-libgnomeui_a_SOURCES =  	dummies.c 	ui.c 	ui.h 	videoarch.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	gnomekbd.c 	gnomevideo.c 	uiedisk.c 	uisnapshot.c 	about.c
+libgnomeui_a_SOURCES =  	dummies.c 	ui.c 	uiarch.h 	videoarch.h 	uihotkey.c 	uimenu.c 	uimenu.h 	gnomekbd.c 	gnomevideo.c 	uiedisk.c 	uisnapshot.c 	about.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -232,6 +232,57 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/version.h
+dummies.o: dummies.c
+gnomekbd.o: gnomekbd.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/keyboard.h \
+	../../../../../src/machine.h ../../../../../src/arch/unix/kbd.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/x11/kbdef.h
+gnomevideo.o: gnomevideo.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/log.h \
+	videoarch.h ../videoarch.h ../../../../../src/palette.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/resources.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/video.h uiarch.h
+ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h uiarch.h ../../../../../src/cmdline.h \
+	../../../../../src/resources.h ../../../../../src/log.h \
+	../../../../../src/arch/unix/kbd.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h ../../../../../src/6510core.h \
+	../../../../../src/interrupt.h \
+	../../../../../src/arch/unix/vsidproc.h \
+	../../../../../src/arch/unix/mouse.h \
+	../../../../../src/datasette.h ../../../../../src/tap.h \
+	../../../../../src/arch/unix/uihotkey.h uimenu.h \
+	../../../../../src/arch/unix/uisettings.h \
+	../../../../../src/arch/unix/uimenu.h uimenu.h \
+	../../../../../src/arch/unix/uicommands.h \
+	../../../../../src/utils.h ../../../../../src/version.h \
+	../../../../../src/vsync.h
+uiedisk.o: uiedisk.c ../../../../../src/vice.h \
+	../../../../../src/config.h \
+	../../../../../src/arch/unix/uiedisk.h
+uihotkey.o: uihotkey.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/arch/unix/uihotkey.h \
+	../../../../../src/utils.h
+uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/resources.h ../../../../../src/utils.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/vsync.h \
+	uimenu.h ../../../../../src/arch/unix/ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uiarch.h ../../../../../src/arch/unix/uihotkey.h
+uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
+	../../../../../src/config.h \
+	../../../../../src/arch/unix/uisnapshot.h
 
 info-am:
 info: info-am
