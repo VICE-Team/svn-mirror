@@ -63,6 +63,10 @@ typedef struct screenshot_s {
     unsigned int size_width;
     unsigned int size_height;
 
+    /* DPI */
+    unsigned int dpi_x;
+    unsigned int dpi_y;
+
     /* Upper left corner of viewport.  */
     unsigned int first_displayed_col;
 

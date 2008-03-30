@@ -117,8 +117,9 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     util_dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
     util_dword_to_le_buf(&binfo[20], 0);
 
-    util_dword_to_le_buf(&binfo[24], 4000);
-    util_dword_to_le_buf(&binfo[28], 4000);
+    /* DPI in Pixels per Meter*/
+    util_dword_to_le_buf(&binfo[24], screenshot->dpi_x * 10000 / 254);
+    util_dword_to_le_buf(&binfo[28], screenshot->dpi_y * 10000 / 254);
 
     util_dword_to_le_buf(&binfo[32], screenshot->palette->num_entries);
     util_dword_to_le_buf(&binfo[36], screenshot->palette->num_entries);

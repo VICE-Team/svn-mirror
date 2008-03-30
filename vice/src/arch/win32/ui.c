@@ -1364,16 +1364,6 @@ static void reset_dialog_proc(WPARAM wparam)
                       MB_YESNO | MB_ICONQUESTION) == IDYES)
 */
     {
-        if (machine_class == VICE_MACHINE_PLUS4) {
-            if ((keyarr[7] & 128)) {
-                keyboard_clear_keymatrix();
-                keyboard_set_keyarr_and_latch(7, 7, 1);
-            } else {
-                keyboard_clear_keymatrix();
-            }
-        } else {
-            keyboard_clear_keymatrix();
-        }
         if ((wparam & 0xffff) == IDM_RESET_HARD) {
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         } else {

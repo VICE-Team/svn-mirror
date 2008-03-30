@@ -37,6 +37,8 @@ struct output_parameter_s
 {
     unsigned int maxcol;
     unsigned int maxrow;
+    unsigned int dpi_x;
+    unsigned int dpi_y;
     struct palette_s *palette;
 };
 typedef struct output_parameter_s output_parameter_t;

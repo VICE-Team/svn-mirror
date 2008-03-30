@@ -454,6 +454,8 @@ void raster_screenshot(raster_t *raster, screenshot_t *screenshot)
     screenshot->x_offset = raster->geometry->extra_offscreen_border_left;
     screenshot->size_width = 1;
     screenshot->size_height = 1;
+    screenshot->dpi_x = 100;
+    screenshot->dpi_y = 100;
     screenshot->first_displayed_line = raster->geometry->first_displayed_line;
     screenshot->last_displayed_line = raster->geometry->last_displayed_line;
     screenshot->first_displayed_col

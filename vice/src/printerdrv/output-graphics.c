@@ -154,6 +154,8 @@ static int output_graphics_open(unsigned int prnr,
 
     output_gfx[prnr].screenshot.width  = output_parameter->maxcol;
     output_gfx[prnr].screenshot.height = output_parameter->maxrow;
+    output_gfx[prnr].screenshot.dpi_x = output_parameter->dpi_x;
+    output_gfx[prnr].screenshot.dpi_y = output_parameter->dpi_y;
     output_gfx[prnr].screenshot.y_offset = 0;
     output_gfx[prnr].screenshot.palette = output_parameter->palette;
 

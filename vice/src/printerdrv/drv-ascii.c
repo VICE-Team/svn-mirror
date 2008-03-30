@@ -44,6 +44,8 @@ static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 
     output_parameter.maxcol = 480;
     output_parameter.maxrow = 66 * 9;
+    output_parameter.dpi_x = 100;
+    output_parameter.dpi_y = 100;
 
     return output_select_open(prnr, &output_parameter);
 }

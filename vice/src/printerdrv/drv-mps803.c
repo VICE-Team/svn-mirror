@@ -341,6 +341,8 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
 
     output_parameter.maxcol = MAX_COL;
     output_parameter.maxrow = MAX_ROW;
+    output_parameter.dpi_x = 72;
+    output_parameter.dpi_x = 72;
     output_parameter.palette = palette;
 
     if (secondary == 7)

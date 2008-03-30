@@ -1863,6 +1863,8 @@ static int drv_nl10_open(unsigned int prnr, unsigned int secondary)
       
       output_parameter.maxcol  = MAX_COL;
       output_parameter.maxrow  = MAX_ROW;
+      output_parameter.dpi_x = 300;
+      output_parameter.dpi_y = 300;
       output_parameter.palette = palette;
       
       drv_nl10[prnr].pos_y     = 0;
