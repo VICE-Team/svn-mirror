@@ -148,7 +148,7 @@ inline void pla_config_changed(void)
     mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
                   | (export.game << 4));
 
-    c64pla_config_changed(tape_sense, 0);
+    c64pla_config_changed(tape_sense, pport.data & 0x40 ? 1 : 0);
 
     if (any_watchpoints(e_comp_space)) {
         _mem_read_tab_ptr = mem_read_tab_watch;

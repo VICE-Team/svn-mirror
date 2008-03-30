@@ -339,7 +339,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.memory_fetch_done = 2;
 
             maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub);
+                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
 
             ted.bad_line = 1;
             return 1;
@@ -360,7 +360,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.memory_fetch_done = 2;
 */
             maincpu_steal_cycles(ted.fetch_clk,
-                                 TED_SCREEN_TEXTCOLS + 3 - sub);
+                                 TED_SCREEN_TEXTCOLS + 3 - sub, 0);
 
 /*            ted.bad_line = 1;*/
             return 1;

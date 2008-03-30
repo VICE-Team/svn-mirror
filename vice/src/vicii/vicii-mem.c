@@ -292,7 +292,7 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
                          - (cycle - (VIC_II_FETCH_CYCLE + 3)));
 
             /* Take over the bus until the memory fetch is done.  */
-            maincpu_steal_cycles(clk, num_chars);
+            maincpu_steal_cycles(clk, num_chars, 0);
 
             if (num_chars <= VIC_II_SCREEN_TEXTCOLS) {
                 /* Matrix fetches starts immediately, but the VIC needs
