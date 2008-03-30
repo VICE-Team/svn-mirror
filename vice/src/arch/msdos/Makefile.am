@@ -81,6 +81,8 @@ libarch_a_SOURCES = \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \
+	uinetplay.c \
+	uinetplay.h \
 	uiperipherial.c \
 	uiperipherial.h \
 	uiplus60k.c \

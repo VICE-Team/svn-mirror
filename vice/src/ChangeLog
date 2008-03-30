@@ -1,3 +1,63 @@
+2005-12-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.8.
+
+2005-12-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * network.c: Fixed the improper use of the select function and
+        added a function to get the right fd_size value.
+
+2005-12-27  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_dispatch_events): Hide
+	video_ctrl_checkbox if appropriate.
+
+	* arch/unix/c128ui.c: Renamed `Screenshot' to `Save media file'. 
+	* arch/unix/vic20ui.c: Likewise.
+	* arch/unix/plus4ui.c: Likewise.
+	* arch/unix/petui.c: Likewise.
+	* arch/unix/cbm2ui.c: Likewise.
+	* arch/unix/c64ui.c: Likewise.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (build_screenshot_dialog):
+	Rewritten to new gfxdrv API.
+
+2005-12-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/Makefile.am, arch/msdos/menudefs.c,
+	arch/msdos/uinetplay.c: Added a netplay ui for the msdos port.
+
+2005-12-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/uinetplay.c: Added support for IPV6 for netplay.
+
+	* network.c: Added support for IPV6 and fixed some improper
+	casts.
+
+	* translate.c: Fixed some typos and added some new entries.
+
+	* translate.h: Added some new entries.
+
+2005-12-24  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/Makefile.am (libarch_a_SOURCES): Added uinetplay.h
+
+2005-12-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am: Added uinetplay.c and the previousely
+	missing uinetplay.h to the automakefile.
+
+	* arch/unix/uicommands.c, arch/unix/uinetplay.c: Added a
+	non-gnome unix ui for the netplay feature.
+
+	* arch/unix/uinetplay.h: Re-added and updated this one.
+
+	* arch/unix/x11/gnome/uinetplay.c: Update to only compile if
+	HAVE_NETWORK was defined.
+
+	* network.c: Switched the order of the sys/types.h and
+	sys/socket.h headers.
+
 2005-12-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.7.

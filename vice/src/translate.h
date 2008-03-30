@@ -3726,4 +3726,35 @@ extern int translate_res(int en_resource);
 #define IDGS_FFMPEG_CANNOT_OPEN_S_PL            0x11a0c
 #define IDGS_FFMPEG_CANNOT_OPEN_S_SV            0x11a0d
 
+#ifdef HAVE_NETWORK
+/* network.c */
+#define IDGS_REMOTE_HOST_DISCONNECTED           0x11a0e
+#define IDGS_REMOTE_HOST_DISCONNECTED_DE        0x11a0f
+#define IDGS_REMOTE_HOST_DISCONNECTED_FR        0x11a10
+#define IDGS_REMOTE_HOST_DISCONNECTED_IT        0x11a11
+#define IDGS_REMOTE_HOST_DISCONNECTED_NL        0x11a12
+#define IDGS_REMOTE_HOST_DISCONNECTED_PL        0x11a13
+#define IDGS_REMOTE_HOST_DISCONNECTED_SV        0x11a14
+
+/* network.c */
+#define IDGS_REMOTE_HOST_SUSPENDING             0x11a15
+#define IDGS_REMOTE_HOST_SUSPENDING_DE          0x11a16
+#define IDGS_REMOTE_HOST_SUSPENDING_FR          0x11a17
+#define IDGS_REMOTE_HOST_SUSPENDING_IT          0x11a18
+#define IDGS_REMOTE_HOST_SUSPENDING_NL          0x11a19
+#define IDGS_REMOTE_HOST_SUSPENDING_PL          0x11a1a
+#define IDGS_REMOTE_HOST_SUSPENDING_SV          0x11a1b
+
+#ifdef HAVE_IPV6
+/* network.c */
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6            0x11a1c
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_DE         0x11a1d
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_FR         0x11a1e
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_IT         0x11a1f
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_NL         0x11a20
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_PL         0x11a21
+#define IDGS_CANNOT_SWITCH_IPV4_IPV6_SV         0x11a22
+#endif
+#endif
+
 #endif

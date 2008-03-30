@@ -1767,6 +1767,8 @@ void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
 	ui_dispatch_next_event();
+    if (!screenshot_is_recording())
+	gtk_widget_hide(video_ctrl_checkbox);
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_mode_update();
 #endif

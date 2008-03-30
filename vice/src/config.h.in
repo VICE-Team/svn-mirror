@@ -116,8 +116,20 @@
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
 
+/* Define to 1 if you have the `getdtablesize' function. */
+#undef HAVE_GETDTABLESIZE
+
 /* Define to 1 if you have the `gethostbyname' function. */
 #undef HAVE_GETHOSTBYNAME
+
+/* Define if gethostbyname2 can be used */
+#undef HAVE_GETHOSTBYNAME2
+
+/* Define if getipnodebyname can be used */
+#undef HAVE_GETIPNODEBYNAME
+
+/* Define to 1 if you have the `getrlimit' function. */
+#undef HAVE_GETRLIMIT
 
 /* Define if gettext if available. */
 #undef HAVE_GETTEXT
@@ -145,6 +157,9 @@
 
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
+
+/* Define if ipv6 can be used */
+#undef HAVE_IPV6
 
 /* Can we use the JPEG library? */
 #undef HAVE_JPEG
@@ -385,6 +400,9 @@
 /* are we compiling under Minix-Vmd */
 #undef MINIXVMD
 
+/* Whether struct sockaddr::__ss_family exists */
+#undef NEED_PREFIXED_SS_FAMILY
+
 /* NLS local directory. */
 #undef NLS_LOCALEDIR
 
@@ -486,6 +504,9 @@
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
+
+/* ss_family is not defined here, use __ss_family instead */
+#undef ss_family
 
 /* Define as `fork' if `vfork' does not work. */
 #undef vfork

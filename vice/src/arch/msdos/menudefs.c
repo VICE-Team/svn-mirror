@@ -61,6 +61,9 @@
 #include "uiattach.h"
 #include "uidrive.h"
 #include "uijoystick.h"
+#ifdef HAVE_NETWORK
+#include "uinetplay.h"
+#endif
 #include "uiperipherial.h"
 #include "uiprinter.h"
 #include "uiscreenshot.h"
@@ -88,6 +91,10 @@ tui_menu_t ui_settings_submenu;
 tui_menu_t ui_snapshot_submenu;
 tui_menu_t ui_special_submenu;
 tui_menu_t ui_video_submenu;
+
+#ifdef HAVE_NETWORK
+tui_menu_t ui_netplay_submenu;
+#endif
 
 /* ------------------------------------------------------------------------ */
 
@@ -1033,6 +1040,18 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add_separator(ui_main_menu);
+
+#ifdef HAVE_NETWORK
+    ui_netplay_submenu = tui_menu_create("Netplay Commands", 1);
+    tui_menu_add(ui_netplay_submenu, ui_netplay_menu_def);
+
+    tui_menu_add_submenu(ui_main_menu, "_Netplay Commands...",
+                         "Commands for netplay between computers",
+                         ui_netplay_submenu, NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_separator(ui_main_menu);
+#endif
 
     ui_settings_submenu = tui_menu_create("Configuration Commands", 1);
 

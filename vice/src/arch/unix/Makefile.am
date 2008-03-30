@@ -94,6 +94,8 @@ libarch_a_SOURCES = \
 	uilib.h \
 	uimenu.h \
 	uimon.c \
+	uinetplay.c \
+	uinetplay.h \
 	uipalemu.c \
 	uipalemu.h \
 	uipalette.c \

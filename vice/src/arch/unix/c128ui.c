@@ -317,9 +317,9 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t screenshot_submenu[] = {
-    { N_("VIC II Screenshot"),
+    { N_("VIC II Save media file"),
       (ui_callback_t)save_screenshot, (ui_callback_data_t)1, NULL },
-    { N_("VDC Screenshot"),
+    { N_("VDC Save media file"),
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };

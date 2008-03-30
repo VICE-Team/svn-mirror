@@ -492,6 +492,35 @@ translate_t string_table[] = {
 /* nl */ {IDGS_NETWORK_OUT_OF_SYNC_NL, "Netwerk niet synchroon - connectie wordt verbroken."},
 /* pl */ {IDGS_NETWORK_OUT_OF_SYNC_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_REMOTE_HOST_DISCONNECTED,    "Remote host disconnected."},
+/* de */ {IDGS_REMOTE_HOST_DISCONNECTED_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_REMOTE_HOST_DISCONNECTED_FR, ""},  /* fuzzy */
+/* it */ {IDGS_REMOTE_HOST_DISCONNECTED_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_REMOTE_HOST_DISCONNECTED_NL, "Andere computer heeft de verbinding verbroken."},
+/* pl */ {IDGS_REMOTE_HOST_DISCONNECTED_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_REMOTE_HOST_DISCONNECTED_SV, ""},  /* fuzzy */
+
+/* network.c */
+/* en */ {IDGS_REMOTE_HOST_SUSPENDING,    "Remote host suspending..."},
+/* de */ {IDGS_REMOTE_HOST_SUSPENDING_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_REMOTE_HOST_SUSPENDING_FR, ""},  /* fuzzy */
+/* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_REMOTE_HOST_SUSPENDING_NL, "Andere computer halt de netplay..."},
+/* pl */ {IDGS_REMOTE_HOST_SUSPENDING_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_REMOTE_HOST_SUSPENDING_SV, ""},  /* fuzzy */
+
+#ifdef HAVE_IPV6
+/* network.c */
+/* en */ {IDGS_CANNOT_SWITCH_IPV4_IPV6,    "Cannot switch IPV4/IPV6 while netplay is active."},
+/* de */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_NL, "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."},
+/* pl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, ""},  /* fuzzy */
+#endif
 #endif
 
 /* gfxoutputdrv/ffmpegdrv.c */
@@ -4257,6 +4286,35 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDGS_NETWORK_OUT_OF_SYNC_NL,
 /* pl */  IDGS_NETWORK_OUT_OF_SYNC_PL,
 /* sv */  IDGS_NETWORK_OUT_OF_SYNC_SV},
+
+/* network.c */
+/* en */ {IDGS_REMOTE_HOST_DISCONNECTED,
+/* de */  IDGS_REMOTE_HOST_DISCONNECTED_DE,
+/* fr */  IDGS_REMOTE_HOST_DISCONNECTED_FR,
+/* it */  IDGS_REMOTE_HOST_DISCONNECTED_IT,
+/* nl */  IDGS_REMOTE_HOST_DISCONNECTED_NL,
+/* pl */  IDGS_REMOTE_HOST_DISCONNECTED_PL,
+/* sv */  IDGS_REMOTE_HOST_DISCONNECTED_SV},
+
+/* network.c */
+/* en */ {IDGS_REMOTE_HOST_SUSPENDING,
+/* de */  IDGS_REMOTE_HOST_SUSPENDING_DE,
+/* fr */  IDGS_REMOTE_HOST_SUSPENDING_FR,
+/* it */  IDGS_REMOTE_HOST_SUSPENDING_IT,
+/* nl */  IDGS_REMOTE_HOST_SUSPENDING_NL,
+/* pl */  IDGS_REMOTE_HOST_SUSPENDING_PL,
+/* sv */  IDGS_REMOTE_HOST_SUSPENDING_SV},
+
+#ifdef HAVE_IPV6
+/* network.c */
+/* en */ {IDGS_CANNOT_SWITCH_IPV4_IPV6,
+/* de */  IDGS_CANNOT_SWITCH_IPV4_IPV6_DE,
+/* fr */  IDGS_CANNOT_SWITCH_IPV4_IPV6_FR,
+/* it */  IDGS_CANNOT_SWITCH_IPV4_IPV6_IT,
+/* nl */  IDGS_CANNOT_SWITCH_IPV4_IPV6_NL,
+/* pl */  IDGS_CANNOT_SWITCH_IPV4_IPV6_PL,
+/* sv */  IDGS_CANNOT_SWITCH_IPV4_IPV6_SV},
+#endif
 #endif
 
 /* gfxoutputdrv/ffmpegdrv.c */
@@ -4266,7 +4324,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT,
 /* nl */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL,
 /* pl */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL,
-/* sv */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV),
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV},
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM,
@@ -4275,7 +4333,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT,
 /* nl */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL,
 /* pl */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL,
-/* sv */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV),
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV},
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_S,
@@ -4284,7 +4342,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* it */  IDGS_FFMPEG_CANNOT_OPEN_S_IT,
 /* nl */  IDGS_FFMPEG_CANNOT_OPEN_S_NL,
 /* pl */  IDGS_FFMPEG_CANNOT_OPEN_S_PL,
-/* sv */  IDGS_FFMPEG_CANNOT_OPEN_S_SV),
+/* sv */  IDGS_FFMPEG_CANNOT_OPEN_S_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,

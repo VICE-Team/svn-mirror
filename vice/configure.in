@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=18
-VICE_VERSION_BUILD=7
+VICE_VERSION_BUILD=8
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -64,6 +64,7 @@ AC_ARG_ENABLE(nls,[  --disable-nls           disables national language support]
 AC_ARG_ENABLE(realdevice,[  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 AC_ARG_ENABLE(ffmpeg,[  --enable-ffmpeg         enables ffmpeg library support])
 AC_ARG_ENABLE(ethernet,[  --enable-ethernet       enables Tfe Final Ethernet emulation])
+AC_ARG_ENABLE(ipv6,[  --disable-ipv6          disables the checking for ipv6 compatibility])
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
@@ -662,6 +663,7 @@ if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xye
     AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS"],,)
     AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS"],,)
     AC_CHECK_LIB(bsd, gethostbyname,[ LIBS="-lbsd $LIBS"],,)
+    AC_CHECK_LIB(inet, gethostbyname,[ LIBS="-linet $LIBS"],,)
     AC_CHECK_LIB(watt, gethostbyname,[ LIBS="-lwatt $LIBS"],,)
 
     dnl Check for needed functions
@@ -673,6 +675,83 @@ if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xye
 
     if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
       AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+      AC_CHECK_FUNCS(getdtablesize getrlimit)
+    fi
+  fi
+fi
+
+dnl Check for availability of IPV6
+if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+  if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
+    AC_MSG_CHECKING([if IPV6 should be enabled])
+    if test x"$enable_ipv6" != "xno"; then
+      have_ipv6=no
+      AC_TRY_COMPILE([
+        #include <sys/socket.h>
+        #include <sys/types.h>], [
+        struct sockaddr_storage ss;
+        socket(AF_INET6, SOCK_STREAM, 0)
+        ],
+        have_ipv6=yes,
+        have_ipv6=no
+      )
+      AC_MSG_RESULT($have_ipv6)
+
+      if test $have_ipv6 = yes; then
+        have_broken_ss_family=no
+
+        dnl on some platforms, the structure sockaddr doesn't have a
+        dnl ss_family, but __ss_family. If we find no ss_family then we
+        dnl check for __ss_family, and if found define NEED_PREFIXED_SS_FAMILY.
+        AC_MSG_CHECKING([struct sockaddr::ss_family])
+        AC_TRY_COMPILE([
+          #include <sys/socket.h>
+          #include <sys/types.h>], [
+          struct sockaddr_storage ss ;
+          ss.ss_family = 0 ;
+          ],
+          have_ss_family=yes,
+          have_ss_family=no
+        )
+        AC_MSG_RESULT($have_ss_family)
+        if test x$have_ss_family = xno ; then
+          AC_MSG_CHECKING([broken struct sockaddr::ss_family])
+          AC_TRY_COMPILE([
+            #include <sys/socket.h>
+            #include <sys/types.h>], [
+            struct sockaddr_storage ss ;
+            ss.__ss_family = 0 ;
+            ],
+            have_broken_ss_family=yes,
+            have_broken_ss_family=no
+          )
+          AC_MSG_RESULT($have_broken_ss_family)
+          if test x$have_broken_ss_family = xyes ; then
+            AC_DEFINE(NEED_PREFIXED_SS_FAMILY, [],
+            [Whether struct sockaddr::__ss_family exists]) 
+            AC_DEFINE(ss_family, __ss_family,
+            [ss_family is not defined here, use __ss_family instead])
+          else
+            AC_MSG_WARN(ss_family and __ss_family not found)
+          fi
+        fi
+
+        have_gethostbyname2=no
+        AC_CHECK_FUNC(gethostbyname2, have_gethostbyname2=yes)
+        if test $have_gethostbyname2 = yes; then
+          AC_DEFINE([HAVE_GETHOSTBYNAME2], [], [Define if gethostbyname2 can be used])
+          AC_DEFINE([HAVE_IPV6], [], [Define if ipv6 can be used])
+        else
+          have_getipnodebyname=no
+          AC_CHECK_FUNC(getipnodebyname, have_getipnodebyname=yes)
+          if test $have_getipnodebyname = yes; then
+            AC_DEFINE([HAVE_GETIPNODEBYNAME], [], [Define if getipnodebyname can be used])
+            AC_DEFINE([HAVE_IPV6], [], [Define if ipv6 can be used])
+          fi
+        fi
+      fi
+    else
+      AC_MSG_RESULT("no")
     fi
   fi
 fi

@@ -1,3 +1,16 @@
+2005-12-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.8.
+
+2005-12-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added checking for the getdtablesize and
+	getrlimit functions.
+
+2005-12-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added support for IPV6 for netplay.
+
 2005-12-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.7.

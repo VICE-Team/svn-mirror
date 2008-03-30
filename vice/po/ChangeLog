@@ -1,3 +1,12 @@
+2005-12-24  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated.
+
+2005-12-24  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added the generic unix netplay ui
+	(arch/unix/uinetplay.c) to the list.
+
 2005-12-23  pottendo  <pottendo@utanet.at>
 
 	* POTFILES.in: added src/arch/unix/x11/gnome/uinetplay.c 

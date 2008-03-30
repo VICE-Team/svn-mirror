@@ -391,7 +391,7 @@ static UI_CALLBACK(sound_record)
     }
 }
 
-#ifdef USE_GNOMEUI
+#if defined(HAVE_NETWORK) && defined(USE_GNOMEUI)
 static UI_CALLBACK(netplay)
 {
     ui_netplay_dialog();
@@ -471,10 +471,15 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { "--" },
     { N_("Recording start mode"),
       NULL, NULL, set_event_start_mode_submenu },
-#ifdef USE_GNOMEUI
     { "--" },
+#ifdef HAVE_NETWORK
+#ifdef USE_GNOMEUI
     { N_("Netplay (experimental)"),
       (ui_callback_t)netplay, NULL, NULL },
+#else
+    { N_("Netplay (experimental)"),
+      NULL, NULL, netplay_submenu },
+#endif
 #endif
     { NULL }
 };

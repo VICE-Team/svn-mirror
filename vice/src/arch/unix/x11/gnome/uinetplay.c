@@ -28,12 +28,14 @@
 #include <stdio.h>
 #include <gnome.h>
 
+#ifdef HAVE_NETWORK
 #include "ui.h"
 #include "uiarch.h"
 #include "network.h"
 #include "resources.h"
 #include "util.h"
 #include "log.h"
+#include "uinetplay.h"
 
 static GtkWidget *netplay_dialog, *current_mode, *dcb, *ctrls, *np_server, *np_port;
 static log_t np_log = LOG_ERR;
@@ -238,3 +240,5 @@ ui_netplay_dialog(void)
     res = gnome_dialog_run(GNOME_DIALOG(netplay_dialog));
     ui_popdown(netplay_dialog);
 }
+
+#endif /* HAVE_NETWORK */
