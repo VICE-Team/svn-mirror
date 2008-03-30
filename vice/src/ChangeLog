@@ -1,3 +1,64 @@
+2006-07-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.23.
+
+	* sound.c, sound.h (sound_device_num, sound_device_name): New
+	functions.
+
+	* arch/unix/gui/uisound.c, arch/unix/gui/uisound.h
+	(uisound_menu_create, uisound_menu_shutdown): New functions.
+	Added sound driver name menu.
+
+	* arch/unix/gui/c64ui.c, arch/unix/gui/c128ui.c,
+	arch/unix/gui/vic20ui.c, arch/unix/gui/petui.c,
+	arch/unix/gui/plus4ui.c, arch/unix/gui/cbm2ui.c: Init and
+	shutdown sound menus.
+
+2006-07-07  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_file.c: If no address is given with the load
+	command, respect the current device (comp, drive8, drive9,
+	...).
+
+	* monitor/mon_command.c: fixed a typo in the help text; added
+	help for <cond>, so that it can be used by users now; fixed
+	the help for the load command (cf. the change for mon_file.c
+	above)
+
+	* uimon.h, arch/amigaos/uimon.c, arch/beos/uimon.c,
+	arch/msdos/uimon.c, arch/os2/uimon.c, arch/riscos/uimon.c,
+	arch/unix/gui/uimon.c, arch/win32/uimon.c: Now, uimon_out()
+	gets a static buffer as argument, not printf() style data
+	anymore.  It was unnecessary, since this functionality is
+	already there.
+
+	* arch/win32/console.c: console_out() uses lib_mvsprintf()
+	instead of vsprintf() with a static buffer now; this prevents
+	a buffer overflow; make sure all character are output when
+	exiting the console (for example, with "x" in the monitor);
+
+	* arch/win32/monitor.dsp: added mon_lex.l, mon_parse.y as
+	files.
+
+	* monitor/mon_lex.l: Make sure prefixes 8:, 9:, 10:, 11:, and
+	C: are valid in conditions, too.
+
+	* monitor/mon_util.c: Added buffering for the outputs.
+	Currently, this is done with a fixed buffer size of 10000
+	byte; later, this will be done dynamically with info from the
+	console.  This bufféring fixes the problems with the "trace"
+	and "watch" monitor commands, where the output did not appear
+	at all.
+
+2006-07-07  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* diskimage.h, src/diskimage/fsimage-probe.c: Accept D71 files
+	with error info, too. Additionally, make sure the error info
+	is deleted whenever another image is attached.
+
+	* diskimage/fsimage.c: Allocate MAX_BLOCKS_ANY instead of
+	MAX_BLOCKS_1541 for the error info.
+
 2006-07-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.22.
