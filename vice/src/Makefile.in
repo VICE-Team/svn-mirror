@@ -531,8 +531,6 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
-archdep.o: arch/win32/archdep.c vice.h config.h arch/win32/lose32.h \
-	arch/win32/archdep.h archapi.h log.h utils.h arch/win32/types.h
 asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
 attach.o: attach.c vice.h config.h attach.h arch/unix/types.h snapshot.h \
 	diskimage.h gcr.h drive/drive.h drive/drivecpu.h alarm.h log.h \
