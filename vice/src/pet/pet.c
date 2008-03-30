@@ -27,7 +27,6 @@
 
 #include "vice.h"
 #include "interrupt.h"
-#include "vic.h"
 #include "via.h"
 #include "vmachine.h"
 #include "machspec.h"
@@ -40,6 +39,7 @@
 #include "vsync.h"
 #include "sid.h"
 #include "attach.h"
+#include "autostart.h"
 
 static void vsync_hook(void);
 
@@ -71,21 +71,6 @@ machdesc_t machdesc = {
 
     /* Flag: does this machine have hardware sprites?  */
     0,
-};
-
-/* Struct to access the kernal buffer.  */
-kernal_kbd_buf_t kernal_kbd_buf = {
-
-    /* First location of the buffer. FIXME? */
-    631,
-
-    /* Location that stores the number of characters pending in the
-       buffer.  FIXME? */
-    198,
-
-    /* Maximum number of characters that fit in the buffer. FIXME? */
-    10
-
 };
 
 /* ------------------------------------------------------------------------ */
@@ -156,13 +141,16 @@ int rom_trap_allowed(ADDRESS addr)
 /* This hook is called at the end of every frame.  */
 static void vsync_hook(void)
 {
-    /* FIXME: This will be common to all the machines someday.  */
-    /* autostart_advance(); */
+    CLOCK sub;
 
-    if (maincpu_prevent_clk_overflow()) {
-	crtc_prevent_clk_overflow();
-	via_prevent_clk_overflow();
-        sid_prevent_clk_overflow();
-        vsync_prevent_clk_overflow();
+    autostart_advance();
+
+    sub = maincpu_prevent_clk_overflow();
+
+    if (sub > 0) {
+	crtc_prevent_clk_overflow(sub);
+	via_prevent_clk_overflow(sub);
+        sid_prevent_clk_overflow(sub);
+        vsync_prevent_clk_overflow(sub);
     }
 }
