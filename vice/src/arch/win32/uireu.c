@@ -33,7 +33,6 @@
 #include <commdlg.h>
 #include <tchar.h>
 
-#include "lib.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -82,7 +81,7 @@ static void init_reu_dialog(HWND hwnd)
         res_value_loop++) {
         TCHAR st[10];
         _itot(ui_reu_size[res_value_loop], st, 10);
-        _tcscat(st, " kB");
+        _tcscat(st, TEXT(" kB"));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_value("REUsize", (void *)&res_value);
@@ -95,11 +94,10 @@ static void init_reu_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_value("REUfilename", (void *)&reufile);
-    st_reufile = lib_malloc((strlen(reufile) + 1) * sizeof(TCHAR));
-    system_mbstowcs(st_reufile, reufile, strlen(reufile) + 1);
+    st_reufile = system_mbstowcs_alloc(reufile);
     SetDlgItemText(hwnd, IDC_REU_FILE,
                    reufile != NULL ? st_reufile : TEXT(""));
-    lib_free(st_reufile);
+    system_mbstowcs_free(st_reufile);
 
     enable_reu_controls(hwnd);
 }
@@ -133,14 +131,14 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         switch (command) {
           case IDC_REU_BROWSE:
             {
-                char name[1024] = "";
+                TCHAR name[1024] = TEXT("");
                 OPENFILENAME ofn;
 
                 memset(&ofn, 0, sizeof(ofn));
                 ofn.lStructSize = sizeof(ofn);
                 ofn.hwndOwner = hwnd;
                 ofn.hInstance = winmain_instance;
-                ofn.lpstrFilter = "All files (*.*)\0*.*\0";
+                ofn.lpstrFilter = TEXT("All files (*.*)\0*.*\0");
                 ofn.lpstrCustomFilter = NULL;
                 ofn.nMaxCustFilter = 0;
                 ofn.nFilterIndex = 1;
@@ -149,7 +147,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                 ofn.lpstrFileTitle = NULL;
                 ofn.nMaxFileTitle = 0;
                 ofn.lpstrInitialDir = NULL;
-                ofn.lpstrTitle = "Select File for REU";
+                ofn.lpstrTitle = TEXT("Select File for REU");
                 ofn.Flags = (OFN_EXPLORER
                     | OFN_HIDEREADONLY
                     | OFN_NOTESTFILECREATE

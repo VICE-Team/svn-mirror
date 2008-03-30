@@ -430,17 +430,17 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[2].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = general_dialog_proc;
-    psp[0].pszTitle = "General";
+    psp[0].pszTitle = TEXT("General");
     psp[1].pfnDlgProc = resid_dialog_proc;
-    psp[1].pszTitle = "ReSID";
+    psp[1].pszTitle = TEXT("ReSID");
     psp[2].pfnDlgProc = hardsid_dialog_proc;
-    psp[2].pszTitle = "HardSID";
+    psp[2].pszTitle = TEXT("HardSID");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "SID settings";
+    psh.pszCaption = TEXT("SID settings");
     psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

@@ -28,10 +28,12 @@
 
 #include <string.h>
 #include <windows.h>
+#include <tchar.h>
 
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "uirom.h"
@@ -47,10 +49,13 @@ static void init_rom_dialog(HWND hwnd)
 
     while (settings[n].realname != NULL) {
         const char *filename;
+        TCHAR *st_filename;
 
         resources_get_value(settings[n].resname, (void *)&filename);
+        st_filename = system_mbstowcs_alloc(filename);
         SetDlgItemText(hwnd, settings[n].idc_filename,
-                       filename != NULL ? filename : "");
+                       st_filename != NULL ? st_filename : TEXT(""));
+        system_mbstowcs_free(st_filename);
         n++;
     }
 }
@@ -61,8 +66,10 @@ static void set_resources(HWND hwnd)
 
     while (settings[n].realname != NULL) {
         char filename[MAX_PATH];
+        TCHAR st_filename[MAX_PATH];
 
-        GetDlgItemText(hwnd, settings[n].idc_filename, filename, MAX_PATH);
+        GetDlgItemText(hwnd, settings[n].idc_filename, st_filename, MAX_PATH);
+        system_wcstombs(filename, st_filename, MAX_PATH);
         resources_set_value(settings[n].resname, (resource_value_t)filename);
         n++;
     }
@@ -75,6 +82,7 @@ static void browse_command(HWND hwnd, unsigned int command)
     while (settings[n].realname != NULL) {
         if ((unsigned int)command == settings[n].idc_browse) {
             char *filename, *realname;
+            TCHAR *st_filename;
 
             realname = lib_msprintf("Load %s ROM image", settings[n].realname);
             filename = ui_select_file(hwnd, realname, UI_LIB_FILTER_ALL,
@@ -84,7 +92,9 @@ static void browse_command(HWND hwnd, unsigned int command)
             if (filename == NULL)
                 return;
 
-            SetDlgItemText(hwnd, settings[n].idc_filename, filename);
+            st_filename = system_mbstowcs_alloc(filename);
+            SetDlgItemText(hwnd, settings[n].idc_filename, st_filename);
+            system_mbstowcs_free(st_filename);
             lib_free(filename);
         }
         n++;
