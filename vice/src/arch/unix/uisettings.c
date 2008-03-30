@@ -61,10 +61,11 @@ static UI_CALLBACK(set_refresh_rate)
     resources_get_value("RefreshRate",
                         (resource_value_t *) &current_refresh_rate);
     if (!CHECK_MENUS) {
-	if (current_refresh_rate != (int) UI_MENU_CB_PARAM) {
-	    resources_set_value("RefreshRate", (resource_value_t) UI_MENU_CB_PARAM);
-	    ui_update_menus();
-	}
+        if (current_refresh_rate != (int) UI_MENU_CB_PARAM) {
+            resources_set_value("RefreshRate",
+                                (resource_value_t) UI_MENU_CB_PARAM);
+            ui_update_menus();
+        }
     } else {
         if ((int)UI_MENU_CB_PARAM == 0)
             have_custom_refresh_rate = 1;
@@ -74,7 +75,7 @@ static UI_CALLBACK(set_refresh_rate)
         } else {
             ui_menu_set_tick(w, 0);
         }
-	if (UI_MENU_CB_PARAM == 0) {
+        if (UI_MENU_CB_PARAM == 0) {
             int speed;
 
             resources_get_value("Speed", (resource_value_t *) &speed);
@@ -101,7 +102,7 @@ static UI_CALLBACK(set_custom_refresh_rate)
                         (resource_value_t *) &current_refresh_rate);
 
     if (!*input_string)
-	sprintf(input_string, "%d", current_refresh_rate);
+        sprintf(input_string, "%d", current_refresh_rate);
 
     if (CHECK_MENUS) {
         if (have_custom_refresh_rate)
@@ -112,20 +113,20 @@ static UI_CALLBACK(set_custom_refresh_rate)
     } else {
         int current_speed;
 
-	suspend_speed_eval();
-	msg_string = stralloc(_("Enter refresh rate"));
-	button = ui_input_string(_("Refresh rate"), msg_string, input_string,
+        vsync_suspend_speed_eval();
+        msg_string = stralloc(_("Enter refresh rate"));
+        button = ui_input_string(_("Refresh rate"), msg_string, input_string,
                                  32);
         free(msg_string);
-	if (button == UI_BUTTON_OK) {
-	    i = atoi(input_string);
+        if (button == UI_BUTTON_OK) {
+            i = atoi(input_string);
             resources_get_value("Speed", (resource_value_t *) &current_speed);
-	    if (!(current_speed <= 0 && i <= 0) && i >= 0
-		&& current_refresh_rate != i) {
+            if (!(current_speed <= 0 && i <= 0) && i >= 0
+                && current_refresh_rate != i) {
                 resources_set_value("RefreshRate", (resource_value_t) i);
-		ui_update_menus();
-	    }
-	}
+                ui_update_menus();
+            }
+        }
     }
 }
 
@@ -143,10 +144,10 @@ static UI_CALLBACK(set_maximum_speed)
     resources_get_value("Speed", (resource_value_t *) &current_speed);
 
     if (!CHECK_MENUS) {
-	if (current_speed != (int)UI_MENU_CB_PARAM) {
+        if (current_speed != (int)UI_MENU_CB_PARAM) {
             resources_set_value("Speed", (resource_value_t) UI_MENU_CB_PARAM);
-	    ui_update_menus();
-	}
+            ui_update_menus();
+        }
     } else {
         if ((int) UI_MENU_CB_PARAM == 100)
             have_custom_maximum_speed = 1;
@@ -156,13 +157,13 @@ static UI_CALLBACK(set_maximum_speed)
         } else {
             ui_menu_set_tick(w, 0);
         }
-	if (UI_MENU_CB_PARAM == 0) {
+        if (UI_MENU_CB_PARAM == 0) {
             int current_refresh_rate;
 
             resources_get_value("RefreshRate",
                                 (resource_value_t *) &current_refresh_rate);
-	    ui_menu_set_sensitive(w, current_refresh_rate != 0);
-	}
+            ui_menu_set_sensitive(w, current_refresh_rate != 0);
+        }
     }
 }
 
@@ -176,7 +177,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
 
     resources_get_value("Speed", (resource_value_t *) &current_speed);
     if (!*input_string)
-	sprintf(input_string, "%d", current_speed);
+        sprintf(input_string, "%d", current_speed);
 
     if (CHECK_MENUS) {
         if (have_custom_maximum_speed)
@@ -185,24 +186,24 @@ static UI_CALLBACK(set_custom_maximum_speed)
             ui_menu_set_tick(w, 0);
         have_custom_maximum_speed = 0;
     } else {
-	suspend_speed_eval();
-	msg_string = stralloc(_("Enter speed"));
-	button = ui_input_string(_("Maximum run speed"), msg_string,
+        vsync_suspend_speed_eval();
+        msg_string = stralloc(_("Enter speed"));
+        button = ui_input_string(_("Maximum run speed"), msg_string,
                                  input_string, 32);
         free(msg_string);
-	if (button == UI_BUTTON_OK) {
+        if (button == UI_BUTTON_OK) {
             int current_refresh_rate;
 
             resources_get_value("RefreshRate",
                                 (resource_value_t *) &current_refresh_rate);
-	    i = atoi(input_string);
-	    if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
-		&& current_speed != i) {
+            i = atoi(input_string);
+            if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
+                && current_speed != i) {
                 resources_set_value("Speed", (resource_value_t) i);
-		ui_update_menus();
-	    } else
-		ui_error(_("Invalid speed value"));
-	}
+                ui_update_menus();
+            } else
+                ui_error(_("Invalid speed value"));
+        }
     }
 }
 
@@ -210,12 +211,12 @@ static UI_CALLBACK(set_custom_maximum_speed)
 
 static UI_CALLBACK(save_resources)
 {
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (resources_save(NULL) < 0)
-	ui_error(_("Cannot save settings."));
+        ui_error(_("Cannot save settings."));
     else {
-	if (w != NULL)
-	    ui_message(_("Settings saved successfully."));
+        if (w != NULL)
+            ui_message(_("Settings saved successfully."));
     }
     ui_update_menus();
 }
@@ -224,7 +225,7 @@ static UI_CALLBACK(load_resources)
 {
     int r;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     r = resources_load(NULL);
 
     if (r < 0) {
@@ -243,7 +244,7 @@ static UI_CALLBACK(load_resources)
 
 static UI_CALLBACK(set_default_resources)
 {
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     resources_set_defaults();
     ui_update_menus();
 }
@@ -271,7 +272,7 @@ static UI_CALLBACK(set_keymap_type)
          return;
 
      if (!CHECK_MENUS) {
-	if ((kindex & 1) != newindex) {
+        if ((kindex & 1) != newindex) {
             resources_set_value("KeymapIndex", (resource_value_t)
                                 ((kindex & ~1) + newindex));
             ui_update_menus();
@@ -301,7 +302,7 @@ static UI_CALLBACK(select_user_keymap)
     kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
     resname = keymap_res_name_list[kindex];
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     filename = ui_select_file(_("Read Keymap File"), NULL, False, last_dir,
                               "*.vkm", &button, False, NULL);
 
@@ -326,9 +327,9 @@ static UI_CALLBACK(dump_keymap)
     wd = xmalloc(MAXPATHLEN);
 
     getcwd(wd, MAXPATHLEN);
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (ui_input_string(_("VICE setting"), _("Write to Keymap File:"),
-			wd, MAXPATHLEN) == UI_BUTTON_OK) {
+                        wd, MAXPATHLEN) == UI_BUTTON_OK) {
         if (kbd_dump_keymap(wd) < 0)
             ui_error(strerror(errno));
     }
@@ -357,20 +358,20 @@ UI_CALLBACK(ui_load_palette)
     ui_button_t button;
     static char *last_dir;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("Load custom palette"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vpl", &button,
-			      False, NULL);
+                              False, NULL);
 
     free(title);
     switch (button) {
       case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM, 
-		(resource_value_t) filename) < 0)
+        if (resources_set_value(UI_MENU_CB_PARAM,
+                (resource_value_t) filename) < 0)
             ui_error(_("Could not load palette file\n'%s'"),filename);
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -397,19 +398,19 @@ UI_CALLBACK(ui_load_romset)
     ui_button_t button;
     static char *last_dir;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("Load custom ROM set definition"));
     filename = ui_select_file(title, NULL, False, last_dir, "*.vrs", &button,
-			      False, NULL);
+                              False, NULL);
 
     free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (romset_load(filename) < 0)
             ui_error(_("Could not load ROM set file\n'%s'"),filename);
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -426,7 +427,7 @@ UI_CALLBACK(ui_dump_romset)
     ui_button_t button;
     int len = 512;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("File to dump ROM set definition to"));
 
     new_value = xmalloc(len + 1);
@@ -447,10 +448,10 @@ UI_CALLBACK(ui_load_rom_file)
     ui_button_t button;
     static char *last_dir;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("Load ROM file"));
     filename = ui_select_file(title, NULL, False, last_dir, "*", &button,
-			      False, NULL);
+                              False, NULL);
 
     free(title);
     switch (button) {
@@ -458,9 +459,9 @@ UI_CALLBACK(ui_load_rom_file)
         if (resources_set_value(UI_MENU_CB_PARAM,
             (resource_value_t)filename) < 0)
             ui_error(_("Could not load ROM file\n'%s'"),filename);
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -559,7 +560,7 @@ UI_CALLBACK(set_rs232_device_file)
     char *filename;
     ui_button_t button;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Select RS232 device file"),
                               NULL, False, "/dev", "ttyS*", &button, False,
@@ -585,10 +586,10 @@ UI_CALLBACK(set_rs232_exec_file)
     char *new_value;
     int len;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("Command to execute for RS232 (preceed with '|')"));
 
-    resources_get_value(resname, (resource_value_t *) &value);
+    resources_get_value(resname, (resource_value_t *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
@@ -600,7 +601,7 @@ UI_CALLBACK(set_rs232_exec_file)
     free(title);
 
     if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t) new_value);
+        resources_set_value(resname, (resource_value_t)new_value);
 
     free(new_value);
 }
@@ -614,10 +615,10 @@ UI_CALLBACK(set_rs232_dump_file)
     char *new_value;
     int len;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("File to dump RS232 to"));
 
-    resources_get_value(resname, (resource_value_t *) &value);
+    resources_get_value(resname, (resource_value_t *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
@@ -629,7 +630,7 @@ UI_CALLBACK(set_rs232_dump_file)
     free(title);
 
     if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t) new_value);
+        resources_set_value(resname, (resource_value_t)new_value);
 
     free(new_value);
 }
@@ -729,7 +730,7 @@ static UI_CALLBACK(set_fsdevice_directory)
     int len;
     ui_button_t button;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     title = xmsprintf("Attach file system directory to device #%d", unit);
 
@@ -1098,16 +1099,16 @@ static UI_CALLBACK(set_printer_dump_file)
     ui_button_t button;
     static char *last_dir;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     filename = ui_select_file(_("Select printer dump file"),
                               NULL, False, last_dir, NULL, &button, False);
     switch (button) {
       case UI_BUTTON_OK:
         resources_set_value(resource, (resource_value_t) filename);
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -1127,7 +1128,7 @@ static UI_CALLBACK(set_printer_exec_file)
     int len;
     ui_button_t button;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     title = stralloc(_("Command to execute for printing (preceed with '|')"));
 
     resources_get_value(resname, (resource_value_t *) &value);
@@ -1471,3 +1472,4 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
       (ui_callback_t) toggle_SaveResourcesOnExit, NULL, NULL },
     { NULL }
 };
+

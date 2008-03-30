@@ -426,7 +426,7 @@ typedef struct {
 
 void delete_event(GtkWidget *w, GdkEvent *e, gpointer data) 
 {
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     ui_exit();
 }
 
@@ -1249,7 +1249,7 @@ void ui_exit(void)
 	exit(0);
     }
     free(s);
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1730,7 +1730,7 @@ static void ui_message2(const char *type, const char *msg, const char *title)
     /* still needed ? */
     ui_check_mouse_cursor();
     ui_dispatch_events();
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 }
 
 /* Report a message to the user.  */
@@ -1801,7 +1801,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     if (jam_dialog)
 	gtk_widget_destroy(jam_dialog);
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     ui_dispatch_events();
 
     switch (res) {
@@ -1825,7 +1825,7 @@ int ui_extend_image_dialog(void)
 {
     ui_button_t b;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     b = ui_ask_confirmation(_("Extend disk image"),
                             (_("Do you want to extend the disk image"
                              " to 40 tracks?")));
@@ -2604,7 +2604,7 @@ UI_CALLBACK(exposure_callback)
     GtkRequisition req;
     static int oldw, oldh;
     
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     
     gtk_widget_size_request(gtk_widget_get_toplevel(w), &req);
     if (oldw != req.width ||
@@ -2632,7 +2632,7 @@ static void pause_trap(ADDRESS addr, void *data)
 {
     ui_display_paused(1);
     is_paused = 1;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     while (is_paused)
         ui_dispatch_next_event();
 }

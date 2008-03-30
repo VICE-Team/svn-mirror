@@ -65,38 +65,38 @@ static ui_menu_entry_t ui_tune_menu[] = {
 
 static UI_CALLBACK(psid_load)
 {
-  char *filename;
-  ui_button_t button;
+    char *filename;
+    ui_button_t button;
 
-  filename = ui_select_file(_("Load PSID file"), NULL, False, NULL,
-			    "*.[psPS]*", &button, False, NULL);
+    filename = ui_select_file(_("Load PSID file"), NULL, False, NULL,
+                              "*.[psPS]*", &button, False, NULL);
 
-  suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
-  switch (button) {
-  case UI_BUTTON_OK:
-    if (machine_autodetect_psid(filename) < 0) {
-      log_error(vsid_log, _("`%s' is not a valid PSID file."), filename);
-      return;
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (machine_autodetect_psid(filename) < 0) {
+          log_error(vsid_log, _("`%s' is not a valid PSID file."), filename);
+          return;
+        }
+        machine_play_psid(0);
+        maincpu_trigger_reset();
+        vsid_create_menus();
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
     }
-    machine_play_psid(0);
-    maincpu_trigger_reset();
-    vsid_create_menus();
-    break;
-  default:
-    /* Do nothing special.  */
-    break;
-  }
-  if (filename != NULL)
-     free(filename);
+    if (filename != NULL)
+       free(filename);
 }
 
 static UI_CALLBACK(psid_tune)
 {
-  int tune = *((int *)UI_MENU_CB_PARAM);
-  machine_play_psid(tune);
-  suspend_speed_eval();
-  maincpu_trigger_reset();
+    int tune = *((int *)UI_MENU_CB_PARAM);
+    machine_play_psid(tune);
+    vsync_suspend_speed_eval();
+    maincpu_trigger_reset();
 }
 
 
@@ -172,111 +172,111 @@ extern int num_checkmark_menu_items;
 
 static void vsid_create_menus(void)
 {
-  static ui_menu_entry_t tune_menu[256];
-  static ui_window_t wl = NULL, wr = NULL;
-  static int tunes = 0;
-  int default_tune;
-  int i;
-  char *buf;
+    static ui_menu_entry_t tune_menu[256];
+    static ui_window_t wl = NULL, wr = NULL;
+    static int tunes = 0;
+    int default_tune;
+    int i;
+    char *buf;
 
-  buf = stralloc(_("*Default Tune"));
+    buf = stralloc(_("*Default Tune"));
 
-  /* Free previously allocated memory. */
-  for (i = 0; i <= tunes; i++) {
-    free(tune_menu[i].string);
-  }
+    /* Free previously allocated memory. */
+    for (i = 0; i <= tunes; i++) {
+        free(tune_menu[i].string);
+    }
 
-  /* Get number of tunes in current PSID. */
-  tunes = psid_tunes(&default_tune);
+    /* Get number of tunes in current PSID. */
+    tunes = psid_tunes(&default_tune);
 
-  /* Build tune menu. */
-  for (i = 0; i <= tunes; i++) {
-    tune_menu[i].string =
-      (ui_callback_data_t) stralloc(buf);
-    tune_menu[i].callback =
-      (ui_callback_t) radio_PSIDTune;
-    tune_menu[i].callback_data =
-      (ui_callback_data_t) i;
-    tune_menu[i].sub_menu = NULL;
-    tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
-    tune_menu[i].hotkey_modifier =
-      (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
+    /* Build tune menu. */
+    for (i = 0; i <= tunes; i++) {
+        tune_menu[i].string =
+            (ui_callback_data_t) stralloc(buf);
+        tune_menu[i].callback =
+            (ui_callback_t) radio_PSIDTune;
+        tune_menu[i].callback_data =
+            (ui_callback_data_t) i;
+        tune_menu[i].sub_menu = NULL;
+        tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
+        tune_menu[i].hotkey_modifier =
+            (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
+        free(buf);
+        buf = xmsprintf(_("*Tune %d"), i + 1);
+    }
+
     free(buf);
-    buf = xmsprintf(_("*Tune %d"), i + 1);
-  }
 
-  free(buf);
+    tune_menu[i].string =
+        (ui_callback_data_t) NULL;
 
-  tune_menu[i].string =
-    (ui_callback_data_t) NULL;
+    ui_tune_menu[0].sub_menu = tune_menu;
 
-  ui_tune_menu[0].sub_menu = tune_menu;
+    num_checkmark_menu_items = 0;
 
-  num_checkmark_menu_items = 0;
+    if (wl) {
+        ui_destroy_widget(wl);
+    }
+    if (wr) {
+        ui_destroy_widget(wr);
+    }
 
-  if (wl) {
-      ui_destroy_widget(wl);
-  }
-  if (wr) {
-      ui_destroy_widget(wr);
-  }
+    ui_set_left_menu(wl = ui_menu_create("LeftMenu",
+                                         ui_load_commands_menu,
+                                         ui_tune_menu,
+                                         ui_menu_separator,
+                                         ui_tool_commands_menu,
+                                         ui_menu_separator,
+                                         ui_help_commands_menu,
+                                         ui_menu_separator,
+                                         ui_run_commands_menu,
+                                         ui_menu_separator,
+                                         ui_exit_commands_menu,
+                                         NULL));
 
-  ui_set_left_menu(wl = ui_menu_create("LeftMenu",
-				       ui_load_commands_menu,
-				       ui_tune_menu,
-				       ui_menu_separator,
-				       ui_tool_commands_menu,
-				       ui_menu_separator,
-				       ui_help_commands_menu,
-				       ui_menu_separator,
-				       ui_run_commands_menu,
-				       ui_menu_separator,
-				       ui_exit_commands_menu,
-				       NULL));
-
-  ui_set_right_menu(wr = ui_menu_create("RightMenu",
-					ui_sound_settings_menu,
-					ui_menu_separator,
-					psid_menu,
-					NULL));
+    ui_set_right_menu(wr = ui_menu_create("RightMenu",
+                                          ui_sound_settings_menu,
+                                          ui_menu_separator,
+                                          psid_menu,
+                                          NULL));
 
 #ifdef USE_GNOMEUI
-  ui_set_topmenu("TopLevelMenu",
-		 _("File"),
-		 ui_menu_create("LeftMenu",
-				ui_load_commands_menu,
-				ui_tune_menu,
-				ui_menu_separator,
-				ui_tool_commands_menu,
-				ui_menu_separator,
-				ui_help_commands_menu,
-				ui_menu_separator,
-				ui_run_commands_menu,
-				ui_menu_separator,
-				ui_exit_commands_menu,
-				NULL),
-		 _("Settings"),
-		 ui_menu_create("File",
-				ui_sound_settings_menu,
-				ui_menu_separator,
-				psid_menu,
-				NULL),
-		 NULL);
+    ui_set_topmenu("TopLevelMenu",
+                   _("File"),
+                   ui_menu_create("LeftMenu",
+                                  ui_load_commands_menu,
+                                  ui_tune_menu,
+                                  ui_menu_separator,
+                                  ui_tool_commands_menu,
+                                  ui_menu_separator,
+                                  ui_help_commands_menu,
+                                  ui_menu_separator,
+                                  ui_run_commands_menu,
+                                  ui_menu_separator,
+                                  ui_exit_commands_menu,
+                                  NULL),
+                   _("Settings"),
+                   ui_menu_create("File",
+                                  ui_sound_settings_menu,
+                                  ui_menu_separator,
+                                  psid_menu,
+                                  NULL),
+                   NULL);
 #endif
 
-  ui_update_menus();
+    ui_update_menus();
 }
 
 int vsid_ui_init(void)
 {
-  ui_set_application_icon(icon_data);
+    ui_set_application_icon(icon_data);
 
-  vsid_create_menus();
+    vsid_create_menus();
 #ifdef LATER
-  ui_set_topmenu();
+    ui_set_topmenu();
 #endif
 
-  return 0;
+    return 0;
 }
 
 void vsid_ui_display_name(const char *name)
@@ -317,3 +317,4 @@ void vsid_ui_display_nr_of_tunes(int count)
 void vsid_ui_display_time(unsigned int sec)
 {
 }
+

@@ -68,41 +68,41 @@ static UI_CALLBACK(set_common_memory_configuration)
     int blocks;
 
     switch ((int) UI_MENU_CB_PARAM) {
-    case MEM_NONE:
-	blocks = 0;
-	break;
-    case MEM_ALL:
-	blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
-	break;
-    case MEM_3K:
-	blocks = BLOCK_0;
-	break;
-    case MEM_8K:
-	blocks = BLOCK_1;
-	break;
-    case MEM_16K:
-	blocks = BLOCK_1 | BLOCK_2;
-	break;
-    case MEM_24K:
-	blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
-	break;
-    default:
-	/* Shouldn't happen.  */
-	fprintf(stderr, _("What?!\n"));
-	blocks = 0;         /* Make compiler happy.  */
+      case MEM_NONE:
+        blocks = 0;
+        break;
+      case MEM_ALL:
+        blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
+        break;
+      case MEM_3K:
+        blocks = BLOCK_0;
+        break;
+      case MEM_8K:
+        blocks = BLOCK_1;
+        break;
+      case MEM_16K:
+        blocks = BLOCK_1 | BLOCK_2;
+        break;
+      case MEM_24K:
+        blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
+        break;
+      default:
+        /* Shouldn't happen.  */
+        fprintf(stderr, _("What?!\n"));
+        blocks = 0;         /* Make compiler happy.  */
     }
     resources_set_value("RamBlock0",
-			(resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
+                        (resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
     resources_set_value("RamBlock1",
-			(resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
+                        (resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
     resources_set_value("RamBlock2",
-			(resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
+                        (resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
     resources_set_value("RamBlock3",
-			(resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
+                        (resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
     resources_set_value("RamBlock5",
-			(resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
+                        (resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
     ui_menu_update_all();
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 }
 
 static ui_menu_entry_t vic20_romset_submenu[] = {
@@ -110,11 +110,14 @@ static ui_menu_entry_t vic20_romset_submenu[] = {
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
     { N_("Load new Kernal ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
     { N_("Load new Basic ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
     { N_("Load new Character ROM"),
-      (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
     { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
@@ -188,18 +191,18 @@ static UI_CALLBACK(attach_cartridge)
     ui_button_t button;
     static char *last_dir;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     filename = ui_select_file(_("Attach cartridge image"),
                               NULL, False, last_dir, "*.prg", &button, False,
-			      NULL);
+                              NULL);
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
             ui_error(_("Invalid cartridge image"));
-	if (last_dir)
-	    free(last_dir);
-	fname_split(filename, &last_dir, NULL);
-	ui_update_menus();
+        if (last_dir)
+            free(last_dir);
+        fname_split(filename, &last_dir, NULL);
+        ui_update_menus();
         break;
       default:
         /* Do nothing special.  */
@@ -289,33 +292,40 @@ static UI_CALLBACK(set_joystick_device)
 {
     int tmp;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
         resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
-	ui_update_menus();
+        ui_update_menus();
     } else {
         resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
-	ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
     }
 }
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_NONE, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
+      (ui_callback_t) set_joystick_device,
+      (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
     { NULL }
@@ -391,13 +401,13 @@ static UI_CALLBACK(save_screenshot)
     char filename[1024];
     int wid = (int) UI_MENU_CB_PARAM;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
     if (ui_screenshot_dialog(filename, wid) < 0) 
-	return;
+        return;
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
@@ -527,3 +537,4 @@ int vic20_ui_init(void)
 
     return 0;
 }
+
