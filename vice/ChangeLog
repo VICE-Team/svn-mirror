@@ -1,3 +1,21 @@
+Thu Jul 23 03:17:32 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.51.
+
+Fri Jul 17 20:51:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* New
+
+Tue Jul 14 15:39:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Added `soundallegro.o' to the list of available
+	sound drivers if `allegro.h' is found.
+
+Sun Jul 12 19:47:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Ooops...  Set the `HAVE_PRINTER' conditional false
+ 	on MS-DOS, as I meant to do.  :-)
+
 Sat Jul 11 20:43:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.49.
