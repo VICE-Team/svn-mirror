@@ -63,19 +63,23 @@ int cmdline_register_options(const cmdline_option_t *c)
         memcpy(p, c, sizeof(cmdline_option_t));
         num_options++;
     }
+
+    return 0;
 }
 
 static cmdline_option_t *lookup(const char *name, int *is_ambiguous)
 {
     cmdline_option_t *match;
-    int is_partial_match;
     int name_len = strlen(name);
     int i;
 
     match = NULL;
     for (i = 0; i < num_options; i++) {
         if (strncmp(options[i].name, name, name_len) == 0) {
-            if (match != NULL) {
+            if (options[i].name[name_len] == '\0') {
+                *is_ambiguous = 0;
+                return &options[i];
+            } else if (match != NULL) {
                 *is_ambiguous = 1;
                 return match;
             }
@@ -94,13 +98,28 @@ int cmdline_parse(int *argc, char **argv)
     while (i < *argc) {
         if (*argv[i] == '-' || *argv[i] == '+') {
             int is_ambiguous, retval;
-            cmdline_option_t *p = lookup(argv[i], &is_ambiguous);
+            cmdline_option_t *p;
+
+            if (argv[i][1] == '\0') {
+                fprintf(stderr, "Invalid option `%s'.\n", argv[i]);
+                return -1;
+            }
+
+            /* `--' delimits the end of the option list.  */
+            if (argv[i][1] == '-') {
+                i++;
+                break;
+            }
+
+            p = lookup(argv[i], &is_ambiguous);
 
             if (p == NULL) {
-                if (is_ambiguous)
-                    fprintf(stderr, "Option `%s' is ambiguous.\n", argv[i]);
-                else
-                    fprintf(stderr, "Unknown option `%s'.\n", argv[i]);
+                fprintf(stderr, "Unknown option `%s'.\n", argv[i]);
+                return -1;
+            }
+
+            if (is_ambiguous) {
+                fprintf(stderr, "Option `%s' is ambiguous.\n", argv[i]);
                 return -1;
             }
 
@@ -113,8 +132,8 @@ int cmdline_parse(int *argc, char **argv)
             switch(p->type) {
               case SET_RESOURCE:
                 if (p->need_arg)
-                    retval = resources_set_value(p->resource_name,
-                                                 argv[i + 1]);
+                    retval = resources_set_value_string(p->resource_name,
+                                                        argv[i + 1]);
                 else
                     retval = resources_set_value(p->resource_name,
                                                  p->resource_value);
@@ -126,7 +145,7 @@ int cmdline_parse(int *argc, char **argv)
                     retval = p->set_func(NULL, NULL);
                 break;
               default:
-                fprintf(stderr, "Invalid type for option `%d'.\n",
+                fprintf(stderr, "Invalid type for option `%s'.\n",
                         p->name);
                 return -1;
             }
@@ -158,4 +177,18 @@ int cmdline_parse(int *argc, char **argv)
     }
 
     return 0;
+}
+
+void cmdline_show_help(void)
+{
+    int i;
+
+    fprintf(stderr, "\nAvailable command-line options:\n\n");
+    for (i = 0; i < num_options; i++) {
+        fputs(options[i].name, stderr);
+        if (options[i].need_arg && options[i].param_name != NULL)
+            fprintf(stderr, " %s", options[i].param_name);
+        fprintf(stderr, "\n\t%s\n", options[i].description);
+    }
+    putchar('\n');
 }

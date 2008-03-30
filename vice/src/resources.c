@@ -122,6 +122,30 @@ int resources_set_value(const char *name, resource_value_t value)
     return r->set_func(value);
 }
 
+int resources_set_value_string(const char *name, const char *value)
+{
+    resource_t *r = lookup(name);
+
+    if (r == NULL) {
+        fprintf(stderr, "%s: Warning: unknown resource `%s'\n",
+                __FUNCTION__, name);
+        return -1;
+    }
+
+    switch (r->type) {
+      case RES_INTEGER:
+        return r->set_func((resource_value_t) atoi(value));
+      case RES_STRING:
+        return r->set_func((resource_value_t) value);
+      default:
+        fprintf(stderr, "%s: Warning: unknown resource type for `%s'\n",
+                __FUNCTION__, name);
+        return -1;
+    }
+
+    return -1;
+}
+
 int resources_get_value(const char *name, resource_value_t *value_return)
 {
     resource_t *r = lookup(name);
