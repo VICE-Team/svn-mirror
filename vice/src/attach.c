@@ -79,7 +79,7 @@ static resource_t resources[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static int file_system_set_serial_hooks(int unit, int fs)
+static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
@@ -125,7 +125,7 @@ void file_system_init(void)
 }
 
 
-void *file_system_get_vdrive(int unit)
+void *file_system_get_vdrive(unsigned int unit)
 {
     if (unit < 8 || unit > 11) {
         log_error(attach_log, "Wrong unit for vdrive");
@@ -134,7 +134,7 @@ void *file_system_get_vdrive(int unit)
     return (void *)(file_system[unit - 8].vdrive);
 }
 
-char *file_system_get_disk_name(int unit)
+char *file_system_get_disk_name(unsigned int unit)
 {
     vdrive_t *vdrive;
     vdrive = file_system_get_vdrive(unit);
@@ -213,7 +213,8 @@ static int set_file_system_device11(resource_value_t v)
 
 /* ------------------------------------------------------------------------- */
 
-void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
+static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
+                              unsigned int unit)
 {
     if (image != NULL) {
         switch (unit) {
@@ -240,8 +241,8 @@ void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
     }
 }
 
-int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
-                      const char *filename, int unit)
+static int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
+                             const char *filename, unsigned int unit)
 {
     disk_image_t new_image;
     int err = -1;
@@ -298,7 +299,7 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
 
 /* ------------------------------------------------------------------------- */
 
-int file_system_attach_disk(int unit, const char *filename)
+int file_system_attach_disk(unsigned int unit, const char *filename)
 {
     vdrive_t *vdrive;
 
@@ -324,7 +325,7 @@ void file_system_detach_disk(int unit)
     if (unit < 0) {
         /* XXX Fixme: Hardcoded 2 drives here! */
         for (i = 0; i <= 3; i++) {
-            vdrive = file_system_get_vdrive(i + 8);
+            vdrive = file_system_get_vdrive((unsigned int)(i + 8));
             if (vdrive != NULL)
                 detach_disk_image(vdrive->image, vdrive, i + 8);
             set_file_system_device8((resource_value_t)
@@ -334,7 +335,7 @@ void file_system_detach_disk(int unit)
     } else {
         vdrive = file_system_get_vdrive(unit);
         if (vdrive != NULL)
-            detach_disk_image(vdrive->image, vdrive, unit);
+            detach_disk_image(vdrive->image, vdrive, (unsigned int)unit);
         switch(unit) {
           case 8:
             set_file_system_device8((resource_value_t)
