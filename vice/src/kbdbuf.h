@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,9 +31,11 @@
 #include "types.h"
 
 extern int kbdbuf_is_empty(void);
-extern int kbdbuf_init(int location, int plocation, int buffer_size,
-                       CLOCK mincycles);
+extern void kbdbuf_init(int location, int plocation, int buffer_size,
+                        CLOCK mincycles);
 extern void kbdbuf_shutdown(void);
+extern void kbdbuf_reset(int location, int plocation, int buffer_size,
+                         CLOCK mincycles);
 extern int kbdbuf_feed(const char *s);
 extern int kbdbuf_feed_string(const char *string);
 extern void kbdbuf_flush(void);
