@@ -1,4 +1,115 @@
+2000-08-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.5.
+
+	* autostart.c: Fixed warnings.
+
+2000-08-04  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/fullscreen.c, arch/win32/video.c: Added
+	GCC compatibility code.
+
+2000-08-03  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-contents.c: changed
+	autostart_autodetect from name to number
+   
+	* autostart.c: made reboot_for_autostart threadsafe for OS/2,
+	fixed problems with open files when determin program_names
+	from number
+
+2000-08-03  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/Makfile.am: Added fullscreen.c and fullscreen.h to
+	filelist.
+
+	* arch/win32/arch.dsp: Added fullscreen.c to project.
+
+	* arch/win32/c128.dsp: Added daa.c to project.
+
+	* arch/win32/fullscreen.c: New file. Contains functions for
+	fullscreen mode on Win32.
+
+	* arch/win32/fullscreen.h: New file.
+
+	* arch/win32/res.h: Added fullscreen related resource values.
+
+	* arch/win32/res.rc: Added fullscreen settings dialog.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resvic.rc: Added fullscreen menu entries.
+
+	* arch/win32/ui.c: Include fullscreen.h.
+	Added 'SaveOnResourcesExit' and 'FullScreenEnabled' to
+	toggle_list.
+	(ui_resources): New struct, contains resources from the UI.
+	(set_fullscreen_device) (set_fullscreen_bitdpeth)
+	(set_fullscreen_width) (set_fullscreen_height)
+	(set_fullscreen_refreshrate) (set_fullscreen_enabled)
+	(set_save_resources_on_exit): New functions.
+	(resources): Added fullscreen resources.
+	(cmdline_options): Added commandlines.
+	(ui_init_cmdline_options): Register commandline options.
+	(UI_COMMON_HOTKEYS): Added Alt-D and Alt-Enter hotkeys.
+	(ui_init): Updated hotkey numbers, removed unused local
+	variable, don't create status window here.
+	(ui_init_finish): Call ui_fullscreen_init.
+	(ui_open_canvas_window): Added fullscreen stuff.
+	(ui_resize_canvas_window): Don't do anything in fullscreen.
+	(ui_error) (ui_error_string): Log error message into logfile
+	as well.
+	(save_sanpshot_trap) (load_snapshot_trap): Suspend fullscreen
+	if neccessary.
+	(ui_get_main_hwnd): Always have a window handle even when the
+	canvas windows hasn't been created yet.
+	(handle_wm_command): Suspend fullscreen if neccessary.
+	Added fullscreen settings call, and toggle fullscreen handling.
+	(window_proc): Handle WM_ACTIVATEAPP message, it's not yet done
+	correctly. Suspend fullscreen when neccessary. Save resources
+	on exit, if it's enabled. Removed not used code, it was just
+	confusing.
+
+	* arch/win32/ui.h: Changed definition of ui_open_canvas_window.
+
+	* arch/win32/vdc.dsp: Added vicii directory into include folder
+	list.
+
+	* arch/win32/video.c: Plenty of changes...
+	Include fullscreen.h.
+	(video_init) Doesn't do anything anymore.
+	Removed lots of unused code.
+	(video_frame_buffer_translate): New function, it translates the
+	content of the framebuffer on fullscreen changes, so colors stay
+	correct even when changing to different bitdepths...
+	(set_physical_colors): Uses the primary surface to get the
+	colors now. Fills up pixel_translate table in the canvas.
+	(canvas_create): Complete rewrite, everything happens here now,
+	from creating the DirectDraw object till setting its palette.
+	(canvas_set_palette): Implemented function, as it was not done
+	before.
+	(canvas_update): Only blit safe areas onto screen, cut off extra
+	frame buffer area which are used for sprites...
+	(real_refresh): Removed color changes, as it was broken, will
+	be reimplemented shortly. Changing the palette from the UI works
+	as canvas_set_palette has been implemented. If you change your
+	desktop color scheme when on an 8 bit desktop or you switch
+	to an application which redefines the palette, colors will go
+	bad...
+
+	* arch/win32/videoarch.h: Added pixel_translate, dd_object,
+	dd_object2, client_width, client_height added to canvas_t struct.
+	Added missing prototypes.
+
+	* raster/raster.c (raster_rebuild_tables): Rebuilds the pixel
+	and refresh tables. This is needed when the palette of the
+	hardware changes.
+
+	* raster/raster.h (raster_rebuild_tables): Added prototype.
+
 2000-08-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.4.
 
 	* arch/win32/res.h: Fixed drive type defines.
 
