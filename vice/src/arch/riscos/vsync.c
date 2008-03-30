@@ -133,7 +133,7 @@ void vsync_sync_reset(void)
 }
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {"RefreshRate", RES_INTEGER, (resource_value_t)0,
     (resource_value_t*)&refresh_rate, set_refresh_rate, NULL },
   {"WarpMode", RES_INTEGER, (resource_value_t)0,

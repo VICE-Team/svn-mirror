@@ -147,7 +147,7 @@ static void (*vsync_hook)(void);
 /* ------------------------------------------------------------------------- */
 
 /* static guarantees zero values. */
-static long vsyncarch_freq=0;
+static long vsyncarch_freq = 0;
 static unsigned long now;
 static unsigned long display_start;
 static long frame_ticks, frame_ticks_orig;
@@ -228,7 +228,7 @@ void vsync_init(void (*hook)(void))
    changed to use similar vsync code. */
 int vsync_disable_timer(void)
 {
-  return 0;
+    return 0;
 }
 
 /* This should be called whenever something that has nothing to do with the

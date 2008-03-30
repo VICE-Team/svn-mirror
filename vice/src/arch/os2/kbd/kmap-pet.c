@@ -107,7 +107,7 @@ static int set_keymap_bde_pos_file(resource_value_t v, void *param)
     return set_keymap_file(5, (const char *) v);
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "KeymapBusinessUKSymFile", RES_STRING, (resource_value_t) "busi_uk.vkm",
       (resource_value_t *) &keymap_file_list[0],
       set_keymap_buk_sym_file, NULL },

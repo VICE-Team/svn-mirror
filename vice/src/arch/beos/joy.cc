@@ -168,7 +168,7 @@ static int set_keyset2(resource_value_t v, void *param)
 }
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
       (resource_value_t *) &joystick_device[0], set_joystick_device, (void *) 0 },
     { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NONE,

@@ -97,7 +97,7 @@ static int set_stretch_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &stretch, set_stretch_factor, NULL },
     { NULL }

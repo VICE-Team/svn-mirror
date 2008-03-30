@@ -304,7 +304,7 @@ static int set_joystick_keys2(resource_value_t v, void *param)
   return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {"KeymapIndex", RES_INTEGER, (resource_value_t) 0,
     (resource_value_t *)&keymap_index, set_keymap_index, NULL },
   {Rsrc_JoyKeys1, RES_STRING, (resource_value_t) DefaultJoyKeys1,

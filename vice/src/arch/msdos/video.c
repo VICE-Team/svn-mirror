@@ -112,13 +112,13 @@ static int set_try_triple_buffering(resource_value_t v, void *param)
 {
     /* FIXME: this has only effect when we switch to gfx mode.  This is OK
        for now, but is not the correct behavior.  */
-    try_triple_buffering = (int) v;
+    try_triple_buffering = (int)v;
     return 0;
 }
 
 #endif
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200x8,
       (resource_value_t *)&vga_mode,
       set_vga_mode, NULL },

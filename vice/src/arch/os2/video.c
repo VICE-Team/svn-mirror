@@ -472,7 +472,7 @@ static int set_logging(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources1[] = {
+static const resource_t resources1[] = {
 #ifndef DIRECT_ACCESS
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &stretch, set_stretch_factor, NULL },
@@ -488,7 +488,7 @@ static resource_t resources1[] = {
       { NULL }
 };
 
-static resource_t resources2[] = {
+static const resource_t resources2[] = {
     { "Logwin", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &logwin, set_logging, NULL },
     NULL

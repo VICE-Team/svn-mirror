@@ -77,7 +77,7 @@ static int set_use_leds(resource_value_t v, void *param)
     return 0;
 }
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &use_leds, set_use_leds, NULL },
     NULL

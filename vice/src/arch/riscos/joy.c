@@ -56,7 +56,7 @@ static int set_joystick_port2(resource_value_t val, void *param)
 }
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {"JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
     (resource_value_t)&joystick_port_map[0], set_joystick_port1, NULL },
   {"JoyDevice2", RES_INTEGER, (resource_value_t)JOYDEV_KBD1,

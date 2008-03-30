@@ -53,7 +53,7 @@ static int set_serial_baud(resource_value_t v, void *param)
 }
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {"SerialFile", RES_STRING, (resource_value_t)"SerialFile",
     (resource_value_t*)&SerialFile, set_serial_file, NULL },
   {"SerialBaud", RES_INTEGER, (resource_value_t)7,

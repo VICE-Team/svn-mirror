@@ -391,7 +391,7 @@ static int set_pal_emu_double(resource_value_t v, void *param)
 }
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {"ScreenMode", RES_STRING, (resource_value_t)"28:640,480,3",
     (resource_value_t *)&ScreenModeNormString, set_screen_mode_norm, NULL },
   {"ScreenModePAL", RES_STRING, (resource_value_t)"28:640,480,5",

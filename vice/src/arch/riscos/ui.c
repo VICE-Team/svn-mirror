@@ -863,7 +863,7 @@ static int set_16bit_sound(resource_value_t v, void *param)
 
 
 
-static resource_t resources[] = {
+static const resource_t resources[] = {
   {Rsrc_SndEvery, RES_INTEGER, (resource_value_t)0,
     (resource_value_t*)&SoundPollEvery, set_sound_every, NULL },
   {Rsrc_AutoPause, RES_INTEGER, (resource_value_t)0,
