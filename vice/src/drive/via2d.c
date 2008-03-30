@@ -35,6 +35,7 @@
 #include "drivetypes.h"
 #include "interrupt.h"
 #include "log.h"
+#include "rotation.h"
 #include "types.h"
 #include "via.h"
 #include "viad.h"
@@ -116,7 +117,7 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
                              BYTE oldpa_value, ADDRESS addr)
 {
     if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-        drive_rotate_disk(ctxptr->drive_ptr);
+        rotation_rotate_disk(ctxptr->drive_ptr);
     ctxptr->drive_ptr->GCR_write_value = byte;
 }
 
@@ -137,8 +138,7 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb,
             drive_move_head(+1, ctxptr->mynumber);
     }
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
-        ctxptr->drive_ptr->rotation_table_ptr
-            = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
+        rotation_speed_zone_set((byte >> 5) & 0x3, ctxptr->mynumber);
     if ((poldpb ^ byte) & 0x04)     /* Motor on/off */
         ctxptr->drive_ptr->byte_ready_active
             = (ctxptr->drive_ptr->byte_ready_active & ~0x04)
@@ -148,8 +148,7 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb,
 static void undump_prb(drive_context_t *ctxptr, BYTE byte)
 {
     ctxptr->drive_ptr->led_status = (byte & 8) ? 1 : 0;
-    ctxptr->drive_ptr->rotation_table_ptr
-        = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
+    rotation_speed_zone_set((byte >> 5) & 0x3, ctxptr->mynumber);
     ctxptr->drive_ptr->byte_ready_active
         = (ctxptr->drive_ptr->byte_ready_active & ~0x04) | (byte & 0x04);
 }
@@ -157,12 +156,12 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
 inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, ADDRESS addr)
 {
     /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
-    if(byte != myvia[VIA_PCR]) {
+    if (byte != myvia[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if((tmp & 0x0c) != 0x0c)
+        if ((tmp & 0x0c) != 0x0c)
             tmp |= 0x02;
-        if((tmp & 0xc0) != 0xc0)
+        if ((tmp & 0xc0) != 0xc0)
             tmp |= 0x20;
         /* insert_your_favourite_drive_function_here(tmp);
         bit 5 is the write output to the analog circuitry:
@@ -170,8 +169,8 @@ inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, ADDRESS addr)
         drive_update_viad2_pcr(tmp, ctxptr->drive_ptr);
         if ((byte & 0x20) != (myvia[addr] & 0x20)) {
             if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-                drive_rotate_disk(ctxptr->drive_ptr);
-            ctxptr->drive_ptr->finish_byte = 1;
+                rotation_rotate_disk(ctxptr->drive_ptr);
+            rotation_change_mode(ctxptr->mynumber);
         }
     }
     return byte;
@@ -222,7 +221,7 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
             ctxptr->drive_ptr->attach_detach_clk = (CLOCK)0;
     } else {
         if (ctxptr->drive_ptr->byte_ready_active == 0x06)
-            drive_rotate_disk(ctxptr->drive_ptr);
+            rotation_rotate_disk(ctxptr->drive_ptr);
     }
 
     byte = ((ctxptr->drive_ptr->GCR_read & ~myvia[VIA_DDRA])
