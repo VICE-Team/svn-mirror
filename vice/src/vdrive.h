@@ -260,7 +260,7 @@ extern int floppy_free_block_count(DRIVE *floppy);
 extern int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
 			     int sector, int d64, int g64, int unit);
 extern int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
-			      int sector, int d64);
+			      int sector, int d64, int g64, int unit);
 extern int check_header(file_desc_t fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
