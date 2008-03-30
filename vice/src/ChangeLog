@@ -1,4 +1,269 @@
+Tue Jul  7 21:30:30 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* true1541/Makefile.am: Added dependencies to build `viad1.c' and
+ 	`viad2.c' from `viad1.def' and `viad2.def' respectively.
+
+Tue Jul  7 21:26:48 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c1541.c (disk_gcrformat): Use `write_dword' to write variables
+	of type DWORD.
+
+	* c64/c64cia2.def (READ_CIAPA): Use `iec_info->cpu_port' to
+	calculate new value.
+	(RESET_CIA): Aquire pointer to the `iec_info' structure.
+	(PRE_CIA_FUNCS): `iec_info' new variable.
+
+	* c64/c64iec.c: Reorganised IEC bus handling. Put `drive_bus',
+	`drive_port', `drive_data', `cpu_bus', `cpu_port' and
+	`iec_fast_1541' into `iec_info' structure.
+	(iec_get_drive_port): New function.
+
+	* c64/c64iec.h: Added prototype for `iec_get_drive_port'.
+
+	* iecdrive.h: New structure `iec_info_t'.
+
+	* true1541/true1541.c (read_image_gcr): Changed to use
+	`read_dword' and `write_dword' to access variables of type DWORD.
+	(write_track_gcr): Changed likewise.
+	(true1541_read_viad2_prb): New function.
+
+	* true1541/true1541.h: Added prototype `true1541_read_viad2_prb'.
+
+	* true1541/viad1.def (STORE_PRB): Changed to use `iec_info'
+	structure.
+	(READ_PRB): Changed likewise.
+	(RESET_VIA): Aquire pointer to the `iec_info' structure.
+
+	* true1541/viad2.def (STORE_PRA): Removed redundant call to
+	`true1541_rotate_disk'.
+	(READ_PRB): Changed to call `true1541_read_viad2_prb'.
+
+	* utils.c (read_dword, write_dword): New functions.
+	* utils.h: #include <types.h>.
+	Added prototypes for `read_dword' and `write_dword'.
+
+	* vic20/vic20iec.c (iec_get_drive_port): New function returning
+	NULL as VIC20 still uses the old IEC access method.
+	* vic20/vic20iec.h: Added prototype `iec_get_drive_port'.
+
+	* c64/c64mem.c (initialize_memory): Initialize generic 8KB
+	cartridges too.
+
+	* cartridge.c (cartridge_attach_image): Fixed some typos.
+	Call `cartridge_detach_image' before attaching new cartridge.
+	(cartridge_detach_image): Also handle CRT cartridges.
+	(cartridge_trigger_freeze): Make freeze function available for
+	both raw and CRT Action Replay cartridge.
+
+	* arch/unix/xaw/uisettings.c (set_true1541_idle_method_submenu):
+	Fixed typo.
+
+Tue Jul  7 16:06:31 MEST 1998  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/vic20ui.c: Add ui_tape_command_menu to left mouse
+ 	button menu.
+
+	* vic20/vic20.c: #Include `tapeunit.c'.
+	(vic20_tape_traps): New tape traps for the VIC20.
+	(machine_init): Add call to tape_init() with appropriate
+ 	parameters.
+
+Tue Jul  7 15:13:08 MEST 1998  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: Added emuid.h and emuid.c to file list.
+
+	* arch/unix/xaw/vic20ui.c: Add UI_MENU_DEFINE_TOGGLE(EmuID)
+	and appropriate entry to memory menu.
+
+	* c64/c64mem.c (emulator_id): Removed - moved to emuid include
+ 	emuid.h
+
+	* emuid.c, emuid.h: New files, hold the the emulator ID.
+
+	* vic20/vic20mem.c: #Include "emuid.h".
+	(emu_id_enabled, set_emu_id_enabled, mem_toggle_emu_id): New
+ 	variable and function to set/toggle it.
+	(resources): Add EmuID resource.
+	(cmdline_options): Add +/-emuid cmdline options.
+	(read_emuid): New function to read memory at $9f**.
+	(initialize_memory): Set read_emuid for the address range $9f**.
+
+Sun Jul  5 15:58:06 MEST 1998  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/tpi.c: Removed file.
+
+	* pet/petmem.c (pet3_tape_traps, pet2_tape_traps): New trap lists
+ 	for PET basic for 20** and 30** models.
+	(mem_load): Add appropriate tape_init calls for PET 20** and 30**.
+
+	* tpi-tmpl.c: #Include "tpi.h".
+
+Sat Jul  4 22:17:11 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/petui.c (pet_ui_init): Add ui_tape_commands_menu
+ 	to left button menu.
+
+	* c64/c64.c (machine_init): Add appropriate parameters to call to
+ 	tape_init.
+
+	* pet/pet.c (machine_init_resources): Call traps_init_resources.
+	(machine_init_cmdline_options): Call traps_init_cmdline_options.
+	(machine_init): Call traps_init.
+
+	* pet/petmem.c (pet4_tape_traps): Trap list for PET basic 4.
+	(mem_load): Call tape_init when Basic 4 ROM detected (40** or
+ 	80**)
+	(mem_set_tape_sense): Removed (to pia.c).
+	(mem_rom_trap_allowed): Check appropriate memory address and
+ 	config
+
+	* pet/pia.c (is_peek_access): Variable to distinguish read/peek.
+	(tape1_sense): Sense line from tape #1.
+	(mem_set_tape_sense): New function to set tape #1 sense state.
+	(read_pia1): Port A bit 4 is tape #1 sense.
+	(read_pia1, read_pia2): Check is_peek_access before clearing IRQ
+ 	on read.
+	(peek_pia1, peek_pia2): Set is_peek_access and call read_pia*.
+
+	* tapeunit.c (bufpaddr, status, verfl, irqtmp, irqval, stal, eal,
+ 	kbdbuf, nkeys): New static variables with memory addresses to use
+ 	when handling tape.  Variables are set when tape_init is called
+ 	All functions use those address variables now.  IRQTMP became
+ 	irqtmp and is now handled as a complete address.
+	(tape_is_initialized): Do not alloc new TAPE struct if already
+ 	done
+	(tape_init): New parameters to set addresses.
+	(findheader): Change filetype from CAS_TYPE_BAS (relocatable,
+ 	basic) to CAS_TYPE_PRG (binary) because PET understands _PRG only!
+	(t64_find_next): ditto.
+
+	* tapeunit.h (tape_init): New parameters in prototype.
+
+Thu Jul  2 09:26:47 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petvia.def: [STORE_PRB] add check for Killer Poke.
+
+Wed Jul  1 19:22:36 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/ui.c: New variables `n_allocated_pixels',
+ 	`allocated_pixels' variables to keep track with the X pixel values
+ 	we have allocated already.
+	(do_alloc_colors): Removed allocated_colors (replaced by
+	[n_]allocated_pixels).  Fix bug that would fill up default
+ 	colormap when loading other mappings: we can free colors in the
+ 	default map, if we only try to free our own colors
+ 	([n_]allocated_pixels)
+	(ui_canvas_set_palette): If not truecolor, handle the
+ 	X_DISPLAY_DEPTH==0 case appropriately: save all the tables before
+ 	we try to call do_alloc_colors().  If this fails, restore the
+ 	tables if allocation works, free previously allocated colors.
+
+	* c64/vicii.c (set_palette_file_name): Moved to raster.c
+
+	* pet/crtc.c (set_palette_file_name): Moved to raster.c
+	(init_drawing_tables): New function, is called by the new
+ 	`set_palette_file_name()', simply calls `crtc_init_dwg_tables()'
+ 	to rebuild pixel tables
+
+	* vic20/vic.c (set_palette_file):  references renamed to
+	set_palette_file_name, the function is then from raster.c
+	definition removed.
+	(init_drawing_table): Renamed to init_drawing_tables.
+
+	* raster.c (set_palette_file_name): New function to set the name
+ 	of the palette file.  Sets all necessary pixel tables.
+
+Wed Jul  1 14:27:28 1998  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/video.c: #Include <sys/utsname.h> and "utils.h".
+  	Changed default for mitshm to -1 (autodetect).
+	(cmdline_options): Added `-mitshmauto' for shm autodetection.
+	(init_video): If try_mitshm < 0 then check if the display is local
+ 	by checking the hostname.
+
+	* Makefile.am: Added `tpi.h' and `tpi-tmpl.c' to file list.
+
+	* c64/c64tpi.h, c64/c64tpi.def, c64/c64tpi.c: New files made for
+ 	the C64 TPI for the IEEE488 emulation (from `tpi.c').
+
+	* c64/tpi.c, c64/tpi.h: Removed (moved stuff to other files).
+
+	* tpi-tmpl.c, tpi.h: New files with TPI template and TPI register
+ 	definitions.
+
+Tue Jun 30 19:40:52 MEST 1998  A. Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* autostart.c: Changed `blnsw', `pnt', `pntr', `lnmx' from
+ 	#defines to static variables that are set in `autostart_init()'.
+	(autostart_enabled): New flag to disable autostart if
+ 	`autostart_init()' has not been called.
+	(check): Read memory addresses from variables.  If `lnmx' is < 0
+ 	then take it as the negative direct value.
+	(autostart_init): Set memory address variables from parameters set
+ 	autostart_enabled.
+	(autostart_disable, autostart_tape, autostart_disk, autostart_device):
+	Check if `autostart_enable' is set before doing anything.
+
+	* autostart.h (autostart_init): New prototype.
+
+	* c128/c128.c, c64/c64.c, vic20/vic20.c (machine_init): Add new
+ 	parameter to `autostart_init()'.
+
+	* fsdevice.c: Changed default for FSDevice[8|9|10|11]Dir from "/"
+ 	to "."
+
+	* kbdbuf.c (kbd_buf_enabled): New flag to disable kbd_buf stuff
+	if kbd_buf_init has not been called.
+	(kbd_buf_init): Set kbd_buf_enabled.
+	(kbd_buf_feed, kbd_buf_flush): Check kbd_buf_enabled.
+
+	* pet/pet.c (machine_init): Remove `autostart_init()' and
+ 	`kbd_buf_init()'.
+
+	* pet/petmem.c: #Include `pet.h', `kbdbuf.h', `autostart.h'.
+	(mem_load): For each of the detected PET ROMs call kbd_buf_init
+ 	and autostart_init with the appropriate parameters. Check for more
+ 	checksums.
+
+	* pet/petmem.h: [PET3032_CHECKSUM, PET4032_CHECKSUM] Renamed
+	old defines to *_A, added new *_B defines (for business-keyboard
+	machines).
+
+	* serial.c (serial_select_file): Print a warning of file attached
+ 	that is on a non-existant device.
+
+	* tapeunit.c [BSOUR, TMP_IN]: Removed unused defines.
+
+Mon Jun 29 14:20:42 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ic64/c64acia.h, acia-tmpl.c (peek_myacia): New function.
+
+	* arch/unix/xaw/uicommands.c: Changed pattern for attach a disk
+ 	image to "*.[xgd]64*".
+
+	* arch/unix/xaw/widgets/FileSel.c (ButtonGoto, UpdateTextLines):
+ 	only if HAVE_REGEXP_H is defined then pattern is used.
+
+	* c64/c64cia1.def (STORE_SDR): Changed `byte' to `cia1[CIA_SDR]',
+ 	because byte has the same value anyway.
+
+	* c64/tpi.c, c64/tpi.h (peek_tpi): New function.
+
+	* cia-tmpl.c: Where STORE_SDR is called, remove the definition of
+ 	"byte", as now cia1[CIA_SDR] is used.
+	(peek_mycia): New function.
+
+	* pet/crtc.c (peek_crtc): New function.
+
+	* pet/petvia.def: Now includes petvia.h as it should.
+
+	* pet/petvia.h, vic20/vic20via.h, via-tmpl.c (peek_myvia): New
+ 	function.
+
 Mon Jun 29 18:33:27 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* autostart.c (autostart_advance): Check for `READY.' in the
+	`AUTOSTART_LOADINGTAPE' case.
 
 	* pet/pia.c: #include "crtc.h".  #include "vice.h" *before* the
  	system headers, not afterwards.

@@ -100,6 +100,8 @@ int cartridge_attach_image(int type, char *filename)
     if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
 
+    cartridge_detach_image();
+
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
 	fd = fopen(filename, READ);
@@ -132,7 +134,6 @@ int cartridge_attach_image(int type, char *filename)
 	fclose(fd);
 	break;
       case CARTRIDGE_CRT:
-printf("FILENAME: %s\n", filename);
 	fd = fopen(filename, READ);
 	if (!fd)
 	    return -1;
@@ -151,7 +152,7 @@ printf("FILENAME: %s\n", filename);
 		fclose(fd);
 		return -1;
 	    }
-	    if (chipheader[0xd] == 0x80) {
+	    if (chipheader[0xc] == 0x80) {
 		if (fread(rawcart, 0x2000, 1, fd) < 1) {
 		    fclose(fd);
 		    return -1;
@@ -213,8 +214,9 @@ printf("FILENAME: %s\n", filename);
 void cartridge_detach_image(void)
 {
     if (carttype != CARTRIDGE_NONE) {
-	mem_detach_cartridge(carttype);
+	mem_detach_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);
 	carttype = CARTRIDGE_NONE;
+	crttype = CARTRIDGE_NONE;
     }
 }
 
@@ -227,9 +229,10 @@ void cartridge_set_default(void)
 
 void cartridge_trigger_freeze(void)
 {
-    if (crttype != CARTRIDGE_ACTION_REPLAY)
+    if (crttype != CARTRIDGE_ACTION_REPLAY 
+        && carttype != CARTRIDGE_ACTION_REPLAY)
 	return;
-    mem_freeze_cartridge(crttype);
+    mem_freeze_cartridge(CARTRIDGE_ACTION_REPLAY);
     maincpu_set_nmi(I_FREEZE, IK_NMI);
 }
 

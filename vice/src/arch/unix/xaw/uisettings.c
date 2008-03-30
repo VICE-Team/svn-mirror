@@ -705,7 +705,7 @@ static ui_menu_entry_t set_true1541_sync_factor_submenu[] = {
 };
 
 static ui_menu_entry_t set_true1541_idle_method_submenu[] = {
-    { "*No Traps", (ui_callback_t) radio_True1541IdleMethod,
+    { "*No traps", (ui_callback_t) radio_True1541IdleMethod,
       (ui_callback_data_t) TRUE1541_IDLE_NO_IDLE, NULL },
     { "*Skip cycles", (ui_callback_t) radio_True1541IdleMethod,
       (ui_callback_data_t) TRUE1541_IDLE_SKIP_CYCLES, NULL },

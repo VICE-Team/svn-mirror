@@ -1,7 +1,7 @@
 
 /*
- * ../../src/c64/c64acia1.c
- * This file is generated from ../../src/acia-tmpl.c and ../../src/c64/c64acia1.def,
+ * ../../../src/c64/c64acia1.c
+ * This file is generated from ../../../src/acia-tmpl.c and ../../../src/c64/c64acia1.def,
  * Do not edit!
  */
 
@@ -184,6 +184,24 @@ BYTE read_acia1_(ADDRESS a) {
 		  BYTE c = status | (irq?0x80:0);
 		  maincpu_set_int(I_ACIA1, 0);
 		  irq = 0;
+		  return c;
+		}
+	case ACIA_CTRL:
+		return ctrl;
+	case ACIA_CMD:
+		return cmd;
+	}
+	return 0;
+}
+
+BYTE peek_acia1_(ADDRESS a) {
+
+	switch(a & 3) {
+	case ACIA_DR:
+		return rxdata;
+	case ACIA_SR:
+		{
+		  BYTE c = status | (irq?0x80:0);
 		  return c;
 		}
 	case ACIA_CTRL:

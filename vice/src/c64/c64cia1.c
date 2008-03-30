@@ -70,6 +70,15 @@
  *
  */
 
+/*
+ * 29jun1998 a.fachat
+ *
+ * Implementing the peek function assumes that the READ_PA etc macros
+ * do not have side-effects, i.e. they can be called more than once
+ * at one clock cycle.
+ *
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -274,11 +283,10 @@ static int update_cia1(CLOCK rclk)
 		if (cia1sr_bits) {
 		    cia1sr_bits--;
 		    if(cia1sr_bits==16) {
-		        BYTE byte = cia1[CIA_SDR];
 
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
-	userport_serial_write_sr(byte);
+	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif
 		    }
@@ -570,7 +578,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
-	userport_serial_write_sr(byte);
+	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif
 		}
@@ -936,6 +944,87 @@ BYTE read_cia1_(ADDRESS addr)
     return (cia1[addr]);
 }
 
+BYTE REGPARM1 peek_cia1(ADDRESS addr)
+{
+    /* This code assumes that update_cia1 is a projector - called at
+     * the same cycle again it doesn't change anything. This way
+     * it does not matter if we call it from peek first in the monitor
+     * and probably the same cycle again when the CPU runs on...
+     */
+    CLOCK rclk;
+
+    addr &= 0xf;
+
+    vic_ii_handle_pending_alarms(0);
+
+    rclk = clk - READ_OFFSET;
+
+    switch (addr) {
+
+	/*
+	 * TOD clock is latched by reading Hours, and released
+	 * upon reading Tenths of Seconds. The counter itself
+	 * keeps ticking all the time.
+	 * Also note that this latching is different from the input one.
+	 */
+      case CIA_TOD_TEN:	/* Time Of Day clock 1/10 s */
+      case CIA_TOD_SEC:	/* Time Of Day clock sec */
+      case CIA_TOD_MIN:	/* Time Of Day clock min */
+      case CIA_TOD_HR:		/* Time Of Day clock hour */
+	if (!cia1todlatched)
+	    memcpy(cia1todlatch, cia1 + CIA_TOD_TEN, sizeof(cia1todlatch));
+	return cia1[addr];
+
+	/* Interrupts */
+
+      case CIA_ICR:		/* Interrupt Flag Register */
+	{
+	    BYTE t = 0;
+
+	    
+#ifdef CIA1_TIMER_DEBUG
+	    if (cia1_debugFlag)
+		printf("CIA1 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+			rclk, maincpu_int_status.alarm_clk[A_CIA1TA],
+			maincpu_int_status.alarm_clk[A_CIA1TB]);
+#endif
+	
+	    cia1rdi = rclk;
+            t = cia1int;	/* we clean cia1int anyway, so make int_* */
+	    cia1int = 0;	/* believe it is already */
+
+            if (rclk >= cia1_tai)
+                int_cia1ta(rclk - cia1_tai);
+            if (rclk >= cia1_tbi)
+                int_cia1tb(rclk - cia1_tbi);
+
+	    cia1int |= t;	/* some bits can be set -> or with old value */
+
+	    update_cia1(rclk);
+	    t = cia1int | cia1flag;
+
+#ifdef CIA1_TIMER_DEBUG
+	    if (cia1_debugFlag)
+		printf("CIA1 read intfl gives cia1int=%02x -> %02x @"
+		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
+		       cia1int, t, cia1sr_bits, clk, 
+			(cia1_tac ? cia1_tac : cia1_tal),
+			cia1_tbc);
+#endif
+
+/*
+	    cia1flag = 0;
+	    cia1int = 0;
+	    my_set_int(I_CIA1FL, 0, rclk);
+*/
+	    return (t);
+	}
+      default:
+	break;
+    }				/* switch */
+
+    return read_cia1(addr);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -990,11 +1079,10 @@ int int_cia1ta(long offset)
 		cia1int |= CIA_IM_SDR;
 	    }
 	    if(cia1sr_bits == 16) {
-	        BYTE byte = cia1[CIA_SDR];
 
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
-	userport_serial_write_sr(byte);
+	userport_serial_write_sr(cia1[CIA_SDR]);
     }
 #endif
 	    }

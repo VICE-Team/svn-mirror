@@ -1,7 +1,7 @@
 
 /*
- * ./viad1.c
- * This file is generated from ./via-tmpl.c and ./viad1.def,
+ * ../../../src/true1541/viad1.c
+ * This file is generated from ../../../src/via-tmpl.c and ../../../src/true1541/viad1.def,
  * Do not edit!
  */
 /*
@@ -88,7 +88,7 @@
  */
 
 /* timer values do not depend on a certain value here, but PB7 does... */
-#define	TAUOFFSET	-1
+#define	TAUOFFSET	(-1)
 
 #define update_viaD1irq() \
         true1541_set_irq(I_VIAD1FL, (viaD1ifr & viaD1ier & 0x7f) ? IK_IRQ : 0)
@@ -555,6 +555,48 @@ BYTE REGPARM1 read_viaD1_(ADDRESS addr)
     }  /* switch */
 
     return (viaD1[addr]);
+}
+
+BYTE REGPARM1 peek_viaD1(ADDRESS addr)
+{
+    CLOCK rclk = true1541_clk;
+
+    addr &= 0xf;
+
+    if(viaD1tai && (viaD1tai <= true1541_clk)) int_viaD1t1(true1541_clk - viaD1tai);
+    if(viaD1tbi && (viaD1tbi <= true1541_clk)) int_viaD1t2(true1541_clk - viaD1tbi);
+
+    switch (addr) {
+      case VIA_PRA:
+	return read_viaD1(VIA_PRA_NHS);
+
+      case VIA_PRB: /* port B */
+	{
+	  BYTE byte;
+
+	byte = ((viaD1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+	  if(viaD1[VIA_ACR] & 0x80) {
+	    update_viaD1tal();
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, viaD1pb7, viaD1pb7o, viaD1pb7ox, viaD1pb7x, viaD1pb7xx);*/
+	    byte = (byte & 0x7f) | (((viaD1pb7 ^ viaD1pb7x) | viaD1pb7o) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
+
+	/* Timers */
+
+      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+	return viaD1ta() & 0xff;
+
+      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+	return viaD1tb() & 0xff;
+
+      default:
+	break;
+    }  /* switch */
+
+    return read_viaD1(addr);
 }
 
 

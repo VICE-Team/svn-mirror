@@ -564,6 +564,64 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
     return (via1[addr]);
 }
 
+BYTE REGPARM1 peek_via1(ADDRESS addr)
+{
+    CLOCK rclk = clk;
+
+    addr &= 0xf;
+
+    if(via1tai && (via1tai <= clk)) int_via1t1(clk - via1tai);
+    if(via1tbi && (via1tbi <= clk)) int_via1t2(clk - via1tbi);
+
+    switch (addr) {
+      case VIA_PRA:
+	return read_via1(VIA_PRA_NHS);
+
+      case VIA_PRB: /* port B */
+	{
+	  BYTE byte;
+
+    {
+	/* FIXME: not 100% sure about this... */
+        BYTE val = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	int m, i;
+
+	for (m = 0x1, i = 0; i < KBD_COLS; m <<= 1, i++)
+	    if (!(msk & m))
+	        val &= ~keyarr[i];
+
+	/* Bit 7 is mapped to the right direction of the joystick (bit
+	   3 in `joy[]'). */
+	if ((joy[1] | joy[2]) & 0x8)
+	    val &= 0x7f;
+
+	byte = val;
+    }
+	  if(via1[VIA_ACR] & 0x80) {
+	    update_via1tal();
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, via1pb7, via1pb7o, via1pb7ox, via1pb7x, via1pb7xx);*/
+	    byte = (byte & 0x7f) | (((via1pb7 ^ via1pb7x) | via1pb7o) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
+
+	/* Timers */
+
+      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+	return via1ta() & 0xff;
+
+      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+	return via1tb() & 0xff;
+
+      default:
+	break;
+    }  /* switch */
+
+    return read_via1(addr);
+}
+
 
 /* ------------------------------------------------------------------------- */
 

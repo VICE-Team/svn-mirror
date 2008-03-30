@@ -572,6 +572,48 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
     return (via2[addr]);
 }
 
+BYTE REGPARM1 peek_via2(ADDRESS addr)
+{
+    CLOCK rclk = clk;
+
+    addr &= 0xf;
+
+    if(via2tai && (via2tai <= clk)) int_via2t1(clk - via2tai);
+    if(via2tbi && (via2tbi <= clk)) int_via2t2(clk - via2tbi);
+
+    switch (addr) {
+      case VIA_PRA:
+	return read_via2(VIA_PRA_NHS);
+
+      case VIA_PRB: /* port B */
+	{
+	  BYTE byte;
+
+     byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+	  if(via2[VIA_ACR] & 0x80) {
+	    update_via2tal();
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, via2pb7, via2pb7o, via2pb7ox, via2pb7x, via2pb7xx);*/
+	    byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
+
+	/* Timers */
+
+      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+	return via2ta() & 0xff;
+
+      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+	return via2tb() & 0xff;
+
+      default:
+	break;
+    }  /* switch */
+
+    return read_via2(addr);
+}
+
 
 /* ------------------------------------------------------------------------- */
 

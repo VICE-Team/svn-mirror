@@ -70,6 +70,15 @@
  *
  */
 
+/*
+ * 29jun1998 a.fachat
+ *
+ * Implementing the peek function assumes that the READ_PA etc macros
+ * do not have side-effects, i.e. they can be called more than once
+ * at one clock cycle.
+ *
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -277,7 +286,6 @@ static int update_cia2(CLOCK rclk)
 		if (cia2sr_bits) {
 		    cia2sr_bits--;
 		    if(cia2sr_bits==16) {
-		        BYTE byte = cia2[CIA_SDR];
 			
 		    }
 		    if (!cia2sr_bits) {
@@ -934,6 +942,89 @@ BYTE read_cia2_(ADDRESS addr)
     return (cia2[addr]);
 }
 
+BYTE REGPARM1 peek_cia2(ADDRESS addr)
+{
+    /* This code assumes that update_cia2 is a projector - called at
+     * the same cycle again it doesn't change anything. This way
+     * it does not matter if we call it from peek first in the monitor
+     * and probably the same cycle again when the CPU runs on...
+     */
+    CLOCK rclk;
+
+    addr &= 0xf;
+
+    vic_ii_handle_pending_alarms(0);
+
+    rclk = clk - READ_OFFSET;
+
+    switch (addr) {
+
+	/*
+	 * TOD clock is latched by reading Hours, and released
+	 * upon reading Tenths of Seconds. The counter itself
+	 * keeps ticking all the time.
+	 * Also note that this latching is different from the input one.
+	 */
+      case CIA_TOD_TEN:	/* Time Of Day clock 1/10 s */
+      case CIA_TOD_SEC:	/* Time Of Day clock sec */
+      case CIA_TOD_MIN:	/* Time Of Day clock min */
+      case CIA_TOD_HR:		/* Time Of Day clock hour */
+	if (!cia2todlatched)
+	    memcpy(cia2todlatch, cia2 + CIA_TOD_TEN, sizeof(cia2todlatch));
+	return cia2[addr];
+
+	/* Interrupts */
+
+      case CIA_ICR:		/* Interrupt Flag Register */
+	{
+	    BYTE t = 0;
+
+
+    if (true1541_parallel_cable_enabled)
+	true1541_cpu_execute();
+#ifdef CIA2_TIMER_DEBUG
+	    if (cia2_debugFlag)
+		printf("CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
+			rclk, maincpu_int_status.alarm_clk[A_CIA2TA],
+			maincpu_int_status.alarm_clk[A_CIA2TB]);
+#endif
+	
+	    cia2rdi = rclk;
+            t = cia2int;	/* we clean cia2int anyway, so make int_* */
+	    cia2int = 0;	/* believe it is already */
+
+            if (rclk >= cia2_tai)
+                int_cia2ta(rclk - cia2_tai);
+            if (rclk >= cia2_tbi)
+                int_cia2tb(rclk - cia2_tbi);
+
+	    cia2int |= t;	/* some bits can be set -> or with old value */
+
+	    update_cia2(rclk);
+	    t = cia2int | cia2flag;
+
+#ifdef CIA2_TIMER_DEBUG
+	    if (cia2_debugFlag)
+		printf("CIA2 read intfl gives cia2int=%02x -> %02x @"
+		       " PC=, sr_bits=%d, clk=%d, ta=%d, tb=%d\n",
+		       cia2int, t, cia2sr_bits, clk, 
+			(cia2_tac ? cia2_tac : cia2_tal),
+			cia2_tbc);
+#endif
+
+/*
+	    cia2flag = 0;
+	    cia2int = 0;
+	    my_set_int(I_CIA2FL, 0, rclk);
+*/
+	    return (t);
+	}
+      default:
+	break;
+    }				/* switch */
+
+    return read_cia2(addr);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -988,7 +1079,6 @@ int int_cia2ta(long offset)
 		cia2int |= CIA_IM_SDR;
 	    }
 	    if(cia2sr_bits == 16) {
-	        BYTE byte = cia2[CIA_SDR];
 		
 	    }
 	}

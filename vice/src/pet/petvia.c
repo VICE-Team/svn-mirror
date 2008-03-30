@@ -144,6 +144,7 @@
 #include "kbd.h"
 #include "crtc.h"
 #include "pruser.h"
+#include "petvia.h"
 
 #include "interrupt.h"
 
@@ -299,6 +300,9 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
       case VIA_DDRB:
 
 	via[addr] = byte;
+	if((addr==VIA_DDRB) && (byte & 0x20)) {
+	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
+	}
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));
@@ -597,6 +601,61 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
     }  /* switch */
 
     return (via[addr]);
+}
+
+BYTE REGPARM1 peek_via(ADDRESS addr)
+{
+    CLOCK rclk = clk;
+
+    addr &= 0xf;
+
+    if(viatai && (viatai <= clk)) int_viat1(clk - viatai);
+    if(viatbi && (viatbi <= clk)) int_viat2(clk - viatbi);
+
+    switch (addr) {
+      case VIA_PRA:
+	return read_via(VIA_PRA_NHS);
+
+      case VIA_PRB: /* port B */
+	{
+	  BYTE byte;
+
+        {
+            BYTE    j;
+            /* read parallel IEC interface line states */
+            j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
+            /* vertical retrace */
+            j -= crtc_offscreen() ? 32:0;
+#if 0
+                printf("read port B %d\n", j);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) j,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+#endif
+            byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+	  if(via[VIA_ACR] & 0x80) {
+	    update_viatal();
+/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
+               rclk, viapb7, viapb7o, viapb7ox, viapb7x, viapb7xx);*/
+	    byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
+	  }
+	  return byte;
+	}
+
+	/* Timers */
+
+      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+	return viata() & 0xff;
+
+      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+	return viatb() & 0xff;
+
+      default:
+	break;
+    }  /* switch */
+
+    return read_via(addr);
 }
 
 
