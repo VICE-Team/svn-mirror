@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=15
-VICE_VERSION_BUILD=6
+VICE_VERSION_BUILD=7
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1086,7 +1086,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
 elif [[ x"$is_win32" != "xno" ]]; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
@@ -1094,7 +1094,7 @@ elif [[ x"$is_win32" != "xno" ]]; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
 elif [[ x"$is_dos" != "xno" ]]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -1104,7 +1104,7 @@ elif [[ x"$is_dos" != "xno" ]]; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
 elif [[ x"$is_os2" != "xno" ]]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -1114,7 +1114,7 @@ elif [[ x"$is_os2" != "xno" ]]; then
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
 elif [[ x"$is_beos" != "xno" ]]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -1124,7 +1124,7 @@ elif [[ x"$is_beos" != "xno" ]]; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
 else
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
