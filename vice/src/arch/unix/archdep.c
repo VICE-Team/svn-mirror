@@ -371,3 +371,8 @@ int archdep_file_set_gzip(const char *name)
     return 0;
 }
 
+int archdep_mkdir(const char *pathname, int mode)
+{
+    return mkdir(pathname, (mode_t)mode);
+}
+

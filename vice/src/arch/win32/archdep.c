@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <process.h>
 #include <windows.h>
 
 #include "ui.h"
@@ -365,5 +366,10 @@ int archdep_file_is_gzip(const char *name)
 int archdep_file_set_gzip(const char *name)
 {
     return 0;
+}
+
+int archdep_mkdir(const char *pathname, int mode)
+{
+    return _mkdir(pathname);
 }
 

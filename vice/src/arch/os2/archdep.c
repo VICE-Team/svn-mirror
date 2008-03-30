@@ -558,3 +558,9 @@ int main(int ac, char **av)
     return 0;
 }
 */
+
+int archdep_mkdir(const char *pathname, int mode)
+{
+    return mkdir(pathname, (mode_t)mode);
+}
+

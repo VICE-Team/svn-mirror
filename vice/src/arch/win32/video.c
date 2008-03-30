@@ -37,6 +37,7 @@
 
 #include "cmdline.h"
 #include "log.h"
+#include "fullscrn.h"
 #include "fullscreen.h"
 #include "palette.h"
 #include "resources.h"

@@ -44,6 +44,7 @@
 #include <unistd.h>
 #endif
 
+#include "archdep.h"
 #include "ioutil.h"
 #include "utils.h"
 
@@ -83,7 +84,7 @@ int ioutil_isatty(int desc)
 
 int ioutil_mkdir(const char *pathname, int mode)
 {
-    return mkdir(pathname, (mode_t)mode);
+    return archdep_mkdir(pathname, mode);
 }
 
 int ioutil_remove(const char *name)
