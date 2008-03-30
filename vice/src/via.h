@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +28,9 @@
 #ifndef _VIA_H
 #define _VIA_H
 
-/* MOS 6522 registers */
+#include "types.h"
 
+/* MOS 6522 registers */
 #define VIA_PRB         0  /* Port B */
 #define VIA_PRA         1  /* Port A */
 #define VIA_DDRB        2  /* Data direction register for port B */
@@ -50,10 +52,7 @@
 #define VIA_IER         14 /* Interrupt control register */
 #define VIA_PRA_NHS     15 /* Port A with no handshake */
 
-/*
- * Interrupt Masks
- */
-
+/* Interrupt Masks  */
 /* MOS 6522 */
 #define VIA_IM_IRQ      128     /* Control Bit */
 #define VIA_IM_T1       64      /* Timer 1 underflow */
@@ -65,10 +64,7 @@
 #define VIA_IM_CA2      1       /* Handshake */
 
 
-/*
- * signal values (for signaling edges on the control lines)
- */
-
+/* Signal values (for signaling edges on the control lines)  */
 #define VIA_SIG_CA1     0
 #define VIA_SIG_CA2     1
 #define VIA_SIG_CB1     2
@@ -78,8 +74,10 @@
 #define VIA_SIG_RISE    1
 
 
-typedef struct via_context_s {
+struct snapshot_s;
+struct via_context_s;
 
+typedef struct via_context_s {
     BYTE via[16];
     int ifr;
     int ier;
@@ -120,7 +118,44 @@ typedef struct via_context_s {
     void *prv;
     void *context;
 
+    void (*undump_pra)(struct via_context_s *, BYTE);
+    void (*undump_prb)(struct via_context_s *, BYTE);
+    void (*undump_pcr)(struct via_context_s *, BYTE);
+    void (*undump_acr)(struct via_context_s *, BYTE);
+    void (*store_pra)(struct via_context_s *, BYTE, BYTE, WORD);
+    void (*store_prb)(struct via_context_s *, BYTE, BYTE, WORD);
+    BYTE (*store_pcr)(struct via_context_s *, BYTE, WORD);
+    void (*store_acr)(struct via_context_s *, BYTE);
+    void (*store_sr)(struct via_context_s *, BYTE);
+    void (*store_t2l)(struct via_context_s *, BYTE);
+    BYTE (*read_pra)(struct via_context_s *, WORD);
+    BYTE (*read_prb)(struct via_context_s *);
+    void (*set_int)(struct via_context_s *, unsigned int, int);
+    void (*set_ca2)(int state);
+    void (*set_cb2)(int state);
+    void (*reset)(struct via_context_s *);
 } via_context_t;
+
+extern void viacore_reset(struct via_context_s *via_context);
+extern void viacore_signal(struct via_context_s *via_context, int line,
+                           int edge);
+extern void viacore_clk_overflow_callback(struct via_context_s *via_context,
+                                          CLOCK sub, void *data);
+
+extern void REGPARM2 viacore_store(struct via_context_s *via_context,
+                                   WORD addr, BYTE data);
+extern BYTE REGPARM1 viacore_read(struct via_context_s *via_context,
+                                  WORD addr);
+extern BYTE REGPARM1 viacore_peek(struct via_context_s *via_context,
+                                  WORD addr);
+
+extern void viacore_intt1(struct via_context_s *via_context, CLOCK offset);
+extern void viacore_intt2(struct via_context_s *via_context, CLOCK offset);
+
+extern int viacore_snapshot_write_module(struct via_context_s *via_context,
+                                         struct snapshot_s *s);
+extern int viacore_snapshot_read_module(struct via_context_s *via_context,
+                                        struct snapshot_s *s);
 
 #endif
 
