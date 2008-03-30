@@ -507,7 +507,7 @@ static int file_system_attach_disk_internal(unsigned int unit, const char *filen
         return -1;
     } else {
         file_system_set_serial_hooks(unit, 0);
-        flip_set_current(unit, filename);
+        fliplist_set_current(unit, filename);
         ui_display_drive_current_image(unit - 8, filename);
     }
     
