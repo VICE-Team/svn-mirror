@@ -1,0 +1,15 @@
+source type(c)
+    "c64.c",
+    "c64acia1.c",
+    "c64cia1.c",
+    "c64cia2.c",
+    "c64datasette.c",
+    "c64iec.c",
+    "c64mem.c",
+    "c64cartmem.c",
+    "c64rsuser.c",
+    "c64tpi.c",
+    "c64/cartridge.c",
+    "patchrom.c",
+    "reu.c",
+    "psid.c"

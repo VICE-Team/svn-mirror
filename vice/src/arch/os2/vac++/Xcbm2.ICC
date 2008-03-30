@@ -2,43 +2,48 @@ option ProjectOptions = link(debug, "no"), gen(debug, "yes"),
     link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
     opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
     define("HAVE_CONFIG_H", ),
-    define("__XPET__", ),
+    define("__XCBM__", ),
     incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\cbm2"),
     incl(searchpath, "..\\..\\..\\crtc"),
-    incl(searchpath, "..\\..\\..\\pet"),
     incl(searchpath, "..\\..\\..\\resid"),
     incl(searchpath, "..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
-    incl(searchpath, "..\\..\\..\\vicii"),
     incl(searchpath, ".."), incl(searchpathfirst, "yes"),
     file(genobject, "Yes"), gen(arch, "pentium"),
     file(genpch, "no"), file(usepch, "no"), info(cnd, "no"),
     info(ppc, "no"), info(ppt, "no"), res_rc_options("-i .. -x1")
 {
-    target type(exe) "..\\..\\..\\..\\data\\xpet.exe"
+    target type(exe) "..\\..\\..\\..\\data\\xcbm2.exe"
     {
         source type (rc)  "dialogs.rc"
         source type (lib) "mmpm2.lib"
 
+        include "incl/cbm2.icc"
+        include "incl/crtc.icc"
         include "incl/mainsrc.icc"
         include "incl/archdep.icc"
         include "incl/dialogs.icc"
-        include "incl/pet.icc"
         include "incl/drive.icc"
         include "incl/raster.icc"
         include "incl/vdrive.icc"
-        include "incl/crtc.icc"
         include "incl/monitor.icc"
         include "incl/sounddrv.icc"
 
         source type(c)
-            "maincpu.c"
-        source type(c)
-            "petui.c",
+            "c610ui.c",
+            "kbd\\kbd-c610.c",
             "kbd\\kbd-pet.c"
+
+        source type (cpp) "resid.cc"
+        source type (c)   "sid.c"
+
+        source type (lib) "resid.lib"
+
 
     }
 }

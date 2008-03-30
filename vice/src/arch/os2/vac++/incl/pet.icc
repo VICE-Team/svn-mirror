@@ -1,0 +1,10 @@
+source type (c)
+    "pet.c",
+    "petmem.c",
+    "petacia1.c",
+    "petdatasette.c",
+    "petiec.c",
+    "petpia1.c",
+    "petpia2.c",
+    "petsound.c",
+    "petvia.c"

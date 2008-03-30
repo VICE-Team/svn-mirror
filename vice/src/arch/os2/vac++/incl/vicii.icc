@@ -1,0 +1,8 @@
+source type(c)
+    "vicii.c",
+    "vicii-mem.c",
+    "vicii-draw.c",
+    "vicii-resources.c",
+    "vicii-snapshot.c",
+    "vicii-sprites.c"  ,
+    "vicii-cmdline-options.c"

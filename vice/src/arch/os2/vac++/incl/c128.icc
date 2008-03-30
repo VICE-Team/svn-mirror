@@ -1,0 +1,9 @@
+source type(c)
+    "c128.c",
+    "c128cia1.c",
+    "c128cpu.c",
+    "c128iec.c",
+    "c128mem.c",
+    "c128mmu.c",
+    "z80.c",
+    "z80mem.c"

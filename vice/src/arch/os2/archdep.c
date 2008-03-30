@@ -206,7 +206,9 @@ static RETSIGTYPE break64(int sig)
             "Received signal %d (%s). Vice will be closed.",
             sig, sys_siglist[sig]);
     log_message(LOG_DEFAULT, sigtxt);
+#ifndef __C1541__
     ui_OK_dialog("Vice/2 Exception", sigtxt);
+#endif
     exit (-1);
 }
 
@@ -236,11 +238,9 @@ void archdep_setup_signals(int do_core_dumps)
 
 int archdep_path_is_relative(const char *path)
 {
-    log_debug("relative? %s", path);
-    return (isalpha(path[0]) && path[1] == ':'  &&
+    return !(isalpha(path[0]) && path[1] == ':' &&
             (path[2] == '/' || path[2] == '\\') ||
-            (path[0] == '/' || path[0] == '\\')
-           );
+            (path[0] == '/' || path[0] == '\\'));
 }
 
 /* Return a malloc'ed backup file name for file `fname'.  */
@@ -410,6 +410,10 @@ void archdep_startup_log_error(const char *format, ...)
     va_list ap;
     va_start(ap, format);
     vsprintf(txt, format, ap);
+#ifndef __C1541__
     ui_OK_dialog("VICE/2 Startup Error", txt);
+#else
+    printf(txt);
+#endif
 }
 

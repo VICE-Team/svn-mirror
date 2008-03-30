@@ -40,11 +40,11 @@
 #include "resources.h"
 
 
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X128__ || defined __XVIC__
 #define VIDEO_CACHE "VideoCache"
 #endif
 
-#ifdef __XPET__
+#if defined __XPET__ || defined __XCBM__
 #define VIDEO_CACHE "CrtcVideoCache"
 #endif
 

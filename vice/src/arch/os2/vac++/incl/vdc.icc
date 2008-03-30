@@ -1,0 +1,8 @@
+source type(c)
+    "vdc.c",
+    "vdc-mem.c",
+    "vdc-draw.c",
+    "vdc-draw.c",
+    "vdc-resources.c",
+    "vdc-snapshot.c",
+    "vdc-cmdline-options.c"

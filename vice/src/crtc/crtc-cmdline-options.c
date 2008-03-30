@@ -30,8 +30,6 @@
 #include "cmdline.h"
 #include "crtc-cmdline-options.h"
 
-
-
 /* CRTC command-line options.  */
 
 static cmdline_option_t cmdline_options[] =

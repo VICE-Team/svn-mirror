@@ -1,0 +1,8 @@
+source type(c)
+    "dialogs\\dlg-drive.c",
+    "dialogs\\dlg-sound.c",
+    "dialogs\\dlg-monitor.c",
+    "dialogs\\dlg-emulator.c",
+    "dialogs\\dlg-joystick.c" ,
+    "dialogs\\dlg-contents.c",
+    "dialogs\\dlg-datasette.c"

@@ -52,7 +52,9 @@ end
 
 CALL createProgram "C=64",        'x64.exe'
 CALL createProgram "C=128",       'x128.exe'
-CALL createProgram "C=PET",       'xpet.exe'
+CALL createProgram "PET",         'xpet.exe'
+CALL createProgram "VIC 20",      'xvic.exe'
+CALL createProgram "C=1541",      'c1541.exe'
 
 setupstring='EXENAME=view.exe;PARAMETERS=vice2.inf'
 say 'Creating an object for the Vice Manual...'

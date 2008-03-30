@@ -1,0 +1,15 @@
+source type(c)
+    "fdc.c",
+    "riot1d.c",
+    "riot2d.c",
+    "cia1571d.c",
+    "cia1581d.c",
+    "drive.c",
+    "drivecpu.c",
+    "drivemem.c",
+    "drive-snapshot.c",
+    "drive-resources.c",
+    "drive-cmdline-options.c",
+    "via1d.c",
+    "via2d.c",
+    "wd1770.c"

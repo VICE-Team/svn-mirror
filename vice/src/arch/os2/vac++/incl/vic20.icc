@@ -1,0 +1,19 @@
+source type(c)
+	"cartridge.c",
+	"vic-cmdline-options.c",
+	"vic-draw.c",
+	"vic-mem.c",
+	"vic-resources.c",
+	"vic-snapshot.c",
+	"vic.c",
+	"vic20.c",
+	"vic20datasette.c",
+	"vic20iec.c",
+	"vic20mem.c",
+	"vic20rsuser.c",
+	"vic20sound.c",
+	"vic20via1.c",
+	"vic20via2.c",
+	"vic20ieeevia1.c",
+	"vic20ieeevia2.c"
+    

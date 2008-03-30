@@ -14,6 +14,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     incl(searchpath, "..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
     incl(searchpath, ".."), incl(searchpathfirst, "yes"),
@@ -26,170 +27,33 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
         source type (lib) "mmpm2.lib"
         source type (lib) "resid.lib"
         source type (rc)  "dialogs.rc"
+
         source type(c)
-            "alarm.c",
-            "asm.c",
-            "attach.c",
-            "autostart.c",
-            "ciatimer.c",
-            "clkguard.c",
-            "charsets.c",
-            "cmdline.c",
-            "datasette.c",
-            "diskimage.c",
-            "emuid.c",
-            "findpath.c",
-            "fliplist.c",
-            "fsdevice.c",
-            "gcr.c",
-            "imagecontents.c",
-            "info.c",
-            "interrupt.c",
-            "kbdbuf.c",
-            "keyboard.c",
-            "log.c",
-            "main.c",
-//            "maincpu.c",
-            "mon.c",
-            "mon_lex.c",
-            "mon_parse.c",
-            "p00.c",
-            "palette.c",
-            "parallel.c",
-            "resources.c",
-            "reu.c",
-            "romset.c",
-            "rsuser.c",
-            "serial.c",
-            "snapshot.c",
-            "sound.c",
-            "sysfile.c",
-            "t64.c",
-            "tap.c",
-            "tape.c",
-            "traps.c",
-            "utils.c",
-            "vdrive-iec.c",
-            "vdrive.c",
-            "zfile.c",
-            "zipcode.c"
-        source type(c)
-            "ui.c",
-            "kbd.c",
-            "vsync.c",
-            "video.c",
-            "c128ui.c",
             "rs232.c",
-            "console.c",
-            "kbd\\kbd-c128.c",
-            "vsidui.c",
-            "archdep.c",
-            "joystick.c",
-            "dialogs.c",
-            "ui_status.c",
-            "main_exit.c",
-            "uicmdline.c",
-            "sounddrv.c",
-            "pm_cmdline.c",
-            "contentsdlg.c",
-            "pm\\winaddon.c",
-            "pm\\scrollbars.c",
-            "snippets\\dirport.c"
+            "c128ui.c",
+            "kbd\\kbd-c128.c"
         source type(c)
+            "reu.c",
             "c64tpi.c",
             "c64cia2.c",
             "c64datasette.c"
-        source type(c)
-            "c128.c",
-            "c128cia1.c",
-            "c128cpu.c",
-            "c128iec.c",
-            "c128mem.c",
-            "c128mmu.c",
-            "z80.c",
-            "z80mem.c"
-        source type(c)
-            "vdc.c",
-            "vdc-mem.c",
-            "vdc-draw.c",
-            "vdc-draw.c",
-            "vdc-resources.c",
-            "vdc-snapshot.c",
-            "vdc-cmdline-options.c"
-        source type(c)
-            "fdc.c",
-            "riot1d.c",
-            "riot2d.c",
-            "cia1571d.c",
-            "cia1581d.c",
-            "drive.c",
-            "drivecpu.c",
-            "drivemem.c",
-            "drive-snapshot.c",
-            "drive-resources.c",
-            "drive-cmdline-options.c",
-            "via1d.c",
-            "via2d.c",
-            "wd1770.c"
-        source type(c)
-            "raster.c",
-            "raster-cache.c",
-            "raster-changes.c",
-            "raster-modes.c",
-            "raster-sprite.c",
-            "raster-sprite-status.c",
-            "raster-sprite-cache.c"
-        source type(c)
-            "vdrive.c",
-            "vdrive-iec.c",
-            "vdrive-bam.c",
-            "vdrive-dir.c",
-            "vdrive-command.c",
-            "vdrive-snapshot.c"
-        source type(c)
-            "sounddump.c",
-            "sounddummy.c",
-            "soundfs.c",
-            "soundmmos2.c",
-            "sounddart.c",
-            "soundspeed.c",
-            "soundwav.c"
-        source type(c)
-            "vicii.c",
-            "vicii-mem.c",
-            "vicii-draw.c",
-            "vicii-resources.c",
-            "vicii-snapshot.c",
-            "vicii-sprites.c"  ,
-            "vicii-cmdline-options.c"
+
+        include "incl/mainsrc.icc"
+        include "incl/archdep.icc"
+        include "incl/monitor.icc"
+        include "incl/dialogs.icc"
+        include "incl/c128.icc"
+        include "incl/vdc.icc"
+        include "incl/drive.icc"
+        include "incl/raster.icc"
+        include "incl/vdrive.icc"
+        include "incl/sounddrv.icc"
+        include "incl/vicii.icc"
 
         source type (cpp) "resid.cc"
         source type (c)   "sid.c"
 
-/*        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.7\""), define("SIZEOF_INT", "\"4\"")
-        {
-            source type(cpp) "envelope.cc"
-            source type(cpp) "extfilt.cc"
-            source type(cpp) "filter.cc"
-            source type(cpp) "pot.cc"
-            source type(cpp) "sid.cc"
-            source type(cpp) "version.cc"
-            source type(cpp) "voice.cc"
-            source type(cpp) "wave.cc"
-            source type(cpp) "wave6581_PST.cc"
-            source type(cpp) "wave6581_PS_.cc"
-            source type(cpp) "wave6581_P_T.cc"
-            source type(cpp) "wave6581__ST.cc"
-            source type(cpp) "wave8580_PST.cc"
-            source type(cpp) "wave8580_PS_.cc"
-            source type(cpp) "wave8580_P_T.cc"
-            source type(cpp) "wave8580__ST.cc"
-        }*/
     }
-    //option ipf_preopt("/i")
-    //{
-    //   source type(ipf) "vice2.ipf"
-    //}
 }
 
 

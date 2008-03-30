@@ -8,6 +8,7 @@ libkbd_a_SOURCES = \
 	kbd-c64.c \
         kbd-c128.c \
         kbd-vic20.c \
+        kbd-c610.c \
         kbd-pet.c
         
 

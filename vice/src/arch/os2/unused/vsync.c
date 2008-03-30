@@ -1,5 +1,5 @@
 /*
- * vsync.c - End-of-frame handling for Vice/2
+ * vsync.c - End-of-frame handling for Unix.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -39,13 +39,17 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <limits.h>
+
+#ifdef __IBMC__
+#include <sys/timeb.h>
+#endif
 
 #include "vsync.h"
 #include "ui.h"
 #include "ui_status.h"
 #include "interrupt.h"
-#include "maincpu.h"
 #include "log.h"
 #include "kbdbuf.h"
 #include "sound.h"
@@ -53,13 +57,25 @@
 #include "cmdline.h"
 #include "kbd.h"
 #include "archdep.h"
-#include "clkguard.h"
 
 #include "usleep.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
 #endif
+
+#ifndef SA_RESTART
+#define SA_RESTART 0
+#endif
+
+
+void vlog(char *s, int i)
+{
+    FILE *fl;
+    fl=fopen("output","a");
+    fprintf(fl,"%s %i\n",s,i);
+    fclose(fl);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -70,24 +86,21 @@ static int relative_speed;
 static int refresh_rate;
 
 /* "Warp mode".  If nonzero, attempt to run as fast as possible.  */
-static int warp_mode_enabled;
-
-/* o if Emulator is paused */
-static int emulator_paused=FALSE;
+int warp_mode_enabled;
 
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)
-{
+  {
     relative_speed = (int) v;
     return 0;
-}
+  }
 
 static int set_refresh_rate(resource_value_t v)
-{
+  {
     if ((int) v < 0) return -1;
     refresh_rate = (int) v;
     return 0;
-}
+  }
 
 static int set_warp_mode(resource_value_t v)
 {
@@ -154,58 +167,71 @@ static int timer_disabled = 1;
 static int timer_speed    = 0;
 static int timer_patch    = 0;
 
-static ULONG ulTmrFreq;  // Hertz (almost 1.2MHz at my PC)
+#ifdef __IBMC__
+  #define SEC    time      // double
+  #define subSEC millitm   // ushort
+  typedef struct timeb _time;
+  const int MICRONS = 10000; //960;
+//  #define gettime(now) _ftime(now)  // DosTmrQueryTime
+  void gettime(_time *now)
+  {
+      ULONG ulTmrFreq; // Hertz
+      QWORD qwTmrTime; // now
+      DosTmrQueryFreq(&ulTmrFreq);
+      DosTmrQueryTime(&qwTmrTime);
+      now->time    = (int)(qwTmrTime.ulLo/ulTmrFreq);
+      now->millitm = (qwTmrTime.ulLo-(ulTmrFreq*now->time))*MICRONS/ulTmrFreq;
+  }
+#else
+  #define SEC    tv_sec
+  #define subSEC tv_usec
+  #define gettime(now) gettimeofday(now, NULL)
+  typedef struct timeval _time;
+  const int MICRONS = 1000000;
+#endif
 
-inline ULONG gettime(void)
+static int timer_ticks;
+_time      timer_time;
+
+static void update_elapsed_frames(int want)
 {
-    QWORD qwTmrTime;
-    DosTmrQueryTime(&qwTmrTime);
-    return qwTmrTime.ulLo;
-}
-
-static ULONG timer_ticks;
-static ULONG timer_time;
-
-void update_elapsed_frames(int want)
-{
-    ULONG now;
-    static ULONG old_now;
     static int pending;
+    _time now;
 
     if (timer_disabled) return;
     if (!want && timer_patch > 0) {
         timer_patch--;
         elapsed_frames++;
     }
-
-    now=gettime();
-
-    /* problems with now<timer_time und now overflow  */
-    if (now<old_now) timer_time = 0; /* (old_now-now) */
-
-    while (now>timer_time) {
-        if (!pending) {
+    gettime(&now);
+    while (now.SEC > timer_time.SEC ||
+           (now.SEC == timer_time.SEC &&
+            now.subSEC > timer_time.subSEC)) {
+        if (pending) pending--;
+        else {
             if (timer_patch < 0) timer_patch++;
-            else                 elapsed_frames++;
+            else elapsed_frames++;
         }
-        else pending--;
-        timer_time += timer_ticks;
+        timer_time.subSEC += timer_ticks;
+        timer_time.SEC    += (int)(timer_time.subSEC/MICRONS);
+        timer_time.subSEC %= MICRONS;
+        /*	while (timer_time.tv_usec >= 1000000) {
+         timer_time.tv_usec -= 1000000;
+         timer_time.tv_sec++;
+         }*/
     }
-
     if (want == 1 && !pending) {
         if (timer_patch < 0) timer_patch++;
-        else                 elapsed_frames++;
+        else elapsed_frames++;
         pending++;
     }
-
-    old_now = now;
 }
 
 static int set_timer_speed(int speed)
 {
     if (speed > 0) {
-        timer_ticks = ((100*ulTmrFreq)/(refresh_frequency*speed));
-        timer_time=gettime();
+        gettime(&timer_time);
+        timer_ticks = ((100*MICRONS)/(refresh_frequency*speed))/**1000000*/;///speed;
         update_elapsed_frames(-1);
         elapsed_frames = 0;
     }
@@ -216,6 +242,7 @@ static int set_timer_speed(int speed)
 
     timer_speed    = speed;
     timer_disabled = speed ? 0 : 1;
+
     return 0;
 }
 
@@ -238,65 +265,52 @@ static void patch_timer(int patch)
 
 int vsync_disable_timer(void)
 {
-/*    log_message(LOG_DEFAULT,"disable timer %i",timer_disabled);
-    if (!timer_disabled)
-        return set_timer_speed(0);
-    else */return 0;
+    if (!timer_disabled) return set_timer_speed(0);
+    else return 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 static int speed_eval_suspended = 1;
-static CLOCK speed_eval_prev_clk;
-
-static void clk_overflow_callback(CLOCK amount, void *data)
-{
-    speed_eval_prev_clk -= amount;
-}
 
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
-    //    sound_suspend();
+    sound_suspend();
     speed_eval_suspended = 1;
 }
 
-void vsync_set_machine_parameter(double refresh_rate, long cycles)
+void vsync_init(double hertz, long cycles, void (*hook)(void))
 {
-    refresh_frequency = refresh_rate;
-    cycles_per_sec    = cycles;
-}
-
-void vsync_init(void (*hook)(void))
-{
-    vsync_disable_timer();
-    suspend_speed_eval();
-
-    /* What's this - from unix */
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-
-    DosTmrQueryFreq(&ulTmrFreq);
     vsync_hook        = hook;
+    refresh_frequency = hertz;
+    cycles_per_sec    = cycles;
+
+    suspend_speed_eval();
+    vsync_disable_timer();
 }
+
+static CLOCK speed_eval_prev_clk;
 
 static void display_speed(int num_frames)
 {
-    static ULONG prev_time;
-    /* problems with now<timer_time und now overflow         */
-    /* if (curr_time<prev_time) prev_time = 0; (old_now-now) */
+    static long vice_secs=0;
+    static double prev_time;
+    double curr_time;
+    _time tv;
+    gettime(&tv);
+    curr_time = (double)tv.SEC + (double)tv.subSEC/MICRONS; // casting ???
     if (!speed_eval_suspended) {
-        ULONG curr_time = gettime();
         float diff_clk    = clk - speed_eval_prev_clk;
-        float time_diff   = (double)(curr_time - prev_time)/ulTmrFreq;
+        float time_diff   = curr_time - prev_time;
 	float speed_index = diff_clk/(time_diff*cycles_per_sec);
 	float frame_rate  = num_frames/time_diff;
 
-        ui_display_speed(speed_index*100, frame_rate);
-
-        prev_time = curr_time;
+        ui_display_speed(speed_index*100, frame_rate, vice_secs++);
     }
-    else prev_time = gettime();
+
+    prev_time            = curr_time;
     speed_eval_prev_clk  = clk;
     speed_eval_suspended = 0;
 }
@@ -305,25 +319,6 @@ void vsync_prevent_clk_overflow(CLOCK sub)
 {
     speed_eval_prev_clk -= sub;
 }
-
-/* OS/2 functions to handle emulator paused */
-
-void emulator_pause()
-{
-    suspend_speed_eval();
-    emulator_paused = TRUE;
-}
-
-void emulator_resume()
-{
-    emulator_paused=FALSE;
-}
-
-int isEmulatorPaused()
-{
-    return emulator_paused;
-}
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -336,20 +331,23 @@ int do_vsync(int been_skipped)
     static int skip_counter;
     int skip_next_frame = 0;
 
-    while (emulator_paused) DosSleep(1);
-
     vsync_hook();
 
     if (been_skipped) num_skipped_frames++;
 
     if (timer_speed != relative_speed) {
 	frame_counter = USHRT_MAX;
-        set_timer_speed(relative_speed);
+        if (set_timer_speed(relative_speed) < 0) {
+	    log_error(LOG_DEFAULT, "Trouble setting timers... giving up.");
+            /* FIXME: Hm, maybe we should be smarter.  But this is should
+               never happen.*/
+	    exit(-1);
+	}
     }
 
     if (warp_mode_enabled) {
         /* "Warp Mode".  Just skip as many frames as possible and do not
-         limit the maximum speed at all.  */
+           limit the maximum speed at all.  */
         if (skip_counter < MAX_SKIPPED_FRAMES) {
             skip_next_frame = 1;
             skip_counter++;
@@ -358,59 +356,43 @@ int do_vsync(int been_skipped)
         sound_flush(0);
     }
     else
-    {
-        if (refresh_rate)
-        {   // Fixed refresh rate.
-            update_elapsed_frames(0);
-            if (timer_speed && skip_counter >= elapsed_frames)
-                timer_sleep();
-            if (skip_counter < refresh_rate - 1)
-            {
+        if (refresh_rate != 0) {
+            update_elapsed_frames(0); /* Fixed refresh rate.  */
+            if (timer_speed && skip_counter >= elapsed_frames) timer_sleep();
+            if (skip_counter < refresh_rate - 1) {
                 skip_next_frame = 1;
                 skip_counter++;
             }
-            else
-            {
-                skip_counter = elapsed_frames = 0;
-                // this is for better system response if CPU usage is 100%
-                DosSleep(1);
-            }
+            else skip_counter = elapsed_frames = 0;
             patch_timer(sound_flush(relative_speed));
         }
         else
-        {   // Dynamically adjusted refresh rate.
+        {
+            /* Dynamically adjusted refresh rate.  */
             update_elapsed_frames(0);
-            if (skip_counter >= elapsed_frames)
-            {
+            if (skip_counter >= elapsed_frames) {
                 elapsed_frames = -1;
                 timer_sleep();
                 skip_counter = 0;
             }
             else
-                if (skip_counter < MAX_SKIPPED_FRAMES)
-                {
+                if (skip_counter < MAX_SKIPPED_FRAMES) {
                     skip_next_frame = 1;
                     skip_counter++;
                 }
-                else
-                {
-                    skip_counter = elapsed_frames = 0;
-                    // this is for better system response if CPU usage is 100%
-                    DosSleep(1);
-                }
+                else skip_counter = elapsed_frames = 0;
             patch_timer(sound_flush(relative_speed));
         }
-    }
-    if (frame_counter >= refresh_frequency * 2)
-    {
+
+    if (frame_counter >= refresh_frequency * 2) {
         display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
-        // this is for better system response in warp_mode
-        // seems that it doesn't really make it slower
-        if (warp_mode_enabled) DosSleep(1);
-    }
-    else frame_counter++;
+    } else
+        frame_counter++;
+
+
+    kbd_buf_flush();
 
 #ifdef HAS_JOYSTICK
     joystick_update();

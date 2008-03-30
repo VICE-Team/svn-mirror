@@ -1,12 +1,35 @@
+/*
+ * dialogs.rc - Resource script file
+ *
+ * Written by
+ *  Thomas Bretz <tbretz@gsi.de>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
 
-/* OS/2 Warp Resource Script File - Created by Integrated Resource Editor */
-
+#define INCL_SW
+#define INCL_NLS
 #define INCL_WINSYS
 #define INCL_WINBIDI
 #define INCL_WINSTDDLGS
 #define INCL_WINSTDSPIN
-#define INCL_NLS
-#define INCL_SW
 
 #include "dialogs.h"
 #include "../../version.h"
@@ -38,7 +61,7 @@ DEFAULTICON icons\xpet.ico
 #endif
 
 #ifdef __X128__
-//DEFAULTICON icons\x128.ico
+DEFAULTICON icons\x128.ico
 #endif
 
 #ifdef HAS_JOYSTICK
@@ -245,11 +268,10 @@ BEGIN
 
         CONTROL "Pause",                       CB_PAUSE,  14, 85,  40,  9, STY_AUTOCHECKBOX
         CONTROL "Video Cache",                 CB_VCACHE, 14, 75,  60,  9, STY_AUTOCHECKBOX
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__)
         CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 65, 115,  9, STY_AUTOCHECKBOX
         CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 55, 105,  9, STY_AUTOCHECKBOX
 #endif
-
 	TEXT("Refrash Rate", 13, 43, 50, 8)
         CONTROL "",          CBS_REFRATE, 64, 5, 33, 48, WC_COMBOBOX,
          		     CBS_DROPDOWNLIST | STY_STD

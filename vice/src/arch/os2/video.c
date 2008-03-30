@@ -368,10 +368,12 @@ void PM_mainloop(VOID *arg)
 
     resources_set_value("Sound", (resource_value_t)FALSE);
 
-    rc=WinDestroyWindow ((*ptr)->hwndFrame);
-    if (rc) log_message(LOG_DEFAULT,"video.c: Graphic window destroyed (rc=%li)",rc);
-    if (!WinDestroyMsgQueue(hmq)) log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
-    if (!WinTerminate (hab)) log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
+    if (WinDestroyWindow ((*ptr)->hwndFrame))
+        log_message(LOG_DEFAULT,"video.c: Error! Graphic window destroy. (rc=%li)",rc);
+    if (!WinDestroyMsgQueue(hmq))
+        log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
+    if (!WinTerminate (hab))
+        log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
     //    machine_shutdown();  // detach all disks
     //    sound_close();
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!

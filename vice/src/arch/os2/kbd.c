@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "kbd.h"
 #include "log.h"
+#include "mon.h"
 #include "vsync.h"         //suspend_speed_eval
 #include "tape.h"          // tape_attach
 #include "utils.h"
@@ -239,11 +240,6 @@ void wmChar(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
-#ifdef __X128__
-        case K_F7:
-            if (key_ctrl_column4080_func != NULL) key_ctrl_column4080_func();
-            break;
-#endif
         case K_8: ui_attach       (hwnd, 8); break;
         case K_9: ui_attach       (hwnd, 9); break;
         case K_0: ui_attach       (hwnd, 0); break;
@@ -253,6 +249,7 @@ void wmChar(HWND hwnd, MPARAM mp1)
         case K_E: emulator_dialog (hwnd);    break;
         case K_Q: ui_hard_reset   (hwnd);    break;
         case K_R: ui_soft_reset   (hwnd);    break;
+        case K_S: sound_dialog    (hwnd);    break;
 #ifdef HAS_JOYSTICK
         case K_J: joystick_dialog (hwnd);    break;
 #endif
@@ -267,19 +264,21 @@ void wmChar(HWND hwnd, MPARAM mp1)
             console_out(NULL, "test: %s", "hallo");
             break;
 
-        case K_S: sound_dialog    (hwnd);    break;
-            // toggle_dialog("Sound", "Sound playback");
-            break;
         case K_T:
             toggle_dialog("DriveTrueEmulation", "True drive emulation");
             break;
+#ifdef __X128__
+        case K_V: // VDC
+            if (key_ctrl_column4080_func)
+                key_ctrl_column4080_func();
+            break;
+#endif
         case K_W/*W*/:
             if (resources_save(NULL) < 0)
                 ui_OK_dialog("Resources","Cannot save settings.");
             else
                 ui_OK_dialog("Resources","Settings written successfully.");
             break;
-//        case K_S: toggle_dialog("Sound", "Sound playback"); break;
         }
     }
     else {

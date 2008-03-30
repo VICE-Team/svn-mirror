@@ -103,15 +103,15 @@ typedef struct { PIXEL a, b; }		PIXEL2;
 typedef struct { PIXEL a, b, c, d; }	PIXEL4;
 #endif
 
-#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM) && !defined(OS2)
+/*#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM) && !defined(OS2)
 #define REGPARM1 __attribute__((regparm(1)))
 #define REGPARM2 __attribute__((regparm(2)))
 #define REGPARM3 __attribute__((regparm(3)))
-#else
+#else*/
 #define REGPARM1
 #define REGPARM2
 #define REGPARM3
-#endif
+//#endif
 
 /* Use ANSI IO on RISC OS */
 typedef int file_desc_t;

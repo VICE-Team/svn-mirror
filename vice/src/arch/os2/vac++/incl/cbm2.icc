@@ -1,0 +1,11 @@
+source type(c)
+	"crtc610.c",
+	"c610.c",
+	"c610acia1.c",
+	"c610cia1.c",
+	"c610cpu.c",
+	"c610datasette.c",
+	"c610iec.c",
+	"c610mem.c",
+	"c610tpi1.c",
+	"c610tpi2.c"

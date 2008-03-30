@@ -1,0 +1,5 @@
+source type(c)
+    "asm.c",
+    "mon.c",
+    "mon_lex.c",
+    "mon_parse.c"

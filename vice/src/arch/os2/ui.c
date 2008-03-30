@@ -56,7 +56,7 @@
 //#include "dos.h"
 //#endif
 #include "machine.h"
-#include "mon.h"
+//#include "mon.h"
 #include "log.h"
 #include "resources.h"
 #include "sound.h"
@@ -313,7 +313,7 @@ int ui_yesno_dialog(HWND hwnd, char *title, char *msg)
                           msg, title, 0, MB_YESNO)==MBID_YES);
 }
 
-#include "contentsdlg.h"
+#include "dialogs.h"
 
 #define DLGO_CONTENTS  0x100
 extern void delDlgOpen(int dlg);
@@ -424,4 +424,3 @@ void ui_proc_write_msg(char* msg)
 {
  // write(ui_pipefd[1], msg, strlen(msg));
 }
-
