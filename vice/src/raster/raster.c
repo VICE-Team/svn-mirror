@@ -278,9 +278,7 @@ static int realize_frame_buffer(raster_t *raster)
 
 /* Recalculate frame buffer for new display mode? */
 #ifdef __riscos
-#if ((VIDEO_DISPLAY_DEPTH == 8) || (VIDEO_DISPLAY_DEPTH == 0))
 #define RECALC_FRAME_BUFFER
-#endif
 #endif
 
 static int perform_mode_change(raster_t *raster)
@@ -1166,7 +1164,7 @@ static void raster_geometry_init(raster_geometry_t *geometry)
     geometry->last_displayed_line = 0;
 }
 
-#if defined(WIN32) || defined (USE_XF86_EXTENSIONS)
+#if defined(WIN32) || defined(USE_XF86_EXTENSIONS) || defined(HAVE_XVIDEO)
 void video_register_raster(raster_t *raster);
 #endif
 
@@ -1178,7 +1176,7 @@ int raster_init(raster_t *raster,
     raster struct when window has to be updated in certain cases...
     So I have to register it in the video module and do a lookup.
     */
-#if defined(WIN32) || defined (USE_XF86_DGA2_EXTENSIONS)
+#if defined(WIN32) || defined(USE_XF86_DGA2_EXTENSIONS) || defined(HAVE_XVIDEO)
     video_register_raster(raster);
 #endif
 

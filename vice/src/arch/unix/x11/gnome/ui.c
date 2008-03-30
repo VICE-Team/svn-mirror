@@ -96,7 +96,7 @@ char *last_attached_tape;
 
 static Display *display;
 int screen;
-static int depth = VIDEO_DISPLAY_DEPTH;
+static int depth;
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
@@ -622,8 +622,9 @@ int ui_init_finish(void)
 	{ NULL }
     };
 
-    if (ui_log == LOG_ERR)
-        ui_log = log_open("X11");
+    ui_log = log_open("X11");
+
+    resources_get_value("DisplayDepth", (resource_value_t *)&depth);
 
     if (depth != 0) {
 	int i;
@@ -637,13 +638,8 @@ int ui_init_finish(void)
 	    log_error(ui_log,
                       _("This display does not support suitable %dbit visuals."),
                       depth);
-#if VIDEO_DISPLAY_DEPTH == 0
             log_error(ui_log,
                       _("Please select a bit depth supported by your display."));
-#else
-            log_error(ui_log,
-                      _("Please recompile the program for a supported bit depth."));
-#endif
 	    return -1;
 	} else {
 	    log_message(ui_log, _("Found %dbit/%s visual."),

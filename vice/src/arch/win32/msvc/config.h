@@ -9,7 +9,6 @@
 
 #define HAVE_ALLOCA             1
 #define RETSIGTYPE              void
-#define VIDEO_DISPLAY_DEPTH     0
 #define HAVE_RESID              1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1

@@ -46,14 +46,14 @@
 /* Define if we want to use aRts */
 #undef USE_ARTS
 
-/* Define to your video display depth.  */
-#undef VIDEO_DISPLAY_DEPTH
-
 /* Define if you want to use Rober W. McMullen's TextField widget.  */
 #undef ENABLE_TEXTFIELD
 
 /* Do we use MITSHM extensions?  */
 #undef USE_MITSHM
+
+/* Is libXv available?  */
+#undef HAVE_XVIDEO
 
 /* Is libXpm available?  */
 #undef HAVE_LIBXPM

@@ -58,9 +58,6 @@
 /* Define if lex declares yytext as a char * by default, not a char[].  */
 #define YYTEXT_POINTER 1
 
-/* Define to your video display depth.  */
-#define VIDEO_DISPLAY_DEPTH 0
-
 /* Define if you want to use Rober W. McMullen's TextField widget.  */
 //#define ENABLE_TEXTFIELD 1
 
