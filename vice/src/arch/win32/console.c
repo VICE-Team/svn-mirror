@@ -41,7 +41,7 @@
 #include "utils.h"
 #include "winmain.h"
 
-/** #define DEBUG /**/
+/** #define DEBUG **/
 
 
 #ifdef DEBUG

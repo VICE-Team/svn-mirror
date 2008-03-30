@@ -31,7 +31,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
-#include "kbd.h"  /* for joystick_value[]... */
+#include "keyboard.h"
 #include "log.h"
 #include "mouse.h"
 #include "resources.h"

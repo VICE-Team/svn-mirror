@@ -36,6 +36,7 @@
 #include <mmsystem.h>
 
 #include "joystick.h"
+#include "keyboard.h"
 #include "types.h"
 #include "ui.h"
 #include "winmain.h"

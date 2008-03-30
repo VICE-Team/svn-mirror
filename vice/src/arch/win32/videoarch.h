@@ -35,7 +35,6 @@
 #include <ddraw.h>
 
 #include "types.h"
-#include "palette.h"
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
@@ -67,13 +66,15 @@ typedef struct _frame_buffer {
 
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);
 
+struct palette_s;
+
 typedef struct _canvas {
     char *title;
     int width, height;
     int mapped;
     int depth;
     canvas_redraw_t exposure_handler;
-    const palette_t *palette;
+    const struct palette_s *palette;
     DWORD physical_colors[256];
     PIXEL *pixels;
     HWND hwnd;

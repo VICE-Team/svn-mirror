@@ -32,7 +32,7 @@
 
 #include "cmdline.h"
 #include "joystick.h"
-
+#include "keyboard.h"
 #include "log.h"
 #include "resources.h"
 
