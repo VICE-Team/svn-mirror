@@ -307,6 +307,17 @@ void riotcore_int_riot(riot_context_t *riot_context, CLOCK offset)
     update_irq(riot_context, (BYTE)(riot_context->r_irqfl | 0x80));
 }
 
+void riotcore_setup_context(riot_context_t *riot_context)
+{
+    riot_context->log = LOG_ERR;
+    riot_context->read_clk = 0;
+    riot_context->read_offset = 0;
+    riot_context->last_read = 0;
+    riot_context->r_edgectrl = 0;
+    riot_context->r_irqfl = 0;
+    riot_context->r_irqline = 0;
+}
+
 void riotcore_init(const riot_initdesc_t *riot_desc,
                    alarm_context_t *alarm_context, clk_guard_t *clk_guard,
                    unsigned int number)
@@ -323,15 +334,9 @@ void riotcore_init(const riot_initdesc_t *riot_desc,
                            rd->riot_ptr);
 }
 
-void riotcore_setup_context(riot_context_t *riot_context)
+void riotcore_shutdown(riot_context_t *riot_context)
 {
-    riot_context->log = LOG_ERR;
-    riot_context->read_clk = 0;
-    riot_context->read_offset = 0;
-    riot_context->last_read = 0;
-    riot_context->r_edgectrl = 0;
-    riot_context->r_irqfl = 0;
-    riot_context->r_irqline = 0;
+    lib_free(riot_context->prv);
 }
 
 /*-------------------------------------------------------------------*/

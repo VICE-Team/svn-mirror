@@ -94,7 +94,7 @@ typedef struct resource_callback_desc_s {
 
 static int num_resources, num_allocated_resources;
 static resource_ram_t *resources;
-static const char *machine_id;
+static char *machine_id = NULL;
 
 static void write_resource_item(FILE *f, int num);
 
@@ -244,6 +244,7 @@ void resources_shutdown(void)
 {
     lib_free(resources);
     lib_free(hashTable);
+    lib_free(machine_id);
 }
 
 static resource_ram_t *lookup(const char *name)

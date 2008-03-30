@@ -65,6 +65,13 @@ void ieee_drive_init(struct drive_context_s *drv)
     riot2_init(drv);
 }
 
+void ieee_drive_shutdown(struct drive_context_s *drv)
+{
+    viacore_shutdown(&(drv->via1d2031));
+    riotcore_shutdown(&(drv->riot1));
+    riotcore_shutdown(&(drv->riot2));
+}
+
 void ieee_drive_reset(struct drive_context_s *drv)
 {
     viacore_reset(&(drv->via1d2031));
