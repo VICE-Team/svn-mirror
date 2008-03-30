@@ -49,6 +49,7 @@ struct drive_context_s;
 #define mytpi_read tpid_read
 #define mytpi_peek tpid_peek
 #define mytpi_set_int tpid_set_int
+#define mytpi_restore_int tpid_restore_int
 #define mytpi_snapshot_write_module tpid_snapshot_write_module
 #define mytpi_snapshot_read_module tpid_snapshot_read_module
 
