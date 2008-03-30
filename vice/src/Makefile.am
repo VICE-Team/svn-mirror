@@ -170,6 +170,7 @@ base_sources = \
 	keyboard.c \
 	lib.c \
 	log.c \
+	machine-bus.c \
 	machine.c \
 	main.c \
 	mouse.c \
