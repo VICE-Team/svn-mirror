@@ -84,7 +84,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 
 	if (name != NULL
 	    && (s == NULL || strcasecmp(name, s) != 0)
-	    && serial_select_file(DT_DISK | DT_1541, (int)param, name) < 0) {
+	    && file_system_attach_disk((int)param, name) < 0) {
 	    tui_error("Invalid disk image.");
 	}
 	ui_update_menus();

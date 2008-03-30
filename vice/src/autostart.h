@@ -28,7 +28,7 @@
 #ifndef _AUTOSTART_H
 #define _AUTOSTART_H
 
-int autostart_init(CLOCK mincycles);
+int autostart_init(CLOCK _min_cycles, int _handle_true1541);
 void autostart_disable(void);
 void autostart_advance(void);
 int autostart_tape(const char *file_name, const char *program_name);

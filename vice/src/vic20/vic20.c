@@ -158,7 +158,7 @@ int machine_init(void)
     true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH);
+    autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1);
 
     /* Initialize the VIC-I emulation.  */
     vic_init();

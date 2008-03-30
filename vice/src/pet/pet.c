@@ -78,7 +78,10 @@ static int set_model_name(resource_value_t v)
     return 0;
 }
 
-/*
+/* ------------------------------------------------------------------------- */
+
+#if 0
+
 static resource_t resources[] = {
     { "Model", RES_STRING, (resource_value_t) "8032",
       (resource_value_t *) &model_name, set_model_name },
@@ -90,7 +93,8 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify PET model name" },
     { NULL }
 };
-*/
+
+#endif
 
 /* ------------------------------------------------------------------------ */
 
@@ -159,17 +163,20 @@ int machine_init(void)
     /* Initialize drives.  */
     file_system_init();
 
+    /* Initialize autostart.  FIXME: We could probably use smaller values.  */
+    autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0);
+
     /* Initialize the CRTC emulation.  */
     crtc_init();
 
     /* Initialize the keyboard.  FIXME!  */
 #ifdef __MSDOS__
-    if (pet_kbd_init() < 0) {
-#else
-    if (kbd_init() < 0) {
-#endif
+    if (pet_kbd_init() < 0)
         return -1;
-    }
+#else
+    if (kbd_init() < 0)
+        return -1;
+#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, NULL);

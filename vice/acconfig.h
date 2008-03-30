@@ -16,6 +16,9 @@
 /* Does libXext have XShmPutImage?  */
 #undef HAVE_XSHMPUTIMAGE
 
+/* Is libXpm available?  */
+#undef HAVE_LIBXPM
+
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 

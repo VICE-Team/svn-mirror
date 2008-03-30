@@ -82,7 +82,7 @@
 #define EDIT
 #endif
 
-#if defined HAVE_X11_EXTENSIONS_XSHM_H && defined HAVE_LIBXEXT && defined HAVE_XSHMPUTIMAGE
+#if defined HAVE_X11_EXTENSIONS_XSHM_H && defined HAVE_XSHMPUTIMAGE
 #define MITSHM
 #endif
 

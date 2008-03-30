@@ -174,7 +174,7 @@ int machine_init(void)
     true1541_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH);
+    autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)

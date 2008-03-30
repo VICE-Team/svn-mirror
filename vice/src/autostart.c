@@ -75,6 +75,9 @@ static char *autostart_program_name = NULL;
 /* Minimum number of cycles before we feed BASIC with commands.  */
 static CLOCK min_cycles;
 
+/* Flag: Do we want to switch true 1541 emulation on/off during autostart?  */
+static int handle_true1541;
+
 /* ------------------------------------------------------------------------- */
 
 /* Deallocate program name if we have one */
@@ -130,7 +133,7 @@ static int get_true1541_state(void)
 }
 
 /* Initialize autostart.  */
-int autostart_init(CLOCK mincycles)
+int autostart_init(CLOCK _min_cycles, int _handle_true1541)
 {
     if (!pwarn)
     {
@@ -139,7 +142,9 @@ int autostart_init(CLOCK mincycles)
             return -1;
     }
 
-    min_cycles = mincycles;
+    min_cycles = _min_cycles;
+    handle_true1541 = handle_true1541;
+
     return 0;
 }
 
@@ -161,10 +166,10 @@ void autostart_advance(void)
 
     switch (autostartmode)
     {
-    case AUTOSTART_HASTAPE:
+      case AUTOSTART_HASTAPE:
         switch (check("READY."))
         {
-        case YES:
+          case YES:
 	    warn(pwarn, -1, "loading tape");
 	    if (autostart_program_name) {
                 tmp = concat("load\"", autostart_program_name,
@@ -177,93 +182,103 @@ void autostart_advance(void)
 	    autostartmode = AUTOSTART_LOADINGTAPE;
 	    deallocate_program_name();
             break;
-        case NO:
+          case NO:
             autostart_disable();
             break;
-        case NOT_YET:
+          case NOT_YET:
             break;
         }
         break;
-    case AUTOSTART_LOADINGTAPE:
+      case AUTOSTART_LOADINGTAPE:
 	switch (check("LOADING"))
 	{
-        case YES:
+          case YES:
 	    warn(pwarn, -1, "starting program");
 	    kbd_buf_feed("run\r");
 	    autostartmode = AUTOSTART_DONE;
             break;
-        case NO:
+          case NO:
             autostart_disable();
             break;
-        case NOT_YET:
+          case NOT_YET:
             break;
 	}
 	break;
-    case AUTOSTART_HASDISK:
+      case AUTOSTART_HASDISK:
 	switch (check("READY."))
 	{
-        case YES:
-          {
-              int no_traps;
+          case YES:
+            {
+                warn(pwarn, -1, "loading disk");
+                orig_true1541_state = get_true1541_state();
+                if (handle_true1541)
+                {
+                    int no_traps;
 
-              resources_get_value("NoTraps", (resource_value_t *) &no_traps);
-              warn(pwarn, -1, "loading disk");
-              orig_true1541_state = get_true1541_state();
-              if (!no_traps)
-              {
-                  if (orig_true1541_state)
-                      warn(pwarn, -1, "switching true 1541 emulation off");
-                  set_true1541_mode(0);
-              }
-              else
-              {
-                  if (!orig_true1541_state)
-                      warn(pwarn, -1, "switching true 1541 emulation on");
-                  set_true1541_mode(1);
-              }
-              if (autostart_program_name) {
-                  tmp = xmalloc(strlen(autostart_program_name) + 20);
-                  sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
-                  kbd_buf_feed(tmp);
-                  free(tmp);
-              }
-              else
-                  kbd_buf_feed("load\"*\",8,1\r");
-              autostartmode = AUTOSTART_LOADINGDISK;
-              deallocate_program_name();
-              break;
-          }
-        case NO:
+                    resources_get_value("NoTraps",
+                                        (resource_value_t *) &no_traps);
+                    if (!no_traps)
+                    {
+                        if (orig_true1541_state)
+                            warn(pwarn, -1,
+                                 "switching true 1541 emulation off");
+                        set_true1541_mode(0);
+                    }
+                    else
+                    {
+                        if (!orig_true1541_state)
+                            warn(pwarn, -1,
+                                 "switching true 1541 emulation on");
+                        set_true1541_mode(1);
+                    }
+                }
+                if (autostart_program_name)
+                {
+                    tmp = xmalloc(strlen(autostart_program_name) + 20);
+                    sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
+                    kbd_buf_feed(tmp);
+                    free(tmp);
+                }
+                else
+                    kbd_buf_feed("load\"*\",8,1\r");
+                autostartmode = AUTOSTART_LOADINGDISK;
+                deallocate_program_name();
+                break;
+            }
+          case NO:
             autostart_disable();
             break;
-        case NOT_YET:
+          case NOT_YET:
             break;
 	}
 	break;
-    case AUTOSTART_LOADINGDISK:
+      case AUTOSTART_LOADINGDISK:
 	switch (check("READY."))
 	{
-        case YES:
-            if (orig_true1541_state)
-                warn(pwarn, -1, "switching true 1541 on and starting program");
-            else
-                warn(pwarn, -1, "starting program");
-            set_true1541_mode(orig_true1541_state);
+          case YES:
+            if (handle_true1541)
+            {
+                if (orig_true1541_state)
+                    warn(pwarn, -1, "switching true 1541 on and starting program");
+                else
+                    warn(pwarn, -1, "starting program");
+                set_true1541_mode(orig_true1541_state);
+            }
             kbd_buf_feed("run\r");
             autostartmode = AUTOSTART_DONE;
             break;
-        case NO:
+          case NO:
             autostart_disable();
             break;
-        case NOT_YET:
+          case NOT_YET:
             break;
 	}
 	break;
-    default:
+      default:
         return;
     }
 
-    if (autostartmode == AUTOSTART_ERROR)
+    if (autostartmode == AUTOSTART_ERROR && handle_true1541)
     {
 	warn(pwarn, -1, "now turning true 1541 emulation %s",
 	     orig_true1541_state ? "on" : "off");
@@ -314,7 +329,7 @@ int autostart_disk(const char *file_name, const char *program_name)
     if (file_name == NULL)
 	return -1;
 
-    if (serial_select_file(DT_DISK | DT_1541, 8, file_name) < 0)
+    if (file_system_attach_disk(8, file_name) < 0)
     {
 	warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
 	autostartmode = AUTOSTART_ERROR;
