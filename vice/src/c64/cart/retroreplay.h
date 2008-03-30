@@ -43,6 +43,7 @@ extern void retroreplay_freeze(void);
 extern int retroreplay_freeze_allowed(void);
 
 extern void retroreplay_config_init(void);
+extern void retroreplay_reset(void);
 extern void retroreplay_config_setup(BYTE *rawcart);
 extern int retroreplay_bin_attach(const char *filename, BYTE *rawcart);
 
