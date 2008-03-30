@@ -1,6 +1,3 @@
-
-READLINE = @READLINE@
-
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
@@ -186,7 +183,7 @@ bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ $(READLINE) @LEXLIB@ @X64_WINRES@
+        @X_LIBS@ @READLINE@ @LEXLIB@ @X64_WINRES@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 x64_LDFLAGS = @x64_LDFLAGS@
@@ -197,7 +194,7 @@ x64-all: libc64 libsounddrv libdrive libarch libsid @RESID_DEP@ x64
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ $(READLINE) @X128_WINRES@
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ @X128_WINRES@
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
 	@LIBOBJS@ @ARCH_LIBS@
@@ -210,7 +207,7 @@ x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid @RESID_DEP@ \
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
-	$(READLINE) @XVIC_WINRES@
+	@READLINE@ @XVIC_WINRES@
 xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
@@ -221,7 +218,7 @@ xvic-all: libvic20 libsounddrv libdrive libarch xvic
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
 xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
-	$(READLINE) @XPET_WINRES@
+	@READLINE@ @XPET_WINRES@
 xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
@@ -232,7 +229,7 @@ xpet-all: libpet libsounddrv libarch libdrive xpet
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ $(READLINE) @XCBM2_WINRES@
+	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ @XCBM2_WINRES@
 xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
@@ -244,25 +241,38 @@ xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
 c1541_SOURCES = \
 	c1541.c \
 	charsets.c \
+	cmdline.c \
+	findpath.c \
+	resources.c \
 	vdrive.c \
 	vdrive-iec.c \
 	gcr.c \
+	log.c \
 	mshell.c \
 	tape.c \
 	utils.c \
 	zfile.c \
 	zipcode.c
 
-c1541_LDADD = $(READLINE)
+# FIXME: I don't like linking `archdep.o' this way, but we cannot use
+# the generic `ARCH_LIBS', because we would have to link against X11
+# libs too then.
+c1541_LDADD = @ARCH_DIR@/archdep.o @READLINE@
 
 # petcat
 petcat_SOURCES = \
 	charsets.c \
+	cmdline.c \
+	findpath.c \
+	log.c \
 	petcat.c \
+	resources.c \
 	tape.c \
 	utils.c \
 	zfile.c \
 	zipcode.c
+
+petcat_LDADD = @ARCH_DIR@/archdep.o
 
 # Special targets to build libraries in subdirectories.
 
