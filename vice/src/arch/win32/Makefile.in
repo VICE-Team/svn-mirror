@@ -267,7 +267,9 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	../../../src/palette.h c64ui.h ../../../src/cartridge.h kbd.h \
 	../../../src/keyboard.h res.h uilib.h uivicii.h winmain.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/console.h ../../../src/utils.h types.h
+	../../../src/console.h ../../../src/utils.h types.h winmain.h \
+	res.h ui.h ../../../src/uiapi.h ../../../src/video.h \
+	videoarch.h ../../../src/palette.h
 dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	dirent.h ../../../src/utils.h types.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
@@ -402,7 +404,10 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/uiapi.h ../../../src/video.h videoarch.h \
 	../../../src/palette.h ../../../src/vsync.h
 winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h lose32.h \
-	../../../src/utils.h types.h winmain.h
+	../../../src/utils.h types.h winmain.h ../../../src/console.h \
+	../../../src/mon.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/snapshot.h \
+	../../../src/mos6510.h
 
 info-am:
 info: info-am
