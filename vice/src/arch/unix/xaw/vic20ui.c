@@ -28,12 +28,13 @@
 
 #include <stdio.h>
 
-#include "uimenu.h"
+#include "cartridge.h"
+#include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uimenu.h"
 #include "uisettings.h"
-#include "joystick.h"
-#include "cartridge.h"
+#include "vsync.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -265,7 +266,7 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t ui_joystick_settings_menu[] = {
+static ui_menu_entry_t joystick_settings_menu[] = {
     { "Joystick settings",
       NULL, NULL, set_joystick_device_1_submenu },
     { NULL }
@@ -311,12 +312,12 @@ int vic20_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_joystick_settings_menu,
                                      ui_video_settings_menu,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
                                      ui_serial_settings_menu,
+                                     joystick_settings_menu,
                                      ui_menu_separator,
 				     print_settings_menu,
                                      ui_menu_separator,

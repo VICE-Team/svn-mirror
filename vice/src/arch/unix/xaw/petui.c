@@ -29,17 +29,18 @@
 
 #include <stdio.h>
 
-#include "petui.h"
-#include "uimenu.h"
-#include "resources.h"
-#include "uicommands.h"
-#include "uisettings.h"
 #include "joystick.h"
 #include "pets.h"
+#include "petui.h"
+#include "resources.h"
+#include "uicommands.h"
+#include "uimenu.h"
+#include "uisettings.h"
+#include "vsync.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
-#include "c64icon.xpm"
+#include "peticon.xpm"
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -192,6 +193,12 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t joystick_settings_menu[] = {
+    { "Joystick settings",
+      NULL, NULL, joystick_settings_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t pet_memsize_submenu[] = {
     { "*4 kByte",
 	(ui_callback_t) radio_RamSize, (ui_callback_data_t) 4, NULL },
@@ -295,8 +302,6 @@ static ui_menu_entry_t pet_menu[] = {
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
     { "Printer settings",
       NULL, NULL, ui_print_settings_menu },
-    { "Joystick settings",
-      NULL, NULL, joystick_settings_submenu },
     { "--" },
     { "Screen color",
       NULL, NULL, palette_submenu },
@@ -341,6 +346,7 @@ int pet_ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_serial_settings_menu,
+                                     joystick_settings_menu,
                                      ui_menu_separator,
                                      pet_menu,
                                      ui_menu_separator,
