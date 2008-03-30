@@ -35,18 +35,15 @@ struct vdrive_s;
 extern void vdrive_iec_init(void);
 
 /* Generic IEC interface.  */
-extern int vdrive_open(struct vdrive_s *vdrive, const char *name, int length,
-                       unsigned int secondary);
-extern int vdrive_close(struct vdrive_s *vdrive, unsigned int secondary);
-extern int vdrive_read(struct vdrive_s *vdrive, BYTE *data,
-                       unsigned int secondary);
-extern int vdrive_write(struct vdrive_s *vdrive, BYTE data,
-                        unsigned int secondary);
-extern void vdrive_flush(struct vdrive_s *vdrive, unsigned int secondary);
+extern int vdrive_iec_open(struct vdrive_s *vdrive, const char *name,
+                           int length, unsigned int secondary);
+extern int vdrive_iec_close(struct vdrive_s *vdrive, unsigned int secondary);
+extern int vdrive_iec_read(struct vdrive_s *vdrive, BYTE *data,
+                           unsigned int secondary);
+extern int vdrive_iec_write(struct vdrive_s *vdrive, BYTE data,
+                            unsigned int secondary);
+extern void vdrive_iec_flush(struct vdrive_s *vdrive, unsigned int secondary);
 
-/* Low level access to IEC interface.  */
-extern void vdrive_open_create_dir_slot(struct bufferinfo_s *p, char *realname,
-                                        int reallength, int filetype);
 extern int vdrive_iec_attach(unsigned int unit, const char *name);
 
 #endif
