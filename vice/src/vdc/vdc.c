@@ -145,6 +145,8 @@ canvas_t vdc_init(void)
     vdc_update_memory_ptrs(0);
 */
 
+    vdc.force_repaint = 0;
+
     vdc_draw_init();
     vdc_draw_set_double_size(vdc_resources.double_size_enabled);
 
@@ -195,17 +197,14 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
 {
     int in_visible_area;
 
-/*
-    log_message(vdc.log, "raster_draw_alarm - line %d",vdc.raster.current_line);
-*/
     in_visible_area = (vdc.raster.current_line >= VDC_FIRST_DISPLAYED_LINE
                     && vdc.raster.current_line <= VDC_LAST_DISPLAYED_LINE);
 
     if (vdc.raster.current_line == 0)
     {
         vdc.mem_counter = 0;
-        vdc.bitmap_counter = 0 - vdc.mem_counter_inc;
-        vdc.raster.ycounter = 0 - 1;
+        vdc.bitmap_counter = 0;
+        vdc.raster.ycounter = 0;
 
         if (vdc.cursor_freqency > 0) {
             if (vdc.cursor_counter == 0) {
@@ -214,7 +213,14 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
             }
             vdc.cursor_counter--;
         }
+
+        if (vdc.force_repaint) {
+            vdc.force_repaint = 0;
+            raster_force_repaint(&vdc.raster);
+        }
     }
+
+    raster_emulate_line(&vdc.raster);
 
 #ifdef __MSDOS__
     if (vdc.raster.viewport.update_canvas)
@@ -231,14 +237,12 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
         }
         vdc.raster.ycounter = (vdc.raster.ycounter + 1) & 0x0f;
 
-        if (!(vdc.raster.ycounter %2))
+        if (!(vdc.raster.ycounter & 1))
         {
-            /* don't increment on odd raster scanlines */
+            /* Don't increment on odd raster scanlines.  */
             vdc.bitmap_counter += vdc.mem_counter_inc;
         }
     }
-
-    raster_emulate_line(&vdc.raster);
 
     /* Set the next draw event. */
     alarm_set(&vdc.raster_draw_alarm, clk + VDC_CYCLES_PER_LINE() - offset);
@@ -283,7 +287,7 @@ void vdc_resize(void)
 {
     if (!vdc.initialized)
         return;
-
+#if 0
     if (vdc_resources.double_size_enabled)
     {
         if (vdc.raster.viewport.pixel_size.width == 1
@@ -310,6 +314,7 @@ void vdc_resize(void)
         }
         vdc_draw_set_double_size(0);
     }
+#endif
 }
 
 void vdc_set_set_canvas_refresh(int enable)
