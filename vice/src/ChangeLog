@@ -1,3 +1,92 @@
+Sat Jun 20 23:39:53  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c: Added new menu entries to toggle
+	CBM file support.
+
+	* c64/c64mem.c (read_io2): Moved KCS support to `read_io1()'.
+
+	* fsdevice.c: `fsdevice_hide_cbm_files_enabled[]' new variable.
+	Added switch for CBM file support to resources.
+	(flush_fs, read_fs, open_fs): Added support to turn off support
+	for CBM files.
+
+Sat Jun 20 11:35:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/widgets/ScrList.c (Destroy): Do not destroy
+ 	children!  (So, this does nothing at all now.)
+
+	* resources.c (resources_save): Ooops...  Write `num_resources'
+	resources, instead of waiting for the first NULL name.
+
+	* cartridge.c: Changed `cartfile' into a pointer.
+	(set_cartridge_file): Use `string_set' instead of `strcpy' to
+ 	change the value of `cartfile'.
+	(cartridge_attach_image): Likewise.
+	(set_cartridge_type, set_cartridge_file): Return the value of
+ 	`cartridge_attach_image' instead of always zero.
+
+	* drive.c (write_1541): Do not generate an `IPE_WRITE_PROTECT_ON'
+	error if writing to the command channel.
+
+Fri Jun 19 21:43:22 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* Makefile.am: Removed `serial.c' from `c1541_SOURCES'.
+
+	* autostart.c: #Include "fsdevice.h".
+
+	* c1541.c (attach_serial_device): Renamed to
+ 	`serial_attach_device'.
+	* c1541.h: Changed likewise.
+
+Thu Jun 18 13:02:21 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* vic20/vic20sound.c: Changed machine -callbacks to new structure
+ 	(lots of changes).
+
+	* sounddrv/sounddump.c (dump_flush): Dump state to dump-file too.
+
+	* sounddrv/sounddummy.c (dummy_write): New function, does
+	nothing. NULL on write-callbacks are no longer acceptable.
+
+	* sounddrv/sounddump.c (dump_write): New function, does nothing.
+
+	* sound.h (sound_device_t): Added state -info to flush -callback.
+	(sound_run_sound): Removed.
+	(sound_read, sound_store): New prototypes.
+	(sound_machine_store, sound_machine_read,
+	sound_machine_dump_state, sound_machine_prevent_clk_overflow): New
+	machine callbacks.
+
+	* sound.c (sound_run_sound): No longer public function.
+	(sound_flush): Added sound chip state dumping to dump-device
+	output file.
+	(sound_prevent_clk_overflow): Call machine_prevent_clk_overflow().
+	(sound_read): New function. Handles all operations needed when reading
+	from sound chip.
+	(sound_store): New function. Handles all operations needed when
+	writing to sound chip. Reimplemented dump -device support, which
+	was temporarily dropped at sound code reorganization.
+
+	* pet/petsound.c: Added include stdio.h.
+
+	* pet/petsound.c: Changed machine -callbacks to new structure (lots
+	of changes).
+
+	* c64/sid.h: Removed sid_prevent_clk_overflow() prototype. It is now
+	replaced with machine -callback.
+
+	* c64/sid.c: Changed machine -callbacks to new structure (lots of
+ 	changes).
+
+	* c64/c64.c (vsync_hook): Removed sid_prevent_clk_overflow().
+
+	* c128/c128.c (vsync_hook): Replaced sid_prevent_clk_overflow() with
+	sound_prevent_clk_overflow().
+
+	* sounddrv/sounddummy.c (dummy_write): Added write-callback to dummy
+ 	-device. Now this is identical to speed -device, but it's not a big
+	deal.
+
 Wed Jun 17 13:59:22 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/coproc.c (sigignore): Renamed to ignore, do not

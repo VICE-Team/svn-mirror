@@ -511,8 +511,6 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 	if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
 	    return export_ram0[0x1f00 + (addr & 0xff)];
     }
-    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-	return roml_banks[0x1e00 + (addr & 0xff)];
     return rand();
 }
 
@@ -535,6 +533,8 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
         if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
             return rand();
     }
+    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+	return roml_banks[0x1e00 + (addr & 0xff)];
 #ifdef HAVE_RS232
     if (acia_de_enabled)
     	return read_acia1(addr & 0x03);

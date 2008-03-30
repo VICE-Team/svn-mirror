@@ -395,6 +395,10 @@ UI_MENU_DEFINE_TOGGLE(FSDevice8SaveP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
+UI_MENU_DEFINE_TOGGLE(FSDevice8HideCBMFiles)
+UI_MENU_DEFINE_TOGGLE(FSDevice9HideCBMFiles)
+UI_MENU_DEFINE_TOGGLE(FSDevice10HideCBMFiles)
+UI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
 
 static UI_CALLBACK(set_fsdevice_directory)
 {
@@ -650,6 +654,18 @@ static ui_menu_entry_t set_fsdevice_p00_save_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_fsdevice_hide_cbm_files_submenu[] = {
+    { "*Device #8", (ui_callback_t) toggle_FSDevice8HideCBMFiles,
+      NULL, NULL },
+    { "*Device #9", (ui_callback_t) toggle_FSDevice9HideCBMFiles,
+      NULL, NULL },
+    { "*Device #10", (ui_callback_t) toggle_FSDevice10HideCBMFiles,
+      NULL, NULL },
+    { "*Device #11", (ui_callback_t) toggle_FSDevice11HideCBMFiles,
+      NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t serial_settings_submenu[] = {
     { "File system access", NULL, NULL,
       set_file_system_device_submenu },
@@ -659,6 +675,8 @@ static ui_menu_entry_t serial_settings_submenu[] = {
       set_fsdevice_p00_convert_submenu },
     { "Create P00 files on save", NULL, NULL,
       set_fsdevice_p00_save_submenu },
+    { "Hide raw CBM files", NULL, NULL,
+      set_fsdevice_hide_cbm_files_submenu },
     { "--" },
     { "*Disable serial traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
     { NULL }

@@ -108,6 +108,7 @@ extern errortext_t floppy_error_messages;
 
 static int fsdevice_convert_p00_enabled[4];
 static int fsdevice_save_p00_enabled[4];
+static int fsdevice_hide_cbm_files_enabled[4];
 static char *fsdevice_8_dir;
 static char *fsdevice_9_dir;
 static char *fsdevice_10_dir;
@@ -209,6 +210,38 @@ static int set_fsdevice_11_save_p00(resource_value_t v)
     return 0;
 }
 
+static int set_fsdevice_8_hide_cbm_files(resource_value_t v)
+{
+    if (!fsdevice_convert_p00_enabled[0])
+	return -1;
+    fsdevice_hide_cbm_files_enabled[0] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_9_hide_cbm_files(resource_value_t v)
+{
+    if (!fsdevice_convert_p00_enabled[1])
+	return -1;
+    fsdevice_hide_cbm_files_enabled[1] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_10_hide_cbm_files(resource_value_t v)
+{
+    if (!fsdevice_convert_p00_enabled[2])
+	return -1;
+    fsdevice_hide_cbm_files_enabled[2] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_11_hide_cbm_files(resource_value_t v)
+{
+    if (!fsdevice_convert_p00_enabled[3])
+	return -1;
+    fsdevice_hide_cbm_files_enabled[3] = (int) v;
+    return 0;
+}
+
 static resource_t resources[] = {
     { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_convert_p00_enabled[0],
@@ -242,6 +275,18 @@ static resource_t resources[] = {
     { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &fsdevice_save_p00_enabled[3],
       set_fsdevice_11_save_p00 },
+    { "FSDevice8HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[0],
+      set_fsdevice_8_hide_cbm_files },
+    { "FSDevice9HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[1],
+      set_fsdevice_9_hide_cbm_files },
+    { "FSDevice10HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[2],
+      set_fsdevice_10_hide_cbm_files },
+    { "FSDevice11HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[3],
+      set_fsdevice_11_hide_cbm_files },
     { NULL }
 };
 
@@ -450,6 +495,11 @@ void flush_fs(void *flp, int secondary)
 	    if (fd != NULL) {
 		fclose(fd);
 	    } else {
+		if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
+		    fs_error(IPE_NOT_FOUND);
+		    fs_cptr = 0;
+		    return;
+		}
 		strcpy(name1, fsdevice_get_path(floppy->unit));
                 strcat(name1, "/");
 		strcat(name1, arg);
@@ -515,6 +565,11 @@ void flush_fs(void *flp, int secondary)
 		}
 	    } else {
 		/* Rename CBM file.  */
+		if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
+		    fs_error(IPE_NOT_FOUND);
+		    fs_cptr = 0;
+		    return;
+		}
 		strcpy(name1, fsdevice_get_path(floppy->unit));
                 strcat(name1, "/");
 		strcat(name1, arg);
@@ -641,6 +696,9 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      strcpy(rname, dirp->d_name);
 		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
 			  fs_test_pc64_name(flp, rname, secondary);
+			  if (strcmp(rname, dirp->d_name) == 0 
+			  && fsdevice_hide_cbm_files_enabled[floppy->unit - 8])
+			      continue;
 		      if (!*fs_dirmask)
 			  break;
 		      l = strlen(fs_dirmask);
@@ -672,7 +730,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 			 dirp ? rname : NULL);
 #endif
 
-		  if (dirp) {
+		  if (dirp != NULL) {
 		      BYTE *p = info->name;
 		      char *tp;
 
@@ -1070,6 +1128,11 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    fs_error(IPE_OK);
 	    return FLOPPY_COMMAND_OK;
 	} else {
+	    if (fsdevice_hide_cbm_files_enabled[floppy->unit - 8]) {
+		fclose(fd);
+		fs_error(IPE_NOT_FOUND);
+		return FLOPPY_ERROR;
+	    }
 	    fs_info[secondary].fd = fd;
 	    fs_error(IPE_OK);
 	    return FLOPPY_COMMAND_OK;
