@@ -65,13 +65,7 @@ static void vdc_perform_fillcopy(void)
             vdc.ram[(ptr + i) & vdc.vdc_address_mask] = vdc.regs[31];
     }
 
-/*
-    if (ptr < 0x0800 && vdc.regs[31] >= 0x20)
-        log_message(LOG_DEFAULT, "WRITE %04x %02x %c",
-                    vdc.ram[ptr & vdc.vdc_address_mask],
-                    vdc.regs[31], vdc.regs[31]);
-*/
-    ptr = (ptr + blklen) & vdc.vdc_address_mask;
+    ptr = ptr + blklen;
     vdc.regs[18] = (ptr >> 8) & 0xff;
     vdc.regs[19] = ptr & 0xff;
     vdc.regs[30] = 0;
@@ -87,11 +81,6 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
 /*
     log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);
-*/
-/*
-    if (addr & 0x1) {
-       log_message(vdc.log, "ST: %x %c\tJF: %i.", value, value, jiffy++);
-    }
 */
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0)
@@ -155,24 +144,27 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 10:			/* R10  Cursor Mode, Start Scan */
-/*
-        crsrstart = value & 0x1f;
-        value = ((value >> 5) & 0x03) ^ 0x01;
-        if (crsr_enable && (crsrmode != value)) {
-          crsrmode = value;
-          crsrstate = 1;
-          crsrcnt = 16;
-	  crsr_set_dirty();
+        switch (value & 0x60) {
+          case 0x00:
+          vdc.cursor_visible = 1;
+          vdc.cursor_freqency = 0;
+          break;
+          case 0x20:
+          vdc.cursor_visible = 0;
+          vdc.cursor_freqency = 0;
+          break;
+          case 0x40:
+          vdc.cursor_visible = 1;
+          vdc.cursor_freqency = 16;
+          break;
+          case 0x60:
+          vdc.cursor_visible = 1;
+          vdc.cursor_freqency = 32;
+          break;
         }
-*/
         break;
 
-      case 11:			/* R11  Cursor (not implemented on the PET) */
-/*
-	crsr_set_dirty();
-        crsrend = value & 0x1f;
-	crsr_set_dirty();
-*/
+      case 11:			/* R11  Cursor */
         break;
 
       case 12:			/* R12  Display Start Address hi */
@@ -183,21 +175,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 14:
-/*
-	crsr_set_dirty();
-        crsrpos = ((crsrpos & 0x00ff) | ((value << 8) & 0x3f00)) & addr_mask;
-        crsrrel = crsrpos - scrpos;
-	crsr_set_dirty();
-*/
-        break;
-
-      case 15:			/* R14-5 Cursor location HI/LO -- unused */
-/*
-	crsr_set_dirty();
-        crsrpos = ((crsrpos & 0x3f00) | (value & 0xff)) & addr_mask;
-        crsrrel = crsrpos - scrpos;
-	crsr_set_dirty();
-*/
+      case 15:                  /* R14-5 Cursor location HI/LO */
+        vdc.crsrpos = ((vdc.regs[14] << 8) | vdc.regs[15])
+                      & vdc.vdc_address_mask;;
         break;
 
       case 16:			/* R16/17 Light Pen hi/lo */
@@ -231,7 +211,8 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 28:
-        vdc.chargen_adr = (vdc.regs[28] << 8) & 0xe000; 
+        vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000)
+                          & vdc.vdc_address_mask;
         log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
         break;
 

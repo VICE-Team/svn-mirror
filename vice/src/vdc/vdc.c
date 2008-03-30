@@ -4,6 +4,7 @@
  * Written by
  *  Markus Brenner <markus@brenner.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -157,6 +158,9 @@ void vdc_reset(void)
 {
     raster_reset(&vdc.raster);
     vdc.regs[0] = 49;
+    vdc.cursor_visible = 0;
+    vdc.cursor_freqency = 0;
+    vdc.cursor_counter = 0;
     alarm_set(&vdc.raster_draw_alarm, VDC_CYCLES_PER_LINE());
 }
 
@@ -173,7 +177,6 @@ void vdc_powerup(void)
 /* Handle the exposure event. */
 void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
-    log_message(vdc.log, "exposure_handler");
     raster_resize_viewport(&vdc.raster, width, height);
     /* FIXME: Needed? Maybe this should be triggered by
       `raster_resize_viewport()' automatically. */
@@ -203,6 +206,14 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
         vdc.mem_counter = 0;
         vdc.bitmap_counter = 0 - vdc.mem_counter_inc;
         vdc.raster.ycounter = 0 - 1;
+
+        if (vdc.cursor_freqency > 0) {
+            if (vdc.cursor_counter == 0) {
+                vdc.cursor_visible ^= 1;
+                vdc.cursor_counter = vdc.cursor_freqency;
+            }
+            vdc.cursor_counter--;
+        }
     }
 
 #ifdef __MSDOS__
