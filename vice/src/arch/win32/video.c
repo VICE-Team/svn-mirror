@@ -789,6 +789,9 @@ error:
 /* Destroy `s'.  */
 void canvas_destroy(canvas_t *c)
 {
+    if (c == NULL)
+        return;
+
     DestroyWindow(c->hwnd);
     free(c->title);
     free(c);

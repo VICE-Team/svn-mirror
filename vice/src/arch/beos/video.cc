@@ -158,8 +158,12 @@ canvas_t *canvas_create(const char *title, unsigned int *width,
 /* Destroy `s'.  */
 void canvas_destroy(canvas_t *c)
 {
+	if (c == NULL)
+		return;
+
 	delete c->vicewindow;
 	free(c->title);
+	free(c);
 }
 
 /* Make `s' visible.  */
