@@ -41,6 +41,7 @@ int tcbm_drive_resources_init(void)
 
 void tcbm_drive_init(struct drive_context_s *drv)
 {
+    tcbmrom_init();
     tia1551_init(drv);
     glue1551_init(drv);
 }
@@ -60,9 +61,28 @@ void tcbm_drive_setup_context(struct drive_context_s *drv)
 {
 }
 
+void tcbm_drive_rom_load(void)
+{
+    tcbmrom_load_1551();
+}
+
+void tcbm_drive_rom_setup_image(unsigned int dnr)
+{
+    tcbmrom_setup_image(dnr);
+}
+
+int tcbm_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+{
+    return tcbmrom_read(type, addr, data);
+}
+
 int tcbm_drive_rom_check_loaded(unsigned int type)
 {
     return tcbmrom_check_loaded(type);
+}
+
+void tcbm_drive_rom_do_checksum(unsigned int dnr)
+{
 }
 
 int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,

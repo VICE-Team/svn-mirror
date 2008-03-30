@@ -43,6 +43,7 @@ int iec_drive_resources_init(void)
 
 void iec_drive_init(struct drive_context_s *drv)
 {
+    iecrom_init();
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
@@ -76,9 +77,32 @@ void iec_drive_handle_job_code(unsigned int dnr)
     wd1770_handle_job_code(dnr);
 }
 
+void iec_drive_rom_load(void)
+{
+    iecrom_load_1541();
+    iecrom_load_1541ii();
+    iecrom_load_1571();
+    iecrom_load_1581();
+}
+
+void iec_drive_rom_setup_image(unsigned int dnr)
+{
+    iecrom_setup_image(dnr);
+}
+
+int iec_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+{
+    return iecrom_read(type, addr, data);
+}
+
 int iec_drive_rom_check_loaded(unsigned int type)
 {
     return iecrom_check_loaded(type);
+}
+
+void iec_drive_rom_do_checksum(unsigned int dnr)
+{
+    iecrom_do_checksum(dnr);
 }
 
 int iec_drive_snapshot_read(struct drive_context_s *ctxptr,

@@ -43,6 +43,7 @@ int ieee_drive_resources_init(void)
 
 void ieee_drive_init(struct drive_context_s *drv)
 {
+    ieeerom_init();
     fdc_init(drv);
     riot1_init(drv);
     riot2_init(drv);
@@ -66,9 +67,32 @@ void ieee_drive_setup_context(struct drive_context_s *drv)
     riot2_setup_context(drv);
 }
 
+void ieee_drive_rom_load(void)
+{
+    ieeerom_load_2031();
+    ieeerom_load_2040();
+    ieeerom_load_3040();
+    ieeerom_load_4040();
+    ieeerom_load_1001();
+}
+
+void ieee_drive_rom_setup_image(unsigned int dnr)
+{
+    ieeerom_setup_image(dnr);
+}
+
+int ieee_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+{
+    return ieeerom_read(type, addr, data);
+}
+
 int ieee_drive_rom_check_loaded(unsigned int type)
 {
     return ieeerom_check_loaded(type);
+}
+
+void ieee_drive_rom_do_checksum(unsigned int dnr)
+{
 }
 
 int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,

@@ -65,12 +65,35 @@ void machine_drive_handle_job_code(unsigned int dnr)
 
 }
 
+void machine_drive_rom_load(void)
+{
+    ieee_drive_rom_load();
+}
+
+void machine_drive_rom_setup_image(unsigned int dnr)
+{
+    ieee_drive_rom_setup_image(dnr);
+}
+
+int machine_drive_rom_read(unsigned int type, ADDRESS addr, BYTE *data)
+{
+    if (ieee_drive_rom_read(type, addr, data) == 0)
+        return 0;
+
+    return -1;
+}
+
 int machine_drive_rom_check_loaded(unsigned int type)
 {
     if (ieee_drive_rom_check_loaded(type) == 0)
         return 0;
 
     return -1;
+}
+
+void machine_drive_rom_do_checksum(unsigned int dnr)
+{
+    ieee_drive_rom_do_checksum(dnr);
 }
 
 int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
