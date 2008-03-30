@@ -1455,10 +1455,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         ui_message("Default settings restored.");
         break;
       case IDM_EVENT_DIRECTORY:
-        uilib_select_file(hwnd, TEXT("Select directory for event history"), 
+        uilib_select_file(hwnd, TEXT("Select start snapshot for event history"), 
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
-                          UILIB_SELECTOR_TYPE_DIR_EXIST,
-                          UILIB_SELECTOR_STYLE_EVENT);
+                          UILIB_SELECTOR_TYPE_FILE_SAVE,
+                          UILIB_SELECTOR_STYLE_EVENT_START);
+        uilib_select_file(hwnd, TEXT("Select end snapshot for event history"), 
+                          UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
+                          UILIB_SELECTOR_TYPE_FILE_SAVE,
+                          UILIB_SELECTOR_STYLE_EVENT_END);
         break;
       case IDM_EVENT_TOGGLE_RECORD:
         {

@@ -129,7 +129,7 @@ static void SetStatusWindowParts(HWND hwnd)
     SendMessage(hwnd, SB_SETPARTS, last_part, (LPARAM)posx);
     SendMessage(hwnd, SB_SETTEXT, disk_update_part|SBT_OWNERDRAW,0);
     SendMessage(hwnd, SB_SETTEXT, 1|SBT_OWNERDRAW, 0);
-    SendMessage(hwnd, SB_SETTEXT, last_part - 1|SBT_OWNERDRAW,0);
+    SendMessage(hwnd, SB_SETTEXT, (last_part - 1)|SBT_OWNERDRAW,0);
 
     lib_free(posx);
 }

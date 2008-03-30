@@ -546,11 +546,13 @@ int tfe_deactivate(void) {
     log_message( tfe_log, "tfe_deactivate()." );
 #endif
 
-    if (should_activate) {
+    if (should_activate)
         should_activate = 0;
+    else {
         if (tfe_log != LOG_ERR)
             return tfe_deactivate_i();
     }
+
     return 0;
 }
 
@@ -1410,19 +1412,12 @@ int set_tfe_rr_net(resource_value_t v, void *param)
             if (tfe_as_rr_net) {
                 tfe_as_rr_net = 0;
             }
-            c64export_remove(&export_res);
             return 0;
         } else { 
-            if (c64export_query(&export_res) < 0)
-                return -1;
-
             if (!tfe_as_rr_net) {
                 tfe_as_rr_net = 1;
-				tfe_enabled = 1;
+                tfe_enabled = 1;
             }
-
-            if (c64export_add(&export_res) < 0)
-                return -1;
 
             /* virtually reset the LAN chip */
             tfe_reset();
@@ -1439,10 +1434,10 @@ int set_tfe_enabled(resource_value_t v, void *param)
     if (!tfe_cannot_use) {
 
         if (!(int)v) {
-		    /* TFE should be deactived */
+            /* TFE should be deactived */
             if (tfe_enabled) {
                 tfe_enabled = 0;
-				tfe_as_rr_net = 0;
+                c64export_remove(&export_res);
                 if (tfe_deactivate() < 0) {
                     return -1;
                 }
@@ -1450,10 +1445,17 @@ int set_tfe_enabled(resource_value_t v, void *param)
             return 0;
         } else { 
             if (!tfe_enabled) {
+                if (c64export_query(&export_res) < 0)
+                    return -1;
+
                 tfe_enabled = 1;
                 if (tfe_activate() < 0) {
                     return -1;
                 }
+
+                if (c64export_add(&export_res) < 0)
+                    return -1;
+
             }
 
             return 0;

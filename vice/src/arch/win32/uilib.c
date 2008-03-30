@@ -93,6 +93,7 @@ struct uilib_fs_style_type_s {
     LPOFNHOOKPROC hook_proc;
     int TemplateID;
     char *initialdir_resource;
+    char *file_resource;
 };
 typedef struct uilib_fs_style_type_s uilib_fs_style_type_t;
 
@@ -108,28 +109,31 @@ static char *read_disk_or_tape_image_contents(const char *name);
 static uilib_fs_style_type_t styles[UILIB_SELECTOR_STYLES_NUM + 1] = {
     /* UILIB_SELECTOR_STYLE_DEFAULT */
     { NULL,
-      NULL, 0, "InitialDefaultDir" },
+      NULL, 0, "InitialDefaultDir", NULL },
     /* UILIB_SELECTOR_STYLE_TAPE */
     { read_tape_image_contents,
-      tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir" },
+      tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK */
     { read_disk_image_contents,
-      hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir" },
+      hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir", NULL },
     /* UILIB_SELECTOR_STYLE_DISK_AND_TAPE */
     { read_disk_or_tape_image_contents,
-      hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir"},
+      hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir", NULL },
     /* UILIB_SELECTOR_STYLE_CART */
     { NULL,
-      NULL, 0, "InitialCartDir" },
+      NULL, 0, "InitialCartDir", NULL },
     /* UILIB_SELECTOR_STYLE_SNAPSHOT */
     { NULL,
-      NULL, 0, "InitialSnapshotDir" },
-    /* UILIB_SELECTOR_STYLE_EVENT */
+      NULL, 0, "InitialSnapshotDir", NULL },
+    /* UILIB_SELECTOR_STYLE_EVENT_START */
     { NULL,
-      NULL, 0, "EventSnapshotDir" },
+      NULL, 0, "EventSnapshotDir", "EventStartSnapshot" },
+    /* UILIB_SELECTOR_STYLE_EVENT_END */
+    { NULL,
+      NULL, 0, "EventSnapshotDir", "EventEndSnapshot"  },
     /* DUMMY entry Insert new styles before this */
     { NULL,
-      NULL, 0, NULL }
+      NULL, 0, NULL, NULL }
 };
 
 static TCHAR *ui_file_selector_initialfile[UILIB_SELECTOR_STYLES_NUM];
@@ -594,7 +598,8 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
 {
     TCHAR st_name[1024];
     char name[1024];
-    char *initialdir;
+    char *initialdir = NULL;
+    char *initialfile;
     TCHAR *filter;
     DWORD filterindex;
     OPENFILENAME ofn;
@@ -605,13 +610,18 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
         resources_get_value(styles[style].initialdir_resource,
             (void *)&initialdir);
 
-    if (ui_file_selector_initialfile[style] != NULL)
-        _tcscpy(st_name, ui_file_selector_initialfile[style]);
-
     if (type == UILIB_SELECTOR_TYPE_DIR_EXIST)
         _tcscpy(st_name, TEXT("FilenameNotUsed"));
     else
         _tcscpy(st_name, TEXT(""));
+
+    initialfile = ui_file_selector_initialfile[style];
+    if (styles[style].file_resource != NULL)
+        resources_get_value(styles[style].file_resource,
+            (void *)&initialfile);
+
+    if (initialfile != NULL)
+        _tcscpy(st_name, initialfile);
 
     if (fontfile == NULL) {
         fontfile = util_concat(archdep_boot_path(), 
@@ -669,16 +679,20 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
     update_filter_history(ofn.nFilterIndex);
 
     if (result) {
-        char *tmp;
+        char *tmpdir, *tmpfile;
 
         if (ui_file_selector_initialfile[style] != NULL)
             lib_free(ui_file_selector_initialfile[style]);
         system_wcstombs(name, st_name, 1024);
-        util_fname_split(name, &initialdir, &tmp);
-        ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmp);
-        lib_free(tmp);
-        resources_set_value(styles[style].initialdir_resource, initialdir);
+        util_fname_split(name, &tmpdir, &tmpfile);
+        if (styles[style].file_resource != NULL)
+            resources_set_value(styles[style].file_resource, tmpfile);
+        ui_file_selector_initialfile[style] = system_mbstowcs_alloc(tmpfile);
+        resources_set_value(styles[style].initialdir_resource, tmpdir);
         ret = system_wcstombs_alloc(st_name);
+
+        lib_free(tmpdir);
+        lib_free(tmpfile);
     }
 
     lib_free(filter);

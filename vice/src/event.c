@@ -3,7 +3,8 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *
+ *  Andreas Matthies <aDOTmatthiesATgmxDOTnet>
+ *  
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -283,12 +284,13 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_SAVE:
         if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
                                     1, 1, 0) < 0) {
-            ui_error(_("Could not create start snapshot file."));
+            ui_error(_("Could not create start snapshot file %s."), 
+                        event_snapshot_path(event_start_snapshot));
+            ui_display_recording(0);
             return;
         }
         destroy_list();
         create_list();
-        record_active = 1;
         event_initial_write();
         last_timestamp_alarm = maincpu_clk;
         current_timestamp = 0;
@@ -296,11 +298,11 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_LOAD:
         if (machine_read_snapshot(
                 event_snapshot_path(event_end_snapshot), 1) < 0) {
-            ui_error(_("Error reading end snapshot file."));
+            ui_error(_("Error reading end snapshot file %s."),
+                        event_snapshot_path(event_end_snapshot));
             return;
         }
         warp_end_list();
-        record_active = 1;
         last_timestamp_alarm = maincpu_clk;
         current_timestamp = playback_time;
         break;
@@ -308,7 +310,6 @@ static void event_record_start_trap(WORD addr, void *data)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         destroy_list();
         create_list();
-        record_active = 1;
         event_initial_write();
         last_timestamp_alarm = 0;
         current_timestamp = 0;
@@ -317,6 +318,8 @@ static void event_record_start_trap(WORD addr, void *data)
         log_error(event_log, "Unknown event start mode %i", event_start_mode); 
         return;
     }
+
+    record_active = 1;
 
 #ifdef  DEBUG
     debug_start_recording();
@@ -346,7 +349,8 @@ static void event_record_stop_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
             event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-        ui_error(_("Could not create end snapshot file."));
+        ui_error(_("Could not create end snapshot file %s."),
+                    event_snapshot_path(event_end_snapshot));
         return;
     }
     record_active = 0;
@@ -404,7 +408,9 @@ static void event_playback_start_trap(WORD addr, void *data)
         event_snapshot_path(event_end_snapshot), &major, &minor, machine_name);
 
     if (s == NULL) {
-        ui_error(_("Could not open end snapshot file."));
+        ui_error(_("Could not open end snapshot file %s."), 
+                    event_snapshot_path(event_end_snapshot));
+        ui_display_playback(0);
         return;
     }
 
@@ -414,6 +420,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
         ui_error(_("Could not find event section in end snapshot file."));
+        ui_display_playback(0);
         return;
     }
 
@@ -427,8 +434,15 @@ static void event_playback_start_trap(WORD addr, void *data)
           case EVENT_START_MODE_FILE_SAVE:
             /*log_debug("READING %s", (char *)(&data[1]));*/
             if (machine_read_snapshot(
-                    event_snapshot_path((char *)(&data[1])), 0) < 0) {
-                ui_error(_("Error reading start snapshot file."));
+                    event_snapshot_path((char *)(&data[1])), 0) < 0
+                && machine_read_snapshot(
+                    event_snapshot_path(event_start_snapshot), 0) < 0)
+            {
+                char *st = lib_stralloc(event_snapshot_path((char *)(&data[1])));
+                ui_error(_("Error reading start snapshot file. Tried %s and %s"),
+                            st, event_snapshot_path(event_start_snapshot));
+                lib_free(st);
+                ui_display_playback(0);
                 return;
             }
             next_current_list();
@@ -446,6 +460,7 @@ static void event_playback_start_trap(WORD addr, void *data)
         if (machine_read_snapshot(
                 event_snapshot_path(event_start_snapshot), 0) < 0) {
             ui_error(_("Error reading start snapshot file."));
+            ui_display_playback(0);
             return;
         }
         next_alarm_set();
@@ -497,7 +512,8 @@ static void event_record_set_milestone_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
         event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-            ui_error(_("Could not create end snapshot file."));
+            ui_error(_("Could not create end snapshot file %s."),
+                        event_snapshot_path(event_end_snapshot));
     } else {
         milestone_timestamp_alarm = last_timestamp_alarm;
         milestone_timestamp = current_timestamp;
@@ -522,7 +538,8 @@ static void event_record_reset_milestone_trap(WORD addr, void *data)
 
     if (machine_read_snapshot(
             event_snapshot_path(event_end_snapshot), 1) < 0) {
-        ui_error(_("Error reading end snapshot file."));
+        ui_error(_("Error reading end snapshot file %s."),
+                    event_snapshot_path(event_end_snapshot));
         return;
     }
     warp_end_list();

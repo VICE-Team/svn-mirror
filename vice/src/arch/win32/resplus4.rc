@@ -107,7 +107,7 @@ BEGIN
             MENUITEM "&Load existing snapshot", IDM_EVENT_RECORDMODE_LOAD
             MENUITEM "Start with &reset",       IDM_EVENT_RECORDMODE_RESET
         END
-        MENUITEM "Select History directory",    IDM_EVENT_DIRECTORY
+        MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
     END
