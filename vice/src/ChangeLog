@@ -1,3 +1,190 @@
+1998-10-05  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.18.
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_reset): Set `last_clk' to the
+ 	current value of `clk' so that the drive reset happens
+ 	immediately.
+	(mydrive_cpu_execute): As a safety measure, if the new clk is
+	lower than the old clk, don't do anything.
+
+	* arch/unix/xaw/ui.c (ui_open_canvas_window): Track display label
+ 	made larger.
+
+	* sid/Makefile.am (INCLUDES): Removed `RESID_INCLUDES'.
+
+1998-10-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128iec.c (iec_drive_write): Split to `iec_drive0_write()'
+	and `iec_drive1_write()'.
+	(iec_drive_read): Split to `iec_drive0_read()' and
+	`iec_drive1_read()'.
+	* c610/c610iec.c: Likewise.
+	* c64/c64iec.c: Likewise.
+	* pet/petiec.c: Likewise.
+	* vic20/vic20iec.c: Likewise.
+
+	* c64/Makefile.am: Updated `BUILT_SOURCES'.
+	* pet/Makefile.am: Updated `BUILT_SOURCES'.
+
+	* drive/cia1581drive0.def (STORE_CIAPB): Use `iec_drive0_write()'.
+	(READ_CIAPB): Use `iec_drive0_read()'.
+	* drive/cia1581drive1.def: Changed likewise.
+
+	* drive/via1drive0.def (UNDUMP_PRB, STORE_PRB, READ_PRB): Use new
+	drive IEC functions.
+	* drive/via1drive1.def: Likewise.
+
+	* iecdrive.h: New functions `iec_drive0_write',
+	`iec_drive0_write', `iec_drive0_read' and `iec_drive1_read'.
+
+	* vic20/vic20iec.c: Added new status signals for the second drive.
+	(resolve_bus_signals): Use status signals of both drives to
+	calculate the bus value.
+	(iec_pa_write, iec_pcr_write): Also calculate data modifier for
+	the second drive.
+
+	* c128/c128iec.c (iec_cpu_write): Do not calculate IEC bus when a
+	parallel drive is enabled. 
+	* c64/c64iec.c (iec_cpu_write): Changed likewise.
+
+	* drive/drive.c (set_drive0_idling_method): Set idle method before
+	inserting traps.  Also remove ROM checksum patch when no idle trap
+	is selected.
+	(set_drive1_idling_method): Changed likewise.
+	(drive_initialize_rom_traps): Also save ROM checksum routine.
+
+	* drive/drive.h: Added new member `rom_checksum' to `drive_t'.
+
+1998-10-05  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c (ui_create_main_menu): Added snapshot
+ 	submenu.
+
+	* arch/msdos/uisnapshot.h: New file.
+
+	* arch/msdos/uisnapshot.c: New file.
+
+	* arch/msdos/tuimenu.c (tui_menu_handle): Let the menu item
+ 	callback override the default behavior using the `behavior'
+ 	parameter.
+	(tui_menu_call_callback): New parameter `behavior': if not NULL,
+ 	pass it to the menu callback; if NULL, pass a pointer to a dummy
+ 	variable instead.
+	
+	* arch/msdos/tuimenu.h: Added parameter `behavior' to
+ 	`tui_menu_callback_t'.
+	(TUI_MENU_CALLBACK): Updated #definition likewise.
+
+	* c64/c64mem.c: #include "ui.h".
+
+	* utils.c (file_exists_p): New function.
+
+	* arch/unix/xaw/uisettings.c: 40-track and parallel cable submenus
+ 	made common to both drives.
+
+1998-10-04  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* acia-tmpl.c (rs232_open): Made non-static.
+	(rs232_close): Made non-static.
+	(rs232_putc): Made non-static.
+	(rs232_getc): Made non-static.
+
+	* c128/c128mem.h: #include "types.h".
+
+	* vic20/vic20.c: #include <unistd.h>.
+
+	* c128/c128.c: #include <unistd.h>.
+	(machine_write_snapshot): Removed bogus variable `rval'.
+
+	* arch/unix/xaw/uisnapshot.c (save_callback): Pass the
+	`save_disks' and `save_roms' flags to `machine_write_snapshot()'.
+
+	* c64/c64.c (machine_write_snapshot): New parameters `save_roms',
+ 	`save_disks'.
+	* pet/pet.c (machine_write_snapshot): Likewise.
+	* c128/c128.c (machine_write_snapshot): Likewise.
+	* vic20/vic20.c (machine_write_snapshot): Likewise.
+
+	* drive/drive.c (drive_write_snapshot_module): New parameter
+ 	`save_disks'.  If zero, don't save GCR images in the snapshot.
+
+	* arch/unix/xaw/uisnapshot.c (build_snapshot_dialog): Only
+ 	possible settings for the "Save disk" option are "On" and "Off".
+	(save_callback): Updated accordingly.
+	
+	* c610/c610.c: `machine_name' changed to "CBM-II".
+
+	* Makefile.am (LINK): Define to `@LINKCC@ $(CFLAGS) $(INCLUDES)
+ 	$(CPPFLAGS)'.
+
+	* c64/Makefile.am (INCLUDES): Do not include `RESID_INCLUDES'.
+
+1998-10-04  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* configure.in: add data/DRIVES to list of subdirectories
+
+	* data/C128/Makefile.am, data/C64/Makefile.am,
+ 	data/VIC20/Makefile.am, data/PET/Makefile.am,
+ 	data/C610/Makefile.am, data/DRIVES/Makefile.am: move dos ROM
+ 	images from emulator directories to DRIVES directory
+
+	* data/C610/busi_uk.vkm: fixup keyboard mapping
+
+	* data/Makefile.am: add DRIVES subdirectory
+
+	* acia-tmpl.c (myacia_irq_res, myacia_set_irq): use a special int
+ 	variable instead of the IRQ IK_* value directly for the resource
+
+	* arch/msdos/c610kbd.c (c610_keyboard): fix C610 keyboard table
+
+	* arch/unix/print.c (print_open): use append mode instead of 
+	overwrite mode
+
+	* arch/unix/xaw/c610ui.c (c610_modelline_submenu) new submenu for
+ 	the hardware swtiches
+
+	* arch/unix/xaw/uisettings.c (acia1_irq_submenu): use ints instead
+	of IK_* values
+	(radio_Drive8Type, radio_Drive9Type): modelled after the 
+	UI_MENU_DEFINE_RADIO(), but greys out the entry if drive
+	does not work on the available bus.
+
+	* c128/c128iec.c, c64/c64iec.c, pet/petiec.c, c610/c610iec.c, 
+	vic20/vic20iec.c, iecdrive.h (iec_available_busses): new function 
+	that returns a value to tell if serial IEC and/or parallel IEEE 
+	handling is available.
+
+	* c610/c610mem.c (cbm2_model_line, set_cbm2_model_line): new
+ 	functions to handle hardware switch of the CBM-II models
+	(resources): change default for chargen from "chargen" to
+ 	"chargen.600", ModelLine as nwe resource and default to 50Hz C6x0.
+	(cmdline_options): -modelline new option
+	(modtab): add line entry to struct for modelline; add C7x0 models.
+	(cbm2_set_model): set modelline when setting model
+
+	* c610/c610tpi2.def (cbm2_model_port_mask,
+ 	set_cbm2_model_port_mask): set the hardware switches for the
+ 	CBM-II model
+
+	* c610/crtc.h, pet/crtc.h (CRTC_SCREEN_CHARHEIGHT): define to 
+	screen_charheight.
+
+	* crtc-tmpl.c (store_crtc): set screen_charheight appropriately 
+	
+	* drive/drive.c (set_drive0_type, set_drive1_type): if drive
+	to be set is not availbale (due to incompatible bus) set default
+	for the available bus
+	(drive_match_bus): match the drive type with the available bus
+
+	* drive/drive.h (drive_match_bus): new prototype
+
+	* fsdevice.c (resources): change default for FSDevice11SaveP00
+	to not create P00 files
+
+	* sysfile.c (sysfile_init): add data/DRIVE to system file search
+	path
+	
 1998-10-02  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.17.

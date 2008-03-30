@@ -382,7 +382,7 @@ void drive1_cpu_reset(void)
     int preserve_monitor;
 
     drive_clk[1] = 0;
-    last_clk = 0;
+    last_clk = clk;
     last_exc_cycles = 0;
 
     preserve_monitor = drive1_int_status.global_pending_int & IK_MONITOR;
@@ -474,7 +474,10 @@ void drive1_cpu_execute(void)
 	old_reg_pc = reg_pc;
     }
 
-    cycles = clk - last_clk;
+    if (clk > last_clk)
+        cycles = clk - last_clk;
+    else
+        cycles = 0;
 
     while (cycles > 0) {
 	CLOCK stop_clk;
