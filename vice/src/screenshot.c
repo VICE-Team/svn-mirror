@@ -26,10 +26,15 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 #include "log.h"
 #include "machine.h"
+#include "palette.h"
 #include "screenshot.h"
 #include "utils.h"
+#include "video.h"
 
 struct screendrv_list_s {
     struct screendrv_s *drv;
@@ -60,6 +65,8 @@ int screenshot_init(void)
     return 0;
 }
 
+/*-----------------------------------------------------------------------*/
+
 int screenshot_register(screendrv_t *drv)
 {
     screendrv_list_t *current;
@@ -79,9 +86,45 @@ int screenshot_register(screendrv_t *drv)
     return 0;
 }
 
+void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
+                          unsigned int line, unsigned int mode)
+{
+    unsigned int i;
+    PIXEL *line_base;
+    PIXEL color;
+
+    if (line > screenshot->height) {
+        log_error(screenshot_log, "Invalild line `%i' request.", line);
+        return;
+    }
+
+    line_base = VIDEO_FRAME_BUFFER_LINE_START((screenshot->frame_buffer), line);
+
+    switch (mode) {
+      case SCREENSHOT_MODE_PALETTE:
+        for (i = 0; i < screenshot->width; i++)
+            data[i] = screenshot->color_map[line_base[i]];
+        break;
+      case SCREENSHOT_MODE_RGB32:
+        for (i = 0; i < screenshot->width; i++) {
+            color = screenshot->color_map[line_base[i]];
+            data[i * 4] = screenshot->palette->entries[color].red;
+            data[i * 4 + 1] = screenshot->palette->entries[color].green;
+            data[i * 4 + 2] = screenshot->palette->entries[color].blue;
+            data[i * 4 + 3] = 0;
+        }
+        break;
+      default:
+        log_error(screenshot_log, "Invalid mode %i.", mode);
+    }
+}
+
+/*-----------------------------------------------------------------------*/
+
 int screenshot_save(const char *drvname, const char *filename,
                     unsigned int window_number)
 {
+    unsigned int i;
     screenshot_t screenshot;
     screendrv_list_t *current;
 
@@ -90,6 +133,7 @@ int screenshot_save(const char *drvname, const char *filename,
     while (current->next != NULL) {
        if (strcmp(drvname, current->drv->name) == 0)
            break;
+       current = current->next;
     }
 
     /* Requested screenshot driver is not registered.  */
@@ -105,11 +149,19 @@ int screenshot_save(const char *drvname, const char *filename,
         return -1;
     }
 
+    screenshot.color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
+    memset(screenshot.color_map, 0, 256 * sizeof(PIXEL));
+
+    for (i = 0; i < screenshot.palette->num_entries; i++)
+        screenshot.color_map[screenshot.pixel_table_sing[i]] = i;
+
     if ((current->drv->save)(&screenshot, filename) < 0) {
         log_error(screenshot_log, "Saving failed...");
+        free(screenshot.color_map);
         return -1;
     }
 
+    free(screenshot.color_map);
     return 0;
 }
 
