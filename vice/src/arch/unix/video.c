@@ -378,7 +378,7 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 #if X_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
     if (depth == 8) {
-	i->tmpframebuffer = i->x_image->data;
+	i->tmpframebuffer = (PIXEL *) i->x_image->data;
 	i->tmpframebufferlinesize = i->x_image->bytes_per_line;
 	_convert_func = NULL;
     } else {
