@@ -346,7 +346,8 @@ riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
 tia1551.o: tia1551.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h drivetypes.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/snapshot.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h
+	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
+	../../src/iecdrive.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
 	../../src/log.h drivecpu.h drivetypes.h ../../src/ciatimer.h \

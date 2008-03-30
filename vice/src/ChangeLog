@@ -1,3 +1,40 @@
+2002-02-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.15.
+
+	* c64/c64mem.c (ram_hi_store): Only propagate stores to the
+	vbank if vbank 3 is active.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011): If
+	a forced DMA switches to display state override the blank flag
+	in case the store that causes the DMA sets the blank bit
+	again.
+
+	* vicii/vicii.c (vic_ii_raster_draw_alarm_handler): Clear the
+	blank override flag at line zero.
+
+	* raster/raster.c (raster_emulate_line): Switch off blanking
+	at `display_ystart' if the blank override flag is set too.
+	(raster_reset): Initialize `blank_off' bit.
+
+	* raster/raster.h: Added new member `blank_off' to
+	`struct raster_t'
+
+	* plus4/tcbm.c, plus4/tcbm.h: TCBM implementation.
+
+	* iecdrive.h, c64/c64iec.c, c128/c128iec.c, vic20/vic20iec.c,
+	pet/petiec.c, cbm2/c610iec.c: Added some stubs.
+
+	* drive/tia1551.c, drive/tia1551.h: Interface to TCBM bus.
+
+	* arch/unix/readline/editline.c,
+	arch/unix/readline/editline2.c: Removed `^L'.
+
+2002-02-10 Tibor Biczo <crown@axelero.hu> 
+
+	* plus4/plus4mem.c (mem_proc_port_read): Mask in IEC inputs
+	correctly. 
+      
 2002-02-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.14.
@@ -240,7 +277,6 @@
 	* arch/unix/plus4ui.c: Added PAL Emulation submenu.
 	* arch/unix/vic20ui.c: Likewise.
 
-
 	* arch/unix/Makefile.am (libarch_a_SOURCES): Added
 	`uipalemu.[ch]'. 
 
@@ -290,17 +326,17 @@
 
 2002-02-01  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
 
-	* src/arch/os2/config.h:
+	* arch/os2/config.h:
 	- fixed a bug in defining HAVE_MOUSE
     
-	* src/arch/os2/video.c:
+	* arch/os2/video.c:
 	- added an automatic depth detection
 	- added some more color formats
 	- added some debug output in case of a failing of
 	DiveSetupBlitter or DiveBlit
 	- added some more security checks in canvas_refresh
     
-	* src/raster/raster.c:
+	* raster/raster.c:
 	- simplified many parts of the code exspecially
 	raster_emulate_line, and raster_resize_viewport (I'm sorry,
 	this part cannot be tested by me, please check whether
