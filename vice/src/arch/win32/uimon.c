@@ -692,8 +692,6 @@ VOID iWindowStore( HWND hwnd, BYTE **p )
 {
     LONG WindowType = WT_CONSOLE;
 
-	UIM_DEBUG(( "UIMON.C: +++ called WindowStoreProc %8lx", (LONG) hwnd ));
-
     SendMessage( hwnd, WM_GETWINDOWTYPE, 0, (LPARAM) &WindowType );
 
     SetNextMonitorDimensions( hwnd, WindowType, p );
@@ -707,7 +705,6 @@ VOID WindowStore( BYTE **p )
 {
 	while (nHwndStack--)
 	{
-		UIM_DEBUG(( "UIMON.C: POP   hwndStack[%u] = %08x", nHwndStack, hwndStack[nHwndStack] ));
 		iWindowStore(hwndStack[nHwndStack], p);
 	}
 	nHwndStack = 0;
@@ -716,7 +713,6 @@ VOID WindowStore( BYTE **p )
 static
 BOOL CALLBACK WindowStoreProc( HWND hwnd, LPARAM lParam )
 {
-    UIM_DEBUG(( "UIMON.C: STORE hwndStack[%u] = %08x", nHwndStack, hwnd ));
 	hwndStack[nHwndStack++] = hwnd;
 	return TRUE;
 }

@@ -1,7 +1,7 @@
 /*
  * tpi.h - Chip register definitions.
  *
- * Written by 
+ * Written by
  *   Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -27,16 +27,16 @@
 #ifndef _TPI_H
 #define _TPI_H
 
-#define	TPI_PA		0
-#define	TPI_PB		1
-#define	TPI_PC		2
-#define	TPI_ILR		2
-#define	TPI_DDPA	3
-#define	TPI_DDPB	4
-#define	TPI_DDPC	5
-#define	TPI_IMR		5
-#define	TPI_CREG	6
-#define	TPI_AIR		7
+#define TPI_PA          0
+#define TPI_PB          1
+#define TPI_PC          2
+#define TPI_ILR         2
+#define TPI_DDPA        3
+#define TPI_DDPB        4
+#define TPI_DDPC        5
+#define TPI_IMR         5
+#define TPI_CREG        6
+#define TPI_AIR         7
 
 #endif /* _TPI_H */
 

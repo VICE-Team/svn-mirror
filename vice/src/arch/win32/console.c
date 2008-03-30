@@ -785,7 +785,7 @@ static void external_resize_window( console_private_t *pcp, int nWidth, int nHei
 	 the "+ ..." force a rounding up.
 	*/
 	unsigned xDim = (nWidth  + pcp->xCharDimension-1) / pcp->xCharDimension;
-	unsigned yDim = (nHeight + pcp->xCharDimension-1) / pcp->yCharDimension;
+	unsigned yDim = (nHeight + pcp->yCharDimension-1) / pcp->yCharDimension;
 
 	/* @SRT TODO: if a multi-line-input is given, make sure that the
 	   x dimension is not changed OR that the input is correctly redrawn!
@@ -1081,15 +1081,16 @@ static long CALLBACK console_window_proc(HWND hwnd,
         }
         break;
 
+/*
     case WM_DESTROY:
-        /* no PostQuitMessage(), because else, the whole application
+        * no PostQuitMessage(), because else, the whole application
            (VICE) would be closed - as it occurred in the old version
            with the standard console
-        */
+        *
         UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
         break;
 //        return 0;
-
+*/
     case WM_TIMER:
         if (wParam == 1)
         {
@@ -1329,7 +1330,15 @@ static long CALLBACK console_window_proc(HWND hwnd,
 				return 0;
 			}
 
-            if (chCharCode == 3) /* 3 is ASCII for CTRL+C */
+            if (chCharCode == 12) /* 12 is ASCII for CTRL+L */
+            {
+    			if (pcp->fileOutput)
+	    			FileClose( pcp );
+		    	else
+			    	FileOpen ( pcp );
+            }
+
+            if (chCharCode ==  3) /* 3 is ASCII for CTRL+C */
             {
                 /* it's a CTRL+C: Copy to clipboard */
                 MarkModeInClipboard(pcp); 
@@ -1340,7 +1349,7 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		}
 		break;
 
-
+/*
 	case WM_MDIACTIVATE:
 		if ((HWND)wParam==hwnd)
 			// we are deactivated
@@ -1358,7 +1367,6 @@ static long CALLBACK console_window_proc(HWND hwnd,
 			UnregisterHotKey( hwnd, IDHOT_SNAPWINDOW );
 		break;
 
-
 	case WM_HOTKEY:
 		if ((int)wParam == IDHOT_SNAPWINDOW)
 		{   
@@ -1368,6 +1376,7 @@ static long CALLBACK console_window_proc(HWND hwnd,
 				FileOpen ( pcp );
 		}
 		break;
+*/
 
     case WM_LBUTTONDOWN:
         /* the user wants to mark a region */
