@@ -23,6 +23,8 @@ list of all the changes in the code.
 - CIAs have been sped up considerably in those cases where several
   consecutive underflows happen.
 
+- Cartridge support has been added.
+
 ** C128 changes
 ---------------
 
@@ -38,10 +40,18 @@ list of all the changes in the code.
 
 - Autostart is now implemented and works as in the C64 emulator.
 
+- Cartridge support has been added.
+
+- The memory configurations can be added at runtime.
+
 ** PET changes
 --------------
 
 - The VIA emulation is now cycle-exact.
+
+- Several PET models have been added.  Just the CBM-II (B128, B256)
+  series is missing now.  :-)  Moreover, the model type can be changed
+  at runtime, without leaving the emulator.
 
 ** 1541 changes
 ---------------
@@ -58,8 +68,9 @@ list of all the changes in the code.
 ------------------
 
 - The old monitor has been replaced by a completely new one, written
-  by Daniel Sladic.  It also allows access to the CPU in the 1541
-  drive, and features watchpoints and breakpoints.
+  by Daniel Sladic.  Although it is still under construction, it also
+  now allows access to the CPU in the 1541 drive, and features
+  watchpoints and breakpoints.
 
 ** Unix changes
 ---------------
@@ -67,20 +78,45 @@ list of all the changes in the code.
 - Sound and joystick are now supported on NetBSD (courtesy of Krister
   Walfridsson <cato@df.lth.se>).
 
-- Support for multiple keyboard layouts has been added.
+- Support for multiple keyboard layouts has been added.  A
+  "positional" layout for US keyboards is provided.
 
 - The emulators and c1541 now use the real, full-featured GNU readline
   library if found.  Use `./configure --without-readline' for the old
   behavior.
 
 - `-lICE' is now explicitly linked if found (the old way could cause
-  troubles on GNU/Linux systems with both GNU libc 2 and 1, such as
-  RedHat 5.0 or greater).
+  troubles on GNU/Linux systems which have both GNU libc 2 and 1
+  installed, such as RedHat 5.x).
+
+- Serial and printer support has been added.
 
 ** MS-DOS changes
 -----------------
 
 - Support for two "hardware" joysticks has been added.
+
+- The emulated drive LED has been moved to the CapsLock LED; the
+  ScrollLock LED is turned on when "warp mode" (maximum speed) is
+  enabled.
+
+- The menu system has been made a bit more usable.
+
+- An Allegro-based sound driver has been implemented.
+
+- The video driver now uses triple buffering for much smoother
+  animations.
+
+- It is now possible to open a submenu directly from the emulator
+  screen by pressing Alt + the corresponding hotkey.
+
+- 1351 mouse emulation has been implemented.  Just make sure a working
+  mouse driver is installed.
+
+- It is now possible to use up to two "real" joysticks and to
+  configure the keyboard settings for both emulated joysticks.  As a
+  result, it is now possible for two people to play together with two
+  "real" joysticks or just with the keyboard.
 
 ** Miscellaneous changes
 ------------------------
