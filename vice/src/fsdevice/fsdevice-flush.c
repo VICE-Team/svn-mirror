@@ -45,6 +45,7 @@
 
 #include "archdep.h"
 #include "charset.h"
+#include "fileio.h"
 #include "fsdevice-flush.h"
 #include "fsdevice-resources.h"
 #include "fsdevice.h"
@@ -152,119 +153,70 @@ static int fsdevice_flush_remove(char *arg)
     return er;
 }
 
-static int fsdevice_flush_scratch(vdrive_t *vdrive, char *arg, char *realarg)
+static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 {
-    int er;
-    char name[MAXPATHLEN];
-    FILE *fd;
+    unsigned int format = 0, rc;
 
-    er = IPE_DELETED;
-    fd = fsdevice_find_pc64_name(vdrive, realarg, strlen(realarg), name);
+    if (realarg[0] == '\0')
+        return IPE_SYNTAX;
 
-    if (fd != NULL) {
-        fclose(fd);
-    } else {
-        if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
-            return IPE_NOT_FOUND;
-        strcpy(name, fsdevice_get_path(vdrive->unit));
-        strcat(name, FSDEV_DIR_SEP_STR);
-        strcat(name, arg);
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+        format |= FILEIO_FORMAT_P00;
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+        format |= FILEIO_FORMAT_RAW;
+
+    rc = fileio_scratch(realarg, fsdevice_get_path(vdrive->unit), format);
+
+    switch (rc) {
+      case FILEIO_FILE_NOT_FOUND:
+        return IPE_NOT_FOUND;
+      case FILEIO_FILE_PERMISSION:
+        return IPE_PERMISSION;
+      case FILEIO_FILE_SCRATCHED:
+        return IPE_DELETED;
     }
 
-    if (ioutil_remove(name)) {
-        er = IPE_NOT_FOUND;
-        if (errno == EPERM)
-            er = IPE_PERMISSION;
-    }
-
-    return er;
+    return IPE_OK;
 }
 
-static int fsdevice_flush_rename(vdrive_t *vdrive, char *arg, char *realarg)
+static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
 {
-    int er = IPE_SYNTAX;
-    char name1[MAXPATHLEN], name2[MAXPATHLEN];
-    char *realarg2 = NULL, *arg2 = NULL;
-    FILE *fd;
+    char *src, *dest, *tmp;
+    unsigned int format = 0, rc;
 
-    if ((arg2 = strchr(arg, '='))) {
-        char name2long[MAXPATHLEN];
-        er = IPE_OK;
-        *arg2++ = 0;
-        realarg2 = strchr(realarg, '=');
-        *realarg2++ = 0;
-        fd = fsdevice_find_pc64_name(vdrive, realarg2, strlen(realarg2),
-                                     name2long);
-        if (fd != NULL) {
-            /* Rename P00 file.  */
-            int name1len;
-            char *p, p00name[17], p00type, p00count[2];
-            char name1p00[MAXPATHLEN], name2p00[MAXPATHLEN];
-            fclose(fd);
-            strcpy(name2p00, name2long);
-            p = strrchr(name2long, FSDEV_EXT_SEP_CHR);
-            p00type = p[1];
-            *p = '\0';
-            p = strrchr(name2long, FSDEV_DIR_SEP_CHR);
-            strcpy(name2, ++p);
-            name1len = fsdevice_evaluate_name_p00(realarg, strlen(realarg),
-                                                  name1);
-            name1[name1len] = '\0';
-            memset(p00name, 0, 17);
-            strncpy(p00name, realarg, 16);
-            fd = fopen(name2p00, MODE_READ_WRITE);
-            if (fd) {
-                if ((fseek(fd, 8, SEEK_SET) != 0)
-                    || (fwrite(p00name, 16, 1, fd) < 1))
-                    er = IPE_NOT_FOUND;
-                fclose(fd);
-            } else {
-                er = IPE_NOT_FOUND;
-            }
-            if (er == IPE_OK && strcmp(name1, name2) != 0) {
-                int i;
-                for (i = 0; i < 100; i++) {
-                    memset(name1p00, 0, MAXPATHLEN);
-                    strcpy(name1p00, fsdevice_get_path(vdrive->unit));
-                    strcat(name1p00, FSDEV_DIR_SEP_STR);
-                    strcat(name1p00, name1);
-                    strcat(name1p00, FSDEV_EXT_SEP_STR);
-                    strncat(name1p00, &p00type, 1);
-                    sprintf(p00count, "%02i", i);
-                    strncat(name1p00, p00count, 2);
-                    fd = fopen(name1p00, MODE_READ);
-                    if (fd) {
-                        fclose(fd);
-                        continue;
-                    }
+    tmp = strchr(realarg, '=');
 
-                    ioutil_remove(name1p00);
-                    if (ioutil_rename(name2p00, name1p00) == 0)
-                        break;
-                }
-            }
-        } else {
-            /* Rename CBM file.  */
-            if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
-                return IPE_NOT_FOUND;
+    if (tmp == NULL)
+        return IPE_SYNTAX;
 
-            strcpy(name1, fsdevice_get_path(vdrive->unit));
-            strcat(name1, FSDEV_DIR_SEP_STR);
-            strcat(name1, arg);
-            strcpy(name2, fsdevice_get_path(vdrive->unit));
-            strcat(name2, FSDEV_DIR_SEP_STR);
-            strcat(name2, arg2);
+    if (tmp == realarg)
+        return IPE_SYNTAX;
 
-            ioutil_remove(name1);
-            if (ioutil_rename(name2, name1)) {
-                er = IPE_NOT_FOUND;
-                if (errno == EPERM)
-                    er = IPE_PERMISSION;
-            }
-        }
+    if (tmp[1] == '\0')
+        return IPE_SYNTAX;
+
+    tmp[0] = '\0';
+
+    src = &tmp[1];
+    dest = realarg;
+
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+        format |= FILEIO_FORMAT_P00;
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+        format |= FILEIO_FORMAT_RAW;
+
+    rc = fileio_rename(src, dest, fsdevice_get_path(vdrive->unit), format);
+
+    switch (rc) {
+      case FILEIO_FILE_NOT_FOUND:
+        return IPE_NOT_FOUND;
+      case FILEIO_FILE_EXISTS:
+        return IPE_FILE_EXISTS;
+      case FILEIO_FILE_PERMISSION:
+        return IPE_PERMISSION;
     }
 
-    return er;
+    return IPE_OK;
 }
 
 void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
@@ -295,13 +247,13 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 
     arg = strchr(cbmcmd, ':');
 
-    if (arg) {
+    if (arg != NULL) {
         *arg++ = '\0';
     }
 
     realarg = strchr((char *)fs_cmdbuf[dnr], ':');
 
-    if (realarg) {
+    if (realarg != NULL) {
         *realarg++ = '\0';
     }
 
@@ -320,9 +272,9 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     } else if (!strcmp(cmd, "ui")) {
         er = fsdevice_flush_reset();
     } else if (*cmd == 's' && arg != NULL) {
-        er = fsdevice_flush_scratch(vdrive, arg, realarg);
+        er = fsdevice_flush_scratch(vdrive, realarg);
     } else if (*cmd == 'r' && arg != NULL) {
-        er = fsdevice_flush_rename(vdrive, arg, realarg);
+        er = fsdevice_flush_rename(vdrive, realarg);
     }
 
     fsdevice_error(vdrive, er);

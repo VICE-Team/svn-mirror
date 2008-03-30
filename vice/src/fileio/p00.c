@@ -336,13 +336,11 @@ static char *p00_file_create(const char *file_name, const char *path,
 {
     char *p00name;
     unsigned int i;
-    struct rawfile_info_s *rawfile;
 
     p00name = p00_filename_create(file_name, type);
 
     for (i = 1; i < 100; i++) {
-        rawfile = rawfile_open(p00name, path, FILEIO_COMMAND_READ);
-        if (rawfile == NULL)
+        if (util_file_exists(p00name) == 0)
             break;
         sprintf(&p00name[strlen(p00name) - 2], "%02i", i);
     }
@@ -379,6 +377,8 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
     if (fname == NULL)
         return NULL;
 
+    type = p00_check_name(fname);
+
     rawfile = rawfile_open(fname, path, command & FILEIO_COMMAND_MASK);
     lib_free(fname);
 
@@ -387,8 +387,6 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 
     switch (command & FILEIO_COMMAND_MASK) {
       case FILEIO_COMMAND_READ:
-        type = p00_check_name(fname);
-
         if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
             NULL) < 0) {
             rawfile_destroy(rawfile);
@@ -397,8 +395,6 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
         break;
       case FILEIO_COMMAND_APPEND:
       case FILEIO_COMMAND_APPEND_READ:
-        type = p00_check_name(fname);
-
         if (type < 0 || p00_read_header((FILE *)(rawfile->fd), (BYTE *)rname,
             NULL) < 0) {
             rawfile_destroy(rawfile);
@@ -430,5 +426,80 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
 void p00_close(fileio_info_t *info)
 {
     rawfile_destroy(info->rawfile);
+}
+
+unsigned int p00_rename(const char *src_name, const char *dst_name,
+                        const char *path)
+{
+    char *p00_src, *p00_dst, rname[20];
+    int type;
+    struct rawfile_info_s *rawfile;
+    unsigned int rc;
+
+    p00_dst = p00_file_find(dst_name, path);
+
+    if (p00_dst != NULL) {
+        lib_free(p00_dst);
+        return FILEIO_FILE_EXISTS;
+    }
+
+    p00_src = p00_file_find(src_name, path);
+
+    if (p00_src == NULL)
+        return FILEIO_FILE_NOT_FOUND;
+
+    type = p00_check_name(p00_src);
+
+    if (type < 0)
+        return FILEIO_FILE_NOT_FOUND;
+
+    rawfile = rawfile_open(p00_src, path, FILEIO_COMMAND_APPEND);
+
+    if (rawfile == NULL) {
+        lib_free(p00_src);
+        return FILEIO_FILE_NOT_FOUND;
+    }
+
+    memset(rname, 0, sizeof(rname));
+    strncpy(rname, dst_name, 16);
+
+    if (p00_write_header((FILE *)(rawfile->fd), rname, 0) < 0) {
+        rawfile_destroy(rawfile);
+        lib_free(p00_src);
+        return FILEIO_FILE_NOT_FOUND;
+    }
+
+    rawfile_destroy(rawfile);
+
+    p00_dst = p00_file_create(dst_name, path, type);
+
+    if (p00_dst == NULL) {
+        lib_free(p00_src);
+        return FILEIO_FILE_NOT_FOUND;
+    }
+
+    rc = rawfile_rename(p00_src, p00_dst, path);
+
+    lib_free(p00_src);
+    lib_free(p00_dst);
+
+    return rc;
+}
+
+unsigned int p00_scratch(const char *file_name, const char *path)
+{
+    char *p00_src;
+    unsigned int rc;
+
+    p00_src = p00_file_find(file_name, path);
+
+    if (p00_src == NULL)
+        return FILEIO_FILE_NOT_FOUND;
+
+    rc = rawfile_remove(p00_src, path);
+
+    lib_free(p00_src);
+
+    return rc;
 }
 

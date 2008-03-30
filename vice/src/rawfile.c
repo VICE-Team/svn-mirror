@@ -30,6 +30,7 @@
 
 #include "archdep.h"
 #include "fileio.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "rawfile.h"
 #include "util.h"
@@ -91,5 +92,54 @@ void rawfile_destroy(rawfile_info_t *info)
         lib_free(info->path);
         lib_free(info);
     }
+}
+
+unsigned int rawfile_rename(const char *src_name, const char *dst_name,
+                            const char *path)
+{
+    char *complete_src, *complete_dst;
+    int rc;
+
+    if (path == NULL) {
+        complete_src = lib_stralloc(src_name);
+        complete_dst = lib_stralloc(dst_name);
+    } else {
+        complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
+        complete_dst = util_concat(path, FSDEV_DIR_SEP_STR, dst_name, NULL);
+    }
+
+    /*ioutil_remove(dst_name);*/
+    rc = ioutil_rename(complete_src, complete_dst);
+
+    lib_free(complete_src);
+    lib_free(complete_dst);
+
+    if (rc < 0) {
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM) < 0)
+            return FILEIO_FILE_PERMISSION;
+        return FILEIO_FILE_NOT_FOUND;
+    }
+
+    return FILEIO_FILE_OK;
+}
+ 
+unsigned int rawfile_remove(const char *src_name, const char *path)
+{
+    char *complete_src;
+    int rc;
+
+    if (path == NULL)
+        complete_src = lib_stralloc(src_name);
+    else
+        complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
+
+    rc = ioutil_remove(complete_src);
+
+    lib_free(complete_src);
+
+    if (rc < 0)
+        return FILEIO_FILE_NOT_FOUND;
+
+    return FILEIO_FILE_SCRATCHED;
 }
 
