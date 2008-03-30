@@ -18,6 +18,8 @@ libarch_a_SOURCES = \
 	c64kbd.h \
 	c64ui.c \
 	c64ui.h \
+        grabkey.c \
+        grabkey.h \
 	joystick.c \
 	joystick.h \
 	kbd.c \
@@ -54,3 +56,8 @@ libarch_a_SOURCES = \
 	vmidas.h \
 	vsync.c \
         vsync.h
+
+# bin_PROGRAMS = grabkey
+#
+# grabkey_SOURCES = \
+#	grabkey.c
