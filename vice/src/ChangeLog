@@ -1,3 +1,14 @@
+2002-01-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.61.
+
+	* gfxoutputdrv/bmpdrv.c (bmpdrv_bmp_size): New function.
+	(bmpdrv_write_file_header, bmpdrv_write_bitmap_info,
+	bmpdrv_open, bmpdrv_write): Added 8bpp support.
+
+	* gfxoutputdrv/pngdrv.c (pngdrv_open, pngdrv_write,
+	pngdrv_close): Simplified.
+
 2002-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.60.

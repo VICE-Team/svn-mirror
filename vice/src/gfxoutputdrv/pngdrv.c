@@ -50,90 +50,89 @@ static gfxoutputdrv_t png_drv;
 
 int pngdrv_open(screenshot_t *screenshot, const char *filename)
 {
-    screenshot->gfxoutputdrv_data
-        = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
+    gfxoutputdrv_data_t *sdata;
 
-    screenshot->gfxoutputdrv_data->png_ptr
-        = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-                                  (void *)NULL, NULL, NULL);
+    sdata = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
 
-    if (screenshot->gfxoutputdrv_data->png_ptr == NULL) {
-        free(screenshot->gfxoutputdrv_data);
+    screenshot->gfxoutputdrv_data = sdata;
+
+    sdata->png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+                                             (void *)NULL, NULL, NULL);
+
+    if (sdata->png_ptr == NULL) {
+        free(sdata);
         return -1;
     }
 
-    screenshot->gfxoutputdrv_data->info_ptr
-        = png_create_info_struct(screenshot->gfxoutputdrv_data->png_ptr);
+    sdata->info_ptr = png_create_info_struct(sdata->png_ptr);
 
-    if (screenshot->gfxoutputdrv_data->info_ptr == NULL) {
-        png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
-                                 (png_infopp)NULL);
-        free(screenshot->gfxoutputdrv_data);
+    if (sdata->info_ptr == NULL) {
+        png_destroy_write_struct(&(sdata->png_ptr), (png_infopp)NULL);
+        free(sdata);
         return -1;
     }
 
     if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) {
         png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
                                  &(screenshot->gfxoutputdrv_data->info_ptr));
-        free(screenshot->gfxoutputdrv_data);
+        free(sdata);
         return -1;
     }
 
-    screenshot->gfxoutputdrv_data->ext_filename
+    sdata->ext_filename
         = util_add_extension_const(filename, png_drv.default_extension);
 
-    screenshot->gfxoutputdrv_data->fd
-        = fopen(screenshot->gfxoutputdrv_data->ext_filename, MODE_WRITE);
+    sdata->fd = fopen(sdata->ext_filename, MODE_WRITE);
 
-    if (screenshot->gfxoutputdrv_data->fd == NULL) {
-        free(screenshot->gfxoutputdrv_data->ext_filename);
-        free(screenshot->gfxoutputdrv_data);
+    if (sdata->fd == NULL) {
+        free(sdata->ext_filename);
+        free(sdata);
         return -1;
     }
 
-    screenshot->gfxoutputdrv_data->data
-        = (BYTE *)xmalloc(screenshot->width * 4);
+    sdata->data = (BYTE *)xmalloc(screenshot->width * 4);
 
-    png_init_io(screenshot->gfxoutputdrv_data->png_ptr,
-                screenshot->gfxoutputdrv_data->fd);
-    png_set_compression_level(screenshot->gfxoutputdrv_data->png_ptr,
-                              Z_BEST_COMPRESSION);
+    png_init_io(sdata->png_ptr, sdata->fd);
+    png_set_compression_level(sdata->png_ptr, Z_BEST_COMPRESSION);
 
-    screenshot->gfxoutputdrv_data->info_ptr->width = screenshot->width;
-    screenshot->gfxoutputdrv_data->info_ptr->height= screenshot->height;
-    screenshot->gfxoutputdrv_data->info_ptr->bit_depth = 8;
-    screenshot->gfxoutputdrv_data->info_ptr->color_type
-        = PNG_COLOR_TYPE_RGB_ALPHA;
-    png_write_info(screenshot->gfxoutputdrv_data->png_ptr,
-                   screenshot->gfxoutputdrv_data->info_ptr);
-    png_set_invert_alpha(screenshot->gfxoutputdrv_data->png_ptr);
+    sdata->info_ptr->width = screenshot->width;
+    sdata->info_ptr->height= screenshot->height;
+    sdata->info_ptr->bit_depth = 8;
+    sdata->info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
+
+    png_write_info(sdata->png_ptr, sdata->info_ptr);
+    png_set_invert_alpha(sdata->png_ptr);
 
     return 0;
 }
 
 int pngdrv_write(screenshot_t *screenshot)
 {
-    (screenshot->convert_line)(screenshot, screenshot->gfxoutputdrv_data->data,
-                               screenshot->gfxoutputdrv_data->line,
+    gfxoutputdrv_data_t *sdata;
+
+    sdata = screenshot->gfxoutputdrv_data;
+
+    (screenshot->convert_line)(screenshot, sdata->data, sdata->line,
                                SCREENSHOT_MODE_RGB32);
-    png_write_row(screenshot->gfxoutputdrv_data->png_ptr,
-                  (png_bytep)(screenshot->gfxoutputdrv_data->data));
+    png_write_row(sdata->png_ptr, (png_bytep)(sdata->data));
 
     return 0;
 }
 
 int pngdrv_close(screenshot_t *screenshot)
 {
-    png_write_end(screenshot->gfxoutputdrv_data->png_ptr,
-                  screenshot->gfxoutputdrv_data->info_ptr);
+    gfxoutputdrv_data_t *sdata;
 
-    png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
-                             &(screenshot->gfxoutputdrv_data->info_ptr));
+    sdata = screenshot->gfxoutputdrv_data;
 
-    fclose(screenshot->gfxoutputdrv_data->fd);
-    free(screenshot->gfxoutputdrv_data->data);
-    free(screenshot->gfxoutputdrv_data->ext_filename);
-    free(screenshot->gfxoutputdrv_data);
+    png_write_end(sdata->png_ptr, sdata->info_ptr);
+
+    png_destroy_write_struct(&(sdata->png_ptr), &(sdata->info_ptr));
+
+    fclose(sdata->fd);
+    free(sdata->data);
+    free(sdata->ext_filename);
+    free(sdata);
 
     return 0;
 }
