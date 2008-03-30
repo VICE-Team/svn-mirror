@@ -55,6 +55,11 @@ typedef struct resource {
 
 } resource_t;
 
+#define RESERR_FILE_NOT_FOUND       -1
+#define RESERR_FILE_INVALID         -2
+#define RESERR_READ_ERROR           -3
+#define RESERR_CANNOT_CREATE_FILE   -4
+
 /* ------------------------------------------------------------------------- */
 
 int resources_init(const char *machine);

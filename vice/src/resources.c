@@ -369,7 +369,7 @@ int resources_load(const char *fname)
 
     if (f == NULL) {
 	/*perror(fname);*/
-	return -1;
+	return RESERR_FILE_NOT_FOUND;
     }
 
     printf("Reading configuration file `%s'.\n", fname);
@@ -380,7 +380,7 @@ int resources_load(const char *fname)
 
 	if (get_line(buf, 1024, f) < 0) {
 	    fclose(f);
-	    return -1;
+	    return RESERR_READ_ERROR;
 	}
 
 	if (check_emu_id(buf)) {
@@ -403,7 +403,8 @@ int resources_load(const char *fname)
 
     /* Update the values in the UI menus.  */
     ui_update_menus();
-    return err ? -1 : 0;
+
+    return err ? RESERR_FILE_INVALID : 0;
 }
 
 /* Write the resource specification for resource number `num' to file
@@ -461,7 +462,7 @@ int resources_save(const char *fname)
     if (!out_file) {
 	perror(fname);
 	free (backup_name);
-	return -1;
+        return RESERR_CANNOT_CREATE_FILE;
     }
 
     if (have_old) {
@@ -475,7 +476,7 @@ int resources_save(const char *fname)
 	    fclose(out_file);
 	    perror(backup_name);
 	    free(backup_name);
-	    return -1;
+            return RESERR_READ_ERROR;
 	}
 
 	/* Copy the configuration for the other emulators.  */
