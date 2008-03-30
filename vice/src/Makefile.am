@@ -22,6 +22,7 @@ SUBDIRS = \
 	@RESID_DIR@ \
 	sounddrv \
 	drive \
+	vdrive \
 	raster \
 	vicii \
 	crtc \
@@ -37,7 +38,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/vdrive
 
 YFLAGS = -dt
 
@@ -61,7 +63,6 @@ noinst_HEADERS = \
 	emuid.h \
 	fixpoint.h \
 	findpath.h \
-	fs_cbm.h \
 	fsdevice.h \
 	fliplist.h \
 	gcr.h \
@@ -101,8 +102,6 @@ noinst_HEADERS = \
 	uiapi.h \
 	usleep.h \
 	utils.h \
-	vdrive.h \
-	vdrive-iec.h\
 	via.h \
 	viacore.h \
 	vice.h \
@@ -149,8 +148,6 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
-	vdrive.c \
-	vdrive-iec.c \
 	warn.c \
 	zfile.c \
 	zipcode.c
@@ -197,6 +194,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
@@ -213,6 +211,7 @@ x64_libs =  \
 	@X64_WINRES@ \
 	$(c64_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
@@ -229,6 +228,7 @@ x64-all: \
 	@RESID_DEP@ \
 	libc64 \
 	libdrive \
+	libvdrive \
 	libraster \
 	libsid \
 	libsounddrv \
@@ -242,6 +242,7 @@ x128_libs =  \
 	$(c128_lib) \
 	$(c64c128_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sid_lib) \
 	$(sounddrv_lib) \
 	$(vicii_lib) \
@@ -254,7 +255,7 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
+x128-all: libc128 libc64c128 libsounddrv libdrive libvdrive libarch libsid \
 	libvicii @RESID_DEP@ x128
 
 # xvic
@@ -262,6 +263,7 @@ xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(sounddrv_lib) \
 	$(raster_lib) \
 	$(common_libs)
@@ -274,16 +276,18 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 .PHONY: xvic-all
 xvic-all: \
 	libdrive \
+	libvdrive \
 	libraster \
 	libsounddrv \
 	libvic20 \
 	libarch \
-    	xvic
+	xvic
 
 # xpet
 xpet_libs =  \
 	@XPET_WINRES@ \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(pet_lib) \
 	$(sounddrv_lib) \
 	$(crtc_lib) \
@@ -298,6 +302,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 .PHONY: xpet-all
 xpet-all: \
 	libdrive \
+	libvdrive \
 	libraster \
 	libcrtc \
 	libsounddrv \
@@ -309,6 +314,7 @@ xpet-all: \
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
 	$(drive_lib) \
+	$(vdrive_lib) \
 	$(xcbm2_lib) \
 	$(sounddrv_lib) \
 	$(sid_lib) \
@@ -329,6 +335,7 @@ xcbm2-all: \
 	libsid \
 	@RESID_DEP@ \
 	libdrive \
+	libvdrive \
 	libraster \
 	libcrtc \
 	xcbm2
@@ -346,15 +353,13 @@ c1541_SOURCES = \
 	resources.c \
 	t64.c \
 	utils.c \
-	vdrive-iec.c \
-	vdrive.c \
 	zfile.c \
 	zipcode.c
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
-c1541_LDADD = @ARCH_DIR@/archdep.o @READLINE@
+c1541_LDADD = @ARCH_DIR@/archdep.o $(vdrive_lib) @READLINE@
 
 # petcat
 petcat_SOURCES = \
@@ -373,8 +378,8 @@ petcat_LDADD = @ARCH_DIR@/archdep.o
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libvicii libsid libcrtc @RESID_DEP@
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libvdrive libsounddrv \
+	libarch libvicii libsid libcrtc @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -398,9 +403,12 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
+libvdrive:
+	(cd vdrive && $(MAKE))
 libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
+
