@@ -53,8 +53,8 @@ typedef enum {
 	ZFILE_DEL		/* remove original file */
 } zfile_action_t;
 
-file_desc_t zopen(const char *name, mode_t mode, int flags);
-int zclose(file_desc_t fd);
+int zopen(const char *name, mode_t mode, int flags);
+int zclose(int fd);
 FILE *zfopen(const char *name, const char *mode);
 int zfclose(FILE *stream);
 int zclose_all(void);
@@ -63,3 +63,4 @@ int zfile_close_action(const char *filename, zfile_action_t action,
 				const char *request_string);
 
 #endif /* _ZFILE_H */
+

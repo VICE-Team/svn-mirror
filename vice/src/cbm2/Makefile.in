@@ -379,8 +379,8 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/crtc/crtc-mem.h \
 	../../src/emuid.h ../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/memutils.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/warn.h ../../src/tape.h ../../src/traps.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
+	../../src/sysfile.h ../../src/tape.h ../../src/traps.h \
 	../../src/utils.h ../../src/arch/unix/vsync.h
 c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \

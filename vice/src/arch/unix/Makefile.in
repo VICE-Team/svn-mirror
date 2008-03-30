@@ -312,9 +312,9 @@ kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/interrupt.h types.h ../../../src/6510core.h \
 	../../../src/mem.h ../../../src/snapshot.h joystick.h kbd.h \
 	kbdef.h ../../../src/keyboard.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/memutils.h \
-	../../../src/sysfile.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h ../../../src/utils.h video.h
+	../../../src/machine.h ../../../src/sysfile.h ui.h xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h \
+	../../../src/utils.h video.h
 kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/resources.h ../../../src/cmdline.h \
 	../../../src/utils.h kbd.h

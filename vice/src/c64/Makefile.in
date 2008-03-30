@@ -459,13 +459,13 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/datasette.h ../../src/tap.h ../../src/emuid.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
 	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/memutils.h \
-	../../src/parallel.h patchrom.h reu.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/warn.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vicii/vicii.h c64.h ../../src/raster/raster.h \
-	../../src/arch/unix/video.h ../../src/raster/raster-cache.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/parallel.h \
+	patchrom.h reu.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vicii/vicii.h \
+	c64.h ../../src/raster/raster.h ../../src/arch/unix/video.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

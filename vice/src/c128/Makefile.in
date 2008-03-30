@@ -371,9 +371,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/resources.h ../../src/emuid.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/mem.h ../../src/alarm.h \
 	../../src/log.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/interrupt.h ../../src/memutils.h \
-	../../src/parallel.h ../../src/rs232.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/warn.h ../../src/utils.h vdc.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/parallel.h \
+	../../src/rs232.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/sysfile.h ../../src/utils.h vdc.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/palette.h ../../src/uiapi.h ../../src/vicii/vicii.h \
 	../../src/c64/c64.h ../../src/raster/raster.h \
