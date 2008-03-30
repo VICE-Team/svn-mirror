@@ -21,6 +21,8 @@ libc128_a_SOURCES = \
 	c128mem.h \
 	c128mmu.c \
 	c128mmu.h \
+	daa.c \
+	daa.h \
 	z80.c \
 	z80.h \
 	z80mem.c \
