@@ -94,11 +94,11 @@ SOURCE="..\..\serial\serial-device.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\serial\serial-iec-lib.c"
+SOURCE="..\..\serial\serial-iec-bus.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\serial\serial-iec.c"
+SOURCE="..\..\serial\serial-iec-lib.c"
 # End Source File
 # Begin Source File
 
