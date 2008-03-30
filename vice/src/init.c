@@ -43,6 +43,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -169,6 +170,8 @@ int init_main(void)
         drive0_cpu_early_init();
         drive1_cpu_early_init();
     }
+
+    maincpu_init();
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {

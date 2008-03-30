@@ -90,7 +90,7 @@ int tape_image_detach(unsigned int unit)
     if (unit != 1)
         return -1;
 
-    if (tape_image_dev1->name == NULL)
+    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL)
         return 0;
 
     switch (tape_image_dev1->type) {
