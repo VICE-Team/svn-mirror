@@ -63,7 +63,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
         if (t < 1)
             continue;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-        for (s = 0; s < max_sector; s++) {
+        for (s = 0; s < (unsigned int)max_sector; s++) {
             if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
                 *track = t;
                 *sector = s;
@@ -80,7 +80,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
         if (t > vdrive->num_tracks)
             continue;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-        for (s = 0; s < max_sector; s++) {
+        for (s = 0; s < (unsigned int)max_sector; s++) {
             if (vdrive_bam_allocate_sector(vdrive->image_format, bam, t, s)) {
                 *track = t;
                 *sector = s;
@@ -621,9 +621,9 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
  * Return the number of free blocks on disk.
  */
 
-int vdrive_bam_free_block_count(vdrive_t *vdrive)
+unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
 {
-    int blocks, i;
+    unsigned int blocks, i;
 
     for (blocks = 0, i = 1; i <= vdrive->num_tracks; i++) {
         switch(vdrive->image_format) {

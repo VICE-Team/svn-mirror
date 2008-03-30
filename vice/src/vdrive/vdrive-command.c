@@ -608,7 +608,8 @@ static int vdrive_command_initialize(vdrive_t *vdrive)
 
 int vdrive_command_validate(vdrive_t *vdrive)
 {
-    int t, s, status;
+    unsigned int t, s;
+    int status;
     /* FIXME: size of BAM define */
     BYTE *b, oldbam[5 * 256];
 
@@ -624,7 +625,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     for (t = 1; t <= vdrive->num_tracks; t++) {
         int max_sector;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-        for (s = 0; s < max_sector; s++)
+        for (s = 0; s < (unsigned int)max_sector; s++)
             vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
     }
 
@@ -640,7 +641,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571) {
         int max_sector;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, 53);
-        for (s = 0; s < max_sector; s++)
+        for (s = 0; s < (unsigned int)max_sector; s++)
             vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 53,
                                        s);
     }

@@ -84,7 +84,7 @@ fail:
 int 
 vic_snapshot_read_module (snapshot_t *s)
 {
-  int i;
+  ADDRESS i;
   snapshot_module_t *m;
   BYTE major_version, minor_version;
   WORD w;

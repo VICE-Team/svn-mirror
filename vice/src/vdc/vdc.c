@@ -255,9 +255,8 @@ int vdc_raster_draw_alarm_handler(CLOCK offset)
     {
         vdc.mem_counter_inc = VDC_SCREEN_TEXTCOLS;
         if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
-        {
             vdc.mem_counter += vdc.mem_counter_inc;
-        }
+
         vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                               & vdc.raster_ycounter_max;
 

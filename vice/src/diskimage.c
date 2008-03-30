@@ -324,8 +324,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 int disk_image_read_gcr_image(disk_image_t *image)
 {
-    int track, zone_len, i;
-    unsigned int num_tracks;
+    unsigned int track, zone_len, i, num_tracks;
     size_t track_len;
     BYTE len[2], comp_speed[NUM_MAX_BYTES_TRACK / 4];
     BYTE *track_data, *zone_data;
@@ -757,7 +756,7 @@ int disk_image_sector_per_track(int format, unsigned int track)
 int disk_image_check_sector(unsigned int format, unsigned int track,
                             unsigned int sector)
 {
-    int sectors = 0, i;
+    unsigned int sectors = 0, i;
 
     if (track < 1 || sector < 0)
         return -1;
@@ -812,9 +811,9 @@ int disk_image_check_sector(unsigned int format, unsigned int track,
         sectors += sector;
         break;
       default:
-        sectors = -1;
+        return -1;
     }
-    return sectors;
+    return (int)(sectors);
 }
 
 

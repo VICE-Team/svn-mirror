@@ -169,7 +169,7 @@ char *bufcat(char *buf, int *buf_size, size_t *max_buf_size,
 	     const char *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
-    if (*buf_size + src_size > *max_buf_size) {
+    if (*buf_size + src_size > (int)(*max_buf_size)) {
 	char *new_buf;
 
 	*max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
@@ -519,7 +519,7 @@ int read_dword(FILE *fd, DWORD *buf, size_t num)
         return -1;
     }
 
-    for (i = 0; i < (num / 4); i++)
+    for (i = 0; i < ((int)(num) / 4); i++)
         buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
 
@@ -534,7 +534,7 @@ int write_dword(FILE *fd, DWORD *buf, size_t num)
 
     tmpbuf = xmalloc(num);
 
-    for (i = 0; i < (num / 4); i++) {
+    for (i = 0; i < ((int)(num) / 4); i++) {
         tmpbuf[i * 4] = (BYTE)(buf[i] & 0xff);
         tmpbuf[i * 4 + 1] = (BYTE)((buf[i] >> 8) & 0xff);
         tmpbuf[i * 4 + 2] = (BYTE)((buf[i] >> 16) & 0xff);

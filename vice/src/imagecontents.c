@@ -225,7 +225,7 @@ image_contents_t *image_contents_read_disk(const char *file_name)
     memcpy(new->id, vdrive->bam + vdrive->bam_id, IMAGE_CONTENTS_ID_LEN);
     new->id[IMAGE_CONTENTS_ID_LEN] = 0;
 
-    new->blocks_free = vdrive_bam_free_block_count(vdrive);
+    new->blocks_free = (int)vdrive_bam_free_block_count(vdrive);
 
     vdrive->Curr_track = vdrive->Dir_Track;
     vdrive->Curr_sector = vdrive->Dir_Sector;

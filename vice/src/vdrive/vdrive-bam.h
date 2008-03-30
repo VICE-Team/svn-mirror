@@ -59,7 +59,7 @@ extern int vdrive_bam_allocate_sector(int type, BYTE *bam, unsigned int track,
 extern void vdrive_bam_clear_all(unsigned int type, BYTE *bam);
 extern void vdrive_bam_create_empty_bam(struct vdrive_s *vdrive,
                                         const char *name, BYTE *id);
-extern int vdrive_bam_free_block_count(struct vdrive_s *vdrive);
+extern int unsigned vdrive_bam_free_block_count(struct vdrive_s *vdrive);
 extern int vdrive_bam_free_sector(int type, BYTE *bam, unsigned int track,
                                   unsigned int sector);
 extern int vdrive_bam_get_disk_id(unsigned int unit, BYTE *id);

@@ -95,8 +95,8 @@ void sound_machine_init(void)
 
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
-    sound_t			*psid;
-    int				 i;
+    sound_t *psid;
+    ADDRESS i;
 
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(psid));

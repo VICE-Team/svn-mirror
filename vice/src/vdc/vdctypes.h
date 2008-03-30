@@ -132,11 +132,11 @@ struct _vdc
     unsigned int chargen_adr;
 
     /* Internal memory counter. */
-    int mem_counter;
-    int bitmap_counter;
+    unsigned int mem_counter;
+    unsigned int bitmap_counter;
 
     /* Value to add to `mem_counter' after the graphics has been painted.  */
-    int mem_counter_inc;
+    unsigned int mem_counter_inc;
 
     /* Flag: Does the currently selected video mode force the overscan
        background color to be black?  (This happens with the hires bitmap and
