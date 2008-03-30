@@ -1568,7 +1568,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.14.30
+ VERSION=1.14.31
 
 
 cat >>confdefs.h <<_ACEOF
@@ -8548,9 +8548,8 @@ fi
 
 
 
-
 for ac_header in direct.h errno.h fcntl.h limits.h regex.h unistd.h \
-sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/types.h \
+sys/dirent.h sys/ioctl.h sys/stat.h sys/types.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`

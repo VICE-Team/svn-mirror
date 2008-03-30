@@ -250,7 +250,6 @@ libarch_a_SOURCES = \
 	os2main.c \
 	rs232.c \
 	signals.c \
-	signals.h \
 	sounddrv.c \
 	sounddrv.h \
         tfearch.c \

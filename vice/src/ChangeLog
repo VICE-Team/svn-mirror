@@ -1,3 +1,102 @@
+2004-06-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.31.
+
+	* core/riotcore.c (riotcore_reset): Clear ports.
+
+	* ioutil.c, ioutil.h (ioutil_maxpathlen): New function.
+
+	* vice.h, c1541.c, findpath.c, arch/win32/uiconsole.c,
+	fsdevice/fsdevicetypes.h, fsdevice/fsdevice-flush.c,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c,
+	fsdevice/fsdevice.c, arch/unix/uicommands.c, vsync.c,
+	arch/unix/uikeyboard.c, arch/msdos/ui.h, arch/os2/config.h,
+	arch/msdos/uiattach.c, arch/msdos/uisnapshot.c: Removed
+	inclusion of `limits.h' and `sys/param.h' from `vice.h'.
+
+	* crc32.c, crc32.h: New files.
+
+	* util.c, util.h, c64/tfe.c: Moved crc specific code to
+	separate file.
+
+	* Makefile.am, arch/win32/base.dsp: Updated.
+
+	* arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/msdos/archdep.h, arch/riscos/archdep.h,
+	arch/beos/archdep.h, arch/os2/archdep.h, findpath.c,
+	printerdrv/output-text.c, sysfile.c, arch/unix/archdep.c,
+	arch/win32/archdep.c, arch/msdos/archdep.c,
+	arch/beos/archdep.c, arch/os2/archdep.c
+
+	* c64/c64tpi.c, cbm2/cbm2tpi1.c, cbm2/cbm2tpi2.c, cia.h,
+	via.h: Added regparm patch contributed by Adam Sampson.
+
+	* arch/os2/ui.h: #include "types.h".
+
+2004-06-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c:
+	- replaced PATH_MAX by CCHMAXPATH
+
+	* arch/os2/archdep.h:
+	- removed obsolete MPS803_DEFAULT_OUTPUT_NAME
+
+	* arch/os2/dialogs/dlg-fileio.c:
+	- fixed VIDEO_PALETTE ambiguity for xcbm2
+	- replaced vice2.fon by vice2.dll
+
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	- added NL-10 to printer devices
+	- added 8580+digiboost
+	- added Fast Resampling
+
+	* arch/os2/fonts/vice-cbm.cmd:
+	- do not create font-dll anymore
+
+	* arch/os2/makedist.cmd:
+	- copy nl10 rom
+
+	* arch/os2/Makefile.am:
+	- removed signals.h
+
+	* arch/os2/signals.c:
+	- moved arrays from signal.h to source file
+	- ignore SIGINT
+
+	* arch/os2/signals.h:
+	- removed
+
+	* arch/os2/vac++/*/*.icc:
+	- updated
+
+	* arch/os2/vac++/incl/monitor.icc:
+	- found a fix for 'fileno'
+
+	* arch/os2/vac++/incl/raster.icc:
+	- udated
+	- removed special optimization treatment
+
+	* arch/os2/vac++/RESID.ICC:
+	- updated version number
+
+	* arch/os2/vac++/vicedll.ICC:
+	- added info.c
+	- added fonts
+
+	* printerdrv/interface-serial.c:
+	- fixed a typo
+
+	* printerdrv/output-graphics.c:
+	- made comment around obsolete code. Andreas B
+	some time ago promised to reinvent this kind of
+	rendering when the printer code is finished
+
+	* raster/raster-line.c:
+	- introduced a workaround for a os2 compiler bug
+
+	* resid/sid.cc:
+	- log(int) is not defined! Replaced by log(2.)
+
 2004-06-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.30.

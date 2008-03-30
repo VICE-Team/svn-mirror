@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-06-17 23:04+0200\n"
+"POT-Creation-Date: 2004-06-19 22:25+0200\n"
 "PO-Revision-Date: 2004-05-04 21:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:119
+#: src/vsync.c:123
 msgid "Limit emulation speed to specified value"
 msgstr "Limita la velocitÃ  di emulazione al valore specificato"
 
-#: src/vsync.c:121
+#: src/vsync.c:125
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aggiorna ogni <valore> frame (`0' per automatico)"
 
-#: src/vsync.c:123
+#: src/vsync.c:127
 msgid "Enable warp mode"
 msgstr "Attiva la modalitÃ  turbo"
 
-#: src/vsync.c:125
+#: src/vsync.c:129
 msgid "Disable warp mode"
 msgstr "Disattiva la modalitÃ  turbo"
 
-#: src/vsync.c:434
+#: src/vsync.c:438
 msgid "Your machine is too slow for current settings!"
 msgstr "La tua macchina Ã¨ troppo lenta per queste impostazioni!"
 
@@ -939,19 +939,19 @@ msgstr "UnitÃ  #10..."
 msgid "Unit #11..."
 msgstr "UnitÃ  #11..."
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:397
+#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:403
 msgid "Unit #8"
 msgstr "UnitÃ  #8"
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:399
+#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:405
 msgid "Unit #9"
 msgstr "UnitÃ  #9"
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:401
+#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:407
 msgid "Unit #10"
 msgstr "UnitÃ  #10"
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:409
 msgid "Unit #11"
 msgstr "UnitÃ  #11"
 
@@ -1094,59 +1094,59 @@ msgstr ""
 "Opzioni disponibili sulla riga di comando:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:317
-#: src/arch/unix/uikeyboard.c:109
+#: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
+#: src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "Impostazioni di VICE"
 
-#: src/arch/unix/uicommands.c:64
+#: src/arch/unix/uicommands.c:67
 msgid "Change current working directory"
 msgstr "Cambia la directory di lavoro"
 
-#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:322
+#: src/arch/unix/uicommands.c:70 src/arch/unix/uicommands.c:328
 msgid "Directory not found"
 msgstr "Directory non trovata"
 
-#: src/arch/unix/uicommands.c:99
+#: src/arch/unix/uicommands.c:102
 msgid "Couldn't run /bin/sh???"
 msgstr "Non Ã¨ possibile eseguire /bin/sh???"
 
-#: src/arch/unix/uicommands.c:102
+#: src/arch/unix/uicommands.c:105
 msgid "Couldn't run xterm"
 msgstr "Non Ã¨ possibile eseguire xterm"
 
-#: src/arch/unix/uicommands.c:107
+#: src/arch/unix/uicommands.c:110
 msgid "Unknown error while running c1541"
 msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
-#: src/arch/unix/uicommands.c:137
+#: src/arch/unix/uicommands.c:140
 msgid "No HTML browser is defined."
 msgstr "Non Ã¨ specificato nessun browser HTML."
 
-#: src/arch/unix/uicommands.c:156 src/arch/unix/uicommands.c:170
-#: src/arch/unix/uicommands.c:183
+#: src/arch/unix/uicommands.c:159 src/arch/unix/uicommands.c:173
+#: src/arch/unix/uicommands.c:186
 msgid "Browser command too long."
 msgstr "Il comando inviato al browser Ã¨ troppo lungo."
 
-#: src/arch/unix/uicommands.c:196
+#: src/arch/unix/uicommands.c:199
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Esecuzione di `%s'..."
 
-#: src/arch/unix/uicommands.c:198
+#: src/arch/unix/uicommands.c:201
 msgid "Cannot run HTML browser."
 msgstr "Non Ã¨ possibile eseguire il browser HTML."
 
-#: src/arch/unix/uicommands.c:237
+#: src/arch/unix/uicommands.c:240
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Caricamento veloce del file %s."
 
-#: src/arch/unix/uicommands.c:240
+#: src/arch/unix/uicommands.c:243
 msgid "Load snapshot"
 msgstr "Carica snapshot"
 
-#: src/arch/unix/uicommands.c:254
+#: src/arch/unix/uicommands.c:257
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1156,12 +1156,12 @@ msgstr ""
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:284
+#: src/arch/unix/uicommands.c:287
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Salvataggio veloce del file %s."
 
-#: src/arch/unix/uicommands.c:286 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:289 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -1171,117 +1171,117 @@ msgstr ""
 "Non Ã¨ possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:318 src/arch/unix/uicommands.c:441
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
 msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:374
+#: src/arch/unix/uicommands.c:380
 msgid "Record sound to file"
 msgstr "Registra l'audio su file"
 
-#: src/arch/unix/uicommands.c:390
+#: src/arch/unix/uicommands.c:396
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:393
+#: src/arch/unix/uicommands.c:399
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:409
+#: src/arch/unix/uicommands.c:415
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:417
+#: src/arch/unix/uicommands.c:423
 msgid "*Save new snapshot"
 msgstr "*Salva nuovo snapshot"
 
-#: src/arch/unix/uicommands.c:419
+#: src/arch/unix/uicommands.c:425
 msgid "*Load existing snapshot"
 msgstr "*Carica snapshot esistente"
 
-#: src/arch/unix/uicommands.c:421
+#: src/arch/unix/uicommands.c:427
 msgid "*Start with reset"
 msgstr "*Inizia con reset"
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:433
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:430
+#: src/arch/unix/uicommands.c:436
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:440
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:437
+#: src/arch/unix/uicommands.c:443
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:449
 msgid "Start recording events"
 msgstr "Inizia la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:445
+#: src/arch/unix/uicommands.c:451
 msgid "Stop recording events"
 msgstr "Termina la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:453
 msgid "Start playing back events"
 msgstr "Inizia la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:455
 msgid "Stop playing back events"
 msgstr "Termina la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:457
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:459
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:456
+#: src/arch/unix/uicommands.c:462
 msgid "Recording start mode"
 msgstr "ModalitÃ  di inizio registrazione"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:468
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:474
 msgid "Sound record..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:475
+#: src/arch/unix/uicommands.c:481
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:478
+#: src/arch/unix/uicommands.c:484
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:486
+#: src/arch/unix/uicommands.c:492
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:488
+#: src/arch/unix/uicommands.c:494
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:494 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:502
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:503
+#: src/arch/unix/uicommands.c:509
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
@@ -1876,27 +1876,27 @@ msgstr "*Mappaggio posizionale (US)"
 msgid "Read Keymap File"
 msgstr "Leggi il file di mappaggio"
 
-#: src/arch/unix/uikeyboard.c:109
+#: src/arch/unix/uikeyboard.c:112
 msgid "Write to Keymap File:"
 msgstr "Scrivi su file di mappaggio:"
 
-#: src/arch/unix/uikeyboard.c:118
+#: src/arch/unix/uikeyboard.c:121
 msgid "Keyboard mapping type"
 msgstr "Tipo di mappaggio della tastiera"
 
-#: src/arch/unix/uikeyboard.c:121
+#: src/arch/unix/uikeyboard.c:124
 msgid "Set symbolic keymap file"
 msgstr "Imposta il file per il mappaggio simbolico"
 
-#: src/arch/unix/uikeyboard.c:123
+#: src/arch/unix/uikeyboard.c:126
 msgid "Set positional keymap file"
 msgstr "Imposta il file per il mappaggio posizionale"
 
-#: src/arch/unix/uikeyboard.c:126
+#: src/arch/unix/uikeyboard.c:129
 msgid "Dump keymap to file"
 msgstr "Scrivi sul file la mappa della tastiera"
 
-#: src/arch/unix/uikeyboard.c:132
+#: src/arch/unix/uikeyboard.c:135
 msgid "Keyboard settings"
 msgstr "Impostazioni della tastiera"
 

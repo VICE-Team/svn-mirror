@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-06-17 23:04+0200\n"
+"POT-Creation-Date: 2004-06-19 22:25+0200\n"
 "PO-Revision-Date: 2004-05-04 21:35+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:119
+#: src/vsync.c:123
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:121
+#: src/vsync.c:125
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:123
+#: src/vsync.c:127
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:125
+#: src/vsync.c:129
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:434
+#: src/vsync.c:438
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -932,19 +932,19 @@ msgstr "Enhet 10..."
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:397
+#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:403
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:399
+#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:405
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:401
+#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:407
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:409
 msgid "Unit #11"
 msgstr "Enhet 11"
 
@@ -1087,59 +1087,59 @@ msgstr ""
 "Tillgängliga kommandoradsflaggor:\n"
 "\n"
 
-#: src/arch/unix/uicommands.c:63 src/arch/unix/uicommands.c:317
-#: src/arch/unix/uikeyboard.c:109
+#: src/arch/unix/uicommands.c:66 src/arch/unix/uicommands.c:323
+#: src/arch/unix/uikeyboard.c:112
 msgid "VICE setting"
 msgstr "VICE-inställning"
 
-#: src/arch/unix/uicommands.c:64
+#: src/arch/unix/uicommands.c:67
 msgid "Change current working directory"
 msgstr "Ändra aktuell arbetskatalog"
 
-#: src/arch/unix/uicommands.c:67 src/arch/unix/uicommands.c:322
+#: src/arch/unix/uicommands.c:70 src/arch/unix/uicommands.c:328
 msgid "Directory not found"
 msgstr "Katalogen ej funnen"
 
-#: src/arch/unix/uicommands.c:99
+#: src/arch/unix/uicommands.c:102
 msgid "Couldn't run /bin/sh???"
 msgstr "Kunde inte köra \"/bin/sh\"?"
 
-#: src/arch/unix/uicommands.c:102
+#: src/arch/unix/uicommands.c:105
 msgid "Couldn't run xterm"
 msgstr "Kunde inte köra \"xterm\""
 
-#: src/arch/unix/uicommands.c:107
+#: src/arch/unix/uicommands.c:110
 msgid "Unknown error while running c1541"
 msgstr "Okänt fel vid körning av c1541"
 
-#: src/arch/unix/uicommands.c:137
+#: src/arch/unix/uicommands.c:140
 msgid "No HTML browser is defined."
 msgstr "Ingen HTML-läsare angiven."
 
-#: src/arch/unix/uicommands.c:156 src/arch/unix/uicommands.c:170
-#: src/arch/unix/uicommands.c:183
+#: src/arch/unix/uicommands.c:159 src/arch/unix/uicommands.c:173
+#: src/arch/unix/uicommands.c:186
 msgid "Browser command too long."
 msgstr "Kommandorad för webbläsare för lång."
 
-#: src/arch/unix/uicommands.c:196
+#: src/arch/unix/uicommands.c:199
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Kör \"%s\"..."
 
-#: src/arch/unix/uicommands.c:198
+#: src/arch/unix/uicommands.c:201
 msgid "Cannot run HTML browser."
 msgstr "Kan inte köra HTML-läsare."
 
-#: src/arch/unix/uicommands.c:237
+#: src/arch/unix/uicommands.c:240
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Snabbladdar fil %s."
 
-#: src/arch/unix/uicommands.c:240
+#: src/arch/unix/uicommands.c:243
 msgid "Load snapshot"
 msgstr "Laddar ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:254
+#: src/arch/unix/uicommands.c:257
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -1149,12 +1149,12 @@ msgstr ""
 "\"%s\""
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:284
+#: src/arch/unix/uicommands.c:287
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Snabbsparar fil %s."
 
-#: src/arch/unix/uicommands.c:286 src/arch/unix/x11/gnome/uisnapshot.c:126
+#: src/arch/unix/uicommands.c:289 src/arch/unix/x11/gnome/uisnapshot.c:126
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
 #, c-format
 msgid ""
@@ -1164,117 +1164,117 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:318 src/arch/unix/uicommands.c:441
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
 msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:374
+#: src/arch/unix/uicommands.c:380
 msgid "Record sound to file"
 msgstr "Spela in ljud till fil"
 
-#: src/arch/unix/uicommands.c:390
+#: src/arch/unix/uicommands.c:396
 msgid "Soft"
 msgstr "Mjuk"
 
-#: src/arch/unix/uicommands.c:393
+#: src/arch/unix/uicommands.c:399
 msgid "Hard"
 msgstr "Hård"
 
-#: src/arch/unix/uicommands.c:409
+#: src/arch/unix/uicommands.c:415
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:417
+#: src/arch/unix/uicommands.c:423
 msgid "*Save new snapshot"
 msgstr "*Spara ny ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:419
+#: src/arch/unix/uicommands.c:425
 msgid "*Load existing snapshot"
 msgstr "*Ladda existerande ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:421
+#: src/arch/unix/uicommands.c:427
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:427
+#: src/arch/unix/uicommands.c:433
 msgid "Load snapshot..."
 msgstr "Ladda ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:430
+#: src/arch/unix/uicommands.c:436
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:434
+#: src/arch/unix/uicommands.c:440
 msgid "Quickload snapshot"
 msgstr "Snabbladda ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:437
+#: src/arch/unix/uicommands.c:443
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:449
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:445
+#: src/arch/unix/uicommands.c:451
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:453
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:455
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:457
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:459
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:456
+#: src/arch/unix/uicommands.c:462
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:468
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:474
 msgid "Sound record..."
 msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:475
+#: src/arch/unix/uicommands.c:481
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:478
+#: src/arch/unix/uicommands.c:484
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:486
+#: src/arch/unix/uicommands.c:492
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:488
+#: src/arch/unix/uicommands.c:494
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:494 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:502
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:503
+#: src/arch/unix/uicommands.c:509
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -1869,27 +1869,27 @@ msgstr "*Positionsriktig tangentbordsemulering (Amerikanskt tangentbord)"
 msgid "Read Keymap File"
 msgstr "Läs tangentbordsinställning"
 
-#: src/arch/unix/uikeyboard.c:109
+#: src/arch/unix/uikeyboard.c:112
 msgid "Write to Keymap File:"
 msgstr "Skriv tangentbordsinställning:"
 
-#: src/arch/unix/uikeyboard.c:118
+#: src/arch/unix/uikeyboard.c:121
 msgid "Keyboard mapping type"
 msgstr "Typ av tangentbordsinställning"
 
-#: src/arch/unix/uikeyboard.c:121
+#: src/arch/unix/uikeyboard.c:124
 msgid "Set symbolic keymap file"
 msgstr "Välj fil för symbolisk tangentbordsemulering"
 
-#: src/arch/unix/uikeyboard.c:123
+#: src/arch/unix/uikeyboard.c:126
 msgid "Set positional keymap file"
 msgstr "Välj fil för positionsriktig tangentbordsemulering"
 
-#: src/arch/unix/uikeyboard.c:126
+#: src/arch/unix/uikeyboard.c:129
 msgid "Dump keymap to file"
 msgstr "Spara tangentbordsemulering till fil"
 
-#: src/arch/unix/uikeyboard.c:132
+#: src/arch/unix/uikeyboard.c:135
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
 
