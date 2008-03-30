@@ -27,13 +27,8 @@
 #define _PROC_H
 
 /* BYTE is already defined in os2def.h    */
-/* ADDRESS is already defined in os2def.h */
-/* #define ADDRESS 0                      */
-#undef BYTE
-#undef ADDRESS
+//#undef BYTE
 #include <os2.h>
-#undef ADDRESS
-#define ADDRESS WORD
 
 extern void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2);
 

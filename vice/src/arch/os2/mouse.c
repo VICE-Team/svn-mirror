@@ -167,7 +167,6 @@ inline BYTE mouse_get_y(void)
 
 /* ----------------- OS/2 specific ------------------------- */
 
-#include "log.h"
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
 {
     if (!_mouse_enabled)

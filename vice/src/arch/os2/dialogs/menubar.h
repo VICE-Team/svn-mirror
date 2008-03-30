@@ -61,7 +61,8 @@
 #define IDM_MONITOR      0x11c
 #define IDM_HELP         0x11d
 #define IDM_CMDLINE      0x11e
-#define IDM_ABOUT        0x11f
+#define IDM_FSMODES      0x11f
+#define IDM_ABOUT        0x133
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x121

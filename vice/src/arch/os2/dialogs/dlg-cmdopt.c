@@ -121,6 +121,32 @@ HWND cmdopt_dialog(HWND hwnd)
     return hwnd2;
 }
 
+/*----------------------------------------------------------------- */
+
+HWND fsmodes_dialog(HWND hwnd)
+{
+    static HWND hwnd3 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd3))
+        return NULLHANDLE;
+
+    hwnd3 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP,
+                          pm_cmdopt, DLG_FSMODES, NULL);
+
+    if (hwnd)
+    {
+        //
+        // if the dialog is opened from the menubar while the
+        // emulator is still running, remove the entry for
+        // the dialog from the switch list
+        //
+        HSWITCH hswitch = WinQuerySwitchHandle(hwnd3, 0);
+        WinRemoveSwitchEntry(hswitch);
+    }
+
+    return hwnd3;
+}
+
 // -----------------------------------------------------------------
 HWND hwndLog=NULLHANDLE;
 

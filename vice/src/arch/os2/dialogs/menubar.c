@@ -65,7 +65,7 @@
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
 const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
-static void set_cbm_model(ADDRESS addr, void *model)
+static void set_cbm_model(WORD addr, void *model)
 {
     cbm2_set_model((char*)model, NULL);
 }
@@ -76,7 +76,7 @@ static void set_cbm_model(ADDRESS addr, void *model)
 #include "pets.h"
 const char pet_models[][10] = { "2001", "3008", "3016", "3032", "3032B", "4016",
                                 "4032", "4032B", "8032", "8096", "8296", "SuperPET" };
-static void set_pet_model(ADDRESS addr, void *model)
+static void set_pet_model(WORD addr, void *model)
 {
     pet_set_model((char*)model, NULL);
 }
@@ -118,17 +118,17 @@ extern int  get_volume(void);
 
 // --------------------------------------------------------------------------
 
-static void mon_trap(ADDRESS addr, void *unused_data)
+static void mon_trap(WORD addr, void *unused_data)
 {
     mon(addr);
 }
 
-static void toggle_async(ADDRESS addr, void *name)
+static void toggle_async(WORD addr, void *name)
 {
     toggle(name);
 }
 
-static void load_snapshot(ADDRESS addr, void *hwnd)
+static void load_snapshot(WORD addr, void *hwnd)
 {
     char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
     if (machine_read_snapshot(name,0) < 0)
@@ -140,7 +140,7 @@ static void load_snapshot(ADDRESS addr, void *hwnd)
     free(name);
 }
 
-static void save_snapshot(ADDRESS addr, void *hwnd)
+static void save_snapshot(WORD addr, void *hwnd)
 {
     // FIXME !!!!! roms, disks
     char *name = util_concat(archdep_boot_path(), "\\vice2.vsf", NULL);
@@ -969,6 +969,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_CMDLINE:
         cmdline_show_help((void*)hwnd);
+        return;
+
+    case IDM_FSMODES:
+        video_show_modes(hwnd);
         return;
 
     case IDM_ABOUT:

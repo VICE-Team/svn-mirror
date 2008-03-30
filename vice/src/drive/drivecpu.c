@@ -53,7 +53,6 @@
 #include "rotation.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
 #include "viad.h"
 
 
@@ -67,8 +66,8 @@ static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
                              BYTE value);
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
-cpu_int_status_t *drive0_int_status_ptr;
-cpu_int_status_t *drive1_int_status_ptr;
+interrupt_cpu_status_t *drive0_int_status_ptr;
+interrupt_cpu_status_t *drive1_int_status_ptr;
 
 monitor_interface_t *drive0_get_monitor_interface_ptr(void)
 {
@@ -135,14 +134,13 @@ void drive_cpu_setup_context(drive_context_t *drv)
 {
     monitor_interface_t *mi;
 
-    drv->cpu.int_status = (cpu_int_status_t *)xmalloc(sizeof(cpu_int_status_t));
+    drv->cpu.int_status = interrupt_cpu_status_new();
     drv->cpu.rmw_flag = 0;
     drv->cpu.d_bank_limit = -1;
     drv->cpu.pageone = NULL;
     sprintf(drv->cpu.snap_module_name, "DRIVECPU%d", drv->mynumber);
     sprintf(drv->cpu.identification_string, "DRIVE#%d", drv->mynumber + 8);
-    drv->cpu.monitor_interface
-        = (monitor_interface_t *)xmalloc(sizeof(monitor_interface_t));
+    drv->cpu.monitor_interface = monitor_interface_new();
     mi = drv->cpu.monitor_interface;
     mi->cpu_regs = &(drv->cpu.cpu_regs);
     mi->z80_cpu_regs = NULL;
@@ -321,6 +319,9 @@ void drive_cpu_shutdown(drive_context_t *drv)
         alarm_context_destroy(drv->cpu.alarm_context);
     if (drv->cpu.clk_guard != NULL)
         clk_guard_destroy(drv->cpu.clk_guard);
+
+    monitor_interface_destroy(drv->cpu.monitor_interface);
+    interrupt_cpu_status_destroy(drv->cpu.int_status);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -404,7 +405,8 @@ static void drive_generic_dma(void)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
+                                            CLOCK cpu_clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -422,7 +424,8 @@ inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-inline static int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
+                                            CLOCK cpu_clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 
@@ -693,7 +696,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW_INT(m, (unsigned int *)&(drv->cpu.last_opcode_info)) < 0
+        || SMR_DW_INT(m, (int*)&(drv->cpu.last_opcode_info)) < 0
         || SMR_DW(m, &(drv->cpu.last_clk)) < 0
         || SMR_DW(m, &(drv->cpu.cycle_accum)) < 0
         || SMR_DW(m, &(drv->cpu.last_exc_cycles)) < 0

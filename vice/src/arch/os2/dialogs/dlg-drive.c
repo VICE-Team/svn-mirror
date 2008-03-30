@@ -29,8 +29,11 @@
 #define INCL_WINSTDSPIN
 #define INCL_WINLISTBOXES
 #define INCL_WINENTRYFIELDS
+#include <os2.h>
+
 #include "vice.h"
 
+#include "ui.h"
 #include "ui_status.h"
 #include "dialogs.h"           // WinLbox*
 #include "dlg-drive.h"

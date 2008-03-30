@@ -26,14 +26,7 @@
 #ifndef _MOUSE_H
 #define _MOUSE_H
 
-/* BYTE is already defined in os2def.h    */
-/* ADDRESS is already defined in os2def.h */
-/* #define ADDRESS 0                      */
-#undef BYTE
-#undef ADDRESS
 #include <os2.h>
-#undef ADDRESS
-#define ADDRESS WORD
 
 #include "types.h"
 

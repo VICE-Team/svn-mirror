@@ -1,16 +1,9 @@
 #ifndef _VIDEOARCH_H
 #define _VIDEOARCH_H
 
-/* BYTE is already defined in os2def.h    */
-/* ADDRESS is already defined in os2def.h */
-/* #define ADDRESS 0                      */
-#undef BYTE
-#undef ADDRESS
 #define INCL_DOSSEMAPHORES
 #include <os2.h>
 #include <dive.h>
-#undef ADDRESS
-#define ADDRESS WORD
 
 #include "video.h"
 #include "palette.h"
@@ -65,5 +58,7 @@ typedef struct video_canvas_s
 };
 
 typedef struct video_canvas_s video_canvas_t;
+
+extern void video_show_modes(HWND hwnd);
 
 #endif

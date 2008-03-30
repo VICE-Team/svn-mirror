@@ -27,8 +27,11 @@
 #define INCL_WINBUTTONS
 #define INCL_WINSTDSPIN   // SPBN_*
 #define INCL_WINDIALOGS
+#include <os2.h>
+
 #include "vice.h"
 
+#include "ui.h"
 #include "ui_status.h"
 
 #include "dialogs.h"

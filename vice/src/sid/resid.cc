@@ -129,12 +129,12 @@ void resid_close(sound_t *psid)
     delete psid;
 }
 
-BYTE resid_read(sound_t *psid, ADDRESS addr)
+BYTE resid_read(sound_t *psid, WORD addr)
 {
     return psid->sid.read(addr);
 }
 
-void resid_store(sound_t *psid, ADDRESS addr, BYTE byte)
+void resid_store(sound_t *psid, WORD addr, BYTE byte)
 {
     psid->sid.write(addr, byte);
 }

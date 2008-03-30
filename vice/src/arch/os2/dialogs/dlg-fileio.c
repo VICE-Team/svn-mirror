@@ -311,7 +311,7 @@ static int save_screenshot(trapaction_t *act)
     return screenshot_save(drv, act->path, canvas);
 }
 
-static void exec_func(ADDRESS addr, void *ptr)
+static void exec_func(WORD addr, void *ptr)
 {
     trapaction_t *act = (trapaction_t*)ptr;
 

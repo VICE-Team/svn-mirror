@@ -46,6 +46,7 @@
 #define DLG_CMDOPT     0x10d0
 #define DLG_LOGGING    0x10e0
 #define DLG_VSID       0x10f0
+#define DLG_FSMODES    0x1100
 #define DLG_JOYSTICK   0x1400
 #define DLG_CALIBRATE  0x1405
 #define DLG_KEYSET     0x140f
@@ -68,6 +69,9 @@
 
 // Commandline option Dialog
 #define LB_CMDOPT      0x10
+
+// Video modes Dialog
+#define LB_FSMODES     0x10
 
 // Logging Dialog
 #define LB_LOG         0x10
@@ -142,6 +146,7 @@ extern void about_dialog    (HWND hwnd);
 extern void contents_dialog (HWND hwnd, char *szFullFile);
 extern void create_dialog   (HWND hwnd);
 extern HWND cmdopt_dialog   (HWND hwnd);
+extern HWND fsmodes_dialog  (HWND hwnd);
 extern void log_dialog      (int state);
 
 extern void hardreset_dialog (HWND hwnd);

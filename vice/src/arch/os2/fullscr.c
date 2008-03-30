@@ -26,6 +26,7 @@
 #include "vice.h"
 
 #define INCL_WININPUT        // WinSetCapture
+#define INCL_WINDIALOGS      // WinProcessDlg
 #define INCL_WINPOINTERS     // WinShowPointer
 #define INCL_WINWINDOWMGR    // QWL_USER
 #define INCL_DOSMODULEMGR    // DosLoadModule
@@ -44,9 +45,6 @@
 
 #include "log.h"
 
-// FIXME!!
-#define SRC_COLORFORMAT  FOURCC_R565
-
 static log_t fslog = LOG_ERR;
 
 static GDDMODEINFO desktopmode;         // List of all supported video modes
@@ -59,6 +57,7 @@ static int         vmiinit = 0;
 static long          NumVideoModes;    // Number of supported video modes
 static PGDDMODEINFO  ModeInfo;         // List of all supported video modes
 static PGDDMODEINFO  NewModeInfo;      // New video mode for fullscreen
+static FOURCC        fccColorEncoding; // Mode to be used
 static BOOL          fFullScreenMode;  // Flag to show if the application is running in fullscreen mode or not.
                                        // Note, that it doesn't mean that the desktop is in fullscreen mode now,
                                        // because it only shows that when the application gets focus, it should
@@ -192,6 +191,8 @@ int pfnSetMode(long modeid)
 
 void PrintModeInfo(GDDMODEINFO *mode)
 {
+    const int fcc = mode->fccColorEncoding;
+
     if (!mode)
         return;
 
@@ -212,10 +213,7 @@ void PrintModeInfo(GDDMODEINFO *mode)
     log_message(fslog, "Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
                 mode->ulModeId&0xff, mode->ulHorizResolution, mode->ulVertResolution,
                 mode->ulBpp, mode->ulRefreshRate,
-                (mode->fccColorEncoding & 0x000000ff),
-                (mode->fccColorEncoding & 0x0000ff00) >> 8,
-                (mode->fccColorEncoding & 0x00ff0000) >> 16,
-                (mode->fccColorEncoding & 0xff000000) >> 24, mode->cColors);
+                fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
 }
 
 ///////////////////////////////////////
@@ -227,7 +225,7 @@ void PrintModeInfo(GDDMODEINFO *mode)
 // sets the NewModeInfo pointer to point
 // to that part of ModeInfo, if found.
 //
-GDDMODEINFO *FindVideoMode(int w, int h, int bpp, int r)
+GDDMODEINFO *FindVideoMode(int w, int h, FOURCC fcc, /*int bpp,*/ int r)
 {
     long l;
     GDDMODEINFO *mode, *res;
@@ -245,10 +243,10 @@ GDDMODEINFO *FindVideoMode(int w, int h, int bpp, int r)
 
     for (l=0; l<NumVideoModes; mode++,l++)
     {
-        if (mode->ulHorizResolution>=w && mode->ulHorizResolution <maxw &&
-            mode->ulVertResolution >=h && mode->ulVertResolution  <maxh &&
-            mode->ulRefreshRate    >=r && mode->ulRefreshRate     <rate &&
-            mode->ulBpp == 16 && mode->fccColorEncoding  == SRC_COLORFORMAT)
+        if (mode->ulHorizResolution>=w && mode->ulHorizResolution<maxw &&
+            mode->ulVertResolution >=h && mode->ulVertResolution <maxh &&
+            mode->ulRefreshRate    >=r && mode->ulRefreshRate    <rate &&
+            /*mode->ulBpp == 16 &&*/ mode->fccColorEncoding == fcc)
         {
             maxw = mode->ulHorizResolution;
             maxh = mode->ulVertResolution;
@@ -270,7 +268,7 @@ GDDMODEINFO *FindVideoMode(int w, int h, int bpp, int r)
         if (mode->ulHorizResolution>=w && mode->ulHorizResolution<maxw &&
             mode->ulVertResolution >=h && mode->ulVertResolution <maxh &&
             mode->ulRefreshRate    < r && mode->ulRefreshRate    >rate &&
-            mode->ulBpp == 16 && mode->fccColorEncoding  == SRC_COLORFORMAT)
+            /*mode->ulBpp == 16 &&*/ mode->fccColorEncoding == fcc)
             // && mode->ulRefreshRate==60)
         {
             maxw = mode->ulHorizResolution;
@@ -285,7 +283,8 @@ GDDMODEINFO *FindVideoMode(int w, int h, int bpp, int r)
     if (rate>0)
         return res;
 
-    log_message(fslog, "Requested Video Mode not found (%dx%dx%d)", w, h, bpp);
+    log_message(fslog, "Requested Video Mode not found (%dx%d, %c%c%c%c)", w, h,
+                fcc, fcc>>8, fcc>>16, fcc>>24);
 
     return NULL;
 }
@@ -375,13 +374,15 @@ int SwitchIntoFullscreen(HWND hwnd)
     unsigned int maxw = -1;
     unsigned int maxh = -1;
     unsigned int rate = -1;
+    FOURCC fcc = fccColorEncoding;
     int l;
 
     WinQueryWindowPos(hwnd, &swp);
 
-    log_message(fslog, "Search for best fullscreen mode:");
+    log_message(fslog, "Search for best fullscreen mode %dx%dx%d (>=%dHz, %c%c%c%c):",
+                swp.cx, swp.cy, 16, fRate, fcc, fcc>>8, fcc>>16, fcc>>24);
 
-    mode = FindVideoMode(swp.cx, swp.cy, 16, fRate);
+    mode = FindVideoMode(swp.cx, swp.cy, fcc, fRate);
     if (!mode)
     {
         log_error(fslog, "No matching video mode found!");
@@ -436,6 +437,7 @@ void FullscreenChangeMode(HWND hwnd)
     APERTURE     aperture;
     FBINFO       fbinfo;
     GDDMODEINFO *mode;
+    FOURCC       fcc = fccColorEncoding;
 
     int l;
 
@@ -444,13 +446,14 @@ void FullscreenChangeMode(HWND hwnd)
 
     WinQueryWindowPos(hwnd, &swp);
 
-    log_message(fslog, "Search for best fullscreen mode:");
+    log_message(fslog, "Search for best fullscreen mode %dx%d (>=%dHz, %c%c%c%c):",
+                swp.cx, swp.cy, fRate, fcc, fcc>>8, fcc>>16, fcc>>24);
 
-    mode = FindVideoMode(swp.cx, swp.cy, 16, fRate);
+    mode = FindVideoMode(swp.cx, swp.cy, fccColorEncoding, fRate);
     if (!mode)
     {
         log_error(fslog, "No matching video mode found!");
-        FullscreenDisable();
+        //FullscreenDisable();
         return;
     }
     PrintModeInfo(mode);
@@ -599,7 +602,7 @@ int InitModeInfo(void)
     return -1;
 }
 
-int FullscreenInit(void)
+int FullscreenInit(FOURCC fcc)
 {
     int rc;
     INITPROCOUT ipo;
@@ -653,6 +656,8 @@ int FullscreenInit(void)
     log_message(fslog, "Desktop Video Mode:");
     PrintModeInfo(&desktopmode);
 
+    fccColorEncoding = fcc;
+
     return NO_ERROR;
 }
 
@@ -684,7 +689,7 @@ int FullscreenFree(void)
 int FullscreenSwitch(HWND hwnd)
 {
     if (!hmodVMAN)
-        return;
+        return 0;
 
     WinSetVisibleRegionNotify(hwnd, FALSE);
     WinSendMsg(hwnd, WM_VRNDISABLED, 0, 0);
@@ -744,4 +749,57 @@ int FullscreenQueryVertRes(void)
     GDDMODEINFO mode;
     FullscreenQueryCurrentMode(&mode);
     return mode.ulVertResolution;
+}
+
+// ------------------------- Vice specific ---------------------------
+#include "utils.h"
+#include "dialogs.h"
+
+void video_show_modes(HWND hwnd)
+{
+    long l;
+    GDDMODEINFO *mode=ModeInfo;
+
+    if (!hmodVMAN)
+        return;
+
+    //
+    // open dialog
+    //
+    hwnd = fsmodes_dialog(hwnd);
+
+    if (!hwnd)
+        return;
+
+    //
+    // fill dialog with text
+    //
+
+    log_message(fslog, "Available GRADD Video Modes: %d", NumVideoModes);
+
+    if (!mode)
+        return;
+
+    for (l=0; l<NumVideoModes; mode++,l++)
+    {
+        const int fcc = mode->fccColorEncoding;
+        char *txt = xmsprintf("Id=%4d, %4dx%4d/%2d (%3d Hz)  FourCC: %c%c%c%c (%d)",
+                              mode->ulModeId&0xff, mode->ulHorizResolution, mode->ulVertResolution,
+                              mode->ulBpp, mode->ulRefreshRate,
+                              fcc, fcc>>8, fcc>>16, fcc>>24, mode->cColors);
+        WinSendMsg(hwnd, WM_INSERT, txt, (void*)TRUE);
+        free(txt);
+    }
+
+    //
+    // MAINLOOP
+    //
+    WinProcessDlg(hwnd);
+
+    //
+    // WinProcessDlg() does NOT destroy the window on return! Do it here,
+    // otherwise the window procedure won't ever get a WM_DESTROY,
+    // which we may want :-)
+    //
+    WinDestroyWindow(hwnd);
 }

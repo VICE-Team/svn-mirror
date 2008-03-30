@@ -83,11 +83,11 @@
 #ifdef DIRECT_ACCESS
 #define divecaps.fccColorEncoding
 #define divecaps.ulDepth
-#else
+//#else
 //#define SRC_COLORFORMAT  FOURCC_LUT8
-#define SRC_COLORFORMAT  FOURCC_R565
-//#define SRC_COLORFORMAT  FOURCC_RGB3
-//#define SRC_COLORFORMAT  FOURCC_RGB4
+//#define SRC_COLORFORMAT  FOURCC_R565  // 16bit
+//#define SRC_COLORFORMAT  FOURCC_RGB3  // 24bit
+//#define SRC_COLORFORMAT  FOURCC_RGB4  // 32bit
 #endif
 
 //
@@ -664,10 +664,20 @@ int video_init(void) // initialize Dive
                 divecaps.fScreenDirect?", Direct access supported":"",
                 divecaps.fBankSwitched?", Bank switch required":"");
 
+    if (divecaps.fccColorEncoding!=FOURCC_LUT8 &&
+        divecaps.fccColorEncoding!=FOURCC_R565 &&
+        divecaps.fccColorEncoding!=FOURCC_RGB3 &&
+        divecaps.fccColorEncoding!=FOURCC_RGB4)
+        divecaps.fccColorEncoding = FOURCC_RGB3;
+
+    rc = divecaps.fccColorEncoding;
+    log_message(vidlog, "Vice internal rendering switched to %c%c%c%c.",
+                rc, rc>>8, rc>>16, rc>>24);
+
     log_message(vidlog, "Initializing Fullscreen Capabilities...");
 
 #ifndef __X128__
-    if (FullscreenInit()!=NO_ERROR)
+    if (FullscreenInit(divecaps.fccColorEncoding)!=NO_ERROR)
         FullscreenFree();
 /*    else
         FullscreenPrintModes();*/
@@ -693,6 +703,9 @@ void video_close(void)
 
 static ULONG GetDepth(FOURCC fcc)
 {
+    //
+    // Should be used only for 'valid' modes: LUT8, R565, RGB3, RGB4
+    //
     switch (fcc)
     {
     case FOURCC_LUT8: return 8;
@@ -788,8 +801,8 @@ MRESULT WmCreate(HWND hwnd)
     canvas_new->divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
     canvas_new->divesetup.ulDitherType      = 0; // 0=1x1, 1=2x2
     canvas_new->divesetup.fInvert           = 0; // Bit0=vertical, Bit1=horz
-    canvas_new->divesetup.fccSrcColorFormat = SRC_COLORFORMAT;
-    canvas_new->bDepth                      = GetDepth(SRC_COLORFORMAT);
+    canvas_new->divesetup.fccSrcColorFormat = divecaps.fccColorEncoding;
+    canvas_new->bDepth                      = GetDepth(divecaps.fccColorEncoding);
     canvas_new->divesetup.fccDstColorFormat = FOURCC_SCRN;
     canvas_new->divesetup.pVisDstRects      = calloc(DIVE_RECTLS, sizeof(RECTL));
 
@@ -2225,4 +2238,3 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
 }
-

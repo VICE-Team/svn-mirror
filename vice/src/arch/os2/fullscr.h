@@ -4,6 +4,8 @@
 #ifndef OS2_FULLSCR_H
 #define OS2_FULLSCR_H
 
+#include <dive.h>
+
 struct GDDMODEINFO;
 struct video_canvas_t;
 
@@ -12,7 +14,7 @@ extern void FullscreenDeactivate(HWND hwnd);
 extern void FullscreenDisable(void);
 extern int  FullscreenActivate(HWND hwnd);
 extern int  FullscreenIsInMode(void);
-extern int  FullscreenInit(void);
+extern int  FullscreenInit(FOURCC fcc);
 extern int  FullscreenFree(void);
 extern int  FullscreenPrintModes(void);
 extern int  FullscreenQueryHorzRes(void);

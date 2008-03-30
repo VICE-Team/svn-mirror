@@ -17,5 +17,6 @@ source type(c)
     "iec/iec-resources.c",
     "iec/iec.c",
     "iec/iecrom.c",
+    "iec/jobcode1581.c",
     "iec/memiec.c",
     "iec/wd1770.c"

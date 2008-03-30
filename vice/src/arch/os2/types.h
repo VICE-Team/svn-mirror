@@ -23,14 +23,6 @@
  *  02111-1307  USA.
  *
  */
-
-/* ADDRESS is already defined in os2def.h */
-/* #define ADDRESS 0                      */
-#ifdef ADDRESS
-#undef ADDRESS
-#endif
-#define ADDRESS WORD
-
 #ifndef _VICE_TYPES_H
 #define _VICE_TYPES_H
 

@@ -133,8 +133,6 @@ void vice_exit(void)
 {
     APIRET rc;
 
-    machine_shutdown();
-
     rc = DosCloseEventSem(hevTimer); // Get rid of semaphore
     if (rc)
         log_error(vsynclog, "DosCloseEventSem (rc=%u)", rc);
@@ -142,6 +140,8 @@ void vice_exit(void)
     video_close();
 
     PM_close();
+
+    machine_shutdown();
 
     exit(0);
 }

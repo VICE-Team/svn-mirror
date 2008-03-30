@@ -498,9 +498,10 @@ BEGIN
       // MENUITEM "~Using help",          IDM_HLPUSINGHLP, MIS_TEXT
       // MENUITEM "~Keyboard",            IDM_HLPKEYBOARD, MIS_TEXT
       MENUITEM SEPARATOR
-      MENUITEM "~Commandline Options", IDM_CMDLINE,    MIS_TEXT
+      MENUITEM "~Commandline Options",   IDM_CMDLINE,  MIS_TEXT
+      MENUITEM "Available ~Video Modes", IDM_FSMODES,  MIS_TEXT
       MENUITEM SEPARATOR
-      MENUITEM "~About Vice/2...",     IDM_ABOUT,      MIS_TEXT
+      MENUITEM "~About Vice/2...",       IDM_ABOUT,    MIS_TEXT
    END
 END
 

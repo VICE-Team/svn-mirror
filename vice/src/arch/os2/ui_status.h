@@ -27,14 +27,6 @@
 #ifndef _UI_STATUS_H
 #define _UI_STATUS_H
 
-#undef BYTE
-#undef ADDRESS
-#include <os2.h>
-#undef ADDRESS
-#define ADDRESS WORD
-
-#include "ui.h"
-
 typedef struct _ui_status
 {
     HPS   hps;

@@ -83,7 +83,7 @@ static char *fmt(unsigned int val, unsigned char sz)
     return txt;
 }
 
-static const char *mon_dis(MEMSPACE mem, ADDRESS loc, unsigned int *size)
+static const char *mon_dis(MEMSPACE mem, WORD loc, unsigned int *size)
 {
     const BYTE op = mon_get_mem_val(mem, loc);
     const BYTE p1 = mon_get_mem_val(mem, loc+1);
@@ -110,7 +110,7 @@ static void UpdateDisassembly(HWND hwnd)
     const HWND lbox = WinWindowFromID(hwnd, LB_MONDIS);
           ULONG cnt = WinQueryLboxCount(lbox);
 
-    ADDRESS loc = mon_get_reg_val(mem, e_PC);
+    WORD loc = mon_get_reg_val(mem, e_PC);
 
     unsigned int sel=0;
     unsigned int size;
@@ -194,7 +194,7 @@ static void UpdateDisassembly(HWND hwnd)
     WinLboxSelectItem(lbox, sel);
 }
 
-static void InsertMemLine(HWND lbox, MEMSPACE mem, ADDRESS *addr, LONG idx)
+static void InsertMemLine(HWND lbox, MEMSPACE mem, WORD *addr, LONG idx)
 {
 #define MAXX 0x10 // 16
     int x;
@@ -223,7 +223,7 @@ static void UpdateMemory(HWND hwnd)
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(hwnd, QWL_USER);
     const HWND    lbox = WinWindowFromID(hwnd, LB_MONDIS);
 
-    ADDRESS addr = MAXX*(mon_get_reg_val(mem, e_PC)/MAXX) - 0x10000;
+    WORD addr = MAXX*(mon_get_reg_val(mem, e_PC)/MAXX) - 0x10000;
 
     WinLboxEmpty(lbox);
 
@@ -377,7 +377,7 @@ void ScrollUp(HWND hwnd)
     const HWND     par = WinQueryWindow(hwnd, QW_PARENT);
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(par, QWL_USER);
 
-    ADDRESS addr = 0x10000 + WinLboxItemHandle(hwnd, 0) - MAXX;
+    WORD addr = 0x10000 + WinLboxItemHandle(hwnd, 0) - MAXX;
 
     InsertMemLine(hwnd, mem, &addr, 0);
     WinDeleteLboxItem(hwnd, num);
@@ -389,7 +389,7 @@ void ScrollDown(HWND hwnd)
     const HWND     par = WinQueryWindow(hwnd, QW_PARENT);
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(par, QWL_USER);
 
-    ADDRESS addr = WinLboxItemHandle(hwnd, num-1) + MAXX;
+    WORD addr = WinLboxItemHandle(hwnd, num-1) + MAXX;
 
     InsertMemLine(hwnd, mem, &addr, num);
     WinDeleteLboxItem(hwnd, 0);
