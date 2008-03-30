@@ -59,13 +59,15 @@ void dump_fb(char *wo);
 #include "palette.h"
 #include "log.h"
 #include "ui.h"
-#include "vsyncapi.h"
-#include "utils.h"
-#include "videoarch.h"
-#include "video.h"
 #include "uimenu.h"
 #include "uisettings.h"
+#include "utils.h"
+#include "video.h"
+#include "videoarch.h"
+#include "vsyncapi.h"
+#include "x11ui.h"
 #include "fullscreen-common.h"
+
 
 typedef struct {
   int modeindex;
@@ -243,7 +245,7 @@ int fullscreen_vidmode_available(void)
     fs_bestmode_counter = 0;
     fs_available = 0;
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
 #if 0
 #ifndef FS_DEBUG
@@ -288,7 +290,7 @@ int fullscreen_vidmode_available(void)
 	    fs_allmodes_dga2[i].viewportWidth >= 320 &&
 	    fs_allmodes_dga2[i].viewportHeight <= 600  &&
 	    fs_allmodes_dga2[i].viewportHeight >= 200 &&
-	    fs_allmodes_dga2[i].depth == ui_get_display_depth() &&
+	    fs_allmodes_dga2[i].depth == x11ui_get_display_depth() &&
 	    fs_allmodes_dga2[i].visualClass != DirectColor &&
 	    (fs_allmodes_dga2[i].flags & XDGAPixmap)) 
 */
@@ -884,13 +886,13 @@ static void fullscreen_dispatch_events_2(void)
 	    if (key == XK_u)
 		dump_fb("on demand");
 #endif
-	    x11kbd_press(key);
+	    x11kbd_press((signed long)key);
 	    break;
 	    
 	case KeyRelease:
  	    XDGAKeyEventToXKeyEvent(&(event.xkey), &xk);
 	    XLookupString(&xk, buffer, 20, &key, &compose);
-	    x11kbd_release(key);
+	    x11kbd_release((signed long)key);
 	    break;
 
 	default:

@@ -1,5 +1,5 @@
 /*
- * uisnapshot.c - Cartridge save image dialog for the Xaw widget set.
+ * uicartridge.c - Cartridge save image dialog for the Xaw widget set.
  *
  * Written by
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
@@ -48,9 +48,10 @@
 
 #include "uicartridge.h"
 
+#include "cartridge.h"
 #include "machine.h"
 #include "ui.h"
-#include "cartridge.h"
+#include "uiarch.h"
 
 static Widget cartridge_dialog;
 static Widget cartridge_dialog_pane;
@@ -180,3 +181,4 @@ void ui_cartridge_dialog(void)
     build_cartridge_dialog();
     ui_popup(cartridge_dialog, _("Save cartridge image"), True);
 }
+

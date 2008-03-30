@@ -67,6 +67,8 @@
 #include "vsyncapi.h"
 #include "utils.h"
 #include "videoarch.h"
+#include "x11ui.h"
+
 
 typedef struct {
   int modeindex;
@@ -183,7 +185,7 @@ int fullscreen_vidmode_available(void)
     fullscreen_bestmode_counter = 0;
     fullscreen_vidmodeavail = 0;
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
 #ifndef FS_DEBUG
     if (XF86DGAForkApp(XDefaultScreen(display)) != 0)
@@ -287,7 +289,7 @@ int fullscreen_vidmode_available(void)
 		fullscreen_allmodes_dga2[i].viewportWidth >= 320 &&
 		fullscreen_allmodes_dga2[i].viewportHeight <= 600  &&
 		fullscreen_allmodes_dga2[i].viewportHeight >= 200 &&
-		fullscreen_allmodes_dga2[i].depth == ui_get_display_depth() &&
+		fullscreen_allmodes_dga2[i].depth == x11ui_get_display_depth() &&
 		fullscreen_allmodes_dga2[i].visualClass != DirectColor &&
 		(fullscreen_allmodes_dga2[i].flags & XDGAPixmap)) {
 
@@ -591,7 +593,7 @@ void fullscreen_mode_init(void)
     if (fullscreen_selected_videomode_index == -1 && fullscreen_bestmode_counter > 0)
         fullscreen_selected_videomode_index = fullscreen_bestmodes[0].modeindex;
 
-    fb_depth = ui_get_display_depth()/8;
+    fb_depth = x11ui_get_display_depth() / 8;
 
     if (fullscreen_use_fullscreen_at_start) {
         fullscreen_mode_on();
@@ -658,13 +660,13 @@ static void fullscreen_dispatch_events_2(void)
 	    if (key == XK_d)
 		fullscreen_request_set_mode(0, NULL);
 #endif
-	    x11kbd_press(key);
+	    x11kbd_press((signed_long)key);
 	    break;
 	    
 	case KeyRelease:
  	    XDGAKeyEventToXKeyEvent(&(event.xkey), &xk);
 	    XLookupString(&xk, buffer, 20, &key, &compose);
-	    x11kbd_release(key);
+	    x11kbd_release((signed long)key);
 	    break;
 
 	default:

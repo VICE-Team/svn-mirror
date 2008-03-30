@@ -50,9 +50,11 @@
 #include "diskimage.h"
 #include "machine.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "uiedisk.h"
 #include "utils.h"
 #include "vdrive.h"
+
 
 static Widget emptydisk_dialog;
 static Widget emptydisk_dialog_pane;
@@ -122,35 +124,36 @@ static UI_CALLBACK(save_callback)
     type_cnt = 0;
     XtVaGetValues(disk_type_d64_button, XtNstate, &disk_type_flag, NULL);
     if (disk_type_flag == False) {
-      type_cnt ++;
-      XtVaGetValues(disk_type_d67_button, XtNstate, &disk_type_flag, NULL);
-      if (disk_type_flag == False) {
-	type_cnt ++;
-        XtVaGetValues(disk_type_d71_button, XtNstate, &disk_type_flag, NULL);
+        type_cnt ++;
+        XtVaGetValues(disk_type_d67_button, XtNstate, &disk_type_flag, NULL);
         if (disk_type_flag == False) {
-	    type_cnt ++;
-            XtVaGetValues(disk_type_d81_button, XtNstate, 
-							&disk_type_flag, NULL);
+            type_cnt ++;
+            XtVaGetValues(disk_type_d71_button, XtNstate,
+                          &disk_type_flag, NULL);
             if (disk_type_flag == False) {
-	        type_cnt ++;
-                XtVaGetValues(disk_type_d80_button, XtNstate, 
-							&disk_type_flag, NULL);
+                type_cnt ++;
+                XtVaGetValues(disk_type_d81_button, XtNstate,
+                              &disk_type_flag, NULL);
                 if (disk_type_flag == False) {
-	            type_cnt ++;
-                    XtVaGetValues(disk_type_d82_button, XtNstate, 
-							&disk_type_flag, NULL);
+                    type_cnt ++;
+                    XtVaGetValues(disk_type_d80_button, XtNstate,
+                                  &disk_type_flag, NULL);
                     if (disk_type_flag == False) {
-	                type_cnt ++;
-                        XtVaGetValues(disk_type_g64_button, XtNstate,
-                                                        &disk_type_flag, NULL);
+                        type_cnt ++;
+                        XtVaGetValues(disk_type_d82_button, XtNstate,
+                                      &disk_type_flag, NULL);
                         if (disk_type_flag == False) {
                             type_cnt ++;
+                            XtVaGetValues(disk_type_g64_button, XtNstate,
+                                          &disk_type_flag, NULL);
+                            if (disk_type_flag == False) {
+                                type_cnt ++;
+                            }
                         }
-		    }
-		}
-	    }
-	}
-      }
+                    }
+                }
+            }
+        }
     }
   
     if (type_cnt < 0 || type_cnt > 5)
@@ -222,7 +225,7 @@ static void build_emptydisk_dialog(void)
          NULL);
 #endif
     XtOverrideTranslations(file_name_field,
-                               XtParseTranslationTable(text_box_translations));
+                           XtParseTranslationTable(text_box_translations));
 
     browse_button = XtVaCreateManagedWidget
         ("browseButton",
@@ -275,7 +278,7 @@ static void build_emptydisk_dialog(void)
          NULL);
 #endif
     XtOverrideTranslations(image_name_field,
-                               XtParseTranslationTable(text_box_translations));
+                           XtParseTranslationTable(text_box_translations));
 
     options_form = XtVaCreateManagedWidget
         ("optionsForm",

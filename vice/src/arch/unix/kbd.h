@@ -27,8 +27,6 @@
 #ifndef _KBD_H
 #define _KBD_H
 
-#include "ui.h"
-
 extern void kbd_arch_init(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
@@ -55,8 +53,8 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_CBM2_BGRS "x11_bgrs.vkm"
 #define KBD_CBM2_BGRP "x11_bgrp.vkm"
 
-extern void x11kbd_press(ui_keysym_t key);
-extern void x11kbd_release(ui_keysym_t key);
+extern void x11kbd_press(signed long key);
+extern void x11kbd_release(signed long key);
 extern void x11kbd_enter_leave(void);
 extern void x11kbd_focus_change(void);
 

@@ -68,7 +68,7 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
 static int meta_count = 0;
 static int control_count, shift_count;
 
-void x11kbd_press(ui_keysym_t key)
+void x11kbd_press(signed long key)
 {
 #ifdef DEBUG_KBD
     log_debug("KeyPress `%s'.", XKeysymToString(key));
@@ -111,10 +111,10 @@ void x11kbd_press(ui_keysym_t key)
     if (key == NoSymbol)
         return;
 
-    keyboard_key_pressed((signed long)key);
+    keyboard_key_pressed(key);
 }
 
-void x11kbd_release(ui_keysym_t key)
+void x11kbd_release(signed long key)
 {
 #ifdef DEBUG_KBD
     log_debug("KeyRelease `%s'.", XKeysymToString(key));
@@ -172,7 +172,7 @@ void x11kbd_release(ui_keysym_t key)
     if (key == NoSymbol)
         return;
 
-    keyboard_key_released((signed long)key);
+    keyboard_key_released(key);
 }
 
 void x11kbd_enter_leave(void)
