@@ -28,9 +28,10 @@
 #ifndef _VICII_H
 #define _VICII_H
 
-#include "snapshot.h"
 #include "types.h"
 #include "vicii-mem.h"
+
+struct snapshot_s;
 
 extern int vic_ii_init_resources (void);
 extern int vic_ii_init_cmdline_options (void);
@@ -47,9 +48,10 @@ extern void vic_ii_resize (void);
 extern void vic_ii_set_set_canvas_refresh(int enable);
 extern void vic_ii_change_timing(void);
 extern void vic_ii_reset_registers(void);
+extern void vic_ii_update_memory_ptrs_external(void);
 
-extern int vic_ii_write_snapshot_module (snapshot_t *s);
-extern int vic_ii_read_snapshot_module (snapshot_t *s);
+extern int vic_ii_write_snapshot_module (struct snapshot_s *s);
+extern int vic_ii_read_snapshot_module (struct snapshot_s *s);
 
 extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
 

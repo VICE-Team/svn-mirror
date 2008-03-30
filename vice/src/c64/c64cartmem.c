@@ -36,6 +36,7 @@
 #include "cartridge.h"
 #include "interrupt.h"
 #include "log.h"
+#include "vicii.h"
 #include "types.h"
 
 /* Expansion port signals.  */
@@ -80,6 +81,7 @@ static void cartridge_config_changed(BYTE mode)
     if (mode & 0x40)
         cartridge_release_freeze();
     ultimax = export.game & (export.exrom ^ 1);
+    vic_ii_update_memory_ptrs_external();
 }
 
 BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)

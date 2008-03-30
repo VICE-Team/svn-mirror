@@ -59,6 +59,7 @@
 
 #include "alarm.h"
 #include "c64.h"
+#include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -661,6 +662,12 @@ vic_ii_set_ram_base (BYTE * base)
   vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 }
 
+
+void vic_ii_update_memory_ptrs_external(void)
+{
+    if (vic_ii.initialized > 0)
+        vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+}
 
 /* Set the memory pointers according to the values in the registers.  */
 void
