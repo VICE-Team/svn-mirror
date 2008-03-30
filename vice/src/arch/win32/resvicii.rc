@@ -1,0 +1,20 @@
+// VICII specific resources.
+//
+
+IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure VIC-II Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Sprite Collisions",IDC_STATIC,10,5,125,40
+    AUTOCHECKBOX    "Sprite-&sprite collisions", IDC_TOGGLE_VICII_SSC,
+                    15,15,115,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "Sprite-background &collisions", IDC_TOGGLE_VICII_SBC,
+                    15,30,115,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "New Colors", IDC_TOGGLE_VICII_NEWLUM,
+                    15,50,115,10, BS_AUTOCHECKBOX | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 15,70,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 70,70,50,14, WS_TABSTOP
+END
+
