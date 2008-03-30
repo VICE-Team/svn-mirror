@@ -156,6 +156,8 @@ static int set_timer_speed(int speed)
 {
     speed_eval_suspended = 1;
 
+    vsyncarch_freq = vsyncarch_frequency();
+
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
         frame_ticks = vsyncarch_freq/refresh_frequency*100/speed;
@@ -180,7 +182,7 @@ static void display_speed(int num_frames)
     /* Lie a bit by correcting for sound speed.  This yields a nice
        100%, 50 fps instead of e.g. 98%, 49fps if the sound hardware
        should have a slightly different understanding of time. */
-    double factor = (double)frame_ticks/frame_ticks_orig;
+    double factor = timer_speed ? (double)frame_ticks/frame_ticks_orig : 1.0;
 
     diff_clk = clk - speed_eval_prev_clk;
     diff_sec = (double)(signed long)(now - display_start)/vsyncarch_freq/factor;
@@ -213,8 +215,6 @@ void vsync_init(void (*hook)(void))
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
     vsyncarch_init();
-
-    vsyncarch_freq = vsyncarch_frequency();
 }
 
 /* FIXME: This function is not needed here anymore, however it is
