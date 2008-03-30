@@ -31,24 +31,10 @@
 
 #include "types.h"
 
-/* Serial Error Codes. */
-
-#define SERIAL_OK               0
-#define SERIAL_WRITE_TIMEOUT    1
-#define SERIAL_READ_TIMEOUT     2
-#define SERIAL_FILE_NOT_FOUND   64
-#define SERIAL_NO_DEVICE        128
-
-#define SERIAL_ERROR            (2)
-#define SERIAL_EOF              (64)
-
 /* Printers. */
 #define DT_ASCII                0       /* No printer commands nor graphics */
 #define DT_MPS803               1
 #define DT_STAR10CCL            2
-
-/* Store name here for serial-open.  */
-#define SERIAL_NAMELENGTH 255
 
 #define SERIAL_MAXDEVICES 16
 
@@ -93,7 +79,6 @@ extern int serial_cmdline_options_init(void);
 extern void serial_shutdown(void);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
-extern void serial_set_truedrive(int flag);
 extern int serial_attach_device(unsigned int unit, const char *name,
                                 int (*getf)(struct vdrive_s *,
                                 BYTE *, unsigned int),
@@ -110,19 +95,15 @@ extern int serial_detach_device(unsigned int unit);
 extern BYTE serial_get_st(void);
 extern void serial_set_st(BYTE st);
 
-extern void (*attention_callback_func)(void);
-extern void (*eof_callback_func)(void);
-
 extern void serial_trap_init(WORD tmpin);
 extern int serial_trap_attention(void);
 extern int serial_trap_send(void);
 extern int serial_trap_receive(void);
 extern int serial_trap_ready(void);
 extern void serial_traps_reset(void);
-
-
-extern void serial_set_eof_callback(void (*func)(void));
-extern void serial_set_attention_callback(void (*func)(void));
+extern void serial_trap_eof_callback_set(void (*func)(void));
+extern void serial_trap_attention_callback_set(void (*func)(void));
+extern void serial_trap_truedrive_set(unsigned int flag);
 
 extern int serial_realdevice_enable(void);
 extern void serial_realdevice_disable(void);
@@ -134,16 +115,14 @@ extern int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
 extern int serial_iec_lib_write_sector(unsigned int unit, unsigned int track,
                                        unsigned int sector, BYTE *buf);
 
-extern unsigned int serial_device_get_fsimage_state(unsigned int unit);
-extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
+extern unsigned int serial_device_fsimage_state_get(unsigned int unit);
+extern unsigned int serial_device_realdevice_state_get(unsigned int unit);
 extern serial_t *serial_device_get(unsigned int unit);
 extern unsigned int serial_device_type_get(unsigned int unit);
 extern void serial_device_type_set(unsigned int type, unsigned int unit);
 
 extern void serial_iec_device_set_machine_parameter(long cycles_per_sec);
 extern void serial_iec_device_exec(CLOCK clk_value);
-
-extern int serial_truedrive;
 
 #endif
 

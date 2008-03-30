@@ -56,11 +56,6 @@
 #include "vdrive.h"
 
 
-extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
-extern int SerialPtr;
-
-int serial_truedrive;
-
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
 
@@ -69,16 +64,6 @@ static const trap_t *serial_traps;
 
 /* Logging goes here.  */
 static log_t serial_log = LOG_ERR;
-
-/* ------------------------------------------------------------------------- */
-
-/* This is just a kludge for the autostart code (see `autostart.c').  */
-
-/* Function to call when EOF happens in `serialreceivebyte()'.  */
-void (*eof_callback_func)(void);
-
-/* Function to call when the `serialattention()' trap is called.  */
-void (*attention_callback_func)(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -112,7 +97,6 @@ int serial_init(const trap_t *trap_list)
     /* Install specified traps.  */
     serial_traps = trap_list;
     serial_install_traps();
-    serial_truedrive = 0;
 
     /*
      * Clear serial device functions
@@ -130,7 +114,7 @@ int serial_init(const trap_t *trap_list)
         p->flushf = (void (*)(vdrive_t *, unsigned int))NULL;
     }
 
-    if (printer_interface_serial_late_init() < 0)
+    if (printer_serial_late_init() < 0)
         return -1;
 
     return 0;
@@ -166,11 +150,6 @@ int serial_remove_traps(void)
         traps_installed = 0;
     }
     return 0;
-}
-
-void serial_set_truedrive(int flag)
-{
-    serial_truedrive = flag;
 }
 
 int serial_attach_device(unsigned int unit, const char *name,
@@ -232,21 +211,5 @@ int serial_detach_device(unsigned int unit)
     }
 
     return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* These are just kludges for the autostart code (see `autostart.c').  */
-
-/* Specify a function to call when EOF happens in `serialreceivebyte()'.  */
-void serial_set_eof_callback(void (*func)(void))
-{
-    eof_callback_func = func;
-}
-
-/* Specify a function to call when the `serialattention()' trap is called.  */
-void serial_set_attention_callback(void (*func)(void))
-{
-    attention_callback_func = func;
 }
 

@@ -40,7 +40,6 @@
 #include "drive.h"
 #include "res.h"
 #include "resources.h"
-#include "serial.h"
 #include "system.h"
 #include "ui.h"
 #include "uidrivepetcbm2.h"

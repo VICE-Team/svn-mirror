@@ -106,6 +106,10 @@ SOURCE=..\..\cbm2\cbm2cia1.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbm2\cbm2bus.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\cbm2cpu.c
 # End Source File
 # Begin Source File

@@ -36,10 +36,13 @@
 #include "vdrive.h"
 
 
+#define SERIAL_NAMELENGTH 255
+
+
 static log_t fsdrive_log = LOG_ERR;
 
-BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
-int SerialPtr;
+static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
+static int SerialPtr;
 
 
 /* Handle Serial Bus Commands under Attention.  */

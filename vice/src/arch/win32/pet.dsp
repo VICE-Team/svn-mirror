@@ -102,6 +102,10 @@ SOURCE=..\..\pet\petacia1.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\petbus.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petdatasette.c
 # End Source File
 # Begin Source File

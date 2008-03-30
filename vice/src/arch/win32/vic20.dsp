@@ -126,6 +126,10 @@ SOURCE=..\..\vic20\vic20.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20bus.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20cartridge.c
 # End Source File
 # Begin Source File

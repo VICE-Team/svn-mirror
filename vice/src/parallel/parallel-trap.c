@@ -39,16 +39,24 @@
 #include "types.h"
 
 
+#define SERIAL_NAMELENGTH 255
+
+
 /* On which channel did listen happen to?  */
 static BYTE TrapDevice;
 static BYTE TrapSecondary;
 
+/* Function to call when EOF happens in `serialreceivebyte()'.  */
+static void (*eof_callback_func)(void);
+
+/* Function to call when the `serialattention()' trap is called.  */
+static void (*attention_callback_func)(void);
+
 /* Logging goes here.  */
 static log_t parallel_log = LOG_DEFAULT;
 
-
-extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
-extern int SerialPtr;
+static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
+static int SerialPtr;
 
 
 static int parallelcommand(void)
@@ -275,5 +283,17 @@ int parallelreceivebyte(BYTE * data, int fake)
     if ((st & 0x40) && eof_callback_func != NULL)
         eof_callback_func();
     return st;
+}
+
+/* Specify a function to call when EOF happens in `serialreceivebyte()'.  */
+void parallel_trap_eof_callback_set(void (*func)(void))
+{
+    eof_callback_func = func;
+}
+
+/* Specify a function to call when the `serialattention()' trap is called.  */
+void parallel_trap_attention_callback_set(void (*func)(void))
+{
+    attention_callback_func = func;
 }
 

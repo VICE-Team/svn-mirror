@@ -39,7 +39,6 @@
 #include "res.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "serial.h"
 #include "sound.h"
 #include "ui.h"
 #include "uilib.h"
