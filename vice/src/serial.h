@@ -52,10 +52,10 @@
 
 #define SERIAL_MAXDEVICES 16
 
-#define SERIAL_SET_ST(b) \
-            mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | b))
-#define SERIAL_GET_ST() \
-            mem_read((ADDRESS)0x90)
+#define SERIAL_DEVICE_VIRT 0
+#define SERIAL_DEVICE_FS   1
+#define SERIAL_DEVICE_REAL 2
+#define SERIAL_DEVICE_RAW  3
 
 struct disk_image_s;
 struct trap_s;
@@ -76,6 +76,7 @@ typedef struct serial_s
     char nextok[16]; /* flag if nextbyte is valid */
 
     int nextst[16];
+    unsigned int device;
 
     /* The PET hardware emulation can be interrupted while
        transferring a byte. Thus we also have to save the byte
@@ -102,15 +103,19 @@ extern int serial_attach_device(unsigned int unit, const char *name,
                                 unsigned int));
 extern int serial_detach_device(unsigned int unit);
 extern serial_t *serial_get_device(unsigned int unit);
+extern unsigned int serial_type_get(unsigned int unit);
+extern void serial_type_set(unsigned int type, unsigned int unit);
 extern void serial_reset(void);
+extern void serial_set_st(BYTE st);
 
 extern int parallelattention(int b);
 extern int parallelsendbyte(BYTE data);
 extern int parallelreceivebyte(BYTE *data, int fake);
-extern void serialattention(void);
-extern void serialsendbyte(void);
-extern void serialreceivebyte(void);
-extern void trap_serial_ready(void);
+
+extern void serial_trap_attention(void);
+extern void serial_trap_send(void);
+extern void serial_trap_receive(void);
+extern void serial_trap_ready(void);
 
 extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));
