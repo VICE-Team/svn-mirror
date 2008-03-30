@@ -57,6 +57,7 @@ extern int iec_drive_image_attach(struct disk_image_s *image,
                                   unsigned int unit);
 extern int iec_drive_image_detach(struct disk_image_s *image,
                                   unsigned int unit);
+extern void iec_drive_port_default(struct drive_context_s *drv);
 
 #endif
 

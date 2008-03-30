@@ -323,7 +323,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         drive_set_active_led_color(drive[0].type, 0);
         break;
       case DRIVE_TYPE_NONE:
-        drive_disable(0);
+        drive_disable(&drive0_context);
         break;
       default:
         return -1;
@@ -350,7 +350,7 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_NONE:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
-        drive_disable(1);
+        drive_disable(&drive1_context);
         break;
       default:
         return -1;
@@ -384,9 +384,9 @@ int drive_snapshot_read_module(snapshot_t *s)
         return -1;
 
     if (drive[0].type != DRIVE_TYPE_NONE)
-        drive_enable(0);
+        drive_enable(&drive0_context);
     if (drive[1].type != DRIVE_TYPE_NONE)
-        drive_enable(1);
+        drive_enable(&drive1_context);
 
     iec_calculate_callback_index();
     iec_update_ports_embedded();

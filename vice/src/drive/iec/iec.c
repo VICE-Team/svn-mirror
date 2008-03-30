@@ -47,6 +47,10 @@
 #include "wd1770.h"
 
 
+/* Pointer to the IEC bus structure.  */
+static iec_info_t *drive_iec_info;
+
+
 int iec_drive_resources_init(void)
 {
     return iec_resources_init();
@@ -222,5 +226,23 @@ int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
 int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 {
     return wd1770_detach_image(image, unit);
+}
+
+void iec_drive_port_default(struct drive_context_s *drv)
+{
+    drive_iec_info = iec_get_drive_port();
+
+    if (drive_iec_info != NULL) {
+        switch (drv->mynumber) {
+          case 0:
+            drive_iec_info->drive_bus = 0xff;
+            drive_iec_info->drive_data = 0xff;
+            break;
+          case 1:
+            drive_iec_info->drive2_bus = 0xff;
+            drive_iec_info->drive2_data = 0xff;
+            break;
+        }
+    }
 }
 
