@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-10-10 14:47+0200\n"
+"POT-Creation-Date: 2005-10-23 18:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2437,97 +2437,97 @@ msgstr ""
 msgid "*Exec process"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:74
+#: src/arch/unix/uiattach.c:75
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:89 src/arch/unix/uiattach.c:142
+#: src/arch/unix/uiattach.c:90 src/arch/unix/uiattach.c:143
 msgid "Invalid Disk Image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:97
+#: src/arch/unix/uiattach.c:98
 msgid "Invalid Disk Image or Filename"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:112 src/arch/unix/uiattach.c:146
+#: src/arch/unix/uiattach.c:113 src/arch/unix/uiattach.c:147
 msgid "Unit #8..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:115 src/arch/unix/uiattach.c:148
+#: src/arch/unix/uiattach.c:116 src/arch/unix/uiattach.c:149
 msgid "Unit #9..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:118 src/arch/unix/uiattach.c:150
+#: src/arch/unix/uiattach.c:119 src/arch/unix/uiattach.c:151
 msgid "Unit #10..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:121 src/arch/unix/uiattach.c:152
+#: src/arch/unix/uiattach.c:122 src/arch/unix/uiattach.c:153
 msgid "Unit #11..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:166 src/arch/unix/uicommands.c:403
+#: src/arch/unix/uiattach.c:167 src/arch/unix/uicommands.c:403
 msgid "Unit #8"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:168 src/arch/unix/uicommands.c:405
+#: src/arch/unix/uiattach.c:169 src/arch/unix/uicommands.c:405
 msgid "Unit #9"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:170 src/arch/unix/uicommands.c:407
+#: src/arch/unix/uiattach.c:171 src/arch/unix/uicommands.c:407
 msgid "Unit #10"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:172 src/arch/unix/uicommands.c:409
+#: src/arch/unix/uiattach.c:173 src/arch/unix/uicommands.c:409
 msgid "Unit #11"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:175
+#: src/arch/unix/uiattach.c:176
 msgid "All"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:181
+#: src/arch/unix/uiattach.c:182
 msgid "Attach a disk image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:183
+#: src/arch/unix/uiattach.c:184
 msgid "Create and attach an empty disk"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:185
+#: src/arch/unix/uiattach.c:186
 msgid "Detach disk image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:187
+#: src/arch/unix/uiattach.c:188
 msgid "Fliplist"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:212
+#: src/arch/unix/uiattach.c:213
 msgid "Attach a tape image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:220 src/arch/unix/uiattach.c:228
+#: src/arch/unix/uiattach.c:221 src/arch/unix/uiattach.c:229
 msgid "Invalid Tape Image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:247
+#: src/arch/unix/uiattach.c:248
 msgid "Attach a tape image..."
 msgstr ""
 
-#: src/arch/unix/uiattach.c:250
+#: src/arch/unix/uiattach.c:251
 msgid "Detach tape image"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:275
+#: src/arch/unix/uiattach.c:287
 msgid "Smart-attach a file"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:284 src/arch/unix/uiattach.c:293
+#: src/arch/unix/uiattach.c:302 src/arch/unix/uiattach.c:311
 #: src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Unknown image type"
 msgstr ""
 
-#: src/arch/unix/uiattach.c:307
+#: src/arch/unix/uiattach.c:325
 msgid "Smart-attach disk/tape..."
 msgstr ""
 

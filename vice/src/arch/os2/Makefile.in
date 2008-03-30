@@ -293,48 +293,93 @@ EXTRA_DIST = \
 	unused/ui_status.c \
 	icons/c1541.ico \
 	icons/check.ico \
-        icons/dirup.bmp \
-        icons/exit.bmp \
-        icons/ffwd.bmp \
+	icons/dirup.bmp \
+	icons/exit.bmp \
+	icons/ffwd.bmp \
 	icons/folder.pal \
 	icons/folder1.ico \
 	icons/folder2.ico \
 	icons/info.ico \
  	icons/note.ico \
-        icons/pause.bmp \
-        icons/playback.bmp \
-        icons/record.bmp \
-        icons/return.bmp \
-        icons/skull.ico \
-        icons/stepinto.bmp \
-        icons/stepover.bmp \
-        icons/stop.bmp \
-        icons/vsid.ico \
+	icons/pause.bmp \
+	icons/playback.bmp \
+	icons/record.bmp \
+	icons/return.bmp \
+	icons/skull.ico \
+	icons/stepinto.bmp \
+	icons/stepover.bmp \
+	icons/stop.bmp \
+	icons/vsid.ico \
 	icons/x128.ico \
 	icons/x64.ico \
 	icons/xcbm2.ico \
 	icons/xpet.ico \
-        icons/xplus4.ico \
-        icons/xvic.ico \
+	icons/xplus4.ico \
+	icons/xvic.ico \
 	texi2ipf/readme \
 	texi2ipf/texi2ipf.exe \
 	texi2ipf/texi2ipf.INF \
-        doc/vice2.ipf \
+	doc/vice2.ipf \
 	doc/Vice_for_OS2.txt \
-        fonts/header.fnt \
-        fonts/header1.fnt \
-        fonts/header2.fnt \
+	fonts/header.fnt \
+	fonts/header1.fnt \
+	fonts/header2.fnt \
 	fonts/bdf2fnt.cc \
 	fonts/bdf2fnt.icc \
 	fonts/chargen2fnt.cc \
 	fonts/chargen2fnt.icc \
-        fonts/mps2chargen.cc \
-        fonts/mps2chargen.icc \
-        fonts/mps803.fnt \
+	fonts/mps2chargen.cc \
+	fonts/mps2chargen.icc \
+	fonts/mps803.fnt \
 	fonts/vice-cbm.cmd \
 	fonts/vice2.asm \
 	fonts/vice2.def \
-	fonts/vice2.rc
+	fonts/vice2.rc \
+	lpng/LICENSE \
+	lpng/png.c \
+	lpng/png.h \
+	lpng/pngconf.h \
+	lpng/pngerror.c \
+	lpng/pngget.c \
+	lpng/pngmem.c \
+	lpng/pngpread.c \
+	lpng/pngread.c \
+	lpng/pngrio.c \
+	lpng/pngrtran.c \
+	lpng/pngrutil.c \
+	lpng/pngset.c \
+	lpng/pngtrans.c \
+	lpng/pngwio.c \
+	lpng/pngwrite.c \
+	lpng/pngwtran.c \
+	lpng/pngwutil.c \
+	zlib/README \
+	zlib/adler32.c \
+	zlib/compress.c \
+	zlib/crc32.c \
+	zlib/deflate.c \
+	zlib/deflate.h \
+	zlib/gzio.c \
+	zlib/infblock.c \
+	zlib/infblock.h \
+	zlib/infcodes.c \
+	zlib/infcodes.h \
+	zlib/inffast.c \
+	zlib/inffast.h \
+	zlib/inffixed.h \
+	zlib/inflate.c \
+	zlib/inftrees.c \
+	zlib/inftrees.h \
+	zlib/infutil.c \
+	zlib/infutil.h \
+	zlib/maketree.c \
+	zlib/trees.c \
+	zlib/trees.h \
+	zlib/uncompr.c \
+	zlib/zconf.h \
+	zlib/zlib.h \
+	zlib/zutil.c \
+	zlib/zutil.h
 
 subdir = src/arch/os2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -570,7 +615,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/doc $(distdir)/fonts $(distdir)/icons $(distdir)/texi2ipf $(distdir)/unused $(distdir)/unused/pm
+	$(mkinstalldirs) $(distdir)/doc $(distdir)/fonts $(distdir)/icons $(distdir)/lpng $(distdir)/texi2ipf $(distdir)/unused $(distdir)/unused/pm $(distdir)/zlib
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

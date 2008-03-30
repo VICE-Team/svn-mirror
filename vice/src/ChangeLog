@@ -1,3 +1,108 @@
+2005-10-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.3.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_select_contents_cb): Added
+	patch submitted by Dominik Vogt.
+
+	* arch/unix/uiattach.c (smart_attach): Likewise.
+
+2005-10-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/Makefile.am, arch/os2/vac++/Makefile.am,
+	arch/os2/vac++/PETcat.ICC, arch/os2/vac++/X1541.ICC,
+	arch/os2/vac++/cbm2-pet-dummy.c,
+	arch/os2/vac++/incl/c128.icc, arch/os2/vac++/incl/plus4.icc,
+	arch/os2/vac++/incl/vic20.icc, arch/os2/vac++/lpng.icc,
+	arch/os2/vac++/lzlib.icc, arch/os2/vac++/x128/X128.ICC,
+	arch/os2/vac++/x64/X64.ICC, arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	arch/os2/vac++/xpet/Xpet.ICC,
+	arch/os2/vac++/xplus4/Xplus4.ICC,
+	arch/os2/vac++/xvic/Xvic.ICC: Fixed OS/2 port to compile with
+	VAC++ again.
+
+	* arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.rc:
+	Fixed some definitions.
+
+	* arch/os2/lpng/LICENSE, arch/os2/lpng/png.c,
+	arch/os2/lpng/png.h, arch/os2/lpng/pngconf.h,
+	arch/os2/lpng/pngerror.c, arch/os2/lpng/pngget.c,
+	arch/os2/lpng/pngmem.c, arch/os2/lpng/pngpread.c,
+	arch/os2/lpng/pngread.c, arch/os2/lpng/pngrio.c,
+	arch/os2/lpng/pngrtran.c, arch/os2/lpng/pngrutil.c,
+	arch/os2/lpng/pngset.c, arch/os2/lpng/pngtrans.c,
+	arch/os2/lpng/pngwio.c, arch/os2/lpng/pngwrite.c,
+	arch/os2/lpng/pngwtran.c, arch/os2/lpng/pngwutil.c: Addition
+	of needed libpng files for the OS/2 port.
+
+	* arch/os2/zlib/README, arch/os2/zlib/adler32.c,
+	arch/os2/zlib/compress.c, arch/os2/zlib/crc32.c,
+	arch/os2/zlib/deflate.c, arch/os2/zlib/deflate.h,
+	arch/os2/zlib/gzio.c, arch/os2/zlib/infblock.c,
+	arch/os2/zlib/infblock.h, arch/os2/zlib/infcodes.c,
+	arch/os2/zlib/infcodes.h, arch/os2/zlib/inffast.c,
+	arch/os2/zlib/inffast.h, arch/os2/zlib/inffixed.h,
+	arch/os2/zlib/inflate.c, arch/os2/zlib/inftrees.c,
+	arch/os2/zlib/inftrees.h, arch/os2/zlib/infutil.c,
+	arch/os2/zlib/infutil.h, arch/os2/zlib/maketree.c,
+	arch/os2/zlib/maketree.c, arch/os2/zlib/trees.c,
+	arch/os2/zlib/trees.h, arch/os2/zlib/uncompr.c,
+	arch/os2/zlib/zconf.h, arch/os2/zlib/zlib.h,
+	arch/os2/zlib/zutil.c, arch/os2/zlib/zutil.h: Addition of
+	needed libz files for the OS/2 port.
+
+2005-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt, petcat.c: Added support
+	for Basic Lightning to petcat.
+
+2005-10-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt, petcat.c: Added support
+	for Drago basic 2.2 and REU-basic to petcat.
+
+	* c64/cart/crt.c: Fixed missing stb.h include.
+
+2005-10-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt, petcat.c: Added support
+	for Xbasic to petcat.
+
+	* arch/win32/c1541.dsp, arch/win32/petcat.dsp: Added
+	wsock32.lib to the link list
+
+	* c64/cart/ross.c: Fixed a typo.
+
+2005-10-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/vac++/incl/c64cart.icc, c64/cart/crt.c,
+	cartridge.h: Added support for 'structured basic' and 'ross'
+	type carts.
+
+	* arch/win32/c64cart.dsp, c64/cart/Makefile.am,
+	c64/cart/ross.c, c64/cart/ross.h: Added support for 'ross'
+	type carts.
+
+	* c64/cart/c64cartmem.c: Added support for 'ross' type carts
+	and fixed the detach of the 'structured basic' type carts.
+
+	* c64/cart/stb.c, c64/cart/stb.h: Added .crt support.
+
+2005-10-12  pottendo  <pottendo@utanet.at>
+
+	* arch/win32/resc128.rc  resc64.rc  rescbm2.rc  respet.rc
+	resplus4.rc  res.rc  resvic20.rc: fixed Italian special
+	characters.
+	* translate.c: ditto.
+
+2005-10-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/vac++/incl/c64cart.icc,
+	arch/win32/c64cart.dsp, c64/cart/Makefile.am,
+	c64/cart/c64cartmem.c, c64/cart/comal80.c,
+	c64/cart/comal80.h, c64/cart/crt.c, cartridge.h: Added support
+	for the Comal-80 cartridge.
+
 2005-10-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.2.

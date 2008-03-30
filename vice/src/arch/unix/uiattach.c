@@ -41,6 +41,7 @@
 #include "uimenu.h"
 #include "util.h"
 #include "vsync.h"
+#include "ioutil.h"
 
 
 static int selection_from_image = 0;
@@ -269,18 +270,35 @@ static UI_CALLBACK(smart_attach)
 {
     char *filename;
     ui_button_t button;
+    int is_unknown_image;
+    int do_free_dir;
+    char *dir;
 
     vsync_suspend_speed_eval();
 
+    if (smart_attach_last_dir) {
+        dir = smart_attach_last_dir;
+        do_free_dir = 0;
+    }
+    else {
+        dir = ioutil_current_dir();
+        do_free_dir = 1;
+    }
     filename = ui_select_file(_("Smart-attach a file"),
                               read_disk_or_tape_image_contents, 0,
-                              True, smart_attach_last_dir, NULL, &button,
-                              True, NULL);
+                              True, dir, NULL, &button, True, NULL);
+    if (do_free_dir)
+        lib_free(dir);
 
     switch (button) {
       case UI_BUTTON_OK:
+        is_unknown_image = 0;
         if (file_system_attach_disk(8, filename) < 0
             && tape_image_attach(1, filename) < 0) {
+            is_unknown_image = 1;
+        }
+        if (is_unknown_image &&
+            autostart_prg(filename, AUTOSTART_MODE_RUN) != 0) {
             ui_error(_("Unknown image type"));
         }
         if (smart_attach_last_dir)
