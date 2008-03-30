@@ -273,7 +273,10 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	respet.rc \
 	resplus4.rc \
+	resreu.rc \
+	ressid.rc \
 	resvic.rc \
+	resvicii.rc \
 	statusbar.c \
 	statusbar.h \
 	system.c \
@@ -716,13 +719,13 @@ uninstall-am: uninstall-info-am
 	uninstall-am uninstall-info-am
 
 
-resc128.o : resc128.rc res.rc res.h
+resc128.o : resc128.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.rc res.rc res.h
+resc64.o : resc64.rc res.rc res.h ressid.rc resvicii.rc resreu.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.rc res.rc res.h
+rescbm2.o : rescbm2.rc res.rc res.h ressid.rc
 	$(WINDRES) -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
 respet.o : respet.rc res.rc res.h
