@@ -37,6 +37,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "fliplist.h"
+#include "fullscreenarch.h"
 #include "imagecontents.h"
 #include "interrupt.h"
 #include "log.h"
@@ -51,14 +52,12 @@
 #include "uicommands.h"
 #include "uiedisk.h"
 #include "uimenu.h"
-#include "uisettings.h"
+/*#include "uisettings.h"*/
 #include "uisnapshot.h"
 #include "uidrive.h"
 #include "utils.h"
 #include "vsync.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
+
 
 static int selection_from_image = 0;
 
@@ -300,8 +299,8 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static UI_CALLBACK(activate_monitor)
 {
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
     ui_dispatch_events();               /* popdown the menu */
@@ -315,8 +314,8 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(0);
 #endif
     vsync_suspend_speed_eval();
     sound_close();
@@ -375,8 +374,8 @@ static UI_CALLBACK(browse_manual)
         char *res_ptr;
         int manual_path_len, cmd_len;
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-        fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+        fullscreen_suspend(0);
 #endif
         cmd_len = strlen(bcommand);
         manual_path_len = strlen(manual_path);
