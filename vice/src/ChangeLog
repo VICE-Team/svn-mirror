@@ -1,3 +1,91 @@
+2004-05-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.24.
+
+2004-05-18  Dag Lem  <resid@nimrod.no>
+
+	* resid/: reSID 0.16 - even faster resampling.
+
+	* arch/beos/ui_sid.cc: Added "fast resampling" to
+	samplingmode.
+
+	* arch/msdos/uisid.c (toggle_ResidSampling_callback): Allow
+	value = 3.
+
+	* arch/unix/uisid.c: Added "Fast Resampling" to
+	sid_resid_sampling_submenu.
+
+	* arch/win32/uisid.c: Added "fast resampling" to
+	ui_sid_samplemethod.
+
+2004-05-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* joystick.h, joystick.c: New functions
+	joystick_snapshot_write_module, joystick_snapshot_read_module.
+
+	* keyboard.h, keyboard.c: New functions
+	keyboard_snapshot_write_module, keyboard_snapshot_read_module.
+
+	* <machine>/<machine>-snapshot.c (<machine>_snapshot_read):
+	Read keyboard and joystick snapshot module.
+	(<machine>_snapshot_write): Write keyboard and joystick
+	snapshot module.
+
+2004-05-15  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/tfe.c: Make sure tfe_reset() is only called in the
+	ressource handling functions if tfe has been initialized
+	before; before, there were some cases where selecting tfe
+	crashed the emulator.
+
+2004-05-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* debug.c, debug.h: Replaced resource AutoPlaybackLogs with a
+	frame based AutoPlaybackFrames. Added new function
+	debug_check_autoplay_mode that handles changes between
+	recording and playback.
+
+	* vsync.c (vsync_do_vsync): Call debug_check_autoplay_mode if
+	DEBUG is defined.
+
+	* drive/drive-snapshot.c (drive_snapshot_write_module,
+	drive_snapshot_read_module): Read/write the drives
+	attach_detach_clk value.
+
+	* drive/driveimage.c (drive_image_detach): Reset the drive
+	struct even if drive->imgae is NULL. This is especially needed
+	when you detach a disk and need a correct detach_clk after you
+	have read a snapshot, which reads the gcr data but leaves
+	data->image empty.
+
+	* maincpu.c (maincpu_snapshot_read_module): Temporary removed
+	the "mighty kludge" as it causes problems with some snapshots.
+	FIXME: Needs further investigation.
+
+	* vicii/vicii-snapshot.c (vicii_snapshot_read_module): Don't
+	use vicii_irq_set_raster_line to restore the raster IRQ as it
+	would delay IRQ on line 0 for one frame.
+
+2004-05-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uimon.c: Don't call EnumChildWindows if monitor
+	isn't open.
+
+	* datasette.c (datasette_read snapshot): Don't set tape sense
+	if no image is attached.
+
+	* debug.c, debug.h: New resource AutoPlaybackLogs, new
+	functions debug_set_milestone, debug_reset_milestone which
+	handle milestones while debugging history.
+	debug_history_step and debug_stop_playback handle new trace
+	mode DEBUG_AUTOPLAY: Switch from recording to playback and
+	vice versa if number of logs has reached AutoPlaybackLogs.
+
+	* event.c (event_record_set_milestone_trap): Call
+	debug_set_milestone.
+	(event_record_reset_milestone_trap): Call
+	debug_reset_milestone.
+
 2004-05-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.23.

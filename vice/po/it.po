@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.15\n"
-"POT-Creation-Date: 2004-05-10 22:00+0200\n"
+"POT-Creation-Date: 2004-05-20 13:21+0200\n"
 "PO-Revision-Date: 2004-05-04 21:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -31,7 +31,7 @@ msgstr "Attiva la modalitÃ  turbo"
 msgid "Disable warp mode"
 msgstr "Disattiva la modalitÃ  turbo"
 
-#: src/vsync.c:429
+#: src/vsync.c:434
 msgid "Your machine is too slow for current settings!"
 msgstr "La tua macchina Ã¨ troppo lenta per queste impostazioni!"
 
@@ -133,7 +133,7 @@ msgstr "memorizzazione sul dispositivo sonoro fallita."
 msgid "Could not create start snapshot file %s."
 msgstr "Non Ã¨ possibile creare il file di inizio snapshot."
 
-#: src/event.c:480 src/event.c:720
+#: src/event.c:480 src/event.c:723
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Errore durante la lettura del file di fine snapshot."
@@ -2438,7 +2438,12 @@ msgstr "*Interpolazione"
 msgid "*Resampling"
 msgstr "*Ricampionamento"
 
-#: src/arch/unix/uisid.c:93
+#: src/arch/unix/uisid.c:78
+#, fuzzy
+msgid "*Fast Resampling"
+msgstr "*Ricampionamento"
+
+#: src/arch/unix/uisid.c:95
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
@@ -2446,7 +2451,7 @@ msgstr ""
 "Inserisci la banda passante in percentuale di quella totale\n"
 "(0 - 90, bassa Ã¨ piÃ¹ veloce, alta Ã¨ migliore)"
 
-#: src/arch/unix/uisid.c:94
+#: src/arch/unix/uisid.c:96
 msgid "Passband percentage"
 msgstr "Percentuale di banda passante"
 
