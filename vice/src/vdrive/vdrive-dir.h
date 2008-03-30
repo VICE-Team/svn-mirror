@@ -38,14 +38,14 @@
 #define SLOT_SIDE_SECTOR      22
 #define SLOT_NR_BLOCKS        30
 
-extern int vdrive_dir_create_directory(DRIVE *floppy, const char *name,
+extern int vdrive_dir_create_directory(vdrive_t *floppy, const char *name,
                                        int length, int filetype, int secondary,
                                        BYTE *outputptr);
-extern void vdrive_dir_find_first_slot(DRIVE *floppy, const char *name,
+extern void vdrive_dir_find_first_slot(vdrive_t *floppy, const char *name,
                                        int length, int type);
-extern BYTE *vdrive_dir_find_next_slot(DRIVE *floppy);
+extern BYTE *vdrive_dir_find_next_slot(vdrive_t *floppy);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
-extern void vdrive_dir_remove_slot(DRIVE *floppy, BYTE *slot);
+extern void vdrive_dir_remove_slot(vdrive_t *floppy, BYTE *slot);
 
 #endif
 

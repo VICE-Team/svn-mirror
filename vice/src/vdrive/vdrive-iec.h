@@ -28,6 +28,7 @@
 #define _VDRIVEIEC_H
 
 #include "vdrive.h"
+#include "types.h"
 
 /* Generic IEC interface.  */
 extern int vdrive_open(void *floppy, const char *name, int length,
@@ -42,3 +43,4 @@ extern void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
                                         int reallength, int filetype);
 
 #endif
+
