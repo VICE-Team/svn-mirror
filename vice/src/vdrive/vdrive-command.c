@@ -42,6 +42,7 @@
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
+#include "vdrive-rel.h"
 #include "vdrive.h"
 
 /* RAM/ROM.  */
@@ -84,6 +85,7 @@ errortext_t floppy_error_messages[] =
     {33, "SYNTAX ERROR"},
     {34, "SYNTAX ERROR"},
     {39, "SYNTAX ERROR"},
+    {50, "RECORD NOT RESENT"},
     {60, "WRITE FILE OPEN"},
     {61, "FILE NOT OPEN"},
     {62, "FILE NOT FOUND"},
@@ -111,6 +113,8 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
+static int vdrive_command_position(vdrive_t *vdrive, char *buf,
+                                   unsigned int length);
 
 void vdrive_command_init(void)
 {
@@ -219,7 +223,7 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
 	status = vdrive_command_validate(vdrive);
 	break;
 
-      case 'B':		/* Block, Buffer */
+      case 'B': /* Block, Buffer */
         if (!name)	/* B-x does not require a : */
             name = (char *)(p + 2);
         if (!minus)
@@ -228,18 +232,18 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
 	    status = vdrive_command_block(vdrive, minus[1], name + 1);
 	break;
 
-      case 'M':		/* Memory */
+      case 'M': /* Memory */
         if (!minus)     /* M-x does not allow a : */
             status = IPE_INVAL;
         else
             status = vdrive_command_memory(vdrive, minus + 1, length);
 	break;
 
-      case 'P':		/* Position */
-	/* 4 byte parameters: channel, rec_lo, rec_hi, pos */
+      case 'P': /* Position */
+	status = vdrive_command_position(vdrive, p + 1, length);
 	break;
 
-      case 'U':		/* User */
+      case 'U': /* User */
         if (!name)
             name = (char *)(p + 1);
 	if (p[1] == '0') {
@@ -485,7 +489,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_open(vdrive, dest, strlen(dest), 1))
+    if (vdrive_iec_open(vdrive, dest, strlen(dest), 1))
         return (IPE_FILE_EXISTS);
 
     p = name = files;
@@ -500,23 +504,23 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
 #endif
-        if (vdrive_open(vdrive, name, strlen(name), 0)) {
-            vdrive_close(vdrive, 1);
+        if (vdrive_iec_open(vdrive, name, strlen(name), 0)) {
+            vdrive_iec_close(vdrive, 1);
             return (IPE_NOT_FOUND);
         }
 
-        while (!vdrive_read(vdrive, (BYTE *)&c, 0)) {
-            if (vdrive_write(vdrive, c, 1)) {
-                vdrive_close(vdrive, 0); /* No space on disk.  */
-                vdrive_close(vdrive, 1);
+        while (!vdrive_iec_read(vdrive, (BYTE *)&c, 0)) {
+            if (vdrive_iec_write(vdrive, c, 1)) {
+                vdrive_iec_close(vdrive, 0); /* No space on disk.  */
+                vdrive_iec_close(vdrive, 1);
                 return (IPE_DISK_FULL);
             }
         }
 
-        vdrive_close(vdrive, 0);
+        vdrive_iec_close(vdrive, 0);
         name = p; /* Next file.  */
     }
-    vdrive_close(vdrive, 1);
+    vdrive_iec_close(vdrive, 1);
     return(IPE_OK);
 }
 
@@ -736,6 +740,30 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 
     return status;
 }
+
+static int vdrive_command_position(vdrive_t *vdrive, char *buf,
+                                   unsigned int length)
+{
+    unsigned int channel, rec_lo, rec_hi, position;
+
+    if (length < 5)
+        return IPE_NO_RECORD;
+
+    channel = buf[0];
+    rec_lo = buf[1];
+    rec_hi = buf[2];
+    position = buf[3];
+
+    if (vdrive->buffers[channel].mode != BUFFER_RELATIVE)
+        return IPE_NO_CHANNEL;
+
+    vdrive_rel_position(vdrive, channel, rec_lo, rec_hi, position);
+
+    vdrive->buffers[channel].bufptr = 0;
+
+    return IPE_OK;
+}
+
 
 /* ------------------------------------------------------------------------- */
 
