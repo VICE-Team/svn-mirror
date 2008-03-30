@@ -43,8 +43,8 @@
 #define myaciadev       acia1dev
 
 #define myacia_init acia1_init
-#define myacia_init_cmdline_options acia1_init_cmdline_options
-#define myacia_init_resources acia1_init_resources
+#define myacia_init_cmdline_options acia1_cmdline_options_init
+#define myacia_init_resources acia1_resources_init
 #define myacia_read_snapshot_module acia1_read_snapshot_module
 #define myacia_write_snapshot_module acia1_write_snapshot_module
 #define myacia_peek acia1_peek

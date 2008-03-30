@@ -58,7 +58,7 @@ extern int rs232_putc(int fd, BYTE b);
 /* gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
 extern int rs232_getc(int fd, BYTE *b);
 
-extern int rs232_init_resources(void);
-extern int rs232_init_cmdline_options(void);
+extern int rs232_resources_init(void);
+extern int rs232_cmdline_options_init(void);
 
 #endif

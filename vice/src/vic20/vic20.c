@@ -187,21 +187,21 @@ static double rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
    initializing the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_init_resources()
-        || vsync_init_resources() < 0
+    if (traps_resources_init()
+        || vsync_resources_init() < 0
         || video_resources_init() < 0
-        || vic20_init_resources() < 0
-        || vic_init_resources() < 0
-        || sound_init_resources() < 0
+        || vic20_resources_init() < 0
+        || vic_resources_init() < 0
+        || sound_resources_init() < 0
 #ifdef HAVE_RS232
-        || rs232_init_resources() < 0
-        || rsuser_init_resources() < 0
+        || rs232_resources_init() < 0
+        || rsuser_resources_init() < 0
 #endif
-        || printer_init_resources() < 0
-        || kbd_init_resources() < 0
-        || drive_init_resources() < 0
-        || datasette_init_resources() < 0
-        || cartridge_init_resources() <0)
+        || printer_resources_init() < 0
+        || kbd_resources_init() < 0
+        || drive_resources_init() < 0
+        || datasette_resources_init() < 0
+        || cartridge_resources_init() <0)
         return -1;
 
     return 0;
@@ -210,21 +210,21 @@ int machine_init_resources(void)
 /* VIC20-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (traps_init_cmdline_options()
-        || vsync_init_cmdline_options() < 0
+    if (traps_cmdline_options_init()
+        || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
-        || vic20_init_cmdline_options() < 0
-        || vic_init_cmdline_options() < 0
-        || sound_init_cmdline_options() < 0
+        || vic20_cmdline_options_init() < 0
+        || vic_cmdline_options_init() < 0
+        || sound_cmdline_options_init() < 0
 #ifdef HAVE_RS232
-        || rs232_init_cmdline_options() < 0
-        || rsuser_init_cmdline_options() < 0
+        || rs232_cmdline_options_init() < 0
+        || rsuser_cmdline_options_init() < 0
 #endif
-        || printer_init_cmdline_options() < 0
-        || kbd_init_cmdline_options() < 0
-        || drive_init_cmdline_options() < 0
-        || datasette_init_cmdline_options() < 0
-        || cartridge_init_cmdline_options() < 0)
+        || printer_cmdline_options_init() < 0
+        || kbd_cmdline_options_init() < 0
+        || drive_cmdline_options_init() < 0
+        || datasette_cmdline_options_init() < 0
+        || cartridge_cmdline_options_init() < 0)
         return -1;
 
     return 0;

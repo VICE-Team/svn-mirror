@@ -39,8 +39,8 @@ extern void mmu_reset(void);
 extern void mmu_set_config64(int config);
 
 extern void mmu_init(void);
-extern int mmu_init_resources(void);
-extern int mmu_init_cmdline_options(void);
+extern int mmu_resources_init(void);
+extern int mmu_cmdline_options_init(void);
 
 #endif
 

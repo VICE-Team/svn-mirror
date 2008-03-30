@@ -30,8 +30,8 @@
 #include "mem.h"
 #include "types.h"
 
-extern int z80mem_init_resources(void);
-extern int z80mem_init_cmdline_options(void);
+extern int z80mem_resources_init(void);
+extern int z80mem_cmdline_options_init(void);
 
 extern void z80mem_set_bank_pointer(BYTE **base, int *limit);
 extern void z80mem_update_config(int config);

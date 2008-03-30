@@ -40,8 +40,8 @@ extern int rsuser_enabled;
 
 extern void rsuser_init(long cycles_per_sec, void (*start_bit_trigger)(void),
                         void (*byte_rx_func)(BYTE));
-extern int rsuser_init_resources(void);
-extern int rsuser_init_cmdline_options(void);
+extern int rsuser_resources_init(void);
+extern int rsuser_cmdline_options_init(void);
 
 extern void rsuser_tx_byte(BYTE b);
 extern void rsuser_write_ctrl(BYTE b);

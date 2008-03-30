@@ -102,7 +102,7 @@ static resource_t resources[] =
     { NULL }
 };
 
-int functionrom_init_resources(void)
+int functionrom_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -123,7 +123,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int functionrom_init_cmdline_options(void)
+int functionrom_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

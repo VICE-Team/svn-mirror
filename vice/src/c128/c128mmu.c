@@ -75,7 +75,7 @@ static int set_column4080_key(resource_value_t v, void *param)
 
 #ifdef HAS_SINGLE_CANVAS
     vdc_set_canvas_refresh(mmu_column4080_key ? 0 : 1);
-    vic_ii_set_set_canvas_refresh(mmu_column4080_key ? 1 : 0);
+    vic_ii_set_canvas_refresh(mmu_column4080_key ? 1 : 0);
 #endif
     return 0;
 }
@@ -87,7 +87,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int mmu_init_resources(void)
+int mmu_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -102,7 +102,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int mmu_init_cmdline_options(void)
+int mmu_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

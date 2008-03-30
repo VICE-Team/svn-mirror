@@ -63,13 +63,13 @@ static resource_t resources[] = {
 };
 
 
-int rs232_init_resources(void)
+int rs232_resources_init(void)
 {
   return resources_register(resources);
 }
 
 
-int rs232_init_cmdline_options(void)
+int rs232_cmdline_options_init(void)
 {
   return 0;
 }

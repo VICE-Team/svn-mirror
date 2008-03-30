@@ -276,33 +276,31 @@ static double rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
    the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_init_resources() < 0
-        || vsync_init_resources() < 0
+    if (traps_resources_init() < 0
+        || vsync_resources_init() < 0
         || video_resources_init() < 0
-        || c128_init_resources() < 0
-        || reu_init_resources() < 0
-        || vic_ii_init_resources() < 0
+        || c128_resources_init() < 0
+        || reu_resources_init() < 0
+        || vic_ii_resources_init() < 0
         || vdc_init_resources() < 0
-        || sound_init_resources() < 0
-        || sid_init_resources() < 0
+        || sound_resources_init() < 0
+        || sid_resources_init() < 0
 #ifdef HAVE_RS232
-        || acia1_init_resources() < 0
-        || rs232_init_resources() < 0
-        || rsuser_init_resources() < 0
+        || acia1_resources_init() < 0
+        || rs232_resources_init() < 0
+        || rsuser_resources_init() < 0
 #endif
-        || printer_init_resources() < 0
-        /* FIXME: This is already done in main.c
-         #ifdef HAVE_MOUSE
-         || mouse_init_resources() < 0
-         #endif
-         */
-        || kbd_init_resources() < 0
-        || drive_init_resources() < 0
-        || datasette_init_resources() < 0
-        || cartridge_init_resources() < 0
-        || mmu_init_resources() < 0
-        || z80mem_init_resources() < 0
-        || functionrom_init_resources() < 0)
+        || printer_resources_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_resources_init() < 0
+#endif
+        || kbd_resources_init() < 0
+        || drive_resources_init() < 0
+        || datasette_resources_init() < 0
+        || cartridge_resources_init() < 0
+        || mmu_resources_init() < 0
+        || z80mem_resources_init() < 0
+        || functionrom_resources_init() < 0)
         return -1;
 
     return 0;
@@ -311,33 +309,31 @@ int machine_init_resources(void)
 /* C128-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (traps_init_cmdline_options() < 0
-        || vsync_init_cmdline_options() < 0
+    if (traps_cmdline_options_init() < 0
+        || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
-        || c128_init_cmdline_options() < 0
-        || reu_init_cmdline_options() < 0
-        || vic_ii_init_cmdline_options() < 0
+        || c128_cmdline_options_init() < 0
+        || reu_cmdline_options_init() < 0
+        || vic_ii_cmdline_options_init() < 0
         || vdc_init_cmdline_options() < 0
-        || sound_init_cmdline_options() < 0
-        || sid_init_cmdline_options() < 0
+        || sound_cmdline_options_init() < 0
+        || sid_cmdline_options_init() < 0
 #ifdef HAVE_RS232
-        || acia1_init_cmdline_options() < 0
-        || rs232_init_cmdline_options() < 0
-        || rsuser_init_cmdline_options() < 0
+        || acia1_cmdline_options_init() < 0
+        || rs232_cmdline_options_init() < 0
+        || rsuser_cmdline_options_init() < 0
 #endif
-        || printer_init_cmdline_options() < 0
-        /* FIXME: This is done already in main.c
-         #ifdef HAVE_MOUSE
-         || mouse_init_cmdline_options() < 0
-         #endif
-         */
-        || kbd_init_cmdline_options() < 0
-        || drive_init_cmdline_options() < 0
-        || datasette_init_cmdline_options() < 0
-        || cartridge_init_cmdline_options() < 0
-        || mmu_init_cmdline_options() < 0
-        || functionrom_init_cmdline_options() < 0
-        || z80mem_init_cmdline_options() < 0)
+        || printer_cmdline_options_init() < 0
+#ifdef HAVE_MOUSE
+        || mouse_cmdline_options_init() < 0
+#endif
+        || kbd_cmdline_options_init() < 0
+        || drive_cmdline_options_init() < 0
+        || datasette_cmdline_options_init() < 0
+        || cartridge_cmdline_options_init() < 0
+        || mmu_cmdline_options_init() < 0
+        || functionrom_cmdline_options_init() < 0
+        || z80mem_cmdline_options_init() < 0)
         return -1;
 
     return 0;

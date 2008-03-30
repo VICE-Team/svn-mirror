@@ -37,8 +37,8 @@ extern void REGPARM2 internal_function_rom_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 external_function_rom_read(ADDRESS addr);
 extern void REGPARM2 external_function_rom_store(ADDRESS addr, BYTE value);
 
-extern int functionrom_init_resources(void);
-extern int functionrom_init_cmdline_options(void);
+extern int functionrom_resources_init(void);
+extern int functionrom_cmdline_options_init(void);
 
 #endif
 
