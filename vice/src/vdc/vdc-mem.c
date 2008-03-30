@@ -296,9 +296,9 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if ((vdc.regs[25] & 15) != vdc.xsmooth) {
+        if (7 - (vdc.regs[25] & 7) != vdc.xsmooth) {
 #ifdef ALLOW_UNALIGNED_ACCESS
-            vdc.xsmooth = (vdc.regs[25] & 15);
+            vdc.xsmooth = 7 - (vdc.regs[25] & 7);
             vdc.raster.xsmooth = vdc.xsmooth;
 #else
             vdc.xsmooth = 0;
