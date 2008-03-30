@@ -1,3 +1,80 @@
+2000-06-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.9.
+
+	* screendrv/Makefile.am, screendrv/bmp.c, screendrv/png.c: New
+	files.
+
+	* screenschot.c, screenschot.h (screenshot_init,
+	screenshot_register, screenshot_save): New functions.
+
+	* Makefile.am: Added `screendrv' directory.
+
+	* arch/unix/uicommands.c, arch/unix/uicommands.h: Added
+	screenshot entry (for experiments right now).
+
+	* main.c (MAIN_PROGRAM): Call `screenshot_init'.
+
+2000-06-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: some .c files changed to .cc
+
+	* arch/beos/archdep.c: added missing functions
+
+	* arch/beos/c128kbd.c,c610kbd.c,c64kbd.c,petkbd.c,
+	vic20kbd.c,kbd.h: small changes in keyboard codes
+
+	* arch/beos/c64ui.cc: some C64 specific ui stuff
+
+	* arch/beos/constants.h: identifier for the menus
+
+	* arch.beos/joystick.cc: implementation of hardware
+	joystick and keyboard-emulation
+
+	* arch/beos/ui.cc: more general ui stuff,
+	message handler etc.
+
+	* arch/beos/ui_file.cc: handles the attach and other
+	file dialogs
+
+	* arch/beos/vicemenu.cc: creates the menubar
+
+	* arch/beos/vicewindow.cc: handles the window,
+	menu updates, message queueing, ...
+
+	* arch/beos/vsync.c: activated ui_dispatch_events,
+	removed bug with fixed refresh handling
+
+	* sound.h,sound.c: integrated sounddriver for beos
+
+	* sounddrv/soundbeos.cc: implementation of the BeOS
+	sounddriver
+
+2000-06-02  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/xaw/uimenu.c (_ui_menu_toggle_helper,
+	_ui_menu_radio_helper): Removed unused variable buf.
+
+	* vsidui.h: Backed in prototype for vsid_ui_init.
+
+	* arch/beos/vsidui.c, arch/msdos/vsidui.c, arch/os2/vsidui.c,
+	arch/riscos/vsidui.c, arch/win32/vsidui.c: Cleaned up to reflect
+	removal of GUI process.
+
+2000-06-02  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/kbd.c, arch/riscos/ui.c, arch/riscos/ui.h:
+	finished fliplist support.
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: display
+	currently active disk image in windowed and full screen mode.
+
+	* arch/riscos/ui.c: allow long text in menus, added window for
+	creating empty disk images, some code cleanup.
+
+	* sound.c, sound.h, sounddrv/soundacorn.c: small cleanup of
+	unused variables.
+
 2000-06-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.8.
