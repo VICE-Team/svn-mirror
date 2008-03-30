@@ -145,7 +145,7 @@ static video_cbm_palette_t vicii_palette =
     VIC_II_PHASE
 };
 
-int vicii_update_palette(void)
+int vicii_color_update_palette(void)
 {
     video_cbm_palette_t *cp;
 

@@ -31,7 +31,7 @@
 #ifndef _TED_COLOR_H
 #define _TED_COLOR_H
 
-extern int ted_update_palette(void);
+extern int ted_color_update_palette(void);
 
 #endif
 

@@ -105,7 +105,7 @@ static video_cbm_palette_t ted_palette=
     TED_PHASE
 };
 
-int ted_update_palette(void)
+int ted_color_update_palette(void)
 {
     int col,lum,cl;
     float tedlum;

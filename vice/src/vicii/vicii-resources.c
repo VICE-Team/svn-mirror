@@ -46,7 +46,7 @@ vicii_resources_t vicii_resources;
 static int set_new_luminances(resource_value_t v, void *param)
 {
     vicii_resources.new_luminances = (int)v;
-    return vicii_update_palette();
+    return vicii_color_update_palette();
 }
 
 static int set_sprite_sprite_collisions_enabled(resource_value_t v, void *param)

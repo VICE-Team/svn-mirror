@@ -28,10 +28,10 @@
  *
  */
 
-#ifndef _VIC_II_COLOR_H
-#define _VIC_II_COLOR_H
+#ifndef _VIC_COLOR_H
+#define _VIC_COLOR_H
 
-extern int vic_update_palette(void);
+extern int vic_color_update_palette(void);
 
 #endif
 

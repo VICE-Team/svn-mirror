@@ -77,7 +77,7 @@ static video_cbm_palette_t vic_palette=
     VIC_PHASE
 };
 
-int vic_update_palette(void)
+int vic_color_update_palette(void)
 {
     video_color_set_palette(&vic_palette);
     return video_color_update_palette();
