@@ -189,6 +189,11 @@ int machine_drive_image_detach(struct disk_image_s *image, unsigned int unit)
            & ieee_drive_image_detach(image, unit);
 }
 
+void machine_drive_port_default(struct drive_context_s *drv)
+{
+    iec_drive_port_default(drv);
+}
+
 void machine_drive_stub(void)
 {
 
