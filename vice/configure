@@ -874,6 +874,7 @@ Optional Features:
   --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)
   --enable-ffmpeg         enables ffmpeg library support
   --enable-ethernet       enables Tfe Final Ethernet emulation
+  --disable-ipv6          disables the checking for ipv6 compatibility
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
 
@@ -1311,7 +1312,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=18
-VICE_VERSION_BUILD=7
+VICE_VERSION_BUILD=8
 
 
 
@@ -1891,6 +1892,11 @@ fi;
 # Check whether --enable-ethernet or --disable-ethernet was given.
 if test "${enable_ethernet+set}" = set; then
   enableval="$enable_ethernet"
+
+fi;
+# Check whether --enable-ipv6 or --disable-ipv6 was given.
+if test "${enable_ipv6+set}" = set; then
+  enableval="$enable_ipv6"
 
 fi;
 
@@ -10625,6 +10631,64 @@ if test $ac_cv_lib_bsd_gethostbyname = yes; then
    LIBS="-lbsd $LIBS"
 fi
 
+    echo "$as_me:$LINENO: checking for gethostbyname in -linet" >&5
+echo $ECHO_N "checking for gethostbyname in -linet... $ECHO_C" >&6
+if test "${ac_cv_lib_inet_gethostbyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-linet  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname ();
+int
+main ()
+{
+gethostbyname ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_inet_gethostbyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_inet_gethostbyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_inet_gethostbyname" >&5
+echo "${ECHO_T}$ac_cv_lib_inet_gethostbyname" >&6
+if test $ac_cv_lib_inet_gethostbyname = yes; then
+   LIBS="-linet $LIBS"
+fi
+
     echo "$as_me:$LINENO: checking for gethostbyname in -lwatt" >&5
 echo $ECHO_N "checking for gethostbyname in -lwatt... $ECHO_C" >&6
 if test "${ac_cv_lib_watt_gethostbyname+set}" = set; then
@@ -10789,6 +10853,442 @@ cat >>confdefs.h <<\_ACEOF
 #define HAVE_NETWORK
 _ACEOF
 
+
+
+for ac_func in getdtablesize getrlimit
+do
+as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
+echo "$as_me:$LINENO: checking for $ac_func" >&5
+echo $ECHO_N "checking for $ac_func... $ECHO_C" >&6
+if eval "test \"\${$as_ac_var+set}\" = set"; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char $ac_func (); below.
+    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
+    <limits.h> exists even on freestanding compilers.  */
+#ifdef __STDC__
+# include <limits.h>
+#else
+# include <assert.h>
+#endif
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char $ac_func ();
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_$ac_func) || defined (__stub___$ac_func)
+choke me
+#else
+char (*f) () = $ac_func;
+#endif
+#ifdef __cplusplus
+}
+#endif
+
+int
+main ()
+{
+return f != $ac_func;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  eval "$as_ac_var=yes"
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+eval "$as_ac_var=no"
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: `eval echo '${'$as_ac_var'}'`" >&5
+echo "${ECHO_T}`eval echo '${'$as_ac_var'}'`" >&6
+if test `eval echo '${'$as_ac_var'}'` = yes; then
+  cat >>confdefs.h <<_ACEOF
+#define `echo "HAVE_$ac_func" | $as_tr_cpp` 1
+_ACEOF
+
+fi
+done
+
+    fi
+  fi
+fi
+
+if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+  if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
+    echo "$as_me:$LINENO: checking if IPV6 should be enabled" >&5
+echo $ECHO_N "checking if IPV6 should be enabled... $ECHO_C" >&6
+    if test x"$enable_ipv6" != "xno"; then
+      have_ipv6=no
+      cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+        #include <sys/socket.h>
+        #include <sys/types.h>
+int
+main ()
+{
+
+        struct sockaddr_storage ss;
+        socket(AF_INET6, SOCK_STREAM, 0)
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  have_ipv6=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+have_ipv6=no
+
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+      echo "$as_me:$LINENO: result: $have_ipv6" >&5
+echo "${ECHO_T}$have_ipv6" >&6
+
+      if test $have_ipv6 = yes; then
+        have_broken_ss_family=no
+
+                                echo "$as_me:$LINENO: checking struct sockaddr::ss_family" >&5
+echo $ECHO_N "checking struct sockaddr::ss_family... $ECHO_C" >&6
+        cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+          #include <sys/socket.h>
+          #include <sys/types.h>
+int
+main ()
+{
+
+          struct sockaddr_storage ss ;
+          ss.ss_family = 0 ;
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  have_ss_family=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+have_ss_family=no
+
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+        echo "$as_me:$LINENO: result: $have_ss_family" >&5
+echo "${ECHO_T}$have_ss_family" >&6
+        if test x$have_ss_family = xno ; then
+          echo "$as_me:$LINENO: checking broken struct sockaddr::ss_family" >&5
+echo $ECHO_N "checking broken struct sockaddr::ss_family... $ECHO_C" >&6
+          cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+            #include <sys/socket.h>
+            #include <sys/types.h>
+int
+main ()
+{
+
+            struct sockaddr_storage ss ;
+            ss.__ss_family = 0 ;
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  have_broken_ss_family=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+have_broken_ss_family=no
+
+fi
+rm -f conftest.$ac_objext conftest.$ac_ext
+          echo "$as_me:$LINENO: result: $have_broken_ss_family" >&5
+echo "${ECHO_T}$have_broken_ss_family" >&6
+          if test x$have_broken_ss_family = xyes ; then
+
+cat >>confdefs.h <<\_ACEOF
+#define NEED_PREFIXED_SS_FAMILY
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define ss_family __ss_family
+_ACEOF
+
+          else
+            { echo "$as_me:$LINENO: WARNING: ss_family and __ss_family not found" >&5
+echo "$as_me: WARNING: ss_family and __ss_family not found" >&2;}
+          fi
+        fi
+
+        have_gethostbyname2=no
+        echo "$as_me:$LINENO: checking for gethostbyname2" >&5
+echo $ECHO_N "checking for gethostbyname2... $ECHO_C" >&6
+if test "${ac_cv_func_gethostbyname2+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char gethostbyname2 (); below.
+    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
+    <limits.h> exists even on freestanding compilers.  */
+#ifdef __STDC__
+# include <limits.h>
+#else
+# include <assert.h>
+#endif
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char gethostbyname2 ();
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_gethostbyname2) || defined (__stub___gethostbyname2)
+choke me
+#else
+char (*f) () = gethostbyname2;
+#endif
+#ifdef __cplusplus
+}
+#endif
+
+int
+main ()
+{
+return f != gethostbyname2;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_func_gethostbyname2=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_func_gethostbyname2=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_func_gethostbyname2" >&5
+echo "${ECHO_T}$ac_cv_func_gethostbyname2" >&6
+if test $ac_cv_func_gethostbyname2 = yes; then
+  have_gethostbyname2=yes
+fi
+
+        if test $have_gethostbyname2 = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GETHOSTBYNAME2
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_IPV6
+_ACEOF
+
+        else
+          have_getipnodebyname=no
+          echo "$as_me:$LINENO: checking for getipnodebyname" >&5
+echo $ECHO_N "checking for getipnodebyname... $ECHO_C" >&6
+if test "${ac_cv_func_getipnodebyname+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char getipnodebyname (); below.
+    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
+    <limits.h> exists even on freestanding compilers.  */
+#ifdef __STDC__
+# include <limits.h>
+#else
+# include <assert.h>
+#endif
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char getipnodebyname ();
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_getipnodebyname) || defined (__stub___getipnodebyname)
+choke me
+#else
+char (*f) () = getipnodebyname;
+#endif
+#ifdef __cplusplus
+}
+#endif
+
+int
+main ()
+{
+return f != getipnodebyname;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_func_getipnodebyname=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_func_getipnodebyname=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_func_getipnodebyname" >&5
+echo "${ECHO_T}$ac_cv_func_getipnodebyname" >&6
+if test $ac_cv_func_getipnodebyname = yes; then
+  have_getipnodebyname=yes
+fi
+
+          if test $have_getipnodebyname = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GETIPNODEBYNAME
+_ACEOF
+
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_IPV6
+_ACEOF
+
+          fi
+        fi
+      fi
+    else
+      echo "$as_me:$LINENO: result: \"no\"" >&5
+echo "${ECHO_T}\"no\"" >&6
     fi
   fi
 fi

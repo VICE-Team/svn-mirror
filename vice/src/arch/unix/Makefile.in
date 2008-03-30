@@ -329,6 +329,8 @@ libarch_a_SOURCES = \
 	uilib.h \
 	uimenu.h \
 	uimon.c \
+	uinetplay.c \
+	uinetplay.h \
 	uipalemu.c \
 	uipalemu.h \
 	uipalette.c \
@@ -412,8 +414,8 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
 	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
-	uilib.$(OBJEXT) uimon.$(OBJEXT) uipalemu.$(OBJEXT) \
-	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uilib.$(OBJEXT) uimon.$(OBJEXT) uinetplay.$(OBJEXT) \
+	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
 	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
 	uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
 	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
@@ -452,8 +454,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uigeoram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uipalemu.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uipalette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uinetplay.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipalemu.Po ./$(DEPDIR)/uipalette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheraliec.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheralieee.Po \
@@ -570,6 +572,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalemu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@

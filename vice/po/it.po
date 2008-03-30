@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-23 23:32+0100\n"
+"POT-Creation-Date: 2005-12-28 13:40+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -260,56 +260,56 @@ msgstr "scrittura sulla scheda audio fallita."
 msgid "store to sounddevice failed."
 msgstr "memorizzazione sulla scheda audio fallita."
 
-#: src/event.c:223
+#: src/event.c:224
 #, c-format
 msgid "Cannot create image file %s"
 msgstr "Non è possibile creare l'immagine %s"
 
-#: src/event.c:232
+#: src/event.c:233
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Non è possibile scrivere l'immagine %s"
 
-#: src/event.c:244
+#: src/event.c:245
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr ""
 
-#: src/event.c:619
+#: src/event.c:620
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Non è possibile creare il file di inizio snapshot %s."
 
-#: src/event.c:638 src/event.c:932
+#: src/event.c:639 src/event.c:933
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Errore durante la lettura del file di fine snapshot %s."
 
-#: src/event.c:705 src/event.c:899
+#: src/event.c:706 src/event.c:900
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Non è possibile creare il file di fine snapshot %s."
 
-#: src/event.c:773
+#: src/event.c:774
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Non è possibile aprire il file di fine snapshot %s."
 
-#: src/event.c:788
+#: src/event.c:789
 msgid "Could not find event section in end snapshot file."
 msgstr "Non è possibile trovare la sezione eventi nel file di fine snapshot."
 
-#: src/event.c:812
+#: src/event.c:813
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s"
 
-#: src/event.c:842
+#: src/event.c:843
 msgid "Error reading start snapshot file."
 msgstr "Errore durante la lettura del file di inizio snapshot."
 
-#: src/event.c:1223
+#: src/event.c:1224
 msgid "Playback recorded events"
 msgstr "Riproduzione degli eventi registrati"
 
@@ -371,64 +371,76 @@ msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %"
 "06d"
 
-#: src/network.c:314
+#: src/network.c:148
+msgid "Cannot switch IPV4/IPV6 while netplay is active."
+msgstr ""
+
+#: src/network.c:366
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:362
+#: src/network.c:414
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:385
+#: src/network.c:437
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot."
 
-#: src/network.c:398
+#: src/network.c:450
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Salva immagine dello sna&pshot..."
 
-#: src/network.c:407
+#: src/network.c:459
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile leggere l'immagine di snapshot"
 
-#: src/network.c:423
+#: src/network.c:475
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:440
+#: src/network.c:492
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:508 src/network.c:572
+#: src/network.c:567 src/network.c:660
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr "Non è possibile scrivere il file di snapshot `%s'."
 
-#: src/network.c:542
+#: src/network.c:623
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:583
+#: src/network.c:680
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile scrivere il file di log `%s'."
 
-#: src/network.c:604
+#: src/network.c:725
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:614
+#: src/network.c:739
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:761
+#: src/network.c:863
+msgid "Remote host disconnected."
+msgstr ""
+
+#: src/network.c:874
+msgid "Remote host suspending..."
+msgstr ""
+
+#: src/network.c:916
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -2024,12 +2036,14 @@ msgid "ROM set file"
 msgstr "File del ROM set"
 
 #: src/arch/unix/c128ui.c:320
-msgid "VIC II Screenshot"
-msgstr "Cattura schermo del VIC II"
+#, fuzzy
+msgid "VIC II Save media file"
+msgstr "Salva immagine multimediale"
 
 #: src/arch/unix/c128ui.c:322
-msgid "VDC Screenshot"
-msgstr "Cattura schermo del VDC"
+#, fuzzy
+msgid "VDC Save media file"
+msgstr "Salva immagine multimediale"
 
 #: src/arch/unix/c128ui.c:328
 msgid "Screenshots..."
@@ -2136,8 +2150,9 @@ msgstr "Carica una nuova ROM dei caratteri"
 #: src/arch/unix/c64ui.c:346 src/arch/unix/cbm2ui.c:384
 #: src/arch/unix/petui.c:312 src/arch/unix/plus4ui.c:71
 #: src/arch/unix/vic20ui.c:415
-msgid "Screenshot..."
-msgstr "Cattura schermo..."
+#, fuzzy
+msgid "Save media file"
+msgstr "Salva immagine multimediale"
 
 #: src/arch/unix/c64ui.c:354 src/arch/unix/plus4ui.c:131
 msgid "ROM settings"
@@ -2940,45 +2955,45 @@ msgstr "Vai al segnalibro"
 msgid "Recording start mode"
 msgstr "Modalità di inizio registrazione"
 
-#: src/arch/unix/uicommands.c:476
+#: src/arch/unix/uicommands.c:477 src/arch/unix/uicommands.c:480
 msgid "Netplay (experimental)"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:483
+#: src/arch/unix/uicommands.c:488
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:489
+#: src/arch/unix/uicommands.c:494
 msgid "Sound record..."
 msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:496
+#: src/arch/unix/uicommands.c:501
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:499
+#: src/arch/unix/uicommands.c:504
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:507
+#: src/arch/unix/uicommands.c:512
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:509
+#: src/arch/unix/uicommands.c:514
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:515 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:520 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1942
+#: src/arch/unix/x11/gnome/x11ui.c:1944
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:517
+#: src/arch/unix/uicommands.c:522
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:524
+#: src/arch/unix/uicommands.c:529
 msgid "Exit emulator"
 msgstr "Esci"
 
@@ -3625,6 +3640,63 @@ msgstr "Scrivi sul file la mappa della tastiera"
 #: src/arch/unix/uikeyboard.c:135
 msgid "Keyboard settings"
 msgstr "Impostazioni della tastiera"
+
+#: src/arch/unix/uinetplay.c:60
+#, fuzzy
+msgid "Enter port"
+msgstr "Stampante su userport"
+
+#: src/arch/unix/uinetplay.c:61
+msgid "Netplay TCP port"
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:73
+#, fuzzy
+msgid "Invalid TCP port"
+msgstr "Nome del file non valido"
+
+#: src/arch/unix/uinetplay.c:81
+msgid "Error starting the netplay server."
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:86
+#, fuzzy
+msgid "Netplay Server name"
+msgstr "Impostazioni delle periferiche"
+
+#: src/arch/unix/uinetplay.c:87
+#, fuzzy
+msgid "Hostname:"
+msgstr "Nome del ROM set:"
+
+#: src/arch/unix/uinetplay.c:93
+msgid "Error connecting to server."
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:103
+#, fuzzy
+msgid "*Enable IPV6"
+msgstr "&Attiva +60K"
+
+#: src/arch/unix/uinetplay.c:106
+msgid "TCP port"
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:108
+msgid "Start server"
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:110
+msgid "Server to connect to"
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:113
+msgid "Connect to server"
+msgstr ""
+
+#: src/arch/unix/uinetplay.c:115 src/arch/unix/x11/gnome/uinetplay.c:205
+msgid "Disconnect"
+msgstr ""
 
 #: src/arch/unix/uipalemu.c:81
 msgid "PAL Scanline shade"
@@ -4682,13 +4754,13 @@ msgstr "Salva la cartuccia"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:88
+#: src/arch/unix/x11/gnome/uiscreenshot.c:210
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr "Nome del file: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:216
+#: src/arch/unix/x11/gnome/uiscreenshot.c:458
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Nome del file non valido"
@@ -4784,89 +4856,119 @@ msgstr "Emulazione veloce"
 msgid "Exact Emulation"
 msgstr "Emulazione esatta"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:56
+#: src/arch/unix/x11/gnome/uinetplay.c:58
 #, fuzzy
 msgid "Invalid Port number"
 msgstr "Nome del file non valido"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:77
+#: src/arch/unix/x11/gnome/uinetplay.c:79
 msgid "Idle"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:82
+#: src/arch/unix/x11/gnome/uinetplay.c:84
 #, fuzzy
 msgid "Server listening"
 msgstr "Salva le impostazioni"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:87
+#: src/arch/unix/x11/gnome/uinetplay.c:89
 msgid "Connected Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:92
+#: src/arch/unix/x11/gnome/uinetplay.c:94
 msgid "Connected Client"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:105
+#: src/arch/unix/x11/gnome/uinetplay.c:107
 #, c-format
 msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:141
-#: src/arch/unix/x11/gnome/uinetplay.c:145
+#: src/arch/unix/x11/gnome/uinetplay.c:143
+#: src/arch/unix/x11/gnome/uinetplay.c:147
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Impostazioni delle periferiche"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:150
+#: src/arch/unix/x11/gnome/uinetplay.c:152
 #, fuzzy
 msgid "Current mode: "
 msgstr "ROM set attuale"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153
+#: src/arch/unix/x11/gnome/uinetplay.c:155
 #, fuzzy
 msgid "<unknonw>"
 msgstr "Sconosciuto"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:160
+#: src/arch/unix/x11/gnome/uinetplay.c:162
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:168
+#: src/arch/unix/x11/gnome/uinetplay.c:170
 msgid "TCP-Port: "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:181
+#: src/arch/unix/x11/gnome/uinetplay.c:183
 msgid "Connect to "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:203
-msgid "Disconnect"
-msgstr ""
+#: src/arch/unix/x11/gnome/uiscreenshot.c:200
+#, fuzzy
+msgid "No gfxoutputdrivers available"
+msgstr "Non ci sono più device disponibili."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:82
-#: src/arch/unix/x11/gnome/uiscreenshot.c:93
-#: src/arch/unix/x11/gnome/uiscreenshot.c:207
+#: src/arch/unix/x11/gnome/uiscreenshot.c:204
+#: src/arch/unix/x11/gnome/uiscreenshot.c:215
+#: src/arch/unix/x11/gnome/uiscreenshot.c:449
 msgid "Save Screenshot"
 msgstr "Salva schermata"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:106
+#: src/arch/unix/x11/gnome/uiscreenshot.c:228
 msgid "Image Format"
 msgstr "Formato dell'immagine"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:153
+#: src/arch/unix/x11/gnome/uiscreenshot.c:298
+#, c-format
+msgid "FFMPEG Driver: %s"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:320
+#, c-format
+msgid "\tAC: %s(%d)"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:345
+#, c-format
+msgid "\tVC: %s(%d)"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:356
+#, fuzzy
+msgid "Format"
+msgstr "Formato dell'immagine"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:365
+msgid "Audio Codec"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:374
+#, fuzzy
+msgid "Video Codec"
+msgstr "Dimensione dello schermo"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:391
 msgid "Audio Bitrate"
 msgstr "Bitrate audio"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:168
+#: src/arch/unix/x11/gnome/uiscreenshot.c:406
 msgid "Video Bitrate"
 msgstr "Bitrate video"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:245
+#: src/arch/unix/x11/gnome/uiscreenshot.c:494
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Non è possibile scrivere la schermata su `%s' con il driver `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:251
+#: src/arch/unix/x11/gnome/uiscreenshot.c:500
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Scruttura di `%s' riuscita"
@@ -5026,54 +5128,54 @@ msgstr "Cassetta %03d"
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1905
+#: src/arch/unix/x11/gnome/x11ui.c:1907
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1916
+#: src/arch/unix/x11/gnome/x11ui.c:1918
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1942
+#: src/arch/unix/x11/gnome/x11ui.c:1944
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1943
+#: src/arch/unix/x11/gnome/x11ui.c:1945
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1987 src/arch/unix/x11/xaw/x11ui.c:1605
+#: src/arch/unix/x11/gnome/x11ui.c:1989 src/arch/unix/x11/xaw/x11ui.c:1605
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1988
+#: src/arch/unix/x11/gnome/x11ui.c:1990
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2001
+#: src/arch/unix/x11/gnome/x11ui.c:2003
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "L'avvio automatico non è possibile per l'unità %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2009 src/arch/unix/x11/gnome/x11ui.c:2018
+#: src/arch/unix/x11/gnome/x11ui.c:2011 src/arch/unix/x11/gnome/x11ui.c:2020
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2145 src/arch/unix/x11/gnome/x11ui.c:2150
+#: src/arch/unix/x11/gnome/x11ui.c:2147 src/arch/unix/x11/gnome/x11ui.c:2152
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2619
+#: src/arch/unix/x11/gnome/x11ui.c:2621
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2666
+#: src/arch/unix/x11/gnome/x11ui.c:2668
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2692
+#: src/arch/unix/x11/gnome/x11ui.c:2694
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -5435,6 +5537,15 @@ msgstr "Le prestazioni saranno scarse."
 #: src/arch/unix/x11/xaw/x11video.c:222
 msgid "Successfully initialized without shared memory."
 msgstr "Inizializzato con successo senza memoria condivisa."
+
+#~ msgid "VIC II Screenshot"
+#~ msgstr "Cattura schermo del VIC II"
+
+#~ msgid "VDC Screenshot"
+#~ msgstr "Cattura schermo del VDC"
+
+#~ msgid "Screenshot..."
+#~ msgstr "Cattura schermo..."
 
 #~ msgid "IDE64: Using imagefile `%s'."
 #~ msgstr "IDE64: usa file immagine `%s'."
@@ -6000,9 +6111,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid "Select file system directory"
 #~ msgstr "Seleziona la directory del file system"
 
-#~ msgid "Printer Userport"
-#~ msgstr "Stampante su userport"
-
 #~ msgid "Printer 4"
 #~ msgstr "Stampante 4"
 
@@ -6238,9 +6346,6 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Configure Keyset B"
 #~ msgstr "Configura Keyset B"
-
-#~ msgid "Save media image"
-#~ msgstr "Salva immagine multimediale"
 
 #~ msgid "Tape:"
 #~ msgstr "Cassetta:"

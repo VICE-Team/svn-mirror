@@ -312,6 +312,8 @@ libarch_a_SOURCES = \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \
+	uinetplay.c \
+	uinetplay.h \
 	uiperipherial.c \
 	uiperipherial.h \
 	uiplus60k.c \
@@ -361,11 +363,12 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uidrive.$(OBJEXT) uigeoram.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uimon.$(OBJEXT) uiperipherial.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiscreenshot.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) uitfe.$(OBJEXT) vic20ui.$(OBJEXT) \
-	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
+	uimon.$(OBJEXT) uinetplay.$(OBJEXT) uiperipherial.$(OBJEXT) \
+	uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) uiramcart.$(OBJEXT) \
+	uireu.$(OBJEXT) uiscreenshot.$(OBJEXT) uisid.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uitfe.$(OBJEXT) \
+	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
+	vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -388,7 +391,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uic64_256k.Po ./$(DEPDIR)/uic64cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uidrive.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uigeoram.Po ./$(DEPDIR)/uijoystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipherial.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uinetplay.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipherial.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus60k.Po ./$(DEPDIR)/uiprinter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiramcart.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiscreenshot.Po ./$(DEPDIR)/uisid.Po \
@@ -460,6 +464,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipherial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus60k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
