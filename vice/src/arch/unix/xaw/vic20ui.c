@@ -134,18 +134,18 @@ static ui_menu_entry_t memory_settings_submenu[] = {
     { "Common configurations",
       NULL, NULL, common_memory_configurations_submenu },
     { "--" },
-    { "*Block 0 (3K at $0400-$0F00)",
+    { "*Block 0 (3K at $0400-$0FFF)",
       (ui_callback_t) toggle_RAMBlock0, NULL, NULL },
     { "*Block 1 (8K at $2000-$3FFF)",
       (ui_callback_t) toggle_RAMBlock1, NULL, NULL },
-    { "*Block 2 (8K at $4000-$5F00)",
+    { "*Block 2 (8K at $4000-$5FFF)",
       (ui_callback_t) toggle_RAMBlock2, NULL, NULL },
     { "*Block 3 (8K at $6000-$7FFF)",
       (ui_callback_t) toggle_RAMBlock3, NULL, NULL },
     { "*Block 5 (8K at $A000-$BFFF)",
       (ui_callback_t) toggle_RAMBlock5, NULL, NULL },
     { "--" },
-    { "*Emulation identification",
+    { "*Emulator identification",
       (ui_callback_t) toggle_EmuID, NULL, NULL },
     { NULL }
 };
@@ -191,7 +191,7 @@ static UI_CALLBACK(default_cartridge)
 }
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { "Smart attach CRT image...",
+    { "Smart attach cartridge image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_VIC20_DETECT, NULL },
     { "--" },

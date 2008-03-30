@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -282,7 +283,7 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "Keyboard type",
       NULL, NULL, pet_keybd_submenu },
     { "--" },
-    { "*Emulation identification",
+    { "*Emulator identification",
       (ui_callback_t) toggle_EmuID, NULL, NULL },
     { NULL }
 };

@@ -592,13 +592,13 @@ void initialize_memory(void)
     chargen_wrap = 0;
 #endif
 
-    /* Setup RAM at $0400-$0F00.  */
+    /* Setup RAM at $0400-$0FFF.  */
     if (ram_block_0_enabled)
 	vic20_mem_enable_ram_block(0);
     else
 	vic20_mem_disable_ram_block(0);
 
-    /* Setup RAM at $2000-$3F00.  */
+    /* Setup RAM at $2000-$3FFF.  */
     if (ram_block_1_enabled)
 	vic20_mem_enable_ram_block(1);
     else {
@@ -797,7 +797,7 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 		   (type==CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
             set_ram_block_5_enabled(0);
 	    vic20_mem_enable_rom_block(5);
-	    memcpy(cartrom + 0xA000, rawcart, 
+	    memcpy(cartrom + 0xA000, rawcart,
 		   (type==CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
 	    mem_rom_blocks |= VIC_BLK5;
 	    break;

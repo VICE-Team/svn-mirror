@@ -109,7 +109,6 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
     { NULL }
 };
 
-
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
@@ -175,7 +174,7 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { "*Emulation identification",
+    { "*Emulator identification",
       (ui_callback_t) toggle_EmuID, NULL, NULL },
     { "*IEEE488 interface emulation",
       (ui_callback_t) toggle_IEEE488, NULL, NULL },
