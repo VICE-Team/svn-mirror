@@ -325,7 +325,8 @@ and <KBD>space</KBD> for the fire button instead.
 <P>
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1571, 1581, 2031 and 1001 drives in one of two ways:
+Commodore 1541, 1541-II, 1571, 1581, 2031, 1001, 8050 and 8250 drives in one 
+of two ways:
 
 </P>
 
@@ -351,11 +352,11 @@ does <EM>not</EM> really emulate the serial line, but patches the kernal
 ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
-all of them). The IEEE488 drives (2031 and 1001) do not use
+all of them). The IEEE488 drives (2031, 1001, 8050 and 8250) do not use
 kernal traps. Instead the IEEE488 interface lines are monitored
 the data is passed to the drive emulation. To use them on the C64,
-you need to enable the IEEE488 interface emulation and load an
-appropriate kernal.
+you need to enable the IEEE488 interface emulation. Only if the 
+IEEE488 emulation is enabled, those drives can be selected.
 
 </P>
 <P>
@@ -389,6 +390,38 @@ C64. With IEEE488 drives you can have true 2031 emulation at unit
 #8, and still have filesystem access at units #10 or #11, because
 monitoring the IEEE488 lines does not interfere with the true drive
 emulation.
+
+</P>
+<P>
+The IEEE488 disk drives 8050 and 8250 are Dual Drive Floppy Disks. 
+This means that these drives handle two disks. To Accomplish the 
+emulation, only one disk can be emulated, namely unit #8. The 
+attached image, track display and LED display of unit #9 are used
+for the second drive of the dual disk drives. On unix the unit number
+display (8 or 9) in the emulation window changes to the drive number
+display (0 or 1). 
+
+</P>
+<P>
+The Commodore 1001, 8050 and 8250 disk drives are so-called "old-style"
+disk drives. Their architecture includes not one, but two processors
+of the 6502 type, namely a 6502 for the file handling and communication
+with the PET (IP), and a 6504 (which has a reduced address space) for 
+the drive handling (FDC). Both processors communicate over a shared memory
+area. The IP writes commands to read/write blocks to this area and
+the FDC executes them. To make the emulation feasible, the FDC processor
+is not emulated cycle-exactly as a 6504, but simply be checking 
+the commands and executing them on the host. This provides a fast
+FDC emulation, but disallows the sending the FDC processor commands
+to execute code. Applications where this is necessary are believed
+to be rather seldom. Only the format command uses this feature, but
+this is checked for.
+
+</P>
+<P>
+The drives 1001, 8050 and 8250 do actually have the very same DOS ROM.
+Only the code in the FDC is different, which is taken care of by VICE.
+So for all three of those disk drives, only <CODE>dos1001</CODE> is needed.
 
 </P>
 

@@ -17,6 +17,185 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Drive options,  Prev: Drive resources,  Up: Drive settings
+
+Drive command-line options
+--------------------------
+
+`-truedrive'
+`+truedrive'
+     Turns true drive emulation on (`DriveTrueEmulation=1') and off
+     (`DriveTrueEmulation=0'), respectively.
+
+`-drive8type TYPE'
+`-drive9type TYPE'
+     Specifies the drive types for units 8 and 9, respectively.
+     Possible values for `TYPE' are `1541', `1571', `1581' and `2031'.
+
+`-parallel8'
+`+parallel8'
+`-parallel9'
+`+parallel9'
+     Turns emulation of the SpeedDOS-compatible parallel cable for disk
+     unit 8 or 9 on (`DriveXParallelCable=1', X=8 or 9) and off
+     (`DriveXParallelCable=0'), respectively.
+
+`-drive8idle NUM'
+`-drive9idle NUM'
+     Specifies `NUM' as the idling method in drives 8 and 9,
+     respectively (`Drive8IdleMethod', `Drive9IdleMethod').
+
+`-drive8extend NUM'
+`-drive9extend NUM'
+     Specifies `NUM' as the track 40 extend policy in drives 8 and 9,
+     respectively (`Drive8ExtendImagePolicy',
+     `Drive9ExtendImagePolicy').
+
+`-paldrive'
+     Specifies a PAL sync factor for the drive emulation
+     (`DriveSyncFactor=-1').
+
+`-ntscdrive'
+     Specifies an NTSC sync factor for the drive emulation
+     (`DriveSyncFactor=-2').
+
+`-drivesync NUM'
+     Specifies a generic sync factor for the drive emulation
+     (`True1541SyncFactor').
+
+`-dos1541'
+`-dos1571'
+`-dos1581'
+`-dos2031'
+`-dos1001'
+     Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001
+     emulation respectively.
+
+
+File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: Drive settings,  Up: Settings and resources
+
+Peripheral settings
+===================
+
+   VICE is able to support some special peripherals:
+
+   * "file system devices", pseudo-drives accessing the Unix file
+     system;
+
+   * printers.
+
+   These features depend on some "kernal traps" that replace the
+existing routines in the original Commodore operating system with
+custom-made C routines.
+
+* Menu:
+
+* File system device settings::  Settings for file system devices.
+* Printer settings::            Settings for emulating a printer.
+* No kernal traps::             Disabling kernal traps completely.
+
+
+File: vice.info,  Node: File system device settings,  Next: Printer settings,  Prev: Peripheral settings,  Up: Peripheral settings
+
+Settings for file system devices
+--------------------------------
+
+   These settings deal with the drive-like peripherals connected to the
+bus of the emulated machine.  The first setting relates to the parallel
+IEEE488 interface. With this interface a special engine is used to
+listen to the bus lines to translates them to the filesystem code. Thus
+the PET will always detect a drive for example, but it can also use
+drives 10 and 11 even together with true disk drive emulation.
+
+   * "Enable FS access via IEEE488", enables the peripheral access via
+     the IEEE488 interface. Both, filesystem and disk image access via
+     fast drive emulation, are affected.
+
+   Four peripherals, numbered from 8 to 11, are accessible; each of
+them provides the following settings:
+
+   * "File system access", if enabled, allows the device to emulate a
+     drive accessing a file system directory; note that when a disk
+     image is attached to the same drive, the directory is no longer
+     visible and the attached disk is used instead.
+
+   * "File system directory" specifies the directory to be accessed by
+     the drive.
+
+   * "Convert P00 file names", if enabled, allows access to P00 files
+     using their built-in name instead of the Unix one.
+
+   * "Create P00 files on save", if enabled, creates P00 files (instead
+     of raw CBM files) whenever a program creates a file.
+
+   Note that, by default, all drives except 11 create P00 files on save,
+while drive 11 creates raw CBM files. Those files come without any
+header, but also with the filename restrictions given by the operating
+system VICE runs on.
+
+* Menu:
+
+* File system device resources::
+* File system device options::
+
+
+File: vice.info,  Node: File system device resources,  Next: File system device options,  Prev: File system device settings,  Up: File system device settings
+
+Resources for file system devices
+.................................
+
+`IeeeFS'
+     Boolean that specifies whether the VICE IEEE488 engine to access
+     the filesystem is enabled.
+
+`FSDevice8ConvertP00'
+`FSDevice9ConvertP00'
+`FSDevice10ConvertP00'
+`FSDevice11ConvertP00'
+     Booleans specifying whether on-read support for P00 files is
+     enabled on drives 8, 9, 10 and 11 respectively (on by default).
+
+`FSDevice8SaveP00'
+`FSDevice9SaveP00'
+`FSDevice10SaveP00'
+`FSDevice11SaveP00'
+     Booleans specifying whether the drives should create P00 files
+     instead of plain CBM ones (on by default for drives 8-10, off for
+     11).
+
+`FSDevice8HideCBMFiles'
+`FSDevice9HideCBMFiles'
+`FSDevice10HideCBMFiles'
+`FSDevice11HideCBMFiles'
+     Booleans specifying whether non-P00 files should be invisible to
+     programs running in the emulator (do not hide by default).
+
+`FSDevice8Dir'
+`FSDevice9Dir'
+`FSDevice10Dir'
+`FSDevice11Dir'
+     Strings specifying the directories to which drives 8, 9, 10 and 11
+     have access.
+
+
+File: vice.info,  Node: File system device options,  Prev: File system device resources,  Up: File system device settings
+
+Command-line options for file system devices
+............................................
+
+`-ieeefs'
+`+ieeefs'
+     Enable resp. disable peripheral access via IEEE488 interface.
+
+`-fs8 PATH'
+`-fs9 PATH'
+`-fs10 PATH'
+`-fs11 PATH'
+     Specify the paths for the file system access on drives 8, 9, 10
+     and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
+     `FSDevice10Dir' and `FSDevice11Dir').
+
+
 File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
 
 Printer settings
@@ -1402,112 +1581,3 @@ CIA, the CPU, or the memory.
 * Emulator modules::
 * Module formats::
 
-
-File: vice.info,  Node: Emulator modules,  Next: Module formats,  Prev: Snapshot format,  Up: Snapshot format
-
-Emulator modules
-----------------
-
-   This section lists the modules that are contained in each of the
-emulators snapshot files.
-
-* Menu:
-
-* x64 modules::
-* x128 modules::
-* xvic modules::
-* xpet modules::
-* xcbm2 modules::
-* Drive modules::
-
-
-File: vice.info,  Node: x64 modules,  Next: x128 modules,  Prev: Emulator modules,  Up: Emulator modules
-
-x64 modules
-...........
-
-   The modules in the x64 emulator are:
-
-Name    Type                          Description                          
-MAINCPU 6502                          The Main CPU - although it is a      
-                                      6510, only the 6502 core is saved    
-                                      here                                 
-C64MEM  Memory                        Holds the RAM contents of the C64.   
-                                      Also the CPU I/O register contents   
-                                      are saved here.                      
-C64ROM  ROM images                    Dump of the system ROMs              
-VIC-II  656*                          The VIC-II of the C64/128            
-CIA1    6526                          The CIA for the interrupts and the   
-                                      keyboard                             
-CIA2    6526                          The CIA for the userport, IEC-bus    
-                                      and RS232.                           
-SID     6581                          The SID sound chip of the C64/C128   
-REU*                                  The RAM Extension Unit state         
-                                      (optional)                           
-ACIA1   6551                          An ACIA (RS232 interface) at $DE00   
-                                      (optional)                           
-TPI     6525                          A TPI at $DF00 for a parallel        
-                                      IEEE488 interface (optional)         
-*       Drive modules                 The emulated drive(s) have their     
-                                      own modules *note Drive modules::.   
-
-   Some of the modules are optional and are only saved if the specific
-feature is enabled at save-time.  If the module is found when restoring
-the state the optional features are enabled, and disabled otherwise.
-
-
-File: vice.info,  Node: x128 modules,  Next: xvic modules,  Prev: x64 modules,  Up: Emulator modules
-
-x128 modules
-............
-
-   The modules in the x128 emulator are:
-
-Name    Type                          Description                          
-MAINCPU 6502                          The Main CPU - although it is a      
-                                      6510, only the 6502 core is saved    
-                                      here                                 
-C128MEM Memory                        Holds the RAM contents of the C64.   
-                                      Also the CPU I/O register contents   
-                                      are saved here.                      
-C128ROM ROM images                    Dump of the system ROMs              
-VIC-II  656*                          The VIC-II of the C64/128            
-CIA1    6526                          The CIA for the interrupts and the   
-                                      keyboard                             
-CIA2    6526                          The CIA for the userport, IEC-bus    
-                                      and RS232.                           
-SID     6581                          The SID sound chip of the C64/C128   
-ACIA1   6551                          An ACIA at $DE00 (optional)          
-TPI     6525                          A TPI at $DF00 for a parallel        
-                                      IEEE488 interface (optional)         
-*       Drive modules                 The emulated drive(s) have their     
-                                      own modules *note Drive modules::.   
-
-   Some of the modules are optional and are only saved if the specific
-feature is enabled at save-time.  If the module is found when restoring
-the state the optional features are enabled, and disabled otherwise.
-
-   Not yet supported are the 80 column video chip, cartridges and RAM
-expansion unit.
-
-
-File: vice.info,  Node: xvic modules,  Next: xpet modules,  Prev: x128 modules,  Up: Emulator modules
-
-xvic modules
-............
-
-   The modules in the xvic emulator are:
-
-Name    Type                          Description                          
-MAINCPU 6502                          The Main CPU                         
-VIC20MEMMemory                        Holds the RAM contents of the VIC20. 
-VIC20ROMROM images                    Holds the ROM images of the VIC20,   
-                                      including possibly attached          
-                                      cartridges                           
-VIC-I   656*                          The VIC-I of the VIC20               
-VIA1    6522                          The VIA for the interrupts and the   
-                                      keyboard                             
-VIA2    6522                          The VIA for the userport, IEC-bus    
-                                      and RS232.                           
-*       Drive modules                 The emulated drive(s) have their     
-                                      own modules *note Drive modules::.   

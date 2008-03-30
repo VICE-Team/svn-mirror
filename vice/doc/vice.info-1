@@ -676,7 +676,8 @@ The disk drive emulation
 
    All the emulators support up to 4 external disk drives as devices 8,
 9, 10 and 11.  Each of these devices can emulate virtual Commodore
-1541, 1571, 1581, 2031 and 1001 drives in one of two ways:
+1541, 1541-II, 1571, 1581, 2031, 1001, 8050 and 8250 drives in one of
+two ways:
 
    * using disk images, i.e., files that contain a dump of all the
      blocks contained in a real floppy disk (if you want more
@@ -694,10 +695,11 @@ really emulate the serial line, but patches the kernal ROM (with the
 so-called "kernal traps") so that serial line operations can be
 emulated via C language routines.  This emulation is very fast, but
 only allows use of standard DOS functions (and not even all of them).
-The IEEE488 drives (2031 and 1001) do not use kernal traps. Instead the
-IEEE488 interface lines are monitored the data is passed to the drive
-emulation. To use them on the C64, you need to enable the IEEE488
-interface emulation and load an appropriate kernal.
+The IEEE488 drives (2031, 1001, 8050 and 8250) do not use kernal traps.
+Instead the IEEE488 interface lines are monitored the data is passed to
+the drive emulation. To use them on the C64, you need to enable the
+IEEE488 interface emulation. Only if the IEEE488 emulation is enabled,
+those drives can be selected.
 
    The other alternative is a "hardware level" drive emulation.  The
 Commodore disk drives are provided with their own CPU (a 6502 as the
@@ -724,6 +726,31 @@ of the Commodore IEEE488 bus interface is available for the C64. With
 IEEE488 drives you can have true 2031 emulation at unit #8, and still
 have filesystem access at units #10 or #11, because monitoring the
 IEEE488 lines does not interfere with the true drive emulation.
+
+   The IEEE488 disk drives 8050 and 8250 are Dual Drive Floppy Disks.
+This means that these drives handle two disks. To Accomplish the
+emulation, only one disk can be emulated, namely unit #8. The attached
+image, track display and LED display of unit #9 are used for the second
+drive of the dual disk drives. On unix the unit number display (8 or 9)
+in the emulation window changes to the drive number display (0 or 1).
+
+   The Commodore 1001, 8050 and 8250 disk drives are so-called
+"old-style" disk drives. Their architecture includes not one, but two
+processors of the 6502 type, namely a 6502 for the file handling and
+communication with the PET (IP), and a 6504 (which has a reduced
+address space) for the drive handling (FDC). Both processors
+communicate over a shared memory area. The IP writes commands to
+read/write blocks to this area and the FDC executes them. To make the
+emulation feasible, the FDC processor is not emulated cycle-exactly as
+a 6504, but simply be checking the commands and executing them on the
+host. This provides a fast FDC emulation, but disallows the sending the
+FDC processor commands to execute code. Applications where this is
+necessary are believed to be rather seldom. Only the format command
+uses this feature, but this is checked for.
+
+   The drives 1001, 8050 and 8250 do actually have the very same DOS
+ROM.  Only the code in the FDC is different, which is taken care of by
+VICE.  So for all three of those disk drives, only `dos1001' is needed.
 
 
 File: vice.info,  Node: Supported file formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
@@ -1027,126 +1054,4 @@ files::.).
 * Keymap files::                Files describing the keyboard layout.
 * Palette files::               Files defining the machine's colors.
 * Romset files::                Files defining the machine's ROM set.
-
-
-File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
-
-ROM files
-=========
-
-   Every emulator requires its own ROM set.  For the VIC20 and the C64,
-the ROM set consists of the following files:
-
-   * `kernal',  the Kernal ROM (8 KBytes)
-
-   * `basic', the Basic ROM (8 KBytes)
-
-   * `chargen', the character generator ROM (4 Kbytes)
-
-   The C128 needs the following files:
-
-   * `kernal', the Kernal ROM (8 Kbytes)
-
-   * `basic', the Basic + Editor ROM (32 Kbytes)
-
-   * `chargen', the character generator ROM (4 Kbytes)
-
-   The C128, VIC20 and C64 emulators also need the following DOS ROMs
-for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
-
-   * `dos1541', the 1541 drive ROM (16 Kbytes)
-
-   * `dos1541II', the 1541-II drive ROM (16 Kbytes)
-
-   * `dos1571', the 1571 drive ROM (32 Kbytes)
-
-   * `dos1581', the 1581 drive ROM (32 Kbytes)
-
-   In addition to those all emulators except the VIC20 can handle a
-parallel IEEE488 interface (the C64 and C128 via `$df**' extension) so
-they also need the DOS ROM for the 2031 disk drive, basically a VC1541
-with a parallel IEEE488 interface:
-
-   * `dos2031', the 2031 drive ROM (16 Kbytes)
-
-   The PET emulator uses an expanded setup, because there are three
-major versions of the Basic and the Kernal, and many versions of the
-Editor ROM. In addition there are cartridge ROM sockets.
-
-   The Kernal files contain the memory from range $F000-$FFFF, the Basic
-ROMs either the range $C000-$DFFF or $B000-$DFFF.  To handle the
-different screen sizes and keyboards, different so-called "editor-ROMs"
-for the memory range $E000-$E800 are provided.  The PET ROMs have the
-following names:
-
-   * `kernal1', the PET2001 Kernal ROM (4 KBytes)
-
-   * `kernal2', the PET3032 Kernal ROM (4 KBytes)
-
-   * `kernal4', the PET4032/8032 Kernal ROM (4 KBytes)
-
-   * `basic1', the PET2001 Basic 1 ROM (8 KBytes)
-
-   * `basic2', the PET3032 Basic 2 ROM (8 KBytes)
-
-   * `basic4', the PET4032/8032 Basic 4 ROM (12 KBytes)
-
-   * `edit1g', the PET2001 editor for graphics keyboards (2 KBytes)
-
-   * `edit2b', the PET3032 editor for business keyboards (2 KBytes)
-
-   * `edit2g', the PET3032 editor for graphics keyboards (2 KBytes)
-
-   * `edit4g40', the PET4032 editor for graphics keyboards (2 KBytes)
-
-   * `edit4b40', the PET4032 editor for business keyboards (2 KBytes)
-
-   * `edit4b80', the PET8032 editor for business keyboards (2 KBytes)
-
-   *   * `chargen', the character generator ROM (2k).  It has two sets with
-     128 chars each.  The second (inverted) half of each set is
-     computed from the first half by inverting it.  This is a PET
-     hardware feature.
-
-   * `chargen.de', the character generator ROM (2k). This version is a
-     patched German charset, with the characters [, \ and ] replaced by
-     umlauts.  It has been provided by U. Guettich and he reports that
-     it is supported by some programs.
-
-   The PETs also have sockets for extension ROMs for the addresses
-$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
-PET3032 only).  You can specify ROM image files for those extensions
-command line options `-petrom9', `-petromA' and `-petromB' resp.
-
-   An alternative would be to specify a long kernal ROM with the
-`-kernal' option that includes the extension ROM areas.
-
-   Also, you can specify replacements for the basic ROM at $B000-$DFFF
-with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
-with the `-petromEditor' option.
-
-   The CBM-II emulator again uses another setup.  For those models the
-kernal used is the same for all.  However, for different amounts of
-memory exist different versions of the BASIC ROMs.  The 128k RAM version
-(C610, C710, B128) uses one bank of 64k for the BASIC text and another
-one for all the variables.  The 256k RAM version uses one bank for text,
-one for variables, one for arrays and one for strings.
-
-   Also the character generator ROMs have a format different from the
-above.  The other character ROMs have 8 bytes of pixel data per
-character.  Those ROMs have 16 bytes per character instead.  The C6x0
-only uses the first 8 of it, but the C7x0 uses 14 lines per character
-and needs those increased ROMs.  Both ROMs hold, like the PET, two
-character sets with 128 characters each.  Again the second half of the
-full (256 char) character set is computed by inverting.
-
-   * `kernal', the KERNAL (8k)
-
-   * `basic.128', the CBM-II 128k BASIC (16k)
-
-   * `basic.256', CBM-II 256k BASIC (16k)
-
-   * `chargen.600', character generator ROM for the C6x0 (4k)
-
-   * `chargen.700', character generator ROM for the C7x0 (4k)
 

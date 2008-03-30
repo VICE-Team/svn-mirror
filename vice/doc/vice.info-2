@@ -17,6 +17,128 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
+
+ROM files
+=========
+
+   Every emulator requires its own ROM set.  For the VIC20 and the C64,
+the ROM set consists of the following files:
+
+   * `kernal',  the Kernal ROM (8 KBytes)
+
+   * `basic', the Basic ROM (8 KBytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128 needs the following files:
+
+   * `kernal', the Kernal ROM (8 Kbytes)
+
+   * `basic', the Basic + Editor ROM (32 Kbytes)
+
+   * `chargen', the character generator ROM (4 Kbytes)
+
+   The C128, VIC20 and C64 emulators also need the following DOS ROMs
+for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
+
+   * `dos1541', the 1541 drive ROM (16 Kbytes)
+
+   * `dos1541II', the 1541-II drive ROM (16 Kbytes)
+
+   * `dos1571', the 1571 drive ROM (32 Kbytes)
+
+   * `dos1581', the 1581 drive ROM (32 Kbytes)
+
+   In addition to those all emulators except the VIC20 can handle a
+parallel IEEE488 interface (the C64 and C128 via `$df**' extension) so
+they also need the DOS ROM for the 2031 disk drive, basically a VC1541
+with a parallel IEEE488 interface:
+
+   * `dos2031', the 2031 drive ROM (16 Kbytes)
+
+   The PET emulator uses an expanded setup, because there are three
+major versions of the Basic and the Kernal, and many versions of the
+Editor ROM. In addition there are cartridge ROM sockets.
+
+   The Kernal files contain the memory from range $F000-$FFFF, the Basic
+ROMs either the range $C000-$DFFF or $B000-$DFFF.  To handle the
+different screen sizes and keyboards, different so-called "editor-ROMs"
+for the memory range $E000-$E800 are provided.  The PET ROMs have the
+following names:
+
+   * `kernal1', the PET2001 Kernal ROM (4 KBytes)
+
+   * `kernal2', the PET3032 Kernal ROM (4 KBytes)
+
+   * `kernal4', the PET4032/8032 Kernal ROM (4 KBytes)
+
+   * `basic1', the PET2001 Basic 1 ROM (8 KBytes)
+
+   * `basic2', the PET3032 Basic 2 ROM (8 KBytes)
+
+   * `basic4', the PET4032/8032 Basic 4 ROM (12 KBytes)
+
+   * `edit1g', the PET2001 editor for graphics keyboards (2 KBytes)
+
+   * `edit2b', the PET3032 editor for business keyboards (2 KBytes)
+
+   * `edit2g', the PET3032 editor for graphics keyboards (2 KBytes)
+
+   * `edit4g40', the PET4032 editor for graphics keyboards (2 KBytes)
+
+   * `edit4b40', the PET4032 editor for business keyboards (2 KBytes)
+
+   * `edit4b80', the PET8032 editor for business keyboards (2 KBytes)
+
+   *   * `chargen', the character generator ROM (2k).  It has two sets with
+     128 chars each.  The second (inverted) half of each set is
+     computed from the first half by inverting it.  This is a PET
+     hardware feature.
+
+   * `chargen.de', the character generator ROM (2k). This version is a
+     patched German charset, with the characters [, \ and ] replaced by
+     umlauts.  It has been provided by U. Guettich and he reports that
+     it is supported by some programs.
+
+   The PETs also have sockets for extension ROMs for the addresses
+$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
+PET3032 only).  You can specify ROM image files for those extensions
+command line options `-petrom9', `-petromA' and `-petromB' resp.
+
+   An alternative would be to specify a long kernal ROM with the
+`-kernal' option that includes the extension ROM areas.
+
+   Also, you can specify replacements for the basic ROM at $B000-$DFFF
+with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
+with the `-petromEditor' option.
+
+   The CBM-II emulator again uses another setup.  For those models the
+kernal used is the same for all.  However, for different amounts of
+memory exist different versions of the BASIC ROMs.  The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and another
+one for all the variables.  The 256k RAM version uses one bank for text,
+one for variables, one for arrays and one for strings.
+
+   Also the character generator ROMs have a format different from the
+above.  The other character ROMs have 8 bytes of pixel data per
+character.  Those ROMs have 16 bytes per character instead.  The C6x0
+only uses the first 8 of it, but the C7x0 uses 14 lines per character
+and needs those increased ROMs.  Both ROMs hold, like the PET, two
+character sets with 128 characters each.  Again the second half of the
+full (256 char) character set is computed by inverting.
+
+   * `kernal', the KERNAL (8k)
+
+   * `basic.128', the CBM-II 128k BASIC (16k)
+
+   * `basic.256', CBM-II 256k BASIC (16k)
+
+   * `chargen.600', character generator ROM for the C6x0 (4k)
+
+   * `chargen.700', character generator ROM for the C7x0 (4k)
+
+
 File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
 
 Keymap files
@@ -1187,163 +1309,4 @@ Drive resources
 `DosName2031'
      Strings specifying the names of the ROM images for the drive
      emulation.
-
-
-File: vice.info,  Node: Drive options,  Prev: Drive resources,  Up: Drive settings
-
-Drive command-line options
---------------------------
-
-`-truedrive'
-`+truedrive'
-     Turns true drive emulation on (`DriveTrueEmulation=1') and off
-     (`DriveTrueEmulation=0'), respectively.
-
-`-drive8type TYPE'
-`-drive9type TYPE'
-     Specifies the drive types for units 8 and 9, respectively.
-     Possible values for `TYPE' are `1541', `1571', `1581' and `2031'.
-
-`-parallel8'
-`+parallel8'
-`-parallel9'
-`+parallel9'
-     Turns emulation of the SpeedDOS-compatible parallel cable for disk
-     unit 8 or 9 on (`DriveXParallelCable=1', X=8 or 9) and off
-     (`DriveXParallelCable=0'), respectively.
-
-`-drive8idle NUM'
-`-drive9idle NUM'
-     Specifies `NUM' as the idling method in drives 8 and 9,
-     respectively (`Drive8IdleMethod', `Drive9IdleMethod').
-
-`-drive8extend NUM'
-`-drive9extend NUM'
-     Specifies `NUM' as the track 40 extend policy in drives 8 and 9,
-     respectively (`Drive8ExtendImagePolicy',
-     `Drive9ExtendImagePolicy').
-
-`-paldrive'
-     Specifies a PAL sync factor for the drive emulation
-     (`DriveSyncFactor=-1').
-
-`-ntscdrive'
-     Specifies an NTSC sync factor for the drive emulation
-     (`DriveSyncFactor=-2').
-
-`-drivesync NUM'
-     Specifies a generic sync factor for the drive emulation
-     (`True1541SyncFactor').
-
-`-dos1541'
-`-dos1571'
-`-dos1581'
-`-dos2031'
-`-dos1001'
-     Specify the ROM names for the 1541, 1571, 1581, 2031 and 1001
-     emulation respectively.
-
-
-File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: Drive settings,  Up: Settings and resources
-
-Peripheral settings
-===================
-
-   VICE is able to support some special peripherals:
-
-   * "file system devices", pseudo-drives accessing the Unix file
-     system;
-
-   * printers.
-
-   These features depend on some "kernal traps" that replace the
-existing routines in the original Commodore operating system with
-custom-made C routines.
-
-* Menu:
-
-* File system device settings::  Settings for file system devices.
-* Printer settings::            Settings for emulating a printer.
-* No kernal traps::             Disabling kernal traps completely.
-
-
-File: vice.info,  Node: File system device settings,  Next: Printer settings,  Prev: Peripheral settings,  Up: Peripheral settings
-
-Settings for file system devices
---------------------------------
-
-   These settings deal with the drive-like peripherals connected to the
-bus of the emulated machine.  Four peripherals, numbered from 8 to 11,
-are accessible; each of them provides the following settings:
-
-   * "File system access", if enabled, allows the device to emulate a
-     drive accessing a file system directory; note that when a disk
-     image is attached to the same drive, the directory is no longer
-     visible and the attached disk is used instead.
-
-   * "File system directory" specifies the directory to be accessed by
-     the drive.
-
-   * "Convert P00 file names", if enabled, allows access to P00 files
-     using their built-in name instead of the Unix one.
-
-   * "Create P00 files on save", if enabled, creates P00 files (instead
-     of raw CBM files) whenever a program creates a file.
-
-   Note that, by default, all drives except 11 create P00 files on save,
-while drive 11 creates Unix files.
-
-* Menu:
-
-* File system device resources::
-* File system device options::
-
-
-File: vice.info,  Node: File system device resources,  Next: File system device options,  Prev: File system device settings,  Up: File system device settings
-
-Resources for file system devices
-.................................
-
-`FSDevice8ConvertP00'
-`FSDevice9ConvertP00'
-`FSDevice10ConvertP00'
-`FSDevice11ConvertP00'
-     Booleans specifying whether on-read support for P00 files is
-     enabled on drives 8, 9, 10 and 11 respectively (on by default).
-
-`FSDevice8SaveP00'
-`FSDevice9SaveP00'
-`FSDevice10SaveP00'
-`FSDevice11SaveP00'
-     Booleans specifying whether the drives should create P00 files
-     instead of plain CBM ones (on by default for drives 8-10, off for
-     11).
-
-`FSDevice8HideCBMFiles'
-`FSDevice9HideCBMFiles'
-`FSDevice10HideCBMFiles'
-`FSDevice11HideCBMFiles'
-     Booleans specifying whether non-P00 files should be invisible to
-     programs running in the emulator (do not hide by default).
-
-`FSDevice8Dir'
-`FSDevice9Dir'
-`FSDevice10Dir'
-`FSDevice11Dir'
-     Strings specifying the directories to which drives 8, 9, 10 and 11
-     have access.
-
-
-File: vice.info,  Node: File system device options,  Prev: File system device resources,  Up: File system device settings
-
-Command-line options for file system devices
-............................................
-
-`-fs8 PATH'
-`-fs9 PATH'
-`-fs10 PATH'
-`-fs11 PATH'
-     Specify the paths for the file system access on drives 8, 9, 10
-     and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
-     `FSDevice10Dir' and `FSDevice11Dir').
 

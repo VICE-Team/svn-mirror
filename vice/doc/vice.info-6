@@ -17,6 +17,34 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Newsgroups,  Next: FAQs you should read,  Prev: Contributing,  Up: Contacts
+
+Interesting newsgroups
+======================
+
+   There are some Usenet newsgroups you might be interested in:
+
+   * `comp.emulators.cbm', discussing about emulators of Commodore 8-bit
+     machines (definitely not Amiga emulators).
+
+   * `comp.sys.cbm', discussing various topics regarding real Commodore
+     8-bit machines.  This newsgroup is mainly for people who actually
+     use original Commodore equipment (so please don't talk about
+     emulation here).
+
+   * `comp.emulators.misc', discussing emulators in general.
+
+
+File: vice.info,  Node: FAQs you should read,  Prev: Newsgroups,  Up: Contacts
+
+FAQs you should read
+====================
+
+   We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
+FAQs, which are posted regularly on the corresponding newsgroups and
+are also available via FTP from ftp://rtfm.mit.edu.
+
+
 File: vice.info,  Node: Concept Index,  Next: Resource Index,  Prev: Contacts,  Up: Top
 
 Concept Index
@@ -87,6 +115,7 @@ Concept Index
 * -help:                                 Command-line initialization.
 * -htmlbrowser:                          Misc options.
 * -ieee488, +ieee488:                    C64 I/O extension options.
+* -ieeefs, +ieeefs:                      File system device options.
 * -install, +install:                    Video options.
 * -joydev1, -joydev2:                    Misc options.
 * -kernal <1>:                           CBM-II commandline options.
@@ -280,6 +309,7 @@ Index of Resources
 * FSDevice9SaveP00:                      File system device resources.
 * HTMLBrowserCommand:                    Misc resources.
 * IEEE488:                               C64 I/O extension resources.
+* IeeeFS:                                File system device resources.
 * JoyDevice1, JoyDevice2:                Misc resources.
 * KeymapBusinessDESymFile KeymapBusinessDEPosFile: Keyboard resources.
 * KeymapBusinessUKSymFile KeymapBusinessUKPosFile: Keyboard resources.
