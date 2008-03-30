@@ -2,4 +2,4 @@
 
 SUBDIRS = src doc man data
 
-EXTRA_DIST = TODO BUGS
+EXTRA_DIST = TODO BUGS acconfig.h
