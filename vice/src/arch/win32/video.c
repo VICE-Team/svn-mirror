@@ -828,7 +828,6 @@ error:
 /* Destroy `s'.  */
 void video_canvas_destroy(video_canvas_t *canvas)
 {
-    video_canvas_shutdown(canvas);
 
     if (canvas != NULL) {
         if (canvas->hwnd !=0) {
@@ -837,7 +836,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
         if (canvas->title != NULL) {
             lib_free(canvas->title);
         }
-        lib_free(canvas);
+        video_canvas_shutdown(canvas);
     }
 }
 

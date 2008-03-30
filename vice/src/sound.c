@@ -1166,8 +1166,8 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_dump_device();
     sound_init_wav_device();
 
-#ifdef HAVE_AVFORMAT_H
-    sound_init_movie_device();
+#ifdef HAVE_FFMPEG
+    sound_init_ffmpegaudio_device();
 #endif
 
 #if 0

@@ -206,6 +206,7 @@ void vic20via1_setup_context(machine_context_t *machine_context)
     machine_context->via1 = lib_malloc(sizeof(via_context_t));
     via = machine_context->via1;
 
+    via->prv = NULL;
     via->context = NULL;
 
     via->rmw_flag = &maincpu_rmw_flag;

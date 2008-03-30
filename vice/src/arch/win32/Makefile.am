@@ -32,6 +32,7 @@ libarch_a_SOURCES = \
 	console.c \
 	dirent.c \
 	dirent.h \
+	ffmpeglib.c \
 	fullscrn.c \
 	fullscrn.h \
 	hardsid.c \

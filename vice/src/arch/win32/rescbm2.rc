@@ -93,8 +93,7 @@ BEGIN
             MENUITEM "Start with &reset",       IDM_RECORD_RESET
         END
         MENUITEM SEPARATOR
-        MENUITEM "Save Screenshot\tAlt+C",      IDM_SCREENSHOT
-        MENUITEM "Start/Stop Soundshot\tAlt+U", IDM_SOUNDSHOT
+        MENUITEM "Save media file...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Options"
     BEGIN

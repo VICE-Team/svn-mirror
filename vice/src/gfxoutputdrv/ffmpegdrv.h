@@ -1,8 +1,8 @@
 /*
- * uisnapshot.h - Implementation of the snapshot load/save dialogs.
+ * ffmpegdrv.h - Movie driver using FFMPEG library and screenshot API.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,20 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef _FFMPEGDRV_H
+#define _FFMPEGDRV_H
 
-void ui_snapshot_load_dialog(HWND hwnd);
-void ui_snapshot_save_dialog(HWND hwnd);
-void ui_mediafile_save_dialog(HWND hwnd);
-char *ui_save_snapshot(const char *title, const char *filter, 
-                       HWND hwnd, int dialog_template);
+#include "screenshot.h"
+
+typedef struct ffmpegdrv_audio_in_s {
+    SWORD *buffer;
+    int buffersamples;
+    int used;
+} ffmpegdrv_audio_in_t;
+
+extern void gfxoutput_init_ffmpeg(void);
+extern void ffmpegdrv_init_audio(int speed, int channels, 
+                               ffmpegdrv_audio_in_t** audio_in);
+extern void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in);
 
 #endif

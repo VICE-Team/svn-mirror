@@ -86,6 +86,10 @@ SOURCE=..\..\gfxoutputdrv\bmpdrv.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\gfxoutputdrv\ffmpegdrv.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\gfxoutputdrv\gfxoutput.c
 # End Source File
 # End Target

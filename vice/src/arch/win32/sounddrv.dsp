@@ -94,6 +94,10 @@ SOURCE=..\..\sounddrv\sounddx.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\sounddrv\soundffmpegaudio.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\sounddrv\soundfs.c
 # End Source File
 # Begin Source File

@@ -392,8 +392,7 @@
 #define IDM_TOGGLE_CART_RESET           40070
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
-#define IDM_SCREENSHOT                  40082
-#define IDM_SOUNDSHOT                   40083
+#define IDM_MEDIAFILE                   40082
 #define IDM_TOGGLE_RECORD               40084
 #define IDM_TOGGLE_PLAYBACK             40085
 #define IDM_RECORD_SAVE                 40086
@@ -403,7 +402,6 @@
 #define IDM_SETTINGS_LOAD               40091
 #define IDM_SETTINGS_DEFAULT            40092
 #define IDM_DEVICEMANAGER               40093
-#define IDM_MOVIE                       40094
 #define IDM_REFRESH_RATE_AUTO           40100
 #define IDM_REFRESH_RATE_1              40101
 #define IDM_REFRESH_RATE_2              40102

@@ -416,7 +416,7 @@ int ui_cmdline_options_init(void)
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define NUM_OF_COMMON_HOTKEYS 23
+#define NUM_OF_COMMON_HOTKEYS 22
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
@@ -436,8 +436,7 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, 'N', IDM_FLIP_NEXT },                \
     { FVIRTKEY | FALT | FNOINVERT, 'B', IDM_FLIP_PREVIOUS },            \
     { FVIRTKEY | FALT | FNOINVERT, 'J', IDM_SWAP_JOYSTICK },            \
-    { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_SCREENSHOT },               \
-    { FVIRTKEY | FALT | FNOINVERT, 'U', IDM_SOUNDSHOT },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'C', IDM_MEDIAFILE },                \
     { FVIRTKEY | FALT | FNOINVERT, 'D', IDM_TOGGLE_FULLSCREEN },        \
     { FVIRTKEY | FALT | FNOINVERT, VK_RETURN, IDM_TOGGLE_FULLSCREEN },  \
     { FVIRTKEY | FALT | FNOINVERT, VK_PAUSE, IDM_PAUSE }
@@ -1516,21 +1515,10 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             interrupt_maincpu_trigger_trap(load_quicksnapshot_trap, (void *)0);
         }
         break;
-      case IDM_SCREENSHOT | 0x00010000:
-      case IDM_SCREENSHOT:
+      case IDM_MEDIAFILE | 0x00010000:
+      case IDM_MEDIAFILE:
         SuspendFullscreenModeKeep(hwnd);
-        ui_screenshot_save_dialog(hwnd);
-        ResumeFullscreenModeKeep(hwnd);
-        break;
-      case IDM_SOUNDSHOT | 0x00010000:
-      case IDM_SOUNDSHOT:
-        SuspendFullscreenModeKeep(hwnd);
-        ui_soundshot_save_dialog(hwnd);
-        ResumeFullscreenModeKeep(hwnd);
-        break;
-      case IDM_MOVIE:
-        SuspendFullscreenModeKeep(hwnd);
-        ui_movie_save_dialog(hwnd);
+        ui_mediafile_save_dialog(hwnd);
         ResumeFullscreenModeKeep(hwnd);
         break;
       case IDM_PAUSE:

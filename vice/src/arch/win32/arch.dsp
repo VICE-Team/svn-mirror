@@ -114,6 +114,10 @@ SOURCE=.\dirent.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\ffmpeglib.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\fullscrn.c
 # End Source File
 # Begin Source File

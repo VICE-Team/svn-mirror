@@ -214,6 +214,7 @@ void cia1_setup_context(machine_context_t *machine_context)
     machine_context->cia1 = lib_malloc(sizeof(cia_context_t));
     cia = machine_context->cia1;
 
+    cia->prv = NULL;
     cia->context = NULL;
 
     cia->rmw_flag = &maincpu_rmw_flag;

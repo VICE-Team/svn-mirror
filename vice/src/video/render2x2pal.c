@@ -478,6 +478,7 @@ void render_32_2x2_pal(const DWORD *colortab, const BYTE *src, BYTE *trg,
                     linepre += 3;
 
                     red2 = ((v + l) >> 8) + 256;
+
                     blu2 = ((u + l) >> 8) + 256;
                     grn2 = (((l << 8) - 50 * u - 130 * v) >> 16) + 256;
 

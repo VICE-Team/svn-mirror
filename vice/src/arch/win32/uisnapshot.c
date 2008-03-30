@@ -60,7 +60,7 @@ static char image[100];
 #define MAXSCRNDRVLEN 20
 static char screendrivername[MAXSCRNDRVLEN];
 
-static void init_dialog(HWND hwnd)
+static void init_snapshot_dialog(HWND hwnd)
 {
     CheckDlgButton(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_DISKS, save_disks
                    ? BST_CHECKED : BST_UNCHECKED);
@@ -89,6 +89,8 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
                            	driver = gfxoutput_drivers_iter_next();
                 }
                 SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)0, 0);
+            } else {
+                init_snapshot_dialog(hwnd);
             }
         }
         break;
@@ -179,12 +181,19 @@ void ui_snapshot_load_dialog(HWND hwnd)
     }
 }
 
-void ui_screenshot_save_dialog(HWND hwnd)
+void ui_mediafile_save_dialog(HWND hwnd)
 {
     char *s;
 
-    s = ui_save_snapshot("Save screenshot image",
-        "Picture files (*.bmp;*.png)\0*.bmp;*.png\0", hwnd,
+    if (screenshot_is_recording()) {
+        /* the recording is active; stop it  */
+        screenshot_stop_recording();
+        ui_display_statustext("");
+        return;
+    }
+
+    s = ui_save_snapshot("Save media image",
+        "Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0", hwnd,
         IDD_SCREENSHOT_SAVE_DIALOG);
 
     if (s != NULL) {
@@ -194,61 +203,14 @@ void ui_screenshot_save_dialog(HWND hwnd)
             ui_error("No driver selected or selected driver not supported");
             return;
         }
+#if 0
+        /* this is workaround; the whole dialog needs redesign */
         util_add_extension(&s, selected_driver->default_extension);
-
+#endif
         if (screenshot_save(selected_driver->name, s,
             video_canvas_for_hwnd(hwnd)) < 0)
             ui_error("Cannot write screenshot file `%s'.", s);
         lib_free(s);
-    }
-}
-
-void ui_soundshot_save_dialog(HWND hwnd)
-{
-    char *s;
-    const char *devicename;
-
-    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
-    if (devicename && !strcmp(devicename,"wav")) {
-        /* the recording is active; stop it  */
-        resources_set_value("SoundRecordDeviceName", "");
-        ui_display_statustext("");
-    } else {
-        s = ui_save_snapshot("Save sound file",
-            "Sound files (*.wav)\0*.wav\0",hwnd,0);
-        if (s != NULL) {
-            util_add_extension(&s, "wav");
-            resources_set_value("SoundRecordDeviceArg", s);
-            resources_set_value("SoundRecordDeviceName", "wav");
-            resources_set_value("Sound", (resource_value_t)1);
-            lib_free(s);
-            ui_display_statustext("Recording wav...");
-        }
-    }
-}
-
-void ui_movie_save_dialog(HWND hwnd)
-{
-    char *s;
-    const char *devicename;
-
-    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
-    if (screenshot_is_recording()) {
-        /* the recording is active; stop it  */
-        screenshot_stop_recording();
-        ui_display_statustext("");
-    } else {
-        s = ui_save_snapshot("Save movie file",
-            "Movie files (*.avi)\0*.avi\0",hwnd,0);
-        if (s != NULL) {
-            if (screenshot_save("MPEG", s, video_canvas_for_hwnd(hwnd)) < 0)
-            {
-                ui_error("Cannot write movie file `%s'.", s);
-                return;
-            }
-            lib_free(s);
-            ui_display_statustext("Recording movie...");
-        }
     }
 }
 

@@ -71,11 +71,8 @@
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
-/* Define to 1 if you have the <ffmpeg/avcodec.h> header file. */
-#undef HAVE_FFMPEG_AVCODEC_H
-
-/* Define to 1 if you have the <ffmpeg/avformat.h> header file. */
-#undef HAVE_FFMPEG_AVFORMAT_H
+/* Enable FFMPEG library support */
+#undef HAVE_FFMPEG
 
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
@@ -103,12 +100,6 @@
 
 /* Define to 1 if you have the `audio' library (-laudio). */
 #undef HAVE_LIBAUDIO
-
-/* Define to 1 if you have the `avcodec' library (-lavcodec). */
-#undef HAVE_LIBAVCODEC
-
-/* Define to 1 if you have the `avformat' library (-lavformat). */
-#undef HAVE_LIBAVFORMAT
 
 /* Define to 1 if you have the `esd' library (-lesd). */
 #undef HAVE_LIBESD
