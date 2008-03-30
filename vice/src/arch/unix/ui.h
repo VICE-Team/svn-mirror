@@ -110,4 +110,7 @@ extern void ui_set_selected_file(int num);
 extern int ui_get_display_depth(void);
 extern Display *ui_get_display_ptr(void);
 
+extern void ui_destroy_drive8_menu(void);
+extern void ui_destroy_drive9_menu(void);
+
 #endif /* !_UI_H_ */

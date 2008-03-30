@@ -1543,9 +1543,11 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {
-    static char label[10];
+    static char label[1024];
     int i;
-    
+
+    /* Translators: the string is fixed with 1024 byte! Don't exceed this
+       limit !*/
     sprintf(label, _("Tape %03d"), counter % 1000);
     for (i = 0; i < num_app_shells; i++)
 	gtk_label_set_text(GTK_LABEL(app_shells[i].tape_status.label), label);
@@ -2588,17 +2590,25 @@ int ui_emulation_is_paused(void)
     return is_paused;
 }
 
-void ui_set_drive8_menu (GtkWidget *w)
+void ui_destroy_drive8_menu(void)
 {
     if (drive8menu)
-	gtk_widget_destroy(drive8menu);
+        gtk_widget_destroy(drive8menu);
+}
+
+void ui_destroy_drive9_menu(void)
+{
+    if (drive9menu)
+        gtk_widget_destroy(drive9menu);
+}
+
+void ui_set_drive8_menu (GtkWidget *w)
+{
     drive8menu = w;
 }
 
 void ui_set_drive9_menu (GtkWidget *w)
 {
-    if (drive9menu)
-	gtk_widget_destroy(drive9menu);
     drive9menu = w;
 }
 
