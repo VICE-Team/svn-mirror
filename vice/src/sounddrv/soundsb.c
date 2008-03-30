@@ -87,7 +87,6 @@ static void interrupt_function(unsigned long buf)
                 buf++;
             }
         }
-
     } else {
 
         /* Play one fragment.  */
@@ -107,17 +106,17 @@ static void interrupt_function_end(void) {}
 
 static void lock_mem(void)
 {
-    _go32_dpmi_lock_code(interrupt_function,
+    _go32_dpmi_lock_code((void *) interrupt_function,
                          ((unsigned long) interrupt_function_end
                           - (unsigned long) interrupt_function));
-    _go32_dpmi_lock_data(audio_buffer, MAX_AUDIO_BUFFER_SIZE);
-    _go32_dpmi_lock_data(&audio_buffer_size, sizeof(audio_buffer_size));
-    _go32_dpmi_lock_data(&num_bytes_in_buffer, sizeof(num_bytes_in_buffer));
-    _go32_dpmi_lock_data(&first_sample, sizeof(first_sample));
-    _go32_dpmi_lock_data(&next_sample, sizeof(next_sample));
-    _go32_dpmi_lock_data(&fragment_size, sizeof(fragment_size));
-    _go32_dpmi_lock_data(&detect_done, sizeof(detect_done));
-    _go32_dpmi_lock_data(&is_16bit, sizeof(is_16bit));
+    _go32_dpmi_lock_data((void *) audio_buffer, MAX_AUDIO_BUFFER_SIZE);
+    _go32_dpmi_lock_data((void *) &audio_buffer_size, sizeof(audio_buffer_size));
+    _go32_dpmi_lock_data((void *) &num_bytes_in_buffer, sizeof(num_bytes_in_buffer));
+    _go32_dpmi_lock_data((void *) &first_sample, sizeof(first_sample));
+    _go32_dpmi_lock_data((void *) &next_sample, sizeof(next_sample));
+    _go32_dpmi_lock_data((void *) &fragment_size, sizeof(fragment_size));
+    _go32_dpmi_lock_data((void *) &detect_done, sizeof(detect_done));
+    _go32_dpmi_lock_data((void *) &is_16bit, sizeof(is_16bit));
 }
 
 static int sb_init(warn_t *w, char *param, int *speed,
