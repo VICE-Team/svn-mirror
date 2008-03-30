@@ -9,4 +9,5 @@ libfileio_a_SOURCES = \
 	cbmfile.c \
 	cbmfile.h \
 	fileio.c \
-	p00.c
+	p00.c \
+	p00.h

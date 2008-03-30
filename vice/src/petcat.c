@@ -56,12 +56,8 @@
 
 #include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
-#include "p00.h"
 #include "types.h"
 
-#ifndef SEEK_SET
-#define SEEK_SET 0
-#endif
 
 #define PETCATVERSION   2.03
 #define PETCATLEVEL     1
@@ -375,23 +371,20 @@ static int kwlen;
 
 int main(int argc, char **argv)
 {
-    char   *progname, *outfilename = NULL;
-    char    realname[24];
-    unsigned int reclen;
-    int     c = 0;
+    char *progname, *outfilename = NULL;
+    int c = 0;
 
-    long    offset = 0;
-    int     wr_mode = 0, version = B_7;         /* best defaults */
-    int     load_addr = 0, ctrls= -1, hdr = 1, show_words = 0;
-    int     fil = 0, outf = 0, overwrt = 0, textmode = 0;
-    int     flg = 0;                            /* files on stdin */
+    long offset = 0;
+    int wr_mode = 0, version = B_7;         /* best defaults */
+    int load_addr = 0, ctrls= -1, hdr = 1, show_words = 0;
+    int fil = 0, outf = 0, overwrt = 0, textmode = 0;
+    int flg = 0;                            /* files on stdin */
 
     archdep_init(&argc, argv);
 
     /* Parse arguments */
     progname = argv[0];
     while (--argc && ((*++argv)[0] == '-')) {
-
         if (!strcmp(argv[0], "--")) {
             --argc;
             ++argv;
@@ -419,13 +412,10 @@ int main(int argc, char **argv)
         if (!strcmp(argv[0], "-h")) {
             hdr = 1;
             continue;
-        }
-        else if (!strcmp(argv[0], "-nh")) {
+        } else if (!strcmp(argv[0], "-nh")) {
             hdr = 0;
             continue;
-        }
-
-        else if (!strcmp(argv[0], "-f")) {      /* force overwrite */
+        } else if (!strcmp(argv[0], "-f")) {      /* force overwrite */
             ++overwrt;
             continue;
         }
@@ -449,36 +439,30 @@ int main(int argc, char **argv)
                     continue;
                 }
             /* Fall to error */
-        }
 
-        else if (!strcmp(argv[0], "-text")) {   /* force text mode */
+        } else if (!strcmp(argv[0], "-text")) {   /* force text mode */
             ++textmode;
             continue;
-        }
 
-        else if (!strcmp(argv[0], "-help") ||
+        } else if (!strcmp(argv[0], "-help") ||
                  !strncmp(argv[0], "-v", 2)) {  /* version ID */
             fprintf(stderr,
                     "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n",
                     progname, (float)PETCATVERSION, PETCATLEVEL );
 
             /* Fall to error for Usage */
-        }
-
 
         /* Basic version */
 
-        else if (!strncmp(argv[0], "-w", 2) && !wr_mode) {
+        } else if (!strncmp(argv[0], "-w", 2) && !wr_mode) {
             version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));            ++wr_mode;
             continue;
-        }
 
-        else if (!strncmp(argv[0], "-k", 2) && !wr_mode) {
+        } else if (!strncmp(argv[0], "-k", 2) && !wr_mode) {
             version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));            ++show_words;
             continue;
-        }
 
-        else if ((version = parse_version(&argv[0][1])) >= 0) {
+        } else if ((version = parse_version(&argv[0][1])) >= 0) {
             continue;
         }
 
@@ -572,8 +556,8 @@ int main(int argc, char **argv)
             exit(1);
         }
 
-        fprintf (stderr, "Control code set: %s\n\n",
-                 (ctrls ? "enabled" : "disabled"));
+        fprintf(stderr, "Control code set: %s\n\n",
+                (ctrls ? "enabled" : "disabled"));
     }
 
 
@@ -606,36 +590,24 @@ int main(int argc, char **argv)
             if (plen == 8) {
                 /* skip the rest of header */
                 for (plen = 18; plen > 0 && getc(source) != EOF; --plen);
-            }
-            else {
+            } else {
                 /*printf("P00 failed at location %d.\n", plen);*/
                 ungetc(c, source);
             }
-        }
-
-        else {
+        } else {
             if ((source = fopen(argv[0], "rb")) == NULL) {
                 fprintf(stderr,
                         "\n%s: Can't open file %s\n", progname, argv[0]);
                 exit(1);
             }
-
-            if (p00_read_header(source, (BYTE *)realname, &reclen) == 0) {
-                printf ("p00 file.\n");
-                /*outfilename = realname;*/
-            }
-            else {
-                fseek(source, offset, SEEK_SET); /* rewind or skip beginning */
-            }
         }
-
 
 
         if (!outf)
             dest = stdout;
         else {
             /*if (extension && *extension == '.') {
-                sprintf (outfilename, "%s%s", argv[0], extension);
+                sprintf(outfilename, "%s%s", argv[0], extension);
             }*/
 
             if ((dest = fopen(outfilename, "wb")) == NULL) {
@@ -647,17 +619,8 @@ int main(int argc, char **argv)
 
 
         if (wr_mode) {
-
-            /* Write P00 header ?  -- Available on tokenizer only */
-
-            if (p00_check_name(outfilename) >= 0) {
-                printf("writing PC64 header.\n");
-                p00_write_header(dest, (BYTE *)argv[0], (BYTE)0);
-            }
-
             p_tokenize(version, load_addr, ctrls);
-        }
-        else {
+        } else {
             if (hdr)
                 printf("\n\n%s ", (fil ? argv[0] : "<stdin>"));
 
