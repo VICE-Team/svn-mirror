@@ -572,6 +572,8 @@ libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libdriveiec:
+	(cd drive && $(MAKE) libdriveiec)
 libdriveieee:
 	(cd drive && $(MAKE) libdriveieee)
 libdrivetcbm:
