@@ -76,8 +76,7 @@ static int set_column4080_key(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "40/80ColumnKey", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&mmu_column4080_key,
-      set_column4080_key, NULL },
+      (void *)&mmu_column4080_key, set_column4080_key, NULL },
     { NULL }
 };
 

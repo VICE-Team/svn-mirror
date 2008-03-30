@@ -64,10 +64,10 @@ static int set_hide_mouseptr(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "Mouse", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &_mouse_enabled, set_mouse_enabled, NULL },
-    { "HideMousePtr", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &hide_mouseptr, set_hide_mouseptr, NULL },
+    { "Mouse", RES_INTEGER, (resource_value_t)1,
+      (void *)&_mouse_enabled, set_mouse_enabled, NULL },
+    { "HideMousePtr", RES_INTEGER, (resource_value_t)0,
+      (void *)&hide_mouseptr, set_hide_mouseptr, NULL },
     { NULL }
 };
 

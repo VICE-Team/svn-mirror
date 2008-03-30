@@ -81,16 +81,16 @@ static int set_save_resources_on_exit(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t)"netscape %s",
-      (resource_value_t *)&ui_resources.html_browser_command,
+      (void *)&ui_resources.html_browser_command,
       set_html_browser_command, NULL },
     { "PrivateColormap", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.use_private_colormap,
+      (void *)&ui_resources.use_private_colormap,
       set_use_private_colormap, NULL },
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.save_resources_on_exit,
+      (void *)&ui_resources.save_resources_on_exit,
       set_save_resources_on_exit, NULL },
     { "DisplayDepth", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.depth,
+      (void *)&ui_resources.depth,
       set_depth, NULL },
     { NULL }
 };

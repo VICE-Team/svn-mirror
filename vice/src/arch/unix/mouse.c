@@ -52,8 +52,8 @@ static int set_mouse_enabled(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "Mouse", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&_mouse_enabled, set_mouse_enabled, NULL },
+    { "Mouse", RES_INTEGER, (resource_value_t)0,
+      (void *)&_mouse_enabled, set_mouse_enabled, NULL },
     { NULL }
 };
 

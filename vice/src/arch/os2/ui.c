@@ -79,8 +79,8 @@ static int set_use_leds(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "UseLeds", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &use_leds, set_use_leds, NULL },
+    { "UseLeds", RES_INTEGER, (resource_value_t)1,
+      (void *)&use_leds, set_use_leds, NULL },
     NULL
 };
 

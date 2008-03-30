@@ -147,10 +147,10 @@ static int set_keyset(resource_value_t v, void *param)
     (void*)((num<<5)|dir) }
 
 static const resource_t resources[] = {
-    { "JoyDevice1", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
-      (resource_value_t *) &cbm_joystick[0], set_cbm_joystick, (void*)0},
-    { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
-      (resource_value_t *) &cbm_joystick[1], set_cbm_joystick, (void*)1},
+    { "JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
+      (void *)&cbm_joystick[0], set_cbm_joystick, (void *)0},
+    { "JoyDevice2", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
+      (void *)&cbm_joystick[1], set_cbm_joystick, (void *)1},
 
     DEFINE_RES_SET_CALDATA("JoyAup",    0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown",  0, KEYSET_S, 600),

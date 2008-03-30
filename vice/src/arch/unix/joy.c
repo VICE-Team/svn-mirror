@@ -70,9 +70,9 @@ static int joyport2select(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&joystick_port_map[0], joyport1select, NULL },
+      (void *)&joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&joystick_port_map[1], joyport2select, NULL },
+      (void *)&joystick_port_map[1], joyport2select, NULL },
     { NULL },
 };
 

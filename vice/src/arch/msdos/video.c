@@ -122,12 +122,10 @@ static int set_try_triple_buffering(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "VGAMode", RES_INTEGER, (resource_value_t)VGA_320x200x8,
-      (resource_value_t *)&vga_mode,
-      set_vga_mode, NULL },
+      (void *)&vga_mode, set_vga_mode, NULL },
 #ifndef USE_MIDAS_SOUND
     { "TripleBuffering", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&try_triple_buffering,
-      set_try_triple_buffering, NULL },
+      (void *)&try_triple_buffering, set_try_triple_buffering, NULL },
 #endif
     { NULL }
 };

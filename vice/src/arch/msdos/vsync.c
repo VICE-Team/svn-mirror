@@ -99,14 +99,11 @@ static int set_warp_mode(resource_value_t v, void *param)
 /* Vsync-related resources.  */
 static const resource_t resources[] = {
     { "Speed", RES_INTEGER, (resource_value_t)100,
-      (resource_value_t *)&relative_speed,
-      set_relative_speed, NULL },
+      (void *)&relative_speed, set_relative_speed, NULL },
     { "RefreshRate", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&refresh_rate,
-      set_refresh_rate, NULL },
+      (void *)&refresh_rate, set_refresh_rate, NULL },
     { "WarpMode", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&warp_mode_enabled,
-      set_warp_mode, NULL },
+      (void *)&warp_mode_enabled, set_warp_mode, NULL },
     { NULL }
 };
 

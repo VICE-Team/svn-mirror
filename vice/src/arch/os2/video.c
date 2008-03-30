@@ -489,23 +489,23 @@ static int set_logging(resource_value_t v, void *param)
 
 static const resource_t resources1[] = {
 #ifndef DIRECT_ACCESS
-    { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &stretch, set_stretch_factor, NULL },
+    { "WindowStretchFactor", RES_INTEGER, (resource_value_t)1,
+      (void *)&stretch, set_stretch_factor, NULL },
 #endif
-    { "PMBorderType", RES_INTEGER, (resource_value_t) 2,
-      (resource_value_t *) &border, set_border_type, NULL },
-    { "Menubar", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &menu, set_menu, NULL },
+    { "PMBorderType", RES_INTEGER, (resource_value_t)2,
+      (void *)&border, set_border_type, NULL },
+    { "Menubar", RES_INTEGER, (resource_value_t)1,
+      (void *)&menu, set_menu, NULL },
 /*
-    { "Statusbar", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &status, set_status, NULL },
+    { "Statusbar", RES_INTEGER, (resource_value_t)1,
+      (void *)&status, set_status, NULL },
 */
       { NULL }
 };
 
 static const resource_t resources2[] = {
-    { "Logwin", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &logwin, set_logging, NULL },
+    { "Logwin", RES_INTEGER, (resource_value_t)1,
+      (void *)&logwin, set_logging, NULL },
     NULL
 };
 
