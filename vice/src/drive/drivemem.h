@@ -29,5 +29,10 @@
 
 extern void drive_mem_init(struct drive_context_s *drv, unsigned int type);
 
+struct mem_ioreg_list_s;
+
+extern struct mem_ioreg_list_s *drive0_ioreg_list_get(void);
+extern struct mem_ioreg_list_s *drive1_ioreg_list_get(void);
+
 #endif
 
