@@ -1,3 +1,121 @@
+Tue Apr 21 13:17:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.9.
+
+	* include/true1541.h: Removed machine-dependent function
+ 	declarations.
+
+	* arch/unix/ui_xaw.c: Compile everything even when `HAVE_TRUE1541'
+	is not #defined.
+
+	* vic20/vic20iec.c (parallel_cable_drive_write): Dummy.
+	(parallel_cable_drive_read): Another dummy.
+
+	* c64/c64iec.c (parallel_cable_cpu_write): Moved here from
+ 	`true1541.c'.
+	(parallel_cable_drive_read): Likewise.
+	(parallel_cable_cpu_read, parallel_cable_cpu_write): Likewise.
+
+	* true1541.c (serial_bus_drive_read, serial_bus_drive_write):
+	Removed.
+	(serial_bus_cpu_write, serial_bus_cpu_read): Removed.
+	(serial_bus_pa_read, serial_bus_pa_write): Removed.
+	(serial_bus_pcr): Removed.
+
+	* c64/c64iec.c (iec_drive_write, iec_drive_read): New file, new
+	functions.
+	(iec_cpu_read, iec_cpu_write): More new functions.
+
+	* vic20/vic20iec.c (iec_drive_write, iec_drive_read): New file,
+	new functions.
+	(iec_pa_read, iec_pa_write, iec_pcr_write): More new function.
+
+	* c64/c64.c, vic20/vic20.c, pet/pet.c (machine_init): New
+ 	files, new function.
+
+	* main.c (main): Use `machdesc.machine_name' instead of
+ 	`EMULATOR'.
+	(main, exit64): Removed all `NO_SERIAL' #ifdefs (always enable the
+ 	fast serial emulation).
+
+	* Makefile.in: Added `zipcode.o' to `C1541_OBJS'.
+
+	* include/true1541.h, true1541.c: Removed `TRUE1541_ROTATE' and
+ 	`TRUE_GCR_WRITE' #defines and related #ifdefs.  It always uses
+ 	true GCR emulation now.
+
+	* pet/petmem.c: Added `_mem_read_base_tab_ptr' as on the C64.
+	Added `ram_size'.  Added `_mem_read_tab_ptr' and
+	`_mem_write_tab_ptr'.
+	(initialize_memory): Initialize these variables.
+
+	* kbdbuf.c: Removed `kernal_kbd_buf'.
+	* include/kbdbuf.h: Moved here.
+
+	* main.c (main): Removed C128-specific stuff.
+
+	* c64/c64mem.h, vic20/vic20mem.h, pet/petmem.h: All memory
+ 	constants prepended with `C64_', `VIC20_' and `PET_' respectively.
+  	All occurences in the machine-specific files updated.
+
+	* include/mem.h: New variable `ram_size'.
+
+	* vic20/vic20mem.c: Added `_mem_read_tab_ptr' and
+	`_mem_write_tab_ptr' as on the C64.
+	(maincpu_turn_watchpoints_on, maincpu_turn_watchpoints_off): use
+	`_mem_read_tab_ptr' and `_mem_write_tab_ptr' instead of updating
+	the memory arrays.
+	(maincpu_
+	(initialize_memory): Call `maincpu_turn_watchpoints_off()'.
+
+	* c64/c64mem.h, vic20/vic20mem.h: Removed machine-dependent stuff.
+	* include/mem.h: Moved here.
+
+	* Makefile.in: `maincpu.o' moved to `COMMON_OBJS'.
+
+	* maincpu.c: #include "machspec.h".  Removed machine-specific
+ 	includes.
+	(reset): Removed machine-specific initialization.  Call
+ 	`true1541_reset' only if the feature is present, according to
+ 	`machdesc'.
+
+	* vic20/vic20.c (machine_reset, rom_trap_allowed): New file, new
+ 	functions.
+
+	* c64/c64.c (machine_reset, rom_trap_allowed): New file, new
+ 	functionS.
+
+	* include/machdesc.h: New file.
+
+Tue Apr 21 03:12:35 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* 1541cpu.c,include/1541cpu.h: 1541 watchpoint support: Added
+        watchpoint functions, watchpoint functions array and functions
+        to turn watchpoints on/off. Define FORCE_IMPORT.
+
+	* 6510core.c: Moved breakpoint checking to `DO_INTERRUPT'.
+  	`DO_INTERRUPT' split into 2 separate macros.  Check for forced
+ 	imports - cases where the monitor changes registers of a processor
+ 	different from the one that called it.
+
+	* Makefile.in: Removed `-v' flag from bison.  Was for debugging
+ 	only.
+
+	* c64/c64mem.c,c64/c64mem.h: Change names of watchpoint control
+ 	functions.
+
+	* include/interrupt.h: Interrupt based breakpoint support.
+
+	* mon.c,include/mon.h: Added force_import support, 1541 watchpoint
+ 	handling, better PET support and other minor fixes.
+
+	* maincpu.c: Defined `FORCE_IMPORT'.
+
+	* vic20/vic20mem.c,vic20/vic20mem.h: Vic20 watchpoint support:
+ 	Added watchpoint functions, watchpoint functions array and
+ 	functions to turn watchpoints on/off. (Note: zero page not
+ 	included)
+
 Mon Apr 20 15:45:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.8.
