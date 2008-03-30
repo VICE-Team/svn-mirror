@@ -41,7 +41,7 @@
 #include "mem.h"
 #include "utils.h"
 
-/* #define REU_DEBUG */
+#define REU_DEBUG
 
 #define REUSIZE 512
 
@@ -116,6 +116,7 @@ void close_reu(void)
         log_error(reu_log, "cannot save image `%s'.", reu_file_name);
 }
 
+static BYTE latch4, latch5, latched45 = 0;
 
 BYTE REGPARM1 read_reu(ADDRESS addr)
 {
@@ -133,6 +134,11 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
            removed. */
         reu[0] &= ~0xe0;
         maincpu_set_irq(I_REU, 0);
+        break;
+
+      case 0x5:
+        latched45 = 0;
+        retval = reu[addr];
         break;
 
       case 0x6:
@@ -171,6 +177,23 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
         reset_reu(0);
+
+    if (addr == 4) {
+        latch4 = byte;
+        latched45 = 1;
+        return;
+    }
+
+    if (addr == 5) {
+        if (latched45) {
+            latch5 = byte;
+            reu[4] = latch4;
+            reu[5] = latch5;
+            return;
+        } else {
+            return;
+        }
+    }
 
     reu[addr] = byte;
 
@@ -216,7 +239,7 @@ void reu_dma(int immed)
     host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
     reu_addr  = ((int)reu[4] | ((int)reu[5] << 8)
                  | (((int)reu[6] & 7) << 16));
-    if (( len = (int)(reu[7]) | ( (int)(reu[8]) << 8)) == 0)
+    if (( len = ((int)(reu[7]) | ((int)(reu[8]) << 8))) == 0)
         len = 0x10000;
 
     /* Fixed addresses implemented -- [EP] 04-16-97. */
@@ -236,6 +259,11 @@ void reu_dma(int immed)
         for (; len--; host_addr = (host_addr + host_step) & 0xffff,
             reu_addr += reu_step) {
             BYTE value = mem_read(host_addr);
+#ifdef REU_DEBUG
+        log_message(reu_log,
+                    "Transferring byte: %x from main $%04X to ext $%05X.",
+                    value, host_addr, reu_addr);
+#endif
             reuram[reu_addr % ReuSize] = value;
         }
         break;
@@ -247,8 +275,14 @@ void reu_dma(int immed)
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
-        for (; len--; host_addr += host_step, reu_addr += reu_step )
-        mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
+        for (; len--; host_addr += host_step, reu_addr += reu_step ) {
+#ifdef REU_DEBUG
+        log_message(reu_log,
+                    "Transferring byte: %x from ext $%05X to main $%04X.",
+                    reuram[reu_addr % ReuSize], reu_addr, host_addr);
+#endif
+            mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
+        }
         break;
 
       case 2: /* swap */
@@ -310,8 +344,10 @@ void reu_dma(int immed)
             reu[6] = (reu_addr >> 16);
         }
 
+/*
         reu[7] = 1;
         reu[8] = 0;
+*/
     }
 
     /* [EP] 04-16-97. */
