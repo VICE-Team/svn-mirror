@@ -2,8 +2,8 @@
  * c64mem.c -- C64 memory handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,22 +39,14 @@
 #endif
 #endif
 
-#include "memutils.h"
-
 #include "archdep.h"
-#include "datasette.h"
-#include "log.h"
-#include "resources.h"
-#include "sysfile.h"
-#include "utils.h"
-
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
 #include "c64tpi.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "drive.h"
+#include "datasette.h"
 #include "emuid.h"
 #include "interrupt.h"
 #include "log.h"
@@ -65,10 +57,9 @@
 #include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
-#include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tape.h"
+#include "sysfile.h"
 #include "ui.h"
 #include "utils.h"
 #include "vicii.h"
