@@ -112,3 +112,6 @@
 /* Support for OpenCBM (former CBM4Linux) */
 #undef HAVE_OPENCBM
 
+/* Support for block device disk image access */
+#undef HAVE_RAWDRIVE
+
