@@ -589,6 +589,8 @@ void vic_ii_reset(void)
 {
     vic_ii_change_timing();
 
+    vic_ii_reset_registers();
+
     raster_reset(&vic_ii.raster);
 
     vic_ii_set_geometry();
@@ -630,6 +632,9 @@ void vic_ii_reset(void)
 void vic_ii_reset_registers(void)
 {
     ADDRESS i;
+
+    if (!vic_ii.initialized)
+        return;
 
     for (i = 0; i <= 0x3f; i++)
         vic_store(i, 0);
@@ -912,7 +917,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                              + 0x3fff]);
     }
 
-    if (vic_ii.raster.skip_frame || (tmp <= 0 && clk < vic_ii.draw_clk)) {
+    if (tmp <= 0 && clk < vic_ii.draw_clk) {
         old_screen_ptr = vic_ii.screen_ptr = screen_base;
         old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base;
         old_chargen_ptr = vic_ii.chargen_ptr = char_base;
@@ -1152,7 +1157,8 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
     if (vic_ii.raster.current_line == 0) {
         raster_skip_frame(&vic_ii.raster,
-                          vsync_do_vsync(vic_ii.raster.viewport.canvas, vic_ii.raster.skip_frame));
+                          vsync_do_vsync(vic_ii.raster.viewport.canvas,
+                          vic_ii.raster.skip_frame));
         vic_ii.memptr = 0;
         vic_ii.mem_counter = 0;
         vic_ii.light_pen.triggered = 0;
@@ -1367,47 +1373,43 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     const vic_ii_sprites_fetch_t *sf;
     unsigned int i;
     int next_cycle;
+    raster_sprite_status_t *sprite_status;
+    BYTE *bank, *spr_base;
 
     /* FIXME: optimize.  */
 
     sf = &vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][vic_ii.sprite_fetch_idx];
 
-    if (!vic_ii.raster.skip_frame) {
-        raster_sprite_status_t *sprite_status;
-        BYTE *bank, *spr_base;
+    sprite_status = vic_ii.raster.sprite_status;
+    /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
+       sequence. This is of minor interest, though, only for CBM-II... */
+    bank = vic_ii.ram_base_phi1 + vic_ii.vbank_phi1;
+    spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6) + sf->first);
 
-        sprite_status = vic_ii.raster.sprite_status;
-        /* FIXME: the 3 byte sprite data is instead taken during a Ph1/Ph2/Ph1
-           sequence. This is of minor interest, though, only for CBM-II... */
-        bank = vic_ii.ram_base_phi1 + vic_ii.vbank_phi1;
-        spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6)
-                   + sf->first);
+    /* Fetch sprite data.  */
+    for (i = sf->first; i <= sf->last; i++, spr_base++) {
+        BYTE *src;
+        BYTE *dest;
+        int my_memptr;
 
-        /* Fetch sprite data.  */
-        for (i = sf->first; i <= sf->last; i++, spr_base++) {
-            BYTE *src;
-            BYTE *dest;
-            int my_memptr;
+        /*log_debug("SDMA %i",i);*/
 
-            /*log_debug("SDMA %i",i);*/
+        src = bank + (*spr_base << 6);
+        my_memptr = sprite_status->sprites[i].memptr;
+        dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
-            src = bank + (*spr_base << 6);
-            my_memptr = sprite_status->sprites[i].memptr;
-            dest = (BYTE *) (sprite_status->new_sprite_data + i);
-
-            if (ultimax) {
-                if (*spr_base >= 0xc0)
-                    src = (romh_banks + 0x1000 + (romh_bank << 13)
-                          + ((*spr_base - 0xc0) << 6));
-            } else {
-                if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
-                    src = chargen_rom + ((*spr_base - 0x40) << 6);
-            }
-
-            dest[0] = src[my_memptr];
-            dest[1] = src[++my_memptr & 0x3f];
-            dest[2] = src[++my_memptr & 0x3f];
+        if (ultimax) {
+            if (*spr_base >= 0xc0)
+                src = (romh_banks + 0x1000 + (romh_bank << 13)
+                      + ((*spr_base - 0xc0) << 6));
+        } else {
+            if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
+                src = chargen_rom + ((*spr_base - 0x40) << 6);
         }
+
+        dest[0] = src[my_memptr];
+        dest[1] = src[++my_memptr & 0x3f];
+        dest[2] = src[++my_memptr & 0x3f];
     }
 
     maincpu_steal_cycles(vic_ii.fetch_clk, sf->num - sub, sub);
