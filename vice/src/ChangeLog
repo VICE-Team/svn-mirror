@@ -1,3 +1,59 @@
+2000-07-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.24.
+
+	* arch/unix/c128ui.c (screenshot_submenu): Changed window
+	numbers.
+
+	* drive/drive.c (drive_sync_found): Only the 2 LSB of the
+	previous byte are significant if 0xff is read.
+
+2000-07-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msdos/c64ui.c: implemented cartridge freezer in
+	the reset submenu
+
+	* arch/win32/res.h: new menu IDs for screenshot and
+	soundshot
+
+	* arch/win32/resc128.rc,resc64.rc,rescbm2.rc,respet.rc,
+	resvic.rc: new menu items in the snapshot menu
+
+	* arch/win32/screendrv.dsp: removed png.c from the project
+	files to make VICE compile with MSVC
+
+	* arch/win32/ui.c: new hotkeys ALT-C (screenshot) and
+	ALT-U (soundshot)
+	(ui_display_statustext) new function to display message
+	in the left statusbar corner
+	(save_snapshot_trap),(load_snapshot_trap) uses hwnd to
+	avoid switching to VDC window after load/save
+	(handle_wm_command) handles the new menu messages
+	IDM_SCREENSHOT and IDM_SOUNDSHOT
+
+	* arch/win32/ui.h: new prototype (ui_display_statustext)
+
+	* arch/win32/uisnapshot.c: new includes screenshot.h,sound.h
+	(ui_save_snapshot) receives template-id as parameter to make
+	it usable for saving screenshots and soundshots
+	new functions (ui_screenshot_save_dialog),
+	(ui_soundshot_save_dialog)
+
+	* arch/win32/uisnapshot.h: new corresponding prototypes
+
+	* c128/c128.c(machine_screenshot): changed indices of the
+	screens (now 0=VDC, 1=VIC-II) so that it fit with the order
+	they are initialized and so the order of the corresponding
+	windows
+
+2000-06-28  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* sounddrv/soundacorn.c: turned frequency adaption into a
+	function.
+
+	* arch/riscos/ui.c: adjust sound frequencies to exact values
+	using the frequency adaption function in sounddrv/soundacorn.c
+
 2000-06-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.4.23.

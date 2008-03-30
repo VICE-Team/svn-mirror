@@ -1215,7 +1215,7 @@ inline static BYTE drive_sync_found(drive_t *dptr)
                                ? dptr->GCR_head_offset - 1
                                : dptr->GCR_current_track_size - 1);
 
-        if (dptr->GCR_track_start_ptr[previous_head_offset] != 0xff) {
+        if ((dptr->GCR_track_start_ptr[previous_head_offset] & 3) != 3) {
             if (dptr->shifter >= 2) {
                 unsigned int next_head_offset;
 
