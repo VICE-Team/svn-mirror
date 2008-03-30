@@ -25,11 +25,11 @@
  *
  */
 
-#ifndef _UI_CRTC_H
-#define _UI_CRTC_H
+#ifndef _UICRTC_H
+#define _UICRTC_H
 
-extern struct ui_menu_entry_s ui_crtc_video_settings_menu[];
-extern struct ui_menu_entry_s crtc_palette_submenu[];
+extern struct ui_menu_entry_s crtc_submenu[];
+extern void uicrtc_create_menus(void);
 
 #endif
 
