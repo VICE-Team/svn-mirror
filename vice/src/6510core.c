@@ -142,7 +142,6 @@
 /* Import the public version of the registers.  */
 #define IMPORT_REGISTERS()                      \
   do {                                          \
-      reg_pc = GLOBAL_REGS.reg_pc;              \
       reg_a = GLOBAL_REGS.reg_a;                \
       reg_x = GLOBAL_REGS.reg_x;                \
       reg_y = GLOBAL_REGS.reg_y;                \
@@ -150,6 +149,7 @@
       reg_p = GLOBAL_REGS.reg_p;                \
       flag_n = GLOBAL_REGS.flag_n;              \
       flag_z = GLOBAL_REGS.flag_z;              \
+      JUMP(GLOBAL_REGS.reg_pc);                 \
   } while (0)
 #else  /* __1541__ */
 #define IMPORT_REGISTERS()
