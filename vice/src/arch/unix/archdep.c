@@ -260,7 +260,7 @@ char *archdep_default_save_resource_file_name(void)
 }
 
 #if defined(MACOSX_COCOA)
-FILE *default_log_file = stdout;
+FILE *default_log_file = NULL;
 FILE *archdep_open_default_log_file(void)
 {
     return default_log_file;

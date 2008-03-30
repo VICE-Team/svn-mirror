@@ -97,7 +97,10 @@ unsigned int machine_jam(const char *format, ...)
         return JAM_HARD_RESET;
       case UI_JAM_MONITOR:
         return JAM_MONITOR;
+      default:
+        break;
     }
+
     ignore_jam = 1;
     return JAM_NONE;
 }

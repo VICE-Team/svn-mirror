@@ -242,7 +242,7 @@ static int coreaudio_init(const char *param, int *speed,
             SInt32 * channel_map = lib_malloc(size);
             if (channel_map)
             {
-                memset(channel_map, 0, sizeof(channel_map));
+                memset(channel_map, 0, size);
                 AudioConverterSetProperty(converter, kAudioConverterChannelMap, size, channel_map);
                 lib_free(channel_map);
             }

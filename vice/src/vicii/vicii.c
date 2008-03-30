@@ -820,17 +820,17 @@ void vicii_update_video_mode(unsigned int cycle)
         {
             int pos;
 
-            pos = VICII_RASTER_CHAR(cycle);
-
-            /* Multicolor changes are propagated one cycle faster. */
-            if (((new_video_mode & 1) ^ (vicii.video_mode & 1))
-                && cycle > 0)
-                pos--;
+            pos = VICII_RASTER_CHAR(cycle) - 1;
 
             raster_changes_background_add_int(&vicii.raster,
                                               VICII_RASTER_X(cycle),
                                               &vicii.raster.video_mode,
                                               new_video_mode);
+
+            raster_changes_foreground_add_int(&vicii.raster, pos,
+                                              &vicii.raster.last_video_mode,
+                                              vicii.video_mode);
+
             raster_changes_foreground_add_int(&vicii.raster, pos,
                                               &vicii.raster.video_mode,
                                               new_video_mode);
@@ -838,13 +838,18 @@ void vicii_update_video_mode(unsigned int cycle)
             if (vicii.idle_data_location != IDLE_NONE) {
                 if (vicii.regs[0x11] & 0x40)
                     raster_changes_foreground_add_int
-                    (&vicii.raster, pos, (void *)&vicii.idle_data,
+                    (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
                     vicii.ram_base_phi2[vicii.vbank_phi2 + 0x39ff]);
                 else
                     raster_changes_foreground_add_int
-                    (&vicii.raster, pos, (void *)&vicii.idle_data,
+                    (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
                     vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff]);
             }
+
+            raster_changes_foreground_add_int(&vicii.raster, pos + 2,
+                                              &vicii.raster.last_video_mode,
+                                              -1);
+
         }
 
         vicii.video_mode = new_video_mode;

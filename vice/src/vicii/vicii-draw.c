@@ -296,6 +296,19 @@ static void draw_std_text_foreground(unsigned int start_char,
         BYTE b, f;
 
         b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
+        
+        if (vicii.raster.last_video_mode == VICII_EXTENDED_TEXT_MODE)
+            b = char_ptr[(vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8];
+
+        if (vicii.raster.last_video_mode == VICII_HIRES_BITMAP_MODE) {
+            unsigned int j = ((vicii.memptr << 3) 
+                                + vicii.raster.ycounter + i * 8) & 0x1fff;
+            if (j & 0x1000)
+                b = vicii.bitmap_high_ptr[j & 0xfff];
+            else
+                b = vicii.bitmap_low_ptr[j];
+        }
+
         f = vicii.cbuf[i - vicii.buf_offset];
         
         if (vicii.raster.xsmooth_shift_left > 0) {
@@ -413,12 +426,21 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
         DWORD *ptr = hr_table + (vicii.vbuf[i - vicii.buf_offset] << 4);
         int d;
 
+        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_1)
+            j &= 0x19ff;
+
         if (j & 0x1000)
             bmval = bmptr_high[j & 0xfff];
         else
             bmval = bmptr_low[j];
 
+        if (vicii.raster.last_video_mode == VICII_NORMAL_TEXT_MODE) {
+            BYTE *char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
+            bmval = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
+        } 
+
         d = *(msk_ptr + i) = bmval;
+
         *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
         *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
     }
@@ -603,8 +625,17 @@ static void draw_mc_text_foreground(unsigned int start_char,
     for (i = start_char; i <= end_char; i++, p += 8) {
         BYTE b, c;
 
-        b = *(char_ptr + vicii.vbuf[i - vicii.buf_offset] * 8);
         c = vicii.cbuf[i - vicii.buf_offset];
+        if (vicii.raster.last_video_mode == VICII_MULTICOLOR_BITMAP_MODE) {
+            unsigned int j = ((vicii.memptr << 3) 
+                                + vicii.raster.ycounter + i * 8) & 0x1fff;
+            if (j & 0x1000)
+                b = vicii.bitmap_high_ptr[j & 0xfff];
+            else
+                b = vicii.bitmap_low_ptr[j];
+        } else {
+            b = *(char_ptr + vicii.vbuf[i - vicii.buf_offset] * 8);
+        }
 
         if (c & 0x8) {
             BYTE c3;
@@ -789,10 +820,18 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         c2 = vicii.vbuf[i - vicii.buf_offset] & 0xf;
         c3 = vicii.cbuf[i - vicii.buf_offset];
 
+        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_2)
+            j &= 0x19ff;
+
         if (j & 0x1000)
             b = bmptr_high[j & 0xfff];
         else
             b = bmptr_low[j];
+
+        if (vicii.raster.last_video_mode == VICII_MULTICOLOR_TEXT_MODE) {
+            BYTE *char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
+            b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
+        }
 
         *(msk_ptr + i) = mcmsktable[0x100 + b];
         DRAW_MC_BYTE(p, b, c1, c2, c3);
@@ -934,6 +973,16 @@ static void draw_ext_text_foreground(unsigned int start_char,
         int bg_idx;
 
         b = char_ptr[(vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8];
+
+        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_1) {
+            unsigned int j = ((vicii.memptr << 3) 
+                                + vicii.raster.ycounter + i * 8) & 0x19ff;
+            if (j & 0x1000)
+                b = vicii.bitmap_high_ptr[j & 0xfff];
+            else
+                b = vicii.bitmap_low_ptr[j];
+        }
+
         f = vicii.cbuf[i - vicii.buf_offset];
         bg_idx = vicii.vbuf[i - vicii.buf_offset] >> 6;
 

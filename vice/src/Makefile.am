@@ -1,6 +1,7 @@
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(LDFLAGS) -o $@
+CCLD = @LINKCC@
 
 ARCH_LIBS = @ARCH_LIBS@
 

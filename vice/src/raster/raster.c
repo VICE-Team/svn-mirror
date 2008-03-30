@@ -281,6 +281,7 @@ void raster_reset(raster_t *raster)
     raster->draw_idle_state = 0;
     raster->ycounter = 0;
     raster->video_mode = 0;
+    raster->last_video_mode = -1;
 }
 
 typedef struct raster_list_t {

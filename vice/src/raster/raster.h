@@ -142,6 +142,9 @@ struct raster_s {
     /* Current video mode.  */
     int video_mode;
 
+    /* Last video mode.  */
+    int last_video_mode;
+
     /* Cache.  */
     struct raster_cache_s *cache;
     int cache_enabled;          /* FIXME: Method to toggle it. */

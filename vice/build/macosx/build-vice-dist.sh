@@ -185,6 +185,7 @@ COMMON_CFLAGS="-O3"
 build_vice () {
   local BUILD_ARCH="$1"
   local BUILD_SDK="$2"
+  local BUILD_SDK_VERSION="$3"
   local VICE_SRC="`pwd`"
   local BUILD_ARCH2="powerpc"
   if [ "$BUILD_ARCH" = "i386" ]; then
@@ -208,9 +209,9 @@ build_vice () {
     CPPFLAGS="-I$EXTLIB_DIR/$BUILD_ARCH/include" \
     CFLAGS="$COMMON_CFLAGS" \
     LDFLAGS="-L$EXTLIB_DIR/$BUILD_ARCH/lib" \
-    CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK" \
-    CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK" \
-    LD="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK" \
+    CC="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    CXX="g++ -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
+    LD="gcc -arch $BUILD_ARCH -isysroot $BUILD_SDK -mmacosx-version-min=$BUILD_SDK_VERSION" \
     $VICE_SRC/configure --host=$BUILD_ARCH2-apple-darwin $CONFIGURE_FLAGS
   set +x
   make
@@ -291,17 +292,19 @@ fix_ref () {
 # setup SDK paths
 PPC_SDK=/Developer/SDKs/MacOSX10.3.9.sdk
 I386_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+PPC_SDK_VERSION=10.3
+I386_SDK_VERSION=10.4
 
 if [ "$ARCH" = "ub" ]; then
-  build_vice i386 $I386_SDK
-  build_vice ppc $PPC_SDK
+  build_vice i386 $I386_SDK $I386_SDK_VERSION
+  build_vice ppc $PPC_SDK $PPC_SDK_VERSION
   copy_dylib i386
   copy_dylib ppc
 elif [ "$ARCH" = "i386" ]; then
-  build_vice i386 $I386_SDK
+  build_vice i386 $I386_SDK $I386_SDK_VERSION
   copy_dylib i386
 else
-  build_vice ppc $PPC_SDK
+  build_vice ppc $PPC_SDK $PPC_SDK_VERSION
   copy_dylib ppc
 fi
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #

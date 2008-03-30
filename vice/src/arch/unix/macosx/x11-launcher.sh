@@ -36,8 +36,12 @@ if [ "$1" = "$BUNDLE_DIR" ]; then
 fi
 dbgecho "LAUNCH=$LAUNCH"
 
-# --- create a temporary .xinitc if X11 is not running and user has none ---
+# only do the following if no X11 env (i.e. DISPLAY) is defined
+# e.g. not required for Mac OS X 10.5 Leopard
 CREATED_XINITRC=0
+if [ "x$DISPLAY" = "x" ]; then
+
+# --- create a temporary .xinitc if X11 is not running and user has none ---
 # check for X11
 ps -wx -ocommand | grep X11.app > /dev/null | grep -v grep > /dev/null
 if [ "$?" != "0" ]; then
@@ -78,6 +82,8 @@ export DISPLAY
 # clean up
 rm -f "$DISPLAY_RUN" "$DISPLAY_RESULT"
 rmdir "$TMP_DIR"
+
+fi # xDISPLAY=x
 
 # --- prepare platypus dropped file args for VICE ---
 if [ "$LAUNCH" = "platypus" ]; then

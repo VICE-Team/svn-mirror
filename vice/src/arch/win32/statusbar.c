@@ -170,6 +170,10 @@ void statusbar_create(HWND hwnd)
                                status_hwnd[number_of_status_windows],
                                (HMENU)IDC_SLIDER,
                                NULL,NULL);
+
+    resources_get_int("SoundVolume", &res_val);
+    SendMessage(slider_hwnd[number_of_status_windows], TBM_SETPOS, 1, 100 - res_val);
+
     /* Max Steps */
     SendMessage(slider_hwnd[number_of_status_windows], TBM_SETRANGEMAX, 1, 100);
 
@@ -179,9 +183,6 @@ void statusbar_create(HWND hwnd)
     SetStatusWindowParts(status_hwnd[number_of_status_windows]);
 
     number_of_status_windows++;
-
-    resources_get_int("SoundVolume", &res_val);
-    statusbar_display_volume(res_val);
 }
 
 void statusbar_destroy(void)
