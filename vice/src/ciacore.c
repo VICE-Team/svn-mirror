@@ -40,7 +40,7 @@
 /*
  * new, generalized timer code
  */
-#include "ciatimer.c"
+#include "ciatimer.h"
 
 static ciat_t ciata;
 static ciat_t ciatb;
@@ -117,8 +117,10 @@ inline static void cia_update_tb(CLOCK rclk) {
     if( (cia[CIA_CRB] & 0x41) == 0x41 ) {
 	CLOCK tmp;
         tmp = ciat_alarm_clk(&ciata);
-        if (tmp <= rclk)
+        while (tmp <= rclk) {
             int_ciata(myclk - tmp);
+            tmp = ciat_alarm_clk(&ciata);
+	}
         tmp = ciat_alarm_clk(&ciatb);
         if (tmp <= rclk)
             int_ciatb(myclk - tmp); /* Warning: might get recursive! */
@@ -520,15 +522,17 @@ BYTE read_cia_(ADDRESS addr)
 
 	    CIAT_LOGIN(("read_icr: rclk=%d, rdi=%d", rclk, ciardi));
 
-	    cia_update_ta(rclk);
 	    tmp = ciat_alarm_clk(&ciata);
 	    if (tmp <= rclk) 
-		int_ciata(/* rclk */ myclk - tmp);
+		int_ciata(myclk - tmp);
+	    else
+	        cia_update_ta(rclk);
 
-	    cia_update_tb(rclk);
 	    tmp = ciat_alarm_clk(&ciatb);
 	    if (tmp <= rclk) 
-		int_ciatb(/* rclk */ myclk - tmp);
+		int_ciatb(myclk - tmp);
+	    else
+	        cia_update_tb(rclk);
 
 	    read_ciaicr();
 
@@ -713,7 +717,7 @@ static int int_ciata(long offset)
     }
     if (cia[CIA_CRB] & 0x40) {
         cia_update_tb(rclk);
-	ciat_single_step(&ciatb);
+	ciat_single_step(&ciatb, rclk);
     }
 
 #if 0
@@ -763,8 +767,8 @@ static int int_ciatb(long offset)
     ciat_ack_alarm(&ciatb, rclk);
 
     CIAT_LOG((
-            "timer B int_ciatb(rclk=%d, tbs=%d, int=%02x, ier=%02x).", 
-		rclk, cia_tbs, ciaint, ciaier));
+            "timer B int_ciatb(rclk=%d, crb=%d, int=%02x, ier=%02x).", 
+		rclk, cia[CIA_CRB], ciaint, ciaier));
 
     /* cia_tbt = (cia_tbt + 1) & 1; */
 
