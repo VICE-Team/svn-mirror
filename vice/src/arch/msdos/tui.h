@@ -33,30 +33,7 @@
 #include "tuifs.h"
 #include "types.h"
 
-/* ------------------------------------------------------------------------- */
-
-#define BACKCHAR		' '
-#define BACKPATTERN_FORE	LIGHTGRAY
-#define BACKPATTERN_BACK	BLUE
-#define FIRST_LINE_FORE		BLACK
-#define FIRST_LINE_BACK		LIGHTGRAY
-#define MENU_FORE		BLACK
-#define MENU_BACK		LIGHTGRAY
-#define MENU_BORDER		WHITE
-#define MENU_TITLE		RED
-#define MENU_HOTKEY		RED
-#define MENU_HIGHLIGHT		CYAN
-#define ERROR_FORE		YELLOW
-#define ERROR_BACK		RED
-#define ERROR_BORDER		YELLOW
-#define MESSAGE_FORE		BLACK
-#define MESSAGE_BACK		LIGHTGRAY
-#define MESSAGE_BORDER		WHITE
-#define FIELD_BACK		CYAN
-#define FIELD_FORE		BLACK
-#define REQUESTER_FORE		BLACK
-#define REQUESTER_BACK		LIGHTGRAY
-#define REQUESTER_BORDER	WHITE
+#include "tui_backend.h"
 
 #define CENTER_X(w)	 ((tui_num_cols() - (w)) / 2)
 #define CENTER_Y(h)      ((tui_num_lines() - (h)) / 2)
@@ -71,38 +48,9 @@
 #define MIN(a, b)	 ((a) < (b) ? (a) : (b))
 #define MAX(a, b)	 ((a) > (b) ? (a) : (b))
 
-typedef struct tui_area *tui_area_t;
-
-extern void tui_init(void);
-extern void tui_set_attr(int foreground_color, int background_color, int blink);
-extern void tui_put_char(int x, int y, BYTE c);
-extern void tui_clear_screen(void);
-extern void tui_hline(int x, int y, BYTE c, int count);
-extern void tui_vline(int x, int y, BYTE c, int count);
-extern void tui_display_window(int x, int y, int width, int height, int fore, int back, const char *title, tui_area_t *backing_store);
-extern int tui_input_string(const char *title, const char *prompt, char *buf, int buflen);
-extern void tui_gotoxy(int x, int y);
-extern void tui_flush_keys(void);
-extern void tui_display(int x, int y, int len, const char *format, ...);
-extern void tui_error(const char *format, ...);
-extern void tui_message(const char *format, ...);
-extern int tui_num_lines(void);
-extern int tui_num_cols(void);
-extern void tui_area_get(tui_area_t *a, int x, int y, int width, int height);
-extern void tui_area_put(tui_area_t a, int x, int y);
-extern void tui_area_free(tui_area_t a);
-
-#ifdef __MSDOS__
-#include <unistd.h>
-#include <pc.h>
-inline static void beep()
-{
-    sound(2000);
-    usleep(40000);
-    nosound();
-}
-#else
-#define beep()
-#endif
+void tui_error(const char *format, ...);
+void tui_message(const char *format, ...);
+int tui_input_string(const char *title, const char *prompt, char *buf,
+                     int buflen);
 
 #endif /* _TUI_H */

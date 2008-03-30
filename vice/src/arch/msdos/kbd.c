@@ -462,7 +462,7 @@ void kbd_init(void)
 
     DEBUG(("Locking custom keyboard handler code"));
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
-    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command - (unsigned long)queue_command);
+    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
     DEBUG(("Locking keyboard handler variables"));
     _go32_dpmi_lock_data(keyconvmap, sizeof(keyconvmap));

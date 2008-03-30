@@ -433,7 +433,7 @@ char *tui_file_selector(const char *title, const char *pattern,
 		str[str_len] = key;
 		n = file_list_find(fl, str, str_len + 1);
 		if (n < 0) {
-		    beep();
+		    tui_beep();
 		} else {
 		    str_len++;
 		    curr_item = n;
