@@ -6,64 +6,56 @@ What are we going to do next
 * General improvements
 ----------------------
 
-  - Better docs!
+- Snapshot format to freeze the emulators' state.  The main issue is
+  to make it as implementation-independent as possible, so that
+  snapshots made with the current versions will still run on the
+  future ones.
 
-  - More ports (E.g. BeOS...)  Any volunteers?  MacOS and Win32 ports
-    are in the works; if you want to help, please let us know.
+- Write real MS-DOS documentation (any volunteers?).
 
-  - Snapshot format to freeze the emulators' state.  The main issue is
-    to make it as implementation-independent as possible, so that
-    snapshots made with the current versions will still run on the
-    future ones.
+- Allow tape loading without the virtually pressed "Play" button,
+  which can break some programs that do not like it to be pressed
+  (e.g. Turbo Assembler).
 
-  - Convert all the documentation to texinfo, so that it can be
-    translated to different formats more easily.
+- Emulate shifted keys more accurately by delaying the shifted key
+  after the shift.
 
-  - Write real MS-DOS documentation (any volunteers?).
+- Emulate the RESTORE key more accurately.
 
-  - Allow tape loading without the virtually pressed "Play" button,
-    which can break some programs that do not like it to be pressed
-    (e.g. Turbo Assembler).
+- Better support for alternative ROM sets.
 
-  - Emulate shifted keys more accurately by delaying the shifted key
-    after the shift.
+- Some more kernal patches, for instance for changing colors and
+  patching the reset routine to make it faster (maybe configurable).
 
-  - Emulate the RESTORE key more accurately.
-
-  - Better support for alternative ROM sets.
-
-  - Some more kernal patches, for instance for changing colors and
-    patching the reset routine to make it faster (maybe configurable).
+- More ports.  Any volunteers?  MacOS and Win32 ports are in the
+  works; if you want to help, please let us know.
 
 * C64 improvements
 ------------------
 
-  - Faster and (maybe) cycle-exact SID (the current version is
-    sample-accurate).
+- Better handling for REU load/save.  It would be nice to have a few
+  menu entries to do this.
 
-  - Better handling for REU load/save.  It would be nice to have a few
-    menu entries to do this.
-
-  - More accurate REU emulation, with 16 Mbyte mode.
+- More accurate REU emulation, with 16 Mbyte mode.
 
 * C128 improvements
 -------------------
 
-  - Support missing keys (Caps Lock, 40/80 Display).
+- Support missing keys (Caps Lock, 40/80 Display).
 
 * VIC20 improvements
 --------------------
 
-  - Better, possibly cycle-based, emulation of the VIC-I chip.
+- Better, possibly cycle-based, emulation of the VIC-I chip.
 
-  - Improve the accuracy of the audio emulation.
+- Improve the accuracy of the audio emulation.
 
 * PET improvements
 ------------------
 
-  - Complete CRTC emulation.
+- Complete CRTC emulation.
 
 * 1541 improvements
 -------------------
 
-  - Emulate more than just one 1541 drive with the "true" emulation.
+- Emulate more than just one 1541 drive with the "true" emulation.
