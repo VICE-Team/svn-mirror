@@ -34,7 +34,6 @@ void via_init(void);
 BYTE REGPARM1 read_via(ADDRESS addr);
 BYTE REGPARM1 peek_via(ADDRESS addr);
 void REGPARM2 store_via(ADDRESS addr, BYTE value);
-void via_prevent_clk_overflow(CLOCK sub);
 
 extern int via_read_snapshot_module(snapshot_t *);
 extern int via_write_snapshot_module(snapshot_t *);

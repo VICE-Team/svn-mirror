@@ -40,6 +40,7 @@
 #include "types.h"
 
 #include "alarm.h"
+#include "clkguard.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
@@ -69,6 +70,8 @@ static CLOCK clk_start_bit = 0;
 
 static void (*start_bit_trigger)(void);
 static void (*byte_rx_func)(BYTE);
+
+static void clk_overflow_callback(CLOCK sub, void *data);
 
 #undef DEBUG
 
@@ -167,6 +170,9 @@ void rsuser_init(long cycles, void (*startfunc)(void),
 
         alarm_init(&rsuser_alarm, &maincpu_alarm_context,
                    "RSUser", int_rsuser);
+
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+
 
         cycles_per_sec = cycles;
 	set_up_enabled((resource_value_t) rsuser_enabled);
@@ -371,7 +377,7 @@ int int_rsuser(long offset) {
         return 0;
 }
 
-void rsuser_prevent_clk_overflow(CLOCK sub)
+static void clk_overflow_callback(CLOCK sub, void *data)
 {
     if(clk_start_tx)
 	clk_start_tx -= sub;
