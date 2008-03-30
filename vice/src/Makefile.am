@@ -59,6 +59,7 @@ noinst_HEADERS = \
 	resources.h \
 	rs232.h \
 	serial.h \
+	snapshot.h \
 	sound.h \
 	sysfile.h \
 	tape.h \
@@ -86,6 +87,7 @@ base_sources = \
 	fsdevice.c \
 	gcr.c \
 	info.c \
+	interrupt.c \
 	kbdbuf.c \
 	main.c \
 	memutils.c \
@@ -98,6 +100,7 @@ base_sources = \
 	parallel.c \
 	resources.c \
 	serial.c \
+	snapshot.c \
 	sound.c \
 	sysfile.c \
 	tape.c \
