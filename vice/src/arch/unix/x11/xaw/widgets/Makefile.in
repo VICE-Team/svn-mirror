@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -108,32 +108,29 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@         -I$(top_srcdir)/src 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/arch/unix/x11 	-I$(top_srcdir)/src/arch/unix/x11/xaw
 
 
-noinst_LIBRARIES = libvicii.a
+noinst_LIBRARIES = libwidgets.a
 
-libvicii_a_SOURCES =  	vicii.c 	vicii.h 	vicii-cmdline-options.c 	vicii-cmdline-options.h 	vicii-draw.c 	vicii-draw.h 	vicii-mem.c 	vicii-mem.h 	vicii-resources.c 	vicii-resources.h 	vicii-snapshot.c 	vicii-snapshot.h 	vicii-sprites.c 	vicii-sprites.h
+libwidgets_a_SOURCES =  	Canvas.c 	Canvas.h 	CanvasP.h 	DirMgr.c 	DirMgr.h 	Directory.c 	Directory.h 	DrawImageString.c 	DrawString.c 	FileSel.c 	FileSel.h 	FileSelP.h 	MultiList.c 	MultiList.h 	MultiListP.h 	RegExp.c 	RegExp.h 	ScrList.c 	ScrList.h 	ScrListP.h 	TabString.h 	Tablist2Tabs.c 	TextField.c 	TextField.h 	TextFieldP.h 	TextWidth.c 	strnchr.c
 
-
-EXTRA_DIST = 
-
-viciidir = $(top_srcdir)/src/vicii
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libvicii_a_LIBADD = 
-libvicii_a_OBJECTS =  vicii.o vicii-cmdline-options.o vicii-draw.o \
-vicii-mem.o vicii-resources.o vicii-snapshot.o vicii-sprites.o
+libwidgets_a_LIBADD = 
+libwidgets_a_OBJECTS =  Canvas.o DirMgr.o Directory.o DrawImageString.o \
+DrawString.o FileSel.o MultiList.o RegExp.o ScrList.o Tablist2Tabs.o \
+TextField.o TextWidth.o strnchr.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -145,14 +142,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libvicii_a_SOURCES)
-OBJECTS = $(libvicii_a_OBJECTS)
+SOURCES = $(libwidgets_a_SOURCES)
+OBJECTS = $(libwidgets_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/vicii/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/x11/xaw/widgets/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -187,10 +184,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libvicii.a: $(libvicii_a_OBJECTS) $(libvicii_a_DEPENDENCIES)
-	-rm -f libvicii.a
-	$(AR) cru libvicii.a $(libvicii_a_OBJECTS) $(libvicii_a_LIBADD)
-	$(RANLIB) libvicii.a
+libwidgets.a: $(libwidgets_a_OBJECTS) $(libwidgets_a_DEPENDENCIES)
+	-rm -f libwidgets.a
+	$(AR) cru libwidgets.a $(libwidgets_a_OBJECTS) $(libwidgets_a_LIBADD)
+	$(RANLIB) libwidgets.a
 
 tags: TAGS
 
@@ -223,7 +220,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/vicii
+subdir = src/arch/unix/x11/xaw/widgets
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -236,127 +233,26 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vicii.h ../../src/alarm.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/c64/c64.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/mos6510.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h vicii-mem.h \
-	vicii-cmdline-options.h
-vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h vicii.h ../../src/alarm.h \
-	../../src/log.h ../../src/c64/c64.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/mos6510.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h vicii-mem.h vicii-draw.h
-vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/c64/c64cia.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vicii.h ../../src/alarm.h \
-	../../src/log.h ../../src/c64/c64.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/mos6510.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h vicii-mem.h vicii-resources.h \
-	vicii-sprites.h
-vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vicii.h ../../src/alarm.h \
-	../../src/log.h ../../src/c64/c64.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/mos6510.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h vicii-mem.h \
-	vicii-resources.h
-vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/mem.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vicii.h ../../src/alarm.h \
-	../../src/log.h ../../src/c64/c64.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/mos6510.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h vicii-mem.h vicii-snapshot.h \
-	vicii-sprites.h
-vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h vicii.h ../../src/alarm.h \
-	../../src/log.h ../../src/c64/c64.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/mos6510.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h vicii-mem.h vicii-sprites.h
-vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/log.h ../../src/arch/unix/types.h \
-	../../src/c64/c64cart.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/snapshot.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/mem.h ../../src/palette.h \
-	../../src/resources.h ../../src/utils.h vicii.h \
-	../../src/c64/c64.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h vicii-mem.h \
-	vicii-cmdline-options.h vicii-draw.h vicii-sprites.h \
-	vicii-resources.h vicii-snapshot.h ../../src/vsync.h
+Canvas.o: Canvas.c CanvasP.h Canvas.h
+DirMgr.o: DirMgr.c ../../../../../../src/vice.h \
+	../../../../../../src/config.h DirMgr.h Directory.h RegExp.h
+Directory.o: Directory.c Directory.h RegExp.h
+DrawImageString.o: DrawImageString.c TabString.h
+DrawString.o: DrawString.c TabString.h
+FileSel.o: FileSel.c ../../../../../../src/vice.h \
+	../../../../../../src/config.h ../../../../../../src/utils.h \
+	../../../../../../src/arch/unix/types.h \
+	../../../../../../src/arch/unix/archdep.h \
+	../../../../../../src/archapi.h ScrListP.h ScrList.h FileSelP.h \
+	DirMgr.h Directory.h RegExp.h FileSel.h TextField.h
+MultiList.o: MultiList.c MultiListP.h MultiList.h TabString.h
+RegExp.o: RegExp.c ../../../../../../src/vice.h \
+	../../../../../../src/config.h RegExp.h
+ScrList.o: ScrList.c MultiListP.h MultiList.h ScrListP.h ScrList.h
+Tablist2Tabs.o: Tablist2Tabs.c TabString.h
+TextField.o: TextField.c TextFieldP.h TextField.h
+TextWidth.o: TextWidth.c TabString.h
+strnchr.o: strnchr.c
 
 info-am:
 info: info-am

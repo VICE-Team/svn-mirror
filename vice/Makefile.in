@@ -390,7 +390,7 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-.PHONY: x64 x128 xvic xpet xcbm2 vsid
+.PHONY: x64 x128 xvic xpet xcbm2
 x64:
 	(cd src; $(MAKE) x64-all)
 

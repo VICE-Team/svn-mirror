@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for the Unix version of `libarch.a'.
-
 
 SHELL = @SHELL@
 
@@ -40,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -109,31 +107,32 @@ x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
-@NEED_READLINE_TRUE@SUBDIRS = x11 readline
-@NEED_READLINE_FALSE@SUBDIRS = x11
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
+SUBDIRS = widgets
+
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src/arch/unix/x11
 
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libxawui.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c610ui.h 	c64ui.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	print.c 	rs232.c 	types.h 	ui.h         uicmdline.c         uicmdline.h 	vic20ui.h 	videoarch.h 	vsync.c
+libxawui_a_SOURCES =  	c128icon.xpm 	c128ui.c 	c610icon.xpm 	c610ui.c 	c64icon.xpm 	c64ui.c 	checkmark.xbm 	peticon.xpm 	petui.c 	right_arrow.xbm 	ui.c 	ui.h 	uicommands.c 	uicommands.h 	uiedisk.c 	uiedisk.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	uisnapshot.c 	uisnapshot.h 	vic20icon.xpm 	vic20ui.c 	vsidui.c 	videoarch.h 	video.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kmap.o main_exit.o \
-mouse.o petkmap.o print.o rs232.o uicmdline.o vsync.o
+libxawui_a_LIBADD = 
+libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
+uicommands.o uiedisk.o uihotkey.o uimenu.o uisettings.o uisnapshot.o \
+vic20ui.o vsidui.o video.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -145,15 +144,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  x11 readline x11
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
+SOURCES = $(libxawui_a_SOURCES)
+OBJECTS = $(libxawui_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/x11/xaw/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -188,10 +186,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+libxawui.a: $(libxawui_a_OBJECTS) $(libxawui_a_DEPENDENCIES)
+	-rm -f libxawui.a
+	$(AR) cru libxawui.a $(libxawui_a_OBJECTS) $(libxawui_a_LIBADD)
+	$(RANLIB) libxawui.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -284,7 +282,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix
+subdir = src/arch/unix/x11/xaw
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -297,7 +295,7 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-	for subdir in $(DIST_SUBDIRS); do \
+	for subdir in $(SUBDIRS); do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
@@ -307,48 +305,143 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
-archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
-	../../../src/archapi.h ../../../src/findpath.h \
-	../../../src/log.h ../../../src/utils.h types.h
-coproc.o: coproc.c coproc.h ../../../src/log.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h joystick.h \
-	kbd.h types.h ../../../src/log.h
-kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/resources.h ../../../src/cmdline.h \
-	../../../src/utils.h kbd.h
-main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
-	joystick.h ../../../src/log.h ../../../src/machine.h \
-	main_exit.h ../../../src/sound.h types.h ../../../src/warn.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	../../../src/palette.h x11/xaw/ui.h ../../../src/uiapi.h \
-	../../../src/resources.h
-mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
-	mouse.h ../../../src/log.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/utils.h ../../../src/resources.h \
-	../../../src/cmdline.h kbd.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/log.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/print.h \
-	../../../src/utils.h
-rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h types.h \
-	../../../src/log.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/rs232.h \
-	../../../src/utils.h coproc.h
-uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
-vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/clkguard.h types.h ../../../src/cmdline.h \
-	../../../src/resources.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/log.h \
-	../../../src/snapshot.h ../../../src/kbdbuf.h \
-	../../../src/maincpu.h ../../../src/alarm.h ../../../src/mon.h \
-	../../../src/mos6510.h ../../../src/sound.h ../../../src/warn.h \
-	ui.h x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	../../../src/vsync.h joystick.h
+c128ui.o: c128ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/drive/drive.h ../../../../../src/diskimage.h \
+	../../../../../src/gcr.h ../../../../../src/arch/unix/types.h \
+	../../../../../src/log.h ../../../../../src/snapshot.h \
+	../../../../../src/arch/unix/joystick.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
+	c128icon.xpm
+c610ui.o: c610ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/cbm2/c610mem.h \
+	../../../../../src/datasette.h ../../../../../src/tap.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/joystick.h \
+	../../../../../src/arch/unix/petui.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
+	c610icon.xpm
+c64ui.o: c64ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/c64/c64mem.h ../../../../../src/mem.h \
+	../../../../../src/snapshot.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/cartridge.h ../../../../../src/datasette.h \
+	../../../../../src/tap.h ../../../../../src/drive/drive.h \
+	../../../../../src/diskimage.h ../../../../../src/gcr.h \
+	../../../../../src/log.h \
+	../../../../../src/arch/unix/joystick.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/utils.h \
+	../../../../../src/vsync.h c64icon.xpm
+petui.o: petui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/datasette.h ../../../../../src/tap.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/joystick.h \
+	../../../../../src/pet/pets.h \
+	../../../../../src/arch/unix/petui.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
+	peticon.xpm
+ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
+	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
+	widgets/TextField.h ../../../../../src/cmdline.h \
+	../../../../../src/resources.h ../../../../../src/drive/drive.h \
+	../../../../../src/diskimage.h ../../../../../src/gcr.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
+	../../../../../src/snapshot.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h ../../../../../src/6510core.h \
+	../../../../../src/alarm.h ../../../../../src/clkguard.h \
+	../../../../../src/mon.h ../../../../../src/interrupt.h \
+	../../../../../src/mos6510.h \
+	../../../../../src/arch/unix/mouse.h \
+	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
+	../../../../../src/uiapi.h uihotkey.h uimenu.h uisettings.h \
+	../../../../../src/utils.h ../../../../../src/vsync.h
+uicommands.o: uicommands.c ../../../../../src/vice.h \
+	../../../../../src/config.h \
+	../../../../../src/arch/unix/archdep.h \
+	../../../../../src/archapi.h ../../../../../src/attach.h \
+	../../../../../src/snapshot.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/autostart.h ../../../../../src/fliplist.h \
+	../../../../../src/imagecontents.h ../../../../../src/info.h \
+	../../../../../src/interrupt.h ../../../../../src/6510core.h \
+	../../../../../src/log.h ../../../../../src/machine.h \
+	../../../../../src/maincpu.h ../../../../../src/alarm.h \
+	../../../../../src/clkguard.h ../../../../../src/mon.h \
+	../../../../../src/mos6510.h ../../../../../src/mem.h \
+	../../../../../src/resources.h ../../../../../src/sound.h \
+	../../../../../src/warn.h ../../../../../src/tape.h \
+	../../../../../src/traps.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uiedisk.h uisnapshot.h \
+	../../../../../src/utils.h ../../../../../src/vsync.h
+uiedisk.o: uiedisk.c ../../../../../src/vice.h \
+	../../../../../src/config.h widgets/TextField.h uiedisk.h \
+	../../../../../src/machine.h ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/utils.h
+uihotkey.o: uihotkey.c ../../../../../src/vice.h \
+	../../../../../src/config.h uihotkey.h ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/utils.h
+uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
+	checkmark.xbm right_arrow.xbm ../../../../../src/machine.h \
+	../../../../../src/resources.h ../../../../../src/utils.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/vsync.h \
+	uimenu.h ui.h ../../../../../src/palette.h \
+	../../../../../src/uiapi.h uihotkey.h
+uisettings.o: uisettings.c ../../../../../src/vice.h \
+	../../../../../src/config.h uisettings.h ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h ../../../../../src/drive/drive.h \
+	../../../../../src/diskimage.h ../../../../../src/gcr.h \
+	../../../../../src/log.h ../../../../../src/snapshot.h \
+	../../../../../src/fsdevice.h \
+	../../../../../src/arch/unix/kbd.h ../../../../../src/mem.h \
+	../../../../../src/prdevice.h ../../../../../src/resources.h \
+	../../../../../src/romset.h ../../../../../src/sound.h \
+	../../../../../src/warn.h ../../../../../src/utils.h \
+	../../../../../src/vsync.h
+uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
+	../../../../../src/config.h widgets/TextField.h uisnapshot.h \
+	../../../../../src/machine.h ui.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h
+vic20ui.o: vic20ui.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/cartridge.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/datasette.h ../../../../../src/tap.h \
+	../../../../../src/arch/unix/joystick.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
+	vic20icon.xpm
+video.o: video.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/arch/unix/kbd.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
+	../../../../../src/cmdline.h ../../../../../src/resources.h \
+	../../../../../src/utils.h ../../../../../src/video.h \
+	videoarch.h ../../../../../src/palette.h ui.h \
+	../../../../../src/uiapi.h
+vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/attach.h ../../../../../src/snapshot.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/machine.h ../../../../../src/c64/psid.h \
+	../../../../../src/resources.h uicommands.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	uimenu.h uihotkey.h uisettings.h ../../../../../src/utils.h \
+	../../../../../src/vsync.h ../../../../../src/c64/c64mem.h \
+	../../../../../src/mem.h c64icon.xpm
 
 info-am:
 info: info-recursive
@@ -425,12 +518,6 @@ uninstall-am uninstall all-redirect all-am all installdirs-am \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-.PHONY: x11 readline
-x11:
-	(cd x11; $(MAKE))
-readline:
-	(cd readline; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

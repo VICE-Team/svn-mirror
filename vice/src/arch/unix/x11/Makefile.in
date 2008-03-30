@@ -10,6 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# Makefile.am for the Unix X11 specific code `libx11ui.a'.
+
 
 SHELL = @SHELL@
 
@@ -38,7 +40,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -107,33 +109,30 @@ x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
+@GNOMEUI_TRUE@SUBDIRS = gnome
+@GNOMEUI_FALSE@SUBDIRS = xaw
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/raster
-
-
-noinst_LIBRARIES = libvdc.a
-
-libvdc_a_SOURCES =  	vdc.c 	vdc.h 	vdc-cmdline-options.c 	vdc-cmdline-options.h 	vdc-draw.c 	vdc-draw.h 	vdc-mem.c 	vdc-mem.h 	vdc-resources.c 	vdc-resources.h 	vdc-snapshot.c 	vdc-snapshot.h
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 
-EXTRA_DIST = 
+noinst_LIBRARIES = libx11ui.a
 
-vdcdir = $(top_srcdir)/src/vdc
+libx11ui_a_SOURCES =  	kbd.c 	kbdef.h
+
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libvdc_a_LIBADD = 
-libvdc_a_OBJECTS =  vdc.o vdc-cmdline-options.o vdc-draw.o vdc-mem.o \
-vdc-resources.o vdc-snapshot.o
+libx11ui_a_LIBADD = 
+libx11ui_a_OBJECTS =  kbd.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -145,14 +144,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libvdc_a_SOURCES)
-OBJECTS = $(libvdc_a_OBJECTS)
+DIST_SUBDIRS =  gnome xaw
+SOURCES = $(libx11ui_a_SOURCES)
+OBJECTS = $(libx11ui_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/vdc/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/x11/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -187,10 +187,65 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libvdc.a: $(libvdc_a_OBJECTS) $(libvdc_a_DEPENDENCIES)
-	-rm -f libvdc.a
-	$(AR) cru libvdc.a $(libvdc_a_OBJECTS) $(libvdc_a_LIBADD)
-	$(RANLIB) libvdc.a
+libx11ui.a: $(libx11ui_a_OBJECTS) $(libx11ui_a_DEPENDENCIES)
+	-rm -f libx11ui.a
+	$(AR) cru libx11ui.a $(libx11ui_a_OBJECTS) $(libx11ui_a_LIBADD)
+	$(RANLIB) libx11ui.a
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+@SET_MAKE@
+
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	  test "$$subdir" = "." && dot_seen=yes; \
+	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
 
 tags: TAGS
 
@@ -202,9 +257,14 @@ ID: $(HEADERS) $(SOURCES) $(LISP)
 	here=`pwd` && cd $(srcdir) \
 	  && mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
+	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
 	  awk '    { files[$$0] = 1; } \
@@ -223,7 +283,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/vdc
+subdir = src/arch/unix/x11
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -236,115 +296,53 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vdc.h ../../src/alarm.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/snapshot.h vdc-mem.h vdc-cmdline-options.h
-vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/snapshot.h vdc-mem.h vdc-draw.h
-vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/snapshot.h vdc-mem.h
-vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/resources.h ../../src/utils.h \
-	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/snapshot.h vdc-mem.h vdc-resources.h
-vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h vdc.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/snapshot.h vdc-mem.h \
-	vdc-snapshot.h
-vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/log.h ../../src/arch/unix/types.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/mos6510.h ../../src/palette.h ../../src/utils.h vdc.h \
-	../../src/raster/raster.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h vdc-mem.h vdc-cmdline-options.h \
-	vdc-draw.h vdc-resources.h vdc-snapshot.h
+	for subdir in $(DIST_SUBDIRS); do \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
+	done
+kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/cmdline.h ../../../../src/resources.h \
+	../../../../src/interrupt.h ../../../../src/6510core.h \
+	../../../../src/arch/unix/types.h ../../../../src/log.h \
+	../../../../src/snapshot.h ../../../../src/arch/unix/joystick.h \
+	../../../../src/arch/unix/kbd.h kbdef.h \
+	../../../../src/keyboard.h ../../../../src/machine.h \
+	../../../../src/sysfile.h ../../../../src/arch/unix/ui.h \
+	xaw/ui.h ../../../../src/palette.h ../../../../src/uiapi.h \
+	../../../../src/utils.h ../../../../src/video.h \
+	../../../../src/arch/unix/videoarch.h xaw/videoarch.h
 
 info-am:
-info: info-am
+info: info-recursive
 dvi-am:
-dvi: dvi-am
+dvi: dvi-recursive
 check-am: all-am
-check: check-am
+check: check-recursive
 installcheck-am:
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-exec-am:
-install-exec: install-exec-am
+install-exec: install-exec-recursive
 
 install-data-am:
-install-data: install-data-am
+install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
+install: install-recursive
 uninstall-am:
-uninstall: uninstall-am
+uninstall: uninstall-recursive
 all-am: Makefile $(LIBRARIES)
-all-redirect: all-am
+all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
-installdirs:
+installdirs: installdirs-recursive
+installdirs-am:
 
 
 mostlyclean-generic:
@@ -359,17 +357,17 @@ maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
 		mostlyclean-tags mostlyclean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
 		mostlyclean-am
 
-clean: clean-am
+clean: clean-recursive
 
 distclean-am:  distclean-noinstLIBRARIES distclean-compile \
 		distclean-tags distclean-generic clean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 
 maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 		maintainer-clean-compile maintainer-clean-tags \
@@ -377,19 +375,30 @@ maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-compile install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs-am \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+.PHONY: xaw gnome
+xaw:
+	(cd xaw; $(MAKE))
+gnome:
+	(cd gnome; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

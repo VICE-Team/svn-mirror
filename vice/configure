@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.22
+VERSION=1.1.23
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -6951,11 +6951,11 @@ fi
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes" -a x"$is_os2" != "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   if test x"$enable_gnomeui" != "xyes" ; then
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/xaw/libxawui.a $ARCH_DIR/xaw/widgets/libwidgets.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
   else
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gnome/libgnomeui.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/gnome `gnome-config --cflags gnomeui`"
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $$ARCH_DIR/x11/gnome/libgnomeui.a"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui`"
   fi
   
 
@@ -7236,16 +7236,30 @@ fi
 if false ; then
     
     mkdir -p arch/msdos
+    mkdir -p arch/os2
     mkdir -p arch/os2/snippets
     mkdir -p arch/os2/pm
     mkdir -p arch/riscos
-    mkdir -p arch/win32
-    mkdir -p arch/unix/widgets
+    mkdir -p arch/unix
     mkdir -p arch/unix/readline
-    mkdir -p arch/unix/xaw
+    mkdir -p arch/unix/x11
+    mkdir -p arch/unix/x11/gnome
+    mkdir -p arch/unix/x11/xaw
+    mkdir -p arch/unix/x11/xaw/widgets
+    mkdir -p arch/win32
+    mkdir -p c128
     mkdir -p c64
+    mkdir -p cbm2
+    mkdir -p crtc
+    mkdir -p drive
     mkdir -p pet
+    mkdir -p resid
+    mkdir -p sid
+    mkdir -p sounddrv
+    mkdir -p vdc
+    mkdir -p vdrive
     mkdir -p vic20
+    mkdir -p vicii
 
     if test x"$srcdir" != "x." ; then
         BINDIR="./bin"
@@ -7381,24 +7395,25 @@ trap 'rm -fr `echo "Makefile
            src/arch/os2/snippets/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile
-           src/arch/unix/gnome/Makefile
            src/arch/unix/readline/Makefile
-           src/arch/unix/xaw/Makefile
-           src/arch/unix/xaw/widgets/Makefile
+           src/arch/unix/x11/Makefile
+           src/arch/unix/x11/gnome/Makefile
+           src/arch/unix/x11/xaw/Makefile
+           src/arch/unix/x11/xaw/widgets/Makefile
            src/arch/win32/Makefile
            src/c128/Makefile
            src/c64/Makefile
            src/cbm2/Makefile
+           src/crtc/Makefile
            src/drive/Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
+           src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile
            src/vicii/Makefile
-           src/vdc/Makefile
-           src/crtc/Makefile
             src/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
@@ -7582,24 +7597,25 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/arch/os2/snippets/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile
-           src/arch/unix/gnome/Makefile
            src/arch/unix/readline/Makefile
-           src/arch/unix/xaw/Makefile
-           src/arch/unix/xaw/widgets/Makefile
+           src/arch/unix/x11/Makefile
+           src/arch/unix/x11/gnome/Makefile
+           src/arch/unix/x11/xaw/Makefile
+           src/arch/unix/x11/xaw/widgets/Makefile
            src/arch/win32/Makefile
            src/c128/Makefile
            src/c64/Makefile
            src/cbm2/Makefile
+           src/crtc/Makefile
            src/drive/Makefile
            src/pet/Makefile
            src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
+           src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile
            src/vicii/Makefile
-           src/vdc/Makefile
-           src/crtc/Makefile
            "}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
