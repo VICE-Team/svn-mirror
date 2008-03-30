@@ -1417,7 +1417,7 @@
 #    define p1 ((opcode >> 8) & 0xff)
 #    define p2 (opcode >> 8)
 
-#  else /* WORDS_BIGENDIAN || ALLOW_UNALIGNED_ACCESS */
+#  else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
 #    define opcode_t                              \
         struct {                                  \
