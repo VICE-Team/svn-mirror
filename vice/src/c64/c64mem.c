@@ -42,6 +42,7 @@
 #include "memutils.h"
 
 #include "archdep.h"
+#include "datasette.h"
 #include "file.h"
 #include "log.h"
 #include "resources.h"
@@ -382,6 +383,9 @@ static int mem_config;
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
+/* Tape motor status.  */
+static BYTE old_port_data_out = 0xff;
+
 /* Exansion port ROML/ROMH images.  */
 #ifdef AVOID_STATIC_ARRAYS
 BYTE *roml_banks, *romh_banks;
@@ -440,6 +444,11 @@ static inline void pla_config_changed(void)
 
     if (tape_sense && !(pport.dir & 0x10))
       ram[1] &= 0xef;
+
+    if (((~pport.dir | pport.data) & 0x20) != old_port_data_out) {
+        old_port_data_out = (~pport.dir | pport.data) & 0x20;
+        datasette_set_motor(!old_port_data_out);
+    }
 
     ram[0] = pport.dir;
 
