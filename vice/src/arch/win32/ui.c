@@ -237,8 +237,8 @@ static int set_confirm_on_exit(resource_value_t v, void *param)
 
 static int set_single_cpu(resource_value_t v, void *param)
 {
-DWORD   process_affinity;
-DWORD   system_affinity;
+    DWORD process_affinity;
+    DWORD system_affinity;
 
     ui_resources.single_cpu = (int)v;
     if (GetProcessAffinityMask(GetCurrentProcess(), &process_affinity, &system_affinity)) {
