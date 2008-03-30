@@ -117,7 +117,7 @@ int *mem_read_limit_tab_ptr;
 #define NUM_CONFIGS 256
 
 /* Memory read and write tables.  */
-static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
+static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
@@ -125,8 +125,9 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
-/* Current video bank (0, 1, 2 or 3).  */
-static int vbank;
+/* Current video bank (0, 1, 2 or 3 in the first bank,
+   4, 5, 6 or 7 in the second bank).  */
+static int vbank = 0;
 
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
@@ -154,7 +155,18 @@ static BYTE REGPARM1 watch_read(WORD addr)
 static void REGPARM2 watch_store(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
-    mem_write_tab[mem_config][addr >> 8](addr, value);
+    mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
+}
+
+void mem_toggle_watchpoints(int flag, void *context)
+{
+    if (flag) {
+        _mem_read_tab_ptr = mem_read_tab_watch;
+        _mem_write_tab_ptr = mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = mem_read_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -184,7 +196,7 @@ void mem_update_config(int config)
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[mem_config];
+        _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
     }
 
     _mem_read_base_tab_ptr = mem_read_base_tab[config];
@@ -233,12 +245,28 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
     bank_limit = limit;
 }
 
+/* Change the current video bank.  Call this routine only when the vbank
+   has really changed.  */
+void mem_set_vbank(int new_vbank)
+{
+    vbank = (vbank & ~3) | new_vbank;
+    vicii_set_vbank(new_vbank & 3);
+}
+
+/*
+static void mem_set_vbank_extended(int new_ext_vbank)
+{
+    vbank = (vbank & 3) | new_ext_vbank << 2;
+}
+*/
+
 void mem_set_ram_config(BYTE value)
 {
     unsigned int shared_size;
 
     /* XXX: We only support 128K here.  */
     vicii_set_ram_base(mem_ram + ((value & 0x40) << 10));
+    /*mem_set_vbank_extended((value & 0x40) >> 6);*/
 
     DEBUG_PRINT(("MMU: Store RCR = $%02x\n", value));
     DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
@@ -312,7 +340,7 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
     switch ((BYTE)addr) {
       case 0:
-        if (0 /*vbank == 0*/) {
+        if (/*vbank ==*/ 0) {
             vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
         } else {
             mem_page_zero[0] = vicii_read_phi1_lowlevel();
@@ -324,7 +352,7 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         }
         break;
       case 1:
-        if (0 /*vbank == 0*/) {
+        if (/*vbank ==*/ 0) {
             vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
         } else {
             mem_page_zero[1] = vicii_read_phi1_lowlevel();
@@ -336,7 +364,10 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         }
         break;
       default:
-        mem_page_zero[addr] = value;
+        if (/*vbank ==*/ 0)
+            vicii_mem_vbank_store(addr, value);
+        else
+            mem_page_zero[addr] = value;
     }
 }
 
@@ -384,7 +415,7 @@ void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
 {
     store_func_ptr_t *write_tab_ptr;
 
-    write_tab_ptr = mem_write_tab[mem_config & 7];
+    write_tab_ptr = mem_write_tab[vbank][mem_config & 7];
 
     write_tab_ptr[addr >> 8](addr, value);
 }
@@ -454,7 +485,10 @@ void REGPARM2 ram_store(WORD addr, BYTE value)
 
 void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 {
-    ram_bank[addr] = value;
+    if (vbank == 3)
+        vicii_mem_vbank_3fxx_store(addr, value);
+    else
+        ram_bank[addr] = value;
 
     if (addr == 0xff00)
         reu_dma(-1);
@@ -550,7 +584,11 @@ BYTE REGPARM1 colorram_read(WORD addr)
 
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
-    mem_write_tab[config][page] = f;
+    int i;
+
+    for (i = 0; i < NUM_VBANKS; i++) {
+        mem_write_tab[i][config][page] = f;
+    }
 }
 
 void mem_read_tab_set(unsigned int base, unsigned int index,
@@ -570,7 +608,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 
 void mem_initialize_memory(void)
 {
-    int i, j;
+    int i, j, k;
 
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
@@ -586,13 +624,39 @@ void mem_initialize_memory(void)
     c128meminit();
 
     /* C64 mode configuration.  */
-    for (i = 128; i < 256; i++) {
-        for (j = 2; j <= 0x100; j++) {
-            mem_read_tab[i][j] = ram_read;
-            mem_write_tab[i][j] = ram_store;
-            mem_read_base_tab[i][j] = mem_ram + (j << 8);
+
+    for (i = 0; i < 32; i++) {
+        mem_set_write_hook(128 + i, 0, zero_store);
+        mem_read_tab[128 + i][0] = zero_read;
+        mem_read_base_tab[128 + i][0] = mem_ram;
+        mem_set_write_hook(128 + i, 1, one_store);
+        mem_read_tab[128 + i][1] = one_read;
+        mem_read_base_tab[128 + i][1] = mem_ram;
+        for (j = 2; j <= 0xfe; j++) {
+            mem_read_tab[128 + i][j] = ram_read;
+            mem_read_base_tab[128 + i][j] = mem_ram + (j << 8);
+            for (k = 0; k < NUM_VBANKS; k++) {
+                if ((j & 0xc0) == (k << 6)) {
+                    switch (j & 0x3f) {
+                      case 0x39:
+                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_39xx_store;
+                        break;
+                      case 0x3f:
+                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_3fxx_store;
+                        break;
+                      default:
+                        mem_write_tab[k][128+i][j] = vicii_mem_vbank_store;
+                    }
+                } else {
+                    mem_write_tab[k][128+i][j] = ram_store;
+                }
+            }
         }
-        mem_write_tab[i][0xff] = ram_hi_store;
+        mem_read_tab[128 + i][0xff] = ram_read;
+        mem_read_base_tab[128 + i][0xff] = mem_ram + 0xff00;
+
+        /* vbank access is handled within `ram_hi_store()'.  */
+        mem_set_write_hook(128 + i, 0xff, ram_hi_store);
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
@@ -624,43 +688,45 @@ void mem_initialize_memory(void)
     for (j = 0; j < 32; j++) {
         if (c64meminit_io_config[j]) {
             mem_read_tab[128 + j][0xd0] = c128_vicii_read;
-            mem_write_tab[128 + j][0xd0] = c128_vicii_store;
+            mem_set_write_hook(128 + j, 0xd0, c128_vicii_store);
             mem_read_tab[128 + j][0xd1] = c128_vicii_read;
-            mem_write_tab[128 + j][0xd1] = c128_vicii_store;
+            mem_set_write_hook(128 + j, 0xd1, c128_vicii_store);
             mem_read_tab[128 + j][0xd2] = c128_vicii_read;
-            mem_write_tab[128 + j][0xd2] = c128_vicii_store;
+            mem_set_write_hook(128 + j, 0xd2, c128_vicii_store);
             mem_read_tab[128 + j][0xd3] = c128_vicii_read;
-            mem_write_tab[128 + j][0xd3] = c128_vicii_store;
+            mem_set_write_hook(128 + j, 0xd3, c128_vicii_store);
             mem_read_tab[128 + j][0xd4] = c128_sid_read;
-            mem_write_tab[128 + j][0xd4] = c128_sid_store;
+            mem_set_write_hook(128 + j, 0xd4, c128_sid_store);
             mem_read_tab[128 + j][0xd5] = c128_d5xx_read;
-            mem_write_tab[128 + j][0xd5] = c128_d5xx_store;
+            mem_set_write_hook(128 + j, 0xd5, c128_d5xx_store);
             mem_read_tab[128 + j][0xd6] = c128_vdc_read;
-            mem_write_tab[128 + j][0xd6] = c128_vdc_store;
+            mem_set_write_hook(128 + j, 0xd6, c128_vdc_store);
             mem_read_tab[128 + j][0xd7] = c128_d7xx_read;
-            mem_write_tab[128 + j][0xd7] = c128_d7xx_store;
+            mem_set_write_hook(128 + j, 0xd7, c128_d7xx_store);
             mem_read_tab[128 + j][0xd8] = c128_colorram_read;
-            mem_write_tab[128 + j][0xd8] = c128_colorram_store;
+            mem_set_write_hook(128 + j, 0xd8, c128_colorram_store);
             mem_read_tab[128 + j][0xd9] = c128_colorram_read;
-            mem_write_tab[128 + j][0xd9] = c128_colorram_store;
+            mem_set_write_hook(128 + j, 0xd9, c128_colorram_store);
             mem_read_tab[128 + j][0xda] = c128_colorram_read;
-            mem_write_tab[128 + j][0xda] = c128_colorram_store;
+            mem_set_write_hook(128 + j, 0xda, c128_colorram_store);
             mem_read_tab[128 + j][0xdb] = c128_colorram_read;
-            mem_write_tab[128 + j][0xdb] = c128_colorram_store;
+            mem_set_write_hook(128 + j, 0xdb, c128_colorram_store);
             mem_read_tab[128 + j][0xdc] = c128_cia1_read;
-            mem_write_tab[128 + j][0xdc] = c128_cia1_store;
+            mem_set_write_hook(128 + j, 0xdc, c128_cia1_store);
             mem_read_tab[128 + j][0xdd] = c128_cia2_read;
-            mem_write_tab[128 + j][0xdd] = c128_cia2_store;
+            mem_set_write_hook(128 + j, 0xdd, c128_cia2_store);
             mem_read_tab[128 + j][0xde] = c128_c64io1_read;
-            mem_write_tab[128 + j][0xde] = c128_c64io1_store;
+            mem_set_write_hook(128 + j, 0xde, c128_c64io1_store);
             mem_read_tab[128 + j][0xdf] = c128_c64io2_read;
-            mem_write_tab[128 + j][0xdf] = c128_c64io2_store;
+            mem_set_write_hook(128 + j, 0xdf, c128_c64io2_store);
         }
     }
 
-    for (i = 128; i < 256; i++) {
+    for (i = 128; i < 128 + 32; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
-        mem_write_tab[i][0x100] = mem_write_tab[i][0];
+        for (j = 0; j < NUM_VBANKS; j++) {
+            mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
+        }
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
     }
 
@@ -677,7 +743,7 @@ void mem_initialize_memory(void)
     mem_page_one = mem_ram + 0x100;
 
     _mem_read_tab_ptr = mem_read_tab[3];
-    _mem_write_tab_ptr = mem_write_tab[3];
+    _mem_write_tab_ptr = mem_write_tab[vbank][3];
     _mem_read_base_tab_ptr = mem_read_base_tab[3];
     mem_read_limit_tab_ptr = mem_read_limit_tab[3];
 
@@ -699,25 +765,6 @@ void mem_powerup(void)
 }
 
 /* ------------------------------------------------------------------------- */
-
-/* Change the current video bank.  Call this routine only when the vbank
-   has really changed.  */
-void mem_set_vbank(int new_vbank)
-{
-    vbank = new_vbank;
-    vicii_set_vbank(new_vbank);
-}
-
-void mem_toggle_watchpoints(int flag, void *context)
-{
-    if (flag) {
-        _mem_read_tab_ptr = mem_read_tab_watch;
-        _mem_write_tab_ptr = mem_write_tab_watch;
-    } else {
-        _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[mem_config];
-    }
-}
 
 /* Set the tape sense status.  */
 void mem_set_tape_sense(int sense)
