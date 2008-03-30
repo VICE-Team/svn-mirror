@@ -25,8 +25,8 @@ What are we going to do next
 - Filtering video output to make it look more like an old monitor or
   a TV set.
 
-- More ports.  Any volunteers?  MacOS, Win32 and Acorn RISC-OS ports
-  are in the works; if you want to help, please let us know.
+- More ports.  Any volunteers?  Win32 and Acorn RISC-OS ports are in
+  the works; if you want to help, please let us know.
 
 * C64 improvements
 ------------------
