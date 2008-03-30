@@ -158,6 +158,9 @@ static cmdline_option_t cmdline_options[] = {
       "UseXSync", (resource_value_t)0,
       NULL, N_("Do not call `XSync()' after updating the emulation window") },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
+      "MITSHM", (resource_value_t) 1,
+      NULL, N_("Use shared memory") },
+    { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
       NULL, N_("Never use shared memory (slower)") },
 #ifdef HAVE_XVIDEO
@@ -213,60 +216,39 @@ void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
     switch (c->depth) {
       case 8:
         video_render_setphysicalcolor(&c->videoconfig, i,
-                                      (DWORD)(*(BYTE *)data), 8);
+                                      (DWORD)(*data), 8);
         break;
-      case 16:
+      case 15:
+	/* Pass 15 bit color as 16 bit color to render engine. */
         video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 16);
         break;
+      case 16:
+      case 24:
       case 32:
-        video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col), 32);
-        break;
       default:
         video_render_setphysicalcolor(&c->videoconfig, i, (DWORD)(col),
                                       c->depth);
+	break;
     }
 
     if (c->depth == 1)
         shade_table[i] = dither;
 }
 
-/* This doesn't usually happen, but if it does, this is a great speedup
-   comparing the general convert_8toall() -routine. */
-static void convert_8to8(BYTE *draw_buffer,
-                         unsigned int draw_buffer_line_size,
-                         video_canvas_t *canvas,
-                         int sx, int sy, int tx, int ty,
-			 int w, int h)
-{
-    video_render_main(&canvas->videoconfig, draw_buffer,
-                      canvas->x_image->data,
-                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
-                      canvas->x_image->bytes_per_line, 8);
-
-}
-
-static void convert_8to16(BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
-                          video_canvas_t *canvas,
+static void convert_8to8n(BYTE *draw_buffer,
+			  unsigned int draw_buffer_line_size,
+			  video_canvas_t *canvas,
 			  int sx, int sy, int tx, int ty,
 			  int w, int h)
 {
-    video_render_main(&canvas->videoconfig, draw_buffer,
-                      canvas->x_image->data,
-                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
-                      canvas->x_image->bytes_per_line, 16);
-}
+    /* Pass 15 bit color as 16 bit color to render engine. */
+    int depth = canvas->depth == 15 ? 16 : canvas->depth;
 
-static void convert_8to32(BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
-                          video_canvas_t *canvas,
-			  int sx, int sy, int tx, int ty,
-			  int w, int h)
-{
     video_render_main(&canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
                       w, h, sx, sy, tx, ty, draw_buffer_line_size,
-                      canvas->x_image->bytes_per_line, 32);
+                      canvas->x_image->bytes_per_line, depth);
+
 }
 
 #define SRCPTR(x, y) \
@@ -289,6 +271,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
 				int sx, int sy, int tx, int ty,
 				int w, int h)
 {
+    /* FIXME: Double size not handled. */
     BYTE *src, *dither;
     int x, y;
     for (y = 0; y < h; y++) {
@@ -310,6 +293,7 @@ static void convert_8toall(BYTE *draw_buffer,
 			   int sx, int sy, int tx, int ty,
 			   int w, int h)
 {
+    /* FIXME: Double size not handled. */
     BYTE *src;
     int x, y;
     for (y = 0; y < h; y++) {
@@ -324,22 +308,16 @@ static void convert_8toall(BYTE *draw_buffer,
 int video_convert_func(video_canvas_t *canvas, unsigned int width,
                        unsigned int height)
 {
-    if (use_xvideo) {
-        return 0;
-    }
-
     switch (canvas->depth) {
       case 1:
         _convert_func = convert_8to1_dither;
         break;
       case 8:
-        _convert_func = convert_8to8;
-        break;
+      case 15:
       case 16:
-        _convert_func = convert_8to16;
-        break;
+      case 24:
       case 32:
-        _convert_func = convert_8to32;
+        _convert_func = convert_8to8n;
         break;
       default:
         _convert_func = convert_8toall;
@@ -519,7 +497,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     canvas->height = *height;
     ui_finish_canvas(canvas);
 
-    uicolor_init_video_colors();
+    if (canvas->depth > 8)
+	uicolor_init_video_colors();
     video_add_handlers(w);
     if (console_mode || vsid_mode)
         return canvas;
@@ -678,9 +657,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 
 #endif
-    if (_convert_func)
-        _convert_func(draw_buffer, draw_buffer_line_size, canvas,
-                      xs, ys, xi, yi, w, h);
+    _convert_func(draw_buffer, draw_buffer_line_size, canvas,
+		  xs, ys, xi, yi, w, h);
 
     /* This could be optimized away.  */
     display = ui_get_display_ptr();

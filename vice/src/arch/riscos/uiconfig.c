@@ -118,6 +118,7 @@ static const char Rsrc_CartF[] = "CartridgeFile";
 static const char Rsrc_SScoll[] = "CheckSsColl";
 static const char Rsrc_SBcoll[] = "CheckSbColl";
 static const char Rsrc_Palette[] = "PaletteFile";
+static const char Rsrc_ExtPal[] = "ExternalPalette";
 static const char Rsrc_NoTraps[] = "NoTraps";
 static const char Rsrc_VideoCache[] = "VideoCache";
 static const char Rsrc_SoundFile[] = "SoundDeviceArg";
@@ -1558,7 +1559,8 @@ config_item_t Configurations[] = {
   {Rsrc_SidStereo, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo}},
   {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll}},
   {Rsrc_SBcoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSBcoll}},
-  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Palette}},
+  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_Palette}},
+  {Rsrc_ExtPal, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_ExtPal}},
   {Rsrc_SoundFile, CONFIG_STRING, {CONF_WIN_SOUND, Icon_ConfSnd_FileSndPath}},
   {Rsrc_SerialFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_ConfDev_FileRsPath}},
   {Rsrc_PrinterFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_ConfDev_FilePrPath}},
@@ -1583,7 +1585,7 @@ config_item_t Configurations[] = {
   {Rsrc_Contrast, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Contrast}},
   {Rsrc_Brightness, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Brightness}},
   {Rsrc_Gamma, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Gamma}},
-  {Rsrc_DelLoop, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_DelayLoop}},
+  {Rsrc_DelLoop, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_DelayLoop}},
   {Rsrc_LineShade, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_LineShade}},
   {NULL, 0, {0, 0}}
 };

@@ -30,19 +30,7 @@
 #define _UIHELP_RO_H
 
 #include "wimp.h"
-#include "uiconfig.h"
-#include "uisharedef.h"
 
-typedef struct help_icon_s {
-  int icon;
-  const char *sym;
-  char *msg;
-} help_icon_t;
-
-
-extern help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER];
-
-extern void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi);
 extern void ui_translate_help_messages(const wimp_msg_desc *msg);
 extern const char *ui_get_help_for_window_icon(int handle, int icon);
 

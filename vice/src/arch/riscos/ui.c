@@ -230,7 +230,6 @@ static int DisplayDriveTrack = 0;
 static int WimpScrapUsed = 0;
 static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
-static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
 static int RegularProgramExit = 0;
 static int WimpBlock[64];
@@ -1943,9 +1942,14 @@ void ui_issue_reset(int doreset)
 /* Make absolutely sure the sound timer is killed when the app terminates */
 static void ui_safe_exit(void)
 {
+  int docoredump;
+
   sound_wimp_safe_exit();
 
-  if (DoCoreDump != 0)
+  if (resources_get_value(Rsrc_CoreDump, (resource_value_t)&docoredump) != 0)
+    docoredump = 0;
+
+  if (docoredump != NULL)
   {
     int current, next, free;
     FILE *fp;
@@ -2294,11 +2298,6 @@ int ui_init_finish(void)
   }
 
   ui_build_fliplist_menu(0);
-
-  if (resources_get_value(Rsrc_CoreDump, &val) == 0)
-  {
-    DoCoreDump = (int)val;
-  }
 
   /* must create log window, but may close it right afterwards! */
   ui_open_log_window();
@@ -3567,8 +3566,6 @@ static void ui_key_press_config(int *b)
             resources_set_value(Rsrc_Kernal, (resource_value_t)data); break;
           case Icon_ConfSys_Basic:
             resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
-          case Icon_ConfSys_Palette:
-            resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
           case Icon_ConfSys_CartFile:
             ui_set_cartridge_file(data); break;
           case Icon_ConfSys_DosName:
@@ -3596,6 +3593,8 @@ static void ui_key_press_config(int *b)
             resources_set_value(Rsrc_DelLoop, (resource_value_t)atoi(data)); break;
           case Icon_ConfVid_LineShade:
             resources_set_value(Rsrc_LineShade, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_Palette:
+            resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
           default:
             Wimp_ProcessKey(key); return;
         }
@@ -3771,7 +3770,7 @@ static config_item_t SystemROMconf[] = {
   {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
   {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
   {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Basic}},
-  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Palette}},
+  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_Palette}},
   {NULL, 0, {0, 0}}
 };
 
@@ -4537,8 +4536,7 @@ static void ui_user_msg_data_load(int *b)
       }
       else if (b[10] == FileType_Text)
       {
-        if (b[6] == Icon_ConfSys_Palette) res = Rsrc_Palette;
-        else if ((b[6] == Icon_ConfSys_Keyboard) || (b[6] == Icon_ConfSys_KeyboardT))
+        if ((b[6] == Icon_ConfSys_Keyboard) || (b[6] == Icon_ConfSys_KeyboardT))
         {
           kbd_load_keymap(name, -1);
           action = 1;
@@ -4576,6 +4574,23 @@ static void ui_user_msg_data_load(int *b)
           {
             mem_load(); /*ui_issue_reset(1);*/
           }
+          action = 1;
+        }
+      }
+    }
+  }
+  else if (b[5] == ConfWindows[CONF_WIN_VIDEO]->Handle)
+  {
+    if (b[10] == FileType_Text)
+    {
+      if (b[6] == Icon_ConfVid_Palette)
+      {
+        const char *filename;
+
+        filename = ui_check_for_syspath(name);
+        if (resources_set_value(Rsrc_Palette, (resource_value_t)filename) == 0)
+        {
+          wimp_window_write_icon_text(ConfWindows[CONF_WIN_VIDEO], b[6], filename);
           action = 1;
         }
       }

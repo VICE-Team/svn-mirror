@@ -266,7 +266,6 @@ typedef struct disp_desc_s {
 #define Icon_ConfSys_CharGen		3
 #define Icon_ConfSys_Kernal		5
 #define Icon_ConfSys_Basic		7
-#define Icon_ConfSys_Palette		9
 #define Icon_ConfSys_REU		10
 #define Icon_ConfSys_IEEE488		11
 #define Icon_ConfSys_EmuID		12
@@ -305,12 +304,14 @@ typedef struct disp_desc_s {
 #define Icon_ConfVid_FullScreen		16
 #define Icon_ConfVid_MaxSkipFrms	13
 #define Icon_ConfVid_VideoCache		17
+#define Icon_ConfVid_Palette		34
+#define Icon_ConfVid_ExtPal		35
 #define Icon_ConfVid_ColourSat		18
 #define Icon_ConfVid_Contrast		20
 #define Icon_ConfVid_Brightness		22
 #define Icon_ConfVid_Gamma		24
-#define Icon_ConfVid_DelayLoop		26
-#define Icon_ConfVid_LineShade		28
+#define Icon_ConfVid_LineShade		26
+#define Icon_ConfVid_DelayLoop		28
 #define Icon_ConfVid_PalMode		30
 #define Icon_ConfVid_PalModeT		31
 

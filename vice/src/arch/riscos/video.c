@@ -108,10 +108,14 @@ static void video_init_pal_depth(void)
     case PAL_EMU_DEPTH_NONE:
       ActualPALDepth = 0; break;
     case PAL_EMU_DEPTH_AUTO:
-      if (ScreenMode.ldbpp >= 3)
-        ActualPALDepth = (1 << ScreenMode.ldbpp);
-      else
-        ActualPALDepth = 8;
+      {
+        int ldbpp = (FullScreenMode == 0) ? ScreenMode.ldbpp : FullScrDesc.ldbpp;
+
+        if (ldbpp >= 3)
+          ActualPALDepth = (1 << ldbpp);
+        else
+          ActualPALDepth = 8;
+      }
       break;
     case PAL_EMU_DEPTH_8:
       ActualPALDepth = 8; break;
@@ -121,6 +125,31 @@ static void video_init_pal_depth(void)
       ActualPALDepth = 32; break;
     default:
       ActualPALDepth = 0; break;
+  }
+}
+
+
+static void video_init_pal_videoconfig(video_render_config_t *vc)
+{
+  vc->doublesizex = PALEmuDouble;
+  vc->doublesizey = PALEmuDouble;
+  vc->doublescan  = PALEmuDouble;
+
+  if ((vc->rendermode == VIDEO_RENDER_PAL_1X1) || (vc->rendermode == VIDEO_RENDER_PAL_2X2))
+  {
+    vc->rendermode = (PALEmuDouble == 0) ? VIDEO_RENDER_PAL_1X1 : VIDEO_RENDER_PAL_2X2;
+  }
+}
+
+
+static void video_init_pal_double(void)
+{
+  canvas_list_t *cl = CanvasList;
+
+  while (cl != NULL)
+  {
+    video_init_pal_videoconfig(&(cl->canvas->videoconfig));
+    cl = cl->next;
   }
 }
 
@@ -201,6 +230,7 @@ static int set_pal_emu_depth(resource_value_t v, void *param)
 {
   PALEmuDepth = (int)v;
   video_init_pal_depth();
+  video_color_update_palette();
   canvas_redraw_all();
   return 0;
 }
@@ -208,6 +238,7 @@ static int set_pal_emu_depth(resource_value_t v, void *param)
 static int set_pal_emu_double(resource_value_t v, void *param)
 {
   PALEmuDouble = (int)v;
+  video_init_pal_double();
   return 0;
 }
 
@@ -315,12 +346,16 @@ static void video_set_clipping_rectangle(int x1, int y1, int x2, int y2)
 
 static void video_canvas_ensure_translation(video_canvas_t *canvas)
 {
+  /* Frame buffer not allocated yet? Then can't do anything */
+  if (canvas->fb.spritebase == NULL)
+    return;
+
   /* the frame buffer palette is dirty if the palette changed while there was no
      frame buffer allocated, e.g. on startup */
   if ((canvas->fb.paldirty != 0) && (canvas->current_palette != NULL))
   {
-    unsigned int i, numsprpal;
     sprite_area_t *sarea = canvas->fb.spritebase;
+    unsigned int i, numsprpal;
     sprite_desc_t *sprite;
     unsigned int *sprpal;
     unsigned int *ct = canvas->current_palette;
@@ -410,7 +445,7 @@ static void video_canvas_ensure_pal_trans(video_canvas_t *canvas)
   if ((fb->palsprite != NULL) && (fb->paltrans == NULL))
   {
     sprite_desc_t *sprite;
-    char *dummy;
+    char *dummy = NULL;
 
     if (fb->paltrans != NULL)
     {
@@ -432,18 +467,37 @@ static void video_canvas_ensure_pal_trans(video_canvas_t *canvas)
 }
 
 
-static void video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pitcht)
+static const char *palspritename = "palsprite";
+
+static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pitcht)
 {
   sprite_desc_t *sprite;
 
   if (canvas->fb.palsprite == NULL)
   {
     video_frame_buffer_t *fb = &(canvas->fb);
+    int width, height;
 
-    /* FIXME: depth may be 8bpp (-> palette)! */
-    fb->palsprite = SpriteCreateAreaSprite(canvas->width, canvas->height, ActualPALDepth, "palsprite", NULL, 0);
+    width  = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
+    height = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
+
+    if (ActualPALDepth == 8)
+    {
+      unsigned int dummypal[256];
+
+      memset(dummypal, 0, 256*sizeof(int));
+      fb->palsprite = SpriteCreateAreaSprite(width, height, ActualPALDepth, palspritename, dummypal, 0);
+    }
+    else
+    {
+      fb->palsprite = SpriteCreateAreaSprite(width, height, ActualPALDepth, palspritename, NULL, 0);
+    }
+    if (fb->palsprite == NULL)
+      return -1;
+
     sprite = SpriteGetSprite(fb->palsprite);
     fb->paldata = SpriteGetImage(sprite);
+    memset(fb->paldata, 0, height * (sprite->wwidth+1)*4);
 
     if (fb->paltrans != NULL)
     {
@@ -455,6 +509,8 @@ static void video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pi
   sprite = SpriteGetSprite(canvas->fb.palsprite);
   *pitchs = canvas->fb.pitch;
   *pitcht = (sprite->wwidth+1)*4;
+
+  return 0;
 }
 
 
@@ -462,29 +518,55 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
 {
   if (canvas->last_video_render_depth != ActualPALDepth)
   {
+    video_render_config_t *config = &(canvas->videoconfig);
+    unsigned int *ct;
     unsigned int i;
 
-    log_message(LOG_DEFAULT, "Rebinding PAL colours for %s", canvas->name);
+    log_message(LOG_DEFAULT, "Rebinding PAL colours for %s (%d)", canvas->name, canvas->num_colours);
+
+    ct = canvas->current_palette;
 
     switch (ActualPALDepth)
     {
       case 8:
-        /* FIXME: dunno what to do here yet */
+        for (i=0; i<canvas->num_colours; i++)
+        {
+          video_render_setphysicalcolor(config, (int)i, (DWORD)i, ActualPALDepth);
+        }
+        if (canvas->fb.palsprite != NULL)
+        {
+          sprite_desc_t *sprite;
+          unsigned int *sprpal;
+
+          sprite = SpriteGetSprite(canvas->fb.palsprite);
+          sprpal = (unsigned int*)(sprite + 1);
+
+          for (i=0; i<canvas->num_colours; i++)
+          {
+            sprpal[2*i] = 0x10 | (ct[i] << 8);
+            sprpal[2*i+1] = sprpal[2*i];
+          }
+          for (; i<256; i++)
+          {
+            sprpal[2*i] = 0x10;
+            sprpal[2*i+1] = 0x10;
+          }
+        }
         break;
       case 16:
         for (i=0; i<canvas->num_colours; i++)
         {
-          unsigned int v = (canvas->current_palette)[i];
+          unsigned int v = ct[i];
           BYTE r, g, b;
 
           r = v & 0xff; g = (v >> 8) & 0xff; b = (v >> 16) & 0xff;
           v = (r >> 3) | ((g & 0xf8) << 2) | ((b & 0xf8) << 7);
-          video_render_setphysicalcolor(&(canvas->videoconfig), (int)i, (DWORD)v, ActualPALDepth);
+          video_render_setphysicalcolor(config, (int)i, (DWORD)v, ActualPALDepth);
         }
         break;
       case 32:
         for (i=0; i<canvas->num_colours; i++)
-          video_render_setphysicalcolor(&(canvas->videoconfig), (int)i, (DWORD)((canvas->current_palette)[i]), ActualPALDepth);
+          video_render_setphysicalcolor(config, (int)i, (DWORD)(ct[i]), ActualPALDepth);
         break;
       default:
         break;
@@ -557,32 +639,50 @@ static void video_redraw_wimp_palemu(video_canvas_t *canvas, video_redraw_desc_t
   int pitchs, pitcht;
   sprite_desc_t *sprite;
   video_frame_buffer_t *fb = &(canvas->fb);
-  int xt, yt, px, py;
+  int xt, yt, px, py, w, h, pw, ph;
 
-  video_ensure_pal_sprite(canvas, &pitchs, &pitcht);
+  pw = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
+  ph = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
 
-  video_canvas_ensure_pal_trans(canvas);
+  xt = vrd->xs + canvas->shiftx;
+  yt = vrd->ys - canvas->shifty;
+  if ((xt >= pw) || (yt >= ph))
+    return;
+
+  /* order is important here! */
+  if (video_ensure_pal_sprite(canvas, &pitchs, &pitcht) != 0)
+    return;
 
   video_ensure_pal_colours(canvas);
 
-  xt = vrd->xs + canvas->shiftx;
-  if (xt < 0) xt = 0;
-  if (xt >= canvas->width) xt = canvas->width-1;
-  yt = vrd->ys - canvas->shifty;
-  if (yt < 0) yt = 0;
-  if (yt >= canvas->height) yt = canvas->height-1;
+  video_canvas_ensure_pal_trans(canvas);
 
-  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, vrd->w, vrd->h,
+  w = vrd->w; h = vrd->h;
+  if (xt < 0) xt = 0;
+  if (xt + w > pw) w = pw - xt;
+  if (yt < 0) yt = 0;
+  if (yt + h > ph) h = ph - yt;
+  /*log_message(LOG_DEFAULT, "s(%d,%d), t(%d,%d), d(%d,%d)", vrd->xs, vrd->ys, xt, yt, w, h);*/
+  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs, vrd->ys, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   sprite = SpriteGetSprite(fb->palsprite);
 
   px = vrd->ge.x - (canvas->shiftx << ScreenMode.eigx) * (canvas->scale);
-  py = vrd->ge.y - ((canvas->shifty + canvas->height) << ScreenMode.eigy) * (canvas->scale);
+  py = vrd->ge.y - ((canvas->shifty + ph) << ScreenMode.eigy) * (canvas->scale);
   /*log_message(LOG_DEFAULT, "Plot at %d,%d (clip %d,%d)", px, py, vrd->block[RedrawB_CMinX], vrd->block[RedrawB_CMinY]);*/
 
-  /* FIXME: 2x, 8bpp */
-  OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, 0, (int)(fb->paltrans));
+  if (canvas->scale == 1)
+  {
+    OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, 0, (int)(fb->paltrans));
+  }
+  else
+  {
+    int scale[4];
+
+    scale[0] = 2; scale[1] = 2; scale[2] = 1; scale[3] = 1;
+    OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, (int)scale, (int)(fb->paltrans));
+  }
 }
 
 
@@ -631,32 +731,40 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
   sprite_desc_t *sprite;
   video_frame_buffer_t *fb = &(canvas->fb);
   const int *b = vrd->block;
-  int xt, yt, px, py;
+  int xt, yt, px, py, w, h, pw, ph;
+
+  pw = (canvas->videoconfig.doublesizex == 0) ? canvas->width  : 2*canvas->width;
+  ph = (canvas->videoconfig.doublesizey == 0) ? canvas->height : 2*canvas->height;
+
+  xt = vrd->xs + canvas->shiftx;
+  yt = vrd->ys - canvas->shifty;
+  if ((xt >= canvas->width) || (yt >= canvas->height))
+    return;
 
   video_set_clipping_rectangle(b[0], b[1], b[2], b[3]);
 
-  video_ensure_pal_sprite(canvas, &pitchs, &pitcht);
-
-  video_canvas_ensure_pal_trans(canvas);
+  /* order is important here! */
+  if (video_ensure_pal_sprite(canvas, &pitchs, &pitcht) != 0)
+    return;
 
   video_ensure_pal_colours(canvas);
 
-  xt = vrd->xs + canvas->shiftx;
-  if (xt < 0) xt = 0;
-  if (xt >= canvas->width) xt = canvas->width-1;
-  yt = vrd->ys - canvas->shifty;
-  if (yt < 0) yt = 0;
-  if (yt >= canvas->height) yt = canvas->height-1;
+  video_canvas_ensure_pal_trans(canvas);
 
-  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, vrd->w, vrd->h,
+  w = vrd->w; h = vrd->h;
+  if (xt < 0) xt = 0;
+  if (xt + w > pw) w = pw - xt;
+  if (yt < 0) yt = 0;
+  if (yt + h > ph) h = ph - yt;
+
+  video_render_main(&(canvas->videoconfig), fb->framedata, fb->paldata, w, h,
                     vrd->xs, vrd->ys, xt, yt, pitchs, pitcht, ActualPALDepth);
 
   sprite = SpriteGetSprite(fb->palsprite);
 
-  px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx) * (canvas->scale);
-  py = vrd->ge.y + ((canvas->shifty - fb->height) << FullScrDesc.eigy) * (canvas->scale);
+  px = vrd->ge.x - (canvas->shiftx << FullScrDesc.eigx);
+  py = vrd->ge.y - ((canvas->shifty + ph) << FullScrDesc.eigy);
 
-  /* FIXME: 2x, 8bpp */
   OS_SpriteOp(512 + 52, (int)(fb->palsprite), (int)sprite, px, py, 0, 0, (int)(fb->paltrans));
 }
 
@@ -675,6 +783,9 @@ static void video_get_redraw_wimp(video_canvas_t *canvas)
 {
   int rendermode = canvas->videoconfig.rendermode;
   const char *corename = NULL;
+
+  if (canvas->fb.spritebase == NULL)
+    return;
 
   if ((ActualPALDepth != 0)
    && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
@@ -712,6 +823,9 @@ static void video_get_redraw_full(video_canvas_t *canvas)
 {
   int rendermode = canvas->videoconfig.rendermode;
   const char *corename = NULL;
+
+  if (canvas->fb.spritebase == NULL)
+    return;
 
   if ((ActualPALDepth != 0)
    && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
@@ -765,7 +879,8 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
     if (canvas->redraw_wimp == NULL)
       video_get_redraw_wimp(canvas);
 
-    (*canvas->redraw_wimp)(canvas, vrd);
+    if (canvas->redraw_wimp != NULL)
+      (*canvas->redraw_wimp)(canvas, vrd);
   }
 }
 
@@ -773,10 +888,11 @@ void video_canvas_redraw_core(video_canvas_t *canvas, video_redraw_desc_t *vrd)
 
 int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, BYTE *pixel_return)
 {
-  int i;
+  video_frame_buffer_t *fb;
   palette_entry_t *p;
   unsigned int numsprpal;
   unsigned int *ct;
+  int i;
 
   if (palette == NULL) return 0;
 
@@ -785,22 +901,28 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
     free(canvas->current_palette);
   }
   canvas->num_colours = palette->num_entries;
+  if (canvas->num_colours > 256)
+    canvas->num_colours = 256;
+
   canvas->current_palette = xmalloc((canvas->num_colours)*sizeof(int));
 
+  fb = &(canvas->fb);
   p = palette->entries;
-  numsprpal = (1<<canvas->fb.depth);
+  numsprpal = (1 << fb->depth);
+
+  /*{FILE *fp = fopen("PALETTE", "w"); for(i=0;i<canvas->num_colours; i++) fprintf(fp, "%3d: %2x.%2x.%2x\n", i, p[i].red, p[i].green, p[i].blue); fclose(fp);}*/
 
   /* adapt the palette stored in the frame buffer sprite */
-  if (canvas->fb.spritebase != NULL)
+  if (fb->spritebase != NULL)
   {
-    sprite_area_t *sarea = canvas->fb.spritebase;
+    sprite_area_t *sarea = fb->spritebase;
     sprite_desc_t *sprite;
     unsigned int *sprpal;
 
     sprite = SpriteGetSprite(sarea);
     sprpal = (unsigned int*)(sprite+1);
 
-    for (i=0; i<palette->num_entries; i++)
+    for (i=0; i<canvas->num_colours; i++)
     {
       sprpal[2*i] = 0x10 | (p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24);
       sprpal[2*i+1] = sprpal[2*i];
@@ -810,20 +932,25 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, B
       sprpal[2*i] = 0x10;
       sprpal[2*i+1] = 0x10;
     }
-    canvas->fb.paldirty = 0;
+    fb->paldirty = 0;
   }
   else
   {
     /* no frame buffer allocated, make a note that the palette is dirty */
-    canvas->fb.paldirty = 1;
+    fb->paldirty = 1;
   }
 
-  if (canvas->fb.transtab != NULL)
+  if (fb->transtab != NULL)
   {
-    free(canvas->fb.transtab);
-    canvas->fb.transtab = NULL;
+    free(fb->transtab);
+    fb->transtab = NULL;
   }
-  canvas->fb.transdirty = 1;
+  if (fb->paltrans != NULL)
+  {
+    free(fb->paltrans);
+    fb->paltrans = NULL;
+  }
+  fb->transdirty = 1;
 
   /* remember the current palette in canvas->current_palette */
   ct = canvas->current_palette;
@@ -868,6 +995,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
   canvas->fb.transdirty = 1;
 
   video_render_initconfig(&(canvas->videoconfig));
+  video_init_pal_videoconfig(&(canvas->videoconfig));
 
   video_canvas_set_palette(canvas, palette, pixel_return);
 
@@ -912,6 +1040,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, u
 void video_canvas_destroy(video_canvas_t *s)
 {
   canvas_list_t *clist, *last;
+  video_frame_buffer_t *fb;
 
   last = NULL; clist = CanvasList;
   while (clist != NULL)
@@ -934,6 +1063,7 @@ void video_canvas_destroy(video_canvas_t *s)
 
   free(s->name);
   s->name = NULL;
+  fb = &(s->fb);
 
   if (s->video_draw_buffer_callback != NULL)
     free(s->video_draw_buffer_callback);
@@ -943,26 +1073,26 @@ void video_canvas_destroy(video_canvas_t *s)
     free(s->current_palette);
     s->current_palette = NULL;
   }
-  if (s->fb.transtab != NULL)
+  if (fb->transtab != NULL)
   {
-    free(s->fb.transtab);
-    s->fb.transtab = NULL;
+    free(fb->transtab);
+    fb->transtab = NULL;
   }
-  if (s->fb.bplot_trans != NULL)
+  if (fb->bplot_trans != NULL)
   {
-    free(s->fb.bplot_trans);
-    s->fb.bplot_trans = NULL;
+    free(fb->bplot_trans);
+    fb->bplot_trans = NULL;
   }
-  if (s->fb.palsprite != NULL)
+  if (fb->palsprite != NULL)
   {
-    free(s->fb.palsprite);
-    s->fb.palsprite = NULL;
-    s->fb.paldata = NULL;
+    free(fb->palsprite);
+    fb->palsprite = NULL;
+    fb->paldata = NULL;
   }
-  if (s->fb.paltrans != NULL)
+  if (fb->paltrans != NULL)
   {
-    free(s->fb.paltrans);
-    s->fb.paltrans = NULL;
+    free(fb->paltrans);
+    fb->paltrans = NULL;
   }
   free(s);
 }
@@ -1075,7 +1205,8 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     if (canvas->redraw_full == NULL)
       video_get_redraw_full(canvas);
 
-    (*canvas->redraw_full)(canvas, &vrd);
+    if (canvas->redraw_full != NULL)
+      (*canvas->redraw_full)(canvas, &vrd);
   }
 }
 
@@ -1133,6 +1264,7 @@ void canvas_mode_change(void)
     clist = clist->next;
   }
   video_init_pal_depth();
+  video_color_update_palette();
 }
 
 
@@ -1437,8 +1569,8 @@ void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y
 {
   int shs = (canvas->scale == 1) ? 0 : 1;
 
-  *cx = (((x - (block[RedrawB_VMinX] - block[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
-  *cy = ((((block[RedrawB_VMaxY] - block[RedrawB_ScrollY]) - y) >> ScreenMode.eigy) + canvas->shifty) >> shs;
+  *cx = (((x - (block[RedrawB_VMinX] - block[RedrawB_ScrollX])) >> ScreenMode.eigx) >> shs) - canvas->shiftx;
+  *cy = ((((block[RedrawB_VMaxY] - block[RedrawB_ScrollY]) - y) >> ScreenMode.eigy) >> shs) + canvas->shifty;
 }
 
 
@@ -1454,14 +1586,22 @@ static void callback_canvas_modified(const char *name, void *callback_param)
   /* invalidate all redraw function pointers */
   while (clist != NULL)
   {
-    clist->canvas->redraw_wimp = NULL;
-    clist->canvas->redraw_full = NULL;
-    clist->canvas->last_video_render_depth = -1;
-    if (clist->canvas->fb.palsprite != NULL)
+    video_canvas_t *canvas = clist->canvas;
+    video_frame_buffer_t *fb = &(canvas->fb);
+
+    canvas->redraw_wimp = NULL;
+    canvas->redraw_full = NULL;
+    canvas->last_video_render_depth = -1;
+    if (canvas->fb.palsprite != NULL)
     {
-      free(clist->canvas->fb.palsprite);
-      clist->canvas->fb.palsprite = NULL;
-      clist->canvas->fb.paldata = NULL;
+      free(fb->palsprite);
+      fb->palsprite = NULL;
+      fb->paldata = NULL;
+    }
+    if (fb->paltrans != NULL)
+    {
+      free(fb->paltrans);
+      fb->paltrans = NULL;
     }
     clist = clist->next;
   }
@@ -1473,6 +1613,7 @@ void video_register_callbacks(void)
 {
   resources_register_callback("PALMode", callback_canvas_modified, NULL);
   resources_register_callback("PALEmuDepth", callback_canvas_modified, NULL);
+  resources_register_callback("PALEmuDouble", callback_canvas_modified, NULL);
   resources_register_callback("UseBPlot", callback_canvas_modified, NULL);
   resources_register_callback("VDC_DoubleSize", callback_canvas_modified, NULL);
   resources_register_callback("VDC_DoubleScan", callback_canvas_modified, NULL);

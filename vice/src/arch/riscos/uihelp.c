@@ -29,10 +29,20 @@
 
 #include "machine.h"
 #include "ui.h"
+#include "uiconfig.h"
 #include "uihelp.h"
 #include "uimsgwin.h"
+#include "uisharedef.h"
 #include "videoarch.h"
 #include "vsidarch.h"
+
+
+/* help structure */
+typedef struct help_icon_s {
+  int icon;
+  const char *sym;
+  char *msg;
+} help_icon_t;
 
 
 /* Note: -1 must still legal for help on entire windows, so just use something very big */
@@ -214,7 +224,6 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_ConfSys_CharGen, "\\HelpConfSysCharGen|M\\HelpConfSystemPath"},
   {Icon_ConfSys_Kernal, "\\HelpConfSysKernal|M\\HelpConfSystemPath"},
   {Icon_ConfSys_Basic, "\\HelpConfSysBasic|M\\HelpConfSystemPath"},
-  {Icon_ConfSys_Palette, "\\HelpConfSysPal|M\\HelpConfSystemPath"},
   {Icon_ConfSys_REU, "\\HelpConfSysREU"},
   {Icon_ConfSys_IEEE488, "\\HelpConfSysIEEE"},
   {Icon_ConfSys_EmuID, "\\HelpConfSysID"},
@@ -253,6 +262,8 @@ static help_icon_t Help_ConfigVideo[] = {
   {Icon_ConfVid_FullScreen, "\\HelpConfVidFullScr"},
   {Icon_ConfVid_SetPalette, "\\HelpConfVidSetPal"},
   {Icon_ConfVid_UseBPlot, "\\HelpConfVidUseBPlot"},
+  {Icon_ConfVid_Palette, "\\HelpConfVidPal|M\\HelpConfSystemPath"},
+  {Icon_ConfVid_ExtPal, "\\HelpConfVidExtPal"},
   {Icon_ConfVid_PALDepth, "\\HelpConfVidPALDepth"},
   {Icon_ConfVid_PALDepthT, "\\HelpConfVidPALDepthT"},
   {Icon_ConfVid_PALDouble, "\\HelpConfVidPALDouble"},
@@ -343,6 +354,7 @@ static help_icon_t Help_ConfigMachineC128[] = {
 };
 
 
+/* must be kept in sync with config window numbers */
 static help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER] = {
   Help_ConfigDrives,
   Help_ConfigTape,
@@ -365,7 +377,7 @@ static help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER] = {
 
 #define HELPBUFFSIZE	512
 
-void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
+static void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
 {
   char buffer[HELPBUFFSIZE];
   unsigned int i;

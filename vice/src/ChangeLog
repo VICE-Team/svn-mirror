@@ -1,3 +1,40 @@
+2002-03-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.27.
+
+2002-03-14  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/video.c (video_canvas_create): Just initialize
+	colors for real PAL emulation when depth is > 8.
+
+2002-03-12  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/video.c: Made -mitshm and +mitshm work
+	according to manual.
+	(video_convert_color_table): Special handling for 15 bit
+	color.
+	(convert_8to8n): Replaces convert_8to8, convert_8to16, and
+	convert_8to32. Also passes 15 and 24 bit color to new render
+	engine.
+	(convert_8to8, convert_8to16, convert_8to32): Removed.
+	(video_convert_func): Pass 15 and 24 bit color to new render
+	engine.
+
+2002-03-11  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: moved palette file to video config window
+
+	* arch/riscos/uiconfig.{c,h}: moved palette file to video
+	config window, corrected widget type of PAL delay loop
+	emulation
+
+	* arch/riscos/uihelp.{c,h}: improved encapsulation
+
+	* arch/riscos/video.c: fixed PAL sprite translation table bug
+	(writes to uninitialized memory), additional safeguards,
+	support 8bpp PAL emu modes, corrected screen to canvas
+	coordinate transformation (scaling)
+
 2002-03-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.26.
@@ -6,14 +43,14 @@
 	Do not reset bad line state after a bad line has happened,
 	this is only possible before matrix fetch.
 
-2002-03-10 Dag Lem <resid@nimrod.no>
+2002-03-10  Dag Lem  <resid@nimrod.no>
 
 	* arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Refresh
 	canvas when application window is moved - required for XVideo.
 
 	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Likewise.
 
-2002-03-08 Dag Lem <resid@nimrod.no>
+2002-03-08  Dag Lem  <resid@nimrod.no>
 
 	* arch/unix/x11/gnome/gnomevideo.c (frame_buffer_alloc): Don't
 	double size of target image.
