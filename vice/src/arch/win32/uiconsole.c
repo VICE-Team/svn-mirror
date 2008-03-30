@@ -84,7 +84,7 @@ static UINT APIENTRY hook_save_as_console(HWND hwnd, UINT uimsg, WPARAM wparam, 
 static char *ui_save_as_console(const TCHAR *title, const char *filter,
                                 HWND hwnd)
 {
-    TCHAR name[MAXPATHLEN + 1] = TEXT("");
+    TCHAR name[MAX_PATH + 1] = TEXT("");
     OPENFILENAME ofn;
     char *ret = NULL;
     TCHAR *st_filter;
