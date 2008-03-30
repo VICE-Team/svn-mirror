@@ -1,0 +1,178 @@
+/* -*- C -*-
+ *
+ * maincpu.def - Emulation of the main 6510 processor.
+ *
+ * Written by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/* MACHINE_STUFF should define/undef
+
+ - NEED_REG_PC
+ - NO_OPCODES
+ - TRACE
+ - JUMP
+
+ The following are optional:
+
+ - PAGE_ZERO
+ - PAGE_ONE
+ - STORE_IND
+ - LOAD_IND
+
+*/
+
+MACHINE_STUFF()
+{
+
+/* This enables a special hack that can speed up the instruction fetch quite
+   a lot, but does not work when a conditional branch instruction jumps from
+   ROM to RAM or vice versa.  It still works if one program lies in the I/O
+   space, though.  Keeping this defined should be OK for everything, and
+   makes things much faster.
+
+   This define affects only this file! */
+# define INSTRUCTION_FETCH_HACK
+
+/* ------------------------------------------------------------------------- */
+
+/* The following #defines are useful for debugging and speed tuning.  */
+
+/* If this is #defined, you can set the `traceflg' variable to non-zero to
+   trace all the opcodes being executed.  This is mainly useful for
+   debugging, and also makes things a bit slower.  */
+/* #define TRACE */
+
+/* Print a message whenever a program attempts to execute instructions fetched
+   from the I/O area.  */
+#  undef IO_AREA_WARNING
+
+/* Run without interpreting opcodes (just fetch them from memory).  */
+# undef NO_OPCODES
+
+/* Do not handle CPU alarms, but measure speed instead.  */
+#  undef EVALUATE_SPEED
+
+/* Use a global variable for Program Counter.  This makes it slower, but also
+   makes debugging easier.  This is needed by the VIC-II emulation, so avoid
+   #undefining or #defining it in case it is already #defined.  */
+#if !defined EXTERN_PC
+#  undef EXTERN_PC
+#endif
+
+/* Force `TRACE' in unstable versions.  */
+#if 0 && defined UNSTABLE && !defined TRACE
+#  define TRACE
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one that's
+   being used. Do not change this one. */
+#ifdef EXTERN_PC
+#  define	NEED_REG_PC
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+/* Implement the hack to make opcode fetches faster.  */
+#ifdef INSTRUCTION_FETCH_HACK
+
+#  define JUMP(addr)							\
+       do {								\
+	   reg_pc = (addr);						\
+	   bank_base = mem_read_base(reg_pc);				\
+       } while (0)
+
+#else  /* !INSTRUCTION_FETCH_HACK */
+
+#  define JUMP(addr)	(reg_pc = (addr))
+
+#endif /* !INSTRUCTION_FETCH_HACK */
+
+} 	/* end of MACHINE_STUFF */
+
+/* ------------------------------------------------------------------------- */
+
+PRE_CPU_FUNCS()
+{
+
+#include <sys/time.h>
+
+#  define EVALUATE_INTERVAL	10000000L
+
+inline static void evaluate_speed(unsigned long clk)
+{
+    static unsigned long old_clk;
+    static unsigned long next_clk = EVALUATE_INTERVAL;
+    static double old_time;
+
+    if (clk > next_clk) {
+	struct timeval tv;
+	double current_time;
+
+	gettimeofday (&tv, NULL);
+	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
+
+	if (old_clk)
+	    printf ("%ld cycles in %f seconds: %f%% speed\n",
+		    clk - old_clk, current_time - old_time,
+		    100.0 * (((double)(clk - old_clk)
+			      / (current_time - old_time)) / 1108405.0));
+
+	old_clk = clk;
+	next_clk = old_clk + EVALUATE_INTERVAL;
+	old_time = current_time;
+    }
+}
+
+}	/* end of PRE_CPU_FUNCS */
+
+/* ------------------------------------------------------------------------- */
+
+PRE_CPU_LOOP()
+{
+
+#ifdef INSTRUCTION_FETCH_HACK
+    BYTE *bank_base;
+#endif
+
+}
+
+/* ------------------------------------------------------------------------- */
+
+CPU_LOOP_STUFF()
+{
+
+#ifdef EVALUATE_SPEED
+	evaluate_speed(clk);
+#endif /* !EVALUATE_SPEED */
+
+#ifdef IO_AREA_WARNING
+	if (!bank_base)
+	    printf ("Executing from I/O area at $%04X: "
+		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
+#endif
+
+} 	/* end of CPU_LOOP_STUFF */

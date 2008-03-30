@@ -65,7 +65,6 @@
 
 #include "petvia.h"
 
-#include "../c64/sid.h"
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
@@ -352,7 +351,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	via[addr] = byte;
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
 
-	if((addr==VIA_DDRB) && (byte & 0x20)) {
+	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
 	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
 	}
         par_set_nrfd(!(byte & 0x02));

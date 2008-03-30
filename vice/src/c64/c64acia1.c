@@ -29,6 +29,7 @@
 #include "acia.h"
 
 
+
 #undef	DEBUG
 
 #define	ACIA_TICKS	21111
@@ -213,7 +214,7 @@ BYTE read_acia1_(ADDRESS a) {
 	return 0;
 }
 
-BYTE peek_acia1_(ADDRESS a) {
+BYTE peek_acia1(ADDRESS a) {
 
 	switch(a & 3) {
 	case ACIA_DR:
