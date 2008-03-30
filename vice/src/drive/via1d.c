@@ -341,7 +341,7 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
         BYTE tmp;
         if (ctxptr->drive_ptr->byte_ready_active == 0x6)
             drive_rotate_disk(ctxptr->drive_ptr);
-        tmp = (ctxptr->drive_ptr->byte_ready ? 0 : 0x80)
+        tmp = (ctxptr->drive_ptr->byte_ready_level ? 0 : 0x80)
             | (ctxptr->drive_ptr->current_half_track == 2 ? 0 : 1);
         return (tmp & ~myvia[VIA_DDRA])
             | (myvia[VIA_PRA] & myvia[VIA_DDRA]);

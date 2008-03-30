@@ -225,9 +225,7 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
     byte = ((ctxptr->drive_ptr->GCR_read & ~myvia[VIA_DDRA])
            | (myvia[VIA_PRA] & myvia[VIA_DDRA] ));
 
-    if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571)
-        if (ctxptr->drive_ptr->byte_ready)
-            ctxptr->drive_ptr->byte_ready = 0;
+    ctxptr->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
