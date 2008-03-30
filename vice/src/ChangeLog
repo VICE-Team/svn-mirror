@@ -1,3 +1,11 @@
+2006-08-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.27.
+
+2006-08-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* info.c: Updated.
+
 2006-08-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.26.
@@ -367,7 +375,7 @@
 	* resid/sid.cc (SID::write): Increased bus ttl value.
 
 	* attach.c (detach_disk_image_and_free): Fixed crash if there
-	is a shurdown during initialization.
+	is a shutdown during initialization.
 
 2006-07-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
@@ -1738,18 +1746,18 @@
 
 	* arch/win32/c64cart.dsp: Added new files.
 
-	 resource.h, resource.c: Added event_relevant and
-	vent_strict_value to resource struct for information about
-	he recource being relevant for event history and netplay
-	nd the value needed for stable emulation.
+	* resource.h, resource.c: Added event_relevant and
+	event_strict_value to resource struct for information about
+	the recource being relevant for event history and netplay
+	and the value needed for stable emulation.
 
-	 ... (every file that defines a resource_t): Added new values
-	o all the resources.
+	* ... (every file that defines a resource_t): Added new values
+	to all the resources.
 
 2006-01-20  pottendo  <pottendo@utanet.at>
 
-	* arch/unix/archdep.c (archdep_tmpnam): Included mkstemp patch to
-	avoid warning at link time.
+	* arch/unix/archdep.c (archdep_tmpnam): Included mkstemp patch
+	to avoid warning at link time.
 
 2006-01-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
 

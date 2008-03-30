@@ -1,3 +1,18 @@
+2006-08-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.27.
+
+	* doc/html/plain/NEWS, doc/Readme.dos, doc/vice.texi, README,
+	vice.spec, doc/html/index.html: Updated.
+
+2006-08-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Cosmetic fix.
+
+2006-08-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS, doc/vice.texi: Updated.
+
 2006-08-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.26.
