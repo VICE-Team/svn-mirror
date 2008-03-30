@@ -210,6 +210,10 @@ SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiprinter.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiram.c
 # End Source File
 # Begin Source File
@@ -227,6 +231,10 @@ SOURCE=.\uisnapshot.c
 # Begin Source File
 
 SOURCE=.\uisound.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uispeed.c
 # End Source File
 # Begin Source File
 

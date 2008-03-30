@@ -67,9 +67,11 @@
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
+#include "uiprinter.h"
 #include "uiram.h"
 #include "uisnapshot.h"
 #include "uisound.h"
+#include "uispeed.h"
 #include "utils.h"
 #include "version.h"
 #include "videoarch.h"
@@ -142,7 +144,8 @@ static const ui_res_possible_values RefreshRateValues[] = {
     { -1, 0 }
 };
 
-static const ui_res_possible_values SpeedValues[] = {
+static ui_res_possible_values SpeedValues[] = {
+    { 1, IDM_MAXIMUM_SPEED_CUSTOM },
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
     { 20, IDM_MAXIMUM_SPEED_20 },
@@ -394,6 +397,7 @@ int ui_cmdline_options_init(void)
     { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                 \
     { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
     { FVIRTKEY | FALT | FNOINVERT, '1', IDM_ATTACH_11 },                \
+    { FVIRTKEY | FALT | FNOINVERT, 'A', IDM_DETACH_ALL },               \
     { FVIRTKEY | FALT | FNOINVERT, 'T', IDM_ATTACH_TAPE },              \
     { FVIRTKEY | FALT | FNOINVERT, 'L', IDM_LOADQUICK },                \
     { FVIRTKEY | FALT | FNOINVERT, 'S', IDM_SAVEQUICK },                \
@@ -733,12 +737,15 @@ static void update_menus(HWND hwnd)
     for (i = 0; value_list[i].name != NULL; i++) {
         result = resources_get_value(value_list[i].name, (void *)&value);
         if (result == 0) {
+            unsigned int checked = 0;
+
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
-                if (value == value_list[i].vals[j].value) {
-                    CheckMenuItem(menu,value_list[i].vals[j].item_id,
+                if (value == value_list[i].vals[j].value && !checked) {
+                    CheckMenuItem(menu, value_list[i].vals[j].item_id,
                                   MF_CHECKED);
+                    checked = 1;
                 } else {
-                    CheckMenuItem(menu,value_list[i].vals[j].item_id,
+                    CheckMenuItem(menu, value_list[i].vals[j].item_id,
                                   MF_UNCHECKED);
                 }
             }
@@ -1395,6 +1402,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_DETACH_11:
         file_system_detach_disk(11);
         break;
+      case IDM_DETACH_ALL | 0x00010000:
       case IDM_DETACH_ALL:
         file_system_detach_disk(8);
         file_system_detach_disk(9);
@@ -1538,21 +1546,31 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_MAXIMUM_SPEED_200:
         resources_set_value("Speed", (resource_value_t)200);
+        SpeedValues[0].value = 1;
         break;
       case IDM_MAXIMUM_SPEED_100:
         resources_set_value("Speed", (resource_value_t)100);
+        SpeedValues[0].value = 1;
         break;
       case IDM_MAXIMUM_SPEED_50:
         resources_set_value("Speed", (resource_value_t)50);
+        SpeedValues[0].value = 1;
         break;
       case IDM_MAXIMUM_SPEED_20:
         resources_set_value("Speed", (resource_value_t)20);
+        SpeedValues[0].value = 1;
         break;
       case IDM_MAXIMUM_SPEED_10:
         resources_set_value("Speed", (resource_value_t)10);
+        SpeedValues[0].value = 1;
         break;
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
         resources_set_value("Speed", (resource_value_t)0);
+        SpeedValues[0].value = 1;
+        break;
+      case IDM_MAXIMUM_SPEED_CUSTOM:
+        ui_speed_settings_dialog(hwnd);
+        SpeedValues[0].value = ui_speed_current();
         break;
       case IDM_DATASETTE_SETTINGS:
         ui_datasette_settings_dialog(hwnd);
@@ -1569,6 +1587,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_RAM_SETTINGS:
         ui_ram_settings_dialog(hwnd);
+        break;
+      case IDM_PRINTER_SETTINGS:
+        ui_printer_settings_dialog(hwnd);
         break;
       case IDM_TOGGLE_FULLSCREEN | 0x00010000:
       case IDM_TOGGLE_FULLSCREEN:

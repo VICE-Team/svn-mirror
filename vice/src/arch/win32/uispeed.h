@@ -1,8 +1,8 @@
 /*
- * uireu.h - Implementation of the REU settings dialog box.
+ * uispeed.h - Implementation of the custom speed dialog box.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,10 +24,11 @@
  *
  */
 
-#ifndef _UIREU_H
-#define _UIREU_H
+#ifndef _UISPEED_H
+#define _UISPEED_H
 
-extern void ui_reu_settings_dialog(HWND hwnd);
+extern void ui_speed_settings_dialog(HWND hwnd);
+extern int ui_speed_current(void);
 
 #endif
 

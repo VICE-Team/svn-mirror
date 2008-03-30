@@ -91,6 +91,8 @@ libarch_a_SOURCES = \
 	uipetset.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiprinter.c \
+	uiprinter.h \
 	uiram.c \
 	uiram.h \
 	uireu.c \
@@ -101,6 +103,8 @@ libarch_a_SOURCES = \
 	uisnapshot.c \
 	uisound.c \
 	uisound.h \
+	uispeed.c \
+	uispeed.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \
