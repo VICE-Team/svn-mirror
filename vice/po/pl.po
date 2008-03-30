@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-01-18 18:27+0100\n"
+"POT-Creation-Date: 2003-01-20 00:18+0100\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1143,19 +1143,19 @@ msgstr "Szybki zapis zrzutu"
 
 #: src/arch/unix/uicommands.c:985
 msgid "Start recording events"
-msgstr ""
+msgstr "Rozpocznij zapisywanie wydarzen"
 
 #: src/arch/unix/uicommands.c:987
 msgid "Stop recording events"
-msgstr ""
+msgstr "Zatrzymaj zapisywanie wydarzen "
 
 #: src/arch/unix/uicommands.c:989
 msgid "Start playing back events"
-msgstr ""
+msgstr "Rozpocznij odtwarzanie wydarzen"
 
 #: src/arch/unix/uicommands.c:991
 msgid "Stop playing back events"
-msgstr ""
+msgstr "Zatrzymaj odtwarzanie wydarzen"
 
 #: src/arch/unix/uicommands.c:997
 msgid "Snapshot commands"
@@ -1960,7 +1960,7 @@ msgstr "*8580 (nowy)"
 
 #: src/arch/unix/uisid.c:46
 msgid "*8580 + digi boost"
-msgstr ""
+msgstr "*8580 + digi boost"
 
 #: src/arch/unix/uisid.c:55
 msgid "*Fast"
@@ -2816,7 +2816,7 @@ msgstr "¯±daj formatu YUV FOURCC"
 
 #: src/arch/unix/x11/video.c:198
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr ""
+msgstr "Wspó³czynnik kszta³tu obrazu (0.8 - 1.2)"
 
 #: src/arch/unix/x11/video.c:372
 msgid "The MITSHM extension is not supported on this display."
