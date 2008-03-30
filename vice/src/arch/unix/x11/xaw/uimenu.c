@@ -303,9 +303,9 @@ Widget ui_menu_create(const char *menu_name, ...)
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
         for (i = j = 0; list[i].string; i++) {
             Widget new_item;
-            char name[256];
+            char *name;
 
-            sprintf(name, "MenuItem%d", j);	/* ugly... */
+            name = xmsprintf("MenuItem%d", j);
             switch (*list[i].string) {
               case '-':		/* line */
                 new_item = XtCreateManagedWidget("separator",
@@ -344,7 +344,8 @@ Widget ui_menu_create(const char *menu_name, ...)
                 {
                     char *label = make_menu_label(&list[i]);
                     
-                    new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
+                    new_item = XtVaCreateManagedWidget(name,
+                                                       smeBSBObjectClass, w,
                                                        XtNleftMargin, 20,
                                                        XtNrightMargin, 20,
                                                        XtNlabel,
@@ -354,6 +355,8 @@ Widget ui_menu_create(const char *menu_name, ...)
                     j++;
                 }
             }
+            free(name);
+
             if (list[i].callback)
                 XtAddCallback(new_item, XtNcallback,
                               (XtCallbackProc) list[i].callback,

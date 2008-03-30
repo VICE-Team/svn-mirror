@@ -665,10 +665,9 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
         XtVaGetValues(speed_label, XtNheight, &height, NULL);
 
         for (i = 0; i < NUM_DRIVES; i++) {
-            char name[256];
+            char *name;
 
-            sprintf(name, "driveCurrentImage%d", i + 1);
-
+            name = xmsprintf("driveCurrentImage%d", i + 1);
             drive_current_image[i] = XtVaCreateManagedWidget
                 (name,
                  labelWidgetClass, pane,
@@ -684,8 +683,9 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  XtNjustify, XtJustifyLeft,
                  XtNborderWidth, 0,
                  NULL);
-            sprintf(name, "driveTrack%d", i + 1);
+            free(name);
 
+            name = xmsprintf("driveTrack%d", i + 1);
             drive_track_label[i] = XtVaCreateManagedWidget
                 (name,
                  labelWidgetClass, pane,
@@ -702,9 +702,9 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 0,
                  NULL);
+            free(name);
 
-            sprintf(name, "driveLed%d", i + 1);
-
+            name = xmsprintf(name, "driveLed%d", i + 1);
             drive_led[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -721,11 +721,11 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
+            free(name);
 
 	    /* double LEDs */
 
-            sprintf(name, "driveLedA%d", i + 1);
-
+            name = xmsprintf(name, "driveLedA%d", i + 1);
             drive_led1[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -742,9 +742,9 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
+            free(name);
 
-            sprintf(name, "driveLedB%d", i + 1);
-
+            name = xmsprintf(name, "driveLedB%d", i + 1);
             drive_led2[i] = XtVaCreateManagedWidget
                 (name,
                  xfwfcanvasWidgetClass, pane,
@@ -761,6 +761,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  XtNjustify, XtJustifyRight,
                  XtNborderWidth, 1,
                  NULL);
+            free(name);
         }
 
     }
@@ -1112,7 +1113,6 @@ static int alloc_colormap(void)
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     int i;
-    char str[256];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
 
@@ -1122,9 +1122,12 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
                           warp_flag ? _("(warp)") : "",
 			  NULL);
 	} else {
-	    sprintf(str, "%d%%, %d fps %s",
-                    percent_int, framerate_int, warp_flag ? _("(warp)") : "");
+            char *str;
+
+	    str = xmsprintf("%d%%, %d fps %s", percent_int, framerate_int,
+                            warp_flag ? _("(warp)") : "");
 	    XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
+            free(str);
 	}
     }
 }
@@ -1202,10 +1205,11 @@ void ui_display_drive_track(int drive_number, int drive_base,
 							double track_number)
 {
     int i;
+    /* FIXME: Fixed length.  */
     char str[256];
 
     sprintf(str, _("%d: Track %.1f"), drive_number + drive_base, 
-							(double)track_number);
+            (double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
 	Widget w;
@@ -1320,16 +1324,18 @@ void ui_display_tape_current_image(char *image)
 void ui_display_paused(int flag)
 {
     int i;
-    char str[1024];
 
     for (i = 0; i < num_app_shells; i++) {
-	if (flag) {
-	    sprintf(str, _("%s (paused)"), app_shells[i].title);
-	    XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
-	} else {
-	    XtVaSetValues(app_shells[i].shell, XtNtitle,
-			  app_shells[i].title, NULL);
-	}
+        if (flag) {
+            char *str;
+
+            str = xmsprintf(_("%s (paused)"), app_shells[i].title);
+            XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
+            free(str);
+        } else {
+            XtVaSetValues(app_shells[i].shell, XtNtitle,
+                          app_shells[i].title, NULL);
+        }
     }
 }
 
@@ -1446,7 +1452,7 @@ DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 /* Report an error to the user.  */
 void ui_error(const char *format,...)
 {
-    char str[1024];
+    char *str;
     va_list ap;
     static Widget error_dialog;
     static ui_button_t button;
@@ -1455,7 +1461,7 @@ void ui_error(const char *format,...)
     fullscreen_mode_off();
 #endif
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), _("VICE Error!"), False);
     button = UI_BUTTON_NONE;
@@ -1466,18 +1472,19 @@ void ui_error(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
+    free(str);
 }
 
 /* Report a message to the user.  */
 void ui_message(const char *format,...)
 {
-    char str[1024];
+    char *str;
     va_list ap;
     static Widget error_dialog;
     static ui_button_t button;
 
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
@@ -1489,13 +1496,13 @@ void ui_message(const char *format,...)
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
-
+    free(str);
 }
 
 /* Report a message to the user, allow different buttons. */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
-    char str[1024];
+    char *str;
     va_list ap;
     static Widget jam_dialog, shell, tmp, mform, bbox;
     static ui_button_t button;
@@ -1513,7 +1520,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     mform = XtVaCreateManagedWidget
 	("messageForm", formWidgetClass, jam_dialog, NULL);
 
-    vsprintf(str, format, ap);
+    str = xmvsprintf(format, ap);
     tmp = XtVaCreateManagedWidget
 	("label", labelWidgetClass, mform,
 	 XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, str,
@@ -1549,6 +1556,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     suspend_speed_eval();
     ui_dispatch_events();
+    free(str);
 
     switch (button) {
       case UI_BUTTON_MON:
