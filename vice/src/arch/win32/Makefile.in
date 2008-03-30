@@ -121,7 +121,7 @@ libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128kbd.c 	c128ui.c 	c128ui.h 	c610k
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resvic.o
 
 
-EXTRA_DIST =  	msvc/config.h 	arch.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	cbm2.dsp 	crtc.dsp 	drive.dsp 	pet.dsp 	petcat.dsp 	raster.dsp 	resid.dsp 	sid.dsp 	sounddrv.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xvic.dsp 	vice.dsw         c64.ico 
+EXTRA_DIST =  	msvc/config.h 	arch.dsp 	c128.dsp 	c1541.dsp 	c64.dsp 	c64c128.dsp 	cbm2.dsp 	crtc.dsp 	drive.dsp 	monitor.dsp 	pet.dsp 	petcat.dsp 	raster.dsp 	resid.dsp 	sid.dsp 	sounddrv.dsp 	vdc.dsp 	vdrive.dsp 	vic20.dsp 	vice.dsp 	vicii.dsp 	x128.dsp 	x64.dsp 	xcbm2.dsp 	xpet.dsp 	xvic.dsp 	vice.dsw         c64.ico 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
