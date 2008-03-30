@@ -108,7 +108,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/c610 \
+	-I$(top_srcdir)/src/cbm2 \
 	@JOYSTICK@
 
 noinst_LIBRARIES = libxawui.a
@@ -311,7 +311,7 @@ c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/palette.h uihotkey.h \
 	../../../../src/resources.h uicommands.h uisettings.h \
 	../../../../src/arch/unix/joystick.h \
-	../../../../src/c610/c610mem.h c64icon.xpm
+	../../../../src/cbm2/c610mem.h c64icon.xpm
 c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/types.h \
 	../../../../src/arch/unix/joystick.h \

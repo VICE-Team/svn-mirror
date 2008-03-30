@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for the Unix version of `libarch.a'.
-
 
 SHELL = /bin/sh
 
@@ -40,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -94,54 +92,62 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 cxx = @cxx@
 
-@NEED_READLINE_TRUE@SUBDIRS = xaw
-@NEED_READLINE_FALSE@SUBDIRS = xaw readline
+SUFFIXES = .def
 
 INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-        @JOYSTICK@
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/drive
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libcbm2.a
 
-libarch_a_SOURCES = \
-	coproc.h \
-	coproc.c \
-	joystick.c \
-	joystick.h \
-	kbd.c \
-	kbd.h \
-	kbdef.h \
-	kmap.c \
-	petkmap.c \
-	print.c \
-	rs232.c \
-	ui.h \
-	video.c \
-	video.h \
-	vsync.c \
-	vsync.h
+libcbm2_a_SOURCES = \
+	crtc.c \
+	crtc.def \
+	c610.c \
+	c610.h \
+	c610acia.h \
+	c610acia1.c \
+	c610acia1.def \
+	c610cia.h \
+	c610cia1.c \
+	c610cia1.def \
+	c610cpu.c \
+	c610cpu.def \
+	c610iec.c \
+	c610mem.c \
+	c610mem.h \
+	c610tpi.h \
+	c610tpi1.c \
+	c610tpi1.def \
+	c610tpi2.c \
+	c610tpi2.def
+
+BUILT_SOURCES = c610acia1.c c610tpi1.c c610tpi2.c c610cia1.c crtc.c c610cpu.c
+
+c610dir = $(top_srcdir)/src/cbm2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
-libarch_a_OBJECTS =  coproc.o joystick.o kbd.o kmap.o petkmap.o print.o \
-rs232.o video.o vsync.o
+libcbm2_a_LIBADD = 
+libcbm2_a_OBJECTS =  crtc.o c610.o c610acia1.o c610cia1.o c610cpu.o \
+c610iec.o c610mem.o c610tpi1.o c610tpi2.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -152,16 +158,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DIST_SUBDIRS =  xaw xaw readline
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
+SOURCES = $(libcbm2_a_SOURCES)
+OBJECTS = $(libcbm2_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/cbm2/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -196,10 +201,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+libcbm2.a: $(libcbm2_a_OBJECTS) $(libcbm2_a_DEPENDENCIES)
+	-rm -f libcbm2.a
+	$(AR) cru libcbm2.a $(libcbm2_a_OBJECTS) $(libcbm2_a_LIBADD)
+	$(RANLIB) libcbm2.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -268,7 +273,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix
+subdir = src/cbm2
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -277,7 +282,7 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
-	for subdir in $(DIST_SUBDIRS); do \
+	for subdir in $(SUBDIRS); do \
 	  test -d $(distdir)/$$subdir \
 	  || mkdir $(distdir)/$$subdir \
 	  || exit 1; \
@@ -285,43 +290,86 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-coproc.o: coproc.c coproc.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h kbd.h ../../../src/resources.h \
-	../../../src/cmdline.h joystick.h
-kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/types.h \
-	../../../src/vmachine.h ../../../src/6510core.h \
-	../../../src/mem.h ../../../src/snapshot.h joystick.h kbd.h \
-	kbdef.h ../../../src/machine.h ../../../src/memutils.h \
-	../../../src/sysfile.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/utils.h video.h
-kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/utils.h kbd.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/utils.h \
-	../../../src/resources.h ../../../src/cmdline.h kbd.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/print.h \
-	../../../src/utils.h
-rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/rs232.h \
-	../../../src/utils.h coproc.h
-video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
-	../../../src/palette.h ../../../src/types.h ui.h xaw/ui.h \
-	../../../src/resources.h kbd.h ../../../src/cmdline.h \
-	../../../src/utils.h
-vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
-	../../../src/types.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/interrupt.h ../../../src/vmachine.h \
-	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/snapshot.h video.h ../../../src/resources.h \
-	../../../src/kbdbuf.h ../../../src/sound.h ../../../src/warn.h \
-	../../../src/cmdline.h
+c610.o: c610.c ../../src/vice.h ../../src/config.h c610.h \
+	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/autostart.h ../../src/snapshot.h c610acia.h c610cia.h \
+	../../src/cia.h c610mem.h c610tpi.h \
+	../../src/arch/unix/xaw/c610ui.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/crtc.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/utils.h ../../src/via.h \
+	../../src/arch/unix/vsync.h ../../src/drive/drive.h \
+	../../src/drive/drivecpu.h ../../src/print.h \
+	../../src/prdevice.h ../../src/pruser.h ../../src/rs232.h
+c610acia1.o: c610acia1.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/cmdline.h ../../src/types.h \
+	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/rs232.h ../../src/acia.h c610tpi.h
+c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/cia.h ../../src/types.h ../../src/resources.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/pruser.h \
+	../../src/arch/unix/kbd.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h c610cia.h c610tpi.h
+c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
+	../../src/types.h ../../src/snapshot.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/machine.h ../../src/misc.h ../../src/resources.h \
+	../../src/traps.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/6510core.c
+c610iec.o: c610iec.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/iecdrive.h
+c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/memutils.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/autostart.h ../../src/resources.h ../../src/cmdline.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/maincpu.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/emuid.h \
+	../../src/utils.h ../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h c610mem.h c610tpi.h c610acia.h \
+	c610cia.h ../../src/cia.h ../../src/sid/sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/traps.h ../../src/arch/unix/vsync.h
+c610tpi1.o: c610tpi1.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/tpi.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h c610cia.h ../../src/cia.h \
+	../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h
+c610tpi2.o: c610tpi2.c ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/tpi.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/arch/unix/kbd.h
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/snapshot.h \
+	../../src/types.h ../../src/crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/raster.h ../../src/vmachine.h ../../src/machine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h \
+	../../src/cmdline.h ../../src/utils.h c610tpi.h \
+	../../src/raster.c ../../src/arch/unix/vsync.h
 
 info: info-recursive
 dvi: dvi-recursive
@@ -399,9 +447,53 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-.PHONY: xaw
-xaw:
-	(cd xaw; $(MAKE))
+c610acia1.c: c610acia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610acia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/acia-tmpl.c \
+	           $(c610dir)/c610acia1.def $(c610dir)/c610acia1.c; \
+	   fi )
+
+c610tpi1.c: c610tpi1.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610tpi1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/tpi-tmpl.c \
+	           $(c610dir)/c610tpi1.def $(c610dir)/c610tpi1.c; \
+	   fi )
+
+c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610tpi2.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/tpi-tmpl.c \
+	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
+	   fi )
+
+c610cia1.c: c610cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610cia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+	           $(c610dir)/c610cia1.def $(c610dir)/c610cia1.c; \
+	   fi )
+
+crtc.c: crtc.def $(top_srcdir)/src/crtc-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`crtc.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/crtc-tmpl.c \
+	           $(c610dir)/crtc.def $(c610dir)/crtc.c; \
+	   fi )
+
+c610cpu.c: c610cpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`c610cpu.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cpu-tmpl.c \
+	           $(c610dir)/c610cpu.def $(c610dir)/c610cpu.c; \
+	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

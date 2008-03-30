@@ -107,7 +107,7 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet c610 sid arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -255,15 +255,15 @@ c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
-x610_lib = $(top_builddir)/src/c610/libc610.a
+xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-bin_PROGRAMS = x64 x128 xvic xpet x610 c1541 petcat
+bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
-        @X_LIBS@ $(READLINE)
+        @X_LIBS@ $(READLINE) @LEXLIB@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
@@ -290,12 +290,12 @@ xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd)\
 xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
-# x610
-x610_SOURCES = $(base_sources)
-x610_LDADD = $(drive_lib) $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+# xcbm2
+xcbm2_SOURCES = $(base_sources)
+xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
 	@X_LIBS@ $(READLINE)
-x610_DEPENDENCIES = $(drive_lib) $(x610_lib) $(sounddrv_lib) \
+xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # c1541
@@ -356,12 +356,12 @@ memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
-x610_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
+xcbm2_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
 findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
 memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
 parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
 tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
-x610_LDFLAGS = 
+xcbm2_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o vdrive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES = 
@@ -384,8 +384,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES) $(x610_SOURCES) $(c1541_SOURCES) $(petcat_SOURCES)
-OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(x610_OBJECTS) $(c1541_OBJECTS) $(petcat_OBJECTS)
+SOURCES = $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES) $(xcbm2_SOURCES) $(c1541_SOURCES) $(petcat_SOURCES)
+OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(xcbm2_OBJECTS) $(c1541_OBJECTS) $(petcat_OBJECTS)
 
 all: all-recursive-am all-am
 
@@ -480,9 +480,9 @@ xpet: $(xpet_OBJECTS) $(xpet_DEPENDENCIES)
 	@rm -f xpet
 	$(LINK) $(xpet_LDFLAGS) $(xpet_OBJECTS) $(xpet_LDADD) $(LIBS)
 
-x610: $(x610_OBJECTS) $(x610_DEPENDENCIES)
-	@rm -f x610
-	$(LINK) $(x610_LDFLAGS) $(x610_OBJECTS) $(x610_LDADD) $(LIBS)
+xcbm2: $(xcbm2_OBJECTS) $(xcbm2_DEPENDENCIES)
+	@rm -f xcbm2
+	$(LINK) $(xcbm2_LDFLAGS) $(xcbm2_OBJECTS) $(xcbm2_LDADD) $(LIBS)
 
 c1541: $(c1541_OBJECTS) $(c1541_DEPENDENCIES)
 	@rm -f c1541
@@ -773,12 +773,12 @@ x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid x128
 xvic-all: libvic20 libsounddrv libdrive libarch xvic
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch libdrive xpet 
-.PHONY: x610-all
-x610-all: libc610 libsounddrv libarch libsid libdrive x610
+.PHONY: xcbm2-all
+xcbm2-all: libcbm2 libsounddrv libarch libsid libdrive xcbm2
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libc610 libdrive libsounddrv libarch libsid
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch libsid
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -790,8 +790,8 @@ libvic20:
 	(cd vic20 && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
-libc610:
-	(cd c610 && $(MAKE))
+libcbm2:
+	(cd cbm2 && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
 libsounddrv:

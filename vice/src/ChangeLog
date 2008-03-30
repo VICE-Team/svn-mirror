@@ -1,3 +1,191 @@
+1998-10-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.15.0.20.
+
+	* c64/c64iec.c (iec_calculate_callback_index): Fixed typo.
+	* c128/c128iec.c (iec_calculate_callback_index): Fixed typo.
+
+	* c64/c64mem.c (mem_set_vbank): Removed check if the video bank
+	has changed.
+	* c128/c128mem.c (mem_set_vbank): Changed likewise.
+
+	* c64cia2.def (PRE_CIA_FUNCS): `iec_cpu_write_callback' made
+	static.  `vbank' new variable.
+	(STORE_CIAPA, UNDUMP_CIAPA): Check if video bank has changed.
+
+	* drive/drive.c (cmdline_options): Fixed some typos.
+
+1998-10-12  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/petui.c (set_KeyboardType): fix typo
+
+	* cbm2/cbm610mem.c (mem_write_rom_snapshot_module): save images
+	only
+	(mem_read_rom_snapshot_module): return 0 if not found - optional 
+	(mem_read_snapshot_module): check for return value of both
+
+	* crtc-tmpl.c (crtc_update_timing, crtc_init) add static prototype
+	for crtc_update_timing, and call it in crtc_init.
+	(crtc_set_screen_mode): call crtc_update_memory_ptrs because
+	of change of vmask
+
+	* pet/petmem.c (rom_9_loaded, rom_A_loaded, rom_B_loaded): new
+	variables. Set if ROM in $9***, $A*** or $B*** is valid.
+	(petmem_convert_chargen): new function, convert 2k chargen ROM image
+	to internal format.
+	(mem_load, mem_read_rom_snapshot_module): call petmem_convert_chargen
+	(mem_load): when reading extension ROMs, set rom_*_loaded. Also
+	if extension ROM is 2k, move it to the begining of the ROM area.
+	(set_screen): store values in CRTC registers 6, 12 and 13 if no
+	CRTC available.
+	(mem_read_ram_snapshot_module, mem_write_ram_snapshot_module,
+	mem_read_rom_snapshot_module, mem_write_rom_snapshot_module,
+	mem_read_snapshot_module, mem_write_snapshot_module): renamed
+	original functions to _ram_ functions, fix them up.
+	_rom_ functions are new, and new original functions call both,
+	_ram_ and _rom_ functions.
+
+	* pet/pets.c (pet_set_model_info): new function to set all the 
+	model resources from a PetInfo struct. called from set_pet_model
+	and mem_read_ram_snapshot_module.
+	(pet_set_model): call pet_set_model_info.
+	(check_info, pet_check_info): renamed check_info to pet_check_info.
+
+	* vic20/vic20mem.c [VIC_ROM_BLK*{A|B}] new defined for 
+	mem_rom_blocks. defines a bit for each of the possible 4k ROM
+	blocks.
+	(set_ram_block_*_enabled): unset the ROM enabled
+	flag if RAM is enabled.
+	(initialize_memory): check for both 4k blocks as ROM in every 
+	RAM block.
+	(mem_attach_cartridge): if cartridge attached, unmap RAM.
+	Keep track of attached ROMs in mem_rom_blocks
+	(mem_detach_cartridge): Keep track of attached ROMs in mem_rom_blocks
+	(mem_read_ram_snapshot_module, mem_write_ram_snapshot_module,
+	mem_read_rom_snapshot_module, mem_write_rom_snapshot_module,
+	mem_read_snapshot_module, mem_write_snapshot_module): renamed
+	original functions to _ram_ functions, fix them up.
+	_rom_ functions are new, and new original functions call both,
+	_ram_ and _rom_ functions.
+
+1998-10-09  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128.c, c128/c128mem.c, c64/c64.c, c64/c64mem.c, cbm2/c610.c,
+	mem.h, pet/pet.c, /pet/petmem.c, /vic20/vic20.c, vic20/vic20mem.c 
+	(mem_write_snapshot_module): 
+	add parameter "save_roms" to calls, protoype and definitions.
+	
+	* cbm2/c610mem.c (mem_read_ram_snapshot_module): renamed from 
+	mem_read_snapshot_module;
+	(mem_read_snapshot_module): new function that calls 
+	mem_read_{ram|rom}_snapshot_module
+	(mem_read_rom_snapshot_module): new function that reads in the 
+	ROM dump
+	(mem_write_snapshot_module, mem_write_ram_snapshot_module, 
+	mem_write_rom_snapshot_module): changed likewise
+	(mem_set_basic_text): removed bogus stuff in mem_set_basic_text
+	(cmdline_options): added -cart1 option. Fixed bug that mapped -cart6
+	to Cart2Name!
+	(resources): added Cart1Name
+	(set_cart1_rom_name, cart_1_name): new function/variable for 
+	$1*** ROM area
+	(mem_load): load cart1 ROM if value there.
+
+	* snapshot.h, snapshot.c (snapshot_write_string, snapshot_read_string,
+	snapshot_module_write_string, snapshot_module_read_string):
+	new functions to read/write variable-sized, malloc-ed strings
+	from/to a snapshot.
+
+1998-10-09  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* crtc-tmpl.c (new_screen_charheight, new_crtc_screen_textlines,
+	new_crtc_cycles_per_line, new_crtc_vertical_total, 
+	new_crtc_vertical_adjust, new_memptr_inc): new variable to put
+	the changed values in. They are evaluated when crtc_update_timinig()
+	is called.
+	(screen_height, screen_width, screen_xpix, screen_ypix): new
+	"read-only" variables that are referenced in the crtc.h macros
+	for raster.h. They are set when crtc_update_timing() is called
+	and are not allowed to be changed otherwise.
+	(crtc_update_timing): new function to check "new_*" variables
+	and set screen/window width/height appropriately
+	(store_crtc): removed window/screen resize handling, instead
+	set "new_*" variables only.
+	(crtc_set_screen_mode): call crtc_update_timing with forced
+	recomputation. (removed own window resize handling)
+	(int_rasterdraw): if in the first rasterline, call crtc_update_timing()
+	to check if any of the variables has changed.
+
+	* crtc.h [CRTC_SCREEN_HEIGHT, CRTC_SCREEN_WIDTH, CRTC_SCREEN_XPIX,
+	CRTC_SCREEN_YPIX]: redefine to variables, not an arithmetic
+	expression with up to 3 variables.
+
+1998-10-08  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: fix C610 -> CBM-II
+
+	* cbm2/c610.c (machine_write_snapshot, machine_read_snapshot):
+	add calls to sid_{read|write}_snapshot_module(). 
+
+	* crtc-tmpl.c (store_crtc): for certain registers check if
+	the value written differs from the previous value. If not,
+	return immediately.
+	(crtc_vertical_total, crtc_vertical_adjust): new variables
+	for registers 4 and 5 to be able to compare previous values
+	
+	* crtc.h (CRTC_SCREEN_HEIGHT): use crtc_vertical_total
+	and crtc_vertical_adjust instead of crtc[].
+
+1998-10-08  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cbm2/c610.c (cbm2_rfsh_per_sec, cbm2_cycles_per_rfsh): new
+	variables that are set with the default values from the header file.
+	(machine_init): call vsync_init and sound_init with those
+	variable names. 
+	(machine_set_cycles_per_frame): new functions. CRTC calls it
+	to set a new framerate.
+	* pet/pet.c: Changed likewise
+
+	* cbm2/c610.h: remove NTSC defines except fro the CYCLES_PER_SECOND.
+	* pet/pet.h: changed likewise
+
+	* crtc-tmpl.c (crtc_screen_textlines, crtc_cycles_per_line):
+	new variables to keep the CRTC state
+	(crtc_cols) removed
+	(IS_DOUBLE_WIDTH_ALLOWED): new define for checking if a window is
+	wide enough to allow stretching in x-direction
+	(store_crtc): various changes to adapt to the newly set 
+	frame timing. Calling machine_set_cycles_per_frame sets
+	the timing of the machine.
+	(crtc_set_screen_mode): fix handling when we change the window
+	width when double_size_enabled is true.
+	(also fixed in store_crtc(0/1,*))
+	(rasterline_start_clk): new variable to hold the clk value
+	of the active rasterline.
+	(int_rasterdraw): set rasterline_start_clk
+	(crtc_read_snapshot_module, crtc_write_snapshot_module): 
+	write values of rasterline and position in rasterline, and
+	ignore when reading.
+
+	* crtc.h: removed most constants. Instead defined the necessary 
+	DEFINES from the new CRTC state variables.
+
+	* machine.h (machine_set_cycles_per_frame): new prototype
+
+	* pet/crtc.def (MEMORY_PTRS): fix occurance of crtc_cols
+
+	* pet/petmem.c (set_screen): if PET does not have CRTC, set
+	video to sane values.
+
+1998-10-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am, cbm2/Makefile.am, data/Makefile.am,
+	arch/unix/xaw/Makefile.am, cbm2/Makefile.am (x610, c610, xcbm2, cbm2):
+	rename all c610 to cbm2 and x610 to xcbm2
+
+	* configure.in: create data/CBM-II/Makefile and src/cbm2/Makefile
+	instead of the C610 ones.
+
 1998-10-06  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.19.

@@ -10,8 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Makefile.am for the Unix version of `libarch.a'.
-
 
 SHELL = /bin/sh
 
@@ -40,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -94,57 +92,30 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 cxx = @cxx@
 
-@NEED_READLINE_TRUE@SUBDIRS = xaw
-@NEED_READLINE_FALSE@SUBDIRS = xaw readline
+cbm2dir = $(prefix)/lib/vice/CBM-II
 
-INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
-	@ARCH_INCLUDES@ \
-	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-        @JOYSTICK@
+cbm2_DATA = \
+	amber.vpl \
+	basic.128 \
+	basic.256 \
+	chargen.600 \
+	chargen.700 \
+	busi_uk.vkm \
+	default.vpl \
+	kernal \
+	white.vpl
 
-noinst_LIBRARIES = libarch.a
-
-libarch_a_SOURCES = \
-	coproc.h \
-	coproc.c \
-	joystick.c \
-	joystick.h \
-	kbd.c \
-	kbd.h \
-	kbdef.h \
-	kmap.c \
-	petkmap.c \
-	print.c \
-	rs232.c \
-	ui.h \
-	video.c \
-	video.h \
-	vsync.c \
-	vsync.h
+EXTRA_DIST = $(cbm2_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(noinst_LIBRARIES)
+DATA =  $(cbm2_DATA)
 
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
-CPPFLAGS = @CPPFLAGS@
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
-libarch_a_LIBADD = 
-libarch_a_OBJECTS =  coproc.o joystick.o kbd.o kmap.o petkmap.o print.o \
-rs232.o video.o vsync.o
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
-LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -152,54 +123,35 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DIST_SUBDIRS =  xaw xaw readline
-SOURCES = $(libarch_a_SOURCES)
-OBJECTS = $(libarch_a_OBJECTS)
-
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps data/CBM-II/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-mostlyclean-noinstLIBRARIES:
+install-cbm2DATA: $(cbm2_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(cbm2dir)
+	@list='$(cbm2_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(cbm2dir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(cbm2dir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(cbm2dir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(cbm2dir)/$$p; \
+	  fi; fi; \
+	done
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-
-distclean-noinstLIBRARIES:
-
-maintainer-clean-noinstLIBRARIES:
-
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
-mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
-	-rm -f libarch.a
-	$(AR) cru libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
-	$(RANLIB) libarch.a
+uninstall-cbm2DATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(cbm2_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(cbm2dir)/$$p; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -268,7 +220,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix
+subdir = data/CBM-II
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -277,7 +229,7 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
-	for subdir in $(DIST_SUBDIRS); do \
+	for subdir in $(SUBDIRS); do \
 	  test -d $(distdir)/$$subdir \
 	  || mkdir $(distdir)/$$subdir \
 	  || exit 1; \
@@ -285,65 +237,32 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-coproc.o: coproc.c coproc.h
-joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h kbd.h ../../../src/resources.h \
-	../../../src/cmdline.h joystick.h
-kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/types.h \
-	../../../src/vmachine.h ../../../src/6510core.h \
-	../../../src/mem.h ../../../src/snapshot.h joystick.h kbd.h \
-	kbdef.h ../../../src/machine.h ../../../src/memutils.h \
-	../../../src/sysfile.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/utils.h video.h
-kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/utils.h kbd.h
-petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/utils.h \
-	../../../src/resources.h ../../../src/cmdline.h kbd.h
-print.o: print.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/print.h \
-	../../../src/utils.h
-rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/types.h ../../../src/resources.h \
-	../../../src/cmdline.h ../../../src/rs232.h \
-	../../../src/utils.h coproc.h
-video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
-	../../../src/palette.h ../../../src/types.h ui.h xaw/ui.h \
-	../../../src/resources.h kbd.h ../../../src/cmdline.h \
-	../../../src/utils.h
-vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h vsync.h \
-	../../../src/types.h ui.h xaw/ui.h ../../../src/palette.h \
-	../../../src/interrupt.h ../../../src/vmachine.h \
-	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/snapshot.h video.h ../../../src/resources.h \
-	../../../src/kbdbuf.h ../../../src/sound.h ../../../src/warn.h \
-	../../../src/cmdline.h
-
 info: info-recursive
 dvi: dvi-recursive
 check: all-am
 	$(MAKE) check-recursive
 installcheck: installcheck-recursive
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(DATA)
+
+install-data-am: install-cbm2DATA
+
+uninstall-am: uninstall-cbm2DATA
 
 install-exec: install-exec-recursive
 	@$(NORMAL_INSTALL)
 
-install-data: install-data-recursive
+install-data: install-data-recursive install-data-am
 	@$(NORMAL_INSTALL)
 
-install: install-recursive
+install: install-recursive install-data-am
 	@:
 
-uninstall: uninstall-recursive
+uninstall: uninstall-recursive uninstall-am
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
 installdirs: installdirs-recursive
+	$(mkinstalldirs)  $(DATADIR)$(cbm2dir)
 
 
 mostlyclean-generic:
@@ -360,18 +279,14 @@ distclean-generic:
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-tags mostlyclean-generic
 
-clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-tags clean-generic mostlyclean-am
 
-distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-tags distclean-generic clean-am
+distclean-am:  distclean-tags distclean-generic clean-am
 
-maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 
 mostlyclean:  mostlyclean-recursive mostlyclean-am
 
@@ -384,24 +299,18 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
-clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile install-data-recursive \
+.PHONY: uninstall-cbm2DATA install-cbm2DATA install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-am install-exec install-data install uninstall all \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+installcheck all-am install-data-am uninstall-am install-exec \
+install-data install uninstall all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
-
-.PHONY: xaw
-xaw:
-	(cd xaw; $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
