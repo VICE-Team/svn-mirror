@@ -144,13 +144,13 @@ static int inuse;
 static int open_pr(void *var, const char *name, int length,
                    unsigned int secondary)
 {
-    if(inuse) {
+    if (inuse) {
 	log_error(LOG_DEFAULT, "Open printer while still open - ignoring.");
 	return 0;
     }
 
     currfd = print_open(pr4_device);
-    if(currfd < 0) {
+    if (currfd < 0) {
 	log_error(LOG_DEFAULT, "Couldn't open device %d.", pr4_device);
 	return -1;
     }
@@ -166,7 +166,7 @@ static int write_pr(void *var, BYTE byte, unsigned int secondary)
 
     /* FIXME: switch(secondary) for code conversion */
 
-    if(!inuse) {
+    if (!inuse) {
 	/* oh, well, we just assume an implicit open - "OPEN 1,4"
  	   just does not leave any trace on the serial bus */
 	log_warning(LOG_DEFAULT, "Auto-opening printer!");
@@ -181,7 +181,7 @@ static int write_pr(void *var, BYTE byte, unsigned int secondary)
 
 static int close_pr(void *var, unsigned int secondary)
 {
-    if(!inuse) {
+    if (!inuse) {
 	log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
 	return 0;
     }
@@ -195,7 +195,7 @@ static int close_pr(void *var, unsigned int secondary)
 
 static void flush_pr(void *var, unsigned int secondary)
 {
-    if(!inuse) {
+    if (!inuse) {
 	log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
 	return;
     }
