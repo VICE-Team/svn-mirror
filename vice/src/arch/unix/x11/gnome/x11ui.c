@@ -1912,9 +1912,9 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     GtkStyle *menu_entry_style;
 
     if (unit == 1)
-	contents = image_contents_read_tape(name);
+	contents = image_contents_read(IMAGE_CONTENTS_TAPE, name, 0);
     else
-	contents = image_contents_read_disk(name);
+	contents = image_contents_read(IMAGE_CONTENTS_DISK, name, 0);
     if (contents == NULL)
 	return (GtkWidget *) NULL;
 

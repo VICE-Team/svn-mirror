@@ -237,7 +237,7 @@ int ui_image_contents_disk(const char *imagename)
 {
   vsync_suspend_speed_eval();
   delete_contents();
-  contents = image_contents_read_disk(imagename);
+  contents = image_contents_read(IMAGE_CONTENTS_DISK, imagename, 0);
   wimp_strcpy(image_content_file, imagename);
   image_content_type = IMAGE_CONTENT_DISK;
   return setup_window(imagename);
@@ -248,7 +248,7 @@ int ui_image_contents_tape(const char *imagename)
 {
   vsync_suspend_speed_eval();
   delete_contents();
-  contents = image_contents_read_tape(imagename);
+  contents = image_contents_read(IMAGE_CONTENTS_TAPE, imagename, 0);
   wimp_strcpy(image_content_file, imagename);
   image_content_type = IMAGE_CONTENT_TAPE;
   return setup_window(imagename);

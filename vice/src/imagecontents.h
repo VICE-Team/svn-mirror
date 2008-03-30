@@ -74,15 +74,16 @@ extern image_contents_screencode_t *image_contents_to_screencode
                                    (image_contents_t *contents);
 extern void image_contents_screencode_destroy(image_contents_screencode_t *c);
 
-/* FIXME: Some day this will have to be removed to the disk/tape image
-   -specific modules.  */
-extern image_contents_t *image_contents_read_disk(const char *file_name);
-extern image_contents_t *image_contents_read_tape(const char *file_name);
+#define IMAGE_CONTENTS_AUTO 0
+#define IMAGE_CONTENTS_DISK 1
+#define IMAGE_CONTENTS_TAPE 2
 
-extern char *image_contents_disk_filename_by_number(const char *filename,
-                                                    unsigned int file_index);
-extern char *image_contents_tape_filename_by_number(const char *filename,
-                                                    unsigned int file_index);
-
+extern image_contents_t *image_contents_read(unsigned int type,
+                                             const char *filename,
+                                             unsigned int unit);
+extern char *image_contents_filename_by_number(unsigned int type,
+                                               const char *filename,
+                                               unsigned int unit,
+                                               unsigned int file_index);
 #endif
 
