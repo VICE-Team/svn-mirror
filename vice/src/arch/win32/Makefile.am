@@ -215,6 +215,7 @@ EXTRA_DIST = \
 	c64.dsp \
 	c64c128.dsp \
 	c64cart.dsp \
+	c64exp.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
 	core.dsp \
@@ -238,6 +239,7 @@ EXTRA_DIST = \
 	pet.dsp \
 	petcat.dsp \
 	plus4.dsp \
+	plus4exp.dsp \
 	png.dsp \
 	printerdrv.dsp \
 	raster.dsp \
