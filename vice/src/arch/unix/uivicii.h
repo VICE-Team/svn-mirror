@@ -27,9 +27,7 @@
 #ifndef _UI_VICII_H
 #define _UI_VICII_H
 
-#include "uimenu.h"
-
-extern ui_menu_entry_t vic_submenu[];
+extern struct ui_menu_entry_s vic_submenu[];
 
 #endif
 

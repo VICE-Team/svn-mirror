@@ -27,9 +27,7 @@
 #ifndef _UI_REU_H
 #define _UI_REU_H
 
-#include "uimenu.h"
-
-extern ui_menu_entry_t reu_submenu[];
+extern struct ui_menu_entry_s reu_submenu[];
 
 #endif
 

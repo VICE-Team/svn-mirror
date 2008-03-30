@@ -35,7 +35,7 @@
 /* The ".." will go away once the UI stuff is separated.  */
 #include "../x11menu.h"
 
-extern ui_menu_entry_t ui_menu_separator[];
+extern struct ui_menu_entry_s ui_menu_separator[];
 
 extern int ui_menu_init(XtAppContext app_context, Display *display, int screen);
 extern void ui_menu_set_sensitive(Widget w, int flag);

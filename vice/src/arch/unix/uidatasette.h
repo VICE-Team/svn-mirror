@@ -27,10 +27,8 @@
 #ifndef _UI_DATASETTE_H
 #define _UI_DATASETTE_H
 
-#include "uimenu.h"
-
-extern ui_menu_entry_t datasette_control_submenu[];
-extern ui_menu_entry_t ui_datasette_commands_menu[];
+extern struct ui_menu_entry_s datasette_control_submenu[];
+extern struct ui_menu_entry_s ui_datasette_commands_menu[];
 
 #endif
 

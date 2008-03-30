@@ -44,7 +44,7 @@ typedef struct {
 } ui_menu_cb_obj;
 
 
-extern ui_menu_entry_t ui_menu_separator[];
+extern struct ui_menu_entry_s ui_menu_separator[];
 
 extern int ui_menu_init();
 extern void ui_menu_set_sensitive(GtkWidget *w, int flag);

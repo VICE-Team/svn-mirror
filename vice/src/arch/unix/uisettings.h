@@ -29,41 +29,40 @@
 #define _UI_SETTINGS_H
 
 #include "ui.h"
-#include "uimenu.h"
 
-extern ui_menu_entry_t ui_performance_settings_menu[];
-extern ui_menu_entry_t ui_joystick_settings_menu[];
-extern ui_menu_entry_t ui_video_settings_menu[];
-extern ui_menu_entry_t ui_vic_video_settings_menu[];
-extern ui_menu_entry_t video_settings_submenu[];
-extern ui_menu_entry_t ui_fullscreen_settings_menu[];
-extern ui_menu_entry_t ui_fullscreen_settings_submenu[];
-extern ui_menu_entry_t ui_keyboard_settings_menu[];
-extern ui_menu_entry_t ui_sound_settings_menu[];
-extern ui_menu_entry_t ui_drive_settings_menu[];
-extern ui_menu_entry_t ui_drive_options_submenu[];
-extern ui_menu_entry_t ui_par_drive_settings_menu[];
-extern ui_menu_entry_t ui_peripheral_settings_menu[];
-extern ui_menu_entry_t ui_settings_settings_menu[];
-extern ui_menu_entry_t rs232_submenu[];
+extern struct ui_menu_entry_s ui_performance_settings_menu[];
+extern struct ui_menu_entry_s ui_joystick_settings_menu[];
+extern struct ui_menu_entry_s ui_video_settings_menu[];
+extern struct ui_menu_entry_s ui_vic_video_settings_menu[];
+extern struct ui_menu_entry_s video_settings_submenu[];
+extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
+extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];
+extern struct ui_menu_entry_s ui_keyboard_settings_menu[];
+extern struct ui_menu_entry_s ui_sound_settings_menu[];
+extern struct ui_menu_entry_s ui_drive_settings_menu[];
+extern struct ui_menu_entry_s ui_drive_options_submenu[];
+extern struct ui_menu_entry_s ui_par_drive_settings_menu[];
+extern struct ui_menu_entry_s ui_peripheral_settings_menu[];
+extern struct ui_menu_entry_s ui_settings_settings_menu[];
+extern struct ui_menu_entry_s rs232_submenu[];
 extern UI_CALLBACK(ui_set_romset);
 extern UI_CALLBACK(ui_load_romset);
 extern UI_CALLBACK(ui_load_rom_file);
 extern UI_CALLBACK(ui_unload_rom_file);
 extern UI_CALLBACK(ui_dump_romset);
 
-extern ui_menu_entry_t ser1_baud_submenu[];
-extern ui_menu_entry_t ser2_baud_submenu[];
-extern ui_menu_entry_t rsuser_device_submenu[];
-extern ui_menu_entry_t acia1_device_submenu[];
-extern ui_menu_entry_t acia1_irq_submenu[];
+extern struct ui_menu_entry_s ser1_baud_submenu[];
+extern struct ui_menu_entry_s ser2_baud_submenu[];
+extern struct ui_menu_entry_s rsuser_device_submenu[];
+extern struct ui_menu_entry_s acia1_device_submenu[];
+extern struct ui_menu_entry_s acia1_irq_submenu[];
 extern UI_CALLBACK(set_rs232_device_file);
 extern UI_CALLBACK(set_rs232_exec_file);
 extern UI_CALLBACK(set_rs232_dump_file);
 
-extern ui_menu_entry_t sound_settings_submenu[];
-extern ui_menu_entry_t set_sound_sample_rate_submenu[];
-extern ui_menu_entry_t set_sound_oversample_submenu[];
+extern struct ui_menu_entry_s sound_settings_submenu[];
+extern struct ui_menu_entry_s set_sound_sample_rate_submenu[];
+extern struct ui_menu_entry_s set_sound_oversample_submenu[];
 
 #endif
 

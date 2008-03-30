@@ -28,12 +28,10 @@
 #ifndef _C64UI_H
 #define _C64UI_H
 
-#include "uimenu.h"
-
 extern int c64_ui_init(void);
 
-extern ui_menu_entry_t sid_submenu[];
-extern ui_menu_entry_t set_video_standard_submenu[];
+extern struct ui_menu_entry_s sid_submenu[];
+extern struct ui_menu_entry_s set_video_standard_submenu[];
 
 #endif
 
