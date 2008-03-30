@@ -34,9 +34,15 @@
 #ifdef HAVE_NETWORK
 #ifdef WIN32
 #include <winsock.h>
+#ifndef FD_SETSIZE
+#define FD_SETSIZE 64 /* just in case mingw or msvc doesn't define it */
+#endif
 #else
-#include <sys/socket.h>
+#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
+#include <sys/resource.h>
+#endif
 #include <sys/types.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -103,6 +109,10 @@ static int frame_buffer_full;
 static int current_frame, frame_to_play;
 static event_list_state_t *frame_event_list = NULL;
 
+#ifdef HAVE_IPV6
+static int netplay_ipv6=0;
+#endif
+
 static int set_server_name(resource_value_t v, void *param)
 {
     util_string_set(&server_name, (const char *)v);
@@ -115,6 +125,35 @@ static int set_server_port(resource_value_t v, void *param)
     return 0;
 }
 
+static int network_init(void)
+{
+    if (network_init_done)
+        return 0;
+
+    network_mode = NETWORK_IDLE;
+    network_init_done = 1;
+
+    return 0;
+}
+
+#ifdef HAVE_IPV6
+static int set_netplay_ipv6(resource_value_t v, void *param)
+{
+    if (network_init() < 0)
+        return -1;
+    if (network_mode!=NETWORK_IDLE) {
+#ifdef HAS_TRANSLATION
+        ui_error(translate_text(IDGS_CANNOT_SWITCH_IPV4_IPV6));
+#else
+        ui_error(_("Cannot switch IPV4/IPV6 while netplay is active."));
+#endif
+        return -1;
+    }
+    netplay_ipv6 = (int)v;
+    return 0;
+}
+#endif
+
 /*---------- Resources ------------------------------------------------*/
 
 static const resource_t resources[] = {
@@ -124,6 +163,11 @@ static const resource_t resources[] = {
     { "NetworkServerPort", RES_INTEGER, (resource_value_t)6502,
       (void *)&server_port,
       set_server_port, NULL },
+#ifdef HAVE_IPV6
+    { "NetworkIPV6", RES_INTEGER, (resource_value_t)0,
+      (void *)&netplay_ipv6,
+      set_netplay_ipv6, NULL },
+#endif
     { NULL }
 };
 #endif
@@ -140,15 +184,23 @@ int network_resources_init(void)
 
 #ifdef HAVE_NETWORK
 
-static int network_init(void)
+static int get_select_fd_size(void)
 {
-    if (network_init_done)
-        return 0;
+#if !defined(HAVE_GETDTABLESIZE) && !defined(HAVE_GETRLIMIT)
+    return FD_SETSIZE;
+#endif
 
-    network_mode = NETWORK_IDLE;
-    network_init_done = 1;
+#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
+    struct rlimit size;
+    if (!getrlimit(RLIMIT_NOFILE, &size))
+        return size.rlim_cur;
+    else
+        return FD_SETSIZE;
+#endif
 
-    return 0;
+#if defined(HAVE_GETDTABLESIZE)
+    return getdtablesize();
+#endif
 }
 
 static void network_free_frame_event_list(void)
@@ -397,7 +449,7 @@ static void network_server_connect_trap(WORD addr, void *data)
 #else
         ui_display_statustext(_("Sending snapshot to client..."), 0);
 #endif
-        network_send_buffer(network_socket, (char*)&buf_size, sizeof(long));
+        network_send_buffer(network_socket, (BYTE*)&buf_size, sizeof(long));
         i = network_send_buffer(network_socket, buf, buf_size);
         lib_free(buf);
         if (i < 0) {
@@ -488,6 +540,13 @@ int network_connected(void)
 int network_start_server(void)
 {
 #ifdef HAVE_NETWORK
+#ifdef HAVE_IPV6
+    struct sockaddr_in6 server_addr6;
+#ifndef HAVE_GETHOSTBYNAME2
+    int err6;
+#endif
+#endif
+    int return_value;
     struct sockaddr_in server_addr;
     char *directory, *filename;
     FILE *fd;
@@ -514,16 +573,38 @@ int network_start_server(void)
     lib_free(filename);
     fclose(fd);
 
+#ifdef HAVE_IPV6
+    if (netplay_ipv6) {
+        bzero((char*)&server_addr6, sizeof(struct sockaddr_in6));
+        server_addr6.sin6_port = htons(server_port);
+        server_addr6.sin6_family = PF_INET6;
+        server_addr6.sin6_addr=in6addr_any;
+    } else {
+#endif
     server_addr.sin_port = htons(server_port);
     server_addr.sin_addr.s_addr = htonl(0);
     server_addr.sin_family = PF_INET;
     memset(server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
-
+#ifdef HAVE_IPV6
+    }
+#endif
+#ifdef HAVE_IPV6
+    if (netplay_ipv6)
+        listen_socket = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
+    else
+#endif
     listen_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (listen_socket == INVALID_SOCKET)
         return -1;
 
-    if (bind(listen_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
+#ifdef HAVE_IPV6
+    if (netplay_ipv6)
+        return_value=bind(listen_socket, (struct sockaddr *)&server_addr6, sizeof(server_addr6));
+    else
+#endif
+    return_value=bind(listen_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+
+    if (return_value == SOCKET_ERROR) {
         closesocket(listen_socket);
         return -1;
     }
@@ -550,10 +631,17 @@ int network_connect_client(void)
 {
 #ifdef HAVE_NETWORK
     struct sockaddr_in server_addr;
+#ifdef HAVE_IPV6
+    struct sockaddr_in6 server_addr6;
+#ifndef HAVE_GETHOSTBYNAME2
+    int err6;
+#endif
+#endif
     struct hostent *server_hostent;
     FILE *f;
     BYTE *buf;
     long buf_size;
+    int return_value;
     char *directory, *filename;
 
     if (network_init() < 0)
@@ -575,6 +663,15 @@ int network_connect_client(void)
         return -1;
     }
 
+#ifdef HAVE_IPV6
+    if (netplay_ipv6)
+#ifdef HAVE_GETHOSTBYNAME2
+        server_hostent = gethostbyname2(server_name, PF_INET6);
+#else
+        server_hostent = getipnodebyname(server_name, PF_INET6, AI_DEFAULT, &err6);
+#endif
+    else
+#endif
     server_hostent = gethostbyname(server_name);
     if (server_hostent == NULL) {
 #ifdef HAS_TRANSLATION
@@ -584,18 +681,42 @@ int network_connect_client(void)
 #endif
         return -1;
     }
+#ifdef HAVE_IPV6
+    if (netplay_ipv6) {
+        bzero((char*)&server_addr6, sizeof(struct sockaddr_in6));
+        server_addr6.sin6_port = htons(server_port);
+        server_addr6.sin6_family = PF_INET6;
+        memcpy(&server_addr6.sin6_addr, server_hostent->h_addr, server_hostent->h_length);
+    } else {
+#endif
     server_addr.sin_port = htons(server_port);
     server_addr.sin_family = PF_INET;
     server_addr.sin_addr = *(struct in_addr *)server_hostent->h_addr_list[0];
-
+#ifdef HAVE_IPV6
+    }
+    if (netplay_ipv6)
+        network_socket = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
+    else
+#endif
     network_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (network_socket == INVALID_SOCKET) {
         lib_free(filename);
+#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
+        if (netplay_ipv6)
+            freehostent(server_hostent);
+#endif
         return -1;
     }
 
-    if (connect(network_socket, (struct sockaddr *)&server_addr, 
-        sizeof(server_addr)) == SOCKET_ERROR) {
+#ifdef HAVE_IPV6
+    if (netplay_ipv6)
+        return_value=connect(network_socket, (struct sockaddr *)&server_addr6,
+                             sizeof(server_addr6));
+    else
+#endif
+    return_value=connect(network_socket, (struct sockaddr *)&server_addr, 
+        sizeof(server_addr));
+    if (return_value == SOCKET_ERROR) {
         closesocket(network_socket);
 #ifdef HAS_TRANSLATION
         ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S),
@@ -605,6 +726,10 @@ int network_connect_client(void)
                     server_name, server_port);
 #endif
         lib_free(filename);
+#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
+        if (netplay_ipv6)
+            freehostent(server_hostent);
+#endif
         return -1;
     }
 
@@ -613,21 +738,38 @@ int network_connect_client(void)
 #else
     ui_display_statustext(_("Receiving snapshot from server..."), 0);
 #endif
-    if (network_recv_buffer(network_socket, (char*)&buf_size, sizeof(long)) < 0)
+    if (network_recv_buffer(network_socket, (BYTE*)&buf_size, 
+sizeof(long)) < 0)
     {
         lib_free(filename);
+        closesocket(network_socket);
+#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
+        if (netplay_ipv6)
+            freehostent(server_hostent);
+#endif
         return -1;
     }
 
     buf = lib_malloc(buf_size);
 
-    if (network_recv_buffer(network_socket, buf, buf_size) <  0)
+    if (network_recv_buffer(network_socket, buf, buf_size) < 0) {
+        lib_free(filename);
+        closesocket(network_socket);
+#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
+        if (netplay_ipv6)
+            freehostent(server_hostent);
+#endif
         return -1;
+    }
 
     fwrite(buf, 1, buf_size, f);
     fclose(f);
     lib_free(buf);
     lib_free(filename);
+#if defined(HAVE_IPV6) && !defined(HAVE_GETHOSTBYNAME2)
+    if (netplay_ipv6)
+        freehostent(server_hostent);
+#endif
 
     interrupt_maincpu_trigger_trap(network_client_connect_trap, (void *)0);
     vsync_suspend_speed_eval();
@@ -652,7 +794,7 @@ void network_suspend(void)
     if (!network_connected() || suspended == 1)
         return;
 
-    network_send_buffer(network_socket, (char*)&dummy_buf_len, 
+    network_send_buffer(network_socket, (BYTE*)&dummy_buf_len, 
                         sizeof(unsigned int));
 #endif
 }
@@ -661,6 +803,7 @@ void network_hook(void)
 {
 #ifdef HAVE_NETWORK
     TIMEVAL time_out = {0, 0};
+    int fd_size;
 
     if (network_mode == NETWORK_IDLE)
         return;
@@ -669,7 +812,11 @@ void network_hook(void)
         FD_ZERO(&fdsockset);
         FD_SET(listen_socket, &fdsockset);
 
-        if (select(1, &fdsockset, 0, 0, &time_out) != 0) {
+        fd_size=get_select_fd_size();
+        if (fd_size > FD_SETSIZE)
+            fd_size=FD_SETSIZE;
+
+        if (select(fd_size, &fdsockset, NULL, NULL, &time_out) != 0) {
             network_socket = accept(listen_socket, NULL, NULL);
         
             if (network_socket != INVALID_SOCKET)
@@ -694,7 +841,7 @@ void network_hook(void)
 #ifdef NETWORK_DEBUG
         log_debug("network hook before send: %d",vsyncarch_gettime());
 #endif
-        network_send_buffer(network_socket, (char*)&local_buf_len, sizeof(unsigned int));
+        network_send_buffer(network_socket, (BYTE*)&local_buf_len, sizeof(unsigned int));
         network_send_buffer(network_socket, local_event_buf, local_buf_len);
 #ifdef NETWORK_DEBUG
         log_debug("network hook after send : %d",vsyncarch_gettime());
@@ -707,17 +854,25 @@ void network_hook(void)
 
         if (frame_buffer_full) {
             do {
-                if (network_recv_buffer(network_socket, (char*)&remote_buf_len,
+                if (network_recv_buffer(network_socket, (BYTE*)&remote_buf_len,
                                         sizeof(unsigned int)) < 0)
                 {
-                    ui_display_statustext("Remote host disconnected.", 1);
+#ifdef HAS_TRANSLATION
+                    ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
+#else
+                    ui_display_statustext(_("Remote host disconnected."), 1);
+#endif
                     network_disconnect();
                     return;
                 }
 
                 if (remote_buf_len == 0 && suspended == 0) {
                     /* remote host suspended emulation */
-                    ui_display_statustext("Remote host suspending...", 0);
+#ifdef HAS_TRANSLATION
+                    ui_display_statustext(translate_text(IDGS_REMOTE_HOST_SUSPENDING), 0);
+#else
+                    ui_display_statustext(_("Remote host suspending..."), 0);
+#endif
                     suspended = 1;
                     vsync_suspend_speed_eval();
                 }

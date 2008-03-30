@@ -201,7 +201,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
     unsigned int unit, read_only;
     char *orig_filename, *filename;
     size_t file_len;
-    char str[16];
+    char *str;
 
     unit = (unsigned int)((char*)data)[0];
     read_only = (unsigned int)((char*)data)[1];
@@ -211,9 +211,10 @@ static void event_playback_attach_image(void *data, unsigned int size)
     if (file_len > 0) {
         FILE *fd;
 
-        sprintf(str, "img%04d", image_number++);
-        filename = util_concat(event_snapshot_dir, str, FSDEV_EXT_SEP_STR,
+        str = archdep_tmpnam();
+        filename = util_concat(str, FSDEV_EXT_SEP_STR,
                                 util_get_extension(orig_filename), NULL);
+        lib_free(str);
 
         fd = fopen(filename, MODE_WRITE);
         if (fd == NULL) {
