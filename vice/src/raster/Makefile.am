@@ -20,3 +20,5 @@ libraster_a_SOURCES = \
 	raster-sprite-status.h \
 	raster-sprite-cache.c \
 	raster-sprite-cache.h
+
+SUBDIRS = .

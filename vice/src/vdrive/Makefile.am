@@ -16,3 +16,4 @@ libvdrive_a_SOURCES = \
 	vdrive.c \
 	vdrive.h
 
+SUBDIRS = .

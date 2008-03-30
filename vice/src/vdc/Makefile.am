@@ -24,3 +24,4 @@ EXTRA_DIST =
 
 vdcdir = $(top_srcdir)/src/vdc
 
+SUBDIRS = .

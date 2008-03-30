@@ -27,3 +27,4 @@ EXTRA_DIST =
 
 viciidir = $(top_srcdir)/src/vicii
 
+SUBDIRS = .
