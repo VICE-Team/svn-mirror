@@ -37,6 +37,7 @@ libmonitor_a_SOURCES = \
 	mon_util.c \
 	mon_util.h \
 	mon_lex.l \
-	mon_parse.y
+	mon_parse.y \
+	montypes.h
 
 BUILT_SOURCES = mon_parse.h mon_parse.c
