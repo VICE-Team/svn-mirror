@@ -29,7 +29,10 @@
 
 #include "types.h"
 
+struct vdrive_s;
+
 extern void machine_bus_init(void);
+extern void machine_bus_init_machine(void);
 
 extern int machine_bus_lib_directory(unsigned int unit, const char *pattern,
                                      BYTE **buf);
@@ -48,6 +51,19 @@ extern void machine_bus_status_virtualdevices_set(unsigned int enable);
 
 extern void machine_bus_eof_callback_set(void (*func)(void));
 extern void machine_bus_attention_callback_set(void (*func)(void));
+
+extern int machine_bus_device_attach(unsigned int unit, const char *name,
+                                    int (*getf)(struct vdrive_s *,
+                                    BYTE *, unsigned int),
+                                    int (*putf)(struct vdrive_s *, BYTE,
+                                    unsigned int),
+                                    int (*openf)(struct vdrive_s *,
+                                    const char *, int, unsigned int),
+                                    int (*closef)(struct vdrive_s *,
+                                    unsigned int),
+                                    void (*flushf)(struct vdrive_s *,
+                                    unsigned int));
+extern int machine_bus_device_detach(unsigned int unit);
 
 #endif
 

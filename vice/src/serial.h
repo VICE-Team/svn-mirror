@@ -31,10 +31,6 @@
 
 #include "types.h"
 
-/* Printers. */
-#define DT_ASCII                0       /* No printer commands nor graphics */
-#define DT_MPS803               1
-#define DT_STAR10CCL            2
 
 #define SERIAL_MAXDEVICES 16
 
@@ -79,21 +75,6 @@ extern int serial_cmdline_options_init(void);
 extern void serial_shutdown(void);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
-extern int serial_attach_device(unsigned int unit, const char *name,
-                                int (*getf)(struct vdrive_s *,
-                                BYTE *, unsigned int),
-                                int (*putf)(struct vdrive_s *, BYTE,
-                                unsigned int),
-                                int (*openf)(struct vdrive_s *,
-                                const char *, int,
-                                unsigned int),
-                                int (*closef)(struct vdrive_s *, unsigned int),
-                                void (*flushf)(struct vdrive_s *,
-                                unsigned int));
-extern int serial_detach_device(unsigned int unit);
-
-extern BYTE serial_get_st(void);
-extern void serial_set_st(BYTE st);
 
 extern void serial_trap_init(WORD tmpin);
 extern int serial_trap_attention(void);

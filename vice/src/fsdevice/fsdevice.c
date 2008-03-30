@@ -75,9 +75,9 @@
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "p00.h"
 #include "resources.h"
-#include "serial.h"
 #include "util.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
@@ -484,8 +484,9 @@ int fsdevice_attach(unsigned int device, const char *name)
 
     vdrive = file_system_get_vdrive(device);
 
-    if (serial_attach_device(device, name, fsdevice_read, fsdevice_write,
-                             fsdevice_open, fsdevice_close, fsdevice_flush))
+    if (machine_bus_device_attach(device, name, fsdevice_read, fsdevice_write,
+                                  fsdevice_open, fsdevice_close,
+                                  fsdevice_flush))
         return 1;
 
     vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
