@@ -883,6 +883,8 @@ Optional Packages:
   --without-readline      do not try to use the system's readline library
   --with-midas            use MIDAS sound system instead of Allegro for audio
   --with-arts             use aRts sound system
+  --without-esd           do not use the Enlightened Sound Daemon system
+  --without-alsa          do not use the ALSA sound system
   --without-resid         do not use the reSID engine
   --with-x                use the X Window System
 
@@ -1307,7 +1309,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=19
+VICE_VERSION_BUILD=20
 
 
 
@@ -1821,6 +1823,18 @@ fi;
 # Check whether --with-arts or --without-arts was given.
 if test "${with_arts+set}" = set; then
   withval="$with_arts"
+
+fi;
+
+# Check whether --with-esd or --without-esd was given.
+if test "${with_esd+set}" = set; then
+  withval="$with_esd"
+
+fi;
+
+# Check whether --with-alsa or --without-alsa was given.
+if test "${with_alsa+set}" = set; then
+  withval="$with_alsa"
 
 fi;
 # Check whether --enable-sdl or --disable-sdl was given.
@@ -10548,6 +10562,7 @@ _ACEOF
     SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
   fi
 
+  if test x"$with_alsa" != "xno"; then
 
 for ac_header in alsa/asoundlib.h
 do
@@ -10689,6 +10704,8 @@ _ACEOF
 fi
 
 done
+
+  fi
 
 
 
@@ -11119,6 +11136,8 @@ fi
 done
 
 
+  if test x"$with_esd" != "xno"; then
+
 for ac_header in esd.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -11260,6 +11279,7 @@ fi
 
 done
 
+  fi
 
   if test x"$with_sdl" = "xyes"; then
 
@@ -12549,6 +12569,7 @@ fi
 
 fi
 
+if test x"$with_alsa" != "xno"; then
 
 echo "$as_me:$LINENO: checking for snd_pcm_open in -lasound" >&5
 echo $ECHO_N "checking for snd_pcm_open in -lasound... $ECHO_C" >&6
@@ -12610,6 +12631,8 @@ if test $ac_cv_lib_asound_snd_pcm_open = yes; then
 _ACEOF
 
   LIBS="-lasound $LIBS"
+
+fi
 
 fi
 
@@ -12742,6 +12765,8 @@ _ACEOF
 fi
 
 
+if test x"$with_esd" != "xno"; then
+
 echo "$as_me:$LINENO: checking for esd_open_sound in -lesd" >&5
 echo $ECHO_N "checking for esd_open_sound in -lesd... $ECHO_C" >&6
 if test "${ac_cv_lib_esd_esd_open_sound+set}" = set; then
@@ -12805,6 +12830,7 @@ _ACEOF
 
 fi
 
+fi
 
 
 

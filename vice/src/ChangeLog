@@ -1,3 +1,65 @@
+2005-09-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.20.
+
+	* sounddrv/Makefile.am: Added `soundcoreaudio.c'.
+
+2005-09-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.c, translate.h: Cosmetic fixes.
+
+2005-09-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* aciacore.c, attach.c, c128/c128-cmdline-options.c,
+	c128/c128mmu.c, c128/functionrom.c, c64/c64-cmdline-options.c,
+	c64/cart/c64cart.c, c64/cart/ide64.c, c64/georam.c,
+	c64/plus60k.c, c64/psid.c, c64/ramcart.c, c64/reu.c,
+	c64/tfe.c, cbm2/cbm2-cmdline-options.c, datasette.c, debug.c,
+	drive/drive-cmdline-options.c,
+	drive/iec/iec-cmdline-options.c,
+	drive/iec128dcr/iec128dcr-cmdline-options.c,
+	drive/ieee/ieee-cmdline-options.c,
+	drive/tcbm/tcbm-cmdline-options.c, event.c, fliplist.c,
+	fsdevice/fsdevice-cmdline-options.c, gfxoutputdrv/ffmpegdrv.c,
+	initcmdline.c, kbdbuf.c, log.c, mouse.c,
+	pet/pet-cmdline-options.c, pet/petpia1.c,
+	plus4/plus4-cmdline-options.c, plus4/ted-cmdline-options.c,
+	printerdrv/driver-select.c, printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c, printerdrv/output-select.c,
+	printerdrv/output-text.c, ram.c,
+	raster/raster-cmdline-options.c, rs232drv/rs232drv.c,
+	rs232drv/rsuser.c, serial/serial-iec-device.c,
+	sid/sid-cmdline-options.c, sound.c, sysfile.c, traps.c,
+	vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c,
+	vic20/vic20cartridge.c, vicii/vicii-cmdline-options.c,
+	video/video-cmdline-options.c, vsync.c: Updated the unix intl
+	to include the command line options.
+
+2005-09-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for Pegasus basic 4.0.
+
+2005-09-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c64/c64pla.c (c64pla_pport_reset): Initialize the data parts
+	with 0x3f to get correct peek(1) at startup.
+
+2005-09-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for Mighty basic.
+
+2005-09-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for WS basic.
+
+2005-09-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for graphics basic.
+
+2005-08-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for Ultrabasic-64.
+
 2005-08-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.19.

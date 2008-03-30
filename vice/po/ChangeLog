@@ -1,3 +1,7 @@
+2005-09-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added the command line option files.
+
 2005-08-14  Michael Klein  <michael.klein@puffin.lb.shuttle.de>
 
 	* de.po, fr.po, it.po, nl.po, pl.pl, sv.po: fixed Catweasel

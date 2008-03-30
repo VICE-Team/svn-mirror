@@ -1,3 +1,33 @@
+2005-09-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.20.
+
+2005-09-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added the configure options --without-alsa and
+	--without-esd.
+
+2005-09-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Pegasus basic
+	4.0.
+
+2005-09-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Mighty basic.
+
+2005-09-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added WS basic.
+
+2005-09-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added graphics basic.
+
+2005-08-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/plain/cbm_basic_tokens.txt: Added Ultrabasic-64.
+
 2005-08-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.19.
