@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -77,6 +78,12 @@ static int ieee488_enabled;
 /* Flag: Do we enable the internal REU?  */
 static int reu_enabled;
 
+/* Flag: Do we enable Action Replay Cartridge support?  */
+static int action_replay_enabled;
+
+static void action_config_changed(BYTE mode);
+static int setup_action_replay(void);
+
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
@@ -118,8 +125,17 @@ static int set_basic_rom_name(resource_value_t v)
 
 static int set_emu_id_enabled(resource_value_t v)
 {
-    emu_id_enabled = (int) v;
-    return 0;
+    if (!(int)v) {
+	emu_id_enabled = 0;
+	return 0;
+    } else if (!action_replay_enabled) {
+	emu_id_enabled = 1;
+	return 0;
+    } else {
+	/* Other extensions share the same address space, so they cannot be
+	enabled at the same time.  */
+	return -1;
+    }
 }
 
 static int set_ieee488_enabled(resource_value_t v)
@@ -127,7 +143,7 @@ static int set_ieee488_enabled(resource_value_t v)
     if (!(int)v) {
         ieee488_enabled = 0;
         return 0;
-    } else if (!reu_enabled) {
+    } else if (!reu_enabled && !action_replay_enabled) {
         ieee488_enabled = 1;
         return 0;
     } else {
@@ -143,7 +159,7 @@ static int set_reu_enabled(resource_value_t v)
     if (!(int)v) {
         reu_enabled = 0;
         return 0;
-    } else if (!ieee488_enabled) {
+    } else if (!ieee488_enabled && !action_replay_enabled) {
         reu_enabled = 1;
         return 0;
     } else {
@@ -152,6 +168,26 @@ static int set_reu_enabled(resource_value_t v)
         return -1;
     }
 }
+
+static int set_action_replay_enabled(resource_value_t v)
+{
+    if (!(int)v) {
+	action_replay_enabled = 0;
+	action_config_changed(6);
+	return 0;
+    } else if (!ieee488_enabled && !reu_enabled && !emu_id_enabled) {
+	if (setup_action_replay() < 0)
+	    return -1;
+	action_replay_enabled = 1;
+	action_config_changed(0);
+	return 0;
+    } else {
+	/* Other extensions share the same address space, so they cannot be
+	enabled at the same time.  */
+	return -1;
+    }
+}
+
 
 /* FIXME: Should patch the ROM on-the-fly.  */
 static int set_kernal_revision(resource_value_t v)
@@ -175,6 +211,8 @@ static resource_t resources[] = {
       (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
+    { "ActionReplay", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &action_replay_enabled, set_action_replay_enabled },
     { "KernalRev", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &kernal_revision, set_kernal_revision },
     { NULL }
@@ -223,11 +261,11 @@ int c64_mem_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible memory configurations.  */
-#define NUM_CONFIGS	8
+#define NUM_CONFIGS	32
 /* Number of possible video banks (16K each).  */
 #define NUM_VBANKS	4
 
-/* The C64 memory. */
+/* The C64 memory.  */
 BYTE ram[C64_RAM_SIZE];
 BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
@@ -236,15 +274,15 @@ BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
 /* Size of */
 int ram_size = C64_RAM_SIZE;
 
-/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded. */
+/* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 int rom_loaded = 0;
 
-/* Pointers to the currently used memory read and write tables. */
+/* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 
-/* Memory read and write tables. */
+/* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
@@ -252,18 +290,24 @@ static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab_watch[NUM_CONFIGS][0x101];
 
-/* Processor port. */
+/* Processor port.  */
 static struct {
     BYTE dir, data;
 } pport;
 
-/* Current video bank (0, 1, 2 or 3). */
+/* Expansion port signals.  */
+static struct {
+    int exrom;
+    int game;
+} export;
+
+/* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
-/* Current memory configuration. */
+/* Current memory configuration.  */
 static int mem_config;
 
-/* Emulation identification string. */
+/* Emulation identification string.  */
 #if defined (EMULATOR_ID)
 static BYTE emulator_id[] = {
     0x56, 0x49, 0x43, 0x45, 0x20, 0x30, 0x2e, 0x31,
@@ -283,6 +327,15 @@ static BYTE emulator_id[] = {
 
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed. */
 static int tape_sense = 0;
+
+/* Exansion port ROML/ROMH images.  */
+BYTE roml_banks[0x8000], romh_banks[0x8000];
+
+/* Exansion port RAM images.  */
+BYTE export_ram0[0x1fff];
+
+/* Expansion port ROML/ROMH/RAM banking.  */
+static int roml_bank, romh_bank, export_ram;
 
 /* ------------------------------------------------------------------------- */
 
@@ -314,6 +367,12 @@ BYTE REGPARM1 read_io2_watch(ADDRESS addr)
 {
     watch_push_load_addr(addr,e_comp_space);
     return read_io2(addr);
+}
+
+BYTE REGPARM1 read_io1_watch(ADDRESS addr)
+{
+    watch_push_load_addr(addr,e_comp_space);
+    return read_io1(addr);
 }
 
 BYTE REGPARM1 read_kernal_watch(ADDRESS addr)
@@ -376,6 +435,12 @@ void REGPARM2 store_io2_watch(ADDRESS addr, BYTE value)
     store_io2(addr, value);
 }
 
+void REGPARM2 store_io1_watch(ADDRESS addr, BYTE value)
+{
+    watch_push_store_addr(addr,e_comp_space);
+    store_io1(addr, value);
+}
+
 void REGPARM2 store_sid_watch(ADDRESS addr, BYTE value)
 {
     watch_push_store_addr(addr,e_comp_space);
@@ -424,11 +489,18 @@ void REGPARM2 store_cia2_watch(ADDRESS addr, BYTE value)
     store_cia2(addr, value);
 }
 
+void REGPARM2 store_roml_watch(ADDRESS addr, BYTE value)
+{
+    watch_push_store_addr(addr,e_comp_space);
+    store_roml(addr, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
-static inline void pport_changed(void)
+static inline void pla_config_changed(void)
 {
-    mem_config = (~pport.dir | pport.data) & 0x7;
+    mem_config = (((~pport.dir | pport.data) & 0x7) | (export.exrom << 3)
+                  | (export.game << 4));
 
     /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed. */
     if (tape_sense)
@@ -474,13 +546,13 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
       case 0:
 	if (pport.dir != value) {
 	    pport.dir = value;
-	    pport_changed();
+	    pla_config_changed();
 	}
 	break;
       case 1:
 	if (pport.data != value) {
 	    pport.data = value;
-	    pport_changed();
+	    pla_config_changed();
 	}
 	break;
       default:
@@ -543,10 +615,30 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
     if ((addr & 0xff00) == 0xdf00) {
 	if (reu_enabled)
 	    return read_reu(addr & 0x0f);
-	if(ieee488_enabled)
+	if (ieee488_enabled)
 	    return read_tpi(addr & 0x07);
+	if (action_replay_enabled) {
+	    return roml_banks[(roml_bank >> 13) + 0x1f00 + (addr & 0xff)];
+        }
     }
+    return rand();
+}
 
+void REGPARM2 store_io1(ADDRESS addr, BYTE value)
+{
+    if ((addr & 0xff00) == 0xde00) {
+        if (action_replay_enabled)
+            action_config_changed(value);
+    }
+    return;
+}
+
+BYTE REGPARM1 read_io1(ADDRESS addr)
+{
+    if ((addr & 0xff00) == 0xde00) {
+        if (action_replay_enabled)
+            return rand();
+    }
     return rand();
 }
 
@@ -583,6 +675,47 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
     }
 }
 
+BYTE REGPARM1 read_roml(ADDRESS addr)
+{
+    if (export_ram)
+       return export_ram0[addr & 0x1fff];
+    switch (roml_bank) {
+      case 0:
+	printf("Read ROM bank 0 at %x byte %x\n",
+               addr, roml_banks[addr & 0x1fff]);
+	return roml_banks[addr & 0x1fff];
+      case 1:
+	return roml_banks[(addr & 0x1fff) + 0x2000];
+      case 2:
+	return roml_banks[(addr & 0x1fff) + 0x4000];
+      case 3:
+	return roml_banks[(addr & 0x1fff) + 0x6000];
+    }
+    return 0;
+}
+
+BYTE REGPARM1 read_romh(ADDRESS addr)
+{
+    switch (romh_bank) {
+      case 0:
+	return romh_banks[addr & 0x1fff];
+      case 1:
+	return romh_banks[(addr & 0x1fff) + 0x2000];
+      case 2:
+	return romh_banks[(addr & 0x1fff) + 0x4000];
+      case 3:
+	return romh_banks[(addr & 0x1fff) + 0x6000];
+    }
+    return 0;
+}
+
+void REGPARM2 store_roml(ADDRESS addr, BYTE value)
+{
+    if (export_ram)
+	export_ram0[addr & 0x1fff] = value;
+    return;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
@@ -613,6 +746,12 @@ static void set_write_hook(int config, int page, store_func_t *f,
 void initialize_memory(void)
 {
     int i, j, k;
+    /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */
+    int io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1,
+                          1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1 };
+    /* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
+    int roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+                            1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 };
 
     /* Default is RAM. */
     for (i = 0; i < NUM_CONFIGS; i++) {
@@ -656,83 +795,148 @@ void initialize_memory(void)
 	set_write_hook(i, 0xff, store_ram_hi, store_ram_hi_watch);
     }
 
-    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7). */
+    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15). */
     for (i = 0xa0; i <= 0xbf; i++) {
 	mem_read_tab[3][i] = read_basic;
 	mem_read_tab[7][i] = read_basic;
+	mem_read_tab[11][i] = read_basic;
+	mem_read_tab[15][i] = read_basic;
 	mem_read_tab_watch[3][i] = read_basic_watch;
 	mem_read_tab_watch[7][i] = read_basic_watch;
+	mem_read_tab_watch[11][i] = read_basic_watch;
+	mem_read_tab_watch[15][i] = read_basic_watch;
 	mem_read_base_tab[3][i] = basic_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[7][i] = basic_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[11][i] = basic_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[15][i] = basic_rom + ((i & 0x1f) << 8);
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
-       3). */
+       3, 9, 10, 11, 25, 26, 27). */
     for (i = 0xd0; i <= 0xdf; i++) {
 	mem_read_tab[1][i] = read_chargen;
 	mem_read_tab[2][i] = read_chargen;
 	mem_read_tab[3][i] = read_chargen;
+	mem_read_tab[9][i] = read_chargen;
+	mem_read_tab[10][i] = read_chargen;
+	mem_read_tab[11][i] = read_chargen;
+	mem_read_tab[25][i] = read_chargen;
+	mem_read_tab[26][i] = read_chargen;
+	mem_read_tab[27][i] = read_chargen;
 	mem_read_tab_watch[1][i] = read_chargen_watch;
 	mem_read_tab_watch[2][i] = read_chargen_watch;
 	mem_read_tab_watch[3][i] = read_chargen_watch;
+	mem_read_tab_watch[9][i] = read_chargen_watch;
+	mem_read_tab_watch[10][i] = read_chargen_watch;
+	mem_read_tab_watch[11][i] = read_chargen_watch;
+	mem_read_tab_watch[25][i] = read_chargen_watch;
+	mem_read_tab_watch[26][i] = read_chargen_watch;
+	mem_read_tab_watch[27][i] = read_chargen_watch;
 	mem_read_base_tab[1][i] = chargen_rom + ((i & 0x0f) << 8);
 	mem_read_base_tab[2][i] = chargen_rom + ((i & 0x0f) << 8);
 	mem_read_base_tab[3][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[9][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[10][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[11][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[25][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[26][i] = chargen_rom + ((i & 0x0f) << 8);
+	mem_read_base_tab[27][i] = chargen_rom + ((i & 0x0f) << 8);
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7). */
-    for (j = 5; j <= 7; j++) {
-	for (i = 0xd0; i <= 0xd3; i++) {
-	    mem_read_tab[j][i] = read_vic;
-	    mem_read_tab_watch[j][i] = read_vic_watch;
-	    set_write_hook(j, i, store_vic, store_vic_watch);
-	}
-	for (i = 0xd4; i <= 0xd7; i++) {
-	    mem_read_tab[j][i] = read_sid;
-	    mem_read_tab_watch[j][i] = read_sid_watch;
-	    set_write_hook(j, i, store_sid, store_sid_watch);
-	}
-	for (i = 0xd8; i <= 0xdb; i++) {
-	    mem_read_tab[j][i] = read_colorram;
-	    mem_read_tab_watch[j][i] = read_colorram_watch;
-	    set_write_hook(j, i, store_colorram, store_colorram_watch);
-	}
+    for (j = 0; j < NUM_CONFIGS; j++) {
+	if (io_config[j]) {
+	    for (i = 0xd0; i <= 0xd3; i++) {
+		mem_read_tab[j][i] = read_vic;
+		mem_read_tab_watch[j][i] = read_vic_watch;
+		set_write_hook(j, i, store_vic, store_vic_watch);
+	    }
+	    for (i = 0xd4; i <= 0xd7; i++) {
+		mem_read_tab[j][i] = read_sid;
+		mem_read_tab_watch[j][i] = read_sid_watch;
+		set_write_hook(j, i, store_sid, store_sid_watch);
+	    }
+	    for (i = 0xd8; i <= 0xdb; i++) {
+		mem_read_tab[j][i] = read_colorram;
+		mem_read_tab_watch[j][i] = read_colorram_watch;
+		set_write_hook(j, i, store_colorram, store_colorram_watch);
+	    }
 
-	mem_read_tab[j][0xdc] = read_cia1;
-	mem_read_tab_watch[j][0xdc] = read_cia1_watch;
-	set_write_hook(j, 0xdc, store_cia1, store_cia1_watch);
-	mem_read_tab[j][0xdd] = read_cia2;
-	mem_read_tab_watch[j][0xdd] = read_cia2_watch;
-	set_write_hook(j, 0xdd, store_cia2, store_cia2_watch);
+	    mem_read_tab[j][0xdc] = read_cia1;
+	    mem_read_tab_watch[j][0xdc] = read_cia1_watch;
+	    set_write_hook(j, 0xdc, store_cia1, store_cia1_watch);
+	    mem_read_tab[j][0xdd] = read_cia2;
+	    mem_read_tab_watch[j][0xdd] = read_cia2_watch;
+	    set_write_hook(j, 0xdd, store_cia2, store_cia2_watch);
 
-	mem_read_tab[j][0xde] = read_io2;
-	mem_read_tab_watch[j][0xde] = read_io2_watch;
-	set_write_hook(j, 0xde, store_io2, store_io2_watch);
-	mem_read_tab[j][0xdf] = read_io2;
-	mem_read_tab_watch[j][0xdf] = read_io2_watch;
-	set_write_hook(j, 0xdf, store_io2, store_io2_watch);
+	    mem_read_tab[j][0xde] = read_io1;
+	    mem_read_tab_watch[j][0xde] = read_io1_watch;
+	    set_write_hook(j, 0xde, store_io1, store_io1_watch);
+	    mem_read_tab[j][0xdf] = read_io2;
+	    mem_read_tab_watch[j][0xdf] = read_io2_watch;
+	    set_write_hook(j, 0xdf, store_io2, store_io2_watch);
 
-	for (i = 0xd0; i <= 0xdf; i++)
-	    mem_read_base_tab[j][i] = NULL;
+	    for (i = 0xd0; i <= 0xdf; i++)
+		mem_read_base_tab[j][i] = NULL;
+	}
     }
 
-    /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7). */
+    /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
+       11, 14, 15, 26, 27, 30, 31). */
     for (i = 0xe0; i <= 0xff; i++) {
 	mem_read_tab[2][i] = read_kernal;
 	mem_read_tab[3][i] = read_kernal;
 	mem_read_tab[6][i] = read_kernal;
 	mem_read_tab[7][i] = read_kernal;
+	mem_read_tab[10][i] = read_kernal;
+	mem_read_tab[11][i] = read_kernal;
+	mem_read_tab[14][i] = read_kernal;
+	mem_read_tab[15][i] = read_kernal;
+	mem_read_tab[26][i] = read_kernal;
+	mem_read_tab[27][i] = read_kernal;
+	mem_read_tab[30][i] = read_kernal;
+	mem_read_tab[31][i] = read_kernal;
 	mem_read_tab_watch[2][i] = read_kernal_watch;
 	mem_read_tab_watch[3][i] = read_kernal_watch;
 	mem_read_tab_watch[6][i] = read_kernal_watch;
 	mem_read_tab_watch[7][i] = read_kernal_watch;
+	mem_read_tab_watch[10][i] = read_kernal_watch;
+	mem_read_tab_watch[11][i] = read_kernal_watch;
+	mem_read_tab_watch[14][i] = read_kernal_watch;
+	mem_read_tab_watch[15][i] = read_kernal_watch;
+	mem_read_tab_watch[26][i] = read_kernal_watch;
+	mem_read_tab_watch[27][i] = read_kernal_watch;
+	mem_read_tab_watch[30][i] = read_kernal_watch;
+	mem_read_tab_watch[31][i] = read_kernal_watch;
 	mem_read_base_tab[2][i] = kernal_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[3][i] = kernal_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[6][i] = kernal_rom + ((i & 0x1f) << 8);
 	mem_read_base_tab[7][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[10][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[11][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[14][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[15][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[26][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[27][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[30][i] = kernal_rom + ((i & 0x1f) << 8);
+	mem_read_base_tab[31][i] = kernal_rom + ((i & 0x1f) << 8);
     }
 
-    for (i = 0; i < 8; i++) {
+    /* Setup ROML at $8000-$9FFF.  */
+    for (j = 0; j < NUM_CONFIGS; j++) {
+	if (roml_config[j]) {
+	    for (i = 0x80; i <= 0x9f; i++) {
+		mem_read_tab[j][i] = read_roml;
+                /* FIXME: This is wrong.  */
+		mem_read_base_tab[j][i] = roml_banks + ((i & 0x3f) << 8);
+	    }
+	}
+    }
+    for (j = 16; j < 24; j++)
+	for (i = 0x80; i <= 0x9f; i++)
+	    set_write_hook(j, i, store_roml, store_roml_watch);
+
+    for (i = 0; i < NUM_CONFIGS; i++) {
 	mem_read_tab[i][0x100] = mem_read_tab[i][0];
 	mem_read_tab_watch[i][0x100] = mem_read_tab_watch[i][0];
 	for (j = 0; j < NUM_VBANKS; j++) {
@@ -750,7 +954,7 @@ void initialize_memory(void)
     pport.dir = 0x0;
 
     /* Setup initial memory configuration. */
-    pport_changed();
+    pla_config_changed();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -848,6 +1052,15 @@ int mem_load(void)
     return 0;
 }
 
+int setup_action_replay(void)
+{
+    if (mem_load_sys_file("action", roml_banks, 0x8000, 0x8000) < 0) {
+	fprintf(stderr, "Could not load Action Replay ROM image.\n");
+	return -1;
+    }
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Change the current video bank. */
@@ -864,7 +1077,7 @@ void mem_set_vbank(int new_vbank)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
-    pport_changed();
+    pla_config_changed();
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
@@ -883,6 +1096,16 @@ void mem_toggle_ieee488(int flag)
 void mem_toggle_emu_id(int flag)
 {
     emu_id_enabled = flag;
+}
+
+static void action_config_changed(BYTE mode)
+{
+    printf("Action Bank: %i\n", mode);
+    export.game = mode & 1;
+    export.exrom = ((mode >> 1) & 1) ^ 1;
+    roml_bank = (mode >> 3) & 3;
+    export_ram = (mode >> 5) & 1;
+    pla_config_changed();
 }
 
 /* ------------------------------------------------------------------------- */

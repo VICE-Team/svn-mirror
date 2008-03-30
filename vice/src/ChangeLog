@@ -1,3 +1,59 @@
+Sun May 10 19:28:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.20.
+
+	* main.c (main): Fixed `printf' -> `fprintf' typo.
+
+Sun 10 May 16:34:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* Makefile.in: Added `fsdevice.c' and `fsdevice.h'. Removed
+	special handling of drive.c.
+
+	* menu.h: Moved file system device settings to a separate
+ 	`ChangeFileSystemDeviceSubmenu' menu entry.  Added entries to
+ 	toggle P00 and Action Replay Cartridge support
+
+	* arch/unix/ui_xaw.c: New UI callbacks `UiToggleActionReplay'
+	and `UiToggleFSDeviceConvertP00'.
+
+	* c1541.c, include/c1541.h: (attach_serial_device): Added dummy
+	function.
+	(attach_fsdevice): New function.
+
+	* c64/c64mem.c (set_emu_id_enabled): Check whether other
+ 	extensions share the same address space.
+	(set_ieee488_enabled): Changed likewise.
+	(set_reu_enabled): Changed likewise.
+	(set_action_replay_enabled): New function to enable AR support.
+  	Increased `NUM_CONFIGS' to 32.  `struct export': New structure.
+	(read_io1_watch, read_io1, store_io1_watch, store_io1): New
+ 	functions.
+	(store_roml_watch, store_roml, read_romh, read_romh_watch): New
+ 	functions.
+	(read_roml, read_roml_watch): New functions.
+	(initialize_memory): Added 24 new memory configurations.
+	(pport_changed): Renamed to `pla_config_changed'.
+	(setup_action_replay, action_config_changed): New functions.
+
+	* c64/c64mem.h: Added `read_io1', `read_roml', `store_io1' and
+	`store_roml'.
+
+	* drive.c: #include "fsdevice.h".  Moved `SET_LO_HI' macro and
+ 	`IPE_*' definitions to `drive.h'.
+	(initialize_1541): Removed #ifdef STANDALONE_1541.
+	(floppy_parse_name): Made non-static.  Moved the file system
+ 	device routines to `fsdevice.c'.
+
+	* fsdevice.c, fsdevice.h: New files.  Added new resource
+	`fsdevice_convert_p00_enabled'.
+
+	* include/drive.h: `SET_LO_HI', `IPE_*' moved here.
+
+	* main.c: #include "fsdevice.h".
+	(main): Added call to `fsdevice_init_resources'.
+
+	* true1541.c (write_track_gcr): Added creation of new tracks.
+
 Sun May 10 11:00:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.19.
