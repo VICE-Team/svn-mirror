@@ -119,12 +119,13 @@ VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/mon_cli.y $(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c \
 	$(SRCDIR)/mshell.c $(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c \
 	$(SRCDIR)/petcat.c $(SRCDIR)/raster.c $(SRCDIR)/resources.c \
-	$(SRCDIR)/reu.c $(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/tape.c \
-	$(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c $(SRCDIR)/traps.c \
-	$(SRCDIR)/true1541.c $(SRCDIR)/usleep.c $(SRCDIR)/utils.c \
-	$(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c $(SRCDIR)/viad2.c \
-	$(SRCDIR)/viad1.def $(SRCDIR)/viad2.def	$(SRCDIR)/warn.c \
-	$(SRCDIR)/zfile.c $(SRCDIR)/zipcode.c
+	$(SRCDIR)/reu.c $(SRCDIR)/serial.c $(SRCDIR)/sid.c \
+	$(SRCDIR)/sysfile.c $(SRCDIR)/tape.c $(SRCDIR)/tapeunit.c \
+	$(SRCDIR)/tpi.c $(SRCDIR)/traps.c $(SRCDIR)/true1541.c \
+	$(SRCDIR)/usleep.c $(SRCDIR)/utils.c $(SRCDIR)/via-tmpl.c \
+	$(SRCDIR)/viad1.c $(SRCDIR)/viad2.c $(SRCDIR)/viad1.def \
+	$(SRCDIR)/viad2.def $(SRCDIR)/warn.c $(SRCDIR)/zfile.c \
+	$(SRCDIR)/zipcode.c
 
 VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/asm.h $(INCLUDEDIR)/autostart.h $(INCLUDEDIR)/c1541.h \
@@ -142,14 +143,14 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
 	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
 	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/sprcrunch.h \
-	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
-	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
-	$(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h \
-	$(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h \
-	$(INCLUDEDIR)/warn.h $(INCLUDEDIR)/wave6581.h \
-	$(INCLUDEDIR)/wave8580.h $(INCLUDEDIR)/zfile.h \
-	$(INCLUDEDIR)/zipcode.h $(INCLUDEDIR)/acconfig.h \
-	$(INCLUDEDIR)/autoconf.h.in
+	$(INCLUDEDIR)/sysfile.h $(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h \
+	$(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h \
+	$(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h \
+	$(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vicii.h \
+	$(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
+	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
+	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/zipcode.h \
+	$(INCLUDEDIR)/acconfig.h $(INCLUDEDIR)/autoconf.h.in
 
 VICEMISC = $(SRCDIR)/Makefile.in $(SRCDIR)/configure $(SRCDIR)/configure.in \
 	$(SRCDIR)/config.guess $(SRCDIR)/config.sub $(SRCDIR)/install-sh \
@@ -287,7 +288,7 @@ JOY_OBJS = @JOY_OBJS@
 COMMON_OBJS = charsets.o info.o mshell.o main.o tape.o tapeunit.o warn.o \
 	utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o drive.o \
 	asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o parallel.o \
-	traps.o mon.o @SYSPEC_OBJS@ @LIBOBJS@
+	traps.o mon.o sysfile.o @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
@@ -324,7 +325,7 @@ C1541_DEPS = $(C1541_OBJS) stddrive.o tape.o mshell.o charsets.o utils.o \
 
 PETCAT_OBJS = petcat.o
 
-PETCAT_DEPS = $(PETCAT_OBJS) charsets.o tape.o utils.o zfile.o
+PETCAT_DEPS = $(PETCAT_OBJS) charsets.o tape.o utils.o zfile.o zipcode.o
 
 VICEOBJS = $(COMMON_OBJS) $(C64_OBJS) $(VIC20_OBJS) $(PET_OBJS) $(C1541_OBJS) \
 	$(PETCAT_OBJS) $(TRUE1541_OBJS) $(PARALLEL_OBJS) $(JOY_OBJS) \
@@ -454,7 +455,7 @@ utils: c1541 petcat
 c1541: $(BINDIR)/c1541
 
 $(BINDIR)/c1541: $(C1541_DEPS)
-	$(CC) $(LDFLAGS) -o $@ $(C1541_DEPS)
+	$(CC) $(LDFLAGS) -o $@ $(C1541_DEPS) $(LIBS)
 #	$(RM) -f ./c1541; 	$(LN_S) $(BINDIR)/c1541 ./c1541
 
 .PHONY: petcat
