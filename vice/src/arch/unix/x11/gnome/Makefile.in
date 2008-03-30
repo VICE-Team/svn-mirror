@@ -270,7 +270,8 @@ gnomevideo.o: gnomevideo.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	videoarch.h ../videoarch.h ../../../../../src/arch/unix/types.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/video.h uiarch.h
+	uiarch.h ../../../../../src/video.h uiarch.h \
+	../../../../../src/utils.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \

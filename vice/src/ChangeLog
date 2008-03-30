@@ -1,3 +1,44 @@
+2000-06-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.12.
+
+	* video.h, raster/raster.c, arch/unix/x11/video.c,
+	arch/unix/x11/videoarch.h, arch/unix/x11/gnome/gnomevideo.c,
+	arch/unix/x11/xaw/x11video.c, arch/win32/video.c,
+	arch/win32/videoarch.h, arch/msdos/video.c, screenshot.h,
+	arch/msdos/videoarch.h, arch/riscos/ui.c, arch/riscos/video.c,
+	arch/riscos/videoarch.h, arch/os2/unused/video_gpi.h,
+	arch/os2/unused/video_gpi.c, arch/os2/video.c,
+	arch/os2/videoarch.h, arch/beos/videoarch.h, screendrv/bmp.c:
+	Unified frame buffer access, better naming.
+
+	* raster/raster.h: Use a pointer to the video frame buffer in
+	`struct raster_s'.
+
+	* video.h, arch/msdos/video.c, arch/win32/video.c,
+	arch/unix/x11/video.c, arch/unix/x11/gnome/gnomevideo.c
+	arch/unix/x11/xaw/x11video.c (video_frame_buffer_alloc,
+	video_frame_buffer_free, canvas_refresh): Changed to new
+	frame buffer layout.
+
+	* vicii/vicii.c, crtc/crtc.c, vic20/vic.c: Fixed usage of
+	`raster.frame_buffer'.
+
+2000-06-08  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/console.c, arch/riscos/ui.c,
+	arch/riscos/uimsgwin.c, arch/riscos/uimsgwin.h: redesigned
+	monitor interface to be safe for internal use.
+
+	* arch/riscos/ui.c: added configs for synchronous sound device
+	and updated supported cartridges.
+
+	* sounddrv/soundacorn.c: added synchronous sound device.
+
+2000-06-07  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* screendrv.dsp is now added to makefile.am
+
 2000-06-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.11.
