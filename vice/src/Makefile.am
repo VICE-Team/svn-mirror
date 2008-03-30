@@ -60,10 +60,10 @@ noinst_HEADERS = \
 	maincpu.h \
 	mem.h \
 	memutils.h \
-	misc.h \
 	mon.h \
 	mon_parse.h \
 	mos6510.h \
+	p00.h \
 	palette.h \
 	parallel.h \
 	print.h \
@@ -74,8 +74,8 @@ noinst_HEADERS = \
 	snapshot.h \
 	sound.h \
 	sysfile.h \
+	t64.h \
 	tape.h \
-	tapeunit.h \
 	tpi.h \
 	traps.h \
 	types.h \
@@ -106,10 +106,10 @@ base_sources = \
 	log.c \
 	main.c \
 	memutils.c \
-	misc.c \
 	mon.c \
 	mon_lex.l \
 	mon_parse.y \
+	p00.c \
 	palette.c \
 	parallel.c \
 	resources.c \
@@ -117,8 +117,8 @@ base_sources = \
 	snapshot.c \
 	sound.c \
 	sysfile.c \
+	t64.c \
 	tape.c \
-	tapeunit.c \
 	traps.c \
 	utils.c \
 	vdrive.c \
@@ -241,13 +241,14 @@ c1541_SOURCES = \
 	charsets.c \
 	cmdline.c \
 	findpath.c \
-	resources.c \
-	vdrive.c \
-	vdrive-iec.c \
 	gcr.c \
 	log.c \
-	tape.c \
+	p00.c \
+	resources.c \
+	t64.c \
 	utils.c \
+	vdrive-iec.c \
+	vdrive.c \
 	zfile.c \
 	zipcode.c
 
@@ -262,9 +263,9 @@ petcat_SOURCES = \
 	cmdline.c \
 	findpath.c \
 	log.c \
+	p00.c \
 	petcat.c \
 	resources.c \
-	tape.c \
 	utils.c \
 	zfile.c \
 	zipcode.c
