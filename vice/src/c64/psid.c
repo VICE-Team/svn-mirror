@@ -472,7 +472,7 @@ void psid_init_driver(void)
   BYTE psid_driver[] = {
 #include "psiddrv.h"
   };
-  char* psid_reloc = psid_driver;
+  BYTE *psid_reloc = psid_driver;
   int psid_size;
 
   ADDRESS reloc_addr;
@@ -526,7 +526,7 @@ void psid_init_driver(void)
   reloc_addr = psid->start_page << 8;
   psid_size = sizeof(psid_driver);
 
-  if (!reloc65(&psid_reloc, &psid_size, reloc_addr)) {
+  if (!reloc65((char **)&psid_reloc, &psid_size, reloc_addr)) {
     log_error(vlog, "Relocation.");
     psid_set_tune(-1);
     return;

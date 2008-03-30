@@ -1663,7 +1663,7 @@ case 100:
     break;}
 case 101:
 #line 412 "mon_parse.y"
-{ mon_memory_fill(yyvsp[-2].a, BAD_ADDR, yyvsp[-1].str); ;
+{ mon_memory_fill(yyvsp[-2].a, BAD_ADDR, (unsigned char *)yyvsp[-1].str); ;
     break;}
 case 102:
 #line 414 "mon_parse.y"

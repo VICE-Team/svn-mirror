@@ -203,7 +203,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
             mps->pos =
                 is_mode(mps, MPS_ESC) ?
                 mps->tabc[0] << 8 | mps->tabc[1] :
-                atoi(mps->tabc) * 6;
+                atoi((char *)mps->tabc) * 6;
 
             del_mode(mps, MPS_ESC);
         }

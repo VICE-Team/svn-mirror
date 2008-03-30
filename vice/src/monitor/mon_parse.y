@@ -409,7 +409,7 @@ cmd_file_rules: CMD_RECORD filename end_cmd
               ;
 
 data_entry_rules: CMD_ENTER_DATA address data_list end_cmd
-                  { mon_memory_fill($2, BAD_ADDR, $3); }
+                  { mon_memory_fill($2, BAD_ADDR, (unsigned char *)$3); }
                 | CMD_ENTER_BIN_DATA end_cmd
                   { printf("Not yet.\n"); }
                 ;
