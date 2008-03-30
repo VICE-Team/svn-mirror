@@ -257,37 +257,36 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             break;
           case IDC_BROWSEDISK:
             {
-                char *s;
-                TCHAR *st;
+                TCHAR *st_name;
 
-                s = ui_select_file(hwnd,"Attach disk image",
-                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
-                    FILE_SELECTOR_DISK_STYLE,NULL);
+                st_name = uilib_select_file(hwnd, TEXT("Attach disk image"),
+                    UILIB_FILTER_ALL | UILIB_FILTER_DISK | UILIB_FILTER_ZIP,
+                    UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK);
 
-                if (s != NULL) {
-                    st = system_mbstowcs_alloc(s);
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st);
-                    system_mbstowcs_free(st);
-                    lib_free(s);
+                if (st_name != NULL) {
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
+                    lib_free(st_name);
                 }
             }
             break;
           case IDC_AUTOSTART:
             {
-                char *s;
-                TCHAR *st;
+                TCHAR *st_name;
 
-                s = ui_select_file(hwnd,"Autostart disk image",
-                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
-                    FILE_SELECTOR_DISK_STYLE,NULL);
+                st_name = uilib_select_file(hwnd, TEXT("Autostart disk image"),
+                    UILIB_FILTER_ALL | UILIB_FILTER_DISK | UILIB_FILTER_ZIP,
+                    UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK);
 
-                if (s != NULL) {
-                    st = system_mbstowcs_alloc(s);
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st);
-                    system_mbstowcs_free(st);
-                    if (autostart_autodetect(s, "*", 0, AUTOSTART_MODE_RUN) < 0)
+                if (st_name != NULL) {
+                    char *name;
+
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
+                    name = system_wcstombs_alloc(st_name);
+                    if (autostart_autodetect(name, "*", 0, AUTOSTART_MODE_RUN)
+                        < 0)
                         ui_error("Cannot autostart specified file.");
-                    lib_free(s);
+                    system_wcstombs_free(name);
+                    lib_free(st_name);
                 }
             }
             break;

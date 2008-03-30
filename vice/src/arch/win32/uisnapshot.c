@@ -151,13 +151,19 @@ void ui_snapshot_save_dialog(HWND hwnd)
 
 void ui_snapshot_load_dialog(HWND hwnd)
 {
-    char *s;
-    if ((s = ui_select_file(hwnd, "Load snapshot image",
-            UI_LIB_FILTER_ALL | UI_LIB_FILTER_SNAPSHOT,
-            FILE_SELECTOR_SNAPSHOT_STYLE,NULL)) != NULL) {
-         if (machine_read_snapshot(s, 0) < 0)
-             ui_error("Cannot read snapshot image");
-         lib_free(s);
+    TCHAR *st_name;
+
+    if ((st_name = uilib_select_file(hwnd, TEXT("Load snapshot image"),
+        UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
+        UILIB_SELECTOR_TYPE_FILE_LOAD,
+        UILIB_SELECTOR_STYLE_SNAPSHOT)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
+        if (machine_read_snapshot(name, 0) < 0)
+            ui_error("Cannot read snapshot image");
+        system_wcstombs_free(name);
+        lib_free(st_name);
     }
 }
 

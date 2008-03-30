@@ -372,20 +372,23 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             break;
           case IDC_VIDEO_CUSTOM_BROWSE:
             {
-                char *s;
-                TCHAR *st;
+                TCHAR *st_name;
 
-                if ((s = ui_select_file(hwnd,"Load VICE palette file",
-                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_PALETTE,
-                    FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
+                if ((st_name = uilib_select_file(hwnd,
+                    TEXT("Load VICE palette file"),
+                    UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
+                    UILIB_SELECTOR_TYPE_FILE_LOAD,
+                    UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                    char *name;
+
+                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_name);
+                    name = system_wcstombs_alloc(st_name);
                     update_palettename(s);
-                    st = system_mbstowcs_alloc(s);
-                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st);
-                    system_mbstowcs_free(st);
-                    lib_free(s);
+                    system_wcstombs_free(name);
                     res_extpalette = 1;
                     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE,
                                    BST_CHECKED);
+                    lib_free(st_name);
                 }
             }
             break;
@@ -432,24 +435,28 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
         }
         return FALSE;
       case WM_INITDIALOG:
-        init_palette_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+        init_palette_dialog(hwnd,
+            (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
         return TRUE;
       case WM_COMMAND:
         type = LOWORD(wparam);
         switch (type) {
           case IDC_VIDEO_CUSTOM_BROWSE:
             {
-                char *s;
-                TCHAR *st;
+                TCHAR *st_name;
 
-                if ((s = ui_select_file(hwnd,"Load VICE palette file",
-                    UI_LIB_FILTER_ALL | UI_LIB_FILTER_PALETTE,
-                    FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
-                    update_palettename2(s);
-                    st = system_mbstowcs_alloc(s);
-                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st);
-                    system_mbstowcs_free(st);
-                    lib_free(s);
+                if ((st_name = uilib_select_file(hwnd,
+                    TEXT("Load VICE palette file"),
+                    UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
+                    UILIB_SELECTOR_TYPE_FILE_LOAD,
+                    UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+                    char *name;
+
+                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_name);
+                    name = system_wcstombs_alloc(st_name);
+                    update_palettename2(name);
+                    system_wcstombs_free(name);
+                    lib_free(st_name);
                 }
             }
             break;

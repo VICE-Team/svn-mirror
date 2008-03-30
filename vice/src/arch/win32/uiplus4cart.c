@@ -36,48 +36,50 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"
+#include "system.h"
 #include "ui.h"
+#include "uicart.h"
 #include "uiplus4cart.h"
 #include "uilib.h"
 #include "resources.h"
 
 
-static const ui_cartridge_params plus4_ui_cartridges[] = {
+static const uicart_params_t plus4_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_FUNCLO,
         0,
-        "Attach cartridge image for Function Low",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
+        TEXT("Attach cartridge image for Function Low"),
+        UILIB_FILTER_ALL | UILIB_FILTER_CRT
     },
     {
         IDM_CART_ATTACH_FUNCHI,
         0,
-        "Attach cartridge image for Fucntion High",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach cartridge image for Fucntion High"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C1LO,
         0,
-        "Attach cartridge image for Cartridge1 Low",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach cartridge image for Cartridge1 Low"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C1HI,
         0,
-        "Attach cartridge image for Cartridge1 High",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach cartridge image for Cartridge1 High"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C2LO,
         0,
-        "Attach cartridge image for Cartridge2 Low",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach cartridge image for Cartridge2 Low"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         IDM_CART_ATTACH_C2HI,
         0,
-        "Attach cartridge image for Cartridge2 High",
-        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        TEXT("Attach cartridge image for Cartridge2 High"),
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
         0, 0, NULL, 0
@@ -110,10 +112,10 @@ static int uiplus4cart_attach_image(int type, char *s)
 }
 
 static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
-                             const ui_cartridge_params *cartridges)
+                             const uicart_params_t *cartridges)
 {
     int i;
-    char *s;
+    TCHAR *st_name;
 
     i = 0;
 
@@ -125,11 +127,16 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
         return;
     }
 
-    if ((s = ui_select_file(hwnd, cartridges[i].title,
-        cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
-        if (uiplus4cart_attach_image(cartridges[i].wparam, s) < 0)
+    if ((st_name = uilib_select_file(hwnd, cartridges[i].title,
+        cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
+        UILIB_SELECTOR_STYLE_CART)) != NULL) {
+        char *name;
+
+        name = system_wcstombs_alloc(st_name);
+        if (uiplus4cart_attach_image(cartridges[i].wparam, name) < 0)
             ui_error("Invalid cartridge image");
-        lib_free(s);
+        system_wcstombs_free(name);
+        lib_free(st_name);
     }
 }
 

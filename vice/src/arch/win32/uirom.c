@@ -81,21 +81,19 @@ static void browse_command(HWND hwnd, unsigned int command)
 
     while (settings[n].realname != NULL) {
         if ((unsigned int)command == settings[n].idc_browse) {
-            char *filename, *realname;
-            TCHAR *st_filename;
+            TCHAR *st_filename, st_realname[100];
 
-            realname = lib_msprintf("Load %s ROM image", settings[n].realname);
-            filename = ui_select_file(hwnd, realname, UI_LIB_FILTER_ALL,
-                                      FILE_SELECTOR_DEFAULT_STYLE, NULL);
-            lib_free(realname);
+            _stprintf(st_realname, TEXT("Load %s ROM image"),
+                      settings[n].realname);
+            st_filename = uilib_select_file(hwnd, st_realname, UILIB_FILTER_ALL,
+                                            UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                            UILIB_SELECTOR_STYLE_DEFAULT);
 
-            if (filename == NULL)
+            if (st_filename == NULL)
                 return;
 
-            st_filename = system_mbstowcs_alloc(filename);
             SetDlgItemText(hwnd, settings[n].idc_filename, st_filename);
-            system_mbstowcs_free(st_filename);
-            lib_free(filename);
+            lib_free(st_filename);
         }
         n++;
     }

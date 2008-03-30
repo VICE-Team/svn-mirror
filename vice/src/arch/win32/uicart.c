@@ -1,5 +1,5 @@
 /*
- * uifliplist.c - Implementation of the fliplist dialogs.
+ * uicart.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -26,48 +26,44 @@
 
 #include "vice.h"
 
-#include <stdio.h>
 #include <windows.h>
 #include <tchar.h>
 
-#include "fliplist.h"
+#include "cartridge.h"
 #include "lib.h"
 #include "system.h"
 #include "ui.h"
+#include "uicart.h"
 #include "uilib.h"
 
 
-void uifliplist_load_dialog(HWND hwnd)
+void uicart_attach(WPARAM wparam, HWND hwnd,
+                   const uicart_params_t *cartridges)
 {
+    int i;
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT("Load flip list file"),
-        UILIB_FILTER_FLIPLIST, UILIB_SELECTOR_TYPE_FILE_LOAD,
-        UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
+    i = 0;
+
+    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
+        i++;
+
+    if (cartridges[i].wparam == 0) {
+        ui_error("Bad cartridge config in UI!");
+        return;
+    }
+
+    if ((st_name = uilib_select_file(hwnd, cartridges[i].title,
+        cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
+        UILIB_SELECTOR_STYLE_CART)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
-        if (flip_load_list((unsigned int)-1, name, 0) != 0)
-            ui_error("Cannot read flip list file");
+        if (cartridge_attach_image(cartridges[i].type, name) < 0)
+            ui_error("Invalid cartridge image");
         system_wcstombs_free(name);
         lib_free(st_name);
     }
 }
 
-void uifliplist_save_dialog(HWND hwnd)
-{
-    TCHAR *st_name;
-
-    if ((st_name = uilib_select_file(hwnd, TEXT("Save flip list file"),
-        UILIB_FILTER_FLIPLIST, UILIB_SELECTOR_TYPE_FILE_SAVE,
-        UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
-        char *name;
-
-        name = system_wcstombs_alloc(st_name);
-        if (flip_save_list((unsigned int)-1, name) != 0)
-            ui_error("Cannot write flip list file");
-        system_wcstombs_free(name);
-        lib_free(st_name);
-    }
-}
 
