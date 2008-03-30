@@ -7,21 +7,15 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
-
-* Changes in VICE 0.15.1
+* Changes in VICE 0.16.0
 ========================
-
-** CBM-II changes
------------------
-
-- A new Commodore 610 (aka CBM-II) emulator has been added.
 
 ** Drive changes
 ----------------
 
 - Drive 9 can be emulated at hardware level.
 
-- The 1571 double-side disk drive is emulated.
+- The 2031, 1571 and 1581 disk drives are emulated.
 
 ** SID changes
 --------------
@@ -41,6 +35,11 @@ list of all the changes in the code.
 
 - It is now possible to save the emulator's state into a file, and
   load it back at any time.
+
+** CBM-II changes
+-----------------
+
+- A new Commodore 610 (aka CBM-II) emulator has been added.
 
 * Changes in VICE 0.15.0
 ========================

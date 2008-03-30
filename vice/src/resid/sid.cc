@@ -270,15 +270,14 @@ void SID::clock(cycle_count delta_t)
       cycle_count delta_t_min = delta_t_osc;
 
       // Find minimum number of cycles to an oscillator accumulator MSB toggle.
-      // We have to clock on each MSB on / MSB off for hard sync and ring
-      // modulation to operate correctly.
+      // We have to clock on each MSB on / MSB off for hard sync to operate
+      // correctly.
       for (i = 0; i < 3; i++) {
 	WaveformGenerator& wave = voice[i]->wave;
 
-	// It is only necessary to clock on the MSB of an oscillator that has
-	// freq != 0 and is a sync source.
-	if (!(wave.freq && (wave.sync_dest->sync || wave.sync_dest->ring_mod)))
-	{
+	// It is only necessary to clock on the MSB of an oscillator that is
+	// a sync source and has freq != 0.
+	if (!(wave.sync_dest->sync && wave.freq)) {
 	  continue;
 	}
 

@@ -6,11 +6,6 @@ What are we going to do next
 * General improvements
 ----------------------
 
-- Snapshot format to freeze the emulators' state.  The main issue is
-  to make it as implementation-independent as possible, so that
-  snapshots made with the current versions will still run on the
-  future ones.
-
 - Write real MS-DOS documentation (any volunteers?).
 
 - Allow tape loading without the virtually pressed "Play" button,
@@ -27,8 +22,8 @@ What are we going to do next
 - Some more kernal patches, for instance for changing colors and
   patching the reset routine to make it faster (maybe configurable).
 
-- More ports.  Any volunteers?  MacOS and Win32 ports are in the
-  works; if you want to help, please let us know.
+- More ports.  Any volunteers?  MacOS, Win32 and Acorn RISC-OS ports
+  are in the works; if you want to help, please let us know.
 
 * C64 improvements
 ------------------
@@ -55,7 +50,7 @@ What are we going to do next
 
 - Complete CRTC emulation.
 
-* 1541 improvements
--------------------
+* Plus/4
+--------
 
-- Emulate more than just one 1541 drive with the "true" emulation.
+- Implement a Plus/4 emulator.

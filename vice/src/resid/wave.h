@@ -56,7 +56,7 @@ public:
 
 protected:
   const WaveformGenerator* sync_source;
-  const WaveformGenerator* sync_dest;
+  WaveformGenerator* sync_dest;
 
   // Tell whether the accumulator MSB was set high on this cycle.
   bool msb_rising;
@@ -152,7 +152,7 @@ void WaveformGenerator::clock()
     shift_register |= bit0;
   }
 
-  // Check whether the msb is set high. This is used for synchronization.
+  // Check whether the MSB is set high. This is used for synchronization.
   msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 }
 
@@ -195,7 +195,7 @@ void WaveformGenerator::clock(cycle_count delta_t)
     shift_register |= bit0;
   }
 
-  // Check whether the msb is set high. This is used for synchronization.
+  // Check whether the MSB is set high. This is used for synchronization.
   msb_rising = !(accumulator & 0x800000) && (accumulator_next & 0x800000);
 
   // Set new accumulator value.
@@ -208,16 +208,18 @@ void WaveformGenerator::clock(cycle_count delta_t)
 // This must be done after all the oscillators have been clock()'ed since the
 // oscillators operate in parallel.
 // Note that the oscillators must be clocked exactly on the cycle when the
-// msb is set high for hard sync and ring modulation to operate correctly.
-// See SID::clock().
+// MSB is set high for hard sync to operate correctly. See SID::clock().
 // ----------------------------------------------------------------------------
 #if RESID_INLINE
 inline
 #endif
 void WaveformGenerator::synchronize()
 {
-  if (sync && sync_source->msb_rising) {
-    accumulator = 0;
+  // A special case occurs when a sync source is synced itself on the same
+  // cycle when the MSB is set high. In this case the destination will not be
+  // synced. This has been verified by sampling OSC3.
+  if (msb_rising && sync_dest->sync && !(sync && sync_source->msb_rising)) {
+    sync_dest->accumulator = 0;
   }
 }
 

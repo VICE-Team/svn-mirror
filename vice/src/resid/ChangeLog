@@ -1,3 +1,15 @@
+1998-11-14  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.6 released.
+
+	* configure.in: Allow compilation in a separate directory.
+
+	* wave.h (WaveformGenerator::synchronize): Handle special case when a
+	sync source is synced itself on the same cycle as its MSB is set
+	high.
+
+	* sid.cc (SID::clock): Only clock on MSB on/off for hard sync.
+
 1998-09-06  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.5 released.

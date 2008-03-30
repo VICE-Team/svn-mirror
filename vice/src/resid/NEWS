@@ -1,3 +1,11 @@
+Changes in reSID version 0.6
+----------------------------
+
+A special case in synchronization has been implemented.
+
+The Autoconf script is cleaned up to allow compilation in a separate directory.
+
+
 Changes in reSID version 0.5
 ----------------------------
 
