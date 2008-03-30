@@ -1,3 +1,45 @@
+Fri Apr 10 00:16:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.3.
+
+Wed Apr  8 21:36:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tui_backend.c (tui_beep): New function.  Former
+ 	callers of `beep' call this one instead.
+
+	* arch/msdos/tui.h (beep): Removed.
+
+	* arch/msdos/tui.c (tui_error, tui_input_string, tui_message): Use
+ 	`tui_num_cols()' instead of using `text_mode_info' directly.
+
+	* arch/msdos/kbd.c (kbd_init): Lock `queue_command' correctly.
+
+	* configure.in: Add `$(ARCHODIR)/tui_backend.o' to `SYSPEC_OBJS'
+	when configuring for MS-DOS.
+
+	* arch/msdos/tui.c: Splitted into `arch/msdos/tui.c' and
+ 	`arch/msdos/tui_backend.c'.
+	* arch/msdos/tui.h: Likewise splitted into
+	`arch/msdos/tui.h' and `arch/msdos/tui_backend.h'.
+
+	* arch/msdos/tui_backend.c, arch/msdos/tui_backend.h: New files.
+
+Wed Apr  8 20:27:30 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* true1541.c: New variable `detach_clk'.
+	(true1541_detach_floppy): Set `detack_clk' to the value of
+ 	`true1541_clk'.
+	(true1541_write_protect_sense): Toggle write protection bit if the
+ 	disk is attached or detached.
+	(true1541_prevent_clk_overflow): Subtract
+ 	`PREVENT_CLK_OVERFLOW_SUB' from `detach_clk' to prevent counter
+ 	overflows.
+
+	* true1541.h: New constant `TRUE1541_DETACH_DELAY'.
+
+	* true1541.c (GCR_data_writeback): Removed bogus line left
+	over from the last patch.
+
 Wed Apr  8 11:52:57 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.2.
