@@ -435,7 +435,7 @@ void fs_error(int code)
     fs_eptr = 0;
 
     if (code && code != IPE_DOS_VERSION)
-	log_message(LOG_DEFAULT, "FSDEVICE: ERR = %02d, %s\n", code, message);
+	log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
 }
 
 void flush_fs(void *flp, int secondary)
