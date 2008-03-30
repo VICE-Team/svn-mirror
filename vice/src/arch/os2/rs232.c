@@ -40,12 +40,7 @@ static FILE *fd[3] = {NULL, NULL, NULL};
 
 static int set_serial_file(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
-
-  if ((SerialFile == NULL) && (name != NULL) && (strcmp(name, SerialFile) == 0))
-    return 0;
-
-  util_string_set(&SerialFile, name);
+  util_string_set(&SerialFile, (const char*)v);
   return 0;
 }
 

@@ -1299,56 +1299,31 @@ static int set_drive_type11(resource_value_t v, void *param)
 
 static int set_drive_file8(resource_value_t v, void *param)
 {
-  const char *name = (const char *)v;
-
-  if ((DriveFile8 != NULL) && (name != NULL) && (strcmp(name, DriveFile8) == 0))
-    return 0;
-
-  util_string_set(&DriveFile8, name);
+  util_string_set(&DriveFile8, (const char *)v);
   return 0;
 }
 
 static int set_drive_file9(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
-
-  if ((DriveFile9 != NULL) && (name != NULL) && (strcmp(name, DriveFile9) == 0))
-    return 0;
-
-  util_string_set(&DriveFile9, name);
+  util_string_set(&DriveFile9, (const char*)v);
   return 0;
 }
 
 static int set_drive_file10(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
-
-  if ((DriveFile10 != NULL) && (name != NULL) && (strcmp(name, DriveFile10) == 0))
-    return 0;
-
-  util_string_set(&DriveFile10, name);
+  util_string_set(&DriveFile10, (const char*)v);
   return 0;
 }
 
 static int set_drive_file11(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
-
-  if ((DriveFile11 != NULL) && (name != NULL) && (strcmp(name, DriveFile11) == 0))
-    return 0;
-
-  util_string_set(&DriveFile11, name);
+  util_string_set(&DriveFile11, (const char*)v);
   return 0;
 }
 
 static int set_tape_file(resource_value_t v, void *param)
 {
-  const char *name = (const char*)v;
-
-  if ((TapeFile != NULL) && (name != NULL) && (strcmp(name, TapeFile) == 0))
-    return 0;
-
-  util_string_set(&TapeFile, name);
+  util_string_set(&TapeFile, (const char*)v);
   return 0;
 }
 
