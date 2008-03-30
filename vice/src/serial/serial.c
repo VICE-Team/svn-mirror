@@ -455,7 +455,7 @@ int serial_detach_device(unsigned int unit)
 {
     serial_t *p;
 
-    if (unit < 0 || unit >= SERIAL_MAXDEVICES) {
+    if (unit >= SERIAL_MAXDEVICES) {
         log_error(serial_log, "Illegal device number %d.", unit);
         return -1;
     }

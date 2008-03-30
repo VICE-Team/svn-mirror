@@ -287,7 +287,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
 
     fs_cmdbuf[dnr][fs_cptr[dnr]] = 0;
 
-    strcpy(cbmcmd, fs_cmdbuf[dnr]);
+    strcpy(cbmcmd, (char *)fs_cmdbuf[dnr]);
     charset_petconvstring((BYTE *)cbmcmd, 1);   /* CBM name to FSname */
     cmd = cbmcmd;
 
@@ -300,17 +300,17 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
         *arg++ = '\0';
     }
 
-    realarg = strchr(fs_cmdbuf[dnr], ':');
+    realarg = strchr((char *)fs_cmdbuf[dnr], ':');
 
     if (realarg) {
         *realarg++ = '\0';
     }
 
-    if (!strncmp(fs_cmdbuf[dnr], "M-R", 3)) {
+    if (!strncmp((char *)fs_cmdbuf[dnr], "M-R", 3)) {
         er = fsdevice_flush_mr(vdrive);
     } else if (!strcmp(cmd, "cd")) {
         er = fsdevice_flush_cd(vdrive, arg);
-    } else if (!strcmp(fs_cmdbuf[dnr], "CD_")) {
+    } else if (!strcmp((char *)fs_cmdbuf[dnr], "CD_")) {
         er = fsdevice_flush_cdup(vdrive);
     } else if (*cmd == '/') {
         er = fsdevice_flush_partition(vdrive, arg);

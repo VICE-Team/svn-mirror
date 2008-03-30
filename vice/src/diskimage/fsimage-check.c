@@ -36,7 +36,7 @@ int fsimage_check_sector(unsigned int format, unsigned int track,
 {
     unsigned int sectors = 0, i;
 
-    if (track < 1 || sector < 0)
+    if (track < 1)
         return -1;
 
     switch (format) {

@@ -297,7 +297,7 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
     int amount;
 
     if (t64 == NULL || t64->fd == NULL || t64->current_file_number < 0
-        || size < 0)
+        || (int)size < 0)
         return -1;
 
     if (size == 0)
