@@ -21,6 +21,7 @@ libplus4_a_SOURCES = \
         plus4acia.h \
 	plus4cpu.c \
 	plus4datasette.c \
+	plus4drive.c \
 	plus4iec.c \
 	plus4iec.h \
 	plus4mem.c \
@@ -33,8 +34,8 @@ libplus4_a_SOURCES = \
 	plus4pio2.h \
 	plus4rom.c \
 	plus4rom.h \
-	tcbm.c \
-	tcbm.h \
+	plus4tcbm.c \
+	plus4tcbm.h \
 	ted-badline.c \
 	ted-badline.h \
 	ted-cmdline-options.c \
