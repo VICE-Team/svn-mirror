@@ -1009,8 +1009,6 @@ static void handle_default_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
 static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 {
-    char *fname;
-
     /* Handle machine specific commands first.  */
     if (ui_machine_specific)
         ui_machine_specific(wparam, hwnd);
