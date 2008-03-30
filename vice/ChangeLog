@@ -1,3 +1,17 @@
+1998-10-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Set `RESID_INCLUDES' properly when compiling the
+ 	bundled reSID.
+
+1998-09-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: Check for `dmedia/audio.h' with `AC_CHECK_HEADERS'
+	instead of using `AC_CHECK_HEADER'.
+
+1998-09-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.15.
+
 1998-09-27  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.14.
