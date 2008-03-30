@@ -156,34 +156,48 @@ int video_init(void)
     return 0;
 }
 
-int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
     DEBUG(("Allocating bitmap width=%d, height=%d", width, height));
-    *i = create_bitmap(width, height);
+    *i = (video_frame_buffer_t *)create_bitmap(width, height);
+#ifdef DEBUG_VIDEO
+    {
+        int j;
+        for (j = 0; j < height; j++) {
+            DEBUG(("Checking line %d at 0x%x",j,(unsigned int)((*i)->line[j])));
+        }
+    }
+#endif
     if (*i == NULL) {
-	DEBUG(("Bitmap allocation failed"));
+	DEBUG(("Bitmap allocation failed."));
 	return -1;
     } else {
-	DEBUG(("Bitmap allocation successful"));
+	DEBUG(("Bitmap allocation successful. Buffer at %p", *i));
 	return 0;
     }
 }
 
-void video_frame_buffer_free(frame_buffer_t *i)
+void video_frame_buffer_free(video_frame_buffer_t *i)
 {
+    if (!i)
+        return;
+
     DEBUG(("Freeing frame buffer 0x%x", (unsigned int)i));
-    destroy_bitmap(*i);
+    destroy_bitmap((BITMAP *)i);
 }
 
-void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
     int i;
 
     DEBUG(("Clearing frame buffer 0x%x with value 0x%x",
 	   (unsigned int)f, value));
-    for (i = 0; i < (*f)->h; i++)
-	memset((*f)->line[i], value, (*f)->w);
+    DEBUG(("width=%d, height=%d", f->w, f->h));
+    for (i = 0; i < f->h; i++) {
+        DEBUG(("Clearing line %d at 0x%x",i,(unsigned int)(f->line[i])));
+	memset(f->line[i], value, f->w);
+    }
 }
 
 static void canvas_set_vga_mode(canvas_t c)

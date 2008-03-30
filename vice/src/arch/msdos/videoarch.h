@@ -31,6 +31,23 @@
 #include <pc.h>			/* inportb(), outportb() */
 #include <allegro.h>
 
+typedef struct video_frame_buffer_s /* a bitmap structure */
+{
+   int w, h;                     /* width and height in pixels */
+   int clip;                     /* flag if clipping is turned on */
+   int cl, cr, ct, cb;           /* clip left, right, top and bottom values */
+   GFX_VTABLE *vtable;           /* drawing functions */
+   void (*write_bank)();         /* write bank selector, see bank.s */
+   void (*read_bank)();          /* read bank selector, see bank.s */
+   void *dat;                    /* the memory we allocated for the bitmap */
+   int bitmap_id;                /* for identifying sub-bitmaps */
+   void *extra;                  /* points to a structure with more info */
+   int x_ofs;                    /* horizontal offset (for sub-bitmaps) */
+   int y_ofs;                    /* vertical offset (for sub-bitmaps) */
+   int seg;                      /* bitmap segment */
+   unsigned char *line[0];       /* pointers to the start of each line */
+} video_frame_buffer_t;
+
 #include "types.h"
 #include "statusbar.h"
 
@@ -60,12 +77,10 @@ typedef struct _canvas *canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-typedef BITMAP *frame_buffer_t;
-
-#define FRAME_BUFFER_POINTER_FIXUP(x)   ((BITMAP *)x)
-#define FRAME_BUFFER_LINE_SIZE(f)	((f)->w)
-#define FRAME_BUFFER_LINE_START(f, n)   ((f)->line[(n)])
-#define FRAME_BUFFER_START(f)		(FRAME_BUFFER_LINE_START(f, 0))
+#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) (x)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     ((f)->w)
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->line[(n)])
+#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */
 
@@ -108,7 +123,7 @@ extern int video_in_gfx_mode(void);
 
 /* ------------------------------------------------------------------------- */
 
-inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
+inline static void canvas_refresh(canvas_t c, video_frame_buffer_t *f,
 				  unsigned int xs, unsigned int ys,
                                   unsigned int xi, unsigned int yi,
                                   unsigned int w, unsigned int h)
@@ -145,11 +160,11 @@ inline static void canvas_refresh(canvas_t c, frame_buffer_t f,
         if (poll_modex_scroll())
             return;
 #endif
-        blit(f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
+        blit((BITMAP *)f, c->pages[c->back_page], xs, ys, xi, yi, w, h);
         request_modex_scroll(0, c->back_page * c->height);
         c->back_page = 1 - c->back_page;
     } else {
-        blit(f, screen, xs, ys, xi, yi, w, h);
+        blit((BITMAP *)f, screen, xs, ys, xi, yi, w, h);
     }
 }
 

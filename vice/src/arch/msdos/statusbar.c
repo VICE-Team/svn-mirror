@@ -104,7 +104,7 @@ void statusbar_append_bitmap_to_update(BITMAP *b)
 }
 
 
-static void statusbar_to_screen(BITMAP* bitmap, int x_offset, int x_width)
+static void statusbar_to_screen(BITMAP *bitmap, int x_offset, int x_width)
 {
     int b;
 
