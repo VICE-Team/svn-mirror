@@ -20,18 +20,83 @@
 #define __FILTER_CC__
 #include "filter.h"
 
-fc_point Filter::f0_points[] =
+// Maximum cutoff frequency is specified as
+// FCmax = 2.6e-5/C = 2.6e-5/2200e-12 = 11818.
+//
+// Measurements indicate a cutoff frequency range of approximately
+// 220Hz - 18kHz on a MOS6581 fitted with 470pF capacitors. The function
+// mapping FC to cutoff frequency has the shape of the tanh function.
+// In contrast, the MOS8580 almost perfectly corresponds with the
+// specificaion of a linear mapping from 30Hz to 12kHz.
+// 
+// The mappings have been measured by feeding the SID with an external
+// signal since the chip itself is incapable of generating waveforms of
+// higher fundamental frequency than 4kHz. It is best to use the bandpass
+// output at full resonance to pick out the cutoff frequency at any given
+// FC setting.
+//
+// The mapping function is specified with spline interpolation points and
+// the function values are retrieved via table lookup.
+//
+// NB! Cutoff frequency characteristics may vary, we have modeled two
+// particular Commodore 64s.
+
+fc_point Filter::f0_6581[] =
 {
-  {    0,  230 },
-  {  384,  278 },
-  {  640,  500 },
-  {  768,  900 },
-  {  896, 1950 },
-  { 1024, 3200 },
-  { 1152, 3750 },
-  { 1280, 3980 },
-  { 1536, 4080 },
-  { 2047, 4100 }
+  //  FC      f         FCHI FCLO
+  // ----------------------------
+  {    0,   220 },   // 0x00
+  {  128,   230 },   // 0x10
+  {  256,   250 },   // 0x20
+  {  384,   300 },   // 0x30
+  {  512,   420 },   // 0x40
+  {  640,   780 },   // 0x50
+  {  768,  1600 },   // 0x60
+  {  832,  2300 },   // 0x68
+  {  896,  3200 },   // 0x70
+  {  960,  4300 },   // 0x78
+  {  992,  5000 },   // 0x7c
+  { 1008,  5400 },   // 0x7e
+  { 1016,  5700 },   // 0x7f
+  { 1023,  6000 },   // 0x7f 0x07
+  { 1023,  6000 },   // 0x7f 0x07
+  { 1024,  4600 },   // 0x80
+  { 1024,  4600 },   // 0x80
+  { 1032,  4800 },   // 0x81
+  { 1056,  5300 },   // 0x84
+  { 1088,  6000 },   // 0x88
+  { 1120,  6600 },   // 0x8c
+  { 1152,  7200 },   // 0x90
+  { 1280,  9500 },   // 0xa0
+  { 1408, 12000 },   // 0xb0
+  { 1536, 14500 },   // 0xc0
+  { 1664, 16000 },   // 0xd0
+  { 1792, 17100 },   // 0xe0
+  { 1920, 17700 },   // 0xf0
+  { 2047, 18000 }    // 0xff 0x07
+};
+
+fc_point Filter::f0_8580[] =
+{
+  //  FC      f         FCHI FCLO
+  // ----------------------------
+  {    0,     0 },   // 0x00
+  {  128,   800 },   // 0x10
+  {  256,  1600 },   // 0x20
+  {  384,  2500 },   // 0x30
+  {  512,  3300 },   // 0x40
+  {  640,  4100 },   // 0x50
+  {  768,  4800 },   // 0x60
+  {  896,  5600 },   // 0x70
+  { 1024,  6500 },   // 0x80
+  { 1152,  7500 },   // 0x90
+  { 1280,  8400 },   // 0xa0
+  { 1408,  9200 },   // 0xb0
+  { 1536,  9800 },   // 0xc0
+  { 1664, 10500 },   // 0xd0
+  { 1792, 11000 },   // 0xe0
+  { 1920, 11700 },   // 0xf0
+  { 2047, 12500 }    // 0xff 0x07
 };
 
 
@@ -40,12 +105,9 @@ fc_point Filter::f0_points[] =
 // ----------------------------------------------------------------------------
 Filter::Filter()
 {
-  int i_max = sizeof(f0_points)/sizeof(*f0_points) - 1;
-  interpolate(f0_points, f0_points, f0_points + i_max, f0_points + i_max,
-	      PointPlotter<sound_sample>(f0), 1.0);
-
   reset();
-  enabled = true;
+  enable_filter(true);
+  set_chip_model(MOS6581);
 }
 
 
@@ -55,6 +117,55 @@ Filter::Filter()
 void Filter::enable_filter(bool enable)
 {
   enabled = enable;
+}
+
+
+// ----------------------------------------------------------------------------
+// Set chip model.
+// ----------------------------------------------------------------------------
+void Filter::set_chip_model(chip_model model)
+{
+  if (model == MOS6581) {
+    // The DC offset of each voice is approximately -1/4 of the dynamic
+    // range of one voice. This is calculated as follows from results
+    // in C= Hacking Issue #20:
+    //
+    // * The "zero" output level of the mixer at full volume is 5.43V.
+    // * Routing one voice to the mixer at full volume yields
+    //     5.29V at maximum voice output
+    //     5.69V at "zero" voice output
+    //     6.34V at minimum voice output
+    //   This confirms that the mixer output is inverted.
+    // * The DC offset of one voice is -(5.69V - 5.43V) = -0.26V
+    // * The dynamic range of one voice is |5.29V - 6.34V| = 1.05V
+    // * The DC offset is thus -0.26V/1.05V = -1/4 of the dynamic range.
+    //
+    // Note that by removing the DC offset, we get the following ranges for
+    // one voice:
+    //     y > 0: -(5.29V - 5.43V) - (-0.26V) =  0.40V
+    //     y < 0: -(6.34V - 5.43V) - (-0.26V) = -0.65V
+    // The scaling of the voice amplitude is thus not symmetric about y = 0.
+    // The asymmetric scaling happens either in the envelope multiplying
+    // D/A converters, in the mixer, or both.
+    // NB! This is not modeled.
+
+    voice_DC = -4095*255/4;
+
+    f0_points = f0_6581;
+    f0_count = sizeof(f0_6581)/sizeof(*f0_6581);
+  }
+  else {
+    // No DC offsets in MOS8580.
+    voice_DC = 0;
+
+    f0_points = f0_8580;
+    f0_count = sizeof(f0_8580)/sizeof(*f0_8580);
+  }
+
+  // Create mapping from FC to cutoff frequency.
+  interpolate(f0_points, f0_points,
+	      f0_points + f0_count - 1, f0_points + f0_count - 1,
+	      fc_plotter(), 1.0);
 }
 
 
@@ -124,21 +235,6 @@ void Filter::writeMODE_VOL(reg8 mode_vol)
 // Set filter cutoff frequency.
 void Filter::set_w0()
 {
-  // Maximum cutoff frequency is specified as
-  // FCmax = 2.6e-5/C = 2.6e-5/2200e-12 = 11818.
-  // Measurements indicate a cutoff frequency range of approximately
-  // 220Hz - 18kHz on a standard Commodore 64 fitted with 470pF capacitors.
-  // This must be measured by feeding the SID with an external signal since
-  // the chip itself is incapable of generating waveforms of higher frequency
-  // than 4kHz.
-  // Measurements of bandpass output from a Commodore 64 shows that the
-  // function mapping fc to cutoff frequency has the shape of the tanh
-  // function. The mapping function is specified with spline interpolation
-  // points and the function values are retrieved via table lookup.
-  // Minimum cutoff frequency is approximately 230Hz, maximum cutoff
-  // frequency is approximately 4KHz.
-  // NB! Cutoff frequency characteristics varies a lot, we have modeled
-  // one particular Commodore 64.
   const double pi = 3.1415926535897932385;
 
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
@@ -169,7 +265,7 @@ void Filter::set_Q()
 void Filter::fc_default(const fc_point*& points, int& count)
 {
   points = f0_points;
-  count = sizeof(f0_points)/sizeof(*f0_points);
+  count = f0_count;
 }
 
 // ----------------------------------------------------------------------------

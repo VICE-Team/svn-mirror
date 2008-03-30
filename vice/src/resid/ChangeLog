@@ -1,9 +1,29 @@
+2001-09-xx  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.12 released.
+
 	* envelope.cc, envelope.h, filter.cc, filter.h, wave.cc, wave.h:
 	Removed bool usage. This avoids unnecessary conversion to 1/0.
 
-	* sid.cc, sid.h (adjust_sampling_frequency): New function for
+	* filter.cc (Filter::set_chip_model): New function; selects voice
+	DC offset and mapping from the FC registers to filter cutoff
+	frequency. The voice DC offset for the MOS6581 is calculated from
+	measurements made by Hársfalvi, Levente in C= Hacking Issue #20.
+	(Filter::Filter): Call set_chip_model.
+	(Filter::f0_6581, Filter::f0_8580): Separate FC mappings.
+
+	* extfilt.cc, extfilt.h (ExternalFilter::set_chip_model): New
+	function supporting separate DC correction for MOS6581 and MOS8580.
+	
+	* sid.cc, sid.h (SID::adjust_sampling_frequency): New function for
 	on-the-fly adjustment of sampling frequency.
-	(clock_fast): Corrected sample calculation.
+	(SID::clock_fast): Corrected sample calculation.
+	(SID::set_chip_model): Set filter chip model.
+	(SID::output): Added audio clipping.
+	
+	* wave.h (WaveformGenerator::output____): No selected waveform
+	yields maximum wave output level. This was found by Hársfalvi,
+	Levente in C= Hacking Issue #20.
 
 2001-03-10  Dag Lem  <resid@nimrod.no>
 

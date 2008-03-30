@@ -327,7 +327,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         cia[addr] = byte;
         byte = cia[CIA_PRA] | ~cia[CIA_DDRA];
         if(byte != oldpa) {
-            store_ciapa(CIA_CONTEXT_CALL rclk, byte);
+            store_ciapa(CIA_CONTEXT_CALL myclk, byte);
             oldpa = byte;
         }
         break;
@@ -353,7 +353,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
             }
         }
         if(byte != oldpb) {
-            store_ciapb(CIA_CONTEXT_CALL rclk, byte);
+            store_ciapb(CIA_CONTEXT_CALL myclk, byte);
             oldpb = byte;
         }
         if(addr == CIA_PRB) {

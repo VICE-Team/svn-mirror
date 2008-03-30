@@ -178,7 +178,10 @@ static inline BYTE read_ciapb(void)
     return byte;
 }
 
-static inline void read_ciaicr(void) {}
+static inline void read_ciaicr(void)
+{
+
+}
 
 #include "ciacore.c"
 

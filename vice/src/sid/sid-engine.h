@@ -1,8 +1,8 @@
 /*
- * sid.h - MOS6581 (SID) emulation.
+ * sid-engine.h - MOS6581 (SID) emulation, hooks to actual implementation.
  *
  * Written by
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Dag Lem <resid@nimrod.no>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,30 @@
  *
  */
 
-#ifndef _SID_H
-#define _SID_H
+#ifndef _SID_ENGINE_H
+#define _SID_ENGINE_H
 
 #include "types.h"
-#include "sid-engine.h"
+#include "sound.h"
 
-extern sid_engine_t fastsid_hooks;
+void REGPARM2 sid_store(ADDRESS address, BYTE byte);
+BYTE REGPARM1 sid_read(ADDRESS address);
+void sid_reset(void);
 
-#endif
+extern BYTE siddata[];
 
+struct sid_engine_s {
+    sound_t* (*open)(int speed, int cycles_per_sec, BYTE *sidstate);
+    void (*close)(sound_t *psid);
+    BYTE (*read)(sound_t *psid, ADDRESS addr);
+    void (*store)(sound_t *psid, ADDRESS addr, BYTE val);
+    void (*reset)(sound_t *psid, CLOCK cpu_clk);
+    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr,
+			     int *delta_t);
+    void (*prevent_clk_overflow)(sound_t *psid, CLOCK sub);
+    char* (*dump_state)(sound_t *psid);
+};
+
+typedef struct sid_engine_s sid_engine_t;
+
+#endif /* _SID_ENGINE_H */

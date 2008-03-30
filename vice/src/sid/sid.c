@@ -43,15 +43,6 @@
 #include "types.h"
 #include "utils.h"
 
-#ifdef HAVE_RESID
-#include "resid.h"
-static int useresid;
-#endif
-
-#ifdef HAVE_MOUSE
-#include "mouse.h"
-#endif
-
 #include "fixpoint.h"
 
 #ifndef TRUE
@@ -61,9 +52,6 @@ static int useresid;
 #ifndef FALSE
 #define FALSE 0
 #endif
-
-/* argh */
-BYTE siddata[32];
 
 /* use wavetables (sampled waveforms) */
 #define WAVETABLES
@@ -459,14 +447,11 @@ static void print_voice(char *buf, voice_t *pv)
 	);
 }
 
-char *sound_machine_dump_state(sound_t *psid)
+char *fastsid_dump_state(sound_t *psid)
 {
     int			i;
     char		buf[1024];
-#ifdef HAVE_RESID
-    if (useresid)
-	return resid_sound_machine_dump_state(psid);
-#endif
+
     sprintf(buf, "#SID: clk=%ld v=%d s3=%d\n",
             (long)clk, psid->vol, psid->has3);
     for (i = 0; i < 3; i++)
@@ -658,17 +643,12 @@ inline static void setup_voice(voice_t *pv)
     pv->gateflip = 0;
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int *delta_t)
+int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+			  int *delta_t)
 {
     register DWORD		o0, o1, o2;
     register int		dosync1, dosync2, i;
     voice_t                     *v0, *v1, *v2;
-
-#ifdef HAVE_RESID
-    if (useresid)
-        return resid_sound_machine_calculate_samples(psid, pbuf, nr, delta_t);
-#endif
 
     setup_sid(psid);
     v0 = &psid->v[0];
@@ -825,22 +805,15 @@ static void init_filter(sound_t *psid, int freq)
 }
 
 /* SID initialization routine */
-sound_t *sound_machine_open(int speed, int cycles_per_sec)
+sound_t *fastsid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 {
     DWORD i;
     sound_t *psid;
     int sid_model;
 
-#ifdef HAVE_RESID
-    if (resources_get_value("SidUseResid", (resource_value_t *)&useresid) < 0)
-        return NULL;
-
-    if (useresid)
-	return resid_sound_machine_open(speed, cycles_per_sec, siddata);
-#endif
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(*psid));
-    memcpy(psid->d, siddata, 32);
+    memcpy(psid->d, sidstate, 32);
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
@@ -904,61 +877,19 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     return psid;
 }
 
-void sound_machine_close(sound_t *psid)
+void fastsid_close(sound_t *psid)
 {
-#ifdef HAVE_RESID
-    if (useresid)
-	resid_sound_machine_close(psid);
-    else
-#endif
     free(psid);
 }
 
 
-/* read register value from sid */
-static BYTE lastsidread;
-
-BYTE REGPARM1 sid_read(ADDRESS addr)
-{
-    int	val;
-    machine_handle_pending_alarms(0);
-    addr = addr & 0x1f;
-#ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled)
-        val = mouse_get_x();
-    else if (addr == 0x1a && _mouse_enabled)
-        val = mouse_get_y();
-    else
-#endif
-    val = sound_read(addr);
-
-    if (val < 0)
-    {
-        if (addr == 0x19 || addr == 0x1a)
-	    val = 0xff;
-	else
-	{
-	    if (addr == 0x1b || addr == 0x1c)
-		val = rand();
-	    else
-		val = 0;
-	}
-    }
-    lastsidread = val;
-    return val;
-}
-
-BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
+BYTE fastsid_read(sound_t *psid, ADDRESS addr)
 {
     BYTE		ret;
     WORD		ffix;
     register DWORD	rvstore;
     register CLOCK	tmp;
 
-#ifdef HAVE_RESID
-    if (useresid)
-	return resid_sound_machine_read(psid, addr);
-#endif
     switch (addr)
     {
     case 0x19:
@@ -1004,45 +935,8 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
     return ret;
 }
 
-/* write register value to sid */
-void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
+void fastsid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 {
-    addr &= 0x1f;
-    siddata[addr] = byte;
-    /*fprintf(logfile, "%x %x\n", addr, byte);*/
-
-/*
-  FIXME: The old warning system is removed, and the current warning
-  system is not capable of tracking which messages have already been
-  printed. The warning is disabled for now to avoid flooding the
-  console.
-    if (vsid_mode && addr > 0x1c) {
-      log_message(LOG_DEFAULT, "program uses PSID registers (not supported)");
-    }
-*/
-
-    machine_handle_pending_alarms(rmw_flag + 1);
-    if (rmw_flag)
-    {
-	clk--;
-	sound_store(addr, lastsidread);
-	clk++;
-#if 0
-	/* XXX: remove me some day */
-#endif
-    }
-    sound_store(addr, byte);
-}
-
-void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
-{
-#ifdef HAVE_RESID
-    if (useresid)
-    {
-	resid_sound_machine_store(psid, addr, byte);
-	return;
-    }
-#endif
     switch (addr)
     {
       case 4:
@@ -1087,41 +981,25 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
     psid->laststoreclk = clk;
 }
 
-void sid_reset(void)
+void fastsid_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    ADDRESS i;
-
-    sound_reset();
-
-    memset(siddata, 0, 32);
-    for (i = 0; i < 32; i++)
-        sound_store(i, 0);
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-#ifdef HAVE_RESID
-    if (useresid)
-	resid_sound_machine_reset(psid);
-    else
-#endif
     psid->laststoreclk = cpu_clk;
 }
 
-void sound_machine_init(void)
+void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
-#ifdef HAVE_RESID
-    resid_sound_machine_init();
-#endif
-}
-
-void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-#ifdef HAVE_RESID
-    if (useresid)
-	resid_sound_machine_prevent_clk_overflow(psid, sub);
-    else
-#endif
     psid->laststoreclk -= sub;
 }
 
+
+sid_engine_t fastsid_hooks =
+{
+    fastsid_open,
+    fastsid_close,
+    fastsid_read,
+    fastsid_store,
+    fastsid_reset,
+    fastsid_calculate_samples,
+    fastsid_prevent_clk_overflow,
+    fastsid_dump_state
+};

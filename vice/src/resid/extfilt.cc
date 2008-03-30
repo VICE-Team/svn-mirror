@@ -27,7 +27,8 @@
 ExternalFilter::ExternalFilter()
 {
   reset();
-  enabled = true;
+  enable_filter(true);
+  set_chip_model(MOS6581);
 
   // Low-pass:  R = 10kOhm, C = 1000pF; w0l = 1/RC = 1/(1e4*1e-9) = 100000
   // High-pass: R =  1kOhm, C =   10uF; w0h = 1/RC = 1/(1e3*1e-5) =    100
@@ -45,6 +46,23 @@ ExternalFilter::ExternalFilter()
 void ExternalFilter::enable_filter(bool enable)
 {
   enabled = enable;
+}
+
+
+// ----------------------------------------------------------------------------
+// Set chip model.
+// ----------------------------------------------------------------------------
+void ExternalFilter::set_chip_model(chip_model model)
+{
+  if (model == MOS6581) {
+    // Maximum mixer DC level; to be removed if the external filter is
+    // turned off.
+    mixer_DC = (4095*255/4 >> 7)*3*0x0f;
+  }
+  else {
+    // No DC offsets in MOS8580.
+    mixer_DC = 0;
+  }
 }
 
 

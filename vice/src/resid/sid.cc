@@ -41,6 +41,9 @@ void SID::set_chip_model(chip_model model)
   for (int i = 0; i < 3; i++) {
     voice[i].wave.set_chip_model(model);
   }
+
+  filter.set_chip_model(model);
+  extfilt.set_chip_model(model);
 }
 
 
@@ -66,12 +69,30 @@ void SID::reset()
 // ----------------------------------------------------------------------------
 int SID::output()
 {
-  return extfilt.output()/(8192*3*15*2/65536);
+  const int range = 1 << 16;
+  const int half = range >> 1;
+  int sample = extfilt.output()/((4095*255 >> 7)*3*15*2/range);
+  if (sample >= half) {
+    return half - 1;
+  }
+  if (sample < -half) {
+    return -half;
+  }
+  return sample;
 }
 
 int SID::output(int bits)
 {
-  return extfilt.output()/(8192*3*15*2/(1 << bits));
+  const int range = 1 << bits;
+  const int half = range >> 1;
+  int sample = extfilt.output()/((4095*255 >> 7)*3*15*2/range);
+  if (sample >= half) {
+    return half - 1;
+  }
+  if (sample < -half) {
+    return -half;
+  }
+  return sample;
 }
 
 

@@ -35,7 +35,7 @@ public:
   void writeCONTROL_REG(reg8);
 
   // Amplitude modulated waveform output.
-  // Range [0, 4095*255].
+  // Range [-2048*255, 2047*255].
   RESID_INLINE sound_sample output();
 
 protected:
@@ -56,7 +56,7 @@ friend class SID;
 
 // ----------------------------------------------------------------------------
 // Amplitude modulated waveform output.
-// Range [0, 4095*255].
+// Range [-2048*255, 2047*255].
 // ----------------------------------------------------------------------------
 RESID_INLINE
 sound_sample Voice::output()

@@ -41,13 +41,9 @@
 #define VIC_II_NTSC_SCREEN_HEIGHT	263
 #define VIC_II_NTSCOLD_SCREEN_HEIGHT	262
 
-#if 0
-#define VIC_II_SCREEN_WIDTH		411
-#else
-/* Not the real size, but more than enough for everything.  Emulating a
-   smaller screen makes it faster.  */
-#define VIC_II_SCREEN_WIDTH		384
-#endif
+/* We need the full width for correct
+   sprite-sprite-collision in unvisible area */
+#define VIC_II_SCREEN_WIDTH		    512
 
 #define VIC_II_PAL_OFFSET                       0
 #define VIC_II_NTSC_OFFSET                      0

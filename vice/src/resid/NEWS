@@ -1,3 +1,23 @@
+Changes in reSID version 0.12
+-----------------------------
+
+A bug in the new SAMPLE_FAST sample calculation has been corrected.
+
+To support synchronization with an external timer, an interface for
+sample rate adjustment has been added.
+
+Audio clipping has been added to guard against sample overflows.
+
+The internal DC levels have been corrected. No selected waveform
+(N=P=S=T=0) yields maximum wave output level. Furthermore, each voice
+in the MOS6581 independently contributes to the DC level in the mixer.
+The MOS8580 has no DC offsets.
+
+A separate mapping from the FC registers to filter cutoff frequency
+has been included for the MOS8580. The mapping for the MOS6581 has
+been refined.
+
+
 Changes in reSID version 0.11
 -----------------------------
 

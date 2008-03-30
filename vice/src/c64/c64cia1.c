@@ -102,7 +102,10 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
     extended_keyboard_rows_mask = value;
 }
 
-static inline void pulse_ciapc(CLOCK rclk) { }
+static inline void pulse_ciapc(CLOCK rclk)
+{
+
+}
 
 #define PRE_STORE_CIA   \
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
@@ -147,7 +150,10 @@ static inline void store_ciapb(CLOCK rclk, BYTE byte)
     }
 }
 
-static inline void undump_ciapb(CLOCK rclk, BYTE byte) {}
+static inline void undump_ciapb(CLOCK rclk, BYTE byte)
+{
+
+}
 
 /* read_* functions must return 0xff if nothing to read!!! */
 static inline BYTE read_ciapa(void)
@@ -191,7 +197,10 @@ static inline BYTE read_ciapb(void)
     return byte;
 }
 
-static inline void read_ciaicr(void) {}
+static inline void read_ciaicr(void)
+{
+
+}
 
 #include "ciacore.c"
 

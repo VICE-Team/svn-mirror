@@ -115,5 +115,17 @@ InputName=resid
 
 SOURCE=..\..\sid\sid.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\sid\sid-cmdline-options.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sid\sid-resources.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sid\sid-snapshot.c
+# End Source File
 # End Target
 # End Project

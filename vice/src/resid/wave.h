@@ -225,12 +225,12 @@ void WaveformGenerator::synchronize()
 // ----------------------------------------------------------------------------
 
 // No waveform:
-// No output.
+// Full output.
 //
 RESID_INLINE
 reg12 WaveformGenerator::output____()
 {
-  return 0;
+  return 0xfff;
 }
 
 // Triangle:

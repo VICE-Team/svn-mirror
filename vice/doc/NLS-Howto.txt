@@ -1,0 +1,96 @@
+Hi Andreas,
+
+in data 2001.09.10 22:55:54 +0200 Andreas Boose ha scritto:
+> > I would like to write a brief text on how to make such a traslation, to
+> > encourage other to translate VICE in their own language.
+> 
+> ok.
+
+Here it is a little README about NSL in VICE. I really hope it will be
+helpful. 
+Let me know your kind remarks.
+
+Bye,
+
+Andrea.
+
+---8<---CUT HERE---8<---CUT HERE---8<---CUT HERE---8<---
+
+0 Introduction
+--------------
+
+This version of VICE contains national language support (NLS) using
+the GNU (or OS-supplied) gettext library. gettext eases the handling
+of translations of (usually English) output messages to other
+languages by introducing the concept of message catalogs.
+
+Message catalogs can exist in various formats. The human-readable and
+-editable format is the PO file format. These human-readable files are
+then translated to MO files which can be used by the gettext library.
+
+Please refer to the GNU gettext documentation ('info gettext') for 
+further details.
+
+
+1 Compiling VICE with localized messages
+----------------------------------------
+
+VICE is compiled by default with NLS enabled. If you don't want
+NLS invoke configure with the option
+
+./configure --disable-nls
+
+If you don't know how to compile VICE, please read the INSTALL file.
+
+
+2 Changing language settings
+----------------------------
+
+You have to set the `LANG' environment variable to the appropriate
+language code before using VICE. ISO 639 language codes can be found
+in the gettext manual.
+
+For example, if you speak Swedish, just type `export LANG=sv' at the 
+BASH prompt. This can be done from your `.login' or `.profile' file, 
+once and for all.
+
+
+3 Adding new messages
+---------------------
+
+1. Edit the ALL_LINGUAS line in 'configure.in' and add your
+   language code, eg. Italian:
+
+   ALL_LINGUAS="de sv fr it"
+
+2. Execute 'autoconf' to create a new 'configure' script.
+
+3. Now issue './configure'.
+
+4. Go to the 'po' subdirectory.
+
+5. Do a 'cp vice.pot it.po'. 'vice.pot' is is the common ground 
+   for the translation teams to produce one PO for their language.
+
+6. Now use the editor of your choice to provide translations in
+   'it.po'. There is an emacs major mode (po-mode) that eases this
+   process.
+
+7. Now issue 'make'. This causes an 'it.gmo' to be created.
+
+8. Do a 'make install' to install 'it.gmo' to the appropriate directory.
+
+
+4 Updating messages
+-------------------
+
+VICE messages change at every release. Go to the 'po' subdirectory and 
+do a 'make update-po'. This updates all existing PO-files (removing 
+obsolete translations, providing new, emptry entries). Check 'it.po' and
+provide translations for the new, empty entries.
+
+
+-- 
+Andrea Musuruane
+http://musuruane.cjb.net
+

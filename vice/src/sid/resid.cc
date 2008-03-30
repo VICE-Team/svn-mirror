@@ -32,6 +32,7 @@ extern "C" {
 #include <string.h>
 #include "log.h"
 #include "utils.h"
+#include "resid.h"
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
@@ -42,8 +43,7 @@ struct sound_s
     SID	sid;
 };
 
-sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-                                  BYTE *sidstate)
+sound_t *resid_open(int speed, int cycles_per_sec, BYTE *sidstate)
 {
     sound_t *psid;
     int	i;
@@ -111,42 +111,51 @@ sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
     return psid;
 }
 
-void resid_sound_machine_close(sound_t *psid)
+void resid_close(sound_t *psid)
 {
     delete psid;
 }
 
-BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr)
+BYTE resid_read(sound_t *psid, ADDRESS addr)
 {
     return psid->sid.read(addr);
 }
 
-void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
+void resid_store(sound_t *psid, ADDRESS addr, BYTE byte)
 {
     psid->sid.write(addr, byte);
 }
 
-int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-					  int *delta_t)
+void resid_reset(sound_t *psid, CLOCK cpu_clk)
+{
+}
+
+int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+			    int *delta_t)
 {
     return psid->sid.clock(*delta_t, pbuf, nr);
 }
 
-void resid_sound_machine_init(void)
+void resid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
 }
 
-void resid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
-{
-}
-
-void resid_sound_machine_reset(sound_t *psid)
-{
-}
-
-char *resid_sound_machine_dump_state(sound_t *psid)
+char *resid_dump_state(sound_t *psid)
 {
     return stralloc("");
 }
+
+
+sid_engine_t resid_hooks =
+{
+    resid_open,
+    resid_close,
+    resid_read,
+    resid_store,
+    resid_reset,
+    resid_calculate_samples,
+    resid_prevent_clk_overflow,
+    resid_dump_state
+};
 
 } // extern "C"

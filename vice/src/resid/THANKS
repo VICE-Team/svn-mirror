@@ -22,7 +22,9 @@ With an exceptional memory of Commodore 64 tunes Lars Haugseth has pointed
 out several errors in reSID that are now corrected.
 
 Morten Rollan and Kåre Gunnar Nesheim have provided interesting and insightful
-information regarding digital filters.
+information regarding digital filters. Kåre Gunnar Nesheim has also kindly
+provided a 1901 monitor and a C64C from his private computer museum. His C64C
+was used to measure the MOS8580 filter cutoff characteristics.
 
 VICE has been an inspiration for this project, and testing of reSID has
 been greatly simplified by VICEs -sounddev dump option. Teemu Rantanen
@@ -53,6 +55,13 @@ technical information on the SID filter. Thank you Bob!
 Julius O. Smith III has provided much of the theoretical basis for the
 audio resampling with his "Digital Audio Resampling Home Page":
 http://www-ccrma.stanford.edu/~jos/resample/
+
+Hársfalvi, Levente has made a thorough investigation of the DC levels
+in the MOS6581 chip. His results are available in C= Hacking Issue
+#20, and form the basis of two DC corrections in reSID. Levente found
+that each voice independently contributes to the DC level in the
+mixer. He also found that if no waveform is selected, the waveform
+output is at maximum level, not at minimum level.
 
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

@@ -41,6 +41,7 @@ public:
   ExternalFilter();
 
   void enable_filter(bool enable);
+  void set_chip_model(chip_model model);
 
   RESID_INLINE void clock(sound_sample Vi);
   RESID_INLINE void clock(cycle_count delta_t, sound_sample Vi);
@@ -52,6 +53,9 @@ public:
 protected:
   // Filter enabled.
   bool enabled;
+
+  // Maximum mixer DC offset.
+  sound_sample mixer_DC;
 
   // State of filters.
   sound_sample Vlp; // lowpass
@@ -82,10 +86,9 @@ void ExternalFilter::clock(sound_sample Vi)
 {
   // This is handy for testing.
   if (!enabled) {
-    // Normalize output since there is no filter to do it.
-    const sound_sample Vmax = 4096*3*0x0f;
+    // Remove maximum DC level since there is no filter to do it.
     Vlp = Vhp = 0;
-    Vo = Vi + Vmax;
+    Vo = Vi - mixer_DC;
     return;
   }
 
@@ -113,10 +116,9 @@ void ExternalFilter::clock(cycle_count delta_t,
 {
   // This is handy for testing.
   if (!enabled) {
-    // Normalize output since there is no filter to do it.
-    const sound_sample Vmax = 4096*3*0x0f;
+    // Remove maximum DC level since there is no filter to do it.
     Vlp = Vhp = 0;
-    Vo = Vi + Vmax;
+    Vo = Vi - mixer_DC;
     return;
   }
 

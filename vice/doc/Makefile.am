@@ -3,6 +3,7 @@ docdir = $(prefix)/lib/vice/doc
 doc_DATA = \
 	64doc.txt \
 	Evaluation \
+	NLS-Howto.txt \
 	PETdoc.txt \
 	Readme.beos \
 	Readme.dos \

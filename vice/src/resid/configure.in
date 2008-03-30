@@ -2,8 +2,8 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(sid.h)
 
 dnl Use Automake
-AM_INIT_AUTOMAKE(resid, 0.11vice)
-LTVERSION=1:0:0
+AM_INIT_AUTOMAKE(resid, 0.12vice)
+LTVERSION=2:0:0
 
 dnl Use C++ for tests.
 AC_LANG_CPLUSPLUS
