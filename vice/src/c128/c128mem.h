@@ -30,6 +30,8 @@
 #ifndef _C128MEM_H
 #define _C128MEM_H
 
+#include "types.h"
+
 #define C128_RAM_SIZE			0x20000
 #define C128_KERNAL_ROM_SIZE		0x2000
 #define C128_BASIC_ROM_SIZE		0x8000

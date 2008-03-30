@@ -47,21 +47,21 @@ static int alarm_active = 0;	/* if alarm is set or not */
 
 #ifndef HAVE_RS232
 
-static int rs232_open(int device)
+int rs232_open(int device)
 {
     return -1;
 }
 
-static void rs232_close(int fd)
+void rs232_close(int fd)
 {
 }
 
-static int rs232_putc(int fd, BYTE b)
+int rs232_putc(int fd, BYTE b)
 {
     return -1;
 }
 
-static int rs232_getc(int fd, BYTE *b)
+int rs232_getc(int fd, BYTE *b)
 {
     return -1;
 }
@@ -72,6 +72,7 @@ static int rs232_getc(int fd, BYTE *b)
 
 static int myacia_device;
 static int myacia_irq;
+static int myacia_irq_res;
 
 static int myacia_set_device(resource_value_t v) {
 
@@ -84,7 +85,13 @@ static int myacia_set_device(resource_value_t v) {
 }
 
 static int myacia_set_irq(resource_value_t v) {
-    int new_irq = (int)v;
+    int new_irq_res = (int)v;
+    int new_irq;
+    static const int irq_tab[] = { IK_NONE, IK_IRQ, IK_NMI };
+
+    if (new_irq_res < 0 || new_irq_res > 2) return -1;
+
+    new_irq = irq_tab[new_irq_res];
 
     if(myacia_irq != new_irq) {
 	mycpu_set_int(I_MYACIA, 0);
@@ -93,6 +100,7 @@ static int myacia_set_irq(resource_value_t v) {
 	}
     }
     myacia_irq = new_irq;
+    myacia_irq_res = new_irq_res;
 
     return 0;
 }
@@ -101,7 +109,7 @@ static resource_t resources[] = {
     { "MyAciaDev", RES_INTEGER, (resource_value_t) MyDevice,
       (resource_value_t *) & myacia_device, myacia_set_device },
     { "MyAciaIrq", RES_INTEGER, (resource_value_t) MyIrq,
-      (resource_value_t *) & myacia_irq, myacia_set_irq },
+      (resource_value_t *) & myacia_irq_res, myacia_set_irq },
     { NULL }
 };
 
