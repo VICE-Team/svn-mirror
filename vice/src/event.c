@@ -414,6 +414,12 @@ int event_resources_init(void)
     return resources_register(resources);
 }
 
+void event_resources_shutdown(void)
+{
+    lib_free(event_start_snapshot);
+    lib_free(event_end_snapshot);
+}
+
 /*-----------------------------------------------------------------------*/
 
 static int cmdline_help(const char *param, void *extra_param)

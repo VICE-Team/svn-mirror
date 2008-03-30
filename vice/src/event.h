@@ -35,6 +35,7 @@ struct snapshot_s;
 
 extern void event_init(void);
 extern int event_resources_init(void);
+extern void event_resources_shutdown(void);
 extern int event_cmdline_options_init(void);
 
 extern int event_record_start(void);

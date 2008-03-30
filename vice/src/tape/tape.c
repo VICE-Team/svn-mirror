@@ -151,6 +151,11 @@ int tape_init(const tape_init_t *init)
     return 0;
 }
 
+void tape_shutdown(void)
+{
+    lib_free(tape_image_dev1);
+}
+
 int tape_deinstall(void)
 {
     if (!tape_is_initialized)
@@ -333,7 +338,7 @@ int tape_receive_trap(void)
             int amount;
 
             len = (int)(end - start);
-            amount = t64_read((t64_t *)tape_image_dev1->data,mem_ram
+            amount = t64_read((t64_t *)tape_image_dev1->data, mem_ram
                               + (int)start, len);
             if (amount == len) {
                 st = 0x40;      /* EOF */
