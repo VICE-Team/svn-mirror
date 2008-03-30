@@ -245,7 +245,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
     unsigned int dnr;
     drive_t *drive;
 
-    if (unit != 8 && unit != 9)
+    if (unit < 8 || unit >= 8 + DRIVE_NUM)
         return -1;
 
     dnr = unit - 8;
@@ -308,7 +308,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
     unsigned int dnr;
     drive_t *drive;
 
-    if (unit != 8 && unit != 9)
+    if (unit < 8 || unit >= 8 + DRIVE_NUM)
         return -1;
 
     dnr = unit - 8;
