@@ -322,7 +322,7 @@ c128io.o: c128io.c ../../src/vice.h ../../src/config.h c128-resources.h \
 	../../src/c64/c64cart.h ../../src/c64/c64tpi.h \
 	../../src/cartridge.h ../../src/emuid.h ../../src/c64/reu.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid.h \
-	../../src/sound.h
+	../../src/sound.h ../../src/vicii/vicii-phi1.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128io.h ../../src/arch/unix/types.h c128mem.h \
 	c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
@@ -337,8 +337,9 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \
-	../../src/mem.h ../../src/c64/c64acia.h
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
+	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
+	../../src/c64/c64acia.h
 c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \

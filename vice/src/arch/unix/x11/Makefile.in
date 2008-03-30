@@ -339,6 +339,11 @@ distdir: $(DISTFILES)
 c128icon.o: c128icon.c
 c610icon.o: c610icon.c
 c64icon.o: c64icon.c
+fullscreen-common.o: fullscreen-common.c ../../../../src/vice.h \
+	../../../../src/config.h fullscreen-common.h \
+	../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h \
+	../../../../src/arch/unix/types.h vidmode.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h ../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
@@ -351,7 +356,8 @@ ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/cmdline.h
 ui-resources.o: ui-resources.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/resources.h \
-	../../../../src/utils.h ../../../../src/arch/unix/types.h
+	../../../../src/utils.h ../../../../src/arch/unix/types.h \
+	vidmode.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/uihotkey.h \
 	../../../../src/arch/unix/ui.h \
@@ -365,7 +371,21 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	xaw/uiarch.h ../../../../src/uicolor.h ../../../../src/utils.h \
 	../../../../src/video.h videoarch.h \
-	../../../../src/fullscreen.h
+	../../../../src/fullscreen.h fullscreen-common.h \
+	../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h vidmode.h
+vidmode.o: vidmode.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/arch/unix/types.h vidmode.h \
+	../../../../src/log.h ../../../../src/resources.h \
+	../../../../src/arch/unix/uisettings.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	xaw/uiarch.h ../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
+	../../../../src/arch/unix/uihotkey.h xaw/../x11menu.h \
+	../../../../src/utils.h fullscreen-common.h \
+	../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h videoarch.h \
+	../../../../src/fullscreen.h fullscreen-common.h \
+	../../../../src/video.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/utils.h ../../../../src/arch/unix/types.h \
 	x11menu.h ../../../../src/arch/unix/ui.h \

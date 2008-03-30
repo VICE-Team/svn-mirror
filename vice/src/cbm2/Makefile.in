@@ -324,14 +324,15 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	c610-resources.h c610.h c610acia.h c610cia.h c610mem.h \
-	c610tpi.h ../../src/cmdline.h ../../src/crtc/crtc-mem.h \
-	../../src/crtc/crtc.h ../../src/emuid.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/kbdbuf.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
-	../../src/resources.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/sysfile.h ../../src/tape.h ../../src/utils.h \
-	../../src/vsync.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii.h ../../src/cartridge.h
+	c610tpi.h ../../src/cartridge.h ../../src/cmdline.h \
+	../../src/crtc/crtc-mem.h ../../src/crtc/crtc.h \
+	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/kbdbuf.h ../../src/log.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/monitor/mon.h ../../src/resources.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/sysfile.h \
+	../../src/tape.h ../../src/utils.h ../../src/vsync.h \
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
+	../../src/vicii/vicii.h
 c610tpi1.o: c610tpi1.c c610cia.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/crtc/crtc.h \
 	c610mem.h ../../src/datasette.h ../../src/drive/drive.h \

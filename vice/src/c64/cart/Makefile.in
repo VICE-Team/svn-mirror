@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/c64
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/vicii
 
 
 noinst_LIBRARIES = libc64cart.a
@@ -257,10 +257,12 @@ distdir: $(DISTFILES)
 	done
 actionreplay.o: actionreplay.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h \
-	../../../src/c64/c64cart.h c64cartmem.h ../../../src/utils.h
+	../../../src/c64/c64cart.h c64cartmem.h ../../../src/utils.h \
+	../../../src/vicii/vicii-phi1.h
 atomicpower.o: atomicpower.c ../../../src/vice.h ../../../src/config.h \
 	atomicpower.h ../../../src/arch/unix/types.h \
-	../../../src/c64/c64cart.h c64cartmem.h ../../../src/utils.h
+	../../../src/c64/c64cart.h c64cartmem.h ../../../src/utils.h \
+	../../../src/vicii/vicii-phi1.h
 c64cart.o: c64cart.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/alarm.h ../../../src/arch/unix/archdep.h \
@@ -278,7 +280,7 @@ c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/interrupt.h ../../../src/6510core.h kcs.h \
 	../../../src/log.h ../../../src/machine.h \
 	../../../src/maincpu.h retroreplay.h ide64.h supergames.h \
-	supersnapshot.h zaxxon.h
+	supersnapshot.h ../../../src/vicii/vicii-phi1.h zaxxon.h
 crt.o: crt.c ../../../src/vice.h ../../../src/config.h actionreplay.h \
 	../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/arch/unix/archdep.h ../../../src/archapi.h \
@@ -293,7 +295,7 @@ expert.o: expert.c ../../../src/vice.h ../../../src/config.h \
 	c64cartmem.h ../../../src/cartridge.h expert.h \
 	../../../src/interrupt.h ../../../src/6510core.h \
 	../../../src/resources.h ../../../src/c64/reu.h \
-	../../../src/utils.h
+	../../../src/utils.h ../../../src/vicii/vicii-phi1.h
 final.o: final.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/c64/c64mem.h final.h \
@@ -304,9 +306,10 @@ generic.o: generic.c ../../../src/vice.h ../../../src/config.h \
 	c64cartmem.h ../../../src/cartridge.h crt.h generic.h \
 	../../../src/utils.h
 ide64.o: ide64.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/arch/unix/archdep.h ../../../src/archapi.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ide64.h ../../../src/utils.h \
-	../../../src/arch/unix/archdep.h ../../../src/archapi.h
+	../../../src/vicii/vicii-phi1.h
 kcs.o: kcs.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h kcs.h ../../../src/utils.h
@@ -320,7 +323,8 @@ supergames.o: supergames.c ../../../src/vice.h ../../../src/config.h \
 supersnapshot.o: supersnapshot.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/c64/c64cart.h \
 	../../../src/arch/unix/types.h c64cartmem.h \
-	../../../src/c64/reu.h supersnapshot.h ../../../src/utils.h
+	../../../src/c64/reu.h supersnapshot.h ../../../src/utils.h \
+	../../../src/vicii/vicii-phi1.h
 zaxxon.o: zaxxon.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/utils.h zaxxon.h

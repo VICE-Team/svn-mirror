@@ -429,16 +429,17 @@ c64io.o: c64io.c ../../src/vice.h ../../src/config.h c64-resources.h \
 	c64acia.h ../../src/arch/unix/types.h c64cart.h c64io.h \
 	../../src/cartridge.h ../../src/emuid.h reu.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid.h \
-	../../src/sound.h
+	../../src/sound.h ../../src/vicii/vicii-phi1.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-snapshot.h \
 	c64-resources.h c64cart.h ../../src/arch/unix/types.h c64cia.h \
-	c64io.h c64mem.h c64memlimit.h c64pla.h ../../src/cartridge.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
-	../../src/parallel.h patchrom.h ../../src/resources.h reu.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/sysfile.h \
-	../../src/utils.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii.h cart/c64cartmem.h
+	c64io.h c64mem.h c64memlimit.h c64pla.h cart/c64cartmem.h \
+	../../src/cartridge.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/monitor/mon.h ../../src/parallel.h \
+	patchrom.h ../../src/resources.h reu.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/sysfile.h ../../src/utils.h \
+	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
+	../../src/vicii/vicii.h
 c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 c64pla.o: c64pla.c ../../src/vice.h ../../src/config.h c64pla.h \
