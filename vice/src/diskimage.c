@@ -135,7 +135,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
       default:
         return 0;
     }
-    log_message(disk_image_log, "D64 disk image recognised: %s%s.",
+    log_message(disk_image_log, "D64 disk image recognised: %s%s",
                 image->name, image->read_only ? " (read only)." : ".");
     return 1;
 }
