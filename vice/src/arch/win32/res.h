@@ -215,6 +215,11 @@
 #define IDD_PRINTDEVICE_DIALOG          1290
 #define IDC_TOGGLE_PRINTER              1291
 
+#define IDD_DIALOG1                     1301
+#define IDD_TEXTDLG                     1301
+#define IDC_TEXT                        1302
+#define IDC_HEADER                      1303
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -324,6 +329,9 @@
 #define IDM_TOGGLE_VDC_DOUBLESCAN       40191
 #define IDM_VIC_SETTINGS                40192
 #define IDM_TOGGLE_VIRTUAL_DEVICES      40193
-
+#define IDM_CONTRIBUTORS                40194
+#define IDM_LICENSE                     40195
+#define IDM_WARRANTY                    40196
+#define IDM_CMDLINE                     40197
 #endif
 

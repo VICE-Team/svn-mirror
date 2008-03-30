@@ -149,9 +149,15 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "H&elp",                           IDM_HELP
-        MENUITEM SEPARATOR
+//        MENUITEM "H&elp",                           IDM_HELP
+//        MENUITEM SEPARATOR
         MENUITEM "&About...",                       IDM_ABOUT
+        MENUITEM SEPARATOR
+        MENUITEM "Command line &options",           IDM_CMDLINE
+        MENUITEM SEPARATOR
+        MENUITEM "&Contributors",                   IDM_CONTRIBUTORS
+        MENUITEM "&License",                        IDM_LICENSE
+        MENUITEM "No &warranty",                    IDM_WARRANTY
     END
 END
 
