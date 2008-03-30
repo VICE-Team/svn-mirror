@@ -172,7 +172,7 @@ struct raster_s
       }
     pixel_table;
 
-    frame_buffer_t frame_buffer;
+    struct video_frame_buffer_s *frame_buffer;
     PIXEL *frame_buffer_ptr;
 
     /* This is a temporary frame buffer line used for sprite collision
