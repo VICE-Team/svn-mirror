@@ -418,18 +418,16 @@ int machine_write_snapshot(const char *name)
 
     if (maincpu_write_snapshot_module(f) < 0
         || mem_write_snapshot_module(f) < 0
-        || vic_ii_write_snapshot_module(f) < 0)
-        goto fail;
+        || vic_ii_write_snapshot_module(f) < 0
+        || cia1_write_snapshot_module(f) < 0
+        || cia2_write_snapshot_module(f) < 0) {
+        fclose(f);
+        unlink(name);
+        return -1;
+    }
 
     fclose(f);
-
     return 0;
-
-fail:
-    if (f != NULL)
-        fclose(f);
-    unlink(name);
-    return -1;
 }
 
 int machine_read_snapshot(const char *name)
@@ -452,7 +450,9 @@ int machine_read_snapshot(const char *name)
 
     if (maincpu_read_snapshot_module(f) < 0
         || mem_read_snapshot_module(f) < 0
-        || vic_ii_read_snapshot_module(f) < 0)
+        || vic_ii_read_snapshot_module(f) < 0
+        || cia1_read_snapshot_module(f) < 0
+        || cia2_read_snapshot_module(f) < 0)
         goto fail;
 
     return 0;
