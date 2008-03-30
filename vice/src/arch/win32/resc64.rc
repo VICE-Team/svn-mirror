@@ -58,6 +58,7 @@ BEGIN
             MENUITEM "Generic &8KB image...",       IDM_CART_ATTACH_8KB
             MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
+            MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
             MENUITEM "&Super Snapshot 4 image...",  IDM_CART_ATTACH_SS4
             MENUITEM SEPARATOR
             MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT

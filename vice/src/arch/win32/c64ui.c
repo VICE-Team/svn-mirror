@@ -88,6 +88,16 @@ int     type;
                 free(s);
             }
             break;
+        case IDM_CART_ATTACH_AT:
+            type = CARTRIDGE_ATOMIC_POWER;
+            if ((s = ui_select_file("Attach Atomic Power cartridge image",
+                "Raw AT cartridge image files (*.bin)\0*.bin\0"
+                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                if (cartridge_attach_image(type, s) < 0)
+                    ui_error("Invalid cartridge image");
+                free(s);
+            }
+            break;
         case IDM_CART_ATTACH_SS4:
             type = CARTRIDGE_SUPER_SNAPSHOT;
             if ((s = ui_select_file("Attach Super Snapshot 4 cartridge image",
