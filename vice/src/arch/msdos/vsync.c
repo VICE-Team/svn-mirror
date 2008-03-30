@@ -46,6 +46,7 @@
 #include "vmidas.h"
 #include "joystick.h"
 #include "autostart.h"
+#include "kbdbuf.h"
 
 #if defined(VIC20)
 #include "vic.h"
@@ -316,6 +317,8 @@ int do_vsync(int been_skipped)
 #ifdef AUTOSTART
     autostart_advance();
 #endif
+
+    kbd_buf_flush();
 
     return skip_next_frame;
 }

@@ -57,6 +57,7 @@
 #include "video.h"
 #include "joystick.h"
 #include "autostart.h"
+#include "kbdbuf.h"
 
 #ifdef HAVE_TRUE1541
 #include "true1541.h"
@@ -371,6 +372,8 @@ int do_vsync(int been_skipped)
 #ifdef HAVE_TRUE1541
     update_drive_status();
 #endif
+
+    kbd_buf_flush();
 
     refresh_rate = app_resources.refreshRate;
 
