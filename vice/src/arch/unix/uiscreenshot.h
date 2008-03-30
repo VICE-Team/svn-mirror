@@ -33,7 +33,9 @@
 #define UISS_BMP 0
 #define UISS_PNG 1
 
-extern int ui_screenshot_dialog(char *, int);
+struct video_canvas_s;
+
+extern int ui_screenshot_dialog(char *, struct video_canvas_s *canvas);
 
 #endif
 
