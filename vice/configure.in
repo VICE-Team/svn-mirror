@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=9
+VICE_VERSION_BUILD=10
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -197,6 +197,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
 
   if test x"$host_os" = "xaros"; then
     AC_DEFINE(AMIGA_AROS,,[Should we enable AROS support.])
+    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
+    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     is_amigaos4=no
     is_amiga_aros=yes
   fi
@@ -204,6 +207,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
     CFLAGS="$CFLAGS -noixemul"
     AC_DEFINE(AMIGA_M68K,,[Should we enable M68K AmigaOS support.])
+    AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
+    AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
+    AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     with_png=no
     with_zlib=no
     is_amigaos4=no

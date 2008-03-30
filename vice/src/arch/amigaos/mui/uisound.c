@@ -126,6 +126,7 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values },
   { NULL, MUI_TYPE_CYCLE, "SoundOversample", ui_sound_oversample, ui_sound_oversample_values },
   { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values },
+  { NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, NULL },
   UI_END /* mandatory */
 };
 
@@ -153,6 +154,7 @@ static APTR build_gui(void)
     CYCLE(ui_to_from[1].object, translate_text(IDS_BUFFER_SIZE), ui_sound_buffer)
     CYCLE(ui_to_from[2].object, translate_text(IDS_OVERSAMPLE), ui_sound_oversample)
     CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
+    STRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
   End;
 }
 

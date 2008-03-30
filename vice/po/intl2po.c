@@ -54,7 +54,7 @@ static int comment_status=NOT_IN_COMMENT;
 
 static char line_buffer[512];
 
-int getline(FILE *file)
+int intl2po_getline(FILE *file)
 {
   char c=0;
   int counter=0;
@@ -256,7 +256,7 @@ int convert_rc(char *in_filename, char *out_filename)
 
   while (!feof(infile))
   {
-    found=getline(infile);
+    found=intl2po_getline(infile);
     switch(found)
     {
       case FOUND_STRINGTABLE:
@@ -273,7 +273,7 @@ int convert_rc(char *in_filename, char *out_filename)
         else
         {
           fprintf(outfile,"%s",line_buffer);
-          getline(infile);
+          intl2po_getline(infile);
           if (!strncmp(line_buffer,"LANGUAGE LANG_ENGLISH",21))
           {
             status=STRINGTABLE_BEGIN_SCAN;

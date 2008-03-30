@@ -2546,6 +2546,7 @@ Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)", 23
   {"Border mode", 2472},
   {"Full", 2473},
   {"Debug", 2474},
+  {"Volume (0-100%)", 2475},
 };
 
-int _msg_tbl_length = 2474;
+int _msg_tbl_length = 2475;

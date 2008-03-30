@@ -1,3 +1,12 @@
+2007-06-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.10.
+
+2007-05-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added netplay support to Amiga OS3 and AROS
+	ports.
+
 2007-05-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.9.

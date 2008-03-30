@@ -29,7 +29,7 @@
 #include "version.h"
 #include "res.h"
 #include "rescommon.h"
-#ifdef MSVC_RC
+#if defined(MSVC_RC) && !defined(WATCOM_COMPILE)
 #include "msvc_ver.h"
 #endif
 

@@ -309,7 +309,7 @@
 
 #include "vice.h"
 
-#ifndef MINIXVMD
+#if !defined(MINIXVMD) && !defined(WATCOM_COMPILE)
 #ifdef __GNUC__
 #undef alloca
 #define        alloca(n)       __builtin_alloca (n)

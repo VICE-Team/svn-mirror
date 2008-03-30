@@ -383,12 +383,22 @@ void raster_set_geometry(raster_t *raster,
     raster->canvas->draw_buffer->canvas_height = canvas_height;
 }
 
+static int raster_realize_init_done = 0;
+
 int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;
 
     if (realize_canvas(raster) < 0)
         return -1;
+
+    /* On some linux platforms ActiveRasters
+       gets set to something else than NULL */
+    if (raster_realize_init_done == 0)
+    {
+        ActiveRasters = NULL;
+        raster_realize_init_done++;
+    }
 
     video_canvas_refresh_all(raster->canvas);
 

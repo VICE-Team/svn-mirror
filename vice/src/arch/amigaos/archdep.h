@@ -29,6 +29,10 @@
 
 #include "archapi.h"
 
+#ifdef AMIGA_M68K
+#include <sys/unistd.h>
+#endif
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR   "."
 #define FSDEV_DIR_SEP_STR      "/"
@@ -70,6 +74,13 @@
 #define ARCHDEP_TED_DSIZE     1
 #define ARCHDEP_TED_DSCAN     1
 #define ARCHDEP_TED_HWSCALE   0
+
+/* Video chip double buffering.  */
+#define ARCHDEP_VICII_DBUF 0
+#define ARCHDEP_VDC_DBUF   0
+#define ARCHDEP_VIC_DBUF   0
+#define ARCHDEP_CRTC_DBUF  0
+#define ARCHDEP_TED_DBUF   0
 
 /* Default RS232 devices.  */
 #define ARCHDEP_RS232_DEV1 "rs232.dump"

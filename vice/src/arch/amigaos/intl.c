@@ -4697,6 +4697,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_DEBUG_PL, ""},  /* fuzzy */
 /* sv */ {IDS_DEBUG_SV, ""},  /* fuzzy */
 
+/* en */ {IDS_VOLUME,    "Volume (0-100%)"},
+/* de */ {IDS_VOLUME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_VOLUME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_VOLUME_HU, ""},  /* fuzzy */
+/* it */ {IDS_VOLUME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_VOLUME_NL, "Volume (0-100%)"},
+/* pl */ {IDS_VOLUME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_VOLUME_SV, ""},  /* fuzzy */
+
 };
 
 #include "intl_table.h"

@@ -296,11 +296,11 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 }
 
 void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location,
-                             unsigned int interrupt, unsigned int mode)
+                             unsigned int irq, unsigned int mode)
 {
     support_enable = enable;
     support_location = location;
-    support_interrupt = interrupt;
+    support_interrupt = irq;
     support_mode = mode;
 
     DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd,
