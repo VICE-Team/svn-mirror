@@ -386,7 +386,7 @@ void ui_joystick() {
 
 	joywindow = new JoystickWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (joywindow); /* wait until window closed */
 }
 

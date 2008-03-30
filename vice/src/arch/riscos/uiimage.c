@@ -36,6 +36,7 @@
 #include "imagecontents.h"
 #include "ui.h"
 #include "uiimage.h"
+#include "vsync.h"
 
 
 
@@ -174,6 +175,7 @@ static void delete_contents(void)
 
 int ui_image_contents_disk(const char *imagename)
 {
+  vsync_suspend_speed_eval();
   delete_contents();
   contents = image_contents_read_disk(imagename);
   wimp_strcpy(image_content_file, imagename);
@@ -184,6 +186,7 @@ int ui_image_contents_disk(const char *imagename)
 
 int ui_image_contents_tape(const char *imagename)
 {
+  vsync_suspend_speed_eval();
   delete_contents();
   contents = image_contents_read_tape(imagename);
   wimp_strcpy(image_content_file, imagename);
@@ -387,6 +390,7 @@ void ui_image_contents_click(int *block)
     filenum = (filenum - WindowBorder) / LineHeight;
     if ((filenum >= 1) && (filenum <= NumberOfLines))
     {
+      vsync_suspend_speed_eval();
       force_line_redraw(MarkedLine);
       MarkedLine = filenum;
       force_line_redraw(MarkedLine);

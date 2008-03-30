@@ -181,7 +181,8 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
     if (reuram == NULL)
         reu_reset(0);
 
-    reu[addr] = byte;
+    if (addr != 0) /* REC status register is Read Only */
+        reu[addr] = byte;
 
 #ifdef REU_DEBUG
     log_message(reu_log, "store [$%02X] <= $%02X.", addr, (int) byte);

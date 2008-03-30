@@ -33,6 +33,7 @@
 #include "ui.h"
 #include "vsidui.h"
 #include "vsidarch.h"
+#include "vsync.h"
 
 #include "drive/drive.h"
 #include "c64/psid.h"
@@ -171,13 +172,16 @@ void vsid_set_tune(int tune)
 
 int vsid_ui_load_file(const char *file)
 {
-    if (psid_load_file(file) == 0)
-    {
-      vsid_ui_set_ready(1);
-      psid_init_tune();
-      vsid_set_tune(wimp_window_read_icon_number(VSidWindow, Icon_VSid_Default));
-    }
-    return -1;
+  vsync_suspend_speed_eval();
+
+  if (psid_load_file(file) == 0)
+  {
+    vsid_ui_set_ready(1);
+    psid_init_tune();
+    vsid_set_tune(wimp_window_read_icon_number(VSidWindow, Icon_VSid_Default));
+    return 0;
+  }
+  return -1;
 }
 
 int vsid_ui_mouse_click(int *block)
@@ -249,48 +253,35 @@ int vsid_ui_key_press(int *block)
 
 void vsid_ui_display_name(const char *name)
 {
-    log_message(LOG_DEFAULT, "Name: %s", name);
-
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Name, name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    log_message(LOG_DEFAULT, "Author: %s", author);
-
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Author, author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    log_message(LOG_DEFAULT, "Copyright by: %s", copyright);
-
     wimp_window_write_icon_text(VSidWindow, Icon_VSid_Copyright, copyright);
 }
 
 void vsid_ui_display_sync(int sync)
 {
-    log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
-    log_message(LOG_DEFAULT, "Default Tune: %i", nr);
-
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_Default, nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    log_message(LOG_DEFAULT, "Playing Tune: %i", nr);
-
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_Tune, nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
-
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_TotalTunes, count);
 
     NumTunes = count;

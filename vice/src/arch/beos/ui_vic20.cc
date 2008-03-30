@@ -246,7 +246,7 @@ void ui_vic20() {
 
 	vic20window = new Vic20Window;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (vic20window); /* wait until window closed */
 }
 

@@ -381,7 +381,7 @@ void ui_drive() {
 
 	drivewindow = new DriveWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (drivewindow); /* wait until window closed */
 }
 

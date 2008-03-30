@@ -210,8 +210,14 @@ static void ui_msgwin_poll_logfile(void)
           fread(text, 1, curPos, logfp);
           text[curPos] = '\0';
           textwin_add_text(tw, text);
-          if ((ui_message_window_is_open(msg_win_log)) && (FullScreenMode == 0))
-            textwin_caret_to_end(tw);
+          if (FullScreenMode == 0)
+          {
+            int block[WindowB_WFlags+1];
+            block[WindowB_Handle] = MsgWindows[msg_win_log].win->Handle;
+            Wimp_GetWindowState(block);
+            if ((block[WindowB_WFlags] & (1<<16)) != 0)
+              textwin_caret_to_end(tw);
+          }
           free(text);
         }
       }
@@ -343,8 +349,23 @@ int ui_message_window_open(message_window_e mwin, const char *title, const char 
 
       if (mwin == msg_win_log)
       {
-        /* open in the bottom left corner, but leave room below for the icon bar */
-        textwin_open(tw, tw->MaxWidth, tw->MinHeight, 0, 160 + tw->MinHeight);
+        int block[WindowB_WFlags+1];
+
+        /* if already opened then raise, otherwise open in bottom left corner */
+        block[WindowB_Handle] = mw->win->Handle;
+        Wimp_GetWindowState(block);
+        block[WindowB_Stackpos] = -1;
+        if ((block[WindowB_WFlags] & (1<<16)) == 0)
+        {
+          /* open in the bottom left corner, but leave room below for the icon bar */
+          textwin_open(tw, tw->MaxWidth, tw->MinHeight, 0, 160 + tw->MinHeight);
+        }
+        else
+        {
+          /* just raise */
+          Wimp_OpenWindow(block);
+        }
+        /* always set caret at end */
         textwin_caret_to_end(tw);
       }
       else
@@ -555,19 +576,21 @@ int ui_message_need_null_event(void)
 
 int ui_message_process_event(int event, int *wimpblock)
 {
-  int i;
-
-  ui_msgwin_poll_logfile();
+  int i, status = 0;
 
   for (i=0; i<msg_win_NUMBER; i++)
   {
     if (MsgWindows[i].tw != NULL)
     {
-      int status = textwin_process_event(MsgWindows[i].tw, event, wimpblock);
+      status = textwin_process_event(MsgWindows[i].tw, event, wimpblock);
 
       if (status != 0)
-        return status;
+        break;
     }
   }
-  return 0;
+
+  /* this may create new events; process afterwards */
+  ui_msgwin_poll_logfile();
+
+  return status;
 }

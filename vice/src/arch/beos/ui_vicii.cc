@@ -162,7 +162,7 @@ void ui_vicii() {
 
 	viciiwindow = new ViciiWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (viciiwindow); /* wait until window closed */
 }
 

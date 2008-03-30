@@ -309,7 +309,7 @@ void ui_device() {
 
 	devicewindow = new DeviceWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (devicewindow); /* wait until window closed */
 }
 

@@ -173,7 +173,7 @@ void ui_datasette() {
 
 	datasettewindow = new DatasetteWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (datasettewindow); /* wait until window closed */
 }
 

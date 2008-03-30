@@ -1813,6 +1813,8 @@ static int ui_set_drive_image(int number, const char *file)
   {
     int info[4];
 
+    vsync_suspend_speed_eval();
+
     if ((ReadCatalogueInfo(file, info) & 1) == 0) return -1;
     file_system_detach_disk(8 + number);
     if (file_system_attach_disk(8 + number, file) == 0)
@@ -1834,6 +1836,8 @@ static int ui_set_drive_dir(int number, const char *dir)
   {
     int info[4];
 
+    vsync_suspend_speed_eval();
+
     if ((ReadCatalogueInfo(dir, info) & 2) == 0) return -1;
     file_system_detach_disk(8 + number);
     fsdevice_set_directory((char*)dir, 8 + number);
@@ -1852,6 +1856,8 @@ static void ui_detach_drive_image(int number)
     RO_MenuHead *menu;
     RO_MenuItem *item;
 
+    vsync_suspend_speed_eval();
+
     menu = ConfigMenus[CONF_MENU_DRIVE8 + number].menu;
     item = (RO_MenuItem*)(menu + 1);
     ui_set_drive_dir(number, "@");
@@ -1868,6 +1874,8 @@ static int ui_set_tape_image(const char *name)
   {
     RO_Window *win;
     int state;
+
+    vsync_suspend_speed_eval();
 
     win = ConfWindows[CONF_WIN_TAPE];
 
@@ -1900,6 +1908,8 @@ static int ui_new_drive_image(int number, const char *name, int scankeys)
 {
   int type;
   int aux[4];
+
+  vsync_suspend_speed_eval();
 
   type = ReadCatalogueInfo(name, aux);
   if (type == 2)
@@ -2038,6 +2048,8 @@ static int ui_set_printer_file(const char *name)
 
 static int ui_set_cartridge_file(const char *name)
 {
+  vsync_suspend_speed_eval();
+
   if (resources_set_value(Rsrc_CartF, (resource_value_t)name) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], Icon_Conf_CartFile, name);
@@ -2859,6 +2871,8 @@ static void ui_open_config_window(int wnum)
   int block[WindowB_WFlags+1];
   RO_Window *w;
 
+  vsync_suspend_speed_eval();
+
   w = ConfWindows[wnum];
   block[WindowB_Handle] = w->Handle;
   Wimp_GetWindowState(block);
@@ -3191,6 +3205,8 @@ static int ui_create_new_disc_image(void)
   int number;
   unsigned int type;
   char *file, *name;
+
+  vsync_suspend_speed_eval();
 
   number = wimp_menu_tick_read_first((RO_MenuHead*)&MenuCreateDiscType);
 
@@ -4672,6 +4688,8 @@ static int ui_load_prg_file(const char *name)
   {
     FILE *fp;
 
+    vsync_suspend_speed_eval();
+
     if ((fp = fopen(name, "rb")) != NULL)
     {
       BYTE lo, hi;
@@ -5319,6 +5337,8 @@ int ui_poll_core(int *block)
 
 void ui_poll(int dopoll)
 {
+  int OldFullScreen = FullScreenMode;
+
   /* Just to be on the save side: snapshot unpauses for at most 1 frame! */
   SnapshotPending = 0;
   /* Was sound suspended while in this function? */
@@ -5328,6 +5348,14 @@ void ui_poll(int dopoll)
   kbd_poll();
 
   if (SingleTasking != 0) return;
+
+  /* always pull when switching from full screen mode back to the WIMP */
+  if ((OldFullScreen != 0) && (FullScreenMode == 0))
+  {
+    /* force poll and tell vsync about it */
+    dopoll = 1;
+    vsync_resync_poll();
+  }
 
   if (dopoll != 0)
   {
@@ -5458,6 +5486,8 @@ void ui_error(const char *format, ...)
   va_list ap;
   _kernel_oserror err;
 
+  vsync_suspend_speed_eval();
+
   va_start(ap, format);
 
   vsprintf(str, format, ap);
@@ -5477,6 +5507,8 @@ void ui_message(const char *format, ...)
   va_list ap;
   _kernel_oserror err;
 
+  vsync_suspend_speed_eval();
+
   va_start(ap, format);
 
   vsprintf(str, format, ap);
@@ -5492,6 +5524,8 @@ void ui_message(const char *format, ...)
 
 void ui_show_text(const char *title, const char *text, int width, int height)
 {
+  vsync_suspend_speed_eval();
+
   Wimp_CommandWindow((int)title);
   printf("%s", text);
   Wimp_CommandWindow(0);	/* Wait for space or click */
@@ -5667,6 +5701,8 @@ int ui_extend_image_dialog(void)
 {
   int button;
   _kernel_oserror err;
+
+  vsync_suspend_speed_eval();
 
   err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_DlgExtend]);
   button = Wimp_ReportError(&err, 3, WimpTaskName);

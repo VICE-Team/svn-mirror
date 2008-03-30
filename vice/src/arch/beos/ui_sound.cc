@@ -235,7 +235,7 @@ void ui_sound() {
 
 	soundwindow = new SoundWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (soundwindow); /* wait until window closed */
 }
 

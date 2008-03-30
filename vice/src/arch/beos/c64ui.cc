@@ -221,15 +221,15 @@ void c64_ui_specific(void *msg, void *window)
         	break;
 		case MENU_RESID_SAMPLE_FAST:
     		resources_set_value("SidResidSampling", (resource_value_t) 0);
-			suspend_speed_eval();
+			vsync_suspend_speed_eval();
         	break;
 		case MENU_RESID_SAMPLE_INTERPOLATE:
     		resources_set_value("SidResidSampling", (resource_value_t) 1);
-			suspend_speed_eval();
+			vsync_suspend_speed_eval();
         	break;
 		case MENU_RESID_SAMPLE_RESAMPLE:
     		resources_set_value("SidResidSampling", (resource_value_t) 2);
-			suspend_speed_eval();
+			vsync_suspend_speed_eval();
         	break;
 		case MENU_VICII_SETTINGS:
         	ui_vicii();
@@ -243,7 +243,7 @@ void c64_ui_specific(void *msg, void *window)
 			
 			((BMessage*)msg)->FindInt32("nr", &tune);
 			machine_play_psid(tune);
-			suspend_speed_eval();
+			vsync_suspend_speed_eval();
 			maincpu_trigger_reset();
 			break;
         }

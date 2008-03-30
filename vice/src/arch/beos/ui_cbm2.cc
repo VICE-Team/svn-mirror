@@ -218,7 +218,7 @@ void ui_cbm2() {
 
 	cbm2window = new Cbm2Window;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (cbm2window); /* wait until window closed */
 }
 

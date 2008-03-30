@@ -313,7 +313,7 @@ void ui_pet() {
 
 	petwindow = new PetWindow;
 
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	while (petwindow); /* wait until window closed */
 }
 

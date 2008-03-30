@@ -34,6 +34,7 @@
 #include "types.h"
 #include "utils.h"
 #include "video.h"
+#include "vsync.h"
 #include "ui.h"
 
 /* module includes */
@@ -628,6 +629,8 @@ int video_full_screen_on(int *sprites)
 {
   if (newScreenValid == 0) return -1;
 
+  vsync_suspend_speed_eval();
+
   if (SwitchToMode(&newScreenMode, &oldScreenMode) != NULL)
     return -1;
 
@@ -655,6 +658,8 @@ int video_full_screen_on(int *sprites)
 
 int video_full_screen_off(void)
 {
+  vsync_suspend_speed_eval();
+
   if (SwitchToMode(&oldScreenMode, NULL) != NULL)
     return -1;
 

@@ -62,6 +62,8 @@ static int NumberOfFrames = 0;
 static int LastSpeedLimit;
 static int FramesPerSecond = 50;
 
+static int speed_eval_suspended = 1;
+
 static double refresh_frequency;
 
 static long cycles_per_sec;
@@ -119,10 +121,10 @@ static int set_max_skipped_frames(resource_value_t v, void *param)
 
 
 
-
-
 void vsync_suspend_speed_eval(void)
 {
+  sound_suspend();
+  speed_eval_suspended = 1;
 }
 
 
@@ -167,6 +169,13 @@ int vsync_resync_speed(void)
   LastSpeed = OS_ReadMonotonicTime();
   NumberOfFrames = 0; NumberOfRefreshes = 0;
   return LastSpeed;
+}
+
+
+int vsync_resync_poll(void)
+{
+  LastPoll = OS_ReadMonotonicTime();
+  return LastPoll;
 }
 
 
@@ -237,7 +246,8 @@ int vsync_do_vsync(int been_skipped)
   }
 
   /* always pass the actual speed unless in reSID mode */
-  frame_delay = sound_flush((CycleBasedSound == 0) ? RelativeSpeed : CurrentSpeedLimit);
+  /*frame_delay = sound_flush((CycleBasedSound == 0) ? RelativeSpeed : CurrentSpeedLimit);*/
+  frame_delay = sound_flush(RelativeSpeed);
 
   if (frame_counter >= refresh_frequency * 2) {
     num_skipped_frames = 0;
@@ -262,15 +272,23 @@ int vsync_do_vsync(int been_skipped)
   }
   LastFrame = now;
 
-  if ((now - LastSpeed) >= SpeedEvery)
+  if (speed_eval_suspended)
   {
-    resource_value_t val;
+    vsync_resync_speed();
+    speed_eval_suspended = 0;
+  }
+  else
+  {
+    if ((now - LastSpeed) >= SpeedEvery)
+    {
+      resource_value_t val;
 
-    RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
-    ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
-    LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-    resources_get_value("VideoStandard", &val);
-    FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
+      RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
+      ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
+      LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
+      resources_get_value("VideoStandard", &val);
+      FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
+    }
   }
 
   dopoll = 0;

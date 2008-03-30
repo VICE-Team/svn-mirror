@@ -28,8 +28,8 @@
 #define _VSYNCARCH_RO_H
 
 extern int vsync_resync_speed(void);
+extern int vsync_resync_poll(void);
 
 extern int EmuWindowHasInputFocus;
 
 #endif
-
