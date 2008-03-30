@@ -35,7 +35,7 @@
 #include "keyboard.h"
 #include "maincpu.h"
 #include "plus4mem.h"
-#include "plus4tia1.h"
+#include "plus4pio2.h"
 #include "ted-resources.h"
 #include "ted-mem.h"
 #include "ted-sound.h"
@@ -451,7 +451,7 @@ inline static void ted07_store(BYTE value)
 inline static void ted08_store(BYTE value)
 {
     BYTE val = 0xff;
-    BYTE msk = tia_kbd;
+    BYTE msk = pio2_kbd;
     BYTE m;
     int i;
 
