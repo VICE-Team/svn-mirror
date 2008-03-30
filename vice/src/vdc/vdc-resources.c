@@ -74,14 +74,11 @@ static int set_vdc_revision(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "VDC_PaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
-      (resource_value_t *)&vdc_resources.palette_file_name,
-      set_palette_file_name, NULL },
+      (void *)&vdc_resources.palette_file_name, set_palette_file_name, NULL },
     { "VDC64KB", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vdc_resources.vdc_64kb_expansion,
-      set_64kb_expansion, NULL },
+      (void *)&vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
     { "VDCRevision", RES_INTEGER, (resource_value_t)2,
-      (resource_value_t *)&vdc.revision,
-      set_vdc_revision, NULL },
+      (void *)&vdc.revision, set_vdc_revision, NULL },
     { NULL }
 };
 

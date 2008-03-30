@@ -90,8 +90,7 @@ static int set_diagnostic_pin_enabled(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "DiagPin", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&diagnostic_pin_enabled,
-      set_diagnostic_pin_enabled, NULL },
+      (void *)&diagnostic_pin_enabled, set_diagnostic_pin_enabled, NULL },
     { NULL }
 };
 

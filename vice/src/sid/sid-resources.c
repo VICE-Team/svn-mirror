@@ -138,24 +138,18 @@ static int set_sid_resid_passband(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
-      (resource_value_t *)&sid_engine,
-      set_sid_engine, NULL },
+      (void *)&sid_engine, set_sid_engine, NULL },
     { "SidFilters", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&sid_filters_enabled,
-      set_sid_filters_enabled, NULL },
+      (void *)&sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_model,
-      set_sid_model, NULL },
+      (void *)&sid_model, set_sid_model, NULL },
     { "SidStereo", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_stereo,
-      set_sid_stereo, NULL },
+      (void *)&sid_stereo, set_sid_stereo, NULL },
 #ifdef HAVE_RESID
     { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_resid_sampling,
-      set_sid_resid_sampling, NULL },
+      (void *)&sid_resid_sampling, set_sid_resid_sampling, NULL },
     { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
-      (resource_value_t *)&sid_resid_passband,
-      set_sid_resid_passband, NULL },
+      (void *)&sid_resid_passband, set_sid_resid_passband, NULL },
 #endif
     { NULL }
 };

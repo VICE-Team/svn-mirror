@@ -148,8 +148,7 @@ static int set_raw_drive_driver(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "RawDriveDriver", RES_STRING, (resource_value_t)ARCHDEP_RAWDRIVE_DEFAULT,
-      (resource_value_t *)&raw_drive_driver,
-      set_raw_drive_driver, NULL },
+      (void *)&raw_drive_driver, set_raw_drive_driver, NULL },
     { NULL }
 };
 

@@ -91,16 +91,16 @@ static int set_external_function_rom_name(resource_value_t v, void *param)
 static const resource_t resources[] =
 {
     { "InternalFunctionROM", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&internal_function_rom_enabled,
+      (void *)&internal_function_rom_enabled,
       set_internal_function_rom_enabled, NULL },
     { "InternalFunctionName", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&internal_function_rom_name,
+      (void *)&internal_function_rom_name,
       set_internal_function_rom_name, NULL },
     { "ExternalFunctionROM", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&external_function_rom_enabled,
+      (void *)&external_function_rom_enabled,
       set_external_function_rom_enabled, NULL },
     { "ExternalFunctionName", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&external_function_rom_name,
+      (void *)&external_function_rom_name,
       set_external_function_rom_name, NULL },
     { NULL }
 };
