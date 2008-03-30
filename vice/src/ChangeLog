@@ -1,3 +1,48 @@
+2001-12-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.49.
+
+	* plus4/ted-draw.c: Some color table fixes.
+
+	* plus4/ted-mem.c (store_ted161718): New function.
+
+	* plus4/ted.c (ted_update_video_mode): Fixed vmode debugging.
+	(ted_fetch_matrix): Fixed matrix fetch.
+	(ted_update_memory_ptrs): Fixed bitmap address calculation.
+
+	* plus4/plus4.c (machine_init): Reduced autostart waiting
+	time.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c, vicii/vicii.c, vicii/vicii.h,
+	sid/sid-snapshot.c, sid/sid-snapshot.h, c64/c64cia.h,
+	c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c, cbm2/c610cia.h,
+	cbm2/c610cia1.c, c64/c64-snapshot.c, c128/c128-snapshot.c,
+	c64/c64acia.h, c64/c64acia1.c, pet/petacia.h, pet/petacia1.c,
+	drive/drive-snapshot.h, drive/drive-snapshot.c,
+	cbm2/c610acia.h, cbm2/c610acia1.c, cbm2/c610tpi.h,
+	cbm2/c610tpi1.c, cbm2/c610tpi2.c, vic20/vic20via.h,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia.h,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, vic20/vic.h,
+	crtc/crtc.h, crtc/crtc-snapshot.c, pet/petpia.h,
+	pet/petpia1.c, pet/petpia2.c, pet/petvia.h, pet/petvia.c,
+	maincpu.h, maincpu.c, drive/drivecpu.h, drive/drivecpu.c,
+	drive/viad.h, drive/via1d.c, drive/via2d.c, drive/ciad.h,
+	drive/cia1571d.c, drive/cia1581d.c, drive/riotd.h,
+	drive/riot1d.c, drive/riot2d.c, drive/fdc.h, drive/fdc.c,
+	ciacore.c, viacore.c, piacore.c, aciacore.c, tpicore.c,
+	c64/c64tpi.h, c64/c64tpi.c, riotcore.c: Directly call snapshot
+	modules, names restructured.
+
+2001-12-26  John Selck  <graham@cruise.de>
+
+	* plus4/ted-color.c: Introduced ted_colors_with_lum to
+	carry the 128 ted colors. ted_colors has been reduced to
+	the 16 base colors. ted_luminances[] intruduced to
+	carry the 8 different ted luminances.
+	ted_update_palette() now calculates the ted colors into
+	ted_colors_with_lum from ted_colors and ted_luminances[].
+
 2001-12-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.48.

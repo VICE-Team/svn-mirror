@@ -142,7 +142,7 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
            cannot take us here and we would not be able to handle JSR
            correctly anyway, so we don't care about them...  */
 
-        /* Go back to the time when the read accesses happened and serve VIC
+        /* Go back to the time when the read accesses happened and serve TED
            events.  */
         clk -= num_write_cycles;
 
@@ -286,24 +286,15 @@ inline void ted_fetch_matrix(int offs, int num)
 
     if (c >= num) {
         memcpy(ted.vbuf + offs, p + start_char, num);
-#if 0
-        memcpy(ted.cbuf + offs, ted.color_ptr + start_char, num);
-#else
         for (i = 0; i < num; i++)
-            ted.cbuf[offs] = (ted.color_ptr)[start_char + i] & 0x7f;
-#endif
+            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
     } else {
         memcpy(ted.vbuf + offs, p + start_char, c);
         memcpy(ted.vbuf + offs + c, p, num - c);
-#if 0
-        memcpy(ted.cbuf + offs, ted.color_ptr + start_char, c);
-        memcpy(ted.cbuf + offs + c, ted.color_ptr, num - c);
-#else
         for (i = 0; i < c; i++)
-            ted.cbuf[offs] = (ted.color_ptr)[start_char + i] & 0x7f;
+            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
         for (i = 0; i < num - c; i++)
-            ted.cbuf[offs + c] = (ted.color_ptr)[i] & 0x7f;
-#endif
+            ted.cbuf[offs + c + i] = (ted.color_ptr)[i] & 0x7f;
     }
 }
 
@@ -350,11 +341,11 @@ raster_t *ted_init(void)
     ted.log = log_open("TED");
 
     alarm_init(&ted.raster_fetch_alarm, maincpu_alarm_context,
-               "VicIIRasterFetch", ted_raster_fetch_alarm_handler);
+               "TEDRasterFetch", ted_raster_fetch_alarm_handler);
     alarm_init(&ted.raster_draw_alarm, maincpu_alarm_context,
-               "VicIIRasterDraw", ted_raster_draw_alarm_handler);
+               "TEDRasterDraw", ted_raster_draw_alarm_handler);
     alarm_init(&ted.raster_irq_alarm, maincpu_alarm_context,
-               "VicIIRasterIrq", ted_raster_irq_alarm_handler);
+               "TEDRasterIrq", ted_raster_irq_alarm_handler);
 
     ted_change_timing();
 
@@ -486,9 +477,9 @@ static void ted_exposure_handler(unsigned int width, unsigned int height)
     raster_force_repaint(&ted.raster);
 }
 
-/* Make sure all the VIC-II alarms are removed.  This just makes it easier to
+/* Make sure all the TED alarms are removed.  This just makes it easier to
    write functions for loading snapshot modules in other video chips without
-   caring that the VIC-II alarms are dispatched when they really shouldn't
+   caring that the TED alarms are dispatched when they really shouldn't
    be.  */
 void ted_prepare_for_snapshot(void)
 {
@@ -522,13 +513,13 @@ void ted_set_raster_irq(unsigned int line)
                                   * ted.cycles_per_line);
         alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
-        TED_DEBUG_RASTER(("VIC: update_raster_irq(): "
+        TED_DEBUG_RASTER(("TED: update_raster_irq(): "
                          "raster compare out of range ($%04X)!\n",
                          line));
         alarm_unset(&ted.raster_irq_alarm);
     }
 
-    TED_DEBUG_RASTER(("VIC: update_raster_irq(): "
+    TED_DEBUG_RASTER(("TED: update_raster_irq(): "
                      "ted.raster_irq_clk = %ul, "
                      "line = $%04X, "
                      "ted.regs[0x0a] & 2 = %d\n",
@@ -562,7 +553,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
     screen_base = ram + screen_addr;
     TED_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
 
-    bitmap_addr = (ted.regs[0x12] & 0x1c) << 11;
+    bitmap_addr = (ted.regs[0x12] & 0x38) << 10;
     bitmap_base = ram + bitmap_addr;
     TED_DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmap_addr));
 
@@ -711,28 +702,28 @@ void ted_update_video_mode(unsigned int cycle)
 
 #ifdef TED_VMODE_DEBUG
     switch (new_video_mode) {
-      case VIC_II_NORMAL_TEXT_MODE:
+      case TED_NORMAL_TEXT_MODE:
         TED_DEBUG_VMODE(("Standard Text"));
         break;
-      case VIC_II_MULTICOLOR_TEXT_MODE:
+      case TED_MULTICOLOR_TEXT_MODE:
         TED_DEBUG_VMODE(("Multicolor Text"));
         break;
-      case VIC_II_HIRES_BITMAP_MODE:
+      case TED_HIRES_BITMAP_MODE:
         TED_DEBUG_VMODE(("Hires Bitmap"));
         break;
-      case VIC_II_MULTICOLOR_BITMAP_MODE:
+      case TED_MULTICOLOR_BITMAP_MODE:
         TED_DEBUG_VMODE(("Multicolor Bitmap"));
         break;
-      case VIC_II_EXTENDED_TEXT_MODE:
+      case TED_EXTENDED_TEXT_MODE:
         TED_DEBUG_VMODE(("Extended Text"));
         break;
-      case VIC_II_ILLEGAL_TEXT_MODE:
+      case TED_ILLEGAL_TEXT_MODE:
         TED_DEBUG_VMODE(("Illegal Text"));
         break;
-      case VIC_II_ILLEGAL_BITMAP_MODE_1:
+      case TED_ILLEGAL_BITMAP_MODE_1:
         TED_DEBUG_VMODE(("Invalid Bitmap"));
         break;
-      case VIC_II_ILLEGAL_BITMAP_MODE_2:
+      case TED_ILLEGAL_BITMAP_MODE_2:
         TED_DEBUG_VMODE(("Invalid Bitmap"));
         break;
       default:                    /* cannot happen */
@@ -744,7 +735,7 @@ void ted_update_video_mode(unsigned int cycle)
 #endif
 }
 
-/* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
+/* Redraw the current raster line.  This happens at cycle TED_DRAW_CYCLE
    of each line.  */
 void ted_raster_draw_alarm_handler(CLOCK offset)
 {
@@ -830,11 +821,11 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
         do_matrix_fetch(sub);
 
         /* As sprites are all turned off, there is no need for a sprite DMA
-           check; next time we will VIC_II_FETCH_MATRIX again.  This works
-           because a VIC_II_CHECK_SPRITE_DMA is forced in `ted_store()'
+           check; next time we will TED_FETCH_MATRIX again.  This works
+           because a TED_CHECK_SPRITE_DMA is forced in `ted_store()'
            whenever the mask becomes nonzero.  */
 
-        /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
+        /* This makes sure we only create TED_FETCH_MATRIX events in the bad
            line range.  These checks are (a little) redundant for safety.  */
         if (raster->current_line < ted.first_dma_line)
             ted.fetch_clk += ((ted.first_dma_line
@@ -941,7 +932,7 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
     if (ted.regs[0x0a] & 0x2) {
         maincpu_set_irq_clk(I_RASTER, 1, ted.raster_irq_clk);
         ted.irq_status |= 0x80;
-        TED_DEBUG_RASTER(("VIC: *** IRQ requested at line $%04X, "
+        TED_DEBUG_RASTER(("TED: *** IRQ requested at line $%04X, "
                          "ted.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
                          TED_RASTER_Y(clk), ted.raster_irq_line, offset,
                          TED_RASTER_CYCLE(clk)));
@@ -1005,16 +996,6 @@ void ted_resize(void)
         raster_enable_double_scan(&ted.raster,
                                   ted_resources.double_scan_enabled);
 #endif
-}
-
-int vic_ii_write_snapshot_module(snapshot_t *s)
-{
-    return ted_snapshot_write_module(s);
-}
-
-int vic_ii_read_snapshot_module(snapshot_t *s)
-{
-    return ted_snapshot_read_module(s);
 }
 
 void ted_free(void)
