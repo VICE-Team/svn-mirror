@@ -1,3 +1,31 @@
+2002-06-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.50.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/ui.h, arch/unix/c64ui.c, arch/unix/c128ui.c,
+	arch/unix/vic20ui.c, arch/unix/petui.c, arch/unix/plus4ui.c,
+	arch/unix/cbm2ui.c, arch/unix/uivicii.h, arch/unix/uivicii.c,
+	arch/unix/uicrtc.c, arch/unix/uicrtc.h,
+	arch/unix/uisettings.c, arch/unix/x11/ui-resources.c:
+	Reorganized fullscreen UI.
+
+	* arch/unix/uivdc.c, arch/unix/uivdc.h, arch/unix/uivic.c,
+	arch/unix/uivic.h, arch/unix/uited.c, arch/unix/uited.h: New
+	files.
+
+	* arch/unix/x11/vidmode.h, arch/unix/x11/vidmode.c,
+	arch/unix/x11/fullscreen.c: Adopted to new fullscreen API.
+
+	* raster/raster.c (raster_init): Removed fullscreen hack.
+
+	* video.h, video/video-resources.c: Added doulbe size and
+	doulbe scan fullscreen resources.
+
+	* crtc/crtc.c (crtc_set_screen_options): Only resize viewport
+	if canvas is present.
+
 2002-06-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.49.

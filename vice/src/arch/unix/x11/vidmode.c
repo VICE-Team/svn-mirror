@@ -31,9 +31,11 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <string.h>
+
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
-#include <string.h>
 
 #include "log.h"
 #include "fullscreen.h"
@@ -45,14 +47,9 @@
 #include "videoarch.h"
 #include "vidmode.h"
 #include "x11ui.h"
-#include "raster/raster.h"
 
 
-raster_t *fs_cached_raster;
-
-UI_MENU_DEFINE_RADIO(SelectedFullscreenMode);
-
-int vm_selected_videomode = -1;
+static int vm_selected_videomode = -1;
 int vm_is_enabled = 0;
 
 /* ---------------------------------------------------------------*/
@@ -61,8 +58,6 @@ static int vm_mode_count;
 static unsigned int vm_index;
 static XF86VidModeModeInfo **vm_modes;
 static int vm_available = 0;
-static Display *vm_display;
-static int vm_screen;
 static int saved_h, saved_w;
 
 typedef struct {
@@ -82,13 +77,6 @@ static unsigned int vidmode_available_modes(void)
 #endif
     return vm_index;
 }
-
-static char *vidmode_mode_name(unsigned int i)
-{
-    return vm_bestmodes[i].name;
-}
-
-/* ---------------------------------------------------------------*/
 
 extern int screen;
 
@@ -128,31 +116,31 @@ int vidmode_init(void)
 
     if (vm_mode_count == 0)
         return 0;
-    resources_set_value("SelectedFullscreenMode", (resource_value_t)0);
+
     vm_selected_videomode = 0;
-    vm_display = display;
-    vm_screen = screen;
     vm_available = 1;
     (void)vidmode_available_modes();
     return 0;
 }
 
-int vidmode_set_bestmode(resource_value_t v, void *param)
+int vidmode_mode(struct video_canvas_s *canvas, int mode)
 {
-    int i = (int)v;
-
-    if (i < 0 || vm_available == 0)
+    if (mode < 0 || vm_available == 0)
         return 0;
 
-    log_message(vidmode_log, "selected mode: %s", vm_bestmodes[i].name);
-    vm_selected_videomode = i;
+    log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
+    vm_selected_videomode = mode;
 
     return 0;
 }
 
-int vidmode_set_mode(resource_value_t v, void *param)
+int vidmode_enable(struct video_canvas_s *canvas, int enable)
 {
-    if (v) {
+    Display *vm_display;
+
+    vm_display = x11ui_get_display_ptr();
+
+    if (enable) {
         int x = 0, y = 0;
         int status_w, status_h;
         extern ui_window_t status_bar;
@@ -164,24 +152,23 @@ int vidmode_set_mode(resource_value_t v, void *param)
         vm = vm_modes[vm_bestmodes[vm_selected_videomode].modeindex];
 
         vm_is_enabled = 1;
-        saved_w = fs_cached_raster->canvas->draw_buffer->canvas_width;
-        saved_h = fs_cached_raster->canvas->draw_buffer->canvas_height;
+        saved_w = canvas->draw_buffer->canvas_width;
+        saved_h = canvas->draw_buffer->canvas_height;
 
         x11ui_get_widget_size(status_bar, &status_w, &status_h);
         log_message(vidmode_log, "Status bar: %dx%d", status_w, status_h);
 
-        fs_cached_raster->canvas->draw_buffer->canvas_width
-            = vm->hdisplay + 10;
-        fs_cached_raster->canvas->draw_buffer->canvas_height
-            = vm->vdisplay-status_h + 10;
-        video_viewport_resize(fs_cached_raster->canvas);
+        canvas->draw_buffer->canvas_width = vm->hdisplay + 10;
+        canvas->draw_buffer->canvas_height = vm->vdisplay-status_h + 10;
 
-        x11ui_move_canvas_window(fs_cached_raster->canvas->emuwindow, 0, 0);
+        video_viewport_resize(canvas);
+
+        x11ui_move_canvas_window(canvas->emuwindow, 0, 0);
         ui_dispatch_events();
-        x11ui_canvas_position(fs_cached_raster->canvas->emuwindow, &x, &y);
+        x11ui_canvas_position(canvas->emuwindow, &x, &y);
 
-        XF86VidModeSwitchToMode(vm_display, vm_screen, vm);
-        XF86VidModeSetViewPort(vm_display, vm_screen, x + 5, y + 5);
+        XF86VidModeSwitchToMode(vm_display, screen, vm);
+        XF86VidModeSetViewPort(vm_display, screen, x + 5, y + 5);
         XWarpPointer(vm_display,
                      None, DefaultRootWindow(vm_display),
                      0, 0, vm->hdisplay, vm->vdisplay,
@@ -193,11 +180,11 @@ int vidmode_set_mode(resource_value_t v, void *param)
             return 0;
         vm_is_enabled = 0;
         log_message(vidmode_log, "Disabling Vidmode");
-        XF86VidModeSwitchToMode(vm_display, vm_screen, vm_modes[0]);
+        XF86VidModeSwitchToMode(vm_display, screen, vm_modes[0]);
 
-        fs_cached_raster->canvas->draw_buffer->canvas_width = saved_w;
-        fs_cached_raster->canvas->draw_buffer->canvas_height = saved_h;
-        video_viewport_resize(fs_cached_raster->canvas);
+        canvas->draw_buffer->canvas_width = saved_w;
+        canvas->draw_buffer->canvas_height = saved_h;
+        video_viewport_resize(canvas);
 
     }
     return 0;
@@ -208,7 +195,14 @@ int vidmode_available(void)
     return vm_available;
 }
 
-void vidmode_create_menus(void)
+static void *mode_callback;
+
+void vidmode_mode_callback(void *callback)
+{
+    mode_callback = callback;
+}
+
+void vidmode_create_menus(struct ui_menu_entry_s menu[])
 {
     unsigned int i, amodes;
     ui_menu_entry_t *resolutions_submenu;
@@ -220,18 +214,15 @@ void vidmode_create_menus(void)
 
     for (i = 0; i < amodes ; i++) {
         resolutions_submenu[i].string =
-            (ui_callback_data_t)xmsprintf("*%s", vidmode_mode_name(i));
-        resolutions_submenu[i].callback =
-            (ui_callback_t)radio_SelectedFullscreenMode;
+            (ui_callback_data_t)xmsprintf("*%s", vm_bestmodes[i].name);
+        resolutions_submenu[i].callback = (ui_callback_t)mode_callback;
         resolutions_submenu[i].callback_data = (ui_callback_data_t)i;
     }
 
-    for (i = 0; ui_fullscreen_settings_submenu[i].string; i++) {
-        if (strncmp(ui_fullscreen_settings_submenu[i].string,
-            "VidMode", 7) == 0) {
+    for (i = 0; menu[i].string; i++) {
+        if (strncmp(menu[i].string, "VidMode", 7) == 0) {
             if (amodes > 0)
-                ui_fullscreen_settings_submenu[i].sub_menu
-                    = resolutions_submenu;
+                menu[i].sub_menu = resolutions_submenu;
             break;
         }
     }

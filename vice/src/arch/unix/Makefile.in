@@ -139,7 +139,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c64ui.c 	c64ui.h 	cbm2ui.c 	cbm2ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joy.c 	joy.h 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	rs232.c 	types.h 	ui.h 	uic64cart.c 	uic64cart.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uiedisk.h 	uihotkey.h 	uijoystick2.c 	uijoystick2.h 	uimenu.h 	uimon.c 	uipalemu.c 	uipalemu.h 	uipalette.c 	uipalette.h 	uiperipheral.c 	uiperipheral.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uirs232.c 	uirs232.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisid.c 	uisid.h 	uisnapshot.h 	uisound.c 	uisound.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c 	vsiduiunix.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c64ui.c 	c64ui.h 	cbm2ui.c 	cbm2ui.h 	console.c 	coproc.h 	coproc.c 	icon.h 	joy.c 	joy.h 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	rs232.c 	types.h 	ui.h 	uic64cart.c 	uic64cart.h 	uicartridge.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c 	uicrtc.c 	uicrtc.h 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uiedisk.h 	uihotkey.h 	uijoystick2.c 	uijoystick2.h 	uimenu.h 	uimon.c 	uipalemu.c 	uipalemu.h 	uipalette.c 	uipalette.h 	uiperipheral.c 	uiperipheral.h 	uiprinter.c 	uiprinter.h 	uireu.c 	uireu.h 	uirs232.c 	uirs232.h 	uiscreenshot.h 	uisettings.h 	uisettings.c 	uisid.c 	uisid.h 	uisnapshot.h 	uisound.c 	uisound.h 	uited.c 	uited.h 	uivdc.c 	uivdc.h 	uivic.c 	uivic.h 	uivicii.c 	uivicii.h 	vic20ui.c 	vic20ui.h 	videoarch.h 	vsyncarch.c 	vsidui.c 	vsiduiunix.h
 
 
 bin_SCRIPTS = vsid
@@ -162,8 +162,8 @@ libarch_a_OBJECTS =  archdep.o c128ui.o c64ui.o cbm2ui.o console.o \
 coproc.o joy.o main_exit.o mouse.o petui.o plus4ui.o rs232.o \
 uic64cart.o uicmdline.o uicommands.o uicrtc.o uidatasette.o uidrive.o \
 uijoystick2.o uimon.o uipalemu.o uipalette.o uiperipheral.o uiprinter.o \
-uireu.o uirs232.o uisettings.o uisid.o uisound.o uivicii.o vic20ui.o \
-vsyncarch.o vsidui.o
+uireu.o uirs232.o uisettings.o uisid.o uisound.o uited.o uivdc.o \
+uivic.o uivicii.o vic20ui.o vsyncarch.o vsidui.o
 SCRIPTS =  $(bin_SCRIPTS)
 
 CFLAGS = @CFLAGS@
@@ -367,9 +367,9 @@ c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
 	uidrive.h uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uipalette.h uiperipheral.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h \
 	uiscreenshot.h uireu.h uirs232.h uisettings.h uisid.h uisound.h \
-	uivicii.h ../../../src/utils.h ../../../src/vsync.h
+	uivdc.h uivicii.h ../../../src/utils.h ../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/debug.h icon.h ../../../src/machine.h \
 	../../../src/resources.h uic64cart.h uicommands.h uidatasette.h \
@@ -409,13 +409,13 @@ petui.o: petui.c ../../../src/vice.h ../../../src/config.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h \
 	uiscreenshot.h uisettings.h uisound.h ../../../src/vsync.h
 plus4ui.o: plus4ui.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/debug.h icon.h ../../../src/machine.h \
-	../../../src/resources.h uicommands.h uidatasette.h uidrive.h \
-	uijoystick2.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uipalemu.h uiperipheral.h \
-	uirs232.h uiscreenshot.h uisettings.h uisound.h \
-	../../../src/utils.h ../../../src/vsync.h
+	../../../src/debug.h icon.h ../../../src/resources.h \
+	uicommands.h uidatasette.h uidrive.h uijoystick2.h uimenu.h \
+	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h uiscreenshot.h \
+	uisettings.h uisound.h uited.h ../../../src/utils.h \
+	../../../src/vsync.h
 rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h coproc.h ../../../src/log.h \
 	../../../src/resources.h ../../../src/rs232.h types.h \
@@ -441,10 +441,11 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/../xaw/uiarch.h uisettings.h uisnapshot.h uidrive.h \
 	../../../src/utils.h ../../../src/vsync.h \
 	../../../src/fullscreen.h
-uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h uimenu.h \
-	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uipalette.h
+uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/fullscreen.h uimenu.h x11/xaw/uimenu.h ui.h \
+	types.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
+	uipalette.h
 uidatasette.o: uidatasette.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/datasette.h ../../../src/resources.h uimenu.h \
 	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
@@ -496,14 +497,13 @@ uirs232.o: uirs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/archapi.h ../../../src/debug.h \
-	../../../src/fliplist.h ../../../src/fullscreen.h x11/vidmode.h \
-	../../../src/keyboard.h types.h ../../../src/machine.h \
-	../../../src/mem.h ../../../src/resources.h \
-	../../../src/romset.h uidrive.h uimenu.h x11/xaw/uimenu.h ui.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h \
-	uisettings.h uisound.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/fliplist.h ../../../src/keyboard.h types.h \
+	../../../src/machine.h ../../../src/mem.h \
+	../../../src/resources.h ../../../src/romset.h uimenu.h \
+	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
+	uiperipheral.h uirs232.h uisettings.h uisound.h \
+	../../../src/utils.h ../../../src/vsync.h
 uisid.o: uisid.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
@@ -513,19 +513,34 @@ uisound.o: uisound.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h ../../../src/sound.h types.h uimenu.h \
 	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
 	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h
-uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h c64ui.h \
-	../../../src/resources.h uipalette.h uimenu.h x11/xaw/uimenu.h \
-	ui.h types.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+uited.o: uited.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/fullscreen.h ../../../src/machine.h uimenu.h \
+	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uipalemu.h uipalette.h uited.h
+uivdc.o: uivdc.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/fullscreen.h uimenu.h x11/xaw/uimenu.h ui.h \
+	types.h ../../../src/uiapi.h x11/xaw/uiarch.h \
 	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h \
-	uivicii.h ../../../src/utils.h uipalemu.h
+	uipalette.h uivdc.h
+uivic.o: uivic.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/fullscreen.h ../../../src/machine.h uimenu.h \
+	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uipalemu.h uipalette.h
+uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h c64ui.h \
+	../../../src/fullscreen.h ../../../src/resources.h uipalette.h \
+	uimenu.h x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uivicii.h ../../../src/utils.h \
+	uipalemu.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/debug.h icon.h \
-	joy.h ../../../src/machine.h ../../../src/resources.h \
-	uicommands.h uidatasette.h uidrive.h uipalemu.h uipalette.h \
-	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
-	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
-	x11/xaw/../xaw/uiarch.h uiperipheral.h uirs232.h uiscreenshot.h \
-	uisettings.h uisound.h ../../../src/utils.h \
+	joy.h ../../../src/resources.h uicommands.h uidatasette.h \
+	uidrive.h uiperipheral.h uimenu.h x11/xaw/uimenu.h ui.h \
+	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
+	uihotkey.h x11/xaw/../xaw/uiarch.h uirs232.h uiscreenshot.h \
+	uisettings.h uisound.h uivic.h ../../../src/utils.h \
 	../../../src/vsync.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/attach.h ../../../src/c64/c64mem.h types.h c64ui.h \

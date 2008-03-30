@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cbm2.h"
 #include "cbm2mem.h"
@@ -369,10 +370,10 @@ static ui_menu_entry_t cbm2_menu[] = {
     { N_("RS232 settings"),
       NULL, NULL, cbm2_rs232_submenu },
     { "--" },
-    { N_("*CRTC Screen color"),
-      (ui_callback_t)CrtcMenu, NULL, crtc_palette_submenu },
+    { N_("Crtc settings"),
+      NULL, NULL, crtc_submenu },
     { N_("*VIC-II settings"),
-      (ui_callback_t)VicMenu, NULL, vic_submenu },
+      (ui_callback_t)VicMenu, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
     { NULL }
@@ -401,11 +402,16 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-/* ------------------------------------------------------------------------- */
+static void ui_create_dynamic_menus(void)
+{
+    uicrtc_create_menus();
+    uivicii_create_menus();
+}
 
 int cbm2_ui_init(void)
 {
     ui_set_application_icon(cbm2_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -429,11 +435,7 @@ int cbm2_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_crtc_video_settings_menu,
                                      ui_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_par_drive_settings_menu,
@@ -482,10 +484,6 @@ int cbm2_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   sid_options_submenu,
@@ -494,7 +492,6 @@ int cbm2_ui_init(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-                                  ui_crtc_video_settings_menu,
                                   ui_video_settings_menu,
                                   ui_peripheral_settings_menu,
                                   ui_drive_settings_menu,

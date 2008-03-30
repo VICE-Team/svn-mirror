@@ -28,25 +28,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <string.h>
 
 #include "cartridge.h"
 #include "debug.h"
 #include "icon.h"
 #include "joy.h"
-#include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
-#include "uipalemu.h"
-#include "uipalette.h"
 #include "uiperipheral.h"
 #include "uimenu.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisound.h"
+#include "uivic.h"
 #include "utils.h"
 #include "vsync.h"
 
@@ -393,52 +391,6 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
-static ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
-
-static ui_menu_entry_t palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"PaletteFile", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VICVideoCache)
-
-static ui_menu_entry_t vic_submenu[] = {
-    { N_("*Double size"),
-      (ui_callback_t)toggle_VICDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_VICDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_VICVideoCache, NULL, NULL },
-    { "--" },
-    { N_("Video standard"),
-      NULL, NULL, set_video_standard_submenu },
-    { "--" },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("PAL Emulation Settings"),
-      NULL, NULL, PALMode_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t vic20_menu[] = {
     { N_("VIC settings"),
       NULL, NULL, vic_submenu },
@@ -447,11 +399,15 @@ static ui_menu_entry_t vic20_menu[] = {
     { NULL }
 };
 
-/* ------------------------------------------------------------------------- */
+static void ui_create_dynamic_menus(void)
+{
+    uivic_create_menus();
+}
 
 int vic20_ui_init(void)
 {
     ui_set_application_icon(vic20_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -480,9 +436,6 @@ int vic20_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_vic_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -537,10 +490,6 @@ int vic20_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   ui_drive_options_submenu,
                                   NULL),
                    _("Settings"),

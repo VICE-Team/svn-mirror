@@ -29,7 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 #include "debug.h"
 #include "icon.h"
@@ -340,7 +340,7 @@ static ui_menu_entry_t c64_menu[] = {
     { N_("ROM settings"),
       NULL, NULL, c64_romset_submenu },
     { N_("VIC-II settings"),
-      NULL, NULL, vic_submenu },
+      NULL, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
     { N_("I/O extensions at $DFxx"),
@@ -354,7 +354,7 @@ static ui_menu_entry_t c64_settings_menu[] = {
     { N_("ROM settings"),
       NULL, NULL, c64_romset_submenu },
     { N_("VIC-II settings"),
-      NULL, NULL, vic_submenu },
+      NULL, NULL, vicii_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
     { N_("RS232 settings"),
@@ -362,9 +362,15 @@ static ui_menu_entry_t c64_settings_menu[] = {
     { NULL }
 };
 
+static void ui_create_dynamic_menus(void)
+{
+    uivicii_create_menus();
+}
+
 int c64_ui_init(void)
 {
     ui_set_application_icon(c64_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -393,9 +399,6 @@ int c64_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -441,10 +444,6 @@ int c64_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   sid_options_submenu,

@@ -28,7 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 #include "debug.h"
 #include "icon.h"
@@ -40,7 +40,6 @@
 #include "uidrive.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
-#include "uipalette.h"
 #include "uiperipheral.h"
 #include "uiscreenshot.h"
 #include "uireu.h"
@@ -48,6 +47,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "uivdc.h"
 #include "uivicii.h"
 #include "utils.h"
 #include "vsync.h"
@@ -60,56 +60,6 @@ ui_menu_entry_t set_video_standard_submenu[] = {
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
-
-static ui_menu_entry_t vdc_palette_submenu[] = {
-    { N_("*Default"),
-      (ui_callback_t)radio_VDC_PaletteFile,
-      (ui_callback_data_t)"vdc_deft", NULL },
-    { "--" },
-    { N_("Load custom"),
-      (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VDC_PaletteFile", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(VDCRevision)
-
-static ui_menu_entry_t set_vdc_revison_submenu[] = {
-    { N_("*Revison 0"), (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)0, NULL },
-    { N_("*Revison 1"), (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)1, NULL },
-    { N_("*Revison 2"), (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
-UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
-UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
-UI_MENU_DEFINE_TOGGLE(VDC64KB)
-
-static ui_menu_entry_t vdc_submenu[] = {
-    { N_("*Double size"),
-      (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
-    { "--" },
-    { N_("*64KB display memory"),
-      (ui_callback_t)toggle_VDC64KB, NULL, NULL },
-    { N_("Revision"),
-      NULL, NULL, set_vdc_revison_submenu },
-    { "--" },
-    { N_("Color set"),
-      NULL, NULL, vdc_palette_submenu },
     { NULL }
 };
 
@@ -369,7 +319,7 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 static ui_menu_entry_t c128_menu[] = {
     { N_("VIC-II settings"),
-      NULL, NULL, vic_submenu },
+      NULL, NULL, vicii_submenu },
     { N_("VDC settings"),
       NULL, NULL, vdc_submenu },
     { N_("SID settings"),
@@ -385,7 +335,7 @@ static ui_menu_entry_t c128_menu[] = {
 
 static ui_menu_entry_t c128_settings_menu[] = {
     { N_("VIC-II settings"),
-      NULL, NULL, vic_submenu },
+      NULL, NULL, vicii_submenu },
     { N_("VDC settings"),
       NULL, NULL, vdc_submenu },
     { N_("SID settings"),
@@ -397,9 +347,16 @@ static ui_menu_entry_t c128_settings_menu[] = {
     { NULL }
 };
 
+static void ui_create_dynamic_menus(void)
+{
+    uivicii_create_menus();
+    uivdc_create_menus();
+}
+
 int c128_ui_init(void)
 {
     ui_set_application_icon(c128_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -428,9 +385,6 @@ int c128_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -476,10 +430,6 @@ int c128_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   sid_options_submenu,
