@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-04-23 21:58+0200\n"
+"POT-Creation-Date: 2006-04-28 09:52+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -326,17 +326,17 @@ msgstr "Jouer les événements enregistrés"
 msgid "Resource %s blocked by %s."
 msgstr "La ressource %s est bloquée par %s."
 
-#: src/c64/c64io.c:178
+#: src/c64/c64io.c:179
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr ""
 
-#: src/c64/c64io.c:196
+#: src/c64/c64io.c:197
 #, fuzzy
 msgid " and "
 msgstr "Charger "
 
-#: src/c64/c64io.c:197
+#: src/c64/c64io.c:198
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -392,77 +392,77 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Erreur de lecture: %s est différente de la ligne %d du fichier débug%06d"
 
-#: src/network.c:173
+#: src/network.c:201
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:398
+#: src/network.c:426
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:446
+#: src/network.c:474
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:470
+#: src/network.c:498
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr "Impossible de charger la sauvegarde."
 
-#: src/network.c:483
+#: src/network.c:511
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "E&nregistrer une sauvegarde..."
 
-#: src/network.c:492
+#: src/network.c:520
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr "Impossible de charger le fichier de sauvegarde."
 
-#: src/network.c:518
+#: src/network.c:546
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:556
+#: src/network.c:584
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:715
+#: src/network.c:743
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:752
+#: src/network.c:780
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr "Impossible d'écrire le fichier de sauvegarde `%s'."
 
-#: src/network.c:772
+#: src/network.c:800
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr "Impossible d'écrire le fichier log `%s'."
 
-#: src/network.c:817
+#: src/network.c:845
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:831
+#: src/network.c:859
 #, fuzzy
 msgid "Receiving snapshot from server..."
 msgstr "Sélectionner la sauvegarde de fin pour l'historique des événements"
 
-#: src/network.c:962
+#: src/network.c:990
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:973
+#: src/network.c:1001
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1015
+#: src/network.c:1043
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

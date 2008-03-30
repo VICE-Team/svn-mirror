@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-04-23 21:58+0200\n"
+"POT-Creation-Date: 2006-04-28 09:52+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -315,21 +315,22 @@ msgstr "Afspelen opgenomen gebeurtenissen"
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
 
-#: src/c64/c64io.c:178
+#: src/c64/c64io.c:179
 #, c-format
 msgid "I/O read collision at %X from "
-msgstr ""
-
-#: src/c64/c64io.c:196
-#, fuzzy
-msgid " and "
-msgstr "Laad "
+msgstr "I/O lees botsing op %X van "
 
 #: src/c64/c64io.c:197
+msgid " and "
+msgstr " en "
+
+#: src/c64/c64io.c:198
 msgid ""
 ".\n"
 "All the named devices will be detached."
 msgstr ""
+".\n"
+"Alle genoemde apparaten zullen worden ontkoppelt."
 
 #: src/debug.c:179
 msgid "Trace the main CPU"
@@ -380,76 +381,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:173
+#: src/network.c:201
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
-#: src/network.c:398
+#: src/network.c:426
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:446
+#: src/network.c:474
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:470
+#: src/network.c:498
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:483
+#: src/network.c:511
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:492
+#: src/network.c:520
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:518
+#: src/network.c:546
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:556
+#: src/network.c:584
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:715
+#: src/network.c:743
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:752
+#: src/network.c:780
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:772
+#: src/network.c:800
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:817
+#: src/network.c:845
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:831
+#: src/network.c:859
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:962
+#: src/network.c:990
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:973
+#: src/network.c:1001
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:1015
+#: src/network.c:1043
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 

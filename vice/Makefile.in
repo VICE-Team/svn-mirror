@@ -134,6 +134,8 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
 POFILES = @POFILES@
 POSUB = @POSUB@
+QNX_COMPILE_FALSE = @QNX_COMPILE_FALSE@
+QNX_COMPILE_TRUE = @QNX_COMPILE_TRUE@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DEP = @RESID_DEP@
@@ -144,6 +146,8 @@ RISCOS_COMPILE_FALSE = @RISCOS_COMPILE_FALSE@
 RISCOS_COMPILE_TRUE = @RISCOS_COMPILE_TRUE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SOLARIS_COMPILE_FALSE = @SOLARIS_COMPILE_FALSE@
+SOLARIS_COMPILE_TRUE = @SOLARIS_COMPILE_TRUE@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -635,6 +639,21 @@ xplus4:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
+
+@MSDOS_COMPILE_TRUE@bindist:
+@MSDOS_COMPILE_TRUE@	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP)
+
+@WIN32_COMPILE_TRUE@bindist:
+@WIN32_COMPILE_TRUE@	$(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION)
+
+@BEOS_COMPILE_TRUE@bindist:
+@BEOS_COMPILE_TRUE@	$(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION)
+
+@QNX_COMPILE_TRUE@bindist:
+@QNX_COMPILE_TRUE@	$(srcdir)/src/arch/unix/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+
+@SOLARIS_COMPILE_TRUE@bindist:
+@SOLARIS_COMPILE_TRUE@	$(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -132,6 +132,8 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
 POFILES = @POFILES@
 POSUB = @POSUB@
+QNX_COMPILE_FALSE = @QNX_COMPILE_FALSE@
+QNX_COMPILE_TRUE = @QNX_COMPILE_TRUE@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DEP = @RESID_DEP@
@@ -142,6 +144,8 @@ RISCOS_COMPILE_FALSE = @RISCOS_COMPILE_FALSE@
 RISCOS_COMPILE_TRUE = @RISCOS_COMPILE_TRUE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SOLARIS_COMPILE_FALSE = @SOLARIS_COMPILE_FALSE@
+SOLARIS_COMPILE_TRUE = @SOLARIS_COMPILE_TRUE@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -277,6 +281,8 @@ libc64cart_a_SOURCES = \
 	kcs.h \
 	magicformel.c \
 	magicformel.h \
+	mikroass.c \
+	mikroass.h \
 	retroreplay.c \
 	retroreplay.h \
 	rexep256.c \
@@ -305,9 +311,9 @@ am_libc64cart_a_OBJECTS = actionreplay.$(OBJEXT) atomicpower.$(OBJEXT) \
 	crt.$(OBJEXT) delaep256.$(OBJEXT) delaep64.$(OBJEXT) \
 	delaep7x8.$(OBJEXT) epyxfastload.$(OBJEXT) expert.$(OBJEXT) \
 	final.$(OBJEXT) generic.$(OBJEXT) ide64.$(OBJEXT) kcs.$(OBJEXT) \
-	magicformel.$(OBJEXT) retroreplay.$(OBJEXT) rexep256.$(OBJEXT) \
-	ross.$(OBJEXT) stb.$(OBJEXT) supergames.$(OBJEXT) \
-	supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
+	magicformel.$(OBJEXT) mikroass.$(OBJEXT) retroreplay.$(OBJEXT) \
+	rexep256.$(OBJEXT) ross.$(OBJEXT) stb.$(OBJEXT) \
+	supergames.$(OBJEXT) supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
 libc64cart_a_OBJECTS = $(am_libc64cart_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -321,7 +327,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/epyxfastload.Po ./$(DEPDIR)/expert.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/final.Po ./$(DEPDIR)/generic.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ide64.Po ./$(DEPDIR)/kcs.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/magicformel.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/magicformel.Po ./$(DEPDIR)/mikroass.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/retroreplay.Po ./$(DEPDIR)/rexep256.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ross.Po ./$(DEPDIR)/stb.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/supergames.Po \
@@ -373,6 +379,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magicformel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mikroass.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/retroreplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rexep256.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ross.Po@am__quote@

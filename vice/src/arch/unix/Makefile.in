@@ -134,6 +134,8 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
 POFILES = @POFILES@
 POSUB = @POSUB@
+QNX_COMPILE_FALSE = @QNX_COMPILE_FALSE@
+QNX_COMPILE_TRUE = @QNX_COMPILE_TRUE@
 RANLIB = @RANLIB@
 READLINE = @READLINE@
 RESID_DEP = @RESID_DEP@
@@ -144,6 +146,8 @@ RISCOS_COMPILE_FALSE = @RISCOS_COMPILE_FALSE@
 RISCOS_COMPILE_TRUE = @RISCOS_COMPILE_TRUE@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SOLARIS_COMPILE_FALSE = @SOLARIS_COMPILE_FALSE@
+SOLARIS_COMPILE_TRUE = @SOLARIS_COMPILE_TRUE@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -400,7 +404,13 @@ libarch_a_SOURCES = \
 
 bin_SCRIPTS = vsid
 
-EXTRA_DIST = vsid minix/minix-ar.sh
+EXTRA_DIST = \
+	vsid \
+	minix/minix-ar.sh \
+	qnx/make-bindist.sh \
+	solaris/make-bindist.sh \
+	solaris/make_package.pl
+
 subdir = src/arch/unix
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
@@ -770,7 +780,7 @@ top_distdir = ../../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/minix
+	$(mkinstalldirs) $(distdir)/minix $(distdir)/qnx $(distdir)/solaris
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
