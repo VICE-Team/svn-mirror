@@ -26,10 +26,13 @@
 
 #include "vice.h"
 
-#include <stdio.h>
 #include <stdarg.h>
-#include <errno.h>
+#include <stdio.h>
 #include <string.h>
+
+#ifdef HAVE_ERRNO_H
+#include <errno.h>
+#endif
 
 #include "log.h"
 #include "mem.h"
