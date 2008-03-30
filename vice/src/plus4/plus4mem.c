@@ -59,8 +59,6 @@ const char *mem_romset_resources_list[] = {
 
 /* Number of possible memory configurations.  */
 #define NUM_CONFIGS     32
-/* Number of possible video banks (16K each).  */
-#define NUM_VBANKS      1
 
 /* The Plus4 memory.  */
 BYTE ram[PLUS4_RAM_SIZE];
@@ -83,7 +81,7 @@ BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
-static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
+static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
@@ -169,11 +167,7 @@ BYTE *mem_get_tedmem_base(unsigned int segment)
 
 /* ------------------------------------------------------------------------- */
 
-inline void pla_config_changed(void)
-{
-}
-
-static void mem_proc_port_store(void)
+inline static void mem_proc_port_store(void)
 {
     BYTE tmp;
 
@@ -182,23 +176,12 @@ static void mem_proc_port_store(void)
     iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
 }
 
-static BYTE mem_proc_port_read(ADDRESS addr)
+inline static BYTE mem_proc_port_read(ADDRESS addr)
 {
-    if (addr == 0) {
+    if (addr == 0)
         return pport.dir;
-    } else {
-        BYTE byte;
-        if (!drive[0].enable && !drive[1].enable)
-            return ((pport.data | ~pport.dir) & 0x3f) |
-                (iec_info->iec_fast_1541 & 0x30) << 2;
-        if (drive[0].enable)
-            drive0_cpu_execute(clk);
-        if (drive[1].enable)
-            drive1_cpu_execute(clk);
 
-        byte = ((pport.data | ~pport.dir) & 0x3f) | iec_info->cpu_port;
-        return byte;
-    }
+    return iec_cpu_read() | ((pport.data | ~pport.dir) & 0x3f);
 }
 
 static void mem_config_set(unsigned int config)
@@ -210,7 +193,7 @@ static void mem_config_set(unsigned int config)
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[0][mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
 
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
@@ -247,7 +230,7 @@ BYTE REGPARM1 read_watch(ADDRESS addr)
 void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
-    mem_write_tab[0][mem_config][addr >> 8](addr, value);
+    mem_write_tab[mem_config][addr >> 8](addr, value);
 }
 
 void mem_toggle_watchpoints(int flag)
@@ -257,7 +240,7 @@ void mem_toggle_watchpoints(int flag)
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
         _mem_read_tab_ptr = mem_read_tab[mem_config];
-        _mem_write_tab_ptr = mem_write_tab[0][mem_config];
+        _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
 }
 
@@ -272,7 +255,7 @@ BYTE REGPARM1 read_zero(ADDRESS addr)
       case 1:
         return mem_proc_port_read(addr);
     }
-    return ram[addr & 0xff];
+    return ram[addr];
 }
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
@@ -305,6 +288,11 @@ BYTE REGPARM1 basic_read(ADDRESS addr)
 BYTE REGPARM1 kernal_read(ADDRESS addr)
 {
     return kernal_rom[addr & 0x3fff];
+}
+
+void REGPARM2 kernal_store(ADDRESS addr, BYTE value)
+{
+    kernal_rom[addr & 0x3fff] = value;
 }
 
 static BYTE REGPARM1 extromlo1_read(ADDRESS addr)
@@ -352,9 +340,27 @@ BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xc000) {
       case 0x8000:
-        return basic_read(addr);
+        switch ((mem_config >> 1) & 3) {
+          case 0:
+            return basic_read(addr);
+          case 1:
+            return extromlo1_read(addr);
+          case 2:
+            return extromlo2_read(addr);
+          case 3:
+            return extromlo3_read(addr);
+        }
       case 0xc000:
-        return kernal_read(addr);
+        switch ((mem_config >> 3) & 3) {
+          case 0:
+            return kernal_read(addr);
+          case 1:
+            return extromhi1_read(addr);
+          case 2:
+            return extromhi2_read(addr);
+          case 3:
+            return extromhi3_read(addr);
+        }
     }
 
     return 0;
@@ -387,10 +393,29 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 }
 
 /* ------------------------------------------------------------------------- */
+/* FIXME: Move this pio code out of here after 1.8.  */
+
+static BYTE pio1_data = 0xff;
+
+BYTE REGPARM1 pio1_read(ADDRESS addr)
+{
+    return pio1_data;
+}
+
+void REGPARM2 pio1_store(ADDRESS addr, BYTE value)
+{
+    pio1_data = value;
+}
+
+/* ------------------------------------------------------------------------- */
 
 static BYTE REGPARM1 fdxx_read(ADDRESS addr)
 {
+    if (addr >= 0xfd10 && addr <= 0xfd1f)
+        return pio1_read(addr);
+
     if (addr >= 0xfd30 && addr <= 0xfd3f)
+        /* Should be pio2_read().  */
         return tia1_read(addr);
 
     return 0;
@@ -398,7 +423,12 @@ static BYTE REGPARM1 fdxx_read(ADDRESS addr)
 
 static void REGPARM2 fdxx_store(ADDRESS addr, BYTE value)
 {
+    if (addr >= 0xfd10 && addr <= 0xfd1f) {
+        pio1_store(addr, value);
+        return;
+    }
     if (addr >= 0xfd30 && addr <= 0xfd3f) {
+        /* Should be pio2_store().  */
         tia1_store(addr, value);
         return;
     }
@@ -418,12 +448,10 @@ static BYTE REGPARM1 ram_ffxx_read(ADDRESS addr)
 
 static void REGPARM2 ram_ffxx_store(ADDRESS addr, BYTE value)
 {
-    if (addr >= 0xff40 || (addr >= 0xff20 && addr <= 0xff3d)) {
-        ram_store(addr, value);
-        return;
-    }
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f)
+        ted_store(addr, value);
 
-    ted_store(addr, value);
+    ram_store(addr, value);
 }
 
 static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
@@ -436,28 +464,22 @@ static BYTE REGPARM1 rom_ffxx_read(ADDRESS addr)
 
 static void REGPARM2 rom_ffxx_store(ADDRESS addr, BYTE value)
 {
-    if (addr >= 0xff40 || (addr >= 0xff20 && addr <= 0xff3d)) {
-        ram_store(addr, value);
-        return;
-    }
+    if (addr < 0xff20 || addr == 0xff3e || addr == 0xff3f)
+        ted_store(addr, value);
 
-    ted_store(addr, value);
+    ram_store(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static void set_write_hook(int config, int page, store_func_t *f)
 {
-    int i;
-
-    for (i = 0; i < NUM_VBANKS; i++) {
-        mem_write_tab[i][config][page] = f;
-    }
+     mem_write_tab[config][page] = f;
 }
 
 void mem_initialize_memory(void)
 {
-    int i, j, k;
+    int i, j;
 
     iec_info = iec_get_drive_port();
 
@@ -476,26 +498,24 @@ void mem_initialize_memory(void)
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = ram + (j << 8);
-            for (k = 0; k < NUM_VBANKS; k++) {
 #if 0
-                if ((j & 0xc0) == (k << 6)) {
-                    switch (j & 0x3f) {
-                      case 0x39:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
-                        break;
-                      case 0x3f:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
-                        break;
-                      default:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_store;
-                    }
-                } else {
-#endif
-                    mem_write_tab[k][i][j] = ram_store;
-#if 0
+            if ((j & 0xc0) == (k << 6)) {
+                switch (j & 0x3f) {
+                  case 0x39:
+                    mem_write_tab[i][j] = ted_mem_vbank_39xx_store;
+                    break;
+                  case 0x3f:
+                    mem_write_tab[i][j] = ted_mem_vbank_3fxx_store;
+                    break;
+                  default:
+                    mem_write_tab[i][j] = ted_mem_vbank_store;
                 }
+            } else {
 #endif
+                mem_write_tab[i][j] = ted_mem_vbank_store;
+#if 0
             }
+#endif
         }
         mem_read_tab[i][0xff] = ram_read;
         mem_read_base_tab[i][0xff] = ram + 0xff00;
@@ -579,29 +599,29 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0xfc] = kernal_rom + ((0xfc & 0x3f) << 8);
 
         mem_read_tab[i + 0][0xfd] = fdxx_read;
-        mem_write_tab[0][i + 0][0xfd] = fdxx_store;
+        mem_write_tab[i + 0][0xfd] = fdxx_store;
         mem_read_base_tab[i + 0][0xfd] = NULL;
         mem_read_tab[i + 1][0xfd] = fdxx_read;
-        mem_write_tab[0][i + 1][0xfd] = fdxx_store;
+        mem_write_tab[i + 1][0xfd] = fdxx_store;
         mem_read_base_tab[i + 1][0xfd] = NULL;
 
         mem_read_tab[i + 0][0xff] = ram_ffxx_read;
-        mem_write_tab[0][i + 0][0xff] = ram_ffxx_store;
+        mem_write_tab[i + 0][0xff] = ram_ffxx_store;
         mem_read_base_tab[i + 0][0xff] = NULL;
         mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-        mem_write_tab[0][i + 1][0xff] = rom_ffxx_store;
+        mem_write_tab[i + 1][0xff] = rom_ffxx_store;
         mem_read_base_tab[i + 1][0xff] = NULL;
 
         mem_read_tab[i + 0][0x100] = mem_read_tab[i + 0][0];
-        mem_write_tab[0][i + 0][0x100] = mem_write_tab[0][i + 0][0];
+        mem_write_tab[i + 0][0x100] = mem_write_tab[i + 0][0];
         mem_read_base_tab[i + 0][0x100] = mem_read_base_tab[i + 0][0];
         mem_read_tab[i + 1][0x100] = mem_read_tab[i + 1][0];
-        mem_write_tab[0][i + 1][0x100] = mem_write_tab[0][i + 1][0];
+        mem_write_tab[i + 1][0x100] = mem_write_tab[i + 1][0];
         mem_read_base_tab[i + 1][0x100] = mem_read_base_tab[i + 1][0];
     }
     mem_config = 1;
     _mem_read_tab_ptr = mem_read_tab[mem_config];
-    _mem_write_tab_ptr = mem_write_tab[0][mem_config];
+    _mem_write_tab_ptr = mem_write_tab[mem_config];
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 }
