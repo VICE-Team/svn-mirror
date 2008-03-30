@@ -561,7 +561,7 @@ translate_t string_table[] = {
 
 /* c64/c64io.c */
 /* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    "I/O read collision at %X from "},
-/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, ""},  /* fuzzy */
+/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, "I/O Lese Kollision bei %X von "},
 /* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, ""},  /* fuzzy */
 /* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
@@ -570,7 +570,7 @@ translate_t string_table[] = {
 
 /* c64/c64io.c */
 /* en */ {IDGS_AND,    " and "},
-/* de */ {IDGS_AND_DE, ""},  /* fuzzy */
+/* de */ {IDGS_AND_DE, " und "},
 /* fr */ {IDGS_AND_FR, ""},  /* fuzzy */
 /* it */ {IDGS_AND_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_AND_NL, " en "},
@@ -579,7 +579,7 @@ translate_t string_table[] = {
 
 /* c64/c64io.c */
 /* en */ {IDGS_ALL_DEVICES_DETACHED,    ".\nAll the named devices will be detached."},
-/* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ""},  /* fuzzy */
+/* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ".\nAlle genannten Geräte werden entfernt."},
 /* fr */ {IDGS_ALL_DEVICES_DETACHED_FR, ""},  /* fuzzy */
 /* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAlle genoemde apparaten zullen worden ontkoppelt."},
@@ -4100,7 +4100,7 @@ translate_t string_table[] = {
 
 /* plus4/plus4memcsory256k.c */
 /* en */ {IDCLS_ENABLE_CS256K_EXPANSION,    "Enable the CSORY 256K RAM expansion"},
-/* de */ {IDCLS_ENABLE_CS256K_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_CS256K_EXPANSION_DE, "CSORY 256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_CS256K_EXPANSION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_CS256K_EXPANSION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_CS256K_EXPANSION_NL, "Aktiveer de CSORY 256K geheugen uitbreiding"},
@@ -4109,7 +4109,7 @@ translate_t string_table[] = {
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H256K_EXPANSION,    "Enable the HANNES 256K RAM expansion"},
-/* de */ {IDCLS_ENABLE_H256K_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_H256K_EXPANSION_DE, "HANNES 256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H256K_EXPANSION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_H256K_EXPANSION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_H256K_EXPANSION_NL, "Aktiveer de HANNES 256K geheugen uitbreiding"},
@@ -4118,7 +4118,7 @@ translate_t string_table[] = {
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H1024K_EXPANSION,    "Enable the HANNES 1024K RAM expansion"},
-/* de */ {IDCLS_ENABLE_H1024K_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_H1024K_EXPANSION_DE, "HANNES 1024K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H1024K_EXPANSION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_H1024K_EXPANSION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_H1024K_EXPANSION_NL, "Aktiveer de HANNES 1024K geheugen uitbreiding"},
@@ -4127,7 +4127,7 @@ translate_t string_table[] = {
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H4096K_EXPANSION,    "Enable the HANNES 4096K RAM expansion"},
-/* de */ {IDCLS_ENABLE_H4096K_EXPANSION_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_H4096K_EXPANSION_DE, "HANNES 4096K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H4096K_EXPANSION_FR, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_H4096K_EXPANSION_NL, "Aktiveer de HANNES 4096K geheugen uitbreiding"},

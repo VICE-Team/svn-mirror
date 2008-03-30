@@ -1158,15 +1158,17 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_box_pack_end(GTK_BOX(new_pane), pal_ctrl_widget, FALSE, FALSE, 0);
     gtk_widget_hide(pal_ctrl_widget);
     
+    GTK_WIDGET_SET_FLAGS(new_canvas,GTK_CAN_FOCUS);
+    gtk_widget_grab_focus (new_canvas);
     if (no_autorepeat) {
         g_signal_connect(G_OBJECT(new_window),"enter-notify-event",
 			 G_CALLBACK(ui_autorepeat_off),NULL);
         g_signal_connect(G_OBJECT(new_window),"leave-notify-event",
 			 G_CALLBACK(ui_autorepeat_on),NULL);
     }
-    g_signal_connect_after(G_OBJECT(new_window),"key-press-event",
+    g_signal_connect(G_OBJECT(new_canvas),"key-press-event",
 		     G_CALLBACK(kbd_event_handler),NULL);
-    g_signal_connect_after(G_OBJECT(new_window),"key-release-event",
+    g_signal_connect(G_OBJECT(new_canvas),"key-release-event",
 		     G_CALLBACK(kbd_event_handler),NULL);
     g_signal_connect(G_OBJECT(new_window),"enter-notify-event",
 		     G_CALLBACK(kbd_event_handler),NULL);

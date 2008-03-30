@@ -755,7 +755,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_SAVE_STOP_MEDIA_FILE_SV, "Starta/stoppa mediafil..."},
 
 /* en */ {IDMS_NETPLAY,    "Netplay (experimental)..."},
-/* de */ {IDMS_NETPLAY_DE, ""},  /* fuzzy */
+/* de */ {IDMS_NETPLAY_DE, "Netplay (experimentell)..."},
 /* fr */ {IDMS_NETPLAY_FR, ""},  /* fuzzy */
 /* it */ {IDMS_NETPLAY_IT, "Gioco in rete (sperimentale)..."},
 /* nl */ {IDMS_NETPLAY_NL, "Netplay (experimenteel)..."},
@@ -1211,7 +1211,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_JOYSTICK_SETTINGS_SV, "Inställningar för joystick..."},
 
 /* en */ {IDMS_JOYSTICK_DEVICE_SELECT,    "Joystick device selection"},
-/* de */ {IDMS_JOYSTICK_DEVICE_SELECT_DE, ""},  /* fuzzy */
+/* de */ {IDMS_JOYSTICK_DEVICE_SELECT_DE, "Joystick Geräte Auswahl"},
 /* fr */ {IDMS_JOYSTICK_DEVICE_SELECT_FR, ""},  /* fuzzy */
 /* it */ {IDMS_JOYSTICK_DEVICE_SELECT_IT, "Seleziona il joystick"},
 /* nl */ {IDMS_JOYSTICK_DEVICE_SELECT_NL, "Joystick apparaat selectie"},
@@ -1219,7 +1219,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_JOYSTICK_DEVICE_SELECT_SV, "enhetsinställningar för joystick"},
 
 /* en */ {IDMS_JOYSTICK_FIRE_SELECT,    "Joystick fire button selection"},
-/* de */ {IDMS_JOYSTICK_FIRE_SELECT_DE, ""},  /* fuzzy */
+/* de */ {IDMS_JOYSTICK_FIRE_SELECT_DE, "Joystick Feuerknopf Wahl"},
 /* fr */ {IDMS_JOYSTICK_FIRE_SELECT_FR, ""},  /* fuzzy */
 /* it */ {IDMS_JOYSTICK_FIRE_SELECT_IT, "Seleziona il pulsante di fuoco"},
 /* nl */ {IDMS_JOYSTICK_FIRE_SELECT_NL, "Joystick vuur knop selectie"},
@@ -1531,7 +1531,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_LANGUAGE_SV, "Språk"},
 
 /* en */ {IDMS_FULLSCREEN_STATUSBAR,    "Fullscreen Statusbar"},
-/* de */ {IDMS_FULLSCREEN_STATUSBAR_DE, ""},  /* fuzzy */
+/* de */ {IDMS_FULLSCREEN_STATUSBAR_DE, "Vollbild Statusleiste"},
 /* fr */ {IDMS_FULLSCREEN_STATUSBAR_FR, ""},  /* fuzzy */
 /* it */ {IDMS_FULLSCREEN_STATUSBAR_IT, "Barra di stato a schermo intero"},
 /* nl */ {IDMS_FULLSCREEN_STATUSBAR_NL, "Volscherm Statusbalk"},
@@ -1539,7 +1539,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_FULLSCREEN_STATUSBAR_SV, "Status rad vid fullskärm"},
 
 /* en */ {IDMS_VIDEO_OVERLAY,    "Video overlay"},
-/* de */ {IDMS_VIDEO_OVERLAY_DE, ""},  /* fuzzy */
+/* de */ {IDMS_VIDEO_OVERLAY_DE, "Video Overlay"},
 /* fr */ {IDMS_VIDEO_OVERLAY_FR, ""},  /* fuzzy */
 /* it */ {IDMS_VIDEO_OVERLAY_IT, "Video overlay"},
 /* nl */ {IDMS_VIDEO_OVERLAY_NL, "Video overlay"},
@@ -1645,7 +1645,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_VICE_ERROR_SV, "VICE-fel"},
 
 /* en */ {IDMES_NO_JOY_ON_PORT_D,    "No joystick or joypad found on port %d"},
-/* de */ {IDMES_NO_JOY_ON_PORT_D_DE, ""},  /* fuzzy */
+/* de */ {IDMES_NO_JOY_ON_PORT_D_DE, "Kein Joystick oder Joypad am Port %d gefunden"},
 /* fr */ {IDMES_NO_JOY_ON_PORT_D_FR, ""},  /* fuzzy */
 /* it */ {IDMES_NO_JOY_ON_PORT_D_IT, "Nessun  joystick o joypad connesso alla porta %d"},
 /* nl */ {IDMES_NO_JOY_ON_PORT_D_NL, "Geen joystick of joypad gevonden op poort %d"},
@@ -1653,7 +1653,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_NO_JOY_ON_PORT_D_SV, "Ingen joystick eller joypad hittades på port %d"},
 
 /* en */ {IDMES_MOUSE_ON_PORT_D,    "A mouse was found on port %d"},
-/* de */ {IDMES_MOUSE_ON_PORT_D_DE, ""},  /* fuzzy */
+/* de */ {IDMES_MOUSE_ON_PORT_D_DE, "Eine Maus wurde in Port %d gefunden"},
 /* fr */ {IDMES_MOUSE_ON_PORT_D_FR, ""},  /* fuzzy */
 /* it */ {IDMES_MOUSE_ON_PORT_D_IT, "Mouse rilevato sulla porta %d"},
 /* nl */ {IDMES_MOUSE_ON_PORT_D_NL, "Een muis was gevonden op poort %d"},
@@ -1661,7 +1661,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_MOUSE_ON_PORT_D_SV, "En mus hittades på port %d"},
 
 /* en */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D,    "Unknown device found on port %d"},
-/* de */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_DE, ""},  /* fuzzy */
+/* de */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_DE, "Unbekanntes Gerät im Port %d gefunden"},
 /* fr */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_FR, ""},  /* fuzzy */
 /* it */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_IT, "Periferica sconosciuta rilevata sulla porta %d"},
 /* nl */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_NL, "Een onbekent apparaat was gevonden op poort %d"},
@@ -1669,7 +1669,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_UNKNOWN_DEVICE_ON_PORT_D_SV, "En okänd enhet hittades på port %d"},
 
 /* en */ {IDMES_DEVICE_NOT_GAMEPAD,    "The device on this port is not a gamepad"},
-/* de */ {IDMES_DEVICE_NOT_GAMEPAD_DE, ""},  /* fuzzy */
+/* de */ {IDMES_DEVICE_NOT_GAMEPAD_DE, "Das Gerät in diesem Port ist kein Gamepad"},
 /* fr */ {IDMES_DEVICE_NOT_GAMEPAD_FR, ""},  /* fuzzy */
 /* it */ {IDMES_DEVICE_NOT_GAMEPAD_IT, "La periferia connessa a questa porta non è un gamepad"},
 /* nl */ {IDMES_DEVICE_NOT_GAMEPAD_NL, "Het apparaat op deze poort is niet een gamepad"},
@@ -1677,7 +1677,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_DEVICE_NOT_GAMEPAD_SV, "Enheten på denna port är ingen gamepad"},
 
 /* en */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT,    "The port is not mapped to an Amiga port"},
-/* de */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_DE, ""},  /* fuzzy */
+/* de */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_DE, "Dieses Port ist keinem Amiga Port zugeordnet"},
 /* fr */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_FR, ""},  /* fuzzy */
 /* it */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_IT, "Questa porta non è mappata su una porta Amiga"},
 /* nl */ {IDMES_NOT_MAPPED_TO_AMIGA_PORT_NL, "De poort is niet verbonden met een Amiga poort"},
@@ -1733,7 +1733,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_CANNOT_CREATE_IMAGE_SV, "Kan inte skapa avbildningsfil"},
 
 /* en */ {IDMES_ERROR_STARTING_SERVER,    "An error occured starting the server."},
-/* de */ {IDMES_ERROR_STARTING_SERVER_DE, ""},  /* fuzzy */
+/* de */ {IDMES_ERROR_STARTING_SERVER_DE, "Fehler beim Starten des Netplay Servers."},
 /* fr */ {IDMES_ERROR_STARTING_SERVER_FR, ""},  /* fuzzy */
 /* it */ {IDMES_ERROR_STARTING_SERVER_IT, "Errore durante l'avvio del server."},
 /* nl */ {IDMES_ERROR_STARTING_SERVER_NL, "Er is een fout opgetreden bij het opstarten van de server"},
@@ -1741,7 +1741,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_ERROR_STARTING_SERVER_SV, "Ett fel inträffade när servern skulle startas"},
 
 /* en */ {IDMES_ERROR_CONNECTING_CLIENT,    "An error occured connecting the client."},
-/* de */ {IDMES_ERROR_CONNECTING_CLIENT_DE, ""},  /* fuzzy */
+/* de */ {IDMES_ERROR_CONNECTING_CLIENT_DE, "Fehler beim Verbindungsaufbau zum Client"},
 /* fr */ {IDMES_ERROR_CONNECTING_CLIENT_FR, ""},  /* fuzzy */
 /* it */ {IDMES_ERROR_CONNECTING_CLIENT_IT, "Errore durante la connessione al client."},
 /* nl */ {IDMES_ERROR_CONNECTING_CLIENT_NL, ""},  /* fuzzy */
@@ -1765,7 +1765,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_THIS_MACHINE_NO_SID_SV, "Denna maskin kan inte ha en SID"},
 
 /* en */ {IDMES_SCREENSHOT_SAVE_S_FAILED,    "Screenshot save of %s failed"},
-/* de */ {IDMES_SCREENSHOT_SAVE_S_FAILED_DE, ""},  /* fuzzy */
+/* de */ {IDMES_SCREENSHOT_SAVE_S_FAILED_DE, "Screenshot speicherung von %s ist fehlgeschlagen"},
 /* fr */ {IDMES_SCREENSHOT_SAVE_S_FAILED_FR, ""},  /* fuzzy */
 /* it */ {IDMES_SCREENSHOT_SAVE_S_FAILED_IT, "Salvataggio della schermata %s fallito"},
 /* nl */ {IDMES_SCREENSHOT_SAVE_S_FAILED_NL, "Opslaan van schermafdruk %s niet gelukt."},
@@ -1773,7 +1773,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMES_SCREENSHOT_SAVE_S_FAILED_SV, "Fel vid skrivning av skärmdump \"%s\""},
 
 /* en */ {IDMES_SCREENSHOT_S_SAVED,    "Screenshot %s saved."},
-/* de */ {IDMES_SCREENSHOT_S_SAVED_DE, ""},  /* fuzzy */
+/* de */ {IDMES_SCREENSHOT_S_SAVED_DE, "Screenshots %s gespeicher."},
 /* fr */ {IDMES_SCREENSHOT_S_SAVED_FR, ""},  /* fuzzy */
 /* it */ {IDMES_SCREENSHOT_S_SAVED_IT, "schermata %s salvata."},
 /* nl */ {IDMES_SCREENSHOT_S_SAVED_NL, "Schermafdruk %s opgeslagen."},
@@ -1783,7 +1783,7 @@ intl_translate_t intl_string_table[] = {
 /* ----------------------- AmigaOS Strings ----------------------- */
 
 /* en */ {IDS_PRESS_KEY_BUTTON,    "Press desired key/button, move stick or press ESC for no key."},
-/* de */ {IDS_PRESS_KEY_BUTTON_DE, ""},  /* fuzzy */
+/* de */ {IDS_PRESS_KEY_BUTTON_DE, "Gewünschte Taste/Knopf drücken, Knüppel bewegen oder ESC für keine Taste drücken."},
 /* fr */ {IDS_PRESS_KEY_BUTTON_FR, ""},  /* fuzzy */
 /* it */ {IDS_PRESS_KEY_BUTTON_IT, "Premi il tasto/pulsante desiderato, muovi il joy o premi ESC per proseguire."},
 /* nl */ {IDS_PRESS_KEY_BUTTON_NL, "Druk de toets/knop, beweeg de joystick of druk op ESC voor geen toets."},
@@ -1815,7 +1815,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_CANCEL_SV, "Avbryt"},
 
 /* en */ {IDS_CHOOSE_SCREENSHOT_FORMAT,    "Choose screenshot format"},
-/* de */ {IDS_CHOOSE_SCREENSHOT_FORMAT_DE, ""},  /* fuzzy */
+/* de */ {IDS_CHOOSE_SCREENSHOT_FORMAT_DE, "Wähle Screenshot Format"},
 /* fr */ {IDS_CHOOSE_SCREENSHOT_FORMAT_FR, ""},  /* fuzzy */
 /* it */ {IDS_CHOOSE_SCREENSHOT_FORMAT_IT, "Scegli il formato per la schermata"},
 /* nl */ {IDS_CHOOSE_SCREENSHOT_FORMAT_NL, "Kies schermafdruk formaat"},
@@ -1823,7 +1823,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_CHOOSE_SCREENSHOT_FORMAT_SV, "Välj önskat format för skärmdumpen"},
 
 /* en */ {IDS_SAVE_S_SCREENSHOT,    "Save %s screenshot"},
-/* de */ {IDS_SAVE_S_SCREENSHOT_DE, ""},  /* fuzzy */
+/* de */ {IDS_SAVE_S_SCREENSHOT_DE, "Screenshot %s speichern"},
 /* fr */ {IDS_SAVE_S_SCREENSHOT_FR, ""},  /* fuzzy */
 /* it */ {IDS_SAVE_S_SCREENSHOT_IT, "Salva schermata in formato %s"},
 /* nl */ {IDS_SAVE_S_SCREENSHOT_NL, "Sla schermafdruk %s op"},
@@ -1863,7 +1863,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_EXTEND_TO_40_TRACK_SV, "Utöka avbildning till 40-sparsformat?"},
 
 /* en */ {IDS_YES_NO,    "Yes|No"},
-/* de */ {IDS_YES_NO_DE, ""},  /* fuzzy */
+/* de */ {IDS_YES_NO_DE, "Ja|Nein"},
 /* fr */ {IDS_YES_NO_FR, ""},  /* fuzzy */
 /* it */ {IDS_YES_NO_IT, "Si|No"},
 /* nl */ {IDS_YES_NO_NL, "Ja|Nee"},
@@ -1895,7 +1895,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SELECT_START_SNAPSHOT_SV, "Välj startögonblicksmodul för händelsehistorik"},
 
 /* en */ {IDS_SELECT_END_SNAPSHOT,    "Select end snapshot for event history"},
-/* de */ {IDS_SELECT_END_SNAPSHOT_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_END_SNAPSHOT_DE, "Startsnapshot für Ereignishistory festlegen"},
 /* fr */ {IDS_SELECT_END_SNAPSHOT_FR, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_END_SNAPSHOT_IT, "Seleziona lo snapshot finale per la cronologia degli eventi"},
 /* nl */ {IDS_SELECT_END_SNAPSHOT_NL, "Selecteer eind momentopname voor gebeurtenis geschiedenis"},
@@ -2063,7 +2063,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_S_AT_D_SPEED_SV, "%s med %d%% hastighet, %d b/s%s"},
 
 /* en */ {IDS_ATTACH,    "Attach"},
-/* de */ {IDS_ATTACH_DE, ""},  /* fuzzy */
+/* de */ {IDS_ATTACH_DE, "Einlegen"},
 /* fr */ {IDS_ATTACH_FR, ""},  /* fuzzy */
 /* it */ {IDS_ATTACH_IT, "Seleziona"},
 /* nl */ {IDS_ATTACH_NL, "Koppel"},
@@ -2071,7 +2071,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_ATTACH_SV, "Anslut"},
 
 /* en */ {IDS_PARENT,    "Parent"},
-/* de */ {IDS_PARENT_DE, ""},  /* fuzzy */
+/* de */ {IDS_PARENT_DE, "Vorgänger"},
 /* fr */ {IDS_PARENT_FR, ""},  /* fuzzy */
 /* it */ {IDS_PARENT_IT, "Livello superiore"},
 /* nl */ {IDS_PARENT_NL, "Bovenliggende directory"},
@@ -2151,7 +2151,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDMS_DISABLED_SV, "Av"},
 
 /* en */ {IDS_ENABLED,    "Enabled"},
-/* de */ {IDS_ENABLED_DE, ""},  /* fuzzy */
+/* de */ {IDS_ENABLED_DE, "Aktiviert"},
 /* fr */ {IDS_ENABLED_FR, ""},  /* fuzzy */
 /* it */ {IDS_ENABLED_IT, "Abilitato"},
 /* nl */ {IDS_ENABLED_NL, "Aan"},
@@ -2231,7 +2231,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_ACIA_INTERRUPT_SV, "ACIA-avbrott"},
 
 /* en */ {IDS_ACIA_MODE,    "ACIA Mode"},
-/* de */ {IDS_ACIA_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDS_ACIA_MODE_DE, "ACIA Modus"},
 /* fr */ {IDS_ACIA_MODE_FR, ""},  /* fuzzy */
 /* it */ {IDS_ACIA_MODE_IT, "Modo ACIA"},
 /* nl */ {IDS_ACIA_MODE_NL, "ACIA Modus"},
@@ -2247,7 +2247,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_ACIA_SETTINGS_SV, "ACIA-inställningar"},
 
 /* en */ {IDS_256K_ENABLED,    "256K Enabled"},
-/* de */ {IDS_256K_ENABLED_DE, ""},  /* fuzzy */
+/* de */ {IDS_256K_ENABLED_DE, "256K aktiviert"},
 /* fr */ {IDS_256K_ENABLED_FR, ""},  /* fuzzy */
 /* it */ {IDS_256K_ENABLED_IT, "256K Abilitati"},
 /* nl */ {IDS_256K_ENABLED_NL, "256K Aan/Uit"},
@@ -2263,7 +2263,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_256K_BASE_SV, "256K bas-adress"},
 
 /* en */ {IDS_256K_SETTINGS,    "256K Settings"},
-/* de */ {IDS_256K_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_256K_SETTINGS_DE, "256K Einstellungen"},
 /* fr */ {IDS_256K_SETTINGS_FR, ""},  /* fuzzy */
 /* it */ {IDS_256K_SETTINGS_IT, "Impostazioni 256K"},
 /* nl */ {IDS_256K_SETTINGS_NL, "256K Instellingen"},
@@ -2367,7 +2367,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_RESET_DATASETTE_WITH_CPU_SV, "Nollställ Datasette med CPU"},
 
 /* en */ {IDS_ADDITIONAL_DELAY,    "Additional Delay"},
-/* de */ {IDS_ADDITIONAL_DELAY_DE, ""},  /* fuzzy */
+/* de */ {IDS_ADDITIONAL_DELAY_DE, "Zusätzliche Verzögerung"},
 /* fr */ {IDS_ADDITIONAL_DELAY_FR, ""},  /* fuzzy */
 /* it */ {IDS_ADDITIONAL_DELAY_IT, "Ritardo aggiuntivo"},
 /* nl */ {IDS_ADDITIONAL_DELAY_NL, "Extra vertraging"},
@@ -2527,7 +2527,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOYSTICK_SETTINGS_SV, "Inställningar för joystick"},
 
 /* en */ {IDS_KEYPAD,    "Numpad"},
-/* de */ {IDS_KEYPAD_DE, ""},  /* fuzzy */
+/* de */ {IDS_KEYPAD_DE, "Ziffernblock"},
 /* fr */ {IDS_KEYPAD_FR, ""},  /* fuzzy */
 /* it */ {IDS_KEYPAD_IT, "Numpad"},
 /* nl */ {IDS_KEYPAD_NL, "Numpad"},
@@ -2535,7 +2535,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_KEYPAD_SV, "Numreriskt tangentbord"},
 
 /* en */ {IDS_JOY_PORT_0,    "Joy Port 0"},
-/* de */ {IDS_JOY_PORT_0_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_PORT_0_DE, "Joystick Port 0"},
 /* fr */ {IDS_JOY_PORT_0_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_PORT_0_IT, "Joy Porta 0"},
 /* nl */ {IDS_JOY_PORT_0_NL, "Joy Poort 0"},
@@ -2543,7 +2543,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_PORT_0_SV, "Joy port 0"},
 
 /* en */ {IDS_JOY_PORT_1,    "Joy Port 1"},
-/* de */ {IDS_JOY_PORT_1_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_PORT_1_DE, "Joystick Port 1"},
 /* fr */ {IDS_JOY_PORT_1_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_PORT_1_IT, "Joy Porta 1"},
 /* nl */ {IDS_JOY_PORT_1_NL, "Joy Poort 1"},
@@ -2551,7 +2551,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_PORT_1_SV, "Joy Port 1"},
 
 /* en */ {IDS_JOY_PORT_2,    "Joy Port 2"},
-/* de */ {IDS_JOY_PORT_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_PORT_2_DE, "Joystick Port 2"},
 /* fr */ {IDS_JOY_PORT_2_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_PORT_2_IT, "Joy Porta 2"},
 /* nl */ {IDS_JOY_PORT_2_NL, "Joy Poort 2"},
@@ -2559,7 +2559,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_PORT_2_SV, "Joy Port 2"},
 
 /* en */ {IDS_JOY_PORT_3,    "Joy Port 3"},
-/* de */ {IDS_JOY_PORT_3_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_PORT_3_DE, "Joystick Port 3"},
 /* fr */ {IDS_JOY_PORT_3_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_PORT_3_IT, "Joy Porta 3"},
 /* nl */ {IDS_JOY_PORT_3_NL, "Joy Poort 3"},
@@ -2567,7 +2567,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_PORT_3_SV, "Joy Port 3"},
 
 /* en */ {IDS_STOP_BLUE,    "Stop/Blue"},
-/* de */ {IDS_STOP_BLUE_DE, ""},  /* fuzzy */
+/* de */ {IDS_STOP_BLUE_DE, "Stop/Blau"},
 /* fr */ {IDS_STOP_BLUE_FR, ""},  /* fuzzy */
 /* it */ {IDS_STOP_BLUE_IT, "Stop/Blu"},
 /* nl */ {IDS_STOP_BLUE_NL, "Stop/Blauw"},
@@ -2575,7 +2575,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_STOP_BLUE_SV, "Stop/Blå"},
 
 /* en */ {IDS_SELECT_RED,    "Select/Red"},
-/* de */ {IDS_SELECT_RED_DE, ""},  /* fuzzy */
+/* de */ {IDS_SELECT_RED_DE, "Auswahl/Rot"},
 /* fr */ {IDS_SELECT_RED_FR, ""},  /* fuzzy */
 /* it */ {IDS_SELECT_RED_IT, "Seleziona/Rosso"},
 /* nl */ {IDS_SELECT_RED_NL, "Select/Rood"},
@@ -2583,7 +2583,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SELECT_RED_SV, "Select/Röd"},
 
 /* en */ {IDS_REPEAT_YELLOW,    "Repeat/Yellow"},
-/* de */ {IDS_REPEAT_YELLOW_DE, ""},  /* fuzzy */
+/* de */ {IDS_REPEAT_YELLOW_DE, "Wiederhole/Gelb"},
 /* fr */ {IDS_REPEAT_YELLOW_FR, ""},  /* fuzzy */
 /* it */ {IDS_REPEAT_YELLOW_IT, "Ripeti/Giallo"},
 /* nl */ {IDS_REPEAT_YELLOW_NL, "Repeat/Geel"},
@@ -2591,7 +2591,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_REPEAT_YELLOW_SV, "Repeat/Gul"},
 
 /* en */ {IDS_SHUFFLE_GREEN,    "Shuffle/Green"},
-/* de */ {IDS_SHUFFLE_GREEN_DE, ""},  /* fuzzy */
+/* de */ {IDS_SHUFFLE_GREEN_DE, "Mische/Grün"},
 /* fr */ {IDS_SHUFFLE_GREEN_FR, ""},  /* fuzzy */
 /* it */ {IDS_SHUFFLE_GREEN_IT, ""},  /* fuzzy */
 /* nl */ {IDS_SHUFFLE_GREEN_NL, "Shuffle/Groen"},
@@ -2599,7 +2599,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SHUFFLE_GREEN_SV, "Shuffle/Grön"},
 
 /* en */ {IDS_FORWARD_CHARCOAL,    "Forward/Charcoal"},
-/* de */ {IDS_FORWARD_CHARCOAL_DE, ""},  /* fuzzy */
+/* de */ {IDS_FORWARD_CHARCOAL_DE, "Vorwärts/Kohle"},
 /* fr */ {IDS_FORWARD_CHARCOAL_FR, ""},  /* fuzzy */
 /* it */ {IDS_FORWARD_CHARCOAL_IT, "Avanti/Grigio scuro"},
 /* nl */ {IDS_FORWARD_CHARCOAL_NL, "Forward/Charcoal"},
@@ -2607,7 +2607,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_FORWARD_CHARCOAL_SV, "Forward/Träkol"},
 
 /* en */ {IDS_REVERSE_CHARCOAL,    "Reverse/Charcoal"},
-/* de */ {IDS_REVERSE_CHARCOAL_DE, ""},  /* fuzzy */
+/* de */ {IDS_REVERSE_CHARCOAL_DE, "Rückwärts/Kohle"},
 /* fr */ {IDS_REVERSE_CHARCOAL_FR, ""},  /* fuzzy */
 /* it */ {IDS_REVERSE_CHARCOAL_IT, "Indietro/Grigio scuro"},
 /* nl */ {IDS_REVERSE_CHARCOAL_NL, "Reverse/Charcoal"},
@@ -2615,7 +2615,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_REVERSE_CHARCOAL_SV, "Reverse/Träkol"},
 
 /* en */ {IDS_PLAY_PAUSE_GREY,    "Play-Pause/Grey"},
-/* de */ {IDS_PLAY_PAUSE_GREY_DE, ""},  /* fuzzy */
+/* de */ {IDS_PLAY_PAUSE_GREY_DE, "Play-Pause/Grau"},
 /* fr */ {IDS_PLAY_PAUSE_GREY_FR, ""},  /* fuzzy */
 /* it */ {IDS_PLAY_PAUSE_GREY_IT, "Play-Pausa/Grigio"},
 /* nl */ {IDS_PLAY_PAUSE_GREY_NL, "Play-Pause/Grijs"},
@@ -2623,7 +2623,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PLAY_PAUSE_GREY_SV, "[Play/Pause]/Grå"},
 
 /* en */ {IDS_JOY_1_DEVICE,    "Joy 1 Device"},
-/* de */ {IDS_JOY_1_DEVICE_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_1_DEVICE_DE, "Joystick 1 Gerät"},
 /* fr */ {IDS_JOY_1_DEVICE_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_1_DEVICE_IT, "Periferica Joy 1"},
 /* nl */ {IDS_JOY_1_DEVICE_NL, "Joy 1 Apparaat"},
@@ -2631,7 +2631,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_1_DEVICE_SV, "Joy 1-enhet"},
 
 /* en */ {IDS_JOY_2_DEVICE,    "Joy 2 Device"},
-/* de */ {IDS_JOY_2_DEVICE_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_2_DEVICE_DE, "Joystick 2 Gerät"},
 /* fr */ {IDS_JOY_2_DEVICE_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_2_DEVICE_IT, "Periferica Joy 2"},
 /* nl */ {IDS_JOY_2_DEVICE_NL, "Joy 2 Apparaat"},
@@ -2639,7 +2639,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_2_DEVICE_SV, "Joy 2-enhet"},
 
 /* en */ {IDS_JOY_1_FIRE,    "Joy 1 Fire"},
-/* de */ {IDS_JOY_1_FIRE_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_1_FIRE_DE, "Joystick 1 Feuer"},
 /* fr */ {IDS_JOY_1_FIRE_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_1_FIRE_IT, "Fuoco Joy 1"},
 /* nl */ {IDS_JOY_1_FIRE_NL, "Joy 1 Vuur"},
@@ -2647,7 +2647,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_1_FIRE_SV, "Joy 1 Fire"},
 
 /* en */ {IDS_JOY_2_FIRE,    "Joy 2 Fire"},
-/* de */ {IDS_JOY_2_FIRE_DE, ""},  /* fuzzy */
+/* de */ {IDS_JOY_2_FIRE_DE, "Joystick 2 Feuer"},
 /* fr */ {IDS_JOY_2_FIRE_FR, ""},  /* fuzzy */
 /* it */ {IDS_JOY_2_FIRE_IT, "Fuoco Joy 2"},
 /* nl */ {IDS_JOY_2_FIRE_NL, "Joy 1 Vuur"},
@@ -2655,7 +2655,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_JOY_2_FIRE_SV, "Joy 2 Fire"},
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_1,    "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
-/* de */ {IDS_SET_INPUT_JOYSTICK_1_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_JOYSTICK_1_DE, "Joystick #1 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_JOYSTICK_1_FR, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_JOYSTICK_1_IT, "Emulazione Joystick #1: (0:Nessuna, 1: Numpad, 2: Gruppo tasti A/AI, 3: Gruppo tasti B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_1_NL, "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
@@ -2663,7 +2663,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SET_INPUT_JOYSTICK_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)" },
 
 /* en */ {IDS_SET_INPUT_JOYSTICK_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
-/* de */ {IDS_SET_INPUT_JOYSTICK_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_JOYSTICK_2_DE, "Joystick #2 Emulation: (0:Keine, 1: Numpad, 2: Keysatz A/AI, 3: Keysatz B/AI)"},
 /* fr */ {IDS_SET_INPUT_JOYSTICK_2_FR, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_JOYSTICK_2_IT, "Emulazione Joystick #2: (0:Nessuna, 1: Numpad, 2: Gruppo tasti A/AI, 3: Gruppo tasti B/AI)"},
 /* nl */ {IDS_SET_INPUT_JOYSTICK_2_NL, "Joystick #2 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"},
@@ -2671,7 +2671,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SET_INPUT_JOYSTICK_2_SV, "Joystick #2 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2: Teckenuppsättning A/AI, 3: Teckenuppsättning B/AI)" },
 
 /* en */ {IDS_SET_INPUT_JOYLL_1,    "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"},
-/* de */ {IDS_SET_INPUT_JOYLL_1_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_JOYLL_1_DE, "Joystick #1 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"},
 /* fr */ {IDS_SET_INPUT_JOYLL_1_FR, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_JOYLL_1_IT, "Emulazione Joystick #1: (0: Nessuna, 1: Numpad, 2-5: Joy Amiga 0-3"},
 /* nl */ {IDS_SET_INPUT_JOYLL_1_NL, "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"},
@@ -2679,7 +2679,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_SET_INPUT_JOYLL_1_SV, "Joystick #1 emulation: (0:Ingen, 1: Numeriskt tangentbord, 2-5: Amiga Joy 0-3"},
 
 /* en */ {IDS_SET_INPUT_JOYLL_2,    "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"},
-/* de */ {IDS_SET_INPUT_JOYLL_2_DE, ""},  /* fuzzy */
+/* de */ {IDS_SET_INPUT_JOYLL_2_DE, "Joystick #2 Emulation: (0: Keine, 1: Numpad, 2-5: Amiga Joystick 0-3"},
 /* fr */ {IDS_SET_INPUT_JOYLL_2_FR, ""},  /* fuzzy */
 /* it */ {IDS_SET_INPUT_JOYLL_2_IT, "Emulazione Joystick #2: (0: Nessuna, 1: Numpad, 2-5: Joy Amiga 0-3"},
 /* nl */ {IDS_SET_INPUT_JOYLL_2_NL, "Joystick #2 emulatie (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"},
@@ -2727,7 +2727,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PET_REU_SIZE_SV, "PET REU-storlek"},
 
 /* en */ {IDS_PET_REU_SETTINGS,    "PET REU Settings"},
-/* de */ {IDS_PET_REU_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_PET_REU_SETTINGS_DE, "PET REU Einstellungen"},
 /* fr */ {IDS_PET_REU_SETTINGS_FR, ""},  /* fuzzy */
 /* it */ {IDS_PET_REU_SETTINGS_IT, "Impostazioni PET REU"},
 /* nl */ {IDS_PET_REU_SETTINGS_NL, "PET REU Instellingen"},
@@ -2735,7 +2735,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PET_REU_SETTINGS_SV, "PET REU-inställningar"},
 
 /* en */ {IDS_PLUS256K_SETTINGS,    "PLUS256K Settings"},
-/* de */ {IDS_PLUS256K_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen"},
 /* fr */ {IDS_PLUS256K_SETTINGS_FR, ""},  /* fuzzy */
 /* it */ {IDS_PLUS256K_SETTINGS_IT, "Impostazioni PLUS256K"},
 /* nl */ {IDS_PLUS256K_SETTINGS_NL, "PLUS256K Instellingen"},
@@ -2751,7 +2751,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PLUS60K_BASE_SV, "PLUS60K bas-adress"},
 
 /* en */ {IDS_PLUS60K_SETTINGS,    "PLUS60K Settings"},
-/* de */ {IDS_PLUS60K_SETTINGS_DE, ""},  /* fuzzy */
+/* de */ {IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen"},
 /* fr */ {IDS_PLUS60K_SETTINGS_FR, ""},  /* fuzzy */
 /* it */ {IDS_PLUS60K_SETTINGS_IT, "Impostazioni PLUS60K"},
 /* nl */ {IDS_PLUS60K_SETTINGS_NL, "PLUS60K Instellingen"},
@@ -2791,7 +2791,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_RAM_SETTINGS_SV, "RAM-inställningar"},
 
 /* en */ {IDS_READ_WRITE,    "read/write"},
-/* de */ {IDS_READ_WRITE_DE, ""},  /* fuzzy */
+/* de */ {IDS_READ_WRITE_DE, "lese/schreibe"},
 /* fr */ {IDS_READ_WRITE_FR, ""},  /* fuzzy */
 /* it */ {IDS_READ_WRITE_IT, "lettura/scrittura"},
 /* nl */ {IDS_READ_WRITE_NL, "lezen/schrijven"},
@@ -2807,7 +2807,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_READ_ONLY_SV, "Endast läsatkomst"},
 
 /* en */ {IDS_RAMCART_READ_WRITE,    "RAMCART Read/Write"},
-/* de */ {IDS_RAMCART_READ_WRITE_DE, ""},  /* fuzzy */
+/* de */ {IDS_RAMCART_READ_WRITE_DE, "RAMCART Lesen/Schreiben"},
 /* fr */ {IDS_RAMCART_READ_WRITE_FR, ""},  /* fuzzy */
 /* it */ {IDS_RAMCART_READ_WRITE_IT, "lettura/scrittura di RAMCART"},
 /* nl */ {IDS_RAMCART_READ_WRITE_NL, "RAMCART Lezen/Schrijven"},
@@ -2975,7 +2975,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_PASSBAND_0_90_SV, "Passband (0-90%)"},
 
 /* en */ {IDS_NOT_IMPLEMENTED_YET,    "Not implemented yet!"},
-/* de */ {IDS_NOT_IMPLEMENTED_YET_DE, ""},  /* fuzzy */
+/* de */ {IDS_NOT_IMPLEMENTED_YET_DE, "Noch nicht implementiert!"},
 /* fr */ {IDS_NOT_IMPLEMENTED_YET_FR, ""},  /* fuzzy */
 /* it */ {IDS_NOT_IMPLEMENTED_YET_IT, "Non ancora implementato!"},
 /* nl */ {IDS_NOT_IMPLEMENTED_YET_NL, "Nog niet ondersteund!"},
@@ -3039,7 +3039,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ {IDS_OVERSAMPLE_SV, "-versampling"},
 
 /* en */ {IDS_SPEED_ADJUSTMENT,    "Speed Adjustment"},
-/* de */ {IDS_SPEED_ADJUSTMENT_DE, ""},  /* fuzzy */
+/* de */ {IDS_SPEED_ADJUSTMENT_DE, "Geschwindigkeitsanpassung"},
 /* fr */ {IDS_SPEED_ADJUSTMENT_FR, ""},  /* fuzzy */
 /* it */ {IDS_SPEED_ADJUSTMENT_IT, "Adattamento della Velocità"},
 /* nl */ {IDS_SPEED_ADJUSTMENT_NL, "Snelheid aanpassing"},

@@ -43,7 +43,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION             "256K Einstellungen"
     IDS_C64_256K_ENABLE              "256K aktivi&eren"
-    IDS_C64_256K_BASE                "256K base address"
+    IDS_C64_256K_BASE                "256K Basis Adresse"
     IDS_C64_256K_FILE                "256K Datei"
     IDS_C64_256K_SELECT_FILE         "Datei für 256K selektieren"
 END

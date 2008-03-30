@@ -71,7 +71,7 @@ BEGIN
   IDS_ACIA_DEVICE      "ACIA Gerät"
   IDS_ACIA_LOCATION    "ACIA Adresse"
   IDS_ACIA_INTERRUPT   "ACIA Interrupt"
-  IDS_ACIA_MODE        "ACIA mode"
+  IDS_ACIA_MODE        "ACIA Modus"
 END
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-01 18:34+0200\n"
+"POT-Creation-Date: 2006-10-14 20:42+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -256,9 +256,8 @@ msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
 #: src/event.c:219
-#, fuzzy
 msgid "Cannot create image file!"
-msgstr "Kan bestand `%s' niet maken."
+msgstr "Kan bestand niet maken!"
 
 #: src/event.c:228
 #, c-format
@@ -421,11 +420,10 @@ msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
 #: src/network.c:816
-#, fuzzy
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr ""
-"Kan het momentopname bestand %s niet maken. Selecteer een andere "
-"geschiedenis folder!"
+"Kan het momentopname bestand niet maken. Selecteer een andere geschiedenis "
+"folder!"
 
 #: src/network.c:835
 #, c-format
@@ -766,9 +764,8 @@ msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Koppel binair 16KB Westermann learning cartridge bestand"
 
 #: src/c64/cart/c64cart.c:267
-#, fuzzy
 msgid "Attach raw Structured Basic cartridge image"
-msgstr "Koppel Structured Basic cartridge bestand"
+msgstr "Koppel binair Structured Basic cartridge bestand"
 
 #: src/c64/cart/c64cart.c:270
 msgid "Enable expert cartridge"
@@ -913,12 +910,10 @@ msgid "Size of the RAM expansion unit"
 msgstr "Grootte van de RAM Uitbreidings Eenheid (REU)"
 
 #: src/c64/tfe.c:1502
-#, fuzzy
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Aktiveer de TFE (\"The Final Ethernet\") eenheid"
 
 #: src/c64/tfe.c:1504
-#, fuzzy
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "De TFE (\"The Final Ethernet\") eenheid afsluiten"
 
@@ -2338,7 +2333,7 @@ msgstr "Opties"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:452
 #: src/arch/unix/gui/plus4ui.c:277 src/arch/unix/gui/vic20ui.c:564
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
-#: src/arch/unix/x11/gnome/x11ui.c:1262 src/arch/unix/x11/gnome/x11ui.c:1327
+#: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/gnome/x11ui.c:1329
 #: src/arch/win32/res.rc.po.c:4101 src/arch/amigaos/intl.c.po.c:1125
 msgid "Settings"
 msgstr "Instellingen"
@@ -3105,7 +3100,7 @@ msgstr "Over VICE..."
 
 #: src/arch/unix/gui/uicommands.c:531 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:2013 src/arch/amigaos/intl.c.po.c:309
+#: src/arch/unix/x11/gnome/x11ui.c:2015 src/arch/amigaos/intl.c.po.c:309
 msgid "Reset"
 msgstr "Reset"
 
@@ -3289,9 +3284,8 @@ msgstr "Drive #8 model"
 
 #: src/arch/unix/gui/uidrivec128.c:157 src/arch/unix/gui/uidrivec64.c:57
 #: src/arch/unix/gui/uidriveplus4.c:131 src/arch/unix/gui/uidrivevic20.c:48
-#, fuzzy
 msgid "*Drive #8 RAM expansion"
-msgstr "Drive #8 RAM uitbreiding"
+msgstr "*Drive #8 RAM uitbreiding"
 
 #: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:60
 #: src/arch/unix/gui/uidriveplus4.c:134
@@ -3307,9 +3301,8 @@ msgstr "Drive #8 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:65
 #: src/arch/unix/gui/uidriveplus4.c:139 src/arch/unix/gui/uidrivevic20.c:54
-#, fuzzy
 msgid "*Drive #8 idle method"
-msgstr "Drive #8 idle methode"
+msgstr "*Drive #8 idle methode"
 
 #: src/arch/unix/gui/uidrivec128.c:169 src/arch/unix/gui/uidrivec64.c:69
 #: src/arch/unix/gui/uidriveplus4.c:143 src/arch/unix/gui/uidrivevic20.c:58
@@ -3318,9 +3311,8 @@ msgstr "Drive #9 model"
 
 #: src/arch/unix/gui/uidrivec128.c:171 src/arch/unix/gui/uidrivec64.c:71
 #: src/arch/unix/gui/uidriveplus4.c:145 src/arch/unix/gui/uidrivevic20.c:60
-#, fuzzy
 msgid "*Drive #9 RAM expansion"
-msgstr "Drive #9 RAM uitbreiding"
+msgstr "*Drive #9 RAM uitbreiding"
 
 #: src/arch/unix/gui/uidrivec128.c:174 src/arch/unix/gui/uidrivec64.c:74
 #: src/arch/unix/gui/uidriveplus4.c:148
@@ -3330,15 +3322,13 @@ msgstr "*Drive #9 aktiveer parallel kabel"
 #: src/arch/unix/gui/uidrivec128.c:176 src/arch/unix/gui/uidrivec64.c:76
 #: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:150
 #: src/arch/unix/gui/uidrivevic20.c:63
-#, fuzzy
 msgid "*Drive #9 40-track image support"
-msgstr "Drive #9 40-sporen bestand ondersteuning"
+msgstr "*Drive #9 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:179 src/arch/unix/gui/uidrivec64.c:79
 #: src/arch/unix/gui/uidriveplus4.c:153 src/arch/unix/gui/uidrivevic20.c:66
-#, fuzzy
 msgid "*Drive #9 idle method"
-msgstr "Drive #9 idle methode"
+msgstr "*Drive #9 idle methode"
 
 #: src/arch/unix/gui/uidrivec128.c:183 src/arch/unix/gui/uidrivec64.c:83
 #: src/arch/unix/gui/uidriveplus4.c:157 src/arch/unix/gui/uidrivevic20.c:70
@@ -3347,9 +3337,8 @@ msgstr "Drive #10 model"
 
 #: src/arch/unix/gui/uidrivec128.c:185 src/arch/unix/gui/uidrivec64.c:85
 #: src/arch/unix/gui/uidriveplus4.c:159 src/arch/unix/gui/uidrivevic20.c:72
-#, fuzzy
 msgid "*Drive #10 RAM expansion"
-msgstr "Drive #10 RAM uitbreiding"
+msgstr "*Drive #10 RAM uitbreiding"
 
 #: src/arch/unix/gui/uidrivec128.c:188 src/arch/unix/gui/uidrivec64.c:88
 #: src/arch/unix/gui/uidriveplus4.c:162
@@ -3359,15 +3348,13 @@ msgstr "*Drive #10 aktiveer parallel kabel"
 #: src/arch/unix/gui/uidrivec128.c:190 src/arch/unix/gui/uidrivec64.c:90
 #: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:164
 #: src/arch/unix/gui/uidrivevic20.c:75
-#, fuzzy
 msgid "*Drive #10 40-track image support"
-msgstr "Drive #10 40-sporten bestand ondersteuning"
+msgstr "*Drive #10 40-sporten bestand ondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:193 src/arch/unix/gui/uidrivec64.c:93
 #: src/arch/unix/gui/uidriveplus4.c:167 src/arch/unix/gui/uidrivevic20.c:78
-#, fuzzy
 msgid "*Drive #10 idle method"
-msgstr "Drive #10 idle methode"
+msgstr "*Drive #10 idle methode"
 
 #: src/arch/unix/gui/uidrivec128.c:197 src/arch/unix/gui/uidrivec64.c:97
 #: src/arch/unix/gui/uidriveplus4.c:171 src/arch/unix/gui/uidrivevic20.c:82
@@ -3376,9 +3363,8 @@ msgstr "Drive #11 model"
 
 #: src/arch/unix/gui/uidrivec128.c:199 src/arch/unix/gui/uidrivec64.c:99
 #: src/arch/unix/gui/uidriveplus4.c:173 src/arch/unix/gui/uidrivevic20.c:84
-#, fuzzy
 msgid "*Drive #11 RAM expansion"
-msgstr "Drive #11 RAM uitbreiding"
+msgstr "*Drive #11 RAM uitbreiding"
 
 #: src/arch/unix/gui/uidrivec128.c:202 src/arch/unix/gui/uidrivec64.c:102
 #: src/arch/unix/gui/uidriveplus4.c:176
@@ -3388,15 +3374,13 @@ msgstr "*Drive #11 aktiveer parallel kabel"
 #: src/arch/unix/gui/uidrivec128.c:204 src/arch/unix/gui/uidrivec64.c:104
 #: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:178
 #: src/arch/unix/gui/uidrivevic20.c:87
-#, fuzzy
 msgid "*Drive #11 40-track image support"
-msgstr "Drive #11 40-sporen bestand ondersteuning"
+msgstr "*Drive #11 40-sporen bestand ondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:207 src/arch/unix/gui/uidrivec64.c:107
 #: src/arch/unix/gui/uidriveplus4.c:181 src/arch/unix/gui/uidrivevic20.c:90
-#, fuzzy
 msgid "*Drive #11 idle method"
-msgstr "Drive #11 idle methode"
+msgstr "*Drive #11 idle methode"
 
 #: src/arch/unix/gui/uidrivec128.c:214 src/arch/unix/gui/uidrivec64.c:114
 #: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:188
@@ -3597,7 +3581,7 @@ msgstr "Volgende: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
 #: src/arch/unix/x11/gnome/x11ui.c:907 src/arch/unix/x11/gnome/x11ui.c:917
-#: src/arch/unix/x11/gnome/x11ui.c:1594
+#: src/arch/unix/x11/gnome/x11ui.c:1596
 msgid "<empty>"
 msgstr "<leeg>"
 
@@ -4506,7 +4490,7 @@ msgstr "Maximale snelheid"
 msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1376
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1378
 #: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:4398
 #: src/arch/amigaos/intl.c.po.c:1623
 msgid "Cannot save settings."
@@ -5022,7 +5006,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:85
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
@@ -5038,6 +5021,7 @@ msgstr ""
 "Paul Dube - Frans\n"
 "Marco van den Heuvel - Nederlands\n"
 "Flooder - Pools\n"
+"Karai Csaba - Hongaars\n"
 
 #: src/arch/unix/x11/gnome/about.c:98
 msgid "(c) 1998 - 2006 The Vice Team"
@@ -5354,7 +5338,7 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2658
+#: src/arch/unix/x11/gnome/x11ui.c:2660
 msgid "all files"
 msgstr "alle bestanden"
 
@@ -5440,103 +5424,103 @@ msgstr "Tape 000"
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale aantal van bovenliggende vensters."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1260 src/arch/unix/x11/gnome/x11ui.c:1316
+#: src/arch/unix/x11/gnome/x11ui.c:1262 src/arch/unix/x11/gnome/x11ui.c:1318
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1266 src/arch/amigaos/intl.c.po.c:1421
+#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1421
 msgid "Help"
 msgstr "Help"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1359 src/arch/unix/x11/xaw/x11ui.c:1075
+#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1075
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1366 src/arch/unix/x11/xaw/x11ui.c:1079
+#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1079
 msgid "Do you really want to exit?"
 msgstr "Wilt U echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1373 src/arch/unix/x11/xaw/x11ui.c:1086
+#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1086
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1418 src/arch/unix/x11/xaw/x11ui.c:1127
+#: src/arch/unix/x11/gnome/x11ui.c:1420 src/arch/unix/x11/xaw/x11ui.c:1127
 msgid "Using private colormap."
 msgstr "Prive kleurenmap wordt gebruikt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1438 src/arch/unix/x11/gnome/x11ui.c:1441
+#: src/arch/unix/x11/gnome/x11ui.c:1440 src/arch/unix/x11/gnome/x11ui.c:1443
 #: src/arch/unix/x11/xaw/x11ui.c:1155 src/arch/unix/x11/xaw/x11ui.c:1160
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1746
+#: src/arch/unix/x11/gnome/x11ui.c:1748
 #, c-format
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1812 src/arch/unix/x11/xaw/x11ui.c:1402
+#: src/arch/unix/x11/gnome/x11ui.c:1814 src/arch/unix/x11/xaw/x11ui.c:1402
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1972 src/arch/amigaos/intl.c.po.c:1575
+#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1575
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1983 src/arch/amigaos/intl.c.po.c:1639
+#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1639
 msgid "VICE Error"
 msgstr "Vice Fout"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2014
+#: src/arch/unix/x11/gnome/x11ui.c:2016
 msgid "Hard Reset"
 msgstr "Harde Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2015 src/arch/amigaos/intl.c.po.c:597
+#: src/arch/unix/x11/gnome/x11ui.c:2017 src/arch/amigaos/intl.c.po.c:597
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2059 src/arch/unix/x11/xaw/x11ui.c:1680
+#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/xaw/x11ui.c:1680
 msgid "Extend disk image"
 msgstr "40-sporen disk bestand"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2060
+#: src/arch/unix/x11/gnome/x11ui.c:2062
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Wilt U her disk bestand uitbreiden naar 40 sporen?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2073
+#: src/arch/unix/x11/gnome/x11ui.c:2075
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostarten niet mogelijk voor drive %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2081 src/arch/unix/x11/gnome/x11ui.c:2090
+#: src/arch/unix/x11/gnome/x11ui.c:2083 src/arch/unix/x11/gnome/x11ui.c:2092
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan de selectie %d in disk bestand %s niet autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2217 src/arch/unix/x11/gnome/x11ui.c:2227
+#: src/arch/unix/x11/gnome/x11ui.c:2219 src/arch/unix/x11/gnome/x11ui.c:2229
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2681
+#: src/arch/unix/x11/gnome/x11ui.c:2683
 msgid "Contents"
 msgstr "Inhoud"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2729
+#: src/arch/unix/x11/gnome/x11ui.c:2731
 msgid "Attach write protected"
 msgstr "Koppel schrijf beveiligd"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2735
+#: src/arch/unix/x11/gnome/x11ui.c:2737
 msgid "Show hidden files"
 msgstr "Toon verborgen bestanden"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2747
+#: src/arch/unix/x11/gnome/x11ui.c:2749
 msgid "Autostart"
 msgstr "Autostarten"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2764
+#: src/arch/unix/x11/gnome/x11ui.c:2766
 msgid "Text cannot be displayed.\n"
 msgstr "Tekst kan niet worden weergegeben.\n"
 
@@ -6091,9 +6075,8 @@ msgid "&Arrange icons"
 msgstr "&Rangschik iconen"
 
 #: src/arch/win32/res.rc.po.c:567
-#, fuzzy
 msgid "About VICE"
-msgstr "Over VICE..."
+msgstr "Over VICE"
 
 #: src/arch/win32/res.rc.po.c:569 src/arch/win32/res.rc.po.c:855
 #: src/arch/win32/res.rc.po.c:1032 src/arch/win32/res.rc.po.c:1326
@@ -6113,11 +6096,11 @@ msgstr "OK"
 
 #: src/arch/win32/res.rc.po.c:570
 msgid "VICE"
-msgstr ""
+msgstr "VICE"
 
 #: src/arch/win32/res.rc.po.c:571
 msgid "Versatile Commodore Emulator"
-msgstr ""
+msgstr "Versatile Commodore Emulator"
 
 #. #ifdef MSVC_RC
 #. CTEXT    "Release "VERSION ,IDC_STATIC,7,31,118,8
@@ -6125,57 +6108,56 @@ msgstr ""
 #. CTEXT    "Release " VERSION ,IDC_STATIC,7,31,118,8
 #. #endif
 #: src/arch/win32/res.rc.po.c:577
-#, fuzzy
 msgid "Version 0.0"
-msgstr "Versie %s"
+msgstr "Versie 0.0"
 
 #: src/arch/win32/res.rc.po.c:578
 msgid "Copyright (c) 1998-2006 Andreas Boose"
-msgstr ""
+msgstr "Copyright (c) 1998-2006 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:579
 msgid "Copyright (c) 1998-2006 Dag Lem"
-msgstr ""
+msgstr "Copyright (c) 1998-2006 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:580
 msgid "Copyright (c) 1998-2006 Tibor Biczo"
-msgstr ""
+msgstr "Copyright (c) 1998-2006 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:581
 msgid "Copyright (c) 1999-2006 Andreas Dehmel"
-msgstr ""
+msgstr "Copyright (c) 1999-2006 Andreas Dehmel"
 
 #: src/arch/win32/res.rc.po.c:582
 msgid "Copyright (c) 1999-2006 Andreas Matthies"
-msgstr ""
+msgstr "Copyright (c) 1999-2006 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:583
 msgid "Copyright (c) 1999-2006 Martin Pottendorfer"
-msgstr ""
+msgstr "Copyright (c) 1999-2006 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:584
 msgid "Copyright (c) 2000-2006 Spiro Trikaliotis"
-msgstr ""
+msgstr "Copyright (c) 2000-2006 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:585
 msgid "Copyright (c) 2005-2006 Marco van den Heuvel"
-msgstr ""
+msgstr "Copyright (c) 2005-2006 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:586
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr ""
+msgstr "Copyright (c) 1999-2005 Thomas Bretz"
 
 #: src/arch/win32/res.rc.po.c:587
 msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr ""
+msgstr "Copyright (c) 2003-2005 David Hansel"
 
 #: src/arch/win32/res.rc.po.c:588
 msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr ""
+msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #: src/arch/win32/res.rc.po.c:589
 msgid " "
-msgstr ""
+msgstr " "
 
 #: src/arch/win32/res.rc.po.c:598 src/arch/win32/res.rc.po.c:3352
 msgid "&Use IEC Device"
@@ -6455,7 +6437,7 @@ msgstr "Render naar DX Primaire oppervlakte"
 #: src/arch/win32/res.rc.po.c:2646 src/arch/win32/res.rc.po.c:2767
 #: src/arch/win32/res.rc.po.c:2770
 msgid "(0..2)"
-msgstr ""
+msgstr "(0..2)"
 
 #: src/arch/win32/res.rc.po.c:2769
 msgid "Phase"
@@ -6467,7 +6449,7 @@ msgstr "Schaduw"
 
 #: src/arch/win32/res.rc.po.c:2773 src/arch/win32/res.rc.po.c:2776
 msgid "(0..1)"
-msgstr ""
+msgstr "(0..1)"
 
 #: src/arch/win32/res.rc.po.c:2775
 msgid "PAL Blur"
@@ -7129,9 +7111,8 @@ msgid "No button - Autofire disabled"
 msgstr "Geen knop - Autovuren is uit"
 
 #: src/arch/win32/res.rc.po.c:4520
-#, fuzzy
 msgid "All files (*.*)"
-msgstr "alle bestanden"
+msgstr "alle bestanden (*.*)"
 
 #: src/arch/win32/res.rc.po.c:4521
 msgid "VICE palette files (*.vpl)"
@@ -7191,9 +7172,8 @@ msgid "Exact"
 msgstr "Exact"
 
 #: src/arch/win32/res.rc.po.c:4535
-#, fuzzy
 msgid "Sound driver: DirectX"
-msgstr "Geluid stuurprogramma parameter"
+msgstr "Geluid stuurprogramma: DirectX"
 
 #: src/arch/win32/res.rc.po.c:4536
 msgid "Sound driver: WMM"
@@ -7233,9 +7213,8 @@ msgid "Tape:"
 msgstr "Tape:"
 
 #: src/arch/win32/res.rc.po.c:4544
-#, fuzzy
 msgid "Joystick:"
-msgstr "Joystick 2"
+msgstr "Joystick:"
 
 #: src/arch/win32/res.rc.po.c:4545
 #, c-format
@@ -7294,9 +7273,8 @@ msgid "Connected server"
 msgstr "Verbonden server"
 
 #: src/arch/win32/res.rc.po.c:4567
-#, fuzzy
 msgid "Connected client"
-msgstr "Verbonden Client"
+msgstr "Verbonden client"
 
 #: src/arch/win32/res.rc.po.c:4568 src/arch/amigaos/intl.c.po.c:1751
 msgid "Invalid port number"
@@ -7319,19 +7297,16 @@ msgid "NMI"
 msgstr "NMI"
 
 #: src/arch/win32/resacia.rc.po.c:44
-#, fuzzy
 msgid "Normal"
-msgstr "*Normaal"
+msgstr "Normaal"
 
 #: src/arch/win32/resacia.rc.po.c:45
-#, fuzzy
 msgid "Swiftlink"
-msgstr "*Swiftlink"
+msgstr "Swiftlink"
 
 #: src/arch/win32/resacia.rc.po.c:46
-#, fuzzy
 msgid "Turbo232"
-msgstr "*Turbo232"
+msgstr "Turbo232"
 
 #: src/arch/win32/resacia.rc.po.c:47 src/arch/amigaos/intl.c.po.c:2241
 msgid "ACIA Settings"
@@ -7350,9 +7325,8 @@ msgid "ACIA interrupt"
 msgstr "ACIA Interrupt"
 
 #: src/arch/win32/resacia.rc.po.c:52
-#, fuzzy
 msgid "ACIA mode"
-msgstr "ACIA apparaat"
+msgstr "ACIA modus"
 
 #: src/arch/win32/resc128.rc.po.c:25 src/arch/win32/resc64.rc.po.c:25
 #: src/arch/win32/rescbm2.rc.po.c:24 src/arch/win32/respet.rc.po.c:24
@@ -7664,9 +7638,8 @@ msgstr "Modus"
 #: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:114
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
-#, fuzzy
 msgid "&Normal"
-msgstr "*Normaal"
+msgstr "&Normaal"
 
 #: src/arch/win32/resc128.rc.po.c:115 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:87 src/arch/win32/respet.rc.po.c:85
@@ -7817,61 +7790,61 @@ msgstr "&Auto"
 #: src/arch/win32/rescbm2.rc.po.c:126 src/arch/win32/respet.rc.po.c:124
 #: src/arch/win32/resplus4.rc.po.c:136 src/arch/win32/resvic20.rc.po.c:134
 msgid "1/&1"
-msgstr ""
+msgstr "1/&1"
 
 #: src/arch/win32/resc128.rc.po.c:155 src/arch/win32/resc64.rc.po.c:157
 #: src/arch/win32/rescbm2.rc.po.c:127 src/arch/win32/respet.rc.po.c:125
 #: src/arch/win32/resplus4.rc.po.c:137 src/arch/win32/resvic20.rc.po.c:135
 msgid "1/&2"
-msgstr ""
+msgstr "1/&2"
 
 #: src/arch/win32/resc128.rc.po.c:156 src/arch/win32/resc64.rc.po.c:158
 #: src/arch/win32/rescbm2.rc.po.c:128 src/arch/win32/respet.rc.po.c:126
 #: src/arch/win32/resplus4.rc.po.c:138 src/arch/win32/resvic20.rc.po.c:136
 msgid "1/&3"
-msgstr ""
+msgstr "1/&3"
 
 #: src/arch/win32/resc128.rc.po.c:157 src/arch/win32/resc64.rc.po.c:159
 #: src/arch/win32/rescbm2.rc.po.c:129 src/arch/win32/respet.rc.po.c:127
 #: src/arch/win32/resplus4.rc.po.c:139 src/arch/win32/resvic20.rc.po.c:137
 msgid "1/&4"
-msgstr ""
+msgstr "1/&4"
 
 #: src/arch/win32/resc128.rc.po.c:158 src/arch/win32/resc64.rc.po.c:160
 #: src/arch/win32/rescbm2.rc.po.c:130 src/arch/win32/respet.rc.po.c:128
 #: src/arch/win32/resplus4.rc.po.c:140 src/arch/win32/resvic20.rc.po.c:138
 msgid "1/&5"
-msgstr ""
+msgstr "1/&5"
 
 #: src/arch/win32/resc128.rc.po.c:159 src/arch/win32/resc64.rc.po.c:161
 #: src/arch/win32/rescbm2.rc.po.c:131 src/arch/win32/respet.rc.po.c:129
 #: src/arch/win32/resplus4.rc.po.c:141 src/arch/win32/resvic20.rc.po.c:139
 msgid "1/&6"
-msgstr ""
+msgstr "1/&6"
 
 #: src/arch/win32/resc128.rc.po.c:160 src/arch/win32/resc64.rc.po.c:162
 #: src/arch/win32/rescbm2.rc.po.c:132 src/arch/win32/respet.rc.po.c:130
 #: src/arch/win32/resplus4.rc.po.c:142 src/arch/win32/resvic20.rc.po.c:140
 msgid "1/&7"
-msgstr ""
+msgstr "1/&7"
 
 #: src/arch/win32/resc128.rc.po.c:161 src/arch/win32/resc64.rc.po.c:163
 #: src/arch/win32/rescbm2.rc.po.c:133 src/arch/win32/respet.rc.po.c:131
 #: src/arch/win32/resplus4.rc.po.c:143 src/arch/win32/resvic20.rc.po.c:141
 msgid "1/&8"
-msgstr ""
+msgstr "1/&8"
 
 #: src/arch/win32/resc128.rc.po.c:162 src/arch/win32/resc64.rc.po.c:164
 #: src/arch/win32/rescbm2.rc.po.c:134 src/arch/win32/respet.rc.po.c:132
 #: src/arch/win32/resplus4.rc.po.c:144 src/arch/win32/resvic20.rc.po.c:142
 msgid "1/&9"
-msgstr ""
+msgstr "1/&9"
 
 #: src/arch/win32/resc128.rc.po.c:163 src/arch/win32/resc64.rc.po.c:165
 #: src/arch/win32/rescbm2.rc.po.c:135 src/arch/win32/respet.rc.po.c:133
 #: src/arch/win32/resplus4.rc.po.c:145 src/arch/win32/resvic20.rc.po.c:143
 msgid "1/1&0"
-msgstr ""
+msgstr "1/1&0"
 
 #: src/arch/win32/resc128.rc.po.c:166 src/arch/win32/resc128.rc.po.c:178
 #: src/arch/win32/resc64.rc.po.c:168 src/arch/win32/resc64.rc.po.c:180
@@ -7892,31 +7865,31 @@ msgstr "&Maximale Snelheid"
 #: src/arch/win32/rescbm2.rc.po.c:143 src/arch/win32/respet.rc.po.c:141
 #: src/arch/win32/resplus4.rc.po.c:153 src/arch/win32/resvic20.rc.po.c:151
 msgid "&200%"
-msgstr ""
+msgstr "&200%"
 
 #: src/arch/win32/resc128.rc.po.c:172 src/arch/win32/resc64.rc.po.c:174
 #: src/arch/win32/rescbm2.rc.po.c:144 src/arch/win32/respet.rc.po.c:142
 #: src/arch/win32/resplus4.rc.po.c:154 src/arch/win32/resvic20.rc.po.c:152
 msgid "&100%"
-msgstr ""
+msgstr "&100%"
 
 #: src/arch/win32/resc128.rc.po.c:173 src/arch/win32/resc64.rc.po.c:175
 #: src/arch/win32/rescbm2.rc.po.c:145 src/arch/win32/respet.rc.po.c:143
 #: src/arch/win32/resplus4.rc.po.c:155 src/arch/win32/resvic20.rc.po.c:153
 msgid "&50%"
-msgstr ""
+msgstr "&50%"
 
 #: src/arch/win32/resc128.rc.po.c:174 src/arch/win32/resc64.rc.po.c:176
 #: src/arch/win32/rescbm2.rc.po.c:146 src/arch/win32/respet.rc.po.c:144
 #: src/arch/win32/resplus4.rc.po.c:156 src/arch/win32/resvic20.rc.po.c:154
 msgid "&20%"
-msgstr ""
+msgstr "&20%"
 
 #: src/arch/win32/resc128.rc.po.c:175 src/arch/win32/resc64.rc.po.c:177
 #: src/arch/win32/rescbm2.rc.po.c:147 src/arch/win32/respet.rc.po.c:145
 #: src/arch/win32/resplus4.rc.po.c:157 src/arch/win32/resvic20.rc.po.c:155
 msgid "1&0%"
-msgstr ""
+msgstr "1&0%"
 
 #: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:178
 #: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/respet.rc.po.c:146
@@ -8326,16 +8299,15 @@ msgstr "Basic C64"
 #: src/arch/win32/resc64.rc.po.c:1948 src/arch/win32/resc64.rc.po.c:2442
 #: src/arch/win32/resplus4.rc.po.c:1779 src/arch/win32/resplus4.rc.po.c:2176
 #: src/arch/win32/resvic20.rc.po.c:1626 src/arch/win32/resvic20.rc.po.c:1859
-#, fuzzy
 msgid "1541"
-msgstr "Start C1541"
+msgstr "1541"
 
 #: src/arch/win32/resc128.rc.po.c:2308 src/arch/win32/resc128.rc.po.c:2996
 #: src/arch/win32/resc64.rc.po.c:1952 src/arch/win32/resc64.rc.po.c:2444
 #: src/arch/win32/resplus4.rc.po.c:1783 src/arch/win32/resplus4.rc.po.c:2178
 #: src/arch/win32/resvic20.rc.po.c:1630 src/arch/win32/resvic20.rc.po.c:1861
 msgid "1541-II"
-msgstr ""
+msgstr "1541-II"
 
 #: src/arch/win32/resc128.rc.po.c:2312 src/arch/win32/resc128.rc.po.c:2998
 #: src/arch/win32/resc64.rc.po.c:1956 src/arch/win32/resc64.rc.po.c:2446
@@ -8345,25 +8317,25 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:1791 src/arch/win32/resplus4.rc.po.c:2182
 #: src/arch/win32/resvic20.rc.po.c:1634 src/arch/win32/resvic20.rc.po.c:1863
 msgid "1570"
-msgstr ""
+msgstr "1570"
 
 #: src/arch/win32/resc128.rc.po.c:2316 src/arch/win32/resc128.rc.po.c:3000
 #: src/arch/win32/resc64.rc.po.c:1960 src/arch/win32/resc64.rc.po.c:2448
 #: src/arch/win32/resplus4.rc.po.c:1795 src/arch/win32/resplus4.rc.po.c:2184
 #: src/arch/win32/resvic20.rc.po.c:1638 src/arch/win32/resvic20.rc.po.c:1865
 msgid "1571"
-msgstr ""
+msgstr "1571"
 
 #: src/arch/win32/resc128.rc.po.c:2320 src/arch/win32/resc128.rc.po.c:3002
 msgid "1571CR"
-msgstr ""
+msgstr "1571CR"
 
 #: src/arch/win32/resc128.rc.po.c:2324 src/arch/win32/resc128.rc.po.c:3004
 #: src/arch/win32/resc64.rc.po.c:1964 src/arch/win32/resc64.rc.po.c:2450
 #: src/arch/win32/resplus4.rc.po.c:1799 src/arch/win32/resplus4.rc.po.c:2186
 #: src/arch/win32/resvic20.rc.po.c:1642 src/arch/win32/resvic20.rc.po.c:1867
 msgid "1581"
-msgstr ""
+msgstr "1581"
 
 #: src/arch/win32/resc128.rc.po.c:2328 src/arch/win32/resc128.rc.po.c:3006
 #: src/arch/win32/resc64.rc.po.c:1968 src/arch/win32/resc64.rc.po.c:2452
@@ -8371,7 +8343,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:1737 src/arch/win32/respet.rc.po.c:2147
 #: src/arch/win32/resvic20.rc.po.c:1646 src/arch/win32/resvic20.rc.po.c:1869
 msgid "2031"
-msgstr ""
+msgstr "2031"
 
 #: src/arch/win32/resc128.rc.po.c:2332 src/arch/win32/resc128.rc.po.c:3008
 #: src/arch/win32/resc64.rc.po.c:1972 src/arch/win32/resc64.rc.po.c:2454
@@ -8379,7 +8351,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:1741 src/arch/win32/respet.rc.po.c:2149
 #: src/arch/win32/resvic20.rc.po.c:1650 src/arch/win32/resvic20.rc.po.c:1871
 msgid "2040"
-msgstr ""
+msgstr "2040"
 
 #: src/arch/win32/resc128.rc.po.c:2336 src/arch/win32/resc128.rc.po.c:3010
 #: src/arch/win32/resc64.rc.po.c:1976 src/arch/win32/resc64.rc.po.c:2456
@@ -8387,7 +8359,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:1745 src/arch/win32/respet.rc.po.c:2151
 #: src/arch/win32/resvic20.rc.po.c:1654 src/arch/win32/resvic20.rc.po.c:1873
 msgid "3040"
-msgstr ""
+msgstr "3040"
 
 #: src/arch/win32/resc128.rc.po.c:2340 src/arch/win32/resc128.rc.po.c:3012
 #: src/arch/win32/resc64.rc.po.c:1980 src/arch/win32/resc64.rc.po.c:2458
@@ -8395,7 +8367,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:1749 src/arch/win32/respet.rc.po.c:2153
 #: src/arch/win32/resvic20.rc.po.c:1658 src/arch/win32/resvic20.rc.po.c:1875
 msgid "4040"
-msgstr ""
+msgstr "4040"
 
 #: src/arch/win32/resc128.rc.po.c:2344 src/arch/win32/resc128.rc.po.c:3014
 #: src/arch/win32/resc64.rc.po.c:1984 src/arch/win32/resc64.rc.po.c:2460
@@ -8403,7 +8375,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:1753 src/arch/win32/respet.rc.po.c:2155
 #: src/arch/win32/resvic20.rc.po.c:1662 src/arch/win32/resvic20.rc.po.c:1877
 msgid "1001"
-msgstr ""
+msgstr "1001"
 
 #: src/arch/win32/resc128.rc.po.c:2674 src/arch/win32/resc64.rc.po.c:2290
 #: src/arch/win32/rescbm2.rc.po.c:1966 src/arch/win32/respet.rc.po.c:1939
@@ -8548,14 +8520,12 @@ msgid "&Cartridge/IO settings"
 msgstr "&Cartridge/IO instellingen"
 
 #: src/arch/win32/resc64.rc.po.c:229
-#, fuzzy
 msgid "PLUS&60K settings..."
-msgstr "+&60K instellingen..."
+msgstr "PLUS&60K instellingen..."
 
 #: src/arch/win32/resc64.rc.po.c:230
-#, fuzzy
 msgid "PLUS2&56K settings..."
-msgstr "&256K instellingen..."
+msgstr "PLUS2&56K instellingen..."
 
 #: src/arch/win32/resc64.rc.po.c:231
 msgid "&256K settings..."
@@ -8617,14 +8587,12 @@ msgid "Drive s&ync factor"
 msgstr "Drive synchronisatie faktor"
 
 #: src/arch/win32/rescbm2.rc.po.c:172 src/arch/win32/respet.rc.po.c:168
-#, fuzzy
 msgid "&PAL"
-msgstr "&PAL-G"
+msgstr "&PAL"
 
 #: src/arch/win32/rescbm2.rc.po.c:173 src/arch/win32/respet.rc.po.c:169
-#, fuzzy
 msgid "&NTSC"
-msgstr "&NTSC-M"
+msgstr "&NTSC"
 
 #: src/arch/win32/rescbm2.rc.po.c:181
 msgid "&CBM2 settings..."
@@ -8661,27 +8629,27 @@ msgstr "Machine &standaards"
 
 #: src/arch/win32/rescbm2.rc.po.c:2348
 msgid "CBM 610"
-msgstr ""
+msgstr "CBM 610"
 
 #: src/arch/win32/rescbm2.rc.po.c:2349
 msgid "CBM 620"
-msgstr ""
+msgstr "CBM 620"
 
 #: src/arch/win32/rescbm2.rc.po.c:2350
 msgid "CBM 620+"
-msgstr ""
+msgstr "CBM 620+"
 
 #: src/arch/win32/rescbm2.rc.po.c:2351
 msgid "CBM 710"
-msgstr ""
+msgstr "CBM 710"
 
 #: src/arch/win32/rescbm2.rc.po.c:2352
 msgid "CBM 720"
-msgstr ""
+msgstr "CBM 720"
 
 #: src/arch/win32/rescbm2.rc.po.c:2353
 msgid "CBM 720+"
-msgstr ""
+msgstr "CBM 720+"
 
 #: src/arch/win32/rescbm2.rc.po.c:2354
 msgid "&Model line"
@@ -8689,15 +8657,15 @@ msgstr "&Model lijn"
 
 #: src/arch/win32/rescbm2.rc.po.c:2355
 msgid "&7x0 (50 Hz)"
-msgstr ""
+msgstr "&7x0 (50 Hz)"
 
 #: src/arch/win32/rescbm2.rc.po.c:2357
 msgid "6x0 &60 Hz"
-msgstr ""
+msgstr "6x0 &60 Hz"
 
 #: src/arch/win32/rescbm2.rc.po.c:2359
 msgid "6x0 &50 Hz"
-msgstr ""
+msgstr "6x0 &50 Hz"
 
 #: src/arch/win32/rescbm2.rc.po.c:2509 src/arch/win32/resplus4.rc.po.c:2364
 #: src/arch/win32/resvic20.rc.po.c:2248
@@ -8795,69 +8763,69 @@ msgstr "&Drive soort"
 #: src/arch/win32/resdrivec128.rc.po.c:15
 #: src/arch/win32/resdrivec64vic20.rc.po.c:15
 msgid "1&541"
-msgstr ""
+msgstr "1&541"
 
 #: src/arch/win32/resdrivec128.rc.po.c:17
 #: src/arch/win32/resdrivec64vic20.rc.po.c:17
 msgid "1541-&II"
-msgstr ""
+msgstr "1541-&II"
 
 #: src/arch/win32/resdrivec128.rc.po.c:21
 #: src/arch/win32/resdrivec64vic20.rc.po.c:21
 #: src/arch/win32/resdriveplus4.rc.po.c:23
 msgid "15&71"
-msgstr ""
+msgstr "15&71"
 
 #: src/arch/win32/resdrivec128.rc.po.c:23
 msgid "15&71cr"
-msgstr ""
+msgstr "15&71cr"
 
 #: src/arch/win32/resdrivec128.rc.po.c:25
 #: src/arch/win32/resdrivec64vic20.rc.po.c:23
 msgid "&1581"
-msgstr ""
+msgstr "&1581"
 
 #: src/arch/win32/resdrivec128.rc.po.c:27
 #: src/arch/win32/resdrivec64vic20.rc.po.c:25
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:15
 msgid "20&31"
-msgstr ""
+msgstr "20&31"
 
 #: src/arch/win32/resdrivec128.rc.po.c:29
 #: src/arch/win32/resdrivec64vic20.rc.po.c:27
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:17
 msgid "20&40"
-msgstr ""
+msgstr "20&40"
 
 #: src/arch/win32/resdrivec128.rc.po.c:31
 #: src/arch/win32/resdrivec64vic20.rc.po.c:29
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:19
 msgid "30&40"
-msgstr ""
+msgstr "30&40"
 
 #: src/arch/win32/resdrivec128.rc.po.c:33
 #: src/arch/win32/resdrivec64vic20.rc.po.c:31
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:21
 msgid "40&40"
-msgstr ""
+msgstr "40&40"
 
 #: src/arch/win32/resdrivec128.rc.po.c:35
 #: src/arch/win32/resdrivec64vic20.rc.po.c:33
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:23
 msgid "1&001"
-msgstr ""
+msgstr "1&001"
 
 #: src/arch/win32/resdrivec128.rc.po.c:37
 #: src/arch/win32/resdrivec64vic20.rc.po.c:35
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:25
 msgid "&8050"
-msgstr ""
+msgstr "&8050"
 
 #: src/arch/win32/resdrivec128.rc.po.c:39
 #: src/arch/win32/resdrivec64vic20.rc.po.c:37
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:27
 msgid "8&250"
-msgstr ""
+msgstr "8&250"
 
 #: src/arch/win32/resdrivec128.rc.po.c:43
 #: src/arch/win32/resdrivec64vic20.rc.po.c:41
@@ -8920,57 +8888,51 @@ msgstr "Drive &uitbreiding"
 #: src/arch/win32/resdrivec128.rc.po.c:60
 #: src/arch/win32/resdrivec64vic20.rc.po.c:58
 #: src/arch/win32/resdriveplus4.rc.po.c:46
-#, fuzzy
 msgid "$2000-$3FFF &RAM"
-msgstr "*Bank 15 $2000-$3FFF RAM"
+msgstr "$2000-$3FFF &RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:62
 #: src/arch/win32/resdrivec64vic20.rc.po.c:60
-#, fuzzy
 msgid "$&4000-$5FFF RAM"
-msgstr "Bank 15 $&4000-$5FFF RAM"
+msgstr "$&4000-$5FFF RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:64
 #: src/arch/win32/resdrivec64vic20.rc.po.c:62
 #: src/arch/win32/resdriveplus4.rc.po.c:50
-#, fuzzy
 msgid "$&6000-$7FFF RAM"
-msgstr "Bank 15 $&6000-$7FFF RAM"
+msgstr "$&6000-$7FFF RAM"
 
 #: src/arch/win32/resdrivec128.rc.po.c:66
 #: src/arch/win32/resdrivec64vic20.rc.po.c:64
 #: src/arch/win32/resdriveplus4.rc.po.c:52
-#, fuzzy
 msgid "$8000-$9FFF RA&M"
-msgstr "*$8000-$9FFF RAM uitbreiding"
+msgstr "$8000-$9FFF RA&M"
 
 #: src/arch/win32/resdrivec128.rc.po.c:68
 #: src/arch/win32/resdrivec64vic20.rc.po.c:66
 #: src/arch/win32/resdriveplus4.rc.po.c:54
-#, fuzzy
 msgid "$&A000-$BFFF RAM"
-msgstr "*$A000-$BFFF RAM uitbreiding"
+msgstr "$&A000-$BFFF RAM"
 
 #: src/arch/win32/resdriveplus4.rc.po.c:15
 msgid "15&41"
-msgstr ""
+msgstr "15&41"
 
 #: src/arch/win32/resdriveplus4.rc.po.c:17
 msgid "154&1-II"
-msgstr ""
+msgstr "154&1-II"
 
 #: src/arch/win32/resdriveplus4.rc.po.c:19
 msgid "15&51"
-msgstr ""
+msgstr "15&51"
 
 #: src/arch/win32/resdriveplus4.rc.po.c:25
 msgid "15&81"
-msgstr ""
+msgstr "15&81"
 
 #: src/arch/win32/resdriveplus4.rc.po.c:48
-#, fuzzy
 msgid "$4&000-$5FFF RAM"
-msgstr "*Bank 15 $4000-$5FFF RAM"
+msgstr "$4&000-$5FFF RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:13 src/arch/amigaos/intl.c.po.c:2497
 msgid "GEORAM Settings"
@@ -9030,40 +8992,36 @@ msgid "P&ET settings..."
 msgstr "P&ET instellingen..."
 
 #: src/arch/win32/respet.rc.po.c:190
-#, fuzzy
 msgid "PET &REU settings..."
-msgstr "&REU instellingen..."
+msgstr "PET &REU instellingen..."
 
 #: src/arch/win32/respet.rc.po.c:1489 src/arch/win32/respet.rc.po.c:1949
 msgid "Editor"
 msgstr "Editor"
 
 #: src/arch/win32/respet.rc.po.c:1493
-#, fuzzy
 msgid "ROM 9"
-msgstr "ROM sets"
+msgstr "ROM 9"
 
 #: src/arch/win32/respet.rc.po.c:1497
-#, fuzzy
 msgid "ROM A"
-msgstr "ROM sets"
+msgstr "ROM A"
 
 #: src/arch/win32/respet.rc.po.c:1501
-#, fuzzy
 msgid "ROM B"
-msgstr "ROM sets"
+msgstr "ROM B"
 
 #: src/arch/win32/respet.rc.po.c:1951
 msgid "ROM9"
-msgstr ""
+msgstr "ROM9"
 
 #: src/arch/win32/respet.rc.po.c:1953
 msgid "ROMA"
-msgstr ""
+msgstr "ROMA"
 
 #: src/arch/win32/respet.rc.po.c:1955
 msgid "ROMB"
-msgstr ""
+msgstr "ROMB"
 
 #: src/arch/win32/respet.rc.po.c:2320
 msgid "Machine defaults"
@@ -9071,52 +9029,51 @@ msgstr "Machine standaards"
 
 #: src/arch/win32/respet.rc.po.c:2321
 msgid "PET 2001-8N"
-msgstr ""
+msgstr "PET 2001-8N"
 
 #: src/arch/win32/respet.rc.po.c:2322
 msgid "PET 3008"
-msgstr ""
+msgstr "PET 3008"
 
 #: src/arch/win32/respet.rc.po.c:2323
 msgid "PET 3016"
-msgstr ""
+msgstr "PET 3016"
 
 #: src/arch/win32/respet.rc.po.c:2324
 msgid "PET 3032"
-msgstr ""
+msgstr "PET 3032"
 
 #: src/arch/win32/respet.rc.po.c:2325
 msgid "PET 3032B"
-msgstr ""
+msgstr "PET 3032B"
 
 #: src/arch/win32/respet.rc.po.c:2326
 msgid "PET 4016"
-msgstr ""
+msgstr "PET 4016"
 
 #: src/arch/win32/respet.rc.po.c:2327
 msgid "PET 4032"
-msgstr ""
+msgstr "PET 4032"
 
 #: src/arch/win32/respet.rc.po.c:2328
 msgid "PET 4032B"
-msgstr ""
+msgstr "PET 4032B"
 
 #: src/arch/win32/respet.rc.po.c:2329
 msgid "PET 8032"
-msgstr ""
+msgstr "PET 8032"
 
 #: src/arch/win32/respet.rc.po.c:2330
 msgid "PET 8096"
-msgstr ""
+msgstr "PET 8096"
 
 #: src/arch/win32/respet.rc.po.c:2331
 msgid "PET 8296"
-msgstr ""
+msgstr "PET 8296"
 
 #: src/arch/win32/respet.rc.po.c:2332
-#, fuzzy
 msgid "SuperPET"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET"
 
 #: src/arch/win32/respet.rc.po.c:2333
 msgid "M&emory"
@@ -9176,16 +9133,15 @@ msgstr "&2 kByte"
 
 #: src/arch/win32/respet.rc.po.c:2580
 msgid "&CRTC"
-msgstr ""
+msgstr "&CRTC"
 
 #: src/arch/win32/respet.rc.po.c:2581
 msgid "CRTC chip &enable"
 msgstr "CRTC chip &aktiveren"
 
 #: src/arch/win32/respet.rc.po.c:2584
-#, fuzzy
 msgid "&Keyboard"
-msgstr "Toetsenbord"
+msgstr "&Toetsenbord"
 
 #: src/arch/win32/respet.rc.po.c:2585
 msgid "&Graphics"
@@ -9224,44 +9180,36 @@ msgid "PET settings"
 msgstr "PET instellingen"
 
 #: src/arch/win32/respetreu.rc.po.c:35 src/arch/amigaos/intl.c.po.c:2729
-#, fuzzy
 msgid "PET REU Settings"
-msgstr "REU Instellingen"
+msgstr "PET REU Instellingen"
 
 #: src/arch/win32/respetreu.rc.po.c:36
-#, fuzzy
 msgid "&Enable PET REU"
-msgstr "*Aktiveer PET REU"
+msgstr "&Aktiveer PET REU"
 
 #: src/arch/win32/respetreu.rc.po.c:38
-#, fuzzy
 msgid "PET REU file"
-msgstr "PET REU grootte"
+msgstr "PET REU bestand"
 
 #: src/arch/win32/respetreu.rc.po.c:39
-#, fuzzy
 msgid "Select file for PET REU"
-msgstr "Selecteer bestand voor REU"
+msgstr "Selecteer bestand voor PET REU"
 
 #: src/arch/win32/resplus256k.rc.po.c:25 src/arch/amigaos/intl.c.po.c:2737
-#, fuzzy
 msgid "PLUS256K Settings"
-msgstr "Instellingen"
+msgstr "PLUS256K Instellingen"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
-#, fuzzy
 msgid "&Enable PLUS256K"
-msgstr "*Aktiveer PLUS256K"
+msgstr "&Aktiveer PLUS256K"
 
 #: src/arch/win32/resplus256k.rc.po.c:27
-#, fuzzy
 msgid "PLUS256K file"
-msgstr "256K bestand"
+msgstr "PLUS256K bestand"
 
 #: src/arch/win32/resplus256k.rc.po.c:28
-#, fuzzy
 msgid "Select file for PLUS256K"
-msgstr "Selecteer bestand voor 256K"
+msgstr "Selecteer bestand voor PLUS256K"
 
 #: src/arch/win32/resplus4.rc.po.c:68 src/arch/amigaos/intl.c.po.c:381
 msgid "C1 low  image..."
@@ -9301,7 +9249,7 @@ msgstr "3+1 Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:1787 src/arch/win32/resplus4.rc.po.c:2180
 msgid "1551"
-msgstr ""
+msgstr "1551"
 
 #: src/arch/win32/resplus4.rc.po.c:2017
 msgid "3 plus 1 LO"
@@ -9328,24 +9276,20 @@ msgid "&64 kByte"
 msgstr "&64 kByte"
 
 #: src/arch/win32/resplus4.rc.po.c:2371
-#, fuzzy
 msgid "2&56 kByte (CSORY)"
-msgstr "*256KB (CSORY)"
+msgstr "2&56 kByte (CSORY)"
 
 #: src/arch/win32/resplus4.rc.po.c:2373
-#, fuzzy
 msgid "&256 kByte (HANNES)"
-msgstr "*256KB (HANNES)"
+msgstr "&256 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:2375
-#, fuzzy
 msgid "1&024 kByte (HANNES)"
-msgstr "*1024KB (HANNES)"
+msgstr "1&024 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:2377
-#, fuzzy
 msgid "&4096 kByte (HANNES)"
-msgstr "*4096KB (HANNES)"
+msgstr "&4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:2694
 msgid "Attach cartridge image for Function Low"
@@ -9372,24 +9316,20 @@ msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Koppel cartridge bestand voor 'Cartridge2 High'"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2753
-#, fuzzy
 msgid "PLUS60K Settings"
-msgstr "+60K Instellingen"
+msgstr "PLUS60K Instellingen"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
-#, fuzzy
 msgid "&Enable PLUS60K"
-msgstr "*Aktiveer PLUS60K"
+msgstr "&Aktiveer PLUS60K"
 
 #: src/arch/win32/resplus60k.rc.po.c:32
-#, fuzzy
 msgid "PLUS60K file"
-msgstr "+60K bestand"
+msgstr "PLUS60K bestand"
 
 #: src/arch/win32/resplus60k.rc.po.c:33
-#, fuzzy
 msgid "Select file for PLUS60K"
-msgstr "Selecteer bestand voor +60K"
+msgstr "Selecteer bestand voor PLUS60K"
 
 #: src/arch/win32/resramcart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2825
 msgid "RAMCART Settings"
@@ -9636,706 +9576,589 @@ msgid "New Luminances"
 msgstr "Nieuwe kleuren"
 
 #: src/arch/amigaos/intl.c.po.c:125
-#, fuzzy
 msgid "Autostart disk/tape image..."
-msgstr "&Autostart disk/tape bestand..."
+msgstr "Autostart disk/tape bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:189
-#, fuzzy
 msgid "Flip list"
-msgstr "&Flip lijst"
+msgstr "Flip lijst"
 
 #: src/arch/amigaos/intl.c.po.c:197
-#, fuzzy
 msgid "Add current image"
-msgstr "Voeg huidig best&and toe\tAlt+I"
+msgstr "Voeg huidig bestand toe"
 
 #: src/arch/amigaos/intl.c.po.c:205
-#, fuzzy
 msgid "Remove current image"
-msgstr "Ve&rwijder huidig bestand\tAlt+K"
+msgstr "Verwijder huidig bestand"
 
 #: src/arch/amigaos/intl.c.po.c:213
-#, fuzzy
 msgid "Attach next image"
-msgstr "Koppel volge&nd bestand\tAlt+N"
+msgstr "Koppel volgend bestand"
 
 #: src/arch/amigaos/intl.c.po.c:221
-#, fuzzy
 msgid "Attach previous image"
-msgstr "Koppel vori&g bestand\tAlt+B"
+msgstr "Koppel vorig bestand"
 
 #: src/arch/amigaos/intl.c.po.c:229
-#, fuzzy
 msgid "Load flip list"
-msgstr "&Laad flip lijst bestand"
+msgstr "Laad flip lijst"
 
 #: src/arch/amigaos/intl.c.po.c:237
-#, fuzzy
 msgid "Save flip list"
-msgstr "Op&slaan flip lijst"
+msgstr "Opslaan flip lijst"
 
 #: src/arch/amigaos/intl.c.po.c:245
-#, fuzzy
 msgid "Attach tape image..."
-msgstr "Koppel een tape bestand..."
+msgstr "Koppel tape bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:277
-#, fuzzy
 msgid "Start"
-msgstr "&Start"
+msgstr "Start"
 
 #: src/arch/amigaos/intl.c.po.c:317
-#, fuzzy
 msgid "Reset Counter"
-msgstr "Reset T&eller"
+msgstr "Reset Teller"
 
 #: src/arch/amigaos/intl.c.po.c:325
-#, fuzzy
 msgid "Attach cartridge image..."
-msgstr "Koppel &cartridge bestand..."
+msgstr "Koppel cartridge bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:333
-#, fuzzy
 msgid "4/8/16KB image at $2000..."
-msgstr "Koppel 4/8/16KB bestand in $&2000..."
+msgstr "4/8/16KB bestand in $2000..."
 
 #: src/arch/amigaos/intl.c.po.c:341
-#, fuzzy
 msgid "4/8/16KB image at $4000..."
-msgstr "Koppel 4/8/16KB bestand in $&4000..."
+msgstr "4/8/16KB bestand in $4000..."
 
 #: src/arch/amigaos/intl.c.po.c:349
-#, fuzzy
 msgid "4/8/16KB image at $6000..."
-msgstr "Koppel 4/8/16KB bestand in $&6000..."
+msgstr "4/8/16KB bestand in $6000..."
 
 #: src/arch/amigaos/intl.c.po.c:357
-#, fuzzy
 msgid "4/8KB image at $A000..."
-msgstr "Koppel 4/8KB bestand in $&A000..."
+msgstr "4/8KB bestand in $A000..."
 
 #: src/arch/amigaos/intl.c.po.c:365
-#, fuzzy
 msgid "4KB image at $B000..."
-msgstr "Koppel 4KB bestand in $&B000..."
+msgstr "4KB bestand in $&B000..."
 
 #: src/arch/amigaos/intl.c.po.c:429
-#, fuzzy
 msgid "CRT image..."
-msgstr "&CRT bestand..."
+msgstr "CRT bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:437
-#, fuzzy
 msgid "Generic 8KB image..."
-msgstr "Algemeen &8KB bestand..."
+msgstr "Algemeen 8KB bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:445
-#, fuzzy
 msgid "Generic 16KB image..."
-msgstr "Algemeen &16KB bestand..."
+msgstr "Algemeen 16KB bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:453
-#, fuzzy
 msgid "Action Replay image..."
-msgstr "&Action Replay bestand..."
+msgstr "Action Replay bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:461
-#, fuzzy
 msgid "Atomic Power image..."
-msgstr "Atomic &Power bestand..."
+msgstr "Atomic Power bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:469
-#, fuzzy
 msgid "Epyx fastload image..."
-msgstr "&Epyx fastload bestand..."
+msgstr "Epyx fastload bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:477
-#, fuzzy
 msgid "IEEE488 interface image..."
-msgstr "&IEEE488 interface bestand..."
+msgstr "IEEE488 interface bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:485
-#, fuzzy
 msgid "Retro Replay image..."
-msgstr "&retro Replay bestand..."
+msgstr "Retro Replay bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:493
-#, fuzzy
 msgid "IDE64 interface image..."
-msgstr "IDE&64 interface bestand..."
+msgstr "IDE64 interface bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:501
-#, fuzzy
 msgid "Super Snapshot 4 image..."
-msgstr "Super Snapshot &4 bestand..."
+msgstr "Super Snapshot 4 bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:509
-#, fuzzy
 msgid "Super Snapshot 5 image..."
-msgstr "Super Snapshot &5 bestand..."
+msgstr "Super Snapshot 5 bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:517
-#, fuzzy
 msgid "Structured Basic image..."
-msgstr "Structured &Basic bestand..."
+msgstr "Structured Basic bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:573
-#, fuzzy
 msgid "Reset on cart change"
-msgstr "Reset bij cart wisse&ling"
+msgstr "Reset bij cart wisseling"
 
 #: src/arch/amigaos/intl.c.po.c:589
-#, fuzzy
 msgid "Pause"
-msgstr "*Pauze"
+msgstr "Pauze"
 
 #: src/arch/amigaos/intl.c.po.c:621
-#, fuzzy
 msgid "Exit"
-msgstr "Exact"
+msgstr "Afsluiten"
 
 #: src/arch/amigaos/intl.c.po.c:637
-#, fuzzy
 msgid "Load snapshot image..."
-msgstr "Laad momentopname best&and..."
+msgstr "Laad momentopname bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:645
-#, fuzzy
 msgid "Save snapshot image..."
-msgstr "Opslaan momento&pname bestand..."
+msgstr "Opslaan momentopname bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:653
-#, fuzzy
 msgid "Load quicksnapshot image"
-msgstr "Laad momentopname bestand"
+msgstr "Snellaad momentopname bestand"
 
 #: src/arch/amigaos/intl.c.po.c:661
-#, fuzzy
 msgid "Save quicksnapshot image"
-msgstr "Momentopname bestand opslaan"
+msgstr "Snelopslaan momentopname bestand"
 
 #: src/arch/amigaos/intl.c.po.c:669
-#, fuzzy
 msgid "Start/Stop Recording History"
-msgstr "Sta&rt/Stop Opname Geschiedenis"
+msgstr "Start/Stop Opname Geschiedenis"
 
 #: src/arch/amigaos/intl.c.po.c:677
-#, fuzzy
 msgid "Start/Stop Playback History"
-msgstr "Start/Stop &Afspeel Geschiedenis"
+msgstr "Start/Stop Afspeel Geschiedenis"
 
 #: src/arch/amigaos/intl.c.po.c:685
-#, fuzzy
 msgid "Set Recording Milestone"
-msgstr "Zet opname mijlpaal"
+msgstr "Zet Opname Mijlpaal"
 
 #: src/arch/amigaos/intl.c.po.c:693
-#, fuzzy
 msgid "Return to Milestone"
 msgstr "Ga terug naar mijlpaal"
 
 #: src/arch/amigaos/intl.c.po.c:709
-#, fuzzy
 msgid "Save new snapshot"
-msgstr "Op&slaan nieuwe momentopname"
+msgstr "Opslaan nieuwe momentopname"
 
 #: src/arch/amigaos/intl.c.po.c:717
-#, fuzzy
 msgid "Load existing snapshot"
-msgstr "&Laad bestaande momentopname"
+msgstr "Laad bestaande momentopname"
 
 #: src/arch/amigaos/intl.c.po.c:725
-#, fuzzy
 msgid "Start with reset"
-msgstr "*start met reset"
+msgstr "Start met reset"
 
 #: src/arch/amigaos/intl.c.po.c:733
-#, fuzzy
 msgid "Overwrite Playback"
-msgstr "Overschrijf weer&gave"
+msgstr "Overschrijf weergave"
 
 #: src/arch/amigaos/intl.c.po.c:749
-#, fuzzy
 msgid "Save/stop media file..."
-msgstr "Opslaan/stop media bestand...\tAlt+C"
+msgstr "Opslaan/stop media bestand..."
 
 #: src/arch/amigaos/intl.c.po.c:781
-#, fuzzy
 msgid "Auto"
-msgstr "&Auto"
+msgstr "Auto"
 
 #: src/arch/amigaos/intl.c.po.c:789
 msgid "1/1"
-msgstr ""
+msgstr "1/1"
 
 #: src/arch/amigaos/intl.c.po.c:797
 msgid "1/2"
-msgstr ""
+msgstr "1/2"
 
 #: src/arch/amigaos/intl.c.po.c:805
 msgid "1/3"
-msgstr ""
+msgstr "1/3"
 
 #: src/arch/amigaos/intl.c.po.c:813
 msgid "1/4"
-msgstr ""
+msgstr "1/4"
 
 #: src/arch/amigaos/intl.c.po.c:821
 msgid "1/5"
-msgstr ""
+msgstr "1/5"
 
 #: src/arch/amigaos/intl.c.po.c:829
 msgid "1/6"
-msgstr ""
+msgstr "1/6"
 
 #: src/arch/amigaos/intl.c.po.c:837
 msgid "1/7"
-msgstr ""
+msgstr "1/7"
 
 #: src/arch/amigaos/intl.c.po.c:845
 msgid "1/8"
-msgstr ""
+msgstr "1/8"
 
 #: src/arch/amigaos/intl.c.po.c:853
 msgid "1/9"
-msgstr ""
+msgstr "1/9"
 
 #: src/arch/amigaos/intl.c.po.c:861
 msgid "1/10"
-msgstr ""
+msgstr "1/10"
 
 #: src/arch/amigaos/intl.c.po.c:869
-#, fuzzy
 msgid "Maximum Speed"
-msgstr "&Maximale Snelheid"
+msgstr "Maximale Snelheid"
 
 #: src/arch/amigaos/intl.c.po.c:877
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: src/arch/amigaos/intl.c.po.c:885
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: src/arch/amigaos/intl.c.po.c:893
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/arch/amigaos/intl.c.po.c:901
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: src/arch/amigaos/intl.c.po.c:909
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: src/arch/amigaos/intl.c.po.c:917
-#, fuzzy
 msgid "No limit"
-msgstr "Geen &limiet"
+msgstr "Geen limiet"
 
 #: src/arch/amigaos/intl.c.po.c:925
-#, fuzzy
 msgid "Custom"
-msgstr "&Eigen"
+msgstr "Eigen"
 
 #: src/arch/amigaos/intl.c.po.c:933
-#, fuzzy
 msgid "Warp mode"
-msgstr "&Warp modus\tAlt+W"
+msgstr "Warp modus"
 
 #: src/arch/amigaos/intl.c.po.c:949
-#, fuzzy
 msgid "Video cache"
-msgstr "*Video cache"
+msgstr "Video cache"
 
 #: src/arch/amigaos/intl.c.po.c:957
-#, fuzzy
 msgid "Double size"
-msgstr "*Dubbele grootte"
+msgstr "Dubbele grootte"
 
 #: src/arch/amigaos/intl.c.po.c:965
-#, fuzzy
 msgid "Double scan"
-msgstr "*Dubbele scan"
+msgstr "Dubbele scan"
 
 #: src/arch/amigaos/intl.c.po.c:997
-#, fuzzy
 msgid "64KB video memory"
-msgstr "64KB video &geheugen"
+msgstr "64KB video geheugen"
 
 #: src/arch/amigaos/intl.c.po.c:1005
-#, fuzzy
 msgid "Swap Joysticks"
-msgstr "Verwissel joystick poorten"
+msgstr "Verwissel Joysticks"
 
 #: src/arch/amigaos/intl.c.po.c:1013
-#, fuzzy
 msgid "Sound playback"
-msgstr "&Geluid&suitvoer"
+msgstr "Geluidsuitvoer"
 
 #: src/arch/amigaos/intl.c.po.c:1021
-#, fuzzy
 msgid "True drive emulation"
-msgstr "&Hardware drive emulatie"
+msgstr "Hardware drive emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1029
-#, fuzzy
 msgid "Virtual device traps"
-msgstr "&Virtuele Apparaat traps"
+msgstr "Virtuele Apparaat traps"
 
 #: src/arch/amigaos/intl.c.po.c:1037
-#, fuzzy
 msgid "Drive sync factor"
 msgstr "Drive synchronisatie faktor"
 
 #: src/arch/amigaos/intl.c.po.c:1045
-#, fuzzy
 msgid "PAL"
-msgstr "&PAL-G"
+msgstr "PAL"
 
 #: src/arch/amigaos/intl.c.po.c:1053
-#, fuzzy
 msgid "NTSC"
-msgstr "*NTSC-M"
+msgstr "NTSC"
 
 #: src/arch/amigaos/intl.c.po.c:1069
-#, fuzzy
 msgid "PAL-G"
-msgstr "&PAL-G"
+msgstr "PAL-G"
 
 #: src/arch/amigaos/intl.c.po.c:1077
-#, fuzzy
 msgid "NTSC-M"
-msgstr "*NTSC-M"
+msgstr "NTSC-M"
 
 #: src/arch/amigaos/intl.c.po.c:1085
-#, fuzzy
 msgid "Old NTSC-M"
-msgstr "&Oud NTSC-M"
+msgstr "Oud NTSC-M"
 
 #: src/arch/amigaos/intl.c.po.c:1093
-#, fuzzy
 msgid "Emulator Identification"
-msgstr "Emulator &Identificatie"
+msgstr "Emulator Identificatie"
 
 #: src/arch/amigaos/intl.c.po.c:1101
-#, fuzzy
 msgid "VIC-1112 IEEE 488 module"
-msgstr "VIC-1112 IEEE &488 module"
+msgstr "VIC-1112 IEEE 488 module"
 
 #: src/arch/amigaos/intl.c.po.c:1109
-#, fuzzy
 msgid "IEEE 488 Interface emulation"
-msgstr "IEEE&488 Interface emulatie"
+msgstr "IEEE 488 Interface emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1117
-#, fuzzy
 msgid "1351 mouse emulation"
-msgstr "*1351 Muis Emulatie"
+msgstr "1351 Muis Emulatie"
 
 #: src/arch/amigaos/intl.c.po.c:1133
-#, fuzzy
 msgid "Video settings..."
-msgstr "&Video instellingen..."
+msgstr "Video instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1141
-#, fuzzy
 msgid "VIC settings..."
-msgstr "V&IC instellingen..."
+msgstr "VIC instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1149
-#, fuzzy
 msgid "CBM2 settings..."
-msgstr "&CBM2 instellingen..."
+msgstr "CBM2 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1157
-#, fuzzy
 msgid "PET settings..."
-msgstr "P&ET instellingen..."
+msgstr "PET instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1165
-#, fuzzy
 msgid "Peripheral settings..."
-msgstr "Rand A&pparaten instellingen..."
+msgstr "Rand Apparaten instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1173
-#, fuzzy
 msgid "Drive settings..."
-msgstr "&Drive instellingen..."
+msgstr "Drive instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1181
-#, fuzzy
 msgid "Datasette settings..."
-msgstr "D&atasette instellingen..."
+msgstr "Datasette instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1189
-#, fuzzy
 msgid "Plus4 settings..."
-msgstr "P&lus4 instellingen..."
+msgstr "Plus4 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1205
-#, fuzzy
 msgid "Joystick settings..."
-msgstr "&Joystick instellingen..."
+msgstr "Joystick instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1213
-#, fuzzy
 msgid "Joystick device selection"
-msgstr "Apparaat selectie"
+msgstr "Joystick apparaat selectie"
 
 #: src/arch/amigaos/intl.c.po.c:1221
-#, fuzzy
 msgid "Joystick fire button selection"
-msgstr "Autofire knop instellingen"
+msgstr "Joystick vuur knop selectie"
 
 #: src/arch/amigaos/intl.c.po.c:1229
-#, fuzzy
 msgid "Keyboard settings..."
-msgstr "&Toetsenbord instellingen..."
+msgstr "Toetsenbord instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1237
-#, fuzzy
 msgid "Sound settings..."
-msgstr "G&eluid instellingen..."
+msgstr "Geluid instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1245
-#, fuzzy
 msgid "SID settings..."
-msgstr "S&ID instellingen..."
+msgstr "SID instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1253
-#, fuzzy
 msgid "ROM settings..."
-msgstr "&ROM instellingen..."
+msgstr "ROM instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1261
-#, fuzzy
 msgid "RAM settings..."
-msgstr "RA&M instellingen..."
+msgstr "RAM instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1269
-#, fuzzy
 msgid "RS232 settings..."
-msgstr "RS&232 instellingen..."
+msgstr "RS232 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1277
-#, fuzzy
 msgid "C128 settings..."
-msgstr "C&128 instellingen..."
+msgstr "C128 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1285
-#, fuzzy
 msgid "Cartridge/IO settings"
-msgstr "&Cartridge/IO instellingen"
+msgstr "Cartridge/IO instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:1293
-#, fuzzy
 msgid "REU settings..."
-msgstr "&REU instellingen..."
+msgstr "REU instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1301
-#, fuzzy
 msgid "GEORAM settings..."
-msgstr "&GEORAM instellingen..."
+msgstr "GEORAM instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1309
-#, fuzzy
 msgid "RAMCART settings..."
-msgstr "&RAMCART instellingen..."
+msgstr "RAMCART instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1317
-#, fuzzy
 msgid "PLUS60K settings..."
-msgstr "+&60K instellingen..."
+msgstr "PLUS60K instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1325
-#, fuzzy
 msgid "PLUS256K settings..."
-msgstr "&256K instellingen..."
+msgstr "PLUS256K instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1333
-#, fuzzy
 msgid "256K settings..."
-msgstr "&256K instellingen..."
+msgstr "256K instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1341
-#, fuzzy
 msgid "IDE64 settings..."
-msgstr "&IDE64 instellingen..."
+msgstr "IDE64 instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1349
-#, fuzzy
 msgid "Ethernet settings..."
-msgstr "&Ethernet instellingen..."
+msgstr "Ethernet instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1357
-#, fuzzy
 msgid "ACIA settings..."
-msgstr "&ACIA instellingen..."
+msgstr "ACIA instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1365
-#, fuzzy
 msgid "PET REU settings..."
-msgstr "P&ET instellingen..."
+msgstr "PET REU instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1373
-#, fuzzy
 msgid "RS232 userport settings..."
-msgstr "RS&232 userport instellingen..."
+msgstr "RS232 userport instellingen..."
 
 #: src/arch/amigaos/intl.c.po.c:1381
-#, fuzzy
 msgid "Save current settings"
-msgstr "Huidige instellingen op&slaan"
+msgstr "Huidige instellingen opslaan"
 
 #: src/arch/amigaos/intl.c.po.c:1389
-#, fuzzy
 msgid "Load saved settings"
-msgstr "Opges&lagen instellingen laden"
+msgstr "Opgeslagen instellingen laden"
 
 #: src/arch/amigaos/intl.c.po.c:1397
-#, fuzzy
 msgid "Set default settings"
-msgstr "Herstel standaar&d instellingen"
+msgstr "Herstel standaard instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:1405
-#, fuzzy
 msgid "Save settings on exit"
-msgstr "Sla instellingen op bij afslui&ten"
+msgstr "Sla instellingen op bij afsluiten"
 
 #: src/arch/amigaos/intl.c.po.c:1413
-#, fuzzy
 msgid "Confirm on exit"
-msgstr "*Bevestigen bij afsluiten"
+msgstr "Bevestigen bij afsluiten"
 
 #: src/arch/amigaos/intl.c.po.c:1429
-#, fuzzy
 msgid "About..."
-msgstr "&Over VICE..."
+msgstr "Over VICE..."
 
 #: src/arch/amigaos/intl.c.po.c:1461
-#, fuzzy
 msgid "No warranty"
 msgstr "Geen garantie!"
 
 #: src/arch/amigaos/intl.c.po.c:1469
-#, fuzzy
 msgid "English"
-msgstr "&Engels"
+msgstr "Engels"
 
 #: src/arch/amigaos/intl.c.po.c:1477
-#, fuzzy
 msgid "German"
-msgstr "&Duits"
+msgstr "Duits"
 
 #: src/arch/amigaos/intl.c.po.c:1485
-#, fuzzy
 msgid "French"
-msgstr "&Frans"
+msgstr "Frans"
 
 #: src/arch/amigaos/intl.c.po.c:1493
-#, fuzzy
 msgid "Italian"
-msgstr "&Italiaans"
+msgstr "Italiaans"
 
 #: src/arch/amigaos/intl.c.po.c:1501
-#, fuzzy
 msgid "Dutch"
-msgstr "&Nederlands"
+msgstr "Nederlands"
 
 #: src/arch/amigaos/intl.c.po.c:1509
-#, fuzzy
 msgid "Polish"
-msgstr "&Pools"
+msgstr "Pools"
 
 #: src/arch/amigaos/intl.c.po.c:1517
-#, fuzzy
 msgid "Swedish"
-msgstr "&Zweeds"
+msgstr "Zweeds"
 
 #: src/arch/amigaos/intl.c.po.c:1525
-#, fuzzy
 msgid "Language"
-msgstr "&Taal"
+msgstr "Taal"
 
 #: src/arch/amigaos/intl.c.po.c:1533
-#, fuzzy
 msgid "Fullscreen Statusbar"
-msgstr "Volscherm"
+msgstr "Volscherm Statusbar"
 
 #: src/arch/amigaos/intl.c.po.c:1541
-#, fuzzy
 msgid "Video overlay"
 msgstr "Video Codec"
 
 #: src/arch/amigaos/intl.c.po.c:1647
 #, c-format
 msgid "No joystick or joypad found on port %d"
-msgstr ""
+msgstr "Geen joystick of joypad gevonden op poort %d"
 
 #: src/arch/amigaos/intl.c.po.c:1655
 #, c-format
 msgid "A mouse was found on port %d"
-msgstr ""
+msgstr "Een muis is gevonden op poort %d"
 
 #: src/arch/amigaos/intl.c.po.c:1663
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown device found on port %d"
-msgstr "apparaat '%s' niet gevonden of wordt niet ondersteund"
+msgstr "Onbekent apparaat gevonden op poort %d"
 
 #: src/arch/amigaos/intl.c.po.c:1671
 msgid "The device on this port is not a gamepad"
-msgstr ""
+msgstr "Het apparaat op deze poort in niet een gamepad"
 
 #: src/arch/amigaos/intl.c.po.c:1679
 msgid "The port is not mapped to an Amiga port"
-msgstr ""
+msgstr "De poort is niet verbonden met een Amiga poort"
 
 #: src/arch/amigaos/intl.c.po.c:1767
-#, fuzzy, c-format
+#, c-format
 msgid "Screenshot save of %s failed"
-msgstr "Opslaan scherm afdruk bestand"
+msgstr "Opslaan scherm afdruk bestand %s faalt"
 
 #: src/arch/amigaos/intl.c.po.c:1775
-#, fuzzy, c-format
+#, c-format
 msgid "Screenshot %s saved."
-msgstr "Scherm opnames..."
+msgstr "Scherm afdruk %s opgeslagen."
 
 #. ----------------------- AmigaOS Strings -----------------------
 #: src/arch/amigaos/intl.c.po.c:1785
 msgid "Press desired key/button, move stick or press ESC for no key."
-msgstr ""
+msgstr "Druk de toets/knop, beweeg de joystick of druk op ESC voor geen toets."
 
 #: src/arch/amigaos/intl.c.po.c:1817
-#, fuzzy
 msgid "Choose screenshot format"
-msgstr "Opslaan scherm afdruk bestand"
+msgstr "Kies scherm afdruk formaat"
 
 #: src/arch/amigaos/intl.c.po.c:1825
-#, fuzzy, c-format
+#, c-format
 msgid "Save %s screenshot"
-msgstr "Scherm afdruk opslaan"
+msgstr "Scherm afdruk %s opslaan"
 
 #: src/arch/amigaos/intl.c.po.c:1833
-#, fuzzy, c-format
+#, c-format
 msgid "Detached device %d"
-msgstr "Apparaat %s ontkoppelt"
+msgstr "Apparaat %d ontkoppelt"
 
 #: src/arch/amigaos/intl.c.po.c:1841
-#, fuzzy, c-format
+#, c-format
 msgid "Attached %s to device#%d"
-msgstr "%s aan apparaat#%s gekoppelt"
+msgstr "%s aan apparaat#%d gekoppelt"
 
 #: src/arch/amigaos/intl.c.po.c:1849
-#, fuzzy
 msgid "VICE Question"
 msgstr "VICE vraag"
 
 #: src/arch/amigaos/intl.c.po.c:1865
 msgid "Yes|No"
-msgstr ""
+msgstr "Ja|Nee"
 
 #: src/arch/amigaos/intl.c.po.c:2017
 msgid "Attach 4/8/16KB cartridge image at $2000"
@@ -10358,372 +10181,314 @@ msgid "Attach 4KB cartridge image at $B000"
 msgstr "Koppel 4KB bestand op $B000"
 
 #: src/arch/amigaos/intl.c.po.c:2065
-#, fuzzy
 msgid "Attach"
-msgstr "&Koppel"
+msgstr "Koppel"
 
 #: src/arch/amigaos/intl.c.po.c:2073
-#, fuzzy
 msgid "Parent"
-msgstr "&Print"
+msgstr "Bevenliggende directory"
 
 #: src/arch/amigaos/intl.c.po.c:2129
-#, fuzzy
 msgid "About"
-msgstr "&Over VICE..."
+msgstr "Over VICE"
 
 #: src/arch/amigaos/intl.c.po.c:2137
-#, fuzzy
 msgid "Image Contents"
-msgstr "bestand Inhoud "
+msgstr "bestand Inhoud"
 
 #: src/arch/amigaos/intl.c.po.c:2145
-#, fuzzy
 msgid "Disabled"
-msgstr "Warp modus afsluiten"
+msgstr "Uit"
 
 #: src/arch/amigaos/intl.c.po.c:2153
-#, fuzzy
 msgid "Enabled"
-msgstr "Aktiveer"
+msgstr "Aan"
 
 #: src/arch/amigaos/intl.c.po.c:2161
-#, fuzzy
 msgid "RS232 Device 1"
 msgstr "RS232 apparaat 1"
 
 #: src/arch/amigaos/intl.c.po.c:2169
-#, fuzzy
 msgid "RS232 Device 2"
 msgstr "RS232 apparaat 2"
 
 #: src/arch/amigaos/intl.c.po.c:2177
-#, fuzzy
 msgid "RS232 Device 3"
 msgstr "RS232 apparaat 3"
 
 #: src/arch/amigaos/intl.c.po.c:2185
-#, fuzzy
 msgid "RS232 Device 4"
 msgstr "RS232 apparaat 4"
 
 #: src/arch/amigaos/intl.c.po.c:2217
-#, fuzzy
 msgid "ACIA Device"
 msgstr "ACIA apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:2225
-#, fuzzy
 msgid "ACIA Interrupt"
 msgstr "ACIA Interrupt"
 
 #: src/arch/amigaos/intl.c.po.c:2233
-#, fuzzy
 msgid "ACIA Mode"
-msgstr "PAL Modus"
+msgstr "ACIA Modus"
 
 #: src/arch/amigaos/intl.c.po.c:2249
-#, fuzzy
 msgid "256K Enabled"
-msgstr "256K bestand"
+msgstr "256K aan"
 
 #. fuzzy
 #. fuzzy
 #: src/arch/amigaos/intl.c.po.c:2257
-#, fuzzy
 msgid "256K Base"
-msgstr "256K basis adres"
+msgstr "256K basis"
 
 #: src/arch/amigaos/intl.c.po.c:2273
-#, fuzzy
 msgid "model line"
-msgstr "&Model lijn"
+msgstr "model lijn"
 
 #: src/arch/amigaos/intl.c.po.c:2281
-#, fuzzy
 msgid "RAM Size"
-msgstr "GEORAM grootte"
+msgstr "RAM Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:2289
-#, fuzzy
 msgid "RAM Block $0400-$0FFF"
-msgstr "*Blok 0 (3K in $0400-$0FFF)"
+msgstr "RAM Blok $0400-$0FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2297
-#, fuzzy
 msgid "RAM Block $0800-$0FFF"
-msgstr "*Blok 0 (3K in $0400-$0FFF)"
+msgstr "RAM Blok $0800-$0FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2305
-#, fuzzy
 msgid "RAM Block $1000-$1FFF"
-msgstr "*Bank 15 $1000-$1FFF RAM"
+msgstr "RAM Blok $1000-$1FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2313
-#, fuzzy
 msgid "RAM Block $2000-$3FFF"
-msgstr "*Blok 1 (8K in $2000-$3FFF)"
+msgstr "RAM Blok $2000-$3FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2321
-#, fuzzy
 msgid "RAM Block $4000-$5FFF"
-msgstr "*Blok 2 (8K in $4000-$5FFF)"
+msgstr "RAM Blok $4000-$5FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2329
-#, fuzzy
 msgid "RAM Block $6000-$7FFF"
-msgstr "*Blok 3 (8K in $6000-$7FFF)"
+msgstr "RAM Blok $6000-$7FFF"
 
 #: src/arch/amigaos/intl.c.po.c:2337
-#, fuzzy
 msgid "RAM Block $A000-$BFFF"
-msgstr "*Blok 5 (8K in $A000-$BFFF)"
+msgstr "RAM Blok $A000-$BFFF"
 
 #: src/arch/amigaos/intl.c.po.c:2345
-#, fuzzy
 msgid "RAM Block $C000-$CFFF"
-msgstr "*Bank 15 $C000-$CFFF RAM"
+msgstr "RAM Blok $C000-$CFFF"
 
 #: src/arch/amigaos/intl.c.po.c:2353
-#, fuzzy
 msgid "CBM2 Settings"
-msgstr "CBM2 instellingen"
+msgstr "CBM2 Instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:2361
-#, fuzzy
 msgid "Reset Datasette with CPU"
-msgstr "&Reset Datasette met CPU"
+msgstr "Reset Datasette met CPU"
 
 #: src/arch/amigaos/intl.c.po.c:2369
 msgid "Additional Delay"
-msgstr ""
+msgstr "Extra vertraging"
 
 #: src/arch/amigaos/intl.c.po.c:2377
-#, fuzzy
 msgid "Delay at Zero Values"
-msgstr "&nul-waarden cycli vertraging"
+msgstr "Nul-waarden cycli vertraging"
 
 #: src/arch/amigaos/intl.c.po.c:2417
-#, fuzzy
 msgid "No traps"
-msgstr "*Geen traps"
+msgstr "Geen traps"
 
 #: src/arch/amigaos/intl.c.po.c:2441
-#, fuzzy
 msgid "Drive type"
-msgstr "&Drive soort"
+msgstr "Drive soort"
 
 #: src/arch/amigaos/intl.c.po.c:2449
-#, fuzzy
 msgid "40 track handling"
-msgstr "40 &sporen ondersteuning"
+msgstr "40 sporen ondersteuning"
 
 #: src/arch/amigaos/intl.c.po.c:2457
-#, fuzzy
 msgid "Drive expansion"
-msgstr "Drive &uitbreiding"
+msgstr "Drive uitbreiding"
 
 #: src/arch/amigaos/intl.c.po.c:2465
-#, fuzzy
 msgid "Idle method"
-msgstr "Id&le methode"
+msgstr "Idle methode"
 
 #: src/arch/amigaos/intl.c.po.c:2473
-#, fuzzy
 msgid "Parallel cable"
-msgstr "&Parallel kabel"
+msgstr "Parallel kabel"
 
 #: src/arch/amigaos/intl.c.po.c:2489
-#, fuzzy
 msgid "GEORAM Size"
-msgstr "GEORAM grootte"
+msgstr "GEORAM Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:2505
-#, fuzzy
 msgid "Joystick in port #1"
-msgstr "Joystick in poort #&1"
+msgstr "Joystick in poort #1"
 
 #: src/arch/amigaos/intl.c.po.c:2513
-#, fuzzy
 msgid "Joystick in port #2"
-msgstr "Joystick in poort #&2"
+msgstr "Joystick in poort #2"
 
 #: src/arch/amigaos/intl.c.po.c:2521
-#, fuzzy
 msgid "Joystick Settings"
-msgstr "Joystick instellingen"
+msgstr "Joystick Instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:2529
-#, fuzzy
 msgid "Numpad"
-msgstr "*Numpad"
+msgstr "Numpad"
 
 #: src/arch/amigaos/intl.c.po.c:2537
 msgid "Joy Port 0"
-msgstr ""
+msgstr "Joy Poort 0"
 
 #: src/arch/amigaos/intl.c.po.c:2545
-#, fuzzy
 msgid "Joy Port 1"
-msgstr "Joystick in poort #&1"
+msgstr "Joy Poort 1"
 
 #: src/arch/amigaos/intl.c.po.c:2553
-#, fuzzy
 msgid "Joy Port 2"
-msgstr "Joystick in poort #&2"
+msgstr "Joy Poort 2"
 
 #: src/arch/amigaos/intl.c.po.c:2561
 msgid "Joy Port 3"
-msgstr ""
+msgstr "Joy Poort 3"
 
 #: src/arch/amigaos/intl.c.po.c:2569
-#, fuzzy
 msgid "Stop/Blue"
-msgstr "Stop"
+msgstr "Stop/Blauw"
 
 #: src/arch/amigaos/intl.c.po.c:2577
-#, fuzzy
 msgid "Select/Red"
-msgstr "Verwijderen"
+msgstr "Selecy/Rood"
 
 #: src/arch/amigaos/intl.c.po.c:2585
 msgid "Repeat/Yellow"
-msgstr ""
+msgstr "Repeat/Geel"
 
 #: src/arch/amigaos/intl.c.po.c:2593
 msgid "Shuffle/Green"
-msgstr ""
+msgstr "Shuffle/Groen"
 
 #: src/arch/amigaos/intl.c.po.c:2601
-#, fuzzy
 msgid "Forward/Charcoal"
-msgstr "Vooruit"
+msgstr "Forward/Charcoal"
 
 #: src/arch/amigaos/intl.c.po.c:2609
 msgid "Reverse/Charcoal"
-msgstr ""
+msgstr "Reverse/Charcoal"
 
 #: src/arch/amigaos/intl.c.po.c:2617
 msgid "Play-Pause/Grey"
-msgstr ""
+msgstr "Play-Pause/Grijs"
 
 #: src/arch/amigaos/intl.c.po.c:2625
-#, fuzzy
 msgid "Joy 1 Device"
-msgstr "Apparaten"
+msgstr "Joy 1 Apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:2633
-#, fuzzy
 msgid "Joy 2 Device"
-msgstr "Apparaten"
+msgstr "Joy 2 Apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:2641
 msgid "Joy 1 Fire"
-msgstr ""
+msgstr "Joy 1 Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:2649
 msgid "Joy 2 Fire"
-msgstr ""
+msgstr "Joy 2 Vuur"
 
 #: src/arch/amigaos/intl.c.po.c:2657
 msgid ""
 "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
+"Joystick #1 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:2665
 msgid ""
 "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
+"Joystick #2 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl.c.po.c:2673
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
-msgstr ""
+msgstr "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"
 
 #: src/arch/amigaos/intl.c.po.c:2681
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
-msgstr ""
+msgstr "Joystick #2 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"
 
 #: src/arch/amigaos/intl.c.po.c:2721
-#, fuzzy
 msgid "PET REU Size"
-msgstr "PET REU grootte"
+msgstr "PET REU Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:2745
-#, fuzzy
 msgid "PLUS60K Base"
-msgstr "PLUS60K basis adres"
+msgstr "PLUS60K Basis"
 
 #: src/arch/amigaos/intl.c.po.c:2793
 msgid "read/write"
-msgstr ""
+msgstr "lees/schrijf"
 
 #: src/arch/amigaos/intl.c.po.c:2801
-#, fuzzy
 msgid "read-only"
-msgstr "*Alleen lezen"
+msgstr "Alleen lezen"
 
 #: src/arch/amigaos/intl.c.po.c:2809
-#, fuzzy
 msgid "RAMCART Read/Write"
-msgstr "RAMCART bestand"
+msgstr "RAMCART Lezen/Schrijven"
 
 #: src/arch/amigaos/intl.c.po.c:2817
-#, fuzzy
 msgid "RAMCART Size"
-msgstr "RAMCART grootte"
+msgstr "RAMCART Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:2833
-#, fuzzy
 msgid "REU Size"
-msgstr "REU grootte"
+msgstr "REU Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:2849
-#, fuzzy
 msgid "Userport RS232"
-msgstr "Userport RS232 apparaat"
+msgstr "Userport RS232"
 
 #: src/arch/amigaos/intl.c.po.c:2857
-#, fuzzy
 msgid "Userport RS232 Device"
-msgstr "Userport RS232 apparaat"
+msgstr "Userport RS232 Apparaat"
 
 #: src/arch/amigaos/intl.c.po.c:2977
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Nog niet ondersteund!"
 
 #: src/arch/amigaos/intl.c.po.c:2985
-#, fuzzy
 msgid "SID Settings"
-msgstr "SID instellingen"
+msgstr "SID Instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:3017
-#, fuzzy
 msgid "Sample Rate"
-msgstr "Sample snelheid"
+msgstr "Sample Snelheid"
 
 #: src/arch/amigaos/intl.c.po.c:3025
-#, fuzzy
 msgid "Buffer Size"
-msgstr "Buffer grootte"
+msgstr "Buffer Grootte"
 
 #: src/arch/amigaos/intl.c.po.c:3041
 msgid "Speed Adjustment"
-msgstr ""
+msgstr "Snelheid aanpassing"
 
 #: src/arch/amigaos/intl.c.po.c:3049
-#, fuzzy
 msgid "Sound Settings"
-msgstr "Geluid instellingen"
+msgstr "Geluid Instellingen"
 
 #: src/arch/amigaos/intl.c.po.c:3065
-#, fuzzy
 msgid "Sprite Sprite Collisions"
-msgstr "Sprite-&sprite botsingen"
+msgstr "Sprite-Sprite Botsingen"
 
 #: src/arch/amigaos/intl.c.po.c:3073
-#, fuzzy
 msgid "Sprite Background Collisions"
-msgstr "Sprite-achtergrond &botsingen"
+msgstr "Sprite-Achtergrond Botsingen"
 
 #~ msgid "Filename: "
 #~ msgstr "Bestandsnaam: "

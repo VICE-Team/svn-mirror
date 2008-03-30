@@ -347,7 +347,7 @@ BEGIN
             MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
-            MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
+            MENUITEM "&Benutzerdefiniert", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
         POPUP "&Maximale Geschwindigkeit"
@@ -364,7 +364,7 @@ BEGIN
         MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Immer im Vordergrund", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_CRTCVIDEOCACHE
             , CHECKED

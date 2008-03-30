@@ -2129,23 +2129,23 @@ IDD_MEDIAFILE_DIALOG_DE DIALOG DISCARDABLE 0,0, 300, 100
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Select Driver:",IDC_STATIC,5,0,45,20
+    LTEXT           "Treiber selektieren:",IDC_STATIC,5,0,45,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    GROUPBOX        "FFMPEG settings",IDC_STATIC,5,20,250,75
+    GROUPBOX        "FFMPEG Einstellungen",IDC_STATIC,5,20,250,75
     LTEXT           "Format:",IDC_STATIC,15,37,40,20
     COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Audio: codec",IDC_STATIC,15,57,45,15
+    LTEXT           "Audio: Codec",IDC_STATIC,15,57,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGAUDIOCODEC, 65,55,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate",IDC_STATIC,155,57,25,15
+    LTEXT           "Bitrate",IDC_STATIC,155,57,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGAUDIOBITRATE, 180,55,40,12, 
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "Video: codec",IDC_STATIC,15,77,45,15
+    LTEXT           "Video: Codec",IDC_STATIC,15,77,45,15
     COMBOBOX        IDC_SCREENSHOT_FFMPEGVIDEOCODEC, 65,75,80,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    LTEXT           "bitrate",IDC_STATIC,155,77,25,15
+    LTEXT           "Bitrate",IDC_STATIC,155,77,25,15
     EDITTEXT        IDC_SCREENSHOT_FFMPEGVIDEOBITRATE, 180,75,40,12, 
                     WS_GROUP | WS_TABSTOP
 END
@@ -3674,7 +3674,7 @@ BEGIN
     PUSHBUTTON      "Computer", IDC_ROMSET_RESOURCE_COMPUTER, 200,195,60,15
     PUSHBUTTON      "Laufwerk", IDC_ROMSET_RESOURCE_DRIVE, 200,215,60,15
 #if 0
-    PUSHBUTTON      "Other", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
+    PUSHBUTTON      "Anderer", IDC_ROMSET_RESOURCE_OTHER, 200,235,60,15
 #endif
 END
 
@@ -4158,21 +4158,21 @@ END
 
 IDD_NETWORK_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 260, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Netplay Settings"
+CAPTION "Netplay Einstellungen"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    LTEXT           "Aktueller Modus",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
     LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
-    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    PUSHBUTTON      "Server Starten", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Verbinden mit", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,50,12,WS_TABSTOP
-    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
-    GROUPBOX        "Control",IDC_STATIC,140,5,115,100
+    PUSHBUTTON      "Verbindung Trennen", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Kontrolle",IDC_STATIC,140,5,115,100
     LTEXT           "Server", IDC_STATIC, 195,15,25,10
     LTEXT           "Client", IDC_STATIC, 225,15,25,10
-    LTEXT           "Keyboard", IDC_STATIC, 150,30,45,10
+    LTEXT           "Tastatur", IDC_STATIC, 150,30,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
@@ -4187,12 +4187,12 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Devices", IDC_STATIC, 150,66,45,10
+    LTEXT           "Geräte", IDC_STATIC, 150,66,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Settings", IDC_STATIC, 150,78,45,10
+    LTEXT           "Einstellungen", IDC_STATIC, 150,78,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
@@ -4799,9 +4799,9 @@ BEGIN
   IDS_USE_FIRST_CPU_SMP_DE           "Nur erste SMP SPU nutzen"
   IDS_START_VICE_FULLSCREEN_MODE_DE  "Aktiviere VICE Vollbild Modus"
 #ifdef SYS_SIGLIST_DECLARED
-  IDS_RECEIVED_SIGNAL_D_S_DE         "An unexpected error occured. Received signal %d (%s)."
+  IDS_RECEIVED_SIGNAL_D_S_DE         "Ein unerwarteter Fehler ist aufgetreten. Signal %d (%s) empfangen."
 #else
-  IDS_RECEIVED_SIGNAL_D_DE           "An unexpected error occured. Received signal %d."
+  IDS_RECEIVED_SIGNAL_D_DE           "Ein unerwarteter Fehler ist aufgetreten. Signal %d empfangen."
 #endif
 #ifdef HAVE_NETWORK
   IDS_IDLE_DE                        "Idle"
@@ -4809,8 +4809,8 @@ BEGIN
   IDS_CONNECTED_SERVER_DE            "Verbunden, Server"
   IDS_CONNECTED_CLIENT_DE            "Verbunden, Client"
   IDS_INVALID_PORT_NUMBER_DE         "Ungültige Port Nummer"
-  IDS_ERROR_STARTING_SERVER_DE       "An error occured starting the server."
-  IDS_ERROR_CONNECTING_CLIENT_DE     "An error occured connecting the client."
+  IDS_ERROR_STARTING_SERVER_DE       "Fehler beim Starten des Netplay Servers."
+  IDS_ERROR_CONNECTING_CLIENT_DE     "Fehler beim Verbindungsaufbau zum Client."
 #endif
 END
 

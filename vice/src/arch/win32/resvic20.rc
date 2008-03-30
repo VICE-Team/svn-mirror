@@ -370,7 +370,7 @@ BEGIN
             MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
-            MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
+            MENUITEM "&Benutzerdefiniert", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
         POPUP "&Maximale Geschwindigkeit"
@@ -388,7 +388,7 @@ BEGIN
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "Vollbild\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Immer im Vordergrund", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
         , CHECKED
@@ -2281,7 +2281,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC20ROM_KERNAL         "Kernal"
     IDS_VIC20ROM_BASIC          "Basic"
-    IDS_VIC20ROM_CHARGEN        "Character"
+    IDS_VIC20ROM_CHARGEN        "Zeichensatz"
     IDS_VIC20ROM_BROWSE         "&Stöbern..."
     IDS_VIC_CAPTION             "VIC Einstellungen"
     IDS_VIC_MEMORY              "&Speicher"

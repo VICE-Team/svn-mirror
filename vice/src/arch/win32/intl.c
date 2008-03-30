@@ -276,7 +276,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_CBM2ROMDRIVE_RESOURCE_DIALOG,
 /* de */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_DE,    /* size */
 /* fr */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_FR,    /* size */
-/* it */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_IT,    /*  size */
+/* it */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_IT,    /* size */
 /* nl */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_NL,
 /* pl */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_SV},   /* size */
@@ -553,7 +553,7 @@ static int intl_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDD_MEDIAFILE_DIALOG,
-/* de */  IDD_MEDIAFILE_DIALOG_DE,    /* fuzzy, size */
+/* de */  IDD_MEDIAFILE_DIALOG_DE,    /* size */
 /* fr */  IDD_MEDIAFILE_DIALOG_FR,    /* fuzzy, size */
 /* it */  IDD_MEDIAFILE_DIALOG_IT,    /* size */
 /* nl */  IDD_MEDIAFILE_DIALOG_NL,    /* size */
@@ -670,7 +670,7 @@ static int intl_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDD_NETWORK_SETTINGS_DIALOG,
-/* de */  IDD_NETWORK_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* de */  IDD_NETWORK_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_NETWORK_SETTINGS_DIALOG_FR,    /* fuzzy, size */
 /* it */  IDD_NETWORK_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_NETWORK_SETTINGS_DIALOG_NL,    /* size */
@@ -2384,7 +2384,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 #ifdef SYS_SIGLIST_DECLARED
 /* res.rc */
 /* en */ {IDS_RECEIVED_SIGNAL_D_S,
-/* de */  IDS_RECEIVED_SIGNAL_D_S_DE,    /* fuzzy */
+/* de */  IDS_RECEIVED_SIGNAL_D_S_DE,
 /* fr */  IDS_RECEIVED_SIGNAL_D_S_FR,    /* fuzzy */
 /* it */  IDS_RECEIVED_SIGNAL_D_S_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_S_NL,
@@ -2393,7 +2393,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 #else
 /* res.rc */
 /* en */ {IDS_RECEIVED_SIGNAL_D,
-/* de */  IDS_RECEIVED_SIGNAL_D_DE,    /* fuzzy */
+/* de */  IDS_RECEIVED_SIGNAL_D_DE,
 /* fr */  IDS_RECEIVED_SIGNAL_D_FR,    /* fuzzy */
 /* it */  IDS_RECEIVED_SIGNAL_D_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_NL,
@@ -2449,7 +2449,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDS_ERROR_STARTING_SERVER,
-/* de */  IDS_ERROR_STARTING_SERVER_DE,    /* fuzzy */
+/* de */  IDS_ERROR_STARTING_SERVER_DE,
 /* fr */  IDS_ERROR_STARTING_SERVER_FR,    /* fuzzy */
 /* it */  IDS_ERROR_STARTING_SERVER_IT,
 /* nl */  IDS_ERROR_STARTING_SERVER_NL,
@@ -2458,7 +2458,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDS_ERROR_CONNECTING_CLIENT,
-/* de */  IDS_ERROR_CONNECTING_CLIENT_DE,    /* fuzzy */
+/* de */  IDS_ERROR_CONNECTING_CLIENT_DE,
 /* fr */  IDS_ERROR_CONNECTING_CLIENT_FR,    /* fuzzy */
 /* it */  IDS_ERROR_CONNECTING_CLIENT_IT,
 /* nl */  IDS_ERROR_CONNECTING_CLIENT_NL,

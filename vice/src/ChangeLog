@@ -1,3 +1,39 @@
+2006-10-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.10.
+
+	* drive/iec/mc6821.c, mc6821.h: New files.
+
+	* drive/iec/Makefile.am, Makefile.am, arch/win32/iec.dsp:
+	Added new files.
+
+	* drive/iec/iec-resources.c, drive/iec/memiec.c,
+	drive/drive.h, drive/iec/iec.c, c64/c64parallel.c
+
+	* iecdrive.h, c64/c64parallel.c, drive/iec/via1d1541.c,
+	drive/iec/cia1571d.c, drive/iec/mc6821.c,
+	drive/drive-snapshot.c, plus4/plus4parallel.c
+	(parallel_cable_drive_write): Allow handshake only write.
+
+	* drive/iec/wd1770.h: Removed cruft.
+
+2006-10-02  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* arch/unix/x11/gnome/x11ui.c, arch/unix/x11/gnome/gnomekbd.c:
+	handle key events in a sub-widget of the main window, rather
+	than the main window, so the main window's keyboard handler
+	does not interfere
+
+2006-10-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c, arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/resc64_256k.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resplus60k.rc,
+	arch/win32/resvic20.rc, translate.c: Updated the german
+	translations.
+
 2006-10-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.9.

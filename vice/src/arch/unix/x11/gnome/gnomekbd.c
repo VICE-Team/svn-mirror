@@ -45,7 +45,7 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     switch (report->type) {
       case GDK_KEY_PRESS:
         keyboard_key_pressed((signed long)key);
-        return FALSE;
+        return TRUE;
 
       case GDK_KEY_RELEASE:
         if (key == GDK_Shift_L
@@ -66,6 +66,6 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
         break;
 
     }                           /* switch */
-    return TRUE;
+    return FALSE;
 }
 

@@ -138,6 +138,7 @@ noinst_HEADERS = \
 	machine.h \
 	main.h \
 	maincpu.h \
+	mc6821.h \
 	mem.h \
 	monitor.h \
 	mos6510.h \

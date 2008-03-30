@@ -118,6 +118,14 @@ static int *hashTable = NULL;
 static resource_callback_desc_t *resource_modified_callback = NULL;
 
 
+/* network_get_mode function where HAVE_NETWORK is not defined */
+#ifndef HAVE_NETWORK
+int network_get_mode(void)
+{
+  return NETWORK_IDLE;
+}
+#endif
+
 /* calculate the hash key */
 static unsigned int resources_calc_hash_key(const char *name)
 {

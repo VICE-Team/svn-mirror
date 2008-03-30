@@ -43,7 +43,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PLUS60K_CAPTION             "PLUS60K Einstellungen"
     IDS_PLUS60K_ENABLE              "PLUS60K aktivi&eren"
-    IDS_PLUS60K_BASE                "PLUS60K base address"
+    IDS_PLUS60K_BASE                "PLUS60K Basis Adresse"
     IDS_PLUS60K_FILE                "PLUS60K Datei"
     IDS_PLUS60K_SELECT_FILE         "Datei für PLUS60K selektieren"
 END
