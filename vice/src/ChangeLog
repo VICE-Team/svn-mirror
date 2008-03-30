@@ -1,3 +1,59 @@
+2004-09-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.3.
+
+	* c64/c64export.c: #include <string.h>.
+
+	* arch/win32/uiacia.c, arch/win32/uiacia.h,
+	arch/win32/resacia.rc: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/rescbm2.rc,
+	arch/win32/c64ui.c, arch/win32/c128ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c,
+	c64/c64-resources.c, c64/c64-cmdline-options.c,
+	c128/c128-resources.c, c128/c128-cmdline-options.c,
+	arch/unix/uirs232c64c128.c, arch/riscos/uiconfig.c: Added
+	win32 ACIA settings dialog.
+
+	* arch/win32/uireu.c, arch/win32/uiram.c, arch/win32/uitfe.c:
+	Removed some includes.
+
+	* version.h.in: Fixed as suggested by Tibor.
+
+2004-09-11  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/uiimage.c: read filelength with stat() rather
+	than dirent extension field.
+
+2004-09-07  Tibor Biczo  <crown@axelero.hu>
+
+	* configure.in: Build VICE_VERSION and VERSION_RC from version
+	nibbles.
+
+	* arch/win32/archdep.c (archdep_boot_path): Verify exe on NT4
+	path as well.
+
+	* version.h.in: Define VERSION_RC_NUMBER.
+
+2004-09-06  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/c1541.dsp, arch/win32/petcat.dsp: Added
+	version.lib to be linked against.
+
+2004-09-06 Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c64/c64memsnapshot.c (c64_snapshot_write_module),
+	(c64_snapshot_read_module): Include pport.data_out,
+	pport.data_read and pport.dir_read in snapshots.
+
+	* c64/c64pla.c (c64pla_pport_reset): Initialize
+	pport.data_out, pport.data_read and pport.dir_read.
+
 2004-09-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.2.
