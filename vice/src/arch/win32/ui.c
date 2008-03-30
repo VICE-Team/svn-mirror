@@ -41,6 +41,7 @@
 #include "drive.h"
 #include "fliplist.h"
 #include "imagecontents.h"
+#include "info.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -55,6 +56,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uiattach.h"
+#include "uicmdline.h"
 #include "uidrive.h"
 #include "uidatasette.h"
 #include "uijoystick.h"
@@ -882,13 +884,28 @@ char *dname;
         DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_ABOUT), hwnd,
                   (DLGPROC) about_dialog_proc);
         break;
-        case IDM_HELP:
-            fname=concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
-            dname=concat(archdep_boot_path(),"\\DOC",NULL);
-            ShellExecute(hwnd,"open",fname,NULL,dname,0);
-            free(fname);
-            free(dname);
-            break;
+      case IDM_HELP:
+        fname=concat(archdep_boot_path(),"\\DOC\\vice_toc.html",NULL);
+        dname=concat(archdep_boot_path(),"\\DOC",NULL);
+        ShellExecute(hwnd,"open",fname,NULL,dname,0);
+        free(fname);
+        free(dname);
+        break;
+      case IDM_CONTRIBUTORS:
+        ui_show_text(hwnd, "VICE contributors", "Who made what?", contrib_text);
+        break;
+      case IDM_LICENSE:
+        ui_show_text(hwnd, "License",
+                     "VICE license (GNU General Public License)", license_text);
+        break;
+      case IDM_WARRANTY:
+        ui_show_text(hwnd, "No warranty!",
+                     "VICE is distributed WITHOUT ANY WARRANTY!",
+                     warranty_text);
+        break;
+      case IDM_CMDLINE:
+        ui_cmdline_show_options(hwnd);
+        break;
       case IDM_ATTACH_8|0x00010000:
       case IDM_ATTACH_9|0x00010000:
       case IDM_ATTACH_10|0x00010000:
