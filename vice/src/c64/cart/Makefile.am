@@ -29,6 +29,8 @@ libc64cart_a_SOURCES = \
 	ide64.h \
 	kcs.c \
 	kcs.h \
+	magicformel.c \
+	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
 	supergames.c \
