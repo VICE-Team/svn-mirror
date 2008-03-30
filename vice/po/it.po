@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-10-06 00:28+0200\n"
+"POT-Creation-Date: 2003-10-18 16:26+0200\n"
 "PO-Revision-Date: 2003-10-09 20:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -44,13 +44,13 @@ msgid "Received signal %d."
 msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
-#: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:50 src/arch/unix/uivic.c:41
+#: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:41
 #: src/arch/unix/vsidui.c:123
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
-#: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:52 src/arch/unix/uivic.c:43
+#: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:54 src/arch/unix/uivic.c:43
 #: src/arch/unix/vsidui.c:125
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
@@ -1217,63 +1217,63 @@ msgstr "*Ambra"
 msgid "*White"
 msgstr "*Bianco"
 
-#: src/arch/unix/uicrtc.c:47 src/arch/unix/uited.c:42 src/arch/unix/uivdc.c:43
+#: src/arch/unix/uicrtc.c:47 src/arch/unix/uited.c:44 src/arch/unix/uivdc.c:43
 #: src/arch/unix/uivic.c:53 src/arch/unix/uivicii.c:60
 msgid "Load custom"
 msgstr "Personalizzata"
 
 #: src/arch/unix/uicrtc.c:92 src/arch/unix/uicrtc.c:105
-#: src/arch/unix/uited.c:98 src/arch/unix/uited.c:123 src/arch/unix/uivdc.c:98
-#: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:98
+#: src/arch/unix/uited.c:100 src/arch/unix/uited.c:125
+#: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:98
 #: src/arch/unix/uivic.c:117 src/arch/unix/uivicii.c:109
 #: src/arch/unix/uivicii.c:132
 msgid "*Double size"
 msgstr "*Dimensione doppia"
 
 #: src/arch/unix/uicrtc.c:94 src/arch/unix/uicrtc.c:107
-#: src/arch/unix/uited.c:100 src/arch/unix/uited.c:125
+#: src/arch/unix/uited.c:102 src/arch/unix/uited.c:127
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
 #: src/arch/unix/uivic.c:100 src/arch/unix/uivic.c:119
 #: src/arch/unix/uivicii.c:111 src/arch/unix/uivicii.c:134
 msgid "*Double scan"
 msgstr "*Scansione doppia"
 
-#: src/arch/unix/uicrtc.c:96 src/arch/unix/uited.c:102
+#: src/arch/unix/uicrtc.c:96 src/arch/unix/uited.c:104
 #: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:102
 #: src/arch/unix/uivicii.c:113
 msgid "*Video cache"
 msgstr "*Video cache"
 
-#: src/arch/unix/uicrtc.c:99 src/arch/unix/uited.c:117
+#: src/arch/unix/uicrtc.c:99 src/arch/unix/uited.c:119
 #: src/arch/unix/uivic.c:111 src/arch/unix/uivicii.c:126
 msgid "*Scale 2x render"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:103 src/arch/unix/uited.c:121
+#: src/arch/unix/uicrtc.c:103 src/arch/unix/uited.c:123
 #: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:115
 #: src/arch/unix/uivicii.c:130
 msgid "*Enable fullscreen"
 msgstr "*Attiva schermo intero"
 
-#: src/arch/unix/uicrtc.c:109 src/arch/unix/uited.c:127
+#: src/arch/unix/uicrtc.c:109 src/arch/unix/uited.c:129
 #: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:121
 #: src/arch/unix/uivicii.c:136
 msgid "Fullscreen device"
 msgstr "Dispositivo per lo schermo intero"
 
-#: src/arch/unix/uicrtc.c:114 src/arch/unix/uited.c:132
+#: src/arch/unix/uicrtc.c:114 src/arch/unix/uited.c:134
 #: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:126
 #: src/arch/unix/uivicii.c:141
 msgid "VidMode Resolutions"
 msgstr "Risoluzioni VidMode"
 
-#: src/arch/unix/uicrtc.c:118 src/arch/unix/uited.c:136
+#: src/arch/unix/uicrtc.c:118 src/arch/unix/uited.c:138
 #: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:130
 #: src/arch/unix/uivicii.c:145
 msgid "DGA1 Resolutions"
 msgstr "Risoluzioni DGA1"
 
-#: src/arch/unix/uicrtc.c:122 src/arch/unix/uited.c:140
+#: src/arch/unix/uicrtc.c:122 src/arch/unix/uited.c:142
 #: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:134
 #: src/arch/unix/uivicii.c:149
 msgid "DGA2 Resolutions"
@@ -1283,7 +1283,7 @@ msgstr "Risoluzioni DGA2"
 msgid "*CRTC Screen color"
 msgstr "*Tinta dello schermo CRTC"
 
-#: src/arch/unix/uicrtc.c:130 src/arch/unix/uited.c:145
+#: src/arch/unix/uicrtc.c:130 src/arch/unix/uited.c:147
 #: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:142
 #: src/arch/unix/uivicii.c:162
 msgid "*Use XSync()"
@@ -2118,20 +2118,20 @@ msgstr "Sovracampionamento"
 msgid "Sound settings"
 msgstr "Impostazioni del suono"
 
-#: src/arch/unix/uited.c:105 src/arch/unix/uivicii.c:118
+#: src/arch/unix/uited.c:107 src/arch/unix/uivicii.c:118
 msgid "*External color set"
 msgstr "*Palette esterna"
 
-#: src/arch/unix/uited.c:107 src/arch/unix/uivdc.c:138
+#: src/arch/unix/uited.c:109 src/arch/unix/uivdc.c:138
 #: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:120
 msgid "Color set"
 msgstr "Palette"
 
-#: src/arch/unix/uited.c:111
+#: src/arch/unix/uited.c:113
 msgid "*Fast PAL emulation"
 msgstr "*Emulazione PAL veloce"
 
-#: src/arch/unix/uited.c:114 src/arch/unix/uivicii.c:123
+#: src/arch/unix/uited.c:116 src/arch/unix/uivicii.c:123
 msgid "PAL Emulation"
 msgstr "Emulazione PAL"
 

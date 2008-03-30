@@ -1,6 +1,27 @@
+2003-10-18  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.7.
+
+	* doc/Makefile.am: Added new file.
+
+	* acconfig.h: Removed.
+
+	* Makefile.am: Removed `acconfig.h'.
+
+2003-10-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: Checks for FFMPEG header (avformat.h) and
+	libraries.
+
+2003-10-12  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* INSTALL, doc/Win32-Howto.txt: Updated.
+
+	* doc/MSDOS-Howto.txt: New file.
+
 2003-10-11  Andreas Boose  <viceteam@t-online.de>
 
-        * Version 1.13.6
+        * Version 1.13.6.
 
 	* configure.in: Fixed typo.
 
@@ -16,7 +37,7 @@
 
 2003-10-06  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.5
+	* Version 1.13.5.
 
 	* data/DRIVES/dos1570, data/DRIVES/d1571cr: New files.
 
@@ -24,11 +45,11 @@
 
 2003-10-05  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.4
+	* Version 1.13.4.
 
 2003-10-03  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.3
+	* Version 1.13.3.
 
 	* configure.in, acconfig.h: Moved many definitions to
 	`configure.in'.
@@ -45,11 +66,11 @@
 
 2003-09-28  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.2
+	* Version 1.13.2.
 
 2003-09-27  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.13.1
+	* Version 1.13.1.
 
 	* configure.in: Define `UNSTABLE'.
 

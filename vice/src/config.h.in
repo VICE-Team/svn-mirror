@@ -1,17 +1,4 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
-/* The number of bytes in an unsigned long.  */
-#undef SIZEOF_UNSIGNED_LONG
-
-/* The number of bytes in an unsigned int.  */
-#undef SIZEOF_UNSIGNED_INT
-
-/* The number of bytes in an unsigned short.  */
-#undef SIZEOF_UNSIGNED_SHORT
-
-/* Where do we want to install the executable?  */
-#undef PREFIX
-
-
 
 /* Enable support for BSD style joysticks. */
 #undef BSD_JOYSTICK
@@ -48,6 +35,9 @@
 
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
+
+/* Define to 1 if you have the <avformat.h> header file. */
+#undef HAVE_AVFORMAT_H
 
 /* Support for Catweasel MKIII. */
 #undef HAVE_CATWEASELMKIII
@@ -110,6 +100,12 @@
 
 /* Define to 1 if you have the `audio' library (-laudio). */
 #undef HAVE_LIBAUDIO
+
+/* Define to 1 if you have the `avcodec' library (-lavcodec). */
+#undef HAVE_LIBAVCODEC
+
+/* Define to 1 if you have the `avformat' library (-lavformat). */
+#undef HAVE_LIBAVFORMAT
 
 /* Define to 1 if you have the `esd' library (-lesd). */
 #undef HAVE_LIBESD
@@ -304,6 +300,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Where do we want to install the executable? */
+#undef PREFIX
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #undef RETSIGTYPE

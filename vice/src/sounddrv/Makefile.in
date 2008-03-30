@@ -240,6 +240,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundhpux.c \
 	soundmidas.c \
 	soundmmos2.c \
+	soundmovie.c \
 	soundsb.c \
 	soundsdl.c \
 	soundsgi.c \
@@ -292,11 +293,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/sounddump.Po ./$(DEPDIR)/sounddx.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundesd.Po ./$(DEPDIR)/soundfs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundhpux.Po ./$(DEPDIR)/soundmidas.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundmmos2.Po ./$(DEPDIR)/soundsb.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundsdl.Po ./$(DEPDIR)/soundsgi.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundspeed.Po ./$(DEPDIR)/soundsun.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sounduss.Po ./$(DEPDIR)/soundwav.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundwmm.Po
+@AMDEP_TRUE@	./$(DEPDIR)/soundmmos2.Po ./$(DEPDIR)/soundmovie.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundsb.Po ./$(DEPDIR)/soundsdl.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundsgi.Po ./$(DEPDIR)/soundspeed.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundsun.Po ./$(DEPDIR)/sounduss.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundwav.Po ./$(DEPDIR)/soundwmm.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -347,6 +348,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundhpux.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmidas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmmos2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundmovie.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsdl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundsgi.Po@am__quote@
