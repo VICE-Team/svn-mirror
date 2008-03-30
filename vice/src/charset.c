@@ -47,15 +47,19 @@ BYTE *charset_petconvstring(BYTE *c, int dir)
 
     switch (dir) {
       case 0: /* To petscii.  */
-        while (*p)
-            *(p++) = charset_p_topetcii(*p);
+        while (*p) {
+            *p = charset_p_topetcii(*p);
+            p++;
+        }
         break;
 
       case 1: /* To ascii. */
       case 2: /* To ascii, convert also screencodes. */
         dir--;
-        while (*p)
-            *(p++) = charset_p_toascii(*p, dir);
+        while (*p) {
+            *p = charset_p_toascii(*p, dir);
+            p++;
+        }
         break;
       default:
         log_error(LOG_DEFAULT, "Unkown conversion rule.");
