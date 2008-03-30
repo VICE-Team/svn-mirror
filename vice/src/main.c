@@ -61,6 +61,7 @@
 #include "cartridge.h"
 #include "charsets.h"
 #include "cmdline.h"
+#include "diskimage.h"
 #include "drivecpu.h"
 #include "fsdevice.h"
 #include "interrupt.h"
@@ -498,6 +499,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     keyboard_init();
+    disk_image_init();
 
     /* Handle general-purpose command-line options.  */
 
