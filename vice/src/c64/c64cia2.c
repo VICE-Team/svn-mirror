@@ -96,7 +96,7 @@
  */
 
 /* Pointer to the IEC structure.  */
-static iec_info_t *iec_info;
+static iec_info_t *cia2_iec_info;
 
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
@@ -115,7 +115,7 @@ static inline void do_reset_cia(void)
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
 #endif
-    iec_info = iec_get_drive_port();
+    cia2_iec_info = iec_get_drive_port();
 
     vbank = 0;
     mem_set_vbank(vbank);
@@ -198,13 +198,13 @@ static inline BYTE read_ciapa(void)
     BYTE byte;
     if (!drive[0].enable && !drive[1].enable)
         return ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) |
-            (iec_info->iec_fast_1541 & 0x30) << 2;
+            (cia2_iec_info->iec_fast_1541 & 0x30) << 2;
     if (drive[0].enable)
         drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
 
-    byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
+    byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | cia2_iec_info->cpu_port;
     return byte;
 }
 

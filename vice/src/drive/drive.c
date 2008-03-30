@@ -82,7 +82,7 @@ drive_context_t drive1_context;
 static log_t drive_log = LOG_ERR;
 
 /* Pointer to the IEC bus structure.  */
-static iec_info_t *iec_info;
+static iec_info_t *drive_iec_info;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 int rom_loaded = 0;
@@ -180,13 +180,13 @@ int drive_init(void)
     drive[1].drive_ram_expand8 = NULL;
     drive[1].drive_ram_expanda = NULL;
 
-    iec_info = iec_get_drive_port();
+    drive_iec_info = iec_get_drive_port();
     /* Set IEC lines of disabled drives to `1'.  */
-    if (iec_info != NULL) {
-        iec_info->drive_bus = 0xff;
-        iec_info->drive_data = 0xff;
-        iec_info->drive2_bus = 0xff;
-        iec_info->drive2_data = 0xff;
+    if (drive_iec_info != NULL) {
+        drive_iec_info->drive_bus = 0xff;
+        drive_iec_info->drive_data = 0xff;
+        drive_iec_info->drive2_bus = 0xff;
+        drive_iec_info->drive2_data = 0xff;
     }
 
     log_message(drive_log, "Finished loading ROM images.");
@@ -396,13 +396,13 @@ void drive_disable(unsigned int dnr)
         if (dnr == 1)
             drive_cpu_sleep(&drive1_context);
         /* Set IEC lines of disabled drives to `1'.  */
-        if (dnr == 0 && iec_info != NULL) {
-            iec_info->drive_bus = 0xff;
-            iec_info->drive_data = 0xff;
+        if (dnr == 0 && drive_iec_info != NULL) {
+            drive_iec_info->drive_bus = 0xff;
+            drive_iec_info->drive_data = 0xff;
         }
-        if (dnr == 1 && iec_info != NULL) {
-            iec_info->drive2_bus = 0xff;
-            iec_info->drive2_data = 0xff;
+        if (dnr == 1 && drive_iec_info != NULL) {
+            drive_iec_info->drive2_bus = 0xff;
+            drive_iec_info->drive2_data = 0xff;
         }
 
         drive_gcr_data_writeback(dnr);
