@@ -56,10 +56,10 @@
 #define IO_DETACH_CART       0
 #define IO_DETACH_RESOURCE   1
 
-extern BYTE REGPARM1 io1_read(WORD addr);
-extern void REGPARM2 io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 io2_read(WORD addr);
-extern void REGPARM2 io2_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c64io1_read(WORD addr);
+extern void REGPARM2 c64io1_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 c64io2_read(WORD addr);
+extern void REGPARM2 c64io2_store(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);

@@ -761,10 +761,10 @@ void REGPARM2 store_bank_io(WORD addr, BYTE byte)
         cia2_store(addr, byte);
         break;
       case 0xde00:
-        io1_store(addr, byte);
+        c64io1_store(addr, byte);
         break;
       case 0xdf00:
-        io2_store(addr, byte);
+        c64io2_store(addr, byte);
         break;
     }
     return;
@@ -793,9 +793,9 @@ BYTE REGPARM1 read_bank_io(WORD addr)
       case 0xdd00:
         return cia2_read(addr);
       case 0xde00:
-        return io1_read(addr);
+        return c64io1_read(addr);
       case 0xdf00:
-        return io2_read(addr);
+        return c64io2_read(addr);
     }
     return 0xff;
 }
@@ -823,9 +823,9 @@ static BYTE peek_bank_io(WORD addr)
       case 0xdd00:
         return cia2_peek(addr);
       case 0xde00:
-        return io1_read(addr);  /* FIXME */
+        return c64io1_read(addr);  /* FIXME */
       case 0xdf00:
-        return io2_read(addr);  /* FIXME */
+        return c64io2_read(addr);  /* FIXME */
     }
     return 0xff;
 }

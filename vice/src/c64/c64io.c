@@ -214,7 +214,7 @@ static void io_source_msg_detach(int addr)
     }
 }
 
-BYTE REGPARM1 io1_read(WORD addr)
+BYTE REGPARM1 c64io1_read(WORD addr)
 {
     int io_source_counter=0;
 
@@ -291,7 +291,7 @@ BYTE REGPARM1 io1_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 io1_store(WORD addr, BYTE value)
+void REGPARM2 c64io1_store(WORD addr, BYTE value)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start
@@ -319,7 +319,7 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 io2_read(WORD addr)
+BYTE REGPARM1 c64io2_read(WORD addr)
 {
     int io_source_counter=0;
 
@@ -391,7 +391,7 @@ BYTE REGPARM1 io2_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 io2_store(WORD addr, BYTE value)
+void REGPARM2 c64io2_store(WORD addr, BYTE value)
 {
     if (sid_stereo
         && addr >= sid_stereo_address_start

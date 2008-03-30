@@ -113,10 +113,10 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base + j, 0xdd, cia2_read);
             mem_set_write_hook(base + j, 0xdd, cia2_store);
 
-            mem_read_tab_set(base + j, 0xde, io1_read);
-            mem_set_write_hook(base + j, 0xde, io1_store);
-            mem_read_tab_set(base + j, 0xdf, io2_read);
-            mem_set_write_hook(base + j, 0xdf, io2_store);
+            mem_read_tab_set(base + j, 0xde, c64io1_read);
+            mem_set_write_hook(base + j, 0xde, c64io1_store);
+            mem_read_tab_set(base + j, 0xdf, c64io2_read);
+            mem_set_write_hook(base + j, 0xdf, c64io2_store);
 
             for (i = 0xd0; i <= 0xdf; i++)
                 mem_read_base_set(base + j, i, NULL);

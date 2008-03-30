@@ -1126,10 +1126,10 @@ void c128meminit(void)
         mem_read_tab_set(j, 0xdd, cia2_read);
         mem_set_write_hook(j, 0xdd, cia2_store);
 
-        mem_read_tab_set(j, 0xde, io1_read);
-        mem_set_write_hook(j, 0xde, io1_store);
-        mem_read_tab_set(j, 0xdf, io2_read);
-        mem_set_write_hook(j, 0xdf, io2_store);
+        mem_read_tab_set(j, 0xde, c64io1_read);
+        mem_set_write_hook(j, 0xde, c64io1_store);
+        mem_read_tab_set(j, 0xdf, c64io2_read);
+        mem_set_write_hook(j, 0xdf, c64io2_store);
     }
 
     for (j = 0; j < 128; j += 64) {

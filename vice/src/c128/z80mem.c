@@ -376,10 +376,10 @@ void z80mem_initialize(void)
     io_read_tab[0xdd] = cia2_read;
     io_write_tab[0xdd] = cia2_store;
 
-    io_read_tab[0xde] = io1_read;
-    io_write_tab[0xde] = io1_store;
-    io_read_tab[0xdf] = io2_read;
-    io_write_tab[0xdf] = io2_store;
+    io_read_tab[0xde] = c64io1_read;
+    io_write_tab[0xde] = c64io1_store;
+    io_read_tab[0xdf] = c64io2_read;
+    io_write_tab[0xdf] = c64io2_store;
 }
 
 #ifdef _MSC_VER
