@@ -141,8 +141,6 @@ static int  vdrive_command_format(DRIVE *floppy, const char *name, BYTE *id,
 static int  vdrive_command_copy(DRIVE *floppy, char *dest, int length);
 static int  vdrive_command_rename(DRIVE *floppy, char *dest, int length);
 
-static int  import_GCR_image(BYTE *header, hdrinfo *hdr);
-
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -1350,6 +1348,91 @@ void detach_floppy_image(DRIVE *floppy)
     }
 }
 
+void vdrive_detach_image(disk_image_t *image)
+{
+    if (image->name != NULL)
+        free(image->name);
+}
+
+int vdrive_attach_image(disk_image_t *image, DRIVE *floppy,
+                        const char *filename)
+{
+    disk_image_t new_image;
+
+    if (!filename) {
+        log_error(vdrive_log, "No name, cannot attach floppy image.");
+        return -1;
+    }
+
+    new_image.name = stralloc(filename);
+
+    if (disk_image_open(&new_image) < 0) {
+        free(new_image.name);
+        log_error(vdrive_log, "Cannot open file `%s'.", filename);
+        return -1;
+    }
+
+    vdrive_detach_image(image);
+
+    memcpy(image, &new_image, sizeof(disk_image_t));
+
+    /* Compatibily cruft (soon to be removed).  */
+    floppy->ImageFormat = new_image.type;
+    floppy->ActiveFd = new_image.fd;
+    strcpy(floppy->ActiveName, new_image.name);
+    floppy->NumTracks  = new_image.tracks;
+    floppy->NumBlocks  = num_blocks(new_image.type, new_image.tracks);
+    floppy->ErrFlg = 0;
+
+    floppy->D64_Header = (new_image.type == DISK_IMAGE_TYPE_D64
+                         || new_image.type == DISK_IMAGE_TYPE_D71
+                         || new_image.type == DISK_IMAGE_TYPE_D81
+                         || new_image.type == DISK_IMAGE_TYPE_D80
+                         || new_image.type == DISK_IMAGE_TYPE_D82) ? 1 : 0;
+    floppy->GCR_Header = (new_image.type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
+
+    /* Initialise format constants */
+    set_disk_geometry(floppy, new_image.type);
+
+    vdrive_bam_read_bam(floppy);
+
+    switch(new_image.type) {
+      case DISK_IMAGE_TYPE_D64:
+        log_message(vdrive_log, "Unit %d: D64 disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+      case DISK_IMAGE_TYPE_D71:
+        log_message(vdrive_log, "Unit %d: D71 disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+      case DISK_IMAGE_TYPE_D81:
+        log_message(vdrive_log, "Unit %d: D81 disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+      case DISK_IMAGE_TYPE_D80:
+        log_message(vdrive_log, "Unit %d: D80 disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+      case DISK_IMAGE_TYPE_D82:
+        log_message(vdrive_log, "Unit %d: D82 disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+      case DISK_IMAGE_TYPE_GCR:
+        log_message(vdrive_log, "Unit %d: GCR disk image attached: %s%s.",
+                    floppy->unit, new_image.name,
+                    floppy->ReadOnly ? " (read only)" : "");
+        break;
+    }
+
+    return 0;
+}
+
+#if 0
 int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 {
     int DType;
@@ -1359,21 +1442,22 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 
     if (!(floppy->type & DT_DISK)) {
         log_error(vdrive_log,
-                  "Incompatible emulator mode for drive %d: FS 1541 Drive.",
+                  "Incompatible emulator mode for drive %d: FS Device.",
                   floppy->unit);
-        return (-1);
+        return -1;
     }
 
     if (!name) {
         log_error(vdrive_log, "No name, cannot attach floppyimage.");
-        return (-1);
+        return -1;
     }
 
-    fd = zfopen(name, MODE_READ_WRITE /*, 0 */);
+
+    fd = zfopen(name, MODE_READ_WRITE);
 
     /* If we cannot open the image read/write, try to open it read only. */
     if (fd == NULL) {
-        fd = zfopen(name, MODE_READ /*, 0 */);
+        fd = zfopen(name, MODE_READ);
         floppy->ReadOnly = 1;
     } else {
         floppy->ReadOnly = 0;
@@ -1484,426 +1568,9 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 
     return 0;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
-
-/*
- * Information Acquisition routines.
- */
-
-int get_std64_header(FILE *fd, BYTE *header)
-{
-    int devtype = DT_1541;
-    int tracks = NUM_TRACKS_1541;
-    int blk = NUM_BLOCKS_1541 - 1;
-    int len, errblk;
-    char block[256];
-
-    memset(header, 0, HEADER_LENGTH);
-
-    /* Check values */
-
-    if (vdrive_check_track_sector(get_diskformat(devtype), tracks, 1) < 0)
-        exit (-1);
-
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (fseek(fd, 256*blk, SEEK_SET)<0)
-        return FD_BADIMAGE;
-    while ((len = fread(block, 1, 256, fd)) == 256) {
-        if (++blk > 771) {
-            /* FIXME */
-            log_message(vdrive_log, "Nice try.");
-            break;
-        }
-    }
-    if (blk <  NUM_BLOCKS_1541) {
-        log_message(vdrive_log, "Cannot read block %d.", blk);
-        return (FD_NOTRD);
-    }
-
-    switch (blk) {
-      case 683:
-        tracks = NUM_TRACKS_1541;
-        errblk = 0;
-        break;
-
-      case 685:
-        if (len != 171) {               /* check if 683 error bytes */
-            log_message(vdrive_log, "cannot read block %d.", blk);
-            return (FD_NOTRD);
-        }
-
-        tracks = NUM_TRACKS_1541;
-        errblk = 1;
-        break;
-
-      case 768:
-        tracks = EXT_TRACKS_1541;
-        errblk = 0;
-        break;
-
-      case 771:
-        tracks = EXT_TRACKS_1541;
-        errblk = 1;
-        break;
-
-      default:
-        return (FD_BADIMAGE);
-
-    }
-    header[HEADER_FLAGS_OFFSET+0] = DEFAULT_DEVICE_TYPE;
-    header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 0;
-    header[HEADER_FLAGS_OFFSET+3] = errblk;
-
-    return(0);
-}
-
-int get_std71_header(FILE *fd, BYTE *header)
-{
-    int devtype = DT_1571;
-    int tracks = NUM_TRACKS_1571;
-    int blk = NUM_BLOCKS_1571-1;
-    int len, errblk;
-    char block[256];
-
-    memset(header, 0, HEADER_LENGTH);
-
-    /* Check values */
-
-    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
-        exit (-1);
-
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (fseek(fd, 256*blk, SEEK_SET)<0)
-        return FD_BADIMAGE;
-    while ((len = fread(block, 1, 256, fd)) == 256) {
-        if (++blk > 1372) {
-            log_message(vdrive_log, "Nice try.");
-            break;
-        }
-    }
-    if (blk <  NUM_BLOCKS_1571) {
-            log_message(vdrive_log, "Cannot read block %d.", blk);
-            return (FD_NOTRD);
-    }
-    switch (blk) {
-      case 1366:
-        tracks = NUM_TRACKS_1571;
-        errblk = 0;
-        break;
-      default:
-        return (FD_BADIMAGE);
-
-    }
-    header[HEADER_FLAGS_OFFSET+0] = DT_1571;
-    header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 1;
-    header[HEADER_FLAGS_OFFSET+3] = errblk;
-
-    return(0);
-}
-
-int get_std81_header(FILE *fd, BYTE *header)
-{
-    int devtype = DT_1581;
-    int tracks = NUM_TRACKS_1581;
-    int blk = NUM_BLOCKS_1581-1;
-    int len, errblk;
-    char block[256];
-
-    memset(header, 0, HEADER_LENGTH);
-
-    /* Check values */
-
-    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
-        exit (-1);
-
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (fseek(fd, 256*blk, SEEK_SET)<0)
-        return FD_BADIMAGE;
-    while ((len = fread(block, 1, 256, fd)) == 256) {
-        if (++blk > 3213) {
-            log_message(vdrive_log, "Nice try.");
-            break;
-        }
-    }
-    if (blk <  NUM_BLOCKS_1581) {
-            log_message(vdrive_log, "Cannot read block %d.", blk);
-            return (FD_NOTRD);
-    }
-    switch (blk) {
-      case 3200:
-        tracks = NUM_TRACKS_1581;
-        errblk = 0;
-        break;
-      default:
-        return (FD_BADIMAGE);
-
-    }
-    header[HEADER_FLAGS_OFFSET+0] = DT_1581;
-    header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 1;
-    header[HEADER_FLAGS_OFFSET+3] = errblk;
-
-    return(0);
-}
-
-int get_std80_header(FILE *fd, BYTE *header)
-{
-    int devtype = DT_8050;
-    int tracks = NUM_TRACKS_8050;
-    int blk = NUM_BLOCKS_8050-1;
-    int len, errblk;
-    char block[256];
-
-    memset(header, 0, HEADER_LENGTH);
-
-    /* Check values */
-
-    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
-        exit (-1);
-
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (fseek(fd, 256*blk, SEEK_SET)<0)
-        return FD_BADIMAGE;
-    while ((len = fread(block, 1, 256, fd)) == 256) {
-        if (++blk > NUM_BLOCKS_8050 + 6) {
-            log_message(vdrive_log, "Nice try.");
-            break;
-        }
-    }
-    if (blk <  NUM_BLOCKS_8050) {
-            log_message(vdrive_log, "Cannot read block %d.", blk);
-            return (FD_NOTRD);
-    }
-    switch (blk) {
-      case NUM_BLOCKS_8050:
-        tracks = NUM_TRACKS_8050;
-        errblk = 0;
-        break;
-      default:
-        return (FD_BADIMAGE);
-
-    }
-    header[HEADER_FLAGS_OFFSET+0] = DT_8050;
-    header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 1;	/* should this be 0 for one-sided? */
-    header[HEADER_FLAGS_OFFSET+3] = errblk;
-
-    return(0);
-}
-
-int get_std82_header(FILE *fd, BYTE *header)
-{
-    int devtype = DT_8250;
-    int tracks = NUM_TRACKS_8250;
-    int blk = NUM_BLOCKS_8250-1;
-    int len, errblk;
-    char block[256];
-
-    memset(header, 0, HEADER_LENGTH);
-
-    /* Check values */
-
-    if (vdrive_check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
-        exit (-1);
-
-    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
-    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
-    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
-    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
-
-    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
-    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
-
-    header[HEADER_FLAGS_OFFSET + 0] = devtype;
-    header[HEADER_FLAGS_OFFSET + 1] = tracks;
-
-    if (fseek(fd, 256*blk, SEEK_SET)<0)
-        return FD_BADIMAGE;
-    while ((len = fread(block, 1, 256, fd)) == 256) {
-        if (++blk > NUM_BLOCKS_8250 + 6) {
-            log_message(vdrive_log, "Nice try.");
-            break;
-        }
-    }
-    if (blk <  NUM_BLOCKS_8250) {
-            log_message(vdrive_log, "Cannot read block %d.", blk);
-            return (FD_NOTRD);
-    }
-    switch (blk) {
-      case NUM_BLOCKS_8250:
-        tracks = NUM_TRACKS_8250;
-        errblk = 0;
-        break;
-      default:
-        return (FD_BADIMAGE);
-
-    }
-    header[HEADER_FLAGS_OFFSET+0] = DT_8250;
-    header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 1;
-    header[HEADER_FLAGS_OFFSET+3] = errblk;
-
-    return(0);
-}
-
-
-int check_header(FILE *fd, hdrinfo *hdr)
-{
-    BYTE header[HEADER_LENGTH];
-
-    fseek (fd, (off_t) 0, SEEK_SET);
-    if (fread((BYTE *)header, sizeof (header), 1, fd) < 1) {
-        log_error(vdrive_log, "Cannot read image header.");
-        return FD_RDERR;
-    }
-
-    memset (hdr, 0, sizeof(hdrinfo));
-
-    hdr->d64 = 0;
-    hdr->d71 = 0;
-    hdr->d81 = 0;
-    hdr->d80 = 0;
-    hdr->d82 = 0;
-    hdr->gcr = 0;
-
-    if (header[HEADER_MAGIC_OFFSET + 0] != HEADER_MAGIC_1 ||
-        header[HEADER_MAGIC_OFFSET + 1] != HEADER_MAGIC_2 ||
-        header[HEADER_MAGIC_OFFSET + 2] != HEADER_MAGIC_3 ||
-        header[HEADER_MAGIC_OFFSET + 3] != HEADER_MAGIC_4) {
-
-        size_t image_size;
-
-        image_size = file_length(fd);
-
-        if (IS_D64_LEN(image_size)) {
-            if (get_std64_header(fd, header))
-                return FD_BADIMAGE;
-            hdr->d64 = 1;
-        } else if (IS_D71_LEN(image_size)) {
-            if (get_std71_header(fd, header))
-                return FD_BADIMAGE;
-            hdr->d71 = 1;
-        } else if (IS_D81_LEN(image_size)) {
-            if (get_std81_header(fd, header))
-                return FD_BADIMAGE;
-            hdr->d81 = 1;
-        } else if (IS_D80_LEN(image_size)) {
-            if (get_std80_header(fd, header))
-                return FD_BADIMAGE;
-            hdr->d80 = 1;
-        } else if (IS_D82_LEN(image_size)) {
-            if (get_std82_header(fd, header))
-                return FD_BADIMAGE;
-            hdr->d82 = 1;
-        } else {
-            if (import_GCR_image(header, hdr))
-                return FD_OK;
-            else
-                return FD_BADIMAGE;
-        } 
-    }
-
-    hdr->v_major = header[HEADER_VERSION_OFFSET + 0];
-    hdr->v_minor = header[HEADER_VERSION_OFFSET + 1];
-
-  /* Disk type flags: Device Type, Max Tracks, Side, and Error Flag. */
-
-    hdr->devtype = header[HEADER_FLAGS_OFFSET];
-    hdr->tracks  = header[HEADER_FLAGS_OFFSET + 1];
-    hdr->sides   = (header[HEADER_FLAGS_OFFSET + 2] ? 2 : 1);
-    hdr->errblk  = header[HEADER_FLAGS_OFFSET + 3];
-    hdr->format  = (get_diskformat(hdr-> devtype)) == 1581 ? 'D' : 'A';
-
-    if (hdr->tracks == 0)
-        hdr->tracks = 35;
-
-
-    if (vdrive_check_track_sector(get_diskformat(hdr-> devtype), hdr-> tracks,
-        1) < 0)
-        return FD_BADIMAGE;
-
-
-    strncpy (hdr->description,
-             (char *)header + HEADER_LABEL_OFFSET, HEADER_LABEL_LEN);
-
-    return FD_OK;
-}
-
-int import_GCR_image(BYTE *header, hdrinfo *hdr)
-{
-    int trackfield;
-
-    if (strncmp("GCR-1541",(char*)header,8))
-	return 0;
-
-    if (header[8] != 0) {
-	log_message(vdrive_log, "Import GCR: Wrong GCR image version.");
-	return 0;
-    }
-
-    if (header[9] < NUM_TRACKS_1541 * 2 || header[9] > MAX_TRACKS_1541 * 2) {
-	log_message(vdrive_log, "Import GCR: Invalid number of tracks.");
-	return 0;
-    }
-
-    trackfield = header[10] + header[11] * 256;
-    if (trackfield != 7928) {
-        log_message(vdrive_log, "Import GCR: Invalid track field number.");
-	return 0;
-    }
-
-    hdr->tracks = header[9] / 2;
-    hdr->format = 1541;
-    hdr->gcr = 1;
-    hdr->v_major = HEADER_VERSION_MAJOR;
-    hdr->v_minor = HEADER_VERSION_MINOR;
-    hdr->devtype = DEFAULT_DEVICE_TYPE;
-
-    return 1;
-}
 
 /*
  * This routine is from fvcbm by Dan Fandrich.

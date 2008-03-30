@@ -1,5 +1,28 @@
 1999-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.30.
+
+	* diskimage.h, diskimage.c: New files.
+
+	* vdrive/vdrive.h: Moved around some definfitions.
+
+	* vdrive/vdrive-dir.c (vdrive_dir_create_directory): Moved here.
+
+	* vdrive/vdrive.c (vdrive_attach_image, vdrive_detach_image):
+	New functions.
+	(attach_floppy_image, check_header, import_GCR_image,
+	get_std64_header, get_std71_header, get_std81_header,
+	get_std80_header, get_std82_header): Obsolete.
+
+	* serial.h: Added pointer to image data struct to `serial_t'.
+
+	* serial.c (serial_select_file): Do not use this function for
+	attaching disk images.
+
+	* attach.c (file_system_init): Initialize disk image struct.
+
+1999-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.29.
 
 	* Makefile.am: Added `libvdrive.a'.

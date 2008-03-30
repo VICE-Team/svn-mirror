@@ -685,8 +685,9 @@ int serial_select_file(int type, int number, const char *file)
       case 9:
       case 10:
       case 11:
+#if 0
 	  return attach_floppy_image((DRIVE *) p->info, file, 0);
-
+#endif
       default:
 	  return -1;
     }

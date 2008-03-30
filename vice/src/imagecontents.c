@@ -186,7 +186,7 @@ static DRIVE *open_image(const char *name)
     fd = zfopen(name, MODE_READ /*, 0*/);
     if (fd == NULL)
         return NULL;
-    if (check_header(fd, &hdr))
+/*    if (check_header(fd, &hdr)) */
         return NULL;
 
     if (hdr.v_major > HEADER_VERSION_MAJOR
