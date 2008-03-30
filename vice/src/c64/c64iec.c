@@ -66,7 +66,7 @@ inline static void iec_update_cpu_bus(BYTE data)
 {
     iec_info.cpu_bus = (((data << 2) & 0x80)
                        | ((data << 2) & 0x40)
-                      | ((data << 1) & 0x10));
+                       | ((data << 1) & 0x10));
 }
 
 inline static void iec_update_ports(void)
