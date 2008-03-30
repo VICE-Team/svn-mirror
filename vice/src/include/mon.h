@@ -1,15 +1,8 @@
 /*
- * mon.c - Built-in monitor for VICE.
+ * mon.h - The VICE built-in monitor.
  *
  * Written by
- *  Vesa-Matti Puro  (vmp@lut.fi)
- *  Jarkko Sonninen  (sonninen@lut.fi)
- *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *
- * Patches by
- *  Frank Prindle    (Frank.Prindle@lambada.oit.unc.edu)  /FCP/
- *  Teemu Rantanen   (tvr@cs.hut.fi) /TVR/
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,6 +54,7 @@ enum t_reg_id {
 typedef enum t_reg_id REG_ID;
 
 extern char *register_string[];
+extern char *datatype_string[];
 
 enum t_memory_op {
    e_load,
@@ -125,7 +119,7 @@ enum t_action {
    e_TOGGLE
 };
 typedef enum t_action ACTION;
- 
+
 struct t_cond_node {
    int operation;
    int value;
@@ -163,7 +157,7 @@ extern char *cond_op_string[];
 /* Global variables */
 
 #define NUM_MEMSPACES 2
-#define DEFAULT_DISASSEMBLY_SIZE 10
+#define DEFAULT_DISASSEMBLY_SIZE 40
 #define SPACESTRING(val) (val)?"disk":"computer"
 
 extern FILE *mon_output;
@@ -177,8 +171,8 @@ extern M_ADDR temp_addr;
 extern M_ADDR_RANGE temp_range;
 extern unsigned char data_buf[256];
 extern unsigned data_buf_len;
-extern unsigned stepping_num;
-extern unsigned nexting_num;
+extern unsigned instruction_count;
+extern bool icount_is_next;
 extern unsigned next_or_step_stop;
 extern BREAK_LIST *breakpoints[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
@@ -186,6 +180,9 @@ extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 extern int stop_on_start;
 extern bool asm_mode;
 extern M_ADDR asm_mode_addr;
+extern bool watch_load_occurred;
+extern bool watch_store_occurred;
+extern MEMSPACE caller_space;
 
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
@@ -200,7 +197,7 @@ extern MEMSPACE addr_memspace(M_ADDR a);
 extern unsigned addr_location(M_ADDR a);
 extern void set_addr_memspace(M_ADDR *a, MEMSPACE m);
 extern void set_addr_location(M_ADDR *a, unsigned l);
-extern bool inc_addr_location(M_ADDR *a, unsigned inc); 
+extern bool inc_addr_location(M_ADDR *a, unsigned inc);
 extern bool is_valid_addr(M_ADDR a);
 extern void change_dir(char *path);
 extern M_ADDR new_addr(MEMSPACE m, unsigned l);
@@ -217,7 +214,6 @@ void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a);
 
 M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2);
 void free_range(M_ADDR_RANGE ar);
-
 
 extern unsigned check_addr_limits(unsigned val);
 extern bool is_valid_addr_range(M_ADDR_RANGE range);
@@ -268,11 +264,15 @@ extern void print_convert(int val);
 
 extern unsigned int get_reg_val(MEMSPACE mem, int reg_id);
 extern unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr);
-extern void set_reg_val(int reg_id, unsigned char val);
+extern void set_reg_val(int reg_id, WORD val);
 extern void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val);
 extern void print_registers();
 extern void jump(M_ADDR addr);
 
+extern void watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
+extern void watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
+
+extern void mon_helper(ADDRESS a);
 extern void mon(ADDRESS a);
 
-#endif
+#endif /* _MON_H */

@@ -1,3 +1,31 @@
+/*
+ * mon.c - The VICE built-in monitor.
+ *
+ * Written by
+ *  Daniel Sladic (sladic@eecg.toronto.edu)
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,7 +33,6 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "vice.h"
 #include "asm.h"
 #undef M_ADDR
 #include "mon.h"
@@ -17,11 +44,8 @@
 #include "misc.h"
 #include "mshell.h"
 #include "mem.h"
-
-#define M_NONE 0
-#define M_LOAD 1
-#define M_STORE 2
-#define M_LOAD_STORE 3
+#include "interrupt.h"
+#include "resources.h"
 
 #ifdef PET
 #define NO_DRIVE
@@ -30,12 +54,6 @@
 #ifndef NO_DRIVE
 
 #include "true1541.h"
-
-typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
-typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
-
-extern true1541_read_func_t *read_func[0x41];
-extern true1541_store_func_t *store_func[0x41];
 
 #define LOAD_1541(a)		  (read_func[(a) >> 10](a))
 #define LOAD_ZERO_1541(a)	  (true1541_ram[(a) & 0xff])
@@ -49,17 +67,24 @@ extern true1541_store_func_t *store_func[0x41];
 FILE *mon_output = stdout;
 
 extern void parse_and_execute_line(char *input);
+extern char *readline ( char *prompt );
 
 int sidefx;
 int default_datatype;
 int default_readspace;
 int default_writespace;
-unsigned stepping_num;
-unsigned nexting_num;
+unsigned instruction_count;
+bool icount_is_next;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 
+MEMSPACE caller_space;
+
+ADDRESS watch_load_array[5][NUM_MEMSPACES];
+ADDRESS watch_store_array[5][NUM_MEMSPACES];
+unsigned watch_load_count[NUM_MEMSPACES];
+unsigned watch_store_count[NUM_MEMSPACES];
 
 M_ADDR dot_addr[NUM_MEMSPACES];
 int breakpoint_count;
@@ -70,6 +95,8 @@ bool asm_mode;
 M_ADDR asm_mode_addr;
 unsigned next_or_step_stop;
 
+bool watch_load_occurred;
+bool watch_store_occurred;
 
 char *cond_op_string[] = { "",
                            "==",
@@ -119,7 +146,24 @@ char *register_string[] = { "A",
                           };
 
 
+char *datatype_string[] = { "",
+                            "hexadecimal",
+                            "decimal",
+                            "binary",
+                            "octal",
+                            "character",
+                            "sprite",
+                            "text ascii",
+                            "text petscii",
+                            "asm"
+                          };
+
 #if 0
+#define M_NONE 0
+#define M_LOAD 1
+#define M_STORE 2
+#define M_LOAD_STORE 3
+
 int memory_ops[] = { /* 0x00 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
                      /* 0x08 */ M_STORE, M_NONE , M_NONE , M_NONE , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
                      /* 0x10 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
@@ -163,22 +207,28 @@ unsigned int get_reg_val(MEMSPACE mem, int reg_id)
             assert(FALSE);
       }
    } else if (mem == e_disk_space) {
-      switch(reg_id) {
 #ifndef NO_DRIVE
-         case e_A:
-            return true1541_accumulator;
-         case e_X:
-            return true1541_x_register;
-         case e_Y:
-            return true1541_y_register;
-         case e_PC:
-            return true1541_program_counter;
-         case e_SP:
-            return true1541_stack_pointer;
-#endif
-         default:
-            assert(FALSE);
+      if (app_resources.true1541) {
+         switch(reg_id) {
+            case e_A:
+               return true1541_accumulator;
+            case e_X:
+               return true1541_x_register;
+            case e_Y:
+               return true1541_y_register;
+            case e_PC:
+               return true1541_program_counter;
+            case e_SP:
+               return true1541_stack_pointer;
+            default:
+               assert(FALSE);
+         }
+      } else {
+         puts("True1541 emulation is not turned on.");
       }
+#else
+      puts("True1541 emulation no supported for this machine.");
+#endif
    }
    return 0;
 }
@@ -193,10 +243,16 @@ unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
    }
    else if (mem == e_disk_space) {
 #ifndef NO_DRIVE
-      if (mem_addr < 0x0100)
-         return LOAD_ZERO_1541(mem_addr);
-      else
-         return LOAD_1541(mem_addr);
+      if (app_resources.true1541) {
+         if (mem_addr < 0x0100)
+            return LOAD_ZERO_1541(mem_addr);
+         else
+            return LOAD_1541(mem_addr);
+      } else {
+         puts("True1541 emulation is not turned on.");
+      }
+#else
+      puts("True1541 emulation no supported for this machine.");
 #endif
    }
    else
@@ -204,16 +260,82 @@ unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
    return 0;
 }
 
-void set_reg_val(int reg_id, unsigned char val)
-{ ; }
+void set_reg_val(int reg_id, WORD val)
+{
+   MEMSPACE mem = default_writespace;
 
-void print_registers()
+   if (mem == e_comp_space) {
+      switch(reg_id) {
+         case e_A:
+            accumulator = val;
+            break;
+         case e_X:
+            x_register = val;
+            break;
+         case e_Y:
+            y_register = val;
+            break;
+         case e_PC:
+            program_counter = val;
+            break;
+         case e_SP:
+            stack_pointer = val;
+            break;
+         default:
+            assert(FALSE);
+      }
+   } else if (mem == e_disk_space) {
+#ifndef NO_DRIVE
+      if (app_resources.true1541) {
+         switch(reg_id) {
+            case e_A:
+               true1541_accumulator = val;
+               break;
+            case e_X:
+               true1541_x_register = val;
+               break;
+            case e_Y:
+               true1541_y_register = val;
+               break;
+            case e_PC:
+               true1541_program_counter = val;
+               break;
+            case e_SP:
+               true1541_stack_pointer = val;
+               break;
+            default:
+               assert(FALSE);
+         }
+      } else {
+         puts("True1541 emulation is not turned on.");
+      }
+#else
+      puts("True1541 emulation no supported for this machine.");
+#endif
+   }
+}
+
+void print_registers(MEMSPACE mem)
 {
    int i;
 
+   if (mem == e_default_space)
+      mem = default_readspace;
+
+   if (mem == e_disk_space) {
+#ifndef NO_DRIVE
+      if (!app_resources.true1541) {
+         puts("True1541 emulation is not turned on.");
+         return;
+      }
+#else
+      puts("True1541 emulation no supported for this machine.");
+#endif
+   }
+
    for (i=0;i<=e_SP;i++) {
       if (i) printf(",");
-      printf(" %s = %x ",register_string[i],get_reg_val(e_comp_space,i)); /* FIXME memspace */
+      printf(" %s = %x ",register_string[i],get_reg_val(mem,i));
    }
    puts("");
 }
@@ -228,10 +350,16 @@ void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
    }
    else if (mem == e_disk_space) {
 #ifndef NO_DRIVE
-      if (mem_addr < 0x0100)
-         STORE_ZERO_1541(mem_addr,val);
-      else
-         STORE_1541(mem_addr,val);
+      if (app_resources.true1541) {
+         if (mem_addr < 0x0100)
+            STORE_ZERO_1541(mem_addr,val);
+         else
+            STORE_1541(mem_addr,val);
+      } else {
+         puts("True1541 emulation is not turned on.");
+      }
+#else
+      puts("True1541 emulation no supported for this machine.");
 #endif
    }
    else
@@ -241,7 +369,9 @@ void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
 
 void jump(M_ADDR addr)
 {
-   ;
+   /* FIXME - memspace */
+   set_reg_val(e_PC, addr_location(addr));
+   exit_mon = 1;
 }
 
 /* *** ADDRESS FUNCTIONS *** */
@@ -505,19 +635,27 @@ void init_monitor()
    default_datatype = e_hexadecimal;
    default_readspace = e_comp_space;
    default_writespace = e_comp_space;
-   stepping_num = 0;
-   nexting_num = 0;
+   instruction_count = 0;
+   icount_is_next = FALSE;
    breakpoint_count = 1;
    data_buf_len = 0;
    stop_on_start = 1;
    asm_mode = 0;
    next_or_step_stop = 0;
 
-   for (i=1;i<NUM_MEMSPACES;i++)
+   watch_load_occurred = FALSE;
+   watch_store_occurred = FALSE;
+
+   for (i=1;i<NUM_MEMSPACES;i++) {
       dot_addr[i] = new_addr(e_default_space + i, 0);
+      watch_load_count[i] = 0;
+      watch_store_count[i] = 0;
+   }
 
    bad_addr = new_addr(e_invalid_space, 0);
    bad_addr_range = new_range(bad_addr, bad_addr);
+
+   caller_space = e_comp_space;
 
    asm_mode_addr = bad_addr;
 }
@@ -554,7 +692,7 @@ void assemble_line(char *line)
 
    mem = addr_memspace(asm_mode_addr);
    loc = addr_location(asm_mode_addr);
-   line[strlen(line)-1] = '\0';
+   /* line[strlen(line)-1] = '\0'; */
 
    /* printf("Assemble '%s' to address %s:0x%04x\n",line,memspace_string[mem],addr_location(asm_mode_addr)); */
    bump_count = interpret_instr(line, loc, 0); /* FIXME ? MODE */
@@ -609,7 +747,7 @@ void disassemble_lines(M_ADDR_RANGE range)
       end_loc = addr_location(dot_addr[mem]) + DEFAULT_DISASSEMBLY_SIZE;
    }
 
-   while (addr_location(dot_addr[mem]) < end_loc)
+   while (addr_location(dot_addr[mem]) <= end_loc)
       inc_addr_location(&(dot_addr[mem]), disassemble_instr(dot_addr[mem]));
 
    free_range(range);
@@ -665,6 +803,15 @@ void display_memory(int data_type, M_ADDR_RANGE range)
                memset(printables,0,50);
                if (addr+i <= last_addr) {
                   printf("%02x ",get_mem_val(mem,addr+i));
+                  real_width++;
+               }
+               else
+                  printf("   ");
+               break;
+            case e_octal:
+               memset(printables,0,50);
+               if (addr+i <= last_addr) {
+                  printf("%03o ",get_mem_val(mem,addr+i));
                   real_width++;
                }
                else
@@ -798,7 +945,7 @@ void fill_memory(M_ADDR_RANGE dest, unsigned char *data)
 
 void hunt_memory(M_ADDR_RANGE dest, unsigned char *data)
 {
-  unsigned i, len, start, end;
+  unsigned len, start, end;
 
   if (is_valid_range(dest))
      evaluate_default_addr_range(&dest, TRUE);
@@ -837,7 +984,7 @@ void change_dir(char *path)
 void mon_load_file(char *filename, M_ADDR start_addr)
 {
     FILE   *fp;
-    unsigned  adr;
+    ADDRESS adr;
     int     b1, b2;
     int     ch;
 
@@ -915,14 +1062,20 @@ void instructions_step(int count)
 {
    printf("Stepping through the next %d instruction(s).\n",
           (count>=0)?count:1);
-   stepping_num = (count>=0)?count:1;
+   instruction_count = (count>=0)?count:1;
+   icount_is_next = FALSE;
+   exit_mon = 1;
+   maincpu_trigger_trap(mon_helper);
 }
 
 void instructions_next(int count)
 {
    printf("Nexting through the next %d instruction(s).\n",
           (count>=0)?count:1);
-   nexting_num = (count>=0)?count:1;
+   instruction_count = (count>=0)?count:1;
+   icount_is_next = TRUE;
+   exit_mon = 1;
+   maincpu_trigger_trap(mon_helper);
 }
 
 void stack_up(int count)
@@ -1039,7 +1192,14 @@ void print_breakpt_info(breakpoint *bp)
    printf("%d A:0x%04x",bp->brknum,addr_range_start_location(bp->range));
    if (is_valid_addr(bp->range->end_addr))
       printf("-0x%04x",addr_range_end_location(bp->range));
+
+   if (bp->watch_load)
+      printf(" load");
+   if (bp->watch_store)
+      printf(" store");
+
    printf("   %s\n",(bp->enabled==e_ON)?"enabled":"disabled");
+
    if (bp->condition) {
       printf("\tCondition: ");
       print_conditional(bp->condition);
@@ -1271,7 +1431,7 @@ bool check_watchpoints_store(MEMSPACE mem, unsigned eff_addr)
    BREAK_LIST *ptr;
    bool result = FALSE;
 
-   ptr = search_breakpoint_list(watchpoints_load[mem],eff_addr);
+   ptr = search_breakpoint_list(watchpoints_store[mem],eff_addr);
 
    while (ptr && is_in_range(ptr->brkpt->range, eff_addr)) {
       printf("WATCH-STORE(%d) 0x%04x\n",ptr->brkpt->brknum,eff_addr);
@@ -1319,7 +1479,7 @@ bool check_breakpoints(MEMSPACE mem)
                printf("BREAK(%d) 0x%04x\n",bp->brknum,get_reg_val(mem,e_PC));
                if (bp->command) {
                   printf("Executing: %s\n",bp->command);
-                  /* parse_and_execute_line(bp->command); */
+                  parse_and_execute_line(bp->command);
                }
                result = TRUE;
             }
@@ -1333,7 +1493,7 @@ bool check_breakpoints(MEMSPACE mem)
 
 bool check_stop_status(MEMSPACE mem, bool op_is_load, bool op_is_store, unsigned eff_addr)
 {
-   bool ret_val = FALSE, temp;
+   bool ret_val = FALSE;
 
    if (stop_on_start)
    {
@@ -1341,20 +1501,16 @@ bool check_stop_status(MEMSPACE mem, bool op_is_load, bool op_is_store, unsigned
       return TRUE;
    }
 
-   temp = check_breakpoints(mem);
-   ret_val |= temp;
+   ret_val |= check_breakpoints(mem);
 
    if (op_is_load) {
-      temp = check_watchpoints_load(mem, eff_addr);
-      ret_val |= temp;
+      ret_val |= check_watchpoints_load(mem, eff_addr);
    }
    if (op_is_store) {
-      temp = check_watchpoints_store(mem, eff_addr);
-      ret_val |= temp;
+      ret_val |= check_watchpoints_store(mem, eff_addr);
    }
 
-   temp = (next_or_step_stop!=0);
-   ret_val |= temp;
+   ret_val |= (next_or_step_stop!=0);
    next_or_step_stop = 0;
    return ret_val;
 }
@@ -1380,6 +1536,21 @@ int compare_breakpoints(breakpoint *bp1, breakpoint *bp2)
    return 0;
 }
 
+void check_maincpu_breakpoints(ADDRESS addr)
+{
+   if (check_breakpoints(e_comp_space))
+      mon(program_counter);
+
+   maincpu_trigger_trap(check_maincpu_breakpoints);
+}
+
+void check_true1541_breakpoints(ADDRESS addr)
+{
+   if (check_breakpoints(e_disk_space))
+      mon(true1541_program_counter);
+
+   true1541_trigger_trap(check_true1541_breakpoints);
+}
 
 void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
 {
@@ -1469,12 +1640,55 @@ int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_stor
          add_to_breakpoint_list(&(watchpoints_load[mem]), new_bp);
       if (is_store)
          add_to_breakpoint_list(&(watchpoints_store[mem]), new_bp);
+      turn_watchpoints_on();
+      maincpu_trigger_trap(mon_helper);
    }
 
    print_breakpt_info(new_bp);
    return new_bp->brknum;
 }
 
+void watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
+{
+   watch_load_occurred = TRUE;
+   watch_load_array[watch_load_count[mem]][mem] = addr;
+   watch_load_count[mem]++;
+}
+
+void watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
+{
+   watch_store_occurred = TRUE;
+   watch_store_array[watch_load_count[mem]][mem] = addr;
+   watch_store_count[mem]++;
+}
+
+bool check_maincpu_watchpoints_load()
+{
+   bool trap = FALSE;
+   unsigned count;
+
+   while (watch_load_count[e_comp_space]) {
+      watch_load_count[e_comp_space]--;
+      count = watch_load_count[e_comp_space];
+      if (check_watchpoints_load(e_comp_space, watch_load_array[count][e_comp_space]))
+         trap = TRUE;
+   }
+   return trap;
+}
+
+bool check_maincpu_watchpoints_store()
+{
+   bool trap = FALSE;
+   unsigned count;
+
+   while (watch_store_count[e_comp_space]) {
+      watch_store_count[e_comp_space]--;
+      count = watch_store_count[e_comp_space];
+      if (check_watchpoints_store(e_comp_space, watch_store_array[count][e_comp_space]))
+         trap = TRUE;
+   }
+   return trap;
+}
 
 #if 0
 bool is_breakpt_a_range(breakpoint *bp)
@@ -1567,11 +1781,11 @@ char *myinput = NULL, *last_cmd = NULL;
 int exit_mon = 0;
 
 void debugger() {
-   char prompt[20];
+   char prompt[40];
 
    do {
-      sprintf(prompt, "[%c,R:%s,W:%s] ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
-              memspace_string[default_writespace]);
+      sprintf(prompt, "[%c,R:%s,W:%s] ($%x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
+              memspace_string[default_writespace], addr_location(dot_addr[default_readspace]));
 
       if (asm_mode) {
          sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
@@ -1593,16 +1807,57 @@ void debugger() {
                sprintf(prompt, "[%c,R:%s,W:%s] ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
                                memspace_string[default_writespace]);
             }
+         } else {
+             /* Nonempty line */
+             add_history(myinput);
          }
 
          if (myinput) {
-            parse_and_execute_line(myinput);
+             parse_and_execute_line(myinput);
          }
       }
-      if (last_cmd) free(last_cmd);
+
+      if (last_cmd)
+          free(last_cmd);
+
       last_cmd = myinput;
    } while (!exit_mon);
+
+#if 0
+   if (any_breakpoints(e_comp_space))
+      maincpu_trigger_trap(check_maincpu_breakpoints);
+
+   if (any_breakpoints(e_disk_space))
+      true1541_trigger_trap(check_true1541_breakpoints);
+#endif
+
    exit_mon = 0;
+}
+
+void mon_helper(ADDRESS a)
+{
+    if (watch_load_occurred) {
+       if (check_maincpu_watchpoints_load())
+          mon(a);
+    }
+
+    if (watch_store_occurred) {
+       if (check_maincpu_watchpoints_store())
+          mon(a);
+    }
+
+    if (instruction_count) {
+       instruction_count--;
+       if (!instruction_count) {
+          mon(a);
+       }
+    }
+
+    if (any_watchpoints_load(e_comp_space) ||
+        any_watchpoints_store(e_comp_space) ||
+        instruction_count)
+       maincpu_trigger_trap(mon_helper);
+
 }
 
 void mon(ADDRESS a)
