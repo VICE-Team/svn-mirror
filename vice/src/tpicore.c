@@ -2,7 +2,7 @@
  * tpicore.c - TPI 6525 template
  *
  * Written by
- *   André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,14 +30,16 @@
 
 static int mytpi_debug = 0;
 
+#ifndef TPI_SHARED_CODE
 static BYTE tpi_last_read = 0;  /* the byte read the last time (for RMW) */
 
 static unsigned int tpi_int_num;
+#endif
 
 /*------------------------------------------------------------------------*/
 /* Handle irq stack etc */
 
-static void set_latch_bit(int bit)
+static void set_latch_bit(TPI_CONTEXT_PARAM int bit)
 {
     if (mytpi_debug && !(bit & irq_latches)) {
         log_message(mytpi_log, "set_latch_bit(%02x, mask=%02x)",
@@ -64,7 +66,7 @@ static void set_latch_bit(int bit)
     irq_stack |= bit;
 }
 
-static void pop_irq_state(void)
+static void pop_irq_state(TPI_CONTEXT_PARVOID)
 {
     if (mytpi_debug) {
         log_message(mytpi_log,
@@ -85,7 +87,7 @@ static void pop_irq_state(void)
     mycpu_set_int(tpi_int_num, irq_active ? MYIRQ : 0);
 }
 
-static BYTE push_irq_state(void)
+static BYTE push_irq_state(TPI_CONTEXT_PARVOID)
 {
     int old_active;
 
@@ -112,18 +114,20 @@ static BYTE push_irq_state(void)
 
 /*------------------------------------------------------------------------*/
 
+#ifndef TPI_SHARED_CODE
 void mytpi_init(void)
 {
     mytpi_log = log_open(MYTPI_NAME);
 
     tpi_int_num = interrupt_cpu_status_int_new(mycpu_int_status, MYTPI_NAME);
 }
+#endif
 
-void mytpi_reset(void)
+void mytpi_reset(TPI_CONTEXT_PARVOID)
 {
     unsigned int i;
 
-    for(i = 0; i < 8; i++) {
+    for (i = 0; i < 8; i++) {
         tpi[i] = 0;
     }
 
@@ -138,47 +142,45 @@ void mytpi_reset(void)
     oldpb = 0xff;
     oldpc = 0xff;
 
-    tpi_set_ca(0);
-    tpi_set_cb(0);
+    tpi_set_ca(TPI_CONTEXT_CALL 0);
+    tpi_set_cb(TPI_CONTEXT_CALL 0);
     ca_state = 0;
     cb_state = 0;
 
-    _tpi_reset();
+    _tpi_reset(TPI_CONTEXT_CALLVOID);
 }
 
-void REGPARM2 mytpi_store(WORD addr, BYTE byte)
+void REGPARM2 mytpi_store(TPI_CONTEXT_PARAM WORD addr, BYTE byte)
 {
-
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        mytpi_store(addr, tpi_last_read);
+        mytpi_store(TPI_CONTEXT_CALL addr, tpi_last_read);
         myclk ++;
     }
 
     addr &= 0x07;
-
 
     switch (addr) {
       case TPI_PA:
       case TPI_DDPA:
         tpi[addr] = byte;
         byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
-        store_pa(byte);
+        store_pa(TPI_CONTEXT_CALL byte);
         oldpa = byte;
         return;
       case TPI_PB:
       case TPI_DDPB:
         tpi[addr] = byte;
         byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
-        store_pb(byte);
+        store_pb(TPI_CONTEXT_CALL byte);
         oldpb = byte;
         if (IS_CB_MODE()) {
             cb_state = 0;
-            tpi_set_cb(0);
+            tpi_set_cb(TPI_CONTEXT_CALL 0);
             if (IS_CB_PULSE_MODE()) {
                 cb_state = 1;
-                tpi_set_cb(1);
+                tpi_set_cb(TPI_CONTEXT_CALL 1);
             }
         }
         return;
@@ -191,15 +193,15 @@ void REGPARM2 mytpi_store(WORD addr, BYTE byte)
             } else {
                 int i;
 
-                for(i = 4; i >= 0; i--) {
+                for (i = 4; i >= 0; i--) {
                     if (irq_mask & irq_latches & pow2[i]) {
-                        set_latch_bit(pow2[i]);
+                        set_latch_bit(TPI_CONTEXT_CALL pow2[i]);
                     }
                 }
             }
         } else {
             byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
-            store_pc(byte);
+            store_pc(TPI_CONTEXT_CALL byte);
             oldpc = byte;
         }
         return;
@@ -210,61 +212,61 @@ void REGPARM2 mytpi_store(WORD addr, BYTE byte)
         }
         if (tpi[TPI_CREG] & 0x20) {
             ca_state = (tpi[TPI_CREG] & 0x10);
-            tpi_set_ca(ca_state);
+            tpi_set_ca(TPI_CONTEXT_CALL ca_state);
         } else {
           if (tpi[TPI_CREG] & 0x10) {
               ca_state = 1;
-              tpi_set_ca(1);
+              tpi_set_ca(TPI_CONTEXT_CALL 1);
           }
         }
         if (tpi[TPI_CREG] & 0x80) {
             cb_state = (tpi[TPI_CREG] & 0x40);
-            tpi_set_cb(cb_state);
+            tpi_set_cb(TPI_CONTEXT_CALL cb_state);
         } else {
             if (tpi[TPI_CREG] & 0x40) {
                 cb_state = 1;
-                tpi_set_cb(1);
+                tpi_set_cb(TPI_CONTEXT_CALL 1);
             }
         }
         return;
       case TPI_AIR:
-        pop_irq_state();
+        pop_irq_state(TPI_CONTEXT_CALLVOID);
         return;
     }
     tpi[addr] = byte;
 }
 
-BYTE REGPARM1 mytpi_read(WORD addr)
+BYTE REGPARM1 mytpi_read(TPI_CONTEXT_PARAM WORD addr)
 {
     BYTE byte = 0xff;
 
     switch (addr) {
       case TPI_PA:
-        byte = read_pa();
+        byte = read_pa(TPI_CONTEXT_CALLVOID);
         if (IS_CA_MODE()) {
             ca_state = 0;
-            tpi_set_ca(0);
+            tpi_set_ca(TPI_CONTEXT_CALL 0);
             if (IS_CA_PULSE_MODE()) {
                 ca_state = 1;
-                tpi_set_ca(1);
+                tpi_set_ca(TPI_CONTEXT_CALL 1);
             }
         }
         tpi_last_read = byte;
         return byte;
       case TPI_PB:
-        byte = read_pb();
+        byte = read_pb(TPI_CONTEXT_CALLVOID);
         tpi_last_read = byte;
         return byte;
       case TPI_PC:
         if (irq_mode) {
             byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
         } else {
-            byte = read_pc();
+            byte = read_pc(TPI_CONTEXT_CALLVOID);
         }
         tpi_last_read = byte;
         return byte;
       case TPI_AIR:
-        tpi_last_read = push_irq_state();
+        tpi_last_read = push_irq_state(TPI_CONTEXT_CALLVOID);
         return tpi_last_read;
       default:
         tpi_last_read = tpi[addr];
@@ -272,9 +274,9 @@ BYTE REGPARM1 mytpi_read(WORD addr)
     }
 }
 
-BYTE mytpi_peek(WORD addr)
+BYTE mytpi_peek(TPI_CONTEXT_PARAM WORD addr)
 {
-    BYTE b = mytpi_read(addr);
+    BYTE b = mytpi_read(TPI_CONTEXT_CALL addr);
     return b;
 }
 
@@ -283,9 +285,10 @@ BYTE mytpi_peek(WORD addr)
  * and sets IRQ if necessary
  * Beware: An IRQ line is active low, but for active irqs we here get
  * a state parameter != 0 */
-void mytpi_set_int(int bit, int state)
+void mytpi_set_int(TPI_CONTEXT_PARAM int bit, int state)
 {
-    if(bit>=5) return;
+    if (bit >= 5)
+        return;
 
     bit = pow2[bit];
 
@@ -295,14 +298,14 @@ void mytpi_set_int(int bit, int state)
     if (state && !(irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
         if ((bit & 0x18) && ((bit>>1) & tpi[TPI_CREG])) {
-            set_latch_bit(bit);
+            set_latch_bit(TPI_CONTEXT_CALL bit);
             if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
                 ca_state = 1;
-                tpi_set_ca(1);
+                tpi_set_ca(TPI_CONTEXT_CALL 1);
             }
             if ((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
                 cb_state = 1;
-                tpi_set_cb(1);
+                tpi_set_cb(TPI_CONTEXT_CALL 1);
             }
         }
         irq_previous |= bit;
@@ -311,27 +314,28 @@ void mytpi_set_int(int bit, int state)
     if ((!state) && (irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
         if ((bit & 0x18) && !((bit>>1) & tpi[TPI_CREG])) {
-            set_latch_bit(bit);
+            set_latch_bit(TPI_CONTEXT_CALL bit);
             if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
                 ca_state = 1;
-                tpi_set_ca(1);
+                tpi_set_ca(TPI_CONTEXT_CALL 1);
             }
             if ((bit & 0x10) && IS_CB_TOGGLE_MODE()) {
                 cb_state = 1;
-                tpi_set_cb(1);
+                tpi_set_cb(TPI_CONTEXT_CALL 1);
             }
         }
         /* those three always trigger at high-low */
         if (bit & 0x07) {
-            set_latch_bit(bit);
+            set_latch_bit(TPI_CONTEXT_CALL bit);
         }
         irq_previous &= ~bit;
     }
 }
 
-void mytpi_restore_int(int bit, int state)
+void mytpi_restore_int(TPI_CONTEXT_PARAM int bit, int state)
 {
-    if (bit>=5) return;
+    if (bit >= 5)
+        return;
 
     bit = pow2[bit];
 
@@ -369,14 +373,12 @@ void mytpi_restore_int(int bit, int state)
  * UBYTE        CABSTATE state of CA and CB pins
  */
 
-static const char module_name[] = MYTPI_NAME;
-
 /* FIXME!!!  Error check.  */
-int mytpi_snapshot_write_module(snapshot_t *p)
+int mytpi_snapshot_write_module(TPI_CONTEXT_PARAM snapshot_t *p)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(p, module_name,
+    m = snapshot_module_create(p, MYTPI_NAME,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -399,7 +401,7 @@ int mytpi_snapshot_write_module(snapshot_t *p)
     return 0;
 }
 
-int mytpi_snapshot_read_module(snapshot_t *p)
+int mytpi_snapshot_read_module(TPI_CONTEXT_PARAM snapshot_t *p)
 {
     BYTE vmajor, vminor;
     BYTE byte;
@@ -407,7 +409,7 @@ int mytpi_snapshot_read_module(snapshot_t *p)
 
     mycpu_restore_int(tpi_int_num, 0);      /* just in case */
 
-    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
+    m = snapshot_module_open(p, MYTPI_NAME, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
@@ -433,22 +435,22 @@ int mytpi_snapshot_read_module(snapshot_t *p)
 
     {
         byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
-        undump_pa(byte);
+        undump_pa(TPI_CONTEXT_CALL byte);
         oldpa = byte;
 
         byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
-        undump_pb(byte);
+        undump_pb(TPI_CONTEXT_CALL byte);
         oldpb = byte;
 
         if (!irq_mode) {
             byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
-            undump_pc(byte);
+            undump_pc(TPI_CONTEXT_CALL byte);
             oldpc = byte;
         }
     }
 
-    tpi_set_ca( ca_state );
-    tpi_set_cb( cb_state );
+    tpi_set_ca(TPI_CONTEXT_CALL ca_state);
+    tpi_set_cb(TPI_CONTEXT_CALL cb_state);
 
     mycpu_restore_int(tpi_int_num, irq_active ? MYIRQ : 0);
 
