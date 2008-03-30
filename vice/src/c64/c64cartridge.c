@@ -189,7 +189,7 @@ int cartridge_attach_image(int type, const char *filename)
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
-        if (file_length(fd) == 0x2002)
+        if (util_file_length(fd) == 0x2002)
             fread(rawcart, 2, 1, fd);
         if (fread(rawcart, 0x2000, 1, fd) < 1) {
             fclose(fd);
@@ -203,7 +203,7 @@ int cartridge_attach_image(int type, const char *filename)
         fd = fopen(filename, MODE_READ);
         if (!fd)
             goto done;
-        if (file_length(fd) == 0x4002)
+        if (util_file_length(fd) == 0x4002)
             fread(rawcart, 2, 1, fd);
         if (fread(rawcart, 0x4000, 1, fd) < 1) {
             fclose(fd);

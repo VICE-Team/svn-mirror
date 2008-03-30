@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define C128UI 1
 #include "videoarch.h"
@@ -40,6 +41,7 @@
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
+#include "utils.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -52,17 +54,17 @@ static UI_CALLBACK(ui_datasette_control)
 
 static ui_menu_entry_t datasette_control_submenu[] = {
     { N_("Stop"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
     { N_("Play"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_START, NULL },
     { N_("Forward"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL },
     { N_("Rewind"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL },
     { N_("Record"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
     { N_("Reset"), (ui_callback_t) ui_datasette_control,
-      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
+      (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
 
@@ -78,9 +80,9 @@ UI_MENU_DEFINE_RADIO(VideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
     { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
-      (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
+      (ui_callback_data_t)DRIVE_SYNC_PAL, NULL },
     { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
-      (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
+      (ui_callback_data_t)DRIVE_SYNC_NTSC, NULL },
     { NULL }
 };
 
@@ -88,17 +90,17 @@ UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
     { N_("*Default"),
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"default", NULL },
     { "*C64S",
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "c64s", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"c64s", NULL },
     { N_("*CCS64"),
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "ccs64", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"ccs64", NULL },
     { N_("*Frodo"),
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "frodo", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"frodo", NULL },
     { N_("*GoDot"),
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "godot", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"godot", NULL },
     { "*PC64",
-      (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
+      (ui_callback_t)radio_PaletteFile, (ui_callback_data_t)"pc64", NULL },
     { "--" },
     { N_("Load custom"),
       (ui_callback_t) ui_load_palette,
@@ -115,9 +117,9 @@ static ui_menu_entry_t vic_submenu[] = {
     { "--",
       NULL, NULL, NULL },
     { N_("*Sprite-sprite collisions"),
-      (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
+      (ui_callback_t)toggle_CheckSsColl, NULL, NULL },
     { N_("*Sprite-background collisions"),
-      (ui_callback_t) toggle_CheckSbColl, NULL, NULL },
+      (ui_callback_t)toggle_CheckSbColl, NULL, NULL },
     { "--",
       NULL, NULL, NULL },
     { N_("Color set"),
@@ -136,12 +138,12 @@ UI_MENU_DEFINE_STRING_RADIO(VDC_PaletteFile)
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
     { N_("*Default"),
-      (ui_callback_t) radio_VDC_PaletteFile,
-      (ui_callback_data_t) "vdc_deft", NULL },
+      (ui_callback_t)radio_VDC_PaletteFile,
+      (ui_callback_data_t)"vdc_deft", NULL },
     { "--" },
     { N_("Load custom"),
-      (ui_callback_t) ui_load_palette,
-      (ui_callback_data_t) "VDC_PaletteFile", NULL },
+      (ui_callback_t)ui_load_palette,
+      (ui_callback_data_t)"VDC_PaletteFile", NULL },
     { NULL }
 };
 
@@ -151,12 +153,12 @@ UI_MENU_DEFINE_TOGGLE(VDC_64KB)
 
 static ui_menu_entry_t vdc_submenu[] = {
     { N_("*Double size"),
-      (ui_callback_t) toggle_VDC_DoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_VDC_DoubleSize, NULL, NULL },
     { N_("*Double scan"),
-      (ui_callback_t) toggle_VDC_DoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_VDC_DoubleScan, NULL, NULL },
     { "--" },
     { N_("*64KB display memory"),
-      (ui_callback_t) toggle_VDC_64KB, NULL, NULL },
+      (ui_callback_t)toggle_VDC_64KB, NULL, NULL },
     { "--" },
     { N_("Color set"),
       NULL, NULL, vdc_palette_submenu },
@@ -169,9 +171,9 @@ UI_MENU_DEFINE_RADIO(SidModel)
 
 static ui_menu_entry_t sid_model_submenu[] = {
     { N_("*6581 (old)"),
-      (ui_callback_t) radio_SidModel, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)0, NULL },
     { N_("*8580 (new)"),
-      (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)radio_SidModel, (ui_callback_data_t)1, NULL },
     { NULL }
 };
 
@@ -182,13 +184,13 @@ UI_MENU_DEFINE_TOGGLE(SidUseResid)
 
 static ui_menu_entry_t sid_submenu[] = {
     { N_("*Emulate filters"),
-      (ui_callback_t) toggle_SidFilters, NULL, NULL },
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
       NULL, NULL, sid_model_submenu },
 #ifdef HAVE_RESID
     { "--" },
     { N_("*Use reSID emulation"),
-      (ui_callback_t) toggle_SidUseResid, NULL, NULL },
+      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
 #endif
     { NULL },
 };
@@ -197,13 +199,13 @@ UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sid_options_submenu[] = {
     { N_("*Enable sound playback"),
-      (ui_callback_t) toggle_Sound, NULL, NULL },
+      (ui_callback_t)toggle_Sound, NULL, NULL },
 #ifdef HAVE_RESID
     { N_("*Use reSID emulation"),
-      (ui_callback_t) toggle_SidUseResid, NULL, NULL },
+      (ui_callback_t)toggle_SidUseResid, NULL, NULL },
 #endif
     { N_("*Emulate filters"),
-      (ui_callback_t) toggle_SidFilters, NULL, NULL },
+      (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("Chip model"),
       NULL, NULL, sid_model_submenu },
     { NULL }
@@ -217,7 +219,7 @@ static UI_CALLBACK(set_joystick_device_1)
 
     vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
+        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
         resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
@@ -231,11 +233,11 @@ static UI_CALLBACK(set_joystick_device_2)
 
     vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice2", (resource_value_t) UI_MENU_CB_PARAM);
+        resources_set_value("JoyDevice2", (resource_value_t)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
         resources_get_value("JoyDevice2", (resource_value_t *)&tmp);
-        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }
 
@@ -254,27 +256,27 @@ static UI_CALLBACK(swap_joystick_ports)
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_1,
+      (ui_callback_t)set_joystick_device_1,
       (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
@@ -283,27 +285,27 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
     { N_("*None"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_NONE, NULL },
     { N_("*Numpad"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
     { N_("*Custom Keys"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
     { N_("*Analog Joystick 0"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
     { N_("*Analog Joystick 1"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
     { N_("*Digital Joystick 0"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
     { N_("*Digital Joystick 1"),
-      (ui_callback_t) set_joystick_device_2,
+      (ui_callback_t)set_joystick_device_2,
       (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
@@ -317,13 +319,13 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
     { N_("Swap joystick ports"),
-      (ui_callback_t) swap_joystick_ports, NULL, NULL },
+      (ui_callback_t)swap_joystick_ports, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_options_submenu[] = {
     { N_("Swap joystick ports"),
-      (ui_callback_t) swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
+      (ui_callback_t)swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -341,17 +343,62 @@ UI_MENU_DEFINE_TOGGLE(REU)
 #ifdef HAVE_MOUSE
 UI_MENU_DEFINE_TOGGLE(Mouse)
 #endif
+UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
+UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
+
+UI_CALLBACK(set_function_rom_name)
+{
+    char *resname = (char*)UI_MENU_CB_PARAM;
+    char *title;
+    ui_button_t button;
+    char *value;
+    char *new_value;
+    int len;
+
+    vsync_suspend_speed_eval();
+    title = stralloc(_("Name of the function ROM image"));
+
+    resources_get_value(resname, (resource_value_t *)&value);
+    len = strlen(value) * 2;
+    if (len < 255)
+        len = 255;
+
+    new_value = xmalloc(len + 1);
+    strcpy(new_value, value);
+
+    button = ui_input_string(title, _("Command:"), new_value, len);
+    free(title);
+
+    if (button == UI_BUTTON_OK) {
+        if (resources_set_value(resname, (resource_value_t)new_value) < 0)
+            ui_error(_("Could not load function ROM image\n'%s'"), new_value);
+    }
+
+    free(new_value);
+}
 
 static ui_menu_entry_t io_extensions_submenu[] = {
+    { N_("*Enable internal Function ROM"),
+      (ui_callback_t)toggle_InternalFunctionROM, NULL, NULL },
+    { N_("Internal Function ROM name..."),
+      (ui_callback_t)set_function_rom_name,
+      (ui_callback_data_t)"InternalFunctionName", NULL },
+    { "--" },
+    { N_("*Enable external Function ROM"),
+      (ui_callback_t)toggle_ExternalFunctionROM, NULL, NULL },
+    { N_("External Function ROM name..."),
+      (ui_callback_t)set_function_rom_name,
+      (ui_callback_data_t)"ExternalFunctionName", NULL },
+    { "--" },
     { N_("*Emulator identification"),
-      (ui_callback_t) toggle_EmuID, NULL, NULL },
+      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { N_("*IEEE488 interface emulation"),
-      (ui_callback_t) toggle_IEEE488, NULL, NULL },
+      (ui_callback_t)toggle_IEEE488, NULL, NULL },
     { N_("*512K RAM Expansion Unit"),
-      (ui_callback_t) toggle_REU, NULL, NULL },
+      (ui_callback_t)toggle_REU, NULL, NULL },
 #ifdef HAVE_MOUSE
     { N_("*1351 Mouse Emulation"),
-      (ui_callback_t) toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
+      (ui_callback_t)toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
 #endif
     { NULL }
 };
@@ -360,39 +407,39 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 
 static ui_menu_entry_t c128_romset_submenu[] = {
     { N_("Load default ROMs"),
-      (ui_callback_t) ui_set_romset,
+      (ui_callback_t)ui_set_romset,
       (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
     { N_("Load new Kernal ROM"),
-      (ui_callback_t) ui_load_rom_file,
-      (ui_callback_data_t) "KernalName", NULL },
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"KernalName", NULL },
     { N_("Load new Basic ROM"),
-      (ui_callback_t) ui_load_rom_file,
-      (ui_callback_data_t) "BasicName", NULL },
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"BasicName", NULL },
     { N_("Load new Chargen ROM"),
-      (ui_callback_t) ui_load_rom_file,
-      (ui_callback_data_t) "ChargenName", NULL },
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
     { N_("Load new 1541 ROM"),
-      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541", NULL },
     { N_("Load new 1541-II ROM"),
-      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541ii", NULL },
     { N_("Load new 1571 ROM"),
-      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1571", NULL },
     { N_("Load new 1581 ROM"),
-      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1581", NULL },
     { N_("Load new 2031 ROM"),
-      (ui_callback_t) ui_load_rom_file,
+      (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2031", NULL },
     { "--" },
     { N_("Load custom ROM set from file"),
-      (ui_callback_t) ui_load_romset, NULL, NULL },
+      (ui_callback_t)ui_load_romset, NULL, NULL },
     { N_("Dump ROM set definition to file"),
-      (ui_callback_t) ui_dump_romset, NULL, NULL },
+      (ui_callback_t)ui_dump_romset, NULL, NULL },
     { NULL }
 };
 
@@ -402,7 +449,7 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    int wid = (int) UI_MENU_CB_PARAM;
+    int wid = (int)UI_MENU_CB_PARAM;
 
     vsync_suspend_speed_eval();
 
@@ -415,9 +462,9 @@ static UI_CALLBACK(save_screenshot)
 
 static ui_menu_entry_t screenshot_submenu[] = {
     { N_("VIC II Screenshot"),
-      (ui_callback_t)save_screenshot, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t)save_screenshot, (ui_callback_data_t)1, NULL },
     { N_("VDC Screenshot"),
-      (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };
 
@@ -436,7 +483,7 @@ static ui_menu_entry_t c128_menu[] = {
       NULL, NULL, vdc_submenu },
     { N_("SID settings"),
       NULL, NULL, sid_submenu },
-    { N_("I/O extensions at $DFxx"),
+    { N_("Memory and I/O extensions"),
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"),
       NULL, NULL, rs232_submenu },

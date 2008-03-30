@@ -132,7 +132,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D64_LEN(file_length(image->fd))))
+    if (!(IS_D64_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D64;
@@ -195,7 +195,7 @@ static int disk_image_check_for_d67(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D67_LEN(file_length(image->fd))))
+    if (!(IS_D67_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D67;
@@ -231,7 +231,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D71_LEN(file_length(image->fd))))
+    if (!(IS_D71_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D71;
@@ -266,7 +266,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D81_LEN(file_length(image->fd))))
+    if (!(IS_D81_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D81;
@@ -301,7 +301,7 @@ static int disk_image_check_for_d80(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D80_LEN(file_length(image->fd))))
+    if (!(IS_D80_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D80;
@@ -336,7 +336,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
     size_t len;
     BYTE block[256];
 
-    if (!(IS_D82_LEN(file_length(image->fd))))
+    if (!(IS_D82_LEN(util_file_length(image->fd))))
         return 0;
 
     image->type = DISK_IMAGE_TYPE_D82;
