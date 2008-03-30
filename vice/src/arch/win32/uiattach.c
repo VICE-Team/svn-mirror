@@ -136,9 +136,9 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_BROWSEDISK:
             {
                 char *s;
-                if ((s = ui_select_file("Attach disk image",
+                if ((s = ui_select_file(hwnd,"Attach disk image",
                     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                    "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL)) != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                     if (file_system_attach_disk(num, s) < 0)
                         ui_error("Cannot attach specified file");
@@ -149,11 +149,11 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_AUTOSTART:
             {
                 char *s;
-                if ((s = ui_select_file("Autostart disk image",
+                if ((s = ui_select_file(hwnd,"Autostart disk image",
                     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64\0"
-                    "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
+                    "All files (*.*)\0*.*\0", FILE_SELECTOR_DISK_STYLE,NULL)) != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
-                    if (autostart_autodetect(s, "*") < 0)
+                    if (autostart_autodetect(s, "*", 0) < 0)
                         ui_error("Cannot autostart specified file.");
                     free(s);
                 }

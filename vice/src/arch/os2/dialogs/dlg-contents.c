@@ -104,7 +104,7 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 
                 if (!pos)
                 {
-                    if (autostart_autodetect(image_name, "*"))
+                    if (autostart_autodetect(image_name, "*", 0))
                         ;// WinError(hwnd, "Cannot autostart specified image.");
                     else
                         WinSendMsg(hwnd, WM_CLOSE, 0, 0);
@@ -126,7 +126,7 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                         char *end = name+strlen(name);
                         while (strrchr(name,' ')==(--end)) *end='\0';
                     }
-                    if (autostart_autodetect(image_name, p2a(name)))
+                    if (autostart_autodetect(image_name, p2a(name), 0))
                         ;// WinError(hwnd, "Cannot autostart specified image.");
                     else
                         WinSendMsg(hwnd, WM_CLOSE, 0, 0);

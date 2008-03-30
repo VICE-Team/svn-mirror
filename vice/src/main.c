@@ -561,13 +561,13 @@ int MAIN_PROGRAM(int argc, char **argv)
                     fclose(autostart_fd);
                     petconvstring(autostart_prg, 0);
                     name = replace_hexcodes(autostart_prg);
-                    autostart_autodetect(autostart_file, name);
+                    autostart_autodetect(autostart_file, name, 0);
                     free(name);
                 } else
-                    autostart_autodetect(autostart_string, NULL);
+                    autostart_autodetect(autostart_string, NULL, 0);
                 free(autostart_file);
             } else {
-                autostart_autodetect(autostart_string, NULL);
+                autostart_autodetect(autostart_string, NULL, 0);
             }
         }
 
