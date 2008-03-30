@@ -1,3 +1,13 @@
+2003-06-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.6.
+
+	* via.h, drive/viad.h, drive/drivetypes.h, viacore.c,
+	drive/iecieee/via1d.c, drive/iecieee/via2d.c, pet/petvia.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vic20/vic20ieeevia1.c,
+	vic20/vic20ieeevia2.c: Replaced drive context pointer by VIA
+	context pointer.
+
 2003-06-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.5.
