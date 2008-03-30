@@ -247,25 +247,25 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 
     rsize = file_length(fp);
 
-    if (rsize < minsize) {
+    if (rsize < ((size_t)minsize)) {
         log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);
         goto fail;
     }
-    if (rsize == maxsize + 2) {
+    if (rsize == ((size_t)maxsize + 2)) {
         log_warning(LOG_DEFAULT,
                     "ROM `%s': two bytes too large - removing assumed "
                     "start address.", complete_path);
         fread((char*)dest, 1, 2, fp);
         rsize -= 2;
     }
-    if (rsize < maxsize) {
+    if (rsize < ((size_t)maxsize)) {
         dest += maxsize-rsize;
-    } else if (rsize > maxsize) {
+    } else if (rsize > ((size_t)maxsize)) {
         log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
                     complete_path);
         rsize = maxsize;
     }
-    if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)
+    if ((rsize = fread((char *)dest, 1, rsize, fp)) < ((size_t)minsize))
         goto fail;
 
     fclose(fp);
