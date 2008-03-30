@@ -16,6 +16,7 @@ libgnomeui_a_SOURCES = \
 	uimenu.h \
 	gnomekbd.c \
 	gnomevideo.c \
+	uicolor.c \
 	uiedisk.c \
 	uisnapshot.c \
 	about.c \
