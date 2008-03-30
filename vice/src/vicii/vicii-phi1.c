@@ -33,15 +33,40 @@
 #include "viciitypes.h"
 
 
+inline static BYTE gfx_data_illegal_bitmap(unsigned int num)
+{
+    if (vic_ii.idle_state)
+        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x39ff];
+    else
+        return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
+                                 + num * 8) & 0x19ff];
+}
+
 inline static BYTE gfx_data_hires_bitmap(unsigned int num)
 {
-    return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
-               + num * 8) & 0x1fff];
+    if (vic_ii.idle_state)
+        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    else
+        return vic_ii.bitmap_ptr[((vic_ii.memptr << 3) + vic_ii.raster.ycounter
+                                 + num * 8) & 0x1fff];
+}
+
+inline static BYTE gfx_data_extended_text(unsigned int num)
+{
+    if (vic_ii.idle_state)
+        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x39ff];
+    else
+        return vic_ii.chargen_ptr[(vic_ii.vbuf[num] & 0x3f) * 8
+                                  + vic_ii.raster.ycounter];
 }
 
 inline static BYTE gfx_data_normal_text(unsigned int num)
 {
-    return vic_ii.chargen_ptr[vic_ii.vbuf[num] * 8 + vic_ii.raster.ycounter];
+    if (vic_ii.idle_state)
+        return vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
+    else
+        return vic_ii.chargen_ptr[vic_ii.vbuf[num] * 8
+                                  + vic_ii.raster.ycounter];
 }
 
 static BYTE gfx_data(unsigned int num)
@@ -50,22 +75,20 @@ static BYTE gfx_data(unsigned int num)
 
     switch (vic_ii.raster.video_mode) {
       case VIC_II_NORMAL_TEXT_MODE:
+      case VIC_II_MULTICOLOR_TEXT_MODE:
         value = gfx_data_normal_text(num);
         break;
-      case VIC_II_MULTICOLOR_TEXT_MODE:
-        break;
       case VIC_II_HIRES_BITMAP_MODE:
+      case VIC_II_MULTICOLOR_BITMAP_MODE:
         value = gfx_data_hires_bitmap(num);
         break;
-      case VIC_II_MULTICOLOR_BITMAP_MODE:
-        break;
       case VIC_II_EXTENDED_TEXT_MODE:
-        break;
       case VIC_II_ILLEGAL_TEXT_MODE:
+        value = gfx_data_extended_text(num);
         break;
       case VIC_II_ILLEGAL_BITMAP_MODE_1:
-        break;
       case VIC_II_ILLEGAL_BITMAP_MODE_2:
+        value = gfx_data_illegal_bitmap(num);
         break;
       default:
         value = vic_ii.ram_base_phi1[vic_ii.vbank_phi1 + 0x3fff];
@@ -106,6 +129,8 @@ BYTE vicii_read_phi1(void)
 {
     BYTE value = 0x40;
     unsigned int cycle;
+
+    vic_ii_handle_pending_alarms(0);
 
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
 
