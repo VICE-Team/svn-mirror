@@ -70,7 +70,11 @@ libarch_a_SOURCES = \
 	uidriveplus4.c \
 	uidriveplus4.h \
 	uiedisk.h \
+	uifliplist.c \
+	uifliplist.h \
 	uihotkey.h \
+	uiide64.c \
+	uiide64.h \
 	uijoystick2.c \
 	uijoystick2.h \
 	uimenu.h \
