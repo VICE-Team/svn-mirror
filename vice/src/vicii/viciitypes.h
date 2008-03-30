@@ -257,6 +257,9 @@ struct vic_ii_s {
     /* Video memory pointers.  Changed immediately.  */
     BYTE *screen_base;
 
+    /* Offset to the vbuf/cbuf buffer */
+    int buf_offset;
+
     /* Screen memory buffers (chars and color).  */
     BYTE vbuf[VIC_II_SCREEN_TEXTCOLS];
     BYTE cbuf[VIC_II_SCREEN_TEXTCOLS];
