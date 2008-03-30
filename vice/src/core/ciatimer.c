@@ -28,23 +28,24 @@
 
 #include "vice.h"
 
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "alarm.h"
 #include "ciatimer.h"
 #include "snapshot.h"
 #include "types.h"
 
-#if 1 /* def CIAT_NEED_LOG */
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
+#if 0 /* def CIAT_NEED_LOG */
 
 static int ciat_logfl = 0;
 static int logtab = 0;
 static const char spaces[] = "                                                  ";
 /* extern int traceflg; */
 
-void ciat_login(const char *format,...) {
+static void ciat_login(const char *format,...) {
     va_list ap;
     va_start(ap, format);
     if (/* traceflg ||*/ ciat_logfl) {
@@ -55,7 +56,7 @@ void ciat_login(const char *format,...) {
     logtab += 2;
 }
 
-void ciat_logout(const char *format,...) {
+static void ciat_logout(const char *format,...) {
     va_list ap;
     va_start(ap, format);
     if ((/* traceflg ||*/ ciat_logfl) && strlen(format)) {
@@ -70,7 +71,7 @@ void ciat_logout(const char *format,...) {
     }
 }
 
-void ciat_log(const char *format,...) {
+static void ciat_log(const char *format,...) {
     va_list ap;
     va_start(ap, format);
     if (/* traceflg ||*/ ciat_logfl) {
@@ -80,7 +81,7 @@ void ciat_log(const char *format,...) {
     }
 }
 
-void ciat_print_state(const ciat_t *state)
+static void ciat_print_state(const ciat_t *state)
 {
     printf("%s print: clk=%ld, cnt=%04x (%d), latch=%04x (%d)\n",
            state->name, (long)(state->clk),
@@ -104,9 +105,7 @@ void ciat_print_state(const ciat_t *state)
     );
     printf("          alarm at %ld\n", (long)(state->alarmclk));
 }
-
 #endif
-
 
 
 ciat_tstate_t ciat_table[CIAT_TABLEN];

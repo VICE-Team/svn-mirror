@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "c64fastiec.h"
+#include "iecdrive.h"
 #include "types.h"
 
 
