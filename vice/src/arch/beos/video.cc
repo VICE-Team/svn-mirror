@@ -87,23 +87,6 @@ int video_init(void)
 }
 
 /* ------------------------------------------------------------------------ */
-/* Frame buffer functions.  */
-int video_frame_buffer_alloc(video_frame_buffer_t **f,
-                       unsigned int width,
-                       unsigned int height)
-{
-    return 0;
-}
-
-void video_frame_buffer_free(video_frame_buffer_t *f)
-{
-}
-
-void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{
-}
-
-/* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 
 static void canvas_create_bitmap(video_canvas_t *c,
@@ -132,8 +115,7 @@ static void canvas_create_bitmap(video_canvas_t *c,
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, BYTE *pixel_return,
-                              struct video_frame_buffer_s *fb)
+                              const palette_t *palette, BYTE *pixel_return)
 {
     video_canvas_t *new_canvas;
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
@@ -242,8 +224,7 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p, BYTE *pixel_
 
 /* ------------------------------------------------------------------------ */
 void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
-							unsigned int draw_buffer_line_size,
-							video_frame_buffer_t *f,
+				unsigned int draw_buffer_line_size,
                           	unsigned int xs, unsigned int ys,
                           	unsigned int xi, unsigned int yi,
                           	unsigned int w, unsigned int h)

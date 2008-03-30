@@ -1641,8 +1641,7 @@ video_canvas_t *video_canvas_create(const char *title,
                                     UINT *width, UINT *height, int mapped,
                                     void_t exposure_handler,
                                     const palette_t *palette,
-                                    BYTE *pixel_return,
-                                    video_frame_buffer_t *fb)
+                                    BYTE *pixel_return)
 {
     canvas_init_t canvini;
 
@@ -1989,7 +1988,6 @@ int video_canvas_set_palette(video_canvas_t *c, const palette_t *p,
 /* ------------------------------------------------------------------------ */
 void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *f,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w,  unsigned int h)

@@ -183,24 +183,6 @@ int video_init(void)
     return 0;
 }
 
-
-int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
-                             unsigned int height)
-{
-        return 0;
-}
-
-
-void video_frame_buffer_free(video_frame_buffer_t *i)
-{
-}
-
-
-void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{
-}
-
-
 static void canvas_free_bitmaps(video_canvas_t *c)
 {
     int i;
@@ -302,10 +284,10 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
 
 /* Note: `mapped' is ignored.  */
 video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
-                              unsigned int *height, int mapped,
-                              void_t exposure_handler,
-                              const palette_t *palette, BYTE *pixel_return,
-                              struct video_frame_buffer_s *fb)
+                                    unsigned int *height, int mapped,
+                                    void_t exposure_handler,
+                                    const palette_t *palette,
+                                    BYTE *pixel_return)
 {
     video_canvas_t *new_canvas;
     int result = 0;
@@ -523,7 +505,6 @@ void disable_text(void)
 
 inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                                  unsigned int draw_buffer_line_size,
-                                 video_frame_buffer_t *f,
                                  unsigned int xs, unsigned int ys,
                                  unsigned int xi, unsigned int yi,
                                  unsigned int w, unsigned int h)

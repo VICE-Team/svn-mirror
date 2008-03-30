@@ -164,8 +164,6 @@ struct raster_s {
         DWORD quad[0x100];
     } pixel_table;
 
-    struct video_frame_buffer_s *frame_buffer;
-
     /* FIXME: This has go into struct draw_buffer_t.  */
     /* All video chips draw into this buffer.  */
     BYTE *draw_buffer;

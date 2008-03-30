@@ -299,7 +299,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, const palette_t *palette, P
 }
 
 
-video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette, BYTE *pixel_return, struct video_frame_buffer_s *fb)
+video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, void_t exposure_handler, const palette_t *palette, BYTE *pixel_return)
 {
   video_canvas_t *canvas;
   canvas_list_t *newCanvas;
@@ -414,7 +414,6 @@ void video_canvas_resize(video_canvas_t *s, unsigned int width, unsigned int hei
 
 void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *frame_buffer,
  			  unsigned int xs, unsigned int ys,
 			  unsigned int xi, unsigned int yi,
 			  unsigned int w, unsigned int h)

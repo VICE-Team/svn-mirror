@@ -251,27 +251,6 @@ int video_init(void)
     return 0;
 }
 
-
-/* ------------------------------------------------------------------------ */
-
-/* Frame buffer functions.  */
-
-int video_frame_buffer_alloc(video_frame_buffer_t **f,
-                       unsigned int width,
-                       unsigned int height)
-{
-    return 0;
-}
-
-
-void video_frame_buffer_free(video_frame_buffer_t *f)
-{
-}
-
-void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
-{
-}
-
 /* ------------------------------------------------------------------------ */
 
 /* Canvas functions.  */
@@ -490,8 +469,7 @@ extern int fullscreen_transition;
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
                               void_t exposure_handler,
-                              const palette_t *palette, BYTE *pixel_return,
-                              struct video_frame_buffer_s *fb)
+                              const palette_t *palette, BYTE *pixel_return)
 {
     HRESULT result;
     HRESULT ddresult;
@@ -1057,7 +1035,6 @@ static void clear(HDC hdc, int x1, int y1, int x2, int y2)
 
 static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
                          unsigned int draw_buffer_line_size,
-                         video_frame_buffer_t *f,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
@@ -1182,7 +1159,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
                 if ((w > 0) && (h > 0)) {
                     real_refresh(c, r->draw_buffer, r->draw_buffer_width,
-                                 r->frame_buffer, xs, ys, xi, yi, w, h);
+                                 xs, ys, xi, yi, w, h);
                 }
             }
         }
@@ -1191,7 +1168,6 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
 void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
-                          video_frame_buffer_t *f,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
@@ -1225,13 +1201,12 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     client_y += (rect.bottom - statusbar_get_status_height()
                 - window_canvas_ysize[window_index]) / 2;
 
-    real_refresh(c, draw_buffer, draw_buffer_line_size, f, frame_buffer_x,
+    real_refresh(c, draw_buffer, draw_buffer_line_size, frame_buffer_x,
                  frame_buffer_y, client_x, client_y, w, h);
 }
 
 static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
                          unsigned int draw_buffer_line_size,
-                         video_frame_buffer_t *xyzf,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h)
