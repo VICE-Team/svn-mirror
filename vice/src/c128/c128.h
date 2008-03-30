@@ -55,6 +55,7 @@
 struct cia_context_s;
 struct tpi_context_s;
 
+/* The first part must be identical to the C64 context struct.  */
 typedef struct machine_context_s {
     struct cia_context_s *cia1;
     struct cia_context_s *cia2;
