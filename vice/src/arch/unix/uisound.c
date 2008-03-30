@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 
-#include "resources.h"
 #include "sound.h"
 #include "uimenu.h"
 
