@@ -257,7 +257,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vicii-badline.o: vicii-badline.c ../../src/vice.h ../../src/config.h \
-	../../src/interrupt.h ../../src/arch/unix/types.h \
+	../../src/dma.h ../../src/arch/unix/types.h ../../src/maincpu.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h vicii-badline.h vicii-fetch.h viciitypes.h \
 	../../src/log.h
@@ -287,9 +287,8 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	vicii-draw.h viciitypes.h ../../src/log.h
 vicii-fetch.o: vicii-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/c64/c64cart.h ../../src/interrupt.h \
-	../../src/maincpu.h ../../src/mem.h \
-	../../src/raster/raster-sprite-status.h \
+	../../src/c64/c64cart.h ../../src/dma.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h vicii-fetch.h vicii-sprites.h \
 	viciitypes.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
@@ -337,10 +336,10 @@ vicii-timing.o: vicii-timing.c ../../src/vice.h ../../src/config.h \
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/c64/c64.h \
 	../../src/cartridge.h ../../src/c64/c64cart.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/clkguard.h ../../src/dma.h ../../src/interrupt.h \
+	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/resources.h \
