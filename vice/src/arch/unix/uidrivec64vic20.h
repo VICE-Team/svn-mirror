@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _UI_DRIVEC64VIC20_H
-#define _UI_DRIVEC64VIC20_H
+#ifndef _UIDRIVEC64VIC20_H
+#define _UIDRIVEC64VIC20_H
 
-struct ui_menu_entry_s;
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_drivec64vic20_settings_menu[];
 extern struct ui_menu_entry_s ui_drivec64vic20_romset_submenu[];

@@ -27,6 +27,8 @@
 #ifndef _UITFE_H
 #define _UITFE_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s tfe_submenu[];
 
 #endif

@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_GEORAM_H
-#define _UI_GEORAM_H
+#ifndef _UIGEORAM_H
+#define _UIGEORAM_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s georam_submenu[];
 

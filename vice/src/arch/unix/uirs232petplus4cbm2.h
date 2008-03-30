@@ -27,6 +27,8 @@
 #ifndef _UIRS232PETPLUS4CBM2_H
 #define _UIRS232PETPLUS4CBM2_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s uirs232petplus4cbm2_submenu[];
 
 #endif

@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_RAMCART_H
-#define _UI_RAMCART_H
+#ifndef _UIRAMCART_H
+#define _UIRAMCART_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ramcart_submenu[];
 

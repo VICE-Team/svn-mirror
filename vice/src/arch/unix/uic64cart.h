@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_C64CART_H
-#define _UI_C64CART_H
+#ifndef _UIC64CART_H
+#define _UIC64CART_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_c64cart_commands_menu[];
 

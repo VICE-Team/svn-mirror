@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _UI_DRIVEC128_H
-#define _UI_DRIVEC128_H
+#ifndef _UIDRIVEC128_H
+#define _UIDRIVEC128_H
 
-struct ui_menu_entry_s;
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_drivec128_settings_menu[];
 extern struct ui_menu_entry_s ui_drivec128_romset_submenu[];

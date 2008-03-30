@@ -27,6 +27,8 @@
 #ifndef _UIATTACH_H
 #define _UIATTACH_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s uiattach_disk_menu[];
 extern struct ui_menu_entry_s uiattach_tape_menu[];
 extern struct ui_menu_entry_s uiattach_smart_attach_menu[];

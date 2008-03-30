@@ -25,8 +25,10 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+#ifndef _UISETTINGS_H
+#define _UISETTINGS_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_performance_settings_menu[];
 extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];

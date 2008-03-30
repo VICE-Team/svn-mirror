@@ -27,7 +27,10 @@
 #ifndef _UITED_H
 #define _UITED_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s ted_submenu[];
+
 extern void uited_menu_create(void);
 extern void uited_menu_shutdown(void);
 

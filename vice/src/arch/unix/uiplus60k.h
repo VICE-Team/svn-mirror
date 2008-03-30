@@ -24,9 +24,12 @@
  *
  */
 
-#ifndef _UI_PLUS60K_H
-#define _UI_PLUS60K_H
+#ifndef _UIPLUS60K_H
+#define _UIPLUS60K_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s plus60k_submenu[];
 
 #endif
+

@@ -27,6 +27,8 @@
 #ifndef _UIRS232C64C128_H
 #define _UIRS232C64C128_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s uirs232c64c128_submenu[];
 
 #endif

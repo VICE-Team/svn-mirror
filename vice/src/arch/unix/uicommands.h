@@ -25,10 +25,10 @@
  *
  */
 
-#ifndef _UI_COMMANDS_H
-#define _UI_COMMANDS_H
+#ifndef _UICOMMANDS_H
+#define _UICOMMANDS_H
 
-extern void uicommands_shutdown(void);
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_directory_commands_menu[];
 extern struct ui_menu_entry_s ui_exit_commands_menu[];
@@ -38,6 +38,8 @@ extern struct ui_menu_entry_s ui_snapshot_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_submenu[];
 extern struct ui_menu_entry_s ui_sound_record_commands_menu[];
 extern struct ui_menu_entry_s ui_tool_commands_menu[];
+
+extern void uicommands_shutdown(void);
 
 #endif
 

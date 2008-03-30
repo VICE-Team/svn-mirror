@@ -27,7 +27,10 @@
 #ifndef _UIVDC_H
 #define _UIVDC_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s vdc_submenu[];
+
 extern void uivdc_menu_create(void);
 extern void uivdc_menu_shutdown(void);
 

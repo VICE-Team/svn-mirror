@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_JOYSTICK2_H
-#define _UI_JOYSTICK2_H
+#ifndef _UIJOYSTICK2_H
+#define _UIJOYSTICK2_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s joystick_settings_submenu[];
 extern struct ui_menu_entry_s joystick_settings_menu[];

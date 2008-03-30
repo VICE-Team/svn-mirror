@@ -27,6 +27,8 @@
 #ifndef _UIIDE64_H
 #define _UIIDE64_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s ide64_submenu[];
 
 #endif

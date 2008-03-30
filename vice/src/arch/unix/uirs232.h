@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _UI_RS232_H
-#define _UI_RS232_H
+#ifndef _UIRS232_H
+#define _UIRS232_H
 
 #include "uimenu.h"
 

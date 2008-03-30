@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_SOUND_H
-#define _UI_SOUND_H
+#ifndef _UISOUND_H
+#define _UISOUND_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s sound_settings_submenu[];
 extern struct ui_menu_entry_s set_sound_sample_rate_submenu[];

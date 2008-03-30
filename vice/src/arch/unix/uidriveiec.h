@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _UI_DRIVEIEC_H
-#define _UI_DRIVEIEC_H
+#ifndef _UIDRIVEIEC_H
+#define _UIDRIVEIEC_H
 
-struct ui_menu_entry_s;
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s set_drive0_expansion_submenu[];
 extern struct ui_menu_entry_s set_drive1_expansion_submenu[];

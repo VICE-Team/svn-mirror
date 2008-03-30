@@ -28,7 +28,10 @@
 #ifndef _UICRTC_H
 #define _UICRTC_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s crtc_submenu[];
+
 extern void uicrtc_menu_create(void);
 extern void uicrtc_menu_shutdown(void);
 

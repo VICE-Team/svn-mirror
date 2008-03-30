@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_PRINTERIEC_H
-#define _UI_PRINTERIEC_H
+#ifndef _UIPRINTERIEC_H
+#define _UIPRINTERIEC_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s printeriec_settings_menu[];
 

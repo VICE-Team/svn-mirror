@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_PALEMU_H
-#define _UI_PALEMU_H
+#ifndef _UIPALEMU_H
+#define _UIPALEMU_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s PALMode_submenu[];
 

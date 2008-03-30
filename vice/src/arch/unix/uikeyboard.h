@@ -27,6 +27,8 @@
 #ifndef _UIKEYBOARD_H
 #define _UIKEYBOARD_H
 
+#include "uimenu.h"
+
 extern struct ui_menu_entry_s uikeyboard_settings_menu[];
 
 #endif

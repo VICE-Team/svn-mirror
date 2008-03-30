@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _UI_DRIVEPLUS4_H
-#define _UI_DRIVEPLUS4_H
+#ifndef _UIDRIVEPLUS4_H
+#define _UIDRIVEPLUS4_H
 
-struct ui_menu_entry_s;
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_driveplus4_settings_menu[];
 extern struct ui_menu_entry_s ui_driveplus4_romset_submenu[];

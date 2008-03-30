@@ -25,8 +25,10 @@
  *
  */
 
-#ifndef _UIGLIPLIST_H
+#ifndef _UIFLIPLIST_H
 #define _UIFLIPLIST_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s fliplist_submenu[];
 

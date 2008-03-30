@@ -24,19 +24,17 @@
  *
  */
 
-#ifndef _UI_DRIVE_H
-#define _UI_DRIVE_H
+#ifndef _UIDRIVE_H
+#define _UIDRIVE_H
 
 #include "uimenu.h"
+
+extern struct ui_menu_entry_s ui_drive_options_submenu[];
 
 extern UI_CALLBACK(radio_Drive8Type);
 extern UI_CALLBACK(radio_Drive9Type);
 extern UI_CALLBACK(radio_Drive10Type);
 extern UI_CALLBACK(radio_Drive11Type);
- 
-struct ui_menu_entry_s;
-
-extern struct ui_menu_entry_s ui_drive_options_submenu[];
 
 #endif
 

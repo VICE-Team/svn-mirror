@@ -24,8 +24,10 @@
  *
  */
 
-#ifndef _UI_PERIPHERIALIEC_H
-#define _UI_PERIPHERIALIEC_H
+#ifndef _UIPERIPHERIALIEC_H
+#define _UIPERIPHERIALIEC_H
+
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s peripheraliec_settings_submenu[];
 extern struct ui_menu_entry_s ui_peripheraliec_settings_menu[];

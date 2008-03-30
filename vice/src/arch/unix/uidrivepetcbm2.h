@@ -24,10 +24,10 @@
  *
  */
 
-#ifndef _UI_DRIVEPETCBM2_H
-#define _UI_DRIVEPETCBM2_H
+#ifndef _UIDRIVEPETCBM2_H
+#define _UIDRIVEPETCBM2_H
 
-struct ui_menu_entry_s;
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_drivepetcbm2_settings_menu[];
 extern struct ui_menu_entry_s ui_drivepetcbm2_romset_submenu[];
