@@ -97,7 +97,6 @@ static ui_menu_entry_t sid_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
-UI_MENU_DEFINE_TOGGLE(ActionReplay)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "*Emulation identification",
@@ -106,8 +105,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t) toggle_IEEE488, NULL, NULL },
     { "*512K RAM Expansion Unit",
       (ui_callback_t) toggle_REU, NULL, NULL },
-    { "*Action Replay Cartridge",
-      (ui_callback_t) toggle_ActionReplay, NULL, NULL },
     { NULL }
 };
 
@@ -242,6 +239,8 @@ int c64_ui_init(void)
                                     ui_tape_commands_menu,
                                     ui_menu_separator,
                                     ui_smart_attach_commands_menu,
+                                    ui_menu_separator,
+                                    ui_cartridge_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
                                     ui_menu_separator,

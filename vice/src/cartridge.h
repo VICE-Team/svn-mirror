@@ -1,8 +1,8 @@
 /*
- * uicommands.h - Implementation of common UI commands.
+ * cartridge.h - Cartridge emulation.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,20 +24,16 @@
  *
  */
 
-#ifndef _UI_COMMANDS_H
-#define _UI_COMMANDS_H
+int cartridge_init_resources(void);
 
-#include "ui.h"
-#include "uimenu.h"
+extern int cartridge_attach_image(int type, char *filename);
+extern void cartridge_detach_image(void);
 
-extern ui_menu_entry_t ui_disk_commands_menu[];
-extern ui_menu_entry_t ui_tape_commands_menu[];
-extern ui_menu_entry_t ui_smart_attach_commands_menu[];
-extern ui_menu_entry_t ui_cartridge_commands_menu[];
-extern ui_menu_entry_t ui_directory_commands_menu[];
-extern ui_menu_entry_t ui_tool_commands_menu[];
-extern ui_menu_entry_t ui_help_commands_menu[];
-extern ui_menu_entry_t ui_run_commands_menu[];
-extern ui_menu_entry_t ui_exit_commands_menu[];
+/* Known cartridge types.  */
 
-#endif
+#define CARTRIDGE_NONE		-65535
+#define CARTRIDGE_GENERIC_8KB	-2
+#define CARTRIDGE_GENERIC_16KB	-1
+#define CARTRIDGE_CRT		0
+#define CARTRIDGE_ACTION_REPLAY	1
+

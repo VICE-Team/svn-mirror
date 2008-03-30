@@ -77,6 +77,7 @@
 #include "attach.h"
 #include "cmdline.h"
 #include "fsdevice.h"
+#include "cartridge.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -282,6 +283,11 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
+    if (cartridge_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize cartridge-specific resources.\n");
+        exit(-1);
+    }
+
     /* Set factory defaults.  */
     resources_set_defaults();
 
@@ -315,6 +321,10 @@ int main(int argc, char **argv)
     }
     if (machine_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+        exit(-1);
+    }
+    if (fsdevice_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize file system-specific command-line options.\n");
         exit(-1);
     }
     if (cmdline_parse(&argc, argv) < 0) {

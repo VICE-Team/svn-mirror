@@ -39,6 +39,7 @@
 #define _FSDEVICE_H
 
 int fsdevice_init_resources(void);
+int fsdevice_init_cmdline_options(void);
 
 void fs_error(int code);
 void flush_fs(void *flp, int secondary);

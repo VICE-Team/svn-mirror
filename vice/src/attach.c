@@ -37,13 +37,13 @@ static int set_file_system_device10(resource_value_t v);
 static int set_file_system_device11(resource_value_t v);
 
 static resource_t resources[] = {
-    { "FileSystemDevice8", RES_INTEGER, (resource_value_t) 0,
+    { "FileSystemDevice8", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[0],
       set_file_system_device8 },
-    { "FileSystemDevice9", RES_INTEGER, (resource_value_t) 0,
+    { "FileSystemDevice9", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[1],
       set_file_system_device9 },
-    { "FileSystemDevice10", RES_INTEGER, (resource_value_t) 0,
+    { "FileSystemDevice10", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &file_system_device_enabled[2],
       set_file_system_device10 },
     { "FileSystemDevice11", RES_INTEGER, (resource_value_t) 1,

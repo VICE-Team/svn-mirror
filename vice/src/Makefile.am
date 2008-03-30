@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	attach.h \
 	autostart.h \
 	c1541.h \
+	cartridge.h \
 	charsets.h \
 	cia.h \
 	cmdline.h \
@@ -65,6 +66,7 @@ base_sources = \
 	asm.c \
 	attach.c \
 	autostart.c \
+	cartridge.c \
 	charsets.c \
 	cmdline.c \
 	drive.c \

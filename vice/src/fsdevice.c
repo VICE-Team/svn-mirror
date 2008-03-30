@@ -61,6 +61,7 @@
 #include "charsets.h"
 #include "tape.h"
 #include "utils.h"
+#include "cmdline.h"
 #include "fsdevice.h"
 
 enum fsmode {
@@ -247,6 +248,54 @@ static resource_t resources[] = {
 int fsdevice_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static int cmdline_fsdirectory(const char *param, void *extra_param)
+{
+    int unit = (int) extra_param;
+    char directory[MAXPATHLEN];
+
+    strcpy(directory, param);
+    strcat(directory, "/");
+
+    switch (unit) {
+      case 8:
+	set_fsdevice_8_dir((resource_value_t) directory);
+	break;
+      case 9:
+	set_fsdevice_9_dir((resource_value_t) directory);
+	break;
+      case 10:
+	set_fsdevice_10_dir((resource_value_t) directory);
+	break;
+      case 11:
+	set_fsdevice_11_dir((resource_value_t) directory);
+	break;
+      default:
+	fprintf(stderr, "cmdline_fsdirectory(): unexpected unit number %d?!\n",
+		unit);
+    }
+
+    return 0;
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 8, NULL, NULL,
+      "<name>", "Use <name> as directory for file system device #8" },
+    { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 9, NULL, NULL,
+      "<name>", "Use <name> as directory for file system device #9" },
+    { "-fs10", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 10, NULL, NULL,
+      "<name>", "Use <name> as directory for file system device #10" },
+    { "-fs11", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 11, NULL, NULL,
+      "<name>", "Use <name> as directory for file system device #11" },
+    { NULL }
+};
+
+int fsdevice_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
