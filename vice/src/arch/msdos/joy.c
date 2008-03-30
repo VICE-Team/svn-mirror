@@ -36,6 +36,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "resources.h"
+#include "tui.h"
 #include "types.h"
 
 
