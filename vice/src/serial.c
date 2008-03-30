@@ -624,7 +624,7 @@ int serial_select_file(int type, int number, const char *file)
 {
     serial_t *p;
 
-    if (number < 0 && ((number = find_devno(-1, file)) < 0) && type) {
+    if (number < 0 && type) {
 	if (type & DT_TAPE)
 	    number = 1;
 #ifdef PRINTER
