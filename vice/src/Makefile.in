@@ -96,6 +96,7 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
+WINDRES = @WINDRES@
 X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
@@ -113,13 +114,25 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
+SUBDIRS = \
+	@RESID_DIR@ \
+	arch \
+	c128 \
+	c64 \
+	cbm2 \
+	drive \
+	pet \
+	sid \
+	sounddrv \
+	vic20 \
+	vicii
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive
+	-I$(top_srcdir)/src/drive \
+	-I$(top_srcdir)/src/raster
 
 YFLAGS = -dt
 
@@ -167,7 +180,6 @@ noinst_HEADERS = \
 	parallel.h \
 	piacore.h \
 	print.h \
-	raster.h \
 	resources.h \
 	riot.h \
 	riotcore.h \
@@ -267,7 +279,6 @@ EXTRA_DIST = \
 	convio \
 	fixpoint.c \
 	piacore.c \
-	raster.c \
 	riotcore.c \
 	tpicore.c \
 	viacore.c \
@@ -276,47 +287,69 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = mon_parse.h mon_parse.c 
 
-sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
-drive_lib = $(top_builddir)/src/drive/libdrive.a
-sid_lib = $(top_builddir)/src/sid/libsid.a
-vicii_lib = $(top_builddir)/src/vicii/libvicii.a
+c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
-c128_lib = $(top_builddir)/src/c128/libc128.a
-vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+drive_lib = $(top_builddir)/src/drive/libdrive.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+raster_lib = $(top_builddir)/src/raster/libraster.a
+sid_lib = $(top_builddir)/src/sid/libsid.a
+sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+vic20_lib = $(top_builddir)/src/vic20/libvic20.a
+vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
+common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LEXLIB@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@ 
+
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
+
 EXTRA_PROGRAMS =
 
 # x64
+x64_libs =  \
+        @X64_WINRES@ \
+        $(c64_lib) \
+	$(drive_lib) \
+        $(sid_lib) \
+	$(sounddrv_lib) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	$(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
-	@SOUND_LIBS@ @X_LIBS@ @READLINE@ @LEXLIB@ @X64_WINRES@
-x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
-	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x64_LDADD = $(x64_libs) @X_LIBS@
+x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
+x128_libs =  \
+        @X128_WINRES@ \
+        $(c128_lib) \
+	$(c64c128_lib) \
+	$(drive_lib) \
+        $(sid_lib) \
+	$(sounddrv_lib) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ @READLINE@ \
-	@X128_WINRES@
-x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@
-x128_LDFLAGS = @x128_LDFLAGS@ 
+x128_LDADD = $(x128_libs) @X_LIBS@
+x128_DEPENDENCIES = $(x128_libs)
+x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
+xvic_libs =  \
+        @XVIC_WINRES@ \
+        $(vic20_lib) \
+	$(drive_lib) \
+	$(sounddrv_lib) \
+	$(raster_lib) \
+	$(common_libs)
+
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ @LEXLIB@ \
-	@READLINE@ @XVIC_WINRES@
-xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
-	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xvic_LDADD = $(xvic_libs) @X_LIBS@
+xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
@@ -646,9 +679,135 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+alarm.o: alarm.c vice.h config.h alarm.h arch/unix/types.h log.h utils.h
+asm.o: asm.c vice.h config.h asm.h arch/unix/types.h
+attach.o: attach.c vice.h config.h attach.h arch/unix/types.h vdrive.h \
+	fs_cbm.h serial.h traps.h log.h snapshot.h fliplist.h \
+	resources.h
+autostart.o: autostart.c vice.h config.h autostart.h arch/unix/types.h \
+	arch/unix/archdep.h archapi.h attach.h vdrive.h fs_cbm.h \
+	serial.h traps.h log.h snapshot.h charsets.h datasette.h tap.h \
+	fsdevice.h interrupt.h 6510core.h mem.h kbdbuf.h machine.h \
+	p00.h resources.h tape.h arch/unix/ui.h arch/unix/xaw/ui.h \
+	palette.h utils.h zfile.h
+charsets.o: charsets.c vice.h config.h charsets.h arch/unix/types.h
+ciatimer.o: ciatimer.c vice.h config.h arch/unix/types.h alarm.h log.h \
+	interrupt.h 6510core.h mem.h snapshot.h ciatimer.h
+clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
+	utils.h
+cmdline.o: cmdline.c vice.h config.h arch/unix/types.h utils.h cmdline.h \
+	resources.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
 	clkguard.h datasette.h tap.h maincpu.h 6510core.h mem.h \
 	snapshot.h mon.h mos6510.h interrupt.h
+emuid.o: emuid.c vice.h config.h arch/unix/types.h
+findpath.o: findpath.c vice.h config.h findpath.h utils.h \
+	arch/unix/types.h arch/unix/archdep.h archapi.h
+fliplist.o: fliplist.c vice.h config.h log.h utils.h arch/unix/types.h \
+	fliplist.h attach.h vdrive.h fs_cbm.h serial.h traps.h \
+	snapshot.h
+fsdevice.o: fsdevice.c vice.h config.h fsdevice.h arch/unix/types.h \
+	arch/unix/archdep.h archapi.h charsets.h cmdline.h resources.h \
+	log.h p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
+gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h
+imagecontents.o: imagecontents.c vice.h config.h imagecontents.h \
+	arch/unix/types.h charsets.h log.h t64.h utils.h vdrive.h \
+	fs_cbm.h serial.h traps.h zfile.h
+info.o: info.c
+interrupt.o: interrupt.c vice.h config.h interrupt.h arch/unix/types.h \
+	6510core.h mem.h snapshot.h
+kbdbuf.o: kbdbuf.c vice.h config.h charsets.h arch/unix/types.h \
+	cmdline.h resources.h maincpu.h 6510core.h mem.h snapshot.h \
+	alarm.h log.h clkguard.h mon.h mos6510.h interrupt.h kbdbuf.h \
+	utils.h
+keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h log.h \
+	keyboard.h maincpu.h 6510core.h mem.h snapshot.h clkguard.h \
+	mon.h mos6510.h interrupt.h
+log.o: log.c vice.h config.h log.h cmdline.h resources.h \
+	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
+main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
+	arch/unix/types.h vdrive.h fs_cbm.h serial.h traps.h log.h \
+	snapshot.h autostart.h cartridge.h charsets.h cmdline.h \
+	resources.h drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h \
+	mem.h interrupt.h 6510core.h findpath.h fsdevice.h \
+	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
+	machine.h maincpu.h sound.h warn.h sysfile.h tape.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
+maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h \
+	arch/unix/types.h snapshot.h alarm.h log.h clkguard.h mon.h \
+	mos6510.h interrupt.h datasette.h tap.h machine.h resources.h \
+	traps.h arch/unix/ui.h arch/unix/xaw/ui.h palette.h vdrive.h \
+	fs_cbm.h serial.h 6510core.c
+memutils.o: memutils.c vice.h config.h memutils.h arch/unix/types.h \
+	log.h resources.h sysfile.h utils.h
+mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h asm.h \
+	arch/unix/types.h charsets.h drive/drivecpu.h alarm.h log.h \
+	clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
+	6510core.h mon_parse.h resources.h utils.h vdrive.h fs_cbm.h \
+	serial.h traps.h arch/unix/vsync.h
+mon_lex.o: mon_lex.c vice.h config.h arch/unix/types.h mon.h mos6510.h \
+	mem.h snapshot.h interrupt.h 6510core.h mon_parse.h utils.h
+mon_parse.o: mon_parse.c vice.h config.h arch/unix/types.h asm.h utils.h \
+	mon.h mos6510.h mem.h snapshot.h interrupt.h 6510core.h \
+	machine.h
+p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive.h fs_cbm.h \
+	serial.h traps.h log.h
+palette.o: palette.c vice.h config.h log.h utils.h arch/unix/types.h \
+	palette.h sysfile.h
+parallel.o: parallel.c vice.h config.h arch/unix/types.h parallel.h \
+	serial.h traps.h drive/drive.h vdrive.h fs_cbm.h log.h \
+	drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h mem.h \
+	snapshot.h interrupt.h 6510core.h
+prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
+	arch/unix/types.h fs_cbm.h serial.h traps.h log.h charsets.h \
+	utils.h prdevice.h print.h
+pruser.o: pruser.c vice.h config.h arch/unix/types.h print.h pruser.h \
+	resources.h cmdline.h
+resources.o: resources.c vice.h config.h log.h resources.h \
+	arch/unix/archdep.h archapi.h utils.h arch/unix/types.h
+romset.o: romset.c config.h arch/unix/types.h mem.h snapshot.h \
+	resources.h sysfile.h log.h utils.h romset.h
+rsuser.o: rsuser.c vice.h config.h arch/unix/types.h alarm.h log.h \
+	clkguard.h cmdline.h resources.h interrupt.h 6510core.h mem.h \
+	snapshot.h maincpu.h mon.h mos6510.h rs232.h rsuser.h
+serial.o: serial.c vice.h config.h drive/drive.h arch/unix/types.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h drive/drivecpu.h \
+	alarm.h clkguard.h mos6510.h mon.h mem.h snapshot.h interrupt.h \
+	6510core.h maincpu.h parallel.h tape.h utils.h prdevice.h
+snapshot.o: snapshot.c vice.h config.h snapshot.h arch/unix/types.h \
+	log.h utils.h zfile.h
+sound.o: sound.c vice.h config.h sound.h arch/unix/types.h warn.h \
+	clkguard.h cmdline.h resources.h log.h maincpu.h 6510core.h \
+	mem.h snapshot.h alarm.h mon.h mos6510.h interrupt.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/vsync.h
+sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
+	findpath.h arch/unix/archdep.h archapi.h utils.h \
+	arch/unix/types.h
+t64.o: t64.c vice.h config.h t64.h arch/unix/types.h utils.h zfile.h
+tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
+	tap.h arch/unix/types.h utils.h zfile.h
+tape.o: tape.c vice.h config.h tape.h arch/unix/types.h traps.h \
+	datasette.h tap.h log.h mem.h snapshot.h maincpu.h 6510core.h \
+	alarm.h clkguard.h mon.h mos6510.h interrupt.h serial.h t64.h \
+	utils.h zfile.h
+traps.o: traps.c vice.h config.h traps.h arch/unix/types.h log.h \
+	maincpu.h 6510core.h mem.h snapshot.h alarm.h clkguard.h mon.h \
+	mos6510.h interrupt.h resources.h cmdline.h utils.h
+utils.o: utils.c vice.h config.h utils.h arch/unix/types.h \
+	arch/unix/archdep.h archapi.h log.h
+vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h arch/unix/types.h \
+	fs_cbm.h serial.h traps.h log.h vdrive-iec.h utils.h
+vdrive.o: vdrive.c vice.h config.h charsets.h arch/unix/types.h \
+	drive/drive.h vdrive.h fs_cbm.h serial.h traps.h log.h \
+	drive/drivecpu.h alarm.h clkguard.h mos6510.h mon.h mem.h \
+	snapshot.h interrupt.h 6510core.h fsdevice.h utils.h \
+	vdrive-iec.h zfile.h
+warn.o: warn.c vice.h config.h warn.h log.h utils.h arch/unix/types.h
+zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
+	utils.h arch/unix/types.h zfile.h zipcode.h
+zipcode.o: zipcode.c vice.h config.h zipcode.h arch/unix/types.h
 
 info: info-recursive
 dvi: dvi-recursive
@@ -736,13 +895,29 @@ install-exec install-data install uninstall all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libdrive libarch libsid libvicii @RESID_DEP@ x64
+x64-all: \
+	@RESID_DEP@ \
+	libc64 \
+	libdrive \
+	libraster \
+	libsid \
+	libsounddrv \
+	libvicii \
+        x64
+
 .PHONY: x128-all
 x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid \
 	libvicii @RESID_DEP@ x128
+
 .PHONY: xvic-all
-xvic-all: libvic20 libsounddrv libdrive libarch xvic
+xvic-all: \
+	libdrive \
+	libraster \
+	libsounddrv \
+	libvic20 \
+        xvic
 .PHONY: xpet-all
 xpet-all: libpet libsounddrv libarch libdrive xpet 
 .PHONY: xcbm2-all
@@ -753,28 +928,30 @@ xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
 	libvicii libsid @RESID_DEP@
 
+libarch:
+	(cd arch && $(MAKE))
+libc128:
+	(cd c128 && $(MAKE))
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
 libc64c128:
 	(cd c64 && $(MAKE) libc64c128.a)
-libc128:
-	(cd c128 && $(MAKE))
-libvic20:
-	(cd vic20 && $(MAKE))
-libpet:
-	(cd pet && $(MAKE))
 libcbm2:
 	(cd cbm2 && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
-libsounddrv:
-	(cd sounddrv && $(MAKE))
-libarch:
-	(cd arch && $(MAKE))
-libsid:
-	(cd sid && $(MAKE))
+libpet:
+	(cd pet && $(MAKE))
+libraster:
+	(cd raster && $(MAKE))
 libresid:
 	(cd resid && $(MAKE))
+libsid:
+	(cd sid && $(MAKE))
+libsounddrv:
+	(cd sounddrv && $(MAKE))
+libvic20:
+	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
 
