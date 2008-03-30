@@ -61,8 +61,7 @@ static char *dos_rom_name_2040 = 0;
 static char *dos_rom_name_3040 = 0;
 static char *dos_rom_name_4040 = 0;
 
-static int set_drive0_idling_method(resource_value_t v, void *param);
-static int set_drive1_idling_method(resource_value_t v, void *param);
+static int set_drive_idling_method(resource_value_t v, void *param);
 static int set_drive0_type(resource_value_t v, void *param);
 static int set_drive1_type(resource_value_t v, void *param);
 
@@ -150,8 +149,8 @@ static int set_drive0_type(resource_value_t v, void *param)
         }
         drive_set_disk_drive_type(type, 0);
         drive_initialize_rom_traps(0);
-        set_drive0_idling_method((resource_value_t) drive[0].idling_method,
-                                 NULL);
+        set_drive_idling_method((resource_value_t) drive[0].idling_method,
+                                 (void *)0);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[0].type = type;
@@ -215,8 +214,8 @@ static int set_drive1_type(resource_value_t v, void *param)
         }
         drive_set_disk_drive_type(type, 1);
         drive_initialize_rom_traps(1);
-        set_drive1_idling_method((resource_value_t) drive[1].idling_method,
-                                 NULL);
+        set_drive_idling_method((resource_value_t) drive[1].idling_method,
+                                (void *)1);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[1].type = type;
@@ -227,94 +226,51 @@ static int set_drive1_type(resource_value_t v, void *param)
     }
 }
 
-static int set_drive0_parallel_cable_enabled(resource_value_t v, void *param)
+static int set_drive_parallel_cable_enabled(resource_value_t v, void *param)
 {
-    drive[0].parallel_cable_enabled = (int) v;
+    drive[(int)param].parallel_cable_enabled = (int) v;
     return 0;
 }
 
-static int set_drive1_parallel_cable_enabled(resource_value_t v, void *param)
-{
-    drive[1].parallel_cable_enabled = (int) v;
-    return 0;
-}
-
-static int set_drive0_extend_image_policy(resource_value_t v, void *param)
+static int set_drive_extend_image_policy(resource_value_t v, void *param)
 {
     switch ((int) v) {
       case DRIVE_EXTEND_NEVER:
       case DRIVE_EXTEND_ASK:
       case DRIVE_EXTEND_ACCESS:
-        drive[0].extend_image_policy = (int) v;
+        drive[(int)param].extend_image_policy = (int) v;
         return 0;
       default:
         return -1;
     }
 }
 
-static int set_drive1_extend_image_policy(resource_value_t v, void *param)
+static int set_drive_idling_method(resource_value_t v, void *param)
 {
-    switch ((int) v) {
-      case DRIVE_EXTEND_NEVER:
-      case DRIVE_EXTEND_ASK:
-      case DRIVE_EXTEND_ACCESS:
-        drive[1].extend_image_policy = (int) v;
-        return 0;
-      default:
-        return -1;
-    }
-}
+    unsigned int dnr;
 
-static int set_drive0_idling_method(resource_value_t v, void *param)
-{
+    dnr = (unsigned int)param;
     /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
     if ((int) v != DRIVE_IDLE_SKIP_CYCLES
         && (int) v != DRIVE_IDLE_TRAP_IDLE
         && (int) v != DRIVE_IDLE_NO_IDLE)
         return -1;
 
-    drive[0].idling_method = (int) v;
+    drive[dnr].idling_method = (int) v;
 
-    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541) {
-        if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[0].rom[0xeae4 - 0x8000] = 0xea;
-            drive[0].rom[0xeae5 - 0x8000] = 0xea;
-            drive[0].rom[0xeae8 - 0x8000] = 0xea;
-            drive[0].rom[0xeae9 - 0x8000] = 0xea;
-            drive[0].rom[0xec9b - 0x8000] = 0x00;
+    if (rom_loaded && drive[dnr].type == DRIVE_TYPE_1541) {
+        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
+            drive[dnr].rom[0xec9b - 0x8000] = 0x00;
         } else {
-            drive[0].rom[0xeae4 - 0x8000] = drive[0].rom_checksum[0];
-            drive[0].rom[0xeae5 - 0x8000] = drive[0].rom_checksum[1];
-            drive[0].rom[0xeae8 - 0x8000] = drive[0].rom_checksum[2];
-            drive[0].rom[0xeae9 - 0x8000] = drive[0].rom_checksum[3];
-            drive[0].rom[0xec9b - 0x8000] = drive[0].rom_idle_trap;
-        }
-    }
-    return 0;
-}
-static int set_drive1_idling_method(resource_value_t v, void *param)
-{
-    /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
-    if ((int) v != DRIVE_IDLE_SKIP_CYCLES
-        && (int) v != DRIVE_IDLE_TRAP_IDLE
-        && (int) v != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive[1].idling_method = (int) v;
-
-    if (rom_loaded && drive[1].type == DRIVE_TYPE_1541) {
-        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[1].rom[0xeae4 - 0x8000] = 0xea;
-            drive[1].rom[0xeae5 - 0x8000] = 0xea;
-            drive[1].rom[0xeae8 - 0x8000] = 0xea;
-            drive[1].rom[0xeae9 - 0x8000] = 0xea;
-            drive[1].rom[0xec9b - 0x8000] = 0x00;
-        } else {
-            drive[1].rom[0xeae4 - 0x8000] = drive[1].rom_checksum[0];
-            drive[1].rom[0xeae5 - 0x8000] = drive[1].rom_checksum[1];
-            drive[1].rom[0xeae8 - 0x8000] = drive[1].rom_checksum[2];
-            drive[1].rom[0xeae9 - 0x8000] = drive[1].rom_checksum[3];
-            drive[1].rom[0xec9b - 0x8000] = drive[1].rom_idle_trap;
+            drive[dnr].rom[0xeae4 - 0x8000] = drive[dnr].rom_checksum[0];
+            drive[dnr].rom[0xeae5 - 0x8000] = drive[dnr].rom_checksum[1];
+            drive[dnr].rom[0xeae8 - 0x8000] = drive[dnr].rom_checksum[2];
+            drive[dnr].rom[0xeae9 - 0x8000] = drive[dnr].rom_checksum[3];
+            drive[dnr].rom[0xec9b - 0x8000] = drive[dnr].rom_idle_trap;
         }
     }
     return 0;
@@ -474,93 +430,49 @@ static int set_dos_rom_name_1581(resource_value_t v, void *param)
     return drive_load_1581();
 }
 
-static int set_drive0_ram2(resource_value_t v, void *param)
+static void set_drive_ram(unsigned int dnr)
 {
-    drive[0].drive_ram2_enabled = (int) v;
-    if (drive[0].type == 0)
-        return 0;
-    drive_mem_init(&drive0_context, drive[0].type);
+    if (drive[dnr].type == DRIVE_TYPE_NONE)
+        return;
+    if (dnr == 0)
+        drive_mem_init(&drive0_context, drive[0].type);
+    else
+        drive_mem_init(&drive1_context, drive[1].type);
+    return;
+}
+
+static int set_drive_ram2(resource_value_t v, void *param)
+{
+    drive[(int)param].drive_ram2_enabled = (int) v;
+    set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive1_ram2(resource_value_t v, void *param)
+static int set_drive_ram4(resource_value_t v, void *param)
 {
-    drive[1].drive_ram2_enabled = (int) v;
-    if (drive[1].type == 0)
-        return 0;
-    drive_mem_init(&drive1_context, drive[1].type);
+    drive[(int)param].drive_ram4_enabled = (int) v;
+    set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive0_ram4(resource_value_t v, void *param)
+static int set_drive_ram6(resource_value_t v, void *param)
 {
-    drive[0].drive_ram4_enabled = (int) v;
-    if (drive[0].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive0_context, drive[0].type);
+    drive[(int)param].drive_ram6_enabled = (int) v;
+    set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive1_ram4(resource_value_t v, void *param)
+static int set_drive_ram8(resource_value_t v, void *param)
 {
-    drive[1].drive_ram4_enabled = (int) v;
-    if (drive[1].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive1_context, drive[1].type);
+    drive[(int)param].drive_ram8_enabled = (int) v;
+    set_drive_ram((unsigned int)param);
     return 0;
 }
 
-static int set_drive0_ram6(resource_value_t v, void *param)
+static int set_drive_rama(resource_value_t v, void *param)
 {
-    drive[0].drive_ram6_enabled = (int) v;
-    if (drive[0].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive0_context, drive[0].type);
-    return 0;
-}
-
-static int set_drive1_ram6(resource_value_t v, void *param)
-{
-    drive[1].drive_ram6_enabled = (int) v;
-    if (drive[1].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive1_context, drive[1].type);
-    return 0;
-}
-
-static int set_drive0_ram8(resource_value_t v, void *param)
-{
-    drive[0].drive_ram8_enabled = (int) v;
-    if (drive[0].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive0_context, drive[0].type);
-    return 0;
-}
-
-static int set_drive1_ram8(resource_value_t v, void *param)
-{
-    drive[1].drive_ram8_enabled = (int) v;
-    if (drive[1].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive1_context, drive[1].type);
-    return 0;
-}
-
-static int set_drive0_rama(resource_value_t v, void *param)
-{
-    drive[0].drive_rama_enabled = (int) v;
-    if (drive[0].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive0_context, drive[0].type);
-    return 0;
-}
-
-static int set_drive1_rama(resource_value_t v, void *param)
-{
-    drive[1].drive_rama_enabled = (int) v;
-    if (drive[1].type == DRIVE_TYPE_NONE)
-        return 0;
-    drive_mem_init(&drive1_context, drive[1].type);
+    drive[(int)param].drive_rama_enabled = (int) v;
+    set_drive_ram((unsigned int)param);
     return 0;
 }
 
@@ -576,22 +488,24 @@ static resource_t resources[] = {
       set_drive1_type, NULL },
     { "Drive8ParallelCable", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].parallel_cable_enabled),
-       set_drive0_parallel_cable_enabled, NULL },
+       set_drive_parallel_cable_enabled, (void *)0 },
     { "Drive9ParallelCable", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].parallel_cable_enabled),
-       set_drive1_parallel_cable_enabled, NULL },
+       set_drive_parallel_cable_enabled, (void *)1 },
     { "Drive8ExtendImagePolicy", RES_INTEGER,
       (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[0].extend_image_policy), set_drive0_extend_image_policy, NULL },
+      &(drive[0].extend_image_policy), set_drive_extend_image_policy,
+      (void *)0 },
     { "Drive9ExtendImagePolicy", RES_INTEGER,
       (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[1].extend_image_policy), set_drive1_extend_image_policy, NULL },
+      &(drive[1].extend_image_policy), set_drive_extend_image_policy,
+      (void *)1 },
     { "Drive8IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *) &(drive[0].idling_method),
-      set_drive0_idling_method, NULL },
+      set_drive_idling_method, (void *)0 },
     { "Drive9IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
       (resource_value_t *) &(drive[1].idling_method),
-      set_drive1_idling_method, NULL },
+      set_drive_idling_method, (void *)1 },
     { "VideoStandard", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
       (resource_value_t *) &sync_factor,
       set_sync_factor, NULL },
@@ -624,34 +538,34 @@ static resource_t resources[] = {
       set_dos_rom_name_1001, NULL },
     { "Drive8RAM2000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].drive_ram2_enabled),
-      set_drive0_ram2, NULL },
+      set_drive_ram2, (void *)0 },
     { "Drive9RAM2000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_ram2_enabled),
-      set_drive1_ram2, NULL },
+      set_drive_ram2, (void *)1 },
     { "Drive8RAM4000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].drive_ram4_enabled),
-      set_drive0_ram4, NULL },
+      set_drive_ram4, (void *)0 },
     { "Drive9RAM4000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_ram4_enabled),
-      set_drive1_ram4, NULL },
+      set_drive_ram4, (void *)1 },
     { "Drive8RAM6000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].drive_ram6_enabled),
-      set_drive0_ram6, NULL },
+      set_drive_ram6,  (void *)0},
     { "Drive9RAM6000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_ram6_enabled),
-      set_drive1_ram6, NULL },
+      set_drive_ram6, (void *)1 },
     { "Drive8RAM8000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].drive_ram8_enabled),
-      set_drive0_ram8, NULL },
+      set_drive_ram8, (void *)0 },
     { "Drive9RAM8000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_ram8_enabled),
-      set_drive1_ram8, NULL },
+      set_drive_ram8, (void *)1 },
     { "Drive8RAMA000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[0].drive_rama_enabled),
-      set_drive0_rama, NULL },
+      set_drive_rama, (void *)0 },
     { "Drive9RAMA000", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &(drive[1].drive_rama_enabled),
-      set_drive1_rama, NULL },
+      set_drive_rama, (void *)1 },
     { NULL }
 };
 
