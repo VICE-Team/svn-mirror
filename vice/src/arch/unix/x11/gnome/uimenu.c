@@ -44,7 +44,7 @@
 #include "resources.h"
 #include "utils.h"
 #include "vsync.h"
-
+#include "x11menu.h"
 #ifdef GNOME_MENUS
 #include <gnome.h>
 #endif
@@ -86,36 +86,6 @@ static GList *checkmark_list = NULL;
 int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
 
 static int num_submenus = 0;
-/* ------------------------------------------------------------------------- */
-
-
-static char *make_menu_label(ui_menu_entry_t *e)
-{
-    const char *key_string;
-    char *tmp = alloca(1024);
-
-    if (e->hotkey_keysym == (KeySym) 0)
-        return stralloc(_(e->string));
-
-    *tmp = '\0';
-    if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
-        strcat(tmp, "C-");
-    if (e->hotkey_modifier & UI_HOTMOD_META)
-        strcat(tmp, "M-");
-    if (e->hotkey_modifier & UI_HOTMOD_ALT)
-        strcat(tmp, "A-");
-    if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
-        strcat(tmp, "S-");
-
-    key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
-    if (key_string == NULL)
-        key_string = XKeysymToString(e->hotkey_keysym);
-    else
-        key_string++;
-
-    return concat(_(e->string), "    (", tmp, key_string, ")", NULL);
-}
-
 /* ------------------------------------------------------------------------- */
 
 int ui_menu_init()

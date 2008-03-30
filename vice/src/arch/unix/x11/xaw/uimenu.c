@@ -47,6 +47,7 @@
 #include "uimenu.h"
 #include "utils.h"
 #include "vsync.h"
+#include "x11menu.h"
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -213,35 +214,6 @@ static void menu_unhighlight_action(Widget w, XEvent * event, String * params,
                                     Cardinal * num_params)
 {
     XtCallActionProc(w, "unhighlight", event, params, *num_params);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static char *make_menu_label(ui_menu_entry_t *e)
-{
-    const char *key_string;
-    char *tmp = alloca(1024);
-
-    if (e->hotkey_keysym == (KeySym) 0)
-        return stralloc(_(e->string));
-
-    *tmp = '\0';
-    if (e->hotkey_modifier & UI_HOTMOD_CONTROL)
-        strcat(tmp, "C-");
-    if (e->hotkey_modifier & UI_HOTMOD_META)
-        strcat(tmp, "M-");
-    if (e->hotkey_modifier & UI_HOTMOD_ALT)
-        strcat(tmp, "A-");
-    if (e->hotkey_modifier & UI_HOTMOD_SHIFT)
-        strcat(tmp, "S-");
-
-    key_string = strchr(XKeysymToString(e->hotkey_keysym), '_');
-    if (key_string == NULL)
-        key_string = XKeysymToString(e->hotkey_keysym);
-    else
-        key_string++;
-
-    return concat(_(e->string), "    (", tmp, key_string, ")", NULL);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,0 +1,51 @@
+/*
+ * x11menu.h - Common X11 menu functions.
+ *
+ * Written by
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#ifndef _X11MENU_H
+#define _X11MENU_H
+
+#include "ui.h"
+
+#ifdef USE_GNOMEUI
+#include "uihotkey.h"
+#else
+#include "xaw/uihotkey.h"
+#endif
+
+typedef struct ui_menu_entry_s {
+    char *string;
+    ui_callback_t callback;
+    ui_callback_data_t callback_data;
+    struct ui_menu_entry_s *sub_menu;
+    KeySym hotkey_keysym;
+    ui_hotkey_modifier_t hotkey_modifier;
+} ui_menu_entry_t;
+
+extern char *make_menu_label(ui_menu_entry_t *e);
+
+#endif
+
