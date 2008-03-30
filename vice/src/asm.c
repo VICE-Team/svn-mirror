@@ -39,7 +39,6 @@
 
 #include "asm.h"
 #include "misc.h"
-#include "mshell.h"
 
 extern BYTE ram[];		/* FIXME: ugly! */
 
