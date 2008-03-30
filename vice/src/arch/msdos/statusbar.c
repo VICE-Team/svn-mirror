@@ -100,7 +100,7 @@ int statusbar_get_color(int num)
 
 int statusbar_enabled(void) {
     int val;
-    resources_get_value("ShowStatusbar",(resource_value_t) &val);
+    resources_get_value("ShowStatusbar", (void *)&val);
     if (val == STATUSBAR_MODE_AUTO)
         val = statusbar_possible;
     return val;

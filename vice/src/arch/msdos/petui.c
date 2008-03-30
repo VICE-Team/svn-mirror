@@ -92,7 +92,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (resource_value_t *) &s);
+    resources_get_value("PaletteFile", (void *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
@@ -221,7 +221,7 @@ static TUI_MENU_CALLBACK(video_size_callback)
 {
     int value;
 
-    resources_get_value("VideoSize", (resource_value_t *) &value);
+    resources_get_value("VideoSize", (void *)&value);
     switch (value) {
       case 0:
         return "Autodetect";
@@ -257,7 +257,7 @@ static TUI_MENU_CALLBACK(ram_size_callback)
     static char s[20];
     int value;
 
-    resources_get_value("RamSize", (resource_value_t *) &value);
+    resources_get_value("RamSize", (void *)&value);
     sprintf(s, "%d KB", value);
     return s;
 }
@@ -296,7 +296,7 @@ static TUI_MENU_CALLBACK(iosize_callback)
 {
     int value;
 
-    resources_get_value("IOSize", (resource_value_t *) &value);
+    resources_get_value("IOSize", (void *)&value);
 
     switch (value) {
       case 0x800:
@@ -332,7 +332,7 @@ static TUI_MENU_CALLBACK(set_keyboard_callback)
 {
     int value;
 
-    resources_get_value("KeymapIndex", (resource_value_t *) &value);
+    resources_get_value("KeymapIndex", (void *)&value);
 
     if (been_activated) {
         value = (value == 2) ? 0 : 2;

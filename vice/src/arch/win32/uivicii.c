@@ -56,15 +56,15 @@ static void init_dialog(HWND hwnd)
 {
     int n;
 
-    resources_get_value("VICIICheckSsColl", (resource_value_t *)&n);
+    resources_get_value("VICIICheckSsColl", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("VICIICheckSbColl", (resource_value_t *)&n);
+    resources_get_value("VICIICheckSbColl", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SBC,
                    n ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_value("VICIINewLuminances", (resource_value_t *)&n);
+    resources_get_value("VICIINewLuminances", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_NEWLUM,
                    n ? BST_CHECKED : BST_UNCHECKED);
 }

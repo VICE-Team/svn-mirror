@@ -291,65 +291,47 @@ static int set_window_ypos(resource_value_t v, void *param)
 }
 static const resource_t resources[] = {
     { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.fullscreendevice,
-      set_fullscreen_device, NULL },
+      (void *)&ui_resources.fullscreendevice, set_fullscreen_device, NULL },
     { "FullscreenBitdepth", RES_INTEGER, (resource_value_t)8,
-      (resource_value_t *)&ui_resources.fullscreenbitdepth,
-      set_fullscreen_bitdepth, NULL },
+      (void *)&ui_resources.fullscreenbitdepth, set_fullscreen_bitdepth, NULL },
     { "FullscreenWidth", RES_INTEGER, (resource_value_t)640,
-      (resource_value_t *)&ui_resources.fullscreenwidth,
-      set_fullscreen_width, NULL },
+      (void *)&ui_resources.fullscreenwidth, set_fullscreen_width, NULL },
     { "FullscreenHeight", RES_INTEGER, (resource_value_t)480,
-      (resource_value_t *)&ui_resources.fullscreenheight,
-      set_fullscreen_height, NULL },
+      (void *)&ui_resources.fullscreenheight, set_fullscreen_height, NULL },
     { "FullscreenRefreshRate", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.fullscreenrefreshrate,
+      (void *)&ui_resources.fullscreenrefreshrate,
       set_fullscreen_refreshrate, NULL },
     { "FullscreenEnabled", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.fullscreenenabled,
-      set_fullscreen_enabled, NULL },
+      (void *)&ui_resources.fullscreenenabled, set_fullscreen_enabled, NULL },
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.save_resources_on_exit,
+      (void *)&ui_resources.save_resources_on_exit,
       set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&ui_resources.confirm_on_exit,
-      set_confirm_on_exit, NULL },
+      (void *)&ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "MonitorDimensions", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.monitor_dimensions,
-      set_monitor_dimensions, NULL },
+      (void *)&ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
     { "InitialDefaultDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[0],
-      set_initial_dir, (void *)0 },
+      (void *)&ui_resources.initialdir[0], set_initial_dir, (void *)0 },
     { "InitialTapeDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[1],
-      set_initial_dir, (void *)1 },
+      (void *)&ui_resources.initialdir[1], set_initial_dir, (void *)1 },
     { "InitialDiskDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[2],
-      set_initial_dir, (void *)2 },
+      (void *)&ui_resources.initialdir[2], set_initial_dir, (void *)2 },
     { "InitialAutostartDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[3],
-      set_initial_dir, (void *)3 },
+      (void *)&ui_resources.initialdir[3], set_initial_dir, (void *)3 },
     { "InitialCartDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[4],
-      set_initial_dir, (void *)4 },
+      (void *)&ui_resources.initialdir[4], set_initial_dir, (void *)4 },
     { "InitialSnapshotDir", RES_STRING, (resource_value_t)"",
-      (resource_value_t *)&ui_resources.initialdir[5],
-      set_initial_dir, (void *)5 },
+      (void *)&ui_resources.initialdir[5], set_initial_dir, (void *)5 },
     { "SingleCPU", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&ui_resources.single_cpu,
-      set_single_cpu, NULL },
+      (void *)&ui_resources.single_cpu, set_single_cpu, NULL },
     { "Window0Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (resource_value_t *)&ui_resources.window_xpos[0],
-      set_window_xpos, (void *)0 },
+      (void *)&ui_resources.window_xpos[0], set_window_xpos, (void *)0 },
     { "Window0Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (resource_value_t *)&ui_resources.window_ypos[0],
-      set_window_ypos, (void *)0 },
+      (void *)&ui_resources.window_ypos[0], set_window_ypos, (void *)0 },
     { "Window1Xpos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (resource_value_t *)&ui_resources.window_xpos[1],
-      set_window_xpos, (void *)1 },
+      (void *)&ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
     { "Window1Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
-      (resource_value_t *)&ui_resources.window_ypos[1],
-      set_window_ypos, (void *)1 },
+      (void *)&ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
     { NULL }
 };
 
@@ -738,7 +720,7 @@ static void update_menus(HWND hwnd)
     int result;
 
     for (i = 0; toggle_list[i].name != NULL; i++) {
-        resources_get_value(toggle_list[i].name, (resource_value_t *)&value);
+        resources_get_value(toggle_list[i].name, (void *)&value);
         CheckMenuItem(menu, toggle_list[i].item_id,
                       value ? MF_CHECKED : MF_UNCHECKED);
     }
@@ -746,15 +728,14 @@ static void update_menus(HWND hwnd)
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
             resources_get_value(machine_specific_toggles[i].name,
-                                (resource_value_t *)&value);
+                                (void *)&value);
             CheckMenuItem(menu, machine_specific_toggles[i].item_id,
                           value ? MF_CHECKED : MF_UNCHECKED);
         }
     }
 
     for (i = 0; value_list[i].name != NULL; i++) {
-        result = resources_get_value(value_list[i].name,
-                                     (resource_value_t *)&value);
+        result = resources_get_value(value_list[i].name, (void *)&value);
         if (result == 0) {
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value) {
@@ -771,7 +752,7 @@ static void update_menus(HWND hwnd)
     if (machine_specific_values){
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             result = resources_get_value(machine_specific_values[i].name,
-                                         (resource_value_t *) &value);
+                                         (void *)&value);
             if (result == 0) {
                 for (j = 0; machine_specific_values[i].vals[j].item_id != 0;
                     j++) {

@@ -53,7 +53,7 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
+    resources_get_value("MachineVideoStandard", (void *)&value);
 
     if (been_activated) {
         if (value == MACHINE_SYNC_PAL)
@@ -77,7 +77,7 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (resource_value_t *)&value);
+    resources_get_value("PALMode", (void *)&value);
 
     if (been_activated) {
         value = (value + 1) % 3;
@@ -227,7 +227,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (resource_value_t *)&s);
+    resources_get_value("PaletteFile", (void *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;
