@@ -1,3 +1,25 @@
+2004-08-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.39.
+
+	* arch/win32/res.h, arch/win32/res.rc, arch/win32/uirom.c,
+	arch/win32/uirom.h, arch/win32/c64ui.c, arch/win32/c128ui.c,
+	arch/win32/vic20ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/cbm2ui.c, romset.c,
+	arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/resvic.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/rescbm2.rc: Added support
+	for computer and drive romset resources.
+
+2004-08-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui.cc: Deleted ui_cmdline_options_show using its
+	code directly.
+
+	* vic20/vic20mem.c (mem_powerup): Initialize the fake RAM
+	area with 0 to make the VIC read correct values from
+	non-existing color RAM.
+
 2004-08-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.38.
