@@ -50,6 +50,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "parallel.h"
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
@@ -539,5 +540,10 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 unsigned int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;
+}
+
+void machine_traps_enable(int enable)
+{
+    parallel_bus_enable(enable);
 }
 

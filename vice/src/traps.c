@@ -36,10 +36,10 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
-#include "parallel.h"
 #include "resources.h"
 #include "traps.h"
 #include "types.h"
@@ -86,7 +86,7 @@ static int set_traps_enabled(resource_value_t v, void *param)
 
     traps_enabled = new_value;
 
-    parallel_bus_enable(new_value);
+    machine_traps_enable(new_value);
 
     return 0;
 }

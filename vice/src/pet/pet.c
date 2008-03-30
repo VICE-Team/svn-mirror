@@ -56,6 +56,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "parallel.h"
 #include "pet-cmdline-options.h"
 #include "pet-resources.h"
 #include "pet-snapshot.h"
@@ -561,5 +562,10 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 unsigned int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;
+}
+
+void machine_traps_enable(int enable)
+{
+    parallel_bus_enable(enable);
 }
 

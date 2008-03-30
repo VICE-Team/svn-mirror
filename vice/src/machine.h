@@ -145,6 +145,9 @@ unsigned int machine_jam(const char *format, ...);
 /* Update memory pointers if memory mapping has changed. */
 extern void machine_update_memory_ptrs(void);
 
+/* Machine specific trap enable code.  */
+extern void machine_traps_enable(int enable);
+
 extern unsigned int machine_keymap_index;
 extern const char *machine_keymap_res_name_list[];
 extern char *machine_keymap_file_list[];

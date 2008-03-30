@@ -535,6 +535,10 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
+void machine_traps_enable(int enable)
+{
+}
+
 /* ------------------------------------------------------------------------- */
 /* Temporary kluge: */
 

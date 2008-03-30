@@ -60,6 +60,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "parallel.h"
 #include "printer.h"
 #include "resources.h"
 #include "rs232drv.h"
@@ -590,5 +591,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
 unsigned int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;
+}
+
+void machine_traps_enable(int enable)
+{
+    parallel_bus_enable(enable);
 }
 
