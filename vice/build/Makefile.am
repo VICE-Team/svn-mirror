@@ -10,6 +10,7 @@ EXTRA_DIST = \
 	macosx/build-pcaplibnet.sh \
 	macosx/build-readline.sh \
 	macosx/build-vice-dist.sh \
+	macosx/build-ffmpeglame.sh \
 	minix3/build.sh \
 	minix3/build-package.sh \
 	riscos/build-cross.sh

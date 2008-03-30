@@ -31,8 +31,8 @@
 /* VIC-II resources.  */
 struct vicii_resources_s
 {
-    /* Flag: New or old luminances? */
-    int new_luminances;
+    /* VIC-II border mode, 0..2 */
+    int border_mode;
 
     /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
     int sprite_sprite_collisions_enabled;
@@ -40,6 +40,9 @@ struct vicii_resources_s
     /* Flag: Do we emulate the sprite-background collision register and
        IRQ?  */
     int sprite_background_collisions_enabled;
+
+    /* Flag: New or old luminances? */
+    int new_luminances;
 };
 typedef struct vicii_resources_s vicii_resources_t;
 

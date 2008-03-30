@@ -163,7 +163,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         lib_free(default_path_temp);
 
 #else 
-#if defined(MACOSX_SUPPORT)
+#if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
         #define MACOSX_ROMDIR "/../ROM/"
         default_path = util_concat(boot_path, MACOSX_ROMDIR, emu_id,

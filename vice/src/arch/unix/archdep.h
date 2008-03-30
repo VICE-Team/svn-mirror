@@ -96,9 +96,18 @@
 extern const char *archdep_home_path(void);
 
 /* Define the default system directory (where the ROMs are).  */
+#ifdef __NetBSD__
+#define LIBDIR          PREFIX "/share/vice"
+#else
 #define LIBDIR          PREFIX "/lib/vice"
+#endif
+
+#if defined(__FreeBSD__) || defined(__NetBSD__)
+#define DOCDIR          PREFIX "/share/doc/vice"
+#else
 #define DOCDIR          LIBDIR "/doc"
+#endif
+
 #define VICEUSERDIR     ".vice"
 
 #endif
-

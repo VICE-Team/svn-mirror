@@ -1002,6 +1002,9 @@ IDCLS_SPECIFY_EXT_ROM_A000_NAME
 IDCLS_SPECIFY_EXT_ROM_B000_NAME
 
 /* vicii/vicii-cmdline-options.c */
+IDCLS_SET_BORDER_MODE
+
+/* vicii/vicii-cmdline-options.c */
 IDCLS_ENABLE_SPRITE_BACKGROUND
 
 /* vicii/vicii-cmdline-options.c */

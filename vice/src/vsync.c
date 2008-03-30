@@ -68,6 +68,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+int vsync_frame_counter;
+
 static int set_timer_speed(int speed);
 
 /* Relative speed of the emulation (%).  0 means "don't limit speed". */
@@ -319,8 +321,10 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     int refresh_div;
 #endif
 
+    vsync_frame_counter++;
+
     /*
-     * process everything wich should be done before the syncronisation
+     * process everything wich should be done before the synchronisation
      * e.g. OS/2: exit the programm if trigger_shutdown set
      */
     vsyncarch_presync();

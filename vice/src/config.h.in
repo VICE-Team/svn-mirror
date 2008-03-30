@@ -218,15 +218,6 @@
 /* Define to 1 if you have the `amd64' library (-lamd64). */
 #undef HAVE_LIBAMD64
 
-/* Define to 1 if you have the `avcodec' library (-lavcodec). */
-#undef HAVE_LIBAVCODEC
-
-/* Define to 1 if you have the `avformat' library (-lavformat). */
-#undef HAVE_LIBAVFORMAT
-
-/* Define to 1 if you have the `avutil' library (-lavutil). */
-#undef HAVE_LIBAVUTIL
-
 /* Define to 1 if you have the `bsd' library (-lbsd). */
 #undef HAVE_LIBBSD
 
@@ -238,9 +229,6 @@
 
 /* Define to 1 if you have the `m' library (-lm). */
 #undef HAVE_LIBM
-
-/* Define to 1 if you have the `mp3lame' library (-lmp3lame). */
-#undef HAVE_LIBMP3LAME
 
 /* Define to 1 if you have the `ossaudio' library (-lossaudio). */
 #undef HAVE_LIBOSSAUDIO
@@ -510,6 +498,9 @@
 
 /* Enable support for Linux style joysticks. */
 #undef LINUX_JOYSTICK
+
+/* Enable Mac OS X application bundles. */
+#undef MACOSX_BUNDLE
 
 /* Enable Mac OS X specific code. */
 #undef MACOSX_SUPPORT

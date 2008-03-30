@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=2
+VICE_VERSION_BUILD=3
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -75,6 +75,7 @@ AC_ARG_ENABLE(ethernet,[  --enable-ethernet       enables Tfe Final Ethernet emu
 AC_ARG_ENABLE(ipv6,[  --disable-ipv6          disables the checking for ipv6 compatibility])
 AC_ARG_ENABLE(parsid,[  --enable-parsid         enables ParSID support])
 AC_ARG_WITH(picasso96, [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
+AC_ARG_ENABLE(bundle, [  --disable-bundle        do not use application bundles on Macs])
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
@@ -314,8 +315,13 @@ darwin*)
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
 
-  AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])	
-
+  AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
+  if test "x$enable_bundle" != "xno" ; then
+    echo "enabled Mac application bundles"
+    AC_DEFINE(MACOSX_BUNDLE,,[Enable Mac OS X application bundles.])
+  else
+    echo "disabled Mac application bundles"
+  fi
   ;;
 
 dnl All other UN*X systems
@@ -708,7 +714,7 @@ dnl Check for header files.
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
 sys/dirent.h sys/ioctl.h sys/stat.h inttypes.h \
-dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h)
+dir.h io.h process.h signal.h commctrl.h shlobj.h winioctl.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 #define	GETC()		(*sp++)
@@ -720,7 +726,8 @@ AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 AC_DECL_SYS_SIGLIST
 
 
-dnl Check for system-specific header files.
+dnl ----- Joystick support -----
+JOY_LIBS=
 if test x"$is_unix_x11" = "xyes" ; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
@@ -734,10 +741,18 @@ if test x"$is_unix_x11" = "xyes" ; then
                                [Enable emulation for digital joysticks.])
                      AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
   fi
+
   AC_CHECK_HEADER(machine/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(BSD_JOYSTICK,,
                               [Enable support for BSD style joysticks.])],)
+
+  if test x"$ac_cv_header_machine_joystick_h" != "xyes"; then
+    AC_CHECK_HEADER(sys/joystick.h,
+                    [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+                      AC_DEFINE(BSD_JOYSTICK,,
+                                [Enable support for BSD style joysticks.])],)
+  fi
 
   dnl NetBSD/FreeBSD USB joystick support
   usbhid_header=no
@@ -756,7 +771,7 @@ if test x"$is_unix_x11" = "xyes" ; then
  
     if test x"$usb_header" = "xyes" ; then
       AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
-      LIBS="$LIBS -lusbhid"
+      JOY_LIBS="-lusbhid"
     fi
   else
     AC_CHECK_LIB(usb, hid_get_report_desc, usb_lib=yes)
@@ -771,7 +786,7 @@ if test x"$is_unix_x11" = "xyes" ; then
                       usb_header=yes])
       if test x"$usb_header" = "xyes" ; then
         AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
-        LIBS="$LIBS -lusb"
+        JOY_LIBS="-lusb"
       fi
     fi
   fi
@@ -784,37 +799,42 @@ if test x"$is_unix_macosx" = "xyes" ; then
   if test x"$ac_cv_header_HID_Utilities_External_h" = "xyes" ; then
     AC_MSG_CHECKING(whether we can link the (mac) HIDUtilities library)
     old_LIBS="${LIBS}"
-    LIBS="${LIBS} -lHIDUtilities -framework IOKit -framework CoreServices"
+    LIBS="$LIBS -lHIDUtilities -framework IOKit -framework CoreServices"
     AC_TRY_LINK([#include <HID_Utilities_External.h>],
                 [HIDCountDevices()],
                 [AC_MSG_RESULT(yes);
+                 JOY_LIBS="-lHIDUtilities -framework IOKit -framework CoreServices";
                  AC_DEFINE(HAS_JOYSTICK,,[Enable Joystick emulation.])
                  AC_DEFINE(MAC_JOYSTICK,,[Enable Mac Joystick support.])],
                 [AC_MSG_RESULT(no);
                  LIBS=${old_LIBS}])
+    LIBS="${old_LIBS}"
   fi
 fi
-
+AC_SUBST(JOY_LIBS)
 
 dnl Check for math library
 AC_CHECK_LIB(m, sqrt,,,$LIBS)
 
 
-dnl Check for zlib
+dnl ----- ZLib -----
 VICE_ZLIB=
 VICE_ZLIB_DIR=
 VICE_ZLIB_DEP=
 VICE_ZLIB_INCLUDES=
+ZLIB_LIBS=
 
 if test x"$with_zlib" != "xno" ; then
   AC_CHECK_HEADER(zlib.h,,)
   if test x"$ac_cv_header_zlib_h" = "xyes" ; then
     ac_cv_lib_z_zlibVersion=yes
     if test x"$enable_zlibtest" != "xno" ; then
+      old_LIBS="$LIBS"
       AC_CHECK_LIB(z, zlibVersion,
-                 [ LIBS="-lz $LIBS";
+                 [ ZLIB_LIBS="-lz $LIBS";
                    AC_DEFINE(HAVE_ZLIB,,
                              [Can we use the ZLIB compression library?]) ],,)
+      LIBS="$old_LIBS"
     fi
   fi
   if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
@@ -830,9 +850,12 @@ AC_SUBST(VICE_ZLIB)
 AC_SUBST(VICE_ZLIB_DIR)
 AC_SUBST(VICE_ZLIB_DEP)
 AC_SUBST(VICE_ZLIB_INCLUDES)
+AC_SUBST(ZLIB_LIBS)
 
 
-dnl Configure netplay support
+dnl ----- Netplay Support -----
+NETPLAY_LIBS=
+old_LIBS="$LIBS"
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
 
   dnl Check for needed network headers
@@ -843,12 +866,12 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
-    AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS"],,)
-    AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS"],,)
-    AC_CHECK_LIB(bsd, gethostbyname,[ LIBS="-lbsd $LIBS"],,)
-    AC_CHECK_LIB(net, gethostbyname,[ LIBS="-lnet $LIBS"],,)
-    AC_CHECK_LIB(inet, gethostbyname,[ LIBS="-linet $LIBS"],,)
-    AC_CHECK_LIB(watt, gethostbyname,[ LIBS="-lwatt $LIBS"],,)
+    AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(bsd, gethostbyname,[ NETPLAY_LIBS="-lbsd $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(watt, gethostbyname,[ NETPLAY_LIBS="-lwatt $NETPLAY_LIBS"],,)
 
     dnl Check for needed functions
     UNIX_NETWORK_FUNCS_PRESENT=yes
@@ -872,8 +895,7 @@ elif test x"$is_beos" = "xyes"; then
   if test x"$BEOS_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
-
-    AC_CHECK_LIB(net, gethostbyname,[ LIBS="-lnet -lnetapi $LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS"],,)
 
     dnl Check for needed functions
 
@@ -888,7 +910,6 @@ elif test x"$is_beos" = "xyes"; then
     fi
   fi
 fi
-
 
 dnl Check for availability of IPV6
 if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
@@ -965,26 +986,52 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes"; then
     fi
   fi
 fi
+LIBS="$old_LIBS"
+AC_SUBST(NETPLAY_LIBS)
 
 
-dnl Configure sound drivers
+dnl Configure output drivers
 SOUND_DRIVERS=""
 GFXOUTPUT_DRIVERS=""
 
+dnl ----- FFMPEG -----
 FFMPEG_INCLUDES=
-
+FFMPEG_LIBS=
 if test x"$enable_ffmpeg" = "xyes" -o x"$is_win32" = "xyes"; then
-  AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
   SOUND_DRIVERS="$SOUND_DRIVERS soundffmpegaudio.o"
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o"
+  AC_CHECK_HEADERS( ffmpeg/avformat.h )
   if test x"$ac_cv_header_ffmpeg_avformat_h" = "xno" ; then
     FFMPEG_INCLUDES="-I\$(top_srcdir)/src/lib/libffmpeg"
   fi
+  if test x"$is_unix" = "xyes" ; then
+    old_LIBS="$LIBS"
+    AC_CHECK_LIB(mp3lame, lame_encode_frame,[
+      LIBS="-lmp3lame $LIBS";
+      FFMPEG_LIBS="-lmp3lame"
+    ],,$LIBS)
+    AC_CHECK_LIB(avutil, av_free,[
+      LIBS="-lavutil $LIBS";
+      AC_CHECK_LIB(avcodec, avcodec_init,[
+        LIBS="-lavcodec $LIBS";
+        AC_CHECK_LIB(avformat, av_register_all,[
+          LIBS="-lavformat $LIBS";
+          FFMPEG_LIBS="-lavformat -lavcodec -lavutil $FFMPEG_LIBS";
+          AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
+        ],,$LIBS)
+      ],,$LIBS)
+    ],,$LIBS)
+    LIBS="$old_LIBS"
+  else
+    dnl win always uses FFMPEG
+    AC_DEFINE(HAVE_FFMPEG,,[Enable FFMPEG library support])
+  fi
 fi
 AC_SUBST(FFMPEG_INCLUDES)
+AC_SUBST(FFMPEG_LIBS)
 
-
-dnl Configure ethernet drivers
+dnl ----- Ethernet -----
+TFE_LIBS=
 if test x"$is_dos" = "xyes" ; then
   if test x"$enable_ethernet" = "xyes"; then
     AC_CHECK_LIB(watt, gethostbyname,
@@ -996,7 +1043,7 @@ if test x"$is_dos" = "xyes" ; then
                    AC_DEFINE(HAVE_TFE,,
                              [Support for The Final Ethernet]) ],,)
     AC_CHECK_LIB(net, libnet_write_link_layer,
-                 [ LIBS="-lnet $LIBS";
+                 [ TFE_LIBS="-lnet";
                    AC_DEFINE(HAVE_DOS_LIBNET,,
                              [Can we use the dos NET library?]) ],,)
     DOS_TFE_PCAP_LIB="libpcap_nodma.a"
@@ -1005,23 +1052,19 @@ else
   if test x"$enable_ethernet" = "xyes"; then
   dnl /usr/lib/libpcap.a
   dnl /usr/lib/libnet.a
-    AC_CHECK_LIB(pcap, pcap_open_live,[AC_CHECK_LIB(net, libnet_write_link_layer,[
-      AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
-      LIBS="$LIBS -lpcap `libnet-config --libs`"
-      CFLAGS="$CFLAGS `libnet-config --defines`"
+    AC_CHECK_LIB(pcap, pcap_open_live,[
+      AC_CHECK_LIB(net, libnet_write_link_layer,[
+        AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+        TFE_LIBS="-lpcap `libnet-config --libs`"
+        CFLAGS="$CFLAGS `libnet-config --defines`"
     ],,$LIBS)],,$LIBS)
   fi
 fi
 AC_SUBST(DOS_TFE_PCAP_LIB)
+AC_SUBST(TFE_LIBS)
 
+dnl ----- Sound Drivers -----
 if test x"$is_unix" = "xyes"; then
-  if test x"$enable_ffmpeg" = "xyes" ; then
-    AC_CHECK_LIB(avutil, av_free,,,$LIBS)
-    AC_CHECK_LIB(avcodec, avcodec_init,,,$LIBS)
-    AC_CHECK_LIB(mp3lame, lame_encode_frame,,,$LIBS)
-    AC_CHECK_LIB(avformat, av_register_all,,,$LIBS)
-  fi
-
   AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,
                    [Support for Catweasel MKIII.]), )
 
@@ -1169,20 +1212,16 @@ if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
                 [AudioDeviceStart(0,0);],
                 [AC_MSG_RESULT(yes);
                  SOUND_DRIVERS="$SOUND_DRIVERS soundcoreaudio.o";
+                 SOUND_LIBS="$SOUND_LIBS -framework CoreAudio -framework AudioToolbox";
                  AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
-                [AC_MSG_RESULT(no);
-                 LIBS=${old_LIBS}])
+                [AC_MSG_RESULT(no)])
+    LIBS=${old_LIBS}
   fi
 fi
 fi
 
-dnl all libs in SOUND_LIBS are external libs and need to be moved to LIBS
-LIBS="$LIBS $SOUND_LIBS"
-SOUND_LIBS=""
-
 AC_SUBST(SOUND_DRIVERS)
 AC_SUBST(SOUND_LIBS)
-
 
 dnl Check for ParSID support
 if test x"$is_unix" = "xyes" -a x"is_unix_gp2x" != "xyes"; then
@@ -1267,24 +1306,27 @@ dnl Check time.h.
 dnl AC_HEADER_TIME
 dnl AC_STRUCT_TM
 
+dnl ----- Readline -----
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
+READLINE_LIBS=
 if test x"$is_unix_x11" = "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
     unset ac_cv_lib_readline_readline
+    old_LIBS="$LIBS"
     AC_CHECK_LIB(readline, readline,
-               [ READLINE="" LIBS="-lreadline $LIBS"],
+               [ READLINE="" READLINE_LIBS="-lreadline"],
                [],,)
     if test "$ac_cv_lib_readline_readline" = "no"; then
       unset ac_cv_lib_readline_readline
       AC_CHECK_LIB(readline, readline,
-               [ READLINE="" LIBS="-lreadline -lncurses $LIBS"],
+               [ READLINE="" READLINE_LIBS="-lreadline -lncurses"],
                [], "-lncurses",)
       if test "$ac_cv_lib_readline_readline" = "no"; then
         unset ac_cv_lib_readline_readline
         AC_CHECK_LIB(readline, readline,
-               [ READLINE="" LIBS="-lreadline -lcurses $LIBS"],
+               [ READLINE="" READLINE_LIBS="-lreadline -lcurses"],
                [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],
                 "-lcurses",)
       else
@@ -1297,6 +1339,7 @@ if test x"$is_unix_x11" = "xyes"; then
         [ AC_DEFINE(HAVE_RLNAME,,
           [Does the `readline' library support `rl_readline_name'?]) ],,)
     fi
+    LIBS="${old_LIBS}"
   else
     READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
   fi
@@ -1305,6 +1348,7 @@ else
 fi
 AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" != "x")
 AC_SUBST(READLINE)
+AC_SUBST(READLINE_LIBS)
 
 dnl check Amiga graphics support
 if test x"$is_amiga" = "xyes"; then
@@ -1332,6 +1376,9 @@ VICE_LIBPNG_DIR=
 VICE_LIBPNG_DEP=
 VICE_LIBPNG_INCLUDES=
 
+old_LIBS="$LIBS"
+GFXOUTPUT_LIBS=
+
 if test x"$is_beos" != "xyes"; then
   if test x"$with_png" != "xno" ; then
     dnl Check for the PNG library.
@@ -1339,13 +1386,13 @@ if test x"$is_beos" != "xyes"; then
     if test x"$ac_cv_header_png_h" = "xyes" ; then
       unset ac_cv_lib_png_png_check_sig
       AC_CHECK_LIB(png, png_check_sig,
-                   [ LIBS="-lpng $LIBS";
+                   [ GFXOUTPUT_LIBS="-lpng $GFXOUTPUT_LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                      AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?]) ],,)
       if test "$ac_cv_lib_png_png_check_sig" = "no"; then
         unset ac_cv_lib_png_png_check_sig
         AC_CHECK_LIB(png, png_check_sig,
-                     [ LIBS="-lpng -lz $LIBS";
+                     [ GFXOUTPUT_LIBS="-lpng -lz $GFXOUTPUT_LIBS";
                        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
                        AC_DEFINE(HAVE_PNG,,
                                  [Can we use the PNG library?]) ],,"-lz")
@@ -1367,11 +1414,13 @@ fi
 dnl Check for the GIF or UNGIF library.
 AC_CHECK_HEADER(gif_lib.h,,)
 if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
-  AC_CHECK_LIB(ungif, EGifPutLine, [ LIBS="-lungif $LIBS";
+  AC_CHECK_LIB(ungif, EGifPutLine, [ 
+               GFXOUTPUT_LIBS="-lungif $GFXOUTPUT_LIBS";
                GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
                AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
   if test "$ac_cv_lib_ungif_EGifPutLine" = "no"; then
-    AC_CHECK_LIB(gif, EGifPutLine, [ LIBS="-lgif $LIBS";
+    AC_CHECK_LIB(gif, EGifPutLine, [ 
+                 GFXOUTPUT_LIBS="-lgif $GFXOUTPUT_LIBS";
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS gifdrv.o";
                  AC_DEFINE(HAVE_GIF,,[Can we use the GIF or UNGIF library?]) ],,)
   fi
@@ -1380,15 +1429,18 @@ fi
 dnl Check for the JPEG library.
 AC_CHECK_HEADER(jpeglib.h,,)
 if test x"$ac_cv_header_jpeglib_h" = "xyes" ; then
-  AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ LIBS="-ljpeg $LIBS";
+  AC_CHECK_LIB(jpeg, jpeg_CreateCompress, [ 
+               GFXOUTPUT_LIBS="-ljpeg $GFXOUTPUT_LIBS";
                GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
                AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
 fi
 
+LIBS="$old_LIBS"
 AC_SUBST(VICE_LIBPNG)
 AC_SUBST(VICE_LIBPNG_DIR)
 AC_SUBST(VICE_LIBPNG_DEP)
 AC_SUBST(GFXOUTPUT_DRIVERS)
+AC_SUBST(GFXOUTPUT_LIBS)
 AC_SUBST(VICE_LIBPNG_INCLUDES)
 
 
@@ -1402,7 +1454,7 @@ if test x"$is_unix_x11" = "xyes"; then
 
   if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
-    LIBS="${LIBS} `pkg-config --libs gtk+-2.0`"
+    LINK_X_LIBS="`pkg-config --libs gtk+-2.0`"
 
     dnl Check for XFree86 header and library extensions.
     AC_CHECK_LIB(X11, XCreateWindow,
@@ -1750,14 +1802,24 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$is_unix_gp2x" = "xyes" ; then
     AM_CONDITIONAL(UNIX_GP2X_COMPILE, true)
+    AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, true)
+    if test x"$enable_bundle" != "xno" ; then
+      AM_CONDITIONAL(MAKE_BINDIST, true)
+    else
+      AM_CONDITIONAL(MAKE_BINDIST, false)
+    fi
   else
     AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  fi
+
+  if test x"$is_unix_gp2x" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
+    AM_CONDITIONAL(MAKE_BINDIST, false)
   fi
 
 elif test x"$is_win32" = "xyes"; then
@@ -1777,6 +1839,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, true)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
@@ -1794,6 +1857,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, true)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
@@ -1815,6 +1879,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
@@ -1832,6 +1897,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
@@ -1849,6 +1915,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
@@ -1866,6 +1933,7 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
 else
   AC_MSG_WARN([No architecture defined!])
 fi
@@ -1912,7 +1980,20 @@ AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX",
 		   [Where do we want to install the executable?])
 
 dnl Path for keymaps, ROMs etc.
-VICEDIR="$PREFIX/lib/vice";
+case "$host_os" in
+  netbsd*)
+    VICEDIR="$PREFIX/share/vice";
+    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
+    ;;
+  freebsd*)
+    VICEDIR="$PREFIX/lib/vice";
+    AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
+    ;;
+  *)
+    VICEDIR="$PREFIX/lib/vice";
+    AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
+    ;;  
+esac
 AC_SUBST(VICEDIR)
 
 if false ; then

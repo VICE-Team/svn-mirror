@@ -109,7 +109,7 @@ fi
 # --- find VICE binary ---
 # derive emu name from bundle name
 if [ "x$PROGRAM" = "x" ]; then
-  EMUS="x128,x64,xcbm2,xpet,xplus,xvic"
+  EMUS="x128,x64,xcbm2,xpet,xplus4,xvic"
   case "$BUNDLE_NAME" in
   x128*)
     PROGRAM=x128

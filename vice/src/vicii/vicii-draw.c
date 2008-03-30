@@ -45,7 +45,7 @@
 
 
 #define GFX_MSK_LEFTBORDER_SIZE ((VICII_MAX_SPRITE_WIDTH - VICII_RASTER_X(0) \
-                                  + vicii.screen_borderwidth ) / 8 + 1)
+                                  + vicii.screen_leftborderwidth ) / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
@@ -168,7 +168,7 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 /* Pointer to the start of the graphics area on the frame buffer.  */
 #define GFX_PTR()                 \
     (vicii.raster.draw_buffer_ptr \
-    + (vicii.screen_borderwidth + vicii.raster.xsmooth))
+    + (vicii.screen_leftborderwidth + vicii.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 #define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \

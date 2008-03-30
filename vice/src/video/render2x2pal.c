@@ -84,7 +84,7 @@ void render_16_2x2_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
     lineptr0 = color_tab->line_yuv_0;
     lineptr1 = color_tab->line_yuv_1;
 
-    tmpsrc = src - pitchs;
+    tmpsrc = src - (ys ? pitchs : 0);
     line = lineptr0;
     for (x = 0; x < wint; x++) {
         register DWORD cl0, cl1, cl2, cl3;
@@ -346,7 +346,7 @@ void render_32_2x2_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
     lineptr0 = color_tab->line_yuv_0;
     lineptr1 = color_tab->line_yuv_1;
 
-    tmpsrc = src - pitchs;
+    tmpsrc = src - (ys ? pitchs : 0);
     line = lineptr0;
     for (x = 0; x < wint; x++) {
         register DWORD cl0, cl1, cl2, cl3;

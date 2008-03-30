@@ -114,7 +114,7 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
                  MIN(canvas->draw_buffer->canvas_width,
                      geometry->screen_size.width - viewport->first_x),
                  MIN(canvas->draw_buffer->canvas_height,
-                     geometry->screen_size.height - viewport->first_line));
+                     viewport->last_line - viewport->first_line + 1));
 }
 
 void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,

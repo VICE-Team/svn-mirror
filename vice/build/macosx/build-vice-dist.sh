@@ -94,22 +94,25 @@ check_lib () {
   true
 }
 
+# default configure flags
+CONFIGURE_FLAGS="--disable-nls"
+
 # check for gtk+ libs
 if [ "$UI_TYPE" = "gtk" ]; then
-  CONFIGURE_FLAGS="--gnome-ui"
   check_lib "libgtk-x11-2.0.dylib"
   if [ "$?" != "0" ]; then
     echo "gtk requested, but no gtk+ libs found!"
     exit 1
   fi
-  CONFIGURE_FLAGS="--enable-gnomeui"
+  CONFIGURE_FLAGS="--enable-gnomeui $CONFIGURE_FLAGS"
+  CONFIGURE_OPTS="Gtk+"
 fi
 
 # check for hidutil
 check_lib "libHIDUtilities.a"
 if [ "$?" = "0" ]; then
   echo "+++ With Joystick Support +++"
-  CONFIGURE_OPTS="Joystick"
+  CONFIGURE_OPTS="Joystick $CONFIGURE_OPTS"
 fi
 
 # check for libpcap and libnet

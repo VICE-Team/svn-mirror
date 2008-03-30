@@ -58,6 +58,9 @@ extern log_t joystick_log;
 #include <bus/usb/usb.h>
 #include <bus/usb/usbhid.h>
 #else
+#ifdef __FreeBSD__
+#include <sys/ioccom.h>
+#endif
 #include <dev/usb/usb.h>
 #include <dev/usb/usbhid.h>
 #endif

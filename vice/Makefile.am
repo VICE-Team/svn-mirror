@@ -24,6 +24,8 @@ xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
 
 
+install: installvice
+
 if AMIGA_COMPILE
 bindist:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(top_srcdir) $(EXEEXT)
@@ -95,6 +97,11 @@ bindist:
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
 endif
+
+@MAKE_BINDIST_TRUE@installvice:
+@MAKE_BINDIST_TRUE@	echo this platform doesn\'t use \"make install\", use \"make bindist\" instead
+
+@MAKE_BINDIST_FALSE@installvice: install-recursive
 
 cleantrans:
 	rm `find $(top_srcdir) -name "*.po.c"`

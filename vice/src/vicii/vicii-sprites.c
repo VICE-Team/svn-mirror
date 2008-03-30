@@ -40,6 +40,27 @@
 #include "viciitypes.h"
 
 
+/* margin definitions of where sprite data fetches interfere with */
+/* actual sprite data display, resulting in repeated pixels or    */
+/* ineffective sprite pattern data fetches                        */
+
+/* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
+/* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
+
+#define X_OFFSET vicii.screen_leftborderwidth
+
+#define SPRITE_EXPANDED_REPEAT_PIXELS_START(n) (0x11a + X_OFFSET + n * 0x10)
+#define SPRITE_NORMAL_REPEAT_PIXELS_START(n) (0x132 + X_OFFSET + n * 0x10)
+#define SPRITE_REPEAT_PIXELS_END(n) (0x157 + X_OFFSET + n * 0x10)
+/* where the sprite pixels start repeating */
+#define SPRITE_REPEAT_BEGIN(n) (SPRITE_REPEAT_PIXELS_END(n) - 0xc)
+
+/* maximum x where sprite data fetched in the previous line is displayed */
+#define SPRITE_DISPLAY_PREVIOUS_PATTERN (0x14c + X_OFFSET)
+/* Minimum X where sprite starts immediately with data already fetched */
+#define SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(n) (0x156 + X_OFFSET + n * 0x10)
+
+
 const vicii_sprites_fetch_t vicii_sprites_fetch_table[256][4] =
 {
     /* $00 */ { { -1, -1 } },
@@ -506,11 +527,11 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
 
     sprmsk = sprite_doubling_table[(data_ptr[0] << 8) | data_ptr[1]];
 
-    if (sprite_status->sprites[n].x > 0x13a + n * 0x10
-        && sprite_status->sprites[n].x < 0x177 + n * 0x10) {
-        /* sprite#n repeats pixel 0x16a+(n*0x10) up to 0x171+(n*0x10) */ 
-        /* no display from 0x172+(n*0x10) to 0x176+(n*0x10)           */
-        size = 0x16b + n * 0x10 - sprite_status->sprites[n].x;
+    if (sprite_status->sprites[n].x > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
+        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+        /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
+        /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
+        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
         must_repeat_pixels = (size > 0);
         if (size1 > size)
             size1 = size;
@@ -611,11 +632,11 @@ inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
 
     sprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
 
-    if (sprite_status->sprites[n].x > 0x152 + n * 0x10
-        && sprite_status->sprites[n].x < 0x177 + n * 0x10) {
-        /* sprite#n repeats pixel 0x16a+(n*0x10) up to 0x171+(n*0x10) */ 
-        /* no display from 0x172+(n*0x10) to 0x176+(n*0x10)           */ 
-        size = 0x16b + n * 0x10 - sprite_status->sprites[n].x;
+    if (sprite_status->sprites[n].x > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
+        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+        /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
+        /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
+        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
         must_repeat_pixels = (size > 0);
 
         if (must_repeat_pixels) {
@@ -692,11 +713,11 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     sprmsk = sprite_doubling_table[((mcsprtable[data_ptr[0]] << 8)
              | mcsprtable[data_ptr[1]])];
 
-    if (sprite_status->sprites[n].x > 0x13a + n * 0x10
-        && sprite_status->sprites[n].x < 0x177 + n * 0x10) {
-        /* sprite#n repeats pixel 0x16a+(n*0x10) up to 0x171+(n*0x10) */
-        /* no display from 0x172+(n*0x10) to 0x176+(n*0x10)           */ 
-        size = 0x16b + n * 0x10 - sprite_status->sprites[n].x;
+    if (sprite_status->sprites[n].x > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
+        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+        /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
+        /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
+        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
         if (size < 0)
             size = 0;
         must_repeat_pixels = (size > 0);
@@ -810,11 +831,11 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
              | (mcsprtable[data_ptr[1]] << 8)
              | mcsprtable[data_ptr[2]]);
 
-    if (sprite_status->sprites[n].x > 0x152 + n * 0x10
-        && sprite_status->sprites[n].x < 0x177 + n * 0x10) {
-        /* sprite#n repeats pixel 0x16a+(n*0x10) up to 0x171+(n*0x10) */
-        /* no display from 0x172+(n*0x10) to 0x176+(n*0x10)           */
-        size = 0x16b + n * 0x10 - sprite_status->sprites[n].x;
+    if (sprite_status->sprites[n].x > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
+        && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
+        /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
+        /* no display from SPRITE_REPEAT_BEGIN(n)+7 to SPRITE_REPEAT_BEGIN(n)+11           */
+        size = SPRITE_REPEAT_BEGIN(n) - sprite_status->sprites[n].x;
         if (size < 0)
             size = 0;
         must_repeat_pixels = (size > 0);
@@ -935,12 +956,12 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     BYTE *data_ptr = NULL;
 
     if (sprite_status->dma_msk & (1 << n)
-        && sprite_offset < 0x16c) {
+        && sprite_offset < SPRITE_DISPLAY_PREVIOUS_PATTERN) {
         /* display sprite data fetched in the previous line */
         data_ptr = (BYTE *)(sprite_status->sprite_data + n);
     } else {
         if (sprite_status->new_dma_msk & (1 << n)) {
-            if (sprite_offset >= 0x16c) {
+            if (sprite_offset >= SPRITE_DISPLAY_PREVIOUS_PATTERN) {
                 /* sprite display starts immediately 
                    without sprite data fetched */
                 data_ptr = (BYTE *)(sprite_status->sprite_data + n);
@@ -948,7 +969,7 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     calculate_idle_sprite_data(data_ptr, n);
             }
         
-            if (sprite_offset > (0x176 + 16 * n)) {
+            if (sprite_offset > SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(n)) {
                 /* Sprite starts immediately with data already
                    fetched */
                 data_ptr = (BYTE *)(sprite_status->new_sprite_data + n);
@@ -1005,7 +1026,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                 /* Sprite can be seven pixels wider with repeating pixels. */
                 if (sprite_xe >= 0
                     && sprite_xs < 
-                        (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                    (sprite_status->sprites[n].x_expanded ? 24 : 0) + X_OFFSET - 1)
                     draw_sprite_partial(line_ptr, gfx_msk_ptr,
                         sprite_xs, sprite_xe, sprite_status, n, sprite_offset);
 
@@ -1017,7 +1038,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
                 if (sprite_xe >= 0
                     && sprite_xs < 
-                        (sprite_status->sprites[n].x_expanded ? 55 : 31))
+                    (sprite_status->sprites[n].x_expanded ? 24 : 0) + X_OFFSET - 1)
                     draw_sprite_partial(line_ptr, gfx_msk_ptr,
                         sprite_xs, sprite_xe, sprite_status, n, sprite_offset);
             }
@@ -1043,6 +1064,7 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr,
                     VICII_RASTER_X(0),
                     vicii.cycles_per_line * 8 + VICII_RASTER_X(0) - 1);
+
 #endif
 }
 
@@ -1072,29 +1094,32 @@ void vicii_sprites_init(void)
 void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 {
     raster_sprite_t *sprite;
+    int x_offset;
 
     sprite = vicii.raster.sprite_status->sprites + num;
 
-    new_x += 8;
+    x_offset = vicii.screen_leftborderwidth - 24;
+
+    new_x += x_offset;
 
     if (new_x >= vicii.sprite_wrap_x + VICII_RASTER_X(0)) {
         /* Sprites in the $1F8 - $1FF range are not visible at all and never
            cause collisions.  */
-        if (new_x >= 0x1f8 + 8)
+        if (new_x >= 0x1f8 + x_offset)
             new_x = vicii.sprite_wrap_x;
         else
             new_x -= vicii.sprite_wrap_x;
     }
 
     if (new_x < sprite->x) {
-        if (raster_x + 8 <= new_x)
+        if (raster_x + x_offset <= new_x)
             sprite->x = new_x;
-        else if (raster_x + 8 < sprite->x)
+        else if (raster_x + x_offset < sprite->x)
             sprite->x = vicii.sprite_wrap_x;
         raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     } else {
         /* new_x >= sprite->x */
-        if (raster_x + 8 < sprite->x)
+        if (raster_x + x_offset < sprite->x)
             sprite->x = new_x;
         raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     }

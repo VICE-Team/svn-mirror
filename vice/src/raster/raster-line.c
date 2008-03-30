@@ -90,6 +90,16 @@ inline static void update_sprite_collisions(raster_t *raster)
                                          raster->zero_gfx_msk);
 }
 
+/* map the current line so that lines 0+ in the lower border on NTSC */
+/* VIC-II are put correctly to the lower frame buffer area */
+inline static int map_current_line_to_area(raster_t *raster)
+{
+   return (raster->current_line < raster->geometry->first_displayed_line
+           && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line ?
+        raster->geometry->screen_size.height + raster->current_line
+      : raster->current_line);
+}
+
 inline static void handle_blank_line_cached(raster_t *raster)
 {
     if (raster->dont_cache
@@ -108,7 +118,7 @@ inline static void handle_blank_line_cached(raster_t *raster)
         raster_line_draw_blank(raster, 0,
                                raster->geometry->screen_size.width - 1);
         add_line_to_area(raster->update_area,
-                         raster->current_line,
+                         map_current_line_to_area(raster),
                          0, raster->geometry->screen_size.width - 1);
     }
 }
@@ -150,7 +160,7 @@ static void handle_blank_line(raster_t *raster)
 
             raster_changes_remove_all(border_changes);
 
-            add_line_to_area(raster->update_area, raster->current_line,
+            add_line_to_area(raster->update_area, map_current_line_to_area(raster),
                              0, raster->geometry->screen_size.width - 1);
         } else {
             handle_blank_line_cached(raster);
@@ -338,7 +348,7 @@ static void handle_visible_line_with_cache(raster_t *raster)
     }
 
     if (needs_update) {
-        add_line_to_area(raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, map_current_line_to_area(raster),
                          changed_start, changed_end);
     }
 
@@ -383,12 +393,12 @@ static void handle_visible_line_without_cache(raster_t *raster)
         cache->xsmooth_color = raster->xsmooth_color;
         cache->idle_background_color = raster->idle_background_color;
 
-        add_line_to_area(raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, map_current_line_to_area(raster),
                          0, raster->geometry->screen_size.width - 1);
     } else {
         /* Still do some minimal caching anyway.  */
         /* Only update the part between the borders.  */
-        add_line_to_area(raster->update_area, raster->current_line,
+        add_line_to_area(raster->update_area, map_current_line_to_area(raster),
                          geometry->gfx_position.x,
                          geometry->gfx_position.x
                          + geometry->gfx_size.width - 1);
@@ -535,7 +545,7 @@ static void handle_visible_line_with_changes(raster_t *raster)
     /* Do not cache this line at all.  */
     raster->cache[raster->current_line].is_dirty = 1;
 
-    add_line_to_area(raster->update_area, raster->current_line,
+    add_line_to_area(raster->update_area, map_current_line_to_area(raster),
                      0, raster->geometry->screen_size.width - 1);
 }
 
@@ -567,8 +577,13 @@ void raster_line_emulate(raster_t *raster)
     if (raster->current_line == raster->display_ystop)
         raster->blank_enabled = 1;
 
-    if (raster->current_line >= raster->geometry->first_displayed_line
-        && raster->current_line <= raster->geometry->last_displayed_line) {
+    if ((raster->current_line >= raster->geometry->first_displayed_line
+        && raster->current_line <= raster->geometry->last_displayed_line)
+        /* handle the case when lines 0+ are displayed in the lower border */
+       || (raster->current_line <= raster->geometry->last_displayed_line - raster->geometry->screen_size.height
+        && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line)
+       )
+   {
         if ((raster->blank_this_line || raster->blank_enabled)
             && !raster->open_left_border)
             handle_blank_line(raster);
@@ -607,8 +622,18 @@ void raster_line_emulate(raster_t *raster)
 
     if (raster->current_line == raster->geometry->screen_size.height) {
         raster->current_line = 0;
-        raster_canvas_handle_end_of_frame(raster);
+        /* not end of frame on NTSC VIC-II where lines 0+ are */
+        /* displayed in the lower border */
+        if (raster->geometry->screen_size.height > raster->geometry->last_displayed_line) {
+           raster_canvas_handle_end_of_frame(raster);
+       }
     }
+
+    /* end of frame on NTSC VIC-II */
+    if (raster->geometry->screen_size.height <= raster->geometry->last_displayed_line
+        && raster->current_line == raster->geometry->last_displayed_line - raster->geometry->screen_size.height + 1) {
+        raster_canvas_handle_end_of_frame(raster);
+   }
 
     raster_changes_apply_all(raster->changes->next_line);
 

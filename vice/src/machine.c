@@ -103,6 +103,7 @@ static void machine_trigger_reset_internal(const unsigned int mode)
 {
     switch (mode) {
       case MACHINE_RESET_MODE_HARD:
+        vsync_frame_counter = 0;
         mem_powerup();
         machine_specific_powerup();
         /* Fall through.  */

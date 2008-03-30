@@ -3646,6 +3646,16 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_EXT_ROM_B000_NAME_SV, "Ange namn för 4K-utöknings-ROM på $B000"},
 
 /* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_SET_BORDER_MODE, "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"},
+/* de */ {IDCLS_SET_BORDER_MODE_DE, ""}, /* fuzzy */
+/* fr */ {IDCLS_SET_BORDER_MODE_FR, ""}, /* fuzzy */
+/* hu */ {IDCLS_SET_BORDER_MODE_HU, ""}, /* fuzzy */
+/* it */ {IDCLS_SET_BORDER_MODE_IT, ""}, /* fuzzy */
+/* nl */ {IDCLS_SET_BORDER_MODE_NL, ""}, /* fuzzy */
+/* pl */ {IDCLS_SET_BORDER_MODE_PL, ""}, /* fuzzy */
+/* sv */ {IDCLS_SET_BORDER_MODE_SV, ""}, /* fuzzy */
+
+/* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SPRITE_BACKGROUND,    "Enable sprite-background collision registers"},
 /* de */ {IDCLS_ENABLE_SPRITE_BACKGROUND_DE, "Sprite-Hintergrund Kollisionen aktivieren"},
 /* fr */ {IDCLS_ENABLE_SPRITE_BACKGROUND_FR, "Activer les registres de collisions Sprite-Arrière-plan"},

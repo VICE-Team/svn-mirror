@@ -1,3 +1,7 @@
+2007-03-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated.
+
 2007-03-19  Andreas Boose  <viceteam@t-online.de>
 
 	* POTFILES.in: Splitted `arch/win32/resdrivec64vic20.rc.po.c'.

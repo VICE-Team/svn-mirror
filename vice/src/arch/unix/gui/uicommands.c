@@ -153,7 +153,7 @@ static UI_CALLBACK(browse_manual)
 #define BROWSE_CMD_BUF_MAX 16384
         char buf[BROWSE_CMD_BUF_MAX];
 
-#ifdef MACOSX_SUPPORT
+#ifdef MACOSX_BUNDLE
         /* On Macs the manual path is relative to the bundle. */
         const char *boot_path;
         boot_path = archdep_boot_path();
@@ -220,7 +220,7 @@ static UI_CALLBACK(browse_manual)
         if (system(buf) != 0)
             ui_error(_("Cannot run HTML browser."));
             
-#ifdef MACOSX_SUPPORT
+#ifdef MACOSX_BUNDLE
         lib_free(manual_path);
 #endif
     }

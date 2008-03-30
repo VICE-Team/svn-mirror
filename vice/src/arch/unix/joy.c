@@ -115,7 +115,12 @@ static int     use_old_api=1;
 #endif
 
 #elif defined(BSD_JOYSTICK)
+#ifdef HAVE_MACHINE_JOYSTICK_H
 #include <machine/joystick.h>
+#endif
+#ifdef HAVE_SYS_JOYSTICK_H
+#include <sys/joystick.h>
+#endif
 #define JS_DATA_TYPE joystick
 #define JS_RETURN    sizeof(struct joystick)
 int     use_old_api=1;
