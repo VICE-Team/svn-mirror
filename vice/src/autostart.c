@@ -38,7 +38,6 @@
 #include "drive.h"
 #include "tape.h"
 #include "interrupt.h"
-#include "true1541.h"
 #include "ui.h"
 
 #include "autostart.h"
@@ -115,15 +114,19 @@ static enum {YES, NO, NOT_YET} check(const char *s)
     return YES;
 }
 
-static void settrue1541mode(int on)
+static void set_true1541_mode(int on)
 {
-    if (on) {
-        true1541_enable();
-    } else {
-        true1541_disable();
-    }
+    resources_set_value("True1541", (resource_value_t) on);
+}
 
-    ui_update_menus();
+static int get_true1541_state(void)
+{
+    int value;
+
+    if (resources_get_value("True1541", (resource_value_t *) &value) < 0)
+        return 0;
+
+    return value;
 }
 
 /* Initialize autostart.  */
@@ -205,18 +208,18 @@ void autostart_advance(void)
 
               resources_get_value("NoTraps", (resource_value_t *) &no_traps);
               warn(pwarn, -1, "loading disk");
-              orig_true1541_state = true1541_enabled;
+              orig_true1541_state = get_true1541_state();
               if (!no_traps)
               {
                   if (orig_true1541_state)
                       warn(pwarn, -1, "switching true 1541 emulation off");
-                  settrue1541mode(0);
+                  set_true1541_mode(0);
               }
               else
               {
                   if (!orig_true1541_state)
                       warn(pwarn, -1, "switching true 1541 emulation on");
-                  settrue1541mode(1);
+                  set_true1541_mode(1);
               }
               if (autostart_program_name) {
                   tmp = xmalloc(strlen(autostart_program_name) + 20);
@@ -245,7 +248,7 @@ void autostart_advance(void)
                 warn(pwarn, -1, "switching true 1541 on and starting program");
             else
                 warn(pwarn, -1, "starting program");
-            settrue1541mode(orig_true1541_state);
+            set_true1541_mode(orig_true1541_state);
             kbd_buf_feed("run\r");
             autostartmode = AUTOSTART_DONE;
             break;
@@ -264,7 +267,7 @@ void autostart_advance(void)
     {
 	warn(pwarn, -1, "now turning true 1541 emulation %s",
 	     orig_true1541_state ? "on" : "off");
-	settrue1541mode(orig_true1541_state);
+	set_true1541_mode(orig_true1541_state);
     }
 }
 
