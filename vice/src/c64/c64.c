@@ -45,6 +45,7 @@
 #include "c64tpi.h"
 #include "c64ui.h"
 #include "cartridge.h"
+#include "datasette.h"
 #include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
@@ -274,6 +275,9 @@ int machine_init(void)
     /* Initialize the tape emulation.  */
     tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
               c64_tape_traps);
+
+    /* Initialize the datasette emulation.  */
+    datasette_init();
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
