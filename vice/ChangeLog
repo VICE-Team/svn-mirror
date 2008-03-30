@@ -1,3 +1,19 @@
+2000-08-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.4.
+
+2000-07-31  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* data/C64/os2_sym.vkm: added
+ 
+	* data/CBM-II/os2.vkm: added
+ 
+	* data/PET/os2.vkm, os2_40.vkm: added
+ 
+	* data/VIC20/os2.vkm: left shift -> unshifted
+ 
+	* NEWS: changes of 1.4, 1.5 added
+ 
 2000-07-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.3.
