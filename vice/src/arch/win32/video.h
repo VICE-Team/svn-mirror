@@ -2,7 +2,7 @@
  * video.h - Video implementation for Win32, using DirectDraw.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -86,6 +86,8 @@ typedef struct _canvas {
 } *canvas_t;
 
 /* ------------------------------------------------------------------------ */
+
+extern void video_free(void);
 
 extern int video_init_resources(void);
 extern int video_init_cmdline_options(void);

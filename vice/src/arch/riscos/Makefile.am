@@ -28,6 +28,7 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
+	main_exit.h \
 	petdummy.c \
 	petui.c \
 	petui.h \
