@@ -38,6 +38,7 @@
 #include "petui.h"
 #include "resources.h"
 #include "uicommands.h"
+#include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uimenu.h"
 #include "vsync.h"
@@ -404,6 +405,27 @@ static ui_menu_entry_t datasette_control_submenu[] = {
 ui_menu_entry_t ui_datasette_commands_menu[] = {
     { "Datassette control",
       NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
+    { "Save to BMP...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_BMP), NULL },
+#ifdef HAVE_PNG
+    { "Save to PNG...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_PNG), NULL },
+
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t ui_screenshot_commands_menu[] = {
+    { "Screenshot",
+      NULL,  NULL, ui_screenshot_commands_submenu },
     { NULL }
 };
 

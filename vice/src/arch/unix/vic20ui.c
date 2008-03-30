@@ -39,6 +39,7 @@
 #include "resources.h"
 #include "uicommands.h"
 #include "uimenu.h"
+#include "uiscreenshot.h"
 #include "uisettings.h"
 #include "vsync.h"
 #include "utils.h"
@@ -381,6 +382,26 @@ static ui_menu_entry_t vic20_io_settings_menu[] = {
 */
 
 /*------------------------------------------------------------*/
+
+static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
+    { "Save to BMP...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_BMP), NULL },
+#ifdef HAVE_PNG
+    { "Save to PNG...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_PNG), NULL },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t ui_screenshot_commands_menu[] = {
+    { "Screenshot",
+      NULL,  NULL, ui_screenshot_commands_submenu },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
 
 int vic20_ui_init(void)
 {

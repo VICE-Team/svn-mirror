@@ -43,6 +43,7 @@
 #include "uicartridge.h"
 #include "uicommands.h"
 #include "uimenu.h"
+#include "uiscreenshot.h"
 #include "uisettings.h"
 #include "utils.h"
 #include "vsync.h"
@@ -466,6 +467,26 @@ static ui_menu_entry_t c64_romset_submenu[] = {
       (ui_callback_t) ui_load_romset, NULL, NULL },
     { "Dump ROM set definition to file",
       (ui_callback_t) ui_dump_romset, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
+    { "Save to BMP...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_BMP), NULL },
+#ifdef HAVE_PNG
+    { "Save to PNG...",
+      (ui_callback_t)save_screenshot,
+      (ui_callback_data_t) (UISS_WINDOW0 | UISS_PNG), NULL },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t ui_screenshot_commands_menu[] = {
+    { "Screenshot",
+      NULL,  NULL, ui_screenshot_commands_submenu },
     { NULL }
 };
 

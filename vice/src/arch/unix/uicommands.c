@@ -48,7 +48,6 @@
 #include "mon.h"
 #include "mos6510.h"
 #include "resources.h"
-#include "screenshot.h"
 #include "sound.h"
 #include "tape.h"
 #include "types.h"
@@ -499,26 +498,6 @@ static UI_CALLBACK(save_quicksnap)
     maincpu_trigger_trap(save_snapshot_trap, (void *) fname);
 }
 
-static UI_CALLBACK(save_screenshot)
-{
-    /* FIXME: A nice dialog is needed.  */
-    int retval = 0;
-
-    switch ((int)UI_MENU_CB_PARAM) {
-      case 0:
-        retval = screenshot_save("BMP", "otto.bmp", 0);
-        break;
-#if HAVE_PNG
-      case 1:
-        retval = screenshot_save("PNG", "otto.png", 0);
-        break;
-#endif
-    }
-
-    if (retval < 0)
-        ui_error("Failed saving screenshot.");
-}
-
 /*  fliplist commands */
 extern char last_attached_images[NUM_DRIVES][256];
 extern ui_drive_enable_t enabled_drives;
@@ -849,22 +828,6 @@ static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { "Snapshot commands",
       NULL,  NULL, ui_snapshot_commands_submenu },
-    { NULL }
-};
-
-static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
-    { "Save to BMP...",
-      (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
-#ifdef HAVE_PNG
-    { "Save to PNG...",
-      (ui_callback_t)save_screenshot, (ui_callback_data_t) 1, NULL },
-#endif
-    { NULL }
-};
-
-ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { "Screenshot",
-      NULL,  NULL, ui_screenshot_commands_submenu },
     { NULL }
 };
 
