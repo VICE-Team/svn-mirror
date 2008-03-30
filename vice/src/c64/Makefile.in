@@ -110,7 +110,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @HAVE_RS232_TRUE@acia_libadd = c64acia1.o c64rsuser.o
 @HAVE_RS232_FALSE@acia_libadd = 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/monitor
 
 
 noinst_LIBRARIES = libc64.a libc64c128.a
@@ -268,17 +268,17 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	c64cart.h c64cia.h ../../src/snapshot.h c64mem.h \
 	../../src/mem.h c64tpi.h ../../src/arch/unix/c64ui.h \
 	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/datasette.h ../../src/tap.h \
-	../../src/drive/drive-cmdline-options.h \
+	../../src/clkguard.h ../../src/console.h ../../src/datasette.h \
+	../../src/tap.h ../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
-	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
-	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
-	patchrom.h psid.h ../../src/resources.h reu.h \
-	../../src/serial.h ../../src/traps.h ../../src/sid/sid.h \
+	../../src/drive/drivecpu.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/iecdrive.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mos6510.h \
+	../../src/monitor/mon.h patchrom.h psid.h ../../src/resources.h \
+	reu.h ../../src/serial.h ../../src/traps.h ../../src/sid/sid.h \
 	../../src/sound.h ../../src/tape.h ../../src/utils.h \
 	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h \
 	../../src/video.h ../../src/arch/unix/videoarch.h \
@@ -291,11 +291,10 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/mouse.h
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/mos6510.h ../../src/aciacore.c ../../src/acia.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/log.h \
-	../../src/machine.h ../../src/rs232.h
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/snapshot.h ../../src/aciacore.c ../../src/acia.h \
+	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
+	../../src/log.h ../../src/machine.h ../../src/rs232.h
 c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
 	../../src/snapshot.h c64tpi.h ../../src/cartridge.h \
@@ -305,20 +304,18 @@ c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/log.h ../../src/resources.h ../../src/maincpu.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/mos6510.h c64cia.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/vicii/vicii.h \
-	../../src/vicii/vicii-mem.h ../../src/rsuser.h \
-	../../src/ciacore.c ../../src/ciatimer.h
+	../../src/clkguard.h ../../src/mos6510.h c64cia.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h \
+	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/log.h ../../src/resources.h ../../src/maincpu.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/mos6510.h c64mem.h ../../src/mem.h c64iec.h \
-	../../src/iecdrive.h c64cia.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
+	../../src/clkguard.h ../../src/mos6510.h c64mem.h \
+	../../src/mem.h c64iec.h ../../src/iecdrive.h c64cia.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/vicii/vicii.h \
 	../../src/vicii/vicii-mem.h ../../src/pruser.h \
 	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
@@ -330,10 +327,10 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/iecdrive.h ../../src/cartridge.h \
 	../../src/drive/ciad.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
-	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/resources.h ../../src/via.h ../../src/drive/viad.h
+	../../src/drive/drivecpu.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/maincpu.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/resources.h \
+	../../src/via.h ../../src/drive/viad.h
 c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64cart.h \
 	../../src/arch/unix/types.h c64cia.h ../../src/snapshot.h \
@@ -341,31 +338,31 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/datasette.h \
 	../../src/tap.h ../../src/emuid.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/mos6510.h ../../src/parallel.h \
-	patchrom.h reu.h ../../src/sid/sid.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h c64acia.h
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/monitor/mon.h ../../src/console.h \
+	../../src/parallel.h patchrom.h reu.h ../../src/sid/sid.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vicii/vicii.h \
+	../../src/vicii/vicii-mem.h c64acia.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 	c64cia.h ../../src/snapshot.h ../../src/arch/unix/types.h \
 	../../src/machine.h ../../src/rsuser.h
 c64tpi.o: c64tpi.c c64mem.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mos6510.h ../../src/parallel.h ../../src/maincpu.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/tpi.h \
-	../../src/tpicore.h ../../src/tpicore.c
+	../../src/log.h ../../src/drive/drivecpu.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/parallel.h \
+	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/mos6510.h ../../src/tpi.h ../../src/tpicore.h \
+	../../src/tpicore.c
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
-	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/mos6510.h ../../src/mem.h \
-	../../src/utils.h
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mem.h ../../src/utils.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h patchrom.h ../../src/utils.h
@@ -379,11 +376,10 @@ psid.o: psid.c ../../src/vice.h ../../src/config.h c64mem.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
 	../../src/uiapi.h ../../src/utils.h ../../src/vsidui.h \
 	../../src/vsync.h ../../src/zfile.h psiddrv.h
-reu.o: reu.c ../../src/vice.h ../../src/config.h ../../src/log.h \
-	../../src/maincpu.h ../../src/6510core.h \
-	../../src/arch/unix/types.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/mos6510.h \
+reu.o: reu.c ../../src/vice.h ../../src/config.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/arch/unix/types.h \
+	../../src/snapshot.h ../../src/log.h ../../src/maincpu.h \
+	../../src/alarm.h ../../src/clkguard.h ../../src/mos6510.h \
 	../../src/mem.h reu.h ../../src/utils.h
 
 info-am:

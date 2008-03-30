@@ -237,8 +237,7 @@ vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
 	vicii-cmdline-options.h vicii.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h vicii-mem.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/mos6510.h \
+	../../src/6510core.h ../../src/clkguard.h ../../src/mos6510.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -255,8 +254,7 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vicii-draw.h vicii.h \
 	../../src/snapshot.h vicii-mem.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/mos6510.h \
+	../../src/clkguard.h ../../src/mos6510.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -271,10 +269,10 @@ vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
 vicii-mem.o: vicii-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vicii-resources.h viciitypes.h \
+	../../src/arch/unix/types.h ../../src/interrupt.h \
+	../../src/6510core.h vicii-resources.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/mos6510.h \
+	../../src/clkguard.h ../../src/mos6510.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -292,9 +290,8 @@ vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h vicii-resources.h viciitypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/console.h ../../src/interrupt.h ../../src/snapshot.h \
-	../../src/mos6510.h ../../src/raster/raster.h \
+	../../src/6510core.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/snapshot.h ../../src/raster/raster.h \
 	../../src/palette.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
@@ -307,12 +304,11 @@ vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
 	../../src/uiapi.h vicii-mem.h vicii.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/mem.h ../../src/snapshot.h \
-	../../src/arch/unix/types.h vicii-snapshot.h vicii-sprites.h \
-	vicii.h vicii-mem.h viciitypes.h ../../src/alarm.h \
-	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/mos6510.h \
+	../../src/interrupt.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/mem.h vicii-snapshot.h vicii-sprites.h vicii.h \
+	vicii-mem.h viciitypes.h ../../src/alarm.h ../../src/log.h \
+	../../src/maincpu.h ../../src/clkguard.h ../../src/mos6510.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -329,8 +325,7 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h vicii-sprites.h vicii.h \
 	../../src/snapshot.h vicii-mem.h viciitypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/interrupt.h ../../src/mos6510.h \
+	../../src/clkguard.h ../../src/mos6510.h \
 	../../src/raster/raster.h ../../src/palette.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
@@ -347,12 +342,11 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/c64/c64.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
-	../../src/mos6510.h ../../src/mem.h ../../src/palette.h \
-	../../src/resources.h ../../src/utils.h vicii.h vicii-mem.h \
-	vicii-cmdline-options.h vicii-draw.h vicii-sprites.h \
-	vicii-resources.h viciitypes.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
+	../../src/clkguard.h ../../src/mos6510.h ../../src/mem.h \
+	../../src/palette.h ../../src/resources.h ../../src/utils.h \
+	vicii.h vicii-mem.h vicii-cmdline-options.h vicii-draw.h \
+	vicii-sprites.h vicii-resources.h viciitypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \

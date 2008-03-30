@@ -112,7 +112,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @NEED_READLINE_TRUE@SUBDIRS = x11 readline
 @NEED_READLINE_FALSE@SUBDIRS = x11
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src
 
 
 noinst_LIBRARIES = libarch.a
@@ -405,14 +405,14 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/interrupt.h ../../../src/6510core.h \
 	../../../src/snapshot.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/maincpu.h \
-	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
-	../../../src/console.h ../../../src/mos6510.h \
-	../../../src/mem.h ../../../src/resources.h \
-	../../../src/sound.h ../../../src/tape.h ../../../src/traps.h \
-	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uiedisk.h uisnapshot.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/alarm.h ../../../src/clkguard.h \
+	../../../src/mos6510.h ../../../src/mem.h \
+	../../../src/monitor/mon.h ../../../src/console.h \
+	../../../src/resources.h ../../../src/sound.h \
+	../../../src/tape.h ../../../src/traps.h uicommands.h ui.h \
+	x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
+	uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h uiedisk.h \
+	uisnapshot.h ../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/diskimage.h \
 	../../../src/gcr.h types.h ../../../src/log.h \
@@ -435,11 +435,11 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/snapshot.h \
 	../../../src/kbdbuf.h ../../../src/log.h ../../../src/maincpu.h \
-	../../../src/alarm.h ../../../src/mon.h ../../../src/console.h \
-	../../../src/mos6510.h ../../../src/sound.h ui.h x11/xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h \
-	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	x11/xaw/../videoarch.h ../../../src/vsync.h joystick.h
+	../../../src/alarm.h ../../../src/mos6510.h \
+	../../../src/sound.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h ../../../src/video.h videoarch.h \
+	x11/xaw/videoarch.h x11/xaw/../videoarch.h ../../../src/vsync.h \
+	joystick.h
 
 info-am:
 info: info-recursive

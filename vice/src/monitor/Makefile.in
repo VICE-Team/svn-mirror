@@ -108,13 +108,20 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
 
 
-noinst_LIBRARIES = libcrtc.a
+YFLAGS = -dt
 
-libcrtc_a_SOURCES =  	crtc-cmdline-options.c 	crtc-cmdline-options.h 	crtc-draw.c 	crtc-draw.h 	crtc-mem.c 	crtc-mem.h 	crtc-resources.c 	crtc-resources.h 	crtc-snapshot.c 	crtc.c 	crtc.h 	crtctypes.h
+noinst_LIBRARIES = libmonitor.a
 
+noinst_HEADERS =  	mon_parse.h
+
+
+libmonitor_a_SOURCES =  	asm.c 	asm.h 	mon.c 	mon.h 	mon_lex.l 	mon_parse.y
+
+
+BUILT_SOURCES = mon_parse.h mon_parse.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -127,28 +134,31 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libcrtc_a_LIBADD = 
-libcrtc_a_OBJECTS =  crtc-cmdline-options.o crtc-draw.o crtc-mem.o \
-crtc-resources.o crtc-snapshot.o crtc.o
+libmonitor_a_LIBADD = 
+libmonitor_a_OBJECTS =  asm.o mon.o mon_lex.o mon_parse.o
+LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DIST_COMMON =  Makefile.am Makefile.in
+HEADERS =  $(noinst_HEADERS)
+
+DIST_COMMON =  Makefile.am Makefile.in mon_lex.c mon_parse.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libcrtc_a_SOURCES)
-OBJECTS = $(libcrtc_a_OBJECTS)
+SOURCES = $(libmonitor_a_SOURCES)
+OBJECTS = $(libmonitor_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .l .o .s .y
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/crtc/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/monitor/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -183,10 +193,19 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libcrtc.a: $(libcrtc_a_OBJECTS) $(libcrtc_a_DEPENDENCIES)
-	-rm -f libcrtc.a
-	$(AR) cru libcrtc.a $(libcrtc_a_OBJECTS) $(libcrtc_a_LIBADD)
-	$(RANLIB) libcrtc.a
+libmonitor.a: $(libmonitor_a_OBJECTS) $(libmonitor_a_DEPENDENCIES)
+	-rm -f libmonitor.a
+	$(AR) cru libmonitor.a $(libmonitor_a_OBJECTS) $(libmonitor_a_LIBADD)
+	$(RANLIB) libmonitor.a
+.l.c:
+	$(LEX) $(AM_LFLAGS) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
+.y.c:
+	$(YACC) $(AM_YFLAGS) $(YFLAGS) $< && mv y.tab.c $*.c
+	if test -f y.tab.h; then \
+	if cmp -s y.tab.h $*.h; then rm -f y.tab.h; else mv y.tab.h $*.h; fi; \
+	else :; fi
+mon_parse.h: mon_parse.c
+
 
 tags: TAGS
 
@@ -219,7 +238,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/crtc
+subdir = src/monitor
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -232,91 +251,27 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	crtc-cmdline-options.h
-crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
-	crtc.h crtc-mem.h ../../src/arch/unix/types.h \
-	../../src/snapshot.h crtctypes.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h
-crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc-mem.h \
-	../../src/arch/unix/types.h crtc.h ../../src/snapshot.h \
-	crtctypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mos6510.h
-crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
-	crtc-resources.h ../../src/resources.h crtc.h crtc-mem.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h crtctypes.h \
-	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/utils.h
-crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	crtc.h crtc-mem.h ../../src/arch/unix/types.h \
-	../../src/snapshot.h crtctypes.h ../../src/alarm.h \
-	../../src/log.h ../../src/raster/raster.h ../../src/palette.h \
-	../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/resources.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mos6510.h
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h \
-	crtc-cmdline-options.h crtc-draw.h crtc-resources.h \
-	../../src/resources.h crtc.h crtc-mem.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h crtctypes.h \
-	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/palette.h ../../src/raster/raster-cache.h \
-	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-changes.h \
-	../../src/raster/raster-modes.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/video.h \
-	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/uiapi.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/clkguard.h ../../src/mos6510.h \
-	../../src/utils.h ../../src/vsync.h
+asm.o: asm.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h
+mon.o: mon.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/attach.h asm.h ../../src/arch/unix/types.h \
+	../../src/charsets.h ../../src/console.h ../../src/diskimage.h \
+	../../src/gcr.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/drive/drivecpu.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/snapshot.h ../../src/mem.h mon.h \
+	../../src/mos6510.h mon_parse.h ../../src/resources.h \
+	../../src/utils.h ../../src/vdrive/vdrive-command.h \
+	../../src/vdrive/vdrive.h ../../src/vsync.h
+mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
+	../../src/console.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/snapshot.h \
+	../../src/mos6510.h mon_parse.h ../../src/utils.h
+mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h ../../src/console.h \
+	../../src/machine.h mon.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/snapshot.h ../../src/mos6510.h \
+	../../src/utils.h
 
 info-am:
 info: info-am
@@ -337,7 +292,7 @@ install-am: all-am
 install: install-am
 uninstall-am:
 uninstall: uninstall-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(LIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
@@ -353,6 +308,7 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-test -z "mon_lexlmon_parsehmon_parsec$(BUILT_SOURCES)" || rm -f mon_lexl mon_parseh mon_parsec $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
 		mostlyclean-tags mostlyclean-generic
 

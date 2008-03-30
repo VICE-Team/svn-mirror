@@ -113,18 +113,16 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	sid 	c64 	c128 	vic20 	pet 	cbm2 	arch
+SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	sid 	monitor 	c64 	c128 	vic20 	pet 	cbm2 	arch
 
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor
 
 
-YFLAGS = -dt
-
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	console.h 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	console.h 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	zfile.h 	zipcode.h
 
 
-base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	zfile.c 	zipcode.c
+base_sources =  	alarm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	zfile.c 	zipcode.c
 
 
 cpucore_sources =  	6510core.c
@@ -142,12 +140,11 @@ rs232_sources =  	rsuser.c 	rsuser.h
 EXTRA_DIST =  	6510core.c 	ChangeLog 	ChangeLog.1 	ChangeLog.2 	aciacore.c 	ciacore.c 	fixpoint.c 	piacore.c 	riotcore.c 	tpicore.c 	viacore.c 	$(printer_sources) 	$(rs232_sources)
 
 
-BUILT_SOURCES = mon_parse.h mon_parse.c 
-
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
@@ -166,7 +163,7 @@ bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 EXTRA_PROGRAMS = 
 
 # x64
-x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(common_libs)
+x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -175,7 +172,7 @@ x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
-x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(common_libs)
+x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 x128_SOURCES = $(base_sources)
@@ -184,7 +181,7 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
-xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(raster_lib) 	$(common_libs)
+xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -193,7 +190,7 @@ xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
-xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(common_libs)
+xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -202,7 +199,7 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xcbm2
-xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(raster_lib) 	$(common_libs)
+xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xcbm2_SOURCES = $(base_sources)
@@ -238,37 +235,36 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-x64_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
+x64_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
-x128_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
+keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
+serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o \
+utils.o zfile.o zipcode.o maincpu.o
+x128_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o
-xvic_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
+keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
+serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o \
+utils.o zfile.o zipcode.o
+xvic_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
-xpet_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
+keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
+serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o \
+utils.o zfile.o zipcode.o maincpu.o
+xpet_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
 fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-keyboard.o log.o main.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tap.o tape.o traps.o utils.o zfile.o zipcode.o maincpu.o
-xcbm2_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o \
-ciatimer.o clkguard.o cmdline.o datasette.o diskimage.o emuid.o \
-findpath.o fsdevice.o fliplist.o gcr.o info.o interrupt.o \
-imagecontents.o kbdbuf.o keyboard.o log.o main.o mon.o mon_lex.o \
-mon_parse.o p00.o palette.o parallel.o resources.o romset.o serial.o \
-snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o utils.o zfile.o \
-zipcode.o
+keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
+serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o \
+utils.o zfile.o zipcode.o maincpu.o
+xcbm2_OBJECTS =  alarm.o attach.o autostart.o charsets.o ciatimer.o \
+clkguard.o cmdline.o datasette.o diskimage.o emuid.o findpath.o \
+fsdevice.o fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
+keyboard.o log.o main.o p00.o palette.o parallel.o resources.o romset.o \
+serial.o snapshot.o sound.o sysfile.o t64.o tap.o tape.o traps.o \
+utils.o zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o diskimage.o findpath.o \
 gcr.o info.o log.o p00.o resources.o t64.o utils.o zfile.o zipcode.o
 c1541_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o \
@@ -278,15 +274,13 @@ petcat_OBJECTS =  charsets.o cmdline.o findpath.o log.o p00.o petcat.o \
 resources.o utils.o zfile.o zipcode.o
 petcat_DEPENDENCIES =  @ARCH_DIR@/archdep.o @ARCH_DIR@/uicmdline.o
 petcat_LDFLAGS = 
-LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  ./stamp-h.in ChangeLog Makefile.am Makefile.in alloca.c \
-config.h.in memcmp.c mon_lex.c mon_parse.c usleep.c version.h.in
+config.h.in memcmp.c usleep.c version.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -298,7 +292,7 @@ OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(xcbm2
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .l .o .s .y
+.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/Makefile
 
@@ -408,15 +402,6 @@ c1541: $(c1541_OBJECTS) $(c1541_DEPENDENCIES)
 petcat: $(petcat_OBJECTS) $(petcat_DEPENDENCIES)
 	@rm -f petcat
 	$(LINK) $(petcat_LDFLAGS) $(petcat_OBJECTS) $(petcat_LDADD) $(LIBS)
-.l.c:
-	$(LEX) $(AM_LFLAGS) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
-.y.c:
-	$(YACC) $(AM_YFLAGS) $(YFLAGS) $< && mv y.tab.c $*.c
-	if test -f y.tab.h; then \
-	if cmp -s y.tab.h $*.h; then rm -f y.tab.h; else mv y.tab.h $*.h; fi; \
-	else :; fi
-mon_parse.h: mon_parse.c
-
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -561,9 +546,8 @@ cmdline.o: cmdline.c vice.h config.h arch/unix/archdep.h archapi.h \
 	utils.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h \
 	clkguard.h cmdline.h resources.h datasette.h tap.h log.h \
-	machine.h maincpu.h 6510core.h mon.h console.h interrupt.h \
-	snapshot.h mos6510.h arch/unix/ui.h arch/unix/x11/xaw/ui.h \
-	palette.h uiapi.h
+	machine.h maincpu.h 6510core.h mos6510.h snapshot.h \
+	arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h
 diskimage.o: diskimage.c vice.h config.h arch/unix/archdep.h archapi.h \
 	diskimage.h gcr.h arch/unix/types.h log.h utils.h \
 	vdrive/vdrive.h zfile.h
@@ -585,19 +569,18 @@ info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
 	arch/unix/types.h snapshot.h log.h
 kbdbuf.o: kbdbuf.c vice.h config.h cmdline.h resources.h maincpu.h \
-	6510core.h arch/unix/types.h alarm.h clkguard.h mon.h console.h \
-	interrupt.h snapshot.h mos6510.h mem.h kbdbuf.h utils.h
+	6510core.h arch/unix/types.h alarm.h clkguard.h mos6510.h \
+	snapshot.h mem.h kbdbuf.h utils.h
 keyboard.o: keyboard.c vice.h config.h alarm.h arch/unix/types.h \
-	keyboard.h maincpu.h 6510core.h clkguard.h mon.h console.h \
-	interrupt.h snapshot.h mos6510.h
+	keyboard.h maincpu.h 6510core.h clkguard.h mos6510.h snapshot.h
 log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	resources.h log.h utils.h arch/unix/types.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
 	resources.h console.h diskimage.h gcr.h drive/drive.h log.h \
-	drive/drivecpu.h mon.h interrupt.h 6510core.h snapshot.h \
-	mos6510.h fsdevice.h arch/unix/joystick.h arch/unix/kbd.h \
-	kbdbuf.h keyboard.h machine.h maincpu.h alarm.h clkguard.h \
+	drive/drivecpu.h interrupt.h 6510core.h snapshot.h fsdevice.h \
+	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
+	machine.h maincpu.h alarm.h clkguard.h mos6510.h \
 	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
 	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
 	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
@@ -605,28 +588,17 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h datasette.h tap.h interrupt.h snapshot.h \
-	log.h machine.h maincpu.h mon.h console.h mos6510.h mem.h \
-	traps.h arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h \
-	resources.h 6510core.c
-mon.o: mon.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
-	asm.h arch/unix/types.h charsets.h console.h diskimage.h gcr.h \
-	drive/drive.h log.h drive/drivecpu.h mon.h interrupt.h \
-	6510core.h snapshot.h mos6510.h mem.h mon_parse.h resources.h \
-	utils.h vdrive/vdrive-command.h vdrive/vdrive.h vsync.h
-mon_lex.o: mon_lex.c vice.h config.h mon.h console.h interrupt.h \
-	6510core.h arch/unix/types.h snapshot.h mos6510.h mon_parse.h \
-	utils.h
-mon_parse.o: mon_parse.c vice.h config.h asm.h arch/unix/types.h \
-	console.h machine.h mon.h interrupt.h 6510core.h snapshot.h \
-	mos6510.h utils.h
+	log.h machine.h maincpu.h mos6510.h mem.h monitor/mon.h \
+	console.h traps.h arch/unix/ui.h arch/unix/x11/xaw/ui.h \
+	palette.h uiapi.h resources.h 6510core.c
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h \
 	diskimage.h gcr.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
 parallel.o: parallel.c vice.h config.h cmdline.h resources.h \
 	drive/drive.h diskimage.h gcr.h arch/unix/types.h log.h \
-	maincpu.h 6510core.h alarm.h clkguard.h mon.h console.h \
-	interrupt.h snapshot.h mos6510.h parallel.h serial.h traps.h
+	maincpu.h 6510core.h alarm.h clkguard.h mos6510.h snapshot.h \
+	parallel.h serial.h traps.h
 petcat.o: petcat.c vice.h config.h charsets.h p00.h arch/unix/types.h
 prdevice.o: prdevice.c vice.h config.h charsets.h cmdline.h resources.h \
 	log.h prdevice.h print.h arch/unix/types.h serial.h diskimage.h \
@@ -639,19 +611,17 @@ romset.o: romset.c vice.h config.h log.h mem.h snapshot.h \
 	arch/unix/types.h resources.h romset.h sysfile.h utils.h
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h resources.h interrupt.h 6510core.h snapshot.h log.h \
-	maincpu.h mon.h console.h mos6510.h rs232.h rsuser.h
+	maincpu.h mos6510.h rs232.h rsuser.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h diskimage.h \
 	gcr.h arch/unix/types.h log.h maincpu.h 6510core.h alarm.h \
-	clkguard.h mon.h console.h interrupt.h snapshot.h mos6510.h \
-	mem.h parallel.h prdevice.h serial.h traps.h utils.h \
-	vdrive/vdrive.h
+	clkguard.h mos6510.h snapshot.h mem.h parallel.h prdevice.h \
+	serial.h traps.h utils.h vdrive/vdrive.h
 snapshot.o: snapshot.c vice.h config.h log.h snapshot.h \
 	arch/unix/types.h utils.h zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	resources.h log.h machine.h maincpu.h 6510core.h alarm.h mon.h \
-	console.h interrupt.h snapshot.h mos6510.h sound.h \
-	arch/unix/ui.h arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
-	vsync.h
+	resources.h log.h machine.h maincpu.h 6510core.h alarm.h \
+	mos6510.h snapshot.h sound.h arch/unix/ui.h \
+	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h resources.h findpath.h log.h machine.h sysfile.h \
 	arch/unix/types.h utils.h
@@ -660,13 +630,12 @@ t64.o: t64.c vice.h config.h log.h t64.h arch/unix/types.h utils.h \
 tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
 	tap.h arch/unix/types.h utils.h zfile.h
 tape.o: tape.c vice.h config.h datasette.h tap.h arch/unix/types.h log.h \
-	maincpu.h 6510core.h alarm.h clkguard.h mon.h console.h \
-	interrupt.h snapshot.h mos6510.h mem.h serial.h diskimage.h \
-	gcr.h traps.h t64.h tape.h utils.h zfile.h
+	maincpu.h 6510core.h alarm.h clkguard.h mos6510.h snapshot.h \
+	mem.h serial.h diskimage.h gcr.h traps.h t64.h tape.h utils.h \
+	zfile.h
 traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 	6510core.h arch/unix/types.h snapshot.h log.h maincpu.h alarm.h \
-	clkguard.h mon.h console.h mos6510.h mem.h parallel.h traps.h \
-	utils.h
+	clkguard.h mos6510.h mem.h parallel.h traps.h utils.h
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
@@ -713,7 +682,6 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
-	-test -z "mon_lexlmon_parsehmon_parsec$(BUILT_SOURCES)" || rm -f mon_lexl mon_parseh mon_parsec $(BUILT_SOURCES)
 mostlyclean-am:  mostlyclean-hdr mostlyclean-binPROGRAMS \
 		mostlyclean-compile mostlyclean-tags \
 		mostlyclean-generic
@@ -767,6 +735,7 @@ x64-all: \
 	libsounddrv \
 	libvicii \
 	libarch \
+	libmonitor \
 	x64
 
 .PHONY: x128-all
@@ -781,6 +750,7 @@ x128-all: \
 	libvicii \
 	libvdc \
 	libraster \
+	libmonitor \
 	@RESID_DEP@ \
 	x128
 
@@ -792,6 +762,7 @@ xvic-all: \
 	libsounddrv \
 	libvic20 \
 	libarch \
+	libmonitor \
 	xvic
 
 .PHONY: xpet-all
@@ -803,6 +774,7 @@ xpet-all: \
 	libsounddrv \
 	libpet \
 	libarch \
+	libmonitor \
 	xpet 
 
 .PHONY: xcbm2-all
@@ -816,6 +788,7 @@ xcbm2-all: \
 	libvdrive \
 	libraster \
 	libcrtc \
+	libmonitor \
 	xcbm2
 
 # Special targets to build libraries in subdirectories.
@@ -855,6 +828,8 @@ libvdc:
 	(cd vdc && $(MAKE))
 libcrtc:
 	(cd crtc && $(MAKE))
+libmonitor:
+	(cd monitor && $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
