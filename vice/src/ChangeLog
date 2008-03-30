@@ -1,8 +1,47 @@
+2001-12-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.39.
+
+	* arch/win32/vic20ui.c (vic20_ui_specific): Fixed call to
+	`ui_video_settings_dialog()'.
+
+2001-12-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: Added new files ui_video.{h|cc}.
+
+	* arch/beos/constants.h:Added two new ids.
+
+	* arch/beos/ui.cc: Removed unused stuff. Added support for
+	triggering resource setting at end of frame from different
+	thread. Added handler for video settings menu item.
+
+	* arch/beos/ui_vicii.cc: Removed general video stuff, added
+	new luminance setting.
+
+	* arch/beos/ui_video.{h|cc}: New files implementing the ui for
+	general video settings.
+
+	* arch/beos/vic20ui.cc: Added support for FastPAL, double size
+	and double scan.
+
+	* arch/beos/vicemenu.cc: Added menu item for video settings,
+	enabled FastPAL, double size and double scan for VIC20.
+
+	* arch/beos/video.cc: Uses new video_render API (videoconfig).
+
+	* arch/beos/videoarch.h: Added video_render_config_t to canvas.
+
+2001-12-14  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: Fixes a cosmetical problem when re-
+	opening monitor with maximized console window inside: Then,
+	the dimensions got not recalculated.
+
 2001-12-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.38.
 
-2001-12-14 Andreas Matthies <andreas.matthies@gmx.net>
+2001-12-14  Andreas Matthies  <andreas.matthies@gmx.net>
 
 	* raster/raster.c (realize_frame_buffer): frame_buffer
 	needs extra_offscreen_border on both sides, so its width
@@ -24,6 +63,53 @@
 	* vicii/viciitypes.h: New member get_background_from_vbuf in
 	vic_ii_t.
 
+2001-12-14  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c, arch/os2/dialogs/dlg-color.c,
+	arch/os2/dialogs/dlg-datasette.c,
+	arch/os2/dialogs/dlg-drive.c, arch/os2/dialogs/dlg-emulator.c,
+	arch/os2/dialogs/dlg-joystick.c, arch/os2/kbd/kmap-pet.c,
+	arch/os2/kbd/kmap.c: 
+	- changes int to long for resources_get_value 
+	(just to be carefull)
+
+	* arch/os2/config.h:
+	- changed definition for usage of Pal, Ntsc, ...
+
+	* arch/os2/dialogs/dialogs.rc:
+	- changed xplus4 icon
+
+	* arch/os2/dialogs/menubar.[rc,c]:
+	- changes to the used defines for Pal, Ntsc, ...
+	- changed some orders
+	- small changes to layout
+
+	* arch/os2/Makefile.am:
+	- added xplus4.ico
+ 
+	* arch/os2/vac++/incl/c64cart.icc:
+	- added
+
+	* arch/os2/vac++/xplus4/Xplus4.ICC:
+	- added dlg-color.c
+
+	* arch/os2/vac++/xvic/Xvic.ICC:
+	- changed debug from yes to no (why was it yes?)
+	- added color-dlg
+
+	* cbm2/c610mem.c:
+	- changed initialization (-model 510 was not working)
+
+	* raster/raster.c, src/screenshot.h:
+	- added first_displayed_col
+
+	* vdc/vdc-draw.c:
+	- fixed a bug which caused that only every second line was
+	drawn in double scan off, double size off
+ 
+	* vdc/vdc-resources.c:
+	- removed stdio.h
+    
 2001-12-14  John Selck  <graham@cruise.de>
 
 	* plus4/ted-resources.c: Removed resource variables which
@@ -52,6 +138,19 @@
 	vic_ii_load_palette(), vic_ii_calc_palette() and
 	vic_ii_activate_palette().
 	Renamed VIC_II_NUM_COLORS to TED_NUM_COLORS.
+
+2001-12-13  John Selck  <graham@cruise.de>
+
+	* video/video-render.c: video_render_main() now disables
+	fastpal renderers when an external palette is set.
+
+	* arch/win32/video.c: canvas_update() now correctly clips
+	against framebuffer borders again when VIDEO_REMOVE_2X
+	is set.
+
+	* arch/win32/fullscreen.c: dialog_fullscreen_proc() now also
+	reacts on WM_NOTIFY, so the dialog doesn't ignore the new
+	settings anymore even if it is part of the video settings.
 
 2001-12-12  John Selck  <graham@cruise.de>
 
@@ -125,19 +224,6 @@
 
 	* vic20/vic-color.c: Changed base saturation of VIC palette
 	from 40 to 48.
-
-2001-12-13  John Selck  <graham@cruise.de>
-
-	* video/video-render.c: video_render_main() now disables
-	fastpal renderers when an external palette is set.
-
-	* arch/win32/video.c: canvas_update() now correctly clips
-	against framebuffer borders again when VIDEO_REMOVE_2X
-	is set.
-
-	* arch/win32/fullscreen.c: dialog_fullscreen_proc() now also
-	reacts on WM_NOTIFY, so the dialog doesn't ignore the new
-	settings anymore even if it is part of the video settings.
 
 2001-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
@@ -532,7 +618,7 @@
 
 	* datasette.c: Changed cmdline options: -=Enable, +=Disable.
 
-2001-12-02  Tibor Biczo <crown@axelero.hu>
+2001-12-02  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/video.c (video_frame_buffer_translate):
 	Translation is not required anymore, function does nothing,
@@ -922,7 +1008,7 @@
 	* arch/win32/c128.dsp: Added c128-snapshot.c (so that x128
 	links again).
 
-2001-11-16  Tibor Biczo <crown@axelero.hu>
+2001-11-16  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/vice.dsw : Xplus4 project is dependent on sid,
 	resid and video projects.
@@ -1938,7 +2024,7 @@
 	* vic20/vic20sound.c (sound_machine_calculate_samples):
 	Likewise.
 
-2001-10-17 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+2001-10-17  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 
 	* arch/riscos/ui.c: vsid player responds to data_open message.
 
@@ -2057,7 +2143,7 @@
 
 	* sid/sid-snapshot.c: Added declaration of `siddata'.
 
-2001-10-07 Dag Lem <resid@nimrod.no>
+2001-10-07  Dag Lem  <resid@nimrod.no>
 
 	* sid/Makefile.am: Removed sid-engine.{c,h} added
 	fastsid.{c,h}
@@ -2116,7 +2202,7 @@
 	(wav_init): Handle stereo. 
 	(wav_close): Use le_store. 
 
-2001-10-05   Dag Lem  <resid@nimrod.no> 
+2001-10-05  Dag Lem  <resid@nimrod.no> 
 
 	* arch/unix/c64ui.c: Menu options for second SID.
 
@@ -2759,7 +2845,7 @@
 
 	* Version 1.7.
 
-2001-07-22  Tibor Biczo <crown@axelero.hu>
+2001-07-22  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/c128ui.c : Added UI support for C128 function
 	roms.
@@ -6050,7 +6136,7 @@
 	mixup problems of naming the first unnamed union differenly
 	between different header versions...
 
-2000-12-10  Tibor Biczo <crown@matavnet.hu>
+2000-12-10  Tibor Biczo  <crown@matavnet.hu>
 
 	* arch/win32/console.c (bIsMdiChild): Define as BOOLEAN.
 
