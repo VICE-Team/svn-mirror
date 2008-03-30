@@ -213,78 +213,40 @@ struct video_resource_chip_s {
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
 
-static video_resource_chip_t video_resource_chip;
-
-
 int set_double_size_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
+    video_chip_cap_render_t *video_chip_cap_render;
     raster_t *raster;
-    int double_size_enabled;
 
     video_resource_chip = (video_resource_chip_t *)param;
     video_chip_cap = video_resource_chip->video_chip_cap;
     raster = video_resource_chip->raster;
 
-    double_size_enabled = (int)v;
+    if ((int)v)
+        video_chip_cap_render = &video_chip_cap->double_mode;
+    else
+        video_chip_cap_render = &video_chip_cap->single_mode;
 
-    if (double_size_enabled) {
-        raster->videoconfig->rendermode = video_chip_cap->double_mode.rmode;
+    raster->videoconfig->rendermode = video_chip_cap_render->rmode;
 
-        if (video_chip_cap->double_mode.sizex > 1)
-            raster->videoconfig->doublesizex = 1;
-        else
-            raster->videoconfig->doublesizex = 0;
+    if (video_chip_cap_render->sizex > 1)
+        raster->videoconfig->doublesizex = 1;
+    else
+        raster->videoconfig->doublesizex = 0;
 
-        if (video_chip_cap->double_mode.sizey > 1)
-            raster->videoconfig->doublesizey = 1;
-        else
-            raster->videoconfig->doublesizey = 0;
+    if (video_chip_cap_render->sizey > 1)
+        raster->videoconfig->doublesizey = 1;
+    else
+        raster->videoconfig->doublesizey = 0;
 
-        if (video_resource_chip->double_size_enabled != double_size_enabled
-            && raster->viewport.canvas != NULL) {
-            raster_set_pixel_size(raster,
-                                  video_chip_cap->double_mode.sizex,
-                                  video_chip_cap->double_mode.sizey);
-            raster_resize_viewport(raster,
-                                   raster->viewport.width,
-                                   raster->viewport.height);
-        } else {
-/*
-            raster_set_pixel_size(raster,
-                                  video_chip_cap->double_mode.sizex,
-                                  video_chip_cap->double_mode.sizey);
-*/
-        }
-    } else {
-        raster->videoconfig->rendermode = video_chip_cap->single_mode.rmode;
-
-        if (video_chip_cap->single_mode.sizex > 1)
-            raster->videoconfig->doublesizex = 1;
-        else
-            raster->videoconfig->doublesizex = 0;
-
-        if (video_chip_cap->single_mode.sizey > 1)
-            raster->videoconfig->doublesizey = 1;
-        else
-            raster->videoconfig->doublesizey = 0;
-
-        if (video_resource_chip->double_size_enabled != double_size_enabled
-            && raster->viewport.canvas != NULL) {
-            raster_set_pixel_size(raster,
-                                  video_chip_cap->single_mode.sizex,
-                                  video_chip_cap->single_mode.sizey);
-            raster_resize_viewport(raster,
-                                   raster->viewport.width,
-                                   raster->viewport.height);
-        } else {
-/*
-            raster_set_pixel_size(raster,
-                                  video_chip_cap->single_mode.sizex,
-                                  video_chip_cap->single_mode.sizey);
-*/
-        }
+    if (video_resource_chip->double_size_enabled != (int)v
+        && raster->viewport.canvas != NULL) {
+        raster_realize_frame_buffer(raster);
+        raster_resize_viewport(raster,
+                               raster->viewport.width,
+                               raster->viewport.height);
     }
 
     video_resource_chip->double_size_enabled = (int)v;
@@ -296,8 +258,7 @@ static const char *vname_chip_size[] = { "DoubleSize", NULL };
 
 static resource_t resources_chip_size[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&(video_resource_chip.double_size_enabled),
+    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
       set_double_size_enabled, NULL },
     { NULL }
 };
@@ -309,10 +270,7 @@ int set_double_scan_enabled(resource_value_t v, void *param)
     video_resource_chip = (video_resource_chip_t *)param;
 
     video_resource_chip->double_scan_enabled = (int)v;
-
-    if (video_resource_chip->raster->viewport.canvas)
-        video_resource_chip->raster->viewport.canvas->videoconfig->doublescan
-            = (int)v;
+    video_resource_chip->raster->videoconfig->doublescan = (int)v;
 
     raster_force_repaint(video_resource_chip->raster);
 
@@ -323,8 +281,7 @@ static const char *vname_chip_scan[] = { "DoubleScan", NULL };
 
 static resource_t resources_chip_scan[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&(video_resource_chip.double_scan_enabled),
+    { NULL, RES_INTEGER, (resource_value_t)1, NULL,
       set_double_scan_enabled, NULL },
     { NULL }
 };
@@ -333,20 +290,25 @@ int video_resources_chip_init(const char *chipname, struct raster_s *raster,
                               video_chip_cap_t *video_chip_cap)
 {
     unsigned int i;
+    video_resource_chip_t *video_resource_chip;
 
-    video_resource_chip.raster = raster;
+    video_resource_chip
+        = (video_resource_chip_t *)xcalloc(1, sizeof(video_resource_chip_t));
 
     raster->videoconfig
         = (video_render_config_t *)xcalloc(1, sizeof(video_render_config_t));
     video_render_initconfig(raster->videoconfig);
 
-    video_resource_chip.video_chip_cap = video_chip_cap;
+    video_resource_chip->raster = raster;
+    video_resource_chip->video_chip_cap = video_chip_cap;
 
     if (video_chip_cap->dscan_allowed != 0) {
         for (i = 0; vname_chip_scan[i] != NULL; i++) {
             resources_chip_scan[i].name = concat(chipname,
                                                  vname_chip_scan[i], NULL);
-            resources_chip_scan[i].param = (void *)&video_resource_chip;
+            resources_chip_scan[i].value_ptr
+              = (resource_value_t *)&(video_resource_chip->double_scan_enabled);
+            resources_chip_scan[i].param = (void *)video_resource_chip;
         }
         if (resources_register(resources_chip_scan) < 0)
             return -1;
@@ -356,7 +318,9 @@ int video_resources_chip_init(const char *chipname, struct raster_s *raster,
         for (i = 0; vname_chip_size[i] != NULL; i++) {
             resources_chip_size[i].name = concat(chipname,
                                                  vname_chip_size[i], NULL);
-            resources_chip_size[i].param = (void *)&video_resource_chip;
+            resources_chip_size[i].value_ptr
+              = (resource_value_t *)&(video_resource_chip->double_size_enabled);
+            resources_chip_size[i].param = (void *)video_resource_chip;
         }
         if (resources_register(resources_chip_size) < 0)
             return -1;
