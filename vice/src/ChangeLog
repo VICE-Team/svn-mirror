@@ -1,3 +1,77 @@
+2002-02-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.17.
+
+2002-02-15  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/uisound.c: Removed setting of stereo sid
+	resource.
+
+2002-02-14  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vicewindow.cc, vicewindow.h: Added includes for
+	DirectWindow. Disabled every code related to the old bitmap
+	drawing code (may be reenabled as a fallback if DirectWindow
+	isn't supported). ViceWindow now derives from DirectWindow.
+	New method ViceWindow::DirectConnected. New varaible for
+	menubar_offset.
+
+	* arch/beos/video.cc: Disabled bitmap related code.
+	(video_canvas_refresh) uses the clip_rect list of the
+	DirectWindow to get the partitions for rendering.
+
+	* raster/raster.c: Renamed update_canvas_all to
+	raster_update_canvas_all and made it public.
+	(raster_get_raster_from_canvas): New function.
+
+	* raster/raster.h: Added prototypes for new functions.
+
+	* video/Makefile.am: Added src/raster to paths for includes.
+
+	* video/video-render.c: Include raster.h
+	(video_refresh_all): New function.
+
+2002-02-14  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-drive.c:
+	- added 1551
+     
+	* arch/os2/dialogs/dlg-fileio.c:
+	- disabled autostart button in save-as dialog
+	- fixed the storage of the last successfull path
+     
+	* arch/os2/vac++/incl/drive.icc:
+	- added glue1551.c, tia1551.c
+     
+	* arch/os2/vac++/incl/plus4.icc:
+	- added tcbm.c
+     
+	* zipcode.c:
+	- simplified code structure in a loop
+     
+2002-02-13 Dag Lem <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c (GDK_PUTIMAGE): Draw
+	directly into window instead of to pixmap.
+	(video_arch_frame_buffer_alloc): Call new find_yuv_port
+	interface.
+	(ui_finish_canvas): Removed use of backing store pixmap.
+
+	* arch/unix/x11/renderxv.c: Generalized API, started work on
+	2x renderers.
+
+	* arch/unix/x11/renderxv.h: Generalized API.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Prepare for 2x
+	Xv renderers.
+
+	* arch/unix/x11/videoarch.h: Modified video_canvas_t for new Xv
+	API.
+
+	* arch/unix/x11/xaw/x11video.c
+	(video_arch_frame_buffer_alloc): Call new find_yuv_port
+	interface.
+
 2002-02-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.16.

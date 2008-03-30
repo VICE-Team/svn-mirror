@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/raster
 
 
 noinst_LIBRARIES = libvideo.a
@@ -269,7 +269,8 @@ video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
 	../../src/video.h
 video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
-	render1x1.h ../../src/arch/unix/types.h render1x1pal.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/types.h render1x1.h render1x1pal.h \
 	render1x2.h render2x2.h render2x2pal.h video-render.h \
 	video-resources.h ../../src/video.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
