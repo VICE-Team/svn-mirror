@@ -48,6 +48,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "machine.h"
+#include "resources.h"
 #include "sound.h"
 #include "types.h"
 #include "vsync.h"

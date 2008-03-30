@@ -32,6 +32,7 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
+#include "debug.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -46,15 +47,9 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* If this is #defined, you can set the `traceflg' variable to non-zero to
-   trace all the opcodes being executed.  This is mainly useful for
-   debugging, and also makes things a bit slower.  */
-/* #define TRACE */
-
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
- - TRACE
 
  The following are optional:
 
@@ -97,11 +92,6 @@
    #undefining or #defining it in case it is already #defined.  */
 #if !defined EXTERN_PC
 #  undef EXTERN_PC
-#endif
-
-/* Force `TRACE' in unstable versions.  */
-#if 0 && defined UNSTABLE && !defined TRACE
-#define TRACE
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -255,12 +245,6 @@ CLOCK _maincpu_opcode_write_cycles[] = {
    the values copied into this struct.  */
 mos6510_regs_t maincpu_regs;
 
-/* Trace flag.  Set this to a nonzero value from a debugger to trace the 6510
-   instructions being executed.  */
-#ifdef TRACE
-int traceflg = 0;
-#endif
-
 /* ------------------------------------------------------------------------- */
 
 /* Interface to the monitor.  */
@@ -375,7 +359,7 @@ void maincpu_mainloop(void)
 #define CLK clk
 #define RMW_FLAG rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
-#define TRACEFLG traceflg
+#define TRACEFLG debug.maincpu_traceflg
 
 #define CPU_INT_STATUS maincpu_int_status
 
