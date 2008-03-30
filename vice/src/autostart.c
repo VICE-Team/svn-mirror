@@ -399,23 +399,22 @@ int autostart_tape(const char *file_name, const char *program_name,
     if (!file_name || !autostart_enabled)
 	return -1;
 
-    /* get program name first to avoid more than one file handle open on image */
+    /* Get program name first to avoid more than one file handle open on
+       image.  */
     if (!program_name && program_number > 0)
         name = image_contents_tape_filename_by_number(file_name,
                                                       program_number);
     else
-        name = stralloc(program_name?program_name:"*");
+        name = stralloc(program_name ? program_name : "");
 
-    if (name)
-        if (!(tape_attach_image(file_name) < 0))
-        {
-            log_message(autostart_log,
-                        "Attached file `%s' as a tape image.", file_name);
-            reboot_for_autostart(name, AUTOSTART_HASTAPE);
-            free (name);
+    if (!(tape_attach_image(file_name) < 0)) {
+        log_message(autostart_log,
+                    "Attached file `%s' as a tape image.", file_name);
+        reboot_for_autostart(name, AUTOSTART_HASTAPE);
+        free(name);
 
-            return 0;
-        }
+        return 0;
+    }
 
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();

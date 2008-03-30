@@ -133,7 +133,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joystick.cc 	joystick.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	print.c 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_sound.cc 	ui_sound.h 	ui_vicii.cc 	ui_vicii.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.c 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joystick.cc 	joystick.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_sound.cc 	ui_sound.h 	ui_vicii.cc 	ui_vicii.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.c 	vsync.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -150,10 +150,9 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  archdep.o c128kbd.o c128ui.o c610kbd.o c610ui.o \
 c64kbd.o c64ui.o console.o joystick.o kbd.o main.o main_exit.o mouse.o \
-petkbd.o petui.o print.o statusbar.o ui.o ui_datasette.o ui_drive.o \
-ui_device.o ui_file.o ui_joystick.o ui_sound.o ui_vicii.o uicmdline.o \
-uimon.o vic20kbd.o vic20ui.o vicemenu.o vicewindow.o video.o vsidui.o \
-vsync.o
+petkbd.o petui.o statusbar.o ui.o ui_datasette.o ui_drive.o ui_device.o \
+ui_file.o ui_joystick.o ui_sound.o ui_vicii.o uicmdline.o uimon.o \
+vic20kbd.o vic20ui.o vicemenu.o vicewindow.o video.o vsidui.o vsync.o
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)

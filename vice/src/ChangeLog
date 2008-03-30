@@ -1,3 +1,46 @@
+2000-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+        * Version 1.5.14.
+
+	* diskimage.c (disk_image_check_for_d64): Also read error info
+	from a 40 track disk image.
+	(disk_image_sector_per_track): Added error output.
+
+	* vdrive/vdrive-iec.c (write_sequential_buffer): Fixed return
+	value.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_alloc_first_free_sector):
+	Fixed completely bogus allocation.
+
+	* vdrive/vdrive.c (vdrive_calculate_disk_half): Fixed number
+	tracks calculation for 1541 and 1571 disk images.
+
+	* print.c: New file based on arch/riscos/print.c.
+
+	* serial.c (serialsendbyte, serialreceivebyte, serialcommand,
+	serialattention): Only fetch vdrive for disk devices.
+
+	* arch/unix/uisettings.c (printer_settings_menu): Updated
+	resource names.
+
+	* arch/riscos/ui.c: Likewise.
+
+	* arch/unix/Makefile.am, arch/msdos/Makefile.am,
+	arch/win32/Makefile.am, arch/riscos/Makefile.am,
+	arch/beos/Makefile.am: Drop `print.c'.
+
+	* arch/unix/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h, arch/msdos/archdep.h,
+	arch/beos/archdep.h, arch/os2/archdep.h: Defined default
+	printer devices.
+
+	* sound.h: Added prototype for `sound_init_esd_device()'.
+
+	* sounddrv/soundesd.c: #include <stdio.h>.
+
+	* autostart.c (autostart_tape): Do not load "*" if no name is
+	given!
+
 2000-09-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.13.
@@ -20,6 +63,12 @@
 
 	* arch/win32/res.rc: Commented out toolbar definition that
 	windres cannot parse.
+
+2000-09-30  Ricardo Ferreira  <storm@atdot.org>
+
+	* sounddev/soundarts.c: Added. Implements aRts sound support.
+
+	* sound.c: Added arts sound device initialization.
 
 2000-09-27  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
 

@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
 noinst_LIBRARIES = libsounddrv.a
 
 # These sources are linked only under certain circumstances.
-EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundarts.c 	soundacorn.c 	soundallegro.c 	soundbeos.cc         soundmmos2.c         sounddart.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c
+EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundarts.c 	soundacorn.c 	soundallegro.c 	soundbeos.cc         soundmmos2.c         sounddart.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c 	soundesd.c
 
 
 # These sources are always built.
@@ -274,11 +274,8 @@ sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
-sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/sound.h \
-	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
-	../../src/uiapi.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/utils.h
+soundesd.o: soundesd.c ../../src/vice.h ../../src/config.h \
+	../../src/sound.h ../../src/arch/unix/types.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
 soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
