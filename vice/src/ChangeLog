@@ -1,3 +1,58 @@
+2003-01-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.42.
+
+	* arch/win32/vsyncarch.c (vsyncarch_gettime, vsyncarch_init):
+	Changed to C code.
+
+2003-01-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* joystick.c: New array joystick_opposite_direction.
+	(joystick_set_value_or): Unset opposite direction.
+
+2003-01-07  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: possibility of overwriting wrong
+	memory areas while removing trailing spaces in building a
+	buffer for the clipboard (in processing Ctrl+C) removed by
+	adding a "stop char" before the buffer.
+
+2003-01-07  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/video.c: Include "vsyncapi.h".
+	(video_refresh_rate): Use vsyncarch functions instead of
+	direct access to performance counter.
+
+	* arch/win32/vsyncarch.c (perf_rotate, perf_inited): New
+	variables.
+	(vsyncarch_frequency, vsyncarch_gettime, vsyncarch_init):
+	Handle very high frequency values from performance counter.
+	Frequency is scaled to fit into 29 bit.
+	(vsyncarch_verticalblank, vsyncarch_prepare_vbl,
+	vsyncarch_sleep): Use vsyncarch_frequency and
+	vsyncarch_gettime functions instead of direct access to
+	performance counter.
+
+	* raster/raster-line.c(handle_visible_line_with_changes):
+	Fixed an MSVC warning, it didn't like unary - operation on
+	unsigned variable.
+
+2003-01-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/fullscrn.c, uiattach.c, uicbm2set.c, uidrive.c,
+	uipetset.c, uivideo.c, video.c, msvc/config.h: Replaced
+	HAVE_UNNAMED_UNIONS with _ANONYMOUS_UNION.
+
+	* arch/win32/joy.c: Fixed painting.
+
+	* arch/win32/video.c: Removed unreferenced variables.
+
+	* arch/win32/mouse.c, ui.c: Fixed includes.
+
+	* arch/win32/video.dsp: Added missing file.
+
+	* video/renderyuv.c: Include vice.h.
+
 2003-01-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.41.
