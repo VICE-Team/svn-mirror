@@ -48,7 +48,6 @@ extern void vicii_reset(void);
 extern void vicii_trigger_light_pen(CLOCK mclk);
 extern void vicii_set_vbank(int new_vbank);
 extern void vicii_set_ram_base(BYTE *base);
-extern void vicii_prepare_for_snapshot(void);
 extern void vicii_powerup(void);
 extern void vicii_set_canvas_refresh(int enable);
 extern void vicii_reset_registers(void);
@@ -58,6 +57,7 @@ extern void vicii_screenshot(struct screenshot_s *screenshot);
 extern void vicii_shutdown(void);
 extern void vicii_change_timing(struct machine_timing_s *machine_timing);
 
+extern void vicii_snapshot_prepare(void);
 extern int vicii_snapshot_write_module(struct snapshot_s *s);
 extern int vicii_snapshot_read_module(struct snapshot_s *s);
 
