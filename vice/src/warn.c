@@ -29,6 +29,7 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "vice.h"
 #include "warn.h"
 #include "utils.h"
 

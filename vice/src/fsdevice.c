@@ -36,6 +36,9 @@
  *
  */
 
+/*#define DEBUG_FS*/
+/*#define DEBUG_FSDRIVE*/
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -57,6 +60,7 @@
 #include "file.h"
 #include "charsets.h"
 #include "tape.h"
+#include "utils.h"
 #include "fsdevice.h"
 
 enum fsmode {
@@ -85,7 +89,7 @@ static unsigned int fs_cptr = 0;
 
 static char fs_dirmask[MAXPATHLEN];
 
-static FILE *fs_find_pc64_name(char *name, int length);
+static FILE *fs_find_pc64_name(void *flp, char *name, int length);
 static void fs_test_pc64_name(char *rname);
 
 /* FIXME: ugly.  */
@@ -93,18 +97,105 @@ extern errortext_t floppy_error_messages;
 
 /* ------------------------------------------------------------------------- */
 
-static int fsdevice_convert_p00_enabled;
+static int fsdevice_convert_p00_enabled[4];
+static char *fsdevice_8_dir;
+static char *fsdevice_9_dir;
+static char *fsdevice_10_dir;
+static char *fsdevice_11_dir;
 
-static int set_fsdevice_convert_p00(resource_value_t v)
+static int set_fsdevice_8_convert_p00(resource_value_t v)
 {
-    fsdevice_convert_p00_enabled = (int) v;
+    fsdevice_convert_p00_enabled[0] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_9_convert_p00(resource_value_t v)
+{
+    fsdevice_convert_p00_enabled[1] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_10_convert_p00(resource_value_t v)
+{
+    fsdevice_convert_p00_enabled[2] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_11_convert_p00(resource_value_t v)
+{
+    fsdevice_convert_p00_enabled[3] = (int) v;
+    return 0;
+}
+
+static int set_fsdevice_8_dir(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (fsdevice_8_dir != NULL && name != NULL
+        && strcmp(name, fsdevice_8_dir) == 0)
+        return 0;
+
+    string_set(&fsdevice_8_dir, name);
+    return 0;
+}
+
+static int set_fsdevice_9_dir(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (fsdevice_9_dir != NULL && name != NULL
+        && strcmp(name, fsdevice_9_dir) == 0)
+        return 0;
+
+    string_set(&fsdevice_9_dir, name);
+    return 0;
+}
+
+static int set_fsdevice_10_dir(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (fsdevice_10_dir != NULL && name != NULL
+        && strcmp(name, fsdevice_10_dir) == 0)
+        return 0;
+
+    string_set(&fsdevice_10_dir, name);
+    return 0;
+}
+
+static int set_fsdevice_11_dir(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (fsdevice_11_dir != NULL && name != NULL
+        && strcmp(name, fsdevice_11_dir) == 0)
+        return 0;
+
+    string_set(&fsdevice_11_dir, name);
     return 0;
 }
 
 static resource_t resources[] = {
-    { "FSDeviceConvertP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) & fsdevice_convert_p00_enabled,
-      set_fsdevice_convert_p00 },
+    { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_convert_p00_enabled[0],
+      set_fsdevice_8_convert_p00 },
+    { "FSDevice9ConvertP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_convert_p00_enabled[1],
+      set_fsdevice_9_convert_p00 },
+    { "FSDevice10ConvertP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_convert_p00_enabled[2],
+      set_fsdevice_10_convert_p00 },
+    { "FSDevice11ConvertP00", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &fsdevice_convert_p00_enabled[3],
+      set_fsdevice_11_convert_p00 },
+    { "FSDevice8Dir", RES_STRING, (resource_value_t) "/",
+      (resource_value_t *) &fsdevice_8_dir, set_fsdevice_8_dir },
+    { "FSDevice9Dir", RES_STRING, (resource_value_t) "/",
+      (resource_value_t *) &fsdevice_9_dir, set_fsdevice_9_dir },
+    { "FSDevice10Dir", RES_STRING, (resource_value_t) "/",
+      (resource_value_t *) &fsdevice_10_dir, set_fsdevice_10_dir },
+    { "FSDevice11Dir", RES_STRING, (resource_value_t) "/",
+      (resource_value_t *) &fsdevice_11_dir, set_fsdevice_11_dir },
     { NULL }
 };
 
@@ -122,6 +213,50 @@ int attach_fsdevice(int device, char *var, char *name)
 	return 1;
     fs_error(IPE_DOS_VERSION);
     return 0;
+}
+
+void fsdevice_set_directory(char *filename, int unit)
+{
+    char *p;
+
+    /* FIXME: Remove this once the select directory dialog is available.  */
+    p = strrchr(filename, '/');
+    *(++p) = '\0';
+
+    switch (unit) {
+      case 8:
+	set_fsdevice_8_dir((resource_value_t) filename);
+	break;
+      case 9:
+	set_fsdevice_9_dir((resource_value_t) filename);
+	break;
+      case 10:
+	set_fsdevice_10_dir((resource_value_t) filename);
+	break;
+      case 11:
+	set_fsdevice_11_dir((resource_value_t) filename);
+	break;
+    }
+    return;
+}
+
+static char *fsdevice_get_path(int unit)
+{
+    switch (unit) {
+      case 8:
+	return fsdevice_8_dir;
+	break;
+      case 9:
+	return fsdevice_9_dir;
+	break;
+      case 10:
+	return fsdevice_10_dir;
+	break;
+      case 11:
+	return fsdevice_11_dir;
+	break;
+    }
+    return NULL;
 }
 
 void fs_error(int code)
@@ -257,6 +392,7 @@ int write_fs(void *flp, BYTE data, int secondary)
 
 int read_fs(void *flp, BYTE * data, int secondary)
 {
+    DRIVE *floppy = (DRIVE *)flp;
     int i, l, f;
     unsigned short blocks;
     struct dirent *dirp;	/* defined in /usr/include/sys/dirent.h */
@@ -332,7 +468,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      printf("FS_ReadDir: testing file '%s'\n", dirp->d_name);
 #endif
 		      strcpy(rname, dirp->d_name);
-		      if (fsdevice_convert_p00_enabled)
+		      if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
 			  fs_test_pc64_name(rname);
 		      if (!*fs_dirmask)
 			  break;
@@ -448,8 +584,8 @@ int read_fs(void *flp, BYTE * data, int secondary)
 		      info->buflen = (int) (p - info->name);
 
 #ifdef DEBUG_FSDRIVE
-		      printf("found %4d>%s< (%d/%d)  buf:>%s< (%d)\n",
-			     blocks, dirp->d_name, i, dirp->d_namlen,
+		      printf("found %4d>%s< (%d)  buf:>%s< (%d)\n",
+			     blocks, dirp->d_name, i,
 			     info->name + 4, info->buflen);
 #endif
 		  } else {
@@ -475,14 +611,12 @@ int read_fs(void *flp, BYTE * data, int secondary)
 
 int open_fs(void *flp, char *name, int length, int secondary)
 {
+    DRIVE *floppy = (DRIVE *)flp;
     FILE *fd;
     DIR *dp;
     BYTE *p, *linkp;
     char fsname[MAXPATHLEN];
     char fsname2[MAXPATHLEN];
-#if 0			/* Old P00 support.  */
-    char realname[32];
-#endif
     char *mask;
     int status = 0, i, reallength, readmode, filetype, rl;
 
@@ -559,12 +693,12 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		*mask++ = 0;
 	    } else {
 		strcpy(fs_dirmask, mask);
-		strcpy(fsname, ".");
+		strcpy(fsname, fsdevice_get_path(floppy->unit));
 	    }
 	} else {
 	    *fs_dirmask = 0;
 	    if (!*fsname)
-		strcpy(fsname, ".");
+		strcpy(fsname, fsdevice_get_path(floppy->unit));
 	}
 #ifdef DEBUG_FS
 	printf("Opening Dir with dir='%s', mask='%s')\n", fsname, fs_dirmask);
@@ -646,6 +780,10 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		return FLOPPY_ERROR;
 	    }
 	}
+
+	strcpy(fsname2, fsname);
+	strcpy(fsname, fsdevice_get_path(floppy->unit));
+	strcat(fsname, fsname2);
 	fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
 
 	if (!fd) {		/* lets test some variants... */
@@ -665,8 +803,8 @@ int open_fs(void *flp, char *name, int length, int secondary)
 		    fd = fopen(fsname, fs_info[secondary].mode ? READ : APPEND);
 
 		    if (!fd) {
-			if (fsdevice_convert_p00_enabled)
-			    fd = fs_find_pc64_name(name, length);
+			if (fsdevice_convert_p00_enabled[(floppy->unit) - 8])
+			    fd = fs_find_pc64_name(flp, name, length);
 			if (!fd) {
 			    fs_error(IPE_NOT_FOUND);
 			    return FLOPPY_ERROR;
@@ -676,31 +814,6 @@ int open_fs(void *flp, char *name, int length, int secondary)
 	    }
 	}
 	fs_info[secondary].fd = fd;
-
-#if 0			/* Old P00 support.  */
-	/* P00 header */
-
-	if (fs_info[secondary].mode == Read) {
-	    int realtype;
-
-	    /* Check if P00 header and read the actual filename and type */
-
-	    if ((realtype = is_pc64name(fsname)) >= 0 &&
-		read_pc64header(fd, realname, &fs_info[secondary].reclen) == FD_OK) {
-		;
-	    } else
-		rewind(fd);	/* There is no P00 header */
-
-	} else {
-
-	    /* Write P00 header ? */
-
-	    if (is_pc64name(fsname) >= 0) {
-		printf("writing PC64 header.\n");
-		write_pc64header(fd, realname, 0);
-	    }
-	}			/* P00 */
-#endif
     }
     fs_error(IPE_OK);
     return FLOPPY_COMMAND_OK;
@@ -771,8 +884,9 @@ void fs_test_pc64_name(char *rname)
 }
 
 
-FILE *fs_find_pc64_name(char *name, int length)
+FILE *fs_find_pc64_name(void *flp, char *name, int length)
 {
+    DRIVE *floppy = (DRIVE *)flp;
     struct dirent *dirp;
     char *p;
     DIR *dp;
@@ -782,7 +896,7 @@ FILE *fs_find_pc64_name(char *name, int length)
     FILE *fd;
 
     name[length] = '\0';
-    dp = opendir(".");
+    dp = opendir(fsdevice_get_path(floppy->unit));
     do {
 	dirp = readdir(dp);
 	if (dirp != NULL) {

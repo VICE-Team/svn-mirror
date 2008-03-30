@@ -97,6 +97,7 @@ extern int  sound_register_device(sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
 extern int  sound_run_sound(void);
+extern double sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
 extern void sound_machine_init(void);
@@ -106,11 +107,3 @@ extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr);
 
 #endif /* !defined (_SOUND_H) */
-
-
-#define	PETSND_OFF	0
-#define	PETSND_ON	1
-#define	PETSND_FREQ	2	/* low/high T in usec follows */
-#define	PETSND_SAMPLE	3	/* SR value follows */
-
-

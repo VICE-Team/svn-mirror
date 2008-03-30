@@ -220,10 +220,10 @@ static void reset(void)
     cpu_int_status_init(&maincpu_int_status,
 			NUMOFALRM, NUMOFINT, &last_opcode_info);
 
-    clk = 6;			/* # of clock cycles needed for RESET.  */
-
     /* Do machine-specific initialization.  */
     machine_reset();
+
+    clk = 6;			/* # of clock cycles needed for RESET.  */
 
     initialize_memory();
 }

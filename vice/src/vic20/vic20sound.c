@@ -28,6 +28,7 @@
 
 #include "vice.h"
 #include "sound.h"
+#include "maincpu.h"
 #include "utils.h"
 
 /* warnings */
@@ -402,6 +403,8 @@ void sound_reset(void)
     for (i = 0; i < 64; i++)
 	store_sid(i, 0);
     warn_reset(pwarn);
+    sound_run_sound();
+    sound_prevent_clk_overflow(clk);
 }
 
 void sound_machine_init(void)

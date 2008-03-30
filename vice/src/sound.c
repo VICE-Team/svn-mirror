@@ -74,14 +74,14 @@ static int set_sample_rate(resource_value_t v)
 
 static int set_device_name(resource_value_t v)
 {
-    device_name = (char *)v;
+    string_set(&device_name, (char *) v);
     sound_close();
     return 0;
 }
 
 static int set_device_arg(resource_value_t v)
 {
-    device_arg = (char *)v;
+    string_set(&device_arg, (char *) v);
     sound_close();
     return 0;
 }
@@ -407,10 +407,6 @@ int sound_run_sound(void)
 	    return i;
     }
     nr = (clk - snddata.fclk) / snddata.clkstep;
-    /* XXX: got here? yeah, reset does NOT call prevent_clk_overflow before
-       setting clk to 6 !!!!! */
-    if (nr < 0)
-	abort();
     if (!nr)
 	return 0;
     if (snddata.bufptr + nr > BUFSIZE)
@@ -660,4 +656,9 @@ void sound_prevent_clk_overflow(CLOCK sub)
 {
     snddata.fclk -= sub;
     snddata.wclk -= sub;
+}
+
+double sound_sample_position(void)
+{
+    return (clk - snddata.fclk) / snddata.clkstep;
 }

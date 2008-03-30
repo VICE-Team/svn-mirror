@@ -30,6 +30,7 @@
 #include <sys/ioctl.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #include "vice.h"
 #include "sound.h"

@@ -24,10 +24,12 @@
  *
  */
 
+#include "vice.h"
+
 #include <math.h>
 
-#include "vice.h"
 #include "sound.h"
+#include "maincpu.h"
 #include "utils.h"
 
 struct sound_s
@@ -140,5 +142,7 @@ void store_petsnd_sample(BYTE sample)
 
 void petsnd_reset(void)
 {
+    sound_run_sound();
     store_petsnd_onoff(0);
+    sound_prevent_clk_overflow(clk);
 }
