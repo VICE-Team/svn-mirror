@@ -40,7 +40,7 @@ extern BYTE kernal_rom[];
 extern int plus4_mem_init_resources(void);
 extern int plus4_mem_init_cmdline_options(void);
 
-extern void mem_config_set(unsigned int config);
+extern void mem_config_ram_set(unsigned int config);
 
 extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
