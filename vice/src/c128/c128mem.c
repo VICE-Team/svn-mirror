@@ -147,16 +147,6 @@ static struct {
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
-/* Cartridge memory interface.  FIXME: Not implemented yet.  */
-/* Exansion port ROML/ROMH images.  */
-BYTE roml_banks[1], romh_banks[1];
-
-/* Expansion port ROML/ROMH/RAM banking.  */
-int roml_bank, romh_bank, export_ram;
-
-/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
-int ultimax = 0;
-
 /* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
@@ -258,7 +248,7 @@ void mem_set_ram_config(BYTE value)
     }
 }
 
-static void pla_config_changed(void)
+void pla_config_changed(void)
 {
     pport.data_out = (pport.data_out & ~pport.dir)
                      | (pport.data & pport.dir);
