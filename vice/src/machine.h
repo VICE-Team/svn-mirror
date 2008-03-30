@@ -85,6 +85,7 @@ extern void machine_handle_pending_alarms(int num_write_cycles);
 
 /* Autodetect PSID file.  */
 extern int machine_autodetect_psid(const char *name);
+extern void machine_play_psid(int tune);
 
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
 extern void machine_change_timing(int timeval);

@@ -529,3 +529,7 @@ int machine_autodetect_psid(const char *name)
 {
   return -1;
 }
+
+void machine_play_psid(int tune)
+{
+}

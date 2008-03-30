@@ -139,6 +139,20 @@ static int cmdline_attach(const char *param, void *extra_param)
     return 0;
 }
 
+static cmdline_option_t psid_cmdline_options[] = {
+    { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      NULL, "Show a list of the available options and exit normally" },
+    { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      NULL, "Show a list of the available options and exit normally" },
+    { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
+      NULL, "Console mode (for playing music)" },
+    { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+      NULL, "Allow production of core dumps" },
+    { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+      NULL, "Do not produce core dumps" },
+    { NULL }
+};
+
 static cmdline_option_t cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
@@ -241,6 +255,9 @@ static int init_resources(void)
 
 static int init_cmdline_options(void)
 {
+    cmdline_option_t* main_cmdline_options =
+        psid_mode ? psid_cmdline_options : cmdline_options;
+
     if (cmdline_init()) {
         fprintf(stderr, "Cannot initialize resource handling.\n");
         return -1;
@@ -250,7 +267,7 @@ static int init_cmdline_options(void)
         fprintf(stderr, "Cannot initialize log command-line option handling.\n");
         return -1;
     }
-    if (cmdline_register_options(cmdline_options) < 0) {
+    if (cmdline_register_options(main_cmdline_options) < 0) {
         fprintf(stderr, "Cannot initialize main command-line options.\n");
         return -1;
     }
@@ -258,6 +275,16 @@ static int init_cmdline_options(void)
         fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
         return -1;
     }
+
+    if (psid_mode) {
+        if (machine_init_cmdline_options() < 0) {
+	    fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+	    return -1;
+	}
+
+	return 0;
+    }
+
     if (ui_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize UI-specific command-line options.\n");
         return -1;
@@ -358,6 +385,8 @@ static char *replace_hexcodes(char *s)
    different because the standard entry point is `WinMain()' there.  */
 int MAIN_PROGRAM(int argc, char **argv)
 {
+    int i;
+
     archdep_startup(&argc, argv);
 
 #ifndef __riscos
@@ -366,6 +395,18 @@ int MAIN_PROGRAM(int argc, char **argv)
 	return -1;
     }
 #endif
+
+    /* Check for -console and -vsid before initializing the user interface.
+       -console => no user interface
+       -vsid    => user interface in separate process */
+    for (i = 0; i < argc; i++) {
+        if (strcmp(argv[i], "-console") == 0) {
+	    console_mode = 1;
+	}
+	else if (strcmp(argv[i], "-vsid") == 0) {
+	    psid_mode = 1;
+	}
+    }
 
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
@@ -379,13 +420,25 @@ int MAIN_PROGRAM(int argc, char **argv)
     /* Initialize the user interface.  `ui_init()' might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
-    if (ui_init(&argc, argv) < 0) {
+    if (!console_mode && ui_init(&argc, argv) < 0) {
         fprintf(stderr, "Cannot initialize the UI.\n");
         return -1;
     }
 
     /* Load the user's default configuration file.  */
-    {
+    if (psid_mode) {
+	resources_set_value("Sound", (resource_value_t)1);
+#ifdef HAVE_RESID
+	resources_set_value("SidUseResid", (resource_value_t)1);
+#endif
+	resources_set_value("SidModel", (resource_value_t)0);
+	resources_set_value("SidFilters", (resource_value_t)1);
+	resources_set_value("SoundSampleRate", (resource_value_t)44100);
+	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
+	resources_set_value("SoundBufferSize", (resource_value_t)1000);
+	resources_set_value("SoundSuspendTime", (resource_value_t)0);
+    }
+    else {
         int retval = resources_load(NULL);
 
         if (retval < 0) {
@@ -449,23 +502,15 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Check for PSID here since we don't want to allow autodetection
        in autostart.c. ROM image loading should also be skipped. */
-    if (machine_autodetect_psid(autostart_string) == 0 || psid_mode) {
-        psid_mode = 1;
+    if (psid_mode) {
+        if (autostart_string
+	    && machine_autodetect_psid(autostart_string) == -1)
+	{
+	    log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
+		      autostart_string);
+	    return -1;
+	}	    
 
-	/* FIXME: Find a way respecting command line arguments for
-	   sound while discarding all other arguments. */
-	resources_set_defaults();
-
-	resources_set_value("Sound", (resource_value_t)1);
-#ifdef HAVE_RESID
-	resources_set_value("SidUseResid", (resource_value_t)1);
-#endif
-	resources_set_value("SidModel", (resource_value_t)0);
-	resources_set_value("SidFilters", (resource_value_t)1);
-	resources_set_value("SoundSampleRate", (resource_value_t)44100);
-	resources_set_value("SoundSpeedAdjustment", (resource_value_t)2);
-	/* resources_set_value("SoundBufferSize", (resource_value_t)1000); */
-	
 	if (machine_init() < 0) {
 	    log_error(LOG_DEFAULT, "Machine initialization failed.");
 	    return -1;

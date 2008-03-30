@@ -31,6 +31,7 @@ extern int psid_init_resources(void);
 extern int psid_init_cmdline_options(void);
 extern int psid_load_file(const char* filename);
 extern void psid_init_tune(void);
+extern void psid_play_tune(int tune);
 extern void psid_init_driver(void);
 
 #endif

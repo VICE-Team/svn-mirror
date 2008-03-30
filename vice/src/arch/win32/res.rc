@@ -195,8 +195,8 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Datasette Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         "&Reset Datasette with CPU",IDC_DATASETTE_RESET_WITH_CPU,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,99,10
+    AUTOCHECKBOX    "&Reset Datasette with CPU",IDC_DATASETTE_RESET_WITH_CPU,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
     GROUPBOX        "Speed of motor while reading",IDC_STATIC,5,25,160,60
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

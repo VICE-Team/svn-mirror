@@ -84,8 +84,8 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-psid", CALL_FUNCTION, 0, cmdline_psid_mode, NULL, NULL, NULL,
-      NULL, "PSID mode" },
+    { "-vsid", CALL_FUNCTION, 0, cmdline_psid_mode, NULL, NULL, NULL,
+      NULL, "SID player mode" },
     { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
       "<number>", "Specify PSID tune <number>" },
     { NULL }
@@ -250,6 +250,17 @@ void psid_init_tune(void)
   }
 }
 
+void psid_play_tune(int tune)
+{
+  if (tune == -1) {
+    psid_tune = 0;
+    free(psid);
+    psid = NULL;
+  }
+  else {
+    psid_tune = tune;
+  }
+}
 
 void psid_init_driver(void) {
   BYTE psid_driver[] = {
@@ -270,4 +281,3 @@ void psid_init_driver(void) {
     ram_store(addr + i, psid_driver[i]);
   }
 }
-

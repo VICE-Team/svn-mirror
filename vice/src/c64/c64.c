@@ -67,9 +67,7 @@
 #include "vicii.h"
 #include "vsync.h"
 
-#ifdef USE_VSID
 #include "vsidui.h"
-#endif
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
@@ -208,6 +206,16 @@ int machine_init_resources(void)
 /* C64-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
+    if (psid_mode) {
+        if (sound_init_cmdline_options() < 0
+	    || sid_init_cmdline_options() < 0
+	    || psid_init_cmdline_options() < 0
+	    )
+	    return -1;
+	
+	return 0;
+    }
+
     if (traps_init_cmdline_options() < 0
         || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
@@ -247,7 +255,6 @@ int machine_init(void)
 
     maincpu_init();
 
-#ifdef USE_VSID
     if (psid_mode) {
 	mem_powerup();
 
@@ -290,7 +297,6 @@ int machine_init(void)
 
 	return 0;
     }
-#endif
 
     if (mem_load() < 0)
         return -1;
@@ -368,7 +374,9 @@ int machine_init(void)
                  (CLOCK)(C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC));
 
     /* Initialize the C64-specific part of the UI.  */
-    c64_ui_init();
+    if (!console_mode) {
+        c64_ui_init();
+    }
 
     /* Initialize the REU.  */
     reu_init();
@@ -436,11 +444,9 @@ void machine_shutdown(void)
         file_system_detach_disk(-1);
     }
 
-#ifdef USE_VSID
     if (!console_mode && psid_mode) {
         vsid_ui_exit();
     }
-#endif
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)
@@ -595,4 +601,9 @@ int machine_autodetect_psid(const char *name)
   }
 
   return psid_load_file(name);
+}
+
+void machine_play_psid(int tune)
+{
+  psid_play_tune(tune);
 }
