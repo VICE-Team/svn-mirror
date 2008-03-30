@@ -26,35 +26,37 @@
 
 #include "vice.h"
 
-#include "console.h"
-#include "mon.h"
-#include "uimon.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "console.h"
+#include "mon.h"
+#include "uimon.h"
+#include "utils.h"
+
+
 static console_t *console_log = NULL;
 
-void uimon_window_close( void )
+
+void uimon_window_close(void)
 {
     console_close(console_log);
     console_log = NULL;
 }
 
-
-console_t *uimon_window_open( void )
+console_t *uimon_window_open(void)
 {
     console_log = console_open("Monitor");
     return console_log;
 }
 
-void uimon_window_suspend( void )
+void uimon_window_suspend(void)
 {
     uimon_window_close();
 }
 
-console_t *uimon_window_resume( void )
+console_t *uimon_window_resume(void)
 {
     return uimon_window_open();
 }
@@ -63,10 +65,9 @@ int uimon_out(const char *format, ...)
 {
     va_list ap;
     char *buffer;
-    int   rc = 0;
+    int rc = 0;
 
-    if (console_log)
-    {
+    if (console_log) {
         va_start(ap, format);
         buffer = xmvsprintf(format, ap);
         rc = console_out(console_log, buffer);
@@ -75,12 +76,12 @@ int uimon_out(const char *format, ...)
     return rc;
 }
 
-char *uimon_get_in( char **ppchCommandLine, const char *prompt )
+char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     return console_in(console_log, prompt);
 }
 
-void uimon_notify_change( void )
+void uimon_notify_change(void)
 {
 }
 

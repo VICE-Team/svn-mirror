@@ -37,6 +37,8 @@
 #include "console.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
+
 
 static int old_input_mode, old_output_mode;
 static FILE *mon_output, *mon_input;

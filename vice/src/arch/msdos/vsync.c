@@ -273,7 +273,7 @@ static void calc_avg_performance(int num_frames)
 	double speed_index;
 	double frame_rate;
 
-	diff_clk = clk - speed_eval_prev_clk;
+	diff_clk = maincpu_clk - speed_eval_prev_clk;
 	frame_rate = (double)num_frames / (curr_time - prev_time);
 	speed_index = ((((double)diff_clk / (curr_time - prev_time))
 			/ (double)cycles_per_sec)) * 100.0;
@@ -281,7 +281,7 @@ static void calc_avg_performance(int num_frames)
 	avg_frame_rate = frame_rate;
     }
     prev_time = curr_time;
-    speed_eval_prev_clk = clk;
+    speed_eval_prev_clk = maincpu_clk;
     speed_eval_suspended = 0;
 }
 
