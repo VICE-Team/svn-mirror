@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "attach.h"
 #include "log.h"
 #include "snapshot.h"
 #include "vdrive-snapshot.h"

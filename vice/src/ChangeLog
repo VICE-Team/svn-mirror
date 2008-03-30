@@ -1,3 +1,37 @@
+1999-12-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.5.
+
+	* vdrive/vdrive-snapshot.c: #include "attach.h".
+
+1999-12-07  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: added missing includes
+
+1999-12-06  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/unix/uicommands.c: Sun compiler needs cast after add.
+
+	* sounddrv/soundsun.c: removed final warn_t residual.
+
+1999-12-06  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/Makefile.am: Install vsid script.
+
+	* arch/unix/vsid: New file; shell script to start x64 in vsid
+	mode.
+
+1999-12-05  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* win32/snapshot.c: removed old snapshot-saver
+
+	* win32/res.h: new IDs for "Create Image" button and combobox
+
+	* win32/res.rc: added these items to attach-dialog
+
+	* win32/uilib.c: includes diskimage.h, message handler for
+	"Create Image" button
+
 1999-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.4.
