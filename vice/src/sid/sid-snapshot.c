@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "log.h"
+#include "resources.h"
 #include "sid-snapshot.h"
 #include "sid.h"
 #include "sound.h"
@@ -99,6 +100,19 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
 {
     snapshot_module_t *m;
     sid_snapshot_state_t sid_state;
+    int sound, sid_engine;
+
+    resources_get_value("Sound", (resource_value_t *)&sound);
+    if (sound == 0)
+        return 0;
+
+    resources_get_value("SidEngine", (resource_value_t *)&sid_engine);
+    if (sid_engine != SID_ENGINE_FASTSID
+#ifdef HAVE_RESID
+        && sid_engine != SID_ENGINE_RESID
+#endif
+        )
+        return 0;
 
     sid_state_read(0, &sid_state);
 
@@ -129,6 +143,19 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
     sid_snapshot_state_t sid_state;
+    int sound, sid_engine;
+
+    resources_get_value("Sound", (resource_value_t *)&sound);
+    if (sound == 0)
+        return 0;
+
+    resources_get_value("SidEngine", (resource_value_t *)&sid_engine);
+    if (sid_engine != SID_ENGINE_FASTSID
+#ifdef HAVE_RESID
+        && sid_engine != SID_ENGINE_RESID
+#endif
+        )
+        return 0;
 
     m = snapshot_module_open(s, snap_module_name_extended,
                              &major_version, &minor_version);
