@@ -32,10 +32,20 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final.h"
 #include "types.h"
+
+
+static const c64export_resource_t export_res_v1 = {
+    "Final V1", 1, 1, 1, 0
+};
+
+static const c64export_resource_t export_res_v3 = {
+    "Final V3", 1, 1, 1, 0
+};
 
 
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
@@ -183,6 +193,9 @@ int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
         return -1;
 
+    if (c64export_add(&export_res_v1) < 0)
+        return -1;
+
     return 0;
 }
 
@@ -202,6 +215,19 @@ int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
     }
 
+    if (c64export_add(&export_res_v3) < 0)
+        return -1;
+
     return 0;
+}
+
+void final_v1_detach(void)
+{
+    c64export_remove(&export_res_v1);
+}
+
+void final_v3_detach(void)
+{
+    c64export_remove(&export_res_v3);
 }
 

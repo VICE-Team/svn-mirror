@@ -54,6 +54,8 @@ extern void final_v1_config_setup(BYTE *rawcart);
 extern void final_v3_config_setup(BYTE *rawcart);
 extern int final_v1_crt_attach(FILE *fd, BYTE *rawcart);
 extern int final_v3_crt_attach(FILE *fd, BYTE *rawcart);
+extern void final_v1_detach(void);
+extern void final_v3_detach(void);
 
 #endif
 
