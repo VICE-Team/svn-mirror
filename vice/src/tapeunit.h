@@ -38,8 +38,6 @@ extern int tape_init(int bufpaddr, int status, int verfl, int irqtmp,
 		ADDRESS irqval, int stal, int eal, const trap_t *tape,
 		int kbdbuf, int nkeys);
 extern void findheader (void);
-extern void writeheader (void);
-/* extern void checkplay (void); */
 extern void tapereceive (void);
 
 #endif /* ndef _TAPEUNIT_H */
