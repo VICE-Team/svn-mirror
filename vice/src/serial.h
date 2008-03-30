@@ -102,9 +102,6 @@ extern int serial_attach_device(unsigned int unit, const char *name,
                                 void (*flushf)(struct vdrive_s *,
                                 unsigned int));
 extern int serial_detach_device(unsigned int unit);
-extern serial_t *serial_get_device(unsigned int unit);
-extern unsigned int serial_type_get(unsigned int unit);
-extern void serial_type_set(unsigned int type, unsigned int unit);
 extern void serial_reset(void);
 extern BYTE serial_get_st(void);
 extern void serial_set_st(BYTE st);
@@ -127,16 +124,22 @@ extern void serial_set_attention_callback(void (*func)(void));
 extern int serial_realdevice_enable(void);
 extern void serial_realdevice_disable(void);
 
-extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
-
 extern int serial_iec_open(unsigned int unit, unsigned int secondary,
-                           const char *name, int length);
+                           const char *name, unsigned int length);
 extern int serial_iec_close(unsigned int unit, unsigned int secondary);
 extern int serial_iec_read(unsigned int unit, unsigned int secondary,
                            BYTE *data);
 extern int serial_iec_write(unsigned int unit, unsigned int secondary,
                             BYTE data);
 extern int serial_iec_flush(unsigned int unit, unsigned int secondary);
+extern int serial_iec_directory(unsigned int unit, const char *pattern,
+                                BYTE **buf);
+
+extern unsigned int serial_device_get_fsimage_state(unsigned int unit);
+extern unsigned int serial_device_get_realdevice_state(unsigned int unit);
+extern serial_t *serial_device_get(unsigned int unit);
+extern unsigned int serial_device_type_get(unsigned int unit);
+extern void serial_device_type_set(unsigned int type, unsigned int unit);
 
 #endif
 
