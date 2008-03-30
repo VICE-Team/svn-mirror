@@ -167,38 +167,48 @@ int cartridge_attach_image(int type, const char *filename)
         fclose(fd);
         break;
       case CARTRIDGE_CRT:
-	fd = fopen(filename, READ);
-	if (!fd)
-	    goto done;
-	if (fread(header, 0x40, 1, fd) < 1) {
-	    fclose(fd);
-	    goto done;
-	}
-	if (strncmp((char*)header, "C64 CARTRIDGE   ", 16)) {
-	    fclose(fd);
-	    goto done;
-	}
-	crttype = header[0x17] + header[0x16] * 256;
-	switch (crttype) {
-	  case 0:
-	    if (fread(chipheader, 0x10, 1, fd) < 1) {
-		fclose(fd);
-		goto done;
-	    }
-	    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
-	            && chipheader[0xe] <= 0x40) {
-		if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
-		    fclose(fd);
-		    goto done;
-		}
-	    } else {
-		fclose(fd);
-		goto done;
-	    }
-	    fclose(fd);
-	    crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
-	            : CARTRIDGE_GENERIC_16KB;
-	    break;
+        fd = fopen(filename, READ);
+        if (!fd)
+            goto done;
+        if (fread(header, 0x40, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        if (strncmp((char*)header, "C64 CARTRIDGE   ", 16)) {
+            fclose(fd);
+            goto done;
+        }
+        crttype = header[0x17] + header[0x16] * 256;
+        switch (crttype) {
+          case 0:
+            if (fread(chipheader, 0x10, 1, fd) < 1) {
+                fclose(fd);
+                goto done;
+            }
+            if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0
+                && chipheader[0xe] <= 0x40) {
+                if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+                crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB
+                          : CARTRIDGE_GENERIC_16KB;
+                fclose(fd);
+                break;
+            }
+            if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0
+                && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
+                if (fread(rawcart + ((chipheader[0xc] << 8) & 0x1fff),
+                    chipheader[0xe] << 8, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+                crttype = CARTRIDGE_ULTIMAX;
+                fclose(fd);
+                break;
+            }
+            fclose(fd);
+            goto done;
 	  case 1:
 	    for (i = 0; i <= 3; i++) {
 		if (fread(chipheader, 0x10, 1, fd) < 1) {

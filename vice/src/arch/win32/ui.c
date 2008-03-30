@@ -173,8 +173,8 @@ int ui_init(int *argc, char **argv)
         menu = IDR_MENUCBM2;
         break;
       default:
-        log_error(LOG_DEFAULT, "UI: No menu entries for this machine defined!");
-        log_error(LOG_DEFAULT, "UI: Using C64 type UI menues.");
+        log_debug("UI: No menu entries for this machine defined!");
+        log_debug("UI: Using C64 type UI menues.");
         menu = IDR_MENUC64;
     }
 

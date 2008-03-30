@@ -43,6 +43,7 @@ extern const char *cartridge_get_file_name(ADDRESS addr);
 
 /* Known cartridge types.  */
 
+#define CARTRIDGE_ULTIMAX		-6
 #define CARTRIDGE_OCEAN			-5
 #define CARTRIDGE_SUPER_SNAPSHOT	-4
 #define CARTRIDGE_GENERIC_8KB		-3

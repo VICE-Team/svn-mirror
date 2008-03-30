@@ -54,7 +54,7 @@
 #include "reu.h"
 #include "sid.h"
 #include "snapshot.h"
-#include "tapeunit.h"
+#include "tape.h"
 #include "ui.h"
 #include "utils.h"
 #include "vicii.h"
@@ -942,6 +942,9 @@ void initialize_memory(void)
       case CARTRIDGE_GENERIC_16KB:
         cartridge_config_changed(1);
         break;
+      case CARTRIDGE_ULTIMAX:
+        cartridge_config_changed(3);
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         cartridge_config_changed(9);
         break;
@@ -1064,6 +1067,7 @@ int mem_load(void)
 void mem_attach_cartridge(int type, BYTE * rawcart)
 {
     mem_cartridge_type = type;
+    roml_bank = romh_bank = 0;
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
         memcpy(roml_banks, rawcart, 0x2000);
@@ -1115,6 +1119,11 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
             memcpy(&roml_banks[0x20000], &rawcart[0x0000], 0x2000);
             memcpy(&romh_banks[0x20000], &rawcart[0x2000], 0x2000);
         }
+        break;
+      case CARTRIDGE_ULTIMAX:
+        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x0000], 0x2000);
+        cartridge_config_changed(3);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

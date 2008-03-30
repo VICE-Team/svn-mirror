@@ -2255,7 +2255,7 @@ int get_std71_header(file_desc_t fd, BYTE *header)
     }
     header[HEADER_FLAGS_OFFSET+0] = DT_1571;
     header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 0;
+    header[HEADER_FLAGS_OFFSET+2] = 1;
     header[HEADER_FLAGS_OFFSET+3] = errblk;
 
     return(0);
@@ -2310,7 +2310,7 @@ int get_std81_header(file_desc_t fd, BYTE *header)
     }
     header[HEADER_FLAGS_OFFSET+0] = DT_1581;
     header[HEADER_FLAGS_OFFSET+1] = tracks;
-    header[HEADER_FLAGS_OFFSET+2] = 0;
+    header[HEADER_FLAGS_OFFSET+2] = 1;
     header[HEADER_FLAGS_OFFSET+3] = errblk;
 
     return(0);
@@ -2681,66 +2681,3 @@ char *floppy_read_directory(DRIVE *floppy, const char *pattern)
 
     return outbuf;
 }
-
-/* Read the directory of a named disk image and return it as a long malloc'ed
-   ASCII string. */
-char *read_disk_image_contents(const char *fname)
-{
-    static BYTE fake_command_buffer[256];
-    DRIVE floppy;
-    char *buf;
-    hdrinfo hdr;
-    file_desc_t fd;
-
-    fd = zopen(fname, O_RDONLY, 0);
-    if (fd == ILLEGAL_FILE_DESC)
-	return NULL;
-    if (check_header(fd, &hdr))
-	return NULL;
-
-    if (hdr.v_major > HEADER_VERSION_MAJOR
-	|| (hdr.v_major == HEADER_VERSION_MAJOR
-	    && hdr.v_minor > HEADER_VERSION_MINOR)) {
-	log_message(vdrive_log,
-                    "Disk image file %s (V %d.%02d) version higher than emulator (V %d.%02d).",
-                    fname, hdr.v_major, hdr.v_minor,
-                    HEADER_VERSION_MAJOR, HEADER_VERSION_MINOR);
-	zclose(fd);
-	return 0;
-    }
-
-    /* Initialize floppy. */
-    floppy.ImageFormat = get_diskformat(hdr.devtype);
-    if (floppy.ImageFormat < 0) {
-	log_error(vdrive_log, "Unknown image format.");
-	zclose(fd);
-	return NULL;
-    }
-    floppy.ActiveFd = fd;
-    floppy.NumTracks = hdr.tracks;
-    floppy.NumBlocks = num_blocks(floppy.ImageFormat, hdr.tracks);
-    floppy.ErrFlg    = hdr.errblk;
-    floppy.D64_Header= hdr.d64 | hdr.d71 | hdr.d81;
-    floppy.ReadOnly = 1;	/* Just to be sure... */
-    if (vdrive_bam_read_bam(&floppy) < 0) {
-	log_error(vdrive_log, "Cannot read BAM.");
-	zclose(fd);
-	return NULL;
-    }
-
-    /* This fake is necessary to `open_1541'...  Ugly, but that is the only
-       way I know with the existing functions. */
-    floppy.buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-    floppy.buffers[15].buffer = fake_command_buffer;
-    floppy.buffers[0].mode = BUFFER_NOT_IN_USE;
-
-    /* Initialize format constants. */
-    set_disk_geometry(&floppy, floppy.ImageFormat);
-
-    /* Now we can actually read. */
-    buf = floppy_read_directory(&floppy, NULL);
-
-    zclose(fd);
-    return buf;
-}
-

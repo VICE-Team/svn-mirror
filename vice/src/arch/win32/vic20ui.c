@@ -53,8 +53,8 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             switch (wparam) {
               case IDM_CART_VIC20_8KB_2000:
                 type = CARTRIDGE_VIC20_8KB_2000;
-                if ((s = ui_select_file("Attach CRT cartridge image",
-                    "8KB cartridge image files (*.bin)\0*.bin\0"
+                if ((s = ui_select_file("Attach 8KB cartridge image at $2000",
+                    "8KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
@@ -63,8 +63,8 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 break;
               case IDM_CART_VIC20_8KB_6000:
                 type = CARTRIDGE_VIC20_8KB_6000;
-                if ((s = ui_select_file("Attach raw 8KB cartridge image",
-                    "8KB cartridge image files (*.bin)\0*.bin\0"
+                if ((s = ui_select_file("Attach 8KB cartridge image at $6000",
+                    "8KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
@@ -73,8 +73,8 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 break;
               case IDM_CART_VIC20_8KB_A000:
                 type = CARTRIDGE_VIC20_8KB_A000;
-                if ((s = ui_select_file("Attach raw 16KB cartridge image",
-                    "8KB cartridge image files (*.bin)\0*.bin\0"
+                if ((s = ui_select_file("Attach 8KB cartridge image at $A000",
+                    "8KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");
@@ -83,8 +83,8 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
                 break;
               case IDM_CART_VIC20_4KB_B000:
                 type = CARTRIDGE_VIC20_4KB_B000;
-                if ((s = ui_select_file("Attach Action Replay cartridge image",
-                    "4KB cartridge image files (*.bin)\0*.bin\0"
+                if ((s = ui_select_file("Attach 4KB cartridge image at $B000",
+                    "4KB cartridge image files (*.*)\0*.*\0"
                     "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                     if (cartridge_attach_image(type, s) < 0)
                         ui_error("Invalid cartridge image");

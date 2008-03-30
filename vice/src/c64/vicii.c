@@ -542,6 +542,11 @@ static void set_memory_ptrs(int cycle)
 			tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
+    if (ultimax != 0)
+        charbase = ((tmp & 0x3fff) >= 0x3000
+                    ? romh_banks + (romh_bank << 13) + (tmp & 0x7ff) + 0x1000
+                    : ram_base + tmp);
+
     tmp = RASTER_CHAR(cycle);
 
     if (idle_data_location != IDLE_NONE && old_vbank != vbank) {

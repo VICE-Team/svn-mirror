@@ -341,6 +341,7 @@ void frame_buffer_free(frame_buffer_t *f)
 {
     int i;
 
+    if (!f || !*f) return;
     for (i = 0; i < (*f)->height; i++)
         free((*f)->lines[i]);
     free(*f);
