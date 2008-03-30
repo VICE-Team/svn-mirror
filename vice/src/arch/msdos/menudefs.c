@@ -951,10 +951,12 @@ static TUI_MENU_CALLBACK(save_settings_callback)
 static TUI_MENU_CALLBACK(load_settings_callback)
 {
     if (been_activated) {
-	if (resources_load(NULL) < 0)
+	if (resources_load(NULL) < 0) {
 	    tui_error("Cannot load settings.");
-	else
+	} else {
 	    tui_message("Settings loaded successfully.");
+            ui_update_menus();
+        }
     }
 
     return NULL;
@@ -965,6 +967,7 @@ static TUI_MENU_CALLBACK(restore_default_settings_callback)
     if (been_activated) {
 	resources_set_defaults();
 	tui_message("Default settings restored.");
+        ui_update_menus();
     }
 
     return NULL;

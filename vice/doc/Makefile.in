@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
 AR = @AR@
+ARCH_DIR = @ARCH_DIR@
 ARCH_INCLUDES = @ARCH_INCLUDES@
 ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
@@ -115,6 +116,7 @@ doc_DATA = \
 	PETdoc.txt \
 	cbm_basic_tokens.txt \
 	drive_info.txt \
+	g64.txt \
 	mnemonics.txt \
 	mon.txt \
 	serial.txt

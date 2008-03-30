@@ -46,9 +46,8 @@
 
 #include "log.h"
 #include "resources.h"
-#include "sysdep.h"
+#include "archdep.h"
 #include "utils.h"
-#include "ui.h"
 
 #ifdef __riscos
 #include "machine.h"
@@ -182,8 +181,6 @@ void resources_set_defaults(void)
 
     for (i = 0; i < num_resources; i++)
         resources[i].set_func(resources[i].factory_value);
-
-    ui_update_menus();
 }
 
 int resources_toggle(const char *name, resource_value_t *new_value_return)
@@ -342,7 +339,7 @@ int resources_load(const char *fname)
     int err = 0;
 
     if (fname == NULL)
-	fname = sysdep_default_resource_file_name();
+	fname = archdep_default_resource_file_name();
 
 #ifdef __MSDOS__
     f = fopen(fname, "rt");
@@ -383,9 +380,6 @@ int resources_load(const char *fname)
 
     fclose(f);
 
-    /* Update the values in the UI menus.  */
-    ui_update_menus();
-
     return err ? RESERR_FILE_INVALID : 0;
 }
 
@@ -424,7 +418,7 @@ int resources_save(const char *fname)
     int i;
 
     if (fname == NULL)
-	fname = sysdep_default_resource_file_name();
+	fname = archdep_default_resource_file_name();
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = make_backup_file_name(fname);

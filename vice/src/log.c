@@ -32,7 +32,7 @@
 
 #include "cmdline.h"
 #include "resources.h"
-#include "sysdep.h"
+#include "archdep.h"
 #include "utils.h"
 
 static FILE *log_file;
@@ -76,13 +76,22 @@ int log_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+int log_init_with_fd(FILE *f)
+{
+    if (f == NULL)
+        return -1;
+
+    log_file = f;
+    return 0;
+}
+
 int log_init(void)
 {
     if (logs != NULL)
         return -1;
 
     if (log_file_name == NULL) {
-        log_file = sysdep_open_default_log_file();
+        log_file = archdep_open_default_log_file();
     } else {
         if (strcmp(log_file_name, "-") == 0)
             log_file = stdout;

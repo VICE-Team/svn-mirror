@@ -35,7 +35,7 @@
 #include "cmdline.h"
 #include "findpath.h"
 #include "resources.h"
-#include "sysdep.h"
+#include "archdep.h"
 #include "utils.h"
 
 #ifdef __riscos
@@ -82,7 +82,7 @@ static cmdline_option_t cmdline_options[] = {
 
 int sysfile_init(const char *emu_id)
 {
-    default_path = stralloc(sysdep_default_sysfile_pathlist(emu_id));
+    default_path = stralloc(archdep_default_sysfile_pathlist(emu_id));
 
     return 0;
 }

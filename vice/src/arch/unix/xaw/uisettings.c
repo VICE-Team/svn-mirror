@@ -234,6 +234,7 @@ static UI_CALLBACK(load_resources)
     else if (w != NULL)
             ui_message("Settings loaded.");
 #endif
+
     ui_update_menus();
 }
 
