@@ -763,9 +763,8 @@ msgid "*External color set"
 msgstr "*Palette Esterna"
 
 #: src/arch/unix/plus4ui.c:94 src/arch/unix/uivicii.c:81
-#, fuzzy
 msgid "PAL Emulation"
-msgstr "*Emulazione PAL"
+msgstr "Emulazione PAL"
 
 #: src/arch/unix/plus4ui.c:100
 msgid "*Fast PAL emulation"
@@ -1057,9 +1056,8 @@ msgstr ""
 "`%s'\n"
 
 #: src/arch/unix/uicommands.c:608
-#, fuzzy
 msgid "Load "
-msgstr "Personalizzata"
+msgstr "Carica "
 
 #: src/arch/unix/uicommands.c:608 src/arch/unix/x11/xaw/uicartridge.c:164
 #: src/arch/unix/x11/xaw/uiedisk.c:397
@@ -1069,29 +1067,28 @@ msgid "Save"
 msgstr "Salva"
 
 #: src/arch/unix/uicommands.c:608
-#, fuzzy
 msgid "Fliplist File"
-msgstr "Fliplist per il drive #8"
+msgstr "File della Fliplist"
 
 #: src/arch/unix/uicommands.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully read `%s'."
-msgstr "Scruttura di `%s' riuscita"
+msgstr "Lettura di `%s' riuscita."
 
 #: src/arch/unix/uicommands.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Error reading `%s'."
-msgstr "Errore durante la scrittura: %s."
+msgstr "Errore durante la lettura di `%s'."
 
 #: src/arch/unix/uicommands.c:625
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully wrote `%s'."
-msgstr "Scruttura di `%s' riuscita"
+msgstr "Scruttura di `%s' riuscita."
 
 #: src/arch/unix/uicommands.c:627
-#, fuzzy, c-format
+#, c-format
 msgid "Error writing `%s'."
-msgstr "Errore durante la scrittura: %s."
+msgstr "Errore durante la scrittura di `%s'."
 
 #: src/arch/unix/uicommands.c:669
 #, c-format
@@ -1170,34 +1167,28 @@ msgid "Hard"
 msgstr "Hard"
 
 #: src/arch/unix/uicommands.c:912
-#, fuzzy
 msgid "Add current image (Unit 8)"
-msgstr "Aggiungi l'immagine attuale"
+msgstr "Aggiungi l'immagine attuale (Unità 8)"
 
 #: src/arch/unix/uicommands.c:915
-#, fuzzy
 msgid "Remove current image (Unit 8)"
-msgstr "Rimuovi l'immagine attuale"
+msgstr "Rimuovi l'immagine attuale (Unità 8)"
 
 #: src/arch/unix/uicommands.c:918
-#, fuzzy
 msgid "Attach next image (Unit 8)"
-msgstr "Seleziona la prossima immagine"
+msgstr "Seleziona la prossima immagine (Unità 8)"
 
 #: src/arch/unix/uicommands.c:921
-#, fuzzy
 msgid "Attach previous image (Unit 8)"
-msgstr "Seleziona l'immagine precedente"
+msgstr "Seleziona l'immagine precedente (Unit 8)"
 
 #: src/arch/unix/uicommands.c:924
-#, fuzzy
 msgid "Load fliplist file"
-msgstr "Carica il file della ROM"
+msgstr "Carica il file della fliplist"
 
 #: src/arch/unix/uicommands.c:926
-#, fuzzy
 msgid "Save fliplist file"
-msgstr "Salva il file snapshot"
+msgstr "Salva il file della fliplist"
 
 #: src/arch/unix/uicommands.c:932
 msgid "Attach a disk image"
@@ -1213,7 +1204,7 @@ msgstr "Rimuovi l'immagine di un disco"
 
 #: src/arch/unix/uicommands.c:938
 msgid "Fliplist"
-msgstr ""
+msgstr "Fliplist"
 
 #: src/arch/unix/uicommands.c:944
 msgid "Attach a tape image..."
@@ -2080,14 +2071,12 @@ msgid "Scanline Shade in percent"
 msgstr ""
 
 #: src/arch/unix/uipalemu.c:92
-#, fuzzy
 msgid "*Activate PAL emulation"
-msgstr "*Emulazione PAL veloce"
+msgstr "*Attiva l'emulazione PAL"
 
 #: src/arch/unix/uipalemu.c:95
-#, fuzzy
 msgid "*Fake PAL Emulation"
-msgstr "*Emulazione PAL veloce"
+msgstr ""
 
 #: src/arch/unix/uipalemu.c:97
 msgid "*Sharp PAL Emulation (Y/C Input)"
@@ -2191,9 +2180,8 @@ msgid "Detach cartridge image(s)"
 msgstr "Rimuovi le immagini delle cartucce"
 
 #: src/arch/unix/vic20ui.c:428
-#, fuzzy
 msgid "PAL Emulation Settings"
-msgstr "Impostazioni PAL"
+msgstr "Impostazioni dell'emulazione PAL"
 
 #: src/arch/unix/vic20ui.c:434
 msgid "VIC settings"
@@ -2221,9 +2209,8 @@ msgid "*3.00 sec"
 msgstr "*3.00 sec"
 
 #: src/arch/unix/vsidui.c:168
-#, fuzzy
 msgid "*Override PSID settings"
-msgstr "Impostazioni del SID"
+msgstr "*Non tener conto delle impostazioni del PSID"
 
 #: src/arch/unix/vsidui.c:191
 msgid "*Default Tune"
@@ -2271,9 +2258,9 @@ msgid "Contributors"
 msgstr "Collaboratori"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:87 src/arch/unix/x11/xaw/x11video.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
-msgstr "Video inizializzato con successo."
+msgstr "Inizializzazione riuscita utilizzando XVideo (%dx%d %.4s)."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:108
 msgid "Successfully initialized video."
@@ -2781,9 +2768,8 @@ msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Non chiamare `XSync()' dopo aver aggiornato la finestra di emulazione"
 
 #: src/arch/unix/x11/video.c:162
-#, fuzzy
 msgid "Use shared memory"
-msgstr "Non è possibile rilasciare la memoria condivisa!"
+msgstr "Usa la memoria condivisa"
 
 #: src/arch/unix/x11/video.c:165
 msgid "Never use shared memory (slower)"
@@ -2791,15 +2777,15 @@ msgstr "Non usare mai la memoria condivisa (più lento)"
 
 #: src/arch/unix/x11/video.c:169
 msgid "Use XVideo Extension (hardware scaling)"
-msgstr ""
+msgstr "Usa le estensioni XVideo (scaling hardware)"
 
 #: src/arch/unix/x11/video.c:172
 msgid "Use software rendering"
-msgstr ""
+msgstr "Usa il rendering software"
 
 #: src/arch/unix/x11/video.c:174
 msgid "Request YUV FOURCC format"
-msgstr ""
+msgstr "Richiede il formato YUV FOURCC"
 
 #: src/arch/unix/x11/video.c:354
 msgid "The MITSHM extension is not supported on this display."

@@ -1,3 +1,23 @@
+2002-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.32.
+
+	* interrupt.h (interrupt_steal_cycles): Add all cycles to
+	interrupt clocks.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011):
+	Use `maincpu_steal_cycles()' for stealing cycles.
+
+	* diskimage.c (disk_image_check_for_d64): Use `size_t'.
+
+	* drive/driverom.c (drive_new_rom_image_loaded): Changed to
+	use `unsigned int'.
+
+	* gfxoutputdrv/bmpdrv.c (bmpdrv_write): Likewise.
+
+	* monitor/mon.c, monitor/mon_disassemble.c, monitor/mon_ui.c,
+	monitor/mon_util.c: Added some casts.
+
 2002-04-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.31.

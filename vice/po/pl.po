@@ -6,28 +6,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
 "POT-Creation-Date: 2002-04-01 15:52+0200\n"
-"PO-Revision-Date: 2002-01-19 20:00+02:00\n"
+"PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
-"Language-Team: PL <LL@li.org>\n"
+"Language-Team: pl <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: src/vsync.c:115
 msgid "Limit emulation speed to specified value"
-msgstr "Ograniczaj prêdkoœæ emulacji do podanej wartoœci"
+msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
 #: src/vsync.c:117
 msgid "Update every <value> frames (`0' for automatic)"
-msgstr "Aktualizuj co <wartoœæ> klatek (`0' - automatycznie)"
+msgstr "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"
 
 #: src/vsync.c:119
 msgid "Enable warp mode"
-msgstr "W³¹cz tryb przyœpieszony (Turbo)"
+msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/vsync.c:121
 msgid "Disable warp mode"
-msgstr "Wy³¹cz tryb przyœpieszony (Turbo)"
+msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/vsync.c:395
 msgid "Your machine is too slow for current settings!"
@@ -58,7 +58,7 @@ msgstr "*NTSC-M"
 #: src/arch/unix/c128ui.c:73 src/arch/unix/uivicii.c:44
 #: src/arch/unix/vic20ui.c:413
 msgid "*Default"
-msgstr "*Domyœlny"
+msgstr "*Domy¶lny"
 
 #: src/arch/unix/c128ui.c:77 src/arch/unix/uicrtc.c:44
 #: src/arch/unix/uivicii.c:57 src/arch/unix/vic20ui.c:415
@@ -67,15 +67,15 @@ msgstr "Za³aduj w³asny"
 
 #: src/arch/unix/c128ui.c:86
 msgid "*Revison 0"
-msgstr ""
+msgstr "* Revision 0"
 
 #: src/arch/unix/c128ui.c:88
 msgid "*Revison 1"
-msgstr ""
+msgstr "*Revision 1"
 
 #: src/arch/unix/c128ui.c:90
 msgid "*Revison 2"
-msgstr ""
+msgstr "*Revision 2"
 
 #: src/arch/unix/c128ui.c:101 src/arch/unix/uicrtc.c:56
 #: src/arch/unix/uisettings.c:530
@@ -94,12 +94,12 @@ msgstr "*Podwójne scanlines "
 
 #: src/arch/unix/c128ui.c:108
 msgid "*64KB display memory"
-msgstr "*Wyœwietl pamiêæ 64KB"
+msgstr "*Wy¶wietl pamiêæ 64KB"
 
 #: src/arch/unix/c128ui.c:110
 #, fuzzy
 msgid "Revision"
-msgstr "Rozdzielczoœæ"
+msgstr "Revision"
 
 #: src/arch/unix/c128ui.c:113 src/arch/unix/plus4ui.c:97
 #: src/arch/unix/uivicii.c:78 src/arch/unix/vic20ui.c:425
@@ -110,13 +110,13 @@ msgstr "Ustaw kolory"
 #: src/arch/unix/c610ui.c:286 src/arch/unix/c610ui.c:312
 #: src/arch/unix/c64ui.c:218 src/arch/unix/c64ui.c:244
 msgid "*Second SID"
-msgstr ""
+msgstr "*Drugi SID"
 
 #: src/arch/unix/c128ui.c:200 src/arch/unix/c128ui.c:226
 #: src/arch/unix/c610ui.c:288 src/arch/unix/c610ui.c:314
 #: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:246
 msgid "*Second SID base address"
-msgstr ""
+msgstr "*Adres bazowy drugiego SID"
 
 #: src/arch/unix/c128ui.c:203 src/arch/unix/c128ui.c:232
 #: src/arch/unix/c610ui.c:291 src/arch/unix/c610ui.c:321
@@ -141,7 +141,7 @@ msgstr "*U¿yj emulacji reSID"
 msgid "reSID sampling method"
 msgstr "Metoda samplowania reSID"
 
-# src/arch/unix/c64ui.c:289  [do przetlumaczenia]
+# src/arch/unix/c64ui.c:289  
 #: src/arch/unix/c128ui.c:213 src/arch/unix/c610ui.c:301
 #: src/arch/unix/c64ui.c:233
 msgid "reSID resampling passband..."
@@ -151,7 +151,7 @@ msgstr "reSID resampling passband..."
 #: src/arch/unix/c64ui.c:242 src/arch/unix/uisound.c:120
 #: src/arch/unix/vsidui.c:147
 msgid "*Enable sound playback"
-msgstr "*W³¹cz dŸwiêk"
+msgstr "*W³±cz d¼wiêk"
 
 #: src/arch/unix/c128ui.c:258
 msgid "Function ROM image"
@@ -168,7 +168,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:268
 msgid "*Enable internal Function ROM"
-msgstr "*W³¹cz wewnêtrzn¹ funkcjê ROM"
+msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
 
 #: src/arch/unix/c128ui.c:270
 msgid "Internal Function ROM name..."
@@ -176,7 +176,7 @@ msgstr "Nazwa wewnêtrznej funkci ROM..."
 
 #: src/arch/unix/c128ui.c:274
 msgid "*Enable external Function ROM"
-msgstr "*W³¹cz zewnêtrzn¹ funkcjê ROM"
+msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 
 #: src/arch/unix/c128ui.c:276
 msgid "External Function ROM name..."
@@ -188,7 +188,7 @@ msgstr "Funkcja ROM"
 
 #: src/arch/unix/c128ui.c:286 src/arch/unix/c64ui.c:267
 msgid "RAM Expansion Unit"
-msgstr "Rozszerzenie jednostki RAM"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/unix/c128ui.c:288 src/arch/unix/c64ui.c:269
 #: src/arch/unix/petui.c:292 src/arch/unix/vic20ui.c:180
@@ -206,7 +206,7 @@ msgstr "*Emulacja myszki 1351"
 #: src/arch/unix/c128ui.c:302 src/arch/unix/c64ui.c:281
 #: src/arch/unix/vic20ui.c:116
 msgid "Load default ROMs"
-msgstr "Za³aduj domyœlne ROMy"
+msgstr "Za³aduj domy¶lne ROMy"
 
 #: src/arch/unix/c128ui.c:306 src/arch/unix/vic20ui.c:119
 msgid "Load new Kernal ROM"
@@ -250,7 +250,7 @@ msgstr "Za³aduj w³asne ustawienia ROM z pliku"
 #: src/arch/unix/c64ui.c:313 src/arch/unix/petui.c:233
 #: src/arch/unix/vic20ui.c:131
 msgid "Dump ROM set definition to file"
-msgstr "SprowadŸ ustawienia ROM'u do pliku"
+msgstr "Sprowad¼ ustawienia ROM'u do pliku"
 
 #: src/arch/unix/c128ui.c:357
 msgid "VIC II Screenshot"
@@ -304,7 +304,7 @@ msgstr "Plik"
 #: src/arch/unix/c64ui.c:438 src/arch/unix/petui.c:403
 #: src/arch/unix/plus4ui.c:187 src/arch/unix/vic20ui.c:521
 msgid "Snapshot"
-msgstr "Zapisz"
+msgstr "Migawka"
 
 #: src/arch/unix/c128ui.c:477 src/arch/unix/c610ui.c:484
 #: src/arch/unix/c64ui.c:444 src/arch/unix/petui.c:409
@@ -326,7 +326,7 @@ msgstr "Ustawienia"
 #: src/arch/unix/c64ui.c:474 src/arch/unix/petui.c:437
 #: src/arch/unix/plus4ui.c:218 src/arch/unix/vic20ui.c:554
 msgid "RJHelp"
-msgstr "RJHelp"
+msgstr "RJPomoc"
 
 #: src/arch/unix/c610ui.c:70
 msgid "Basic 128k, low chars"
@@ -358,7 +358,7 @@ msgstr "Za³aduj nowy Basic"
 
 #: src/arch/unix/c610ui.c:89
 msgid "Unload Basic ROM"
-msgstr "Prze³aduj ROM Basic"
+msgstr "Usuñ ROM Basic"
 
 #: src/arch/unix/c610ui.c:93
 msgid "Load new Cart $1***"
@@ -402,7 +402,7 @@ msgstr "*Biznes"
 
 #: src/arch/unix/c610ui.c:225 src/arch/unix/petui.c:264
 msgid "Model defaults"
-msgstr "Model domyœlny"
+msgstr "Model domy¶lny"
 
 #: src/arch/unix/c610ui.c:228 src/arch/unix/petui.c:267
 #: src/arch/unix/vic20ui.c:166
@@ -415,7 +415,7 @@ msgstr "Rozmiar pamiêci"
 
 #: src/arch/unix/c610ui.c:233
 msgid "Hardwired switches"
-msgstr "Prze³¹czniki sprzêtowe"
+msgstr "Prze³±czniki sprzêtowe"
 
 #: src/arch/unix/c610ui.c:236
 msgid "*Bank 15 $0800-$0FFF RAM"
@@ -447,27 +447,27 @@ msgstr "Typ klawiatury"
 
 #: src/arch/unix/c610ui.c:331 src/arch/unix/petui.c:242
 msgid "ACIA device"
-msgstr "Urz¹dzenia ACIA"
+msgstr "Urz±dzenia ACIA"
 
 #: src/arch/unix/c610ui.c:334 src/arch/unix/petui.c:245
 #: src/arch/unix/uirs232.c:216 src/arch/unix/vic20ui.c:333
 msgid "Serial 1 device..."
-msgstr "Urz¹dzenie Serial 1..."
+msgstr "Urz±dzenie Serial 1..."
 
 #: src/arch/unix/c610ui.c:336 src/arch/unix/petui.c:247
 #: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:335
 msgid "Serial 1 baudrate"
-msgstr "Prêdkoœæ Serial 1"
+msgstr "Prêdko¶æ Serial 1"
 
 #: src/arch/unix/c610ui.c:339 src/arch/unix/petui.c:250
 #: src/arch/unix/vic20ui.c:338
 msgid "Serial 2 device..."
-msgstr "Urz¹dzenie Serial 2..."
+msgstr "Urz±dzenie Serial 2..."
 
 #: src/arch/unix/c610ui.c:341 src/arch/unix/petui.c:252
 #: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:340
 msgid "Serial 2 baudrate"
-msgstr "Prêdkoœæ Serial 2"
+msgstr "Prêdko¶æ Serial 2"
 
 #: src/arch/unix/c610ui.c:344 src/arch/unix/petui.c:255
 #: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:343
@@ -509,7 +509,7 @@ msgstr "Za³aduj nowy kernal ROM"
 msgid "Load new BASIC ROM"
 msgstr "Za³aduj nowy BASIC ROM"
 
-# src/arch/unix/c64ui.c:470 src/arch/unix/petui.c:316 [do przetlumaczenia]
+# src/arch/unix/c64ui.c:470 src/arch/unix/petui.c:316 
 #: src/arch/unix/c64ui.c:291 src/arch/unix/petui.c:200
 msgid "Load new character ROM"
 msgstr "Za³aduj nowy ROM z zestawem znaków"
@@ -534,25 +534,25 @@ msgstr "Ustaw joystick w porcie 2"
 #: src/arch/unix/joystick.c:393
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr "Nie mo¿na otworzyæ urz¹dzenia `%s'."
+msgstr "Nie mo¿na otworzyæ urz±dzenia `%s'."
 
 #: src/arch/unix/joystick.c:208
 #, c-format
 msgid "Error reading joystick device `%s'."
-msgstr "B³¹d czytania urz¹dzenia joysticka `%s'."
+msgstr "B³±d czytania urz±dzenia joysticka `%s'."
 
 #: src/arch/unix/joystick.c:227
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
-msgstr "Kalibracja sprzêtowego joysticka dla urz¹dzenia `%s':"
+msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
 #: src/arch/unix/joystick.c:280
 msgid "Error reading digital joystick device."
-msgstr "B³¹d czytania urz¹dzenia cyfrowego joysticka."
+msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
 #: src/arch/unix/joystick.c:296
 msgid "Error reading joystick device."
-msgstr "B³¹d czytania urz¹dzenia joysticka."
+msgstr "B³±d czytania urz±dzenia joysticka."
 
 #: src/arch/unix/joystick.c:342
 msgid "Linux joystick interface initialization..."
@@ -570,7 +570,7 @@ msgstr "Wersja sterownika: %d.%d.%d "
 
 #: src/arch/unix/joystick.c:373
 msgid "Kernel driver version  : 0.8 ??"
-msgstr "Wersja napêdu j¹dra : 0.8 ??"
+msgstr "Wersja napêdu j±dra : 0.8 ??"
 
 #: src/arch/unix/joystick.c:374
 msgid "Please update your Joystick driver !"
@@ -578,20 +578,20 @@ msgstr "Zaktualizuj sterownik joysticka"
 
 #: src/arch/unix/joystick.c:375
 msgid "Fall back to old api routine"
-msgstr "Fall back to old api routine"
+msgstr "Powrót do starej obs³ugi api"
 
 #: src/arch/unix/joystick.c:388
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
-msgstr "Wersja sterownika j¹dra : %d.%d.%d"
+msgstr "Wersja sterownika j±dra : %d.%d.%d"
 
 #: src/arch/unix/kmap.c:116
 msgid "Specify name of symbolic keymap file"
-msgstr "Okreœl nazwê pliku mapy klawiatury"
+msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
 #: src/arch/unix/kmap.c:118
 msgid "Specify name of positional keymap file"
-msgstr "Okreœl nazwê pozycjalnego pliku nazwy mapy klawiatury"
+msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
 #: src/arch/unix/main_exit.c:45
 msgid ""
@@ -603,39 +603,39 @@ msgstr ""
 
 #: src/arch/unix/mouse.c:69
 msgid "Enable emulation of the 1351 proportional mouse"
-msgstr "W³¹cz emulacjê myszki 1351"
+msgstr "W³±cz emulacjê myszki 1351"
 
 #: src/arch/unix/mouse.c:71
 msgid "Disable emulation of the 1351 proportional mouse"
-msgstr "Wy³¹cz emulacjê myszki 1351"
+msgstr "Wy³±cz emulacjê myszki 1351"
 
 #: src/arch/unix/petkmap.c:145
 msgid "Specify name of graphics keyboard symbolic keymap file"
-msgstr ""
+msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury graficznej"
 
 #: src/arch/unix/petkmap.c:148
 msgid "Specify name of graphics keyboard positional keymap file"
-msgstr ""
+msgstr "Okre¶l nazwê pozycyjnej mapy klawiatury graficznej"
 
 #: src/arch/unix/petkmap.c:151
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
-"Okreœl nazwê klawiatury pozycjonalnej UK pliku symbolicznej mapy klawiatury"
+"Okre¶l nazwê klawiatury pozycjonalnej UK pliku symbolicznej mapy klawiatury"
 
 #: src/arch/unix/petkmap.c:154
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr "Okreœl nazwê UK klawiatury pozycjonalnej pliku mapy klawiatury"
+msgstr "Okre¶l nazwê UK klawiatury pozycjonalnej pliku mapy klawiatury"
 
 #: src/arch/unix/petkmap.c:157
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
-"Okreœl nazwê niemieckiej klawiatury pozycjonalnej pliku symbolicznej mapy "
+"Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku symbolicznej mapy "
 "klawiatury"
 
 #: src/arch/unix/petkmap.c:160
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
-"Okreœl nazwê niemieckiej klawiatury pozycjonalnej pliku mapy klawiatury"
+"Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku mapy klawiatury"
 
 #: src/arch/unix/petui.c:98
 msgid "*4 kByte"
@@ -691,11 +691,11 @@ msgstr "Za³aduj nowy edytor ROM"
 
 #: src/arch/unix/petui.c:203
 msgid "*Original character set"
-msgstr "*Original character set"
+msgstr "*Oryginalny zestaw znaków"
 
 #: src/arch/unix/petui.c:206
 msgid "*German character set"
-msgstr "*German character set"
+msgstr "*Niemiecki zestaw znaków"
 
 #: src/arch/unix/petui.c:210
 msgid "Load new $9*** ROM"
@@ -731,11 +731,11 @@ msgstr "Rozmiar I/O"
 
 #: src/arch/unix/petui.c:276
 msgid "*CRTC chip enable"
-msgstr "*W³¹cz chip CRTC"
+msgstr "*W³±cz chip CRTC"
 
 #: src/arch/unix/petui.c:279
 msgid "*SuperPET I/O enable (disables 8x96)"
-msgstr "*W³¹cz SuperPET I/O (wy³¹czone 8x96)"
+msgstr "*W³±cz SuperPET I/O (wy³±czone 8x96)"
 
 #: src/arch/unix/petui.c:281
 msgid "SuperPET ACIA"
@@ -755,26 +755,26 @@ msgstr "Ustawienia modelu PET"
 
 #: src/arch/unix/petui.c:300
 msgid "*PET userport diagnostic pin"
-msgstr "*PET userport diagnostic pin"
+msgstr "*Pin diagnostyczny userportu PET"
 
 #: src/arch/unix/plus4ui.c:91 src/arch/unix/uivicii.c:76
 msgid "*External color set"
-msgstr ""
+msgstr "*Zewnêtrzne ustawienia kolorów"
 
 #: src/arch/unix/plus4ui.c:94 src/arch/unix/uivicii.c:81
 #, fuzzy
 msgid "PAL Emulation"
-msgstr " emulator"
+msgstr "PAL emulator"
 
 #: src/arch/unix/plus4ui.c:100
 #, fuzzy
 msgid "*Fast PAL emulation"
-msgstr "*U¿yj emulacji reSID"
+msgstr "*Szybka emulacja PAL"
 
 #: src/arch/unix/plus4ui.c:103
 #, fuzzy
 msgid "*PAL emulation"
-msgstr " emulator"
+msgstr "*Emulacja PAL"
 
 #: src/arch/unix/plus4ui.c:113
 #, fuzzy
@@ -783,27 +783,27 @@ msgstr "Ustawienia VDC"
 
 #: src/arch/unix/rs232.c:120
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
-msgstr "Okreœl nazwê 1 urz¹dzenia RS232 (/dev/ttyS0)"
+msgstr "Okre¶l nazwê 1 urz±dzenia RS232 (/dev/ttyS0)"
 
 #: src/arch/unix/rs232.c:122
 msgid "Specify baudrate of first RS232 device"
-msgstr "Okreœl szybkoœæ transmisji urz¹dzenia "
+msgstr "Okre¶l szybko¶æ transmisji urz±dzenia "
 
 #: src/arch/unix/rs232.c:124
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
-msgstr "Okreœl nazwê drugorzêdnego urz¹dzenia RS232 (/dev/ttyS1)"
+msgstr "Okre¶l nazwê drugorzêdnego urz±dzenia RS232 (/dev/ttyS1)"
 
 #: src/arch/unix/rs232.c:126
 msgid "Specify baudrate of second RS232 device"
-msgstr "Okreœl szybkoœæ transmisju drugorzêdnego urz¹dzenia RS232"
+msgstr "Okre¶l szybko¶æ transmisju drugorzêdnego urz±dzenia RS232"
 
 #: src/arch/unix/rs232.c:128
 msgid "Specify name of third RS232 device (rs232.dump)"
-msgstr "Okreœl nazwê 3 urz¹dzenia RS232 (rs232.dump)"
+msgstr "Okre¶l nazwê 3 urz±dzenia RS232 (rs232.dump)"
 
 #: src/arch/unix/rs232.c:130
 msgid "Specify baudrate of third RS232 device"
-msgstr "Okreœl szybkoœæ transmisji 3 urz¹dzenia RS232"
+msgstr "Okre¶l szybko¶æ transmisji 3 urz±dzenia RS232"
 
 #: src/arch/unix/rs232.c:132
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
@@ -811,11 +811,11 @@ msgstr "Specify command to pipe data in/out, preceed with '|' (|lpr)"
 
 #: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Okreœl szybkoœæ transmisji 4 urz¹dzenia RS232"
+msgstr "Okre¶l szybko¶æ transmisji 4 urz±dzenia RS232"
 
 #: src/arch/unix/rs232.c:263
 msgid "No more devices available."
-msgstr "Brak dodatkowych dostêpnych urz¹dzeñ."
+msgstr "Brak dodatkowych dostêpnych urz±dzeñ."
 
 #: src/arch/unix/rs232.c:268
 #, c-format
@@ -830,12 +830,12 @@ msgstr "Nie mo¿na otworzyæ pliku \"%s\": %s "
 #: src/arch/unix/rs232.c:310
 #, c-format
 msgid "Attempt to close invalid fd %d."
-msgstr "Próbuj zamkn¹æ uszkodzony fd %d."
+msgstr "Próbuj zamkn±æ uszkodzony fd %d."
 
 #: src/arch/unix/rs232.c:314
 #, c-format
 msgid "Attempt to close non-open fd %d."
-msgstr "Próbuj zamkn¹æ nie otwarty fd %d."
+msgstr "Próbuj zamkn±æ nie otwarty fd %d."
 
 #: src/arch/unix/rs232.c:334
 #, c-format
@@ -850,7 +850,7 @@ msgstr "Próbuj zapisaæ do nie otwartego fd %d."
 #: src/arch/unix/rs232.c:350
 #, c-format
 msgid "Error writing: %s."
-msgstr "B³¹d czytania: %s."
+msgstr "B³±d czytania: %s."
 
 #: src/arch/unix/rs232.c:365
 #, c-format
@@ -921,11 +921,11 @@ msgstr "W³ó¿ obraz Super Snapshot 5..."
 
 #: src/arch/unix/uic64cart.c:172
 msgid "Enable Expert Cartridge..."
-msgstr "W³¹cz Expert Cartridge..."
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/unix/uic64cart.c:176 src/arch/unix/vic20ui.c:254
 msgid "Set cartridge as default"
-msgstr "Ustaw kartrid¿ jako domyœlny"
+msgstr "Ustaw kartrid¿ jako domy¶lny"
 
 #: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:260
 msgid "Attach a cartridge image"
@@ -1004,16 +1004,16 @@ msgstr "Nie mo¿na uruchomiæ xterm"
 
 #: src/arch/unix/uicommands.c:335
 msgid "Unknown error while running c1541"
-msgstr "Nieznany b³¹d przy uruchamianiu c1541"
+msgstr "Nieznany b³±d przy uruchamianiu c1541"
 
 #: src/arch/unix/uicommands.c:371
 msgid "No HTML browser is defined."
-msgstr "Brak zdefiniowanej przegl¹darki HTML."
+msgstr "Brak zdefiniowanej przegl±darki HTML."
 
 #: src/arch/unix/uicommands.c:390 src/arch/unix/uicommands.c:404
 #: src/arch/unix/uicommands.c:417
 msgid "Browser command too long."
-msgstr "Komenda przegl¹darki jest zbyt d³uga."
+msgstr "Komenda przegl±darki jest zbyt d³uga."
 
 #: src/arch/unix/uicommands.c:430
 #, c-format
@@ -1022,7 +1022,7 @@ msgstr "Wykonywanie `%s'..."
 
 #: src/arch/unix/uicommands.c:432
 msgid "Cannot run HTML browser."
-msgstr "Nie mo¿na uruchomiæ przegl¹darki HTML"
+msgstr "Nie mo¿na uruchomiæ przegl±darki HTML"
 
 #: src/arch/unix/uicommands.c:470
 #, c-format
@@ -1055,13 +1055,13 @@ msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
-"Nie mo¿na zapisaæ pliku\n"
+"Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
 #: src/arch/unix/uicommands.c:608
 #, fuzzy
 msgid "Load "
-msgstr "Za³aduj w³asny"
+msgstr "Za³aduj "
 
 #: src/arch/unix/uicommands.c:608 src/arch/unix/x11/xaw/uicartridge.c:164
 #: src/arch/unix/x11/xaw/uiedisk.c:397
@@ -1073,27 +1073,27 @@ msgstr "Zapisz"
 #: src/arch/unix/uicommands.c:608
 #, fuzzy
 msgid "Fliplist File"
-msgstr "Zmieñ listê dla napêdu #8"
+msgstr "Zmieñ plik listy"
 
 #: src/arch/unix/uicommands.c:618
 #, fuzzy, c-format
 msgid "Successfully read `%s'."
-msgstr "Zapisywanie `%s' zakoñczone pomyœlnie"
+msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
 #: src/arch/unix/uicommands.c:620
 #, fuzzy, c-format
 msgid "Error reading `%s'."
-msgstr "B³¹d czytania: %s."
+msgstr "B³±d czytania: %s."
 
 #: src/arch/unix/uicommands.c:625
 #, fuzzy, c-format
 msgid "Successfully wrote `%s'."
-msgstr "Zapisywanie `%s' zakoñczone pomyœlnie"
+msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
 #: src/arch/unix/uicommands.c:627
 #, fuzzy, c-format
 msgid "Error writing `%s'."
-msgstr "B³¹d czytania: %s."
+msgstr "B³±d czytania: %s."
 
 #: src/arch/unix/uicommands.c:669
 #, c-format
@@ -1174,32 +1174,32 @@ msgstr "Twardy"
 #: src/arch/unix/uicommands.c:912
 #, fuzzy
 msgid "Add current image (Unit 8)"
-msgstr "Dodaj aktualny obraz"
+msgstr "Dodaj aktualny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:915
 #, fuzzy
 msgid "Remove current image (Unit 8)"
-msgstr "Usuñ aktualny obraz"
+msgstr "Usuñ aktualny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:918
 #, fuzzy
 msgid "Attach next image (Unit 8)"
-msgstr "W³ó¿ nastêpny obraz"
+msgstr "W³ó¿ nastêpny obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:921
 #, fuzzy
 msgid "Attach previous image (Unit 8)"
-msgstr "W³ó¿ poprzedni obraz"
+msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
 
 #: src/arch/unix/uicommands.c:924
 #, fuzzy
 msgid "Load fliplist file"
-msgstr "Za³aduj plik ROM"
+msgstr "Za³aduj plik listy"
 
 #: src/arch/unix/uicommands.c:926
 #, fuzzy
 msgid "Save fliplist file"
-msgstr "Zapisz plik"
+msgstr "Zapisz plik listy"
 
 #: src/arch/unix/uicommands.c:932
 msgid "Attach a disk image"
@@ -1207,7 +1207,7 @@ msgstr "W³ó¿ obraz dyskietki"
 
 #: src/arch/unix/uicommands.c:934
 msgid "Create and attach an empty disk"
-msgstr "Stwórz i w³ó¿ pust¹ dyskietkê"
+msgstr "Stwórz i w³ó¿ pust± dyskietkê"
 
 #: src/arch/unix/uicommands.c:936
 msgid "Detach disk image"
@@ -1215,7 +1215,7 @@ msgstr "Wyjmij obraz dyskietki"
 
 #: src/arch/unix/uicommands.c:938
 msgid "Fliplist"
-msgstr ""
+msgstr "Zmieñ listê"
 
 #: src/arch/unix/uicommands.c:944
 msgid "Attach a tape image..."
@@ -1263,7 +1263,7 @@ msgstr "Uruchom C1541"
 
 #: src/arch/unix/uicommands.c:999
 msgid "Browse manuals"
-msgstr "Przegl¹daj podrêcznik"
+msgstr "Przegl±daj podrêcznik"
 
 #: src/arch/unix/uicommands.c:1001
 msgid "About VICE..."
@@ -1280,11 +1280,11 @@ msgstr "*Pauza"
 
 #: src/arch/unix/uicommands.c:1016
 msgid "Exit emulator"
-msgstr "WyjdŸ z emulatora"
+msgstr "Wyjd¼ z emulatora"
 
 #: src/arch/unix/uicrtc.c:37
 msgid "*Default (Green)"
-msgstr "*Domyœlne (Zielone)"
+msgstr "*Domy¶lne (Zielone)"
 
 #: src/arch/unix/uicrtc.c:39
 msgid "*Amber"
@@ -1304,7 +1304,7 @@ msgstr "Ustawienia video crtc"
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
 msgid "Datasette speed tuning"
-msgstr "Regulacja prêdkoœci Datasette"
+msgstr "Regulacja prêdko¶ci Datasette"
 
 #: src/arch/unix/uidatasette.c:58 src/arch/unix/uidatasette.c:86
 msgid "Datasette zero gap delay"
@@ -1313,7 +1313,7 @@ msgstr "Datasette zero gap delay"
 #: src/arch/unix/uidatasette.c:70 src/arch/unix/uipalemu.c:76
 #, c-format
 msgid "Invalid value: %s"
-msgstr "Nieprawid³owa wartoœæ: %s"
+msgstr "Nieprawid³owa warto¶æ: %s"
 
 #: src/arch/unix/uidatasette.c:84
 msgid "*Reset Datasette on CPU Reset"
@@ -1341,7 +1341,7 @@ msgstr "Rejestruj"
 
 #: src/arch/unix/uidatasette.c:107
 msgid "Datassette control"
-msgstr "Zarz¹dzanie magnetofonem"
+msgstr "Zarz±dzanie magnetofonem"
 
 #: src/arch/unix/uidrive.c:100 src/arch/unix/uidrive.c:128
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
@@ -1375,11 +1375,11 @@ msgstr "*Nigdy nie rozszerzaj"
 
 #: src/arch/unix/uidrive.c:176 src/arch/unix/uidrive.c:186
 msgid "*Ask on extend"
-msgstr "*Wczeœniej zapytaj"
+msgstr "*Wcze¶niej zapytaj"
 
 #: src/arch/unix/uidrive.c:178 src/arch/unix/uidrive.c:188
 msgid "*Extend on access"
-msgstr "*Rozszerz, kiedy nast¹pi u¿ycie"
+msgstr "*Rozszerz, kiedy nast±pi u¿ycie"
 
 #: src/arch/unix/uidrive.c:194 src/arch/unix/uidrive.c:204
 msgid "*No traps"
@@ -1396,7 +1396,7 @@ msgstr "*Wykrywaj"
 #: src/arch/unix/uidrive.c:218 src/arch/unix/uidrive.c:247
 #: src/arch/unix/uidrive.c:271
 msgid "*Enable true drive emulation"
-msgstr "*W³¹cz rzeczywist¹ emulacjê napêdu"
+msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/arch/unix/uidrive.c:221
 msgid "Drive #8 model"
@@ -1408,15 +1408,15 @@ msgstr "Rozszerzenie RAM napêdu #8 "
 
 #: src/arch/unix/uidrive.c:225
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Napêd #8 - w³¹cz kabel równoleg³y"
+msgstr "*Napêd #8 - w³±cz kabel równoleg³y"
 
 #: src/arch/unix/uidrive.c:227 src/arch/unix/uidrive.c:252
 msgid "Drive #8 40-track image support"
-msgstr "Napêd #8 - 40-œcie¿kowy obraz"
+msgstr "Napêd #8 - 40-¶cie¿kowy obraz"
 
 #: src/arch/unix/uidrive.c:229 src/arch/unix/uidrive.c:255
 msgid "Drive #8 idle method"
-msgstr "Napêd #8 - wykryj metodê"
+msgstr "Napêd #8 - metada bezczynno¶ci"
 
 #: src/arch/unix/uidrive.c:232
 msgid "Drive #9 model"
@@ -1428,15 +1428,15 @@ msgstr "Rozszerzenie RAM napêdu #9"
 
 #: src/arch/unix/uidrive.c:236
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Napêd #9 - w³¹cz kabel równoleg³y "
+msgstr "*Napêd #9 - w³±cz kabel równoleg³y "
 
 #: src/arch/unix/uidrive.c:238 src/arch/unix/uidrive.c:261
 msgid "Drive #9 40-track image support"
-msgstr "Napêd #9 - 40-œcie¿kowy obraz"
+msgstr "Napêd #9 - 40-¶cie¿kowy obraz"
 
 #: src/arch/unix/uidrive.c:240 src/arch/unix/uidrive.c:264
 msgid "Drive #9 idle method"
-msgstr "Napêd #9 - wykryj metodê"
+msgstr "Napêd #9 - metada bezczynno¶ci"
 
 #: src/arch/unix/uidrive.c:250
 msgid "Drive #8 floppy disk type"
@@ -1498,7 +1498,7 @@ msgstr "Ustawienia joystcka"
 
 #: src/arch/unix/uipalette.c:46
 msgid "Load custom palette"
-msgstr "Za³aduj w³an¹ paletê"
+msgstr "Za³aduj w³an± paletê"
 
 #: src/arch/unix/uipalette.c:55
 #, c-format
@@ -1511,7 +1511,7 @@ msgstr ""
 
 #: src/arch/unix/uiperipheral.c:83
 msgid "Path:"
-msgstr "Œcie¿ka:"
+msgstr "¦cie¿ka:"
 
 #: src/arch/unix/uiperipheral.c:95 src/arch/unix/uiperipheral.c:113
 #: src/arch/unix/uiperipheral.c:131 src/arch/unix/uiperipheral.c:149
@@ -1541,23 +1541,23 @@ msgstr "*Stwórz plik P00 kiedy bêdzie zapis"
 #: src/arch/unix/uiperipheral.c:107 src/arch/unix/uiperipheral.c:125
 #: src/arch/unix/uiperipheral.c:143 src/arch/unix/uiperipheral.c:161
 msgid "*Hide raw CBM files"
-msgstr "*Hide raw CBM files"
+msgstr "*Ukrywaj nieprzerobione pliki CBM"
 
 #: src/arch/unix/uiperipheral.c:167
 msgid "Device #8"
-msgstr "Urz¹dzenie #8"
+msgstr "Urz±dzenie #8"
 
 #: src/arch/unix/uiperipheral.c:168
 msgid "Device #9"
-msgstr "Urz¹dzenie #9"
+msgstr "Urz±dzenie #9"
 
 #: src/arch/unix/uiperipheral.c:169
 msgid "Device #10"
-msgstr "Urz¹dzenie #10"
+msgstr "Urz±dzenie #10"
 
 #: src/arch/unix/uiperipheral.c:170
 msgid "Device #11"
-msgstr "Urz¹dzenie #11"
+msgstr "Urz±dzenie #11"
 
 #: src/arch/unix/uiperipheral.c:172
 msgid "Printer settings"
@@ -1565,7 +1565,7 @@ msgstr "Ustawienia drukarki"
 
 #: src/arch/unix/uiperipheral.c:174
 msgid "*Enable Virtual Devices"
-msgstr "*W³¹cz wirtualne urz¹dzenia"
+msgstr "*W³±cz wirtualne urz±dzenia"
 
 #: src/arch/unix/uiperipheral.c:180
 msgid "Peripheral settings"
@@ -1588,11 +1588,11 @@ msgstr "*Drukarka 3 (exec)"
 
 #: src/arch/unix/uiprinter.c:119
 msgid "Select printer dump file"
-msgstr "Select printer dump file"
+msgstr "Wybierz drukarkê do dump'owania pliku"
 
 #: src/arch/unix/uiprinter.c:147
 msgid "Command to execute for printing (preceed with '|')"
-msgstr "Command to execute for printing (preceed with '|')"
+msgstr "Polecenie do uruchomienia dla drukowania (przekaz przez '|')"
 
 #: src/arch/unix/uiprinter.c:157 src/arch/unix/uirs232.c:155
 #: src/arch/unix/uirs232.c:184
@@ -1610,11 +1610,11 @@ msgstr "Sterownik drukarki #4 - IEC"
 #: src/arch/unix/uiprinter.c:182
 #, fuzzy
 msgid "IEC printer #4 text output device"
-msgstr "Wyjœcie urz¹dzenie #4 drukarki - IEC"
+msgstr "Wyj¶cie urz±dzenie #4 drukarki - IEC"
 
 #: src/arch/unix/uiprinter.c:184
 msgid "Flush IEC printer #4 device"
-msgstr "Urz¹dzenie #4 drukarki - Flush IEC"
+msgstr "Urz±dzenie #4 drukarki - Flush IEC"
 
 #: src/arch/unix/uiprinter.c:187
 msgid "*IEC printer #5 emulation"
@@ -1627,11 +1627,11 @@ msgstr "Sterownik drukarki #5 - IEC"
 #: src/arch/unix/uiprinter.c:191
 #, fuzzy
 msgid "IEC printer #5 text output device"
-msgstr "Wyjœcie urz¹dzenia #5 drukarki - IEC"
+msgstr "Wyj¶cie urz±dzenia #5 drukarki - IEC"
 
 #: src/arch/unix/uiprinter.c:193
 msgid "Flush IEC printer #5 device"
-msgstr "Urz¹dzenie #5 drukarki - Flush IEC"
+msgstr "Urz±dzenie #5 drukarki - Flush IEC"
 
 #: src/arch/unix/uiprinter.c:196
 msgid "*Userport printer emulation"
@@ -1644,22 +1644,22 @@ msgstr "Port sterownika drukarki"
 #: src/arch/unix/uiprinter.c:200
 #, fuzzy
 msgid "Userport printer text output device"
-msgstr "Port wyjœcia drukarki"
+msgstr "Port wyj¶cia drukarki"
 
 #: src/arch/unix/uiprinter.c:203
 #, fuzzy
 msgid "Printer text device 1..."
-msgstr "Urz¹dzenie drukarki 1..."
+msgstr "Urz±dzenie drukarki 1..."
 
 #: src/arch/unix/uiprinter.c:205
 #, fuzzy
 msgid "Printer text device 2..."
-msgstr "Urz¹dzenie drukarki 2..."
+msgstr "Urz±dzenie drukarki 2..."
 
 #: src/arch/unix/uiprinter.c:207
 #, fuzzy
 msgid "Printer text device 3..."
-msgstr "Urz¹dzenie drukarki 4..."
+msgstr "Urz±dzenie drukarki 4..."
 
 #: src/arch/unix/uireu.c:51
 msgid "REU image name"
@@ -1671,7 +1671,7 @@ msgstr "Nazwa:"
 
 #: src/arch/unix/uireu.c:95
 msgid "*Enable REU"
-msgstr "*W³¹cz REU"
+msgstr "*W³±cz REU"
 
 #: src/arch/unix/uireu.c:97
 msgid "REU size"
@@ -1681,22 +1681,22 @@ msgstr "Rozmiar REU"
 msgid "REU image name..."
 msgstr "Nazwa obrazu REU..."
 
-# src/arch/unix/uisettings.c:452 src/arch/unix/uisettings.c:466 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:452 src/arch/unix/uisettings.c:466 
 #: src/arch/unix/uirs232.c:43 src/arch/unix/uirs232.c:57
 msgid "*Serial 1"
 msgstr "*Serial 1"
 
-# src/arch/unix/uisettings.c:454 src/arch/unix/uisettings.c:468 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:454 src/arch/unix/uisettings.c:468 
 #: src/arch/unix/uirs232.c:45 src/arch/unix/uirs232.c:59
 msgid "*Serial 2"
 msgstr "*Serial 2"
 
-# src/arch/unix/uisettings.c:456 src/arch/unix/uisettings.c:470 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:456 src/arch/unix/uisettings.c:470 
 #: src/arch/unix/uirs232.c:47 src/arch/unix/uirs232.c:61
 msgid "*Dump to file"
 msgstr "*Zrzuæ do pliku"
 
-# src/arch/unix/uisettings.c:458 src/arch/unix/uisettings.c:472 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:458 src/arch/unix/uisettings.c:472 
 #: src/arch/unix/uirs232.c:49 src/arch/unix/uirs232.c:63
 msgid "*Exec process"
 msgstr "*Uruchom proces"
@@ -1713,80 +1713,80 @@ msgstr "*IRQ"
 msgid "*NMI"
 msgstr "*NMI"
 
-# src/arch/unix/uisettings.c:529 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:529 
 #: src/arch/unix/uirs232.c:120
 msgid "Select RS232 device file"
-msgstr "Wybierz plik urz¹dzenia RS232"
+msgstr "Wybierz plik urz±dzenia RS232"
 
-# src/arch/unix/uisettings.c:554 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:554 
 #: src/arch/unix/uirs232.c:145
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Polecenie do uruchomienia dla RS232 (przetworzane przec '|')"
 
-# src/arch/unix/uisettings.c:583 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:583 
 #: src/arch/unix/uirs232.c:174
 msgid "File to dump RS232 to"
 msgstr "Plik do zapisu z RS232"
 
-# src/arch/unix/uisettings.c:607 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:607 
 #: src/arch/unix/uirs232.c:198
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*Interfejs emulacji ACIA $DExx RS232"
 
-# src/arch/unix/uisettings.c:609 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:609 
 #: src/arch/unix/uirs232.c:200
 msgid "ACIA $DExx device"
-msgstr "Urz¹dzenie ACIA $DExx"
+msgstr "Urz±dzenie ACIA $DExx"
 
-# src/arch/unix/uisettings.c:611 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:611 
 #: src/arch/unix/uirs232.c:202
 msgid "ACIA $DExx Interrupt"
 msgstr "Przerwanie ACIA $DExx"
 
-# src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
 #: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:324
 msgid "*No Userport RS232 emulation"
 msgstr "*Brak emulacji portu RS232"
 
-# src/arch/unix/uisettings.c:616 src/arch/unix/vic20ui.c:319 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:616 src/arch/unix/vic20ui.c:319 
 #: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:326
 msgid "*Userport 300 baud RS232 emulation"
-msgstr "*Emulacja portu RS232 o pretkosci 300 bodów"
+msgstr "*Emulacja portu RS232 o prêdko¶ci 300 bodów"
 
-# src/arch/unix/uisettings.c:618 src/arch/unix/vic20ui.c:321 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:618 src/arch/unix/vic20ui.c:321 
 #: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:328
 msgid "*Userport 1200 baud RS232 emulation"
-msgstr "*Emulacja portu RS232 o pretkosci 1200 bodów"
+msgstr "*Emulacja portu RS232 o prêdko¶ci 1200 bodów"
 
-# src/arch/unix/uisettings.c:620 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:620 
 #: src/arch/unix/uirs232.c:211
 msgid "*CIA 9600 baud RS232 emulation"
-msgstr "*Emulacja RS232 o prêdkoœci CIA 9600 bodów"
+msgstr "*Emulacja RS232 o prêdko¶ci CIA 9600 bodów"
 
-# src/arch/unix/uisettings.c:622 src/arch/unix/vic20ui.c:323 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:622 src/arch/unix/vic20ui.c:323 
 #: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:330
 msgid "Userport RS232 device"
-msgstr "Urz¹dzenie portu RS232"
+msgstr "Urz±dzenie portu RS232"
 
 #: src/arch/unix/uisettings.c:122
 msgid "Enter refresh rate"
-msgstr "WprowadŸ czêstotliwoœæ odœwierzania"
+msgstr "Wprowad¼ czêstotliwo¶æ od¶wierzania"
 
 #: src/arch/unix/uisettings.c:123 src/arch/unix/uisettings.c:562
 msgid "Refresh rate"
-msgstr "Czêstotliwoœæ odœwierzania"
+msgstr "Czêstotliwo¶æ od¶wie¿ania"
 
 #: src/arch/unix/uisettings.c:195
 msgid "Enter speed"
-msgstr "WprowadŸ prêdkoœæ"
+msgstr "Wprowad¼ prêdko¶æ"
 
 #: src/arch/unix/uisettings.c:196
 msgid "Maximum run speed"
-msgstr "Maksymalna prêdkoœæ dzia³ania"
+msgstr "Maksymalna prêdko¶æ dzia³ania"
 
 #: src/arch/unix/uisettings.c:210
 msgid "Invalid speed value"
-msgstr "Nieprawid³owa wartoœæ prêdkoœci"
+msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/ui.c:1286
 #: src/arch/unix/x11/xaw/ui.c:1064
@@ -1797,7 +1797,7 @@ msgstr "Nie mo¿na zapisaæ ustawieñ."
 msgid "Settings saved successfully."
 msgstr "Zapisywanie ustawieñ powiod³o siê."
 
-# src/arch/unix/uisettings.c:235 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:235 
 #: src/arch/unix/uisettings.c:240
 msgid ""
 "Cannot load settings:\n"
@@ -1806,7 +1806,7 @@ msgstr ""
 "Nie mo¿na za³adowaæ ustawieñ\n"
 "plik zasobów nieprawid³owy."
 
-# src/arch/unix/uisettings.c:237 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:237 
 #: src/arch/unix/uisettings.c:242
 msgid ""
 "Cannot load settings:\n"
@@ -1819,17 +1819,17 @@ msgstr ""
 msgid "Settings loaded."
 msgstr "Ustawienia za³adowane."
 
-# src/arch/unix/uisettings.c:283 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:283 
 #: src/arch/unix/uisettings.c:288
 msgid "*Symbolic mapping"
 msgstr "*mapowanie na podstawie symboli"
 
-# src/arch/unix/uisettings.c:285 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:285 
 #: src/arch/unix/uisettings.c:290
 msgid "*Positional mapping (US)"
 msgstr "*Mapowanie na podstawie po³o¿enia"
 
-# src/arch/unix/uisettings.c:303 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:303 
 #: src/arch/unix/uisettings.c:308
 msgid "Read Keymap File"
 msgstr "Czytaj plik mapy klawiszy"
@@ -1858,7 +1858,7 @@ msgstr "Zapisz mapowanie klawiszy do pliku"
 msgid "Load custom ROM set definition"
 msgstr "Za³aduj w³asne ustawienia ROM"
 
-# src/arch/unix/uisettings.c:375 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:375 
 #: src/arch/unix/uisettings.c:380
 #, c-format
 msgid ""
@@ -1868,10 +1868,10 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku ustawieñ ROM\n"
 "'%s'"
 
-# src/arch/unix/uisettings.c:396 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:396 
 #: src/arch/unix/uisettings.c:401
 msgid "File to dump ROM set definition to"
-msgstr "Zapisz ustawion¹ definicjê ROM do pliku"
+msgstr "Zapisz ustawion± definicjê ROM do pliku"
 
 #: src/arch/unix/uisettings.c:406
 msgid "ROM set file:"
@@ -1881,7 +1881,7 @@ msgstr "Plik ustawieñ ROM:"
 msgid "Load ROM file"
 msgstr "Za³aduj plik ROM"
 
-# src/arch/unix/uisettings.c:426 [do przetlumaczenia]
+# src/arch/unix/uisettings.c:426 
 #: src/arch/unix/uisettings.c:431
 #, c-format
 msgid ""
@@ -1905,11 +1905,11 @@ msgstr "*Bez limitu"
 
 #: src/arch/unix/uisettings.c:509
 msgid "*Enable"
-msgstr "*W³¹cz"
+msgstr "*W³±cz"
 
 #: src/arch/unix/uisettings.c:517
 msgid "Resolutions"
-msgstr "Rozdzielczoœæ"
+msgstr "Rozdzielczo¶æ"
 
 #: src/arch/unix/uisettings.c:542
 msgid "VIC-II Video settings"
@@ -1922,15 +1922,15 @@ msgstr "Ustawienia video VIC"
 #: src/arch/unix/uisettings.c:554
 #, fuzzy
 msgid "TED Video settings"
-msgstr "Ustawienia video VIC"
+msgstr "Ustawienia video TED"
 
 #: src/arch/unix/uisettings.c:564
 msgid "Maximum speed"
-msgstr "Maksymalna prêdkoœæ"
+msgstr "Maksymalna prêdko¶æ"
 
 #: src/arch/unix/uisettings.c:566
 msgid "*Enable warp mode"
-msgstr "*W³¹cz tryb przyœpieszony (Turbo)"
+msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/unix/uisettings.c:581
 msgid "*Fullscreen settings"
@@ -1950,11 +1950,11 @@ msgstr "Za³aduj ustawienia"
 
 #: src/arch/unix/uisettings.c:599
 msgid "Restore default settings"
-msgstr "Przywróæ domyœlne ustawienia"
+msgstr "Przywróæ domy¶lne ustawienia"
 
 #: src/arch/unix/uisettings.c:601
 msgid "*Save settings on exit"
-msgstr "*Zapisz ustawienia przy wyjœciu"
+msgstr "*Zapisz ustawienia przy wyj¶ciu"
 
 #: src/arch/unix/uisid.c:42
 msgid "*6581 (old)"
@@ -1976,16 +1976,16 @@ msgstr "*Interpolacja"
 msgid "*Resampling"
 msgstr "*Przesamplowanie"
 
-# src/arch/unix/c64ui.c:259   [do przetlumaczenia]
+# src/arch/unix/c64ui.c:259   
 #: src/arch/unix/uisid.c:74
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
-"Podaj pomijany przedzia³ w procentach calkowitej przepustowoœci\n"
+"Podaj pomijany przedzia³ w procentach calkowitej przepustowo¶ci\n"
 "(0 - 90, mniej jest szybciej, wiêcej jest lepiej)"
 
-# src/arch/unix/c64ui.c:260 [do przetlumaczenia]
+# src/arch/unix/c64ui.c:260 
 #: src/arch/unix/uisid.c:75
 msgid "Passband percentage"
 msgstr "Procent pomijanego przedzia³u"
@@ -2028,7 +2028,7 @@ msgstr "*0.10 sek "
 
 #: src/arch/unix/uisound.c:81
 msgid "*Keep going"
-msgstr "*Keep going "
+msgstr "*Nie przestawaj"
 
 #: src/arch/unix/uisound.c:83
 msgid "*1 sec suspend"
@@ -2056,15 +2056,15 @@ msgstr "*Dodawanie"
 
 #: src/arch/unix/uisound.c:113
 msgid "*Exact"
-msgstr "*Wymuœ"
+msgstr "*Wymu¶"
 
 #: src/arch/unix/uisound.c:123
 msgid "Sound synchronization"
-msgstr "Synchronizacja dŸwiêku"
+msgstr "Synchronizacja d¼wiêku"
 
 #: src/arch/unix/uisound.c:126 src/arch/unix/vsidui.c:150
 msgid "Sample rate"
-msgstr "Prêdkoœæ sampli"
+msgstr "Prêdko¶æ sampli"
 
 #: src/arch/unix/uisound.c:128 src/arch/unix/vsidui.c:152
 msgid "Buffer size"
@@ -2072,7 +2072,7 @@ msgstr "Rozmiar buffora"
 
 #: src/arch/unix/uisound.c:130
 msgid "Suspend time"
-msgstr "Czas uœpienia"
+msgstr "Czas u¶pienia"
 
 #: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:154
 msgid "Oversample"
@@ -2080,7 +2080,7 @@ msgstr "Przesamplowanie"
 
 #: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:160
 msgid "Sound settings"
-msgstr "Ustawienia dŸwiêku"
+msgstr "Ustawienia d¼wiêku"
 
 #: src/arch/unix/uivicii.c:48
 msgid "*CCS64"
@@ -2109,11 +2109,11 @@ msgstr "*Kolizje duszków z t³em"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "PAL Scanline shade"
-msgstr ""
+msgstr "Cieniowane scanline PAL"
 
 #: src/arch/unix/uipalemu.c:69
 msgid "Scanline Shade in percent"
-msgstr ""
+msgstr "Cieniowane scanline w procentach"
 
 #: src/arch/unix/uipalemu.c:92
 #, fuzzy
@@ -2131,11 +2131,11 @@ msgstr ""
 
 #: src/arch/unix/uipalemu.c:99
 msgid "*Blurry PAL Emulation (Composite Input)"
-msgstr ""
+msgstr "*Rozma¿ emulacjê PAL"
 
 #: src/arch/unix/uipalemu.c:102
 msgid "PAL Scanline Shade"
-msgstr ""
+msgstr "Cieniowane scanline PAL "
 
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:98
@@ -2263,7 +2263,7 @@ msgstr "Ustawienia uk³adu SID"
 
 #: src/arch/unix/vsidui.c:191
 msgid "*Default Tune"
-msgstr "*Domyœlny ton"
+msgstr "*Domy¶lny ton"
 
 #: src/arch/unix/vsidui.c:214
 #, c-format
@@ -2309,40 +2309,40 @@ msgstr "Wspó³pracownicy"
 #: src/arch/unix/x11/gnome/gnomevideo.c:87 src/arch/unix/x11/xaw/x11video.c:95
 #, fuzzy, c-format
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
-msgstr "Inicjalizacji wideo zakoñczona pomyœlnie"
+msgstr "Inicjalizacji przy u¿yciu XVideo zakoñczona pomy¶lnie (%dx%d %.4s)."
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:108
 msgid "Successfully initialized video."
-msgstr "Inicjalizacji wideo zakoñczona pomyœlnie"
+msgstr "Inicjalizacji wideo zakoñczona pomy¶lnie"
 
 #: src/arch/unix/x11/gnome/ui.c:403
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
-msgstr "Nie mo¿na dodaæ œcie¿ki czcionki: `%s'.\n"
+msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"
 
 #: src/arch/unix/x11/gnome/ui.c:405
 #, c-format
 msgid "Set fontpath: `%s'.\n"
-msgstr "Ustaw œcie¿kê czcionki: `%s'.\n"
+msgstr "Ustaw ¶cie¿kê czcionki: `%s'.\n"
 
 #: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/xaw/ui.c:474
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
-msgstr "Ten wyœwietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
+msgstr "Ten wy¶wietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
 
 #: src/arch/unix/x11/gnome/ui.c:643 src/arch/unix/x11/xaw/ui.c:477
 msgid "Please select a bit depth supported by your display."
-msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan¹ przez twój ekran."
+msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan± przez twój ekran."
 
 #: src/arch/unix/x11/gnome/ui.c:646 src/arch/unix/x11/gnome/ui.c:664
 #: src/arch/unix/x11/xaw/ui.c:480 src/arch/unix/x11/xaw/ui.c:497
 #, c-format
 msgid "Found %dbit/%s visual."
-msgstr "Znaleziono urz¹dzenie wizualne %dbit/%s "
+msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 
 #: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:505
 msgid "Cannot autodetect a proper visual."
-msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz¹dzenia wizualnego"
+msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz±dzenia wizualnego"
 
 #: src/arch/unix/x11/gnome/ui.c:679
 #, c-format
@@ -2356,7 +2356,7 @@ msgstr "Nie mo¿na za³adowaæ czcionki %s."
 
 #: src/arch/unix/x11/gnome/ui.c:750
 msgid "PAL Controls"
-msgstr ""
+msgstr "Kontrola PAL"
 
 #: src/arch/unix/x11/gnome/ui.c:771
 #, c-format
@@ -2370,7 +2370,7 @@ msgstr "Kaseta 000"
 
 #: src/arch/unix/x11/gnome/ui.c:954 src/arch/unix/x11/xaw/ui.c:589
 msgid "Maximum number of toplevel windows reached."
-msgstr "Osi¹gniêto maksymalny limit okien najwy¿szego stopnia."
+msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
 #: src/arch/unix/x11/gnome/ui.c:1145 src/arch/unix/x11/gnome/ui.c:1228
 msgid "Commands"
@@ -2386,7 +2386,7 @@ msgstr " emulator"
 
 #: src/arch/unix/x11/gnome/ui.c:1272 src/arch/unix/x11/xaw/ui.c:1054
 msgid "Do you really want to exit?"
-msgstr "Czy naprawdê chcesz wyjœæ"
+msgstr "Czy naprawdê chcesz wyj¶æ"
 
 #: src/arch/unix/x11/gnome/ui.c:1282 src/arch/unix/x11/xaw/ui.c:1061
 msgid "Save the current settings?"
@@ -2406,7 +2406,7 @@ msgstr "(przyspieszony)"
 #: src/arch/unix/x11/gnome/ui.c:1643
 #, c-format
 msgid "Tape %03d"
-msgstr "Taœma %03d"
+msgstr "Ta¶ma %03d"
 
 #: src/arch/unix/x11/gnome/ui.c:1680 src/arch/unix/x11/xaw/ui.c:1335
 #, c-format
@@ -2415,11 +2415,11 @@ msgstr "%s (pauza)"
 
 #: src/arch/unix/x11/gnome/ui.c:1818
 msgid "VICE Message"
-msgstr "Wiadomoœæ VICE"
+msgstr "Wiadomo¶æ VICE"
 
 #: src/arch/unix/x11/gnome/ui.c:1833
 msgid "VICE Error"
-msgstr "B³¹d VICE"
+msgstr "B³±d VICE"
 
 #: src/arch/unix/x11/gnome/ui.c:1859
 msgid "Hard Reset"
@@ -2435,7 +2435,7 @@ msgstr "Rozszerzenie obrazu dyskietki"
 
 #: src/arch/unix/x11/gnome/ui.c:1904
 msgid "Do you want to extend the disk image to 40 tracks?"
-msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 œcie¿ek?"
+msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
 #: src/arch/unix/x11/gnome/ui.c:1917
 msgid "Autostart not possible for unit 9"
@@ -2448,11 +2448,11 @@ msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
 #: src/arch/unix/x11/gnome/ui.c:2062 src/arch/unix/x11/gnome/ui.c:2067
 msgid "NO IMAGE CONTENTS AVAILABLE"
-msgstr "Nie ma dostêpnej zawartoœci obrazu"
+msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
 #: src/arch/unix/x11/gnome/ui.c:2525
 msgid "Contents"
-msgstr "Zawartoœæ"
+msgstr "Zawarto¶æ"
 
 #: src/arch/unix/x11/gnome/ui.c:2572
 msgid "Attach write protected"
@@ -2499,7 +2499,7 @@ msgstr "Zapisywanie %s' zakoñczone sukcesem\n"
 
 #: src/arch/unix/x11/gnome/uicolor.c:151 src/arch/unix/x11/xaw/uicolor.c:127
 msgid "XCreateImage failed."
-msgstr "B³¹d XCreateImage"
+msgstr "B³±d XCreateImage"
 
 #: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:223
 #: src/arch/unix/x11/gnome/uicolor.c:228 src/arch/unix/x11/gnome/uicolor.c:233
@@ -2511,7 +2511,7 @@ msgstr "Nie mo¿na alokowaæ koloru \"#%04X%04X%04X\"."
 
 #: src/arch/unix/x11/gnome/uiedisk.c:57 src/arch/unix/x11/xaw/uiedisk.c:421
 msgid "Create empty disk"
-msgstr "Stwórz pust¹ dyskietkê"
+msgstr "Stwórz pust± dyskietkê"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:67
 #: src/arch/unix/x11/gnome/uisnapshot.c:42
@@ -2554,7 +2554,7 @@ msgstr "Nie mo¿na zapisaæ zrzutu ekranu do `%s' z sterownikiem `%s'."
 #: src/arch/unix/x11/gnome/uiscreenshot.c:169
 #, c-format
 msgid "Successfully wrote `%s'"
-msgstr "Zapisywanie `%s' zakoñczone pomyœlnie"
+msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:65
 msgid "Snapshot options"
@@ -2570,20 +2570,20 @@ msgstr "Zapisz obecnie w³o¿ony ROM"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:41
 msgid "Saturation"
-msgstr ""
+msgstr "Nasycenie"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:42
 #, fuzzy
 msgid "Contrast"
-msgstr "Zawartoœæ"
+msgstr "Zawarto¶æ"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:43
 msgid "Brightness"
-msgstr ""
+msgstr "Jaskrawo¶æ"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:44
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:85
 #, fuzzy
@@ -2593,7 +2593,7 @@ msgstr "Ustawienia"
 #: src/arch/unix/x11/gnome/uipalcontrol.c:122
 #, fuzzy
 msgid "Reset PAL Settings"
-msgstr "Przywróæ domyœlne ustawienia"
+msgstr "Przywróæ domy¶lne ustawienia"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:43
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:43
@@ -2607,6 +2607,13 @@ msgid ""
 "Model: %s\n"
 "IRQ: %s"
 msgstr ""
+"Nazwa %s\n"
+"Muzyka: %d\n"
+"Autor: %s\n"
+"Copyright: %s\n"
+"%s\n"
+"Model: %s\n"
+"IRQ: %s"
 
 #: src/arch/unix/x11/fullscreen.c:139
 #, c-format
@@ -2615,32 +2622,32 @@ msgstr "Zainstaluj debbuger na pid %d...\n"
 
 #: src/arch/unix/x11/fullscreen.c:201
 msgid "Successfully forked DGA\n"
-msgstr "Rozga³êzianie DGA zakoñczenie pomyœlnie\n"
+msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie\n"
 
 #: src/arch/unix/x11/dga2.c:259 src/arch/unix/x11/fullscreen.c:205
 #: src/arch/unix/x11/fullscreen.c:232
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
-"Nie mo¿na pobraæ informacji o wersji rozszerzenia video - wy³¹czanie pe³nego "
+"Nie mo¿na pobraæ informacji o wersji rozszerzenia video - wy³±czanie pe³nego "
 "ekranu"
 
 #: src/arch/unix/x11/dga2.c:264 src/arch/unix/x11/fullscreen.c:210
 #: src/arch/unix/x11/fullscreen.c:237
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
-"Nie mo¿na pobraæ informacji o rozszerzeniach video - wy³¹czanie pe³nego "
+"Nie mo¿na pobraæ informacji o rozszerzeniach video - wy³±czanie pe³nego "
 "ekranu"
 
 #: src/arch/unix/x11/dga2.c:273 src/arch/unix/x11/fullscreen.c:218
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
-msgstr " Xserver jest uruchomiony w starej wersji XFree86-VidMode (%d.%d.) "
+msgstr "Xserver jest uruchomiony w starej wersji XFree86-DGA (%d.%d.) "
 
 #: src/arch/unix/x11/dga2.c:276 src/arch/unix/x11/fullscreen.c:220
 #: src/arch/unix/x11/fullscreen.c:248
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
-msgstr "Minimaln¹ wymagan¹ wersj¹ jest %d.%d - wy³¹czanie pe³nego ekranu"
+msgstr "Minimaln± wymagan± wersj± jest %d.%d - wy³±czanie pe³nego ekranu"
 
 #: src/arch/unix/x11/fullscreen.c:246
 #, c-format
@@ -2650,7 +2657,7 @@ msgstr "Xserver jest uruchomiony w starej wersji XFree86-VidMode (%d.  %d)"
 #: src/arch/unix/x11/fullscreen.c:255
 msgid "Error getting video mode information - disabling fullscreen."
 msgstr ""
-"B³¹d podczas pobierania informacji o trybie video - wy³¹czanie pe³nego "
+"B³±d podczas pobierania informacji o trybie video - wy³±czanie pe³nego "
 "ekranu."
 
 #: src/arch/unix/x11/fullscreen.c:262
@@ -2659,7 +2666,7 @@ msgid ""
 "fullscreen."
 msgstr ""
 "Vice nie jest uruchomione przez roota, rozszerzenie DGA nie mo¿e byæ u¿yte - "
-"wy³¹czam pe³ny ekran."
+"wy³±czam pe³ny ekran."
 
 #: src/arch/unix/x11/fullscreen.c:269
 msgid "Problems with DGA - disabling fullscreen."
@@ -2669,24 +2676,24 @@ msgstr "Problemy z DGA - wy³anczam pe³nego ekranu"
 #: src/arch/unix/x11/fullscreen.c:418
 #, c-format
 msgid "Switch to fullscreen %ix%i"
-msgstr "Prze³¹cz na pe³ny ekran %ix%i"
+msgstr "Prze³±cz na pe³ny ekran %ix%i"
 
 #: src/arch/unix/x11/fullscreen.c:398 src/arch/unix/x11/fullscreen.c:424
 #: src/arch/unix/x11/fullscreen.c:429 src/arch/unix/x11/fullscreen.c:442
 #, c-format
 msgid "Error switching to fullscreen %ix%i\n"
-msgstr "B³¹d prze³¹czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
 
 #: src/arch/unix/x11/fullscreen.c:409
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
-"Rozszerzenie DGA: addr:%p, szerokoœæ %d, rozmiar banku %d rozmiar pamiêci "
+"Rozszerzenie DGA: addr:%p, szeroko¶æ %d, rozmiar banku %d rozmiar pamiêci "
 "%d\n"
 
 #: src/arch/unix/x11/dga2.c:635 src/arch/unix/x11/fullscreen.c:486
 msgid "Switch to windowmode"
-msgstr "Prze³¹cz do trybu okna"
+msgstr "Prze³±cz do trybu okna"
 
 #: src/arch/unix/x11/dga2.c:152
 #, fuzzy, c-format
@@ -2695,21 +2702,21 @@ msgstr "Zainstaluj debbuger na pid %d...\n"
 
 #: src/arch/unix/x11/dga2.c:189
 msgid "refresh, not ready, skipping frame"
-msgstr ""
+msgstr "od¶wie¿, nie czytaj , opu¶æ klatkê"
 
 #: src/arch/unix/x11/dga2.c:254
 #, fuzzy
 msgid "Successfully forked DGA"
-msgstr "Rozga³êzianie DGA zakoñczenie pomyœlnie\n"
+msgstr "Rozga³êzianie DGA zakoñczenie pomy¶lnie\n"
 
 #: src/arch/unix/x11/dga2.c:306
 #, fuzzy
 msgid "Found suitable mode for fullscreen."
-msgstr "W³¹cz pe³ny ekran"
+msgstr "W³±cz pe³ny ekran"
 
 #: src/arch/unix/x11/dga2.c:382
 msgid "Couldn't allocate pixel value cache."
-msgstr ""
+msgstr "Nie mo¿na zalokowaæ warto¶ci piksela cache."
 
 #: src/arch/unix/x11/dga2.c:458
 msgid "Need root privileges for DGA2 fullscreen"
@@ -2718,24 +2725,24 @@ msgstr ""
 #: src/arch/unix/x11/dga2.c:468
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
-msgstr "B³¹d prze³¹czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
 
 #: src/arch/unix/x11/dga2.c:478
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
-msgstr "B³¹d prze³¹czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
 
 #: src/arch/unix/x11/dga2.c:512
 #, fuzzy, c-format
 msgid "Not enough video memeory pages in mode %s, disabling fullscreen."
 msgstr ""
-"B³¹d podczas pobierania informacji o trybie video - wy³¹czanie pe³nego "
+"B³±d podczas pobierania informacji o trybie video - wy³±czanie pe³nego "
 "ekranu."
 
 #: src/arch/unix/x11/dga2.c:524
 #, fuzzy, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
-msgstr "B³¹d prze³¹czania do pe³nego ekranu %ix%i\n"
+msgstr "B³±d prze³±czania do pe³nego ekranu %ix%i\n"
 
 #: src/arch/unix/x11/dga2.c:568
 #, fuzzy
@@ -2758,12 +2765,12 @@ msgstr "Podaj indeks dla mapy klawiatury (0=symbol, 1=pozycja)"
 #: src/arch/unix/x11/kbd.c:365
 #, c-format
 msgid "Could not find KeySym `%s'!"
-msgstr "Nie mo¿na znaleŸæ KeySym `%s'!"
+msgstr "Nie mo¿na znale¼æ KeySym `%s'!"
 
 #: src/arch/unix/x11/kbd.c:422
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
-msgstr "B³êdna wartoœc rz¹d/kolumn dla keysym (%d/%d)`%s'."
+msgstr "B³êdna warto¶c rz±d/kolumn dla keysym (%d/%d)`%s'."
 
 #: src/arch/unix/x11/kbd.c:446
 #, c-format
@@ -2772,31 +2779,31 @@ msgstr "£adujê mapê klawiatury `%s'."
 
 #: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
-msgstr "Podaj przegl¹darkê HTML dla pomocy on-line"
+msgstr "Podaj przegl±darkê HTML dla pomocy on-line"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:41
 msgid "Install a private colormap"
-msgstr "Zainstaluj w³asn¹ mapê kolorów"
+msgstr "Zainstaluj w³asn± mapê kolorów"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:44
 msgid "Use the default colormap"
-msgstr "U¿yj domyœlnej mapy kolorów"
+msgstr "U¿yj domy¶lnej mapy kolorów"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Save settings (resources) on exit"
-msgstr "Zapisz ustawienia (zasoby) przy wyjœciu"
+msgstr "Zapisz ustawienia (zasoby) przy wyj¶ciu"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:50
 msgid "Never save settings (resources) on exit"
-msgstr "Nigdy nie zapisuj ustawieñ (zasobów) przy wyjœciu"
+msgstr "Nigdy nie zapisuj ustawieñ (zasobów) przy wyj¶ciu"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Enable fullscreen"
-msgstr "W³¹cz pe³ny ekran"
+msgstr "W³±cz pe³ny ekran"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Disable fullscreen"
-msgstr "Wy³¹cz pe³ny ekran"
+msgstr "Wy³±cz pe³ny ekran"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Specify X display depth (1..32)"
@@ -2821,19 +2828,19 @@ msgstr "Nigdy nie u¿ywaj pamiêci dzielonej (wolniej)"
 
 #: src/arch/unix/x11/video.c:169
 msgid "Use XVideo Extension (hardware scaling)"
-msgstr ""
+msgstr "U¿yj rozszerzenia XVideo(skalowanie sprzêtowe)"
 
 #: src/arch/unix/x11/video.c:172
 msgid "Use software rendering"
-msgstr ""
+msgstr "U¿yj renderowania programowego"
 
 #: src/arch/unix/x11/video.c:174
 msgid "Request YUV FOURCC format"
-msgstr ""
+msgstr "¯±daj formatu YUV FOURCC"
 
 #: src/arch/unix/x11/video.c:354
 msgid "The MITSHM extension is not supported on this display."
-msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wyœwietlacz."
+msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 
 #: src/arch/unix/x11/video.c:358
 #, c-format
@@ -2851,11 +2858,11 @@ msgstr "Informacje"
 #: src/arch/unix/x11/xaw/ui.c:1208
 #, c-format
 msgid "%d: Track %.1f"
-msgstr "%d: Œcie¿ka %.1f "
+msgstr "%d: ¦cie¿ka %.1f "
 
 #: src/arch/unix/x11/xaw/ui.c:1463
 msgid "VICE Error!"
-msgstr "B³¹d VICE"
+msgstr "B³±d VICE"
 
 #: src/arch/unix/x11/xaw/ui.c:1643
 msgid "Unknown image type."
@@ -2875,7 +2882,7 @@ msgstr "Nazwa pliku:"
 #: src/arch/unix/x11/xaw/uiscreenshot.c:188
 #: src/arch/unix/x11/xaw/uisnapshot.c:167
 msgid "Browse..."
-msgstr "Przegl¹daj..."
+msgstr "Przegl±daj..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:171 src/arch/unix/x11/xaw/uiedisk.c:404
 #: src/arch/unix/x11/xaw/uiscreenshot.c:258
@@ -2897,7 +2904,7 @@ msgstr "Operacja XfreeColors nie powiod³a siê"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:91
 msgid "Save emptydisk file"
-msgstr "Zapisz plik jako pust¹ dyskietkê"
+msgstr "Zapisz plik jako pust± dyskietkê"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:167
 msgid "Couldn't create disk image"
@@ -2984,11 +2991,11 @@ msgstr "Inicjalizacja zakonczona.\n"
 #: src/arch/unix/x11/xaw/x11video.c:195
 #, c-format
 msgid "Successfully initialized%s shared memory."
-msgstr "Zainicjowano pomyœlnie pamiêæ %s dzielon¹."
+msgstr "Zainicjowano pomy¶lnie pamiêæ %s dzielon±."
 
 #: src/arch/unix/x11/xaw/x11video.c:196
 msgid ", using"
-msgstr " u¿ywaj¹c"
+msgstr " u¿ywaj±c"
 
 #: src/arch/unix/x11/xaw/x11video.c:196
 msgid " without"
@@ -2996,14 +3003,14 @@ msgstr " bez"
 
 #: src/arch/unix/x11/xaw/x11video.c:199
 msgid "Performance will be poor."
-msgstr "Wydajnoœæ bêdzie niska"
+msgstr "Wydajno¶æ bêdzie niska"
 
 #: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Successfully initialized without shared memory."
-msgstr "Zainicjowano pomyœlnie, bez pamiêci dzielonej."
+msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
 
 #~ msgid "*Model defaults"
-#~ msgstr "*Domyœlny model"
+#~ msgstr "*Domy¶lny model"
 
 #~ msgid "Please recompile the program for a supported bit depth."
 #~ msgstr "Proszê przekompilowaæ program dla obs³ugiwanej g³êbi koloru."
@@ -3016,4 +3023,4 @@ msgstr "Zainicjowano pomyœlnie, bez pamiêci dzielonej."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
 #~ msgstr ""
-#~ "Prze³¹cz g³êbiê w serwerze X lub przekompiluj z parametrem --enable-autobpp."
+#~ "Prze³±cz g³êbiê w serwerze X lub przekompiluj z parametrem --enable-autobpp."
