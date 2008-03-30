@@ -126,10 +126,10 @@ static inline void undump_ciapa(CLOCK rclk, BYTE b)
 
 static inline void store_sdr(BYTE byte)
 {
-    iec_fast_cpu_write((BYTE)cia_shifter);
+    iec_fast_cpu_write((BYTE)byte);
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
-        rsuser_tx_byte((BYTE)cia_shifter);
+        rsuser_tx_byte((BYTE)byte);
     }
 #endif
 }
