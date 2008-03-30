@@ -293,14 +293,14 @@ void serialreceivebyte(void)
     p = &serialdevices[TrapDevice & 0x0f];
     vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
 
-    /* get next byte if necessary */
+    /* Get next byte if necessary.  */
     if (!(p->nextok[secadr]))
 	st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
 
-    /* move byte from buffer to output */
+    /* Move byte from buffer to output.  */
     data = p->nextbyte[secadr];
     p->nextok[secadr] = 0;
-    /* fill buffer again */
+    /* Fill buffer again.  */
     if (!st) {
 	st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
 	if (!st)

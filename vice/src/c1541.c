@@ -69,12 +69,14 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "info.h"
+#include "log.h"
 #include "p00.h"
 #include "serial.h"
 #include "t64.h"
 #include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
+#include "vdrive-command.h"
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
@@ -117,6 +119,20 @@ static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
 static char *floppy_read_directory(vdrive_t *vdrive, const char *pattern);
+
+int rom1541_loaded = 0;
+int rom1541ii_loaded = 0;
+int rom1571_loaded = 0;
+int rom1581_loaded = 0;
+int rom2031_loaded = 0;
+int rom1001_loaded = 0;
+
+BYTE *drive_rom1541;
+BYTE *drive_rom1541ii;
+BYTE *drive_rom1571;
+BYTE *drive_rom1581;
+BYTE *drive_rom2031;
+BYTE *drive_rom1001;
 
 /* ------------------------------------------------------------------------- */
 
