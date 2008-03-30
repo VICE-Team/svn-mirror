@@ -132,7 +132,8 @@ struct raster_geometry_s {
     /* FIXME: Bad names.  */
     unsigned int first_displayed_line, last_displayed_line;
 
-    unsigned int extra_offscreen_border;
+    unsigned int extra_offscreen_border_left;
+    unsigned int extra_offscreen_border_right;
 };
 typedef struct raster_geometry_s raster_geometry_t;
 
@@ -164,11 +165,21 @@ struct raster_s {
     } pixel_table;
 
     struct video_frame_buffer_s *frame_buffer;
-    PIXEL *frame_buffer_ptr;
 
-    /* This is a temporary frame buffer line used for sprite collision
+    /* FIXME: This has go into struct draw_buffer_t.  */
+    /* All video chips draw into this buffer.  */
+    BYTE *draw_buffer;
+
+    /* Pointer to the draw buffer.  */
+    BYTE *draw_buffer_ptr;
+
+    /* Size of a draw buffer line.  */
+    unsigned int draw_buffer_width;
+    unsigned int draw_buffer_height;
+
+    /* This is a temporary draw buffer line used for sprite collision
        checking without drawing to the real frame buffer.  */
-    PIXEL *fake_frame_buffer_line;
+    BYTE *fake_draw_buffer_line;
 
     /* Palette used for drawing.  */
     struct palette_s *palette;
@@ -283,7 +294,8 @@ extern void raster_set_geometry(raster_t *raster,
                                 int gfx_area_moves,
                                 unsigned int first_displayed_line,
                                 unsigned int last_displayed_line,
-                                unsigned int extra_offscreen_border);
+                                unsigned int extra_offscreen_border_left,
+                                unsigned int extra_offscreen_border_right);
 extern void raster_invalidate_cache(raster_t *raster,
                                     unsigned int screen_height);
 extern void raster_resize_viewport(raster_t *raster,
