@@ -240,6 +240,8 @@ void machine_reset(void)
     reset_pia2();
     reset_via();
     reset_crtc();
+    petsnd_reset();
+
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
