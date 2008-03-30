@@ -47,6 +47,7 @@ noinst_HEADERS = \
 	archapi.h \
 	attach.h \
 	autostart.h \
+	blockdev.h \
 	cartridge.h \
 	charset.h \
 	cia.h \
@@ -220,7 +221,13 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(serial_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib)
+
+if HAVE_RAWDRIVE
+blockdev_lib = @ARCH_DIR@/blockdev.o
+else
+blockdev_lib =
+endif
 
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 
@@ -238,12 +245,6 @@ x64_libs =  \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -289,12 +290,6 @@ x128_libs =  \
 	$(vdc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
@@ -337,12 +332,6 @@ xvic_libs =  \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -380,12 +369,6 @@ xpet_libs =  \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -409,8 +392,6 @@ xpet-all: \
 	libmonitor \
 	libdiskimage \
 	libserial \
-	libfsdevice \
-	libtape \
 	libimagecontents \
 	xpet 
 
@@ -423,12 +404,6 @@ xplus4_libs =  \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
@@ -468,12 +443,6 @@ xcbm2_libs = \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-	$(monitor_lib) \
-	$(diskimage_lib) \
-	$(serial_lib) \
-	$(fsdevice_lib) \
-	$(tape_lib) \
-	$(imagecontents_lib) \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
@@ -527,6 +496,7 @@ c1541_SOURCES = \
 c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
 	@ARCH_DIR@/uicmdline.o \
+	$(blockdev_lib) \
 	$(vdrive_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
