@@ -97,7 +97,7 @@ static void add_palette_submenu(tui_menu_t parent)
 
 int pet_ui_init(void)
 {
-    ui_create_main_menu(0, 0, 0);
+    ui_create_main_menu(0, 0, 0, 0);
 
     tui_menu_add_separator(ui_video_submenu);
     add_palette_submenu(ui_video_submenu);
