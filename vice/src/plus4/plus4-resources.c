@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "drive.h"
+#include "keyboard.h"
 #include "machine.h"
 #include "plus4mem.h"
 #include "resources.h"
@@ -137,6 +138,9 @@ static int set_sync_factor(resource_value_t v, void *param)
 /* ------------------------------------------------------------------------- */
 
 static resource_t resources[] = {
+    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
+      (resource_value_t *)&sync_factor,
+      set_sync_factor, NULL },
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (resource_value_t *)&kernal_rom_name,
       set_kernal_rom_name, NULL },
@@ -152,6 +156,19 @@ static resource_t resources[] = {
     { "RamSize", RES_INTEGER, (resource_value_t)64,
       (resource_value_t *)&ram_size_plus4,
       set_ram_size_plus4, NULL },
+#ifdef COMMON_KBD
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&machine_keymap_index,
+      keyboard_set_keymap_index, NULL },
+    { "KeymapSymFile", RES_STRING,
+      (resource_value_t)"default.vkm",
+      (resource_value_t *)&machine_keymap_file_list[0],
+      keyboard_set_keymap_file, (void *)0 },
+    { "KeymapPosFile", RES_STRING,
+      (resource_value_t)"position.vkm",
+      (resource_value_t *)&machine_keymap_file_list[1],
+      keyboard_set_keymap_file, (void *)1 },
+#endif
     { NULL }
 };
 

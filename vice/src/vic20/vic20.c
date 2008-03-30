@@ -79,15 +79,23 @@
 #include "vic20rsuser.h"
 #endif
 
-static void machine_vsync_hook(void);
+#define NUM_KEYBOARD_MAPPINGS 2
+
+const char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
+    "KeymapSymFile", "KeymapPosFile"
+};
+
+char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+    NULL, NULL
+};
 
 const char machine_name[] = "VIC20";
-
 int machine_class = VICE_MACHINE_VIC20;
+
+static void machine_vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
-/* VIC20 Traps */
 static trap_t vic20_serial_traps[] = {
     {
         "SerialListen",
@@ -207,7 +215,7 @@ static double rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
    initializing the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (traps_resources_init()
+    if (traps_resources_init() < 0
         || vsync_resources_init() < 0
         || video_resources_init(VIDEO_RESOURCES_PAL) < 0
         || vic20_resources_init() < 0
@@ -218,7 +226,9 @@ int machine_init_resources(void)
         || rsuser_resources_init() < 0
 #endif
         || printer_resources_init() < 0
+#ifndef COMMON_KBD
         || kbd_resources_init() < 0
+#endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || cartridge_resources_init() <0)
@@ -230,7 +240,7 @@ int machine_init_resources(void)
 /* VIC20-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (traps_cmdline_options_init()
+    if (traps_cmdline_options_init() < 0
         || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
         || vic20_cmdline_options_init() < 0
@@ -241,7 +251,9 @@ int machine_init_cmdline_options(void)
         || rsuser_cmdline_options_init() < 0
 #endif
         || printer_cmdline_options_init() < 0
+#ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
+#endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0)
@@ -582,5 +594,10 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 void machine_video_refresh(void)
 {
      vic_video_refresh();
+}
+
+unsigned int machine_num_keyboard_mappings(void)
+{
+    return NUM_KEYBOARD_MAPPINGS;
 }
 
