@@ -3,7 +3,7 @@
  *
  * Written by
  *  Teemu Rantanen   (tvr@cs.hut.fi)
- *  Andre Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
  *
  * Patches by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -64,7 +64,7 @@
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
-#define SET_ST(b)		STORE(0x90, (LOAD(0x90) | b))
+#define SET_ST(b)		mem_store(0x90, (mem_read(0x90) | b))
 #define BSOUR			0x95    /* Buffered Character for IEEE Bus */
 #define TMP_IN			0xA4
 
@@ -188,7 +188,7 @@ void serialattention(void)
     /*
      * Which Secondary Address ?
      */
-    b = LOAD(BSOUR);		/* BSOUR - character for serial bus */
+    b = mem_read(BSOUR);		/* BSOUR - character for serial bus */
 
 #ifdef DEBUG_SERIAL
     printf("SerialSaListen(%02x)\n", b);
@@ -239,7 +239,7 @@ void serialsendbyte(void)
     /*
      * Get data to send from address 0x95
      */
-    data = LOAD(BSOUR);		/* BSOUR - character for serial bus */
+    data = mem_read(BSOUR);		/* BSOUR - character for serial bus */
 
     p = &serialdevices[TrapDevice & 0x0f];
 
@@ -300,7 +300,7 @@ void serialreceivebyte(void)
     /* Set up serial success / data.  */
     if (st)
         SET_ST(st);
-    STORE(TMP_IN, data);
+    mem_store(TMP_IN, data);
 
     /* Set registers (PC, AC and CARRY) like the Kernal routine does.  */
     maincpu_regs.a = data;
