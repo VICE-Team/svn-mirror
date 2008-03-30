@@ -30,9 +30,6 @@
 /* VDC resources.  */
 struct vdc_resources_s
 {
-    /* Name of palette file.  */
-    char *palette_file_name;
-
     /* Flag: VDC memory size.  */
     int vdc_64kb_expansion;
 };
