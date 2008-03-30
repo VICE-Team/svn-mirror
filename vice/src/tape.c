@@ -27,16 +27,9 @@
  *
  */
 
-/* tapeunit.c -- Cassette drive interface.  The cassette interface consists
-   of traps in tape access routines Find, Write Header, Send Data, and Get
-   Data, so that actual operation can be controlled by C routines.  To
-   support turboloaders, it would be necessary to emulate the tape encoding
-   used. That is much slower though. :( */
-
-/* FIXME: This should be splitted into a T64 and a tape device part.  */
-
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -58,15 +51,15 @@
 /* #define DEBUG_TAPE */
 
 /* Cassette Format Constants */
-#define CAS_TYPE_OFFSET	0
-#define CAS_STAD_OFFSET	1	/* start address */
-#define CAS_ENAD_OFFSET	3	/* end address */
-#define CAS_NAME_OFFSET	5	/* filename */
+#define CAS_TYPE_OFFSET 0
+#define CAS_STAD_OFFSET 1       /* start address */
+#define CAS_ENAD_OFFSET 3       /* end address */
+#define CAS_NAME_OFFSET 5       /* filename */
 
-#define CAS_TYPE_PRG	1	/* Binary Program */
-#define CAS_TYPE_BAS	3	/* Relocatable Program */
-#define CAS_TYPE_DATA	4	/* Data Record */
-#define CAS_TYPE_EOF	5	/* End of Tape marker */
+#define CAS_TYPE_PRG    1       /* Binary Program */
+#define CAS_TYPE_BAS    3       /* Relocatable Program */
+#define CAS_TYPE_DATA   4       /* Data Record */
+#define CAS_TYPE_EOF    5       /* End of Tape marker */
 
 /* CPU addresses for tape routine variables.  */
 static ADDRESS buffer_pointer_addr;
@@ -164,10 +157,10 @@ int tape_init(int _buffer_pointer_addr,
 int tape_deinstall(void)
 {
     if (!tape_is_initialized)
-	return -1;   
+        return -1;
 
     if (attached_t64_tape != NULL) {
-	tape_detach_image();
+        tape_detach_image();
     }
 
     tape_traps_deinstall();
@@ -191,12 +184,12 @@ int tape_detach_image(void)
     if (attached_t64_tape != NULL) {
         log_message(tape_log,
                     "Detaching T64 image `%s'.", attached_t64_tape->file_name);
-        
+
         /* Gone.  */
         retval = t64_close(attached_t64_tape);
         attached_t64_tape = NULL;
-		ui_display_tape_current_image("");
-        
+        ui_display_tape_current_image("");
+
         /* Tape detached: release play button.  */
         datasette_set_tape_sense(0);
 
@@ -210,7 +203,7 @@ int tape_detach_image(void)
         /* Gone.  */
         retval = tap_close(attached_tap_tape);
         attached_tap_tape = NULL;
-		ui_display_tape_current_image("");
+        ui_display_tape_current_image("");
         datasette_set_tape_image(NULL);
 
         tape_traps_install();
@@ -228,14 +221,14 @@ int tape_attach_image(const char *name)
     tap_t *new_tap_tape;
 
     if (!name || !*name)
-	return -1;
+        return -1;
 
     new_t64_tape = t64_open(name);
     if (new_t64_tape != NULL)
     {
         tape_detach_image();
         attached_t64_tape = new_t64_tape;
-		ui_display_tape_current_image(name);
+                ui_display_tape_current_image(name);
 
         log_message(tape_log, "T64 image '%s' attached.", name);
 
@@ -250,7 +243,7 @@ int tape_attach_image(const char *name)
     {
         tape_detach_image();
         attached_tap_tape = new_tap_tape;
-		ui_display_tape_current_image(name);
+                ui_display_tape_current_image(name);
 
         datasette_set_tape_image(new_tap_tape);
 
@@ -307,26 +300,26 @@ void tape_find_header_trap(void)
     }
 
     if (err)
-	cassette_buffer[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
+        cassette_buffer[CAS_TYPE_OFFSET] = CAS_TYPE_EOF;
 
-    mem_store(st_addr, 0);	/* Clear the STATUS word.  */
+    mem_store(st_addr, 0);      /* Clear the STATUS word.  */
     mem_store(verify_flag_addr, 0);
 
     if (irqtmp) {
-	mem_store(irqtmp, irqval & 0xff);
-	mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
+        mem_store(irqtmp, irqval & 0xff);
+        mem_store(irqtmp + 1, (irqval >> 8) & 0xff);
     }
 
     /* Check if STOP has been pressed.  */
     {
-	int i, n = mem_read(kbd_buf_pending_addr);
+        int i, n = mem_read(kbd_buf_pending_addr);
 
         MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
-	for (i = 0; i < n; i++) {
-	    if (mem_read(kbd_buf_addr + i) == 0x3) {
+        for (i = 0; i < n; i++) {
+            if (mem_read(kbd_buf_addr + i) == 0x3) {
                 MOS6510_REGS_SET_CARRY(&maincpu_regs, 1);
-		break;
-	    }
+                break;
+            }
         }
     }
 
@@ -359,7 +352,7 @@ void tape_receive_trap(void)
 
             if (t64_read(attached_t64_tape,
                          ram + (int) start, (int) len) == (int) len) {
-                st = 0x40;	/* EOF */
+                st = 0x40;      /* EOF */
             } else {
                 st = 0x10;
 
@@ -378,17 +371,17 @@ void tape_receive_trap(void)
     /* Set registers and flags like the Kernal routine does.  */
 
     if (irqtmp) {
-	mem_store(irqtmp, (BYTE)(irqval & 0xff));
-	mem_store(irqtmp + 1, (BYTE)((irqval >> 8) & 0xff));
+        mem_store(irqtmp, (BYTE)(irqval & 0xff));
+        mem_store(irqtmp + 1, (BYTE)((irqval >> 8) & 0xff));
     }
 
-    set_st(st);			/* EOF and possible errors */
+    set_st(st);                 /* EOF and possible errors */
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 }
 
-char *tape_get_file_name(void)
+const char *tape_get_file_name(void)
 {
     if (attached_t64_tape)
         return attached_t64_tape->file_name;
