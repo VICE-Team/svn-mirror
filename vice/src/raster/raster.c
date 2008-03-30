@@ -1143,14 +1143,14 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 
         if (xs < xe) {
             raster_modes_draw_background(raster->modes,
-                                         get_real_mode (raster),
+                                         get_real_mode(raster),
                                          xs,
                                          xe - 1);
             xs = xe;
         }
         raster_changes_apply(&raster->changes.background, i);
     }
-    if (xs <= (int) geometry->screen_size.width - 1)
+    if (xs <= (int)geometry->screen_size.width - 1)
         raster_modes_draw_background(raster->modes,
                                      get_real_mode (raster),
                                      xs,
@@ -1162,14 +1162,14 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 
         if (xs < xe) {
             raster_modes_draw_foreground(raster->modes,
-                                         get_real_mode (raster),
+                                         get_real_mode(raster),
                                          xs,
                                          xe - 1);
             xs = xe;
         }
         raster_changes_apply(&raster->changes.foreground, i);
     }
-    if (xs <= (int) geometry->text_size.width - 1)
+    if (xs <= (int)geometry->text_size.width - 1)
         raster_modes_draw_foreground(raster->modes,
                                      get_real_mode (raster),
                                      xs,
@@ -1629,7 +1629,7 @@ void raster_set_pixel_size(raster_t *raster,
     raster->viewport.pixel_size.width = width;
     raster->viewport.pixel_size.height = height;
 	if (raster->viewport.canvas)
-		raster->viewport.canvas->videorendermode = videorendermode;
+		raster->viewport.canvas->videoconfig.rendermode = videorendermode;
 
     realize_frame_buffer(raster);
     raster_force_repaint(raster);
@@ -1801,6 +1801,8 @@ void raster_enable_cache(raster_t *raster, int enable)
 void raster_enable_double_scan(raster_t *raster, int enable)
 {
     raster->do_double_scan = enable;
+	if (raster->viewport.canvas)
+		raster->viewport.canvas->videoconfig.doublescan = enable;
     raster_force_repaint (raster);
 }
 

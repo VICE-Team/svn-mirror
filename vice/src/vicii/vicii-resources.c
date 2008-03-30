@@ -76,11 +76,6 @@ static int set_video_cache_enabled (resource_value_t v, void *param)
     return 0;
 }
 
-#ifdef VIDEO_REMOVE_2X         /* bad */
-extern int double_size_bad;    /* bad */
-extern int double_scan_bad;    /* bad */
-#endif /* VIDEO_REMOVE_2X */   /* bad */
-
 static resource_t resources[] =
 {
     { "NewLuminances", RES_INTEGER, (resource_value_t)1,
@@ -101,10 +96,6 @@ static resource_t resources[] =
 
 #ifdef VIC_II_NEED_2X
 
-#ifdef VIDEO_REMOVE_2X         /* bad */
-extern int double_scan_bad;    /* bad */
-#endif /* VIDEO_REMOVE_2X */   /* bad */
-
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.double_size_enabled = (int)v;
@@ -118,10 +109,6 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
-#ifdef VIDEO_REMOVE_2X         /* bad */
-	double_scan_bad=(int)v;    /* bad */
-#endif /* VIDEO_REMOVE_2X */   /* bad */
-
     vic_ii_resources.double_scan_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
     if (vic_ii.initialized && !fullscreen_is_enabled)

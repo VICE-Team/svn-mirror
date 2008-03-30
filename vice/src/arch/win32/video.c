@@ -337,7 +337,6 @@ int set_physical_colors(video_canvas_t *c)
     int i;
     HRESULT result;
     COLORREF    oldcolor;
-	DWORD pcol;
     DDPIXELFORMAT   format;
     DWORD   mask=0;
     int     rshift=0;
@@ -486,29 +485,9 @@ int set_physical_colors(video_canvas_t *c)
         }
         c->pixel_translate[c->pixels[i]]=i;
         c->pixels[i] = i;
-        pcol = p;
-        if (c->depth==24) {
-			pcol &= 0x00FFFFFF;
-        }
-        if (c->depth==16) {
-			pcol &= 0x0000FFFF;
-			pcol = (pcol << 16) | pcol;
-        }
-        if (c->depth==15) {
-			pcol &= 0x00007FFF;
-			pcol = (pcol << 16) | pcol;
-        }
-        if (c->depth== 8) {
-			pcol &= 0x000000FF;
-			pcol = (pcol << 8) | pcol;
-/*
-            c->pixel_translate[c->pixels[i]]=(BYTE) p & 0xff;
-            c->pixels[i] = (BYTE) p & 0xff;
-*/
-        }
-        c->physical_colors[i] = pcol;
+		video_render_setphysicalcolor(&c->videoconfig, i, p, c->depth);
 
-        DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
+        DEBUG(("Physical color for %d is 0x%04X",i,c->videoconfig.physical_colors[i]));
         DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
         if (c->depth==8) {
             if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
@@ -553,6 +532,8 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 
     c = xmalloc(sizeof(struct video_canvas_s));
     memset(c, 0, sizeof(struct video_canvas_s));
+
+	video_render_initconfig(&c->videoconfig);
 
     /* "Normal" window stuff.  */
     c->title = stralloc(title);
@@ -1281,7 +1262,6 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
     DWORD starttime;
     DWORD difftime;
     int bytesmoved;
-    DWORD *ct;
     DWORD clipsize;
     int regioncount,j;
 
@@ -1417,14 +1397,14 @@ static void real_refresh(video_canvas_t *c, video_frame_buffer_t *f,
         pw = trect.right - trect.left;
         ph = trect.bottom - trect.top;
 
-        video_render_main(ct=c->physical_colors,
+        video_render_main(&c->videoconfig,
                           (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
                           (BYTE *)(desc.lpSurface),
                           pw, ph,
                           px, py,
                           trect.left, trect.top,
                           VIDEO_FRAME_BUFFER_LINE_SIZE(f), pitch,
-                          depth,c->videorendermode);
+                          depth);
     }
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
