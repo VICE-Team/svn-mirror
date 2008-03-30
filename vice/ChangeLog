@@ -1,5 +1,15 @@
 1999-01-16 Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.5.
+
+	* configure.in: Define joystick related settings in `config.h'
+	instead of using an extra variable `JOYSTICK'.
+
+	* acconfig.h: Added `HAS_JOYSTICK', `HAS_DIGITAL_JOYSTICK',
+	`LINUX_JOYSTICK' and `BSD_JOYSTICK'.
+
+1999-01-16 Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.4.
 
 	* configure.in: Turn on fullscreen support by default.

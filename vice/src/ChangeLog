@@ -1,5 +1,21 @@
 1999-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.5.
+
+	* findpath.c (findpath): Use old routine.
+
+1999-01-16  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/c128ui.c, arch/unix/xaw/c610ui.c,
+	arch/unix/xaw/c64ui.c, arch/unix/xaw/petui.c,
+	arch/unix/xaw/ui.c, arch/unix/xaw/ui.h,
+	arch/unix/xaw/uimenu.c, arch/unix/xaw/uisettings.c,
+	arch/unix/xaw/uisettings.h, arch/unix/xaw/vic20ui.c,
+	c64/c64mem.c, c64/vicii.c, crtc-tmpl.c, pet/crtc.c,
+	raster.c, vic20/vic.c: More work on fullscreenmode.
+	
+1999-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.4.
 
 	* c128/c128.c, c64/c64.c, cbm2/c610.c, pet/pet.c, vic20/vic20.c:
@@ -13,7 +29,7 @@
 	derived from the *.def files.
 
 	* via-tmpl.c, pet/petvia.def, vic20via1.def, vic20via2.def:
-    Removed.
+	Removed.
 
 	* viacore.c: Replaced some macros by functions.
 
