@@ -69,6 +69,9 @@ UI_MENU_DEFINE_TOGGLE(VICIIDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
+#ifdef HAVE_XVIDEO
+UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
+#endif
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
@@ -122,6 +125,10 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("Color set"),
       NULL, NULL, palette_submenu },
     { "--" },
+#ifdef HAVE_XVIDEO
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_VICIIHwScale, NULL, NULL },
+#endif
     { N_("PAL Emulation"),
       NULL, NULL, PALMode_submenu },
     { "--" },

@@ -62,6 +62,7 @@ struct video_resource_chip_s {
     video_chip_cap_t *video_chip_cap;
     int double_scan_enabled;
     int double_size_enabled;
+    int hwscale_enabled;
     int scale2x_enabled;
     int fullscreen_enabled;
     char *fullscreen_device;
@@ -180,6 +181,35 @@ static resource_t resources_chip_scan[] =
 {
     { NULL, RES_INTEGER, (resource_value_t)1, NULL,
       set_double_scan_enabled, NULL },
+    { NULL }
+};
+
+static int set_hwscale_enabled(resource_value_t v, void *param)
+{
+    video_resource_chip_t *video_resource_chip;
+    video_canvas_t *canvas;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+    canvas = *(video_resource_chip->canvas);
+
+    video_resource_chip->hwscale_enabled = (int)v;
+    canvas->videoconfig->hwscale = (int)v;
+
+    if (canvas->initialized) {
+        video_viewport_resize(canvas);
+    }
+
+    video_resources_update_ui(video_resource_chip);
+
+    return 0;
+}
+
+static const char *vname_chip_hwscale[] = { "HwScale", NULL };
+
+static resource_t resources_chip_hwscale[] =
+{
+    { NULL, RES_INTEGER, (resource_value_t)0, NULL,
+      set_hwscale_enabled, NULL },
     { NULL }
 };
 
@@ -401,6 +431,18 @@ int video_resources_chip_init(const char *chipname,
             return -1;
 
         lib_free((char *)(resources_chip_scan[0].name));
+    }
+
+    if (video_chip_cap->hwscale_allowed != 0) {
+        resources_chip_hwscale[0].name
+            = util_concat(chipname, vname_chip_hwscale[0], NULL);
+        resources_chip_hwscale[0].value_ptr
+            = (resource_value_t *)&(resource_chip->hwscale_enabled);
+        resources_chip_hwscale[0].param = (void *)resource_chip;
+        if (resources_register(resources_chip_hwscale) < 0)
+            return -1;
+
+        lib_free((char *)(resources_chip_hwscale[0].name));
     }
 
     if (video_chip_cap->scale2x_allowed != 0) {

@@ -66,6 +66,22 @@ static cmdline_option_t cmdline_options_chip_scan[] =
     { NULL }
 };
 
+static const char *cname_chip_hwscale[] =
+{
+    "-", "hwscale", "HwScale",
+    "+", "hwscale", "HwScale",
+    NULL
+};
+
+static cmdline_option_t cmdline_options_chip_hwscale[] =
+{
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)1, NULL, "Enable hardware scaling" },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
+      (void *)0, NULL, "Disable hardware scaling" },
+    { NULL }
+};
+
 static const char *cname_chip_scale2x[] =
 {
     "-", "scale2x", "Scale2x",
@@ -193,6 +209,24 @@ int video_cmdline_options_chip_init(const char *chipname,
         for (i = 0; cname_chip_scan[i * 3] != NULL; i++) {
             lib_free((char *)cmdline_options_chip_scan[i].name);
             lib_free((char *)cmdline_options_chip_scan[i].resource_name);
+        }
+    }
+
+    if (video_chip_cap->hwscale_allowed) {
+        for (i = 0; cname_chip_hwscale[i * 3] != NULL; i++) {
+            cmdline_options_chip_hwscale[i].name
+                = util_concat(cname_chip_hwscale[i * 3], chipname,
+                cname_chip_hwscale[i * 3 + 1], NULL);
+            cmdline_options_chip_hwscale[i].resource_name
+                = util_concat(chipname, cname_chip_hwscale[i * 3 + 2], NULL);
+        }
+
+        if (cmdline_register_options(cmdline_options_chip_hwscale) < 0)
+            return -1;
+
+        for (i = 0; cname_chip_hwscale[i * 3] != NULL; i++) {
+            lib_free((char *)cmdline_options_chip_hwscale[i].name);
+            lib_free((char *)cmdline_options_chip_hwscale[i].resource_name);
         }
     }
 

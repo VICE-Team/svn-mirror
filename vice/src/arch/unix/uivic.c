@@ -58,6 +58,9 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
+#ifdef HAVE_XVIDEO
+UI_MENU_DEFINE_TOGGLE(VICHwScale)
+#endif
 UI_MENU_DEFINE_TOGGLE(VICScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICFullscreen)
@@ -105,6 +108,10 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("Color set"),
       NULL, NULL, palette_submenu },
     { "--" },
+#ifdef HAVE_XVIDEO
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_VICHwScale, NULL, NULL },
+#endif
     { N_("PAL Emulation Settings"),
       NULL, NULL, PALMode_submenu },
     { "--" },

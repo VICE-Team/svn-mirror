@@ -98,6 +98,7 @@ struct video_chip_cap_s {
     unsigned int dsize_limit_width;
     unsigned int dsize_limit_height;
     unsigned int dscan_allowed;
+    unsigned int hwscale_allowed;
     unsigned int scale2x_allowed;
     unsigned int internal_palette_allowed;
     unsigned int palemulation_allowed;
@@ -114,6 +115,7 @@ struct video_render_config_s {
     int doublesizex;               /* Doublesizex enabled?  */
     int doublesizey;               /* Doublesizey enabled?  */
     int doublescan;                /* Doublescan enabled?  */
+    int hwscale;                   /* Hardware scaling enabled? */
     int scale2x;                   /* Scale2x enabled?  */
     DWORD physical_colors[256];
     unsigned int external_palette; /* Use an external palette?  */

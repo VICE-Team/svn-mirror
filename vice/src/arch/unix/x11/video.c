@@ -104,12 +104,6 @@ static int set_try_mitshm(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_use_xvideo(resource_value_t v, void *param)
-{
-    use_xvideo = (int)v;
-    return 0;
-}
-
 static unsigned int fourcc;
 static int set_fourcc(resource_value_t v, void *param)
 {
@@ -159,8 +153,6 @@ static const resource_t resources[] = {
     { "MITSHM", RES_INTEGER, (resource_value_t)1,
       (void *)&try_mitshm, set_try_mitshm, NULL },
 #ifdef HAVE_XVIDEO
-    { "XVIDEO", RES_INTEGER, (resource_value_t)0,
-      (void *)&use_xvideo, set_use_xvideo, NULL },
     { "FOURCC", RES_STRING, (resource_value_t)"",
       (void *)&fourcc, set_fourcc, NULL },
     { "AspectRatio", RES_STRING, (resource_value_t)"1.0",
@@ -196,12 +188,6 @@ static const cmdline_option_t cmdline_options[] = {
       "MITSHM", (resource_value_t)0,
       NULL, N_("Never use shared memory (slower)") },
 #ifdef HAVE_XVIDEO
-    { "-xvideo", SET_RESOURCE, 0, NULL, NULL,
-      "XVIDEO", (resource_value_t)1,
-      NULL, N_("Use XVideo Extension (hardware scaling)") },
-    { "+xvideo", SET_RESOURCE, 0, NULL, NULL,
-      "XVIDEO", (resource_value_t)0,
-      NULL, N_("Use software rendering") },
     { "-fourcc", SET_RESOURCE, 1, NULL, NULL, "FOURCC", NULL,
       "<fourcc>", N_("Request YUV FOURCC format") },
     { "-aspect", SET_RESOURCE, 1, NULL, NULL, "AspectRatio", NULL,
@@ -223,9 +209,6 @@ static void (*_refresh_func)();
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
 
-/* This is set to 1 if the XVideo Extension is used. */
-int use_xvideo = 0;
-
 /* The RootWindow of our screen. */
 /* static Window root_window; */
 
@@ -238,7 +221,7 @@ void video_convert_color_table(unsigned int i, BYTE *data, long col,
                                video_canvas_t *canvas)
 {
 #ifdef HAVE_XVIDEO
-    if (use_xvideo && canvas->xv_image) {
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
         return;
     }
 #endif
@@ -333,7 +316,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
         return;
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo && canvas->xv_image) {
+    if (canvas->xv_image) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
         display = x11ui_get_display_ptr();
@@ -448,7 +431,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 #ifdef HAVE_XVIDEO
     /* Find XVideo color setting limits. */
-    if (use_xvideo && canvas->xv_image) {
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
         int i, j;
         int numattr = 0;
         Display *dpy = x11ui_get_display_ptr();
@@ -498,7 +481,7 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 {
 #ifdef HAVE_XVIDEO
     /* Apply color settings to XVideo. */
-    if (use_xvideo && c->xv_image) {
+    if (c->videoconfig->hwscale && c->xv_image) {
         int i;
 
         Display *dpy = x11ui_get_display_ptr();
@@ -537,6 +520,14 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     if (console_mode || vsid_mode)
         return;
 
+#ifdef HAVE_XVIDEO
+    if (canvas->videoconfig->hwscale) {
+	struct geometry_s *geometry = canvas->geometry;
+	width = geometry->gfx_size.width + geometry->gfx_position.x * 2;
+	height =
+	  geometry->last_displayed_line - geometry->first_displayed_line + 1;
+    }
+#endif
     if (canvas->videoconfig->doublesizex)
         width *= 2;
 
@@ -549,6 +540,9 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     x11ui_resize_canvas_window(canvas->emuwindow, width, height);
     canvas->width = width;
     canvas->height = height;
+
+    video_canvas_redraw_size(canvas, width, height);
+
     ui_finish_canvas(canvas);
 }
 
@@ -585,7 +579,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
         return;
 
 #ifdef HAVE_XVIDEO
-    if (use_xvideo && canvas->xv_image) {
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
         int doublesize = canvas->videoconfig->doublesizex
           && canvas->videoconfig->doublesizey;
 

@@ -79,6 +79,7 @@ int vdc_resources_init(void)
     video_chip_cap.dsize_limit_width = 0;
     video_chip_cap.dsize_limit_height = 0;
     video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
+    video_chip_cap.hwscale_allowed = ARCHDEP_VDC_HWSCALE;
     video_chip_cap.scale2x_allowed = 0;
     video_chip_cap.internal_palette_allowed = 0;
     video_chip_cap.external_palette_name = "vdc_deft";

@@ -56,16 +56,21 @@
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "|petlp -F PS|lpr"
 
 /* Video chip scaling.  */
-#define ARCHDEP_VICII_DSIZE 1
-#define ARCHDEP_VICII_DSCAN 1
-#define ARCHDEP_VDC_DSIZE   1
-#define ARCHDEP_VDC_DSCAN   1
-#define ARCHDEP_VIC_DSIZE   1
-#define ARCHDEP_VIC_DSCAN   1
-#define ARCHDEP_CRTC_DSIZE  1
-#define ARCHDEP_CRTC_DSCAN  1
-#define ARCHDEP_TED_DSIZE   1
-#define ARCHDEP_TED_DSCAN   1
+#define ARCHDEP_VICII_DSIZE   1
+#define ARCHDEP_VICII_DSCAN   1
+#define ARCHDEP_VICII_HWSCALE 1
+#define ARCHDEP_VDC_DSIZE     1
+#define ARCHDEP_VDC_DSCAN     1
+#define ARCHDEP_VDC_HWSCALE   0
+#define ARCHDEP_VIC_DSIZE     1
+#define ARCHDEP_VIC_DSCAN     1
+#define ARCHDEP_VIC_HWSCALE   1
+#define ARCHDEP_CRTC_DSIZE    1
+#define ARCHDEP_CRTC_DSCAN    1
+#define ARCHDEP_CRTC_HWSCALE  0
+#define ARCHDEP_TED_DSIZE     1
+#define ARCHDEP_TED_DSCAN     1
+#define ARCHDEP_TED_HWSCALE   1
 
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "/dev/fd0"

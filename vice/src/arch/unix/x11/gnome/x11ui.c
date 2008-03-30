@@ -2766,7 +2766,7 @@ gboolean exposure_callback_app(GtkWidget *w, GdkEvent *e, gpointer client_data)
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     /* XVideo must be refreshed when the shell window is moved. */
-    if (canvas && use_xvideo
+    if (canvas && canvas->videoconfig->hwscale
 	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
 	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
     {
@@ -2785,7 +2785,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEvent *e,
     }
 
     /* No resize for XVideo. */
-    if (use_xvideo
+    if (canvas->videoconfig->hwscale
 	&& (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
 	    || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
     {

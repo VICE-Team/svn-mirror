@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-11-06 15:36+0100\n"
+"POT-Creation-Date: 2004-11-21 18:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1266,59 +1266,59 @@ msgid "Load custom"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:93 src/arch/unix/uicrtc.c:106
-#: src/arch/unix/uited.c:100 src/arch/unix/uited.c:125
-#: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:98
-#: src/arch/unix/uivic.c:117 src/arch/unix/uivicii.c:111
-#: src/arch/unix/uivicii.c:134
+#: src/arch/unix/uited.c:103 src/arch/unix/uited.c:132
+#: src/arch/unix/uivdc.c:98 src/arch/unix/uivdc.c:111
+#: src/arch/unix/uivic.c:101 src/arch/unix/uivic.c:124
+#: src/arch/unix/uivicii.c:114 src/arch/unix/uivicii.c:141
 msgid "*Double size"
 msgstr ""
 
 #: src/arch/unix/uicrtc.c:95 src/arch/unix/uicrtc.c:108
-#: src/arch/unix/uited.c:102 src/arch/unix/uited.c:127
+#: src/arch/unix/uited.c:105 src/arch/unix/uited.c:134
 #: src/arch/unix/uivdc.c:100 src/arch/unix/uivdc.c:113
-#: src/arch/unix/uivic.c:100 src/arch/unix/uivic.c:119
-#: src/arch/unix/uivicii.c:113 src/arch/unix/uivicii.c:136
+#: src/arch/unix/uivic.c:103 src/arch/unix/uivic.c:126
+#: src/arch/unix/uivicii.c:116 src/arch/unix/uivicii.c:143
 msgid "*Double scan"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:104
-#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:102
-#: src/arch/unix/uivicii.c:115
+#: src/arch/unix/uicrtc.c:97 src/arch/unix/uited.c:107
+#: src/arch/unix/uivdc.c:102 src/arch/unix/uivic.c:105
+#: src/arch/unix/uivicii.c:118
 msgid "*Video cache"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:119
-#: src/arch/unix/uivic.c:111 src/arch/unix/uivicii.c:128
+#: src/arch/unix/uicrtc.c:100 src/arch/unix/uited.c:126
+#: src/arch/unix/uivic.c:118 src/arch/unix/uivicii.c:135
 msgid "*Scale 2x render"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:123
-#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:115
-#: src/arch/unix/uivicii.c:132
+#: src/arch/unix/uicrtc.c:104 src/arch/unix/uited.c:130
+#: src/arch/unix/uivdc.c:109 src/arch/unix/uivic.c:122
+#: src/arch/unix/uivicii.c:139
 msgid "*Enable fullscreen"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:129
-#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:121
-#: src/arch/unix/uivicii.c:138
+#: src/arch/unix/uicrtc.c:110 src/arch/unix/uited.c:136
+#: src/arch/unix/uivdc.c:115 src/arch/unix/uivic.c:128
+#: src/arch/unix/uivicii.c:145
 msgid "Fullscreen device"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:134
-#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:126
-#: src/arch/unix/uivicii.c:143
+#: src/arch/unix/uicrtc.c:115 src/arch/unix/uited.c:141
+#: src/arch/unix/uivdc.c:120 src/arch/unix/uivic.c:133
+#: src/arch/unix/uivicii.c:150
 msgid "VidMode Resolutions"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:138
-#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:130
-#: src/arch/unix/uivicii.c:147
+#: src/arch/unix/uicrtc.c:119 src/arch/unix/uited.c:145
+#: src/arch/unix/uivdc.c:124 src/arch/unix/uivic.c:137
+#: src/arch/unix/uivicii.c:154
 msgid "DGA1 Resolutions"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:142
-#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:134
-#: src/arch/unix/uivicii.c:151
+#: src/arch/unix/uicrtc.c:123 src/arch/unix/uited.c:149
+#: src/arch/unix/uivdc.c:128 src/arch/unix/uivic.c:141
+#: src/arch/unix/uivicii.c:158
 msgid "DGA2 Resolutions"
 msgstr ""
 
@@ -1326,9 +1326,9 @@ msgstr ""
 msgid "*CRTC Screen color"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:147
-#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:142
-#: src/arch/unix/uivicii.c:164
+#: src/arch/unix/uicrtc.c:131 src/arch/unix/uited.c:154
+#: src/arch/unix/uivdc.c:105 src/arch/unix/uivic.c:149
+#: src/arch/unix/uivicii.c:171
 msgid "*Use XSync()"
 msgstr ""
 
@@ -2564,20 +2564,25 @@ msgstr ""
 msgid "Sound settings"
 msgstr ""
 
-#: src/arch/unix/uited.c:107 src/arch/unix/uivicii.c:120
+#: src/arch/unix/uited.c:110 src/arch/unix/uivicii.c:123
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/uited.c:109 src/arch/unix/uivdc.c:138
-#: src/arch/unix/uivic.c:105 src/arch/unix/uivicii.c:122
+#: src/arch/unix/uited.c:112 src/arch/unix/uivdc.c:138
+#: src/arch/unix/uivic.c:108 src/arch/unix/uivicii.c:125
 msgid "Color set"
 msgstr ""
 
-#: src/arch/unix/uited.c:113
+#: src/arch/unix/uited.c:116
 msgid "*Fast PAL emulation"
 msgstr ""
 
-#: src/arch/unix/uited.c:116 src/arch/unix/uivicii.c:125
+#: src/arch/unix/uited.c:120 src/arch/unix/uivic.c:112
+#: src/arch/unix/uivicii.c:129
+msgid "*Hardware scaling"
+msgstr ""
+
+#: src/arch/unix/uited.c:123 src/arch/unix/uivicii.c:132
 msgid "PAL Emulation"
 msgstr ""
 
@@ -2622,11 +2627,11 @@ msgstr ""
 msgid "Revision"
 msgstr ""
 
-#: src/arch/unix/uivic.c:108
+#: src/arch/unix/uivic.c:115
 msgid "PAL Emulation Settings"
 msgstr ""
 
-#: src/arch/unix/uivic.c:139 src/arch/unix/uivicii.c:156
+#: src/arch/unix/uivic.c:146 src/arch/unix/uivicii.c:163
 #: src/arch/unix/vsidui.c:177
 msgid "Video standard"
 msgstr ""
@@ -2643,15 +2648,15 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:118
+#: src/arch/unix/uivicii.c:121
 msgid "*New Luminances"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:159
+#: src/arch/unix/uivicii.c:166
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:161
+#: src/arch/unix/uivicii.c:168
 msgid "*Sprite-background collisions"
 msgstr ""
 
@@ -3324,48 +3329,40 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:188
+#: src/arch/unix/x11/video.c:180
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:191
+#: src/arch/unix/x11/video.c:183
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:186
 msgid "Use shared memory"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:197
+#: src/arch/unix/x11/video.c:189
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:201
-msgid "Use XVideo Extension (hardware scaling)"
-msgstr ""
-
-#: src/arch/unix/x11/video.c:204
-msgid "Use software rendering"
-msgstr ""
-
-#: src/arch/unix/x11/video.c:206
+#: src/arch/unix/x11/video.c:192
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:208
+#: src/arch/unix/x11/video.c:194
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:288
+#: src/arch/unix/x11/video.c:271
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:292
+#: src/arch/unix/x11/video.c:275
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:358
+#: src/arch/unix/x11/video.c:341
 msgid "Cannot release shared memory!"
 msgstr ""
 

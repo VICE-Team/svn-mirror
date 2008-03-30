@@ -60,6 +60,9 @@ UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDExternalPalette)
+#ifdef HAVE_XVIDEO
+UI_MENU_DEFINE_TOGGLE(TEDHwScale)
+#endif
 UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
@@ -112,6 +115,10 @@ ui_menu_entry_t ted_submenu[] = {
 #if 0
     { N_("*Fast PAL emulation"),
       (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
+#endif
+#ifdef HAVE_XVIDEO
+    { N_("*Hardware scaling"),
+      (ui_callback_t)toggle_TEDHwScale, NULL, NULL },
 #endif
     { N_("PAL Emulation"),
       NULL, NULL, PALMode_submenu },

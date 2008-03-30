@@ -79,7 +79,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 #ifdef HAVE_XVIDEO
     canvas->xv_image = NULL;
 
-    if (use_xvideo
+    if (canvas->videoconfig->hwscale
         && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
             || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
     {
