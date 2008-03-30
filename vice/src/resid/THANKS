@@ -1,8 +1,9 @@
 reSID was written by Dag Lem.
 
 The project was started after reading an interview with Bob Yannes, the
-head engineer of the SID chip. This interview was done by Andreas Varga,
-and can be found on his SID Homepage:
+head engineer of the SID chip. This interview was made by Andreas Varga,
+with additional questions from Linus Walleij. The interview can be found on
+the SID Homepage:
 http://stud1.tuwien.ac.at/~e9426444/sidpage.html
 The reverse engineering of the SID chip would not have been possible without
 this interview.
@@ -33,7 +34,7 @@ between his excellent SID emulation and, given enough CPU power, the reSID
 emulator engine. Tibor Biczo, Andreas Boose, and André Fachat have provided
 combined waveform samples for 6581 R1, R3, R4, and 8580 R5 SID chips.
 The VICE home page is found at:
-http://www.cs.cmu.edu/~dsladic/vice/
+http://viceteam.bei.t-online.de/
 
 The author of SIDPLAY, Michael Schwendt, has implemented a patch to link
 libsidplay with reSID. Using his excellent tune player he has pointed out
@@ -66,6 +67,9 @@ maximum and minimum voice output levels are interchanged.
 The author of SIDPLAY2, Simon White, has given a lot of feedback on
 reSID. Most importantly he found and fixed a bug in the fast clock
 version of the ADSR emulation.
+
+Laurent Ovaert found and fixed a bug in the fast version of the noise
+register shift routine.
 
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

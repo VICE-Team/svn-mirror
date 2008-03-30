@@ -72,7 +72,10 @@ public:
   State read_state();
   void write_state(const State& state);
 
-  // 16-bit output.
+  // 16-bit input (EXT IN).
+  void input(int sample);
+
+  // 16-bit output (AUDIO OUT).
   int output();
   // n-bit output.
   int output(int bits);
@@ -96,6 +99,9 @@ protected:
   cycle_count bus_value_ttl;
 
   double clock_frequency;
+
+  // External audio input.
+  int ext_in;
 
   // Sampling variables.
   cycle_count sample_offset;

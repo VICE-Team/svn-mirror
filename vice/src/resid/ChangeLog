@@ -1,3 +1,29 @@
+2002-12-31  Dag Lem  <resid@nimrod.no>
+
+	* Version 0.14 released.
+
+	* envelope.h (EnvelopeGenerator::clock): Corrected one cycle error
+	in ADSR delay bug. Only load the exponential counter period at the
+	envelope counter values 255, 93, 54, 26, 14, 6, 0.
+	
+	* filter.cc (Filter::set_chip_model): Call set_w0() and set_Q() to
+	update filter settings.
+	(Filter::set_w0): Limit cutoff frequency for both 1 cycle and
+	delta_t cycle filter.
+
+	* filter.h (Filter::clock): Mix in external audio input.
+
+	* sid.cc, sid.h (SID::input): New function; accepts external audio
+	input sample.
+	
+	* spline.h (PointPlotter::operator ()): Clamp negative values to
+	zero.
+
+	* voice.cc, voice.h: Changed misleading name wave_DC to wave_zero.
+	
+	* wave.h (WaveformGenerator::clock): Corrected bug in check for
+	accumulator bit 19 in noise register shift.
+
 2002-01-19  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.13 released.
@@ -5,18 +31,19 @@
 	* configure.in: Replaced AC_TRY_COMPILER with AC_TRY_COMPILE,
 	removed AC_PROG_RANLIB.
 
-	* envelope.h (clock): Reset rate_step on state change.
+	* envelope.h (EnvelopeGenerator::clock): Reset rate_step on state
+	change.
 
-	* extfilt.cc (set_chip_model): New calculation of maximum mixer DC
-	level.
+	* extfilt.cc (ExternalFilter::set_chip_model): New calculation of
+	maximum mixer DC level.
 
-	* filter.cc (set_chip_model): Moved calculation of voice_DC to
-	voice.cc, corrected calculation of mixer_DC.
+	* filter.cc (Filter::set_chip_model): Moved calculation of
+	voice_DC to voice.cc, corrected calculation of mixer_DC.
 
 	* filter.h (Filter::output): Mixer output is not inverted.
 
-	* sid.cc (set_chip_model): Call voice.set_chip_model instead of
-	voice.wave.set_chip_model.
+	* sid.cc (SID::set_chip_model): Call voice.set_chip_model instead
+	of voice.wave.set_chip_model.
 	
 	* voice.cc (Voice::Voice): Call set_chip_model.
 	(Voice::set_chip_model): New function; model both waveform D/A

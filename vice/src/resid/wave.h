@@ -184,8 +184,19 @@ void WaveformGenerator::clock(cycle_count delta_t)
       shift_period = delta_accumulator;
       // Determine whether bit 19 is set on the last period.
       // NB! Requires two's complement integer.
-      if (((accumulator - shift_period) & 0x080000) || !(accumulator & 0x080000)) {
-	break;
+      if (shift_period <= 0x080000) {
+	// Check for flip from 0 to 1.
+	if (((accumulator - shift_period) & 0x080000) || !(accumulator & 0x080000))
+	{
+	  break;
+	}
+      }
+      else {
+	// Check for flip from 0 (to 1 or via 1 to 0) or from 1 via 0 to 1.
+	if (((accumulator - shift_period) & 0x080000) && !(accumulator & 0x080000))
+	{
+	  break;
+	}
       }
     }
 

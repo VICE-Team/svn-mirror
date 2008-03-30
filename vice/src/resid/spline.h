@@ -259,6 +259,11 @@ class PointPlotter
 
   void operator ()(double x, double y)
   {
+    // Clamp negative values to zero.
+    if (y < 0) {
+      y = 0;
+    }
+
     f[F(x)] = F(y);
   }
 };

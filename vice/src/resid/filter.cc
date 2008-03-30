@@ -161,6 +161,9 @@ void Filter::set_chip_model(chip_model model)
     f0_points = f0_points_8580;
     f0_count = sizeof(f0_points_8580)/sizeof(*f0_points_8580);
   }
+
+  set_w0();
+  set_Q();
 }
 
 
@@ -173,9 +176,7 @@ void Filter::reset()
 
   res = 0;
 
-  filtex = 0;
-
-  filt3_filt2_filt1 = 0;
+  filt = 0;
 
   voice3off = 0;
 
@@ -214,8 +215,7 @@ void Filter::writeRES_FILT(reg8 res_filt)
   res = (res_filt >> 4) & 0x0f;
   set_Q();
 
-  filtex = res_filt & 0x08;
-  filt3_filt2_filt1 = res_filt & 0x07;
+  filt = res_filt & 0x0f;
 }
 
 void Filter::writeMODE_VOL(reg8 mode_vol)
@@ -235,6 +235,14 @@ void Filter::set_w0()
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
   w0 = static_cast<sound_sample>(2*pi*f0[fc]*1.048576);
+
+  // Limit f0 to 16kHz to keep 1 cycle filter stable.
+  const sound_sample w0_max_1 = static_cast<sound_sample>(2*pi*16000*1.048576);
+  w0_ceil_1 = w0 <= w0_max_1 ? w0 : w0_max_1;
+
+  // Limit f0 to 4kHz to keep delta_t cycle filter stable.
+  const sound_sample w0_max_dt = static_cast<sound_sample>(2*pi*4000*1.048576);
+  w0_ceil_dt = w0 <= w0_max_dt ? w0 : w0_max_dt;
 }
 
 // Set filter resonance.

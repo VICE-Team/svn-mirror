@@ -4205,7 +4205,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
   /*log_message(LOG_DEFAULT, "Load snapshot %s", ((char*)SnapshotMessage)+44);*/
 
-  status = machine_read_snapshot(((char*)SnapshotMessage, 0)+44);
+  status = machine_read_snapshot(((char*)SnapshotMessage)+44, 0);
 
   /* In this case the scrap removal had to be delayed */
   if (WimpScrapUsed != 0)

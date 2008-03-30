@@ -83,6 +83,10 @@ int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     passband = speed * passband_percentage / 200.0;
 
     psid->sid.set_chip_model(model == 0 ? MOS6581 : MOS8580);
+
+    /* 8580 + digi boost. */
+    psid->sid.input(model == 2 ? -32768 : 0);
+
     psid->sid.enable_filter(filters_enabled?true:false);
     psid->sid.enable_external_filter(filters_enabled?true:false);
 

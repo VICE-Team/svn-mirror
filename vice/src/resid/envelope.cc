@@ -44,6 +44,7 @@ void EnvelopeGenerator::reset()
 
   rate_counter = 0;
   exponential_counter = 0;
+  exponential_counter_period = 1;
 
   state = RELEASE;
   rate_period = rate_counter_period[release];
@@ -68,22 +69,21 @@ void EnvelopeGenerator::reset()
 // as rate counter comparison values, not considering a one cycle delay to
 // zero the counter. This would yield an actual period of comparison value + 1.
 //
+// The time of the first envelope count can not be exactly controlled, except
+// possibly by resetting the chip. Because of this we cannot do cycle exact
+// sampling and must devise another method to calculate the rate counter
+// periods.
+//
 // The exact rate counter periods can be determined e.g. by counting the number
-// of cycles from envelope level 1 to envelope level 255, and dividing the
-// number of cycles by 254. CIA1 timer A and B in linked mode can perform
+// of cycles from envelope level 1 to envelope level 129, and dividing the
+// number of cycles by 128. CIA1 timer A and B in linked mode can perform
 // the cycle count. This is the method used to find the rates below.
-// Making a full sample from 8 cycle shifted samples is also possible, however
-// it is then necessary to wait exactly the same cycle tuned interval between
-// each sample. This is because it is not possible to reset the rate counter
-// (the test bit has no influence on the envelope generator whatsoever).
-// The time of the first count of the envelope counter can not be exactly
-// controlled except possibly by resetting the chip.
 //
 // To avoid the ADSR delay bug, sampling of ENV3 should be done using
 // sustain = release = 0. This ensures that the attack state will not lower
-// the current rate counter period. The maximum error from the SID chip is now
-// 9 cycles. The code below adds a maximum error of 14 cycles:
+// the current rate counter period.
 //
+// The ENV3 sampling code below yields a maximum timing error of 14 cycles.
 //     lda #$01
 // l1: cmp $d41c
 //     bne l1
@@ -92,9 +92,9 @@ void EnvelopeGenerator::reset()
 // l2: cmp $d41c
 //     bne l2
 //
-// The maximum timing error is thus 23 cycles, which yields a maximum error
-// for the calculated rate period of 23/254 cycles. The described method is
-// thus sufficient for exact calculation of rate periods.
+// This yields a maximum error for the calculated rate period of 14/128 cycles.
+// The described method is thus sufficient for exact calculation of the rate
+// periods.
 //
 reg16 EnvelopeGenerator::rate_counter_period[] = {
       9,  //   2ms*1.0MHz/256 =     7.81
@@ -117,60 +117,36 @@ reg16 EnvelopeGenerator::rate_counter_period[] = {
 
 
 // For decay and release, the clock to the envelope counter is sequentially
-// divided by 1, 2, 4, 8, 16, 30 to create a piece-wise linear approximation
-// of an exponential at the envelope counter values 93, 54, 26, 14, 6.
-// As a special case the period at zero level is 1; this only influences the
-// ADSR boundary bug.
-// All values have been verified by sampling ENV3.
+// divided by 1, 2, 4, 8, 16, 30, 1 to create a piece-wise linear approximation
+// of an exponential. The exponential counter period is loaded at the envelope
+// counter values 255, 93, 54, 26, 14, 6, 0. The period can be different for the
+// same envelope counter value, depending on whether the envelope has been
+// rising (attack -> release) or sinking (decay/release).
 //
-// One extra cycle is spent at envelope level 0x5d in decay and release.
-// This is a delay caused by the comparison with the exponential counter,
-// and does not affect the rate counter. This has been verified by timing
-// 256 consecutive complete envelopes with A = D = R = 1, S = 0, using CIA1
-// timer A and B in linked mode. If the rate counter is not affected the
+// Since it is not possible to reset the rate counter (the test bit has no
+// influence on the envelope generator whatsoever) a method must be devised to
+// do cycle exact sampling of ENV3 to do the investigation. This is possible
+// with knowledge of the rate period for A=0, found above.
+//
+// The CPU can be synchronized with ENV3 by first synchronizing with the rate
+// counter by setting A=0 and wait in a carefully timed loop for the envelope
+// counter _not_ to change for 9 cycles. We can then wait for a specific value
+// of ENV3 with another timed loop to fully synchronize with ENV3.
+//
+// At the first period when an exponential counter period larger than one
+// is used (decay or relase), one extra cycle is spent before the envelope is
+// decremented. The envelope output is then delayed one cycle until the state
+// is changed to attack. Now one cycle less will be spent before the envelope
+// is incremented, and the situation is normalized.
+// The delay is probably caused by the comparison with the exponential counter,
+// and does not seem to affect the rate counter. This has been verified by
+// timing 256 consecutive complete envelopes with A = D = R = 1, S = 0, using
+// CIA1 timer A and B in linked mode. If the rate counter is not affected the
 // period of each complete envelope is
-// (255 + 162 + 39*2 + 28*4 + 12*8 + 8*16 + 6*30)*32 = 756*32 = 32352
+// (255 + 162*1 + 39*2 + 28*4 + 12*8 + 8*16 + 6*30)*32 = 756*32 = 32352
 // which corresponds exactly to the timed value divided by the number of
 // complete envelopes.
 // NB! This one cycle delay is not modeled.
-//
-// Lookup table to directly, from the envelope counter, find the current
-// exponential counter period.
-//
-reg8 EnvelopeGenerator::exponential_counter_period[] = {
-  /* 0x00: */   1, 30, 30, 30, 30, 30, 30, 16,  // 0x06
-  /* 0x08: */  16, 16, 16, 16, 16, 16, 16,  8,  // 0x0e
-  /* 0x10: */   8,  8,  8,  8,  8,  8,  8,  8,
-  /* 0x18: */   8,  8,  8,  4,  4,  4,  4,  4,  // 0x1a
-  /* 0x20: */   4,  4,  4,  4,  4,  4,  4,  4,
-  /* 0x28: */   4,  4,  4,  4,  4,  4,  4,  4,
-  /* 0x30: */   4,  4,  4,  4,  4,  4,  4,  2,  // 0x36
-  /* 0x38: */   2,  2,  2,  2,  2,  2,  2,  2,
-  /* 0x40: */   2,  2,  2,  2,  2,  2,  2,  2,
-  /* 0x48: */   2,  2,  2,  2,  2,  2,  2,  2,
-  /* 0x50: */   2,  2,  2,  2,  2,  2,  2,  2,
-  /* 0x58: */   2,  2,  2,  2,  2,  2,  1,  1,  // 0x5d
-  /* 0x60: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x68: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x70: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x78: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x80: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x88: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x90: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0x98: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xa0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xa8: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xb0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xb8: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xc0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xc8: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xd0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xd8: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xe0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xe8: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xf0: */   1,  1,  1,  1,  1,  1,  1,  1,
-  /* 0xf8: */   1,  1,  1,  1,  1,  1,  1,  1
-};
 
 
 // From the sustain levels it follows that both the low and high 4 bits of the

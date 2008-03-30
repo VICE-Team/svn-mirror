@@ -75,7 +75,7 @@ void Voice::set_chip_model(chip_model model)
     // waveform output "zero" level was found to be 0x380 (i.e. $d41b
     // = 0x38) at 5.94V.
 
-    wave_DC = -0x380;
+    wave_zero = 0x380;
 
     // The envelope multiplying D/A converter introduces another DC
     // offset. This is isolated by the following measurements:
@@ -100,7 +100,7 @@ void Voice::set_chip_model(chip_model model)
   }
   else {
     // No DC offsets in the MOS8580.
-    wave_DC = -0x800;
+    wave_zero = 0x800;
     voice_DC = 0;
   }
 }

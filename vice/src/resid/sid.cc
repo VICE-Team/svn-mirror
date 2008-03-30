@@ -30,6 +30,11 @@ SID::SID()
   voice[2].set_sync_source(&voice[1]);
 
   set_sampling_parameters(985248, SAMPLE_FAST, 44100);
+
+  bus_value = 0;
+  bus_value_ttl = 0;
+
+  ext_in = 0;
 }
 
 
@@ -64,7 +69,20 @@ void SID::reset()
 
 
 // ----------------------------------------------------------------------------
-// Read sample of audio output.
+// Write 16-bit sample to audio input.
+// NB! The caller is responsible for keeping the value within 16 bits.
+// Note that to mix in an external audio signal, the signal should be
+// resampled to 1MHz first to avoid sampling noise.
+// ----------------------------------------------------------------------------
+void SID::input(int sample)
+{
+  // Voice outputs are 20 bits. Scale up to match three voices in order
+  // to facilitate simulation of the MOS8580 "digi boost" hardware hack.
+  ext_in = (sample << 4)*3;
+}
+
+// ----------------------------------------------------------------------------
+// Read sample from audio output.
 // Both 16-bit and n-bit output is provided.
 // ----------------------------------------------------------------------------
 int SID::output()
@@ -272,10 +290,7 @@ SID::State SID::read_state()
 
   state.sid_register[j++] = filter.fc & 0x007;
   state.sid_register[j++] = filter.fc >> 3;
-  state.sid_register[j++] =
-    (filter.res << 4)
-    | (filter.filtex ? 0x08 : 0)
-    | filter.filt3_filt2_filt1;
+  state.sid_register[j++] = (filter.res << 4) | filter.filt;
   state.sid_register[j++] =
     (filter.voice3off ? 0x80 : 0)
     | (filter.hp_bp_lp << 4)
@@ -550,7 +565,7 @@ void SID::clock()
   }
 
   // Clock filter.
-  filter.clock(voice[0].output(), voice[1].output(), voice[2].output());
+  filter.clock(voice[0].output(), voice[1].output(), voice[2].output(), ext_in);
 
   // Clock external filter.
   extfilt.clock(filter.output());
@@ -630,7 +645,7 @@ void SID::clock(cycle_count delta_t)
 
   // Clock filter.
   filter.clock(delta_t,
-	       voice[0].output(), voice[1].output(), voice[2].output());
+	       voice[0].output(), voice[1].output(), voice[2].output(), ext_in);
 
   // Clock external filter.
   extfilt.clock(delta_t, filter.output());

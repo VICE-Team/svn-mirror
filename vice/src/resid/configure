@@ -694,7 +694,7 @@ fi
 
 PACKAGE=resid
 
-VERSION=0.13vice
+VERSION=0.14vice
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -776,7 +776,7 @@ else
 fi
 
 
-LTVERSION=2:1:0
+LTVERSION=3:0:0
 
 ac_ext=C
 # CXXFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.

@@ -43,8 +43,10 @@ protected:
   WaveformGenerator wave;
   EnvelopeGenerator envelope;
 
-  // Waveform D/A and envelope multiplying D/A DC offsets.
-  sound_sample wave_DC;
+  // Waveform D/A zero level.
+  sound_sample wave_zero;
+
+  // Multiplying D/A DC offset.
   sound_sample voice_DC;
 
 friend class SID;
@@ -67,7 +69,7 @@ RESID_INLINE
 sound_sample Voice::output()
 {
   // Multiply oscillator output with envelope output.
-  return (wave.output() + wave_DC)*envelope.output() + voice_DC;
+  return (wave.output() - wave_zero)*envelope.output() + voice_DC;
 }
 
 #endif // RESID_INLINING || defined(__VOICE_CC__)

@@ -52,7 +52,8 @@ public:
 protected:
   reg16 rate_counter;
   reg16 rate_period;
-  reg16 exponential_counter;
+  reg8 exponential_counter;
+  reg8 exponential_counter_period;
   reg8 envelope_counter;
   bool hold_zero;
 
@@ -68,10 +69,6 @@ protected:
   // Lookup table to convert from attack, decay, or release value to rate
   // counter period.
   static reg16 rate_counter_period[];
-
-  // Lookup table to directly, from the envelope counter, find the current
-  // exponential counter period.
-  static reg8 exponential_counter_period[];
 
   // The 16 selectable sustain levels.
   static reg8 sustain_level[];
@@ -118,8 +115,7 @@ void EnvelopeGenerator::clock()
   // The first envelope step in the attack state also resets the exponential
   // counter. This has been verified by sampling ENV3.
   //
-  if (state == ATTACK || ++exponential_counter
-      == exponential_counter_period[envelope_counter])
+  if (state == ATTACK || ++exponential_counter == exponential_counter_period)
   {
     exponential_counter = 0;
 
@@ -157,11 +153,33 @@ void EnvelopeGenerator::clock()
       break;
     }
     
-    // When the envelope counter is changed to zero, it is frozen at zero.
-    // This has been verified by sampling ENV3.
-    //
-    if (envelope_counter == 0) {
+    // Check for change of exponential counter period.
+    switch (envelope_counter) {
+    case 0xff:
+      exponential_counter_period = 1;
+      break;
+    case 0x5d:
+      exponential_counter_period = 2;
+      break;
+    case 0x36:
+      exponential_counter_period = 4;
+      break;
+    case 0x1a:
+      exponential_counter_period = 8;
+      break;
+    case 0x0e:
+      exponential_counter_period = 16;
+      break;
+    case 0x06:
+      exponential_counter_period = 30;
+      break;
+    case 0x00:
+      exponential_counter_period = 1;
+
+      // When the envelope counter is changed to zero, it is frozen at zero.
+      // This has been verified by sampling ENV3.
       hold_zero = true;
+      break;
     }
   }
 }
@@ -191,7 +209,7 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
     rate_step += 0x8000;
   }
 
-  for (; delta_t; rate_step = rate_period) {
+  while (delta_t) {
     if (delta_t < rate_step) {
       rate_counter += delta_t;
       return;
@@ -210,13 +228,13 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
     // The first envelope step in the attack state also resets the exponential
     // counter. This has been verified by sampling ENV3.
     //
-    if (state == ATTACK	|| ++exponential_counter
-	== exponential_counter_period[envelope_counter])
+    if (state == ATTACK	|| ++exponential_counter == exponential_counter_period)
     {
       exponential_counter = 0;
 
       // Check whether the envelope counter is frozen at zero.
       if (hold_zero) {
+	rate_step = rate_period;
 	continue;
       }
 
@@ -249,13 +267,37 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
 	break;
       }
 
-      // When the envelope counter is changed to zero, it is frozen at zero.
-      // This has been verified by sampling ENV3.
-      //
-      if (envelope_counter == 0) {
+      // Check for change of exponential counter period.
+      switch (envelope_counter) {
+      case 0xff:
+	exponential_counter_period = 1;
+	break;
+      case 0x5d:
+	exponential_counter_period = 2;
+	break;
+      case 0x36:
+	exponential_counter_period = 4;
+	break;
+      case 0x1a:
+	exponential_counter_period = 8;
+	break;
+      case 0x0e:
+	exponential_counter_period = 16;
+	break;
+      case 0x06:
+	exponential_counter_period = 30;
+	break;
+      case 0x00:
+	exponential_counter_period = 1;
+
+	// When the envelope counter is changed to zero, it is frozen at zero.
+	// This has been verified by sampling ENV3.
 	hold_zero = true;
+	break;
       }
     }
+
+    rate_step = rate_period;
   }
 }
 

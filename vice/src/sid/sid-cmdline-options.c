@@ -42,7 +42,7 @@ static cmdline_option_t cmdline_options[] = {
       "SidStereoAddressStart", NULL,
       "<base address>", "Specify base address for 2nd SID" },
     { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      "<model>", "Specify SID model (1: 8580, 0: 6581)" },
+      "<model>", "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)" },
     { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
       (void *)1,
       NULL, "Emulate SID filters" },

@@ -1,3 +1,33 @@
+Changes in reSID version 0.14
+-----------------------------
+
+The SID external audio input is now emulated. This can be used e.g. to
+simulate the hack of connecting a resistor from EXT IN to GND to boost
+the sample volume on the MOS8580. Calling sid.input(-32768) makes the
+MOS8580 sound more or less like the MOS6581 with respect to samples.
+The interface could also be used to mix in an external audio signal,
+but note that to do this correctly you should really resample the
+audio signal to 1MHz first.
+
+The filter settings are now updated immediately when the chip model is
+changed. Earlier the filter cutoff frequency would not change until
+the FC registers were updated.
+
+A one cycle error in the fast version of the envelope clocking has
+been fixed. This bug was introduced in reSID 0.13 and could affect the
+ADSR delay emulation.
+
+The exponential counter period is now only loaded at the envelope
+counter values 255, 93, 54, 26, 14, 6, 0. The period can be different
+for the same envelope counter value, depending on whether the envelope
+has been rising (attack -> release) or sinking (decay/release).
+
+A bug in the fast version of the noise register shift routine has been
+corrected. This bug caused too low noise frequency in some cases.
+
+The filter cutoff frequency is limited to 16kHz to keep the filter stable.
+
+
 Changes in reSID version 0.13
 -----------------------------
 
