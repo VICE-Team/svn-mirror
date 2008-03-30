@@ -5122,7 +5122,6 @@ void ui_exit(void)
     sound_close();
 
   machine_shutdown();
-  sound_close();
   ui_image_contents_exit();
   ui_message_exit();
   log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
