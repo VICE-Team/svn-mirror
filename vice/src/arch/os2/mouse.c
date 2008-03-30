@@ -28,6 +28,7 @@
 
 #include "mouse.h"
 #include "cmdline.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "resources.h"
 
