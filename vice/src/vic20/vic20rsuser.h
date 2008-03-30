@@ -1,5 +1,5 @@
 /*
- * vic20rsuser.c - VIC20 RS232 userport interface
+ * vic20rsuser.h - VIC20 RS232 userport interface
  *
  * Written by
  *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
@@ -23,32 +23,10 @@
  *  02111-1307  USA.
  *
  */
-/*
- * This is a very crude emulation. It does not check for a lot of things.
- * It simply tries to work with existing programs that work on the real
- * machine and does not try to catch rogue attempts...
- *
- * It calls the stuff provided by the rsuser.c in the main source
- * directory.
- */
 
-#include <stdio.h>
+#ifndef VIC20RSUSER_H
+#define VIC20RSUSER_H
 
-#include "vice.h"
-#include "types.h"
-#include "rsuser.h"
-#include "vic20via.h"
-#include "vic20.h"
+void vic20_rsuser_init(void);
 
-static void vic20_trigger_start(void)
-{
-    via2_signal(VIA_SIG_CB1, VIA_SIG_FALL);
-    via2_signal(VIA_SIG_CB1, VIA_SIG_RISE);
-}
-
-void vic20_rsuser_init(void)
-{
-    /* The 1.0 is the CPU clk ratio to 1 MHz */
-    return rsuser_init(VIC20_PAL_CYCLES_PER_SEC, vic20_trigger_start, NULL);
-}
-
+#endif
