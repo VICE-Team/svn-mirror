@@ -52,6 +52,7 @@
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -315,6 +316,8 @@ int machine_init(void)
     pet_ui_init();
 
     petiec_init();
+
+    machine_drive_stub();
 
     return 0;
 }

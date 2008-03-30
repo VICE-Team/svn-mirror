@@ -59,6 +59,7 @@
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -319,6 +320,8 @@ int machine_init(void)
     cbm2_ui_init();
 
     cbm2iec_init();
+
+    machine_drive_stub();
 
     return 0;
 }

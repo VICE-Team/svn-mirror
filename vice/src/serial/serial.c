@@ -52,7 +52,7 @@
 
 #include "attach.h"
 #include "drive.h"
-#include "iec.h"
+#include "iecbus.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -338,7 +338,7 @@ int serial_init(const trap_t *trap_list, ADDRESS tmpin)
     unsigned int i;
 
     serial_log = log_open("Serial");
-    iec_init();
+    iecbus_init();
 
     serial_trap_init(tmpin);
 
@@ -455,7 +455,7 @@ int serial_detach_device(unsigned int unit)
 /* Close all files.  */
 void serial_reset(void)
 {
-    iec_reset();
+    iecbus_reset();
 }
 
 /* ------------------------------------------------------------------------- */

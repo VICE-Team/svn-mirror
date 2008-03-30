@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "iec.h"
+#include "iecbus.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"
@@ -64,9 +64,9 @@ void serial_trap_attention(void)
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f) {
-        iec_unlisten(TrapDevice, TrapSecondary, serial_set_st);
+        iecbus_unlisten(TrapDevice, TrapSecondary, serial_set_st);
     } else if (b == 0x5f) {
-        iec_untalk(TrapDevice, TrapSecondary, serial_set_st);
+        iecbus_untalk(TrapDevice, TrapSecondary, serial_set_st);
     } else {
         switch (b & 0xf0) {
           case 0x20:
@@ -75,15 +75,15 @@ void serial_trap_attention(void)
             break;
           case 0x60:
             TrapSecondary = b;
-            iec_listentalk(TrapDevice, TrapSecondary, serial_set_st);
+            iecbus_listentalk(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xe0:
             TrapSecondary = b;
-            iec_close(TrapDevice, TrapSecondary, serial_set_st);
+            iecbus_close(TrapDevice, TrapSecondary, serial_set_st);
             break;
           case 0xf0:
             TrapSecondary = b;
-            iec_open(TrapDevice, TrapSecondary, serial_set_st);
+            iecbus_open(TrapDevice, TrapSecondary, serial_set_st);
             break;
         }
     }
@@ -106,7 +106,7 @@ void serial_trap_send(void)
 
     data = mem_read(BSOUR); /* BSOUR - character for serial bus */
 
-    iec_write(TrapDevice, TrapSecondary, data, serial_set_st);
+    iecbus_write(TrapDevice, TrapSecondary, data, serial_set_st);
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
@@ -117,7 +117,7 @@ void serial_trap_receive(void)
 {
     BYTE data;
 
-    data = iec_read(TrapDevice, TrapSecondary, serial_set_st);
+    data = iecbus_read(TrapDevice, TrapSecondary, serial_set_st);
 
     mem_store(tmp_in, data);
 

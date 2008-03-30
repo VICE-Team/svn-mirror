@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "iec.h"
+#include "iecbus.h"
 #include "serial-iec.h"
 #include "types.h"
 #include "utils.h"
@@ -47,13 +47,13 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
 {
     unsigned int i;
 
-    iec_open(unit, secondary, serial_iec_set_st);
+    iecbus_open(unit, secondary, serial_iec_set_st);
 
     for (i = 0; i < length; i++) {
-        iec_write(unit, secondary, name[i], serial_iec_set_st);
+        iecbus_write(unit, secondary, name[i], serial_iec_set_st);
     }
 
-    iec_unlisten(unit, secondary, serial_iec_set_st);
+    iecbus_unlisten(unit, secondary, serial_iec_set_st);
 
     return 0;
 }
@@ -61,16 +61,16 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
 int serial_iec_close(unsigned int unit, unsigned int secondary)
 {
     if (listen) {
-        iec_unlisten(unit, secondary, serial_iec_set_st);
+        iecbus_unlisten(unit, secondary, serial_iec_set_st);
         listen = 0;
     }
 
     if (talk) {
-        iec_untalk(unit, secondary, serial_iec_set_st);
+        iecbus_untalk(unit, secondary, serial_iec_set_st);
         talk = 0;
     }
 
-    iec_close(unit, secondary, serial_iec_set_st);
+    iecbus_close(unit, secondary, serial_iec_set_st);
 
     return 0;
 }
@@ -78,16 +78,16 @@ int serial_iec_close(unsigned int unit, unsigned int secondary)
 int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
 {
     if (listen) {
-        iec_unlisten(unit, secondary, serial_iec_set_st);
+        iecbus_unlisten(unit, secondary, serial_iec_set_st);
         listen = 0;
     }
 
     if (!talk) {
-        iec_listentalk(unit | 0x40, secondary, serial_iec_set_st);
+        iecbus_listentalk(unit | 0x40, secondary, serial_iec_set_st);
         talk = 1;
     }
 
-    *data = iec_read(unit, secondary, serial_iec_set_st);
+    *data = iecbus_read(unit, secondary, serial_iec_set_st);
 
     return serial_iec_st;
 }
@@ -95,16 +95,16 @@ int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
 int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
 {
     if (talk) {
-        iec_untalk(unit, secondary, serial_iec_set_st);
+        iecbus_untalk(unit, secondary, serial_iec_set_st);
         talk = 0;
     }
 
     if (!listen) {
-        iec_listentalk(unit | 0x20, secondary, serial_iec_set_st);
+        iecbus_listentalk(unit | 0x20, secondary, serial_iec_set_st);
         listen = 1;
     }
 
-    iec_write(unit, secondary, data, serial_iec_set_st);
+    iecbus_write(unit, secondary, data, serial_iec_set_st);
 
     return serial_iec_st;
 }

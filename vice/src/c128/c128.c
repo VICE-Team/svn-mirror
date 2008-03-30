@@ -67,6 +67,7 @@
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
@@ -480,6 +481,8 @@ int machine_init(void)
     cartridge_init();
 
     mmu_init();
+
+    machine_drive_stub();
 
     return 0;
 }
