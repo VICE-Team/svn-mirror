@@ -1,4 +1,11 @@
 #!/usr/local/bin/perl
+
+#
+# This file was modified by Ettore Perazzoli (ettore@comm2000.it) on
+# Aug 16th, 1998 to support `-foreground', `-background', `-space_itemize',
+# `-space_table'.
+#
+
 'di ';
 'ig 00 ';
 #+##############################################################################
@@ -1026,7 +1033,7 @@ EOC
 		&html_pop_if('P');
 		if ($html_element eq 'DL' || $html_element eq 'DD') {
                     # <<EP>>
-                    if ($space_table) {
+                    if ($space_table && !/^\@itemx\s+/) {
                         push(@lines, "<P>");
                     }
 		    if ($things_map{$in_table} && !$what) {
@@ -1048,7 +1055,7 @@ EOC
 		    push(@lines, &debug("<TR><TD>$what</TD>\n", __LINE__));
 		} else {
                     # <<EP>>
-                    if ($space_itemize) {
+                    if ($space_itemize && !/^\@itemx\s+/) {
                         push(@lines, &debug("<P> ", __LINE__));
                     }
 		    push(@lines, &debug("<LI>$what\n", __LINE__));
