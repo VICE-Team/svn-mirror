@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 5.00
 
 ###############################################################################
 
-Project: "arch"=".\SRC\ARCH\WIN32\arch.dsp" - Package Owner=<4>
+Project: "arch"=".\arch.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -15,7 +15,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "c128"=".\SRC\C128\c128.dsp" - Package Owner=<4>
+Project: "c128"=".\c128.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -27,70 +27,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "c1541"=".\SRC\c1541.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name arch
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "c64"=".\SRC\C64\c64.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "c64c128"=".\SRC\C64\c64c128.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "cbm2"=".\SRC\CBM2\cbm2.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "drive"=".\SRC\DRIVE\drive.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "pet"=".\SRC\PET\pet.dsp" - Package Owner=<4>
+Project: "c1541"=".\c1541.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -105,7 +42,55 @@ Package=<4>
 
 ###############################################################################
 
-Project: "petcat"=".\SRC\petcat.dsp" - Package Owner=<4>
+Project: "c64"=".\c64.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "c64c128"=".\c64c128.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cbm2"=".\cbm2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "drive"=".\drive.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "pet"=".\pet.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -120,7 +105,22 @@ Package=<4>
 
 ###############################################################################
 
-Project: "resid"=".\src\resid\resid.dsp" - Package Owner=<4>
+Project: "petcat"=".\petcat.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "resid"=".\resid.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -132,7 +132,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "sid"=".\SRC\SID\sid.dsp" - Package Owner=<4>
+Project: "sid"=".\sid.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -144,7 +144,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "sounddrv"=".\SRC\SOUNDDRV\sounddrv.dsp" - Package Owner=<4>
+Project: "sounddrv"=".\sounddrv.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -156,7 +156,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vic20"=".\SRC\VIC20\vic20.dsp" - Package Owner=<4>
+Project: "vic20"=".\vic20.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -201,7 +201,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "vicii"=".\SRC\VICII\vicii.dsp" - Package Owner=<4>
+Project: "vicii"=".\vicii.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -213,7 +213,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "x128"=".\SRC\x128.dsp" - Package Owner=<4>
+Project: "x128"=".\x128.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -249,7 +249,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "x64"=".\SRC\x64.dsp" - Package Owner=<4>
+Project: "x64"=".\x64.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -282,7 +282,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xcbm2"=".\SRC\xcbm2.dsp" - Package Owner=<4>
+Project: "xcbm2"=".\xcbm2.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -312,7 +312,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xpet"=".\SRC\xpet.dsp" - Package Owner=<4>
+Project: "xpet"=".\xpet.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -336,7 +336,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xvic"=".\src\xvic.dsp" - Package Owner=<4>
+Project: "xvic"=".\xvic.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

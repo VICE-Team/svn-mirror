@@ -358,6 +358,10 @@ extern BYTE drive_rom[DRIVE_ROM_SIZE];
 
 extern void drive0_parallel_set_atn(int);
 extern void drive1_parallel_set_atn(int);
+extern void drive0_via_set_atn(int);
+extern void drive1_via_set_atn(int);
+extern void drive0_riot_set_atn(int);
+extern void drive1_riot_set_atn(int);
 
 extern int drive_match_bus(int drive_type, int bus_map);
 

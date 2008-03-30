@@ -321,8 +321,8 @@ int c64_ui_init(void)
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
 
     tui_menu_add(ui_special_submenu, special_menu_items);
-
+/*
     tui_menu_add(ui_rom_submenu, rom_menu_items);
-
+*/
     return 0;
 }

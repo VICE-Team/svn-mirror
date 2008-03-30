@@ -307,6 +307,10 @@ static void reset(void)
 	monitor_trap_on(&mydrive_int_status);
 }
 
+#ifdef _MSC_VER
+#pragma optimize("",off);
+#endif
+
 void mydrive_mem_init(int type)
 {
     int i;
@@ -415,6 +419,10 @@ void mydrive_mem_init(int type)
     memcpy(read_func, read_func_nowatch, sizeof(mydrive_read_func_t *) * 0x101);
     memcpy(store_func, store_func_nowatch, sizeof(mydrive_store_func_t *) * 0x101);
 }
+
+#ifdef _MSC_VER
+#pragma optimize("",on);
+#endif
 
 void mydrive_toggle_watchpoints(int flag)
 {

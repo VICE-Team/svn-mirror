@@ -30,8 +30,8 @@
 
 #include "types.h"
 
-#define byte2bcd(byte)  ((16*((byte)/10)+((byte)%10))&0xff)
-#define bcd2byte(bcd)   ((10*((bcd&0xf0)/16)+((bcd)&0xf))&0xff)
+#define byte2bcd(byte)  (((((byte) / 10) << 4) + ((byte) % 10)) & 0xff)
+#define bcd2byte(bcd)   (((10*(((bcd) & 0xf0) >> 4)) + ((bcd) & 0xf)) & 0xff)
 
 /* MOS 6526 registers */
 

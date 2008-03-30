@@ -7,6 +7,19 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.0a
+======================
+
+** MS-DOS changes
+-----------------
+
+- x64 does not crash on start-up anymore.
+
+- Calling the emulator from a relative path works again.
+
+- 1541-II firmware is found now.
+
+
 * Changes in VICE 1.0
 =====================
 

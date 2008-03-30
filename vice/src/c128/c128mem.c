@@ -810,6 +810,10 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef _MSC_VER
+#pragma optimize("",off);
+#endif
+
 void initialize_memory(void)
 {
     int i, j, k;
@@ -1275,6 +1279,10 @@ void initialize_memory(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
 }
+
+#ifdef _MSC_VER
+#pragma optimize("",on);
+#endif
 
 /* ------------------------------------------------------------------------- */
 

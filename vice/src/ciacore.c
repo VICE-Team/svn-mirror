@@ -370,8 +370,8 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_TOD_HR:		/* Time Of Day clock hour */
       case CIA_TOD_SEC:	/* Time Of Day clock sec */
       case CIA_TOD_MIN:	/* Time Of Day clock min */
-	/* Mask out undefined bits and flip AM/PM on hour 12
-	   (Andreas Boose <boose@rzgw.rz.fh-hannover.de> 1997/10/11). */
+	/* Flip AM/PM on hour 12 
+          (Andreas Boose <boose@rzgw.rz.fh-hannover.de> 1997/10/11). */
 	if (addr == CIA_TOD_HR)
 	    byte = ((byte & 0x1f) == 18) ? (byte & 0x9f) ^ 0x80 : byte & 0x9f;
 	if (cia[CIA_CRB] & 0x80)
@@ -975,12 +975,17 @@ static int int_ciatod(long offset)
 		cia[CIA_TOD_MIN] = byte2bcd(t % 60);
 		if (t >= 60) {
 		    pm = cia[CIA_TOD_HR] & 0x80;
-		    t = bcd2byte(cia[CIA_TOD_HR] & 0x1f);
-		    if (!t)
+		    t = cia[CIA_TOD_HR] & 0x1f;
+		    if (t == 0x11) {
 			pm ^= 0x80;	/* toggle am/pm on 0:59->1:00 hr */
-		    t++;
-		    t = t % 12 | pm;
-		    cia[CIA_TOD_HR] = byte2bcd(t);
+		    }
+		    if (t == 0x12) {
+			t = 1;
+		    } else {
+			t ++;
+		    }
+		    t &= 0x1f;
+		    cia[CIA_TOD_HR] = t | pm;
 		}
 	    }
 	}

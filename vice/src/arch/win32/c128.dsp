@@ -93,15 +93,6 @@ SOURCE=..\..\c128\c128iec.c
 # Begin Source File
 
 SOURCE=..\..\c128\c128mem.c
-
-!IF  "$(CFG)" == "c128 - Win32 Release"
-
-# SUBTRACT CPP /O<none>
-
-!ELSEIF  "$(CFG)" == "c128 - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
