@@ -133,14 +133,14 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/findpath.h $(INCLUDEDIR)/fs_cbm.h $(INCLUDEDIR)/gcr.h\
 	$(INCLUDEDIR)/iecdrive.h $(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h \
 	$(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/kbdbuf.h \
-	$(INCLUDEDIR)/machspec.h $(INCLUDEDIR)/macro.h \
-	$(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h \
-	$(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mon_parse.h \
+	$(INCLUDEDIR)/machspec.h $(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h \
+        $(INCLUDEDIR)/memutils.h $(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h \
+	$(INCLUDEDIR)/mon_parse.h $(INCLUDEDIR)/mos6510.h \
 	$(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h \
 	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
-	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
-	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
-	$(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
+	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h \
+	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
+	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
 	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/sprcrunch.h \
 	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
 	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
@@ -284,45 +284,38 @@ XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
 
 JOY_OBJS = @JOY_OBJS@
 
-COMMON_OBJS = charsets.o info.o mshell.o tape.o warn.o utils.o gcr.o \
-	zfile.o mon_parse.o mon_lex.o memutils.o drive.o asm.o kbdbuf.o \
-	findpath.o maincpu.o zipcode.o true1541.o @SYSPEC_OBJS@ @LIBOBJS@
+COMMON_OBJS = charsets.o info.o mshell.o main.o tape.o tapeunit.o warn.o \
+	utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o drive.o \
+	asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o parallel.o \
+	traps.o mon.o @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
-TRUE1541_OBJS =  viad1.o viad2.o 1541cpu.o
+TRUE1541_OBJS =  true1541.o viad1.o viad2.o 1541cpu.o
 
-PARALLEL_OBJS = parallel.o
-
-C64_OBJS = main.o misc.o mon.o patchrom.o reu.o resources.o serial.o \
-	tapeunit.o tpi.o traps.o sid.o $(X64_SYSPEC_OBJS)
+C64_OBJS = patchrom.o reu.o resources.o tpi.o sid.o $(X64_SYSPEC_OBJS)
 
 C64_LOBJS = $(C64ODIR)/autostart.o $(C64ODIR)/cia1.o $(C64ODIR)/cia2.o \
 	$(C64ODIR)/c64.o $(C64ODIR)/c64mem.o $(C64ODIR)/vicii.o \
 	$(C64ODIR)/c64iec.o
 
-VIC20_OBJS = main_VIC20.o misc_VIC20.o mon_VIC20.o resources_VIC20.o \
-	serial_VIC20.o tapeunit_VIC20.o sid_VIC20.o traps_VIC20.o \
-	$(XVIC_SYSPEC_OBJS)
+VIC20_OBJS = resources_VIC20.o sid_VIC20.o $(XVIC_SYSPEC_OBJS)
 
 VIC20_LOBJS =  $(VICODIR)/via1.o $(VICODIR)/via2.o $ $(VICODIR)/vic20.o \
 	$(VICODIR)/vic20mem.o $(VICODIR)/vic.o $(VICODIR)/vic20iec.o
 
-PET_OBJS = main_PET.o misc_PET.o mon_PET.o resources_PET.o \
-	serial_PET.o sid_PET.o traps_PET.o \
-	$(XPET_SYSPEC_OBJS)
+PET_OBJS = resources_PET.o sid_PET.o $(XPET_SYSPEC_OBJS)
 
 PET_LOBJS = $(PETODIR)/viap.o $(PETODIR)/petmem.o $(PETODIR)/crtc.o \
 	$(PETODIR)/pets.o $(PETODIR)/pia.o $(PETODIR)/pet.o
 
-C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
-	$(COMMON_OBJS) $(C64_LOBJS) $(COMMON_LIBS)
+C64_DEPS = $(C64_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) $(COMMON_OBJS) \
+	$(C64_LOBJS) $(COMMON_LIBS)
 
-VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) \
-	$(COMMON_OBJS) $(VIC20_LOBJS) $(COMMON_LIBS)
+VIC_DEPS = $(VIC20_OBJS) $(JOY_OBJS) $(TRUE1541_OBJS) $(COMMON_OBJS) \
+	$(VIC20_LOBJS) $(COMMON_LIBS)
 
-PET_DEPS = $(PET_OBJS) $(PARALLEL_OBJS) $(TRUE1541_OBJS) \
-	$(COMMON_OBJS) $(PET_LOBJS) $(COMMON_LIBS) $(JOY_OBJS)
+PET_DEPS = $(PET_OBJS) $(COMMON_OBJS) $(PET_LOBJS) $(COMMON_LIBS) $(JOY_OBJS)
 
 C1541_OBJS = c1541.o zipcode.o
 
