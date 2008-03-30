@@ -367,6 +367,14 @@
 #define IDM_PRTUPTXT     0x726
 #define IDM_PRTUPGFX     0x727
 
+#define IDM_C128TYPE     0x7ff
+#define IDM_C128INT      0x800
+#define IDM_C128FI       0x801
+#define IDM_C128FR       0x802
+#define IDM_C128GE       0x803
+#define IDM_C128IT       0x804
+#define IDM_C128NO       0x805
+#define IDM_C128SW       0x806
 
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);

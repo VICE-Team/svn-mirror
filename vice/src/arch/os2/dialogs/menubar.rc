@@ -189,7 +189,7 @@ BEGIN
          MENUITEM "~16kB",             IDM_VDC16K,       MIS_TEXT
          MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
       END
-#endif
+#endif      
 #if defined __X64__ || defined __X128__ || defined __XVIC__
       SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
       BEGIN
@@ -379,6 +379,20 @@ BEGIN
         MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
       END
 #endif // __X64__ || __X128__
+#ifdef __X128__
+      SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT
+      BEGIN
+         MENUITEM "German",            IDM_C128GE,       MIS_TEXT
+         MENUITEM "French",            IDM_C128FR,       MIS_TEXT
+         MENUITEM "Finnish",           IDM_C128FI,       MIS_TEXT
+         MENUITEM "Italian",           IDM_C128IT,       MIS_TEXT
+         MENUITEM "Norwegian",         IDM_C128NO,       MIS_TEXT
+         MENUITEM "Swedish",           IDM_C128SW,       MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "International",     IDM_C128INT,      MIS_TEXT
+      END
+#endif
+
 #ifndef __XPLUS4__
       MENUITEM SEPARATOR
 #endif
@@ -501,6 +515,9 @@ BEGIN
    VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
    "0",          IDM_ATTACHTAPE,  ALT
    "2",          IDM_DSIZE,       ALT
+#ifdef HAVE_PAL
+   "3",          IDM_TOGGLEPAL,   ALT
+#endif
    "4",          IDM_PRT4IEC,     ALT
    "5",          IDM_PRT5IEC,     ALT
    "8",          IDM_ATTACH8,     ALT
@@ -535,10 +552,6 @@ BEGIN
    "R",          IDM_SOFTRESET,   ALT, SHIFT
    "t",          IDM_TRUEDRIVE,   ALT
    "T",          IDM_TRUEDRIVE,   ALT, SHIFT
-#ifdef HAVE_PAL
-   "v",          IDM_TOGGLEPAL,   ALT
-   "V",          IDM_TOGGLEPAL,   ALT, SHIFT
-#endif
    "w",          IDM_WRITECONFIG, ALT
    "W",          IDM_WRITECONFIG, ALT, SHIFT
    "+",          IDM_PLUS,        ALT

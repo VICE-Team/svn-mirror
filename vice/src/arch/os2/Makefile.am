@@ -17,6 +17,10 @@ libarch_a_SOURCES = \
         blockdev.c \
 	config.h \
 	console.c \
+        fullscr.c \
+        fullscr.h \
+        fullscros2.h \
+        gradd.h \
 	joy.c \
 	joy.h \
 	kbd.c \

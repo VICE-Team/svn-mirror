@@ -1,0 +1,7 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   target "chargen2fnt.exe"
+   {
+       source type(cpp) "..\\fonts\\chargen2fnt.cc"
+   }
+}

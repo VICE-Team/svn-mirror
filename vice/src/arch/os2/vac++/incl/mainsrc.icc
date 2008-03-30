@@ -13,6 +13,7 @@ source type(c)
     "event.c",
     "findpath.c",
     "fliplist.c",
+    "fullscr.c",
     "gcr.c",
     "info.c",
     "init.c",

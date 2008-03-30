@@ -36,7 +36,14 @@
 
 static const cmdline_option_t cmdline_options[] = {
     { "-sidengine", SET_RESOURCE, 1, NULL, NULL, "SidEngine", NULL,
-      "<engine>", "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)" },
+    "<engine>", "Specify SID engine (0: FastSID"
+#ifdef HAVE_RESID
+    ", 1: ReSID"
+#endif
+#ifdef HAVE_CATWEASELMKIII
+    ", 2: Catweasel"
+#endif
+    ")" },
     { "-sidstereo", SET_RESOURCE, 0, NULL, NULL, "SidStereo",
       (void *)1,
       NULL, "Enable second SID" },

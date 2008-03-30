@@ -134,7 +134,7 @@ static filter_t FilterCfg[]     = {{"*.cfg", "Vice/2 Configuration"     }, {NULL
 static filter_t FilterFlip[]    = {{"*.vfl",    "Vice/2 Fliplist"       }, {NULL}};
 static filter_t FilterKernal[]  = {{"kernal*",  "Kernal ROM"            }, {NULL}};
 static filter_t FilterBasic[]   = {{"basic*",   "Basic ROM"             }, {NULL}};
-static filter_t FilterChargen[] = {{"chargen*", "Character ROM"         }, {NULL}};
+static filter_t FilterChargen[] = {{"charg*",   "Character ROM"         }, {NULL}};
 static filter_t FilterZ80[]     = {{"z80bios*", "Z80 BIOS"              }, {NULL}};
 static filter_t Filter1541[]    = {{"dos1541*", "1541 ROM"              }, {NULL}};
 static filter_t Filter15412[]   = {{"d1541II*", "1541-II ROM"           }, {NULL}};
@@ -224,7 +224,6 @@ static subaction_t SubFuncRom[] = {
 
 static subaction_t SubRom[] = {
     { "as Kernal ROM",        FilterKernal  },
-    { "as Basic ROM",         FilterBasic   },
     { "as Character ROM",     FilterChargen },
     { "as 1541 ROM",          Filter1541    },
     { "as 1541-II ROM",       Filter15412   },
@@ -235,11 +234,27 @@ static subaction_t SubRom[] = {
     { "as 2040 ROM",          Filter2040    },
     { "as 3040 ROM",          Filter3040    },
     { "as 4040 ROM",          Filter4040    },
-#ifdef __X128__
+#ifndef __X128__
+    { "as Basic ROM",         FilterBasic   },
+#else
     { "as Z80 BIOS",          FilterZ80     },
     { "as C64 Kernal ROM",    FilterKernal  },
     { "as C64 Basic ROM",     FilterBasic   },
     { "as C64 Character ROM", FilterChargen },
+    { "as International Character ROM", FilterChargen },
+    { "as German Character ROM",  FilterChargen },
+    { "as French Character ROM",  FilterChargen },
+    { "as Swedish Character ROM", FilterChargen },
+    { "as Swedish Character ROM", FilterChargen },
+    { "as International Kernal ROM", FilterKernal },
+    { "as German Kernal  ROM", FilterKernal },
+    { "as Finnish Kernal ROM", FilterKernal },
+    { "as Frensh Kernal ROM", FilterKernal },
+    { "as Italian Kernal ROM", FilterKernal },
+    { "as Norwegian Kernal ROM", FilterKernal },
+    { "as Swedish Kernal ROM", FilterKernal },
+    { "as Basic ROM (Hi)", FilterBasic },
+    { "as Basic ROM (Lo)", FilterBasic },
 #endif
     { NULL }
 };
@@ -386,27 +401,27 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         case 0:
             return resources_set_value("KernalName",    (resource_value_t)szpath);
         case 1:
-            return resources_set_value("BasicName",     (resource_value_t)szpath);
-        case 2:
             return resources_set_value("ChargenName",   (resource_value_t)szpath);
-        case 3:
+        case 2:
             return resources_set_value("DosName1541",   (resource_value_t)szpath);
-        case 4:
+        case 3:
             return resources_set_value("DosName154ii",  (resource_value_t)szpath);
-        case 5:
+        case 4:
             return resources_set_value("DosName1571",   (resource_value_t)szpath);
-        case 6:
+        case 5:
             return resources_set_value("DosName1581",   (resource_value_t)szpath);
-        case 7:
+        case 6:
             return resources_set_value("DosName2031",   (resource_value_t)szpath);
-        case 8:
+        case 7:
             return resources_set_value("DosName1001",   (resource_value_t)szpath);
-        case 9:
+        case 8:
             return resources_set_value("DosName2040",   (resource_value_t)szpath);
-        case 10:
+        case 9:
             return resources_set_value("DosName3040",   (resource_value_t)szpath);
-        case 11:
+        case 10:
             return resources_set_value("DosName4040",   (resource_value_t)szpath);
+        case 11:
+            return resources_set_value("BasicName",     (resource_value_t)szpath);
         case 12:
             return resources_set_value("Z80BiosName",   (resource_value_t)szpath);
         case 13:
@@ -415,6 +430,32 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
             return resources_set_value("Basic64Name",   (resource_value_t)szpath);
         case 15:
             return resources_set_value("Chargen64Name", (resource_value_t)szpath);
+        case 16:
+            return resources_set_value("ChargenIntName", (resource_value_t)szpath);
+        case 17:
+            return resources_set_value("ChargenDEName", (resource_value_t)szpath);
+        case 18:
+            return resources_set_value("ChargenFRName", (resource_value_t)szpath);
+        case 19:
+            return resources_set_value("ChargenSEName", (resource_value_t)szpath);
+        case 20:
+            return resources_set_value("KernalIntName", (resource_value_t)szpath);
+        case 21:
+            return resources_set_value("KernalDEName", (resource_value_t)szpath);
+        case 22:
+            return resources_set_value("KernalFIName", (resource_value_t)szpath);
+        case 23:
+            return resources_set_value("KernalFRName", (resource_value_t)szpath);
+        case 24:
+            return resources_set_value("KernalITName", (resource_value_t)szpath);
+        case 25:
+            return resources_set_value("KernalNOName", (resource_value_t)szpath);
+        case 26:
+            return resources_set_value("KernalSEName", (resource_value_t)szpath);
+        case 27:
+            return resources_set_value("BasicHiName", (resource_value_t)szpath);
+        case 28:
+            return resources_set_value("BasicLoName", (resource_value_t)szpath);
         }
         return -1;
     case 8:
@@ -615,13 +656,19 @@ static void ShowContents(HWND hwnd, char *image_name)
     image_contents_destroy(image);
 }
 
-#define numfonts 8
+#define numfonts 14
 const char fnames[numfonts][25] =
 {
     "C64 Upper Case",
     "C64 Lower Case",
     "C128 Upper Case",
     "C128 Lower Case",
+    "C128 Upper Case (DE)",
+    "C128 Lower Case (DE)",
+    "C128 Upper Case (FR)",
+    "C128 Lower Case (FR)",
+    "C128 Upper Case (SE)",
+    "C128 Lower Case (SE)",
     "PET",
     "PET German",
     "VIC20 Upper Case",

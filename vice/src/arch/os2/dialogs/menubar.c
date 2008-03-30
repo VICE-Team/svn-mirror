@@ -599,6 +599,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle(VIDEO_CACHE);
 #endif
         return;
+#ifdef __X128__
+    case IDM_C128INT:
+    case IDM_C128FI:
+    case IDM_C128FR:
+    case IDM_C128GE:
+    case IDM_C128IT:
+    case IDM_C128NO:
+    case IDM_C128SW:
+        resources_set_value("MachineType",
+                            (resource_value_t*)(idm&0xf));
+        return;
+#endif
 #ifdef HAVE_VDC
     case IDM_VDCVCACHE:
         toggle("VDCVideoCache");
@@ -675,7 +687,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #ifdef HAVE_RESID
     case IDM_RESID:
-        toggle("SidUseResid");
+        toggle("SidEngine");
         return;
     case IDM_RESIDFAST:
     case IDM_RESIDINTERPOL:
@@ -1202,7 +1214,16 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_REU16384, val==16384);
         return;
 #endif
-
+#ifdef __X128__
+    case IDM_C128TYPE:
+        {
+            int i;
+            resources_get_value("MachineType", (resource_value_t*)&val);
+            for (i=0; i<7; i++)
+                WinCheckMenuItem(hwnd, IDM_C128INT|i, val==i);
+        }
+        return;
+#endif
     case IDM_COLLISION:
         WinCheckRes(hwnd, IDM_SBCOLL, "VICIICheckSbColl");
         WinCheckRes(hwnd, IDM_SSCOLL, "VICIICheckSsColl");
@@ -1233,7 +1254,7 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SOUND:
         WinCheckRes(hwnd, IDM_SOUNDON, "Sound");
 #ifdef HAVE_RESID
-        resources_get_value("SidUseResid", (resource_value_t*)&val);
+        resources_get_value("SidEngine", (resource_value_t*)&val);
         WinCheckMenuItem (hwnd, IDM_RESID,         val);
         WinEnableMenuItem(hwnd, IDM_RESIDMETHOD,   val);
         WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);

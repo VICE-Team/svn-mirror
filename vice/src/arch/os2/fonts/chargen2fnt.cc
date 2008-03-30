@@ -211,7 +211,13 @@ int main(int argc, char **argv)
     const int flen = 256*8;
     char font[flen];
 
-    fin.seekg(offset*flen);
+    if (strchr(name, '('))
+    {
+        cout << "Using 2nd half of file..." << endl;
+        fin.seekg(offset*flen+4096);
+    }
+    else
+        fin.seekg(offset*flen);
     fin.read(font, flen);
 
     fout.write(font, flen);

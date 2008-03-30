@@ -41,16 +41,27 @@ copy ..\..\..\data\C64\vice.vpl     Vice2\C64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic        Vice2\C128
+copy ..\..\..\data\C128\basiclo      Vice2\C128
+copy ..\..\..\data\C128\basichi      Vice2\C128
 copy ..\..\..\data\C128\basic64      Vice2\C128
 copy ..\..\..\data\C128\c64s.vpl     Vice2\C128
 copy ..\..\..\data\C128\ccs64.vpl    Vice2\C128
 copy ..\..\..\data\C128\chargen      Vice2\C128
+copy ..\..\..\data\C128\chargde      Vice2\C128
+copy ..\..\..\data\C128\chargfr      Vice2\C128
+copy ..\..\..\data\C128\chargse      Vice2\C128
 copy ..\..\..\data\C128\charg64      Vice2\C128
 copy ..\..\..\data\C128\default.vpl  Vice2\C128
 copy ..\..\..\data\C128\default.vrs  Vice2\C128
 copy ..\..\..\data\C128\frodo.vpl    Vice2\C128
 copy ..\..\..\data\C128\godot.vpl    Vice2\C128
 copy ..\..\..\data\C128\kernal       Vice2\C128
+copy ..\..\..\data\C128\kernalde     Vice2\C128
+copy ..\..\..\data\C128\kernalfi     Vice2\C128
+copy ..\..\..\data\C128\kernalfr     Vice2\C128
+copy ..\..\..\data\C128\kernalit     Vice2\C128
+copy ..\..\..\data\C128\kernalno     Vice2\C128
+copy ..\..\..\data\C128\kernalse     Vice2\C128
 copy ..\..\..\data\C128\kernal64     Vice2\C128
 copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128

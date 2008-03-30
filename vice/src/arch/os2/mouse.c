@@ -28,6 +28,7 @@
 
 #include "joy.h"
 #include "mouse.h"
+#include "fullscr.h"
 #include "cmdline.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -53,7 +54,7 @@ static int set_mouse_enabled(resource_value_t v, void *param)
 static int set_hide_mouseptr(resource_value_t v, void *param)
 {
     hide_mouseptr = (int) v;
-    if (!hide_mouseptr && !visible)
+    if (!hide_mouseptr && !visible && !FullscreenIsNow())
     { // do we have to show the ptr again?
         WinSetCapture(HWND_DESKTOP, NULLHANDLE);
         WinShowPointer(HWND_DESKTOP, TRUE);
@@ -166,6 +167,7 @@ inline BYTE mouse_get_y(void)
 
 /* ----------------- OS/2 specific ------------------------- */
 
+#include "log.h"
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
 {
     if (!_mouse_enabled)
@@ -182,24 +184,38 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
             //
             // check whether the pointer is outside or inside the window
             //
+
+            if (FullscreenIsNow())
+                visible=TRUE;
+
             if (_mouse_x>=0 && _mouse_x<swp.cx &&
                 _mouse_y>=0 && _mouse_y<swp.cy)
             {
-                if (visible && /*_mouse_enabled &&*/ hide_mouseptr)
-                {
+                //
+                // FIXME: Don't capture the mouse pointer if it is in front
+                // of a client dialog!
+                //
+                if (WinQueryCapture(HWND_DESKTOP)!=hwnd && hide_mouseptr && !FullscreenIsNow())
                     WinSetCapture(HWND_DESKTOP, hwnd);
+
+                if (visible && /*_mouse_enabled &&*/ hide_mouseptr &&
+                    !FullscreenIsNow())
+                {
                     WinShowPointer(HWND_DESKTOP, FALSE);
                     visible=FALSE;
                 }
             }
             else
             {
-                if (!visible)
-                {
+                if (WinQueryCapture(HWND_DESKTOP)==hwnd && !FullscreenIsNow())
                     WinSetCapture(HWND_DESKTOP, NULLHANDLE);
+
+                if (!visible && !FullscreenIsNow())
+                {
                     WinShowPointer(HWND_DESKTOP, TRUE);
                     visible=TRUE;
                 }
+
                 //
                 // don't use 'outside'-values which appears one times
                 // if the mouse pointer leaves the window

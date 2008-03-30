@@ -140,5 +140,10 @@ extern unsigned int get_path_max();
 #    define N_(String) (String)
 #endif /* ENABLE_NLS */
 
+#ifdef __OS2__
+int yyparse (void);
+#undef __GNUC__
+#endif
+
 #endif
 

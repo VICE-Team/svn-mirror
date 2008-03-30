@@ -8,6 +8,7 @@ source type(c)
     "drivemem.c",
     "driverom.c",
     "drivesync.c",
+    "rotation.c",
     "via1d.c",
     "via2d.c",
     "iec/cia1571d.c",

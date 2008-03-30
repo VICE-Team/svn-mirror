@@ -36,10 +36,6 @@
 #define VIC_II_NTSC_SCREEN_HEIGHT       263
 #define VIC_II_NTSCOLD_SCREEN_HEIGHT    262
 
-/* We need the full width for correct
-   sprite-sprite-collision in unvisible area */
-#define VIC_II_SCREEN_WIDTH             512
-
 #define VIC_II_PAL_OFFSET                       0
 #define VIC_II_NTSC_OFFSET                      0
 #define VIC_II_NTSCOLD_OFFSET                   0

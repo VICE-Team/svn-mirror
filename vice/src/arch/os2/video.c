@@ -44,7 +44,7 @@
 #include <os2me.h>
 
 #ifdef __IBMC__
-#include <dive.h>
+#include "fullscr.h"
 #include <fourcc.h>
 #endif
 
@@ -62,6 +62,7 @@
 #include "log.h"
 #include "proc.h"
 #include "utils.h"
+#include "vsync.h"
 #include "dialogs.h"         // IDM_VICE2
 #include "menubar.h"
 #include "dragndrop.h"
@@ -232,20 +233,33 @@ void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
     if (!hwndlist)
         return;
 
-    //
-    // disable visible region (stop blitting to display)
-    //
-    i = 0;
-    while (hwndlist[i])
+    if (!FullscreenIsNow())
     {
-        const video_canvas_t *c = GetCanvas(hwndlist[i++]);
+        i = 0;
+        while (hwndlist[i])
+        {
+            const video_canvas_t *c = GetCanvas(hwndlist[i++]);
 
-        char *txt=xmsprintf("%s - %d%% - %dfps %s",
-                            c->title, speed, frame_rate,
-                            warp_enabled?"(Warp)":"");
-        WinSetWindowText(c->hwndTitlebar, txt);
-        free(txt);
+            char *txt=xmsprintf("%s - %d%% - %dfps %s",
+                                c->title, speed, frame_rate,
+                                warp_enabled?"(Warp)":"");
+            WinSetWindowText(c->hwndTitlebar, txt);
+            free(txt);
+        }
     }
+    /*
+    else
+    {
+        extern FNVMIENTRY *pfnVMIEntry;         // The entry of VMAN.DLL
+        TEXTBLTINFO txt;
+        memset(&txt, 0, sizeof(TEXTBLTINFO));
+
+        txt.ulLength = sizeof(TEXTBLTINFO);
+
+
+        (*pfnVMIEntry)(0, 18/*VMI_CMD_TEXT/, &txt, 0);
+    }
+    */
 }
 
 /* ------------------------------------------------------------------------ */
@@ -650,6 +664,15 @@ int video_init(void) // initialize Dive
                 divecaps.fScreenDirect?", Direct access supported":"",
                 divecaps.fBankSwitched?", Bank switch required":"");
 
+    log_message(vidlog, "Initializing Fullscreen Capabilities...");
+
+#ifndef __X128__
+    if (FullscreenInit()!=NO_ERROR)
+        FullscreenFree();
+/*    else
+        FullscreenPrintModes();*/
+#endif
+
     //
     // Init Keyboard Led handling
     //
@@ -661,6 +684,7 @@ int video_init(void) // initialize Dive
 
 void video_close(void)
 {
+    FullscreenFree();
     KbdDestroy();
 }
 
@@ -932,6 +956,25 @@ void WmVrnEnabled(HWND hwnd)
             c->divesetup.lScreenPosY   = divecaps.ulVerticalResolution-(pointl.y+c->height);
 #endif
             c->divesetup.ulNumDstRects = rgnCtl.crcReturned;
+
+            // FIXME? Correct?
+            if (FullscreenIsInFS())
+            {
+                const int w = FullscreenQueryHorzRes();
+                const int h = FullscreenQueryVertRes();
+
+                c->divesetup.ulNumDstRects = 1;
+                c->divesetup.pVisDstRects[0].xLeft   = 0;
+                c->divesetup.pVisDstRects[0].xRight  = w;
+                c->divesetup.pVisDstRects[0].yBottom = 0;
+                c->divesetup.pVisDstRects[0].yTop    = h;
+                c->divesetup.lScreenPosY = (h-c->stretch*c->height)/2;
+                c->divesetup.lScreenPosX = (w-c->stretch*c->width
+#if defined __XVIC__
+    *2
+#endif
+                                           )/2;
+            }
             //DiveSetupBlitter(c->hDiveInst, &c->divesetup);
         }
         GpiDestroyRegion(hps, hrgn);
@@ -1173,9 +1216,10 @@ void WmPaint(HWND hwnd)
     DEBUG("WM_PAINT 0");
 
     //
-    // if the canvas isn't setup yet return
+    // if the canvas isn't setup yet or we are in a different
+    // mode than the present videomode return
     //
-    if (!c)
+    if (!c || !FullscreenIsInMode())
         return;
 
     DEBUG("WM_PAINT 1");
@@ -1297,6 +1341,7 @@ MRESULT EXPENTRY CanvasWinProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         // #define WM_DESTROY 0x0002
         // #define WM_CLOSE   0x0029
         // #define WM_QUIT    0x002a
+        FullscreenDisable();
         WmDestroy(hwnd);
         break; /* return FALSE */
 
@@ -1343,7 +1388,33 @@ MRESULT EXPENTRY CanvasWinProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         return FALSE;
 
     case WM_CHAR:
+        //CHAR: 3e010166 236b00 - Alt F4
+        //CHAR: 3e011166 236b00
         kbd_proc(hwnd, mp1, mp2);
+
+        if ((SHORT1FROMMP(mp1)&(KC_ALT|KC_VIRTUALKEY|KC_KEYUP))!=(KC_ALT|KC_VIRTUALKEY|KC_KEYUP))
+            break;
+
+        vsync_suspend_speed_eval();
+        switch (SHORT2FROMMP(mp2))
+        {
+        case VK_HOME:
+            FullscreenSwitch(hwnd);
+            break;
+        case VK_PAGEUP:
+            FullscreenChangeRate(hwnd, +1);
+            break;
+        case VK_PAGEDOWN:
+            FullscreenChangeRate(hwnd, -1);
+            break;
+        }
+        break;
+
+    case WM_ACTIVATE:     // activation/deactivation of window
+        if (!mp1)         // Switching away from the applicatoin
+            FullscreenDeactivate(hwnd);
+        else              // Switching to the application
+            FullscreenActivate(hwnd);
         break;
 
 #ifdef HAVE_MOUSE
@@ -1800,6 +1871,7 @@ void video_canvas_destroy(video_canvas_t *c)
     // Disable blitter (not really needed)
     //
     c->vrenabled=FALSE;
+
     DiveSetupBlitter(hdive, NULL);
 
     //
@@ -1875,6 +1947,7 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     // drawing) or the canvas size (this is done by the emulation
     // thread which means that at the same time no drawing will happen)
     //
+    WinSetVisibleRegionNotify(c->hwndClient, FALSE); // turn VRN off
     WmVrnDisabled(c->hwndClient);
 
     //
@@ -1922,11 +1995,18 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
         return;
     }
 
+    if (FullscreenIsNow())
+    {
+        vsync_suspend_speed_eval();
+        FullscreenChangeMode(c->hwndClient);
+    }
+
     //
     // reenable drawing into window (call exposure_handler, too)
     // this calls also the exposure handler
     //
     WmVrnEnabled(c->hwndClient);
+    WinSetVisibleRegionNotify(c->hwndClient, TRUE); // turn VRN on
 
     log_message(vidlog, "Canvas resized (%ix%i * %i --> %ix%i * %i)",
                 wold, hold, sold, wnew, hnew, stretch);

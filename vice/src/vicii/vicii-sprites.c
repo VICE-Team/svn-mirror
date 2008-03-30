@@ -28,12 +28,14 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>		/* memset() */
 
 #include "raster-cache.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
+#include "utils.h"
 #include "vicii-sprites.h"
 #include "viciitypes.h"
 
@@ -329,7 +331,7 @@ const int vicii_sprites_crunch_table[64] =
 /* Each byte in this array is a bit mask representing the sprites that
    have a pixel turned on in that position.  This is used for sprite-sprite
    collision checking.  */
-static BYTE sprline[VIC_II_SCREEN_WIDTH];
+static BYTE *sprline = NULL;
 
 /* Sprite tables.  */
 static DWORD sprite_doubling_table[65536];
@@ -952,7 +954,7 @@ static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         }
     }
 
-    if (sprite_offset < VIC_II_SCREEN_WIDTH
+    if (sprite_offset < vic_ii.sprite_wrap_x
         && data_ptr != NULL) {
         BYTE *msk_ptr, *ptr, *sptr;
         int lshift;
@@ -1074,7 +1076,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
         /* Sprites in the $1F8 - $1FF range are not visible at all and never
            cause collisions.  */
         if (new_x >= 0x1f8 + 8)
-            new_x = VIC_II_SCREEN_WIDTH;
+            new_x = vic_ii.sprite_wrap_x;
         else
             new_x -= vic_ii.sprite_wrap_x;
     }
@@ -1083,7 +1085,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
         if (raster_x + 8 <= new_x)
             sprite->x = new_x;
         else if (raster_x + 8 < sprite->x)
-            sprite->x = VIC_II_SCREEN_WIDTH;
+            sprite->x = vic_ii.sprite_wrap_x;
         raster_add_int_change_next_line(&vic_ii.raster, &sprite->x, new_x);
     } else {
         /* new_x >= sprite->x */
@@ -1109,6 +1111,13 @@ void vic_ii_sprites_reset_xshift(void)
 
 void vic_ii_sprites_reset_sprline(void)
 {
-    memset(sprline, 0, sizeof(sprline));
+    memset(sprline, 0, vic_ii.sprite_wrap_x);
 }
 
+void vic_ii_sprites_init_sprline(void)
+{
+    if (sprline != NULL)
+        free(sprline);
+
+    sprline = xmalloc(vic_ii.sprite_wrap_x);
+}

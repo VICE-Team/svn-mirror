@@ -35,10 +35,6 @@
 #include "renderyuv.h"
 #include "video-resources.h"
 
-#ifdef __OS2__
-#define inline
-#endif
-
 /* Extract YUV components. */
 inline static unsigned int Y(unsigned int YUV)
 {

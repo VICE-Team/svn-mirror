@@ -112,5 +112,6 @@ void vicii_timing_set(machine_timing_t *machine_timing)
         vic_ii.offset = VIC_II_PAL_OFFSET;
         break;
     }
+    vic_ii_sprites_init_sprline();
 }
 

@@ -23,38 +23,41 @@
   Keys
 --------
 
-Scrllck: Warp mode on/off
-F10:     Switch CAPS-Key on/off (x128 only)
-F11:     Switch VDC-Key on/off  (x128 only)
-F12:     Restore
-Esc:     Run/Stop
-Alt-F2:  Save File
-Alt-F3:  Open File
-Alt-+:   Increase running speed
-Alt--:   Decrease running speed
-Alt-0:   Attach tape image to Datasette
-Alt-2:   Toggle double size on/off
-Alt-4:   Enable/Disable Emulation of Printer Device #4
-Alt-5:   Enable/Disable Emulation of Printer Device #4
-Alt-8:   Attach disk image to Drive 8
-Alt-9:   Attach disk image to Drive 9
-Alt-A:   Open about-dialog
-Alt-B:   Enable/Disable menubar
-Alt-C:   Open datasette-control-dialog
-Alt-D:   Open drive-dialog
-Alt-H:   Open hardware-dialog
-Alt-I:   VIC-II Color Setup
-Alt-J:   Open joystick-dialog
-Alt-L:   Display logging window
-Alt-M:   Open monitor
-Alt-N:   Flip Drive #8 to next image of fliplist
-Alt-P:   Pause Emulation
-Alt-Q:   Do hard-reset (switch machine off and on)
-Alt-R:   Do soft-reset (press reset)
-Alt-S:   Open sound-dialog
-Alt-T:   Switch true drive emulation on/off
-Alt-V:   Toggle real PAL emulation: Off, Fake, Sharp, Blur.
-Alt-W:   Write actual configuration to file
+Scrllck:  Warp mode on/off
+F10:      Switch CAPS-Key on/off (x128 only)
+F11:      Switch VDC-Key on/off  (x128 only)
+F12:      Restore
+Esc:      Run/Stop
+Alt-Home: Toggle Fullscreen/Window mode
+Alt-PgUp: Higher Fulscreen Refresh Rate (FS mode only)
+Alt-PgDn: Lower Fullscreen Refresh Rate (FS mode only)
+Alt-F2:   Save File
+Alt-F3:   Open File
+Alt-+:    Increase running speed
+Alt--:    Decrease running speed
+Alt-0:    Attach tape image to Datasette
+Alt-2:    Toggle double size on/off
+Alt-3:    Toggle real PAL emulation: Off, Fake, Sharp, Blur.
+Alt-4:    Enable/Disable Emulation of Printer Device #4
+Alt-5:    Enable/Disable Emulation of Printer Device #4
+Alt-8:    Attach disk image to Drive 8
+Alt-9:    Attach disk image to Drive 9
+Alt-A:    Open about-dialog
+Alt-B:    Enable/Disable menubar
+Alt-C:    Open datasette-control-dialog
+Alt-D:    Open drive-dialog
+Alt-H:    Open hardware-dialog
+Alt-I:    VIC-II Color Setup
+Alt-J:    Open joystick-dialog
+Alt-L:    Display logging window
+Alt-M:    Open monitor
+Alt-N:    Flip Drive #8 to next image of fliplist
+Alt-P:    Pause Emulation
+Alt-Q:    Do hard-reset (switch machine off and on)
+Alt-R:    Do soft-reset (press reset)
+Alt-S:    Open sound-dialog
+Alt-T:    Switch true drive emulation on/off
+Alt-W:    Write actual configuration to file
 
 
   Additional info

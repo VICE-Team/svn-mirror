@@ -1,0 +1,4 @@
+option  link(pmtype, vio), opt(level, "2")
+{
+   run "..\\fonts\\vice-cbm.cmd"
+}
