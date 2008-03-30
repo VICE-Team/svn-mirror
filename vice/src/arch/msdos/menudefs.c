@@ -68,6 +68,7 @@
 #include "utils.h"
 #include "version.h"
 #include "video.h"
+#include "videoarch.h"
 
 /* ------------------------------------------------------------------------- */
 

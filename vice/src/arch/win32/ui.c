@@ -462,7 +462,7 @@ void ui_exit(void)
 
 /*  Create a Window for the emulation.  */
 HWND ui_open_canvas_window(const char *title, unsigned int width,
-                           unsigned int height, canvas_redraw_t exp_handler,
+                           unsigned int height, void_t exp_handler,
                            int fullscreen)
 {
 HWND    hwnd;
@@ -497,7 +497,7 @@ HWND    hwnd;
     if (hwnd==NULL) log_debug("Window creation failed");
 
     window_handles[number_of_windows]=hwnd;
-    exposure_handler[number_of_windows] = exp_handler;
+    exposure_handler[number_of_windows] = (canvas_redraw_t)exp_handler;
     window_canvas_xsize[number_of_windows]=width;
     window_canvas_ysize[number_of_windows]=height;
     number_of_windows++;

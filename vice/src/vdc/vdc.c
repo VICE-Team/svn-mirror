@@ -46,6 +46,9 @@
 #include "vdc-snapshot.h"
 #include "vdc.h"
 #include "vdctypes.h"
+#ifdef __MSDOS__
+#include "videoarch.h"
+#endif
 #include "video.h"
 
 vdc_t vdc;
@@ -163,7 +166,7 @@ raster_t *vdc_init(void)
     return &vdc.raster;
 }
 
-canvas_t *vdc_get_canvas(void)
+struct canvas_s *vdc_get_canvas(void)
 {
     return vdc.raster.viewport.canvas;
 }

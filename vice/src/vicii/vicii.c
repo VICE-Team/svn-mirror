@@ -82,6 +82,9 @@
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
 #include "vsync.h"
+#ifdef __MSDOS__
+#include "videoarch.h"
+#endif
 #include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -558,7 +561,7 @@ raster_t *vic_ii_init(void)
   return &vic_ii.raster;
 }
 
-canvas_t *vic_ii_get_canvas(void)
+struct canvas_s *vic_ii_get_canvas(void)
 {
   return vic_ii.raster.viewport.canvas;
 }

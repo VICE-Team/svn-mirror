@@ -1,3 +1,71 @@
+2001-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.37.
+
+	* arch/unix/x11/xaw/uiarch.h: #include <X11/keysym.h>.
+
+	* video.h: Prepaired to remove `videoarch.h' from includes.
+
+	* raster/raster.c, arch/unix/x11/video.c, arch/msdos/video.c,
+	arch/win32/video.c, arch/win32/ui.c, arch/riscos/video.c,
+	arch/os2/video.c, arch/beos/video.cc: Use `void_t' for exposure handler.
+
+	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
+	c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c,
+	arch/unix/x11/xaw/ui.c, arch/unix/x11/gnome/ui.c,
+	arch/riscos/ui.c: Use `struct canvas_s'.
+
+	* screenshot.c, raster/raster.c, arch/unix/x11/xaw/uicolor.c,
+	arch/unix/x11/gnome/uicolor.c, arch/msdos/video.c,
+	arch/msdos/menudefs.c, arch/win32/video.c, arch/win32/ui.h,
+	arch/riscos/video.c, arch/os2/video.c, arch/beos/video.cc:
+	#include "videoarch.h"
+
+	* drive/cia1581d.c, sid/sid.c, vicii/vicii-snapshot.c,
+	vicii/vicii-sprites.c, monitor/mon_assemble6502.c,
+	monitor/mon_assemblez80.c, monitor/mon_disassemble.c,
+	monitor/mon.c: Fixed types.
+
+2001-06-04  Dag Lem  <resid@nimrod.no>
+
+	* vsync.c (vsync_do_vsync): Corrected off-by-one frame error
+	in speed calculations. Less aggressive speed adjustment.
+
+2001-06-04  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Disabled
+	ui_hotkey_handler. Hotkey handling is now done in standard
+	keyboard handler.
+
+	* arch/unix/x11/xaw/Makefile.am (libxawui_a_SOURCES): Removed
+	`uihotkey.c', `uihotkey.h'.
+
+	* arch/unix/x11/x11menu.c, arch/unix/x11/x11menu.h: Cleanup.
+
+	* arch/unix/x11/x11kbd.c, arch/unix/x11/x11kbd.h: Moved
+	(x11-)generic keyboard (including hotkey) handling into this
+	file. This implements all x11-based keyboard stuff behind a
+	simple press/release/focus interface.
+
+	* arch/unix/x11/uihotkey.c: Moved (x11-)generic hotkey
+	handling into this file.
+
+	* arch/unix/x11/gnome/uihotkey.c, arch/unix/x11/xaw/uihotkey.c,
+	arch/unix/x11/xaw/uihotkey.h: Removed.
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES):
+	Removed `uihotkey.c'
+
+	* arch/unix/x11/fullscreen.c, arch/unix/x11/gnome/gnomekbd.c,
+	arch/unix/x11/xaw/x11kbd.c: (all): Rearranged keyboard
+	handling to use `x11kbd.c'.
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Removed
+	`fullscreenkbd.c'.
+
+	* arch/unix/uihotkey.h (ui_dispatch_hotkeys): New prototype for
+	interface function.
+
 2001-06-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.36.

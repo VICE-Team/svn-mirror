@@ -44,6 +44,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "video.h"
+#include "videoarch.h"
 #include "statusbar.h"
 
 void video_resize(void);
@@ -423,7 +424,7 @@ extern int fullscreen_transition;
 #define CANVAS_ERROR ((canvas_t *) -1)
 canvas_t *canvas_create(const char *title, unsigned int *width,
                         unsigned int *height, int mapped,
-                        canvas_redraw_t exposure_handler,
+                        void_t exposure_handler,
                         const palette_t *palette, PIXEL *pixel_return)
 {
 HRESULT         result;
@@ -443,9 +444,11 @@ GUID            *device_guid;
     c->title = stralloc(title);
     c->width = *width;
     c->height = *height;
-    c->exposure_handler = exposure_handler;
+    c->exposure_handler = (canvas_redraw_t)exposure_handler;
     c->palette = palette;
-    c->hwnd = ui_open_canvas_window(title, c->width, c->height, exposure_handler, IsFullscreenEnabled());
+    c->hwnd = ui_open_canvas_window(title, c->width, c->height,
+                                    exposure_handler,
+                                    IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */
 //    device_guid=GetGUIDForActualDevice();
@@ -609,9 +612,11 @@ error:
     if (IsFullscreenEnabled()) {
         GetCurrentModeParameters(&fullscreen_width,&fullscreen_height,&bitdepth,&refreshrate);
     }
-    c->exposure_handler = exposure_handler;
+    c->exposure_handler = (canvas_redraw_t)exposure_handler;
     c->palette = palette;
-    c->hwnd = ui_open_canvas_window(title, c->width, c->height, exposure_handler, IsFullscreenEnabled());
+    c->hwnd = ui_open_canvas_window(title, c->width, c->height,
+                                    exposure_handler,
+                                    IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */
     device_guid=GetGUIDForActualDevice();
