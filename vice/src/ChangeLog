@@ -1,3 +1,51 @@
+2003-06-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.3.
+
+	* vicii/vicii.c, vdc/vdc.c, vic20/vic.c, crtc/crtc.c,
+	plus4/ted.c, raster/raster.h, raster/raster.c, arch/unix/ui.h,
+	viewport.h, arch/win32/ui.h, arch/win32/ui.c,
+	arch/win32/videoarch.h, arch/win32/video.c,
+	arch/beos/video.cc, arch/beos/videoarch.h, arch/riscos/ui.h,
+	arch/msdos/videoarch.h, arch/msdos/video.c: Removed exposure
+	handler.
+
+	* plus4/ted-color.c [ted_colors]: Fixed colors.
+
+	* interrupt.h (interrupt_set_nmi): Do not remove NMI
+	condition.
+
+	* drive/drive.c (drive_set_disk_memory): Only set memory if
+	drive type is 1541 or 1571.
+
+	* main.c: Cosmetical changes.
+
+	* c64/c64memsnapshot.c, c64/c64memsnapshot.h,
+	c128/c128memsnapshot.c, c128/c128memsnapshot.h,
+	vic20/vic20memsnapshot.c, vic20/vic20memsnapshot.h,
+	pet/petmemsnapshot.c, pet/petmemsnapshot.h,
+	plus4/plus4memsnapshot.c, plus4/plus4memsnapshot.h,
+	cbm2/cbm2memsnapshot.c, cbm2/cbm2memsnapshot.h: New files.
+
+	* c64/c64.c, c64/c64-snapshot.c, c64/c64-snapshot.h,
+	c128/c128.c, c128/c128-snapshot.c, c128/c128-snapshot.h,
+	vic20/vic20.c, vic20/vic20-snapshot.c, vic20/vic20-snapshot.h,
+	pet/pet.c, pet/pet-snapshot.c, pet/pet-snapshot.h,
+	plus4/plus4.c, plus4/plus4-snapshot.c, plus4/plus4-snapshot.h,
+	cbm2/cbm2.c, cbm2/cbm2-snapshot.c, cbm2/cbm2-snapshot.h: Moved
+	common snapshot to separate file.
+
+	* c64/Makefile.am, arch/win32/c64.dsp, c128/Makefile.am,
+	arch/win32/c128.dsp, vic20/Makefile.am, arch/win32/vic20.dsp,
+	pet/Makefile.am, arch/win32/pet.dsp, plus4/Makefile.am,
+	arch/win32/plus4.dsp, cbm2/Makefile.am, arch/win32/cbm2.dsp:
+	Updated.
+
+2003-06-21  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): call gettext
+	for Write Protect menu entry.
+
 2003-06-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.2.

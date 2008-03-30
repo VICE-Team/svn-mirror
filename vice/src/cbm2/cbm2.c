@@ -48,13 +48,10 @@
 #include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
-#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "iecdrive.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -70,12 +67,10 @@
 #include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
-#include "sid-snapshot.h"
 #include "sid.h"
-#include "sound.h"
 #include "snapshot.h"
+#include "sound.h"
 #include "tape.h"
-#include "tape-snapshot.h"
 #include "traps.h"
 #include "types.h"
 #include "via.h"
@@ -113,11 +108,6 @@ static log_t cbm2_log = LOG_ERR;
 static machine_timing_t machine_timing;
 
 int cbm2_isC500 = 0;
-
-/* ------------------------------------------------------------------------- */
-
-static int c500_snapshot_write_module(snapshot_t *p);
-static int c500_snapshot_read_module(snapshot_t *p);
 
 /* ------------------------------------------------------------------------- */
 
@@ -466,91 +456,15 @@ void machine_set_cycles_per_frame(long cpf) {
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MAJOR          0
-#define SNAP_MINOR          0
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks,
                            int event_mode)
 {
-    snapshot_t *s;
-
-    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
-
-    if (s == NULL) {
-        perror(name);
-        return -1;
-    }
-
-    sound_snapshot_prepare();
-
-    if (maincpu_snapshot_write_module(s) < 0
-        || cbm2_snapshot_write_module(s, save_roms) < 0
-        || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
-        || cia1_snapshot_write_module(s) < 0
-        || tpi1_snapshot_write_module(s) < 0
-        || tpi2_snapshot_write_module(s) < 0
-        || acia1_snapshot_write_module(s) < 0
-        || sid_snapshot_write_module(s) < 0
-        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || (cbm2_isC500 && vicii_snapshot_write_module(s) < 0)
-        || (cbm2_isC500 && c500_snapshot_write_module(s) < 0)
-        || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
-        snapshot_close(s);
-        ioutil_remove(name);
-        return -1;
-    }
-
-    snapshot_close(s);
-    return 0;
+    return cbm2_snapshot_write(name, save_roms, save_disks, event_mode);
 }
 
 int machine_read_snapshot(const char *name, int event_mode)
 {
-    snapshot_t *s;
-    BYTE minor, major;
-
-    s = snapshot_open(name, &major, &minor, machine_name);
-
-    if (s == NULL)
-        return -1;
-
-    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_error(cbm2_log,
-                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                  major, minor, SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    if (cbm2_isC500)
-        vicii_snapshot_prepare();
-
-    if (maincpu_snapshot_read_module(s) < 0
-        || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
-        || (cbm2_isC500 && vicii_snapshot_read_module(s) < 0)
-        || (cbm2_isC500 && c500_snapshot_read_module(s) < 0)
-        || cbm2_snapshot_read_module(s) < 0
-        || cia1_snapshot_read_module(s) < 0
-        || tpi1_snapshot_read_module(s) < 0
-        || tpi2_snapshot_read_module(s) < 0
-        || acia1_snapshot_read_module(s) < 0
-        || sid_snapshot_read_module(s) < 0
-        || drive_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
-        goto fail;
-
-    sound_snapshot_finish();
-
-    return 0;
-
-fail:
-    if (s != NULL)
-        snapshot_close(s);
-
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-
-    return -1;
+    return cbm2_snapshot_read(name, event_mode);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -618,7 +532,7 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
 
 static const char module_name[] = "C500DATA";
 
-static int c500_snapshot_write_module(snapshot_t *p)
+int cbm2_c500_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
 
@@ -634,7 +548,7 @@ static int c500_snapshot_write_module(snapshot_t *p)
     return 0;
 }
 
-static int c500_snapshot_read_module(snapshot_t *p)
+int cbm2_c500_snapshot_read_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;

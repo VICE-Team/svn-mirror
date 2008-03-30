@@ -126,6 +126,10 @@ SOURCE=..\..\cbm2\cbm2mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbm2\cbm2memsnapshot.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\cbm2rom.c
 # End Source File
 # Begin Source File

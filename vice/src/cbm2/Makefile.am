@@ -30,6 +30,8 @@ libcbm2_a_SOURCES = \
 	cbm2iec.h \
 	cbm2mem.c \
 	cbm2mem.h \
+	cbm2memsnapshot.c \
+	cbm2memsnapshot.h \
 	cbm2rom.c \
 	cbm2rom.h \
 	cbm2tpi.h \

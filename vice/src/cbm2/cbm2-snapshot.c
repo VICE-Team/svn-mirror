@@ -1,5 +1,5 @@
 /*
- * cbm2snapshot.c - CBM-II snapshot handling.
+ * cbm2-snapshot.c - CBM-II snapshot handling.
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
@@ -29,395 +29,115 @@
 
 #include <stdio.h>
 
-#include "cbm2-resources.h"
 #include "cbm2-snapshot.h"
 #include "cbm2.h"
-#include "cbm2mem.h"
-#include "cbm2rom.h"
+#include "cbm2acia.h"
+#include "cbm2cia.h"
+#include "cbm2memsnapshot.h"
+#include "cbm2tpi.h"
+#include "crtc.h"
+#include "drive-snapshot.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "event.h"
+#include "ioutil.h"
 #include "log.h"
-#include "mem.h"
-#include "resources.h"
+#include "machine.h"
+#include "maincpu.h"
+#include "sid-snapshot.h"
+#include "sound.h"
 #include "snapshot.h"
+#include "tape-snapshot.h"
 #include "types.h"
+#include "vicii.h"
 
 
-static log_t cbm2_snapshot_log = LOG_ERR;
+#define SNAP_MAJOR          0
+#define SNAP_MINOR          0
 
-/*
- * CBM2 memory dump should be 128, 256, 512 or 1024k, depending on the
- * config, as RAM.
- */
-#define CBM2MEM_DUMP_VER_MAJOR   1
-#define CBM2MEM_DUMP_VER_MINOR   0
 
-/*
- * UBYTE        MEMSIZE         size in 128k (1=128, 2=256, 4=512, 8=1024)
- * UBYTE        CONFIG          Bit 0: cart08_ram
- *                                  1: cart1_ram
- *                                  2: cart2_ram
- *                                  3: cart4_ram
- *                                  4: cart6_ram
- *                                  5: cartC_ram
- *                                  6: 1= RAM starts at 0 (C500), videoram is
- *                                        1k VIC-II video, 1k colorram
- *                                     0= RAM starts at 0x10000 (others),
- *                                        videoram is 2k crtc videoram
- *
- * UBYTE        HCONFIG         Bit 0-1: ModelLine
- *
- * UBYTE        EXECBANK        CPU exec bank register
- * UBYTE        INDBANK         CPU indirect bank register
- * ARRAY        SYSRAM          2k system RAM, Bank15 $0000-$07ff
- * ARRAY        VIDEO           2k video RAM, Bank15 $d000-$d7ff
- * ARRAY        RAM             size according to MEMSIZE
- * ARRAY        RAM08           (only if memsize < 1M) 2k for cart08_ram
- * ARRAY        RAM1            (only if memsize < 1M) 4k for cart1_ram
- * ARRAY        RAM2            (only if memsize < 1M) 8k for cart2_ram
- * ARRAY        RAM4            (only if memsize < 1M) 8k for cart4_ram
- * ARRAY        RAM6            (only if memsize < 1M) 8k for cart6_ram
- * ARRAY        RAMC            (only if memsize < 1M) 4k for cartC_ram
- *
- */
-
-static const char module_name[] = "CBM2MEM";
-
-static int mem_write_ram_snapshot_module(snapshot_t *p)
+int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
+                        int event_mode)
 {
-    snapshot_module_t *m;
-    BYTE config, memsize;
-    int effective_ramsize, effective_start;
+    snapshot_t *s;
 
-    m = snapshot_module_create(p, module_name,
-                               CBM2MEM_DUMP_VER_MAJOR, CBM2MEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
+
+    if (s == NULL) {
+        perror(name);
         return -1;
-
-    /* calculate start and size of RAM to save */
-    /* ramsize starts counting at 0x10000 if less than 512k */
-    effective_ramsize = ramsize;
-    effective_start = 0x10000;
-    if (cbm2_isC500 && ramsize < 512) {
-        effective_ramsize += 64;
-    }
-    if (cbm2_isC500 || ramsize >= 512) {
-        effective_start = 0;
-    }
-    memsize = effective_ramsize >> 7;   /* rescale from 1k to 128k */
-
-    config = (cart08_ram ? 1 : 0)
-             | (cart1_ram ? 2 : 0)
-             | (cart2_ram ? 4 : 0)
-             | (cart4_ram ? 8 : 0)
-             | (cart6_ram ? 16 : 0)
-             | (cartC_ram ? 32 : 0)
-             | (cbm2_isC500 ? 64 : 0);
-
-    SMW_B(m, memsize);
-    SMW_B(m, config);
-    SMW_B(m, (BYTE)(cbm2_model_line & 3));
-
-    SMW_B(m, (BYTE)(cbm2mem_bank_exec));
-    SMW_B(m, (BYTE)(cbm2mem_bank_ind));
-
-    SMW_BA(m, mem_ram + 0xf0000, 0x0800);
-    SMW_BA(m, mem_rom + 0xd000, 0x0800);
-
-    /* main memory array */
-    SMW_BA(m, mem_ram + effective_start,
-                                                ((int)memsize) << 17);
-
-    if (memsize < 4) {  /* if 1M memory, bank 15 is included */
-        if (config & 1) {
-            SMW_BA(m, mem_ram + 0xf0800, 0x0800);
-        }
-        if (config & 2) {
-            SMW_BA(m, mem_ram + 0xf1000, 0x1000);
-        }
-        if (config & 4) {
-            SMW_BA(m, mem_ram + 0xf2000, 0x2000);
-        }
-        if (config & 8) {
-            SMW_BA(m, mem_ram + 0xf4000, 0x2000);
-        }
-        if (config & 16) {
-            SMW_BA(m, mem_ram + 0xf6000, 0x2000);
-        }
-        if (config & 32) {
-            SMW_BA(m, mem_ram + 0xfc000, 0x1000);
-        }
     }
 
-    snapshot_module_close(m);
+    sound_snapshot_prepare();
 
+    if (maincpu_snapshot_write_module(s) < 0
+        || cbm2_snapshot_write_module(s, save_roms) < 0
+        || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
+        || cia1_snapshot_write_module(s) < 0
+        || tpi1_snapshot_write_module(s) < 0
+        || tpi2_snapshot_write_module(s) < 0
+        || acia1_snapshot_write_module(s) < 0
+        || sid_snapshot_write_module(s) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || (cbm2_isC500 && vicii_snapshot_write_module(s) < 0)
+        || (cbm2_isC500 && cbm2_c500_snapshot_write_module(s) < 0)
+        || event_snapshot_write_module(s, event_mode) < 0
+        || tape_snapshot_write_module(s, save_disks) < 0) {
+        snapshot_close(s);
+        ioutil_remove(name);
+        return -1;
+    }
+
+    snapshot_close(s);
     return 0;
 }
 
-static int mem_read_ram_snapshot_module(snapshot_t *p)
+int cbm2_snapshot_read(const char *name, int event_mode)
 {
-    BYTE byte, vmajor, vminor;
-    snapshot_module_t *m;
-    BYTE config, hwconfig;
-    int memsize;
-    int effective_ramsize, effective_start;
-    int bank0;
+    snapshot_t *s;
+    BYTE minor, major;
 
-    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
-    if (m == NULL)
+    s = snapshot_open(name, &major, &minor, machine_name);
+
+    if (s == NULL)
         return -1;
 
-    if (vmajor != CBM2MEM_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
+    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
+        log_error(LOG_DEFAULT,
+                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                  major, minor, SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
     }
 
-    SMR_B(m, &byte);
-    memsize = ((int)byte) & 0xff;
+    if (cbm2_isC500)
+        vicii_snapshot_prepare();
 
-    SMR_B(m, &config);
+    if (maincpu_snapshot_read_module(s) < 0
+        || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
+        || (cbm2_isC500 && vicii_snapshot_read_module(s) < 0)
+        || (cbm2_isC500 && cbm2_c500_snapshot_read_module(s) < 0)
+        || cbm2_snapshot_read_module(s) < 0
+        || cia1_snapshot_read_module(s) < 0
+        || tpi1_snapshot_read_module(s) < 0
+        || tpi2_snapshot_read_module(s) < 0
+        || acia1_snapshot_read_module(s) < 0
+        || sid_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
+        || event_snapshot_read_module(s, event_mode) < 0
+        || tape_snapshot_read_module(s) < 0)
+        goto fail;
 
-    SMR_B(m, &hwconfig);
-    resources_set_value("ModelLine", (resource_value_t)(int)(hwconfig & 3));
-
-    SMR_B(m, &byte);
-    cbm2mem_set_bank_exec(byte);
-    SMR_B(m, &byte);
-    cbm2mem_set_bank_ind(byte);
-
-    SMR_BA(m, mem_ram + 0xf0000, 0x0800);
-    SMR_BA(m, mem_rom + 0xd000, 0x0800);
-
-    /* calculate start and size of RAM to load */
-    /* ramsize starts counting at 0x10000 if less than 512k */
-    bank0 = config & 64;
-    effective_ramsize = memsize << 7;
-    effective_start = 0x10000;
-    if (bank0 || effective_ramsize >= 512) {
-        effective_start = 0;
-    }
-    if (bank0 && effective_ramsize < 512) {
-        effective_ramsize -= 64;
-    }
-
-    SMR_BA(m, mem_ram + effective_start, memsize << 17);
-
-    ramsize = effective_ramsize;
-
-    cart08_ram = config & 1;
-    cart1_ram = config & 2;
-    cart2_ram = config & 4;
-    cart4_ram = config & 8;
-    cart6_ram = config & 16;
-    cartC_ram = config & 32;
-
-    if (memsize < 4) {
-        SMR_BA(m, mem_ram + 0x10000, memsize << 17);
-    } else {
-        SMR_BA(m, mem_ram, memsize << 17);
-    }
-
-    if (memsize < 4) {  /* if 1M memory, bank 15 is included */
-        if (config & 1) {
-            SMR_BA(m, mem_ram + 0xf0800, 0x0800);
-        }
-        if (config & 2) {
-            SMR_BA(m, mem_ram + 0xf1000, 0x1000);
-        }
-        if (config & 4) {
-            SMR_BA(m, mem_ram + 0xf2000, 0x2000);
-        }
-        if (config & 8) {
-            SMR_BA(m, mem_ram + 0xf4000, 0x2000);
-        }
-        if (config & 16) {
-            SMR_BA(m, mem_ram + 0xf6000, 0x2000);
-        }
-        if (config & 32) {
-            SMR_BA(m, mem_ram + 0xfc000, 0x1000);
-        }
-    }
-
-    mem_initialize_memory();
-
-    snapshot_module_close(m);
+    sound_snapshot_finish();
 
     return 0;
+
+fail:
+    if (s != NULL)
+        snapshot_close(s);
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
+    return -1;
 }
 
-/*********************************************************************/
-
-/*
- * UBYTE        CONFIG          Bit 1: cart1 ROM included
- *                                  2: cart2 ROM included
- *                                  3: cart4 ROM included
- *                                  4: cart6 ROM included
- *                                  5: chargen is of C510 type (VIC-II)
- *
- * ARRAY        KERNAL          8k Kernal ROM ($e000-$ffff)
- * ARRAY        BASIC           16k Basic ROM ($8000-$bfff)
- * ARRAY        CHARGEN         4k chargen ROM image ($c*** for VIC-II)
- * ARRAY        ROM1            4k for cart1 (if config & 2)
- * ARRAY        ROM2            8k for cart2 (if config & 4)
- * ARRAY        ROM4            8k for cart4 (if config & 8)
- * ARRAY        ROM6            8k for cart6 (if config & 16)
- */
-
-static const char module_rom_name[] = "CBM2ROM";
-#define CBM2ROM_DUMP_VER_MAJOR   1
-#define CBM2ROM_DUMP_VER_MINOR   0
-
-static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
-{
-    snapshot_module_t *m;
-    BYTE config;
-    int trapfl;
-    char *cart_1_name, *cart_2_name, *cart_4_name, *cart_6_name;
-
-    if (!save_roms)
-        return 0;
-
-    m = snapshot_module_create(p, module_rom_name,
-                               CBM2ROM_DUMP_VER_MAJOR, CBM2ROM_DUMP_VER_MINOR);
-    if (m == NULL)
-        return -1;
-
-    /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
-
-    resources_get_value("Cart1Name", (void *)&cart_1_name);
-    resources_get_value("Cart2Name", (void *)&cart_2_name);
-    resources_get_value("Cart4Name", (void *)&cart_4_name);
-    resources_get_value("Cart6Name", (void *)&cart_6_name);
-
-    config = ((cart_1_name ? 2 : 0)
-             | (cart_2_name ? 4 : 0)
-             | (cart_4_name ? 8 : 0)
-             | (cart_6_name ? 16 : 0)
-             | (cbm2_isC500 ? 32 : 0));
-
-    /* SMW_B(m, save_roms & 3); */
-    SMW_B(m, config);
-
-    {
-        /* kernal */
-        SMW_BA(m, mem_rom + 0xe000, 0x2000);
-        /* basic */
-        SMW_BA(m, mem_rom + 0x8000, 0x4000);
-        /* chargen */
-        if (cbm2_isC500) {
-            SMW_BA(m, mem_chargen_rom, 0x1000);
-        } else {
-            SMW_BA(m, mem_chargen_rom, 0x0800);
-            SMW_BA(m, mem_chargen_rom + 0x1000, 0x0800);
-        }
-
-        if (config & 2) {
-            SMW_BA(m, mem_rom + 0x1000, 0x1000);
-        }
-        if (config & 4) {
-            SMW_BA(m, mem_rom + 0x2000, 0x2000);
-        }
-        if (config & 8) {
-            SMW_BA(m, mem_rom + 0x4000, 0x2000);
-        }
-        if (config & 16) {
-            SMW_BA(m, mem_rom + 0x6000, 0x2000);
-        }
-    }
-
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-
-    snapshot_module_close(m);
-
-    return 0;
-}
-
-static int mem_read_rom_snapshot_module(snapshot_t *p)
-{
-    BYTE vmajor, vminor;
-    snapshot_module_t *m;
-    BYTE config;
-    int i, trapfl;
-
-    m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
-    if (m == NULL)
-        return 0;       /* optional */
-
-    if (vmajor != CBM2ROM_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (void *)&trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t)1);
-
-    SMR_B(m, &config);
-
-    /* kernal */
-    SMR_BA(m, mem_rom + 0xe000, 0x2000);
-    /* basic */
-    SMR_BA(m, mem_rom + 0x8000, 0x4000);
-
-    /* chargen */
-    if (config & 32) {
-        SMR_BA(m, mem_chargen_rom, 0x1000);
-    } else {
-        SMR_BA(m, mem_chargen_rom, 0x0800);
-        SMR_BA(m, mem_chargen_rom + 0x1000, 0x0800);
-        /* Inverted chargen into second half. This is a hardware feature.  */
-        for (i = 0; i < 2048; i++) {
-            mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
-            mem_chargen_rom[i + 6144] = mem_chargen_rom[i + 4096] ^ 0xff;
-        }
-    }
-
-    if (config & 2) {
-        SMR_BA(m, mem_rom + 0x1000, 0x1000);
-    }
-    if (config & 4) {
-        SMR_BA(m, mem_rom + 0x2000, 0x2000);
-    }
-    if (config & 8) {
-        SMR_BA(m, mem_rom + 0x4000, 0x2000);
-    }
-    if (config & 16) {
-        SMR_BA(m, mem_rom + 0x6000, 0x2000);
-    }
-
-    log_warning(cbm2_snapshot_log,
-                "Dumped Romset files and saved settings will "
-                "represent\nthe state before loading the snapshot!");
-
-    cbm2rom_checksum();
-
-    /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
-
-    snapshot_module_close(m);
-
-    return 0;
-}
-
-/*********************************************************************/
-
-int cbm2_snapshot_write_module(snapshot_t *p, int save_roms)
-{
-    if (mem_write_ram_snapshot_module(p) < 0
-        || mem_write_rom_snapshot_module(p, save_roms) < 0
-        ) {
-        return -1;
-    }
-    return 0;
-}
-
-int cbm2_snapshot_read_module(snapshot_t *p)
-{
-    if (mem_read_ram_snapshot_module(p) < 0
-        || mem_read_rom_snapshot_module(p) < 0 )
-        return -1;
-
-    return 0;
-}
 
