@@ -70,21 +70,22 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
 	vsyncapi.$(OBJEXT) filereq.$(OBJEXT) mui.$(OBJEXT) \
 	uiacia.$(OBJEXT) uic64_256k.$(OBJEXT) uic128settings.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uicbm2settings.$(OBJEXT) \
-	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) uimmc64.$(OBJEXT) \
-	uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) uipetsettings.$(OBJEXT) \
-	uiplus256k.$(OBJEXT) uiplus4settings.$(OBJEXT) \
-	uiplus60k.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
-	uireu.$(OBJEXT) uiromc128settings.$(OBJEXT) \
-	uiromc64vic20settings.$(OBJEXT) uiromcbm2settings.$(OBJEXT) \
-	uirompetsettings.$(OBJEXT) uiromplus4settings.$(OBJEXT) \
-	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisidcart.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uivic20mem.$(OBJEXT) \
-	uivicii.$(OBJEXT) uivideoc128.$(OBJEXT) \
-	uivideoc64plus4vic20.$(OBJEXT) uivideocbm2pet.$(OBJEXT)
+	uicbm2settings.$(OBJEXT) uidatasette.$(OBJEXT) \
+	uidigimax.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) \
+	uimmc64.$(OBJEXT) uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uipetsettings.$(OBJEXT) uiplus256k.$(OBJEXT) \
+	uiplus4settings.$(OBJEXT) uiplus60k.$(OBJEXT) uiram.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromc128settings.$(OBJEXT) uiromc64vic20settings.$(OBJEXT) \
+	uiromcbm2settings.$(OBJEXT) uirompetsettings.$(OBJEXT) \
+	uiromplus4settings.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisid.$(OBJEXT) uisidcart.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT) \
+	uivideoc128.$(OBJEXT) uivideoc64plus4vic20.$(OBJEXT) \
+	uivideocbm2pet.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -440,10 +441,12 @@ libarch_a_SOURCES = \
 	mui/uic64_256k.h \
 	mui/uic128settings.c \
 	mui/uic128settings.h \
-	mui/uidatasette.c \
-	mui/uidatasette.h \
 	mui/uicbm2settings.c \
 	mui/uicbm2settings.h \
+	mui/uidatasette.c \
+	mui/uidatasette.h \
+	mui/uidigimax.c \
+	mui/uidigimax.h \
 	mui/uidrivec128.c \
 	mui/uidrivec128.h \
 	mui/uidrivec64vic20.c \
@@ -529,6 +532,7 @@ EXTRA_DIST = \
 	info-files/morphos/xplus4.info \
 	info-files/morphos/xvic.info \
 	config.h.vbcc \
+	fixdeps.c \
 	genintl_h.sh \
 	genintltable.sh \
 	intl.txt \
@@ -666,6 +670,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidigimax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
@@ -797,6 +802,20 @@ uic128settings.obj: mui/uic128settings.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uic128settings.obj `if test -f 'mui/uic128settings.c'; then $(CYGPATH_W) 'mui/uic128settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uic128settings.c'; fi`
 
+uicbm2settings.o: mui/uicbm2settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uicbm2settings.o -MD -MP -MF "$(DEPDIR)/uicbm2settings.Tpo" -c -o uicbm2settings.o `test -f 'mui/uicbm2settings.c' || echo '$(srcdir)/'`mui/uicbm2settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uicbm2settings.Tpo" "$(DEPDIR)/uicbm2settings.Po"; else rm -f "$(DEPDIR)/uicbm2settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uicbm2settings.c' object='uicbm2settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uicbm2settings.o `test -f 'mui/uicbm2settings.c' || echo '$(srcdir)/'`mui/uicbm2settings.c
+
+uicbm2settings.obj: mui/uicbm2settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uicbm2settings.obj -MD -MP -MF "$(DEPDIR)/uicbm2settings.Tpo" -c -o uicbm2settings.obj `if test -f 'mui/uicbm2settings.c'; then $(CYGPATH_W) 'mui/uicbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uicbm2settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uicbm2settings.Tpo" "$(DEPDIR)/uicbm2settings.Po"; else rm -f "$(DEPDIR)/uicbm2settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uicbm2settings.c' object='uicbm2settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uicbm2settings.obj `if test -f 'mui/uicbm2settings.c'; then $(CYGPATH_W) 'mui/uicbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uicbm2settings.c'; fi`
+
 uidatasette.o: mui/uidatasette.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uidatasette.o -MD -MP -MF "$(DEPDIR)/uidatasette.Tpo" -c -o uidatasette.o `test -f 'mui/uidatasette.c' || echo '$(srcdir)/'`mui/uidatasette.c; \
 @am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uidatasette.Tpo" "$(DEPDIR)/uidatasette.Po"; else rm -f "$(DEPDIR)/uidatasette.Tpo"; exit 1; fi
@@ -811,19 +830,19 @@ uidatasette.obj: mui/uidatasette.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uidatasette.obj `if test -f 'mui/uidatasette.c'; then $(CYGPATH_W) 'mui/uidatasette.c'; else $(CYGPATH_W) '$(srcdir)/mui/uidatasette.c'; fi`
 
-uicbm2settings.o: mui/uicbm2settings.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uicbm2settings.o -MD -MP -MF "$(DEPDIR)/uicbm2settings.Tpo" -c -o uicbm2settings.o `test -f 'mui/uicbm2settings.c' || echo '$(srcdir)/'`mui/uicbm2settings.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uicbm2settings.Tpo" "$(DEPDIR)/uicbm2settings.Po"; else rm -f "$(DEPDIR)/uicbm2settings.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uicbm2settings.c' object='uicbm2settings.o' libtool=no @AMDEPBACKSLASH@
+uidigimax.o: mui/uidigimax.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uidigimax.o -MD -MP -MF "$(DEPDIR)/uidigimax.Tpo" -c -o uidigimax.o `test -f 'mui/uidigimax.c' || echo '$(srcdir)/'`mui/uidigimax.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uidigimax.Tpo" "$(DEPDIR)/uidigimax.Po"; else rm -f "$(DEPDIR)/uidigimax.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uidigimax.c' object='uidigimax.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uicbm2settings.o `test -f 'mui/uicbm2settings.c' || echo '$(srcdir)/'`mui/uicbm2settings.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uidigimax.o `test -f 'mui/uidigimax.c' || echo '$(srcdir)/'`mui/uidigimax.c
 
-uicbm2settings.obj: mui/uicbm2settings.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uicbm2settings.obj -MD -MP -MF "$(DEPDIR)/uicbm2settings.Tpo" -c -o uicbm2settings.obj `if test -f 'mui/uicbm2settings.c'; then $(CYGPATH_W) 'mui/uicbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uicbm2settings.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uicbm2settings.Tpo" "$(DEPDIR)/uicbm2settings.Po"; else rm -f "$(DEPDIR)/uicbm2settings.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uicbm2settings.c' object='uicbm2settings.obj' libtool=no @AMDEPBACKSLASH@
+uidigimax.obj: mui/uidigimax.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uidigimax.obj -MD -MP -MF "$(DEPDIR)/uidigimax.Tpo" -c -o uidigimax.obj `if test -f 'mui/uidigimax.c'; then $(CYGPATH_W) 'mui/uidigimax.c'; else $(CYGPATH_W) '$(srcdir)/mui/uidigimax.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uidigimax.Tpo" "$(DEPDIR)/uidigimax.Po"; else rm -f "$(DEPDIR)/uidigimax.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uidigimax.c' object='uidigimax.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uicbm2settings.obj `if test -f 'mui/uicbm2settings.c'; then $(CYGPATH_W) 'mui/uicbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uicbm2settings.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uidigimax.obj `if test -f 'mui/uidigimax.c'; then $(CYGPATH_W) 'mui/uidigimax.c'; else $(CYGPATH_W) '$(srcdir)/mui/uidigimax.c'; fi`
 
 uidrivec128.o: mui/uidrivec128.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uidrivec128.o -MD -MP -MF "$(DEPDIR)/uidrivec128.Tpo" -c -o uidrivec128.o `test -f 'mui/uidrivec128.c' || echo '$(srcdir)/'`mui/uidrivec128.c; \

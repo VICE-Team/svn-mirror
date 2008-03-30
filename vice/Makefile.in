@@ -725,10 +725,10 @@ xcbm2:
 @AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(top_srcdir) $(EXEEXT)
 
 @BEOS_COMPILE_TRUE@bindist:
-@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) nozip $(top_srcdir)
 
 @BEOS_COMPILE_TRUE@bindistzip:
-@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) zip $(top_srcdir)
 
 @MSDOS_COMPILE_TRUE@bindist:
 @MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)

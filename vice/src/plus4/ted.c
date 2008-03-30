@@ -470,7 +470,8 @@ void ted_update_memory_ptrs(unsigned int cycle)
 
     TED_DEBUG_REGISTER(("\tBitmap memory at $%04X", bitmap_addr));
 
-    char_addr = (ted.regs[0x13] & (((ted.regs[0x06] & 0x40) | (ted.regs[0x07] & 0x90)) ? 0xf8 : 0xfc)) << 8;
+    char_addr = (ted.regs[0x13] & (((ted.regs[0x06] & 0x40)
+                | (ted.regs[0x07] & 0x80)) ? 0xf8 : 0xfc)) << 8;
     char_base = mem_get_tedmem_base((char_addr >> 14) | video_romsel)
                 + (char_addr & 0x3fff);
 

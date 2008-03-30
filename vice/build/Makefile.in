@@ -265,7 +265,9 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 EXTRA_DIST = \
+	amigaos/build-os4-native.sh \
 	amigaos/build-vbcc.sh \
+	beos/ppc-build.sh \
 	mingw32/build-cross.sh \
 	macosx/build-allext.sh \
 	macosx/build-gtk.sh \
@@ -318,7 +320,7 @@ CTAGS:
 
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/amigaos $(distdir)/macosx $(distdir)/mingw32 $(distdir)/minix3
+	$(mkdir_p) $(distdir)/amigaos $(distdir)/beos $(distdir)/macosx $(distdir)/mingw32 $(distdir)/minix3
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

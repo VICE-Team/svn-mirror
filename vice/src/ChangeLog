@@ -1,3 +1,129 @@
+2007-02-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.22.
+
+	* plus4/ted.c (ted_update_memory_ptrs): Fixed calculation of
+	char address.
+
+2007-02-11  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/vice-launcher.sh: search in emulator
+	bundle, too
+
+	* arch/unix/macosx/x11-launcher.sh: run correctly with spaces
+	in path
+
+2007-02-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/mui/uisound.c,
+	arch/amigaos/mui/uisound.h, arch/amigaos/petuires.h,
+	arch/amigaos/plus4uires.h, arch/amigaos/ui.c,
+	arch/amigaos/uires.h, arch/amigaos/vic20uires.h: Added sound
+	record support.
+
+	* arch/amigaos/mui/uidigimax.c: Fixed a typo.
+
+	* arch/unix/gui/uicommands.c: Extended the sound record with
+	aiff, iff, voc and mp3.
+
+	* arch/win32/intl.c, arch/win32/res.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resstrings.txt, arch/win32/resvic20.rc,
+	arch/win32/ui.c, arch/win32/uisound.c, arch/win32/uisound.h,
+	arch/win32/sounddrv.dsp: Added sound record support.
+
+	* sound.c, sound.h, sounddrv/Makefile.am,
+	sounddrv/soundaiff.c, sounddrv/soundiff.c,
+	sounddrv/soundmp3.c, sounddrv/soundvoc.c: Extended the sound
+	record drivers with aiff, iff, voc and mp3 drivers.
+
+	* util.c, util.h: Added a new function to add an extension to
+	a foo[MAX_PATH] string.
+
+2007-02-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_record_in_list, event_record_start_trap):
+	Set the type of new event to EVENT_LIST_END.
+
+2007-02-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/ahi.c,
+	arch/amigaos/c128ui.c, arch/amigaos/c64ui.c,
+	arch/amigaos/cbm2ui.c, arch/amigaos/fixdeps.c,
+	arch/amigaos/mousedrv.c, arch/amigaos/mui/filereq.c,
+	arch/amigaos/mui/mui.h, arch/amigaos/petui.c,
+	arch/amigaos/plus4ui.c, arch/amigaos/pointer.c,
+	arch/amigaos/statusbar.c, arch/amigaos/timer.c: Added native
+	AmigaOS4 compile support as provided by Peter Gordon
+	<pete@petergordon.org.uk>.
+
+2007-02-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/mui/uidigimax.c,
+	arch/amigaos/mui/uidigimax.h, arch/amigaos/uires.h,
+	arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/constants.h, arch/beos/vicemenu.cc,
+	arch/msdos/Makefile.am, arch/msdos/c128ui.c,
+	arch/msdos/c64ui.c, arch/msdos/uidigimax.c,
+	arch/msdos/uidigimax.h, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64.icc, arch/os2/vac++/x128/X128.ICC,
+	arch/unix/gui/Makefile.am, arch/unix/gui/c128ui.c,
+	arch/unix/gui/c64ui.c, arch/unix/gui/uidigimax.c,
+	arch/unix/gui/uidigimax.h, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c128ui.c, arch/win32/c64.dsp,
+	arch/win32/c64c128.dsp, arch/win32/c64ui.c,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resdialogs.txt, arch/win32/resdigimax.rc,
+	arch/win32/resmenu.txt, arch/win32/resstrings.txt,
+	arch/win32/uidigimax.c, arch/win32/uidigimax.h,
+	arch/win32/x128.dsp, arch/win32/x64.dsp, c128/c128.c,
+	c64/Makefile.am, c64/c64.c, c64/c64cia2.c, c64/c64io.c,
+	c64/c64io.h, c64/c64sound.c, c64/digimax.c, c64/digimax.h,
+	translate.c, translate.txt: Added digimax support.
+
+	* printerdrv/drv-nl10.c: Fixed for ppc-beos.
+
+2007-02-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/Makefile.am, arch/beos/c128ui.cc,
+	arch/beos/make-bindist.sh, arch/beos/ppc-ar.sh,
+	arch/beos/ui.cc, arch/beos/ui_video.cc,
+	arch/beos/vicewindow.cc, c128/c128.c, c64/c64.c, cbm2/cbm2.c,
+	drive/drivesync.c, gfxoutputdrv/bmpdrv.c,
+	gfxoutputdrv/gifdrv.c, gfxoutputdrv/iffdrv.c,
+	gfxoutputdrv/jpegdrv.c, gfxoutputdrv/pcxdrv.c,
+	gfxoutputdrv/ppmdrv.c, parallel/parallel.c, pet/pet.c,
+	plus4/plus4.c, printerdrv/drv-nl10.c, vic20/vic20.c,
+	resid/configure.in: Added ppc-beos support.
+
+2007-01-31  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/gui/uivicii.c, fixed a comment.
+
+	* arch/unix/x11/openGL_sync.c, arch/unix/x11/xrandr.c: Removed
+	some unneeded _().
+
+2007-01-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/ui_file.h, arch/beos/ui_ram.cc: Added some zeta
+	needed includes, as suggested by Bernd Korz.
+
+	* arch/beos/vicemenu.cc: Fixed so it won't crash on zeta
+	anymore.
+
+2007-01-30  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/unix/x11/fullscreen.c: wrong macro used for masking
+	xrandr_menu_shutdown()
+
 2007-01-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.21.

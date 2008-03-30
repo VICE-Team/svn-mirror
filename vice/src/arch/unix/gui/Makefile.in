@@ -57,20 +57,21 @@ am_libarchgui_a_OBJECTS = c128ui.$(OBJEXT) c64ui.$(OBJEXT) \
 	ui.$(OBJEXT) uiacia1.$(OBJEXT) uiattach.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uicommands.$(OBJEXT) uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) uidrivec64.$(OBJEXT) \
-	uidrivec64c128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
-	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
-	uidriveplus4.$(OBJEXT) uidrivevic20.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
-	uimmc64.$(OBJEXT) uimon.$(OBJEXT) uimouse.$(OBJEXT) \
-	uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
-	uiperipheralieee.$(OBJEXT) uipetreu.$(OBJEXT) \
-	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
-	uiprinteriec.$(OBJEXT) uiprinteriecplus4.$(OBJEXT) \
-	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uidigimax.$(OBJEXT) uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64.$(OBJEXT) uidrivec64c128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
+	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
+	uidrivevic20.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
+	uilib.$(OBJEXT) uimmc64.$(OBJEXT) uimon.$(OBJEXT) \
+	uimouse.$(OBJEXT) uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) \
+	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
+	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
+	uiprinteriecplus4.$(OBJEXT) uiprinterieee.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
+	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisidcart.$(OBJEXT) \
 	uisound.$(OBJEXT) uited.$(OBJEXT) uitfe.$(OBJEXT) \
@@ -342,6 +343,8 @@ libarchgui_a_SOURCES = \
 	uicrtc.h \
 	uidatasette.c \
 	uidatasette.h \
+	uidigimax.c \
+	uidigimax.h \
 	uidrive.c \
 	uidrive.h \
 	uidrivec128.c \
@@ -504,6 +507,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicommands.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicrtc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidigimax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64.Po@am__quote@

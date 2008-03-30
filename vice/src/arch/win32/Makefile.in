@@ -62,14 +62,15 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uiacia.$(OBJEXT) uiattach.$(OBJEXT) uic128.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicart.$(OBJEXT) \
 	uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) uiconsole.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
-	uidrivec128.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
-	uidriveplus4.$(OBJEXT) uievent.$(OBJEXT) uifliplist.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uihelp.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
-	uimediafile.$(OBJEXT) uimmc64.$(OBJEXT) uimon.$(OBJEXT) \
-	uinetwork.$(OBJEXT) uiperipheral.$(OBJEXT) uipetreu.$(OBJEXT) \
-	uipetset.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus4cart.$(OBJEXT) \
+	uidatasette.$(OBJEXT) uidigimax.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
+	uievent.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
+	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
+	uimmc64.$(OBJEXT) uimon.$(OBJEXT) uinetwork.$(OBJEXT) \
+	uiperipheral.$(OBJEXT) uipetreu.$(OBJEXT) uipetset.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus4cart.$(OBJEXT) \
 	uiplus4mem.$(OBJEXT) uiplus60k.$(OBJEXT) \
 	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
 	uireu.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
@@ -374,6 +375,7 @@ libarch_a_SOURCES = \
 	resc64_256k.rc \
 	rescbm2.rc \
 	rescommon.h \
+	resdigimax.rc \
 	resdrivec128.rc \
 	resdrivec64vic20.rc \
 	resdrivepetcbm2.rc \
@@ -422,6 +424,8 @@ libarch_a_SOURCES = \
 	uiconsole.c \
 	uidatasette.c \
 	uidatasette.h \
+	uidigimax.c \
+	uidigimax.h \
 	uidrivec64vic20.c \
 	uidrivec64vic20.h \
 	uidrivec128.c \
@@ -674,6 +678,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiconsole.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidigimax.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
@@ -1018,12 +1023,12 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
-	$(srcdir)/restfe.rc
+	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/resdrivec128.rc $(srcdir)/restfe.rc
+	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc128cat.rc -o resc128.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -1036,13 +1041,14 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec64vic20.rc \
-	$(srcdir)/restfe.rc
+	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64vic20.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc \
 	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc $(srcdir)/resrs232user.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/restfe.rc
+	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resdigimax.rc \
+	$(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \
