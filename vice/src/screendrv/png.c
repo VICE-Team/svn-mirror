@@ -95,7 +95,7 @@ int png_save(screenshot_t *screenshot, const char *filename)
 static screendrv_t png_drv =
 {
     "PNG",
-    ".png",
+    "png",
     png_save
 };
 

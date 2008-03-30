@@ -102,11 +102,14 @@ static UI_CALLBACK(cancel_callback)
     ui_popdown(emptydisk_dialog);
 }
 
+static char *extensions[] = { "d64", "d71", "d81", "d80", "d82", "g64" };
+
 static UI_CALLBACK(save_callback)
 {
     int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D71,
                      DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D80,
                      DISK_IMAGE_TYPE_D82, DISK_IMAGE_TYPE_G64 };
+    char *filename;
     String name;
     String iname;
     int type_cnt;
@@ -150,11 +153,16 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     XtVaGetValues(image_name_field, XtNstring, &iname, NULL);
 
-    if (vdrive_internal_create_format_disk_image(name, "VICE,01",
+    filename = stralloc(name);
+    xadd_extension(&filename, extensions[type_cnt]);
+
+    if (vdrive_internal_create_format_disk_image(filename, "VICE,01",
                                                  dtypes[type_cnt]) < 0)
         ui_error(_("Couldn't create disk image"));
     else
-        strcpy(edisk_file_name, name);
+        strcpy(edisk_file_name, filename);
+
+    free(filename);
 }
 
 static void build_emptydisk_dialog(void)

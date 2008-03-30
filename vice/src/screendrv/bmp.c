@@ -171,7 +171,7 @@ int bmp_save(screenshot_t *screenshot, const char *filename)
 static screendrv_t bmp_drv =
 {
     "BMP",
-    ".bmp",
+    "bmp",
     bmp_save
 };
 
