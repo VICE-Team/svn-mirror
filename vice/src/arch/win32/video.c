@@ -468,17 +468,9 @@ video_canvas_t *video_canvases[2];
 extern int fullscreen_active;
 extern int fullscreen_transition;
 
-video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
+void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    video_canvas_t *canvas;
-
-    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
-
     canvas->video_draw_buffer_callback = NULL;
-
-    canvas->videoconfig = videoconfig;
-
-    return canvas;
 }
 
 /* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
@@ -858,8 +850,7 @@ static void clear(HDC hdc, int x1, int y1, int x2, int y2)
     FillRect(hdc, &clear_rect, back_color);
 }
 
-static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
-                         unsigned int draw_buffer_line_size,
+static void real_refresh(video_canvas_t *c,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
@@ -933,14 +924,15 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     safey = (r->viewport.first_line - r->viewport.y_offset) * pixel_height;
     safey2 = (r->viewport.last_line - r->viewport.y_offset) * pixel_height;
 
-    if (r->draw_buffer) {
+    if (c->draw_buffer->draw_buffer) {
         cut_rightline = safex + r->viewport.width * pixel_width;
         cut_bottomline = safey + r->viewport.height * pixel_height;
-        if (cut_rightline > r->draw_buffer_width * pixel_width) {
-            cut_rightline = r->draw_buffer_width * pixel_width;
+        if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
+            cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
         }
-        if (cut_bottomline > r->draw_buffer_height * pixel_height) {
-            cut_bottomline = r->draw_buffer_height * pixel_height;
+        if (cut_bottomline
+            > c->draw_buffer->draw_buffer_height * pixel_height) {
+            cut_bottomline = c->draw_buffer->draw_buffer_height * pixel_height;
         }
 
         //  Check if it's out
@@ -978,14 +970,12 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
         //  Update remaining area from framebuffer....
 
         if ((w > 0) && (h > 0)) {
-            real_refresh(c, r->draw_buffer, r->draw_buffer_width,
-                         xs, ys, xi, yi, w, h);
+            real_refresh(c, xs, ys, xi, yi, w, h);
         }
     }
 }
 
-void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
-                          unsigned int draw_buffer_line_size,
+void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
@@ -1031,12 +1021,11 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
     client_y += (rect.bottom - statusbar_get_status_height()
                 - window_canvas_ysize[window_index]) / 2;
 
-    real_refresh(canvas, draw_buffer, draw_buffer_line_size, frame_buffer_x,
-                 frame_buffer_y, client_x, client_y, w, h);
+    real_refresh(canvas, frame_buffer_x, frame_buffer_y,
+                 client_x, client_y, w, h);
 }
 
-static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
-                         unsigned int draw_buffer_line_size,
+static void real_refresh(video_canvas_t *c,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h)
@@ -1189,14 +1178,13 @@ static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
         pw = trect.right - trect.left;
         ph = trect.bottom - trect.top;
 
-        video_render_main(c->videoconfig,
-                          draw_buffer,
-                          (BYTE *)(desc.lpSurface),
-                          pw, ph,
-                          px, py,
-                          trect.left, trect.top,
-                          draw_buffer_line_size, pitch,
-                          depth);
+        video_canvas_render(c,
+                            (BYTE *)(desc.lpSurface),
+                            pw, ph,
+                            px, py,
+                            trect.left, trect.top,
+                            pitch,
+                            depth);
     }
 
     if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
