@@ -561,6 +561,10 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
+    ciacore_shutdown(&(machine_context.cia1));
+    ciacore_shutdown(&(machine_context.cia2));
+    tpicore_shutdown(&(machine_context.tpi1));
+
     /* close the video chip(s) */
     vicii_shutdown();
     vdc_shutdown();

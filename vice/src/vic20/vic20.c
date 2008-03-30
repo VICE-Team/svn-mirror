@@ -403,6 +403,11 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
+    viacore_shutdown(&(machine_context.via1));
+    viacore_shutdown(&(machine_context.via2));
+    viacore_shutdown(&(machine_context.ieeevia1));
+    viacore_shutdown(&(machine_context.ieeevia2));
+
     /* close the video chip(s) */
     vic_shutdown();
 }

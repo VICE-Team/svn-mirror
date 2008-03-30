@@ -375,6 +375,10 @@ void machine_specific_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
+    ciacore_shutdown(&(machine_context.cia1));
+    tpicore_shutdown(&(machine_context.tpi1));
+    tpicore_shutdown(&(machine_context.tpi2));
+
     /* close the video chip(s) */
     if (cbm2_isC500) {
         vicii_shutdown();
