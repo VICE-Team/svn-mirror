@@ -906,7 +906,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
  */
 
 
-int fdc_write_snapshot_module(snapshot_t *p, int fnum)
+int fdc_snapshot_write_module(snapshot_t *p, int fnum)
 {
     snapshot_module_t *m;
     char name[100];
@@ -940,7 +940,7 @@ int fdc_write_snapshot_module(snapshot_t *p, int fnum)
     return 0;
 }
 
-int fdc_read_snapshot_module(snapshot_t *p, int fnum)
+int fdc_snapshot_read_module(snapshot_t *p, int fnum)
 {
     BYTE vmajor, vminor;
     BYTE byte, ndrv;

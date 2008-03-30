@@ -298,7 +298,7 @@ static char snap_module_name[] = MYPIA_NAME;
 
 /* FIXME!!!  Error check.  */
 
-int mypia_write_snapshot_module(snapshot_t * p)
+int mypia_snapshot_write_module(snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -323,7 +323,7 @@ int mypia_write_snapshot_module(snapshot_t * p)
     return 0;
 }
 
-int mypia_read_snapshot_module(snapshot_t * p)
+int mypia_snapshot_read_module(snapshot_t * p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

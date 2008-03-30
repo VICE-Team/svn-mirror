@@ -877,7 +877,7 @@ static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data)
 
 /* FIXME!!!  Error check.  */
 
-int myvia_write_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
+int myvia_snapshot_write_module(VIA_CONTEXT_PARAM snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -927,7 +927,7 @@ int myvia_write_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
     return 0;
 }
 
-int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
+int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

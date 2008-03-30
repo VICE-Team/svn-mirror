@@ -91,8 +91,8 @@
 #define myvia_log       (ctxptr->via2.log)
 #define myvia_signal    via2d_signal
 #define myvia_prevent_clk_overflow via2_prevent_clk_overflow
-#define myvia_read_snapshot_module via2d_read_snapshot_module
-#define myvia_write_snapshot_module via2d_write_snapshot_module
+#define myvia_snapshot_read_module via2d_snapshot_read_module
+#define myvia_snapshot_write_module via2d_snapshot_write_module
 
 
 

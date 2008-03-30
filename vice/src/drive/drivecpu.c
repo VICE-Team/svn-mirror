@@ -597,7 +597,7 @@ static void drive_jam(drive_context_t *drv)
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int drive_cpu_write_snapshot_module(drive_context_t *drv, snapshot_t *s)
+int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
 
@@ -660,7 +660,7 @@ static int read_word_into_unsigned_int(snapshot_module_t *m,
     return 0;
 }
 
-int drive_cpu_read_snapshot_module(drive_context_t *drv, snapshot_t *s)
+int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 {
     BYTE major, minor;
     snapshot_module_t *m;

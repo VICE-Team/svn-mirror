@@ -57,8 +57,8 @@ struct drive_context_s;
 #define mycia_peek      cia1571_peek
 #define mycia_set_flag  cia1571_set_flag
 #define mycia_set_sdr   cia1571_sdr
-#define mycia_write_snapshot_module cia1571_write_snapshot_module
-#define mycia_read_snapshot_module cia1571_read_snapshot_module
+#define mycia_snapshot_write_module cia1571_snapshot_write_module
+#define mycia_snapshot_read_module cia1571_snapshot_read_module
 #define MYCIA_NAME      (ctxptr->cia1571.myname)
 
 /*************************************************************************

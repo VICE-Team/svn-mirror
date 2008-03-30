@@ -46,8 +46,8 @@
 #define myvia_log via_log
 #define myvia_signal via_signal
 #define myvia_prevent_clk_overflow via_prevent_clk_overflow
-#define myvia_read_snapshot_module via_read_snapshot_module
-#define myvia_write_snapshot_module via_write_snapshot_module
+#define myvia_snapshot_read_module via_snapshot_read_module
+#define myvia_snapshot_write_module via_snapshot_write_module
 
 #include "vice.h"
 

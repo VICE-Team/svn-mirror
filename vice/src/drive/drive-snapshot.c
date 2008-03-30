@@ -56,12 +56,13 @@
 /* Logging.  */
 static log_t drive_snapshot_log = LOG_ERR;
 
-static int drive_write_image_snapshot_module(snapshot_t *s, unsigned int dnr);
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s,
+static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr);
+static int drive_snapshot_write_gcrimage_module(snapshot_t *s,
                                                 unsigned int dnr);
-static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr);
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr);static int drive_write_rom_snapshot_module(snapshot_t *s, unsigned int dnr);
-static int drive_read_rom_snapshot_module(snapshot_t *s, unsigned int dnr);
+static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr);
+static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr);
+static int drive_snapshot_write_rom_module(snapshot_t *s, unsigned int dnr);
+static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr);
 
 /*
 This is the format of the DRIVE snapshot module.
@@ -98,7 +99,7 @@ Type                 DWORD  2      drive type
 #define DRIVE_SNAP_MAJOR 1
 #define DRIVE_SNAP_MINOR 0
 
-int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
+int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 {
     int i;
     char snap_module_name[] = "DRIVE";
@@ -178,29 +179,29 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         if (drive[i].enable) {
             struct drive_context_s *ctxptr =
                 (i == 0) ? &drive0_context : &drive1_context;
-            if (drive_cpu_write_snapshot_module(ctxptr, s) < 0)
+            if (drive_cpu_snapshot_write_module(ctxptr, s) < 0)
                 return -1;
             if (drive[i].type == DRIVE_TYPE_1541
                 || drive[i].type == DRIVE_TYPE_1541II
                 || drive[i].type == DRIVE_TYPE_2031) {
-                if (via1d_write_snapshot_module(ctxptr, s) < 0
-                    || via2d_write_snapshot_module(ctxptr, s) < 0)
+                if (via1d_snapshot_write_module(ctxptr, s) < 0
+                    || via2d_snapshot_write_module(ctxptr, s) < 0)
                     return -1;
             }
             if (drive[i].type == DRIVE_TYPE_1571) {
-                if (via1d_write_snapshot_module(ctxptr, s) < 0
-                    || via2d_write_snapshot_module(ctxptr, s) < 0
-                    || cia1571_write_snapshot_module(ctxptr, s) < 0)
+                if (via1d_snapshot_write_module(ctxptr, s) < 0
+                    || via2d_snapshot_write_module(ctxptr, s) < 0
+                    || cia1571_snapshot_write_module(ctxptr, s) < 0)
                     return -1;
             }
             if (drive[i].type == DRIVE_TYPE_1581) {
-                if (cia1581_write_snapshot_module(ctxptr, s) < 0)
+                if (cia1581_snapshot_write_module(ctxptr, s) < 0)
                     return -1;
             }
             if (DRIVE_IS_OLDTYPE(drive[i].type)) {
-                if (riot1_write_snapshot_module(ctxptr, s) < 0
-                    || riot2_write_snapshot_module(ctxptr, s) < 0
-                    || fdc_write_snapshot_module(s, i) < 0)
+                if (riot1_snapshot_write_module(ctxptr, s) < 0
+                    || riot2_snapshot_write_module(ctxptr, s) < 0
+                    || fdc_snapshot_write_module(s, i) < 0)
                     return -1;
             }
         }
@@ -208,25 +209,25 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
 
     if (save_disks) {
         if (GCR_image[0] > 0) {
-            if (drive_write_gcrimage_snapshot_module(s, 0) < 0)
+            if (drive_snapshot_write_gcrimage_module(s, 0) < 0)
                 return -1;
         } else {
-            if (drive_write_image_snapshot_module(s, 0) < 0)
+            if (drive_snapshot_write_image_module(s, 0) < 0)
                 return -1;
         }
         if (GCR_image[1] > 0) {
-            if (drive_write_gcrimage_snapshot_module(s, 1) < 0)
+            if (drive_snapshot_write_gcrimage_module(s, 1) < 0)
                 return -1;
         } else {
-            if (drive_write_image_snapshot_module(s, 1) < 0)
+            if (drive_snapshot_write_image_module(s, 1) < 0)
                 return -1;
         }
     }
     if (save_roms && drive[0].enable)
-        if (drive_write_rom_snapshot_module(s, 0) < 0)
+        if (drive_snapshot_write_rom_module(s, 0) < 0)
             return -1;
     if (save_roms && drive[1].enable)
-        if (drive_write_rom_snapshot_module(s, 1) < 0)
+        if (drive_snapshot_write_rom_module(s, 1) < 0)
             return -1;
     return 0;
 }
@@ -272,7 +273,7 @@ static int read_dword_into_int(snapshot_module_t *m, int *value_return)
     return 0;
 }
 
-int drive_read_snapshot_module(snapshot_t *s)
+int drive_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     int i;
@@ -420,43 +421,43 @@ int drive_read_snapshot_module(snapshot_t *s)
         if (drive[i].enable) {
             struct drive_context_s *ctxptr =
                 (i == 0) ? &drive0_context : &drive1_context;
-            if (drive_cpu_read_snapshot_module(ctxptr, s) < 0)
+            if (drive_cpu_snapshot_read_module(ctxptr, s) < 0)
                 return -1;
             if (drive[i].type == DRIVE_TYPE_1541
                 || drive[i].type == DRIVE_TYPE_1541II
                 || drive[i].type == DRIVE_TYPE_2031) {
-                if (via1d_read_snapshot_module(ctxptr, s) < 0
-                    || via2d_read_snapshot_module(ctxptr, s) < 0)
+                if (via1d_snapshot_read_module(ctxptr, s) < 0
+                    || via2d_snapshot_read_module(ctxptr, s) < 0)
                     return -1;
             }
             if (drive[i].type == DRIVE_TYPE_1571) {
-                if (via1d_read_snapshot_module(ctxptr, s) < 0
-                    || via2d_read_snapshot_module(ctxptr, s) < 0
-                    || cia1571_read_snapshot_module(ctxptr, s) < 0)
+                if (via1d_snapshot_read_module(ctxptr, s) < 0
+                    || via2d_snapshot_read_module(ctxptr, s) < 0
+                    || cia1571_snapshot_read_module(ctxptr, s) < 0)
                     return -1;
             }
             if (drive[i].type == DRIVE_TYPE_1581) {
-                if (cia1581_read_snapshot_module(ctxptr, s) < 0)
+                if (cia1581_snapshot_read_module(ctxptr, s) < 0)
                     return -1;
             }
             if (DRIVE_IS_OLDTYPE(drive[i].type)) {
-                if (riot1_read_snapshot_module(ctxptr, s) < 0
-                    || riot2_read_snapshot_module(ctxptr, s) < 0
-                    || fdc_read_snapshot_module(s, i) < 0)
+                if (riot1_snapshot_read_module(ctxptr, s) < 0
+                    || riot2_snapshot_read_module(ctxptr, s) < 0
+                    || fdc_snapshot_read_module(s, i) < 0)
                     return -1;
             }
         }
     }
 
-    if (drive_read_image_snapshot_module(s, 0) < 0
-        || drive_read_gcrimage_snapshot_module(s, 0) < 0)
+    if (drive_snapshot_read_image_module(s, 0) < 0
+        || drive_snapshot_read_gcrimage_module(s, 0) < 0)
         return -1;
-    if (drive_read_image_snapshot_module(s, 1) < 0
-        || drive_read_gcrimage_snapshot_module(s, 1) < 0)
+    if (drive_snapshot_read_image_module(s, 1) < 0
+        || drive_snapshot_read_gcrimage_module(s, 1) < 0)
         return -1;
-    if (drive_read_rom_snapshot_module(s, 0) < 0)
+    if (drive_snapshot_read_rom_module(s, 0) < 0)
         return -1;
-    if (drive_read_rom_snapshot_module(s, 1) < 0)
+    if (drive_snapshot_read_rom_module(s, 1) < 0)
         return -1;
 
     if (drive[0].type != DRIVE_TYPE_NONE)
@@ -492,7 +493,7 @@ int drive_read_snapshot_module(snapshot_t *s)
  *
  */
 
-static int drive_write_image_snapshot_module(snapshot_t *s, unsigned int dnr)
+static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -537,7 +538,7 @@ static int drive_write_image_snapshot_module(snapshot_t *s, unsigned int dnr)
     return 0;
 }
 
-static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr)
+static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -571,16 +572,16 @@ static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr)
     }
 
     switch(word) {
-    case 1581:
+      case 1581:
         len = D81_FILE_SIZE;
         break;
-    case 8050:
+      case 8050:
         len = D80_FILE_SIZE;
         break;
-    case 8250:
+      case 8250:
         len = D82_FILE_SIZE;
         break;
-    default:
+      default:
         log_error(drive_snapshot_log,
                   "Snapshot of disk image unknown (type %d)",
                   (int)word);
@@ -653,7 +654,8 @@ static int drive_read_image_snapshot_module(snapshot_t *s, unsigned int dnr)
 #define GCRIMAGE_SNAP_MAJOR 1
 #define GCRIMAGE_SNAP_MINOR 0
 
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr){
+static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
+{
     char snap_module_name[10];
     snapshot_module_t *m;
     BYTE *tmpbuf;
@@ -693,7 +695,7 @@ static int drive_write_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr)
     return 0;
 }
 
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr)
+static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
@@ -748,7 +750,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, unsigned int dnr)
 #define ROM_SNAP_MAJOR 1
 #define ROM_SNAP_MINOR 0
 
-static int drive_write_rom_snapshot_module(snapshot_t *s, unsigned int dnr)
+static int drive_snapshot_write_rom_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
@@ -815,7 +817,7 @@ static int drive_write_rom_snapshot_module(snapshot_t *s, unsigned int dnr)
     return 0;
 }
 
-static int drive_read_rom_snapshot_module(snapshot_t *s, unsigned int dnr)
+static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;

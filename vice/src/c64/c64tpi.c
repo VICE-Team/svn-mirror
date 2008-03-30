@@ -43,8 +43,8 @@
 #define mytpi_read tpi_read
 #define mytpi_peek tpi_peek
 #define mytpi_set_int tpi_set_int
-#define mytpi_write_snapshot_module tpi_write_snapshot_module
-#define mytpi_read_snapshot_module tpi_read_snapshot_module
+#define mytpi_snapshot_write_module tpi_snapshot_write_module
+#define mytpi_snapshot_read_module tpi_snapshot_read_module
 
 #define MYTPI_NAME      "TPI"
 

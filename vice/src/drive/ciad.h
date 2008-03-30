@@ -48,9 +48,9 @@ extern void cia1571_prevent_clk_overflow(struct drive_context_s *ctxptr,
 extern void cia1571_set_flag(struct drive_context_s *ctxptr);
 extern void cia1571_set_sdr(struct drive_context_s *ctxptr, BYTE received_byte);
 extern void cia1571_reset(struct drive_context_s *ctxptr);
-extern int cia1571_write_snapshot_module(struct drive_context_s *ctxptr,
+extern int cia1571_snapshot_write_module(struct drive_context_s *ctxptr,
                                          struct snapshot_s *p);
-extern int cia1571_read_snapshot_module(struct drive_context_s *ctxptr,
+extern int cia1571_snapshot_read_module(struct drive_context_s *ctxptr,
                                         struct snapshot_s *p);
 
 extern void cia1581_init(struct drive_context_s *ctxptr);
@@ -64,9 +64,9 @@ extern void cia1581_prevent_clk_overflow(struct drive_context_s *ctxptr,
                                          CLOCK sub);
 extern void cia1581_set_flag(struct drive_context_s *ctxptr);
 extern void cia1581_set_sdr(struct drive_context_s *ctxptr, BYTE received_byte);extern void cia1581_reset(struct drive_context_s *ctxptr);
-extern int cia1581_write_snapshot_module(struct drive_context_s *ctxptr,
+extern int cia1581_snapshot_write_module(struct drive_context_s *ctxptr,
                                          struct snapshot_s *p);
-extern int cia1581_read_snapshot_module(struct drive_context_s *ctxptr,
+extern int cia1581_snapshot_read_module(struct drive_context_s *ctxptr,
                                         struct snapshot_s *p);
 
 typedef struct cia_initdesc_s {

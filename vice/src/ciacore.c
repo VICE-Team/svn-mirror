@@ -1087,7 +1087,7 @@ static void int_ciatod(CIA_CONTEXT_PARAM CLOCK offset)
  */
 
 /* FIXME!!!  Error check.  */
-int mycia_write_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
+int mycia_snapshot_write_module(CIA_CONTEXT_PARAM snapshot_t *p)
 {
     snapshot_module_t *m;
     int byte;
@@ -1175,7 +1175,7 @@ int mycia_write_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
     return 0;
 }
 
-int mycia_read_snapshot_module(CIA_CONTEXT_PARAM snapshot_t *p)
+int mycia_snapshot_read_module(CIA_CONTEXT_PARAM snapshot_t *p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

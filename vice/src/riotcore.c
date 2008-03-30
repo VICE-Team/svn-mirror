@@ -375,7 +375,7 @@ static void int_riot(RIOT_CONTEXT_PARAM CLOCK offset)
  *
  */
 
-int myriot_write_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
+int myriot_snapshot_write_module(RIOT_CONTEXT_PARAM snapshot_t * p)
 {
     snapshot_module_t *m;
 
@@ -405,7 +405,7 @@ int myriot_write_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
     return 0;
 }
 
-int myriot_read_snapshot_module(RIOT_CONTEXT_PARAM snapshot_t * p)
+int myriot_snapshot_read_module(RIOT_CONTEXT_PARAM snapshot_t * p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

@@ -56,8 +56,8 @@
 #define mypia_store pia1_store
 #define mypia_read pia1_read
 #define mypia_peek pia1_peek
-#define mypia_write_snapshot_module pia1_write_snapshot_module
-#define mypia_read_snapshot_module pia1_read_snapshot_module
+#define mypia_snapshot_write_module pia1_snapshot_write_module
+#define mypia_snapshot_read_module pia1_snapshot_read_module
 #define mypia_signal pia1_signal
 
 static piareg mypia;
@@ -88,7 +88,7 @@ static int set_diagnostic_pin_enabled(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "DiagPin", RES_INTEGER, (resource_value_t) 0,
+    { "DiagPin", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *) &diagnostic_pin_enabled,
       set_diagnostic_pin_enabled, NULL },
     { NULL }
@@ -101,9 +101,9 @@ int pia1_init_resources(void)
 
 
 static cmdline_option_t cmdline_options[] = {
-    { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t) 1,
+    { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
       NULL, "Enable userport diagnostic pin" },
-    { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t) 1,
+    { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
       NULL, "Disable userport diagnostic pin" },
     { NULL }
 };

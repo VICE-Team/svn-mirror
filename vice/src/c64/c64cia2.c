@@ -59,8 +59,8 @@
 #define mycia_peek cia2_peek
 #define mycia_set_flag cia2_set_flag
 #define mycia_set_sdr cia2_set_sdr
-#define mycia_write_snapshot_module cia2_write_snapshot_module
-#define mycia_read_snapshot_module cia2_read_snapshot_module
+#define mycia_snapshot_write_module cia2_snapshot_write_module
+#define mycia_snapshot_read_module cia2_snapshot_read_module
 
 #define mycia_debugFlag cia2_debugFlag
 #define myciat_logfl cia2t_logfl

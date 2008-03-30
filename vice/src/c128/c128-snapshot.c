@@ -201,12 +201,12 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     /* REU module: FIXME.  */
 
     /* IEEE 488 module.  */
-    if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
+    if (ieee488_enabled && tpi_snapshot_write_module(s) < 0)
         goto fail;
 
 #ifdef HAVE_RS232
     /* ACIA module.  */
-    if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
+    if (acia_de_enabled && acia1_snapshot_write_module(s) < 0)
         goto fail;
 #endif
 
@@ -262,7 +262,7 @@ int c128_snapshot_read_module(snapshot_t *s)
     /* REU module: FIXME.  */
 
     /* IEEE488 module.  */
-    if (tpi_read_snapshot_module(s) < 0) {
+    if (tpi_snapshot_read_module(s) < 0) {
         ieee488_enabled = 0;
     } else {
         ieee488_enabled = 1;
@@ -270,7 +270,7 @@ int c128_snapshot_read_module(snapshot_t *s)
 
 #ifdef HAVE_RS232
     /* ACIA module.  */
-    if (acia1_read_snapshot_module(s) < 0) {
+    if (acia1_snapshot_read_module(s) < 0) {
         acia_de_enabled = 0;
     } else {
         acia_de_enabled = 1;

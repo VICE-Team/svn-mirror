@@ -58,8 +58,8 @@ struct snapshot_s;
 extern void fdc_init(unsigned int fnum, BYTE *buffer_memory, BYTE *ipromp);
 extern void fdc_reset(unsigned int fnum, unsigned int enabled);
 
-extern int fdc_read_snapshot_module(struct snapshot_s *s, int drv);
-extern int fdc_write_snapshot_module(struct snapshot_s *s, int drv);
+extern int fdc_snapshot_read_module(struct snapshot_s *s, int drv);
+extern int fdc_snapshot_write_module(struct snapshot_s *s, int drv);
 
 struct disk_image_s;
 

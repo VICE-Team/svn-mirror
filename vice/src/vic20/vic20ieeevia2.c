@@ -48,8 +48,8 @@
 #define myvia_log ieeevia2_log
 #define myvia_signal ieeevia2_signal
 #define myvia_prevent_clk_overflow ieeevia2_prevent_clk_overflow
-#define myvia_read_snapshot_module ieeevia2_read_snapshot_module
-#define myvia_write_snapshot_module ieeevia2_write_snapshot_module
+#define myvia_snapshot_read_module ieeevia2_snapshot_read_module
+#define myvia_snapshot_write_module ieeevia2_snapshot_write_module
 
 #include "vice.h"
 

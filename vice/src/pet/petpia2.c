@@ -46,8 +46,8 @@
 #define mypia_store pia2_store
 #define mypia_read pia2_read
 #define mypia_peek pia2_peek
-#define mypia_write_snapshot_module pia2_write_snapshot_module
-#define mypia_read_snapshot_module pia2_read_snapshot_module
+#define mypia_snapshot_write_module pia2_snapshot_write_module
+#define mypia_snapshot_read_module pia2_snapshot_read_module
 #define mypia_signal pia2_signal
 
 static piareg mypia;

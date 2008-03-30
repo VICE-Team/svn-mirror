@@ -98,8 +98,8 @@
 #define myvia_log       (ctxptr->via1.log)
 #define myvia_signal    via1d_signal
 #define myvia_prevent_clk_overflow via1_prevent_clk_overflow
-#define myvia_read_snapshot_module via1d_read_snapshot_module
-#define myvia_write_snapshot_module via1d_write_snapshot_module
+#define myvia_snapshot_read_module via1d_snapshot_read_module
+#define myvia_snapshot_write_module via1d_snapshot_write_module
 
 
 #define iec_drivex_write(a)             (ctxptr->func.iec_write(a))

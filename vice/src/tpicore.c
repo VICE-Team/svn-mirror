@@ -369,7 +369,7 @@ void mytpi_restore_int(int bit, int state)
 static const char module_name[] = MYTPI_NAME;
 
 /* FIXME!!!  Error check.  */
-int mytpi_write_snapshot_module(snapshot_t *p)
+int mytpi_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
 
@@ -397,7 +397,7 @@ int mytpi_write_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-int mytpi_read_snapshot_module(snapshot_t *p)
+int mytpi_snapshot_read_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

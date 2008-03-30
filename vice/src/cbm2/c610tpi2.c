@@ -41,8 +41,8 @@
 #define mytpi_peek tpi2_peek
 #define mytpi_set_int tpi2_set_int
 #define mytpi_restore_int tpi2_restore_int
-#define mytpi_write_snapshot_module tpi2_write_snapshot_module
-#define mytpi_read_snapshot_module tpi2_read_snapshot_module
+#define mytpi_snapshot_write_module tpi2_snapshot_write_module
+#define mytpi_snapshot_read_module tpi2_snapshot_read_module
 
 #define MYTPI_NAME      "TPI2"
 

@@ -229,7 +229,7 @@ static const char module_name[] = MYACIA;
 
 /* FIXME!!!  Error check.  */
 /* FIXME!!!  If no connection, emulate carrier lost or so */
-int myacia_write_snapshot_module(snapshot_t *p)
+int myacia_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
 
@@ -256,7 +256,7 @@ int myacia_write_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-int myacia_read_snapshot_module(snapshot_t *p)
+int myacia_snapshot_read_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     BYTE byte;

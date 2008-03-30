@@ -54,9 +54,9 @@ extern BYTE REGPARM2 drive_read(struct drive_context_s *drv, ADDRESS addr);
 extern void drive_toggle_watchpoints(struct drive_context_s *drv, int flag);
 extern void drivex_cpu_execute(struct drive_context_s *drv, CLOCK clk_value);
 extern void drive_set_bank_base(struct drive_context_s *drv);
-extern int drive_cpu_write_snapshot_module(struct drive_context_s *drv,
+extern int drive_cpu_snapshot_write_module(struct drive_context_s *drv,
                                            struct snapshot_s *s);
-extern int drive_cpu_read_snapshot_module(struct drive_context_s *drv,
+extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
 
 /* to minimize changes in other modules */

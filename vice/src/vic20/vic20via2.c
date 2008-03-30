@@ -49,8 +49,8 @@
 #define myvia_log via2_log
 #define myvia_signal via2_signal
 #define myvia_prevent_clk_overflow via2_prevent_clk_overflow
-#define myvia_read_snapshot_module via2_read_snapshot_module
-#define myvia_write_snapshot_module via2_write_snapshot_module
+#define myvia_snapshot_read_module via2_snapshot_read_module
+#define myvia_snapshot_write_module via2_snapshot_write_module
 
 #define int_myviat1 int_via2t1
 #define int_myviat2 int_via2t2

@@ -43,8 +43,8 @@ struct drive_context_s;
 #define myriot_read     riot1_read
 #define myriot_peek     riot1_peek
 #define myriot_set_flag riot1_set_flag
-#define myriot_write_snapshot_module riot1_write_snapshot_module
-#define myriot_read_snapshot_module riot1_read_snapshot_module
+#define myriot_snapshot_write_module riot1_snapshot_write_module
+#define myriot_snapshot_read_module riot1_snapshot_read_module
 
 /*************************************************************************
  * CPU binding
