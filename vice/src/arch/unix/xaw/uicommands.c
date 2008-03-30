@@ -475,7 +475,7 @@ ui_menu_entry_t ui_tape_commands_menu[] = {
 };
 
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
-    { "Smart-attach tape/disk image...",
+    { "Smart-attach disk/tape...",
       (ui_callback_t) smart_attach, NULL, NULL,
       XK_a, UI_HOTMOD_META },
     { NULL }

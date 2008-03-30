@@ -50,27 +50,18 @@ int joystick_port_map[2];
 
 static int joyport1select(resource_value_t v)
 {
-
-    kbd_flag_joykeys(joystick_port_map[0], 0);	/* disable old mapping */
     joystick_port_map[0] = (int) v;
-    kbd_flag_joykeys(joystick_port_map[0], 1);	/* enable new mapping */
-
     return 0;
-};
+}
 
 static int joyport2select(resource_value_t v)
 {
-
-    kbd_flag_joykeys(joystick_port_map[1], 0);	/* disable old mapping */
     joystick_port_map[1] = (int) v;
-    kbd_flag_joykeys(joystick_port_map[1], 1);	/* enable new mapping */
-
     return 0;
-};
+}
 
 
-static resource_t resources[] =
-{
+static resource_t resources[] = {
     {"JoyDevice1", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & joystick_port_map[0], joyport1select},
     {"JoyDevice2", RES_INTEGER, (resource_value_t) 0,
@@ -80,13 +71,12 @@ static resource_t resources[] =
 
 /* Command-line options.  */
 
-static cmdline_option_t cmdline_options[] =
-{
-    { "-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-      "<0-5>", "Set device for joystick port 1" },
-    { "-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-      "<0-5>", "Set device for joystick port 2" },
-    { NULL },
+static cmdline_option_t cmdline_options[] = {
+    {"-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
+     "<0-5>", "Set device for joystick port 1"},
+    {"-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
+     "<0-5>", "Set device for joystick port 2"},
+    {NULL},
 };
 
 int joystick_init_resources(void)
@@ -112,8 +102,8 @@ int joystick_init_cmdline_options(void)
 #error Unknown Joystick
 #endif
 
-int ajoyfd[2] = { -1, -1 };
-int djoyfd[2] = { -1, -1 };
+int ajoyfd[2] = {-1, -1};
+int djoyfd[2] = {-1, -1};
 
 #define JOYCALLOOPS 100
 #define JOYSENSITIVITY 5
@@ -214,6 +204,7 @@ void joystick_close(void)
 void joystick(void)
 {
     int i;
+
     for (i = 1; i <= 2; i++) {
 	int joyport = joystick_port_map[i - 1];
 
@@ -229,7 +220,8 @@ void joystick(void)
 		    fprintf(stderr,
 			    "Warning: error reading the digital joystick device!\n");
 		} else {
-		    joy[i] = (joy[i] & 0xe0) | ((~(djs.switches >> 3)) & 0x1f);
+		    joy[2 - i] = ((joy[2 - i] & 0xe0)
+				  | ((~(djs.switches >> 3)) & 0x1f));
 		}
 	    }
 	} else
@@ -244,22 +236,16 @@ void joystick(void)
 		if (status != JS_RETURN) {
 		    fprintf(stderr, "Warning: error reading the joystick device!\n");
 		} else {
+		    joy[i] = 0;
+
 		    if (js.y < joyymin[ajoyport])
 			joy[i] |= 1;
-		    else
-			joy[i] &= ~1;
 		    if (js.y > joyymax[ajoyport])
 			joy[i] |= 2;
-		    else
-			joy[i] &= ~2;
 		    if (js.x < joyxmin[ajoyport])
 			joy[i] |= 4;
-		    else
-			joy[i] &= ~4;
 		    if (js.x > joyxmax[ajoyport])
 			joy[i] |= 8;
-		    else
-			joy[i] &= ~8;
 #ifdef LINUX_JOYSTICK
 		    if (js.buttons)
 			joy[i] |= 16;
@@ -267,9 +253,6 @@ void joystick(void)
 		    if (js.b1 || js.b2)
 			joy[i] |= 16;
 #endif
-		    else
-			joy[i] &= ~16;
-
 		}
 	    }
 	}
@@ -281,6 +264,7 @@ void joystick(void)
 void joystick_init(void)
 {
 }
+
 void joystick_close(void)
 {
 }

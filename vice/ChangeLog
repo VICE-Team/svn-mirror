@@ -1,3 +1,10 @@
+Fri Aug 21 22:48:14 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.62.
+
+	* configure.in: Pass joystick options in `JOYSTICK' again.  Do
+ 	`AC_PATH_XTRA' before checking for `-lsocket', `-lICE' and `-lSM'.
+
 Fri Aug 21 14:42:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.61.

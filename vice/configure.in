@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.61)
+AM_INIT_AUTOMAKE(vice, 0.14.2.62)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -220,17 +220,17 @@ dnl Check for system-specific header files.
 
 if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
   AC_CHECK_HEADER(linux/joystick.h,
-                  [ DEFS="$DEFS -DHAS_JOYSTICK -DLINUX_JOYSTICK";
+                  [ JOYSTICK="-DHAS_JOYSTICK -DLINUX_JOYSTICK";
 		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   if test x"$ac_cv_header_linux_joystick_h" = "xyes" ; then
     AC_MSG_CHECKING(whether linux/joystick.h supports digital joysticks)
     AC_TRY_COMPILE([ #include <linux/joystick.h> ],
 		   [ struct DJS_DATA_TYPE djs; ],
-		   [ DEFS="$DEFS -DHAS_DIGITAL_JOYSTICK"
+		   [ JOYSTICK="$JOYSTICK -DHAS_DIGITAL_JOYSTICK"
 		     AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
   fi
   AC_CHECK_HEADER(machine/joystick.h,
-                  [ DEFS="$DEFS -DHAS_JOYSTICK -DBSD_JOYSTICK";
+                  [ JOYSTICK="$JOYSTICK -DHAS_JOYSTICK -DBSD_JOYSTICK";
 		    JOY_OBJS='$(ARCHDIR)/joystick.o' ], )
   AC_SUBST(JOYSTICK)
   AC_SUBST(JOY_OBJS)
@@ -316,11 +316,11 @@ if [[ x"$is_dos" != "xyes" ]]; then
 
   X_LIBS=""
 
+  AC_PATH_XTRA
+
   AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS" ],,-lnsl)
   AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS" ],,$X_LIBS)
   AC_CHECK_LIB(SM, SmFreeProperty,[ X_LIBS="-lSM $X_LIBS" ],,$X_LIBS)
-
-  AC_PATH_XTRA
 
   dnl This is necessary because CPP tests use `CPPFLAGS' instead.
   dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11

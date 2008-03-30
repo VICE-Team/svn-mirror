@@ -415,21 +415,19 @@ c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h c64cia.h \
 	../../src/cia.h
-c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h \
-	../../src/vmachine.h ../../src/interrupt.h ../../src/types.h \
-	../../src/6510core.h ../../src/mem.h \
-	../../src/true1541/true1541.h ../../src/drive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/true1541/1541cpu.h ../../src/mos6510.h \
-	../../src/mon.h c64mem.h c64cia.h ../../src/cia.h \
-	../../src/resources.h ../../src/cmdline.h vicii.h \
-	../../src/maincpu.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h sid.h ../../src/sound.h \
-	../../src/warn.h ../../src/memutils.h ../../src/parallel.h \
-	c64tpi.h reu.h ../../src/tapeunit.h ../../src/tape.h \
-	../../src/emuid.h ../../src/utils.h patchrom.h \
-	../../src/cartridge.h c64acia.h
+c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64cia.h \
+	../../src/types.h ../../src/cia.h c64mem.h ../../src/mem.h \
+	c64tpi.h ../../src/cartridge.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/memutils.h \
+	../../src/parallel.h patchrom.h reu.h sid.h ../../src/sound.h \
+	../../src/warn.h ../../src/tapeunit.h ../../src/tape.h \
+	../../src/traps.h ../../src/true1541/true1541.h \
+	../../src/drive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/true1541/1541cpu.h ../../src/utils.h vicii.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h c64acia.h
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tpi.h ../../src/parallel.h
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
