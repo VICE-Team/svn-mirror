@@ -1,3 +1,80 @@
+2007-04-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.3.
+
+	* vicii/vicii-timing.h, vicii/vicii-cmdline-options.c,
+	vicii/vicii.h, vicii/vicii-resources.c, vicii/vicii-timing.c,
+	c64/c64.c, c128/c128.c, cbm2/cbm2.c, c128/c128-resources.c,
+	cbm2/cbm2-resources.c, arch/win32/uivicii.c: Moved and renamed
+	border mode defines.
+
+	* arch/win32/ui.c: Fixed a warning.
+
+	* arch/unix/gui/uivicii.c: Added border mode menu.
+
+	* vicii.h: Moved to main source directory.
+
+	* gfxoutput.h, gfxoutputdrv/gifdrv.h, arch/win32/gifdrv.c:
+	Moved prototype.
+
+	* Makefile.am, vicii/Makefile.am, arch/win32/Makefile.am,
+	arch/win32/arch.dsp: Updated.
+
+2007-03-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c, c128/c128cpu.c, vicii/vicii-badline.c,
+	vicii/vicii-fetch.c, vicii/vicii-mem.c, vicii/vicii.c,
+	vicii/viciitypes.h: Started the first step of the c128 2mhz
+	mode.
+
+2007-03-25  Gunnar Ruthenberg  <Krill.Plush@gmail.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resmenu.txt, arch/win32/resstrings.txt,
+	arch/win32/ui.c, machine.c, vsync.c, vsync.h:
+	Added WIN32 single frame advance UI command.
+
+2007-03-24  Gunnar Ruthenberg  <Krill.Plush@gmail.com>
+
+	* translate.c, translate.txt, arch/win32/resdialogs.txt,
+	arch/win32/resstrings.txt, arch/win32/resvicii.rc,
+	arch/win32/uivicii.c, c64/c128-resources.c, c128/c128.c,
+	c64/c64-resources.c, c64/c64.c, cbm2/cbm2-resources.c,
+	cbm2/cbm2.c, raster/raster-line.c, raster/raster.c,
+	vicii/vicii-cmdline-options.c, vicii/vicii-draw.c,
+	vicii/vicii-mem.c, vicii/vicii-resources.c,
+	vicii/vicii-resources.h, vicii/vicii-sprites.c,
+	vicii/vicii-timing.c, vicii/vicii-timing.h,
+	vicii/vicii.c, vicii/vicii.h, vicii/viciitypes.h,
+	video/render1x1pal.c, video/render2x2pal.c,
+	video/video-canvas.c: Added VIC-II border mode setting and the
+	WIN32 frontend for it.
+
+2007-03-23  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/archdep.c, arch/unix/gui/uicommands.c:
+	added --disable-bundle switch and MACOSX_BUNDLE define to
+	disable application bundle creation on Macs.
+
+2007-03-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/x11-launcher.sh: fixed typo in EMU selector
+
+2007-03-22  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* Makefile.am: introduced xxx_LIBS per module and emu_extlibs.
+	link executables against minimal set of required libs.
+
+2007-03-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/archdep.h: Changed the preferred libdir and docdir
+	for netbsd and freebsd.
+
+	* arch/unix/joy.c: Added support for sys/joystick.h header.
+
+	* arch/unix/joy_usb.c: Added sys/ioccom.h as needed for
+	freebsd.
+
 2007-03-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.2.
