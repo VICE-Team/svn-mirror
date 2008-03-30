@@ -35,13 +35,13 @@
 #include "ui.h"
 
 
-struct frame_buffer_s {
+struct video_frame_buffer_s {
   int width, height;
   PIXEL *tmpframebuffer;
   unsigned int tmpframebufferlinesize;
 };
 
-typedef struct frame_buffer_s frame_buffer_t;
+typedef struct video_frame_buffer_s video_frame_buffer_t;
 
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
@@ -51,7 +51,7 @@ struct _canvas {
   unsigned int scale;
   int shiftx, shifty;
   RO_Window *window;
-  frame_buffer_t fb;
+  video_frame_buffer_t fb;
   PIXEL *pixel_translation;
   unsigned int num_colours;
   unsigned int colour_table[256];
@@ -65,11 +65,11 @@ typedef struct canvas_list_t {
 } canvas_list_t;
 
 
-#define FRAME_BUFFER_POINTER_FIXUP(x)   ((*x))
-#define FRAME_BUFFER_START(i)		((i).tmpframebuffer)
-#define FRAME_BUFFER_LINE_SIZE(i)	((i).tmpframebufferlinesize)
-#define FRAME_BUFFER_LINE_START(i, n)	((i).tmpframebuffer \
-					+ (n) * (i).tmpframebufferlinesize)
+#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) ((x))
+#define VIDEO_FRAME_BUFFER_START(i)         ((i)->tmpframebuffer)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->tmpframebufferlinesize)
+#define VIDEO_FRAME_BUFFER_LINE_START(i, n) ((i)->tmpframebuffer \
+                                            + (n) * (i)->tmpframebufferlinesize)
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
 
