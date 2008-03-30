@@ -741,6 +741,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H)
     sound_init_uss_device();
 #endif
+#if defined(HAVE_ESD_H) && defined(HAVE_LIBESD)
+    sound_init_esd_device();
+#endif
 #if defined(HAVE_DMEDIA_AUDIO_H)
     sound_init_sgi_device();
 #endif

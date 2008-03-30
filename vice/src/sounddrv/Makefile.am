@@ -23,7 +23,8 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundsdl.c \
 	soundsgi.c \
 	soundsun.c \
-	sounduss.c
+	sounduss.c \
+	soundesd.c
 
 # These sources are always built.
 libsounddrv_a_SOURCES = \

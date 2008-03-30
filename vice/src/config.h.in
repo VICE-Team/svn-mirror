@@ -194,6 +194,9 @@
 /* Define if you have the <errno.h> header file.  */
 #undef HAVE_ERRNO_H
 
+/* Define if you have the <esd.h> header file.  */
+#undef HAVE_ESD_H
+
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
@@ -277,6 +280,9 @@
 
 /* Define if you have the audio library (-laudio).  */
 #undef HAVE_LIBAUDIO
+
+/* Define if you have the esd library (-lesd).  */
+#undef HAVE_LIBESD
 
 /* Name of package */
 #undef PACKAGE
