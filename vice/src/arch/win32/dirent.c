@@ -30,6 +30,7 @@
 #include "vice.h"
 
 #include <windows.h>
+#include <tchar.h>
 #include <stdlib.h>
 
 #ifdef HAVE_IO_H
@@ -38,6 +39,7 @@
 
 #include "dirent.h"
 #include "lib.h"
+#include "system.h"
 #include "util.h"
 
 
@@ -52,9 +54,12 @@ struct _vice_dir {
 DIR *opendir(const char *path)
 {
     DIR *dir;
+    char *filter;
 
     dir = lib_malloc(sizeof(DIR));
-    dir->filter = util_concat(path, "\\*", NULL);
+    filter = util_concat(path, "\\*", NULL);
+    dir->filter = system_mbstowcs_alloc(filter);
+    lib_free(filter);
     dir->handle = FindFirstFile(dir->filter, &dir->find_data);
     if (dir->handle == INVALID_HANDLE_VALUE)
         return NULL;
@@ -81,7 +86,7 @@ struct dirent *readdir(DIR *dir)
 void closedir(DIR *dir)
 {
     FindClose(dir->handle);
-    lib_free(dir->filter);
+    system_mbstowcs_free(dir->filter);
     lib_free(dir);
 }
 
