@@ -112,7 +112,7 @@ static void (*attention_callback_func)(void);
 /* Call this if device is not attached: -128 == device not present.  */
 static int fn(void)
 {
-    return (0x80);
+    return 0x80;
 }
 
 /* Handle Serial Bus Commands under Attention.  */
@@ -319,7 +319,7 @@ void serialreceivebyte(void)
     p->nextok[secadr] = 0;
     /* Fill buffer again.  */
     if (!st) {
-        st = (*(p->getf)) (vdrive, &(p->nextbyte[secadr]), secadr);
+        st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
         if (!st)
             p->nextok[secadr] = 1;
     }
