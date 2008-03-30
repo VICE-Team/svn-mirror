@@ -76,7 +76,7 @@ static int aiff_write(SWORD *pbuf, size_t nr)
 #ifndef WORDS_BIGENDIAN
   unsigned int i;
 
-  /* Swap bytes on big endian machines. */
+  /* Swap bytes on little endian machines. */
   for (i=0; i<nr; i++)
   {
     pbuf[i]=(((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);

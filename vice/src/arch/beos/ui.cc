@@ -627,6 +627,42 @@ void ui_dispatch_events(void)
 			case MENU_PAUSE:
         		ui_pause_emulation();
         		break;
+        	case MENU_SOUND_RECORD_AIFF:
+                  ui_select_file(windowlist[0]->savepanel,AIFF_FILE,(void*)0);
+                  resources_set_string("SoundRecordDeviceName", "");
+                  resources_set_string("SoundRecordDeviceName", "aiff");
+                  ui_display_statustext("Sound Recording Started...", 1);
+        		break;	
+        	case MENU_SOUND_RECORD_IFF:
+                  ui_select_file(windowlist[0]->savepanel,IFF_FILE,(void*)0);
+                  resources_set_string("SoundRecordDeviceName", "");
+                  resources_set_string("SoundRecordDeviceName", "iff");
+                  ui_display_statustext("Sound Recording Started...", 1);
+        		break;	
+#ifdef USE_LAMEMP3
+        	case MENU_SOUND_RECORD_MP3:
+                  ui_select_file(windowlist[0]->savepanel,MP3_FILE,(void*)0);
+                  resources_set_string("SoundRecordDeviceName", "");
+                  resources_set_string("SoundRecordDeviceName", "mp3");
+                  ui_display_statustext("Sound Recording Started...", 1);
+        		break;	
+#endif
+        	case MENU_SOUND_RECORD_VOC:
+                  ui_select_file(windowlist[0]->savepanel,VOC_FILE,(void*)0);
+                  resources_set_string("SoundRecordDeviceName", "");
+                  resources_set_string("SoundRecordDeviceName", "voc");
+                  ui_display_statustext("Sound Recording Started...", 1);
+        		break;	
+        	case MENU_SOUND_RECORD_WAV:
+                  ui_select_file(windowlist[0]->savepanel,WAV_FILE,(void*)0);
+                  resources_set_string("SoundRecordDeviceName", "");
+                  resources_set_string("SoundRecordDeviceName", "wav");
+                  ui_display_statustext("Sound Recording Started...", 1);
+        		break;	
+        	case MENU_SOUND_RECORD_STOP:
+                  resources_set_string("SoundRecordDeviceName", "");
+                  ui_display_statustext("Sound Recording Stopped...", 1);
+       		break;	
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
         		break;	

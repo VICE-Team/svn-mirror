@@ -99,5 +99,9 @@ int yyparse (void);
 #undef vfork
 #endif
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#undef inline
+#define inline
 #endif
 
+#endif

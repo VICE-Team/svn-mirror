@@ -75,7 +75,7 @@ void vicemenu_tune_menu_add(int tune) {
 BMenuBar *menu_create(int machine_class) {
 
 	BMenuBar *menubar;
-	BMenu *menu, *submenu, *uppermenu;
+	BMenu *menu, *submenu, *uppermenu, *extsubmenu;
 	BMenuItem *item;
 	
 	menubar = new BMenuBar (BRect(0,0,10,10),"Menubar");
@@ -337,6 +337,21 @@ BMenuBar *menu_create(int machine_class) {
 	/* sound options */
 	menu->AddItem(new BMenuItem("Sound", 
 		new BMessage(MENU_TOGGLE_SOUND)));
+        menu->AddItem(submenu = new BMenu("Sound Recording"));
+	submenu->AddItem(new BMenuItem("Sound Record AIFF",
+		new BMessage(MENU_SOUND_RECORD_AIFF)));
+	submenu->AddItem(new BMenuItem("Sound Record IFF",
+		new BMessage(MENU_SOUND_RECORD_AIFF)));
+#ifdef USE_LAMEMP3
+	submenu->AddItem(new BMenuItem("Sound Record MP3",
+		new BMessage(MENU_SOUND_RECORD_MP3)));
+#endif
+	submenu->AddItem(new BMenuItem("Sound Record VOC",
+		new BMessage(MENU_SOUND_RECORD_VOC)));
+	submenu->AddItem(new BMenuItem("Sound Record WAV",
+		new BMessage(MENU_SOUND_RECORD_WAV)));
+	submenu->AddItem(new BMenuItem("Stop Sound Record",
+		new BMessage(MENU_SOUND_RECORD_STOP)));
 	menu->AddSeparatorItem();
 	
 	if (!vsid_mode) {
@@ -381,118 +396,159 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(submenu = new BMenu("Expansion Carts"));
 			uppermenu = menu;
 			menu = submenu;
-			menu->AddItem(new BMenuItem("REU emulation",
+                        menu->AddItem(submenu = new BMenu("REU Options"));
+			submenu->AddItem(new BMenuItem("REU emulation",
 				new BMessage(MENU_TOGGLE_REU)));
-			menu->AddItem(submenu = new BMenu("REU size"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("128 kB",
+			submenu->AddItem(extsubmenu = new BMenu("REU size"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_REU_SIZE_128)));
-			submenu->AddItem(new BMenuItem("256 kB",
+			extsubmenu->AddItem(new BMenuItem("256 kB",
 				new BMessage(MENU_REU_SIZE_256)));
-			submenu->AddItem(new BMenuItem("512 kB",
+			extsubmenu->AddItem(new BMenuItem("512 kB",
 				new BMessage(MENU_REU_SIZE_512)));
-			submenu->AddItem(new BMenuItem("1024 kB",
+			extsubmenu->AddItem(new BMenuItem("1024 kB",
 				new BMessage(MENU_REU_SIZE_1024)));
-			submenu->AddItem(new BMenuItem("2048 kB",
+			extsubmenu->AddItem(new BMenuItem("2048 kB",
 				new BMessage(MENU_REU_SIZE_2048)));
-			submenu->AddItem(new BMenuItem("4096 kB",
+			extsubmenu->AddItem(new BMenuItem("4096 kB",
 				new BMessage(MENU_REU_SIZE_4096)));
-			submenu->AddItem(new BMenuItem("8192 kB",
+			extsubmenu->AddItem(new BMenuItem("8192 kB",
 				new BMessage(MENU_REU_SIZE_8192)));
-			submenu->AddItem(new BMenuItem("16384 kB",
+			extsubmenu->AddItem(new BMenuItem("16384 kB",
 				new BMessage(MENU_REU_SIZE_16384)));
+			submenu->AddItem(new BMenuItem("REU File",
+				new BMessage(MENU_REU_FILE)));
 
-			menu->AddItem(new BMenuItem("GEORAM emulation",
+			menu->AddItem(submenu = new BMenu("GEORAM Options"));
+			submenu->AddItem(new BMenuItem("GEORAM emulation",
 				new BMessage(MENU_TOGGLE_GEORAM)));
-			menu->AddItem(submenu = new BMenu("GEORAM size"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("64 kB",
+			submenu->AddItem(extsubmenu = new BMenu("GEORAM size"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("64 kB",
 				new BMessage(MENU_GEORAM_SIZE_64)));
-			submenu->AddItem(new BMenuItem("128 kB",
+			extsubmenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_GEORAM_SIZE_128)));
-			submenu->AddItem(new BMenuItem("256 kB",
+			extsubmenu->AddItem(new BMenuItem("256 kB",
 				new BMessage(MENU_GEORAM_SIZE_256)));
-			submenu->AddItem(new BMenuItem("512 kB",
+			extsubmenu->AddItem(new BMenuItem("512 kB",
 				new BMessage(MENU_GEORAM_SIZE_512)));
-			submenu->AddItem(new BMenuItem("1024 kB",
+			extsubmenu->AddItem(new BMenuItem("1024 kB",
 				new BMessage(MENU_GEORAM_SIZE_1024)));
-			submenu->AddItem(new BMenuItem("2048 kB",
+			extsubmenu->AddItem(new BMenuItem("2048 kB",
 				new BMessage(MENU_GEORAM_SIZE_2048)));
-			submenu->AddItem(new BMenuItem("4096 kB",
+			extsubmenu->AddItem(new BMenuItem("4096 kB",
 				new BMessage(MENU_GEORAM_SIZE_4096)));
+			submenu->AddItem(new BMenuItem("GEORAM File",
+				new BMessage(MENU_GEORAM_FILE)));
 
-			menu->AddItem(new BMenuItem("RAMCART emulation",
+			menu->AddItem(submenu = new BMenu("RAMCART Options"));
+			submenu->AddItem(new BMenuItem("RAMCART emulation",
 				new BMessage(MENU_TOGGLE_RAMCART)));
-			menu->AddItem(submenu = new BMenu("RAMCART size"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("64 kB",
+			submenu->AddItem(extsubmenu = new BMenu("RAMCART size"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("64 kB",
 				new BMessage(MENU_RAMCART_SIZE_64)));
-			submenu->AddItem(new BMenuItem("128 kB",
+			extsubmenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_RAMCART_SIZE_128)));
+			submenu->AddItem(new BMenuItem("RAMCART File",
+				new BMessage(MENU_RAMCART_FILE)));
 
-			menu->AddItem(new BMenuItem("Digimax emulation",
+			menu->AddItem(submenu = new BMenu("Digimax Options"));
+			submenu->AddItem(new BMenuItem("Digimax emulation",
 				new BMessage(MENU_TOGGLE_DIGIMAX)));
-			menu->AddItem(submenu = new BMenu("Digimax base"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("Userport Interface",
+			submenu->AddItem(extsubmenu = new BMenu("Digimax base"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("Userport Interface",
 				new BMessage(MENU_DIGIMAX_BASE_DD00)));
-			submenu->AddItem(new BMenuItem("$DE00",
+			extsubmenu->AddItem(new BMenuItem("$DE00",
 				new BMessage(MENU_DIGIMAX_BASE_DE00)));
-			submenu->AddItem(new BMenuItem("$DE20",
+			extsubmenu->AddItem(new BMenuItem("$DE20",
 				new BMessage(MENU_DIGIMAX_BASE_DE20)));
-			submenu->AddItem(new BMenuItem("$DE40",
+			extsubmenu->AddItem(new BMenuItem("$DE40",
 				new BMessage(MENU_DIGIMAX_BASE_DE40)));
-			submenu->AddItem(new BMenuItem("$DE60",
+			extsubmenu->AddItem(new BMenuItem("$DE60",
 				new BMessage(MENU_DIGIMAX_BASE_DE60)));
-			submenu->AddItem(new BMenuItem("$DE80",
+			extsubmenu->AddItem(new BMenuItem("$DE80",
 				new BMessage(MENU_DIGIMAX_BASE_DE80)));
-			submenu->AddItem(new BMenuItem("$DEA0",
+			extsubmenu->AddItem(new BMenuItem("$DEA0",
 				new BMessage(MENU_DIGIMAX_BASE_DEA0)));
-			submenu->AddItem(new BMenuItem("$DEC0",
+			extsubmenu->AddItem(new BMenuItem("$DEC0",
 				new BMessage(MENU_DIGIMAX_BASE_DEC0)));
-			submenu->AddItem(new BMenuItem("$DEE0",
+			extsubmenu->AddItem(new BMenuItem("$DEE0",
 				new BMessage(MENU_DIGIMAX_BASE_DEE0)));
-			submenu->AddItem(new BMenuItem("$DF00",
+			extsubmenu->AddItem(new BMenuItem("$DF00",
 				new BMessage(MENU_DIGIMAX_BASE_DF00)));
-			submenu->AddItem(new BMenuItem("$DF20",
+			extsubmenu->AddItem(new BMenuItem("$DF20",
 				new BMessage(MENU_DIGIMAX_BASE_DF20)));
-			submenu->AddItem(new BMenuItem("$DF40",
+			extsubmenu->AddItem(new BMenuItem("$DF40",
 				new BMessage(MENU_DIGIMAX_BASE_DF40)));
-			submenu->AddItem(new BMenuItem("$DF60",
+			extsubmenu->AddItem(new BMenuItem("$DF60",
 				new BMessage(MENU_DIGIMAX_BASE_DF60)));
-			submenu->AddItem(new BMenuItem("$DF80",
+			extsubmenu->AddItem(new BMenuItem("$DF80",
 				new BMessage(MENU_DIGIMAX_BASE_DF80)));
-			submenu->AddItem(new BMenuItem("$DFA0",
+			extsubmenu->AddItem(new BMenuItem("$DFA0",
 				new BMessage(MENU_DIGIMAX_BASE_DFA0)));
-			submenu->AddItem(new BMenuItem("$DFC0",
+			extsubmenu->AddItem(new BMenuItem("$DFC0",
 				new BMessage(MENU_DIGIMAX_BASE_DFC0)));
-			submenu->AddItem(new BMenuItem("$DFE0",
+			extsubmenu->AddItem(new BMenuItem("$DFE0",
 				new BMessage(MENU_DIGIMAX_BASE_DFE0)));
 
-			menu->AddItem(new BMenuItem("PLUS60K emulation",
-				new BMessage(MENU_TOGGLE_PLUS60K)));
-			menu->AddItem(submenu = new BMenu("PLUS60K base"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("$D040",
-				new BMessage(MENU_PLUS60K_BASE_D040)));
-			submenu->AddItem(new BMenuItem("$D100",
-				new BMessage(MENU_PLUS60K_BASE_D100)));
+			if (machine_class == VICE_MACHINE_C64) {
+				menu->AddItem(submenu = new BMenu("PLUS60K Options"));
+				submenu->AddItem(new BMenuItem("PLUS60K emulation",
+					new BMessage(MENU_TOGGLE_PLUS60K)));
+				submenu->AddItem(extsubmenu = new BMenu("PLUS60K base"));
+				extsubmenu->SetRadioMode(true);
+				extsubmenu->AddItem(new BMenuItem("$D040",
+					new BMessage(MENU_PLUS60K_BASE_D040)));
+				extsubmenu->AddItem(new BMenuItem("$D100",
+					new BMessage(MENU_PLUS60K_BASE_D100)));
+				submenu->AddItem(new BMenuItem("PLUS60K File",
+					new BMessage(MENU_PLUS60K_FILE)));
 
-			menu->AddItem(new BMenuItem("PLUS256K emulation",
-				new BMessage(MENU_TOGGLE_PLUS256K)));
+				menu->AddItem(submenu = new BMenu("PLUS256K Options"));
+				submenu->AddItem(new BMenuItem("PLUS256K emulation",
+					new BMessage(MENU_TOGGLE_PLUS256K)));
+				submenu->AddItem(new BMenuItem("PLUS256K File",
+					new BMessage(MENU_PLUS256K_FILE)));
 
-			menu->AddItem(new BMenuItem("256K emulation",
-				new BMessage(MENU_TOGGLE_C64_256K)));
-			menu->AddItem(submenu = new BMenu("C64_256K base"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("$DE00-$DE7F",
-				new BMessage(MENU_C64_256K_BASE_DE00)));
-			submenu->AddItem(new BMenuItem("$DE80-$DEFF",
-				new BMessage(MENU_C64_256K_BASE_DE80)));
-			submenu->AddItem(new BMenuItem("$DF00-$DF7F",
-				new BMessage(MENU_C64_256K_BASE_DF00)));
-			submenu->AddItem(new BMenuItem("$DF80-$DFFF",
-				new BMessage(MENU_C64_256K_BASE_DF80)));
+				menu->AddItem(submenu = new BMenu("C64_256K Options"));
+				submenu->AddItem(new BMenuItem("C64_256K emulation",
+					new BMessage(MENU_TOGGLE_C64_256K)));
+				submenu->AddItem(extsubmenu = new BMenu("C64_256K base"));
+				extsubmenu->SetRadioMode(true);
+				extsubmenu->AddItem(new BMenuItem("$DE00-$DE7F",
+					new BMessage(MENU_C64_256K_BASE_DE00)));
+				extsubmenu->AddItem(new BMenuItem("$DE80-$DEFF",
+					new BMessage(MENU_C64_256K_BASE_DE80)));
+				extsubmenu->AddItem(new BMenuItem("$DF00-$DF7F",
+					new BMessage(MENU_C64_256K_BASE_DF00)));
+				extsubmenu->AddItem(new BMenuItem("$DF80-$DFFF",
+					new BMessage(MENU_C64_256K_BASE_DF80)));
+				submenu->AddItem(new BMenuItem("C64_256K File",
+					new BMessage(MENU_C64_256K_FILE)));
+
+				menu->AddItem(submenu = new BMenu("MMC64 Options"));
+				submenu->AddItem(new BMenuItem("MMC64 emulation",
+					new BMessage(MENU_TOGGLE_MMC64)));
+				submenu->AddItem(extsubmenu = new BMenu("MMC64 revision"));
+				extsubmenu->SetRadioMode(true);
+				extsubmenu->AddItem(new BMenuItem("Revision A",
+					new BMessage(MENU_MMC64_REVISION_A)));
+				extsubmenu->AddItem(new BMenuItem("Revision B",
+					new BMessage(MENU_MMC64_REVISION_B)));
+				submenu->AddItem(new BMenuItem("MMC64 BIOS jumper",
+					new BMessage(MENU_TOGGLE_MMC64_FLASHJUMPER)));
+				submenu->AddItem(new BMenuItem("MMC64 BIOS save when changed",
+					new BMessage(MENU_TOGGLE_MMC64_SAVE)));
+				submenu->AddItem(new BMenuItem("MMC64 BIOS File",
+					new BMessage(MENU_MMC64_BIOS_FILE)));
+				submenu->AddItem(new BMenuItem("MMC64 Image read-only",
+					new BMessage(MENU_TOGGLE_MMC64_READ_ONLY)));
+				submenu->AddItem(new BMenuItem("MMC64 Image File",
+					new BMessage(MENU_MMC64_IMAGE_FILE)));
+			}
 
 			menu = uppermenu;
 		}
@@ -516,24 +572,79 @@ BMenuBar *menu_create(int machine_class) {
 			menu->AddItem(new BMenuItem("PET ...", 
 				new BMessage(MENU_PET_SETTINGS)));
 
-			menu->AddItem(new BMenuItem("PET REU emulation",
+			menu->AddItem(submenu = new BMenu("PET REU Options"));
+			submenu->AddItem(new BMenuItem("PET REU emulation",
 				new BMessage(MENU_TOGGLE_PETREU)));
-			menu->AddItem(submenu = new BMenu("PET REU size"));
-			submenu->SetRadioMode(true);
-			submenu->AddItem(new BMenuItem("128 kB",
+			submenu->AddItem(extsubmenu = new BMenu("PET REU size"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_PETREU_SIZE_128)));
-			submenu->AddItem(new BMenuItem("512 kB",
+			extsubmenu->AddItem(new BMenuItem("512 kB",
 				new BMessage(MENU_PETREU_SIZE_512)));
-			submenu->AddItem(new BMenuItem("1024 kB",
+			extsubmenu->AddItem(new BMenuItem("1024 kB",
 				new BMessage(MENU_PETREU_SIZE_1024)));
-			submenu->AddItem(new BMenuItem("2048 kB",
+			extsubmenu->AddItem(new BMenuItem("2048 kB",
 				new BMessage(MENU_PETREU_SIZE_2048)));
+			menu->AddItem(new BMenuItem("PET REU File",
+				new BMessage(MENU_PETREU_FILE)));
 		}
 		if (machine_class == VICE_MACHINE_VIC20) {
 			menu->AddItem(new BMenuItem("VIC20 ...", 
 				new BMessage(MENU_VIC20_SETTINGS)));
 		}
-	
+		if (machine_class == VICE_MACHINE_VIC20 ||
+		    machine_class == VICE_MACHINE_PLUS4 ||
+                machine_class == VICE_MACHINE_PET) {
+
+			menu->AddItem(submenu = new BMenu("SIDCART Options"));
+			submenu->AddItem(new BMenuItem("SIDCART emulation",
+				new BMessage(MENU_TOGGLE_SIDCART)));
+			submenu->AddItem(extsubmenu = new BMenu("SIDCART model"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("6581",
+				new BMessage(MENU_SIDCART_MODEL_6581)));
+			extsubmenu->AddItem(new BMenuItem("8580",
+				new BMessage(MENU_SIDCART_MODEL_8580)));
+			submenu->AddItem(new BMenuItem("SIDCART filters",
+				new BMessage(MENU_TOGGLE_SIDCART_FILTERS)));
+			submenu->AddItem(extsubmenu = new BMenu("SIDCART address"));
+			extsubmenu->SetRadioMode(true);
+                  if (machine_class == VICE_MACHINE_PET) {
+				extsubmenu->AddItem(new BMenuItem("$8F00",
+					new BMessage(MENU_SIDCART_ADDRESS_1)));
+				extsubmenu->AddItem(new BMenuItem("$E900",
+					new BMessage(MENU_SIDCART_ADDRESS_2)));
+			}
+                  if (machine_class == VICE_MACHINE_PLUS4) {
+				extsubmenu->AddItem(new BMenuItem("$FD40",
+					new BMessage(MENU_SIDCART_ADDRESS_1)));
+				extsubmenu->AddItem(new BMenuItem("$FE80",
+					new BMessage(MENU_SIDCART_ADDRESS_2)));
+			}
+                  if (machine_class == VICE_MACHINE_VIC20) {
+				extsubmenu->AddItem(new BMenuItem("$9800",
+					new BMessage(MENU_SIDCART_ADDRESS_1)));
+				extsubmenu->AddItem(new BMenuItem("$9C00",
+					new BMessage(MENU_SIDCART_ADDRESS_2)));
+			}
+			submenu->AddItem(extsubmenu = new BMenu("SIDCART clock"));
+			extsubmenu->SetRadioMode(true);
+			extsubmenu->AddItem(new BMenuItem("C64",
+				new BMessage(MENU_SIDCART_CLOCK_C64)));
+                  if (machine_class == VICE_MACHINE_PET) {
+				extsubmenu->AddItem(new BMenuItem("PET",
+					new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
+			}
+                  if (machine_class == VICE_MACHINE_PLUS4) {
+				extsubmenu->AddItem(new BMenuItem("PLUS4",
+					new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
+			}
+                  if (machine_class == VICE_MACHINE_VIC20) {
+				extsubmenu->AddItem(new BMenuItem("PLUS4",
+					new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
+			}
+		}
+
 		menu->AddItem(new BMenuItem("Video ...", 
 			new BMessage(MENU_VIDEO_SETTINGS)));
 		menu->AddItem(new BMenuItem("Device ...", 

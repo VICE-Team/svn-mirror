@@ -826,7 +826,7 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
         return;
 
     
-    sprintf(name,"%s%s",name,extension);
+    sprintf(name,"%s%c%s",name,FSDEV_EXT_SEP_CHR,extension);
 }
 
 char *util_get_extension(char *filename)

@@ -26,21 +26,47 @@
 
 #include "vice.h"
 
-#include <Message.h>
+#include <Alert.h>
+#include <Application.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
 
 extern "C" {
+#include "archdep.h"
 #include "constants.h"
-#include "petui.h"
+#include "resources.h"
+#include "statusbar.h"
+#include "types.h"
 #include "ui.h"
+#include "ui_file.h"
 #include "ui_pet.h"
+#include "util.h"
+#include "viceapp.h"
+#include "vicewindow.h"
 }
+
+extern ViceWindow *windowlist[];
 
 ui_menu_toggle  pet_ui_menu_toggles[]={
     { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PETREU", MENU_TOGGLE_PETREU },
+    { "SidCart", MENU_TOGGLE_SIDCART },
+    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { NULL, 0 }
 };
 
@@ -52,21 +78,47 @@ ui_res_possible_values PETREUSize[] = {
         {-1, 0}
 };
 
+ui_res_possible_values pet_SIDCARTModel[] = {
+        {0, MENU_SIDCART_MODEL_6581},
+        {1, MENU_SIDCART_MODEL_8580},
+        {-1, 0}
+};
+
+ui_res_possible_values pet_SIDCARTAddress[] = {
+        {0, MENU_SIDCART_ADDRESS_1},
+        {1, MENU_SIDCART_ADDRESS_2},
+        {-1, 0}
+};
+
+ui_res_possible_values pet_SIDCARTClock[] = {
+        {0, MENU_SIDCART_CLOCK_C64},
+        {1, MENU_SIDCART_CLOCK_NATIVE},
+        {-1, 0}
+};
+
 void pet_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-      case MENU_PET_SETTINGS:
-        ui_pet();
-        break;
-      default: ;
+        case MENU_PET_SETTINGS:
+            ui_pet();
+            break;
+        case MENU_PETREU_FILE:
+            ui_select_file(windowlist[0]->savepanel,PETREU_FILE,(void*)0);
+            break;
+
+        default: ;
     }
 }
 
 ui_res_value_list pet_ui_res_values[] = {
     {"PETREUsize", PETREUSize},
+    {"SidModel", pet_SIDCARTModel},
+    {"SidAddress", pet_SIDCARTAddress},
+    {"SidClock", pet_SIDCARTClock},
     {NULL,NULL}
 };
 
+extern "C" {
 int petui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
@@ -78,5 +130,7 @@ int petui_init(void)
 
 void petui_shutdown(void)
 {
+}
+
 }
 

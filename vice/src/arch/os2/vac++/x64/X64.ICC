@@ -68,6 +68,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/gfxoutputdrv.icc"
         include "../incl/iec.icc"
         include "../incl/iecbus.icc"
+        include "../incl/iecc64exp.icc"
         include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"

@@ -4,4 +4,5 @@ source type(c)
     "iec/memiec.c",
     "iec/cia1571d.c",
     "iec/cia1581d.c",
-    "iec/via1d1541.c"
+    "iec/via1d1541.c",
+    "iec/mc6821.c"

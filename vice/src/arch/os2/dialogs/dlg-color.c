@@ -71,7 +71,7 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             resources_get_int("ColorSaturation", &val);
             SetSliderPos(hwnd, ID_SATURATION, val/10);
-            resources_get_("ColorContrast", &val);
+            resources_get_int("ColorContrast", &val);
             SetSliderPos(hwnd, ID_CONTRAST, val/10);
             resources_get_int("ColorBrightness", &val);
             SetSliderPos(hwnd, ID_BRIGHTNESS, val/10);

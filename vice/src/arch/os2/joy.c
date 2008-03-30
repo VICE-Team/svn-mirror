@@ -129,7 +129,7 @@ static int set_joy(resource_value_t v, void *param)
 }
 
 #define DEFINE_RES_SET_CALDATA(txt, num, dir, def)              \
-    { txt, RES_INTEGER, (resource_value_t) def,                 \
+    { txt, (resource_value_t) def,                 \
       RES_EVENT_NO, NULL,                                       \
       (resource_value_t *) &(joy[num].direction[dir]), set_joy, \
       (void*)((num<<5)|dir) }

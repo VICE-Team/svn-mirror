@@ -32,6 +32,23 @@
 - The Linux/DGA1 and Linux/VIDMODE fullscreen support may be unstable
   on some systems. Double size/scan does not work currenty.
 
+- openGL sync is not well integrated in the current vsync code -
+  switching back and forth xrandr fullscreen when openGL sync is
+  activated might lead to strange vsync behavior; ie. very long time
+  until 100% and decent fps rate is reached again.
+  To avoid this deactivate openGL sync before leaving or entering
+  fullscreen modes.
+
+- Gnome2: enabling double size no longer resizes the canvas
+  window. This is intentional and the user is obliged to resize the
+  window to the desired size.
+  Any suggestions to automate enlarging AND shrinking to the proper
+  canvas window needs are appreciated (non HW scaling support).
+
+- Xaw/XRandR fullscreen doesn't maximize the window automatically; for
+  some reason the window manager hint is ignored. See also comment in 
+  src/arch/unix/x11/xaw/x11ui.c:1443.
+
 - The Image preview does not make use of CBM font in the Gnome2 port.
 
 - The custom TextField widget is buggy and can cause crashes on

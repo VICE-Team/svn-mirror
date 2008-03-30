@@ -418,6 +418,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 #ifdef GP2X
     static unsigned int tmp_string_counter = 0;
     char *tmp;
+    FILE *fd;
 
     tmp = lib_msprintf("vice%d.tmp", tmp_string_counter++);
 

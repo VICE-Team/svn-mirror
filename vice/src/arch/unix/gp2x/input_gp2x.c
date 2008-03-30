@@ -192,3 +192,7 @@ void gp2x_poll_input() {
 	else j&=~0x10;
 	joystick_value[cur_port]=j;
 }
+
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+}

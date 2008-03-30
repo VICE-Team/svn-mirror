@@ -38,6 +38,8 @@ mkdir -p VICE-$2/usr/local/lib/locale/pl/LC_MESSAGES
 mv /usr/local/lib/locale/pl/LC_MESSAGES/vice.* VICE-$2/usr/local/lib/locale/pl/LC_MESSAGES
 mkdir -p VICE-$2/usr/local/lib/locale/nl/LC_MESSAGES
 mv /usr/local/lib/locale/nl/LC_MESSAGES/vice.* VICE-$2/usr/local/lib/locale/nl/LC_MESSAGES
+mkdir -p VICE-$2/usr/local/lib/locale/hu/LC_MESSAGES
+mv /usr/local/lib/locale/hu/LC_MESSAGES/vice.* VICE-$2/usr/local/lib/locale/hu/LC_MESSAGES
 mkdir VICE-$2/usr/local/bin
 mv /usr/local/bin/vsid VICE-$2/usr/local/bin
 mv /usr/local/bin/x64 VICE-$2/usr/local/bin
@@ -80,7 +82,6 @@ if test x"$5" = "xzip"; then
   find . -print | pkgproto >prototype.tmp
   echo >prototype "i pkginfo=./pkginfo"
   $currentdir/convertprototype prototype.tmp >>prototype
-  rm -f -r prototype.tmp
 
   arch_cpu=`uname -m`
   if test x"$arch_cpu" = "xi86pc"; then
@@ -127,13 +128,16 @@ _END
 
   packagename=vice-$2-$arch_version-$arch_cpu-local
 
+  echo >$currentdir/input.txt all
+
   pkgmk -r `pwd`
+  rm -f -r prototype.tmp
   cd /var/spool/pkg
-  pkgtrans -s `pwd` /tmp/$packagename
+  pkgtrans -s `pwd` /tmp/$packagename <$currentdir/input.txt
   gzip /tmp/$packagename
   cd $currentdir
   mv /tmp/$packagename.gz ./
-  rm -f -r VICE-$2 convertprototype
+  rm -f -r VICE-$2 convertprototype $currentdir/input.txt
 
   echo SOLARIS port binary package generated as $packagename.gz
 else

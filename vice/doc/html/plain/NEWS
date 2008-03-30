@@ -5,6 +5,97 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.21
+======================
+
+** General
+----------
+
+- Added sound recording support.
+
+- Added aiff, iff, mp3 and wav sound dump drivers.
+
+** C128 changes
+---------------
+
+- Added digimax support.
+
+** C64 changes
+--------------
+
+- Added MMC64 support.
+
+- Added digimax support.
+
+** PET changes
+--------------
+
+- Added SID cartridge support.
+
+- Extended the PET REU emulation to include 512/1024/2048KB.
+
+** PLUS4 changes
+----------------
+
+- Added SID cartridge support.
+
+** VIC20 changes
+----------------
+
+- Added SID cartridge support.
+
+** Unix changes
+---------------
+
+- New Hungarian translations.
+
+** MS-Windows changes
+---------------------
+
+- Added Hungarian translations.
+
+- Added giflib/libungif dll support.
+
+** MS-DOS changes
+-----------------
+
+** Mac OSX X11 changes
+----------------------
+
+** AmigaOS changes
+------------------
+
+- Fixed some UI dialog bugs.
+
+- Added Hungarian translations.
+
+- Added more (previously missing) UI elements.
+
+- Added native MorphOS icons.
+
+- Fixed for native AmigaOS4 compile.
+
+- Added VBCC build scripts.
+
+- New experimental ppc-warpos port.
+
+- New experimental ppc-powerup port.
+
+** BeOS changes
+---------------
+
+- Fixed to also run on ZETA.
+
+- New ppc-beos port.
+
+- Added (previously missing) UI elements.
+
+** Miscellaneous changes
+------------------------
+
+- Fixed the setting of illegal filenames.
+
+
 * Changes in VICE 1.20
 ======================
 

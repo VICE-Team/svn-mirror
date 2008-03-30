@@ -26,19 +26,39 @@
 
 #include "vice.h"
 
-#include <Message.h>
+#include <Alert.h>
+#include <Application.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
 #include <stdio.h>
-#include "vicewindow.h"
+#include <stdlib.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
 
 extern "C" {
+#include "archdep.h"
 #include "cartridge.h"
 #include "constants.h"
+#include "resources.h"
+#include "statusbar.h"
+#include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_vic20.h"
+#include "util.h"
 #include "vic20ui.h"
+#include "viceapp.h"
+#include "vicewindow.h"
 }
-
 
 ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -47,6 +67,8 @@ ui_menu_toggle  vic20_ui_menu_toggles[]={
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICScale2x", MENU_TOGGLE_SCALE2X },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
+    { "SidCart", MENU_TOGGLE_SIDCART },
+    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { NULL, 0 }
 };
 
@@ -138,10 +160,36 @@ void vic20_ui_specific(void *msg, void *window)
 }
 
 
+ui_res_possible_values vic20_SIDCARTModel[] = {
+        {0, MENU_SIDCART_MODEL_6581},
+        {1, MENU_SIDCART_MODEL_8580},
+        {-1, 0}
+};
+
+ui_res_possible_values vic20_SIDCARTAddress[] = {
+        {0, MENU_SIDCART_ADDRESS_1},
+        {1, MENU_SIDCART_ADDRESS_2},
+        {-1, 0}
+};
+
+ui_res_possible_values vic20_SIDCARTClock[] = {
+        {0, MENU_SIDCART_CLOCK_C64},
+        {1, MENU_SIDCART_CLOCK_NATIVE},
+        {-1, 0}
+};
+
+ui_res_value_list vic20_ui_res_values[] = {
+    {"SidModel", vic20_SIDCARTModel},
+    {"SidAddress", vic20_SIDCARTAddress},
+    {"SidClock", vic20_SIDCARTClock},
+    { NULL, NULL }
+};
+
 int vic20ui_init(void)
 {
     ui_register_machine_specific(vic20_ui_specific);
     ui_register_menu_toggles(vic20_ui_menu_toggles);
+    ui_register_res_values(vic20_ui_res_values);
     ui_update_menus();
     return 0;
 }
@@ -154,4 +202,3 @@ int vic20_cartridge_attach_image(int type, const char *filename)
 {
 	return cartridge_attach_image(type, filename);
 }
-

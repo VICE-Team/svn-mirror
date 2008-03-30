@@ -9,9 +9,13 @@
 echo "Generating Minix-3.x binary archive"
 
 # see if we are in the top of the tree
-if [ ! -e configure.in ]; then
-  echo "please run this script from the base of the VICE directory"
-  exit 1
+if [ ! -f configure.in ]; then
+  cd ../..
+  if [ ! -f configure.in ]; then
+    echo "please run this script from the base of the VICE directory"
+    echo "or from the appropriate build directory"
+    exit 1
+  fi
 fi
 
 cp build/minix3/build.sh ./build.minix

@@ -124,6 +124,12 @@ const uint32 MENU_TOGGLE_PLUS256K					= 'M148';
 const uint32 MENU_TOGGLE_C64_256K					= 'M144';
 const uint32 MENU_TOGGLE_PETREU					= 'M147';
 const uint32 MENU_TOGGLE_DIGIMAX					= 'M149';
+const uint32 MENU_TOGGLE_MMC64					= 'M039';
+const uint32 MENU_TOGGLE_MMC64_FLASHJUMPER			= 'M057';
+const uint32 MENU_TOGGLE_MMC64_SAVE					= 'M068';
+const uint32 MENU_TOGGLE_MMC64_READ_ONLY				= 'M058';
+const uint32 MENU_TOGGLE_SIDCART					= 'M085';
+const uint32 MENU_TOGGLE_SIDCART_FILTERS				= 'M086';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
 const uint32 MENU_TOGGLE_DIRECTWINDOW			= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';
@@ -187,6 +193,8 @@ const uint32 MENU_REU_SIZE_4096					= 'M405';
 const uint32 MENU_REU_SIZE_8192					= 'M406';
 const uint32 MENU_REU_SIZE_16384				= 'M407';
 
+const uint32 MENU_REU_FILE					= 'M012';
+
 const uint32 MENU_GEORAM_SIZE_64					= 'M450';
 const uint32 MENU_GEORAM_SIZE_128					= 'M451';
 const uint32 MENU_GEORAM_SIZE_256					= 'M452';
@@ -195,21 +203,33 @@ const uint32 MENU_GEORAM_SIZE_1024					= 'M454';
 const uint32 MENU_GEORAM_SIZE_2048					= 'M455';
 const uint32 MENU_GEORAM_SIZE_4096					= 'M456';
 
+const uint32 MENU_GEORAM_FILE						= 'M023';
+
 const uint32 MENU_RAMCART_SIZE_64					= 'M457';
 const uint32 MENU_RAMCART_SIZE_128					= 'M458';
 
+const uint32 MENU_RAMCART_FILE					= 'M034';
+
 const uint32 MENU_PLUS60K_BASE_D040					= 'M459';
 const uint32 MENU_PLUS60K_BASE_D100					= 'M460';
+
+const uint32 MENU_PLUS60K_FILE					= 'M035';
+
+const uint32 MENU_PLUS256K_FILE					= 'M036';
 
 const uint32 MENU_C64_256K_BASE_DE00				= 'M459';
 const uint32 MENU_C64_256K_BASE_DE80				= 'M460';
 const uint32 MENU_C64_256K_BASE_DF00				= 'M461';
 const uint32 MENU_C64_256K_BASE_DF80				= 'M462';
 
+const uint32 MENU_C64_256K_FILE					= 'M037';
+
 const uint32 MENU_PETREU_SIZE_128					= 'M463';
 const uint32 MENU_PETREU_SIZE_512					= 'M464';
 const uint32 MENU_PETREU_SIZE_1024					= 'M465';
 const uint32 MENU_PETREU_SIZE_2048					= 'M466';
+
+const uint32 MENU_PETREU_FILE						= 'M038';
 
 const uint32 MENU_DIGIMAX_BASE_DD00					= 'M467';
 const uint32 MENU_DIGIMAX_BASE_DE00					= 'M468';
@@ -228,6 +248,32 @@ const uint32 MENU_DIGIMAX_BASE_DF80					= 'M480';
 const uint32 MENU_DIGIMAX_BASE_DFA0					= 'M481';
 const uint32 MENU_DIGIMAX_BASE_DFC0					= 'M482';
 const uint32 MENU_DIGIMAX_BASE_DFE0					= 'M483';
+
+const uint32 MENU_MMC64_REVISION_A					= 'M066';
+const uint32 MENU_MMC64_REVISION_B					= 'M067';
+
+const uint32 MENU_MMC64_BIOS_FILE					= 'M059';
+const uint32 MENU_MMC64_IMAGE_FILE					= 'M065';
+
+const uint32 MENU_SOUND_RECORD_AIFF					= 'M069';
+const uint32 MENU_SOUND_RECORD_IFF					= 'M080';
+const uint32 MENU_SOUND_RECORD_MP3					= 'M081';
+const uint32 MENU_SOUND_RECORD_VOC					= 'M082';
+const uint32 MENU_SOUND_RECORD_WAV					= 'M083';
+const uint32 MENU_SOUND_RECORD_STOP					= 'M084';
+
+const uint32 MENU_SIDCART_MODEL					= 'M087';
+const uint32 MENU_SIDCART_ADDRESS					= 'M088';
+const uint32 MENU_SIDCART_CLOCK					= 'M089';
+
+const uint32 MENU_SIDCART_MODEL_6581				= 'M090';
+const uint32 MENU_SIDCART_MODEL_8580				= 'M091';
+
+const uint32 MENU_SIDCART_ADDRESS_1					= 'M092';
+const uint32 MENU_SIDCART_ADDRESS_2					= 'M093';
+
+const uint32 MENU_SIDCART_CLOCK_C64					= 'M094';
+const uint32 MENU_SIDCART_CLOCK_NATIVE				= 'M095';
 
 const uint32 MENU_ABOUT							= 'M901';
 const uint32 MENU_CONTRIBUTORS					= 'M902';

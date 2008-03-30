@@ -28,6 +28,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
     incl(searchpath, "..\\..\\..\\..\\serial"),
+    incl(searchpath, "..\\..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
@@ -61,6 +62,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/iec.icc"
         include "../incl/iecbus.icc"
         include "../incl/iecieee.icc"
+        include "../incl/iecplus4exp.icc"
         include "../incl/imagecontents.icc"
         include "../incl/kbd.icc"
         include "../incl/mainsrc.icc"
@@ -70,6 +72,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/raster.icc"
         include "../incl/rs232drv.icc"
         include "../incl/tape.icc"
+        include "../incl/resid.icc"
         include "../incl/resources.icc"
         include "../incl/serial.icc"
         include "../incl/sounddrv.icc"

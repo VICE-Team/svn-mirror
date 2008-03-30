@@ -15,6 +15,7 @@ source type(c)
         "cbm2printer.c",
 	"cbm2rom.c",
  	"cbm2romset.c",
+        "cbm2sound.c",
 	"cbm2tpi1.c",
 	"cbm2tpi2.c",
         "cbm2video.c"

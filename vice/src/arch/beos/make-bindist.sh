@@ -28,7 +28,7 @@ cp src/x64 src/x128 src/xvic BeVICE-$2.$3
 cp src/xpet src/xplus4 src/xcbm2 BeVICE-$2.$3
 cp src/c1541 src/petcat src/cartconv BeVICE-$2.$3
 cp -a data/C128 data/C64 data/CBM-II data/DRIVES BeVICE-$2.$3
-cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$2
+cp -a data/PET data/PLUS4 data/PRINTER data/VIC20 BeVICE-$2.$3
 cp -a data/fonts BeVICE-$2.$3
 mkdir BeVICE-$2.$3/doc
 cp -a $5/doc/html BeVICE-$2.$3/doc
@@ -36,7 +36,7 @@ cp $5/doc/iec-bus.txt BeVICE-$2.$3/doc
 cp $5/doc/mon.txt BeVICE-$2.$3/doc
 cp $5/doc/cartconv.txt BeVICE-$2.$3/doc
 cp $5/doc/Readme.beos BeVICE-$2.$3/doc
-cp $5/FEEDBACK $4/README BeVICE-$2.$3
+cp $5/FEEDBACK $5/README BeVICE-$2.$3
 rm `find BeVICE-$2.$3 -name "Makefile*"`
 rm `find BeVICE-$2.$3 -name "amiga_*.vkm"`
 rm `find BeVICE-$2.$3 -name "dos_*.vkm"`

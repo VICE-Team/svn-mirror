@@ -2,6 +2,7 @@ docdir = $(VICEDIR)/doc
 
 doc_DATA = \
 	amigaos.html \
+	beos.html \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \

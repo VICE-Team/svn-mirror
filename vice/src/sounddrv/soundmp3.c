@@ -40,7 +40,7 @@
 static FILE *mp3_fd=NULL;
 static int stereo=0;
 static SWORD pcm_buffer[PCM_BUFFER_SIZE];
-static char mp3_buffer[MP3_BUFFER_SIZE];
+static unsigned char mp3_buffer[MP3_BUFFER_SIZE];
 static lame_global_flags *gfp;
 
 static int mp3_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)

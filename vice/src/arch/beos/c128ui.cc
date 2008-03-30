@@ -26,16 +26,39 @@
 
 #include "vice.h"
 
-#include <Message.h>
+#include <Alert.h>
+#include <Application.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
 
 extern "C" {
-#include "c128ui.h"
-#include "constants.h" 
+#include "archdep.h"
+#include "constants.h"
 #include "resources.h"
+#include "statusbar.h"
+#include "types.h"
 #include "ui.h"
+#include "ui_file.h"
 #include "ui_vicii.h"
+#include "util.h"
+#include "viceapp.h"
+#include "vicewindow.h"
 }
+
+extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c128_ui_menu_toggles[]={
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -117,14 +140,24 @@ ui_res_value_list c128_ui_res_values[] = {
 void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-		case MENU_VICII_SETTINGS:
-        	ui_vicii();
+	  case MENU_VICII_SETTINGS:
+            ui_vicii();
         	break;
+        case MENU_REU_FILE:
+            ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);
+            break;
+        case MENU_GEORAM_FILE:
+            ui_select_file(windowlist[0]->savepanel,GEORAM_FILE,(void*)0);
+            break;
+        case MENU_RAMCART_FILE:
+            ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
+            break;
 
     	default: ;
     }
 }
 
+extern "C" {
 int c128ui_init(void)
 {
     ui_register_machine_specific(c128_ui_specific);
@@ -136,5 +169,7 @@ int c128ui_init(void)
 
 void c128ui_shutdown(void)
 {
+}
+
 }
 

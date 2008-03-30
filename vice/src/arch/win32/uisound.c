@@ -265,13 +265,13 @@ static void init_sound_record_dialog(HWND hwnd)
 }
 
 static char *sound_format[] = {
-  ".aiff",
-  ".iff",
+  "aiff",
+  "iff",
 #ifdef USE_LAMEMP3
-  ".mp3",
+  "mp3",
 #endif
-  ".voc",
-  ".wav"
+  "voc",
+  "wav"
 };
 
 static void end_sound_record_dialog(HWND hwnd)
@@ -290,7 +290,7 @@ static void end_sound_record_dialog(HWND hwnd)
 
   resources_set_string("SoundRecordDeviceName", "");
   resources_set_string("SoundRecordDeviceArg", s);
-  resources_set_string("SoundRecordDeviceName", sound_format[i]+1);
+  resources_set_string("SoundRecordDeviceName", sound_format[i]);
   resources_set_int("Sound", 1);
   ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);
 }

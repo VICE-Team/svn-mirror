@@ -38,6 +38,8 @@ mkdir -p VICE-$2/opt/lib/locale/pl/LC_MESSAGES
 mv /opt/lib/locale/pl/LC_MESSAGES/vice.* VICE-$2/opt/lib/locale/pl/LC_MESSAGES
 mkdir -p VICE-$2/opt/lib/locale/nl/LC_MESSAGES
 mv /opt/lib/locale/nl/LC_MESSAGES/vice.* VICE-$2/opt/lib/locale/nl/LC_MESSAGES
+mkdir -p VICE-$2/opt/lib/locale/hu/LC_MESSAGES
+mv /opt/lib/locale/hu/LC_MESSAGES/vice.* VICE-$2/opt/lib/locale/hu/LC_MESSAGES
 mkdir VICE-$2/opt/bin
 mv /opt/bin/vsid VICE-$2/opt/bin
 mv /opt/bin/x64 VICE-$2/opt/bin
@@ -318,6 +320,12 @@ _END
                            </QPM:Dir>
                         </QPM:Dir>
 
+                        <QPM:Dir name="hu">
+                           <QPM:Dir name="LC_MESSAGES">
+                              <QPM:File>vice.mo</QPM:File>
+                           </QPM:Dir>
+                        </QPM:Dir>
+
                         <QPM:Dir name="it">
                            <QPM:Dir name="LC_MESSAGES">
                               <QPM:File>vice.mo</QPM:File>
@@ -565,6 +573,10 @@ _END
 
                         <QPM:Dir name="fr">
                            <QPM:Union link="../../../../opt/lib/locale/fr/LC_MESSAGES">LC_MESSAGES</QPM:Union>
+                        </QPM:Dir>
+
+                        <QPM:Dir name="hu">
+                           <QPM:Union link="../../../../opt/lib/locale/hu/LC_MESSAGES">LC_MESSAGES</QPM:Union>
                         </QPM:Dir>
 
                         <QPM:Dir name="it">

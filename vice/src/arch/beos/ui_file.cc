@@ -300,6 +300,36 @@ void ui_select_file(ViceFilePanel *filepanel,
 		sprintf(title,"Select start snapshot");
 	if (filetype == SNAPSHOT_HISTORY_END)
 		sprintf(title,"Select end snapshot");
+	if (filetype == REU_FILE)
+		sprintf(title,"Select REU file");
+	if (filetype == GEORAM_FILE)
+		sprintf(title,"Select GEORAM file");
+	if (filetype == RAMCART_FILE)
+		sprintf(title,"Select RAMCART file");
+	if (filetype == PLUS60K_FILE)
+		sprintf(title,"Select +60K file");
+	if (filetype == PLUS256K_FILE)
+		sprintf(title,"Select +256K file");
+	if (filetype == C64_256K_FILE)
+		sprintf(title,"Select C64_256K file");
+	if (filetype == PETREU_FILE)
+		sprintf(title,"Select PET REU file");
+	if (filetype == MMC64_BIOS_FILE)
+		sprintf(title,"Select MMC64 BIOS file");
+	if (filetype == MMC64_IMAGE_FILE)
+		sprintf(title,"Select MMC64 image file");
+	if (filetype == AIFF_FILE)
+		sprintf(title,"Select AIFF Sound Recording file");
+	if (filetype == IFF_FILE)
+		sprintf(title,"Select IFF Sound Recording file");
+#ifdef USE_LAMEMP3
+	if (filetype == MP3_FILE)
+		sprintf(title,"Select MP3 Sound Recording file");
+#endif
+	if (filetype == VOC_FILE)
+		sprintf(title,"Select VOC Sound Recording file");
+	if (filetype == WAV_FILE)
+		sprintf(title,"Select WAV Sound Recording file");
 
 	filepanel->Window()->SetTitle(title);
 
@@ -354,6 +384,10 @@ void ui_select_file_action(BMessage *msg) {
     		BMessage *msg = new BMessage(PLAY_VSID);
     		msg->AddString("filename", path->Path());
     		ui_add_event(msg);
+    	} else if (last_filetype[0] == MMC64_BIOS_FILE) {
+            resources_set_string("MMC64BIOSfilename", path->Path());
+    	} else if (last_filetype[0] == MMC64_IMAGE_FILE) {
+            resources_set_string("MMC64imagefilename", path->Path());
    		}
 		
 		delete path;	
@@ -384,10 +418,39 @@ void ui_select_file_action(BMessage *msg) {
     	} else if (last_filetype[1] == SNAPSHOT_HISTORY_END) {
     		resources_set_string("EventEndSnapshot", name);
     		resources_set_string("EventSnapshotDir", path->Path());
-		}
-		
+      } else if (last_filetype[1] == REU_FILE) {
+            resources_set_string("REUfilename", name);
+      } else if (last_filetype[1] == GEORAM_FILE) {
+            resources_set_string("GEORAMfilename", name);
+      } else if (last_filetype[1] == RAMCART_FILE) {
+            resources_set_string("RAMCARTfilename", name);
+      } else if (last_filetype[1] == PLUS60K_FILE) {
+            resources_set_string("PLUS60Kfilename", name);
+      } else if (last_filetype[1] == PLUS256K_FILE) {
+            resources_set_string("PLUS256Kfilename", name);
+      } else if (last_filetype[1] == C64_256K_FILE) {
+            resources_set_string("C64_256Kfilename", name);
+      } else if (last_filetype[1] == PETREU_FILE) {
+            resources_set_string("PETREUfilename", name);
+      } else if (last_filetype[1] == AIFF_FILE) {
+            util_add_extension_const(name, "aiff");
+            resources_set_string("SoundRecordDeviceArg", name);
+      } else if (last_filetype[1] == IFF_FILE) {
+            util_add_extension_const(name, "iff");
+            resources_set_string("SoundRecordDeviceArg", name);
+#ifdef USE_LAMEMP3
+      } else if (last_filetype[1] == MP3_FILE) {
+            util_add_extension_const(name, "mp3");
+            resources_set_string("SoundRecordDeviceArg", name);
+#endif
+      } else if (last_filetype[1] == VOC_FILE) {
+            util_add_extension_const(name, "voc");
+            resources_set_string("SoundRecordDeviceArg", name);
+      } else if (last_filetype[1] == WAV_FILE) {
+            util_add_extension_const(name, "wav");
+            resources_set_string("SoundRecordDeviceArg", name);
+            }
 		delete path;
 		delete fullpath;
 	}
 }
-

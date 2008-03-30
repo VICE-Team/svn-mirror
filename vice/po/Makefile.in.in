@@ -231,7 +231,8 @@ update-po: Makefile intl2po $(POTFILES)
 	done
 
 intl2po: intl2po.c
-	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/intl2po.c -o intl2po
+@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/intl2po.c -o intl2po
+@CROSS_TRUE@	gcc $(srcdir)/intl2po.c -o intl2po
 
 POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \

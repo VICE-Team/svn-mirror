@@ -101,7 +101,7 @@ openGL_sync_with_raster(void)
     unsigned int c;
     if (openGL_sync && !no_sync)
 	if ((r = glXWaitVideoSyncSGI(mult, 0, &c)))
-	    log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
+	    log_error(openGL_log, _("glXWaitVideoSyncSGI() returned %d"), r);
 }
 
 void
@@ -128,7 +128,7 @@ init_openGL(void)
 			 attributeListSgl); 
     if (vi == NULL) 
     {
-	log_error(openGL_log, "glXChooseVisual() failed\n");
+	log_error(openGL_log, _("glXChooseVisual() failed"));
 	no_sync = 1;
 	return;
     }
@@ -139,7 +139,7 @@ init_openGL(void)
     cx = glXCreateContext(dpy, vi, 0, GL_TRUE);
     if (!cx)
     {
-	log_error(openGL_log, "glXCreateContext() failed\n");
+	log_error(openGL_log, _("glXCreateContext() failed"));
 	no_sync = 1;
 	return;
     }

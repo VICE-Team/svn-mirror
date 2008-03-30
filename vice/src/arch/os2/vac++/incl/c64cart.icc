@@ -1,5 +1,6 @@
 source type(c)
     "cart\\actionreplay.c",
+    "cart\\actionreplay3.c",
     "cart\\atomicpower.c",
     "cart\\c64cart.c",
     "cart\\c64cartmem.c",

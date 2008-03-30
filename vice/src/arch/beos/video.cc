@@ -24,15 +24,31 @@
  *
  */
 
+#include "vice.h"
+
 #define EXACT_TYPE_NEEDED
 
-#include "vicewindow.h"
+#include <Alert.h>
+#include <Application.h>
 #include <Bitmap.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
 #include <Screen.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
+
 extern "C" {
-#include "vice.h"
 #include "cmdline.h"
 #include "fullscreen.h"
 #include "lib.h"
@@ -43,6 +59,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
+#include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
 #include "viewport.h"

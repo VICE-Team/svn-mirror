@@ -61,6 +61,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "georam.c",
             "ramcart.c",
             "digimax.c",
+            "mmc64.c",
             "c64acia1.c",
             "c64bus.c",
             "c64cia2.c",
@@ -76,6 +77,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "c64pla.c",
             "c64printer.c",
             "c64rsuser.c",
+            "c64sound.c",
             "c64tpi.c"
 
         include "../incl/archdep.icc"
@@ -90,6 +92,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/gfxoutputdrv.icc"
         include "../incl/iec.icc"
         include "../incl/iecbus.icc"
+        include "../incl/iecc64exp.icc"
         include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"

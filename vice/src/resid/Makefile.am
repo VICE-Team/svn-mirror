@@ -1,5 +1,7 @@
 ## Process this file with automake to create Makefile.in
 
+AR = @AR@
+
 noinst_LIBRARIES = libresid.a
 
 libresid_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc extfilt.cc pot.cc version.cc $(noinst_DATA:.dat=.cc)

@@ -26,25 +26,41 @@
 
 #include "vice.h"
 
-#include <Message.h>
+#include <Alert.h>
+#include <Application.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
 #include <stdio.h>
-#include "vicewindow.h"
+#include <stdlib.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
 
 extern "C" {
-#include "c64ui.h"
+#include "archdep.h"
 #include "cartridge.h"
 #include "constants.h"
-#include "interrupt.h"
-#include "kbd.h"
 #include "keyboard.h"
-#include "machine.h"
 #include "resources.h"
+#include "statusbar.h"
+#include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_vicii.h"
-#include "vicemenu.h"
-#include "vsync.h"
+#include "util.h"
+#include "viceapp.h"
+#include "vicewindow.h"
 }
+
+extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c64_ui_menu_toggles[]={
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -57,6 +73,10 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
     { "256K", MENU_TOGGLE_C64_256K },
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
+    { "MMC64", MENU_TOGGLE_MMC64 },
+    { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
+    { "MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE },
+    { "MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
@@ -127,6 +147,12 @@ ui_res_possible_values DigimaxBase[] = {
         {-1, 0}
 };
 
+ui_res_possible_values MMC64Revision[] = {
+        {0, MENU_MMC64_REVISION_A},
+        {1, MENU_MMC64_REVISION_B},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
@@ -134,6 +160,7 @@ ui_res_value_list c64_ui_res_values[] = {
     {"PLUS60Kbase", Plus60kBase},
     {"C64_256Kbase", C64_256KBase},
     {"DIGIMAXbase", DigimaxBase},
+    {"MMC64_revision", MMC64Revision},
     {NULL,NULL}
 };
 
@@ -239,25 +266,50 @@ void c64_ui_specific(void *msg, void *window)
             keyboard_clear_keymatrix();
             cartridge_trigger_freeze();
             break;
-		case ATTACH_C64_CART:
-		{	
-			const char *filename;
-			int32 type;
-			
-			((BMessage*)msg)->FindInt32("type", &type);
-			((BMessage*)msg)->FindString("filename", &filename);
-			if (cartridge_attach_image(type, filename) < 0)
-				ui_error("Invalid cartridge image");
-			break;
-		}
-		case MENU_VICII_SETTINGS:
-        	ui_vicii();
-        	break;
+        case ATTACH_C64_CART:
+            {
+                const char *filename;
+                int32 type;
+
+                ((BMessage*)msg)->FindInt32("type", &type);
+                ((BMessage*)msg)->FindString("filename", &filename);
+                if (cartridge_attach_image(type, filename) < 0)
+                    ui_error("Invalid cartridge image");
+                break;
+            }
+        case MENU_VICII_SETTINGS:
+            ui_vicii();
+            break;
+        case MENU_REU_FILE:
+            ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);
+            break;
+        case MENU_GEORAM_FILE:
+            ui_select_file(windowlist[0]->savepanel,GEORAM_FILE,(void*)0);
+            break;
+        case MENU_RAMCART_FILE:
+            ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
+            break;
+        case MENU_PLUS60K_FILE:
+            ui_select_file(windowlist[0]->savepanel,PLUS60K_FILE,(void*)0);
+            break;
+        case MENU_PLUS256K_FILE:
+            ui_select_file(windowlist[0]->savepanel,PLUS256K_FILE,(void*)0);
+            break;
+        case MENU_C64_256K_FILE:
+            ui_select_file(windowlist[0]->savepanel,C64_256K_FILE,(void*)0);
+            break;
+        case MENU_MMC64_BIOS_FILE:
+            ui_select_file(windowlist[0]->filepanel,MMC64_BIOS_FILE,(void*)0);
+            break;
+        case MENU_MMC64_IMAGE_FILE:
+            ui_select_file(windowlist[0]->filepanel,MMC64_IMAGE_FILE,(void*)0);
+            break;
 
     	default: ;
     }
 }
 
+extern "C" {
 int c64ui_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
@@ -271,3 +323,4 @@ void c64ui_shutdown(void)
 {
 }
 
+}

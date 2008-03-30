@@ -2452,7 +2452,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
 					       NULL,
 					       GTK_DIALOG_DESTROY_WITH_PARENT,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_OK, GTK_RESPONSE_OK,
+					       GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					       NULL);
     g_signal_connect(G_OBJECT(input_dialog),
 		     "destroy",
@@ -2478,7 +2478,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     res = gtk_dialog_run(GTK_DIALOG(input_dialog));
     ui_popdown(input_dialog);
 
-    if (res == 0 && input_dialog)
+    if ((res == GTK_RESPONSE_ACCEPT) && input_dialog)
     {
 	strncpy(buf, gtk_entry_get_text(GTK_ENTRY(entry)), buflen);
 	ret = UI_BUTTON_OK;
@@ -2558,7 +2558,7 @@ ui_change_dir(const char *title, const char *prompt, char *buf,
     res = gtk_dialog_run(GTK_DIALOG(fc));
     ui_popdown(fc);
 
-    if (res == GTK_RESPONSE_YES && 
+    if ((res == GTK_RESPONSE_ACCEPT) && 
 	(fname = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fc))))
     {
 	strncpy(buf, fname, buflen);
@@ -2877,6 +2877,10 @@ build_confirm_dialog(GtkWidget **confirm_dialog_message)
 gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     _ui_top_level = gtk_widget_get_toplevel(w);
+
+    /* cv: ensure focus after dialogs were opened */
+    gtk_widget_grab_focus(w);
+
     return 0;
 }
 
