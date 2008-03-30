@@ -402,9 +402,6 @@ External contributors:
   Giuliano Procida (gpp10@cam.ac.uk) is the maintainer of the
   VICE `deb' package for the Debian distribution.
 
-  Nathan Hand is (was?) the maintainer of the VICE `rpm' package
-  for the Red Hat distribution.
-
   Marko M\"akel\"a (msmakela@nic.funet.fi) wrote lots of CPU
   documentation.
 
