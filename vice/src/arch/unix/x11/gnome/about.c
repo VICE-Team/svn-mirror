@@ -55,13 +55,15 @@ void ui_about(gpointer data)
     const gchar *authors[] = {
 	"The VICE Team", 
 	"Copyright @ 1996-1999 Ettore Perazzoli\n",
+	"Copyright @ 1997-2000 Daniel Sladic\n",
+	"Copyright @ 1998-2000 Andreas Boose\n",
+	"Copyright @ 1998-2000 Tibor Biczo\n",
+	"Copyright @ 1999-2000 Andreas Dehmel\n",
+	"Copyright @ 1999-2000 Thomas Bretz\n",
+	"Copyright @ 1999-2000 Andreas Matthies\n",
+	"Copyright @ 1999-2000 Martin Pottendorfer\n",
 	"Copyright @ 1996-1999 André Fachat\n",
 	"Copyright @ 1993-1994, 1997-1999 Teemu Rantanen\n",
-	"Copyright @ 1997-1999 Daniel Sladic\n",
-	"Copyright @ 1998-1999 Andreas Boose\n",
-	"Copyright @ 1998-1999 Tibor Biczo\n",
-	"Copyright @ 1993-1996 Jouko Valta\n",
-	"Copyright @ 1993-1994 Jarkko Sonninen\n",
 #ifdef HAVE_RESID
 	"reSID engine Copyright © 1999 Dag Lem",
 #endif

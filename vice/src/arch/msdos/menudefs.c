@@ -1217,13 +1217,15 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
 #endif
 	    "",
             "Copyright (c) 1996-1999 Ettore Perazzoli",
-            "Copyright (c) 1997-1999 Daniel Sladic",
-            "Copyright (c) 1998-1999 Andreas Boose",
-            "Copyright (c) 1998-1999 Tibor Biczo",
+            "Copyright (c) 1997-2000 Daniel Sladic",
+            "Copyright (c) 1998-2000 Andreas Boose",
+            "Copyright (c) 1998-2000 Tibor Biczo",
+            "Copyright (c) 1999-2000 Andreas Dehmel",
+            "Copyright (c) 1999-2000 Thomas Bretz",
+            "Copyright (c) 1999-2000 Andreas Matthies",
+            "Copyright (c) 1999-2000 Martin Pottendorfer",
             "Copyright (c) 1996-1999 Andre' Fachat",
             "Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen",
-            "Copyright (c) 1993-1996 Jouko Valta",
-            "Copyright (c) 1993-1994 Jarkko Sonninen",
 #ifdef HAVE_RESID
             "",
             "reSID engine:"
