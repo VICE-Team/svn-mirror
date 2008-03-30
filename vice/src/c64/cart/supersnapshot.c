@@ -143,7 +143,7 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
             romconfig |= (1 << 5);      /* export_ram */
             romconfig |= (1 << 1);      /* exrom */
         }
-        cartridge_config_changed(romconfig, romconfig, CMODE_WRITE);
+        cartridge_config_changed(1, romconfig, CMODE_WRITE);
     }
 }
 
@@ -244,6 +244,25 @@ int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
     if (util_file_load(filename, rawcart, 0x10000,
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
+
+    return 0;
+}
+
+int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    BYTE chipheader[0x10];
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        if (fread(chipheader, 0x10, 1, fd) < 1)
+            return -1;
+
+    if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40
+        || chipheader[0xb] > 3
+        || fread(rawcart + 0x4000 * chipheader[0xb], chipheader[0xe] << 8, 1,
+        fd) < 1)
+        return -1;
+    }
 
     return 0;
 }
