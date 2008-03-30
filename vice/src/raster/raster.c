@@ -70,7 +70,7 @@ static void raster_draw_buffer_free(video_draw_buffer_callback_t
                                     BYTE *draw_buffer)
 {
     if (video_draw_buffer_callback)
-        return video_draw_buffer_callback->draw_buffer_free(draw_buffer);
+        video_draw_buffer_callback->draw_buffer_free(draw_buffer);
 
     free(draw_buffer);
 }
@@ -82,7 +82,7 @@ static void raster_draw_buffer_clear(video_draw_buffer_callback_t
                                      unsigned int fb_height)
 {
     if (video_draw_buffer_callback)
-        return video_draw_buffer_callback->draw_buffer_clear(draw_buffer,
+        video_draw_buffer_callback->draw_buffer_clear(draw_buffer,
             fb_width, fb_height);
 
     memset(draw_buffer, value, fb_width * fb_height);
@@ -1221,6 +1221,8 @@ int raster_init(raster_t *raster,
     video_register_raster(raster);
 #endif
 
+    raster->draw_buffer = NULL;
+
     raster_viewport_init(&raster->viewport);
     raster_geometry_init(&raster->geometry);
 
@@ -1757,8 +1759,9 @@ void raster_free(raster_t *raster)
 
         canvas = raster->viewport.canvas;
 
-        raster_draw_buffer_free(canvas->video_draw_buffer_callback,
-                                raster->draw_buffer);
+        if (canvas)
+            raster_draw_buffer_free(canvas->video_draw_buffer_callback,
+                                    raster->draw_buffer);
         video_canvas_destroy(raster->viewport.canvas);
     }
     free(raster->viewport.title);

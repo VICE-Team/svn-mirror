@@ -1,3 +1,64 @@
+2002-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.9.
+
+	* raster/raster.c (raster_free): Check if canvas is allocated.
+	(raster_init): Initialize draw buffer pointer.
+
+2002-01-31  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/plus4ui.c: Added PAL emulation switch to UI.
+
+	* arch/win32/resplus4.rc: Added PAL emulation switch to UI.
+
+	* arch/win32/video.c (video_canvas_create): Fixed typo.
+
+	* datasette.c (datasette_read_gap): Implemented version 1 and
+	version 2 TAP reading for Plus4.
+	(datasette_set_tape_image, datasette_internal_reset): Reset
+	fullwave flag.
+	(datasette_start_motor): Don't change fullwave flag.
+
+	* plus4/plus4.h: Updated cycles in line to 114, and cycles per
+	sec values both for PAL and NTSC.
+
+	* plus4/plus4mem.c (mem_proc_port_read): Fixed CST READ
+	sygnal.
+
+	* plus4/ted-timer.c: Updated timers to work correctly on
+	double clock, and implemented read accesses.
+
+	* plus4/tedtypes.h: Fixed NTSC screen height.
+
+2002-01-31  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* raster/raster.c: Sun compiler doesn't allow returning void
+
+2002-01-31  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/ui.c
+	(ui_open_canvas_window): Change canvas background color to
+	black.
+
+	* arch/unix/x11/renderxv.c (render_4_2_2, render_4_1_1):
+	Average U and V values in source pixel block.
+
+	* arch/unix/x11/video.c: Added +xvideo command line parameter.
+
+2002-01-30  pottendo  <pottendo@utanet.at>
+
+	* uicolor.h (uicolor_init_video_colors): New prototype.
+
+	* arch/unix/x11/video.c (video_canvas_create): Request
+	initialization of colors.
+
+	* arch/unix/x11/gnome/uicolor.c (uicolor_init_video_colors): New
+	function, initialize the video layer with pixel values.
+	* arch/unix/x11/xaw/uicolor.c (uicolor_init_video_colors):
+	Likewise.
+
+	* arch/unix/uivicii.c: Reworked PAL related menus and callbacks. 
+
 2002-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.8.
