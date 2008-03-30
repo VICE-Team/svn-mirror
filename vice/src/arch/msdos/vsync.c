@@ -138,71 +138,6 @@ static void (*vsync_hook)(void);
 
 /* ------------------------------------------------------------------------- */
 
-/* Speed evaluation. */
-
-static CLOCK speed_eval_prev_clk;
-
-static double avg_speed_index;
-static double avg_frame_rate;
-
-static int speed_eval_suspended = 1;
-
-void suspend_speed_eval(void)
-{
-    speed_eval_suspended = 1;
-}
-
-static void calc_avg_performance(int num_frames)
-{
-    static double prev_time;
-    struct timeval tv;
-    double curr_time;
-
-    gettimeofday(&tv, NULL);
-    curr_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
-    if (!speed_eval_suspended) {
-	CLOCK diff_clk;
-	double speed_index;
-	double frame_rate;
-
-	diff_clk = clk - speed_eval_prev_clk;
-	frame_rate = (double)num_frames / (curr_time - prev_time);
-	speed_index = ((((double)diff_clk / (curr_time - prev_time))
-			/ (double)cycles_per_sec)) * 100.0;
-	avg_speed_index = speed_index;
-	avg_frame_rate = frame_rate;
-    }
-    prev_time = curr_time;
-    speed_eval_prev_clk = clk;
-    speed_eval_suspended = 0;
-}
-
-double vsync_get_avg_frame_rate(void)
-{
-    if (speed_eval_suspended)
-	return -1.0;
-    else
-	return avg_frame_rate;
-}
-
-double vsync_get_avg_speed_index(void)
-{
-    if (speed_eval_suspended)
-	return -1.0;
-    else
-	return avg_speed_index;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* This prevents the clock counters from overflowing.  */
-void vsync_prevent_clk_overflow(CLOCK sub)
-{
-    speed_eval_prev_clk -= sub;
-}
-
-/* ------------------------------------------------------------------------- */
-
 static volatile int elapsed_frames = 0;
 static int timer_speed = -1;
 
@@ -272,8 +207,10 @@ static void set_timer_speed(void)
     int new_timer_speed;
 
     /* Force 100% speed if using automatic refresh rate and there is no speed
-       limit, or sound playback is turned on. */
-    if (relative_speed == 0 && refresh_rate == 0)
+       limit. */
+    if (warp_mode_enabled)
+        new_timer_speed = 0;
+    else if (relative_speed == 0 && refresh_rate == 0)
 	new_timer_speed = 100;
     else
 	new_timer_speed = relative_speed;
@@ -287,9 +224,77 @@ static void set_timer_speed(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* Speed evaluation. */
+
+static CLOCK speed_eval_prev_clk;
+
+static double avg_speed_index;
+static double avg_frame_rate;
+
+static int speed_eval_suspended = 1;
+
+void suspend_speed_eval(void)
+{
+    speed_eval_suspended = 1;
+#if 0
+    remove_int(my_timer_callback);
+    timer_speed = 0;
+#endif
+}
+
+static void calc_avg_performance(int num_frames)
+{
+    static double prev_time;
+    struct timeval tv;
+    double curr_time;
+
+    gettimeofday(&tv, NULL);
+    curr_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
+    if (!speed_eval_suspended) {
+	CLOCK diff_clk;
+	double speed_index;
+	double frame_rate;
+
+	diff_clk = clk - speed_eval_prev_clk;
+	frame_rate = (double)num_frames / (curr_time - prev_time);
+	speed_index = ((((double)diff_clk / (curr_time - prev_time))
+			/ (double)cycles_per_sec)) * 100.0;
+	avg_speed_index = speed_index;
+	avg_frame_rate = frame_rate;
+    }
+    prev_time = curr_time;
+    speed_eval_prev_clk = clk;
+    speed_eval_suspended = 0;
+}
+
+double vsync_get_avg_frame_rate(void)
+{
+    if (speed_eval_suspended)
+	return -1.0;
+    else
+	return avg_frame_rate;
+}
+
+double vsync_get_avg_speed_index(void)
+{
+    if (speed_eval_suspended)
+	return -1.0;
+    else
+	return avg_speed_index;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* This prevents the clock counters from overflowing.  */
+void vsync_prevent_clk_overflow(CLOCK sub)
+{
+    speed_eval_prev_clk -= sub;
+}
+
+/* ------------------------------------------------------------------------- */
+
 int do_vsync(int been_skipped)
 {
-    extern int _escape_requested;
     static long skip_counter = 0;
     static int num_skipped_frames = 0;
     static int frame_counter = 0;
@@ -302,7 +307,19 @@ int do_vsync(int been_skipped)
     if (been_skipped)
 	num_skipped_frames++;
 
-    if (refresh_rate != 0) {    /* Fixed refresh rate.  */
+    if (speed_eval_suspended) {
+        elapsed_frames = 0;
+        speed_eval_suspended = 0;
+        frame_counter = num_skipped_frames = 0;
+    } else if (warp_mode_enabled) { /* Warp mode: run as fast as possible.  */
+	if (skip_counter < MAX_SKIPPED_FRAMES) {
+	    skip_next_frame = 1;
+	    skip_counter++;
+	} else {
+	    skip_counter = elapsed_frames = 0;
+	}
+        sound_flush(0);
+    } else if (refresh_rate != 0) { /* Fixed refresh rate.  */
 	if (timer_speed != 0 && skip_counter >= elapsed_frames)
 	    while (skip_counter >= elapsed_frames)
 		/* Sleep...  */;
@@ -344,10 +361,8 @@ int do_vsync(int been_skipped)
     kbd_buf_flush();
     joystick_update();
 
-    if (_escape_requested) {
-	_escape_requested = 0;
-	maincpu_trigger_trap(ui_main);
-    }
+    ui_set_warp_status(warp_mode_enabled);
+    ui_dispatch_events();
 
     return skip_next_frame;
 }

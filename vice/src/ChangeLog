@@ -1,3 +1,109 @@
+Sun Jul 26 01:52:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sounddrv/soundallegro.c (allegro_resume): New function.
+
+	* arch/msdos/menudefs.c: New menu item for toggling `WarpMode'.
+
+	* arch/msdos/c64ui.c: New meny entry for toggling mouse emulation.
+
+	* c128/c128.c (machine_init_resources): Initialize mouse resources.
+	(machine_init_cmdline_options): Initialize mouse command-line
+ 	options.
+	(machine_init): Initialize mouse.
+
+	* c64/c64.c (machine_init_resources): Initialize mouse resources.
+	(machine_init_cmdline_options): Initialize mouse command-line
+ 	options.
+	(machine_init): Initialize mouse.
+
+	* c64/sid.c [HAVE_MOUSE]: #include "mouse.h".
+	(read_sid) [HAVE_MOUSE]: Read mouse position from registers $19
+	and $1A.
+
+	* arch/msdos/mouse.h (mouse_get_y, mouse_get_x): New file, new
+ 	functions.
+
+	* arch/msdos/mouse.c (mouse_init): New file, new function.
+	(my_mouse_callback): New function.
+	(mouse_init_cmdline_options): New function.
+	(mouse_init_resources): New function.
+
+	* vice.h [__MSDOS__]: #Define `HAVE_MOUSE'.
+
+	* sounddrv/soundallegro.c (allegro_suspend): New function.
+
+	* arch/msdos/kbd.c: Removed `escape_requested' hack; replaced by
+	`KCMD_ESC_PRESSED' command.
+
+	* arch/msdos/vsync.c (do_vsync): Call `ui_set_warp_status()'.
+
+	* arch/msdos/ui.c (ui_dispatch_events): New function.  Updates
+ 	keyboard LEDs.
+	(ui_set_warp_status): New function.
+	(ui_display_drive_led): Update keyboard LED status.
+
+	* arch/msdos/vsync.c (do_vsync): Handle warp mode.
+	(set_timer_speed): If in warp mode, remove timer callback.
+	(do_vsync): Call `ui_dispatch_events()'.  Do not handle ESC
+ 	anymore.
+
+	* arch/msdos/kbd.c (my_kbd_interrupt_handler): Cartridge freeze
+	moved to Alt-Pause instead of just Pause.  Scroll Lock triggers a
+	new command `KCMD_TOGGLE_WRAP' for toggling WrapMode.
+	(kbd_flush_commands): Handle `KCMD_TOGGLE_WRAP'.
+
+	* arch/msdos/ui.c (ui_main): Call `sound_suspend()' instead of
+ 	`sound_close()'.
+
+	* arch/msdos/vsync.c (do_vsync): If speed eval has been suspended,
+	set `elapsed_frames' to zero and remove the timer callback.
+
+	* sounddrv/soundallegro.c (allegro_startup): Do not set the volume
+	anymore.
+
+	* vice.h [__MSDOS__ && !USE_MIDAS_SOUND]: #define
+	`SOUND_SAMPLE_RATE' to 22727.
+
+	* arch/msdos/menudefs.c [!USE_MIDAS_SOUND]: Sound sample rates in
+ 	the sample rate menu changed to the ones used by the Allegro setup
+	program.
+
+	* sounddrv/soundallegro.c (allegro_startup): Do not prevent
+ 	multiple initialization anymore.  Call `remove_sound()' before
+ 	detecting audio type.  New parameter `freq'; set the `sb_freq'
+ 	configuation parameter accordingly, before installing sound.
+
+	* arch/unix/xaw/widgets/FileSel.c (ButtonGoto) [HAVE_REGEX_H]:
+	Enable directory pattern.
+	(UpdateTextLines): Likewise.
+
+	* arch/unix/xaw/ui.c (ui_select_file): Removed Alpha-specific
+ 	workaround.
+
+	* arch/unix/xaw/widgets/RegExp.h (RETURN) [HAVE_REGEXP_H]: Return
+ 	NULL.
+
+	* arch/unix/xaw/widgets/DirMgr.c (DirectoryMgrFilterName):
+ 	Removed.
+
+	* arch/unix/xaw/widgets/DirMgr.h, arch/unix/xaw/widgets/RegExp.h:
+	Always provide the function prototypes.
+
+	* arch/unix/xaw/widgets/DirMgr.c: Always use functions from
+ 	`RegExp.c', even if `HAVE_REGEX_H' and `HAVE_REGEXP_H' are both
+ 	#undefined.  Removed `DIR_MGR_FSM_SIZE' constant.  Adapted all the
+	functions to use the new functions in `RegExp.h'.
+
+	* arch/unix/xaw/widgets/RegExp.c: Implemented POSIX <regex.h>
+	support.  Use it if available.
+
+	* arch/unix/xaw/widgets/RegExp.h (RegExpCompile, RegExpMatch):
+	Made const-safe.
+	(RegExpPatternToRegExp): Made const-safe.
+
+	* sound.c (sound_suspend): Free `p' after writing it to the sound
+	device, not afterwards!
+
 Sat Jul 25 03:08:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* vic20/vic20sound.c (sound_machine_calculate_samples): Call
