@@ -959,8 +959,8 @@ static inline void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
         BYTE *msk_ptr, *ptr, *sptr;
         int lshift;
 
-        msk_ptr = gfx_msk_ptr
-                  + ((sprite_offset
+        msk_ptr = gfx_msk_ptr + VICII_RASTER_X(0) / 8
+                  + ((sprite_offset - VICII_RASTER_X(0)
                   - vicii.raster.xsmooth) / 8);
         ptr = line_ptr + sprite_offset;
         lshift = (sprite_offset
