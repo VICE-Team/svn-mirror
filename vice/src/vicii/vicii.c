@@ -412,6 +412,8 @@ raster_t *vic_ii_init(void)
     vic_ii.idle_3fff = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
     vic_ii.idle_3fff_old = (idle_3fff_t *)xmalloc(sizeof(idle_3fff_t) * 64);
 
+    vic_ii.buf_offset = 0;
+
     vic_ii.initialized = 1;
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
@@ -995,7 +997,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
     raster_line_emulate(&vic_ii.raster);
 
 #if 0
-    if (vic_ii.raster.current_line >= 50 && vic_ii.raster.current_line < 60) {
+    if (vic_ii.raster.current_line >= 52 && vic_ii.raster.current_line <= 53) {
         char buf[1000];
         int j, i;
         for (i = 0; i < 8; i++) {
@@ -1054,6 +1056,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
     vic_ii.ycounter_reset_checked = 0;
     vic_ii.memory_fetch_done = 0;
+    vic_ii.buf_offset = 0;
 
     if (vic_ii.raster.current_line == vic_ii.first_dma_line)
         vic_ii.allow_bad_lines = !vic_ii.raster.blank;
