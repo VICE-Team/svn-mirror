@@ -146,10 +146,6 @@ static int timer_speed = -1;
 
 static void my_timer_callback(void)
 {
-    if (timer_patch > 0) {
-	timer_patch--;
-	elapsed_frames++;
-    }
     if (timer_patch < 0)
 	timer_patch++;
     else
@@ -315,6 +311,13 @@ int do_vsync(int been_skipped)
 
     if (been_skipped)
 	num_skipped_frames++;
+
+    if (timer_patch > 0) {
+	timer_patch--;
+        asm volatile ("cli");
+	elapsed_frames++;
+        asm volatile ("sti");
+    }
 
     if (warp_mode_enabled) { /* Warp mode: run as fast as possible.  */
 	if (skip_counter < MAX_SKIPPED_FRAMES) {
