@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "console.h"
+#include "utils.h"
 #include "video.h"
 
 static int old_input_mode, old_output_mode;
@@ -78,6 +79,22 @@ int console_out(console_t log, const char *format, ...)
 
 char *console_in(console_t log)
 {
-    return NULL;
+    char *p = (char*)xmalloc(1024);
+
+    fflush(mon_output);
+    fgets(p, 1024, mon_input);
+
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p);
+             len > 0 && (p[len - 1] == '\r'
+                         || p[len - 1] == '\n');
+             len--)
+            p[len - 1] = '\0';
+    }
+
+    return p;
 }
 
