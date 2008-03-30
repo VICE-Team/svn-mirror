@@ -207,7 +207,8 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     int rc = 0;
     char *logtxt = NULL;
 
-    if (logi == LOG_ERR || (logi != LOG_DEFAULT && logs[logi] == NULL))
+    if (logi == LOG_ERR || logs == NULL
+        || (logi != LOG_DEFAULT && logs[logi] == NULL))
         return -1;
 
     if (logi != LOG_DEFAULT && *logs[logi] != '\0')
