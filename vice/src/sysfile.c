@@ -52,8 +52,8 @@
 
 /* Resources.  */
 
-static char *default_path;
-static char *system_path;
+static char *default_path = NULL;
+static char *system_path = NULL;
 static char *expanded_system_path = NULL;
 
 static int set_system_path(resource_value_t v, void *param)

@@ -42,7 +42,7 @@
 static int internal_function_rom_enabled;
 
 /* Name of the internal function ROM.  */
-static char *internal_function_rom_name;
+static char *internal_function_rom_name = NULL;
 
 /* Image of the internal function ROM.  */
 BYTE int_function_rom[INTERNAL_FUNCTION_ROM_SIZE];
@@ -51,7 +51,7 @@ BYTE int_function_rom[INTERNAL_FUNCTION_ROM_SIZE];
 static int external_function_rom_enabled;
 
 /* Name of the external function ROM.  */
-static char *external_function_rom_name;
+static char *external_function_rom_name = NULL;
 
 /* Image of the external function ROM.  */
 BYTE ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];

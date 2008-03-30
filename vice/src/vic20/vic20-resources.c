@@ -48,13 +48,13 @@
 static int sync_factor;
 
 /* Name of the character ROM.  */
-static char *chargen_rom_name;
+static char *chargen_rom_name = NULL;
 
 /* Name of the BASIC ROM.  */
-static char *basic_rom_name;
+static char *basic_rom_name = NULL;
 
 /* Name of the Kernal ROM.  */
-static char *kernal_rom_name;
+static char *kernal_rom_name = NULL;
 
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;

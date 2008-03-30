@@ -113,7 +113,7 @@ static log_t pet_log = LOG_ERR;
 /* PET resources.  */
 
 /* PET model name.  */
-static char *model_name;
+static char *model_name = NULL;
 
 static int set_model_name(resource_value_t v, void *param)
 {

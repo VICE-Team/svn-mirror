@@ -50,8 +50,8 @@
 
 
 static int cartridge_type;
-static char *cartridge_file;
-static char *ide64_configuration_string;
+static char *cartridge_file = NULL;
+static char *ide64_configuration_string = NULL;
 static int cartridge_mode;
 
 int carttype = CARTRIDGE_NONE;

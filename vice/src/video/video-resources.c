@@ -3,6 +3,7 @@
  *
  * Written by
  *  John Selck <graham@cruise.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "raster.h" /* Temporary */
 #include "resources.h"
 #include "utils.h"
 #include "video-resources.h"
@@ -107,7 +109,7 @@ static int set_palette_file_name(resource_value_t v, void *param)
 
 #ifndef USE_GNOMEUI
 /* remove this once all ports have implemented this ui function */
-#define ui_update_pal_ctrls(a) 
+#define ui_update_pal_ctrls(a)
 #endif
 
 static int set_delayloop_emulation(resource_value_t v, void *param)
@@ -184,6 +186,8 @@ int video_resources_init(int mode)
 {
     int result = 0;
 
+    video_resources.palette_file_name = NULL;
+
     switch (mode) {
       case VIDEO_RESOURCES_MONOCHROME:
         result = resources_register(resources);
@@ -200,9 +204,9 @@ int video_resources_init(int mode)
 
 /*-----------------------------------------------------------------------*/
 /* Per chip resources.  */
-#if 0
+
 struct video_resource_chip_s {
-    /*raster_t *raster;*/
+    struct raster_s *raster;
     int double_scan_enabled;
 };
 typedef struct video_resource_chip_s video_resource_chip_t;
@@ -211,33 +215,47 @@ static video_resource_chip_t video_resource_chip;
 
 int set_double_scan_enabled(resource_value_t v, void *param)
 {
+    video_resource_chip_t *video_resource_chip;
+
+    video_resource_chip = (video_resource_chip_t *)param;
+
+    video_resource_chip->double_scan_enabled = (int)v;
+
+    if (video_resource_chip->raster->viewport.canvas)
+        video_resource_chip->raster->viewport.canvas->videoconfig.doublescan
+            = (int)v;
+
+    raster_force_repaint(video_resource_chip->raster);
+
     return 0;
 }
 
-static const char *rname_chip[] = { "DoubleScan", NULL };
+static const char *vname_chip_scan[] = { "DoubleScan", NULL };
 
-static resource_t resources_chip[] =
+static resource_t resources_chip_scan[] =
 {
-    { NULL, RES_INTEGER, (resource_value_t)0,
+    { NULL, RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&(video_resource_chip.double_scan_enabled),
       set_double_scan_enabled, NULL },
     { NULL }
 };
-#endif
-int video_resources_chip_init(const char *chipname, struct raster_s *raster)
-{
-    /*unsigned int i;*/
 
-    /*video_resource_chip.raster = raster;*/
-/*
-    for (i = 0; rname_chip[i] != NULL; i++) {
-        resources_chip[i].name = concat(chipname, rname_chip[i], NULL);
-        resources_chip[i].param = (void *)&raster_resource_chip;
+int video_resources_chip_init(const char *chipname, struct raster_s *raster,
+                              int double_size, int doulbe_scan)
+{
+    unsigned int i;
+
+    video_resource_chip.raster = raster;
+
+    if (doulbe_scan != 0) {
+        for (i = 0; vname_chip_scan[i] != NULL; i++) {
+            resources_chip_scan[i].name = concat(chipname,
+                                                 vname_chip_scan[i], NULL);
+            resources_chip_scan[i].param = (void *)&video_resource_chip;
+        }
+        return resources_register(resources_chip_scan);
     }
-*/
-    /*return resources_register(resources_chip);*/
+
     return 0;
 }
-
-
 

@@ -1,4 +1,63 @@
-2002-06-20  Andreas Boose  <viceteam@t-online.de>
+2002-06-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.39.
+
+	* raster/raster.h: Added double scan/size allowed variables.
+
+	* vicii/vicii-resources.c, vdc/vdc-resources.c,
+	vic20/vic-resources.c, crtc/crtc-resources.c,
+	plus4/ted-resources.c: Moved double scan resources.
+
+	* raster/raster-resources.c, raster/raster-resources.h:
+	Pass double scan/size parameters to video code.
+
+	* vicii/vicii-resources.c, video.h: Implemented double scan
+	resource.
+
+	* vicii/vicii-cmdline-options.c, vicii/vicii-resources.c,
+	vdc/vdc-cmdline-options.c, vdc/vdc-resources.c,
+	crtc/crtc-resources.c, vic20/vic-cmdline-options.c,
+	vic20/vic-resources.c, plus4/ted-cmdline-options.c,
+	plus4/ted-resources.c, arch/unix/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/c128ui.c, arch/win32/plus4ui.c,
+	arch/win32/vic20ui.c, arch/msdos/c128ui.c,
+	arch/msdos/plus4ui.c, arch/riscos/uiconfig.c,
+	arch/riscos/video.c, arch/os2/dialogs/menubar.c,
+	arch/beos/c128ui.cc, arch/beos/c64ui.cc, arch/beos/plus4ui.cc,
+	arch/beos/vic20ui.cc: Changed name of double scan resource.
+
+	* arch/unix/uisettings.c, arch/unix/uivicii.c,
+	arch/unix/vic20ui.c, arch/unix/plus4ui.c: Separated double
+	scan setting.
+
+	* raster/raster.c, raster/raster.h, vicii/vicii.c, vdc/vdc.c,
+	vic20/vic.c, crtc/crtc.c, plus4/ted.c: Removed
+	raster_enable_double_scan().
+	
+	* vdc/vdc-cmdline-options.c, arch/unix/c128ui.c: Changed name
+	of `VDC_Revision'.
+
+	* raster/raster.c, video.h, arch/unix/x11/video.c,
+	arch/win32/video.c, arch/msdos/video.c, arch/riscos/video.c,
+	arch/os2/video.c, arch/beos/video.cc (video_canvas_init): New
+	function.
+
+	* arch/win32/resc128.rc, sounddrv/sounddx.c, arch/win32/kbd.c,
+	arch/win32/uilib.c, arch/win32/video.c, arch/msdos/archdep.h,
+	arch/msdos/menudefs.c, arch/msdos/kbd.c: Compile fixes,
+	removed obsolete code.
+
+2002-06-22  Andreas Dehmel  <zarquon@t-online.de>
+
+	* log.c, sysfile.c, c128/c128-resources.c, c128/functionrom.c,
+	c64/c64-resources.c, c64/cart/c64cart.c, c64/cart/ide64.c,
+	crtc/crtc-resources.c, fsdevice/fsdevice-resources.c,
+	pet/pet.c, pet/pet-resources.c, vdc/vdc-resources.c,
+	vic20/vic20-resources.c, vic20/vic20cartridge.c,
+	vice/vice-resources.c: make sure all string resources are
+	initialized to NULL.
+
+2002-06-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.38.
 

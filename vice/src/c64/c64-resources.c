@@ -58,7 +58,7 @@ static char *basic_rom_name = NULL;
 static char *kernal_rom_name = NULL;
 
 /* Kernal revision for ROM patcher.  */
-char *kernal_revision;
+char *kernal_revision = NULL;
 
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;

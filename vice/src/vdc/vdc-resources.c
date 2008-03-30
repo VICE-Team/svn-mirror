@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include "archdep.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "utils.h"
@@ -95,37 +96,26 @@ static int set_double_size_enabled(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_double_scan_enabled(resource_value_t v, void *param)
-{
-    vdc_resources.double_scan_enabled = (int)v;
-
-    if (vdc.initialized)
-        raster_enable_double_scan(&vdc.raster,
-                                  vdc_resources.double_scan_enabled);
-
-    vdc.force_repaint = 1;
-
-    return 0;
-}
+/*    vdc.force_repaint = 1;*/
 
 static resource_t resources_2x[] =
 {
     { "VDC_DoubleSize", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&vdc_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "VDC_DoubleScan", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vdc_resources.double_scan_enabled,
-      set_double_scan_enabled, NULL },
     { NULL }
 };
 
 
 int vdc_resources_init(void)
 {
+    vdc_resources.palette_file_name = NULL;
+
     if (resources_register(resources_2x) < 0)
         return -1;
 
-    if (raster_resources_chip_init("VDC", &vdc.raster) < 0)
+    if (raster_resources_chip_init("VDC", &vdc.raster,
+        ARCHDEP_VDC_DSIZE, ARCHDEP_VDC_DSCAN) < 0)
         return -1;
 
     return resources_register(resources);

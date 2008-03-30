@@ -54,17 +54,17 @@
 #include "zfile.h"
 
 /* Hm, if this gets more, I should introduce an array :-) */
-static char *cartridge_file_2;
-static char *cartridge_file_4;
-static char *cartridge_file_6;
-static char *cartridge_file_A;
-static char *cartridge_file_B;
+static char *cartridge_file_2 = NULL;
+static char *cartridge_file_4 = NULL;
+static char *cartridge_file_6 = NULL;
+static char *cartridge_file_A = NULL;
+static char *cartridge_file_B = NULL;
 
-static char *cartfile2;
-static char *cartfile4;
-static char *cartfile6;
-static char *cartfileA;
-static char *cartfileB;
+static char *cartfile2 = NULL;
+static char *cartfile4 = NULL;
+static char *cartfile6 = NULL;
+static char *cartfileA = NULL;
+static char *cartfileB = NULL;
 
 static int set_cartridge_file_2(resource_value_t v, void *param)
 {
@@ -245,7 +245,7 @@ int cartridge_attach_image(int type, const char *filename)
     }
 
     memset(rawcart, 0xff, 0x4000);
- 
+
     switch (type) {
       case CARTRIDGE_VIC20_16KB_4000:
         if ((n = fread(rawcart, 0x1000, 4, fd)) < 1) {

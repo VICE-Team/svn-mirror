@@ -36,7 +36,7 @@
 int fsdevice_convert_p00_enabled[4];
 int fsdevice_save_p00_enabled[4];
 int fsdevice_hide_cbm_files_enabled[4];
-char *fsdevice_dir[4];
+char *fsdevice_dir[4] = {NULL, NULL, NULL, NULL};
 
 
 static int set_fsdevice_convert_p00(resource_value_t v, void *param)

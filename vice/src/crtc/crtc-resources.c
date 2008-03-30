@@ -78,29 +78,12 @@ static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 #endif
 
 #if ARCHDEP_CRTC_DSCAN == 1
-static int set_double_scan_enabled(resource_value_t v, void *param)
-{
-    crtc_resources.double_scan_enabled = (int)v;
-#ifdef USE_XF86_EXTENSIONS
-    if (crtc.initialized && ! fullscreen_is_enabled)
-#else
-    if (crtc.initialized)
-#endif
-    {
-        raster_enable_double_scan(&crtc.raster,
-                                  crtc_resources.double_scan_enabled);
-        crtc_resize();
-    }
-    return 0;
-}
-
 #ifdef USE_XF86_EXTENSIONS
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
     crtc_resources.fullscreen_double_scan_enabled = (int)v;
-    if (crtc.initialized && fullscreen_is_enabled)
-        raster_enable_double_scan(&crtc.raster,
-                                  crtc_resources.double_scan_enabled);
+    if (fullscreen_is_enabled)
+        raster_force_repaint(&crtc.raster);
     return 0;
 }
 #endif
@@ -122,9 +105,6 @@ static resource_t resources[] =
 #endif
 #endif
 #if ARCHDEP_CRTC_DSCAN == 1
-  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t)0,
-    (resource_value_t *)&crtc_resources.double_scan_enabled,
-    set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
   { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
     (resource_value_t *)&crtc_resources.fullscreen_double_scan_enabled,
@@ -136,8 +116,11 @@ static resource_t resources[] =
 
 int crtc_resources_init(void)
 {
-    if (raster_resources_chip_init("Crtc", &crtc.raster) < 0)
+    if (raster_resources_chip_init("Crtc", &crtc.raster,
+        ARCHDEP_CRTC_DSIZE, ARCHDEP_CRTC_DSCAN) < 0)
         return -1;
+
+    crtc_resources.palette_file_name = NULL;
 
     return resources_register(resources);
 }

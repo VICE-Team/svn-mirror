@@ -365,6 +365,14 @@ static resource_t resources[] = {
 
 int pet_resources_init(void)
 {
+    petres.chargenName = NULL;
+    petres.kernalName = NULL;
+    petres.editorName = NULL;
+    petres.basicName = NULL;
+    petres.memBname = NULL;
+    petres.memAname = NULL;
+    petres.mem9name = NULL;
+
     return resources_register(resources);
 }
 

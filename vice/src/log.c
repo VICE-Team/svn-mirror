@@ -44,7 +44,7 @@ static log_t num_logs = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static char *log_file_name;
+static char *log_file_name = NULL;
 
 static int set_log_file_name(resource_value_t v, void *param)
 {
