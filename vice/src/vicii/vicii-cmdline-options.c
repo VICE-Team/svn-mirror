@@ -58,12 +58,6 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2000>", "Set brightness of internal calculated palette [1100]" },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       "<0-2000>", "Set gamma of internal calculated palette [900]" },
-    { "-intpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
-      (void *)0, NULL, "Use an internal calculated palette" },
-    { "-extpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
-      (void *)1, NULL, "Use an external palette (file)" },
-    { "-palette", SET_RESOURCE, 1, NULL, NULL, "PaletteFile",
-      NULL, "<name>", "Specify name of file of external palette" },
     { NULL }
 };
 

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,26 +29,16 @@
 
 #include <stdio.h>
 
-#include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "vic-cmdline-options.h"
 #include "vic.h"
 
-
-/* VIC command-line options.  */
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-palette", SET_RESOURCE, 1, NULL, NULL,
-      "PaletteFile", NULL,
-      "<name>", "Specify palette file name" },
-    { NULL }
-};
 
 int vic_cmdline_options_init(void)
 {
     if (raster_cmdline_options_chip_init("VIC", vic.video_chip_cap) < 0)
         return -1;
 
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 

@@ -30,20 +30,9 @@
 
 #include <stdio.h>
 
-#include "cmdline.h"
 #include "crtc-cmdline-options.h"
 #include "crtctypes.h"
 #include "raster-cmdline-options.h"
-
-
-/* CRTC command-line options.  */
-static const cmdline_option_t cmdline_options[] =
-{
-    { "-crtcpalette", SET_RESOURCE, 1, NULL, NULL,
-      "CrtcPaletteFile", NULL,
-      "<name>", "Specify palette file name" },
-    { NULL }
-};
 
 
 int crtc_cmdline_options_init(void)
@@ -51,6 +40,6 @@ int crtc_cmdline_options_init(void)
     if (raster_cmdline_options_chip_init("Crtc", crtc.video_chip_cap) < 0)
         return -1;
 
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 
