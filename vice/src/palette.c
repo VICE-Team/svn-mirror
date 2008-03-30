@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,10 +41,12 @@
 
 static log_t palette_log = LOG_ERR;
 
-palette_t *palette_create(int num_entries, const char *entry_names[])
+palette_t *palette_create(unsigned int num_entries, const char *entry_names[])
 {
-    palette_t *p = (palette_t*)xmalloc(sizeof(palette_t));
-    int i;
+    palette_t *p;
+    unsigned int i;
+
+    p = (palette_t *)xmalloc(sizeof(palette_t));
 
     p->num_entries = num_entries;
     p->entries = xmalloc(sizeof(palette_entry_t) * num_entries);
@@ -58,21 +61,21 @@ palette_t *palette_create(int num_entries, const char *entry_names[])
 
 void palette_free(palette_t *p)
 {
-    int i;
+    unsigned int i;
 
     if (p == NULL)
         return;
 
     for (i = 0; i < p->num_entries; i++)
         if (p->entries[i].name != NULL)
-	    free(p->entries[i].name);
+            free(p->entries[i].name);
 
     free(p->entries);
     free(p);
 }
 
-int palette_set_entry(palette_t *p, int number,
-                      BYTE red, BYTE green, BYTE blue, BYTE dither)
+static int palette_set_entry(palette_t *p, unsigned int number,
+                             BYTE red, BYTE green, BYTE blue, BYTE dither)
 {
     if (p == NULL || number >= p->num_entries)
         return -1;
@@ -85,9 +88,9 @@ int palette_set_entry(palette_t *p, int number,
     return 0;
 }
 
-int palette_copy(palette_t *dest, const palette_t *src)
+static int palette_copy(palette_t *dest, const palette_t *src)
 {
-    int i;
+    unsigned int i;
 
     if (dest->num_entries != src->num_entries) {
         log_error(palette_log,
@@ -95,28 +98,26 @@ int palette_copy(palette_t *dest, const palette_t *src)
         return -1;
     }
 
-    for (i = 0; i < src->num_entries; i++) {
-        dest->entries[i].red = src->entries[i].red;
-        dest->entries[i].green = src->entries[i].green;
-        dest->entries[i].blue = src->entries[i].blue;
-        dest->entries[i].dither = src->entries[i].dither;
-    }
+    for (i = 0; i < src->num_entries; i++)
+        palette_set_entry(dest, i, src->entries[i].red, src->entries[i].green,
+                          src->entries[i].blue, src->entries[i].dither);
 
     return 0;
 }
 
 static char *next_nonspace(const char *p)
 {
-    while (*p != '\0' && isspace((int) *p))
+    while (*p != '\0' && isspace((int)*p))
         p++;
 
-    return (char *) p;
+    return (char *)p;
 }
 
 int palette_load(const char *file_name, palette_t *palette_return)
 {
     char buf[1024];
-    int line_num, entry_num, line_len, err = -1;
+    unsigned int line_num, entry_num;
+    int line_len, err = -1;
     palette_t *tmp_palette;
     char *complete_path;
     FILE *f;
@@ -175,6 +176,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                 values[i] = (BYTE)result;
                 p1 = p2;
             }
+
             if (i > 0) {
                 p1 = next_nonspace(p1);
                 if (*p1 != '\0') {
@@ -220,8 +222,10 @@ return_err:
 
 int palette_save(const char *file_name, const palette_t *palette)
 {
-    int i;
-    FILE *f = fopen(file_name, MODE_WRITE);
+    unsigned int i;
+    FILE *f;
+
+    f = fopen(file_name, MODE_WRITE);
 
     if (f == NULL)
         return -1;
