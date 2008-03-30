@@ -86,7 +86,6 @@ void ted_change_timing(void)
 
     switch ((int)mode) {
       case MACHINE_SYNC_NTSC:
-        clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_NTSC_CYCLES_PER_RFSH);
         ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
         ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
         ted.last_displayed_line = TED_NTSC_LAST_DISPLAYED_LINE;
@@ -104,7 +103,6 @@ void ted_change_timing(void)
         break;
       case MACHINE_SYNC_PAL:
       default:
-        clk_guard_set_clk_base(&maincpu_clk_guard, PLUS4_PAL_CYCLES_PER_RFSH);
         ted.screen_height = TED_PAL_SCREEN_HEIGHT;
         ted.first_displayed_line = TED_PAL_FIRST_DISPLAYED_LINE;
         ted.last_displayed_line = TED_PAL_LAST_DISPLAYED_LINE;

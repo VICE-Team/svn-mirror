@@ -81,7 +81,6 @@ void vic_change_timing(void)
 
     switch ((int)mode) {
       case MACHINE_SYNC_NTSC:
-        clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_NTSC_CYCLES_PER_RFSH);
         vic.screen_height = VIC20_NTSC_SCREEN_LINES;
         vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
         vic.display_width = VIC_NTSC_DISPLAY_WIDTH;
@@ -92,7 +91,6 @@ void vic_change_timing(void)
         break;
       case MACHINE_SYNC_PAL:
       default:
-        clk_guard_set_clk_base (&maincpu_clk_guard, VIC20_PAL_CYCLES_PER_RFSH);
         vic.screen_height = VIC20_PAL_SCREEN_LINES;
         vic.screen_width = VIC_PAL_SCREEN_WIDTH;
         vic.display_width = VIC_PAL_DISPLAY_WIDTH;

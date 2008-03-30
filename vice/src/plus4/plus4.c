@@ -217,10 +217,13 @@ static tape_init_t tapeinit = {
 };
 
 static log_t plus4_log = LOG_ERR;
+static machine_timing_t machine_timing;
 
+/*
 static long cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
 static long cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
 static double rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
+*/
 
 /* Plus4-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
@@ -317,8 +320,8 @@ int machine_init(void)
     drive_init(PLUS4_PAL_CYCLES_PER_SEC, PLUS4_PAL_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init((CLOCK)(2 * rfsh_per_sec * cycles_per_rfsh),
-                   0, 0, 0xc8, 0xca, -40);
+    autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
+                   * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
 
     if (!ted_init())
         return -1;
@@ -336,15 +339,16 @@ int machine_init(void)
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(cycles_per_sec, cycles_per_rfsh);
+    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(1319, 239, 8,
-                 (CLOCK)(rfsh_per_sec * cycles_per_rfsh));
+    kbd_buf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
+                 * machine_timing.cycles_per_rfsh));
 
     plus4_ui_init();
 
@@ -423,37 +427,40 @@ int machine_set_restore_key(int v)
 
 long machine_get_cycles_per_second(void)
 {
-    return cycles_per_sec;
+    return machine_timing.cycles_per_sec;
 }
 
 void machine_change_timing(int timeval)
 {
-    unsigned int cycles_per_line = 0, screen_lines = 0;
-
     maincpu_trigger_reset();
 
     switch (timeval) {
       case MACHINE_SYNC_PAL:
-        cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
-        cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
-        rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
-        cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
-        screen_lines = PLUS4_PAL_SCREEN_LINES;
+        machine_timing.cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
+        machine_timing.screen_lines = PLUS4_PAL_SCREEN_LINES;
         break;
       case MACHINE_SYNC_NTSC:
-        cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
-        cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
-        rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
-        cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
-        screen_lines = PLUS4_NTSC_SCREEN_LINES;
+        machine_timing.cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
+        machine_timing.cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
+        machine_timing.rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
+        machine_timing.cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
+        machine_timing.screen_lines = PLUS4_NTSC_SCREEN_LINES;
         break;
       default:
         log_error(plus4_log, "Unknown machine timing.");
     }
 
-    vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
-    sound_set_machine_parameter(cycles_per_sec, cycles_per_rfsh);
-    debug_set_machine_parameter(cycles_per_line, screen_lines);
+    vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
+                                machine_timing.cycles_per_sec);
+    sound_set_machine_parameter(machine_timing.cycles_per_sec,
+                                machine_timing.cycles_per_rfsh);
+    debug_set_machine_parameter(machine_timing.cycles_per_line,
+                                machine_timing.screen_lines);
+    clk_guard_set_clk_base(&maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+
     ted_change_timing();
 }
 
