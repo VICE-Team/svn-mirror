@@ -114,11 +114,11 @@ static iec_info_t *iec_info;
 static int sync_factor;
 
 /* Name of the DOS ROMs.  */
-static char *dos_rom_name_1541;
-static char *default_dos_rom_name_1541;
-static char *dos_rom_name_1571;
-static char *dos_rom_name_1581;
-static char *dos_rom_name_2031;
+static char *dos_rom_name_1541 = 0;
+static char default_dos_rom_name_1541[] = "dos1541";
+static char *dos_rom_name_1571 = 0;
+static char *dos_rom_name_1581 = 0;
+static char *dos_rom_name_2031 = 0;
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 static int rom_loaded = 0;
@@ -363,7 +363,6 @@ static int set_dos_rom_name_1541(resource_value_t v)
         dos_rom_name_1541 = xrealloc(dos_rom_name_1541, strlen(name) + 1);
         strcpy(dos_rom_name_1541, name);
     }
-    default_dos_rom_name_1541 = dos_rom_name_1541;
     return 0;
 }
 
@@ -985,6 +984,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 	drive[i].GCR_track_start_ptr = drive[i].GCR_data;
 	drive[i].attach_clk = (CLOCK)0;
 	drive[i].detach_clk = (CLOCK)0;
+	drive[i].attach_detach_clk = (CLOCK)0;
 	drive[i].bits_moved = drive[i].accum = 0;
 	drive[i].finish_byte = 0;
 	drive[i].last_mode = 1;
@@ -1325,6 +1325,8 @@ int drive_attach_floppy(DRIVE *floppy)
     drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
     drive[dnr].have_new_disk = 1;
     drive[dnr].attach_clk = drive_clk[dnr];
+    if (drive[dnr].detach_clk > (CLOCK) 0)
+        drive[dnr].attach_detach_clk = drive_clk[dnr];
     drive[dnr].ask_extend_disk_image = 1;
 
     if (floppy->ImageFormat != 1581) {
@@ -1417,6 +1419,8 @@ void drive_prevent_clk_overflow(CLOCK sub, int dnr)
             drive[dnr].attach_clk -= sub;
         if (drive[dnr].detach_clk > (CLOCK) 0)
             drive[dnr].detach_clk -= sub;
+        if (drive[dnr].attach_detach_clk > (CLOCK) 0)
+            drive[dnr].attach_detach_clk -= sub;
     }
 }
 
@@ -1554,25 +1558,37 @@ static void drive_set_half_track(int num, drive_t *dptr)
 /* Return the write protect sense status. */
 inline static BYTE drive_write_protect_sense(drive_t *dptr)
 {
-    /* Toggle the write protection bit if the disk was detached.  */
+    /* Set the write protection bit for the time the disk is pulled out on
+       detach.  */
     if (dptr->detach_clk != (CLOCK)0) {
-	if ((*(dptr->clk)) - dptr->detach_clk < DRIVE_DETACH_DELAY)
-	    return 0x10;
-	dptr->detach_clk = (CLOCK)0;
+        if ((*(dptr->clk)) - dptr->detach_clk < DRIVE_DETACH_DELAY)
+            return 0x10;
+        dptr->detach_clk = (CLOCK)0;
     }
+    /* Clear the write protection bit for the minimum time until a new disk
+       can be inserted.  */
+    if (dptr->attach_detach_clk != (CLOCK)0) {
+        if ((*(dptr->clk)) - dptr->attach_detach_clk
+            < DRIVE_ATTACH_DETACH_DELAY)
+            return 0x0;
+        dptr->attach_detach_clk = (CLOCK)0;
+    }
+    /* Set the write protection bit for the time the disk is put in on
+       attach.  */
     if ((dptr->attach_clk != (CLOCK)0) &&
-	((*(dptr->clk)) - dptr->attach_clk < DRIVE_ATTACH_DELAY))
-	return 0x10;
+        ((*(dptr->clk)) - dptr->attach_clk < DRIVE_ATTACH_DELAY))
+        return 0x10;
+
     if (dptr->GCR_image_loaded == 0) {
-	/* No disk in drive, write protection is on. */
-	return 0x0;
+        /* No disk in drive, write protection is on. */
+        return 0x0;
     } else if (dptr->have_new_disk) {
-	/* Disk has changed, make sure the drive sees at least one change in
-	   the write protect status. */
-	dptr->have_new_disk = 0;
-	return dptr->read_only ? 0x10 : 0x0;
+        /* Disk has changed, make sure the drive sees at least one change in
+           the write protect status. */
+        dptr->have_new_disk = 0;
+        return dptr->read_only ? 0x10 : 0x0;
     } else {
-	return dptr->read_only ? 0x0 : 0x10;
+        return dptr->read_only ? 0x0 : 0x10;
     }
 }
 
@@ -2436,6 +2452,7 @@ int reload_rom_1541(char *name) {
     char romsetnamebuffer[MAXPATHLEN];
     char *tmppath;
 
+    if(dos_rom_name_1541) free(dos_rom_name_1541);
     if(name == NULL) {
         dos_rom_name_1541 = default_dos_rom_name_1541;
         drive_load_rom_images();
@@ -2446,7 +2463,7 @@ int reload_rom_1541(char *name) {
     if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
       dos_rom_name_1541 = default_dos_rom_name_1541;
     } else {
-      dos_rom_name_1541 = romsetnamebuffer;
+      dos_rom_name_1541 = stralloc(romsetnamebuffer);
     }
 
     drive_load_rom_images();

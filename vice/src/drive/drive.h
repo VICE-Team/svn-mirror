@@ -161,10 +161,14 @@
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
-#define DRIVE_ATTACH_DELAY           500000
+#define DRIVE_ATTACH_DELAY           600000
 
 /* Number of cycles the write protection is activated on detach.  */
-#define DRIVE_DETACH_DELAY           300000
+#define DRIVE_DETACH_DELAY           200000
+
+/* Number of cycles the after a disk can be inserted after a disk has been
+   detached.  */
+#define DRIVE_ATTACH_DETACH_DELAY    400000
 
 /* Number of bytes in one raw sector.  */
 #define NUM_BYTES_SECTOR_GCR 360
@@ -257,6 +261,10 @@ typedef struct drive_s {
 
     /* Tick when the disk image was detached.  */
     CLOCK detach_clk;
+
+    /* Tick when the disk image was attached, but an old image was just
+       detached.  */
+    CLOCK attach_detach_clk;
 
     /* Byte to read from r/w head.  */
     BYTE GCR_read;
