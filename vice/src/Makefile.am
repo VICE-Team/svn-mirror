@@ -91,6 +91,7 @@ noinst_HEADERS = \
 	riotcore.h \
 	romset.h \
 	rs232.h \
+	screenshot.h \
 	serial.h \
 	snapshot.h \
 	sound.h \
@@ -142,6 +143,7 @@ base_sources = \
 	parallel.c \
 	resources.c \
 	romset.c \
+	screenshot.c \
 	serial.c \
 	snapshot.c \
 	sound.c \
