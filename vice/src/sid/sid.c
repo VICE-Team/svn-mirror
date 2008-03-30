@@ -32,6 +32,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "sid-resources.h"
 #include "sid.h"
 #include "fastsid.h"
 
@@ -83,8 +84,30 @@ BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
     return val;
 }
 
+/* write register value to sid */
+void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
+{
+    addr &= 0x1f;
+    siddata[chipno][addr] = byte;
+
+    machine_handle_pending_alarms(rmw_flag + 1);
+    if (rmw_flag) {
+	clk--;
+	sound_store(addr, lastsidread, chipno);
+	clk++;
+    }
+    sound_store(addr, byte, chipno);
+}
+
+/* ------------------------------------------------------------------------- */
+
 BYTE REGPARM1 sid_read(ADDRESS addr)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end)
+        sid_read_chip(addr, 1);
+
     return sid_read_chip(addr, 0);
 }
 
@@ -93,25 +116,15 @@ BYTE REGPARM1 sid2_read(ADDRESS addr)
     return sid_read_chip(addr, 1);
 }
 
-
-/* write register value to sid */
-void REGPARM3 sid_store_chip(ADDRESS addr, BYTE byte, int chipno)
-{
-    addr &= 0x1f;
-    siddata[chipno][addr] = byte;
-
-    machine_handle_pending_alarms(rmw_flag + 1);
-    if (rmw_flag)
-    {
-	clk--;
-	sound_store(addr, lastsidread, chipno);
-	clk++;
-    }
-    sound_store(addr, byte, chipno);
-}
-
 void REGPARM2 sid_store(ADDRESS addr, BYTE byte)
 {
+    if (sid_stereo
+        && addr >= sid_stereo_address_start
+        && addr < sid_stereo_address_end) {
+        sid_store_chip(addr, byte, 1);
+        return;
+    }
+
     sid_store_chip(addr, byte, 0);
 }
 
@@ -119,6 +132,8 @@ void REGPARM2 sid2_store(ADDRESS addr, BYTE byte)
 {
     sid_store_chip(addr, byte, 1);
 }
+
+/* ------------------------------------------------------------------------- */
 
 void sid_reset(void)
 {
