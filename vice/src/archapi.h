@@ -61,10 +61,10 @@ extern int archdep_default_logger(const char *level_string, const char *txt);
 
 /* Launch program `name' (searched via the PATH environment variable)
    passing `argv' as the parameters, wait for it to exit and return its
-   exit status. If `stdout_redir' or `stderr_redir' are != NULL,
+   exit status. If `pstdout_redir' or `stderr_redir' are != NULL,
    redirect stdout or stderr to the corresponding file.  */
 extern int archdep_spawn(const char *name, char **argv,
-                         const char *stdout_redir, const char *stderr_redir);
+                         char **pstdout_redir, const char *stderr_redir);
 
 /* Spawn need quoting the params or expanding the filename in some archs.  */
 extern char *archdep_filename_parameter(const char *name);
