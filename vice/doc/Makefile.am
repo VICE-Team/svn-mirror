@@ -8,7 +8,6 @@ doc_DATA = \
 	drive_info.txt \
 	mnemonics.txt \
 	mon.txt \
-	recomment.html \
 	serial.txt
 
 info_TEXINFOS = \

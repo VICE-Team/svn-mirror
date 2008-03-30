@@ -14,9 +14,6 @@ list of all the changes in the code.
 ** C64 changes
 --------------
 
-- "4064" and "SX" are now valid ROM patch IDs (the same as "100" and
-  "67" respectively).
-
 - A couple of little but annoying bugs in the VIC-II emulation have
   been fixed.
 
@@ -24,6 +21,9 @@ list of all the changes in the code.
   consecutive underflows happen.
 
 - Cartridge support has been added.
+
+- "4064" and "SX" are now valid ROM patch IDs (the same as "100" and
+  "67" respectively).
 
 ** C128 changes
 ---------------
@@ -46,7 +46,7 @@ list of all the changes in the code.
 
 - The memory configurations can be added at runtime.
 
-- The RESTORE keys works correctly now.
+- The RESTORE key works correctly now.
 
 ** PET changes
 --------------
@@ -78,8 +78,8 @@ list of all the changes in the code.
 
 - The old monitor has been replaced by a completely new one, written
   by Daniel Sladic.  Although it is still under construction, it also
-  now allows access to the CPU in the 1541 drive, and features
-  watchpoints and breakpoints.
+  allows access to the CPU in the 1541 drive, and features watchpoints
+  and breakpoints.
 
 ** Unix changes
 ---------------
@@ -95,10 +95,6 @@ list of all the changes in the code.
 - The emulators and c1541 now use the real, full-featured GNU readline
   library if found.  Use `./configure --without-readline' for the old
   behavior.
-
-- `-lICE' is now explicitly linked if found (the old way could cause
-  troubles on GNU/Linux systems which have both GNU libc 2 and 1
-  installed, such as RedHat 5.x).
 
 - RS232 and printer support has been added.
 
@@ -122,7 +118,7 @@ list of all the changes in the code.
   incompatibilities.
 
 - The video driver can now use triple buffering for much smoother
-  animations.
+  animations (don't use it under Windows).
 
 - 1351 mouse emulation has been implemented.  Make sure a working
   mouse driver is installed.
@@ -168,6 +164,7 @@ list of all the changes in the code.
 - Automake is now being used.
 
 - Color palettes are now completely configurable via system files.
+
 
 * Changes in VICE 0.14.2
 ========================
