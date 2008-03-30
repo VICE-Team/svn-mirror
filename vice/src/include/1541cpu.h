@@ -61,4 +61,6 @@ extern void true1541_cpu_sleep(void);
 extern void true1541_cpu_wake_up(void);
 extern int true1541_cpu_prevent_clk_overflow(void);
 
+extern void true1541_turn_watchpoints_on(void);
+extern void true1541_turn_watchpoints_off(void);
 #endif

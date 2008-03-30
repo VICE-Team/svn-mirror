@@ -154,8 +154,68 @@ static void REGPARM2 store_free(ADDRESS address, BYTE value)
     return;
 }
 
+/* This defines the watchpoint memory access for the 1541 CPU.  */
+
+static BYTE REGPARM1 read_ram_watch(ADDRESS address)
+{
+    watch_push_load_addr(address, e_disk_space);
+    return read_ram(address);
+}
+
+static void REGPARM2 store_ram_watch(ADDRESS address, BYTE value)
+{
+    watch_push_store_addr(address, e_disk_space);
+    store_ram(address, value);
+}
+
+static BYTE REGPARM1 read_rom_watch(ADDRESS address)
+{
+    watch_push_load_addr(address, e_disk_space);
+    return read_rom(address);
+}
+
+static BYTE REGPARM1 read_free_watch(ADDRESS address)
+{
+    watch_push_load_addr(address, e_disk_space);
+    return read_free(address);
+}
+
+static void REGPARM2 store_free_watch(ADDRESS address, BYTE value)
+{
+    watch_push_store_addr(address, e_disk_space);
+    return;
+}
+
+static BYTE REGPARM1 read_viaD1_watch(ADDRESS address)
+{
+    watch_push_load_addr(address, e_disk_space);
+    return read_viaD1(address);
+}
+
+static void REGPARM2 store_viaD1_watch(ADDRESS address, BYTE value)
+{
+    watch_push_store_addr(address, e_disk_space);
+    store_viaD1(address, value);
+}
+
+static BYTE REGPARM1 read_viaD2_watch(ADDRESS address)
+{
+    watch_push_load_addr(address, e_disk_space);
+    return read_viaD2(address);
+}
+
+static void REGPARM2 store_viaD2_watch(ADDRESS address, BYTE value)
+{
+    watch_push_store_addr(address, e_disk_space);
+    store_viaD2(address, value);
+}
+
 true1541_read_func_t *read_func[0x41];
 true1541_store_func_t *store_func[0x41];
+true1541_read_func_t *read_func_watch[0x41];
+true1541_store_func_t *store_func_watch[0x41];
+true1541_read_func_t *read_func_nowatch[0x41];
+true1541_store_func_t *store_func_nowatch[0x41];
 
 #define LOAD(a)		  (read_func[(a) >> 10](a))
 
@@ -229,18 +289,43 @@ static void mem_init(void)
     int i;
 
     for (i = 0; i < 0x41; i++) {
-	read_func[i] = read_free;
-	store_func[i] = store_free;
+	read_func_watch[i] = read_free_watch;
+	store_func_watch[i] = store_free_watch;
+	read_func_nowatch[i] = read_free;
+	store_func_nowatch[i] = store_free;
     }
     for (i = 0x30; i < 0x40; i++) {
-	read_func[i] = read_rom;
+	read_func_watch[i] = read_rom_watch;
+	read_func_nowatch[i] = read_rom;
     }
-    read_func[0x0] = read_func[0x1] = read_func[0x40] = read_ram;
-    store_func[0x0] = store_func[0x1] = store_func[0x40] = store_ram;
-    read_func[0x6] = read_viaD1;
-    store_func[0x6] = store_viaD1;
-    read_func[0x7] = read_viaD2;
-    store_func[0x7] = store_viaD2;
+    read_func_watch[0x0] = read_func_watch[0x1] = read_func_watch[0x40] = read_ram_watch;
+    store_func_watch[0x0] = store_func_watch[0x1] = store_func_watch[0x40] = store_ram_watch;
+    read_func_watch[0x6] = read_viaD1_watch;
+    store_func_watch[0x6] = store_viaD1_watch;
+    read_func_watch[0x7] = read_viaD2_watch;
+    store_func_watch[0x7] = store_viaD2_watch;
+
+    read_func_nowatch[0x0] = read_func_nowatch[0x1] = read_func_nowatch[0x40] = read_ram;
+    store_func_nowatch[0x0] = store_func_nowatch[0x1] = store_func_nowatch[0x40] = store_ram;
+    read_func_nowatch[0x6] = read_viaD1;
+    store_func_nowatch[0x6] = store_viaD1;
+    read_func_nowatch[0x7] = read_viaD2;
+    store_func_nowatch[0x7] = store_viaD2;
+
+    memcpy(read_func, read_func_nowatch, sizeof(true1541_read_func_t *) * 0x41);
+    memcpy(store_func, store_func_nowatch, sizeof(true1541_store_func_t *) * 0x41);
+}
+
+void true1541_turn_watchpoints_on(void)
+{
+   memcpy(read_func, read_func_watch, sizeof(true1541_read_func_t *) * 0x41);
+   memcpy(store_func, store_func_watch, sizeof(true1541_store_func_t *) * 0x41);
+}
+
+void true1541_turn_watchpoints_off(void)
+{
+   memcpy(read_func, read_func_nowatch, sizeof(true1541_read_func_t *) * 0x41);
+   memcpy(store_func, store_func_nowatch, sizeof(true1541_store_func_t *) * 0x41);
 }
 
 void true1541_cpu_reset(void)
@@ -366,6 +451,8 @@ void true1541_cpu_execute(void)
 
 #define ROM_TRAP_HANDLER() \
     true1541_trap_handler()
+
+#define FORCE_INPUT mon_force_import(e_disk_space)
 
 #include "6510core.c"
 

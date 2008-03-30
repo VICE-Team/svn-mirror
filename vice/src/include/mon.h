@@ -119,7 +119,7 @@ enum t_action {
    e_TOGGLE
 };
 typedef enum t_action ACTION;
-
+ 
 struct t_cond_node {
    int operation;
    int value;
@@ -156,7 +156,7 @@ extern char *cond_op_string[];
 
 /* Global variables */
 
-#define NUM_MEMSPACES 2
+#define NUM_MEMSPACES 3
 #define DEFAULT_DISASSEMBLY_SIZE 40
 #define SPACESTRING(val) (val)?"disk":"computer"
 
@@ -187,6 +187,7 @@ extern MEMSPACE caller_space;
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
+#define any_watchpoints(mem) (watchpoints_load[(mem)] || watchpoints_store[(mem)])
 
 extern int exit_mon;
 
@@ -214,6 +215,7 @@ void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a);
 
 M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2);
 void free_range(M_ADDR_RANGE ar);
+
 
 extern unsigned check_addr_limits(unsigned val);
 extern bool is_valid_addr_range(M_ADDR_RANGE range);
@@ -271,8 +273,9 @@ extern void jump(M_ADDR addr);
 
 extern void watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
+extern bool mon_force_import(MEMSPACE mem);
 
 extern void mon_helper(ADDRESS a);
 extern void mon(ADDRESS a);
 
-#endif /* _MON_H */
+#endif

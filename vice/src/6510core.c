@@ -150,6 +150,8 @@
 #define TRACE_NMI()
 #define TRACE_IRQ()
 #endif
+
+#ifdef __1541__
 #define DO_INTERRUPT(int_kind)                                          \
     do {                                                                \
         BYTE ik = (int_kind);                                           \
@@ -195,7 +197,75 @@
                 JUMP(LOAD_ADDR(0xfffc));                                \
             }                                                           \
         }                                                               \
+        if (ik & (IK_BREAKPT)) {					\
+           if (any_breakpoints(e_disk_space)) {				\
+              EXPORT_REGISTERS();					\
+              if (check_breakpoints(e_disk_space)) {			\
+                 caller_space = e_disk_space;				\
+                 mon(reg_pc);						\
+                 IMPORT_REGISTERS();					\
+              }								\
+           }								\
+        }								\
     } while (0)
+#else
+#define DO_INTERRUPT(int_kind)                                          \
+    do {                                                                \
+        BYTE ik = (int_kind);                                           \
+                                                                        \
+        if (ik & (IK_IRQ | IK_NMI)) {                                   \
+            if ((ik & IK_NMI)                                           \
+		&& check_nmi_delay(&CPU_INT_STATUS, CLK)) {             \
+                TRACE_NMI();                                            \
+                ack_nmi(&CPU_INT_STATUS);                               \
+                LOCAL_SET_BREAK(0);                                     \
+                PUSH(reg_pc >> 8);                                      \
+                PUSH(reg_pc & 0xff);                                    \
+                PUSH(LOCAL_STATUS());                                   \
+                LOCAL_SET_INTERRUPT(1);                                 \
+                JUMP(LOAD_ADDR(0xfffa));                                \
+                SET_LAST_OPCODE(0);                                     \
+                CLK += NMI_CYCLES;                                      \
+            } else if ((ik & IK_IRQ)                                    \
+                       && (!LOCAL_INTERRUPT()                           \
+                           || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))    \
+                       && check_irq_delay(&CPU_INT_STATUS, CLK)) {      \
+                TRACE_IRQ();                                            \
+                LOCAL_SET_BREAK(0);                                     \
+                PUSH(reg_pc >> 8);                                      \
+                PUSH(reg_pc & 0xff);                                    \
+                PUSH(LOCAL_STATUS());                                   \
+                LOCAL_SET_INTERRUPT(1);                                 \
+                JUMP(LOAD_ADDR(0xfffe));                                \
+                SET_LAST_OPCODE(0);                                     \
+                CLK += IRQ_CYCLES;                                      \
+            }                                                           \
+        }                                                               \
+        if (ik & (IK_TRAP | IK_RESET)) {                                \
+            if (ik & IK_TRAP) {                                         \
+                ack_trap(&CPU_INT_STATUS);                              \
+                EXPORT_REGISTERS();                                     \
+                CPU_INT_STATUS.trap_func(reg_pc);                       \
+                IMPORT_REGISTERS();                                     \
+            }                                                           \
+            if (ik & IK_RESET) {                                        \
+                ack_reset(&CPU_INT_STATUS);                             \
+                reset();                                                \
+                JUMP(LOAD_ADDR(0xfffc));                                \
+            }                                                           \
+        }                                                               \
+        if (ik & (IK_BREAKPT)) {					\
+           if (any_breakpoints(e_comp_space)) {				\
+              EXPORT_REGISTERS();					\
+              if (check_breakpoints(e_comp_space)) {			\
+                 caller_space = e_comp_space;				\
+                 mon(reg_pc);						\
+                 IMPORT_REGISTERS();					\
+              }								\
+           }								\
+        }								\
+    } while (0)
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -1404,6 +1474,12 @@
 /* Here, the CPU is emulated. */
 
 {
+    /* This can be moved out of the loop. The reason it isn't is that
+     * IMPORT_REGISTERS needs macros defined in this file.
+     */
+    if (FORCE_INPUT)
+       IMPORT_REGISTERS();
+
     while (CLK >= next_alarm_clk(&CPU_INT_STATUS))
         serve_next_alarm(&CPU_INT_STATUS, CLK);
 
@@ -1445,25 +1521,6 @@
                    reg_pc, (long)clk, sprint_opcode(reg_pc, 1));
 #endif
 #endif
-#endif
-#ifdef __1541__
-       if (any_breakpoints(e_disk_space)) {
-          EXPORT_REGISTERS();
-          if (check_breakpoints(e_disk_space)) {
-             caller_space = e_disk_space;
-             mon(reg_pc);
-             IMPORT_REGISTERS();
-          }
-       }
-#else
-       if (any_breakpoints(e_comp_space)) {
-          EXPORT_REGISTERS();
-          if (check_breakpoints(e_comp_space)) {
-             caller_space = e_comp_space;
-             mon(reg_pc);
-             IMPORT_REGISTERS();
-          }
-       }
 #endif
 
         SET_LAST_OPCODE(p0);

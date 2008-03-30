@@ -87,7 +87,8 @@ enum cpu_int {
     IK_NMI = 1 << 0,
     IK_IRQ = 1 << 1,
     IK_RESET = 1 << 2,
-    IK_TRAP = 1 << 3
+    IK_TRAP = 1 << 3,
+    IK_BREAKPT = 1 << 4
 };
 
 /* This defines the type for a CPU alarm handler.  The passed argument is set
@@ -295,6 +296,16 @@ _INT_FUNC void ack_trap(struct cpu_int_status *cs)
     cs->global_pending_int &= ~IK_TRAP;
 }
 
+_INT_FUNC void breakpoints_on(struct cpu_int_status *cs)
+{
+    cs->global_pending_int |= IK_BREAKPT;
+}
+
+_INT_FUNC void breakpoints_off(struct cpu_int_status *cs)
+{
+    cs->global_pending_int &= ~IK_BREAKPT;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Find the next pending alarm.  */
@@ -494,7 +505,7 @@ extern CLOCK clk;
 extern struct cpu_int_status true1541_int_status;
 extern CLOCK true1541_clk;
 
-/* For convenbience...  */
+/* For convenience...  */
 
 #define maincpu_set_alarm_clk(alarm, tick) \
     set_alarm_clk(&maincpu_int_status, (alarm), (tick))
@@ -524,6 +535,10 @@ extern CLOCK true1541_clk;
     prevent_clk_overflow(&maincpu_int_status, &clk)
 #define maincpu_steal_cycles(start_clk, num) \
     steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
+#define maincpu_breakpoints_on() \
+    breakpoints_on(&maincpu_int_status)
+#define maincpu_breakpoints_off() \
+    breakpoints_off(&maincpu_int_status)
 
 #define true1541_set_alarm_clk(alarm, tick) \
     set_alarm_clk(&true1541_int_status, (alarm), (tick))
@@ -549,5 +564,9 @@ extern CLOCK true1541_clk;
     trigger_trap(&true1541_int_status, (trap_func), true1541_clk + 1)
 #define true1541_serve_next_alarm() \
     serve_next_alarm(&true1541_int_status, true1541_clk)
+#define true1541_breakpoints_on() \
+    breakpoints_on(&true1541_int_status)
+#define true1541_breakpoints_off() \
+    breakpoints_off(&true1541_int_status)
 
 #endif /* !_INTERRUPT_H */
