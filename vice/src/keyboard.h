@@ -47,7 +47,8 @@ enum shift_type {
     ALLOW_SHIFT = (1 << 3),   /* Allow key to be shifted. */
     DESHIFT_SHIFT = (1 << 4), /* Although SHIFT might be pressed, do not
                                  press shift on the real machine. */
-    ALLOW_DESHIFT = (1 << 5)  /* Allow the key to be deshifted. */
+    ALLOW_OTHER = (1 << 5)    /* Allow another key code to by assigned if
+                                 SHIFT is pressed. */
 };
 
 typedef struct keyboard_conv_s {
