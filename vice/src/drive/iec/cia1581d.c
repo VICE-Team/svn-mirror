@@ -126,7 +126,12 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
     wd1770[cia1581p->number].side = (byte & 0x01) ? 1 : 0;
+
     cia1581p->drive->led_status = (byte & 0x40) ? 1 : 0;
+    if (cia1581p->drive->led_status)
+        cia1581p->drive->led_active_ticks += *(cia_context->clk_ptr)
+            - cia1581p->drive->led_last_change_clk;
+    cia1581p->drive->led_last_change_clk = *(cia_context->clk_ptr);
 }
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
