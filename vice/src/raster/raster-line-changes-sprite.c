@@ -223,6 +223,7 @@ static int update_for_minor_changes_sprite(raster_t *raster,
                                            sprites_need_update);
 
     if (needs_update) {
+
         raster_modes_draw_line_cached(raster->modes,
                                       video_mode,
                                       cache,
@@ -233,10 +234,13 @@ static int update_for_minor_changes_sprite(raster_t *raster,
            background color (necessary if xsmooth is > 0).  */
         raster_line_fill_xsmooth_region(raster);
 
+#if 0
         if (raster->sprite_status != NULL) {
+#endif
             /* FIXME: Could be optimized better.  */
             draw_sprites_when_cache_enabled(raster, cache);
             raster_line_draw_borders(raster);
+#if 0
         } else {
             if (raster->xsmooth > 0) {
                 /* If xsmooth > 0, drawing the graphics might have corrupted
@@ -251,8 +255,14 @@ static int update_for_minor_changes_sprite(raster_t *raster,
 
             }
         }
+#endif
         /* Calculate the interval in pixel coordinates.  */
+#if 0
         *changed_start = raster->geometry->gfx_position.x;
+#else
+        *changed_start = raster->geometry->gfx_position.x + raster->xsmooth
+                         + 8 * changed_start_char;
+#endif
         *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
                        + 8 * (changed_end_char + 1) - 1;
 
@@ -284,7 +294,6 @@ static int update_for_minor_changes_sprite(raster_t *raster,
         raster->sprite_status->sprite_background_collisions
             = cache->sprite_background_collisions;
     }
-
     return needs_update;
 }
 
