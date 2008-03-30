@@ -38,7 +38,6 @@
 #include "vdctypes.h"
 #include "vicii.h"
 
-
 
 static void vdc_write_data(void)
 {
@@ -88,7 +87,6 @@ static void vdc_perform_fillcopy(void)
     vdc.regs[19] = ptr & 0xff;
 }
 
-
 
 /* VDC interface functions. */
 
@@ -97,7 +95,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
     /*log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);*/
 
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0)
@@ -111,56 +109,56 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
     switch (vdc.update_reg)
     {
-      case 0:			/* R00  Horizontal total (characters + 1) */
-/*	new_vdc_cycles_per_line = vdc[0] + 1; */
+      case 0:                   /* R00  Horizontal total (characters + 1) */
+/*      new_vdc_cycles_per_line = vdc[0] + 1; */
         break;
 
-      case 1:			/* R01  Horizontal characters displayed */
+      case 1:                   /* R01  Horizontal characters displayed */
 /*
-	if (!vdc[1])
-	    return;
-	new_memptr_inc = vdc[1];
+        if (!vdc[1])
+            return;
+        new_memptr_inc = vdc[1];
         if (hw_double_cols) {
             new_memptr_inc *= 2;
         }
 */
-	/* catch screens to large for our text cache */
+        /* catch screens to large for our text cache */
 /*
-	new_memptr_inc = vdc_min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
+        new_memptr_inc = vdc_min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
 */
         break;
 
-      case 2:			/* R02  Horizontal Sync Position */
+      case 2:                   /* R02  Horizontal Sync Position */
         break;
 
-      case 3:			/* R03  Horizontal/Vertical Sync widths */
+      case 3:                   /* R03  Horizontal/Vertical Sync widths */
         break;
 
-      case 4:			/* R04  Vertical total (character) rows */
+      case 4:                   /* R04  Vertical total (character) rows */
 /*
         new_vdc_vertical_total = vdc[4] + 1;
 */
         break;
 
-      case 5:			/* R05  Vertical total line adjust */
+      case 5:                   /* R05  Vertical total line adjust */
 /*        new_vdc_vertical_adjust = vdc[5] & 0x1f; */
         break;
 
-      case 6:			/* R06  Number of display lines on screen */
+      case 6:                   /* R06  Number of display lines on screen */
 /*        new_vdc_screen_textlines = vdc[6] & 0x7f; */
         break;
 
-      case 7:			/* R07  Vertical sync position */
+      case 7:                   /* R07  Vertical sync position */
         break;
 
-      case 8:			/* R08  unused: Interlace and Skew */
+      case 8:                   /* R08  unused: Interlace and Skew */
         break;
 
-      case 9:			/* R09  Rasters between two display lines */
-/*	new_screen_charheight = vdc_min(8, vdc[9] + 1); */
+      case 9:                   /* R09  Rasters between two display lines */
+/*      new_screen_charheight = vdc_min(8, vdc[9] + 1); */
         break;
 
-      case 10:			/* R10  Cursor Mode, Start Scan */
+      case 10:                  /* R10  Cursor Mode, Start Scan */
         switch (value & 0x60) {
           case 0x00:
           vdc.cursor_visible = 1;
@@ -181,11 +179,11 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         }
         break;
 
-      case 11:			/* R11  Cursor */
+      case 11:                  /* R11  Cursor */
         break;
 
-      case 12:			/* R12  Display Start Address hi */
-      case 13:			/* R13  Display Start Address lo */
+      case 12:                  /* R12  Display Start Address hi */
+      case 13:                  /* R13  Display Start Address lo */
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
         /*log_message(vdc.log,"Update screen_adr: %x.", vdc.screen_adr);*/
@@ -197,22 +195,21 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
                       & vdc.vdc_address_mask;;
         break;
 
-      case 16:			/* R16/17 Light Pen hi/lo */
+      case 16:                  /* R16/17 Light Pen hi/lo */
       case 17:
         break;
 
-      case 18:			/* R18/19 Update Address hi/lo */
+      case 18:                  /* R18/19 Update Address hi/lo */
       case 19:
         vdc.update_adr = ((vdc.regs[18] << 8) | vdc.regs[19])
                          & vdc.vdc_address_mask;
         break;
 
-      case 20:			/* R20/21 Attribute Start Address hi/lo */
+      case 20:                  /* R20/21 Attribute Start Address hi/lo */
       case 21:
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
-        /*log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);*/
-        break;
+        /*log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);*/        break;
 
       case 24:
         if (value & 0x20)
@@ -225,7 +222,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         /*log_message(vdc.log, "Color source: %s.",
                     (vdc.regs[25] & 0x40) ? "attribute space" : "register 26");
         */
-        vdc.raster.video_mode = (vdc.regs[25] & 0x80) 
+        vdc.raster.video_mode = (vdc.regs[25] & 0x80)
                                 ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
         break;
 
@@ -239,29 +236,28 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         /*log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);*/
         break;
 
-      case 30:			/* Word Count */
+      case 30:                  /* Word Count */
         vdc_perform_fillcopy();
         break;
 
-      case 31:			/* Data */
+      case 31:                  /* Data */
         vdc_write_data();
         break;
 
-      case 32:			/* R32/33 Block Start Address hi/lo */
+      case 32:                  /* R32/33 Block Start Address hi/lo */
       case 33:
         break;
     }
 }
 
-
 
 BYTE REGPARM1 vdc_read(ADDRESS addr)
 {
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
     if (addr & 1) {
 
-    	/*og_message(vdc.log, "read: addr = %x", addr);*/
+        /*log_message(vdc.log, "read: addr = %x", addr);*/
 
         if (vdc.update_reg == 31) {
             BYTE retval;
@@ -280,3 +276,4 @@ BYTE REGPARM1 vdc_read(ADDRESS addr)
     else
         return 0x9f;
 }
+

@@ -1,5 +1,4 @@
-/* -*- C -*-
- *
+/*
  * c64cia2.c - Definitions for the second MOS6526 (CIA) chip in the C64
  * ($DD00).
  *
@@ -76,9 +75,9 @@
 
 #define MYCIA_INT       IK_NMI
 
-#define myclk 		clk
+#define myclk           clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define	mycpu_rmw_flag	rmw_flag
+#define mycpu_rmw_flag  rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 interrupt_set_nmi(&maincpu_int_status,(I_CIA2FL),(value),(clk))
@@ -101,9 +100,9 @@ static iec_info_t *iec_info;
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
-static iec_cpu_write_callback_t iec_cpu_write_callback[4] = { 
+static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
     iec_cpu_write_conf0, iec_cpu_write_conf1,
-    iec_cpu_write_conf2, iec_cpu_write_conf3 
+    iec_cpu_write_conf2, iec_cpu_write_conf3
 };
 
 
@@ -123,13 +122,13 @@ static inline void do_reset_cia(void)
 
 
 #define PRE_STORE_CIA \
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
 #define PRE_READ_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
 #define PRE_PEEK_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
 static inline void store_ciapa(CLOCK rclk, BYTE byte)
 {
@@ -157,7 +156,7 @@ static inline void undump_ciapa(CLOCK rclk, BYTE byte)
 {
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
-	rsuser_set_tx_bit((int)(byte & 4));
+        rsuser_set_tx_bit((int)(byte & 4));
     }
 #endif
     vbank = (byte ^ 3) & 3;
@@ -175,8 +174,8 @@ static inline void store_ciapb(CLOCK rclk, BYTE byte)
 #endif
 }
 
-static inline void pulse_ciapc(CLOCK rclk) 
-{ 
+static inline void pulse_ciapc(CLOCK rclk)
+{
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_pulse();
     pruser_write_data((BYTE)oldpb);
@@ -197,12 +196,12 @@ static inline BYTE read_ciapa(void)
 {
     BYTE byte;
     if (!drive[0].enable && !drive[1].enable)
-	return ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) |
-	    (iec_info->iec_fast_1541 & 0x30) << 2;
+        return ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) |
+            (iec_info->iec_fast_1541 & 0x30) << 2;
     if (drive[0].enable)
-	drive0_cpu_execute(clk);
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute(clk);
+        drive1_cpu_execute(clk);
 
     byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
     return byte;
@@ -213,14 +212,12 @@ static inline BYTE read_ciapb(void)
 {
     BYTE byte;
 #ifdef HAVE_RS232
-    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-            ? parallel_cable_cpu_read()
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)            ? parallel_cable_cpu_read()
             : (rsuser_enabled
-		? rsuser_read_ctrl()
-		: 0xff ));
+                ? rsuser_read_ctrl()
+                : 0xff ));
 #else
-    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-            ? parallel_cable_cpu_read()
+    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)            ? parallel_cable_cpu_read()
             : 0xff );
 #endif
     byte = (byte & ~cia[CIA_DDRB]) | (cia[CIA_PRB] & cia[CIA_DDRB]);
@@ -242,7 +239,7 @@ static inline void store_sdr(BYTE byte) {}
 void pruser_set_busy(int flank)
 {
     if(!flank) {
-	cia2_set_flag();
+        cia2_set_flag();
     }
 }
 

@@ -1,5 +1,4 @@
-/* -*- C -*-
-
+/*
  * c128cia1.c - Definitions for the first MOS6526 (CIA) chip in the C128
  * ($DC00).
  *
@@ -73,9 +72,9 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk 		clk
+#define myclk           clk
 #define mycpu_clk_guard maincpu_clk_guard
-#define	mycpu_rmw_flag	rmw_flag
+#define mycpu_rmw_flag  rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 interrupt_set_irq(&maincpu_int_status,(I_CIA1FL),(value),(clk))
@@ -108,24 +107,35 @@ void cia1_set_extended_keyboard_rows_mask(BYTE value)
 static inline void pulse_ciapc(CLOCK rclk) { }
 
 #define PRE_STORE_CIA \
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
 #define PRE_READ_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
 #define PRE_PEEK_CIA \
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
-static inline void do_reset_cia(void) {}
-static inline void store_ciapa(CLOCK rclk, BYTE b) {}
-static inline void undump_ciapa(CLOCK rclk, BYTE b) {}
+static inline void do_reset_cia(void)
+{
+
+}
+
+static inline void store_ciapa(CLOCK rclk, BYTE b)
+{
+
+}
+
+static inline void undump_ciapa(CLOCK rclk, BYTE b)
+{
+
+}
 
 static inline void store_sdr(BYTE byte)
 {
     iec_fast_cpu_write((BYTE)cia_shifter);
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
-	rsuser_tx_byte((BYTE)cia_shifter);
+        rsuser_tx_byte((BYTE)cia_shifter);
     }
 #endif
 }
@@ -133,10 +143,10 @@ static inline void store_sdr(BYTE byte)
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     {
-	/* Handle software-triggered light pen.  */
-	if ( (byte ^ oldpb) & 0x10) {
-	    vic_ii_trigger_light_pen(rclk);
-	}
+        /* Handle software-triggered light pen.  */
+        if ( (byte ^ oldpb) & 0x10) {
+            vic_ii_trigger_light_pen(rclk);
+        }
     }
 }
 
@@ -147,15 +157,15 @@ static inline BYTE read_ciapa(void)
 {
     BYTE byte;
     {
-	BYTE val = oldpa;
-	BYTE msk = (oldpb) & ~joystick_value[2];
-	BYTE m;
-	int i;
+        BYTE val = oldpa;
+        BYTE msk = (oldpb) & ~joystick_value[2];
+        BYTE m;
+        int i;
 
-	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-	    if (!(msk & m))
-		val &= ~rev_keyarr[i];
-	byte = val & ~joystick_value[2];
+        for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+            if (!(msk & m))
+                val &= ~rev_keyarr[i];
+        byte = val & ~joystick_value[2];
     }
     return byte;
 }
@@ -165,21 +175,21 @@ static inline BYTE read_ciapb(void)
 {
     BYTE byte;
     {
-	BYTE val = ~cia[CIA_DDRB];
-	BYTE msk = (oldpa) & ~joystick_value[1];
-	BYTE m;
-	int i;
+        BYTE val = ~cia[CIA_DDRB];
+        BYTE msk = (oldpa) & ~joystick_value[1];
+        BYTE m;
+        int i;
 
-	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-	    if (!(msk & m))
-		val &= ~keyarr[i];
+        for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
+            if (!(msk & m))
+                val &= ~keyarr[i];
 
-	if (extended_keyboard_rows_enabled)
-	    for (m = 0x1, i = 8; i < 11; m <<= 1, i++)
-		if (!(extended_keyboard_rows_mask & m))
-		    val &= ~keyarr[i];
+        if (extended_keyboard_rows_enabled)
+            for (m = 0x1, i = 8; i < 11; m <<= 1, i++)
+                if (!(extended_keyboard_rows_mask & m))
+                    val &= ~keyarr[i];
 
-	byte = (val | (cia[CIA_PRB] & cia[CIA_DDRB]) ) & ~joystick_value[1];
+        byte = (val | (cia[CIA_PRB] & cia[CIA_DDRB]) ) & ~joystick_value[1];
     }
     return byte;
 }
