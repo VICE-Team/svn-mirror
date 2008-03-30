@@ -51,10 +51,12 @@
 
 extern void pet_crtc_set_screen(void);
 
+struct printer_context_s;
 struct via_context_s;
 
 typedef struct machine_context_s {
     struct via_context_s *via;
+    struct printer_context_s *printer[3];
 } machine_context_t;
 
 extern machine_context_t machine_context;

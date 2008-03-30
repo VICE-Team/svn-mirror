@@ -130,6 +130,10 @@ SOURCE=..\..\pet\petpia2.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\pet\petprinter.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\pet\petrom.c
 # End Source File
 # Begin Source File
