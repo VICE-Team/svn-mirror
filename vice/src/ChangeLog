@@ -1,3 +1,26 @@
+2000-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.17.
+
+2000-01-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* crtc/crtc.c, vdc/vdc.c, vicii/vicii.c: FALSE is not an ANSI
+	C standard (or Vice, apparently). Replaced with 0.
+
+2000-01-03  Markus Brenner  <markus@brenner.de>
+
+	* vdc/vdc-mem.c: Added vdc_write_data(), fixed
+	vdc_perform_fillcopy().
+
+2000-01-03  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/Makefile.am (EXTRA_DIST): Added monitor.dsp.
+
+2000-01-03  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/win32/uidatasette.c (dialog_proc): now handles the
+	cancel-messages
+
 2000-01-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.16.
@@ -8,8 +31,8 @@
 
 	* main.c, arch/unix/uicommands.c, arch/win32/ui.c,
 	arch/win32/uiattach.c, arch/os2/dialogs/dlg-contents.c,
-	arch/msdos/uiattach.c, arch/msdos/menudefs.c, arch/riscos/uiimage.c: Changed to new
-	autostart API.
+	arch/msdos/uiattach.c, arch/msdos/menudefs.c,
+	arch/riscos/uiimage.c: Changed to new autostart API.
 
 	* vic20/vic.c (init_raster): Fixed screen width.
 
