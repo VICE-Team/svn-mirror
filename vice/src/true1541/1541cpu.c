@@ -168,58 +168,16 @@ static void REGPARM2 true1541_store_free(ADDRESS address, BYTE value)
 
 /* This defines the watchpoint memory access for the 1541 CPU.  */
 
-static BYTE REGPARM1 true1541_read_ram_watch(ADDRESS address)
+static BYTE REGPARM1 true1541_read_watch(ADDRESS address)
 {
-    watch_push_load_addr(address, e_disk_space);
-    return true1541_read_ram(address);
+    mon_watch_push_load_addr(address, e_disk_space);
+    return read_func_nowatch[address>>10](address);
 }
 
-static void REGPARM2 true1541_store_ram_watch(ADDRESS address, BYTE value)
+static void REGPARM2 true1541_store_watch(ADDRESS address, BYTE value)
 {
-    watch_push_store_addr(address, e_disk_space);
-    true1541_store_ram(address, value);
-}
-
-static BYTE REGPARM1 true1541_read_rom_watch(ADDRESS address)
-{
-    watch_push_load_addr(address, e_disk_space);
-    return true1541_read_rom(address);
-}
-
-static BYTE REGPARM1 true1541_read_free_watch(ADDRESS address)
-{
-    watch_push_load_addr(address, e_disk_space);
-    return true1541_read_free(address);
-}
-
-static void REGPARM2 true1541_store_free_watch(ADDRESS address, BYTE value)
-{
-    watch_push_store_addr(address, e_disk_space);
-    return;
-}
-
-static BYTE REGPARM1 read_viaD1_watch(ADDRESS address)
-{
-    watch_push_load_addr(address, e_disk_space);
-    return read_viaD1(address);
-}
-
-static void REGPARM2 store_viaD1_watch(ADDRESS address, BYTE value)
-{
-    watch_push_store_addr(address, e_disk_space);
-    store_viaD1(address, value);
-}
-
-static BYTE REGPARM1 read_viaD2_watch(ADDRESS address)
-{
-    watch_push_load_addr(address, e_disk_space);
-    return read_viaD2(address);
-}
-
-static void REGPARM2 store_viaD2_watch(ADDRESS address, BYTE value)
-{
-    watch_push_store_addr(address, e_disk_space);
-    store_viaD2(address, value);
+    mon_watch_push_store_addr(address, e_disk_space);
+    store_func_nowatch[address>>10](address, value);
 }
 
 #define JUMP(addr)				\
@@ -294,21 +252,14 @@ static void mem_init(void)
     int i;
 
     for (i = 0; i < 0x41; i++) {
-	read_func_watch[i] = true1541_read_free_watch;
-	store_func_watch[i] = true1541_store_free_watch;
+	read_func_watch[i] = true1541_read_watch;
+	store_func_watch[i] = true1541_store_watch;
 	read_func_nowatch[i] = true1541_read_free;
 	store_func_nowatch[i] = true1541_store_free;
     }
     for (i = 0x30; i < 0x40; i++) {
-	read_func_watch[i] = true1541_read_rom_watch;
 	read_func_nowatch[i] = true1541_read_rom;
     }
-    read_func_watch[0x0] = read_func_watch[0x1] = read_func_watch[0x40] = true1541_read_ram_watch;
-    store_func_watch[0x0] = store_func_watch[0x1] = store_func_watch[0x40] = true1541_store_ram_watch;
-    read_func_watch[0x6] = read_viaD1_watch;
-    store_func_watch[0x6] = store_viaD1_watch;
-    read_func_watch[0x7] = read_viaD2_watch;
-    store_func_watch[0x7] = store_viaD2_watch;
 
     read_func_nowatch[0x0] = read_func_nowatch[0x1] = read_func_nowatch[0x40] = true1541_read_ram;
     store_func_nowatch[0x0] = store_func_nowatch[0x1] = store_func_nowatch[0x40] = true1541_store_ram;
@@ -334,10 +285,6 @@ void true1541_toggle_watchpoints(int flag)
         memcpy(store_func, store_func_nowatch,
                sizeof(true1541_store_func_t *) * 0x41);
     }
-}
-
-void true1541_turn_watchpoints_off(void)
-{
 }
 
 void true1541_cpu_reset(void)

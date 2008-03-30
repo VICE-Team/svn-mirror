@@ -210,6 +210,8 @@ int ram_size = RAM_ARRAY;	/* FIXME? */
 /* Memory read and write tables. */
 read_func_ptr_t _mem_read_tab[0x101];
 store_func_ptr_t _mem_write_tab[0x101];
+read_func_ptr_t _mem_read_tab_watch[0x101];
+store_func_ptr_t _mem_write_tab_watch[0x101];
 BYTE *_mem_read_base_tab[0x101];
 
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -294,6 +296,22 @@ void REGPARM2 store_rom(ADDRESS addr, BYTE value)
 static BYTE REGPARM1 read_unused(ADDRESS addr)
 {
     return (addr >> 8) & 0xff;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Functions for watchpoint memory access.  */
+
+BYTE REGPARM1 read_watch(ADDRESS addr)
+{
+    mon_watch_push_load_addr(addr, e_comp_space);
+    return _mem_read_tab[addr >> 8](addr);
+}
+
+void REGPARM2 store_watch(ADDRESS addr, BYTE value)
+{
+    mon_watch_push_store_addr(addr, e_comp_space);
+    _mem_write_tab[addr >> 8](addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -458,6 +476,13 @@ static void set_std_9tof(void) {
 /* FIXME: TODO! */
 void mem_toggle_watchpoints(int flag)
 {
+    if (flag) {
+        _mem_read_tab_ptr = _mem_read_tab_watch;
+        _mem_write_tab_ptr = _mem_write_tab_watch;
+    } else {
+        _mem_read_tab_ptr = _mem_read_tab;
+        _mem_write_tab_ptr = _mem_write_tab;
+    }
 }
 
 /*
@@ -640,6 +665,11 @@ void initialize_memory(void)
     ram_size = pet.ramSize;
     _mem_read_tab_ptr = _mem_read_tab;
     _mem_write_tab_ptr = _mem_write_tab;
+
+    for (i=0; i < 0x101; i++) {
+	_mem_read_tab_watch[i] = read_watch;
+	_mem_write_tab_watch[i] = store_watch;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

@@ -194,14 +194,14 @@ char   *sprint_disassembled(ADDRESS counter,
 	break;
 
       case ZERO_PAGE_X:
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%02X,X" : " %3d,X"), ival);
         else
 	   sprintf(buffp, " %s,X", addr_name);
 	break;
 
       case ZERO_PAGE_Y:
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%02X,Y" : " %3d,Y"), ival);
         else
 	   sprintf(buffp, " %s,Y", addr_name);
@@ -209,7 +209,7 @@ char   *sprint_disassembled(ADDRESS counter,
 
       case ABSOLUTE:
 	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%04X" : " %5d"), ival);
         else
 	   sprintf(buffp, " %s", addr_name);
@@ -217,7 +217,7 @@ char   *sprint_disassembled(ADDRESS counter,
 
       case ABSOLUTE_X:
 	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%04X,X" : " %5d,X"), ival);
         else
 	   sprintf(buffp, " %s,X", addr_name);
@@ -225,21 +225,21 @@ char   *sprint_disassembled(ADDRESS counter,
 
       case ABSOLUTE_Y:
 	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%04X,Y" : " %5d,Y"), ival);
         else
 	   sprintf(buffp, " %s,Y", addr_name);
 	break;
 
       case INDIRECT_X:
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " ($%02X,X)" : " (%3d,X)"), ival);
         else
 	   sprintf(buffp, " (%s,X)", addr_name);
 	break;
 
       case INDIRECT_Y:
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " ($%02X),Y" : " (%3d),Y"), ival);
         else
 	   sprintf(buffp, " (%s),Y", addr_name);
@@ -247,7 +247,7 @@ char   *sprint_disassembled(ADDRESS counter,
 
       case ABS_INDIRECT:
 	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " ($%04X)" : " (%5d)"), ival);
         else
 	   sprintf(buffp, " (%s)", addr_name);
@@ -258,7 +258,7 @@ char   *sprint_disassembled(ADDRESS counter,
 	    ival -= 256;
 	ival += counter;
 	ival += 2;
-        if ( !(addr_name = symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
 	   sprintf(buffp, ((base & HEX) ? " $%04X" : " %5d"), ival);
         else
 	   sprintf(buffp, " %s", addr_name);
