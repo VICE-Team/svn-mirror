@@ -37,10 +37,10 @@
 
 
 #ifdef CIA_SHARED_CODE
-#define CIA_CONTEXT_PARAM       CIACONTEXT *ctxptr,
-#define CIA_CONTEXT_PARVOID     CIACONTEXT *ctxptr
-#define CIA_CONTEXT_CALL        ctxptr,
-#define CIA_CONTEXT_CALLVOID    ctxptr
+#define CIA_CONTEXT_PARAM       CIACONTEXT *cia_context,
+#define CIA_CONTEXT_PARVOID     CIACONTEXT *cia_context
+#define CIA_CONTEXT_CALL        cia_context,
+#define CIA_CONTEXT_CALLVOID    cia_context
 #define CIARPARM1               REGPARM2
 #define CIARPARM2               REGPARM3
 #else
