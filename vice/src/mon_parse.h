@@ -92,12 +92,13 @@ typedef union {
 #define	R_O_L	339
 #define	OPCODE	340
 #define	LABEL	341
-#define	REGISTER	342
-#define	COMPARE_OP	343
-#define	RADIX_TYPE	344
-#define	INPUT_SPEC	345
-#define	CMD_CHECKPT_ONOFF	346
-#define	TOGGLE	347
+#define	BANKNAME	342
+#define	REGISTER	343
+#define	COMPARE_OP	344
+#define	RADIX_TYPE	345
+#define	INPUT_SPEC	346
+#define	CMD_CHECKPT_ONOFF	347
+#define	TOGGLE	348
 
 
 extern YYSTYPE yylval;
