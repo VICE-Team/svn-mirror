@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.13\n"
-"POT-Creation-Date: 2003-10-18 16:26+0200\n"
+"POT-Creation-Date: 2003-10-19 18:20+0200\n"
 "PO-Revision-Date: 2003-09-20 10:19+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -240,28 +240,28 @@ msgstr "Ustawienia RS232"
 msgid "Model settings"
 msgstr "Za³aduj ustawienia"
 
-#: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
-#: src/arch/unix/cbm2ui.c:456 src/arch/unix/petui.c:380
-#: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:470
+#: src/arch/unix/c128ui.c:411 src/arch/unix/c64ui.c:389
+#: src/arch/unix/cbm2ui.c:457 src/arch/unix/petui.c:381
+#: src/arch/unix/plus4ui.c:148 src/arch/unix/vic20ui.c:471
 #: src/arch/unix/vsidui.c:257
 msgid "File"
 msgstr "Plik"
 
-#: src/arch/unix/c128ui.c:429 src/arch/unix/c64ui.c:407
-#: src/arch/unix/cbm2ui.c:473 src/arch/unix/petui.c:397
-#: src/arch/unix/plus4ui.c:164 src/arch/unix/vic20ui.c:489
+#: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:408
+#: src/arch/unix/cbm2ui.c:474 src/arch/unix/petui.c:398
+#: src/arch/unix/plus4ui.c:165 src/arch/unix/vic20ui.c:490
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: src/arch/unix/c128ui.c:435 src/arch/unix/c64ui.c:413
-#: src/arch/unix/cbm2ui.c:479 src/arch/unix/petui.c:403
-#: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:495
+#: src/arch/unix/c128ui.c:437 src/arch/unix/c64ui.c:415
+#: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:405
+#: src/arch/unix/plus4ui.c:172 src/arch/unix/vic20ui.c:497
 msgid "Options"
 msgstr "Opcje"
 
-#: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
-#: src/arch/unix/cbm2ui.c:489 src/arch/unix/petui.c:411
-#: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
+#: src/arch/unix/c128ui.c:449 src/arch/unix/c64ui.c:427
+#: src/arch/unix/cbm2ui.c:491 src/arch/unix/petui.c:413
+#: src/arch/unix/plus4ui.c:180 src/arch/unix/vic20ui.c:503
 #: src/arch/unix/vsidui.c:270 src/arch/unix/x11/gnome/x11ui.c:1121
 #: src/arch/unix/x11/gnome/x11ui.c:1213
 msgid "Settings"
@@ -269,9 +269,9 @@ msgstr "Ustawienia"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/c128ui.c:461 src/arch/unix/c64ui.c:439
-#: src/arch/unix/cbm2ui.c:503 src/arch/unix/petui.c:425
-#: src/arch/unix/plus4ui.c:192 src/arch/unix/vic20ui.c:516
+#: src/arch/unix/c128ui.c:463 src/arch/unix/c64ui.c:441
+#: src/arch/unix/cbm2ui.c:505 src/arch/unix/petui.c:427
+#: src/arch/unix/plus4ui.c:194 src/arch/unix/vic20ui.c:518
 msgid "RJHelp"
 msgstr "RJPomoc"
 
@@ -954,256 +954,264 @@ msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:607
+#: src/arch/unix/uicommands.c:553
+msgid "Record sound to file"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:634
 msgid "Load "
 msgstr "Za³aduj "
 
-#: src/arch/unix/uicommands.c:607 src/arch/unix/x11/xaw/uicartridge.c:167
+#: src/arch/unix/uicommands.c:634 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:401
 #: src/arch/unix/x11/xaw/uiscreenshot.c:253
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Zapisz"
 
-#: src/arch/unix/uicommands.c:607
+#: src/arch/unix/uicommands.c:634
 msgid "Fliplist File"
 msgstr "Zmieñ plik listy"
 
-#: src/arch/unix/uicommands.c:616
+#: src/arch/unix/uicommands.c:643
 #, c-format
 msgid "Successfully read `%s'."
 msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
-#: src/arch/unix/uicommands.c:618
+#: src/arch/unix/uicommands.c:645
 #, c-format
 msgid "Error reading `%s'."
 msgstr "B³±d czytania: %s."
 
-#: src/arch/unix/uicommands.c:621
+#: src/arch/unix/uicommands.c:648
 #, c-format
 msgid "Successfully wrote `%s'."
 msgstr "Zapisywanie `%s' zakoñczone pomy¶lnie"
 
-#: src/arch/unix/uicommands.c:623
+#: src/arch/unix/uicommands.c:650
 #, c-format
 msgid "Error writing `%s'."
 msgstr "B³±d czytania: %s."
 
-#: src/arch/unix/uicommands.c:664
+#: src/arch/unix/uicommands.c:691
 #, c-format
 msgid "Attach #%d"
 msgstr "W³ó¿ #%d "
 
-#: src/arch/unix/uicommands.c:671
+#: src/arch/unix/uicommands.c:698
 #, c-format
 msgid "Detach #%d"
 msgstr "Wyjmij #%d"
 
-#: src/arch/unix/uicommands.c:687
+#: src/arch/unix/uicommands.c:714
 msgid "*Write Protect"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
-#: src/arch/unix/uicommands.c:713
+#: src/arch/unix/uicommands.c:740
 msgid "Next: "
 msgstr "Nastêpny: "
 
-#: src/arch/unix/uicommands.c:713 src/arch/unix/uicommands.c:728
+#: src/arch/unix/uicommands.c:740 src/arch/unix/uicommands.c:755
 #: src/arch/unix/x11/gnome/x11ui.c:788 src/arch/unix/x11/gnome/x11ui.c:798
 #: src/arch/unix/x11/gnome/x11ui.c:1456
 msgid "<empty>"
 msgstr "<pusty>"
 
-#: src/arch/unix/uicommands.c:728
+#: src/arch/unix/uicommands.c:755
 msgid "Previous: "
 msgstr "Poprzedni:"
 
-#: src/arch/unix/uicommands.c:743
+#: src/arch/unix/uicommands.c:770
 msgid "Add: "
 msgstr "Dodaj:"
 
-#: src/arch/unix/uicommands.c:758
+#: src/arch/unix/uicommands.c:785
 msgid "Remove: "
 msgstr "Usuñ:"
 
-#: src/arch/unix/uicommands.c:849 src/arch/unix/uicommands.c:861
+#: src/arch/unix/uicommands.c:876 src/arch/unix/uicommands.c:888
 msgid "Unit #8..."
 msgstr "Napêd #8..."
 
-#: src/arch/unix/uicommands.c:851 src/arch/unix/uicommands.c:864
+#: src/arch/unix/uicommands.c:878 src/arch/unix/uicommands.c:891
 msgid "Unit #9..."
 msgstr "Napêd #9..."
 
-#: src/arch/unix/uicommands.c:853 src/arch/unix/uicommands.c:867
+#: src/arch/unix/uicommands.c:880 src/arch/unix/uicommands.c:894
 msgid "Unit #10..."
 msgstr "Napêd #10..."
 
-#: src/arch/unix/uicommands.c:855 src/arch/unix/uicommands.c:870
+#: src/arch/unix/uicommands.c:882 src/arch/unix/uicommands.c:897
 msgid "Unit #11..."
 msgstr "Napêd #11..."
 
-#: src/arch/unix/uicommands.c:877 src/arch/unix/uicommands.c:899
+#: src/arch/unix/uicommands.c:904 src/arch/unix/uicommands.c:926
 msgid "Unit #8"
 msgstr "Napêd #8"
 
-#: src/arch/unix/uicommands.c:879 src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:906 src/arch/unix/uicommands.c:928
 msgid "Unit #9"
 msgstr "Napêd #9"
 
-#: src/arch/unix/uicommands.c:881
+#: src/arch/unix/uicommands.c:908
 msgid "Unit #10"
 msgstr "Napêd #10"
 
-#: src/arch/unix/uicommands.c:883
+#: src/arch/unix/uicommands.c:910
 msgid "Unit #11"
 msgstr "Napêd #11"
 
-#: src/arch/unix/uicommands.c:886
+#: src/arch/unix/uicommands.c:913
 msgid "All"
 msgstr "Wszystko"
 
-#: src/arch/unix/uicommands.c:892
+#: src/arch/unix/uicommands.c:919
 msgid "Soft"
 msgstr "Miêkki"
 
-#: src/arch/unix/uicommands.c:895
+#: src/arch/unix/uicommands.c:922
 msgid "Hard"
 msgstr "Twardy"
 
-#: src/arch/unix/uicommands.c:907
+#: src/arch/unix/uicommands.c:934
 msgid "Add current image (Unit 8)"
 msgstr "Dodaj aktualny obraz (jednostka 8)"
 
-#: src/arch/unix/uicommands.c:910
+#: src/arch/unix/uicommands.c:937
 msgid "Remove current image (Unit 8)"
 msgstr "Usuñ aktualny obraz (jednostka 8)"
 
-#: src/arch/unix/uicommands.c:913
+#: src/arch/unix/uicommands.c:940
 msgid "Attach next image (Unit 8)"
 msgstr "W³ó¿ nastêpny obraz (jednostka 8)"
 
-#: src/arch/unix/uicommands.c:916
+#: src/arch/unix/uicommands.c:943
 msgid "Attach previous image (Unit 8)"
 msgstr "W³ó¿ poprzedni obraz (jednostka 8)"
 
-#: src/arch/unix/uicommands.c:919
+#: src/arch/unix/uicommands.c:946
 msgid "Load fliplist file"
 msgstr "Za³aduj plik listy"
 
-#: src/arch/unix/uicommands.c:921
+#: src/arch/unix/uicommands.c:948
 msgid "Save fliplist file"
 msgstr "Zapisz plik listy"
 
-#: src/arch/unix/uicommands.c:927
+#: src/arch/unix/uicommands.c:954
 msgid "Attach a disk image"
 msgstr "W³ó¿ obraz dyskietki"
 
-#: src/arch/unix/uicommands.c:929
+#: src/arch/unix/uicommands.c:956
 msgid "Create and attach an empty disk"
 msgstr "Stwórz i w³ó¿ pust± dyskietkê"
 
-#: src/arch/unix/uicommands.c:931
+#: src/arch/unix/uicommands.c:958
 msgid "Detach disk image"
 msgstr "Wyjmij obraz dyskietki"
 
-#: src/arch/unix/uicommands.c:933
+#: src/arch/unix/uicommands.c:960
 msgid "Fliplist"
 msgstr "Zmieñ listê"
 
-#: src/arch/unix/uicommands.c:939
+#: src/arch/unix/uicommands.c:966
 msgid "Attach a tape image..."
 msgstr "W³ó¿ obraz kasety..."
 
-#: src/arch/unix/uicommands.c:942
+#: src/arch/unix/uicommands.c:969
 msgid "Detach tape image"
 msgstr "Wyjmij obraz kasety"
 
-#: src/arch/unix/uicommands.c:948
+#: src/arch/unix/uicommands.c:975
 msgid "Smart-attach disk/tape..."
 msgstr "Inteligentne wsadzanie dyskietki/kasety..."
 
-#: src/arch/unix/uicommands.c:955
+#: src/arch/unix/uicommands.c:982
 msgid "Change working directory..."
 msgstr "Zmieñ katalog roboczy..."
 
-#: src/arch/unix/uicommands.c:963
+#: src/arch/unix/uicommands.c:990
 msgid "*Save new snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/uicommands.c:965
+#: src/arch/unix/uicommands.c:992
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Za³aduj zrzut"
 
-#: src/arch/unix/uicommands.c:967
+#: src/arch/unix/uicommands.c:994
 msgid "*Start with reset"
 msgstr "*Rozpocznij z restartem"
 
-#: src/arch/unix/uicommands.c:973
+#: src/arch/unix/uicommands.c:1000
 msgid "Load snapshot..."
 msgstr "Za³aduj zrzut..."
 
-#: src/arch/unix/uicommands.c:976
+#: src/arch/unix/uicommands.c:1003
 msgid "Save snapshot..."
 msgstr "Zapisz zrzut..."
 
-#: src/arch/unix/uicommands.c:980
+#: src/arch/unix/uicommands.c:1007
 msgid "Quickload snapshot"
 msgstr "Szybkie za³adowanie zrzutu"
 
-#: src/arch/unix/uicommands.c:983
+#: src/arch/unix/uicommands.c:1010
 msgid "Quicksave snapshot"
 msgstr "Szybki zapis zrzutu"
 
-#: src/arch/unix/uicommands.c:987
+#: src/arch/unix/uicommands.c:1014
 msgid "Start recording events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/arch/unix/uicommands.c:989
+#: src/arch/unix/uicommands.c:1016
 msgid "Stop recording events"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/arch/unix/uicommands.c:991
+#: src/arch/unix/uicommands.c:1018
 msgid "Start playing back events"
 msgstr "Rozpocznij odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:993
+#: src/arch/unix/uicommands.c:1020
 msgid "Stop playing back events"
 msgstr "Zatrzymaj odtwarzanie wydarzen"
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:1023
 msgid "Recording start mode"
 msgstr "Rozpocznij tryb zapisu"
 
-#: src/arch/unix/uicommands.c:1002
+#: src/arch/unix/uicommands.c:1029
 msgid "Snapshot commands"
 msgstr "Komendy zapisywania zrzutu"
 
-#: src/arch/unix/uicommands.c:1008
+#: src/arch/unix/uicommands.c:1035
+msgid "Sound record..."
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1042
 msgid "Activate monitor"
 msgstr "Aktywacja monitora"
 
-#: src/arch/unix/uicommands.c:1011
+#: src/arch/unix/uicommands.c:1045
 msgid "Run C1541"
 msgstr "Uruchom C1541"
 
-#: src/arch/unix/uicommands.c:1019
+#: src/arch/unix/uicommands.c:1053
 msgid "Browse manuals"
 msgstr "Przegl±daj podrêcznik"
 
-#: src/arch/unix/uicommands.c:1021
+#: src/arch/unix/uicommands.c:1055
 msgid "About VICE..."
 msgstr "O VICE..."
 
-#: src/arch/unix/uicommands.c:1027 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1061 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/x11ui.c:1843
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1029
+#: src/arch/unix/uicommands.c:1063
 msgid "*Pause"
 msgstr "*Pauza"
 
-#: src/arch/unix/uicommands.c:1036
+#: src/arch/unix/uicommands.c:1070
 msgid "Exit emulator"
 msgstr "Wyjd¼ z emulatora"
 

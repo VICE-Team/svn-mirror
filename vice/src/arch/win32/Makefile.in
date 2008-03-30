@@ -294,7 +294,6 @@ libarch_a_SOURCES = \
 	uicbm2set.c \
 	uicbm2set.h \
 	uicmdline.c \
-	uicmdline.h \
 	uiconsole.c \
 	uidatasette.c \
 	uidatasette.h \

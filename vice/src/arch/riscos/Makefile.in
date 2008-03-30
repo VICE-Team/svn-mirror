@@ -261,7 +261,6 @@ libarch_a_SOURCES = \
 	ui.c \
 	ui.h \
 	uicmdline.c \
-	uicmdline.h \
 	uiconfig.c \
 	uiconfig.h \
 	uidummy.c \

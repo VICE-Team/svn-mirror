@@ -536,6 +536,33 @@ static UI_CALLBACK(playback_events_stop)
     event_playback_stop();
 }
 
+static UI_CALLBACK(sound_record)
+{
+    ui_button_t button;
+    char *s;
+    const char *devicename;
+
+    vsync_suspend_speed_eval();
+
+    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
+    if (devicename && !strcmp(devicename,"wav")) {
+        /* the recording is active; stop it  */
+        resources_set_value("SoundRecordDeviceName", "");
+/*        ui_display_statustext("");*/
+    } else {
+        s = ui_select_file(_("Record sound to file"), NULL, 0, False, NULL,
+                              "*.wav", &button, False, NULL);
+        if (button == UI_BUTTON_OK && s != NULL) {
+            util_add_extension(&s, "wav");
+            resources_set_value("SoundRecordDeviceArg", s);
+            resources_set_value("SoundRecordDeviceName", "wav");
+            resources_set_value("Sound", (resource_value_t)1);
+            lib_free(s);
+/*            ui_display_statustext("Recording wav...");*/
+        }
+    }
+}
+
 
 /*  fliplist commands */
 extern char last_attached_images[NUM_DRIVES][256];
@@ -1001,6 +1028,13 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { N_("Snapshot commands"),
       NULL,  NULL, ui_snapshot_commands_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t ui_sound_record_commands_menu[] = {
+    { N_("Sound record..."),
+      (ui_callback_t)sound_record, NULL, NULL,
+      XK_r, UI_HOTMOD_META },
     { NULL }
 };
 

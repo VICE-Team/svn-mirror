@@ -36,6 +36,7 @@ extern struct ui_menu_entry_s ui_run_commands_menu[];
 extern struct ui_menu_entry_s ui_smart_attach_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_submenu[];
+extern struct ui_menu_entry_s ui_sound_record_commands_menu[];
 extern struct ui_menu_entry_s ui_tape_commands_menu[];
 extern struct ui_menu_entry_s ui_tool_commands_menu[];
 

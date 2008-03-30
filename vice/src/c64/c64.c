@@ -496,11 +496,6 @@ void machine_specific_reset(void)
 
 void machine_specific_powerup(void)
 {
-    /* Hard reset unloads PSID. */
-    if (vsid_mode) {
-        machine_play_psid(-1);
-    }
-
     vicii_reset_registers();
 }
 

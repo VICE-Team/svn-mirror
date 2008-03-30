@@ -1,3 +1,85 @@
+2003-10-19  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.8.
+
+	* resources.c (resources_free): New function.
+	[resource_ram_s]: Resource name is not const anymore.
+
+	* video/video-resources.c (video_resources_chip_init): Free
+	resource names.
+
+	* raster/raster-resources.c (raster_resources_chip_init):
+	Likewise.
+
+	* arch/unix/uicmdline.c, arch/win32/uicmdline.c,
+	arch/msdos/uicmdline.c, arch/riscos/uicmdline.c,
+	arch/beos/uicmdline.c, arch/os2/uicmdline.c
+	(ui_cmdline_show_help): Changed parameter.
+
+	* uicmdline.h: New file.
+
+	* arch/unix/uicmdline.h, arch/win32/uicmdline.h,
+	arch/msdos/uicmdline.h, arch/riscos/uicmdline.h,
+	arch/beos/uicmdline.h, arch/os2/uicmdline.h: Removed.
+
+	* Makefile.am, arch/unix/Makefile.am, arch/win32/Makefile.am,
+	arch/msdos/Makefile.am, arch/riscos/Makefile.am,
+	arch/beos/Makefile.am, arch/os2/Makefile.am: Updated.
+
+	* arch/win32/uicmdline.c (ui_cmdline_show_options): Fixed
+	prototype.
+
+	* arch/win32/ui.c (handle_wm_command): Fixed prototype of
+	`ui_cmdline_show_options()'.
+
+	* arch/beos/ui.cc: Likewise.
+
+	* arch/beos/ui.h: Removed obsolete prototype.
+
+	* cmdline.c (cmdline_free): New function.
+
+	* video/video-cmdline-options.c
+	(video_cmdline_options_chip_init): Free cmdline names.
+
+	* raster/raster-cmdline-options.c
+	(raster_cmdline_options_chip_init): Likewise.
+
+	* sound.c (sound_resources_shutdown): Free record device
+	resource strings.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/msdos/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Added video chip
+	resource pointer.
+
+	* video/video-resources.c, video.h
+	(video_resources_chip_shutdown): New function.
+
+	* raster/raster-resources.c, raster/raster-resources.h
+	(raster_resources_chip_shutdown): New function.
+
+	* raster/raster.c (raster_shutdown): Free raster resources.
+
+	* video/video-canvas.c (video_canvas_shutdown): Free canvas.
+
+	* raster/raster.h: Added pointer to raster resources.
+
+2003-10-19  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/uicommands.c, uicommands.h: New menu
+	ui_sound_record_commands_menu.
+	(sound_record): New callback for sound recording to file.
+
+	* arch/unix/c128ui.c, c64ui.c, cbm2ui.c, petui.c, plus4ui.c,
+	vic20ui.c: Added menu item for sound recording.
+
+2003-10-18  Dag Lem  <resid@nimrod.no>
+
+	* c64/c64.c (machine_specific_powerup): Removed call to
+	machine_play_psid(). This caused a crash when called via
+	psid_init_driver() on switching the MachineVideoStandard
+	resource.
+
 2003-10-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.7.
