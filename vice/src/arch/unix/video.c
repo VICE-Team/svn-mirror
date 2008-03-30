@@ -446,6 +446,12 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
     return c;
 }
 
+int canvas_set_palette(canvas_t c, const palette_t *palette,
+                       PIXEL *pixel_return)
+{
+    return ui_canvas_set_palette(c->emuwindow, palette, pixel_return);
+}
+
 /* Make the canvas visible. */
 void canvas_map(canvas_t s)
 {
