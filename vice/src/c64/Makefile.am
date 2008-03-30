@@ -86,7 +86,7 @@ SUFFIXES = .a65
 	xa -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
 
-.PHONY: cart
-cart:
-	(cd cart; $(MAKE))
+.PHONY: libc64cart
 
+libc64cart:
+	(cd cart; $(MAKE))
