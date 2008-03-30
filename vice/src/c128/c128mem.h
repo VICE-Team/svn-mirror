@@ -59,13 +59,6 @@ extern void mem_update_config(int config);
 extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
 
-extern int mem_load_kernal(const char *rom_name);
-extern int mem_load_basic(const char *rom_name);
-extern int mem_load_chargen(const char *rom_name);
-extern int mem_load_kernal64(const char *rom_name);
-extern int mem_load_basic64(const char *rom_name);
-extern int mem_load_chargen64(const char *rom_name);
-
 extern BYTE REGPARM1 top_shared_read(ADDRESS addr);
 extern void REGPARM2 top_shared_store(ADDRESS addr, BYTE value);
 
@@ -87,12 +80,12 @@ extern void REGPARM2 chargen_store(ADDRESS addr, BYTE value);
 
 extern BYTE *ram_bank;
 
-extern BYTE basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
-extern BYTE kernal_rom[C128_KERNAL_ROM_SIZE];
-extern BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
-
-extern int mem_basic_checksum(void);
-extern int mem_kernal_checksum(void);
+extern BYTE mem_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
+extern BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
+extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
+extern BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
+extern BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
+extern BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
 
 #endif
 

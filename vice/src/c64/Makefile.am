@@ -41,6 +41,8 @@ libc64_a_SOURCES = \
 	c64memlimit.h \
 	c64pla.c \
 	c64pla.h \
+	c64rom.c \
+	c64rom.h \
 	patchrom.c \
 	patchrom.h \
 	reu.c \

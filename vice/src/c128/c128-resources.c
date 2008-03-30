@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c128mem.h"
+#include "c128rom.h"
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -86,7 +86,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
     if (util_string_set(&chargen_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_chargen(chargen_rom_name);
+    return c128rom_load_chargen(chargen_rom_name);
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
@@ -94,7 +94,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
     if (util_string_set(&kernal_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_kernal(kernal_rom_name);
+    return c128rom_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
@@ -102,7 +102,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     if (util_string_set(&basic_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_basic(basic_rom_name);
+    return c128rom_load_basic(basic_rom_name);
 }
 
 static int set_chargen64_rom_name(resource_value_t v, void *param)
@@ -110,7 +110,7 @@ static int set_chargen64_rom_name(resource_value_t v, void *param)
     if (util_string_set(&chargen64_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_chargen64(chargen64_rom_name);
+    return c128rom_load_chargen64(chargen64_rom_name);
 }
 
 static int set_kernal64_rom_name(resource_value_t v, void *param)
@@ -118,7 +118,7 @@ static int set_kernal64_rom_name(resource_value_t v, void *param)
     if (util_string_set(&kernal64_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_kernal64(kernal64_rom_name);
+    return c128rom_load_kernal64(kernal64_rom_name);
 }
 
 static int set_basic64_rom_name(resource_value_t v, void *param)
@@ -126,7 +126,7 @@ static int set_basic64_rom_name(resource_value_t v, void *param)
     if (util_string_set(&basic64_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_basic64(basic64_rom_name);
+    return c128rom_load_basic64(basic64_rom_name);
 }
 
 static int set_emu_id_enabled(resource_value_t v, void *param)

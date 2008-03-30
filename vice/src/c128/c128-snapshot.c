@@ -32,6 +32,7 @@
 #include "c128-resources.h"
 #include "c128mem.h"
 #include "c128mmu.h"
+#include "c128rom.h"
 #include "c64tpi.h"
 #include "log.h"
 #include "mem.h"
@@ -68,13 +69,14 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
     if (0
-        || snapshot_module_write_byte_array(m, kernal_rom, 
+        || snapshot_module_write_byte_array(m, mem_kernal_rom, 
                                             C128_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom, 
+        || snapshot_module_write_byte_array(m, mem_basic_rom, 
                                             C128_BASIC_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
+        || snapshot_module_write_byte_array(m, mem_basic_rom
+                                            + C128_BASIC_ROM_SIZE, 
                                             C128_EDITOR_ROM_SIZE) < 0
-        || snapshot_module_write_byte_array(m, chargen_rom, 
+        || snapshot_module_write_byte_array(m, mem_chargen_rom, 
                                             C128_CHARGEN_ROM_SIZE) < 0
         )
         goto fail;
@@ -132,13 +134,14 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || snapshot_module_read_byte_array(m, kernal_rom, 
+        || snapshot_module_read_byte_array(m, mem_kernal_rom, 
                                            C128_KERNAL_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom, 
+        || snapshot_module_read_byte_array(m, mem_basic_rom, 
                                            C128_BASIC_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, basic_rom + C128_BASIC_ROM_SIZE, 
+        || snapshot_module_read_byte_array(m, mem_basic_rom
+                                           + C128_BASIC_ROM_SIZE, 
                                            C128_EDITOR_ROM_SIZE) < 0
-        || snapshot_module_read_byte_array(m, chargen_rom, 
+        || snapshot_module_read_byte_array(m, mem_chargen_rom, 
                                            C128_CHARGEN_ROM_SIZE) < 0
         )
         goto fail;
@@ -146,8 +149,8 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
     log_warning(c128_snapshot_log,"Dumped Romset files and saved settings will "
                 "represent\nthe state before loading the snapshot!");
 
-    mem_basic_checksum();
-    mem_kernal_checksum();
+    c128rom_basic_checksum();
+    c128rom_kernal_checksum();
 
     /* enable traps again when necessary */
     resources_set_value("VirtualDevices", (resource_value_t) trapfl);
