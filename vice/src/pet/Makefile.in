@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libpet.a
 
-libpet_a_SOURCES =  	pet-cmdline-options.c 	pet-cmdline-options.h 	pet-resources.c 	pet-resources.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
+libpet_a_SOURCES =  	pet-cmdline-options.c 	pet-cmdline-options.h 	pet-resources.c 	pet-resources.h 	pet-snapshot.c 	pet-snapshot.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -150,8 +150,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libpet_a_LIBADD = 
-libpet_a_OBJECTS =  pet-cmdline-options.o pet-resources.o pet.o \
-petacia1.o petdatasette.o petiec.o petmem.o petpia1.o petpia2.o \
+libpet_a_OBJECTS =  pet-cmdline-options.o pet-resources.o pet-snapshot.o \
+pet.o petacia1.o petdatasette.o petiec.o petmem.o petpia1.o petpia2.o \
 petsound.o petvia.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -261,6 +261,11 @@ pet-cmdline-options.o: pet-cmdline-options.c ../../src/vice.h \
 pet-resources.o: pet-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h pet.h \
 	petmem.h pets.h ../../src/resources.h ../../src/utils.h
+pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/autostart.h ../../src/arch/unix/types.h \
+	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h pet.h \
+	petmem.h pets.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/tape.h
 pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
 	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
@@ -273,7 +278,7 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h pet-cmdline-options.h \
-	pet-resources.h pet.h petmem.h pets.h petsound.h \
+	pet-resources.h pet-snapshot.h pet.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
 	../../src/printer.h ../../src/screenshot.h ../../src/serial.h \
 	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
@@ -298,8 +303,8 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h ../../src/log.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
 	pet.h petacia.h petmem.h petpia.h pets.h petvia.h \
-	../../src/snapshot.h ../../src/sysfile.h ../../src/tape.h \
-	../../src/traps.h ../../src/utils.h ../../src/vsync.h
+	../../src/sysfile.h ../../src/tape.h ../../src/traps.h \
+	../../src/utils.h ../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/crtc/crtc.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \
