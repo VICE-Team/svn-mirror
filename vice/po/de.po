@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-12-09 22:37+0100\n"
+"POT-Creation-Date: 2001-12-15 23:00+0100\n"
 "PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -79,8 +79,8 @@ msgstr "*Doppelt Scan"
 msgid "*64KB display memory"
 msgstr "*64KB Bildschirm Speicher"
 
-#: src/arch/unix/c128ui.c:93 src/arch/unix/uivicii.c:107
-#: src/arch/unix/vic20ui.c:423
+#: src/arch/unix/c128ui.c:93 src/arch/unix/plus4ui.c:91
+#: src/arch/unix/uivicii.c:107 src/arch/unix/vic20ui.c:423
 msgid "Color set"
 msgstr "Farbpallette..."
 
@@ -265,26 +265,26 @@ msgstr "Speicher Einstellungen"
 
 #: src/arch/unix/c128ui.c:355 src/arch/unix/c610ui.c:423
 #: src/arch/unix/c64ui.c:274 src/arch/unix/petui.c:381
-#: src/arch/unix/plus4ui.c:136 src/arch/unix/vic20ui.c:493
+#: src/arch/unix/plus4ui.c:161 src/arch/unix/vic20ui.c:493
 #: src/arch/unix/vsidui.c:248
 msgid "File"
 msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:374 src/arch/unix/c610ui.c:440
 #: src/arch/unix/c64ui.c:293 src/arch/unix/petui.c:398
-#: src/arch/unix/plus4ui.c:153 src/arch/unix/vic20ui.c:512
+#: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:512
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:380 src/arch/unix/c610ui.c:446
 #: src/arch/unix/c64ui.c:299 src/arch/unix/petui.c:404
-#: src/arch/unix/plus4ui.c:159 src/arch/unix/vic20ui.c:518
+#: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:518
 msgid "Options"
 msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:396 src/arch/unix/c610ui.c:460
 #: src/arch/unix/c64ui.c:315 src/arch/unix/petui.c:416
-#: src/arch/unix/plus4ui.c:169 src/arch/unix/vic20ui.c:528
+#: src/arch/unix/plus4ui.c:194 src/arch/unix/vic20ui.c:528
 #: src/arch/unix/vsidui.c:261 src/arch/unix/x11/gnome/ui.c:1120
 #: src/arch/unix/x11/gnome/ui.c:1212
 msgid "Settings"
@@ -294,7 +294,7 @@ msgstr "Einstellungen"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c610ui.c:477
 #: src/arch/unix/c64ui.c:329 src/arch/unix/petui.c:432
-#: src/arch/unix/plus4ui.c:182 src/arch/unix/vic20ui.c:545
+#: src/arch/unix/plus4ui.c:207 src/arch/unix/vic20ui.c:545
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -721,6 +721,23 @@ msgstr "PET Modell Einstellungen"
 #: src/arch/unix/petui.c:299
 msgid "*PET userport diagnostic pin"
 msgstr "*PET Userport Diagnose Pin"
+
+#: src/arch/unix/plus4ui.c:88 src/arch/unix/uivicii.c:105
+msgid "*External color set"
+msgstr "*Externe Farbtabelle"
+
+#: src/arch/unix/plus4ui.c:95 src/arch/unix/uivicii.c:111
+msgid "*Fast PAL emulation"
+msgstr "*Schnelle PAL Emulation"
+
+#: src/arch/unix/plus4ui.c:98 src/arch/unix/uivicii.c:114
+msgid "*PAL emulation"
+msgstr "*PAL Emulation"
+
+#: src/arch/unix/plus4ui.c:109
+#, fuzzy
+msgid "TED settings"
+msgstr "VDC Einstellungen"
 
 #: src/arch/unix/rs232.c:120
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
@@ -1958,18 +1975,6 @@ msgstr "*Sprite-sprite Kollisionen"
 msgid "*Sprite-background collisions"
 msgstr "*Sprite-Hintergrund Kollisionen"
 
-#: src/arch/unix/uivicii.c:105
-msgid "*External color set"
-msgstr "*Externe Farbtabelle"
-
-#: src/arch/unix/uivicii.c:111
-msgid "*Fast PAL emulation"
-msgstr "*Schnelle PAL Emulation"
-
-#: src/arch/unix/uivicii.c:114
-msgid "*PAL emulation"
-msgstr "*PAL Emulation"
-
 #. Shouldn't happen.
 #: src/arch/unix/vic20ui.c:96
 msgid "What?!\n"
@@ -2125,7 +2130,7 @@ msgstr "Garantiebestimmungen"
 msgid "Contributors"
 msgstr "VICE Hackers"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:126
+#: src/arch/unix/x11/gnome/gnomevideo.c:131
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
@@ -2694,48 +2699,48 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot Speichern"
 
-#: src/arch/unix/x11/xaw/x11video.c:102
+#: src/arch/unix/x11/xaw/x11video.c:107
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kann XImage with XShm nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:113
+#: src/arch/unix/x11/xaw/x11video.c:118
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Kann Shared Memory nicht allokieren; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:124
+#: src/arch/unix/x11/xaw/x11video.c:129
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Kann Shared Memory Adresse nicht feststellen; MITSHM wird nicht benutzt."
 
-#: src/arch/unix/x11/xaw/x11video.c:139 src/arch/unix/x11/xaw/x11video.c:156
+#: src/arch/unix/x11/xaw/x11video.c:144 src/arch/unix/x11/xaw/x11video.c:161
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Cannot attach shared memory; falling back to non MITSHM extension mode."
 
-#: src/arch/unix/x11/xaw/x11video.c:163
+#: src/arch/unix/x11/xaw/x11video.c:168
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:181
+#: src/arch/unix/x11/xaw/x11video.c:186
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Video erfolgreich%s Shared Memory initialisiert."
 
-#: src/arch/unix/x11/xaw/x11video.c:182
+#: src/arch/unix/x11/xaw/x11video.c:187
 msgid ", using"
 msgstr ", mit"
 
-#: src/arch/unix/x11/xaw/x11video.c:182
+#: src/arch/unix/x11/xaw/x11video.c:187
 msgid " without"
 msgstr " ohne"
 
-#: src/arch/unix/x11/xaw/x11video.c:185
+#: src/arch/unix/x11/xaw/x11video.c:190
 msgid "Performance will be poor."
 msgstr "Performance wird nicht optimal sein."
 
-#: src/arch/unix/x11/xaw/x11video.c:188
+#: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
 
