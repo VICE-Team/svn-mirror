@@ -563,7 +563,6 @@ void crtc_resize (void)
    cycle of each line.  */
 int crtc_raster_draw_alarm_handler (CLOCK offset)
 {
-    CLOCK rclk = clk - offset;
     int new_sync_diff;
     int new_venable;
     int new_vsync;
@@ -653,7 +652,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
     crtc.rl_sync = crtc.regs[2];
     crtc.rl_len = crtc.regs[0];
 
-    crtc.rl_start = rclk;
+    crtc.rl_start = clk - offset;
 
     /******************************************************************
      * handle the rasterline numbering
@@ -676,7 +675,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
 		long cycles;
 
 	        /* Do vsync stuff.  */
-		/* printf("new screen at clk=%d\n",rclk); */
+		/* printf("new screen at clk=%d\n",crtc.rl_start); */
 	        crtc_reset_screen_ptr();
 		crtc.raster.ycounter = 0;
 		crtc.current_charline = 0;
@@ -696,12 +695,12 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
     		}
 
 		/* cycles per frame, for speed adjustments */
-		cycles = rclk - crtc.frame_start;
+		cycles = crtc.rl_start - crtc.frame_start;
 		if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
 		    machine_set_cycles_per_frame(cycles);
 		    crtc.cycles_per_frame = cycles;
 		}
-		crtc.frame_start = rclk;
+		crtc.frame_start = crtc.rl_start;
 
 	    } else {
 	        crtc.raster.ycounter ++;
@@ -722,7 +721,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
 	            new_venable = 0;
 	        }
 	        if ((crtc.current_charline == crtc.regs[7])) {
-		    /* printf("hsync starts at clk=%d\n",rclk); */
+		    /* printf("hsync starts at clk=%d\n",crtc.rl_start); */
 	            new_vsync = (crtc.regs[3] >> 4) & 0x0f;
 	            if (!new_vsync)
 		        new_vsync = 16;
@@ -808,7 +807,7 @@ int crtc_raster_draw_alarm_handler (CLOCK offset)
      * set up new alarm
      */
 
-    alarm_set (&crtc.raster_draw_alarm, rclk + crtc.rl_len + 1);
+    alarm_set (&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
 
     return 0;
 }
