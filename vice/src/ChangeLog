@@ -1,3 +1,26 @@
+1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.9.
+
+	* c64/c64.c (machine_init_cmdline_options): Initialize cartridge
+	command line options.
+
+	* c64/cartridge.c (cartridge_init_cmdline_options, attach_crt,
+	attach_8, attach_16, attach_action, attach_ss): New functions.
+
+	* utils.c: Moved `spawn' to `archdep.c'.
+
+	* arch/unix/archdep.c, arch/unix/archdep.h, arch/msdos/archdep.c,
+	arch/msdos/archdep.h, arch/win32/archdep.c, arch/win32/archdep.h,
+	arch/riscos/archdep.c, arch/riscos/archdep.h: New function
+	`archdep_spawn'.
+
+	* zfile.c: Use `archdep_spawn' instead of `spawn'.
+
+	* raster.c (handle_visible_line_without_cache): Fixed prototype.
+
+	* sound.h: Moved sound defaults here.
+
 1999-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.8.

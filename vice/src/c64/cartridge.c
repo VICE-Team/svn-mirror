@@ -42,11 +42,12 @@
 #endif
 
 #include "archdep.h"
-#include "resources.h"
-#include "mem.h"
-#include "interrupt.h"
-#include "utils.h"
 #include "cartridge.h"
+#include "cmdline.h"
+#include "interrupt.h"
+#include "mem.h"
+#include "resources.h"
+#include "utils.h"
 
 static int cartridge_type;
 static char *cartridge_file;
@@ -87,6 +88,51 @@ static resource_t resources[] = {
 int cartridge_init_resources(void)
 {
     return resources_register(resources);
+}
+
+static int attach_crt(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_CRT, param);
+}
+
+static int attach_8(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_GENERIC_8KB, param);
+}
+
+static int attach_16(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_GENERIC_16KB, param);
+}
+
+static int attach_action(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_ACTION_REPLAY, param);
+}
+
+static int attach_ss(const char *param, void *extra_param)
+{
+    return cartridge_attach_image(CARTRIDGE_SUPER_SNAPSHOT, param);
+}
+
+static cmdline_option_t cmdline_options[] =
+{
+    {"-cartcrt", CALL_FUNCTION, 1, attach_crt, NULL, NULL, NULL,
+     "<name>", "Attach CRT cartridge image"},
+    {"-cart8", CALL_FUNCTION, 1, attach_8, NULL, NULL, NULL,
+     "<name>", "Attach generic 8KB cartridge image"},
+    {"-cart16", CALL_FUNCTION, 1, attach_16, NULL, NULL, NULL,
+     "<name>", "Attach generic 16KB cartridge image"},
+    {"-cartar", CALL_FUNCTION, 1, attach_action, NULL, NULL, NULL,
+     "<name>", "Attach raw 32KB Action Replay cartridge image"},
+    {"-cartss4", CALL_FUNCTION, 1, attach_ss, NULL, NULL, NULL,
+     "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
+    {NULL}
+};
+
+int cartridge_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
