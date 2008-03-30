@@ -220,7 +220,7 @@ xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(serial_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(monitor_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(serial_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -502,6 +502,7 @@ c1541_LDADD = \
 	$(imagecontents_lib) \
 	$(diskimage_lib) \
 	$(tape_lib) \
+	$(serial_lib) \
 	@READLINE@
 
 # petcat

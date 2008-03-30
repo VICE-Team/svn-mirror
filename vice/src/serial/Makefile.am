@@ -16,6 +16,11 @@ libserial_a_SOURCES = \
 	fsdrive.h \
 	iec.c \
 	iec.h \
+	serial-device.c \
+	serial-iec.c \
+	serial-iec.h \
+	serial-trap.c \
+	serial-trap.h \
 	serial.c
 
 if HAVE_REALDEVICE
