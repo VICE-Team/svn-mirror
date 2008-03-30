@@ -363,7 +363,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     if (ted.irq_status & 0x80)
-        interrupt_set_irq_noclk(maincpu_int_status, ted.int_num, 1);
+        interrupt_restore_irq(maincpu_int_status, ted.int_num, 1);
 
     raster_force_repaint(&ted.raster);
     return 0;

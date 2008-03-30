@@ -1,3 +1,54 @@
+2003-07-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.16.
+
+	* drive/iec/cia1571d.c, drive/iec/cia1581d.c, c64/c64cia1.c,
+	c64/c64cia2.c, c128/c128cia1.c, cbm2/cbm2cia1.c, cia.h,
+	drive/iec/iec.c, c64/c64-snapshot.c, c128/c128-snapshot.c,
+	cbm2/cbm2-snapshot.c, c64/c64iec.c, c64/c64datasette.c,
+	c128/c128iec.c, drive/ciad.h, vic20/vic20iec.c,
+	plus4/plus4iec.c, c64/c64cia.h, cbm2/cbm2cia.h, c64/c64.c,
+	c128/c128.c, cbm2/cbm2.c, cbm2/cbm2datasette.c,
+	core/ciacore.c: Separated CIA core.
+
+	* Makefile.am, core/Makefile.am, arch/win32/core.dsp: Updated.
+
+	* core/ciacore.c: New file.
+
+	* ciacore.c: Removed.
+
+	* arch/unix/x11/xaw/about.c, arch/msdos/c64ui.c,
+	arch/msdos/c128ui.c, arch/msdos/vicesb.c, drive/drive.c,
+	drive/drive.h, drive/drive-snapshot.c, drive/drive-snapshot.h,
+	drive/drive-resources.c, drive/drive-resources.h,
+	drive/drive-cmdline-options.c, drive/drive-cmdline-options.h,
+	c1541.c, info.c, main.c, video.h, petcat.c: Cosmetical fixes.
+
+2003-07-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c128/c128cia1.c, c64/c64cia1.c, c64/c64cia2.c,
+	cbm2/cbm2tpi1.c, drive/iec/cia1571d.c, iec/cia1581d.c,
+	drive/iecieee/via1d.c, drive/iecieee/via2d.c, c64/reu.c
+	drive/ieee/riot2d.c, interrupt.c, interrupt.h, pet/petpia1.c,
+	pet/petpia2.c, pet/petvia.c, plus4/ted-snapshot.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c,
+	vic20/vic20via1.c, vic20/vic20via2.c, vicii/vicii-snapshot.c:
+	Renamed interrupt_set_*_noclk to interrupt_restore_*.
+
+	* datasette.c (datasette_read_snapshot): Reset buf pointers.
+
+	* drive/drivecpu.c, maincpu.c: Increase CPU snapshot version
+	to 1.1 and call interrupt_read_snapshot with version.
+
+	* interrupt.h: Added flag needs_global_restore to
+	interrupt_cpu_status_s.
+
+	* interrupt.c (interrupt_read_snapshot): Read  nirq, nnmi,
+	global_pending_int only if version is >= 1.1, otherwise set
+	needs_global_restore flag.
+	(interrupt_restore_*): Behaves the old way for backward
+	compatibility if needs_global_restore is set.
+
 2003-07-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.15.

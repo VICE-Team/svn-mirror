@@ -462,7 +462,7 @@ int main(int argc, char **argv)
         else if (!strcmp(argv[0], "-help") ||
                  !strncmp(argv[0], "-v", 2)) {  /* version ID */
             fprintf(stderr,
-                    "\n\t%s V%4.2f PL %d -- Commodore Basic list/crunch utility.\n",
+                    "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n",
                     progname, (float)PETCATVERSION, PETCATLEVEL );
 
             /* Fall to error for Usage */

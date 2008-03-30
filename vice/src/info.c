@@ -341,9 +341,9 @@ const char info_warranty_text[] =
 "THE POSSIBILITY OF SUCH DAMAGES.\n";
 
 const char info_contrib_text[] =
-"VICE derives from X64, the first Commodore 64 emulator for the X\n"
-"Window System.  Here is an informal list of the people who were\n"
-"mostly involved in the development of X64 and VICE:\n"
+"VICE derives from X64, the first C64 emulator for the X Window\n"
+"System.  Here is an informal list of the people who were mostly\n"
+"involved in the development of X64 and VICE:\n"
 "\n"
 "The VICE core team:\n"
 "\n"

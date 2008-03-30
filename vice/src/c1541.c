@@ -1858,7 +1858,7 @@ static int internal_write_geos_file(int unit, FILE* f)
     drives[unit]->buffers[1].slot[SLOT_FIRST_SECTOR] = vlirSec;
 
     if (geosFileStruc == GEOS_FILE_STRUC_SEQ) {
-        /* normal seq file (rest like commodore files) */
+        /* normal seq file (rest like standard files) */
         lastTrk = vlirTrk;
         lastSec = vlirSec;
         bContinue = (vlirBlock[0] != 0);

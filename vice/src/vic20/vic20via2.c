@@ -83,7 +83,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
 static void restore_int(via_context_t *via_context, unsigned int int_num,
                     int value)
 {
-    interrupt_set_nmi_noclk(maincpu_int_status, int_num, value);
+    interrupt_restore_nmi(maincpu_int_status, int_num, value);
 }
 
 static int tape_sense = 0;

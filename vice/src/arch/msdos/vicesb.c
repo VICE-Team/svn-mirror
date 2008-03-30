@@ -17,7 +17,7 @@
  *
  *      Adapted for use with VICE by Ettore Perazzoli <ettore@comm2000.it>.
  *
- *      This file is now part of VICE, the Versatile Commodore Emulator.
+ *      This file is now part of VICE.
  *      See README for copyright notice.
  *
  *      This program is free software; you can redistribute it and/or modify

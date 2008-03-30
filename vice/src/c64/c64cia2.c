@@ -39,7 +39,9 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
+#include "interrupt.h"
 #include "log.h"
+#include "maincpu.h"
 #include "printer.h"
 #include "types.h"
 #include "vicii.h"
@@ -49,49 +51,22 @@
 #endif
 
 
-/* set mycia_debugFlag to 1 to get output */
-#undef CIA_TIMER_DEBUG
-
-/*************************************************************************
- * Renaming exported functions
- */
-
 #define mycia_init cia2_init
-#define mycia_reset cia2_reset
-#define mycia_store ciacore2_store
-#define mycia_read ciacore2_read
-#define mycia_peek ciacore2_peek
-#define mycia_set_flag cia2_set_flag
-#define mycia_set_sdr cia2_set_sdr
-#define mycia_snapshot_write_module cia2_snapshot_write_module
-#define mycia_snapshot_read_module cia2_snapshot_read_module
 
-#define mycia_debugFlag cia2_debugFlag
-#define myciat_logfl cia2t_logfl
-
-#include "interrupt.h"
-#include "maincpu.h"
-
-#define mycpu_clk_guard  maincpu_clk_guard
-#define mycpu_int_status maincpu_int_status
-
-void REGPARM3 mycia_store(cia_context_t *cia_context, WORD addr, BYTE data);
-BYTE REGPARM2 mycia_read(cia_context_t *cia_context, WORD addr);
-BYTE REGPARM2 mycia_peek(cia_context_t *cia_context, WORD addr);
 
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
-    mycia_store(&(machine_context.cia2), addr, data);
+    ciacore_store(&(machine_context.cia2), addr, data);
 }
 
 BYTE REGPARM1 cia2_read(WORD addr)
 {
-    return mycia_read(&(machine_context.cia2), addr);
+    return ciacore_read(&(machine_context.cia2), addr);
 }
 
 BYTE REGPARM1 cia2_peek(WORD addr)
 {
-    return mycia_peek(&(machine_context.cia2), addr);
+    return ciacore_peek(&(machine_context.cia2), addr);
 }
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
@@ -101,7 +76,7 @@ static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 
 static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    interrupt_set_nmi_noclk(maincpu_int_status, cia_context->int_num, value);
+    interrupt_restore_nmi(maincpu_int_status, cia_context->int_num, value);
 }
 
 #define MYCIA CIA2
@@ -122,7 +97,7 @@ static const iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
 };
 
 
-static inline void do_reset_cia(cia_context_t *cia_context)
+static void do_reset_cia(cia_context_t *cia_context)
 {
     printer_interface_userport_write_strobe(1);
     printer_interface_userport_write_data((BYTE)0xff);
@@ -137,17 +112,22 @@ static inline void do_reset_cia(cia_context_t *cia_context)
 }
 
 
-#define PRE_STORE_CIA \
+static void pre_store(void)
+{
     vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
+}
 
-#define PRE_READ_CIA \
+static void pre_read(void)
+{
     vicii_handle_pending_alarms_external(0);
+}
 
-#define PRE_PEEK_CIA \
+static void pre_peek(void)
+{
     vicii_handle_pending_alarms_external(0);
+}
 
-static inline void store_ciapa(cia_context_t *cia_context, CLOCK rclk,
-                               BYTE byte)
+static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     if (cia_context->old_pa != byte) {
         BYTE tmp;
@@ -169,8 +149,7 @@ static inline void store_ciapa(cia_context_t *cia_context, CLOCK rclk,
     }
 }
 
-static inline void undump_ciapa(cia_context_t *cia_context, CLOCK rclk,
-                                BYTE byte)
+static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
 #ifdef HAVE_RS232
     if(rsuser_enabled) {
@@ -183,8 +162,7 @@ static inline void undump_ciapa(cia_context_t *cia_context, CLOCK rclk,
 }
 
 
-static inline void store_ciapb(cia_context_t *cia_context, CLOCK rclk,
-                               BYTE byte)
+static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_write((BYTE)byte);
@@ -193,7 +171,7 @@ static inline void store_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #endif
 }
 
-static inline void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
+static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_pulse();
@@ -212,7 +190,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
-static inline BYTE read_ciapa(cia_context_t *cia_context)
+static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
     if (!drive[0].enable && !drive[1].enable)
@@ -230,7 +208,7 @@ static inline BYTE read_ciapa(cia_context_t *cia_context)
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
-static inline BYTE read_ciapb(cia_context_t *cia_context)
+static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
 #ifdef HAVE_RS232
@@ -247,7 +225,7 @@ static inline BYTE read_ciapb(cia_context_t *cia_context)
     return byte;
 }
 
-static inline void read_ciaicr(cia_context_t *cia_context)
+static void read_ciaicr(cia_context_t *cia_context)
 {
     if (drive[0].parallel_cable_enabled)
         drive0_cpu_execute(maincpu_clk);
@@ -255,51 +233,43 @@ static inline void read_ciaicr(cia_context_t *cia_context)
         drive1_cpu_execute(maincpu_clk);
 }
 
-static inline void read_sdr(cia_context_t *cia_context)
+static void read_sdr(cia_context_t *cia_context)
 {
 }
 
-static inline void store_sdr(cia_context_t *cia_context, BYTE byte)
+static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
 }
 
 /* Temporary!  */
 void cia2_set_flagx(void)
 {
-    cia2_set_flag(&(machine_context.cia2));
+    ciacore_set_flag(&(machine_context.cia2));
 }
 
 void cia2_set_sdrx(BYTE received_byte)
 {
-    cia2_set_sdr(&(machine_context.cia2), received_byte);
+    ciacore_set_sdr(&(machine_context.cia2), received_byte);
 }
-
-
-static void int_ciata(cia_context_t *cia_context, CLOCK offset);
-static void int_ciatb(cia_context_t *cia_context, CLOCK offset);
-static void int_ciatod(cia_context_t *cia_context, CLOCK offset);
-
-static void clk_overflow_callback(cia_context_t *cia_context, CLOCK sub,
-                                  void *data);
 
 static void clk_overflow_callback_cia2(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&(machine_context.cia2), sub, data);
+    ciacore_clk_overflow_callback(&(machine_context.cia2), sub, data);
 }
 
 static void int_cia2ta(CLOCK offset)
 {
-    int_ciata(&(machine_context.cia2), offset);
+    ciacore_intta(&(machine_context.cia2), offset);
 }
 
 static void int_cia2tb(CLOCK offset)
 {
-    int_ciatb(&(machine_context.cia2), offset);
+    ciacore_inttb(&(machine_context.cia2), offset);
 }
 
 static void int_cia2tod(CLOCK offset)
 {
-    int_ciatod(&(machine_context.cia2), offset);
+    ciacore_inttod(&(machine_context.cia2), offset);
 }
 
 void cia2_init(cia_context_t *cia_context)
@@ -321,7 +291,8 @@ void cia2_init(cia_context_t *cia_context)
     cia_context->tod_alarm = alarm_new(maincpu_alarm_context, buffer,
                                        int_cia2tod);
 
-    clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback_cia2, NULL);
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_cia2,
+                           NULL);
 
     sprintf(buffer, "%s_TA", cia_context->myname);
     ciat_init(&(cia_context->ta), buffer, *(cia_context->clk_ptr),
@@ -333,26 +304,45 @@ void cia2_init(cia_context_t *cia_context)
 
 void cia2_setup_context(machine_context_t *machine_context)
 {
-    machine_context->cia2.context = NULL;
+    cia_context_t *cia;
 
-    machine_context->cia2.rmw_flag = &maincpu_rmw_flag;
-    machine_context->cia2.clk_ptr = &maincpu_clk;
+    cia = &(machine_context->cia2);
 
-    machine_context->cia2.todticks = 100000;
-    machine_context->cia2.log = LOG_ERR;
-    machine_context->cia2.read_clk = 0;
-    machine_context->cia2.read_offset = 0;
-    machine_context->cia2.last_read = 0;
-    machine_context->cia2.debugFlag = 0;
-    machine_context->cia2.irq_line = IK_NMI;
-    sprintf(machine_context->cia2.myname, "CIA2");
+    cia->context = NULL;
+
+    cia->rmw_flag = &maincpu_rmw_flag;
+    cia->clk_ptr = &maincpu_clk;
+
+    cia->todticks = 100000;
+    cia->log = LOG_ERR;
+    cia->read_clk = 0;
+    cia->read_offset = 0;
+    cia->last_read = 0;
+    cia->debugFlag = 0;
+    cia->irq_line = IK_NMI;
+    sprintf(cia->myname, "CIA2");
+
+    cia->undump_ciapa = undump_ciapa;
+    cia->undump_ciapb = undump_ciapb;
+    cia->store_ciapa = store_ciapa;
+    cia->store_ciapb = store_ciapb;
+    cia->store_sdr = store_sdr;
+    cia->read_ciapa = read_ciapa;
+    cia->read_ciapb = read_ciapb;
+    cia->read_ciaicr = read_ciaicr;
+    cia->read_sdr = read_sdr;
+    cia->cia_set_int_clk = cia_set_int_clk;
+    cia->cia_restore_int = cia_restore_int;
+    cia->do_reset_cia = do_reset_cia;
+    cia->pulse_ciapc = pulse_ciapc;
+    cia->pre_store = pre_store;
+    cia->pre_read = pre_read;
+    cia->pre_peek = pre_peek;
 }
-
-#include "ciacore.c"
 
 void printer_interface_userport_set_busy(int b)
 {
     if (!b)
-        cia2_set_flag(&(machine_context.cia2));
+        ciacore_set_flag(&(machine_context.cia2));
 }
 

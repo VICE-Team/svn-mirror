@@ -176,7 +176,7 @@ int main_program(int argc, char **argv)
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
     log_message(LOG_DEFAULT, " ");
-    log_message(LOG_DEFAULT, "Welcome to %s, the free portable Commodore %s Emulator.",
+    log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
                 program_name, machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Current VICE team members:");

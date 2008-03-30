@@ -867,18 +867,14 @@ int datasette_read_snapshot(snapshot_t *s)
     else
         alarm_unset(datasette_alarm);
 
-#if 0
-    if (current_image->mode == DATASETTE_CONTROL_START
-        ||current_image->mode == DATASETTE_CONTROL_FORWARD
-        ||current_image->mode == DATASETTE_CONTROL_REWIND
-        ||current_image->mode == DATASETTE_CONTROL_RECORD)
-        datasette_set_tape_sense(1);
-#endif
     ui_set_tape_status(current_image ? 1 : 0);
     datasette_update_ui_counter();
     ui_display_tape_motor_status(datasette_motor);
     if (current_image)
         ui_display_tape_control_status(current_image->mode);
+
+    /* reset buffer */
+    next_tap = last_tap = 0;
 
     return 0;
 }

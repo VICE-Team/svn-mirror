@@ -1,6 +1,5 @@
 /*
- * drive-snapshot.h - Hardware-level Commodore disk drive emulation,
- *                    snapshot module.
+ * drive-snapshot.h - Hardware-level disk drive emulation, snapshot module.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

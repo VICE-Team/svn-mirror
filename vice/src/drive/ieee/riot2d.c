@@ -73,7 +73,7 @@ struct drive_context_s;
                           (fl) ? IK_IRQ : 0, (clk))
 
 #define my_restore_irq(fl)                              \
-        interrupt_set_irq_noclk(ctxptr->cpu.int_status, \
+        interrupt_restore_irq(ctxptr->cpu.int_status,   \
                                 ctxptr->riot2p.int_num, (fl) ? IK_IRQ : 0)
 
 /*************************************************************************

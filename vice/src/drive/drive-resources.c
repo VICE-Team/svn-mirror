@@ -1,6 +1,5 @@
 /*
- * drive-resources.c - Hardware-level Commodore disk drive emulation,
- *                     resource module.
+ * drive-resources.c - Hardware-level disk drive emulation, resource module.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

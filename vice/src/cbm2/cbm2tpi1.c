@@ -60,7 +60,7 @@
 
 #define mycpu_set_int(a, b) maincpu_set_irq((a), (b))
 #define mycpu_restore_int(a, b) \
-    interrupt_set_irq_noclk(maincpu_int_status, (a), (b))
+    interrupt_restore_irq(maincpu_int_status, (a), (b))
 
 #define mycpu_rmw_flag maincpu_rmw_flag
 #define myclk maincpu_clk

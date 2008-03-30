@@ -126,7 +126,6 @@ UI_CALLBACK(ui_about)
             (_ui_top_level, &is_closed,
              "",
              "V I C E",
-             "the Versatile Commodore Emulator",
              "",
              "Version " VERSION,
 #ifdef UNSTABLE

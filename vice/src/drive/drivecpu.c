@@ -610,8 +610,8 @@ static void drive_jam(drive_context_t *drv)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+#define SNAP_MAJOR 1
+#define SNAP_MINOR 1
 
 int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 {
@@ -709,7 +709,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     machine_drive_reset(drv);
 
-    if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)
+    if (interrupt_read_snapshot(drv->cpu.int_status, m, major, minor) < 0)
         goto fail;
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1541

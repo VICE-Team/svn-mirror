@@ -73,7 +73,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
 static void restore_int(via_context_t *via_context, unsigned int int_num,
                         int value)
 {
-    interrupt_set_irq_noclk(maincpu_int_status, int_num, value);
+    interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
 
 static void undump_acr(via_context_t *via_context, BYTE byte)

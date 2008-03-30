@@ -1,5 +1,5 @@
 /*
- * drive-cmdline-options.c - Hardware-level Commodore disk drive emulation,
+ * drive-cmdline-options.c - Hardware-level disk drive emulation,
  *                           command line options module.
  *
  * Written by

@@ -1282,7 +1282,7 @@ list of all the changes in the code.
 ** CBM-II changes
 -----------------
 
-- A new Commodore 610 (aka CBM-II) emulator has been added.
+- A new C610 (aka CBM-II) emulator has been added.
 
 ** Drive changes
 ----------------
@@ -1430,8 +1430,8 @@ list of all the changes in the code.
 
 - Support for multiple keyboard layouts and joystick mappings has been
   added.  A "positional" layout for US keyboards is provided.  On the
-  C64, VIC20 and C128 emulators, Ctrl is now mapped to Tab; the
-  Commodore key is now mapped to left Ctrl.
+  C64, VIC20 and C128 emulators, Ctrl is now mapped to Tab; the CBM
+  key is now mapped to left Ctrl.
 
 - The emulators and c1541 now use the real, full-featured GNU readline
   library if found.  Use `./configure --without-readline' for the old
@@ -1919,7 +1919,7 @@ features:
   when refresh was > 1 has been fixed.
 
 - A IEEE-488 interface emulator has been introduced (emulates the
-  original Commodore one) in x64, x128 and xvic.
+  original one) in x64, x128 and xvic.
 
 - The xdebugger functionality has been improved (this part is still in
   the experimental stage, though).

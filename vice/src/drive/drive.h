@@ -1,5 +1,5 @@
 /*
- * drive.h - Hardware-level Commodore disk drive emulation.
+ * drive.h - Hardware-level disk drive emulation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

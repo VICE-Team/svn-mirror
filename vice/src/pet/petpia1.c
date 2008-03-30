@@ -69,7 +69,7 @@ static piareg mypia;
     maincpu_set_irq(pia_int_num, (a)? IK_IRQ : IK_NONE)
 
 #define my_restore_int(a)                       \
-    interrupt_set_irq_noclk(maincpu_int_status, \
+    interrupt_restore_irq(maincpu_int_status,   \
     pia_int_num, (a) ? IK_IRQ : IK_NONE)
 
 #define mycpu_rmw_flag   maincpu_rmw_flag

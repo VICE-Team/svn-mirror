@@ -401,7 +401,7 @@ void maincpu_mainloop(void)
 
 static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
-#define SNAP_MINOR 0
+#define SNAP_MINOR 1
 
 int maincpu_snapshot_write_module(snapshot_t *s)
 {
@@ -468,7 +468,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     MOS6510_REGS_SET_PC(&maincpu_regs, pc);
     MOS6510_REGS_SET_STATUS(&maincpu_regs, status);
 
-    if (interrupt_read_snapshot(maincpu_int_status, m) < 0)
+    if (interrupt_read_snapshot(maincpu_int_status, m, major, minor) < 0)
         goto fail;
 
     return snapshot_module_close(m);

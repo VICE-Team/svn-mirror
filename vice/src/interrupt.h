@@ -99,6 +99,9 @@ struct interrupt_cpu_status_s {
     void (*nmi_trap_func)(void);
 
     void (*reset_trap_func)(void);
+
+    /* flag for interrupt_restore to handle CPU snapshots before 1.1 */
+    int needs_global_restore;
 };
 typedef struct interrupt_cpu_status_s interrupt_cpu_status_t;
 
@@ -249,13 +252,14 @@ extern void interrupt_cpu_status_time_warp(interrupt_cpu_status_t *cs,
                                            int warp_direction);
 
 extern int interrupt_read_snapshot(interrupt_cpu_status_t *cs,
-                                   struct snapshot_module_s *m);
+                                   struct snapshot_module_s *m,
+                                   BYTE major, BYTE minor);
 extern int interrupt_write_snapshot(interrupt_cpu_status_t *cs,
                                     struct snapshot_module_s *m);
 
-extern void interrupt_set_irq_noclk(interrupt_cpu_status_t *cs, int int_num,
+extern void interrupt_restore_irq(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
-extern void interrupt_set_nmi_noclk(interrupt_cpu_status_t *cs, int int_num,
+extern void interrupt_restore_nmi(interrupt_cpu_status_t *cs, int int_num,
                                     int value);
 extern int interrupt_get_irq(interrupt_cpu_status_t *cs, int int_num);
 extern int interrupt_get_nmi(interrupt_cpu_status_t *cs, int int_num);

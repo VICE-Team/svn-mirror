@@ -157,7 +157,7 @@ TUI_MENU_DEFINE_TOGGLE(EmuID)
 static tui_menu_item_def_t special_menu_items[] = {
     { "--" },
     { "1351 _Mouse Emulation:",
-      "Emulate a Commodore 1351 proportional mouse connected to joystick port #1",
+      "Emulate a C1351 proportional mouse connected to joystick port #1",
       toggle_Mouse_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "512K _RAM Expansion Unit (C1750):",

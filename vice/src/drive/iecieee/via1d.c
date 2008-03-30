@@ -92,7 +92,7 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 
     drive_context = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq_noclk(drive_context->cpu.int_status, int_num, value);
+    interrupt_restore_irq(drive_context->cpu.int_status, int_num, value);
 }
 
 #define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func.iec_write(a))

@@ -179,7 +179,7 @@ extern int video_arch_init_resources(void);
 
 /* Video render interface */
 
-/* Commodore VIC/VIC-II/TED related color/palette types */
+/* VIC/VIC-II/TED related color/palette types */
 typedef struct video_cbm_color_s {
     float luminance;        /* luminance                      */
     float angle;            /* angle on color wheel           */
