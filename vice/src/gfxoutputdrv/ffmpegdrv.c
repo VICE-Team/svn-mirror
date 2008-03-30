@@ -533,6 +533,8 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     c->time_base.den = (int)(vsync_get_refresh_frequency() + 0.5);
     c->time_base.num = 1;
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
+    c->pix_fmt = PIX_FMT_YUV420P;
+
     /* FFV1 isn't strict standard compliant */
     if (c->codec_id == CODEC_ID_FFV1)
         c->strict_std_compliance = -1;

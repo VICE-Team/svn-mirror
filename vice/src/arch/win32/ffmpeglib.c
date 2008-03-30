@@ -36,15 +36,20 @@
 #include "translate.h"
 #include "ui.h"
 
+#define AVCODEC_DLL_NAME "avcodec-51.dll"
+#define AVFORMAT_DLL_NAME "avformat-51.dll"
+#define AVUTIL_DLL_NAME "avutil-49.dll"
+
 static HINSTANCE avcodec_dll = NULL;
 static HINSTANCE avformat_dll = NULL;
+static HINSTANCE avutil_dll = NULL;
 
 
 static void ffmpeglib_free_library(ffmpeglib_t *lib)
 {
     if (avcodec_dll) {
         if (!FreeLibrary(avcodec_dll)) {
-            log_debug("FreeLibrary avcodec.dll failed!");
+            log_debug("FreeLibrary " AVCODEC_DLL_NAME " failed!");
         }
     }
     avcodec_dll = NULL;
@@ -57,11 +62,10 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
     lib->p_avpicture_fill = NULL;
     lib->p_avpicture_get_size = NULL;
     lib->p_img_convert = NULL;
-    lib->p_av_free = NULL;
 
     if (avformat_dll) {
         if (!FreeLibrary(avformat_dll)) {
-            log_debug("FreeLibrary avformat.dll failed!");
+            log_debug("FreeLibrary " AVFORMAT_DLL_NAME " failed!");
         }
     }
     avformat_dll = NULL;
@@ -77,6 +81,14 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
     lib->p_dump_format = NULL;
     lib->p_guess_format = NULL;
 
+    if (avutil_dll) {
+        if (!FreeLibrary(avutil_dll)) {
+            log_debug("FreeLibrary " AVUTIL_DLL_NAME " failed!");
+        }
+    }
+    avutil_dll = NULL;
+
+    lib->p_av_free = NULL;
 }
 
 /* macro for getting functionpointers from avcodec */
@@ -97,16 +109,24 @@ static void ffmpeglib_free_library(ffmpeglib_t *lib)
         return -1; \
     } 
 
+/* macro for getting functionpointers from avutil */
+#define GET_PROC_ADDRESS_AND_TEST_AVUTIL( _name_ ) \
+    lib->p_##_name_ = (_name_##_t) GetProcAddress(avutil_dll, #_name_ ); \
+    if (!lib->p_##_name_ ) { \
+        log_debug("GetProcAddress " #_name_ " failed!"); \
+        ffmpeglib_free_library(lib); \
+        return -1; \
+    } 
 
 static int ffmpeglib_load_library(ffmpeglib_t *lib)
 {
-	avcodec_version_t avcodec_version;
+    avcodec_version_t avcodec_version;
 
     if (!avcodec_dll) {
-        avcodec_dll = LoadLibrary("avcodec.dll");
+        avcodec_dll = LoadLibrary(AVCODEC_DLL_NAME);
 
         if (!avcodec_dll) {
-            log_debug("LoadLibrary avcodec.dll failed!" );
+            log_debug("LoadLibrary " AVCODEC_DLL_NAME " failed!");
             return -1;
         }
 
@@ -118,14 +138,13 @@ static int ffmpeglib_load_library(ffmpeglib_t *lib)
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_fill);
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(avpicture_get_size);
         GET_PROC_ADDRESS_AND_TEST_AVCODEC(img_convert);
-        GET_PROC_ADDRESS_AND_TEST_AVCODEC(av_free);
     }
 
     if (!avformat_dll) {
-        avformat_dll = LoadLibrary("avformat.dll");
+        avformat_dll = LoadLibrary(AVFORMAT_DLL_NAME);
 
         if (!avformat_dll) {
-            log_debug("LoadLibrary avformat.dll failed!" );
+            log_debug("LoadLibrary " AVFORMAT_DLL_NAME " failed!");
             return -1;
         }
 
@@ -141,12 +160,22 @@ static int ffmpeglib_load_library(ffmpeglib_t *lib)
         GET_PROC_ADDRESS_AND_TEST_AVFORMAT(guess_format);
     }
 
-	avcodec_version = (avcodec_version_t)GetProcAddress(avcodec_dll, "avcodec_version");
+    if (!avutil_dll) {
+        avutil_dll = LoadLibrary(AVUTIL_DLL_NAME);
 
-	if (avcodec_version() != LIBAVCODEC_VERSION_INT) {
-		ui_error(translate_text(IDS_FFMPEG_DLL_MISMATCH));
-		return -1;
-	}
+        if (!avformat_dll) {
+            log_debug("LoadLibrary " AVUTIL_DLL_NAME " failed!");
+            return -1;
+        }
+
+        GET_PROC_ADDRESS_AND_TEST_AVUTIL(av_free);
+    }
+    avcodec_version = (avcodec_version_t)GetProcAddress(avcodec_dll, "avcodec_version");
+
+    if (avcodec_version() != LIBAVCODEC_VERSION_INT) {
+        ui_error(translate_text(IDS_FFMPEG_DLL_MISMATCH));
+        return -1;
+    }
     return 0;
 }
 

@@ -36,9 +36,11 @@
 #include "vic20uires.h"
 
 #include "mui/uidrivec64vic20.h"
+#include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisidcart.h"
 #include "mui/uivic20mem.h"
+#include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -107,13 +109,14 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_VIC_SETTINGS:
         ui_vic_settings_dialog();
         break;
-      case IDM_ROM_SETTINGS:
-//        uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG,
-//                              IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
-//                              romset_dialog_resources, uirom_settings); 
+      case IDM_COMPUTER_ROM_SETTINGS:
+        ui_c64vic20_computer_rom_settings_dialog(canvas);
+        break;
+      case IDM_DRIVE_ROM_SETTINGS:
+        ui_c64vic20_drive_rom_settings_dialog(canvas);
         break;
       case IDM_VIDEO_SETTINGS:
-//        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);
+        ui_video_c64plus4vic20_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile");
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivec64vic20_settings_dialog();

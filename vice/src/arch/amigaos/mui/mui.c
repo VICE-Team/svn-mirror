@@ -146,6 +146,29 @@ static void filename_get_from_ui(ui_to_from_t *data)
   resources_set_value(data->resource, (resource_value_t *)str);
 }
 
+static void float_get_to_ui(ui_to_from_t *data)
+{
+  char str[32];
+  int val = 0;
+  double fval;
+  resources_get_value(data->resource, (void *)&val);
+  fval = ((double)val) / 1000.0;
+  sprintf(str, "%.3f", (float)fval);
+  set(data->object, MUIA_String_Contents, str);
+}
+
+static void float_get_from_ui(ui_to_from_t *data)
+{
+  int val = 0;
+  double fval;
+  char *str;
+
+  get(data->object, MUIA_String_Contents, (APTR)&str);
+  fval=atof(str);
+  val = (int)(fval * 1000.0 + 0.5);
+  resources_set_value(data->resource, (resource_value_t *)val);
+}
+
 void ui_get_from(ui_to_from_t *data)
 {
   if (data == NULL) {
@@ -168,6 +191,10 @@ void ui_get_from(ui_to_from_t *data)
 
         case MUI_TYPE_INTEGER:
           integer_get_from_ui(data);
+          break;
+
+        case MUI_TYPE_FLOAT:
+          float_get_from_ui(data);
           break;
 
         case MUI_TYPE_TEXT:
@@ -208,6 +235,10 @@ void ui_get_to(ui_to_from_t *data)
 
         case MUI_TYPE_INTEGER:
           integer_get_to_ui(data);
+          break;
+
+        case MUI_TYPE_FLOAT:
+          float_get_to_ui(data);
           break;
 
         case MUI_TYPE_TEXT:

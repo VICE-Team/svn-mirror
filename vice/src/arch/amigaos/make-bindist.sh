@@ -12,18 +12,20 @@ then
   exit 1
 fi
 
-echo Generating AMIGA port binary distribution.
-
 if test x"$4" = "xaros"; then
   AMIGAFLAVOR=$3-AROS-$2
+  echo Generating AROS port binary distribution.
 else
   if test x"$4" = "xmorphos"; then
     AMIGAFLAVOR=MorphOS-$2
+    echo Generating MorphOS port binary distribution.
   else
     if test x"$3" = "xm68k"; then
       AMIGAFLAVOR=AmigaOS3-$2
+      echo Generating AmigaOS3 port binary distribution.
     else
       AMIGAFLAVOR=AmigaOS4-$2
+      echo Generating AmigaOS4 port binary distribution.
     fi
   fi
 fi
@@ -63,6 +65,23 @@ else
   $1 --strip-unneeded --remove-section .comment src/arch/amigaos/xplus4ns$7
   $1 --strip-unneeded --remove-section .comment src/arch/amigaos/xcbm2ns$7
 fi
+if test x"$4" = "xmorphos"; then
+cp src/x64$7 VICE-$AMIGAFLAVOR/x64
+cp src/x128$7 VICE-$AMIGAFLAVOR/x128
+cp src/xvic$7 VICE-$AMIGAFLAVOR/xvic
+cp src/xpet$7 VICE-$AMIGAFLAVOR/xpet
+cp src/xplus4$7 VICE-$AMIGAFLAVOR/xplus4
+cp src/xcbm2$7 VICE-$AMIGAFLAVOR/xcbm2
+cp src/c1541$7 VICE-$AMIGAFLAVOR/c1541
+cp src/petcat$7 VICE-$AMIGAFLAVOR/petcat
+cp src/cartconv$7 VICE-$AMIGAFLAVOR/cartconv
+cp src/arch/amigaos/x64ns$7 VICE-$AMIGAFLAVOR/x64\ \(no\ sound\)
+cp src/arch/amigaos/x128ns$7 VICE-$AMIGAFLAVOR/x128\ \(no\ sound\)
+cp src/arch/amigaos/xvicns$7 VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\)
+cp src/arch/amigaos/xpetns$7 VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\)
+cp src/arch/amigaos/xplus4ns$7 VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\)
+cp src/arch/amigaos/xcbm2ns$7 VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\)
+else
 cp src/x64$7 VICE-$AMIGAFLAVOR/x64.exe
 cp src/x128$7 VICE-$AMIGAFLAVOR/x128.exe
 cp src/xvic$7 VICE-$AMIGAFLAVOR/xvic.exe
@@ -78,12 +97,23 @@ cp src/arch/amigaos/xvicns$7 VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).exe
 cp src/arch/amigaos/xpetns$7 VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).exe
 cp src/arch/amigaos/xplus4ns$7 VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\).exe
 cp src/arch/amigaos/xcbm2ns$7 VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\).exe
+fi
 cp -a $6/data/C128 $6/data/C64 $6/data/CBM-II $6/data/DRIVES VICE-$AMIGAFLAVOR
 cp -a $6/data/PET $6/data/PLUS4 $6/data/PRINTER $6/data/VIC20 VICE-$AMIGAFLAVOR
 cp -a $6/data/fonts VICE-$AMIGAFLAVOR
 cp -a $6/doc/html VICE-$AMIGAFLAVOR
 cp $6/FEEDBACK $6/README $6/doc/cartconv.txt VICE-$AMIGAFLAVOR
 cp $6/src/arch/amigaos/README.AMIGA VICE-$AMIGAFLAVOR
+if test x"$4" = "xmorphos"; then
+cp $6/src/arch/amigaos/info-files/morphos/VICE.info VICE-$AMIGAFLAVOR.info
+cp $6/src/arch/amigaos/info-files/morphos/x*.info VICE-$AMIGAFLAVOR
+cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64\ \(no\ sound\).info
+cp VICE-$AMIGAFLAVOR/x128.info VICE-$AMIGAFLAVOR/x128\ \(no\ sound\).info
+cp VICE-$AMIGAFLAVOR/xvic.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).info
+cp VICE-$AMIGAFLAVOR/xpet.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).info
+cp VICE-$AMIGAFLAVOR/xplus4.info VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\).info
+cp VICE-$AMIGAFLAVOR/xcbm2.info VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\).info
+else
 cp $6/src/arch/amigaos/info-files/VICE.info VICE-$AMIGAFLAVOR.info
 cp $6/src/arch/amigaos/info-files/*.exe.info VICE-$AMIGAFLAVOR
 cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64\ \(no\ sound\).exe.info
@@ -92,6 +122,7 @@ cp VICE-$AMIGAFLAVOR/xvic.exe.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).exe.inf
 cp VICE-$AMIGAFLAVOR/xpet.exe.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).exe.info
 cp VICE-$AMIGAFLAVOR/xplus4.exe.info VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\).exe.info
 cp VICE-$AMIGAFLAVOR/xcbm2.exe.info VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\).exe.info
+fi
 rm `find VICE-$AMIGAFLAVOR -name "Makefile*"`
 rm `find VICE-$AMIGAFLAVOR -name "dos_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "os2*.vkm"`

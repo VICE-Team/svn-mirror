@@ -106,6 +106,8 @@ libarch_a_SOURCES = \
 	mui/uiacia.h \
 	mui/uic64_256k.c \
 	mui/uic64_256k.h \
+	mui/uic128settings.c \
+	mui/uic128settings.h \
 	mui/uidatasette.c \
 	mui/uidatasette.h \
 	mui/uicbm2settings.c \
@@ -118,6 +120,8 @@ libarch_a_SOURCES = \
 	mui/uidrivepetcbm2.h \
 	mui/uidriveplus4.c \
 	mui/uidriveplus4.h \
+	mui/uifliplist.c \
+	mui/uifliplist.h \
 	mui/uigeoram.c \
 	mui/uigeoram.h \
 	mui/uiide64.c \
@@ -132,8 +136,12 @@ libarch_a_SOURCES = \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
 	mui/uipetreu.h \
+	mui/uipetsettings.c \
+	mui/uipetsettings.h \
 	mui/uiplus256k.c \
 	mui/uiplus256k.h \
+	mui/uiplus4settings.c \
+	mui/uiplus4settings.h \
 	mui/uiplus60k.c \
 	mui/uiplus60k.h \
 	mui/uiram.c \
@@ -142,18 +150,36 @@ libarch_a_SOURCES = \
 	mui/uiramcart.h \
 	mui/uireu.c \
 	mui/uireu.h \
+	mui/uiromc128settings.c \
+	mui/uiromc128settings.h \
+	mui/uiromc64vic20settings.c \
+	mui/uiromc64vic20settings.h \
+	mui/uiromcbm2settings.c \
+	mui/uiromcbm2settings.h \
+	mui/uirompetsettings.c \
+	mui/uirompetsettings.h \
+	mui/uiromplus4settings.c \
+	mui/uiromplus4settings.h \
 	mui/uirs232user.c \
 	mui/uirs232user.h \
 	mui/uisid.c \
 	mui/uisid.h \
 	mui/uisidcart.c \
 	mui/uisidcart.h \
+	mui/uisnapshot.c \
+	mui/uisnapshot.h \
 	mui/uisound.c \
 	mui/uisound.h \
 	mui/uivic20mem.c \
 	mui/uivic20mem.h \
 	mui/uivicii.c \
-	mui/uivicii.h
+	mui/uivicii.h \
+	mui/uivideoc128.c \
+	mui/uivideoc128.h \
+	mui/uivideoc64plus4vic20.c \
+	mui/uivideoc64plus4vic20.h \
+	mui/uivideocbm2pet.c \
+	mui/uivideocbm2pet.h
 
 EXTRA_DIST = \
 	info-files/VICE.info \
@@ -163,6 +189,13 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
+	info-files/morphos/VICE.info \
+	info-files/morphos/x128.info \
+	info-files/morphos/x64.info \
+	info-files/morphos/xcbm2.info \
+	info-files/morphos/xpet.info \
+	info-files/morphos/xplus4.info \
+	info-files/morphos/xvic.info \
 	genintl_h.sh \
 	genintltable.sh \
 	intl.txt \

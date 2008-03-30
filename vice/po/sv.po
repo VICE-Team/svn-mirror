@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-03 12:50+0100\n"
+"POT-Creation-Date: 2006-12-24 15:57+0100\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -92,7 +92,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
 #: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
 #: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
-#: src/c64/mmc64.c:906 src/c64/mmc64.c:908 src/c64/plus256k.c:175
+#: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
@@ -724,7 +724,7 @@ msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nollställ inte maskinen om en insticksmodul kopplas till eller från"
 
 #: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:4833
-#: src/translate.c.po.c:1380 src/arch/amigaos/intl.c.po.c:2258
+#: src/translate.c.po.c:1380 src/arch/amigaos/intl.c.po.c:2303
 msgid "Attach CRT cartridge image"
 msgstr "Anslut CRT-insticksmodulfil"
 
@@ -852,35 +852,35 @@ msgstr "<storlek i KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/mmc64.c:902 src/translate.c.po.c:1228
+#: src/c64/mmc64.c:903 src/translate.c.po.c:1228
 #, fuzzy
 msgid "Enable the MMC64 expansion"
 msgstr "Aktivera RAMCART-expansion"
 
-#: src/c64/mmc64.c:904 src/translate.c.po.c:1238
+#: src/c64/mmc64.c:905 src/translate.c.po.c:1238
 #, fuzzy
 msgid "Disable the MMC64 expansion"
 msgstr "Inaktivera RAMCART-expansion"
 
-#: src/c64/mmc64.c:906 src/translate.c.po.c:1248
+#: src/c64/mmc64.c:907 src/translate.c.po.c:1248
 #, fuzzy
 msgid "Specify name of MMC64 BIOS image"
 msgstr "Ange namn på C64-BASIC-ROM-avbildning"
 
-#: src/c64/mmc64.c:908 src/translate.c.po.c:1258
+#: src/c64/mmc64.c:909 src/translate.c.po.c:1258
 #, fuzzy
 msgid "Specify name of MMC64 image"
 msgstr "Ange namn på 256K-avbildning"
 
-#: src/c64/mmc64.c:910 src/translate.c.po.c:1268
+#: src/c64/mmc64.c:911 src/translate.c.po.c:1268
 msgid "Set the MMC64 card to read-only"
 msgstr ""
 
-#: src/c64/mmc64.c:912 src/translate.c.po.c:1278
+#: src/c64/mmc64.c:913 src/translate.c.po.c:1278
 msgid "Set the MMC64 card to read/write"
 msgstr ""
 
-#: src/c64/mmc64.c:914 src/translate.c.po.c:1288
+#: src/c64/mmc64.c:915 src/translate.c.po.c:1288
 msgid "Save the MMC64 bios when changed"
 msgstr ""
 
@@ -1293,15 +1293,15 @@ msgstr "Ange bithastighet för ljudström i mediafil"
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:564 src/translate.c.po.c:560
+#: src/gfxoutputdrv/ffmpegdrv.c:566 src/translate.c.po.c:560
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:573 src/translate.c.po.c:570
+#: src/gfxoutputdrv/ffmpegdrv.c:575 src/translate.c.po.c:570
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:586 src/translate.c.po.c:580
+#: src/gfxoutputdrv/ffmpegdrv.c:588 src/translate.c.po.c:580
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
@@ -1753,10 +1753,10 @@ msgstr "Ange SID-motor (0: FastSID, 4: ParSID)"
 msgid "Specify SID engine (0: FastSID)"
 msgstr "Ange SID-motor (0: FastSID)"
 
-#: src/sid/sid-cmdline-options.c:84
+#: src/sid/sid-cmdline-options.c:84 src/translate.c.po.c:3314
 #, fuzzy
-msgid "Ebable SID Cartridge"
-msgstr "Spara insticksmodul"
+msgid "Enable SID Cartridge"
+msgstr "Aktivera Scale2x"
 
 #: src/sid/sid-cmdline-options.c:103 src/translate.c.po.c:3197
 msgid ""
@@ -2354,6 +2354,7 @@ msgstr "Skärmdump..."
 
 #: src/arch/unix/gui/c128ui.c:358 src/arch/win32/resc128.rc.po.c:3652
 #: src/arch/win32/resc128.rc.po.c:3654 src/arch/win32/resc128.rc.po.c:4107
+#: src/arch/amigaos/intl.c.po.c:4445
 msgid "Machine type"
 msgstr "Maskintyp"
 
@@ -2703,11 +2704,11 @@ msgstr "Läs ny $B***-ROM"
 msgid "Unload $B*** ROM"
 msgstr "Läs ur $B***-ROM"
 
-#: src/arch/unix/gui/petui.c:305
+#: src/arch/unix/gui/petui.c:305 src/arch/amigaos/intl.c.po.c:4328
 msgid "Video size"
 msgstr "Skärmbredd"
 
-#: src/arch/unix/gui/petui.c:309
+#: src/arch/unix/gui/petui.c:309 src/arch/amigaos/intl.c.po.c:4337
 msgid "I/O size"
 msgstr "I/O-utrymme"
 
@@ -3013,7 +3014,7 @@ msgstr "Insticksmodulens frysfunktion"
 msgid "*Cartridge control"
 msgstr "*Kontroll av insticksmodul"
 
-#: src/arch/unix/gui/uicmdline.c:39 src/arch/amigaos/intl.c.po.c:2366
+#: src/arch/unix/gui/uicmdline.c:39 src/arch/amigaos/intl.c.po.c:2411
 #, c-format
 msgid ""
 "\n"
@@ -3651,7 +3652,7 @@ msgstr "Läs "
 #: src/arch/unix/gui/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
 #: src/arch/unix/x11/xaw/uiscreenshot.c:262
-#: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/amigaos/intl.c.po.c:2024
+#: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/amigaos/intl.c.po.c:2069
 msgid "Save"
 msgstr "Spara"
 
@@ -4018,7 +4019,7 @@ msgid "Connect to server"
 msgstr "Anslut till server"
 
 #: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
-#: src/arch/win32/res.rc.po.c:4393 src/arch/amigaos/intl.c.po.c:2078
+#: src/arch/win32/res.rc.po.c:4393 src/arch/amigaos/intl.c.po.c:2123
 msgid "Disconnect"
 msgstr "Koppla från"
 
@@ -4598,7 +4599,7 @@ msgid "*Userport RS232 emulation"
 msgstr "*Emulering av RS232 på användarporten"
 
 #: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:395
-#: src/arch/amigaos/intl.c.po.c:3437
+#: src/arch/amigaos/intl.c.po.c:3482
 msgid "Userport RS232 baud rate"
 msgstr "Användarportens RS232-baudhastighet"
 
@@ -4687,12 +4688,12 @@ msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1378
 #: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:4752
-#: src/arch/amigaos/intl.c.po.c:1833
+#: src/arch/amigaos/intl.c.po.c:1878
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
 #: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:4769
-#: src/arch/amigaos/intl.c.po.c:1752
+#: src/arch/amigaos/intl.c.po.c:1797
 msgid "Settings saved successfully."
 msgstr "Inställningarna har sparats."
 
@@ -4925,7 +4926,7 @@ msgstr "Buffertstorlek"
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/gui/uisound.c:148 src/arch/amigaos/intl.c.po.c:3626
+#: src/arch/unix/gui/uisound.c:148 src/arch/amigaos/intl.c.po.c:3671
 msgid "Oversample"
 msgstr "Översampling"
 
@@ -4955,7 +4956,7 @@ msgstr "*Maskinvaruskalning"
 #: src/arch/unix/gui/uited.c:140 src/arch/unix/gui/uivicii.c:148
 #: src/arch/win32/resc128.rc.po.c:179 src/arch/win32/resc64.rc.po.c:184
 #: src/arch/win32/resplus4.rc.po.c:167 src/arch/win32/resvic20.rc.po.c:165
-#: src/arch/amigaos/intl.c.po.c:1057
+#: src/arch/amigaos/intl.c.po.c:1057 src/arch/amigaos/intl.c.po.c:4121
 msgid "PAL Emulation"
 msgstr "PAL-emulering"
 
@@ -5108,7 +5109,7 @@ msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
 #: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:4776
-#: src/arch/amigaos/intl.c.po.c:1941
+#: src/arch/amigaos/intl.c.po.c:1986
 msgid "Invalid cartridge image"
 msgstr "Ogiltig insticksmodulfil"
 
@@ -5222,7 +5223,7 @@ msgid "(c) 1998 - 2006 The Vice Team"
 msgstr "© 1998 - 2006 Vice-gruppen"
 
 #: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:4857
-#: src/arch/amigaos/intl.c.po.c:1633
+#: src/arch/amigaos/intl.c.po.c:1651
 msgid "License"
 msgstr "Licens"
 
@@ -5230,7 +5231,7 @@ msgstr "Licens"
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:117 src/arch/amigaos/intl.c.po.c:1624
+#: src/arch/unix/x11/gnome/about.c:117 src/arch/amigaos/intl.c.po.c:1642
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
@@ -5346,6 +5347,7 @@ msgid "Exact Emulation"
 msgstr "Exakt emulering"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:53 src/arch/win32/res.rc.po.c:4397
+#: src/arch/amigaos/intl.c.po.c:4346
 msgid "Keyboard"
 msgstr "Tangentbord"
 
@@ -5366,12 +5368,12 @@ msgid "Invalid Port number"
 msgstr "Ogiltigt portnummer"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:4919
-#: src/arch/amigaos/intl.c.po.c:2087
+#: src/arch/amigaos/intl.c.po.c:2132
 msgid "Idle"
 msgstr "Väntar"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:4920
-#: src/arch/amigaos/intl.c.po.c:2096
+#: src/arch/amigaos/intl.c.po.c:2141
 msgid "Server listening"
 msgstr "Servern lyssnar"
 
@@ -5398,7 +5400,7 @@ msgstr "Kunde inte ansluta klienten."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:204
 #: src/arch/unix/x11/gnome/uinetplay.c:210 src/arch/win32/res.rc.po.c:4384
-#: src/arch/amigaos/intl.c.po.c:2123
+#: src/arch/amigaos/intl.c.po.c:2168
 msgid "Netplay Settings"
 msgstr "Inställningar för nätverksspel"
 
@@ -5411,7 +5413,7 @@ msgid "<unknown>"
 msgstr "<okänd>"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:226 src/arch/win32/res.rc.po.c:4390
-#: src/arch/amigaos/intl.c.po.c:2060
+#: src/arch/amigaos/intl.c.po.c:2105
 msgid "Start Server"
 msgstr "Starta server"
 
@@ -5441,7 +5443,7 @@ msgstr "Inga grafikutdrivrutiner tillgängliga"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:238
 #: src/arch/unix/x11/gnome/uiscreenshot.c:450
-#: src/arch/amigaos/intl.c.po.c:2132
+#: src/arch/amigaos/intl.c.po.c:2177
 msgid "Save Screenshot"
 msgstr "Spara skärmdump"
 
@@ -5626,7 +5628,7 @@ msgstr "Maximalt antal fönster på översta nivån har nåtts."
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1597
+#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1615
 msgid "Help"
 msgstr "Hjälp"
 
@@ -5663,11 +5665,11 @@ msgstr "Band %03d"
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1779
+#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1824
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1851
+#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1896
 msgid "VICE Error"
 msgstr "VICE-fel"
 
@@ -5848,22 +5850,22 @@ msgid "Use the default colormap"
 msgstr "Använd standardfärgkartan"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:4906
-#: src/arch/amigaos/intl.c.po.c:3167
+#: src/arch/amigaos/intl.c.po.c:3212
 msgid "Save settings (resources) on exit"
 msgstr "Spara inställningar (resurser) vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:4909
-#: src/arch/amigaos/intl.c.po.c:3194
+#: src/arch/amigaos/intl.c.po.c:3239
 msgid "Never confirm quiting VICE"
 msgstr "Bekräfta inte för att avsluta VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:4908
-#: src/arch/amigaos/intl.c.po.c:3185
+#: src/arch/amigaos/intl.c.po.c:3230
 msgid "Confirm quiting VICE"
 msgstr "Bekräfta för att avsluta VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:4907
-#: src/arch/amigaos/intl.c.po.c:3176
+#: src/arch/amigaos/intl.c.po.c:3221
 msgid "Never save settings (resources) on exit"
 msgstr "Spara aldrig inställningar (resurser) vid avslut"
 
@@ -6005,7 +6007,7 @@ msgstr "Bläddra..."
 #: src/arch/win32/resplus4.rc.po.c:2278 src/arch/win32/resplus4.rc.po.c:2461
 #: src/arch/win32/resplus4.rc.po.c:2671 src/arch/win32/ressidcart.rc.po.c:39
 #: src/arch/win32/resvic20.rc.po.c:1920 src/arch/win32/resvic20.rc.po.c:2096
-#: src/arch/amigaos/intl.c.po.c:2141
+#: src/arch/amigaos/intl.c.po.c:2186
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -6283,7 +6285,7 @@ msgstr "Om VICE..."
 #: src/arch/win32/respet.rc.po.c:2425 src/arch/win32/resplus4.rc.po.c:2277
 #: src/arch/win32/resplus4.rc.po.c:2460 src/arch/win32/resplus4.rc.po.c:2670
 #: src/arch/win32/ressidcart.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:1919
-#: src/arch/win32/resvic20.rc.po.c:2095 src/arch/amigaos/intl.c.po.c:1788
+#: src/arch/win32/resvic20.rc.po.c:2095 src/arch/amigaos/intl.c.po.c:1833
 msgid "OK"
 msgstr "OK"
 
@@ -6382,7 +6384,7 @@ msgid "&Autostart"
 msgstr "Starta &automatiskt"
 
 #: src/arch/win32/res.rc.po.c:592 src/arch/win32/res.rc.po.c:1820
-#: src/arch/amigaos/intl.c.po.c:2447
+#: src/arch/amigaos/intl.c.po.c:2492
 msgid "Attach read only"
 msgstr "Anslut skrivskyddat"
 
@@ -6409,7 +6411,7 @@ msgstr "&Skriv P00-filer"
 msgid "&Hide non-P00 files"
 msgstr "&Göm icke-P00-filer"
 
-#: src/arch/win32/res.rc.po.c:851 src/arch/amigaos/intl.c.po.c:2807
+#: src/arch/win32/res.rc.po.c:851 src/arch/amigaos/intl.c.po.c:2852
 msgid "Datasette Settings"
 msgstr "Datasetteinställningar"
 
@@ -6529,11 +6531,11 @@ msgstr "Synkroniserings&metod:"
 msgid "Image Contents "
 msgstr "Innehåll i avbildning "
 
-#: src/arch/win32/res.rc.po.c:1822 src/arch/amigaos/intl.c.po.c:2474
+#: src/arch/win32/res.rc.po.c:1822 src/arch/amigaos/intl.c.po.c:2519
 msgid "New Image"
 msgstr "Ny avbildning"
 
-#: src/arch/win32/res.rc.po.c:1823 src/arch/amigaos/intl.c.po.c:2456
+#: src/arch/win32/res.rc.po.c:1823 src/arch/amigaos/intl.c.po.c:2501
 msgid "Name"
 msgstr "Namn"
 
@@ -6546,11 +6548,11 @@ msgid "Type"
 msgstr "Typ"
 
 #: src/arch/win32/res.rc.po.c:1830 src/arch/win32/res.rc.po.c:1999
-#: src/arch/amigaos/intl.c.po.c:2465
+#: src/arch/amigaos/intl.c.po.c:2510
 msgid "Create Image"
 msgstr "Skapa avbildning"
 
-#: src/arch/win32/res.rc.po.c:1998 src/arch/amigaos/intl.c.po.c:2483
+#: src/arch/win32/res.rc.po.c:1998 src/arch/amigaos/intl.c.po.c:2528
 msgid "New TAP Image"
 msgstr "Ny TAP-avbildning"
 
@@ -6650,7 +6652,7 @@ msgstr ""
 msgid "PAL Blur"
 msgstr "PAL-suddighet"
 
-#: src/arch/win32/res.rc.po.c:2966
+#: src/arch/win32/res.rc.po.c:2966 src/arch/amigaos/intl.c.po.c:4166
 msgid "PAL Mode"
 msgstr "PAL-läge"
 
@@ -6658,7 +6660,7 @@ msgstr "PAL-läge"
 msgid "External Palette:"
 msgstr "Extern palett:"
 
-#: src/arch/win32/res.rc.po.c:3284 src/arch/amigaos/intl.c.po.c:3311
+#: src/arch/win32/res.rc.po.c:3284 src/arch/amigaos/intl.c.po.c:3356
 msgid "RAM Settings"
 msgstr "RAM-inställningar"
 
@@ -6666,15 +6668,15 @@ msgstr "RAM-inställningar"
 msgid "Initialization at powerup"
 msgstr "Initiering vid strömpåslag"
 
-#: src/arch/win32/res.rc.po.c:3287 src/arch/amigaos/intl.c.po.c:3284
+#: src/arch/win32/res.rc.po.c:3287 src/arch/amigaos/intl.c.po.c:3329
 msgid "Value of first byte"
 msgstr "Värde på första byte"
 
-#: src/arch/win32/res.rc.po.c:3291 src/arch/amigaos/intl.c.po.c:3293
+#: src/arch/win32/res.rc.po.c:3291 src/arch/amigaos/intl.c.po.c:3338
 msgid "Length of constant values"
 msgstr "Längd på konstanta värden"
 
-#: src/arch/win32/res.rc.po.c:3294 src/arch/amigaos/intl.c.po.c:3302
+#: src/arch/win32/res.rc.po.c:3294 src/arch/amigaos/intl.c.po.c:3347
 msgid "Length of constant pattern"
 msgstr "Längd på konstant mönster"
 
@@ -6740,7 +6742,7 @@ msgid "Romset archive"
 msgstr "ROM-uppsättningsarkiv"
 
 #: src/arch/win32/res.rc.po.c:3847 src/arch/win32/res.rc.po.c:3859
-#: src/arch/amigaos/intl.c.po.c:2033
+#: src/arch/amigaos/intl.c.po.c:2078
 msgid "Browse"
 msgstr "Bläddra"
 
@@ -6820,17 +6822,17 @@ msgstr "RS232-enhet 3"
 msgid "RS232 device 4"
 msgstr "RS232-enhet 4"
 
-#: src/arch/win32/res.rc.po.c:4386 src/arch/amigaos/intl.c.po.c:2042
+#: src/arch/win32/res.rc.po.c:4386 src/arch/amigaos/intl.c.po.c:2087
 #, fuzzy
 msgid "Current mode"
 msgstr "Nuvarande ROM-uppsättningar"
 
-#: src/arch/win32/res.rc.po.c:4388 src/arch/amigaos/intl.c.po.c:2051
+#: src/arch/win32/res.rc.po.c:4388 src/arch/amigaos/intl.c.po.c:2096
 #, fuzzy
 msgid "TCP-Port"
 msgstr "TCP-port: "
 
-#: src/arch/win32/res.rc.po.c:4391 src/arch/amigaos/intl.c.po.c:2069
+#: src/arch/win32/res.rc.po.c:4391 src/arch/amigaos/intl.c.po.c:2114
 #, fuzzy
 msgid "Connect to"
 msgstr "Anslut till "
@@ -6848,15 +6850,15 @@ msgstr "Versionen på din ffmpeg-dll stämmer inte."
 msgid "DirectDraw error: Code:%8x Error:%s"
 msgstr "DirectDraw-fel: Kod:%8x Fel:%s"
 
-#: src/arch/win32/res.rc.po.c:4753 src/arch/amigaos/intl.c.po.c:1842
+#: src/arch/win32/res.rc.po.c:4753 src/arch/amigaos/intl.c.po.c:1887
 msgid "Cannot load settings."
 msgstr "Kan inte läsa inställningar."
 
-#: src/arch/win32/res.rc.po.c:4754 src/arch/amigaos/intl.c.po.c:1770
+#: src/arch/win32/res.rc.po.c:4754 src/arch/amigaos/intl.c.po.c:1815
 msgid "Default settings restored."
 msgstr "Förvalda inställningar återställda."
 
-#: src/arch/win32/res.rc.po.c:4755 src/arch/amigaos/intl.c.po.c:1914
+#: src/arch/win32/res.rc.po.c:4755 src/arch/amigaos/intl.c.po.c:1959
 msgid "Cannot attach specified file"
 msgstr "Kan inte ansluta filen"
 
@@ -6875,7 +6877,7 @@ msgstr ""
 msgid "VICE CPU JAM"
 msgstr "VICE CPU-blockering"
 
-#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:2195
+#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:2240
 msgid "Extend image to 40-track format?"
 msgstr "Utöka avbildning till 40-spårsformat?"
 
@@ -6889,7 +6891,7 @@ msgstr "Kopplade från enhet %s"
 msgid "Attached %s to device#%s"
 msgstr "Anslöt %s till enhet %s"
 
-#: src/arch/win32/res.rc.po.c:4761 src/arch/amigaos/intl.c.po.c:2213
+#: src/arch/win32/res.rc.po.c:4761 src/arch/amigaos/intl.c.po.c:2258
 msgid "Detached tape"
 msgstr "Kopplade från band"
 
@@ -6910,7 +6912,7 @@ msgstr "pausad"
 msgid "resumed"
 msgstr "återupptagen"
 
-#: src/arch/win32/res.rc.po.c:4766 src/arch/amigaos/intl.c.po.c:2249
+#: src/arch/win32/res.rc.po.c:4766 src/arch/amigaos/intl.c.po.c:2294
 msgid ""
 "Do you really want to exit?\n"
 "\n"
@@ -6920,16 +6922,16 @@ msgstr ""
 "\n"
 "Alla data i emulerat RAM kommer förloras."
 
-#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:1905
+#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:1950
 msgid "Cannot autostart specified file."
 msgstr "Kan inte autostarta angiven fil."
 
-#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:2222
+#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:2267
 #, c-format
 msgid "Attached tape %s"
 msgstr "Anslöt band %s"
 
-#: src/arch/win32/res.rc.po.c:4770 src/arch/amigaos/intl.c.po.c:1761
+#: src/arch/win32/res.rc.po.c:4770 src/arch/amigaos/intl.c.po.c:1806
 msgid "Settings loaded successfully."
 msgstr "Inställningarna har lästs in."
 
@@ -6937,19 +6939,19 @@ msgstr "Inställningarna har lästs in."
 msgid "Attach disk image"
 msgstr "Anslut diskettavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4772 src/arch/amigaos/intl.c.po.c:3698
+#: src/arch/win32/res.rc.po.c:4772 src/arch/amigaos/intl.c.po.c:3743
 msgid "Attach tape image"
 msgstr "Anslut bandavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4773 src/arch/amigaos/intl.c.po.c:3707
+#: src/arch/win32/res.rc.po.c:4773 src/arch/amigaos/intl.c.po.c:3752
 msgid "Autostart disk/tape image"
 msgstr "Autostarta disk-/bandavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4774 src/arch/amigaos/intl.c.po.c:1923
+#: src/arch/win32/res.rc.po.c:4774 src/arch/amigaos/intl.c.po.c:1968
 msgid "Invalid cartridge"
 msgstr "Ogiltig insticksmodul"
 
-#: src/arch/win32/res.rc.po.c:4775 src/arch/amigaos/intl.c.po.c:1932
+#: src/arch/win32/res.rc.po.c:4775 src/arch/amigaos/intl.c.po.c:1977
 msgid "Bad cartridge config in UI!"
 msgstr "Felaktiga insticksmodulsinställningar i UI!"
 
@@ -6966,19 +6968,19 @@ msgstr "VICE konsolloggfiler (*.dbg)"
 msgid "Cannot write log file `%s'."
 msgstr "Kan inte skriva avbildningsfil %s"
 
-#: src/arch/win32/res.rc.po.c:4780
+#: src/arch/win32/res.rc.po.c:4780 src/arch/amigaos/intl.c.po.c:3950
 msgid "Load flip list file"
 msgstr "Läs vallistefil"
 
-#: src/arch/win32/res.rc.po.c:4781
+#: src/arch/win32/res.rc.po.c:4781 src/arch/amigaos/intl.c.po.c:3959
 msgid "Cannot read flip list file"
 msgstr "Kunde inte läsa vallistefil"
 
-#: src/arch/win32/res.rc.po.c:4782
+#: src/arch/win32/res.rc.po.c:4782 src/arch/amigaos/intl.c.po.c:3968
 msgid "Save flip list file"
 msgstr "Spara vallistefil"
 
-#: src/arch/win32/res.rc.po.c:4783
+#: src/arch/win32/res.rc.po.c:4783 src/arch/amigaos/intl.c.po.c:3977
 msgid "Cannot write flip list file"
 msgstr "Kan inte skriva vallistefil"
 
@@ -7006,19 +7008,19 @@ msgstr "&Anslut"
 msgid "Please enter a filename."
 msgstr "Ange filnamn."
 
-#: src/arch/win32/res.rc.po.c:4791 src/arch/amigaos/intl.c.po.c:2492
+#: src/arch/win32/res.rc.po.c:4791 src/arch/amigaos/intl.c.po.c:2537
 msgid "Overwrite existing image?"
 msgstr "Skriva över existerande avbildning?"
 
-#: src/arch/win32/res.rc.po.c:4792 src/arch/amigaos/intl.c.po.c:1950
+#: src/arch/win32/res.rc.po.c:4792 src/arch/amigaos/intl.c.po.c:1995
 msgid "Cannot create image"
 msgstr "Kan inte skapa avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4793 src/arch/amigaos/intl.c.po.c:1615
+#: src/arch/win32/res.rc.po.c:4793 src/arch/amigaos/intl.c.po.c:1633
 msgid "Command line options"
 msgstr "Kommandoradsflaggor"
 
-#: src/arch/win32/res.rc.po.c:4794 src/arch/amigaos/intl.c.po.c:1824
+#: src/arch/win32/res.rc.po.c:4794 src/arch/amigaos/intl.c.po.c:1869
 msgid "Which command line options are available?"
 msgstr "Vilka kommandoradsflaggor är tillgängliga?"
 
@@ -7077,7 +7079,7 @@ msgstr "Inställningar för kringutrustning"
 msgid "Can't write snapshot file."
 msgstr "Kan inte skriva ögonblicksbildfil."
 
-#: src/arch/win32/res.rc.po.c:4808
+#: src/arch/win32/res.rc.po.c:4808 src/arch/amigaos/intl.c.po.c:4085
 #, fuzzy
 msgid "Cannot read snapshot image"
 msgstr "Kan inte läsa in ögonblicksbildfil."
@@ -7115,18 +7117,18 @@ msgstr "Välj ROM-uppsättningsfil"
 msgid "Romset"
 msgstr "ROM-uppsättning"
 
-#: src/arch/win32/res.rc.po.c:4820
+#: src/arch/win32/res.rc.po.c:4820 src/arch/amigaos/intl.c.po.c:4040
 msgid "Save snapshot image"
 msgstr "Spara ögonblicksbildfil"
 
-#: src/arch/win32/res.rc.po.c:4821
+#: src/arch/win32/res.rc.po.c:4821 src/arch/amigaos/intl.c.po.c:4076
 #, fuzzy, c-format
 msgid "Cannot write snapshot file `%s'."
 msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/win32/res.rc.po.c:4822
+#: src/arch/win32/res.rc.po.c:4822 src/arch/amigaos/intl.c.po.c:4049
 msgid "Load snapshot image"
 msgstr "Läser in ögonblicksbild"
 
@@ -7146,7 +7148,7 @@ msgstr "Fullskärm"
 msgid "Colors"
 msgstr "Färger"
 
-#: src/arch/win32/res.rc.po.c:4827
+#: src/arch/win32/res.rc.po.c:4827 src/arch/amigaos/intl.c.po.c:4220
 msgid "Video settings"
 msgstr "Grafikinställningar"
 
@@ -7163,15 +7165,15 @@ msgstr "Äkta IEC-enhet"
 msgid "RS232 device %i"
 msgstr "RS232-enhet %i"
 
-#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:2267
+#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:2312
 msgid "Attach raw 8KB cartridge image"
 msgstr "Anslut rå 8KB-insticksmodulavbilding"
 
-#: src/arch/win32/res.rc.po.c:4835 src/arch/amigaos/intl.c.po.c:2276
+#: src/arch/win32/res.rc.po.c:4835 src/arch/amigaos/intl.c.po.c:2321
 msgid "Attach raw 16KB cartridge image"
 msgstr "Anslut rå 16KB-insticksmodulavbilding"
 
-#: src/arch/win32/res.rc.po.c:4836 src/arch/amigaos/intl.c.po.c:2285
+#: src/arch/win32/res.rc.po.c:4836 src/arch/amigaos/intl.c.po.c:2330
 msgid "Attach Action Replay cartridge image"
 msgstr "Anslut Action Replay-avbildningsfil"
 
@@ -7180,35 +7182,35 @@ msgstr "Anslut Action Replay-avbildningsfil"
 msgid "Attach Action Replay III cartridge image"
 msgstr "Anslut Action Replay-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4838 src/arch/amigaos/intl.c.po.c:2294
+#: src/arch/win32/res.rc.po.c:4838 src/arch/amigaos/intl.c.po.c:2339
 msgid "Attach Atomic Power cartridge image"
 msgstr "Anslut Atomic Power-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4839 src/arch/amigaos/intl.c.po.c:2303
+#: src/arch/win32/res.rc.po.c:4839 src/arch/amigaos/intl.c.po.c:2348
 msgid "Attach Epyx fastload cartridge image"
 msgstr "Anslut Epyx fastload-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4840 src/arch/amigaos/intl.c.po.c:2312
+#: src/arch/win32/res.rc.po.c:4840 src/arch/amigaos/intl.c.po.c:2357
 msgid "Attach IEEE interface cartridge image"
 msgstr "Anslut IEE-gränssnittsavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4841 src/arch/amigaos/intl.c.po.c:2321
+#: src/arch/win32/res.rc.po.c:4841 src/arch/amigaos/intl.c.po.c:2366
 msgid "Attach Retro Replay cartridge image"
 msgstr "Anslut Retro Replay-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4842 src/arch/amigaos/intl.c.po.c:2330
+#: src/arch/win32/res.rc.po.c:4842 src/arch/amigaos/intl.c.po.c:2375
 msgid "Attach IDE64 interface cartridge image"
 msgstr "Anslut IDE64-gränssnittsavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4843 src/arch/amigaos/intl.c.po.c:2339
+#: src/arch/win32/res.rc.po.c:4843 src/arch/amigaos/intl.c.po.c:2384
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "Anslut Super Snapshot 4-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4844 src/arch/amigaos/intl.c.po.c:2348
+#: src/arch/win32/res.rc.po.c:4844 src/arch/amigaos/intl.c.po.c:2393
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "Anslut Super Snapshot 5-avbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:4845 src/arch/amigaos/intl.c.po.c:2357
+#: src/arch/win32/res.rc.po.c:4845 src/arch/amigaos/intl.c.po.c:2402
 msgid "Attach Structured Basic cartridge image"
 msgstr "Anslut Strucured Basic-insticksmodulfil"
 
@@ -7216,15 +7218,15 @@ msgstr "Anslut Strucured Basic-insticksmodulfil"
 msgid "Model"
 msgstr "Modell"
 
-#: src/arch/win32/res.rc.po.c:4847 src/arch/amigaos/intl.c.po.c:2915
+#: src/arch/win32/res.rc.po.c:4847 src/arch/amigaos/intl.c.po.c:2960
 msgid "Drive Settings"
 msgstr "Diskettenhetsinställningar"
 
-#: src/arch/win32/res.rc.po.c:4848 src/arch/amigaos/intl.c.po.c:2231
+#: src/arch/win32/res.rc.po.c:4848 src/arch/amigaos/intl.c.po.c:2276
 msgid "Select start snapshot for event history"
 msgstr "Välj startögonblicksmodul för händelsehistorik"
 
-#: src/arch/win32/res.rc.po.c:4849 src/arch/amigaos/intl.c.po.c:2240
+#: src/arch/win32/res.rc.po.c:4849 src/arch/amigaos/intl.c.po.c:2285
 #, fuzzy
 msgid "Select end snapshot for event history"
 msgstr "Välj startögonblicksmodul för händelsehistorik"
@@ -7239,15 +7241,15 @@ msgstr "Version %s *INSTABIL*"
 msgid "Version %s"
 msgstr "Version %s"
 
-#: src/arch/win32/res.rc.po.c:4855 src/arch/amigaos/intl.c.po.c:1797
+#: src/arch/win32/res.rc.po.c:4855 src/arch/amigaos/intl.c.po.c:1842
 msgid "VICE contributors"
 msgstr "Bidragslämnare till VICE"
 
-#: src/arch/win32/res.rc.po.c:4856 src/arch/amigaos/intl.c.po.c:1806
+#: src/arch/win32/res.rc.po.c:4856 src/arch/amigaos/intl.c.po.c:1851
 msgid "Who made what?"
 msgstr "Vem gjorde vad?"
 
-#: src/arch/win32/res.rc.po.c:4859 src/arch/amigaos/intl.c.po.c:1815
+#: src/arch/win32/res.rc.po.c:4859 src/arch/amigaos/intl.c.po.c:1860
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr "VICE distribueras UTAN NÅGON SOM HELST GARANTI!"
 
@@ -7360,15 +7362,15 @@ msgstr "VICE-ROM-uppsättningsarkiv (*.vra)"
 msgid "VICE keymap files (*.vkm)"
 msgstr "VICE-tangentbordsfiler (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:4887 src/arch/amigaos/intl.c.po.c:3581
+#: src/arch/win32/res.rc.po.c:4887 src/arch/amigaos/intl.c.po.c:3626
 msgid "Flexible"
 msgstr "Flexibel"
 
-#: src/arch/win32/res.rc.po.c:4888 src/arch/amigaos/intl.c.po.c:3590
+#: src/arch/win32/res.rc.po.c:4888 src/arch/amigaos/intl.c.po.c:3635
 msgid "Adjusting"
 msgstr "Anpassande"
 
-#: src/arch/win32/res.rc.po.c:4889 src/arch/amigaos/intl.c.po.c:3599
+#: src/arch/win32/res.rc.po.c:4889 src/arch/amigaos/intl.c.po.c:3644
 msgid "Exact"
 msgstr "Exakt"
 
@@ -7405,7 +7407,7 @@ msgstr "Konfigurera uppsättning B"
 msgid "Save media image"
 msgstr "Spara mediafil"
 
-#: src/arch/win32/res.rc.po.c:4897 src/arch/amigaos/intl.c.po.c:2420
+#: src/arch/win32/res.rc.po.c:4897 src/arch/amigaos/intl.c.po.c:2465
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "%s med %d%% hastighet, %d b/s%s"
@@ -7472,37 +7474,37 @@ msgstr "Tog emot signal %d (%s)."
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Tog emot signal %d (%s)."
 
-#: src/arch/win32/res.rc.po.c:4921 src/arch/amigaos/intl.c.po.c:2105
+#: src/arch/win32/res.rc.po.c:4921 src/arch/amigaos/intl.c.po.c:2150
 #, fuzzy
 msgid "Connected server"
 msgstr "Ansluten server"
 
-#: src/arch/win32/res.rc.po.c:4923 src/arch/amigaos/intl.c.po.c:1977
+#: src/arch/win32/res.rc.po.c:4923 src/arch/amigaos/intl.c.po.c:2022
 #, fuzzy
 msgid "Invalid port number"
 msgstr "Ogiltigt filnamn"
 
-#: src/arch/win32/res.rc.po.c:4924 src/arch/amigaos/intl.c.po.c:1959
+#: src/arch/win32/res.rc.po.c:4924 src/arch/amigaos/intl.c.po.c:2004
 #, fuzzy
 msgid "An error occured starting the server."
 msgstr "Fel vid start av nätverksspelsserver."
 
-#: src/arch/win32/res.rc.po.c:4925 src/arch/amigaos/intl.c.po.c:1968
+#: src/arch/win32/res.rc.po.c:4925 src/arch/amigaos/intl.c.po.c:2013
 #, fuzzy
 msgid "An error occured connecting the client."
 msgstr "Fel vid anslutning til server."
 
 #: src/arch/win32/res.rc.po.c:4934 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64vic20.rc.po.c:46
-#: src/arch/win32/resdriveplus4.rc.po.c:34 src/arch/amigaos/intl.c.po.c:2573
+#: src/arch/win32/resdriveplus4.rc.po.c:34 src/arch/amigaos/intl.c.po.c:2618
 msgid "None"
 msgstr "Ingen"
 
-#: src/arch/win32/resacia.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2582
+#: src/arch/win32/resacia.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2627
 msgid "IRQ"
 msgstr "IRQ"
 
-#: src/arch/win32/resacia.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2591
+#: src/arch/win32/resacia.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2636
 msgid "NMI"
 msgstr "NMI"
 
@@ -7521,7 +7523,7 @@ msgstr "*Swiftlink"
 msgid "Turbo232"
 msgstr "*Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl.c.po.c:2627
+#: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl.c.po.c:2672
 msgid "ACIA Settings"
 msgstr "ACIA-inställningar"
 
@@ -8245,7 +8247,7 @@ msgid "D&atasette settings..."
 msgstr "D&atasetteinställningar..."
 
 #: src/arch/win32/resc128.rc.po.c:212 src/arch/win32/resc64.rc.po.c:210
-#: src/arch/amigaos/intl.c.po.c:1309
+#: src/arch/amigaos/intl.c.po.c:1318
 msgid "VIC-II settings..."
 msgstr "VIC-II-inställningar..."
 
@@ -8673,7 +8675,7 @@ msgstr "Enhetsresurser"
 msgid "Drive resources saved to romset"
 msgstr "Enhetsresurser lagrade i ROM-uppsättning"
 
-#: src/arch/win32/resc128.rc.po.c:3752
+#: src/arch/win32/resc128.rc.po.c:3752 src/arch/amigaos/intl.c.po.c:4454
 msgid "Internal Function ROM"
 msgstr "Internt funktions-ROM"
 
@@ -8685,7 +8687,7 @@ msgstr "Aktivera internt funktions-ROM"
 msgid "File name"
 msgstr "Filnamn"
 
-#: src/arch/win32/resc128.rc.po.c:3760
+#: src/arch/win32/resc128.rc.po.c:3760 src/arch/amigaos/intl.c.po.c:4472
 msgid "External Function ROM"
 msgstr "Externt funktions-ROM"
 
@@ -8717,7 +8719,7 @@ msgstr "Välj avbildning för internt funktions-ROM"
 msgid "Select external function ROM image"
 msgstr "Välj avbildning för externt funktions-ROM"
 
-#: src/arch/win32/resc128.rc.po.c:4109
+#: src/arch/win32/resc128.rc.po.c:4109 src/arch/amigaos/intl.c.po.c:4490
 msgid "C128 settings"
 msgstr "C128-inställningar"
 
@@ -8791,7 +8793,7 @@ msgstr "&Symbolisk US"
 msgid "&Symbolic DE"
 msgstr "&Symbolisk DE"
 
-#: src/arch/win32/resc64_256k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:2672
+#: src/arch/win32/resc64_256k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:2717
 #, fuzzy
 msgid "256K Settings"
 msgstr "+60K-inställningar"
@@ -8806,12 +8808,12 @@ msgstr "&Aktivera +60K"
 msgid "256K base address"
 msgstr "<basadress>"
 
-#: src/arch/win32/resc64_256k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2654
+#: src/arch/win32/resc64_256k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2699
 #, fuzzy
 msgid "256K file"
 msgstr "+60K-fil"
 
-#: src/arch/win32/resc64_256k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:2663
+#: src/arch/win32/resc64_256k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:2708
 #, fuzzy
 msgid "Select file for 256K"
 msgstr "Ange fil för +60K"
@@ -8976,7 +8978,7 @@ msgstr "&DE sym."
 msgid "D&E Pos."
 msgstr "D&E pos."
 
-#: src/arch/win32/rescbm2.rc.po.c:3339
+#: src/arch/win32/rescbm2.rc.po.c:3339 src/arch/amigaos/intl.c.po.c:4319
 msgid "Memory"
 msgstr "Minne"
 
@@ -9068,21 +9070,21 @@ msgstr "Hantering av 40 &spår"
 #: src/arch/win32/resdrivec128.rc.po.c:41
 #: src/arch/win32/resdrivec64vic20.rc.po.c:39
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:29
-#: src/arch/win32/resdriveplus4.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2816
+#: src/arch/win32/resdriveplus4.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2861
 msgid "Never extend"
 msgstr "Utöka aldrig"
 
 #: src/arch/win32/resdrivec128.rc.po.c:43
 #: src/arch/win32/resdrivec64vic20.rc.po.c:41
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:31
-#: src/arch/win32/resdriveplus4.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2825
+#: src/arch/win32/resdriveplus4.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2870
 msgid "Ask on extend"
 msgstr "Fråga vid utökning"
 
 #: src/arch/win32/resdrivec128.rc.po.c:45
 #: src/arch/win32/resdrivec64vic20.rc.po.c:43
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:33
-#: src/arch/win32/resdriveplus4.rc.po.c:31 src/arch/amigaos/intl.c.po.c:2834
+#: src/arch/win32/resdriveplus4.rc.po.c:31 src/arch/amigaos/intl.c.po.c:2879
 msgid "Extend on access"
 msgstr "Utöka vid åtkomst"
 
@@ -9094,13 +9096,13 @@ msgstr "Pa&usmetod"
 
 #: src/arch/win32/resdrivec128.rc.po.c:50
 #: src/arch/win32/resdrivec64vic20.rc.po.c:48
-#: src/arch/win32/resdriveplus4.rc.po.c:36 src/arch/amigaos/intl.c.po.c:2861
+#: src/arch/win32/resdriveplus4.rc.po.c:36 src/arch/amigaos/intl.c.po.c:2906
 msgid "Trap idle"
 msgstr "Fånga inaktiva"
 
 #: src/arch/win32/resdrivec128.rc.po.c:52
 #: src/arch/win32/resdrivec64vic20.rc.po.c:50
-#: src/arch/win32/resdriveplus4.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2852
+#: src/arch/win32/resdriveplus4.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2897
 msgid "Skip cycles"
 msgstr "Hoppa cykler"
 
@@ -9171,7 +9173,7 @@ msgstr ""
 msgid "$4&000-$5FFF RAM"
 msgstr "*Bank 15 $4000-$5FFF RAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:10 src/arch/amigaos/intl.c.po.c:2951
+#: src/arch/win32/resgeoram.rc.po.c:10 src/arch/amigaos/intl.c.po.c:2996
 msgid "GEORAM Settings"
 msgstr "GEORAM-inställningar"
 
@@ -9179,11 +9181,11 @@ msgstr "GEORAM-inställningar"
 msgid "&Enable GEORAM"
 msgstr "&Aktivera GEORAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:18 src/arch/amigaos/intl.c.po.c:2933
+#: src/arch/win32/resgeoram.rc.po.c:18 src/arch/amigaos/intl.c.po.c:2978
 msgid "GEORAM file"
 msgstr "GEORAM-fil"
 
-#: src/arch/win32/resgeoram.rc.po.c:189 src/arch/amigaos/intl.c.po.c:2942
+#: src/arch/win32/resgeoram.rc.po.c:189 src/arch/amigaos/intl.c.po.c:2987
 msgid "Select file for GEORAM"
 msgstr "Välj fil för GEORAM"
 
@@ -9203,15 +9205,15 @@ msgstr "&Geometri"
 msgid "&Autodetect"
 msgstr "&Autodetektera"
 
-#: src/arch/win32/reside64.rc.po.c:41 src/arch/amigaos/intl.c.po.c:3743
+#: src/arch/win32/reside64.rc.po.c:41 src/arch/amigaos/intl.c.po.c:3788
 msgid "Cylinders"
 msgstr "Cylindrar"
 
-#: src/arch/win32/reside64.rc.po.c:42 src/arch/amigaos/intl.c.po.c:3752
+#: src/arch/win32/reside64.rc.po.c:42 src/arch/amigaos/intl.c.po.c:3797
 msgid "Heads"
 msgstr "Huvuden"
 
-#: src/arch/win32/reside64.rc.po.c:43 src/arch/amigaos/intl.c.po.c:3761
+#: src/arch/win32/reside64.rc.po.c:43 src/arch/amigaos/intl.c.po.c:3806
 msgid "Sectors"
 msgstr "Sektorer"
 
@@ -9220,7 +9222,7 @@ msgstr "Sektorer"
 msgid "Total size: %iKB"
 msgstr "Total storlek: %iKB"
 
-#: src/arch/win32/reside64.rc.po.c:45 src/arch/amigaos/intl.c.po.c:3725
+#: src/arch/win32/reside64.rc.po.c:45 src/arch/amigaos/intl.c.po.c:3770
 msgid "Select HD image file"
 msgstr "Ange HD-avbildningsfil"
 
@@ -9229,7 +9231,7 @@ msgstr "Ange HD-avbildningsfil"
 msgid "&Enable MMC64"
 msgstr "&Aktivera +60K"
 
-#: src/arch/win32/resmmc64.rc.po.c:13 src/arch/amigaos/intl.c.po.c:3779
+#: src/arch/win32/resmmc64.rc.po.c:13 src/arch/amigaos/intl.c.po.c:3824
 #, fuzzy
 msgid "BIOS Revision"
 msgstr "Utgåva"
@@ -9247,7 +9249,7 @@ msgstr ""
 msgid "&BIOS File"
 msgstr "&I/O-utrymme"
 
-#: src/arch/win32/resmmc64.rc.po.c:25 src/arch/amigaos/intl.c.po.c:3824
+#: src/arch/win32/resmmc64.rc.po.c:25 src/arch/amigaos/intl.c.po.c:3869
 msgid "MMC/SD Image read-only"
 msgstr ""
 
@@ -9456,11 +9458,11 @@ msgstr "$&A*** som RAM"
 msgid "Input/Output"
 msgstr "Indata/utdata"
 
-#: src/arch/win32/respet.rc.po.c:3624
+#: src/arch/win32/respet.rc.po.c:3624 src/arch/amigaos/intl.c.po.c:4391
 msgid "PET settings"
 msgstr "PET-inställningar"
 
-#: src/arch/win32/respetreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3230
+#: src/arch/win32/respetreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3275
 #, fuzzy
 msgid "PET REU Settings"
 msgstr "REU-Inställningar"
@@ -9470,17 +9472,17 @@ msgstr "REU-Inställningar"
 msgid "&Enable PET REU"
 msgstr "*Aktivera PET REU"
 
-#: src/arch/win32/respetreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3212
+#: src/arch/win32/respetreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3257
 #, fuzzy
 msgid "PET REU file"
 msgstr "Storlek på PET REU"
 
-#: src/arch/win32/respetreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3221
+#: src/arch/win32/respetreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3266
 #, fuzzy
 msgid "Select file for PET REU"
 msgstr "Välj fil för REU"
 
-#: src/arch/win32/resplus256k.rc.po.c:20 src/arch/amigaos/intl.c.po.c:3239
+#: src/arch/win32/resplus256k.rc.po.c:20 src/arch/amigaos/intl.c.po.c:3284
 #, fuzzy
 msgid "PLUS256K Settings"
 msgstr "+60K-inställningar"
@@ -9490,12 +9492,12 @@ msgstr "+60K-inställningar"
 msgid "&Enable PLUS256K"
 msgstr "*Aktivera PLUS256K"
 
-#: src/arch/win32/resplus256k.rc.po.c:22 src/arch/amigaos/intl.c.po.c:1453
+#: src/arch/win32/resplus256k.rc.po.c:22 src/arch/amigaos/intl.c.po.c:1471
 #, fuzzy
 msgid "PLUS256K file"
 msgstr "+60K-fil"
 
-#: src/arch/win32/resplus256k.rc.po.c:23 src/arch/amigaos/intl.c.po.c:1462
+#: src/arch/win32/resplus256k.rc.po.c:23 src/arch/amigaos/intl.c.po.c:1480
 #, fuzzy
 msgid "Select file for PLUS256K"
 msgstr "Ange fil för +60K"
@@ -9584,31 +9586,31 @@ msgstr "*1024KB (HANNES)"
 msgid "&4096 kByte (HANNES)"
 msgstr "*4096KB (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:3018
+#: src/arch/win32/resplus4.rc.po.c:3018 src/arch/amigaos/intl.c.po.c:3986
 msgid "Attach cartridge image for Function Low"
 msgstr "Anslut insticksmodulfil för funktion låg"
 
-#: src/arch/win32/resplus4.rc.po.c:3019
+#: src/arch/win32/resplus4.rc.po.c:3019 src/arch/amigaos/intl.c.po.c:3995
 msgid "Attach cartridge image for Function High"
 msgstr "Anslut insticksmodulfil för funktion hög"
 
-#: src/arch/win32/resplus4.rc.po.c:3020
+#: src/arch/win32/resplus4.rc.po.c:3020 src/arch/amigaos/intl.c.po.c:4004
 msgid "Attach cartridge image for Cartridge1 Low"
 msgstr "Anslut insticksmodulfil för modul1 låg"
 
-#: src/arch/win32/resplus4.rc.po.c:3021
+#: src/arch/win32/resplus4.rc.po.c:3021 src/arch/amigaos/intl.c.po.c:4013
 msgid "Attach cartridge image for Cartridge1 High"
 msgstr "Anslut insticksmodulfil för modul1 hög"
 
-#: src/arch/win32/resplus4.rc.po.c:3022
+#: src/arch/win32/resplus4.rc.po.c:3022 src/arch/amigaos/intl.c.po.c:4022
 msgid "Attach cartridge image for Cartridge2 Low"
 msgstr "Anslut insticksmodulfil för modul2 låg"
 
-#: src/arch/win32/resplus4.rc.po.c:3023
+#: src/arch/win32/resplus4.rc.po.c:3023 src/arch/amigaos/intl.c.po.c:4031
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Anslut insticksmodulfil för modul2 hög"
 
-#: src/arch/win32/resplus60k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:3275
+#: src/arch/win32/resplus60k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:3320
 #, fuzzy
 msgid "PLUS60K Settings"
 msgstr "+60K-inställningar"
@@ -9618,17 +9620,17 @@ msgstr "+60K-inställningar"
 msgid "&Enable PLUS60K"
 msgstr "*Aktivera PLUS60K"
 
-#: src/arch/win32/resplus60k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3257
+#: src/arch/win32/resplus60k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3302
 #, fuzzy
 msgid "PLUS60K file"
 msgstr "+60K-fil"
 
-#: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:3266
+#: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:3311
 #, fuzzy
 msgid "Select file for PLUS60K"
 msgstr "Ange fil för +60K"
 
-#: src/arch/win32/resramcart.rc.po.c:32 src/arch/amigaos/intl.c.po.c:3374
+#: src/arch/win32/resramcart.rc.po.c:32 src/arch/amigaos/intl.c.po.c:3419
 msgid "RAMCART Settings"
 msgstr "RAMCART-inställningar"
 
@@ -9640,15 +9642,15 @@ msgstr "&Aktivera RAMCART"
 msgid "&Read Only"
 msgstr "&Endast läsåtkomst"
 
-#: src/arch/win32/resramcart.rc.po.c:36 src/arch/amigaos/intl.c.po.c:3356
+#: src/arch/win32/resramcart.rc.po.c:36 src/arch/amigaos/intl.c.po.c:3401
 msgid "RAMCART file"
 msgstr "RAMCART-fil"
 
-#: src/arch/win32/resramcart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:3365
+#: src/arch/win32/resramcart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:3410
 msgid "Select file for RAMCART"
 msgstr "Välj fil för RAMCART"
 
-#: src/arch/win32/resreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3410
+#: src/arch/win32/resreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3455
 msgid "REU Settings"
 msgstr "REU-Inställningar"
 
@@ -9656,15 +9658,15 @@ msgstr "REU-Inställningar"
 msgid "&Enable REU"
 msgstr "&Aktivera REU"
 
-#: src/arch/win32/resreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3392
+#: src/arch/win32/resreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3437
 msgid "REU file"
 msgstr "REU-fil"
 
-#: src/arch/win32/resreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3401
+#: src/arch/win32/resreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3446
 msgid "Select file for REU"
 msgstr "Välj fil för REU"
 
-#: src/arch/win32/resrs232user.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3446
+#: src/arch/win32/resrs232user.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3491
 msgid "RS232 Userport Settings"
 msgstr "RS232-användarportinställningar"
 
@@ -9680,7 +9682,7 @@ msgstr "Användarportensenhet"
 msgid "Userport baud rate"
 msgstr "Användarportens baudhastighet"
 
-#: src/arch/win32/ressid.rc.po.c:57 src/arch/amigaos/intl.c.po.c:1986
+#: src/arch/win32/ressid.rc.po.c:57 src/arch/amigaos/intl.c.po.c:2031
 msgid "This machine may not have a SID"
 msgstr "Denna maskin kan inte ha en SID"
 
@@ -9688,50 +9690,50 @@ msgstr "Denna maskin kan inte ha en SID"
 msgid "General"
 msgstr "Allmänt"
 
-#: src/arch/win32/ressid.rc.po.c:60 src/arch/amigaos/intl.c.po.c:3455
+#: src/arch/win32/ressid.rc.po.c:60 src/arch/amigaos/intl.c.po.c:3500
 msgid "fast"
 msgstr "snabbt"
 
-#: src/arch/win32/ressid.rc.po.c:61 src/arch/amigaos/intl.c.po.c:3464
+#: src/arch/win32/ressid.rc.po.c:61 src/arch/amigaos/intl.c.po.c:3509
 msgid "interpolating"
 msgstr "interpolerande"
 
-#: src/arch/win32/ressid.rc.po.c:62 src/arch/amigaos/intl.c.po.c:3473
+#: src/arch/win32/ressid.rc.po.c:62 src/arch/amigaos/intl.c.po.c:3518
 msgid "resampling"
 msgstr "omsamplande"
 
-#: src/arch/win32/ressid.rc.po.c:63 src/arch/amigaos/intl.c.po.c:3482
+#: src/arch/win32/ressid.rc.po.c:63 src/arch/amigaos/intl.c.po.c:3527
 msgid "fast resampling"
 msgstr "snabb omsampling"
 
 #: src/arch/win32/ressid.rc.po.c:64 src/arch/win32/ressidcart.rc.po.c:13
-#: src/arch/amigaos/intl.c.po.c:3869
+#: src/arch/amigaos/intl.c.po.c:3914
 msgid "SID Engine"
 msgstr "SID-motor"
 
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressidcart.rc.po.c:17
-#: src/arch/amigaos/intl.c.po.c:3509
+#: src/arch/amigaos/intl.c.po.c:3554
 msgid "SID Model"
 msgstr "SID-modell"
 
-#: src/arch/win32/ressid.rc.po.c:66 src/arch/amigaos/intl.c.po.c:3491
+#: src/arch/win32/ressid.rc.po.c:66 src/arch/amigaos/intl.c.po.c:3536
 msgid "6581 (old)"
 msgstr "6581 (gammal)"
 
-#: src/arch/win32/ressid.rc.po.c:67 src/arch/amigaos/intl.c.po.c:3500
+#: src/arch/win32/ressid.rc.po.c:67 src/arch/amigaos/intl.c.po.c:3545
 msgid "8580 (new)"
 msgstr "8580 (ny)"
 
-#: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3518
+#: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3563
 msgid "SID Stereo"
 msgstr "SID-stereo"
 
-#: src/arch/win32/ressid.rc.po.c:69 src/arch/amigaos/intl.c.po.c:3527
+#: src/arch/win32/ressid.rc.po.c:69 src/arch/amigaos/intl.c.po.c:3572
 msgid "Stereo SID at"
 msgstr "Stereo-SID på"
 
 #: src/arch/win32/ressid.rc.po.c:70 src/arch/win32/ressidcart.rc.po.c:21
-#: src/arch/amigaos/intl.c.po.c:3536
+#: src/arch/amigaos/intl.c.po.c:3581
 msgid "SID Filters"
 msgstr "SID-filter"
 
@@ -9739,11 +9741,11 @@ msgstr "SID-filter"
 msgid "reSID options"
 msgstr "reSID-inställningar"
 
-#: src/arch/win32/ressid.rc.po.c:72 src/arch/amigaos/intl.c.po.c:3545
+#: src/arch/win32/ressid.rc.po.c:72 src/arch/amigaos/intl.c.po.c:3590
 msgid "Sample method"
 msgstr "Samplingsmetod"
 
-#: src/arch/win32/ressid.rc.po.c:73 src/arch/amigaos/intl.c.po.c:3554
+#: src/arch/win32/ressid.rc.po.c:73 src/arch/amigaos/intl.c.po.c:3599
 msgid "Passband (0-90%)"
 msgstr "Passband (0-90%)"
 
@@ -9818,7 +9820,7 @@ msgstr "VIC-1112 IEEE &488-modul"
 msgid "V&IC settings..."
 msgstr "V&IC-inställningar..."
 
-#: src/arch/win32/resvic20.rc.po.c:2503 src/arch/amigaos/intl.c.po.c:3653
+#: src/arch/win32/resvic20.rc.po.c:2503 src/arch/amigaos/intl.c.po.c:3698
 msgid "VIC Settings"
 msgstr "VIC-inställningar"
 
@@ -9870,7 +9872,7 @@ msgstr "Block &3"
 msgid "Block &5"
 msgstr "Block &5"
 
-#: src/arch/win32/resvicii.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3689
+#: src/arch/win32/resvicii.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3734
 msgid "VIC-II Settings"
 msgstr "VIC-II-inställningar"
 
@@ -9886,7 +9888,7 @@ msgstr "Sprite-&sprite-kollisioner"
 msgid "Sprite-background &collisions"
 msgstr "Sprite-&bakgrundkollisioner"
 
-#: src/arch/win32/resvicii.rc.po.c:31 src/arch/amigaos/intl.c.po.c:3680
+#: src/arch/win32/resvicii.rc.po.c:31 src/arch/amigaos/intl.c.po.c:3725
 msgid "New Luminances"
 msgstr "Nya ljusstyrkor"
 
@@ -9936,11 +9938,6 @@ msgstr "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"
 #, fuzzy
 msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
 msgstr "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
-
-#: src/translate.c.po.c:3314
-#, fuzzy
-msgid "Enable SID Cartridge"
-msgstr "Aktivera Scale2x"
 
 #: src/translate.c.po.c:4554
 msgid "<iso language code>"
@@ -10367,761 +10364,979 @@ msgstr "&CBM2-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1264
 #, fuzzy
+msgid "Change PET model"
+msgstr "Kretsmodell"
+
+#: src/arch/amigaos/intl.c.po.c:1273
+#, fuzzy
 msgid "PET settings..."
 msgstr "P&ET-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1273
+#: src/arch/amigaos/intl.c.po.c:1282
 #, fuzzy
 msgid "Peripheral settings..."
 msgstr "Inställningar för &kringutrustning..."
 
-#: src/arch/amigaos/intl.c.po.c:1282
+#: src/arch/amigaos/intl.c.po.c:1291
 #, fuzzy
 msgid "Drive settings..."
 msgstr "&Diskettenhetsinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1291
+#: src/arch/amigaos/intl.c.po.c:1300
 #, fuzzy
 msgid "Datasette settings..."
 msgstr "D&atasetteinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1300
+#: src/arch/amigaos/intl.c.po.c:1309
 #, fuzzy
 msgid "Plus4 settings..."
 msgstr "P&lus4-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1318
+#: src/arch/amigaos/intl.c.po.c:1327
 #, fuzzy
 msgid "Joystick settings..."
 msgstr "Inställningar för &styrspak..."
 
-#: src/arch/amigaos/intl.c.po.c:1327
+#: src/arch/amigaos/intl.c.po.c:1336
 #, fuzzy
 msgid "Joystick device selection"
 msgstr "Välj enhet"
 
-#: src/arch/amigaos/intl.c.po.c:1336
+#: src/arch/amigaos/intl.c.po.c:1345
 #, fuzzy
 msgid "Joystick fire button selection"
 msgstr "Inställningar för autofire"
 
-#: src/arch/amigaos/intl.c.po.c:1345
+#: src/arch/amigaos/intl.c.po.c:1354
 #, fuzzy
 msgid "Keyboard settings..."
 msgstr "&Tangentbordsinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1354
+#: src/arch/amigaos/intl.c.po.c:1363
 #, fuzzy
 msgid "Sound settings..."
 msgstr "L&judinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1363
+#: src/arch/amigaos/intl.c.po.c:1372
 #, fuzzy
 msgid "SID settings..."
 msgstr "S&ID-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1372
+#: src/arch/amigaos/intl.c.po.c:1381
 #, fuzzy
-msgid "ROM settings..."
+msgid "Computer ROM settings..."
 msgstr "&ROM-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1381
+#: src/arch/amigaos/intl.c.po.c:1390
+#, fuzzy
+msgid "Drive ROM settings..."
+msgstr "&Diskettenhetsinställningar..."
+
+#: src/arch/amigaos/intl.c.po.c:1399
 #, fuzzy
 msgid "RAM settings..."
 msgstr "RA&M-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1390
+#: src/arch/amigaos/intl.c.po.c:1408
 #, fuzzy
 msgid "RS232 settings..."
 msgstr "RS&232-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1399
+#: src/arch/amigaos/intl.c.po.c:1417
 #, fuzzy
 msgid "C128 settings..."
 msgstr "C&128-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1408
+#: src/arch/amigaos/intl.c.po.c:1426
 #, fuzzy
 msgid "Cartridge/IO settings"
 msgstr "&Modul/IO-inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:1417
+#: src/arch/amigaos/intl.c.po.c:1435
 #, fuzzy
 msgid "REU settings..."
 msgstr "&REU-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1426
+#: src/arch/amigaos/intl.c.po.c:1444
 #, fuzzy
 msgid "GEORAM settings..."
 msgstr "&GEORAM-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1435
+#: src/arch/amigaos/intl.c.po.c:1453
 #, fuzzy
 msgid "RAMCART settings..."
 msgstr "&RAMCART-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1444
+#: src/arch/amigaos/intl.c.po.c:1462
 #, fuzzy
 msgid "PLUS60K settings..."
 msgstr "+&60K-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1471
+#: src/arch/amigaos/intl.c.po.c:1489
 #, fuzzy
 msgid "PLUS256K settings..."
 msgstr "+&60K-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1480
+#: src/arch/amigaos/intl.c.po.c:1498
 #, fuzzy
 msgid "256K settings..."
 msgstr "+&60K-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1489
+#: src/arch/amigaos/intl.c.po.c:1507
 #, fuzzy
 msgid "IDE64 settings..."
 msgstr "&IDE64-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1498
+#: src/arch/amigaos/intl.c.po.c:1516
 #, fuzzy
 msgid "MMC64 settings..."
 msgstr "&IDE64-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1507
+#: src/arch/amigaos/intl.c.po.c:1525
 #, fuzzy
 msgid "Ethernet settings..."
 msgstr "&Ethernetinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1516
+#: src/arch/amigaos/intl.c.po.c:1534
 #, fuzzy
 msgid "ACIA settings..."
 msgstr "&ACIA-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1525
+#: src/arch/amigaos/intl.c.po.c:1543
 #, fuzzy
 msgid "PET REU settings..."
 msgstr "P&ET-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1534
+#: src/arch/amigaos/intl.c.po.c:1552
 #, fuzzy
 msgid "SID cart settings..."
 msgstr "S&ID-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1543
+#: src/arch/amigaos/intl.c.po.c:1561
 #, fuzzy
 msgid "RS232 userport settings..."
 msgstr "RS&232-användarportinställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:1552
+#: src/arch/amigaos/intl.c.po.c:1570
 #, fuzzy
 msgid "Save current settings"
 msgstr "&Spara nuvarande inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:1561
+#: src/arch/amigaos/intl.c.po.c:1579
 #, fuzzy
 msgid "Load saved settings"
 msgstr "&Läs sparade inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:1570
+#: src/arch/amigaos/intl.c.po.c:1588
 #, fuzzy
 msgid "Set default settings"
 msgstr "&Återställ förvalda inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:1579
+#: src/arch/amigaos/intl.c.po.c:1597
 #, fuzzy
 msgid "Save settings on exit"
 msgstr "Spara inställningar vid &avslut"
 
-#: src/arch/amigaos/intl.c.po.c:1588
+#: src/arch/amigaos/intl.c.po.c:1606
 #, fuzzy
 msgid "Confirm on exit"
 msgstr "*Bekräfta avslutning"
 
-#: src/arch/amigaos/intl.c.po.c:1606
+#: src/arch/amigaos/intl.c.po.c:1624
 #, fuzzy
 msgid "About..."
 msgstr "&Om VICE..."
 
-#: src/arch/amigaos/intl.c.po.c:1642
+#: src/arch/amigaos/intl.c.po.c:1660
 #, fuzzy
 msgid "No warranty"
 msgstr "Ingen garanti!"
 
-#: src/arch/amigaos/intl.c.po.c:1651
+#: src/arch/amigaos/intl.c.po.c:1669
+#, fuzzy
+msgid "International"
+msgstr "Internationell Kernal"
+
+#: src/arch/amigaos/intl.c.po.c:1678
 #, fuzzy
 msgid "English"
 msgstr "&Engelska"
 
-#: src/arch/amigaos/intl.c.po.c:1660
+#: src/arch/amigaos/intl.c.po.c:1687
 #, fuzzy
 msgid "German"
 msgstr "&Tyska"
 
-#: src/arch/amigaos/intl.c.po.c:1669
+#: src/arch/amigaos/intl.c.po.c:1696
+#, fuzzy
+msgid "Finnish"
+msgstr "Finsk Kernal"
+
+#: src/arch/amigaos/intl.c.po.c:1705
 #, fuzzy
 msgid "French"
 msgstr "&Franska"
 
-#: src/arch/amigaos/intl.c.po.c:1678
+#: src/arch/amigaos/intl.c.po.c:1714
 msgid "Hungarian"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:1687
+#: src/arch/amigaos/intl.c.po.c:1723
 #, fuzzy
 msgid "Italian"
 msgstr "&Italiense"
 
-#: src/arch/amigaos/intl.c.po.c:1696
+#: src/arch/amigaos/intl.c.po.c:1732
 #, fuzzy
 msgid "Dutch"
 msgstr "&Nederländska"
 
-#: src/arch/amigaos/intl.c.po.c:1705
+#: src/arch/amigaos/intl.c.po.c:1741
+#, fuzzy
+msgid "Norwegian"
+msgstr "Norsk Kernal"
+
+#: src/arch/amigaos/intl.c.po.c:1750
 #, fuzzy
 msgid "Polish"
 msgstr "&Polska"
 
-#: src/arch/amigaos/intl.c.po.c:1714
+#: src/arch/amigaos/intl.c.po.c:1759
 #, fuzzy
 msgid "Swedish"
 msgstr "&Svenska"
 
-#: src/arch/amigaos/intl.c.po.c:1723
+#: src/arch/amigaos/intl.c.po.c:1768
 #, fuzzy
 msgid "Language"
 msgstr "&Språk"
 
-#: src/arch/amigaos/intl.c.po.c:1732
+#: src/arch/amigaos/intl.c.po.c:1777
 #, fuzzy
 msgid "Fullscreen Statusbar"
 msgstr "Fullskärm"
 
-#: src/arch/amigaos/intl.c.po.c:1741
+#: src/arch/amigaos/intl.c.po.c:1786
 #, fuzzy
 msgid "Video overlay"
 msgstr "Videoomkodare"
 
-#: src/arch/amigaos/intl.c.po.c:1860
+#: src/arch/amigaos/intl.c.po.c:1905
 #, c-format
 msgid "No joystick or joypad found on port %d"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:1869
+#: src/arch/amigaos/intl.c.po.c:1914
 #, c-format
 msgid "A mouse was found on port %d"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:1878
+#: src/arch/amigaos/intl.c.po.c:1923
 #, fuzzy, c-format
 msgid "Unknown device found on port %d"
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/arch/amigaos/intl.c.po.c:1887
+#: src/arch/amigaos/intl.c.po.c:1932
 msgid "The device on this port is not a gamepad"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:1896
+#: src/arch/amigaos/intl.c.po.c:1941
 msgid "The port is not mapped to an Amiga port"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:1995
+#: src/arch/amigaos/intl.c.po.c:2040
 #, fuzzy, c-format
 msgid "Screenshot save of %s failed"
 msgstr "Spara skärmdump"
 
-#: src/arch/amigaos/intl.c.po.c:2004
+#: src/arch/amigaos/intl.c.po.c:2049
 #, fuzzy, c-format
 msgid "Screenshot %s saved."
 msgstr "Skärmdump..."
 
-#: src/arch/amigaos/intl.c.po.c:2015
+#: src/arch/amigaos/intl.c.po.c:2060
 msgid "Press desired key/button, move stick or press ESC for no key."
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:2114
+#: src/arch/amigaos/intl.c.po.c:2159
 #, fuzzy
 msgid "Connected client"
 msgstr "Ansluten klient"
 
-#: src/arch/amigaos/intl.c.po.c:2150
+#: src/arch/amigaos/intl.c.po.c:2195
 #, fuzzy
 msgid "Choose screenshot format"
 msgstr "Spara skärmdump"
 
-#: src/arch/amigaos/intl.c.po.c:2159
+#: src/arch/amigaos/intl.c.po.c:2204
 #, fuzzy, c-format
 msgid "Save %s screenshot"
 msgstr "Spara skärmdump"
 
-#: src/arch/amigaos/intl.c.po.c:2168
+#: src/arch/amigaos/intl.c.po.c:2213
 #, fuzzy, c-format
 msgid "Detached device %d"
 msgstr "Kopplade från enhet %s"
 
-#: src/arch/amigaos/intl.c.po.c:2177
+#: src/arch/amigaos/intl.c.po.c:2222
 #, fuzzy, c-format
 msgid "Attached %s to device#%d"
 msgstr "Anslöt %s till enhet %s"
 
-#: src/arch/amigaos/intl.c.po.c:2186
+#: src/arch/amigaos/intl.c.po.c:2231
 #, fuzzy
 msgid "VICE Question"
 msgstr "VICE-fråga"
 
-#: src/arch/amigaos/intl.c.po.c:2204
+#: src/arch/amigaos/intl.c.po.c:2249
 msgid "Yes|No"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:2375
+#: src/arch/amigaos/intl.c.po.c:2420
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "Anslut 4/8/16KB-modulfil vid $2000"
 
-#: src/arch/amigaos/intl.c.po.c:2384
+#: src/arch/amigaos/intl.c.po.c:2429
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "Anslut 4/8/16KB-modulfil vid $4000"
 
-#: src/arch/amigaos/intl.c.po.c:2393
+#: src/arch/amigaos/intl.c.po.c:2438
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "Anslut 4/8/16KB-modulfil vid $6000"
 
-#: src/arch/amigaos/intl.c.po.c:2402
+#: src/arch/amigaos/intl.c.po.c:2447
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "Anslut 4/8KB-modulfil vid $A000"
 
-#: src/arch/amigaos/intl.c.po.c:2411
+#: src/arch/amigaos/intl.c.po.c:2456
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "Anslut 4KB-modulfil vid $B000"
 
-#: src/arch/amigaos/intl.c.po.c:2429
+#: src/arch/amigaos/intl.c.po.c:2474
 #, fuzzy
 msgid "Attach"
 msgstr "&Anslut"
 
-#: src/arch/amigaos/intl.c.po.c:2438
+#: src/arch/amigaos/intl.c.po.c:2483
 #, fuzzy
 msgid "Parent"
 msgstr "Skriv &ut"
 
-#: src/arch/amigaos/intl.c.po.c:2501
+#: src/arch/amigaos/intl.c.po.c:2546
 #, fuzzy
 msgid "About"
 msgstr "&Om VICE..."
 
-#: src/arch/amigaos/intl.c.po.c:2510
+#: src/arch/amigaos/intl.c.po.c:2555
 #, fuzzy
 msgid "Image Contents"
 msgstr "Innehåll i avbildning "
 
-#: src/arch/amigaos/intl.c.po.c:2519
+#: src/arch/amigaos/intl.c.po.c:2564
 #, fuzzy
 msgid "Disabled"
 msgstr "Inaktivera warpläge"
 
-#: src/arch/amigaos/intl.c.po.c:2528
+#: src/arch/amigaos/intl.c.po.c:2573
 #, fuzzy
 msgid "Enabled"
 msgstr "Aktivera"
 
-#: src/arch/amigaos/intl.c.po.c:2537
+#: src/arch/amigaos/intl.c.po.c:2582
 #, fuzzy
 msgid "RS232 Device 1"
 msgstr "RS232-enhet 1"
 
-#: src/arch/amigaos/intl.c.po.c:2546
+#: src/arch/amigaos/intl.c.po.c:2591
 #, fuzzy
 msgid "RS232 Device 2"
 msgstr "RS232-enhet 2"
 
-#: src/arch/amigaos/intl.c.po.c:2555
+#: src/arch/amigaos/intl.c.po.c:2600
 #, fuzzy
 msgid "RS232 Device 3"
 msgstr "RS232-enhet 3"
 
-#: src/arch/amigaos/intl.c.po.c:2564
+#: src/arch/amigaos/intl.c.po.c:2609
 #, fuzzy
 msgid "RS232 Device 4"
 msgstr "RS232-enhet 4"
 
-#: src/arch/amigaos/intl.c.po.c:2600
+#: src/arch/amigaos/intl.c.po.c:2645
 #, fuzzy
 msgid "ACIA Device"
 msgstr "ACIA-enhet"
 
-#: src/arch/amigaos/intl.c.po.c:2609
+#: src/arch/amigaos/intl.c.po.c:2654
 #, fuzzy
 msgid "ACIA Interrupt"
 msgstr "ACIA-avbrott"
 
-#: src/arch/amigaos/intl.c.po.c:2618
+#: src/arch/amigaos/intl.c.po.c:2663
 #, fuzzy
 msgid "ACIA Mode"
 msgstr "PAL-läge"
 
-#: src/arch/amigaos/intl.c.po.c:2636
+#: src/arch/amigaos/intl.c.po.c:2681
 #, fuzzy
 msgid "256K Enabled"
 msgstr "+60K-fil"
 
-#: src/arch/amigaos/intl.c.po.c:2645
+#: src/arch/amigaos/intl.c.po.c:2690
 #, fuzzy
 msgid "256K Base"
 msgstr "256K-bas"
 
-#: src/arch/amigaos/intl.c.po.c:2681
+#: src/arch/amigaos/intl.c.po.c:2726
 #, fuzzy
 msgid "model line"
 msgstr "&Modelltyp"
 
-#: src/arch/amigaos/intl.c.po.c:2690
+#: src/arch/amigaos/intl.c.po.c:2735
 #, fuzzy
 msgid "RAM Size"
 msgstr "GEORAM-storlek"
 
-#: src/arch/amigaos/intl.c.po.c:2699
+#: src/arch/amigaos/intl.c.po.c:2744
 #, fuzzy
 msgid "RAM Block $0400-$0FFF"
 msgstr "*Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2708
+#: src/arch/amigaos/intl.c.po.c:2753
 #, fuzzy
 msgid "RAM Block $0800-$0FFF"
 msgstr "*Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2717
+#: src/arch/amigaos/intl.c.po.c:2762
 #, fuzzy
 msgid "RAM Block $1000-$1FFF"
 msgstr "*Bank 15 $1000-$1FFF RAM"
 
-#: src/arch/amigaos/intl.c.po.c:2726
+#: src/arch/amigaos/intl.c.po.c:2771
 #, fuzzy
 msgid "RAM Block $2000-$3FFF"
 msgstr "*Block 1 (8K på $2000-$3FFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2735
+#: src/arch/amigaos/intl.c.po.c:2780
 #, fuzzy
 msgid "RAM Block $4000-$5FFF"
 msgstr "*Block 2 (8K på $4000-$5FFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2744
+#: src/arch/amigaos/intl.c.po.c:2789
 #, fuzzy
 msgid "RAM Block $6000-$7FFF"
 msgstr "*Block 3 (8K på $6000-$7FFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2753
+#: src/arch/amigaos/intl.c.po.c:2798
 #, fuzzy
 msgid "RAM Block $A000-$BFFF"
 msgstr "*Block 5 (8K på $A000-$BFFF)"
 
-#: src/arch/amigaos/intl.c.po.c:2762
+#: src/arch/amigaos/intl.c.po.c:2807
 #, fuzzy
 msgid "RAM Block $C000-$CFFF"
 msgstr "*Bank 15 $C000-$CFFF RAM"
 
-#: src/arch/amigaos/intl.c.po.c:2771
+#: src/arch/amigaos/intl.c.po.c:2816
 #, fuzzy
 msgid "CBM2 Settings"
 msgstr "CBM2-inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:2780
+#: src/arch/amigaos/intl.c.po.c:2825
 #, fuzzy
 msgid "Reset Datasette with CPU"
 msgstr "&Nollställ Datasette med CPU"
 
-#: src/arch/amigaos/intl.c.po.c:2789
+#: src/arch/amigaos/intl.c.po.c:2834
 msgid "Additional Delay"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:2798
+#: src/arch/amigaos/intl.c.po.c:2843
 #, fuzzy
 msgid "Delay at Zero Values"
 msgstr "cykler fördröjning vid &nollvärden"
 
-#: src/arch/amigaos/intl.c.po.c:2843
+#: src/arch/amigaos/intl.c.po.c:2888
 #, fuzzy
 msgid "No traps"
 msgstr "*Ingen infångning"
 
-#: src/arch/amigaos/intl.c.po.c:2870
+#: src/arch/amigaos/intl.c.po.c:2915
 #, fuzzy
 msgid "Drive type"
 msgstr "&Enhetstyp"
 
-#: src/arch/amigaos/intl.c.po.c:2879
+#: src/arch/amigaos/intl.c.po.c:2924
 #, fuzzy
 msgid "40 track handling"
 msgstr "Hantering av 40 &spår"
 
-#: src/arch/amigaos/intl.c.po.c:2888
+#: src/arch/amigaos/intl.c.po.c:2933
 #, fuzzy
 msgid "Drive expansion"
 msgstr "Enhets&utökning"
 
-#: src/arch/amigaos/intl.c.po.c:2897
+#: src/arch/amigaos/intl.c.po.c:2942
 #, fuzzy
 msgid "Idle method"
 msgstr "Pa&usmetod"
 
-#: src/arch/amigaos/intl.c.po.c:2906
+#: src/arch/amigaos/intl.c.po.c:2951
 #, fuzzy
 msgid "Parallel cable"
 msgstr "&Parallellkabel"
 
-#: src/arch/amigaos/intl.c.po.c:2924
+#: src/arch/amigaos/intl.c.po.c:2969
 #, fuzzy
 msgid "GEORAM Size"
 msgstr "GEORAM-storlek"
 
-#: src/arch/amigaos/intl.c.po.c:2960
+#: src/arch/amigaos/intl.c.po.c:3005
 #, fuzzy
 msgid "Joystick in port #1"
 msgstr "Styrspak i spelport &1"
 
-#: src/arch/amigaos/intl.c.po.c:2969
+#: src/arch/amigaos/intl.c.po.c:3014
 #, fuzzy
 msgid "Joystick in port #2"
 msgstr "Styrspak i spelport &2"
 
-#: src/arch/amigaos/intl.c.po.c:2978
+#: src/arch/amigaos/intl.c.po.c:3023
 #, fuzzy
 msgid "Joystick Settings"
 msgstr "Inställningar för styrspak"
 
-#: src/arch/amigaos/intl.c.po.c:2987
+#: src/arch/amigaos/intl.c.po.c:3032
 #, fuzzy
 msgid "Numpad"
 msgstr "*Numeriskt tangentbord"
 
-#: src/arch/amigaos/intl.c.po.c:2996
+#: src/arch/amigaos/intl.c.po.c:3041
 msgid "Joy Port 0"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3005
+#: src/arch/amigaos/intl.c.po.c:3050
 #, fuzzy
 msgid "Joy Port 1"
 msgstr "Styrspak i spelport &1"
 
-#: src/arch/amigaos/intl.c.po.c:3014
+#: src/arch/amigaos/intl.c.po.c:3059
 #, fuzzy
 msgid "Joy Port 2"
 msgstr "Styrspak i spelport &2"
 
-#: src/arch/amigaos/intl.c.po.c:3023
+#: src/arch/amigaos/intl.c.po.c:3068
 msgid "Joy Port 3"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3032
+#: src/arch/amigaos/intl.c.po.c:3077
 #, fuzzy
 msgid "Stop/Blue"
 msgstr "Stoppa"
 
-#: src/arch/amigaos/intl.c.po.c:3041
+#: src/arch/amigaos/intl.c.po.c:3086
 #, fuzzy
 msgid "Select/Red"
 msgstr "Ta bort"
 
-#: src/arch/amigaos/intl.c.po.c:3050
+#: src/arch/amigaos/intl.c.po.c:3095
 msgid "Repeat/Yellow"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3059
+#: src/arch/amigaos/intl.c.po.c:3104
 msgid "Shuffle/Green"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3068
+#: src/arch/amigaos/intl.c.po.c:3113
 #, fuzzy
 msgid "Forward/Charcoal"
 msgstr "Spola framåt"
 
-#: src/arch/amigaos/intl.c.po.c:3077
+#: src/arch/amigaos/intl.c.po.c:3122
 msgid "Reverse/Charcoal"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3086
+#: src/arch/amigaos/intl.c.po.c:3131
 msgid "Play-Pause/Grey"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3095
+#: src/arch/amigaos/intl.c.po.c:3140
 #, fuzzy
 msgid "Joy 1 Device"
 msgstr "Enheter"
 
-#: src/arch/amigaos/intl.c.po.c:3104
+#: src/arch/amigaos/intl.c.po.c:3149
 #, fuzzy
 msgid "Joy 2 Device"
 msgstr "Enheter"
 
-#: src/arch/amigaos/intl.c.po.c:3113
+#: src/arch/amigaos/intl.c.po.c:3158
 msgid "Joy 1 Fire"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3122
+#: src/arch/amigaos/intl.c.po.c:3167
 msgid "Joy 2 Fire"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3131
+#: src/arch/amigaos/intl.c.po.c:3176
 msgid ""
 "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3140
+#: src/arch/amigaos/intl.c.po.c:3185
 msgid ""
 "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3149
+#: src/arch/amigaos/intl.c.po.c:3194
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3158
+#: src/arch/amigaos/intl.c.po.c:3203
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3203
+#: src/arch/amigaos/intl.c.po.c:3248
 #, fuzzy
 msgid "PET REU Size"
 msgstr "Storlek på PET REU"
 
-#: src/arch/amigaos/intl.c.po.c:3248
+#: src/arch/amigaos/intl.c.po.c:3293
 #, fuzzy
 msgid "PLUS60K Base"
 msgstr "Basadress för PLUS60K"
 
-#: src/arch/amigaos/intl.c.po.c:3320
+#: src/arch/amigaos/intl.c.po.c:3365
 msgid "read/write"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3329
+#: src/arch/amigaos/intl.c.po.c:3374
 #, fuzzy
 msgid "read-only"
 msgstr "*Endast läsåtkomst"
 
-#: src/arch/amigaos/intl.c.po.c:3338
+#: src/arch/amigaos/intl.c.po.c:3383
 #, fuzzy
 msgid "RAMCART Read/Write"
 msgstr "RAMCART-fil"
 
-#: src/arch/amigaos/intl.c.po.c:3347
+#: src/arch/amigaos/intl.c.po.c:3392
 #, fuzzy
 msgid "RAMCART Size"
 msgstr "Storlek på RAMCART"
 
-#: src/arch/amigaos/intl.c.po.c:3383
+#: src/arch/amigaos/intl.c.po.c:3428
 #, fuzzy
 msgid "REU Size"
 msgstr "Storlek på minnesexpansion"
 
-#: src/arch/amigaos/intl.c.po.c:3419
+#: src/arch/amigaos/intl.c.po.c:3464
 #, fuzzy
 msgid "Userport RS232"
 msgstr "Användarportens RS232-enhet"
 
-#: src/arch/amigaos/intl.c.po.c:3428
+#: src/arch/amigaos/intl.c.po.c:3473
 #, fuzzy
 msgid "Userport RS232 Device"
 msgstr "Användarportens RS232-enhet"
 
-#: src/arch/amigaos/intl.c.po.c:3563
+#: src/arch/amigaos/intl.c.po.c:3608
 msgid "Not implemented yet!"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3572
+#: src/arch/amigaos/intl.c.po.c:3617
 #, fuzzy
 msgid "SID Settings"
 msgstr "SID-inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:3608
+#: src/arch/amigaos/intl.c.po.c:3653
 #, fuzzy
 msgid "Sample Rate"
 msgstr "Samplingshastighet"
 
-#: src/arch/amigaos/intl.c.po.c:3617
+#: src/arch/amigaos/intl.c.po.c:3662
 #, fuzzy
 msgid "Buffer Size"
 msgstr "Buffertstorlek"
 
-#: src/arch/amigaos/intl.c.po.c:3635
+#: src/arch/amigaos/intl.c.po.c:3680
 msgid "Speed Adjustment"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3644
+#: src/arch/amigaos/intl.c.po.c:3689
 #, fuzzy
 msgid "Sound Settings"
 msgstr "Ljudinställningar"
 
-#: src/arch/amigaos/intl.c.po.c:3662
+#: src/arch/amigaos/intl.c.po.c:3707
 #, fuzzy
 msgid "Sprite Sprite Collisions"
 msgstr "Sprite-&sprite-kollisioner"
 
-#: src/arch/amigaos/intl.c.po.c:3671
+#: src/arch/amigaos/intl.c.po.c:3716
 #, fuzzy
 msgid "Sprite Background Collisions"
 msgstr "Sprite-&bakgrundkollisioner"
 
-#: src/arch/amigaos/intl.c.po.c:3716
+#: src/arch/amigaos/intl.c.po.c:3761
 #, fuzzy
 msgid "HD image file"
 msgstr "&HD-avbildningsfil"
 
-#: src/arch/amigaos/intl.c.po.c:3734
+#: src/arch/amigaos/intl.c.po.c:3779
 #, fuzzy
 msgid "Autodetect"
 msgstr "&Autodetektera"
 
-#: src/arch/amigaos/intl.c.po.c:3770
+#: src/arch/amigaos/intl.c.po.c:3815
 #, fuzzy
 msgid "IDE64 settings"
 msgstr "IDE64-inställningar"
 
-#: src/arch/amigaos/intl.c.po.c:3788
+#: src/arch/amigaos/intl.c.po.c:3833
 msgid "BIOS Flash Jumper"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3797
+#: src/arch/amigaos/intl.c.po.c:3842
 msgid "Save BIOS when changed"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3806
+#: src/arch/amigaos/intl.c.po.c:3851
 #, fuzzy
 msgid "BIOS File"
 msgstr "&I/O-utrymme"
 
-#: src/arch/amigaos/intl.c.po.c:3815
+#: src/arch/amigaos/intl.c.po.c:3860
 #, fuzzy
 msgid "Select BIOS file"
 msgstr "Välj tangentbordsfil"
 
-#: src/arch/amigaos/intl.c.po.c:3833
+#: src/arch/amigaos/intl.c.po.c:3878
 #, fuzzy
 msgid "MMC/SD Image File"
 msgstr "&HD-avbildningsfil"
 
-#: src/arch/amigaos/intl.c.po.c:3842
+#: src/arch/amigaos/intl.c.po.c:3887
 #, fuzzy
 msgid "Select MMC/SD image file"
 msgstr "Ange HD-avbildningsfil"
 
-#: src/arch/amigaos/intl.c.po.c:3851
+#: src/arch/amigaos/intl.c.po.c:3896
 #, fuzzy
 msgid "MMC64 settings"
 msgstr "&IDE64-inställningar..."
 
-#: src/arch/amigaos/intl.c.po.c:3860
+#: src/arch/amigaos/intl.c.po.c:3905
 #, fuzzy
 msgid "SID Cart"
 msgstr "Spara insticksmodul"
 
-#: src/arch/amigaos/intl.c.po.c:3878
+#: src/arch/amigaos/intl.c.po.c:3923
 #, fuzzy
 msgid "SID Address"
 msgstr "SID-modell"
 
-#: src/arch/amigaos/intl.c.po.c:3887
+#: src/arch/amigaos/intl.c.po.c:3932
 msgid "SID Clock"
 msgstr ""
 
-#: src/arch/amigaos/intl.c.po.c:3896
+#: src/arch/amigaos/intl.c.po.c:3941
 #, fuzzy
 msgid "SID cart settings"
 msgstr "S&ID-inställningar..."
+
+#: src/arch/amigaos/intl.c.po.c:4058
+#, fuzzy
+msgid "Save currently attached disk images"
+msgstr "Spara anslutna disketter &diskettavbildningar"
+
+#: src/arch/amigaos/intl.c.po.c:4067
+#, fuzzy
+msgid "Save currently loaded ROM images"
+msgstr "Spara lästa &ROM-avbildningar"
+
+#: src/arch/amigaos/intl.c.po.c:4094
+#, fuzzy
+msgid "snapshot file"
+msgstr "Spara ögonblicksbildfil"
+
+#: src/arch/amigaos/intl.c.po.c:4103
+#, fuzzy
+msgid "Select snapshot file"
+msgstr "Spara ögonblicksbildfil"
+
+#: src/arch/amigaos/intl.c.po.c:4112
+#, fuzzy
+msgid "Fast PAL"
+msgstr "*Snabbt"
+
+#: src/arch/amigaos/intl.c.po.c:4130
+#, fuzzy
+msgid "Select External Palette file"
+msgstr "Använd en extern palett (fil)"
+
+#: src/arch/amigaos/intl.c.po.c:4139
+msgid "Gamma (0..2)"
+msgstr ""
+
+#: src/arch/amigaos/intl.c.po.c:4148
+#, fuzzy
+msgid "PAL Shade (0..1)"
+msgstr "PAL-skuggning"
+
+#: src/arch/amigaos/intl.c.po.c:4157
+#, fuzzy
+msgid "PAL Blur (0..1)"
+msgstr "PAL-suddighet"
+
+#: src/arch/amigaos/intl.c.po.c:4175
+#, fuzzy
+msgid "External Palette"
+msgstr "Extern palett:"
+
+#: src/arch/amigaos/intl.c.po.c:4184
+#, fuzzy
+msgid "Palette file"
+msgstr "alla filer"
+
+#: src/arch/amigaos/intl.c.po.c:4193
+#, fuzzy
+msgid "Saturation (0..2)"
+msgstr "Mättnad"
+
+#: src/arch/amigaos/intl.c.po.c:4202
+#, fuzzy
+msgid "Contrast (0..2)"
+msgstr "Kontrast"
+
+#: src/arch/amigaos/intl.c.po.c:4211
+#, fuzzy
+msgid "Brightness (0..2)"
+msgstr "Ljusstyrka"
+
+#: src/arch/amigaos/intl.c.po.c:4229
+#, fuzzy
+msgid "VICII Palette file"
+msgstr "Läs in VICE-palettfil"
+
+#: src/arch/amigaos/intl.c.po.c:4238
+#, fuzzy
+msgid "VDC Palette file"
+msgstr "Läs in VICE-palettfil"
+
+#: src/arch/amigaos/intl.c.po.c:4247
+#, fuzzy
+msgid "Auto (from ROM)"
+msgstr "*Automatisk (från ROM)"
+
+#: src/arch/amigaos/intl.c.po.c:4256
+#, fuzzy
+msgid "40 Columns"
+msgstr "&40 kolumner"
+
+#: src/arch/amigaos/intl.c.po.c:4265
+#, fuzzy
+msgid "80 Columns"
+msgstr "&80 kolumner"
+
+#: src/arch/amigaos/intl.c.po.c:4274
+#, fuzzy
+msgid "256 Byte"
+msgstr "2&56 byte"
+
+#: src/arch/amigaos/intl.c.po.c:4283
+#, fuzzy
+msgid "2 kByte"
+msgstr "*2 kbyte"
+
+#: src/arch/amigaos/intl.c.po.c:4292
+#, fuzzy
+msgid "Graphics"
+msgstr "&Grafisk"
+
+#: src/arch/amigaos/intl.c.po.c:4301
+#, fuzzy
+msgid "Business (UK)"
+msgstr "&Business (Storbritannien)"
+
+#: src/arch/amigaos/intl.c.po.c:4310
+#, fuzzy
+msgid "Set PET Model"
+msgstr "SID-modell"
+
+#: src/arch/amigaos/intl.c.po.c:4355
+#, fuzzy
+msgid "CRTC chip"
+msgstr "&Aktivera CRTC-krets"
+
+#: src/arch/amigaos/intl.c.po.c:4364
+#, fuzzy
+msgid "SuperPET I/O enable (disables 8x96)"
+msgstr "*Aktivera SuperPET-I/O (inaktiverar 8x96)"
+
+#: src/arch/amigaos/intl.c.po.c:4373
+#, fuzzy
+msgid "$9*** as RAM"
+msgstr "$&9*** som RAM"
+
+#: src/arch/amigaos/intl.c.po.c:4382
+#, fuzzy
+msgid "$A*** as RAM"
+msgstr "$&A*** som RAM"
+
+#: src/arch/amigaos/intl.c.po.c:4400
+#, fuzzy
+msgid "Current Model"
+msgstr "Nuvarande ROM-uppsättningar"
+
+#: src/arch/amigaos/intl.c.po.c:4409
+#, fuzzy
+msgid "PET Model"
+msgstr "Modell"
+
+#: src/arch/amigaos/intl.c.po.c:4418
+#, fuzzy
+msgid "PLUS4 settings"
+msgstr "+60K-inställningar"
+
+#: src/arch/amigaos/intl.c.po.c:4427
+#, fuzzy
+msgid "Select Internal Function ROM file"
+msgstr "Välj avbildning för internt funktions-ROM"
+
+#: src/arch/amigaos/intl.c.po.c:4436
+#, fuzzy
+msgid "Select External Function ROM file"
+msgstr "Välj avbildning för externt funktions-ROM"
+
+#: src/arch/amigaos/intl.c.po.c:4463
+#, fuzzy
+msgid "Internal Function ROM file"
+msgstr "Internt funktions-ROM"
+
+#: src/arch/amigaos/intl.c.po.c:4481
+#, fuzzy
+msgid "External Function ROM file"
+msgstr "Externt funktions-ROM"
+
+#: src/arch/amigaos/intl.c.po.c:4499
+#, fuzzy
+msgid "Select ROM file"
+msgstr "Välj tangentbordsfil"
+
+#: src/arch/amigaos/intl.c.po.c:4508
+#, fuzzy
+msgid "Computer ROM settings"
+msgstr "ROM-inställningar"
+
+#: src/arch/amigaos/intl.c.po.c:4517
+#, fuzzy
+msgid "Drive ROM settings"
+msgstr "Diskettenhetsinställningar"
+
+#, fuzzy
+#~ msgid "Ebable SID Cartridge"
+#~ msgstr "Spara insticksmodul"
 
 #~ msgid "Quicksaving file %s."
 #~ msgstr "Snabbsparar fil %s."

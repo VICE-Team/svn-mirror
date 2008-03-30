@@ -3168,10 +3168,10 @@ END
 STRINGTABLE
 BEGIN
   IDS_ATTACH_FUNCTION_LOW_CART_IT    "Seleziona l'immagine di una cartuccia per la Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART_IT   "Seleziona l'immagine di una cartuccia per la Function·High"
-  IDS_ATTACH_CART1_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge1·Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART_IT   "Seleziona l'immagine di una cartuccia per la Function High"
+  IDS_ATTACH_CART1_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge1 Low"
   IDS_ATTACH_CART1_HIGH_IT           "Seleziona l'immagine di una cartuccia per la Cartridge1 High"
-  IDS_ATTACH_CART2_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge2·Low"
+  IDS_ATTACH_CART2_LOW_IT            "Seleziona l'immagine di una cartuccia per la Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH_IT           "Seleziona l'immagine di una cartuccia per la Cartridge2 High"
 END
 

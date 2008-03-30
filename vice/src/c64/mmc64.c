@@ -131,7 +131,8 @@ static BYTE mmc64_biossel;
 #define MMC_CARDPRS	0x08 /* bit 3: 0 = card inserted, 1 = no card inserted         */
 #define MMC_EXTEXROM	0x04 /* bit 2: external EXROM line                             */
 #define MMC_EXTGAME	0x02 /* bit 1: external GAME line                              */
-#define MMC_SPISTAT	0x01 // bit 0: 0 = SPI ready, 1 = SPI busy                     */
+#define MMC_SPISTAT	0x01 /* bit 0: 0 = SPI ready, 1 = SPI busy                     
+*/
 
 /* Variables of the various status bits */
 static BYTE mmc64_flashjumper;
@@ -648,7 +649,7 @@ void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
         mem_pla_config_changed();   /* re-enable the MMC64 */
       }
       break;
-    default:      // Not for us
+    default:      /* Not for us */
       return;
   }
 }

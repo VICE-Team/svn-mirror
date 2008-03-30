@@ -158,7 +158,7 @@ static UI_CALLBACK(browse_manual)
         const char *boot_path;
         boot_path = archdep_boot_path();
         char *manual_path;
-        manual_path = util_concat(boot_path,"/../Resources/doc/vice_toc.html",NULL);
+        manual_path = util_concat(boot_path,"/../doc/vice_toc.html",NULL);
 #else
         static const char manual_path[] = DOCDIR "/vice_toc.html";
 #endif

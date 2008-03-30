@@ -43,9 +43,11 @@
 #include "mui/uiplus60k.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
+#include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisid.h"
 #include "mui/uivicii.h"
+#include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -94,10 +96,11 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);
         break;
-      case IDM_ROM_SETTINGS:
-//        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,
-//                              IDD_C64DRIVEROM_SETTINGS_DIALOG,
-//                              romset_dialog_resources, uirom_settings);
+      case IDM_COMPUTER_ROM_SETTINGS:
+        ui_c64vic20_computer_rom_settings_dialog(canvas);
+        break;
+      case IDM_DRIVE_ROM_SETTINGS:
+        ui_c64vic20_drive_rom_settings_dialog(canvas);
         break;
 #ifdef HAVE_TFE
       case IDM_TFE_SETTINGS:
@@ -105,7 +108,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         break;
 #endif
       case IDM_VIDEO_SETTINGS:
-//        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
+        ui_video_c64plus4vic20_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile");
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivec64vic20_settings_dialog();

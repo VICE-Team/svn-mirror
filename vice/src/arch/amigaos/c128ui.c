@@ -34,14 +34,17 @@
 #include "uic64cart.h"
 
 #include "mui/uiacia.h"
+#include "mui/uic128settings.h"
 #include "mui/uidrivec128.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
+#include "mui/uiromc128settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisid.h"
 #include "mui/uivicii.h"
+#include "mui/uivideoc128.h"
 
 static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -84,10 +87,11 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);
         break;
-      case IDM_ROM_SETTINGS:
-//        uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG,
-//                              IDD_C128DRIVEROM_SETTINGS_DIALOG,
-//                              romset_dialog_resources, uirom_settings);
+      case IDM_COMPUTER_ROM_SETTINGS:
+        ui_c128_computer_rom_settings_dialog(canvas);
+        break;
+      case IDM_DRIVE_ROM_SETTINGS:
+        ui_c128_drive_rom_settings_dialog(canvas);
         break;
 #ifdef HAVE_TFE
       case IDM_TFE_SETTINGS:
@@ -95,10 +99,10 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         break;
 #endif
       case IDM_C128_SETTINGS:
-//        ui_c128_dialog(hwnd);
+        ui_c128_settings_dialog(canvas);
         break;
       case IDM_VIDEO_SETTINGS:
-//        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_VDC);
+        ui_video_c128_settings_dialog(canvas);
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivec128_settings_dialog();

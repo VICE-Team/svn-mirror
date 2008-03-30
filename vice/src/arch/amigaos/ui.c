@@ -47,11 +47,13 @@
 #include "log.h"
 #include "pointer.h"
 #include "fullscreenarch.h"
+#include "fliplist.h"
 #include "intl.h"
 #include "translate.h"
 
 #include "mui/filereq.h"
 #include "mui/uidatasette.h"
+#include "mui/uifliplist.h"
 #ifdef AMIGA_OS4
 #include "mui/uijoystick.h"
 #else
@@ -59,6 +61,7 @@
 #endif
 #include "mui/uinetwork.h"
 #include "mui/uiram.h"
+#include "mui/uisnapshot.h"
 #include "mui/uisound.h"
 
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
@@ -193,7 +196,7 @@ void ui_register_menu_translation_layout(struct TranslateNewMenu *menu)
   machine_specific_translation_menu = menu;
 }
 
-void ui_register_menu_layout(const struct NewMenu *menu)
+void ui_register_menu_layout(struct NewMenu *menu)
 {
   machine_specific_menu = menu;
 }
@@ -442,26 +445,30 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
     case IDM_EXIT:
       do_quit_vice = 1;
       break;
-#if 0
     case IDM_FLIP_ADD:
-      flip_add_image(8);
+      fliplist_add_image(8);
       break;
     case IDM_FLIP_REMOVE:
-      flip_remove(8, NULL);
+      fliplist_remove(8, NULL);
       break;
     case IDM_FLIP_NEXT:
-      flip_attach_head(8, 1);
+      fliplist_attach_head(8, 1);
       break;
     case IDM_FLIP_PREVIOUS:
-      flip_attach_head(8, 0);
+      fliplist_attach_head(8, 0);
       break;
     case IDM_FLIP_LOAD:
-      uifliplist_load_dialog(hwnd);
+      uifliplist_load_dialog(canvas);
       break;
     case IDM_FLIP_SAVE:
-      uifliplist_save_dialog(hwnd);
+      uifliplist_save_dialog(canvas);
       break;
-#endif
+    case IDM_SNAPSHOT_LOAD:
+      uisnapshot_load_dialog(canvas);
+      break;
+    case IDM_SNAPSHOT_SAVE:
+      uisnapshot_save_dialog(canvas);
+      break;
     case IDM_DATASETTE_CONTROL_STOP:
       datasette_control(DATASETTE_CONTROL_STOP);
       break;
@@ -580,7 +587,7 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         break;
 
 /*
-  IDM_VIDEO_SETTINGS, IDM_DEVICEMANAGER, IDM_DRIVE_SETTINGS, 
+  IDM_DEVICEMANAGER, IDM_DRIVE_SETTINGS, 
   IDM_JOY_SETTINGS, IDM_SID_SETTINGS,
   IDM_ROM_SETTINGS, IDM_IDE64_SETTINGS,
   IDM_C128_SETTINGS, IDM_PET_SETTINGS,
@@ -642,6 +649,14 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         if (strcasecmp(curlang,"nl"))
         {
           resources_set_value("Language", (resource_value_t *)"nl");
+          ui_menu_destroy(canvas);
+        }
+        break;
+      case IDM_LANGUAGE_HUNGARIAN:
+        resources_get_value("Language", (void *)&curlang);
+        if (strcasecmp(curlang,"hu"))
+        {
+          resources_set_value("Language", (resource_value_t *)"hu");
           ui_menu_destroy(canvas);
         }
         break;

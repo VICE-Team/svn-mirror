@@ -69,15 +69,22 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	uimon.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
 	vsidui.$(OBJEXT) vsyncapi.$(OBJEXT) filereq.$(OBJEXT) \
 	mui.$(OBJEXT) uiacia.$(OBJEXT) uic64_256k.$(OBJEXT) \
-	uidatasette.$(OBJEXT) uicbm2settings.$(OBJEXT) \
-	uidrivec128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uigeoram.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uijoystickll.$(OBJEXT) uimmc64.$(OBJEXT) uinetwork.$(OBJEXT) \
-	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiram.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisidcart.$(OBJEXT) \
-	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT)
+	uic128settings.$(OBJEXT) uidatasette.$(OBJEXT) \
+	uicbm2settings.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrivec64vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) \
+	uimmc64.$(OBJEXT) uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uipetsettings.$(OBJEXT) uiplus256k.$(OBJEXT) \
+	uiplus4settings.$(OBJEXT) uiplus60k.$(OBJEXT) uiram.$(OBJEXT) \
+	uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromc128settings.$(OBJEXT) uiromc64vic20settings.$(OBJEXT) \
+	uiromcbm2settings.$(OBJEXT) uirompetsettings.$(OBJEXT) \
+	uiromplus4settings.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisid.$(OBJEXT) uisidcart.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT) \
+	uivideoc128.$(OBJEXT) uivideoc64plus4vic20.$(OBJEXT) \
+	uivideocbm2pet.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -428,6 +435,8 @@ libarch_a_SOURCES = \
 	mui/uiacia.h \
 	mui/uic64_256k.c \
 	mui/uic64_256k.h \
+	mui/uic128settings.c \
+	mui/uic128settings.h \
 	mui/uidatasette.c \
 	mui/uidatasette.h \
 	mui/uicbm2settings.c \
@@ -440,6 +449,8 @@ libarch_a_SOURCES = \
 	mui/uidrivepetcbm2.h \
 	mui/uidriveplus4.c \
 	mui/uidriveplus4.h \
+	mui/uifliplist.c \
+	mui/uifliplist.h \
 	mui/uigeoram.c \
 	mui/uigeoram.h \
 	mui/uiide64.c \
@@ -454,8 +465,12 @@ libarch_a_SOURCES = \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
 	mui/uipetreu.h \
+	mui/uipetsettings.c \
+	mui/uipetsettings.h \
 	mui/uiplus256k.c \
 	mui/uiplus256k.h \
+	mui/uiplus4settings.c \
+	mui/uiplus4settings.h \
 	mui/uiplus60k.c \
 	mui/uiplus60k.h \
 	mui/uiram.c \
@@ -464,18 +479,36 @@ libarch_a_SOURCES = \
 	mui/uiramcart.h \
 	mui/uireu.c \
 	mui/uireu.h \
+	mui/uiromc128settings.c \
+	mui/uiromc128settings.h \
+	mui/uiromc64vic20settings.c \
+	mui/uiromc64vic20settings.h \
+	mui/uiromcbm2settings.c \
+	mui/uiromcbm2settings.h \
+	mui/uirompetsettings.c \
+	mui/uirompetsettings.h \
+	mui/uiromplus4settings.c \
+	mui/uiromplus4settings.h \
 	mui/uirs232user.c \
 	mui/uirs232user.h \
 	mui/uisid.c \
 	mui/uisid.h \
 	mui/uisidcart.c \
 	mui/uisidcart.h \
+	mui/uisnapshot.c \
+	mui/uisnapshot.h \
 	mui/uisound.c \
 	mui/uisound.h \
 	mui/uivic20mem.c \
 	mui/uivic20mem.h \
 	mui/uivicii.c \
-	mui/uivicii.h
+	mui/uivicii.h \
+	mui/uivideoc128.c \
+	mui/uivideoc128.h \
+	mui/uivideoc64plus4vic20.c \
+	mui/uivideoc64plus4vic20.h \
+	mui/uivideocbm2pet.c \
+	mui/uivideocbm2pet.h
 
 EXTRA_DIST = \
 	info-files/VICE.info \
@@ -485,6 +518,13 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
+	info-files/morphos/VICE.info \
+	info-files/morphos/x128.info \
+	info-files/morphos/x64.info \
+	info-files/morphos/xcbm2.info \
+	info-files/morphos/xpet.info \
+	info-files/morphos/xplus4.info \
+	info-files/morphos/xvic.info \
 	genintl_h.sh \
 	genintltable.sh \
 	intl.txt \
@@ -613,6 +653,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiacia.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiapi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic128settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64_256k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicart.Po@am__quote@
@@ -624,6 +665,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
@@ -633,17 +675,28 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetsettings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus256k.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus60k.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiramcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromc128settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromc64vic20settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromcbm2settings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirompetsettings.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiromplus4settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisidcart.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivic20mem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivicii.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivideoc128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivideoc64plus4vic20.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uivideocbm2pet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@
@@ -724,6 +777,20 @@ uic64_256k.obj: mui/uic64_256k.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uic64_256k.c' object='uic64_256k.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uic64_256k.obj `if test -f 'mui/uic64_256k.c'; then $(CYGPATH_W) 'mui/uic64_256k.c'; else $(CYGPATH_W) '$(srcdir)/mui/uic64_256k.c'; fi`
+
+uic128settings.o: mui/uic128settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uic128settings.o -MD -MP -MF "$(DEPDIR)/uic128settings.Tpo" -c -o uic128settings.o `test -f 'mui/uic128settings.c' || echo '$(srcdir)/'`mui/uic128settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uic128settings.Tpo" "$(DEPDIR)/uic128settings.Po"; else rm -f "$(DEPDIR)/uic128settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uic128settings.c' object='uic128settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uic128settings.o `test -f 'mui/uic128settings.c' || echo '$(srcdir)/'`mui/uic128settings.c
+
+uic128settings.obj: mui/uic128settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uic128settings.obj -MD -MP -MF "$(DEPDIR)/uic128settings.Tpo" -c -o uic128settings.obj `if test -f 'mui/uic128settings.c'; then $(CYGPATH_W) 'mui/uic128settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uic128settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uic128settings.Tpo" "$(DEPDIR)/uic128settings.Po"; else rm -f "$(DEPDIR)/uic128settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uic128settings.c' object='uic128settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uic128settings.obj `if test -f 'mui/uic128settings.c'; then $(CYGPATH_W) 'mui/uic128settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uic128settings.c'; fi`
 
 uidatasette.o: mui/uidatasette.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uidatasette.o -MD -MP -MF "$(DEPDIR)/uidatasette.Tpo" -c -o uidatasette.o `test -f 'mui/uidatasette.c' || echo '$(srcdir)/'`mui/uidatasette.c; \
@@ -808,6 +875,20 @@ uidriveplus4.obj: mui/uidriveplus4.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uidriveplus4.c' object='uidriveplus4.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uidriveplus4.obj `if test -f 'mui/uidriveplus4.c'; then $(CYGPATH_W) 'mui/uidriveplus4.c'; else $(CYGPATH_W) '$(srcdir)/mui/uidriveplus4.c'; fi`
+
+uifliplist.o: mui/uifliplist.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uifliplist.o -MD -MP -MF "$(DEPDIR)/uifliplist.Tpo" -c -o uifliplist.o `test -f 'mui/uifliplist.c' || echo '$(srcdir)/'`mui/uifliplist.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uifliplist.Tpo" "$(DEPDIR)/uifliplist.Po"; else rm -f "$(DEPDIR)/uifliplist.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uifliplist.c' object='uifliplist.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uifliplist.o `test -f 'mui/uifliplist.c' || echo '$(srcdir)/'`mui/uifliplist.c
+
+uifliplist.obj: mui/uifliplist.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uifliplist.obj -MD -MP -MF "$(DEPDIR)/uifliplist.Tpo" -c -o uifliplist.obj `if test -f 'mui/uifliplist.c'; then $(CYGPATH_W) 'mui/uifliplist.c'; else $(CYGPATH_W) '$(srcdir)/mui/uifliplist.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uifliplist.Tpo" "$(DEPDIR)/uifliplist.Po"; else rm -f "$(DEPDIR)/uifliplist.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uifliplist.c' object='uifliplist.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uifliplist.obj `if test -f 'mui/uifliplist.c'; then $(CYGPATH_W) 'mui/uifliplist.c'; else $(CYGPATH_W) '$(srcdir)/mui/uifliplist.c'; fi`
 
 uigeoram.o: mui/uigeoram.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uigeoram.o -MD -MP -MF "$(DEPDIR)/uigeoram.Tpo" -c -o uigeoram.o `test -f 'mui/uigeoram.c' || echo '$(srcdir)/'`mui/uigeoram.c; \
@@ -907,6 +988,20 @@ uipetreu.obj: mui/uipetreu.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uipetreu.obj `if test -f 'mui/uipetreu.c'; then $(CYGPATH_W) 'mui/uipetreu.c'; else $(CYGPATH_W) '$(srcdir)/mui/uipetreu.c'; fi`
 
+uipetsettings.o: mui/uipetsettings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uipetsettings.o -MD -MP -MF "$(DEPDIR)/uipetsettings.Tpo" -c -o uipetsettings.o `test -f 'mui/uipetsettings.c' || echo '$(srcdir)/'`mui/uipetsettings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uipetsettings.Tpo" "$(DEPDIR)/uipetsettings.Po"; else rm -f "$(DEPDIR)/uipetsettings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uipetsettings.c' object='uipetsettings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uipetsettings.o `test -f 'mui/uipetsettings.c' || echo '$(srcdir)/'`mui/uipetsettings.c
+
+uipetsettings.obj: mui/uipetsettings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uipetsettings.obj -MD -MP -MF "$(DEPDIR)/uipetsettings.Tpo" -c -o uipetsettings.obj `if test -f 'mui/uipetsettings.c'; then $(CYGPATH_W) 'mui/uipetsettings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uipetsettings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uipetsettings.Tpo" "$(DEPDIR)/uipetsettings.Po"; else rm -f "$(DEPDIR)/uipetsettings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uipetsettings.c' object='uipetsettings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uipetsettings.obj `if test -f 'mui/uipetsettings.c'; then $(CYGPATH_W) 'mui/uipetsettings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uipetsettings.c'; fi`
+
 uiplus256k.o: mui/uiplus256k.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiplus256k.o -MD -MP -MF "$(DEPDIR)/uiplus256k.Tpo" -c -o uiplus256k.o `test -f 'mui/uiplus256k.c' || echo '$(srcdir)/'`mui/uiplus256k.c; \
 @am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiplus256k.Tpo" "$(DEPDIR)/uiplus256k.Po"; else rm -f "$(DEPDIR)/uiplus256k.Tpo"; exit 1; fi
@@ -920,6 +1015,20 @@ uiplus256k.obj: mui/uiplus256k.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiplus256k.c' object='uiplus256k.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiplus256k.obj `if test -f 'mui/uiplus256k.c'; then $(CYGPATH_W) 'mui/uiplus256k.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiplus256k.c'; fi`
+
+uiplus4settings.o: mui/uiplus4settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiplus4settings.o -MD -MP -MF "$(DEPDIR)/uiplus4settings.Tpo" -c -o uiplus4settings.o `test -f 'mui/uiplus4settings.c' || echo '$(srcdir)/'`mui/uiplus4settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiplus4settings.Tpo" "$(DEPDIR)/uiplus4settings.Po"; else rm -f "$(DEPDIR)/uiplus4settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiplus4settings.c' object='uiplus4settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiplus4settings.o `test -f 'mui/uiplus4settings.c' || echo '$(srcdir)/'`mui/uiplus4settings.c
+
+uiplus4settings.obj: mui/uiplus4settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiplus4settings.obj -MD -MP -MF "$(DEPDIR)/uiplus4settings.Tpo" -c -o uiplus4settings.obj `if test -f 'mui/uiplus4settings.c'; then $(CYGPATH_W) 'mui/uiplus4settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiplus4settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiplus4settings.Tpo" "$(DEPDIR)/uiplus4settings.Po"; else rm -f "$(DEPDIR)/uiplus4settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiplus4settings.c' object='uiplus4settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiplus4settings.obj `if test -f 'mui/uiplus4settings.c'; then $(CYGPATH_W) 'mui/uiplus4settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiplus4settings.c'; fi`
 
 uiplus60k.o: mui/uiplus60k.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiplus60k.o -MD -MP -MF "$(DEPDIR)/uiplus60k.Tpo" -c -o uiplus60k.o `test -f 'mui/uiplus60k.c' || echo '$(srcdir)/'`mui/uiplus60k.c; \
@@ -977,6 +1086,76 @@ uireu.obj: mui/uireu.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uireu.obj `if test -f 'mui/uireu.c'; then $(CYGPATH_W) 'mui/uireu.c'; else $(CYGPATH_W) '$(srcdir)/mui/uireu.c'; fi`
 
+uiromc128settings.o: mui/uiromc128settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromc128settings.o -MD -MP -MF "$(DEPDIR)/uiromc128settings.Tpo" -c -o uiromc128settings.o `test -f 'mui/uiromc128settings.c' || echo '$(srcdir)/'`mui/uiromc128settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromc128settings.Tpo" "$(DEPDIR)/uiromc128settings.Po"; else rm -f "$(DEPDIR)/uiromc128settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromc128settings.c' object='uiromc128settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromc128settings.o `test -f 'mui/uiromc128settings.c' || echo '$(srcdir)/'`mui/uiromc128settings.c
+
+uiromc128settings.obj: mui/uiromc128settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromc128settings.obj -MD -MP -MF "$(DEPDIR)/uiromc128settings.Tpo" -c -o uiromc128settings.obj `if test -f 'mui/uiromc128settings.c'; then $(CYGPATH_W) 'mui/uiromc128settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromc128settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromc128settings.Tpo" "$(DEPDIR)/uiromc128settings.Po"; else rm -f "$(DEPDIR)/uiromc128settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromc128settings.c' object='uiromc128settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromc128settings.obj `if test -f 'mui/uiromc128settings.c'; then $(CYGPATH_W) 'mui/uiromc128settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromc128settings.c'; fi`
+
+uiromc64vic20settings.o: mui/uiromc64vic20settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromc64vic20settings.o -MD -MP -MF "$(DEPDIR)/uiromc64vic20settings.Tpo" -c -o uiromc64vic20settings.o `test -f 'mui/uiromc64vic20settings.c' || echo '$(srcdir)/'`mui/uiromc64vic20settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromc64vic20settings.Tpo" "$(DEPDIR)/uiromc64vic20settings.Po"; else rm -f "$(DEPDIR)/uiromc64vic20settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromc64vic20settings.c' object='uiromc64vic20settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromc64vic20settings.o `test -f 'mui/uiromc64vic20settings.c' || echo '$(srcdir)/'`mui/uiromc64vic20settings.c
+
+uiromc64vic20settings.obj: mui/uiromc64vic20settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromc64vic20settings.obj -MD -MP -MF "$(DEPDIR)/uiromc64vic20settings.Tpo" -c -o uiromc64vic20settings.obj `if test -f 'mui/uiromc64vic20settings.c'; then $(CYGPATH_W) 'mui/uiromc64vic20settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromc64vic20settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromc64vic20settings.Tpo" "$(DEPDIR)/uiromc64vic20settings.Po"; else rm -f "$(DEPDIR)/uiromc64vic20settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromc64vic20settings.c' object='uiromc64vic20settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromc64vic20settings.obj `if test -f 'mui/uiromc64vic20settings.c'; then $(CYGPATH_W) 'mui/uiromc64vic20settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromc64vic20settings.c'; fi`
+
+uiromcbm2settings.o: mui/uiromcbm2settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromcbm2settings.o -MD -MP -MF "$(DEPDIR)/uiromcbm2settings.Tpo" -c -o uiromcbm2settings.o `test -f 'mui/uiromcbm2settings.c' || echo '$(srcdir)/'`mui/uiromcbm2settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromcbm2settings.Tpo" "$(DEPDIR)/uiromcbm2settings.Po"; else rm -f "$(DEPDIR)/uiromcbm2settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromcbm2settings.c' object='uiromcbm2settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromcbm2settings.o `test -f 'mui/uiromcbm2settings.c' || echo '$(srcdir)/'`mui/uiromcbm2settings.c
+
+uiromcbm2settings.obj: mui/uiromcbm2settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromcbm2settings.obj -MD -MP -MF "$(DEPDIR)/uiromcbm2settings.Tpo" -c -o uiromcbm2settings.obj `if test -f 'mui/uiromcbm2settings.c'; then $(CYGPATH_W) 'mui/uiromcbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromcbm2settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromcbm2settings.Tpo" "$(DEPDIR)/uiromcbm2settings.Po"; else rm -f "$(DEPDIR)/uiromcbm2settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromcbm2settings.c' object='uiromcbm2settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromcbm2settings.obj `if test -f 'mui/uiromcbm2settings.c'; then $(CYGPATH_W) 'mui/uiromcbm2settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromcbm2settings.c'; fi`
+
+uirompetsettings.o: mui/uirompetsettings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uirompetsettings.o -MD -MP -MF "$(DEPDIR)/uirompetsettings.Tpo" -c -o uirompetsettings.o `test -f 'mui/uirompetsettings.c' || echo '$(srcdir)/'`mui/uirompetsettings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uirompetsettings.Tpo" "$(DEPDIR)/uirompetsettings.Po"; else rm -f "$(DEPDIR)/uirompetsettings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uirompetsettings.c' object='uirompetsettings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uirompetsettings.o `test -f 'mui/uirompetsettings.c' || echo '$(srcdir)/'`mui/uirompetsettings.c
+
+uirompetsettings.obj: mui/uirompetsettings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uirompetsettings.obj -MD -MP -MF "$(DEPDIR)/uirompetsettings.Tpo" -c -o uirompetsettings.obj `if test -f 'mui/uirompetsettings.c'; then $(CYGPATH_W) 'mui/uirompetsettings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uirompetsettings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uirompetsettings.Tpo" "$(DEPDIR)/uirompetsettings.Po"; else rm -f "$(DEPDIR)/uirompetsettings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uirompetsettings.c' object='uirompetsettings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uirompetsettings.obj `if test -f 'mui/uirompetsettings.c'; then $(CYGPATH_W) 'mui/uirompetsettings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uirompetsettings.c'; fi`
+
+uiromplus4settings.o: mui/uiromplus4settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromplus4settings.o -MD -MP -MF "$(DEPDIR)/uiromplus4settings.Tpo" -c -o uiromplus4settings.o `test -f 'mui/uiromplus4settings.c' || echo '$(srcdir)/'`mui/uiromplus4settings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromplus4settings.Tpo" "$(DEPDIR)/uiromplus4settings.Po"; else rm -f "$(DEPDIR)/uiromplus4settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromplus4settings.c' object='uiromplus4settings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromplus4settings.o `test -f 'mui/uiromplus4settings.c' || echo '$(srcdir)/'`mui/uiromplus4settings.c
+
+uiromplus4settings.obj: mui/uiromplus4settings.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uiromplus4settings.obj -MD -MP -MF "$(DEPDIR)/uiromplus4settings.Tpo" -c -o uiromplus4settings.obj `if test -f 'mui/uiromplus4settings.c'; then $(CYGPATH_W) 'mui/uiromplus4settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromplus4settings.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uiromplus4settings.Tpo" "$(DEPDIR)/uiromplus4settings.Po"; else rm -f "$(DEPDIR)/uiromplus4settings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uiromplus4settings.c' object='uiromplus4settings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uiromplus4settings.obj `if test -f 'mui/uiromplus4settings.c'; then $(CYGPATH_W) 'mui/uiromplus4settings.c'; else $(CYGPATH_W) '$(srcdir)/mui/uiromplus4settings.c'; fi`
+
 uirs232user.o: mui/uirs232user.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uirs232user.o -MD -MP -MF "$(DEPDIR)/uirs232user.Tpo" -c -o uirs232user.o `test -f 'mui/uirs232user.c' || echo '$(srcdir)/'`mui/uirs232user.c; \
 @am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uirs232user.Tpo" "$(DEPDIR)/uirs232user.Po"; else rm -f "$(DEPDIR)/uirs232user.Tpo"; exit 1; fi
@@ -1019,6 +1198,20 @@ uisidcart.obj: mui/uisidcart.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uisidcart.obj `if test -f 'mui/uisidcart.c'; then $(CYGPATH_W) 'mui/uisidcart.c'; else $(CYGPATH_W) '$(srcdir)/mui/uisidcart.c'; fi`
 
+uisnapshot.o: mui/uisnapshot.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uisnapshot.o -MD -MP -MF "$(DEPDIR)/uisnapshot.Tpo" -c -o uisnapshot.o `test -f 'mui/uisnapshot.c' || echo '$(srcdir)/'`mui/uisnapshot.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uisnapshot.Tpo" "$(DEPDIR)/uisnapshot.Po"; else rm -f "$(DEPDIR)/uisnapshot.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uisnapshot.c' object='uisnapshot.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uisnapshot.o `test -f 'mui/uisnapshot.c' || echo '$(srcdir)/'`mui/uisnapshot.c
+
+uisnapshot.obj: mui/uisnapshot.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uisnapshot.obj -MD -MP -MF "$(DEPDIR)/uisnapshot.Tpo" -c -o uisnapshot.obj `if test -f 'mui/uisnapshot.c'; then $(CYGPATH_W) 'mui/uisnapshot.c'; else $(CYGPATH_W) '$(srcdir)/mui/uisnapshot.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uisnapshot.Tpo" "$(DEPDIR)/uisnapshot.Po"; else rm -f "$(DEPDIR)/uisnapshot.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uisnapshot.c' object='uisnapshot.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uisnapshot.obj `if test -f 'mui/uisnapshot.c'; then $(CYGPATH_W) 'mui/uisnapshot.c'; else $(CYGPATH_W) '$(srcdir)/mui/uisnapshot.c'; fi`
+
 uisound.o: mui/uisound.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uisound.o -MD -MP -MF "$(DEPDIR)/uisound.Tpo" -c -o uisound.o `test -f 'mui/uisound.c' || echo '$(srcdir)/'`mui/uisound.c; \
 @am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uisound.Tpo" "$(DEPDIR)/uisound.Po"; else rm -f "$(DEPDIR)/uisound.Tpo"; exit 1; fi
@@ -1060,6 +1253,48 @@ uivicii.obj: mui/uivicii.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivicii.c' object='uivicii.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivicii.obj `if test -f 'mui/uivicii.c'; then $(CYGPATH_W) 'mui/uivicii.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivicii.c'; fi`
+
+uivideoc128.o: mui/uivideoc128.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideoc128.o -MD -MP -MF "$(DEPDIR)/uivideoc128.Tpo" -c -o uivideoc128.o `test -f 'mui/uivideoc128.c' || echo '$(srcdir)/'`mui/uivideoc128.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideoc128.Tpo" "$(DEPDIR)/uivideoc128.Po"; else rm -f "$(DEPDIR)/uivideoc128.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideoc128.c' object='uivideoc128.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideoc128.o `test -f 'mui/uivideoc128.c' || echo '$(srcdir)/'`mui/uivideoc128.c
+
+uivideoc128.obj: mui/uivideoc128.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideoc128.obj -MD -MP -MF "$(DEPDIR)/uivideoc128.Tpo" -c -o uivideoc128.obj `if test -f 'mui/uivideoc128.c'; then $(CYGPATH_W) 'mui/uivideoc128.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideoc128.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideoc128.Tpo" "$(DEPDIR)/uivideoc128.Po"; else rm -f "$(DEPDIR)/uivideoc128.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideoc128.c' object='uivideoc128.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideoc128.obj `if test -f 'mui/uivideoc128.c'; then $(CYGPATH_W) 'mui/uivideoc128.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideoc128.c'; fi`
+
+uivideoc64plus4vic20.o: mui/uivideoc64plus4vic20.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideoc64plus4vic20.o -MD -MP -MF "$(DEPDIR)/uivideoc64plus4vic20.Tpo" -c -o uivideoc64plus4vic20.o `test -f 'mui/uivideoc64plus4vic20.c' || echo '$(srcdir)/'`mui/uivideoc64plus4vic20.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideoc64plus4vic20.Tpo" "$(DEPDIR)/uivideoc64plus4vic20.Po"; else rm -f "$(DEPDIR)/uivideoc64plus4vic20.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideoc64plus4vic20.c' object='uivideoc64plus4vic20.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideoc64plus4vic20.o `test -f 'mui/uivideoc64plus4vic20.c' || echo '$(srcdir)/'`mui/uivideoc64plus4vic20.c
+
+uivideoc64plus4vic20.obj: mui/uivideoc64plus4vic20.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideoc64plus4vic20.obj -MD -MP -MF "$(DEPDIR)/uivideoc64plus4vic20.Tpo" -c -o uivideoc64plus4vic20.obj `if test -f 'mui/uivideoc64plus4vic20.c'; then $(CYGPATH_W) 'mui/uivideoc64plus4vic20.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideoc64plus4vic20.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideoc64plus4vic20.Tpo" "$(DEPDIR)/uivideoc64plus4vic20.Po"; else rm -f "$(DEPDIR)/uivideoc64plus4vic20.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideoc64plus4vic20.c' object='uivideoc64plus4vic20.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideoc64plus4vic20.obj `if test -f 'mui/uivideoc64plus4vic20.c'; then $(CYGPATH_W) 'mui/uivideoc64plus4vic20.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideoc64plus4vic20.c'; fi`
+
+uivideocbm2pet.o: mui/uivideocbm2pet.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideocbm2pet.o -MD -MP -MF "$(DEPDIR)/uivideocbm2pet.Tpo" -c -o uivideocbm2pet.o `test -f 'mui/uivideocbm2pet.c' || echo '$(srcdir)/'`mui/uivideocbm2pet.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideocbm2pet.Tpo" "$(DEPDIR)/uivideocbm2pet.Po"; else rm -f "$(DEPDIR)/uivideocbm2pet.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideocbm2pet.c' object='uivideocbm2pet.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideocbm2pet.o `test -f 'mui/uivideocbm2pet.c' || echo '$(srcdir)/'`mui/uivideocbm2pet.c
+
+uivideocbm2pet.obj: mui/uivideocbm2pet.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uivideocbm2pet.obj -MD -MP -MF "$(DEPDIR)/uivideocbm2pet.Tpo" -c -o uivideocbm2pet.obj `if test -f 'mui/uivideocbm2pet.c'; then $(CYGPATH_W) 'mui/uivideocbm2pet.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideocbm2pet.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uivideocbm2pet.Tpo" "$(DEPDIR)/uivideocbm2pet.Po"; else rm -f "$(DEPDIR)/uivideocbm2pet.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uivideocbm2pet.c' object='uivideocbm2pet.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uivideocbm2pet.obj `if test -f 'mui/uivideocbm2pet.c'; then $(CYGPATH_W) 'mui/uivideocbm2pet.c'; else $(CYGPATH_W) '$(srcdir)/mui/uivideocbm2pet.c'; fi`
 uninstall-info-am:
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -1111,7 +1346,7 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/info-files
+	$(mkdir_p) $(distdir)/info-files $(distdir)/info-files/morphos
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

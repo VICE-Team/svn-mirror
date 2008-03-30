@@ -54,7 +54,7 @@ if [ ! -d "$EXTLIB_DIR" ]; then
   echo "ExtLib Directory '$EXTLIB_DIR' does not exist!"
   exit 1
 fi
-BUILD_DIR="$5"
+BUILD_DIR="`cd \"$5\" && pwd`"
 if [ "$BUILD_DIR" = "" ]; then
   echo "No Build Directory given!"
   exit 1
@@ -139,6 +139,26 @@ else
   mkdir -p "$BUILD_DIR/ppc"
 fi
 
+# ----- Copy Gtk Config Files -----
+if [ "$UI_TYPE" = "gtk" ]; then
+  echo "----- Copy GTK Config Files -----"
+  ANY_ARCH="$ARCH"
+  if [ "$ANY_ARCH" = "ub" ]; then
+    ANY_ARCH="i386"
+  fi
+  # copy fontconfig 
+  MYFONTCONFIG="$BUILD_DIR/$ARCH/etc/fonts"
+  if [ ! -d "$MYFONTCONFIG" ]; then
+    FONTCONFIG="$EXTLIB_DIR/$ANY_ARCH/etc/fonts"
+    if [ ! -d "$FONTCONFIG" ]; then
+      echo "FontConfig dir not found in '$FONTCONFIG'"
+      exit 1
+    fi
+    mkdir -p "$MYFONTCONFIG"
+    (cd "$FONTCONFIG" && tar cf - *) | (cd "$MYFONTCONFIG" && tar xvf -)
+  fi
+fi
+
 # ----- Compile VICE -----
 export PATH=/usr/X11R6/bin:$PATH
 COMMON_CFLAGS="-O3"
@@ -184,12 +204,31 @@ build_vice () {
   fi
 }
 
+copy_dylib_rec () {
+  local FILE="$1"
+  local GOTLIB="$2"
+  
+  # get external libs
+  echo 1>&2 "  checking binary '$FILE' for dylibs"
+  local EXTLIB="`otool -L \"$FILE\" | grep dylib | grep -v /usr | grep -v "$FILE" | cut -f1 -d ' '`"
+  for lib in $EXTLIB ; do
+    echo "$GOTLIB" | grep -q "$lib"
+    if [ $? = 1 ]; then
+      #echo 1>&2 "     lib...$lib"
+      GOTLIB="$lib $GOTLIB"
+      GOTLIB="`copy_dylib_rec \"$lib\" \"$GOTLIB\"`"
+    fi
+  done
+  echo "$GOTLIB"
+}
+
 # copy the required dynamic libs
 copy_dylib () {
   local BUILD_ARCH="$1"
 
   # get external libs
-  EXTLIB="`otool -L \"$BUILD_DIR/$BUILD_ARCH/src/x64\" | grep dylib | grep -v /usr | cut -f1 -d ' '`"
+  echo "-- copy dylibs for $BUILD_ARCH --"
+  EXTLIB="`copy_dylib_rec \"$BUILD_DIR/$BUILD_ARCH/src/x64\"`"
 
   # make sure lib dir exists
   local LIBDIR="$BUILD_DIR/$BUILD_ARCH/lib"
@@ -203,6 +242,8 @@ copy_dylib () {
     if [ ! -e "$LIBDIR/$LIBNAME" ]; then
       echo "  copying required dylib '$LIBNAME'"
       cp "$lib" "$LIBDIR/$LIBNAME"
+    else
+      echo "  required dylib '$LIBNAME' already here"
     fi
   done
 }
@@ -251,6 +292,8 @@ if [ "$ARCH" = "ub" ]; then
       echo "  combining dylib '$LIBNAME'"
       lipo -create -output "$BUILD_DIR/ub/lib/$LIBNAME" \
         "$BUILD_DIR/ppc/lib/$LIBNAME" "$BUILD_DIR/i386/lib/$LIBNAME"
+    else
+      echo "  already combined dylib '$LIBNAME'"
     fi
   done
 fi

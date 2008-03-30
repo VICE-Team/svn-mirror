@@ -23,4 +23,5 @@ EXTRA_DIST = \
 	VICE.icns \
 	Info.plist \
 	make-bindist.sh \
-	x11-launcher.sh
+	x11-launcher.sh \
+	vice-launcher.sh

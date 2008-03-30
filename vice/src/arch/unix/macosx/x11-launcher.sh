@@ -20,6 +20,7 @@ BUNDLE_DIR="`cd \"$SCRIPT_DIR/../..\" && pwd`"
 BUNDLE_NAME="`basename \"$BUNDLE_DIR\" .app`"
 dbgecho "BUNDLE_DIR=$BUNDLE_DIR"
 dbgecho "BUNDLE=$BUNDLE_NAME"
+dbgecho "ARGS=""$@"
 
 # --- determine launch environment ---
 LAUNCH=cmdline
@@ -34,21 +35,6 @@ if [ "$1" = "$BUNDLE_DIR" ]; then
   shift
 fi
 dbgecho "LAUNCH=$LAUNCH"
-
-# --- find VICE binary ---
-BIN_DIR="$RESOURCES_DIR/bin"
-if [ ! -d "$BIN_DIR" ]; then
-  dbgecho "Directory $BIN_DIR not found!"
-  exit 1
-fi
-PROGRAM=`cd "$BIN_DIR" && ls x* | head -1`
-if [ "$PROGRAM" = "" ]; then
-  dbgecho "No binary found!"
-  exit 1
-fi
-dbgecho "PROGRAM=$PROGRAM"
-PROGRAM_PATH="$BIN_DIR/$PROGRAM"
-dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
 
 # --- create a temporary .xinitc if X11 is not running and user has none ---
 CREATED_XINITRC=0
@@ -100,19 +86,44 @@ if [ "$LAUNCH" = "platypus" ]; then
   fi
 fi
 
+# --- setup environment ---
 # setup dylib path
 LIB_DIR="$RESOURCES_DIR/lib"
 if [ -d "$LIB_DIR" ]; then
   export DYLD_LIBRARY_PATH="$LIB_DIR"
 fi
-
 # setup path
+BIN_DIR="$RESOURCES_DIR/bin"
+if [ ! -d "$BIN_DIR" ]; then
+  dbgecho "Directory $BIN_DIR not found!"
+  exit 1
+fi
 export PATH="$BIN_DIR:/usr/X11R6/bin:$PATH"
+
+# GTK: setup fontconfig
+ETC_DIR="$RESOURCES_DIR/etc"
+if [ -d "$ETC_DIR/fonts" ]; then
+  export "FONTCONFIG_PATH=$ETC_DIR/fonts"
+fi
+
+# --- find VICE binary ---
+# derive emu name from bundle name
+if [ "x$PROGRAM" = "x" ]; then
+  PROGRAM="$BUNDLE_NAME"
+fi
+# it's the generic VICE bundle - ask the user
+if [ "$PROGRAM" = "VICE" ]; then
+  EMUS="x128,x64,xcbm2,xpet,xplus,xvic"
+  PROGRAM=`xmessage -nearmouse -print -buttons "$EMUS" "Please select an Emulator to run:"`
+fi
+dbgecho "PROGRAM=$PROGRAM"
+PROGRAM_PATH="$BIN_DIR/$PROGRAM"
+dbgecho "PROGRAM_PATH=$PROGRAM_PATH"
 
 # --- now launch the VICE emulator ---
 if [ "$LAUNCH" = "cmdline" ]; then
   # launch in cmd line without xterm
-  dbgecho "CMDLINE ARGS=" "$@"
+  dbgecho "CMDLINE ARGS=""$@"
   $PROGRAM_PATH "$@"
 else
   # use xterm as console

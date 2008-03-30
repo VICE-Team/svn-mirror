@@ -35,7 +35,9 @@
 #include "mui/uiacia.h"
 #include "mui/uicbm2settings.h"
 #include "mui/uidrivepetcbm2.h"
+#include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
+#include "mui/uivideocbm2pet.h"
 
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -54,13 +56,14 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
       case IDM_SID_SETTINGS:
         ui_sid_settings_dialog();
         break;
-      case IDM_ROM_SETTINGS:
-//        uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG,
-//                              IDD_CBM2DRIVEROM_SETTINGS_DIALOG,
-//                              romset_dialog_resources, uirom_settings);
+      case IDM_COMPUTER_ROM_SETTINGS:
+        ui_cbm2_computer_rom_settings_dialog(canvas);
+        break;
+      case IDM_DRIVE_ROM_SETTINGS:
+        ui_cbm2_drive_rom_settings_dialog(canvas);
         break;
       case IDM_VIDEO_SETTINGS:
-//        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
+        ui_video_cbm2pet_settings_dialog(canvas);
         break;
       case IDM_DRIVE_SETTINGS:
         uidrivepetcbm2_settings_dialog();

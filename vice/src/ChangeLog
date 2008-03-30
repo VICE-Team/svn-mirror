@@ -1,3 +1,111 @@
+2006-12-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.19.
+
+2006-12-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/console.c, arch/amigaos/mui/uidrivec128.c,
+	arch/amigaos/mui/uidrivec64vic20.c,
+	arch/amigaos/mui/uidrivepetcbm2.c,
+	arch/amigaos/mui/uidriveplus4.c, arch/amigaos/private.h,
+	arch/amigaos/ui.c, arch/amigaos/video.c: Added/fixed/updated
+	some ui elements.
+
+2006-12-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am,
+	arch/amigaos/info-files/morphos/VICE.info,
+	arch/amigaos/info-files/morphos/x128.info,
+	arch/amigaos/info-files/morphos/x64.info,
+	arch/amigaos/info-files/morphos/xcbm2.info,
+	arch/amigaos/info-files/morphos/xpet.info,
+	arch/amigaos/info-files/morphos/xplus4.info,
+	arch/amigaos/info-files/morphos/xvic.info,
+	arch/amigaos/make-bindist.sh: Added native MorphOS icons,
+	icons were created by Andr351 'JoBBo' Siegel.
+
+2006-12-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/gui/uicommands.c: fixed location of html docs in
+	mac bundle
+
+	* arch/unix/macosx/Info.plist,
+	arch/unix/macosx/make-bindist.sh,
+	arch/unix/macosx/x11-launcher.sh,
+	arch/unix/macosx/vice-launcher, arch/unix/macosx/Makefile.am:
+	fixes for gtk bundling on mac. changed to bundling a single
+	mac app with all emulators inside. added command line launcher
+	for emulators.
+
+2006-12-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/cbm2ui.c,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/mui/mui.h,
+	arch/amigaos/mui/uic128settings.c,
+	arch/amigaos/mui/uic128settings.h,
+	arch/amigaos/mui/uipetsettings.c,
+	arch/amigaos/mui/uipetsettings.h,
+	arch/amigaos/mui/uiplus4settings.c,
+	arch/amigaos/mui/uiplus4settings.h,
+	arch/amigaos/mui/uiromc128settings.c,
+	arch/amigaos/mui/uiromc128settings.h,
+	arch/amigaos/mui/uiromc64vic20settings.c,
+	arch/amigaos/mui/uiromc64vic20settings.h,
+	arch/amigaos/mui/uiromcbm2settings.c,
+	arch/amigaos/mui/uiromcbm2settings.h,
+	arch/amigaos/mui/uirompetsettings.c,
+	arch/amigaos/mui/uirompetsettings.h,
+	arch/amigaos/mui/uiromplus4settings.c,
+	arch/amigaos/mui/uiromplus4settings.h, arch/amigaos/petui.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4ui.c,
+	arch/amigaos/plus4uires.h, arch/amigaos/uires.h,
+	arch/amigaos/vic20ui.c, arch/amigaos/vic20uires.h: Added new
+	ui elements.
+
+	* arch/win32/c128ui.c: Fixed an accidental swap.
+
+2006-12-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ffmpeglib.c: Updated to load the latest
+	ffmpeg library (API 51)
+
+	* gfxoutputdrv/ffmpegdrv.c (ffmpegdrv_init_video): pix_fmt
+	needs to be set in the codec context.
+
+	* lib/libffmpeg/ffmpeg/*.h: Updated with latest ffmpeg
+	headers (ffmpeg snapshot from 5.12.2006) and some hacks to
+	make them compile with MSVC.
+
+2006-12-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/cbm2ui.c,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/mui/mui.c,
+	arch/amigaos/mui/mui.h, arch/amigaos/mui/uifliplist.c,
+	arch/amigaos/mui/uifliplist.h, arch/amigaos/mui/uisnapshot.c,
+	arch/amigaos/mui/uisnapshot.h, arch/amigaos/mui/uivideoc128.c,
+	arch/amigaos/mui/uivideoc128.h,
+	arch/amigaos/mui/uivideoc64plus4vic20.c,
+	arch/amigaos/mui/uivideoc64plus4vic20.h,
+	arch/amigaos/mui/uivideocbm2pet.c,
+	arch/amigaos/mui/uivideocbm2pet.h, arch/amigaos/petui.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4ui.c,
+	arch/amigaos/plus4uires.h, arch/amigaos/ui.c,
+	arch/amigaos/uires.h, arch/amigaos/vic20ui.c,
+	arch/amigaos/vic20uires.h: Added more ui support.
+
+	* arch/win32/res.rc, arch/win32/resplus4.rc: Updated some text
+	elements.
+
+	* c64/mmc64.c: Changed some C++ style comments to C style.
+
+	* sid/sid-cmdline-options.c: Fixed a typo.
+
 2006-12-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.18.

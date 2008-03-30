@@ -81,7 +81,7 @@ static const cmdline_option_t sidcart_cmdline_options[] = {
 #endif
     },
     { "-sidenable", SET_RESOURCE, 1, NULL, NULL, "SidCart", NULL,
-    NULL, N_("Ebable SID Cartridge") },
+    NULL, N_("Enable SID Cartridge") },
     { NULL }
 };
 #endif

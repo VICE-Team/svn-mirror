@@ -89,12 +89,6 @@
 #endif
 
 
-#ifdef AMIGA_AROS
-#include <proto/oop.h>
-#include <hidd/graphics.h>
-#define HIDD_BM_OBJ(bitmap) (*(OOP_Object **)&((bitmap)->Planes[0]))
-#endif
-
 #ifdef AMIGA_OS4
 struct Library *GadToolsBase = NULL;
 struct GadToolsIFace *IGadTools = NULL;
@@ -142,14 +136,6 @@ struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
 
 #ifdef AMIGA_AROS
 struct Library *LowLevelBase;
-struct Library *OOPBase;
-static OOP_AttrBase __IHidd_BitMap;
-static OOP_AttrBase __IHidd_Gfx;
-static OOP_Object *rastport_bmobj;
-static OOP_Object *gfxhidd;
-static OOP_Class *rastport_gfxhiddclass;
-static char *hidd_textname=NULL;
-static int hidd_is_nvidia=0;
 
 /* Use these on ALL amiga platforms not just AROS */
 UBYTE *unlockable_buffer = NULL;            /* Used to render the vice-buffer so we can WPA it into our backbuffer if we cant lock a bitmap! */
@@ -181,13 +167,11 @@ int video_init(void)
 #endif
 #ifdef AMIGA_AROS
       if ((LowLevelBase = OpenLibrary("lowlevel.library",37))) {
-        if ((OOPBase = OpenLibrary("oop.library",0))) {
 #endif
-          if (mui_init() == 0) {
-            return 0;
-          }
-#ifdef AMIGA_AROS
+        if (mui_init() == 0) {
+          return 0;
         }
+#ifdef AMIGA_AROS
       }
 #endif
     }
@@ -252,9 +236,6 @@ void video_shutdown(void)
 #ifdef AMIGA_AROS
   if (LowLevelBase) {
     CloseLibrary(LowLevelBase);
-  }
-  if (OOPBase) {
-    CloseLibrary(OOPBase);
   }
 #endif
 #else
@@ -674,15 +655,6 @@ reopenwindow:
 
   backRPort = CreateRastPort();
   backRPort->BitMap = canvas->os->window_bitmap;
-
-  __IHidd_BitMap = OOP_ObtainAttrBase(IID_Hidd_BitMap);
-  __IHidd_Gfx = OOP_ObtainAttrBase(IID_Hidd_Gfx);
-  OOP_Object *rastport_bmobj = HIDD_BM_OBJ(canvas->os->window->RPort->BitMap);
-  OOP_GetAttr(rastport_bmobj, aHidd_BitMap_GfxHidd, &gfxhidd);
-  rastport_gfxhiddclass = OOP_OCLASS(gfxhidd);
-  hidd_textname = rastport_gfxhiddclass->ClassNode.ln_Name;
-  if (!strcasecmp("hidd.gfx.nv",hidd_textname))
-    hidd_is_nvidia=1;
 #endif
 
   canvas->os->pixfmt = GetCyberMapAttr(canvas->os->window_bitmap, CYBRMATTR_PIXFMT);

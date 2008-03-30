@@ -207,7 +207,7 @@ static ui_to_from_t ui_to_from[] = {
 
 static APTR build_gui(void)
 {
-  static const char **drive_type_strings[4] = {
+  static char **drive_type_strings[4] = {
     drive_type_strings_8, drive_type_strings_9, drive_type_strings_10, drive_type_strings_11
   };
 

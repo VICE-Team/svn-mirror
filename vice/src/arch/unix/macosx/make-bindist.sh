@@ -58,8 +58,8 @@ if [ ! -d $TOOL_DIR ]; then
   mkdir $TOOL_DIR
 fi
 
-# define bundles and command line tools
-BUNDLES="x64 x128 xcbm2 xpet xplus4 xvic"
+# define emulators and command line tools
+EMULATORS="x64 x128 xcbm2 xpet xplus4 xvic"
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators
@@ -101,86 +101,145 @@ if [ ! -e $RUN_PATH/Info.plist ]; then
   exit 1
 fi
 
-# --- create each bundle ---
-for bundle in $BUNDLES ; do
-  echo -n "  bundling app $bundle.app: "  
-
-  APP_NAME=$BUILD_DIR/${bundle}.app
-  APP_CONTENTS=$APP_NAME/Contents
-  APP_MACOS=$APP_CONTENTS/MacOS
-  APP_RESOURCES=$APP_CONTENTS/Resources
-  APP_ROMS=$APP_RESOURCES/ROM
-  APP_DOCS=$APP_RESOURCES/doc
-  APP_BIN=$APP_RESOURCES/bin
-  APP_LIB=$APP_RESOURCES/lib
+# --- create VICE bundle ---
+APP_NAME=$BUILD_DIR/VICE.app
+APP_CONTENTS=$APP_NAME/Contents
+APP_MACOS=$APP_CONTENTS/MacOS
+APP_RESOURCES=$APP_CONTENTS/Resources
+APP_ROMS=$APP_RESOURCES/ROM
+APP_DOCS=$APP_RESOURCES/doc
+APP_BIN=$APP_RESOURCES/bin
+APP_LIB=$APP_RESOURCES/lib
+APP_ETC=$APP_RESOURCES/etc
   
-  if [ "$PLATYPUS" = "1" ]; then
-    # --- use platypus for bundling ---
-    echo -n "[platypus] "
-    $PLATYPUS_PATH \
-      -a $bundle \
+echo -n "  bundling VICE.app: "  
+if [ "$PLATYPUS" = "1" ]; then
+  # --- use platypus for bundling ---
+  echo -n "[platypus] "
+  $PLATYPUS_PATH \
+      -a VICE \
       -o none \
       -i $RUN_PATH/VICE.icns \
       -V "$VICE_VERSION" \
       -u "The VICE Team" \
-      -I "org.viceteam.$bundle" \
+      -I "org.viceteam.VICE" \
       -D -X "$DROP_TYPES" \
       $RUN_PATH/$LAUNCHER $APP_NAME
-  else
-    # --- (old) bundling without platypus ---
-    # create directory structure
-    echo -n "[app dirs] "
-    mkdir -p $APP_CONTENTS
-    mkdir -p $APP_MACOS
-    mkdir -p $APP_RESOURCES
 
-    # copy icons
-    echo -n "[icons] "
-    cp $RUN_PATH/VICE.icns $APP_RESOURCES/
+  # where is the launcher script
+  LAUNCHER_SCRIPT_REL="Resources/script"
+  # make launcher executable
+  chmod 755 $APP_RESOURCES/script
+else
+  # --- (old) bundling without platypus ---
+  # create directory structure
+  echo -n "[app dirs] "
+  mkdir -p $APP_CONTENTS
+  mkdir -p $APP_MACOS
+  mkdir -p $APP_RESOURCES
 
-    # setup Info.plist
-    echo -n "[Info.plist] "
-    sed -e "s/XNAMEX/$bundle/g" -e "s/XVERSIONX/$VICE_VERSION/g" \
-      < $RUN_PATH/Info.plist > $APP_CONTENTS/Info.plist
+  # copy icons
+  echo -n "[icons] "
+  cp $RUN_PATH/VICE.icns $APP_RESOURCES/
 
-    # copy launcher
-    echo -n "[launcher] "
-    if [ ! -e $RUN_PATH/$LAUNCHER ]; then
-      echo "ERROR: missing launcher script: $RUNPATH/$LAUNCHER"
-      exit 1
-    fi
-    MAIN_PROG=$APP_MACOS/$bundle
-    cp $RUN_PATH/$LAUNCHER $MAIN_PROG
-    chmod 755 $MAIN_PROG
-  fi
+  # setup Info.plist
+  echo -n "[Info.plist] "
+  sed -e "s/XVERSIONX/$VICE_VERSION/g" \
+    < $RUN_PATH/Info.plist > $APP_CONTENTS/Info.plist
 
-  # copy binary
-  mkdir -p $APP_BIN
-  echo -n "[binary] "
-  if [ ! -e src/$bundle ]; then
-    echo "ERROR: missing binary: src/$bundle"
+  # copy launcher
+  echo -n "[launcher] "
+  if [ ! -e $RUN_PATH/$LAUNCHER ]; then
+    echo "ERROR: missing launcher script: $RUNPATH/$LAUNCHER"
     exit 1
   fi
-  cp src/$bundle $APP_BIN/$bundle
+  MAIN_PROG=$APP_MACOS/VICE
+  cp $RUN_PATH/$LAUNCHER $MAIN_PROG
+  chmod 755 $MAIN_PROG
+
+  # where is the launcher script
+  LAUNCHER_SCRIPT_REL="MacOS/VICE"
+fi
+
+echo -n "[dirs] "
+mkdir -p $APP_ROMS
+mkdir -p $APP_DOCS
+mkdir -p $APP_BIN
+
+# copy roms and data into bundle
+echo -n "[common ROMs] "
+for rom in $ROM_COMMON ; do
+  if [ ! -d $TOP_DIR/data/$rom ]; then
+    echo "ERROR: missing ROM: $TOP_DIR/data/$rom"
+    exit 1
+  fi
+  cp -r $TOP_DIR/data/$rom $APP_ROMS/
+  (cd $APP_ROMS/$rom && eval "rm -f $ROM_REMOVE")
+done
+
+# copy html docs into bundle
+echo -n "[docs] "
+cp -r $TOP_DIR/doc/html/* $APP_DOCS/
+(cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
+
+# embed c1541
+echo -n "[c1541] "
+if [ ! -e src/c1541 ]; then
+  echo "ERROR: missing binary: src/c1541"
+  exit 1
+fi
+cp src/c1541 $APP_BIN/
+
+# strip embedded c1541 binary
+if [ x"$STRIP" = "xstrip" ]; then
+  echo -n "[strip c1541] "
+  /usr/bin/strip $APP_BIN/c1541
+fi
+
+# any dylibs required?
+if [ -d lib ]; then
+  mkdir -p $APP_LIB
+  DYLIBS=`find lib -name *.dylib`
+  NUMDYLIBS=`echo $DYLIBS | wc -w`
+  echo -n "[dylibs"
+  for lib in $DYLIBS ; do
+    echo -n "."
+    cp $lib $APP_LIB
+  done
+  echo -n "] "
+fi
+
+# any config files from /etc?
+if [ -d etc ]; then
+  mkdir -p $APP_ETC
+  echo -n "[etc"
+  (cd etc && tar cf - *) | (cd "$APP_ETC" && tar xf -)
+  echo -n "] "
+fi  
+
+# ready with bundle
+echo
+
+# --- embed emulators ---
+for emu in $EMULATORS ; do
+  echo -n "  embedding $emu: "
+  
+  # copy binary
+  echo -n "[binary] "
+  if [ ! -e src/$emu ]; then
+    echo "ERROR: missing binary: src/$emu"
+    exit 1
+  fi
+  cp src/$emu $APP_BIN/$emu
   
   # strip binary
   if [ x"$STRIP" = "xstrip" ]; then
     echo -n "[strip] "
-    /usr/bin/strip $APP_BIN/$bundle
+    /usr/bin/strip $APP_BIN/$emu
   fi
 
-  # copy roms and data into bundle
-  mkdir -p $APP_ROMS
-  echo -n "[common ROMs] "
-  for rom in $ROM_COMMON ; do
-    if [ ! -d $TOP_DIR/data/$rom ]; then
-      echo "ERROR: missing ROM: $TOP_DIR/data/$rom"
-      exit 1
-    fi
-    cp -r $TOP_DIR/data/$rom $APP_ROMS/
-    (cd $APP_ROMS/$rom && eval "rm -f $ROM_REMOVE")
-  done
-  eval "ROM=\${ROM_$bundle}"
+  # copy emulator ROM
+  eval "ROM=\${ROM_$emu}"
   echo -n "[ROM=$ROM] "
   if [ ! -d $TOP_DIR/data/$ROM ]; then
     echo "ERROR: missing ROM: $TOP_DIR/data/$ROM"
@@ -188,39 +247,6 @@ for bundle in $BUNDLES ; do
   fi
   cp -r $TOP_DIR/data/$ROM $APP_ROMS/
   (cd $APP_ROMS/$ROM && eval "rm -f $ROM_REMOVE")
-  
-  # copy html docs into bundle
-  mkdir -p $APP_DOCS
-  echo -n "[docs] "
-  cp -r $TOP_DIR/doc/html/* $APP_DOCS/
-  (cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
-  
-  # embed c1541
-  echo -n "[c1541] "
-  if [ ! -e src/c1541 ]; then
-    echo "ERROR: missing binary: src/c1541"
-    exit 1
-  fi
-  cp src/c1541 $APP_BIN/
-
-  # strip embedded c1541 binary
-  if [ x"$STRIP" = "xstrip" ]; then
-    echo -n "[strip c1541] "
-    /usr/bin/strip $APP_BIN/c1541
-  fi
-
-  # any dylibs required?
-  if [ -d lib ]; then
-    mkdir -p $APP_LIB
-    DYLIBS=`find lib -name *.dylib`
-    NUMDYLIBS=`echo $DYLIBS | wc -w`
-    echo -n "[dylibs"
-    for lib in $DYLIBS ; do
-      echo -n "."
-      cp $lib $APP_LIB
-    done
-    echo -n "] "
-  fi
   
   # ready
   echo
@@ -233,7 +259,7 @@ for tool in $TOOLS ; do
   # copy binary
   echo -n "[binary] "
   if [ ! -e src/$tool ]; then
-    echo "ERROR: missing binary: src/$bundle"
+    echo "ERROR: missing binary: src/$tool"
     exit 1
   fi
   cp src/$tool $TOOL_DIR/
@@ -248,6 +274,18 @@ for tool in $TOOLS ; do
   echo
 done
 
+# --- copy command line launcher ---
+echo "  copying command line launcher"
+if [ ! -e "$RUN_PATH/vice-launcher.sh" ]; then
+  echo "Error: '$RUN_PATH/vice-launcher.sh' is missing!"
+  exit 1
+fi
+cp $RUN_PATH/vice-launcher.sh $TOOL_DIR
+chmod 755 $TOOL_DIR/vice-launcher.sh
+for emu in $EMULATORS ; do
+  (cd $TOOL_DIR && ln -sf vice-launcher.sh $emu)
+done
+
 # --- copy docs ---
 echo "  copying documents"
 cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
@@ -255,6 +293,7 @@ cp $TOP_DIR/README $BUILD_DIR/README.txt
 cp -r $TOP_DIR/doc $BUILD_DIR/
 find $BUILD_DIR/doc -name "Makefile*" -exec rm {} \;
 (cd $BUILD_DIR/doc && eval "rm -f $DOC_REMOVE")
+mv $BUILD_DIR/doc/ReadmeMacOSX.txt $BUILD_DIR/
 
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
@@ -274,11 +313,7 @@ else
   hdiutil convert $BUILD_TMP_IMG -format UDZO -o $BUILD_IMG -ov -quiet
   rm -f $BUILD_TMP_IMG
 
-  # Zip image to compress it even more
-  echo "  gzipping DMG"
-  gzip -9 -f $BUILD_IMG
-
   echo "ready. created dist file: $BUILD_IMG"
-  du -sh $BUILD_IMG.gz
-  md5 -q $BUILD_IMG.gz
+  du -sh $BUILD_IMG
+  md5 -q $BUILD_IMG
 fi

@@ -1288,6 +1288,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_CBM2_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_CBM2_SETTINGS_SV, "CBM2-inställningar..."},
 
+/* en */ {IDMS_SET_PET_MODEL,    "Change PET model"},
+/* de */ {IDMS_SET_PET_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_SET_PET_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_SET_PET_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDMS_SET_PET_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_SET_PET_MODEL_NL, "Verander PET model"},
+/* pl */ {IDMS_SET_PET_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_SET_PET_MODEL_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_PET_SETTINGS,    "PET settings..."},
 /* de */ {IDMS_PET_SETTINGS_DE, "PET Einstellungen..."},
 /* fr */ {IDMS_PET_SETTINGS_FR, "Paramètres PET..."},
@@ -1396,14 +1405,23 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_SID_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_SID_SETTINGS_SV, "SID-inställningar..."},
 
-/* en */ {IDMS_ROM_SETTINGS,    "ROM settings..."},
-/* de */ {IDMS_ROM_SETTINGS_DE, "ROM Einstellungen..."},
-/* fr */ {IDMS_ROM_SETTINGS_FR, "Paramètres ROM..."},
-/* hu */ {IDMS_ROM_SETTINGS_HU, "ROM-ok beállításai..."},
-/* it */ {IDMS_ROM_SETTINGS_IT, "Impostazioni ROM..."},
-/* nl */ {IDMS_ROM_SETTINGS_NL, "ROM instellingen..."},
-/* pl */ {IDMS_ROM_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_ROM_SETTINGS_SV, "ROM-inställningar..."},
+/* en */ {IDMS_COMPUTER_ROM_SETTINGS,    "Computer ROM settings..."},
+/* de */ {IDMS_COMPUTER_ROM_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_COMPUTER_ROM_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_COMPUTER_ROM_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_COMPUTER_ROM_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_COMPUTER_ROM_SETTINGS_NL, "Computer ROM instellingen..."},
+/* pl */ {IDMS_COMPUTER_ROM_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_COMPUTER_ROM_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_DRIVE_ROM_SETTINGS,    "Drive ROM settings..."},
+/* de */ {IDMS_DRIVE_ROM_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_DRIVE_ROM_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_DRIVE_ROM_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_DRIVE_ROM_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_DRIVE_ROM_SETTINGS_NL, "Drive ROM instellingen..."},
+/* pl */ {IDMS_DRIVE_ROM_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_DRIVE_ROM_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_RAM_SETTINGS,    "RAM settings..."},
 /* de */ {IDMS_RAM_SETTINGS_DE, "RAM Einstellungen..."},
@@ -1675,6 +1693,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_NO_WARRANTY_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_NO_WARRANTY_SV, "Ingen garanti"},
 
+/* en */ {IDMS_LANGUAGE_INTERNATIONAL,    "International"},
+/* de */ {IDMS_LANGUAGE_INTERNATIONAL_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_LANGUAGE_INTERNATIONAL_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_LANGUAGE_INTERNATIONAL_HU, ""},  /* fuzzy */
+/* it */ {IDMS_LANGUAGE_INTERNATIONAL_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_LANGUAGE_INTERNATIONAL_NL, "Internationaal"},
+/* pl */ {IDMS_LANGUAGE_INTERNATIONAL_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_INTERNATIONAL_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_LANGUAGE_ENGLISH,    "English"},
 /* de */ {IDMS_LANGUAGE_ENGLISH_DE, "Englisch"},
 /* fr */ {IDMS_LANGUAGE_ENGLISH_FR, "Anglais"},
@@ -1692,6 +1719,15 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDMS_LANGUAGE_GERMAN_NL, "Duits"},
 /* pl */ {IDMS_LANGUAGE_GERMAN_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_LANGUAGE_GERMAN_SV, "Tyska"},
+
+/* en */ {IDMS_LANGUAGE_FINNISH,    "Finnish"},
+/* de */ {IDMS_LANGUAGE_FINNISH_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_LANGUAGE_FINNISH_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_LANGUAGE_FINNISH_HU, ""},  /* fuzzy */
+/* it */ {IDMS_LANGUAGE_FINNISH_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_LANGUAGE_FINNISH_NL, "Fins"},
+/* pl */ {IDMS_LANGUAGE_FINNISH_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_FINNISH_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_LANGUAGE_FRENCH,    "French"},
 /* de */ {IDMS_LANGUAGE_FRENCH_DE, "Französisch"},
@@ -1728,6 +1764,15 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDMS_LANGUAGE_DUTCH_NL, "Nederlands"},
 /* pl */ {IDMS_LANGUAGE_DUTCH_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_LANGUAGE_DUTCH_SV, "Nederländska"},
+
+/* en */ {IDMS_LANGUAGE_NORWEGIAN,    "Norwegian"},
+/* de */ {IDMS_LANGUAGE_NORWEGIAN_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_LANGUAGE_NORWEGIAN_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_LANGUAGE_NORWEGIAN_HU, ""},  /* fuzzy */
+/* it */ {IDMS_LANGUAGE_NORWEGIAN_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_LANGUAGE_NORWEGIAN_NL, "Noors"},
+/* pl */ {IDMS_LANGUAGE_NORWEGIAN_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_LANGUAGE_NORWEGIAN_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_LANGUAGE_POLISH,    "Polish"},
 /* de */ {IDMS_LANGUAGE_POLISH_DE, "Polnisch"},
@@ -3928,6 +3973,582 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_SIDCART_SETTINGS_NL, "SID cart instellingen"},
 /* pl */ {IDS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SIDCART_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_LOAD_FLIP_LIST_FILE,    "Load flip list file"},
+/* de */ {IDS_LOAD_FLIP_LIST_FILE_DE, "Fliplist Datei Laden"},
+/* fr */ {IDS_LOAD_FLIP_LIST_FILE_FR, "Charger un fichier de groupement de disques"},
+/* hu */ {IDS_LOAD_FLIP_LIST_FILE_HU, "Lemezlista betöltése"},
+/* it */ {IDS_LOAD_FLIP_LIST_FILE_IT, "Carica il file della fliplist"},
+/* nl */ {IDS_LOAD_FLIP_LIST_FILE_NL, "Laad flip lijst bestand"},
+/* pl */ {IDS_LOAD_FLIP_LIST_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_LOAD_FLIP_LIST_FILE_SV, "Läs vallistefil"},
+
+/* en */ {IDS_CANNOT_READ_FLIP_LIST,    "Cannot read flip list file"},
+/* de */ {IDS_CANNOT_READ_FLIP_LIST_DE, "Lesen von Fliplist Datei fehlgeschlagen"},
+/* fr */ {IDS_CANNOT_READ_FLIP_LIST_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CANNOT_READ_FLIP_LIST_HU, "Nem lehet olvasni a lemezlista fájlt"},
+/* it */ {IDS_CANNOT_READ_FLIP_LIST_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CANNOT_READ_FLIP_LIST_NL, "Kan het flip lijst bestand niet lezen"},
+/* pl */ {IDS_CANNOT_READ_FLIP_LIST_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_READ_FLIP_LIST_SV, "Kunde inte läsa vallistefil"},
+
+/* en */ {IDS_SAVE_FLIP_LIST_FILE,    "Save flip list file"},
+/* de */ {IDS_SAVE_FLIP_LIST_FILE_DE, "Fliplist Datei Speichern"},
+/* fr */ {IDS_SAVE_FLIP_LIST_FILE_FR, "Enregistrer le fichier de groupement de disques actuel"},
+/* hu */ {IDS_SAVE_FLIP_LIST_FILE_HU, "Lemezlista mentése fájlba"},
+/* it */ {IDS_SAVE_FLIP_LIST_FILE_IT, "Salva il file della fliplist"},
+/* nl */ {IDS_SAVE_FLIP_LIST_FILE_NL, "Flip lijst bestand opslaan"},
+/* pl */ {IDS_SAVE_FLIP_LIST_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_FLIP_LIST_FILE_SV, "Spara vallistefil"},
+
+/* en */ {IDS_CANNOT_WRITE_FLIP_LIST,    "Cannot write flip list file"},
+/* de */ {IDS_CANNOT_WRITE_FLIP_LIST_DE, "Schreiben von Fliplist Datei fehlgeschlagen"},
+/* fr */ {IDS_CANNOT_WRITE_FLIP_LIST_FR, "Impossible d'écrire le fichier de groupement de disques"},
+/* hu */ {IDS_CANNOT_WRITE_FLIP_LIST_HU, "Nem sikerült a lemezlistát fájlba írni"},
+/* it */ {IDS_CANNOT_WRITE_FLIP_LIST_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CANNOT_WRITE_FLIP_LIST_NL, "Kan flip lijst bestand niet schrijven"},
+/* pl */ {IDS_CANNOT_WRITE_FLIP_LIST_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_WRITE_FLIP_LIST_SV, "Kan inte skriva vallistefil"},
+
+/* en */ {IDS_ATTACH_FUNCTION_LOW_CART,    "Attach cartridge image for Function Low"},
+/* de */ {IDS_ATTACH_FUNCTION_LOW_CART_DE, "Funktions ROM (low) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_FUNCTION_LOW_CART_FR, "Insérer une cartouche Fonction basse"},
+/* hu */ {IDS_ATTACH_FUNCTION_LOW_CART_HU, "Cartridge képmás csatolása Function Low-hoz"},
+/* it */ {IDS_ATTACH_FUNCTION_LOW_CART_IT, "Seleziona l'immagine di una cartuccia per la Function Low"},
+/* nl */ {IDS_ATTACH_FUNCTION_LOW_CART_NL, "Koppel cartridge bestand voor 'Function Low'"},
+/* pl */ {IDS_ATTACH_FUNCTION_LOW_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_FUNCTION_LOW_CART_SV, "Anslut insticksmodulfil för funktion låg"},
+
+/* en */ {IDS_ATTACH_FUNCTION_HIGH_CART,    "Attach cartridge image for Function High"},
+/* de */ {IDS_ATTACH_FUNCTION_HIGH_CART_DE, "Funktions ROM (high) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_FUNCTION_HIGH_CART_FR, "Insérer une cartouche Fonction haute"},
+/* hu */ {IDS_ATTACH_FUNCTION_HIGH_CART_HU, "Cartridge képmás csatolása Function High-hez"},
+/* it */ {IDS_ATTACH_FUNCTION_HIGH_CART_IT, "Seleziona l'immagine di una cartuccia per la Function High"},
+/* nl */ {IDS_ATTACH_FUNCTION_HIGH_CART_NL, "Koppel cartridge bestand voor 'Function High'"},
+/* pl */ {IDS_ATTACH_FUNCTION_HIGH_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_FUNCTION_HIGH_CART_SV, "Anslut insticksmodulfil för funktion hög"},
+
+/* en */ {IDS_ATTACH_CART1_LOW,    "Attach cartridge image for Cartridge1 Low"},
+/* de */ {IDS_ATTACH_CART1_LOW_DE, "Cartridge1 (low) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_CART1_LOW_FR, "Insérer une cartouche pour Cartouche1 basse"},
+/* hu */ {IDS_ATTACH_CART1_LOW_HU, "Cartridge képmás csatolása alsó Cartridge1-hez"},
+/* it */ {IDS_ATTACH_CART1_LOW_IT, "Seleziona l'immagine di una cartuccia per la Cartridge1 Low"},
+/* nl */ {IDS_ATTACH_CART1_LOW_NL, "Koppel cartridge bestand voor 'Cartridge1 Low'"},
+/* pl */ {IDS_ATTACH_CART1_LOW_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_CART1_LOW_SV, "Anslut insticksmodulfil för modul1 låg"},
+
+/* en */ {IDS_ATTACH_CART1_HIGH,    "Attach cartridge image for Cartridge1 High"},
+/* de */ {IDS_ATTACH_CART1_HIGH_DE, "Cartridge1 (high) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_CART1_HIGH_FR, "Insérer une cartouche pour Cartouche1 haute"},
+/* hu */ {IDS_ATTACH_CART1_HIGH_HU, "Cartridge képmás csatolása felsõ Cartridge1-hez"},
+/* it */ {IDS_ATTACH_CART1_HIGH_IT, "Seleziona l'immagine di una cartuccia per la Cartridge1 High"},
+/* nl */ {IDS_ATTACH_CART1_HIGH_NL, "Koppel cartridge bestand voor 'Cartridge1 High'"},
+/* pl */ {IDS_ATTACH_CART1_HIGH_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_CART1_HIGH_SV, "Anslut insticksmodulfil för modul1 hög"},
+
+/* en */ {IDS_ATTACH_CART2_LOW,    "Attach cartridge image for Cartridge2 Low"},
+/* de */ {IDS_ATTACH_CART2_LOW_DE, "Cartridge2 (low) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_CART2_LOW_FR, "Insérer une cartouche pour Cartouche2 basse"},
+/* hu */ {IDS_ATTACH_CART2_LOW_HU, "Cartridge képmás csatolása alsó Cartridge2-höz"},
+/* it */ {IDS_ATTACH_CART2_LOW_IT, "Seleziona l'immagine di una cartuccia per la Cartridge2 Low"},
+/* nl */ {IDS_ATTACH_CART2_LOW_NL, "Koppel cartridge bestand voor 'Cartridge2 Low'"},
+/* pl */ {IDS_ATTACH_CART2_LOW_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_CART2_LOW_SV, "Anslut insticksmodulfil för modul2 låg"},
+
+/* en */ {IDS_ATTACH_CART2_HIGH,    "Attach cartridge image for Cartridge2 High"},
+/* de */ {IDS_ATTACH_CART2_HIGH_DE, "Cartridge2 (high) Erweiterungsmodul einlegen"},
+/* fr */ {IDS_ATTACH_CART2_HIGH_FR, "Insérer une cartouche pour Cartouche2 haute"},
+/* hu */ {IDS_ATTACH_CART2_HIGH_HU, "Cartridge képmás csatolása felsõ Cartridge2-höz"},
+/* it */ {IDS_ATTACH_CART2_HIGH_IT, "Seleziona l'immagine di una cartuccia per la Cartridge2 High"},
+/* nl */ {IDS_ATTACH_CART2_HIGH_NL, "Koppel cartridge bestand voor 'Cartridge2 High'"},
+/* pl */ {IDS_ATTACH_CART2_HIGH_PL, ""},  /* fuzzy */
+/* sv */ {IDS_ATTACH_CART2_HIGH_SV, "Anslut insticksmodulfil för modul2 hög"},
+
+/* en */ {IDS_SAVE_SNAPSHOT_IMAGE,    "Save snapshot image"},
+/* de */ {IDS_SAVE_SNAPSHOT_IMAGE_DE, "Snapshot Datei speichern"},
+/* fr */ {IDS_SAVE_SNAPSHOT_IMAGE_FR, "Enregistrer le fichier de sauvegarde"},
+/* hu */ {IDS_SAVE_SNAPSHOT_IMAGE_HU, "Pillanatkép fájl mentése"},
+/* it */ {IDS_SAVE_SNAPSHOT_IMAGE_IT, "Salva l'immagine dello snapshot"},
+/* nl */ {IDS_SAVE_SNAPSHOT_IMAGE_NL, "Momentopname bestand opslaan"},
+/* pl */ {IDS_SAVE_SNAPSHOT_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_SNAPSHOT_IMAGE_SV, "Spara ögonblicksbildfil"},
+
+/* en */ {IDS_LOAD_SNAPSHOT_IMAGE,    "Load snapshot image"},
+/* de */ {IDS_LOAD_SNAPSHOT_IMAGE_DE, "Snapshot laden"},
+/* fr */ {IDS_LOAD_SNAPSHOT_IMAGE_FR, "Charger le fichier de sauvegarde"},
+/* hu */ {IDS_LOAD_SNAPSHOT_IMAGE_HU, "Pillanatkép betöltése"},
+/* it */ {IDS_LOAD_SNAPSHOT_IMAGE_IT, "Carica immagine dello snapshot"},
+/* nl */ {IDS_LOAD_SNAPSHOT_IMAGE_NL, "Laad momentopname bestand"},
+/* pl */ {IDS_LOAD_SNAPSHOT_IMAGE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_LOAD_SNAPSHOT_IMAGE_SV, "Läser in ögonblicksbild"},
+
+/* en */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS,    "Save currently attached disk images"},
+/* de */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_DE, "Aktuell eingelegte Diskimages speichern"},
+/* fr */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_FR, "Sauvegarder les disques présentement insérés"},
+/* hu */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_HU, "A jelenleg csatolt lemezek mentése"},
+/* it */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_IT, "Salva le immagini dei dischi attualmente selezionati"},
+/* nl */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_NL, "Opslaan huidig gekoppelde disks"},
+/* pl */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_CURRENTLY_ATTACHED_DISKS_SV, "Spara anslutna disketter diskettavbildningar"},
+
+/* en */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS,    "Save currently loaded ROM images"},
+/* de */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_DE, "Aktuelle ROMs speichern"},
+/* fr */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_FR, "Sauvegarder les images ROM présentement chargés"},
+/* hu */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_HU, "A jelenleg betöltött ROM-ok mentése"},
+/* it */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_IT, "Salva le immagini delle ROM attualmente caricate"},
+/* nl */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_NL, "Opslaan huidig gekoppelde ROMs"},
+/* pl */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_CURRENTLY_ATTACHED_ROMS_SV, "Spara lästa ROM-avbildningar"},
+
+/* en */ {IDS_CANNOT_WRITE_SNAPSHOT_S,    "Cannot write snapshot file `%s'."},
+/* de */ {IDS_CANNOT_WRITE_SNAPSHOT_S_DE, "Kann Snapshot Datei `%s' nicht speichern."},
+/* fr */ {IDS_CANNOT_WRITE_SNAPSHOT_S_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CANNOT_WRITE_SNAPSHOT_S_HU, "Nem sikerült a pillanatkép írása %s fájlba."},
+/* it */ {IDS_CANNOT_WRITE_SNAPSHOT_S_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CANNOT_WRITE_SNAPSHOT_S_NL, "Kan momentopname bestand `%s' niet schrijven."},
+/* pl */ {IDS_CANNOT_WRITE_SNAPSHOT_S_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_WRITE_SNAPSHOT_S_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_CANNOT_READ_SNAPSHOT_IMG,    "Cannot read snapshot image"},
+/* de */ {IDS_CANNOT_READ_SNAPSHOT_IMG_DE, "Kann Snapshot Datei nicht laden"},
+/* fr */ {IDS_CANNOT_READ_SNAPSHOT_IMG_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "Nem sikerült betölteni a pillanatkép fájlt"},
+/* it */ {IDS_CANNOT_READ_SNAPSHOT_IMG_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_NL, "Kan momentopname bestand niet lezen"},
+/* pl */ {IDS_CANNOT_READ_SNAPSHOT_IMG_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CANNOT_READ_SNAPSHOT_IMG_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SNAPSHOT_FILE,    "snapshot file"},
+/* de */ {IDS_SNAPSHOT_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SNAPSHOT_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SNAPSHOT_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SNAPSHOT_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SNAPSHOT_FILE_NL, "momentopname bestand"},
+/* pl */ {IDS_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SNAPSHOT_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SELECT_SNAPSHOT_FILE,    "Select snapshot file"},
+/* de */ {IDS_SELECT_SNAPSHOT_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_SNAPSHOT_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_SNAPSHOT_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_SNAPSHOT_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_SNAPSHOT_FILE_NL, "Selecteer momentopname bestand"},
+/* pl */ {IDS_SELECT_SNAPSHOT_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_SNAPSHOT_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_FAST_PAL,    "Fast PAL"},
+/* de */ {IDS_FAST_PAL_DE, ""},  /* fuzzy */
+/* fr */ {IDS_FAST_PAL_FR, ""},  /* fuzzy */
+/* hu */ {IDS_FAST_PAL_HU, ""},  /* fuzzy */
+/* it */ {IDS_FAST_PAL_IT, ""},  /* fuzzy */
+/* nl */ {IDS_FAST_PAL_NL, "Snelle PAL"},
+/* pl */ {IDS_FAST_PAL_PL, ""},  /* fuzzy */
+/* sv */ {IDS_FAST_PAL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_PAL_EMULATION,    "PAL Emulation"},
+/* de */ {IDS_PAL_EMULATION_DE, "PAL Emulation"},
+/* fr */ {IDS_PAL_EMULATION_FR, "Émulation PAL"},
+/* hu */ {IDS_PAL_EMULATION_HU, "PAL emuláció"},
+/* it */ {IDS_PAL_EMULATION_IT, "Emulazione PAL"},
+/* nl */ {IDS_PAL_EMULATION_NL, "PAL Emulatie"},
+/* pl */ {IDS_PAL_EMULATION_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PAL_EMULATION_SV, "PAL-emulering"},
+
+/* en */ {IDS_EXTERNAL_PALETTE_SELECT,    "Select External Palette file"},
+/* de */ {IDS_EXTERNAL_PALETTE_SELECT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_EXTERNAL_PALETTE_SELECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_EXTERNAL_PALETTE_SELECT_HU, ""},  /* fuzzy */
+/* it */ {IDS_EXTERNAL_PALETTE_SELECT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_EXTERNAL_PALETTE_SELECT_NL, "Selecteer extern palette bestand"},
+/* pl */ {IDS_EXTERNAL_PALETTE_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_PALETTE_SELECT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_GAMMA_0_2,    "Gamma (0..2)"},
+/* de */ {IDS_GAMMA_0_2_DE, "Gamma (0..2)"},
+/* fr */ {IDS_GAMMA_0_2_FR, "Intensité (0..2)"},
+/* hu */ {IDS_GAMMA_0_2_HU, "Gamma (0..2)"},
+/* it */ {IDS_GAMMA_0_2_IT, "Gamma (0..2)"},
+/* nl */ {IDS_GAMMA_0_2_NL, "Gamma (0..2)"},
+/* pl */ {IDS_GAMMA_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GAMMA_0_2_SV, "Gamma (0..2)"},
+
+/* en */ {IDS_PAL_SHADE_0_1,    "PAL Shade (0..1)"},
+/* de */ {IDS_PAL_SHADE_0_1_DE, "PAL Schatten (0..1)"},
+/* fr */ {IDS_PAL_SHADE_0_1_FR, "Ombrage PAL (0..1)"},
+/* hu */ {IDS_PAL_SHADE_0_1_HU, "PAL pászta árnyalás (0..2)"},
+/* it */ {IDS_PAL_SHADE_0_1_IT, "Ombra PAL (0..1)"},
+/* nl */ {IDS_PAL_SHADE_0_1_NL, "PAL Schaduw (0..1)"},
+/* pl */ {IDS_PAL_SHADE_0_1_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PAL_SHADE_0_1_SV, "PAL-skuggning (0..1)"},
+
+/* en */ {IDS_PAL_BLUR_0_1,    "PAL Blur (0..1)"},
+/* de */ {IDS_PAL_BLUR_0_1_DE, "PAL Unschärfe (0..1)"},
+/* fr */ {IDS_PAL_BLUR_0_1_FR, "Flou PAL (0..1)"},
+/* hu */ {IDS_PAL_BLUR_0_1_HU, "PAL elmosás (0..1)"},
+/* it */ {IDS_PAL_BLUR_0_1_IT, "Sfuocatura PAL (0..1)"},
+/* nl */ {IDS_PAL_BLUR_0_1_NL, "PAL Wazigheid (0..1)"},
+/* pl */ {IDS_PAL_BLUR_0_1_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PAL_BLUR_0_1_SV, "PAL-suddighet (0..1)"},
+
+/* en */ {IDS_PAL_MODE,    "PAL Mode"},
+/* de */ {IDS_PAL_MODE_DE, "PAL Modus"},
+/* fr */ {IDS_PAL_MODE_FR, "Mode PAL"},
+/* hu */ {IDS_PAL_MODE_HU, "PAL mód"},
+/* it */ {IDS_PAL_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_PAL_MODE_NL, "PAL Modus"},
+/* pl */ {IDS_PAL_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PAL_MODE_SV, "PAL-läge"},
+
+/* en */ {IDS_EXTERNAL_PALETTE,    "External Palette"},
+/* de */ {IDS_EXTERNAL_PALETTE_DE, "Externe Farbtabelle"},
+/* fr */ {IDS_EXTERNAL_PALETTE_FR, "Palette externe"},
+/* hu */ {IDS_EXTERNAL_PALETTE_HU, "Külsõ színkészlet"},
+/* it */ {IDS_EXTERNAL_PALETTE_IT, "Palette esterna"},
+/* nl */ {IDS_EXTERNAL_PALETTE_NL, "Extern Palette"},
+/* pl */ {IDS_EXTERNAL_PALETTE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_PALETTE_SV, "Extern palett"},
+
+/* en */ {IDS_PALETTE_FILENAME,    "Palette file"},
+/* de */ {IDS_PALETTE_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_PALETTE_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_PALETTE_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_PALETTE_FILENAME_NL, "Palette bestand"},
+/* pl */ {IDS_PALETTE_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SATURATION_0_2,    "Saturation (0..2)"},
+/* de */ {IDS_SATURATION_0_2_DE, "Sättigung (0..2)"},
+/* fr */ {IDS_SATURATION_0_2_FR, "Saturation (0..2)"},
+/* hu */ {IDS_SATURATION_0_2_HU, "Telítettség (0..2)"},
+/* it */ {IDS_SATURATION_0_2_IT, "Saturazione (0..2)"},
+/* nl */ {IDS_SATURATION_0_2_NL, "Verzadiging (0..2)"},
+/* pl */ {IDS_SATURATION_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SATURATION_0_2_SV, "Mättnad (0..2)"},
+
+/* en */ {IDS_CONTRAST_0_2,    "Contrast (0..2)"},
+/* de */ {IDS_CONTRAST_0_2_DE, "Kontrast (0..2)"},
+/* fr */ {IDS_CONTRAST_0_2_FR, "Contraste (0..2)"},
+/* hu */ {IDS_CONTRAST_0_2_HU, "Kontraszt (0..2)"},
+/* it */ {IDS_CONTRAST_0_2_IT, "Contrasto (0..2)"},
+/* nl */ {IDS_CONTRAST_0_2_NL, "Contrast (0..2)"},
+/* pl */ {IDS_CONTRAST_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CONTRAST_0_2_SV, "Kontrast (0..2)"},
+
+/* en */ {IDS_BRIGHTNESS_0_2,    "Brightness (0..2)"},
+/* de */ {IDS_BRIGHTNESS_0_2_DE, "Helligkeit (0..2)"},
+/* fr */ {IDS_BRIGHTNESS_0_2_FR, "Luminosité (0..2)"},
+/* hu */ {IDS_BRIGHTNESS_0_2_HU, "Fényesség (0..2)"},
+/* it */ {IDS_BRIGHTNESS_0_2_IT, "Luminosità (0..2)"},
+/* nl */ {IDS_BRIGHTNESS_0_2_NL, "Helderheid (0..2)"},
+/* pl */ {IDS_BRIGHTNESS_0_2_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BRIGHTNESS_0_2_SV, "Ljusstyrka (0..2)"},
+
+/* en */ {IDS_VIDEO_SETTINGS,    "Video settings"},
+/* de */ {IDS_VIDEO_SETTINGS_DE, "Video Einstellungen"},
+/* fr */ {IDS_VIDEO_SETTINGS_FR, "Paramètres vidéo"},
+/* hu */ {IDS_VIDEO_SETTINGS_HU, "Videó beállításai"},
+/* it */ {IDS_VIDEO_SETTINGS_IT, "Impostazioni video"},
+/* nl */ {IDS_VIDEO_SETTINGS_NL, "Video Instellingen"},
+/* pl */ {IDS_VIDEO_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_VIDEO_SETTINGS_SV, "Grafikinställningar"},
+
+/* en */ {IDS_VICII_PALETTE_FILENAME,    "VICII Palette file"},
+/* de */ {IDS_VICII_PALETTE_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_VICII_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_VICII_PALETTE_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_VICII_PALETTE_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_VICII_PALETTE_FILENAME_NL, "VICII Palette bestand"},
+/* pl */ {IDS_VICII_PALETTE_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_VICII_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_VDC_PALETTE_FILENAME,    "VDC Palette file"},
+/* de */ {IDS_VDC_PALETTE_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_VDC_PALETTE_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_VDC_PALETTE_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_VDC_PALETTE_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_VDC_PALETTE_FILENAME_NL, "VDC Palette bestand"},
+/* pl */ {IDS_VDC_PALETTE_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_VDC_PALETTE_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_AUTO_FROM_ROM,    "Auto (from ROM)"},
+/* de */ {IDS_AUTO_FROM_ROM_DE, ""},  /* fuzzy */
+/* fr */ {IDS_AUTO_FROM_ROM_FR, ""},  /* fuzzy */
+/* hu */ {IDS_AUTO_FROM_ROM_HU, ""},  /* fuzzy */
+/* it */ {IDS_AUTO_FROM_ROM_IT, ""},  /* fuzzy */
+/* nl */ {IDS_AUTO_FROM_ROM_NL, "Automatisch (van ROM)"},
+/* pl */ {IDS_AUTO_FROM_ROM_PL, ""},  /* fuzzy */
+/* sv */ {IDS_AUTO_FROM_ROM_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_40_COLUMNS,    "40 Columns"},
+/* de */ {IDS_40_COLUMNS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_40_COLUMNS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_40_COLUMNS_HU, ""},  /* fuzzy */
+/* it */ {IDS_40_COLUMNS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_40_COLUMNS_NL, "40 Kolommen"},
+/* pl */ {IDS_40_COLUMNS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_40_COLUMNS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_80_COLUMNS,    "80 Columns"},
+/* de */ {IDS_80_COLUMNS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_80_COLUMNS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_80_COLUMNS_HU, ""},  /* fuzzy */
+/* it */ {IDS_80_COLUMNS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_80_COLUMNS_NL, "80 Kolommen"},
+/* pl */ {IDS_80_COLUMNS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_80_COLUMNS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_256_BYTE,    "256 Byte"},
+/* de */ {IDS_256_BYTE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_256_BYTE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_256_BYTE_HU, ""},  /* fuzzy */
+/* it */ {IDS_256_BYTE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_256_BYTE_NL, "256 Byte"},
+/* pl */ {IDS_256_BYTE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_256_BYTE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_2_KBYTE,    "2 kByte"},
+/* de */ {IDS_2_KBYTE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_2_KBYTE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_2_KBYTE_HU, ""},  /* fuzzy */
+/* it */ {IDS_2_KBYTE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_2_KBYTE_NL, "2 kByte"},
+/* pl */ {IDS_2_KBYTE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_2_KBYTE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_GRAPHICS,    "Graphics"},
+/* de */ {IDS_GRAPHICS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_GRAPHICS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_GRAPHICS_HU, ""},  /* fuzzy */
+/* it */ {IDS_GRAPHICS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_GRAPHICS_NL, "Graphics"},
+/* pl */ {IDS_GRAPHICS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GRAPHICS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_BUSINESS_UK,    "Business (UK)"},
+/* de */ {IDS_BUSINESS_UK_DE, ""},  /* fuzzy */
+/* fr */ {IDS_BUSINESS_UK_FR, ""},  /* fuzzy */
+/* hu */ {IDS_BUSINESS_UK_HU, ""},  /* fuzzy */
+/* it */ {IDS_BUSINESS_UK_IT, ""},  /* fuzzy */
+/* nl */ {IDS_BUSINESS_UK_NL, "Business (UK)"},
+/* pl */ {IDS_BUSINESS_UK_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BUSINESS_UK_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SET_PET_MODEL,    "Set PET Model"},
+/* de */ {IDS_SET_PET_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SET_PET_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SET_PET_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDS_SET_PET_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SET_PET_MODEL_NL, "Zet PET Model"},
+/* pl */ {IDS_SET_PET_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SET_PET_MODEL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_MEMORY,    "Memory"},
+/* de */ {IDS_MEMORY_DE, "Speicher"},
+/* fr */ {IDS_MEMORY_FR, "Mémoire"},
+/* hu */ {IDS_MEMORY_HU, "Memória"},
+/* it */ {IDS_MEMORY_IT, "Memoria"},
+/* nl */ {IDS_MEMORY_NL, "Geheugen"},
+/* pl */ {IDS_MEMORY_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MEMORY_SV, "Minne"},
+
+/* en */ {IDS_VIDEO_SIZE,    "Video size"},
+/* de */ {IDS_VIDEO_SIZE_DE, "Videospeichergröße"},
+/* fr */ {IDS_VIDEO_SIZE_FR, "Taille vidéo"},
+/* hu */ {IDS_VIDEO_SIZE_HU, "Videó méret"},
+/* it */ {IDS_VIDEO_SIZE_IT, "Dimensione dello schermo"},
+/* nl */ {IDS_VIDEO_SIZE_NL, "Video grootte"},
+/* pl */ {IDS_VIDEO_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_VIDEO_SIZE_SV, "Skärmbredd"},
+
+/* en */ {IDS_IO_SIZE,    "I/O size"},
+/* de */ {IDS_IO_SIZE_DE, "I/O Größe"},
+/* fr */ {IDS_IO_SIZE_FR, "Taille d'E/S"},
+/* hu */ {IDS_IO_SIZE_HU, "I/O méret"},
+/* it */ {IDS_IO_SIZE_IT, "Dimensione di I/O"},
+/* nl */ {IDS_IO_SIZE_NL, "I/O grootte"},
+/* pl */ {IDS_IO_SIZE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_IO_SIZE_SV, "I/O-utrymme"},
+
+/* en */ {IDS_KEYBOARD,    "Keyboard"},
+/* de */ {IDS_KEYBOARD_DE, "Tastatur"},
+/* fr */ {IDS_KEYBOARD_FR, ""},  /* fuzzy */
+/* hu */ {IDS_KEYBOARD_HU, "Billentyûzet"},
+/* it */ {IDS_KEYBOARD_IT, "Tastiera"},
+/* nl */ {IDS_KEYBOARD_NL, "Toetsenbord"},
+/* pl */ {IDS_KEYBOARD_PL, ""},  /* fuzzy */
+/* sv */ {IDS_KEYBOARD_SV, "Tangentbord"},
+
+/* en */ {IDS_CRTC_CHIP,    "CRTC chip"},
+/* de */ {IDS_CRTC_CHIP_DE, ""},  /* fuzzy */
+/* fr */ {IDS_CRTC_CHIP_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CRTC_CHIP_HU, ""},  /* fuzzy */
+/* it */ {IDS_CRTC_CHIP_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CRTC_CHIP_NL, "CRTC chip"},
+/* pl */ {IDS_CRTC_CHIP_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CRTC_CHIP_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SUPERPET_IO,    "SuperPET I/O enable (disables 8x96)"},
+/* de */ {IDS_SUPERPET_IO_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SUPERPET_IO_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SUPERPET_IO_HU, ""},  /* fuzzy */
+/* it */ {IDS_SUPERPET_IO_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SUPERPET_IO_NL, "SuperPET I/O aktiveren (zet 8x96 uit)"},
+/* pl */ {IDS_SUPERPET_IO_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SUPERPET_IO_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_9xxx_AS_RAM,    "$9*** as RAM"},
+/* de */ {IDS_9xxx_AS_RAM_DE, ""},  /* fuzzy */
+/* fr */ {IDS_9xxx_AS_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDS_9xxx_AS_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDS_9xxx_AS_RAM_IT, ""},  /* fuzzy */
+/* nl */ {IDS_9xxx_AS_RAM_NL, "$9*** als RAM"},
+/* pl */ {IDS_9xxx_AS_RAM_PL, ""},  /* fuzzy */
+/* sv */ {IDS_9xxx_AS_RAM_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_Axxx_AS_RAM,    "$A*** as RAM"},
+/* de */ {IDS_Axxx_AS_RAM_DE, ""},  /* fuzzy */
+/* fr */ {IDS_Axxx_AS_RAM_FR, ""},  /* fuzzy */
+/* hu */ {IDS_Axxx_AS_RAM_HU, ""},  /* fuzzy */
+/* it */ {IDS_Axxx_AS_RAM_IT, ""},  /* fuzzy */
+/* nl */ {IDS_Axxx_AS_RAM_NL, "$A*** als RAM"},
+/* pl */ {IDS_Axxx_AS_RAM_PL, ""},  /* fuzzy */
+/* sv */ {IDS_Axxx_AS_RAM_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_PET_SETTINGS,    "PET settings"},
+/* de */ {IDS_PET_SETTINGS_DE, "PET Einstellungen"},
+/* fr */ {IDS_PET_SETTINGS_FR, "Paramètres PET"},
+/* hu */ {IDS_PET_SETTINGS_HU, "PET beállításai"},
+/* it */ {IDS_PET_SETTINGS_IT, "Impostazioni del PET"},
+/* nl */ {IDS_PET_SETTINGS_NL, "PET instellingen"},
+/* pl */ {IDS_PET_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PET_SETTINGS_SV, "PET-inställningar"},
+
+/* en */ {IDS_CURRENT_MODEL,    "Current Model"},
+/* de */ {IDS_CURRENT_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDS_CURRENT_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CURRENT_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDS_CURRENT_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CURRENT_MODEL_NL, "Huidig Model"},
+/* pl */ {IDS_CURRENT_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CURRENT_MODEL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_PET_MODEL,    "PET Model"},
+/* de */ {IDS_PET_MODEL_DE, ""},  /* fuzzy */
+/* fr */ {IDS_PET_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDS_PET_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDS_PET_MODEL_IT, ""},  /* fuzzy */
+/* nl */ {IDS_PET_MODEL_NL, "PET Model"},
+/* pl */ {IDS_PET_MODEL_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PET_MODEL_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_PLUS4_SETTINGS,    "PLUS4 settings"},
+/* de */ {IDS_PLUS4_SETTINGS_DE, "PLUS4 Einstellungen"},
+/* fr */ {IDS_PLUS4_SETTINGS_FR, "Paramètres PLUS4"},
+/* hu */ {IDS_PLUS4_SETTINGS_HU, "PLUS4 beállításai"},
+/* it */ {IDS_PLUS4_SETTINGS_IT, "Impostazioni del PLUS4"},
+/* nl */ {IDS_PLUS4_SETTINGS_NL, "PLUS4 instellingen"},
+/* pl */ {IDS_PLUS4_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PLUS4_SETTINGS_SV, "PLUS4-inställningar"},
+
+/* en */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME,    "Select Internal Function ROM file"},
+/* de */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer Intern Functie ROM bestand"},
+/* pl */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_INTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME,    "Select External Function ROM file"},
+/* de */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Selecteer Extern Functie ROM bestand"},
+/* pl */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_EXTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_MACHINE_TYPE,    "Machine type"},
+/* de */ {IDS_MACHINE_TYPE_DE, "Maschinen Typ"},
+/* fr */ {IDS_MACHINE_TYPE_FR, "Type de machine"},
+/* hu */ {IDS_MACHINE_TYPE_HU, "Gép típus"},
+/* it */ {IDS_MACHINE_TYPE_IT, "Tipo di macchina"},
+/* nl */ {IDS_MACHINE_TYPE_NL, "Machine soort"},
+/* pl */ {IDS_MACHINE_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MACHINE_TYPE_SV, "Maskintyp"},
+
+/* en */ {IDS_INTERNAL_FUNCTION_ROM,    "Internal Function ROM"},
+/* de */ {IDS_INTERNAL_FUNCTION_ROM_DE, "Internes Funktions ROM"},
+/* fr */ {IDS_INTERNAL_FUNCTION_ROM_FR, "Image ROM Fonction interne"},
+/* hu */ {IDS_INTERNAL_FUNCTION_ROM_HU, "Belsõ Funcion ROM"},
+/* it */ {IDS_INTERNAL_FUNCTION_ROM_IT, "Function ROM interna"},
+/* nl */ {IDS_INTERNAL_FUNCTION_ROM_NL, "Interne Functie ROM"},
+/* pl */ {IDS_INTERNAL_FUNCTION_ROM_PL, ""},  /* fuzzy */
+/* sv */ {IDS_INTERNAL_FUNCTION_ROM_SV, "Internt funktions-ROM"},
+
+/* en */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME,    "Internal Function ROM file"},
+/* de */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_NL, "Interne Functie ROM bestand"},
+/* pl */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_INTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_EXTERNAL_FUNCTION_ROM,    "External Function ROM"},
+/* de */ {IDS_EXTERNAL_FUNCTION_ROM_DE, "Externes Funktions ROM"},
+/* fr */ {IDS_EXTERNAL_FUNCTION_ROM_FR, "Image ROM Fonction externe"},
+/* hu */ {IDS_EXTERNAL_FUNCTION_ROM_HU, "Külsõ Funcion ROM"},
+/* it */ {IDS_EXTERNAL_FUNCTION_ROM_IT, "Function ROM esterna"},
+/* nl */ {IDS_EXTERNAL_FUNCTION_ROM_NL, "Externe Functie ROM"},
+/* pl */ {IDS_EXTERNAL_FUNCTION_ROM_PL, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_FUNCTION_ROM_SV, "Externt funktions-ROM"},
+
+/* en */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME,    "External Function ROM file"},
+/* de */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_DE, ""},  /* fuzzy */
+/* fr */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_IT, ""},  /* fuzzy */
+/* nl */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_NL, "Externe Functie ROM bestand"},
+/* pl */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_EXTERNAL_FUNCTION_ROM_FILENAME_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_C128_SETTINGS,    "C128 settings"},
+/* de */ {IDS_C128_SETTINGS_DE, "C128 Einstellungen"},
+/* fr */ {IDS_C128_SETTINGS_FR, "Paramètres C128"},
+/* hu */ {IDS_C128_SETTINGS_HU, "C128 beállításai"},
+/* it */ {IDS_C128_SETTINGS_IT, "Impostazioni del C128"},
+/* nl */ {IDS_C128_SETTINGS_NL, "C128 instellingen"},
+/* pl */ {IDS_C128_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_C128_SETTINGS_SV, "C128-inställningar"},
+
+/* en */ {IDS_SELECT_ROM_FILE,    "Select ROM file"},
+/* de */ {IDS_SELECT_ROM_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_ROM_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_ROM_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_ROM_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_ROM_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDS_SELECT_ROM_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_ROM_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_COMPUTER_ROM_SETTINGS,    "Computer ROM settings"},
+/* de */ {IDS_COMPUTER_ROM_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_COMPUTER_ROM_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_COMPUTER_ROM_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_COMPUTER_ROM_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_COMPUTER_ROM_SETTINGS_NL, ""},  /* fuzzy */
+/* pl */ {IDS_COMPUTER_ROM_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_COMPUTER_ROM_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DRIVE_ROM_SETTINGS,    "Drive ROM settings"},
+/* de */ {IDS_DRIVE_ROM_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DRIVE_ROM_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DRIVE_ROM_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_DRIVE_ROM_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DRIVE_ROM_SETTINGS_NL, ""},  /* fuzzy */
+/* pl */ {IDS_DRIVE_ROM_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DRIVE_ROM_SETTINGS_SV, ""},  /* fuzzy */
 
 };
 

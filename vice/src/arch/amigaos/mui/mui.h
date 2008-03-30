@@ -88,9 +88,14 @@
   End,
 
 #define FILENAME(store, name, button) \
-  Child, GroupObject, \
-    MUIA_Frame, MUIV_Frame_Group, \
-    MUIA_Group_Horiz, TRUE, \
+  Child, HGroup, \
+    Child, TextObject, \
+      MUIA_Text_PreParse, "\033r", \
+      MUIA_Text_Contents, name, \
+      MUIA_Weight, 30, \
+      MUIA_InnerLeft, 0, \
+      MUIA_InnerRight, 0, \
+    End, \
     Child, store = StringObject, \
       MUIA_Frame, MUIV_Frame_String, \
       MUIA_FrameTitle, name, \
@@ -103,6 +108,32 @@
       MUIA_Text_PreParse, "\033c", \
       MUIA_InputMode, MUIV_InputMode_RelVerify, \
     End, \
+  End,
+
+#define STRING(store, name, accept, maxlen) \
+  Child, HGroup, \
+    Child, TextObject, \
+      MUIA_Text_PreParse, "\033r", \
+      MUIA_Text_Contents, name, \
+      MUIA_Weight, 30, \
+      MUIA_InnerLeft, 0, \
+      MUIA_InnerRight, 0, \
+    End, \
+    Child, store = StringObject, \
+      MUIA_Frame, MUIV_Frame_String, \
+      MUIA_FrameTitle, name, \
+      MUIA_String_Accept, accept, \
+      MUIA_String_MaxLen, maxlen, \
+    End, \
+  End,
+
+#define BUTTON(button, name) \
+  Child, button = TextObject, \
+    ButtonFrame, \
+    MUIA_Background, MUII_ButtonBack, \
+    MUIA_Text_Contents, name, \
+    MUIA_Text_PreParse, "\033c", \
+    MUIA_InputMode, MUIV_InputMode_RelVerify, \
   End,
 
 #define OK_CANCEL_BUTTON \
@@ -123,6 +154,38 @@
     End, \
   End,
 
+#ifdef AMIGA_MORPHOS
+#define BROWSE(function, hook_function, object) \
+  static ULONG function( struct Hook *hook, Object *obj, APTR arg ) \
+  { \
+    char *fname=NULL; \
+ \
+    fname=BrowseFile(translate_text(IDS_SELECT_ROM_FILE), "#?", rom_canvas); \
+ \
+    if (fname!=NULL) \
+      set(object, MUIA_String_Contents, fname); \
+ \
+    return 0; \
+  } \
+ \
+  static const struct Hook hook_function = { { NULL,NULL },(VOID *)HookEntry,(VOID *)function, NULL};
+#else
+#define BROWSE(function, hook_function, object) \
+  static ULONG function( struct Hook *hook, Object *obj, APTR arg ) \
+  { \
+    char *fname=NULL; \
+ \
+    fname=BrowseFile(translate_text(IDS_SELECT_ROM_FILE), "#?", rom_canvas); \
+ \
+    if (fname!=NULL) \
+      set(object, MUIA_String_Contents, fname); \
+ \
+    return 0; \
+  } \
+ \
+  static const struct Hook hook_function = { { NULL,NULL },(VOID *)function,NULL,NULL };
+#endif
+
 #define MUI_TYPE_NONE     (0)
 #define MUI_TYPE_RADIO    (1)
 #define MUI_TYPE_CHECK    (2)
@@ -135,7 +198,7 @@
 typedef struct {
   APTR object;
   const int type;
-  const char *resource;
+  char *resource;
   char **strings;
   const int *values;
 } ui_to_from_t;

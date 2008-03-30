@@ -31,10 +31,16 @@
 #include "private.h"
 #include "plus4ui.h"
 #include "plus4uires.h"
+#include "uicart.h"
+#include "intl.h"
+#include "translate.h"
 
 #include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
+#include "mui/uiplus4settings.h"
+#include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
+#include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -45,21 +51,123 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+static const uicart_params_t plus4_ui_cartridges[] = {
+    {
+        IDM_CART_ATTACH_FUNCLO,
+        0,
+        IDS_ATTACH_FUNCTION_LOW_CART,
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_ATTACH_FUNCHI,
+        0,
+        IDS_ATTACH_FUNCTION_HIGH_CART,
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_ATTACH_C1LO,
+        0,
+        IDS_ATTACH_CART1_LOW,
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_ATTACH_C1HI,
+        0,
+        IDS_ATTACH_CART1_HIGH,
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_ATTACH_C2LO,
+        0,
+        IDS_ATTACH_CART2_LOW,
+        UILIB_FILTER_ALL
+    },
+    {
+        IDM_CART_ATTACH_C2HI,
+        0,
+        IDS_ATTACH_CART2_HIGH,
+        UILIB_FILTER_ALL
+    },
+    {
+        0, 0, 0, 0
+    }
+};
+
+static int uiplus4cart_attach_image(int type, char *s)
+{
+    switch (type) {
+      case IDM_CART_ATTACH_FUNCLO:
+        resources_set_string("FunctionLowName", s);
+        return plus4cart_load_func_lo(s);
+      case IDM_CART_ATTACH_FUNCHI:
+        resources_set_string("FunctionHighName", s);
+        return plus4cart_load_func_lo(s);
+      case IDM_CART_ATTACH_C1LO:
+        resources_set_string("c1loName", s);
+        return plus4cart_load_c1lo(s);
+      case IDM_CART_ATTACH_C1HI:
+        resources_set_string("c1hiName", s);
+        return plus4cart_load_c1hi(s);
+      case IDM_CART_ATTACH_C2LO:
+        resources_set_string("c2loName", s);
+        return plus4cart_load_c2lo(s);
+      case IDM_CART_ATTACH_C2HI:
+        resources_set_string("c2hiName", s);
+        return plus4cart_load_c2hi(s);
+    }
+    return -1;
+}
+
+static void uiplus4cart_attach(video_canvas_t *canvas, int idm,
+                                const uicart_params_t *cartridges)
+{
+    int i;
+    char *name;
+
+    i = 0;
+
+    while ((cartridges[i].idm != idm) && (cartridges[i].idm != 0))
+        i++;
+
+    if (cartridges[i].idm == 0) {
+        ui_error(translate_text(IDMES_BAD_CART_CONFIG_IN_UI));
+        return;
+    }
+
+    if ((name = uilib_select_file(translate_text(cartridges[i].title),
+        cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
+        UILIB_SELECTOR_STYLE_CART)) != NULL) {
+
+        if (uiplus4cart_attach_image(cartridges[i].idm, name) < 0)
+            ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        lib_free(name);
+    }
+}
+
 static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 {
-//    uiplus4cart_proc(canvas, idm)
-
     switch (idm) {
-      case IDM_PLUS4_SETTINGS:
-//        ui_plus4_memory_dialog(hwnd);
+      case IDM_CART_ATTACH_FUNCLO:
+      case IDM_CART_ATTACH_FUNCHI:
+      case IDM_CART_ATTACH_C1LO:
+      case IDM_CART_ATTACH_C1HI:
+      case IDM_CART_ATTACH_C2LO:
+      case IDM_CART_ATTACH_C2HI:
+        uiplus4cart_attach(canvas, idm, plus4_ui_cartridges);
         break;
-      case IDM_ROM_SETTINGS:
-//        uirom_settings_dialog(hwnd, IDD_PLUS4ROM_SETTINGS_DIALOG,
-//                              IDD_PLUS4DRIVEROM_SETTINGS_DIALOG,
-//                              romset_dialog_resources, uirom_settings);
+      case IDM_CART_DETACH:
+        plus4cart_detach_cartridges();
+      case IDM_PLUS4_SETTINGS:
+        ui_plus4_settings_dialog();
+        break;
+      case IDM_COMPUTER_ROM_SETTINGS:
+        ui_plus4_computer_rom_settings_dialog(canvas);
+        break;
+      case IDM_DRIVE_ROM_SETTINGS:
+        ui_plus4_drive_rom_settings_dialog(canvas);
         break;
       case IDM_VIDEO_SETTINGS:
-//        ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_TED, UI_VIDEO_CHIP_NONE);
+        ui_video_c64plus4vic20_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile");
         break;
       case IDM_DRIVE_SETTINGS:
         uidriveplus4_settings_dialog();
@@ -92,4 +200,3 @@ int plus4ui_init(void)
 void plus4ui_shutdown(void)
 {
 }
-
