@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include "c64cart.h"
+#include "c64export.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -77,6 +78,11 @@
 #define REU_REG_RW_INTERRUPT     0x09
 #define REU_REG_RW_ADDRCONTROL   0x0A
 
+
+static const c64export_resource_t export_res = {
+    "REU", 0, 1, 0, 0
+};
+
 /* REU registers */
 static BYTE reu[16];
 
@@ -112,28 +118,6 @@ static DWORD reu_size_kb = 0;
 /* Filename of the REU image.  */
 static char *reu_filename = NULL;
 
-/*
- * Some cartridges can coexist with the REU.
- * This list might not be complete, but atleast these are known
- * to work. Feel free to add more coexisting cartridges to this list.
- */
-static int reu_coexist_cartridge(void)
-{
-    int result;
-
-    switch (mem_cartridge_type) {
-      case CARTRIDGE_NONE:
-      case CARTRIDGE_SUPER_SNAPSHOT_V5:
-      case CARTRIDGE_EXPERT:
-      case CARTRIDGE_RETRO_REPLAY:
-      case CARTRIDGE_IDE64:
-        result = 1;
-        break;
-      default:
-        result = 0;
-    }
-    return result;
-}
 
 static int set_reu_enabled(resource_value_t v, void *param)
 {
@@ -143,20 +127,23 @@ static int set_reu_enabled(resource_value_t v, void *param)
                 return -1;
             }
         }
+        c64export_remove(&export_res);
         reu_enabled = 0;
         return 0;
     } else { 
-        if (reu_coexist_cartridge() == 1) {
+        if (c64export_query(&export_res) >= 0) {
             if (!reu_enabled) {
                 if (reu_activate() < 0) {
                     return -1;
                 }
             }
+
+            if (c64export_add(&export_res) < 0)
+                return -1;
+
             reu_enabled = 1;
             return 0;
         } else {
-            /* The REU and the IEEE488 interface share the same address
-               space, so they cannot be enabled at the same time.  */
             return -1;
         }
     }

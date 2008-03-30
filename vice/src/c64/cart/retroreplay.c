@@ -31,12 +31,17 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "retroreplay.h"
 #include "reu.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
+
+static const c64export_resource_t export_res = {
+    "Retro Replay", 1, 0, 1, 1
+};
 
 /* Cart is activated.  */
 static unsigned int rr_active;
@@ -278,6 +283,14 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
         return -1;
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     return 0;
+}
+
+void retroreplay_detach(void)
+{
+    c64export_remove(&export_res);
 }
 

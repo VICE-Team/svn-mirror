@@ -236,8 +236,6 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return retroreplay_io2_read(addr);
       case CARTRIDGE_SUPER_SNAPSHOT:
         return supersnapshot_v4_io2_read(addr);
-      case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        return supersnapshot_v5_io2_read(addr);
       case CARTRIDGE_FINAL_III:
         return final_v3_io2_read(addr);
       case CARTRIDGE_FINAL_I:
@@ -259,8 +257,6 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
         return 0;
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1f00 + (addr & 0xff)];
-      case CARTRIDGE_EXPERT:
-        return expert_io2_read(addr);
       case CARTRIDGE_MAGIC_FORMEL:
         return magicformel_io2_read(addr);
     }
@@ -294,9 +290,6 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
       case CARTRIDGE_SUPER_SNAPSHOT:
         supersnapshot_v4_io2_store(addr, value);
         break;
-      case CARTRIDGE_SUPER_SNAPSHOT_V5:
-        supersnapshot_v5_io2_store(addr, value);
-        break;
       case CARTRIDGE_FINAL_III:
         final_v3_io2_store(addr, value);
         break;
@@ -305,9 +298,6 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
         break;
       case CARTRIDGE_IEEE488:
         tpi_store((WORD)(addr & 0x07), value);
-        break;
-      case CARTRIDGE_EXPERT:
-        expert_io2_store(addr, value);
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_io2_store(addr, value);
@@ -697,12 +687,60 @@ void cartridge_detach(int type)
     int cartridge_reset;
 
     switch (type) {
-      case CARTRIDGE_IEEE488:
-      /* FIXME: Insert interface removal here.  */
-      break;
+      case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_detach();
+        break;
+      case CARTRIDGE_ATOMIC_POWER:
+        atomicpower_detach();
+        break;
+      case CARTRIDGE_EPYX_FASTLOAD:
+        epyxfastload_detach();
+        break;
+      case CARTRIDGE_EXPERT:
+        expert_detach();
+        break;
+      case CARTRIDGE_FINAL_I:
+        final_v1_detach();
+        break;
+      case CARTRIDGE_FINAL_III:
+        final_v3_detach();
+        break;
+      case CARTRIDGE_GENERIC_16KB:
+        generic_16kb_detach();
+        break;
+      case CARTRIDGE_GENERIC_8KB:
+        generic_8kb_detach();
+        break;
       case CARTRIDGE_IDE64:
         ide64_detach();
-      break;
+        break;
+      case CARTRIDGE_IEEE488:
+        /* FIXME: Insert interface removal here.  */
+        break;
+      case CARTRIDGE_KCS_POWER:
+        kcs_detach();
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        magicformel_detach();
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_detach();
+        break;
+      case CARTRIDGE_SUPER_GAMES:
+        supergames_detach();
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT:
+        supersnapshot_v4_detach();
+        break;
+      case CARTRIDGE_SUPER_SNAPSHOT_V5:
+        supersnapshot_v5_detach();
+        break;
+      case CARTRIDGE_ULTIMAX:
+        generic_ultimax_detach();
+        break;
+      case CARTRIDGE_ZAXXON:
+        zaxxon_detach();
+        break;
     }
     cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;

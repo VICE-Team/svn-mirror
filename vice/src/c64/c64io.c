@@ -50,18 +50,16 @@ BYTE REGPARM1 io1_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        return tfe_read((WORD)(addr & 0x0f));
+#endif
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io1(addr);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         return acia1_read(addr & 0x03);
 #endif
-
-#ifdef HAVE_TFE
-    if (tfe_enabled)
-        return tfe_read((WORD)(addr & 0x0f));
-#endif
-
     return vicii_read_phi1();
 }
 
@@ -71,18 +69,16 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         sid2_store(addr, value);
+#ifdef HAVE_TFE
+    if (tfe_enabled)
+        tfe_store((WORD)(addr & 0x0f), value);
+#endif
     if (mem_cartridge_type != CARTRIDGE_NONE)
         cartridge_store_io1(addr, value);
 #ifdef HAVE_RS232
     if (acia_de_enabled)
         acia1_store(addr & 0x03, value);
 #endif
-
-#ifdef HAVE_TFE
-    if (tfe_enabled)
-        tfe_store((WORD)(addr & 0x0f), value);
-#endif
-
     return;
 }
 
@@ -92,12 +88,14 @@ BYTE REGPARM1 io2_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+    if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY)
+        return cartridge_read_io2(addr);
+    if (reu_enabled)
+        return reu_read((WORD)(addr & 0x0f));
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0)
         return emuid_read((WORD)(addr - 0xdfa0));
-    if (reu_enabled)
-        return reu_read((WORD)(addr & 0x0f));
 
     return vicii_read_phi1();
 }
@@ -108,12 +106,16 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         sid2_store(addr, value);
-    if (mem_cartridge_type != CARTRIDGE_NONE) {
+    if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY) {
         cartridge_store_io2(addr, value);
         return;
     }
     if (reu_enabled) {
         reu_store((WORD)(addr & 0x0f), value);
+        return;
+    }
+    if (mem_cartridge_type != CARTRIDGE_NONE) {
+        cartridge_store_io2(addr, value);
         return;
     }
     return;

@@ -36,8 +36,6 @@ extern void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr);
 extern void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 supersnapshot_v5_io2_read(WORD addr);
-extern void REGPARM2 supersnapshot_v5_io2_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr);
 extern void REGPARM2 supersnapshot_v4_roml_store(WORD addr, BYTE value);
@@ -55,6 +53,8 @@ extern void supersnapshot_v5_config_init(void);
 extern void supersnapshot_v5_config_setup(BYTE *rawcart);
 extern int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart);
 extern int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart);
+extern void supersnapshot_v4_detach(void);
+extern void supersnapshot_v5_detach(void);
 
 #endif
 

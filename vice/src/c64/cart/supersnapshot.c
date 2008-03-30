@@ -32,12 +32,20 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
-#include "reu.h"
+#include "c64export.h"
 #include "supersnapshot.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
 
+
+static const c64export_resource_t export_res_v4 = {
+    "Super Snapshot V4", 1, 1, 1, 1
+};
+
+static const c64export_resource_t export_res_v5 = {
+    "Super Snapshot V5", 1, 0, 1, 1
+};
 
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
@@ -147,19 +155,6 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 supersnapshot_v5_io2_read(WORD addr)
-{
-    if (reu_enabled)
-        return reu_read((WORD)(addr & 0x0f));
-    return vicii_read_phi1();
-}
-
-void REGPARM2 supersnapshot_v5_io2_store(WORD addr, BYTE value)
-{
-    if (reu_enabled)
-        reu_store((WORD)(addr & 0x0f), value);
-}
-
 BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
 {
     if (export_ram)
@@ -236,6 +231,9 @@ int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart)
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
         return -1;
 
+    if (c64export_add(&export_res_v4) < 0)
+        return -1;
+
     return 0;
 }
 
@@ -243,6 +241,9 @@ int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x10000,
         UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+        return -1;
+
+    if (c64export_add(&export_res_v5) < 0)
         return -1;
 
     return 0;
@@ -264,6 +265,19 @@ int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    if (c64export_add(&export_res_v5) < 0)
+        return -1;
+
     return 0;
+}
+
+void supersnapshot_v4_detach(void)
+{
+    c64export_remove(&export_res_v4);
+}
+
+void supersnapshot_v5_detach(void)
+{
+    c64export_remove(&export_res_v5);
 }
 

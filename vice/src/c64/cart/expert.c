@@ -32,6 +32,7 @@
 
 #include "c64cart.h"
 #include "c64cartmem.h"
+#include "c64export.h"
 #include "cartridge.h"
 #include "expert.h"
 #include "interrupt.h"
@@ -40,11 +41,6 @@
 #include "types.h"
 #include "vicii-phi1.h"
 
-
-/* Cartridge mode.  */
-extern int cartmode;
-
-static int ack_reset = 0;
 
 /* De-assert ~GAME */
 /* Assert ~EXROM */
@@ -61,6 +57,17 @@ static int ack_reset = 0;
 /* Disable export_ram */
 #define EXPERT_ON       ((1 << 0) | (1 << 1))
 
+
+static const c64export_resource_t export_res = {
+    "Expert", 1, 1, 1, 1
+};
+
+/* Cartridge mode.  */
+extern int cartmode;
+
+static int ack_reset = 0;
+
+
 BYTE REGPARM1 expert_io1_read(WORD addr)
 {
     if (cartmode == CARTRIDGE_MODE_ON)
@@ -72,19 +79,6 @@ void REGPARM2 expert_io1_store(WORD addr, BYTE value)
 {
     if (cartmode == CARTRIDGE_MODE_ON)
         cartridge_config_changed(EXPERT_OFF, EXPERT_OFF, CMODE_READ);
-}
-
-BYTE REGPARM1 expert_io2_read(WORD addr)
-{
-    if (reu_enabled)
-        return reu_read((WORD)(addr & 0x0f));
-    return vicii_read_phi1();
-}
-
-void REGPARM2 expert_io2_store(WORD addr, BYTE value)
-{
-    if (reu_enabled)
-        reu_store((WORD)(addr & 0x0f), value);
 }
 
 BYTE REGPARM1 expert_roml_read(WORD addr)
@@ -148,6 +142,9 @@ void expert_config_setup(BYTE *rawcart)
 
 int expert_bin_attach(const char *filename, BYTE *rawcart)
 {
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     /* Set default mode */
     resources_set_value("CartridgeMode",
                         (resource_value_t)CARTRIDGE_MODE_PRG);
@@ -164,10 +161,18 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, 0x2000, 1, fd) < 1)
         return -1;
 
+    if (c64export_add(&export_res) < 0)
+        return -1;
+
     resources_set_value("CartridgeMode",
                         (resource_value_t)CARTRIDGE_MODE_ON);
 
     return 0;
+}
+
+void expert_detach(void)
+{
+    c64export_remove(&export_res);
 }
 
 void expert_mode_changed(int mode)
