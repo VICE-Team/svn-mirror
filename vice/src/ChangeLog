@@ -1,3 +1,22 @@
+2002-06-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.33.
+
+2002-06-13  Kajtar Zsolt  <soci@c64.rulez.org>
+
+	* c64/c64.c, c64/cart/c64cart.c: Do cartridge detach on exit.
+
+	* 6510core.c: Cosmetic change to debug output.
+
+	* c64/c64cart.h, c64/c64mem.c, c64/cart/c64cart.c,
+	c64/cart/c64cartmem.c, c64/cart/ide64.c, c64/cart/ide64.h:
+	More IDE64 stuff: ultimaxc000-cfff, better disk emulation,
+	config and image file is saved now in vicerc.
+
+	* arch/unix/x11/plus4icon.c: +4 icon instead C64
+
+	* c64/cart/cartmem.c: hard reset on cartridge change
+
 2002-06-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.32.

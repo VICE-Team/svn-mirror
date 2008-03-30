@@ -63,10 +63,10 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
     s->new_sprite_data = s->sprite_data_2;
 
     for (i = 0; i < num_sprites; i++)
-        raster_sprite_init (&s->sprites[i]);
+        raster_sprite_init(&s->sprites[i]);
 }
 
-raster_sprite_status_t *raster_sprite_status_new (unsigned int num_sprites)
+raster_sprite_status_t *raster_sprite_status_new(unsigned int num_sprites)
 {
     raster_sprite_status_t *new_status;
 

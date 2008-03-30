@@ -309,7 +309,7 @@ ide64.o: ide64.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/arch/unix/archdep.h ../../../src/archapi.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ide64.h ../../../src/utils.h \
-	../../../src/vicii/vicii-phi1.h
+	../../../src/vicii/vicii-phi1.h ../../../src/log.h
 kcs.o: kcs.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h kcs.h ../../../src/utils.h

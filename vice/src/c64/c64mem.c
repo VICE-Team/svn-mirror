@@ -547,6 +547,11 @@ void mem_initialize_memory(void)
             mem_read_tab[j][i] = ultimax_a000_bfff_read;
             set_write_hook(j, i, ultimax_a000_bfff_store);
         }
+        for (i = 0xc0; i <= 0xcf; i++) {
+            mem_read_tab[j][i] = ultimax_c000_cfff_read;
+            set_write_hook(j, i, ultimax_c000_cfff_store);
+            mem_read_base_tab[j][i] = NULL;
+        }
     }
 
     /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */

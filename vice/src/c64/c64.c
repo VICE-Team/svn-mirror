@@ -493,6 +493,9 @@ void machine_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
+    /* and cartridge */
+    cartridge_detach_image();
+
     console_close_all();
 
     /* close the video chip(s) */

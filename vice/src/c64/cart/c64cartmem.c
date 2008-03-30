@@ -395,6 +395,15 @@ BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
     return vicii_read_phi1();
 }
 
+BYTE REGPARM1 ultimax_c000_cfff_read(ADDRESS addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        return export_ram0[addr & 0x7fff];
+    }
+    return vicii_read_phi1();
+}
+
 void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
 {
     switch (mem_cartridge_type) {
@@ -405,6 +414,15 @@ void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
 }
 
 void REGPARM2 ultimax_1000_7fff_store(ADDRESS addr, BYTE value)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        export_ram0[addr & 0x7fff]=value;
+    }
+    return;
+}
+
+void REGPARM2 ultimax_c000_cfff_store(ADDRESS addr, BYTE value)
 {
     switch (mem_cartridge_type) {
       case CARTRIDGE_IDE64:
@@ -568,6 +586,7 @@ void cartridge_attach(int type, BYTE *rawcart)
       default:
         mem_cartridge_type = CARTRIDGE_NONE;
     }
+    machine_powerup();	/* "Turn off machine before inserting cartridge" */
     return;
 }
 
@@ -583,6 +602,7 @@ void cartridge_detach(int type)
     }
     cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
+    machine_powerup();	/* "Turn off machine before removeing cartridge" */
     return;
 }
 

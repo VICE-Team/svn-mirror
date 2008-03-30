@@ -475,7 +475,7 @@ inline static void check_sprite_dma(void)
 
     sprite_status = vic_ii.raster.sprite_status;
 
-    if (! sprite_status->visible_msk && ! sprite_status->dma_msk)
+    if (!sprite_status->visible_msk && !sprite_status->dma_msk)
         return;
 
     sprite_status->new_dma_msk = sprite_status->dma_msk;

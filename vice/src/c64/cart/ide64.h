@@ -37,6 +37,8 @@ extern void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value);
 extern void ide64_config_init(void);
 extern void ide64_config_setup(BYTE *rawcart);
 extern int ide64_bin_attach(const char *filename, BYTE *rawcart);
+extern char ide64_DS1302[65];
+extern char *ide64_image_file;
 void ide64_detach(void);
 
 #endif

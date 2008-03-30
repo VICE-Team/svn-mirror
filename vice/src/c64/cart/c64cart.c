@@ -48,8 +48,10 @@
 #include "supersnapshot.h"
 #include "utils.h"
 
+
 static int cartridge_type;
 static char *cartridge_file;
+static char *ide64_configuration_string;
 static int cartridge_mode;
 
 int carttype = CARTRIDGE_NONE;
@@ -89,7 +91,40 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     return 0;
 }
 
+int set_ide64_config(resource_value_t v, void *param)
+{
+    const char *cfg = (const char *)v;
+    int i;
+
+    ide64_DS1302[64]=0;
+    memset(ide64_DS1302,0x40,64);
+    ide64_configuration_string=ide64_DS1302;
+
+    if (cfg) for (i=0;cfg[i] && i<64;i++) ide64_DS1302[i]=cfg[i];
+
+    return 0;
+}
+
+static int set_ide64_image_file(resource_value_t v, void *param)
+{
+    const char *name = (const char *)v;
+
+    if (ide64_image_file != NULL && name != NULL
+        && strcmp(name, ide64_image_file) == 0)
+        return 0;
+
+    util_string_set(&ide64_image_file, name);
+
+    return 0;
+}
+
 static resource_t resources[] = {
+    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
+      (resource_value_t *)&ide64_image_file,
+      set_ide64_image_file, NULL },
+    { "IDE64Config", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ide64_configuration_string,
+      set_ide64_config, NULL },
     { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
       (resource_value_t *)&cartridge_type,
       set_cartridge_type, NULL },
@@ -209,6 +244,8 @@ int cartridge_attach_image(int type, const char *filename)
             goto done;
         break;
       case CARTRIDGE_IDE64:
+        if (carttype==CARTRIDGE_IDE64)
+            ide64_detach(); /* detach IDE64 if reattaching */
         if (ide64_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
