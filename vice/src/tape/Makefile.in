@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libtape.a
 
-libtape_a_SOURCES =  	t64.c 	t64.h 	tap.c 	tape-internal.c 	tape-internal.h 	tape.c 	tapeimage.c 	tapeimage.h
+libtape_a_SOURCES =  	t64.c 	t64.h 	tap.c 	tape-internal.c 	tape-internal.h 	tape-snapshot.c 	tape-snapshot.h 	tape.c 	tapeimage.c 	tapeimage.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -150,7 +150,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libtape_a_LIBADD = 
-libtape_a_OBJECTS =  t64.o tap.o tape-internal.o tape.o tapeimage.o
+libtape_a_OBJECTS =  t64.o tap.o tape-internal.o tape-snapshot.o tape.o \
+tapeimage.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -259,15 +260,21 @@ t64.o: t64.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/zfile.h
 tap.o: tap.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/datasette.h ../../src/lib.h ../../src/tap.h \
-	../../src/arch/unix/types.h ../../src/tape.h ../../src/utils.h \
-	../../src/zfile.h
+	../../src/datasette.h ../../src/arch/unix/types.h \
+	../../src/lib.h ../../src/tap.h ../../src/tape.h \
+	../../src/utils.h ../../src/zfile.h
 tape-internal.o: tape-internal.c ../../src/vice.h ../../src/config.h \
 	../../src/lib.h ../../src/log.h tape-internal.h \
 	../../src/tape.h ../../src/arch/unix/types.h
+tape-snapshot.o: tape-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/datasette.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	t64.h ../../src/tap.h ../../src/tape.h ../../src/utils.h \
+	../../src/zfile.h
 tape.o: tape.c ../../src/vice.h ../../src/config.h ../../src/datasette.h \
-	../../src/lib.h ../../src/log.h ../../src/maincpu.h \
-	../../src/arch/unix/types.h ../../src/mem.h ../../src/mos6510.h \
+	../../src/arch/unix/types.h ../../src/lib.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
 	../../src/serial.h t64.h ../../src/tap.h tape-internal.h \
 	../../src/tape.h tapeimage.h ../../src/traps.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h

@@ -35,15 +35,23 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "event.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "tap.h"
 #include "types.h"
 #include "ui.h"
 
-#define MOTOR_DELAY     32000
+
+#define MOTOR_DELAY         32000
+#define TAP_BUFFER_LENGTH   100000
+
+/* at least every DATASETTE_MAX_GAP cycle there should be an alarm */ 
+#define DATASETTE_MAX_GAP   100000
+
 
 /* Attached TAP tape image.  */
 static tap_t *current_image = NULL;
@@ -93,6 +101,9 @@ static unsigned int fullwave = 0;
 static CLOCK fullwave_gap;
 
 static log_t datasette_log = LOG_ERR;
+
+static void datasette_control_internal(int command);
+
 
 static int set_reset_datasette_with_maincpu(resource_value_t v, void *param)
 {
@@ -615,8 +626,29 @@ static void datasette_start_motor(void)
     }
 }
 
+/*---------------------------------------------------------------------*/
 
-void datasette_control(int command)
+static void datasette_event_record(int command)
+{
+    DWORD rec_cmd;
+
+    rec_cmd = (DWORD)command;
+
+    event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+}
+
+void datasette_event_playback(CLOCK offset, void *data)
+{
+    int command;
+
+    command = (int)(*(DWORD *)data);
+
+    datasette_control_internal(command);
+}
+
+/*---------------------------------------------------------------------*/
+
+static void datasette_control_internal(int command)
 {
     if (current_image != NULL) {
         switch(command) {
@@ -662,7 +694,13 @@ void datasette_control(int command)
         /* clear the tap-buffer */
         last_tap = next_tap = 0;
     }
+}
 
+void datasette_control(int command)
+{
+    datasette_event_record(command);
+
+    datasette_control_internal(command);
 }
 
 void datasette_set_motor(int flag)
@@ -747,3 +785,99 @@ void datasette_toggle_write_bit(int write_bit)
     }
 }
 
+
+#define DATASETTE_SNAP_MAJOR 1
+#define DATASETTE_SNAP_MINOR 0
+
+int datasette_write_snapshot(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    DWORD alarm_clk = CLOCK_MAX;
+
+    m = snapshot_module_create(s, "DATASETTE", DATASETTE_SNAP_MAJOR,
+                               DATASETTE_SNAP_MINOR);
+    if (m == NULL)
+       return -1;
+
+    if (datasette_alarm_pending) {
+        alarm_clk = datasette_alarm->context->
+                        pending_alarms[datasette_alarm->pending_idx].clk;
+    }
+
+    if (0
+        || SMW_B(m, (BYTE)datasette_motor) < 0
+        || SMW_DW(m, last_write_clk) < 0
+        || SMW_DW(m, motor_stop_clk) < 0
+        || SMW_B(m, (BYTE)datasette_alarm_pending) < 0
+        || SMW_DW(m, alarm_clk) < 0
+        || SMW_DW(m, datasette_long_gap_pending) < 0
+        || SMW_DW(m, datasette_long_gap_elapsed) < 0
+        || SMW_B(m, (BYTE)datasette_last_direction) < 0
+        || SMW_DW(m, datasette_counter_offset) < 0
+        || SMW_B(m, (BYTE)reset_datasette_with_maincpu) < 0
+        || SMW_DW(m, datasette_zero_gap_delay) < 0
+        || SMW_DW(m, datasette_speed_tuning) < 0
+        || SMW_B(m, (BYTE)fullwave) < 0
+        || SMW_DW(m, fullwave_gap) < 0) 
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (snapshot_module_close(m) < 0)
+        return -1;
+
+    return 0;
+}
+
+int datasette_read_snapshot(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    DWORD alarm_clk;
+
+    m = snapshot_module_open(s, "DATASETTE",
+                             &major_version, &minor_version);
+    if (m == NULL) {
+        return 0;
+    }
+
+    if (0
+        || SMR_B_INT(m, &datasette_motor) < 0
+        || SMR_DW(m, &last_write_clk) < 0
+        || SMR_DW(m, &motor_stop_clk) < 0
+        || SMR_B_INT(m, &datasette_alarm_pending) < 0
+        || SMR_DW(m, &alarm_clk) < 0
+        || SMR_DW(m, &datasette_long_gap_pending) < 0
+        || SMR_DW(m, (int*)&datasette_long_gap_elapsed) < 0
+        || SMR_B_INT(m, &datasette_last_direction) < 0
+        || SMR_DW(m, &datasette_counter_offset) < 0
+        || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0
+        || SMR_DW(m, &datasette_zero_gap_delay) < 0
+        || SMR_DW(m, &datasette_speed_tuning) < 0
+        || SMR_B_INT(m, &fullwave) < 0
+        || SMR_DW(m, &fullwave_gap) < 0) 
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (datasette_alarm_pending)
+        alarm_set(datasette_alarm, alarm_clk);
+    else
+        alarm_unset(datasette_alarm);
+
+    if (current_image->mode == DATASETTE_CONTROL_START
+        ||current_image->mode == DATASETTE_CONTROL_FORWARD
+        ||current_image->mode == DATASETTE_CONTROL_REWIND
+        ||current_image->mode == DATASETTE_CONTROL_RECORD)
+        datasette_set_tape_sense(1);
+
+    ui_set_tape_status(current_image ? 1 : 0);
+    datasette_update_ui_counter();
+    ui_display_tape_motor_status(datasette_motor);
+    if (current_image)
+        ui_display_tape_control_status(current_image->mode);
+
+    return 0;
+}

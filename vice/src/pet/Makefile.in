@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/tape
 
 
 noinst_LIBRARIES = libpet.a
@@ -287,7 +287,8 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	petvia.h petacia.h petpia.h ../../src/printer.h \
 	../../src/resources.h ../../src/rs232drv.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
+	../../src/sound.h ../../src/tape.h \
+	../../src/tape/tape-snapshot.h ../../src/traps.h \
 	../../src/utils.h ../../src/via.h ../../src/video.h \
 	../../src/viewport.h ../../src/vsync.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \

@@ -34,6 +34,7 @@
 #include "archdep.h"
 #include "clkguard.h"
 #include "cmdline.h"
+#include "datasette.h"
 #include "event.h"
 #include "interrupt.h"
 #include "joystick.h"
@@ -80,10 +81,13 @@ void event_record(unsigned int type, void *data, unsigned int size)
 
     if (record_active == 0)
         return;
-    /*printf("EVENT RECORD %i\n",type);*/
+
+    /*log_debug("EVENT RECORD %i", type);*/
+
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_JOYSTICK_VALUE:
+      case EVENT_DATASETTE:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
         break;
@@ -117,13 +121,18 @@ static void set_next_alarm(void)
 static void event_alarm_handler(CLOCK offset)
 {
     alarm_unset(event_alarm);
-    /*printf("EVENT PLAYBACK %i\n",event_list_current->type);*/
+
+    /*log_debug("EVENT PLAYBACK %i", event_list_current->type);*/
+
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
         keyboard_event_playback(offset, event_list_current->data);
         break;
       case EVENT_JOYSTICK_VALUE:
         joystick_event_playback(offset, event_list_current->data);
+        break;
+      case EVENT_DATASETTE:
+        datasette_event_playback(offset, event_list_current->data);
         break;
       default:
         log_error(event_log, "Unknow event type %i.", event_list_current->type);

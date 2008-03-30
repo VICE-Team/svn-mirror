@@ -457,8 +457,8 @@ uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uipalette.h
 uidatasette.o: uidatasette.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/datasette.h ../../../src/resources.h uimenu.h \
-	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	../../../src/datasette.h types.h ../../../src/resources.h \
+	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
 	x11/xaw/../xaw/uiarch.h ../../../src/utils.h
 uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h \

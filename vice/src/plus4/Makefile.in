@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/tape 	-I$(top_srcdir)/src/raster
 
 
 noinst_LIBRARIES = libplus4.a
@@ -283,9 +283,10 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	plus4iec.h plus4mem.h ../../src/arch/unix/plus4ui.h \
 	../../src/printer.h ../../src/rs232drv.h ../../src/screenshot.h \
 	../../src/serial.h ../../src/snapshot.h ../../src/sound.h \
-	../../src/tape.h ted-cmdline-options.h ted-resources.h ted.h \
-	../../src/traps.h ../../src/mem.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h
+	../../src/tape.h ../../src/tape/tape-snapshot.h \
+	ted-cmdline-options.h ted-resources.h ted.h ../../src/traps.h \
+	../../src/mem.h ../../src/video.h ../../src/viewport.h \
+	../../src/vsync.h
 plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
@@ -309,8 +310,8 @@ plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/iecdrive.h plus4iec.h \
 	../../src/via.h ../../src/drive/viad.h
 plus4mem.o: plus4mem.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
+	../../src/datasette.h ../../src/arch/unix/types.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/monitor.h plus4acia.h plus4iec.h plus4mem.h \
 	plus4memlimit.h plus4pio1.h plus4pio2.h plus4tcbm.h \
@@ -367,12 +368,11 @@ ted-irq.o: ted-irq.c ../../src/vice.h ../../src/config.h \
 	../../src/viewport.h
 ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
-	../../src/interrupt.h ../../src/keyboard.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h plus4mem.h plus4pio2.h \
-	ted-badline.h ted-fetch.h ted-irq.h ted-mem.h ted-resources.h \
-	ted-sound.h ted-timer.h ted.h tedtypes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h
+	../../src/keyboard.h ../../src/log.h ../../src/maincpu.h \
+	../../src/mem.h plus4mem.h plus4pio2.h ted-badline.h \
+	ted-fetch.h ted-irq.h ted-mem.h ted-resources.h ted-sound.h \
+	ted-timer.h ted.h tedtypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/fullscreen.h ../../src/lib.h \

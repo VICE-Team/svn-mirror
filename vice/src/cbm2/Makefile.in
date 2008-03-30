@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/drive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/sid 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/vicii 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/tape
 
 
 noinst_LIBRARIES = libcbm2.a
@@ -291,9 +291,9 @@ cbm2.o: cbm2.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
-	../../src/tape.h ../../src/traps.h ../../src/via.h \
-	../../src/vicii/vicii.h ../../src/video.h ../../src/viewport.h \
-	../../src/vsync.h
+	../../src/tape.h ../../src/tape/tape-snapshot.h \
+	../../src/traps.h ../../src/via.h ../../src/vicii/vicii.h \
+	../../src/video.h ../../src/viewport.h ../../src/vsync.h
 cbm2acia1.o: cbm2acia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h cbm2tpi.h \
 	../../src/aciacore.c ../../src/acia.h ../../src/alarm.h \

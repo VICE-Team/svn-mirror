@@ -130,7 +130,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/raster
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/tape 	-I$(top_srcdir)/src/raster
 
 
 noinst_LIBRARIES = libvic20.a
@@ -339,7 +339,8 @@ vic20.o: vic20.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/maincpu.h ../../src/monitor.h ../../src/printer.h \
 	../../src/resources.h ../../src/rs232drv.h ../../src/rsuser.h \
 	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
+	../../src/sound.h ../../src/tape.h \
+	../../src/tape/tape-snapshot.h ../../src/traps.h \
 	../../src/mem.h ../../src/via.h vic.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \
 	vic20-cmdline-options.h vic20-resources.h vic20-snapshot.h \
@@ -394,15 +395,15 @@ vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/lib.h ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/sound.h vic20sound.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h \
-	../../src/arch/unix/types.h ../../src/keyboard.h \
+	../../src/datasette.h ../../src/arch/unix/types.h \
+	../../src/drive/drive.h ../../src/keyboard.h \
 	../../src/maincpu.h ../../src/viacore.h ../../src/log.h \
 	../../src/via.h vic20iec.h vic20via.h ../../src/viacore.c \
 	../../src/alarm.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/snapshot.h
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
-	../../src/datasette.h ../../src/drive/drive.h \
-	../../src/arch/unix/types.h ../../src/keyboard.h \
+	../../src/datasette.h ../../src/arch/unix/types.h \
+	../../src/drive/drive.h ../../src/keyboard.h \
 	../../src/maincpu.h ../../src/printer.h ../../src/viacore.h \
 	../../src/log.h ../../src/via.h vic.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \

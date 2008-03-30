@@ -1,3 +1,67 @@
+2003-04-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.37.
+
+	* plus4/ted-mem.c, plus4/ted-irq.c, plus4/ted-irq.h,
+	plus4/tedtypes.h: Updated IRQ code to VICII standards.
+
+	* vicii/vicii-mem.c (d019_peek): New function.
+	Changed all memory access function names.
+
+	* interrupt.c, aciacore.c, ciacore.c, piacore.c, tpicore.c,
+	viacore.c, drive/iec/cia1571d.c, drive/iec/cia1581d.c,
+	drive/iecieee/via1d.c, drive/iecieee/via2d.c,
+	drive/ieee/riot2d.c, drive/tcbm/glue1551.c, vicii/vicii-irq.c,
+	c64/c64keyboard.c, c64/reu.c, c64/cart/c64cart.c,
+	plus4/ted-irq.c, arch/riscos/kbd.c: Add a name to each
+	interrupt.
+
+	* raster/raster-changes.h, raster/raster-cache-const.h,
+	raster/raster-cache-fill-1fff.h,
+	raster/raster-cache-fill-39ff.h, raster/raster-cache-fill.h,
+	raster/raster-cache-nibbles.h, raster/raster-cache-text-ext.h,
+	raster/raster-cache-text-std.h, vicii/vicii-badline.c,
+	vicii/vicii-badline.h, plus4/ted-badline.c,
+	plus4/ted-badline.h: Made some parameter const.
+
+	* snapshot.c (snapshot_write_byte_array,
+	snapshot_read_byte_array): read/write whole block at once.
+
+	* datasette.h, datasette.c: Moved `snapshot.h' to main file.
+	(datasette_event_record, datasette_event_playback): New
+	functions. (datasette_control): Renamed to internal function.
+
+	* tape/tape-snapshot.c (tape_snapshot_read_module): Fixed two
+	warnings.
+
+	* event.c, event.h (event_record, event_alarm_handler): Added
+	support for datasette events.
+
+2003-04-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c128.dsp, c64.dsp, cbm2.dsp, pet.dsp, plus4.dsp,
+	vic20.dsp, c128/Makefile.am, c64/Makefile.am,
+	cbm2/Makefile.am, pet/Makefile.am, plus4/Makefile.am,
+	vic20/Makefile.am: Added tape directory to include path.
+
+	* arch/win32/tape.dsp, tape/Makefile.am: Added new files.
+
+	* tape/tape-snapshot.c, tape-snapshot.h: New files.
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c: Include tape-snapshot.h.
+	(machine_write_snapshot): Also writes tape module.
+	(machine_read_snapshot): Also reads tape module.
+
+	* datasette.c (datasette_write_snapshot),
+	(datasette_read_snapshot): New functions.
+
+	* datasette.h: Added prototypes, moved private definitions to
+	datasette.c.
+
+	* c64/c64meminit.c, c64meminit.h, sid/resid.cc: Fixed for MSVC
+	warnings.
+
 2003-04-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.36.
