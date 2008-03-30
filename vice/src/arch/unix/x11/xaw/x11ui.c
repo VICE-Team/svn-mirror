@@ -1,10 +1,11 @@
 /*
- * ui.c - Simple Xaw-based graphical user interface.  It uses widgets
+ * x11ui.c - Simple Xaw-based graphical user interface.  It uses widgets
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -64,7 +65,7 @@
 
 #include "drive.h"
 #include "interrupt.h"
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "log.h"
 #include "machine.h"
 #include "mouse.h"
@@ -989,8 +990,8 @@ void ui_exit(void)
     ui_button_t b;
     char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_mode_off();
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_suspend(1);
 #endif
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
@@ -1010,8 +1011,9 @@ void ui_exit(void)
         }
         ui_autorepeat_on();
         ui_restore_mouse();
-#ifdef USE_XF86_VIDMODE_EXT
-	resources_set_value("UseFullscreenVidMode", (resource_value_t) 0);
+
+#ifdef USE_XF86_EXTENSIONS
+        fullscreen_suspend(0);
 #endif
         exit(0);
     }
