@@ -57,7 +57,7 @@ typedef struct resource_s {
 
     /* Pointer to the value.  This is only used for *reading* it.  To change
        it, use `set_func'.  */
-    resource_value_t *value_ptr;
+    resource_value_t value_ptr;
 
     /* Function to call to set the value.  */
     resource_set_func_t *set_func;
@@ -83,8 +83,7 @@ extern int resources_set_value_string(const char *name, const char *value);
 extern int resources_toggle(const char *name,
                             resource_value_t *new_value_return);
 extern int resources_touch(const char *name);
-extern int resources_get_value(const char *name,
-                               resource_value_t *value_return);
+extern int resources_get_value(const char *name, void *value_return);
 extern int resources_get_sprintf(const char *name,
                                  resource_value_t *value_return, ...);
 extern int resources_get_default_value(const char *name,

@@ -56,7 +56,7 @@ static int set_keymap_file(int myindex, const char *name)
     if (myindex >= NUM_KEYBOARD_MAPPINGS)
 	return -1;
 
-    if (resources_get_value("KeymapIndex", (resource_value_t *)&kindex) < 0)
+    if (resources_get_value("KeymapIndex", (void *)&kindex) < 0)
 	return -1;
 
     if (util_string_set(&keymap_file_list[myindex], name))
@@ -81,11 +81,9 @@ static int set_keymap_pos_file(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "KeymapSymFile", RES_STRING, (resource_value_t) "default.vkm",
-      (resource_value_t *) &keymap_file_list[0],
-      set_keymap_sym_file, NULL },
+      (void *) &keymap_file_list[0], set_keymap_sym_file, NULL },
     { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
-      (resource_value_t *) &keymap_file_list[1],
-      set_keymap_pos_file, NULL },
+      (void *) &keymap_file_list[1], set_keymap_pos_file, NULL },
     NULL
 };
 

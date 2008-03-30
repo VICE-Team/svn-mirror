@@ -91,9 +91,9 @@ int set_keepenv(resource_value_t val, void *param)
 
 static const resource_t resources[] = {
     { "PSIDKeepEnv", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&keepenv, set_keepenv, NULL },
+      (void *)&keepenv, set_keepenv, NULL },
     { "PSIDTune", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&psid_tune, psid_ui_set_tune, NULL },
+      (void *)&psid_tune, psid_ui_set_tune, NULL },
     { NULL }
 };
 
@@ -363,10 +363,10 @@ void psid_init_tune(void)
                 psid->init_addr, psid->play_addr);
 
     /* PAL/NTSC. */
-    resources_get_value("MachineVideoStandard", &sync);
+    resources_get_value("MachineVideoStandard", (void *)&sync);
 
     /* MOS6581/MOS8580. */
-    resources_get_value("SidModel", &sid_model);
+    resources_get_value("SidModel", (void *)&sid_model);
 
     /* Check tune number. */
     if (start_song == 0) {
@@ -480,7 +480,7 @@ void psid_init_driver(void)
         return;
 
     /* C64 PAL/NTSC flag. */
-    resources_get_value("MachineVideoStandard", &sync);
+    resources_get_value("MachineVideoStandard", (void *)&sync);
     if (!keepenv) {
         switch ((psid->flags >> 2) & 0x03) {
           case 0x01:

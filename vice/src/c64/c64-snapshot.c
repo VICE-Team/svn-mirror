@@ -67,7 +67,7 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     if (SMW_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0
@@ -127,7 +127,7 @@ static int c64_snapshot_read_rom_module(snapshot_t *s)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     if (SMR_BA(m, mem_kernal64_rom, C64_KERNAL_ROM_SIZE) < 0

@@ -65,7 +65,7 @@ int mem_write_rom_snapshot_module(snapshot_t *s)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     if (0
@@ -117,7 +117,7 @@ int mem_read_rom_snapshot_module(snapshot_t *s)
         return 0;
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
 
     if (major_version > SNAP_ROM_MAJOR || minor_version > SNAP_ROM_MINOR) {

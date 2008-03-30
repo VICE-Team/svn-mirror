@@ -1019,8 +1019,7 @@ int pet_set_conf_info(petinfo_t *pi)
     resources_set_value("SuperPET",
                         (resource_value_t)pi->superpet);
 
-    resources_get_value("KeymapIndex",
-                        (resource_value_t *)&kindex);
+    resources_get_value("KeymapIndex", (void *)&kindex);
     resources_set_value("KeymapIndex",
                         (resource_value_t)((kindex & 1) + 2 * pi->kbd_type));
     return 0;

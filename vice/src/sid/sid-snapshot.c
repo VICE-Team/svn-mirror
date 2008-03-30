@@ -102,11 +102,13 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
     sid_snapshot_state_t sid_state;
     int sound, sid_engine;
 
-    resources_get_value("Sound", (resource_value_t *)&sound);
+    resources_get_value("Sound", (void *)&sound);
+
     if (sound == 0)
         return 0;
 
-    resources_get_value("SidEngine", (resource_value_t *)&sid_engine);
+    resources_get_value("SidEngine", (void *)&sid_engine);
+
     if (sid_engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID
         && sid_engine != SID_ENGINE_RESID
@@ -146,11 +148,13 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
     sid_snapshot_state_t sid_state;
     int sound, sid_engine;
 
-    resources_get_value("Sound", (resource_value_t *)&sound);
+    resources_get_value("Sound", (void *)&sound);
+
     if (sound == 0)
         return 0;
 
-    resources_get_value("SidEngine", (resource_value_t *)&sid_engine);
+    resources_get_value("SidEngine", (void *)&sid_engine);
+
     if (sid_engine != SID_ENGINE_FASTSID
 #ifdef HAVE_RESID
         && sid_engine != SID_ENGINE_RESID

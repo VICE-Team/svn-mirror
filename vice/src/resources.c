@@ -370,7 +370,7 @@ int resources_set_value_string(const char *name, const char *value)
     return status;
 }
 
-int resources_get_value(const char *name, resource_value_t *value_return)
+int resources_get_value(const char *name, void *value_return)
 {
     resource_ram_t *r = lookup(name);
 

@@ -142,7 +142,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
         return -1;
     SMW_B(m, (BYTE)(config | rconf));
 
-    resources_get_value("KeymapIndex", (resource_value_t*) &kbdindex);
+    resources_get_value("KeymapIndex", (void *)&kbdindex);
     SMW_B(m, (BYTE)(kbdindex >> 1));
 
     SMW_B(m, memsize);
@@ -258,7 +258,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     if (vminor > 0) {
         int kindex;
         SMR_B(m, &byte);
-        resources_get_value("KeymapIndex", (resource_value_t *)&kindex);
+        resources_get_value("KeymapIndex", (void *)&kindex);
         resources_set_value("KeymapIndex",
                             (resource_value_t)((kindex & ~1) | (byte & 1)));
     }
@@ -309,7 +309,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return -1;
 
     /* disable traps before saving the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
     petrom_unpatch_2001();
 
@@ -378,7 +378,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_get_value("VirtualDevices", (void *)&trapfl);
     resources_set_value("VirtualDevices", (resource_value_t)1);
     petrom_unpatch_2001();
 
