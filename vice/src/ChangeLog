@@ -1,3 +1,35 @@
+2000-03-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.3.2.
+
+	* drive/fdc.c (fdc_detach_image): Fixed messages.
+
+	* vicii/viciitypes.h: Set video standard offset to `0'.
+
+2000-03-10  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* arch/unix/c64ui.c: UI added for Expert cartridge
+	emulation.
+
+	* c64/c64cart.h: Added prototypes for (partrial) address
+	decoding and for nmi/reset handling.
+
+	* c64/c64cartmem.c: Expert cartridge emulation added.
+
+	* c64/c64cartridge.c: Resource added to hold the cartridge
+	mode.
+
+	* c64/c64mem.c: Address decoding added for expert emulation.
+
+	* cartridge.h: Added defines CARTRIDGE_EXPERT,
+	CARTRIDGE_MODE_OFF, CARTRIDGE_MODE_PRG & CARTRIDGE_MODE_ON.
+
+	* interrupt.h: New struct member `reset_trap_func'.
+
+	* interrupt.c (interrupt_cpu_status_init) Initialize
+	`reset_trap_func'.
+	(interrupt_set_reset_trap_func): New function.
+
 2000-03-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.3.1.

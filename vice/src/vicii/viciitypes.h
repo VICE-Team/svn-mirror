@@ -52,8 +52,8 @@
 #endif
 
 #define VIC_II_PAL_OFFSET                       0
-#define VIC_II_NTSC_OFFSET                      16
-#define VIC_II_NTSCOLD_OFFSET                   16
+#define VIC_II_NTSC_OFFSET                      0
+#define VIC_II_NTSCOLD_OFFSET                   0
 
 #define VIC_II_SCREEN_XPIX			320
 #define VIC_II_SCREEN_YPIX			200
