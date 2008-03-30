@@ -93,7 +93,7 @@ DEFINE_SET_KEYSET(2, FIRE)
 static resource_t resources[] = {
     { "JoyDevice1", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
       (resource_value_t *) &joystick_device_1, set_joystick_device_1 },
-    { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NUMPAD,
+    { "JoyDevice2", RES_INTEGER, (resource_value_t) JOYDEV_NONE,
       (resource_value_t *) &joystick_device_2, set_joystick_device_2 },
     { "KeySet1NorthWest", RES_INTEGER, (resource_value_t) K_NONE,
       (resource_value_t *) &keyset1[KEYSET_NW], set_keyset1_NW },

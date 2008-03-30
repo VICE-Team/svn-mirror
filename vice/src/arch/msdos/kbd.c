@@ -78,12 +78,15 @@ static struct {
 /* Pointer to the keyboard conversion maps.  Fixed-length arrays suck, but
    for now we don't care.  */
 #define MAX_CONVMAPS 10
-static keyconv *keyconvmaps[MAX_CONVMAPS];
+struct _convmap {
+    /* Conversion map.  */
+    keyconv *map;
+    /* Location of the virtual shift key in the keyboard matrix.  */
+    int virtual_shift_row, virtual_shift_column;
+};
+static struct _convmap keyconvmaps[MAX_CONVMAPS];
+static struct _convmap *keyconv_base;
 static int num_keyconvmaps;
-static keyconv *keyconv_base;
-
-/* What is the location of the virtual shift key in the keyboard matrix?  */
-static int virtual_shift_column, virtual_shift_row;
 
 /* Function for triggering cartridge (e.g. AR) freezing.  */
 static void (*freeze_function)(void);
@@ -132,7 +135,7 @@ static int set_keymap_index(resource_value_t v)
        fix some day.  */
 #endif
 
-    keyconv_base = keyconvmaps[real_index];
+    keyconv_base = &keyconvmaps[real_index];
     return 0;
 }
 
@@ -343,41 +346,50 @@ static void my_kbd_interrupt_handler(void)
 	    break;
 	}
 
-	switch (kcode) {
-	  case K_ESC:
-            queue_command(KCMD_MENU, (kbd_command_data_t) 0);
-	    break;
-	  case K_PGUP: /* Restore */
+        /* This must be done separately because some machines (eg. the PETs)
+           might want to map this differently.  */
+        if (kcode == K_PGUP)  /* Restore */
 	    queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t) 0);
-	    break;
-	  case K_F12:
-	    /* F12 does a reset, Alt-F12 does a reset and clears the
-               memory.  */
-	    if (modifiers.left_alt || modifiers.right_alt)
-		queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
-	    else
-		queue_command(KCMD_RESET, (kbd_command_data_t) 0);
-	    break;
-          case K_PAUSE:
-            /* Alt-Pause enables cartridge freezing.  */
-            if (modifiers.left_alt || modifiers.right_alt)
-                queue_command(KCMD_FREEZE, (kbd_command_data_t) 0);
+
+	switch (kcode) {
+          case K_ESC:           /* Menu */
+            queue_command(KCMD_MENU, (kbd_command_data_t) 0);
             break;
-          case K_SCROLLOCK:
+          case K_SCROLLOCK:     /* Warp mode on/off */
             queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t) 0);
             break;
-	  default:
-            /* Alt-{letter,number} enters the monitor.  */
-            if ((modifiers.left_alt || modifiers.right_alt)
-                && isalnum((int) kcode_to_ascii(kcode))) {
-                queue_command(KCMD_MENU,
-                              (kbd_command_data_t) kcode_to_ascii(kcode));
-            } else if (!joystick_handle_key(kcode, 1)) {
-		set_keyarr(keyconv_base[kcode].row,
-                           keyconv_base[kcode].column, 1);
-		if (keyconv_base[kcode].vshift)
-		    set_keyarr(virtual_shift_row, virtual_shift_column, 1);
-	    }
+          default:
+            if (modifiers.left_alt || modifiers.right_alt) {
+                /* Handle Alt-... hotkeys.  */
+                switch (kcode) {
+                  case K_F12:
+                    /* Alt-F12 does a reset, Alt-Ctrl-F12 does a reset and
+                       clears the memory.  */
+                    if (modifiers.left_ctrl || modifiers.right_ctrl)
+                        queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
+                    else
+                        queue_command(KCMD_RESET, (kbd_command_data_t) 0);
+                    break;
+                  case K_PAUSE:
+                    /* Alt-Pause enables cartridge freezing.  */
+                    queue_command(KCMD_FREEZE, (kbd_command_data_t) 0);
+                    break;
+                  default:
+                    /* Alt-{letter,number} enters the main menu.  */
+                    if (isalnum((int) kcode_to_ascii(kcode)))
+                        queue_command(KCMD_MENU,
+                                      (kbd_command_data_t) kcode_to_ascii(kcode));
+                }
+            } else {
+                /* "Normal" key.  */
+                if (!joystick_handle_key(kcode, 1)) {
+                    set_keyarr(keyconv_base->map[kcode].row,
+                               keyconv_base->map[kcode].column, 1);
+                    if (keyconv_base->map[kcode].vshift)
+                        set_keyarr(keyconv_base->virtual_shift_row,
+                                   keyconv_base->virtual_shift_column, 1);
+                }
+            }
 	}
 
     } else {			/* Key released.  */
@@ -411,20 +423,20 @@ static void my_kbd_interrupt_handler(void)
 	    break;
 	}
 
-	switch (kcode) {
-          case K_ESC:
-            break;
-	  case K_PGUP:
+        /* This must be done separately because some machines (eg. the PETs)
+           might want to map this differently.  */
+        if (kcode == K_PGUP)
 	    queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t) 0);
-	    break;
-	  default:
-	    if (!joystick_handle_key(kcode, 0)) {
-		set_keyarr(keyconv_base[kcode].row,
-                           keyconv_base[kcode].column, 0);
-		if (keyconv_base[kcode].vshift)
-		    set_keyarr(virtual_shift_row, virtual_shift_column, 0);
-	    }
-	}
+
+        if (!modifiers.left_alt && !modifiers.right_alt) {
+            if (!joystick_handle_key(kcode, 0)) {
+                set_keyarr(keyconv_base->map[kcode].row,
+                           keyconv_base->map[kcode].column, 0);
+                if (keyconv_base->map[kcode].vshift)
+                    set_keyarr(keyconv_base->virtual_shift_row,
+                               keyconv_base->virtual_shift_column, 0);
+            }
+        }
 
     }
 
@@ -490,8 +502,11 @@ static void kbd_exit(void)
 }
 
 /* Initialize the keyboard driver.  */
-int kbd_init(int shift_column, int shift_row, ...)
+int kbd_init(int num, ...)
 {
+    if (num > MAX_CONVMAPS)
+        return -1;
+
     DEBUG(("Getting standard int 9 seginfo"));
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
     atexit(kbd_exit);
@@ -500,23 +515,28 @@ int kbd_init(int shift_column, int shift_row, ...)
     _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
     _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
 
-    DEBUG(("Locking keyboard handler variables"));
+    DEBUG(("Installing keymaps"));
     {
         va_list p;
+        int i;
 
-        va_start(p, shift_row);
-        for (num_keyconvmaps = 0;
-             num_keyconvmaps < MAX_CONVMAPS;
-             num_keyconvmaps++) {
+        num_keyconvmaps = num;
+
+        va_start(p, num);
+        for (i = 0; i < num_keyconvmaps; i++) {
             keyconv *map;
             unsigned int sizeof_map;
+            int shift_row, shift_column;
 
+            shift_row = va_arg(p, int);
+            shift_column = va_arg(p, int);
             map = va_arg(p, keyconv *);
-            if (map == NULL)
-                break;
             sizeof_map = va_arg(p, unsigned int);
+
             _go32_dpmi_lock_data(map, sizeof_map);
-            keyconvmaps[num_keyconvmaps] = map;
+            keyconvmaps[i].map = map;
+            keyconvmaps[i].virtual_shift_row = shift_row;
+            keyconvmaps[i].virtual_shift_column = shift_column;
         }
     }
 
@@ -526,22 +546,17 @@ int kbd_init(int shift_column, int shift_row, ...)
     _go32_dpmi_lock_data(rev_keyarr, sizeof(rev_keyarr));
     _go32_dpmi_lock_data(joy, sizeof(joy));
     _go32_dpmi_lock_data(&modifiers, sizeof(modifiers));
-    _go32_dpmi_lock_data(&virtual_shift_row, sizeof(virtual_shift_row));
-    _go32_dpmi_lock_data(&virtual_shift_column, sizeof(virtual_shift_column));
     _go32_dpmi_lock_data(&num_queued_commands, sizeof(num_queued_commands));
     _go32_dpmi_lock_data(&command_queue, sizeof(command_queue));
 
     num_queued_commands = 0;
 
-    virtual_shift_row = shift_row;
-    virtual_shift_column = shift_column;
-
     /* FIXME: argh, another hack.  */
-    keyconv_base = keyconvmaps[keymap_index >> 1];
+    keyconv_base = &keyconvmaps[keymap_index >> 1];
 
     kbd_install();
 
-    DEBUG(("Successful"));
+    DEBUG(("Successful\n"));
 
     return 0;
 }
