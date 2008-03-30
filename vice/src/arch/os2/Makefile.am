@@ -33,7 +33,8 @@ libarch_a_SOURCES = \
 	video.c \
 	video.h \
 	vsync.c \
-	vsync.h
+        vsync_old.c \
+        vsync_old.h
 
 EXTRA_DIST = \
 	vice.def

@@ -35,8 +35,7 @@ libarch_a_SOURCES = \
         uicmdline.h \
 	video.c \
 	video.h \
-	vsync.c \
-	vsync.h
+	vsync.c
 
 .PHONY: xaw
 xaw:
