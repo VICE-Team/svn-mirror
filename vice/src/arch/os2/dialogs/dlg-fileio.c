@@ -64,9 +64,6 @@
 #include "dlg-fileio.h"
 #include "snippets\pmwin2.h"
 
-#ifdef HAVE_VIC_II
-static const char *VIDEO_PALETTE="ViciiPaletteFile";
-#endif
 #ifdef HAVE_VIC
 static const char *VIDEO_PALETTE="VicPaletteFile";
 #endif
@@ -75,6 +72,9 @@ static const char *VIDEO_PALETTE="TedPaletteFile";
 #endif
 #ifdef HAVE_CRTC
 static const char *VIDEO_PALETTE="CrtcPaletteFile";
+#endif
+#if defined HAVE_VIC_II && !defined HAVE_CRTC
+static const char *VIDEO_PALETTE="ViciiPaletteFile";
 #endif
 
 struct _filter
@@ -179,7 +179,12 @@ static subaction_t SubScr[] = {
 };
 
 static subaction_t SubPal[] = {
+#ifdef __XCBM__
+    { "as new CRTC palette",    FilterPal },
+    { "as new VICII palette",    FilterPal },
+#else
     { "as new color palette",    FilterPal },
+#endif
 #ifdef __X128__
     { "as new VDC palette",      FilterPal },
 #endif
@@ -349,7 +354,7 @@ static action_t LoadAction[] = {
     { "Load Fliplist",             SubFlip,    TRUE  },
     { "Load and Attach Fliplist",  SubFlip,    TRUE  },
     { "Load Snapshot",             SubVsf,     FALSE },
-#ifdef __X128__
+#if defined __X128__ || defined __CBM2__
     { "Load Color Palette",        SubPal,     TRUE  },
 #else
     { "Load Color Palette",        SubPal,     FALSE },
@@ -395,6 +400,10 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
 #ifdef __X128__
         case 1:
             return resources_set_value("VDC_PaletteFile", (resource_value_t)szpath);
+#endif
+#ifdef __XCBM__
+        case 1:
+            return resources_set_value("ViciiPaletteFile", (resource_value_t)szpath);
 #endif
         }
         return -1;
@@ -887,7 +896,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinSetDlgItemText(hwnd, DID_DIR_SELECTED, szpath);
             lib_free (szpath);
 
-            szpath = util_concat(archdep_boot_path(), "\\vice2.fon", NULL);
+            szpath = util_concat(archdep_boot_path(), "\\vice2.dll", NULL);
             if (!GpiLoadFonts(WinQueryAnchorBlock(hwnd), szpath))
             {
                 log_debug("dlg-fileio.c: GpiLoadFonts('%s') failed.", szpath);
@@ -899,7 +908,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
     case WM_DESTROY:
         {
-            char *szpath = util_concat(archdep_boot_path(), "\\vice2.fon",
+            char *szpath = util_concat(archdep_boot_path(), "\\vice2.dll",
                            NULL);
             LboxFreeContents(WinWindowFromID(hwnd, DID_CONTENTS_LB));
             if (!GpiUnloadFonts(WinQueryAnchorBlock(hwnd), szpath))

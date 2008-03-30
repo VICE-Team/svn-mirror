@@ -42,8 +42,8 @@
 #endif
 
 /* Path separator.  */
-#define FINDPATH_SEPARATOR_CHAR         ';'
-#define FINDPATH_SEPARATOR_STRING       ";"
+#define ARCHDEP_FINDPATH_SEPARATOR_CHAR         ';'
+#define ARCHDEP_FINDPATH_SEPARATOR_STRING       ";"
 
 /* Modes for fopen().  */
 #define MODE_READ              "rb"
@@ -55,10 +55,9 @@
 #define MODE_APPEND_READ_WRITE "ab+"
 
 /* Printer default devices.  */
-#define PRINTER_DEFAULT_DEV1 "Vice2.prn"
-#define PRINTER_DEFAULT_DEV2 "LPT1:"
-#define PRINTER_DEFAULT_DEV3 "LPT2:"
-#define MPS803_DEFAULT_OUTPUT_NAME "mps803.bmp"
+#define ARCHDEP_PRINTER_DEFAULT_DEV1 "vice2.prn"
+#define ARCHDEP_PRINTER_DEFAULT_DEV2 "LPT1:"
+#define ARCHDEP_PRINTER_DEFAULT_DEV3 "LPT2:"
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE 1

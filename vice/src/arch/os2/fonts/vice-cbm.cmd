@@ -37,11 +37,11 @@ REM /* Create font-dll        */
 REM /*                        */
 alp -Mb vice2.asm
 link386 vice2,,,,vice2.def /NOLOGO
-rc -n vice2.rc vice2.dll
+REM rc -n vice2.rc vice2.dll
 
 REM /*                        */
 REM /* 'Rename' font-dll      */
 REM /*                        */
-move vice2.dll ..\..\..\..\data\vice2.fon > NUL
+REM move vice2.dll ..\..\..\..\data\vice2.fon > NUL
 
-del chargen*.fnt *.res *.obj *.map > NUL
+REM del chargen*.fnt *.res *.obj *.map > NUL

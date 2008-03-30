@@ -5,15 +5,10 @@ source type(c)
     "raster-cache.c",
     "raster-canvas.c",
     "raster-changes.c",
+    "raster-line.c",
     "raster-line-changes.c",
     "raster-line-changes-sprite.c",
     "raster-modes.c",
     "raster-sprite.c",
     "raster-sprite-status.c",
     "raster-sprite-cache.c"
-
-option Raster = opt(level, "1"), opt(autoinline, "no"), opt(inline, "no")
-{
-source type(c)
-    "raster-line.c"
-}

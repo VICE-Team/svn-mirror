@@ -226,7 +226,8 @@ BEGIN
           BEGIN
             MENUITEM "~Ascii",         IDM_PRT4ASCII,   MIS_TEXT
             MENUITEM "~MPS-803",       IDM_PRT4MPS803,  MIS_TEXT
-          END
+            MENUITEM "~NL-10",         IDM_PRT4NL10,    MIS_TEXT
+          END                   
           SUBMENU "~Output Driver",    IDM_PRT4OUT,     MIS_TEXT
           BEGIN
             MENUITEM "~Text",          IDM_PRT4TXT,     MIS_TEXT
@@ -240,6 +241,7 @@ BEGIN
           BEGIN
             MENUITEM "~Ascii",         IDM_PRT5ASCII,   MIS_TEXT
             MENUITEM "~MPS-803",       IDM_PRT5MPS803,  MIS_TEXT
+            MENUITEM "~NL-10",         IDM_PRT5NL10,    MIS_TEXT
           END
           SUBMENU "~Output Driver",    IDM_PRT5OUT,     MIS_TEXT
           BEGIN
@@ -254,6 +256,7 @@ BEGIN
           BEGIN
             MENUITEM "~Ascii",         IDM_PRTUPASCII,  MIS_TEXT
             MENUITEM "~MPS-803",       IDM_PRTUPMPS803, MIS_TEXT
+            MENUITEM "~NL-10",         IDM_PRTUPNL10,   MIS_TEXT
           END
           SUBMENU "~Output Driver",    IDM_PRTUPOUT,    MIS_TEXT
           BEGIN
@@ -261,6 +264,15 @@ BEGIN
             MENUITEM "~Graphics",      IDM_PRTUPGFX,    MIS_TEXT
           END
         END  
+/*
+        SUBMENU "Pixels per Bit",      IDM_PPB,         MIS_TEXT
+        BEGIN
+           MENUITEM "~0",              IDM_PPB0,        MIS_TEXT
+           MENUITEM "~1",              IDM_PPB0,        MIS_TEXT
+           MENUITEM "~2",              IDM_PPB0,        MIS_TEXT
+           MENUITEM "~3",              IDM_PPB0,        MIS_TEXT
+        END
+*/
       END  
 #ifdef HAVE_MOUSE
       MENUITEM "~Mouse 1531 Emulation", IDM_MOUSE,      MIS_TEXT
@@ -424,7 +436,8 @@ BEGIN
      SUBMENU "SID ~Chip",               IDM_SIDCHIP,      MIS_TEXT
      BEGIN
        MENUITEM "~6581",                IDM_SC6581,       MIS_TEXT
-       MENUITEM "~8680",                IDM_SC8580,       MIS_TEXT
+       MENUITEM "~8580",                IDM_SC8580,       MIS_TEXT
+       MENUITEM "~8580 + digi boost",   IDM_SC8580DB,     MIS_TEXT
      END
      MENUITEM "SID ~Filter",            IDM_SIDFILTER,    MIS_TEXT
      MENUITEM "2nd SID (stereo)",       IDM_STEREO,       MIS_TEXT
@@ -491,6 +504,7 @@ BEGIN
        MENUITEM "~Fast",                IDM_RESIDFAST,     MIS_TEXT
        MENUITEM "~Interpolation",       IDM_RESIDINTERPOL, MIS_TEXT
        MENUITEM "~Resampling",          IDM_RESIDRESAMPLE, MIS_TEXT
+       MENUITEM "Fast Re~sampling",     IDM_RESIDFASTRES,  MIS_TEXT
      END
 #endif
    END

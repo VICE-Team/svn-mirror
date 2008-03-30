@@ -12,15 +12,18 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
-    incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\cbm2"),
+    incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\crtc"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
+    incl(searchpath, "..\\..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
+    incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
+    incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
@@ -47,24 +50,30 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 
         source type(c)
             "mouse.c",
+            "mousedrv.c",
             "kbd-c610.c",
             "kbd-pet.c",
-            "dlg-color.c"
+            "dlg-color.c",
+            "video-render-1x2.c"
 
         include "../incl/archdep.icc"
         include "../incl/cbm2.icc"
+        include "../incl/core.icc"
         include "../incl/crtc.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
+        include "../incl/fileio.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
+        include "../incl/iecbus.icc"
         include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"
         include "../incl/kbd.icc"
         include "../incl/mainsrc.icc"
         include "../incl/monitor.icc"
+        include "../incl/parallel.icc"
         include "../incl/printerdrv.icc"
         include "../incl/raster.icc"
         include "../incl/resid.icc"

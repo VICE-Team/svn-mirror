@@ -16,7 +16,6 @@ source type(c)
     "fliplist.c",
     "fullscr.c",
     "gcr.c",
-    "info.c",
     "init.c",
     "initcmdline.c",
     "interrupt.c",

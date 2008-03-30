@@ -10,6 +10,7 @@ source type(c)
 	"vic20-resources.c",
 	"vic20-snapshot.c",
 	"vic20.c",
+        "vic20bus.c",
 	"vic20cartridge.c",
 	"vic20datasette.c",
         "vic20drive.c",
@@ -17,8 +18,12 @@ source type(c)
 	"vic20ieeevia1.c",
 	"vic20ieeevia2.c",
 	"vic20mem.c",
+        "vic20memsnapshot.c",
+        "vic20printer.c",
 	"vic20rom.c",
+        "vic20romset.c",
 	"vic20rsuser.c",
 	"vic20sound.c",
 	"vic20via1.c",
-	"vic20via2.c"
+	"vic20via2.c",
+        "vic20video.c"

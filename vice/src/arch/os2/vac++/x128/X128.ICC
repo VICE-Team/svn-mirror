@@ -14,12 +14,16 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\c128"),
     incl(searchpath, "..\\..\\..\\..\\c64"),
+    incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
+    incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
+    incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
@@ -48,32 +52,42 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "rs232.c",
  	    "mouse.c",
-            "c128memlimit.c",
+            "mousedrv.c",
+            "video-render-1x2.c",
             "kbd\\kbd-c128.c",
             "dialogs\\dlg-color.c"
 
         source type(c)
             "reu.c",
             "c64acia1.c",
+            "c64bus.c",
             "c64cia2.c",
             "c64datasette.c",
             "c64drive.c",
+            "c64export.c",
+            "c64iec.c",
+            "c64io.c",
             "c64keyboard.c",
             "c64meminit.c",
             "c64memrom.c",
+            "c64parallel.c",  
 	    "c64pla.c",
+            "c64printer.c",
             "c64rsuser.c",
             "c64tpi.c"
 
         include "../incl/archdep.icc"
         include "../incl/c128.icc"
         include "../incl/c64cart.icc"
+        include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
+        include "../incl/fileio.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
         include "../incl/iec.icc"
+        include "../incl/iecbus.icc"
         include "../incl/iecieee.icc"
         include "../incl/ieee.icc"
         include "../incl/imagecontents.icc"
@@ -81,6 +95,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/mainsrc.icc"
         include "../incl/monitor.icc"
         include "../incl/monz80.icc"
+        include "../incl/parallel.icc"
         include "../incl/printerdrv.icc"
         include "../incl/raster.icc"
         include "../incl/resid.icc"

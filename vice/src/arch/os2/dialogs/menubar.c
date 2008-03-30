@@ -574,6 +574,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         set_printer_res("Printer%sDriver", (idm>>4)&0xf, (resource_value_t*)"mps803");
         return;
 
+    case IDM_PRT4NL10:
+    case IDM_PRT5NL10:
+    case IDM_PRTUPNL10:
+        set_printer_res("Printer%sDriver", (idm>>4)&0xf, (resource_value_t*)"nl10");
+        return;
+
     case IDM_PRT4TXT:
     case IDM_PRT5TXT:
     case IDM_PRTUPTXT:
@@ -585,7 +591,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PRTUPGFX:
         set_printer_res("Printer%sOutput", (idm>>4)&0xf, (resource_value_t*)"graphics");
         return;
-
+/*
+    case IDM_PPB0:
+    case IDM_PPB1:
+    case IDM_PPB2:
+    case IDM_PPB3:
+        resources_set_value("PixelsPerBit", (resource_value_t*)(idm&3));
+        return;
+*/
 #if defined __X128__ || defined __XVIC__
     case IDM_IEEE:
         toggle("IEEE488");
@@ -695,6 +708,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RESIDFAST:
     case IDM_RESIDINTERPOL:
     case IDM_RESIDRESAMPLE:
+    case IDM_RESIDFASTRES:
         resources_set_value("SidResidSampling", (resource_value_t)(idm-IDM_RESIDFAST));
         return;
 
@@ -722,7 +736,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_SC6581:
     case IDM_SC8580:
-        resources_set_value("SidModel", (resource_value_t)(idm&1));
+    case IDM_SC8580DB:
+        resources_set_value("SidModel", (resource_value_t)(idm-IDM_SC6581));
         return;
 #endif // __X64__ || __X128__ || __XCBM__
 
@@ -1196,6 +1211,7 @@ void menu_select(HWND hwnd, USHORT item)
             get_printer_res("Printer%sDriver", num, (resource_value_t*)&txt);
             WinCheckMenuItem(hwnd, IDM_PRT4ASCII  | (num<<4), !strcasecmp(txt, "ascii"));
             WinCheckMenuItem(hwnd, IDM_PRT4MPS803 | (num<<4), !strcasecmp(txt, "mps803"));
+            WinCheckMenuItem(hwnd, IDM_PRT4NL10   | (num<<4), !strcasecmp(txt, "nl10"));
         }
 
     case IDM_PRT4OUT:
@@ -1285,6 +1301,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem (hwnd, IDM_RESIDFAST,     val==0);
         WinCheckMenuItem (hwnd, IDM_RESIDINTERPOL, val==1);
         WinCheckMenuItem (hwnd, IDM_RESIDRESAMPLE, val==2);
+        WinCheckMenuItem (hwnd, IDM_RESIDFASTRES,  val==3);
         WinEnableMenuItem(hwnd, IDM_RESIDBAND,     val==2);
         return;
 
@@ -1300,8 +1317,9 @@ void menu_select(HWND hwnd, USHORT item)
 #if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_SIDCHIP:
         resources_get_value("SidModel", (void *)&val);
-        WinCheckMenuItem(hwnd, IDM_SC6581, !val);
-        WinCheckMenuItem(hwnd, IDM_SC8580,  val);
+        WinCheckMenuItem(hwnd, IDM_SC6581,   val==0);
+        WinCheckMenuItem(hwnd, IDM_SC8580,   val==1);
+        WinCheckMenuItem(hwnd, IDM_SC8580DB, val==2);
         return;
 #endif // __X64__ || __X128__ || __XCBM__
     case IDM_SOUNDSYNC:

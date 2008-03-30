@@ -10,6 +10,7 @@ source type(c)
     "joystick.c",
     "kbd.c",
     "os2main.c",
+    "signals.c",
     "sounddrv.c",
     "ui.c",
     "uicmdline.c",

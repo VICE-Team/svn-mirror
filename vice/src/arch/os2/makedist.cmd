@@ -154,6 +154,7 @@ copy ..\..\..\data\PRINTER\cbm1526      Vice2\PRINTER
 copy ..\..\..\data\PRINTER\mps801       Vice2\PRINTER
 copy ..\..\..\data\PRINTER\mps803       Vice2\PRINTER
 copy ..\..\..\data\PRINTER\mps803.vpl   Vice2\PRINTER
+copy ..\..\..\data\PRINTER\nl10-cbm     Vice2\PRINTER
 
 md Vice2\doc
 copy "vac++\vice2.inf"         Vice2\doc

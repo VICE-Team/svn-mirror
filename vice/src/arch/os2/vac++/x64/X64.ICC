@@ -55,6 +55,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "mousedrv.c",
             "kbd-c64.c",
             "c64memlimit.c",
+            "c64romset.c",
             "dialogs\\dlg-color.c"
 
         include "../incl/archdep.icc"

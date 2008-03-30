@@ -143,7 +143,7 @@ int archdep_init(int *argc, char **argv)
     DosGetInfoBlocks(&pTib, &pPib);
     DosQueryModuleName(pPib->pib_hmte, CCHMAXPATH, argv0);
 
-    orig_workdir = (char *)getcwd(NULL, PATH_MAX);
+    orig_workdir = (char *)getcwd(NULL, CCHMAXPATH);
     atexit(restore_workdir);
 
     PM_open();
@@ -193,8 +193,8 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     if (!pathlist)
         pathlist = util_concat(emu_id,
-                               FINDPATH_SEPARATOR_STRING, "DRIVES",
-                               FINDPATH_SEPARATOR_STRING, "PRINTER",
+                               ARCHDEP_FINDPATH_SEPARATOR_STRING, "DRIVES",
+                               ARCHDEP_FINDPATH_SEPARATOR_STRING, "PRINTER",
                                NULL);
 
     return pathlist;

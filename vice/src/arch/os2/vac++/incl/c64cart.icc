@@ -8,9 +8,10 @@ source type(c)
     "cart\\expert.c",
     "cart\\final.c",
     "cart\\generic.c",
-    "cart\\kcs.c",
-    "cart\\retroreplay.c",
     "cart\\ide64.c",
+    "cart\\kcs.c",
+    "cart\\magicformel.c",
+    "cart\\retroreplay.c",
     "cart\\supergames.c",
     "cart\\supersnapshot.c",
     "cart\\zaxxon.c"

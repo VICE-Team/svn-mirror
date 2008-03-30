@@ -28,11 +28,17 @@ option ProjectOptions =
    link(export, "png_write_info"),
    link(export, "png_init_io"),
    link(export, "png_set_invert_alpha"),
-   link(export, "png_write_end")
+   link(export, "png_write_end"),
+   link(export, "info_license_text"),
+   link(export, "info_contrib_text"),
+   link(export, "info_warranty_text"),
+   res_rc_options("-i ..\\fonts -x1")
 {
    target type(dll) "..\\..\\..\\..\\data\\vice2.dll"
    {
       source "zlib.lib"
       source "png.lib"
+      source "..\\..\\..\\..\\src\\info.c"
+      source "..\\fonts\\vice2.rc"
    }
 }

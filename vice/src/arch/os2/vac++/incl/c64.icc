@@ -9,6 +9,7 @@ source type(c)
     "c64cia2.c",
     "c64datasette.c",
     "c64drive.c",
+    "c64export.c",
     "c64fastiec.c",
     "c64iec.c",
     "c64io.c",

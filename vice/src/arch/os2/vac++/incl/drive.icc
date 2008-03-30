@@ -4,6 +4,7 @@ source type(c)
     "drive-overflow.c",
     "drive-resources.c",
     "drive-snapshot.c",
+    "drive-writeprotect.c",
     "drive.c",
     "drivecpu.c",
     "driveimage.c",

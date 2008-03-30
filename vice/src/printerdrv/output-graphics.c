@@ -59,6 +59,7 @@ static output_gfx_t output_gfx[3];
 
 static unsigned int current_prnr;
 
+/* CURRENTLY NOT USED. ANDREAS B. PROMISED TO IMPLEMENT THIS FEATURE AGAIN
 static int ppb;
 
 static int set_ppb(resource_value_t v, void *param)
@@ -83,10 +84,10 @@ static const cmdline_option_t cmdline_options[] =
       "<0-3>", "Number of pixel size in graphic [3]" },
     { NULL }
 };
-
+*/
 int output_graphics_init_cmdline_options(void)
 {
-    return cmdline_register_options(cmdline_options);
+    return 1;//cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -188,7 +189,7 @@ static void output_graphics_close(unsigned int prnr)
 
       /* fill rest of page with blank lines */
       memset(o->line, OUTPUT_PIXEL_WHITE, o->screenshot.width);
-      for (i = o->line_no; i < o->screenshot.height; i++) 
+      for (i = o->line_no; i < o->screenshot.height; i++)
         (o->gfxoutputdrv->write)(&o->screenshot);
 
       /* close output */
@@ -208,7 +209,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
 {
   output_gfx_t *o = &(output_gfx[prnr]);
 
-  if (b == OUTPUT_NEWLINE) 
+  if (b == OUTPUT_NEWLINE)
     {
       /* if output is not open yet, open it now */
       if( !o->isopen )
@@ -218,12 +219,12 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
           /* increase page count in filename */
           i = strlen(o->filename);
           o->filename[i-1]++;
-          if (o->filename[i-1] > '9') 
+          if (o->filename[i-1] > '9')
             {
               o->filename[i-1] = '0';
               o->filename[i-2]++;
             }
-          
+
           /* open output file */
           o->gfxoutputdrv->open(&o->screenshot, o->filename);
           o->isopen = 1;
@@ -244,12 +245,12 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
           o->gfxoutputdrv->close(&o->screenshot);
           o->isopen = 0;
         }
-    } 
-  else 
+    }
+  else
     {
       /* store pixel in buffer */
       o->line[o->line_pos] = b;
-      if (o->line_pos < o->screenshot.width - 1) 
+      if (o->line_pos < o->screenshot.width - 1)
         o->line_pos++;
     }
 
@@ -296,6 +297,6 @@ int output_graphics_init_resources(void)
 
     output_select_register(&output_select);
 
-    return resources_register(resources);
+    return 1;//resources_register(resources);
 }
 

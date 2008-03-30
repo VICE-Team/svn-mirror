@@ -12,9 +12,12 @@ source type(c)
     "mon_ui.c",
     "mon_util.c"
 
-option Monitor = define("__GNUC__", ), define("__TURBOC__",), lang(level, "ANSI")
+option Monitor = define("__GNUC__", ), define("__TURBOC__",)
 {
-   source type(c)
-    "mon_parse.c",
-    "mon_lex.c"
+   source type(c) "mon_lex.c"
+
+   option MonitorParse = lang(level, "ANSI")
+   {
+      source type(c) "mon_parse.c"
+   }
 }

@@ -15,8 +15,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
+    incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
     incl(searchpath, "..\\..\\..\\..\\plus4"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
@@ -45,6 +47,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "rs232.c", // ???
             "mouse.c",
+            "mousedrv.c",
             "kbd-plus4.c",
             "dialogs\\dlg-color.c"
 
@@ -53,9 +56,11 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
+        include "../incl/fileio.icc"
         include "../incl/fsdevice.icc"
         include "../incl/gfxoutputdrv.icc"
         include "../incl/iec.icc"
+        include "../incl/iecbus.icc"
         include "../incl/iecieee.icc"
         include "../incl/imagecontents.icc"
         include "../incl/kbd.icc"

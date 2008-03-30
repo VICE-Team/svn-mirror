@@ -144,14 +144,16 @@
 
 #define IDM_SC6581        0x170
 #define IDM_SC8580        0x171
-#define IDM_SOUNDON       0x172
-#define IDM_SIDFILTER     0x173
-#define IDM_RESID         0x174
-#define IDM_RESIDMETHOD   0x175
-#define IDM_RESIDFAST     0x176
-#define IDM_RESIDINTERPOL 0x177
-#define IDM_RESIDRESAMPLE 0x178
-#define IDM_STEREO        0x179
+#define IDM_SC8580DB      0x172
+#define IDM_SOUNDON       0x173
+#define IDM_SIDFILTER     0x174
+#define IDM_RESID         0x175
+#define IDM_RESIDMETHOD   0x176
+#define IDM_RESIDFAST     0x177
+#define IDM_RESIDINTERPOL 0x178
+#define IDM_RESIDRESAMPLE 0x179
+#define IDM_RESIDFASTRES  0x17a
+#define IDM_STEREO        0x17b
 
 #define IDM_RESIDBAND     0x17f
 #define IDM_RESIDPASS0    0x180
@@ -349,28 +351,37 @@
 #define IDM_PRT4DRV      0x702
 #define IDM_PRT4ASCII    0x703
 #define IDM_PRT4MPS803   0x704
-#define IDM_PRT4OUT      0x705
-#define IDM_PRT4TXT      0x706
-#define IDM_PRT4GFX      0x707
+#define IDM_PRT4NL10     0x705
+#define IDM_PRT4OUT      0x706
+#define IDM_PRT4TXT      0x707
+#define IDM_PRT4GFX      0x708
 
 #define IDM_PRINTER5     0x710
 #define IDM_PRT5IEC      0x711
 #define IDM_PRT5DRV      0x712
 #define IDM_PRT5ASCII    0x713
 #define IDM_PRT5MPS803   0x714
-#define IDM_PRT5OUT      0x715
-#define IDM_PRT5TXT      0x716
-#define IDM_PRT5GFX      0x717
+#define IDM_PRT5NL10     0x715
+#define IDM_PRT5OUT      0x716
+#define IDM_PRT5TXT      0x717
+#define IDM_PRT5GFX      0x718
 
 #define IDM_PRINTERUP    0x720
 #define IDM_PRTUP        0x721
 #define IDM_PRTUPDRV     0x722
 #define IDM_PRTUPASCII   0x723
 #define IDM_PRTUPMPS803  0x724
-#define IDM_PRTUPOUT     0x725
-#define IDM_PRTUPTXT     0x726
-#define IDM_PRTUPGFX     0x727
-
+#define IDM_PRTUPNL10    0x725
+#define IDM_PRTUPOUT     0x726
+#define IDM_PRTUPTXT     0x727
+#define IDM_PRTUPGFX     0x728
+/*
+#define IDM_PPB          0x734
+#define IDM_PPB0         0x730
+#define IDM_PPB1         0x731
+#define IDM_PPB2         0x732
+#define IDM_PPB3         0x733
+*/
 #define IDM_C128TYPE     0x7ff
 #define IDM_C128INT      0x800
 #define IDM_C128FI       0x801
