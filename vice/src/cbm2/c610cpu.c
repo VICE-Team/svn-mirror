@@ -198,6 +198,10 @@ inline static BYTE *mem_read_base(int addr)
 
     return p - (addr & 0xff00);
 }
+inline static int mem_read_limit(int addr)
+{
+    return mem_read_limit_tab_ptr[addr >> 8];
+}
 #endif
 
 /* Those may be overridden by the machine stuff.  Probably we want them in

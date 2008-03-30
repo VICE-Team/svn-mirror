@@ -44,6 +44,7 @@ typedef store_func_t *store_func_ptr_t;
 extern read_func_ptr_t *_mem_read_tab_ptr;
 extern store_func_ptr_t *_mem_write_tab_ptr;
 extern BYTE **_mem_read_base_tab_ptr;
+extern int *mem_read_limit_tab_ptr;
 
 #ifdef AVOID_STATIC_ARRAYS
 extern BYTE *ram;

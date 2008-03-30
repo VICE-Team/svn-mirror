@@ -78,8 +78,9 @@
    makes things much faster.
 
    This define affects only this file! */
-# undef INSTRUCTION_FETCH_HACK
+#define INSTRUCTION_FETCH_HACK
 
+# ifndef INSTRUCTION_FETCH_HACK
 /* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
    to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
 #  define FETCH_OPCODE(x)
@@ -90,7 +91,7 @@
 /* FIXME: This might cause complaints about unused variables...  Well, who
    cares?  */
 #  define opcode_t      int
-
+# endif
 /* ------------------------------------------------------------------------- */
 
 /* The following #defines are useful for debugging and speed tuning.  */
@@ -135,11 +136,12 @@
 /* Implement the hack to make opcode fetches faster.  */
 #ifdef INSTRUCTION_FETCH_HACK
 
-#  define JUMP(addr)							\
-       do {								\
-	   reg_pc = (addr);						\
-	   bank_base = mem_read_base(reg_pc);				\
-       } while (0)
+#  define JUMP(addr)                         \
+     do {                                    \
+       reg_pc = (addr);                      \
+       bank_base = mem_read_base(reg_pc);    \
+       bank_limit = mem_read_limit(reg_pc);  \
+     } while (0)
 
 #else  /* !INSTRUCTION_FETCH_HACK */
 
@@ -185,6 +187,10 @@ inline static BYTE *mem_read_base(int addr)
 	return p;
 
     return p - (addr & 0xff00);
+}
+inline static int mem_read_limit(int addr)
+{
+    return mem_read_limit_tab_ptr[addr >> 8];
 }
 #endif
 
@@ -408,6 +414,7 @@ void mainloop(ADDRESS start_address)
 
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
+    int bank_limit;
 #endif
 
     reset();
