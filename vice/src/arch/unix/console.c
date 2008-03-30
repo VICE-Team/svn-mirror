@@ -34,6 +34,8 @@
 #include "lib.h"
 
 
+static FILE *mon_input, *mon_output;
+
 #if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
 extern char *rl_readline_name;
 #endif
@@ -52,6 +54,9 @@ console_t *console_open(const char *id)
     console_t *console;
 
     console = lib_malloc(sizeof(console_t));
+
+    mon_input = stdin;
+    mon_output = stdout;
 
     console->console_xres = 80;
     console->console_yres = 25;
