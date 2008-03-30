@@ -47,8 +47,8 @@
 
 static void vic20_trigger_start(void)
 {
-    via2_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_FALL);
-    via2_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_RISE);
+    viacore_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(&(machine_context.via2), VIA_SIG_CB1, VIA_SIG_RISE);
 }
 
 void vic20_rsuser_init(void)

@@ -39,100 +39,34 @@
 #include "vic20.h"
 
 
-#define myclk           (*(via_context->clk_ptr))
-#define myvia           (via_context->via)
-#define myviaifr        (via_context->ifr)
-#define myviaier        (via_context->ier)
-#define myviatal        (via_context->tal)
-#define myviatbl        (via_context->tbl)
-#define myviatau        (via_context->tau)
-#define myviatbu        (via_context->tbu)
-#define myviatai        (via_context->tai)
-#define myviatbi        (via_context->tbi)
-#define myviapb7        (via_context->pb7)
-#define myviapb7x       (via_context->pb7x)
-#define myviapb7o       (via_context->pb7o)
-#define myviapb7xx      (via_context->pb7xx)
-#define myviapb7sx      (via_context->pb7sx)
-#define oldpa           (via_context->oldpa)
-#define oldpb           (via_context->oldpb)
-#define myvia_ila       (via_context->ila)
-#define myvia_ilb       (via_context->ilb)
-#define ca2_state       (via_context->ca2_state)
-#define cb2_state       (via_context->cb2_state)
-#define myvia_t1_alarm  (via_context->t1_alarm)
-#define myvia_t2_alarm  (via_context->t2_alarm)
-
-#define via_read_clk    (via_context->read_clk)
-#define via_read_offset (via_context->read_offset)
-#define via_last_read   (via_context->last_read)
-#define snap_module_name (via_context->my_module_name)
-
-#define myvia_int_num   (via_context->int_num)
-#define MYVIA_INT       (via_context->irq_line)
-
-#define mycpu_rmw_flag  (*(via_context->rmw_flag))
-
-#define myvia_reset     ieeevia1_reset
-
-#define myvia_store     ieeevia1x_store
-#define myvia_read      ieeevia1x_read
-#define myvia_peek      ieeevia1x_peek
-
-void REGPARM2 myvia_store(via_context_t *via_context, WORD addr, BYTE data);
-BYTE REGPARM1 myvia_read(via_context_t *via_context, WORD addr);
-BYTE REGPARM1 myvia_peek(via_context_t *via_context, WORD addr);
-
 void REGPARM2 ieeevia1_store(WORD addr, BYTE data)
 {
-    myvia_store(&(machine_context.ieeevia1), addr, data);
+    viacore_store(&(machine_context.ieeevia1), addr, data);
 }
 
 BYTE REGPARM1 ieeevia1_read(WORD addr)
 {
-    return myvia_read(&(machine_context.ieeevia1), addr);
+    return viacore_read(&(machine_context.ieeevia1), addr);
 }
 
 BYTE REGPARM1 ieeevia1_peek(WORD addr)
 {
-    return myvia_peek(&(machine_context.ieeevia1), addr);
+    return viacore_peek(&(machine_context.ieeevia1), addr);
 }
 
-#define myvia_log       (via_context->log)
-#define myvia_signal    ieeevia1_signal
-#define myvia_snapshot_read_module ieeevia1_snapshot_read_module
-#define myvia_snapshot_write_module ieeevia1_snapshot_write_module
-
-
-static void via_set_ca2(int state)
+static void set_ca2(int state)
 {
 }
 
-static void via_set_cb2(int state)
+static void set_cb2(int state)
 {
 }
 
-static void via_set_int(via_context_t *via_context, unsigned int int_num,
+static void set_int(via_context_t *via_context, unsigned int int_num,
                         int value)
 {
     interrupt_set_irq(maincpu_int_status, int_num, value,
                       *(via_context->clk_ptr));
-}
-
-void vic20ieeevia1_setup_context(machine_context_t *machine_context)
-{
-    machine_context->ieeevia1.context = NULL;
-
-    machine_context->ieeevia1.rmw_flag = &maincpu_rmw_flag;
-    machine_context->ieeevia1.clk_ptr = &maincpu_clk;
-
-    sprintf(machine_context->ieeevia1.myname, "IeeeVia1");
-    sprintf(machine_context->ieeevia1.my_module_name, "IeeeVia1");
-    machine_context->ieeevia1.read_clk = 0;
-    machine_context->ieeevia1.read_offset = 0;
-    machine_context->ieeevia1.last_read = 0;
-    machine_context->ieeevia1.irq_line = IK_IRQ;
-    machine_context->ieeevia1.log = LOG_ERR;
 }
 
 static void undump_acr(via_context_t *via_context, BYTE byte)
@@ -179,7 +113,7 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 {
 }
 
-static void res_via(via_context_t *via_context)
+static void reset(via_context_t *via_context)
 {
     parallel_cpu_set_dav(0);
     parallel_cpu_set_nrfd(0);
@@ -213,27 +147,24 @@ inline static BYTE read_prb(via_context_t *via_context)
         - (parallel_eoi  ? 0x08 : 0);
 
     /* none of the load changes output register value -> std. masking */
-    byte = ((byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]));
+    byte = ((byte & ~(via_context->via[VIA_DDRB]))
+           | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
     return byte;
 }
 
-static void clk_overflow_callback(via_context_t *, CLOCK, void *);
-static void int_myviat1(via_context_t *, CLOCK);
-static void int_myviat2(via_context_t *, CLOCK);
-
 static void clk_overflow_callback_ieeevia1(CLOCK sub, void *data)
 {
-    clk_overflow_callback(&(machine_context.ieeevia1), sub, data);
+    viacore_clk_overflow_callback(&(machine_context.ieeevia1), sub, data);
 }
 
 static void int_ieeevia1t1(CLOCK c)
 {
-    int_myviat1(&(machine_context.ieeevia1), c);
+    viacore_intt1(&(machine_context.ieeevia1), c);
 }
 
 static void int_ieeevia1t2(CLOCK c)
 {
-    int_myviat2(&(machine_context.ieeevia1), c);
+    viacore_intt2(&(machine_context.ieeevia1), c);
 }
 
 void ieeevia1_init(via_context_t *via_context)
@@ -256,7 +187,40 @@ void ieeevia1_init(via_context_t *via_context)
                            NULL);
 }
 
-#define VIA_SHARED_CODE
+void vic20ieeevia1_setup_context(machine_context_t *machine_context)
+{
+    via_context_t *via;
 
-#include "viacore.c"
+    via = &(machine_context->ieeevia1);
+
+    via->context = NULL;
+
+    via->rmw_flag = &maincpu_rmw_flag;
+    via->clk_ptr = &maincpu_clk;
+
+    sprintf(via->myname, "IeeeVia1");
+    sprintf(via->my_module_name, "IeeeVia1");
+    via->read_clk = 0;
+    via->read_offset = 0;
+    via->last_read = 0;
+    via->irq_line = IK_IRQ;
+    via->log = LOG_ERR;
+
+    via->undump_pra = undump_pra;
+    via->undump_prb = undump_prb;
+    via->undump_pcr = undump_pcr;
+    via->undump_acr = undump_acr;
+    via->store_pra = store_pra;
+    via->store_prb = store_prb;
+    via->store_pcr = store_pcr;
+    via->store_acr = store_acr;
+    via->store_sr = store_sr;
+    via->store_t2l = store_t2l;
+    via->read_pra = read_pra;
+    via->read_prb = read_prb;
+    via->set_int = set_int;
+    via->set_ca2 = set_ca2;
+    via->set_cb2 = set_cb2;
+    via->reset = reset;
+}
 
