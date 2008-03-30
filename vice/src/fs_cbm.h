@@ -71,12 +71,12 @@
 #define SLOT_SIDE_SECTOR		22
 #define SLOT_NR_BLOCKS			30
 
-#define BAM_FIRST_TRACK			0
-#define BAM_FIRST_SECTOR		1
-#define BAM_FORMAT_TYPE			2
-#define BAM_BIT_MAP			4
-#define BAM_VERSION			165
-#define BAM_EXT_BIT_MAP			192
+#define BAM_FIRST_TRACK         0
+#define BAM_FIRST_SECTOR        1
+#define BAM_FORMAT_TYPE         2
+#define BAM_BIT_MAP             4
+#define BAM_BIT_MAP_1581        16
+#define BAM_VERSION             165
 
 #define BAM_SET(n)    (bamp[1+(n)/8] |= (1 << ((n) % 8)))
 #define BAM_CLR(n)    (bamp[1+(n)/8] &= ~(1 << ((n) % 8)))
@@ -150,6 +150,7 @@ struct FormatData {
 #define BAM_SECTOR_1541        0
 #define BAM_NAME_1541          144
 #define BAM_ID_1541            162
+#define BAM_EXT_BIT_MAP_1541   192
 
 #define NUM_TRACKS_1571	       70
 #define NUM_BLOCKS_1571	       1366	/* 1328 free */
@@ -161,6 +162,7 @@ struct FormatData {
 #define BAM_SECTOR_1571        0
 #define BAM_NAME_1571          144
 #define BAM_ID_1571            162
+#define BAM_EXT_BIT_MAP_1571   221
 
 #define NUM_TRACKS_1581	       80
 #define NUM_SECTORS_1581       40	/* Logical sectors */
