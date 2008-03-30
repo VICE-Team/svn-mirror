@@ -1558,7 +1558,7 @@ long CALLBACK dis_window_proc(HWND hwnd,
 			PAINTSTRUCT ps;
 			HDC hdc;
             RECT rect;
-            unsigned int uAddress = mon_get_reg_val(pdp->memspace,e_PC);
+            unsigned int uAddress = mon_get_reg_val(pdp->memspace,3);
             ADDRESS loc;
             unsigned int size;
             char *buffer;

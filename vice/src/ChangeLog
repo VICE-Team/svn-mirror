@@ -1,3 +1,59 @@
+2001-05-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.33.
+
+	* imagecontents.c, imagecontents.h (image_contents_to_string):
+	Added conversion rule.
+
+	* arch/unix/uicommands.c, arch/unix/x11/gnome/ui.c,
+	arch/win32/uilib.c: Added conversion rule to
+	`image_contents_to_string'.
+
+	* ciacore.c, ciacore.h, drive/drivetypes.h, parallel.h,
+	parallel.c, c64/c64tpi.c, drive/drive.h, drive/drive.c,
+	drive/drive-resources.c, diskimage.c, diskimage.h,
+	drive/drivetypes.h, drive/fdc.c,drive/fdc.h, drive/riot2d.c,
+	drive/riot1d.c, drive/riotd.h, drive/via1d.c, drive/via2d.c,
+	drive/viad.h, drive/wd1770.c, screendrv/bmp.c,
+	sounddrv/soundwav.c, vdrive/vdrive-bam.c, monitor/asm6502.c,
+	monitor/asmz80.c, monitor/mon_assemble6502.c,
+	monitor/mon_assemblez80.c, monitor/mon_disassemble.c,
+	monitor/mon_drive.c, monitor/mon_file.c, autostart.c:
+	Fixed variable types.
+
+	* arch/win32/uimon.c (dis_window_proc): Hardcode `e_PC' for
+	now just to get it compiled.
+
+2001-05-26  Dag Lem  <resid@nimrod.no>
+
+	* resid/sid.cc (clock_fast): Fixed incorrect sample generation.
+
+	* sid/resid.cc: Removed include of fixpoint.h.
+
+	* sound.c (sound_flush): Return delay in seconds.
+
+	* sound.h (sound_flush): Now returns double.
+
+	* vsync.c (display_speed): Lie a bit about speed and frame rate
+	to correct for different sound hardware timing.
+	(vsync_init): Set vsyncarch_freq to avoid calling
+	vsyncarch_frequency() all the time.
+	(vsync_do_vsync): Do all time consuming stuff first. Then call
+	sound_flush and get current time to calculate actual sound
+	delay. Run statistics on the delay and adjust the frame output
+	frequency every 3 seconds.
+
+2001-05-26  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-snapshot.c (vic_snapshot_read_module):
+	vic.draw_clk has to be calculated before the registers are
+	restored
+
+2001-05-25  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uisnapshot.c (ui_snapshot_dialog): fixed
+	parameter order to `machine_write_snapshot()'.
+
 2001-05-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.32.

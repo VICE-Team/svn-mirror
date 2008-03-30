@@ -63,8 +63,10 @@ typedef struct {
     int             TemplateID;
 } ui_file_selector_style_type;
 
-static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
-static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam);
+static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
+                                    LPARAM lparam);
+static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
+                               LPARAM lparam);
 char *read_disk_image_contents(const char *name);
 char *read_tape_image_contents(const char *name);
 char *read_disk_or_tape_image_contents(const char *name);
@@ -72,54 +74,59 @@ static char *get_filename_from_disk(char *filename, int index);
 static char *get_filename_from_tape(char *filename, int index);
 static char *get_filename_from_disk_or_tape(char *filename, int index);
 
-static ui_file_selector_style_type  styles[]={
+static ui_file_selector_style_type styles[] = {
     /* FILE_SELECTOR_DEFAULT_STYLE */
-    {NULL,NULL,NULL,0},
+    { NULL, NULL,
+      NULL, 0 },
     /* FILE_SELECTOR_TAPE_STYLE */
-    {read_tape_image_contents,get_filename_from_tape,tape_hook_proc,IDD_OPENTAPE_TEMPLATE},
+    { read_tape_image_contents, get_filename_from_tape,
+     tape_hook_proc, IDD_OPENTAPE_TEMPLATE },
     /* FILE_SELECTOR_DISK_STYLE */
-    {read_disk_image_contents,get_filename_from_disk,hook_proc,IDD_OPEN_TEMPLATE},
+    { read_disk_image_contents, get_filename_from_disk,
+     hook_proc, IDD_OPEN_TEMPLATE },
     /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
-    {read_disk_or_tape_image_contents,get_filename_from_disk_or_tape,hook_proc,IDD_OPEN_TEMPLATE},
+    { read_disk_or_tape_image_contents, get_filename_from_disk_or_tape,
+     hook_proc, IDD_OPEN_TEMPLATE},
     /* DUMMY entry Insert new styles before this */
-    {NULL,NULL,NULL,0}
+    {NULL, NULL,
+     NULL, 0 }
 };
 
 char *read_disk_image_contents(const char *name)
 {
-image_contents_t    *contents;
-char                *s;
+    image_contents_t *contents;
+    char *s;
 
-    contents=image_contents_read_disk(name);
-    if (contents==NULL) {
+    contents = image_contents_read_disk(name);
+    if (contents == NULL) {
         return NULL;
     }
-    s=image_contents_to_string(contents);
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
     image_contents_destroy(contents);
     return s;
 }
 
 char *read_tape_image_contents(const char *name)
 {
-image_contents_t    *contents;
-char                *s;
+    image_contents_t *contents;
+    char *s;
 
-    contents=image_contents_read_tape(name);
-    if (contents==NULL) {
+    contents = image_contents_read_tape(name);
+    if (contents == NULL) {
         return NULL;
     }
-    s=image_contents_to_string(contents);
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
     image_contents_destroy(contents);
     return s;
 }
 
 char *read_disk_or_tape_image_contents(const char *name)
 {
-char    *tmp;
+    char *tmp;
 
-    tmp=read_disk_image_contents(name);
-    if (tmp==NULL) {
-        tmp=read_tape_image_contents(name);
+    tmp = read_disk_image_contents(name);
+    if (tmp == NULL) {
+        tmp = read_tape_image_contents(name);
     }
     return tmp;
 }
