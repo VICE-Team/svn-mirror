@@ -44,26 +44,42 @@
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
    care of the 10-bit counter wraparound.  */
-inline void vic_ii_fetch_matrix(int offs, int num)
+inline void vic_ii_fetch_matrix(int offs, int num, int num_0xff)
 {
     int start_char;
     int c;
 
-    /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-    start_char = (vic_ii.mem_counter + offs) & 0x3ff;
-    c = 0x3ff - start_char + 1;
-
-    if (c >= num) {
-        memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, num);
-        memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, num);
-    } else {
-        memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, c);
-        memcpy(vic_ii.vbuf + offs + c, vic_ii.screen_base, num - c);
-        memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, c);
-        memcpy(vic_ii.cbuf + offs + c, mem_color_ram_ptr, num - c);
+    if (num_0xff > 0) {
+        if (num <= num_0xff) {
+            memset(vic_ii.vbuf + offs, 0xff, num);
+            memset(vic_ii.cbuf + offs, vic_ii.ram_base_phi2[reg_pc] & 0xf, num);
+            vic_ii.background_color_source = 0xff;
+        } else {
+            memset(vic_ii.vbuf + offs, 0xff, num_0xff);
+            memset(vic_ii.cbuf + offs, vic_ii.ram_base_phi2[reg_pc] & 0xf,
+                   num_0xff);
+        }
     }
 
-    vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
+    if (num > num_0xff) {
+        offs += num_0xff;
+        num -= num_0xff;
+
+        /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
+        start_char = (vic_ii.mem_counter + offs) & 0x3ff;
+        c = 0x3ff - start_char + 1;
+
+        if (c >= num) {
+            memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, num);
+            memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, num);
+        } else {
+            memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, c);
+            memcpy(vic_ii.vbuf + offs + c, vic_ii.screen_base, num - c);
+            memcpy(vic_ii.cbuf + offs, mem_color_ram_ptr + start_char, c);
+            memcpy(vic_ii.cbuf + offs + c, mem_color_ram_ptr, num - c);
+        }
+        vic_ii.background_color_source = vic_ii.vbuf[offs + num - 1];
+    }
 
     /* Set correct background color in in the xsmooth area.
        As this only affects the next line, the xsmooth color is immediately
@@ -102,7 +118,7 @@ inline static int do_matrix_fetch(CLOCK sub)
             && vic_ii.allow_bad_lines
             && raster->current_line >= vic_ii.first_dma_line
             && raster->current_line <= vic_ii.last_dma_line) {
-            vic_ii_fetch_matrix(0, VIC_II_SCREEN_TEXTCOLS);
+            vic_ii_fetch_matrix(0, VIC_II_SCREEN_TEXTCOLS, 0);
 
             raster->draw_idle_state = 0;
             raster->ycounter = 0;

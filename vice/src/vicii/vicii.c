@@ -994,6 +994,21 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
     raster_line_emulate(&vic_ii.raster);
 
+#if 0
+    if (vic_ii.raster.current_line >= 50 && vic_ii.raster.current_line < 60) {
+        char buf[1000];
+        int j, i;
+        for (i = 0; i < 8; i++) {
+            memset(buf, 0, sizeof(buf));
+            for (j = 0; j < 40; j++)
+            sprintf(&buf[strlen(buf)], "%02x",
+                    vic_ii.raster.draw_buffer_ptr[vic_ii.raster.xsmooth
+                    + vic_ii.raster.geometry->gfx_position.x + i * 40 + j]);
+            log_debug(buf);
+        } 
+    }
+#endif
+
     if (vic_ii.raster.current_line == 0) {
         raster_skip_frame(&vic_ii.raster,
                           vsync_do_vsync(vic_ii.raster.canvas,

@@ -1,3 +1,18 @@
+2002-07-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.63.
+
+	* vicii/vicii-badline.c, vicii/vicii-badline.h: New files.
+	(line_becomes_bad): Let `vic_ii_fetch_matrix()' handle `0xff'
+	fetches instead doing this manually.
+
+	* vicii/Makefile.am: Updated.
+
+	* vicii/vicii-mem.c: Moved bad line specific code.
+
+	* vicii/vicii-fetch.c (vic_ii_fetch_matrix): Also handle
+	`0xff' fetches and set background color source.
+
 2002-07-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.62.
