@@ -2,7 +2,7 @@
  * ui.c - BeOS user interface.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@arcormail.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -586,20 +586,16 @@ void ui_dispatch_events(void)
 				char *abouttext;
 				abouttext = concat(
 					"BeVICE Version ", VERSION,"\n",
-					"(c) 1996-1999 Ettore Perazzoli\n",
-					"(c) 1997-2000 Daniel Sladic\n",
-					"(c) 1998-2000 Andreas Boose\n",
-					"(c) 1998-2000 Tibor Biczo\n",
-					"(c) 1999-2000 Andreas Dehmel\n",
-					"(c) 1999-2000 Thomas Bretz\n",
-					"(c) 1999-2000 Andreas Matthies\n",
-					"(c) 1999-2000 Martin Pottendorfer\n",
-					"(c) 1996-1999 Andre' Fachat\n",
-					"(c) 1993-1994,1997-1999 Teemu Rantanen\n",
-#ifdef HAVE_RESID
-					"reSID engine:\n",
-					"(c) 1998-2000 Dag Lem\n",
-#endif
+					"(c) 1997-2001 Daniel Sladic\n",
+					"(c) 1998-2001 Andreas Boose\n",
+					"(c) 1998-2001 Dag Lem\n",
+					"(c) 1998-2001 Tibor Biczo\n",
+					"(c) 1999-2001 Andreas Dehmel\n",
+					"(c) 1999-2001 Thomas Bretz\n",
+					"(c) 1999-2001 Andreas Matthies\n",
+					"(c) 1999-2001 Martin Pottendorfer\n",
+					"(c) 2000-2001 Markus Brenner\n",
+					"(c) 2000-2001 Spiro Trikaliotis\n",
 					"\nOfficial VICE homepage:\n",
 					"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
 					NULL);

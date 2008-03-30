@@ -35,7 +35,8 @@ typedef enum {
   msg_win_license,
   msg_win_warranty,
   msg_win_contrib,
-  msg_win_number
+  msg_win_log,
+  msg_win_NUMBER
 } message_window_e;
 
 

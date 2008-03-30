@@ -33,7 +33,9 @@
 #include "wimp.h"
 #include "textwin.h"
 
+#include "archdep.h"
 #include "monitor/mon.h"
+#include "videoarch.h"
 #include "uimsgwin.h"
 #include "ui.h"
 #include "utils.h"
@@ -56,12 +58,12 @@ typedef struct message_window_s {
 
 static void ui_monitor_enter(void *context, int line, const char *str);
 
-static message_window_t MsgWindows[msg_win_number];
+static message_window_t MsgWindows[msg_win_NUMBER];
 
 static const char *LastMonitorCommand = NULL;
 
 
-static text_window_t MsgWinDescs[msg_win_number] = {
+static text_window_t MsgWinDescs[msg_win_NUMBER] = {
 
   /* monitor window */
   {
@@ -81,8 +83,12 @@ static text_window_t MsgWinDescs[msg_win_number] = {
   /* contributor window */
   {
     "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0
-  }
+  },
 
+  /* log window */
+  {
+    "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 1024
+  }
 };
 
 
@@ -148,6 +154,14 @@ static int msgwin_close_contrib(text_window_t *tw, int *block)
   return msgwin_close_generic(msg_win_contrib, block);
 }
 
+static int msgwin_close_log(text_window_t *tw, int *block)
+{
+  /* just close, but don't delete */
+  Wimp_CloseWindow(block);
+  MsgWindows[msg_win_log].Flags &= ~MSGWIN_FLAG_OPEN;
+  return 0;
+}
+
 
 static void ui_monitor_enter(void *context, int line, const char *str)
 {
@@ -173,6 +187,40 @@ static void ui_msgwin_set_dimensions(message_window_t *mw, int cols, int rows)
 }
 
 
+static void ui_msgwin_poll_logfile(void)
+{
+  FILE *logfp = archdep_get_default_log_file();
+
+  if (logfp != NULL)
+  {
+    size_t curPos = ftell(logfp);
+
+    if (curPos != 0)
+    {
+      text_window_t *tw = MsgWindows[msg_win_log].tw;
+
+      /* safeguard in case the message window hasn't been created yet for some reason */
+      if (tw != NULL)
+      {
+        char *text = (char*)malloc(curPos + 1);
+
+        if (text != NULL)
+        {
+          fseek(logfp, 0, SEEK_SET);
+          fread(text, 1, curPos, logfp);
+          text[curPos] = '\0';
+          textwin_add_text(tw, text);
+          if ((ui_message_window_is_open(msg_win_log)) && (FullScreenMode == 0))
+            textwin_caret_to_end(tw);
+          free(text);
+        }
+      }
+      fseek(logfp, 0, SEEK_SET);
+    }
+  }
+}
+
+
 static int ui_message_window_change_flag(message_window_e mwin, int flag, int set)
 {
   switch (mwin)
@@ -181,6 +229,7 @@ static int ui_message_window_change_flag(message_window_e mwin, int flag, int se
     case msg_win_license:
     case msg_win_warranty:
     case msg_win_contrib:
+    case msg_win_log:
       if (set == 0)
         MsgWindows[mwin].Flags &= ~flag;
       else
@@ -200,6 +249,7 @@ static int ui_message_window_is_flag(message_window_e mwin, int flag)
     case msg_win_license:
     case msg_win_warranty:
     case msg_win_contrib:
+    case msg_win_log:
       return ((MsgWindows[mwin].Flags & flag) != 0);
     default:
       return 0;
@@ -207,11 +257,12 @@ static int ui_message_window_is_flag(message_window_e mwin, int flag)
 }
 
 
-static textwin_event_handler_func MsgCloseEvents[msg_win_number] = {
+static textwin_event_handler_func MsgCloseEvents[msg_win_NUMBER] = {
   mon_close_event,
   msgwin_close_license,
   msgwin_close_warranty,
-  msgwin_close_contrib
+  msgwin_close_contrib,
+  msgwin_close_log
 };
 
 
@@ -274,6 +325,7 @@ int ui_message_window_open(message_window_e mwin, const char *title, const char 
     case msg_win_license:
     case msg_win_warranty:
     case msg_win_contrib:
+    case msg_win_log:
       tw = MsgWinDescs + mwin;
       mw = MsgWindows + mwin;
       if (mw->win == NULL)
@@ -288,7 +340,18 @@ int ui_message_window_open(message_window_e mwin, const char *title, const char 
         textwin_init(tw, mw->win, message, NULL);
         (tw->Events)[WimpEvt_CloseWin] = MsgCloseEvents[mwin];
       }
-      textwin_open_centered(tw, tw->MaxWidth, 1024, ScreenMode.resx, ScreenMode.resy);
+
+      if (mwin == msg_win_log)
+      {
+        /* open in the bottom left corner, but leave room below for the icon bar */
+        textwin_open(tw, tw->MaxWidth, tw->MinHeight, 0, 160 + tw->MinHeight);
+        textwin_caret_to_end(tw);
+      }
+      else
+      {
+        textwin_open_centered(tw, tw->MaxWidth, 1024, ScreenMode.resx, ScreenMode.resy);
+      }
+
       MsgWindows[mwin].Flags |= MSGWIN_FLAG_OPEN;
       break;
     default:
@@ -314,6 +377,13 @@ int ui_message_window_close(message_window_e mwin)
       if (MsgWindows[mwin].tw != NULL)
       {
         textwin_close(MsgWindows[mwin].tw);
+        MsgWindows[mwin].Flags &= ~MSGWIN_FLAG_OPEN;
+      }
+      break;
+    case msg_win_log:
+      if (MsgWindows[mwin].win != NULL)
+      {
+        Wimp_CloseWindow((int*)(MsgWindows[mwin].win));
         MsgWindows[mwin].Flags &= ~MSGWIN_FLAG_OPEN;
       }
       break;
@@ -343,6 +413,7 @@ int ui_message_window_destroy(message_window_e mwin)
     case msg_win_license:
     case msg_win_warranty:
     case msg_win_contrib:
+    case msg_win_log:
       if (MsgWindows[mwin].tw != NULL)
       {
         textwin_free(MsgWindows[mwin].tw);
@@ -413,7 +484,7 @@ void ui_message_init(void)
 {
   int i;
 
-  for (i=0; i<msg_win_number; i++)
+  for (i=0; i<msg_win_NUMBER; i++)
   {
     MsgWindows[i].tw = NULL;
     MsgWindows[i].win = NULL;
@@ -427,7 +498,7 @@ void ui_message_exit(void)
 {
   int i;
 
-  for (i=0; i<msg_win_number; i++)
+  for (i=0; i<msg_win_NUMBER; i++)
   {
     ui_message_window_destroy((message_window_e)i);
   }
@@ -438,7 +509,7 @@ message_window_e ui_message_window_for_handle(int handle)
 {
   int i;
 
-  for (i=0; i<msg_win_number; i++)
+  for (i=0; i<msg_win_NUMBER; i++)
   {
     if (MsgWindows[i].win != NULL)
     {
@@ -458,6 +529,7 @@ text_window_t *ui_message_get_text_window(message_window_e mwin)
     case msg_win_license:
     case msg_win_warranty:
     case msg_win_contrib:
+    case msg_win_log:
       return MsgWindows[mwin].tw;
     default:
       return NULL;
@@ -469,7 +541,7 @@ int ui_message_need_null_event(void)
 {
   int i;
 
-  for (i=0; i<msg_win_number; i++)
+  for (i=0; i<msg_win_NUMBER; i++)
   {
     if (MsgWindows[i].tw != NULL)
     {
@@ -485,7 +557,9 @@ int ui_message_process_event(int event, int *wimpblock)
 {
   int i;
 
-  for (i=0; i<msg_win_number; i++)
+  ui_msgwin_poll_logfile();
+
+  for (i=0; i<msg_win_NUMBER; i++)
   {
     if (MsgWindows[i].tw != NULL)
     {

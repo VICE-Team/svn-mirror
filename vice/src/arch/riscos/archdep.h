@@ -62,5 +62,9 @@
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);
 extern const char *archdep_extract_dir_and_leaf(const char *path);
-#endif
 
+/* miscellaneous */
+extern void archdep_closedown(void);
+extern FILE *archdep_get_default_log_file(void);
+
+#endif

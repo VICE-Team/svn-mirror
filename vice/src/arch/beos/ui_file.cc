@@ -2,7 +2,7 @@
  * ui_file.cc - UI stuff dealing with files
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@arcormail.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -7231,9 +7231,9 @@ RISC OS port.
 @b{Thomas Bretz} (@email{tbretz@@ph.tum.de}) responsible for the OS/2 port.
 
 @item
-@b{Andreas Matthies} (@email{andreas.matthies@@arcormail.de}) improved the
-datasette support and some ui stuff in the Win32 and MSDOS port. Wrote the
-BeOS port.
+@b{Andreas Matthies} (@email{andreas.matthies@@gmx.net}) improved the
+datasette support, the VIC20 video emulation and some ui stuff in the Win32
+and MSDOS port. Wrote the BeOS port.
 
 @item
 @b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})

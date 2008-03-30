@@ -16,24 +16,27 @@ list of all the changes in the code.
 - implemented experimental DOS1 (670 blocks free) support with CBM 2040 
   emulation.
 
- ** Drive changes
- -----------------
+** Drive changes
+-----------------
 
 - implemented experimental DOS1 (670 blocks free) support with CBM 2040 
   emulation.
 
+** VIC20 changes
+-----------------
 
- ** CBM-II changes
- -----------------
+- VIC video emulation now almost cycle exact (try vimm or vvv demos)
+
+** CBM-II changes
+-----------------
 
 - Implemented a C510 (aka P128) emulation, using the existing VIC-II
    emulation
 
 - Fix a couple of bugs in the CBM-II emulation (C610-C720)
 
-
- ** OS/2 changes
-  --------------
+** OS/2 changes
+---------------
   
 - Moved zlib and png APIs to a DLL to decrease the archive size
 
@@ -60,6 +63,11 @@ list of all the changes in the code.
 - changed hotkeys from scancode to Accelerator Table
 
 - changed layout of About Dialog
+
+ ** BeOS changes
+  --------------
+  
+- sid-player mode (use commandline x64 -vsid)
 
 
 * Changes in VICE 1.6

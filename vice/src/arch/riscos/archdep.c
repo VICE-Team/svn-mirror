@@ -42,10 +42,26 @@
 /* File types */
 static const int FileType_GZIP = 0xf89;
 
+static FILE *defaultLogFile = NULL;
+char *defaultLogName = NULL;
+
 
 int archdep_startup(int *argc, char **argv)
 {
   return 0;
+}
+
+
+void archdep_closedown(void)
+{
+  if (defaultLogFile != NULL)
+  {
+    fclose(defaultLogFile);
+    defaultLogFile = NULL;
+    remove(defaultLogName);
+    free(defaultLogName);
+    defaultLogName = NULL;
+  }
 }
 
 
@@ -65,18 +81,31 @@ const char *archdep_program_name(void)
 
 FILE *archdep_open_default_log_file(void)
 {
-  /*char basename[64]="";
+  const char *name = tmpnam(NULL);
 
-  if (machine_name != 0)
+  if ((defaultLogName = (char*)malloc(strlen(name)+1)) != NULL)
   {
-    sprintf(basename, "Vice:%s.log", machine_name);
-    return open_logfile(basename);
+    strcpy(defaultLogName, name);
+    if ((defaultLogFile = fopen(defaultLogName, "w+")) != NULL)
+    {
+      return defaultLogFile;
+    }
+    else
+    {
+      free(defaultLogName);
+      defaultLogName = NULL;
+    }
   }
-  else
-    return NULL;*/
 
   return fopen("null:", "w");
 }
+
+
+FILE *archdep_get_default_log_file(void)
+{
+  return defaultLogFile;
+}
+
 
 /* Return a malloc'ed backup file name for file `fname'.  */
 char *archdep_make_backup_filename(const char *fname)

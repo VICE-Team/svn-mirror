@@ -703,16 +703,17 @@ static struct MenuFliplist {
 };
 
 /* Icon bar menu */
-#define Menu_IBar_Items		8
+#define Menu_IBar_Items		9
 #define Menu_IBar_Width		200
 #define Menu_IBar_Info		0
-#define Menu_IBar_License	1
-#define Menu_IBar_Warranty	2
-#define Menu_IBar_Contrib	3
-#define Menu_IBar_CreateDisc	4
-#define Menu_IBar_Configure	5
-#define Menu_IBar_FullScreen	6
-#define Menu_IBar_Quit		7
+#define Menu_IBar_Configure	1
+#define Menu_IBar_License	2
+#define Menu_IBar_Warranty	3
+#define Menu_IBar_Contrib	4
+#define Menu_IBar_LogWin	5
+#define Menu_IBar_CreateDisc	6
+#define Menu_IBar_FullScreen	7
+#define Menu_IBar_Quit		8
 static struct MenuIconBar {
   RO_MenuHead head;
   RO_MenuItem item[Menu_IBar_Items];
@@ -720,11 +721,12 @@ static struct MenuIconBar {
   MENU_HEADER("foo", Menu_IBar_Width),
   {
     MENU_ITEM("\\MenIBInfo"),
+    MENU_ITEM_SUB("\\MenIBConf", &MenuConfigure),
     MENU_ITEM("\\MenIBLicns"),
     MENU_ITEM("\\MenIBWrnty"),
     MENU_ITEM("\\MenIBCntrb"),
+    MENU_ITEM("\\MenIBLog"),
     MENU_ITEM("\\MenIBCreat"),
-    MENU_ITEM_SUB("\\MenIBConf", &MenuConfigure),
     MENU_ITEM("\\MenIBFull"),
     MENU_ITEM_LAST("\\MenIBQuit")
   }
@@ -2391,6 +2393,16 @@ static void ui_safe_exit(void)
       fclose(fp);
     }
   }
+  archdep_closedown();
+}
+
+
+static void ui_open_log_window(void)
+{
+  if (archdep_get_default_log_file() != NULL)
+  {
+    ui_message_window_open(msg_win_log, "VICE log window", "\n", 100, 16);
+  }
 }
 
 
@@ -2737,6 +2749,9 @@ int ui_init_finish(void)
   {
     DoCoreDump = (int)val;
   }
+
+  /* must create log window, but may close it right afterwards! */
+  ui_open_log_window();
 
   atexit(ui_safe_exit);
 
@@ -3844,7 +3859,7 @@ static void ui_user_drag_box(int *b)
         if (h == ConfWindows[i]->Handle) {h = 0; break;}
       }
 
-      if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (ui_message_window_for_handle(h) == msg_win_number))
+      if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (ui_message_window_for_handle(h) == msg_win_NUMBER))
       {
         char *name;
 
@@ -4218,6 +4233,9 @@ static int ui_menu_select_ibar(int *b, int **menu)
     case Menu_IBar_Contrib:
       ui_message_get_dimensions(contrib_text, &cols, NULL);
       ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], contrib_text, cols, 0);
+      break;
+    case Menu_IBar_LogWin:
+      ui_open_log_window();
       break;
     case Menu_IBar_CreateDisc:
       {
