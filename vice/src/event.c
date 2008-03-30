@@ -35,6 +35,7 @@
 #include "cmdline.h"
 #include "event.h"
 #include "interrupt.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
 #include "machine.h"
@@ -79,6 +80,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
 
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
+      case EVENT_JOYSTICK_VALUE:
         event_data = xmalloc(size);
         memcpy(event_data, data, size);
         break;
@@ -103,6 +105,9 @@ static void event_alarm_handler(CLOCK offset)
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
         keyboard_event_playback(offset, event_list_current->data);
+        break;
+      case EVENT_JOYSTICK_VALUE:
+        joystick_event_playback(offset, event_list_current->data);
         break;
       default:
         log_error(event_log, "Unknow event type %i.", event_list_current->type);
@@ -240,16 +245,6 @@ int event_playback_stop(void)
 
 /*-----------------------------------------------------------------------*/
 
-static int read_dword_into_int(snapshot_module_t *m, int *value_return)
-{
-    DWORD b;
-
-    if (snapshot_module_read_dword(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
-}
-
 int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
 {
     snapshot_module_t *m;
@@ -271,7 +266,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     curr = event_list_base;
 
     while (1) {
-        if (read_dword_into_int(m, &(curr->type)) < 0) {
+        if (SMR_DW_INT(m, &(curr->type)) < 0) {
             snapshot_module_close(m);
             return -1;
         }
@@ -279,20 +274,19 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
         if (curr->type == EVENT_LIST_END)
             break;
 
-        if (snapshot_module_read_dword(m, &(curr->clk)) < 0) {
+        if (SMR_DW(m, &(curr->clk)) < 0) {
             snapshot_module_close(m);
             return -1;
         }
 
-        if (read_dword_into_int(m, &(curr->size)) < 0) {
+        if (SMR_DW_INT(m, &(curr->size)) < 0) {
             snapshot_module_close(m);
             return -1;
         }
 
         if (curr->size > 0) {
             curr->data = xmalloc(curr->size);
-            if (snapshot_module_read_byte_array(m, curr->data, curr->size)
-                < 0) {
+            if (SMR_BA(m, curr->data, curr->size) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
@@ -324,17 +318,17 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
 
     while (curr != NULL) {
         if (0
-            || snapshot_module_write_dword(m, (DWORD)curr->type) < 0
-            || snapshot_module_write_dword(m, (DWORD)curr->clk) < 0
-            || snapshot_module_write_dword(m, (DWORD)curr->size) < 0
-            || snapshot_module_write_byte_array(m, curr->data, curr->size)) {
+            || SMW_DW(m, (DWORD)curr->type) < 0
+            || SMW_DW(m, (DWORD)curr->clk) < 0
+            || SMW_DW(m, (DWORD)curr->size) < 0
+            || SMW_BA(m, curr->data, curr->size)) {
             snapshot_module_close(m);
             return -1;
         } 
         curr = curr->next;
     }
 
-    if (snapshot_module_write_dword(m, (DWORD)EVENT_LIST_END) < 0) {
+    if (SMW_DW(m, (DWORD)EVENT_LIST_END) < 0) {
         snapshot_module_close(m);
         return -1;
     }
