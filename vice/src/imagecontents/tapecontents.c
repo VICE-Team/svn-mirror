@@ -85,7 +85,7 @@ image_contents_t *image_contents_read_tape(const char *file_name)
 
     tape_image = tape_internal_open_tape_image(file_name, 1);
 
-    if (tape_image->name == NULL)
+    if (tape_image == NULL || tape_image->name == NULL)
         return NULL;
 
     new = image_contents_new();
