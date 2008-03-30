@@ -388,7 +388,7 @@ static void advance_hassnapshot(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         log_message(autostart_log, "Restoring snapshot.");
-        maincpu_trigger_trap(load_snapshot_trap, (void*)0);
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*)0);
         autostartmode = AUTOSTART_DONE;
         break;
       case NO:
@@ -478,7 +478,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     snapshot_close(snap);
 
     /*autostart_program_name = (BYTE *)stralloc(file_name);
-    maincpu_trigger_trap(load_snapshot_trap, (void*)0);*/
+    interrupt_maincpu_trigger_trap(load_snapshot_trap, (void*)0);*/
     /* use for snapshot */
     reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
 

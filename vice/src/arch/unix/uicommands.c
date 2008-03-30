@@ -306,7 +306,7 @@ static UI_CALLBACK(activate_monitor)
     ui_autorepeat_on();
 
     if (!ui_emulation_is_paused())
-        maincpu_trigger_trap(mon_trap, (void *)0);
+        interrupt_maincpu_trigger_trap(mon_trap, (void *)0);
     else
         mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
 }
@@ -489,7 +489,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
 static UI_CALLBACK(load_snapshot)
 {
     if (!ui_emulation_is_paused())
-        maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)0);
     else
         load_snapshot_trap(0, 0);
 }
@@ -500,7 +500,7 @@ static UI_CALLBACK(load_quicksnap)
         machine_name, ".vsf", NULL);
 
     if (!ui_emulation_is_paused())
-        maincpu_trigger_trap(load_snapshot_trap, (void *)fname);
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)fname);
     else
         load_snapshot_trap(0, (void *)fname);
 }
@@ -523,7 +523,7 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *data)
 
 static UI_CALLBACK(save_snapshot)
 {
-    maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+    interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)0);
 }
 
 static UI_CALLBACK(save_quicksnap)
@@ -531,7 +531,7 @@ static UI_CALLBACK(save_quicksnap)
     char *fname = concat(archdep_home_path(), "/", VICEUSERDIR, "/",
         machine_name, ".vsf", NULL);
 
-    maincpu_trigger_trap(save_snapshot_trap, (void *) fname);
+    interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)fname);
 }
 
 /*  fliplist commands */

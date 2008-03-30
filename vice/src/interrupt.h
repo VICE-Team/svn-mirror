@@ -31,14 +31,6 @@
 
 #include "types.h"
 
-/* This handles the interrupt lines and the CPU alarms (i.e. events that happen
-   at specified clock ticks during emulation).  */
-
-#ifdef DEBUG
-extern int debugflg;
-#endif
-
-/* ------------------------------------------------------------------------- */
 
 /* Interrupts.  This is a bit of a mess...  */
 enum {
@@ -240,26 +232,6 @@ inline static void interrupt_ack_nmi(cpu_int_status_t *cs)
         (cs->global_pending_int & ~IK_NMI);
 }
 
-/* Asynchronously steal `num' cycles from the CPU, starting from cycle
-   `start_clk'.  */
-inline static void interrupt_steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
-                                          CLOCK *clk_ptr, int num, CLOCK sub)
-{
-    if (num == 0)
-        return;
-
-    if (start_clk == cs->last_stolen_cycles_clk)
-        cs->num_last_stolen_cycles += num;
-    else
-        cs->num_last_stolen_cycles = num;
-
-    *clk_ptr += num;
-    cs->last_stolen_cycles_clk = start_clk + num + sub;
-
-    cs->irq_clk += num;
-    cs->nmi_clk += num;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Extern functions.  These are defined in `interrupt.c'.  */
@@ -270,9 +242,8 @@ extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_reset(cpu_int_status_t *cs);
 extern void interrupt_set_reset_trap_func(cpu_int_status_t *cs,
                                         void (*reset_trap_func)(void));
-extern void interrupt_trigger_trap(cpu_int_status_t *cs,
-                                   void (*trap_func)(ADDRESS, void *data),
-                                   void *data, CLOCK cpu_clk);
+extern void interrupt_maincpu_trigger_trap(void (*trap_func)(ADDRESS,
+                                           void *data), void *data);
 extern void interrupt_do_trap(cpu_int_status_t *cs, ADDRESS address);
 
 extern void interrupt_monitor_trap_on(cpu_int_status_t *cs);
@@ -331,10 +302,6 @@ extern CLOCK drive_clk[2];
     interrupt_trigger_reset(&maincpu_int_status, maincpu_clk)
 #define maincpu_trigger_dma() \
     interrupt_trigger_dma(&maincpu_int_status, maincpu_clk)
-#define maincpu_trigger_trap(trap_func, data) \
-    interrupt_trigger_trap(&maincpu_int_status, (trap_func), (data), maincpu_clk)
-#define maincpu_steal_cycles(start_clk, num, sub) \
-    interrupt_steal_cycles(&maincpu_int_status, (start_clk), &maincpu_clk, (num), (sub))
 
 #define drive0_set_irq(int_num, value) \
     interrupt_set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
@@ -364,12 +331,6 @@ extern CLOCK drive_clk[2];
     interrupt_trigger_reset(drive0_int_status_ptr, drive_clk[0] + 1)
 #define drive1_trigger_reset() \
     interrupt_trigger_reset(drive1_int_status_ptr, drive_clk[1] + 1)
-#define drive0_trigger_trap(trap_func, data) \
-    interrupt_trigger_trap(drive0_int_status_ptr, (trap_func), (data), \
-                           drive_clk[0] + 1)
-#define drive1_trigger_trap(trap_func, data) \
-    interrupt_trigger_trap(drive1_int_status_ptr, (trap_func), (data), \
-                           drive_clk[1] + 1)
 
 #endif
 
