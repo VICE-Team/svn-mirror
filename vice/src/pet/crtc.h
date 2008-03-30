@@ -33,6 +33,8 @@
 #define _CRTC_H
 
 #include "vice.h"
+
+#include "snapshot.h"
 #include "types.h"
 #include "video.h"
 
@@ -119,5 +121,8 @@ extern BYTE REGPARM1 read_crtc(ADDRESS addr);
 extern void crtc_set_char(int crom);
 extern int crtc_offscreen(void);
 extern void crtc_screen_enable(int);
+
+extern int crtc_write_snapshot_module(snapshot_t *s);
+extern int crtc_read_snapshot_module(snapshot_t *s);
 
 #endif				/* _CRTC_H */
