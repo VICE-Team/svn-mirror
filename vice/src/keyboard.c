@@ -207,6 +207,29 @@ void keyboard_register_clear(void)
 
 #ifdef COMMON_KBD
 
+enum shift_type {
+    NO_SHIFT = 0,             /* Key is not shifted. */
+    VIRTUAL_SHIFT = (1 << 0), /* The key needs a shift on the real machine. */
+    LEFT_SHIFT = (1 << 1),    /* Key is left shift. */
+    RIGHT_SHIFT = (1 << 2),   /* Key is right shift. */
+    ALLOW_SHIFT = (1 << 3),   /* Allow key to be shifted. */
+    DESHIFT_SHIFT = (1 << 4), /* Although SHIFT might be pressed, do not
+                                 press shift on the real machine. */
+    ALLOW_OTHER = (1 << 5),   /* Allow another key code to be assigned if
+                                 SHIFT is pressed. */
+    ALT_MAP  = (1 << 8)       /* Key is used for an alternative keyboard
+                                 mapping */
+};
+
+struct keyboard_conv_s {
+    signed long sym;
+    int row;
+    int column;
+    enum shift_type shift;
+    char *comment;
+};
+typedef struct keyboard_conv_s keyboard_conv_t;
+
 /* Is the resource code ready to load the keymap?  */
 static int load_keymap_ok;
 
@@ -227,6 +250,9 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 /* CAPS (ASCII/DIN) key.  */
 static signed long key_ctrl_caps = -1;
 static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
+/* Is an alternative mapping active? */
+static int key_alternative = 0;
 
 static keyboard_conv_t *keyconvmap = NULL;
 
@@ -344,6 +370,9 @@ void keyboard_key_pressed(signed long key)
 
     for (i = 0; i < keyc_num; ++i) {
         if (key == keyconvmap[i].sym) {
+            if ((keyconvmap[i].shift & ALT_MAP) && !key_alternative)
+                continue;
+
             if (keyboard_key_pressed_matrix(keyconvmap[i].row,
                                             keyconvmap[i].column,
                                             keyconvmap[i].shift)) {
@@ -449,6 +478,9 @@ void keyboard_key_released(signed long key)
 
     for (i = 0; i < keyc_num; i++) {
         if (key == keyconvmap[i].sym) {
+            if ((keyconvmap[i].shift & ALT_MAP) && !key_alternative)
+                continue;
+
             if (keyboard_key_released_matrix(keyconvmap[i].row,
                                              keyconvmap[i].column,
                                              keyconvmap[i].shift)) {
@@ -500,6 +532,13 @@ void keyboard_key_clear(void)
 
 /*-----------------------------------------------------------------------*/
 
+void keyboard_alternative_set(int alternative)
+{
+    key_alternative = alternative;
+}
+
+/*-----------------------------------------------------------------------*/
+
 static void keyboard_keyconvmap_alloc(void)
 {
 #define KEYCONVMAP_SIZE_MIN 150
@@ -507,11 +546,7 @@ static void keyboard_keyconvmap_alloc(void)
     keyconvmap = lib_malloc(KEYCONVMAP_SIZE_MIN * sizeof(keyboard_conv_t));
     keyc_num = 0;
     keyc_mem = KEYCONVMAP_SIZE_MIN - 1;
-#ifdef AMIGA_SUPPORT
-    keyconvmap[0].sym = -1;
-#else
-    keyconvmap[0].sym = 0;
-#endif
+    keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
 }
 
 static void keyboard_keyconvmap_free(void)
@@ -573,11 +608,7 @@ static void keyboard_keyword_vshift(void)
 static void keyboard_keyword_clear(void)
 {
     keyc_num = 0;
-#ifdef AMIGA_SUPPORT
-    keyconvmap[0].sym = -1;
-#else
-    keyconvmap[0].sym = 0;
-#endif
+    keyconvmap[0].sym = ARCHDEP_KEYBOARD_SYM_NONE;
     key_ctrl_restore1 = -1;
     key_ctrl_restore2 = -1;
     key_ctrl_caps = -1;
@@ -608,11 +639,7 @@ static void keyboard_keyword_undef(void)
                 if (keyc_num) {
                     keyconvmap[i] = keyconvmap[--keyc_num];
                 }
-#ifdef AMIGA_SUPPORT
-                keyconvmap[keyc_num].sym = -1;
-#else
-                keyconvmap[keyc_num].sym = 0;
-#endif
+                keyconvmap[keyc_num].sym = ARCHDEP_KEYBOARD_SYM_NONE;
                 break;
             }
         }
@@ -648,7 +675,9 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
     int i;
 
     for (i = 0; i < keyc_num; i++) {
-        if (sym == keyconvmap[i].sym && !(keyconvmap[i].shift & ALLOW_OTHER)) {
+        if (sym == keyconvmap[i].sym
+            && !(keyconvmap[i].shift & ALLOW_OTHER)
+            && !(keyconvmap[i].shift & ALT_MAP)) {
             keyconvmap[i].row = row;
             keyconvmap[i].column = col;
             keyconvmap[i].shift = shift;
@@ -667,11 +696,7 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
             keyconvmap[keyc_num].row = row;
             keyconvmap[keyc_num].column = col;
             keyconvmap[keyc_num].shift = shift;
-#ifdef AMIGA_SUPPORT
-            keyconvmap[++keyc_num].sym = -1;
-#else
-            keyconvmap[++keyc_num].sym = 0;
-#endif
+            keyconvmap[++keyc_num].sym = ARCHDEP_KEYBOARD_SYM_NONE;
         }
     }
 }
@@ -836,6 +861,7 @@ int keyboard_keymap_dump(const char *filename)
             "# 8      key can be shifted or not with this keysym/scancode\n"
             "# 16     deshift key for this keysym/scancode\n"
             "# 32     another definition for this keysym/scancode follows\n"
+            "# 256    key is used for an alternative keyboard mapping\n"
             "#\n"
             "# Negative row values:\n"
             "# 'keysym -1 n' joystick #1, direction n\n"
@@ -854,11 +880,7 @@ int keyboard_keymap_dump(const char *filename)
                 (vshift == KEY_RSHIFT) ? "RSHIFT" : "LSHIFT");
     fprintf(fp, "\n");
 
-#ifdef AMIGA_SUPPORT
-    for (i = 0; keyconvmap[i].sym != -1; i++) {
-#else
-    for (i = 0; keyconvmap[i].sym; i++) {
-#endif
+    for (i = 0; keyconvmap[i].sym != ARCHDEP_KEYBOARD_SYM_NONE; i++) {
         fprintf(fp, "%s %d %d %d\n",
                 kbd_arch_keynum_to_keyname(keyconvmap[i].sym),
                 keyconvmap[i].row, keyconvmap[i].column,
