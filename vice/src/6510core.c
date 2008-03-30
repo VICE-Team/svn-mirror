@@ -341,8 +341,18 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* Opcodes.  Notice that the VIC-II emulation requires PC to be incremented
-   before the first write access.  */
+/* Opcodes.  */
+
+/*
+   A couple of caveats about PC:
+
+   - the VIC-II emulation requires PC to be incremented before the first
+     write access (this is not (very) important when writing to the zero
+     page);
+
+   - `p0', `p1' and `p2' can only be used *before* incrementing PC: some
+     machines (eg. the C128) might depend on this.
+*/
 
 #define ADC(value, clk_inc1, clk_inc2, pc_inc)                                \
   do {                                                                        \
@@ -498,9 +508,8 @@
 
 #define BRANCH(cond, value)                                             \
   do {                                                                  \
-      INC_PC(2);                                                        \
       if (cond) {                                                       \
-          unsigned int dest_addr = reg_pc + (signed char)(value);       \
+          unsigned int dest_addr = reg_pc + 2 + (signed char)(value);       \
                                                                         \
           if ((reg_pc ^ dest_addr) & 0xff00) {                          \
               CLK += 4;                                                 \
@@ -511,6 +520,7 @@
           reg_pc = dest_addr & 0xffff;                                  \
       } else {                                                          \
           CLK += 2;                                                     \
+          INC_PC(2);                                                    \
       }                                                                 \
   } while (0)
 
@@ -603,17 +613,18 @@
 
 #define DCP(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      tmp = load_func(addr);                                            \
+      tmp = load_func(tmp_addr);                                        \
       tmp = (tmp - 1) & 0xff;                                           \
       LOCAL_SET_CARRY(reg_a >= tmp);                                    \
       LOCAL_SET_NZ((reg_a - tmp));                                      \
       INC_PC(pc_inc);                                                   \
-      store_func(addr, tmp, (clk_inc2));                                \
+      store_func(tmp_addr, tmp, (clk_inc2));                            \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -639,15 +650,16 @@
 
 #define DEC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       CLK += (clk_inc1);                                                \
-      tmp = load_func(addr);                                            \
+      tmp = load_func(tmp_addr);                                        \
       tmp = (tmp - 1) & 0xff;                                           \
       LOCAL_SET_NZ(tmp);                                                \
       RMW_FLAG = 1;                                                     \
       INC_PC(pc_inc);                                                   \
-      store_func((addr), tmp, (clk_inc2));                              \
+      store_func(tmp_addr, tmp, (clk_inc2));                            \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -678,14 +690,15 @@
 
 #define INC(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       CLK += (clk_inc1);                                                \
-      tmp = (load_func(addr) + 1) & 0xff;                               \
+      tmp = (load_func(tmp_addr) + 1) & 0xff;                           \
       LOCAL_SET_NZ(tmp);                                                \
       RMW_FLAG = 1;                                                     \
       INC_PC(pc_inc);                                                   \
-      store_func((addr), tmp, (clk_inc2));                              \
+      store_func(tmp_addr, tmp, (clk_inc2));                            \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -749,7 +762,7 @@
 
 #define JSR(addr, clk_inc1, clk_inc2, pc_inc)           \
   do {                                                  \
-      WORD tmp_addr;                                    \
+      unsigned int tmp_addr;                            \
                                                         \
       CLK += (clk_inc1);                                \
       tmp_addr = (addr);                                \
@@ -808,16 +821,17 @@
 
 #define LSR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      tmp = load_func(addr);                                            \
+      tmp = load_func(tmp_addr);                                        \
       INC_PC(pc_inc);                                                   \
       LOCAL_SET_CARRY(tmp & 0x01);                                      \
       tmp >>= 1;                                                        \
       LOCAL_SET_NZ(tmp);                                                \
-      store_func((addr), tmp, clk_inc2);                                \
+      store_func(tmp_addr, tmp, clk_inc2);                              \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -909,17 +923,18 @@
 
 #define RLA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      tmp = ((load_func(addr) << 1) | (reg_p & P_CARRY));               \
+      tmp = ((load_func(tmp_addr) << 1) | (reg_p & P_CARRY));           \
       LOCAL_SET_CARRY(tmp & 0x100);                                     \
       reg_a &= tmp;                                                     \
       LOCAL_SET_NZ(reg_a);                                              \
       INC_PC(pc_inc);                                                   \
-      store_func(addr, tmp, clk_inc2);                                  \
+      store_func(tmp_addr, tmp, clk_inc2);                              \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -945,18 +960,19 @@
 
 #define ROL(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int tmp;                                                 \
+      unsigned int tmp, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       CLK += (clk_inc1);                                                \
-      tmp = load_func(addr);                                            \
+      tmp = load_func(tmp_addr);                                        \
       tmp = (tmp << 1) | (reg_p & P_CARRY);                             \
       LOCAL_SET_CARRY(tmp & 0x100);                                     \
       LOCAL_SET_NZ(tmp & 0xff);                                         \
       RMW_FLAG = 1;                                                     \
       INC_PC(pc_inc);                                                   \
-      store_func(addr, tmp, clk_inc2);                                  \
+      store_func(tmp_addr, tmp, clk_inc2);                              \
       RMW_FLAG = 0;                                                     \
-  } while (0)                                                           \
+  } while (0)
 
 #define ROL_A()                                 \
   do {                                          \
@@ -971,18 +987,19 @@
 
 #define ROR(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
-      unsigned int src;                                                 \
+      unsigned int src, tmp_addr;                                       \
                                                                         \
+      tmp_addr = (addr);                                                \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      src = load_func(addr);                                            \
+      src = load_func(tmp_addr);                                        \
       if (reg_p & P_CARRY)                                              \
           src |= 0x100;                                                 \
       LOCAL_SET_CARRY(src & 0x01);                                      \
       src >>= 1;                                                        \
       LOCAL_SET_NZ(src);                                                \
       INC_PC(pc_inc);                                                   \
-      store_func((addr), src, (clk_inc2));                              \
+      store_func(tmp_addr, src, (clk_inc2));                            \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -1000,19 +1017,20 @@
 #define RRA(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
       BYTE src;                                                         \
-      unsigned int my_temp;                                             \
+      unsigned int my_temp, tmp_addr;                                   \
                                                                         \
       UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      src = load_func(addr);                                            \
+      tmp_addr = (addr);                                                \
+      src = load_func(tmp_addr);                                        \
       INC_PC(pc_inc);                                                   \
       my_temp = src >> 1;                                               \
       if (reg_p & P_CARRY)                                              \
           my_temp |= 0x80;                                              \
       LOCAL_SET_CARRY(src & 0x1);                                       \
       ADC(my_temp, 0, 0, 0);                                            \
-      store_func(addr, my_temp, clk_inc2);                              \
+      store_func(tmp_addr, my_temp, clk_inc2);                          \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -1236,7 +1254,7 @@
 #define SLO_IND_Y(addr)                                         \
   do {                                                          \
       BYTE tmp_value;                                           \
-      int tmp_addr;                                             \
+      unsigned int tmp_addr;                                    \
                                                                 \
       UNDOC_WARNING();                                          \
       CLK += 5;                                                 \
@@ -1258,17 +1276,19 @@
 #define SRE(addr, clk_inc1, clk_inc2, pc_inc, load_func, store_func)    \
   do {                                                                  \
       BYTE tmp;                                                         \
+      unsigned int tmp_addr;                                            \
                                                                         \
       UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
-      tmp = load_func(addr);                                            \
+      tmp_addr = (addr);                                                \
+      tmp = load_func(tmp_addr);                                        \
       LOCAL_SET_CARRY(tmp & 0x01);                                      \
       tmp >>= 1;                                                        \
       reg_a ^= tmp;                                                     \
       LOCAL_SET_NZ(reg_a);                                              \
       INC_PC(pc_inc);                                                   \
-      store_func((addr), tmp, clk_inc2);                                \
+      store_func(tmp_addr, tmp, clk_inc2);                              \
       RMW_FLAG = 0;                                                     \
   } while (0)
 
@@ -1300,14 +1320,14 @@
       CLK += (clk_inc1);                                        \
       tmp = (addr);                                             \
       INC_PC(pc_inc);                                           \
-      store_func((addr), reg_a, clk_inc2);                      \
+      store_func(tmp, reg_a, clk_inc2);                         \
   } while (0)
 
 #define STA_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      INC_PC(pc_inc);                           \
       STORE_ZERO((addr), reg_a);                \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 #define STA_IND_Y(addr)                                 \
@@ -1330,14 +1350,14 @@
       tmp = (addr);                             \
       CLK += (clk_inc2);                        \
       INC_PC(pc_inc);                           \
-      STORE((addr), reg_x);                     \
+      STORE(tmp, reg_x);                        \
   } while (0)
 
 #define STX_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      INC_PC(pc_inc);                           \
       STORE_ZERO((addr), reg_x);                \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 #define STY(addr, clk_inc1, clk_inc2, pc_inc)   \
@@ -1348,14 +1368,14 @@
       tmp = (addr);                             \
       CLK += (clk_inc2);                        \
       INC_PC(pc_inc);                           \
-      STORE((addr), reg_y);                     \
+      STORE(tmp, reg_y);                        \
   } while (0)
 
 #define STY_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
       CLK += (clk_inc);                         \
-      INC_PC(pc_inc);                           \
       STORE_ZERO((addr), reg_y);                \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 #define TAX()                                   \
@@ -1408,51 +1428,53 @@
 
 /* ------------------------------------------------------------------------- */
 
+#if !defined FETCH_OPCODE
 
-#if !defined(WORDS_BIGENDIAN) && defined(ALLOW_UNALIGNED_ACCESS)
+#  if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
-#  define opcode_t DWORD
+#    define opcode_t DWORD
 
-#  define FETCH_OPCODE(o) ((o) = (bank_base                              \
-                                  ? (*((DWORD *)(bank_base + reg_pc))    \
-                                     & 0xffffff)                         \
-                                  : (LOAD(reg_pc)                        \
-                                     | (LOAD(reg_pc + 1) << 8)           \
-                                     | (LOAD(reg_pc + 2) << 16))))
-#  define p0 (opcode & 0xff)
-#  define p1 ((opcode >> 8) & 0xff)
-#  define p2 (opcode >> 8)
+#    define FETCH_OPCODE(o) ((o) = (bank_base                              \
+                                    ? (*((DWORD *)(bank_base + reg_pc))    \
+                                       & 0xffffff)                         \
+                                    : (LOAD(reg_pc)                        \
+                                       | (LOAD(reg_pc + 1) << 8)           \
+                                       | (LOAD(reg_pc + 2) << 16))))
+#    define p0 (opcode & 0xff)
+#    define p1 ((opcode >> 8) & 0xff)
+#    define p2 (opcode >> 8)
 
-#else /* WORDS_BIGENDIAN || ALLOW_UNALIGNED_ACCESS */
+#  else /* WORDS_BIGENDIAN || ALLOW_UNALIGNED_ACCESS */
 
-#  define opcode_t                              \
-      struct {                                  \
-          BYTE ins;                             \
-          union {                               \
-              BYTE op8[2];                      \
-              WORD op16;                        \
-          } op;                                 \
-      }
+#    define opcode_t                              \
+        struct {                                  \
+            BYTE ins;                             \
+            union {                               \
+                BYTE op8[2];                      \
+                WORD op16;                        \
+            } op;                                 \
+        }
 
-#  define FETCH_OPCODE(o)                                                  \
-        (bank_base ? ((o).ins = *(bank_base + reg_pc),                     \
-                      (o).op.op16 = (*(bank_base + reg_pc + 1)             \
-                                     | (*(bank_base + reg_pc + 2) << 8)))  \
-                   : ((o).ins = LOAD(reg_pc),                              \
-                      (o).op.op16 = (LOAD(reg_pc + 1)                      \
-                                     | (LOAD(reg_pc + 2) << 8))))
+#    define FETCH_OPCODE(o)                                                  \
+          (bank_base ? ((o).ins = *(bank_base + reg_pc),                     \
+                        (o).op.op16 = (*(bank_base + reg_pc + 1)             \
+                                       | (*(bank_base + reg_pc + 2) << 8)))  \
+                     : ((o).ins = LOAD(reg_pc),                              \
+                        (o).op.op16 = (LOAD(reg_pc + 1)                      \
+                                       | (LOAD(reg_pc + 2) << 8))))
 
-#  define p0 (opcode.ins)
-#  define p2 (opcode.op.op16)
+#    define p0 (opcode.ins)
+#    define p2 (opcode.op.op16)
 
-#  ifdef WORDS_BIGENDIAN
-#    define p1 (opcode.op.op8[1])
-#  else
-#    define p1 (opcode.op.op8[0])
-#  endif
+#    ifdef WORDS_BIGENDIAN
+#      define p1 (opcode.op.op8[1])
+#    else
+#      define p1 (opcode.op.op8[0])
+#    endif
 
-#endif /* !WORDS_BIGENDIAN */
+#  endif /* !WORDS_BIGENDIAN */
 
+#endif /* !FETCH_OPCODE */
 
 /* ------------------------------------------------------------------------ */
 
