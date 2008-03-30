@@ -546,10 +546,11 @@ attach.o: attach.c vice.h config.h attach.h cmdline.h resources.h \
 	vdrive/vdrive-iec.h drive/wd1770.h
 autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	autostart.h arch/unix/types.h attach.h charsets.h datasette.h \
-	fsdevice.h imagecontents.h interrupt.h 6510core.h kbdbuf.h \
-	log.h machine.h mem.h p00.h resources.h serial.h snapshot.h \
-	tape.h arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	utils.h vdrive/vdrive.h zfile.h
+	drive/drive.h log.h fsdevice.h imagecontents.h interrupt.h \
+	6510core.h kbdbuf.h machine.h mem.h p00.h resources.h serial.h \
+	snapshot.h tape.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h \
+	vdrive/vdrive-bam.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h \
 	charsets.h diskimage.h arch/unix/types.h gcr.h info.h log.h \
 	p00.h serial.h snapshot.h t64.h utils.h vdrive/vdrive-bam.h \

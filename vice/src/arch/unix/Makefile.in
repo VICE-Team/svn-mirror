@@ -369,6 +369,7 @@ c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c610icon.xpm \
+	../../../src/cbm2/c610.h ../../../src/snapshot.h \
 	../../../src/cbm2/c610mem.h ../../../src/datasette.h joystick.h \
 	../../../src/drive/drive.h ../../../src/log.h petui.h \
 	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \

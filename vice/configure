@@ -721,7 +721,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.6.6
+VERSION=1.6.7
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7737,13 +7737,13 @@ EOF
 elif [ x"$is_dos" != "xno" ]; then
 
   
-  LIBS="-lm -lalleg $LIBMIDAS"
+  LIBS="$LIBS -lm -lalleg $LIBMIDAS"
   
 
 elif [ x"$is_beos" != "xno" ]; then
 
   
-  LIBS="-lbe -ltracker -ldevice -lgame"
+  LIBS="$LIBS -lbe -ltracker -ldevice -lgame"
   
 
 elif [ x"$is_win32" != "xno" ]; then
