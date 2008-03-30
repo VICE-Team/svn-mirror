@@ -876,7 +876,7 @@ void wd1770_vsync_hook(void)
 
 int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 {
-    if (unit != 8 && unit != 9)
+    if (unit < 8 || unit > 8 + DRIVE_NUM)
         return -1;
 
     switch(image->type) {
@@ -893,7 +893,7 @@ int wd1770_attach_image(disk_image_t *image, unsigned int unit)
 
 int wd1770_detach_image(disk_image_t *image, unsigned int unit)
 {
-    if (unit != 8 && unit != 9)
+    if (unit < 8 || unit > 8 + DRIVE_NUM)
         return -1;
 
     switch(image->type) {

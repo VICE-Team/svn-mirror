@@ -384,9 +384,13 @@ static void detach_disk_image(disk_image_t *image, vdrive_t *floppy,
             vdrive_detach_image(image, 9, floppy);
             break;
           case 10:
+            machine_drive_image_detach(image, 10);
+            drive_image_detach(image, 10);
             vdrive_detach_image(image, 10, floppy);
             break;
           case 11:
+            machine_drive_image_detach(image, 11);
+            drive_image_detach(image, 11);
             vdrive_detach_image(image, 11, floppy);
             break;
         }
@@ -468,10 +472,14 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
         err &= machine_drive_image_attach(image, 9);
         break;
       case 10:
-        err = vdrive_attach_image(image, 10, floppy);
+        err = drive_image_attach(image, 10);
+        err &= vdrive_attach_image(image, 10, floppy);
+        err &= machine_drive_image_attach(image, 10);
         break;
       case 11:
-        err = vdrive_attach_image(image, 11, floppy);
+        err = drive_image_attach(image, 11);
+        err &= vdrive_attach_image(image, 11, floppy);
+        err &= machine_drive_image_attach(image, 11);
         break;
     }
     if (err) {

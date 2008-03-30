@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cia.h"
 #include "drive.h"
@@ -40,14 +41,21 @@
 
 void (*iecbus_callback_write)(BYTE, CLOCK) = NULL;
 
-iec_info_t iec_info;
+iecbus_t iecbus;
 
 static BYTE iec_old_atn = 0x10;
+
+
+void iecbus_init(void)
+{
+    memset(&iecbus, 0xff, sizeof(iecbus_t));
+    iecbus.drv_port = 0x85;
+}
 
 /* No drive is enabled.  */
 static void iec_cpu_write_conf0(BYTE data, CLOCK clock)
 {
-    iec_info.iec_fast_1541 = data;
+    iecbus.iec_fast_1541 = data;
 }
 
 /* Only the first drive is enabled.  */
@@ -60,8 +68,8 @@ static void iec_cpu_write_conf1(BYTE data, CLOCK clock)
 
     iec_update_cpu_bus(data);
 
-    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
-        iec_old_atn = iec_info.cpu_bus & 0x10;
+    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
+        iec_old_atn = iecbus.cpu_bus & 0x10;
         if (drive->type != DRIVE_TYPE_1581)
             viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
@@ -71,15 +79,15 @@ static void iec_cpu_write_conf1(BYTE data, CLOCK clock)
     }
 
     if (drive->type != DRIVE_TYPE_1581)
-        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                             | ((iec_info.drive_data << 6)
-                             & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-                             & 0x80));
+        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
+                            | ((iecbus.drv_data[8] << 6)
+                            & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
     else
-        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                             | ((iec_info.drive_data << 6)
-                             & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
-                             & 0x80));
+        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
+                            | ((iecbus.drv_data[8] << 6)
+                            & ((iecbus.drv_data[8] | iecbus.cpu_bus) << 3)
+                            & 0x80));
 
     iec_update_ports();
 }
@@ -94,8 +102,8 @@ static void iec_cpu_write_conf2(BYTE data, CLOCK clock)
 
     iec_update_cpu_bus(data);
 
-    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
-        iec_old_atn = iec_info.cpu_bus & 0x10;
+    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
+        iec_old_atn = iecbus.cpu_bus & 0x10;
         if (drive->type != DRIVE_TYPE_1581)
             viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
@@ -105,19 +113,19 @@ static void iec_cpu_write_conf2(BYTE data, CLOCK clock)
     }
 
     if (drive->type != DRIVE_TYPE_1581)
-        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
+        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
+                            | ((iecbus.drv_data[9] << 6)
+                            & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
     else
-        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                          | ((iec_info.drive2_data << 6)
-                          & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
-                          & 0x80));
+        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
+                            | ((iecbus.drv_data[9] << 6)
+                            & ((iecbus.drv_data[9] | iecbus.cpu_bus) << 3)
+                            & 0x80));
 
     iec_update_ports();
 }
-
+#if 0
 /* Both drive are enabled.  */
 static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
 {
@@ -130,8 +138,8 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
 
     iec_update_cpu_bus(data);
 
-    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
-        iec_old_atn = iec_info.cpu_bus & 0x10;
+    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
+        iec_old_atn = iecbus.cpu_bus & 0x10;
 
         if (drive0->type != DRIVE_TYPE_1581)
             viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
@@ -149,34 +157,83 @@ static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
     }
 
     if (drive0->type != DRIVE_TYPE_1581)
-        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                         | ((iec_info.drive_data << 6)
-                         & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
-                         & 0x80));
+        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
+                            | ((iecbus.drv_data[8] << 6)
+                            & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
     else
-        iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
-                         | ((iec_info.drive_data << 6)
-                         & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
-                         & 0x80));
+        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
+                            | ((iecbus.drv_data[8] << 6)
+                            & ((iecbus.drv_data[8] | iecbus.cpu_bus) << 3)
+                            & 0x80));
 
     if (drive1->type != DRIVE_TYPE_1581)
-        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                         | ((iec_info.drive2_data << 6)
-                         & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
-                         & 0x80));
+        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
+                            | ((iecbus.drv_data[9] << 6)
+                            & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
     else
-        iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
-                         | ((iec_info.drive2_data << 6)
-                         & ((iec_info.drive2_data | iec_info.cpu_bus) << 3)
-                         & 0x80));
+        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
+                            | ((iecbus.drv_data[9] << 6)
+                            & ((iecbus.drv_data[9] | iecbus.cpu_bus) << 3)
+                            & 0x80));
 
     iec_update_ports();
 }
-
-static void iec_cpu_write_conf_any(BYTE data, CLOCK clock)
+#endif
+static void iec_cpu_write_conf3(BYTE data, CLOCK clock)
 {
-}
+/*    drive_t *drive0, *drive1;*/
+    unsigned int dnr;
 
+/*
+    drive0 = drive_context[0]->drive;
+    drive1 = drive_context[1]->drive;
+    drivecpu_execute(drive_context[0], clock);
+    drivecpu_execute(drive_context[1], clock);
+*/
+    drivecpu_execute_all(clock);
+
+    iec_update_cpu_bus(data);
+
+    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
+        iec_old_atn = iecbus.cpu_bus & 0x10;
+
+        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+            if (drive_context[dnr]->drive->type == DRIVE_TYPE_NONE)
+                continue;
+
+            if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
+                viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CA1,
+                               iec_old_atn ? 0 : VIA_SIG_RISE);
+            else
+                if (!iec_old_atn)
+                    ciacore_set_flag(drive_context[dnr]->cia1581);
+        }
+    }
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        unsigned int unit;
+
+        if (drive_context[dnr]->drive->type == DRIVE_TYPE_NONE)
+            continue;
+
+        unit = dnr + 8;
+
+        if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
+            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
+                                   | ((iecbus.drv_data[unit] << 6)
+                                   & ((~iecbus.drv_data[unit]
+                                   ^ iecbus.cpu_bus) << 3) & 0x80));
+        else
+            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
+                                   | ((iecbus.drv_data[unit] << 6)
+                                   & ((iecbus.drv_data[unit]
+                                   | iecbus.cpu_bus) << 3) & 0x80));
+    }
+
+    iec_update_ports();
+}
 
 void iecbus_calculate_callback_index(void)
 {
@@ -197,17 +254,15 @@ void iecbus_calculate_callback_index(void)
       case 2:
         iecbus_callback_write = iec_cpu_write_conf2;
         break;
-      case 3:
+      default:
         iecbus_callback_write = iec_cpu_write_conf3;
         break;
-      default:
-        iecbus_callback_write = iec_cpu_write_conf_any;
     }
 }
 
 void iec_cpu_undump(BYTE data)
 {
     iec_update_cpu_bus(data);
-    iec_old_atn = iec_info.cpu_bus & 0x10;
+    iec_old_atn = iecbus.cpu_bus & 0x10;
 }
 
