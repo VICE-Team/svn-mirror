@@ -40,6 +40,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
 #include "kbdbuf.h"
@@ -222,6 +223,7 @@ int machine_resources_init(void)
         || sound_resources_init() < 0
         || rs232drv_resources_init() < 0
         || rsuser_resources_init() < 0
+        || serial_resources_init() < 0
         || printer_resources_init() < 0
 #ifndef COMMON_KBD
         || kbd_resources_init() < 0
@@ -256,6 +258,7 @@ int machine_cmdline_options_init(void)
         || sound_cmdline_options_init() < 0
         || rs232drv_cmdline_options_init() < 0
         || rsuser_cmdline_options_init() < 0
+        || serial_cmdline_options_init() < 0
         || printer_cmdline_options_init() < 0
 #ifndef COMMON_KBD
         || kbd_cmdline_options_init() < 0
@@ -556,8 +559,19 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_traps_enable(int enable)
+void machine_bus_status_truedrive_set(unsigned int enable)
 {
+    iecbus_status_set(IECBUS_STATUS_TRUEDRIVE, 0, enable);
+}
+
+void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
+{
+    iecbus_status_set(IECBUS_STATUS_DRIVETYPE, unit, enable);
+}
+
+void machine_bus_status_virtualdevices_set(unsigned int enable)
+{
+    iecbus_status_set(IECBUS_STATUS_VIRTUALDEVICES, 0, enable);
     parallel_bus_enable(enable);
 }
 

@@ -572,7 +572,15 @@ unsigned int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-void machine_traps_enable(int enable)
+void machine_bus_status_truedrive_set(unsigned int enable)
+{
+}
+
+void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
+{
+}
+
+void machine_bus_status_virtualdevices_set(unsigned int enable)
 {
     parallel_bus_enable(enable);
 }
