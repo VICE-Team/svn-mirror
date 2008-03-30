@@ -166,3 +166,50 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                               (video_canvas_t *)c);
 }
 
+void uicolor_init_video_colors()
+{
+    short i;
+    XColor colorr, colorg, colorb;
+    Display *display;
+    
+    display = ui_get_display_ptr();
+    for (i = 0; i < 256; i++)
+    {
+	colorr.flags = DoRed | DoGreen | DoBlue;
+	colorr.red =  i << 8;
+	colorr.green =  0;
+	colorr.blue = 0;
+	
+	colorg.flags = DoRed | DoGreen | DoBlue;
+	colorg.red =  0;
+	colorg.green =  i << 8;
+	colorg.blue = 0;
+	
+	colorb.flags = DoRed | DoGreen | DoBlue;
+	colorb.red =  0;
+	colorb.green =  0;
+	colorb.blue = i << 8;
+	
+	if (!XAllocColor(display, colormap, &colorr)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorr.red, colorr.green, colorr.blue);
+	}
+	if (!XAllocColor(display, colormap, &colorg)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorg.red, colorg.green, colorg.blue);
+	}
+	if (!XAllocColor(display, colormap, &colorb)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorb.red, colorb.green, colorb.blue);
+	}
+	video_render_setrawrgb(i, 
+			       (DWORD) colorr.pixel, 
+			       (DWORD) colorg.pixel, 
+			       (DWORD) colorb.pixel);
+    }
+    
+    video_render_initraw();
+}

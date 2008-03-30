@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-01-30 21:58+0100\n"
+"POT-Creation-Date: 2002-01-31 22:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,13 +56,13 @@ msgstr ""
 msgid "*NTSC-M"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:72 src/arch/unix/uivicii.c:43
+#: src/arch/unix/c128ui.c:72 src/arch/unix/uivicii.c:44
 #: src/arch/unix/vic20ui.c:411
 msgid "*Default"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:76 src/arch/unix/uicrtc.c:44
-#: src/arch/unix/uivicii.c:56 src/arch/unix/vic20ui.c:413
+#: src/arch/unix/uivicii.c:57 src/arch/unix/vic20ui.c:413
 msgid "Load custom"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgid "Revision"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:112 src/arch/unix/plus4ui.c:92
-#: src/arch/unix/uivicii.c:105 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/uivicii.c:148 src/arch/unix/vic20ui.c:423
 msgid "Color set"
 msgstr ""
 
@@ -312,8 +312,8 @@ msgstr ""
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1130
-#: src/arch/unix/x11/gnome/ui.c:1222
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1142
+#: src/arch/unix/x11/gnome/ui.c:1234
 msgid "Settings"
 msgstr ""
 
@@ -747,15 +747,15 @@ msgstr ""
 msgid "*PET userport diagnostic pin"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:103
+#: src/arch/unix/plus4ui.c:89 src/arch/unix/uivicii.c:146
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:95 src/arch/unix/uivicii.c:108
+#: src/arch/unix/plus4ui.c:95
 msgid "*Fast PAL emulation"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:98 src/arch/unix/uivicii.c:111
+#: src/arch/unix/plus4ui.c:98 src/arch/unix/uivicii.c:151
 msgid "*PAL emulation"
 msgstr ""
 
@@ -1048,7 +1048,7 @@ msgstr ""
 
 #: src/arch/unix/uicommands.c:679 src/arch/unix/uicommands.c:694
 #: src/arch/unix/x11/gnome/ui.c:784 src/arch/unix/x11/gnome/ui.c:794
-#: src/arch/unix/x11/gnome/ui.c:1474
+#: src/arch/unix/x11/gnome/ui.c:1486
 msgid "<empty>"
 msgstr ""
 
@@ -1193,7 +1193,7 @@ msgid "About VICE..."
 msgstr ""
 
 #: src/arch/unix/uicommands.c:964 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1842
+#: src/arch/unix/x11/gnome/ui.c:1854
 msgid "Reset"
 msgstr ""
 
@@ -1233,7 +1233,7 @@ msgstr ""
 msgid "Datasette zero gap delay"
 msgstr ""
 
-#: src/arch/unix/uidatasette.c:70
+#: src/arch/unix/uidatasette.c:70 src/arch/unix/uivicii.c:110
 #, c-format
 msgid "Invalid value: %s"
 msgstr ""
@@ -1688,7 +1688,7 @@ msgstr ""
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1269
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1281
 #: src/arch/unix/x11/xaw/ui.c:1060
 msgid "Cannot save settings."
 msgstr ""
@@ -1961,29 +1961,57 @@ msgstr ""
 msgid "Sound settings"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:47
+#: src/arch/unix/uivicii.c:48
 msgid "*CCS64"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:49
+#: src/arch/unix/uivicii.c:50
 msgid "*Frodo"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:51
+#: src/arch/unix/uivicii.c:52
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:95 src/arch/unix/vic20ui.c:420
+#: src/arch/unix/uivicii.c:103
+msgid "PAL Scanline shade"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:103
+msgid "Scanline Shade in percent"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:126
+msgid "*Fake PAL Emulation"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:128
+msgid "*Sharp PAL Emulation (Y/C Input)"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:130
+msgid "*Blurry PAL Emulation (Composite Input)"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:132
+msgid "PAL Scanline Shade"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:138 src/arch/unix/vic20ui.c:420
 #: src/arch/unix/vsidui.c:172
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:98
+#: src/arch/unix/uivicii.c:141
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:100
+#: src/arch/unix/uivicii.c:143
 msgid "*Sprite-background collisions"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:153
+msgid "PAL Emulation Settings"
 msgstr ""
 
 #. Shouldn't happen.
@@ -2215,93 +2243,93 @@ msgstr ""
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1128 src/arch/unix/x11/gnome/ui.c:1211
+#: src/arch/unix/x11/gnome/ui.c:1140 src/arch/unix/x11/gnome/ui.c:1223
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1134
+#: src/arch/unix/x11/gnome/ui.c:1146
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1253 src/arch/unix/x11/xaw/ui.c:1044
+#: src/arch/unix/x11/gnome/ui.c:1265 src/arch/unix/x11/xaw/ui.c:1044
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1255 src/arch/unix/x11/xaw/ui.c:1050
+#: src/arch/unix/x11/gnome/ui.c:1267 src/arch/unix/x11/xaw/ui.c:1050
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1265 src/arch/unix/x11/xaw/ui.c:1057
+#: src/arch/unix/x11/gnome/ui.c:1277 src/arch/unix/x11/xaw/ui.c:1057
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1312 src/arch/unix/x11/xaw/ui.c:1094
+#: src/arch/unix/x11/gnome/ui.c:1324 src/arch/unix/x11/xaw/ui.c:1094
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1332 src/arch/unix/x11/gnome/ui.c:1335
+#: src/arch/unix/x11/gnome/ui.c:1344 src/arch/unix/x11/gnome/ui.c:1347
 #: src/arch/unix/x11/xaw/ui.c:1115 src/arch/unix/x11/xaw/ui.c:1121
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1626
+#: src/arch/unix/x11/gnome/ui.c:1638
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1663 src/arch/unix/x11/xaw/ui.c:1331
+#: src/arch/unix/x11/gnome/ui.c:1675 src/arch/unix/x11/xaw/ui.c:1331
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1801
+#: src/arch/unix/x11/gnome/ui.c:1813
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1816
+#: src/arch/unix/x11/gnome/ui.c:1828
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1842
+#: src/arch/unix/x11/gnome/ui.c:1854
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1842
+#: src/arch/unix/x11/gnome/ui.c:1854
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1886 src/arch/unix/x11/xaw/ui.c:1571
+#: src/arch/unix/x11/gnome/ui.c:1898 src/arch/unix/x11/xaw/ui.c:1571
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1887
+#: src/arch/unix/x11/gnome/ui.c:1899
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1900
+#: src/arch/unix/x11/gnome/ui.c:1912
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1908 src/arch/unix/x11/gnome/ui.c:1917
+#: src/arch/unix/x11/gnome/ui.c:1920 src/arch/unix/x11/gnome/ui.c:1929
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2045 src/arch/unix/x11/gnome/ui.c:2050
+#: src/arch/unix/x11/gnome/ui.c:2057 src/arch/unix/x11/gnome/ui.c:2062
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2508
+#: src/arch/unix/x11/gnome/ui.c:2520
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2555
+#: src/arch/unix/x11/gnome/ui.c:2567
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:2581
+#: src/arch/unix/x11/gnome/ui.c:2593
 msgid "Autostart"
 msgstr ""
 
@@ -2342,7 +2370,10 @@ msgstr ""
 msgid "XCreateImage failed."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/xaw/uicolor.c:139
+#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/gnome/uicolor.c:221
+#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/xaw/uicolor.c:139 src/arch/unix/x11/xaw/uicolor.c:195
+#: src/arch/unix/x11/xaw/uicolor.c:200 src/arch/unix/x11/xaw/uicolor.c:205
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr ""
@@ -2627,32 +2658,36 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:137
+#: src/arch/unix/x11/video.c:138
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:140
+#: src/arch/unix/x11/video.c:141
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:143
+#: src/arch/unix/x11/video.c:144
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:146
-msgid "Use X Video Extension (hardware scaling)"
+#: src/arch/unix/x11/video.c:147
+msgid "Use XVideo Extension (hardware scaling)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:346
-msgid "The MITSHM extension is not supported on this display."
+#: src/arch/unix/x11/video.c:150
+msgid "Use software rendering"
 msgstr ""
 
 #: src/arch/unix/x11/video.c:350
+msgid "The MITSHM extension is not supported on this display."
+msgstr ""
+
+#: src/arch/unix/x11/video.c:354
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:411
+#: src/arch/unix/x11/video.c:415
 msgid "Cannot release shared memory!"
 msgstr ""
 

@@ -323,8 +323,9 @@ static CLOCK datasette_read_gap(int direction)
     long read_tap = 0;
     CLOCK gap = 0;
 
-    if (current_image->system != 2 || current_image->version != 1
-        || !fullwave) {
+/*    if (current_image->system != 2 || current_image->version != 1
+        || !fullwave) {*/
+    if (current_image->system != 2 ) {
         if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
             return 0;
         if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
@@ -343,11 +344,31 @@ static CLOCK datasette_read_gap(int direction)
         }
         if (fetch_gap(&gap, &direction, read_tap) < 0)
             return 0;
+        next_tap += direction;
+        current_image->current_file_seek_position += direction;
     }
 
     if (current_image->system == 2 && current_image->version == 1) {
         if (!fullwave) {
-            gap /= 2;
+            if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
+                return 0;
+            if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
+                return 0;
+
+            if (direction > 0) {
+                read_gap_forward(&read_tap);
+            } else {
+                if ((current_image->version == 0) || (next_tap < 4)
+                    || tap_buffer[next_tap-4]) {
+                    read_gap_backward_v0(&read_tap);
+                } else {
+                    if (read_gap_backward_v1(&read_tap) < 0)
+                        return 0;
+                }
+            }
+            if (fetch_gap(&gap, &direction, read_tap) < 0)
+                return 0;
+
             fullwave_gap = gap;
             next_tap += direction;
             current_image->current_file_seek_position += direction;
@@ -355,7 +376,27 @@ static CLOCK datasette_read_gap(int direction)
             gap = fullwave_gap;
         }
         fullwave ^= 1;
-    } else {
+    } else if (current_image->system == 2 && current_image->version == 2) {
+        if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
+            return 0;
+        if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
+            return 0;
+
+        if (direction > 0) {
+            read_gap_forward(&read_tap);
+        } else {
+            if ((current_image->version == 0) || (next_tap < 4)
+                || tap_buffer[next_tap-4]) {
+                read_gap_backward_v0(&read_tap);
+            } else {
+                if (read_gap_backward_v1(&read_tap) < 0)
+                    return 0;
+            }
+        }
+        if (fetch_gap(&gap, &direction, read_tap) < 0)
+            return 0;
+        gap *= 2;
+        fullwave ^= 1;
         next_tap += direction;
         current_image->current_file_seek_position += direction;
     }
@@ -494,6 +535,7 @@ void datasette_set_tape_image(tap_t *image)
         } while (gap);
         current_image->current_file_seek_position = 0;
         last_tap = next_tap = 0;
+        fullwave = 0;
     }
 
     ui_set_tape_status(current_image ? 1 : 0);
@@ -541,6 +583,7 @@ static void datasette_internal_reset(void)
         datasette_long_gap_elapsed = 0;
         datasette_last_direction = 0;
         datasette_update_ui_counter();
+        fullwave = 0;
     }
 }
 
@@ -562,7 +605,6 @@ static void datasette_start_motor(void)
         alarm_set(&datasette_alarm, clk + 1000);
         datasette_alarm_pending = 1;
     }
-    fullwave = 0;
 }
 
 

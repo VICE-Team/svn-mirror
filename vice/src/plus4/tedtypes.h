@@ -35,7 +35,7 @@
 
 /* Screen constants.  */
 #define TED_PAL_SCREEN_HEIGHT           312
-#define TED_NTSC_SCREEN_HEIGHT          263
+#define TED_NTSC_SCREEN_HEIGHT          262
 
 #define TED_SCREEN_WIDTH                384
 

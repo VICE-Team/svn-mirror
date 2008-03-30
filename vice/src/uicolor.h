@@ -49,5 +49,7 @@ extern int uicolor_alloc_colors(struct video_canvas_s *c,
                                 const struct palette_s *palette,
                                 BYTE pixel_return[]);
 
+extern void uicolor_init_video_colors(void);
+
 #endif
 

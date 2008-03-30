@@ -1,5 +1,5 @@
 /*
- * renderXv.c - X Video rendering.
+ * renderxv.c - XVideo rendering.
  *
  * Written by
  *  Dag Lem <resid@nimrod.no>
@@ -294,6 +294,7 @@ void render_4_2_2(XvImage* image,
 {
   int x, y;
   unsigned int YUV0, YUV1;
+  unsigned int U, V;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
@@ -308,7 +309,7 @@ void render_4_2_2(XvImage* image,
   }
 
   /* Add start offsets. */
-  dest += dest_pitch*dest_y + dest_x/2;
+  dest += dest_pitch*dest_y + (dest_x >> 1);
   src += src_pitch*src_y + src_x;
 
   /* Render 2x1 blocks, YUV 4:2:2 */
@@ -316,14 +317,16 @@ void render_4_2_2(XvImage* image,
     for (x = 0; x < src_w; x += 2) {
       YUV0 = src_color[*src++];
       YUV1 = src_color[*src++];
+      U = (((YUV0 >> 8) & 0xff) + ((YUV1 >> 8) & 0xff)) >> 1;
+      V = ((YUV0 & 0xff) + (YUV1 & 0xff)) >> 1;
       *dest++ =
 	((YUV0 >> 16) << shift_y0)
-	| (((YUV0 >> 8) & 0xff) << shift_u)
-	| ((YUV0 & 0xff) << shift_v)
+	| (U << shift_u)
+	| (V << shift_v)
 	| ((YUV1 >> 16) << shift_y1);
     }
-    dest += dest_pitch - src_w/2;
     src += src_pitch - src_w;
+    dest += dest_pitch - (src_w >> 1);
   }
 }
 
@@ -339,7 +342,7 @@ void render_4_1_1(XvImage* image,
 		  int dest_x, int dest_y)
 {
   int x, y;
-  unsigned int YUV;
+  unsigned int YUV0, YUV1, YUV2, YUV3;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -367,30 +370,32 @@ void render_4_1_1(XvImage* image,
 
   /* Add start offsets. */
   Yptr += Ypitch*dest_y + dest_x;
-  Uptr += Upitch*dest_y/2 + dest_x/2;
-  Vptr += Vpitch*dest_y/2 + dest_x/2;
+  Uptr += (Upitch*dest_y + dest_x) >> 1;
+  Vptr += (Vpitch*dest_y + dest_x) >> 1;
   src += src_pitch*src_y + src_x;
 
   /* Render 2x2 blocks, YUV 4:1:1 */
   for (y = 0; y < src_h; y += 2) {
     for (x = 0; x < src_w; x += 2) {
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
-      *Uptr++ = (YUV >> 8) & 0xff;
-      *Vptr++ = YUV & 0xff;
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
+      YUV0 = src_color[*src];
+      YUV1 = src_color[*(src + 1)];
+      YUV2 = src_color[*(src + src_pitch)];
+      YUV3 = src_color[*(src + src_pitch + 1)];
+      src += 2;
+      *Yptr = YUV0 >> 16;
+      *(Yptr + 1) = YUV1 >> 16;
+      *(Yptr + Ypitch) = YUV2 >> 16;
+      *(Yptr + Ypitch + 1) = YUV3 >> 16;
+      Yptr += 2;
+      *Uptr++ = (((YUV0 >> 8) & 0xff) + ((YUV1 >> 8) & 0xff)
+		 + ((YUV2 >> 8) & 0xff) + ((YUV3 >> 8) & 0xff)) >> 2;
+      *Vptr++ = ((YUV0 & 0xff) + (YUV1 & 0xff)
+		 + (YUV2 & 0xff) + (YUV3 & 0xff)) >> 2;
     }
-    Yptr += Ypitch - src_w;
-    Uptr += Upitch - src_w/2;
-    Vptr += Vpitch - src_w/2;
-    src += src_pitch - src_w;
-    for (x = 0; x < src_w; x++) {
-      YUV = src_color[*src++];
-      *Yptr++ = YUV >> 16;
-    }
-    Yptr += Ypitch - src_w;
-    src += src_pitch - src_w;
+    src += (src_pitch << 1) - src_w;
+    Yptr += (Ypitch << 1) - src_w;
+    Uptr += Upitch - (src_w >> 1);
+    Vptr += Vpitch - (src_w >> 1);
   }
 }
 

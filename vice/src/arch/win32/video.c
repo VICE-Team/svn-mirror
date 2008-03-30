@@ -492,7 +492,7 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     c = xmalloc(sizeof(struct video_canvas_s));
     memset(c, 0, sizeof(struct video_canvas_s));
 
-    canvas->video_draw_buffer_callback = NULL;
+    c->video_draw_buffer_callback = NULL;
 
     video_render_initconfig(&c->videoconfig);
 

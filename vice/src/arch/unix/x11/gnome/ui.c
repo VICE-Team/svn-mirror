@@ -973,12 +973,24 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 	new_canvas = build_vsid_ctrl_widget();
     else
     {
+	GtkRcStyle *rc_style;
+	GdkColor color;
+
 	alloc_colormap();
 	gtk_widget_push_visual (visual);
         gtk_widget_push_colormap (colormap);
 	new_canvas = gtk_drawing_area_new();
         gtk_widget_pop_visual ();
         gtk_widget_pop_colormap ();
+
+	/* Go through the motions to change the background to black.
+	   GTK+ 2.0 simplifies this with gtk_widget_modify_bg. */
+	gdk_color_parse("black", &color);
+	rc_style = gtk_rc_style_new();
+	rc_style->bg[GTK_STATE_NORMAL] = color;
+	rc_style->color_flags[GTK_STATE_NORMAL] = GTK_RC_BG;
+	gtk_widget_modify_style(new_canvas, rc_style);
+	gtk_rc_style_unref(rc_style);
     }
 
     

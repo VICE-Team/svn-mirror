@@ -201,8 +201,11 @@ inline static BYTE mem_proc_port_read(ADDRESS addr)
 
     tmp |= iec_cpu_read();
 
-    if (tape_read)
+    if (tape_read) {
+        tmp |= 0x10;
+    } else {
         tmp &= ~0x10;
+    }
 
     return tmp;
 }

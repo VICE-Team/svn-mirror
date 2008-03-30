@@ -197,3 +197,45 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                               (video_canvas_t *)c);
 }
 
+void uicolor_init_video_colors()
+{
+    short i;
+    GdkColor colorr, colorg, colorb;
+    
+    for (i = 0; i < 256; i++)
+    {
+	colorr.red =  i << 8;
+	colorr.green =  0;
+	colorr.blue = 0;
+	
+	colorg.red =  0;
+	colorg.green =  i << 8;
+	colorg.blue = 0;
+	
+	colorb.red =  0;
+	colorb.green =  0;
+	colorb.blue = i << 8;
+	
+	if (!gdk_color_alloc(colormap, &colorr)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorr.red, colorr.green, colorr.blue);
+	}
+	if (!gdk_color_alloc(colormap, &colorg)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorg.red, colorg.green, colorg.blue);
+	}
+	if (!gdk_color_alloc(colormap, &colorb)) 
+	{
+	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
+		      colorb.red, colorb.green, colorb.blue);
+	}
+	video_render_setrawrgb(i, 
+			       (DWORD) colorr.pixel, 
+			       (DWORD) colorg.pixel, 
+			       (DWORD) colorb.pixel);
+    }
+    
+    video_render_initraw();
+}

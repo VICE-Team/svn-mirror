@@ -43,11 +43,15 @@ static unsigned int t1_start;
 static unsigned int t2_start;
 static unsigned int t3_start;
 
-/*
+static unsigned int t1_last_restart;
+static unsigned int t2_last_restart;
+static unsigned int t3_last_restart;
+
+
 static unsigned int t1_running;
 static unsigned int t2_running;
 static unsigned int t3_running;
-*/
+
 
 static unsigned int t1_value;
 static unsigned int t2_value;
@@ -57,25 +61,28 @@ static unsigned int t3_value;
 
 static void ted_t1(CLOCK offset)
 {
-    alarm_set(&ted_t1_alarm, clk + (t1_start == 0 ? 65536 : t1_start) - offset);
+    alarm_set(&ted_t1_alarm, clk + (t1_start == 0 ? 65536 : t1_start) * 2 - offset);
 /*printf("TI1 ALARM %x\n", clk);*/
     ted.irq_status |= 0x08;
+    t1_last_restart = clk - offset;
 }
 
 static void ted_t2(CLOCK offset)
 {
-    alarm_set(&ted_t2_alarm, clk + 65536 - offset);
+    alarm_set(&ted_t2_alarm, clk + 65536 * 2 - offset);
     t2_start = 0;
 /*printf("TI2 ALARM %x\n", clk);*/
     ted.irq_status |= 0x10;
+    t2_last_restart = clk - offset;
 }
 
 static void ted_t3(CLOCK offset)
 {
-    alarm_set(&ted_t3_alarm, clk + 65536 - offset);
+    alarm_set(&ted_t3_alarm, clk + 65536 * 2 - offset);
     t3_start = 0;
 /*printf("TI3 ALARM\n");*/
     ted.irq_status |= 0x40;
+    t3_last_restart = clk - offset;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -83,76 +90,113 @@ static void ted_t3(CLOCK offset)
 static void ted_timer_t1_store_low(BYTE value)
 {
     alarm_unset(&ted_t1_alarm);
-    t1_value = t1_start = (t1_start & 0xff00) | value;
+    if (t1_running) {
+        t1_value -= clk - t1_last_restart;
+        t1_last_restart = clk;
+    }
+    t1_value = (t1_start = (t1_start & 0xff00) | value) << 1;
+    t1_running = 0;
 }
 
 static void ted_timer_t1_store_high(BYTE value)
 {
     alarm_unset(&ted_t1_alarm);
-    t1_value = t1_start = (t1_start & 0x00ff) | (value << 8);
-    alarm_set(&ted_t1_alarm, clk + (t1_start == 0 ? 65536 : t1_start));
+    t1_value = (t1_start = (t1_start & 0x00ff) | (value << 8)) << 1;
+    alarm_set(&ted_t1_alarm, clk + (t1_start == 0 ? 65536 : t1_start) * 2);
+    t1_last_restart = clk;
+    t1_running = 1;
 }
 
 static void ted_timer_t2_store_low(BYTE value)
 {
     alarm_unset(&ted_t2_alarm);
-    t2_value = t2_start = (t2_start & 0xff00) | value;
+    t2_value = (t2_start = (t2_start & 0xff00) | value) << 1;
+    t2_running = 0;
 }
 
 static void ted_timer_t2_store_high(BYTE value)
 {
     alarm_unset(&ted_t2_alarm);
-    t2_value = t2_start = (t2_start & 0x00ff) | (value << 8);
-    alarm_set(&ted_t2_alarm, clk + (t2_start == 0 ? 65536 : t2_start));
+    t2_value = (t2_start = (t2_start & 0x00ff) | (value << 8)) << 1;
+    alarm_set(&ted_t2_alarm, clk + (t2_start == 0 ? 65536 : t2_start) * 2);
+    t2_last_restart = clk;
+    t2_running = 1;
 }
 
 static void ted_timer_t3_store_low(BYTE value)
 {
     alarm_unset(&ted_t3_alarm);
-    t3_value = t3_start = (t3_start & 0xff00) | value;
+    t3_value = (t3_start = (t3_start & 0xff00) | value) << 1;
+    t3_running = 0;
 }
 
 static void ted_timer_t3_store_high(BYTE value)
 {
     alarm_unset(&ted_t3_alarm);
-    t3_value = t3_start = (t3_start & 0x00ff) | (value << 8);
-    alarm_set(&ted_t3_alarm, clk + (t3_start == 0 ? 65536 : t3_start));
+    t3_value = (t3_start = (t3_start & 0x00ff) | (value << 8)) << 1;
+    alarm_set(&ted_t3_alarm, clk + (t3_start == 0 ? 65536 : t3_start) * 2);
+    t3_last_restart = clk;
+    t3_running = 1;
 }
 
 static BYTE ted_timer_t1_read_low(void)
 {
 /*printf("TI1 READL %02x\n", t1_value & 0xff);*/
-    return (BYTE)(t1_value & 0xff);
+    if (t1_running) {
+        t1_value -= clk - t1_last_restart;
+        t1_last_restart = clk;
+    }
+    return (BYTE)(t1_value >> 1);
 }
 
 static BYTE ted_timer_t1_read_high(void)
 {
 /*printf("TI1 READH %02x\n", t1_value >> 8);*/
-    return (BYTE)(t1_value >> 8);
+    if (t1_running) {
+        t1_value -= clk - t1_last_restart;
+        t1_last_restart = clk;
+    }
+    return (BYTE)(t1_value >> 9);
 }
 
 static BYTE ted_timer_t2_read_low(void)
 {
 /*printf("TI2 READL %02x\n", t2_value & 0xff);*/
-    return (BYTE)(t2_value & 0xff);
+    if (t2_running) {
+        t2_value -= clk - t2_last_restart;
+        t2_last_restart = clk;
+    }
+    return (BYTE)(t2_value >> 1);
 }
 
 static BYTE ted_timer_t2_read_high(void)
 {
 /*printf("TI2 READH %02x\n", t2_value >> 8);*/
-    return (BYTE)(t2_value >> 8);
+    if (t2_running) {
+        t2_value -= clk - t2_last_restart;
+        t2_last_restart = clk;
+    }
+    return (BYTE)(t2_value >> 9);
 }
 
 static BYTE ted_timer_t3_read_low(void)
 {
 /*printf("TI3 READL %02x\n", t3_value & 0xff);*/
-    return (BYTE)(t3_value & 0xff);
+    if (t3_running) {
+        t3_value -= clk - t3_last_restart;
+        t3_last_restart = clk;
+    }
+    return (BYTE)(t3_value >> 1);
 }
 
 static BYTE ted_timer_t3_read_high(void)
 {
 /*printf("TI3 READH %02x\n", t3_value >> 8);*/
-    return (BYTE)(t3_value >> 8);
+    if (t3_running) {
+        t3_value -= clk - t3_last_restart;
+        t3_last_restart = clk;
+    }
+    return (BYTE)(t3_value >> 9);
 }
 
 /*-----------------------------------------------------------------------*/

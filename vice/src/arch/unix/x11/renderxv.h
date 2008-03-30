@@ -1,5 +1,5 @@
 /*
- * renderXv.c - X Video rendering.
+ * renderxv.c - XVideo rendering.
  *
  * Written by
  *  Dag Lem <resid@nimrod.no>

@@ -125,6 +125,7 @@ static resource_t resources[] = {
 
 int video_arch_init_resources(void)
 {
+
     return resources_register(resources);
 }
 
@@ -143,7 +144,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, N_("Never use shared memory (slower)") },
     { "-xvideo", SET_RESOURCE, 0, NULL, NULL,
       "XVIDEO", (resource_value_t) 1,
-      NULL, N_("Use X Video Extension (hardware scaling)") },
+      NULL, N_("Use XVideo Extension (hardware scaling)") },
+    { "+xvideo", SET_RESOURCE, 0, NULL, NULL,
+      "XVIDEO", (resource_value_t) 0,
+      NULL, N_("Use software rendering") },
     { NULL }
 };
 
@@ -160,7 +164,7 @@ static void (*_refresh_func)();
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
 
-/* This is set to 1 if the X Video Extension is used. */
+/* This is set to 1 if the XVideo Extension is used. */
 int use_xvideo = 0;
 
 /* The RootWindow of our screen. */
@@ -484,6 +488,7 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     canvas->height = *height;
     ui_finish_canvas(canvas);
 
+    uicolor_init_video_colors();
     video_add_handlers(w);
     if (console_mode || vsid_mode)
         return canvas;
