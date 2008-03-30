@@ -45,6 +45,7 @@
 #include "c64cia.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
+#include "cartridge.h"
 #include "ciatimer.h"
 #include "clkguard.h"
 #include "console.h"
@@ -298,6 +299,7 @@ int machine_init_resources(void)
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
         || datasette_init_resources() < 0
+        || cartridge_init_resources() < 0
         || mmu_init_resources() < 0
         || z80mem_init_resources() < 0
         || functionrom_init_resources() < 0)
@@ -332,6 +334,7 @@ int machine_init_cmdline_options(void)
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
+        || cartridge_init_cmdline_options() < 0
         || mmu_init_cmdline_options() < 0
         || functionrom_init_cmdline_options() < 0
         || z80mem_init_cmdline_options() < 0)
@@ -455,6 +458,8 @@ int machine_init(void)
 #endif
 
     iec_init();
+
+    cartridge_init();
 
     mmu_init();
 

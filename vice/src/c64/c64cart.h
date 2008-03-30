@@ -36,7 +36,6 @@ extern void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value);
 extern void REGPARM1 cartridge_decode_address(ADDRESS addr);
 extern void cartridge_init_config(void);
 
-extern void cartridge_init(void);
 extern void cartridge_release_freeze(void);
 
 /* Handle nmi/reset acknowledge for cartridge emulation. (CARTRIDGE_EXPERT) */

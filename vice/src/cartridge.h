@@ -24,13 +24,12 @@
  *
  */
 
-/* FIXME: This should be split between `vic20cartridge.h' and
-   `c64cartridge.h' IMO -- EP */
 #ifndef _CARTRIDGE_H
 #define _CARTRIDGE_H
 
 #include "types.h"
 
+extern void cartridge_init(void);
 extern int cartridge_init_resources(void);
 extern int cartridge_init_cmdline_options(void);
 
