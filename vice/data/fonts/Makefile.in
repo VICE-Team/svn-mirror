@@ -380,7 +380,7 @@ uninstall-am: uninstall-fontsDATA uninstall-info-am
 	uninstall-am uninstall-fontsDATA uninstall-info-am
 
 
-install: 
+install: install-data-am
 	@echo "Preparing fontdir..." ; \
 	cd $(prefix)/lib/vice/fonts ; \
 	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \

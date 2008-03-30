@@ -1,3 +1,22 @@
+2003-10-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.3
+
+	* gfxoutputdrv/gfxoutput.c: Fixed define.
+
+	* raster/raster.c (raster_shutdown): Free palette before the
+	canvas is freed.
+
+	* via.h, core/viacore.c, drive/iec/via1d1541.c
+	drive/ieee/via1d2031.c: Fixed snapshot module mess.
+
+	* core/ciatimer.c, core/ciatimer.h: Moved some functions to
+	the source file.
+
+2003-09-30  Dirk Jagdmann  <doj@cubic.org>
+
+	* arch/unix/catweaselmkiii.c: fixed reading from SID
+
 2003-09-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.2

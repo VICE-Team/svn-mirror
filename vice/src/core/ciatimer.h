@@ -150,24 +150,6 @@ struct snapshot_module_s;
 
 #if defined INLINE_CIAT_FUNCS || defined _CIATIMER_C
 
-/*
- * Init the timer
- */
-_CIAT_FUNC void ciat_init(ciat_t *state, const char *name,
-                        CLOCK cclk, alarm_t *alarm)
-{
-    CIAT_LOGIN(("%s init: cclk=%d",name,cclk));
-
-    state->name = name;
-    state->clk = cclk;
-    state->alarmclk = CLOCK_MAX;
-    state->cnt = 0xffff;
-    state->latch = 0xffff;
-    state->alarm = alarm;
-
-    CIAT_LOGOUT((""));
-}
-
 /* check when the next underflow will occur and set the alarm */
 /* needs update before */
 _CIAT_FUNC void ciat_set_alarm(ciat_t *state, CLOCK cclk)
@@ -371,38 +353,9 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
     return n ; /* FIXME FIXME FIXME */
 }
 
-/* handle clock overflow. needs update */
-_CIAT_FUNC void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
-{
-    CIAT_LOGIN(("%s prevent_clock_overflow", state->name));
-
-    state->clk -= sub;
-    if (state->alarmclk < CLOCK_MAX)
-        state->alarmclk -= sub;
-
-    CIAT_LOGOUT((""));
-}
-
 /*
  * Timer operations
  */
-
-/* timer reset */
-_CIAT_FUNC void ciat_reset(ciat_t *state, CLOCK cclk)
-{
-    CIAT_LOGIN(("%s reset: cclk=%d",state->name, cclk));
-
-    /* FIXME? */
-    state->clk = cclk;
-    state->alarmclk = CLOCK_MAX;
-    state->cnt = 0xffff;
-    state->latch = 0xffff;
-    state->state = 0;
-
-    alarm_unset(state->alarm);
-
-    CIAT_LOGOUT((""));
-}
 
 /* read timer value - ciat_update _must_ have been called before! */
 _CIAT_FUNC WORD ciat_read_latch(ciat_t *state, CLOCK cclk)
@@ -507,27 +460,24 @@ extern void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte);
 extern int ciat_single_step(ciat_t *state, CLOCK cclk);
 extern WORD ciat_read_timer(ciat_t *state, CLOCK cclk);
 extern WORD ciat_read_latch(ciat_t *state, CLOCK cclk);
-extern void ciat_reset(ciat_t *state, CLOCK cclk);
-extern void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub);
 extern int ciat_update(ciat_t *state, CLOCK cclk);
 extern CLOCK ciat_alarm_clk(ciat_t *state);
 extern void ciat_set_alarm(ciat_t *state, CLOCK clk);
-extern void ciat_init(ciat_t *state, const char *name, CLOCK cclk,
-                                                        alarm_t *alarm);
+
 extern WORD ciat_is_underflow_clk(ciat_t *state, CLOCK cclk);
 extern WORD ciat_is_running(ciat_t *state, CLOCK cclk);
-extern void ciat_save_snapshot(ciat_t *state, CLOCK cclk,
-                               struct snapshot_module_s *m, int ver);
-extern void ciat_load_snapshot(ciat_t *state, CLOCK cclk,
-                               WORD cnt, WORD latch, BYTE cr,
-                               struct snapshot_module_s *m, int ver);
 
 #endif  /* defined INLINE_CIAT_FUNCS || defined _CIATIMER_C */
+
+extern void ciat_init(ciat_t *state, const char *name, CLOCK cclk,
+                      alarm_t *alarm);
+extern void ciat_reset(ciat_t *state, CLOCK cclk);
+extern void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub);
 
 extern void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk,
                                struct snapshot_module_s *m, int ver);
 extern void ciat_load_snapshot(ciat_t *state, CLOCK cclk, WORD cnt, WORD latch,
                                BYTE cr, struct snapshot_module_s *m, int ver);
 
-#endif  /* _CIATIMER_H */
+#endif
 

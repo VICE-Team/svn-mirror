@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.2
+ VERSION=1.13.3
 
 
 cat >>confdefs.h <<_ACEOF
@@ -1828,8 +1828,9 @@ fi;
 
 
 if test x"$enable_gnomeui" = "xyes" ; then
-  cat >>confdefs.h <<\_ACEOF
-#define USE_GNOMEUI 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_GNOMEUI
 _ACEOF
 
 fi
@@ -1846,8 +1847,9 @@ fi
 
 
 if test x"$enable_textfield" != "xno"; then
-  cat >>confdefs.h <<\_ACEOF
-#define ENABLE_TEXTFIELD 1
+
+cat >>confdefs.h <<\_ACEOF
+#define ENABLE_TEXTFIELD
 _ACEOF
 
   echo "using TextField widget."
@@ -2894,8 +2896,9 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   is_dos=yes
 
   if test x"$with_midas" = "xyes" ; then
-      cat >>confdefs.h <<\_ACEOF
-#define USE_MIDAS_SOUND 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_MIDAS_SOUND
 _ACEOF
 
       LIBMIDAS="-lmidas"
@@ -2926,16 +2929,19 @@ else
 fi
 
 
-    cat >>confdefs.h <<\_ACEOF
-#define HAS_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAS_SINGLE_CANVAS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_SINGLE_CANVAS
 _ACEOF
 
 
@@ -2946,12 +2952,14 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   is_win32=yes
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAS_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
 _ACEOF
 
 
@@ -2974,16 +2982,19 @@ else
   HAVE_RAWDRIVE_FALSE=
 fi
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_CATWEASELMKIII 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_CATWEASELMKIII
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_HARDSID 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_HARDSID
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_TFE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_TFE
 _ACEOF
 
 
@@ -3016,8 +3027,9 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAS_LONGLONG_INTEGER 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_LONGLONG_INTEGER
 _ACEOF
 
 else
@@ -3054,8 +3066,9 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAS_UNLOCKRESOURCE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_UNLOCKRESOURCE
 _ACEOF
 
 else
@@ -3072,12 +3085,14 @@ elif test x"$host_os" = "xbeos"; then
 
   is_beos=yes
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAS_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
 _ACEOF
 
 
@@ -3888,8 +3903,9 @@ fi
   is_os2=no
   is_beos=no
 
-    cat >>confdefs.h <<\_ACEOF
-#define HAVE_RS232 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RS232
 _ACEOF
 
 
@@ -3902,8 +3918,9 @@ else
   HAVE_RS232_FALSE=
 fi
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_RAWDRIVE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RAWDRIVE
 _ACEOF
 
 
@@ -3917,8 +3934,9 @@ else
 fi
 
 
-  cat >>confdefs.h <<\_ACEOF
-#define USE_COLOR_MANAGEMENT 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_COLOR_MANAGEMENT
 _ACEOF
 
 fi
@@ -6324,8 +6342,9 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
     LINKCC='$(CXX)'
   fi
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
-    cat >>confdefs.h <<\_ACEOF
-#define HAVE_RESID 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RESID
 _ACEOF
 
 
@@ -6550,8 +6569,9 @@ fi
 
 
 
-    cat >>confdefs.h <<\_ACEOF
-#define HAVE_RESID 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RESID
 _ACEOF
 
     RESID_DIR=
@@ -8815,12 +8835,14 @@ echo "${ECHO_T}$ac_cv_header_linux_joystick_h" >&6
 
 fi
 if test $ac_cv_header_linux_joystick_h = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define HAS_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
-                    cat >>confdefs.h <<\_ACEOF
-#define LINUX_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define LINUX_JOYSTICK
 _ACEOF
 
                     JOY_OBJS='$(ARCHDIR)/joystick.o'
@@ -8858,8 +8880,9 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-   cat >>confdefs.h <<\_ACEOF
-#define HAS_DIGITAL_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_DIGITAL_JOYSTICK
 _ACEOF
 
                      echo "$as_me:$LINENO: result: yes" >&5
@@ -9003,12 +9026,14 @@ echo "${ECHO_T}$ac_cv_header_machine_joystick_h" >&6
 
 fi
 if test $ac_cv_header_machine_joystick_h = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define HAS_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_JOYSTICK
 _ACEOF
 
-                    cat >>confdefs.h <<\_ACEOF
-#define BSD_JOYSTICK 1
+
+cat >>confdefs.h <<\_ACEOF
+#define BSD_JOYSTICK
 _ACEOF
 
                     JOY_OBJS='$(ARCHDIR)/joystick.o'
@@ -9161,8 +9186,9 @@ if test `eval echo '${'$as_ac_Header'}'` = yes; then
   cat >>confdefs.h <<_ACEOF
 #define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- cat >>confdefs.h <<\_ACEOF
-#define HAVE_CATWEASELMKIII 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_CATWEASELMKIII
 _ACEOF
 
 fi
@@ -9171,8 +9197,9 @@ done
 
 
 if test x"$with_arts" = "xyes"; then
-	cat >>confdefs.h <<\_ACEOF
-#define USE_ARTS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_ARTS
 _ACEOF
 
 	CFLAGS="$CFLAGS `artsc-config --cflags`"
@@ -11951,8 +11978,9 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_readline_rl_readline_name" >&5
 echo "${ECHO_T}$ac_cv_lib_readline_rl_readline_name" >&6
 if test $ac_cv_lib_readline_rl_readline_name = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define HAVE_RLNAME 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RLNAME
 _ACEOF
 
 fi
@@ -12014,8 +12042,9 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_readline_rl_readline_name" >&5
 echo "${ECHO_T}$ac_cv_lib_readline_rl_readline_name" >&6
 if test $ac_cv_lib_readline_rl_readline_name = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define HAVE_RLNAME 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_RLNAME
 _ACEOF
 
 fi
@@ -12229,8 +12258,9 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_z_zlibVersion" >&5
 echo "${ECHO_T}$ac_cv_lib_z_zlibVersion" >&6
 if test $ac_cv_lib_z_zlibVersion = yes; then
    LIBS="-lz $LIBS";
-                 cat >>confdefs.h <<\_ACEOF
-#define HAVE_ZLIB 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_ZLIB
 _ACEOF
 
 fi
@@ -12431,8 +12461,9 @@ echo "${ECHO_T}$ac_cv_lib_png_png_check_sig" >&6
 if test $ac_cv_lib_png_png_check_sig = yes; then
    LIBS="-lpng $LIBS";
                    GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                   cat >>confdefs.h <<\_ACEOF
-#define HAVE_PNG 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_PNG
 _ACEOF
 
 fi
@@ -12496,8 +12527,9 @@ echo "${ECHO_T}$ac_cv_lib_png_png_check_sig" >&6
 if test $ac_cv_lib_png_png_check_sig = yes; then
    LIBS="-lpng -lz $LIBS";
                      GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-                     cat >>confdefs.h <<\_ACEOF
-#define HAVE_PNG 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_PNG
 _ACEOF
 
 fi
@@ -14074,8 +14106,9 @@ echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
 if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
    X_LIBS="-lXv $X_LIBS";
                  LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 cat >>confdefs.h <<\_ACEOF
-#define HAVE_XVIDEO 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_XVIDEO
 _ACEOF
 
 fi
@@ -14518,8 +14551,9 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmPutImage" >&5
 echo "${ECHO_T}$ac_cv_lib_Xext_XShmPutImage" >&6
 if test $ac_cv_lib_Xext_XShmPutImage = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define USE_MITSHM 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_MITSHM
 _ACEOF
 
 fi
@@ -14584,8 +14618,9 @@ echo "${ECHO_T}$ac_cv_lib_Xpm_XpmCreatePixmapFromData" >&6
 if test $ac_cv_lib_Xpm_XpmCreatePixmapFromData = yes; then
    X_LIBS="-lXpm $X_LIBS";
                  LINK_X_LIBS="-lXpm $LINK_X_LIBS";
-                 cat >>confdefs.h <<\_ACEOF
-#define HAVE_LIBXPM 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_LIBXPM
 _ACEOF
 
 fi
@@ -14934,12 +14969,14 @@ if test $ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion = yes; then
    X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-                     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_VIDMODE_EXT 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_VIDMODE_EXT
 _ACEOF
 
-		     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
 fi
@@ -15135,12 +15172,14 @@ if test $ac_cv_lib_Xxf86dga_XF86DGAQueryExtension = yes; then
    X_LIBS="-lXxf86dga $X_LIBS";
                          LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                          FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
-                         cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA1_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_DGA1_EXTENSIONS
 _ACEOF
 
 fi
@@ -15338,12 +15377,14 @@ if test $ac_cv_lib_Xxf86dga_XDGAQueryExtension = yes; then
    X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
 		     FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-		     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
-		     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA2_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_DGA2_EXTENSIONS
 _ACEOF
 
 fi
@@ -15356,8 +15397,9 @@ fi
 
   LIBS="$LIBS -lm"
 
-    cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
 _ACEOF
 
 
@@ -15433,8 +15475,10 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_dxguid_GUID_SysMouse" >&5
 echo "${ECHO_T}$ac_cv_lib_dxguid_GUID_SysMouse" >&6
 if test $ac_cv_lib_dxguid_GUID_SysMouse = yes; then
-  LIBS="$LIBS -ldxguid"; cat >>confdefs.h <<\_ACEOF
-#define HAVE_GUIDLIB 1
+  LIBS="$LIBS -ldxguid";
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_GUIDLIB
 _ACEOF
 
 fi
@@ -15472,8 +15516,9 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-   cat >>confdefs.h <<\_ACEOF
-#define DWORD_IS_LONG 1
+
+cat >>confdefs.h <<\_ACEOF
+#define DWORD_IS_LONG
 _ACEOF
 
                    echo "$as_me:$LINENO: result: unsigned long" >&5
@@ -15513,8 +15558,9 @@ elif [ x"${enable_gnomeui}" = x"yes" ] ; then
 
   LIBS="${LIBS} `gnome-config --libs gnomeui`"
 
-    cat >>confdefs.h <<\_ACEOF
-#define HAVE_MOUSE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_MOUSE
 _ACEOF
 
 
@@ -15576,8 +15622,9 @@ echo "${ECHO_T}$ac_cv_lib_Xv_XvQueryExtension" >&6
 if test $ac_cv_lib_Xv_XvQueryExtension = yes; then
    X_LIBS="-lXv $X_LIBS";
                  LINK_X_LIBS="-lXv $LINK_X_LIBS";
-                 cat >>confdefs.h <<\_ACEOF
-#define HAVE_XVIDEO 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_XVIDEO
 _ACEOF
 
 fi
@@ -15638,8 +15685,9 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_Xext_XShmQueryExtension" >&5
 echo "${ECHO_T}$ac_cv_lib_Xext_XShmQueryExtension" >&6
 if test $ac_cv_lib_Xext_XShmQueryExtension = yes; then
-   cat >>confdefs.h <<\_ACEOF
-#define USE_MITSHM 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_MITSHM
 _ACEOF
 
 fi
@@ -15837,12 +15885,14 @@ if test $ac_cv_lib_Xxf86vm_XF86VidModeQueryVersion = yes; then
    X_LIBS="-lXxf86vm $X_LIBS";
                      LINK_X_LIBS="-lXxf86vm $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS vidmode.o";
-                     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_VIDMODE_EXT 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_VIDMODE_EXT
 _ACEOF
 
-                     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
 fi
@@ -16038,12 +16088,14 @@ if test $ac_cv_lib_Xxf86dga_XF86DGAQueryExtension = yes; then
    X_LIBS="-lXxf86dga $X_LIBS";
                          LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                          FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga1.o";
-                         cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
-                         cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA1_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_DGA1_EXTENSIONS
 _ACEOF
 
 fi
@@ -16241,12 +16293,14 @@ if test $ac_cv_lib_Xxf86dga_XDGAQueryExtension = yes; then
    X_LIBS="-lXxf86dga $X_LIBS";
                      LINK_X_LIBS="-lXxf86dga $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS dga2.o";
-                     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_EXTENSIONS
 _ACEOF
 
-                     cat >>confdefs.h <<\_ACEOF
-#define USE_XF86_DGA2_EXTENSIONS 1
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_XF86_DGA2_EXTENSIONS
 _ACEOF
 
 fi
@@ -16446,8 +16500,9 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_opencbm_cbm_get_eoi" >&5
 echo "${ECHO_T}$ac_cv_lib_opencbm_cbm_get_eoi" >&6
 if test $ac_cv_lib_opencbm_cbm_get_eoi = yes; then
    LIBS="$LIBS -lopencbm";
-                   cat >>confdefs.h <<\_ACEOF
-#define HAVE_OPENCBM 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_OPENCBM
 _ACEOF
 
 fi
@@ -16550,8 +16605,9 @@ else
   BEOS_COMPILE_FALSE=
 fi
 
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_READLINE 1
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_READLINE
 _ACEOF
 
 elif [ x"$is_win32" != "xno" ]; then

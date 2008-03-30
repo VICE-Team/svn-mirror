@@ -151,6 +151,52 @@ void ciat_init_table(void)
     }
 }
 
+/*
+ * Init the timer
+ */
+void ciat_init(ciat_t *state, const char *name, CLOCK cclk, alarm_t *alarm)
+{
+    CIAT_LOGIN(("%s init: cclk=%d",name,cclk));
+
+    state->name = name;
+    state->clk = cclk;
+    state->alarmclk = CLOCK_MAX;
+    state->cnt = 0xffff;
+    state->latch = 0xffff;
+    state->alarm = alarm;
+
+    CIAT_LOGOUT((""));
+}
+
+/* timer reset */
+void ciat_reset(ciat_t *state, CLOCK cclk)
+{
+    CIAT_LOGIN(("%s reset: cclk=%d",state->name, cclk));
+
+    /* FIXME? */
+    state->clk = cclk;
+    state->alarmclk = CLOCK_MAX;
+    state->cnt = 0xffff;
+    state->latch = 0xffff;
+    state->state = 0;
+
+    alarm_unset(state->alarm);
+
+    CIAT_LOGOUT((""));
+}
+
+/* handle clock overflow. needs update */
+void ciat_prevent_clock_overflow(ciat_t *state, CLOCK sub)
+{
+    CIAT_LOGIN(("%s prevent_clock_overflow", state->name));
+
+    state->clk -= sub;
+    if (state->alarmclk < CLOCK_MAX)
+        state->alarmclk -= sub;
+
+    CIAT_LOGOUT((""));
+}
+
 void ciat_save_snapshot(ciat_t *cia_state, CLOCK cclk, snapshot_module_t *m,
                         int ver)
 {

@@ -219,7 +219,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = po src data man doc
+SUBDIRS = $(POSUB) src data man doc
 
 EXTRA_DIST = AUTHORS FEEDBACK COPYING INSTALL NEWS acconfig.h vice.spec
 subdir = .
