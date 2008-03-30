@@ -34,7 +34,6 @@
 
 #include "raster-changes.h"
 #include "types.h"
-#include "video.h"
 
 struct palette_s;
 
@@ -79,10 +78,12 @@ struct raster_area_s
   };
 typedef struct raster_area_s raster_area_t;
 
+struct canvas_s;
+
 struct raster_viewport_s
   {
     /* Output canvas.  */
-    canvas_t canvas;
+    struct canvas_s *canvas;
 
     /* Portion of the screen displayed on the output window window.
        FIXME: We should get this from the canvas.  */
@@ -105,7 +106,7 @@ struct raster_viewport_s
     raster_rectangle_t pixel_size;
 
     /* Exposure handler.  */
-    canvas_redraw_t exposure_handler;
+    void *exposure_handler;
 
     /* Only display canvas if this flag is set.  */
     int update_canvas;
@@ -277,7 +278,7 @@ extern raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
 extern void raster_reset (raster_t *raster);
 extern int raster_realize (raster_t *raster);
 extern void raster_set_exposure_handler (raster_t *raster,
-                                         canvas_redraw_t exposure_handler);
+                                         void *exposure_handler);
 extern void raster_set_table_refresh_handler (raster_t *raster,
                                               void (*handler)(void));
 extern void raster_set_geometry (raster_t *raster,
