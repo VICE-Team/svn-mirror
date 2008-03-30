@@ -581,9 +581,9 @@ void mem_initialize_memory(void)
      * This table will contain the original (unmodified) mapping.
      */
     memcpy(mem_write_tab_orig, mem_write_tab,
-           NUM_VBANKS*sizeof(*mem_write_tab));
+           NUM_VBANKS * sizeof(*mem_write_tab));
     memcpy(mem_read_tab_orig, mem_read_tab,
-           NUM_CONFIGS*sizeof(*mem_read_tab));
+           NUM_CONFIGS * sizeof(*mem_read_tab));
 
     /*
      * Change address decoding.
@@ -602,9 +602,9 @@ void mem_initialize_memory(void)
                 set_write_hook(j, i, cartridge_decode_store);
 
                 /* $E000 - $FFFF */
-                mem_read_tab[j][i+0x60] = cartridge_decode_read;
+                mem_read_tab[j][i + 0x60] = cartridge_decode_read;
                 /* Setup writing at $E000-$FFFF */
-                set_write_hook(j, i+0x60, cartridge_decode_store);
+                set_write_hook(j, i + 0x60, cartridge_decode_store);
             }
         }
 
