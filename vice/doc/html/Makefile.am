@@ -1,6 +1,7 @@
 docdir = $(VICEDIR)/doc
 
 doc_DATA = \
+	amigaos.html \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \
@@ -14,6 +15,7 @@ doc_DATA = \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
+	solaris.html \
 	vice_1.html \
 	vice_2.html \
 	vice_3.html \
