@@ -53,7 +53,6 @@ noinst_HEADERS = \
 	cbmimage.h \
 	charset.h \
 	cia.h \
-	ciacore.h \
 	clkguard.h \
 	ciatimer.h \
 	cmdline.h \
