@@ -39,12 +39,12 @@ struct palette_s;
 /* RGB is for anything which doesn't need any color filtering  */
 /* for display, like monochrome or rgbi (CRTC and VDC)         */
 
-#define VIDEO_RENDER_NULL	0
-#define VIDEO_RENDER_PAL_1X1	1
-#define VIDEO_RENDER_PAL_2X2	2
-#define VIDEO_RENDER_RGB_1X1	3
-#define VIDEO_RENDER_RGB_1X2	4
-#define VIDEO_RENDER_RGB_2X2	5
+#define VIDEO_RENDER_NULL       0
+#define VIDEO_RENDER_PAL_1X1    1
+#define VIDEO_RENDER_PAL_2X2    2
+#define VIDEO_RENDER_RGB_1X1    3
+#define VIDEO_RENDER_RGB_1X2    4
+#define VIDEO_RENDER_RGB_2X2    5
 
 struct canvas_refresh_s
 {
@@ -149,8 +149,9 @@ extern void video_color_set_palette(video_cbm_palette_t *palette);
 extern int video_color_update_palette(void);
 extern void video_color_set_raster(struct raster_s *raster);
 
-extern void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg, int width,
-                              int height, int xs, int ys, int xt, int yt,
+extern void video_render_main(video_render_config_t *config, BYTE *src,
+                              BYTE *trg, int width, int height,
+                              int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
 extern void video_refresh_all(struct video_canvas_s *c);

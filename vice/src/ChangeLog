@@ -1,3 +1,18 @@
+2002-04-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.31.
+
+	* vicii/vicii-mem.c (vic_ii_local_store_vbank): Fixed write
+	access before DMA.
+
+	* arch/unix/x11/xaw/uivsidcontrol.c (build_vsid_ctrl_widget):
+	Control reached end of non-void function.
+
+2002-03-31  Dag Lem  <resid@nimrod.no>
+
+	* sid/fastsid.c: Moved filter variables into sound_s struct to
+	keep the filters for stereo SIDs separate.
+
 2002-03-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.30.

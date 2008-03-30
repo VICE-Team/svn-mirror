@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-03-24 13:39+0100\n"
+"POT-Creation-Date: 2002-04-01 15:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2513,7 +2513,7 @@ msgid "Reset PAL Settings"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:43
-#: src/arch/unix/x11/xaw/uivsidcontrol.c:42
+#: src/arch/unix/x11/xaw/uivsidcontrol.c:43
 #, c-format
 msgid ""
 "Name: %s\n"

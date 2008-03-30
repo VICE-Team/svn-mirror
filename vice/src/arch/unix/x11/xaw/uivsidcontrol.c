@@ -25,11 +25,12 @@
  */
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "ui.h"
-#include "vsiduiunix.h"
 #include "utils.h"
+#include "vsiduiunix.h"
 
 static char *author, *copyright, *name, *vsidsync, *model, *irq;
 static int tune;
@@ -48,6 +49,7 @@ static void update_line(void)
 
 ui_window_t build_vsid_ctrl_widget(void) 
 {
+    return NULL;
 }
 
 void ui_vsid_setpsid(const char *psid)
