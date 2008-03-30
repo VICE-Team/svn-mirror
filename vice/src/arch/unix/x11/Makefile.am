@@ -14,17 +14,17 @@ INCLUDES = \
 noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
+	dga1.c \
 	dga2.c \
+	dga2.h \
 	vidmode.c \
-	vidmode.h \
-	fullscreen-common.c \
-	fullscreen-common.h \
-        fullscreen.c 
+	vidmode.h
 
 libx11ui_a_SOURCES = \
 	c128icon.c \
 	c64icon.c \
 	cbm2icon.c \
+	fullscreen.c \
 	kbd.c \
 	peticon.c \
 	plus4icon.c \
