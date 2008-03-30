@@ -28,22 +28,20 @@
 #ifndef _MAINCPU_H
 #define _MAINCPU_H
 
-#include "6510core.h"
 #include "types.h"
 
 
 /* Information about the last opcode executed by the main CPU.  */
 extern DWORD last_opcode_info;
 
-/* The lowest 8 bits are the opcode number.  */
-#define OPINFO_NUMBER_MASK              (last_opcode_info & 0xff)
+/* Masks to extract information. */
+#define OPINFO_NUMBER_MSK               0xff
 
-/* If this is set to 1, the opcode has delayed interrupts by one more cycle
-   (this happens with conditional jumps when jump is taken).  */
-#define OPINFO_DELAYS_INTERRUPT_MASK    (last_opcode_info & 0x100)
+/* Return the opcode number for `opinfo'.  */
+#define OPINFO_NUMBER(opinfo)                   \
+    ((opinfo) & OPINFO_NUMBER_MSK)
 
 /* The VIC-II emulation needs this ugly hack.  */
-#define EXTERN_PC
 extern unsigned int reg_pc;
 
 struct mos6510_regs_s;
