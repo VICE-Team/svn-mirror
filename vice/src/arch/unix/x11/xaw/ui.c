@@ -908,7 +908,7 @@ typedef struct {
 static pid_t ui_pid = 0;
 static int ui_pipefd[2];
 
-void ui_proc_write_msg(char* msg)
+void ui_proc_write_msg(char *msg)
 {
   write(ui_pipefd[1], msg, strlen(msg));
 }
