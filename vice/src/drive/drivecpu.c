@@ -305,7 +305,8 @@ void drive_cpu_reset(drive_context_t *drv)
 
 void drive_cpu_early_init(drive_context_t *drv)
 {
-    clk_guard_init(drv->cpu.clk_guard, drv->clk_ptr, CLOCK_MAX - 0x100000);
+    clk_guard_init(drv->cpu.clk_guard, drv->clk_ptr, CLOCK_MAX
+                   - CLKGUARD_SUB_MIN);
 
     alarm_context_init(drv->cpu.alarm_context, drv->cpu.identification_string);
 

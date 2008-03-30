@@ -24,10 +24,12 @@
  *
  */
 
-#ifndef CLKGUARD_H
-#define CLKGUARD_H
+#ifndef _CLKGUARD_H
+#define _CLKGUARD_H
 
 #include "types.h"
+
+#define CLKGUARD_SUB_MIN 0xfffff
 
 /* A callback function to call to prevent the overflow.  */
 typedef void (*clk_guard_callback_t) (CLOCK amount, void *data);
@@ -60,15 +62,16 @@ typedef struct clk_guard_s {
 
 /* ------------------------------------------------------------------------ */
 
-extern clk_guard_t *clk_guard_new(CLOCK *_clk_ptr, CLOCK _clk_max_value);
-extern void clk_guard_init(clk_guard_t *guard, CLOCK *_clk_ptr,
-                           CLOCK _clk_max_value);
-extern void clk_guard_set_clk_base(clk_guard_t *guard, CLOCK _clk_base);
+extern clk_guard_t *clk_guard_new(CLOCK *init_clk_ptr,
+                                  CLOCK init_clk_max_value);
+extern int clk_guard_init(clk_guard_t *guard, CLOCK *init_clk_ptr,
+                          CLOCK init_clk_max_value);
+extern void clk_guard_set_clk_base(clk_guard_t *guard, CLOCK new_clk_base);
 extern CLOCK clk_guard_get_clk_base(clk_guard_t *guard);
 extern void clk_guard_add_callback(clk_guard_t *guard,
-                                   clk_guard_callback_t function,
-                                   void *data);
+                                   clk_guard_callback_t function, void *data);
 extern void clk_guard_destroy(clk_guard_t *guard);
+extern CLOCK clk_guard_clock_sub(clk_guard_t *guard);
 extern CLOCK clk_guard_prevent_overflow(clk_guard_t *guard);
 
 #endif

@@ -93,7 +93,8 @@ void machine_maincpu_init(void)
     maincpu_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
     alarm_context_init(maincpu_alarm_context, "MainCPU");
 
-    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX - 0x100000);
+    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX
+                   - CLKGUARD_SUB_MIN);
     clk_guard_add_callback(&maincpu_clk_guard,
                            machine_maincpu_clk_overflow_callback, NULL);
 }
