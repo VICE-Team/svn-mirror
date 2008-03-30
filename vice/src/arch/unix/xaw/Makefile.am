@@ -26,13 +26,12 @@ libxawui_a_SOURCES = \
 	ui.h \
 	uicommands.c \
 	uicommands.h \
+	uihotkey.c \
+	uihotkey.h \
 	uimenu.c \
 	uimenu.h \
 	uisettings.c \
 	uisettings.h \
 	vic20icon.xpm \
 	vic20ui.c \
-	vic20ui.h \
-	xdebug.c \
-	xdebug.h
-
+	vic20ui.h

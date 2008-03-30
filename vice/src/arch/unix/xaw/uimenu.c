@@ -318,6 +318,13 @@ Widget ui_menu_create(const char *name, ...)
                               XtNpopdownCallback, submenu_popdown_callback,
                               (XtPointer) w);
                 num_submenus++;
+            } else {            /* no submenu */
+                if (list[i].hotkey_keysym != (KeySym) 0
+                    && list[i].callback != NULL)
+                    ui_hotkey_register(list[i].hotkey_modifier,
+                                       list[i].hotkey_keysym,
+                                       list[i].callback,
+                                       list[i].callback_data);
             }
         }
     }

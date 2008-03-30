@@ -31,12 +31,15 @@
 #define _UIMENU_H
 
 #include "ui.h"
+#include "uihotkey.h"
 
 typedef struct _ui_menu_entry {
     char *string;
     ui_callback_t callback;
     ui_callback_data_t callback_data;
     struct _ui_menu_entry *sub_menu;
+    KeySym hotkey_keysym;
+    ui_hotkey_modifier_t hotkey_modifier;
 } ui_menu_entry_t;
 
 extern ui_menu_entry_t ui_menu_separator[];
