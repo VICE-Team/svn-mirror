@@ -280,7 +280,7 @@ UI_CALLBACK(enter_window_callback);
 UI_CALLBACK(exposure_callback_app);
 UI_CALLBACK(exposure_callback_canvas);
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
-extern GtkWidget* build_pal_ctrl_widget(void);
+extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
 #if 0
@@ -737,7 +737,11 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_widget_show(pcb);
     gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, 
 		       FALSE, FALSE, 0);
-    gtk_widget_hide(pal_ctrl_checkbox);
+    resources_get_value("PALEmulation", (resource_value_t *) &i);
+    if (i == 0)	
+	gtk_widget_hide(pal_ctrl_checkbox);
+    else
+	gtk_widget_show(pal_ctrl_checkbox);
     
     /* drive stuff */
     drive_box = gtk_hbox_new(FALSE, 0);
@@ -1003,8 +1007,8 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     gtk_widget_queue_resize(new_canvas);
 
     ui_create_status_bar(new_pane, width, height);
-    pal_ctrl_widget = build_pal_ctrl_widget();
-    gtk_container_add(GTK_CONTAINER(new_pane), pal_ctrl_widget);
+    pal_ctrl_widget = build_pal_ctrl_widget(c);
+    gtk_box_pack_end(GTK_BOX(new_pane), pal_ctrl_widget, FALSE, FALSE, 0);
     gtk_widget_hide(pal_ctrl_widget);
     
     if (no_autorepeat) {

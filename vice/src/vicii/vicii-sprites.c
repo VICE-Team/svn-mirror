@@ -845,7 +845,7 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     sprite_status->sprite_background_collisions = 0;
 
     if (sprite_status->dma_msk || sprite_status->new_dma_msk) {
-        unsigned int n;
+        int n;
 
         memset(sprline, 0, sizeof(sprline));
 
