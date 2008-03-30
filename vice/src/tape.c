@@ -86,7 +86,7 @@ int  is_pc64name (const char *name)
     if (name == NULL || (p = strrchr(name, '.')) == NULL || strlen(++p) != 3)
 	return (-1);
 
-    if (!isdigit(p[1]) || !isdigit(p[2]))
+    if (!isdigit((int)p[1]) || !isdigit((int)p[2]))
 	return (-1);
 
     switch (toupper(*p)) {

@@ -33,6 +33,9 @@
 #include "machspec.h"
 #include "maincpu.h"
 #include "kbdbuf.h"
+#include "sid.h"
+#include "reu.h"
+#include "tpi.h"
 
 
 /* Machine description.  */
@@ -44,7 +47,7 @@ machdesc_t machdesc = {
     1,
 
     /* Flag: how many colors does this machine have?  */
-    16, 
+    16,
 
     /* Flag: does this machine allow 1541 emulation?  */
     1,
@@ -63,12 +66,12 @@ machdesc_t machdesc = {
 
     /* Flag: does this machine have hardware sprites?  */
     1
-    
+
 };
 
 /* Struct to access the kernal buffer.  */
 kernal_kbd_buf_t kernal_kbd_buf = {
-    
+
     /* First location of the buffer.  */
     631,
 
@@ -78,7 +81,7 @@ kernal_kbd_buf_t kernal_kbd_buf = {
 
     /* Maximum number of characters that fit in the buffer.  */
     10
-    
+
 };
 
 /* ------------------------------------------------------------------------ */
@@ -101,12 +104,13 @@ void machine_reset(void)
     maincpu_int_status.alarm_handler[A_CIA2TOD] = int_cia2tod;
     maincpu_int_status.alarm_handler[A_CIA2TA] = int_cia2ta;
     maincpu_int_status.alarm_handler[A_CIA2TB] = int_cia2tb;
+
     reset_cia1();
     reset_cia2();
     reset_vic_ii();
     reset_sid();
     reset_tpi();
-    
+
     if (app_resources.reu)
 	reset_reu(NULL, 0);
 
@@ -121,4 +125,4 @@ int rom_trap_allowed(ADDRESS addr)
 {
     return 1; /* FIXME */
 }
-  
+

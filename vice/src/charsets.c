@@ -405,7 +405,7 @@ int  str_to_lang(char *name)
 	return (-1);
 
     for (p = name; *p; p++) {
-	if (isalpha (*p))
+	if (isalpha ((int)*p))
 	    *p = tolower(*p);
 	else if (*p == '_' || *p == '/')
 	    *p = '-';

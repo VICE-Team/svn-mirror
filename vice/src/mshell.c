@@ -74,7 +74,7 @@ char   *read_line(char *prompt, int mode)
 	    add_history(linep);
 #endif
 
-    while (r_linep && *r_linep && isspace(*r_linep))
+    while (r_linep && *r_linep && isspace((int)*r_linep))
 	r_linep++;
 
     return (r_linep);
@@ -291,7 +291,7 @@ int     sconv(char *s, int level, int mode)
 
       case '0':	/* 0x 0b 0d */
 	if (!*++p) return ((mode & MODE_QUERY) ? 1 : 0);
-	if (!isdigit(*p))
+	if (!isdigit((int)*p))
 	    return (sconv(p, level+1, mode));
 
       case '1':
@@ -356,7 +356,7 @@ int     sconv(char *s, int level, int mode)
 	    }
 	if (i >= base) {
 	    /* unknown char has occurred, return value or error */
-	  if (strchr(",-+()", *p) || isspace(*p))
+	  if (strchr(",-+()", *p) || isspace((int)*p))
 	      i = 0;
 	  else if (!level && !(mode & MODE_QUERY))
 	    printf ("Bad character near '%s'\n", p);

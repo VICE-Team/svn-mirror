@@ -140,6 +140,7 @@
 
 
     #include "true1541.h"
+    #include "iecdrive.h"
     #include "viad.h"
 
 #include "interrupt.h"
