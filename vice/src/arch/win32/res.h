@@ -477,6 +477,9 @@
 #define IDC_ROMSET_FILE_LOAD            1913
 #define IDC_ROMSET_FILE_SAVE            1914
 #define IDC_ROMSET_PREVIEW              1915
+
+#define IDD_ROMSET_ENTER_NAME_DIALOG    1920
+#define IDC_ROMSET_ENTER_NAME           1921
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
