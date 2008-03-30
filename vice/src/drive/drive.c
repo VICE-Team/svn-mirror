@@ -443,7 +443,7 @@ void drive_rotation_reset(unsigned int dnr)
     drive[dnr].bits_moved = 0;
     drive[dnr].finish_byte = 0;
     drive[dnr].last_mode = 1;
-    drive[dnr].rotation_last_clk = drive[dnr].clk;
+    drive[dnr].rotation_last_clk = *(drive[dnr].clk);
 }
 
 void drive_initialize_rotation_table(int freq, unsigned int dnr)

@@ -283,9 +283,9 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/resid/voice.h ../../src/resid/wave.h \
 	../../src/resid/envelope.h ../../src/resid/filter.h \
 	../../src/resid/spline.h ../../src/resid/extfilt.h \
-	../../src/resid/pot.h ../../src/log.h ../../src/utils.h \
-	../../src/vice.h ../../src/config.h ../../src/arch/unix/types.h \
-	resid.h sid.h ../../src/resources.h ../../src/sound.h
+	../../src/resid/pot.h sid.h ../../src/arch/unix/types.h \
+	../../src/vice.h ../../src/config.h ../../src/log.h \
+	../../src/utils.h ../../src/resources.h ../../src/sound.h
 sid-cmdline-options.o: sid-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h sid-cmdline-options.h
 sid-resources.o: sid-resources.c ../../src/vice.h ../../src/config.h \

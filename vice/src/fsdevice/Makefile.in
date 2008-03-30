@@ -273,10 +273,11 @@ fsdevice-open.o: fsdevice-open.c ../../src/vice.h ../../src/config.h \
 	fsdevice-resources.h fsdevice-write.h fsdevicetypes.h \
 	../../src/serial.h ../../src/vdrive/vdrive-command.h \
 	../../src/vdrive/vdrive.h
-fsdevice-read.o: fsdevice-read.c ../../src/vice.h ../../src/config.h \
+fsdevice-read.o: fsdevice-read.c ../../src/arch/unix/types.h \
+	../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/charset.h ../../src/arch/unix/types.h fsdevice-read.h \
-	fsdevice-resources.h fsdevicetypes.h ../../src/serial.h \
+	../../src/charset.h fsdevice-read.h fsdevice-resources.h \
+	fsdevicetypes.h ../../src/serial.h \
 	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice-resources.o: fsdevice-resources.c ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/archdep.h \
