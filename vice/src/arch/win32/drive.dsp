@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "drive - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\drive\drive-check.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\drive\drive-cmdline-options.c"
 # End Source File
 # Begin Source File

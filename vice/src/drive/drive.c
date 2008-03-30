@@ -665,58 +665,6 @@ int drive_match_bus(unsigned int drive_type, unsigned int drv, int bus_map)
     return 0;
 }
 
-int drive_check_type(unsigned int drive_type, unsigned int dnr)
-{
-    if (!drive_match_bus(drive_type, dnr, iec_available_busses()))
-        return 0;
-
-    if (DRIVE_IS_DUAL(drive_type)) {
-        if (dnr > 0) {
-            /* A second dual drive is not supported.  */
-            return 0;
-        } else {
-            if (drive_context[dnr]->drive->type != DRIVE_TYPE_NONE)
-                /* Disable dual drive if second drive is enabled.  */
-                return 0;
-        }
-    }
-
-    /* If the first drive is dual no second drive is supported at all.  */
-    if (DRIVE_IS_DUAL(drive_context[0]->drive->type) && dnr > 0)
-        return 0;
-
-    if (machine_drive_rom_check_loaded(drive_type) < 0)
-        return 0;
-
-    return 1;
-}
-
-int drive_check_extend_policy(unsigned int drive_type)
-{
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II) ||
-        (drive_type == DRIVE_TYPE_1551) ||
-        (drive_type == DRIVE_TYPE_1570) ||
-        (drive_type == DRIVE_TYPE_1571) ||
-        (drive_type == DRIVE_TYPE_1571CR) ||
-        (drive_type == DRIVE_TYPE_2031)) return 1;
-    return 0;
-}
-
-int drive_check_idle_method(unsigned int drive_type)
-{
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II)) return 1;
-    return 0;
-}
-
-int drive_check_parallel_cable(unsigned int drive_type)
-{
-    if ((drive_type == DRIVE_TYPE_1541) ||
-        (drive_type == DRIVE_TYPE_1541II)) return 1;
-    return 0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 /* Update the status bar in the UI.  */
@@ -820,10 +768,5 @@ void drive_setup_context(void)
         drive_context[dnr] = lib_calloc(1, sizeof(drive_context_t));
         drive_setup_context_for_drive(drive_context[dnr], dnr);
     }
-}
-
-struct drive_s *drive_get_drive(unsigned int dnr)
-{
-    return drive_context[dnr]->drive;
 }
 

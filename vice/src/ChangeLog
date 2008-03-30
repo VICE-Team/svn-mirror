@@ -1,3 +1,77 @@
+2003-11-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.22.
+
+	* c64/c64iec.c, c128/c128iec.c: Unified. Moved parallel cable
+	and fast IEC code to separate files.
+
+	* c64/c64parallel.c, c64/c64parallel.h, c64/c64fastiec.c,
+	c64/c64fastiec.h, c128/c128fastiec.c, c128/c128fastiec.h,
+	plus4/plus4parallel.c, plus4/plus4parallel.h: New files.
+
+	* c64/Makefile.am, c128/Makefile.am, plus4/Makefile.am,
+	arch/win32/c64.dsp, arch/win32/c64c128.dsp,
+	arch/win32/c128.dsp, arch/win32/plus4.dsp: Updated.
+
+	* c64/c64.c, c128/c128.c (machine_init): Initialize fast IEC.
+
+	* c64/c64cia2.c, plus4/plus4pio1.c: Fixed includes.
+
+	* drive/drive.c, drive/drive.h (drive_get_drive): Removed.
+
+	* drive/drive-check.c: New file.
+
+	* drive/Makefile.am, arch/win32/drive.dsp: Added new file.
+
+	* drive/drive.c: Moved drive check functions to separate file.
+
+2003-11-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* win32/archdep.c, c64/cart/ide64.c, gfxoutputdrv/bmpdrv.c,
+	printerdrv/drv-nl10.c, vic20/vic-mem.c: Fixed warnings by
+	adding casts and includes.
+
+	* win32/res.h, resc64.rc, resc128.rc, resplus4.rc, respet.rc,
+	rescbm2.rc, resvic.rc, ui.c: Added UI support for recorsing
+	milestones.
+
+	* event.c, event.h: Removed EVENT_RESETCONTINUE, this can be
+	handled with EVENT_RESET.
+	New functiones event_record_set_milestone_trap,
+	event_record_set_milestone, event_record_reset_milestone_trap,
+	event_record_reset_milestone, set_event_milestone_snapshot.
+	New resource EventMilestoneSnapshot.
+
+2003-11-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* core/ciacore.c (ciacore_snapshot_write_module): Stores the
+	irq_enabled in the snapshot now. This was introduced in
+	1.12.31 and disabled in 1.12.32.
+
+	* attach.c, attach.h: Added file_system_event_playback() and
+	event support in file_system_attach_disk and in
+	file_system_detach_disk.
+
+	* tape.h, tape/tape.c: Added tape_image_event_playback() and
+	event support in tape_image_attach and tape_image_detach.
+
+	* machine.c, machine.h: Added machine_reset_event_playback()
+	and event support in machine_trigger_reset.
+
+	* event.h, event.c: New event types EVENT_ATTACHDISK,
+	EVENT_ATTACHTAPE, EVENT_RESET, EVENT_RESETCONTINUE.
+
+2003-11-12  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/c128ui.c, arch/riscos/cbm2ui.c,
+	arch/riscos/petui.c, arch/riscos/ui.c, arch/riscos/vic20ui.c:
+	moved machine-specific from ui.c to machine UI sources.
+
+	* arch/riscos/ui.c: trap missing config windows.
+
+	* arch/riscos/ui.h, arch/riscos/uisharedef.h: extended
+	interfaces.
+
 2003-11-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.21.

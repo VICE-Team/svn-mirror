@@ -233,6 +233,7 @@ INCLUDES = \
 noinst_LIBRARIES = libdrive.a
 
 libdrive_a_SOURCES = \
+	drive-check.c \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
 	drive-overflow.c \
@@ -270,17 +271,19 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libdrive_a_AR = $(AR) cru
 libdrive_a_LIBADD =
-am_libdrive_a_OBJECTS = drive-cmdline-options.$(OBJEXT) \
-	drive-overflow.$(OBJEXT) drive-resources.$(OBJEXT) \
-	drive-snapshot.$(OBJEXT) drive.$(OBJEXT) drivecpu.$(OBJEXT) \
-	drivemem.$(OBJEXT) driveimage.$(OBJEXT) driverom.$(OBJEXT) \
-	drivesync.$(OBJEXT) rotation.$(OBJEXT)
+am_libdrive_a_OBJECTS = drive-check.$(OBJEXT) \
+	drive-cmdline-options.$(OBJEXT) drive-overflow.$(OBJEXT) \
+	drive-resources.$(OBJEXT) drive-snapshot.$(OBJEXT) \
+	drive.$(OBJEXT) drivecpu.$(OBJEXT) drivemem.$(OBJEXT) \
+	driveimage.$(OBJEXT) driverom.$(OBJEXT) drivesync.$(OBJEXT) \
+	rotation.$(OBJEXT)
 libdrive_a_OBJECTS = $(am_libdrive_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/drive-cmdline-options.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/drive-check.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drive-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drive-overflow.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drive-resources.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drive-snapshot.Po ./$(DEPDIR)/drive.Po \
@@ -325,6 +328,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-overflow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drive-resources.Po@am__quote@

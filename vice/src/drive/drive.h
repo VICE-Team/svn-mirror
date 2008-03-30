@@ -315,7 +315,5 @@ extern void drive_setup_context(void);
 
 extern int drive_resources_type_init(unsigned int default_type);
 
-struct drive_s *drive_get_drive(unsigned int dnr);
-
 #endif
 

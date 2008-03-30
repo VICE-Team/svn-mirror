@@ -13,6 +13,7 @@ INCLUDES = \
 noinst_LIBRARIES = libdrive.a
 
 libdrive_a_SOURCES = \
+	drive-check.c \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
 	drive-overflow.c \
