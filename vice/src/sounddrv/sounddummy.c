@@ -24,9 +24,12 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+
 #include "sound.h"
 
 static int dummy_write(warn_t *w, SWORD *pbuf, int nr)

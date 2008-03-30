@@ -10,11 +10,14 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "resources.h"
 #include "cmdline.h"
-#include "vice.h"
 #include "types.h"
 #include "vmachine.h"
 #include "machine.h"

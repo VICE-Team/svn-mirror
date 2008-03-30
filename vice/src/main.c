@@ -40,9 +40,11 @@
 #endif
 #endif  /* __hpux */
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#endif
 
 #ifdef __hpux
 #define _INCLUDE_XOPEN_SOURCE
@@ -466,12 +468,36 @@ static RETSIGTYPE break64(int sig)
     fprintf(stderr, "Received signal %d.\n", sig);
 #endif
 
+#ifndef __MSDOS__
+    if (sig != SIGINT && sig != SIGTERM) {
+        if (ui_ask_confirmation(
+#ifdef SYS_SIGLIST_DECLARED
+                                sys_siglist[sig],
+#else
+                                "VICE internal error",
+#endif
+                                "Congratulations!\n"
+                                "You have just found a bug in VICE.\n"
+                                "\n"
+                                "The program has crashed, and will abort now.\n"
+                                "\n"
+                                "Please send a complete description of the bug to\n"
+                                "the VICE development team.\n"
+                                "\n"
+                                "Do you want to dump core?\n")
+            == UI_BUTTON_YES) {
+            exit64();
+            abort();
+        }
+    }
+#endif
+
     exit (-1);
 }
 
 static void exit64(void)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-C
+    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
        pressed and thus breaking the cleanup process, which might be
        dangerous.  */
     signal(SIGINT, SIG_IGN);

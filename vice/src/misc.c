@@ -47,9 +47,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#endif
 
 #include "maincpu.h"
 #include "misc.h"

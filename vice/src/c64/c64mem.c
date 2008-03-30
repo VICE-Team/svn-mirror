@@ -31,7 +31,9 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "c64cart.h"
 #include "c64cia.h"
@@ -277,10 +279,17 @@ int c64_mem_init_cmdline_options(void)
 #define NUM_VBANKS      4
 
 /* The C64 memory.  */
+#ifdef AVOID_STATIC_ARRAYS
+BYTE *ram;
+BYTE *basic_rom;
+BYTE *kernal_rom;
+BYTE *chargen_rom;
+#else
 BYTE ram[C64_RAM_SIZE];
 BYTE basic_rom[C64_BASIC_ROM_SIZE];
 BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+#endif
 
 /* Size of RAM...  */
 int ram_size = C64_RAM_SIZE;
@@ -294,12 +303,21 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 
 /* Memory read and write tables.  */
+#ifdef AVOID_STATIC_ARRAYS
+static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
+static read_func_ptr_t (*mem_read_tab)[0x101];
+static BYTE *(*mem_read_base_tab)[0x101];
+
+static store_func_ptr_t *mem_write_tab_watch;
+static read_func_ptr_t *mem_read_tab_watch;
+#else
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
+#endif
 
 /* Processor port.  */
 static struct {
@@ -322,10 +340,18 @@ static int mem_config;
 static int tape_sense = 0;
 
 /* Exansion port ROML/ROMH images.  */
+#ifdef AVOID_STATIC_ARRAYS
+BYTE *roml_banks, *romh_banks;
+#else
 BYTE roml_banks[0x8000], romh_banks[0x8000];
+#endif
 
 /* Exansion port RAM images.  */
+#ifdef AVOID_STATIC_ARRAYS
+BYTE *export_ram0;
+#else
 BYTE export_ram0[0x2000];
+#endif
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 int roml_bank, romh_bank, export_ram;
@@ -909,6 +935,27 @@ void mem_powerup(void)
 
 #ifndef __MSDOS__
     printf("Initializing RAM for power-up...\n");
+#endif
+
+#ifdef AVOID_STATIC_ARRAYS
+    if (!ram)
+    {
+	ram = xmalloc(C64_RAM_SIZE);
+	basic_rom = xmalloc(C64_BASIC_ROM_SIZE);
+	kernal_rom = xmalloc(C64_KERNAL_ROM_SIZE);
+	chargen_rom = xmalloc(C64_CHARGEN_ROM_SIZE);
+
+	mem_write_tab = xmalloc(NUM_VBANKS*sizeof(*mem_write_tab));
+	mem_read_tab = xmalloc(NUM_CONFIGS*sizeof(*mem_read_tab));
+	mem_read_base_tab = xmalloc(NUM_CONFIGS*sizeof(*mem_read_base_tab));
+
+	mem_write_tab_watch = xmalloc(0x101*sizeof(*mem_write_tab_watch));
+	mem_read_tab_watch = xmalloc(0x101*sizeof(*mem_read_tab_watch));
+
+	roml_banks = xmalloc(0x8000);
+	romh_banks = xmalloc(0x8000);
+	export_ram0 = xmalloc(0x2000);
+    }
 #endif
 
     for (i = 0; i < 0x10000; i += 0x80) {

@@ -39,12 +39,14 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <fcntl.h>
 #include <ctype.h>
 #include <unistd.h>
 #include <assert.h>
 #include <string.h>
 #include <math.h>
+#endif
 
 #include "drive.h"
 #include "iecdrive.h"
@@ -107,6 +109,7 @@ static int sync_factor;
 static char *dos_rom_name_1541;
 static char *dos_rom_name_1571;
 static char *dos_rom_name_1581;
+static char *dos_rom_name_2031;
 
 static int set_drive_true_emulation(resource_value_t v)
 {
@@ -156,6 +159,7 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2031:
         drive[1].type = (int) v;
         if (drive_true_emulation) {
         drive[1].enable = 1;
@@ -199,10 +203,13 @@ static int set_drive0_idling_method(resource_value_t v)
         && (int) v != DRIVE_IDLE_NO_IDLE)
         return -1;
 
-    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541)
+    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541) {
+/*
         drive[0].rom[0xec9b - 0x8000] =
             (drive[0].idling_method != DRIVE_IDLE_TRAP_IDLE)
             ? 0x00 : drive[0].rom_idle_trap;
+*/
+    }
     drive[0].idling_method = (int) v;
     return 0;
 }
@@ -242,6 +249,19 @@ static int set_sync_factor(resource_value_t v)
         }
     }
 
+    return 0;
+}
+
+static int set_dos_rom_name_2031(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (dos_rom_name_2031 == NULL)
+        dos_rom_name_2031 = stralloc(name);
+    else {
+        dos_rom_name_2031 = xrealloc(dos_rom_name_2031, strlen(name) + 1);
+        strcpy(dos_rom_name_2031, name);
+    }
     return 0;
 }
 
@@ -301,6 +321,8 @@ static resource_t resources[] = {
       (resource_value_t *) &(drive[1].idling_method), set_drive1_idling_method },
     { "DriveSyncFactor", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
       (resource_value_t *) &sync_factor, set_sync_factor },
+    { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
+      (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
     { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
       (resource_value_t *) &dos_rom_name_1541, set_dos_rom_name_1541 },
     { "DosName1571", RES_STRING, (resource_value_t) "dos1571",
@@ -354,6 +376,8 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of 1571 DOS ROM image name" },
     { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", NULL,
       "<name>", "Specify name of 1581 DOS ROM image name" },
+    { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", NULL,
+      "<name>", "Specify name of 2031 DOS ROM image name" },
     { NULL }
 };
 
@@ -365,12 +389,23 @@ int drive_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* RAM/ROM.  */
+#ifdef AVOID_STATIC_ARRAYS
+static BYTE *drive_rom1541;
+static BYTE *drive_rom1571;
+static BYTE *drive_rom1581;
+static BYTE *drive_rom2031;
+
+BYTE *drive0_ram;
+BYTE *drive1_ram;
+#else
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
+static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
 
 BYTE drive0_ram[DRIVE_RAM_SIZE];
 BYTE drive1_ram[DRIVE_RAM_SIZE];
+#endif
 
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
 static int rom_loaded = 0;
@@ -379,6 +414,7 @@ static int rom_loaded = 0;
 static int rom1541_loaded = 0;
 static int rom1571_loaded = 0;
 static int rom1581_loaded = 0;
+static int rom2031_loaded = 0;
 
 /* Map of the sector sizes.  */
 extern char sector_map_1541[43];
@@ -803,6 +839,16 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     if (rom_loaded)
 	return 0;
 
+#ifdef AVOID_STATIC_ARRAYS
+    drive_rom1541 = xmalloc(DRIVE_ROM1541_SIZE);
+    drive_rom1571 = xmalloc(DRIVE_ROM1571_SIZE);
+    drive_rom1581 = xmalloc(DRIVE_ROM1581_SIZE);
+    drive_rom2031 = xmalloc(DRIVE_ROM2031_SIZE);
+
+    drive0_ram = xmalloc(DRIVE_RAM_SIZE);
+    drive1_ram = xmalloc(DRIVE_RAM_SIZE);
+#endif
+
     drive_clk[0] = 0L;
     drive_clk[1] = 0L;
 
@@ -896,8 +942,7 @@ static int drive_set_disk_drive_type(int type, int dnr)
         drive[dnr].clock_frequency = 2;
         break;
       case DRIVE_TYPE_2031:
-        /* FIXME2031: Add 2031 ROM handling.  */
-        if (rom1541_loaded < 1 && rom_loaded)
+        if (rom2031_loaded < 1 && rom_loaded)
             return -1;
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(dnr);
@@ -959,10 +1004,19 @@ static int drive_load_rom_images(void)
     } else
         rom1581_loaded = 1;
 
+    if (mem_load_sys_file(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
+                          DRIVE_ROM2031_SIZE) < 0) {
+        fprintf(stderr,
+                "Drive: Warning: 2031 ROM image not found.\n"
+                "Drive: Hardware-level 2031 emulation is not available.\n");
+    } else
+        rom2031_loaded = 1;
+
     /* FIXME: Drive type radio button should be made insensitive here
        if a ROM image is not loaded. */
 
-    if ((rom1541_loaded | rom1571_loaded | rom1581_loaded) < 1) {
+    if ((rom1541_loaded | rom1571_loaded | rom1581_loaded 
+						| rom2031_loaded) < 1) {
         fprintf(stderr, "Drive: No ROM image found at all!\n"
                         "Drive: Hardware-level emulation is not available.\n");
         return -1;
@@ -985,8 +1039,7 @@ static void drive_setup_rom_image(int dnr)
             memcpy(drive[dnr].rom, drive_rom1581, DRIVE_ROM1581_SIZE);
             break;
           case DRIVE_TYPE_2031:
-            /* FIXME2031 Add 2031 ROM handling.  */
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1541, DRIVE_ROM1541_SIZE);
+            memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031, DRIVE_ROM2031_SIZE);
             break;
         }
     }
@@ -996,15 +1049,18 @@ static void drive_initialize_rom_traps(int dnr)
 {
     if (drive[dnr].type == DRIVE_TYPE_1541) {
         /* Remove the ROM check.  */
+/*
         drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
-
+*/
         /* Trap the idle loop.  */
+/*
         drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
         if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE)
         drive[dnr].rom[0xec9b - 0x8000] = 0x00;
+*/
    }
 }
 

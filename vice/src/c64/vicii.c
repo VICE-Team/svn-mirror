@@ -89,8 +89,10 @@ static void update_sprite_collisions(void);
 #include "sprcycles.h"
 #include "sprcrunch.h"
 
+#ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stdio.h>
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -132,7 +134,11 @@ static CLOCK int_raster_clk;
 static BYTE color_ram[0x400];
 
 /* Pointer to the base of RAM seen by the VIC-II.  */
+#ifdef AVOID_STATIC_ARRAYS
+static BYTE *ram_base;
+#else
 static BYTE *ram_base = ram;
+#endif
 
 /* Video memory pointers.  */
 static BYTE *screen_ptr;
@@ -448,10 +454,9 @@ inline static void set_video_mode(int cycle)
 	if (new_video_mode == VIC_II_HIRES_BITMAP_MODE
 	    || VIC_II_IS_ILLEGAL_MODE(new_video_mode)) {
 	    /* Force the overscan color to black.  */
-	    if (overscan_background_color != 0)
-		add_int_change_background(RASTER_X(cycle),
-					  &overscan_background_color,
-					  0);
+            add_int_change_background(RASTER_X(cycle),
+                                      &overscan_background_color,
+                                      0);
 	    force_black_overscan_background_color = 1;
 	} else {
 	    /* The overscan background color is given by the background color
@@ -657,6 +662,10 @@ canvas_t vic_ii_init(void)
         "Light Green", "Light Blue", "Light Gray"
     };
     char title[256];
+
+#ifdef AVOID_STATIC_ARRAYS
+    ram_base = ram;
+#endif
 
 #ifdef NEED_2x
     if (init_raster(1, 2, 2) < 0)
@@ -2292,20 +2301,38 @@ int int_raster(long offset)
    way... */
 
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels. */
+#ifdef AVOID_STATIC_ARRAYS
+static PIXEL4 *hr_table;
+#else
 static PIXEL4 hr_table[16 * 16 * 16];
+#endif
 
 #ifdef NEED_2x
 /* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels. */
+#ifdef AVOID_STATIC_ARRAYS
+static PIXEL4 *hr_table_2x;
+#else
 static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
+#endif
 #endif
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table. */
+#ifdef AVOID_STATIC_ARRAYS
+static WORD *mc_table;
+#else
 static WORD mc_table[2 * 4 * 256];
+#endif
 
 /* Sprite tables. */
+#ifdef AVOID_STATIC_ARRAYS
+static DWORD *sprite_doubling_table;
+static WORD *mcmsktable;
+static BYTE *mcsprtable;
+#else
 static DWORD sprite_doubling_table[65536];
 static WORD mcmsktable[512];
 static BYTE mcsprtable[256];
+#endif
 
 /* This is a bit mask representing each pixel on the screen (1 = foreground,
    0 = background) and is used both for sprite-background collision checking
@@ -2326,6 +2353,20 @@ static void init_drawing_tables(void)
     WORD wmsk;
     DWORD lmsk;
     char tmptable[4] = { 0, 4, 5, 3 };
+
+#ifdef AVOID_STATIC_ARRAYS
+    if (!hr_table)
+    {
+	hr_table = xmalloc(sizeof(*hr_table)*16*16*16);
+#ifdef NEED_2x        
+	hr_table_2x = xmalloc(sizeof(*hr_table_2x)*16*16*2*16);
+#endif
+	mc_table = xmalloc(sizeof(*mc_table)*2*4*256);
+	sprite_doubling_table = xmalloc(sizeof(*sprite_doubling_table)*65536);
+	mcmsktable = xmalloc(sizeof(*mcmsktable)*512);
+	mcsprtable = xmalloc(sizeof(*mcsprtable)*256);
+    }
+#endif
 
     for (i = 0; i <= 0xf; i++) {
 	for (f = 0; f <= 0xf; f++) {

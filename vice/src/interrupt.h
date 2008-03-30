@@ -31,7 +31,9 @@
 #include "types.h"
 #include "vmachine.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "6510core.h"
 #include "snapshot.h"

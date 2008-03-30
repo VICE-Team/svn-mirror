@@ -27,7 +27,9 @@
 #ifndef _SYSFILE_H
 #define _SYSFILE_H
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 int sysfile_init(const char *boot_path, const char *emu_id);
 int sysfile_init_resources(void);

@@ -24,12 +24,16 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
+#endif
 
-#include "vice.h"
+#include <stdarg.h>
+
 #include "warn.h"
 #include "utils.h"
 

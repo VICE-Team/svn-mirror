@@ -26,8 +26,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <unistd.h>
+#endif
 
 
 int zipcode_read_sector(int zip_fd, int track, int *sector, char *buf)

@@ -75,9 +75,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#endif
 
 #include "cia.h"
 #include "resources.h"
@@ -899,11 +901,17 @@ BYTE read_mycia_(ADDRESS addr)
     switch (addr) {
 
       case CIA_PRA:		/* port A */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 	READ_CIAPA
 	return byte;
 	break;
 
       case CIA_PRB:		/* port B */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 	READ_CIAPB
         if ((mycia[CIA_CRA] | mycia[CIA_CRB]) & 0x02) {
 	    update_mycia(rclk);

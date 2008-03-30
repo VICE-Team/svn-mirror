@@ -36,11 +36,14 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "types.h"
 #include "parallel.h"
 #include "serial.h"
+#include "drive.h"
 
 /* globals */
 
@@ -184,7 +187,7 @@ static void WATN_atnlo(int tr) {
 	parallel_emu_set_eoi(0);
 	parallel_emu_set_bus(0);
 	parallel_emu_set_nrfd(0);
-	Go(In1);
+	Go(In1); 
 }
 
 #define	In1_atnlo	WATN_atnlo
@@ -368,6 +371,13 @@ void parallel_set_atn( char mask )
     if (!old) {
 	if(parallel_debug) printf("set_atn(%02x) -> ATNlo\n", mask);
 	DoTrans(ATNlo);
+
+	if (drive[0].enable) {
+	    drive0_parallel_set_atn(1);
+	}
+	if (drive[1].enable) {
+	    drive1_parallel_set_atn(1);
+	}
     }
 }
 
@@ -378,6 +388,13 @@ void parallel_clr_atn( char mask )
     if (old && !parallel_atn) {
 	if(parallel_debug) printf("clr_atn(%02x) -> ATNhi\n", ~mask);
 	DoTrans(ATNhi);
+
+	if (drive[0].enable) {
+	    drive0_parallel_set_atn(0);
+	}
+	if (drive[1].enable) {
+	    drive1_parallel_set_atn(0);
+	}
     }
 }
 

@@ -28,10 +28,12 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <math.h>
-
-#include "vice.h"
+#endif
 
 #include "sid.h"
 
@@ -903,8 +905,8 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     }
     psid->update = 1;
     psid->emulatefilter = sid_filters_enabled;
-    setup_sid(psid);
     init_filter(psid, speed);
+    setup_sid(psid);
     for (i = 0; i < 3; i++)
     {
 	psid->v[i].vprev = &psid->v[(i+2)%3];
@@ -1059,6 +1061,7 @@ void REGPARM2 store_sid(ADDRESS addr, BYTE byte)
 {
     addr &= 0x1f;
     siddata[addr] = byte;
+    /*printf("%x %x\n", addr, byte);*/
     machine_handle_pending_alarms(rmw_flag + 1);
     if (rmw_flag)
     {

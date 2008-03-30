@@ -38,7 +38,9 @@
 #ifndef _VDRIVE_H
 #define _VDRIVE_H
 
+#ifdef STDC_HEADERS
 #include <time.h>
+#endif
 
 #include "types.h"
 #include "fs_cbm.h"

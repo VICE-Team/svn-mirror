@@ -45,8 +45,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <ctype.h>
+#endif
 
 #include "maincpu.h"
 #include "serial.h"
@@ -55,6 +57,7 @@
 #include "utils.h"
 
 #include "vdrive.h"
+#include "drive.h"
 #include "tape.h"
 #include "tapeunit.h"
 
@@ -347,6 +350,11 @@ static int parallelcommand(void)
 	 TrapDevice, TrapSecondary, ram[BSOUR], SerialPtr, SerialBuffer);
 #endif
 
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+	return 0x83;	/* device not present */
+    }
+
     /* which device ? */
     p = &serialdevices[TrapDevice & 0x0f];
     channel = TrapSecondary & 0x0f;
@@ -462,6 +470,11 @@ int parallelsendbyte(int data)
     int st = 0;
     serial_t *p;
 
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+	return 0x83;	/* device not present */
+    }
+
     p = &serialdevices[TrapDevice & 0x0f];
 
     if (p->inuse) {
@@ -487,6 +500,11 @@ int parallelreceivebyte(BYTE * data, int fake)
 {
     int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
+
+    if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
+	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
+	return 0x83;	/* device not present */
+    }
 
     p = &serialdevices[TrapDevice & 0x0f];
 

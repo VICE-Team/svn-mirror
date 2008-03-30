@@ -26,9 +26,12 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
+#endif
 
+#include "types.h"
 #include "utils.h"
 #include "cmdline.h"
 

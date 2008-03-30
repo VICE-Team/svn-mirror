@@ -28,7 +28,9 @@
 #ifndef _FINDPATH_H
 #define _FINDPATH_H
 
+#ifdef STDC_HEADERS
 #include <unistd.h>
+#endif
 
 #ifdef __MSDOS__
 #define FINDPATH_SEPARATOR_CHAR         ';'

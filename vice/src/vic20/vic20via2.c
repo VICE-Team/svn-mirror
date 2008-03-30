@@ -54,8 +54,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
 #include "vmachine.h"
 #include "via.h"
@@ -80,13 +82,22 @@
 #define VIA_SET_CA2(a)
 
 #include "interrupt.h"
-
+				/* Timer debugging */
 /*#define VIA2_TIMER_DEBUG */
-				/*#define VIA2_NEED_PB7 *//* when PB7 is really used, set this
+				/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
 				   when port B is read -
 				   not yet implemented */
+/*#define VIA2_NEED_PB7 */
+				/* When you really need latching, define this.
+				   It implies additional READ_PR* when
+				   writing the snapshot. When latching is 
+				   enabled: it reads the port when enabling,
+				   and when an active C*1 transition occurs. 
+				   It does not read the port when reading the
+				   port register. Side-effects beware! */
+/*#define VIA2_NEED_LATCHING */
 
 /* global */
 
@@ -119,6 +130,9 @@ static int via2pb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static BYTE via2_ila;		/* input latch A */
+static BYTE via2_ilb;		/* input latch B */
+
 static int ca2_state;
 static int cb2_state;
 
@@ -137,6 +151,9 @@ static int cb2_state;
 #define IS_CB2_HANDSHAKE()       ((via2[VIA_PCR] & 0xc0) == 0x80)
 #define IS_CB2_PULSE_MODE()      ((via2[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((via2[VIA_PCR] & 0xe0) == 0x80)
+
+#define	IS_PA_INPUT_LATCH()	 (via2[VIA_ACR] & 0x01)
+#define	IS_PB_INPUT_LATCH()	 (via2[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -325,6 +342,44 @@ void via2_signal(int line, int edge)
 	    }
             via2ifr |= VIA_IM_CA1;
             update_via2irq();
+#ifdef VIA2_NEED_LATCHING
+	    if (IS_PA_INPUT_LATCH()) {
+		BYTE byte;
+
+    {
+	BYTE joy_bits;
+
+	/*
+	   Port A is connected this way:
+
+	   bit 0  IEC clock
+	   bit 1  IEC data
+	   bit 2  joystick switch 0 (up)
+	   bit 3  joystick switch 1 (down)
+	   bit 4  joystick switch 2 (left)
+	   bit 5  joystick switch 4 (fire)
+	   bit 6  tape sense
+	   bit 7  IEC ATN
+
+	 */
+
+	/* Setup joy bits (2 through 5).  Use the `or' of the values
+	   of both joysticks so that it works with every joystick
+	   setting.  This is a bit slow... we might think of a
+	   faster method.  */
+	joy_bits = ~(joy[1] | joy[2]);
+	joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+
+	joy_bits |= tape_sense ? 0 : 0x40;
+
+	/* We assume `iec_pa_read()' returns the non-IEC bits
+	   as zeroes. */
+	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
+    }
+		via2_ila = byte;
+	    }
+#endif
 	}
         break;
       case VIA_SIG_CA2:
@@ -342,6 +397,18 @@ void via2_signal(int line, int edge)
 	    }
             via2ifr |= VIA_IM_CB1;
             update_via2irq();
+#ifdef VIA2_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+		BYTE byte;
+
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
+    byte = 0xff;
+#endif
+		via2_ilb = byte;
+	    }
+#endif	
 	}
         break;
       case VIA_SIG_CB2:
@@ -529,6 +596,57 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
             }
         }
         via2pb7sx = via2pb7x;
+
+        /* bit 1, 0  latch enable port B and A */
+#ifdef VIA2_NEED_LATCHING
+	/* switch on port A latching - FIXME: is this ok? */
+	if ( (!(via2[addr] & 1)) && (byte & 1)) {
+
+    {
+	BYTE joy_bits;
+
+	/*
+	   Port A is connected this way:
+
+	   bit 0  IEC clock
+	   bit 1  IEC data
+	   bit 2  joystick switch 0 (up)
+	   bit 3  joystick switch 1 (down)
+	   bit 4  joystick switch 2 (left)
+	   bit 5  joystick switch 4 (fire)
+	   bit 6  tape sense
+	   bit 7  IEC ATN
+
+	 */
+
+	/* Setup joy bits (2 through 5).  Use the `or' of the values
+	   of both joysticks so that it works with every joystick
+	   setting.  This is a bit slow... we might think of a
+	   faster method.  */
+	joy_bits = ~(joy[1] | joy[2]);
+	joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+
+	joy_bits |= tape_sense ? 0 : 0x40;
+
+	/* We assume `iec_pa_read()' returns the non-IEC bits
+	   as zeroes. */
+	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
+    }
+	    via2_ila = byte;
+	}
+	/* switch on port B latching - FIXME: is this ok? */
+	if ( (!(via2[addr] & 2)) && (byte & 2)) {
+
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
+    byte = 0xff;
+#endif
+	    via2_ilb = byte;
+	}
+#endif
+
         via2[addr] = byte;
 
         
@@ -540,7 +658,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         }
 
         /* bit 4, 3, 2 shift register control */
-        /* bit 1, 0  latch enable port B and A */
+
         break;
 
       case VIA_PCR:
@@ -649,6 +767,13 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
         update_via2irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value as the other port. Value read might be different
+           from what is expected due to excessive load. */
+#ifdef VIA2_NEED_LATCHING
+	if (IS_PA_INPUT_LATCH()) {
+	    byte = via2_ila;
+	} else {
 
     {
 	BYTE joy_bits;
@@ -681,6 +806,42 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
 		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
     }
+	}
+#else
+
+    {
+	BYTE joy_bits;
+
+	/*
+	   Port A is connected this way:
+
+	   bit 0  IEC clock
+	   bit 1  IEC data
+	   bit 2  joystick switch 0 (up)
+	   bit 3  joystick switch 1 (down)
+	   bit 4  joystick switch 2 (left)
+	   bit 5  joystick switch 4 (fire)
+	   bit 6  tape sense
+	   bit 7  IEC ATN
+
+	 */
+
+	/* Setup joy bits (2 through 5).  Use the `or' of the values
+	   of both joysticks so that it works with every joystick
+	   setting.  This is a bit slow... we might think of a
+	   faster method.  */
+	joy_bits = ~(joy[1] | joy[2]);
+	joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+
+	joy_bits |= tape_sense ? 0 : 0x40;
+
+	/* We assume `iec_pa_read()' returns the non-IEC bits
+	   as zeroes. */
+	byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); 
+    }
+#endif
+	via2_ila = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -689,14 +850,28 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
             via2ifr &= ~VIA_IM_CB2;
         update_via2irq();
 
+        /* WARNING: this pin reads the ORA for output pins, not
+           the voltage on the pins as the other port. */
+#ifdef VIA2_NEED_LATCHING
+	if (IS_PB_INPUT_LATCH()) {
+	    byte = via2_ilb;
+	} else {
 
 #ifdef HAVE_RS232
     byte = rsuser_read_ctrl();
 #else
     byte = 0xff;
 #endif
-	/* VIA port B reads the value of the output register for pins set
- 	   to output, not the voltage levels as any other port */
+	}
+#else
+
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
+    byte = 0xff;
+#endif
+#endif
+	via2_ilb = byte;
         byte = (byte & ~via2[VIA_DDRB]) | (via2[VIA_PRB] & via2[VIA_DDRB]);
 
         if (via2[VIA_ACR] & 0x80) {
@@ -762,13 +937,26 @@ BYTE REGPARM1 peek_via2(ADDRESS addr)
       case VIA_PRB:		/* port B */
         {
             BYTE byte;
-
+#ifdef VIA2_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+	        byte = via2_ilb;
+	    } else {
 
 #ifdef HAVE_RS232
     byte = rsuser_read_ctrl();
 #else
     byte = 0xff;
 #endif
+	    }
+#else
+
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
+    byte = 0xff;
+#endif
+#endif
+            byte = (byte & ~via2[VIA_DDRB]) | (via2[VIA_PRB] & via2[VIA_DDRB]);
             if (via2[VIA_ACR] & 0x80) {
                 update_via2tal(rclk);
                 byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
@@ -880,7 +1068,9 @@ static char snap_module_name[] = "VIA2";
  * UBYTE	IER		 interrupt masks
  * UBYTE	PB7		 bit 7 = pb7 state
  * UBYTE	SRHBITS		 number of half bits to shift out on SR
- *
+ * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE	ILA		 input latch port A
+ * UBYTE	ILB		 input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -930,6 +1120,10 @@ printf("     : ta=%d, tb=%d\n",via2ta() & 0xffff, via2tb() & 0xffff);
 
     snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
 				| (cb2_state ? 0x40 : 0));
+
+    snapshot_module_write_byte(m, via2_ila);
+    snapshot_module_write_byte(m, via2_ilb);
+
     snapshot_module_close(m);
 
     return 0;
@@ -1036,6 +1230,10 @@ int via2_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    snapshot_module_read_byte(m, &via2_ila);
+    snapshot_module_read_byte(m, &via2_ilb);
+
 /*
 printf("via2: read: clk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

@@ -48,8 +48,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
 #include "vmachine.h"
 #include "via.h"
@@ -59,13 +61,22 @@
 INCLUDES
 
 #include "interrupt.h"
-
+				/* Timer debugging */
 /*#define MYVIA_TIMER_DEBUG */
-				/*#define MYVIA_NEED_PB7 *//* when PB7 is really used, set this
+				/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
 				   when port B is read -
 				   not yet implemented */
+/*#define MYVIA_NEED_PB7 */
+				/* When you really need latching, define this.
+				   It implies additional READ_PR* when
+				   writing the snapshot. When latching is 
+				   enabled: it reads the port when enabling,
+				   and when an active C*1 transition occurs. 
+				   It does not read the port when reading the
+				   port register. Side-effects beware! */
+/*#define MYVIA_NEED_LATCHING */
 
 /* global */
 
@@ -97,6 +108,9 @@ static int myviapb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static BYTE myvia_ila;		/* input latch A */
+static BYTE myvia_ilb;		/* input latch B */
+
 static int ca2_state;
 static int cb2_state;
 
@@ -115,6 +129,9 @@ static int cb2_state;
 #define IS_CB2_HANDSHAKE()       ((myvia[VIA_PCR] & 0xc0) == 0x80)
 #define IS_CB2_PULSE_MODE()      ((myvia[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((myvia[VIA_PCR] & 0xe0) == 0x80)
+
+#define	IS_PA_INPUT_LATCH()	 (myvia[VIA_ACR] & 0x01)
+#define	IS_PB_INPUT_LATCH()	 (myvia[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -289,6 +306,13 @@ void myvia_signal(int line, int edge)
 	    }
             myviaifr |= VIA_IM_CA1;
             update_myviairq();
+#ifdef MYVIA_NEED_LATCHING
+	    if (IS_PA_INPUT_LATCH()) {
+		BYTE byte;
+		READ_PRA
+		myvia_ila = byte;
+	    }
+#endif
 	}
         break;
       case VIA_SIG_CA2:
@@ -306,6 +330,13 @@ void myvia_signal(int line, int edge)
 	    }
             myviaifr |= VIA_IM_CB1;
             update_myviairq();
+#ifdef MYVIA_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+		BYTE byte;
+		READ_PRB
+		myvia_ilb = byte;
+	    }
+#endif	
 	}
         break;
       case VIA_SIG_CB2:
@@ -486,6 +517,21 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
             }
         }
         myviapb7sx = myviapb7x;
+
+        /* bit 1, 0  latch enable port B and A */
+#ifdef MYVIA_NEED_LATCHING
+	/* switch on port A latching - FIXME: is this ok? */
+	if ( (!(myvia[addr] & 1)) && (byte & 1)) {
+	    READ_PRA
+	    myvia_ila = byte;
+	}
+	/* switch on port B latching - FIXME: is this ok? */
+	if ( (!(myvia[addr] & 2)) && (byte & 2)) {
+	    READ_PRB
+	    myvia_ilb = byte;
+	}
+#endif
+
         myvia[addr] = byte;
 
         STORE_ACR
@@ -497,7 +543,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         }
 
         /* bit 4, 3, 2 shift register control */
-        /* bit 1, 0  latch enable port B and A */
+
         break;
 
       case VIA_PCR:
@@ -588,7 +634,19 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
         update_myviairq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value as the other port. Value read might be different
+           from what is expected due to excessive load. */
+#ifdef MYVIA_NEED_LATCHING
+	if (IS_PA_INPUT_LATCH()) {
+	    byte = myvia_ila;
+	} else {
+	    READ_PRA
+	}
+#else
         READ_PRA
+#endif
+	myvia_ila = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -597,9 +655,18 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
             myviaifr &= ~VIA_IM_CB2;
         update_myviairq();
 
+        /* WARNING: this pin reads the ORA for output pins, not
+           the voltage on the pins as the other port. */
+#ifdef MYVIA_NEED_LATCHING
+	if (IS_PB_INPUT_LATCH()) {
+	    byte = myvia_ilb;
+	} else {
+	    READ_PRB
+	}
+#else
         READ_PRB
-	/* VIA port B reads the value of the output register for pins set
- 	   to output, not the voltage levels as any other port */
+#endif
+	myvia_ilb = byte;
         byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
         if (myvia[VIA_ACR] & 0x80) {
@@ -665,8 +732,16 @@ BYTE REGPARM1 peek_myvia(ADDRESS addr)
       case VIA_PRB:		/* port B */
         {
             BYTE byte;
-
+#ifdef MYVIA_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+	        byte = myvia_ilb;
+	    } else {
+	        READ_PRB
+	    }
+#else
             READ_PRB
+#endif
+            byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
             if (myvia[VIA_ACR] & 0x80) {
                 update_myviatal(rclk);
                 byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
@@ -778,7 +853,9 @@ static char snap_module_name[] = "MYVIA";
  * UBYTE	IER		 interrupt masks
  * UBYTE	PB7		 bit 7 = pb7 state
  * UBYTE	SRHBITS		 number of half bits to shift out on SR
- *
+ * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE	ILA		 input latch port A
+ * UBYTE	ILB		 input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -828,6 +905,10 @@ printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
 
     snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
 				| (cb2_state ? 0x40 : 0));
+
+    snapshot_module_write_byte(m, myvia_ila);
+    snapshot_module_write_byte(m, myvia_ilb);
+
     snapshot_module_close(m);
 
     return 0;
@@ -930,6 +1011,10 @@ int myvia_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    snapshot_module_read_byte(m, &myvia_ila);
+    snapshot_module_read_byte(m, &myvia_ilb);
+
 /*
 printf("myvia: read: myclk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

@@ -27,10 +27,12 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <fcntl.h>
 #include <ctype.h>
 #include <string.h>
+#endif
 
 #include "gcr.h"
 

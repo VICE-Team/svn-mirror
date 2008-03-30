@@ -25,13 +25,16 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
+#endif
 
-#include "vice.h"
 #include "types.h"
 #include "mshell.h"
 

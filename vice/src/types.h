@@ -38,10 +38,14 @@ typedef signed char SIGNED_CHAR;
 typedef unsigned char BYTE;
 
 #if SIZEOF_UNSIGNED_SHORT == 2
+#ifndef WINCE
 typedef unsigned short WORD;
+#endif
 typedef signed short SWORD;
 #elif SIZEOF_UNSIGNED_INT == 2
+#ifndef WINCE
 typedef unsigned int WORD;
+#endif
 typedef signed int SWORD;
 #else
 #error Cannot find a proper 16-bit type!
@@ -50,10 +54,14 @@ typedef signed int SWORD;
 typedef WORD ADDRESS;
 
 #if SIZEOF_UNSIGNED_INT == 4
+#ifndef WINCE
 typedef unsigned int DWORD;
+#endif
 typedef signed int SDWORD;
 #elif SIZEOF_UNSIGNED_LONG == 4
+#ifndef WINCE
 typedef unsigned long DWORD;
+#endif
 typedef signed long SWORD;
 #else
 #error Cannot find a proper 32-bit type!

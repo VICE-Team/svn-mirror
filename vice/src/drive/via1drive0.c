@@ -54,8 +54,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
 #include "vmachine.h"
 #include "via.h"
@@ -67,18 +69,28 @@
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "viad.h"
+#include "parallel.h"
 
 #define	VIA_SET_CA2(a)
 #define	VIA_SET_CB2(a)
 
 #include "interrupt.h"
-
+				/* Timer debugging */
 /*#define VIA1D0_TIMER_DEBUG */
-				/*#define VIA1D0_NEED_PB7 *//* when PB7 is really used, set this
+				/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
 				   when port B is read -
 				   not yet implemented */
+/*#define VIA1D0_NEED_PB7 */
+				/* When you really need latching, define this.
+				   It implies additional READ_PR* when
+				   writing the snapshot. When latching is 
+				   enabled: it reads the port when enabling,
+				   and when an active C*1 transition occurs. 
+				   It does not read the port when reading the
+				   port register. Side-effects beware! */
+/*#define VIA1D0_NEED_LATCHING */
 
 /* global */
 
@@ -110,6 +122,9 @@ static int via1d0pb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static BYTE via1d0_ila;		/* input latch A */
+static BYTE via1d0_ilb;		/* input latch B */
+
 static int ca2_state;
 static int cb2_state;
 
@@ -128,6 +143,9 @@ static int cb2_state;
 #define IS_CB2_HANDSHAKE()       ((via1d0[VIA_PCR] & 0xc0) == 0x80)
 #define IS_CB2_PULSE_MODE()      ((via1d0[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((via1d0[VIA_PCR] & 0xe0) == 0x80)
+
+#define	IS_PA_INPUT_LATCH()	 (via1d0[VIA_ACR] & 0x01)
+#define	IS_PB_INPUT_LATCH()	 (via1d0[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -245,6 +263,22 @@ inline static void update_via1d0tbl(void)
 /* VIA1D0 */
 
 
+    static int parieee_is_out = 1;    /* 0= listener, 1= talker */
+    static int parieee_atna = 1;    /*  */
+
+    void drive0_parallel_set_atn(int state)
+    {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+           via1d0_signal(VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);
+           parallel_drv0_set_nrfd( ((!parieee_is_out) && (!(oldpb & 0x02)))
+                               || (parallel_atn && (!(oldpb & 0x01)))
+                               || ((!parallel_atn) && (oldpb & 0x01)));
+           parallel_drv0_set_ndac( ((!parieee_is_out) && (!(oldpb & 0x04)))
+                               || (parallel_atn && (!(oldpb & 0x01)))
+                               || ((!parallel_atn) && (oldpb & 0x01)));
+        }
+    }
+
     static iec_info_t *iec_info;
 
 /*
@@ -290,7 +324,20 @@ void reset_via1d0(void)
     VIA_SET_CB2( cb2_state )	/* input = high */
 
 
+    parallel_drv0_set_ndac(0);
+    parallel_drv0_set_nrfd(0);
+    parallel_drv0_set_dav(0);
+    parallel_drv0_set_eoi(0);
+    parallel_drv0_set_bus(0);
+
+    parieee_is_out = 1;
+
     iec_info = iec_get_drive_port();
+    if (iec_info && drive[0].type == DRIVE_TYPE_2031) {
+        iec_info->drive_bus = 0xff;
+        iec_info->drive_data = 0xff;
+        iec_info = NULL;
+    }
 }
 
 void via1d0_signal(int line, int edge)
@@ -304,6 +351,38 @@ void via1d0_signal(int line, int edge)
 	    }
             via1d0ifr |= VIA_IM_CA1;
             update_via1d0irq();
+#ifdef VIA1D0_NEED_LATCHING
+	    if (IS_PA_INPUT_LATCH()) {
+		BYTE byte;
+
+    if (drive[0].type == DRIVE_TYPE_1571) {
+        BYTE tmp;
+        tmp = (drive[0].byte_ready ? 0 : 0x80)
+            | (drive[0].current_half_track == 2 ? 0 : 1);
+        return (tmp & ~via1d0[VIA_DDRA])
+            | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	if (drive[1].enable)
+	    drive1_cpu_execute();
+*/
+        if (parallel_debug) {
+	    printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
+		parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
+	}
+        byte = parieee_is_out ? 0xff : ~parallel_bus;
+        return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    byte = (drive_parallel_cable_enabled
+            ? parallel_cable_drive_read((((addr == VIA_PRA) &&
+                                          (via1d0[VIA_PCR] & 0xe) == 0xa))
+                                        ? 1 : 0)
+            : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
+               | (0xff & ~via1d0[VIA_DDRA])) );
+		via1d0_ila = byte;
+	    }
+#endif
 	}
         break;
       case VIA_SIG_CA2:
@@ -321,6 +400,51 @@ void via1d0_signal(int line, int edge)
 	    }
             via1d0ifr |= VIA_IM_CB1;
             update_via1d0irq();
+#ifdef VIA1D0_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+		BYTE byte;
+
+    if (iec_info != NULL) {
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+		via1d0_ilb = byte;
+	    }
+#endif	
 	}
         break;
       case VIA_SIG_CB2:
@@ -375,7 +499,12 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
                 drive_set_1571_sync_factor(byte & 0x20, 0);
             if ((oldpa ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, 0);
-        }
+        } else
+        if (drive[0].type == DRIVE_TYPE_2031) {
+            if(parallel_debug) 
+		printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
+	    parallel_drv0_set_bus(parieee_is_out ? byte : 0);
+	} else
         if (drive_parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
             parallel_cable_drive_write(byte,
                                         (((addr == VIA_PRA)
@@ -415,7 +544,32 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
 	    iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
 	        | (iec_info->cpu_port >> 7)
 	        | ((iec_info->cpu_bus << 3) & 0x80));
-	} else {
+	} else 
+        if (drive[0].type == DRIVE_TYPE_2031) {
+	    BYTE tmp = ~byte;
+            if(parallel_debug) {
+		printf("store_prb(byte=%02x, ~byte=%02x, prb=%02x, ddrb=%02x)\n",
+			byte, tmp, via1d0[VIA_PRB],via1d0[VIA_DDRB]);
+		printf("  -> is_out=%d, eoi=%d, dav=%d\n",byte & 0x10, 
+			!(byte & 0x08), !(byte & 0x40));
+	    }
+            parieee_is_out = byte & 0x10;
+            parallel_drv0_set_bus(parieee_is_out ? oldpa : 0);
+
+	    if ( parieee_is_out ) {
+                parallel_drv0_set_eoi( tmp & 0x08 );
+                parallel_drv0_set_dav( tmp & 0x40 );
+	    } else {
+                parallel_drv0_set_eoi( 0 );
+                parallel_drv0_set_dav( 0 );
+	    }
+            parallel_drv0_set_nrfd( ((!parieee_is_out) && (tmp & 0x02))
+                                || (parallel_atn && (tmp & 0x01))
+                                || ((!parallel_atn) && (byte & 0x01)));
+            parallel_drv0_set_ndac( ((!parieee_is_out) && (tmp & 0x04))
+                                || (parallel_atn && (tmp & 0x01))
+                                || ((!parallel_atn) && (byte & 0x01)));
+        } else {
 	    iec_drive_write(~byte);
 	}
     }
@@ -529,6 +683,84 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
             }
         }
         via1d0pb7sx = via1d0pb7x;
+
+        /* bit 1, 0  latch enable port B and A */
+#ifdef VIA1D0_NEED_LATCHING
+	/* switch on port A latching - FIXME: is this ok? */
+	if ( (!(via1d0[addr] & 1)) && (byte & 1)) {
+
+    if (drive[0].type == DRIVE_TYPE_1571) {
+        BYTE tmp;
+        tmp = (drive[0].byte_ready ? 0 : 0x80)
+            | (drive[0].current_half_track == 2 ? 0 : 1);
+        return (tmp & ~via1d0[VIA_DDRA])
+            | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	if (drive[1].enable)
+	    drive1_cpu_execute();
+*/
+        if (parallel_debug) {
+	    printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
+		parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
+	}
+        byte = parieee_is_out ? 0xff : ~parallel_bus;
+        return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    byte = (drive_parallel_cable_enabled
+            ? parallel_cable_drive_read((((addr == VIA_PRA) &&
+                                          (via1d0[VIA_PCR] & 0xe) == 0xa))
+                                        ? 1 : 0)
+            : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
+               | (0xff & ~via1d0[VIA_DDRA])) );
+	    via1d0_ila = byte;
+	}
+	/* switch on port B latching - FIXME: is this ok? */
+	if ( (!(via1d0[addr] & 2)) && (byte & 2)) {
+
+    if (iec_info != NULL) {
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+	    via1d0_ilb = byte;
+	}
+#endif
+
         via1d0[addr] = byte;
 
         
@@ -540,7 +772,7 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
         }
 
         /* bit 4, 3, 2 shift register control */
-        /* bit 1, 0  latch enable port B and A */
+
         break;
 
       case VIA_PCR:
@@ -631,6 +863,13 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
         update_via1d0irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value as the other port. Value read might be different
+           from what is expected due to excessive load. */
+#ifdef VIA1D0_NEED_LATCHING
+	if (IS_PA_INPUT_LATCH()) {
+	    byte = via1d0_ila;
+	} else {
 
     if (drive[0].type == DRIVE_TYPE_1571) {
         BYTE tmp;
@@ -639,13 +878,54 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
         return (tmp & ~via1d0[VIA_DDRA])
             | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    /*return*/
+    if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	if (drive[1].enable)
+	    drive1_cpu_execute();
+*/
+        if (parallel_debug) {
+	    printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
+		parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
+	}
+        byte = parieee_is_out ? 0xff : ~parallel_bus;
+        return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
     byte = (drive_parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
             : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
                | (0xff & ~via1d0[VIA_DDRA])) );
+	}
+#else
+
+    if (drive[0].type == DRIVE_TYPE_1571) {
+        BYTE tmp;
+        tmp = (drive[0].byte_ready ? 0 : 0x80)
+            | (drive[0].current_half_track == 2 ? 0 : 1);
+        return (tmp & ~via1d0[VIA_DDRA])
+            | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	if (drive[1].enable)
+	    drive1_cpu_execute();
+*/
+        if (parallel_debug) {
+	    printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
+		parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
+	}
+        byte = parieee_is_out ? 0xff : ~parallel_bus;
+        return (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+    }
+    byte = (drive_parallel_cable_enabled
+            ? parallel_cable_drive_read((((addr == VIA_PRA) &&
+                                          (via1d0[VIA_PCR] & 0xe) == 0xa))
+                                        ? 1 : 0)
+            : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
+               | (0xff & ~via1d0[VIA_DDRA])) );
+#endif
+	via1d0_ila = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -654,13 +934,94 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
             via1d0ifr &= ~VIA_IM_CB2;
         update_via1d0irq();
 
+        /* WARNING: this pin reads the ORA for output pins, not
+           the voltage on the pins as the other port. */
+#ifdef VIA1D0_NEED_LATCHING
+	if (IS_PB_INPUT_LATCH()) {
+	    byte = via1d0_ilb;
+	} else {
 
-    if (iec_info != NULL)
+    if (iec_info != NULL) {
 	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
-    else
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
-	/* VIA port B reads the value of the output register for pins set
- 	   to output, not the voltage levels as any other port */
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+	}
+#else
+
+    if (iec_info != NULL) {
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+#endif
+	via1d0_ilb = byte;
         byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
 
         if (via1d0[VIA_ACR] & 0x80) {
@@ -726,12 +1087,92 @@ BYTE REGPARM1 peek_via1d0(ADDRESS addr)
       case VIA_PRB:		/* port B */
         {
             BYTE byte;
+#ifdef VIA1D0_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+	        byte = via1d0_ilb;
+	    } else {
 
-
-    if (iec_info != NULL)
+    if (iec_info != NULL) {
 	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
-    else
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+	    }
+#else
+
+    if (iec_info != NULL) {
+	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+    } else {
+        if (drive[0].type == DRIVE_TYPE_2031) {
+/*
+	   if (drive[1].enable)
+		drive1_cpu_execute();
+*/
+           byte = 0xff;
+           if (parieee_is_out) {
+               /* talk enable */
+               if (parallel_nrfd) byte &= 0xfd ;
+               if (parallel_ndac) byte &= 0xfb ;
+           } else {
+               /* listener */
+               if (parallel_eoi) byte &= 0xf7 ;
+               if (parallel_dav) byte &= 0xbf ;
+           }
+           if (!parallel_atn) byte &= 0x7f;
+           if (parallel_debug) {
+ 	       printf("read_prb(is_out=%d, byte=%02x, prb=%02x, ddrb=%02x\n",
+		   parieee_is_out, byte, via1d0[VIA_PRB], via1d0[VIA_DDRB]);
+	   }
+           byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
+           if (!ca2_state) {
+               byte &= 0xfe /* 0xff */;  /* byte & 3 + 8 -> device-no */
+               byte &= 0xfd /* 0xff */;  /* device-no switche */
+	       if (parallel_debug) {
+		   printf("read with ca2_state = 0 -> byte=%02x\n", byte);
+	       }
+           }
+	   if (parallel_debug) {
+		printf("       -> byte=%02x\n", byte);
+	   }
+        } else {
+           byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        }
+    }
+#endif
+            byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
             if (via1d0[VIA_ACR] & 0x80) {
                 update_via1d0tal(rclk);
                 byte = (byte & 0x7f) | (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0);
@@ -843,7 +1284,9 @@ static char snap_module_name[] = "VIA1D0";
  * UBYTE	IER		 interrupt masks
  * UBYTE	PB7		 bit 7 = pb7 state
  * UBYTE	SRHBITS		 number of half bits to shift out on SR
- *
+ * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE	ILA		 input latch port A
+ * UBYTE	ILB		 input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -893,6 +1336,10 @@ printf("     : ta=%d, tb=%d\n",via1d0ta() & 0xffff, via1d0tb() & 0xffff);
 
     snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
 				| (cb2_state ? 0x40 : 0));
+
+    snapshot_module_write_byte(m, via1d0_ila);
+    snapshot_module_write_byte(m, via1d0_ilb);
+
     snapshot_module_close(m);
 
     return 0;
@@ -935,6 +1382,9 @@ int via1d0_read_snapshot_module(snapshot_t * p)
     if (drive[0].type == DRIVE_TYPE_1571) {
         drive_set_1571_sync_factor(byte & 0x20, 0);        
         drive_set_1571_side((byte >> 2) & 1, 0);
+    } else
+    if (drive[0].type == DRIVE_TYPE_2031) {
+       parallel_drv0_set_bus(parieee_is_out ? byte : 0);
     }
 	oldpa = byte;
 
@@ -952,7 +1402,21 @@ int via1d0_read_snapshot_module(snapshot_t * p)
             | (iec_info->cpu_port >> 7)
             | ((iec_info->cpu_bus << 3) & 0x80));
     } else {
-        iec_drive_write(~byte);
+        if (drive[0].type == DRIVE_TYPE_2031) {
+            parieee_is_out = byte & 0x10;
+            parallel_drv0_set_bus(parieee_is_out ? oldpa : 0);
+
+            parallel_drv0_set_eoi( parieee_is_out && !(byte & 0x08) );
+            parallel_drv0_set_dav( parieee_is_out && !(byte & 0x40) );
+            parallel_drv0_set_ndac( ((!parieee_is_out) && (!(byte & 0x04)))
+                               || (parallel_atn && (!(byte & 0x01)))
+                               || ((!parallel_atn) && (byte & 0x01)));
+            parallel_drv0_set_nrfd( ((!parieee_is_out) && (!(byte & 0x02)))
+                               || (parallel_atn && (!(byte & 0x01)))
+                               || ((!parallel_atn) && (byte & 0x01)));
+        } else {
+            iec_drive_write(~byte);
+	}
     }
 	oldpb = byte;
     }
@@ -1012,6 +1476,10 @@ int via1d0_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    snapshot_module_read_byte(m, &via1d0_ila);
+    snapshot_module_read_byte(m, &via1d0_ilb);
+
 /*
 printf("via1d0: read: drive_clk[0]=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

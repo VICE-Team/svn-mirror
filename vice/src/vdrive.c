@@ -47,6 +47,7 @@
 #endif
 #endif
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -60,6 +61,7 @@
 
 #include <unistd.h>
 #include <dirent.h>
+#endif
 
 #include "serial.h"
 #include "vdrive.h"
@@ -2826,8 +2828,7 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
                     floppy->ReadOnly ? " (read only)" : "");
 
         if (!(hdr.d64 | hdr.d71 | hdr.d81 | hdr.gcr))
-            printf ("VICE disk image version %d.%02d attached (CBM%d format%s):
-%s\n",
+            printf ("VICE disk image version %d.%02d attached (CBM%d format%s):\n%s\n",
                     hdr.v_major, hdr.v_minor, DType,
                     floppy->ReadOnly ? ", read only" : "",
                     name);

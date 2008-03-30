@@ -49,8 +49,10 @@
 #define NEED_2x
 #endif /* __MSDOS__ */
 
+#ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stdio.h>
+#endif
 
 #include "snapshot.h"
 #include "crtc.h"

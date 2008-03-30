@@ -31,12 +31,14 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
+#endif
 
 #ifdef __MSDOS__
 #include <conio.h>

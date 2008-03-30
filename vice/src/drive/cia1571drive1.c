@@ -81,9 +81,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#endif
 
 #include "cia.h"
 #include "resources.h"
@@ -914,12 +916,18 @@ BYTE read_cia1571d1_(ADDRESS addr)
     switch (addr) {
 
       case CIA_PRA:		/* port A */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 
     byte = (0xff & ~cia1571d1[CIA_DDRA]) | (cia1571d1[CIA_PRA] & cia1571d1[CIA_DDRA]);
 	return byte;
 	break;
 
       case CIA_PRB:		/* port B */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 
     byte = (0xff & ~cia1571d1[CIA_DDRB]) | (cia1571d1[CIA_PRB] & cia1571d1[CIA_DDRB]);
         if ((cia1571d1[CIA_CRA] | cia1571d1[CIA_CRB]) & 0x02) {

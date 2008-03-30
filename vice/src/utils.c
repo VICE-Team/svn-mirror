@@ -26,15 +26,18 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#endif
+
+#include <stdarg.h>
 
 #ifndef WIN32
 #include <sys/wait.h>
@@ -495,7 +498,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 int spawn(const char *name, char **argv,
 	  const char *stdout_redir, const char *stderr_redir)
 {
-#if !defined __MSDOS__ && !defined WIN32
+#if !defined __MSDOS__ && !defined WIN32 && !defined WINCE
 
     /* Unix version.  */
 

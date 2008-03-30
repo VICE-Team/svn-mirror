@@ -31,14 +31,17 @@
 
 #define _RASTER_C
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <string.h>
+#endif
 
-#include "vice.h"
 #include "vmachine.h"
 #include "resources.h"
 
@@ -1036,6 +1039,8 @@ inline static void handle_visible_line_without_cache()
 		   SCREEN_WIDTH * pixel_width);
 }
 
+int _hidden_hideous_raster_check = -1;
+
 inline static void handle_visible_line_with_changes(void)
 {
     int xs, xstop, i;
@@ -1140,6 +1145,9 @@ inline static void handle_visible_line_with_changes(void)
                    frame_buffer_ptr, pixel_width * SCREEN_WIDTH);
 
     have_changes_on_this_line = 0;
+
+    if (rasterline == _hidden_hideous_raster_check)
+        vid_memset(frame_buffer_ptr, 1, SCREEN_WIDTH);
 }
 
 inline static void handle_visible_line(void)

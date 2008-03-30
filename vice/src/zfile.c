@@ -34,6 +34,7 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
@@ -41,6 +42,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>
+#endif
 
 #include "utils.h"
 #include "zfile.h"

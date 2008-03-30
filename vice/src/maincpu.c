@@ -273,7 +273,9 @@ monitor_interface_t maincpu_monitor_interface = {
 
 
 
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
 
 #  define EVALUATE_INTERVAL	10000000L
 

@@ -34,9 +34,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#endif
 
 #ifdef __MSDOS__
 #include <dir.h>

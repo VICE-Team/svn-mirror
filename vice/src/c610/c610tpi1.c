@@ -30,9 +30,12 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+
 #include "types.h"
 #include "tpi.h"
 #include "interrupt.h"
@@ -40,6 +43,7 @@
 
 
 #include "parallel.h"
+#include "drive.h"
 #include "c610cia.h"
 #include "crtc.h"
 
@@ -194,6 +198,7 @@ void store_tpi1 ( ADDRESS addr, BYTE byte ) {
 	    tpi[addr] = byte;
 	    byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
 
+	if (byte != oldpa)
 	{
 	    BYTE tmp = ~byte;
 	    cia1_set_ieee_dir(byte & 2);
@@ -282,6 +287,11 @@ BYTE read_tpi1 ( ADDRESS addr ) {
 	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
+
+	        if (drive[0].enable)
+	            drive0_cpu_execute();
+	        if (drive[1].enable)
+	            drive1_cpu_execute();
 
 		byte = 0x07;
                 byte += parallel_atn ? 0 : 8;

@@ -54,8 +54,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
 #include "vmachine.h"
 #include "via.h"
@@ -70,13 +72,22 @@
 #define VIA_SET_CB2(a)
 
 #include "interrupt.h"
-
+				/* Timer debugging */
 /*#define VIA2D1_TIMER_DEBUG */
-				/*#define VIA2D1_NEED_PB7 *//* when PB7 is really used, set this
+				/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
 				   when port B is read -
 				   not yet implemented */
+/*#define VIA2D1_NEED_PB7 */
+				/* When you really need latching, define this.
+				   It implies additional READ_PR* when
+				   writing the snapshot. When latching is 
+				   enabled: it reads the port when enabling,
+				   and when an active C*1 transition occurs. 
+				   It does not read the port when reading the
+				   port register. Side-effects beware! */
+/*#define VIA2D1_NEED_LATCHING */
 
 /* global */
 
@@ -108,6 +119,9 @@ static int via2d1pb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static BYTE via2d1_ila;		/* input latch A */
+static BYTE via2d1_ilb;		/* input latch B */
+
 static int ca2_state;
 static int cb2_state;
 
@@ -126,6 +140,9 @@ static int cb2_state;
 #define IS_CB2_HANDSHAKE()       ((via2d1[VIA_PCR] & 0xc0) == 0x80)
 #define IS_CB2_PULSE_MODE()      ((via2d1[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((via2d1[VIA_PCR] & 0xe0) == 0x80)
+
+#define	IS_PA_INPUT_LATCH()	 (via2d1[VIA_ACR] & 0x01)
+#define	IS_PB_INPUT_LATCH()	 (via2d1[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -302,6 +319,20 @@ void via2d1_signal(int line, int edge)
 	    }
             via2d1ifr |= VIA_IM_CA1;
             update_via2d1irq();
+#ifdef VIA2D1_NEED_LATCHING
+	    if (IS_PA_INPUT_LATCH()) {
+		BYTE byte;
+
+    {
+        byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
+            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
+        if (drive[1].type == DRIVE_TYPE_1571)
+            if (drive[1].byte_ready)
+                drive[1].byte_ready = 0;
+    }
+		via2d1_ila = byte;
+	    }
+#endif
 	}
         break;
       case VIA_SIG_CA2:
@@ -319,6 +350,15 @@ void via2d1_signal(int line, int edge)
 	    }
             via2d1ifr |= VIA_IM_CB1;
             update_via2d1irq();
+#ifdef VIA2D1_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+		BYTE byte;
+
+	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
+		via2d1_ilb = byte;
+	    }
+#endif	
 	}
         break;
       case VIA_SIG_CB2:
@@ -516,6 +556,30 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
             }
         }
         via2d1pb7sx = via2d1pb7x;
+
+        /* bit 1, 0  latch enable port B and A */
+#ifdef VIA2D1_NEED_LATCHING
+	/* switch on port A latching - FIXME: is this ok? */
+	if ( (!(via2d1[addr] & 1)) && (byte & 1)) {
+
+    {
+        byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
+            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
+        if (drive[1].type == DRIVE_TYPE_1571)
+            if (drive[1].byte_ready)
+                drive[1].byte_ready = 0;
+    }
+	    via2d1_ila = byte;
+	}
+	/* switch on port B latching - FIXME: is this ok? */
+	if ( (!(via2d1[addr] & 2)) && (byte & 2)) {
+
+	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
+	    via2d1_ilb = byte;
+	}
+#endif
+
         via2d1[addr] = byte;
 
         
@@ -527,7 +591,7 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
         }
 
         /* bit 4, 3, 2 shift register control */
-        /* bit 1, 0  latch enable port B and A */
+
         break;
 
       case VIA_PCR:
@@ -637,6 +701,13 @@ BYTE REGPARM1 read_via2d1_(ADDRESS addr)
         update_via2d1irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value as the other port. Value read might be different
+           from what is expected due to excessive load. */
+#ifdef VIA2D1_NEED_LATCHING
+	if (IS_PA_INPUT_LATCH()) {
+	    byte = via2d1_ila;
+	} else {
 
     {
         byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
@@ -645,6 +716,18 @@ BYTE REGPARM1 read_via2d1_(ADDRESS addr)
             if (drive[1].byte_ready)
                 drive[1].byte_ready = 0;
     }
+	}
+#else
+
+    {
+        byte = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
+            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] ));
+        if (drive[1].type == DRIVE_TYPE_1571)
+            if (drive[1].byte_ready)
+                drive[1].byte_ready = 0;
+    }
+#endif
+	via2d1_ila = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -653,11 +736,22 @@ BYTE REGPARM1 read_via2d1_(ADDRESS addr)
             via2d1ifr &= ~VIA_IM_CB2;
         update_via2d1irq();
 
+        /* WARNING: this pin reads the ORA for output pins, not
+           the voltage on the pins as the other port. */
+#ifdef VIA2D1_NEED_LATCHING
+	if (IS_PB_INPUT_LATCH()) {
+	    byte = via2d1_ilb;
+	} else {
 
 	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
 			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
-	/* VIA port B reads the value of the output register for pins set
- 	   to output, not the voltage levels as any other port */
+	}
+#else
+
+	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
+#endif
+	via2d1_ilb = byte;
         byte = (byte & ~via2d1[VIA_DDRB]) | (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
 
         if (via2d1[VIA_ACR] & 0x80) {
@@ -723,10 +817,20 @@ BYTE REGPARM1 peek_via2d1(ADDRESS addr)
       case VIA_PRB:		/* port B */
         {
             BYTE byte;
-
+#ifdef VIA2D1_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+	        byte = via2d1_ilb;
+	    } else {
 
 	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
 			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
+	    }
+#else
+
+	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] );
+#endif
+            byte = (byte & ~via2d1[VIA_DDRB]) | (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
             if (via2d1[VIA_ACR] & 0x80) {
                 update_via2d1tal(rclk);
                 byte = (byte & 0x7f) | (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0);
@@ -838,7 +942,9 @@ static char snap_module_name[] = "VIA2D1";
  * UBYTE	IER		 interrupt masks
  * UBYTE	PB7		 bit 7 = pb7 state
  * UBYTE	SRHBITS		 number of half bits to shift out on SR
- *
+ * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE	ILA		 input latch port A
+ * UBYTE	ILB		 input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -888,6 +994,10 @@ printf("     : ta=%d, tb=%d\n",via2d1ta() & 0xffff, via2d1tb() & 0xffff);
 
     snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
 				| (cb2_state ? 0x40 : 0));
+
+    snapshot_module_write_byte(m, via2d1_ila);
+    snapshot_module_write_byte(m, via2d1_ilb);
+
     snapshot_module_close(m);
 
     return 0;
@@ -995,6 +1105,10 @@ int via2d1_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    snapshot_module_read_byte(m, &via2d1_ila);
+    snapshot_module_read_byte(m, &via2d1_ilb);
+
 /*
 printf("via2d1: read: drive_clk[1]=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

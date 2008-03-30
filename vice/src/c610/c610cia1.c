@@ -81,9 +81,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#endif
 
 #include "cia.h"
 #include "resources.h"
@@ -95,6 +97,7 @@
 #include "pruser.h"
 #include "kbd.h"
 #include "parallel.h"
+#include "drive.h"
 #include "c610cia.h"
 #include "c610tpi.h"
 
@@ -604,7 +607,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 
 	/* FIXME: PA0 and PA1 are used as selector for the 
 	   Paddle 1/2 selection for the A/D converter. */
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0 );
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
 	oldpa = byte;
 	break;
 
@@ -939,6 +942,14 @@ BYTE read_cia1_(ADDRESS addr)
     switch (addr) {
 
       case CIA_PRA:		/* port A */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
+
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */
@@ -954,6 +965,9 @@ BYTE read_cia1_(ADDRESS addr)
 	break;
 
       case CIA_PRB:		/* port B */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 
     byte = ((0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]))
 		& ~( (joy[1] & 0x0f) | ((joy[2] & 0x0f) << 4) );
@@ -1580,7 +1594,7 @@ int cia1_read_snapshot_module(snapshot_t *p)
 	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
         oldpa = byte ^ 0xff;	/* all bits change? */
 
- 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0 );
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? ~byte : 0 );
         oldpa = byte;
 
         addr = CIA_DDRB;

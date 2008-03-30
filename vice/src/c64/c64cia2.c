@@ -81,9 +81,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#endif
 
 #include "cia.h"
 #include "resources.h"
@@ -954,6 +956,9 @@ BYTE read_cia2_(ADDRESS addr)
     switch (addr) {
 
       case CIA_PRA:		/* port A */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 
     if (!drive[0].enable && !drive[1].enable)
 	return ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) |
@@ -967,6 +972,9 @@ BYTE read_cia2_(ADDRESS addr)
 	break;
 
       case CIA_PRB:		/* port B */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value. Value read might be different from what is 
+	   expected due to excessive load. */
 
 #ifdef HAVE_RS232
     byte = (drive_parallel_cable_enabled

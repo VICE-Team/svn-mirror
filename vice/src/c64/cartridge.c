@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -36,6 +37,7 @@
 #include <memory.h>
 #include <assert.h>
 #include <errno.h>
+#endif
 
 #include "resources.h"
 #include "file.h"
@@ -90,7 +92,7 @@ int cartridge_init_resources(void)
 
 int cartridge_attach_image(int type, const char *filename)
 {
-    BYTE rawcart[0x10000];
+    BYTE *rawcart;
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
     int i;
@@ -98,6 +100,9 @@ int cartridge_attach_image(int type, const char *filename)
     /* Attaching no cartridge always works.  */
     if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
+
+    /* allocate temporary array */
+    rawcart = xmalloc(0x10000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
     if (type != carttype)
@@ -107,66 +112,66 @@ int cartridge_attach_image(int type, const char *filename)
       case CARTRIDGE_GENERIC_8KB:
 	fd = fopen(filename, READ);
 	if (!fd)
-	    return -1;
+	    goto done;
 	if (fread(rawcart, 0x2000, 1, fd) < 1) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	fclose(fd);
 	break;
       case CARTRIDGE_GENERIC_16KB:
 	fd = fopen(filename, READ);
 	if (!fd)
-	    return -1;
+	    goto done;
 	if (fread(rawcart, 0x4000, 1, fd) < 1) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	fclose(fd);
 	break;
       case CARTRIDGE_ACTION_REPLAY:
 	fd = fopen(filename, READ);
 	if (!fd)
-	    return -1;
+	    goto done;
 	if (fread(rawcart, 0x8000, 1, fd) < 1) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	fclose(fd);
 	break;
       case CARTRIDGE_SUPER_SNAPSHOT:
 	fd = fopen(filename, READ);
 	if (!fd)
-	    return -1;
+	    goto done;
 	if (fread(rawcart, 0x8000, 1, fd) < 1) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	fclose(fd);
 	break;
       case CARTRIDGE_CRT:
 	fd = fopen(filename, READ);
 	if (!fd)
-	    return -1;
+	    goto done;
 	if (fread(header, 0x40, 1, fd) < 1) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	if (strncmp(header, "C64 CARTRIDGE   ", 16)) {
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	crttype = header[0x17] + header[0x16] * 256;
 	switch (crttype) {
 	  case 0:
 	    if (fread(chipheader, 0x10, 1, fd) < 1) {
 		fclose(fd);
-		return -1;
+		goto done;
 	    }
 	    if (chipheader[0xc] == 0x80) {
 		if (fread(rawcart, 0x2000, 1, fd) < 1) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 	    }
 	    fclose(fd);
@@ -176,15 +181,15 @@ int cartridge_attach_image(int type, const char *filename)
 	    for (i = 0; i <= 3; i++) {
 		if (fread(chipheader, 0x10, 1, fd) < 1) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 		if (chipheader[0xb] > 3) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 		if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 	    }
 	    fclose(fd);
@@ -194,16 +199,16 @@ int cartridge_attach_image(int type, const char *filename)
 	    for (i = 0; i <= 1; i++) {
 		if (fread(chipheader, 0x10, 1, fd) < 1) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 		if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 		if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000,
 		          1, fd) < 1) {
 		    fclose(fd);
-		    return -1;
+		    goto done;
 		}
 	    }
 	    fclose(fd);
@@ -212,31 +217,35 @@ int cartridge_attach_image(int type, const char *filename)
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);
-                    return -1;
+                    goto done;
                 }
                 if (chipheader[0xb] > 3) {
                     fclose(fd);
-                    return -1;
+		    goto done;
                 }
-                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {                    fclose(fd);
-                    return -1;
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+                    fclose(fd);
+		    goto done;
                 }
             }
             fclose(fd);
             break;
 	  default:
 	    fclose(fd);
-	    return -1;
+	    goto done;
 	}
 	break;
       default:
-	return -1;
+	goto done;
     }
 
     carttype = type;
     string_set(&cartfile, filename);
     mem_attach_cartridge((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     return 0;
+ done:
+    free(rawcart);
+    return -1;
 }
 
 void cartridge_detach_image(void)

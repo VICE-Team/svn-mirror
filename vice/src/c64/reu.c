@@ -28,9 +28,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
+#endif
 
 #include "reu.h"
 #include "maincpu.h"

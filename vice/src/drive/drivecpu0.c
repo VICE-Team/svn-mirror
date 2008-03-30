@@ -36,7 +36,9 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "types.h"
 #include "drive.h"
@@ -237,12 +239,25 @@ void drive0_bank_store(int bank, ADDRESS address, BYTE value)
 /* This table is used to approximate the sync between the main and the 1541
    CPUs, since the two clock rates are different.  */
 #define MAX_TICKS 0x1000
+#ifdef AVOID_STATIC_ARRAYS
+static unsigned long *clk_conv_table;
+static unsigned long *clk_mod_table;
+#else
 static unsigned long clk_conv_table[MAX_TICKS + 1];
 static unsigned long clk_mod_table[MAX_TICKS + 1];
+#endif
 
 void drive0_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
+
+#ifdef AVOID_STATIC_ARRAYS    
+    if (!clk_conv_table)
+    {
+	clk_conv_table = xmalloc(sizeof(*clk_conv_table)*(MAX_TICKS + 1));
+	clk_mod_table = xmalloc(sizeof(*clk_mod_table)*(MAX_TICKS + 1));
+    }
+#endif
 
     for (i = 0; i <= MAX_TICKS; i++) {
 	unsigned long tmp = i * (unsigned long)sync_factor;

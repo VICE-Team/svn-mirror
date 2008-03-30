@@ -1,3 +1,235 @@
+1998-10-02  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.17.
+
+	* c64/vicii.c (set_video_mode): Removed wrong optimization used
+ 	when adding background changes for `overscan_background_color'
+	(fixes "Just in Case").  Many thanks to Andreas for finding a way
+	to make the bug more apparent.
+
+	* main.c (break64) [!__MSDOS__]: Open a dialog and ask the user
+ 	whether she wants to dump core.  If she wants to, exit via
+ 	`abort()'.
+	(MAIN_PROGRAM): Autostart snapshot files too.
+
+	* arch/unix/xaw/ui.c (build_confirm_dialog): Do not set the
+	`resize' field in `message' to False.
+
+	* mon_parse.y (disk_rules): `CMD_LOAD' and `CMD_BLOAD' use
+	`opt_address', not `address'.
+
+	* data/C610/Makefile.am, data/PET/Makefile.am (roms): add
+	dos2031 ROM image
+
+1998-10-01  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* sounddrv/sounddummy.c: Added STDC_HEADERS around standard C headers.
+	Also make sure vice.h is included first.
+	* sounddrv/sounddump.c: Likewise.
+	* sounddrv/soundfs.c: Likewise.
+	* sounddrv/soundspeed.c: Likewise.
+	* drive/drive.c: Likewise.
+	* drive/drive.h: Likewise.
+	* drive/drivecpu-tmpl.c: Likewise.
+	* drive/wd1770.c: Likewise.
+	* c64/c64.c: Likewise.
+	* c64/c64mem.c: Likewise.
+	* c64/c64rsusers.c: Likewise.
+	* c64/cartridge.c: Likewise.
+	* c64/patchrom.c: Likewise.
+	* c64/reu.c: Likewise.
+	* c64/vicii.c: Likewise.
+	* sid/sid.c: Likewise.
+	* acia-tmpl.c: Likewise.
+	* asm.c: Likewise.
+	* autostart.c: Likewise.
+	* c1541.c: Likewise.
+	* charsets.c: Likewise.
+	* cia-tmpl.c: Likewise.
+	* cmdline.c: Likewise.
+	* cpu-tmpl.c: Likewise.
+	* crtc-tmpl.c: Likewise.
+	* via-tmpl.c: Likewise.
+	* findpath.c: Likewise.
+	* findpath.h: Likewise.
+	* fsdevice.c: Likewise.
+	* gcr.c: Likewise.
+	* interrupt.c: Likewise.
+	* interrupt.h: Likewise.
+	* kbdbuf.c: Likewise.
+	* main.c: Likewise.
+	* mem.h: Likewise.
+	* memutils.c: Likewise.
+	* misc.c: Likewise.
+	* mon.c: Likewise.
+	* mon.h: Likewise.
+	* mon_lex.l: Likewise.
+	* mon_parse.y: Likewise.
+	* mshell.c: Likewise.
+	* palette.c: Likewise.
+	* parallel.c: Likewise.
+	* petcat.c: Likewise.
+	* prdevice.c: Likewise.
+	* pruser.c: Likewise.
+	* raster.c: Likewise.
+	* resources.c: Likewise.
+	* rsuser.c: Likewise.
+	* serial.c: Likewise.
+	* snapshot.c: Likewise.
+	* sound.c: Likewise.
+	* sysfile.c: Likewise.
+	* sysfile.h: Likewise.
+	* tape.c: Likewise.
+	* tapeunit.c: Likewise.
+	* tpi-tmpl.c: Likewise.
+	* traps.c: Likewise.
+	* utils.c: Likewise.
+	* utils.h: Likewise.
+	* vdrive.c: Likewise.
+	* vdrive.h: Likewise.
+	* warn.c: Likewise.
+	* zfile.c: Likewise.
+	* zfile.h: Likewise.
+	* zipcode.c: Likewise.
+
+	* drive/drive.c: Added define 'AVOID_STATIC_ARRAYS' around big static
+	arrays. Changed them to be malloced by the init routines.
+	* drive/drive.h: Likewise.
+	* drive/drivecpu-tmpl.c: Likewise.
+	* c64/c64mem.c: Likewise.
+	* c64/vicii.c: Likewise.
+	* mem.h: Likewise.
+
+	* c64/cartridge.c (cartridge_attach_image): Changed big stack array to
+	be malloced and freed.
+
+	* maincpu.c: '#include <sys/time.h>' around ifdef HAVE_SYS_TIME_H.
+
+	* sound.c (sound_init): Call sound_init_ce_device() if needed.
+
+	* sound.h: New prototype sound_init_ce_device().
+
+	* types.h: Don't define WORD or DWORD if on Windows CE.
+
+	* utils.c (spawn): Not implemented on Windows CE.
+
+	* vdrive.c (attack_floppy_image): Fixed multiline string.
+
+	* vice.h: Include ce32.h if on Windows CE.
+
+	* zfile.h: Typedef mode_t if on Windows CE.
+
+	* sid/sid.c (sound_machine_open): Ooops, sid initialization routines
+	called at wrong	order (fixes armalyte intro).
+
+1998-10-01  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am (INCLUDES): add drive subdirectory
+	(xpet_LDADD, xpet_DEPENDENCIES, xpet-all, x610_LDADD,
+	x610_DEPENDENCIES, x610-all): add $(drive_lib) or 
+	libdrive to make it compile with true disk drive emulation
+
+	* arch/unix/xaw/c610ui.c, arch/unix/xaw/petui.c (c610_ui_init,
+	pet_ui_init): add ui_par_drive_settings_menu
+
+	* arch/unix/xa/uisettings.c (set_drive8_type_submenu, 
+	set_drive9_type_submenu): add VC2031 disk drive
+ 	(set_par_drive8_type_submenu, set_par_drive9_type_submenu): new 
+	submenus for IEEE drives only.
+	(par_drive_settings_submenu): new, drive settings for IEEE disk drives
+	(ui_par_drive_settings_submenu): new, to be included in button menu
+
+	* arch/unix/xaw/uisettings.h (ui_par_drive_settings_menu): new
+ 	prototype
+
+	* c610/Makefile.am (INCLUDES): add drive subdirectory
+	(libc610_a_SOURCES): add c610iec.c
+
+	* c610/c610.c, pet/pet.c: include drive.h
+	(machine_init_resources): call drive_init_resources
+	(machine_init_cmdline_options): call drive_init_cmdline_options
+	(machine_init): add file_system_set_hooks call to make vdrive and
+	drive.c aware of each other.
+	call drive_init. Add drive0_monitor_interface to monitor_init
+	(machine_reset): call drive_reset()
+	(vsync_hook): call drive_vsync_hook()
+	Also call drive_prevent_clk_overflow()
+	Call joystick() if JOYSTICK is defined (copied from C64)
+	(machine_read_snapshot, machine_write_snapshot): call
+	drive_{read|write}_snapshot_module
+	
+	* c610/c610cia1.def: include drive.h
+	(STORE_CIAPA, UNDUMP_CIAPA): fix call to parallel_cpu_set_bus
+	(READ_CIAPA): call drive{01}_cpu_execute if drive emulation enabled
+
+	* c610/c610iec.c, pet/petiec.c: new file, dummy to make drive 
+	emulation work; copied from vic20/vic20iec.c
+
+	* c610/c610tpi1.def: include drive.h
+	(READ_PA): call drive{01}_cpu_execute if drive emulation enabled
+
+	* c64/c64iec.c (iec_cpu_write): check for VC2031 type and do not
+	set ATN interrupt flag
+
+	* c64/c64tpi.def: include drive.h
+	(ieee_is_dev, ieee_is_out): new variables for the 75161 control lines
+	(STORE_PA, STORE_PB, UNDUMP_PA, UNDUMP_PB, READ_PA, READ_PB): fix 
+	IEEE bus handling to 75161/75160 logic
+
+	* drive/drive.c (dos_rom_name_2031): new variable.
+	(set_drive1_type): add 2031 type check
+	(set_doe_rom_name_2031): new func
+	(resources, cmdline_options): new DosName2031 and -dos2031 entries
+	(drive_rom2031): new array
+	(rom2031_loaded): new flag	
+	(drive_set_disk_drive_type): fix 2031 handling
+	(drive_load_rom_images): load 2031 ROM
+
+	* drive/drive.h (DRIVE_ROM2031_SIZE) new define
+	(drive0_parallel_set_atn, drive1_parallel_set_atn): new prototypes
+
+	* via1drive0.def: include parallel.h
+	(PRE_VIA_FUNCS): add drive0_parallel_set_atn()
+	(UNDUMP_PRA, STORE_PRA): call parallel_drv0_set_bus() when 2031
+	(UNDUMP_PRB, STORE_PRB): call appropriate parallel_drv0_ser_*() when
+	2031 emualtion
+	(READ_PRA, READ_PRB): read parallel_* data when appropriate
+	(RESET): set serial bus lines inactive and iec_info to NULL when 2031
+
+	* via1drive1.def: see via1drive0.def
+
+	* parallel.c (parallel_set_atn, parallel_clr_atn): call 
+	drive{01}_parallel_set_atn() when IEEE atn line changes.
+
+	* pet/petpia1.def: include drive.h
+	(READ_PA): call drive{01}_cpu_execute when drive emulation is enabled
+
+	* pet/petpia2.def: include drive.h 
+        (READ_PA): call drive{01}_cpu_execute when drive emulation is enabled
+
+	* pet/petvia.def: include drive.h
+        (READ_PRB): call drive{01}_cpu_execute when drive emulation is enabled
+
+	* pia-tmpl.c (read_mypia): move ORB masking to template where it
+ 	belongs
+
+	* serial.c (parallelcommand, parallelsendbyte, parallelreceivebyte):
+	If device is 8 or 9 and drive 0 or 1 resp. are emulated directly,
+	do not serve IEEE bus, return device not present instead
+
+	* via-tmpl.c (MYVIA_NEED_LATCHING): new define that implements
+	the port input latching. When latching is enabled reading the port
+	reads the value of the port when the last CA1/CB1 active
+	transition occured, instead of the current port value
+	Currently outcommented in case it would break anything
+	(myvia_ila, myvia_ilb): new variables to hold the input latch values
+	(myvia_read_snapshot_module, myvia_write_snapshot_module):
+	read/save input latch values.
+
+1998-10-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.16.
+
 1998-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* c128/c128mem.c: Added cartridge memory interface.

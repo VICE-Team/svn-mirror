@@ -28,8 +28,10 @@
 #ifndef _MON_H
 #define _MON_H
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <assert.h>
+#endif
 
 #include "mos6510.h"
 #include "mem.h"

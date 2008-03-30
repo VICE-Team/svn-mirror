@@ -114,6 +114,9 @@
 #ifdef WIN32
 #include "lose32.h"
 #endif
+#ifdef UNDER_CE
+#include "ce32.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 

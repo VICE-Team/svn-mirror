@@ -30,7 +30,9 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "interrupt.h"
 #include "wd1770.h"

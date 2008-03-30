@@ -27,11 +27,13 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
-
-#include "vice.h"
 #include "sound.h"
 #include "cmdline.h"
 #include "resources.h"
@@ -682,6 +684,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #ifdef WIN32
     sound_init_dx_device();
+#endif
+
+#ifdef WINCE
+    sound_init_ce_device();
 #endif
 
     sound_init_dummy_device();

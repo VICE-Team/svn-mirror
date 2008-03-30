@@ -26,10 +26,12 @@
  */
 
 %{
+#include "vice.h"
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "vice.h"
+#endif
 #include "types.h"
 #include "asm.h"
 #include "utils.h"
@@ -247,8 +249,8 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2
                   | CMD_CHDIR rest_of_line end_cmd 	{ mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); }
-          | CMD_BLOAD filename address end_cmd 			{ mon_bload_file($2,$3); }
+disk_rules: CMD_LOAD filename opt_address end_cmd 			{ mon_load_file($2,$3); }
+          | CMD_BLOAD filename opt_address end_cmd 			{ mon_bload_file($2,$3); }
           | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); }
           | CMD_BSAVE filename address address end_cmd 		{ mon_bsave_file($2,$3,$4); }
           | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); }

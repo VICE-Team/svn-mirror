@@ -27,12 +27,14 @@
 #ifndef _ZFILE_H
 #define _ZFILE_H
 
+#ifdef STDC_HEADERS
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <stdio.h>
+#endif
 
-#ifdef WIN32
+#if defined(WIN32) || defined(WINCE)
 typedef int mode_t;
 #endif
 

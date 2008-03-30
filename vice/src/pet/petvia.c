@@ -54,8 +54,10 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <time.h>
+#endif
 
 #include "vmachine.h"
 #include "via.h"
@@ -68,6 +70,7 @@
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
+#include "drive.h"
 #include "petsound.h"
 
 #ifdef HAVE_PRINTER
@@ -86,13 +89,22 @@
 
 
 #include "interrupt.h"
-
+				/* Timer debugging */
 /*#define VIA_TIMER_DEBUG */
-				/*#define VIA_NEED_PB7 *//* when PB7 is really used, set this
+				/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
 				   when port B is read -
 				   not yet implemented */
+/*#define VIA_NEED_PB7 */
+				/* When you really need latching, define this.
+				   It implies additional READ_PR* when
+				   writing the snapshot. When latching is 
+				   enabled: it reads the port when enabling,
+				   and when an active C*1 transition occurs. 
+				   It does not read the port when reading the
+				   port register. Side-effects beware! */
+/*#define VIA_NEED_LATCHING */
 
 /* global */
 
@@ -124,6 +136,9 @@ static int viapb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static BYTE via_ila;		/* input latch A */
+static BYTE via_ilb;		/* input latch B */
+
 static int ca2_state;
 static int cb2_state;
 
@@ -142,6 +157,9 @@ static int cb2_state;
 #define IS_CB2_HANDSHAKE()       ((via[VIA_PCR] & 0xc0) == 0x80)
 #define IS_CB2_PULSE_MODE()      ((via[VIA_PCR] & 0xe0) == 0x90)
 #define IS_CB2_TOGGLE_MODE()     ((via[VIA_PCR] & 0xe0) == 0x80)
+
+#define	IS_PA_INPUT_LATCH()	 (via[VIA_ACR] & 0x01)
+#define	IS_PB_INPUT_LATCH()	 (via[VIA_ACR] & 0x02)
 
 /*
  * 01apr98 a.fachat
@@ -324,6 +342,37 @@ void via_signal(int line, int edge)
 	    }
             viaifr |= VIA_IM_CA1;
             update_viairq();
+#ifdef VIA_NEED_LATCHING
+	    if (IS_PA_INPUT_LATCH()) {
+		BYTE byte;
+
+        {
+            byte = 255;
+            /* VIA PA is connected to the userport pins C-L */
+	    byte &= (joy[1] & 1) ? ~0x80 : 0xff;
+	    byte &= (joy[1] & 2) ? ~0x40 : 0xff;
+	    byte &= (joy[1] & 4) ? ~0x20 : 0xff;
+	    byte &= (joy[1] & 8) ? ~0x10 : 0xff;
+	    byte &= (joy[1] & 16)? ~0xc0 : 0xff;
+	    byte &= (joy[2] & 1) ? ~0x08 : 0xff;
+	    byte &= (joy[2] & 2) ? ~0x04 : 0xff;
+	    byte &= (joy[2] & 4) ? ~0x02 : 0xff;
+	    byte &= (joy[2] & 8) ? ~0x01 : 0xff;
+	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
+
+#if 0
+            printf("read port A %d\n", byte);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) byte, (int) via[VIA_PRB],
+                   (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+#endif
+	    /* joystick always pulls low, even if high output, so no
+	       masking with DDRA */
+            /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
+        }
+		via_ila = byte;
+	    }
+#endif
 	}
         break;
       case VIA_SIG_CA2:
@@ -341,6 +390,35 @@ void via_signal(int line, int edge)
 	    }
             viaifr |= VIA_IM_CB1;
             update_viairq();
+#ifdef VIA_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+		BYTE byte;
+
+        {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
+            /* read parallel IEC interface line states */
+            byte = 255 
+		- (parallel_nrfd ? 64:0) 
+		- (parallel_ndac ? 1:0) 
+		- (parallel_dav ? 128:0);
+            /* vertical retrace */
+            byte -= crtc_offscreen() ? 32:0;
+#if 0
+                printf("read port B %d\n", byte);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) byte,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+#endif
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+		via_ilb = byte;
+	    }
+#endif	
 	}
         break;
       case VIA_SIG_CB2:
@@ -536,6 +614,67 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
             }
         }
         viapb7sx = viapb7x;
+
+        /* bit 1, 0  latch enable port B and A */
+#ifdef VIA_NEED_LATCHING
+	/* switch on port A latching - FIXME: is this ok? */
+	if ( (!(via[addr] & 1)) && (byte & 1)) {
+
+        {
+            byte = 255;
+            /* VIA PA is connected to the userport pins C-L */
+	    byte &= (joy[1] & 1) ? ~0x80 : 0xff;
+	    byte &= (joy[1] & 2) ? ~0x40 : 0xff;
+	    byte &= (joy[1] & 4) ? ~0x20 : 0xff;
+	    byte &= (joy[1] & 8) ? ~0x10 : 0xff;
+	    byte &= (joy[1] & 16)? ~0xc0 : 0xff;
+	    byte &= (joy[2] & 1) ? ~0x08 : 0xff;
+	    byte &= (joy[2] & 2) ? ~0x04 : 0xff;
+	    byte &= (joy[2] & 4) ? ~0x02 : 0xff;
+	    byte &= (joy[2] & 8) ? ~0x01 : 0xff;
+	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
+
+#if 0
+            printf("read port A %d\n", byte);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) byte, (int) via[VIA_PRB],
+                   (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+#endif
+	    /* joystick always pulls low, even if high output, so no
+	       masking with DDRA */
+            /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
+        }
+	    via_ila = byte;
+	}
+	/* switch on port B latching - FIXME: is this ok? */
+	if ( (!(via[addr] & 2)) && (byte & 2)) {
+
+        {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
+            /* read parallel IEC interface line states */
+            byte = 255 
+		- (parallel_nrfd ? 64:0) 
+		- (parallel_ndac ? 1:0) 
+		- (parallel_dav ? 128:0);
+            /* vertical retrace */
+            byte -= crtc_offscreen() ? 32:0;
+#if 0
+                printf("read port B %d\n", byte);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) byte,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+#endif
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+	    via_ilb = byte;
+	}
+#endif
+
         via[addr] = byte;
 
 
@@ -548,7 +687,7 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
         }
 
         /* bit 4, 3, 2 shift register control */
-        /* bit 1, 0  latch enable port B and A */
+
         break;
 
       case VIA_PCR:
@@ -652,6 +791,13 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
         update_viairq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
+        /* WARNING: this pin reads the voltage of the output pins, not
+           the ORA value as the other port. Value read might be different
+           from what is expected due to excessive load. */
+#ifdef VIA_NEED_LATCHING
+	if (IS_PA_INPUT_LATCH()) {
+	    byte = via_ila;
+	} else {
 
         {
             byte = 255;
@@ -677,6 +823,35 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 	       masking with DDRA */
             /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
         }
+	}
+#else
+
+        {
+            byte = 255;
+            /* VIA PA is connected to the userport pins C-L */
+	    byte &= (joy[1] & 1) ? ~0x80 : 0xff;
+	    byte &= (joy[1] & 2) ? ~0x40 : 0xff;
+	    byte &= (joy[1] & 4) ? ~0x20 : 0xff;
+	    byte &= (joy[1] & 8) ? ~0x10 : 0xff;
+	    byte &= (joy[1] & 16)? ~0xc0 : 0xff;
+	    byte &= (joy[2] & 1) ? ~0x08 : 0xff;
+	    byte &= (joy[2] & 2) ? ~0x04 : 0xff;
+	    byte &= (joy[2] & 4) ? ~0x02 : 0xff;
+	    byte &= (joy[2] & 8) ? ~0x01 : 0xff;
+	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
+
+#if 0
+            printf("read port A %d\n", byte);
+            printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                   (int) byte, (int) via[VIA_PRB],
+                   (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
+#endif
+	    /* joystick always pulls low, even if high output, so no
+	       masking with DDRA */
+            /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
+        }
+#endif
+	via_ila = byte;
 	return byte;
 
       case VIA_PRB:		/* port B */
@@ -685,8 +860,19 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
             viaifr &= ~VIA_IM_CB2;
         update_viairq();
 
+        /* WARNING: this pin reads the ORA for output pins, not
+           the voltage on the pins as the other port. */
+#ifdef VIA_NEED_LATCHING
+	if (IS_PB_INPUT_LATCH()) {
+	    byte = via_ilb;
+	} else {
 
         {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
             /* read parallel IEC interface line states */
             byte = 255 
 		- (parallel_nrfd ? 64:0) 
@@ -703,8 +889,33 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 	    /* none of the load changes output register value -> std. masking */
             byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
-	/* VIA port B reads the value of the output register for pins set
- 	   to output, not the voltage levels as any other port */
+	}
+#else
+
+        {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
+            /* read parallel IEC interface line states */
+            byte = 255 
+		- (parallel_nrfd ? 64:0) 
+		- (parallel_ndac ? 1:0) 
+		- (parallel_dav ? 128:0);
+            /* vertical retrace */
+            byte -= crtc_offscreen() ? 32:0;
+#if 0
+                printf("read port B %d\n", byte);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) byte,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+#endif
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+#endif
+	via_ilb = byte;
         byte = (byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]);
 
         if (via[VIA_ACR] & 0x80) {
@@ -770,9 +981,17 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
       case VIA_PRB:		/* port B */
         {
             BYTE byte;
-
+#ifdef VIA_NEED_LATCHING
+	    if (IS_PB_INPUT_LATCH()) {
+	        byte = via_ilb;
+	    } else {
 
         {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
             /* read parallel IEC interface line states */
             byte = 255 
 		- (parallel_nrfd ? 64:0) 
@@ -789,6 +1008,33 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
 	    /* none of the load changes output register value -> std. masking */
             byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
+	    }
+#else
+
+        {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
+            /* read parallel IEC interface line states */
+            byte = 255 
+		- (parallel_nrfd ? 64:0) 
+		- (parallel_ndac ? 1:0) 
+		- (parallel_dav ? 128:0);
+            /* vertical retrace */
+            byte -= crtc_offscreen() ? 32:0;
+#if 0
+                printf("read port B %d\n", byte);
+                printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
+                       (int) via[VIA_PRA], (int) byte,
+                       (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
+#endif
+	    /* none of the load changes output register value -> std. masking */
+            byte = ((byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+        }
+#endif
+            byte = (byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]);
             if (via[VIA_ACR] & 0x80) {
                 update_viatal(rclk);
                 byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
@@ -900,7 +1146,9 @@ static char snap_module_name[] = "VIA";
  * UBYTE	IER		 interrupt masks
  * UBYTE	PB7		 bit 7 = pb7 state
  * UBYTE	SRHBITS		 number of half bits to shift out on SR
- *
+ * UBYTE	CABSTATE	 bit 7 = ca2 state, bi 6 = cb2 state
+ * UBYTE	ILA		 input latch port A
+ * UBYTE	ILB		 input latch port B
  */
 
 /* FIXME!!!  Error check.  */
@@ -950,6 +1198,10 @@ printf("     : ta=%d, tb=%d\n",viata() & 0xffff, viatb() & 0xffff);
 
     snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
 				| (cb2_state ? 0x40 : 0));
+
+    snapshot_module_write_byte(m, via_ila);
+    snapshot_module_write_byte(m, via_ilb);
+
     snapshot_module_close(m);
 
     return 0;
@@ -1058,6 +1310,10 @@ int via_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &byte);	/* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
+
+    snapshot_module_read_byte(m, &via_ila);
+    snapshot_module_read_byte(m, &via_ilb);
+
 /*
 printf("via: read: clk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

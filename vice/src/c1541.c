@@ -44,6 +44,7 @@
 
 #include "vice.h"	/* for convenience */
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -55,6 +56,7 @@
 #include <unistd.h>
 #include <memory.h>
 #include <assert.h>
+#endif
 
 #include "c1541.h"
 #include "mshell.h"

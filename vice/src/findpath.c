@@ -29,10 +29,12 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#endif
 
 #include "findpath.h"
 #include "utils.h"

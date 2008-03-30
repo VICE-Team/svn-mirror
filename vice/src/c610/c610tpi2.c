@@ -30,9 +30,12 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+
 #include "types.h"
 #include "tpi.h"
 #include "interrupt.h"

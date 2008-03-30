@@ -27,9 +27,11 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <types.h>
+#endif
 
 extern char *stralloc(const char *str);
 extern void *xmalloc(size_t s);

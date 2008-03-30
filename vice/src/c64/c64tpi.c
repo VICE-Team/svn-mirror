@@ -30,9 +30,12 @@
  *
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+
 #include "types.h"
 #include "tpi.h"
 #include "interrupt.h"
@@ -40,6 +43,7 @@
 
 
 #include "parallel.h"
+#include "drive.h"
 #include "tpi.h"
 
 #define	mycpu_set_int(a,b)		do {} while(0)
@@ -47,6 +51,9 @@
 
 #define	TPI_SET_CA(a)
 #define	TPI_SET_CB(a)
+
+static int ieee_is_dev = 1;
+static int ieee_is_out = 1;
 
 int tpi_debug = 0;
 
@@ -178,6 +185,9 @@ void reset_tpi ( void ) {
 	parallel_cpu_set_dav(0);
 	parallel_cpu_set_eoi(0);
 	parallel_cpu_set_bus(0);
+
+	ieee_is_dev = 1;
+	ieee_is_out = 1;
 }
 
 void store_tpi ( ADDRESS addr, BYTE byte ) {
@@ -191,12 +201,30 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	    tpi[addr] = byte;
 	    byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
 
-	{ BYTE tmp = ~byte;
-	    parallel_cpu_set_atn( tmp & 0x08 );
-	    parallel_cpu_set_dav( tmp & 0x10 );
-	    parallel_cpu_set_eoi( tmp & 0x20 );
-	    parallel_cpu_set_ndac( tmp & 0x40 );
-	    parallel_cpu_set_nrfd( tmp & 0x80 );
+	if (byte != oldpa)
+	{ 
+	    BYTE tmp = ~byte;
+	    ieee_is_dev = byte & 0x01;
+	    ieee_is_out = byte & 0x02;
+
+	    parallel_cpu_set_bus(ieee_is_out ? ~oldpb : 0);
+
+	    if (ieee_is_out) {
+	        parallel_cpu_set_ndac( 0 );
+	        parallel_cpu_set_nrfd( 0 );
+	        parallel_cpu_set_dav( tmp & 0x10 );
+	        parallel_cpu_set_eoi( tmp & 0x20 );
+	    } else {
+	        parallel_cpu_set_nrfd( tmp & 0x80 );
+	        parallel_cpu_set_ndac( tmp & 0x40 );
+	        parallel_cpu_set_dav( 0 );
+	        parallel_cpu_set_eoi( 0 );
+	    }
+	    if (ieee_is_dev) {
+	        parallel_cpu_set_atn( 0 );
+	    } else {
+	        parallel_cpu_set_atn( tmp & 0x08 );
+	    }
 	}
 	    oldpa = byte;
 	    return;
@@ -205,7 +233,7 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	    tpi[addr] = byte;
 	    byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
 
-	parallel_cpu_set_bus( ~byte );
+	parallel_cpu_set_bus( ieee_is_out ? ~byte : 0);
 	    oldpb = byte;
 	    if(IS_CB_MODE()) {
 		cb_state = 0;
@@ -270,12 +298,22 @@ BYTE read_tpi ( ADDRESS addr ) {
     	switch ( addr ) {
 	case TPI_PA:
 
-	byte = 0x07;
-	byte += parallel_atn ? 0 : 8;
-	byte += parallel_dav ? 0 : 16;
-	byte += parallel_eoi ? 0 : 32;
-	byte += parallel_ndac ? 0 : 64;
-	byte += parallel_nrfd ? 0 : 128;
+        if (drive[0].enable)
+            drive0_cpu_execute();
+        if (drive[1].enable)
+            drive1_cpu_execute();
+
+	byte = 0xff;
+	if (ieee_is_out) {
+	    if (parallel_nrfd) byte &= 0x7f;
+	    if (parallel_ndac) byte &= 0xbf;
+	} else {
+	    if (parallel_dav) byte &= 0xef;
+	    if (parallel_eoi) byte &= 0xdf;
+	}
+	if (ieee_is_dev) {
+	    if (parallel_atn) byte &= 0xf7;
+	}
 
 	byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
 	    if(IS_CA_MODE()) {
@@ -289,7 +327,12 @@ BYTE read_tpi ( ADDRESS addr ) {
 	    return byte;
 	case TPI_PB:
 
-	byte = parallel_bus;
+        if (drive[0].enable)
+            drive0_cpu_execute();
+        if (drive[1].enable)
+            drive1_cpu_execute();
+
+	byte = ieee_is_out ? 0xff : parallel_bus;
 	byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
 	    return byte;
 	case TPI_PC:
@@ -471,18 +514,35 @@ int tpi_read_snapshot_module(snapshot_t *p)
     {
         byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
 
-	{ BYTE tmp = ~byte;
-	    parallel_cpu_set_atn( tmp & 0x08 );
-	    parallel_cpu_set_dav( tmp & 0x10 );
-	    parallel_cpu_set_eoi( tmp & 0x20 );
-	    parallel_cpu_set_ndac( tmp & 0x40 );
-	    parallel_cpu_set_nrfd( tmp & 0x80 );
+	{ 
+	    BYTE tmp = ~byte;
+	    ieee_is_dev = byte & 0x01;
+	    ieee_is_out = byte & 0x02;
+
+	    parallel_cpu_set_bus(ieee_is_out ? ~oldpb : 0);
+
+	    if (ieee_is_out) {
+	        parallel_cpu_set_ndac( 0 );
+	        parallel_cpu_set_nrfd( 0 );
+	        parallel_cpu_set_dav( tmp & 0x10 );
+	        parallel_cpu_set_eoi( tmp & 0x20 );
+	    } else {
+	        parallel_cpu_set_nrfd( tmp & 0x80 );
+	        parallel_cpu_set_ndac( tmp & 0x40 );
+	        parallel_cpu_set_dav( 0 );
+	        parallel_cpu_set_eoi( 0 );
+	    }
+	    if (ieee_is_dev) {
+	        parallel_cpu_set_atn( 0 );
+	    } else {
+	        parallel_cpu_set_atn( tmp & 0x08 );
+	    }
 	}
         oldpa = byte;
 
         byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
 
-	parallel_cpu_set_bus( ~byte );
+	parallel_cpu_set_bus( ieee_is_out ? ~byte : 0);
         oldpb = byte;
 
 	if (!irq_mode) {

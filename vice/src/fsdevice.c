@@ -41,6 +41,7 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -53,6 +54,7 @@
 #include <memory.h>
 #include <assert.h>
 #include <errno.h>
+#endif
 
 #include "resources.h"
 #include "vdrive.h"

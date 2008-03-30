@@ -28,7 +28,9 @@
 #ifndef _MEM_H_
 #define _MEM_H_
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
+#endif
 
 #include "types.h"
 
@@ -43,9 +45,17 @@ extern read_func_ptr_t *_mem_read_tab_ptr;
 extern store_func_ptr_t *_mem_write_tab_ptr;
 extern BYTE **_mem_read_base_tab_ptr;
 
+#ifdef AVOID_STATIC_ARRAYS
+extern BYTE *ram;
+#else
 extern BYTE ram[];
+#endif
 extern int ram_size;
+#ifdef AVOID_STATIC_ARRAYS
+extern BYTE *chargen_rom;
+#else
 extern BYTE chargen_rom[];
+#endif
 extern int rom_loaded;		/* FIXME: ugly! */
 extern BYTE *page_zero;
 extern BYTE *page_one;

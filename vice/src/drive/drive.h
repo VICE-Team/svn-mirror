@@ -129,6 +129,7 @@
 
 #define DRIVE_NUMOFINT 26
 
+#define DRIVE_ROM2031_SIZE	0x4000
 #define DRIVE_ROM1541_SIZE	0x4000
 #define DRIVE_ROM1571_SIZE	0x8000
 #define DRIVE_ROM1581_SIZE	0x8000
@@ -310,8 +311,17 @@ extern void drive_update_ui_status(void);
 extern int drive_write_snapshot_module(snapshot_t *s);
 extern int drive_read_snapshot_module(snapshot_t *s);
 
+#ifdef AVOID_STATIC_ARRAYS
+extern BYTE *drive_rom;
+extern BYTE *drive0_ram;
+extern BYTE *drive1_ram;
+#else
 extern BYTE drive_rom[DRIVE_ROM_SIZE];
 extern BYTE drive0_ram[DRIVE_RAM_SIZE];
 extern BYTE drive1_ram[DRIVE_RAM_SIZE];
+#endif
+
+extern void drive0_parallel_set_atn(int);
+extern void drive1_parallel_set_atn(int);
 
 #endif /* !_DRIVE_H */

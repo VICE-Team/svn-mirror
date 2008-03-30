@@ -29,9 +29,12 @@
  * machine and does not try to catch rogue attempts...
  */
 
-#include <stdio.h>
-
 #include "vice.h"
+
+#ifdef STDC_HEADERS
+#include <stdio.h>
+#endif
+
 #include "types.h"
 #include "cmdline.h"
 #include "resources.h"

@@ -28,10 +28,12 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#endif
 
 #include "asm.h"
 #include "misc.h"

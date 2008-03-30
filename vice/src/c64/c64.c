@@ -27,9 +27,11 @@
 
 #include "vice.h"
 
+#ifdef STDC_HEADERS
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#endif
 
 #include "machine.h"
 
