@@ -188,26 +188,28 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
 
         fs_info[secondary].type = finfo->type;
 
-        if (!*fs_dirmask)
+        if (fs_info[secondary].fs_dirmask[0] == '\0')
             break;
-        l = strlen(fs_dirmask);
 
-        for (p = finfo->name, i = 0; *p && fs_dirmask[i] && i < l; i++) {
-            if (fs_dirmask[i] == '?') {
+        l = strlen(fs_info[secondary].fs_dirmask);
+
+        for (p = finfo->name, i = 0;
+            *p && fs_info[secondary].fs_dirmask[i] && i < l; i++) {
+            if (fs_info[secondary].fs_dirmask[i] == '?') {
                 p++;
-            } else if (fs_dirmask[i] == '*') {
-                if (!fs_dirmask[i + 1]) {
+            } else if (fs_info[secondary].fs_dirmask[i] == '*') {
+                if (!fs_info[secondary].fs_dirmask[i + 1]) {
                     f = 0;
                     break;
                 } /* end mask */
-                while (*p && (*p != fs_dirmask[i + 1]))
+                while (*p && (*p != fs_info[secondary].fs_dirmask[i + 1]))
                     p++;
             } else {
-                if (*p != fs_dirmask[i])
+                if (*p != fs_info[secondary].fs_dirmask[i])
                     break;
                 p++;
             }
-            if ((!*p) && (!fs_dirmask[i + 1])) {
+            if ((!*p) && (!fs_info[secondary].fs_dirmask[i + 1])) {
                 f = 0;
                 break;
             }
