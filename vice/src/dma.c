@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "6510core.h"
 #include "debug.h"
 #include "dma.h"
 #include "interrupt.h"
@@ -39,6 +40,7 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 #ifdef NEW_INTERUPT
     CLOCK irq_sub = 0;
     CLOCK nmi_sub = 0;
+    unsigned int cycles_left_to_trigger_irq;
 #endif
     interrupt_cpu_status_t *cs = maincpu_int_status;
     CLOCK dma_start;
@@ -71,12 +73,16 @@ void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 #endif
 
 #ifdef NEW_INTERUPT
-    if (cs->irq_clk >= start_clk && dma_start == (maincpu_clk - 1)
+    cycles_left_to_trigger_irq = 
+        (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr) ? 2 : 1);
+    if (cs->irq_clk >= start_clk
+        && dma_start == (maincpu_clk - cycles_left_to_trigger_irq)
         && cs->num_dma_per_opcode == 1) {
         /*log_debug("DECR");*/
         irq_sub = 1;
     }
-    if (cs->nmi_clk >= start_clk && dma_start == (maincpu_clk - 1)
+    if (cs->nmi_clk >= start_clk
+        && dma_start == (maincpu_clk - cycles_left_to_trigger_irq)
         && cs->num_dma_per_opcode == 1) {
         /*log_debug("DECR");*/
         nmi_sub = 1;

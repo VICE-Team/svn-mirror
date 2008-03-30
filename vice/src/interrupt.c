@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "6510core.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -246,8 +247,10 @@ enum cpu_int get_int(interrupt_cpu_status_t *cs, int int_num)
 void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
                              CLOCK *int_clk)
 {
-    unsigned int num_cycles_left = 0, num_dma;
-
+    unsigned int num_cycles_left = 0, last_num_cycles_left = 0, num_dma;
+    unsigned int cycles_left_to_trigger_irq = 
+        (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr) ? 2 : 1);
+    CLOCK last_start_clk = CLOCK_MAX;
 /*
     {
         unsigned int i;
@@ -265,13 +268,18 @@ void interrupt_fixup_int_clk(interrupt_cpu_status_t *cs, CLOCK cpu_clk,
         num_cycles_left = cs->num_cycles_left[num_dma];
         if ((cs->dma_start_clk[num_dma] - 1) <= cpu_clk)
             break;
+        last_num_cycles_left = num_cycles_left;
+        last_start_clk = cs->dma_start_clk[num_dma];
     }
+    /* if the INTREQ happens between two CPU cycles, we have to interpolate */
+    if (num_cycles_left - last_num_cycles_left > last_start_clk - cpu_clk - 1)
+        num_cycles_left = last_num_cycles_left + last_start_clk - cpu_clk - 1;
 
     /*log_debug("TAKENLEFT %i", num_cycles_left);*/
 
     *int_clk = cs->last_stolen_cycles_clk;
-    if (num_cycles_left >= 1)
-        *int_clk -= INTERRUPT_DELAY;
+    if (num_cycles_left >= cycles_left_to_trigger_irq)
+        *int_clk -= (cycles_left_to_trigger_irq + 1);
 
     /*log_debug("INTCLK %i", *int_clk);*/
 }
