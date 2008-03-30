@@ -293,22 +293,21 @@ int crtc_snapshot_read_module(snapshot_t * s)
   if (0
       || snapshot_module_read_word(m, &vmask) < 0
       || snapshot_module_read_byte(m, &hwflags))
-    goto fail;
+      goto fail;
 
   crtc_set_screen_mode(NULL, vmask, memptr_inc, hwflags);
   crtc_update_memory_ptrs();
 
-  for (i = 0; i < 20; i++)
-    {
+  for (i = 0; i < 20; i++) {
       if (snapshot_module_read_byte (m, &b) < 0)
         goto fail;
 
       /* XXX: This assumes that there are no side effects.
          Well, there are, but the cursor state is restored later */
       store_crtc (i, b);
-    }
+  }
   if (snapshot_module_read_byte(m, &b) < 0)
-    goto fail;
+      goto fail;
 
   crsrcnt = b & 0x3f;
   crsrstate = (b & 0x80) ? 1 : 0;
