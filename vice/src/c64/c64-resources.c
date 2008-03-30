@@ -45,7 +45,8 @@
 
 
 #define KBD_INDEX_C64_SYM   0
-#define KBD_INDEX_C64_POS   1
+#define KBD_INDEX_C64_SYMDE 1
+#define KBD_INDEX_C64_POS   2
 
 
 static int romset_firmware[3];
@@ -200,9 +201,12 @@ static const resource_t resources[] = {
     { "KeymapSymFile", RES_STRING, (resource_value_t)KBD_C64_SYM,
       (void *)&machine_keymap_file_list[0],
       keyboard_set_keymap_file, (void *)0 },
-    { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_C64_POS,
+    { "KeymapSymDeFile", RES_STRING, (resource_value_t)KBD_C64_SYMDE,
       (void *)&machine_keymap_file_list[1],
       keyboard_set_keymap_file, (void *)1 },
+    { "KeymapPosFile", RES_STRING, (resource_value_t)KBD_C64_POS,
+      (void *)&machine_keymap_file_list[2],
+      keyboard_set_keymap_file, (void *)2 },
 #endif
     { "SidStereoAddressStart", RES_INTEGER, (resource_value_t)0xde00,
       (void *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
@@ -222,5 +226,6 @@ void c64_resources_shutdown(void)
     lib_free(kernal_revision);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
+    lib_free(machine_keymap_file_list[2]);
 }
 

@@ -1,3 +1,15 @@
+2004-12-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.11.
+
+	* data/C64/win_sym_de.vkm: New file.
+
+	* data/C64/Makefile.am: Added new file.
+
+2004-11-30  Andreas Dehmel  <zarquon@t-online.de>
+
+	* configure.in: don't build sounduss on RISC OS either
+
 2004-11-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.10.

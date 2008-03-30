@@ -110,11 +110,13 @@ static const uirom_settings_t uirom_settings[] = {
     { 0, NULL, NULL, 0, 0, 0 }
 };
 
-#define C64UI_KBD_NUM_MAP 2
+#define C64UI_KBD_NUM_MAP 3
 
 static const uikeyboard_mapping_entry_t mapping_entry[C64UI_KBD_NUM_MAP] = {
     { IDC_C64KBD_MAPPING_SELECT_SYM, IDC_C64KBD_MAPPING_SYM,
       IDC_C64KBD_MAPPING_SYM_BROWSE, "KeymapSymFile" },
+    { IDC_C64KBD_MAPPING_SELECT_SYMDE, IDC_C64KBD_MAPPING_SYMDE,
+      IDC_C64KBD_MAPPING_SYMDE_BROWSE, "KeymapSymDeFile" },
     { IDC_C64KBD_MAPPING_SELECT_POS, IDC_C64KBD_MAPPING_POS,
       IDC_C64KBD_MAPPING_POS_BROWSE, "KeymapPosFile" }
 };
