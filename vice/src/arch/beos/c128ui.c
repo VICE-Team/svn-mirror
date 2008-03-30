@@ -1,8 +1,8 @@
 /*
- * version.h
+ * c128ui.c - C128-specific user interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,13 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+#include "c128ui.h"
+#include "ui.h"
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+int c128_ui_init(void)
+{
+    return 0;
+}
 
-#endif

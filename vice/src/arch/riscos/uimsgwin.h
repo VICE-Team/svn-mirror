@@ -1,5 +1,5 @@
 /*
- * uimsgwin.h - a window displaying (long) textual messages
+ * uimsgwin.h - all windows for displaying / editing text.
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -27,9 +27,34 @@
 #ifndef _UIMSGWIN_H
 #define _UIMSGWIN_H
 
-int  ui_message_window_open(const char *title, const char *message);
-void ui_message_window_close(void);
-void ui_message_window_redraw(int *block);
-void ui_message_window_exit(void);
+
+struct text_window_s;
+
+typedef enum {
+  msg_win_monitor,
+  msg_win_license,
+  msg_win_warranty,
+  msg_win_contrib,
+  msg_win_number
+} message_window_e;
+
+
+/* return columns and rows of a message string */
+void ui_message_get_dimensions(const char *msg, int *cols, int *rows);
+
+/* Concerning single windows */
+int  ui_message_window_open(message_window_e mwin, const char *title, const char *message, int cols, int rows);
+int  ui_message_window_is_open(message_window_e mwin);
+int  ui_message_window_busy(message_window_e mwin, int busy);
+int  ui_message_window_is_busy(message_window_e mwin);
+int  ui_message_window_close(message_window_e mwin);
+int  ui_message_window_destroy(message_window_e mwin);
+
+/* All windows */
+void ui_message_init(void);
+void ui_message_exit(void);
+message_window_e ui_message_window_for_handle(int handle);
+struct text_window_s *ui_message_get_text_window(message_window_e mwin);
+int  ui_message_process_event(int event, int *wimpblock);
 
 #endif

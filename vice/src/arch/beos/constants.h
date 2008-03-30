@@ -1,8 +1,8 @@
 /*
- * version.h
+ * constants.h - BeOS constans for menus, messages, ...
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,22 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef __CONSTANTS_H__
+#define __CONSTANTS_H__
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+// Messages for window interaction with application
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+const uint32 WINDOW_CLOSED				= 'WRcl';
+
+// Messages for menu commands
+
+const uint32 MENU_ATTACH_DISK8			= 'MFa8';
+const uint32 MENU_ATTACH_DISK9			= 'MFa9';
+const uint32 MENU_ATTACH_TAPE			= 'MFta';
+const uint32 MENU_RESET_SOFT			= 'MFrs';
+const uint32 MENU_RESET_HARD			= 'MFrh';
+const uint32 MENU_ABOUT					= 'MFab';
+
+
 
 #endif

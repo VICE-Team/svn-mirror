@@ -1,8 +1,5 @@
 /*
- * version.h
- *
- * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ * main_exit.c - VICE shutdown.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +21,35 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.4.7"
+#include <stdio.h>
+#include <signal.h>
+
+#include "joystick.h"
+#include "log.h"
+#include "machine.h"
+#include "main_exit.h"
+#include "sound.h"
+#include "video.h"
+
+void main_exit(void)
+{
+    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
+       pressed and thus breaking the cleanup process, which might be
+       dangerous.  */
+    signal(SIGINT, SIG_IGN);
+
+    log_message(LOG_DEFAULT, "\nExiting...");
+
+    machine_shutdown();
+    video_free();
+    sound_close();
+
+#ifdef HAS_JOYSTICK
+    joystick_close();
 #endif
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+    putchar ('\n');
+}
 
-#endif

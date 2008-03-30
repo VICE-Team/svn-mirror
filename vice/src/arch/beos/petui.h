@@ -1,8 +1,8 @@
 /*
- * version.h
+ * petui.h - Definition of the PET-specific part of the UI.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _PETUI_H
+#define _PETUI_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern int pet_ui_init(void);
 
 #endif
+

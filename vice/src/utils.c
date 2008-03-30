@@ -447,11 +447,11 @@ int get_line(char *buf, int bufsize, FILE *f)
 	/* Remove trailing newline characters.  */
         /* Remove both 0x0a and 0x0d characters, this solution makes it */
         /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
-        while ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a))
+        while ((len > 0) && ((*(buf+len-1)==0x0d) || (*(buf+len-1)==0x0a)))
             len--;
 
         /* Remove useless spaces.  */
-        while (*(buf + len - 1) == ' ')
+        while ((len > 0) && (*(buf + len - 1) == ' '))
             len--;
         for (p = buf; *p == ' '; p++, len--);
         memmove(buf, p, len + 1);

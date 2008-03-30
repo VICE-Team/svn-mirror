@@ -71,7 +71,6 @@ extern RO_Window *EmuWindow;
 extern RO_Window *EmuPane;
 extern RO_Window *ImgContWindow;
 extern RO_Window *MessageWindow;
-extern RO_Window *MonitorWindow;
 extern RO_Caret LastCaret;
 
 extern int EmuZoom;
@@ -83,16 +82,11 @@ extern int UseEigen;
 extern int EmuPaused;
 extern int SingleTasking;
 extern int RelativeSpeed;
-extern int MonitorWindowOpen;
 
 extern char *PetModelName;
 extern char *CBM2ModelName;
 
 extern int DriveLEDStates[4];
 extern int DriveTrackNumbers[2];
-
-struct textwin_desc_s;
-
-extern struct text_window_s *MonWinDescPtr;
 
 #endif

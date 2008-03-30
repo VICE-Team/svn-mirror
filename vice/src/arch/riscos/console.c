@@ -35,15 +35,15 @@
 
 #include "console.h"
 #include "ui.h"
+#include "uimsgwin.h"
 #include "utils.h"
 #include "video.h"
 
 
 static FILE *mon_input, *mon_output;
 
-static int TestStringWidth = -1;
-
 static int WimpCmdBlock[64];
+
 
 
 int console_init(void)
@@ -69,22 +69,7 @@ console_t *console_open(const char *id)
     }
     else
     {
-      int textwidth;
-
-      if (TestStringWidth < 0)
-      {
-        char strdummy[101];
-
-        memset(strdummy, '0', 100);
-        strdummy[100] = '\0';
-        TestStringWidth = textwin_font_string_width(MonWinDescPtr, strdummy);
-      }
-      textwidth = (console->console_xres * TestStringWidth) / 100;
-      MonWinDescPtr->MaxWidth = 3 * MonWinDescPtr->WindowBorder + textwidth;
-      textwin_init(MonWinDescPtr, MonitorWindow, "WIMPLIB LINE EDITOR\n", NULL);
-      textwin_open_centered(MonWinDescPtr, MonWinDescPtr->MaxWidth, 1024, ScreenMode.resx, ScreenMode.resy);
-      textwin_set_caret(MonWinDescPtr, 0, 0);
-      MonitorWindowOpen = 1;
+      ui_message_window_open(msg_win_monitor, "Vice Monitor", "WIMPLIB LINE EDITOR", console->console_xres, console->console_yres);
     }
 
     return console;
@@ -92,14 +77,13 @@ console_t *console_open(const char *id)
 
 int console_close(console_t *log)
 {
-    if (MonitorWindowOpen == 0)
+    if (!ui_message_window_is_open(msg_win_monitor))
     {
       Wimp_CommandWindow(-1);
     }
     else
     {
-      textwin_free(MonWinDescPtr);
-      MonitorWindowOpen = 0;
+      ui_message_window_close(msg_win_monitor);
     }
 
     free(log);
@@ -112,19 +96,24 @@ int console_out(console_t *log, const char *format, ...)
     va_list ap;
 
     va_start(ap, format);
-    if (MonitorWindowOpen == 0)
+    if (!ui_message_window_is_open(msg_win_monitor))
     {
       vfprintf(stdout, format, ap);
     }
     else
     {
-      static char buffer[1024];
+      text_window_t *tw = ui_message_get_text_window(msg_win_monitor);
 
-      vsprintf(buffer, format, ap);
-      if (textwin_add_text(MonWinDescPtr, buffer) > 0)
+      if (tw != NULL)
       {
-        textwin_caret_to_end(MonWinDescPtr);
-        while (ui_poll_core(WimpCmdBlock) != 0) ;
+        static char buffer[1024];
+
+        vsprintf(buffer, format, ap);
+        if (textwin_add_text(tw, buffer) > 0)
+        {
+          textwin_caret_to_end(tw);
+          while (ui_poll_core(WimpCmdBlock) != 0) ;
+        }
       }
     }
     return 0;

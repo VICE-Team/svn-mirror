@@ -41,6 +41,7 @@
 #include "console.h"
 #include "datasette.h"
 #include "drive.h"
+#include "fliplist.h"
 #include "fsdevice.h"
 #include "info.h"
 #include "interrupt.h"
@@ -81,8 +82,6 @@ extern void sound_wimp_safe_exit(void);
 
 
 /* Declare some static functions */
-static void ui_monitor_enter(void *context, int line, const char *str);
-static void ui_monitor_close(void);
 static void ui_poll_prologue(void);
 static void ui_poll_epilogue(void);
 static void ui_temp_suspend_sound(void);
@@ -97,9 +96,11 @@ static void ui_issue_reset(int doreset);
 static const char CustomSprites[] = "Vice:Sprites";
 static const char TemplatesFile[] = "Vice:Templates";
 static const char MessagesFile[] = "<Vice$Messages>";
-static const char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
+static const char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceScrap";
 static const char VicePathVariable[] = "Vice$Path";
 static const char ResourceDriveDir[] = "DRIVES";
+static const char ViceSnapshotFile[] = "ViceSnap";
+static const char PRGFileExtension[] = "prg";
 
 
 #define RSETARCH_EXT	"vra"
@@ -430,7 +431,6 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
-static int MonitorBusy = 0;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -438,6 +438,11 @@ static int SnapshotMessage[64];
 
 static const int default_screen_width = 384;
 static const int default_screen_height = 312;
+
+/* flip lists */
+static int FlipListIter = 0;
+static int FlipListNumber = 0;
+static const int FlipListDrive = 0;
 
 
 /* Window title */
@@ -451,7 +456,7 @@ static const char LEDtoIcon[4] = {Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2
 static const char DriveToFile[4] = {Icon_Conf_DriveFile8, Icon_Conf_DriveFile9, Icon_Conf_DriveFile10, Icon_Conf_DriveFile11};
 
 /* Config icons affected by True Drive Emulation state */
-static conf_icon_id TrueDependentIcons[] = {
+static const conf_icon_id TrueDependentIcons[] = {
   /*{CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync},
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT},*/
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8},
@@ -467,8 +472,20 @@ static conf_icon_id TrueDependentIcons[] = {
   {0xff, 0xff}
 };
 
+/* Config icons affected by Tape file state */
+static const conf_icon_id TapeFileDependentIcons[] = {
+  {CONF_WIN_TAPE, Icon_Conf_TapeDetach},
+  {CONF_WIN_TAPE, Icon_Conf_DataCounter},
+  {CONF_WIN_TAPE, Icon_Conf_DataStop},
+  {CONF_WIN_TAPE, Icon_Conf_DataRewind},
+  {CONF_WIN_TAPE, Icon_Conf_DataPlay},
+  {CONF_WIN_TAPE, Icon_Conf_DataForward},
+  {CONF_WIN_TAPE, Icon_Conf_DataRecord},
+  {0xff, 0xff}
+};
+
 /* Config icons affected by Sound enable state */
-static conf_icon_id SoundDependentIcons[] = {
+static const conf_icon_id SoundDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_SampleRate},
   {CONF_WIN_SOUND, Icon_Conf_SampleRateT},
   {CONF_WIN_SOUND, Icon_Conf_SoundDev},
@@ -479,7 +496,7 @@ static conf_icon_id SoundDependentIcons[] = {
   {0xff, 0xff}
 };
 
-static conf_icon_id SidDependentIcons[] = {
+static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_SidFilter},
   {CONF_WIN_SOUND, Icon_Conf_UseResid},
   {CONF_WIN_SOUND, Icon_Conf_SidModel},
@@ -541,21 +558,21 @@ static conf_icon_id SidDependentIcons[] = {
 
 
 /* Config icons that are greyed out in some CBM machines */
-static conf_icon_id conf_grey_x64[] = {
+static const conf_icon_id conf_grey_x64[] = {
   ICON_LIST_PET
   ICON_LIST_VIC
   {CONF_WIN_DEVICES, Icon_Conf_ACIAD67},
   {0xff, 0xff}
 };
 
-static conf_icon_id conf_grey_x128[] = {
+static const conf_icon_id conf_grey_x128[] = {
   ICON_LIST_CART64
   ICON_LIST_PET
   ICON_LIST_VIC
   {0xff, 0xff}
 };
 
-static conf_icon_id conf_grey_xvic[] = {
+static const conf_icon_id conf_grey_xvic[] = {
   ICON_LIST_CART64
   ICON_LIST_SYSTEM
   ICON_LIST_SID
@@ -564,7 +581,7 @@ static conf_icon_id conf_grey_xvic[] = {
   {0xff, 0xff}
 };
 
-static conf_icon_id conf_grey_xpet[] = {
+static const conf_icon_id conf_grey_xpet[] = {
   ICON_LIST_CART64
   ICON_LIST_VIC
   ICON_LIST_SYS64
@@ -575,7 +592,7 @@ static conf_icon_id conf_grey_xpet[] = {
   {0xff, 0xff}
 };
 
-static conf_icon_id conf_grey_xcbm2[] = {
+static const conf_icon_id conf_grey_xcbm2[] = {
   ICON_LIST_CART64
   ICON_LIST_VIC
   ICON_LIST_SYSTEM
@@ -626,7 +643,6 @@ int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
 int ShowEmuPane = 1;
-int MonitorWindowOpen = 0;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
 char *ROMSetName = NULL;
@@ -779,6 +795,7 @@ static struct MenuConfigure {
   MENU_HEADER("\\MenConfTit", Menu_Config_Width),
   {
     MENU_ITEM("\\MenConfDrv"),
+    MENU_ITEM("\\MenConfTap"),
     MENU_ITEM("\\MenConfDev"),
     MENU_ITEM("\\MenConfSnd"),
     MENU_ITEM("\\MenConfSys"),
@@ -810,6 +827,41 @@ static struct MenuDatasette {
     MENU_ITEM("\\MenDStRwd"),
     MENU_ITEM("\\MenDStRec"),
     MENU_ITEM_LAST("\\MenDStRst")
+  }
+};
+
+#define Menu_FlipImg_Width      200
+RO_MenuHead *MenuFlipImages = NULL;
+
+static struct MenuFlipImageTmpl {
+  RO_MenuHead head;
+  RO_MenuItem item[1];
+} MenuFlipImageTmpl = {
+  MENU_HEADER("\\MenFlImTit", Menu_FlipImg_Width),
+  {
+    MENU_ITEM_LAST("\\MenFlImDef")
+  }
+};
+
+/* Fliplist menu */
+#define Menu_Fliplist_Items     5
+#define Menu_Fliplist_Width     200
+#define Menu_Fliplist_Attach    0
+#define Menu_Fliplist_Detach    1
+#define Menu_Fliplist_Next      2
+#define Menu_Fliplist_Prev      3
+#define Menu_Fliplist_Images    4
+static struct MenuFliplist {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_Fliplist_Items];
+} MenuFliplist = {
+  MENU_HEADER("\\MenFlpTit", Menu_Fliplist_Width),
+  {
+    MENU_ITEM("\\MenFlpAtt"),
+    MENU_ITEM("\\MenFlpDet"),
+    MENU_ITEM("\\MenFlpNxt"),
+    MENU_ITEM("\\MenFlpPrv"),
+    MENU_ITEM_LAST("\\MenFlpImg")
   }
 };
 
@@ -858,6 +910,7 @@ static struct MenuEmuWindow {
   MENU_HEADER("foo", Menu_EmuWin_Width),
   {
     MENU_ITEM_SUB("\\MenEmuConf", &MenuConfigure),
+    MENU_ITEM_SUB("\\MenEmuFlip", &MenuFliplist),
     MENU_ITEM("\\MenEmuSnap"),
     MENU_ITEM("\\MenEmuFrz"),
     MENU_ITEM("\\MenEmuPane"),
@@ -1875,7 +1928,8 @@ static config_item Configurations[] = {
   {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
   {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile10}},
   {Rsrc_DriveF11, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile11}},
-  {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DataReset}},
+  {Rsrc_TapeFile, CONFIG_STRING, {CONF_WIN_TAPE, Icon_Conf_TapeFile}},
+  {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_TAPE, Icon_Conf_DataReset}},
   {Rsrc_WarpMode, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_WarpMode}},
   {Rsrc_VideoCache, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_VideoCache}},
   {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_CharGen}},	/* c64mem.c */
@@ -2526,7 +2580,7 @@ static void ui_temp_resume_sound(void)
 
 
 /* If w != NULL it overrides the window information in the descriptor */
-static void ui_set_icons_grey(RO_Window *w, conf_icon_id *desc, int state)
+static void ui_set_icons_grey(RO_Window *w, const conf_icon_id *desc, int state)
 {
   int i;
   unsigned eor;
@@ -2863,6 +2917,141 @@ static int ui_set_drive_dir(int number, const char *dir)
 }
 
 
+static int ui_set_tape_image(const char *name)
+{
+  RO_Window *win;
+  int state;
+
+  win = ConfWindows[CONF_WIN_TAPE];
+
+  if ((name == NULL) || (wimp_strlen(name) == 0))
+  {
+    if (tape_detach_image() != 0)
+      return -1;
+
+    string_set(&TapeFile, "");
+    wimp_window_write_icon_text(win, Icon_Conf_TapeFile, TapeFile);
+    state = 0;
+  }
+  else
+  {
+    if (tape_attach_image(name) != 0)
+      return -1;
+
+    string_set(&TapeFile, name);
+    wimp_window_write_icon_text(win, Icon_Conf_TapeFile, name);
+    state = 1;
+  }
+
+  ui_set_icons_grey(NULL, TapeFileDependentIcons, state);
+
+  return 0;
+}
+
+
+static int ui_new_drive_image(int number, const char *name, int scankeys)
+{
+  int type;
+  int aux[4];
+
+  type = ReadCatalogueInfo(name, aux);
+  if (type == 2)
+  {
+    if (ui_set_drive_dir(number, name) != 0)
+      return -1;
+  }
+  else
+  {
+    if (!scankeys || (ScanKeys(IntKey_Shift) == 0xff))
+    {
+      if (ui_set_drive_image(number, name) != 0)
+        return -1;
+    }
+    else
+    {
+      if (ui_image_contents_disk(name) != 0);
+        return -1;
+    }
+  }
+  return 0;
+}
+
+
+static int ui_new_tape_image(const char *name, int scankeys)
+{
+  if (!scankeys || (ScanKeys(IntKey_Shift) == 0xff))
+  {
+    if (ui_set_tape_image(name) != 0)
+      return -1;
+  }
+  else
+  {
+    if (ui_image_contents_tape(name) != 0)
+      return -1;
+  }
+  return 0;
+}
+
+
+static void ui_flip_tick_image(int number)
+{
+  if (MenuFlipImages != NULL)
+  {
+    RO_MenuItem *item = (RO_MenuItem*)(MenuFlipImages + 1);
+    int i;
+
+    /* move the tick to the correct menu entry */
+    for (i=0; i<FlipListNumber; i++)
+      item[i].mflags &= ~MFlg_Tick;
+    if (number < FlipListNumber)
+      item[number].mflags |= MFlg_Tick;
+  }
+}
+
+static int ui_flip_attach_image_no(int number)
+{
+  void *iter;
+  int i;
+
+  iter = flip_init_iterate(FlipListDrive + 8);
+  for (i=0; i<number; i++) iter = flip_next_iterate(FlipListDrive + 8);
+  if (iter != NULL)
+  {
+    const char *img;
+
+    img = flip_get_image(iter);
+    if (img != NULL)
+      ui_new_drive_image(FlipListDrive, img, 0);
+
+    ui_flip_tick_image(number);
+  }
+  return 0;
+}
+
+
+static int ui_flip_iterate_and_attach(int dir)
+{
+  if (FlipListNumber > 0)
+  {
+    if (dir > 0)
+    {
+      FlipListIter++;
+      if (FlipListIter >= FlipListNumber)
+        FlipListIter = 0;
+    }
+    else
+    {
+      FlipListIter--;
+      /* the list may have shrunk considerably in between! */
+      if ((FlipListIter < 0) || (FlipListIter >= FlipListNumber))
+        FlipListIter = FlipListNumber-1;
+    }
+    return ui_flip_attach_image_no(FlipListIter);
+  }
+  return -1;
+}
+
+
 static int ui_set_sound_file(const char *name)
 {
   if (resources_set_value(Rsrc_SoundFile, (resource_value_t)name) == 0)
@@ -3119,6 +3308,94 @@ static int ui_build_romset_menu(void)
 }
 
 
+static int ui_build_fliplist_menu(int doread)
+{
+  void *iter;
+
+  FlipListNumber = 0;
+  if (doread)
+  {
+    if (MenuFlipImages != NULL) free(MenuFlipImages);
+    MenuFlipImages = NULL;
+    iter = flip_init_iterate(FlipListDrive + 8);
+    while (iter != NULL)
+    {
+      FlipListNumber++;
+      iter = flip_next_iterate(FlipListDrive + 8);
+    }
+  }
+  if (FlipListNumber <= 0)
+  {
+    MenuFliplist.item[Menu_Fliplist_Images].submenu = (RO_MenuHead*)&MenuFlipImageTmpl;
+    return 0;
+  }
+  MenuFlipImages = (RO_MenuHead*)malloc(sizeof(RO_MenuHead) + FlipListNumber * sizeof(RO_MenuHead));
+  if (MenuFlipImages != NULL)
+  {
+    RO_MenuItem *item;
+
+    memcpy(MenuFlipImages, &MenuFlipImageTmpl, sizeof(RO_MenuHead));
+    item = (RO_MenuItem*)(MenuFlipImages + 1);
+    iter = flip_init_iterate(FlipListDrive + 8);
+    while (iter != NULL)
+    {
+      const char *b, *img;
+
+      img = flip_get_image(iter); b = img;
+      while (*b != '\0')
+      {
+        if ((*b == '.') || (*b == ':')) img = b+1;
+        b++;
+      }
+      item->mflags = 0; item->submenu = (RO_MenuHead*)-1; item->iflags = Menu_Flags;
+      strncpy(item->dat.strg, img, 12);
+      iter = flip_next_iterate(FlipListDrive + 8);
+      item++;
+    }
+    item[-1].mflags = MFlg_LastItem;
+    MenuFliplist.item[Menu_Fliplist_Images].submenu = MenuFlipImages;
+    FlipListIter = 0;
+    ui_flip_tick_image(FlipListIter);
+    return 0;
+  }
+  return -1;
+}
+
+
+/*
+ *  The file system may be initialized after ui_init_finish, therefore the only
+ *  way to attach images on startup is to delay it. So let's just use a fake
+ *  Wimp message.
+ */
+static int ui_send_fake_data_load(RO_Window *win, int icon, const char *file)
+{
+  int type;
+  int aux[4];
+
+  type = ReadCatalogueInfo(file, aux);
+  if (type != 0)
+  {
+    int len = wimp_strlen(file);
+
+    WimpBlock[MsgB_Size] = (44 + len + 4) & ~3;
+    WimpBlock[MsgB_YourRef] = 0;
+    WimpBlock[MsgB_Action] = Message_DataLoad;
+    WimpBlock[5] = win->Handle;
+    WimpBlock[6] = icon;
+    WimpBlock[7] = 0; WimpBlock[8] = 0; /* x/y coordinate dummies */
+    WimpBlock[9] = aux[2];
+    if ((aux[0] & 0xfff00000) == 0xfff00000)
+      WimpBlock[10] = (aux[0] >> 8) & 0xfff;
+    else
+      WimpBlock[10] = 0;
+    wimp_strcpy(((char*)WimpBlock) + 44, file);
+    /* hello me, ... */
+    Wimp_SendMessage(WimpEvt_UserMsgRec, WimpBlock, TaskHandle, 0);
+  }
+  return -1;
+}
+
+
 void ui_issue_reset(int doreset)
 {
   unsigned int i;
@@ -3251,6 +3528,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("EmuPane", &EmuPane, msg);
     ui_load_template("InfoWindow", &InfoWindow, msg);
     ui_load_template("DriveConfig", ConfWindows + CONF_WIN_DRIVES, msg);
+    ui_load_template("TapeConfig", ConfWindows + CONF_WIN_TAPE, msg);
     ui_load_template("DevConfig", ConfWindows + CONF_WIN_DEVICES, msg);
     ui_load_template("SoundConfig", ConfWindows + CONF_WIN_SOUND, msg);
     ui_load_template("SysConfig", ConfWindows + CONF_WIN_SYSTEM, msg);
@@ -3264,7 +3542,6 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("SaveBox", &SaveBox, msg);
     ui_load_template("ImageCont", &ImgContWindow, msg);
     ui_load_template("MsgWindow", &MessageWindow, msg);
-    ui_load_template("MsgWindow", &MonitorWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -3282,6 +3559,7 @@ int ui_init(int *argc, char *argv[])
   /* Menus */
   wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuIconBar);
   wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuEmuWindow);
+  wimp_message_translate_menu(msg, (RO_MenuHead*)&MenuFlipImageTmpl);
   for (x=0; ConfigMenus[x].menu != NULL; x++)
   {
     wimp_message_translate_menu(msg, ConfigMenus[x].menu);
@@ -3297,7 +3575,7 @@ int ui_init(int *argc, char *argv[])
   wimp_window_write_icon_text(InfoWindow, Icon_Info_Purpose, buffer);
   MenuIconBar.item[Menu_IBar_Info].submenu = (RO_MenuHead*)(InfoWindow->Handle);
   MenuEmuWindow.item[Menu_EmuWin_Snapshot].submenu = (RO_MenuHead*)(SnapshotWindow->Handle);
-  wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, "ViceSnap");
+  wimp_window_write_icon_text(SnapshotWindow, Icon_Snap_Path, ViceSnapshotFile);
   MenuRomAction.item[Menu_RomAct_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
   MenuRomActName.item[0].iflags |= IFlg_Indir;
   dat = &(MenuRomActName.item[0].dat.ind);
@@ -3330,6 +3608,8 @@ int ui_init(int *argc, char *argv[])
 
   wimp_message_delete(msg);
 
+  ui_message_init();
+
   return 0;
 }
 
@@ -3337,7 +3617,7 @@ int ui_init(int *argc, char *argv[])
 int ui_init_finish(void)
 {
   resource_value_t val;
-  conf_icon_id *gi;
+  const conf_icon_id *gi;
   int i;
 
   if (machine_class != VICE_MACHINE_PET)
@@ -3346,22 +3626,19 @@ int ui_init_finish(void)
       TrueDriveEmulation = (int)val;
   }
 
-  /*resources_set_value("SoundDeviceName", (resource_value_t)"vidc");*/
-
   /* Setup the drives */
   for (i=0; i<4; i++)
   {
-    if (*(DriveTypes[i]) == DRIVE_TYPE_FS)
-    {
-      fsdevice_set_directory(*(DriveFiles[i]), 8 + i);
-    }
-    else if (DriveTypes[i] == DRIVE_TYPE_DISK)
-    {
-      file_system_attach_disk(8 + i, *(DriveFiles[i]));
-    }
+    if ((*(DriveFiles[i]) != NULL) && (strlen(*(DriveFiles[i])) > 0))
+      ui_send_fake_data_load(ConfWindows[CONF_WIN_DRIVES], DriveToFile[i], *(DriveFiles[i]));
   }
 
   ui_set_truedrv_emulation((int)TrueDriveEmulation);
+
+  if ((TapeFile != NULL) && (strlen(TapeFile) > 0))
+    ui_send_fake_data_load(ConfWindows[CONF_WIN_TAPE], Icon_Conf_TapeFile, TapeFile);
+  else
+    ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
 
   if (resources_get_value(Rsrc_Sound, &val) == 0)
     ui_set_sound_enable((int)val);
@@ -3401,9 +3678,6 @@ int ui_init_finish(void)
 
   ui_set_pane_state(ShowEmuPane);
 
-  i = ((TapeFile == NULL) || (strlen(TapeFile) == 0)) ? IFlg_Grey : 0;
-  wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, i, IFlg_Grey);
-
   memset(SnapshotMessage, 0, 256);
 
   /* Sound buffer size sanity check */
@@ -3422,6 +3696,8 @@ int ui_init_finish(void)
     romset_load_archive(ROMSetArchiveFile, 0);
     ui_build_romset_menu();
   }
+
+  ui_build_fliplist_menu(0);
 
   if (resources_get_value(Rsrc_CoreDump, &val) == 0)
   {
@@ -3778,10 +4054,6 @@ static void ui_redraw_window(int *b)
   {
     ui_image_contents_redraw(b);
   }
-  else if (b[RedrawB_Handle] == MessageWindow->Handle)
-  {
-    ui_message_window_redraw(b);
-  }
   else
   {
     more = Wimp_RedrawWindow(b);
@@ -3828,10 +4100,6 @@ static void ui_close_window(int *b)
   else if (b[WindowB_Handle] == ImgContWindow->Handle)
   {
     ui_image_contents_close();
-  }
-  else if (b[WindowB_Handle] == MessageWindow->Handle)
-  {
-    ui_message_window_close();
   }
   else
   {
@@ -4308,11 +4576,25 @@ static void ui_mouse_click(int *b)
                 Wimp_GetCaretPosition(&LastCaret);
                 Wimp_SetCaretPosition(ConfWindows[CONF_WIN_JOY]->Handle, -1, -100, 100, -1, -1);
               }
-              else if (b[MouseB_Window] == ConfWindows[CONF_WIN_DRIVES]->Handle)
+              else if (b[MouseB_Window] == ConfWindows[CONF_WIN_TAPE]->Handle)
               {
-                tape_detach_image();
-                wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeFile, "");
-                wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, IFlg_Grey, IFlg_Grey);
+                switch (b[MouseB_Icon])
+                {
+                  case Icon_Conf_TapeDetach:
+                    ui_set_tape_image(""); break;
+                  case Icon_Conf_DataStop:
+                    datasette_control(DATASETTE_CONTROL_STOP); break;
+                  case Icon_Conf_DataRewind:
+                    datasette_control(DATASETTE_CONTROL_REWIND); break;
+                  case Icon_Conf_DataPlay:
+                    datasette_control(DATASETTE_CONTROL_START); break;
+                  case Icon_Conf_DataForward:
+                    datasette_control(DATASETTE_CONTROL_FORWARD); break;
+                  case Icon_Conf_DataRecord:
+                    datasette_control(DATASETTE_CONTROL_RECORD); break;
+                  default:
+                    break;
+                }
               }
             }
           }
@@ -4450,7 +4732,7 @@ static void ui_user_drag_box(int *b)
         if (h == ConfWindows[i]->Handle) {h = 0; break;}
       }
 
-      if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (h != MessageWindow->Handle))
+      if ((h != 0) && (canvas_for_handle(h) == NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != ImgContWindow->Handle) && (ui_message_window_for_handle(h) == msg_win_number))
       {
         char *name;
 
@@ -4604,33 +4886,19 @@ static void ui_key_press(int *b)
             case Icon_Conf_DriveFile10: i++;
             case Icon_Conf_DriveFile9: i++;
             case Icon_Conf_DriveFile8:
-              {
-                int info[4];
-                int status;
-
-                status = ReadCatalogueInfo(data, info);
-                if (status == 0) return;
-                switch (status)
-                {
-                  case 1:
-                    ui_set_drive_image(i, data); break;
-                    break;
-                  case 2:
-                    ui_set_drive_dir(i, data); break;
-                  case 3:
-                    if (*(DriveTypes[i]) == DRIVE_TYPE_FS)
-                    {
-                      ui_set_drive_dir(i, data);
-                    }
-                    else
-                    {
-                      ui_set_drive_image(i, data);
-                    }
-                    break;
-                  default: break;
-                }
-              }
+              ui_new_drive_image(i, data, 0);
+              break;
             default: Wimp_ProcessKey(key); return;
+          }
+          break;
+        case CONF_WIN_TAPE:
+          if (b[KeyPB_Icon] == Icon_Conf_TapeFile)
+          {
+            ui_set_tape_image(data);
+          }
+          else
+          {
+            Wimp_ProcessKey(key);
           }
           break;
         case CONF_WIN_SYSTEM:
@@ -4787,14 +5055,19 @@ static void ui_menu_selection(int *b)
       menu = (int*)&MenuIconBar;
       switch (b[0])
       {
+        int cols;
+
         case Menu_IBar_License:
-          ui_message_window_open("Vice License", license_text);
+          ui_message_get_dimensions(license_text, &cols, NULL);
+          ui_message_window_open(msg_win_license, "Vice License", license_text, cols, 0);
           break;
         case Menu_IBar_Warranty:
-          ui_message_window_open("Vice Warranty", warranty_text);
+          ui_message_get_dimensions(warranty_text, &cols, NULL);
+          ui_message_window_open(msg_win_warranty, "Vice Warranty", warranty_text, cols, 0);
           break;
         case Menu_IBar_Contrib:
-          ui_message_window_open("Vice Contributors", contrib_text);
+          ui_message_get_dimensions(contrib_text, &cols, NULL);
+          ui_message_window_open(msg_win_contrib, "Vice Contributors", contrib_text, cols, 0);
           break;
         case Menu_IBar_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
@@ -4821,6 +5094,37 @@ static void ui_menu_selection(int *b)
       {
         case Menu_EmuWin_Configure:
           if (b[1] != -1) confWindow = CONF_WIN_NUMBER;
+          break;
+        case Menu_EmuWin_Fliplist:
+          switch (b[1])
+          {
+            case Menu_Fliplist_Attach:
+              flip_add_image(FlipListDrive + 8);
+              ui_build_fliplist_menu(1);
+              break;
+            case Menu_Fliplist_Detach:
+              if (DriveFile8 != NULL)
+              {
+                flip_remove(FlipListDrive + 8, DriveFile8);
+                ui_build_fliplist_menu(1);
+              }
+              break;
+            case Menu_Fliplist_Next:
+              ui_flip_iterate_and_attach(+1);
+              break;
+            case Menu_Fliplist_Prev:
+              ui_flip_iterate_and_attach(-1);
+              break;
+            case Menu_Fliplist_Images:
+              if (b[2] >= 0)
+              {
+                FlipListIter = b[2];
+                ui_flip_attach_image_no(FlipListIter);
+              }
+              break;
+            default:
+              break;
+          }
           break;
         case Menu_EmuWin_Freeze:
           cartridge_trigger_freeze();
@@ -4862,6 +5166,7 @@ static void ui_menu_selection(int *b)
       switch (b[1])
       {
         case Menu_Config_Drives: confWindow = CONF_WIN_DRIVES; break;
+        case Menu_Config_Tape: confWindow = CONF_WIN_TAPE; break;
         case Menu_Config_Devices: confWindow = CONF_WIN_DEVICES; break;
         case Menu_Config_Sound: confWindow = CONF_WIN_SOUND; break;
         case Menu_Config_System: confWindow = CONF_WIN_SYSTEM; break;
@@ -5171,30 +5476,6 @@ static void ui_menu_selection(int *b)
 }
 
 
-static void ui_new_drive_image(int number, int *b, int activate)
-{
-  int type;
-  int aux[4];
-
-  type = ReadCatalogueInfo(((char*)b)+44, aux);
-  if (type == 2)
-  {
-    ui_set_drive_dir(number, ((char*)b)+44);
-  }
-  else
-  {
-    if (ScanKeys(IntKey_Shift) == 0xff)
-    {
-      if (ui_set_drive_image(number, ((char*)b)+44) != 0) return;
-    }
-    else
-    {
-      ui_image_contents_disk(((char*)b)+44); return;
-    }
-  }
-  wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], ((char*)b)+44);
-}
-
 static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 {
   int status;
@@ -5233,6 +5514,46 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
   }
 
   ui_temp_resume_sound();
+}
+
+
+static int ui_load_prg_file(const char *name)
+{
+  if (machine_class == VICE_MACHINE_C64)
+  {
+    FILE *fp;
+
+    if ((fp = fopen(name, "rb")) != NULL)
+    {
+      BYTE lo, hi;
+      int length;
+
+      lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
+      length += fread(ram + length, 1, ram_size - length, fp);
+      fclose(fp);
+      ram[0xc3] = lo; ram[0xc4] = hi;
+      lo = length & 0xff; hi = (length >> 8) & 0xff;
+      ram[0xae] = lo; ram[0x2d] = lo; ram[0x2f] = lo; ram[0x31] = lo; ram[0x33] = lo;
+      ram[0xaf] = hi; ram[0x2e] = hi; ram[0x30] = hi; ram[0x32] = hi; ram[0x34] = hi;
+      return 0;
+    }
+  }
+  return -1;
+}
+
+
+static const char *ui_get_file_extension(const char *name)
+{
+  const char *d, *ext;
+
+  d = name; ext = NULL;
+  while (*d > ' ')
+  {
+    if (*d =='/') ext = d+1;
+    d++;
+  }
+
+  return ext;
 }
 
 
@@ -5303,24 +5624,21 @@ static void ui_user_message(int *b)
       canvas = canvas_for_handle(b[5]);
       if (canvas != NULL)
       {
-        if ((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64))
+        int doprg = 0;
+
+        if (b[10] == FileType_C64File)
+          doprg = 1;
+        else
         {
-          FILE *fp;
+          const char *ext = ui_get_file_extension(name);
 
-          if ((fp = fopen(name, "rb")) != NULL)
-          {
-            BYTE lo, hi;
-            int length;
-
-            lo = fgetc(fp); hi = fgetc(fp); length = lo + (hi << 8);
-            length += fread(ram + length, 1, ram_size - length, fp);
-            fclose(fp);
-            ram[0xc3] = lo; ram[0xc4] = hi;
-            lo = length & 0xff; hi = (length >> 8) & 0xff;
-            ram[0xae] = lo; ram[0x2d] = lo; ram[0x2f] = lo; ram[0x31] = lo; ram[0x33] = lo;
-            ram[0xaf] = hi; ram[0x2e] = hi; ram[0x30] = hi; ram[0x32] = hi; ram[0x34] = hi;
+          if ((ext != NULL) && (wimp_strcasecmp(ext, PRGFileExtension) == 0))
+            doprg = 1;
+        }
+        if (doprg)
+        {
+          if (ui_load_prg_file(name) == 0)
             action = 1;
-          }
         }
         else if (b[10] == FileType_Data)	/* Snapshot? */
         {
@@ -5345,7 +5663,8 @@ static void ui_user_message(int *b)
         }
         if (i >= 0)
         {
-          ui_new_drive_image(i, b, 1); action = 1;
+          if (ui_new_drive_image(i, name, 1) == 0)
+            action = 1;
         }
       }
       else if (b[5] == ImgContWindow->Handle)
@@ -5360,24 +5679,16 @@ static void ui_user_message(int *b)
         }
         if (i < 4)
         {
-          ui_new_drive_image(i, b, 1); action = 1;
+          if (ui_new_drive_image(i, name, 1) == 0)
+            action = 1;
         }
-
+      }
+      else if (b[5] == ConfWindows[CONF_WIN_TAPE]->Handle)
+      {
         if (b[6] == Icon_Conf_TapeFile)
         {
-          if (ScanKeys(IntKey_Shift) == 0xff)
-          {
-            if (tape_attach_image(name) == 0)
-            {
-              wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeFile, name);
-              wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, 0, IFlg_Grey);
-              action = 1;
-            }
-          }
-          else
-          {
-            ui_image_contents_tape(name);
-          }
+          if (ui_new_tape_image(name, 1) == 0)
+            action = 1;
         }
       }
       else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
@@ -5415,19 +5726,17 @@ static void ui_user_message(int *b)
             /* Check extension */
             else
             {
-              char *d, *ext;
+              const char *ext;
 
-              d = name; ext = d;
-              while (*d > ' ') {if (*d =='/') ext = d+1; d++;}
-              if (ext != name)
+              if ((ext = ui_get_file_extension(name)) != NULL)
               {
-                if (wimp_strcmp(ext, RSETARCH_EXT) == 0)
+                if (wimp_strcasecmp(ext, RSETARCH_EXT) == 0)
                 {
                   romset_load_archive(name, 0);
                   ui_build_romset_menu();
                   action = 1;
                 }
-                else if (wimp_strcmp(ext, KEYMAP_EXT) == 0)
+                else if (wimp_strcasecmp(ext, KEYMAP_EXT) == 0)
                 {
                   kbd_load_keymap(name, -1);
                   action = 1;
@@ -5628,7 +5937,7 @@ int ui_poll_core(int *block)
 {
   int event;
 
-  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0) || (MonitorWindowOpen != 0))
+  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0) || ui_message_window_is_busy(msg_win_monitor))
     PollMask &= ~1;
   else
     PollMask |= 1;
@@ -5636,11 +5945,8 @@ int ui_poll_core(int *block)
   ui_poll_prologue();
   event = Wimp_Poll(PollMask, block, NULL);
 
-  if (MonitorWindowOpen)
-  {
-    if (textwin_process_event(MonWinDescPtr, event, block) != 0)
-      return event;
-  }
+  if (ui_message_process_event(event, block) != 0)
+    return event;
 
   switch (event)
   {
@@ -5872,7 +6178,7 @@ void ui_exit(void)
   video_free();
   sound_close();
   ui_image_contents_exit();
-  ui_message_window_exit();
+  ui_message_exit();
   log_message(roui_log, SymbolStrings[Symbol_MachDown]); log_message(roui_log, "\n");
   wimp_icon_delete(&IBarIcon);
   Wimp_CloseDown(TaskHandle, TASK_WORD);
@@ -5985,7 +6291,7 @@ void ui_display_tape_counter(int counter)
   if (counter != DatasetteCounter)
   {
     DatasetteCounter = counter;
-    wimp_window_write_icon_number_u(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_DataCounter, counter);
+    wimp_window_write_icon_number_u(ConfWindows[CONF_WIN_TAPE], Icon_Conf_DataCounter, counter);
   }
 }
 
@@ -6038,37 +6344,6 @@ void ui_update_menus(void)
 }
 
 
-static void ui_monitor_close(void)
-{
-  mon_close(0);
-  EmuPaused = 0;
-  ui_display_paused(EmuPaused);
-}
-
-
-static void ui_monitor_enter(void *context, int line, const char *str)
-{
-  char *s;
-  int status;
-
-  s = (char*)xmalloc(wimp_strlen(str) + 1);
-  wimp_strcpy(s, str);
-
-  MonitorBusy = 1;
-  textwin_buffer_input(MonWinDescPtr);
-  status = mon_process(s);
-  textwin_add_flush(MonWinDescPtr);
-  textwin_mark_prompt(MonWinDescPtr);
-  textwin_flush_input(MonWinDescPtr);
-  MonitorBusy = 0;
-
-  if (status)
-  {
-    ui_monitor_close();
-  }
-}
-
-
 static void mon_trap_full(ADDRESS addr, void *unused_data)
 {
   ui_temp_suspend_sound();
@@ -6079,32 +6354,20 @@ static void mon_trap_full(ADDRESS addr, void *unused_data)
 }
 
 
-/* monitor window close event handler */
-static int mon_close_event(text_window_t *tw, int *block)
-{
-  /* closing the monitor window also destroys it, but only if the monitor isn't busy */
-  if (block[WindowB_Handle] == MonitorWindow->Handle)
-  {
-    if (MonitorBusy == 0)
-      ui_monitor_close();
-
-    return 1;
-  }
-  return 0;
-}
-
-
 static void mon_trap_wimp(ADDRESS addr, void *unused_data)
 {
   /* no reentrancy! */
-  if (MonitorWindowOpen == 0)
+  if (!ui_message_window_is_open(msg_win_monitor))
   {
+    text_window_t *tw;
     EmuPaused = 1;
     ui_display_paused(EmuPaused);
     mon_open(addr);
-    (MonWinDescPtr->Events)[WimpEvt_CloseWin] = mon_close_event;
-    textwin_add_flush(MonWinDescPtr);
-    textwin_mark_prompt(MonWinDescPtr);
+    if ((tw = ui_message_get_text_window(msg_win_monitor)) != NULL)
+    {
+      textwin_add_flush(tw);
+      textwin_mark_prompt(tw);
+    }
   }
 }
 

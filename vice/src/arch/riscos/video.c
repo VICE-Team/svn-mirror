@@ -383,7 +383,10 @@ void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
   s->width = width; s->height = height;
   if (FullScreenMode == 0)
   {
-    wimp_window_set_extent(s->window, 0, -height << UseEigen, width << UseEigen, 0);
+    int w, h;
+
+    w = (s->scale * width) << UseEigen; h = (s->scale * height) << UseEigen;
+    wimp_window_set_extent(s->window, 0, -h, w, 0);
     Wimp_GetWindowState((int*)(s->window));
     /* Only open window if it was open to begin with */
     if ((s->window->wflags & (1<<16)) != 0)

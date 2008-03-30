@@ -1,8 +1,65 @@
+2000-05-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.7.
+
+	* crtc/crtctypes.h, crtc/crtc.c: Made screen size variables
+	unsigned again and fixed xoffset calculation.
+
+	* arch/win32/ui.c: #include <string.h>.
+
+	* arch/win32/petkbd.c: #include "keyboard.h".
+
+	* drive/fdc.c, drive/fdc.h, drive/drive.h, drive/drive.c,
+	diskimage.c, diskimage.h, gcr.c, gcr.h, parallel.h,
+	raster/raster.c, vdrive/vdrive-dir.c, vdrive/vdrive-dir.h,
+	drive/drivemem.c, drive/drivemem.h, drive/wd1770.c,
+	drive/wd1770.h, drive/drive-snapshot.c, vdrive/vdrive-bam.c,
+	vdrive/vdrive-bam.h, vdrive/vdrive.c, vdrive/vdrive.h: Fixed
+	variable types.
+
+2000-05-30  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/console.c, arch/riscos/ui.{c,h},
+	arch/riscos/uimsgwin.{c,h}: changed new monitor interface.
+
+	* arch/riscos/uimsgwin.{c,h}: now handles all sorts of text
+	windows.
+
+	* arch/riscos/ui.c: added fliplist support.
+
+	* arch/riscos/video.c: fixed double size reset bugette.
+
+	* utils.c: fixed getline() bug (used to fail on empty lines).
+
+2000-05-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* src/arch/Makefile.am: sets subdir 'beos' when compiling
+	for BeOS
+
+	* src/arch/beos: new directory with new files Makefile.am,
+	archdep.c,archdep.h,beos.h,c128kbd.c,c128ui.c,c128ui.h,
+	c610kbd.c,c610ui.c,c610ui.h,c64kbd.c,c64ui.c,c64ui.h,console.c,
+	constants.h,joystick.c,joystick.h,kbd.c,kbd.h,main.cc,main.h,
+	main_exit.c,main_exit.h,mouse.c,mouse.h,petkbd.c,petui.c,
+	petui.h,print.c,types.h,ui.cc,ui.h,ui_file.cc,ui_file.h,
+	uicmdline.c,uicmdline.h,vic20kbd.c,vic20ui.c,vic20ui.h,
+	vicewindow.cc,vicewindow.h,video.cc,videoarch.h,vsidui.c,vsync.c
+	This is a start!! Most files are copied from the win32 port, 
+	most implementations of the functions are empty
+
+	* src/interrupt.h: some explicit type casts for cpu_int
+	for C++
+
+	* raster-changes.h: changed identifier 'new' to 'newone' to 
+	avoid trouble with C++
+
+	* raster-changes.h: includes beos.h when compiled for BeOS
+
 2000-05-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.6.
 
-	* crtc/crtctypes.h: Use signed varibales for screen size for
+	* crtc/crtctypes.h: Use signed variables for screen size for
 	now.
 
 2000-05-24  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>

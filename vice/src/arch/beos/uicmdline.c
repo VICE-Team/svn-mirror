@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uicmdline.c - The command line user interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,23 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include <stdio.h>
+#include <stdlib.h>
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+#include "cmdline.h"
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+/* This does not work as stdout is directed to null.  */
+void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
+{
+    int i;
 
-#endif
+    printf("\nAvailable command-line options:\n\n");
+    for (i = 0; i < num_options; i++) {
+        fputs(options[i].name, stdout);
+        if (options[i].need_arg && options[i].param_name != NULL)
+            printf(" %s", options[i].param_name);
+        printf("\n\t%s\n", options[i].description);
+    }
+    putchar('\n');
+}
+

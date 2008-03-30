@@ -1,8 +1,8 @@
 /*
- * version.h
+ * main.h - Definition of the Application Class
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,19 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+extern const char *APP_SIGNATURE;
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+class ViceApp : public BApplication {
+	public:
+						ViceApp();
+		void	ReadyToRun();
+		void	MessageReceived(BMessage *message);
+		void	KillThread();		
+	private:
+		thread_id		vicethread;
+};
 
 #endif

@@ -1,8 +1,8 @@
 /*
- * version.h
+ * vicewindow.h - Implementation of the BeVICE's window
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,29 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _VICEWINDOW_H
+#define _VICEWINDOW_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+#include <Bitmap.h>
+#include <MenuBar.h>
+#include <View.h>
+#include <Window.h>
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+
+class ViceWindow : public BWindow {
+	public:
+						ViceWindow(BRect frame, char const *title);
+						~ViceWindow();
+		void 			Resize(unsigned int width, unsigned int height);
+		void			DrawBitmap(void);
+		virtual bool	QuitRequested();
+		virtual void	MessageReceived(BMessage *message);
+
+		BMenuBar		*menubar;
+
+		BBitmap			*bitmap;
+		BView			*view;
+		BFilePanel		*filepanel;	
+};
 
 #endif

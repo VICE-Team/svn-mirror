@@ -1,5 +1,5 @@
 /*
- * uimsgwin.c - a window displaying (long) textual messages
+ * uimsgwin.c - all windows for displaying / editing text.
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -31,187 +31,418 @@
 #include <string.h>
 
 #include "wimp.h"
+#include "textwin.h"
 
+#include "monitor/mon.h"
 #include "uimsgwin.h"
 #include "ui.h"
+#include "utils.h"
 
 
 
 
-static const char *WindowMessage;
-
-static int NumberOfLines = 0;
-static char **MessageLines = NULL;
-
-static int FontHandle = -1;
-
-static int LineHeight;
-static int LineOffset;
-static int WindowWidth;
-static int OStoMpts;
-
-static const int FontSizeX = 12;
-static const int FontSizeY = 12;
-static const int WindowBorder = 16;
-static const int MaxWindowHeight = 768;
-
-static const int BackgroundColour = 0xeeeeee00;
-static const int ForegroundColour = 0x00000000;
-
-static const char FontName[] = "corpus.medium";
+#define MSGWIN_FLAG_OPEN        1
+#define MSGWIN_FLAG_BUSY        2
 
 
+typedef struct message_window_s {
+  text_window_t *tw;
+  RO_Window *win;
+  int StringWidth;
+  int Flags;
+} message_window_t;
 
-static void ui_message_free_resources(void)
-{
-  if (MessageLines != NULL)
+
+static void ui_monitor_enter(void *context, int line, const char *str);
+
+static message_window_t MsgWindows[msg_win_number];
+
+
+static text_window_t MsgWinDescs[msg_win_number] = {
+
+  /* monitor window */
   {
-    free(MessageLines); MessageLines = NULL;
+    "corpus.medium", TWIN_FLAG_LINEEDIT, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0, {&(MsgWinDescs[msg_win_monitor]), ui_monitor_enter}
+  },
+
+  /* license window */
+  {
+    "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0
+  },
+
+  /* warranty window */
+  {
+    "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0
+  },
+
+  /* contributor window */
+  {
+    "corpus.medium", TWIN_FLAG_READONLY, 10, 10, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 256, 0
   }
+
+};
+
+
+
+
+
+void msgwin_monitor_close(void)
+{
+  textwin_free(MsgWindows[msg_win_monitor].tw);
+  MsgWindows[msg_win_monitor].tw = NULL;
+  MsgWindows[msg_win_monitor].Flags = 0;
+  if (LastCaret.WHandle != -1)
+  {
+    Wimp_SetCaretPosition(LastCaret.WHandle, LastCaret.IHandle, LastCaret.offx, LastCaret.offy, LastCaret.height, LastCaret.index);
+    LastCaret.WHandle = -1;
+  }
+  EmuPaused = 0;
+  ui_display_paused(EmuPaused);
 }
 
 
-int ui_message_window_open(const char *title, const char *message)
+/* monitor window close event handler */
+static int mon_close_event(text_window_t *tw, int *block)
 {
-  char strdummy[] = "0123456789ABCDEF";
-  char *str;
-  const char *b, *base;
-  int cblock[9];
-  int i, offx, offy, longestLine;
-  RO_Window *win = MessageWindow;
-
-  ui_message_free_resources();
-
-  WindowMessage = message;
-
-  if (FontHandle < 0)
+  /* closing the monitor window also destroys it, but only if the monitor isn't busy */
+  if (block[WindowB_Handle] == MsgWindows[msg_win_monitor].win->Handle)
   {
-    int resx, resy;
+    if (!ui_message_window_is_busy(msg_win_monitor))
+      mon_close(0);
 
-    resx = 0; resy = 0;
-    FontHandle = Font_FindFont(FontName, FontSizeX << 4, FontSizeY << 4, &resx, &resy);
+    return 1;
   }
-
-  b = WindowMessage; NumberOfLines = 0;
-  while (*b != '\0')
-  {
-    NumberOfLines++;
-    while ((*b != '\n') && (*b != '\0')) b++;
-    if (*b == '\n') b++;
-  }
-  if (NumberOfLines == 0) return -1;
-
-  if ((MessageLines = (char**)malloc((NumberOfLines+1) * sizeof(char*))) == NULL) return -1;
-  memset(MessageLines, 0, (NumberOfLines+1) * sizeof(char*));
-  b = WindowMessage; i = 0; longestLine = 0;
-  while (*b != '\0')
-  {
-    base = b;
-    MessageLines[i++] = (char*)b;
-    while ((*b != '\n') && (*b != '\0')) b++;
-    if (longestLine < (b-base)) longestLine = (b - base);
-    if (*b == '\n') b++;
-  }
-  MessageLines[NumberOfLines] = (char*)b;
-  if (longestLine == 0) return -1;
-
-  memset(cblock, 0, 16); cblock[4] = -1;
-  offx = INT_MAX; offy = INT_MAX; str = strdummy;
-  Font_ScanString(FontHandle, &str, 0x320 | (1<<18), &offx, &offy, cblock, NULL, &i);
-  offx = cblock[7] - cblock[5]; LineHeight = cblock[8] - cblock[6];
-  WindowWidth = ((longestLine+1) * offx) / strlen(strdummy);
-
-  Font_ConverttoOS(&WindowWidth, &LineHeight);
-  WindowWidth += 2*WindowBorder;
-  LineOffset = LineHeight >> 1; LineHeight = (3*LineHeight) >> 1;
-  OStoMpts = 1; offy = 0;
-  Font_Converttopoints(&OStoMpts, &offy);
-
-  offy = 2*WindowBorder + NumberOfLines * LineHeight;
-  wimp_window_set_extent(win, 0, -offy, WindowWidth, 0);
-  wimp_window_write_title(win, title);
-
-  if (wimp_window_open_status(win) == 0)
-  {
-    offx = win->wmaxx - win->wminx;
-    offy = win->wmaxy - win->wminy;
-    if (offy > MaxWindowHeight) offy = MaxWindowHeight;
-    win->vminx = (ScreenMode.resx - offx) / 2; win->vmaxx = win->vminx + offx;
-    win->vminy = (ScreenMode.resy - offy) / 2; win->vmaxy = win->vminy + offy;
-    win->scrollx = 0; win->scrolly = 0;
-  }
-  else
-  {
-    Wimp_GetWindowState((int*)win);
-    Wimp_ForceRedraw(win->Handle, win->wminx, win->wminy, win->wmaxx, win->wmaxy);
-  }
-  win->stackpos = -1;
-
-  Wimp_OpenWindow((int*)win);
-
   return 0;
 }
 
 
-void ui_message_window_close(void)
+static int msgwin_close_generic(message_window_e mwin, int *block)
 {
-  ui_message_free_resources();
-  Wimp_CloseWindow((int*)MessageWindow);
+  if (block[WindowB_Handle] == MsgWindows[mwin].win->Handle)
+  {
+    textwin_close(MsgWindows[mwin].tw);
+    MsgWindows[mwin].Flags = 0;
+    return 1;
+  }
+  return 0;
+}
+
+static int msgwin_close_license(text_window_t *tw, int *block)
+{
+  return msgwin_close_generic(msg_win_license, block);
+}
+
+static int msgwin_close_warranty(text_window_t *tw, int *block)
+{
+  return msgwin_close_generic(msg_win_warranty, block);
+}
+
+static int msgwin_close_contrib(text_window_t *tw, int *block)
+{
+  return msgwin_close_generic(msg_win_contrib, block);
 }
 
 
-void ui_message_window_redraw(int *block)
+static void ui_monitor_enter(void *context, int line, const char *str)
 {
-  int more, lineadd;
+  char *s;
+  int status;
+  text_window_t *tw = (text_window_t*)context;
 
-  if ((more = Wimp_RedrawWindow(block)) != 0)
+  s = (char*)xmalloc(wimp_strlen(str) + 1);
+  wimp_strcpy(s, str);
+
+  ui_message_window_busy(msg_win_monitor, 1);
+  textwin_buffer_input(tw);
+  status = mon_process(s);
+  textwin_add_flush(tw);
+  ui_message_window_busy(msg_win_monitor, 0);
+  textwin_mark_prompt(tw);
+  textwin_flush_input(tw);
+
+  if (status)
   {
-    ColourTrans_SetFontColours(FontHandle, BackgroundColour, ForegroundColour, 14);
-    lineadd = LineHeight * OStoMpts;
+    mon_close(1);
   }
-  while (more != 0)
+}
+
+
+static void ui_msgwin_set_dimensions(message_window_t *mw, int cols, int rows)
+{
+  if (mw->StringWidth < 0)
   {
-    ColourTrans_SetGCOL(BackgroundColour, 0x100, 0);
-    OS_Plot(0x04, block[RedrawB_VMinX], block[RedrawB_VMinY]);
-    OS_Plot(0x65, block[RedrawB_VMaxX], block[RedrawB_VMaxY]);
+    char strdummy[101];
 
-    if ((MessageLines != NULL) || (LineHeight == 0))
-    {
-      int lineoff, bottom;
-      int posx, posy, osx, osy;
+    memset(strdummy, '0', 100);
+    strdummy[100] = '\0';
+    mw->StringWidth = textwin_font_string_width(mw->tw, strdummy);
+  }
+  if (cols > 0)
+    mw->tw->MaxWidth = 3 * mw->tw->WindowBorder + (cols * mw->StringWidth) / 100;
+  if (rows > 0)
+    mw->tw->MinHeight = 2 * mw->tw->WindowBorder + rows * mw->tw->LineHeight;
+}
 
-      lineoff = (block[RedrawB_VMaxY] - block[RedrawB_ScrollY] - block[RedrawB_CMaxY] - WindowBorder);
-      if (lineoff < 0) lineoff = 0;
-      lineoff /= LineHeight;
 
-      osx = (block[RedrawB_VMinX] - block[RedrawB_ScrollX] + WindowBorder);
-      osy = (block[RedrawB_VMaxY] - block[RedrawB_ScrollY] - WindowBorder - (lineoff + 1) * LineHeight);
-      posx = osx * OStoMpts; posy = osy * OStoMpts;
-      bottom = OStoMpts * (block[RedrawB_CMinY] - LineHeight);
-      osy -= LineOffset;
+static int ui_message_window_change_flag(message_window_e mwin, int flag, int set)
+{
+  switch (mwin)
+  {
+    case msg_win_monitor:
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      if (set == 0)
+        MsgWindows[mwin].Flags &= ~flag;
+      else
+        MsgWindows[mwin].Flags |= flag;
+      return 0;
+    default:
+      return -1;
+  }
+}
 
-      while (posy > bottom)
+
+static int ui_message_window_is_flag(message_window_e mwin, int flag)
+{
+  switch (mwin)
+  {
+    case msg_win_monitor:
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      return ((MsgWindows[mwin].Flags & flag) != 0);
+    default:
+      return 0;
+  }
+}
+
+
+static textwin_event_handler MsgCloseEvents[msg_win_number] = {
+  mon_close_event,
+  msgwin_close_license,
+  msgwin_close_warranty,
+  msgwin_close_contrib
+};
+
+
+
+
+void ui_message_get_dimensions(const char *msg, int *cols, int *rows)
+{
+  const char *base, *b;
+  int c, r;
+
+  c = 0; r = 0;
+  base = msg;
+  while (*base != '\0')
+  {
+    int width;
+
+    b = base;
+    while ((*b != '\0') && (*b != '\n')) b++;
+    width = (b - base);
+    if (c < width)
+      c = width;
+    base = (*b == '\0') ? b : b+1;
+    r++;
+  }
+  if (cols != NULL)
+    *cols = c;
+  if (rows != NULL)
+    *rows = r;
+}
+
+
+
+int ui_message_window_open(message_window_e mwin, const char *title, const char *message, int cols, int rows)
+{
+  text_window_t *tw;
+  message_window_t *mw;
+
+  switch (mwin)
+  {
+    case msg_win_monitor:
+      Wimp_GetCaretPosition(&LastCaret);
+      tw = MsgWinDescs;
+      mw = MsgWindows;
+      if (mw->win == NULL)
       {
-        int len;
-
-        if ((lineoff < NumberOfLines) && (MessageLines[lineoff] != NULL))
-        {
-          len = MessageLines[lineoff+1] - MessageLines[lineoff];
-          Font_Paint(FontHandle, MessageLines[lineoff], 0x380, posx, posy, NULL, NULL, len);
-        }
-        posy -= lineadd; lineoff++;
+        mw->win = wimp_window_clone(MessageWindow);
+        wimp_window_create((int*)(mw->win), title);
       }
-    }
-    more = Wimp_GetRectangle(block);
+      if (mw->tw == NULL)
+      {
+        mw->tw = tw;
+        ui_msgwin_set_dimensions(mw, cols, rows);
+        textwin_init(tw, mw->win, message, NULL);
+        (tw->Events)[WimpEvt_CloseWin] = MsgCloseEvents[msg_win_monitor];
+      }
+      textwin_open_centered(tw, tw->MaxWidth, 1024, ScreenMode.resx, ScreenMode.resy);
+      textwin_set_caret(tw, 0, 0);
+      MsgWindows[mwin].Flags |= MSGWIN_FLAG_OPEN;
+      break;
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      tw = MsgWinDescs + mwin;
+      mw = MsgWindows + mwin;
+      if (mw->win == NULL)
+      {
+        mw->win = wimp_window_clone(MessageWindow);
+        wimp_window_create((int*)(mw->win), title);
+      }
+      if (mw->tw == NULL)
+      {
+        mw->tw = tw;
+        ui_msgwin_set_dimensions(mw, cols, rows);
+        textwin_init(tw, mw->win, message, NULL);
+        (tw->Events)[WimpEvt_CloseWin] = MsgCloseEvents[mwin];
+      }
+      textwin_open_centered(tw, tw->MaxWidth, 1024, ScreenMode.resx, ScreenMode.resy);
+      MsgWindows[mwin].Flags |= MSGWIN_FLAG_OPEN;
+      break;
+    default:
+      return -1;
+  }
+  return 0;
+}
+
+
+
+int ui_message_window_close(message_window_e mwin)
+{
+  switch (mwin)
+  {
+    case msg_win_monitor:
+      /* This function should only be called from the console (i.e. monitor-internal).
+         To close the monitor regularily, just call mon_close() */
+      if (!ui_message_window_is_busy(msg_win_monitor))
+        msgwin_monitor_close();
+      break;
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      if (MsgWindows[mwin].tw != NULL)
+      {
+        textwin_close(MsgWindows[mwin].tw);
+        MsgWindows[mwin].Flags &= ~MSGWIN_FLAG_OPEN;
+      }
+      break;
+    default:
+      return -1;
+  }
+  return 0;
+}
+
+
+int ui_message_window_destroy(message_window_e mwin)
+{
+  switch (mwin)
+  {
+    case msg_win_monitor:
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      if (MsgWindows[mwin].tw != NULL)
+      {
+        textwin_free(MsgWindows[mwin].tw);
+        MsgWindows[mwin].tw = NULL;
+      }
+    default:
+      return -1;
+  }
+  return 0;
+}
+
+
+int ui_message_window_is_open(message_window_e mwin)
+{
+  return ui_message_window_is_flag(mwin, MSGWIN_FLAG_OPEN);
+}
+
+
+int ui_message_window_busy(message_window_e mwin, int busy)
+{
+  return ui_message_window_change_flag(mwin, MSGWIN_FLAG_BUSY, busy);
+}
+
+int ui_message_window_is_busy(message_window_e mwin)
+{
+  return ui_message_window_is_flag(mwin, MSGWIN_FLAG_BUSY);
+}
+
+
+
+void ui_message_init(void)
+{
+  int i;
+
+  for (i=0; i<msg_win_number; i++)
+  {
+    MsgWindows[i].tw = NULL;
+    MsgWindows[i].win = NULL;
+    MsgWindows[i].StringWidth = -1;
+    MsgWindows[i].Flags = 0;
   }
 }
 
 
-void ui_message_window_exit(void)
+void ui_message_exit(void)
 {
-  if (FontHandle >= 0)
+  int i;
+
+  for (i=0; i<msg_win_number; i++)
   {
-    Font_LoseFont(FontHandle); FontHandle = -1;
+    ui_message_window_destroy((message_window_e)i);
   }
-  ui_message_window_close();
+}
+
+
+message_window_e ui_message_window_for_handle(int handle)
+{
+  int i;
+
+  for (i=0; i<msg_win_number; i++)
+  {
+    if (MsgWindows[i].win != NULL)
+    {
+      if (MsgWindows[i].win->Handle == handle)
+        break;
+    }
+  }
+  return (message_window_e)i;
+}
+
+
+text_window_t *ui_message_get_text_window(message_window_e mwin)
+{
+  switch (mwin)
+  {
+    case msg_win_monitor:
+    case msg_win_license:
+    case msg_win_warranty:
+    case msg_win_contrib:
+      return MsgWindows[mwin].tw;
+    default:
+      return NULL;
+  }
+}
+
+
+int ui_message_process_event(int event, int *wimpblock)
+{
+  int i;
+
+  for (i=0; i<msg_win_number; i++)
+  {
+    if (MsgWindows[i].tw != NULL)
+    {
+      int status = textwin_process_event(MsgWindows[i].tw, event, wimpblock);
+
+      if (status != 0)
+        return status;
+    }
+  }
+  return 0;
 }

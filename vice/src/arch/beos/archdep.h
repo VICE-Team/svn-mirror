@@ -1,8 +1,8 @@
 /*
- * version.h
+ * archdep.h - Miscellaneous system-specific stuff.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,30 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _ARCHDEP_H
+#define _ARCHDEP_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
+#include "archapi.h"
+
+/* Filesystem dependant operators.  */
+#define FSDEVICE_DEFAULT_DIR   "."
+#define FSDEV_DIR_SEP_STR      "/"
+#define FSDEV_DIR_SEP_CHR      '/'
+#define FSDEV_EXT_SEP_STR      "."
+#define FSDEV_EXT_SEP_CHR      '.'
+
+/* Path separator.  */
+#define FINDPATH_SEPARATOR_CHAR         ';'
+#define FINDPATH_SEPARATOR_STRING       ";"
+
+/* Modes for fopen().  */
+#define MODE_READ              "rb"
+#define MODE_READ_TEXT         "rt"
+#define MODE_READ_WRITE        "r+b"
+#define MODE_WRITE             "wb"
+#define MODE_WRITE_TEXT        "wt"
+#define MODE_APPEND            "wb"
+#define MODE_APPEND_READ_WRITE "a+b"
+
 #endif
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
-
-#endif

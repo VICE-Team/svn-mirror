@@ -1,8 +1,8 @@
 /*
- * version.h
+ * ui.h - user interface for BeOS
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,21 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _UI_BEOS_H
+#define _UI_BEOS_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
+#include "types.h"
+#include "uiapi.h"
+
+/* ------------------------------------------------------------------------- */
+
+extern void ui_show_text(const char *title, const char *text);
+extern void ui_main(char hotkey);
+extern void ui_set_warp_status(int status);
+extern void ui_dispatch_events(void);
+extern void ui_display_speed(float percent, float framerate, int warp_flag);
+
+extern void mon(ADDRESS a);
+
 #endif
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
-
-#endif

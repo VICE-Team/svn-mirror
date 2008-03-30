@@ -42,7 +42,7 @@ typedef enum raster_changes_type raster_changes_type_t;
 struct _raster_changes_integer_action_value
   {
     int *oldp;
-    int new;
+    int newone;
   };
 typedef struct _raster_changes_integer_action_value
   raster_changes_integer_action_value_t;
@@ -50,7 +50,7 @@ typedef struct _raster_changes_integer_action_value
 struct _raster_changes_ptr_action_value
   {
     void **oldp;
-    void *new;
+    void *newone;
   };
 typedef struct _raster_changes_ptr_action_value
   raster_changes_ptr_action_value_t;
@@ -103,11 +103,11 @@ raster_changes_apply (raster_changes_t *changes,
   switch (changes->actions[idx].type)
     {
     case RASTER_CHANGES_TYPE_INT:
-      *action->value.integer.oldp = action->value.integer.new;
+      *action->value.integer.oldp = action->value.integer.newone;
       break;
     case RASTER_CHANGES_TYPE_PTR:
     default:			/* To be faster.  */
-      *action->value.ptr.oldp = action->value.ptr.new;
+      *action->value.ptr.oldp = action->value.ptr.newone;
       break;
     }
 }
@@ -145,7 +145,7 @@ raster_changes_add_int (raster_changes_t *changes,
   action->where = where;
   action->type = RASTER_CHANGES_TYPE_INT;
   action->value.integer.oldp = ptr;
-  action->value.integer.new = new_value;
+  action->value.integer.newone = new_value;
 }
 
 /* Add a pointer (`void *') change.  */
@@ -162,7 +162,7 @@ raster_changes_add_ptr (raster_changes_t *changes,
   action->where = where;
   action->type = RASTER_CHANGES_TYPE_PTR;
   action->value.ptr.oldp = ptr;
-  action->value.ptr.new = new_value;
+  action->value.ptr.newone = new_value;
 }
 
 #endif

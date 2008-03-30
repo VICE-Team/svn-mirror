@@ -79,6 +79,11 @@
 #include "ROlib.h"
 #endif
 
+/* BeOS specific stuff */
+#ifdef __BEOS__
+#include "beos.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* This code comes from GNU make:

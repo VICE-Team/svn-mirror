@@ -28,3 +28,10 @@ SUBDIRS = os2
 
 endif
 
+if BEOS_COMPILE
+
+SUBDIRS = beos
+
+endif
+
+

@@ -1,8 +1,8 @@
 /*
- * version.h
+ * joystick.h - Joystick support for BeOS.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,40 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _JOYSTICK_H
+#define _JOYSTICK_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
+#include "kbd.h"
+
+typedef enum {
+    JOYDEV_NONE,
+    JOYDEV_NUMPAD,
+    JOYDEV_KEYSET1,
+    JOYDEV_KEYSET2,
+    JOYDEV_HW1,
+    JOYDEV_HW2
+} joystick_device_t;
+
+typedef enum {
+    KEYSET_NW,
+    KEYSET_N,
+    KEYSET_NE,
+    KEYSET_E,
+    KEYSET_SE,
+    KEYSET_S,
+    KEYSET_SW,
+    KEYSET_W,
+    KEYSET_FIRE
+} joystick_direction_t;
+
+extern int joystick_init(void);
+extern int joystick_init_resources(void);
+extern int joystick_init_cmdline_options(void);
+extern int joystick_close(void);
+extern void joystick_update(void);
+extern int joystick_handle_key(kbd_code_t kcode, int pressed);
+
+extern int joystick_inited;
+
 #endif
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
-
-#endif

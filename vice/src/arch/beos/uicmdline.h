@@ -1,8 +1,8 @@
 /*
- * version.h
+ * uicmdline.h - Command-line output.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,14 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _UICMDLINE_H
+#define _UICMDLINE_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+struct cmdline_option_s;
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern void ui_cmdline_show_help(int num_options,
+                                 struct cmdline_option_s *options);
+extern void ui_cmdline_show_options(void);
 
 #endif
+

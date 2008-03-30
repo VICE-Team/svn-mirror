@@ -1,8 +1,8 @@
 /*
- * version.h
+ * vsidui.c - Implementation of the VSID UI.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,20 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+int vsid_ui_init(void)
+{
+    return 0;
+}
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+int vsid_ui_exit(void)
+{
+    return 0;
+}
 
-#endif
+void vsid_set_tune(char *msg)
+{
+
+}
+

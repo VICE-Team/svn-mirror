@@ -1,8 +1,8 @@
 /*
- * version.h
+ * console.c - Console access interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,49 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+#include "console.h"
+#include "ui.h"
+#include "utils.h"
 
-#endif
+int console_out(console_t *log, const char *format, ...)
+{
+	return 0;
+}
+
+
+
+
+char *console_in(console_t *log)
+{
+	char *p;
+	return p;
+}
+
+
+console_t *console_open(const char *id)
+{
+}
+
+int console_close(console_t *log)
+{
+    return 0;
+}
+
+
+int console_init( void )
+{
+	return 0;
+}
+
+
+int console_close_all( void )
+{
+	return 0;
+}

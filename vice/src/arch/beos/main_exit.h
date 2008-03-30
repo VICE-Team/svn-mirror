@@ -1,8 +1,5 @@
 /*
- * version.h
- *
- * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ * main_exit.h - VICE shutdown.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +21,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _MAIN_EXIT_H
+#define _MAIN_EXIT_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+void main_exit(void);
 
 #endif
+

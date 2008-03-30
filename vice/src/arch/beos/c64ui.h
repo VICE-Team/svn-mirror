@@ -1,8 +1,8 @@
 /*
- * version.h
+ * c64ui.h - C64-specific user interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _C64UI_H
+#define _C64UI_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern int c64_ui_init(void);
 
 #endif
+

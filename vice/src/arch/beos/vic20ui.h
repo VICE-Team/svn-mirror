@@ -1,8 +1,8 @@
 /*
- * version.h
+ * vic20ui.c - Definition of the VIC20-specific part of the UI.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,10 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _VIC20UI_H
+#define _VIC20UI_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
-
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern int vic20_ui_init(void);
 
 #endif
+

@@ -1,8 +1,8 @@
 /*
- * version.h
+ * beos.h - Some portability cruft for BeOS
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,15 +24,13 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef _BEOS_H
+#define _BEOS_H
 
-#ifndef VERSION
-#define VERSION "1.4.7"
-#endif
+#define MAIN_PROGRAM main_program
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+extern int MAIN_PROGRAM(int argc, char **argv);
+
+
 
 #endif
