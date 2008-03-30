@@ -1,3 +1,24 @@
+1999-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.1.
+
+1999-01-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/ui.c (handle_wm_command): Disks were always
+	attached to device 8. Fixed.
+
+	* arch/win32/uiattach.c (dialog_proc): Disks were always
+	attached to device 8. Fixed.
+
+1998-01-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* configure.in: Only check for `sys/audio.h' when compiling on
+	HP-UX.
+
+1998-01-06  Luca Montecchiani  <m.luca@usa.net>
+
+	* arch/unix/joystick.c, arch/unix/joystick.h: New joystick driver.
+
 1999-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.
@@ -14,11 +35,18 @@
 
 1999-01-04  Daniel Sladic  <Daniel_Sladic@evans.stampede.cs.cmu.edu>
 
-	* arch/unix/joystick.c: Added a new joystick driver.  Not enabled
-	yet.
+	* mon.c, mon.h: Better handling of errors during file operations.
+	Dump/undump now work. First try at io command. (not working)
+	Merged load/bload and save/bsave functions. Changed symbol file
+	format to a list of monitor commands. Chaned monitor prompt.
+	Support exit/quit as attached commands to checkpoints.
 
-	* mon.c, mon.h, mon_lex.l, mon_parse.h, mon_parse.y: Some
-	undocumented changes (for now).
+	* mon_lex.l, mon_parse.y: Some minor bug fixes. Moved determination
+	of base of ambiguous numbers to the parser to make use of semantic
+	information.
+
+	* arch/unix/joystick.c: Support for new API but is #defd out
+	until I can do some testing.
 
 1999-01-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 

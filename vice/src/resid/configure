@@ -1195,6 +1195,43 @@ if test $ac_cv_sizeof_int -lt 4; then
   { echo "configure: error: only 32 bit or better CPUs are supported" 1>&2; exit 1; }
 fi
 
+echo $ac_n "checking for working bool""... $ac_c" 1>&6
+echo "configure:1200: checking for working bool" >&5
+if eval "test \"`echo '$''{'ac_cv_cxx_bool'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  cat > conftest.$ac_ext <<EOF
+#line 1205 "configure"
+#include "confdefs.h"
+
+int main() {
+
+bool flag;
+
+; return 0; }
+EOF
+if { (eval echo configure:1214: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  ac_cv_cxx_bool=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  ac_cv_cxx_bool=no
+fi
+rm -f conftest*
+fi
+
+echo "$ac_t""$ac_cv_cxx_bool" 1>&6
+
+if test $ac_cv_cxx_bool = no; then
+  RESID_HAVE_BOOL=0
+else
+  RESID_HAVE_BOOL=1
+fi
+
+
+
 
 trap '' 1 2 15
 cat > confcache <<\EOF
@@ -1354,6 +1391,7 @@ s%@RESID_INLINE@%$RESID_INLINE%g
 s%@CXX@%$CXX%g
 s%@RANLIB@%$RANLIB%g
 s%@PERL@%$PERL%g
+s%@RESID_HAVE_BOOL@%$RESID_HAVE_BOOL%g
 
 CEOF
 EOF

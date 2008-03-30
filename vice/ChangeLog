@@ -1,3 +1,13 @@
+1999-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.0.1.
+
+	* configure.in: Define `AC_DEFINE(UNSTABLE)'.
+
+1998-01-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/PETdoc.txt: Some updates.
+
 1999-01-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.0.

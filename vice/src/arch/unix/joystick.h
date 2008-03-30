@@ -8,6 +8,9 @@
  * Patches by
  *  Daniel Sladic    (sladic@eecg.toronto.edu)
  *
+ * 1.1.xxx Linux API by
+ *  Luca Montecchiani	(m.luca@usa.net) (http://i.am/m.luca)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -34,6 +37,12 @@
 extern void joystick_init(void);
 extern void joystick_close(void);
 extern void joystick(void);
+extern void old_joystick_init(void);
+extern void old_joystick_close(void);
+extern void old_joystick(void);
+extern void new_joystick_init(void);
+extern void new_joystick_close(void);
+extern void new_joystick(void);
 extern int  joystick_init_resources(void);
 extern int  joystick_init_cmdline_options(void);
 
