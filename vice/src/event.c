@@ -199,9 +199,8 @@ void event_record_attach_image(unsigned int unit, const char *filename,
 static void event_playback_attach_image(void *data, unsigned int size)
 {
     unsigned int unit, read_only;
-    char *orig_filename, *filename;
+    char *orig_filename, *filename = NULL;
     size_t file_len;
-    char *str;
 
     unit = (unsigned int)((char*)data)[0];
     read_only = (unsigned int)((char*)data)[1];
@@ -211,17 +210,13 @@ static void event_playback_attach_image(void *data, unsigned int size)
     if (file_len > 0) {
         FILE *fd;
 
-        str = archdep_tmpnam();
-        filename = util_concat(str, FSDEV_EXT_SEP_STR,
-                                util_get_extension(orig_filename), NULL);
-        lib_free(str);
+        fd = archdep_mkstemp_fd(&filename, MODE_WRITE);
 
-        fd = fopen(filename, MODE_WRITE);
         if (fd == NULL) {
 #ifdef HAS_TRANSLATION
             ui_error(translate_text(IDGS_CANNOT_CREATE_IMAGE_S), filename);
 #else
-            ui_error(_("Cannot create image file %s"), filename);
+            ui_error(_("Cannot create image file!"));
 #endif
             goto error;
         }
