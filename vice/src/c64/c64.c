@@ -42,7 +42,7 @@
 #include "c64cia.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
-#include "c64mem.h"
+#include "c64memrom.h"
 #include "c64rsuser.h"
 #include "c64tpi.h"
 #include "c64ui.h"
@@ -124,8 +124,8 @@ static const trap_t c64_serial_traps[] = {
         0xEDAB,
         { 0x20, 0x97, 0xEE },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         "SerialSaListen",
@@ -133,8 +133,8 @@ static const trap_t c64_serial_traps[] = {
         0xEDAB,
         { 0x78, 0x20, 0x8E },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         "SerialSendByte",
@@ -142,8 +142,8 @@ static const trap_t c64_serial_traps[] = {
         0xEDAB,
         { 0x78, 0x20, 0x97 },
         serial_trap_send,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         "SerialReceiveByte",
@@ -151,8 +151,8 @@ static const trap_t c64_serial_traps[] = {
         0xEDAB,
         { 0x78, 0xA9, 0x00 },
         serial_trap_receive,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         "SerialReady",
@@ -160,8 +160,8 @@ static const trap_t c64_serial_traps[] = {
         0xEDAB,
         { 0xAD, 0x00, 0xDD },
         serial_trap_ready,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         NULL,
@@ -182,8 +182,8 @@ static const trap_t c64_tape_traps[] = {
         0xF732,
         { 0x20, 0x41, 0xF8 },
         tape_find_header_trap,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         "TapeReceive",
@@ -191,8 +191,8 @@ static const trap_t c64_tape_traps[] = {
         0xFC93,
         { 0x20, 0xBD, 0xFC },
         tape_receive_trap,
-        rom_read,
-        rom_store
+        c64memrom_trap_read,
+        c64memrom_trap_store
     },
     {
         NULL,
