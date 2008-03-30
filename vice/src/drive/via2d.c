@@ -29,11 +29,10 @@
 
 #include "vice.h"
 
-#include "via.h"
-
 #include "drive.h"
 #include "drivetypes.h"
 #include "types.h"
+#include "via.h"
 #include "viad.h"
 
 #define VIA_SET_CA2(a)
