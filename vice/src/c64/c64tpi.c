@@ -28,6 +28,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "parallel.h"
+#include "interrupt.h"
 #include "maincpu.h"
 #include "tpi.h"
 #include "tpicore.h"
@@ -54,8 +55,9 @@
 #define mycpu_set_int(a,b)              do {} while(0)
 #define mycpu_restore_int(a,b)          do {} while(0)
 
-#define mycpu_rmw_flag  maincpu_rmw_flag
-#define myclk           maincpu_clk
+#define mycpu_rmw_flag maincpu_rmw_flag
+#define myclk maincpu_clk
+#define mycpu_int_status maincpu_int_status
 
 /*----------------------------------------------------------------------*/
 /* I/O */

@@ -32,6 +32,8 @@ static int mytpi_debug = 0;
 
 static BYTE tpi_last_read = 0;  /* the byte read the last time (for RMW) */
 
+static unsigned int tpi_int_num;
+
 /*------------------------------------------------------------------------*/
 /* Handle irq stack etc */
 
@@ -51,12 +53,12 @@ static void set_latch_bit(int bit)
     if (irq_priority) {
         if (bit > (irq_latches & ~bit)) {
             irq_active = bit;
-            mycpu_set_int(I_TPI1, MYIRQ);
+            mycpu_set_int(tpi_int_num, MYIRQ);
         }
     } else {
         if (!irq_active) {
             irq_active = bit;
-            mycpu_set_int(I_TPI1, MYIRQ);
+            mycpu_set_int(tpi_int_num, MYIRQ);
         }
     }
     irq_stack |= bit;
@@ -80,7 +82,7 @@ static void pop_irq_state(void)
             }
         }
     }
-    mycpu_set_int(I_MYTPI, irq_active ? MYIRQ : 0);
+    mycpu_set_int(tpi_int_num, irq_active ? MYIRQ : 0);
 }
 
 static BYTE push_irq_state(void)
@@ -104,7 +106,7 @@ static BYTE push_irq_state(void)
         irq_active = irq_stack;
         irq_stack = 0;
     }
-    mycpu_set_int(I_TPI1, irq_active ? MYIRQ : 0);
+    mycpu_set_int(tpi_int_num, irq_active ? MYIRQ : 0);
     return old_active;
 }
 
@@ -112,8 +114,9 @@ static BYTE push_irq_state(void)
 
 void mytpi_init(void)
 {
-    if (mytpi_log == LOG_ERR)
-        mytpi_log = log_open(MYTPI_NAME);
+    mytpi_log = log_open(MYTPI_NAME);
+
+    tpi_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
 }
 
 void mytpi_reset(void)
@@ -129,7 +132,7 @@ void mytpi_reset(void)
     irq_previous = 0xff;
     irq_stack = 0;
     irq_active = 0;
-    mycpu_set_int(I_MYTPI, 0);
+    mycpu_set_int(tpi_int_num, 0);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -402,7 +405,7 @@ int mytpi_snapshot_read_module(snapshot_t *p)
     BYTE byte;
     snapshot_module_t *m;
 
-    mycpu_restore_int(I_MYTPI, 0);      /* just in case */
+    mycpu_restore_int(tpi_int_num, 0);      /* just in case */
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -447,7 +450,7 @@ int mytpi_snapshot_read_module(snapshot_t *p)
     tpi_set_ca( ca_state );
     tpi_set_cb( cb_state );
 
-    mycpu_restore_int(I_MYTPI, irq_active ? MYIRQ : 0);
+    mycpu_restore_int(tpi_int_num, irq_active ? MYIRQ : 0);
 
     if (snapshot_module_close(m) < 0)
         return -1;

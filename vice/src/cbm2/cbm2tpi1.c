@@ -50,7 +50,7 @@
 #define mytpi_snapshot_write_module tpi1_snapshot_write_module
 #define mytpi_snapshot_read_module tpi1_snapshot_read_module
 
-#define MYTPI_NAME      "TPI1"
+#define MYTPI_NAME "TPI1"
 
 /*----------------------------------------------------------------------*/
 /* CPU binding */
@@ -59,12 +59,11 @@
 #define mycpu_restore_int(a, b) \
     interrupt_set_irq_noclk(maincpu_int_status, (a), (b))
 
-#define mycpu_rmw_flag  maincpu_rmw_flag
+#define mycpu_rmw_flag maincpu_rmw_flag
 #define myclk maincpu_clk
+#define mycpu_int_status maincpu_int_status
 
 #define MYIRQ IK_IRQ
-
-#define I_MYTPI I_TPI1
 
 /*----------------------------------------------------------------------*/
 /* TPI resources. */

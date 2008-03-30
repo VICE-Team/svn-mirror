@@ -25,6 +25,7 @@
  */
 
 #include "cbm2mem.h"
+#include "interrupt.h"
 #include "keyboard.h"
 #include "maincpu.h"
 #include "tpicore.h"
@@ -43,7 +44,7 @@
 #define mytpi_snapshot_write_module tpi2_snapshot_write_module
 #define mytpi_snapshot_read_module tpi2_snapshot_read_module
 
-#define MYTPI_NAME      "TPI2"
+#define MYTPI_NAME "TPI2"
 
 /*----------------------------------------------------------------------*/
 /* CPU binding */
@@ -51,8 +52,9 @@
 #define mycpu_set_int(a,b)              do {} while(0)
 #define mycpu_restore_int(a,b)          do {} while(0)
 
-#define mycpu_rmw_flag  maincpu_rmw_flag
-#define myclk           maincpu_clk
+#define mycpu_rmw_flag maincpu_rmw_flag
+#define myclk maincpu_clk
+#define mycpu_int_status maincpu_int_status
 
 /*----------------------------------------------------------------------*/
 /* I/O */
