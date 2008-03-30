@@ -58,10 +58,9 @@ void vdrive_dir_init(void)
     vdrive_dir_log = log_open("VDriveDIR");
 }
 
-static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
-                                 int type){
-    int i;
-
+static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length,
+                                          int type)
+{
     if (length < 0) {
         if (slot[SLOT_TYPE_OFFSET])
             return 0;
@@ -72,34 +71,10 @@ static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
     if (!slot[SLOT_TYPE_OFFSET])
         return 0;
 
-    if (length > 16)
-        length = 16;
-
-    for (i = 0; i < length; i++) {
-        switch (name[i]) {
-          case '?':             /* Match any character */
-            break;
-
-          case '*':             /* Make a match */
-            i = 16;
-            break;
-
-          default:
-            if ((BYTE)name[i] != slot[i + SLOT_NAME_OFFSET])
-                return 0;
-        }
-    }
-
-    /*
-     * Got name match ?
-     */
-    if (i < 16 && slot[SLOT_NAME_OFFSET + i] != 0xa0)
-        return 0;
-
     if (type && type != (slot[SLOT_TYPE_OFFSET] & 0x07))
         return 0;
 
-    return 1;
+    return cbmdos_parse_wildcard_compare(nslot, &slot[SLOT_NAME_OFFSET]);
 }
 
 static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
@@ -212,9 +187,16 @@ void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
 void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
                                 int length, unsigned int type)
 {
-    vdrive->find_name = name;
-    vdrive->find_type = type;
+    if (length > 0) {
+        BYTE *nslot;
+
+        nslot = cbmdos_dir_slot_create(name, length);
+        memcpy(vdrive->find_nslot, nslot, CBMDOS_SLOT_NAME_LENGTH);
+        lib_free(nslot);
+    }
+
     vdrive->find_length = length;
+    vdrive->find_type = type;
 
     vdrive->Curr_track = vdrive->Dir_Track;
     vdrive->Curr_sector = vdrive->Dir_Sector;
@@ -243,9 +225,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
         if (vdrive->SlotNumber >= 8) {
             int status;
 
-            if (!(*(vdrive->Dir_buffer))) {
+            if (vdrive->Dir_buffer[0] == 0)
                 return NULL;
-            }
 
             vdrive->SlotNumber = 0;
             vdrive->Curr_track  = (int)vdrive->Dir_buffer[0];
@@ -260,7 +241,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
         while (vdrive->SlotNumber < 8) {
             if (vdrive_dir_name_match(
                                   &vdrive->Dir_buffer[vdrive->SlotNumber * 32],
-                                  vdrive->find_name, vdrive->find_length,
+                                  vdrive->find_nslot, vdrive->find_length,
                                   vdrive->find_type)) {
                 memcpy(return_slot,
                        &vdrive->Dir_buffer[vdrive->SlotNumber * 32], 32);
