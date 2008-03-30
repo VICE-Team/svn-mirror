@@ -306,10 +306,6 @@ static void vsync_hook(void)
     /* FIXME: Do we have to check drive_enabled here?  */
     drive_prevent_clk_overflow(sub, 0);
     drive_prevent_clk_overflow(sub, 1);
-
-#ifdef HAS_JOYSTICK
-    joystick();
-#endif
 }
 
 /* Dummy - no restore key.  */
