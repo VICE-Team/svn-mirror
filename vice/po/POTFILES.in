@@ -83,7 +83,6 @@ src/arch/unix/x11/x11menu.c
 
 # Xaw 
 src/arch/unix/x11/xaw/about.c
-src/arch/unix/x11/xaw/ui.c
 src/arch/unix/x11/xaw/uicartridge.c
 src/arch/unix/x11/xaw/uicolor.c
 src/arch/unix/x11/xaw/uiedisk.c
