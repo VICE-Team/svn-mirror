@@ -24,7 +24,9 @@
  *
  */
 
+#include <string.h>
 #include <windows.h>
+
 #include "res.h"
 #include "resources.h"
 #include "sound.h"
@@ -56,92 +58,92 @@ static int ui_sound_adjusting[]={
 
 static void init_sound_dialog(HWND hwnd)
 {
-HWND    snd_hwnd;
-int     res_value;
-char    *devicename;
+    HWND snd_hwnd;
+    int res_value;
+    char *devicename;
 
-    snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_FREQ);
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"8000 Hz");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"11025 Hz");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"22050 Hz");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"44100 Hz");
-    resources_get_value("SoundSampleRate",(resource_value_t *)&res_value);
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FREQ);
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"8000 Hz");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"11025 Hz");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"22050 Hz");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"44100 Hz");
+    resources_get_value("SoundSampleRate", (resource_value_t *)&res_value);
     switch (res_value) {
-        case 8000:
-            res_value=0;
-            break;
-        case 11025:
-            res_value=1;
-            break;
-        case 22050:
-            res_value=2;
-            break;
-        case 44100:
-        default:
-            res_value=3;
-            break;
+      case 8000:
+        res_value = 0;
+        break;
+      case 11025:
+        res_value = 1;
+        break;
+      case 22050:
+        res_value = 2;
+        break;
+      case 44100:
+      default:
+        res_value = 3;
+        break;
     }
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_BUFFER);
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"100 msec");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"150 msec");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"200 msec");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"250 msec");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"300 msec");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"350 msec");
-    resources_get_value("SoundBufferSize",(resource_value_t *)&res_value);
+    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_BUFFER);
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"100 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"150 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"200 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"250 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"300 msec");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"350 msec");
+    resources_get_value("SoundBufferSize", (resource_value_t *)&res_value);
     switch (res_value) {
-        case 100:
-            res_value=0;
-            break;
-        case 150:
-            res_value=1;
-            break;
-        case 200:
-            res_value=2;
-            break;
-        case 250:
-            res_value=3;
-            break;
-        case 300:
-            res_value=4;
-            break;
-        case 350:
-        default:
-            res_value=5;
-            break;
+      case 100:
+        res_value = 0;
+        break;
+      case 150:
+        res_value = 1;
+        break;
+      case 200:
+        res_value = 2;
+        break;
+      case 250:
+        res_value = 3;
+        break;
+      case 300:
+        res_value = 4;
+        break;
+       case 350:
+       default:
+        res_value = 5;
+        break;
     }
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE);
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"None");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"2x");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"4x");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"8x");
-    resources_get_value("SoundOversample",(resource_value_t *)&res_value);
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"None");
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"2x");
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"4x");
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)"8x");
+    resources_get_value("SoundOversample", (resource_value_t *)&res_value);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    snd_hwnd=GetDlgItem(hwnd,IDC_SOUND_SYNCH);
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"Flexible");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"Adjusting");
-    SendMessage(snd_hwnd,CB_ADDSTRING,0,(LPARAM)"Exact");
-    resources_get_value("SoundSpeedAdjustment",(resource_value_t *)&res_value);
+    snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Flexible");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Adjusting");
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)"Exact");
+    resources_get_value("SoundSpeedAdjustment", (resource_value_t *)&res_value);
     switch (res_value) {
-        case SOUND_ADJUST_FLEXIBLE:
-        default:
-            res_value=0;
-            break;
-        case SOUND_ADJUST_ADJUSTING:
-            res_value=1;
-            break;
-        case SOUND_ADJUST_EXACT:
-            res_value=2;
-            break;
+      case SOUND_ADJUST_FLEXIBLE:
+      default:
+        res_value=0;
+        break;
+      case SOUND_ADJUST_ADJUSTING:
+        res_value=1;
+        break;
+      case SOUND_ADJUST_EXACT:
+        res_value=2;
+        break;
     }
-    SendMessage(snd_hwnd,CB_SETCURSEL,(WPARAM)res_value,0);
+    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("SoundDeviceName",(resource_value_t *)&devicename);
+    resources_get_value("SoundDeviceName", (resource_value_t *)&devicename);
     if (devicename && !strcasecmp("wmm", devicename))
         res_value = IDC_SOUND_WMM;
     else
@@ -151,40 +153,55 @@ char    *devicename;
 
 }
 
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
+                                 LPARAM lparam)
 {
-int     command;
+    int command;
 
     switch (msg) {
-        case WM_INITDIALOG:
-            init_sound_dialog(hwnd);
-            return TRUE;
-        case WM_COMMAND:
-            command=LOWORD(wparam);
-            switch (command) {
-                case IDC_SOUND_DIRECTX:
-                    resources_set_value("SoundDeviceName",(resource_value_t)"dx");
-                    ui_display_statustext("Sound driver: DirectX");
-                    break;
-                case IDC_SOUND_WMM:
-                    resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
-                    ui_display_statustext("Sound driver: WMM");
-                    break;
-                case IDOK:
-                    resources_set_value("SoundSampleRate",(resource_value_t)ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ),CB_GETCURSEL,0,0)]);
-                    resources_set_value("SoundBufferSize",(resource_value_t)ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER),CB_GETCURSEL,0,0)]);
-                    resources_set_value("SoundOversample",(resource_value_t)SendMessage(GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),CB_GETCURSEL,0,0));
-                    resources_set_value("SoundSpeedAdjustment",(resource_value_t)ui_sound_adjusting[SendMessage(GetDlgItem(hwnd,IDC_SOUND_SYNCH),CB_GETCURSEL,0,0)]);
-                case IDCANCEL:
-                    EndDialog(hwnd,0);
-                    return TRUE;
-            }
+      case WM_INITDIALOG:
+        init_sound_dialog(hwnd);
+        return TRUE;
+      case WM_COMMAND:
+        command=LOWORD(wparam);
+        switch (command) {
+          case IDC_SOUND_DIRECTX:
+            resources_set_value("SoundDeviceName",(resource_value_t)"dx");
+            ui_display_statustext("Sound driver: DirectX");
             break;
+          case IDC_SOUND_WMM:
+            resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
+            ui_display_statustext("Sound driver: WMM");
+            break;
+          case IDOK:
+            resources_set_value("SoundSampleRate",
+                                (resource_value_t)ui_sound_freq[SendMessage(
+                                GetDlgItem(hwnd,IDC_SOUND_FREQ),
+                                CB_GETCURSEL,0,0)]);
+            resources_set_value("SoundBufferSize",
+                                (resource_value_t)ui_sound_buffer[SendMessage(
+                                GetDlgItem(hwnd,IDC_SOUND_BUFFER),
+                                CB_GETCURSEL,0,0)]);
+            resources_set_value("SoundOversample",
+                                (resource_value_t)SendMessage(
+                                GetDlgItem(hwnd,IDC_SOUND_OVERSAMPLE),
+                                CB_GETCURSEL,0,0));
+            resources_set_value("SoundSpeedAdjustment",
+                                (resource_value_t)ui_sound_adjusting[SendMessage(
+                                GetDlgItem(hwnd, IDC_SOUND_SYNCH),
+                                CB_GETCURSEL, 0, 0)]);
+          case IDCANCEL:
+            EndDialog(hwnd,0);
+            return TRUE;
+        }
+        break;
     }
     return FALSE;
 }
 
 void ui_sound_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance,(LPCTSTR)IDD_SOUND_SETTINGS_DIALOG,hwnd,dialog_proc);
+    DialogBox(winmain_instance, (LPCTSTR)IDD_SOUND_SETTINGS_DIALOG, hwnd,
+              dialog_proc);
 }
+
