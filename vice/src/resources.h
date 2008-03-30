@@ -27,6 +27,8 @@
 #ifndef _RESOURCES_H
 #define _RESOURCES_H
 
+#include <stdio.h>
+
 typedef enum resource_type {RES_INTEGER, RES_STRING} resource_type_t;
 
 typedef void *resource_value_t;
@@ -68,9 +70,15 @@ int resources_set_value(const char *name, resource_value_t value);
 int resources_set_value_string(const char *name, const char *value);
 int resources_toggle(const char *name, resource_value_t *new_value_return);
 int resources_get_value(const char *name, resource_value_t *value_return);
+int resources_get_default_value(const char *name, 
+				const resource_value_t *value_return);
 resource_type_t resources_query_type(const char *name);
 int resources_save(const char *fname);
 int resources_load(const char *fname);
+
+int resources_write_item_to_file(FILE *fp, const char *name);
+int resources_read_item_from_file(FILE *fp);
+
 void resources_set_defaults(void);
 
 #endif /* _RESOURCES_H */
