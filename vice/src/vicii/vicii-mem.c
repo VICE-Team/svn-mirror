@@ -538,17 +538,13 @@ inline static void store_d019(BYTE value)
         vic_ii.irq_status &= ~((vic_ii.last_read & 0xf) | 0x80);
         if (maincpu_clk - 1 > vic_ii.raster_irq_clk
             && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
-            vic_ii.raster_irq_clk += vic_ii.screen_height
-                                     * vic_ii.cycles_per_line;
-            alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+            vicii_irq_next_frame();
         }
     }
 
     if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk
         && vic_ii.raster_irq_line < (unsigned int)vic_ii.screen_height) {
-        vic_ii.raster_irq_clk += vic_ii.screen_height
-                                 * vic_ii.cycles_per_line;
-        alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+        vicii_irq_next_frame();
     }
 
     vic_ii.irq_status &= ~((value & 0xf) | 0x80);
@@ -1095,14 +1091,14 @@ inline static BYTE read_d01112(WORD addr)
 /* Helper function for reading from $D019.  */
 inline static BYTE read_d019(void)
 {
-    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line
-        && (vic_ii.regs[0x1a] & 0x1))
-        /* As int_raster() is called 2 cycles later than it should be to
-           emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
-           have bit 0 set as it should.  */
-        vic_ii.last_read = vic_ii.irq_status | 0xf1;
-    else
+    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line) {
+        if (vic_ii.regs[0x1a] & 0x1)
+            vic_ii.last_read = vic_ii.irq_status | 0xf1;
+        else
+            vic_ii.last_read = vic_ii.irq_status | 0x71;
+    } else {
         vic_ii.last_read = vic_ii.irq_status | 0x70;
+    }
 
     return vic_ii.last_read;
 }

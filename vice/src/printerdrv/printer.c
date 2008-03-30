@@ -53,7 +53,7 @@ int printer_resources_init(void)
 void printer_resources_shutdown(void)
 {
     output_text_shutdown_resources();
-    output_select_init_resources();
+    output_select_shutdown_resources();
 }
 
 int printer_cmdline_options_init(void)
