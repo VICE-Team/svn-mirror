@@ -712,7 +712,7 @@ int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
     /* Make sure the traps are moved as needed.  */
     if (true1541_enabled)
 	true1541_enable();
-    
+
     return 0;
 }
 
@@ -734,7 +734,7 @@ int true1541_enable(void)
 
     true1541_cpu_wake_up();
 
-    UiToggleDriveStatus(1);
+    ui_toggle_drive_status(1);
     return 0;
 }
 
@@ -752,7 +752,7 @@ void true1541_disable(void)
 
     GCR_data_writeback();
 
-    UiToggleDriveStatus(0);
+    ui_toggle_drive_status(0);
 }
 
 void true1541_reset(void)
@@ -1031,7 +1031,7 @@ void true1541_move_head(int step)
 {
     GCR_data_writeback();
     true1541_set_half_track(true1541_current_half_track + step);
-    UiDisplayDriveTrack((double)true1541_current_half_track / 2.0);
+    ui_display_drive_track((double)true1541_current_half_track / 2.0);
 }
 
 /* Write one GCR byte to the disk. */
@@ -1095,7 +1095,7 @@ static void GCR_data_writeback(void)
 	    return;
 	  case TRUE1541_EXTEND_ASK:
 	    if (ask_extend_disk_image == 1) {
-		extend = UiExtendImageDialog();
+		extend = ui_extend_image_dialog();
 		if (extend == 0) {
 		    ask_extend_disk_image = 0;
 		    return;
@@ -1242,26 +1242,26 @@ void true1541_update_ui_status(void)
     if (!true1541_enabled) {
         if (old_led_status >= 0) {
             old_led_status = old_half_track = -1;
-            UiToggleDriveStatus(0);
+            ui_toggle_drive_status(0);
         }
         return;
     }
 
     /* Actually update the LED status only if the `trap idle' idling method
-       is being used, as the LED status could be incorrect otherwise. */
+       is being used, as the LED status could be incorrect otherwise.  */
    if (idling_method == TRUE1541_IDLE_TRAP_IDLE)
 	my_led_status = true1541_led_status ? 1 : 0;
     else
 	my_led_status = 0;
 
     if (my_led_status != old_led_status) {
-        UiDisplayDriveLed(my_led_status);
+        ui_display_drive_led(my_led_status);
 	old_led_status = my_led_status;
     }
 
     if (true1541_current_half_track != old_half_track) {
 	old_half_track = true1541_current_half_track;
-	UiDisplayDriveTrack((float) true1541_current_half_track / 2.0);
+	ui_display_drive_track((float) true1541_current_half_track / 2.0);
     }
 }
 

@@ -452,10 +452,10 @@ void true1541_cpu_execute(void)
 #define CPU_INT_STATUS true1541_int_status
 
 /* FIXME:  We should activate the monitor here.  */
-#define JAM()                                                     \
-    do {                                                          \
-        UiError("   " CPU_STR ": JAM at $%04X   ", reg_pc);       \
-        DO_INTERRUPT(IK_RESET);                                   \
+#define JAM()                                                           \
+    do {                                                                \
+        ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);       \
+        DO_INTERRUPT(IK_RESET);                                         \
     } while (0)
 
 #define ROM_TRAP_ALLOWED() 1

@@ -260,7 +260,7 @@ void    xdebug_disable (void)
 {
     /*XtUnrealizeWidget (XDebugger);*/
     UpdateStatus(DS_Run);
-    UiDisplayPaused(0);
+    ui_display_paused(0);
 }
 
 
@@ -411,7 +411,7 @@ static void RunCb(Widget w, XtPointer clientData, XtPointer callData)
 {
     UpdateStatus(DS_Run);
     maincpu_trigger_trap(RunTrap);
-    UiDisplayPaused(0);
+    ui_display_paused(0);
 }
 
 static void StopTrap(ADDRESS addr)
@@ -420,13 +420,13 @@ static void StopTrap(ADDRESS addr)
     UpdateRegisters();
     set_asm(maincpu_regs.pc);
 
-    UiDisplayPaused(1);
+    ui_display_paused(1);
     suspend_speed_eval();
 
     while (halt && !step)
-	UiDispatchEvents();
+	ui_dispatch_events();
 
-    UiDisplaySpeed(0.0, 0.0, 0);
+    ui_display_speed(0.0, 0.0, 0);
 
     if (step)
 	maincpu_trigger_trap(StopTrap);
@@ -445,7 +445,7 @@ static void TraceTrap(ADDRESS addr)
 {
     UpdateRegisters();
     set_asm(maincpu_regs.pc);
-    UiDispatchEvents();
+    ui_dispatch_events();
     if (trace) {
 	maincpu_trigger_trap(TraceTrap);
 	XSync(debug_display, False);
@@ -570,7 +570,7 @@ static void NextTrap(void)
 
     UpdateRegisters();
     set_asm(maincpu_regs.pc);
-    UiDispatchEvents();
+    ui_dispatch_events();
     maincpu_trigger_trap(NextTrap);
 }
 #endif

@@ -268,8 +268,8 @@ static void display_speed(int num_frames)
 	frame_rate = (double)num_frames / (curr_time - prev_time);
 	speed_index = ((((double)diff_clk / (curr_time - prev_time))
 			/ (double)cycles_per_sec)) * 100.0;
-	UiDisplaySpeed((float)speed_index, (float)frame_rate,
-                       warp_mode_enabled);
+	ui_display_speed((float)speed_index, (float)frame_rate,
+                         warp_mode_enabled);
     }
     prev_time = curr_time;
     speed_eval_prev_clk = clk;
@@ -309,7 +309,7 @@ int do_vsync(int been_skipped)
 	}
     }
 
-    UiDispatchEvents();
+    ui_dispatch_events();
 
     if (warp_mode_enabled) {
         /* "Warp Mode".  Just skip as many frames as possible and do not

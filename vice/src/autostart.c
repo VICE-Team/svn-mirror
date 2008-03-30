@@ -123,7 +123,7 @@ static void settrue1541mode(int on)
         true1541_disable();
     }
 
-    UiUpdateMenus();
+    ui_update_menus();
 }
 
 /* Initialize autostart.  */
