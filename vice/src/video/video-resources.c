@@ -308,6 +308,7 @@ int video_resources_chip_init(const char *chipname,
         = (video_resource_chip_t *)lib_calloc(1, sizeof(video_resource_chip_t));
 
     video_render_initconfig((*canvas)->videoconfig);
+    (*canvas)->videoconfig->cap = video_chip_cap;
 
     /* Set single size render as default.  */
     (*canvas)->videoconfig->rendermode = video_chip_cap->single_mode.rmode;
