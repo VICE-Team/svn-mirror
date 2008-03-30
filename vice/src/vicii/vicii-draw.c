@@ -205,7 +205,7 @@ static void draw_std_text_cached(raster_cache_t *cache,
 #endif
 }
 
-static void draw_std_text (void)
+static void draw_std_text(void)
 {
 #ifndef VIDEO_REMOVE_2X
   ALIGN_DRAW_FUNC(_draw_std_text, 0,
