@@ -36,12 +36,14 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "fdc.h"
+#include "fsdevice.h"
 #include "fliplist.h"
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "vdrive-iec.h"
 #include "wd1770.h"
 
 static int file_system_device_enabled[4];
@@ -69,109 +71,130 @@ static resource_t resources[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static int file_system_set_serial_hooks(int unit, int fs)
+{
+    if (!fs) {
+        if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
+            log_error(LOG_ERR,
+                      "Could not initialize virtual drive emulation for device #%d.",
+                      unit);
+            return -1;
+        }
+    } else {
+        if (fsdevice_attach(unit, "FS Drive")) {
+            log_error(LOG_ERR, "Could not initialize FS drive for device #%d.",
+                    unit);
+            return -1;
+        }
+    }
+    return 0;
+}
+
 int file_system_init_resources(void)
 {
     return resources_register(resources);
 }
 
+typedef struct {
+    serial_t *serial;
+    vdrive_t *vdrive;
+} file_system_t;
+
+static file_system_t file_system[4];
+
 void file_system_init(void)
 {
-    serial_t *p;
-    vdrive_t *vdrive;
     int i;
 
     for (i = 0; i < 4; i++) {
-        p = serial_get_device(i + 8);
-        p->info = xmalloc(sizeof(vdrive_t));
-        vdrive = (vdrive_t *)p->info;
-        vdrive->image = NULL;
-        vdrive_setup_device(vdrive, i + 8, ((file_system_device_enabled[0] 
-                            ? DT_FS : DT_DISK)));
-        p->image = xmalloc(sizeof(disk_image_t));    
-        p->image->name = NULL;
+        file_system[i].serial = serial_get_device(i + 8);;
+        file_system[i].vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+        file_system[i].vdrive->image = NULL;
+        vdrive_setup_device(file_system[i].vdrive, i + 8);
+        file_system_set_serial_hooks(i + 8, file_system_device_enabled[0]);
+        file_system[i].vdrive->image = xmalloc(sizeof(disk_image_t));    
+        file_system[i].vdrive->image->name = NULL;
     }
+}
+
+
+void *file_system_get_vdrive(int unit)
+{
+    if (unit < 8 || unit > 11) {
+        log_error(LOG_ERR, "Wrong unit for vdrive");
+        exit(-1);
+    }
+    return (void *)(file_system[unit - 8].vdrive);
 }
 
 char *file_system_get_disk_name(int unit)
 {
-    serial_t *p;
-    p = serial_get_device(unit);
+    vdrive_t *vdrive;
+    vdrive = file_system_get_vdrive(unit);
 
-    return p->image->name;
+    return vdrive->image->name;
 }
 
 static int set_file_system_device8(resource_value_t v)
 {
-    serial_t *p;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     file_system_device_enabled[0] = (int) v;
 
-    p = serial_get_device(8);
-    floppy = (vdrive_t *)p->info;
-    if (floppy != NULL) {
-	if (floppy->image == NULL) {
-	    p->inuse = 0;
-	    vdrive_setup_device(floppy, 8, (file_system_device_enabled[0]
-                            ? DT_FS : DT_DISK));
-	}
+    vdrive = (vdrive_t *)file_system_get_vdrive(8);
+    if (vdrive != NULL) {
+        if (vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, 8);
+            file_system_set_serial_hooks(8, file_system_device_enabled[0]);
+        }
     }
     return 0;
 }
 
 static int set_file_system_device9(resource_value_t v)
 {
-    serial_t *p;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     file_system_device_enabled[1] = (int) v;
 
-    p = serial_get_device(9);
-    floppy = (vdrive_t *)p->info;
-    if (floppy != NULL) {
-	if (floppy->image == NULL) {
-	    p->inuse = 0;
-	    vdrive_setup_device(floppy, 9, (file_system_device_enabled[1]
-                                ? DT_FS : DT_DISK));
-	}
+    vdrive = (vdrive_t *)file_system_get_vdrive(9);
+    if (vdrive != NULL) {
+        if (vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, 9);
+            file_system_set_serial_hooks(9, file_system_device_enabled[1]);
+         }
     }
     return 0;
 }
 
 static int set_file_system_device10(resource_value_t v)
 {
-    serial_t *p;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     file_system_device_enabled[2] = (int) v;
 
-    p = serial_get_device(10);
-    floppy = (vdrive_t *)p->info;
-    if (floppy != NULL) {
-	if (floppy->image == NULL) {
-	    p->inuse = 0;
-	    vdrive_setup_device(floppy, 10, (file_system_device_enabled[2]
-                                 ? DT_FS : DT_DISK));
-	}
+    vdrive = (vdrive_t *)file_system_get_vdrive(10);
+    if (vdrive != NULL) {
+        if (vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, 10);
+            file_system_set_serial_hooks(10, file_system_device_enabled[2]);
+        }
     }
     return 0;
 }
 
 static int set_file_system_device11(resource_value_t v)
 {
-    serial_t *p;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     file_system_device_enabled[3] = (int) v;
 
-    p = serial_get_device(11);
-    floppy = (vdrive_t *)p->info;
-    if (floppy != NULL) {
-	if (floppy->image == NULL) {
-	    p->inuse = 0;
-	    vdrive_setup_device(floppy, 11, (file_system_device_enabled[3]
-                                 ? DT_FS : DT_DISK));
-	}
+    vdrive = (vdrive_t *)file_system_get_vdrive(11);
+    if (vdrive != NULL) {
+        if (vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, 11);
+            file_system_set_serial_hooks(11, file_system_device_enabled[3]);
+        }
     }
     return 0;
 }
@@ -276,17 +299,13 @@ void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
 
 int file_system_attach_disk(int unit, const char *filename)
 {
-    serial_t *p;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
-    p = serial_get_device(unit);
-    floppy = (vdrive_t *)p->info;
-    if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
-        p->inuse = 0;
-        vdrive_setup_device(floppy, unit, DT_DISK);
-    }
+    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    vdrive_setup_device(vdrive, unit);
+    file_system_set_serial_hooks(unit, 0);
 
-    if (attach_disk_image(p->image, (vdrive_t *)p->info, filename, unit) < 0) {
+    if (attach_disk_image(vdrive->image, vdrive, filename, unit) < 0) {
         file_system_detach_disk(unit);
         return -1;
     } else {
@@ -300,23 +319,23 @@ int file_system_attach_disk(int unit, const char *filename)
 void file_system_detach_disk(int unit)
 {
     int i;
-    serial_t *p;
+    vdrive_t *vdrive;
     
     if (unit < 0) {
-        p = serial_get_device(8);
-        detach_disk_image(p->image, (vdrive_t *)p->info, 8);
+        vdrive = file_system_get_vdrive(8);
+        detach_disk_image(vdrive->image, vdrive, 8);
         set_file_system_device8((resource_value_t)
                                 file_system_device_enabled[0]);
-        p = serial_get_device(9);
-        detach_disk_image(p->image, (vdrive_t *)p->info, 9);
+        vdrive = file_system_get_vdrive(9);
+        detach_disk_image(vdrive->image, vdrive, 9);
         set_file_system_device9((resource_value_t)
                                 file_system_device_enabled[1]);
-        p = serial_get_device(10);
-        detach_disk_image(p->image, (vdrive_t *)p->info, 10);
+        vdrive = file_system_get_vdrive(10);
+        detach_disk_image(vdrive->image, vdrive, 10);
         set_file_system_device10((resource_value_t)
                                  file_system_device_enabled[2]);
-        p = serial_get_device(11);
-        detach_disk_image(p->image, (vdrive_t *)p->info, 11);
+        vdrive = file_system_get_vdrive(11);
+        detach_disk_image(vdrive->image, vdrive, 11);
         set_file_system_device11((resource_value_t)
                                  file_system_device_enabled[3]);
 
@@ -325,8 +344,8 @@ void file_system_detach_disk(int unit)
             ui_display_drive_current_image(i - 8, "");
 	    
     } else {
-        p = serial_get_device(unit);
-        detach_disk_image(p->image, (vdrive_t *)p->info, unit);
+        vdrive = file_system_get_vdrive(unit);
+        detach_disk_image(vdrive->image, vdrive, unit);
         switch(unit) {
           case 8:
             set_file_system_device8((resource_value_t)
@@ -360,13 +379,11 @@ int vdrive_write_snapshot_module(snapshot_t *s, int start)
     int i;
     char snap_module_name[14];
     snapshot_module_t *m;
-    serial_t *p;
     vdrive_t *floppy;
 
     for (i = start; i <= 11; i++) {
 
-        p = serial_get_device(i);
-        floppy = (vdrive_t *)p->info;
+        floppy = (vdrive_t *)file_system_get_vdrive(i);
         if (floppy->image != NULL) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
             m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR,

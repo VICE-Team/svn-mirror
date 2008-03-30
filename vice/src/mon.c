@@ -50,6 +50,7 @@
 #endif
 
 #include "archdep.h"
+#include "attach.h"
 #include "asm.h"
 #include "charsets.h"
 #include "diskimage.h"
@@ -58,7 +59,6 @@
 #include "mon.h"
 #include "mon_parse.h"
 #include "resources.h"
-#include "serial.h"
 #include "utils.h"
 #include "vdrive.h"
 #include "vsync.h"
@@ -2135,14 +2135,11 @@ void mon_stack_down(int count)
 
 void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
-    serial_t *p;
     vdrive_t *floppy;
 
     evaluate_default_addr(&addr);
 
-    /* FIXME */
-    p = serial_get_device(8);
-    floppy = (vdrive_t *)p->info;
+    floppy = (vdrive_t *)file_system_get_vdrive(8);
 
     if (!floppy || floppy->image == NULL) {
         fprintf(mon_output, "No disk attached\n");
@@ -2209,12 +2206,10 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
 void mon_execute_disk_command(char *cmd)
 {
    int len, rc;
-   serial_t *p;
    vdrive_t *floppy;
 
    /* FIXME */
-   p = serial_get_device(8);
-   floppy = (vdrive_t *)p->info;
+   floppy = (vdrive_t *)file_system_get_vdrive(8);
 
    len = strlen(cmd);
    rc = vdrive_command_execute(floppy, (BYTE*)cmd, len);

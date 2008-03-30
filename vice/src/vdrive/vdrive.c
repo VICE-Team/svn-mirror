@@ -143,16 +143,13 @@ errortext_t floppy_error_messages[] =
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_setup_device(vdrive_t *vdrive, int unit, int type)
+int vdrive_setup_device(vdrive_t *vdrive, int unit)
 {
     int i;
 
     if (vdrive_log == LOG_ERR)
         vdrive_log = log_open("VDrive");
 
-    memset(vdrive, 0, sizeof(vdrive_t));  /* Init all pointers.  */
-
-    vdrive->type = type;
     vdrive->unit = unit;
 
     for (i = 0; i < 15; i++)
@@ -161,8 +158,9 @@ int vdrive_setup_device(vdrive_t *vdrive, int unit, int type)
     vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
     vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
 
+#if 0
     /* Initialise format constants.  */
-    set_disk_geometry(vdrive, type);
+    vdrive_set_disk_geometry(vdrive, type);
 
     /*
      * 'type' specifies what kind of emulation is selected
@@ -185,6 +183,7 @@ int vdrive_setup_device(vdrive_t *vdrive, int unit, int type)
             return(-1);
         }
     }
+#endif
     vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
@@ -1164,7 +1163,7 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
     vdrive->GCR_Header = (image->type == DISK_IMAGE_TYPE_GCR) ? 1 : 0;
 
     /* Initialise format constants */
-    set_disk_geometry(vdrive, image->type);
+    vdrive_set_disk_geometry(vdrive, image->type);
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
@@ -1238,10 +1237,10 @@ int num_blocks(int format, int tracks)
  * Initialise format constants
  */
 
-void set_disk_geometry(vdrive_t *floppy, int type)
+void vdrive_set_disk_geometry(vdrive_t *floppy, int type)
 {
     switch (type) {
-      case 1541:
+      case DISK_IMAGE_TYPE_D64:
         floppy->Bam_Track  = BAM_TRACK_1541;
         floppy->Bam_Sector = BAM_SECTOR_1541;
         floppy->bam_name   = BAM_NAME_1541;
@@ -1249,7 +1248,7 @@ void set_disk_geometry(vdrive_t *floppy, int type)
         floppy->Dir_Track  = DIR_TRACK_1541;
         floppy->Dir_Sector = DIR_SECTOR_1541;
         break;
-      case 1571:
+      case DISK_IMAGE_TYPE_D71:
         floppy->Bam_Track  = BAM_TRACK_1571;
         floppy->Bam_Sector = BAM_SECTOR_1571;
         floppy->bam_name   = BAM_NAME_1571;
@@ -1257,7 +1256,7 @@ void set_disk_geometry(vdrive_t *floppy, int type)
         floppy->Dir_Track  = DIR_TRACK_1571;
         floppy->Dir_Sector = DIR_SECTOR_1571;
         break;
-      case 1581:
+      case DISK_IMAGE_TYPE_D81:
         floppy->Bam_Track  = BAM_TRACK_1581;
         floppy->Bam_Sector = BAM_SECTOR_1581;
         floppy->bam_name   = BAM_NAME_1581;
@@ -1265,7 +1264,7 @@ void set_disk_geometry(vdrive_t *floppy, int type)
         floppy->Dir_Track  = DIR_TRACK_1581;
         floppy->Dir_Sector = DIR_SECTOR_1581;
         break;
-      case 8050:
+      case DISK_IMAGE_TYPE_D80:
         floppy->Bam_Track  = BAM_TRACK_8050;
         floppy->Bam_Sector = BAM_SECTOR_8050;
         floppy->bam_name   = BAM_NAME_8050;
@@ -1273,7 +1272,7 @@ void set_disk_geometry(vdrive_t *floppy, int type)
         floppy->Dir_Track  = DIR_TRACK_8050;
         floppy->Dir_Sector = DIR_SECTOR_8050;
         break;
-      case 8250:
+      case DISK_IMAGE_TYPE_D82:
         floppy->Bam_Track  = BAM_TRACK_8250;
         floppy->Bam_Sector = BAM_SECTOR_8250;
         floppy->bam_name   = BAM_NAME_8250;
@@ -1281,6 +1280,8 @@ void set_disk_geometry(vdrive_t *floppy, int type)
         floppy->Dir_Track  = DIR_TRACK_8250;
         floppy->Dir_Sector = DIR_SECTOR_8250;
         break;
+      default:
+        log_message(vdrive_log, "Unknown disk type %i.", type);
     }
 }
 
