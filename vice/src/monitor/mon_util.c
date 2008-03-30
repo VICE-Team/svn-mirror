@@ -48,7 +48,7 @@ int mon_out(const char *format, ...)
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
 
-    rc = uimon_out(buffer);
+    rc = uimon_out("%s", buffer);
     lib_free(buffer);
 
     if (rc < 0)

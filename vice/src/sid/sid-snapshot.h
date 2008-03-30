@@ -38,7 +38,9 @@ struct sid_snapshot_state_s {
     DWORD accumulator[3];
     DWORD shift_register[3];
     WORD rate_counter[3];
+    WORD rate_counter_period[3];
     WORD exponential_counter[3];
+    WORD exponential_counter_period[3];
     BYTE envelope_counter[3];
     BYTE envelope_state[3];
     BYTE hold_zero[3];

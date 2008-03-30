@@ -76,7 +76,7 @@ int uimon_out(const char *format, ...)
     {
         va_start(ap, format);
         buffer = lib_mvsprintf(format, ap);
-        rc = console_out(console_log, buffer);
+        rc = console_out(console_log, "%s", buffer);
         lib_free(buffer);
     }
     return rc;

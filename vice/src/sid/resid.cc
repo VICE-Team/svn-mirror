@@ -179,7 +179,9 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
         sid_state->accumulator[i] = (DWORD)state.accumulator[i];
         sid_state->shift_register[i] = (DWORD)state.shift_register[i];
         sid_state->rate_counter[i] = (WORD)state.rate_counter[i];
+        sid_state->rate_counter_period[i] = (WORD)state.rate_counter_period[i];
         sid_state->exponential_counter[i] = (WORD)state.exponential_counter[i];
+        sid_state->exponential_counter_period[i] = (WORD)state.exponential_counter_period[i];
         sid_state->envelope_counter[i] = (BYTE)state.envelope_counter[i];
         sid_state->envelope_state[i] = (BYTE)state.envelope_state[i];
         sid_state->hold_zero[i] = (BYTE)state.hold_zero[i];
@@ -201,7 +203,9 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.accumulator[i] = (reg24)sid_state->accumulator[i];
         state.shift_register[i] = (reg24)sid_state->shift_register[i];
         state.rate_counter[i] = (reg16)sid_state->rate_counter[i];
+        state.rate_counter_period[i] = (reg16)sid_state->rate_counter_period[i];
         state.exponential_counter[i] = (reg16)sid_state->exponential_counter[i];
+        state.exponential_counter_period[i] = (reg16)sid_state->exponential_counter_period[i];
         state.envelope_counter[i] = (reg8)sid_state->envelope_counter[i];
         state.envelope_state[i] = (EnvelopeGenerator::State)sid_state->envelope_state[i];
         state.hold_zero[i] = (sid_state->hold_zero[i] != 0);

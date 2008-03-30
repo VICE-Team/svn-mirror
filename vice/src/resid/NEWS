@@ -7,6 +7,8 @@ fixed in the fast version of the envelope clocking.
 An initialization bug in the Filter class which caused floating point
 exceptions on some platforms has been fixed.
 
+Missing fields have been added to SID::State for correct snapshots.
+
 By building shifted FIR tables with samples according to the sampling
 frequency, the resampling code dramatically reduces the computational
 effort in the filter convolutions, without any loss of accuracy. The
@@ -16,8 +18,9 @@ implementation builds on ideas by Laurent Ganier.
 The resampling code has been split into two functions, one using
 interpolation and a small set of shifted filter tables, and one using
 direct lookup and a large set of shifted filter tables. The accuracy
-is the same, the difference is that the direct lookup runs at almost
-twice the speed at the cost of approximately 16MB more memory. It is
+is the same, the difference is that the direct lookup runs has the
+potential of running at almost twice the speed (depending on cache
+size and memory bandwidth) using approximately 16MB more memory. It is
 now possible to run high quality resampling in real time on quite
 modest hardware, provided that a vectorizing compiler is used.
 

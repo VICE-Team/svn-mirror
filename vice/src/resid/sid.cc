@@ -268,12 +268,14 @@ SID::State::State()
 
   for (i = 0; i < 3; i++) {
     accumulator[i] = 0;
-    shift_register[i] = 0;
+    shift_register[i] = 0x7ffff8;
     rate_counter[i] = 0;
+    rate_counter_period[i] = 9;
     exponential_counter[i] = 0;
+    exponential_counter_period[i] = 1;
     envelope_counter[i] = 0;
     envelope_state[i] = EnvelopeGenerator::RELEASE;
-    hold_zero[i] = 0;
+    hold_zero[i] = true;
   }
 }
 
@@ -300,7 +302,7 @@ SID::State SID::read_state()
       | (wave.sync ? 0x02 : 0)
       | (envelope.gate ? 0x01 : 0);
     state.sid_register[j + 5] = (envelope.attack << 4) | envelope.decay;
-    state.sid_register[j + 6] = (envelope.decay << 4) | envelope.release;
+    state.sid_register[j + 6] = (envelope.sustain << 4) | envelope.release;
   }
 
   state.sid_register[j++] = filter.fc & 0x007;
@@ -326,7 +328,9 @@ SID::State SID::read_state()
     state.accumulator[i] = voice[i].wave.accumulator;
     state.shift_register[i] = voice[i].wave.shift_register;
     state.rate_counter[i] = voice[i].envelope.rate_counter;
+    state.rate_counter_period[i] = voice[i].envelope.rate_period;
     state.exponential_counter[i] = voice[i].envelope.exponential_counter;
+    state.exponential_counter_period[i] = voice[i].envelope.exponential_counter_period;
     state.envelope_counter[i] = voice[i].envelope.envelope_counter;
     state.envelope_state[i] = voice[i].envelope.state;
     state.hold_zero[i] = voice[i].envelope.hold_zero;
@@ -354,7 +358,9 @@ void SID::write_state(const State& state)
     voice[i].wave.accumulator = state.accumulator[i];
     voice[i].wave.shift_register = state.shift_register[i];
     voice[i].envelope.rate_counter = state.rate_counter[i];
+    voice[i].envelope.rate_period = state.rate_counter_period[i];
     voice[i].envelope.exponential_counter = state.exponential_counter[i];
+    voice[i].envelope.exponential_counter_period = state.exponential_counter_period[i];
     voice[i].envelope.envelope_counter = state.envelope_counter[i];
     voice[i].envelope.state = state.envelope_state[i];
     voice[i].envelope.hold_zero = state.hold_zero[i];
