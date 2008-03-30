@@ -45,7 +45,6 @@
 #include <os2me.h>
 
 #undef VERSION
-#define VERSION VICE2VERSION
 
 #ifdef __IBMC__
  #define inline _Inline  // This means only a possible inline. See doku.

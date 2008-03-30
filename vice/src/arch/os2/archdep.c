@@ -69,11 +69,12 @@ HMQ hmqMain;
 
 void PM_close(void)
 {
+    APIRET rc;
     log_message(LOG_DEFAULT, "archdep.c: PM_close");
-    WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
-    log_message(LOG_DEFAULT, "archdep.c: Msg Queue destroyed");
-    WinTerminate      (habMain);  // Release Anchor to PM
-    log_message(LOG_DEFAULT, "archdep.c: PM anchor released");
+    rc=WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
+    if (rc) log_message(LOG_DEFAULT, "archdep.c: Msg Queue destroyed (rc=%li)",rc);
+    rc=WinTerminate      (habMain);  // Release Anchor to PM
+    if (rc) log_message(LOG_DEFAULT, "archdep.c: PM anchor released (rc=%li)",rc);
 }
 
 void PM_open(void)
@@ -87,10 +88,6 @@ void PM_open(void)
 
 int archdep_startup(int *argc, char **argv)
 {
-    /*    FILE *fl;
-     fl=fopen("output","w");
-     fclose(fl);*/
-
     argv0 = (char*)strdup(argv[0]);
     orig_workdir = (char*) getcwd(NULL, GET_PATH_MAX);
     atexit(restore_workdir);
@@ -344,16 +341,16 @@ int archdep_spawn(const char *name, char **argv,
      from the termination queue */
 
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
-        log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue.");
+        log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
     else
     {
         if(rc=DosStartSession(&sd, &ulSession, &pid))  /* Start the child session */
-            log_message(LOG_DEFAULT,"archdep.c: Error in DosStartSession.");
+            log_message(LOG_DEFAULT,"archdep.c: Error in DosStartSession (rc=%li).",rc);
         else
         {
             if(rc=DosReadQueue(hqQueue, &rdRequest, &ulSzData,        /* Wait for the child session to end (you'll have to end it*/
                                &pvData, 0, DCWW_WAIT, &bPriority, 0)) /* in some other way */
-                log_message(LOG_DEFAULT,"archdep.c: Error in DosReadQueue.");
+                log_message(LOG_DEFAULT,"archdep.c: Error in DosReadQueue (rc=%li).",rc);
             else
             {
                 rc = ((CHILDINFO*)pvData)->usReturn;
@@ -364,7 +361,7 @@ int archdep_spawn(const char *name, char **argv,
     }
     free(cmdline);
     //    DosSleep(1000);
-    log_message(LOG_DEFAULT, "archdep.c: Return Code, rc = %li", rc);
+    log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
     return rc;
 }
 

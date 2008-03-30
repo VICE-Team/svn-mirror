@@ -36,7 +36,7 @@ typedef struct trap_s
     ADDRESS address;
     ADDRESS resume_address;
     BYTE check[3];
-#ifdef __STDC__
+#if defined(__STDC__) || defined(__IBMC__)
     void (*func)(void);
 #else
     void (*func)();

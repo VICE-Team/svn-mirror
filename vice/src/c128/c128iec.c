@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64cia.h"
 #include "c64iec.h"

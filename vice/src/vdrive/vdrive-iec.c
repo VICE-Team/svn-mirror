@@ -89,7 +89,7 @@ void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
 static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
                                    int length )
 {
-    int t_new, s_new, e;
+    unsigned int t_new, s_new, e;
     BYTE *buf = bi->buffer;
     BYTE *slot = bi->slot;
 

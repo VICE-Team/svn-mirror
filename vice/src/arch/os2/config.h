@@ -82,24 +82,6 @@
 /* Is digital joystick support avaiable?  */
 /* #undef HAS_DIGITAL_JOYSTICK */
 
-/* Package name.  */
-#define PACKAGE "vice"
-
-/* Version number and a stupid workaround, look at types.h */
-#ifdef VERSION
-#undef VERSION
-#endif
-
-#ifdef VICE2VERSION
-#undef VICE2VERSION
-#endif
-  
-#define VERSION      "1.2"
-#define VICE2VERSION "1.2"
-
-
-#define UNSTABLE                  /* Define if this version is unstable.              */
-
 #define FIXPOINT_ARITHMETIC   1   /* Use this (what is it?) for SID emulation         */
 
 #define SIZEOF_UNSIGNED_INT   4   /* The number of bytes in a unsigned int.           */

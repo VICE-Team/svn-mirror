@@ -34,30 +34,26 @@
 
 #include "log.h"
 #include "resources.h"
-//#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
-//                                 here...  */
 
 /* Notice that this has to be `int' to make resources work.  */
 static int keyset1[9], keyset2[9];
 
 /* ------------------------------------------------------------------------- */
-
 /* Joystick devices.  */
 static joystick_device_t joystick_device_1, joystick_device_2;
 
+// maybe this should be made really thread safe??
 static int set_joystick_device_1(resource_value_t v)
 {
-    joystick_device_t dev = (joystick_device_t)(int) v;
-
-    joystick_device_1 = dev;
+    joystick_device_1 = (joystick_device_t)(int) v;
+    joystick_value[1] = 0;;
     return 0;
 }
 
 static int set_joystick_device_2(resource_value_t v)
 {
-    joystick_device_t dev = (joystick_device_t)(int) v;
-
-    joystick_device_2 = dev;
+    joystick_device_2 = (joystick_device_t)(int) v;
+    joystick_value[2] = 0;
     return 0;
 }
 
@@ -160,9 +156,6 @@ int joystick_init_cmdline_options(void)
 /* Flag: is joystick present?  */
 int number_joysticks = 0;
 
-/* Flag: have we initialized the Allegro joystick driver?  */
-//static int joystick_init_done = 0;
-
 /* ------------------------------------------------------------------------- */
 
 int handle_keyset_mapping(joystick_device_t device, int *set,
@@ -217,13 +210,14 @@ void joystick_init(void)
 
     if (SWhGame) return;
 
-    if (!(rc=DosOpen("GAME$", &SWhGame, &action, 0, FILE_READONLY, FILE_OPEN,
-                 OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL)))
-        number_joysticks = 1;  // how to get number of joysticks?
-    else
+    if (rc=DosOpen("GAME$", &SWhGame, &action, 0, FILE_READONLY, FILE_OPEN,
+                 OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
+    {
         number_joysticks = 0;
-
-    log_message(LOG_DEFAULT, "joystick.c: DosOpen");
+        log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);
+    }
+    else
+        number_joysticks = 1;  // how to get number of joysticks?
 }
 
 /* Update the `joystick_value' variables according to the joystick status.  */
@@ -239,8 +233,8 @@ void joystick_update(void)
     const int joyA_right = 600; // value > 600
     const int joyB_up    = 200;
     const int joyB_down  = 600;
-    const int joyB_left  = 600;
-    const int joyB_right = 200;
+    const int joyB_left  = 200;
+    const int joyB_right = 600;
 
     if (!number_joysticks) return;
     // if (SWhGame == 0) return FALSE; // exit if game port is not opened
@@ -282,7 +276,7 @@ void joystick_close(void)
 {
     APIRET rc = \
         /* return */ DosClose(SWhGame);
-    log_message(LOG_DEFAULT, "joystick.c: DosClose");
+    log_message(LOG_DEFAULT, "joystick.c: DosClose (rc=%i)", rc);
 }
 
 /* Handle keys to emulate the joystick.  Warning: this is called within the

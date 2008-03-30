@@ -53,9 +53,11 @@
 #include <fourcc.h>
 #endif
 
+#include "version.h"
+
 static HMTX  hmtx;
 static CHAR  szClientClass [] = "VICE/2 Grafic Area";
-static CHAR  szTitleBarText[] = "VICE/2 " VICE2VERSION;
+static CHAR  szTitleBarText[] = "VICE/2 " VERSION;
 static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
 
@@ -98,20 +100,22 @@ static SETUP_BLITTER divesetup;
 
 static void video_close(void)
 {   // close Dive
+    APIRET rc;
     //    if (ulBuffer) { // share this with frame_buffer_free
     //        DiveFreeImageBuffer (hDiveInst, ulBuffer);
     //        ulBuffer=0;
     //        log_message(LOG_DEFAULT, "video.c: Dive image buffer freed (video_close).");
     //    }
     free(divesetup.pVisDstRects);
-    DiveClose(hDiveInst);
-    log_message(LOG_DEFAULT, "video.c: Dive closed.");
+    rc=DiveClose(hDiveInst);
+    if (rc) log_message(LOG_DEFAULT, "video.c: Dive closed (rc=%li).",rc);
 }
 
 int video_init(void) // initialize Dive
 {
-    if (DiveOpen(&hDiveInst, FALSE, NULL)) {
-        log_message(LOG_DEFAULT,"video.c: Could not open DIVE.");
+    APIRET rc;
+    if (rc=DiveOpen(&hDiveInst, FALSE, NULL)) {
+        log_message(LOG_DEFAULT,"video.c: Could not open DIVE (rc=%li).",rc);
         return -1;
     }
     atexit(video_close);
@@ -131,6 +135,7 @@ int video_init(void) // initialize Dive
 int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 {
     static int first=TRUE;
+    APIRET rc;
     if (first)  // be shure that image_buffer is freed (BEFORE video_close)
     {
         atexit(video_free);
@@ -142,10 +147,10 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     (*f)->width  = width;
     (*f)->height = height;
     log_message(LOG_DEFAULT,"video.c: Frame buffer allocated (%lix%li)",width,height);
-    if (DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
+    if (rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
                              width, height, 0, (*f)->bitmap))
-        log_message(LOG_DEFAULT,"video.c: Could not allocate Dive image buffer.");
-    log_message(LOG_DEFAULT,"video.c: Dive image buffer allocated.");
+        log_message(LOG_DEFAULT,"video.c: Could not allocate Dive image buffer (rc=%li).",rc);
+    //    log_message(LOG_DEFAULT,"video.c: Dive image buffer allocated.");
 
     return 0;
 }
@@ -325,6 +330,7 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 void PM_mainloop(VOID *arg)
 {
+    APIRET rc;
     HAB   hab;  // Anchor Block to PM
     HMQ   hmq;  // Handle to Msg Queue
     QMSG  qmsg; // Msg Queue Event
@@ -360,12 +366,12 @@ void PM_mainloop(VOID *arg)
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg) ;
 
-    WinDestroyWindow ((*ptr)->hwndFrame);
-    log_message(LOG_DEFAULT,"video.c: Graphic window destroyed");
-    WinDestroyMsgQueue(hmq);  // Destroy Msg Queue
-    log_message(LOG_DEFAULT,"video.c: Msg Queue destroyed");
-    WinTerminate (hab);       // Release Anchor to PM
-    log_message(LOG_DEFAULT,"video.c: PM anchor released");
+    rc=WinDestroyWindow ((*ptr)->hwndFrame);
+    if (rc) log_message(LOG_DEFAULT,"video.c: Graphic window destroyed (rc=%li)",rc);
+    rc=WinDestroyMsgQueue(hmq);  // Destroy Msg Queue
+    if (rc) log_message(LOG_DEFAULT,"video.c: Msg Queue destroyed (rc=%li)",rc);
+    rc=WinTerminate (hab);       // Release Anchor to PM
+    if (rc) log_message(LOG_DEFAULT,"video.c: PM anchor released (rc=%li)",rc);
     //    machine_shutdown();  // detach all disks
     //    sound_close();
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!

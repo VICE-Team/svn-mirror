@@ -10,6 +10,7 @@
 
 #include "dialogs.h"
 #include "config.h"
+#include "version.h"
 
 #define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
 

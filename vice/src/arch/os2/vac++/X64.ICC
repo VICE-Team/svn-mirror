@@ -146,10 +146,18 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             "vicii-sprites.c"  ,
             "vicii-cmdline-options.c"
 
+        option macros('global', 'yes')
+        {
+           source type('cpp') 'stdio.h'
+           source type('cpp') 'math.h'
+           source type('cpp') 'limits.h'
+           source type('cpp') 'types.h'
+        }
+
         source type (cpp) "resid.cc"
         source type (c)   "sid.c"
 
- 	source type (lib) "resid.lib"
+        source type (lib) "resid.lib"
     }
 }
 

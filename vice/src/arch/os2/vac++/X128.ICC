@@ -21,6 +21,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     target type(exe) "..\\..\\..\\..\\data\\x128.exe"
     {
         source type (lib) "mmpm2.lib"
+        source type (lib) "resid.lib"
         source type (rc)  "dialogs.rc"
         source type(c)
             "alarm.c",
@@ -159,7 +160,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
         source type (cpp) "resid.cc"
         source type (c)   "sid.c"
 
-        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.7\""), define("SIZEOF_INT", "\"4\"")
+/*        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.7\""), define("SIZEOF_INT", "\"4\"")
         {
             source type(cpp) "envelope.cc"
             source type(cpp) "extfilt.cc"
@@ -177,7 +178,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
             source type(cpp) "wave8580_PS_.cc"
             source type(cpp) "wave8580_P_T.cc"
             source type(cpp) "wave8580__ST.cc"
-        }
+        }*/
     }
     //option ipf_preopt("/i")
     //{

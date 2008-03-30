@@ -171,11 +171,11 @@ int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
 #endif
                 vdrive->deleted_files = 0;
 
-                /* Since vdrive_dir_remove_slot() uses 
+                /* Since vdrive_dir_remove_slot() uses
                  * vdrive_dir_find_first_slot() too, we cannot find the
-                 * matching files by simply repeating 
+                 * matching files by simply repeating
                  * vdrive_dir find_next_slot() calls alone; we have to re-call
-                 * vdrive_dir_find_first_slot() each time... EP 1996/04/07 
+                 * vdrive_dir_find_first_slot() each time... EP 1996/04/07
                  */
 
                 vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
@@ -385,7 +385,7 @@ static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
                  * track.
                  */
                 if (vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam,
-                    &track, &sector) >= 0) {
+                    (unsigned int*)&track, (unsigned int *)&sector) >= 0) {
                     /* Deallocate it and merely suggest it */
                     vdrive_bam_free_sector(vdrive->image_format, vdrive->bam,
                                            track, sector);

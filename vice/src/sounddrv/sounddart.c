@@ -154,14 +154,14 @@ void set_volume(int vol)
     MCI_SET_PARMS  MciSetParms;
 
     volume = vol;
-    
+
     DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT);
 
     if (!usDeviceID) {
         DosReleaseMutexSem(hmtxOC);
         return;
     }
-    
+
     memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
 
     MciSetParms.ulLevel = vol;
@@ -199,7 +199,7 @@ static int dart_init(warn_t *w, const char *param, int *speed,
     MCI_AMP_OPEN_PARMS AmpOpenParms;
     ULONG ulNumBuffers, ulLoop;
 
-    if (DosRequestMutexSem(hmtxOC, SEM_IMMEDIATE_RETURN)) return;
+    if (DosRequestMutexSem(hmtxOC, SEM_IMMEDIATE_RETURN)) return TRUE;
 
     // ---------
     memset (&AmpOpenParms, 0, sizeof (MCI_AMP_OPEN_PARMS));
@@ -285,7 +285,7 @@ static int dart_init(warn_t *w, const char *param, int *speed,
     *fragsize = BufferParms.ulBufferSize/sizeof(SWORD);
 
     // SECURITY for *fragnr <2 ????
-    
+
     for (ulLoop=0; ulLoop<*fragnr; ulLoop++)
         memset(buffers[ulLoop].pBuffer,0,*fragsize*sizeof(SWORD));
 

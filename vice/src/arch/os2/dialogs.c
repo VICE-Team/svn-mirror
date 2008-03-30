@@ -42,8 +42,40 @@
 #include "joystick.h"
 #include "resources.h"
 
+/* Is-this-dialog-open handling                                     */
+/*----------------------------------------------------------------- */
+
+#define DLGO_SOUND    0x1
+#define DLGO_JOYSTICK 0x2
+#define DLGO_DRIVE    0x4
+#define DLGO_ABOUT    0x8
+
+static int dlg_open = FALSE;
+
+int dlgOpen(int dlg)
+{
+    return dlg_open & dlg;
+}
+
+void setDlgOpen(int dlg)
+{
+    dlg_open |= dlg;
+}
+
+void delDlgOpen(int dlg)
+{
+    dlg_open &= ~dlg;
+}
+
+/* Needed prototype functions                                       */
+/*----------------------------------------------------------------- */
+
 extern void set_volume(int vol);
-extern int  get_volume();
+extern int  get_volume(void);
+
+
+/* Dialog procedures                                                */
+/*----------------------------------------------------------------- */
 
 MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -52,6 +84,9 @@ MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     const int ID_OFF = 2;
     switch (msg)
     {
+    case WM_INITDLG:
+        setDlgOpen(DLGO_SOUND);
+        break;
     case WM_PAINT:
         {
             if (first)
@@ -85,9 +120,14 @@ MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
     case WM_CLOSE:
         first = TRUE;
+        delDlgOpen(DLGO_SOUND);
         break;
     case WM_COMMAND:
-        if ((int)mp1==DID_CLOSE) first = TRUE;
+        if ((int)mp1==DID_CLOSE)
+        {
+            first = TRUE;
+            delDlgOpen(DLGO_SOUND);
+        }
         break;
     case WM_CONTROL:
         {
@@ -153,8 +193,6 @@ MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                     ULONG sound;
                     WinSendDlgItemMsg(hwnd, SPB_BUFFER, SPBM_QUERYVALUE, &sound, 0);
                     resources_set_value("SoundBufferSize", (resource_value_t)sound);
-                    log_message(LOG_DEFAULT, "SPBN END %i", sound);
-
                 }
                 break;
             }
@@ -182,6 +220,9 @@ MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 #define JOY_PORT2 0x200
     switch (msg)
     {
+    case WM_INITDLG:
+        setDlgOpen(DLGO_JOYSTICK);
+        break;
     case WM_PAINT:
         {
             if (first) {
@@ -198,12 +239,14 @@ MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
     case WM_CLOSE:
         first = TRUE;
+        delDlgOpen(DLGO_JOYSTICK);
         break;
     case WM_COMMAND:
         switch(LONGFROMMP(mp1))
         {
         case DID_CLOSE:
             first = TRUE;
+            delDlgOpen(DLGO_JOYSTICK);
             break;
         case ID_SWAP:
             {
@@ -257,6 +300,9 @@ MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
     switch (msg)
     {
+    case WM_INITDLG:
+        setDlgOpen(DLGO_DRIVE);
+        break;
     case WM_PAINT:
         {
             if (first) {
@@ -269,9 +315,14 @@ MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;
     case WM_CLOSE:
         first = TRUE;
+        delDlgOpen(DLGO_DRIVE);
         break;
     case WM_COMMAND:
-        if (LONGFROMMP(mp1)==DID_CLOSE) first = TRUE;
+        if (LONGFROMMP(mp1)==DID_CLOSE)
+        {
+            first = TRUE;
+            delDlgOpen(DLGO_DRIVE);
+        }
         break;
     case WM_CONTROL:
         {
@@ -287,27 +338,33 @@ MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+/* call to open dialog                                              */
+/*----------------------------------------------------------------- */
+
 void sound_dialog(HWND hwnd)
 {
-    HWND hwndDlg = WinLoadDlg(HWND_DESKTOP, hwnd, pm_sound, NULLHANDLE,
+    if (dlgOpen(DLGO_SOUND)) return;
+    /*HWND hwndDlg =*/ WinLoadDlg(HWND_DESKTOP, hwnd, pm_sound, NULLHANDLE,
                               DLG_SOUND, NULL);
 }
 
 void joystick_dialog(HWND hwnd)
 {
-    HWND hwndDlg = WinLoadDlg(HWND_DESKTOP, hwnd, pm_joystick, NULLHANDLE,
+    if (dlgOpen(DLGO_JOYSTICK)) return;
+    /*HWND 6hwndDlg =*/ WinLoadDlg(HWND_DESKTOP, hwnd, pm_joystick, NULLHANDLE,
                               DLG_JOYSTICK, NULL);
 }
 
 void drive_dialog(HWND hwnd)
 {
-    HWND hwndDlg = WinLoadDlg(HWND_DESKTOP, hwnd, pm_drive, NULLHANDLE,
+    if (dlgOpen(DLGO_DRIVE)) return;
+    /*HWND hwndDlg =*/ WinLoadDlg(HWND_DESKTOP, hwnd, pm_drive, NULLHANDLE,
                               DLG_DRIVE, NULL);
 }
 
 void about_dialog(HWND hwnd)
 {
-    HWND hwndDlg = WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
+    /*HWND hwndDlg =*/ WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
                               DLG_ABOUT, NULL);
 }
 

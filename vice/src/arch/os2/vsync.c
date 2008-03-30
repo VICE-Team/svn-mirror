@@ -339,36 +339,50 @@ int do_vsync(int been_skipped)
     }
     else
     {
-        if (refresh_rate) { // !=0
-            update_elapsed_frames(0); /* Fixed refresh rate.  */
+        if (refresh_rate)
+        {   // Fixed refresh rate.
+            update_elapsed_frames(0); 
             if (timer_speed && skip_counter >= elapsed_frames)
                 timer_sleep();
-            if (skip_counter < refresh_rate - 1) {
+            if (skip_counter < refresh_rate - 1)
+            {
                 skip_next_frame = 1;
                 skip_counter++;
             }
-            else skip_counter = elapsed_frames = 0;
+            else
+            {
+                skip_counter = elapsed_frames = 0;
+                // this is for better system response if CPU usage is 100%
+                DosSleep(1);
+            }
             patch_timer(sound_flush(relative_speed));
         }
         else
-        {
-            /* Dynamically adjusted refresh rate.  */
+        {   // Dynamically adjusted refresh rate.
             update_elapsed_frames(0);
-            if (skip_counter >= elapsed_frames) {
+            if (skip_counter >= elapsed_frames)
+            {
                 elapsed_frames = -1;
                 timer_sleep();
                 skip_counter = 0;
             }
             else
-                if (skip_counter < MAX_SKIPPED_FRAMES) {
+                if (skip_counter < MAX_SKIPPED_FRAMES)
+                {
                     skip_next_frame = 1;
                     skip_counter++;
                 }
-                else skip_counter = elapsed_frames = 0;
+                else
+                {
+                    skip_counter = elapsed_frames = 0;
+                    // this is for better system response if CPU usage is 100%
+                    DosSleep(1);
+                }
             patch_timer(sound_flush(relative_speed));
         }
     }
-    if (frame_counter >= refresh_frequency * 2) {
+    if (frame_counter >= refresh_frequency * 2)
+    {
         display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
