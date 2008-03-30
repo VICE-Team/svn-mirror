@@ -1,3 +1,16 @@
+2006-11-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.17.
+
+2006-11-12  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in: extended tests for gnome-ui to compile cleanly
+	on mac os x.
+
+2006-11-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added sidcart support.
+
 2006-11-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.16.
