@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "c128iec.h"
+#include "c128.h"
 #include "c64cia.h"
 #include "c64iec.h"
 #include "ciad.h"
@@ -269,21 +270,21 @@ iec_info_t *iec_get_drive_port(void)
 void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag();
+        cia2_set_flag(&(machine_context.cia2));
     parallel_cable_drive0_value = data;
 }
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
     if (handshake)
-        cia2_set_flag();
+        cia2_set_flag(&(machine_context.cia2));
     parallel_cable_drive1_value = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
 {
     if (handshake)
-        cia2_set_flag();
+        cia2_set_flag(&(machine_context.cia2));
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -369,7 +370,7 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
     /*log_debug("DW %02x %i", data, maincpu_clk);*/
     if (fast_drive_direction[dnr])
-        cia1_set_sdr(data);
+        cia1_set_sdr(&(machine_context.cia1), data);
 }
 
 void iec_fast_cpu_direction(int direction)

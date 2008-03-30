@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "c64-snapshot.h"
+#include "c64.h"
 #include "c64cia.h"
 #include "c64memsnapshot.h"
 #include "drive-snapshot.h"
@@ -71,8 +72,8 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks,
 
     if (maincpu_snapshot_write_module(s) < 0
         || c64_snapshot_write_module(s, save_roms) < 0
-        || cia1_snapshot_write_module(s) < 0
-        || cia2_snapshot_write_module(s) < 0
+        || cia1_snapshot_write_module(&(machine_context.cia1), s) < 0
+        || cia2_snapshot_write_module(&(machine_context.cia2), s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
@@ -107,8 +108,8 @@ int c64_snapshot_read(const char *name, int event_mode)
 
     if (maincpu_snapshot_read_module(s) < 0
         || c64_snapshot_read_module(s) < 0
-        || cia1_snapshot_read_module(s) < 0
-        || cia2_snapshot_read_module(s) < 0
+        || cia1_snapshot_read_module(&(machine_context.cia1), s) < 0
+        || cia2_snapshot_read_module(&(machine_context.cia2), s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
