@@ -864,10 +864,10 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
     buf = (BYTE *)xmalloc(sizeof(BYTE) * len);
 
-    for (i = 0; i < len; i++)
+    for (i = 0; i < (int)(len); i++)
         buf[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
 
-    for (i = 0; i < len; i++)
+    for (i = 0; i < (int)(len); i++)
         mon_set_mem_val(dest_mem, ADDR_LIMIT(dst + i), buf[i]);
 }
 
@@ -892,7 +892,7 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
     dst = addr_location(dest);
     dest_mem = addr_memspace(dest);
 
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < (int)(len); i++) {
         byte1 = mon_get_mem_val(src_mem, ADDR_LIMIT(start + i));
         byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst + i));
 
@@ -928,7 +928,7 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
 
     i = 0;
     mon_index = 0;
-    while (i < len) {
+    while (i < (int)(len)) {
         mon_set_mem_val(dest_mem, ADDR_LIMIT(start + i), data_buf[mon_index++]);        if (mon_index >= data_buf_len)
             mon_index = 0;
         i++;
@@ -948,7 +948,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
     int len;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-    if (len < 0 || len < data_buf_len) {
+    if (len < 0 || len < (int)(data_buf_len)) {
         uimon_out("Invalid range.\n");
         return;
     }
@@ -1224,7 +1224,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && old_addr != addr ) {
+    if (old_name && (ADDRESS)(old_addr) != addr ) {
         uimon_out("Warning: label(s) for address $%04x already exist.\n",
                   loc);
     }
