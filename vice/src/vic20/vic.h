@@ -63,16 +63,18 @@
 
 #ifdef VIC_DUPLICATES_PIXELS
 typedef PIXEL2 VIC_PIXEL;
-#define VIC_PIXEL(n)    RASTER_PIXEL2 (&vic.raster, n)
+#define VIC_PIXEL(n)    RASTER_PIXEL2(&vic.raster, n)
 typedef PIXEL4 VIC_PIXEL2;
-#define VIC_PIXEL2(n)   RASTER_PIXEL4 (&vic.raster, n)
+#define VIC_PIXEL2(n)   RASTER_PIXEL4(&vic.raster, n)
 #define VIC_PIXEL_WIDTH 2
+#define VIC_PIXEL_WIDTH_SHIFT 1
 #else
 typedef PIXEL VIC_PIXEL;
-#define VIC_PIXEL(n)    RASTER_PIXEL (&vic.raster, n)
+#define VIC_PIXEL(n)    RASTER_PIXEL(&vic.raster, n)
 typedef PIXEL2 VIC_PIXEL2;
-#define VIC_PIXEL2(n)   RASTER_PIXEL2 (&vic.raster, n)
+#define VIC_PIXEL2(n)   RASTER_PIXEL2(&vic.raster, n)
 #define VIC_PIXEL_WIDTH 1
+#define VIC_PIXEL_WIDTH_SHIFT 0
 #endif
 
 /* Cycle # within the current line.  */

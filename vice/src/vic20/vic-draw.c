@@ -61,8 +61,10 @@ static void init_drawing_tables(void)
 }
 
 
-static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int r)
+static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int rr)
 {
+    int r;
+
     if (cache->background_data[0] != vic.raster.background_color
         || cache->color_data_2[0] != vic.auxiliary_color
         || cache->numcols != vic.text_cols) {
@@ -70,8 +72,8 @@ static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int r)
         cache->color_data_2[0] = vic.auxiliary_color;
         cache->numcols = vic.text_cols;
         *xs = 0;
-        *xe = vic.text_cols;
-        r = 1;
+        *xe = vic.text_cols - 1;
+        rr = 1;
     }
 
     r = raster_cache_data_fill_text(cache->foreground_data,
@@ -82,18 +84,22 @@ static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int r)
                                     vic.raster.ycounter
                                     & ((vic.char_height >> 1) | 7),
                                     xs, xe,
-                                    r);
+                                    rr);
 
-    r = raster_cache_data_fill(cache->color_data_1,
-                               vic.color_ptr + vic.memptr,
-                               vic.text_cols,
-                               1,
-                               xs, xe,
-                               r);
+    r |= raster_cache_data_fill(cache->color_data_1,
+                                vic.color_ptr + vic.memptr,
+                                vic.text_cols,
+                                1,
+                                xs, xe,
+                                rr);
 
+#ifdef VIDEO_REMOVE_2X
+    /* Scale xs and xe from text_cols into 8 pixel units.  */
+    *xs = *xs << VIC_PIXEL_WIDTH_SHIFT;
+    *xe = ((*xe + 1) << VIC_PIXEL_WIDTH_SHIFT) - 1;
+#endif
     return r;
 }
-
 
 #define PUT_PIXEL(p, d, c, b, x, t) \
     if (!t || drawing_table[(d)][(b)][(x)]) \
@@ -125,7 +131,7 @@ inline static void draw(PIXEL *p, int xs, int xe, int reverse,
 
     for (i = xs; i <= xe; i++, p += 8 * VIC_PIXEL_WIDTH) {
         b = *(vic.color_ptr + vic.memptr + i);
-        c[2] = VIC_PIXEL (b & 0x7);
+        c[2] = VIC_PIXEL(b & 0x7);
         if (reverse & !(b & 0x8))
             d = ~(GET_CHAR_DATA(*(vic.screen_ptr + vic.memptr + i),
                                 vic.raster.ycounter));
@@ -137,7 +143,7 @@ inline static void draw(PIXEL *p, int xs, int xe, int reverse,
     }
 }
 
-static void draw_line (void)
+static void draw_line(void)
 {
     PIXEL *p;
 
@@ -179,7 +185,13 @@ static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
         + vic.raster.display_xstart);
 #endif /* VIDEO_REMOVE_2X */
 
+#ifdef VIDEO_REMOVE_2X
+    /* Scale back xs and xe from 8 pixel units to text_cols.  */
+    draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
+         ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 0, 0);
+#else
     draw(p, xs, xe, 0, 0);
+#endif
 }
 
 static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
@@ -194,7 +206,12 @@ static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
         + vic.raster.display_xstart);
 #endif /* VIDEO_REMOVE_2X */
 
+#ifdef VIDEO_REMOVE_2X
+    draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
+         ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 1, 0);
+#else
     draw(p, xs, xe, 1, 0);
+#endif
 }
 
 #ifndef VIDEO_REMOVE_2X
@@ -225,7 +242,7 @@ inline static void draw_2x(PIXEL *p, int xs, int xe, int reverse,
             d = GET_CHAR_DATA((vic.screen_ptr + vic.memptr)[i],
                               vic.raster.ycounter);
 
-        for (x = 0; x<8; x++)
+        for (x = 0; x < 8; x++)
             PUT_PIXEL2(p, d, c, b, x, transparent);
     }
 }
@@ -257,7 +274,12 @@ static void draw_line_cached_2x(raster_cache_t *cache, int xs, int xe)
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
+#ifdef VIDEO_REMOVE_2X
+    draw_2x(p, xs >> (VIC_PIXEL_WIDTH_SHIFT + 1),
+            ((xe + 1) >> (VIC_PIXEL_WIDTH_SHIFT + 1)) - 1, 0, 0);
+#else
     draw_2x(p, xs, xe, 0, 0);
+#endif
 }
 
 static void draw_reverse_line_cached_2x(raster_cache_t *cache, int xs, int xe)
@@ -267,7 +289,12 @@ static void draw_reverse_line_cached_2x(raster_cache_t *cache, int xs, int xe)
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
 
+#ifdef VIDEO_REMOVE_2X
+    draw_2x(p, xs >> (VIC_PIXEL_WIDTH_SHIFT + 1),
+            ((xe + 1) >> (VIC_PIXEL_WIDTH_SHIFT + 1)) - 1, 1, 0);
+#else
     draw_2x(p, xs, xe, 1, 0);
+#endif
 }
 
 #endif /* VIDEO_REMOVE_2X */
@@ -280,6 +307,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
                (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
 }
 
+#ifndef VIDEO_REMOVE_2X
 static void draw_std_background_2x(int start_pixel, int end_pixel)
 {
     vid_memset(vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH * 2,
@@ -287,6 +315,7 @@ static void draw_std_background_2x(int start_pixel, int end_pixel)
                vic.raster.background_color),
                (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH * 2);
 }
+#endif
 
 static void draw_std_foreground(int start_char, int end_char)
 {
