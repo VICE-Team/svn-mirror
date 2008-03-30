@@ -83,7 +83,7 @@ struct snapshot_s {
 
 /* ------------------------------------------------------------------------- */
 
-int snapshot_write_byte(FILE *f, BYTE data)
+static int snapshot_write_byte(FILE *f, BYTE data)
 {
     if (fputc(data, f) == EOF)
         return -1;
@@ -91,7 +91,7 @@ int snapshot_write_byte(FILE *f, BYTE data)
     return 0;
 }
 
-int snapshot_write_word(FILE *f, WORD data)
+static int snapshot_write_word(FILE *f, WORD data)
 {
     if (snapshot_write_byte(f, (BYTE)(data & 0xff)) < 0
         || snapshot_write_byte(f, (BYTE)(data >> 8)) < 0)
@@ -100,7 +100,7 @@ int snapshot_write_word(FILE *f, WORD data)
     return 0;
 }
 
-int snapshot_write_dword(FILE *f, DWORD data)
+static int snapshot_write_dword(FILE *f, DWORD data)
 {
     if (snapshot_write_word(f, (WORD)(data & 0xffff)) < 0
         || snapshot_write_word(f, (WORD)(data >> 16)) < 0)
@@ -109,8 +109,8 @@ int snapshot_write_dword(FILE *f, DWORD data)
     return 0;
 }
 
-int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
-                                 int len)
+static int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
+                                        int len)
 {
     int i, found_zero;
     BYTE c;
@@ -126,9 +126,9 @@ int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
     return 0;
 }
 
-int snapshot_write_byte_array(FILE *f, BYTE *data, int len)
+static int snapshot_write_byte_array(FILE *f, BYTE *data, unsigned int len)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < len; i++)
         if (snapshot_write_byte(f, data[i]) < 0)
@@ -137,7 +137,31 @@ int snapshot_write_byte_array(FILE *f, BYTE *data, int len)
     return 0;
 }
 
-int snapshot_write_string(FILE *f, const char *s)
+
+static int snapshot_write_word_array(FILE *f, WORD *data, unsigned int len)
+{
+    unsigned int i;
+
+    for (i = 0; i < len; i++)
+        if (snapshot_write_word(f, data[i]) < 0)
+            return -1;
+
+    return 0;
+}
+
+static int snapshot_write_dword_array(FILE *f, DWORD *data, unsigned int len)
+{
+    unsigned int i;
+
+    for (i = 0; i < len; i++)
+        if (snapshot_write_dword(f, data[i]) < 0)
+            return -1;
+
+    return 0;
+}
+
+
+static int snapshot_write_string(FILE *f, const char *s)
 {
     size_t len, i;
 
@@ -153,18 +177,18 @@ int snapshot_write_string(FILE *f, const char *s)
     return len + sizeof(WORD);
 }
 
-int snapshot_read_byte(FILE *f, BYTE *b_return)
+static int snapshot_read_byte(FILE *f, BYTE *b_return)
 {
     int c;
 
     c = fgetc(f);
     if (c == EOF)
         return -1;
-    *b_return = (BYTE) c;
+    *b_return = (BYTE)c;
     return 0;
 }
 
-int snapshot_read_word(FILE *f, WORD *w_return)
+static int snapshot_read_word(FILE *f, WORD *w_return)
 {
     BYTE lo, hi;
 
@@ -175,7 +199,7 @@ int snapshot_read_word(FILE *f, WORD *w_return)
     return 0;
 }
 
-int snapshot_read_dword(FILE *f, DWORD *dw_return)
+static int snapshot_read_dword(FILE *f, DWORD *dw_return)
 {
     WORD lo, hi;
 
@@ -186,9 +210,9 @@ int snapshot_read_dword(FILE *f, DWORD *dw_return)
     return 0;
 }
 
-int snapshot_read_byte_array(FILE *f, BYTE *b_return, int size)
+static int snapshot_read_byte_array(FILE *f, BYTE *b_return, unsigned int size)
 {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < size; i++)
         if (snapshot_read_byte(f, b_return + i) < 0)
@@ -197,7 +221,32 @@ int snapshot_read_byte_array(FILE *f, BYTE *b_return, int size)
     return 0;
 }
 
-int snapshot_read_string(FILE *f, char **s)
+
+static int snapshot_read_word_array(FILE *f, WORD *w_return, unsigned int size)
+{
+    unsigned int i;
+
+    for (i = 0; i < size; i++)
+        if (snapshot_read_word(f, w_return + i) < 0)
+            return -1;
+
+    return 0;
+}
+
+static int snapshot_read_dword_array(FILE *f, DWORD *dw_return,
+                                     unsigned int size)
+{
+    unsigned int i;
+
+    for (i = 0; i < size; i++)
+        if (snapshot_read_dword(f, dw_return + i) < 0)
+            return -1;
+
+    return 0;
+}
+
+
+static int snapshot_read_string(FILE *f, char **s)
 {
     int i, len;
     WORD w;
@@ -215,11 +264,11 @@ int snapshot_read_string(FILE *f, char **s)
     len = (int)w;
 
     if (len) {
-        p = (char*)xmalloc(len);
+        p = (char *)xmalloc(len);
         *s = p;
 
         for (i = 0; i < len; i++) {
-            if (snapshot_read_byte(f, (BYTE *)(p+i)) < 0) {
+            if (snapshot_read_byte(f, (BYTE *)(p + i)) < 0) {
                 p[0] = 0;
                 return -1;
             }
@@ -268,7 +317,8 @@ int snapshot_module_write_padded_string(snapshot_module_t *m, const char *s,
     return 0;
 }
 
-int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b, int len)
+int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b,
+                                     unsigned int len)
 {
     if (snapshot_write_byte_array(m->file, b, len) < 0)
         return -1;
@@ -276,6 +326,27 @@ int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b, int len)
     m->size += len;
     return 0;
 }
+
+int snapshot_module_write_word_array(snapshot_module_t *m, WORD *w,
+                                     unsigned int len)
+{
+    if (snapshot_write_word_array(m->file, w, len) < 0)
+        return -1;
+
+    m->size += len;
+    return 0;
+}
+
+int snapshot_module_write_dword_array(snapshot_module_t *m, DWORD *dw,
+                                      unsigned int len)
+{
+    if (snapshot_write_dword_array(m->file, dw, len) < 0)
+        return -1;
+
+    m->size += len;
+    return 0;
+}
+
 
 int snapshot_module_write_string(snapshot_module_t *m, const char *s)
 {
@@ -315,12 +386,30 @@ int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
 }
 
 int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,
-                                    int size)
+                                    unsigned int size)
 {
     if (ftell(m->file) + size > (long)(m->offset + m->size))
         return -1;
 
     return snapshot_read_byte_array(m->file, b_return, size);
+}
+
+int snapshot_module_read_word_array(snapshot_module_t *m, WORD *w_return,
+                                    unsigned int size)
+{
+    if (ftell(m->file) + size > (long)(m->offset + m->size))
+        return -1;
+
+    return snapshot_read_word_array(m->file, w_return, size);
+}
+
+int snapshot_module_read_dword_array(snapshot_module_t *m, DWORD *dw_return,
+                                     unsigned int size)
+{
+    if (ftell(m->file) + size > (long)(m->offset + m->size))
+        return -1;
+
+    return snapshot_read_dword_array(m->file, dw_return, size);
 }
 
 int snapshot_module_read_string(snapshot_module_t *m, char **charp_return)
