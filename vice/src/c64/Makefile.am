@@ -67,6 +67,8 @@ libc64_a_SOURCES = \
 	c64video.c \
 	georam.c \
 	georam.h \
+	mmc64.c \
+	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	plus256k.c \
@@ -117,6 +119,8 @@ libc64c128_a_SOURCES = \
 	c64tpi.h \
 	georam.c \
 	georam.h \
+	mmc64.c \
+	mmc64.h \
 	patchrom.c \
 	patchrom.h \
 	ramcart.c \

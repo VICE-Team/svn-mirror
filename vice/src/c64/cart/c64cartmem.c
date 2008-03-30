@@ -54,6 +54,7 @@
 #include "maincpu.h"
 #include "magicformel.h"
 #include "mikroass.h"
+#include "mmc64.h"
 #include "resources.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -365,6 +366,9 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
 
 BYTE REGPARM1 roml_read(WORD addr)
 {
+    if (mmc64_enabled)
+      return mmc64_roml_read(addr);
+
     if (ramcart_enabled)
         return ramcart_roml_read(addr);
 
@@ -401,7 +405,8 @@ BYTE REGPARM1 roml_read(WORD addr)
 
 void REGPARM2 roml_store(WORD addr, BYTE value)
 {
-    if (ramcart_enabled) {
+    if (ramcart_enabled)
+    {
         ramcart_roml_store(addr,value);
         return;
     }

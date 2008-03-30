@@ -130,5 +130,9 @@ InputPath=.\resvic20.rc
 
 SOURCE=.\resvic20cat.rc
 # End Source File
+# Begin Source File
+
+SOURCE=.\vice.manifest
+# End Source File
 # End Target
 # End Project

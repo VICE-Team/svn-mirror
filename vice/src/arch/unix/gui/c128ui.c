@@ -52,6 +52,7 @@
 #include "uisettings.h"
 #include "uireu.h"
 #include "uigeoram.h"
+#include "uimmc64.h"
 #include "uiramcart.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
@@ -239,6 +240,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_submenu },
     { N_("RAM Expansion Cart"),
       NULL, NULL, ramcart_submenu },
+    { N_("MMC64 emulation"),
+      NULL, NULL, mmc64_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
 #ifdef HAVE_TFE

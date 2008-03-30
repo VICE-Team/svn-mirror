@@ -46,6 +46,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mmc64.h"
 #include "monitor.h"
 #include "plus256k.h"
 #include "plus60k.h"
@@ -475,6 +476,31 @@ static void plus60k_init_config(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* init mmc64 memory table changes */
+
+static void mmc64_init_config(void)
+{
+  int i,j,k;
+
+  if (mmc64_enabled)
+  {
+    for (i = 0; i < NUM_CONFIGS; i++)
+    {
+      for (j = 0x80; j <= 0x9f; j++)
+      {
+        for (k = 0; k < NUM_VBANKS; k++)
+        {
+          if (mem_read_tab[i][j]==roml_read)
+            mem_write_tab[k][i][j]=mmc64_roml_store;
+        }
+      }
+    }
+    mmc64_init_card_config();
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
@@ -644,6 +670,7 @@ void mem_initialize_memory(void)
     plus60k_init_config();
     plus256k_init_config();
     c64_256k_init_config();
+    mmc64_init_config();
 }
 
 /* ------------------------------------------------------------------------- */

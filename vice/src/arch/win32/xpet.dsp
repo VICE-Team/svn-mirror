@@ -102,7 +102,7 @@ SOURCE=.\respet.rc
 !IF  "$(CFG)" == "xpet - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
@@ -114,7 +114,7 @@ InputPath=.\respet.rc
 !ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"
+USERDEP__RESPE="respet.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"respetreu.rc"	
 # Begin Custom Build
 InputPath=.\respet.rc
 
@@ -129,6 +129,10 @@ InputPath=.\respet.rc
 # Begin Source File
 
 SOURCE=.\respetcat.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\vice.manifest
 # End Source File
 # End Target
 # End Project

@@ -68,6 +68,8 @@ libarchgui_a_SOURCES = \
 	uikeyboard.h \
 	uilib.c \
 	uilib.h \
+	uimmc64.c \
+	uimmc64.h \
 	uimon.c \
 	uimouse.c \
 	uimouse.h \

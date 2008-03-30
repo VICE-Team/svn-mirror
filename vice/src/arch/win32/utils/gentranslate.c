@@ -30,8 +30,8 @@
 #include <string.h>
 
 /* found definitions */
-#define UNKNOWN			0
-#define FOUND_ID			1
+#define UNKNOWN   0
+#define FOUND_ID  1
 
 static char line_buffer[512];
 
@@ -43,8 +43,11 @@ int getline(FILE *file)
   while (c!='\n' && !feof(file) && counter<511)
   {
     c=fgetc(file);
-    line_buffer[counter]=c;
-    counter++;
+    if (c!=0xd)
+    {
+      line_buffer[counter]=c;
+      counter++;
+    }
   }
   line_buffer[counter]=0;
 

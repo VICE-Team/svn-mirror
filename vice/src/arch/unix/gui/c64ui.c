@@ -49,6 +49,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uimmc64.h"
 #include "uimouse.h"
 #include "uiperipheraliec.h"
 #include "uiplus256k.h"
@@ -277,6 +278,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, plus256k_submenu },
     { N_("256K RAM Expansion"),
       NULL, NULL, c64_256k_submenu },
+    { N_("MMC64 emulation"),
+      NULL, NULL, mmc64_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
 #ifdef HAVE_TFE

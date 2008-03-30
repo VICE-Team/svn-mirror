@@ -126,5 +126,9 @@ InputPath=.\resplus4.rc
 
 SOURCE=.\resplus4cat.rc
 # End Source File
+# Begin Source File
+
+SOURCE=.\vice.manifest
+# End Source File
 # End Target
 # End Project

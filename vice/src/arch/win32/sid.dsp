@@ -7,19 +7,19 @@
 CFG=sid - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "sid.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "sid.mak" CFG="sid - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
+!MESSAGE 
 !MESSAGE "sid - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "sid - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -82,54 +82,56 @@ LIB32=link.exe -lib
 # Name "sid - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\sid\fastsid.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\sid\resid.cc
 
 !IF  "$(CFG)" == "sid - Win32 Release"
 
 # Begin Custom Build
-IntDir=.\libs\sid\Release
 InputPath=..\..\sid\resid.cc
 InputName=resid
 
-"$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP "$(InputPath)"
+"..\\..\\sid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\\..\\sid\\$(InputName).cc ..\\..\\sid\\$(InputName).cpp /Y
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "sid - Win32 Debug"
 
 # Begin Custom Build
-IntDir=.\libs\sid\Debug
 InputPath=..\..\sid\resid.cc
 InputName=resid
 
-"$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "_DEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP  "$(InputPath)"
+"..\\..\\sid\\$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\\..\\sid\\$(InputName).cc ..\\..\\sid\\$(InputName).cpp /Y
 
 # End Custom Build
 
-!ENDIF
+!ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\sid\fastsid.c
+SOURCE=..\..\sid\resid.cpp
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\sid\sid-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\sid\sid-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\sid\sid-snapshot.c"
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\sid\sid.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\sid\sid-cmdline-options.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\sid\sid-resources.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\sid\sid-snapshot.c
 # End Source File
 # End Target
 # End Project

@@ -98,24 +98,24 @@ SOURCE=.\resc128.rc
 !IF  "$(CFG)" == "x128 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"restfe.rc"	
+USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc128.rc
 
 "resc128cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdrivec128.rc + restfe.rc resc128cat.rc /b
+	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resmmc64.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdrivec128.rc + restfe.rc resc128cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "x128 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"restfe.rc"	
+USERDEP__RESC1="resc128.rc"	"res.rc"	"resacia.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resmmc64.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdrivec128.rc"	"restfe.rc"	
 # Begin Custom Build
 InputPath=.\resc128.rc
 
 "resc128cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdrivec128.rc + restfe.rc resc128cat.rc /b
+	copy /b resc128.rc + res.rc + resacia.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resmmc64.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdrivec128.rc + restfe.rc resc128cat.rc /b
 
 # End Custom Build
 
@@ -125,6 +125,10 @@ InputPath=.\resc128.rc
 # Begin Source File
 
 SOURCE=.\resc128cat.rc
+# End Source File
+# Begin Source File
+
+SOURCE=.\vice.manifest
 # End Source File
 # End Target
 # End Project
