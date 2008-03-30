@@ -39,12 +39,6 @@
 #define UTIL_FILE_LOAD_SKIP_ADDRESS 1
 #define UTIL_FILE_LOAD_FILL         2
 
-extern char *stralloc(const char *str);
-extern void *xmalloc(size_t s);
-extern void *xcalloc(size_t nmemb, size_t size);
-extern void *xrealloc(void *p, size_t s);
-extern char *xmsprintf(const char *fmt, ...);
-extern char *xmvsprintf(const char *fmt, va_list args);
 extern char *util_concat(const char *s1, ...);
 extern BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
                          const BYTE *src, int src_size);
