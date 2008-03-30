@@ -468,9 +468,6 @@ void writeheader (void)
 
 
 	case TFF_P00:			/* Write P00 image header */
-	  if (app_resources.debugFlag)
-	      printf("writing PC64 header.\n");
-
 	  write_pc64header(tape->FileDs, (char *)(s + CAS_NAME_OFFSET), 0);
 	  fwrite (s + CAS_STAD_OFFSET, 1, 2, tape->FileDs);	/* Load Addr */
 	  break;

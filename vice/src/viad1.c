@@ -291,9 +291,11 @@ void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte)
       case VIA_DDRA:
 
     viaD1[addr] = byte;
-    if(app_resources.true1541ParallelCable)
+    if (true1541_parallel_cable_enabled)
 	parallel_cable_drive_write(viaD1[VIA_PRA] | ~viaD1[VIA_DDRA],
-	((addr == VIA_PRA) && ((viaD1[VIA_PCR] & 0xe) == 0xa)) ? 1 : 0);
+                                   (((addr == VIA_PRA)
+                                    && ((viaD1[VIA_PCR] & 0xe) == 0xa))
+                                    ? 1 : 0));
 	break;
 
       case VIA_PRB: /* port B */
@@ -489,10 +491,12 @@ BYTE REGPARM1 read_viaD1_(ADDRESS addr)
 
       case VIA_PRA_NHS: /* port A, no handshake */
 
-    return app_resources.true1541ParallelCable ?
-	parallel_cable_drive_read((((addr == VIA_PRA) &&
-	(viaD1[VIA_PCR] & 0xe) == 0xa)) ? 1 : 0) :
-	((viaD1[VIA_PRA] & viaD1[VIA_DDRA]) | (0xff & ~viaD1[VIA_DDRA]));
+    return (true1541_parallel_cable_enabled
+            ? parallel_cable_drive_read((((addr == VIA_PRA) &&
+                                          (viaD1[VIA_PCR] & 0xe) == 0xa))
+                                        ? 1 : 0)
+            : ((viaD1[VIA_PRA] & viaD1[VIA_DDRA])
+               | (0xff & ~viaD1[VIA_DDRA])));
 
 
       case VIA_PRB: /* port B */

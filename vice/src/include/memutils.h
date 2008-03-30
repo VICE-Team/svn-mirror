@@ -33,7 +33,7 @@
 
 #include "types.h"
 
-extern int mem_load_sys_file(const char *path, const char *name,
-			     BYTE *dest, int minsize, int maxsize);
+extern int mem_load_sys_file(const char *name, BYTE *dest,
+                             int minsize, int maxsize);
 
 #endif
