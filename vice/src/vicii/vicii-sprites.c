@@ -1114,10 +1114,13 @@ void vic_ii_sprites_reset_sprline(void)
     memset(sprline, 0, vic_ii.sprite_wrap_x);
 }
 
-void vic_ii_sprites_init_sprline(void)
+void vicii_sprites_init_sprline(void)
 {
-    if (sprline != NULL)
-        free(sprline);
-
-    sprline = xmalloc(vic_ii.sprite_wrap_x);
+    sprline = xrealloc(sprline, vic_ii.sprite_wrap_x);
 }
+
+void vicii_sprites_shutdown(void)
+{
+    free(sprline);
+}
+

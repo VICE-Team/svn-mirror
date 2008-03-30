@@ -1042,6 +1042,7 @@ void vicii_shutdown(void)
 {
     free(vic_ii.idle_3fff);
     free(vic_ii.idle_3fff_old);
+    vicii_sprites_shutdown();
     raster_free(&vic_ii.raster);
 }
 

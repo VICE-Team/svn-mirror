@@ -30,7 +30,7 @@
 #include "utils.h"
 
 
-void raster_changes_init (raster_changes_t *changes)
+void raster_changes_init(raster_changes_t *changes)
 {
     /* FIXME: More?  */
     changes->count = 0;

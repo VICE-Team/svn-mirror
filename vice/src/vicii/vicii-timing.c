@@ -114,6 +114,6 @@ void vicii_timing_set(machine_timing_t *machine_timing)
         break;
     }
 
-    vic_ii_sprites_init_sprline();
+    vicii_sprites_init_sprline();
 }
 
