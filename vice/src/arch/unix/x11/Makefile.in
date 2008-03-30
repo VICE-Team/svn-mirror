@@ -307,6 +307,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/arch/unix/archdep.h ../../../../src/archapi.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
 	../../../../src/interrupt.h ../../../../src/6510core.h \
 	../../../../src/arch/unix/types.h \
@@ -321,9 +322,10 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
 	../../../../src/arch/unix/kbd.h \
 	../../../../src/arch/unix/types.h ../../../../src/log.h \
-	../../../../src/palette.h ../../../../src/arch/unix/ui.h \
-	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h \
-	../../../../src/video.h videoarch.h
+	../../../../src/machine.h ../../../../src/palette.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h \
+	videoarch.h
 
 info-am:
 info: info-recursive

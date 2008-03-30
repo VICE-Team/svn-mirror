@@ -270,12 +270,12 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	drivetypes.h ../../src/alarm.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/monitor/mon.h ../../src/mos6510.h fdc.h \
-	../../src/gcr.h ../../src/iecdrive.h ../../src/parallel.h \
-	../../src/resources.h riotd.h ../../src/serial.h \
-	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
-	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h viad.h \
-	wd1770.h
+	../../src/gcr.h ../../src/iecdrive.h ../../src/machine.h \
+	../../src/parallel.h ../../src/resources.h riotd.h \
+	../../src/serial.h ../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
+	../../src/vdrive/vdrive.h viad.h wd1770.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/arch/unix/types.h \
 	../../src/alarm.h ciad.h drive.h ../../src/log.h drivecpu.h \
