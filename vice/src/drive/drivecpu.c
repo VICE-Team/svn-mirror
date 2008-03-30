@@ -721,7 +721,7 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_B(m, &sp) < 0
         || SMR_W(m, &pc) < 0
         || SMR_B(m, &status) < 0
-        || SMR_DW_INT(m, (int*)&(cpu->last_opcode_info)) < 0
+        || SMR_DW_UINT(m, &(cpu->last_opcode_info)) < 0
         || SMR_DW(m, &(cpu->last_clk)) < 0
         || SMR_DW(m, &(cpu->cycle_accum)) < 0
         || SMR_DW(m, &(cpu->last_exc_cycles)) < 0

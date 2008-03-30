@@ -1021,7 +1021,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             1.14.x so there might exist history files with TIMESTAMP events)
         */
         do {
-            if (SMR_DW_INT(m, (int*)&(type)) < 0) {
+            if (SMR_DW_UINT(m, &(type)) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
@@ -1031,7 +1031,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
                 return -1;
             }
 
-            if (SMR_DW_INT(m, (int*)&(size)) < 0) {
+            if (SMR_DW_UINT(m, &(size)) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
