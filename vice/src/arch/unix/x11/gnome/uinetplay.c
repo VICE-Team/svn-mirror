@@ -113,7 +113,7 @@ netplay_start_server (GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
     if (network_start_server() < 0)
-	ui_error(_("Couldn't start network server."));
+	ui_error(_("Couldn't start netplay server."));
     netplay_update_status();
     gnome_dialog_close(GNOME_DIALOG(netplay_dialog));
 }

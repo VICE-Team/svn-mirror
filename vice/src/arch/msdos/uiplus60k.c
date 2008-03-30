@@ -77,10 +77,10 @@ static TUI_MENU_CALLBACK(plus60k_image_file_callback)
 }
 
 static tui_menu_item_def_t plus60k_menu_items[] = {
-    { "_Enable +60K:", "Emulate +60K RAM Expansion Hack",
+    { "_Enable +60K:", "Emulate +60K RAM Expansion",
       toggle_PLUS60K_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "PLUS60K _base:", "Select the base address of the PLUS60K",
+    { "PLUS60K _base:", "Select the base address of the +60K RAM Expansion",
       plus60k_base_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
       "PLUS60K base" },

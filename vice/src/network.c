@@ -633,7 +633,7 @@ int network_connect_client(void)
     f = fopen(snapshotfilename, MODE_WRITE);
     if (f == NULL) {
 #ifdef HAS_TRANSLATION
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), snapshotfilename);
+        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT), snapshotfilename);
 #else
         ui_error(_("Cannot create snapshot file %s. Select different history directory!"), snapshotfilename);
 #endif

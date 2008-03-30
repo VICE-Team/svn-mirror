@@ -916,7 +916,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "&Reset del registratore al reset della CPU",IDC_DATASETTE_RESET_WITH_CPU,
                     7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    GROUPBOX        "Velocit√  del motore durante la lettura",IDC_STATIC,5,25,160,60
+    GROUPBOX        "Velocit‡ del motore durante la lettura",IDC_STATIC,5,25,160,60
     LTEXT           "cycle(s) additional &delay each trigger",
                     IDC_STATIC,42,42,120,8
     COMBOBOX        IDC_DATASETTE_SPEED_TUNING,9,41,30,80,CBS_DROPDOWNLIST |
@@ -1144,7 +1144,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE1_BUTTON,12,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,12,61,93,8
-    LTEXT           "&Velocit√  del fuoco automatico (1..32)",IDC_STATIC,12,74,70,8
+    LTEXT           "&Velocit‡ del fuoco automatico (1..32)",IDC_STATIC,12,74,70,8
     EDITTEXT        IDC_JOY_FIRE1_SPEED, 87,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE1_AXIS, 12,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -1157,7 +1157,7 @@ BEGIN
     COMBOBOX        IDC_JOY_FIRE2_BUTTON,122,47,93,60,
 		    CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "Impostazioni fuoco automatico",IDC_STATIC,122,61,93,8
-    LTEXT           "&Velocit√  del fuoco automatico (1..32)",IDC_STATIC,122,74,70,8
+    LTEXT           "&Velocit‡ del fuoco automatico (1..32)",IDC_STATIC,122,74,70,8
     EDITTEXT        IDC_JOY_FIRE2_SPEED, 197,72,18,12,WS_TABSTOP | 0x2000L
     COMBOBOX        IDC_JOY_FIRE2_AXIS, 122,87,93,60,
                     CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
@@ -2185,11 +2185,11 @@ IDD_MEDIAFILE_DIALOG_IT DIALOG DISCARDABLE 0,0, 300, 100
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Select Driver:",IDC_STATIC,5,0,45,20
+    LTEXT           "Seleziona Driver:",IDC_STATIC,5,0,45,20
     COMBOBOX        IDC_SCREENSHOT_DRIVER, 55,0,155,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
-    GROUPBOX        "FFMPEG settings",IDC_STATIC,5,20,250,75
-    LTEXT           "Format:",IDC_STATIC,15,37,40,20
+    GROUPBOX        "Impostazioni FFMPEG",IDC_STATIC,5,20,250,75
+    LTEXT           "Formato:",IDC_STATIC,15,37,40,20
     COMBOBOX        IDC_SCREENSHOT_FFMPEGFORMAT, 50,35,60,200,CBS_DROPDOWNLIST |
                     WS_GROUP | WS_TABSTOP
     LTEXT           "Audio: codec",IDC_STATIC,15,57,45,15
@@ -2574,18 +2574,18 @@ BEGIN
     LTEXT           "Driver:",IDC_STATIC,9,2,120,8
     COMBOBOX        IDC_FULLSCREEN_DEVICE,9,13,150,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Bit di profondit√ :",IDC_STATIC,9,32,100,8
+    LTEXT           "Bit di profondit‡:",IDC_STATIC,9,32,100,8
     COMBOBOX        IDC_FULLSCREEN_BITDEPTH,99,28,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "Risoluzione:",IDC_STATIC,9,47,100,8
     COMBOBOX        IDC_FULLSCREEN_RESOLUTION,99,43,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Velocit√  di aggiornamento:",IDC_STATIC,9,62,100,8
+    LTEXT           "Velocit‡ di aggiornamento:",IDC_STATIC,9,62,100,8
     COMBOBOX        IDC_FULLSCREEN_REFRESHRATE,99,58,60,80,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "Sincronizzazione VBLANK", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
                     9,77,100,8, BS_AUTOCHECKBOX | WS_TABSTOP
-    AUTOCHECKBOX    "Render to DX Primary surface", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+    AUTOCHECKBOX    "Visualizza sulla superficie primaria DX", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                     9,92,120,8, BS_AUTOCHECKBOX | WS_TABSTOP
 END
 
@@ -2734,7 +2734,7 @@ BEGIN
     LTEXT           "Contrasto",IDC_STATIC,12,24,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,24,28,8
     EDITTEXT        IDC_VIDEO_COLORS_CON, 85,22,32,12,WS_TABSTOP
-    LTEXT           "Luminosit√ ",IDC_STATIC,12,36,40,8
+    LTEXT           "Luminosit‡",IDC_STATIC,12,36,40,8
     LTEXT           "(0..2)",IDC_STATIC,52,36,28,8
     EDITTEXT        IDC_VIDEO_COLORS_BRI, 85,34,32,12,WS_TABSTOP
 END
@@ -2909,7 +2909,7 @@ BEGIN
     LTEXT           "(0..1)",IDC_STATIC,52,48+5,28,8
     EDITTEXT        IDC_VIDEO_ADVANCED_BLUR, 85,46+5,32,12,WS_TABSTOP
 
-    LTEXT           "Modalit√  PAL",IDC_STATIC,12,48+12+5,40,8
+    LTEXT           "Modalit‡ PAL",IDC_STATIC,12,48+12+5,40,8
     COMBOBOX        IDC_VIDEO_ADVANCED_MODE,85,46+12+5,120,112,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_GROUP | WS_TABSTOP
 
@@ -3331,10 +3331,10 @@ END
 
 IDD_CUSTOM_SPEED_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 55
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Velocit√  personalizzata"
+CAPTION "Velocit‡ personalizzata"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Inserire la velocit√  [%]", IDC_STATIC,5,7,80,8
+    LTEXT           "Inserire la velocit‡ [%]", IDC_STATIC,5,7,80,8
     EDITTEXT        IDC_CUSTOM_SPEED, 90,7,60,12,WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 25,35,50,14, WS_TABSTOP
@@ -4177,18 +4177,18 @@ END
 
 IDD_NETWORK_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Netplay Settings"
+CAPTION "Impostazioni Netplay"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Current mode",IDC_STATIC, 9,8,45,8
+    LTEXT           "Modalit‡ attuale",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,115,12,WS_TABSTOP
-    LTEXT           "TCP-Port",IDC_STATIC, 9,32,30,8
+    LTEXT           "Porta TCP",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
-    PUSHBUTTON      "Connect to", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
+    PUSHBUTTON      "Avvia server", IDC_NETWORK_SERVER, 85,30,88,14,WS_TABSTOP
+    PUSHBUTTON      "Connetti a", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,90,12,WS_TABSTOP
-    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 99,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Disconnetti", IDC_NETWORK_DISCONNECT, 9,78,70,14,WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 99,78,70,14,WS_TABSTOP
 END
 
 
@@ -4624,10 +4624,10 @@ BEGIN
 #endif
 #ifdef HAVE_NETWORK
   IDS_IDLE_DE                        "Idle"
-  IDS_SERVER_LISTENING_DE            "Server listening"
-  IDS_CONNECTED_SERVER_DE            "Connected server"
-  IDS_CONNECTED_CLIENT_DE            "Connected client"
-  IDS_INVALID_PORT_NUMBER_DE         "Invalid port number"
+  IDS_SERVER_LISTENING_DE            "Server wartet auf Verbindung"
+  IDS_CONNECTED_SERVER_DE            "Verbunden, Server"
+  IDS_CONNECTED_CLIENT_DE            "Verbunden, Client"
+  IDS_INVALID_PORT_NUMBER_DE         "Ung¸ltige Port Nummer"
   IDS_ERROR_STARTING_SERVER_DE       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT_DE     "An error occured connecting the client."
 #endif
@@ -4847,22 +4847,22 @@ BEGIN
   IDS_VICE_QUESTION_IT               "Domanda di VICE"
   IDS_FFMPEG_DLL_MISMATCH_IT         "La versione della DLL ffmpeg non corrisponde."
   IDS_DIRECTDRAW_ERROR_IT            "Errore DirectDraw: Codice:%8x Errore:%s"
-  IDS_CANNOT_SAVE_SETTINGS_IT        "Non √® possibile salvare le impostazioni."
-  IDS_CANNOT_LOAD_SETTINGS_IT        "Non √® possibile caricare le impostazioni."
+  IDS_CANNOT_SAVE_SETTINGS_IT        "Non Ë possibile salvare le impostazioni."
+  IDS_CANNOT_LOAD_SETTINGS_IT        "Non Ë possibile caricare le impostazioni."
   IDS_DEFAULT_SETTINGS_RESTORED_IT   "Impostazioni originarie ripristinate."
-  IDS_CANNOT_ATTACH_FILE_IT          "Non √® possibile seleziona il file specificato"
+  IDS_CANNOT_ATTACH_FILE_IT          "Non Ë possibile seleziona il file specificato"
   IDS_START_MONITOR_IT               "%s\012\012Avvia il monitor?"
   IDS_VICE_CPU_JAM_IT                "VICE CPU JAM"
   IDS_EXTEND_TO_40_TRACKS_IT         "Astendere l'immagine al formato di 40 tracce?"
   IDS_DETACHED_DEVICE_S_IT           "Rimosso dispositivo %s"
   IDS_ATTACHED_S_TO_DEVICE_S_IT      "Selezionato %s per la periferica #%s"
   IDS_DETACHED_TAPE_IT               "Cassetta rimossa"
-  IDS_HISTORY_RECORDED_UNKNOWN_IT    "History recorded with unknown release"
-  IDS_HISTORY_RECORDED_VICE_S_IT     "History recorded with VICE-%s"
+  IDS_HISTORY_RECORDED_UNKNOWN_IT    "Cronologia registrata con una release sconosciuta"
+  IDS_HISTORY_RECORDED_VICE_S_IT     "Cronologia registrata con VICE-%s"
   IDS_PAUSED_IT                      "pausa"
   IDS_RESUMED_IT                     "ripreso"
   IDS_REALLY_EXIT_IT                 "Uscire davvero?\012\012Tutti i dati presenti nella RAM emulata saranno persi."
-  IDS_CANNOT_AUTOSTART_FILE_IT       "Non √® possibile far partire automaticamente il file specificato."
+  IDS_CANNOT_AUTOSTART_FILE_IT       "Non Ë possibile far partire automaticamente il file specificato."
   IDS_ATTACHED_TAPE_S_IT             "Cassetta %s selezionata"
   IDS_SETTINGS_SAVED_SUCCESS_IT      "Impostazioni salvate con successo."
   IDS_SETTINGS_LOADED_SUCCESS_IT     "Impostazioni caricate con successo."
@@ -4874,24 +4874,24 @@ BEGIN
   IDS_INVALID_CARTRIDGE_IMAGE_IT     "Immagine della cartuccia non valida"
   IDS_LOG_CONSOLE_OUTPUT_IMAGE_IT    "Immagine dell'output della console di log"
   IDS_LOG_FILES_TYPE_IT              "File di log (*.dbg)"
-  IDS_CANNOT_WRITE_LOGFILE_S_IT      "Non √® possibile scrivere il file di log `%s'."
+  IDS_CANNOT_WRITE_LOGFILE_S_IT      "Non Ë possibile scrivere il file di log `%s'."
   IDS_LOAD_FLIP_LIST_FILE_IT         "Carica il file della fliplist"
-  IDS_CANNOT_READ_FLIP_LIST_IT       "Non √® possibile leggere il file della fliplist"
+  IDS_CANNOT_READ_FLIP_LIST_IT       "Non Ë possibile leggere il file della fliplist"
   IDS_SAVE_FLIP_LIST_FILE_IT         "Salva il file della fliplist"
-  IDS_CANNOT_WRITE_FLIP_LIST_IT      "Non √® possibile scrivere il file della flip list"
+  IDS_CANNOT_WRITE_FLIP_LIST_IT      "Non Ë possibile scrivere il file della flip list"
   IDS_SELECT_KEYMAP_FILE_IT          "Seleziona il file della mappa della tastiera"
   IDS_SAVE_KEYMAP_FILE_IT            "Salva il file della mappa della tastiera"
-  IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Non √® possibile scrivere il file della mappa della tastiera"
-  IDS_MAPPING_IT                     "Mapping"
+  IDS_CANNOT_WRITE_KEYMAP_FILE_IT    "Non Ë possibile scrivere il file della mappa della tastiera"
+  IDS_MAPPING_IT                     "Mappatura"
   IDS_KEYBOARD_SETTINGS_IT           "Impostazioni della tastiera"
   IDS_ATTACH_IT                      "&Seleziona"
   IDS_PLEASE_ENTER_A_FILENAME_IT     "Specifica il nome del file."
   IDS_OVERWRITE_EXISTING_IMAGE_IT    "Sovrascrivo l'immagine esistente?"
-  IDS_CANNOT_CREATE_IMAGE_IT         "Non √® possibile creare l'immagine"
+  IDS_CANNOT_CREATE_IMAGE_IT         "Non Ë possibile creare l'immagine"
   IDS_COMMAND_LINE_OPTIONS_IT        "Parametri della riga di comando"
   IDS_COMMAND_OPTIONS_AVAIL_IT       "Quali parametri della riga di comando sono disponibili?"
   IDS_NO_DRIVER_SELECT_SUPPORT_IT    "Nessun driver selezionato o driver selezionato non supportato"
-  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Non √® possibile scrivere il file di snapshot `%s'."
+  IDS_CANT_WRITE_SCREENSHOT_S_IT     "Non Ë possibile scrivere il file di snapshot `%s'."
   IDS_AUTOSTART_DISK_IMAGE_IT        "Avvia automaticamente l'immagine del disco"
   IDS_SELECT_FS_DIRECTORY_IT         "Seleziona la directory del file system"
   IDS_PRINTER_USERPORT_IT            "Stampante su userport"
@@ -4902,23 +4902,23 @@ BEGIN
   IDS_DRIVE_10_IT                    "Drive 10"
   IDS_DRIVE_11_IT                    "Drive 11"
   IDS_PERIPHERAL_SETTINGS_IT         "Impostazioni delle periferiche"
-  IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Non √® possibile scrivere il file di snapshot."
-  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Non √® possibile leggere l'immagine di snapshot"
+  IDS_CANT_WRITE_SNAPSHOT_FILE_IT    "Non Ë possibile scrivere il file di snapshot."
+  IDS_CANNOT_READ_SNAPSHOT_IMG_IT    "Non Ë possibile leggere l'immagine di snapshot"
   IDS_LOAD_S_ROM_IMAGE_IT            "Carica immagine della ROM %s"
   IDS_SELECT_ROMSET_ARCHIVE_IT       "Seleziona l'archivio del ROM set"
-  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Non √® possibile caricare l'archivio del ROM set!"
-  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Non √® possibile salvare l'archivio del ROM set!"
-  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Non √® possibile caricare il file del ROM set!"
-  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Non √® possibile salvare il file del ROM set!"
+  IDS_CANNOT_LOAD_ROMSET_ARCH_IT     "Non Ë possibile caricare l'archivio del ROM set!"
+  IDS_CANNOT_SAVE_ROMSET_ARCH_IT     "Non Ë possibile salvare l'archivio del ROM set!"
+  IDS_CANNOT_LOAD_ROMSET_FILE_IT     "Non Ë possibile caricare il file del ROM set!"
+  IDS_CANNOT_SAVE_ROMSET_FILE_IT     "Non Ë possibile salvare il file del ROM set!"
   IDS_SELECT_ROMSET_FILE_IT          "Seleziona il file del ROM set"
   IDS_ROMSET_IT                      "Romset"
   IDS_COMPUTER_IT                    "Computer"
   IDS_DRIVE_IT                       "Drive"
   IDS_ROM_SETTINGS_IT                "Impostazioni delle ROM"
   IDS_SAVE_SNAPSHOT_IMAGE_IT         "Salva l'immagine dello snapshot"
-  IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Non √® possibile scrivere il file di snapshot `%s'."
+  IDS_CANNOT_WRITE_SNAPSHOT_S_IT     "Non Ë possibile scrivere il file di snapshot `%s'."
   IDS_LOAD_SNAPSHOT_IMAGE_IT         "Carica immagine dello snapshot"
-  IDS_COULD_NOT_LOAD_PALETTE_IT      "Non √® possibile caricare il file di palette."
+  IDS_COULD_NOT_LOAD_PALETTE_IT      "Non Ë possibile caricare il file di palette."
   IDS_LOAD_VICE_PALETTE_FILE_IT      "Carica il file di palette di VICE"
   IDS_FULLSCREEN_IT                  "Schermo intero"
   IDS_COLORS_IT                      "Colori"
@@ -4953,7 +4953,7 @@ BEGIN
   IDS_WHO_MADE_WHAT_IT               "Chi ha fatto cosa?"
   IDS_LICENSE_IT                     "Licenza"
   IDS_NO_WARRANTY_IT                 "Nessuna garanzia!"
-  IDS_VICE_WITHOUT_WARRANTY_IT       "VICE √® distribuito SENZA NESSUNA GARANZIA!"
+  IDS_VICE_WITHOUT_WARRANTY_IT       "VICE Ë distribuito SENZA NESSUNA GARANZIA!"
   IDS_PRESS_KEY_NORTHWEST_IT         "Permi il tasto per nord ovest"
   IDS_PRESS_KEY_NORTH_IT             "Premi il tasto per nord"
   IDS_PRESS_KEY_NORTHEAST_IT         "Premi il tasto per nord est"
@@ -5008,18 +5008,18 @@ BEGIN
   IDS_USE_FIRST_CPU_SMP_IT           "Usa solo la prima CPU sui sistemi SMP"
   IDS_START_VICE_FULLSCREEN_MODE_IT  "Avvia VICE a tutto schermo"
 #ifdef SYS_SIGLIST_DECLARED
-  IDS_RECEIVED_SIGNAL_D_S_IT         "An unexpected error occured. Received signal %d (%s)."
+  IDS_RECEIVED_SIGNAL_D_S_IT         "Si ‡ verificato un errore non previsto. E' stato ricevuto il segnale %d (%s)."
 #else
-  IDS_RECEIVED_SIGNAL_D_IT           "An unexpected error occured. Received signal %d."
+  IDS_RECEIVED_SIGNAL_D_IT           "Si ‡ verificato un errore non previsto. E' stato ricevuto il segnale %d."
 #endif
 #ifdef HAVE_NETWORK
-  IDS_IDLE_IT                        "Idle"
-  IDS_SERVER_LISTENING_IT            "Server listening"
-  IDS_CONNECTED_SERVER_IT            "Connected server"
-  IDS_CONNECTED_CLIENT_IT            "Connected client"
-  IDS_INVALID_PORT_NUMBER_IT         "Invalid port number"
-  IDS_ERROR_STARTING_SERVER_IT       "An error occured starting the server."
-  IDS_ERROR_CONNECTING_CLIENT_IT     "An error occured connecting the client."
+  IDS_IDLE_IT                        "Inattivo"
+  IDS_SERVER_LISTENING_IT            "Server in ascolto"
+  IDS_CONNECTED_SERVER_IT            "Server connesso"
+  IDS_CONNECTED_CLIENT_IT            "Client connesso"
+  IDS_INVALID_PORT_NUMBER_IT         "Numero di porta non valido"
+  IDS_ERROR_STARTING_SERVER_IT       "Si ‡ verificato un errore durante l'avvio del server."
+  IDS_ERROR_CONNECTING_CLIENT_IT     "Si ‡ verificato un errore durante la connessione al client."
 #endif
 END
 

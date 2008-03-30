@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-01-07 01:50+0100\n"
+"POT-Creation-Date: 2006-01-08 20:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4770,7 +4770,7 @@ msgid "Status: %s, Server: %s, Port: %d"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:116
-msgid "Couldn't start network server."
+msgid "Couldn't start netplay server."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:126

@@ -155,7 +155,7 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_C128_FUNCTIONROM_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_C128_FUNCTIONROM_SETTINGS_DIALOG_SV},   /* size */
 
-/* resc128.rc */
+/* resdrivec128.rc */
 /* en */ {IDD_DRIVE_SETTINGS_DIALOG_C128,
 /* de */  IDD_DRIVE_SETTINGS_DIALOG_C128_DE,    /* size */
 /* fr */  IDD_DRIVE_SETTINGS_DIALOG_C128_FR,    /* size */
@@ -472,7 +472,7 @@ static int intl_table[][countof(language_table)] = {
 
 /* resvic20.rc */
 /* en */ {IDD_VIC20ROMDRIVE_RESOURCE_DIALOG,
-/* de */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_DE,    /* fuzzy, size */
+/* de */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_DE,    /* size */
 /* fr */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_FR,    /* size */
 /* it */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_IT,    /* size */
 /* nl */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_NL,
@@ -555,7 +555,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_MEDIAFILE_DIALOG,
 /* de */  IDD_MEDIAFILE_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_MEDIAFILE_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_MEDIAFILE_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_MEDIAFILE_DIALOG_IT,    /* size */
 /* nl */  IDD_MEDIAFILE_DIALOG_NL,    /* size */
 /* pl */  IDD_MEDIAFILE_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_MEDIAFILE_DIALOG_SV},   /* fuzzy, size */
@@ -582,7 +582,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_FULLSCREEN_SETTINGS_DIALOG,
 /* de */  IDD_FULLSCREEN_SETTINGS_DIALOG_DE,    /* size */
 /* fr */  IDD_FULLSCREEN_SETTINGS_DIALOG_FR,    /* size */
-/* it */  IDD_FULLSCREEN_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_FULLSCREEN_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_FULLSCREEN_SETTINGS_DIALOG_NL,
 /* pl */  IDD_FULLSCREEN_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_FULLSCREEN_SETTINGS_DIALOG_SV},   /* size */
@@ -672,7 +672,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDD_NETWORK_SETTINGS_DIALOG,
 /* de */  IDD_NETWORK_SETTINGS_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_NETWORK_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_NETWORK_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* it */  IDD_NETWORK_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_NETWORK_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_NETWORK_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_NETWORK_SETTINGS_DIALOG_SV},   /* fuzzy, size */
@@ -752,7 +752,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_RS232_DEVICE_I,
 /* de */  IDS_RS232_DEVICE_I_DE,
 /* fr */  IDS_RS232_DEVICE_I_FR,
-/* it */  IDS_RS232_DEVICE_I_IT,    /* fuzzy */
+/* it */  IDS_RS232_DEVICE_I_IT,
 /* nl */  IDS_RS232_DEVICE_I_NL,
 /* pl */  IDS_RS232_DEVICE_I_PL,    /* fuzzy */
 /* sv */  IDS_RS232_DEVICE_I_SV},
@@ -896,7 +896,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_HISTORY_RECORDED_UNKNOWN,
 /* de */  IDS_HISTORY_RECORDED_UNKNOWN_DE,
 /* fr */  IDS_HISTORY_RECORDED_UNKNOWN_FR,
-/* it */  IDS_HISTORY_RECORDED_UNKNOWN_IT,    /* fuzzy */
+/* it */  IDS_HISTORY_RECORDED_UNKNOWN_IT,
 /* nl */  IDS_HISTORY_RECORDED_UNKNOWN_NL,
 /* pl */  IDS_HISTORY_RECORDED_UNKNOWN_PL,    /* fuzzy */
 /* sv */  IDS_HISTORY_RECORDED_UNKNOWN_SV},
@@ -905,7 +905,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_HISTORY_RECORDED_VICE_S,
 /* de */  IDS_HISTORY_RECORDED_VICE_S_DE,
 /* fr */  IDS_HISTORY_RECORDED_VICE_S_FR,
-/* it */  IDS_HISTORY_RECORDED_VICE_S_IT,    /* fuzzy */
+/* it */  IDS_HISTORY_RECORDED_VICE_S_IT,
 /* nl */  IDS_HISTORY_RECORDED_VICE_S_NL,
 /* pl */  IDS_HISTORY_RECORDED_VICE_S_PL,    /* fuzzy */
 /* sv */  IDS_HISTORY_RECORDED_VICE_S_SV},
@@ -1121,7 +1121,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_MAPPING,
 /* de */  IDS_MAPPING_DE,
 /* fr */  IDS_MAPPING_FR,
-/* it */  IDS_MAPPING_IT,    /* fuzzy */
+/* it */  IDS_MAPPING_IT,
 /* nl */  IDS_MAPPING_NL,
 /* pl */  IDS_MAPPING_PL,    /* fuzzy */
 /* sv */  IDS_MAPPING_SV},
@@ -2386,7 +2386,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_RECEIVED_SIGNAL_D_S,
 /* de */  IDS_RECEIVED_SIGNAL_D_S_DE,    /* fuzzy */
 /* fr */  IDS_RECEIVED_SIGNAL_D_S_FR,    /* fuzzy */
-/* it */  IDS_RECEIVED_SIGNAL_D_S_IT,    /* fuzzy */
+/* it */  IDS_RECEIVED_SIGNAL_D_S_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_S_NL,
 /* pl */  IDS_RECEIVED_SIGNAL_D_S_PL,    /* fuzzy */
 /* sv */  IDS_RECEIVED_SIGNAL_D_S_SV},   /* fuzzy */
@@ -2395,7 +2395,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_RECEIVED_SIGNAL_D,
 /* de */  IDS_RECEIVED_SIGNAL_D_DE,    /* fuzzy */
 /* fr */  IDS_RECEIVED_SIGNAL_D_FR,    /* fuzzy */
-/* it */  IDS_RECEIVED_SIGNAL_D_IT,    /* fuzzy */
+/* it */  IDS_RECEIVED_SIGNAL_D_IT,
 /* nl */  IDS_RECEIVED_SIGNAL_D_NL,
 /* pl */  IDS_RECEIVED_SIGNAL_D_PL,    /* fuzzy */
 /* sv */  IDS_RECEIVED_SIGNAL_D_SV},   /* fuzzy */
@@ -2404,45 +2404,45 @@ static int intl_translate_text_table[][countof(language_table)] = {
 #ifdef HAVE_NETWORK
 /* res.rc */
 /* en */ {IDS_IDLE,
-/* de */  IDS_IDLE_DE,    /* fuzzy */
+/* de */  IDS_IDLE_DE,
 /* fr */  IDS_IDLE_FR,    /* fuzzy */
-/* it */  IDS_IDLE_IT,    /* fuzzy */
+/* it */  IDS_IDLE_IT,
 /* nl */  IDS_IDLE_NL,
 /* pl */  IDS_IDLE_PL,    /* fuzzy */
 /* sv */  IDS_IDLE_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_SERVER_LISTENING,
-/* de */  IDS_SERVER_LISTENING_DE,    /* fuzzy */
+/* de */  IDS_SERVER_LISTENING_DE,
 /* fr */  IDS_SERVER_LISTENING_FR,    /* fuzzy */
-/* it */  IDS_SERVER_LISTENING_IT,    /* fuzzy */
+/* it */  IDS_SERVER_LISTENING_IT,
 /* nl */  IDS_SERVER_LISTENING_NL,
 /* pl */  IDS_SERVER_LISTENING_PL,    /* fuzzy */
 /* sv */  IDS_SERVER_LISTENING_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_CONNECTED_SERVER,
-/* de */  IDS_CONNECTED_SERVER_DE,    /* fuzzy */
+/* de */  IDS_CONNECTED_SERVER_DE,
 /* fr */  IDS_CONNECTED_SERVER_FR,    /* fuzzy */
-/* it */  IDS_CONNECTED_SERVER_IT,    /* fuzzy */
+/* it */  IDS_CONNECTED_SERVER_IT,
 /* nl */  IDS_CONNECTED_SERVER_NL,
 /* pl */  IDS_CONNECTED_SERVER_PL,    /* fuzzy */
 /* sv */  IDS_CONNECTED_SERVER_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_CONNECTED_CLIENT,
-/* de */  IDS_CONNECTED_CLIENT_DE,    /* fuzzy */
+/* de */  IDS_CONNECTED_CLIENT_DE,
 /* fr */  IDS_CONNECTED_CLIENT_FR,    /* fuzzy */
-/* it */  IDS_CONNECTED_CLIENT_IT,    /* fuzzy */
+/* it */  IDS_CONNECTED_CLIENT_IT,
 /* nl */  IDS_CONNECTED_CLIENT_NL,
 /* pl */  IDS_CONNECTED_CLIENT_PL,    /* fuzzy */
 /* sv */  IDS_CONNECTED_CLIENT_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_INVALID_PORT_NUMBER,
-/* de */  IDS_INVALID_PORT_NUMBER_DE,    /* fuzzy */
+/* de */  IDS_INVALID_PORT_NUMBER_DE,
 /* fr */  IDS_INVALID_PORT_NUMBER_FR,    /* fuzzy */
-/* it */  IDS_INVALID_PORT_NUMBER_IT,    /* fuzzy */
+/* it */  IDS_INVALID_PORT_NUMBER_IT,
 /* nl */  IDS_INVALID_PORT_NUMBER_NL,
 /* pl */  IDS_INVALID_PORT_NUMBER_PL,    /* fuzzy */
 /* sv */  IDS_INVALID_PORT_NUMBER_SV},   /* fuzzy */
@@ -2451,7 +2451,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_ERROR_STARTING_SERVER,
 /* de */  IDS_ERROR_STARTING_SERVER_DE,    /* fuzzy */
 /* fr */  IDS_ERROR_STARTING_SERVER_FR,    /* fuzzy */
-/* it */  IDS_ERROR_STARTING_SERVER_IT,    /* fuzzy */
+/* it */  IDS_ERROR_STARTING_SERVER_IT,
 /* nl */  IDS_ERROR_STARTING_SERVER_NL,
 /* pl */  IDS_ERROR_STARTING_SERVER_PL,    /* fuzzy */
 /* sv */  IDS_ERROR_STARTING_SERVER_SV},   /* fuzzy */
@@ -2460,7 +2460,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* en */ {IDS_ERROR_CONNECTING_CLIENT,
 /* de */  IDS_ERROR_CONNECTING_CLIENT_DE,    /* fuzzy */
 /* fr */  IDS_ERROR_CONNECTING_CLIENT_FR,    /* fuzzy */
-/* it */  IDS_ERROR_CONNECTING_CLIENT_IT,    /* fuzzy */
+/* it */  IDS_ERROR_CONNECTING_CLIENT_IT,
 /* nl */  IDS_ERROR_CONNECTING_CLIENT_NL,
 /* pl */  IDS_ERROR_CONNECTING_CLIENT_PL,    /* fuzzy */
 /* sv */  IDS_ERROR_CONNECTING_CLIENT_SV},   /* fuzzy */

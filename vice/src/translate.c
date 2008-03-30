@@ -387,126 +387,135 @@ translate_t string_table[] = {
 #ifdef HAVE_NETWORK
 /* network.c */
 /* en */ {IDGS_TESTING_BEST_FRAME_DELAY,    "Testing best frame delay..."},
-/* de */ {IDGS_TESTING_BEST_FRAME_DELAY_DE, ""},  /* fuzzy */
+/* de */ {IDGS_TESTING_BEST_FRAME_DELAY_DE, "Teste optimale Framerate..."},
 /* fr */ {IDGS_TESTING_BEST_FRAME_DELAY_FR, ""},  /* fuzzy */
-/* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, ""},  /* fuzzy */
+/* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, "Rileva il miglior ritardo tra frame..."},
 /* nl */ {IDGS_TESTING_BEST_FRAME_DELAY_NL, "Beste frame vertraging aan het testen..."},
 /* pl */ {IDGS_TESTING_BEST_FRAME_DELAY_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_TESTING_BEST_FRAME_DELAY_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_USING_D_FRAMES_DELAY,    "Using %d frames delay."},
-/* de */ {IDGS_USING_D_FRAMES_DELAY_DE, ""},  /* fuzzy */
+/* de */ {IDGS_USING_D_FRAMES_DELAY_DE, "Benutze %d Frameverzögerung."},
 /* fr */ {IDGS_USING_D_FRAMES_DELAY_FR, ""},  /* fuzzy */
-/* it */ {IDGS_USING_D_FRAMES_DELAY_IT, ""},  /* fuzzy */
+/* it */ {IDGS_USING_D_FRAMES_DELAY_IT, "Utilizzo %d frame di ritardo."},
 /* nl */ {IDGS_USING_D_FRAMES_DELAY_NL, "%d frames vertraging in gebruik."},
 /* pl */ {IDGS_USING_D_FRAMES_DELAY_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_USING_D_FRAMES_DELAY_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER,    "Cannot load snapshot file for transfer"},
-/* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_DE, "Kann Snapshot Datei für Transfer nicht laden"},
 /* fr */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, "Non à possibile caricare il file di snapshot per il trasferimento"},
 /* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopname bestand voor versturen niet laden"},
 /* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT,    "Sending snapshot to client..."},
-/* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, "Sende Snapshot zu Client..."},
 /* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
-/* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, ""},  /* fuzzy */
+/* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, "Invio dell'immagine dello snapshot al client in corso..."},
 /* nl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL, "Momentopname wordt naar de andere computer verstuurd..."},
 /* pl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT,    "Cannot send snapshot to client"},
-/* de */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_DE, "Kann Snapshot Datei nicht senden"},
 /* fr */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, "Non à possibile inviare lo snapshot al client"},
 /* nl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL, "Kan de momentopname niet naar de andere computer versturen"},
 /* pl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
 
 /* network.c */
-/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s. Select different history directory!"},
-/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s"},
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht erzeugen"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
-/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken. Selecteer een andere geschiedenis folder!"},
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, "Non à possibile creare il file di snapshot %s"},
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S,    "Cannot open snapshot file %s"},
-/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_DE, "Kann Snapshot Datei `%s' nicht öffnen"},
 /* fr */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, "Non à possibile aprire il file di snapshot %s"},
 /* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet openen"},
 /* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT,    "Server is waiting for a client..."},
-/* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, ""},  /* fuzzy */
+/* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, "Server wartet auf Client..."},
 /* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, ""},  /* fuzzy */
-/* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, ""},  /* fuzzy */
+/* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server à in attesa di un client..."},
 /* nl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL, "De server wacht op de andere computer..."},
 /* pl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, ""},  /* fuzzy */
 
 /* network.c */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    "Cannot create snapshot file %s. Select different history directory!"},
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei `%s' nicht erzeugen. Verwende ein anderes Verzeichnis!"},
+/* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non à possibile creare il file di snapshot %s. Seleziona una directory diversa per la cronologia."},
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopname bestand %s niet maken. Selecteer een andere geschiedenis folder!"},
+/* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV, ""},  /* fuzzy */
+
+/* network.c */
 /* en */ {IDGS_CANNOT_RESOLVE_S,    "Cannot resolve %s"},
-/* de */ {IDGS_CANNOT_RESOLVE_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_RESOLVE_S_DE, "Kann %s nicht auflösen"},
 /* fr */ {IDGS_CANNOT_RESOLVE_S_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_RESOLVE_S_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_RESOLVE_S_IT, "Non à possibile risolvere %s"},
 /* nl */ {IDGS_CANNOT_RESOLVE_S_NL, "Onbekende host %s"},
 /* pl */ {IDGS_CANNOT_RESOLVE_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_RESOLVE_S_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_CANNOT_CONNECT_TO_S,    "Cannot connect to %s (no server running on port %d)."},
-/* de */ {IDGS_CANNOT_CONNECT_TO_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_CONNECT_TO_S_DE, "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."},
 /* fr */ {IDGS_CANNOT_CONNECT_TO_S_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_CONNECT_TO_S_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_CONNECT_TO_S_IT, "Non à possibile connettersi a %s (nessun server è attivo sulla porta %d)."},
 /* nl */ {IDGS_CANNOT_CONNECT_TO_S_NL, "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."},
 /* pl */ {IDGS_CANNOT_CONNECT_TO_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CONNECT_TO_S_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_RECEIVING_SNAPSHOT_SERVER,    "Receiving snapshot from server..."},
-/* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, ""},  /* fuzzy */
+/* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, "Empfange Snapshot von Server..."},
 /* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, ""},  /* fuzzy */
-/* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, ""},  /* fuzzy */
+/* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, "Ricezione dello snapshot dal server in corso..."},
 /* nl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_NL, "Momentopname van de server wordt ontvangen..."},
 /* pl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_RECEIVING_SNAPSHOT_SERVER_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_NETWORK_OUT_OF_SYNC,    "Network out of sync - disconnecting."},
-/* de */ {IDGS_NETWORK_OUT_OF_SYNC_DE, ""},  /* fuzzy */
+/* de */ {IDGS_NETWORK_OUT_OF_SYNC_DE, "Netzwerksynchronisationsproblem - Trenne Verbindung."},
 /* fr */ {IDGS_NETWORK_OUT_OF_SYNC_FR, ""},  /* fuzzy */
-/* it */ {IDGS_NETWORK_OUT_OF_SYNC_IT, ""},  /* fuzzy */
+/* it */ {IDGS_NETWORK_OUT_OF_SYNC_IT, "Rete non sincronizzata - disconnesione in corso."},
 /* nl */ {IDGS_NETWORK_OUT_OF_SYNC_NL, "Netwerk niet synchroon - connectie wordt verbroken."},
 /* pl */ {IDGS_NETWORK_OUT_OF_SYNC_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_REMOTE_HOST_DISCONNECTED,    "Remote host disconnected."},
-/* de */ {IDGS_REMOTE_HOST_DISCONNECTED_DE, ""},  /* fuzzy */
+/* de */ {IDGS_REMOTE_HOST_DISCONNECTED_DE, "Entfernter Rechner getrennt."},
 /* fr */ {IDGS_REMOTE_HOST_DISCONNECTED_FR, ""},  /* fuzzy */
-/* it */ {IDGS_REMOTE_HOST_DISCONNECTED_IT, ""},  /* fuzzy */
+/* it */ {IDGS_REMOTE_HOST_DISCONNECTED_IT, "Disconnesso dall'host remoto."},
 /* nl */ {IDGS_REMOTE_HOST_DISCONNECTED_NL, "Andere computer heeft de verbinding verbroken."},
 /* pl */ {IDGS_REMOTE_HOST_DISCONNECTED_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_REMOTE_HOST_DISCONNECTED_SV, ""},  /* fuzzy */
 
 /* network.c */
 /* en */ {IDGS_REMOTE_HOST_SUSPENDING,    "Remote host suspending..."},
-/* de */ {IDGS_REMOTE_HOST_SUSPENDING_DE, ""},  /* fuzzy */
+/* de */ {IDGS_REMOTE_HOST_SUSPENDING_DE, "Entfernter Rechner angehaltedn..."},
 /* fr */ {IDGS_REMOTE_HOST_SUSPENDING_FR, ""},  /* fuzzy */
-/* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, ""},  /* fuzzy */
+/* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, "Sospesione dell'host remoto in corso..."},
 /* nl */ {IDGS_REMOTE_HOST_SUSPENDING_NL, "Andere computer halt de netplay..."},
 /* pl */ {IDGS_REMOTE_HOST_SUSPENDING_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_REMOTE_HOST_SUSPENDING_SV, ""},  /* fuzzy */
@@ -514,9 +523,9 @@ translate_t string_table[] = {
 #ifdef HAVE_IPV6
 /* network.c */
 /* en */ {IDGS_CANNOT_SWITCH_IPV4_IPV6,    "Cannot switch IPV4/IPV6 while netplay is active."},
-/* de */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DE, ""},  /* fuzzy */
+/* de */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DE, "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."},
 /* fr */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, "Non à possibile commutare tra IPV4 e IPV6 mentre netplay à attivo."},
 /* nl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_NL, "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."},
 /* pl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, ""},  /* fuzzy */
@@ -525,27 +534,27 @@ translate_t string_table[] = {
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM,    "ffmpegdrv: Cannot open video stream"},
-/* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, ""},  /* fuzzy */
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, "ffmpegdrv: Kann video stream nicht öffnen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, ""},  /* fuzzy */
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso video"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL, "ffmpegdrv: Kan de video stroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV, ""},  /* fuzzy */
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM,    "ffmpegdrv: Cannot open audio stream"},
-/* de */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE, ""},  /* fuzzy */
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE, "ffmpegdrv: Kann audio stream nicht öffnen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR, ""},  /* fuzzy */
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso audio"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL, "ffmpegdrv: Kan de audio stroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV, ""},  /* fuzzy */
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_S,    "ffmpegdrv: Cannot open %s"},
-/* de */ {IDGS_FFMPEG_CANNOT_OPEN_S_DE, ""},  /* fuzzy */
+/* de */ {IDGS_FFMPEG_CANNOT_OPEN_S_DE, "ffmpegdrv: Öffnen von %s fehlgeschlagen"},
 /* fr */ {IDGS_FFMPEG_CANNOT_OPEN_S_FR, ""},  /* fuzzy */
-/* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, ""},  /* fuzzy */
+/* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, "ffmpegdrv: Non à possibile aprire %s"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_S_NL, "ffmpegdrv: Kan %s niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, ""},  /* fuzzy */
@@ -970,7 +979,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2,    "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"},
 /* de */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_DE, "Index für Keymap Datei festlegen (0=symbol, 1=symDE, 2=positional)"},
 /* fr */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_FR, "Spécifier l'index du fichier keymap (0=sym, 1=symDE, 2=pos)"},
-/* it */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_IT, "Specifica l'indice del file della mappa della tastiera (0=sim, 1=simGER, 2=pos)"},
 /* nl */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_NL, "Geef de index van het keymap bestand (0=sym, 1=symDE, 2=pos)"},
 /* pl */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_SV, "Ange index för för tangentbordsinställningsfil (0=symbolisk, 1=symbolisk tysk, 2=positionsriktig)"},
@@ -1008,7 +1017,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_GEORAM_NAME_DE, "Dateiname für GEORAM Erweiterung"},
 /* fr */ {IDCLS_SPECIFY_GEORAM_NAME_FR, "Spécifier le nom de l'image GEORAM"},
 /* it */ {IDCLS_SPECIFY_GEORAM_NAME_IT, "Specifica il nome dell'immagine GEORAM"},
-/* nl */ {IDCLS_SPECIFY_GEORAM_NAME_NL, "Geef de naam van her GEORAM bestand"},
+/* nl */ {IDCLS_SPECIFY_GEORAM_NAME_NL, "Geef de naam van het GEORAM bestand"},
 /* pl */ {IDCLS_SPECIFY_GEORAM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_GEORAM_NAME_SV, "Ange namn på GEORAM-avbildning"},
 
@@ -1071,7 +1080,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_RAMCART_DE, "RAMCART Erweiterung deaktivieren"},
 /* fr */ {IDCLS_DISABLE_RAMCART_FR, "Désactiver l'expansion RAMCART"},
 /* it */ {IDCLS_DISABLE_RAMCART_IT, "Disattiva l'espansione RAMCART"},
-/* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RAMCART uitbreiding aflsuiten"},
+/* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RAMCART uitbreiding afsluiten"},
 /* pl */ {IDCLS_DISABLE_RAMCART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_RAMCART_SV, "Inaktivera RAMCART-expansion"},
 
@@ -2610,9 +2619,9 @@ translate_t string_table[] = {
 #if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
@@ -2621,9 +2630,9 @@ translate_t string_table[] = {
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
@@ -2632,9 +2641,9 @@ translate_t string_table[] = {
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
@@ -2643,9 +2652,9 @@ translate_t string_table[] = {
 #if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·3:Â·HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
@@ -2654,10 +2663,10 @@ translate_t string_table[] = {
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 2: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
@@ -2665,10 +2674,10 @@ translate_t string_table[] = {
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 3: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·3:Â·HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
@@ -2676,10 +2685,10 @@ translate_t string_table[] = {
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 2: Catweasel, 3: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel,Â·3:Â·HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
@@ -2687,10 +2696,10 @@ translate_t string_table[] = {
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID)
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SID_ENGINE,    "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: ReSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel,Â·3:Â·HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
 #endif
@@ -3859,9 +3868,9 @@ translate_t string_table[] = {
 
 /* c64/plus60k.c */
 /* en */ {IDCLS_PLUS60K_BASE,    "Base address of the +60K expansion"},
-/* de */ {IDCLS_PLUS60K_BASE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_PLUS60K_BASE_DE, "Basis Adresse für +60K Erweiterung"},
 /* fr */ {IDCLS_PLUS60K_BASE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_PLUS60K_BASE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_PLUS60K_BASE_IT, "Indirizzo base dell'espansione +60K"},
 /* nl */ {IDCLS_PLUS60K_BASE_NL, "Basis adres van de +60K geheugen uitbreiding"},
 /* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
@@ -3895,9 +3904,9 @@ translate_t string_table[] = {
 
 /* c64/c64_256k.c */
 /* en */ {IDCLS_C64_256K_BASE,    "Base address of the 256K expansion"},
-/* de */ {IDCLS_C64_256K_BASE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_C64_256K_BASE_DE, "Basis Adresse für 256K RAM Erweiterung"},
 /* fr */ {IDCLS_C64_256K_BASE_FR, ""},  /* fuzzy */
-/* it */ {IDCLS_C64_256K_BASE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_C64_256K_BASE_IT, "Indirizzo base dell'espansione 256K"},
 /* nl */ {IDCLS_C64_256K_BASE_NL, "Basis adres van de 256K geheugen uitbreiding"},
 /* pl */ {IDCLS_C64_256K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */
@@ -4250,6 +4259,15 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL,
 /* pl */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL,
 /* sv */  IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV},
+
+/* network.c */
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,
+/* de */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE,
+/* fr */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR,
+/* it */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT,
+/* nl */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL,
+/* pl */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL,
+/* sv */  IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_RESOLVE_S,

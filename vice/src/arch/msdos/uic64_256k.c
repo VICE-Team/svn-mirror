@@ -84,7 +84,7 @@ static tui_menu_item_def_t c64_256k_menu_items[] = {
     { "_Enable 256K:", "Emulate 256K RAM Expansion",
       toggle_C64_256K_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "256K _base:", "Select the base of the REU",
+    { "256K _base:", "Select the base of the 256K RAM Expansion",
       c64_256k_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, c64_256k_base_submenu,
       "256K base" },

@@ -32,6 +32,10 @@
 #include "uimenu.h"
 extern struct ui_menu_entry_s netplay_submenu[];
 
+#ifdef USE_GNOMEUI
+extern void ui_netplay_dialog(void);
+#endif
+
 #endif
 
 #endif

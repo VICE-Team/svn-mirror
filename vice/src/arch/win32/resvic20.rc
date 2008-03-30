@@ -766,11 +766,11 @@ BEGIN
 #ifdef DEBUG
 		POPUP "&Debug"
         BEGIN
-            POPUP "M&odalit√ "
+            POPUP "M&odalit‡"
             BEGIN
                 MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
-                MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
+                MENUITEM "&Cronologia", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
             MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
@@ -788,24 +788,24 @@ BEGIN
         MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
         MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Inizia/termina la registrazione della cronologia",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Inizia/termina la riproduzione della cronologia",        IDM_EVENT_TOGGLE_PLAYBACK
         MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
         MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
-        POPUP "Modalit√  di inizio registrazione"
+        POPUP "Modalit‡ di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
             MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
             MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
+        MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "&Velocit√  di aggiornamento"
+        POPUP "&Velocit‡ di aggiornamento"
         BEGIN
             MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
@@ -823,7 +823,7 @@ BEGIN
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
-        POPUP "Velocit√  &massima"
+        POPUP "Velocit‡ &massima"
         BEGIN
             MENUITEM "&200%",     IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%",     IDM_MAXIMUM_SPEED_100
@@ -834,11 +834,11 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Personalizzata",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "Modalit√  &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE
+        MENUITEM "Modalit‡ &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE
             , CHECKED
         MENUITEM SEPARATOR
         MENUITEM "A tutto schermo\tAlt+D", IDM_TOGGLE_FULLSCREEN
-        MENUITEM "Always on Top", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "Sempre in primo piano", IDM_TOGGLE_ALWAYSONTOP
         MENUITEM SEPARATOR
         MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE
         , CHECKED

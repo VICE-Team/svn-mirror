@@ -37,9 +37,28 @@ by default. Sometimes those packages are shipped. E.g. for Fedora Core
   imlib-devel-1.9.13-24.i386.rpm
   gnome-libs-devel-1.4.1.2.90-46.i386.rpm
 
+To compile the gnome1/gtk1 version use configure option
+`--enable-gnomeui'.
+
 Vice-1.19 will be the last officially supported Gnome1/Gtk1 version.
 
 Gnome 2
 A separate patch for Gnome 2 support is available (see website).
 The port is fully functional. Only the CBM font in the content preview
-widget and context menu is not working yet.  
+widget and within the context menu is not working yet.
+Credits to Andrew Burton for a few inspiring lines of code donated
+about 2 years ago. ;^)
+
+To compile this version you need to have certain gnome2/gtk2 devel
+packages installed. Further automake and autoconf is needed.
+
+To compile do something similar than this:
+> cd <...>/vice-1.19
+> zcat <...>/vice-1.19-gnome2.diff.gz |patch -p1
+> autoconf
+> ./configure --enable-gnomeui ... <other options> ...
+> # cross fingers and hope...
+> make
+> make install
+
+The port is known to work pretty well on Linux Fedora Core 4.

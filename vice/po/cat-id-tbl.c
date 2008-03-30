@@ -1126,7 +1126,7 @@ Cannot write cartridge image file\n\
   {"Connected Server", 1088},
   {"Connected Client", 1089},
   {"Status: %s, Server: %s, Port: %d", 1090},
-  {"Couldn't start network server.", 1091},
+  {"Couldn't start netplay server.", 1091},
   {"Couldn't connect client.", 1092},
   {"Netplay Settings", 1093},
   {"Current mode: ", 1094},

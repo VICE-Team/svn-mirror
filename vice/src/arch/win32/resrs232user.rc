@@ -68,7 +68,7 @@ BEGIN
     IDS_RS232USER_CAPTION       "Impostazioni della RS232 su userport"
     IDS_RS232USER_ENABLE        "&Attiva la RS232 su userport"
     IDS_RS232USER_DEVICE        "Dispositivo su userport"
-    IDS_RS232USER_BAUD          "Velocit√  della userport (in baud)"
+    IDS_RS232USER_BAUD          "Velocit‡ della userport (in baud)"
 END
 
 // DUTCH text
