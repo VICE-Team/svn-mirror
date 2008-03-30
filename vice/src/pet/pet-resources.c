@@ -36,6 +36,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
+#include "pet-resources.h"
 #include "pet.h"
 #include "petmem.h"
 #include "petrom.h"

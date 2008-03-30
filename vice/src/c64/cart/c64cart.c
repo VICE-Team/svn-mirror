@@ -57,7 +57,7 @@ static char *ide64_configuration_string = NULL;
 static int cartridge_mode;
 static int cartridge_reset;
 
-int carttype = CARTRIDGE_NONE;
+int c64cart_type = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
 static char *cartfile;
 
@@ -69,9 +69,9 @@ static unsigned int cartridge_int_num;
 static int set_cartridge_type(resource_value_t v, void *param)
 {
     cartridge_type = (int)v;
-    carttype = cartridge_type;
+    c64cart_type = cartridge_type;
 
-    return cartridge_attach_image(carttype, cartfile);
+    return cartridge_attach_image(c64cart_type, cartfile);
 }
 
 static int set_cartridge_file(resource_value_t v, void *param)
@@ -84,12 +84,12 @@ static int set_cartridge_file(resource_value_t v, void *param)
 
     util_string_set(&cartridge_file, name);
     util_string_set(&cartfile, name);
-    return cartridge_attach_image(carttype, cartfile);
+    return cartridge_attach_image(c64cart_type, cartfile);
 }
 
 static int set_cartridge_mode(resource_value_t v, void *param)
 {
-    const int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+    const int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     /*
      * Set cartridge mode.
@@ -244,7 +244,7 @@ int cartridge_attach_image(int type, const char *filename)
     rawcart = lib_malloc(0x88000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
-    if (type != carttype)
+    if (type != c64cart_type)
         cartridge_detach_image();
 
     switch(type) {
@@ -272,7 +272,7 @@ int cartridge_attach_image(int type, const char *filename)
             goto done;
         break;
       case CARTRIDGE_IDE64:
-        if (carttype==CARTRIDGE_IDE64)
+        if (c64cart_type==CARTRIDGE_IDE64)
             ide64_detach(); /* detach IDE64 if reattaching */
         if (ide64_bin_attach(filename, rawcart) < 0)
             goto done;
@@ -308,7 +308,7 @@ int cartridge_attach_image(int type, const char *filename)
         goto done;
     }
 
-    cartridge_type = carttype = type;       /* Resource value updated! */
+    cartridge_type = c64cart_type = type;       /* Resource value updated! */
     util_string_set(&cartfile, filename);
     cartridge_attach((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     lib_free(rawcart);
@@ -321,9 +321,10 @@ int cartridge_attach_image(int type, const char *filename)
 
 void cartridge_detach_image(void)
 {
-    if (carttype != CARTRIDGE_NONE) {
-        cartridge_detach((carttype == CARTRIDGE_CRT) ? crttype : carttype);
-        carttype = CARTRIDGE_NONE;
+    if (c64cart_type != CARTRIDGE_NONE) {
+        cartridge_detach((c64cart_type == CARTRIDGE_CRT)
+                         ? crttype : c64cart_type);
+        c64cart_type = CARTRIDGE_NONE;
         crttype = CARTRIDGE_NONE;
         cartridge_type = CARTRIDGE_NONE;        /* Resource value updated! */
         if (cartfile != NULL)
@@ -333,8 +334,8 @@ void cartridge_detach_image(void)
 
 void cartridge_set_default(void)
 {
-    set_cartridge_type((resource_value_t)carttype, NULL);
-    set_cartridge_file((resource_value_t)((carttype == CARTRIDGE_NONE) ?
+    set_cartridge_type((resource_value_t)c64cart_type, NULL);
+    set_cartridge_file((resource_value_t)((c64cart_type == CARTRIDGE_NONE) ?
                        "" : cartfile), NULL);
 }
 
@@ -342,7 +343,7 @@ static void cartridge_change_mapping(CLOCK offset)
 {
     alarm_unset(cartridge_alarm);
 
-    cartridge_freeze((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+    cartridge_freeze((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 }
 
 void cartridge_init(void)
@@ -355,7 +356,7 @@ void cartridge_init(void)
 
 void cartridge_trigger_freeze(void)
 {
-    int type = ((carttype == CARTRIDGE_CRT) ? crttype : carttype);
+    int type = ((c64cart_type == CARTRIDGE_CRT) ? crttype : c64cart_type);
 
     switch (type) {
       case CARTRIDGE_ACTION_REPLAY:

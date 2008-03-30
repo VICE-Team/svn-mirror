@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "pet-cmdline-options.h"
 #include "pets.h"
 
 

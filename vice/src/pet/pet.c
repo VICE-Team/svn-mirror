@@ -234,7 +234,7 @@ static void pet_crtc_signal(unsigned int signal) {
 
 /* ------------------------------------------------------------------------- */
 
-void pet_monitor_init(void)
+static void pet_monitor_init(void)
 {
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };

@@ -37,6 +37,7 @@
 #include "parallel.h"
 #include "types.h"
 #include "vic20.h"
+#include "vic20ieeevia.h"
 
 
 void REGPARM2 ieeevia2_store(WORD addr, BYTE data)

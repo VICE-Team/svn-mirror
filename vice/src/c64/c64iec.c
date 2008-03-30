@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "c64cart.h"
 #include "c64cia.h"
 #include "c64iec.h"
 #include "cartridge.h"
@@ -334,8 +335,8 @@ void parallel_cable_cpu_undump(BYTE data)
 /* This function is called from ui_update_menus() */
 int iec_available_busses(void)
 {
-    extern int carttype;
-    return IEC_BUS_IEC | ((carttype == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
+    return IEC_BUS_IEC
+        | ((c64cart_type == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);
 }
 
 void iec_calculate_callback_index(void)

@@ -77,5 +77,7 @@ typedef struct {
 extern export_t export;
 extern int mem_cartridge_type;
 
+extern int c64cart_type;
+
 #endif
 
