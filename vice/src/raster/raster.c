@@ -401,6 +401,19 @@ int raster_realize(raster_t *raster)
     return 0;
 }
 
+static void raster_destroy_active(void)
+{
+    raster_list_t *rlist, *tmplist;
+
+    rlist = ActiveRasters;
+
+    while (rlist != NULL) {
+        tmplist = rlist->next;
+        lib_free(rlist);
+        rlist = tmplist;
+    }
+}
+
 void raster_force_repaint(raster_t *raster)
 {
     raster->dont_cache = 1;
@@ -517,5 +530,6 @@ void raster_free(raster_t *raster)
     video_canvas_destroy(raster->canvas);
 
     palette_free(raster->palette);
+    raster_destroy_active();
 }
 
