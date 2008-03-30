@@ -32,6 +32,8 @@
 #define _VIC_H
 
 #include "vice.h"
+
+#include "snapshot.h"
 #include "video.h"
 
 #if 1
@@ -126,5 +128,8 @@ extern void vic_prevent_clk_overflow(CLOCK sub);
 extern void vic_exposure_handler(unsigned int width, unsigned int height);
 extern BYTE REGPARM1 read_vic(ADDRESS addr);
 extern void REGPARM2 store_vic(ADDRESS addr, BYTE value);
+
+extern int vic_write_snapshot_module(snapshot_t *s);
+extern int vic_read_snapshot_module(snapshot_t *s);
 
 #endif /* _VIC_H */

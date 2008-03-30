@@ -66,7 +66,7 @@ extern snapshot_t *snapshot_create(const char *filename,
 extern snapshot_t *snapshot_open(const char *filename,
                                  BYTE *major_version_return,
                                  BYTE *minor_version_return,
-                                 char *machine_name_return);
+                                 const char *machine_name);
 extern int snapshot_close(snapshot_t *s);
 
 #endif

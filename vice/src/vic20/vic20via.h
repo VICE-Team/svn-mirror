@@ -29,6 +29,8 @@
 
 #include "via.h"
 
+#include "snapshot.h"
+
 extern void reset_via1(void);
 extern void via1_signal(int line, int edge);
 extern void REGPARM2 store_via1(ADDRESS addr, BYTE byte);
@@ -37,6 +39,8 @@ extern BYTE REGPARM1 peek_via1(ADDRESS addr);
 extern int int_via1t1(long offset);
 extern int int_via1t2(long offset);
 extern void via1_prevent_clk_overflow(CLOCK sub);
+extern int via1_write_snapshot_module(snapshot_t *p);
+extern int via1_read_snapshot_module(snapshot_t *p);
 
 extern void reset_via2(void);
 extern void via2_signal(int line, int edge);
@@ -46,6 +50,8 @@ extern BYTE REGPARM1 peek_via2(ADDRESS addr);
 extern int int_via2t1(long offset);
 extern int int_via2t2(long offset);
 extern void via2_prevent_clk_overflow(CLOCK sub);
+extern int via2_write_snapshot_module(snapshot_t *p);
+extern int via2_read_snapshot_module(snapshot_t *p);
 
-#endif  /* _VIA_H */
+#endif  /* _VIC20_VIA_H */
 
