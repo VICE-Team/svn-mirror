@@ -38,7 +38,7 @@
 #else  /* Not HAVE_ALLOCA_H.  */
 #if !defined(_AIX) && !defined(WINCE)
 #ifndef _MSC_VER
-extern char *alloca ();
+extern char *alloca();
 #else
 #define alloca(n)   _alloca(n)
 #endif  /* MSVC */
@@ -60,6 +60,7 @@ extern char *alloca ();
 #include "mon_disassemble.h"
 #include "mon_drive.h"
 #include "mon_file.h"
+#include "mon_memory.h"
 #include "mon_util.h"
 #include "montypes.h"
 #include "types.h"
@@ -246,31 +247,31 @@ asm_rules: CMD_ASSEMBLE address
          ;
 
 memory_rules: CMD_MOVE address address address end_cmd
-              { mon_move_memory($2, $3, $4); }
+              { mon_memory_move($2, $3, $4); }
             | CMD_COMPARE address address address end_cmd
-              { mon_compare_memory($2, $3, $4); }
+              { mon_memory_compare($2, $3, $4); }
             | CMD_FILL address address data_list end_cmd
-              { mon_fill_memory($2,$3,(unsigned char *)$4); }
+              { mon_memory_fill($2,$3,(unsigned char *)$4); }
             | CMD_HUNT address address data_list end_cmd
-              { mon_hunt_memory($2,$3,(unsigned char *)$4); }
+              { mon_memory_hunt($2,$3,(unsigned char *)$4); }
             | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd
-              { mon_display_memory($2, $3, $4); }
+              { mon_memory_display($2, $3, $4); }
             | CMD_MEM_DISPLAY address opt_address end_cmd
-              { mon_display_memory(default_radix, $2, $3); }
+              { mon_memory_display(default_radix, $2, $3); }
             | CMD_MEM_DISPLAY end_cmd
-              { mon_display_memory(default_radix, BAD_ADDR, BAD_ADDR); }
+              { mon_memory_display(default_radix, BAD_ADDR, BAD_ADDR); }
             | CMD_CHAR_DISPLAY address opt_address end_cmd
-              { mon_display_data($2, $3, 8, 8); }
+              { mon_memory_display_data($2, $3, 8, 8); }
             | CMD_CHAR_DISPLAY end_cmd
-              { mon_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
+              { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
             | CMD_SPRITE_DISPLAY address opt_address end_cmd
-              { mon_display_data($2, $3, 24, 21); }
+              { mon_memory_display_data($2, $3, 24, 21); }
             | CMD_SPRITE_DISPLAY end_cmd
-              { mon_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
+              { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
             | CMD_TEXT_DISPLAY address opt_address end_cmd
-              { mon_display_memory(0, $2, $3); }
+              { mon_memory_display(0, $2, $3); }
             | CMD_TEXT_DISPLAY end_cmd
-              { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
+              { mon_memory_display(0, BAD_ADDR, BAD_ADDR); }
             ;
 
 checkpoint_rules: CMD_BREAK address opt_address end_cmd
@@ -408,7 +409,7 @@ cmd_file_rules: CMD_RECORD filename end_cmd
               ;
 
 data_entry_rules: CMD_ENTER_DATA address data_list end_cmd
-                  { mon_fill_memory($2, BAD_ADDR, $3); }
+                  { mon_memory_fill($2, BAD_ADDR, $3); }
                 | CMD_ENTER_BIN_DATA end_cmd
                   { printf("Not yet.\n"); }
                 ;

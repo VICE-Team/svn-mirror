@@ -170,6 +170,8 @@ extern const char *mon_memspace_string[];
 extern int mon_stop_output;
 extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 extern bool force_array[NUM_MEMSPACES];
+extern unsigned char data_buf[256];
+extern unsigned int data_buf_len;
 
 /* Function declarations */
 extern void mon_open(ADDRESS a);
@@ -178,19 +180,7 @@ extern void mon_close(int check);
 
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
-extern void mon_display_memory(int radix_type, MON_ADDR start_addr,
-                               MON_ADDR end_addr);
-extern void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
-                             unsigned int x, unsigned int y);
 extern void mon_display_screen(void);
-extern void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr,
-                            MON_ADDR dest);
-extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr,
-                               MON_ADDR dest);
-extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
-                            unsigned char *data);
-extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
-                            unsigned char *data);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);
 extern void mon_instruction_return(void);
@@ -215,7 +205,7 @@ extern int mon_evaluate_conditional(cond_node_t *cnode);
 extern bool mon_is_valid_addr(MON_ADDR a);
 extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned loc);
-
+extern void mon_print_bin(int val, char on, char off);
 extern BYTE mon_get_mem_val(MEMSPACE mem, ADDRESS mem_addr);
 extern BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, ADDRESS mem_addr);
 extern void mon_jump(MON_ADDR addr);
