@@ -2222,7 +2222,7 @@ int main()
 #line 223 "mon_lex.l"
 
 
-void free_buffer()
+void free_buffer(void)
 {
    yy_delete_buffer(my_state);
 }

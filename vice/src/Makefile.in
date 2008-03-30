@@ -669,8 +669,8 @@ clkguard.o: clkguard.c vice.h config.h clkguard.h arch/unix/types.h \
 cmdline.o: cmdline.c vice.h config.h arch/unix/types.h utils.h cmdline.h \
 	resources.h
 datasette.o: datasette.c vice.h config.h alarm.h arch/unix/types.h log.h \
-	c64/c64cia.h cia.h snapshot.h datasette.h tap.h maincpu.h \
-	6510core.h mem.h clkguard.h mon.h mos6510.h interrupt.h
+	clkguard.h datasette.h tap.h maincpu.h 6510core.h mem.h \
+	snapshot.h mon.h mos6510.h interrupt.h
 emuid.o: emuid.c vice.h config.h arch/unix/types.h
 findpath.o: findpath.c vice.h config.h findpath.h utils.h \
 	arch/unix/types.h arch/unix/archdep.h archapi.h
@@ -758,8 +758,8 @@ sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
 	findpath.h arch/unix/archdep.h archapi.h utils.h \
 	arch/unix/types.h
 t64.o: t64.c vice.h config.h t64.h arch/unix/types.h utils.h zfile.h
-tap.o: tap.c vice.h config.h datasette.h tap.h arch/unix/types.h utils.h \
-	zfile.h
+tap.o: tap.c vice.h config.h arch/unix/archdep.h archapi.h datasette.h \
+	tap.h arch/unix/types.h utils.h zfile.h
 tape.o: tape.c vice.h config.h tape.h arch/unix/types.h traps.h \
 	datasette.h tap.h log.h mem.h snapshot.h maincpu.h 6510core.h \
 	alarm.h clkguard.h mon.h mos6510.h interrupt.h serial.h t64.h \

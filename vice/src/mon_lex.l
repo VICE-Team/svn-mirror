@@ -222,7 +222,7 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 
 %%
 
-void free_buffer()
+void free_buffer(void)
 {
    yy_delete_buffer(my_state);
 }

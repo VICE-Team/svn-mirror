@@ -1,5 +1,67 @@
 1999-05-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.0.13.
+
+	* datasette.c (datasette_control): Added save support.
+	(datasette_toggle_write_bit, clk_overflow_callback): New
+	functions.
+	(datasette_init): Initialize clock overflow.
+
+	* c64/c64mem.c (pla_config_changed): Added implementation of
+	processor port bit #3.
+
+	* arch/msdos/menudefs.c (ui_create_main_menu): Commented in
+	datasette save dialog.
+	* arch/win32/resc64.rc: Likewise.
+
+	* arch/unix/archdep.h, arch/msdos/archdep.h, arch/win32/archdep.h,
+	arch/riscos/archdep.h: Added `MODE_READ_WRITE'.
+
+	* tap.c: #include "archdep.h".
+	(tap_open): Use `MODE_READ_WRITE'.  Set correct file offset and do
+	not attach TAPs with bogus size.
+
+	* tap.h (tap_t): New member `offset'.
+
+	* mon_lex.l (free_buffer): Fixed prototype.
+
+1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/c64tpi.c (undump_pa): use parallel_cpu_restore_atn()
+	because we don´t send ATN IRQs to the chips on restore.
+	* cbm2/c610tpi1.c (undump_pa): likewise
+	* pet/petvia.c (undump_prb): likewise
+
+	* drive/drive.c (drive_attach_floppy): do not use GCR image with
+	8x50 disk types
+	(drive_read_snapshot_module, drive_write_snapshot_module):
+	add calls to fdc_*_snapshot_module() on SFD1001 disk type
+
+	* drive/fdc.c (fdc_t, fdc): new struct/type to hold all 
+	FDC information. Fix all occurances
+	(buffer, fdc_alarm, fdc_state, iprom): removed
+	(fdc_write_snapshot_module, fdc_read_snapshot_module): new functions
+
+	* drive/riot2drive0.c, drive/riot2drive1.c (riot_reset): remove
+	call to parallel_drv*_set_atn()
+
+	* parallel.c (ResetBus): remove call to parallel_emu_set_atn()
+	(parallel_restore_set_atn, parallel_restore_clr_atn): new functions,
+	thy do not send IRQ signals to the chip emulations on restore.
+	The chips should save the IRQ state themselves.
+
+	* parallel.h (parallel_restore_set_atn, parallel_restore_clr_atn):
+	new prototypes
+	(PARALLEL_RESTORE_LINE): new define. Remove parallel_set_atn
+	for all but the CPU. Add a parallel_restore_atn for the CPU.
+
+	* riotcore.c (myriot_write_snapshot_module, 
+	myriot_read_snapshot_module): implement basic funcitonality
+
+	* riotcore.h (riotio): change type from int to BYTE.
+
+1999-05-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.0.12.
 
 	* c64/reu.c, c64/reu.h (reu_init): New function.
