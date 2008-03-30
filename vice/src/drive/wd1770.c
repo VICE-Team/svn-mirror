@@ -88,12 +88,12 @@ static log_t wd1770_log = LOG_ERR;
 
 void REGPARM2 wd1770d0_store(ADDRESS addr, BYTE byte)
 {
-    wd1770_store(addr & 3, byte, 0);
+    wd1770_store((ADDRESS)(addr & 3), byte, 0);
 }
 
 BYTE REGPARM1 wd1770d0_read(ADDRESS addr)
 {
-    return wd1770_read(addr & 3, 0);
+    return wd1770_read((ADDRESS)(addr & 3), 0);
 }
 
 void wd1770d0_reset(void)
@@ -103,12 +103,12 @@ void wd1770d0_reset(void)
 
 void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte)
 {
-    wd1770_store(addr & 3, byte, 1);
+    wd1770_store((ADDRESS)(addr & 3), byte, 1);
 }
 
 BYTE REGPARM1 wd1770d1_read(ADDRESS addr)
 {
-    return wd1770_read(addr & 3, 1);
+    return wd1770_read((ADDRESS)(addr & 3), 1);
 }
 
 void wd1770d1_reset(void)
@@ -167,12 +167,12 @@ void wd1770d_init(drive_context_t *drv)
 
 void REGPARM3 wd1770d_store(drive_context_t *drv, ADDRESS addr, BYTE byte)
 {
-    wd1770_store(addr & 3, byte, drv->mynumber);
+    wd1770_store((ADDRESS)(addr & 3), byte, drv->mynumber);
 }
 
 BYTE REGPARM2 wd1770d_read(drive_context_t *drv, ADDRESS addr)
 {
-    return wd1770_read(addr & 3, drv->mynumber);
+    return wd1770_read((ADDRESS)(addr & 3), drv->mynumber);
 }
 
 void wd1770d_reset(drive_context_t *drv)

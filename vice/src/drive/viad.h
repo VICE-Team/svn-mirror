@@ -43,7 +43,8 @@ extern void via1_set_atn(struct drive_context_s *ctxptr, BYTE state);
 extern void via1d_init(struct drive_context_s *ctxptr);
 extern void via1d_reset(struct drive_context_s *ctxptr);
 extern void via1d_signal(struct drive_context_s *ctxptr, int line, int edge);
-extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
+extern void REGPARM3 via1d_store(struct drive_context_s *ctxptr, ADDRESS addr,
+                                 BYTE byte);
 extern BYTE REGPARM2 via1d_read(struct drive_context_s *ctxptr, ADDRESS addr);
 extern int via1d_write_snapshot_module(struct drive_context_s *ctxptr,
                                        struct snapshot_s *p);
@@ -53,7 +54,8 @@ extern int via1d_read_snapshot_module(struct drive_context_s *ctxptr,
 extern void via2d_init(struct drive_context_s *ctxptr);
 extern void via2d_reset(struct drive_context_s *ctxptr);
 extern void via2d_signal(struct drive_context_s *ctxptr, int line, int edge);
-extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, ADDRESS addr, BYTE byte);
+extern void REGPARM3 via2d_store(struct drive_context_s *ctxptr, ADDRESS addr,
+                                 BYTE byte);
 extern BYTE REGPARM2 via2d_read(struct drive_context_s *ctxptr, ADDRESS addr);
 extern int via2d_write_snapshot_module(struct drive_context_s *ctxptr,
                                        struct snapshot_s *p);
@@ -68,12 +70,13 @@ typedef struct via_initdesc_s {
 } via_initdesc_t;
 
 /* init callbacks, shared by both vias; defined in via1d. */
-extern void via_drive_init(struct drive_context_s *ctxptr, const via_initdesc_t *via_desc);
+extern void via_drive_init(struct drive_context_s *ctxptr,
+                           const via_initdesc_t *via_desc);
 
-#define drive0_via_set_atn(state)	drive_via_set_atn(&drive0_context, state)
-#define drive1_via_set_atn(state)	drive_via_set_atn(&drive1_context, state)
-#define via1d0_signal(l, e)		via1d_signal(&drive0_context, l, e)
-#define via1d1_signal(l, e)		via1d_signal(&drive1_context, l, e)
+#define drive0_via_set_atn(state) drive_via_set_atn(&drive0_context, state)
+#define drive1_via_set_atn(state) drive_via_set_atn(&drive1_context, state)
+#define via1d0_signal(l, e)       via1d_signal(&drive0_context, l, e)
+#define via1d1_signal(l, e)       via1d_signal(&drive1_context, l, e)
 
 #endif
 

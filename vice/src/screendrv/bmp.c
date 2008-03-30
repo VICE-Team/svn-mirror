@@ -110,7 +110,7 @@ int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
 
 int bmp_write_bitmap_data(screenshot_t *screenshot, FILE *fd)
 {
-    int line, row;
+    unsigned int line, row;
     BYTE *data, *bmp_data;
 
     data = (BYTE *)xmalloc(screenshot->width);

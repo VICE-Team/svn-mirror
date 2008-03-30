@@ -41,7 +41,7 @@ static int wav_init(const char *param, int *speed,
 {
     /* RIFF/WAV header. */
     BYTE header[45] =
-      "RIFFxxxxWAVEfmt \020\0\0\0\001\0\001\0xxxxxxxx\002\0\020\0dataxxxx";
+        "RIFFxxxxWAVEfmt \020\0\0\0\001\0\001\0xxxxxxxx\002\0\020\0dataxxxx";
     DWORD samples_per_sec = *speed;
     DWORD bytes_per_sec = *speed*2;
     int i;
@@ -55,10 +55,10 @@ static int wav_init(const char *param, int *speed,
 
     /* Sampling rate and bytes per second stored as little endian numbers. */
     for (i = 0; i < 4; i++) {
-      header[24 + i] = samples_per_sec & 0xff;
-      header[28 + i] = bytes_per_sec & 0xff;
-      samples_per_sec >>= 8;
-      bytes_per_sec >>= 8;
+        header[24 + i] = (BYTE)(samples_per_sec & 0xff);
+        header[28 + i] = (BYTE)(bytes_per_sec & 0xff);
+        samples_per_sec >>= 8;
+        bytes_per_sec >>= 8;
     }
 
     return (fwrite(header, 1, 44, wav_fd) != 44);
@@ -71,7 +71,7 @@ static int wav_write(SWORD *pbuf, size_t nr)
 
     /* Swap bytes on big endian machines. */
     for (i = 0; i < nr; i++) {
-      pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
+        pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
     }
 #endif
 
@@ -81,7 +81,7 @@ static int wav_write(SWORD *pbuf, size_t nr)
     /* Swap the bytes back just in case. */
 #ifdef WORDS_BIGENDIAN
     for (i = 0; i < nr; i++) {
-      pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
+        pbuf[i] = (((WORD)pbuf[i] & 0xff) << 8) | ((WORD)pbuf[i] >> 8);
     }
 #endif
 
@@ -101,10 +101,10 @@ static void wav_close(void)
 
     /* RIFF length and WAVE data length stored as little endian numbers. */
     for (i = 0; i < 4; i++) {
-      rlen[i] = rifflen & 0xff;
-      dlen[i] = datalen & 0xff;
-      rifflen >>= 8;
-      datalen >>= 8;
+        rlen[i] = (BYTE)(rifflen & 0xff);
+        dlen[i] = (BYTE)(datalen & 0xff);
+        rifflen >>= 8;
+        datalen >>= 8;
     }
 
     fseek(wav_fd, 4, SEEK_SET);
@@ -134,3 +134,4 @@ int sound_init_wav_device(void)
 {
     return sound_register_device(&wav_device);
 }
+

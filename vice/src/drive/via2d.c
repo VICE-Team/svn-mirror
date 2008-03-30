@@ -44,53 +44,53 @@
 #define via_set_int(a,b) interrupt_set_irq(&(ctxptr->cpu.int_status), a, b, \
                          *(ctxptr->clk_ptr))
 
-#define myclk		(*(ctxptr->clk_ptr))
-#define myvia		(ctxptr->via2.via)
-#define myviaifr	(ctxptr->via2.ifr)
-#define myviaier	(ctxptr->via2.ier)
-#define myviatal	(ctxptr->via2.tal)
-#define myviatbl	(ctxptr->via2.tbl)
-#define myviatau	(ctxptr->via2.tau)
-#define myviatbu	(ctxptr->via2.tbu)
-#define myviatai	(ctxptr->via2.tai)
-#define myviatbi	(ctxptr->via2.tbi)
-#define myviapb7	(ctxptr->via2.pb7)
-#define myviapb7x	(ctxptr->via2.pb7x)
-#define myviapb7o	(ctxptr->via2.pb7o)
-#define myviapb7xx	(ctxptr->via2.pb7xx)
-#define myviapb7sx	(ctxptr->via2.pb7sx)
-#define oldpa		(ctxptr->via2.oldpa)
-#define oldpb		(ctxptr->via2.oldpb)
-#define myvia_ila	(ctxptr->via2.ila)
-#define myvia_ilb	(ctxptr->via2.ilb)
-#define ca2_state	(ctxptr->via2.ca2_state)
-#define cb2_state	(ctxptr->via2.cb2_state)
-#define myvia_t1_alarm	(ctxptr->via2.t1_alarm)
-#define myvia_t2_alarm	(ctxptr->via2.t2_alarm)
+#define myclk           (*(ctxptr->clk_ptr))
+#define myvia           (ctxptr->via2.via)
+#define myviaifr        (ctxptr->via2.ifr)
+#define myviaier        (ctxptr->via2.ier)
+#define myviatal        (ctxptr->via2.tal)
+#define myviatbl        (ctxptr->via2.tbl)
+#define myviatau        (ctxptr->via2.tau)
+#define myviatbu        (ctxptr->via2.tbu)
+#define myviatai        (ctxptr->via2.tai)
+#define myviatbi        (ctxptr->via2.tbi)
+#define myviapb7        (ctxptr->via2.pb7)
+#define myviapb7x       (ctxptr->via2.pb7x)
+#define myviapb7o       (ctxptr->via2.pb7o)
+#define myviapb7xx      (ctxptr->via2.pb7xx)
+#define myviapb7sx      (ctxptr->via2.pb7sx)
+#define oldpa           (ctxptr->via2.oldpa)
+#define oldpb           (ctxptr->via2.oldpb)
+#define myvia_ila       (ctxptr->via2.ila)
+#define myvia_ilb       (ctxptr->via2.ilb)
+#define ca2_state       (ctxptr->via2.ca2_state)
+#define cb2_state       (ctxptr->via2.cb2_state)
+#define myvia_t1_alarm  (ctxptr->via2.t1_alarm)
+#define myvia_t2_alarm  (ctxptr->via2.t2_alarm)
 
-#define via_read_clk	(ctxptr->via2.read_clk)
-#define via_read_offset	(ctxptr->via2.read_offset)
-#define via_last_read	(ctxptr->via2.last_read)
+#define via_read_clk    (ctxptr->via2.read_clk)
+#define via_read_offset (ctxptr->via2.read_offset)
+#define via_last_read   (ctxptr->via2.last_read)
 #define snap_module_name (ctxptr->via2.my_module_name)
 
-#define myvia_init	via2d_init
-#define I_MYVIAFL	(ctxptr->via2.irq_type)
-#define MYVIA_NAME	(ctxptr->via2.myname)
-/*#define MYVIA_INT	(ctxptr->via2.irq_line)*/
-#define MYVIA_INT	IK_IRQ
+#define myvia_init      via2d_init
+#define I_MYVIAFL       (ctxptr->via2.irq_type)
+#define MYVIA_NAME      (ctxptr->via2.myname)
+/*#define MYVIA_INT     (ctxptr->via2.irq_line)*/
+#define MYVIA_INT       IK_IRQ
 
-#define mycpu_rmw_flag	(ctxptr->cpu.rmw_flag)
+#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
 #define mycpu_int_status (ctxptr->cpu.int_status)
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 #define mycpu_clk_guard (ctxptr->cpu.clk_guard)
 
-#define myvia_reset	via2d_reset
-#define myvia_store	via2d_store
-#define myvia_read	via2d_read
-#define myvia_peek	via2d_peek
+#define myvia_reset     via2d_reset
+#define myvia_store     via2d_store
+#define myvia_read      via2d_read
+#define myvia_peek      via2d_peek
 
-#define myvia_log	(ctxptr->via2.log)
-#define myvia_signal	via2d_signal
+#define myvia_log       (ctxptr->via2.log)
+#define myvia_signal    via2d_signal
 #define myvia_prevent_clk_overflow via2_prevent_clk_overflow
 #define myvia_read_snapshot_module via2d_read_snapshot_module
 #define myvia_write_snapshot_module via2d_write_snapshot_module
@@ -99,17 +99,18 @@
 
 void drive_via2_setup_context(drive_context_t *ctxptr)
 {
-  sprintf(ctxptr->via2.myname, "Drive%dVia2", ctxptr->mynumber);
-  sprintf(ctxptr->via2.my_module_name, "VIA2D%d", ctxptr->mynumber);
-  ctxptr->via2.read_clk = 0;
-  ctxptr->via2.read_offset = 0;
-  ctxptr->via2.last_read = 0;
-  ctxptr->via2.irq_line = IK_IRQ;
-  ctxptr->via2.irq_type = (ctxptr->mynumber == 0) ? I_VIA2D0FL : I_VIA2D1FL;
+    sprintf(ctxptr->via2.myname, "Drive%dVia2", ctxptr->mynumber);
+    sprintf(ctxptr->via2.my_module_name, "VIA2D%d", ctxptr->mynumber);
+    ctxptr->via2.read_clk = 0;
+    ctxptr->via2.read_offset = 0;
+    ctxptr->via2.last_read = 0;
+    ctxptr->via2.irq_line = IK_IRQ;
+    ctxptr->via2.irq_type = (ctxptr->mynumber == 0) ? I_VIA2D0FL : I_VIA2D1FL;
 }
 
 
-inline static void store_pra(drive_context_t *ctxptr, BYTE byte, BYTE oldpa_value, ADDRESS addr)
+inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
+                             BYTE oldpa_value, ADDRESS addr)
 {
     if (ctxptr->drive_ptr->byte_ready_active == 0x06)
         drive_rotate_disk(ctxptr->drive_ptr);
@@ -121,7 +122,8 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
 
 }
 
-inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb, ADDRESS addr)
+inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb,
+                             ADDRESS addr)
 {
     ctxptr->drive_ptr->led_status = (byte & 8) ? 1 : 0;
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
@@ -132,18 +134,21 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb, AD
             drive_move_head(+1, ctxptr->mynumber);
     }
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
-        ctxptr->drive_ptr->rotation_table_ptr = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
+        ctxptr->drive_ptr->rotation_table_ptr
+            = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
     if ((poldpb ^ byte) & 0x04)     /* Motor on/off */
-        ctxptr->drive_ptr->byte_ready_active = (ctxptr->drive_ptr->byte_ready_active & ~0x04)
+        ctxptr->drive_ptr->byte_ready_active
+            = (ctxptr->drive_ptr->byte_ready_active & ~0x04)
                                      | (byte & 0x04);
 }
 
 static void undump_prb(drive_context_t *ctxptr, BYTE byte)
 {
     ctxptr->drive_ptr->led_status = (byte & 8) ? 1 : 0;
-    ctxptr->drive_ptr->rotation_table_ptr = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
-    ctxptr->drive_ptr->byte_ready_active = (ctxptr->drive_ptr->byte_ready_active & ~0x04)
-                                 | (byte & 0x04);
+    ctxptr->drive_ptr->rotation_table_ptr
+        = ctxptr->drive_ptr->rotation_table[(byte >> 5) & 0x3];
+    ctxptr->drive_ptr->byte_ready_active
+        = (ctxptr->drive_ptr->byte_ready_active & ~0x04) | (byte & 0x04);
 }
 
 inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, ADDRESS addr)
@@ -201,7 +206,8 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
     BYTE byte;
 
     if (ctxptr->drive_ptr->attach_clk != (CLOCK)0) {
-        if (*(ctxptr->clk_ptr) - ctxptr->drive_ptr->attach_clk < DRIVE_ATTACH_DELAY)
+        if (*(ctxptr->clk_ptr) - ctxptr->drive_ptr->attach_clk
+            < DRIVE_ATTACH_DELAY)
             ctxptr->drive_ptr->GCR_read = 0;
         else
             ctxptr->drive_ptr->attach_clk = (CLOCK)0;
@@ -227,8 +233,8 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
 {
     BYTE byte;
 
-	byte = (drive_read_viad2_prb(ctxptr->drive_ptr) & ~myvia[VIA_DDRB])
-			| (myvia[VIA_PRB] & myvia[VIA_DDRB] );
+        byte = (drive_read_viad2_prb(ctxptr->drive_ptr) & ~myvia[VIA_DDRB])
+                        | (myvia[VIA_PRB] & myvia[VIA_DDRB] );
     return byte;
 }
 
@@ -269,8 +275,10 @@ static void int_via2d1t2(CLOCK c)
 }
 
 static via_initdesc_t via2_initdesc[2] = {
-    { &drive0_context.via2, clk0_overflow_callback, int_via2d0t1, int_via2d0t2 },
-    { &drive1_context.via2, clk1_overflow_callback, int_via2d1t1, int_via2d1t2 }
+    { &drive0_context.via2, clk0_overflow_callback,
+      int_via2d0t1, int_via2d0t2 },
+    { &drive1_context.via2, clk1_overflow_callback,
+      int_via2d1t1, int_via2d1t2 }
 };
 
 void via2d_init(drive_context_t *ctxptr)

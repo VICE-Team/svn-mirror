@@ -47,90 +47,87 @@
 #define via_set_int(a,b) \
         interrupt_set_irq(&(ctxptr->cpu.int_status), a, b, *(ctxptr->clk_ptr))
 
-#define myclk		(*(ctxptr->clk_ptr))
-#define myvia		(ctxptr->via1.via)
-#define myviaifr	(ctxptr->via1.ifr)
-#define myviaier	(ctxptr->via1.ier)
-#define myviatal	(ctxptr->via1.tal)
-#define myviatbl	(ctxptr->via1.tbl)
-#define myviatau	(ctxptr->via1.tau)
-#define myviatbu	(ctxptr->via1.tbu)
-#define myviatai	(ctxptr->via1.tai)
-#define myviatbi	(ctxptr->via1.tbi)
-#define myviapb7	(ctxptr->via1.pb7)
-#define myviapb7x	(ctxptr->via1.pb7x)
-#define myviapb7o	(ctxptr->via1.pb7o)
-#define myviapb7xx	(ctxptr->via1.pb7xx)
-#define myviapb7sx	(ctxptr->via1.pb7sx)
-#define oldpa		(ctxptr->via1.oldpa)
-#define oldpb		(ctxptr->via1.oldpb)
-#define myvia_ila	(ctxptr->via1.ila)
-#define myvia_ilb	(ctxptr->via1.ilb)
-#define ca2_state	(ctxptr->via1.ca2_state)
-#define cb2_state	(ctxptr->via1.cb2_state)
-#define myvia_t1_alarm	(ctxptr->via1.t1_alarm)
-#define myvia_t2_alarm	(ctxptr->via1.t2_alarm)
+#define myclk           (*(ctxptr->clk_ptr))
+#define myvia           (ctxptr->via1.via)
+#define myviaifr        (ctxptr->via1.ifr)
+#define myviaier        (ctxptr->via1.ier)
+#define myviatal        (ctxptr->via1.tal)
+#define myviatbl        (ctxptr->via1.tbl)
+#define myviatau        (ctxptr->via1.tau)
+#define myviatbu        (ctxptr->via1.tbu)
+#define myviatai        (ctxptr->via1.tai)
+#define myviatbi        (ctxptr->via1.tbi)
+#define myviapb7        (ctxptr->via1.pb7)
+#define myviapb7x       (ctxptr->via1.pb7x)
+#define myviapb7o       (ctxptr->via1.pb7o)
+#define myviapb7xx      (ctxptr->via1.pb7xx)
+#define myviapb7sx      (ctxptr->via1.pb7sx)
+#define oldpa           (ctxptr->via1.oldpa)
+#define oldpb           (ctxptr->via1.oldpb)
+#define myvia_ila       (ctxptr->via1.ila)
+#define myvia_ilb       (ctxptr->via1.ilb)
+#define ca2_state       (ctxptr->via1.ca2_state)
+#define cb2_state       (ctxptr->via1.cb2_state)
+#define myvia_t1_alarm  (ctxptr->via1.t1_alarm)
+#define myvia_t2_alarm  (ctxptr->via1.t2_alarm)
 
-#define via_read_clk	(ctxptr->via1.read_clk)
-#define via_read_offset	(ctxptr->via1.read_offset)
-#define via_last_read	(ctxptr->via1.last_read)
+#define via_read_clk    (ctxptr->via1.read_clk)
+#define via_read_offset (ctxptr->via1.read_offset)
+#define via_last_read   (ctxptr->via1.last_read)
 #define snap_module_name (ctxptr->via1.my_module_name)
-#define parieee_is_out	(ctxptr->via1p.v_parieee_is_out)
-#define iec_info	(ctxptr->via1p.v_iec_info)
+#define parieee_is_out  (ctxptr->via1p.v_parieee_is_out)
+#define iec_info        (ctxptr->via1p.v_iec_info)
 
-#define myvia_init	via1d_init
-#define I_MYVIAFL	(ctxptr->via1.irq_type)
-#define MYVIA_NAME	(ctxptr->via1.myname)
-/*#define MYVIA_INT	(ctxptr->via1.irq_line)*/
-#define MYVIA_INT	IK_IRQ
+#define myvia_init      via1d_init
+#define I_MYVIAFL       (ctxptr->via1.irq_type)
+#define MYVIA_NAME      (ctxptr->via1.myname)
+/*#define MYVIA_INT     (ctxptr->via1.irq_line)*/
+#define MYVIA_INT       IK_IRQ
 
-#define mycpu_rmw_flag	(ctxptr->cpu.rmw_flag)
+#define mycpu_rmw_flag  (ctxptr->cpu.rmw_flag)
 #define mycpu_int_status (ctxptr->cpu.int_status)
 #define mycpu_alarm_context (ctxptr->cpu.alarm_context)
 #define mycpu_clk_guard (ctxptr->cpu.clk_guard)
 
-#define myvia_reset	via1d_reset
-#define myvia_store	via1d_store
-#define myvia_read	via1d_read
-#define myvia_peek	via1d_peek
+#define myvia_reset     via1d_reset
+#define myvia_store     via1d_store
+#define myvia_read      via1d_read
+#define myvia_peek      via1d_peek
 
-#define myvia_log	(ctxptr->via1.log)
-#define myvia_signal	via1d_signal
+#define myvia_log       (ctxptr->via1.log)
+#define myvia_signal    via1d_signal
 #define myvia_prevent_clk_overflow via1_prevent_clk_overflow
 #define myvia_read_snapshot_module via1d_read_snapshot_module
 #define myvia_write_snapshot_module via1d_write_snapshot_module
 
 
-#define iec_drivex_write(a)		(ctxptr->func.iec_write(a))
-#define iec_drivex_read()		(ctxptr->func.iec_read())
+#define iec_drivex_write(a)             (ctxptr->func.iec_write(a))
+#define iec_drivex_read()               (ctxptr->func.iec_read())
 #define parallel_cable_drivex_write(a,b) (ctxptr->func.parallel_cable_write(a,b))
-#define parallel_drivex_set_bus(a)	(ctxptr->func.parallel_set_bus(a))
-#define parallel_drivex_set_eoi(a)	(ctxptr->func.parallel_set_eoi(a))
-#define parallel_drivex_set_dav(a)	(ctxptr->func.parallel_set_dav(a))
-#define parallel_drivex_set_ndac(a)	(ctxptr->func.parallel_set_ndac(a))
-#define parallel_drivex_set_nrfd(a)	(ctxptr->func.parallel_set_nrfd(a))
+#define parallel_drivex_set_bus(a)      (ctxptr->func.parallel_set_bus(a))
+#define parallel_drivex_set_eoi(a)      (ctxptr->func.parallel_set_eoi(a))
+#define parallel_drivex_set_dav(a)      (ctxptr->func.parallel_set_dav(a))
+#define parallel_drivex_set_ndac(a)     (ctxptr->func.parallel_set_ndac(a))
+#define parallel_drivex_set_nrfd(a)     (ctxptr->func.parallel_set_nrfd(a))
 
 
 void drive_via1_setup_context(drive_context_t *ctxptr)
 {
-  sprintf(ctxptr->via1.myname, "Drive%dVia1", ctxptr->mynumber);
-  sprintf(ctxptr->via1.my_module_name, "VIA1D%d", ctxptr->mynumber);
-  ctxptr->via1.read_clk = 0;
-  ctxptr->via1.read_offset = 0;
-  ctxptr->via1.last_read = 0;
-  ctxptr->via1.irq_line = IK_IRQ;
-  ctxptr->via1.log = LOG_ERR;
-  ctxptr->via1p.v_parieee_is_out = 1;
-  if (ctxptr->mynumber == 0)
-  {
-    ctxptr->via1.irq_type = I_VIA1D0FL;
-    ctxptr->via1p.parallel_id = PARALLEL_DRV0;
-  }
-  else
-  {
-    ctxptr->via1.irq_type = I_VIA1D1FL;
-    ctxptr->via1p.parallel_id = PARALLEL_DRV1;
-  }
+    sprintf(ctxptr->via1.myname, "Drive%dVia1", ctxptr->mynumber);
+    sprintf(ctxptr->via1.my_module_name, "VIA1D%d", ctxptr->mynumber);
+    ctxptr->via1.read_clk = 0;
+    ctxptr->via1.read_offset = 0;
+    ctxptr->via1.last_read = 0;
+    ctxptr->via1.irq_line = IK_IRQ;
+    ctxptr->via1.log = LOG_ERR;
+    ctxptr->via1p.v_parieee_is_out = 1;
+    if (ctxptr->mynumber == 0) {
+      ctxptr->via1.irq_type = I_VIA1D0FL;
+      ctxptr->via1p.parallel_id = PARALLEL_DRV0;
+    } else {
+      ctxptr->via1.irq_type = I_VIA1D1FL;
+      ctxptr->via1p.parallel_id = PARALLEL_DRV1;
+   }
 }
 
 void drive_via_set_atn(drive_context_t *ctxptr, int state)
@@ -156,12 +153,14 @@ static void undump_pra(drive_context_t *ctxptr, BYTE byte)
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
         parallel_drivex_set_bus(parieee_is_out ? byte : 0xff);
     }
-    if (ctxptr->drive_ptr->parallel_cable_enabled && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
+    if (ctxptr->drive_ptr->parallel_cable_enabled
+        && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
         || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II))
         parallel_cable_drivex_write(byte, 0);
 }
 
-inline static void store_pra(drive_context_t *ctxptr, BYTE byte, BYTE oldpa_value, ADDRESS addr)
+inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
+                             BYTE oldpa_value, ADDRESS addr)
 {
     {
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
@@ -174,11 +173,12 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte, BYTE oldpa_valu
 /*
             if(parallel_debug) {
                 printf("store_pra(byte=%02x, ~byte=%02x)\n",byte, 0xff^byte);
-	    }
+            }
 */
             parallel_drivex_set_bus(parieee_is_out ? byte : 0xff);
         } else
-        if (ctxptr->drive_ptr->parallel_cable_enabled && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
+        if (ctxptr->drive_ptr->parallel_cable_enabled
+            && (ctxptr->drive_ptr->type == DRIVE_TYPE_1541
             || ctxptr->drive_ptr->type == DRIVE_TYPE_1541II))
             parallel_cable_drivex_write(byte,
                                         (((addr == VIA_PRA)
@@ -192,17 +192,20 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
     if (iec_info != NULL) {
         BYTE *drive_bus, *drive_data;
         if (ctxptr->mynumber == 0) {
-            drive_bus = &(iec_info->drive_bus); drive_data = &(iec_info->drive_data);
+            drive_bus = &(iec_info->drive_bus);
+            drive_data = &(iec_info->drive_data);
         } else {
-            drive_bus = &(iec_info->drive2_bus); drive_data = &(iec_info->drive2_data);
+            drive_bus = &(iec_info->drive2_bus);
+            drive_data = &(iec_info->drive2_data);
         }
         *drive_data = ~byte;
         *drive_bus = ((((*drive_data) << 3) & 0x40)
             | (((*drive_data) << 6)
             & ((~(*drive_data) ^ iec_info->cpu_bus) << 3) & 0x80));
         iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-            & iec_info->drive2_bus;	/* two &s, don't need to differentiate */
-        iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
+            & iec_info->drive2_bus; /* two &s, don't need to differentiate */
+        iec_info->drive_port
+            = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
             | (iec_info->cpu_port >> 7)
             | ((iec_info->cpu_bus << 3) & 0x80));
     } else {
@@ -224,46 +227,50 @@ static void undump_prb(drive_context_t *ctxptr, BYTE byte)
     }
 }
 
-inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb, ADDRESS addr)
+inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb,
+                             ADDRESS addr)
 {
     if (byte != p_oldpb) {
-	if (iec_info != NULL) {
-	    BYTE *drive_data, *drive_bus;
-	    if (ctxptr->mynumber == 0) {
-	        drive_data = &(iec_info->drive_data); drive_bus = &(iec_info->drive_bus);
-	    } else {
-	        drive_data = &(iec_info->drive2_data); drive_bus = &(iec_info->drive2_bus);
-	    }
-	    *drive_data = ~byte;
-	    *drive_bus = ((((*drive_data) << 3) & 0x40)
-	        | (((*drive_data) << 6)
-	        & ((~(*drive_data) ^ iec_info->cpu_bus) << 3) & 0x80));
-	    iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-	        & iec_info->drive2_bus;
-	    iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
-	        | (iec_info->cpu_port >> 7)
-	        | ((iec_info->cpu_bus << 3) & 0x80));
-	} else
+        if (iec_info != NULL) {
+            BYTE *drive_data, *drive_bus;
+            if (ctxptr->mynumber == 0) {
+                drive_data = &(iec_info->drive_data);
+                drive_bus = &(iec_info->drive_bus);
+            } else {
+                drive_data = &(iec_info->drive2_data);
+                drive_bus = &(iec_info->drive2_bus);
+            }
+            *drive_data = ~byte;
+            *drive_bus = ((((*drive_data) << 3) & 0x40)
+                | (((*drive_data) << 6)
+                & ((~(*drive_data) ^ iec_info->cpu_bus) << 3) & 0x80));
+            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
+                & iec_info->drive2_bus;
+            iec_info->drive_port
+                = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
+                | (iec_info->cpu_port >> 7)
+                | ((iec_info->cpu_bus << 3) & 0x80));
+        } else
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
-	    BYTE tmp = ~byte;
+            BYTE tmp = ~byte;
 /*
             if(parallel_debug) {
-		printf("store_prb(byte=%02x, ~byte=%02x, prb=%02x, ddrb=%02x)\n",
-			byte, tmp, myvia[VIA_PRB],myvia[VIA_DDRB]);
-		printf("  -> is_out=%d, eoi=%d, dav=%d\n",byte & 0x10,
-			!(byte & 0x08), !(byte & 0x40));
-	    }
+                printf("store_prb(byte=%02x, ~byte=%02x, prb=%02x, ddrb=%02x)\n",
+                        byte, tmp, myvia[VIA_PRB],myvia[VIA_DDRB]);
+                printf("  -> is_out=%d, eoi=%d, dav=%d\n",byte & 0x10,
+                        !(byte & 0x08), !(byte & 0x40));
+            }
 */
             parieee_is_out = byte & 0x10;
             parallel_drivex_set_bus(parieee_is_out ? oldpa : 0xff);
 
-	    if ( parieee_is_out ) {
+            if (parieee_is_out) {
                 parallel_drivex_set_eoi( tmp & 0x08 );
                 parallel_drivex_set_dav( tmp & 0x40 );
-	    } else {
+            } else {
                 parallel_drivex_set_eoi( 0 );
                 parallel_drivex_set_dav( 0 );
-	    }
+            }
             parallel_drivex_set_nrfd( ((!parieee_is_out) && (tmp & 0x02))
                                 || (parallel_atn && (tmp & 0x01))
                                 || ((!parallel_atn) && (byte & 0x01)));
@@ -271,8 +278,8 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb, A
                                 || (parallel_atn && (tmp & 0x01))
                                 || ((!parallel_atn) && (byte & 0x01)));
         } else {
-	    iec_drivex_write(~byte);
-	}
+            iec_drivex_write(~byte);
+        }
     }
 }
 
@@ -355,10 +362,14 @@ inline static BYTE read_pra(drive_context_t *ctxptr, ADDRESS addr)
 inline static BYTE read_prb(drive_context_t *ctxptr)
 {
     BYTE byte;
-    BYTE orval = (ctxptr->mynumber << 5);	/* 0 for drive0, 0x20 for drive 1 */
-    BYTE andval = (0xfe | ctxptr->mynumber);	/* 0xfe for drive0, 0xff for drive 1 */
+    /* 0 for drive0, 0x20 for drive 1 */
+    BYTE orval = (ctxptr->mynumber << 5);
+    /* 0xfe for drive0, 0xff for drive 1 */
+    BYTE andval = (0xfe | ctxptr->mynumber);
+
     if (iec_info != NULL) {
-	byte = (((myvia[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85) | orval;
+        byte = (((myvia[VIA_PRB] & 0x1a)
+               | iec_info->drive_port) ^ 0x85) | orval;
     } else {
         if (ctxptr->drive_ptr->type == DRIVE_TYPE_2031) {
            byte = 0xff;
@@ -378,7 +389,8 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
                       parieee_is_out, byte, myvia[VIA_PRB], myvia[VIA_DDRB]);
            }
 */
-           byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
+           byte = (byte & ~myvia[VIA_DDRB])
+                  | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
            if (!ca2_state) {
                byte &= andval /* 0xff */;  /* byte & 3 + 8 -> device-no */
                byte &= 0xfd /* 0xff */;  /* device-no switche */
@@ -438,8 +450,10 @@ static void int_via1d1t2(CLOCK c)
 }
 
 static via_initdesc_t via1_initdesc[2] = {
-    { &drive0_context.via1, clk0_overflow_callback, int_via1d0t1, int_via1d0t2 },
-    { &drive1_context.via1, clk1_overflow_callback, int_via1d1t1, int_via1d1t2 }
+    { &drive0_context.via1, clk0_overflow_callback,
+      int_via1d0t1, int_via1d0t2 },
+    { &drive1_context.via1, clk1_overflow_callback,
+      int_via1d1t1, int_via1d1t2 }
 };
 
 void via1d_init(drive_context_t *ctxptr)
