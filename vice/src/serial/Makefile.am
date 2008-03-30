@@ -18,6 +18,8 @@ libserial_a_SOURCES = \
 	serial-device.h \
 	serial-iec-bus.c \
 	serial-iec-bus.h \
+	serial-iec-device.c \
+	serial-iec-device.h \
 	serial-iec-lib.c \
 	serial-iec-lib.h \
 	serial-iec.c \
