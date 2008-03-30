@@ -28,7 +28,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "lib.h"
@@ -76,7 +75,8 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
 	return;
     }
 
-    lib_free(canvas->draw_buffer->draw_buffer);
+    if (canvas->draw_buffer->draw_buffer != NULL)
+        lib_free(canvas->draw_buffer->draw_buffer);
 }
 
 static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,

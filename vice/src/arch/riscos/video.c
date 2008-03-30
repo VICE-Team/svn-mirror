@@ -511,6 +511,10 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
     wlsprite_plot_bind(&(canvas->fb.normplot), (sprite_area_t*)NULL);
     canvas->fb.framedata = NULL;
   }
+  /* Also make sure the pointer to the raw image is nulled, otherwise the raster
+     code may attempt to free it and crash! */
+  canvas->draw_buffer->draw_buffer = NULL;
+
   video_frame_buffer_flush_pal(canvas);
 
   if (fb->bplot_trans != NULL)
@@ -1059,6 +1063,7 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
     canvas->num_colours = maxVideoCanvasColours;
 
   canvas->current_palette = lib_malloc((canvas->num_colours)*sizeof(int));
+  canvas->palette = palette;
 
   fb = &(canvas->fb);
   p = palette->entries;
