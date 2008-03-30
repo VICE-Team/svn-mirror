@@ -252,13 +252,6 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -369,14 +362,6 @@ static int get_hires_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                      8,
                                      xs, xe,
                                      rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -492,14 +477,6 @@ static int get_mc_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-          |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-          |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -705,13 +682,6 @@ static int get_mc_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
                                      8,
                                      xs, xe,
                                      rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
     return r;
 }
 
@@ -867,14 +837,6 @@ static int get_ext_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -1008,14 +970,6 @@ static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 1,
                                 xs, xe,
                                 rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -1116,14 +1070,6 @@ static int get_illegal_bitmap_mode1(raster_cache_t *cache, int *xs, int *xe,
                                         8,
                                         xs, xe,
                                         rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -1207,14 +1153,6 @@ static int get_illegal_bitmap_mode2(raster_cache_t *cache, int *xs, int *xe,
                                         8,
                                         xs, xe,
                                         rr);
-
-    if (!r) {
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
-    }
-
     return r;
 }
 
@@ -1284,12 +1222,9 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
         *xs = 0;
         *xe = VIC_II_SCREEN_TEXTCOLS - 1;
         return 1;
-    } else
-        vic_ii.sprite_sprite_collisions
-            |= cache->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-            |= cache->sprite_background_collisions;
+    } else {
         return 0;
+    }
 }
 
 inline static void _draw_idle(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
