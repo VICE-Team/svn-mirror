@@ -33,6 +33,7 @@ libvic20_a_SOURCES = \
 	vic20.h \
 	vic20cartridge.c \
 	vic20datasette.c \
+	vic20drive.c \
 	vic20iec.c \
 	vic20iec.h \
 	vic20mem.c \
