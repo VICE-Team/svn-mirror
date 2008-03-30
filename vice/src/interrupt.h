@@ -32,6 +32,7 @@
 #include "types.h"
 
 
+#if 0
 /* Interrupts.  This is a bit of a mess...  */
 enum {
     I_ACIA1,                    /* ACIA 1 */
@@ -52,6 +53,7 @@ enum {
     I_IEEEVIA2FL,               /* IEEE488 VIC20 VIA2 */
     NUMOFINT
 };
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -77,7 +79,7 @@ struct interrupt_cpu_status_s {
 
     /* Define, for each interrupt source, whether it has a pending interrupt
        (IK_IRQ, IK_NMI, IK_RESET and IK_TRAP) or not (IK_NONE).  */
-    enum cpu_int pending_int[0x100];
+    unsigned int *pending_int;
 
     /* Number of active IRQ lines.  */
     int nirq;
@@ -132,6 +134,9 @@ extern void interrupt_ack_dma(interrupt_cpu_status_t *cs);
 inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
                                      int value, CLOCK cpu_clk)
 {
+    if (cs == NULL || int_num >= cs->num_ints)
+        return;
+
     if (value) {                /* Trigger the IRQ.  */
         if (!(cs->pending_int[int_num] & IK_IRQ)) {
             cs->nirq++;
@@ -158,8 +163,10 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
                 if (--cs->nirq == 0)
                     cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int & ~IK_IRQ);
-            } else
+            } else {
+                *(int *)0 = 0;
                 interrupt_log_wrong_nirq();
+            }
         }
     }
 }
@@ -168,6 +175,9 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
 inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
                                      int value, CLOCK cpu_clk)
 {
+    if (cs == NULL || int_num >= cs->num_ints)
+        return;
+
     if (value) {                /* Trigger the NMI.  */
         if (!(cs->pending_int[int_num] & IK_NMI)) {
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
@@ -196,8 +206,10 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
                 if (cpu_clk == cs->nmi_clk)
                     cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int & ~IK_NMI);
-            } else
+            } else {
+                *(int *)0 = 0;
                 interrupt_log_wrong_nnmi();
+            }
         }
     }
 }
@@ -242,11 +254,11 @@ struct snapshot_module_s;
 extern interrupt_cpu_status_t *interrupt_cpu_status_new(void);
 extern void interrupt_cpu_status_destroy(interrupt_cpu_status_t *cs);
 extern void interrupt_cpu_status_init(interrupt_cpu_status_t *cs,
-                                      unsigned int num_ints,
                                       unsigned int *last_opcode_info_ptr);
 extern void interrupt_cpu_status_reset(interrupt_cpu_status_t *cs);
 
 extern void interrupt_trigger_reset(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
+extern unsigned int interrupt_cpu_status_int_new(interrupt_cpu_status_t *cs);
 extern void interrupt_ack_reset(interrupt_cpu_status_t *cs);
 extern void interrupt_set_reset_trap_func(interrupt_cpu_status_t *cs,
                                         void (*reset_trap_func)(void));
