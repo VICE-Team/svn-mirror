@@ -1,3 +1,35 @@
+2005-11-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.5.
+
+2005-10-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* machine.h, c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c: machine_has_restore_key
+	splitted from machine_set_restore_key.
+
+	* datasette.c (datasette_event_record, datasette_control):
+	Handle network connection.
+
+	* event.c (event_playback_event_list): Implemented restore
+	key and datasette events.
+
+	* joystick.c: Using new array network_joystick_value to avoid
+	mixing actual and event list joystick data.
+
+	* keyboard.c: Using new array network_keyarr and
+	network_rev_keyarr to avoid mixing actual and event list
+	keyboard data. Implemented restore key events.
+
+	* machine.c (machine_shutdown): Call network_shutdown.
+
+	* network.c: New function network_shutdown.
+
+2005-10-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Fixed the 'make dist' problem for the built-in
+	libpng and zlib.
+
 2005-10-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.4.

@@ -56,6 +56,7 @@ BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 
 /* Latched joystick status.  */
 static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
+static BYTE network_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 
 /* to prevent illegal direction combinations */
 static const BYTE joystick_opposite_direction[] = 
@@ -67,7 +68,12 @@ static CLOCK joystick_delay;
 
 static void joystick_latch_matrix(CLOCK offset)
 {
-    memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
+#ifdef HAVE_NETWORK
+    if (network_connected())
+        memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
+    else
+#endif
+        memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
     ui_display_joyport(joystick_value);
 }
 
@@ -101,7 +107,7 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
 void joystick_event_delayed_playback(void *data)
 {
-    memcpy(latch_joystick_value, data, sizeof(latch_joystick_value));
+    memcpy(network_joystick_value, data, sizeof(latch_joystick_value));
     alarm_set(joystick_alarm, maincpu_clk + joystick_delay);
 }
 

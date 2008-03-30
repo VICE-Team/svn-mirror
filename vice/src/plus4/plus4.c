@@ -443,7 +443,11 @@ static void machine_vsync_hook(void)
     drivecpu_prevent_clk_overflow_all(sub);
 }
 
-int machine_set_restore_key(int v)
+void machine_set_restore_key(int v)
+{
+}
+
+int machine_has_restore_key(void)
 {
     return 0;
 }

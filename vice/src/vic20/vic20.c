@@ -446,13 +446,16 @@ static void machine_vsync_hook(void)
     drivecpu_prevent_clk_overflow_all(sub);
 }
 
-int machine_set_restore_key(int v)
+void machine_set_restore_key(int v)
 {
     viacore_signal(machine_context.via2,
                    VIA_SIG_CA1, v ? VIA_SIG_FALL : VIA_SIG_RISE);
-    return 1;
 }
 
+int machine_has_restore_key(void)
+{
+    return 1;
+}
 /* ------------------------------------------------------------------------- */
 
 long machine_get_cycles_per_second(void)

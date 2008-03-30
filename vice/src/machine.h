@@ -97,9 +97,11 @@ extern void machine_specific_powerup(void);
 extern void machine_shutdown(void);
 extern void machine_specific_shutdown(void);
 
-/* Set the state of the RESTORE key (!=0 means pressed); returns 1 if key had
-   been used.  */
-extern int machine_set_restore_key(int v);
+/* Set the state of the RESTORE key (!=0 means pressed) */
+extern void machine_set_restore_key(int v);
+
+/* returns 1 if key is present */
+extern int machine_has_restore_key(void);
 
 /* Get the number of CPU cylces per second.  This is used in various parts.  */
 extern long machine_get_cycles_per_second(void);

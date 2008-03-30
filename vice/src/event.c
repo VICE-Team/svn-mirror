@@ -408,13 +408,16 @@ void event_playback_event_list(event_list_state_t *list)
                 keyboard_event_delayed_playback(current->data);
                 break;
             case EVENT_KEYBOARD_RESTORE:
-                /* FIXME: TODO */
+                keyboard_restore_event_playback(0, current->data);
                 break;
             case EVENT_JOYSTICK_DELAY:
                 joystick_register_delay(*(unsigned int*)current->data);
                 break;
             case EVENT_JOYSTICK_VALUE:
                 joystick_event_delayed_playback(current->data);
+                break;
+            case EVENT_DATASETTE:
+                datasette_event_playback(0, current->data);
                 break;
             case EVENT_RESETCPU:
                 machine_reset_event_playback(0, current->data);

@@ -237,6 +237,10 @@ void machine_shutdown(void)
 
     event_shutdown();
 
+#ifdef HAVE_NETWORK
+    network_shutdown();
+#endif
+
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();
     machine_resources_shutdown();

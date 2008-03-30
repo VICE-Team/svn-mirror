@@ -64,6 +64,9 @@ int rev_keyarr[KBD_COLS];
 static int latch_keyarr[KBD_ROWS];
 static int latch_rev_keyarr[KBD_COLS];
 
+static int network_keyarr[KBD_ROWS];
+static int network_rev_keyarr[KBD_COLS];
+
 static alarm_t *keyboard_alarm;
 
 static log_t keyboard_log = LOG_DEFAULT;
@@ -74,9 +77,18 @@ static CLOCK keyboard_delay;
 
 static void keyboard_latch_matrix(CLOCK offset)
 {
-    memcpy(keyarr, latch_keyarr, sizeof(keyarr));
-    memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
-
+#ifdef HAVE_NETWORK
+    if (network_connected())
+    {
+        memcpy(keyarr, network_keyarr, sizeof(keyarr));
+        memcpy(rev_keyarr, network_rev_keyarr, sizeof(rev_keyarr));
+    }
+    else
+#endif
+    {
+        memcpy(keyarr, latch_keyarr, sizeof(keyarr));
+        memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
+    }
     if (keyboard_machine_func != NULL)
         keyboard_machine_func(keyarr);
 }
@@ -138,7 +150,19 @@ static void keyboard_latch_handler(CLOCK offset, void *data)
 
 void keyboard_event_delayed_playback(void *data)
 {
-    memcpy(latch_keyarr, data, sizeof(latch_keyarr));
+    int row, col;
+
+    memcpy(network_keyarr, data, sizeof(network_keyarr));
+
+    for (row = 0; row < KBD_ROWS; row++) {
+        for (col = 0; col < KBD_COLS; col++) {
+            if (network_keyarr[row] & (1 << col))
+                network_rev_keyarr[col] |= 1 << row;
+            else
+                network_rev_keyarr[col] &= ~(1 << row);
+        }
+    }
+
     alarm_set(keyboard_alarm, maincpu_clk + keyboard_delay);
 }
 /*-----------------------------------------------------------------------*/
@@ -263,10 +287,21 @@ void keyboard_key_pressed(signed long key)
 
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
-        && machine_set_restore_key(1))
+        && machine_has_restore_key())
     {
-        event_data = (DWORD)1;
-        event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
+            event_data = (DWORD)1;
+#ifdef HAVE_NETWORK
+        if (network_connected()) {
+            network_event_record(EVENT_KEYBOARD_RESTORE, 
+                    (void*)&event_data, sizeof(DWORD));
+        }
+        else
+#endif
+        {
+            machine_set_restore_key(1);
+            event_record(EVENT_KEYBOARD_RESTORE, 
+                        (void*)&event_data, sizeof(DWORD));
+        }
         return;
     }
 
@@ -365,10 +400,20 @@ void keyboard_key_released(signed long key)
 
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
-        && machine_set_restore_key(0))
+        && machine_has_restore_key())
     {
         event_data = (DWORD)0;
-        event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, sizeof(DWORD));
+#ifdef HAVE_NETWORK
+        if (network_connected()) {
+            network_event_record(EVENT_KEYBOARD_RESTORE, 
+                    (void*)&event_data, sizeof(DWORD));
+        }
+        else
+#endif
+        {
+            event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, 
+                sizeof(DWORD));
+        }
         return;
     }
 

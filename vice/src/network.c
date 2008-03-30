@@ -48,6 +48,7 @@
 #include "types.h"
 #include "ui.h"
 #include "util.h"
+#include "vsync.h"
 
 static enum {
     NETWORK_IDLE,
@@ -286,8 +287,10 @@ static void network_server_connect_trap(WORD addr, void *data)
         network_init_frame_event_list();
         network_hook();
         /* ui_display_statustext("A Client has connected..."); */
-        lib_free(filename);
+    } else {
+        ui_error("Cannot create snapshot file %s", filename);
     }
+    lib_free(filename);
 }
 
 static void network_client_connect_trap(WORD addr, void *data)
@@ -343,6 +346,7 @@ int network_start_server(void)
     network_mode = NETWORK_SERVER;
 
     ui_error("Server is running...");
+    vsync_suspend_speed_eval();
 
     return 0;
 } 
@@ -403,6 +407,7 @@ int network_connect_client(void)
     lib_free(filename);
 
     interrupt_maincpu_trigger_trap(network_client_connect_trap, (void *)0);
+    vsync_suspend_speed_eval();
 
     return 0;
 }
@@ -509,6 +514,13 @@ void network_hook(void)
     }
 
 }
+
+void network_shutdown(void)
+{
+    network_free_frame_event_list();
+    lib_free(server_name);
+}
+
 
 #endif
 

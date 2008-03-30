@@ -38,6 +38,39 @@ SUBDIRS = \
 	cbm2 \
 	arch
 
+DIST_SUBDIRS = \
+	sounddrv \
+	drive \
+	vdrive \
+	fsdevice \
+	diskimage \
+	iecbus \
+	serial \
+	parallel \
+	tape \
+	imagecontents \
+	fileio \
+	video \
+	raster \
+	vicii \
+	vdc \
+	crtc \
+	gfxoutputdrv \
+	printerdrv \
+	rs232drv \
+	sid \
+	monitor \
+	core \
+	c64 \
+	c128 \
+	vic20 \
+	pet \
+	plus4 \
+	cbm2 \
+	arch \
+	resid \
+	lib
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \

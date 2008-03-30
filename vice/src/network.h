@@ -35,6 +35,7 @@ extern void network_hook(void);
 extern int network_connected(void);
 extern void network_hook(void);
 extern void network_event_record(unsigned int type, void *data, unsigned int size);
+extern void network_shutdown(void);
 
 #endif
 #endif

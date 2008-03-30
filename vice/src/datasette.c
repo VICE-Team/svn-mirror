@@ -39,6 +39,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "network.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "tap.h"
@@ -666,7 +667,12 @@ static void datasette_event_record(int command)
 
     rec_cmd = (DWORD)command;
 
-    event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+#ifdef HAVE_NETWORK
+    if (network_connected())
+        network_event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+    else
+#endif
+        event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
 }
 
 void datasette_event_playback(CLOCK offset, void *data)
@@ -734,8 +740,10 @@ void datasette_control(int command)
         return;
 
     datasette_event_record(command);
-
-    datasette_control_internal(command);
+#ifdef HAVE_NETWORK
+    if (!network_connected())
+#endif
+        datasette_control_internal(command);
 }
 
 void datasette_set_motor(int flag)

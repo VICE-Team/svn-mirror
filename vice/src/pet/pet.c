@@ -394,9 +394,13 @@ static void machine_vsync_hook(void)
 }
 
 /* Dummy - no restore key.  */
-int machine_set_restore_key(int v)
+void machine_set_restore_key(int v)
 {
-    return 0;   /* key not used -> lookup in keymap */
+}
+
+int machine_has_restore_key(void)
+{
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
