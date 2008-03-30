@@ -60,7 +60,17 @@ int raster_cmdline_options_chip_init(const char *chipname,
                                                 cname_chip[i * 3 + 2], NULL);
     }
 
-    return cmdline_register_options(cmdline_options_chip)
-        | video_cmdline_options_chip_init(chipname, video_chip_cap);
+    if (cmdline_register_options(cmdline_options_chip) < 0)
+        return -1;
+
+    for (i = 0; cname_chip[i * 3] != NULL; i++) {
+        lib_free(cmdline_options_chip[i].name);
+        lib_free(cmdline_options_chip[i].resource_name);
+    }
+
+    if (video_cmdline_options_chip_init(chipname, video_chip_cap) < 0)
+        return -1;
+
+    return 0;
 }
 
