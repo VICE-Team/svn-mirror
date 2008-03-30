@@ -11,7 +11,6 @@ src/arch/unix/cbm2ui.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
 src/arch/unix/joy.c
-src/arch/unix/main_exit.c
 src/arch/unix/mouse.c
 src/arch/unix/petui.c
 src/arch/unix/plus4ui.c
@@ -37,6 +36,7 @@ src/arch/unix/uited.c
 src/arch/unix/uivdc.c
 src/arch/unix/uivic.c
 src/arch/unix/uivicii.c
+src/arch/unix/unixmain.c
 src/arch/unix/vic20ui.c
 src/arch/unix/vsidui.c
 src/arch/unix/vsyncarch.c

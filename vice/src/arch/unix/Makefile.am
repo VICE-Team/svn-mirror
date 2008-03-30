@@ -37,8 +37,6 @@ libarch_a_SOURCES = \
 	joy.c \
 	joy.h \
 	kbd.h \
-	main_exit.c \
-	main_exit.h \
 	mouse.c \
 	mouse.h \
 	petui.c \
@@ -96,6 +94,7 @@ libarch_a_SOURCES = \
 	uivic.h \
 	uivicii.c \
 	uivicii.h \
+	unixmain.c \
 	vic20ui.c \
 	vic20ui.h \
 	videoarch.h \

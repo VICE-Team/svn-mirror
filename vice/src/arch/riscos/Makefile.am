@@ -31,13 +31,13 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	main_exit.h \
 	petdummy.c \
 	petui.c \
 	petui.h \
 	plus4ui.c \
 	plus4ui.h \
 	rs232.c \
+	riscosmain.c \
 	spritedrv.c \
 	types.h \
 	ui.c \

@@ -26,10 +26,10 @@ libarch_a_SOURCES = \
 	archdep.h \
 	c128ui.c \
 	c128ui.h \
-	cbm2ui.c \
-	cbm2ui.h \
 	c64ui.c \
 	c64ui.h \
+	cbm2ui.c \
+	cbm2ui.h \
 	cbmcharsets.c \
 	cbmcharsets.h \
 	console.c \
@@ -39,12 +39,11 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	main_exit.c \
-	main_exit.h \
-	mouse.c \
-	mouse.h \
 	menudefs.c \
 	menudefs.h \
+	mouse.c \
+	mouse.h \
+	msdosmain.c \
 	petui.c \
 	petui.h \
 	plus4ui.c \

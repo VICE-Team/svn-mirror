@@ -20,11 +20,10 @@ libarch_a_SOURCES = \
 	joy.h \
 	kbd.c \
 	kbd.h \
-	main_exit.c \
-	main_exit.h \
         makedist.cmd \
         mouse.c \
         mouse.h \
+	os2main.c \
 	rs232.c \
 	signals.h \
 	sounddrv.c \

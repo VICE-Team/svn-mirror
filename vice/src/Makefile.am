@@ -2,12 +2,6 @@
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
-if HAVE_RS232
-rs232_ldadd = rsuser.o
-else
-rs232_ldadd =
-endif
-
 ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
@@ -26,6 +20,7 @@ SUBDIRS = \
 	crtc \
 	gfxoutputdrv \
 	printerdrv \
+	rs232drv \
 	sid \
 	monitor \
 	c64 \
@@ -86,6 +81,7 @@ noinst_HEADERS = \
 	keyboard.h \
 	log.h \
 	machine.h \
+	main.h \
 	maincpu.h \
 	mem.h \
 	mos6510.h \
@@ -99,7 +95,7 @@ noinst_HEADERS = \
 	riot.h \
 	riotcore.h \
 	romset.h \
-	rs232.h \
+	rsuser.h \
 	screenshot.h \
 	serial.h \
 	snapshot.h \
@@ -180,10 +176,6 @@ cpucore_sources = \
 maincpu_sources = \
 	maincpu.c
 
-rs232_sources = \
-	rsuser.c \
-	rsuser.h
-
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -196,8 +188,7 @@ EXTRA_DIST = \
 	piacore.c \
 	riotcore.c \
 	tpicore.c \
-	viacore.c \
-	$(rs232_sources)
+	viacore.c
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
@@ -213,6 +204,7 @@ monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
+rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
@@ -224,7 +216,9 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib)
 
 bin_PROGRAMS = x64 x128 xvic xpet xplus4 xcbm2 c1541 petcat
 
@@ -238,9 +232,7 @@ x64_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
-	$(sounddrv_lib) \
-	$(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
@@ -268,6 +260,7 @@ x64-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libvicii \
 	libvideo \
 	libarch \
@@ -287,9 +280,7 @@ x128_libs =  \
 	$(drive_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
-	$(sounddrv_lib) \
-	$(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
@@ -314,6 +305,7 @@ x128-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libdrive \
 	libvdrive \
 	libarch \
@@ -336,9 +328,7 @@ xvic_libs =  \
 	$(vic20_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(sounddrv_lib) \
-	$(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
@@ -361,6 +351,7 @@ xvic-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libvic20 \
 	libvideo \
 	libarch \
@@ -377,9 +368,7 @@ xpet_libs =  \
 	$(pet_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(sounddrv_lib) \
-        $(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
@@ -404,6 +393,7 @@ xpet-all: \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libpet \
 	libvideo \
 	libarch \
@@ -420,9 +410,7 @@ xplus4_libs =  \
 	$(plus4_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(sounddrv_lib) \
-	$(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(monitor_lib) \
@@ -445,6 +433,7 @@ xplus4-all: \
         libsounddrv \
         libgfxoutputdrv \
         libprinterdrv \
+	librs232drv \
         libplus4 \
 	libvideo \
         libarch \
@@ -461,9 +450,7 @@ xcbm2_libs = \
 	$(xcbm2_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(sounddrv_lib) \
-	$(gfxoutputdrv_lib) \
-	$(printerdrv_lib) \
+	$(driver_libs) \
 	$(sid_lib) \
 	$(crtc_lib) \
 	$(vicii_lib) \
@@ -487,6 +474,7 @@ xcbm2-all: \
 	libsounddrv \
         libgfxoutputdrv \
 	libprinterdrv \
+	librs232drv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
@@ -551,8 +539,9 @@ petcat_LDADD = \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
-	libprinterdrv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
-	libtape libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
+	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
+	libfsdevice libtape libarch libvicii libvdc libsid libcrtc
+	libvideo @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -586,6 +575,8 @@ libplus4:
 	(cd plus4 && $(MAKE))
 libprinterdrv:
 	(cd printerdrv && $(MAKE))
+librs232drv:
+	(cd rs232drv && $(MAKE))
 libraster:
 	(cd raster && $(MAKE))
 libresid:
