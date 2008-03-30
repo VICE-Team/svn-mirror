@@ -26,21 +26,34 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "log.h"
-#include "archdep.h"
 #include "cmdline.h"
+#include "gfxoutput.h"
 #include "output-select.h"
 #include "output-graphics.h"
+#include "output.h"
+#include "palette.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "utils.h"
 #include "types.h"
-#include "drv-mps803.h"
 
-static int linecnt[3] = { 0, 0, 0 };
-static FILE *gfxf[3]  = { NULL, NULL, NULL };
-static int npix[3]    = { 0, 0, 0 };
+struct output_gfx_s
+{
+    gfxoutputdrv_t *gfxoutputdrv;
+    screenshot_t screenshot;
+    BYTE *line;
+    unsigned int line_pos;
+};
+typedef struct output_gfx_s output_gfx_t;
+
+static output_gfx_t output_gfx[3];
+
+static unsigned int current_prnr;
 
 static int ppb;
 
@@ -74,76 +87,88 @@ int output_graphics_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int output_graphics_open(unsigned int prnr)
+static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
+                                      unsigned int line, unsigned int mode)
 {
-    mps_t *mps=&drv_mps803[prnr];
+    unsigned int i;
+    BYTE *line_base;
+    unsigned int color;
 
-    char *filename;
+    line_base = output_gfx[current_prnr].line;
 
-    npix[prnr] = ppb;
-
-    switch (npix[prnr])
-    {
-    case 0:
-        filename = "output.txt";
+    switch (mode) {
+      case SCREENSHOT_MODE_PALETTE:
+        for (i = 0; i < screenshot->width; i++) {
+            /* FIXME: Use a table here if color printers are introduced.  */
+            if (line_base[i] == OUTPUT_PIXEL_BLACK)
+                data[i] = 0;
+            else
+                data[i] = 1;
+        }
         break;
-    case 3:
-        filename = "output.pgm";
+      case SCREENSHOT_MODE_RGB32:
+        for (i = 0; i < screenshot->width; i++) {
+            /* FIXME: Use a table here if color printers are introduced.  */
+            if (line_base[i] == OUTPUT_PIXEL_BLACK)
+                color = 0;
+            else
+                color = 1;
+            data[i * 4] = screenshot->palette->entries[color].red;
+            data[i * 4 + 1] = screenshot->palette->entries[color].green;
+            data[i * 4 + 2] = screenshot->palette->entries[color].blue;
+            data[i * 4 + 3] = 0;
+        }
         break;
-    default:
-        filename = "output.pnm";
+      default:
+        log_error(LOG_ERR, "Invalid mode %i.", mode);
     }
+}
 
-    memset(mps, 0, sizeof(mps));
+/* ------------------------------------------------------------------------- */
 
-    gfxf[prnr] = fopen(filename, MODE_WRITE);
+static int output_graphics_open(unsigned int prnr,
+                                output_parameter_t *output_parameter)
+{
+    output_gfx[prnr].gfxoutputdrv = gfxoutput_get_driver("BMP");
 
-    if (!gfxf[prnr])
-    {
-        log_error(LOG_DEFAULT, "Error opening file '%s' for printing.",
-                  filename);
+    if (output_gfx[prnr].gfxoutputdrv == NULL)
         return -1;
-    }
 
-    switch (npix[prnr])
-    {
-    case 0:
-        break;
-    case 3:
-        fprintf(gfxf[prnr], "P5\n%10d %10d\n255\n", npix[prnr]*480, 0);
-        break;
-    default:
-        fprintf(gfxf[prnr], "P4\n%10d %10d\n", npix[prnr]*480, 0);
-    }
+    output_gfx[prnr].screenshot.width  = output_parameter->maxcol;
+    output_gfx[prnr].screenshot.height = output_parameter->maxrow;
+    output_gfx[prnr].screenshot.y_offset = 0;
+    output_gfx[prnr].screenshot.palette = output_parameter->palette;
 
-    log_message(LOG_DEFAULT, "File '%s' opened for printing.",
-                filename);
+    free(output_gfx[prnr].line);
+    output_gfx[prnr].line = (BYTE *)xmalloc(output_parameter->maxcol);
+    memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE, output_parameter->maxcol);
+
+    output_gfx[prnr].screenshot.convert_line = output_graphics_line_data;
+
+    output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
+                                        "prngfx");
 
     return 0;
 }
 
 static void output_graphics_close(unsigned int prnr)
 {
-    mps_t *mps=&drv_mps803[prnr];
-
-    if (npix[prnr])
-    {
-        fseek(gfxf[prnr], 14, SEEK_SET);
-
-        fprintf(gfxf[prnr], "%10d", linecnt[prnr]);
-    }
-
-    fclose(gfxf[prnr]);
-
-    log_message(LOG_DEFAULT, "Printer file closed. (Size: %dx%d)",
-                (npix[prnr]?npix[prnr]:1)*480, linecnt[prnr]);
-
-    linecnt[prnr] = 0;
-    gfxf[prnr]    = 0;
+    output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
 }
 
 static int output_graphics_putc(unsigned int prnr, BYTE b)
 {
+    if (b == OUTPUT_NEWLINE) {
+        current_prnr = prnr;
+        (output_gfx[prnr].gfxoutputdrv->write)(&output_gfx[prnr].screenshot);
+        memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE,
+               output_gfx[prnr].screenshot.width);
+        output_gfx[prnr].line_pos = 0;
+    } else {
+        output_gfx[prnr].line[output_gfx[prnr].line_pos] = b;
+        if (output_gfx[prnr].line_pos < output_gfx[prnr].screenshot.width - 1)
+            output_gfx[prnr].line_pos++;
+    }
     return 0;
 }
 
@@ -157,135 +182,16 @@ static int output_graphics_flush(unsigned int prnr)
     return 0;
 }
 
-static void output_graphics_writeline(unsigned int prnr)
-{
-    mps_t *mps = &drv_mps803[prnr];
-    FILE *f = gfxf[prnr];
-
-    int x, y, i;
-
-    switch (npix[prnr])
-    {
-    case 0:
-        for (y=0; y<7; y++)
-        {
-            for (x=0; x<480; x++)
-                fprintf(f, "%c", mps->line[x][y]?'*':' ');
-
-            fprintf(f, "\n");
-        }
-        break;
-
-    case 1:
-        for (y=0; y<7; y++)
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                char byte = 0;
-                for (i=0; i<8; i++)
-                    byte |= (mps->line[x+i][y]?1:0)<<(7-i);
-
-                fprintf(f, "%c", byte);
-            }
-        break;
-
-    case 2:
-        for (y=0; y<7; y++)
-        {
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                int byte = 0;
-                for (i=0; i<8; i++)
-                {
-                    const int bit = mps->line[x+i][y] ? 1 : 0;
-                    byte |= bit << (2*(7-i));
-                    byte |= bit << (2*(7-i)+1);
-                }
-                fprintf(f, "%c%c", byte>>8, byte);
-            }
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                int byte = 0;
-                for (i=0; i<8; i++)
-                {
-                    const int bit = mps->line[x+i][y] ? 1 : 0;
-                    byte |= bit << (2*(7-i));
-                    byte |= bit << (2*(7-i)+1);
-                }
-                fprintf(f, "%c%c", byte>>8, byte);
-            }
-        }
-        break;
-
-    case 3:
-        for (y=0; y<7; y++)
-        {
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                int byte = 0;
-                for (i=0; i<8; i++)
-                {
-                    byte = mps->line[x+i][y]?1:0;
-                    fprintf(f, "%c%c%c", byte?143:255, byte?47:255, byte?143:255);
-                }
-            }
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                int byte = 0;
-                for (i=0; i<8; i++)
-                {
-                    byte = mps->line[x+i][y]?1:0;
-                    fprintf(f, "%c%c%c", byte?47:255, byte?0:255, byte?47:255);
-                }
-            }
-            for (x=0; x<MAX_COL; x+=8)
-            {
-                int byte = 0;
-                for (i=0; i<8; i++)
-                {
-                    byte = mps->line[x+i][y]?1:0;
-                    fprintf(f, "%c%c%c", byte?143:255, byte?47:255, byte?143:255);
-                }
-            }
-        }
-        break;
-    }
-
-    if (!is_mode(mps, MPS_BITMODE))
-    {
-        // bitmode:  9 rows/inch (7lines/row * 9rows/inch=63 lines/inch)
-        // charmode: 6 rows/inch (7lines/row * 6rows/inch=42 lines/inch)
-        //   --> 63lines/inch - 42lines/inch = 21lines/inch missing
-        //   --> 21lines/inch / 9row/inch = 3lines/row missing
-        switch (npix[prnr])
-        {
-        case 0:
-            fprintf(f, "\n\n\n");
-            linecnt[prnr] += 3;
-            break;
-
-        case 3:
-            for (x=0; x<npix[prnr]*MAX_COL*(npix[prnr]*3); x++)
-                fprintf(f, "%c", 255);
-
-            linecnt[prnr] += 3*npix[prnr];
-            break;
-
-        default:
-            for (x=0; x<npix[prnr]*MAX_COL*(npix[prnr]*3)/8; x++)
-                fprintf(f, "%c", 0);
-
-            linecnt[prnr] += 3*npix[prnr];
-        }
-    }
-    linecnt[prnr] += 7*npix[prnr];
-
-    mps->pos=0;
-}
-
 /* ------------------------------------------------------------------------- */
 
 void output_graphics_init(void)
 {
+    unsigned int i;
+
+    for (i = 0; i < 3; i++) {
+        output_gfx[i].line = NULL;
+        output_gfx[i].line_pos = 0;
+    }
 }
 
 void output_graphics_reset(void)
@@ -302,7 +208,6 @@ int output_graphics_init_resources(void)
     output_select.output_putc = output_graphics_putc;
     output_select.output_getc = output_graphics_getc;
     output_select.output_flush = output_graphics_flush;
-    output_select.output_writeline = output_graphics_writeline;
 
     output_select_register(&output_select);
 
