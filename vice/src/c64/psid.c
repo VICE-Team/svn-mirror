@@ -264,20 +264,20 @@ int psid_load_file(const char* filename)
         int endp = (psid->load_addr + psid->data_size - 1) >> 8;
 
         /* Used memory ranges. */
-        int used[] = { 0x00, 0x03,
-                       0xa0, 0xbf,
-                       0xd0, 0xff,
-                       0x00, 0x00 };        /* calculated below */
-        int pages[256];
-        int last_page = 0;
-        int i, page, tmp;
+        unsigned int used[] = { 0x00, 0x03,
+                                0xa0, 0xbf,
+                                0xd0, 0xff,
+                                0x00, 0x00 };        /* calculated below */
+        unsigned int pages[256];
+        unsigned int last_page = 0;
+        unsigned int i, page, tmp;
 
         /* finish initialization */
         used[6] = startp; used[7] = endp;
 
         /* Mark used pages in table. */
         memset(pages, 0, sizeof(pages));
-        for (i = 0; i < sizeof(used)/sizeof(*used); i += 2) {
+        for (i = 0; i < sizeof(used) / sizeof(*used); i += 2) {
             for (page = used[i]; page <= used[i + 1]; page++) {
                 pages[page] = 1;
             }
@@ -285,7 +285,7 @@ int psid_load_file(const char* filename)
 
         /* Find largest free range. */
         psid->max_pages = 0x00;
-        for (page = 0; page < sizeof(pages)/sizeof(*pages); page++) {
+        for (page = 0; page < sizeof(pages) / sizeof(*pages); page++) {
             if (!pages[page])
                 continue;
             tmp = page - last_page;
@@ -323,7 +323,7 @@ fail:
    environment. */
 int psid_set_cbm80(WORD vec, WORD addr)
 {
-    int i;
+    unsigned int i;
     BYTE cbm80[] = { 0x00, 0x00, 0x00, 0x00, 0xc3, 0xc2, 0xcd, 0x38, 0x30 };
 
     cbm80[0] = vec & 0xff;

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-05-03 15:17+0200\n"
+"POT-Creation-Date: 2003-05-18 17:49+0200\n"
 "PO-Revision-Date: 2002-08-28 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/vsync.c:118
+#: src/vsync.c:119
 msgid "Limit emulation speed to specified value"
 msgstr "Limita la velocità di emulazione al valore specificato"
 
-#: src/vsync.c:120
+#: src/vsync.c:121
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aggiorna ogni <valore> frame (`0' per automatico)"
 
-#: src/vsync.c:122
+#: src/vsync.c:123
 msgid "Enable warp mode"
 msgstr "Attiva la modalità turbo"
 
-#: src/vsync.c:124
+#: src/vsync.c:125
 msgid "Disable warp mode"
 msgstr "Disattiva la modalità turbo"
 
-#: src/vsync.c:427
+#: src/vsync.c:428
 msgid "Your machine is too slow for current settings!"
 msgstr "La tua macchina è troppo lenta per queste impostazioni!"
 
@@ -45,13 +45,13 @@ msgstr "Ricevuto il segnale %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
 #: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:42 src/arch/unix/uivic.c:41
-#: src/arch/unix/vsidui.c:122
+#: src/arch/unix/vsidui.c:123
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:44 src/arch/unix/uivic.c:43
-#: src/arch/unix/vsidui.c:124
+#: src/arch/unix/vsidui.c:125
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -229,7 +229,7 @@ msgid "VDC settings"
 msgstr "Impostazioni del VDC"
 
 #: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
-#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:172
+#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:173
 msgid "SID settings"
 msgstr "Impostazioni del SID"
 
@@ -250,7 +250,7 @@ msgstr "Carica le impostazioni"
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
 #: src/arch/unix/cbm2ui.c:455 src/arch/unix/petui.c:380
 #: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:470
-#: src/arch/unix/vsidui.c:256
+#: src/arch/unix/vsidui.c:257
 msgid "File"
 msgstr "File"
 
@@ -269,7 +269,7 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:411
 #: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
-#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1121
+#: src/arch/unix/vsidui.c:270 src/arch/unix/x11/gnome/x11ui.c:1121
 #: src/arch/unix/x11/gnome/x11ui.c:1213
 msgid "Settings"
 msgstr "Impostazioni"
@@ -282,7 +282,7 @@ msgstr "Impostazioni"
 msgid "RJHelp"
 msgstr "RJAiuto"
 
-#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:126
+#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:127
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M vecchio"
 
@@ -1322,9 +1322,9 @@ msgstr "*Attiva l'emulazione hardware dei drive"
 #: src/arch/unix/uidrivec64c128vic20.c:73 src/arch/unix/uidrivepetcbm2.c:42
 #: src/arch/unix/uidrivepetcbm2.c:62 src/arch/unix/uidriveplus4.c:43
 #: src/arch/unix/uidriveplus4.c:59 src/arch/unix/uijoystick2.c:78
-#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:100
-#: src/arch/unix/uiperipheral.c:131 src/arch/unix/uiperipheral.c:162
-#: src/arch/unix/uiperipheral.c:193 src/arch/unix/uiprinter.c:173
+#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:96
+#: src/arch/unix/uiperipheral.c:127 src/arch/unix/uiperipheral.c:158
+#: src/arch/unix/uiperipheral.c:189 src/arch/unix/uiprinter.c:173
 #: src/arch/unix/uiprinter.c:185 src/arch/unix/vic20ui.c:288
 msgid "*None"
 msgstr "*Nessuno"
@@ -1537,82 +1537,82 @@ msgstr ""
 "Non è possibile caricare il file di palette\n"
 "'%s'"
 
-#: src/arch/unix/uiperipheral.c:89
+#: src/arch/unix/uiperipheral.c:85
 msgid "Path:"
 msgstr "Percorso:"
 
-#: src/arch/unix/uiperipheral.c:102 src/arch/unix/uiperipheral.c:133
-#: src/arch/unix/uiperipheral.c:164 src/arch/unix/uiperipheral.c:195
+#: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:129
+#: src/arch/unix/uiperipheral.c:160 src/arch/unix/uiperipheral.c:191
 #: src/arch/unix/uiprinter.c:175 src/arch/unix/uiprinter.c:187
 msgid "*File system access"
 msgstr "*Accesso tramite file system"
 
-#: src/arch/unix/uiperipheral.c:105 src/arch/unix/uiperipheral.c:136
-#: src/arch/unix/uiperipheral.c:167 src/arch/unix/uiperipheral.c:198
+#: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:132
+#: src/arch/unix/uiperipheral.c:163 src/arch/unix/uiperipheral.c:194
 #: src/arch/unix/uiprinter.c:178 src/arch/unix/uiprinter.c:190
 msgid "*Real device access"
 msgstr "*Accesso tramite periferica reale"
 
-#: src/arch/unix/uiperipheral.c:108 src/arch/unix/uiperipheral.c:139
-#: src/arch/unix/uiperipheral.c:170 src/arch/unix/uiperipheral.c:201
+#: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
+#: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
 msgid "*Raw device access"
 msgstr "*Accesso diretto (raw) ai dispositivi"
 
-#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:145
-#: src/arch/unix/uiperipheral.c:176 src/arch/unix/uiperipheral.c:207
+#: src/arch/unix/uiperipheral.c:110 src/arch/unix/uiperipheral.c:141
+#: src/arch/unix/uiperipheral.c:172 src/arch/unix/uiperipheral.c:203
 msgid "Device type"
 msgstr "Tipo di periferica"
 
-#: src/arch/unix/uiperipheral.c:116 src/arch/unix/uiperipheral.c:147
-#: src/arch/unix/uiperipheral.c:178 src/arch/unix/uiperipheral.c:209
+#: src/arch/unix/uiperipheral.c:112 src/arch/unix/uiperipheral.c:143
+#: src/arch/unix/uiperipheral.c:174 src/arch/unix/uiperipheral.c:205
 msgid "*Read only access"
 msgstr "*Accesso in sola lettura"
 
-#: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:150
-#: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:212
+#: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
+#: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
 msgid "File system directory..."
 msgstr "Directory del file system..."
 
-#: src/arch/unix/uiperipheral.c:121 src/arch/unix/uiperipheral.c:152
-#: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:214
+#: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:148
+#: src/arch/unix/uiperipheral.c:179 src/arch/unix/uiperipheral.c:210
 msgid "*Convert P00 file names"
 msgstr "*Converti i nomi dei file P00"
 
-#: src/arch/unix/uiperipheral.c:123 src/arch/unix/uiperipheral.c:154
-#: src/arch/unix/uiperipheral.c:185 src/arch/unix/uiperipheral.c:216
+#: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:150
+#: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:212
 msgid "*Create P00 files on save"
 msgstr "*Crea file P00 in caso di salvataggio"
 
-#: src/arch/unix/uiperipheral.c:125 src/arch/unix/uiperipheral.c:156
-#: src/arch/unix/uiperipheral.c:187 src/arch/unix/uiperipheral.c:218
+#: src/arch/unix/uiperipheral.c:121 src/arch/unix/uiperipheral.c:152
+#: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:214
 msgid "*Hide raw CBM files"
 msgstr "*Nascondi i file CBM"
 
-#: src/arch/unix/uiperipheral.c:224
+#: src/arch/unix/uiperipheral.c:220
 msgid "Device #8"
 msgstr "Periferica #8"
 
-#: src/arch/unix/uiperipheral.c:225
+#: src/arch/unix/uiperipheral.c:221
 msgid "Device #9"
 msgstr "Periferica #9"
 
-#: src/arch/unix/uiperipheral.c:226
+#: src/arch/unix/uiperipheral.c:222
 msgid "Device #10"
 msgstr "Periferica #10"
 
-#: src/arch/unix/uiperipheral.c:227
+#: src/arch/unix/uiperipheral.c:223
 msgid "Device #11"
 msgstr "Periferica #11"
 
-#: src/arch/unix/uiperipheral.c:229
+#: src/arch/unix/uiperipheral.c:225
 msgid "Printer settings"
 msgstr "Impostazioni delle stampanti"
 
-#: src/arch/unix/uiperipheral.c:231
+#: src/arch/unix/uiperipheral.c:227
 msgid "*Enable Virtual Devices"
 msgstr "*Attiva le periferiche virtuali"
 
-#: src/arch/unix/uiperipheral.c:237
+#: src/arch/unix/uiperipheral.c:233
 msgid "Peripheral settings"
 msgstr "Impostazioni delle periferiche"
 
@@ -2082,7 +2082,7 @@ msgstr "Tempo di sospensione"
 msgid "Oversample"
 msgstr "Sovracampionamento"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:163
 msgid "Sound settings"
 msgstr "Impostazioni del suono"
 
@@ -2129,7 +2129,7 @@ msgid "Revision"
 msgstr "Revisione"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:174
+#: src/arch/unix/vsidui.c:175
 msgid "Video standard"
 msgstr "Standard video"
 
@@ -2283,24 +2283,24 @@ msgstr "Carica file PSID"
 msgid "`%s' is not a valid PSID file."
 msgstr "`%s' non è un file PSID valido."
 
-#: src/arch/unix/vsidui.c:110
+#: src/arch/unix/vsidui.c:111
 msgid "Load PSID file..."
 msgstr "Carica file PSID..."
 
-#: src/arch/unix/vsidui.c:170
+#: src/arch/unix/vsidui.c:171
 msgid "*Override PSID settings"
 msgstr "*Non tener conto delle impostazioni del PSID"
 
-#: src/arch/unix/vsidui.c:193
+#: src/arch/unix/vsidui.c:194
 msgid "*Default Tune"
 msgstr "*Melodia Predefinita"
 
-#: src/arch/unix/vsidui.c:216
+#: src/arch/unix/vsidui.c:217
 #, c-format
 msgid "*Tune %d"
 msgstr "*Melodia %d"
 
-#: src/arch/unix/vsidui.c:286
+#: src/arch/unix/vsidui.c:287
 msgid "VSID: The SID Emulator"
 msgstr "VSID: L'emulatore del SID"
 
@@ -3058,8 +3058,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice non è eseguto come root, le estesioni DGA non sono possibili - schermo "
-#~ "intero disabilitato."
+#~ "Vice non è eseguto come root, le estesioni DGA non sono possibili - "
+#~ "schermo intero disabilitato."
 
 #~ msgid "Specify name of symbolic keymap file"
 #~ msgstr "Specifica il nome del file della mappa simbolica della tastiera"
@@ -3077,11 +3077,13 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Specify name of UK business keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Specifica il nome del file della mappa simbolica della tastiera UK business"
+#~ "Specifica il nome del file della mappa simbolica della tastiera UK "
+#~ "business"
 
 #~ msgid "Specify name of UK business keyboard positional keymap file"
 #~ msgstr ""
-#~ "Specifica il nome del file della mappa posizionale della tastiera UK business"
+#~ "Specifica il nome del file della mappa posizionale della tastiera UK "
+#~ "business"
 
 #~ msgid "Specify name of German business keyboard symbolic keymap file"
 #~ msgstr ""
@@ -3090,8 +3092,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 
 #~ msgid "Specify name of German business keyboard positional keymap file"
 #~ msgstr ""
-#~ "Specifica il nome del file della mappa posizionale della tastiera business "
-#~ "tedesca"
+#~ "Specifica il nome del file della mappa posizionale della tastiera "
+#~ "business tedesca"
 
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Non è possibile trovare il simbolo `%s'!"

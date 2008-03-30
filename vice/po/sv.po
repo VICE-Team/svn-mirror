@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-05-03 15:17+0200\n"
+"POT-Creation-Date: 2003-05-18 17:49+0200\n"
 "PO-Revision-Date: 2001-08-15 18:33+0100\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\\n\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:118
+#: src/vsync.c:119
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:120
+#: src/vsync.c:121
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:122
+#: src/vsync.c:123
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:124
+#: src/vsync.c:125
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:427
+#: src/vsync.c:428
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -45,13 +45,13 @@ msgstr "Tog emot signal %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
 #: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:42 src/arch/unix/uivic.c:41
-#: src/arch/unix/vsidui.c:122
+#: src/arch/unix/vsidui.c:123
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:44 src/arch/unix/uivic.c:43
-#: src/arch/unix/vsidui.c:124
+#: src/arch/unix/vsidui.c:125
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -229,7 +229,7 @@ msgid "VDC settings"
 msgstr "VDC-inställningar"
 
 #: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
-#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:172
+#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:173
 msgid "SID settings"
 msgstr "SID-inställningar"
 
@@ -250,7 +250,7 @@ msgstr "Ladda inställningar"
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
 #: src/arch/unix/cbm2ui.c:455 src/arch/unix/petui.c:380
 #: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:470
-#: src/arch/unix/vsidui.c:256
+#: src/arch/unix/vsidui.c:257
 msgid "File"
 msgstr "Arkiv"
 
@@ -269,7 +269,7 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:411
 #: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
-#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1121
+#: src/arch/unix/vsidui.c:270 src/arch/unix/x11/gnome/x11ui.c:1121
 #: src/arch/unix/x11/gnome/x11ui.c:1213
 msgid "Settings"
 msgstr "Inställningar"
@@ -282,7 +282,7 @@ msgstr "Inställningar"
 msgid "RJHelp"
 msgstr "RJHjälp"
 
-#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:126
+#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:127
 msgid "*Old NTSC-M"
 msgstr "*Gammal NTSC-M"
 
@@ -1321,9 +1321,9 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/uidrivec64c128vic20.c:73 src/arch/unix/uidrivepetcbm2.c:42
 #: src/arch/unix/uidrivepetcbm2.c:62 src/arch/unix/uidriveplus4.c:43
 #: src/arch/unix/uidriveplus4.c:59 src/arch/unix/uijoystick2.c:78
-#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:100
-#: src/arch/unix/uiperipheral.c:131 src/arch/unix/uiperipheral.c:162
-#: src/arch/unix/uiperipheral.c:193 src/arch/unix/uiprinter.c:173
+#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uiperipheral.c:96
+#: src/arch/unix/uiperipheral.c:127 src/arch/unix/uiperipheral.c:158
+#: src/arch/unix/uiperipheral.c:189 src/arch/unix/uiprinter.c:173
 #: src/arch/unix/uiprinter.c:185 src/arch/unix/vic20ui.c:288
 msgid "*None"
 msgstr "*Ingen"
@@ -1536,82 +1536,82 @@ msgstr ""
 "Kunde inte ladda palettfil\n"
 "\"%s\""
 
-#: src/arch/unix/uiperipheral.c:89
+#: src/arch/unix/uiperipheral.c:85
 msgid "Path:"
 msgstr "Sökväg:"
 
-#: src/arch/unix/uiperipheral.c:102 src/arch/unix/uiperipheral.c:133
-#: src/arch/unix/uiperipheral.c:164 src/arch/unix/uiperipheral.c:195
+#: src/arch/unix/uiperipheral.c:98 src/arch/unix/uiperipheral.c:129
+#: src/arch/unix/uiperipheral.c:160 src/arch/unix/uiperipheral.c:191
 #: src/arch/unix/uiprinter.c:175 src/arch/unix/uiprinter.c:187
 msgid "*File system access"
 msgstr "*Filsystemsåtkomst"
 
-#: src/arch/unix/uiperipheral.c:105 src/arch/unix/uiperipheral.c:136
-#: src/arch/unix/uiperipheral.c:167 src/arch/unix/uiperipheral.c:198
+#: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:132
+#: src/arch/unix/uiperipheral.c:163 src/arch/unix/uiperipheral.c:194
 #: src/arch/unix/uiprinter.c:178 src/arch/unix/uiprinter.c:190
 msgid "*Real device access"
 msgstr "*Åtkomst till äkta enhet"
 
-#: src/arch/unix/uiperipheral.c:108 src/arch/unix/uiperipheral.c:139
-#: src/arch/unix/uiperipheral.c:170 src/arch/unix/uiperipheral.c:201
+#: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
+#: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
 msgid "*Raw device access"
 msgstr "*Åtkomst till rå enhet"
 
-#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:145
-#: src/arch/unix/uiperipheral.c:176 src/arch/unix/uiperipheral.c:207
+#: src/arch/unix/uiperipheral.c:110 src/arch/unix/uiperipheral.c:141
+#: src/arch/unix/uiperipheral.c:172 src/arch/unix/uiperipheral.c:203
 msgid "Device type"
 msgstr "Enhetstyp"
 
-#: src/arch/unix/uiperipheral.c:116 src/arch/unix/uiperipheral.c:147
-#: src/arch/unix/uiperipheral.c:178 src/arch/unix/uiperipheral.c:209
+#: src/arch/unix/uiperipheral.c:112 src/arch/unix/uiperipheral.c:143
+#: src/arch/unix/uiperipheral.c:174 src/arch/unix/uiperipheral.c:205
 msgid "*Read only access"
 msgstr "*Endast läsåtkomst"
 
-#: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:150
-#: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:212
+#: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
+#: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
 msgid "File system directory..."
 msgstr "Filsystemskatalog..."
 
-#: src/arch/unix/uiperipheral.c:121 src/arch/unix/uiperipheral.c:152
-#: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:214
+#: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:148
+#: src/arch/unix/uiperipheral.c:179 src/arch/unix/uiperipheral.c:210
 msgid "*Convert P00 file names"
 msgstr "*Konvertera P00-filnamn"
 
-#: src/arch/unix/uiperipheral.c:123 src/arch/unix/uiperipheral.c:154
-#: src/arch/unix/uiperipheral.c:185 src/arch/unix/uiperipheral.c:216
+#: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:150
+#: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:212
 msgid "*Create P00 files on save"
 msgstr "*Skapa P00 då filer sparas"
 
-#: src/arch/unix/uiperipheral.c:125 src/arch/unix/uiperipheral.c:156
-#: src/arch/unix/uiperipheral.c:187 src/arch/unix/uiperipheral.c:218
+#: src/arch/unix/uiperipheral.c:121 src/arch/unix/uiperipheral.c:152
+#: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:214
 msgid "*Hide raw CBM files"
 msgstr "*Göm CBM-råfiler"
 
-#: src/arch/unix/uiperipheral.c:224
+#: src/arch/unix/uiperipheral.c:220
 msgid "Device #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiperipheral.c:225
+#: src/arch/unix/uiperipheral.c:221
 msgid "Device #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiperipheral.c:226
+#: src/arch/unix/uiperipheral.c:222
 msgid "Device #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiperipheral.c:227
+#: src/arch/unix/uiperipheral.c:223
 msgid "Device #11"
 msgstr "Enhet 11"
 
-#: src/arch/unix/uiperipheral.c:229
+#: src/arch/unix/uiperipheral.c:225
 msgid "Printer settings"
 msgstr "Skrivarinställningar"
 
-#: src/arch/unix/uiperipheral.c:231
+#: src/arch/unix/uiperipheral.c:227
 msgid "*Enable Virtual Devices"
 msgstr "*Aktivera virtuella enheter"
 
-#: src/arch/unix/uiperipheral.c:237
+#: src/arch/unix/uiperipheral.c:233
 msgid "Peripheral settings"
 msgstr "Inställningar för kringutrustning"
 
@@ -2083,7 +2083,7 @@ msgstr "Paustid"
 msgid "Oversample"
 msgstr "Översampling"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:163
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -2130,7 +2130,7 @@ msgid "Revision"
 msgstr "Utgåva"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:174
+#: src/arch/unix/vsidui.c:175
 msgid "Video standard"
 msgstr "Grafikstandard"
 
@@ -2284,24 +2284,24 @@ msgstr "Ladda PSID-fil"
 msgid "`%s' is not a valid PSID file."
 msgstr "\"%s\" är inte en giltig PSID-fil."
 
-#: src/arch/unix/vsidui.c:110
+#: src/arch/unix/vsidui.c:111
 msgid "Load PSID file..."
 msgstr "Ladda PSID-fil..."
 
-#: src/arch/unix/vsidui.c:170
+#: src/arch/unix/vsidui.c:171
 msgid "*Override PSID settings"
 msgstr "*Överskugga PSID-inställningar"
 
-#: src/arch/unix/vsidui.c:193
+#: src/arch/unix/vsidui.c:194
 msgid "*Default Tune"
 msgstr "*Förvald låt"
 
-#: src/arch/unix/vsidui.c:216
+#: src/arch/unix/vsidui.c:217
 #, c-format
 msgid "*Tune %d"
 msgstr "*Låt %d"
 
-#: src/arch/unix/vsidui.c:286
+#: src/arch/unix/vsidui.c:287
 msgid "VSID: The SID Emulator"
 msgstr "VSID: SID-emulatorn"
 
@@ -3062,13 +3062,13 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Specify name of graphics keyboard positional keymap file"
 #~ msgstr ""
-#~ "Ange fil för positionsriktig tangentbordsemulering för "
-#~ "\"graphics\"-tangentbord"
+#~ "Ange fil för positionsriktig tangentbordsemulering för \"graphics\"-"
+#~ "tangentbord"
 
 #~ msgid "Specify name of UK business keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Ange fil för symbolisk tangentbordsemulering för brittiskt "
-#~ "\"business\"-tangentbord"
+#~ "Ange fil för symbolisk tangentbordsemulering för brittiskt \"business\"-"
+#~ "tangentbord"
 
 #~ msgid "Specify name of UK business keyboard positional keymap file"
 #~ msgstr ""
@@ -3077,13 +3077,13 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Specify name of German business keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Ange fil för symbolisk tangentbordsemulering för tyskt "
-#~ "\"business\"-tangentbord"
+#~ "Ange fil för symbolisk tangentbordsemulering för tyskt \"business\"-"
+#~ "tangentbord"
 
 #~ msgid "Specify name of German business keyboard positional keymap file"
 #~ msgstr ""
-#~ "Ange fil för positionsriktig tangentbordsemulering för tyskt "
-#~ "\"business\"-tangentbord"
+#~ "Ange fil för positionsriktig tangentbordsemulering för tyskt \"business\"-"
+#~ "tangentbord"
 
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Kunde inte hitta tangentbordssymbol \"%s\"!"
