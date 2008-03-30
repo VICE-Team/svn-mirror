@@ -1119,6 +1119,13 @@ involved in the development of X64 and VICE:
    * Spiro Trikaliotis wrote the Win32 console implementation for the
      built-in monitor and provided some further patches.
 
+   * Marco van den Heuvel Translated the UI to Dutch.
+     Internationalization support for the Win32 port. Wrote the GEORAM
+     cartridge code. Wrote the Ramcart cartridge code.  Wrote the +60K
+     Expansion code. Made the ethernet support for the Msdos port.
+     Maintains the QNX 6.x binary packages.  Fixed stereo-sid/acia
+     io-1/io-2 conflicts. And lots of other fixes.
+
 
    Former team members:
 
