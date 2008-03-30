@@ -526,8 +526,6 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	 (drive <= to_unit - 8) && (drive < NUM_DRIVES); 
 	 drive++) {
 
-	printf ("updating flip menu for drive %d\n", drive);
-
 	i = 0;
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	t0 = xmalloc(16);

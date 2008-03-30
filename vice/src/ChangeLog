@@ -1,3 +1,58 @@
+1999-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.4.
+
+	* vicii/vicii-snapshot.c (vic_ii_snapshot_read_module): Update
+	`vic_ii.sprite_fetch_msk' too.
+
+	* drive/drivecpu.c (JUMP): Fixed start of ROM.
+
+	* vicii/viciitypes, vdc/vdctypes.h, crtc/crtctypes: New files.
+
+	* vicii/vicii-cmdline-options.c, vicii/vicii-draw.c,
+	vicii/vicii-mem.c, vicii/vicii-resources.c,
+	vicii/vicii-resources.h, vicii/vicii-snapshot.c,
+	vicii/vicii-sprites.c: #include "viciitypes.h".
+
+	* c64/c64.c, c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c,
+	c128/c128.c: Fixed pending alarm call.
+
+	* vdc/vdc-draw.c, vdc/vdc-mem.c, vdc/vdc-resources.c,
+	vdc/vdc-snapshot.c, vdc/vdc.c: #include "vdctypes.h".
+
+	* crtc/crtc.c, crtc/crtc-draw.c, crtc/crtc-mem.c,
+	crtc/crtc-resources.c, 
+
+	* c64/Makefile.am, c128/Makefile.am, pet/Makefile.am,
+	cbm2/Makefile.am: Removed `raster' from include directory.
+
+	* c128/c128mem.c: #include "log.h".
+
+	* pet/petmem.c: #include <string.h>.
+
+	* vdrive/Makefile.am: Removed `drive' from include directory.
+
+	* interrupt.c, interrupt.h, drive/cia1571d.c, drive/riot2d.c,
+	drive/cia1581d.c, drive/via1d.c, viacore.c, drive/via2d.c,
+	vicii/vicii-snapshot.c, c64/c64cia1.c, c64/c64cia2.c,
+	c64/reu.c, c128/c128cia1.c, pet/petpia1.c, pet/petpia2.c,
+	cbm2/c610tpi1.c, drive/drivecpu.c, c128/c128cpu.c, c128/z80.c,
+	drive/drive.c, maincpu.c: External function are called
+	`interrupt_*' now.
+
+	* vdrive/vdrive.h: Do not #include "attach.h".
+
+	* drive/drive-snapshot.c, fsdevice.c, serial.c: #include
+	"attach.h".
+
+	* vdrive/vdrive-snapshot.c, vdrive/vdrive-snapshot.h: New
+	files.
+
+	* vdrive/vdrive.c (vdrive_init): Initialize snapshot module.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Removed
+	debugging message.
+
 1999-12-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.3.
