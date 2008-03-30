@@ -141,7 +141,7 @@ errortext_t floppy_error_messages[] =
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_setup_device(vdrive_t *vdrive, int unit)
+int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit)
 {
     int i;
 
@@ -166,7 +166,8 @@ int vdrive_setup_device(vdrive_t *vdrive, int unit)
  * Should set values to somewhere so that they could be read from
  * command channel
  */
-void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
+void vdrive_command_set_error(bufferinfo_t *p, int code, unsigned int track,
+                              unsigned int sector)
 {
     const char   *message;
     errortext_t *e;
@@ -216,7 +217,7 @@ void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
  * the error messages according to return values.
  */
 
-int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
+int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, unsigned int length)
 {
     int status = IPE_OK;
     BYTE *p, *p2;
@@ -995,7 +996,7 @@ static int set_error_data(vdrive_t *vdrive, int flags)
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_calculate_disk_half(int type)
+int vdrive_calculate_disk_half(unsigned int type)
 {
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
@@ -1014,7 +1015,7 @@ int vdrive_calculate_disk_half(int type)
     return -1;
 }
 
-int vdrive_get_max_sectors(int type, int track)
+int vdrive_get_max_sectors(unsigned int type, unsigned int track)
 {
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
@@ -1047,7 +1048,8 @@ int vdrive_get_max_sectors(int type, int track)
  * Functions to attach the disk image files.
  */
 
-void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
+void vdrive_detach_image(disk_image_t *image, unsigned int unit,
+                         vdrive_t *vdrive)
 {
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
@@ -1085,7 +1087,8 @@ void vdrive_detach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
     vdrive->image = NULL;
 }
 
-int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
+int vdrive_attach_image(disk_image_t *image, unsigned int unit,
+                        vdrive_t *vdrive)
 {
     /* Compatibily cruft (soon to be removed).  */
     vdrive->unit = unit;

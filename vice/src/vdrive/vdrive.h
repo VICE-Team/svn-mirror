@@ -150,14 +150,14 @@
 #define FAM_F		8
 
 typedef struct bufferinfo_s {
-    int mode;			/* Mode on this buffer */
-    int readmode;		/* Is this channel for reading or writing */
-    BYTE *buffer;		/* Use this to save data */
-    BYTE *slot;			/* Save data for directory-slot */
-    int bufptr;			/* Use this to save/read data to disk */
-    int track;			/* which track is allocated for this sector */
-    int sector;			/*   (for write files only) */
-    int length;			/* Directory-read length */
+    unsigned int mode;     /* Mode on this buffer */
+    unsigned int readmode; /* Is this channel for reading or writing */
+    BYTE *buffer;          /* Use this to save data */
+    BYTE *slot;            /* Save data for directory-slot */
+    unsigned int bufptr;   /* Use this to save/read data to disk */
+    unsigned int track;    /* which track is allocated for this sector */
+    unsigned int sector;   /*   (for write files only) */
+    unsigned int length;   /* Directory-read length */
 } bufferinfo_t;
 
 
@@ -166,33 +166,33 @@ typedef struct {
     disk_image_t *image;
 
     /* Current image file */
-    int mode;         /* Read/Write */
-    int image_format; /* 1541/71/81 */
-    char read_only;
-    int unit;
+    unsigned int mode;         /* Read/Write */
+    unsigned int image_format; /* 1541/71/81 */
+    BYTE read_only;
+    unsigned int unit;
 
-    int Bam_Track;
-    int Bam_Sector;
-    int bam_name;       /* Offset from start of BAM to disk name.  */
-    int bam_id;         /* Offset from start of BAM to disk ID.  */
-    int Dir_Track;
-    int Dir_Sector;
-    int num_tracks;
+    unsigned int Bam_Track;
+    unsigned int Bam_Sector;
+    unsigned int bam_name;   /* Offset from start of BAM to disk name.  */
+    unsigned int bam_id;     /* Offset from start of BAM to disk ID. */
+    unsigned int Dir_Track;
+    unsigned int Dir_Sector;
+    unsigned int num_tracks;
 
     /* FIXME: bam sizeof define */
-    BYTE bam[5*256];    /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
+    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5. */
     bufferinfo_t buffers[16];
 
     /* File information */
     BYTE Dir_buffer[256];  /* Current DIR sector */
-    int SlotNumber;
+    unsigned int SlotNumber;
 
     const char *find_name; /* Search pattern */
-    int find_length;
-    int find_type;
+    unsigned int find_length;
+    unsigned int find_type;
 
-    int Curr_track;
-    int Curr_sector;
+    unsigned int Curr_track;
+    unsigned int Curr_sector;
 } vdrive_t;
 
 /* Actually, serial-code errors ... */
@@ -270,25 +270,24 @@ typedef struct errortext_s {
 
 extern log_t vdrive_log;
 
-extern int vdrive_setup_device(vdrive_t *vdrive, int unit);
-
-extern int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive);
-extern void vdrive_detach_image(disk_image_t *image, int unit,
+extern int vdrive_setup_device(vdrive_t *vdrive, unsigned int unit);
+extern int vdrive_attach_image(disk_image_t *image, unsigned int unit,
+                               vdrive_t *vdrive);
+extern void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                                 vdrive_t *vdrive);
-
-extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int vdrive_calc_num_blocks(int format, int tracks);
 extern int vdrive_parse_name(const char *name, int length, char *realname,
                              int *reallength, int *readmode,
                              int *filetype, int *rl);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
-extern int vdrive_calculate_disk_half(int type);
-extern int vdrive_get_max_sectors(int type, int track);
+extern int vdrive_calculate_disk_half(unsigned int type);
+extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
 
 /* Drive command related functions.  */
-extern int  vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length);
+extern int  vdrive_command_execute(vdrive_t *vdrive, BYTE *buf,
+                                   unsigned int length);
 extern void vdrive_command_set_error(bufferinfo_t *p, int code,
-                                     int track, int sector);
+                                     unsigned int track, unsigned int sector);
 extern int  vdrive_command_validate(vdrive_t *vdrive);
 
 #endif /* _VDRIVE_H */

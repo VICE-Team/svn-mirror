@@ -38,16 +38,15 @@
 #include "mem.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "types.h"
 #include "utils.h"
-#include "vsync.h"
-
+#include "vic.h"
+#include "vic-cmdline-options.h"
 #include "vic-draw.h"
 #include "vic-mem.h"
-#include "vic-cmdline-options.h"
 #include "vic-resources.h"
 #include "vic-snapshot.h"
-
-#include "vic.h"
+#include "vsync.h"
 
 
 
@@ -55,7 +54,7 @@ vic_t vic;
 
 
 
-static int raster_draw_alarm_handler (long offset);
+static int raster_draw_alarm_handler (CLOCK offset);
 static void vic_exposure_handler (unsigned int width, unsigned int height);
 
 
@@ -74,7 +73,7 @@ vic_exposure_handler (unsigned int width, unsigned int height)
    write accesses are always aligned. */
 
 static int 
-raster_draw_alarm_handler (long offset)
+raster_draw_alarm_handler (CLOCK offset)
 {
   int in_visible_area;
 
