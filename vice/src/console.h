@@ -59,6 +59,6 @@ extern int console_close_all(void);
 
 extern int console_out(console_t *log, const char *format, ...);
 extern int console_flush(console_t *log);
-extern char *console_in(console_t *log);
+extern char *console_in(console_t *log, const char *prompt);
 
 #endif

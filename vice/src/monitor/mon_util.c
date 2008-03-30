@@ -100,14 +100,14 @@ void mon_set_command(console_t *console_log, char *command,
         (*pAfter)();
 }
 
-char *uimon_in()
+char *uimon_in(const char *prompt)
 {
     char *p = NULL;
 
     while (!p && !pchCommandLine) {
         /* as long as we don't have any return value... */
 
-        p = uimon_get_in(&pchCommandLine);
+        p = uimon_get_in(&pchCommandLine, prompt);
     }
 
     if (pchCommandLine) {

@@ -35,12 +35,18 @@ extern void uimon_window_suspend(void);
 extern struct console_s *uimon_window_resume(void);
 extern void uimon_window_close(void);
 
+#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
+extern int uimon_out(const char *format, ...)
+    __attribute__((format(printf, 1, 2)));
+#else
 extern int uimon_out(const char *format, ...);
-extern char *uimon_in(void);
+#endif
+
+extern char *uimon_in(const char *prompt);
 
 extern void uimon_notify_change(void);
 extern void uimon_set_interface(struct monitor_interface_s **, int);
-extern char *uimon_get_in(char **);
+extern char *uimon_get_in(char **,const char *);
 
 #ifdef WIN32
 

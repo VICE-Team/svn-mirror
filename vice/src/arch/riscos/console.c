@@ -132,11 +132,13 @@ int console_out(console_t *log, const char *format, ...)
     return status;
 }
 
-char *console_in(console_t *log)
+char *console_in(console_t *log, const char *prompt)
 {
     char *p;
 
     EscapePending = 0;
+
+    console_out(log, "%s", prompt);
 
     if (!ui_message_window_is_open(msg_win_monitor))
     {

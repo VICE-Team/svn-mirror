@@ -1661,9 +1661,12 @@ void mon_check_watchpoints(ADDRESS a)
 
 static void make_prompt(char *str)
 {
-    sprintf(str, "(%s:$%04x) ",
-            mon_memspace_string[default_memspace],
-            addr_location(dot_addr[default_memspace]));
+    if (asm_mode)
+        sprintf(str, ".%04x  ", addr_location(asm_mode_addr));
+    else
+        sprintf(str, "(%s:$%04x) ",
+                mon_memspace_string[default_memspace],
+                addr_location(dot_addr[default_memspace]));
 }
 
 static signal_handler_t old_handler;
@@ -1681,8 +1684,6 @@ static void handle_abort(int signo)
 
 void mon_open(ADDRESS a)
 {
-    char prompt[40];
-
     if (mon_console_close_on_leaving) {
         console_log = uimon_window_open();
         uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
@@ -1707,20 +1708,10 @@ void mon_open(ADDRESS a)
         mon_disassemble_instr(new_addr(caller_space, a));
         disassemble_on_entry = 0;
     }
-
-    make_prompt(prompt);
-
-    if (asm_mode) {
-        sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
-    }
-
-    mon_out(prompt);
 }
 
 int mon_process(char *cmd)
 {
-    char prompt[40];
-
     mon_stop_output = 0;
     if (cmd == NULL) {
         mon_out("\n");
@@ -1734,7 +1725,6 @@ int mon_process(char *cmd)
 
             } else {
                 /* Leave asm mode */
-                make_prompt(prompt);
             }
         }
 #ifdef HAVE_READLINE
@@ -1766,13 +1756,6 @@ int mon_process(char *cmd)
 
     last_cmd = cmd;
 
-    make_prompt(prompt);
-
-    if (asm_mode) {
-        sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
-    }
-
-    mon_out(prompt);
     uimon_notify_change(); /* @SRT */
 
     return exit_mon;
@@ -1805,9 +1788,12 @@ void mon_close(int check)
 
 void mon(ADDRESS a)
 {
+    char prompt[40];
+
     mon_open(a);
     while (!exit_mon) {
-        mon_process(uimon_in());
+        make_prompt(prompt);
+        mon_process(uimon_in(prompt));
     }
     mon_close(1);
 }

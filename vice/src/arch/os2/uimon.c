@@ -152,12 +152,12 @@ int uimon_out(const char *format, ...)
     return 0;
 }
 
-char *uimon_in()
+char *uimon_in(const char *prompt)
 {
     char *c=NULL;
     int wait_for_input = TRUE;
 
-    uimon_out("\n");
+    uimon_out("%s\n", prompt);
     WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
 
     while (wait_for_input && !trigger_shutdown && !trigger_console_exit)

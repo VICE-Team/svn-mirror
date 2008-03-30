@@ -696,11 +696,13 @@ int console_out(console_t *log, const char *format, ...)
 
 
 
-char *console_in(console_t *log)
+char *console_in(console_t *log, const char *prompt)
 {
 	console_private_t *pcp = log->private ;
 
 	char *p;
+
+	console_out(log, "%s", prompt);
 
 	pcp->posInputBuffer =
 	pcp->cntInputBuffer = 0;

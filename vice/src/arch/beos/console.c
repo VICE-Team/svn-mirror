@@ -54,6 +54,8 @@ char *readline(const char *prompt)
 {
     char *p = (char*)xmalloc(1024);
 
+    console_out(NULL, "%s", prompt);
+
     fflush(stdout);
     fgets(p, 1024, stdin);
 
@@ -72,11 +74,11 @@ char *readline(const char *prompt)
 }
 #endif
 
-char *console_in(console_t *log)
+char *console_in(console_t *log, const char *prompt)
 {
 	char *p;
 
-    p = readline("");
+    p = readline(prompt);
 
 	return p;
 }

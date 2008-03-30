@@ -2127,7 +2127,7 @@ int uimon_out(const char *format, ...)
     return rc;
 }
 
-char *uimon_get_in(char **ppchCommandLine)
+char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
 #ifdef UIMON_EXPERIMENTAL
     char *p = NULL;
@@ -2135,7 +2135,7 @@ char *uimon_get_in(char **ppchCommandLine)
     if (console_log)
     {
         /* we have a console, so try to input data from there... */
-        p = console_in(console_log);
+        p = console_in(console_log, prompt);
     }
     else
     {
@@ -2149,6 +2149,6 @@ char *uimon_get_in(char **ppchCommandLine)
     }
     return p;
 #else // #ifdef UIMON_EXPERIMENTAL
-    return console_in(console_log);
+    return console_in(console_log, prompt);
 #endif // #ifdef UIMON_EXPERIMENTAL
 }

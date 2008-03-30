@@ -96,9 +96,11 @@ int console_out(console_t *log, const char *format, ...)
     return 0;
 }
 
-char *console_in(console_t *log)
+char *console_in(console_t *log, const char *prompt)
 {
     char *p = (char*)xmalloc(1024);
+
+    console_out(log, "%s", prompt);
 
     fflush(mon_output);
     fgets(p, 1024, mon_input);

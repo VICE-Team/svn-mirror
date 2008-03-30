@@ -33,8 +33,16 @@
 #include "console.h"
 #include "utils.h"
 
+#ifdef HAVE_READLINE
+extern char *rl_readline_name;
+#endif
+
 int console_init(void)
 {
+#ifdef HAVE_READLINE
+    rl_readline_name = "VICE";
+#endif
+
     return 0;
 }
 
@@ -76,6 +84,8 @@ char *readline(const char *prompt)
 {
     char *p = (char*)xmalloc(1024);
 
+    console_out(NULL, "%s", prompt);
+
     fflush(mon_output);
     fgets(p, 1024, mon_input);
 
@@ -94,11 +104,11 @@ char *readline(const char *prompt)
 }
 #endif
 
-char *console_in(console_t *log)
+char *console_in(console_t *log, const char *prompt)
 {
     char *p;
 
-    p = readline("");
+    p = readline(prompt);
 
     return p;
 }
