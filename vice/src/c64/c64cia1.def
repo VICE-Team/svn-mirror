@@ -1,5 +1,5 @@
 /* -*- C -*-
-
+ *
  * cia1.def - Definitions for the first MOS6526 (CIA) chip in the C64
  * ($DC00).
  *
@@ -88,9 +88,9 @@ PRE_PEEK_CIA()
 
 #define RESET_CIA
 #define	READ_SDR
-#define STORE_CIAPA 
-#define UNDUMP_CIAPA 
-#define UNDUMP_CIAPB 
+#define STORE_CIAPA
+#define UNDUMP_CIAPA
+#define UNDUMP_CIAPB
 
 STORE_SDR()
 {
