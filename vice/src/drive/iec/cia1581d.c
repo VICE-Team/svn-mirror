@@ -101,11 +101,13 @@ struct drive_context_s;
 
 #define iec_info        (ctxptr->c_iec_info)
 
-#define cia_set_int_clk(value,clk) \
-        interrupt_set_irq((ctxptr->cpu.int_status),(I_CIA1FL),(value),(clk))
+#define cia_set_int_clk(value, clk)                                    \
+    interrupt_set_irq(ctxptr->cpu.int_status, ctxptr->cia1581.int_num, \
+                      value, clk)
 
-#define cia_restore_int(value) \
-        interrupt_set_irq_noclk((ctxptr->cpu.int_status),(I_CIA1FL),(value))
+#define cia_restore_int(value)                                               \
+    interrupt_set_irq_noclk(ctxptr->cpu.int_status, ctxptr->cia1581.int_num, \
+                            value)
 
 
 void cia1581_setup_context(drive_context_t *ctxptr)
@@ -117,6 +119,8 @@ void cia1581_setup_context(drive_context_t *ctxptr)
    ctxptr->cia1581.last_read = 0;
    ctxptr->cia1581.debugFlag = 0;
    ctxptr->cia1581.irq_line = IK_IRQ;
+   ctxptr->cia1581.int_num
+       = interrupt_cpu_status_int_new(ctxptr->cpu.int_status);
    sprintf(ctxptr->cia1581.myname, "CIA1581D%d", ctxptr->mynumber);
 }
 
