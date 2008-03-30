@@ -93,7 +93,7 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
 }
 
 /*-----------------------------------------------------------------------*/
-
+#if 1
 static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                                 const char *filename)
 {
@@ -139,4 +139,19 @@ int screenshot_save(const char *drvname, const char *filename,
 
     return screenshot_save_core(&screenshot, drv, filename);
 }
+#else
+int screenshot_save(const char *drvname, const char *filename,
+                    struct video_canvas_s *canvas)
+{
+    screenshot_t screenshot;
+    gfxoutputdrv_t *drv;
+
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
+        return -1;
+
+    screenshot.canvas = canvas;
+
+
+}
+#endif
 
