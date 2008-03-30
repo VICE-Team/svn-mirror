@@ -138,8 +138,10 @@ void ui_pause_emulation(int flag);
 int ui_emulation_is_paused(void);
 
 #ifdef USE_VIDMODE_EXTENSION
-void ui_restore_windowmode(void);
-void ui_setfullscreen(void);
+int ui_set_windowmode(void);
+int ui_set_fullscreenmode(void);
+void ui_set_fullscreenmode_init(void);
+int ui_is_fullscreen(void);
 #endif
 
 #endif /* !defined (_UI_XAW_H) */

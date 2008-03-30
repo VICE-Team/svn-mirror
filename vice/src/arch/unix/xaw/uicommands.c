@@ -211,21 +211,28 @@ static UI_CALLBACK(change_working_directory)
 	ui_error("Directory not found");
 }
 
+#ifdef USE_VIDMODE_EXTENSION
+    int fullscreen;
+#endif
+
 static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
+#ifdef USE_VIDMODE_EXTENSION
+    if(fullscreen) ui_set_fullscreenmode();
+#endif
 }
 
 static UI_CALLBACK(activate_monitor)
 {
 #ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
+    fullscreen = ui_set_windowmode();
 #endif
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
     ui_autorepeat_on();
 
-    if (!ui_emulation_is_paused())
+    if (!ui_emulation_is_paused()) 
         maincpu_trigger_trap(mon_trap, (void *) 0);
     else
         mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
@@ -234,7 +241,7 @@ static UI_CALLBACK(activate_monitor)
 static UI_CALLBACK(run_c1541)
 {
 #ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
+    ui_set_windowmode();
 #endif
     suspend_speed_eval();
     sound_close();
@@ -278,7 +285,7 @@ static UI_CALLBACK(browse_manual)
 	int manual_path_len, cmd_len;
 
 #ifdef USE_VIDMODE_EXTENSION
-        ui_restore_windowmode();
+        ui_set_windowmode();
 #endif
 	cmd_len = strlen(_ui_resources.html_browser_command);
 	manual_path_len = strlen(manual_path);

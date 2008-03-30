@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.1)
+AM_INIT_AUTOMAKE(vice, 0.16.1.1)
 AM_CONFIG_HEADER(src/config.h)
 
-dnl AC_DEFINE(UNSTABLE)
+AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no
@@ -427,8 +427,10 @@ dnl Check for X11 libraries and header files
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
 
   X_LIBS=""
-
   AC_PATH_XTRA
+
+  PATH_X_LIBS=$X_LIBS
+  X_LIBS=""
 
   AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS" ],,-lnsl)
   AC_CHECK_LIB(ICE, IceConnectionNumber,[ X_LIBS="-lICE $X_LIBS" ],,$X_LIBS)
@@ -495,6 +497,8 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
                    AC_DEFINE(USE_VIDMODE_EXTENSION) ],,$X_LIBS)
     fi
   fi
+  
+  X_LIBS="$PATH_X_LIBS $X_LIBS"
 
   LIBS="$LIBS -lm"
 

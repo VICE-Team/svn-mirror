@@ -133,7 +133,7 @@ extern int vic_write_snapshot_module(snapshot_t *s);
 extern int vic_read_snapshot_module(snapshot_t *s);
 
 #ifdef USE_VIDMODE_EXTENSION
-extern void video_setfullscreen(int v);
+extern void video_setfullscreen(int v, int width, int height);
 #endif
 
 #endif /* _VIC_H */

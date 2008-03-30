@@ -26,13 +26,9 @@ libdrive_a_SOURCES = \
         drivecpu.h \
         viad.h \
         via1drive0.c \
-        via1drive0.def \
         via2drive0.c \
-        via2drive0.def \
         via1drive1.c \
-        via1drive1.def \
         via2drive1.c \
-        via2drive1.def \
         wd1770.c \
         wd1770.h
 
@@ -45,45 +41,9 @@ BUILT_SOURCES = \
 	cia1581drive0.c \
 	cia1581drive1.c \
 	drivecpu0.c \
-	drivecpu1.c \
-	via1drive0.c \
-	via2drive0.c \
-	via1drive1.c \
-	via2drive1.c
+	drivecpu1.c
 
 drivedir = $(top_srcdir)/src/drive
-
-via1drive0.c: via1drive0.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`via1drive0.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(drivedir)/via1drive0.def $(drivedir)/via1drive0.c; \
-           fi )
-
-via2drive0.c: via2drive0.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`via2drive0.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(drivedir)/via2drive0.def $(drivedir)/via2drive0.c; \
-           fi )
-
-via1drive1.c: via1drive1.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`via1drive1.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(drivedir)/via1drive1.def $(drivedir)/via1drive1.c; \
-           fi )
-
-via2drive1.c: via2drive1.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`via2drive1.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(drivedir)/via2drive1.def $(drivedir)/via2drive1.c; \
-           fi )
 
 drivecpu0.c: drivecpu0.def drivecpu-tmpl.c $(top_srcdir)/src/convio
 	@( echo "Rebuilding \`drivecpu0.c'..."; \

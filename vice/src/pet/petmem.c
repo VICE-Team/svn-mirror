@@ -1066,9 +1066,6 @@ void set_screen(void)
     cols = pet.video;
     vmask = pet.vmask;
 
-#ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
-#endif
 
     if (!cols) {
         cols = pet.screen_width;

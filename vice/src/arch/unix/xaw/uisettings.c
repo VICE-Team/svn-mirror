@@ -251,13 +251,14 @@ UI_MENU_DEFINE_TOGGLE(VideoCache)
 
 UI_MENU_DEFINE_TOGGLE(UseXSync)
 
-UI_MENU_DEFINE_TOGGLE(UseFullscreen)
-
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 #ifdef USE_VIDMODE_EXTENSION
+
+UI_MENU_DEFINE_TOGGLE(UseFullscreen)
+
 static UI_CALLBACK(toggle_DoubleSize)
 {
     int current_value, fullscreen;

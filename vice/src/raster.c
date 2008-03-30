@@ -302,6 +302,13 @@ static int init_raster(int active, int max_pixel_width, int max_pixel_height)
    it.  The actual size can be different if the parameters are not suitable.  */
 static void resize(unsigned int width, unsigned int height)
 {
+#ifdef USE_VIDMODE_EXTENSION
+    if(ui_is_fullscreen()) {
+      width = window_width;
+      height = window_height;
+    }
+#endif
+
     if (width >= SCREEN_WIDTH * pixel_width) {
 	window_x_offset = (width - SCREEN_WIDTH * pixel_width) / 2;
 	window_first_x = 0;

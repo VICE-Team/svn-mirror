@@ -87,10 +87,6 @@ static ui_menu_entry_t c610_memsize_submenu[] = {
 
 static UI_CALLBACK(ui_set_model)
 {
-#ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
-#endif
-
     cbm2_set_model(client_data, NULL);
     ui_update_menus();
 }

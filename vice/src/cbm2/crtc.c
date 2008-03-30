@@ -1214,8 +1214,11 @@ fail:
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-void video_setfullscreen(int v) {
+void video_setfullscreen(int v, int width, int height) {
   fullscreen = v;
   video_resize();
+  if(v) {
+    crtc_arrange_window(width, height);
+  }
 }
 #endif

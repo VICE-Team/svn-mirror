@@ -96,6 +96,7 @@ Widget canvas;
 #ifdef USE_VIDMODE_EXTENSION
 int vidmodeavail = 0;
 int use_fullscreen = 0;
+int use_fullscreen_at_start = 0;
 
 int vidmodecount;
 XF86VidModeModeInfo **allmodes;
@@ -159,12 +160,15 @@ int vidmode_available (void)
 
 static int set_fullscreen(resource_value_t v) {
   static Dimension x,y,w,h;
-  Dimension canvas_width, canvas_height;
+  static Dimension canvas_width, canvas_height;
   static int root_x, root_y;
   static int win_x,win_y;
   static int timeout,interval,prefer_blanking,allow_exposures;
 
-  if( !vidmodeavail && !bestmode ) return 0;
+  if( !vidmodeavail && !bestmode) {
+    use_fullscreen_at_start = (int) v;
+    return 0;
+  }
 
   if(v && ! use_fullscreen) {    
     printf("Switch to fullscreen %ix%i\n",allmodes[bestmode]->hdisplay,
@@ -181,9 +185,6 @@ static int set_fullscreen(resource_value_t v) {
                   XtNwidth, &canvas_width,
                   XtNheight, &canvas_height,
                   NULL);
-
-    video_setfullscreen(1);
-
     XtVaSetValues(XtParent(XtParent(canvas)),
                   XtNx,          0,
                   XtNy,          0,
@@ -193,11 +194,15 @@ static int set_fullscreen(resource_value_t v) {
                   canvas_height - 2,
                   NULL);
 
+    video_setfullscreen(1,allmodes[bestmode]->hdisplay - 2,
+			allmodes[bestmode]->vdisplay - 2);
+
+    use_fullscreen = 1;
     /* A small hack!!!!  */
     {
       Window root, child;
       int mask;
-  
+
       XQueryPointer(display, XtWindow(canvas),
                     &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
 
@@ -217,21 +222,33 @@ static int set_fullscreen(resource_value_t v) {
                  None, CurrentTime);
     XWarpPointer(display, None,
                  XtWindow(canvas),
-                 0, 0, 0, 0, 0,0);
+                 0, 0, 0, 0, 0, 0);
     XGetScreenSaver(display,&timeout,&interval,
-    &prefer_blanking,&allow_exposures);
-    XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
-                                                                   
+		    &prefer_blanking,&allow_exposures);
+    XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);    
   } else if(use_fullscreen) {
     printf("Switch to windowmode\n");
 
+    use_fullscreen = 0;
+  
     XF86VidModeSwitchToMode(display, screen, allmodes[0]);
 
-    video_setfullscreen(0);
+    video_setfullscreen(0,0,0);
+    
+    if(use_fullscreen_at_start) {
+      XtVaSetValues(XtParent(XtParent(canvas)),
+		    XtNx, 30,
+		    XtNy, 50,
+		    NULL);
+      use_fullscreen_at_start = 0;
+    } else {
+      XtVaSetValues(XtParent(XtParent(canvas)),
+		    XtNx,          x - root_x + win_x + 3,  /*???*/
+		    XtNy,          y - root_y + win_y + 3,  /*???*/
+		    NULL);
+    }
 
     XtVaSetValues(XtParent(XtParent(canvas)),
-                  XtNx,          x - root_x + win_x + 3,  /*???*/
-                  XtNy,          y - root_y + win_y + 3,  /*???*/
                   XtNwidth,      w,
                   XtNheight,     h,
                   NULL);
@@ -245,8 +262,6 @@ static int set_fullscreen(resource_value_t v) {
 
     XSetScreenSaver(display,timeout,interval,prefer_blanking,allow_exposures);
   }
-
-  use_fullscreen = (int) v;
 
   return 1;
 }
@@ -300,7 +315,7 @@ static resource_t resources[] = {
       set_depth },
 #ifdef USE_VIDMODE_EXTENSION
     { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) & use_fullscreen, set_fullscreen },
+      (resource_value_t *) &use_fullscreen, set_fullscreen },
 #endif
     { NULL }
 };
@@ -659,6 +674,7 @@ int ui_init_finish(void)
 #ifdef USE_VIDMODE_EXTENSION
     vidmodeavail = vidmode_available();
 #endif
+
     return ui_menu_init(app_context, display, screen);
 }
 
@@ -921,9 +937,6 @@ void ui_exit(void)
     b = ui_ask_confirmation(s, "Do you really want to exit?");
 
     if (b == UI_BUTTON_YES) {
-#ifdef USE_VIDMODE_EXTENSION
-        ui_restore_windowmode();
-#endif
 	if (_ui_resources.save_resources_on_exit) {
 	    b = ui_ask_confirmation(s, "Save the current settings?");
 	    if (b == UI_BUTTON_YES) {
@@ -935,6 +948,9 @@ void ui_exit(void)
             }
 	}
 	ui_autorepeat_on();
+#ifdef USE_VIDMODE_EXTENSION
+	ui_set_windowmode();
+#endif
 	exit(0);
     }
 
@@ -1270,6 +1286,9 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
     Dimension canvas_width, canvas_height;
     Dimension form_width, form_height;
 
+#ifdef USE_VIDMODE_EXTENSION
+    if( use_fullscreen) return;
+#endif
     /* Ok, form widgets are stupid animals; in a perfect world, I should be
        allowed to resize the canvas and let the Form do the rest.  Unluckily,
        this does not happen, so let's do things the dirty way then.  This
@@ -1920,14 +1939,42 @@ int ui_emulation_is_paused(void)
 
 
 #ifdef USE_VIDMODE_EXTENSION
-void ui_restore_windowmode(void)
+int ui_set_windowmode(void)
 {
-    if(use_fullscreen) set_fullscreen(0);
+    if(use_fullscreen) {
+      set_fullscreen(0);
+      return(1);
+    }
+    return(0);
 }
 
-void ui_setfullscreen(void)
+int ui_set_fullscreenmode(void)
 {
-    set_fullscreen(1);   
+    if(!use_fullscreen) {
+      set_fullscreen((resource_value_t) 1);
+      return(0);
+    }
+    return(1);
+}
+
+void ui_set_fullscreenmode_init(void)
+{
+    if(use_fullscreen_at_start) {
+      ui_set_fullscreenmode();
+      XtVaSetValues(XtParent(XtParent(canvas)),
+		    XtNx,          0,
+		    XtNy,          0,
+		    None);
+      XWarpPointer(display, None,
+		   XtWindow(canvas),
+		   0, 0, 0, 0, 0, 0);
+    }
+}
+
+
+int ui_is_fullscreen(void) 
+{
+    return(use_fullscreen);
 }
 
 #endif

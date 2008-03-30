@@ -73,9 +73,6 @@ UI_MENU_DEFINE_RADIO(IOSize)
 
 static UI_CALLBACK(petui_set_model)
 {
-#ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
-#endif
     pet_set_model(client_data, NULL);
     ui_update_menus();
 }

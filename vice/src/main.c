@@ -450,7 +450,6 @@ int MAIN_PROGRAM(int argc, char **argv)
         log_error(LOG_DEFAULT, "Machine initialization failed.");
         return -1;
     }
-
     /* Handle general-purpose command-line options.  */
 
     /* `-autostart' */
@@ -506,6 +505,11 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Let's go...  */
     maincpu_trigger_reset();
+
+#ifdef USE_VIDMODE_EXTENSION
+    ui_set_fullscreenmode_init();
+#endif
+
     mainloop(0);
 
     log_error(LOG_DEFAULT, "perkele!");

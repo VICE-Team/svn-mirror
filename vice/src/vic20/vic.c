@@ -791,8 +791,12 @@ int vic_read_snapshot_module(snapshot_t *s)
 }
 
 #ifdef USE_VIDMODE_EXTENSION
-void video_setfullscreen(int v) {
+void video_setfullscreen(int v, int width, int height)
+{
   fullscreen = v;
   video_resize();
+  if(v) {
+    vic_exposure_handler(width, height);
+  }
 }
 #endif
