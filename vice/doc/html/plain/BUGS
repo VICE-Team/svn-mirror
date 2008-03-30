@@ -1,17 +1,6 @@
 - Screenshots with activated PAL emulation do not deliver the expected
   (blurry) result. 
 
-- The Linux/DGA2 code is known to be unstable, especially when
-  switching back to window mode under some circumstances.
-
-- The Linux/DGA1 and Linux/VIDMODE fullscreen support may be unstable
-  on some systems. Double size/scan does not work currenty.
-
-- The Unix/Gnome port file selector filter does not take care about
-  directories which are most probably filtered out and not
-  listed. Once the directory is changed within the file selector the
-  filter doesn't apply anymore and directories are shown.
-
 - Some basic features of the VDC are missing. In the MS-DOS port you
   have to save the configuration and restart the emulator when
   changing VDC double size mode.
