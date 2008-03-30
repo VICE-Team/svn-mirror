@@ -102,6 +102,10 @@ int joystick_init_cmdline_options(void)
 
 #ifdef HAS_JOYSTICK
 
+#ifdef MAC_JOYSTICK
+#include "joy_mac.c"
+#else
+
 #ifdef LINUX_JOYSTICK
 #include <linux/joystick.h>
 
@@ -477,7 +481,7 @@ void new_joystick(void)
     }
 }
 #endif  /* NEW_JOYSTICK */
-
+#endif  /* LINUX_JOYSTICK */
 #else /* HAS_JOYSTICK */
 int joy_arch_init(void)
 {
