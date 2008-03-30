@@ -1,6 +1,10 @@
+2004-03-15  Andreas Boose  <viceteam@t-online.de>
+
+	* POTFILES.in: Added `uiattach.c' and `uikeyboard.c'.
+
 2004-03-14  Andreas Boose  <viceteam@t-online.de>
 
-	* po/POTFILES.in: Added `uiide64.c' and `uifliplist.c'.
+	* POTFILES.in: Added `uiide64.c' and `uifliplist.c'.
 
 2004-02-29  Andreas Boose  <viceteam@t-online.de>
 

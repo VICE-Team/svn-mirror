@@ -1,3 +1,36 @@
+2004-03-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.12.
+
+	* 6510core.c: Fixed branch and RTS opcodes.
+
+	* arch/unix/uiattach.c, arch/unix/uiattach.h,
+	arch/unix/uikeyboard.c, arch/unix/uikeyboard.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/ui.c (ui_common_shutdown): Shutdown attach UI.
+
+	* arch/unix/uicommands.c, arch/unix/uicommands.h: Moved attach
+	specific code to separate file.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/petui.c,
+	arch/unix/vic20ui.c, arch/unix/plus4ui.c, arch/unix/cbm2ui.c:
+	Changed calls to attach UI.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h: Moved
+	keyboard code to separate file.
+
+2004-03-14  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Fixed bug in fast envelope clocking.
+
+	* arch/unix/uicommands.c: Moved GNOMEUI toggles to
+	uifliplist.c
+
+	* arch/unix/uifliplist.c: Added include of "uidrive.h". Moved
+	GNOMEUI toggles from uicommands.c
+
 2004-03-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.11.
