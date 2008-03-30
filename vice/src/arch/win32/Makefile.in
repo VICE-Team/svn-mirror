@@ -300,6 +300,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiacia.c \
 	uiacia.h \
+	uiattach.c \
+	uiattach.h \
 	uic128.c \
 	uic128.h \
 	uic64cart.c \
@@ -322,6 +324,8 @@ libarch_a_SOURCES = \
 	uidriveplus4.h \
 	uifliplist.c \
 	uifliplist.h \
+	uihelp.c \
+	uihelp.h \
 	uiide64.c \
 	uiide64.h \
 	uijoystick.c \
@@ -339,12 +343,16 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiquicksnapshot.c \
+	uiquicksnapshot.h \
 	uiram.c \
 	uiram.h \
 	uireu.c \
 	uireu.h \
 	uirom.c \
 	uirom.h \
+	uirs232.c \
+	uirs232.h \
 	uirs232user.c \
 	uirs232user.h \
 	uisid.c \
@@ -368,7 +376,6 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsyncarch.c \
-	winhack.h \
 	winmain.c \
 	winmain.h
 
@@ -455,20 +462,22 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	opencbmlib.$(OBJEXT) petui.$(OBJEXT) plus4ui.$(OBJEXT) \
 	rs232.$(OBJEXT) signals.$(OBJEXT) statusbar.$(OBJEXT) \
 	system.$(OBJEXT) tfearch.$(OBJEXT) ui-resources.$(OBJEXT) \
-	ui.$(OBJEXT) uiacia.$(OBJEXT) uic128.$(OBJEXT) \
-	uic64cart.$(OBJEXT) uicart.$(OBJEXT) uicbm2set.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uiconsole.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidrivec128.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uilib.$(OBJEXT) uimediafile.$(OBJEXT) uimon.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) \
-	uiplus4mem.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
-	uirom.$(OBJEXT) uirs232user.$(OBJEXT) uisid.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uispeed.$(OBJEXT) \
-	uitfe.$(OBJEXT) uivicii.$(OBJEXT) uivicset.$(OBJEXT) \
-	uivideo.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	ui.$(OBJEXT) uiacia.$(OBJEXT) uiattach.$(OBJEXT) \
+	uic128.$(OBJEXT) uic64cart.$(OBJEXT) uicart.$(OBJEXT) \
+	uicbm2set.$(OBJEXT) uicmdline.$(OBJEXT) uiconsole.$(OBJEXT) \
+	uidatasette.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidrivec128.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uihelp.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick.$(OBJEXT) uilib.$(OBJEXT) \
+	uimediafile.$(OBJEXT) uimon.$(OBJEXT) uiperipheral.$(OBJEXT) \
+	uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
+	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
+	uirom.$(OBJEXT) uirs232.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
+	uispeed.$(OBJEXT) uitfe.$(OBJEXT) uivicii.$(OBJEXT) \
+	uivicset.$(OBJEXT) uivideo.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) \
+	winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -486,28 +495,31 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/signals.Po ./$(DEPDIR)/statusbar.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/system.Po ./$(DEPDIR)/tfearch.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui-resources.Po ./$(DEPDIR)/ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiacia.Po ./$(DEPDIR)/uic128.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicbm2set.Po ./$(DEPDIR)/uicmdline.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiconsole.Po ./$(DEPDIR)/uidatasette.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiacia.Po ./$(DEPDIR)/uiattach.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic128.Po ./$(DEPDIR)/uic64cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicart.Po ./$(DEPDIR)/uicbm2set.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconsole.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidatasette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec128.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivec64vic20.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidrivepetcbm2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uiide64.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uijoystick.Po ./$(DEPDIR)/uilib.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimediafile.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po ./$(DEPDIR)/uiram.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uihelp.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uilib.Po ./$(DEPDIR)/uimediafile.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipheral.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiquicksnapshot.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uirom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uirs232user.Po ./$(DEPDIR)/uisid.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/uisound.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uispeed.Po ./$(DEPDIR)/uitfe.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivicii.Po ./$(DEPDIR)/uivicset.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uivideo.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsyncarch.Po ./$(DEPDIR)/winmain.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uirs232.Po ./$(DEPDIR)/uirs232user.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/uispeed.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uitfe.Po ./$(DEPDIR)/uivicii.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uivicset.Po ./$(DEPDIR)/uivideo.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsyncarch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/winmain.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -564,6 +576,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui-resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiacia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicart.Po@am__quote@
@@ -576,6 +589,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uihelp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
@@ -585,9 +599,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiplus4mem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiquicksnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirom.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@

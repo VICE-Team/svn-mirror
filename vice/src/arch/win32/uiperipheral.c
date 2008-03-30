@@ -45,6 +45,7 @@
 #include "iecdrive.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "opencbmlib.h"
 #include "printer.h"
 #include "res.h"
 #include "resources.h"
@@ -59,7 +60,7 @@
 /*                             Disk Peripherals (8-11)                        */
 /* -------------------------------------------------------------------------- */
 
-static int  have_printer_userport = -1;
+static int have_printer_userport = -1;
 
 static void enable_controls_for_disk_device_type(HWND hwnd, int type)
 {
@@ -98,12 +99,21 @@ static void enable_controls(HWND hwnd)
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  FALSE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   FALSE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  FALSE);
+#ifdef HAVE_OPENCBM
+        EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL),  FALSE);
+#endif
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, IDC_SELECTNONE);
         enable_controls_for_disk_device_type(hwnd, IDC_SELECTNONE);
     } else {
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  TRUE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   TRUE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE),  TRUE);
+#ifdef HAVE_OPENCBM
+        if (opencbmlib_is_available())
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), TRUE);
+        else
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), FALSE);
+#endif
     }
 }
 
@@ -111,7 +121,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
 {
     const char *disk_image, *dir;
     TCHAR *st_disk_image, *st_dir;
-    int enabled, n;
+    int devtype, n;
 
     if (num >= 8 && num <= 11) {
         disk_image = file_system_get_disk_name(num);
@@ -142,16 +152,28 @@ static void init_dialog(HWND hwnd, unsigned int num)
         CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
                        n ? BST_CHECKED : BST_UNCHECKED);
 
-        
-        resources_get_sprintf("FileSystemDevice%d", (void *)&enabled, num);
-        if (!enabled)
+        resources_get_sprintf("FileSystemDevice%d", (void *)&devtype, num);
+        switch (devtype) {
+          case ATTACH_DEVICE_FS:
+            if (disk_image != NULL)
+                n = IDC_SELECTDISK;
+            else
+                n = IDC_SELECTDIR;
+            break;
+#ifdef HAVE_OPENCBM
+          case ATTACH_DEVICE_REAL:
+            n = IDC_SELECTREAL;
+            break;
+#endif
+          default:
             n = IDC_SELECTNONE;
-        else if (disk_image != NULL)
-            n = IDC_SELECTDISK;
-        else
-            n = IDC_SELECTDIR;
+        }
 
+#ifdef HAVE_OPENCBM
+        CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTREAL, n);
+#else
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
+#endif
         enable_controls_for_disk_device_type(hwnd, n);
 
         if (iec_available_busses() & IEC_BUS_IEC) {
@@ -171,6 +193,7 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
 {
     char s[MAX_PATH];
     TCHAR st[MAX_PATH];
+    int devtype = ATTACH_DEVICE_NONE;
 
     if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED) {
         GetDlgItemText(hwnd, IDC_DISKIMAGE, st, MAX_PATH);
@@ -188,29 +211,31 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     if (iec_available_busses() & IEC_BUS_IEC)
         resources_set_sprintf("IECDevice%d", 
                               (resource_value_t)(IsDlgButtonChecked(hwnd,
-                              IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), 
-                              num);
+                              IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), num);
 
-    resources_set_sprintf("FileSystemDevice%d", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_SELECTNONE) != BST_CHECKED),
+    if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED
+        || IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED)
+        devtype = ATTACH_DEVICE_FS;
+#ifdef HAVE_OPENCBM
+    if (IsDlgButtonChecked(hwnd, IDC_SELECTREAL) == BST_CHECKED)
+        devtype = ATTACH_DEVICE_REAL;
+#endif
+    resources_set_sprintf("FileSystemDevice%d", (resource_value_t)devtype,
                           num);
+
     resources_set_sprintf("FSDevice%dConvertP00", 
                           (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_READP00)==BST_CHECKED), 
-                          num);
+                          IDC_TOGGLE_READP00) == BST_CHECKED), num);
     resources_set_sprintf("FSDevice%dSaveP00", 
                           (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_WRITEP00)==BST_CHECKED), 
-                          num);
+                          IDC_TOGGLE_WRITEP00) == BST_CHECKED), num);
     resources_set_sprintf("FSDevice%dHideCBMFiles", 
                           (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_HIDENONP00)==BST_CHECKED), 
-                          num);
+                          IDC_TOGGLE_HIDENONP00) == BST_CHECKED), num);
     resources_set_sprintf("AttachDevice%dReadonly", 
                           (resource_value_t)(IsDlgButtonChecked(hwnd,
-                          IDC_TOGGLE_ATTACH_READONLY)==BST_CHECKED), 
-                          num);
+                          IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED), num);
+
     GetDlgItemText(hwnd, IDC_DIR, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     resources_set_sprintf("FSDevice%dDir", (resource_value_t)s, num);
