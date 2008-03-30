@@ -772,7 +772,7 @@ void serial_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are just kludges for the autostart code (see `autostart.c'.  */
+/* These are just kludges for the autostart code (see `autostart.c').  */
 
 /* Specify a function to call when EOF happens in `serialreceivebyte()'.  */
 void serial_set_eof_callback(void (*func)(void))
