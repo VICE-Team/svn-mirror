@@ -59,10 +59,11 @@
 #include <time.h>
 #endif
 
-#include "vmachine.h"
-#include "via.h"
+#include "log.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "via.h"
+#include "vmachine.h"
 
 
 #include "drive.h"
@@ -126,6 +127,8 @@ static BYTE via1_ilb;		/* input latch B */
 
 static int ca2_state;
 static int cb2_state;
+
+static log_t via1_log = LOG_ERR;
 
 /*
  * local functions
@@ -196,16 +199,6 @@ static int cb2_state;
 
 inline static void update_via1irq(void)
 {
-#if 0	/* DEBUG */
-    static int irq = 0;
-    if(irq && !(via1ifr & via1ier & 0x7f)) {
-       fprintf(logfile, "via1: clk=%d, IRQ off\n", clk);
-    }
-    if(!irq && (via1ifr & via1ier & 0x7f)) {
-       fprintf(logfile, "via1: clk=%d, IRQ on\n", clk);
-    }
-    irq = (via1ifr & via1ier & 0x7f);
-#endif
     maincpu_set_irq(I_VIA1FL, (via1ifr & via1ier & 0x7f) ? IK_IRQ : 0);
 }
 
@@ -270,10 +263,10 @@ inline static void update_via1tbl(void)
 void reset_via1(void)
 {
     int i;
-#ifdef VIA1_TIMER_DEBUG
-    if (app_resources.debugFlag)
-	fprintf(logfile, "VIA1: reset\n");
-#endif
+
+    if (via1_log == LOG_ERR)
+        via1_log = log_open("VIA1");
+
     /* clear registers */
     for (i = 0; i < 4; i++)
 	via1[i] = 0;
@@ -398,11 +391,6 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
     CLOCK rclk = clk - 1;	/* stores have a one-cylce offset */
 
     addr &= 0xf;
-#ifdef VIA1_TIMER_DEBUG
-    if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
-	fprintf(logfile, "store via1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
-	       (int) addr, (int) byte, rmw_flag, clk, rclk);
-#endif
 
     switch (addr) {
 
@@ -469,11 +457,7 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         update_via1tal(rclk);
         break;
 
-      case VIA_T1CH /*TIMER_AH */ :	/* Write timer A high */
-#ifdef VIA1_TIMER_DEBUG
-        if (app_resources.debugFlag)
-            fprintf(logfile, "Write timer A high: %02x\n", byte);
-#endif
+      case VIA_T1CH:	/* Write timer A high */
         via1[VIA_T1LH] = byte;
         update_via1tal(rclk);
         /* load counter with latch value */
@@ -525,9 +509,6 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         break;
 
       case VIA_IER:		/* Interrupt Enable Register */
-#if defined (VIA1_TIMER_DEBUG)
-        fprintf(logfile, "Via#1 set VIA_IER: 0x%x\n", byte);
-#endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
             via1ier |= byte & 0x7f;
@@ -624,8 +605,6 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
 
       case VIA_PCR:
 
-        /* if(viadebug) fprintf(logfile, "VIA1: write %02x to PCR\n",byte); */
-
         /* bit 7, 6, 5  CB2 handshake/interrupt control */
         /* bit 4  CB1 interrupt control */
 
@@ -684,7 +663,8 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
     BYTE retv = read_via1_(addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
-	fprintf(logfile, "read_via1(%x) -> %02x, clk=%d\n", addr, retv, clk);
+	log_message(via1_log,
+                    "read_via1(%x) -> %02x, clk=%d", addr, retv, clk);
     return retv;
 }
 BYTE REGPARM1 read_via1_(ADDRESS addr)
@@ -951,15 +931,14 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
 
 int int_via1t1(long offset)
 {
-/*    CLOCK rclk = clk - offset; */
 #ifdef VIA1_TIMER_DEBUG
     if (app_resources.debugFlag)
-	fprintf(logfile, "via1 timer A interrupt\n");
+	log_message(via1_log, "via1 timer A interrupt");
 #endif
 
     if (!(via1[VIA_ACR] & 0x40)) {	/* one-shot mode */
-#if 0				/* defined (VIA1_TIMER_DEBUG) */
-	fprintf(logfile, "VIA1 Timer A interrupt -- one-shot mode: next int won't happen\n");
+#ifdef VIA1_TIMER_DEBUG
+	log_message(via1_log, "VIA1 Timer A interrupt -- one-shot mode: next int won't happen");
 #endif
 	maincpu_unset_alarm(A_VIA1T1);	/*int_clk[I_VIA1T1] = 0; */
 	via1tai = 0;
@@ -983,7 +962,7 @@ int int_via1t2(long offset)
 {
 #ifdef VIA1_TIMER_DEBUG
     if (app_resources.debugFlag)
-	fprintf(logfile, "VIA1 timer B interrupt\n");
+	log_message(via1_log, "VIA1 timer B interrupt.");
 #endif
     maincpu_unset_alarm(A_VIA1T2);	/*int_clk[I_VIA1T2] = 0; */
     via1tbi = 0;
@@ -1055,12 +1034,7 @@ int via1_write_snapshot_module(snapshot_t * p)
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-/*
-fprintf(logfile, "via1: write: clk=%d, tai=%d, tau=%d\n"
-       "     : tbi=%d, tbu=%d\n",
-		clk, via1tai, via1tau, via1tbi, via1tbu);
-fprintf(logfile,"     : ta=%d, tb=%d\n",via1ta() & 0xffff, via1tb() & 0xffff);
-*/
+
     snapshot_module_write_byte(m, via1[VIA_PRA]);
     snapshot_module_write_byte(m, via1[VIA_DDRA]);
     snapshot_module_write_byte(m, via1[VIA_PRB]);
@@ -1110,9 +1084,9 @@ int via1_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+        log_error(via1_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }
@@ -1206,26 +1180,7 @@ int via1_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &via1_ila);
     snapshot_module_read_byte(m, &via1_ilb);
 
-/*
-fprintf(logfile, "via1: read: clk=%d, tai=%d, tau=%d\n"
-       "     : tbi=%d, tbu=%d\n",
-		clk, via1tai, via1tau, via1tbi, via1tbu);
-fprintf(logfile, "     : ta=%d, tb=%d\n",via1ta() & 0xffff, via1tb() & 0xffff);
-*/
     return snapshot_module_close(m);
 }
 
-
-
-int show_keyarr(void)
-{
-    int     i, j;
-    for (j = 0; j < KBD_ROWS; j++) {
-        fprintf(logfile, "%d:", j);
-        for (i = 0x80; i; i >>= 1)
-            fprintf(logfile, " %d", keyarr[j] & i);
-        fprintf(logfile, "\n");
-    }
-    return (0);
-}
 

@@ -41,6 +41,7 @@
 
 #include "cmdline.h"
 #include "interrupt.h"
+#include "log.h"
 #include "maincpu.h"
 #include "memutils.h"
 #include "mon.h"
@@ -267,8 +268,8 @@ static int cmdline_memory(const char *param, void *extra_param)
 		       || strcmp(opt, "A0") == 0) {
 		memconf |= VIC_BLK5;
 	    } else {
-		fprintf(errfile,
-			"Unsupported memory extension option: \"%s\"\n",
+		fprintf(stdout,
+                        "Unsupported memory extension option: \"%s\".\n",
 			opt);
 		return -1;
 	    }
@@ -278,40 +279,40 @@ static int cmdline_memory(const char *param, void *extra_param)
 	}
     }
 
-    fprintf(logfile, "Extension memory enabled: ");
+    printf("Extension memory enabled: ");
     if (memconf & VIC_BLK0) {
 	set_ram_block_0_enabled((resource_value_t) 1);
-	fprintf(logfile, "blk0 ");
+	printf("blk0 ");
     } else {
 	set_ram_block_0_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK1) {
 	set_ram_block_1_enabled((resource_value_t) 1);
-	fprintf(logfile, "blk1 ");
+	printf("blk1 ");
     } else {
 	set_ram_block_1_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK2) {
 	set_ram_block_2_enabled((resource_value_t) 1);
-	fprintf(logfile, "blk2 ");
+	printf("blk2 ");
     } else {
 	set_ram_block_2_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK3) {
 	set_ram_block_3_enabled((resource_value_t) 1);
-	fprintf(logfile, "blk3 ");
+	printf("blk3 ");
     } else {
 	set_ram_block_3_enabled((resource_value_t) 0);
     }
     if (memconf & VIC_BLK5) {
 	set_ram_block_5_enabled((resource_value_t) 1);
-	fprintf(logfile, "blk5");
+	printf("blk5");
     } else {
 	set_ram_block_5_enabled((resource_value_t) 0);
     }
     if (memconf == 0)
-	fprintf(logfile, "none");
-    fprintf(logfile, "\n");
+	printf("none");
+    printf("\n");
 
     return 0;
 }
@@ -366,6 +367,8 @@ BYTE **_mem_read_base_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
 static int rom_loaded = 0;
+
+static log_t vic20_mem_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -599,6 +602,9 @@ void initialize_memory(void)
 {
     int i;
 
+    if (vic20_mem_log == LOG_ERR)
+        vic20_mem_log = log_open("VIC20MEM");
+
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
 	    read_ram, store_ram,
@@ -722,10 +728,6 @@ void mem_powerup(void)
 {
     int i;
 
-#ifndef __MSDOS__
-    fprintf(logfile, "Initializing RAM for power-up...\n");
-#endif
-
     for (i = 0; i < VIC20_RAM_SIZE; i += 0x80) {
 	memset(ram + i, 0, 0x40);
 	memset(ram + i + 0x40, 0xff, 0x40);
@@ -745,7 +747,7 @@ int mem_load(void)
     if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
 			  VIC20_KERNAL_ROM_SIZE) < 0) {
-	fprintf(errfile, "Couldn't load kernal ROM.\n\n");
+	log_error(vic20_mem_log, "Couldn't load kernal ROM.");
 	return -1;
     }
     /* Check Kernal ROM.  */
@@ -753,14 +755,15 @@ int mem_load(void)
 	sum += kernal_rom[i];
 
     if (sum != VIC20_KERNAL_CHECKSUM) {
-	fprintf(errfile, "Warning: Unknown Kernal image.  Sum: %d ($%04X)\n",
-		sum, sum);
+	log_error(vic20_mem_log,
+                  "Warning: Unknown Kernal image.  Sum: %d ($%04X).",
+                  sum, sum);
     }
     /* Load Basic ROM. */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, VIC20_BASIC_ROM_SIZE,
 			  VIC20_BASIC_ROM_SIZE) < 0) {
-	fprintf(errfile, "Couldn't load basic ROM.\n\n");
+	log_error(vic20_mem_log, "Couldn't load basic ROM.");
 	return -1;
     }
     /* Check Basic ROM. */
@@ -768,14 +771,15 @@ int mem_load(void)
 	sum += basic_rom[i];
 
     if (sum != VIC20_BASIC_CHECKSUM)
-	fprintf(errfile, "Warning: Unknown Basic image.  Sum: %d ($%04X)\n",
-		sum, sum);
+	log_error(vic20_mem_log,
+                  "Warning: Unknown Basic image.  Sum: %d ($%04X).",
+                  sum, sum);
 
     /* Load chargen ROM. */
     if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom + 0x400, VIC20_CHARGEN_ROM_SIZE,
 			  VIC20_CHARGEN_ROM_SIZE) < 0) {
-	fprintf(errfile, "Couldn't load character ROM.\n");
+	log_error(vic20_mem_log, "Couldn't load character ROM.");
 	return -1;
     }
     rom_loaded = 1;
@@ -789,49 +793,49 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 {
     switch(type) {
       case CARTRIDGE_VIC20_4KB_2000:
-        fprintf(logfile, "CART: attaching 4KB cartridge at $2000\n");
+        log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $2000.");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
 	mem_rom_blocks |= VIC_ROM_BLK1A;
 	set_ram_block_1_enabled((resource_value_t) 0);
 	break;
       case CARTRIDGE_VIC20_8KB_2000:
-        fprintf(logfile, "CART: attaching 8KB cartridge at $2000\n");
+        log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $2000.");
         memcpy(cartrom + 0x2000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK1A | VIC_ROM_BLK1B;
 	set_ram_block_1_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_6000:
-        fprintf(logfile, "CART: attaching 4KB cartridge at $6000\n");
+        log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $6000.");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
 	set_ram_block_3_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_8KB_6000:
-        fprintf(logfile, "CART: attaching 8KB cartridge at $6000\n");
+        log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $6000.");
         memcpy(cartrom + 0x6000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK3A | VIC_ROM_BLK3B;
 	set_ram_block_3_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_A000:
-        fprintf(logfile, "CART: attaching 4KB cartridge at $A000\n");
+        log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $A000.");
         memcpy(cartrom + 0xa000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_8KB_A000:
-        fprintf(logfile, "CART: attaching 8KB cartridge at $A000\n");
+        log_message(vic20_mem_log, "CART: attaching 8KB cartridge at $A000.");
         memcpy(cartrom + 0xA000, rawcart, 0x2000);
         mem_rom_blocks |= VIC_ROM_BLK5A | VIC_ROM_BLK5B;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       case CARTRIDGE_VIC20_4KB_B000:
-        fprintf(logfile, "CART: attaching 4KB cartridge at $B000\n");
+        log_message(vic20_mem_log, "CART: attaching 4KB cartridge at $B000.");
         memcpy(cartrom + 0xB000, rawcart, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
 	set_ram_block_5_enabled((resource_value_t) 0);
         break;
       default:
-        fprintf(errfile, "Unknown Cartridge Type!\n");
+        log_error(vic20_mem_log, "Unknown Cartridge Type!");
         return;
     }
 

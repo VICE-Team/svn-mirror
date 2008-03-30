@@ -53,10 +53,11 @@
 #include <time.h>
 #endif
 
-#include "vmachine.h"
-#include "via.h"
+#include "log.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "via.h"
+#include "vmachine.h"
 
 INCLUDES
 
@@ -113,6 +114,8 @@ static BYTE myvia_ilb;		/* input latch B */
 
 static int ca2_state;
 static int cb2_state;
+
+static log_t myvia_log = LOG_ERR;
 
 /*
  * local functions
@@ -183,16 +186,6 @@ static int cb2_state;
 
 inline static void update_myviairq(void)
 {
-#if 0	/* DEBUG */
-    static int irq = 0;
-    if(irq && !(myviaifr & myviaier & 0x7f)) {
-       fprintf(logfile, "myvia: clk=%d, IRQ off\n", clk);
-    }
-    if(!irq && (myviaifr & myviaier & 0x7f)) {
-       fprintf(logfile, "myvia: clk=%d, IRQ on\n", clk);
-    }
-    irq = (myviaifr & myviaier & 0x7f);
-#endif
     via_set_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
 }
 
@@ -257,10 +250,10 @@ PRE_VIA_FUNCS
 void reset_myvia(void)
 {
     int i;
-#ifdef MYVIA_TIMER_DEBUG
-    if (app_resources.debugFlag)
-	fprintf(logfile, "MYVIA: reset\n");
-#endif
+
+    if (myvia_log == LOG_ERR)
+        myvia_log = log_open("MYVIA");
+
     /* clear registers */
     for (i = 0; i < 4; i++)
 	myvia[i] = 0;
@@ -354,11 +347,6 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
     CLOCK rclk = myclk - 1;	/* stores have a one-cylce offset */
 
     addr &= 0xf;
-#ifdef MYVIA_TIMER_DEBUG
-    if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
-	fprintf(logfile, "store myvia[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
-	       (int) addr, (int) byte, myrmwf, myclk, rclk);
-#endif
 
     switch (addr) {
 
@@ -425,11 +413,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         update_myviatal(rclk);
         break;
 
-      case VIA_T1CH /*TIMER_AH */ :	/* Write timer A high */
-#ifdef MYVIA_TIMER_DEBUG
-        if (app_resources.debugFlag)
-            fprintf(logfile, "Write timer A high: %02x\n", byte);
-#endif
+      case VIA_T1CH:	/* Write timer A high */
         myvia[VIA_T1LH] = byte;
         update_myviatal(rclk);
         /* load counter with latch value */
@@ -481,9 +465,6 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         break;
 
       case VIA_IER:		/* Interrupt Enable Register */
-#if defined (MYVIA_TIMER_DEBUG)
-        fprintf(logfile, "Via#1 set VIA_IER: 0x%x\n", byte);
-#endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
             myviaier |= byte & 0x7f;
@@ -550,8 +531,6 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
 
       case VIA_PCR:
 
-        /* if(viadebug) fprintf(logfile, "VIA1: write %02x to PCR\n",byte); */
-
         /* bit 7, 6, 5  CB2 handshake/interrupt control */
         /* bit 4  CB1 interrupt control */
 
@@ -602,7 +581,8 @@ BYTE REGPARM1 read_myvia(ADDRESS addr)
     BYTE retv = read_myvia_(addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
-	fprintf(logfile, "read_myvia(%x) -> %02x, clk=%d\n", addr, retv, myclk);
+	log_message(myvia_log,
+                    "read_myvia(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
 BYTE REGPARM1 read_myvia_(ADDRESS addr)
@@ -775,15 +755,14 @@ BYTE REGPARM1 peek_myvia(ADDRESS addr)
 
 int int_myviat1(long offset)
 {
-/*    CLOCK rclk = myclk - offset; */
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	fprintf(logfile, "myvia timer A interrupt\n");
+	log_message(myvia_log, "myvia timer A interrupt");
 #endif
 
     if (!(myvia[VIA_ACR] & 0x40)) {	/* one-shot mode */
-#if 0				/* defined (MYVIA_TIMER_DEBUG) */
-	fprintf(logfile, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen\n");
+#ifdef MYVIA_TIMER_DEBUG
+	log_message(myvia_log, "MYVIA Timer A interrupt -- one-shot mode: next int won't happen");
 #endif
 	mycpu_unset_alarm(A_MYVIAT1);	/*int_clk[I_MYVIAT1] = 0; */
 	myviatai = 0;
@@ -807,7 +786,7 @@ int int_myviat2(long offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
-	fprintf(logfile, "MYVIA timer B interrupt\n");
+	log_message(myvia_log, "MYVIA timer B interrupt.");
 #endif
     mycpu_unset_alarm(A_MYVIAT2);	/*int_clk[I_MYVIAT2] = 0; */
     myviatbi = 0;
@@ -879,12 +858,7 @@ int myvia_write_snapshot_module(snapshot_t * p)
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-/*
-fprintf(logfile, "myvia: write: myclk=%d, tai=%d, tau=%d\n"
-       "     : tbi=%d, tbu=%d\n",
-		myclk, myviatai, myviatau, myviatbi, myviatbu);
-fprintf(logfile,"     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
-*/
+
     snapshot_module_write_byte(m, myvia[VIA_PRA]);
     snapshot_module_write_byte(m, myvia[VIA_DDRA]);
     snapshot_module_write_byte(m, myvia[VIA_PRB]);
@@ -934,9 +908,9 @@ int myvia_read_snapshot_module(snapshot_t * p)
         return -1;
 
     if (vmajor != VIA_DUMP_VER_MAJOR) {
-        fprintf(errfile,
-                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+        log_error(myvia_log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  vmajor, vminor, VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
         snapshot_module_close(m);
         return -1;
     }
@@ -1030,12 +1004,6 @@ int myvia_read_snapshot_module(snapshot_t * p)
     snapshot_module_read_byte(m, &myvia_ila);
     snapshot_module_read_byte(m, &myvia_ilb);
 
-/*
-fprintf(logfile, "myvia: read: myclk=%d, tai=%d, tau=%d\n"
-       "     : tbi=%d, tbu=%d\n",
-		myclk, myviatai, myviatau, myviatbi, myviatbu);
-fprintf(logfile, "     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
-*/
     return snapshot_module_close(m);
 }
 

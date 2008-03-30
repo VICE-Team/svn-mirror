@@ -38,6 +38,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "petmem.h"
@@ -77,6 +78,8 @@ static void vsync_hook(void);
 static long 	pet_cycles_per_rfsh 	= PET_PAL_CYCLES_PER_RFSH;
 static double	pet_rfsh_per_sec 	= PET_PAL_RFSH_PER_SEC;
 
+static log_t pet_log = LOG_ERR;
+
 const char machine_name[] = "PET";
 
 int machine_class = VICE_MACHINE_PET;
@@ -93,7 +96,7 @@ static int set_model_name(resource_value_t v)
     char *name = (char *)v;
 
     if (pet_set_model(name, NULL) < 0) {
-        fprintf(errfile, "Invalid PET model `%s'.\n", name);
+        log_error(pet_log, "Invalid PET model `%s'.", name);
         return -1;
     }
 
@@ -199,13 +202,16 @@ int machine_init_cmdline_options(void)
 /* PET-specific initialization.  */
 int machine_init(void)
 {
+    if (pet_log == LOG_ERR)
+        pet_log = log_open("PET");
+
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 
     if (mem_load() < 0)
         return -1;
 
-    fprintf(logfile, "\nInitializing IEEE488 bus...\n");
+    log_message(pet_log, "Initializing IEEE488 bus...");
 
     /* No traps installed on the PET.  */
     serial_init(NULL);
@@ -343,9 +349,6 @@ void machine_set_cycles_per_frame(long cpf) {
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    fprintf(logfile, "machine_set_cycles: cycl/frame=%ld, freq=%e\n", cpf,
-							pet_rfsh_per_sec);
-
     vsync_init(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC, vsync_hook);
 
     /* sound_set_cycles_per_rfsh(pet_cycles_per_rfsh); */
@@ -405,8 +408,9 @@ int machine_read_snapshot(const char *name)
     }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        fprintf(logfile, "Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
-               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        log_error(pet_log,
+                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                  major, minor, SNAP_MAJOR, SNAP_MINOR);
         ef = -1;
     }
 

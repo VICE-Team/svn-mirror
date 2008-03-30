@@ -58,16 +58,17 @@
 #include <stdio.h>
 #endif
 
-#include "snapshot.h"
-#include "crtc.h"
-#include "raster.h"
-#include "vmachine.h"
-#include "machine.h"
-#include "interrupt.h"
-#include "mem.h"
-#include "resources.h"
 #include "cmdline.h"
+#include "crtc.h"
+#include "interrupt.h"
+#include "log.h"
+#include "machine.h"
+#include "mem.h"
+#include "raster.h"
+#include "resources.h"
+#include "snapshot.h"
 #include "utils.h"
+#include "vmachine.h"
 
 
 #include "c610tpi.h"
@@ -151,13 +152,11 @@ static int new_memptr_inc		= 80;
 
 static CLOCK rasterline_start_clk = 0;
 
-/*
-static int crtc_cols = 40;
-*/
+static log_t crtc_log = LOG_ERR;
 
-PIXEL4 dwg_table_0[256], dwg_table_1[256];
-PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
-PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
+static PIXEL4 dwg_table_0[256], dwg_table_1[256];
+static PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
+static PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
 
 /* ------------------------------------------------------------------------- */
 
@@ -183,27 +182,6 @@ static int set_video_cache_enabled(resource_value_t v)
 
 /* prototype for resources - moved to raster.c */
 static int set_palette_file_name(resource_value_t v);
-#if 0
-static int set_palette_file_name(resource_value_t v)
-{
-    /* If called before initialization, just set the resource value.  The
-       palette file will be loaded afterwards.  */
-    if (palette == NULL) {
-        string_set(&palette_file_name, (char *) v);
-        return 0;
-    }
-
-    if (palette_load((char *) v, palette) < 0)
-        return -1;
-    canvas_set_palette(canvas, palette, pixel_table);
-
-    /* Make sure the pixel tables are recalculated properly.  */
-    video_resize();
-
-    string_set(&palette_file_name, (char *) v);
-    return 0;
-}
-#endif
 
 static int set_double_size_enabled(resource_value_t v)
 {
@@ -297,14 +275,9 @@ canvas_t crtc_init(void)
         "Background", "Foreground"
     };
 
-#if 0 /* def __MSDOS__ */
-    /* FIXME: Should set VGA mode.  */
-    if (SCREEN_XPIX > 320)
-	double_size_enabled = 1;
-    else
-        double_size_enabled = 0;
-#endif
-
+    if (crtc_log == LOG_ERR)
+        crtc_log = log_open("CRTC");
+    
     if (init_raster(1, MAX_PIXEL_WIDTH, MAX_PIXEL_HEIGHT) < 0)
         return NULL;
 
@@ -314,7 +287,8 @@ canvas_t crtc_init(void)
     if (palette == NULL)
         return NULL;
     if (palette_load(palette_file_name, palette) < 0) {
-        fprintf(logfile, "Cannot load palette file `%s'.\n", palette_file_name);
+        log_message(crtc_log, "Cannot load palette file `%s'.",
+                    palette_file_name);
         return NULL;
     }
 
@@ -323,15 +297,13 @@ canvas_t crtc_init(void)
 			   SCREEN_HEIGHT,
                            palette,
 			   (canvas_redraw_t) crtc_arrange_window)) {
-	fprintf(errfile, "fatal error: can't open window for CRTC emulation.\n");
+	log_error(crtc_log, "Cannot open window for CRTC emulation.");
 	return NULL;
     }
 
     video_mode = CRTC_STANDARD_MODE;
-/*
-    memptr_inc = 40;
-*/
-    if(canvas) {
+
+    if (canvas) {
         refresh_changed();
         refresh_all();
     }
@@ -345,7 +317,7 @@ canvas_t crtc_init(void)
 
     crtc_init_dwg_tables();
 
-    if(canvas) {
+    if (canvas) {
 	store_crtc(0, 49);
 	store_crtc(1, 40);
 	store_crtc(4, 49);
@@ -403,7 +375,6 @@ void video_resize(void)
     static int old_size = 0;
 
     if (DOUBLE_SIZE_ENABLED()) {
-	/* pixel_height = 2; */
 	if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc)) {
 	    pixel_width = 2;
 	    video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
@@ -412,14 +383,8 @@ void video_resize(void)
             video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
             video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached_2x;
             video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line_2x;
-	    if (old_size == 1) {
+	    if (old_size == 1)
 		window_width *= 2;
-/*
-		window_height *= 2;
-		if (canvas)
-		    canvas_resize(canvas, window_width, window_height);
-*/
-	    }
 	} else {
 	    /* When in 80 column mode, only the height is doubled. */
 	    pixel_width = 1;
@@ -429,14 +394,7 @@ void video_resize(void)
             video_modes[CRTC_REVERSE_MODE].fill_cache = fill_cache;
             video_modes[CRTC_REVERSE_MODE].draw_line_cached = draw_reverse_line_cached;
             video_modes[CRTC_REVERSE_MODE].draw_line = draw_reverse_line;
-/*
-	    if (old_size == 1)
-		window_height *= 2;
-*/
 	}
-/* fprintf(errfile, "foo: old_size=%d, height=%d, frameh=%d\n",old_size, 
-		crtc_screen_textlines*screen_charheight,
-		FRAMEB_HEIGHT); */
 	if (IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines*screen_charheight)) {
 	    pixel_height = 2;
 	    if (old_size == 1) {
@@ -494,9 +452,8 @@ static void crtc_update_timing(int change)
 
     if (new_crtc_cycles_per_line != crtc_cycles_per_line) {
 	crtc_cycles_per_line = new_crtc_cycles_per_line;
-
-	fprintf(logfile, "CRTC: set cycles per line to %d\n", crtc_cycles_per_line);
-
+	log_message(crtc_log, "CRTC: set cycles per line to %d.",
+                    crtc_cycles_per_line);
 	change = 1;
     }
 
@@ -505,7 +462,6 @@ static void crtc_update_timing(int change)
 	    if ((!IS_DOUBLE_WIDTH_ALLOWED(memptr_inc))
 		&& IS_DOUBLE_WIDTH_ALLOWED(new_memptr_inc) ) {
 		/* make window smaller */
-		fprintf(logfile, "CRTC: double_size_enabled and window shrinks\n");
                 pixel_width = 2;
                 video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
                 video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached_2x;
@@ -517,7 +473,6 @@ static void crtc_update_timing(int change)
 	    if (IS_DOUBLE_WIDTH_ALLOWED(memptr_inc)
 		&& (!IS_DOUBLE_WIDTH_ALLOWED(new_memptr_inc)) ) {
 		/* make window wider */
-		fprintf(logfile, "CRTC: double_size_enabled and window grows\n");
                 pixel_width = 1;
                 video_modes[CRTC_STANDARD_MODE].fill_cache = fill_cache;
                 video_modes[CRTC_STANDARD_MODE].draw_line_cached = draw_standard_line_cached;
@@ -540,41 +495,23 @@ static void crtc_update_timing(int change)
 	) {
 
 	if (DOUBLE_SIZE_ENABLED()) {
-/*
-fprintf(logfile, "double_size_enabled when update_timing(): \n");
-fprintf(logfile, "new_textlines=%d, new_charheight=%d -> height=%d\n",
-		new_crtc_screen_textlines, new_screen_charheight,
-		new_crtc_screen_textlines * new_screen_charheight);
-fprintf(logfile, "    textlines=%d,     charheight=%d -> height=%d\n",
-		crtc_screen_textlines, screen_charheight,
-		crtc_screen_textlines * screen_charheight);
-fprintf(logfile, " framb_height=%d\n",FRAMEB_HEIGHT);
-*/
 	    if (IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
 				* new_screen_charheight)
 		&& !IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
-				* screen_charheight)
-	    ) {
-		fprintf(logfile, "CRTC: double_size_enabled and window shrinks\n");
+				* screen_charheight)) {
 		pixel_height = 2;
 	    } else
 	    if (!IS_DOUBLE_HEIGHT_ALLOWED(new_crtc_screen_textlines 
 				* new_screen_charheight)
 		&& IS_DOUBLE_HEIGHT_ALLOWED(crtc_screen_textlines
-				* screen_charheight)
-	    ) {
-		fprintf(logfile, "CRTC: double_size_enabled and window grows\n");
+				* screen_charheight)) {
 		pixel_height = 1;
 	    }
 	}
 	
 	while (new_crtc_screen_textlines * new_screen_charheight * pixel_height
-		+ 2 * SCREEN_BORDERHEIGHT >= FRAMEB_HEIGHT) {
-	    fprintf(logfile, "CRTC: screen to high (ypix=%d, FRAMEB_H=%d!\n",
-			new_crtc_screen_textlines* new_screen_charheight,
-			FRAMEB_HEIGHT);
+		+ 2 * SCREEN_BORDERHEIGHT >= FRAMEB_HEIGHT)
 	    new_screen_charheight--;
-	}
 
         crtc_screen_textlines = new_crtc_screen_textlines;
         screen_charheight = new_screen_charheight;
@@ -600,7 +537,7 @@ fprintf(logfile, " framb_height=%d\n",FRAMEB_HEIGHT);
 	machine_set_cycles_per_frame(screen_rasterlines * crtc_cycles_per_line);
 
 	/* from screen height */
-	if(rasterline >= SCREEN_LAST_RASTERLINE) {
+	if (rasterline >= SCREEN_LAST_RASTERLINE) {
 	    handle_end_of_frame();
 	}
 
@@ -630,7 +567,6 @@ static void crsr_set_dirty(void)
     j = (crsrrel / memptr_inc) * screen_charheight + crsrend;
     j += SCREEN_BORDERHEIGHT + ysmooth;
 
-    /* fprintf(logfile, "crsr_set_dirty(%d-%d)\n",i,j); */
     while (i<=j) {
 	if (i < SCREEN_HEIGHT)
 	  cache[i].is_dirty = 1;
@@ -652,10 +588,8 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 	new_crtc_cycles_per_line = crtc[0] + 1;
 
       case 1:			/* R01  Horizontal characters displayed */
-	if(!crtc[1]) {
-	    fprintf(logfile, "store_crtc: set memptr_inc to 0!\n");
+	if (!crtc[1])
 	    return;
-	}
 	new_memptr_inc = crtc[1];
         if (hw_double_cols) {
             new_memptr_inc *= 2;
@@ -695,8 +629,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
       case 10:			/* R10  Cursor (not implemented on the PET) */
         crsrstart = value & 0x1f;
         value = ((value >> 5) & 0x03) ^ 0x01;
-        if(crsr_enable && (crsrmode != value)) {
-          /* fprintf(logfile, "crtc: write R10 new cursormode = %d\n",value); */
+        if (crsr_enable && (crsrmode != value)) {
           crsrmode = value;
           crsrstate = 1;
           crsrcnt = 16;
@@ -818,7 +751,7 @@ void reset_crtc(void)
      * Well, we just emulate...
      */
 
-    if(crsrmode) crsr_set_dirty();
+    if (crsrmode) crsr_set_dirty();
 
     crsrpos = 0;
     scrpos = 0;
@@ -843,8 +776,6 @@ int crtc_offscreen(void)
 
 void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
 {
-    fprintf(logfile, "crtc_set_screen: set memptr_inc to %d\n", num_cols);
-
     addr_mask = vmask;
 
     if (screen) {
@@ -853,8 +784,7 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
     crsr_enable = hwflags & 1;
     hw_double_cols = hwflags & 2;
 
-    if(!num_cols) {
-        fprintf(logfile, "crtc_set_screen_mode: set memptr_inc to 0!\n");
+    if (!num_cols) {
         new_memptr_inc=1;
     } else {
         new_memptr_inc = num_cols;
@@ -925,8 +855,8 @@ int int_rasterdraw(long offset)
     if (rasterline == 0) {
         /* we assume this to start the screen */
 	tpi1_set_int(0, 1);
-        if(crsrmode & 0x02) {
-            if(crsrcnt) crsrcnt--;
+        if (crsrmode & 0x02) {
+            if (crsrcnt) crsrcnt--;
             else {
 		crsr_set_dirty();
                 crsrcnt = (crsrmode & 0x01) ? 16 : 32;
@@ -973,14 +903,14 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
         PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH;               \
         register int i, d;                                              \
                                                                         \
-        if(crsrmode 							\
+        if (crsrmode 							\
 		&& crsrstate						\
 		&& ycounter >= crsrstart				\
 		&& ycounter <= crsrend )				\
         for (i = 0; i < memptr_inc; i++, p += 8) {			\
             d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i], 	\
 				ycounter);				\
-            if( (memptr+i)==crsrrel )					\
+            if ( (memptr+i)==crsrrel )					\
                 d ^= 0xff;						\
             if ((reverse_flag))                                         \
                 d ^= 0xff;                                              \
@@ -1022,14 +952,14 @@ static void draw_reverse_line(void)
                     + SCREEN_BORDERWIDTH * pixel_width);                \
         register int i, d;                                              \
                                                                         \
-        if(crsrmode							\
+        if (crsrmode							\
 		&& crsrstate						\
 		&& ycounter >= crsrstart				\
 		&& ycounter <= crsrend )				\
         for (i = 0; i < memptr_inc; i++, p += 16) {			\
             d = GET_CHAR_DATA(chargen_ptr, (screenmem + memptr)[i], 	\
 			ycounter);					\
-            if( (memptr+i)==crsrrel )					\
+            if ( (memptr+i)==crsrrel )					\
                 d ^= 0xff;						\
             if ((reverse_flag))                                         \
                 d ^= 0xff;                                              \
@@ -1050,14 +980,6 @@ static void draw_reverse_line(void)
             *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
             *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
         }                                                               \
-/*                                                                      \
-        d = (reverse_flag) ? 0xff : 0;                                  \
-        for (; i < SCREEN_MAX_TEXTCOLS; i++, p += 16) {                 \
-            *((PIXEL4 *) p) = dwg_table2x_0[d];                         \
-            *((PIXEL4 *) p + 1) = dwg_table2x_1[d];                     \
-            *((PIXEL4 *) p + 2) = dwg_table2x_2[d];                     \
-            *((PIXEL4 *) p + 3) = dwg_table2x_3[d];                     \
-        }  */                                                           \
     } while (0)
 
 static void draw_standard_line_2x(void)
@@ -1083,7 +1005,7 @@ static void draw_reverse_line_2x(void)
             if ((reverse_flag))                                         \
                 d = ~d;                                                 \
                                                                         \
-            if(crsrmode 						\
+            if (crsrmode 						\
 		&& crsrstate						\
                 && ypos >= crsrstart 					\
 		&& ypos <=crsrend					\
@@ -1120,7 +1042,7 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe)
             if ((reverse_flag))                                 \
                 d = ~d;                                         \
 								\
-            if(crsrmode 					\
+            if (crsrmode 					\
 		&& crsrstate  					\
                 && ypos >= crsrstart 				\
 		&& ypos <=crsrend				\
@@ -1199,7 +1121,7 @@ int crtc_write_snapshot_module(snapshot_t *s)
 	ef = -1;
     }
 
-    if(ef) {
+    if (ef) {
         snapshot_module_close(m);
     } else {
     	ef = snapshot_module_close(m);
@@ -1224,8 +1146,9 @@ int crtc_read_snapshot_module(snapshot_t *s)
         return -1;
 
     if (major != SNAP_MAJOR) {
-        fprintf(errfile, "CRTC: Major snapshot number (%d) invalid; %d expected.\n",
-                major, SNAP_MAJOR);
+        log_error(crtc_log,
+                  "Major snapshot number (%d) invalid; %d expected.",
+                  major, SNAP_MAJOR);
         goto fail;
     }
 
