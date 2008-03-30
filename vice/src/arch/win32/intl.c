@@ -1766,6 +1766,16 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* sv */  IDS_ATTACH_AR_CART_IMAGE_SV},
 
 /* res.rc */
+/* en */ {IDS_ATTACH_AR3_CART_IMAGE,
+/* de */  IDS_ATTACH_AR3_CART_IMAGE_DE,
+/* fr */  IDS_ATTACH_AR3_CART_IMAGE_FR,
+/* hu */  IDS_ATTACH_AR3_CART_IMAGE_HU,    /* fuzzy */
+/* it */  IDS_ATTACH_AR3_CART_IMAGE_IT,
+/* nl */  IDS_ATTACH_AR3_CART_IMAGE_NL,
+/* pl */  IDS_ATTACH_AR3_CART_IMAGE_PL,    /* fuzzy */
+/* sv */  IDS_ATTACH_AR3_CART_IMAGE_SV},
+
+/* res.rc */
 /* en */ {IDS_ATTACH_ATOMIC_P_CART_IMG,
 /* de */  IDS_ATTACH_ATOMIC_P_CART_IMG_DE,
 /* fr */  IDS_ATTACH_ATOMIC_P_CART_IMG_FR,

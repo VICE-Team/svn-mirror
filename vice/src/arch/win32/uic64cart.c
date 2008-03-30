@@ -80,6 +80,12 @@ static const uicart_params_t c64_ui_cartridges[] = {
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
+        IDM_CART_ATTACH_AR3,
+        CARTRIDGE_ACTION_REPLAY3,
+        IDS_ATTACH_AR3_CART_IMAGE,
+        UILIB_FILTER_ALL | UILIB_FILTER_BIN
+    },
+    {
         IDM_CART_ATTACH_AT,
         CARTRIDGE_ATOMIC_POWER,
         IDS_ATTACH_ATOMIC_P_CART_IMG,
@@ -151,6 +157,7 @@ void uic64cart_proc(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_8KB:
       case IDM_CART_ATTACH_16KB:
       case IDM_CART_ATTACH_AR:
+      case IDM_CART_ATTACH_AR3:
       case IDM_CART_ATTACH_AT:
       case IDM_CART_ATTACH_EPYX:
       case IDM_CART_ATTACH_IEEE488:
