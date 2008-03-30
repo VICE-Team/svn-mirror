@@ -2,9 +2,9 @@
  * vic20via2.c - VIA2 emulation in the VIC20.
  *
  * Written by
- *   André Fachat <fachat@physik.tu-chemnitz.de>
- * Patches by
- *   Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,49 +26,93 @@
  *
  */
 
-#define mycpu maincpu
-#define myclk maincpu_clk
-#define myvia via2
-#define myvia_init via2_init
-
-#define MYVIA_INT VIA2_INT
-#define MYVIA_NAME "Via2"
-
-#define mycpu_rmw_flag maincpu_rmw_flag
-#define mycpu_int_status maincpu_int_status
-#define mycpu_alarm_context maincpu_alarm_context
-#define mycpu_clk_guard maincpu_clk_guard
-
-#define myvia_reset via2_reset
-#define myvia_store via2_store
-#define myvia_read via2_read
-#define myvia_peek via2_peek
-
-#define myvia_log via2_log
-#define myvia_signal via2_signal
-#define myvia_prevent_clk_overflow via2_prevent_clk_overflow
-#define myvia_snapshot_read_module via2_snapshot_read_module
-#define myvia_snapshot_write_module via2_snapshot_write_module
-
-#define int_myviat1 int_via2t1
-#define int_myviat2 int_via2t2
-
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "alarm.h"
+#include "clkguard.h"
 #include "datasette.h"
 #include "drive.h"
+#include "interrupt.h"
 #include "keyboard.h"
+#include "log.h"
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
-#include "viacore.h"
 #include "vic.h"
+#include "vic20.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
+
+
+#define myclk           (*(via_context->clk_ptr))
+#define myvia           (via_context->via)
+#define myviaifr        (via_context->ifr)
+#define myviaier        (via_context->ier)
+#define myviatal        (via_context->tal)
+#define myviatbl        (via_context->tbl)
+#define myviatau        (via_context->tau)
+#define myviatbu        (via_context->tbu)
+#define myviatai        (via_context->tai)
+#define myviatbi        (via_context->tbi)
+#define myviapb7        (via_context->pb7)
+#define myviapb7x       (via_context->pb7x)
+#define myviapb7o       (via_context->pb7o)
+#define myviapb7xx      (via_context->pb7xx)
+#define myviapb7sx      (via_context->pb7sx)
+#define oldpa           (via_context->oldpa)
+#define oldpb           (via_context->oldpb)
+#define myvia_ila       (via_context->ila)
+#define myvia_ilb       (via_context->ilb)
+#define ca2_state       (via_context->ca2_state)
+#define cb2_state       (via_context->cb2_state)
+#define myvia_t1_alarm  (via_context->t1_alarm)
+#define myvia_t2_alarm  (via_context->t2_alarm)
+
+#define via_read_clk    (via_context->read_clk)
+#define via_read_offset (via_context->read_offset)
+#define via_last_read   (via_context->last_read)
+#define snap_module_name (via_context->my_module_name)
+
+#define myvia_int_num   (via_context->int_num)
+#define MYVIA_INT       (via_context->irq_line)
+
+#define mycpu_rmw_flag  (*(via_context->rmw_flag))
+
+#define myvia_reset     via2_reset
+
+#define myvia_store     via2x_store
+#define myvia_read      via2x_read
+#define myvia_peek      via2x_peek
+
+void REGPARM2 myvia_store(via_context_t *via_context, WORD addr, BYTE data);
+BYTE REGPARM1 myvia_read(via_context_t *via_context, WORD addr);
+BYTE REGPARM1 myvia_peek(via_context_t *via_context, WORD addr);
+
+void REGPARM2 via2_store(WORD addr, BYTE data)
+{
+    myvia_store(&(machine_context.via2), addr, data);
+}
+
+BYTE REGPARM1 via2_read(WORD addr)
+{
+    return myvia_read(&(machine_context.via2), addr);
+}
+
+BYTE REGPARM1 via2_peek(WORD addr)
+{
+    return myvia_peek(&(machine_context.via2), addr);
+}
+
+#define myvia_log       (via_context->log)
+#define myvia_signal    via2_signal
+#define myvia_snapshot_read_module via2_snapshot_read_module
+#define myvia_snapshot_write_module via2_snapshot_write_module
 
 
 static void via_set_ca2(int state)
@@ -79,26 +123,43 @@ static void via_set_cb2(int state)
 {
 }
 
+static void via_set_int(via_context_t *via_context, unsigned int int_num,
+                        int value)
+{
+    interrupt_set_nmi(maincpu_int_status, int_num, value,
+                      *(via_context->clk_ptr));
+}
+
+void vic20via2_setup_context(machine_context_t *machine_context)
+{
+    machine_context->via2.context = NULL;
+
+    machine_context->via2.rmw_flag = &maincpu_rmw_flag;
+    machine_context->via2.clk_ptr = &maincpu_clk;
+
+    sprintf(machine_context->via2.myname, "Via2");
+    sprintf(machine_context->via2.my_module_name, "VIA2");
+    machine_context->via2.read_clk = 0;
+    machine_context->via2.read_offset = 0;
+    machine_context->via2.last_read = 0;
+    machine_context->via2.irq_line = IK_NMI;
+    machine_context->via2.log = LOG_ERR;
+}
+
 static int tape_sense = 0;
-
-#define via_set_int             maincpu_set_nmi
-#define VIA2_INT                IK_NMI
-
-/* #define VIA2_TIMER_DEBUG */
-
-static char snap_module_name[] = "VIA2";
 
 void via2_set_tape_sense(int v)
 {
     tape_sense = v;
 }
 
-static void undump_pra(BYTE byte)
+static void undump_pra(via_context_t *via_context, BYTE byte)
 {
     iec_pa_write(byte);
 }
 
-inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
+inline static void store_pra(via_context_t *via_context, BYTE byte,
+                             BYTE myoldpa, WORD addr)
 {
     if (!(byte & 0x20) && (myoldpa & 0x20))
         vic_trigger_light_pen(maincpu_clk);
@@ -106,12 +167,13 @@ inline static void store_pra(BYTE byte, BYTE myoldpa, WORD addr)
     iec_pa_write(byte);
 }
 
-static void undump_prb(BYTE byte)
+static void undump_prb(via_context_t *via_context, BYTE byte)
 {
     printer_interface_userport_write_data(byte);
 }
 
-inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
+inline static void store_prb(via_context_t *via_context, BYTE byte,
+                             BYTE myoldpb, WORD addr)
 {
     printer_interface_userport_write_data(byte);
 #ifdef HAVE_RS232
@@ -119,11 +181,11 @@ inline static void store_prb(BYTE byte, BYTE myoldpb, WORD addr)
 #endif
 }
 
-static void undump_pcr(BYTE byte)
+static void undump_pcr(via_context_t *via_context, BYTE byte)
 {
 }
 
-static void res_via(void)
+static void res_via(via_context_t *via_context)
 {
 /*    iec_pa_write(0xff);*/
 
@@ -135,10 +197,10 @@ static void res_via(void)
 #endif
 }
 
-inline static BYTE store_pcr(BYTE byte, WORD addr)
+inline static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 {
     /* FIXME: should use via_set_ca2() and via_set_cb2() */
-    if (byte != via2[VIA_PCR]) {
+    if (byte != myvia[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
         if ((tmp & 0x0c) != 0x0c)
@@ -159,23 +221,23 @@ inline static BYTE store_pcr(BYTE byte, WORD addr)
     return byte;
 }
 
-static void undump_acr(BYTE byte)
+static void undump_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_acr(BYTE byte)
+inline void static store_acr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_sr(BYTE byte)
+inline void static store_sr(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline void static store_t2l(BYTE byte)
+inline void static store_t2l(via_context_t *via_context, BYTE byte)
 {
 }
 
-inline static BYTE read_pra(WORD addr)
+inline static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte;
     BYTE joy_bits;
@@ -204,15 +266,15 @@ inline static BYTE read_pra(WORD addr)
 
     /* We assume `iec_pa_read()' returns the non-IEC bits
        as zeroes. */
-    byte = ((via2[VIA_PRA] & via2[VIA_DDRA])
-           | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+    byte = ((myvia[VIA_PRA] & myvia[VIA_DDRA])
+           | ((iec_pa_read() | joy_bits) & ~myvia[VIA_DDRA]));
     return byte;
 }
 
-inline static BYTE read_prb(void)
+inline static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
-    byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
+    byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
 #ifdef HAVE_RS232
     byte = rsuser_read_ctrl();
 #else
@@ -223,8 +285,48 @@ inline static BYTE read_prb(void)
 
 void printer_interface_userport_set_busy(int b)
 {
-    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    via2_signal(&(machine_context.via2),
+                VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
+
+static void clk_overflow_callback(via_context_t *, CLOCK, void *);
+static void int_myviat1(via_context_t *, CLOCK);
+static void int_myviat2(via_context_t *, CLOCK);
+
+static void clk_overflow_callback_via2(CLOCK sub, void *data)
+{
+    clk_overflow_callback(&(machine_context.via2), sub, data);
+}
+
+static void int_via2t1(CLOCK c)
+{
+    int_myviat1(&(machine_context.via2), c);
+}
+
+static void int_via2t2(CLOCK c)
+{
+    int_myviat2(&(machine_context.via2), c);
+}
+
+void via2_init(via_context_t *via_context)
+{
+    char buffer[16];
+
+    via_context->log = log_open(via_context->my_module_name);
+
+    sprintf(buffer, "%sT1", via_context->myname);
+    via_context->t1_alarm = alarm_new(maincpu_alarm_context, buffer,
+                            int_via2t1);
+    sprintf(buffer, "%sT2", via_context->myname);
+    via_context->t2_alarm = alarm_new(maincpu_alarm_context, buffer,
+                            int_via2t2);
+
+    via_context->int_num = interrupt_cpu_status_int_new(maincpu_int_status,
+                                                        via_context->myname);
+
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback_via2, NULL);}
+
+#define VIA_SHARED_CODE
 
 #include "viacore.c"
 
