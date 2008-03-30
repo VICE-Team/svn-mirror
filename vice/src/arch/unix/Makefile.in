@@ -316,12 +316,11 @@ joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/cmdline.h joystick.h
 kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
-	../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/mem.h types.h ../../../src/snapshot.h joystick.h \
-	kbd.h kbdef.h ../../../src/keyboard.h ../../../src/log.h \
-	../../../src/machine.h ../../../src/sysfile.h ui.h xaw/ui.h \
-	../../../src/palette.h ../../../src/uiapi.h \
-	../../../src/utils.h video.h
+	../../../src/interrupt.h ../../../src/6510core.h types.h \
+	../../../src/log.h ../../../src/snapshot.h joystick.h kbd.h \
+	kbdef.h ../../../src/keyboard.h ../../../src/machine.h \
+	../../../src/sysfile.h ui.h xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h ../../../src/utils.h video.h
 kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/resources.h ../../../src/cmdline.h \
 	../../../src/utils.h kbd.h
@@ -348,9 +347,9 @@ video.o: video.c ../../../src/vice.h ../../../src/config.h video.h \
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \
-	../../../src/6510core.h ../../../src/mem.h \
+	../../../src/6510core.h ../../../src/log.h \
 	../../../src/snapshot.h ../../../src/kbdbuf.h \
-	../../../src/log.h ../../../src/maincpu.h ../../../src/alarm.h \
+	../../../src/maincpu.h ../../../src/alarm.h ../../../src/mem.h \
 	../../../src/mon.h ../../../src/mos6510.h ../../../src/sound.h \
 	../../../src/warn.h ui.h xaw/ui.h ../../../src/palette.h \
 	../../../src/uiapi.h video.h ../../../src/vsync.h joystick.h

@@ -299,11 +299,10 @@ vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h vdc.h \
 	vdc-snapshot.h
 vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/log.h ../../src/arch/unix/types.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/mos6510.h ../../src/palette.h \
-	../../src/utils.h vdc-cmdline-options.h vdc-draw.h \
-	vdc-resources.h vdc-snapshot.h vdc.h ../../src/raster/raster.h \
+	../../src/utils.h vdc.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/uiapi.h \
 	../../src/resources.h ../../src/raster/raster-cache.h \
@@ -311,7 +310,8 @@ vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h vdc-mem.h
+	../../src/raster/raster-sprite.h vdc-mem.h \
+	vdc-cmdline-options.h vdc-draw.h vdc-resources.h vdc-snapshot.h
 
 info-am:
 info: info-am

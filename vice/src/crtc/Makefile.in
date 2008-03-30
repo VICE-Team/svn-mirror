@@ -250,9 +250,9 @@ crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	crtc-draw.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/arch/unix/types.h ../../src/snapshot.h \
-	../../src/alarm.h ../../src/log.h ../../src/clkguard.h \
+	../../src/maincpu.h ../../src/6510core.h \
+	../../src/arch/unix/types.h ../../src/alarm.h ../../src/log.h \
+	../../src/clkguard.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h \
 	crtc.h crtc-mem.h ../../src/raster/raster.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
@@ -289,8 +289,8 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
+	../../src/mem.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/mos6510.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/alarm.h ../../src/log.h ../../src/arch/unix/types.h \
@@ -306,7 +306,7 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
 	crtc-cmdline-options.h crtc-draw.h crtc-resources.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/mem.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/clkguard.h ../../src/mem.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/mos6510.h ../../src/utils.h \
 	../../src/vsync.h
 

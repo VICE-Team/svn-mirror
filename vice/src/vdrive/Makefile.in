@@ -232,9 +232,9 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/snapshot.h ../../src/log.h vdrive-bam.h vdrive.h \
-	../../src/diskimage.h ../../src/gcr.h
+	../../src/attach.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
+	vdrive.h ../../src/diskimage.h ../../src/gcr.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/gcr.h \
 	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
