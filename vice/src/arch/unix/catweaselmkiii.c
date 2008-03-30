@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#ifdef HAVE_CATWEASELMKIII
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -39,6 +41,7 @@
 #include "log.h"
 #include "types.h"
 
+#include <cwsid.h>
 
 typedef void (*voidfunc_t)(void);
 
@@ -47,11 +50,7 @@ typedef void (*voidfunc_t)(void);
 static BYTE sidbuf[0x20*MAXSID];
 static int sidfh=-1;
 static int ntsc=0;
-
-/* ioctls from cwsid.h ; see http://llg.cubic.org/cw */
-#define CWSID_IOCTL_TYPE ('S')
-#define CWSID_IOCTL_PAL     _IO(CWSID_IOCTL_TYPE, 0x11)
-#define CWSID_IOCTL_NTSC    _IO(CWSID_IOCTL_TYPE, 0x12)
+static int atexitinitialized=0;
 
 static void setfreq()
 {
@@ -59,10 +58,8 @@ static void setfreq()
     ioctl(sidfh, ntsc?CWSID_IOCTL_NTSC:CWSID_IOCTL_PAL);
 }
 
-int catweaselmkiii_init(void)
+static int opendevice()
 {
-  atexit((voidfunc_t)catweaselmkiii_close);
-
   if(sidfh<0)
     {
       sidfh = open("/dev/sid", O_WRONLY);
@@ -75,31 +72,34 @@ int catweaselmkiii_init(void)
                   "could not open sid device /dev/sid or /dev/misc/sid");
         return -1;
       }
-
-      memset(sidbuf, 0, sizeof(sidbuf));
-      lseek(sidfh, 0, SEEK_SET);
-      write(sidfh, sidbuf, sizeof(sidbuf));
-      setfreq();
     }
-  log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
 
   return 0;
 }
 
+int catweaselmkiii_init(void)
+{
+  int r=opendevice();
+  catweaselmkiii_close();
+  if(r < 0)
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: not found");
+  else
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
+  return r;
+}
+
 int catweaselmkiii_open(void)
 {
-  if(sidfh<0)
+  if(!atexitinitialized)
     {
-      sidfh = open("/dev/sid", O_WRONLY);
+      atexitinitialized=1;
+      atexit((voidfunc_t)catweaselmkiii_close);
+    }
 
-      if (sidfh < 0)
-        sidfh = open("/dev/misc/sid", O_WRONLY);
-
-      if (sidfh < 0) {
-        log_error(LOG_DEFAULT,
-                  "could not open sid device /dev/sid or /dev/misc/sid");
-        return -1;
-      }
+  if(opendevice() < 0)
+    {
+      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: could not open");
+      return -1;
     }
 
   memset(sidbuf, 0, sizeof(sidbuf));
@@ -123,7 +123,7 @@ int catweaselmkiii_close(void)
       close(sidfh);
       sidfh=-1;
 
-      log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+      /*log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");*/
     }
   return 0;
 }
@@ -167,7 +167,10 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_available(void)
 {
-    /* Return -1 if no hardware is found. */
-    return 0;
+  int r=opendevice();
+  catweaselmkiii_close();
+  return r;
 }
+
+#endif
 
