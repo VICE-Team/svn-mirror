@@ -1,8 +1,7 @@
 /*
- * uisettings.h - Implementation of common UI settings.
+ * uiromset.h
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,14 +24,17 @@
  *
  */
 
-#ifndef _UI_SETTINGS_H
-#define _UI_SETTINGS_H
+#ifndef _UIROMSET_H
+#define _UIROMSET_H
 
-extern struct ui_menu_entry_s ui_performance_settings_menu[];
-extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
-extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];
-extern struct ui_menu_entry_s ui_settings_settings_menu[];
-extern struct ui_menu_entry_s ui_debug_settings_menu[];
+#include "uimenu.h"
+
+extern UI_CALLBACK(ui_set_romset);
+extern UI_CALLBACK(ui_load_romset);
+extern UI_CALLBACK(ui_load_rom_file);
+extern UI_CALLBACK(ui_unload_rom_file);
+extern UI_CALLBACK(ui_dump_romset);
+extern UI_CALLBACK(ui_list_romset);
 
 #endif
 

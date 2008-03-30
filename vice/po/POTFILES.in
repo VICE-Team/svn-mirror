@@ -48,6 +48,7 @@ src/arch/unix/uiprinter.c
 src/arch/unix/uiprinteriec.c
 src/arch/unix/uiprinterieee.c
 src/arch/unix/uireu.c
+src/arch/unix/uiromset.c
 src/arch/unix/uirs232.c
 src/arch/unix/uisettings.c
 src/arch/unix/uisid.c
