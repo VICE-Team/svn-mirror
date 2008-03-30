@@ -1539,8 +1539,8 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
 
     addr += ((l - outputptr) - 2);
 
-    outputptr[2] = addr & 0xff;
-    outputptr[3] = (addr >>8) & 0xff;
+    outputptr[2] = 1;	/* addr & 0xff; */
+    outputptr[3] = 1;	/* (addr >>8) & 0xff; */
     outputptr = l;
 
 
@@ -1627,8 +1627,8 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
 	     */
 	    addr += l - outputptr;
 
-	    outputptr[0] = addr & 0xff;
-	    outputptr[1] = (addr >> 8) & 0xff;
+	    outputptr[0] = 1;	/* addr & 0xff; */
+	    outputptr[1] = 1;	/* (addr >> 8) & 0xff; */
 
 	    outputptr = l;
 	}
@@ -1641,12 +1641,14 @@ static int  floppy_create_directory (DRIVE *floppy, char *name,
     SET_LO_HI(l, blocks);
     memcpy(l, "BLOCKS FREE.", 12);
     l += 12;
+    memset(l, ' ', 13);
+    l += 13;
     *l++ = (char) 0;
 
     /* Line Address */
     addr += l - outputptr;
-    outputptr[0] = addr & 0xff;
-    outputptr[1] = (addr / 256) & 0xff;
+    outputptr[0] = 1;	/* addr & 0xff; */
+    outputptr[1] = 1;	/* (addr / 256) & 0xff; */
 
     /*
      * end
