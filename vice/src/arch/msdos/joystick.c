@@ -26,11 +26,17 @@
 
 #include "vice.h"
 
+#include <conio.h>
 #include <stdio.h>
+
 #include <allegro.h>
 
+#include "joystick.h"
+
+#include "cmdline.h"
 #include "resources.h"
-#include "kbd.h"              /* FIXME: Maybe we should move `joy[]' here...  */
+#include "kbd.h"              /* FIXME: Maybe we should move `joy[]'
+                                 here...  */
 
 /* ------------------------------------------------------------------------- */
 
@@ -63,7 +69,7 @@ static resource_t resources[] = {
 
 int joystick_init_resources(void)
 {
-    return resources_register(joystick_resources);
+    return resources_register(resources);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -101,17 +107,19 @@ void joystick_init(void)
 
     joy_type = JOY_TYPE_2PADS;
 
+    cprintf("Checking for joysticks...");
+
     if (!initialise_joystick()) {
-	printf("Two joysticks found.\n");
+	cprintf(" Two joysticks found.");
 	num_joysticks = 2;
     } else {
         joy_type = JOY_TYPE_STANDARD;
 	if (!initialise_joystick()) {
-            printf("One joystick found.\n");
+            cprintf(" One joystick found.");
             num_joysticks = 1;
         } else {
             num_joysticks = 0;
-            printf("No joysticks found.\n");
+            cprintf(" No joysticks found.");
         }
     }
 
@@ -168,8 +176,8 @@ void joystick_update(void)
 }
 
 /* Handle keys to emulate the joystick.  Warning: this is called within the
-   keyboard interrupt!  */
-void joystick_handle_key(int kcode, int pressed)
+   keyboard interrupt, so take care when modifying this code!  */
+int joystick_handle_key(int kcode, int pressed)
 {
     int value = 0;
 
