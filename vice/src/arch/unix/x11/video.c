@@ -148,7 +148,8 @@ static log_t video_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 #if X_DISPLAY_DEPTH == 0
-static void (*_convert_func) (frame_buffer_t * p, int x, int y, int w, int h);
+static void (*_convert_func) (video_frame_buffer_t * p, int x, int y, int w,
+                              int h);
 static PIXEL real_pixel1[256];
 static PIXEL2 real_pixel2[256];
 static PIXEL4 real_pixel4[256];
@@ -206,7 +207,8 @@ void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
 	((t *)((PIXEL *)(i)->x_image->data + \
 	       (i)->x_image->bytes_per_line*(y)) + (x))
 
-static void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
+                          int h)
 {
     PIXEL *src;
     PIXEL2 *dst;
@@ -220,7 +222,8 @@ static void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h)
     }
 }
 
-static void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
+                          int h)
 {
     PIXEL *src;
     PIXEL4 *dst;
@@ -236,7 +239,7 @@ static void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h)
 
 /* This doesn't usually happen, but if it does, this is a great speedup
    comparing the general convert_8toall() -routine. */
-static void convert_8to8(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
 {
     PIXEL *src;
     PIXEL *dst;
@@ -258,7 +261,7 @@ BYTE dither_table[4][4] = {
     { 15, 7, 13, 5 }
 };
 
-static void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
+static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
 			 int h)
 {
     PIXEL *src, *dither;
@@ -275,7 +278,8 @@ static void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
 }
 
 /* And this is inefficient... */
-static void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
+                           int h)
 {
     PIXEL *src;
     int x, y;
@@ -289,7 +293,7 @@ static void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 #endif
 
 
-int video_convert_func(frame_buffer_t *i, int depth, unsigned int width,
+int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
                        unsigned int height)
 {
 #if X_DISPLAY_DEPTH == 0
@@ -404,7 +408,7 @@ int shmhandler(Display* display,XErrorEvent* err)
 #endif
 
 /* Free an allocated frame buffer. */
-void video_frame_buffer_free(frame_buffer_t *i)
+void video_frame_buffer_free(video_frame_buffer_t *i)
 {
     Display *display;
 
@@ -427,6 +431,7 @@ void video_frame_buffer_free(frame_buffer_t *i)
     if (i->x_image)
 	XDestroyImage(i->x_image);
 #endif
+
 #endif
 
 #if X_DISPLAY_DEPTH == 0
@@ -448,12 +453,11 @@ void video_frame_buffer_free(frame_buffer_t *i)
 #else
 	memset(i, 0, sizeof(*i));
 #endif
-
     }
-	
+    free(i);
 }
 
-void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
 #if X_DISPLAY_DEPTH == 0
     memset(f->tmpframebuffer, value,
@@ -477,7 +481,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 		       canvas_redraw_t exposure_handler,
 		       const palette_t * palette, PIXEL * pixel_return
 #ifdef USE_GNOMEUI		       
-		       ,frame_buffer_t *fb
+		       ,video_frame_buffer_t *fb
 #endif
                        )
 {
@@ -541,7 +545,7 @@ void video_refresh_func(void (*rfunc)(void))
 /* ------------------------------------------------------------------------- */
 
 /* Refresh a canvas.  */
-void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
+void canvas_refresh(canvas_t canvas, video_frame_buffer_t *frame_buffer,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
@@ -549,15 +553,15 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
     Display *display;
 #if X_DISPLAY_DEPTH == 0
     if (_convert_func)
-        _convert_func(&frame_buffer, xs, ys, w, h);
+        _convert_func(frame_buffer, xs, ys, w, h);
 #endif
 
     /* This could be optimized away.  */
     display = ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc,
-		  frame_buffer.x_image, xs, ys, xi, yi, w, h, False, 
-		  &frame_buffer, canvas);
+		  frame_buffer->x_image, xs, ys, xi, yi, w, h, False, 
+		  frame_buffer, canvas);
     if (_video_use_xsync)
         XSync(display, False);
 }

@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <gdk/gdkx.h>
+#include <string.h>
 
 #include "log.h"
 #include "videoarch.h"
@@ -36,6 +37,7 @@
 
 #include "ui.h"
 #include "uiarch.h"
+#include "utils.h"
 
 static log_t gnomevideo_log = LOG_ERR;
 
@@ -51,7 +53,7 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
 			 unsigned int width, unsigned int height, int b,
-			 frame_buffer_t *fb, canvas_t c)
+			 video_frame_buffer_t *fb, canvas_t c)
 {
   gdk_draw_image(drawable, gc, fb->gdk_image, src_x, src_y,
 		 dest_x, dest_y, width, height);
@@ -61,12 +63,17 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 }
 
 
-int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
 			     unsigned int height)
 {
     int sizeofpixel = sizeof(PIXEL);
     GdkImageType typ;
     int depth;
+    video_frame_buffer_t *i;
+
+    i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
+    memset(i, 0, sizeof(video_frame_buffer_t));
+    *ip = i;
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
@@ -93,6 +100,7 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
     i->x_image = GDK_IMAGE_XIMAGE(i->gdk_image);
     if (!i->x_image)
 	return -1;
+
     if (i->canvas)
     {
 	/* reusage of existing canvas, so reallocate drawable */
@@ -104,7 +112,7 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	*/
 	ui_finish_canvas(i->canvas);
     }
-    
+ 
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
     if (video_convert_func(i, depth, width, height) < 0)

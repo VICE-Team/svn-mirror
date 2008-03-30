@@ -1,5 +1,6 @@
 /*
  * video.h - BEOS graphics handling
+ *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *
@@ -55,17 +56,17 @@ typedef struct _canvas *canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct frame_buffer_s {
+typedef struct video_frame_buffer_s {
     int     width;
     int     height;
     PIXEL   *buffer;
     
-} *frame_buffer_t;
+} video_frame_buffer_t;
 
-#define FRAME_BUFFER_POINTER_FIXUP(x)   (x)
-#define FRAME_BUFFER_LINE_SIZE(f)       (f)->width
-#define FRAME_BUFFER_LINE_START(f, n)   ((f)->buffer+(n)*(f)->width)
-#define FRAME_BUFFER_START(f)           (FRAME_BUFFER_LINE_START(f, 0))
+#define VIDEO_FRAME_BUFFER_POINTER_FIXUP(x) (x)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
+#define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */
 
