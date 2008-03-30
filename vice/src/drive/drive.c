@@ -149,15 +149,14 @@ static int set_drive_true_emulation(resource_value_t v)
         if (drive[0].type != DRIVE_TYPE_NONE) {
             drive[0].enable = 1;
             drive0_cpu_reset_clk();
-            drive_enable(0);
-            iec_calculate_callback_index();
         }
         if (drive[1].type != DRIVE_TYPE_NONE) {
             drive[1].enable = 1;
             drive1_cpu_reset_clk();
-            drive_enable(1);
-            iec_calculate_callback_index();
         }
+        drive_enable(0);
+        drive_enable(1);
+        iec_calculate_callback_index();
     } else {
         drive_disable(0);
         drive_disable(1);
