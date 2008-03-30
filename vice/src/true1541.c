@@ -531,8 +531,8 @@ int true1541_attach_floppy(DRIVE *floppy)
     ask_extend_disk_image = 1;
 
     if (true1541_floppy->GCR_Header != 0) {
-	    if (!read_image_gcr())
-		return -1;
+        if (!read_image_gcr())
+            return -1;
     } else {
 	if (setID() >= 0) {
 	    read_image_d64();
@@ -545,9 +545,13 @@ int true1541_attach_floppy(DRIVE *floppy)
 }
 
 /* Detach a disk image from the true 1541 emulation. */
-int true1541_detach_floppy(void)
+int true1541_detach_floppy(DRIVE *floppy)
 {
-    if (true1541_floppy != NULL) {
+    if (floppy != true1541_floppy) {
+        /* Shouldn't happen.  */
+        fprintf(stderr, "Whaaat?  Attempt for bogus true1541 detachment!\n");
+        return -1;
+    } else if (true1541_floppy != NULL) {
 	GCR_data_writeback();
 	detach_clk = true1541_clk;
 	true1541_floppy = NULL;
@@ -717,7 +721,7 @@ BYTE true1541_read_disk_byte(void)
 
     true1541_rotate_disk(0);
     val = GCR_read;
-    
+
     return val;
 }
 
@@ -941,10 +945,10 @@ void true1541_motor_control(int flag)
 /* Handle a ROM trap. */
 int true1541_trap_handler(void)
 {
-    if (true1541_program_counter == 0xec9b) {
+    if (true1541_cpu_regs.pc == 0xec9b) {
 	/* Idle loop */
 	init_complete = 1;
-	true1541_program_counter = 0xebff;
+	true1541_cpu_regs.pc = 0xebff;
 	if (app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE)
 	    true1541_clk = next_alarm_clk(&true1541_int_status);
     } else
