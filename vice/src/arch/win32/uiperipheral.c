@@ -269,6 +269,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
         switch (LOWORD(wparam)) {
           case IDC_SELECTDIR:
           case IDC_SELECTDISK:
+          case IDC_SELECTREAL:
           case IDC_SELECTNONE:
             enable_controls_for_disk_device_type(hwnd, LOWORD(wparam));
             break;
@@ -650,11 +651,12 @@ _CALLBACK_PRINTER(0)
 _CALLBACK_PRINTER(4)
 _CALLBACK_PRINTER(5)
 
+
 /* -------------------------------------------------------------------------- */
 /*                               Main Dialog                                  */
 /* -------------------------------------------------------------------------- */
 
-void ui_peripheral_dialog(HWND hwnd)
+static void uiperipheral_dialog(HWND hwnd)
 {
     PROPSHEETPAGE psp[7];
     PROPSHEETHEADER psh;
@@ -714,18 +716,18 @@ void ui_peripheral_dialog(HWND hwnd)
     } else
         i = 0;
 
-    psp[i+0].pfnDlgProc = callback_4;
-    psp[i+0].pszTitle = TEXT("Printer 4");
-    psp[i+1].pfnDlgProc = callback_5;
-    psp[i+1].pszTitle = TEXT("Printer 5");
-    psp[i+2].pfnDlgProc = callback_8;
-    psp[i+2].pszTitle = TEXT("Drive 8");
-    psp[i+3].pfnDlgProc = callback_9;
-    psp[i+3].pszTitle = TEXT("Drive 9");
-    psp[i+4].pfnDlgProc = callback_10;
-    psp[i+4].pszTitle = TEXT("Drive 10");
-    psp[i+5].pfnDlgProc = callback_11;
-    psp[i+5].pszTitle = TEXT("Drive 11");
+    psp[i + 0].pfnDlgProc = callback_4;
+    psp[i + 0].pszTitle = TEXT("Printer 4");
+    psp[i + 1].pfnDlgProc = callback_5;
+    psp[i + 1].pszTitle = TEXT("Printer 5");
+    psp[i + 2].pfnDlgProc = callback_8;
+    psp[i + 2].pszTitle = TEXT("Drive 8");
+    psp[i + 3].pfnDlgProc = callback_9;
+    psp[i + 3].pszTitle = TEXT("Drive 9");
+    psp[i + 4].pfnDlgProc = callback_10;
+    psp[i + 4].pszTitle = TEXT("Drive 10");
+    psp[i + 5].pfnDlgProc = callback_11;
+    psp[i + 5].pszTitle = TEXT("Drive 11");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
@@ -746,7 +748,22 @@ void ui_peripheral_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 
-    for( i = 0; i < 3; i++ )
-      lib_free(printertextdevice[i]);
+    for (i = 0; i < 3; i++)
+        lib_free(printertextdevice[i]);
+}
+
+void uiperipheral_command(HWND hwnd, WPARAM wparam)
+{
+    switch (wparam) {
+      case IDM_DEVICEMANAGER:
+        uiperipheral_dialog(hwnd);
+        break;
+      case IDM_FORMFEED_PRINTERIEC4 | 0x00010000:
+        printer_formfeed(0);
+        break;
+      case IDM_FORMFEED_PRINTERIEC5 | 0x00010000:
+        printer_formfeed(1);
+        break;
+    }
 }
 

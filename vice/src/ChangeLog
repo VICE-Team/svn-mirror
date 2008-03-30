@@ -1,3 +1,47 @@
+2004-10-02  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.6.
+
+	* arch/win32/resdrivec64vic20.rc, arch/win32/resc128.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resplus4.rc,
+	arch/win32/resrs232user.rc: Fixed some window geometry.
+
+	* arch/win32/rs232.c: Fixed resource bug.
+
+	* serial/realdevice.c (realdevice_enable, realdevice_disable):
+	Print device name.
+
+	* arch/win32/opencbmlib.c: Disabled `cbm_get_driver_name()'
+	workaround.
+
+	* arch/win32/uidriveplus4.c, arch/win32/uisid.c,
+	arch/win32/uivicii.c, arch/win32/uivideo.c,
+	arch/win32/uiide64.c, arch/win32/uic128.c,
+	arch/win32/uidrivec128.c, arch/win32/uiplus4mem.c,
+	arch/win32/uicbm2set.c,arch/win32/uidrivepetcbm2.c,
+	arch/win32/uivicset.c, arch/win32/uisound.c,
+	arch/win32/uidatasette.c, arch/win32/uidrivec64vic20.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uipetset.c:
+	arch/win32/uihelp.c, arch/win32/uihelp.h: Small changes.
+
+	* arch/win32/uiperipheral.c, arch/win32/uiperipheral.h
+	arch/win32/uifliplist.c, arch/win32/uifliplist.h,
+	arch/win32/uidatasette.c, arch/win32/uidatasette.h,
+	arch/win32/uiattach.c, arch/win32/uiattach.h,
+	arch/win32/ui.c: Move commands to separate files.
+
+	* arch/win32/uievent.c, arch/win32/uievent.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Added new
+	files.
+
+	* arch/win32/uiperipheral.c (dialog_proc): Fixed greying bug.
+
+2004-09-26  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/c1541.dsp, arch/win32/petcat.dsp: Added
+	version.lib to be linked against.
+
 2004-09-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.5.
