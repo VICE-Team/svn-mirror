@@ -1,3 +1,53 @@
+2003-07-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.13.
+
+	* drive/iec/cia1571d.c, drive/iec/cia1581d.c, ciacore.c,
+	ciacore.h, cia.h, drive/ciad.h, drive/drivetypes.h,
+	drive/iec/iec.c, c128/c128iec.c: Use CIA context pointer.
+
+2003-07-06  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/joy.c (joystick_di_open): Fixed a warning.
+
+	* arch/win32/video.c (video_canvas_create): Fixed two warnings.
+
+	* plus4/ted-fetch.c (do_matrix_fetch, handle_fetch_matrix):
+	Updated to use TED raster counter, instead of the raster
+	object's counter.
+
+	* plus4/ted-irq.c (ted_irq_check_state): Removed raster to
+	user conversions, they are not needed.
+
+	* plus4/ted-mem.c (ted_local_store_vbank,
+	ted_local_store_vbank32k, ted_local_store_vbank16k): Handle
+	draw alarm before fetch alarm.
+	(ted1c1d_read): Removed raster to user conversion.
+
+	* plus4/ted-timing.c (ted_timing_set): Init ted.vsync_line.
+
+	* plus4/ted.c (clk_overflow_callback): Update old_maincpu_clk
+	as well.
+	(ted_handle_pending_alarms): Handle draw alarm before fetch
+	alarm.
+	(ted_reset): Init ted.tv_current_line and
+	ted.ted_raster_counter.
+	(ted_raster_draw_alarm_handler): Use virtual TV line emulation
+	over raster object. Increment ted.ted_raster_counter. Handle
+	vsync line.
+
+	* plus4/tedtypes.h (TED_PAL_FIRST_DISPLAYED_LINE,
+	TED_PAL_LAST_DISPLAYED_LINE, TED_PAL_25ROW_START_LINE,
+	TED_PAL_25ROW_STOP_LINE, TED_PAL_24ROW_START_LINE,
+	TED_PAL_24ROW_STOP_LINE, TED_38COL_START_PIXEL,
+	TED_38COL_STOP_PIXEL): Updated values.
+	(TED_PAL_VSYNC_LINE, TED_NTSC_VSYNC_LINE): Added definitions.
+	(TED_FETCH_CYCLE, TED_RASTER_CHAR, TED_RASTER_X, TED_RASTER_Y,
+	TED_RASTER_CYCLE, TED_LINE_START_CLK, TED_PAL_FIRST_DMA_LINE,
+	TED_PAL_LAST_DMA_LINE): Updated values, macros.
+	(ted_s): Added tv_current_line, ted_raster_counter and
+	vsync_line.
+
 2003-07-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.12.

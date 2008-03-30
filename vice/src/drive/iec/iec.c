@@ -69,8 +69,8 @@ void iec_drive_init(struct drive_context_s *drv)
 
 void iec_drive_reset(struct drive_context_s *drv)
 {
-    cia1571_reset(drv);
-    cia1581_reset(drv);
+    cia1571_reset(&(drv->cia1571));
+    cia1581_reset(&(drv->cia1581));
     wd1770d_reset(drv);
 }
 
@@ -138,12 +138,12 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
                             struct snapshot_s *s)
 {
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
-        if (cia1571_snapshot_read_module(ctxptr, s) < 0)
+        if (cia1571_snapshot_read_module(&(ctxptr->cia1571), s) < 0)
             return -1;
     }
 
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (cia1581_snapshot_read_module(ctxptr, s) < 0)
+        if (cia1581_snapshot_read_module(&(ctxptr->cia1581), s) < 0)
             return -1;
     }
 
@@ -154,12 +154,12 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1571) {
-        if (cia1571_snapshot_write_module(ctxptr, s) < 0)
+        if (cia1571_snapshot_write_module(&(ctxptr->cia1571), s) < 0)
             return -1;
     }
 
     if (ctxptr->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (cia1581_snapshot_write_module(ctxptr, s) < 0)
+        if (cia1581_snapshot_write_module(&(ctxptr->cia1581), s) < 0)
             return -1;
     }
 

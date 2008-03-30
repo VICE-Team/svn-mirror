@@ -351,16 +351,16 @@ void iec_fast_cpu_write(BYTE data)
         if (drive[0].enable) {
             drive0_cpu_execute(maincpu_clk);
             if (drive[0].type == DRIVE_TYPE_1571)
-                cia1571_set_sdr(&drive0_context, data);
+                cia1571_set_sdr(&(drive0_context.cia1571), data);
             if (drive[0].type == DRIVE_TYPE_1581)
-                cia1581_set_sdr(&drive0_context, data);
+                cia1581_set_sdr(&(drive0_context.cia1581), data);
         }
         if (drive[1].enable) {
             drive1_cpu_execute(maincpu_clk);
             if (drive[1].type == DRIVE_TYPE_1571)
-                cia1571_set_sdr(&drive1_context, data);
+                cia1571_set_sdr(&(drive1_context.cia1571), data);
             if (drive[1].type == DRIVE_TYPE_1581)
-                cia1581_set_sdr(&drive1_context, data);
+                cia1581_set_sdr(&(drive1_context.cia1581), data);
         }
     }
 }
