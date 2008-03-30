@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "driverom.h"
+#include "drivetypes.h"
 #include "iecrom.h"
 #include "log.h"
 #include "resources.h"
@@ -64,10 +65,15 @@ static unsigned int drive_rom1541ii_size;
 
 static void iecrom_new_image_loaded(unsigned int dtype)
 {
-    if (drive[0].type == dtype)
-        iecrom_setup_image(0);
-    if (drive[1].type == dtype)
-        iecrom_setup_image(1);
+    unsigned int dnr;
+    drive_t *drive;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
+        if (drive->type == dtype)
+            iecrom_setup_image(drive);
+    }
 }
 
 static int iecrom_do_1541_checksum(void)
@@ -227,45 +233,45 @@ int iecrom_load_1581(void)
     return -1;
 }
 
-void iecrom_setup_image(unsigned int dnr)
+void iecrom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
-        switch (drive[dnr].type) {
+        switch (drive->type) {
           case DRIVE_TYPE_1541:
             if (drive_rom1541_size <= DRIVE_ROM1541_SIZE) {
-                memcpy(drive[dnr].rom, &drive_rom1541[DRIVE_ROM1541_SIZE],
+                memcpy(drive->rom, &drive_rom1541[DRIVE_ROM1541_SIZE],
                        DRIVE_ROM1541_SIZE);
-                memcpy(&(drive[dnr].rom[DRIVE_ROM1541_SIZE]),
+                memcpy(&(drive->rom[DRIVE_ROM1541_SIZE]),
                        &drive_rom1541[DRIVE_ROM1541_SIZE],
                        DRIVE_ROM1541_SIZE);
             } else {
-                memcpy(drive[dnr].rom, drive_rom1541,
+                memcpy(drive->rom, drive_rom1541,
                        DRIVE_ROM1541_SIZE_EXPANDED);
             }
             break;
           case DRIVE_TYPE_1541II:
             if (drive_rom1541ii_size <= DRIVE_ROM1541II_SIZE) {
-                memcpy(drive[dnr].rom, &drive_rom1541ii[DRIVE_ROM1541II_SIZE],
+                memcpy(drive->rom, &drive_rom1541ii[DRIVE_ROM1541II_SIZE],
                        DRIVE_ROM1541II_SIZE);
-                memcpy(&(drive[dnr].rom[DRIVE_ROM1541II_SIZE]),
+                memcpy(&(drive->rom[DRIVE_ROM1541II_SIZE]),
                        &drive_rom1541ii[DRIVE_ROM1541II_SIZE],
                        DRIVE_ROM1541II_SIZE);
             } else {
-                memcpy(drive[dnr].rom, drive_rom1541ii,
+                memcpy(drive->rom, drive_rom1541ii,
                        DRIVE_ROM1541II_SIZE_EXPANDED);
             }
             break;
           case DRIVE_TYPE_1570:
-            memcpy(drive[dnr].rom, drive_rom1570, DRIVE_ROM1571_SIZE);
+            memcpy(drive->rom, drive_rom1570, DRIVE_ROM1571_SIZE);
             break;
           case DRIVE_TYPE_1571:
-            memcpy(drive[dnr].rom, drive_rom1571, DRIVE_ROM1571_SIZE);
+            memcpy(drive->rom, drive_rom1571, DRIVE_ROM1571_SIZE);
             break;
           case DRIVE_TYPE_1571CR:
-            memcpy(drive[dnr].rom, drive_rom1571cr, DRIVE_ROM1571_SIZE);
+            memcpy(drive->rom, drive_rom1571cr, DRIVE_ROM1571_SIZE);
             break;
           case DRIVE_TYPE_1581:
-            memcpy(drive[dnr].rom, drive_rom1581, DRIVE_ROM1581_SIZE);
+            memcpy(drive->rom, drive_rom1581, DRIVE_ROM1581_SIZE);
             break;
         }
     }
@@ -339,9 +345,9 @@ int iecrom_check_loaded(unsigned int type)
     return 0;
 }
 
-void iecrom_do_checksum(unsigned int dnr)
+void iecrom_do_checksum(drive_t *drive)
 {
-    if (drive[dnr].type == DRIVE_TYPE_1541) {
+    if (drive->type == DRIVE_TYPE_1541) {
         iecrom_do_1541_checksum();
     }
 }
