@@ -20,7 +20,6 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
-	archdefs.h \
 	c128kbd.c \
 	c128kbd.h \
 	c128ui.c \
@@ -41,8 +40,6 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
-	log.c \
-	log.h \
 	mouse.c \
 	mouse.h \
 	menudefs.c \
@@ -53,6 +50,8 @@ libarch_a_SOURCES = \
 	petui.h \
 	sidui.c \
 	sidui.h \
+	sysdep.c \
+	sysdep.h \
 	tui.c \
 	tui.h \
 	tui_backend.c \
