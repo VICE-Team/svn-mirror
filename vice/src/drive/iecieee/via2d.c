@@ -273,7 +273,8 @@ void via2d_setup_context(drive_context_t *ctxptr)
     drivevia2_context_t *via2p;
     via_context_t *via;
 
-    ctxptr->via2 = lib_malloc(sizeof(via_context_t));
+    /* Clear struct as snapshot code may write uninitialized values.  */
+    ctxptr->via2 = lib_calloc(1, sizeof(via_context_t));
     via = ctxptr->via2;
 
     via->prv = lib_malloc(sizeof(drivevia2_context_t));

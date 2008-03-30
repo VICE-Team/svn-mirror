@@ -314,7 +314,8 @@ void via1d2031_setup_context(drive_context_t *ctxptr)
     drivevia1_context_t *via1p;
     via_context_t *via;
 
-    ctxptr->via1d2031 = lib_malloc(sizeof(via_context_t));
+    /* Clear struct as snapshot code may write uninitialized values.  */
+    ctxptr->via1d2031 = lib_calloc(1, sizeof(via_context_t));
     via = ctxptr->via1d2031;
 
     via->prv = lib_malloc(sizeof(drivevia1_context_t));

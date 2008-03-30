@@ -318,7 +318,8 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
     drivevia1_context_t *via1p;
     via_context_t *via;
 
-    ctxptr->via1d1541 = lib_malloc(sizeof(via_context_t));
+    /* Clear struct as snapshot code may write uninitialized values.  */
+    ctxptr->via1d1541 = lib_calloc(1, sizeof(via_context_t));
     via = ctxptr->via1d1541;
 
     via->prv = lib_malloc(sizeof(drivevia1_context_t));
