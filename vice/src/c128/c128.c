@@ -691,3 +691,14 @@ void machine_update_memory_ptrs(void)
      vic_ii_update_memory_ptrs_external();
 }
 
+int machine_sid2_check_range(unsigned int sid2_adr)
+{
+    if (sid2_adr >= 0xd420 && sid2_adr <= 0xd4e0)
+        return 0;
+
+    if (sid2_adr >= 0xde00 && sid2_adr <= 0xdfe0)
+        return 0;
+
+    return -1;
+}
+

@@ -93,6 +93,9 @@ extern void machine_handle_pending_alarms(int num_write_cycles);
 extern int machine_autodetect_psid(const char *name);
 extern void machine_play_psid(int tune);
 
+/* Check the base address for the second sid chip.  */
+extern int machine_sid2_check_range(unsigned int sid2_adr);
+
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
 extern void machine_change_timing(int timeval);
 

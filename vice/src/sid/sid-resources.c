@@ -30,9 +30,11 @@
 
 #include <stdio.h>
 
+#include "machine.h"
 #include "resources.h"
 #include "sid-resources.h"
 #include "sound.h"
+#include "types.h"
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
 
@@ -45,6 +47,8 @@ static int sid_useresid;
 static int sid_resid_sampling;
 static int sid_resid_passband;
 int sid_stereo;
+unsigned int sid_stereo_address_start;
+unsigned int sid_stereo_address_end;
 
 static int set_sid_filters_enabled(resource_value_t v, void *param)
 {
@@ -57,6 +61,20 @@ static int set_sid_stereo(resource_value_t v, void *param)
 {
     sid_stereo = (int)v;
     sound_state_changed = 1;
+    return 0;
+}
+
+static int set_sid_stereo_address(resource_value_t v, void *param)
+{
+    unsigned int sid2_adr;
+
+    sid2_adr = (unsigned int)v;
+
+    if (machine_sid2_check_range(sid2_adr) < 0)
+        return -1;
+
+    sid_stereo_address_start = sid2_adr;
+    sid_stereo_address_end = sid_stereo_address_start + 32;
     return 0;
 }
 
@@ -107,6 +125,9 @@ static resource_t resources[] = {
     { "SidStereo", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_stereo,
       set_sid_stereo, NULL },
+    { "SidStereoAddressStart", RES_INTEGER, (resource_value_t)0xde00,
+      (resource_value_t *)&sid_stereo_address_start,
+      set_sid_stereo_address, NULL },
     { "SidUseResid", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&sid_useresid,
       set_sid_useresid, NULL },
