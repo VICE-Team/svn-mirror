@@ -136,7 +136,7 @@ void iec_cpu_write_conf1(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
+                viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
@@ -170,7 +170,7 @@ void iec_cpu_write_conf2(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
+                viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
@@ -204,7 +204,7 @@ void iec_cpu_write_conf3(BYTE data)
         iec_old_atn = iec_info.cpu_bus & 0x10;
         if (drive[0].type != DRIVE_TYPE_2031) {
             if (drive[0].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive0_context.via1), VIA_SIG_CA1,
+                viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
@@ -212,7 +212,7 @@ void iec_cpu_write_conf3(BYTE data)
         }
         if (drive[1].type != DRIVE_TYPE_2031) {
             if (drive[1].type != DRIVE_TYPE_1581)
-                viacore_signal(&(drive1_context.via1), VIA_SIG_CA1,
+                viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
             else
                 if (!iec_old_atn)
@@ -329,8 +329,8 @@ void parallel_cable_cpu_pulse(void)
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
 
-    viacore_signal(&(drive0_context.via1), VIA_SIG_CB1, VIA_SIG_FALL);
-    viacore_signal(&(drive1_context.via1), VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(&(drive0_context.via1d1541), VIA_SIG_CB1, VIA_SIG_FALL);
+    viacore_signal(&(drive1_context.via1d1541), VIA_SIG_CB1, VIA_SIG_FALL);
 }
 
 void parallel_cable_cpu_undump(BYTE data)
