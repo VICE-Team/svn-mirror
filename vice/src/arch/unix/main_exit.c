@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <signal.h>
 
-#include "joystick.h"
+#include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main_exit.h"
@@ -35,6 +35,8 @@
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
+
+
 void main_exit(void)
 {
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c

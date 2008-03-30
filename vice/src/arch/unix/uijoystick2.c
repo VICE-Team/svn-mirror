@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#include "joystick.h"
+#include "joy.h"
 #include "resources.h"
 #include "uimenu.h"
 #include "vsync.h"

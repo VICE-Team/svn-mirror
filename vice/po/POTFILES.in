@@ -10,7 +10,7 @@ src/arch/unix/c610ui.c
 src/arch/unix/c64ui.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
-src/arch/unix/joystick.c
+src/arch/unix/joy.c
 src/arch/unix/main_exit.c
 src/arch/unix/mouse.c
 src/arch/unix/petui.c

@@ -35,7 +35,7 @@
 #include "cmdline.h"
 #include "keyboard.h"
 #include "resources.h"
-#include "joystick.h"
+#include "joy.h"
 #include "machine.h"
 #include "types.h"
 #include "utils.h"

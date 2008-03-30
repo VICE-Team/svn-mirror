@@ -32,7 +32,7 @@
 #include "vsyncapi.h"
 
 #ifdef HAS_JOYSTICK
-#include "joystick.h"
+#include "joy.h"
 #endif
 
 #include <sys/time.h>

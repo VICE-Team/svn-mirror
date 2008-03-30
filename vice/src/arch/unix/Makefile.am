@@ -33,8 +33,8 @@ libarch_a_SOURCES = \
 	coproc.h \
 	coproc.c \
 	icon.h \
-	joystick.c \
-	joystick.h \
+	joy.c \
+	joy.h \
 	kbd.h \
 	main_exit.c \
 	main_exit.h \

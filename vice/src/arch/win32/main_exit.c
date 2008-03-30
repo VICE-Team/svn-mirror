@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <signal.h>
 
-#include "joystick.h"
+#include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main_exit.h"

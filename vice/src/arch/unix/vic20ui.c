@@ -33,7 +33,7 @@
 #include "cartridge.h"
 #include "debug.h"
 #include "icon.h"
-#include "joystick.h"
+#include "joy.h"
 #include "machine.h"
 #include "resources.h"
 #include "uicommands.h"

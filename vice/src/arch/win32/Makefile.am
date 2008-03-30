@@ -36,8 +36,8 @@ libarch_a_SOURCES = \
 	dirent.h \
 	fullscreen.c \
 	fullscreen.h \
-	joystick.c \
-	joystick.h \
+	joy.c \
+	joy.h \
 	kbd.c \
 	kbd.h \
 	lose32.h \
