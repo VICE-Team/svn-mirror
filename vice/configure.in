@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.16.0.3)
+AM_INIT_AUTOMAKE(vice, 0.16.0.4)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl AC_DEFINE(UNSTABLE)
@@ -484,6 +484,14 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes"; then
   fi
 
   AC_CHECK_HEADERS(X11/extensions/XShm.h X11/Sunkeysym.h X11/xpm.h)
+
+  dnl Check for XFree86 header and library extensions.
+dnl  AC_CHECK_HEADER(X11/extensions/xf86vmode.h,,)
+dnl  if test x"$ac_cv_header_X11_extensions_xf86vmode_h" = "xyes" ; then
+dnl  AC_CHECK_LIB(Xxf86vm, XF86VidModeQueryVersion,
+dnl               [ X_LIBS="-lXxf86vm $X_LIBS";
+dnl                 AC_DEFINE(USE_VIDMODE_EXTENSION) ],,$X_LIBS)
+dnl  fi
 
   LIBS="$LIBS -lm"
 
