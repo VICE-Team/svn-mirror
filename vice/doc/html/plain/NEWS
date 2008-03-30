@@ -59,13 +59,21 @@ list of all the changes in the code.
 ** Unix changes
 ---------------
 
-- The ACIA emulation has been fixed.
+- ACIA emulation has been fixed.
 
 ** MS-Windows changes
 ---------------------
 
 - Fixed a keyboard driver bug that mainly affected the cursor keys on
   some machines.
+
+- CBM-II keyboard input should work again.
+
+- Added printer settings dialog.
+
+- The C128 machine type can be set now.
+
+- Drives can be resetted individually.
 
 
 * Changes in VICE 1.12
