@@ -35,6 +35,7 @@
 #include "ieeerom.h"
 #include "memieee.h"
 #include "parallel.h"
+#include "riot.h"
 #include "riotd.h"
 #include "types.h"
 #include "viad.h"
@@ -68,8 +69,8 @@ void ieee_drive_reset(struct drive_context_s *drv)
 {
     viacore_reset(&(drv->via1d2031));
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
-    riot1_reset(drv);
-    riot2_reset(drv);
+    riotcore_reset(&(drv->riot1));
+    riotcore_reset(&(drv->riot2));
 }
 
 void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type)
@@ -135,8 +136,8 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
     }
 
     if (DRIVE_IS_OLDTYPE(ctxptr->drive_ptr->type)) {
-        if (riot1_snapshot_read_module(ctxptr, s) < 0
-            || riot2_snapshot_read_module(ctxptr, s) < 0
+        if (riotcore_snapshot_read_module(&(ctxptr->riot1), s) < 0
+            || riotcore_snapshot_read_module(&(ctxptr->riot2), s) < 0
             || fdc_snapshot_read_module(s, ctxptr->mynumber) < 0)
             return -1;
     }
@@ -153,8 +154,8 @@ int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
     }
 
     if (DRIVE_IS_OLDTYPE(ctxptr->drive_ptr->type)) {
-        if (riot1_snapshot_write_module(ctxptr, s) < 0
-            || riot2_snapshot_write_module(ctxptr, s) < 0
+        if (riotcore_snapshot_write_module(&(ctxptr->riot1), s) < 0
+            || riotcore_snapshot_write_module(&(ctxptr->riot2), s) < 0
             || fdc_snapshot_write_module(s, ctxptr->mynumber) < 0)
             return -1;
     }
@@ -175,12 +176,12 @@ int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 void ieee_drive0_parallel_set_atn(int state)
 {
     via1d2031_set_atn(&(drive0_context.via1d2031), state);
-    drive0_riot_set_atn(state);
+    drive_riot_set_atn(&(drive0_context.riot2), state);
 }
 
 void ieee_drive1_parallel_set_atn(int state)
 {
     via1d2031_set_atn(&(drive1_context.via1d2031), state);
-    drive1_riot_set_atn(state);
+    drive_riot_set_atn(&(drive1_context.riot2), state);
 }
 
