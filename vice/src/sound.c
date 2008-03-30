@@ -1136,7 +1136,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #ifdef USE_MIDAS_SOUND
     sound_init_midas_device();
 #else
-    sound_init_sb_device();
+    sound_init_allegro_device();
 #endif
 #endif
 

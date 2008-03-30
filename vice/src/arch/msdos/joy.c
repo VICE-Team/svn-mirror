@@ -223,16 +223,13 @@ int joy_arch_init(void)
     if (joystick_init_done)
         return 0;
 
-    joy_type = JOY_TYPE_2PADS;
-
     cprintf("Checking for joysticks...");
 
-    if (!initialise_joystick()) {
+    if (!install_joystick(JOY_TYPE_2PADS)) {
 	cprintf(" Two joysticks found.");
 	number_joysticks = 2;
     } else {
-        joy_type = JOY_TYPE_STANDARD;
-	if (!initialise_joystick()) {
+	if (!install_joystick(JOY_TYPE_STANDARD)) {
             cprintf(" One joystick found.\r\n");
             number_joysticks = 1;
         } else {

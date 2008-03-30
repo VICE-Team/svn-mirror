@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.41)
+AM_INIT_AUTOMAKE(vice, 1.13.42)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -611,7 +611,7 @@ if [[ x"$is_dos" = "xyes" ]] ; then
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundmidas.o"; break])
     else
         AC_CHECK_HEADERS(allegro.h,
-                         [SOUND_DRIVERS="$SOUND_DRIVERS soundsb.o"; break])
+                         [SOUND_DRIVERS="$SOUND_DRIVERS soundallegro.o"; break])
     fi
 fi
 
