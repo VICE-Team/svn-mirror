@@ -177,8 +177,7 @@
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
 /* FIXME: Dummy LOAD() cycles are missing!  */
-/* FIXME: NMI should not set I bit!  */
-/* FIXME: No proper BRK handling!  */
+/* FIXME: Improper BRK handling!  */
 #define DO_INTERRUPT(int_kind)                                        \
     do {                                                              \
         BYTE ik = (int_kind);                                         \
@@ -522,23 +521,24 @@
       INC_PC(pc_inc);                           \
   } while (0)
 
-/* FIXME: Dummy LOAD() cycles are missing!  */
-#define BRANCH(cond, value)                                            \
-  do {                                                                 \
-      if (cond) {                                                      \
-          unsigned int dest_addr = reg_pc + 2 + (signed char)(value);  \
-                                                                       \
-          if (((reg_pc + 2) ^ dest_addr) & 0xff00) {                   \
-              CLK += 4;                                                \
-          } else {                                                     \
-              CLK += 3;                                                \
-              OPCODE_DELAYS_INTERRUPT();                               \
-          }                                                            \
-          JUMP(dest_addr & 0xffff);                                    \
-      } else {                                                         \
-          CLK += 2;                                                    \
-          INC_PC(2);                                                   \
-      }                                                                \
+#define BRANCH(cond, value)                                        \
+  do {                                                             \
+      CLK += 2;                                                    \
+      INC_PC(2);                                                   \
+                                                                   \
+      if (cond) {                                                  \
+          unsigned int dest_addr = reg_pc + (signed char)(value);  \
+                                                                   \
+          LOAD(reg_pc);                                            \
+          CLK += 1;                                                \
+          if ((reg_pc ^ dest_addr) & 0xff00) {                     \
+              LOAD((reg_pc & 0xff00) | (dest_addr & 0xff));        \
+              CLK += 1;                                            \
+          } else {                                                 \
+              OPCODE_DELAYS_INTERRUPT();                           \
+          }                                                        \
+          JUMP(dest_addr & 0xffff);                                \
+      }                                                            \
   } while (0)
 
 /* The BRK opcode is also used to patch the ROM.  The function trap_handler()
@@ -1101,15 +1101,17 @@
       JUMP(tmp);                    \
   } while (0)
 
-/* FIXME: Dummy LOAD() cycles are missing!  */
-#define RTS()                           \
-  do {                                  \
-      WORD tmp;                         \
-                                        \
-      CLK += 6;                         \
-      tmp = PULL();                     \
-      tmp = (tmp | (PULL() << 8)) + 1;  \
-      JUMP(tmp);                        \
+#define RTS()                     \
+  do {                            \
+      WORD tmp;                   \
+                                  \
+      CLK += 5;                   \
+      tmp = PULL();               \
+      tmp = tmp | (PULL() << 8);  \
+      LOAD(tmp);                  \
+      CLK++;                      \
+      tmp++;                      \
+      JUMP(tmp);                  \
   } while (0)
 
 
