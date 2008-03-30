@@ -39,6 +39,7 @@ extern struct ui_menu_entry_s ui_fullscreen_settings_menu[];
 extern struct ui_menu_entry_s ui_fullscreen_settings_submenu[];
 extern struct ui_menu_entry_s ui_keyboard_settings_menu[];
 extern struct ui_menu_entry_s ui_settings_settings_menu[];
+extern struct ui_menu_entry_s ui_debug_settings_menu[];
 extern UI_CALLBACK(ui_set_romset);
 extern UI_CALLBACK(ui_load_romset);
 extern UI_CALLBACK(ui_load_rom_file);
