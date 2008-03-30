@@ -44,8 +44,13 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
     struct ioutil_dir_s *ioutil_dir;
     BYTE *name1, *name2;
     char *name, *retname = NULL;
+    const char *open_path;
 
-    ioutil_dir = ioutil_opendir(path);
+    open_path = path;
+    if (path == NULL)
+        open_path = "";
+
+    ioutil_dir = ioutil_opendir(open_path);
 
     if (ioutil_dir == NULL)
         return NULL;

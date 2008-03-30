@@ -30,6 +30,7 @@
 
 #include "cbmfile.h"
 #include "fileio.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "p00.h"
 #include "types.h"
