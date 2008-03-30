@@ -62,8 +62,8 @@ static int raster_draw_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer,
                                     unsigned int *fb_pitch)
 {
     if (canvas->video_draw_buffer_callback)
-        return canvas->video_draw_buffer_callback->draw_buffer_alloc(canvas, draw_buffer,
-            fb_width, fb_height, fb_pitch);
+        return canvas->video_draw_buffer_callback->draw_buffer_alloc(canvas,
+            draw_buffer, fb_width, fb_height, fb_pitch);
 
     *draw_buffer = xmalloc(fb_width * fb_height);
     *fb_pitch = fb_width;
@@ -304,7 +304,7 @@ static void raster_geometry_init(raster_geometry_t *geometry)
     geometry->last_displayed_line = 0;
 }
 
-#if defined(WIN32) || defined(USE_XF86_EXTENSIONS) || defined(HAVE_XVIDEO)
+#if defined(WIN32) || defined(USE_XF86_EXTENSIONS)
 void video_register_raster(raster_t *raster);
 #endif
 
@@ -316,7 +316,7 @@ int raster_init(raster_t *raster,
     raster struct when window has to be updated in certain cases...
     So I have to register it in the video module and do a lookup.
     */
-#if defined(WIN32) || defined(USE_XF86_DGA2_EXTENSIONS) || defined(HAVE_XVIDEO)
+#if defined(WIN32) || defined(USE_XF86_DGA2_EXTENSIONS)
     video_register_raster(raster);
 #endif
 
@@ -790,15 +790,15 @@ void raster_free(raster_t *raster)
 
 raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas)
 {
-	raster_list_t *rasters = ActiveRasters;
-	
-    while (rasters != NULL)
-    {
-    	if (rasters->raster->viewport.canvas == canvas)
-    		return rasters->raster;
-    		
+    raster_list_t *rasters = ActiveRasters;
+
+    while (rasters != NULL) {
+        if (rasters->raster->viewport.canvas == canvas)
+            return rasters->raster;
+
         rasters = rasters->next;
-	}
-	
-	return NULL;	
+    }
+
+    return NULL;	
 }
+

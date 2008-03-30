@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-02-15 22:02+0100\n"
+"POT-Creation-Date: 2002-02-17 19:40+0100\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2722,36 +2722,40 @@ msgstr "Disattiva schermo intero"
 msgid "Specify X display depth (1..32)"
 msgstr "Specifica la profondita del display X (1..32)"
 
-#: src/arch/unix/x11/video.c:139
+#: src/arch/unix/x11/video.c:154
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Chiama `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/video.c:142
+#: src/arch/unix/x11/video.c:157
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Non chiamare `XSync()' dopo aver aggiornato la finestra di emulazione"
 
-#: src/arch/unix/x11/video.c:145
+#: src/arch/unix/x11/video.c:160
 msgid "Never use shared memory (slower)"
 msgstr "Non usare mai la memoria condivisa (più lento)"
 
-#: src/arch/unix/x11/video.c:148
+#: src/arch/unix/x11/video.c:164
 msgid "Use XVideo Extension (hardware scaling)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:151
+#: src/arch/unix/x11/video.c:167
 msgid "Use software rendering"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:351
+#: src/arch/unix/x11/video.c:169
+msgid "Request YUV FOURCC format"
+msgstr ""
+
+#: src/arch/unix/x11/video.c:370
 msgid "The MITSHM extension is not supported on this display."
 msgstr "L'estensione MITSHM non è supportata su questo display."
 
-#: src/arch/unix/x11/video.c:355
+#: src/arch/unix/x11/video.c:374
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/video.c:416
+#: src/arch/unix/x11/video.c:435
 msgid "Cannot release shared memory!"
 msgstr "Non è possibile rilasciare la memoria condivisa!"
 

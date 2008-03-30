@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "machine.h"
 #include "raster-cache.h"
 #include "raster-line.h"
@@ -69,11 +71,11 @@ static void update_canvas(raster_t *raster)
     h = update_area->ye - update_area->ys + 1;
 
     if (video_render_get_fake_pal_state()) {
-                /* if pal emu is activated, more pixels have to be updated */
-                x -= 4;
-                xx -= 4;
-                w += 8;
-                h ++;
+        /* if pal emu is activated, more pixels have to be updated */
+        x -= 4;
+        xx -= 4;
+        w += 8;
+        h ++;
     }
 
     if (xx < 0) {
@@ -518,7 +520,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
         }
     }
 
-    if (! sprites_need_update) {
+    if (!sprites_need_update) {
         raster->sprite_status->sprite_sprite_collisions
             = cache->sprite_sprite_collisions;
         raster->sprite_status->sprite_background_collisions
@@ -904,13 +906,6 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 
     add_line_and_double_scan(raster,
                              0, raster->geometry.screen_size.width - 1);
-
-#if 0
-    /* This is a dirty hack for use with GDB.  */
-    if (raster->current_line == _hidden_hideous_raster_check)
-        vid_memset(raster->draw_buffer_ptr,
-                   0, geometry->screen_size.width - 1);
-#endif
 }
 
 inline static void handle_visible_line(raster_t *raster)
@@ -993,7 +988,7 @@ void raster_line_emulate(raster_t *raster)
 }
 
 /* Encapsulate for export.   */
-void raster_handle_end_of_frame(raster_t *raster)
+void raster_line_handle_end_of_frame(raster_t *raster)
 {
     handle_end_of_frame(raster);
 }
