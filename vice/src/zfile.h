@@ -44,5 +44,5 @@ extern int zclose_all(void);
 extern int zfile_close_action(const char *filename, zfile_action_t action,
                               const char *request_string);
 
-#endif /* _ZFILE_H */
+#endif
 
