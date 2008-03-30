@@ -129,11 +129,13 @@ void Filter::set_w0()
   // frequency is approximately 4KHz.
   // NB! Cutoff frequency characteristics varies a lot, we have modeled
   // one particular Commodore 64.
+  static const double pi = 3.1415926535897932385;
+
   double x = fc - 920.0;
   double w0 =
     228 + 3900/2*(1 + tanh(bsd_copysign(pow(fabs(x), 0.85)/95, x)));
 
-  _2_pi_w0 = sound_sample(2*M_PI*w0*1.048576);
+  _2_pi_w0 = sound_sample(2*pi*w0*1.048576);
 }
 
 // Set filter resonance.

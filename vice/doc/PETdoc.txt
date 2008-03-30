@@ -42,43 +42,51 @@
 General PET info
 ----------------
 
-When talking about the PET 30xx, 40xx, or 8032, no memory management
-is involved. With the 8096 and the 8296 Commodore then introduced 
-some kind of bank switching to handle up to 128kByte RAM. 
-The older ones have up to 32 kByte RAM from $0000 to $7fff, which
-is available for normal program operation. From $8000 on the 
-video memory is mapped. Early PETs have 1 kByte video RAM for 40 column
-display, the newer ones have 2 kByte video RAM for 80 column display.
+When talking about the PET 30xx, 40xx, or 8032, a lot of different 
+models, hardware, software and their combinations are concerned.
 
-The PETs up to and including 3032 don't have a 6545 CRTC (Cathode Ray
-Tube Controller - located at $e880 in the memory) and they even produce
-'snow' when directly writing to the video RAM. The video circuitry
-is implemented with discrete ICs. The RAM used to be so slow
-that at one CPU cycle only one of the CPU or the video logic can access
-it. Therefore, when the CPU accesses the RAM chip, there is no way for 
-the video logic to get the screen data in time, thus displaying invalid
-data - snow. The 4032 then already uses time sharing, where the video access 
-is hidden during Phi 2 CPU clock low. Interestingly the 8032 also
-sets the number of displayed characters per line in the CRTC to 40
-as well, although the screen output is 80 column. From the timing viewpoint
-it is also very unlikely that during the 1 MHz clock two characters
-to display are fetched. Well, they are, but not one after another which
-would be logical for an 8 bit system, but in parallel. This is the same
-thing that happens nowadays with the high end 32 and 64 bit graphic 
-cards - widening the bus to improve memory throughput...
-This way the timing did not have to be changed when going from 40 to 80 
-columns, just a new video RAM chip (and of course some glue chips) 
-had to be added.  The newest one, i.e. the 8296 uses normal CPU 
-memory for screen output.
+The early models have almost everything besides the "big" I/O
+chips and the CPU in separat ICs, especially the complete video circuitry.
+Those machines were sold as the "PET 2001" with built-in tape recorder.
+It featured "snow" on the screen when the CPU wrote to the video
+memory that was driven at the same clock as the CPU.
+The first board was replaced with a new revision that had a faster
+video RAM and no more snow. Those models had a software from the initial 
+- very buggy - version 1 ROMs over the "wait 6502,2" version 2 ROMs 
+(AKA version 3 ROMs) up to the Basic 4. 
+Those machines have been sold as "2001-8N" (replace "8" with the
+RAM size and (probably?) "N" with a letter indicating the keyboard)
+in the US. In Europe they have been sold as 2001, 3008-3032 with Basic 2, 
+and (I am not certain of this) as 4016/4032 with Basic 4.
+Many of the older machines are said to have been upgraded to Basic 4.
 
-Above the screen area, there are two (Basic 4.0) resp. three (older PETs)
-4 kByte ROM areas that could be used for a ROM expansion. In hardware,
-there are two (three) ROM sockets on the motherboard where one can
-put the expansion ROMs. The sockets map to $9xxx, $Axxx, and $Bxxx,
+After this board then came the models with the 6545 CRTC controller.
+Some of those models are vulnerable to the "PET killer poke".
+Those boards were available with 1k video RAM and 40 columns 
+(AKA "Fat-40") as well as with 2k video RAM and 80 columns.
+The 80 columns were achieved by shifting video address lines,
+an additional latch and doubling the pixel clock. Therefore the
+video setting still indicates 40 columns in a 8032!
+All of those machines had Basic 4.
+
+For all those machines no memory management is involved. With the 
+8096 and the 8296 Commodore then introduced some kind of bank switching 
+to handle up to 128kByte RAM. The 8096 used an expansion board while the 
+8296 had 128k directly on board.
+
+Another machine with an expansion board was the SuperPET 9000
+(AKA MicroMainFrame 9000 in europe). It featured a 6551 ACIA,
+64k additional RAM (not 8x96 compatible) and a 6809 (!) CPU
+on the expansion board.
+
+Above the screen area at $8000, there are two (Basic 4.0) resp. three 
+(older PETs) 4 kByte ROM areas that could be used for a ROM expansion. 
+In hardware, there are two (three) ROM sockets on the motherboard where one 
+can put the expansion ROMs. The sockets map to $9xxx, $Axxx, and $Bxxx,
 Above $B000 (Basic 4.0) resp. $C000 the system ROM starts. 
 Older PETs have the I/O area, where the interface chips are mapped,
 between $e800 and $f000. Some newer PETs, starting with some 
-8032 (?) models, have the I/O area between $e800 and $e900 only. This gave
+8032 models, have the I/O area between $e800 and $e900 only. This gave
 more place for an extended (nationalized) screen editor.
 
 The PET came with several different keyboard layouts (see below). 
@@ -96,15 +104,9 @@ by the hardware. This is then fed into a PIA1 CB1, which is set to
 trigger an interrupt.
 
 Some of the newer PETs are reported to have an ACIA 6551 serial port
-interface chip. This may probably be the SuperPET 9000 as well as
-(this is fact) the business models CBM 600/610/700/710. All of those are
-not covered here.
-
-And, well the older 2xxx PETs only seem to differ from the 3032 in ROM 
-version, RAM size and keyboard layout. Some of them had a builtin tape 
-recoder. May of them have been upgraded to the `upgrade' ROMs or
-Basic 2 ROMs like the 3032 has. Some of these (3032) machines have been 
-said to be upgraded with Basic 4 ROMs even.
+interface chip. This may be the SuperPET 9000 as well as
+the business models CBM 600/610/700/710. The latter are
+not covered here. as they are not PET compatible :-)
 
 Andre
 

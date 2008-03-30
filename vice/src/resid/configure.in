@@ -56,6 +56,21 @@ if test $ac_cv_sizeof_int -lt 4; then
   AC_MSG_ERROR([only 32 bit or better CPUs are supported])
 fi
 
+AC_CACHE_CHECK([for working bool], ac_cv_cxx_bool,
+[AC_TRY_COMPILE(,
+[
+bool flag;
+],
+ac_cv_cxx_bool=yes, ac_cv_cxx_bool=no)])
+
+if test $ac_cv_cxx_bool = no; then
+  RESID_HAVE_BOOL=0
+else
+  RESID_HAVE_BOOL=1
+fi
+
+AC_SUBST(RESID_HAVE_BOOL)
+
 dnl Checks for library functions.
 
 AC_OUTPUT(Makefile siddefs.h)
