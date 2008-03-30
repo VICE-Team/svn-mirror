@@ -33,12 +33,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef HAVE_CRTDBG
+#include <crtdbg.h>
+#endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
-#endif
-
-#ifdef _MSC_VER
-#include <crtdbg.h>
 #endif
 
 #include "log.h"

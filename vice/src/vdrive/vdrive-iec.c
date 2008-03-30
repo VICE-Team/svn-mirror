@@ -135,7 +135,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
 
     retlen = vdrive_dir_create_directory(vdrive, cmd_parse->parsecmd,
                                          cmd_parse->parselength,
-                                         cmd_parse->filetype, p->buffer);
+                                         CBMDOS_FT_DEL, p->buffer);
 
     if (retlen < 0) {
         /* Directory not valid.  */
@@ -215,6 +215,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     BYTE *slot; /* Current directory entry */
     int rc, status = SERIAL_OK;
     cbmdos_cmd_parse_t cmd_parse;
+    unsigned int opentype;
 
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
         return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
@@ -317,8 +318,14 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     /*
      * Check that there is room on directory.
      */
+    if (cmd_parse.readmode == CBMDOS_FAM_READ
+        || cmd_parse.readmode == CBMDOS_FAM_APPEND)
+        opentype = cmd_parse.filetype;
+    else
+        opentype = CBMDOS_FT_DEL;
+
     vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                               cmd_parse.parselength, 0);
+                               cmd_parse.parselength, opentype);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
