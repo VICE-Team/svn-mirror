@@ -40,18 +40,25 @@ list of all the changes in the code.
 
 - Autostart is now implemented and works as in the C64 emulator.
 
+- Tape support has been added.
+
 - Cartridge support has been added.
 
 - The memory configurations can be added at runtime.
+
+- The RESTORE keys works correctly now.
 
 ** PET changes
 --------------
 
 - The VIA emulation is now cycle-exact.
 
-- Several PET models have been added.  Just the CBM-II (B128, B256)
-  series is missing now.  :-)  Moreover, the model type can be changed
-  at runtime, without leaving the emulator.
+- Autostart is now implemented and works as in the C64 emulator.
+
+- Tape support has been added.
+
+- Several PET models have been added.  Moreover, the model type can be
+  changed at runtime, without leaving the emulator.
 
 ** 1541 changes
 ---------------
@@ -75,8 +82,8 @@ list of all the changes in the code.
 ** Unix changes
 ---------------
 
-- Sound and joystick are now supported on NetBSD (courtesy of Krister
-  Walfridsson <cato@df.lth.se>).
+- Sound and joystick should now be supported on NetBSD too (courtesy
+  of Krister Walfridsson <cato@df.lth.se>).
 
 - Support for multiple keyboard layouts has been added.  A
   "positional" layout for US keyboards is provided.
@@ -97,18 +104,17 @@ list of all the changes in the code.
 - Support for two "hardware" joysticks has been added.
 
 - The emulated drive LED has been moved to the CapsLock LED; the
-  ScrollLock LED is turned on when "warp mode" (maximum speed) is
+  ScrollLock LED is turned on when "warp" (maximum speed) mode is
   enabled.
 
-- The menu system has been made a bit more usable.
+- The menu system has been made a bit more usable.  It is now possible
+  to open a submenu directly from the emulator screen by pressing Alt
+  + the corresponding hotkey.
 
 - An Allegro-based sound driver has been implemented.
 
 - The video driver now uses triple buffering for much smoother
   animations.
-
-- It is now possible to open a submenu directly from the emulator
-  screen by pressing Alt + the corresponding hotkey.
 
 - 1351 mouse emulation has been implemented.  Just make sure a working
   mouse driver is installed.
@@ -123,10 +129,7 @@ list of all the changes in the code.
 
 - A major cleanup of the code has been done (this is what took the
   most time between 0.14.2 and 0.15.0).  Porting and adding features
-  or emulators is now /much/ easier.
-
-- Support for C64 cartridges has been added--a special Action Replay
-  mode is available too.
+  or emulators is now much easier.
 
 - "On the fly" Lynx and Zipcode support has been added.
 

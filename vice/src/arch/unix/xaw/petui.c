@@ -298,7 +298,7 @@ static ui_menu_entry_t model_settings_submenu[] = {
 static ui_menu_entry_t pet_menu[] = {
     { "PET model settings",
       NULL, NULL, model_settings_submenu },
-    { "*PET Userport Diagnostic Pin",
+    { "*PET userport diagnostic pin",
       (ui_callback_t) toggle_DiagPin, NULL, NULL },
     { "Printer settings",
       NULL, NULL, ui_print_settings_menu },

@@ -224,7 +224,7 @@ static UI_CALLBACK(browse_manual)
 	/* Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
 	char buf[BROWSE_CMD_BUF_MAX];
-	static const char manual_path[] = DOCDIR "/MANUAL.html";
+	static const char manual_path[] = DOCDIR "/html/vice_toc.html";
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
@@ -420,13 +420,16 @@ static UI_CALLBACK(about)
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #8...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
-      XK_F10,  UI_HOTMOD_NONE },
+      XK_8, UI_HOTMOD_CTRL },
     { "Unit #9...",
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL },
+      (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL,
+      XK_9, UI_HOTMOD_CTRL },
     { "Unit #10...",
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 10, NULL },
+      (ui_callback_t) attach_disk, (ui_callback_data_t) 10, NULL,
+      XK_0, UI_HOTMOD_CTRL },
     { "Unit #11...",
-      (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL },
+      (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
+      XK_1, UI_HOTMOD_CTRL },
     { NULL }
 };
 
@@ -447,9 +450,10 @@ static ui_menu_entry_t detach_disk_image_submenu[] = {
 
 static ui_menu_entry_t reset_submenu[] = {
     { "Soft",
-      (ui_callback_t) reset, NULL, NULL, XK_F12, UI_HOTMOD_NONE },
+      (ui_callback_t) reset, NULL, NULL },
     { "Hard",
-      (ui_callback_t) powerup_reset, NULL, NULL, XK_F12, UI_HOTMOD_CTRL },
+      (ui_callback_t) powerup_reset, NULL, NULL,
+      XK_F12, UI_HOTMOD_CTRL },
     { NULL }
 };
 
@@ -463,7 +467,8 @@ ui_menu_entry_t ui_disk_commands_menu[] = {
 
 ui_menu_entry_t ui_tape_commands_menu[] = {
     { "Attach a tape image...",
-      (ui_callback_t) attach_tape, NULL, NULL },
+      (ui_callback_t) attach_tape, NULL, NULL,
+      XK_t, UI_HOTMOD_CTRL},
     { "Detach tape image",
       (ui_callback_t) detach_tape, NULL, NULL },
     { NULL }
@@ -471,7 +476,8 @@ ui_menu_entry_t ui_tape_commands_menu[] = {
 
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
     { "Smart-attach a file...",
-      (ui_callback_t) smart_attach, NULL, NULL },
+      (ui_callback_t) smart_attach, NULL, NULL,
+      XK_a, UI_HOTMOD_CTRL },
     { NULL }
 };
 
