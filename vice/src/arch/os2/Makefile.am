@@ -29,6 +29,7 @@ libarch_a_SOURCES = \
         mousedrv.h \
 	os2main.c \
 	rs232.c \
+	signals.c \
 	signals.h \
 	sounddrv.c \
 	sounddrv.h \

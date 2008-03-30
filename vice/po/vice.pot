@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-25 20:02+0100\n"
+"POT-Creation-Date: 2004-02-29 20:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,16 +146,6 @@ msgstr ""
 
 #: src/event.c:484
 msgid "Error reading end snapshot file."
-msgstr ""
-
-#: src/arch/unix/archdep.c:234
-#, c-format
-msgid "Received signal %d (%s)."
-msgstr ""
-
-#: src/arch/unix/archdep.c:237
-#, c-format
-msgid "Received signal %d."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
@@ -856,6 +846,16 @@ msgstr ""
 #: src/arch/unix/rs232.c:371
 #, c-format
 msgid "Attempt to read from non-open fd %d."
+msgstr ""
+
+#: src/arch/unix/signals.c:40
+#, c-format
+msgid "Received signal %d (%s)."
+msgstr ""
+
+#: src/arch/unix/signals.c:43
+#, c-format
+msgid "Received signal %d."
 msgstr ""
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74

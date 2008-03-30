@@ -52,6 +52,7 @@
 #include "ram.h"
 #include "resources.h"
 #include "screenshot.h"
+#include "signals.h"
 #include "sysfile.h"
 #include "ui.h"
 #include "vdrive.h"
@@ -209,7 +210,7 @@ int init_cmdline_options(void)
 
 int init_main(void)
 {
-    archdep_setup_signals(debug.do_core_dumps);
+    signals_init(debug.do_core_dumps);
 
     if (!vsid_mode) {
         palette_init();

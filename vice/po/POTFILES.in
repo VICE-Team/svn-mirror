@@ -8,7 +8,6 @@ src/sound.c
 src/event.c
 
 # Architecture Unix
-src/arch/unix/archdep.c
 src/arch/unix/blockdev.c
 src/arch/unix/c128ui.c
 src/arch/unix/c64ui.c
@@ -20,6 +19,7 @@ src/arch/unix/mousedrv.c
 src/arch/unix/petui.c
 src/arch/unix/plus4ui.c
 src/arch/unix/rs232.c
+src/arch/unix/signals.c
 src/arch/unix/ui.c
 src/arch/unix/uic64cart.c
 src/arch/unix/uicmdline.c

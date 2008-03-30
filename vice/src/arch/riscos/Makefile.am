@@ -34,6 +34,7 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	rs232.c \
 	riscosmain.c \
+	signals.c \
 	spritedrv.c \
 	types.h \
 	ui.c \

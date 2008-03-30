@@ -223,12 +223,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-void archdep_setup_signals(int do_core_dumps)
-{
-    /* What is a signal?  */
-    return;
-}
-
 int archdep_spawn(const char *name, char **argv,
                   const char *stdout_redir, const char *stderr_redir)
 {

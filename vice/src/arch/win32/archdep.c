@@ -56,9 +56,6 @@
 #ifdef HAVE_PROCESS_H
 #include <process.h>
 #endif
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#endif
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
@@ -317,29 +314,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
     system_mbstowcs_free(st_out);
     lib_free(out);
     return 0;
-}
-
-static RETSIGTYPE break64(int sig)
-{
-#ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, "Received signal %d (%s).",
-                sig, sys_siglist[sig]);
-#else
-    log_message(LOG_DEFAULT, "Received signal %d.", sig);
-#endif
-
-    exit(-1);
-}
-
-void archdep_setup_signals(int do_core_dumps)
-{
-    signal(SIGINT, break64);
-    signal(SIGTERM, break64);
-
-    if (!do_core_dumps) {
-        signal(SIGSEGV, break64);
-        signal(SIGILL, break64);
-    }
 }
 
 int archdep_path_is_relative(const char *path)

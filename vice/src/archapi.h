@@ -33,10 +33,9 @@
 #include <stdio.h>
 
 
-/* Program start and signals.  */
+/* Program start.  */
 extern int archdep_init(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
-extern void archdep_setup_signals(int do_core_dumps);
 
 /* Filesystem related functions.  */
 extern char *archdep_program_name(void);

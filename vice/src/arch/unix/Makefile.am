@@ -42,6 +42,7 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	rs232.c \
+	signals.c \
 	types.h \
 	ui.c \
 	ui.h \

@@ -41,6 +41,7 @@ libarch_a_SOURCES = \
 	msdosmain.c \
 	petui.c \
 	plus4ui.c \
+	signals.c \
 	statusbar.c \
 	statusbar.h \
 	tui.c \

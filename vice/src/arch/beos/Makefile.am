@@ -35,6 +35,7 @@ libarch_a_SOURCES = \
 	mousedrv.h \
 	petui.cc \
 	plus4ui.cc \
+	signals.c \
 	statusbar.cc \
 	statusbar.h \
 	types.h \
