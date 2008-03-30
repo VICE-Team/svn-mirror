@@ -1,3 +1,55 @@
+1999-10-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.16.
+
+	* drive/drive.c (set_sync_factor): Only update video standard
+	if another standard has been selected.
+
+	* vicii/vicii.c (init_raster, vic_ii_init): Return error value
+	if something is wrong.
+	* vdc/vdc.c, vic20/vic.c, crtc/crtc.c: Changed likewise.
+
+	* pet/pet.c, cbm2/c610.c (machine_init): Check return value of
+	`crtc_init'.
+
+	* info.c: Updated.
+
+	* vic20/vic20mem.c: Use logging system.
+
+	* vice.h: Moved `APPLICATION_CLASS' to arch/win32/ui.h.
+	Moved special type conversion to `fixpoint.h'.
+
+	* sid/resid.cc: #include "fixpoint.h".
+
+	* usleep.c: Do not #include <sys/param.h>.
+
+	* crtc/crtc.c: #include "log.h".
+
+	* vic20/vic20.c: #include "sound.h".
+
+	* pet/petvia.h: #include "snapshot.h".
+
+	* alarm.h, autostart.h, cmdline.h, datasette.h, machine.h,
+	resources.h, warn.h, drive/riotd.h, c64/psid.h, vic20/vic.h,
+	vic20/vic-draw.h, vic20/vic-mem.h, vic20/vic20iec.h, asm.h,
+	vic20/vic20sound.h, pet/pet.h, pet/petmem.h, pet/petsound.h,
+	pet/petvia.h, cbm2/c610cia.h, arch/unix/xaw/ui.h, c64/c64.h,
+	arch/unix/xaw/uihotkey.h, arch/unix/xaw/uisnapshot.h,
+	zipcode.h, log.h, raster/raster.h, raster/raster-modes.h,
+	sid/resid.h, vic20/vic-cmdline-options.h, pet/pets.h,
+	vic20/vic-resources.h, vic20/vic-snapshot.h, c64/c64mem.h,
+	arch/unix/xaw/uiedisk.h: Added missing `extern'.
+
+1999-10-10  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/msvc/config.h: Define HAVE_SIGNAL_H.
+
+	* arch/win32/ui.c (status_partindex): New variable, translates
+	drive index to status window index.
+	(SetStatusWindowParts) (ui_display_drive_track)
+	(ui_display_drive_led) (window_proc): Changed method of
+	translating from drive index to status window index and back.
+
 1999-10-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.15.
