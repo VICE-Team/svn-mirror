@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libfsdevice.a
 
-libfsdevice_a_SOURCES =  	fsdevice-cmdline-options.c 	fsdevice-cmdline-options.h 	fsdevice-resources.c 	fsdevice-resources.h 	fsdevice.c
+libfsdevice_a_SOURCES =  	fsdevice-close.c 	fsdevice-close.h 	fsdevice-cmdline-options.c 	fsdevice-cmdline-options.h 	fsdevice-flush.c 	fsdevice-flush.h 	fsdevice-open.c 	fsdevice-open.h 	fsdevice-read.c 	fsdevice-read.h 	fsdevice-resources.c 	fsdevice-resources.h 	fsdevice-write.c 	fsdevice-write.h 	fsdevice.c 	fsdevicetypes.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -150,8 +150,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libfsdevice_a_LIBADD = 
-libfsdevice_a_OBJECTS =  fsdevice-cmdline-options.o fsdevice-resources.o \
-fsdevice.o
+libfsdevice_a_OBJECTS =  fsdevice-close.o fsdevice-cmdline-options.o \
+fsdevice-flush.o fsdevice-open.o fsdevice-read.o fsdevice-resources.o \
+fsdevice-write.o fsdevice.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -254,18 +255,44 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+fsdevice-close.o: fsdevice-close.c ../../src/vice.h ../../src/config.h \
+	fsdevicetypes.h ../../src/arch/unix/types.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice-cmdline-options.o: fsdevice-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/archdep.h \
 	../../src/archapi.h ../../src/cmdline.h ../../src/fsdevice.h
+fsdevice-flush.o: fsdevice-flush.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/charset.h ../../src/arch/unix/types.h \
+	fsdevice-flush.h fsdevice-resources.h fsdevicetypes.h \
+	../../src/utils.h ../../src/vdrive/vdrive-command.h \
+	../../src/vdrive/vdrive.h
+fsdevice-open.o: fsdevice-open.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/charset.h ../../src/arch/unix/types.h fsdevice-open.h \
+	fsdevice-resources.h fsdevice-write.h fsdevicetypes.h \
+	../../src/serial.h ../../src/vdrive/vdrive-command.h \
+	../../src/vdrive/vdrive.h
+fsdevice-read.o: fsdevice-read.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/charset.h ../../src/arch/unix/types.h fsdevice-read.h \
+	fsdevice-resources.h fsdevicetypes.h ../../src/serial.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice-resources.o: fsdevice-resources.c ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/archdep.h \
 	../../src/archapi.h ../../src/resources.h ../../src/utils.h \
 	../../src/arch/unix/types.h
+fsdevice-write.o: fsdevice-write.c ../../src/vice.h ../../src/config.h \
+	fsdevice-flush.h ../../src/arch/unix/types.h fsdevice-write.h \
+	fsdevicetypes.h ../../src/serial.h \
+	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h
 fsdevice.o: fsdevice.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/attach.h ../../src/charset.h \
 	../../src/arch/unix/types.h ../../src/cmdline.h \
-	fsdevice-resources.h ../../src/fsdevice.h ../../src/log.h \
+	fsdevice-close.h fsdevice-flush.h fsdevice-open.h \
+	fsdevice-read.h fsdevice-resources.h fsdevice-write.h \
+	../../src/fsdevice.h fsdevicetypes.h ../../src/log.h \
 	../../src/p00.h ../../src/resources.h ../../src/serial.h \
 	../../src/utils.h ../../src/vdrive/vdrive-command.h \
 	../../src/vdrive/vdrive.h
