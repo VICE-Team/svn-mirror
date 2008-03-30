@@ -320,7 +320,7 @@ int crtc_snapshot_read_module(snapshot_t * s)
 
   SIGNAL_VERT_BLANK_OFF
 
-    force_repaint ();
+  force_repaint();
 #endif
 
     crtc_update_window();
