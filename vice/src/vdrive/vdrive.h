@@ -218,8 +218,6 @@ typedef struct bufferinfo_s {
 typedef struct {
     disk_image_t *image;
 
-    int type;         /* Device */
-
     /* Current image file */
     int mode;         /* Read/Write */
     int image_format; /* 1541/71/81 */
@@ -237,9 +235,6 @@ typedef struct {
     int NumBlocks;		/* Total Count (683) */
     int NumTracks;
     int BSideTrack;		/* First track on the second side (1571: 36) */
-
-    int ErrFlg;			/* Flag if Error Data is available */
-    char *ErrData;
 
     BYTE *dosrom;
     BYTE *dosram;

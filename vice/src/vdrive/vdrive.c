@@ -157,11 +157,6 @@ int vdrive_setup_device(vdrive_t *vdrive, int unit)
     vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
     vdrive->buffers[15].buffer = (BYTE *)xmalloc(256);
 
-#if 0
-    /* Initialise format constants.  */
-    vdrive_set_disk_geometry(vdrive, type);
-#endif
-
     vdrive_command_set_error(&vdrive->buffers[15], IPE_DOS_VERSION, 0, 0);
     return 0;
 }
@@ -1111,7 +1106,6 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
     /* Compatibily cruft (soon to be removed).  */
     vdrive->unit = unit;
     vdrive->NumTracks  = image->tracks;
-    vdrive->ErrFlg = 0;
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
