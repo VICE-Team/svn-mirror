@@ -163,9 +163,11 @@ static inline void store_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
         if (iec_info != NULL) {
             BYTE *drive_bus, *drive_data;
             if (ctxptr->mynumber == 0) {
-                drive_bus = &(iec_info->drive_bus); drive_data = &(iec_info->drive_data);
+                drive_bus = &(iec_info->drive_bus);
+                drive_data = &(iec_info->drive_data);
             } else {
-                drive_bus = &(iec_info->drive2_bus); drive_data = &(iec_info->drive2_data);
+                drive_bus = &(iec_info->drive2_bus);
+                drive_data = &(iec_info->drive2_data);
             }
             *drive_data = ~byte;
             *drive_bus = ((((*drive_data) << 3) & 0x40)
@@ -184,15 +186,16 @@ static inline void store_ciapb(drive_context_t *ctxptr, CLOCK rclk, BYTE byte)
 
 static inline BYTE read_ciapa(drive_context_t *ctxptr)
 {
-    return ((8*ctxptr->mynumber) & ~cia[CIA_DDRA]) | (cia[CIA_PRA] & cia[CIA_DDRA]);
+    return ((8 * (ctxptr->mynumber)) & ~cia[CIA_DDRA])
+           | (cia[CIA_PRA] & cia[CIA_DDRA]);
 }
 
 static inline BYTE read_ciapb(drive_context_t *ctxptr)
 {
     if (iec_info != NULL)
     {
-        BYTE *drive_port =
-             (ctxptr->mynumber==0) ? &(iec_info->drive_port) : &(iec_info->drive2_port);
+        BYTE *drive_port = (ctxptr->mynumber == 0) ? &(iec_info->drive_port)
+                                                   : &(iec_info->drive2_port);
         return ((cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85;
     }
     else
