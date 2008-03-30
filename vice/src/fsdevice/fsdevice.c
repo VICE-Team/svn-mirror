@@ -60,30 +60,8 @@
 #include "vdrive.h"
 
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
+fsdevice_dev_t fsdevice_dev[FSDEVICE_DEVICE_MAX];
 
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
-
-
-#define FSDEVICE_DEV_MAX 16
-
-fs_buffer_info_t fs_info[FSDEVICE_DEV_MAX];
-
-/* this should somehow go into the fs_info struct... */
-
-static char fs_errorl[4][PATH_MAX];
-static unsigned int fs_eptr[4];
-static size_t fs_elen[4];
-
-/* ------------------------------------------------------------------------- */
 
 void fsdevice_set_directory(char *filename, unsigned int unit)
 {
@@ -143,19 +121,18 @@ void fsdevice_error(vdrive_t *vdrive, int code)
         else
             message = cbmdos_errortext(code);
 
-        sprintf(fs_errorl[dnr], "%02d,%s,00,00\015", code, message);
+        sprintf(fsdevice_dev[dnr].errorl, "%02d,%s,00,00\015", code, message);
 
-        fs_elen[dnr] = strlen(fs_errorl[dnr]);
+        fsdevice_dev[dnr].elen = (unsigned int)strlen(fsdevice_dev[dnr].errorl);
 
         if (code && code != CBMDOS_IPE_DOS_VERSION)
             log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
     } else {
-        memcpy(fs_errorl[dnr], vdrive->mem_buf, vdrive->mem_length);
-        fs_elen[dnr]  = vdrive->mem_length;
-
+        memcpy(fsdevice_dev[dnr].errorl, vdrive->mem_buf, vdrive->mem_length);
+        fsdevice_dev[dnr].elen = vdrive->mem_length;
     }
 
-    fs_eptr[dnr] = 0;
+    fsdevice_dev[dnr].eptr = 0;
 }
 
 int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
@@ -166,18 +143,18 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
     dnr = vdrive->unit - 8;
     rc = SERIAL_OK;
 
-    if (!fs_elen[dnr])
+    if (!fsdevice_dev[dnr].elen)
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
 
-    *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
-    if (fs_eptr[dnr] >= fs_elen[dnr]) {
+    *data = (BYTE)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
+    if (fsdevice_dev[dnr].eptr >= fsdevice_dev[dnr].elen) {
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
         rc = SERIAL_EOF;
     }
 
 #if 0
-    if (fs_eptr[dnr] < fs_elen[dnr]) {
-        *data = (BYTE)fs_errorl[dnr][fs_eptr[dnr]++];
+    if (fsdevice_dev[dnr].eptr < fsdevice_dev[dnr].elen) {
+        *data = (BYTE)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
         rc = SERIAL_OK;
     } else {
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
@@ -207,25 +184,49 @@ int fsdevice_attach(unsigned int device, const char *name)
 
 void fsdevice_init(void)
 {
-    unsigned int i;
+    unsigned int i, j;
+    unsigned int maxpathlen;
 
-    for (i = 0; i < FSDEVICE_DEV_MAX; i++) {
-        fs_info[i].tape = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
-        fs_info[i].dir = (char *)lib_calloc(1, ioutil_maxpathlen());
-        fs_info[i].name = (BYTE *)lib_calloc(1, ioutil_maxpathlen());
-        fs_info[i].fs_dirmask = (char *)lib_calloc(1, ioutil_maxpathlen());
+    maxpathlen = ioutil_maxpathlen();
+
+    for (i = 0; i < FSDEVICE_DEVICE_MAX; i++) {
+        bufinfo_t *bufinfo;
+
+        fsdevice_dev[i].errorl = (char *)lib_calloc(1, maxpathlen);
+        fsdevice_dev[i].cmdbuf = (BYTE *)lib_calloc(1, maxpathlen);
+
+        fsdevice_dev[i].cptr = 0;
+
+        bufinfo = fsdevice_dev[i].bufinfo;
+
+        for (j = 0; j < FSDEVICE_BUFFER_MAX; j++) {
+            bufinfo[j].tape
+                = (tape_image_t *)lib_calloc(1, sizeof(tape_image_t));
+            bufinfo[j].dir = (char *)lib_calloc(1, maxpathlen);
+            bufinfo[j].name = (BYTE *)lib_calloc(1, maxpathlen);
+            bufinfo[j].dirmask = (char *)lib_calloc(1, maxpathlen);
+        }
     }
 }
 
 void fsdevice_shutdown(void)
 {
-    unsigned int i;
+    unsigned int i, j;
 
-    for (i = 0; i < FSDEVICE_DEV_MAX; i++) {
-        lib_free(fs_info[i].tape);
-        lib_free(fs_info[i].dir);
-        lib_free(fs_info[i].name);
-        lib_free(fs_info[i].fs_dirmask);
+    for (i = 0; i < FSDEVICE_DEVICE_MAX; i++) {
+        bufinfo_t *bufinfo;
+
+        bufinfo = fsdevice_dev[i].bufinfo;
+
+        for (j = 0; j < FSDEVICE_BUFFER_MAX; j++) {
+            lib_free(bufinfo[j].tape);
+            lib_free(bufinfo[j].dir);
+            lib_free(bufinfo[j].name);
+            lib_free(bufinfo[j].dirmask);
+        }
+
+        lib_free(fsdevice_dev[i].errorl);
+        lib_free(fsdevice_dev[i].cmdbuf);
     }
 }
 
