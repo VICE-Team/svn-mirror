@@ -266,8 +266,8 @@ msgstr "Opzioni"
 #: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:446
 #: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:496
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
-#: src/arch/unix/x11/gnome/x11ui.c:1191
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1106
+#: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -1013,8 +1013,8 @@ msgid "Next: "
 msgstr "Prossimo: "
 
 #: src/arch/unix/uicommands.c:723 src/arch/unix/uicommands.c:738
-#: src/arch/unix/x11/gnome/x11ui.c:777 src/arch/unix/x11/gnome/x11ui.c:787
-#: src/arch/unix/x11/gnome/x11ui.c:1434
+#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:792
+#: src/arch/unix/x11/gnome/x11ui.c:1441
 msgid "<empty>"
 msgstr "<vuoto>"
 
@@ -1148,19 +1148,19 @@ msgstr "Salvataggio veloce di uno snapshot"
 
 #: src/arch/unix/uicommands.c:985
 msgid "Start recording events"
-msgstr ""
+msgstr "Inizia la registrazione degli eventi"
 
 #: src/arch/unix/uicommands.c:987
 msgid "Stop recording events"
-msgstr ""
+msgstr "Termina la registrazione degli eventi"
 
 #: src/arch/unix/uicommands.c:989
 msgid "Start playing back events"
-msgstr ""
+msgstr "Inizia la riproduzione degli eventi"
 
 #: src/arch/unix/uicommands.c:991
 msgid "Stop playing back events"
-msgstr ""
+msgstr "Termina la riproduzione degli eventi"
 
 #: src/arch/unix/uicommands.c:997
 msgid "Snapshot commands"
@@ -1183,7 +1183,7 @@ msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
 #: src/arch/unix/uicommands.c:1022 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1814
+#: src/arch/unix/x11/gnome/x11ui.c:1821
 msgid "Reset"
 msgstr "Reset"
 
@@ -1532,21 +1532,18 @@ msgstr "*Accesso tramite file system"
 #: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
 #: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
 #: src/arch/unix/uiprinter.c:177 src/arch/unix/uiprinter.c:189
-#, fuzzy
 msgid "*Real device access"
-msgstr "*Accesso in sola lettura"
+msgstr "*Accesso tramite periferica reale"
 
 #: src/arch/unix/uiperipheral.c:107 src/arch/unix/uiperipheral.c:138
 #: src/arch/unix/uiperipheral.c:169 src/arch/unix/uiperipheral.c:200
-#, fuzzy
 msgid "*Raw device access"
-msgstr "*Accesso in sola lettura"
+msgstr "*Accesso diretto (raw) ai dispositivi"
 
 #: src/arch/unix/uiperipheral.c:113 src/arch/unix/uiperipheral.c:144
 #: src/arch/unix/uiperipheral.c:175 src/arch/unix/uiperipheral.c:206
-#, fuzzy
 msgid "Device type"
-msgstr "Periferica #8"
+msgstr "Tipo di periferica"
 
 #: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
 #: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
@@ -1797,8 +1794,8 @@ msgstr "Velocità di esecuzione massima"
 msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1238
-#: src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1245
+#: src/arch/unix/x11/xaw/x11ui.c:1006
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
 
@@ -1949,7 +1946,7 @@ msgstr "*8580 (nuovo)"
 
 #: src/arch/unix/uisid.c:57
 msgid "*8580 + digi boost"
-msgstr ""
+msgstr "*8580 + digi boost"
 
 #: src/arch/unix/uisid.c:66
 msgid "*Fast"
@@ -2474,156 +2471,156 @@ msgstr ""
 "Modello: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:383
+#: src/arch/unix/x11/gnome/x11ui.c:388
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Non è possibile aggiungere il percorso per i font `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:385
+#: src/arch/unix/x11/gnome/x11ui.c:390
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Imposto il percorso per i font: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:620 src/arch/unix/x11/xaw/x11ui.c:456
+#: src/arch/unix/x11/gnome/x11ui.c:625 src/arch/unix/x11/xaw/x11ui.c:458
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Questo display non supporta visuali di %dbit adatte."
 
-#: src/arch/unix/x11/gnome/x11ui.c:623 src/arch/unix/x11/xaw/x11ui.c:459
+#: src/arch/unix/x11/gnome/x11ui.c:628 src/arch/unix/x11/xaw/x11ui.c:461
 msgid "Please select a bit depth supported by your display."
 msgstr "Per favore seleziona una profondita supportata dal tuo display"
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:650
-#: src/arch/unix/x11/xaw/x11ui.c:462 src/arch/unix/x11/xaw/x11ui.c:479
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/gnome/x11ui.c:655
+#: src/arch/unix/x11/xaw/x11ui.c:464 src/arch/unix/x11/xaw/x11ui.c:481
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Trovata una visuale %dbit/%s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:635
+#: src/arch/unix/x11/gnome/x11ui.c:640
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Trovata una visuale %dbit."
 
-#: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:663 src/arch/unix/x11/xaw/x11ui.c:489
 msgid "Cannot autodetect a proper visual."
 msgstr "Non è possibile determinare una visuale appropriata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:666
+#: src/arch/unix/x11/gnome/x11ui.c:671
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Non è possibile caricare il font %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:678
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Non è possibile caricare il font CBM %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:738
+#: src/arch/unix/x11/gnome/x11ui.c:743
 msgid "PAL Controls"
 msgstr "Controlli PAL"
 
-#: src/arch/unix/x11/gnome/x11ui.c:763
+#: src/arch/unix/x11/gnome/x11ui.c:768
 #, c-format
 msgid "Drive %d: "
 msgstr "Drive %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:873
+#: src/arch/unix/x11/gnome/x11ui.c:878
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:942 src/arch/unix/x11/xaw/x11ui.c:568
+#: src/arch/unix/x11/gnome/x11ui.c:947 src/arch/unix/x11/xaw/x11ui.c:570
 msgid "Maximum number of toplevel windows reached."
 msgstr "E' stato raggiunto il numero massimo di finestre di toplevel."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1097 src/arch/unix/x11/gnome/x11ui.c:1180
+#: src/arch/unix/x11/gnome/x11ui.c:1104 src/arch/unix/x11/gnome/x11ui.c:1187
 msgid "Commands"
 msgstr "Comandi"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1103
+#: src/arch/unix/x11/gnome/x11ui.c:1110
 msgid "Help"
 msgstr "Aiuto"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1222 src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:994
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:992
+#: src/arch/unix/x11/gnome/x11ui.c:1234 src/arch/unix/x11/xaw/x11ui.c:996
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:999
+#: src/arch/unix/x11/gnome/x11ui.c:1242 src/arch/unix/x11/xaw/x11ui.c:1003
 msgid "Save the current settings?"
 msgstr "Salva le impostazioni attuali?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1280 src/arch/unix/x11/xaw/x11ui.c:1040
+#: src/arch/unix/x11/gnome/x11ui.c:1287 src/arch/unix/x11/xaw/x11ui.c:1044
 msgid "Using private colormap."
 msgstr "Uso una palette privata."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1300 src/arch/unix/x11/gnome/x11ui.c:1303
-#: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
+#: src/arch/unix/x11/gnome/x11ui.c:1307 src/arch/unix/x11/gnome/x11ui.c:1310
+#: src/arch/unix/x11/xaw/x11ui.c:1065 src/arch/unix/x11/xaw/x11ui.c:1071
 msgid "(warp)"
 msgstr "(turbo)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1586
+#: src/arch/unix/x11/gnome/x11ui.c:1593
 #, c-format
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1623 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1630 src/arch/unix/x11/xaw/x11ui.c:1281
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1777
+#: src/arch/unix/x11/gnome/x11ui.c:1784
 msgid "VICE Message"
 msgstr "Messaggio di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1788
+#: src/arch/unix/x11/gnome/x11ui.c:1795
 msgid "VICE Error"
 msgstr "Errore di VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1814
+#: src/arch/unix/x11/gnome/x11ui.c:1821
 msgid "Hard Reset"
 msgstr "Hard Reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1822
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
+#: src/arch/unix/x11/gnome/x11ui.c:1866 src/arch/unix/x11/xaw/x11ui.c:1559
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860
+#: src/arch/unix/x11/gnome/x11ui.c:1867
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873
+#: src/arch/unix/x11/gnome/x11ui.c:1880
 msgid "Autostart not possible for unit 9"
 msgstr "L'avvio automatico non è possibile per l'unità 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1888 src/arch/unix/x11/gnome/x11ui.c:1897
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 "Non è possibile far partire automaticamente la selezione %d nell'immagine %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2017 src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/unix/x11/gnome/x11ui.c:2029
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "I CONTENUTI DELL'IMMAGINE NON SONO DISPONIBILI"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2485
+#: src/arch/unix/x11/gnome/x11ui.c:2492
 msgid "Contents"
 msgstr "Contenuti"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2532
+#: src/arch/unix/x11/gnome/x11ui.c:2539
 msgid "Attach write protected"
 msgstr "Seleziona la protezione contro la scrittura"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2558
+#: src/arch/unix/x11/gnome/x11ui.c:2565
 msgid "Autostart"
 msgstr "Avvio automatico"
 
@@ -2805,7 +2802,7 @@ msgstr "Richiede il formato YUV FOURCC"
 
 #: src/arch/unix/x11/video.c:198
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr ""
+msgstr "Imposta il rapporto di formato (0.8 - 1.2)"
 
 #: src/arch/unix/x11/video.c:372
 msgid "The MITSHM extension is not supported on this display."
@@ -2922,16 +2919,16 @@ msgstr "Salva le ROM attualmente caricate:"
 msgid "Save snapshot"
 msgstr "Salva snapshot"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1150
+#: src/arch/unix/x11/xaw/x11ui.c:1154
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1440
+#: src/arch/unix/x11/xaw/x11ui.c:1444
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1624
+#: src/arch/unix/x11/xaw/x11ui.c:1628
 msgid "Unknown image type."
 msgstr "Tipo di immagine sconosciuto."
 

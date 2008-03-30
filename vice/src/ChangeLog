@@ -1,3 +1,27 @@
+2003-01-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.4.
+
+	* drive/rotation.c (count_sync_from_left,
+	count_sync_from_right): Made static.
+
+2003-01-26  Markus Brenner  <markus@brenner.de>
+
+	* drive/rotation.c: improved sync detection
+
+2003-01-26  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/mouse.[ch]: distinguish acceleration correction
+	between x and y direction.
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_open_canvas_window): Store
+	canvas.
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window):
+	Likewise. (ui_check_mouse_cursor): Check videoconfig for
+	doublesize instead of resources.
+	(ui_check_mouse_cursor): Likewise.
+
 2003-01-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.3.

@@ -15,23 +15,23 @@ msgstr ""
 
 #: src/vsync.c:117
 msgid "Limit emulation speed to specified value"
-msgstr "Begränsa emuleringshastighet till angivet värde"
+msgstr "Begränsa emuleringshastighet till angivet värde"
 
 #: src/vsync.c:119
 msgid "Update every <value> frames (`0' for automatic)"
-msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
+msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
 #: src/vsync.c:121
 msgid "Enable warp mode"
-msgstr "Aktivera warpläge"
+msgstr "Aktivera warpläge"
 
 #: src/vsync.c:123
 msgid "Disable warp mode"
-msgstr "Deaktivera warpläge"
+msgstr "Deaktivera warpläge"
 
 #: src/vsync.c:421
 msgid "Your machine is too slow for current settings!"
-msgstr "Din maskin är för långsam för nuvarande inställningar!"
+msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
 #: src/arch/unix/archdep.c:248
 #, c-format
@@ -59,7 +59,7 @@ msgstr "*NTSC-M"
 #: src/arch/unix/cbm2ui.c:285
 #, fuzzy
 msgid "SID engine"
-msgstr "SID-inställningar"
+msgstr "SID-inställningar"
 
 #: src/arch/unix/c128ui.c:150 src/arch/unix/c128ui.c:176
 #: src/arch/unix/c64ui.c:218 src/arch/unix/c64ui.c:244
@@ -71,7 +71,7 @@ msgstr "*Andra SID"
 #: src/arch/unix/c64ui.c:220 src/arch/unix/c64ui.c:246
 #: src/arch/unix/cbm2ui.c:290 src/arch/unix/cbm2ui.c:316
 msgid "*Second SID base address"
-msgstr "*Basadress för andra SID"
+msgstr "*Basadress för andra SID"
 
 #: src/arch/unix/c128ui.c:155 src/arch/unix/c128ui.c:184
 #: src/arch/unix/c64ui.c:223 src/arch/unix/c64ui.c:252
@@ -89,7 +89,7 @@ msgstr "Kretsmodell"
 #: src/arch/unix/c64ui.c:229 src/arch/unix/c64ui.c:249
 #: src/arch/unix/cbm2ui.c:299 src/arch/unix/cbm2ui.c:320
 msgid "*Use reSID emulation"
-msgstr "*Använd reSID-emulering"
+msgstr "*Använd reSID-emulering"
 
 #: src/arch/unix/c128ui.c:163 src/arch/unix/c64ui.c:231
 #: src/arch/unix/cbm2ui.c:301
@@ -105,7 +105,7 @@ msgstr "reSID-omsamplingspassband..."
 #: src/arch/unix/cbm2ui.c:312 src/arch/unix/uisound.c:120
 #: src/arch/unix/vsidui.c:148
 msgid "*Enable sound playback"
-msgstr "*Aktivera ljudåtergivning"
+msgstr "*Aktivera ljudåtergivning"
 
 #: src/arch/unix/c128ui.c:210
 msgid "Function ROM image"
@@ -126,7 +126,7 @@ msgstr "*Aktivera internt funktions-ROM"
 
 #: src/arch/unix/c128ui.c:222
 msgid "Internal Function ROM name..."
-msgstr "Namn på internt funktions-ROM..."
+msgstr "Namn på internt funktions-ROM..."
 
 #: src/arch/unix/c128ui.c:226
 msgid "*Enable external Function ROM"
@@ -134,7 +134,7 @@ msgstr "*Aktivera externt funktions-ROM"
 
 #: src/arch/unix/c128ui.c:228
 msgid "External Function ROM name..."
-msgstr "Namn på externt funktions-ROM..."
+msgstr "Namn på externt funktions-ROM..."
 
 #: src/arch/unix/c128ui.c:235
 msgid "Function ROM"
@@ -151,7 +151,7 @@ msgstr "*Emulatoridentifiering"
 
 #: src/arch/unix/c128ui.c:242
 msgid "*IEEE488 interface emulation"
-msgstr "*Emulering av IEEE488-gränssnitt"
+msgstr "*Emulering av IEEE488-gränssnitt"
 
 #: src/arch/unix/c128ui.c:245 src/arch/unix/c64ui.c:272
 msgid "*1351 Mouse Emulation"
@@ -198,51 +198,51 @@ msgstr "Ladda ny 2031-ROM"
 #: src/arch/unix/cbm2ui.c:120 src/arch/unix/petui.c:224
 #: src/arch/unix/vic20ui.c:126
 msgid "Load custom ROM set from file"
-msgstr "Ladda egen ROM-uppsättning från fil"
+msgstr "Ladda egen ROM-uppsättning från fil"
 
 #: src/arch/unix/c128ui.c:286 src/arch/unix/c64ui.c:313
 #: src/arch/unix/cbm2ui.c:122 src/arch/unix/petui.c:226
 #: src/arch/unix/vic20ui.c:128
 msgid "Dump ROM set definition to file"
-msgstr "Spara ROM-uppsättning till fil"
+msgstr "Spara ROM-uppsättning till fil"
 
 #: src/arch/unix/c128ui.c:309
 msgid "VIC II Screenshot"
-msgstr "VIC II-skärmdump"
+msgstr "VIC II-skärmdump"
 
 #: src/arch/unix/c128ui.c:311
 msgid "VDC Screenshot"
-msgstr "VDC-skärmdump"
+msgstr "VDC-skärmdump"
 
 #: src/arch/unix/c128ui.c:317
 msgid "Screenshots..."
-msgstr "Skärmdump..."
+msgstr "Skärmdump..."
 
 #: src/arch/unix/c128ui.c:325 src/arch/unix/c64ui.c:346
 msgid "VIC-II settings"
-msgstr "VIC-II-inställningar"
+msgstr "VIC-II-inställningar"
 
 #: src/arch/unix/c128ui.c:327
 msgid "VDC settings"
-msgstr "VDC-inställningar"
+msgstr "VDC-inställningar"
 
 #: src/arch/unix/c128ui.c:329 src/arch/unix/c64ui.c:348
 #: src/arch/unix/cbm2ui.c:381 src/arch/unix/vsidui.c:171
 msgid "SID settings"
-msgstr "SID-inställningar"
+msgstr "SID-inställningar"
 
 #: src/arch/unix/c128ui.c:331
 msgid "Memory and I/O extensions"
-msgstr "Minnes- och I/O-utökningar"
+msgstr "Minnes- och I/O-utökningar"
 
 #: src/arch/unix/c128ui.c:333 src/arch/unix/c64ui.c:352
 #: src/arch/unix/cbm2ui.c:374 src/arch/unix/vic20ui.c:350
 msgid "RS232 settings"
-msgstr "RS232-inställningar"
+msgstr "RS232-inställningar"
 
 #: src/arch/unix/c128ui.c:335
 msgid "Memory settings"
-msgstr "Minnesinställningar"
+msgstr "Minnesinställningar"
 
 #: src/arch/unix/c128ui.c:393 src/arch/unix/c64ui.c:409
 #: src/arch/unix/cbm2ui.c:463 src/arch/unix/petui.c:379
@@ -255,7 +255,7 @@ msgstr "Arkiv"
 #: src/arch/unix/cbm2ui.c:480 src/arch/unix/petui.c:396
 #: src/arch/unix/plus4ui.c:163 src/arch/unix/vic20ui.c:484
 msgid "Snapshot"
-msgstr "Ögonblicksbild"
+msgstr "Ögonblicksbild"
 
 #: src/arch/unix/c128ui.c:418 src/arch/unix/c64ui.c:434
 #: src/arch/unix/cbm2ui.c:486 src/arch/unix/petui.c:402
@@ -266,10 +266,10 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:430 src/arch/unix/c64ui.c:446
 #: src/arch/unix/cbm2ui.c:496 src/arch/unix/petui.c:410
 #: src/arch/unix/plus4ui.c:177 src/arch/unix/vic20ui.c:496
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
-#: src/arch/unix/x11/gnome/x11ui.c:1191
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1106
+#: src/arch/unix/x11/gnome/x11ui.c:1198
 msgid "Settings"
-msgstr "Inställningar"
+msgstr "Inställningar"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
@@ -277,7 +277,7 @@ msgstr "Inställningar"
 #: src/arch/unix/cbm2ui.c:510 src/arch/unix/petui.c:424
 #: src/arch/unix/plus4ui.c:191 src/arch/unix/vic20ui.c:511
 msgid "RJHelp"
-msgstr "RJHjälp"
+msgstr "RJHjälp"
 
 #: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:126
 msgid "*Old NTSC-M"
@@ -299,15 +299,15 @@ msgstr "Ladda ny teckengenerator-ROM"
 #: src/arch/unix/petui.c:319 src/arch/unix/plus4ui.c:67
 #: src/arch/unix/vic20ui.c:391
 msgid "Screenshot..."
-msgstr "Skärmdump..."
+msgstr "Skärmdump..."
 
 #: src/arch/unix/c64ui.c:344
 msgid "ROM settings"
-msgstr "ROM-inställningar"
+msgstr "ROM-inställningar"
 
 #: src/arch/unix/c64ui.c:350
 msgid "I/O extensions at $DFxx"
-msgstr "I/O-utökningar på $DFxx"
+msgstr "I/O-utökningar på $DFxx"
 
 #: src/arch/unix/cbm2ui.c:69
 msgid "Basic 128k, low chars"
@@ -319,11 +319,11 @@ msgstr "Basic 256k, nedre tecken"
 
 #: src/arch/unix/cbm2ui.c:73
 msgid "Basic 128k, high chars"
-msgstr "Basic 128k, övre tecken"
+msgstr "Basic 128k, övre tecken"
 
 #: src/arch/unix/cbm2ui.c:75
 msgid "Basic 256k, high chars"
-msgstr "Basic 256k, övre tecken"
+msgstr "Basic 256k, övre tecken"
 
 #: src/arch/unix/cbm2ui.c:78
 msgid "Load new Kernal"
@@ -383,12 +383,12 @@ msgstr "*Business (Storbritannien)"
 
 #: src/arch/unix/cbm2ui.c:224 src/arch/unix/petui.c:257
 msgid "Model defaults"
-msgstr "Modellens förval"
+msgstr "Modellens förval"
 
 #: src/arch/unix/cbm2ui.c:227 src/arch/unix/petui.c:260
 #: src/arch/unix/vic20ui.c:163
 msgid "ROM sets"
-msgstr "ROM-uppsättningar"
+msgstr "ROM-uppsättningar"
 
 #: src/arch/unix/cbm2ui.c:230 src/arch/unix/petui.c:265
 msgid "Memory size"
@@ -396,7 +396,7 @@ msgstr "Minnesstorlek"
 
 #: src/arch/unix/cbm2ui.c:232
 msgid "Hardwired switches"
-msgstr "Maskinvaruinställningar"
+msgstr "Maskinvaruinställningar"
 
 #: src/arch/unix/cbm2ui.c:235
 msgid "*Bank 15 $0800-$0FFF RAM"
@@ -438,7 +438,7 @@ msgstr "Seriell enhet 1..."
 #: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:240
 #: src/arch/unix/uirs232.c:218 src/arch/unix/vic20ui.c:333
 msgid "Serial 1 baudrate"
-msgstr "Seriell 1 baudhastighet"
+msgstr "Baudhastighet för seriell enhet 1"
 
 #: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:243
 #: src/arch/unix/vic20ui.c:336
@@ -448,12 +448,12 @@ msgstr "Seriell enhet 2..."
 #: src/arch/unix/cbm2ui.c:343 src/arch/unix/petui.c:245
 #: src/arch/unix/uirs232.c:223 src/arch/unix/vic20ui.c:338
 msgid "Serial 2 baudrate"
-msgstr "Seriell 2 baudhastighet"
+msgstr "Baudhastighet för seriell enhet 2"
 
 #: src/arch/unix/cbm2ui.c:346 src/arch/unix/petui.c:248
 #: src/arch/unix/uirs232.c:226 src/arch/unix/vic20ui.c:341
 msgid "Dump filename..."
-msgstr "Filnamn för datadump..."
+msgstr "Filnamn för datadump..."
 
 #: src/arch/unix/cbm2ui.c:349 src/arch/unix/petui.c:251
 #: src/arch/unix/uirs232.c:229 src/arch/unix/vic20ui.c:344
@@ -462,55 +462,55 @@ msgstr "Program att starta..."
 
 #: src/arch/unix/cbm2ui.c:372
 msgid "CBM-II model settings"
-msgstr "CBM-II-modellinställningar"
+msgstr "CBM-II-modellinställningar"
 
 #: src/arch/unix/cbm2ui.c:377 src/arch/unix/petui.c:296
 msgid "Crtc settings"
-msgstr "Crtc-inställningar"
+msgstr "Crtc-inställningar"
 
 #: src/arch/unix/cbm2ui.c:379
 msgid "*VIC-II settings"
-msgstr "*VIC-II-inställningar"
+msgstr "*VIC-II-inställningar"
 
 #: src/arch/unix/joy.c:83
 msgid "Set device for joystick port 1"
-msgstr "Välj enhet för spelport 1"
+msgstr "Välj enhet för spelport 1"
 
 #: src/arch/unix/joy.c:85
 msgid "Set device for joystick port 2"
-msgstr "Välj enhet för spelport 2"
+msgstr "Välj enhet för spelport 2"
 
 #: src/arch/unix/joy.c:200 src/arch/unix/joy.c:249 src/arch/unix/joy.c:401
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr "Kan inte öppna styrspaksenhet \"%s\"."
+msgstr "Kan inte öppna styrspaksenhet \"%s\"."
 
 #: src/arch/unix/joy.c:211
 #, c-format
 msgid "Error reading joystick device `%s'."
-msgstr "Kan inte läsa styrspaksenhet \"%s\"."
+msgstr "Kan inte läsa styrspaksenhet \"%s\"."
 
 #: src/arch/unix/joy.c:230
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
-msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
+msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
 
 #: src/arch/unix/joy.c:283
 msgid "Error reading digital joystick device."
-msgstr "Fel vid läsning av digital styrspak."
+msgstr "Fel vid läsning av digital styrspak."
 
 #: src/arch/unix/joy.c:303
 msgid "Error reading joystick device."
-msgstr "Fel vid läsning av styrspak."
+msgstr "Fel vid läsning av styrspak."
 
 #: src/arch/unix/joy.c:349
 msgid "Linux joystick interface initialization..."
-msgstr "Initiering av Linuxstyrspaksgränssnitt..."
+msgstr "Initiering av Linuxstyrspaksgränssnitt..."
 
 #: src/arch/unix/joy.c:375
 #, c-format
 msgid "%s unknown type"
-msgstr "%s okänd typ"
+msgstr "%s okänd typ"
 
 #: src/arch/unix/joy.c:377 src/arch/unix/joy.c:393
 #, c-format
@@ -519,7 +519,7 @@ msgstr "Inbyggd drivrutinsversion: %d.%d.%d"
 
 #: src/arch/unix/joy.c:380
 msgid "Kernel driver version  : 0.8 ??"
-msgstr "Kärnans drivrutinsversion: 0.8 ??"
+msgstr "Kärnans drivrutinsversion: 0.8 ??"
 
 #: src/arch/unix/joy.c:382
 msgid "Please update your Joystick driver !"
@@ -532,7 +532,7 @@ msgstr "Faller tillbaka till gammal API-rutin"
 #: src/arch/unix/joy.c:396
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
-msgstr "Kärnans drivrutinsversion: %d.%d.%d"
+msgstr "Kärnans drivrutinsversion: %d.%d.%d"
 
 #: src/arch/unix/mouse.c:69
 msgid "Enable emulation of the 1351 proportional mouse"
@@ -580,7 +580,7 @@ msgstr "*Business (Tyskland)"
 
 #: src/arch/unix/petui.c:125
 msgid "*Auto (from ROM)"
-msgstr "*Automatisk (från ROM)"
+msgstr "*Automatisk (från ROM)"
 
 #: src/arch/unix/petui.c:127
 msgid "*40 Columns"
@@ -596,11 +596,11 @@ msgstr "Ladda ny editor-ROM"
 
 #: src/arch/unix/petui.c:196
 msgid "*Original character set"
-msgstr "*Ursprunglig teckenuppsättning"
+msgstr "*Ursprunglig teckenuppsättning"
 
 #: src/arch/unix/petui.c:199
 msgid "*German character set"
-msgstr "*Tysk teckenuppsättning"
+msgstr "*Tysk teckenuppsättning"
 
 #: src/arch/unix/petui.c:203
 msgid "Load new $9*** ROM"
@@ -628,7 +628,7 @@ msgstr "Ladda ur $B***-ROM"
 
 #: src/arch/unix/petui.c:263
 msgid "Video size"
-msgstr "Skärmbredd"
+msgstr "Skärmbredd"
 
 #: src/arch/unix/petui.c:267
 msgid "I/O size"
@@ -656,11 +656,11 @@ msgstr "*$A*** som RAM (endast 8296)"
 
 #: src/arch/unix/petui.c:291
 msgid "PET model settings"
-msgstr "Inställningar för PET-modell"
+msgstr "Inställningar för PET-modell"
 
 #: src/arch/unix/petui.c:293
 msgid "*PET userport diagnostic pin"
-msgstr "*PET-diagnostik på användarporten"
+msgstr "*PET-diagnostik på användarporten"
 
 #: src/arch/unix/plus4ui.c:77
 msgid "*16KB"
@@ -676,47 +676,47 @@ msgstr "*64KB"
 
 #: src/arch/unix/plus4ui.c:89
 msgid "RAM settings"
-msgstr "RAM-inställningar"
+msgstr "RAM-inställningar"
 
 #: src/arch/unix/plus4ui.c:91
 msgid "TED settings"
-msgstr "TED-inställningar"
+msgstr "TED-inställningar"
 
 #: src/arch/unix/rs232.c:119
 msgid "Specify name of first RS232 device (/dev/ttyS0)"
-msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"
+msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"
 
 #: src/arch/unix/rs232.c:121
 msgid "Specify baudrate of first RS232 device"
-msgstr "Ange baudhastighet för första RS232-enheten"
+msgstr "Ange baudhastighet för första RS232-enheten"
 
 #: src/arch/unix/rs232.c:123
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
-msgstr "Ange namn för andra RS232-enheten (/dev/ttyS1)"
+msgstr "Ange namn för andra RS232-enheten (/dev/ttyS1)"
 
 #: src/arch/unix/rs232.c:125
 msgid "Specify baudrate of second RS232 device"
-msgstr "Ange baudhastighet för andra RS232-enheten"
+msgstr "Ange baudhastighet för andra RS232-enheten"
 
 #: src/arch/unix/rs232.c:127
 msgid "Specify name of third RS232 device (rs232.dump)"
-msgstr "Ange namn för tredje RS232-enheten (rs232.dump)"
+msgstr "Ange namn för tredje RS232-enheten (rs232.dump)"
 
 #: src/arch/unix/rs232.c:129
 msgid "Specify baudrate of third RS232 device"
-msgstr "Ange baudhastighet för tredje RS232-enheten"
+msgstr "Ange baudhastighet för tredje RS232-enheten"
 
 #: src/arch/unix/rs232.c:131
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
-msgstr "Ange kommando som sänder/tar emot data, inled med \"|\" (|lpr)"
+msgstr "Ange kommando som sänder/tar emot data, inled med \"|\" (|lpr)"
 
 #: src/arch/unix/rs232.c:133
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Ange baudhastighet för fjärde RS232-enheten"
+msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
 #: src/arch/unix/rs232.c:264
 msgid "No more devices available."
-msgstr "Inga fler enheter tillgängliga."
+msgstr "Inga fler enheter tillgängliga."
 
 #: src/arch/unix/rs232.c:269
 #, c-format
@@ -726,27 +726,27 @@ msgstr "rs232_open(enhet=%d)."
 #: src/arch/unix/rs232.c:284
 #, c-format
 msgid "Cannot open file \"%s\": %s"
-msgstr "Kan inte öppna fil \"%s\": %s"
+msgstr "Kan inte öppna fil \"%s\": %s"
 
 #: src/arch/unix/rs232.c:311
 #, c-format
 msgid "Attempt to close invalid fd %d."
-msgstr "Försökte stänga ogiltigt filhandtag %d."
+msgstr "Försökte stänga ogiltigt filhandtag %d."
 
 #: src/arch/unix/rs232.c:315
 #, c-format
 msgid "Attempt to close non-open fd %d."
-msgstr "Försökte stänga ej öppet filhandtag %d."
+msgstr "Försökte stänga ej öppet filhandtag %d."
 
 #: src/arch/unix/rs232.c:335
 #, c-format
 msgid "Attempt to write to invalid fd %d."
-msgstr "Försökte skriva till ogiltigt filhandtag %d."
+msgstr "Försökte skriva till ogiltigt filhandtag %d."
 
 #: src/arch/unix/rs232.c:339
 #, c-format
 msgid "Attempt to write to non-open fd %d."
-msgstr "Försökte skriva till ej öppet filhandtag %d."
+msgstr "Försökte skriva till ej öppet filhandtag %d."
 
 #: src/arch/unix/rs232.c:351
 #, c-format
@@ -756,12 +756,12 @@ msgstr "Fel vid skrivning: %s."
 #: src/arch/unix/rs232.c:366
 #, c-format
 msgid "Attempt to read from invalid fd %d."
-msgstr "Försökte läsa från ogiltigt filhandtag %d."
+msgstr "Försökte läsa från ogiltigt filhandtag %d."
 
 #: src/arch/unix/rs232.c:370
 #, c-format
 msgid "Attempt to read from non-open fd %d."
-msgstr "Försökte läsa från ej öppet filhandtag %d."
+msgstr "Försökte läsa från ej öppet filhandtag %d."
 
 #: src/arch/unix/uic64cart.c:54
 msgid "Invalid cartridge"
@@ -805,7 +805,7 @@ msgstr "Anslut Epyx fastload-avbildningsfil..."
 
 #: src/arch/unix/uic64cart.c:159
 msgid "Attach IEEE488 interface image..."
-msgstr "Anslut IEEE488-gränssnittsavbildningsfil..."
+msgstr "Anslut IEEE488-gränssnittsavbildningsfil..."
 
 #: src/arch/unix/uic64cart.c:162
 msgid "Attach Retro Replay image..."
@@ -813,7 +813,7 @@ msgstr "Anslut Retro Replay-avbildningsfil..."
 
 #: src/arch/unix/uic64cart.c:165
 msgid "Attach IDE64 interface image..."
-msgstr "Anslut IDE64-gränssnittsavbildningsfil..."
+msgstr "Anslut IDE64-gränssnittsavbildningsfil..."
 
 #: src/arch/unix/uic64cart.c:168
 msgid "Attach Super Snapshot 4 image..."
@@ -829,7 +829,7 @@ msgstr "Aktivera Expert Cartridge..."
 
 #: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:252
 msgid "Set cartridge as default"
-msgstr "Välj insticksmodul som förval"
+msgstr "Välj insticksmodul som förval"
 
 #: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:258
 msgid "Attach a cartridge image"
@@ -837,7 +837,7 @@ msgstr "Anslut insticksmodulfil"
 
 #: src/arch/unix/uic64cart.c:187
 msgid "Detach cartridge image"
-msgstr "Koppla från insticksmodulfil"
+msgstr "Koppla från insticksmodulfil"
 
 #: src/arch/unix/uic64cart.c:189
 msgid "Cartridge freeze"
@@ -854,7 +854,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Tillgängliga kommandoradsflaggor:\n"
+"Tillgängliga kommandoradsflaggor:\n"
 "\n"
 
 #: src/arch/unix/uicommands.c:96
@@ -884,15 +884,15 @@ msgstr "Smartanslut en fil"
 
 #: src/arch/unix/uicommands.c:242 src/arch/unix/uicommands.c:251
 msgid "Unknown image type"
-msgstr "Okänd avbildningsfiltyp"
+msgstr "Okänd avbildningsfiltyp"
 
 #: src/arch/unix/uicommands.c:273 src/arch/unix/uisettings.c:330
 msgid "VICE setting"
-msgstr "VICE-inställning"
+msgstr "VICE-inställning"
 
 #: src/arch/unix/uicommands.c:274
 msgid "Change current working directory"
-msgstr "Ändra aktuell arbetskatalog"
+msgstr "Ändra aktuell arbetskatalog"
 
 #: src/arch/unix/uicommands.c:277
 msgid "Directory not found"
@@ -900,33 +900,33 @@ msgstr "Katalogen ej funnen"
 
 #: src/arch/unix/uicommands.c:311
 msgid "Couldn't run /bin/sh???"
-msgstr "Kunde inte köra \"/bin/sh\"?"
+msgstr "Kunde inte köra \"/bin/sh\"?"
 
 #: src/arch/unix/uicommands.c:314
 msgid "Couldn't run xterm"
-msgstr "Kunde inte köra \"xterm\""
+msgstr "Kunde inte köra \"xterm\""
 
 #: src/arch/unix/uicommands.c:319
 msgid "Unknown error while running c1541"
-msgstr "Okänt fel vid körning av c1541"
+msgstr "Okänt fel vid körning av c1541"
 
 #: src/arch/unix/uicommands.c:355
 msgid "No HTML browser is defined."
-msgstr "Ingen HTML-läsare angiven."
+msgstr "Ingen HTML-läsare angiven."
 
 #: src/arch/unix/uicommands.c:374 src/arch/unix/uicommands.c:388
 #: src/arch/unix/uicommands.c:401
 msgid "Browser command too long."
-msgstr "Kommandorad för webbläsare för lång."
+msgstr "Kommandorad för webbläsare för lång."
 
 #: src/arch/unix/uicommands.c:414
 #, c-format
 msgid "Executing `%s'..."
-msgstr "Kör \"%s\"..."
+msgstr "Kör \"%s\"..."
 
 #: src/arch/unix/uicommands.c:416
 msgid "Cannot run HTML browser."
-msgstr "Kan inte köra HTML-läsare."
+msgstr "Kan inte köra HTML-läsare."
 
 #: src/arch/unix/uicommands.c:454
 #, c-format
@@ -935,7 +935,7 @@ msgstr "Snabbladdar fil %s."
 
 #: src/arch/unix/uicommands.c:457
 msgid "Load snapshot"
-msgstr "Laddar ögonblicksbild"
+msgstr "Laddar ögonblicksbild"
 
 #: src/arch/unix/uicommands.c:470
 #, c-format
@@ -943,7 +943,7 @@ msgid ""
 "Cannot load snapshot file\n"
 "`%s'"
 msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
+"Kan inte ladda ögonblicksbildfil\n"
 "\"%s\""
 
 #. quick snapshot, save ROMs & disks (??)
@@ -959,7 +959,7 @@ msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
-"Kan inte skriva ögonblicksbildfil\n"
+"Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
 #: src/arch/unix/uicommands.c:613
@@ -980,12 +980,12 @@ msgstr "Vallistefil"
 #: src/arch/unix/uicommands.c:623
 #, c-format
 msgid "Successfully read `%s'."
-msgstr "Läste \"%s\""
+msgstr "Läste \"%s\""
 
 #: src/arch/unix/uicommands.c:625
 #, c-format
 msgid "Error reading `%s'."
-msgstr "Fel vid läsning av \"%s\"."
+msgstr "Fel vid läsning av \"%s\"."
 
 #: src/arch/unix/uicommands.c:630
 #, c-format
@@ -1005,25 +1005,25 @@ msgstr "Anslut %d"
 #: src/arch/unix/uicommands.c:681
 #, c-format
 msgid "Detach #%d"
-msgstr "Koppla från %d"
+msgstr "Koppla från %d"
 
 #: src/arch/unix/uicommands.c:723
 msgid "Next: "
-msgstr "Nästa: "
+msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:723 src/arch/unix/uicommands.c:738
-#: src/arch/unix/x11/gnome/x11ui.c:777 src/arch/unix/x11/gnome/x11ui.c:787
-#: src/arch/unix/x11/gnome/x11ui.c:1434
+#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:792
+#: src/arch/unix/x11/gnome/x11ui.c:1441
 msgid "<empty>"
 msgstr "<tom>"
 
 #: src/arch/unix/uicommands.c:738
 msgid "Previous: "
-msgstr "Föregående: "
+msgstr "Föregående: "
 
 #: src/arch/unix/uicommands.c:753
 msgid "Add: "
-msgstr "Lägg till: "
+msgstr "Lägg till: "
 
 #: src/arch/unix/uicommands.c:768
 msgid "Remove: "
@@ -1071,11 +1071,11 @@ msgstr "Mjuk"
 
 #: src/arch/unix/uicommands.c:905
 msgid "Hard"
-msgstr "Hård"
+msgstr "Hård"
 
 #: src/arch/unix/uicommands.c:917
 msgid "Add current image (Unit 8)"
-msgstr "Lägg till aktuell avbildning (enhet 8)"
+msgstr "Lägg till aktuell avbildning (enhet 8)"
 
 #: src/arch/unix/uicommands.c:920
 msgid "Remove current image (Unit 8)"
@@ -1083,11 +1083,11 @@ msgstr "Ta bort aktuell avbildning (enhet 8)"
 
 #: src/arch/unix/uicommands.c:923
 msgid "Attach next image (Unit 8)"
-msgstr "Anslut nästa avbildning (enhet 8)"
+msgstr "Anslut nästa avbildning (enhet 8)"
 
 #: src/arch/unix/uicommands.c:926
 msgid "Attach previous image (Unit 8)"
-msgstr "Anslut föregående avbildning (enhet 8)"
+msgstr "Anslut föregående avbildning (enhet 8)"
 
 #: src/arch/unix/uicommands.c:929
 msgid "Load fliplist file"
@@ -1107,7 +1107,7 @@ msgstr "Skapa och anslut en tom diskett"
 
 #: src/arch/unix/uicommands.c:941
 msgid "Detach disk image"
-msgstr "Koppla från diskettavbildningsfil"
+msgstr "Koppla från diskettavbildningsfil"
 
 #: src/arch/unix/uicommands.c:943
 msgid "Fliplist"
@@ -1119,7 +1119,7 @@ msgstr "Anslut en bandavbildningsfil..."
 
 #: src/arch/unix/uicommands.c:952
 msgid "Detach tape image"
-msgstr "Koppla från bandavbildningsfil"
+msgstr "Koppla från bandavbildningsfil"
 
 #: src/arch/unix/uicommands.c:958
 msgid "Smart-attach disk/tape..."
@@ -1131,39 +1131,39 @@ msgstr "Byt arbetskatalog..."
 
 #: src/arch/unix/uicommands.c:971
 msgid "Load snapshot..."
-msgstr "Ladda ögonblicksbild..."
+msgstr "Ladda ögonblicksbild..."
 
 #: src/arch/unix/uicommands.c:974
 msgid "Save snapshot..."
-msgstr "Spara ögonblicksbild..."
+msgstr "Spara ögonblicksbild..."
 
 #: src/arch/unix/uicommands.c:978
 msgid "Quickload snapshot"
-msgstr "Snabbladda ögonblicksbild"
+msgstr "Snabbladda ögonblicksbild"
 
 #: src/arch/unix/uicommands.c:981
 msgid "Quicksave snapshot"
-msgstr "Snabbspara ögonblicksbild"
+msgstr "Snabbspara ögonblicksbild"
 
 #: src/arch/unix/uicommands.c:985
 msgid "Start recording events"
-msgstr ""
+msgstr "Börja spela in händelser"
 
 #: src/arch/unix/uicommands.c:987
 msgid "Stop recording events"
-msgstr ""
+msgstr "Sluta spela in händelser"
 
 #: src/arch/unix/uicommands.c:989
 msgid "Start playing back events"
-msgstr ""
+msgstr "Börja spela upp händelser"
 
 #: src/arch/unix/uicommands.c:991
 msgid "Stop playing back events"
-msgstr ""
+msgstr "Sluta spela upp händelser"
 
 #: src/arch/unix/uicommands.c:997
 msgid "Snapshot commands"
-msgstr "Kommandon för ögonblicksbilder"
+msgstr "Kommandon för ögonblicksbilder"
 
 #: src/arch/unix/uicommands.c:1003
 msgid "Activate monitor"
@@ -1171,20 +1171,20 @@ msgstr "Aktivera monitor"
 
 #: src/arch/unix/uicommands.c:1006
 msgid "Run C1541"
-msgstr "Kör C1541"
+msgstr "Kör C1541"
 
 #: src/arch/unix/uicommands.c:1014
 msgid "Browse manuals"
-msgstr "Läs manualer"
+msgstr "Läs manualer"
 
 #: src/arch/unix/uicommands.c:1016
 msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:1022 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1814
+#: src/arch/unix/x11/gnome/x11ui.c:1821
 msgid "Reset"
-msgstr "Återställ"
+msgstr "Återställ"
 
 #: src/arch/unix/uicommands.c:1024
 msgid "*Pause"
@@ -1196,11 +1196,11 @@ msgstr "Avsluta emulator"
 
 #: src/arch/unix/uicrtc.c:40
 msgid "*Default (Green)"
-msgstr "*Standard (grön)"
+msgstr "*Standard (grön)"
 
 #: src/arch/unix/uicrtc.c:42
 msgid "*Amber"
-msgstr "*Bärnstensfärgad"
+msgstr "*Bärnstensfärgad"
 
 #: src/arch/unix/uicrtc.c:44
 msgid "*White"
@@ -1237,41 +1237,41 @@ msgstr "*Grafikcache"
 #: src/arch/unix/uivdc.c:107 src/arch/unix/uivic.c:103
 #: src/arch/unix/uivicii.c:112
 msgid "*Use XSync()"
-msgstr "*Använd XSync()"
+msgstr "*Använd XSync()"
 
 #: src/arch/unix/uicrtc.c:101 src/arch/unix/uited.c:98
 #: src/arch/unix/uivdc.c:111 src/arch/unix/uivic.c:107
 #: src/arch/unix/uivicii.c:116
 msgid "*Enable fullscreen"
-msgstr "*Aktivera fullskärm"
+msgstr "*Aktivera fullskärm"
 
 #: src/arch/unix/uicrtc.c:107 src/arch/unix/uited.c:104
 #: src/arch/unix/uivdc.c:117 src/arch/unix/uivic.c:113
 #: src/arch/unix/uivicii.c:122
 msgid "Fullscreen device"
-msgstr "Fullskärmsenhet"
+msgstr "Fullskärmsenhet"
 
 #: src/arch/unix/uicrtc.c:112 src/arch/unix/uited.c:109
 #: src/arch/unix/uivdc.c:122 src/arch/unix/uivic.c:118
 #: src/arch/unix/uivicii.c:127
 msgid "VidMode Resolutions"
-msgstr "VidMode-upplösningar"
+msgstr "VidMode-upplösningar"
 
 #: src/arch/unix/uicrtc.c:116 src/arch/unix/uited.c:113
 #: src/arch/unix/uivdc.c:126 src/arch/unix/uivic.c:122
 #: src/arch/unix/uivicii.c:131
 msgid "DGA1 Resolutions"
-msgstr "DGA1-upplösningar"
+msgstr "DGA1-upplösningar"
 
 #: src/arch/unix/uicrtc.c:120 src/arch/unix/uited.c:117
 #: src/arch/unix/uivdc.c:130 src/arch/unix/uivic.c:126
 #: src/arch/unix/uivicii.c:135
 msgid "DGA2 Resolutions"
-msgstr "DGA2-upplösningar"
+msgstr "DGA2-upplösningar"
 
 #: src/arch/unix/uicrtc.c:125
 msgid "*CRTC Screen color"
-msgstr "*CRTC-skärmfärg"
+msgstr "*CRTC-skärmfärg"
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
 msgid "Datasette speed tuning"
@@ -1279,16 +1279,16 @@ msgstr "Finjustering av Datasettehastighet"
 
 #: src/arch/unix/uidatasette.c:58 src/arch/unix/uidatasette.c:86
 msgid "Datasette zero gap delay"
-msgstr "Datasette nollgapsfördröjning"
+msgstr "Datasette nollgapsfördröjning"
 
 #: src/arch/unix/uidatasette.c:70 src/arch/unix/uipalemu.c:81
 #, c-format
 msgid "Invalid value: %s"
-msgstr "Ogiltigt värde: %s"
+msgstr "Ogiltigt värde: %s"
 
 #: src/arch/unix/uidatasette.c:84
 msgid "*Reset Datasette on CPU Reset"
-msgstr "*Nollställ Datasette vid CPU-återställning"
+msgstr "*Nollställ Datasette vid CPU-återställning"
 
 #: src/arch/unix/uidatasette.c:91
 msgid "Stop"
@@ -1300,11 +1300,11 @@ msgstr "Spela"
 
 #: src/arch/unix/uidatasette.c:95
 msgid "Forward"
-msgstr "Spola framåt"
+msgstr "Spola framåt"
 
 #: src/arch/unix/uidatasette.c:97
 msgid "Rewind"
-msgstr "Spola bakåt"
+msgstr "Spola bakåt"
 
 #: src/arch/unix/uidatasette.c:99
 msgid "Record"
@@ -1317,7 +1317,7 @@ msgstr "Datasettestyrning"
 #: src/arch/unix/uidrive.c:83 src/arch/unix/uidrivec64c128vic20.c:92
 #: src/arch/unix/uidrivepetcbm2.c:72 src/arch/unix/uidriveplus4.c:77
 msgid "*Enable true drive emulation"
-msgstr "*Aktivera äkta diskettenhetsemulering"
+msgstr "*Aktivera äkta diskettenhetsemulering"
 
 #: src/arch/unix/uidrivec64c128vic20.c:44
 #: src/arch/unix/uidrivec64c128vic20.c:72 src/arch/unix/uidrivepetcbm2.c:42
@@ -1332,96 +1332,96 @@ msgstr "*Ingen"
 
 #: src/arch/unix/uidrivec64c128vic20.c:95 src/arch/unix/uidriveplus4.c:80
 msgid "Drive #8 model"
-msgstr "Modell för enhet 8"
+msgstr "Modell för enhet 8"
 
 #: src/arch/unix/uidrivec64c128vic20.c:97 src/arch/unix/uidriveplus4.c:82
 msgid "Drive #8 RAM expansion"
-msgstr "RAM-utökning för enhet 8"
+msgstr "RAM-utökning för enhet 8"
 
 #: src/arch/unix/uidrivec64c128vic20.c:99
 msgid "*Drive #8 enable parallel cable"
-msgstr "*Aktivera parallellkabel för enhet 8"
+msgstr "*Aktivera parallellkabel för enhet 8"
 
 #: src/arch/unix/uidrivec64c128vic20.c:101 src/arch/unix/uidrivepetcbm2.c:78
 #: src/arch/unix/uidriveplus4.c:84
 msgid "Drive #8 40-track image support"
-msgstr "40-spårsstöd för enhet 8"
+msgstr "40-spårsstöd för enhet 8"
 
 #: src/arch/unix/uidrivec64c128vic20.c:103 src/arch/unix/uidrivepetcbm2.c:80
 #: src/arch/unix/uidriveplus4.c:86
 msgid "Drive #8 idle method"
-msgstr "Pausmetod för enhet 8"
+msgstr "Pausmetod för enhet 8"
 
 #: src/arch/unix/uidrivec64c128vic20.c:106 src/arch/unix/uidriveplus4.c:89
 msgid "Drive #9 model"
-msgstr "Modell för enhet 9"
+msgstr "Modell för enhet 9"
 
 #: src/arch/unix/uidrivec64c128vic20.c:108 src/arch/unix/uidriveplus4.c:91
 msgid "Drive #9 RAM expansion"
-msgstr "RAM-utökning för enhet 9"
+msgstr "RAM-utökning för enhet 9"
 
 #: src/arch/unix/uidrivec64c128vic20.c:110
 msgid "*Drive #9 enable parallel cable"
-msgstr "*Aktivera parallellkabel för enhet 9"
+msgstr "*Aktivera parallellkabel för enhet 9"
 
 #: src/arch/unix/uidrivec64c128vic20.c:112 src/arch/unix/uidrivepetcbm2.c:87
 #: src/arch/unix/uidriveplus4.c:93
 msgid "Drive #9 40-track image support"
-msgstr "40-spårsstöd för enhet 9"
+msgstr "40-spårsstöd för enhet 9"
 
 #: src/arch/unix/uidrivec64c128vic20.c:114 src/arch/unix/uidrivepetcbm2.c:89
 #: src/arch/unix/uidriveplus4.c:95
 msgid "Drive #9 idle method"
-msgstr "Pausmetod för enhet 9"
+msgstr "Pausmetod för enhet 9"
 
 #: src/arch/unix/uidrivec64c128vic20.c:120 src/arch/unix/uidrivepetcbm2.c:96
 #: src/arch/unix/uidriveplus4.c:101
 msgid "Drive settings"
-msgstr "Diskettenhetsinställningar"
+msgstr "Diskettenhetsinställningar"
 
 #: src/arch/unix/uidriveiec.c:53 src/arch/unix/uidriveiec.c:67
 msgid "*$2000-$3FFF RAM expansion"
-msgstr "*$2000-$3FFF minnesutökning"
+msgstr "*$2000-$3FFF minnesutökning"
 
 #: src/arch/unix/uidriveiec.c:55 src/arch/unix/uidriveiec.c:69
 msgid "*$4000-$5FFF RAM expansion"
-msgstr "*$4000-$5FFF minnesutökning"
+msgstr "*$4000-$5FFF minnesutökning"
 
 #: src/arch/unix/uidriveiec.c:57 src/arch/unix/uidriveiec.c:71
 msgid "*$6000-$7FFF RAM expansion"
-msgstr "*$6000-$7FFF minnesutökning"
+msgstr "*$6000-$7FFF minnesutökning"
 
 #: src/arch/unix/uidriveiec.c:59 src/arch/unix/uidriveiec.c:73
 msgid "*$8000-$9FFF RAM expansion"
-msgstr "*$8000-$9FFF minnesutökning"
+msgstr "*$8000-$9FFF minnesutökning"
 
 #: src/arch/unix/uidriveiec.c:61 src/arch/unix/uidriveiec.c:75
 msgid "*$A000-$BFFF RAM expansion"
-msgstr "*$A000-$BFFF minnesutökning"
+msgstr "*$A000-$BFFF minnesutökning"
 
 #: src/arch/unix/uidriveiec.c:81 src/arch/unix/uidriveiec.c:91
 msgid "*Never extend"
-msgstr "*Utöka aldrig"
+msgstr "*Utöka aldrig"
 
 #: src/arch/unix/uidriveiec.c:83 src/arch/unix/uidriveiec.c:93
 msgid "*Ask on extend"
-msgstr "*Fråga vid utökning"
+msgstr "*Fråga vid utökning"
 
 #: src/arch/unix/uidriveiec.c:85 src/arch/unix/uidriveiec.c:95
 msgid "*Extend on access"
-msgstr "*Utöka vid åtkomst"
+msgstr "*Utöka vid åtkomst"
 
 #: src/arch/unix/uidriveiec.c:101 src/arch/unix/uidriveiec.c:111
 msgid "*No traps"
-msgstr "*Ingen infångning"
+msgstr "*Ingen infångning"
 
 #: src/arch/unix/uidriveiec.c:103 src/arch/unix/uidriveiec.c:113
 msgid "*Skip cycles"
-msgstr "*Hoppa över cykler"
+msgstr "*Hoppa över cykler"
 
 #: src/arch/unix/uidriveiec.c:105 src/arch/unix/uidriveiec.c:115
 msgid "*Trap idle"
-msgstr "*Fånga inaktiva cykler"
+msgstr "*Fånga inaktiva cykler"
 
 #: src/arch/unix/uidrivepetcbm2.c:75
 msgid "Drive #8 floppy disk type"
@@ -1439,7 +1439,7 @@ msgstr "*Numeriskt tangentbord"
 #: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:113
 #: src/arch/unix/vic20ui.c:289
 msgid "*Custom Keys"
-msgstr "*Användardefinierade tangenter"
+msgstr "*Användardefinierade tangenter"
 
 #: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:117
 #: src/arch/unix/vic20ui.c:293
@@ -1471,11 +1471,11 @@ msgstr "Styrspak i spelport 2"
 
 #: src/arch/unix/uijoystick2.c:142 src/arch/unix/uijoystick2.c:148
 msgid "Swap joystick ports"
-msgstr "Växla spelportarna"
+msgstr "Växla spelportarna"
 
 #: src/arch/unix/uijoystick2.c:154 src/arch/unix/vic20ui.c:312
 msgid "Joystick settings"
-msgstr "Inställningar för styrspak"
+msgstr "Inställningar för styrspak"
 
 #: src/arch/unix/uipalemu.c:75
 msgid "PAL Scanline shade"
@@ -1520,37 +1520,34 @@ msgstr ""
 
 #: src/arch/unix/uiperipheral.c:88
 msgid "Path:"
-msgstr "Sökväg:"
+msgstr "Sökväg:"
 
 #: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:132
 #: src/arch/unix/uiperipheral.c:163 src/arch/unix/uiperipheral.c:194
 #: src/arch/unix/uiprinter.c:174 src/arch/unix/uiprinter.c:186
 msgid "*File system access"
-msgstr "*Filsystemsåtkomst"
+msgstr "*Filsystemsåtkomst"
 
 #: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
 #: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
 #: src/arch/unix/uiprinter.c:177 src/arch/unix/uiprinter.c:189
-#, fuzzy
 msgid "*Real device access"
-msgstr "*Endast läsåtkomst"
+msgstr "*Åtkomst till äkta enhet"
 
 #: src/arch/unix/uiperipheral.c:107 src/arch/unix/uiperipheral.c:138
 #: src/arch/unix/uiperipheral.c:169 src/arch/unix/uiperipheral.c:200
-#, fuzzy
 msgid "*Raw device access"
-msgstr "*Endast läsåtkomst"
+msgstr "*Åtkomst till rå enhet"
 
 #: src/arch/unix/uiperipheral.c:113 src/arch/unix/uiperipheral.c:144
 #: src/arch/unix/uiperipheral.c:175 src/arch/unix/uiperipheral.c:206
-#, fuzzy
 msgid "Device type"
-msgstr "Enhet 8"
+msgstr "Enhetstyp"
 
 #: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:146
 #: src/arch/unix/uiperipheral.c:177 src/arch/unix/uiperipheral.c:208
 msgid "*Read only access"
-msgstr "*Endast läsåtkomst"
+msgstr "*Endast läsåtkomst"
 
 #: src/arch/unix/uiperipheral.c:118 src/arch/unix/uiperipheral.c:149
 #: src/arch/unix/uiperipheral.c:180 src/arch/unix/uiperipheral.c:211
@@ -1565,12 +1562,12 @@ msgstr "*Konvertera P00-filnamn"
 #: src/arch/unix/uiperipheral.c:122 src/arch/unix/uiperipheral.c:153
 #: src/arch/unix/uiperipheral.c:184 src/arch/unix/uiperipheral.c:215
 msgid "*Create P00 files on save"
-msgstr "*Skapa P00 då filer sparas"
+msgstr "*Skapa P00 då filer sparas"
 
 #: src/arch/unix/uiperipheral.c:124 src/arch/unix/uiperipheral.c:155
 #: src/arch/unix/uiperipheral.c:186 src/arch/unix/uiperipheral.c:217
 msgid "*Hide raw CBM files"
-msgstr "*Göm CBM-råfiler"
+msgstr "*Göm CBM-råfiler"
 
 #: src/arch/unix/uiperipheral.c:223
 msgid "Device #8"
@@ -1590,7 +1587,7 @@ msgstr "Enhet 11"
 
 #: src/arch/unix/uiperipheral.c:228
 msgid "Printer settings"
-msgstr "Skrivarinställningar"
+msgstr "Skrivarinställningar"
 
 #: src/arch/unix/uiperipheral.c:230
 msgid "*Enable Virtual Devices"
@@ -1598,7 +1595,7 @@ msgstr "*Aktivera virtuella enheter"
 
 #: src/arch/unix/uiperipheral.c:236
 msgid "Peripheral settings"
-msgstr "Inställningar för kringutrustning"
+msgstr "Inställningar för kringutrustning"
 
 #: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:87
 #: src/arch/unix/uiprinter.c:99
@@ -1617,11 +1614,11 @@ msgstr "*Skrivare 3 (kommando)"
 
 #: src/arch/unix/uiprinter.c:119
 msgid "Select printer dump file"
-msgstr "Välj utskriftsdumpfil"
+msgstr "Välj utskriftsdumpfil"
 
 #: src/arch/unix/uiprinter.c:147
 msgid "Command to execute for printing (preceed with '|')"
-msgstr "Kommando att köra för utskrift (inled med \"|\")"
+msgstr "Kommando att köra för utskrift (inled med \"|\")"
 
 #: src/arch/unix/uiprinter.c:157 src/arch/unix/uirs232.c:155
 #: src/arch/unix/uirs232.c:184
@@ -1630,47 +1627,47 @@ msgstr "Kommando:"
 
 #: src/arch/unix/uiprinter.c:205
 msgid "*IEC printer #4 emulation"
-msgstr "*Skrivaremularing för IEC-enhet 4"
+msgstr "*Skrivaremularing för IEC-enhet 4"
 
 #: src/arch/unix/uiprinter.c:207
 msgid "IEC printer #4 driver"
-msgstr "Skrivardrivrutin för IEC-enhet 4"
+msgstr "Skrivardrivrutin för IEC-enhet 4"
 
 #: src/arch/unix/uiprinter.c:209
 msgid "IEC printer #4 text output device"
-msgstr "Textutenhet för IEC-enhet 4"
+msgstr "Textutenhet för IEC-enhet 4"
 
 #: src/arch/unix/uiprinter.c:211
 msgid "Flush IEC printer #4 device"
-msgstr "Töm IEC-skrivarenhet 4"
+msgstr "Töm IEC-skrivarenhet 4"
 
 #: src/arch/unix/uiprinter.c:214
 msgid "*IEC printer #5 emulation"
-msgstr "*Skrivaremularing för IEC-enhet 5"
+msgstr "*Skrivaremularing för IEC-enhet 5"
 
 #: src/arch/unix/uiprinter.c:216
 msgid "IEC printer #5 driver"
-msgstr "Skrivardrivrutin för IEC-enhet 5"
+msgstr "Skrivardrivrutin för IEC-enhet 5"
 
 #: src/arch/unix/uiprinter.c:218
 msgid "IEC printer #5 text output device"
-msgstr "Textutenhet för IEC-enhet 5"
+msgstr "Textutenhet för IEC-enhet 5"
 
 #: src/arch/unix/uiprinter.c:220
 msgid "Flush IEC printer #5 device"
-msgstr "Töm IEC-skrivarenhet 5"
+msgstr "Töm IEC-skrivarenhet 5"
 
 #: src/arch/unix/uiprinter.c:223
 msgid "*Userport printer emulation"
-msgstr "*Emulering av skrivare på användarporten"
+msgstr "*Emulering av skrivare på användarporten"
 
 #: src/arch/unix/uiprinter.c:225
 msgid "Userport printer driver"
-msgstr "Skrivardrivrutin för användarportskrivare"
+msgstr "Skrivardrivrutin för användarporten"
 
 #: src/arch/unix/uiprinter.c:227
 msgid "Userport printer text output device"
-msgstr "Textutenhet för användarportskrivare"
+msgstr "Textutenhet för användarportskrivare"
 
 #: src/arch/unix/uiprinter.c:230
 msgid "Printer text device 1..."
@@ -1686,7 +1683,7 @@ msgstr "Skrivartextenhet 3..."
 
 #: src/arch/unix/uireu.c:51
 msgid "REU image name"
-msgstr "Filnamn för minnesexpansionsavbildning"
+msgstr "Filnamn för minnesexpansionsavbildning"
 
 #: src/arch/unix/uireu.c:65
 msgid "Name:"
@@ -1698,11 +1695,11 @@ msgstr "*Aktivera minnesexpansion"
 
 #: src/arch/unix/uireu.c:97
 msgid "REU size"
-msgstr "Storlek på minnesexpansion"
+msgstr "Storlek på minnesexpansion"
 
 #: src/arch/unix/uireu.c:99
 msgid "REU image name..."
-msgstr "Filnamn för minnesexpansionsavbildning..."
+msgstr "Filnamn för minnesexpansionsavbildning..."
 
 #: src/arch/unix/uirs232.c:43 src/arch/unix/uirs232.c:57
 msgid "*Serial 1"
@@ -1734,11 +1731,11 @@ msgstr "*NMI"
 
 #: src/arch/unix/uirs232.c:120
 msgid "Select RS232 device file"
-msgstr "Välj RS232-enhetsfil"
+msgstr "Välj RS232-enhetsfil"
 
 #: src/arch/unix/uirs232.c:145
 msgid "Command to execute for RS232 (preceed with '|')"
-msgstr "Kommando att starta för RS232 (inled med \"|\")"
+msgstr "Kommando att starta för RS232 (inled med \"|\")"
 
 #: src/arch/unix/uirs232.c:174
 msgid "File to dump RS232 to"
@@ -1746,7 +1743,7 @@ msgstr "Fil att dumpa RS232 till"
 
 #: src/arch/unix/uirs232.c:198
 msgid "*ACIA $DExx RS232 interface emulation"
-msgstr "*ACIA $DExx RS232-gränssnittsemulering"
+msgstr "*ACIA $DExx RS232-gränssnittsemulering"
 
 #: src/arch/unix/uirs232.c:200
 msgid "ACIA $DExx device"
@@ -1758,15 +1755,15 @@ msgstr "ACIA $DExx-avbrott"
 
 #: src/arch/unix/uirs232.c:205 src/arch/unix/vic20ui.c:322
 msgid "*No Userport RS232 emulation"
-msgstr "*Ingen emulering av RS232 på användarporten"
+msgstr "*Ingen emulering av RS232 på användarporten"
 
 #: src/arch/unix/uirs232.c:207 src/arch/unix/vic20ui.c:324
 msgid "*Userport 300 baud RS232 emulation"
-msgstr "*Emulering av 300 baud-RS232 på användarporten"
+msgstr "*Emulering av 300 baud-RS232 på användarporten"
 
 #: src/arch/unix/uirs232.c:209 src/arch/unix/vic20ui.c:326
 msgid "*Userport 1200 baud RS232 emulation"
-msgstr "*Emulering av 1200 baud-RS232 på användarporten"
+msgstr "*Emulering av 1200 baud-RS232 på användarporten"
 
 #: src/arch/unix/uirs232.c:211
 msgid "*CIA 9600 baud RS232 emulation"
@@ -1774,7 +1771,7 @@ msgstr "*Emulering av 9600 baud-CIA"
 
 #: src/arch/unix/uirs232.c:213 src/arch/unix/vic20ui.c:328
 msgid "Userport RS232 device"
-msgstr "Användarportens RS232-enhet"
+msgstr "Användarportens RS232-enhet"
 
 #: src/arch/unix/uisettings.c:120
 msgid "Enter refresh rate"
@@ -1794,23 +1791,23 @@ msgstr "Maximal hastighet"
 
 #: src/arch/unix/uisettings.c:208
 msgid "Invalid speed value"
-msgstr "Ogiltigt hastighetsvärde"
+msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1238
-#: src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1245
+#: src/arch/unix/x11/xaw/x11ui.c:1006
 msgid "Cannot save settings."
-msgstr "Kan inte spara inställningar."
+msgstr "Kan inte spara inställningar."
 
 #: src/arch/unix/uisettings.c:223
 msgid "Settings saved successfully."
-msgstr "Inställningarna har sparats."
+msgstr "Inställningarna har sparats."
 
 #: src/arch/unix/uisettings.c:238
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
-"Kan inte ladda inställningar:\n"
+"Kan inte ladda inställningar:\n"
 "resursfilen ogiltig."
 
 #: src/arch/unix/uisettings.c:240
@@ -1818,12 +1815,12 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
-"Kan inte ladda inställningar:\n"
+"Kan inte ladda inställningar:\n"
 "resursfilen ej funnen."
 
 #: src/arch/unix/uisettings.c:244
 msgid "Settings loaded."
-msgstr "Inställnigarna har laddats."
+msgstr "Inställnigarna har laddats."
 
 #: src/arch/unix/uisettings.c:285
 msgid "*Symbolic mapping"
@@ -1835,23 +1832,23 @@ msgstr "*Positionsriktig tangentbordsemulering (Amerikanskt tangentbord)"
 
 #: src/arch/unix/uisettings.c:305
 msgid "Read Keymap File"
-msgstr "Läs tangentbordsinställning"
+msgstr "Läs tangentbordsinställning"
 
 #: src/arch/unix/uisettings.c:330
 msgid "Write to Keymap File:"
-msgstr "Skriv tangentbordsinställning:"
+msgstr "Skriv tangentbordsinställning:"
 
 #: src/arch/unix/uisettings.c:339
 msgid "Keyboard mapping type"
-msgstr "Typ av tangentbordsinställning"
+msgstr "Typ av tangentbordsinställning"
 
 #: src/arch/unix/uisettings.c:342
 msgid "Set symbolic keymap file"
-msgstr "Välj fil för symbolisk tangentbordsemulering"
+msgstr "Välj fil för symbolisk tangentbordsemulering"
 
 #: src/arch/unix/uisettings.c:344
 msgid "Set positional keymap file"
-msgstr "Välj fil för positionsriktig tangentbordsemulering"
+msgstr "Välj fil för positionsriktig tangentbordsemulering"
 
 #: src/arch/unix/uisettings.c:347
 msgid "Dump keymap to file"
@@ -1859,7 +1856,7 @@ msgstr "Spara tangentbordsemulering till fil"
 
 #: src/arch/unix/uisettings.c:369
 msgid "Load custom ROM set definition"
-msgstr "Ladda egen ROM-inställning"
+msgstr "Ladda egen ROM-inställning"
 
 #: src/arch/unix/uisettings.c:377
 #, c-format
@@ -1867,16 +1864,16 @@ msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
-"Kunde inte ladda ROM-inställningsfil\n"
+"Kunde inte ladda ROM-inställningsfil\n"
 "\"%s\""
 
 #: src/arch/unix/uisettings.c:398
 msgid "File to dump ROM set definition to"
-msgstr "Fil att spara ROM-inställning till"
+msgstr "Fil att spara ROM-inställning till"
 
 #: src/arch/unix/uisettings.c:403
 msgid "ROM set file:"
-msgstr "ROM-inställningsfil:"
+msgstr "ROM-inställningsfil:"
 
 #: src/arch/unix/uisettings.c:419
 msgid "Load ROM file"
@@ -1901,7 +1898,7 @@ msgstr "*Egen..."
 
 #: src/arch/unix/uisettings.c:489
 msgid "*No limit"
-msgstr "*Ingen gräns"
+msgstr "*Ingen gräns"
 
 #: src/arch/unix/uisettings.c:502
 msgid "Maximum speed"
@@ -1909,27 +1906,27 @@ msgstr "Maximal hastighet"
 
 #: src/arch/unix/uisettings.c:504
 msgid "*Enable warp mode"
-msgstr "*Aktivera warpläge"
+msgstr "*Aktivera warpläge"
 
 #: src/arch/unix/uisettings.c:510
 msgid "Keyboard settings"
-msgstr "Tangentbordsinställningar"
+msgstr "Tangentbordsinställningar"
 
 #: src/arch/unix/uisettings.c:516
 msgid "Save settings"
-msgstr "Spara inställningar"
+msgstr "Spara inställningar"
 
 #: src/arch/unix/uisettings.c:518
 msgid "Load settings"
-msgstr "Ladda inställningar"
+msgstr "Ladda inställningar"
 
 #: src/arch/unix/uisettings.c:520
 msgid "Restore default settings"
-msgstr "Återställ förvalda inställningar"
+msgstr "Återställ förvalda inställningar"
 
 #: src/arch/unix/uisettings.c:522
 msgid "*Save settings on exit"
-msgstr "*Spara inställningar vid avslut"
+msgstr "*Spara inställningar vid avslut"
 
 #: src/arch/unix/uisid.c:43
 #, fuzzy
@@ -1950,7 +1947,7 @@ msgstr "*8580 (ny)"
 
 #: src/arch/unix/uisid.c:57
 msgid "*8580 + digi boost"
-msgstr ""
+msgstr "*8580 + digiboost"
 
 #: src/arch/unix/uisid.c:66
 msgid "*Fast"
@@ -1970,7 +1967,7 @@ msgid ""
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
 "Ange passband i procent av total bandbredd\n"
-"(0-90, lägre är snabbare, högre är bättre)"
+"(0-90, lägre är snabbare, högre är bättre)"
 
 #: src/arch/unix/uisid.c:88
 msgid "Passband percentage"
@@ -2014,7 +2011,7 @@ msgstr "*0,10 s"
 
 #: src/arch/unix/uisound.c:81
 msgid "*Keep going"
-msgstr "*Fortsätt spela"
+msgstr "*Fortsätt spela"
 
 #: src/arch/unix/uisound.c:83
 msgid "*1 sec suspend"
@@ -2062,15 +2059,15 @@ msgstr "Paustid"
 
 #: src/arch/unix/uisound.c:132 src/arch/unix/vsidui.c:155
 msgid "Oversample"
-msgstr "Översampling"
+msgstr "Översampling"
 
 #: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:161
 msgid "Sound settings"
-msgstr "Ljudinställningar"
+msgstr "Ljudinställningar"
 
 #: src/arch/unix/uited.c:122 src/arch/unix/uivicii.c:150
 msgid "*External color set"
-msgstr "*Extern färguppsättning"
+msgstr "*Extern färguppsättning"
 
 #: src/arch/unix/uited.c:125 src/arch/unix/uivicii.c:155
 msgid "PAL Emulation"
@@ -2079,7 +2076,7 @@ msgstr "PAL-emulering"
 #: src/arch/unix/uited.c:128 src/arch/unix/uivdc.c:140
 #: src/arch/unix/uivic.c:134 src/arch/unix/uivicii.c:152
 msgid "Color set"
-msgstr "Färguppsättning"
+msgstr "Färguppsättning"
 
 #: src/arch/unix/uited.c:131
 msgid "*Fast PAL emulation"
@@ -2088,19 +2085,19 @@ msgstr "*Snabb PAL-emulering"
 #: src/arch/unix/uivdc.c:40 src/arch/unix/uivic.c:51
 #: src/arch/unix/uivicii.c:45
 msgid "*Default"
-msgstr "*Förval"
+msgstr "*Förval"
 
 #: src/arch/unix/uivdc.c:53
 msgid "*Revison 0"
-msgstr "*Utgåva 0"
+msgstr "*Utgåva 0"
 
 #: src/arch/unix/uivdc.c:55
 msgid "*Revison 1"
-msgstr "*Utgåva 1"
+msgstr "*Utgåva 1"
 
 #: src/arch/unix/uivdc.c:57
 msgid "*Revison 2"
-msgstr "*Utgåva 2"
+msgstr "*Utgåva 2"
 
 #: src/arch/unix/uivdc.c:135
 msgid "*64KB display memory"
@@ -2108,7 +2105,7 @@ msgstr "*64KB grafikminne"
 
 #: src/arch/unix/uivdc.c:137
 msgid "Revision"
-msgstr "Utgåva"
+msgstr "Utgåva"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
 #: src/arch/unix/vsidui.c:173
@@ -2117,7 +2114,7 @@ msgstr "Grafikstandard"
 
 #: src/arch/unix/uivic.c:137
 msgid "PAL Emulation Settings"
-msgstr "Inställningar för PAL-emulering"
+msgstr "Inställningar för PAL-emulering"
 
 #: src/arch/unix/uivicii.c:49
 msgid "*CCS64"
@@ -2162,7 +2159,7 @@ msgstr "Ladda ny teckengenerator-ROM"
 
 #: src/arch/unix/vic20ui.c:134
 msgid "No expansion memory"
-msgstr "Ingen minnesutökning"
+msgstr "Ingen minnesutökning"
 
 #: src/arch/unix/vic20ui.c:137
 msgid "3K (block 0)"
@@ -2186,31 +2183,31 @@ msgstr "Alla (block 0/1/2/3/5)"
 
 #: src/arch/unix/vic20ui.c:160
 msgid "Common configurations"
-msgstr "Vanliga inställningar"
+msgstr "Vanliga inställningar"
 
 #: src/arch/unix/vic20ui.c:166
 msgid "*Block 0 (3K at $0400-$0FFF)"
-msgstr "*Block 0 (3K på $0400-$0FFF)"
+msgstr "*Block 0 (3K på $0400-$0FFF)"
 
 #: src/arch/unix/vic20ui.c:168
 msgid "*Block 1 (8K at $2000-$3FFF)"
-msgstr "*Block 1 (8K på $2000-$3FFF)"
+msgstr "*Block 1 (8K på $2000-$3FFF)"
 
 #: src/arch/unix/vic20ui.c:170
 msgid "*Block 2 (8K at $4000-$5FFF)"
-msgstr "*Block 2 (8K på $4000-$5FFF)"
+msgstr "*Block 2 (8K på $4000-$5FFF)"
 
 #: src/arch/unix/vic20ui.c:172
 msgid "*Block 3 (8K at $6000-$7FFF)"
-msgstr "*Block 3 (8K på $6000-$7FFF)"
+msgstr "*Block 3 (8K på $6000-$7FFF)"
 
 #: src/arch/unix/vic20ui.c:174
 msgid "*Block 5 (8K at $A000-$BFFF)"
-msgstr "*Block 5 (8K på $A000-$BFFF)"
+msgstr "*Block 5 (8K på $A000-$BFFF)"
 
 #: src/arch/unix/vic20ui.c:184 src/arch/unix/vic20ui.c:399
 msgid "Memory expansions"
-msgstr "Minnesutökningar"
+msgstr "Minnesutökningar"
 
 #: src/arch/unix/vic20ui.c:231
 msgid "Smart-attach cartridge image..."
@@ -2238,15 +2235,15 @@ msgstr "Anslut 4KB-fil vid $B000..."
 
 #: src/arch/unix/vic20ui.c:260
 msgid "Detach cartridge image(s)"
-msgstr "Koppla från insticksmodulfil(er)"
+msgstr "Koppla från insticksmodulfil(er)"
 
 #: src/arch/unix/vic20ui.c:397
 msgid "VIC settings"
-msgstr "VIC-inställningar"
+msgstr "VIC-inställningar"
 
 #: src/arch/unix/vsidui.c:66
 msgid "Tunes"
-msgstr "Låtar"
+msgstr "Låtar"
 
 #: src/arch/unix/vsidui.c:76
 msgid "Load PSID file"
@@ -2255,7 +2252,7 @@ msgstr "Ladda PSID-fil"
 #: src/arch/unix/vsidui.c:84
 #, c-format
 msgid "`%s' is not a valid PSID file."
-msgstr "\"%s\" är inte en giltig PSID-fil."
+msgstr "\"%s\" är inte en giltig PSID-fil."
 
 #: src/arch/unix/vsidui.c:110
 msgid "Load PSID file..."
@@ -2267,16 +2264,16 @@ msgstr "*3,00 s"
 
 #: src/arch/unix/vsidui.c:169
 msgid "*Override PSID settings"
-msgstr "*Överskugga PSID-inställningar"
+msgstr "*Överskugga PSID-inställningar"
 
 #: src/arch/unix/vsidui.c:192
 msgid "*Default Tune"
-msgstr "*Förvald låt"
+msgstr "*Förvald låt"
 
 #: src/arch/unix/vsidui.c:215
 #, c-format
 msgid "*Tune %d"
-msgstr "*Låt %d"
+msgstr "*Låt %d"
 
 #: src/arch/unix/vsidui.c:285
 msgid "VSID: The SID Emulator"
@@ -2284,7 +2281,7 @@ msgstr "VSID: SID-emulatorn"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:60
 msgid "VICE is FREE software!"
-msgstr "VICE är FRI programvara!"
+msgstr "VICE är FRI programvara!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:65
 msgid "No warranty!"
@@ -2292,7 +2289,7 @@ msgstr "Ingen garanti!"
 
 #: src/arch/unix/x11/gnome/about.c:48 src/arch/unix/x11/xaw/about.c:70
 msgid "Contributors to the VICE project"
-msgstr "Bidragslämnare till VICE-projektet"
+msgstr "Bidragslämnare till VICE-projektet"
 
 #: src/arch/unix/x11/gnome/about.c:59
 msgid "The VICE Team"
@@ -2312,7 +2309,7 @@ msgstr "Garanti"
 
 #: src/arch/unix/x11/gnome/about.c:100
 msgid "Contributors"
-msgstr "Bidragslämnare"
+msgstr "Bidragslämnare"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:102
 #: src/arch/unix/x11/xaw/x11video.c:105
@@ -2369,7 +2366,7 @@ msgstr "XCreateImage misslyckades."
 #: src/arch/unix/x11/xaw/uicolor.c:199 src/arch/unix/x11/xaw/uicolor.c:204
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
-msgstr "Kan inte allokera färg \"#%04X%04X%04X\"."
+msgstr "Kan inte allokera färg \"#%04X%04X%04X\"."
 
 #: src/arch/unix/x11/gnome/uiedisk.c:58 src/arch/unix/x11/xaw/uiedisk.c:424
 msgid "Create empty disk"
@@ -2379,11 +2376,11 @@ msgstr "Skapa tom diskett"
 #: src/arch/unix/x11/gnome/uisnapshot.c:44
 #: src/arch/unix/x11/gnome/uisnapshot.c:54
 msgid "Save Snapshot"
-msgstr "Spara ögonblicksbild"
+msgstr "Spara ögonblicksbild"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:81
 msgid "Disk options"
-msgstr "Alternativ för diskett"
+msgstr "Alternativ för diskett"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:86
 msgid "Diskname: "
@@ -2400,7 +2397,7 @@ msgstr "Kan inte skapa avbildningsfil \"%s\"."
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:45
 msgid "Saturation"
-msgstr "Mättnad"
+msgstr "Mättnad"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:46
 msgid "Contrast"
@@ -2416,17 +2413,17 @@ msgstr "Gamma"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:82
 msgid "PAL Settings"
-msgstr "PAL-inställningar"
+msgstr "PAL-inställningar"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:118
 msgid "Reset PAL Settings"
-msgstr "Återställ PAL-inställningar"
+msgstr "Återställ PAL-inställningar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:54
 #: src/arch/unix/x11/gnome/uiscreenshot.c:65
 #: src/arch/unix/x11/gnome/uiscreenshot.c:137
 msgid "Save Screenshot"
-msgstr "Spara skärmdump"
+msgstr "Spara skärmdump"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:78
 msgid "Image Format"
@@ -2435,7 +2432,7 @@ msgstr "Bildformat"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:166
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
-msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
+msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:171
 #, c-format
@@ -2444,7 +2441,7 @@ msgstr "Skrev \"%s\""
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:67
 msgid "Snapshot options"
-msgstr "Alternativ för ögonblicksbild"
+msgstr "Alternativ för ögonblicksbild"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:71
 msgid "Save currently attached disks"
@@ -2467,169 +2464,169 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 "Namn: %s\n"
-"Låt: %d\n"
-"Författare: %s\n"
-"Upphovsrätt: %s\n"
+"Låt: %d\n"
+"Författare: %s\n"
+"Upphovsrätt: %s\n"
 "%s\n"
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:383
+#: src/arch/unix/x11/gnome/x11ui.c:388
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
-msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
+msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:385
+#: src/arch/unix/x11/gnome/x11ui.c:390
 #, c-format
 msgid "Set fontpath: `%s'.\n"
-msgstr "Sätt typsnittssökväg: \"%s\".\n"
+msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:620 src/arch/unix/x11/xaw/x11ui.c:456
+#: src/arch/unix/x11/gnome/x11ui.c:625 src/arch/unix/x11/xaw/x11ui.c:458
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
-msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
+msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:623 src/arch/unix/x11/xaw/x11ui.c:459
+#: src/arch/unix/x11/gnome/x11ui.c:628 src/arch/unix/x11/xaw/x11ui.c:461
 msgid "Please select a bit depth supported by your display."
-msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
+msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:650
-#: src/arch/unix/x11/xaw/x11ui.c:462 src/arch/unix/x11/xaw/x11ui.c:479
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/gnome/x11ui.c:655
+#: src/arch/unix/x11/xaw/x11ui.c:464 src/arch/unix/x11/xaw/x11ui.c:481
 #, c-format
 msgid "Found %dbit/%s visual."
-msgstr "Hittade %d-bitars/%s-läge."
+msgstr "Hittade %d-bitars/%s-vy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:635
+#: src/arch/unix/x11/gnome/x11ui.c:640
 #, c-format
 msgid "Found %dbit visual."
-msgstr "Hittade %d-bitars."
+msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
+#: src/arch/unix/x11/gnome/x11ui.c:663 src/arch/unix/x11/xaw/x11ui.c:489
 msgid "Cannot autodetect a proper visual."
-msgstr "Kan inte automatdetektera ett gällande grafikläge."
+msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:666
+#: src/arch/unix/x11/gnome/x11ui.c:671
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:678
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:738
+#: src/arch/unix/x11/gnome/x11ui.c:743
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:763
+#: src/arch/unix/x11/gnome/x11ui.c:768
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:873
+#: src/arch/unix/x11/gnome/x11ui.c:878
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:942 src/arch/unix/x11/xaw/x11ui.c:568
+#: src/arch/unix/x11/gnome/x11ui.c:947 src/arch/unix/x11/xaw/x11ui.c:570
 msgid "Maximum number of toplevel windows reached."
-msgstr "Maximalt antal fönster på översta nivån har nåtts."
+msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1097 src/arch/unix/x11/gnome/x11ui.c:1180
+#: src/arch/unix/x11/gnome/x11ui.c:1104 src/arch/unix/x11/gnome/x11ui.c:1187
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1103
+#: src/arch/unix/x11/gnome/x11ui.c:1110
 msgid "Help"
-msgstr "Hjälp"
+msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1222 src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/gnome/x11ui.c:1229 src/arch/unix/x11/xaw/x11ui.c:994
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:992
+#: src/arch/unix/x11/gnome/x11ui.c:1234 src/arch/unix/x11/xaw/x11ui.c:996
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:999
+#: src/arch/unix/x11/gnome/x11ui.c:1242 src/arch/unix/x11/xaw/x11ui.c:1003
 msgid "Save the current settings?"
-msgstr "Spara nuvarande inställningar?"
+msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1280 src/arch/unix/x11/xaw/x11ui.c:1040
+#: src/arch/unix/x11/gnome/x11ui.c:1287 src/arch/unix/x11/xaw/x11ui.c:1044
 msgid "Using private colormap."
-msgstr "Använder egen färgkarta."
+msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1300 src/arch/unix/x11/gnome/x11ui.c:1303
-#: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
+#: src/arch/unix/x11/gnome/x11ui.c:1307 src/arch/unix/x11/gnome/x11ui.c:1310
+#: src/arch/unix/x11/xaw/x11ui.c:1065 src/arch/unix/x11/xaw/x11ui.c:1071
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1586
+#: src/arch/unix/x11/gnome/x11ui.c:1593
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1623 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/x11/gnome/x11ui.c:1630 src/arch/unix/x11/xaw/x11ui.c:1281
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1777
+#: src/arch/unix/x11/gnome/x11ui.c:1784
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1788
+#: src/arch/unix/x11/gnome/x11ui.c:1795
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1814
+#: src/arch/unix/x11/gnome/x11ui.c:1821
 msgid "Hard Reset"
-msgstr "Hård nollställning"
+msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1822
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
+#: src/arch/unix/x11/gnome/x11ui.c:1866 src/arch/unix/x11/xaw/x11ui.c:1559
 msgid "Extend disk image"
-msgstr "Utöka diskettavbildningsfil"
+msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860
+#: src/arch/unix/x11/gnome/x11ui.c:1867
 msgid "Do you want to extend the disk image to 40 tracks?"
-msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
+msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873
+#: src/arch/unix/x11/gnome/x11ui.c:1880
 msgid "Autostart not possible for unit 9"
-msgstr "Kan inte starta automatiskt från enhet 9"
+msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1888 src/arch/unix/x11/gnome/x11ui.c:1897
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2017 src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/unix/x11/gnome/x11ui.c:2029
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2485
+#: src/arch/unix/x11/gnome/x11ui.c:2492
 msgid "Contents"
-msgstr "Innehåll"
+msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2532
+#: src/arch/unix/x11/gnome/x11ui.c:2539
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2558
+#: src/arch/unix/x11/gnome/x11ui.c:2565
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
 #: src/arch/unix/x11/dga1.c:84
 #, c-format
 msgid "Attach debugger to pid %d...\n"
-msgstr "Ansluter felsökare till pid %d...\n"
+msgstr "Ansluter felsökare till pid %d...\n"
 
 #: src/arch/unix/x11/dga1.c:129
 msgid "Successfully forked DGA."
@@ -2637,47 +2634,47 @@ msgstr "Grenade DGA."
 
 #: src/arch/unix/x11/dga1.c:132
 msgid "Unable to query DGA1 version."
-msgstr "Kan inte fråga om DGA1-version."
+msgstr "Kan inte fråga om DGA1-version."
 
 #: src/arch/unix/x11/dga1.c:137
 msgid "Unable to query DGA1 information."
-msgstr "Kan inte fråga om DGA-information."
+msgstr "Kan inte fråga om DGA-information."
 
 #: src/arch/unix/x11/dga1.c:142
 msgid "Root permissions required to use DGA1."
-msgstr "Rootbehörighet krävs för att använda DGA1."
+msgstr "Rootbehörighet krävs för att använda DGA1."
 
 #: src/arch/unix/x11/dga1.c:148
 msgid "Problems with DGA - disabling fullscreen."
-msgstr "Problem med DGA - deaktiverar fullskärmsläge."
+msgstr "Problem med DGA - deaktiverar fullskärmsläge."
 
 #: src/arch/unix/x11/dga1.c:201
 #, c-format
 msgid "Error switching to fullscreen%s"
-msgstr "Fel vid växling till fullskärm%s"
+msgstr "Fel vid växling till fullskärm%s"
 
 #: src/arch/unix/x11/dga1.c:212
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
-msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
+msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
 #: src/arch/unix/x11/dga1.c:250 src/arch/unix/x11/dga2.c:773
 msgid "Switch to windowmode"
-msgstr "Växla till fönsterläge"
+msgstr "Växla till fönsterläge"
 
 #: src/arch/unix/x11/dga2.c:190
 #, c-format
 msgid "Selected mode: %s"
-msgstr "Valt läge: %s"
+msgstr "Valt läge: %s"
 
 #: src/arch/unix/x11/dga2.c:309
 #, c-format
 msgid "Attach debugger to pid %d..."
-msgstr "Ansluter felsökare till pid %d..."
+msgstr "Ansluter felsökare till pid %d..."
 
 #: src/arch/unix/x11/dga2.c:345
 msgid "refresh, not ready, skipping frame"
-msgstr "uppdatera, inte färdig, hoppar över bild"
+msgstr "uppdatera, inte färdig, hoppar över bild"
 
 #: src/arch/unix/x11/dga2.c:414
 msgid "Successfully forked DGA"
@@ -2686,115 +2683,114 @@ msgstr "Grenade DGA"
 #: src/arch/unix/x11/dga2.c:419
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
-"Kunde inte fråga efter version för grafikutökningar - deaktiverar "
-"fullskämsläge."
+"Kunde inte fråga efter version för grafikutökningar - deaktiverar "
+"fullskämsläge."
 
 #: src/arch/unix/x11/dga2.c:424
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
-"Kunde inte fråga efter information om grafikutökningar - deaktiverar "
-"fullskärmsläge."
+"Kunde inte fråga efter information om grafikutökningar - deaktiverar "
+"fullskärmsläge."
 
 #: src/arch/unix/x11/dga2.c:433
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
-msgstr "X-server kör en gammal XFree86-DGA-version (%d.%d)"
+msgstr "X-server kör en gammal XFree86-DGA-version (%d.%d)"
 
 #: src/arch/unix/x11/dga2.c:436
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
-msgstr "Minst version %d.%d krävs - deaktiverar fullskärmsläge."
+msgstr "Minst version %d.%d krävs - deaktiverar fullskärmsläge."
 
 #: src/arch/unix/x11/dga2.c:567
 #, c-format
 msgid "Switch to fullscreen%s"
-msgstr "Växla till fullskärm%s"
+msgstr "Växla till fullskärm%s"
 
 #: src/arch/unix/x11/dga2.c:573
 msgid "Need root privileges for DGA2 fullscreen"
-msgstr "Behöver rootbehörigheter för DGA2-fullskärm"
+msgstr "Behöver rootbehörigheter för DGA2-fullskärm"
 
 #: src/arch/unix/x11/dga2.c:587
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
-msgstr "Fel vid växling till fullskärm (SetMode) %ix%i"
+msgstr "Fel vid växling till fullskärm (SetMode) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:597
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
-msgstr "Fel vid växling till fullskärm (pixmap) %ix%i"
+msgstr "Fel vid växling till fullskärm (pixmap) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:631
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
-"Ej tillräckligt med bildminnessidor i läge %s, avaktiverar fullskärm "
-"(%d,%d)."
+"Ej tillräckligt med bildminnessidor i läge %s, avaktiverar fullskärm (%d,%d)."
 
 #: src/arch/unix/x11/dga2.c:645
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
-msgstr "Fel vid växling till fullskärm (CreateGC) %ix%i"
+msgstr "Fel vid växling till fullskärm (CreateGC) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:700
 msgid "Couldn't allocate color cache"
-msgstr "Kunde inte allokera färgmellanlagring"
+msgstr "Kunde inte allokera färgmellanlagring"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
-msgstr "Ange en HTML-läsare för direkthjälpen"
+msgstr "Ange en HTML-läsare för direkthjälpen"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:41
 msgid "Install a private colormap"
-msgstr "Installera en privat färgkarta"
+msgstr "Installera en privat färgkarta"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:44
 msgid "Use the default colormap"
-msgstr "Använd standardfärgkartan"
+msgstr "Använd standardfärgkartan"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Save settings (resources) on exit"
-msgstr "Spara inställningar (resurser) vid avslut"
+msgstr "Spara inställningar (resurser) vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:50
 msgid "Never save settings (resources) on exit"
-msgstr "Spara aldrig inställningar (resurser) vid avslut"
+msgstr "Spara aldrig inställningar (resurser) vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Enable fullscreen"
-msgstr "Aktivera fullskärm"
+msgstr "Aktivera fullskärm"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Disable fullscreen"
-msgstr "Deaktivera fullskärm"
+msgstr "Deaktivera fullskärm"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Specify X display depth (1..32)"
-msgstr "Ange färgdjup för X-display (1..32)"
+msgstr "Ange färgdjup för X-display (1..32)"
 
 #: src/arch/unix/x11/video.c:178
 msgid "Call `XSync()' after updating the emulation window"
-msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
+msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
 #: src/arch/unix/x11/video.c:181
 msgid "Do not call `XSync()' after updating the emulation window"
-msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
+msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
 #: src/arch/unix/x11/video.c:184
 msgid "Use shared memory"
-msgstr "Använder delat minne"
+msgstr "Använder delat minne"
 
 #: src/arch/unix/x11/video.c:187
 msgid "Never use shared memory (slower)"
-msgstr "Använd aldrig delat minne (långsammare)"
+msgstr "Använd aldrig delat minne (långsammare)"
 
 #: src/arch/unix/x11/video.c:191
 msgid "Use XVideo Extension (hardware scaling)"
-msgstr "Använd XVideo-utökning (maskinvaruskalning)"
+msgstr "Använd XVideo-utökning (maskinvaruskalning)"
 
 #: src/arch/unix/x11/video.c:194
 msgid "Use software rendering"
-msgstr "Använd programvarurendrering"
+msgstr "Använd programvarurendrering"
 
 #: src/arch/unix/x11/video.c:196
 msgid "Request YUV FOURCC format"
@@ -2802,26 +2798,25 @@ msgstr "Be om YUV FOURCC-format"
 
 #: src/arch/unix/x11/video.c:198
 msgid "Set aspect ratio (0.8 - 1.2)"
-msgstr ""
+msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
 #: src/arch/unix/x11/video.c:372
 msgid "The MITSHM extension is not supported on this display."
-msgstr "MTSHM-utökningarna stöds inte för denna display."
+msgstr "MITSHM-utökningarna stöds inte för denna display."
 
 #: src/arch/unix/x11/video.c:376
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
-msgstr "MITSHM-utökningar version %d.%d hittades."
+msgstr "MITSHM-utökningar version %d.%d hittades."
 
 #: src/arch/unix/x11/video.c:437
 msgid "Cannot release shared memory!"
-msgstr "Kan inte släppa delat minne!"
+msgstr "Kan inte släppa delat minne!"
 
 #: src/arch/unix/x11/vidmode.c:75
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
-"Fel vid hämtning av information om grafikläge - deaktiverar "
-"vidmode-utökning."
+"Fel vid hämtning av information om grafikläge - deaktiverar vidmode-utökning."
 
 #: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
@@ -2841,7 +2836,7 @@ msgstr "Filnamn:"
 #: src/arch/unix/x11/xaw/uiscreenshot.c:188
 #: src/arch/unix/x11/xaw/uisnapshot.c:169
 msgid "Browse..."
-msgstr "Bläddra..."
+msgstr "Bläddra..."
 
 #: src/arch/unix/x11/xaw/uicartridge.c:172 src/arch/unix/x11/xaw/uiedisk.c:407
 #: src/arch/unix/x11/xaw/uiscreenshot.c:258
@@ -2855,7 +2850,7 @@ msgstr "Spara insticksmodulfil"
 
 #: src/arch/unix/x11/xaw/uicolor.c:95
 msgid "Automatically using a private colormap."
-msgstr "Använd automatiskt en privat färgkarta."
+msgstr "Använd automatiskt en privat färgkarta."
 
 #: src/arch/unix/x11/xaw/uicolor.c:155
 msgid "XFreeColors failed."
@@ -2879,7 +2874,7 @@ msgstr "Diskettformat:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:86
 msgid "Save screenshot file"
-msgstr "Spara skärmdump"
+msgstr "Spara skärmdump"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:208
 msgid "Image format:"
@@ -2887,15 +2882,15 @@ msgstr "Bildformat:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:275
 msgid "Screen Snapshot"
-msgstr "Skärmdump"
+msgstr "Skärmdump"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:83
 msgid "Save snapshot file"
-msgstr "Spara ögonblicksbildfil"
+msgstr "Spara ögonblicksbildfil"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:184
 msgid "Snapshot options:"
-msgstr "Alternativ för ögonblicksbild:"
+msgstr "Alternativ för ögonblicksbild:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:209
 msgid "Save currently attached disks:"
@@ -2909,7 +2904,7 @@ msgstr "Av"
 #: src/arch/unix/x11/xaw/uisnapshot.c:233
 #: src/arch/unix/x11/xaw/uisnapshot.c:272
 msgid "On"
-msgstr "På"
+msgstr "På"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:248
 msgid "Save currently loaded ROMs:"
@@ -2917,43 +2912,42 @@ msgstr "Spara laddade ROMar:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:304
 msgid "Save snapshot"
-msgstr "Spara ögonblicksbild"
+msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1150
+#: src/arch/unix/x11/xaw/x11ui.c:1154
 #, c-format
 msgid "%d: Track %.1f"
-msgstr "%d: Spår %.1f"
+msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1440
+#: src/arch/unix/x11/xaw/x11ui.c:1444
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1624
+#: src/arch/unix/x11/xaw/x11ui.c:1628
 msgid "Unknown image type."
-msgstr "Okänd avbildningsfiltyp."
+msgstr "Okänd avbildningsfiltyp."
 
 #: src/arch/unix/x11/xaw/x11video.c:125
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
-msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
+msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
 
 #: src/arch/unix/x11/xaw/x11video.c:138
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
-msgstr ""
-"Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
+msgstr "Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
 
 #: src/arch/unix/x11/xaw/x11video.c:149
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
-msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
+msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
 
 #: src/arch/unix/x11/xaw/x11video.c:164 src/arch/unix/x11/xaw/x11video.c:181
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
-msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
+msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
 
 #: src/arch/unix/x11/xaw/x11video.c:188
 msgid "MITSHM initialization succeed.\n"
-msgstr "MITSHM-initiering färdig.\n"
+msgstr "MITSHM-initiering färdig.\n"
 
 #: src/arch/unix/x11/xaw/x11video.c:209
 #, c-format
@@ -2970,24 +2964,24 @@ msgstr " utan"
 
 #: src/arch/unix/x11/xaw/x11video.c:213
 msgid "Performance will be poor."
-msgstr "Prestanda kommer att bli dålig."
+msgstr "Prestanda kommer att bli dålig."
 
 #: src/arch/unix/x11/xaw/x11video.c:216
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
 #~ msgid "VIC-II Video settings"
-#~ msgstr "VIC-II-grafikinställningar"
+#~ msgstr "VIC-II-grafikinställningar"
 
 #~ msgid "VIC Video settings"
-#~ msgstr "VIC-grafikinställningar"
+#~ msgstr "VIC-grafikinställningar"
 
 #~ msgid "TED Video settings"
-#~ msgstr "TED-grafikinställningar"
+#~ msgstr "TED-grafikinställningar"
 
 #, fuzzy
 #~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Aktivera fullskärm"
+#~ msgstr "Aktivera fullskärm"
 
 #, fuzzy
 #~ msgid "Couldn't allocate pixel value cache."
@@ -2999,71 +2993,71 @@ msgstr "Initierade utan delat minne."
 
 #, fuzzy
 #~ msgid "*Enable DGA2 fullscreen"
-#~ msgstr "Aktivera fullskärm"
+#~ msgstr "Aktivera fullskärm"
 
 #, fuzzy
 #~ msgid "*Enable VidMode fullscreen"
-#~ msgstr "Aktivera fullskärm"
+#~ msgstr "Aktivera fullskärm"
 
 #~ msgid "*Fullscreen settings"
-#~ msgstr "*Fullskärmsinställningar"
+#~ msgstr "*Fullskärmsinställningar"
 
 #~ msgid "Successfully forked DGA\n"
 #~ msgstr "Lyckades grena DGA\n"
 
 #~ msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
-#~ msgstr "X-server kör en gammal XFree86-VidMode-version (%d.  %d)"
+#~ msgstr "X-server kör en gammal XFree86-VidMode-version (%d.  %d)"
 
 #~ msgid ""
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice körs inte som root, DGA-utökning inte möjlig - deaktiverar "
-#~ "fullskärmsläge."
+#~ "Vice körs inte som root, DGA-utökning inte möjlig - deaktiverar "
+#~ "fullskärmsläge."
 
 #~ msgid "Specify name of symbolic keymap file"
-#~ msgstr "Ange fil för symbolisk tangentbordsemulering"
+#~ msgstr "Ange fil för symbolisk tangentbordsemulering"
 
 #~ msgid "Specify name of positional keymap file"
-#~ msgstr "Ange fil för positionsriktig tangentbordsemulering"
+#~ msgstr "Ange fil för positionsriktig tangentbordsemulering"
 
 #~ msgid "Specify name of graphics keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Ange fil för symbolisk tangentbordsemulering för \"graphics\"-tangentbord"
+#~ "Ange fil för symbolisk tangentbordsemulering för \"graphics\"-tangentbord"
 
 #~ msgid "Specify name of graphics keyboard positional keymap file"
 #~ msgstr ""
-#~ "Ange fil för positionsriktig tangentbordsemulering för "
+#~ "Ange fil för positionsriktig tangentbordsemulering för "
 #~ "\"graphics\"-tangentbord"
 
 #~ msgid "Specify name of UK business keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Ange fil för symbolisk tangentbordsemulering för brittiskt "
+#~ "Ange fil för symbolisk tangentbordsemulering för brittiskt "
 #~ "\"business\"-tangentbord"
 
 #~ msgid "Specify name of UK business keyboard positional keymap file"
 #~ msgstr ""
-#~ "Ange fil för positionsriktig tangentbordsemulering för brittiskt "
+#~ "Ange fil för positionsriktig tangentbordsemulering för brittiskt "
 #~ "\"business\"-tangentbord"
 
 #~ msgid "Specify name of German business keyboard symbolic keymap file"
 #~ msgstr ""
-#~ "Ange fil för symbolisk tangentbordsemulering för tyskt "
+#~ "Ange fil för symbolisk tangentbordsemulering för tyskt "
 #~ "\"business\"-tangentbord"
 
 #~ msgid "Specify name of German business keyboard positional keymap file"
 #~ msgstr ""
-#~ "Ange fil för positionsriktig tangentbordsemulering för tyskt "
+#~ "Ange fil för positionsriktig tangentbordsemulering för tyskt "
 #~ "\"business\"-tangentbord"
 
 #~ msgid "Could not find KeySym `%s'!"
 #~ msgstr "Kunde inte hitta tangentbordssymbol \"%s\"!"
 
 #~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
-#~ msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
+#~ msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
 
 #~ msgid "Loading keymap `%s'."
-#~ msgstr "Laddar tangentbordsinställning \"%s\"."
+#~ msgstr "Laddar tangentbordsinställning \"%s\"."
 
 #~ msgid "Cannot load keymap `%s'."
 #~ msgstr "Kan inte ladda tangentbordsbeskrivning \"%s\"."
@@ -3073,53 +3067,53 @@ msgstr "Initierade utan delat minne."
 
 #~ msgid "Specify index of keymap file (0=symbol, 1=positional)"
 #~ msgstr ""
-#~ "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
+#~ "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
 #~ "1=positionsriktig)"
 
 #~ msgid "*Enable"
 #~ msgstr "*Aktivera"
 
 #~ msgid "Please recompile the program for a supported bit depth."
-#~ msgstr "Kompilera om programmet för ett understött färgdjup."
+#~ msgstr "Kompilera om programmet för ett understött färgdjup."
 
 #~ msgid "Only %ibpp supported by this emulator."
-#~ msgstr "Enbart %ibitar/pixel stöds av denna emulator."
+#~ msgstr "Enbart %ibitar/pixel stöds av denna emulator."
 
 #~ msgid "Current X server depth is %ibpp."
-#~ msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
+#~ msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
-#~ msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
+#~ msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
 
 #~ msgid "*Model defaults"
-#~ msgstr "*Modellens förval"
+#~ msgstr "*Modellens förval"
 
 #~ msgid "Specify name of printer device or dump file"
-#~ msgstr "Ange namn på utskriftsenhet eller dumpfil"
+#~ msgstr "Ange namn på utskriftsenhet eller dumpfil"
 
 #~ msgid "Screen color"
-#~ msgstr "Skärmfärg"
+#~ msgstr "Skärmfärg"
 
 #~ msgid "Change to fullscreen %ix%i"
-#~ msgstr "Växla till fullskärm %ix%i"
+#~ msgstr "Växla till fullskärm %ix%i"
 
 #~ msgid "Specify command for printer 1 (|petlp |lpr)"
-#~ msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
+#~ msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
 
 #~ msgid "Specify command for printer 2 (|lpr)"
-#~ msgstr "Ange kommando för skrivare 2 (|lpr)"
+#~ msgstr "Ange kommando för skrivare 2 (|lpr)"
 
 #~ msgid "print_open(device=%d)."
 #~ msgstr "print_open(enhet=%d)."
 
 #~ msgid "Trying to write to invalid fd %d."
-#~ msgstr "Försökte skriva till ogiltigt filhandtag %d."
+#~ msgstr "Försökte skriva till ogiltigt filhandtag %d."
 
 #~ msgid "Trying to write to non-open fd %d."
-#~ msgstr "Försökta skriva till ej öppet filhandtag %d."
+#~ msgstr "Försökta skriva till ej öppet filhandtag %d."
 
 #~ msgid "Trying to flush invalid fd %d."
-#~ msgstr "Försökte tömma ogiltigt filhandtag %d."
+#~ msgstr "Försökte tömma ogiltigt filhandtag %d."
 
 #~ msgid "Trying to flush non-open fd %d."
-#~ msgstr "Försökte tömma ej öppet filhandtag %d."
+#~ msgstr "Försökte tömma ej öppet filhandtag %d."
