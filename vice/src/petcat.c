@@ -1357,3 +1357,7 @@ void disable_text(void)
 {
 }
 
+void ui_error_string(const char *text)
+{
+}
+
