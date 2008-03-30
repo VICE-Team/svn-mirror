@@ -180,19 +180,20 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 
 
 
+#ifdef HAVE_XVIDEO
 /* Render YUV 4:2:2 and 4:1:1 formats. */
 void render_yuv_image(int double_size,
-		      int double_scan,
-		      int pal_mode,
-		      int pal_scanline_shade,
-		      fourcc_t format,
-		      image_t* image,
-		      unsigned char* src,
-		      int src_pitch,
-		      unsigned int* src_color,
-		      int src_x, int src_y,
-		      unsigned int src_w, unsigned int src_h,
-		      int dest_x, int dest_y)
+                      int double_scan,
+                      int pal_mode,
+                      int pal_scanline_shade,
+                      fourcc_t format,
+                      image_t* image,
+                      unsigned char* src,
+                      int src_pitch,
+                      unsigned int* src_color,
+                      int src_x, int src_y,
+                      unsigned int src_w, unsigned int src_h,
+                      int dest_x, int dest_y)
 {
   int planar;
   int shift_y0, shift_u, shift_v, shift_y1;
@@ -246,37 +247,37 @@ void render_yuv_image(int double_size,
     if (planar) {
       switch(pal_mode) {
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render2x_4_1_1(image, plane_y, plane_u, plane_v,
-		       src, src_pitch, src_color,
-		       src_x, src_y, src_w, src_h, dest_x, dest_y,
-		       double_scan, pal_scanline_shade);
-	break;
+        renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                           src, src_pitch, src_color,
+                           src_x, src_y, src_w, src_h, dest_x, dest_y,
+                           double_scan, pal_scanline_shade);
+        break;
       default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
-			   src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y,
-			   pal_mode, double_scan, pal_scanline_shade);
-	break;
+        renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                               src, src_pitch, src_color,
+                               src_x, src_y, src_w, src_h, dest_x, dest_y,
+                               pal_mode, double_scan, pal_scanline_shade);
+        break;
       }
     }
     else {
       switch(pal_mode) {
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-		       src, src_pitch, src_color,
-		       src_x, src_y, src_w, src_h, dest_x, dest_y,
-		       double_scan, pal_scanline_shade);
-	break;
+        renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                           src, src_pitch, src_color,
+                           src_x, src_y, src_w, src_h, dest_x, dest_y,
+                           double_scan, pal_scanline_shade);
+        break;
       default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
-			  src, src_pitch, src_color,
-			  src_x, src_y, src_w, src_h, dest_x, dest_y,
-			  pal_mode, double_scan, pal_scanline_shade);
-	break;
+        renderyuv_2x_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+                               src, src_pitch, src_color,
+                               src_x, src_y, src_w, src_h, dest_x, dest_y,
+                               pal_mode, double_scan, pal_scanline_shade);
+        break;
       }
     }
   }
@@ -285,36 +286,38 @@ void render_yuv_image(int double_size,
     if (planar) {
       switch(pal_mode) {
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render_4_1_1(image, plane_y, plane_u, plane_v,
-		     src, src_pitch, src_color,
-		     src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
+        renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
+                        src, src_pitch, src_color,
+                        src_x, src_y, src_w, src_h, dest_x, dest_y);
+        break;
       default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_1_1_pal(image, plane_y, plane_u, plane_v,
-			 src, src_pitch, src_color,
-			 src_x, src_y, src_w, src_h, dest_x, dest_y,
-			 pal_mode);
-	break;
+        renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                            src, src_pitch, src_color,
+                            src_x, src_y, src_w, src_h, dest_x, dest_y,
+                            pal_mode);
+        break;
       }
     }
     else {
       switch(pal_mode) {
       case VIDEO_RESOURCE_PAL_MODE_FAST:
-	render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-		     src, src_pitch, src_color,
-		     src_x, src_y, src_w, src_h, dest_x, dest_y);
-	break;
+        renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                        src, src_pitch, src_color,
+                        src_x, src_y, src_w, src_h, dest_x, dest_y);
+        break;
       default:
       case VIDEO_RESOURCE_PAL_MODE_SHARP:
       case VIDEO_RESOURCE_PAL_MODE_BLUR:
-	render_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
-			 src, src_pitch, src_color,
-			 src_x, src_y, src_w, src_h, dest_x, dest_y,
-			 pal_mode);
-	break;
+        renderyuv_4_2_2_pal(image, shift_y0, shift_u, shift_v, shift_y1,
+                            src, src_pitch, src_color,
+                            src_x, src_y, src_w, src_h, dest_x, dest_y,
+                            pal_mode);
+        break;
       }
     }
   }
 }
+#endif
+
