@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-06-25 22:06+0200\n"
+"POT-Creation-Date: 2002-06-27 01:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2540,22 +2540,22 @@ msgstr ""
 msgid "Successfully forked DGA\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:262 src/arch/unix/x11/fullscreen.c:200
+#: src/arch/unix/x11/dga2.c:258 src/arch/unix/x11/fullscreen.c:200
 #: src/arch/unix/x11/fullscreen.c:227
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:267 src/arch/unix/x11/fullscreen.c:205
+#: src/arch/unix/x11/dga2.c:263 src/arch/unix/x11/fullscreen.c:205
 #: src/arch/unix/x11/fullscreen.c:232
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:276 src/arch/unix/x11/fullscreen.c:213
+#: src/arch/unix/x11/dga2.c:272 src/arch/unix/x11/fullscreen.c:213
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:279 src/arch/unix/x11/fullscreen.c:215
+#: src/arch/unix/x11/dga2.c:275 src/arch/unix/x11/fullscreen.c:215
 #: src/arch/unix/x11/fullscreen.c:243
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
@@ -2580,7 +2580,7 @@ msgstr ""
 msgid "Problems with DGA - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:457 src/arch/unix/x11/fullscreen.c:384
+#: src/arch/unix/x11/dga2.c:453 src/arch/unix/x11/fullscreen.c:384
 #: src/arch/unix/x11/fullscreen.c:413
 #, c-format
 msgid "Switch to fullscreen %ix%i"
@@ -2597,7 +2597,7 @@ msgstr ""
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:641 src/arch/unix/x11/fullscreen.c:481
+#: src/arch/unix/x11/dga2.c:637 src/arch/unix/x11/fullscreen.c:481
 msgid "Switch to windowmode"
 msgstr ""
 
@@ -2606,47 +2606,47 @@ msgstr ""
 msgid "Attach debugger to pid %d..."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:192
+#: src/arch/unix/x11/dga2.c:190
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:257
+#: src/arch/unix/x11/dga2.c:253
 msgid "Successfully forked DGA"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:309
+#: src/arch/unix/x11/dga2.c:305
 msgid "Found suitable mode for fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:393
+#: src/arch/unix/x11/dga2.c:389
 msgid "Couldn't allocate pixel value cache."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:464
+#: src/arch/unix/x11/dga2.c:460
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:474
+#: src/arch/unix/x11/dga2.c:470
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:484
+#: src/arch/unix/x11/dga2.c:480
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:518
+#: src/arch/unix/x11/dga2.c:514
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:530
+#: src/arch/unix/x11/dga2.c:526
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:574
+#: src/arch/unix/x11/dga2.c:570
 msgid "Couldn't allocate color cache"
 msgstr ""
 
@@ -2710,16 +2710,16 @@ msgstr ""
 msgid "Request YUV FOURCC format"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:353
+#: src/arch/unix/x11/video.c:345
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:357
+#: src/arch/unix/x11/video.c:349
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:418
+#: src/arch/unix/x11/video.c:410
 msgid "Cannot release shared memory!"
 msgstr ""
 

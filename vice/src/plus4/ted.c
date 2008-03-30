@@ -250,7 +250,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
     resources_touch("TEDVideoCache");
-    raster_set_canvas_refresh(raster, 1);
 
     ted_set_geometry();
 
@@ -701,8 +700,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
 
 #ifdef __MSDOS__
         if (ted.raster.viewport.width <= TED_SCREEN_XPIX
-            && ted.raster.viewport.height <= TED_SCREEN_YPIX
-            && ted.raster.viewport.update_canvas)
+            && ted.raster.viewport.height <= TED_SCREEN_YPIX)
             canvas_set_border_color(ted.raster.viewport.canvas,
                                     ted.raster.border_color);
 #endif
@@ -795,7 +793,8 @@ void ted_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
 
-  ted_resize();
+  /* Does not exist anymore
+  ted_resize(); */
   raster_force_repaint(&ted.raster);
 #endif
 }

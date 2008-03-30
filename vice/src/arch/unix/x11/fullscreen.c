@@ -164,7 +164,7 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
 #ifdef CHECK_DGA_V2
     if (fullscreen_dga_major <= 1) {
 #endif
-        for (y= 0; y < height ; y++) { 
+        for (y = 0; y < height ; y++) { 
 	    memcpy(fb_addr + (fb_width * (dest_y + y) + dest_x) * fb_depth, 
 		   f->x_image->data + (f->x_image->width * (src_y + y) + src_x) * fb_depth, 
 		   width * fb_depth);

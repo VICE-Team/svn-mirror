@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libvideo.a
 
-libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	video-cmdline-options.c 	video-cmdline-options.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
+libvideo_a_SOURCES =  	render1x1.c 	render1x1.h 	render1x1pal.c 	render1x1pal.h 	render1x2.c 	render1x2.h 	render2x2.c 	render2x2.h 	render2x2pal.c 	render2x2pal.h 	video-canvas.c 	video-cmdline-options.c 	video-cmdline-options.h 	video-color.c 	video-color.h 	video-render.c 	video-render.h 	video-resources.c 	video-resources.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -151,8 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libvideo_a_LIBADD = 
 libvideo_a_OBJECTS =  render1x1.o render1x1pal.o render1x2.o render2x2.o \
-render2x2pal.o video-cmdline-options.o video-color.o video-render.o \
-video-resources.o
+render2x2pal.o video-canvas.o video-cmdline-options.o video-color.o \
+video-render.o video-resources.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -265,6 +265,17 @@ render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
 	../../src/arch/unix/types.h
 render2x2pal.o: render2x2pal.c ../../src/vice.h ../../src/config.h \
 	render2x2.h ../../src/arch/unix/types.h
+video-canvas.o: video-canvas.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/types.h ../../src/utils.h video-render.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 video-cmdline-options.o: video-cmdline-options.c ../../src/vice.h \
 	../../src/config.h
 video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
@@ -272,11 +283,11 @@ video-color.o: video-color.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h video-color.h video-resources.h \
 	../../src/video.h
 video-render.o: video-render.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/raster/raster-canvas.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h render1x1.h render1x1pal.h \
-	render1x2.h render2x2.h render2x2pal.h video-render.h \
-	video-resources.h ../../src/video.h
+	../../src/raster/raster-canvas.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	render1x1.h render1x1pal.h render1x2.h render2x2.h \
+	render2x2pal.h video-render.h video-resources.h \
+	../../src/video.h
 video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/arch/unix/types.h ../../src/resources.h \
@@ -287,6 +298,7 @@ video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:

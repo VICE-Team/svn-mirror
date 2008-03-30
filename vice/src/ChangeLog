@@ -1,3 +1,49 @@
+2002-06-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.45.
+
+	* raster/raster.c (raster_force_repaint): Removed call to
+	`raster_set_canvas_refresh()'.
+	(raster_init): Enable canvas refresh.
+	(realize_canvas, perform_mode_change, raster_rebuild_tables,
+	raster_set_palette): Initialize pixel table once.
+
+	* vicii/vicii.c, vdc/vdc.c, vic20/vic.c, crtc/crtc.c,
+	plus4/ted.c (init_raster): Removed canvas refresh enable.
+
+	* video.h, arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (video_canvas_init): Renamed to
+	`video_arch_canvas_init()' and removed common code.
+	(video_canvas_refresh): Draw buffer data is obtained from the
+	canvas now, call `video_canvas_render()' to render canvas.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/msdos/videoarch.h, arch/riscos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h: Added pointer
+	to draw buffer.
+
+	* raster/raster-canvas.c, raster/raster-line.c,
+	raster/raster.c, raster/raster.h: Moved draw buffer data out
+	of `struct raster_s'.
+
+	* video/video-canvas.c: New file.
+
+	* video/Makefile.am: Added new file.
+
+	* video.h, video/video-render.c, video/render2x2pal.c,
+	video/render2x2.c, video/render1x2.c: `xs' and `ys' are not
+	scaled anymore.
+
+	* arch/unix/x11/video.c (video_canvas_refresh): Removed draw
+	buffer coordinate scaling.
+
+	* arch/unix/x11/dga2.c (fullscreen_refresh_func): Fixed
+	parameters.
+
+	* vice.h: List ports which still scale draw buffer
+	coordinates.
+
 2002-06-26  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.9.44.

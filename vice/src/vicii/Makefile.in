@@ -296,7 +296,8 @@ vicii-resources.o: vicii-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/arch/unix/types.h vicii-color.h \
 	vicii-resources.h vicii.h viciitypes.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h
+	../../src/video.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 vicii-snapshot.o: vicii-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/mem.h \
@@ -326,7 +327,8 @@ vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	vicii-fetch.h vicii-mem.h vicii-sprites.h vicii-resources.h \
 	vicii-snapshot.h vicii.h viciitypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/vsync.h \
-	../../src/video.h
+	../../src/video.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 
 info-am:
 info: info-am

@@ -364,7 +364,8 @@ ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	ted-resources.h ted.h ../../src/arch/unix/types.h tedtypes.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/utils.h \
-	../../src/video.h
+	../../src/video.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/mem.h \
@@ -392,7 +393,8 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	ted-mem.h ted-resources.h ted-snapshot.h ted-sound.h \
 	ted-timer.h ted.h tedtypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/utils.h \
-	../../src/vsync.h ../../src/video.h
+	../../src/vsync.h ../../src/video.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 
 info-am:
 info: info-am

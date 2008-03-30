@@ -85,8 +85,10 @@ static resource_t resources[] =
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.fullscreen_double_size_enabled = (int)v;
+
+    /* Does not exist anymore 
     if (fullscreen_is_enabled)
-        vic_ii_resize();
+        vic_ii_resize(); */
     return 0;
 }
 #endif

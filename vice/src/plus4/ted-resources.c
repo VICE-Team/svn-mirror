@@ -50,8 +50,9 @@ ted_resources_t ted_resources;
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
     ted_resources.fullscreen_double_size_enabled = (int)v;
+    /* Does not exist anymore
     if (fullscreen_is_enabled)
-        ted_resize();
+        ted_resize(); */
     return 0;
 }
 #endif

@@ -59,8 +59,9 @@ static int set_palette_file_name(resource_value_t v, void *param)
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
     crtc_resources.fullscreen_double_size_enabled = (int)v;
+    /* Does not exist anymore
     if (fullscreen_is_enabled)
-        crtc_resize();
+        crtc_resize(); */
     return 0;
 }
 #endif

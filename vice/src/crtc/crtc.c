@@ -354,7 +354,6 @@ raster_t *crtc_init(void)
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
     resources_touch("CrtcVideoCache");
-    raster_set_canvas_refresh(raster, 1);
 
     if (!crtc.regs[0])
         crtc.regs[0] = 49;
@@ -581,9 +580,11 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
     if (crtc.framelines == crtc.screen_yoffset) {
 */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
+        crtc.raster.current_line = 0;
         raster_canvas_handle_end_of_frame(&crtc.raster);
         raster_skip_frame(&crtc.raster,
-                          vsync_do_vsync(crtc.raster.viewport.canvas, crtc.raster.skip_frame));
+                          vsync_do_vsync(crtc.raster.viewport.canvas,
+                          crtc.raster.skip_frame));
     }
 
     {
@@ -777,7 +778,8 @@ void crtc_async_refresh(struct canvas_refresh_s *refresh)
 void crtc_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-    crtc_resize();
+    /* Does not exist anymore
+    crtc_resize(); */
     raster_force_repaint(&crtc.raster);
 #endif
 }

@@ -287,7 +287,8 @@ vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/arch/unix/types.h vic-resources.h \
 	vic.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic-mem.h vic20.h \
-	../../src/video.h
+	../../src/video.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/snapshot.h \
@@ -305,7 +306,8 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	vic-cmdline-options.h vic-draw.h vic-mem.h vic-resources.h \
 	vic-snapshot.h vic-color.h vic.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h vic20.h ../../src/video.h \
-	vic20mem.h ../../src/vsync.h
+	vic20mem.h ../../src/vsync.h ../../src/fullscreen.h \
+	../../src/arch/unix/x11/fullscreen-common.h
 vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/cmdline.h \
 	../../src/machine.h ../../src/resources.h ../../src/utils.h \

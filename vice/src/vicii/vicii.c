@@ -358,7 +358,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
     resources_touch("VICIIVideoCache");
-    raster_set_canvas_refresh(raster, 1);
 
     vic_ii_set_geometry();
 
@@ -1131,7 +1130,8 @@ void vic_ii_async_refresh(struct canvas_refresh_s *refresh)
 void vic_ii_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-    vic_ii_resize();
+    /* Does not exist anymore
+    vic_ii_resize(); */
     raster_force_repaint(&vic_ii.raster);
 #endif
 }
