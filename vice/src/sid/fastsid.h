@@ -1,5 +1,5 @@
 /*
- * resid.h - reSID interface code.
+ * fastsid.h - MOS6581 (SID) emulation.
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -24,13 +24,13 @@
  *
  */
 
-#ifndef _RESID_H
-#define _RESID_H
+#ifndef _SID_H
+#define _SID_H
 
 #include "types.h"
 #include "sid.h"
 
-extern sid_engine_t resid_hooks;
+extern sid_engine_t fastsid_hooks;
 
 #endif
 

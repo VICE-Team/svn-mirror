@@ -38,7 +38,7 @@ static FILE *wav_fd = NULL;
 static int samples = 0;
 
 /* Store number as little endian. */
-static int le_store(BYTE* buf, DWORD val, int len)
+static void le_store(BYTE* buf, DWORD val, int len)
 {
     int i;
     for (i = 0; i < len; i++) {
@@ -56,7 +56,6 @@ static int wav_init(const char *param, int *speed,
     WORD channels = *stereo ? 2 : 1;
     DWORD sample_rate = *speed;
     DWORD bytes_per_sec = *speed*channels*2;
-    int i;
 
     wav_fd = fopen(param?param:"vicesnd.wav", MODE_WRITE);
     if (!wav_fd)
@@ -107,7 +106,6 @@ static void wav_close(void)
     BYTE dlen[4];
     DWORD rifflen = samples*2 + 36;
     DWORD datalen = samples*2;
-    int i;
 
     le_store(rlen, rifflen, 4);
     le_store(dlen, datalen, 4);

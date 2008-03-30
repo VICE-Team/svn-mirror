@@ -15,10 +15,10 @@ INCLUDES = \
 noinst_LIBRARIES = libsid.a
 
 libsid_a_SOURCES = \
+	fastsid.c \
+	fastsid.h \
 	sid-cmdline-options.c \
 	sid-cmdline-options.h \
-	sid-engine.c \
-	sid-engine.h \
 	sid-resources.c \
 	sid-resources.h \
 	sid-snapshot.c \

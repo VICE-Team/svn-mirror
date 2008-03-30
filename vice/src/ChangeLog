@@ -1,3 +1,45 @@
+2001-10-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.13.
+
+	* raster/raster.c (raster_resize_viewport): Fixed calculation
+	of viewport geometry if displayed area is small compared to
+	screen height.
+
+	* vdc/vdc.c (vdc_increment_memory_pointer): Fixed bitmap
+	memory increment.
+	(vdc_raster_draw_alarm_handler): Added support for idle state.
+	(vdc_update_geometry): Calculate more geometry parameters.
+
+	* vdc/vdc-draw.c (draw_std_bitmap_cached, draw_std_bitmap):
+	Fixed usage of attribute bytes.
+
+	* vdc/vdc-mem.c: Added support for register #6 and #9.
+
+	* vdc/vdctypes.h: Removed some hardcoded constants.
+
+	* sid/sid-snapshot.c: Added declaration of `siddata'.
+
+2001-10-07 Dag Lem <resid@nimrod.no>
+
+	* sid/Makefile.am: Removed sid-engine.{c,h} added
+	fastsid.{c,h}
+
+	* sid/resid.h: Include sid.h instead of sid-engine.h
+
+	* sid/sid.c: Renamed to fastsid.c
+
+	* sid/sid.h: Renamed to fastsid.h. Include sid.h instead of
+	sid-engine.h
+
+	* sid/sid-engine.c: Renamed to sid.c
+
+	* sid/sid-engine.h: Renamed to sid.h
+
+	* sounddrv/soundwav.c (le_store): void return type.
+	(wav_init): Removed unused variable i.
+	(wav_close): Likewise.
+
 2001-10-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.12.
