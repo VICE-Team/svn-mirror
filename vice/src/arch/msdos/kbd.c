@@ -198,10 +198,11 @@ static void queue_command(kbd_command_type_t type,
     if (num_queued_commands < MAX_COMMAND_QUEUE_SIZE) {
         int i = num_queued_commands++;
 
-	command_queue[i].type = type;
+        command_queue[i].type = type;
         command_queue[i].data = data;
     }
 }
+
 static void queue_command_end(void) { }
 
 /* CPU trap to enter the main menu.  */
@@ -216,80 +217,75 @@ void kbd_flush_commands(void)
     int i;
 
     if (num_queued_commands == 0)
-	return;
+        return;
 
     for (i = 0; i < num_queued_commands; i++) {
-	switch (command_queue[i].type) {
-	    case KCMD_HARD_RESET:
-            suspend_speed_eval();
+        switch (command_queue[i].type) {
+          case KCMD_HARD_RESET:
+            vsync_suspend_speed_eval();
             machine_powerup();
             break;
-            
-	    case KCMD_RESET:
-	        suspend_speed_eval();
-	        maincpu_trigger_reset();
-	        break;
-
-	    case KCMD_RESTORE_PRESSED:
-	        machine_set_restore_key(1);
-	        break;
-
-	    case KCMD_RESTORE_RELEASED:
-	        machine_set_restore_key(0);
-    	    break;
-
-        case KCMD_FREEZE:
+          case KCMD_RESET:
+            vsync_suspend_speed_eval();
+            maincpu_trigger_reset();
+            break;
+          case KCMD_RESTORE_PRESSED:
+            machine_set_restore_key(1);
+            break;
+          case KCMD_RESTORE_RELEASED:
+            machine_set_restore_key(0);
+            break;
+          case KCMD_FREEZE:
             if (freeze_function != NULL)
                 freeze_function();
             break;
-        case KCMD_FLIP_NEXT:
+          case KCMD_FLIP_NEXT:
             flip_attach_head(8, 1);
             break;
-        case KCMD_FLIP_PREVIOUS:
+          case KCMD_FLIP_PREVIOUS:
             flip_attach_head(8, 0);
             break;
-        case KCMD_FLIP_ADD:
+          case KCMD_FLIP_ADD:
             flip_add_image(8);
             break;
-        case KCMD_FLIP_REMOVE:
+          case KCMD_FLIP_REMOVE:
             flip_remove(-1, NULL);
             break;
-        case KCMD_TOGGLE_WARP:
+          case KCMD_TOGGLE_WARP:
             resources_toggle("WarpMode", NULL);
             break;
 
-        case KCMD_MENU:
+          case KCMD_MENU:
             maincpu_trigger_trap(menu_trap, (void *) command_queue[i].data);
             break;
-        case KCMD_TOGGLE_STATUSBAR:
+          case KCMD_TOGGLE_STATUSBAR:
             if (statusbar_enabled()) {
-	        resources_set_value("ShowStatusbar",
-                    (resource_value_t) STATUSBAR_MODE_OFF);
+                resources_set_value("ShowStatusbar",
+                                    (resource_value_t)STATUSBAR_MODE_OFF);
             } else {
-	        resources_set_value("ShowStatusbar",
-                    (resource_value_t) STATUSBAR_MODE_ON);
+                resources_set_value("ShowStatusbar",
+                                    (resource_value_t)STATUSBAR_MODE_ON);
             }
             break;
-        case KCMD_DATASETTE_START:
+          case KCMD_DATASETTE_START:
             datasette_control(DATASETTE_CONTROL_START);
             break;
-        case KCMD_DATASETTE_STOP:
+          case KCMD_DATASETTE_STOP:
             datasette_control(DATASETTE_CONTROL_STOP);
             break;
-        case KCMD_DATASETTE_FORWARD:
+          case KCMD_DATASETTE_FORWARD:
             datasette_control(DATASETTE_CONTROL_FORWARD);
             break;
-        case KCMD_DATASETTE_REWIND:
+          case KCMD_DATASETTE_REWIND:
             datasette_control(DATASETTE_CONTROL_REWIND);
             break;
-        case KCMD_DATASETTE_RECORD:
+          case KCMD_DATASETTE_RECORD:
             datasette_control(DATASETTE_CONTROL_RECORD);
             break;
-
-	  default:
-	    log_error(LOG_DEFAULT, "Unknown keyboard command %d.",
+          default:
+            log_error(LOG_DEFAULT, "Unknown keyboard command %d.",
                       (int)command_queue[i].type);
-	}
+        }
     }
     num_queued_commands = 0;
 }
@@ -341,38 +337,38 @@ static void my_kbd_interrupt_handler(void)
         kcode = K_PAUSE;
     }
 
-    if (!(kcode & 0x80)) {	/* Key pressed.  */
+    if (!(kcode & 0x80)) {      /* Key pressed.  */
 
-	/* Derive the extended keycode.  */
-	if (extended == 1)
-	    kcode = _kbd_extended_key_tab[kcode];
+        /* Derive the extended keycode.  */
+        if (extended == 1)
+            kcode = _kbd_extended_key_tab[kcode];
 
-	/* Handle modifiers.  */
-	switch (kcode) {
-	  case K_LEFTCTRL:
-	    modifiers.left_ctrl = 1;
-	    break;
-	  case K_RIGHTCTRL:
-	    modifiers.right_ctrl = 1;
-	    break;
-	  case K_LEFTSHIFT:
-	    modifiers.left_shift = 1;
-	    break;
-	  case K_RIGHTSHIFT:
-	    modifiers.right_shift = 1;
-	    break;
-	  case K_LEFTALT:
-	    modifiers.left_alt = 1;
-	    break;
-	  case K_RIGHTALT:
-	    modifiers.right_alt = 1;
-	    break;
-	}
+        /* Handle modifiers.  */
+        switch (kcode) {
+          case K_LEFTCTRL:
+            modifiers.left_ctrl = 1;
+            break;
+          case K_RIGHTCTRL:
+            modifiers.right_ctrl = 1;
+            break;
+          case K_LEFTSHIFT:
+            modifiers.left_shift = 1;
+            break;
+          case K_RIGHTSHIFT:
+            modifiers.right_shift = 1;
+            break;
+          case K_LEFTALT:
+            modifiers.left_alt = 1;
+            break;
+          case K_RIGHTALT:
+            modifiers.right_alt = 1;
+            break;
+        }
 
         /* This must be done separately because some machines (eg. the PETs)
            might want to map this differently.  */
         if (kcode == K_PGUP)  /* Restore */
-	    queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t) 0);
+            queue_command(KCMD_RESTORE_PRESSED, (kbd_command_data_t) 0);
 
 	switch (kcode) {
           case K_ESC:           /* Menu */
@@ -389,32 +385,38 @@ static void my_kbd_interrupt_handler(void)
             /* Fall through */
           default:
             if (modifiers.left_alt && modifiers.left_ctrl) {
-               switch (kcode) {
+                switch (kcode) {
                   case K_F12:
                     /* Ctrl-Alt-F12 does a hard reset. */
-                    queue_command(KCMD_HARD_RESET, (kbd_command_data_t) 0);
+                    queue_command(KCMD_HARD_RESET,
+                                  (kbd_command_data_t) 0);
                     break;
                   case K_F4:
                     /* Ctrl-Alt-F4 is RECORD on the datasette. */
-                    queue_command(KCMD_DATASETTE_RECORD, (kbd_command_data_t) 0);
+                    queue_command(KCMD_DATASETTE_RECORD,
+                                  (kbd_command_data_t) 0);
                     break;
                   case K_F5:
                     /* Ctrl-Alt-F5 is PLAY on the datasette. */
-                    queue_command(KCMD_DATASETTE_START, (kbd_command_data_t) 0);
+                    queue_command(KCMD_DATASETTE_START,
+                                  (kbd_command_data_t) 0);
                     break;
                   case K_F6:
                     /* Ctrl-Alt-F6 is REWIND on the datasette. */
-                    queue_command(KCMD_DATASETTE_REWIND, (kbd_command_data_t) 0);
+                    queue_command(KCMD_DATASETTE_REWIND,
+                                  (kbd_command_data_t) 0);
                     break;
                   case K_F7:
                     /* Ctrl-Alt-F7 is FF on the datasette. */
-                    queue_command(KCMD_DATASETTE_FORWARD, (kbd_command_data_t) 0);
+                    queue_command(KCMD_DATASETTE_FORWARD,
+                                  (kbd_command_data_t) 0);
                     break;
                   case K_F8:
                     /* Ctrl-Alt-F8 is STOP on the datasette. */
-                    queue_command(KCMD_DATASETTE_STOP, (kbd_command_data_t) 0);
+                    queue_command(KCMD_DATASETTE_STOP,
+                                  (kbd_command_data_t) 0);
                     break;
-               }
+                }
             } else if (modifiers.left_alt || modifiers.right_alt) {
                 /* Handle Alt-... hotkeys.  */
                 switch (kcode) {
@@ -440,7 +442,8 @@ static void my_kbd_interrupt_handler(void)
                     break;
                   case K_F5:
                     /* Alt-F5 toggles statusbar.  */
-                      queue_command(KCMD_TOGGLE_STATUSBAR,(kbd_command_data_t) 0);
+                      queue_command(KCMD_TOGGLE_STATUSBAR,
+                                    (kbd_command_data_t) 0);
                     break;
                   case K_PAUSE:
                     /* Alt-Pause enables cartridge freezing.  */
@@ -464,41 +467,41 @@ static void my_kbd_interrupt_handler(void)
             }
 	}
 
-    } else {			/* Key released.  */
+    } else {                    /* Key released.  */
 
-	/* Remove release bit.  */
-	kcode &= 0x7F;
+        /* Remove release bit.  */
+        kcode &= 0x7F;
 
-	/* Derive the extended keycode.  */
-	if (extended == 1)
-	    kcode = _kbd_extended_key_tab[kcode];
+        /* Derive the extended keycode.  */
+        if (extended == 1)
+            kcode = _kbd_extended_key_tab[kcode];
 
-	/* Handle modifiers.  */
-	switch (kcode) {
-	  case K_LEFTCTRL:
-	    modifiers.left_ctrl = 0;
-	    break;
-	  case K_RIGHTCTRL:
-	    modifiers.right_ctrl = 0;
-	    break;
-	  case K_LEFTSHIFT:
-	    modifiers.left_shift = 0;
-	    break;
-	  case K_RIGHTSHIFT:
-	    modifiers.right_shift = 0;
-	    break;
-	  case K_LEFTALT:
-	    modifiers.left_alt = 0;
-	    break;
-	  case K_RIGHTALT:
-	    modifiers.right_alt = 0;
-	    break;
-	}
+        /* Handle modifiers.  */
+        switch (kcode) {
+          case K_LEFTCTRL:
+            modifiers.left_ctrl = 0;
+            break;
+          case K_RIGHTCTRL:
+            modifiers.right_ctrl = 0;
+            break;
+          case K_LEFTSHIFT:
+            modifiers.left_shift = 0;
+            break;
+          case K_RIGHTSHIFT:
+            modifiers.right_shift = 0;
+            break;
+          case K_LEFTALT:
+            modifiers.left_alt = 0;
+            break;
+          case K_RIGHTALT:
+            modifiers.right_alt = 0;
+            break;
+        }
 
         /* This must be done separately because some machines (eg. the PETs)
            might want to map this differently.  */
         if (kcode == K_PGUP)
-	    queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t) 0);
+            queue_command(KCMD_RESTORE_RELEASED, (kbd_command_data_t) 0);
 
         if (!modifiers.left_alt && !modifiers.right_alt) {
             if (!joystick_handle_key(kcode, 0)) {
@@ -530,13 +533,15 @@ void kbd_install(void)
     my_kbd_handler_seginfo.pm_selector = _go32_my_cs();
     r = _go32_dpmi_allocate_iret_wrapper(&my_kbd_handler_seginfo);
     if (r) {
-        log_error(LOG_DEFAULT, "Cannot allocate IRET wrapper for the keyboard interrupt.");
+        log_error(LOG_DEFAULT,
+                  "Cannot allocate IRET wrapper for the keyboard interrupt.");
 	exit(-1);
     }
     r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &my_kbd_handler_seginfo);
     if (r) {
-	log_error(LOG_DEFAULT, "Cannot install the keyboard interrupt handler.");
-	exit(-1);
+	log_error(LOG_DEFAULT,
+                  "Cannot install the keyboard interrupt handler.");
+        exit(-1);
     }
 
     /* Initialize the keyboard matrix.  */
@@ -551,9 +556,11 @@ void kbd_uninstall(void)
 {
     int r;
 
-    r = _go32_dpmi_set_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
+    r = _go32_dpmi_set_protected_mode_interrupt_vector(9,
+            &std_kbd_handler_seginfo);
     if (r)
-	log_error(LOG_DEFAULT, "Aaargh! Couldn't restore the standard kbd interrupt vector!");
+	log_error(LOG_DEFAULT,
+                  "Couldn't restore the standard kbd interrupt vector!");
 }
 
 static void kbd_exit(void)
@@ -570,8 +577,11 @@ int kbd_init(int num, ...)
     _go32_dpmi_get_protected_mode_interrupt_vector(9, &std_kbd_handler_seginfo);
     atexit(kbd_exit);
 
-    _go32_dpmi_lock_code(my_kbd_interrupt_handler, (unsigned long)my_kbd_interrupt_handler_end - (unsigned long)my_kbd_interrupt_handler);
-    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end - (unsigned long)queue_command);
+    _go32_dpmi_lock_code(my_kbd_interrupt_handler,
+                         (unsigned long)my_kbd_interrupt_handler_end
+                         - (unsigned long)my_kbd_interrupt_handler);
+    _go32_dpmi_lock_code(queue_command, (unsigned long)queue_command_end
+                         - (unsigned long)queue_command);
 
     {
         va_list p;

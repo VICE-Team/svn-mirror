@@ -45,10 +45,10 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 /* sleep the given amount of timer units */
 void vsyncarch_sleep(signed long delay);
 
-/* this is called before do_vsync does the synchroniation */
+/* this is called before vsync_do_vsync does the synchroniation */
 void vsyncarch_presync(void);
 
-/* this is called after do_vsync did the synchroniation */
+/* this is called after vsync_do_vsync did the synchroniation */
 void vsyncarch_postsync(void);
 
 /* set ui dispatcher function */

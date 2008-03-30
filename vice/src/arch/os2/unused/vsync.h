@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern void   suspend_speed_eval(void);
+extern void   vsync_suspend_speed_eval(void);
 extern int    vsync_init_resources(void);
 extern int    vsync_init_cmdline_options(void);
 extern void   vsync_init(double hertz, long cycles, void (*hook)(void));
@@ -37,6 +37,6 @@ extern int    vsync_disable_timer(void);
 extern void   vsync_prevent_clk_overflow(CLOCK sub);
 //extern double vsync_get_avg_frame_rate(void);
 //extern double vsync_get_avg_speed_index(void);
-extern int do_vsync(int been_skipped);
+extern int vsync_do_vsync(int been_skipped);
 
 #endif /* !_VSYNC_DOS_H */

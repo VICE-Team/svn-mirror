@@ -688,7 +688,8 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
 */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
 	raster_handle_end_of_frame(&crtc.raster);
-        raster_skip_frame (&crtc.raster, do_vsync (crtc.raster.skip_frame));
+        raster_skip_frame (&crtc.raster,
+                           vsync_do_vsync(crtc.raster.skip_frame));
     }
 
     {

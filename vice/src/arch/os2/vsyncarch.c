@@ -41,7 +41,7 @@
 
 #include "log.h"
 #include "utils.h"     // xmsprintf
-#include "vsync.h"     // suspend_speed_eval
+#include "vsync.h"     // vsync_suspend_speed_eval
 #include "sound.h"     // sound_close
 #include "kbdbuf.h"    // kbd_buf_flush
 #include "machine.h"   // machine_shutdown
@@ -119,7 +119,7 @@ void emulator_pause()
 
 void emulator_resume()
 {
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     emulator_paused=FALSE;
 }
 

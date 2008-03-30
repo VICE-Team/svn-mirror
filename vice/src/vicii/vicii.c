@@ -1057,7 +1057,8 @@ void vic_ii_raster_draw_alarm_handler (CLOCK offset)
 
   if (vic_ii.raster.current_line == 0)
     {
-      raster_skip_frame (&vic_ii.raster, do_vsync (vic_ii.raster.skip_frame));
+      raster_skip_frame (&vic_ii.raster,
+                         vsync_do_vsync(vic_ii.raster.skip_frame));
       vic_ii.memptr = 0;
       vic_ii.mem_counter = 0;
       vic_ii.light_pen.triggered = 0;

@@ -31,7 +31,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "vsync.h"         // suspend_speed_eval
+#include "vsync.h"         // vsync_suspend_speed_eval
 #include "machine.h"       // machine_powerup
 #include "interrupt.h"     // maincpu_trigger_reset
 
@@ -68,7 +68,7 @@ void hardreset_dialog(HWND hwnd)
     if (ResetDialog(hwnd, " Hard Reset:\n Do you really want to reset the emulated machine?"))
         return;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     machine_powerup();  // Hard_reset;
 }
 
@@ -77,7 +77,7 @@ void softreset_dialog(HWND hwnd)
     if (ResetDialog(hwnd, " Soft Reset:\n Do you really want to reset the emulated machine?"))
         return;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     maincpu_trigger_reset();  // Soft Reset
 }
 

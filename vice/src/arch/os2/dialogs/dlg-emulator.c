@@ -167,7 +167,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         {
         case PB_SPEED100:
             WinSetDlgSpinVal(hwnd, SPB_SPEED, 100);
-            suspend_speed_eval();
+            vsync_suspend_speed_eval();
             resources_set_value("Speed", (resource_value_t)100);
             WinEnableControl(hwnd, PB_SPEED100, FALSE);
             return FALSE;
@@ -223,7 +223,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN)
                 {
                     const ULONG val = WinGetSpinVal((HWND)mp2);
-                    suspend_speed_eval();
+                    vsync_suspend_speed_eval();
                     resources_set_value("Speed", (resource_value_t)val);
                     WinEnableControl(hwnd, PB_SPEED100, (val!=100));
                 }

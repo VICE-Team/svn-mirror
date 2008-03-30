@@ -121,7 +121,7 @@ static int set_max_skipped_frames(resource_value_t v, void *param)
 
 
 
-void suspend_speed_eval(void)
+void vsync_suspend_speed_eval(void)
 {
 }
 
@@ -188,7 +188,7 @@ static int skip_counter=0;
 #define VSYNC_TIME_DELTA(t,n) \
   ((10000*(n)) - FramesPerSecond*CurrentSpeedLimit*((t)-LastSpeed))
 
-int do_vsync(int been_skipped)
+int vsync_do_vsync(int been_skipped)
 {
   int skip_next_frame = 0;
   int frame_delay;

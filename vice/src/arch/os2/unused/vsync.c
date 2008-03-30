@@ -275,7 +275,7 @@ static int speed_eval_suspended = 1;
 
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
-void suspend_speed_eval(void)
+void vsync_suspend_speed_eval(void)
 {
     sound_suspend();
     speed_eval_suspended = 1;
@@ -287,7 +287,7 @@ void vsync_init(double hertz, long cycles, void (*hook)(void))
     refresh_frequency = hertz;
     cycles_per_sec    = cycles;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     vsync_disable_timer();
 }
 
@@ -324,7 +324,7 @@ void vsync_prevent_clk_overflow(CLOCK sub)
 
 /* This is called at the end of each screen frame.  It flushes the audio buffer
    and keeps control of the emulation speed.  */
-int do_vsync(int been_skipped)
+int vsync_do_vsync(int been_skipped)
 {
     static unsigned short frame_counter = USHRT_MAX;
     static unsigned short num_skipped_frames;

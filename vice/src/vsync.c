@@ -202,7 +202,7 @@ void vsync_set_machine_parameter(double refresh_rate, long cycles)
 void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
     vsyncarch_init();
@@ -218,7 +218,7 @@ int vsync_disable_timer(void)
 
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
-void suspend_speed_eval(void)
+void vsync_suspend_speed_eval(void)
 {
     sound_suspend();
     speed_eval_suspended = 1;
@@ -226,7 +226,7 @@ void suspend_speed_eval(void)
 
 /* This is called at the end of each screen frame. It flushes the
    audio buffer and keeps control of the emulation speed. */
-int do_vsync(int been_skipped)
+int vsync_do_vsync(int been_skipped)
 {
     static unsigned long next_frame_start = 0;
 

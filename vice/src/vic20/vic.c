@@ -133,7 +133,7 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
 
     if (vic.raster.current_line == 0)
     {
-        raster_skip_frame (&vic.raster, do_vsync (vic.raster.skip_frame));
+        raster_skip_frame (&vic.raster, vsync_do_vsync(vic.raster.skip_frame));
         vic.raster.blank_enabled = 1;
         vic.row_counter = 0;
         vic.raster.ycounter = 0;
