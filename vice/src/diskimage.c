@@ -48,8 +48,8 @@
 static log_t disk_image_log = LOG_ERR;
 
 /* Defines for probing the disk image type.  */
-#define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
-                       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
+/* #define IS_D64_LEN(x) removed,
+   now calculated in disk_image_check_for_d64 for 35-42 track support */
 #define IS_D67_LEN(x) ((x) == D67_FILE_SIZE)
 #define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
 #define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
@@ -113,8 +113,9 @@ unsigned int disk_image_speed_map_1571(unsigned int track)
 
 static void disk_image_check_log(disk_image_t *image, const char *type)
 {
-    log_message(disk_image_log, "%s disk image recognised: %s%s", type,
-                image->name, image->read_only ? " (read only)." : ".");
+    log_message(disk_image_log, "%s disk image recognised: %s, %d tracks%s",
+                type, image->name, image->tracks,
+		image->read_only ? " (read only)." : ".");
 }
 
 static int disk_image_check_min_block(unsigned int blk, unsigned int length)
@@ -126,68 +127,76 @@ static int disk_image_check_min_block(unsigned int blk, unsigned int length)
     return 0;
 }
 
+
 static int disk_image_check_for_d64(disk_image_t *image)
 {
-    unsigned int blk = 0;
-    size_t len;
-    BYTE block[256];
+    int countbytes;
 
-    if (!(IS_D64_LEN(util_file_length(image->fd))))
-        return 0;
+    /*** detect 35..42 track d64 image, determine image parameters.
+         Walk from 35 to 42, calculate expected image file size for each track,
+	 and compare this with the size of the given image.
+	 */ 
+    
+    int checkimage_tracks,checkimage_blocks;
+    int checkimage_realsize,checkimage_errorinfo;
 
-    image->type = DISK_IMAGE_TYPE_D64;
-    image->tracks = NUM_TRACKS_1541;
+    checkimage_errorinfo=0;
+    checkimage_realsize=util_file_length(image->fd);
+    checkimage_tracks=NUM_TRACKS_1541; /* start at track 35 */
+    checkimage_blocks=D64_FILE_SIZE_35/256;
+    
+    while (1) {
 
+	/* check if image matches "checkimage_tracks" */
+	if (checkimage_realsize==checkimage_blocks*256) {
+	    /* image file matches size-with-no-error-info */
+	    checkimage_errorinfo=0;
+	    break;
+	    
+	} else if (checkimage_realsize==checkimage_blocks*256
+	    + checkimage_blocks) {
+	    /* image file matches size-with-error-info */
+	    checkimage_errorinfo=1;
+	    break;
+	}
+	
+	/* try next track (all tracks from 35 to 42 have 17 blocks) */
+	checkimage_tracks++;
+	checkimage_blocks+=17;
+	
+	/* we tried them all up to 42, none worked, image must be corrupt */
+	if (checkimage_tracks>MAX_TRACKS_1541)
+	    return 0;
+    }
+    
+    /*** test image file: read it (fgetc is pretty fast).
+         further size checks are no longer necessary (done during detection) */
     rewind(image->fd);
-
-    while ((len = fread(block, 1, 256, image->fd)) == 256) {
-        if (++blk > (EXT_BLOCKS_1541 + 3)) {
-            log_error(disk_image_log, "Disk image too large");
-            break;
+    for (countbytes=0; countbytes<checkimage_realsize; countbytes++) {
+	if (fgetc(image->fd)==EOF) {
+    	    log_error(disk_image_log, "Cannot read D64 image.");
+	    return 0;
         }
     }
 
-    if (disk_image_check_min_block(blk, NUM_BLOCKS_1541) < 0)
-        return 0;
-
-    switch (blk) {
-      case NUM_BLOCKS_1541:
-        image->tracks = NUM_TRACKS_1541;
-        break;
-      case NUM_BLOCKS_1541 + 2:
-        if (len != 171) {
-            log_message(disk_image_log, "Cannot read block %d.", blk);
-            return 0;
-        }
-        image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
-        memset(image->error_info, 0, MAX_BLOCKS_1541);
-        if (fseek(image->fd, 256 * NUM_BLOCKS_1541, SEEK_SET) < 0)
-            return 0;
-        if (fread(image->error_info, 1, NUM_BLOCKS_1541, image->fd)
-            < NUM_BLOCKS_1541)
-            return 0;
-        image->tracks = NUM_TRACKS_1541;
-        break;
-      case EXT_BLOCKS_1541:
-        image->tracks = EXT_TRACKS_1541;
-        break;
-      case EXT_BLOCKS_1541 + 3:
-        image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
-        memset(image->error_info, 0, MAX_BLOCKS_1541);
-        if (fseek(image->fd, 256 * EXT_BLOCKS_1541, SEEK_SET) < 0)
-            return 0;
-        if (fread(image->error_info, 1, EXT_BLOCKS_1541, image->fd)
-            < EXT_BLOCKS_1541)
-            return 0;
-
-        image->tracks = EXT_TRACKS_1541;
-        break;
-      default:
-        return 0;
+    /*** set parameters in image structure, read error info */
+    image->type = DISK_IMAGE_TYPE_D64;
+    image->tracks = checkimage_tracks;
+    if (checkimage_errorinfo) {
+	image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
+	memset(image->error_info, 0, MAX_BLOCKS_1541);
+	if (fseek(image->fd, 256 * checkimage_blocks, SEEK_SET) < 0)
+    	    return 0;
+	if (fread(image->error_info, 1, checkimage_blocks, image->fd)
+    	    < checkimage_blocks)
+    	    return 0;
     }
-    disk_image_check_log(image, "D64");
+
+    /*** log and return successfully */
+    disk_image_check_log(image,"D64");
     return 1;
 }
+
 
 static int disk_image_check_for_d67(disk_image_t *image)
 {
