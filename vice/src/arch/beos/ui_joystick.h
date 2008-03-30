@@ -1,8 +1,8 @@
 /*
- * uisnapshot.h - Implementation of the snapshot load/save dialogs.
+ * ui_joystick.h - Joystick settings
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +24,9 @@
  *
  */
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+#ifndef __UI_JOYSTICK_H__
+#define __UI_JOYSTICK_H__
 
-void ui_snapshot_load_dialog(HWND hwnd);
-void ui_snapshot_save_dialog(HWND hwnd);
-void ui_screenshot_save_dialog(HWND hwnd);
-void ui_soundshot_save_dialog(HWND hwnd);
+extern void ui_joystick(void);
 
 #endif

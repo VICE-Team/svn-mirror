@@ -1,8 +1,8 @@
 /*
- * uisnapshot.h - Implementation of the snapshot load/save dialogs.
+ * ui_joystick.cc - Joystick settings
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,13 +23,42 @@
  *  02111-1307  USA.
  *
  */
+ 
+#include <Window.h>
 
-#ifndef _UISNAPSHOT_H
-#define _UISNAPSHOT_H
+extern "C" { 
+#include "ui_joystick.h"
+#include "vsync.h"
+}
 
-void ui_snapshot_load_dialog(HWND hwnd);
-void ui_snapshot_save_dialog(HWND hwnd);
-void ui_screenshot_save_dialog(HWND hwnd);
-void ui_soundshot_save_dialog(HWND hwnd);
+class joystickwindow : public BWindow {
+	public:
+		joystickwindow();
+		~joystickwindow();
+};	
 
-#endif
+static joystickwindow *joywindow;
+
+joystickwindow::joystickwindow() 
+	: BWindow(BRect(50,50,400,250),"Joystick settings",
+		B_TITLED_WINDOW, 
+		B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+{
+	Show();
+}
+
+joystickwindow::~joystickwindow() 
+{
+	joywindow = NULL;	
+}
+
+void ui_joystick() {
+	
+	if (joywindow != NULL)
+		return;
+
+	joywindow = new joystickwindow;
+
+	suspend_speed_eval();
+	while (joywindow);
+}

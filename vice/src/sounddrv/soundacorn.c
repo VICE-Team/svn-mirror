@@ -61,6 +61,18 @@ static int timerPeriod = 0;
 
 
 
+/* convert frequency to exact VIDC frequency */
+void sound_get_vidc_frequency(int *speed, int *period)
+{
+  int per;
+
+  per = (1000000 + (*speed/2)) / (*speed);
+  *speed  = (1000000 + (per/2)) / per;
+  if (period != NULL)
+    *period = per;
+}
+
+
 /*
  *  Asynchronous sound device code
  */
@@ -85,8 +97,7 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
   *fragsize = (*fragsize + 15) & ~15;
   buffersize = *fragsize;
   /* adapt sample speed */
-  period = (1000000 + (*speed/2))/(*speed);
-  *speed = (1000000 + (period/2))/period;
+  sound_get_vidc_frequency(speed, &period);
   DigitalRenderer_NumBuffers(0);
   if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)
   {
@@ -276,8 +287,7 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
   *fragsize = (*fragsize + 15) &~ 15;
   buffersize = *fragsize;
   /* adapt sample speed */
-  period = (1000000 + (*speed/2))/(*speed);
-  *speed = (1000000 + (period/2))/period;
+  sound_get_vidc_frequency(speed, &period);
 
   DigitalRenderer_NumBuffers(*fragnr);
   if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)

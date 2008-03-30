@@ -34,7 +34,9 @@
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "serial.h"
+#include "sound.h"
 #include "ui.h"
 #include "uidrive.h"
 #include "uilib.h"
@@ -60,49 +62,6 @@ static void init_dialog(HWND hwnd)
     SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, "");
 }
 
-#if 0
-static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd, 
-                                 UINT msg, WPARAM wparam, LPARAM lparam)
-{
-    switch (msg) {
-      case WM_INITDIALOG:
-        init_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-        switch (LOWORD(wparam)) {
-          case IDOK:
-            if (image[0] != '\0') {
-                if (strchr(image, '.') == NULL)
-                    strcat(image, ".vsf");
-                if (machine_write_snapshot(image, save_roms, save_disks) < 0) {
-                    ui_error("Cannot write snapshot file.");
-                    break;
-                }
-                EndDialog(hwnd, IDOK);
-                return TRUE;
-            }
-            ui_error("No file name specified.");
-            break;
-          case IDC_CANCEL:
-            EndDialog(hwnd, IDC_CANCEL);
-            return TRUE;
-          case IDC_SNAPSHOT_SAVE_IMAGE:
-            GetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, (LPSTR)image, 100);
-            break;
-          case IDC_TOGGLE_SNAPSHOT_SAVE_DISKS:
-            save_disks = !save_disks; 
-            break;
-          case IDC_TOGGLE_SNAPSHOT_SAVE_ROMS:
-            save_roms = !save_roms;
-            break;
-          default:
-            return FALSE;
-        }
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
 
 static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
@@ -120,7 +79,8 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LP
 }
 
 
-char *ui_save_snapshot(const char *title, const char *filter, HWND hwnd)
+char *ui_save_snapshot(const char *title, const char *filter, 
+                            HWND hwnd, int dialog_template)
 {
     char name[1024] = "";
     OPENFILENAME ofn;
@@ -143,12 +103,15 @@ char *ui_save_snapshot(const char *title, const char *filter, HWND hwnd)
                  | OFN_HIDEREADONLY
                  | OFN_NOTESTFILECREATE
                  | OFN_FILEMUSTEXIST
-                 | OFN_ENABLEHOOK
-                 | OFN_ENABLETEMPLATE
                  | OFN_SHAREAWARE
                  | OFN_ENABLESIZING);
-    ofn.lpfnHook = hook_save_snapshot;
-    ofn.lpTemplateName = MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG);
+    if (dialog_template) {
+        ofn.lpfnHook = hook_save_snapshot;
+        ofn.lpTemplateName = MAKEINTRESOURCE(dialog_template);
+        ofn.Flags = (ofn.Flags
+                 | OFN_ENABLEHOOK
+                 | OFN_ENABLETEMPLATE);
+    }
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
@@ -165,7 +128,7 @@ void ui_snapshot_save_dialog(HWND hwnd)
 {
     char *s;
     s = ui_save_snapshot("Save snapshot image",
-        "VICE snapshot files (*.vsf)\0*.vsf\0",hwnd);
+        "VICE snapshot files (*.vsf)\0*.vsf\0",hwnd,IDD_SNAPSHOT_SAVE_DIALOG);
     if (s != NULL) {
         char *sExt = ui_ensure_extension( s, ".vsf" );
         if (machine_write_snapshot(sExt, save_roms, save_disks) < 0)
@@ -188,3 +151,51 @@ void ui_snapshot_load_dialog(HWND hwnd)
     }
 }
 
+extern  HWND            window_handles[2];
+
+void ui_screenshot_save_dialog(HWND hwnd)
+{
+    char *s;
+    int i;
+    
+    for (i=0; i<2; i++) {
+        if (hwnd == window_handles[i])
+            break;
+    }
+    s = ui_save_snapshot("Save screenshot image",
+        "Bitmap files (*.bmp)\0*.bmp\0",hwnd,0);
+    if (s != NULL) {
+        char *sExt = ui_ensure_extension( s, ".bmp" );
+        if (screenshot_save("BMP",sExt, i) < 0)
+            ui_error("Cannot write screenshot file.");
+        free(sExt);
+        free(s);
+    }
+}
+
+void ui_soundshot_save_dialog(HWND hwnd)
+{
+    char *s;
+    char *devicename;
+
+    resources_get_value("SoundDeviceName",(resource_value_t *) &devicename);
+    if (devicename && !strcmp(devicename,"wav")) {
+        /* the recording is active; stop it by switching to the default device*/
+        resources_set_value("SoundDeviceName","");
+        ui_display_statustext("");
+    } else {
+        /* get the filename and switch to wav device */
+        s = ui_save_snapshot("Save sound file",
+            "Sound files (*.wav)\0*.wav\0",hwnd,0);
+        if (s != NULL) {
+            char *sExt = ui_ensure_extension( s, ".wav" );
+            resources_set_value("SoundDeviceArg",sExt);
+            resources_set_value("SoundDeviceName","wav");
+            resources_set_value("Sound",(resource_value_t) 1);
+            free(sExt);
+            free(s);
+            ui_display_statustext("Recording wav...");
+        }
+    }
+    free(devicename);
+}

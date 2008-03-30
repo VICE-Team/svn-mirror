@@ -60,10 +60,12 @@ void ViceApp::KillThread() {
 }
 
 void ViceApp::MessageReceived(BMessage *message) {
+status_t exit_value;
+
 	switch(message->what) {
 		case WINDOW_CLOSED:
-			/* Finish the Application */
-			kill_thread(vicethread);
+			/* Finish the Application after emulation thread has finished*/
+			wait_for_thread(vicethread, &exit_value);
 			Quit();
 			break;
 		default:

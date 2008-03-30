@@ -190,7 +190,9 @@ int ui_init_cmdline_options(void)
     {FVIRTKEY|FALT|FNOINVERT,'K',IDM_FLIP_REMOVE},          \
     {FVIRTKEY|FALT|FNOINVERT,'N',IDM_FLIP_NEXT},            \
     {FVIRTKEY|FCONTROL|FALT|FNOINVERT,'N',IDM_FLIP_PREVIOUS},\
-    {FVIRTKEY|FALT|FNOINVERT,'J',IDM_SWAP_JOYSTICK},
+    {FVIRTKEY|FALT|FNOINVERT,'J',IDM_SWAP_JOYSTICK},\
+    {FVIRTKEY|FALT|FNOINVERT,'C',IDM_SCREENSHOT},\
+    {FVIRTKEY|FALT|FNOINVERT,'U',IDM_SOUNDSHOT},
 
 static ACCEL c64_accel[] = {
     {FVIRTKEY|FALT|FNOINVERT,'Z',IDM_CART_FREEZE},
@@ -231,29 +233,29 @@ RECT        rect;
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,20);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,22);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,19);
+            ui_accelerator=CreateAcceleratorTable(c128_accel,21);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,19);
+            ui_accelerator=CreateAcceleratorTable(vic_accel,21);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,19);
+            ui_accelerator=CreateAcceleratorTable(pet_accel,21);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,19);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel,21);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,20);
+            ui_accelerator=CreateAcceleratorTable(c64_accel,22);
     }
 
     /* Register the window class.  */
@@ -591,6 +593,7 @@ static int                  tape_motor;
 static int                  tape_counter;
 static int                  tape_control;
 
+static char                 emu_status_text[1024];
 
 static void SetStatusWindowParts(HWND hwnd)
 {
@@ -632,6 +635,16 @@ int     i;
         SendMessage(hwnd,SB_SETTEXT,1|SBT_OWNERDRAW,0);
     }
 }
+
+void ui_display_statustext(const char *text)
+{
+int i;
+    strcpy(emu_status_text,text);
+    for (i=0; i<number_of_windows; i++) {
+        SendMessage(status_hwnd[i],SB_SETTEXT,0|SBT_OWNERDRAW,0);
+    }
+}
+
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
@@ -732,14 +745,14 @@ static void mon_trap(ADDRESS addr, void *unused_data)
     mon(addr);
 }
 
-static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void save_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
-    ui_snapshot_save_dialog(window_handles[0]);
+    ui_snapshot_save_dialog(hwnd);
 }
 
-static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+static void load_snapshot_trap(ADDRESS unused_addr, void *hwnd)
 {
-    ui_snapshot_load_dialog(window_handles[0]);
+    ui_snapshot_load_dialog(hwnd);
 }
 
 typedef struct {
@@ -1109,14 +1122,14 @@ char *dname;
       case IDM_SNAPSHOT_LOAD|0x00010000:
       case IDM_SNAPSHOT_LOAD:
         if (1 /* !ui_emulation_is_paused()*/ )
-            maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+            maincpu_trigger_trap(load_snapshot_trap, hwnd);
         else
             load_snapshot_trap(0, 0);
         /* ui_snapshot_load_dialog(main_hwnd);*/
         break;
       case IDM_SNAPSHOT_SAVE|0x00010000:
       case IDM_SNAPSHOT_SAVE:
-        maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+        maincpu_trigger_trap(save_snapshot_trap, hwnd);
         break;
       case IDM_SAVEQUICK|0x00010000:
       case IDM_SAVEQUICK:
@@ -1129,6 +1142,14 @@ char *dname;
         if (snapcounter>0) {
             maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
         }
+        break;
+      case IDM_SCREENSHOT|0x00010000:
+      case IDM_SCREENSHOT:
+        ui_screenshot_save_dialog(hwnd);
+        break;
+      case IDM_SOUNDSHOT|0x00010000:
+      case IDM_SOUNDSHOT:
+        ui_soundshot_save_dialog(hwnd);
         break;
       case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
@@ -1327,6 +1348,13 @@ int     window_index;
             return 0;
         case WM_DRAWITEM:
             if (wparam==IDM_STATUS_WINDOW) {
+                if (((DRAWITEMSTRUCT*)lparam)->itemID==0) {
+                    /* it's the status info */
+                    led=((DRAWITEMSTRUCT*)lparam)->rcItem;
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,emu_status_text,-1,&led,0);
+               }
                 if ((((DRAWITEMSTRUCT*)lparam)->itemID==1) && tape_enabled) {
                     /* it's the tape status */
                     POINT tape_control_sign[3];

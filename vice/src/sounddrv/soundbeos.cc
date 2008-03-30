@@ -89,13 +89,13 @@ static int beos_init(const char *param, int *speed,
 	game_sound = new BPushGameSound(*fragsize,
 					&audio_format, *fragnr);
 	if (game_sound->InitCheck() != B_OK) {
-		log_error(LOG_ERR, "sound (beos_init): Failed to initialize Be's PushGameSound");
+		log_error(LOG_DEFAULT, "sound (beos_init): Failed to initialize Be's PushGameSound");
 		return -1;
 	}
 
 	if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
 			== BPushGameSound::lock_failed) {
-			log_error(LOG_ERR, "sound (beos_init): LockForCyclic failed");
+			log_error(LOG_DEFAULT, "sound (beos_init): LockForCyclic failed");
 			return -1;
 	}
 	game_sound->StartPlaying();
@@ -155,14 +155,19 @@ static void beos_close(void)
 
 static int beos_suspend(void)
 {
-/* FIXME: StopPlaying() doesn't work as expected */ 
     game_sound->StopPlaying();
+    game_sound->UnlockCyclic();
     been_suspended = 1;
     return 0;
 }
 
 static int beos_resume(void)
 {
+	if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
+			== BPushGameSound::lock_failed) {
+			log_error(LOG_DEFAULT, "sound (beos_resume): LockForCyclic failed");
+			return -1;
+	}
 	game_sound->StartPlaying();
     written_samples = 0;
     return 0;

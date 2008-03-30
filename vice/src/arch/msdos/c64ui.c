@@ -167,6 +167,26 @@ static tui_menu_item_def_t detach_cartridge_menu_items[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(freeze_cartridge_callback)
+{
+    if (been_activated) {
+        keyboard_clear_keymatrix();
+        cartridge_trigger_freeze();
+    }
+    /* This way, the "Not Really!" item is always the default one.  */
+    *become_default = 0;
+
+    return NULL;
+}
+
+static tui_menu_item_def_t freeze_cartridge_menu_items[] = {
+    { "Cartridge _Freeze",
+      "Activates the cartridge's freeze button",
+      freeze_cartridge_callback, NULL, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(VideoCache)
@@ -409,6 +429,7 @@ int c64_ui_init(void)
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
+    tui_menu_add(ui_reset_submenu, freeze_cartridge_menu_items);
     tui_menu_add_separator(ui_video_submenu);
 
     add_palette_submenu(ui_video_submenu);

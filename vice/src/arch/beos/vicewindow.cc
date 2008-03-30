@@ -72,12 +72,13 @@ void ViceWindow::Update_Menus(
     int result;
 	BMenuItem *item;
 	
+	/* the general toggle items */
 	for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
         if (item = menubar->FindItem(toggle_list[i].item_id))
         	item->SetMarked(value ? true : false);
     }
-    
+    /* the machine specific toggle items */
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
             resources_get_value(machine_specific_toggles[i].name, (resource_value_t *) &value);
@@ -86,6 +87,7 @@ void ViceWindow::Update_Menus(
         }
     }
 
+	/* the general multiple-value-items */
     for (i = 0; value_list[i].name != NULL; i++) {
         result=resources_get_value(value_list[i].name,
                                    (resource_value_t *) &value);
@@ -99,7 +101,7 @@ void ViceWindow::Update_Menus(
             }
         }
     }
-
+	/* the machine specific multiple-value-items */
     if (machine_specific_values){
         for (i = 0; machine_specific_values[i].name != NULL; i++) {
             result=resources_get_value(machine_specific_values[i].name,
@@ -134,32 +136,6 @@ void ViceView::Draw(BRect rect) {
 	DrawBitmap(wnd->bitmap,rect,rect);
 }
 
-
-
-void about_vice() {
-	char abouttext[2000];
-	BAlert *aboutalert;
-	sprintf(abouttext,
-"BeVICE Version %s alpha\n\
-Copyright (c) 1996-1999 Ettore Perazzoli\n\
-Copyright (c) 1997-2000 Daniel Sladic\n\
-Copyright (c) 1998-2000 Andreas Boose\n\
-Copyright (c) 1998-2000 Tibor Biczo\n\
-Copyright (c) 1999-2000 Andreas Dehmel\n\
-Copyright (c) 1999-2000 Thomas Bretz\n\
-Copyright (c) 1999-2000 Andreas Matthies\n\
-Copyright (c) 1999-2000 Martin Pottendorfer\n\
-Copyright (c) 1996-1999 Andre' Fachat\n\
-Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen\n\n\n\
-reSID engine:\n\
-Copyright (c) 2000 Dag Lem\n\n\
-Official VICE homepage:\n\
-http://www.cs.cmu.edu/~dsladic/vice/vice.html",
-		VERSION);
-	aboutalert = new BAlert("about",abouttext,"OK");
-	aboutalert->Go();
-	suspend_speed_eval();
-}
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
 		: BWindow(BRect(frame.left,frame.top,frame.right,frame.bottom+20), title,
@@ -203,22 +179,10 @@ ViceWindow::~ViceWindow() {
 
 
 bool ViceWindow::QuitRequested() {
-
+	/* send an exit request to ui's event loop but dont't close the window here */
 	BMessage msg;
-	msg.what = MENU_EXIT;
-	
-	sound_suspend();
-	BAlert *alert = new BAlert("Quit BeVICE", 
-		"Do you really want to exit BeVICE??",
-		"Yes","No", NULL, B_WIDTH_AS_USUAL, B_INFO_ALERT);
-	int32 button = alert->Go();
-	if (button == 0) {
-		ui_command_type_t cmd = {UICMD_EXIT,0};
-		ui_add_event(&msg);
-	} else {
-		sound_resume();
-	}
-	/* don't close the window here, the vicethread has to be killed first */
+	msg.what = MENU_EXIT_REQUESTED;
+	ui_add_event(&msg);
 	return false;
 }
 

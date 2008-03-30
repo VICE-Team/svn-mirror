@@ -36,6 +36,7 @@ extern "C" {
 #include "constants.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "resources.h"
 }
 
 ui_menu_toggle  c64_ui_menu_toggles[]={
@@ -66,6 +67,12 @@ ui_res_value_list c64_ui_res_values[] = {
 void c64_ui_specific(void *msg)
 {
     switch (((BMessage*)msg)->what) {
+		case MENU_SIDTYPE_6581:
+    		resources_set_value("SidModel", (resource_value_t) 0);
+        	break;
+		case MENU_SIDTYPE_8580:
+        	resources_set_value("SidModel", (resource_value_t) 1);
+        	break;
     	default: ;
     }
 }

@@ -84,9 +84,5 @@ LIB32=link.exe -lib
 
 SOURCE=..\..\screendrv\bmp.c
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\screendrv\png.c
-# End Source File
 # End Target
 # End Project

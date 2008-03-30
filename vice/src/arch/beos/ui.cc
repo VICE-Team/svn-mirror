@@ -61,10 +61,12 @@ extern "C" {
 #include "mos6510.h"
 #include "mouse.h"
 #include "resources.h"
+#include "sound.h"
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_joystick.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -324,11 +326,21 @@ void ui_dispatch_events(void)
         ui_machine_specific(&message_queue[i]);
 
 		switch (message_queue[i].what) {
-			case MENU_EXIT:
-			{
-				BMessenger messenger(APP_SIGNATURE);
-				BMessage message(WINDOW_CLOSED);
-				messenger.SendMessage(&message, be_app);
+			case MENU_EXIT_REQUESTED:
+			{	int32 button;
+				BAlert *alert = new BAlert("Quit BeVICE", 
+					"Do you really want to exit BeVICE??",
+					"Yes","No", NULL, B_WIDTH_AS_USUAL, B_INFO_ALERT);
+				suspend_speed_eval();
+				button = alert->Go();
+				if (button == 0)
+				{ 	/* send message to quit the application */
+					/* and exit the emulation thread        */
+					BMessenger messenger(APP_SIGNATURE);
+					BMessage message(WINDOW_CLOSED);
+					messenger.SendMessage(&message, be_app);
+					exit(0);
+				}
 				break;
 			}
 			case MENU_RESET_SOFT:
@@ -426,9 +438,6 @@ void ui_dispatch_events(void)
 			case MENU_MONITOR:
 				maincpu_trigger_trap(mon_trap, (void *) 0);
 				break;
-			case MENU_EXIT_REQUESTED:
-				windowlist[0]->QuitRequested();
-				break;
 	      	case MENU_REFRESH_RATE_AUTO:
     	    	resources_set_value("RefreshRate", (resource_value_t) 0);
         		break;
@@ -480,6 +489,9 @@ void ui_dispatch_events(void)
       		case MENU_MAXIMUM_SPEED_NO_LIMIT:
         		resources_set_value("Speed", (resource_value_t) 0);
         		break;
+			case MENU_JOYSTICK_SETTINGS:
+				ui_joystick();
+				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {
 	            	ui_error("Cannot load settings.");
@@ -501,7 +513,28 @@ void ui_dispatch_events(void)
 				ui_update_menus();
 				break;
 			case MENU_ABOUT:
-				about_vice();
+				char *abouttext;
+				abouttext = concat(
+					"BeVICE Version ", VERSION," alpha\n",
+					"Copyright (c) 1996-1999 Ettore Perazzoli\n",
+					"Copyright (c) 1997-2000 Daniel Sladic\n",
+					"Copyright (c) 1998-2000 Andreas Boose\n",
+					"Copyright (c) 1998-2000 Tibor Biczo\n",
+					"Copyright (c) 1999-2000 Andreas Dehmel\n",
+					"Copyright (c) 1999-2000 Thomas Bretz\n",
+					"Copyright (c) 1999-2000 Andreas Matthies\n",
+					"Copyright (c) 1999-2000 Martin Pottendorfer\n",
+					"Copyright (c) 1996-1999 Andre' Fachat\n",
+					"Copyright (c) 1993-1994, 1997-1999 Teemu Rantanen\n",
+#ifdef HAVE_RESID
+					"reSID engine:\n",
+					"Copyright (c) 2000 Dag Lem\n",
+#endif
+					"\nOfficial VICE homepage:\n",
+					"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
+					NULL);
+				ui_message(abouttext);
+				free(abouttext);
 				break;
 			case MENU_CONTRIBUTORS:
 				ui_show_text("Contributors","Who made what?",contrib_text);
@@ -658,8 +691,8 @@ void ui_error(const char *format, ...)
     va_end(args);
     messagebox = new BAlert("error", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_STOP_ALERT);
-	messagebox->Go();
 	suspend_speed_eval();
+	messagebox->Go();
 }
 
 /* Report an error to the user (one string).  */
@@ -680,8 +713,8 @@ void ui_message(const char *format,...)
     va_end(args);
     messagebox = new BAlert("info", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_INFO_ALERT);
-    messagebox->Go();
 	suspend_speed_eval();
+    messagebox->Go();
 }
 
 /* Handle the "CPU JAM" case.  */

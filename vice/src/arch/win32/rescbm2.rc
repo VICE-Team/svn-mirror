@@ -67,6 +67,9 @@ BEGIN
         MENUITEM "Save sna&pshot image...\tAlt+S",  IDM_SNAPSHOT_SAVE
         MENUITEM "&Load quicksnapshot image\tCtrl+Alt+L", IDM_LOADQUICK
         MENUITEM "&Save quicksnapshot image\tCtrl+Alt+S", IDM_SAVEQUICK
+        MENUITEM SEPARATOR
+        MENUITEM "Save Screenshot\tAlt+C",          IDM_SCREENSHOT
+        MENUITEM "Start/Stop Soundshot\tAlt+U",     IDM_SOUNDSHOT
     END
     POPUP "&Options"
     BEGIN

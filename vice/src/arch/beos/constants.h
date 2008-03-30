@@ -58,7 +58,6 @@ const uint32 MENU_DATASETTE_COUNTER				= 'M019';
 const uint32 MENU_RESET_SOFT					= 'M020';
 const uint32 MENU_RESET_HARD					= 'M021';
 const uint32 MENU_EXIT_REQUESTED				= 'M022';
-const uint32 MENU_EXIT							= 'M023';
 const uint32 MENU_FLIP_ADD						= 'M024';
 const uint32 MENU_FLIP_REMOVE					= 'M025';
 const uint32 MENU_FLIP_NEXT						= 'M026';

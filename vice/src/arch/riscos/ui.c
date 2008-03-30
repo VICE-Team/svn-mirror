@@ -33,7 +33,6 @@
 #include <ctype.h>
 
 #include "wimp.h"
-#include "textwin.h"
 
 #include "archdep.h"
 #include "attach.h"
@@ -89,6 +88,7 @@ extern void screenshot_init_sprite(void);
 extern int  sound_wimp_poll_prologue(void);
 extern int  sound_wimp_poll_epilogue(int install);
 extern void sound_wimp_safe_exit(void);
+extern void sound_get_vidc_frequency(int *speed, int *period);
 
 
 
@@ -821,6 +821,7 @@ static RO_IconDesc IBarIcon = {
 
 /* Resource names */
 static const char Rsrc_Sound[] = "Sound";
+static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
 static const char Rsrc_True[] = "DriveTrueEmulation";
 static const char Rsrc_Poll[] = "PollEvery";
@@ -2210,6 +2211,7 @@ int ui_init(int *argc, char *argv[])
   item[Menu_TrueSync_Custom].iflags |= IFlg_Indir;
   dat = &(item[Menu_TrueSync_Custom].dat.ind);
   dat->tit = (int*)TrueSyncCustomField; dat->val = (int*)-1; dat->len = sizeof(TrueSyncCustomField);
+
   TrueSyncCustomField[0] = '\0';
   sprintf(ROMSetItemFile, "rset/"RSETARCH_EXT);
   sprintf(SystemKeymapFile, "ROdflt/"KEYMAP_EXT);
@@ -2244,6 +2246,7 @@ int ui_init_finish(void)
 {
   resource_value_t val;
   const conf_icon_id *gi;
+  disp_desc_t *dd;
   int i;
 
   if (machine_class != VICE_MACHINE_PET)
@@ -2306,6 +2309,21 @@ int ui_init_finish(void)
 
   memset(SnapshotMessage, 0, 256);
 
+  /* adjust sample frequency approximations to actual VIDC frequencies */
+  dd = ConfigDispDescs[CONF_MENU_SAMPRATE];
+  for (i=0; i<dd->items; i++)
+  {
+    int *values = (int*)(dd + 1);
+
+    sound_get_vidc_frequency(values + i, NULL);
+  }
+  if (resources_get_value(Rsrc_SndRate, &val) == 0)
+  {
+    int rate = (int)val;
+
+    sound_get_vidc_frequency(&rate, NULL);
+    resources_set_value(Rsrc_SndRate, (resource_value_t)rate);
+  }
   /* Sound buffer size sanity check */
   if (resources_get_value(Rsrc_SndBuff, &val) == 0)
   {

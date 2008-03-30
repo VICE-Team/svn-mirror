@@ -52,6 +52,8 @@ libarch_a_SOURCES = \
 	ui.h \
 	ui_file.cc \
 	ui_file.h \
+	ui_joystick.cc \
+	ui_joystick.h \
 	uicmdline.c \
 	uicmdline.h \
 	vic20kbd.c \

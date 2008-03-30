@@ -554,9 +554,9 @@ void machine_play_psid(int tune)
 int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
 {
   if (wn == 0)
-      return vic_ii_screenshot(screenshot);
-  if (wn == 1)
       return vdc_screenshot(screenshot);
+  if (wn == 1)
+      return vic_ii_screenshot(screenshot);
   return -1;
 }
 

@@ -175,6 +175,7 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
 		menu->AddItem(new BMenuItem("Double Scan", 
 			new BMessage(MENU_TOGGLE_DOUBLESCAN)));
+	menu->AddSeparatorItem();
 	}
 		
 	/* sound options */
@@ -192,7 +193,10 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_SIDTYPE_6581)));
 		submenu->AddItem(new BMenuItem("8580 (new)", 
 			new BMessage(MENU_SIDTYPE_8580)));
+		menu->AddItem(new BMenuItem("SID filters", 
+			new BMessage(MENU_TOGGLE_SIDFILTERS)));
 	}
+	menu->AddSeparatorItem();
 	
 	menu->AddItem(new BMenuItem("True Drive Emulation", 
 		new BMessage(MENU_TOGGLE_DRIVE_TRUE_EMULATION)));

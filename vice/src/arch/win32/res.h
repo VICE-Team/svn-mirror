@@ -270,6 +270,8 @@
 #define IDM_CART_VIC20_16KB_4000        40065
 #define IDM_SNAPSHOT_LOAD               40080
 #define IDM_SNAPSHOT_SAVE               40081
+#define IDM_SCREENSHOT                  40082
+#define IDM_SOUNDSHOT                   40083
 #define IDM_SETTINGS_SAVE               40090
 #define IDM_SETTINGS_LOAD               40091
 #define IDM_SETTINGS_DEFAULT            40092
