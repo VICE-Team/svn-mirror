@@ -17,6 +17,622 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: VIC-II resources,  Next: VIC-II options,  Prev: VIC-II settings,  Up: VIC-II settings
+
+VIC-II resources
+................
+
+`CheckSsColl'
+     Boolean specifying whether the sprite-sprite hardware collision
+     detection must be emulated.
+
+`CheckSbColl'
+     Boolean specifying whether the sprite-background hardware collision
+     detection must be emulated.
+
+`PaletteFile'
+     String specifying the name of the palette file being used.  The
+     `.vpl' extension is optional.
+
+
+File: vice.info,  Node: VIC-II options,  Prev: VIC-II resources,  Up: VIC-II settings
+
+VIC-II command-line options
+...........................
+
+`-checkss'
+`+checkss'
+     Enable (`CheckSsColl=1') and disable (`CheckSsColl=0') emulation
+     of hardware sprite-sprite collision detection, respectively.
+
+`-checksb'
+`+checksb'
+     Enable (`CheckSbColl=1') and disable (`CheckSbColl=0') emulation
+     of hardware sprite-background collision detection, respectively.
+
+`-palette NAME'
+     Specify `NAME' as the palette file (`PaletteFile').
+
+
+File: vice.info,  Node: SID settings,  Next: C64 I/O extension settings,  Prev: VIC-II settings,  Up: C64/128-specific
+
+SID settings
+------------
+
+   These settings control the emulation of the SID (MOS6581 or MOS8580)
+audio chip.
+
+   * "Emulate filters" causes the built-in programmable filters of the
+     SID chip to be emulated.  A lot of C64 music requires them to be
+     emulated properly, but their emulation requires some additional
+     processor power.
+
+   * "ChipModel" specifies the model of the SID chip being emulated:
+     there are two slightly different generations of SID chips: MOS6581
+     ones and MOS8580 ones.
+
+* Menu:
+
+* SID resources::
+* SID options::
+
+
+File: vice.info,  Node: SID resources,  Next: SID options,  Prev: SID settings,  Up: SID settings
+
+SID resources
+.............
+
+`SidFilters'
+     Boolean specifying whether the built-in SID filters must be
+     emulated.
+
+`SidModel'
+     Integer specifying what model of the SID must be emulated (`0':
+     MOS6581, `1': MOS8580).
+
+
+File: vice.info,  Node: SID options,  Prev: SID resources,  Up: SID settings
+
+SID command-line options
+........................
+
+`-sidmodel MODEL'
+     Specifies `MODEL' as the emulated model of the SID chip
+     (`SidModel').
+
+`-sidfilters'
+`+sidfilters'
+     Enable (`SidFilters=1') or disable (`SidFilters=0') emulation of
+     the built-in SID filters.
+
+
+File: vice.info,  Node: C64 I/O extension settings,  Next: RS232 settings,  Prev: SID settings,  Up: C64/128-specific
+
+C64 I/O extension settings
+--------------------------
+
+   There are three I/O extensions available: they are located at the
+address range $DF00 ... $DFFF and each of them is controlled by a
+boolean resource.  Please use these extensions only when needed, as they
+might cause compatibility problems.
+
+   * The "emulator identification" extension allows programs to
+     identify the kind of emulator they are running on, according to the
+     emulation detection proposal by Wolfgang Lorenz.  This basically
+     means that, when some locations in the $DFxx I/O space are read,
+     the emulator returns some values which identify the emulator
+     itself, its version and a copyright message.  If this extension is
+     disabled, programs will have virtually no way to realize they are
+     running on an emulator.
+
+   * The "IEEE488 interface emulation" extension emulates a standard
+     Commodore IEEE488 interface connected to the IEC bus; one possible
+     use for this is Andr'e Fachat's OS/A65 multitasking operating
+     system.
+
+   * The "512K RAM Expansion Unit" extension emulates a standard 512K
+     Commodore RAM Expansion Unit; this can be used with GEOS and other
+     programs that are designed to take advantage of it.  This currently
+     works only in the C64 emulator.
+
+* Menu:
+
+* C64 I/O extension resources::
+* C64 I/O extension options::
+
+
+File: vice.info,  Node: C64 I/O extension resources,  Next: C64 I/O extension options,  Prev: C64 I/O extension settings,  Up: C64 I/O extension settings
+
+C64 I/O extension resources
+...........................
+
+`IEEE488'
+     Boolean specifying whether the IEEE488 interface should be
+     emulated or not.
+
+`REU'
+     Boolean specifying whether the 512K RAM Expansion Unit should be
+     emulated or not.
+
+`EmuID'
+     Boolean specifying whether the emulation identification extension
+     should be emulated or not.
+
+
+File: vice.info,  Node: C64 I/O extension options,  Prev: C64 I/O extension resources,  Up: C64 I/O extension settings
+
+C64 I/O extension command-line options
+......................................
+
+`-ieee488'
+`+ieee488'
+     Enable (`IEEE488=1') or disable (`IEEE488=0') emulation of the
+     IEEE488 interface.
+
+`-reu'
+`+reu'
+     Enable (`REU=1') or disable (`REU=0') emulation of the 512K RAM
+     Expansion Unit.
+
+`-emuid'
+`+emuid'
+     Enable (`EmuID=1') or disable (`EmuID=0') the emulation
+     identification extension.
+
+
+File: vice.info,  Node: RS232 settings,  Next: C64/128 system ROM settings,  Prev: C64 I/O extension settings,  Up: C64/128-specific
+
+RS232 settings
+--------------
+
+   X64 and X128 can support RS232 in the following ways:
+
+   * by emulating Daniel Dallmann's 9600 baud userport-based RS232
+     interface;
+
+   * by emulating a 6551-based RS232 interface located at $DE00.
+
+   Each of these emulated devices can be either:
+
+   * connected a real UNIX serial device;
+
+   * dumped to a file;
+
+   * piped through a process.
+
+   It is possible to define up to two UNIX serial devices, and then
+decide which interface should be connected to which device.  Devices are
+defined through the following settings:
+
+   * "Serial 1 device..." and "Serial 2 device..." are used to specify
+     the the pathnames of the serial devices, with the file selector;
+
+   * "Serial 1 baudrate" and "Serial 2 baudrate" specify the baudrate.
+
+* Menu:
+
+* RS232 resources::
+* RS232 options::
+
+
+File: vice.info,  Node: RS232 resources,  Next: RS232 options,  Prev: RS232 settings,  Up: RS232 settings
+
+RS232 resources
+...............
+
+`RsDevice1'
+`RsDevice2'
+     Strings specifying the pathnames of the two available serial
+     devices.
+
+`RsDevice1Baud'
+`RsDevice2Baud'
+     Integers specifying the baudrates.
+
+`RsDevice3'
+     String defining the name of the file used when dumping RS232
+     output.
+
+`RsDevice4'
+     String defining the name of the process to pipe the RS232 data
+     through.
+
+`RsUser'
+     Boolean specifying whether the userport-based RS232 should be
+     emulated.
+
+`Acia1'
+     Boolean specifying whether the ACIA-based RS232 should be emulated.
+
+`RsUserDev'
+`Acia1Dev'
+     Integers specifying how the userport-based interface and the
+     ACIA-based one are emulated.  The possible values are:
+        * `0': connect to serial device number 1;
+
+        * `1': connect to serial device number 2;
+
+        * `2': dump to file;
+
+        * `3': exec an external process.
+
+
+File: vice.info,  Node: RS232 options,  Prev: RS232 resources,  Up: RS232 settings
+
+RS232 command-line options
+..........................
+
+`-acia1'
+`+acia1'
+     Enable/disable emulation of the ACIA-based RS232 interface
+     (`Acia1=1', `Acia1=0').
+
+`-acia1dev DEVICE'
+     Specify `DEVICE' as the device for the ACIA-based RS232 emulation
+     (`Acia1Dev').
+
+`-rsuser'
+`+rsuser'
+     Enable/disable emulation of the userport-based RS232 interface
+     (`RsUser=1', `RsUser=0').
+
+`-rsuserdev DEVICE'
+     Specify `DEVICE' as the device for the ACIA-based RS232 emulation
+     (`RsUserDev').
+
+
+File: vice.info,  Node: C64/128 system ROM settings,  Prev: RS232 settings,  Up: C64/128-specific
+
+C64/128 system ROM settings
+---------------------------
+
+   These settings can be used to control what system ROMs are loaded in
+the C64/128 emulators at startup.  They cannot be changed from the
+menus.
+
+* Menu:
+
+* C64/128 system ROM resources::
+* C64/128 system ROM options::
+
+
+File: vice.info,  Node: C64/128 system ROM resources,  Next: C64/128 system ROM options,  Prev: C64/128 system ROM settings,  Up: C64/128 system ROM settings
+
+C64/128 system ROM resources
+............................
+
+`KernalName'
+     String specifying the name of the Kernal ROM (default `kernal').
+
+`BasicName'
+     String specifying the name of the Basic ROM (default `basic').  In
+     the C128 emulator, the ROM image must actually include the editor
+     ROM too.
+
+`ChargenName'
+     String specifying the name of the character generator ROM (default
+     `chargen').
+
+`KernalRev'
+     String specifying the Kernal revision.  This resource can be used
+     to control what revision of the C64 kernal is being used; it
+     cannot be changed at runtime.  VICE is able to automatically
+     convert one ROM revision into another, by manually patching the
+     loaded image.  This way, it is possible to use any of the ROM
+     revisions without changing the ROM set.  Valid values are:
+
+    `0'
+          Kernal revision 0
+
+    `3'
+          Kernal revision 3
+
+    `sx'
+    `67'
+          Commodore SX-64 ROM
+
+    `100'
+    `4064'
+          Commodore 4064 ("PET64") ROM
+
+
+File: vice.info,  Node: C64/128 system ROM options,  Prev: C64/128 system ROM resources,  Up: C64/128 system ROM settings
+
+C64/128 system ROM command-line options
+.......................................
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal ROM file (`KernalName').
+
+`-basic NAME'
+     Specify `NAME' as the Basic ROM file (`BasicName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-kernalrev REVISION'
+     Specify Kernal revision (`KernalRev').
+
+
+File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64/128-specific,  Up: Machine-specific features
+
+VIC20-specific commands and settings
+====================================
+
+   This section lists the settings and commands that are VIC20-specific
+and thus are not present in the other emulators.
+
+* Menu:
+
+* VIC20 cartridges::
+* VIC20 memory expansions::
+* VIC20 system ROM settings::
+
+
+File: vice.info,  Node: VIC20 cartridges,  Next: VIC20 memory expansions,  Prev: VIC20-specific,  Up: VIC20-specific
+
+Using cartridge images
+----------------------
+
+   As with the C64 (*note C64 cartridges::.), it is possible to attach
+several types of cartridge images:
+
+   * 4 or 8 Kbyte cartridges located at $2000;
+
+   * 4 or 8 Kbyte cartridges located at $6000;
+
+   * 4 or 8 Kbyte cartridges located at $A000;
+
+   * 4 Kbyte cartridges located at $B000.
+
+   This can all be done via the "Attach cartridge image..." command in
+the left-button menu.  It is also possible to let XVIC "guess" the type
+of cartridge using "Smart-attach cartridge image...".
+
+   Notice that several cartridges are actually made up of two pieces
+(and two files), that need to be loaded separately at different
+addresses.  In that case, you have to know the addresses (which are
+usually specified in the file name) and use the "attach" command twice.
+
+
+File: vice.info,  Node: VIC20 memory expansions,  Next: VIC20 system ROM settings,  Prev: VIC20 cartridges,  Up: VIC20-specific
+
+Changing memory configuration
+-----------------------------
+
+   It is possible to change the VIC20 memory configuration in two ways:
+by enabling and/or disabling certain individual memory blocks, or by
+choosing one among a few typical memory configurations.  The former can
+be done by modifying resource values directly or from the right-button
+menu; the latter can only be done from the menu.
+
+   There are 5 RAM expansion blocks in the VIC20, numbered 0, 1, 2, 3
+and 5:
+
+   * block 0 (3 Kbytes at $0400-$0FFF);
+
+   * block 1 (8 Kbytes at $2000-$3FFF);
+
+   * block 2 (8 Kbytes at $4000-$5FFF);
+
+   * block 3 (8 Kbytes at $6000-$7FFF);
+
+   * block 5 (8 Kbytes at $A000-$BFFF).
+
+   These blocks are called "expansion blocks" because they are not
+present in the stock machine.  Each of them is associated to a boolean
+`RamBlockX' resource (where `X' is the block number) that specifies
+whether the block is enabled or not.
+
+   There are also some common memory configurations you can pick from
+the right-button menu:
+
+   * no RAM expansion blocks at all;
+
+   * all RAM expansion blocks enabled;
+
+   * 3K expansion (only block 0 is enabled);
+
+   * 8K expansion (only block 1 is enabled);
+
+   * 16K expansion (only blocks 1 and 2 are enabled);
+
+   * 24K expansion (only blocks 1, 2 and 3 are enabled).
+
+   As with the X64 (*note C64 I/O extension settings::.), it is also
+possible to enable a special emulator identification mechanism that uses
+certain memory locations to let a running program query information
+about the emulator itself; this is enabled by the "Emulator
+identification" option.
+
+* Menu:
+
+* VIC20 memconf resources::
+* VIC20 memconf options::
+
+
+File: vice.info,  Node: VIC20 memconf resources,  Next: VIC20 memconf options,  Prev: VIC20 memory expansions,  Up: VIC20 memory expansions
+
+VIC20 memory configuration resources
+....................................
+
+`RAMBlock0'
+`RAMBlock1'
+`RAMBlock2'
+`RAMBlock3'
+`RAMBlock5'
+     Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be
+     enabled.
+
+`EmuID'
+     Boolean specifying whether the emulation identification extension
+     must be enabled.
+
+
+File: vice.info,  Node: VIC20 memconf options,  Prev: VIC20 memconf resources,  Up: VIC20 memory expansions
+
+VIC20 memory configuration command-line options
+...............................................
+
+`-memory CONFIG'
+     Specify memory configuration.  It must be a comma-separated list of
+     options, each of which can be one the following:
+
+        * `none' (no extension);
+
+        * `all' (all blocks);
+
+        * `3k' (3k space in block 0);
+
+        * `8k' (first 8k extension block);
+
+        * `16k' (first and second 8k extension blocks);
+
+        * `24k' (first, second and 3rd extension blocks);
+
+        * `0', `1', `2', `3', `5' (memory in respective blocks);
+
+        * `04', `20', `40', `60', `A0' (memory at respective address.
+
+     Examples:
+
+          xvic -memory none
+
+     gives an unexpanded VIC20.  While
+
+          xvic -memory 60,a0
+
+     or
+
+          xvic -memory 3,5
+
+     enables memory in blocks 3 and 5, which is the usual configuration
+     for 16k ROM modules.
+
+`-emuid'
+`+emuid'
+     Enable (`EmuID=1') or disable (`EmuID=0') the emulation
+     identification extension.
+
+
+File: vice.info,  Node: VIC20 system ROM settings,  Prev: VIC20 memory expansions,  Up: VIC20-specific
+
+VIC20 system ROM settings
+-------------------------
+
+   These settings can be used to control what system ROMs are loaded in
+the VIC20 emulator at startup.  They cannot be changed from the menus.
+
+* Menu:
+
+* VIC20 system ROM resources::
+* VIC20 system ROM options::
+
+
+File: vice.info,  Node: VIC20 system ROM resources,  Next: VIC20 system ROM options,  Prev: VIC20 system ROM settings,  Up: VIC20 system ROM settings
+
+VIC20 system ROM resources
+..........................
+
+`KernalName'
+     String specifying the name of the Kernal ROM (default `kernal').
+
+`BasicName'
+     String specifying the name of the Basic ROM (default `basic').
+
+`ChargenName'
+     String specifying the name of the character generator ROM (default
+     `chargen').
+
+
+File: vice.info,  Node: VIC20 system ROM options,  Prev: VIC20 system ROM resources,  Up: VIC20 system ROM settings
+
+VIC20 system ROM command-line options
+.....................................
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal ROM file (`KernalName').
+
+`-basic NAME'
+     Specify `NAME' as the Basic ROM file (`BasicName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+
+File: vice.info,  Node: PET-specific,  Prev: VIC20-specific,  Up: Machine-specific features
+
+PET-specific commands and settings
+==================================
+
+   This section lists the settings and commands that are PET-specific
+and thus are not present in the other emulators.
+
+* Menu:
+
+* PET model::
+* PET diagnostic pin::
+* PET colors::
+
+
+File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specific,  Up: PET-specific
+
+Changing PET model settings
+---------------------------
+
+   With XPET, it is possible to change at runtime the characteristics of
+the emulated PET so that it matches (or not) the ones of a certain PET
+model, and it is also possible to select from a common set of PET models
+so that all the features are selected accordingly.
+
+   The former is done by changing the following resources (via resource
+file, command line options or right-menu items):
+
+   * (None yet.)
+
+   Choosing a common PET model is done from the right-button menu
+instead, by choosing an item from the "Model defaults" submenu.
+Available models are:
+
+   * PET 2001-8N
+
+   * PET 3008
+
+   * PET 3016
+
+   * PET 3032
+
+   * PET 3032B
+
+   * PET 4016
+
+   * PET 4032
+
+   * PET 4032B
+
+   * PET 8032
+
+   * PET 8096
+
+   * PET 8296
+
+   Notice that this will *reset the emulated machine*.
+
+   It is also possible to select the PET model at startup, with the
+`-model' command-line option: for example, `xpet -model 3032' will
+emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
+
+
+File: vice.info,  Node: PET diagnostic pin,  Next: PET colors,  Prev: PET model,  Up: PET-specific
+
+The PET diagnostic pin
+----------------------
+
+   It is possible to enable or disable emulation of the PET diagnostic
+pin via the `DiagPin' resource, or the "PET userport diagnostic pin"
+item in the right-button menu.
+
+
 File: vice.info,  Node: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
 
 Changing screen colors
@@ -89,9 +705,6 @@ Terminology
 
 `address_opt_range'
      An address or an address range.
-
-`label'
-     Fixme.
 
 `prompt'
      The prompt has the format [x:y].  If x is -, memory reads from the
@@ -420,84 +1033,96 @@ special options.
 
 * Menu:
 
-* Commands::                    List of the available commands.
-* Examples::                    Using c1541 in practice.
+* c1541 commands and options::
 
 
-File: vice.info,  Node: Commands,  Next: Examples,  Prev: c1541,  Up: c1541
+File: vice.info,  Node: c1541 commands and options,  Prev: c1541,  Up: c1541
 
-c1541 commands
-==============
+c1541 commands and options
+==========================
 
    Each command-line option has an interactive-mode counterpart, that is
-shown in parenthesis: (abbreviations are allowed when not ambiguous)
+shown after it.  `-' as a file name stands for standard input or
+standard output, depending on the context.
 
-`-attach IMAGE (attach IMAGE)'
+`-attach  IMAGE'
+`attach  IMAGE'
      Attach the disk image `IMAGE' for use.  All the following commands
      will refer to this image.
 
-`-detach (detach)'
+`-detach'
+`detach'
      Detach the currently attached disk image.
 
-`-format IMAGE 'NAME,ID' (format IMAGE 'NAME,ID)'
-     Format disk image `IMAGE', giving the specified label.  If `IMAGE'
-     does not exist, create it.
+`-format  IMAGE 'NAME,ID''
+`format  IMAGE 'NAME,ID''
+     Format the D64 disk image `IMAGE', giving the specified label.  If
+     `IMAGE' does not exist, create it.
 
-`-delete IMAGE FILES... (delete FILES...)'
+`-gcr  IMAGENAME ['NAME,ID']'
+`gcrformat  IMAGE 'NAME,ID''
+     Create a GCR disk image; if `NAME,ID' is specified, format it.
+
+`-delete  IMAGE FILES...'
+`delete  FILES...'
      Delete  FILES  from `IMAGE'.
 
-`-list IMAGE (list)'
+`-list  IMAGE'
+`list'
      List files in `IMAGE'.
 
-`-validate IMAGE (validate)'
+`-validate  IMAGE'
+`validate'
      Validate the disk.
 
-`-copy IMAGE OLDNAME1 [OLDNAME2...] NEWNAME (copy OLDNAME1 [OLDNAME2...] NEWNAME)'
+`-copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME'
+`copy  OLDNAME1 [OLDNAME2...] NEWNAME'
      Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
      (can be used to copy files).
 
-`-create IMAGE DUMP ['DESCR'] (create IMAGE DUMP'
-     ['DESCR'])
-
+`-create  IMAGE DUMP ['DESCR']'
+`create  IMAGE DUMP ['DESCR']'
      Build `IMAGE' from raw dump file `DUMP' (i.e. convert from `D64'
      to `X64' file).
 
-`-zcreate IMAGE DUMP ['DESCR'] (create IMAGE DUMP ['DESCR'])'
-     Build `IMAGE' from a Zipcoded image called 1!DUMP, 2!DUMP, 3!DUMP,
-     4!DUMP.
-
-`-tape IMAGE TAPEIMAGE [FILES...]  (tape IMAGE TAPEIMAGE [FILES...])'
+`-tape  IMAGE TAPEIMAGE [FILES...]'
+`tape  IMAGE TAPEIMAGE [FILES...]'
      Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
      files).
 
-`-read IMAGE 1541NAME [FSNAME] (read 1541NAME [FSNAME])'
+`-read  IMAGE 1541NAME [FSNAME]'
+`read  1541NAME [FSNAME]'
      Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
      default) from `IMAGE'.
 
-`-extract IMAGE (extract)'
+`-extract  IMAGE'
+`extract'
      Extract all files from `IMAGE'.
 
-`-write IMAGE FSNAME [1541NAME] (write FSNAME [1541NAME])'
+`-write  IMAGE FSNAME [1541NAME]'
+`write  FSNAME [1541NAME]'
      Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
      (works with `P00' files as well)
 
-`-block [DRIVE:] [TRACK] [SECTOR] [DISP] (block [DRIVE:] [TRACK] [SECTOR] [DISP])'
+`-block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
+`block  [DRIVE:] [TRACK] [SECTOR] [DISP]'
      Show disk blocks in hex format.
 
-`-info IMAGE ['DESCRIPTION'] (info ['DESCRIPTION'])'
+`-info  IMAGE ['DESCRIPTION']'
+`info  ['DESCRIPTION']'
      Show version information about `IMAGE'.
+
+`-unlynx IMAGE LYNXFILE'
+`unlynx LYNXFILE'
+     Unlynx `LYNXFILE' into the image.
+
+`-zcreate  IMAGE DUMP ['DESCR']'
+`zcreate IMAGE DUMP ['DESCR']'
+     Build `IMAGE' from a Zipcoded image made up of files called
+     `1!DUMP', `2!DUMP', `3!DUMP', `4!DUMP'.
 
    When more than one command is specified in batch mode, all of them
 are executed in the same order they have on the command line.
-
-   This information should also be available in section 1 of the
-on-line manual pages (`man 1 c1541').
-
-
-File: vice.info,  Node: Examples,  Prev: Commands,  Up: c1541
-
-c1541 examples
-==============
 
 
 File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: c1541,  Up: Top
@@ -513,9 +1138,9 @@ involved in the development of X64 and VICE:
 
    * Ettore Perazzoli (<ettore@comm2000.it>) made the 6510, VIC-II,
      VIC-I and CRTC emulations, part of the hardware-level 1541
-     emulation, speed optimizations, bug fixes, event-driven
-     cycle-exact engine, Xt/Xaw/Xfwf-based GUI for X11, a general code
-     reorganization, the new resource handling, most of the
+     emulation, speed optimizations, bug fixes, the event-driven
+     cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
+     code reorganization, the new resource handling, most of the
      documentation and the MS-DOS port (well, somebody had to do it).
 
    * Teemu Rantanen (<tvr@cs.hut.fi>) implemented the SID emulation and
@@ -535,15 +1160,15 @@ involved in the development of X64 and VICE:
      information and bug reports about the VIC-II, the 6510 and the
      CIAs; moreover, he wrote several test-routines that were used to
      improve the emulation.  Also contributed some important patches,
-     fixed several problems in the 1541 emulation, implemented SpeedDOS
-     parallel cable emulation, and added BZIP v2 support.
+     fixed several problems in the 1541 emulation, implemented the
+     SpeedDOS parallel cable emulation and added cartridge support.
 
    Former team members:
 
    * Jouko Valta (<jopi@stekt.oulu.fi>) wrote `petcat' and `c1541',
-     documentation, `T64' handling, user service and maintenance (most
-     of the work in x64 0.3.x was made by him); retired from the
-     project in July 96, after VICE 0.10.0.
+     `T64' handling, user service and maintenance (most of the work in
+     x64 0.3.x was made by him); retired from the project in July 96,
+     after VICE 0.10.0.
 
    * Jarkko Sonninen (<sonninen@lut.fi>) was the founder of the
      project, wrote the old version of the 6502 emulation and the
@@ -573,15 +1198,19 @@ involved in the development of X64 and VICE:
    * Marko M"akel"a (<msmakela@nic.funet.fi>) wrote lots of CPU
      documentation.
 
-   * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>) wrote
-     the "Contents" button in the file selector and provided us with
-     several suggestions and constant testing of constantly broken
-     snapshots.
+   * Martin Pottendorfer (<Martin.Pottendorfer@aut.alcatel.at>)
+     implemented the "Contents" button in the file selector and
+     provided us with several suggestions and constant testing of
+     constantly broken snapshots.
 
    * Chris Sharp (<sharpc@hurlsey.ibm.com>) wrote the AIX sound driver.
 
    * Krister Walfridsson (<cato@df.lth.se>) implemented joystick and
      sound support for NetBSD.
+
+   * Dag Lem (<resid@nimrod.no>) implemented an alternative cycle-exact
+     SID emulator (reSID), and contributed a bugfix in our SID
+     emulation.
 
    * Peter Andrew Felvegi aka Petschy (<petschy@derceto.sch.bme.hu>)
      fixed a couple of bugs in the fast serial emulation.
@@ -614,7 +1243,7 @@ involved in the development of X64 and VICE:
    * Ricardo Ferreira (<storm@esoterica.pt>) contributed the `unlynx'
      and `system' commands in `c1541'.
 
-   * Tomi Ollila (<Tomi.Ollila@tfi.net>) Donated `findpath.c'.
+   * Tomi Ollila (<Tomi.Ollila@tfi.net>) donated `findpath.c'.
 
    * Richard Hable (<hab@fim.uni-linz.ac.at>) contributed the initial
      version of the REU Emulation.
@@ -628,8 +1257,8 @@ involved in the development of X64 and VICE:
    * Frank Prindle (<Frank.Prindle@lambada.oit.unc.edu>) contributed
      some patches.
 
-   * Peter Weighill (<stuce@csv.warwick.ac.uk>) gave many ideas and ROM
-     patcher.
+   * Peter Weighill (<stuce@csv.warwick.ac.uk>) gave many ideas and
+     contributed the ROM patcher.
 
    * Dominique Strigl (<strigl@sxb.bsf.alcatel.fr>), Craig Jackson
      (<Craig.Jackson@lambada.oit.unc.edu>) and Lasse Jyrkinen
@@ -726,14 +1355,15 @@ Contact information
 
 * Menu:
 
-* Homepage::
-* Sending feedback::
-* Contributing::
-* Newsgroups::
-* FAQs you should read::
+* Home page::                   The official VICE WWW page.
+* Sending feedback::            How to report impressions and
+                                bugs to the authors.
+* Contributing::                How to help developing VICE.
+* Newsgroups::                  VICE-related Usenet groups.
+* FAQs you should read::        VICE-related Frequently Asked Questions.
 
 
-File: vice.info,  Node: Homepage,  Next: Sending feedback,  Prev: Contacts,  Up: Contacts
+File: vice.info,  Node: Home page,  Next: Sending feedback,  Prev: Contacts,  Up: Contacts
 
 VICE home page
 ==============
@@ -750,7 +1380,7 @@ that the problem you encountered has already been fixed with a newer
 version.
 
 
-File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Homepage,  Up: Contacts
+File: vice.info,  Node: Sending feedback,  Next: Contributing,  Prev: Home page,  Up: Contacts
 
 How to send feedback
 ====================
@@ -792,8 +1422,8 @@ team.
           from the VICE home page:
           http://www.tu-chemnitz.de/~fachat/vice/vice.html);
 
-        * the comp.emulators.cbm and comp.sys.cbm FAQs (*note FAQs you
-          should read::.).
+        * the `comp.emulators.cbm' and `comp.sys.cbm' FAQs (*note FAQs
+          you should read::.).
 
    * When you report a bug, please try to be as accurate as possible and
      describe how it can be reproduced to the very detail.  You should
@@ -829,8 +1459,8 @@ How to contribute
 
    If you want to make a major contribution, please *ask* first.  It
 has already happened a couple of times that somebody started working at
-something that had already been done but not released to the public, and
-we really do *not* want anybody to waste time.
+something that had already been done but not released to the public yet,
+and we really do *not* want anybody to waste time.
 
    If you are going to make a patch, please make sure the patch is
 relative to the very latest version, and provide us with the following:
@@ -838,12 +1468,12 @@ relative to the very latest version, and provide us with the following:
    * a diff file containing all the changes you have made (`diff -c' or
      `diff -u' (better) is fine; please don't use plain `diff');
 
-   * GNU-style `ChangeLog' entries with a list of the changes you have
-     made (look at the `ChangeLog's provided with the original VICE
+   * GNU-style `ChangeLog' entries with a description of the changes you
+     have made (look at the `ChangeLog's provided with the original VICE
      sources for an example).
 
-   This is very important, and makes it much smoother and safer for us
-to include patches.
+   This is very important, and makes adding patches much smoother and
+safer.
 
    People willing to port VICE to other platforms are always welcome.  A
 Windows and a MacOS port are in the works, so if you are interested in
@@ -877,142 +1507,4 @@ FAQs you should read
    We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
 FAQs, which are posted regularly on the corresponding newsgroups and
 are also available via FTP from ftp://rtfm.mit.edu.
-
-
-File: vice.info,  Node: Concept Index,  Next: Resource Index,  Prev: Contacts,  Up: Top
-
-Concept Index
-*************
-
-* Menu:
-
-* -1541, +1541:                          1541 options.
-* -checksb, +checksb:                    VIC-II options.
-* -checkss, +checkss:                    VIC-II options.
-* -dosname:                              1541 options.
-* -driveidle:                            1541 options.
-* -drivesync:                            1541 options.
-* -dscan, +dscan:                        Video options.
-* -emuid, +emuid:                        I/O extension options.
-* -fs10:                                 File system device options.
-* -fs11:                                 File system device options.
-* -fs8:                                  File system device options.
-* -fs9:                                  File system device options.
-* -ieee488, +ieee488:                    I/O extension options.
-* -keymap:                               Keyboard options.
-* -memory:                               VIC20 memconf options.
-* -ntscdrive:                            1541 options.
-* -paldrive:                             1541 options.
-* -parallel, +parallel:                  1541 options.
-* -prdev1:                               Printer options.
-* -prdev2:                               Printer options.
-* -prdev3:                               Printer options.
-* -refresh:                              Performance options.
-* -reu, +reu:                            I/O extension options.
-* -sidfilters, +sidfilters:              SID options.
-* -sidmodel:                             SID options.
-* -sound, +sound:                        Sound options.
-* -soundarg:                             Sound options.
-* -soundbufsize:                         Sound options.
-* -sounddev:                             Sound options.
-* -soundrate:                            Sound options.
-* -speed:                                Performance options.
-* -traps, +traps:                        No traps options.
-* -vcache, +vcache:                      Video options.
-* -warp, +warp:                          Performance options.
-* Adaptive Playback:                     Sound settings.
-* Audio buffer size:                     Sound settings.
-* C64/128 emulator identification:       I/O extension settings.
-* Double-scan mode.:                     Video settings.
-* Double-size mode:                      Video settings.
-* IEEE488 interface emulation:           I/O extension settings.
-* Limiting emulation speed:              Performance settings.
-* Loosing control on low-end systems:    Video settings.
-* Oversampling:                          Sound settings.
-* Refresh rate:                          Performance settings.
-* REU:                                   I/O extension settings.
-* Sample rate:                           Sound settings.
-* SID filters:                           SID settings.
-* SID models:                            SID settings.
-* Sound buffer size:                     Sound settings.
-* Sound suspend time:                    Sound settings.
-* Sprite collision detection:            VIC-II settings.
-* Turning sound playback on/off:         Sound settings.
-* Using XSync():                         Video settings.
-* VIC-II color sets:                     VIC-II settings.
-* Video cache:                           Video settings.
-* Warp speed mode:                       Performance settings.
-
-
-File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top
-
-Index of Resources
-******************
-
-* Menu:
-
-* Acia1Dev:                              RS232 resources.
-* CheckSbColl:                           VIC-II resources.
-* CheckSsColl:                           VIC-II resources.
-* DosName:                               1541 resources.
-* DoubleScan:                            Video resources.
-* DoubleSize:                            Video resources.
-* EmuID:                                 I/O extension resources.
-* FSDevice10ConvertP00:                  File system device resources.
-* FSDevice10Dir:                         File system device resources.
-* FSDevice10HideCBMFiles:                File system device resources.
-* FSDevice10SaveP00:                     File system device resources.
-* FSDevice11ConvertP00:                  File system device resources.
-* FSDevice11Dir:                         File system device resources.
-* FSDevice11HideCBMFiles:                File system device resources.
-* FSDevice11SaveP00:                     File system device resources.
-* FSDevice8ConvertP00:                   File system device resources.
-* FSDevice8Dir:                          File system device resources.
-* FSDevice8HideCBMFiles:                 File system device resources.
-* FSDevice8SaveP00:                      File system device resources.
-* FSDevice9ConvertP00:                   File system device resources.
-* FSDevice9Dir:                          File system device resources.
-* FSDevice9HideCBMFiles:                 File system device resources.
-* FSDevice9SaveP00:                      File system device resources.
-* IEEE488:                               I/O extension resources.
-* KeymapIndex:                           Keyboard resources.
-* NoTraps:                               No traps resources.
-* PaletteFile:                           VIC-II resources.
-* PrDevice1:                             Printer resources.
-* PrDevice2:                             Printer resources.
-* PrDevice3:                             Printer resources.
-* RAMBlock0:                             VIC20 memconf resources.
-* RAMBlock1:                             VIC20 memconf resources.
-* RAMBlock2:                             VIC20 memconf resources.
-* RAMBlock3:                             VIC20 memconf resources.
-* RAMBlock5:                             VIC20 memconf resources.
-* RefreshRate:                           Performance resources.
-* REU:                                   I/O extension resources.
-* RsDevice1:                             RS232 resources.
-* RsDevice1Baud:                         RS232 resources.
-* RsDevice2:                             RS232 resources.
-* RsDevice2Baud:                         RS232 resources.
-* RsDevice3:                             RS232 resources.
-* RsDevice4:                             RS232 resources.
-* RsUserDev:                             RS232 resources.
-* SidFilters:                            SID resources.
-* SidModel:                              SID resources.
-* Sound:                                 Sound resources.
-* SoundBufferSize:                       Sound resources.
-* SoundDeviceArg:                        Sound resources.
-* SoundDeviceName:                       Sound resources.
-* SoundOversample:                       Sound resources.
-* SoundSampleRate:                       Sound resources.
-* SoundSpeedAdjustment:                  Sound resources.
-* SoundSuspendTime:                      Sound resources.
-* Speed:                                 Performance resources.
-* True1541:                              1541 resources.
-* True1541ExtendImagePolicy:             1541 resources.
-* True1541IdleMethod:                    1541 resources.
-* True1541ParallelCable:                 1541 resources.
-* True1541SyncFactor:                    1541 resources.
-* UseXSync:                              Video resources.
-* VideoCache:                            Video resources.
-* WarpMode:                              Performance resources.
-
 

@@ -61,41 +61,54 @@ About VICE
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
-* Emulation file formats::
+* File formats::
 * Common problems::
+
+Common problems
+
+* Sound problems::
+* Shared memory problems::
+
+Invoking the emulators
+
+* Command-line initialization::
+* Command-line autostart::
 
 System files
 
-* ROM files::
-* Keymap files::
-* Palette files::
+* ROM files::                   Files containing dumps of the original ROMs.
+* Keymap files::                Files describing the keyboard layout.
+* Palette files::               Files defining the machine's colors.
 
 Basic operation
 
-* Emulation window::
-* Menus::
-* Help::
-* File Selector::
-* Disk and tape images::
-* Reset::
+* Emulation window::            The window the emulator runs in.
+* Menus::                       Using emulator menus.
+* Help::                        Getting help if you are stuck.
+* File Selector::               Selecting files interactively.
+* Disk and tape images::        Using virtual disks and tapes.
+* Reset::                       Resetting the virtual machines.
 
 Using disk and tape images
 
 * Previewing contents::         Looking into the image before attaching it.
 * Autostart::                   Starting a program automagically.
 * Compressed files::            Dealing with compressed files.
+* Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 
 Settings and resources
 
 * Resource files::              Format of resource files.
+* Resources and command-line::  Specifying settings from the
+                                command-line
 
-* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::
+* Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated external devices.
+* Misc settings::               Other settings.
 
 Performance settings
 
@@ -124,9 +137,9 @@ Sound settings
 
 Peripheral settings
 
-* File system device settings::
-* Printer settings::
-* No kernal traps::
+* File system device settings::  Settings for file system devices.
+* Printer settings::            Settings for emulating a printer.
+* No kernal traps::             Disabling kernal traps completely.
 
 Settings for file system devices
 
@@ -143,6 +156,11 @@ Disabling kernal traps
 * No traps resources::
 * No traps options::
 
+Miscellaneous settings
+
+* Misc resources::
+* Misc options::
+
 Machine-specific features
 
 * C64/128-specific::            Commands and settings specific to the
@@ -154,11 +172,12 @@ Machine-specific features
 
 C64/128-specific commands and settings
 
-* C64 cartridges::
-* VIC-II settings::
-* SID settings::
-* I/O extension settings::
-* RS232 settings::
+* C64 cartridges::              Using cartridge images with the C64 emulator.
+* VIC-II settings::             Settings that control the video chip.
+* SID settings::                Settings that control the audio chip.
+* C64 I/O extension settings::  Settings that enable special extensions.
+* RS232 settings::              Settings that control the RS232 emulation.
+* C64/128 system ROM settings::  Settings to control the system ROMs.
 
 VIC-II settings
 
@@ -170,24 +189,36 @@ SID settings
 * SID resources::
 * SID options::
 
-I/O extension settings
+C64 I/O extension settings
 
-* I/O extension resources::
-* I/O extension options::
+* C64 I/O extension resources::
+* C64 I/O extension options::
 
 RS232 settings
 
 * RS232 resources::
+* RS232 options::
+
+C64/128 system ROM settings
+
+* C64/128 system ROM resources::
+* C64/128 system ROM options::
 
 VIC20-specific commands and settings
 
 * VIC20 cartridges::
 * VIC20 memory expansions::
+* VIC20 system ROM settings::
 
 Changing memory configuration
 
 * VIC20 memconf resources::
 * VIC20 memconf options::
+
+VIC20 system ROM settings
+
+* VIC20 system ROM resources::
+* VIC20 system ROM options::
 
 PET-specific commands and settings
 
@@ -210,16 +241,16 @@ Monitor
 
 c1541
 
-* Commands::                    List of the available commands.
-* Examples::                    Using c1541 in practice.
+* c1541 commands and options::
 
 Contact information
 
-* Homepage::
-* Sending feedback::
-* Contributing::
-* Newsgroups::
-* FAQs you should read::
+* Home page::                   The official VICE WWW page.
+* Sending feedback::            How to report impressions and
+                                bugs to the authors.
+* Contributing::                How to help developing VICE.
+* Newsgroups::                  VICE-related Usenet groups.
+* FAQs you should read::        VICE-related Frequently Asked Questions.
 
 
 File: vice.info,  Node: License,  Next: Preface,  Prev: Top,  Up: Top
@@ -325,7 +356,6 @@ modification follow.
 
        a. You must cause the modified files to carry prominent notices
           stating that you changed the files and the date of any change.
-          v
 
        b. You must cause any work that you distribute or publish, that
           in whole or in part contains or is derived from the Program
@@ -593,10 +623,10 @@ About VICE
 **********
 
    VICE is the one and only "Versatile Commodore Emulator".  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 2001, 3032, 4032,
-8032, 8096, 8296 8-bit computers with one single package.  The emulators
-run as separate programs, but have the same user interface, share the
-same settings and support the same file formats.
+you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
+one single package.  The emulators run as separate programs, but have
+the same user interface, share the same settings and support the same
+file formats.
 
    *Important notice:* If you have no idea about what a Commodore 8-bit
 computer is, or have questions about how these machines are used, how
@@ -623,7 +653,7 @@ good as the C64 one, as they are still under construction.
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
-* Emulation file formats::
+* File formats::
 * Common problems::
 
 
@@ -745,9 +775,10 @@ will cause the combination `Shift-7' to be pressed in the emulated C64.
 This way, it becomes quite obvious what keys should be typed to obtain
 all the symbols.
 
-   There is one problem with symbolic mapping, though: not all of the
-ASCII symbols are available in the Commodore PETSCII character set and
-vice versa, so some of the keys have to be mapped in a special way...
+   There is one problem with symbolic mapping, though: some keys have
+to be mapped specially anyway.  The most important execption is that,
+in the VIC20, C64 and C128 emulators, <CTRL> is mapped to <Tab> and the
+<Commodore> key is mapped to the left <Control>).
 
    The second way ("positional mapping") is to map every key on the
 "real" keyboard to the key which has the same position on the keyboard
@@ -786,7 +817,7 @@ respectively.
 <x>, <c> for the directions and <space> for the fire button instead.
 
 
-File: vice.info,  Node: Disk drive emulation,  Next: Emulation file formats,  Prev: Joystick emulation,  Up: Preface
+File: vice.info,  Node: Disk drive emulation,  Next: File formats,  Prev: Joystick emulation,  Up: Preface
 
 The disk drive emulation
 ========================
@@ -838,7 +869,7 @@ IEEE488 disk units, and no kernal traps are needed.  The same emulation
 is available in the C64, to emulate the Commodore IEEE488 bus interface.
 
 
-File: vice.info,  Node: Emulation file formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
+File: vice.info,  Node: File formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
 
 Supported file formats
 ======================
@@ -847,9 +878,11 @@ Supported file formats
 
    * `X64' (preferred) or `D64' disk image files;
 
+   * `G41' GCR-encoded 1541 disk image files;
+
    * `T64' tape image files (read-only);
 
-   * `P00' program files.
+   * `P00' program files;
 
    An utility (`c1541', *note c1541::.) is provided to allow transfers
 between these formats.
@@ -864,10 +897,24 @@ that, although the emulators and utilities can both read and write on
      dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 
 
-File: vice.info,  Node: Common problems,  Prev: Emulation file formats,  Up: Preface
+File: vice.info,  Node: Common problems,  Prev: File formats,  Up: Preface
 
 Common problems
 ===============
+
+   This section tries to describe the most common known problem with
+VICE, and how to resolve them.
+
+* Menu:
+
+* Sound problems::
+* Shared memory problems::
+
+
+File: vice.info,  Node: Sound problems,  Next: Shared memory problems,  Prev: Common problems,  Up: Common problems
+
+Sound problems
+--------------
 
    VICE should compile and run without major problems on many UNIX
 systems, but there are some known issues related to the sound driver.
@@ -883,6 +930,36 @@ driver.
 troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
 finding HP-UX and SUN consoles to work at...
+
+
+File: vice.info,  Node: Shared memory problems,  Prev: Sound problems,  Up: Common problems
+
+Shared memory problems
+----------------------
+
+   If you cannot start VICE, because you get errors about shared memory,
+try to run it with the `+mitshm' command-line option (*note Video
+options::.).  This will completely disable usage of the MITSHM
+extensions, that are normally used to speed up the process of updating
+the emulation window.  Of course, this will also result in a big loss in
+speed.
+
+   Reasons for this failure could be:
+
+   * IPC support has been disabled from the system; some system
+     administrators disable this for security reasons.  If *you* are the
+     system administrator, use a kernel that has IPC support compiled
+     in and enabled.
+
+   * You are attempting to run the emulator across the network (ie. the
+     emulator runs on a machine, and the output is displayed on another
+     machine that works as an X terminal), and for some reason VICE
+     does not recognize that.  In this case, you have found a bug, so
+     please report it to us.
+
+   If you want to avoid running the emulator with `+mitshm' every time,
+run it once with `+mitshm' and then choose "Save settings" from the
+right-button menu.
 
 
 File: vice.info,  Node: Usage,  Next: System files,  Prev: Preface,  Up: Top
@@ -907,10 +984,50 @@ terminal window such as `xterm' or `rxvt', as a lot of debugging
 information is printed and the built-in monitor will be run in there.
 For example, you could do
 
-     xterm -e ./x64 -dir ../../data/C64
+     xterm -e x64
 
-   There are several options you can specify on the command line, and
-the `-help' option lists all of them all.
+* Menu:
+
+* Command-line initialization::
+* Command-line autostart::
+
+
+File: vice.info,  Node: Command-line initialization,  Next: Command-line autostart,  Prev: Usage,  Up: Usage
+
+Command-line options used during initialization
+===============================================
+
+   There are several options you can specify on the command line.  Some
+of them are used to specify emulation settings; they will be described
+in detail later (*note Settings and resources::. for a complete list).
+The other ones, instead, are used only to initialize the emulator:
+
+`-help'
+`-?'
+     List all the available command-line options and their meaning.
+
+`-default'
+     Set default resources (*note Settings and resources::.).  This will
+     override all the settings specified before, but not the settings
+     specified afterwards on the command line.
+
+`-autostart IMAGE'
+     Autostart `IMAGE' (*note Command-line autostart::.).
+
+`-1 NAME'
+     Attach `NAME' as a tape image file.
+
+`-8 NAME'
+`-9 NAME'
+`-10 NAME'
+`-11 NAME'
+     Attach `NAME' as a disk image to device 8, 9, 10 or 11.
+
+
+File: vice.info,  Node: Command-line autostart,  Prev: Command-line initialization,  Up: Usage
+
+Autostarting programs from the command-line
+===========================================
 
    It is possible to let the emulator "autostart" a disk or tape image
 file, by simply specifying its name as the last argument on the command
@@ -927,6 +1044,11 @@ name itself to the argument; for example
 
    will run the program named `run me' on `lovelygame.x64.gz' instead
 of the first one.
+
+   Using the command-line option `-autostart' is equivalent; so the same
+result can be obtained with
+
+     x64 -autostart "lovelygame.x64.gz:run me"
 
    *Note Disk and tape images:: for more information about images and
 autostart.
@@ -952,19 +1074,26 @@ files:
 `Directory' resource, which is a colon (`;')-separated search path
 list, like the UNIX `PATH' environment variable.  The default value is
 
-     PREFIX/lib/vice/EMU;BOOTPATH/EMU
+     PREFIX/lib/vice/EMU:BOOTPATH/EMU
 
    Where `PREFIX' is the installation prefix (usually `/usr/local'),
 `EMU' is the name of the emulated machine (`C64', `C128', `PET' or
 `VIC20') and `BOOTPATH' is the directory where the executable resides.
 
    For example, if you have the C64 emulator installed in
-`/usr/local/bin/x64', the value will be
+
+     /usr/local/bin/x64
+
+   then the value will be
 
      /usr/local/lib/VICE/C64;/usr/local/bin/C64
 
-   And system files will be searched for under
-`/usr/local/lib/VICE/C64' first, and then under `/usr/local/bin/C64'.
+   And system files will be searched for under the following
+directories, in the specified order:
+
+  1. `/usr/local/lib/VICE/C64'
+
+  2. `/usr/local/bin/C64'
 
    System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
@@ -975,9 +1104,9 @@ files::.).
 
 * Menu:
 
-* ROM files::
-* Keymap files::
-* Palette files::
+* ROM files::                   Files containing dumps of the original ROMs.
+* Keymap files::                Files describing the keyboard layout.
+* Palette files::               Files defining the machine's colors.
 
 
 File: vice.info,  Node: ROM files,  Next: Keymap files,  Prev: System files,  Up: System files
@@ -1032,15 +1161,12 @@ $9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
 PET3032 only).  You can specify ROM image files for those extensions
 command line options `-petrom9', `-petromA' and `-petromB' resp.
 
-   An alternative would be to specify a long kernal ROM with the -kernal
-option that includes the extension ROM areas already.
+   An alternative would be to specify a long kernal ROM with the
+`-kernal' option that includes the extension ROM areas already.
 
    Also, you can specify a replacement for the basic ROM at $B000-$DFFF
 with the `-petromBasic' option and a replacement for the editor ROM at
 $E000-$E7FF with the `-petromEditor' option.
-
-   You can also edit the configuration file as explained in the
-appropriate section.
 
 
 File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
@@ -1116,144 +1242,4 @@ This is useful for adding comments within the keymap file.
    VICE keymap files have the `.vkm' default extension, and every
 emulator comes with a default positional mapping and a default symbolic
 mapping.
-
-
-File: vice.info,  Node: Palette files,  Prev: Keymap files,  Up: System files
-
-Palette files
-=============
-
-   "Palette files" are used to specify the colors used in the
-emulators.  They are made up of lines like the following:
-
-     RED GREEN BLUE DITHER
-
-   where `RED', `GREEN' and `BLUE' are hexadecimal values ranging from
-0 to FF and specifying the amount of red, green and blue you want for
-each color and `DITHER' is an hexadecimal 4-bit number specifying the
-pattern you want to be used when rendering on a B/W display.
-
-   You have to include as many lines as the number of colors the
-emulated machine has, and the order of the lines must respect the one
-used in the machine (so the N'th line must contain the specifications
-for color N - 1 in the emulated machine).
-
-   Lines starting with the `#' sign are completely ignored.  This is
-useful for adding comments (such as color names) within the palette
-file.
-
-   For example, the default PET palette file (which has only two
-colors, 0 for background and 1 for foreground), looks like the
-following:
-
-     #
-     # VICE Palette file
-     #
-     # Syntax:
-     # Red Green Blue Dither
-     #
-     
-     # Background
-     00 00 00 0
-     
-     # Foreground
-     00 FF 00 F
-
-
-File: vice.info,  Node: Basics,  Next: Settings and resources,  Prev: System files,  Up: Top
-
-Basic operation
-***************
-
-   This section describes the basic things you can do after the emulator
-has been fired up.
-
-* Menu:
-
-* Emulation window::
-* Menus::
-* Help::
-* File Selector::
-* Disk and tape images::
-* Reset::
-
-
-File: vice.info,  Node: Emulation window,  Next: Menus,  Prev: Basics,  Up: Basics
-
-The emulation window
-====================
-
-   When the emulator is run, the screen of the emulated machine is
-displayed in a standard X Window which we will call the "emulation
-window".  This window will be updated in real-time, displaying the same
-contents that a real monitor or TV set would.
-
-   Under the emulation window there is an area which is used to display
-information about the state of the emulator; we will call this area the
-"status bar".
-
-   On the extreme left of the status bar, there is a "performance
-meter".  The performance meter displays the current relative speed (in
-percent) of the emulator and the update frequency, in frames per second.
-All the machines emulated are PAL, so the update frequency will be of 50
-frames per second if your system is fast enough to allow the emulator to
-run at the speed of the real machine.
-
-   On the extreme right of the status bar, there is a "drive status
-indicator".  This is only visible if the hardware-level ("True") 1541
-emulation is turned on.  In that case, the drive status indicator will
-contain a rectangle which emulates the drive LED and will display the
-current track position of the read-write head of the drive.
-
-
-File: vice.info,  Node: Menus,  Next: Help,  Prev: Emulation window,  Up: Basics
-
-Using the menus
-===============
-
-   It is possible to execute some commands and change emulation
-parameters while running the emulator: two menus are available by
-pressing the right or left mouse buttons while the pointer is in the
-emulation window.  The left mouse button will open the "command menu"
-from which several emulation-related commands can be executed; the right
-mouse button will open the "setting menu", from which emulation
-parameters can be changed.  The basic difference between the command and
-the setting menu is that, while commands have only effect on the current
-session, settings can be saved for later use: this can be done with the
-"Save settings" and "Load settings" right-button menu items.  "Restore
-default settings" restores the factory defaults.  *Note Settings and
-resources:: for more information about how settings work in VICE.
-
-   Sometimes commands can be reached via "shortcuts" or "hotkeys", i.e.
-it is possible to reach them by pressing a sequence of keys instead of
-going through the menu with the mouse; when this happens, the
-corresponding shortcut is displayed in parenthesis on the right of the
-menu item.  In VICE, all the shortcuts must begin with the *right*
-<control> key; this happens because all the modifier keys are needed by
-the emulated machine and <control> is the only key which is most
-certainly duplicated on Unix keyboards (right <shift> would not be
-suitable because it is used by the emulated machine too, and <alt> or
-<meta> are not always duplicated).  So, for example, to attach a disk
-image to drive #8 (the corresponding menu item displays "C-8"), you
-have to press the right <control> key and then <8>.
-
-   Notice that, while the right <control> key is pressed, pressing
-other keys has no effect at all on the emulated machine.
-
-
-File: vice.info,  Node: Help,  Next: File Selector,  Prev: Menus,  Up: Basics
-
-Getting help
-============
-
-   In case you suddenly get stuck or do not remember how to do a certain
-thing, you can in any moment use the "Browse manuals" command (left
-button menu).  This will popup a browser and open the HTML version of
-this documentation.  Notice that this requires VICE to be properly (and
-fully) installed with a `make install'.
-
-   The browser can be specified via the `HTMLBrowserCommand' string
-resource (*note Settings and resources::. for information about
-resources).  Every `%s' in the string will be replaced with a URL to
-the VICE HTML pages.
 

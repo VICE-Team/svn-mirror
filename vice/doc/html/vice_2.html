@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 19 August 1998 -->
+     from ../vice.texi on 21 August 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -14,10 +14,10 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <
 
 <P>
 VICE is the one and only <EM>Versatile Commodore Emulator</EM>.  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 2001, 3032, 4032,
-8032, 8096, 8296 8-bit computers with one single package.  The emulators
-run as separate programs, but have the same user interface, share the
-same settings and support the same file formats.
+you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
+one single package.  The emulators run as separate programs, but have
+the same user interface, share the same settings and support the same
+file formats.
 
 </P>
 <P>
@@ -25,7 +25,7 @@ same settings and support the same file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or everything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-this kind of information is not available here.  See section <A HREF="vice_12.html#SEC97">12  Contact information</A> for
+this kind of information is not available here.  See section <A HREF="vice_12.html#SEC111">12  Contact information</A> for
 information about how to retrieve the the FAQs.
 
 </P>
@@ -102,7 +102,7 @@ graphical effects will not work correctly.
 <P>
 Sound is implemented, but is still at the experimental stage.  If
 you think it does not sound right and know how to improve it, feel
-free to contact us (see section <A HREF="vice_12.html#SEC97">12  Contact information</A>).
+free to contact us (see section <A HREF="vice_12.html#SEC111">12  Contact information</A>).
 
 </P>
 
@@ -198,9 +198,10 @@ keys should be typed to obtain all the symbols.
 
 </P>
 <P>
-There is one problem with symbolic mapping, though: not all of the ASCII
-symbols are available in the Commodore PETSCII character set and vice
-versa, so some of the keys have to be mapped in a special way...
+There is one problem with symbolic mapping, though: some keys have to be
+mapped specially anyway.  The most important execption is that, in the
+VIC20, C64 and C128 emulators, <KBD>CTRL</KBD> is mapped to <KBD>Tab</KBD> and the
+<KBD>Commodore</KBD> key is mapped to the left <KBD>Control</KBD>).
 
 </P>
 
@@ -339,16 +340,20 @@ VICE supports the most popular Commodore file formats:
 
 <P> <LI>
 
+<CODE>G41</CODE> GCR-encoded 1541 disk image files;
+
+<P> <LI>
+
 <CODE>T64</CODE> tape image files (read-only);
 
 <P> <LI>
 
-<CODE>P00</CODE> program files.
+<CODE>P00</CODE> program files;
 
 </UL> </P>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_9.html#SEC92">9  c1541</A>) is provided to allow transfers
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_9.html#SEC107">9  c1541</A>) is provided to allow transfers
 between these formats.
 
 </P>
@@ -373,6 +378,16 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 <H2><A NAME="SEC14" HREF="vice_toc.html#TOC14">2.9  Common problems</A></H2>
 
 <P>
+This section tries to describe the most common known problem with VICE,
+and how to resolve them.
+
+</P>
+
+
+
+<H3><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.9.1  Sound problems</A></H3>
+
+<P>
 VICE should compile and run without major problems on many UNIX systems,
 but there are some known issues related to the sound driver.  In fact,
 sound is the least portable part of the emulator and has not been
@@ -391,6 +406,48 @@ On the other hand, HP-UX and Solaris machines are known to cause
 troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
 finding HP-UX and SUN consoles to work at...
+
+</P>
+
+
+
+<H3><A NAME="SEC16" HREF="vice_toc.html#TOC16">2.9.2  Shared memory problems</A></H3>
+
+<P>
+<A NAME="IDX1"></A>
+<A NAME="IDX2"></A>
+If you cannot start VICE, because you get errors about shared memory,
+try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC43">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM
+extensions, that are normally used to speed up the process of updating
+the emulation window.  Of course, this will also result in a big loss in
+speed.
+
+</P>
+<P>
+Reasons for this failure could be:
+
+</P>
+
+<P> <UL>
+<P> <LI>
+
+IPC support has been disabled from the system; some system
+administrators disable this for security reasons.  If <EM>you</EM> are the
+system administrator, use a kernel that has IPC support compiled in and
+enabled.
+<P> <LI>
+
+You are attempting to run the emulator across the network (ie. the
+emulator runs on a machine, and the output is displayed on another
+machine that works as an X terminal), and for some reason VICE does not
+recognize that.  In this case, you have found a bug, so please report it
+to us.
+</UL> </P>
+
+<P>
+If you want to avoid running the emulator with <SAMP>`+mitshm'</SAMP> every
+time, run it once with <SAMP>`+mitshm'</SAMP> and then choose "Save settings"
+from the right-button menu.
 
 </P>
 

@@ -15,13 +15,13 @@ END-INFO-DIR-ENTRY
 @c @setchapternewpage odd
 @setchapternewpage off
 
-@iftex
-@set CHAPTER chapter
-@end iftex
+@c @iftex
+@c @set CHAPTER chapter
+@c @end iftex
 
-@ifinfo
-@set CHAPTER node
-@end ifinfo
+@c @ifinfo
+@c @set CHAPTER node
+@c @end ifinfo
 
 @c Theoretically, this should not be needed.  But my makeinfo does not
 @c understand it.
@@ -53,9 +53,14 @@ notice identical to this one.
 @end ifinfo
 
 @titlepage
+
 @title VICE, the Versatile Commodore Emulator
+
 @page
 @vskip 0pt plus 1filll
+Copyright (C) 1998 Ettore Perazzoli, Daniel Sladic, Andr@'e
+Fachat.
+
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
 are preserved on all copies.
@@ -119,41 +124,54 @@ About VICE
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
-* Emulation file formats::
+* File formats::
 * Common problems::
+
+Common problems
+
+* Sound problems::
+* Shared memory problems::
+
+Invoking the emulators
+
+* Command-line initialization::
+* Command-line autostart::
 
 System files
 
-* ROM files::
-* Keymap files::
-* Palette files::
+* ROM files::                   Files containing dumps of the original ROMs.
+* Keymap files::                Files describing the keyboard layout.
+* Palette files::               Files defining the machine's colors.
 
 Basic operation
 
-* Emulation window::
-* Menus::
-* Help::
-* File Selector::
-* Disk and tape images::
-* Reset::
+* Emulation window::            The window the emulator runs in.
+* Menus::                       Using emulator menus.
+* Help::                        Getting help if you are stuck.
+* File Selector::               Selecting files interactively.
+* Disk and tape images::        Using virtual disks and tapes.
+* Reset::                       Resetting the virtual machines.
 
 Using disk and tape images
 
 * Previewing contents::         Looking into the image before attaching it.
 * Autostart::                   Starting a program automagically.
 * Compressed files::            Dealing with compressed files.
+* Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 
 Settings and resources
 
 * Resource files::              Format of resource files.
+* Resources and command-line::  Specifying settings from the
+                                command-line
 
-* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::
+* Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated external devices.
+* Misc settings::               Other settings.
 
 Performance settings
 
@@ -182,9 +200,9 @@ Sound settings
 
 Peripheral settings
 
-* File system device settings::
-* Printer settings::
-* No kernal traps::
+* File system device settings::  Settings for file system devices.
+* Printer settings::            Settings for emulating a printer.
+* No kernal traps::             Disabling kernal traps completely.
 
 Settings for file system devices
 
@@ -201,6 +219,11 @@ Disabling kernal traps
 * No traps resources::
 * No traps options::
 
+Miscellaneous settings
+
+* Misc resources::
+* Misc options::
+
 Machine-specific features
 
 * C64/128-specific::            Commands and settings specific to the
@@ -212,11 +235,12 @@ Machine-specific features
 
 C64/128-specific commands and settings
 
-* C64 cartridges::
-* VIC-II settings::
-* SID settings::
-* I/O extension settings::
-* RS232 settings::
+* C64 cartridges::              Using cartridge images with the C64 emulator.
+* VIC-II settings::             Settings that control the video chip.
+* SID settings::                Settings that control the audio chip.
+* C64 I/O extension settings::  Settings that enable special extensions.
+* RS232 settings::              Settings that control the RS232 emulation.
+* C64/128 system ROM settings::  Settings to control the system ROMs.
 
 VIC-II settings
 
@@ -228,24 +252,36 @@ SID settings
 * SID resources::
 * SID options::
 
-I/O extension settings
+C64 I/O extension settings
 
-* I/O extension resources::
-* I/O extension options::
+* C64 I/O extension resources::
+* C64 I/O extension options::
 
 RS232 settings
 
 * RS232 resources::
+* RS232 options::
+
+C64/128 system ROM settings
+
+* C64/128 system ROM resources::
+* C64/128 system ROM options::
 
 VIC20-specific commands and settings
 
 * VIC20 cartridges::
 * VIC20 memory expansions::
+* VIC20 system ROM settings::
 
 Changing memory configuration
 
 * VIC20 memconf resources::
 * VIC20 memconf options::
+
+VIC20 system ROM settings
+
+* VIC20 system ROM resources::
+* VIC20 system ROM options::
 
 PET-specific commands and settings
 
@@ -268,16 +304,16 @@ Monitor
 
 c1541
 
-* Commands::                    List of the available commands.
-* Examples::                    Using c1541 in practice.
+* c1541 commands and options::
 
 Contact information
 
-* Homepage::
-* Sending feedback::
-* Contributing::
-* Newsgroups::
-* FAQs you should read::
+* Home page::                   The official VICE WWW page.
+* Sending feedback::            How to report impressions and
+                                bugs to the authors.
+* Contributing::                How to help developing VICE.
+* Newsgroups::                  VICE-related Usenet groups.
+* FAQs you should read::        VICE-related Frequently Asked Questions.
 @end menu
 
 @node License, Preface, Top, Top
@@ -391,7 +427,7 @@ above, provided that you also meet all of these conditions:
 @item
 You must cause the modified files to carry prominent notices
 stating that you changed the files and the date of any change.
-v
+
 @item
 You must cause any work that you distribute or publish, that in
 whole or in part contains or is derived from the Program or any
@@ -683,10 +719,10 @@ Public License instead of this License.
 @chapter About VICE
 
 VICE is the one and only @dfn{Versatile Commodore Emulator}.  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 2001, 3032, 4032,
-8032, 8096, 8296 8-bit computers with one single package.  The emulators
-run as separate programs, but have the same user interface, share the
-same settings and support the same file formats.
+you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
+one single package.  The emulators run as separate programs, but have
+the same user interface, share the same settings and support the same
+file formats.
 
 @strong{Important notice:} If you have no idea about what a Commodore
 8-bit computer is, or have questions about how these machines are used,
@@ -712,7 +748,7 @@ good as the C64 one, as they are still under construction.
 * Keyboard emulation::
 * Joystick emulation::
 * Disk drive emulation::
-* Emulation file formats::
+* File formats::
 * Common problems::
 @end menu
 
@@ -855,11 +891,12 @@ without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
 keys should be typed to obtain all the symbols.
 
-There is one problem with symbolic mapping, though: not all of the ASCII
-symbols are available in the Commodore PETSCII character set and vice
-versa, so some of the keys have to be mapped in a special way@dots{}
+There is one problem with symbolic mapping, though: some keys have to be
+mapped specially anyway.  The most important execption is that, in the
+VIC20, C64 and C128 emulators, @key{CTRL} is mapped to @key{Tab} and the
+@key{Commodore} key is mapped to the left @key{Control}).
 
-@c (@dots{}) FIXME: we need the list here.
+@c (@dots{}) FIXME: we need the detailed list here.
 
 The second way (@dfn{positional mapping}) is to map every key on the
 ``real'' keyboard to the key which has the same position on the keyboard
@@ -899,7 +936,7 @@ The @dfn{custom} layout uses the keys @key{q}, @key{w}, @key{e},
 and @key{space} for the fire button instead.
 
 
-@node Disk drive emulation, Emulation file formats, Joystick emulation, Preface
+@node Disk drive emulation, File formats, Joystick emulation, Preface
 @section The disk drive emulation
 
 All the emulators support emulation of up to 4 external disk drives as
@@ -952,7 +989,7 @@ the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation is available in the C64, to emulate the Commodore IEEE488 bus
 interface.
 
-@node Emulation file formats, Common problems, Disk drive emulation, Preface
+@node File formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
 
 VICE supports the most popular Commodore file formats:
@@ -963,10 +1000,13 @@ VICE supports the most popular Commodore file formats:
 @code{X64} (preferred) or @code{D64} disk image files;
 
 @item
+@code{G41} GCR-encoded 1541 disk image files;
+
+@item
 @code{T64} tape image files (read-only);
 
 @item
-@code{P00} program files.
+@code{P00} program files;
 
 @end itemize
 
@@ -985,8 +1025,19 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 @end example
 
 
-@node Common problems,  , Emulation file formats, Preface
+@node Common problems,  , File formats, Preface
 @section Common problems
+
+This section tries to describe the most common known problem with VICE,
+and how to resolve them.
+
+@menu
+* Sound problems::
+* Shared memory problems::
+@end menu
+
+@node Sound problems, Shared memory problems, Common problems, Common problems
+@subsection Sound problems
 
 VICE should compile and run without major problems on many UNIX systems,
 but there are some known issues related to the sound driver.  In fact,
@@ -1002,6 +1053,39 @@ On the other hand, HP-UX and Solaris machines are known to cause
 troubles.  If you think you can help debugging the code for these
 systems, your help would be really appreciated.  We are having troubles
 finding HP-UX and SUN consoles to work at@dots{}
+
+
+@node Shared memory problems,  , Sound problems, Common problems
+@subsection Shared memory problems
+
+@cindex MITSHM
+@cindex -mitshm, +mitshm
+If you cannot start VICE, because you get errors about shared memory,
+try to run it with the @samp{+mitshm} command-line option (@pxref{Video
+options}).  This will completely disable usage of the MITSHM
+extensions, that are normally used to speed up the process of updating
+the emulation window.  Of course, this will also result in a big loss in
+speed.
+
+Reasons for this failure could be:
+
+@itemize @bullet
+@item
+IPC support has been disabled from the system; some system
+administrators disable this for security reasons.  If @emph{you} are the
+system administrator, use a kernel that has IPC support compiled in and
+enabled.
+@item
+You are attempting to run the emulator across the network (ie. the
+emulator runs on a machine, and the output is displayed on another
+machine that works as an X terminal), and for some reason VICE does not
+recognize that.  In this case, you have found a bug, so please report it
+to us.
+@end itemize
+
+If you want to avoid running the emulator with @samp{+mitshm} every
+time, run it once with @samp{+mitshm} and then choose ``Save settings''
+from the right-button menu.
 
 
 @node Usage, System files, Preface, Top
@@ -1033,15 +1117,58 @@ debugging information is printed and the built-in monitor will be run in
 there.  For example, you could do
 
 @example
-xterm -e ./x64 -dir ../../data/C64
+xterm -e x64
 @end example
 
-There are several options you can specify on the command line, and the
-@code{-help} option lists all of them all.
 
-It is possible to let the emulator @dfn{autostart} a disk or tape image
-file, by simply specifying its name as the last argument on the command
-line; for example
+@menu
+* Command-line initialization::
+* Command-line autostart::
+@end menu
+
+@node Command-line initialization, Command-line autostart, Usage, Usage
+@section Command-line options used during initialization
+
+There are several options you can specify on the command line.  Some of
+them are used to specify emulation settings; they will be described in
+detail later (@pxref{Settings and resources} for a complete list).  The
+other ones, instead, are used only to initialize the emulator:
+
+@table @code
+@cindex -help
+@item -help
+@cindex -?
+@itemx -?
+List all the available command-line options and their meaning.
+@cindex -default
+@item -default
+Set default resources (@pxref{Settings and resources}).  This will
+override all the settings specified before, but not the settings
+specified afterwards on the command line.
+@cindex -autostart
+@item -autostart IMAGE
+Autostart @file{IMAGE} (@pxref{Command-line autostart}).
+@cindex -1
+@item -1 NAME
+Attach @file{NAME} as a tape image file.
+@cindex -8
+@item -8 NAME
+@cindex -9
+@itemx -9 NAME
+@cindex -10
+@itemx -10 NAME
+@cindex -11
+@itemx -11 NAME
+Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
+@end table
+
+
+@node Command-line autostart,  , Command-line initialization, Usage
+@section Autostarting programs from the command-line
+
+It is possible to let the emulator @dfn{autostart} a disk or
+tape image file, by simply specifying its name as the last argument on
+the command line; for example
 
 @example
 x64 lovelygame.x64.gz
@@ -1058,6 +1185,14 @@ x64 "lovelygame.x64.gz:run me"
 
 will run the program named @file{run me} on @file{lovelygame.x64.gz}
 instead of the first one.
+
+@cindex -autostart
+Using the command-line option @code{-autostart} is equivalent; so the same
+result can be obtained with
+
+@example
+x64 -autostart "lovelygame.x64.gz:run me"
+@end example
 
 @xref{Disk and tape images} for more information about images and
 autostart.
@@ -1090,7 +1225,7 @@ path list, like the @sc{unix} @code{PATH} environment variable.  The
 default value is
 
 @example
-PREFIX/lib/vice/EMU;BOOTPATH/EMU
+PREFIX/lib/vice/EMU:BOOTPATH/EMU
 @end example
 
 Where @code{PREFIX} is the installation prefix (usually
@@ -1099,15 +1234,26 @@ Where @code{PREFIX} is the installation prefix (usually
 @code{BOOTPATH} is the directory where the executable resides.
 
 For example, if you have the C64 emulator installed in
-@file{/usr/local/bin/x64}, the value will be
+
+@example
+/usr/local/bin/x64
+@end example
+
+then the value will be
 
 @example
 /usr/local/lib/VICE/C64;/usr/local/bin/C64
 @end example
 
-And system files will be searched for under
-@file{/usr/local/lib/VICE/C64} first, and then under
-@file{/usr/local/bin/C64}.
+And system files will be searched for under the following directories,
+in the specified order:
+
+@enumerate 1
+@item
+@code{/usr/local/lib/VICE/C64}
+@item
+@code{/usr/local/bin/C64}
+@end enumerate
 
 System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
@@ -1117,9 +1263,9 @@ command-line options or by modifying resource values (@pxref{Resource
 files}).
 
 @menu
-* ROM files::
-* Keymap files::
-* Palette files::
+* ROM files::                   Files containing dumps of the original ROMs.
+* Keymap files::                Files describing the keyboard layout.
+* Palette files::               Files defining the machine's colors.
 @end menu
 
 @node ROM files, Keymap files, System files, System files
@@ -1202,16 +1348,12 @@ PET3032 only).  You can specify ROM image files for those extensions
 command line options @code{-petrom9}, @code{-petromA} and
 @code{-petromB} resp.
 
-An alternative would be to specify a long kernal ROM with the -kernal
-option that includes the extension ROM areas already.
+An alternative would be to specify a long kernal ROM with the
+@code{-kernal} option that includes the extension ROM areas already.
 
 Also, you can specify a replacement for the basic ROM at $B000-$DFFF
 with the @code{-petromBasic} option and a replacement for the editor ROM
 at $E000-$E7FF with the @code{-petromEditor} option.
-
-You can also edit the configuration file as explained in the
-appropriate section.
-@c FIXME: link
 
 
 @node Keymap files, Palette files, ROM files, System files
@@ -1367,12 +1509,12 @@ has been fired up.
 
 
 @menu
-* Emulation window::
-* Menus::
-* Help::
-* File Selector::
-* Disk and tape images::
-* Reset::
+* Emulation window::            The window the emulator runs in.
+* Menus::                       Using emulator menus.
+* Help::                        Getting help if you are stuck.
+* File Selector::               Selecting files interactively.
+* Disk and tape images::        Using virtual disks and tapes.
+* Reset::                       Resetting the virtual machines.
 @end menu
 
 @node Emulation window, Menus, Basics, Basics
@@ -1421,17 +1563,21 @@ Sometimes commands can be reached via @dfn{shortcuts} or @dfn{hotkeys},
 i.e. it is possible to reach them by pressing a sequence of keys instead
 of going through the menu with the mouse; when this happens, the
 corresponding shortcut is displayed in parenthesis on the right of the
-menu item.  In VICE, all the shortcuts must begin with the @emph{right}
-@key{control} key; this happens because all the modifier keys are needed
-by the emulated machine and @key{control} is the only key which is most
-certainly duplicated on Unix keyboards (right @key{shift} would not be
-suitable because it is used by the emulated machine too, and @key{alt}
-or @key{meta} are not always duplicated).  So, for example, to attach a
-disk image to drive #8 (the corresponding menu item displays ``C-8''),
-you have to press the right @key{control} key and then @key{8}.
+menu item.  In VICE, all the shortcuts must begin with the @key{Meta} or
+@key{Alt} key.  So, for example, to attach a disk image to drive #8 (the
+corresponding menu item displays ``M-8''), you have to press the
+@key{Meta} (or @key{Alt}) and then @key{8}.
 
-Notice that, while the right @key{control} key is pressed, pressing
-other keys has no effect at all on the emulated machine.
+@c If you have an @key{AltGr} key, or some other key that sends the
+@c @code{Mode_switch} keysym, you can also use that one instead of
+@c @key{Meta} or @key{Alt}; for example, this is useful if your window
+@c manager wants to use @key{Alt} for its own purposes and you have no
+@c @key{Meta} key.
+
+@c Notice that, while @key{Meta}, @key{Alt} or @key{AltGr}
+Notice that, while @key{Meta} or @key{Alt}
+is pressed, pressing other keys has no effect at all on the emulated
+machine.
 
 
 @node Help, File Selector, Menus, Basics
@@ -1529,6 +1675,7 @@ that file, eg. doing a @code{chmod a-w}.
 * Previewing contents::         Looking into the image before attaching it.
 * Autostart::                   Starting a program automagically.
 * Compressed files::            Dealing with compressed files.
+* Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 @end menu
 
 @node Previewing contents, Autostart, Disk and tape images, Disk and tape images
@@ -1550,7 +1697,7 @@ are being used.
 @subsection ``Autostarting'' an image
 
 If you want to reset the machine and run the first program on a certain
-image without typing the command at the Commodore BASIC prompt, you can
+image without typing any commands at the Commodore BASIC prompt, you can
 use the ``Autostart'' button in the file selector window after selecting
 a proper disk or tape image file.
 
@@ -1567,7 +1714,7 @@ true 1541 emulation to be always kept turned on), or to manually load
 the program with true 1541 emulation turned on.
 
 
-@node Compressed files,  , Autostart, Disk and tape images
+@node Compressed files, Zipcode and Lynx, Autostart, Disk and tape images
 @subsection Using compressed files
 
 It is also possible to attach disk or tape images that have been
@@ -1592,6 +1739,44 @@ PkZip, @code{tar.gz}, @code{lha} and @code{zoo} support is
 @emph{read-only} and always uses the @emph{first} @code{T64} or
 @code{D64} file in the archive.  So archives containing multiple files
 will always be handled as if they contained one single file.
+
+
+@node Zipcode and Lynx,  , Compressed files, Disk and tape images
+@subsection Using Zipcode and Lynx images
+
+Since version 0.15, the VICE emulators are able to attach disks packed
+with Zipcoded or Lynx without the need of converting them into
+@code{D64} or @code{X64} files with @code{c1541}.  This is done by
+executing @code{c1541}, letting it decode the file into a temporary
+image, and then by attaching the temporary image read-only.  For this
+reason, the directory @code{c1541} is contained in must be in your
+@code{PATH}.
+
+This uses the @code{-unlynx} and @code{-zcreate} options of @code{c1541}
+(@pxref{c1541 commands and options}); these commands are not very
+reliable yet, and could fail with certain kinds of Lynx and Zipcode
+images (for example, they cannot deal with @code{DEL} files properly).
+So please use with care.
+
+Lynx files usually come as @file{.lnx} files and are depacked into a
+single disk.  On the other hand, Zipcode files do not have a particular
+extension (although @file{.z64} is sometimes used), and represent a disk
+by means of four sub-files, named as follows:
+
+@itemize @bullet
+@item
+@file{1!NAME}
+@item
+@file{2!NAME}
+@item
+@file{3!NAME}
+@item
+@file{4!NAME}
+@end itemize
+
+If you attach as a disk image (or smart-attach) any of these files, the
+emulator will simply pick up the other three parts (by looking at the
+name) and build one disk image out of them.
 
 
 @node Reset,  , Disk and tape images, Basics
@@ -1643,25 +1828,31 @@ value, causes the emulator to ask you if you want to save the current
 (changed) settings before exiting, and can be toggled with the ``Save
 settings on exit'' command from the right-button menu.
 
+Notice that not all the resources can be changed from the menus; some of
+them can only be changed by manually modifying the resource file or by
+using command-line options.
+
 @menu
 * Resource files::              Format of resource files.
+* Resources and command-line::  Specifying settings from the
+                                command-line
 
-* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::
+* Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated external devices.
+* Misc settings::               Other settings.
 @end menu
 
-@node Resource files, Resources and command-line options, Settings and resources, Settings and resources
+@node Resource files, Resources and command-line, Settings and resources, Settings and resources
 @section Format of resource files
 
-A resource file is made up of several section; every section has the
-purpose of separating resources of a certain emulator from resources of
-the other ones.  A section is started with the name of an emulator in
-brackets (eg. @code{[C64]}) and ends when another section starts, or the
+A resource file is made up of several section; sections have the purpose
+of separating the resources of a certain emulator from the ones of the
+other emulators.  A section is started with the name of an emulator in
+brackets (eg. @samp{[C64]}) and ends when another section starts, or the
 file ends.
 
 Every line in a section has the following format:
@@ -1701,7 +1892,7 @@ Notice that, when resource values are saved with ``Save settings'', the
 emulator only modifies its own section, keeping the other ones
 unchanged.
 
-@node Resources and command-line options, Performance settings, Resource files, Settings and resources
+@node Resources and command-line, Performance settings, Resource files, Settings and resources
 @section Using command-line options to change resources
 
 Resources can also be changed via command-line options.
@@ -1726,7 +1917,7 @@ example, @code{-mitshm} enables support of MITSHM, while @code{+mitshm}
 disables it.
 
 
-@node Performance settings, Video settings, Resources and command-line options, Settings and resources
+@node Performance settings, Video settings, Resources and command-line, Settings and resources
 @section Performance settings
 
 @cindex Limiting emulation speed
@@ -1742,11 +1933,11 @@ It is also possible to control the amount of screen frames the emulator
 calculates with the ``Refresh rate'' setting; the value ranges from
 ``1/1'' (update 1/1 of the frames of the real machine, that is 50 frames
 per second) to ``1/10'' (update 1 every 10 frames) and can be changed
-via the ``Refresh Rate'' submenu.  The setting ``auto means to
+via the ``Refresh Rate'' submenu.  The ``Auto'' setting means to
 dynamically adapt the refresh rate to the current speed of the host
 machine, making sure the maximum speed specified by the via ``Maxium
-speed'' resource is always reached if possible.  In any case, the
-refresh rate will never be worse than 1/10 if this value is specified.
+speed'' is always reached if possible.  In any case, the
+refresh rate will never be worse than 1/10 if this option is specified.
 
 Notice that you cannot specify ``Auto'' as the refresh rate and ``No
 limit'' as the maximum speed at the same time.
@@ -1820,7 +2011,9 @@ The following right-button menu items control the video output:
 @cindex Video cache
 @item
 ``Video Cache'' enables a video cache that can speed up the emulation
-when little graphics activity is going on.
+when little graphics activity is going on.  This can actually make the
+emulator slower when there is little graphics activity, and the cache is
+useless.
 
 @cindex Double-size mode
 @item
@@ -1831,7 +2024,7 @@ of the real thing).
 
 @cindex Double-scan mode.
 @item
-``Double Scan'' toggless @dfn{double-scan mode}, which causes the
+``Double Scan'' toggles @dfn{double-scan mode}, which causes the
 emulator to draw only odd lines when running in double-size mode (this
 saves some CPU time and also makes the emulation window look more like
 an old monitor).
@@ -1877,6 +2070,25 @@ Boolean specifying whether double-scan mode is turned on.
 Boolean specifying whether @code{XSync()} is called after updating the
 emulation window.
 
+@vindex MITSHM
+@item MITSHM
+Boolean specyfying whether VICE should try to use the shared memory
+extensions (MITSHM) when starting up.  The shared memory extensions
+make things a lot faster, but might not be available on your system, or
+you might not be allowed to use them because you are running the
+emulator on an X terminal, across a network.
+
+@vindex PrivateColormap
+@item PrivateColormap
+Boolean specifying whether VICE should install a private colormap at
+startup.  This makes sense for 8-bit displays that could run out of
+colors if other color-hungry applications are running at the same time.
+
+@vindex DisplayDepth
+@item DisplayDepth
+Integer specifying the depth of the host display.  The value @samp{0}
+(the default) makes the emulator autodetect it.
+
 @end table
 
 
@@ -1890,11 +2102,39 @@ emulation window.
 @itemx +vcache
 Enable/disable the video cache (@code{VideoCache=1}, @code{VideoCache=0}).
 
+@cindex -dsize, +dsize
+@item -dsize
+@itemx +dsize
+Enable/disable the double size mode (@code{DoubleSize=1},
+@code{DoubleSize=0}).
+
 @cindex -dscan, +dscan
 @item -dscan
 @itemx +dscan
 Enable/disable the double scan mode (@code{DoubleScan=1},
 @code{DoubleScan=0}).
+
+@cindex -xsync, +xsync
+@item -xsync
+@itemx +xsync
+Enable/disable usage of @code{XSync()} when updating the emulation
+window (@code{UseXSync=1}, @code{UseXSync=0}).
+
+@cindex -mitshm, +mitshm
+@item -mitshm
+@itemx +mitshm
+Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
+@code{MITSHM=0}).
+
+@cindex -install, +install
+@item -install
+@itemx +install
+Enable-disable installation of a private colormap
+(@code{PrivateColormap=1}, @code{PrivateColormap=0}).
+
+@cindex -displaydepth
+@item -displaydepth DEPTH
+Specify the display depth (@code{DisplayDepth}).
 
 @end table
 
@@ -1934,6 +2174,16 @@ file'').
 Integer identifying which keymap is being used; @code{0} identifies
 symbolic mapping, @code{1} positional mapping.
 
+@vindex KeymapSymFile
+@item KeymapSymFile
+String specifying the name of the keymap file for the symbolic mapping
+(@pxref{Keyboard emulation}).
+
+@vindex KeymapPosFile
+@item KeymapPosFile
+String specifying the name of the keymap file for the positional mapping
+(@pxref{Keyboard emulation}).
+
 @end table
 
 
@@ -1947,6 +2197,14 @@ symbolic mapping, @code{1} positional mapping.
 Specifies which keymap is being used; @code{0} identifies symbolic
 mapping, @code{1} positional mapping (same as the @code{KeymapIndex}
 resource).
+
+@cindex -symkeymap
+@item -symkeymap NAME
+Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
+
+@cindex -poskeymap
+@item -poskeymap NAME
+Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
 
 @end table
 
@@ -2040,7 +2298,7 @@ Implemented drivers are:
 
 @itemize @bullet
 @item
-@code{aix}, for IBM AIX.
+@code{aix}, for the IBM AIX sound driver.
 @item
 @code{uss}, for the Linux/FreeBSD Universal Sound System driver
 (@code{SoundDeviceArg} specifies the audio device, @file{/dev/dsp} by
@@ -2131,8 +2389,9 @@ ROMs with SpeedDOS-compatible ones, you can speed up the loading speed.
 
 @item
 ``True 1541 sync factor'' specifies the speed of the 1541 CPU.  This can
-be used to help loading certain games, eg. NTSC ones, that have trouble
-with the default setting.  The ratio is calculated as follows:
+be used to help loading certain programs that have trouble with the
+default setting (for example, programs designed for NTSC machines).  The
+ratio is calculated as follows:
 
 @example
 sync_factor = 65536 * clk_1541 / clk_machine
@@ -2141,7 +2400,8 @@ sync_factor = 65536 * clk_1541 / clk_machine
 where @code{clk_1541} and @code{clk_machine} are clock speeds, in MHz.
 The menu lets you choose between the PAL and NTSC values, and also lets
 you specify whatever value you want.  Be careful when changing it,
-though, because it can break things and even corrupt disk images.
+though, because a wrong value can break things and even corrupt disk
+images.
 
 @item
 ``True 1541 idle method'' specifies which method the 1541 emulation
@@ -2172,8 +2432,9 @@ do correctly so).  Moreover, if the drive tries to get in sync with the
 computer in some weird way and the computer does not access the serial
 line for a long time, it is possible that some cycles are discarded and
 the sync is lost.  Notice that this hack can have no effect on
-performance if one program continuously reads the CIA ports, as the
-drive will have to be emulated in any case.
+performance if one program continuously reads from the IEC port, as the
+drive will have to be emulated in any case (some stupid programs do so,
+even when they don't actually need to use the drive).
 
 @c without this, texi2html strips our end-of-paragraph away.
 @c maybe we should patch it?
@@ -2248,8 +2509,7 @@ respectively.
 
 @vindex DosName
 @item DosName
-String specifying the name of the ROM image name for the 1541
-emulation.
+String specifying the name of the ROM image for the 1541 emulation.
 
 @end table
 
@@ -2290,7 +2550,7 @@ Specifies an NTSC sync factor for the 1541 emulation
 @cindex -drivesync
 @item -drivesync NUM
 Specifies a generic sync factor for the 1541 emulation
-(@code{True1541SyncFactor=-2}).
+(@code{True1541SyncFactor}).
 
 @cindex -dosname
 @item -dosname NAME
@@ -2299,7 +2559,7 @@ Specifies the name of the DOS ROM image (@code{DosName}).
 @end table
 
 
-@node Peripheral settings,  , 1541 settings, Settings and resources
+@node Peripheral settings, Misc settings, 1541 settings, Settings and resources
 @section Peripheral settings
 
 VICE is able to support some special peripherals:
@@ -2316,9 +2576,9 @@ existing routines in the original Commodore operating system with
 custom-made C routines.
 
 @menu
-* File system device settings::
-* Printer settings::
-* No kernal traps::
+* File system device settings::  Settings for file system devices.
+* Printer settings::            Settings for emulating a printer.
+* No kernal traps::             Disabling kernal traps completely.
 @end menu
 
 @node File system device settings, Printer settings, Peripheral settings, Peripheral settings
@@ -2332,7 +2592,8 @@ accessible; each of them provides the following settings:
 @item
 ``File system access'', if enabled, allows the device to emulate a drive
 accessing a file system directory; notice that if a disk is attached to
-the same drive, the directory is not visible anymore.
+the same drive, the directory is not visible anymore, and the attached
+disk is used instead.
 @item
 ``File system directory'' specifies what directory is accessed by the
 drive.
@@ -2474,6 +2735,24 @@ output from it) and @code{lpr}; printer device 2 will print it through
 @itemx PrDevice3
 Strings specifying the printer devices (@pxref{Printer settings}).
 
+@vindex Printer4
+@item Printer4
+Boolean specifying if the IEC printer (device 4) is being emulated.
+
+@vindex Printer4Dev
+@item Printer4Dev
+Integer (ranging from 1 to 3) specifying what device the IEC printer is
+using.
+
+@vindex PrUser
+@item PrUser
+Boolean specifying if the user-port printer is being emulated.
+
+@vindex PrUserDev
+@item PrUserDev
+Integer (ranging from 1 to 3) specifying what device the user-port
+printer is using.
+
 @end table
 
 @node Printer options,  , Printer resources, Printer settings
@@ -2489,6 +2768,26 @@ Strings specifying the printer devices (@pxref{Printer settings}).
 @itemx -prdev3 NAME
 Specify @code{NAME} as printer devices 1, 2 and 3, respectively
 (@code{PrDevice1}, @code{PrDevice2} and @code{PrDevice3}).
+
+@cindex -printer4, +printer4
+@item -printer4
+@itemx +printer4
+Enable/disable emulation of the IEC printer (@code{Printer4=1},
+@code{Printer4=0}).
+
+@cindex -pr4dev
+@item -pr4dev DEV
+Specify device for the IEC printer (@code{Printer4Dev}).
+
+@cindex -pruser, +pruser
+@item -pruser
+@itemx +pruser
+Enable/disable emulation of the IEC printer (@code{PrUser=1},
+@code{PrUser=0}).
+
+@cindex -pruserdev
+@item -pruserdev DEV
+Specify device for the IEC printer (@code{PrUserDev}).
 
 @end table
 
@@ -2532,6 +2831,85 @@ Enable (@code{NoTraps=0}) or disable (@code{NoTraps=1}) kernal traps.
 @end table
 
 
+@node Misc settings,  , Peripheral settings, Settings and resources
+@section Miscellaneous settings
+
+This section lists generic resources that did not fit in the other
+categories.
+
+@menu
+* Misc resources::
+* Misc options::
+@end menu
+
+@node Misc resources, Misc options, Misc settings, Misc settings
+@subsection Miscellaneous resources
+
+@table @code
+@vindex Directory
+@item Directory
+String specifying the search path for system files.  It is defined as a
+sequence of paths, separated by colons (@samp{:}), just like the
+@code{PATH} variable in the shell.  The special path @samp{$$} stands
+for the default search path, which is initialized at startup to the
+following value:
+
+@example
+LIBDIR/EMUID:BOOTPATH/EMUID
+@end example
+
+where:
+
+@itemize @bullet
+@item
+@code{LIBDIR} is the VICE installation directory (usually
+@file{/usr/local/lib/vice}, @file{/usr/lib/vice} or
+@file{/opt/vice/lib});
+@item
+@code{EMUID} is the emulation identification
+string (@code{C64}, @code{C128}, @code{VIC20} or @code{PET});
+@item
+@code{BOOTPATH} is the directory where the binary lies (usually
+@file{/usr/local/bin}, @file{/usr/bin} or @code{/opt/vice/bin}).
+@end itemize
+
+@xref{System files} for a description of the method used to load the
+emulator's system files.
+
+@vindex HTMLBrowserCommand
+@item HTMLBrowserCommand
+String specifying the command to run the help browser.  The help browser
+can be any HTML browser, and every @samp{%s} in the string is replaced
+with the name of the toplevel file of the VICE documentation.  For
+example, the default value @samp{netscape %s} runs Netscape Navigator.
+
+@vindex SaveResourcesOnExit
+@item SaveResourcesOnExit
+Boolean specifying whether the emulator should save changed settings
+before exiting.  If this is enabled, the user will be always prompted
+first.
+
+@end table
+
+@node Misc options,  , Misc resources, Misc settings
+@subsection Miscellaneous command-line options
+
+@table @code
+@cindex -directory
+@item -directory SEARCHPATH
+Specify the system file search path (@code{Directory}).
+@cindex -htmlbrowser
+@item -htmlbrowser COMMAND
+Specify the command to run the HTML browser for the on-line help
+(@code{HTMLBrowserCommand}).
+@cindex -saveres, +saveres
+@item -saveres
+@itemx +saveres
+Enable/disable automatic saving of settings on exit
+(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+@end table
+
+
 @node Machine-specific features, Monitor, Settings and resources, Top
 @chapter Machine-specific features
 
@@ -2551,11 +2929,12 @@ This section lists the settings and commands that are C64/128 specific
 and thus are not present in the other emulators.
 
 @menu
-* C64 cartridges::
-* VIC-II settings::
-* SID settings::
-* I/O extension settings::
-* RS232 settings::
+* C64 cartridges::              Using cartridge images with the C64 emulator.
+* VIC-II settings::             Settings that control the video chip.
+* SID settings::                Settings that control the audio chip.
+* C64 I/O extension settings::  Settings that enable special extensions.
+* RS232 settings::              Settings that control the RS232 emulation.
+* C64/128 system ROM settings::  Settings to control the system ROMs.
 @end menu
 
 @node C64 cartridges, VIC-II settings, C64/128-specific, C64/128-specific
@@ -2563,7 +2942,7 @@ and thus are not present in the other emulators.
 
 @dfn{Cartridge images} are like disk images, but mirror the contents of
 cartridge ROM images instead of disk images.  They are currently
-unsupported on the C128 emulator.
+not supported on the C128 emulator.
 
 X64 allows you to attach the following kinds of cartridges:
 
@@ -2678,7 +3057,7 @@ Specify @code{NAME} as the palette file (@code{PaletteFile}).
 @end table
 
 
-@node SID settings, I/O extension settings, VIC-II settings, C64/128-specific
+@node SID settings, C64 I/O extension settings, VIC-II settings, C64/128-specific
 @subsection SID settings
 
 These settings control the emulation of the SID (MOS6581 or MOS8580)
@@ -2741,8 +3120,8 @@ of the built-in SID filters.
 @end table
 
 
-@node I/O extension settings, RS232 settings, SID settings, C64/128-specific
-@subsection I/O extension settings
+@node C64 I/O extension settings, RS232 settings, SID settings, C64/128-specific
+@subsection C64 I/O extension settings
 
 There are three I/O extensions available: they are located at the
 address range $DF00 @dots{} $DFFF and each of them is controlled by a
@@ -2765,25 +3144,25 @@ virtually no way to realize they are running on an emulator.
 @item
 The ``IEEE488 interface emulation'' extension emulates a standard
 Commodore IEEE488 interface connected to the IEC bus; one possible use
-for this is André Fachat's OS/A65 multitasking operating system.
+for this is Andr@'e Fachat's OS/A65 multitasking operating system.
 
 @cindex REU
 @item
-The ``512K RAM Expansion Unit'' extension (enabled by the @code{REU}
-resource) emulates a standard 512K Commodore RAM Expansion Unit; this
-can be used with GEOS and other programs that are designed to take
-advantage of it.  This currently works only in the C64 emulator.
+The ``512K RAM Expansion Unit'' extension emulates a standard 512K
+Commodore RAM Expansion Unit; this can be used with GEOS and other
+programs that are designed to take advantage of it.  This currently
+works only in the C64 emulator.
 
 @end itemize
 
 
 @menu
-* I/O extension resources::
-* I/O extension options::
+* C64 I/O extension resources::
+* C64 I/O extension options::
 @end menu
 
-@node I/O extension resources, I/O extension options, I/O extension settings, I/O extension settings
-@subsubsection I/O extension resources
+@node C64 I/O extension resources, C64 I/O extension options, C64 I/O extension settings, C64 I/O extension settings
+@subsubsection C64 I/O extension resources
 
 @table @code
 
@@ -2805,8 +3184,8 @@ be emulated or not.
 @end table
 
 
-@node I/O extension options,  , I/O extension resources, I/O extension settings
-@subsubsection I/O extension command-line options
+@node C64 I/O extension options,  , C64 I/O extension resources, C64 I/O extension settings
+@subsubsection C64 I/O extension command-line options
 
 @table @code
 
@@ -2825,22 +3204,22 @@ Enable (@code{REU=1}) or disable (@code{REU=0}) emulation of the
 @cindex -emuid, +emuid
 @item -emuid
 @itemx +emuid
-Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) emulation of the
-emulation identification extension.
+Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
+identification extension.
 
 @end table
 
 
-@node RS232 settings,  , I/O extension settings, C64/128-specific
+@node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
 @subsection RS232 settings
 
 X64 and X128 can support RS232 in the following ways:
 
 @itemize @bullet
 @item
-By emulating Daniel Dallmann's 9600 baud userport-based RS232 interface.
+by emulating Daniel Dallmann's 9600 baud userport-based RS232 interface;
 @item
-By emulating a 6551-based RS232 interface located at $DE00.
+by emulating a 6551-based RS232 interface located at $DE00.
 @end itemize
 
 Each of these emulated devices can be either:
@@ -2860,7 +3239,7 @@ defined through the following settings:
 
 @itemize @bullet
 @item
-``Serial 1 device...'' and ``Serial 2 device...'' are used to specify
+``Serial 1 device@dots{}'' and ``Serial 2 device@dots{}'' are used to specify
 the the pathnames of the serial devices, with the file selector;
 @item
 ``Serial 1 baudrate'' and ``Serial 2 baudrate'' specify the baudrate.
@@ -2869,9 +3248,10 @@ the the pathnames of the serial devices, with the file selector;
 
 @menu
 * RS232 resources::
+* RS232 options::
 @end menu
 
-@node RS232 resources,  , RS232 settings, RS232 settings
+@node RS232 resources, RS232 options, RS232 settings, RS232 settings
 @subsubsection RS232 resources
 
 @table @code
@@ -2896,6 +3276,14 @@ String defining the name of the file used when dumping RS232 output.
 @item RsDevice4
 String defining the name of the process to pipe the RS232 data through.
 
+@vindex RsUser
+@item RsUser
+Boolean specifying whether the userport-based RS232 should be emulated.
+
+@vindex Acia1
+@item Acia1
+Boolean specifying whether the ACIA-based RS232 should be emulated.
+
 @vindex RsUserDev
 @item RsUserDev
 @vindex Acia1Dev
@@ -2914,6 +3302,114 @@ one are emulated.  The possible values are:
 @end itemize
 @end table
 
+@node RS232 options,  , RS232 resources, RS232 settings
+@subsubsection RS232 command-line options
+
+@table @code
+
+@cindex -acia1, +acia1
+@item -acia1
+@itemx +acia1
+Enable/disable emulation of the ACIA-based RS232 interface
+(@code{Acia1=1}, @code{Acia1=0}).
+
+@cindex -acia1dev
+@item -acia1dev DEVICE
+Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
+(@code{Acia1Dev}).
+
+@cindex -rsuser, +rsuser
+@item -rsuser
+@itemx +rsuser
+Enable/disable emulation of the userport-based RS232 interface
+(@code{RsUser=1}, @code{RsUser=0}).
+
+@cindex -rsuserdev
+@item -rsuserdev DEVICE
+Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
+(@code{RsUserDev}).
+
+@end table
+
+
+@node C64/128 system ROM settings,  , RS232 settings, C64/128-specific
+@subsection C64/128 system ROM settings
+
+These settings can be used to control what system ROMs are loaded in the
+C64/128 emulators at startup.  They cannot be changed from the menus.
+
+@menu
+* C64/128 system ROM resources::
+* C64/128 system ROM options::
+@end menu
+
+@node C64/128 system ROM resources, C64/128 system ROM options, C64/128 system ROM settings, C64/128 system ROM settings
+@subsubsection C64/128 system ROM resources
+
+@table @code
+
+@cindex KernalName
+@item KernalName
+String specifying the name of the Kernal ROM (default @file{kernal}).
+
+@cindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic}).  In
+the C128 emulator, the ROM image must actually include the editor ROM too.
+
+@cindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default
+@file{chargen}).
+
+@cindex KernalRev
+@item KernalRev
+String specifying the Kernal revision.  This resource can be used to
+control what revision of the C64 kernal is being used; it cannot be
+changed at runtime.  VICE is able to automatically convert one ROM
+revision into another, by manually patching the loaded image.  This way,
+it is possible to use any of the ROM revisions without changing the ROM
+set.  Valid values are:
+
+@table @code
+@item 0
+Kernal revision 0
+@item 3
+Kernal revision 3
+@item sx
+@itemx 67
+Commodore SX-64 ROM
+@item 100
+@item 4064
+Commodore 4064 (``PET64'') ROM
+@end table
+
+@end table
+
+@node C64/128 system ROM options,  , C64/128 system ROM resources, C64/128 system ROM settings
+@subsubsection C64/128 system ROM command-line options
+
+@table @code
+
+@cindex -kernal
+@item -kernal NAME
+Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
+
+@cindex -basic
+@item -basic NAME
+Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
+
+@cindex -chargen
+@item -chargen NAME
+Specify @file{NAME} as the character generator ROM file
+(@code{ChargenName}).
+
+@cindex -kernalrev
+@item -kernalrev REVISION
+Specify Kernal revision (@code{KernalRev}).
+
+@end table
+
 
 @node VIC20-specific, PET-specific, C64/128-specific, Machine-specific features
 @section VIC20-specific commands and settings
@@ -2924,6 +3420,7 @@ thus are not present in the other emulators.
 @menu
 * VIC20 cartridges::
 * VIC20 memory expansions::
+* VIC20 system ROM settings::
 @end menu
 
 
@@ -2944,9 +3441,9 @@ several types of cartridge images:
 4 Kbyte cartridges located at $B000.
 @end itemize
 
-This can all be done via the ``Attach cartridge image...'' command in
+This can all be done via the ``Attach cartridge image@dots{}'' command in
 the left-button menu.  It is also possible to let XVIC ``guess'' the
-type of cartridge using ``Smart-attach cartridge image...''.
+type of cartridge using ``Smart-attach cartridge image@dots{}''.
 
 Notice that several cartridges are actually made up of two pieces (and
 two files), that need to be loaded separately at different addresses.
@@ -2954,7 +3451,7 @@ In that case, you have to know the addresses (which are usually
 specified in the file name) and use the ``attach'' command twice.
 
 
-@node VIC20 memory expansions,  , VIC20 cartridges, VIC20-specific
+@node VIC20 memory expansions, VIC20 system ROM settings, VIC20 cartridges, VIC20-specific
 @subsection Changing memory configuration
 
 It is possible to change the VIC20 memory configuration in two ways: by
@@ -3002,11 +3499,11 @@ all RAM expansion blocks enabled;
 24K expansion (only blocks 1, 2 and 3 are enabled).
 @end itemize
 
-As with the X64 (@pxref{I/O extension settings}), it is also possible to
-enable a special emulator identification mechanism that uses certain
-memory locations to let a running program query information about the
-emulator itself.
-
+As with the X64 (@pxref{C64 I/O extension settings}), it is also
+possible to enable a special emulator identification mechanism that uses
+certain memory locations to let a running program query information
+about the emulator itself; this is enabled by the ``Emulator
+identification'' option.
 
 @menu
 * VIC20 memconf resources::
@@ -3029,6 +3526,11 @@ emulator itself.
 @vindex RAMBlock5
 @itemx RAMBlock5
 Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
+
+@vindex EmuID
+@item EmuID
+Boolean specifying whether the emulation identification extension must
+be enabled.
 
 @end table
 
@@ -3084,7 +3586,66 @@ xvic -memory 3,5
 enables memory in blocks 3 and 5, which is the usual configuration for
 16k ROM modules.
 
+@cindex -emuid, +emuid
+@item -emuid
+@itemx +emuid
+Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
+identification extension.
+
 @end table
+
+
+@node VIC20 system ROM settings,  , VIC20 memory expansions, VIC20-specific
+@subsection VIC20 system ROM settings
+
+These settings can be used to control what system ROMs are loaded in the
+VIC20 emulator at startup.  They cannot be changed from the menus.
+
+@menu
+* VIC20 system ROM resources::
+* VIC20 system ROM options::
+@end menu
+
+@node VIC20 system ROM resources, VIC20 system ROM options, VIC20 system ROM settings, VIC20 system ROM settings
+@subsubsection VIC20 system ROM resources
+
+@table @code
+
+@cindex KernalName
+@item KernalName
+String specifying the name of the Kernal ROM (default @file{kernal}).
+
+@cindex BasicName
+@item BasicName
+String specifying the name of the Basic ROM (default @file{basic}).
+
+@cindex ChargenName
+@item ChargenName
+String specifying the name of the character generator ROM (default
+@file{chargen}).
+
+@end table
+
+@node VIC20 system ROM options,  , VIC20 system ROM resources, VIC20 system ROM settings
+@subsubsection VIC20 system ROM command-line options
+
+@table @code
+
+@cindex -kernal
+@item -kernal NAME
+Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
+
+@cindex -basic
+@item -basic NAME
+Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
+
+@cindex -chargen
+@item -chargen NAME
+Specify @file{NAME} as the character generator ROM file
+(@code{ChargenName}).
+
+@end table
+
 
 @node PET-specific,  , VIC20-specific, Machine-specific features
 @section PET-specific commands and settings
@@ -3229,8 +3790,8 @@ the same address space.
 @item address_opt_range
 An address or an address range.
 
-@item label
-Fixme.
+@c @item label
+@c Fixme.
 
 @item prompt
 The prompt has the format [x:y].  If x is -, memory reads from the
@@ -3347,8 +3908,8 @@ the destination specified by the address.  The regions may overlap.
 @item > [address] <data_list>
 Display the specified number in decimal, hex, octal and binary.
 
-
 @end table
+
 
 @node Assembly commands, Checkpoint commands, Memory commands, Monitor
 @section Assembly commands
@@ -3587,72 +4148,127 @@ and write @code{D64} and @code{T64} files automatically, without the
 need for any special options.
 
 @menu
-* Commands::                    List of the available commands.
-* Examples::                    Using c1541 in practice.
+* c1541 commands and options::
 @end menu
 
-@node Commands, Examples, c1541, c1541
-@section c1541 commands
+@node c1541 commands and options,  , c1541, c1541
+@section c1541 commands and options
 
 Each command-line option has an interactive-mode counterpart, that is
-shown in parenthesis: (abbreviations are allowed when not ambiguous)
+shown after it.  @samp{-} as a file name stands for standard input or
+standard output, depending on the context.
 
 @table @code
 
-@item -attach IMAGE (attach IMAGE)
+@cindex -attach
+@item -attach  IMAGE
+@cindex attach
+@item attach  IMAGE
 Attach the disk image @code{IMAGE} for use.  All the following commands
 will refer to this image.
 
-@item -detach (detach)
+@cindex -detach
+@item -detach
+@cindex detach
+@item detach
 Detach the currently attached disk image.
 
-@item -format IMAGE 'NAME,ID' (format IMAGE 'NAME,ID)
-Format disk image @code{IMAGE}, giving the specified label.  If
+@cindex -format
+@item -format  IMAGE 'NAME,ID'
+@cindex format
+@item format  IMAGE 'NAME,ID'
+Format the D64 disk image @code{IMAGE}, giving the specified label.  If
 @code{IMAGE} does not exist, create it.
 
-@item -delete IMAGE FILES... (delete FILES...)
+@cindex -gcr
+@item -gcr  IMAGENAME ['NAME,ID']
+@cindex gcrformat
+@item gcrformat  IMAGE 'NAME,ID'
+Create a GCR disk image; if @code{NAME,ID} is specified, format it.
+
+@cindex -delete
+@item -delete  IMAGE FILES...
+@cindex delete
+@item delete  FILES...
 Delete  FILES  from @code{IMAGE}.
 
-@item -list IMAGE (list)
+@cindex -list
+@item -list  IMAGE
+@cindex list
+@item list
 List files in @code{IMAGE}.
 
-@item -validate IMAGE (validate)
+@cindex -validate
+@item -validate  IMAGE
+@cindex validate
+@item validate
 Validate the disk.
 
-@item -copy IMAGE OLDNAME1 [OLDNAME2...] NEWNAME (copy OLDNAME1 [OLDNAME2...] NEWNAME)
+@cindex -copy
+@item -copy  IMAGE OLDNAME1 [OLDNAME2...] NEWNAME
+@cindex copy
+@item copy  OLDNAME1 [OLDNAME2...] NEWNAME
 Concatenate @code{OLDNAME1}, @code{OLDNAME2}.. into
 @code{NEWNAME} on @code{IMAGE} (can be used to copy files).
 
-@item -create IMAGE DUMP ['DESCR'] (create IMAGE DUMP
-['DESCR'])
-
+@cindex -create
+@item -create  IMAGE DUMP ['DESCR']
+@cindex create
+@item create  IMAGE DUMP ['DESCR']
 Build @code{IMAGE} from raw dump file @code{DUMP} (i.e. convert
 from @code{D64} to @code{X64} file).
 
-@item -zcreate IMAGE DUMP ['DESCR'] (create IMAGE DUMP ['DESCR'])
-Build @code{IMAGE} from a Zipcoded image called
-1!DUMP, 2!DUMP, 3!DUMP, 4!DUMP.
-
-@item -tape IMAGE TAPEIMAGE [FILES...]  (tape IMAGE TAPEIMAGE [FILES...])
+@cindex -tape
+@item -tape  IMAGE TAPEIMAGE [FILES...]
+@cindex tape
+@item tape  IMAGE TAPEIMAGE [FILES...]
 Transfer @code{FILES} from @code{TAPEIMAGE} to @code{IMAGE}
 (default is copy all files).
 
-@item -read IMAGE 1541NAME [FSNAME] (read 1541NAME [FSNAME])
+@cindex -read
+@item -read  IMAGE 1541NAME [FSNAME]
+@cindex read
+@item read  1541NAME [FSNAME]
 Extract @code{1541NAME} from the disk image into @code{FSNAME}
 (1541NAME by default) from @code{IMAGE}.
 
-@item -extract IMAGE (extract)
+@cindex -extract
+@item -extract  IMAGE
+@cindex extract
+@item extract
 Extract all files from @code{IMAGE}.
 
-@item -write IMAGE FSNAME [1541NAME] (write FSNAME [1541NAME])
+@cindex -write
+@item -write  IMAGE FSNAME [1541NAME]
+@cindex write
+@item write  FSNAME [1541NAME]
 Write @code{FSNAME} to @code{IMAGE} as @code{1541NAME}
 (@code{FSNAME} by default). (works with @code{P00} files as well)
 
-@item -block [DRIVE:] [TRACK] [SECTOR] [DISP] (block [DRIVE:] [TRACK] [SECTOR] [DISP])
+@cindex -block
+@item -block  [DRIVE:] [TRACK] [SECTOR] [DISP]
+@cindex block
+@item block  [DRIVE:] [TRACK] [SECTOR] [DISP]
 Show disk blocks in hex format.
 
-@item -info IMAGE ['DESCRIPTION'] (info ['DESCRIPTION'])
+@cindex -info
+@item -info  IMAGE ['DESCRIPTION']
+@cindex info
+@item info  ['DESCRIPTION']
 Show version information about @code{IMAGE}.
+
+@cindex -unlynx
+@item -unlynx IMAGE LYNXFILE
+@cindex unlynx
+@item unlynx LYNXFILE
+Unlynx @file{LYNXFILE} into the image.
+
+@cindex -zcreate
+@item -zcreate  IMAGE DUMP ['DESCR']
+@cindex zcreate
+@item zcreate IMAGE DUMP ['DESCR']
+Build @code{IMAGE} from a Zipcoded image made up of files called
+@file{1!DUMP}, @file{2!DUMP}, @file{3!DUMP}, @file{4!DUMP}.
 
 @end table
 
@@ -3660,12 +4276,10 @@ When more than one command is specified in batch mode, all of
 them are executed in the same order they have on the command
 line.
 
-This information should also be available in section 1 of the
-on-line manual pages (@samp{man 1 c1541}).
 
-
-@node Examples,  , Commands, c1541
-@section c1541 examples
+@c This would be nice!
+@c @node Examples,  , Commands, c1541
+@c @section c1541 examples
 
 
 @node Acknowledgments, Copyright, c1541, Top
@@ -3684,7 +4298,7 @@ The VICE core team:
 @b{Ettore Perazzoli} (@email{ettore@@comm2000.it})
 made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
 hardware-level 1541 emulation, speed optimizations, bug fixes,
-event-driven cycle-exact engine, Xt/Xaw/Xfwf-based GUI for X11, a
+the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
 general code reorganization, the new resource handling, most of the
 documentation and the MS-DOS port (well, somebody had to do it).
 
@@ -3709,8 +4323,8 @@ new monitor introduced with VICE 0.15.
 gave lots of information and bug reports about the VIC-II, the 6510 and
 the CIAs; moreover, he wrote several test-routines that were used to
 improve the emulation.  Also contributed some important patches, fixed
-several problems in the 1541 emulation, implemented SpeedDOS parallel
-cable emulation, and added BZIP v2 support.
+several problems in the 1541 emulation, implemented the SpeedDOS parallel
+cable emulation and added cartridge support.
 
 @end itemize
 
@@ -3720,7 +4334,7 @@ Former team members:
 
 @item
 @b{Jouko Valta} (@email{jopi@@stekt.oulu.fi}) wrote @code{petcat} and
-@code{c1541}, documentation, @code{T64} handling, user service and
+@code{c1541}, @code{T64} handling, user service and
 maintenance (most of the work in x64 0.3.x was made by him); retired
 from the project in July 96, after VICE 0.10.0.
 
@@ -3765,7 +4379,7 @@ documentation.
 
 @item
 @b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})
-wrote the ``Contents'' button in the file selector and provided us with
+implemented the ``Contents'' button in the file selector and provided us with
 several suggestions and constant testing of constantly broken snapshots.
 
 @item
@@ -3775,6 +4389,11 @@ driver.
 @item
 @b{Krister Walfridsson} (@email{cato@@df.lth.se}) implemented joystick
 and sound support for NetBSD.
+
+@item
+@b{Dag Lem} (@email{resid@@nimrod.no}) implemented an alternative
+cycle-exact SID emulator (reSID), and contributed a bugfix in our SID
+emulation.
 
 @item
 @b{Peter Andrew Felvegi aka Petschy} (@email{petschy@@derceto.sch.bme.hu})
@@ -3818,8 +4437,7 @@ made some joystick improvements for Linux.
 @code{unlynx} and @code{system} commands in @code{c1541}.
 
 @item
-@b{Tomi Ollila} (@email{Tomi.Ollila@@tfi.net}) Donated
-@code{findpath.c}.
+@b{Tomi Ollila} (@email{Tomi.Ollila@@tfi.net}) donated @code{findpath.c}.
 
 @item
 @b{Richard Hable} (@email{hab@@fim.uni-linz.ac.at}) contributed the initial
@@ -3827,19 +4445,19 @@ version of the REU Emulation.
 
 @item
 @b{Vesa-Matti Puro} (@email{vmp@@lut.fi}) wrote the very first 6502 CPU
-emulator in x64 0.1.0. That was the beginning of the story...
+emulator in x64 0.1.0. That was the beginning of the story@dots{}
 
 @item
-@b{Dan Miner} (@email{dminer@@nyx10.cs.du.edu}) contributed some patches to
-the fast disk drive emulation.
+@b{Dan Miner} (@email{dminer@@nyx10.cs.du.edu}) contributed some patches
+to the fast disk drive emulation.
 
 @item
-@b{Frank Prindle} (@email{Frank.Prindle@@lambada.oit.unc.edu}) contributed some
-patches.
+@b{Frank Prindle} (@email{Frank.Prindle@@lambada.oit.unc.edu})
+contributed some patches.
 
 @item
 @b{Peter Weighill} (@email{stuce@@csv.warwick.ac.uk}) gave many ideas and
-ROM patcher.
+contributed the ROM patcher.
 
 @item
 @b{Dominique Strigl} (@email{strigl@@sxb.bsf.alcatel.fr}), @b{Craig Jackson}
@@ -3949,14 +4567,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 @chapter Contact information
 
 @menu
-* Homepage::
-* Sending feedback::
-* Contributing::
-* Newsgroups::
-* FAQs you should read::
+* Home page::                   The official VICE WWW page.
+* Sending feedback::            How to report impressions and
+                                bugs to the authors.
+* Contributing::                How to help developing VICE.
+* Newsgroups::                  VICE-related Usenet groups.
+* FAQs you should read::        VICE-related Frequently Asked Questions.
 @end menu
 
-@node Homepage, Sending feedback, Contacts, Contacts
+@node Home page, Sending feedback, Contacts, Contacts
 @section VICE home page
 
 You can find the latest news about VICE at the official VICE
@@ -3972,7 +4591,7 @@ going to report a bug, please check those pages @emph{first}; it is
 possible that the problem you encountered has already been fixed with a
 newer version.
 
-@node Sending feedback, Contributing, Homepage, Contacts
+@node Sending feedback, Contributing, Home page, Contacts
 @section How to send feedback
 
 If you want to report bugs, make suggestions or contribute to
@@ -4028,8 +4647,8 @@ the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
 @uref{http://www.tu-chemnitz.de/~fachat/vice/vice.html});
 @item
-the comp.emulators.cbm and comp.sys.cbm FAQs (@pxref{FAQs you should
-read}).
+the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
+you should read}).
 @end itemize
 
 @item
@@ -4071,8 +4690,8 @@ Thanks!
 
 If you want to make a major contribution, please @emph{ask} first.  It
 has already happened a couple of times that somebody started working at
-something that had already been done but not released to the public, and
-we really do @emph{not} want anybody to waste time.
+something that had already been done but not released to the public yet,
+and we really do @emph{not} want anybody to waste time.
 
 If you are going to make a patch, please make sure the patch is relative
 to the very latest version, and provide us with the following:
@@ -4082,13 +4701,13 @@ to the very latest version, and provide us with the following:
 a diff file containing all the changes you have made (@samp{diff -c} or
 @samp{diff -u} (better) is fine; please don't use plain @samp{diff});
 @item
-GNU-style @file{ChangeLog} entries with a list of the changes you have
-made (look at the @file{ChangeLog}s provided with the original VICE
+GNU-style @file{ChangeLog} entries with a description of the changes you
+have made (look at the @file{ChangeLog}s provided with the original VICE
 sources for an example).
 @end itemize
 
-This is very important, and makes it much smoother and safer for us to
-include patches.
+This is very important, and makes adding patches much smoother and
+safer.
 
 People willing to port VICE to other platforms are always welcome.  A
 Windows and a MacOS port are in the works, so if you are interested in

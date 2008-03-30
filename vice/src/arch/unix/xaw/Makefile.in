@@ -320,6 +320,9 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/mon.h ../../../../src/mos6510.h \
 	../../../../src/info.h ../../../../src/resources.h \
 	../../../../src/machine.h ../../../../src/utils.h
+uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
+	uihotkey.h ui.h ../../../../src/types.h \
+	../../../../src/palette.h ../../../../src/utils.h
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \

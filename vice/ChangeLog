@@ -1,3 +1,15 @@
+Fri Aug 21 14:42:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.61.
+
+	* data/PET/busi_uk.vkm: RPT moved to `Control_R'.  RVS moved to
+	`Page_Down'.
+
+	* data/C64/position.vkm, data/C64/default.vkm: CTRL key moved to
+ 	`Tab'; Commodore key moved to `Control_L'.
+	* data/C128/position.vkm, data/C128/default.vkm: Likewise.
+	* data/VIC20/position.vkm, data/VIC20/default.vkm: Likewise.
+
 Wed Aug 19 16:39:24 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.60.

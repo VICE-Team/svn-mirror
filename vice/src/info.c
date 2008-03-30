@@ -340,208 +340,183 @@ const char warranty_text[] =
 "THE POSSIBILITY OF SUCH DAMAGES.  ";
 
 const char contrib_text[] =
-"VICE derives from X64, the first Commodore 64 emulator for the X\n"
-"Window System.  Here is an informal list of the people who were\n"
-"mostly involved in the development of X64 and VICE:\n"
-"\n"
-"The VICE core team:\n"
-"\n"
-"  Ettore Perazzoli (ettore@comm2000.it)\n"
-"    Chief maintainer.  6510, VIC-II, VIC and CRTC emulations,\n"
-"    hardware-level 1541 emulation, speed optimizations, interrupt\n"
-"    code, Xt/Xaw/Xfwf GUI for X11, code reorganization, \n"
-"    MS-DOS port.\n"
-"\n"
-"  Teemu Rantanen (tvr@cs.hut.fi)\n"
-"    SID emulation, fast disk drive and serial bus implementation,\n"
-"    dynamic bpp X11 display support.\n"
-"\n"
-"  Andre' Fachat (fachat@physik.tu-chemnitz.de)\n"
-"    PET 3032/4032/8032 emulators, timer/interrupt code,\n"
-"    CIA and VIA emulation, serial code improvements, IEEE488\n"
-"    interface, serial bus for VIC20.\n"
-"\n"
-"  Daniel Sladic (sladic@eecg.toronto.edu)\n"
-"    Hardware-level 1541 emulation, built-in monitor.\n"
-"\n"
-"  Andreas Boose (boose@unixserv.rz.fh-hannover.de)\n"
-"    Gave lots of information and bug reports about the VIC-II, the\n"
-"    6510 and the CIAs; moreover, he wrote several test-routines\n"
-"    that were used to improve the emulation.  Also contributed\n"
-"    some important patches, fixed several problems in the 1541\n"
-"    emulation, implemented SpeedDOS parallel cable emulation and\n"
-"    raw GCR image support.\n"
-"\n"
-"Former team members:\n"
-"\n"
-"  Jouko Valta (jopi@stekt.oulu.fi)\n"
-"    Utilities (petcat, petlp, c1541), documentation, T64 handling,\n"
-"    user service and maintenance (most of the work in x64 0.3.x\n"
-"    was made by him).\n"
-"    Retired from the project in July 1996, after VICE 0.10.0.\n"
-"\n"
-"  Jarkko Sonninen (sonninen@lut.fi)\n"
-"    Originator, wrote the old version of the 6502 emulation\n"
-"    and the XDebugger.  Retired from the project after x64 0.2.1.\n"
-"\n"
-"External contributors:\n"
-"\n"
-"  Michael Schwendt (sidplay@geocities.com)\n"
-"    Helped with the SID chip emulation, bringing important\n"
-"    suggestions and bug reports, as well as the wave tables\n"
-"    and filter emulation from his SIDplay emulator.\n"
-"\n"
-"  Christian Bauer (bauec002@goofy.zdv.uni-mainz.de)\n"
-"    Wrote the very interesting \"VIC article\" from which we got\n"
-"    invaluable information about the VIC-II chip.  Without this,\n"
-"    the VIC-II implementation would have not been possible.\n"
-"\n"
-"  Wolfgang Lorenz\n"
-"    Wrote an excellent 6510 test suite that helped us to debug the\n"
-"    CPU emulation, as well as some fundamental CIA documents.\n"
-"\n"
-"  Giuliano Procida (gpp10@cam.ac.uk)\n"
-"    Maintainer of the VICE .deb package for the Debian\n"
-"    distribution.\n"
-"\n"
-"  Nathan Hand\n"
-"    Maintainer of the VICE .rpm package for the Red Hat\n"
-"    distribution.\n"
-"\n"
-"  Marko Makela (msmakela@nic.funet.fi)\n"
-"    CPU documentation.\n"
-"\n"
-"  Martin Pottendorfer (Martin.Pottendorfer@aut.alcatel.at)\n"
-"    `Contents' button for the X11 file selector, several\n"
-"    suggestions, Makefile improvements for multi-platform\n"
-"    compilation, testing.\n"
-"\n"
-"  Chris Sharp (sharpc@hursley.ibm.com)\n"
-"    AIX sound driver.\n"
-"\n"
-"  Krister Walfridsson (cato@df.lth.se)\n"
-"    Joystick and sound support for NetBSD.\n"
-"\n"
-"  Peter Andrew Felvegi aka Petschy\n"
-"      (petschy@derceto.sch.bme.hu)\n"
-"    Fixed a couple of bugs in the fast serial emulation.\n"
-"\n"
-"  Olaf Seibert (rhialto@polder.ubc.kun.nl)\n"
-"    PET, Disk drive patches.\n"
-"\n"
-"  Daniel Fandrich (dan@fch.wimsey.bc.ca)\n"
-"    Disk drive patches.\n"
-"\n"
-"  Heiko Selber (selber@fhi-berlin.mpg.de)\n"
-"    VIC20 I/O patches.\n"
-"\n"
-"  Steven Tieu (stieu@physics.ubc.ca)\n"
-"    Added support for 16/24 bpp X11 displays.\n"
-"\n"
-"  Alexander Lehmann (alex@mathematik.th-darmstadt.de)\n"
-"    Added complete support for all the VIC20 memory\n"
-"    configurations.\n"
-"\n"
-"  Lionel Ulmer (e-mail address not available)\n"
-"    Joystick support for Linux, first try of a SID emulation for\n"
-"    SGI machines.\n"
-"    Lionel, where are you now?\n"
-"\n"
-"  Bernhard Kuhn (kuhn@eikon.e-technik.tu-muenchen.de\n"
-"    Joystick improvements for Linux.\n"
-"\n"
-"  Gerhard Wesp (gwesp@cosy.sbg.ac.at)\n"
-"    c1541 improvements (`extract' command).\n"
-"\n"
-"  Ricardo Ferreira (storm@esoterica.pt)\n"
-"    c1541 improvements (`unlynx' and `system' commands).\n"
-"\n"
-"  Tomi Ollila (Tomi.Ollila@tfi.net)\n"
-"    Donated `findpath.c'.\n"
-"\n"
-"  Hannu Helminen (dm@stekt.oulu.fi)\n"
-"    X11/Video Interface and PostScript programming guru.\n"
-"\n"
-"  Richard Hable (hab@fim.uni-linz.ac.at)\n"
-"    REU Emulation, Testing.\n"
-"\n"
-"  Russell Alphey (R.Alphey@agriculture.unimelb.edu.au)\n"
-"    Testing.\n"
-"\n"
-"  George Caswell (timbuktu@the-eye.res.wpi.edu)\n"
-"    Testing and suggestions.\n"
-"\n"
-"  Germano Caronni (caronni@tik.ethz.ch)\n"
-"    Ideas, patches, debugging and moral support.\n"
-"\n"
-"  Vesa-Matti Puro (vmp@lut.fi)\n"
-"    Wrote the very first 6502 CPU emulator in x64 0.1.0. That was\n"
-"    the beginning of the story... :-)\n"
-"\n"
-"  Dan Miner (dminer@nyx10.cs.du.edu)\n"
-"    Several patches to the fast disk drive emulation.\n"
-"\n"
-"  Frank Prindle (Frank.Prindle@lambada.oit.unc.edu)\n"
-"    Patches.\n"
-"\n"
-"  Peter Weighill (stuce@csv.warwick.ac.uk)\n"
-"    Many ideas and ROM patcher.\n"
-"\n"
-"  Dominique Strigl (strigl@sxb.bsf.alcatel.fr)\n"
-"    Patches.\n"
-"\n"
-"  Craig Jackson (Craig.Jackson@lambada.oit.unc.edu)\n"
-"    Patches.\n"
-"\n"
-"  Lasse Jyrkinen (ljj@stekt.oulu.fi, \n"
-"                  Lasse.Jyrkinen@uz.kuleuven.ac.be)\n"
-"    Patches.\n"
-"\n"
-"  Per Olofsson (MagerValp@goth.org)\n"
-"    Digitalized the C64 colors.\n"
-"\n"
-"  Paul David Doherty (h0142kdd@rz.hu-berlin.de)\n"
-"    Wrote `zip2disk', on which the Zipcode support in c1541\n"
-"    is based.\n"
-"\n"
-"  Robert H. Forsman Jr.\n"
-"  Brian Totty (totty@cs.uiuc.edu)\n"
-"  Robert W. McMullen (rwmcm@orion.ae.utexas.edu)\n"
-"    Provided the widget set for implementing the GUI in the X11\n"
-"    version.\n"
-"\n"
-"  Shawn Hargreaves (shawn@talula.demon.co.uk)\n"
-"    Wrote Allegro, the graphics library used in the MS-DOS\n"
-"    version.\n"
-"\n"
-"  Petteri Kangaslampi (pekangas@sci.fi)\n"
-"  Jarno Paananen (jpaana@iki.fi)\n"
-"    Wrote the MIDAS Digital Audio System, used in the MS-DOS\n"
-"    version.\n"
-"\n"
-"Thanks also to everyone else for sending suggestions, ideas,\n"
-"bug reports, questions and requests.  In particular, a warm thank\n"
-"goes to the following people:\n"
-"\n"
-"  Lutz Sammer (e-mail address not available)\n"
-"  Ralph Mason (RALPHM@msmail02.liffe.com)\n"
-"  George Caswell (timbuktu@the-eye.res.wpi.edu)\n"
-"  Per Olofsson (MagerValp@goth.org)\n"
-"  Jasper Phillips (philljas@newt.cs.orst.edu)\n"
-"  Luca Forcucci (frk@geocities.com)\n"
-"  Asger Alstrup (alstrup@diku.dk)\n"
-"  Bernhard Schwall (uzs484@uni-bonn.de)\n"
-"  Salvatore Valente (svalente@mit.edu)\n"
-"  Arthur Hagen (art@broomstick.com)\n"
-"  Douglas Carmichael (dcarmich@mcs.com)\n"
-"  Ferenc Veres (lion@c64.rulez.org)\n"
-"\n"
-"Last but not least, a very special thank to:\n"
-"\n"
-"  Andreas Arens, Lutz Sammer and Edgar Tornig\n"
-"  Christian Bauer\n"
-"  Wolfgang Lorenz\n"
-"  Miha Peternel\n"
-"  Per Hakan Sundell\n"
-"\n"
-"For writing really cool emulators to compete with. :-)\n\n\n";
+"VICE derives from X64, the first Commodore 64 emulator for the X
+Window System.  Here is an informal list of the people who were
+mostly involved in the development of X64 and VICE:
+
+The VICE core team:
+
+  Ettore Perazzoli (ettore@comm2000.it) made the 6510, VIC-II,
+  VIC-I and CRTC emulations, part of the hardware-level 1541
+  emulation, speed optimizations, bug fixes, the event-driven
+  cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a general
+  code reorganization, the new resource handling, most of the
+  documentation and the MS-DOS port (well, somebody had to do it).
+
+  Teemu Rantanen (tvr@cs.hut.fi) implemented the SID emulation
+  and the trap-based disk drive and serial bus implementation;
+  added support for multiple display depths under X11.
+
+  Andre' Fachat (fachat@physik.tu-chemnitz.de) wrote the PET
+  emulators, the CIA and VIA emulation, the IEEE488 interface,
+  implemented the IEC serial bus in `xvic' and made tons of bug
+  fixes.
+
+  Daniel Sladic (sladic@eecg.toronto.edu) started the work on
+  hardware-level 1541 emulation and wrote the new monitor
+  introduced with VICE 0.15.
+
+  Andreas Boose (boose@unixserv.rz.fh-hannover.de) gave lots of
+  information and bug reports about the VIC-II, the 6510 and the
+  CIAs; moreover, he wrote several test-routines that were used to
+  improve the emulation.  Also contributed some important patches,
+  fixed several problems in the 1541 emulation, implemented the
+  SpeedDOS parallel cable emulation, and added cartridge support.
+
+Former team members:
+
+  Jouko Valta (jopi@stekt.oulu.fi) wrote `petcat' and `c1541',
+  `T64' handling, user service and maintenance (most of the work
+  in x64 0.3.x was made by him); retired from the project in July
+  96, after VICE 0.10.0.
+
+  Jarkko Sonninen (sonninen@lut.fi) was the founder of the
+  project, wrote the old version of the 6502 emulation and the
+  XDebugger, and retired from the project after x64 0.2.1.
+
+External contributors:
+
+  Michael Schwendt (sidplay@geocities.com) helped with the SID
+  (audio) chip emulation, bringing important suggestions and bug
+  reports, as well as the wave tables and filter emulation from
+  his SIDplay emulator.
+
+  Christian Bauer (bauec002@goofy.zdv.uni-mainz.de) wrote the
+  very interesting \"VIC article\" from which we got invaluable
+  information about the VIC-II chip: without this, the VIC-II
+  implementation would have not been possible.
+
+  Wolfgang Lorenz wrote an excellent 6510 test suite that helped
+  us to debug the CPU emulation.
+
+  Giuliano Procida (gpp10@cam.ac.uk) is the maintainer of the
+  VICE `deb' package for the Debian distribution.
+
+  Nathan Hand is (was?) the maintainer of the VICE `rpm' package
+  for the Red Hat distribution.
+
+  Marko M\"akel\"a (msmakela@nic.funet.fi) wrote lots of CPU
+  documentation.
+
+  Martin Pottendorfer (Martin.Pottendorfer@aut.alcatel.at)
+  implemented the \"Contents\" button in the file selector and
+  provided us with several suggestions and constant testing of
+  constantly broken snapshots.
+
+  Chris Sharp (sharpc@hurlsey.ibm.com) wrote the AIX sound
+  driver.
+
+  Krister Walfridsson (cato@df.lth.se) implemented joystick and
+  sound support for NetBSD.
+
+  Dag Lem (resid@nimrod.no) implemented an alternative cycle-exact
+  SID emulator (reSID), and contributed a bugfix in our SID
+  emulation.
+
+  Peter Andrew Felvegi aka Petschy (petschy@derceto.sch.bme.hu)
+  fixed a couple of bugs in the fast serial emulation.
+
+  Olaf Seibert (rhialto@polder.ubc.kun.nl) contributed some PET,
+  and disk drive patches.
+
+  Daniel Fandrich (dan@fch.wimsey.bc.ca) contributed some disk
+  drive patches.
+
+  Heiko Selber (selber@fhi-berlin.mpg.de) contributed some VIC20
+  I/O patches.
+
+  Steven Tieu (stieu@physics.ubc.ca) added initial support for
+  16/24 bpp X11 displays.
+
+  Alexander Lehmann (alex@mathematik.th-darmstadt.de) added
+  complete support for all the VIC20 memory configurations for
+  the old VICE 0.12.
+
+  Lionel Ulmer implemented joystick support for Linux and a first
+  try of a SID emulation for SGI machines.
+
+  Bernhard Kuhn (kuhn@eikon.e-technik.tu-muenchen.de)
+  made some joystick improvements for Linux.
+
+  Gerhard Wesp (gwesp@cosy.sbg.ac.at) contributed the
+  `extract' command in `c1541'.
+
+  Ricardo Ferreira (storm@esoterica.pt) contributed the
+  `unlynx' and `system' commands in `c1541'.
+
+  Tomi Ollila (Tomi.Ollila@tfi.net) donated `findpath.c'.
+
+  Richard Hable (hab@fim.uni-linz.ac.at) contributed the initial
+  version of the REU Emulation.
+
+  Vesa-Matti Puro (vmp@lut.fi) wrote the very first 6502 CPU
+  emulator in x64 0.1.0. That was the beginning of the story...
+
+  Dan Miner (dminer@nyx10.cs.du.edu) contributed some patches to
+  the fast disk drive emulation.
+
+  Frank Prindle (Frank.Prindle@lambada.oit.unc.edu) contributed
+  some patches.
+
+  Peter Weighill (stuce@csv.warwick.ac.uk) gave many ideas and
+  contributed the ROM patcher.
+
+  Dominique Strigl (strigl@sxb.bsf.alcatel.fr), Craig Jackson
+  (Craig.Jackson@lambada.oit.unc.edu) and Lasse Jyrkinen
+  ((Lasse.Jyrkinen@uz.kuleuven.ac.be) contributed miscellaneous
+  patches in the old X64 times.
+
+  Per Olofsson (MagerValp@Goth.Org) digitalized the C64 colors
+  used in the default palette.
+
+  Paul David Doherty (h0142kdd@rz.hu-berlin.de) wrote `zip2disk',
+  on which the Zipcode support in `c1541' is based.
+
+  Robert H. Forsman Jr., Brian Totty (totty@cs.uiuc.edu) and
+  Robert W. McMullen (rwmcm@orion.ae.utexas.edu) provided the
+  widget set for implementing the Xaw GUI.
+
+  Shawn Hargreaves (shawn@talula.demon.co.uk) wrote Allegro, the
+  graphics and audio library used in the MS-DOS version.
+
+(We hope we have not forgotten anybody; if you think we have,
+please tell us.)
+
+Thanks also to everyone else for sending suggestions, ideas, bug
+reports, questions and requests.  In particular, a warm thank
+goes to the following people:
+
+  Lutz Sammer
+  Ralph Mason (RALPHM@msmail02.liffe.com)
+  George Caswell (timbuktu@the-eye.res.wpi.edu)
+  Per Olofsson (MagerValp@goth.org)
+  Jasper Phillips (philljas@newt.cs.orst.edu)
+  Luca Forcucci (frk@geocities.com)
+  Asger Alstrup (alstrup@diku.dk)
+  Bernhard Schwall (uzs484@uni-bonn.de)
+  Salvatore Valente (svalente@mit.edu)
+  Arthur Hagen (art@broomstick.com)
+  Douglas Carmichael (dcarmich@mcs.com)
+  Ferenc Veres (lion@c64.rulez.org)
+
+Last but not least, a very special thank to Andreas Arens, Lutz
+Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
+Peternel and Per H^akan Sundell for writing cool emulators to
+compete with.  :-)";
+
+/*
+Local Variables:
+fill-column: 66
+End:
+*/
+

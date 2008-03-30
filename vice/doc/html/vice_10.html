@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 19 August 1998 -->
+     from ../vice.texi on 21 August 1998 -->
 
 <TITLE>VICE Manual - 10  Acknowledgments</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_9.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC95" HREF="vice_toc.html#TOC95">10  Acknowledgments</A></H1>
+<H1><A NAME="SEC109" HREF="vice_toc.html#TOC109">10  Acknowledgments</A></H1>
 
 <P>
 VICE derives from X64, the first Commodore 64 emulator for the X Window
@@ -30,7 +30,7 @@ The VICE core team:
 <B>Ettore Perazzoli</B> (<A HREF="mailto:ettore@comm2000.it">ettore@comm2000.it</A>)
 made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
 hardware-level 1541 emulation, speed optimizations, bug fixes,
-event-driven cycle-exact engine, Xt/Xaw/Xfwf-based GUI for X11, a
+the event-driven cycle-exact engine, the Xt/Xaw/Xfwf-based GUI for X11, a
 general code reorganization, the new resource handling, most of the
 documentation and the MS-DOS port (well, somebody had to do it).
 
@@ -59,8 +59,8 @@ new monitor introduced with VICE 0.15.
 gave lots of information and bug reports about the VIC-II, the 6510 and
 the CIAs; moreover, he wrote several test-routines that were used to
 improve the emulation.  Also contributed some important patches, fixed
-several problems in the 1541 emulation, implemented SpeedDOS parallel
-cable emulation, and added BZIP v2 support.
+several problems in the 1541 emulation, implemented the SpeedDOS parallel
+cable emulation and added cartridge support.
 
 </UL> </P>
 
@@ -74,7 +74,7 @@ Former team members:
 <P> <LI>
 
 <B>Jouko Valta</B> (<A HREF="mailto:jopi@stekt.oulu.fi">jopi@stekt.oulu.fi</A>) wrote <CODE>petcat</CODE> and
-<CODE>c1541</CODE>, documentation, <CODE>T64</CODE> handling, user service and
+<CODE>c1541</CODE>, <CODE>T64</CODE> handling, user service and
 maintenance (most of the work in x64 0.3.x was made by him); retired
 from the project in July 96, after VICE 0.10.0.
 
@@ -130,7 +130,7 @@ documentation.
 <P> <LI>
 
 <B>Martin Pottendorfer</B> (<A HREF="mailto:Martin.Pottendorfer@aut.alcatel.at">Martin.Pottendorfer@aut.alcatel.at</A>)
-wrote the "Contents" button in the file selector and provided us with
+implemented the "Contents" button in the file selector and provided us with
 several suggestions and constant testing of constantly broken snapshots.
 
 <P> <LI>
@@ -142,6 +142,12 @@ driver.
 
 <B>Krister Walfridsson</B> (<A HREF="mailto:cato@df.lth.se">cato@df.lth.se</A>) implemented joystick
 and sound support for NetBSD.
+
+<P> <LI>
+
+<B>Dag Lem</B> (<A HREF="mailto:resid@nimrod.no">resid@nimrod.no</A>) implemented an alternative
+cycle-exact SID emulator (reSID), and contributed a bugfix in our SID
+emulation.
 
 <P> <LI>
 
@@ -196,8 +202,7 @@ made some joystick improvements for Linux.
 
 <P> <LI>
 
-<B>Tomi Ollila</B> (<A HREF="mailto:Tomi.Ollila@tfi.net">Tomi.Ollila@tfi.net</A>) Donated
-<CODE>findpath.c</CODE>.
+<B>Tomi Ollila</B> (<A HREF="mailto:Tomi.Ollila@tfi.net">Tomi.Ollila@tfi.net</A>) donated <CODE>findpath.c</CODE>.
 
 <P> <LI>
 
@@ -211,18 +216,18 @@ emulator in x64 0.1.0. That was the beginning of the story...
 
 <P> <LI>
 
-<B>Dan Miner</B> (<A HREF="mailto:dminer@nyx10.cs.du.edu">dminer@nyx10.cs.du.edu</A>) contributed some patches to
-the fast disk drive emulation.
+<B>Dan Miner</B> (<A HREF="mailto:dminer@nyx10.cs.du.edu">dminer@nyx10.cs.du.edu</A>) contributed some patches
+to the fast disk drive emulation.
 
 <P> <LI>
 
-<B>Frank Prindle</B> (<A HREF="mailto:Frank.Prindle@lambada.oit.unc.edu">Frank.Prindle@lambada.oit.unc.edu</A>) contributed some
-patches.
+<B>Frank Prindle</B> (<A HREF="mailto:Frank.Prindle@lambada.oit.unc.edu">Frank.Prindle@lambada.oit.unc.edu</A>)
+contributed some patches.
 
 <P> <LI>
 
 <B>Peter Weighill</B> (<A HREF="mailto:stuce@csv.warwick.ac.uk">stuce@csv.warwick.ac.uk</A>) gave many ideas and
-ROM patcher.
+contributed the ROM patcher.
 
 <P> <LI>
 

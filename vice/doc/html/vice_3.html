@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 19 August 1998 -->
+     from ../vice.texi on 21 August 1998 -->
 
 <TITLE>VICE Manual - 3  Invoking the emulators</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_2.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC15" HREF="vice_toc.html#TOC15">3  Invoking the emulators</A></H1>
+<H1><A NAME="SEC17" HREF="vice_toc.html#TOC17">3  Invoking the emulators</A></H1>
 
 <P>
 The names of the available emulators are:
@@ -48,18 +48,67 @@ there.  For example, you could do
 </P>
 
 <PRE>
-xterm -e ./x64 -dir ../../data/C64
+xterm -e x64
 </PRE>
 
+
+
+<H2><A NAME="SEC18" HREF="vice_toc.html#TOC18">3.1  Command-line options used during initialization</A></H2>
+
 <P>
-There are several options you can specify on the command line, and the
-<CODE>-help</CODE> option lists all of them all.
+There are several options you can specify on the command line.  Some of
+them are used to specify emulation settings; they will be described in
+detail later (see section <A HREF="vice_6.html#SEC35">6  Settings and resources</A> for a complete list).  The
+other ones, instead, are used only to initialize the emulator:
 
 </P>
+<DL COMPACT>
+
+<P><DT><CODE>-help</CODE>
+<DD>
+<A NAME="IDX3"></A>
+ 
+<A NAME="IDX4"></A>
+<DT><CODE>-?</CODE>
+<DD>
+List all the available command-line options and their meaning.
+<A NAME="IDX5"></A>
+<P><DT><CODE>-default</CODE>
+<DD>
+Set default resources (see section <A HREF="vice_6.html#SEC35">6  Settings and resources</A>).  This will
+override all the settings specified before, but not the settings
+specified afterwards on the command line.
+<A NAME="IDX6"></A>
+<P><DT><CODE>-autostart IMAGE</CODE>
+<DD>
+Autostart <TT>`IMAGE'</TT> (see section <A HREF="vice_3.html#SEC19">3.2  Autostarting programs from the command-line</A>).
+<A NAME="IDX7"></A>
+<P><DT><CODE>-1 NAME</CODE>
+<DD>
+Attach <TT>`NAME'</TT> as a tape image file.
+<A NAME="IDX8"></A>
+<P><DT><CODE>-8 NAME</CODE>
+<DD>
+<A NAME="IDX9"></A>
+<DT><CODE>-9 NAME</CODE>
+<DD>
+<A NAME="IDX10"></A>
+<DT><CODE>-10 NAME</CODE>
+<DD>
+<A NAME="IDX11"></A>
+<DT><CODE>-11 NAME</CODE>
+<DD>
+Attach <TT>`NAME'</TT> as a disk image to device 8, 9, 10 or 11.
+</DL>
+
+
+
+<H2><A NAME="SEC19" HREF="vice_toc.html#TOC19">3.2  Autostarting programs from the command-line</A></H2>
+
 <P>
-It is possible to let the emulator <EM>autostart</EM> a disk or tape image
-file, by simply specifying its name as the last argument on the command
-line; for example
+It is possible to let the emulator <EM>autostart</EM> a disk or
+tape image file, by simply specifying its name as the last argument on
+the command line; for example
 
 </P>
 
@@ -85,7 +134,18 @@ instead of the first one.
 
 </P>
 <P>
-See section <A HREF="vice_5.html#SEC25">5.5  Using disk and tape images</A> for more information about images and
+<A NAME="IDX12"></A>
+Using the command-line option <CODE>-autostart</CODE> is equivalent; so the same
+result can be obtained with
+
+</P>
+
+<PRE>
+x64 -autostart "lovelygame.x64.gz:run me"
+</PRE>
+
+<P>
+See section <A HREF="vice_5.html#SEC29">5.5  Using disk and tape images</A> for more information about images and
 autostart.
 
 </P>

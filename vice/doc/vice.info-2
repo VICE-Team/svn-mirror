@@ -17,6 +17,142 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Palette files,  Prev: Keymap files,  Up: System files
+
+Palette files
+=============
+
+   "Palette files" are used to specify the colors used in the
+emulators.  They are made up of lines like the following:
+
+     RED GREEN BLUE DITHER
+
+   where `RED', `GREEN' and `BLUE' are hexadecimal values ranging from
+0 to FF and specifying the amount of red, green and blue you want for
+each color and `DITHER' is an hexadecimal 4-bit number specifying the
+pattern you want to be used when rendering on a B/W display.
+
+   You have to include as many lines as the number of colors the
+emulated machine has, and the order of the lines must respect the one
+used in the machine (so the N'th line must contain the specifications
+for color N - 1 in the emulated machine).
+
+   Lines starting with the `#' sign are completely ignored.  This is
+useful for adding comments (such as color names) within the palette
+file.
+
+   For example, the default PET palette file (which has only two
+colors, 0 for background and 1 for foreground), looks like the
+following:
+
+     #
+     # VICE Palette file
+     #
+     # Syntax:
+     # Red Green Blue Dither
+     #
+     
+     # Background
+     00 00 00 0
+     
+     # Foreground
+     00 FF 00 F
+
+
+File: vice.info,  Node: Basics,  Next: Settings and resources,  Prev: System files,  Up: Top
+
+Basic operation
+***************
+
+   This section describes the basic things you can do after the emulator
+has been fired up.
+
+* Menu:
+
+* Emulation window::            The window the emulator runs in.
+* Menus::                       Using emulator menus.
+* Help::                        Getting help if you are stuck.
+* File Selector::               Selecting files interactively.
+* Disk and tape images::        Using virtual disks and tapes.
+* Reset::                       Resetting the virtual machines.
+
+
+File: vice.info,  Node: Emulation window,  Next: Menus,  Prev: Basics,  Up: Basics
+
+The emulation window
+====================
+
+   When the emulator is run, the screen of the emulated machine is
+displayed in a standard X Window which we will call the "emulation
+window".  This window will be updated in real-time, displaying the same
+contents that a real monitor or TV set would.
+
+   Under the emulation window there is an area which is used to display
+information about the state of the emulator; we will call this area the
+"status bar".
+
+   On the extreme left of the status bar, there is a "performance
+meter".  The performance meter displays the current relative speed (in
+percent) of the emulator and the update frequency, in frames per second.
+All the machines emulated are PAL, so the update frequency will be of 50
+frames per second if your system is fast enough to allow the emulator to
+run at the speed of the real machine.
+
+   On the extreme right of the status bar, there is a "drive status
+indicator".  This is only visible if the hardware-level ("True") 1541
+emulation is turned on.  In that case, the drive status indicator will
+contain a rectangle which emulates the drive LED and will display the
+current track position of the read-write head of the drive.
+
+
+File: vice.info,  Node: Menus,  Next: Help,  Prev: Emulation window,  Up: Basics
+
+Using the menus
+===============
+
+   It is possible to execute some commands and change emulation
+parameters while running the emulator: two menus are available by
+pressing the right or left mouse buttons while the pointer is in the
+emulation window.  The left mouse button will open the "command menu"
+from which several emulation-related commands can be executed; the right
+mouse button will open the "setting menu", from which emulation
+parameters can be changed.  The basic difference between the command and
+the setting menu is that, while commands have only effect on the current
+session, settings can be saved for later use: this can be done with the
+"Save settings" and "Load settings" right-button menu items.  "Restore
+default settings" restores the factory defaults.  *Note Settings and
+resources:: for more information about how settings work in VICE.
+
+   Sometimes commands can be reached via "shortcuts" or "hotkeys", i.e.
+it is possible to reach them by pressing a sequence of keys instead of
+going through the menu with the mouse; when this happens, the
+corresponding shortcut is displayed in parenthesis on the right of the
+menu item.  In VICE, all the shortcuts must begin with the <Meta> or
+<Alt> key.  So, for example, to attach a disk image to drive #8 (the
+corresponding menu item displays "M-8"), you have to press the <Meta>
+(or <Alt>) and then <8>.
+
+   Notice that, while <Meta> or <Alt> is pressed, pressing other keys
+has no effect at all on the emulated machine.
+
+
+File: vice.info,  Node: Help,  Next: File Selector,  Prev: Menus,  Up: Basics
+
+Getting help
+============
+
+   In case you suddenly get stuck or do not remember how to do a certain
+thing, you can in any moment use the "Browse manuals" command (left
+button menu).  This will popup a browser and open the HTML version of
+this documentation.  Notice that this requires VICE to be properly (and
+fully) installed with a `make install'.
+
+   The browser can be specified via the `HTMLBrowserCommand' string
+resource (*note Settings and resources::. for information about
+resources).  Every `%s' in the string will be replaced with a URL to
+the VICE HTML pages.
+
+
 File: vice.info,  Node: File Selector,  Next: Disk and tape images,  Prev: Help,  Up: Basics
 
 Using the file selector
@@ -97,6 +233,7 @@ for that file, eg. doing a `chmod a-w'.
 * Previewing contents::         Looking into the image before attaching it.
 * Autostart::                   Starting a program automagically.
 * Compressed files::            Dealing with compressed files.
+* Zipcode and Lynx::            Using Zipcoded ([1-4]!*) and Lynx files.
 
 
 File: vice.info,  Node: Previewing contents,  Next: Autostart,  Prev: Disk and tape images,  Up: Disk and tape images
@@ -122,9 +259,9 @@ File: vice.info,  Node: Autostart,  Next: Compressed files,  Prev: Previewing co
 -----------------------
 
    If you want to reset the machine and run the first program on a
-certain image without typing the command at the Commodore BASIC prompt,
-you can use the "Autostart" button in the file selector window after
-selecting a proper disk or tape image file.
+certain image without typing any commands at the Commodore BASIC
+prompt, you can use the "Autostart" button in the file selector window
+after selecting a proper disk or tape image file.
 
    Notice that, if true 1541 emulation is turned on, it will be turned
 off before running the program and then turned on again after it has
@@ -139,7 +276,7 @@ true 1541 emulation to be always kept turned on), or to manually load
 the program with true 1541 emulation turned on.
 
 
-File: vice.info,  Node: Compressed files,  Prev: Autostart,  Up: Disk and tape images
+File: vice.info,  Node: Compressed files,  Next: Zipcode and Lynx,  Prev: Autostart,  Up: Disk and tape images
 
 Using compressed files
 ----------------------
@@ -163,6 +300,42 @@ recognized from the file extension.  The following formats are supported
 uses the *first* `T64' or `D64' file in the archive.  So archives
 containing multiple files will always be handled as if they contained
 one single file.
+
+
+File: vice.info,  Node: Zipcode and Lynx,  Prev: Compressed files,  Up: Disk and tape images
+
+Using Zipcode and Lynx images
+-----------------------------
+
+   Since version 0.15, the VICE emulators are able to attach disks
+packed with Zipcoded or Lynx without the need of converting them into
+`D64' or `X64' files with `c1541'.  This is done by executing `c1541',
+letting it decode the file into a temporary image, and then by
+attaching the temporary image read-only.  For this reason, the
+directory `c1541' is contained in must be in your `PATH'.
+
+   This uses the `-unlynx' and `-zcreate' options of `c1541' (*note
+c1541 commands and options::.); these commands are not very reliable
+yet, and could fail with certain kinds of Lynx and Zipcode images (for
+example, they cannot deal with `DEL' files properly).  So please use
+with care.
+
+   Lynx files usually come as `.lnx' files and are depacked into a
+single disk.  On the other hand, Zipcode files do not have a particular
+extension (although `.z64' is sometimes used), and represent a disk by
+means of four sub-files, named as follows:
+
+   * `1!NAME'
+
+   * `2!NAME'
+
+   * `3!NAME'
+
+   * `4!NAME'
+
+   If you attach as a disk image (or smart-attach) any of these files,
+the emulator will simply pick up the other three parts (by looking at
+the name) and build one disk image out of them.
 
 
 File: vice.info,  Node: Reset,  Prev: Disk and tape images,  Up: Basics
@@ -213,29 +386,35 @@ value, causes the emulator to ask you if you want to save the current
 (changed) settings before exiting, and can be toggled with the "Save
 settings on exit" command from the right-button menu.
 
+   Notice that not all the resources can be changed from the menus;
+some of them can only be changed by manually modifying the resource
+file or by using command-line options.
+
 * Menu:
 
 * Resource files::              Format of resource files.
+* Resources and command-line::  Specifying settings from the
+                                command-line
 
-* Resources and command-line options::
 * Performance settings::        Settings that affect speed of execution.
 * Video settings::              Settings dealing with the video output.
 * Keyboard settings::           Settings relative to the keyboard emulation.
-* Sound settings::
+* Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
-* Peripheral settings::         Settings for emulated IEC devices.
+* Peripheral settings::         Settings for emulated external devices.
+* Misc settings::               Other settings.
 
 
-File: vice.info,  Node: Resource files,  Next: Resources and command-line options,  Prev: Settings and resources,  Up: Settings and resources
+File: vice.info,  Node: Resource files,  Next: Resources and command-line,  Prev: Settings and resources,  Up: Settings and resources
 
 Format of resource files
 ========================
 
-   A resource file is made up of several section; every section has the
-purpose of separating resources of a certain emulator from resources of
-the other ones.  A section is started with the name of an emulator in
-brackets (eg. `[C64]') and ends when another section starts, or the
-file ends.
+   A resource file is made up of several section; sections have the
+purpose of separating the resources of a certain emulator from the ones
+of the other emulators.  A section is started with the name of an
+emulator in brackets (eg. `[C64]') and ends when another section
+starts, or the file ends.
 
    Every line in a section has the following format:
 
@@ -271,7 +450,7 @@ emulator only modifies its own section, keeping the other ones
 unchanged.
 
 
-File: vice.info,  Node: Resources and command-line options,  Next: Performance settings,  Prev: Resource files,  Up: Settings and resources
+File: vice.info,  Node: Resources and command-line,  Next: Performance settings,  Prev: Resource files,  Up: Settings and resources
 
 Using command-line options to change resources
 ==============================================
@@ -297,7 +476,7 @@ feature, while the one beginning with the plus sign is used to
 `-mitshm' enables support of MITSHM, while `+mitshm' disables it.
 
 
-File: vice.info,  Node: Performance settings,  Next: Video settings,  Prev: Resources and command-line options,  Up: Settings and resources
+File: vice.info,  Node: Performance settings,  Next: Video settings,  Prev: Resources and command-line,  Up: Settings and resources
 
 Performance settings
 ====================
@@ -313,11 +492,11 @@ without limiting speed.
 emulator calculates with the "Refresh rate" setting; the value ranges
 from "1/1" (update 1/1 of the frames of the real machine, that is 50
 frames per second) to "1/10" (update 1 every 10 frames) and can be
-changed via the "Refresh Rate" submenu.  The setting "auto means to
+changed via the "Refresh Rate" submenu.  The "Auto" setting means to
 dynamically adapt the refresh rate to the current speed of the host
 machine, making sure the maximum speed specified by the via "Maxium
-speed" resource is always reached if possible.  In any case, the
-refresh rate will never be worse than 1/10 if this value is specified.
+speed" is always reached if possible.  In any case, the refresh rate
+will never be worse than 1/10 if this option is specified.
 
    Notice that you cannot specify "Auto" as the refresh rate and "No
 limit" as the maximum speed at the same time.
@@ -379,14 +558,16 @@ Video settings
    The following right-button menu items control the video output:
 
    * "Video Cache" enables a video cache that can speed up the emulation
-     when little graphics activity is going on.
+     when little graphics activity is going on.  This can actually make
+     the emulator slower when there is little graphics activity, and
+     the cache is useless.
 
    * "Double Size" toggles "double-size mode", which makes the
      emulation window twice as big (when emulating a 80-column PET,
      only the height is doubled, so that the aspect ratio is more
      similiar to the one of the real thing).
 
-   * "Double Scan" toggless "double-scan mode", which causes the
+   * "Double Scan" toggles "double-scan mode", which causes the
      emulator to draw only odd lines when running in double-size mode
      (this saves some CPU time and also makes the emulation window look
      more like an old monitor).
@@ -423,6 +604,23 @@ Video resources
      Boolean specifying whether `XSync()' is called after updating the
      emulation window.
 
+`MITSHM'
+     Boolean specyfying whether VICE should try to use the shared memory
+     extensions (MITSHM) when starting up.  The shared memory extensions
+     make things a lot faster, but might not be available on your
+     system, or you might not be allowed to use them because you are
+     running the emulator on an X terminal, across a network.
+
+`PrivateColormap'
+     Boolean specifying whether VICE should install a private colormap
+     at startup.  This makes sense for 8-bit displays that could run
+     out of colors if other color-hungry applications are running at
+     the same time.
+
+`DisplayDepth'
+     Integer specifying the depth of the host display.  The value `0'
+     (the default) makes the emulator autodetect it.
+
 
 File: vice.info,  Node: Video options,  Prev: Video resources,  Up: Video settings
 
@@ -433,10 +631,33 @@ Video command-line options
 `+vcache'
      Enable/disable the video cache (`VideoCache=1', `VideoCache=0').
 
+`-dsize'
+`+dsize'
+     Enable/disable the double size mode (`DoubleSize=1',
+     `DoubleSize=0').
+
 `-dscan'
 `+dscan'
      Enable/disable the double scan mode (`DoubleScan=1',
      `DoubleScan=0').
+
+`-xsync'
+`+xsync'
+     Enable/disable usage of `XSync()' when updating the emulation
+     window (`UseXSync=1', `UseXSync=0').
+
+`-mitshm'
+`+mitshm'
+     Enable/disable usage of the MITSHM extensions (`MITSHM=1',
+     `MITSHM=0').
+
+`-install'
+`+install'
+     Enable-disable installation of a private colormap
+     (`PrivateColormap=1', `PrivateColormap=0').
+
+`-displaydepth DEPTH'
+     Specify the display depth (`DisplayDepth').
 
 
 File: vice.info,  Node: Keyboard settings,  Next: Sound settings,  Prev: Video settings,  Up: Settings and resources
@@ -472,6 +693,14 @@ Keyboard resources
      Integer identifying which keymap is being used; `0' identifies
      symbolic mapping, `1' positional mapping.
 
+`KeymapSymFile'
+     String specifying the name of the keymap file for the symbolic
+     mapping (*note Keyboard emulation::.).
+
+`KeymapPosFile'
+     String specifying the name of the keymap file for the positional
+     mapping (*note Keyboard emulation::.).
+
 
 File: vice.info,  Node: Keyboard options,  Prev: Keyboard resources,  Up: Keyboard settings
 
@@ -482,6 +711,12 @@ Keyboard command-line options
      Specifies which keymap is being used; `0' identifies symbolic
      mapping, `1' positional mapping (same as the `KeymapIndex'
      resource).
+
+`-symkeymap NAME'
+     Specify `NAME' as the symbolic keymap file (`KeymapSymFile').
+
+`-poskeymap NAME'
+     Specify `NAME' as the positional keymap file (`KeymapPosFile').
 
 
 File: vice.info,  Node: Sound settings,  Next: 1541 settings,  Prev: Keyboard settings,  Up: Settings and resources
@@ -553,7 +788,7 @@ Sound resources
 
      Implemented drivers are:
 
-        * `aix', for IBM AIX.
+        * `aix', for the IBM AIX sound driver.
 
         * `uss', for the Linux/FreeBSD Universal Sound System driver
           (`SoundDeviceArg' specifies the audio device, `/dev/dsp' by
@@ -634,16 +869,17 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
      loading speed.
 
    * "True 1541 sync factor" specifies the speed of the 1541 CPU.  This
-     can be used to help loading certain games, eg. NTSC ones, that
-     have trouble with the default setting.  The ratio is calculated as
-     follows:
+     can be used to help loading certain programs that have trouble
+     with the default setting (for example, programs designed for NTSC
+     machines).  The ratio is calculated as follows:
 
           sync_factor = 65536 * clk_1541 / clk_machine
 
      where `clk_1541' and `clk_machine' are clock speeds, in MHz.  The
      menu lets you choose between the PAL and NTSC values, and also lets
      you specify whatever value you want.  Be careful when changing it,
-     though, because it can break things and even corrupt disk images.
+     though, because a wrong value can break things and even corrupt
+     disk images.
 
    * "True 1541 idle method" specifies which method the 1541 emulation
      should use to save CPU cycles.  There are three methods:
@@ -672,8 +908,10 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
      some weird way and the computer does not access the serial line
      for a long time, it is possible that some cycles are discarded and
      the sync is lost.  Notice that this hack can have no effect on
-     performance if one program continuously reads the CIA ports, as the
-     drive will have to be emulated in any case.
+     performance if one program continuously reads from the IEC port,
+     as the drive will have to be emulated in any case (some stupid
+     programs do so, even when they don't actually need to use the
+     drive).
 
      The second option ("Trap idle") is usually a bit slower, as at
      least interrupts are always emulated, but allows the LED state to
@@ -732,8 +970,7 @@ File: vice.info,  Node: 1541 resources,  Next: 1541 options,  Prev: 1541 setting
      respectively.
 
 `DosName'
-     String specifying the name of the ROM image name for the 1541
-     emulation.
+     String specifying the name of the ROM image for the 1541 emulation.
 
 
 File: vice.info,  Node: 1541 options,  Prev: 1541 resources,  Up: 1541 settings
@@ -765,13 +1002,13 @@ File: vice.info,  Node: 1541 options,  Prev: 1541 resources,  Up: 1541 settings
 
 `-drivesync NUM'
      Specifies a generic sync factor for the 1541 emulation
-     (`True1541SyncFactor=-2').
+     (`True1541SyncFactor').
 
 `-dosname NAME'
      Specifies the name of the DOS ROM image (`DosName').
 
 
-File: vice.info,  Node: Peripheral settings,  Prev: 1541 settings,  Up: Settings and resources
+File: vice.info,  Node: Peripheral settings,  Next: Misc settings,  Prev: 1541 settings,  Up: Settings and resources
 
 Peripheral settings
 ===================
@@ -789,9 +1026,9 @@ custom-made C routines.
 
 * Menu:
 
-* File system device settings::
-* Printer settings::
-* No kernal traps::
+* File system device settings::  Settings for file system devices.
+* Printer settings::            Settings for emulating a printer.
+* No kernal traps::             Disabling kernal traps completely.
 
 
 File: vice.info,  Node: File system device settings,  Next: Printer settings,  Prev: Peripheral settings,  Up: Peripheral settings
@@ -805,7 +1042,8 @@ are accessible; each of them provides the following settings:
 
    * "File system access", if enabled, allows the device to emulate a
      drive accessing a file system directory; notice that if a disk is
-     attached to the same drive, the directory is not visible anymore.
+     attached to the same drive, the directory is not visible anymore,
+     and the attached disk is used instead.
 
    * "File system directory" specifies what directory is accessed by the
      drive.
@@ -916,6 +1154,20 @@ Printer resources
 `PrDevice3'
      Strings specifying the printer devices (*note Printer settings::.).
 
+`Printer4'
+     Boolean specifying if the IEC printer (device 4) is being emulated.
+
+`Printer4Dev'
+     Integer (ranging from 1 to 3) specifying what device the IEC
+     printer is using.
+
+`PrUser'
+     Boolean specifying if the user-port printer is being emulated.
+
+`PrUserDev'
+     Integer (ranging from 1 to 3) specifying what device the user-port
+     printer is using.
+
 
 File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
 
@@ -927,6 +1179,22 @@ Printer command-line options
 `-prdev3 NAME'
      Specify `NAME' as printer devices 1, 2 and 3, respectively
      (`PrDevice1', `PrDevice2' and `PrDevice3').
+
+`-printer4'
+`+printer4'
+     Enable/disable emulation of the IEC printer (`Printer4=1',
+     `Printer4=0').
+
+`-pr4dev DEV'
+     Specify device for the IEC printer (`Printer4Dev').
+
+`-pruser'
+`+pruser'
+     Enable/disable emulation of the IEC printer (`PrUser=1',
+     `PrUser=0').
+
+`-pruserdev DEV'
+     Specify device for the IEC printer (`PrUserDev').
 
 
 File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
@@ -965,6 +1233,79 @@ Command-line options to control Kernal traps
      Enable (`NoTraps=0') or disable (`NoTraps=1') kernal traps.
 
 
+File: vice.info,  Node: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
+
+Miscellaneous settings
+======================
+
+   This section lists generic resources that did not fit in the other
+categories.
+
+* Menu:
+
+* Misc resources::
+* Misc options::
+
+
+File: vice.info,  Node: Misc resources,  Next: Misc options,  Prev: Misc settings,  Up: Misc settings
+
+Miscellaneous resources
+-----------------------
+
+`Directory'
+     String specifying the search path for system files.  It is defined
+     as a sequence of paths, separated by colons (`:'), just like the
+     `PATH' variable in the shell.  The special path `$$' stands for
+     the default search path, which is initialized at startup to the
+     following value:
+
+          LIBDIR/EMUID:BOOTPATH/EMUID
+
+     where:
+
+        * `LIBDIR' is the VICE installation directory (usually
+          `/usr/local/lib/vice', `/usr/lib/vice' or `/opt/vice/lib');
+
+        * `EMUID' is the emulation identification string (`C64',
+          `C128', `VIC20' or `PET');
+
+        * `BOOTPATH' is the directory where the binary lies (usually
+          `/usr/local/bin', `/usr/bin' or `/opt/vice/bin').
+
+     *Note System files:: for a description of the method used to load
+     the emulator's system files.
+
+`HTMLBrowserCommand'
+     String specifying the command to run the help browser.  The help
+     browser can be any HTML browser, and every `%s' in the string is
+     replaced with the name of the toplevel file of the VICE
+     documentation.  For example, the default value `netscape %s' runs
+     Netscape Navigator.
+
+`SaveResourcesOnExit'
+     Boolean specifying whether the emulator should save changed
+     settings before exiting.  If this is enabled, the user will be
+     always prompted first.
+
+
+File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
+
+Miscellaneous command-line options
+----------------------------------
+
+`-directory SEARCHPATH'
+     Specify the system file search path (`Directory').
+
+`-htmlbrowser COMMAND'
+     Specify the command to run the HTML browser for the on-line help
+     (`HTMLBrowserCommand').
+
+`-saveres'
+`+saveres'
+     Enable/disable automatic saving of settings on exit
+     (`SaveResourcesOnExit=1', `SaveResourcesOnExit=0').
+
+
 File: vice.info,  Node: Machine-specific features,  Next: Monitor,  Prev: Settings and resources,  Up: Top
 
 Machine-specific features
@@ -990,11 +1331,12 @@ specific and thus are not present in the other emulators.
 
 * Menu:
 
-* C64 cartridges::
-* VIC-II settings::
-* SID settings::
-* I/O extension settings::
-* RS232 settings::
+* C64 cartridges::              Using cartridge images with the C64 emulator.
+* VIC-II settings::             Settings that control the video chip.
+* SID settings::                Settings that control the audio chip.
+* C64 I/O extension settings::  Settings that enable special extensions.
+* RS232 settings::              Settings that control the RS232 emulation.
+* C64/128 system ROM settings::  Settings to control the system ROMs.
 
 
 File: vice.info,  Node: C64 cartridges,  Next: VIC-II settings,  Prev: C64/128-specific,  Up: C64/128-specific
@@ -1003,8 +1345,8 @@ Using cartridge images
 ----------------------
 
    "Cartridge images" are like disk images, but mirror the contents of
-cartridge ROM images instead of disk images.  They are currently
-unsupported on the C128 emulator.
+cartridge ROM images instead of disk images.  They are currently not
+supported on the C128 emulator.
 
    X64 allows you to attach the following kinds of cartridges:
 
@@ -1059,460 +1401,4 @@ chip used in both the C64 and the C128.
 
 * VIC-II resources::
 * VIC-II options::
-
-
-File: vice.info,  Node: VIC-II resources,  Next: VIC-II options,  Prev: VIC-II settings,  Up: VIC-II settings
-
-VIC-II resources
-................
-
-`CheckSsColl'
-     Boolean specifying whether the sprite-sprite hardware collision
-     detection must be emulated.
-
-`CheckSbColl'
-     Boolean specifying whether the sprite-background hardware collision
-     detection must be emulated.
-
-`PaletteFile'
-     String specifying the name of the palette file being used.  The
-     `.vpl' extension is optional.
-
-
-File: vice.info,  Node: VIC-II options,  Prev: VIC-II resources,  Up: VIC-II settings
-
-VIC-II command-line options
-...........................
-
-`-checkss'
-`+checkss'
-     Enable (`CheckSsColl=1') and disable (`CheckSsColl=0') emulation
-     of hardware sprite-sprite collision detection, respectively.
-
-`-checksb'
-`+checksb'
-     Enable (`CheckSbColl=1') and disable (`CheckSbColl=0') emulation
-     of hardware sprite-background collision detection, respectively.
-
-`-palette NAME'
-     Specify `NAME' as the palette file (`PaletteFile').
-
-
-File: vice.info,  Node: SID settings,  Next: I/O extension settings,  Prev: VIC-II settings,  Up: C64/128-specific
-
-SID settings
-------------
-
-   These settings control the emulation of the SID (MOS6581 or MOS8580)
-audio chip.
-
-   * "Emulate filters" causes the built-in programmable filters of the
-     SID chip to be emulated.  A lot of C64 music requires them to be
-     emulated properly, but their emulation requires some additional
-     processor power.
-
-   * "ChipModel" specifies the model of the SID chip being emulated:
-     there are two slightly different generations of SID chips: MOS6581
-     ones and MOS8580 ones.
-
-* Menu:
-
-* SID resources::
-* SID options::
-
-
-File: vice.info,  Node: SID resources,  Next: SID options,  Prev: SID settings,  Up: SID settings
-
-SID resources
-.............
-
-`SidFilters'
-     Boolean specifying whether the built-in SID filters must be
-     emulated.
-
-`SidModel'
-     Integer specifying what model of the SID must be emulated (`0':
-     MOS6581, `1': MOS8580).
-
-
-File: vice.info,  Node: SID options,  Prev: SID resources,  Up: SID settings
-
-SID command-line options
-........................
-
-`-sidmodel MODEL'
-     Specifies `MODEL' as the emulated model of the SID chip
-     (`SidModel').
-
-`-sidfilters'
-`+sidfilters'
-     Enable (`SidFilters=1') or disable (`SidFilters=0') emulation of
-     the built-in SID filters.
-
-
-File: vice.info,  Node: I/O extension settings,  Next: RS232 settings,  Prev: SID settings,  Up: C64/128-specific
-
-I/O extension settings
-----------------------
-
-   There are three I/O extensions available: they are located at the
-address range $DF00 ... $DFFF and each of them is controlled by a
-boolean resource.  Please use these extensions only when needed, as they
-might cause compatibility problems.
-
-   * The "emulator identification" extension allows programs to
-     identify the kind of emulator they are running on, according to the
-     emulation detection proposal by Wolfgang Lorenz.  This basically
-     means that, when some locations in the $DFxx I/O space are read,
-     the emulator returns some values which identify the emulator
-     itself, its version and a copyright message.  If this extension is
-     disabled, programs will have virtually no way to realize they are
-     running on an emulator.
-
-   * The "IEEE488 interface emulation" extension emulates a standard
-     Commodore IEEE488 interface connected to the IEC bus; one possible
-     use for this is André Fachat's OS/A65 multitasking operating
-     system.
-
-   * The "512K RAM Expansion Unit" extension (enabled by the `REU'
-     resource) emulates a standard 512K Commodore RAM Expansion Unit;
-     this can be used with GEOS and other programs that are designed to
-     take advantage of it.  This currently works only in the C64
-     emulator.
-
-* Menu:
-
-* I/O extension resources::
-* I/O extension options::
-
-
-File: vice.info,  Node: I/O extension resources,  Next: I/O extension options,  Prev: I/O extension settings,  Up: I/O extension settings
-
-I/O extension resources
-.......................
-
-`IEEE488'
-     Boolean specifying whether the IEEE488 interface should be
-     emulated or not.
-
-`REU'
-     Boolean specifying whether the 512K RAM Expansion Unit should be
-     emulated or not.
-
-`EmuID'
-     Boolean specifying whether the emulation identification extension
-     should be emulated or not.
-
-
-File: vice.info,  Node: I/O extension options,  Prev: I/O extension resources,  Up: I/O extension settings
-
-I/O extension command-line options
-..................................
-
-`-ieee488'
-`+ieee488'
-     Enable (`IEEE488=1') or disable (`IEEE488=0') emulation of the
-     IEEE488 interface.
-
-`-reu'
-`+reu'
-     Enable (`REU=1') or disable (`REU=0') emulation of the 512K RAM
-     Expansion Unit.
-
-`-emuid'
-`+emuid'
-     Enable (`EmuID=1') or disable (`EmuID=0') emulation of the
-     emulation identification extension.
-
-
-File: vice.info,  Node: RS232 settings,  Prev: I/O extension settings,  Up: C64/128-specific
-
-RS232 settings
---------------
-
-   X64 and X128 can support RS232 in the following ways:
-
-   * By emulating Daniel Dallmann's 9600 baud userport-based RS232
-     interface.
-
-   * By emulating a 6551-based RS232 interface located at $DE00.
-
-   Each of these emulated devices can be either:
-
-   * connected a real UNIX serial device;
-
-   * dumped to a file;
-
-   * piped through a process.
-
-   It is possible to define up to two UNIX serial devices, and then
-decide which interface should be connected to which device.  Devices are
-defined through the following settings:
-
-   * "Serial 1 device..." and "Serial 2 device..." are used to specify
-     the the pathnames of the serial devices, with the file selector;
-
-   * "Serial 1 baudrate" and "Serial 2 baudrate" specify the baudrate.
-
-* Menu:
-
-* RS232 resources::
-
-
-File: vice.info,  Node: RS232 resources,  Prev: RS232 settings,  Up: RS232 settings
-
-RS232 resources
-...............
-
-`RsDevice1'
-`RsDevice2'
-     Strings specifying the pathnames of the two available serial
-     devices.
-
-`RsDevice1Baud'
-`RsDevice2Baud'
-     Integers specifying the baudrates.
-
-`RsDevice3'
-     String defining the name of the file used when dumping RS232
-     output.
-
-`RsDevice4'
-     String defining the name of the process to pipe the RS232 data
-     through.
-
-`RsUserDev'
-`Acia1Dev'
-     Integers specifying how the userport-based interface and the
-     ACIA-based one are emulated.  The possible values are:
-        * `0': connect to serial device number 1;
-
-        * `1': connect to serial device number 2;
-
-        * `2': dump to file;
-
-        * `3': exec an external process.
-
-
-File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64/128-specific,  Up: Machine-specific features
-
-VIC20-specific commands and settings
-====================================
-
-   This section lists the settings and commands that are VIC20-specific
-and thus are not present in the other emulators.
-
-* Menu:
-
-* VIC20 cartridges::
-* VIC20 memory expansions::
-
-
-File: vice.info,  Node: VIC20 cartridges,  Next: VIC20 memory expansions,  Prev: VIC20-specific,  Up: VIC20-specific
-
-Using cartridge images
-----------------------
-
-   As with the C64 (*note C64 cartridges::.), it is possible to attach
-several types of cartridge images:
-
-   * 4 or 8 Kbyte cartridges located at $2000;
-
-   * 4 or 8 Kbyte cartridges located at $6000;
-
-   * 4 or 8 Kbyte cartridges located at $A000;
-
-   * 4 Kbyte cartridges located at $B000.
-
-   This can all be done via the "Attach cartridge image..." command in
-the left-button menu.  It is also possible to let XVIC "guess" the type
-of cartridge using "Smart-attach cartridge image...".
-
-   Notice that several cartridges are actually made up of two pieces
-(and two files), that need to be loaded separately at different
-addresses.  In that case, you have to know the addresses (which are
-usually specified in the file name) and use the "attach" command twice.
-
-
-File: vice.info,  Node: VIC20 memory expansions,  Prev: VIC20 cartridges,  Up: VIC20-specific
-
-Changing memory configuration
------------------------------
-
-   It is possible to change the VIC20 memory configuration in two ways:
-by enabling and/or disabling certain individual memory blocks, or by
-choosing one among a few typical memory configurations.  The former can
-be done by modifying resource values directly or from the right-button
-menu; the latter can only be done from the menu.
-
-   There are 5 RAM expansion blocks in the VIC20, numbered 0, 1, 2, 3
-and 5:
-
-   * block 0 (3 Kbytes at $0400-$0FFF);
-
-   * block 1 (8 Kbytes at $2000-$3FFF);
-
-   * block 2 (8 Kbytes at $4000-$5FFF);
-
-   * block 3 (8 Kbytes at $6000-$7FFF);
-
-   * block 5 (8 Kbytes at $A000-$BFFF).
-
-   These blocks are called "expansion blocks" because they are not
-present in the stock machine.  Each of them is associated to a boolean
-`RamBlockX' resource (where `X' is the block number) that specifies
-whether the block is enabled or not.
-
-   There are also some common memory configurations you can pick from
-the right-button menu:
-
-   * no RAM expansion blocks at all;
-
-   * all RAM expansion blocks enabled;
-
-   * 3K expansion (only block 0 is enabled);
-
-   * 8K expansion (only block 1 is enabled);
-
-   * 16K expansion (only blocks 1 and 2 are enabled);
-
-   * 24K expansion (only blocks 1, 2 and 3 are enabled).
-
-   As with the X64 (*note I/O extension settings::.), it is also
-possible to enable a special emulator identification mechanism that
-uses certain memory locations to let a running program query
-information about the emulator itself.
-
-* Menu:
-
-* VIC20 memconf resources::
-* VIC20 memconf options::
-
-
-File: vice.info,  Node: VIC20 memconf resources,  Next: VIC20 memconf options,  Prev: VIC20 memory expansions,  Up: VIC20 memory expansions
-
-VIC20 memory configuration resources
-....................................
-
-`RAMBlock0'
-`RAMBlock1'
-`RAMBlock2'
-`RAMBlock3'
-`RAMBlock5'
-     Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be
-     enabled.
-
-
-File: vice.info,  Node: VIC20 memconf options,  Prev: VIC20 memconf resources,  Up: VIC20 memory expansions
-
-VIC20 memory configuration command-line options
-...............................................
-
-`-memory CONFIG'
-     Specify memory configuration.  It must be a comma-separated list of
-     options, each of which can be one the following:
-
-        * `none' (no extension);
-
-        * `all' (all blocks);
-
-        * `3k' (3k space in block 0);
-
-        * `8k' (first 8k extension block);
-
-        * `16k' (first and second 8k extension blocks);
-
-        * `24k' (first, second and 3rd extension blocks);
-
-        * `0', `1', `2', `3', `5' (memory in respective blocks);
-
-        * `04', `20', `40', `60', `A0' (memory at respective address.
-
-     Examples:
-
-          xvic -memory none
-
-     gives an unexpanded VIC20.  While
-
-          xvic -memory 60,a0
-
-     or
-
-          xvic -memory 3,5
-
-     enables memory in blocks 3 and 5, which is the usual configuration
-     for 16k ROM modules.
-
-
-File: vice.info,  Node: PET-specific,  Prev: VIC20-specific,  Up: Machine-specific features
-
-PET-specific commands and settings
-==================================
-
-   This section lists the settings and commands that are PET-specific
-and thus are not present in the other emulators.
-
-* Menu:
-
-* PET model::
-* PET diagnostic pin::
-* PET colors::
-
-
-File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specific,  Up: PET-specific
-
-Changing PET model settings
----------------------------
-
-   With XPET, it is possible to change at runtime the characteristics of
-the emulated PET so that it matches (or not) the ones of a certain PET
-model, and it is also possible to select from a common set of PET models
-so that all the features are selected accordingly.
-
-   The former is done by changing the following resources (via resource
-file, command line options or right-menu items):
-
-   * (None yet.)
-
-   Choosing a common PET model is done from the right-button menu
-instead, by choosing an item from the "Model defaults" submenu.
-Available models are:
-
-   * PET 2001-8N
-
-   * PET 3008
-
-   * PET 3016
-
-   * PET 3032
-
-   * PET 3032B
-
-   * PET 4016
-
-   * PET 4032
-
-   * PET 4032B
-
-   * PET 8032
-
-   * PET 8096
-
-   * PET 8296
-
-   Notice that this will *reset the emulated machine*.
-
-   It is also possible to select the PET model at startup, with the
-`-model' command-line option: for example, `xpet -model 3032' will
-emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
-
-
-File: vice.info,  Node: PET diagnostic pin,  Next: PET colors,  Prev: PET model,  Up: PET-specific
-
-The PET diagnostic pin
-----------------------
-
-   It is possible to enable or disable emulation of the PET diagnostic
-pin via the `DiagPin' resource, or the "PET userport diagnostic pin"
-item in the right-button menu.
 
