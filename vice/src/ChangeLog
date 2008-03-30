@@ -1,3 +1,59 @@
+2002-06-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.28.
+
+	* c64/c64pla.c, c64/c64pla.h (c64pla_config_changed): Value to
+	be read from processor port is stored in the struct.
+
+	* c64/c64mem.c (read_zero, store_zero): If the processor port
+	is written, update the underlying RAM.
+
+	* c128/c128mem.c (read_zero, store_zero,
+	mem_pla_config_changed, mem_update_config): Likewise.
+
+	* maincpu.c [LOAD_ZERO]: Set default to `read_zero()'.
+
+	* c128/c128cpu.c [LOAD_ZERO]: Use `read_zero()'.
+
+	* cbm2/c610cpu.c: Define `LOAD_ZERO'.
+
+	* plus4/plus4cpu.c: Removed.
+
+	* c64/c64memlimit.c: Disable prefetch for zero page.
+
+	* c64/c64rom.c, c64/c64rom.h, c128/c128rom.c, c128/c128rom.h,
+	vic20/vic20rom.c, vic20/vic20rom.h, pet/petrom.c,
+	pet/petrom.h, plus4/plus4rom.c, plus4/plus4rom.h,
+	cmb2/c610rom.c, cmb2/c610rom.h: New files.
+
+	* Makefile.am, c64/Makefile.am, c128/Makefile.am,
+	vic20/Makefile.am, pet/Makefile.am, plus4/Makefile.am,
+	cmb2/Makefile.am: Updated.
+
+	* c64/c64mem.c, c64/c64-snapshot.c, c64/c64-resources.c,
+	c128/c128mem.c, c128/c128-snapshot.c, c128/c128-resources.c,
+	vic20/vic20mem.c, vic20/vic20-snapshot.c,
+	vic20/vic20-resources.c, pet/petmem.c, pet/pet-snapshot.c,
+	pet/pet-resources.c, plus4/plus4mem.c,
+	plus4/plus4-resources.c, plus4/plus4-snapshot.c,
+	cbm2/c610mem.c, cbm2/c610-snapshot.c, cbm2/c610-resources.c:
+	Moved ROM specific code to new files.
+
+	* c64/c64-snapshot.c, c64/c64mem.c, c64/c64mem.h,
+	c128/c128-snapshot.c, c128/c128mem.c, c128/c128mem.h,
+	vic20/vic20mem.c, vic20/vic20mem.c, plus4/plus4mem.c,
+	plus4/plus4mem.h, plus4/ted-mem.c, vic20/vic20-snapshot.c,
+	plus4/plus4-resources.c, vic20/vic.c, pet/petmem.c,
+	pet/petmem.h, pet/petpia1.c, pet/pet-resources.c, c1541.c,
+	cbm2/c610mem.h, cbm2/c610mem.c, cbm2/c610-snapshot.c,
+	c64/cart/c64cartmem.c, c64/cart/supergames.c, info.c,
+	c64/cart/final.c, info.h, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/ui.c,
+	arch/msdos/menudefs.c, arch/riscos/ui.c, arch/beos/ui.cc:
+	Renamed some variables.
+
+	* maincpu.h, 6510core.h: Removed dependency.
+
 2002-06-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.27.

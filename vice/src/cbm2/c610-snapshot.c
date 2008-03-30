@@ -32,6 +32,7 @@
 #include "c610-resources.h"
 #include "c610.h"
 #include "c610mem.h"
+#include "c610rom.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
@@ -114,11 +115,11 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, config);
     snapshot_module_write_byte(m, (BYTE)(cbm2_model_line & 3));
 
-    snapshot_module_write_byte(m, (BYTE)(bank_exec));
-    snapshot_module_write_byte(m, (BYTE)(bank_ind));
+    snapshot_module_write_byte(m, (BYTE)(c610mem_bank_exec));
+    snapshot_module_write_byte(m, (BYTE)(c610mem_bank_ind));
 
     snapshot_module_write_byte_array(m, mem_ram + 0xf0000, 0x0800);
-    snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
+    snapshot_module_write_byte_array(m, mem_rom + 0xd000, 0x0800);
 
     /* main memory array */
     snapshot_module_write_byte_array(m, mem_ram + effective_start,
@@ -177,12 +178,12 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     resources_set_value("ModelLine", (resource_value_t)(int)(hwconfig & 3));
 
     snapshot_module_read_byte(m, &byte);
-    set_bank_exec(byte);
+    c610mem_set_bank_exec(byte);
     snapshot_module_read_byte(m, &byte);
-    set_bank_ind(byte);
+    c610mem_set_bank_ind(byte);
 
     snapshot_module_read_byte_array(m, mem_ram + 0xf0000, 0x0800);
-    snapshot_module_read_byte_array(m, rom + 0xd000, 0x0800);
+    snapshot_module_read_byte_array(m, mem_rom + 0xd000, 0x0800);
 
     /* calculate start and size of RAM to load */
     /* ramsize starts counting at 0x10000 if less than 512k */
@@ -299,33 +300,34 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     {
         /* kernal */
-        snapshot_module_write_byte_array(m, rom + 0xe000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_rom + 0xe000, 0x2000);
         /* basic */
-        snapshot_module_write_byte_array(m, rom + 0x8000, 0x4000);
+        snapshot_module_write_byte_array(m, mem_rom + 0x8000, 0x4000);
         /* chargen */
         if (isC500) {
-            snapshot_module_write_byte_array(m, chargen_rom, 0x1000);
+            snapshot_module_write_byte_array(m, mem_chargen_rom, 0x1000);
         } else {
-            snapshot_module_write_byte_array(m, chargen_rom, 0x0800);
-            snapshot_module_write_byte_array(m, chargen_rom + 0x1000, 0x0800);
+            snapshot_module_write_byte_array(m, mem_chargen_rom, 0x0800);
+            snapshot_module_write_byte_array(m, mem_chargen_rom + 0x1000,
+                                             0x0800);
         }
 
         if (config & 2) {
-            snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x1000, 0x1000);
         }
         if (config & 4) {
-            snapshot_module_write_byte_array(m, rom + 0x2000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x2000);
         }
         if (config & 8) {
-            snapshot_module_write_byte_array(m, rom + 0x4000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x4000, 0x2000);
         }
         if (config & 16) {
-            snapshot_module_write_byte_array(m, rom + 0x6000, 0x2000);
+            snapshot_module_write_byte_array(m, mem_rom + 0x6000, 0x2000);
         }
     }
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
     snapshot_module_close(m);
 
@@ -355,44 +357,44 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte(m, &config);
 
     /* kernal */
-    snapshot_module_read_byte_array(m, rom + 0xe000, 0x2000);
+    snapshot_module_read_byte_array(m, mem_rom + 0xe000, 0x2000);
     /* basic */
-    snapshot_module_read_byte_array(m, rom + 0x8000, 0x4000);
+    snapshot_module_read_byte_array(m, mem_rom + 0x8000, 0x4000);
 
     /* chargen */
     if (config & 32) {
-        snapshot_module_read_byte_array(m, chargen_rom, 0x1000);
+        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x1000);
     } else {
-        snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
-        snapshot_module_read_byte_array(m, chargen_rom + 0x1000, 0x0800);
+        snapshot_module_read_byte_array(m, mem_chargen_rom, 0x0800);
+        snapshot_module_read_byte_array(m, mem_chargen_rom + 0x1000, 0x0800);
         /* Inverted chargen into second half. This is a hardware feature.  */
         for (i = 0; i < 2048; i++) {
-            chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-            chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
+            mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
+            mem_chargen_rom[i + 6144] = mem_chargen_rom[i + 4096] ^ 0xff;
         }
     }
 
     if (config & 2) {
-        snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x1000, 0x1000);
     }
     if (config & 4) {
-        snapshot_module_read_byte_array(m, rom + 0x2000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x2000);
     }
     if (config & 8) {
-        snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x4000, 0x2000);
     }
     if (config & 16) {
-        snapshot_module_read_byte_array(m, rom + 0x6000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_rom + 0x6000, 0x2000);
     }
 
     log_warning(c610_snapshot_log,
                 "Dumped Romset files and saved settings will "
                 "represent\nthe state before loading the snapshot!");
 
-    mem_checksum();
+    c610rom_checksum();
 
     /* enable traps again when necessary */
-    resources_set_value("VirtualDevices", (resource_value_t) trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)trapfl);
 
     snapshot_module_close(m);
 

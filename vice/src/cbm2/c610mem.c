@@ -30,7 +30,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "autostart.h"
 #include "c610-resources.h"
 #include "c610.h"
 #include "c610acia.h"
@@ -38,20 +37,16 @@
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "cartridge.h"
-#include "cmdline.h"
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "emuid.h"
 #include "interrupt.h"
 #include "kbdbuf.h"
-#include "log.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
 #include "sid.h"
-#include "sysfile.h"
-#include "tape.h"
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
@@ -74,22 +69,22 @@ void cia1_set_extended_keyboard_rows_mask(BYTE foo) {}
 
 BYTE mem_ram[C610_RAM_SIZE];            /* 1M, banks 0-14 plus extension RAM
                                            in bank 15 */
-BYTE rom[C610_ROM_SIZE];                /* complete bank 15 ROM + video RAM */
-BYTE chargen_rom[C610_CHARGEN_ROM_SIZE];
+BYTE mem_rom[C610_ROM_SIZE];            /* complete bank 15 ROM + video RAM */
+BYTE mem_chargen_rom[C610_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
 static BYTE mem_color_ram[0x400];
 BYTE *mem_color_ram_ptr;
 
 /* Pointer to the chargen ROM.  */
-BYTE *chargen_rom_ptr;
+BYTE *mem_chargen_rom_ptr;
 
 BYTE *mem_page_zero;
 BYTE *mem_page_one;
 
 /* selected banks for normal access and indirect accesses */
-int bank_exec = -1;
-int bank_ind = -1;
+int c610mem_bank_exec = -1;
+int c610mem_bank_ind = -1;
 
 /* Memory read and write tables - banked. */
 static read_func_ptr_t _mem_read_tab[16][0x101];
@@ -118,32 +113,6 @@ unsigned int mem_old_reg_pc;
 
 int cbm2_init_ok = 0;
 
-/* Flag: nonzero if the ROM has been loaded. */
-static int rom_loaded = 0;
-
-#define IS_NULL(s)  (s == NULL || *s == '\0')
-
-static log_t c610_mem_log = LOG_ERR;
-
-static tape_init_t tapeinit = {
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    NULL,
-    36 * 8,
-    54 * 8,
-    55 * 8,
-    73 * 8,
-    74 * 8,
-    100 * 8
-};
-
 /* ------------------------------------------------------------------------- */
 
 /* state of tpi pc6/7 */
@@ -166,7 +135,7 @@ void c500_set_phi2_bank(int b) {
         vic_ii_set_phi2_chargen_addr_options(0, 1);
         /* memory mapping */
         vic_ii_set_phi2_vbank(3);       /* necessary? */
-        vic_ii_set_phi2_ram_base(rom);
+        vic_ii_set_phi2_ram_base(mem_rom);
     } else {
         /* video memory in bank 0 */
         vic_ii_set_phi2_addr_options(0xffff, 0x0000);
@@ -191,7 +160,7 @@ void c500_set_phi1_bank(int b) {
         vic_ii_set_phi1_chargen_addr_options(0xc000, 0xc000);
         /* memory mapping */
         vic_ii_set_phi1_vbank(3);       /* necessary? */
-        vic_ii_set_phi1_ram_base(rom);
+        vic_ii_set_phi1_ram_base(mem_rom);
     } else {
         /* video memory in bank 0 */
         vic_ii_set_phi1_addr_options(0xffff, 0x0000);
@@ -318,18 +287,19 @@ const char *cbm2_get_model()
 
 /* ------------------------------------------------------------------------- */
 
-void set_bank_exec(int val) {
+void c610mem_set_bank_exec(int val) {
     int i;
 
     val &= 0x0f;
-    if (val != bank_exec) {
+    if (val != c610mem_bank_exec) {
 
-        bank_exec = val;
+        c610mem_bank_exec = val;
 
-        _mem_read_tab_ptr      = _mem_read_tab[bank_exec];
-        _mem_write_tab_ptr     = _mem_write_tab[bank_exec];
-        _mem_read_base_tab_ptr = _mem_read_base_tab[bank_exec];
-        mem_read_limit_tab_ptr = mem_read_limit_tab[(bank_exec < 15) ? 0 : 1];
+        _mem_read_tab_ptr = _mem_read_tab[c610mem_bank_exec];
+        _mem_write_tab_ptr = _mem_write_tab[c610mem_bank_exec];
+        _mem_read_base_tab_ptr = _mem_read_base_tab[c610mem_bank_exec];
+        mem_read_limit_tab_ptr = mem_read_limit_tab[(c610mem_bank_exec < 15)
+                                 ? 0 : 1];
 
         if (bank_limit != NULL) {
             *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
@@ -363,16 +333,16 @@ void set_bank_exec(int val) {
     }
 }
 
-void set_bank_ind(int val)
+void c610mem_set_bank_ind(int val)
 {
     int i;
     val &= 0x0f;
 
-    if (val != bank_ind) {
-        bank_ind = val;
-        _mem_read_ind_tab_ptr      = _mem_read_tab[bank_ind];
-        _mem_write_ind_tab_ptr     = _mem_write_tab[bank_ind];
-        _mem_read_ind_base_tab_ptr = _mem_read_base_tab[bank_ind];
+    if (val != c610mem_bank_ind) {
+        c610mem_bank_ind = val;
+        _mem_read_ind_tab_ptr = _mem_read_tab[c610mem_bank_ind];
+        _mem_write_ind_tab_ptr = _mem_write_tab[c610mem_bank_ind];
+        _mem_read_ind_base_tab_ptr = _mem_read_base_tab[c610mem_bank_ind];
         /* set all register mirror locations */
         for (i = 0; i < 16; i++) {
             mem_ram[(i << 16) + 1] = val;
@@ -385,10 +355,10 @@ void set_bank_ind(int val)
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
     if (addr == 0)
-        set_bank_exec(value);
+        c610mem_set_bank_exec(value);
     else
       if (addr == 1)
-          set_bank_ind(value);
+          c610mem_set_bank_ind(value);
 
     _mem_write_tab_ptr[0]((ADDRESS)(addr & 0xff), value);
 }
@@ -398,8 +368,11 @@ void REGPARM2 store_zero(ADDRESS addr, BYTE value)
     {                                                                   \
         addr &= 0xff;                                                   \
                                                                         \
-        if (addr == 0) set_bank_exec(value); else                       \
-        if (addr == 1) set_bank_ind(value);                             \
+        if (addr == 0)                                                  \
+            c610mem_set_bank_exec(value);                               \
+        else                                                            \
+        if (addr == 1)                                                  \
+            c610mem_set_bank_ind(value);                                \
                                                                         \
         mem_ram[(0x##bank << 16) | addr] = value;                       \
     }
@@ -523,25 +496,25 @@ static read_func_ptr_t read_zero_tab[16] = {
 void REGPARM2 store_zeroX(ADDRESS addr, BYTE value)
 {
     if (addr == 0)
-        set_bank_exec(value);
+        c610mem_set_bank_exec(value);
     else
         if (addr == 1)
-            set_bank_ind(value);
+            c610mem_set_bank_ind(value);
 }
 
 BYTE REGPARM1 rom_read(ADDRESS addr)
 {
-    return rom[addr];
+    return mem_rom[addr];
 }
 
 BYTE REGPARM1 read_chargen(ADDRESS addr)
 {
-    return chargen_rom[addr & 0xfff];
+    return mem_chargen_rom[addr & 0xfff];
 }
 
 void REGPARM2 rom_store(ADDRESS addr, BYTE value)
 {
-    rom[addr] = value;
+    mem_rom[addr] = value;
 }
 
 static BYTE REGPARM1 read_unused(ADDRESS addr)
@@ -561,25 +534,25 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_watch(ADDRESS addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
-    return _mem_read_tab[bank_exec][addr >> 8](addr);
+    return _mem_read_tab[c610mem_bank_exec][addr >> 8](addr);
 }
 
 void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
-    _mem_write_tab[bank_exec][addr >> 8](addr, value);
+    _mem_write_tab[c610mem_bank_exec][addr >> 8](addr, value);
 }
 
 BYTE REGPARM1 read_ind_watch(ADDRESS addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
-    return _mem_read_tab[bank_ind][addr >> 8](addr);
+    return _mem_read_tab[c610mem_bank_ind][addr >> 8](addr);
 }
 
 void REGPARM2 store_ind_watch(ADDRESS addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
-    _mem_write_tab[bank_ind][addr >> 8](addr, value);
+    _mem_write_tab[c610mem_bank_ind][addr >> 8](addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -698,8 +671,8 @@ void mem_toggle_watchpoints(int flag)
         _mem_write_tab_ptr = _mem_write_tab_watch;
         _mem_write_ind_tab_ptr = _mem_write_ind_tab_watch;
     } else {
-        set_bank_exec(bank_exec);
-        set_bank_ind(bank_ind);
+        c610mem_set_bank_exec(c610mem_bank_exec);
+        c610mem_set_bank_ind(c610mem_bank_ind);
     }
 }
 
@@ -707,8 +680,8 @@ void mem_toggle_watchpoints(int flag)
 /* handle CPU reset */
 
 void mem_reset(void) {
-    set_bank_exec(15);
-    set_bank_ind(15);
+    c610mem_set_bank_exec(15);
+    c610mem_set_bank_ind(15);
 
     if (isC500) {
         c500_set_phi1_bank(15);
@@ -734,7 +707,7 @@ void mem_initialize_memory(void)
 {
     int i;
 
-    chargen_rom_ptr = chargen_rom;
+    mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_ptr = mem_color_ram;
 
     /* first the tables that hold the predefined bank mappings */
@@ -896,7 +869,7 @@ void mem_initialize_memory_bank(int i)
         for (; j < 0xc0; j++) { /* 0800-BFFF */
             _mem_read_tab[i][j] = rom_read;
             _mem_write_tab[i][j] = store_dummy;
-            _mem_read_base_tab[i][j] = rom + (j << 8);
+            _mem_read_base_tab[i][j] = mem_rom + (j << 8);
         }
         for (; j < 0xd0; j++) { /* C000-CFFF */
             if (!isC500) {
@@ -906,7 +879,7 @@ void mem_initialize_memory_bank(int i)
             } else {
                 _mem_read_tab[i][j] = read_chargen;
                 _mem_write_tab[i][j] = store_dummy;
-                _mem_read_base_tab[i][j] = chargen_rom + ((j << 8) & 0x0f);
+                _mem_read_base_tab[i][j] = mem_chargen_rom + ((j << 8) & 0x0f);
             }
         }
         for (; j < 0xe0; j++) { /* D000-DFFF */
@@ -917,7 +890,7 @@ void mem_initialize_memory_bank(int i)
         for (; j < 0x100; j++) {
             _mem_read_tab[i][j] = rom_read;
             _mem_write_tab[i][j] = store_dummy;
-            _mem_read_base_tab[i][j] = rom + (j << 8);
+            _mem_read_base_tab[i][j] = mem_rom + (j << 8);
         }
 
         if (cart08_ram) {
@@ -983,245 +956,18 @@ void mem_powerup(void)
         memset(mem_ram + i + 0x40, 0xff, 0x40);
     }
     for (i = 0; i < 0x800; i += 0x80) {
-        memset(rom + i, 0, 0x40);
-        memset(rom + i + 0x40, 0xff, 0x40);
-        memset(rom + 0x800 + i, 0, 0x40);
-        memset(rom + 0x800 + i + 0x40, 0xff, 0x40);
-        memset(rom + 0xd000 + i, 0, 0x40);
-        memset(rom + 0xd000 + i + 0x40, 0xff, 0x40);
+        memset(mem_rom + i, 0, 0x40);
+        memset(mem_rom + i + 0x40, 0xff, 0x40);
+        memset(mem_rom + 0x800 + i, 0, 0x40);
+        memset(mem_rom + 0x800 + i + 0x40, 0xff, 0x40);
+        memset(mem_rom + 0xd000 + i, 0, 0x40);
+        memset(mem_rom + 0xd000 + i + 0x40, 0xff, 0x40);
     }
 
-    bank_exec = 0;
-    bank_ind = 0;
-    set_bank_exec(15);
-    set_bank_ind(15);
-}
-
-/*************************************************************************
- * Load all the ROMs.
- * Called from mem_load() and from setting the resources.
- */
-
-int mem_load_chargen(const char *rom_name)
-{
-    int i;
-
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    /* Load chargen ROM
-     * we load 4k of 16-byte-per-char Charrom.
-     * Then we generate the inverted chars */
-
-    if (!IS_NULL(rom_name)) {
-        memset(chargen_rom, 0, C610_CHARGEN_ROM_SIZE);
-
-        if (sysfile_load(rom_name, chargen_rom, 4096, 4096) < 0) {
-            log_error(c610_mem_log, "Couldn't load character ROM '%s'.",
-                      rom_name);
-            return -1;
-        }
-
-        if (!isC500) {
-            memmove(chargen_rom + 4096, chargen_rom + 2048, 2048);
-
-            /* Inverted chargen into second half. This is a hardware feature.*/
-            for (i = 0; i < 2048; i++) {
-                chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
-                chargen_rom[i + 6144] = chargen_rom[i + 4096] ^ 0xff;
-            }
-        }
-    }
-
-    if (isC500) {
-        /* VIC-II config */
-    } else {
-        crtc_set_chargen_addr(chargen_rom, C610_CHARGEN_ROM_SIZE >> 4);
-    }
-
-    return 0;
-}
-
-int mem_checksum(void)
-{
-    int i;
-    WORD sum;
-
-    /* Checksum over top 8 kByte kernal.  */
-    for (i = 0xe000, sum = 0; i < 0x10000; i++)
-        sum += rom[i];
-
-    log_message(c610_mem_log, "Kernal checksum is %d ($%04X).",
-                sum, sum);
-    return 0;
-}
-
-int mem_load_kernal(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    /* De-initialize kbd-buf, autostart and tape stuff here before
-       reloading the ROM the traps are installed in.  */
-    kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0);
-    tape_init(&tapeinit);
-
-    /* Load Kernal ROM.  */
-    if (!IS_NULL(rom_name)) {
-        if (sysfile_load(rom_name, rom + 0xe000, 0x2000, 0x2000) < 0) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.", rom_name);
-            return -1;
-        }
-    }
-
-    return mem_checksum();
-}
-
-
-int mem_load_basic(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    /* Load BASIC ROM.  */
-    if (!IS_NULL(rom_name)) {
-        if ((sysfile_load(rom_name, rom + 0x8000, 0x4000, 0x4000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load BASIC ROM `%s'.",
-                      rom_name);
-            return -1;
-        }
-    } else {
-        log_warning(c610_mem_log, "Disabling BASIC by unloading ROM!");
-        memset(rom + 0x8000, 0xff, 0x4000);
-    }
-    return 0;
-}
-
-int mem_load_cart_1(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    if (!IS_NULL(rom_name)) {
-        if ((sysfile_load(rom_name, rom + 0x1000, 0x1000, 0x1000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(rom + 0x1000, 0xff, 0x1000);
-    }
-    return 0;
-}
-
-int mem_load_cart_2(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    if (!IS_NULL(rom_name)) {
-        if ((sysfile_load(rom_name, rom + 0x2000, 0x2000, 0x2000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(rom + 0x2000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
-int mem_load_cart_4(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    if (!IS_NULL(rom_name)) {
-        if ((sysfile_load(rom_name, rom + 0x4000, 0x2000, 0x2000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(rom + 0x4000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
-int mem_load_cart_6(const char *rom_name)
-{
-    if (!rom_loaded)
-        return 0;  /* init not far enough */
-
-    if (!IS_NULL(rom_name)) {
-        if ((sysfile_load(rom_name, rom + 0x6000, 0x2000, 0x2000) < 0)) {
-            log_error(c610_mem_log, "Couldn't load ROM `%s'.",
-                      rom_name);
-        }
-    } else {
-        memset(rom + 0x6000, 0xff, 0x2000);
-    }
-    return 0;
-}
-
-/* Load memory image files. */
-int mem_load(void)
-{
-    int i;
-    char *rom_name = NULL;
-
-    if (c610_mem_log == LOG_ERR)
-        c610_mem_log = log_open("CBM2MEM");
-
-    rom_loaded = 1;
-
-    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_chargen(rom_name) < 0)
-        return -1;
-
-    /* Init Disk/Cartridge ROM with 'unused address' values.  */
-    for (i = 0x800; i < 0x8000; i++) {
-        rom[i] = 0xff;
-    }
-
-    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_kernal(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_basic(rom_name) < 0)
-        return -1;
-
-    /* Load extension ROMs.  */
-
-    if (resources_get_value("Cart1Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_cart_1(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Cart2Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_cart_2(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Cart4Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_cart_4(rom_name) < 0)
-        return -1;
-
-    if (resources_get_value("Cart6Name", (resource_value_t)&rom_name) < 0)
-        return -1;
-    if (mem_load_cart_6(rom_name) < 0)
-        return -1;
-
-    if (isC500) {
-        /* VIC-II config */
-    } else {
-        crtc_set_screen_addr(rom + 0xd000);
-    }
-
-    return 0;
+    c610mem_bank_exec = 0;
+    c610mem_bank_ind = 0;
+    c610mem_set_bank_exec(15);
+    c610mem_set_bank_ind(15);
 }
 
 void mem_set_bank_pointer(BYTE **base, int *limit)

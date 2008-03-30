@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "c610mem.h"
+#include "c610rom.h"
 #include "c610tpi.h"
 #include "crtc.h"
 #include "drive.h"
@@ -137,7 +138,7 @@ static int set_chargen_rom_name(resource_value_t v, void *param)
     if (util_string_set(&chargen_name, (const char *)v))
         return 0;
 
-    return mem_load_chargen(chargen_name);
+    return c610rom_load_chargen(chargen_name);
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
@@ -145,7 +146,7 @@ static int set_kernal_rom_name(resource_value_t v, void *param)
     if (util_string_set(&kernal_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_kernal(kernal_rom_name);
+    return c610rom_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
@@ -153,7 +154,7 @@ static int set_basic_rom_name(resource_value_t v, void *param)
     if (util_string_set(&basic_rom_name, (const char *)v))
         return 0;
 
-    return mem_load_basic(basic_rom_name);
+    return c610rom_load_basic(basic_rom_name);
 }
 
 static int set_cart1_rom_name(resource_value_t v, void *param)
@@ -161,7 +162,7 @@ static int set_cart1_rom_name(resource_value_t v, void *param)
     if (util_string_set(&cart_1_name, (const char *)v))
         return 0;
 
-    return mem_load_cart_1(cart_1_name);
+    return c610rom_load_cart_1(cart_1_name);
 }
 
 static int set_cart2_rom_name(resource_value_t v, void *param)
@@ -169,7 +170,7 @@ static int set_cart2_rom_name(resource_value_t v, void *param)
     if (util_string_set(&cart_2_name, (const char *)v))
         return 0;
 
-    return mem_load_cart_2(cart_2_name);
+    return c610rom_load_cart_2(cart_2_name);
 }
 
 static int set_cart4_rom_name(resource_value_t v, void *param)
@@ -177,7 +178,7 @@ static int set_cart4_rom_name(resource_value_t v, void *param)
     if (util_string_set(&cart_4_name, (const char *)v))
         return 0;
 
-    return mem_load_cart_4(cart_4_name);
+    return c610rom_load_cart_4(cart_4_name);
 }
 
 static int set_cart6_rom_name(resource_value_t v, void *param)
@@ -185,7 +186,7 @@ static int set_cart6_rom_name(resource_value_t v, void *param)
     if (util_string_set(&cart_6_name, (const char *)v))
         return 0;
 
-    return mem_load_cart_6(cart_6_name);
+    return c610rom_load_cart_6(cart_6_name);
     /* only does something after mem_load() */
 }
 
