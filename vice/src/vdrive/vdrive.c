@@ -47,7 +47,6 @@
 #endif
 
 #include "archdep.h"
-#include "charsets.h"
 #include "diskimage.h"
 #include "fsdevice.h"
 #include "log.h"

@@ -33,7 +33,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "charsets.h"
 #include "cmdline.h"
 #include "log.h"
 #include "prdevice.h"
