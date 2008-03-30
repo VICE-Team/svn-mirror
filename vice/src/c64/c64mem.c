@@ -235,7 +235,7 @@ void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 
 void REGPARM2 ram_hi_store(ADDRESS addr, BYTE value)
 {
-    ram[addr] = value;
+    vicii_mem_vbank_3fxx_store(addr, value);
 
     if (addr == 0xff00)
         reu_dma(-1);
@@ -386,10 +386,7 @@ void mem_initialize_memory(void)
         mem_read_tab[i][0xff] = ram_read;
         mem_read_base_tab[i][0xff] = ram + 0xff00;
 
-        /* FIXME: we do not care about vbank writes here, but we probably
-           should.  Anyway, the $FFxx addresses are not so likely to contain
-           sprites or other stuff that really needs the special handling, and
-           it's much easier this way.  */
+        /* vbank access is handled within `ram_hi_store()'.  */
         set_write_hook(i, 0xff, ram_hi_store);
     }
 
