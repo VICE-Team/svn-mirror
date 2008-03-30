@@ -524,8 +524,6 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/../x11menu.h uisettings.h uisound.h \
 	../../../src/utils.h videoarch.h x11/xaw/videoarch.h \
 	x11/xaw/../videoarch.h ../../../src/fullscreen.h \
-	../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/palette.h \
 	../../../src/video.h ../../../src/vsync.h ../../../src/vsidui.h \
 	vsiduiunix.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \

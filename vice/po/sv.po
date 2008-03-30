@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-26 19:50+0100\n"
+"POT-Creation-Date: 2002-01-27 18:16+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -314,8 +314,8 @@ msgstr "Alternativ"
 #: src/arch/unix/c128ui.c:488 src/arch/unix/c610ui.c:493
 #: src/arch/unix/c64ui.c:454 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:196 src/arch/unix/vic20ui.c:528
-#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1129
-#: src/arch/unix/x11/gnome/ui.c:1221
+#: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1125
+#: src/arch/unix/x11/gnome/ui.c:1217
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -1073,8 +1073,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/uicommands.c:667 src/arch/unix/uicommands.c:682
-#: src/arch/unix/x11/gnome/ui.c:788 src/arch/unix/x11/gnome/ui.c:798
-#: src/arch/unix/x11/gnome/ui.c:1473
+#: src/arch/unix/x11/gnome/ui.c:784 src/arch/unix/x11/gnome/ui.c:794
+#: src/arch/unix/x11/gnome/ui.c:1469
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -1219,7 +1219,7 @@ msgid "About VICE..."
 msgstr "Om VICE..."
 
 #: src/arch/unix/uicommands.c:947 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Reset"
 msgstr "Återställ"
 
@@ -1722,8 +1722,8 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1268
-#: src/arch/unix/x11/xaw/ui.c:1065
+#: src/arch/unix/uisettings.c:219 src/arch/unix/x11/gnome/ui.c:1264
+#: src/arch/unix/x11/xaw/ui.c:1060
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
@@ -2195,7 +2195,7 @@ msgstr "Garanti"
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:105
+#: src/arch/unix/x11/gnome/gnomevideo.c:100
 msgid "Successfully initialized video."
 msgstr "Grafiken har initierats."
 
@@ -2209,7 +2209,7 @@ msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/ui.c:638 src/arch/unix/x11/xaw/ui.c:472
+#: src/arch/unix/x11/gnome/ui.c:639 src/arch/unix/x11/xaw/ui.c:473
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
@@ -2218,135 +2218,131 @@ msgstr "Dina grafikinställningar stöder inte %d-bitarsläge."
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/ui.c:645 src/arch/unix/x11/xaw/ui.c:479
-msgid "Please recompile the program for a supported bit depth."
-msgstr "Kompilera om programmet för ett understött färgdjup."
-
-#: src/arch/unix/x11/gnome/ui.c:649 src/arch/unix/x11/gnome/ui.c:667
-#: src/arch/unix/x11/xaw/ui.c:483 src/arch/unix/x11/xaw/ui.c:500
+#: src/arch/unix/x11/gnome/ui.c:645 src/arch/unix/x11/gnome/ui.c:663
+#: src/arch/unix/x11/xaw/ui.c:479 src/arch/unix/x11/xaw/ui.c:496
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-läge."
 
-#: src/arch/unix/x11/gnome/ui.c:675 src/arch/unix/x11/xaw/ui.c:508
+#: src/arch/unix/x11/gnome/ui.c:671 src/arch/unix/x11/xaw/ui.c:504
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/ui.c:682
+#: src/arch/unix/x11/gnome/ui.c:678
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte ladda texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/ui.c:689
+#: src/arch/unix/x11/gnome/ui.c:685
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte ladda CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/ui.c:753
+#: src/arch/unix/x11/gnome/ui.c:749
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:774
+#: src/arch/unix/x11/gnome/ui.c:770
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:884
+#: src/arch/unix/x11/gnome/ui.c:880
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:957 src/arch/unix/x11/xaw/ui.c:593
+#: src/arch/unix/x11/gnome/ui.c:953 src/arch/unix/x11/xaw/ui.c:588
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/ui.c:1127 src/arch/unix/x11/gnome/ui.c:1210
+#: src/arch/unix/x11/gnome/ui.c:1123 src/arch/unix/x11/gnome/ui.c:1206
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/ui.c:1133
+#: src/arch/unix/x11/gnome/ui.c:1129
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1049
+#: src/arch/unix/x11/gnome/ui.c:1248 src/arch/unix/x11/xaw/ui.c:1044
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1254 src/arch/unix/x11/xaw/ui.c:1055
+#: src/arch/unix/x11/gnome/ui.c:1250 src/arch/unix/x11/xaw/ui.c:1050
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/ui.c:1264 src/arch/unix/x11/xaw/ui.c:1062
+#: src/arch/unix/x11/gnome/ui.c:1260 src/arch/unix/x11/xaw/ui.c:1057
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/ui.c:1311 src/arch/unix/x11/xaw/ui.c:1099
+#: src/arch/unix/x11/gnome/ui.c:1307 src/arch/unix/x11/xaw/ui.c:1094
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/ui.c:1331 src/arch/unix/x11/gnome/ui.c:1334
-#: src/arch/unix/x11/xaw/ui.c:1120 src/arch/unix/x11/xaw/ui.c:1126
+#: src/arch/unix/x11/gnome/ui.c:1327 src/arch/unix/x11/gnome/ui.c:1330
+#: src/arch/unix/x11/xaw/ui.c:1115 src/arch/unix/x11/xaw/ui.c:1121
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1625
+#: src/arch/unix/x11/gnome/ui.c:1621
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1662 src/arch/unix/x11/xaw/ui.c:1336
+#: src/arch/unix/x11/gnome/ui.c:1658 src/arch/unix/x11/xaw/ui.c:1331
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/x11/gnome/ui.c:1796
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/ui.c:1815
+#: src/arch/unix/x11/gnome/ui.c:1811
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/ui.c:1841
+#: src/arch/unix/x11/gnome/ui.c:1837
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1885 src/arch/unix/x11/xaw/ui.c:1576
+#: src/arch/unix/x11/gnome/ui.c:1881 src/arch/unix/x11/xaw/ui.c:1571
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/ui.c:1886
+#: src/arch/unix/x11/gnome/ui.c:1882
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/ui.c:1899
+#: src/arch/unix/x11/gnome/ui.c:1895
 msgid "Autostart not possible for unit 9"
 msgstr "Kan inte starta automatiskt från enhet 9"
 
-#: src/arch/unix/x11/gnome/ui.c:1907 src/arch/unix/x11/gnome/ui.c:1916
+#: src/arch/unix/x11/gnome/ui.c:1903 src/arch/unix/x11/gnome/ui.c:1912
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/ui.c:2044 src/arch/unix/x11/gnome/ui.c:2049
+#: src/arch/unix/x11/gnome/ui.c:2040 src/arch/unix/x11/gnome/ui.c:2045
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/ui.c:2507
+#: src/arch/unix/x11/gnome/ui.c:2503
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/ui.c:2554
+#: src/arch/unix/x11/gnome/ui.c:2550
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
-#: src/arch/unix/x11/gnome/ui.c:2580
+#: src/arch/unix/x11/gnome/ui.c:2576
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
@@ -2385,11 +2381,11 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "Skrev \"%s\"\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:155 src/arch/unix/x11/xaw/uicolor.c:131
+#: src/arch/unix/x11/gnome/uicolor.c:153 src/arch/unix/x11/xaw/uicolor.c:129
 msgid "XCreateImage failed."
 msgstr "XCreateImage misslyckades."
 
-#: src/arch/unix/x11/gnome/uicolor.c:164 src/arch/unix/x11/xaw/uicolor.c:141
+#: src/arch/unix/x11/gnome/uicolor.c:162 src/arch/unix/x11/xaw/uicolor.c:139
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Kan inte allokera färg \"#%04X%04X%04X\"."
@@ -2659,74 +2655,64 @@ msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
 msgid "Loading keymap `%s'."
 msgstr "Laddar tangentbordsinställning \"%s\"."
 
-#: src/arch/unix/x11/ui-cmdline-options.c:35
+#: src/arch/unix/x11/ui-cmdline-options.c:38
 msgid "Specify an HTML browser for the on-line help"
 msgstr "Ange en HTML-läsare för direkthjälpen"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:38
+#: src/arch/unix/x11/ui-cmdline-options.c:41
 msgid "Install a private colormap"
 msgstr "Installera en privat färgkarta"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:41
+#: src/arch/unix/x11/ui-cmdline-options.c:44
 msgid "Use the default colormap"
 msgstr "Använd standardfärgkartan"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:44
+#: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Save settings (resources) on exit"
 msgstr "Spara inställningar (resurser) vid avslut"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:47
+#: src/arch/unix/x11/ui-cmdline-options.c:50
 msgid "Never save settings (resources) on exit"
 msgstr "Spara aldrig inställningar (resurser) vid avslut"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51
+#: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Enable fullscreen"
 msgstr "Aktivera fullskärm"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54
+#: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Disable fullscreen"
 msgstr "Deaktivera fullskärm"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:58
+#: src/arch/unix/x11/ui-cmdline-options.c:61
 msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
-#: src/arch/unix/x11/video.c:126
+#: src/arch/unix/x11/video.c:134
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:129
+#: src/arch/unix/x11/video.c:137
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:132
+#: src/arch/unix/x11/video.c:140
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:283
-#, c-format
-msgid "Only %ibpp supported by this emulator."
-msgstr "Enbart %ibitar/pixel stöds av denna emulator."
+#: src/arch/unix/x11/video.c:143
+msgid "Use X Video Extension (hardware scaling)"
+msgstr ""
 
-#: src/arch/unix/x11/video.c:285
-#, c-format
-msgid "Current X server depth is %ibpp."
-msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
-
-#: src/arch/unix/x11/video.c:288
-msgid "Switch X server depth or recompile with --enable-autobpp."
-msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
-
-#: src/arch/unix/x11/video.c:340
+#: src/arch/unix/x11/video.c:343
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MTSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:344
+#: src/arch/unix/x11/video.c:347
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:395
+#: src/arch/unix/x11/video.c:408
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
@@ -2734,16 +2720,16 @@ msgstr "Kan inte släppa delat minne!"
 msgid "VICE Information"
 msgstr "VICE-information"
 
-#: src/arch/unix/x11/xaw/ui.c:1209
+#: src/arch/unix/x11/xaw/ui.c:1204
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1464
+#: src/arch/unix/x11/xaw/ui.c:1459
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/ui.c:1644
+#: src/arch/unix/x11/xaw/ui.c:1639
 msgid "Unknown image type."
 msgstr "Okänd avbildningsfiltyp."
 
@@ -2783,7 +2769,7 @@ msgstr "Spara insticksmodulfil"
 msgid "Automatically using a private colormap."
 msgstr "Använd automatiskt en privat färgkarta."
 
-#: src/arch/unix/x11/xaw/uicolor.c:162
+#: src/arch/unix/x11/xaw/uicolor.c:158
 msgid "XFreeColors failed."
 msgstr "XFreeColors misslyckades."
 
@@ -2845,48 +2831,65 @@ msgstr "Spara laddade ROMar:"
 msgid "Save snapshot"
 msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11video.c:95
+#: src/arch/unix/x11/xaw/x11video.c:99
+#, fuzzy
+msgid "Successfully initialized using X Video."
+msgstr "Grafiken har initierats."
+
+#: src/arch/unix/x11/xaw/x11video.c:114
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:108
+#: src/arch/unix/x11/xaw/x11video.c:127
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:119
+#: src/arch/unix/x11/xaw/x11video.c:138
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:134 src/arch/unix/x11/xaw/x11video.c:151
+#: src/arch/unix/x11/xaw/x11video.c:153 src/arch/unix/x11/xaw/x11video.c:170
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:158
+#: src/arch/unix/x11/xaw/x11video.c:177
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:179
+#: src/arch/unix/x11/xaw/x11video.c:198
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initierade%s delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:180
+#: src/arch/unix/x11/xaw/x11video.c:199
 msgid ", using"
 msgstr " med"
 
-#: src/arch/unix/x11/xaw/x11video.c:180
+#: src/arch/unix/x11/xaw/x11video.c:199
 msgid " without"
 msgstr " utan"
 
-#: src/arch/unix/x11/xaw/x11video.c:183
+#: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Performance will be poor."
 msgstr "Prestanda kommer att bli dålig."
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:205
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
+
+#~ msgid "Please recompile the program for a supported bit depth."
+#~ msgstr "Kompilera om programmet för ett understött färgdjup."
+
+#~ msgid "Only %ibpp supported by this emulator."
+#~ msgstr "Enbart %ibitar/pixel stöds av denna emulator."
+
+#~ msgid "Current X server depth is %ibpp."
+#~ msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
+
+#~ msgid "Switch X server depth or recompile with --enable-autobpp."
+#~ msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
 
 #~ msgid "*Model defaults"
 #~ msgstr "*Modellens förval"

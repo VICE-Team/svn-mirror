@@ -275,8 +275,7 @@ video-resources.o: video-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/fullscreen.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/palette.h
+	../../src/fullscreen.h
 
 info-am:
 info: info-am
