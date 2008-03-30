@@ -2,7 +2,7 @@
  * palette.h - Palette handling.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -42,17 +42,13 @@ typedef struct palette {
     palette_entry_t *entries;
 } palette_t;
 
-#ifdef __riscos
-#define PALETTE_FILE_EXTENSION "/vpl"
-#else
-#define PALETTE_FILE_EXTENSION  ".vpl"
-#endif
-
-palette_t *palette_create(int num_entries, const char *entry_names[]);
+extern palette_t *palette_create(int num_entries, const char *entry_names[]);
 extern void palette_free(palette_t *p);
-extern int palette_set_entry(palette_t *p, int number, BYTE red, BYTE green, BYTE blue, BYTE dither);
+extern int palette_set_entry(palette_t *p, int number, BYTE red, BYTE green,
+                             BYTE blue, BYTE dither);
 extern int palette_copy(palette_t *dest, const palette_t *src);
 extern int palette_load(const char *file_name, palette_t *palette_return);
 extern int palette_save(const char *file_name, const palette_t *palette);
 
 #endif /* _PALETTE_H */
+
