@@ -32,7 +32,6 @@
 #include <X11/StringDefs.h>
 
 #include "types.h"
-#include "xdebug.h"
 #include "palette.h"
 
 typedef Widget ui_window_t;
