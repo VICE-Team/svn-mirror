@@ -108,6 +108,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/drive \
 	-DPREFIX=\"@prefix@\" \
 	@JOYSTICK@
 
@@ -278,18 +279,18 @@ xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(drive_lib) \
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd)\
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
-xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
+	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x610
 x610_SOURCES = $(base_sources)
-x610_LDADD = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ \
-	$(READLINE)
-x610_DEPENDENCIES = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
-       @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x610_LDADD = $(drive_lib) $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+	@X_LIBS@ $(READLINE)
+x610_DEPENDENCIES = $(drive_lib) $(x610_lib) $(sounddrv_lib) \
+	$(rs232_printer_ldadd) $(sid_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # c1541
 c1541_SOURCES = \
@@ -590,7 +591,7 @@ c1541.o: c1541.c vice.h config.h c1541.h vdrive.h types.h fs_cbm.h \
 	serial.h traps.h mshell.h gcr.h file.h charsets.h tape.h \
 	utils.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
-cmdline.o: cmdline.c vice.h config.h utils.h types.h cmdline.h \
+cmdline.o: cmdline.c vice.h config.h types.h utils.h cmdline.h \
 	resources.h
 emuid.o: emuid.c vice.h config.h types.h
 findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
@@ -632,7 +633,9 @@ mon_parse.o: mon_parse.c vice.h config.h types.h asm.h utils.h mon.h \
 mshell.o: mshell.c vice.h config.h types.h mshell.h
 palette.o: palette.c vice.h config.h utils.h types.h palette.h sysfile.h
 parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
-	traps.h
+	traps.h drive/drive.h vdrive.h fs_cbm.h drive/drivecpu.h \
+	mos6510.h mon.h mem.h snapshot.h interrupt.h vmachine.h \
+	6510core.h
 petcat.o: petcat.c vice.h config.h charsets.h types.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
 	types.h fs_cbm.h serial.h traps.h file.h charsets.h utils.h \
@@ -645,7 +648,8 @@ rsuser.o: rsuser.c vice.h config.h types.h cmdline.h resources.h rs232.h \
 	rsuser.h interrupt.h vmachine.h 6510core.h mem.h snapshot.h
 serial.o: serial.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h mon.h mos6510.h interrupt.h vmachine.h serial.h \
-	traps.h parallel.h utils.h vdrive.h fs_cbm.h tape.h tapeunit.h
+	traps.h parallel.h utils.h vdrive.h fs_cbm.h drive/drive.h \
+	drive/drivecpu.h tape.h tapeunit.h
 snapshot.o: snapshot.c vice.h config.h snapshot.h types.h utils.h \
 	zfile.h
 sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
@@ -763,9 +767,9 @@ x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid x128
 .PHONY: xvic-all
 xvic-all: libvic20 libsounddrv libdrive libarch xvic
 .PHONY: xpet-all
-xpet-all: libpet libsounddrv libarch xpet
+xpet-all: libpet libsounddrv libarch libdrive xpet 
 .PHONY: x610-all
-x610-all: libc610 libsounddrv libarch libsid x610
+x610-all: libc610 libsounddrv libarch libsid libdrive x610
 
 # Special targets to build libraries in subdirectories.
 

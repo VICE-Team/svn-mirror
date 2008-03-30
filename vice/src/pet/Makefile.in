@@ -101,7 +101,8 @@ SUFFIXES = .def
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libpet.a
 
@@ -114,6 +115,7 @@ libpet_a_SOURCES = \
 	petacia.h \
 	petacia1.c \
 	petacia1.def \
+	petiec.c \
 	petmem.c \
 	petmem.h \
 	petpia.h \
@@ -145,8 +147,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libpet_a_LIBADD = 
-libpet_a_OBJECTS =  crtc.o pet.o petacia1.o petmem.o petpia1.o petpia2.o \
-pets.o petsound.o petvia.o
+libpet_a_OBJECTS =  crtc.o pet.o petacia1.o petiec.o petmem.o petpia1.o \
+petpia2.o pets.o petsound.o petvia.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -310,13 +312,20 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/mos6510.h petmem.h pets.h petsound.h \
 	../../src/arch/unix/xaw/petui.h petvia.h petacia.h petpia.h \
 	../../src/sound.h ../../src/warn.h ../../src/utils.h \
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/via.h ../../src/arch/unix/vsync.h ../../src/rs232.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
-petacia1.o: petacia1.c ../../src/resources.h ../../src/cmdline.h \
-	../../src/vice.h ../../src/config.h ../../src/types.h \
+petacia1.o: petacia1.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/cmdline.h ../../src/types.h \
 	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/rs232.h ../../src/acia.h
+petiec.o: petiec.c ../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/iecdrive.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/memutils.h ../../src/snapshot.h petpia.h pet.h \
 	petvia.h petacia.h crtc.h ../../src/arch/unix/video.h \
@@ -334,12 +343,17 @@ petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/parallel.h \
 	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/arch/unix/kbd.h pets.h petmem.h petpia.h
+	../../src/arch/unix/kbd.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h pets.h petmem.h petpia.h
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/parallel.h \
-	petpia.h
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h petpia.h
 pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
 	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
@@ -355,9 +369,12 @@ petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/types.h petvia.h crtc.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/arch/unix/kbd.h ../../src/parallel.h petsound.h \
-	../../src/pruser.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/mem.h
+	../../src/arch/unix/kbd.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/6510core.h petsound.h \
+	../../src/pruser.h
 
 info: info-recursive
 dvi: dvi-recursive

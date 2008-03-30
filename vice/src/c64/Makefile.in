@@ -359,8 +359,8 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/resources.h ../../src/arch/unix/vsync.h c64acia.h \
 	c64rsuser.h ../../src/rs232.h ../../src/rsuser.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
-c64acia1.o: c64acia1.c ../../src/resources.h ../../src/cmdline.h \
-	../../src/vice.h ../../src/config.h ../../src/types.h \
+c64acia1.o: c64acia1.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/cmdline.h ../../src/types.h \
 	../../src/vmachine.h ../../src/machine.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/rs232.h ../../src/acia.h
@@ -412,7 +412,9 @@ c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h \
 c64tpi.o: c64tpi.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/tpi.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
-	../../src/parallel.h
+	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
+	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
+	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h
 cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/file.h ../../src/mem.h \
 	../../src/types.h ../../src/snapshot.h ../../src/vmachine.h \

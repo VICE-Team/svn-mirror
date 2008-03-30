@@ -370,14 +370,16 @@ via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h drivecpu.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/iecdrive.h viad.h
+	../../src/6510core.h ../../src/iecdrive.h viad.h \
+	../../src/parallel.h
 via1drive1.o: via1drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/types.h drive.h \
 	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
 	../../src/traps.h drivecpu.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/iecdrive.h viad.h
+	../../src/6510core.h ../../src/iecdrive.h viad.h \
+	../../src/parallel.h
 via2drive0.o: via2drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/types.h drive.h \
