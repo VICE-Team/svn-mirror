@@ -29,6 +29,7 @@
 #include "c64.h"
 #include "machine.h"
 #include "resources.h"
+#include "vicii-sprites.h"
 #include "viciitypes.h"
 
 
@@ -112,6 +113,7 @@ void vicii_timing_set(machine_timing_t *machine_timing)
         vic_ii.offset = VIC_II_PAL_OFFSET;
         break;
     }
+
     vic_ii_sprites_init_sprline();
 }
 
