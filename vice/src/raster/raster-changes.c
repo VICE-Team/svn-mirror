@@ -51,13 +51,15 @@ void raster_changes_init(raster_t *raster)
 
 void raster_changes_shutdown(raster_t *raster)
 {
-    lib_free(raster->changes->background);
-    lib_free(raster->changes->foreground);
-    lib_free(raster->changes->border);
-    lib_free(raster->changes->sprites);
-    lib_free(raster->changes->next_line);
+    if (raster->changes) {
+        lib_free(raster->changes->background);
+        lib_free(raster->changes->foreground);
+        lib_free(raster->changes->border);
+        lib_free(raster->changes->sprites);
+        lib_free(raster->changes->next_line);
 
-    lib_free(raster->changes);
+        lib_free(raster->changes);
+    }
 }
 
 #if 0
