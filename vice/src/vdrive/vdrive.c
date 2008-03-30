@@ -37,6 +37,7 @@
 
 /* #define DEBUG_DRIVE */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -80,7 +81,6 @@ char const *slot_type[] = {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
 };
 
-static int compare_filename (char *name, char *pattern);
 static void vdrive_set_disk_geometry(vdrive_t *vdrive);
 
 /* ------------------------------------------------------------------------- */
@@ -498,59 +498,67 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
 
 /* ------------------------------------------------------------------------- */
 
-/* Wild-card match routine
- *
- * This routine takes two string parameters, the path to be macthed and
- * a pattern to match it with. There are two wild-cards - the ? and *.
- * A question mark will match exactly one character. An asterisk will
- * match any number (or zero) characters. Each '*' introduces one level
- * of recursion. A backslash forces the next character to be taken verbatim.
- * However, a null character cannot be protected.
- */
-
-static int compare_filename (char *name, char *pattern)
+vdrive_t *vdrive_internal_open_disk_image(const char *name)
 {
-    char *p, *q;
-    int literal = 0;
+    vdrive_t *vdrive;
+    disk_image_t *image;
 
-    p = pattern;
-    q = name;
+    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+    image->name = stralloc(name);
+    image->gcr = NULL;
 
-    while (*p && *q) {
+    if (disk_image_open(image) < 0) {
+        free(image->name);
+        log_error(LOG_ERR, "Cannot open file `%s'", name);
+        return NULL;
+    }
 
-	if (!literal) {
-	    if (*p == '?') {
-		++p;
-		++q;
-		continue;
-	    }
-	    if (*p == '*') {
-		while (*++p == '*');
-		if (!*p)
-		    return (1);		/* End of pattern -> matches */
+    vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
+    memset(vdrive, 0, sizeof(vdrive_t));
 
-		while (!compare_filename (q, p) && *++q);
-		return (*q);		/* if *q > 0 it must have matched */
-	    }
-	    if (*p == '\\') {
-		++p;
-		++literal;
-		continue;
-	    }
-	}  /* literal */
-	else {
-	    literal = 0;
-	}
+    vdrive_setup_device(vdrive, 100);
+    vdrive->image = image;
+    vdrive_attach_image(image, 100, vdrive);
+    return vdrive;
+}
 
-	if (*p == *q) {
-	    ++p;
-	    ++q;
-	}
-	else
-	    return (0);			/* No match */
+void vdrive_internal_close_disk_image(vdrive_t *vdrive)
+{
+    disk_image_t *image;
 
-    }  /* while */
+    image = vdrive->image;
 
-    return (!*p && !*q);		/* Match */
+    vdrive_detach_image(image, 100, vdrive);
+    disk_image_close(image);
+
+    free(image);
+    free(vdrive);
+}
+
+int vdrive_internal_format_disk_image(const char *filename,
+                                      const char *disk_name)
+{
+    vdrive_t *vdrive;
+    const char *format_name;
+
+    format_name = (disk_name == NULL) ? " " : disk_name;
+
+    vdrive = vdrive_internal_open_disk_image(filename);
+
+    if (vdrive == NULL)
+        return -1;
+
+    vdrive_command_format(vdrive, format_name);
+    vdrive_internal_close_disk_image(vdrive);
+
+    return 0;
+}
+
+int vdrive_internal_create_format_disk_image(const char *filename,
+                                             const char *diskname,
+                                             int type)
+{
+    disk_image_create(filename, type);
+    return vdrive_internal_format_disk_image(filename, diskname);
 }
 
