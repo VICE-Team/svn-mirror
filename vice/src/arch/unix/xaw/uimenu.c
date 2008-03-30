@@ -50,9 +50,6 @@ ui_menu_entry_t ui_menu_separator[] = {
     { NULL },
 };
 
-static Display *display;
-static int screen;
-
 /* Bitmaps for the menus: "tick" and right arrow (for submenus).  */
 static Pixmap checkmark_bitmap, right_arrow_bitmap;
 
@@ -79,6 +76,9 @@ static Widget top_menu;
 static Widget checkmark_menu_items[MAX_UPDATE_MENU_LIST_SIZE];
 static int num_checkmark_menu_items = 0;
 
+static Display *my_display;
+static int my_screen;
+
 /* ------------------------------------------------------------------------- */
 
 /* This makes sure the submenu is fully visible.  */
@@ -86,7 +86,8 @@ static void position_submenu(Widget w, Widget parent)
 {
     Position parent_x, parent_y, my_x, my_y;
     Dimension parent_width, my_width, my_height;
-    int root_width, root_height, foo;
+    int foo;
+    unsigned int root_width, root_height, ufoo;
     Window foowin;
 
     /* Make sure the widget is realized--otherwise, we get 0 as width and
@@ -100,11 +101,11 @@ static void position_submenu(Widget w, Widget parent)
 		      &parent_x, &parent_y);
     my_x = parent_x + parent_width - 2;
     my_y = parent_y + 1;
-    XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
-		 &foo, &root_width, &root_height, &foo, &foo);
-    if (my_x + my_width > root_width)
+    XGetGeometry(my_display, RootWindow(my_display, my_screen), &foowin, &foo,
+		 &foo, &root_width, &root_height, &ufoo, &ufoo);
+    if (my_x + my_width > (int) root_width)
 	my_x -= my_width + parent_width - 2;
-    if (my_y + my_height > root_height)
+    if (my_y + my_height > (int) root_height)
 	my_y = root_height - my_height;
     XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     XtPopup(w, XtGrabNonexclusive);
@@ -246,17 +247,17 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
 	{ "Unhighlight", menu_unhighlight_action }
     };
 
-    display = d;
-    screen = s;
+    my_display = d;
+    my_screen = s;
 
-    checkmark_bitmap = XCreateBitmapFromData(display,
-                                             DefaultRootWindow(display),
+    checkmark_bitmap = XCreateBitmapFromData(my_display,
+                                             DefaultRootWindow(my_display),
                                              checkmark_bits,
                                              checkmark_width,
                                              checkmark_height);
 
-    right_arrow_bitmap = XCreateBitmapFromData(display,
-                                               DefaultRootWindow(display),
+    right_arrow_bitmap = XCreateBitmapFromData(my_display,
+                                               DefaultRootWindow(my_display),
                                                right_arrow_bits,
                                                right_arrow_width,
                                                right_arrow_height);
