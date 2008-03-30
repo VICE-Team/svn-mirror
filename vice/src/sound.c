@@ -313,15 +313,15 @@ static void enablesound(void)
 /* open sound device */
 static int initsid(void)
 {
-    int					 i, tmp;
-    sound_device_t			*pdev;
-    char				*name;
-    char				*param;
-    int					 speed;
-    int					 fragsize;
-    int					 fragnr;
-    double				 bufsize;
-    char				 err[1024];
+    int i, tmp;
+    sound_device_t *pdev;
+    char *name;
+    char *param;
+    int speed;
+    int fragsize;
+    int fragnr;
+    double bufsize;
+    char err[1024];
 
     if (suspend_time > 0 && disabletime)
         return 1;
@@ -344,7 +344,7 @@ static int initsid(void)
     fragsize = speed / ((int)rfsh_per_sec);
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
-    fragnr = (speed*bufsize + fragsize - 1) / fragsize;
+    fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
     if (fragnr < 3)
         fragnr = 3;
 
@@ -380,7 +380,8 @@ static int initsid(void)
 	    sample_rate = speed;
 	    snddata.oversampleshift = oversampling_factor;
 	    snddata.oversamplenr = 1 << snddata.oversampleshift;
-	    snddata.psid = sound_machine_open(speed*snddata.oversamplenr,
+	    snddata.psid = sound_machine_open((int)
+                                              (speed * snddata.oversamplenr),
 					      cycles_per_sec);
 	    if (!snddata.psid)
 		return closesound("Audio: Cannot initialize sound module");
@@ -407,7 +408,7 @@ static int initsid(void)
 /* run sid */
 static int sound_run_sound(void)
 {
-    int				nr, i;
+    int	nr, i;
     /* XXX: implement the exact ... */
     if (!playback_enabled)
 	return 1;
@@ -424,7 +425,7 @@ static int sound_run_sound(void)
     SoundMachineReady = 1;
     if (LinToLog != NULL) return 0;
 #endif
-    nr = (clk - snddata.fclk) / snddata.clkstep;
+    nr = (int)((clk - snddata.fclk) / snddata.clkstep);
     if (!nr)
 	return 0;
     if (snddata.bufptr + nr > BUFSIZE)
@@ -507,7 +508,7 @@ int sound_flush(int relative_speed)
 	newnr = nr >> snddata.oversampleshift;
 	for (k = i = 0; i < newnr; i++)
 	{
-	    for (v = j = 0; j < snddata.oversamplenr; j++)
+	    for (v = j = 0; j < (int)(snddata.oversamplenr); j++)
 		v += snddata.buffer[k++];
 	    snddata.buffer[i] = v >> snddata.oversampleshift;
 	}
@@ -559,8 +560,8 @@ int sound_flush(int relative_speed)
 	    {
 	        p = (short*)alloca(j);
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
-		for (i = 0; i < j / sizeof(*p); i++)
-		    p[i] = (float)v*i/(j / sizeof(*p));
+		for (i = 0; i < j / (int)sizeof(*p); i++)
+		    p[i] = (float)v*i/(j / (int)sizeof(*p));
 		i = snddata.pdev->write(snddata.pwarndev, p,
 					j / sizeof(*p));
 		if (i)
@@ -654,7 +655,7 @@ void sound_suspend(void)
 		return;
 	    v = snddata.lastsample;
 	    for (i = 0; i < snddata.fragsize; i++)
-		p[i] = v - (float)v*i/snddata.fragsize;
+		p[i] = v - (float)v * i / (int)snddata.fragsize;
 	    i = snddata.pdev->write(snddata.pwarndev, p, snddata.fragsize);
 	    free(p);
 	    if (i)
