@@ -60,8 +60,6 @@
 /*                             Disk Peripherals (8-11)                        */
 /* -------------------------------------------------------------------------- */
 
-static int have_printer_userport = -1;
-
 static void enable_controls_for_disk_device_type(HWND hwnd, int type)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_DISKIMAGE),
@@ -102,8 +100,6 @@ static void enable_controls(HWND hwnd)
 #ifdef HAVE_OPENCBM
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL),  FALSE);
 #endif
-        CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, IDC_SELECTNONE);
-        enable_controls_for_disk_device_type(hwnd, IDC_SELECTNONE);
     } else {
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK),  TRUE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR),   TRUE);
@@ -243,6 +239,71 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     return 1;
 }
 
+static void browse_diskimage(HWND hwnd)
+{
+    TCHAR *st_name;
+
+    st_name = uilib_select_file(hwnd, TEXT("Attach disk image"),
+                                UILIB_FILTER_ALL | UILIB_FILTER_DISK
+                                | UILIB_FILTER_ZIP,
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                UILIB_SELECTOR_STYLE_DISK);
+
+    if (st_name != NULL) {
+        SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
+        lib_free(st_name);
+    }
+}
+
+static void autostart_diskimage(HWND hwnd)
+{
+    TCHAR *st_name;
+
+    st_name = uilib_select_file(hwnd, TEXT("Autostart disk image"),
+                                UILIB_FILTER_ALL | UILIB_FILTER_DISK
+                                | UILIB_FILTER_ZIP,
+                                UILIB_SELECTOR_TYPE_FILE_LOAD,
+                                UILIB_SELECTOR_STYLE_DISK);
+
+    if (st_name != NULL) {
+        char *name;
+
+        SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
+        name = system_wcstombs_alloc(st_name);
+        if (autostart_autodetect(name, "*", 0, AUTOSTART_MODE_RUN) < 0)
+            ui_error("Cannot autostart specified file.");
+        system_wcstombs_free(name);
+        lib_free(st_name);
+    }
+}
+
+static void browse_dir(HWND hwnd)
+{
+    BROWSEINFO bi;
+    TCHAR st[MAX_PATH];
+    LPITEMIDLIST idlist;
+
+    bi.hwndOwner = hwnd;
+    bi.pidlRoot = NULL;
+    bi.pszDisplayName = st;
+    bi.lpszTitle = TEXT("Select file system directory");
+    bi.ulFlags = 0;
+    bi.lpfn = NULL;
+    bi.lParam = 0;
+    bi.iImage = 0;
+    if ((idlist = SHBrowseForFolder(&bi)) != NULL) {
+        SHGetPathFromIDList(idlist, st);
+        LocalFree(idlist);
+        /*
+        If a root directory is selected, \ is appended
+        and has to be deleted.
+        */
+        if (st[_tcslen(st) - 1] == '\\')
+            st[_tcslen(st) - 1] = '\0';
+        SetDlgItemText(hwnd, IDC_DIR, st);
+    }
+}
+
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                                  WPARAM wparam, LPARAM lparam)
 {
@@ -277,66 +338,13 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             enable_controls(hwnd);
             break;
           case IDC_BROWSEDISK:
-            {
-                TCHAR *st_name;
-
-                st_name = uilib_select_file(hwnd, TEXT("Attach disk image"),
-                    UILIB_FILTER_ALL | UILIB_FILTER_DISK | UILIB_FILTER_ZIP,
-                    UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK);
-
-                if (st_name != NULL) {
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
-                    lib_free(st_name);
-                }
-            }
+            browse_diskimage(hwnd);
             break;
           case IDC_AUTOSTART:
-            {
-                TCHAR *st_name;
-
-                st_name = uilib_select_file(hwnd, TEXT("Autostart disk image"),
-                    UILIB_FILTER_ALL | UILIB_FILTER_DISK | UILIB_FILTER_ZIP,
-                    UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DISK);
-
-                if (st_name != NULL) {
-                    char *name;
-
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st_name);
-                    name = system_wcstombs_alloc(st_name);
-                    if (autostart_autodetect(name, "*", 0, AUTOSTART_MODE_RUN)
-                        < 0)
-                        ui_error("Cannot autostart specified file.");
-                    system_wcstombs_free(name);
-                    lib_free(st_name);
-                }
-            }
+            autostart_diskimage(hwnd);
             break;
           case IDC_BROWSEDIR:
-            {
-                BROWSEINFO bi;
-                TCHAR st[MAX_PATH];
-                LPITEMIDLIST idlist;
-
-                bi.hwndOwner = hwnd;
-                bi.pidlRoot = NULL;
-                bi.pszDisplayName = st;
-                bi.lpszTitle = TEXT("Select file system directory");
-                bi.ulFlags = 0;
-                bi.lpfn = NULL;
-                bi.lParam = 0;
-                bi.iImage = 0;
-                if ((idlist = SHBrowseForFolder(&bi)) != NULL) {
-                    SHGetPathFromIDList(idlist, st);
-                    LocalFree(idlist);
-                    /*
-                    If a root directory is selected, \ is appended
-                    and has to be deleted.
-                    */
-                    if (st[_tcslen(st) - 1] == '\\')
-                        st[_tcslen(st) - 1] = '\0';
-                    SetDlgItemText(hwnd, IDC_DIR, st);
-                }
-            }
+            browse_dir(hwnd);
             break;
         }
         return TRUE;
@@ -359,6 +367,8 @@ _CALLBACK(11)
 /* -------------------------------------------------------------------------- */
 /*                           Printers (Userport, 4-5)                         */
 /* -------------------------------------------------------------------------- */
+
+static int have_printer_userport = -1;
 
 static char *printertextdevice[3] = { NULL, NULL, NULL };
 
@@ -553,6 +563,34 @@ static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
     return 1;
 }
 
+static void printer_set_active(HWND hwnd)
+{
+    TCHAR *st;
+
+    st = system_mbstowcs_alloc(printertextdevice[0]);
+    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, st);
+    system_mbstowcs_free(st);
+    st = system_mbstowcs_alloc(printertextdevice[1]);
+    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, st);
+    system_mbstowcs_free(st);
+    st = system_mbstowcs_alloc(printertextdevice[2]);
+    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, st);
+    system_mbstowcs_free(st);
+
+}
+
+static void printer_kill_active(HWND hwnd)
+{
+    TCHAR st[MAX_PATH];
+
+    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, st, MAX_PATH);
+    system_wcstombs(printertextdevice[0], st, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, st, MAX_PATH);
+    system_wcstombs(printertextdevice[1], st, MAX_PATH);
+    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, st, MAX_PATH);
+    system_wcstombs(printertextdevice[2], st, MAX_PATH);
+}
+
 static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg, 
                                          WPARAM wparam, LPARAM lparam)
 {
@@ -567,7 +605,7 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             enable_printer_controls(num, hwnd);
             break;
           case IDC_PRINTER_FORMFEED:
-            switch(num) {
+            switch (num) {
               case 4:
                 printer_formfeed(0);
                 break;
@@ -591,38 +629,12 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                               store_printer_dialog_results(hwnd, num)
                               ? PSNRET_NOERROR : PSNRET_INVALID);
                 return TRUE;
-
               case PSN_SETACTIVE:
-                {
-                    TCHAR *st;
-
-                    st = system_mbstowcs_alloc(printertextdevice[0]);
-                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, st);
-                    system_mbstowcs_free(st);
-                    st = system_mbstowcs_alloc(printertextdevice[1]);
-                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, st);
-                    system_mbstowcs_free(st);
-                    st = system_mbstowcs_alloc(printertextdevice[2]);
-                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, st);
-                    system_mbstowcs_free(st);
-                    return TRUE;
-                }
-              
+                printer_set_active(hwnd);
+                return TRUE;
               case PSN_KILLACTIVE:
-                {
-                    TCHAR st[MAX_PATH];
-
-                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME,
-                                   st, MAX_PATH);
-                    system_wcstombs(printertextdevice[0], st, MAX_PATH);
-                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME,
-                                   st, MAX_PATH);
-                    system_wcstombs(printertextdevice[1], st, MAX_PATH);
-                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME,
-                                   st, MAX_PATH);
-                    system_wcstombs(printertextdevice[2], st, MAX_PATH);
-                    return TRUE;
-                }
+                printer_kill_active(hwnd);
+                return TRUE;
             }
             break;
         }

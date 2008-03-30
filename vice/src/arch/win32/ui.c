@@ -182,17 +182,14 @@ static const ui_res_value_list_t value_list[] = {
 
 /* ------------------------------------------------------------------------ */
 #ifdef DEBUG
-#define NUM_OF_DEBUG_HOTKEYS 3
 #define UI_DEBUG_HOTKEYS                                                \
     { FVIRTKEY | FALT | FNOINVERT, VK_F10, IDM_TOGGLE_MAINCPU_TRACE },     \
     { FVIRTKEY | FALT | FNOINVERT, VK_F11, IDM_TOGGLE_DRIVE0CPU_TRACE },   \
     { FVIRTKEY | FALT | FNOINVERT, VK_F12, IDM_TOGGLE_DRIVE1CPU_TRACE },
 #else
-#define NUM_OF_DEBUG_HOTKEYS 0
 #define UI_DEBUG_HOTKEYS
 #endif /* DEBUG*/
 
-#define NUM_OF_COMMON_HOTKEYS 26
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
@@ -230,22 +227,27 @@ static ACCEL c64_accel[] = {
 
 static ACCEL c128_accel[] = {
     { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
 static ACCEL cbm2_accel[] = {
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
 static ACCEL vic_accel[] = {
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
 static ACCEL pet_accel[] = {
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
 static ACCEL plus4_accel[] = {
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
@@ -267,39 +269,39 @@ int ui_init(int *argc, char **argv)
       case VICE_MACHINE_C64:
         menu = IDR_MENUC64;
         ui_accelerator = CreateAcceleratorTable(c64_accel, 
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS + 2);
+            sizeof(c64_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_C128:
         menu = IDR_MENUC128;
         ui_accelerator = CreateAcceleratorTable(c128_accel, 
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS + 1);
+            sizeof(c128_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_VIC20:
         menu = IDR_MENUVIC;
         ui_accelerator = CreateAcceleratorTable(vic_accel,
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
+            sizeof(vic_accel)/ sizeof(ACCEL));
         break;
       case VICE_MACHINE_PET:
         menu = IDR_MENUPET;
         ui_accelerator = CreateAcceleratorTable(pet_accel,
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
+            sizeof(pet_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_PLUS4:
         menu = IDR_MENUPLUS4;
         ui_accelerator = CreateAcceleratorTable(plus4_accel,
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
+            sizeof(plus4_accel) / sizeof(ACCEL));
         break;
       case VICE_MACHINE_CBM2:
         menu = IDR_MENUCBM2;
         ui_accelerator = CreateAcceleratorTable(cbm2_accel,
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
+            sizeof(cbm2_accel) / sizeof(ACCEL));
         break;
       default:
         log_debug("UI: No menu entries for this machine defined!");
         log_debug("UI: Using C64 type UI menues.");
         menu = IDR_MENUC64;
         ui_accelerator = CreateAcceleratorTable(c64_accel,
-            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
+            sizeof(c64_accel) / sizeof(ACCEL));
     }
 
     /* Register the window class.  */
@@ -1426,9 +1428,10 @@ static long CALLBACK window_proc(HWND window, UINT msg,
 
                 hdc = BeginPaint(window, &ps);
 
-                canvas_update(window, hdc, ps.rcPaint.left, ps.rcPaint.top,
-                              ps.rcPaint.right - ps.rcPaint.left,
-                              ps.rcPaint.bottom - ps.rcPaint.top);
+                video_canvas_update(window, hdc,
+                                    ps.rcPaint.left, ps.rcPaint.top,
+                                    ps.rcPaint.right - ps.rcPaint.left,
+                                    ps.rcPaint.bottom - ps.rcPaint.top);
 
                 EndPaint(window, &ps);
                 return 0;
