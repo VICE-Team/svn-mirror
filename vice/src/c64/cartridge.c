@@ -179,6 +179,7 @@ int cartridge_attach_image(int type, const char *filename)
 	    fclose(fd);
 	    break;
 	  case 2:
+	  case 4:
 	    for (i = 0; i <= 1; i++) {
 		if (fread(chipheader, 0x10, 1, fd) < 1) {
 		    fclose(fd);

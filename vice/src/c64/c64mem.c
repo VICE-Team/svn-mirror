@@ -508,8 +508,10 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
     if ((addr & 0xff00) == 0xde00) {
 	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
 	    cartridge_config_changed(value);
-    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-        cartridge_config_changed(1);
+	if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+	    cartridge_config_changed(1);
+	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
+	    cartridge_config_changed(1);
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -521,12 +523,14 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 BYTE REGPARM1 read_io1(ADDRESS addr)
 {
     if ((addr & 0xff00) == 0xde00) {
-        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-            return rand();
-    }
-    if (mem_cartridge_type == CARTRIDGE_KCS_POWER) {
-	cartridge_config_changed(0);
-	return roml_banks[0x1e00 + (addr & 0xff)];
+	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
+	    return rand();
+	if (mem_cartridge_type == CARTRIDGE_KCS_POWER) {
+	    cartridge_config_changed(0);
+	    return roml_banks[0x1e00 + (addr & 0xff)];
+	}
+	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
+	    cartridge_config_changed(0);
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -858,8 +862,12 @@ void initialize_memory(void)
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_GENERIC_8KB:
-        cartridge_config_changed(0);
-        break;
+	cartridge_config_changed(0);
+	break;
+      case CARTRIDGE_SIMONS_BASIC:
+      case CARTRIDGE_GENERIC_16KB:
+	cartridge_config_changed(1);
+	break;
     }
 }
 
@@ -959,26 +967,27 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
     mem_cartridge_type = type;
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
-        memcpy(roml_banks, rawcart, 0x2000);
-        cartridge_config_changed(0);
-        break;
+	memcpy(roml_banks, rawcart, 0x2000);
+	cartridge_config_changed(0);
+	break;
+      case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(1);
-        break;
+	memcpy(roml_banks, rawcart, 0x2000);
+	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+	cartridge_config_changed(1);
+	break;
       case CARTRIDGE_ACTION_REPLAY:
-        memcpy(roml_banks, rawcart, 0x8000);
-        memcpy(romh_banks, rawcart, 0x8000);
-        cartridge_config_changed(0);
-        break;
+	memcpy(roml_banks, rawcart, 0x8000);
+	memcpy(romh_banks, rawcart, 0x8000);
+	cartridge_config_changed(0);
+	break;
       case CARTRIDGE_KCS_POWER:
-        memcpy(roml_banks, rawcart, 0x2000);
-        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-        cartridge_config_changed(0);
-        break;
+	memcpy(roml_banks, rawcart, 0x2000);
+	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+	cartridge_config_changed(0);
+	break;
       default:
-        mem_cartridge_type = CARTRIDGE_NONE;
+	mem_cartridge_type = CARTRIDGE_NONE;
     }
     return;
 }
