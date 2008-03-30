@@ -33,60 +33,58 @@
 
 int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf)
 {
-  unsigned char trk, sec, len, rep, repnum, chra;
-  int i, j, count, t1, t2;
+    unsigned char trk, sec, len, rep, repnum, chra;
+    int i, j, count, t1, t2;
 
-  t1 = fread(&trk, 1, 1, zip_fd);
-  t2 = fread(&sec, 1, 1, zip_fd);
+    t1 = fread(&trk, 1, 1, zip_fd);
+    t2 = fread(&sec, 1, 1, zip_fd);
 
-  *sector = sec;
+    *sector = sec;
 
-  if ((trk & 0x3f) != track || !t1 || !t2) {
-    return 1;
-  }
-
-  if (trk & 0x80) {
-    t1 = fread(&len, 1, 1, zip_fd);
-    t2 = fread(&rep, 1, 1, zip_fd);
-    if (!t1 || !t2) {
-       return 1;
+    if ((trk & 0x3f) != track || !t1 || !t2) {
+        return 1;
     }
 
-    count = 0;
-
-    for (i = 0; i < len; i++) {
-      if ( (t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
-         return 1;
-      }
-
-      if (chra != rep)
-	buf[count++] = chra;
-      else {
-        t1 = fread(&repnum, 1, 1, zip_fd);
-        t2 = fread(&chra, 1, 1, zip_fd);
+    if (trk & 0x80) {
+        t1 = fread(&len, 1, 1, zip_fd);
+        t2 = fread(&rep, 1, 1, zip_fd);
         if (!t1 || !t2) {
            return 1;
         }
-	i += 2;
-	for (j = 0; j < repnum; j++)
-	  buf[count++] = chra;
-      }
+
+        count = 0;
+
+        for (i = 0; i < len; i++) {
+            if ((t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
+                return 1;
+            }
+
+            if (chra != rep)
+                buf[count++] = chra;
+            else {
+                t1 = fread(&repnum, 1, 1, zip_fd);
+                t2 = fread(&chra, 1, 1, zip_fd);
+                if (!t1 || !t2) {
+                    return 1;
+                }
+                i += 2;
+                for (j = 0; j < repnum; j++)
+                  buf[count++] = chra;
+            }
+        }
+    } else if (trk & 0x40) {
+        if ( (t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
+            return 1;
+        }
+
+        for (i = 0; i < 256; i++)
+            buf[i] = chra;
     }
-  }
 
-  else if (trk & 0x40) {
-    if ( (t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
-       return 1;
+    else if (fread(buf, 256, 1, zip_fd) < 1) {
+        return 1;
     }
 
-    for (i = 0; i < 256; i++)
-      buf[i] = chra;
-  }
-
-  else if (fread(buf, 256, 1, zip_fd) < 1) {
-    return 1;
-  }
-
-  return 0;
+    return 0;
 }
 

@@ -102,10 +102,10 @@ const char *archdep_home_path(void)
 
         pwd = getpwuid(getuid());
         if ((pwd == NULL)
-	    || ((home = pwd->pw_dir) == NULL)) {
-	    /* give up */
-	    home = ".";
-	}
+            || ((home = pwd->pw_dir) == NULL)) {
+            /* give up */
+            home = ".";
+        }
     }
 
     return home;
@@ -123,7 +123,7 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
         home_path = archdep_home_path();
 
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
-	   and then in the `boot_path'.  */
+           and then in the `boot_path'.  */
         default_path = concat(LIBDIR, "/", emu_id,
                               FINDPATH_SEPARATOR_STRING,
                               home_path, "/", VICEUSERDIR, "/", emu_id,
@@ -182,7 +182,7 @@ const char *archdep_default_save_resource_file_name(void)
     viceuserdir = concat(home, "/.vice", NULL);
 
     if (access(viceuserdir, F_OK)) {
-	mkdir(viceuserdir, 0700);
+        mkdir(viceuserdir, 0700);
     }
 
     fname = concat(viceuserdir, "/vicerc", NULL);
@@ -223,7 +223,7 @@ int archdep_default_logger(const char *level_string, const char *txt) {
     if (fputs(level_string, stdout) == EOF
         || fprintf(stdout, txt) < 0
         || fputc ('\n', stdout) == EOF)
-    	return -1;
+        return -1;
     return 0;
 }
 
@@ -355,3 +355,4 @@ int archdep_file_set_gzip(const char *name)
 {
   return 0;
 }
+

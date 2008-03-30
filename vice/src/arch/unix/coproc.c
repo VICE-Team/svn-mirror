@@ -61,7 +61,7 @@
 
 #include "log.h"
 
-#define	SHELL	"/bin/sh"
+#define SHELL   "/bin/sh"
 
 /* HP-UX 9 fix */
 #ifndef SA_RESTART
@@ -83,45 +83,45 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     sigaction(SIGPIPE, &ignore, NULL);
 
     if (pipe(fd1) < 0) {
-	log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
-	return -1;
+        log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
+        return -1;
     }
     if (pipe(fd2) < 0) {
-	log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
-	close(fd1[0]);
-	close(fd1[1]);
-	return -1;
+        log_error(LOG_DEFAULT, "Coproc: Couldn't open pipe!");
+        close(fd1[0]);
+        close(fd1[1]);
+        return -1;
     }
     if ((pid = fork()) < 0) {
-	log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
-	close(fd1[0]);
-	close(fd1[1]);
-	close(fd2[0]);
-	close(fd2[1]);
-	return -1;
-    } else if (pid == 0) {	/* child */
-	close(fd1[0]);
-	if (fd1[1] != STDOUT_FILENO) {
-	    dup2(fd1[1], STDOUT_FILENO);
-	    close(fd1[1]);
-	}
-	close(fd2[1]);
-	if (fd2[0] != STDIN_FILENO) {
-	    dup2(fd2[0], STDIN_FILENO);
-	    close(fd2[0]);
-	}
-	/* Hm, we have to close all other files that are currently
+        log_error(LOG_DEFAULT, "Coproc: Couldn't fork()!");
+        close(fd1[0]);
+        close(fd1[1]);
+        close(fd2[0]);
+        close(fd2[1]);
+        return -1;
+    } else if (pid == 0) {      /* child */
+        close(fd1[0]);
+        if (fd1[1] != STDOUT_FILENO) {
+            dup2(fd1[1], STDOUT_FILENO);
+            close(fd1[1]);
+        }
+        close(fd2[1]);
+        if (fd2[0] != STDIN_FILENO) {
+            dup2(fd2[0], STDIN_FILENO);
+            close(fd2[0]);
+        }
+        /* Hm, we have to close all other files that are currently
            open now...  */
-	execl(SHELL, "sh", "-c", cmd, NULL);
+        execl(SHELL, "sh", "-c", cmd, NULL);
 
-	exit(127);		/* child dies on error */
+        exit(127);              /* child dies on error */
+    } else {                    /* parent */
+        close(fd1[1]);
+        close(fd2[0]);
 
-    } else {			/* parent */
-	close(fd1[1]);
-	close(fd2[0]);
-
-	*fd_rd = fd1[0];
-	*fd_wr = fd2[1];
+        *fd_rd = fd1[0];
+        *fd_wr = fd2[1];
     }
     return 0;
 }
+

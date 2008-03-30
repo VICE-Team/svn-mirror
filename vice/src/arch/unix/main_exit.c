@@ -54,7 +54,7 @@ void main_exit(void)
 
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_mode_exit();
-#endif	
+#endif
 
     putchar ('\n');
 }
