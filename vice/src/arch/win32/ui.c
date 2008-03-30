@@ -195,6 +195,7 @@ struct {
     int save_resources_on_exit;
     int confirm_on_exit;
     int single_cpu;
+    int vblank_sync;
     int window_xpos[2];
     int window_ypos[2];
     char *monitor_dimensions;
@@ -302,6 +303,13 @@ static int set_window_ypos(resource_value_t v, void *param)
     ui_resources.window_ypos[(int) param] = (int) v;
     return 0;
 }
+
+static int set_vblank_sync(resource_value_t v, void *param)
+{
+    ui_resources.vblank_sync = (int) v;
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "FullscreenDevice", RES_INTEGER, (resource_value_t)0,
       (void *)&ui_resources.fullscreendevice, set_fullscreen_device, NULL },
@@ -345,6 +353,8 @@ static const resource_t resources[] = {
       (void *)&ui_resources.window_xpos[1], set_window_xpos, (void *)1 },
     { "Window1Ypos", RES_INTEGER, (resource_value_t)CW_USEDEFAULT,
       (void *)&ui_resources.window_ypos[1], set_window_ypos, (void *)1 },
+    { "VBLANKSync", RES_INTEGER, (resource_value_t)1,
+      (void *)&ui_resources.vblank_sync, set_vblank_sync, NULL },
     { NULL }
 };
 
@@ -355,6 +365,11 @@ int ui_resources_init(void)
 
 void ui_resources_shutdown(void)
 {
+}
+
+int ui_vblank_sync_enabled()
+{
+    return ui_resources.vblank_sync;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -403,8 +418,8 @@ int ui_cmdline_options_init(void)
 
 #define NUM_OF_COMMON_HOTKEYS 22
 #define UI_COMMON_HOTKEYS                                               \
-    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_HARD_RESET},     \
-    { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_SOFT_RESET },               \
+    { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_RESET_HARD },    \
+    { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_RESET_SOFT },               \
     { FVIRTKEY | FALT | FNOINVERT, '8', IDM_ATTACH_8 },                 \
     { FVIRTKEY | FALT | FNOINVERT, '9', IDM_ATTACH_9 },                 \
     { FVIRTKEY | FALT | FNOINVERT, '0', IDM_ATTACH_10 },                \
@@ -1295,7 +1310,7 @@ static void reset_dialog_proc(WPARAM wparam)
     vsync_suspend_speed_eval();
 /*
     if (ui_messagebox("Do you really want to reset the emulated machine?",
-                      ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
+                      ((wparam & 0xffff) == IDM_RESET_HARD ? "Hard reset"
                       : "Soft reset"),
                       MB_YESNO | MB_ICONQUESTION) == IDYES)
 */
@@ -1310,7 +1325,7 @@ static void reset_dialog_proc(WPARAM wparam)
         } else {
             keyboard_clear_keymatrix();
         }
-        if ((wparam & 0xffff) == IDM_HARD_RESET) {
+        if ((wparam & 0xffff) == IDM_RESET_HARD) {
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         } else {
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
@@ -1526,11 +1541,19 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             monitor_startup();
 */
         break;
-      case IDM_HARD_RESET + 0x00010000:
-      case IDM_SOFT_RESET + 0x00010000:
-      case IDM_HARD_RESET:
-      case IDM_SOFT_RESET:
+      case IDM_RESET_HARD + 0x00010000:
+      case IDM_RESET_SOFT + 0x00010000:
+      case IDM_RESET_HARD:
+      case IDM_RESET_SOFT:
         reset_dialog_proc(wparam);
+        break;
+      case IDM_RESET_DRIVE8:
+        vsync_suspend_speed_eval();
+        drive0_trigger_reset();
+        break;
+      case IDM_RESET_DRIVE9:
+        vsync_suspend_speed_eval();
+        drive1_trigger_reset();
         break;
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);
