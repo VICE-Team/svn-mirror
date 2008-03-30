@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <gnome.h>
 
+#include "gfxoutput.h"
 #include "screenshot.h"
 #include "ui.h"
 #include "utils.h"
@@ -46,7 +47,7 @@ static GtkWidget *build_screenshot_dialog(void)
 {
     GtkWidget *d, *box, *tmp, *frame, *hbox;
     int i, num_buttons;
-    screendrv_t *driver;
+    gfxoutputdrv_t *driver;
     
     d = gnome_dialog_new(_("Save Screenshot"), 
 			 GNOME_STOCK_BUTTON_OK, 
@@ -75,11 +76,11 @@ static GtkWidget *build_screenshot_dialog(void)
     frame = gtk_frame_new(_("Image Format"));
     hbox = gtk_hbox_new(0, FALSE);
     
-    num_buttons = screenshot_num_drivers();
+    num_buttons = gfxoutput_num_drivers();
     if (! buttons)
 	buttons = xmalloc(sizeof (img_type_buttons) * num_buttons);
     
-    driver = screenshot_drivers_iter_init();
+    driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < num_buttons; i++)
     {
 	if (i == 0)
@@ -97,7 +98,7 @@ static GtkWidget *build_screenshot_dialog(void)
 	gtk_box_pack_start(GTK_BOX(hbox), buttons[i].w, FALSE, FALSE, 0);
 	gtk_widget_show(buttons[i].w);
 	buttons[i].driver = driver->name;
-	driver = screenshot_drivers_iter_next();
+	driver = gfxoutput_drivers_iter_next();
     }
 
     gtk_container_add(GTK_CONTAINER(frame), hbox);
@@ -146,7 +147,7 @@ int ui_screenshot_dialog(char *name, int wid)
     }
 
     driver = NULL;
-    num_buttons = screenshot_num_drivers();
+    num_buttons = gfxoutput_num_drivers();
     for (i = 0; i < num_buttons; i++)
 	if (GTK_TOGGLE_BUTTON(buttons[i].w)->active)
 	{

@@ -31,6 +31,7 @@
 #include <windows.h>
 
 #include "drive.h"
+#include "gfxoutput.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -78,11 +79,11 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
             int i;
             scrndrv_combo = GetDlgItem(hwnd,IDC_SCREENSHOT_DRIVER);
             if (scrndrv_combo) {
-                screendrv_t *driver = screenshot_drivers_iter_init();
-                for (i = 0; i < screenshot_num_drivers(); i++) {
+                gfxoutputdrv_t *driver = gfxoutput_drivers_iter_init();
+                for (i = 0; i < gfxoutput_num_drivers(); i++) {
                     SendMessage(scrndrv_combo,CB_ADDSTRING, 0,
                                 (LPARAM)driver->name);
-                           	driver = screenshot_drivers_iter_next();
+                           	driver = gfxoutput_drivers_iter_next();
                 }
                 SendMessage(scrndrv_combo,CB_SETCURSEL,(WPARAM)0, 0);
             }
@@ -190,8 +191,8 @@ void ui_screenshot_save_dialog(HWND hwnd)
         "Picture files (*.bmp;*.png)\0*.bmp;*.png\0", hwnd,
         IDD_SCREENSHOT_SAVE_DIALOG);
     if (s != NULL) {
-        screendrv_t *selected_driver;
-        selected_driver = screenshot_get_driver(screendrivername);
+        gfxoutputdrv_t *selected_driver;
+        selected_driver = gfxoutput_get_driver(screendrivername);
         if (!selected_driver) {
             ui_error("No driver selected or selected driver not supported");
             return;

@@ -49,6 +49,7 @@
 #include "widgets/TextField.h"
 #endif
 
+#include "gfxoutput.h"
 #include "screenshot.h"
 #include "uimenu.h"
 #include "utils.h"
@@ -102,20 +103,20 @@ static UI_CALLBACK(save_callback)
     int i, wid, num_buttons;
     String name;
     Boolean driver_flag;
-    screendrv_t *driver;
+    gfxoutputdrv_t *driver;
     
     ui_popdown(screenshot_dialog);
     wid = (int) UI_MENU_CB_PARAM;
 
-    num_buttons = screenshot_num_drivers();
-    driver = screenshot_drivers_iter_init();
+    num_buttons = gfxoutput_num_drivers();
+    driver = gfxoutput_drivers_iter_init();
     
     for (i = 0; i < num_buttons; i++) {
         XtVaGetValues(driver_buttons[i], XtNstate, &driver_flag, NULL);
         if (driver_flag)
            break;
 
-        driver = screenshot_drivers_iter_next();
+        driver = gfxoutput_drivers_iter_next();
     }
     
     if (!driver)
@@ -128,7 +129,7 @@ static UI_CALLBACK(save_callback)
 static void build_screenshot_dialog(int wid)
 {
     int i, num_buttons;
-    screendrv_t *driver;
+    gfxoutputdrv_t *driver;
 #ifndef ENABLE_TEXTFIELD
     static char *text_box_translations = "#override\n<Key>Return: no-op()";
 #else
@@ -207,9 +208,9 @@ static void build_screenshot_dialog(int wid)
          XtNlabel, _("Image format:"),
          NULL);
 
-    num_buttons = screenshot_num_drivers();
+    num_buttons = gfxoutput_num_drivers();
     driver_buttons = (Widget *) xmalloc(sizeof(Widget) * num_buttons);
-    driver = screenshot_drivers_iter_init();
+    driver = gfxoutput_drivers_iter_init();
 
     driver_buttons[0] = XtVaCreateManagedWidget
         (driver->name,
@@ -222,7 +223,7 @@ static void build_screenshot_dialog(int wid)
          XtNleft, XtChainRight,
          XtNlabel, driver->name,
          NULL);
-    driver = screenshot_drivers_iter_next();
+    driver = gfxoutput_drivers_iter_next();
     for (i = 1; i < num_buttons; i++) {
         driver_buttons[i] = XtVaCreateManagedWidget
             (driver->name,
@@ -236,7 +237,7 @@ static void build_screenshot_dialog(int wid)
              XtNlabel, driver->name,
              XtNradioGroup, driver_buttons[i-1],
              NULL);
-        driver = screenshot_drivers_iter_next();
+        driver = gfxoutput_drivers_iter_next();
     }
 
     button_box = XtVaCreateManagedWidget
