@@ -159,7 +159,6 @@ static void DoTrans(int tr) {
 #endif
 
 static void ResetBus(void) {
-	parallel_emu_set_atn(0);
 	parallel_emu_set_dav(0);
 	parallel_emu_set_eoi(0);
 	parallel_emu_set_nrfd(0);
@@ -402,6 +401,28 @@ void parallel_clr_atn( char mask )
 	    drive1_parallel_set_atn(0);
 	}
     }
+}
+
+void parallel_restore_set_atn( char mask ) 
+{
+    char old = parallel_atn;
+    parallel_atn |= mask;
+
+    if(parallel_debug && !old) 
+	log_warning(LOG_DEFAULT, "set_atn(%02x) -> ATNlo", mask);
+
+    /* we do not send IRQ signals to chips on restore */
+}
+
+void parallel_restore_clr_atn( char mask ) 
+{
+    char old = parallel_atn;
+    parallel_atn &= mask;
+
+    if(parallel_debug && old && !parallel_atn) 
+	log_warning(LOG_DEFAULT, "clr_atn(%02x) -> ATNhi", ~mask);
+
+    /* we do not send IRQ signals to chips on restore */
 }
 
 void parallel_set_dav( char mask ) 

@@ -43,7 +43,7 @@
  * Local variables
  */
 
-static int riotio[4];		/* I/O register data */
+static BYTE riotio[4];		/* I/O register data */
 
 static BYTE oldpa;              /* the actual output on PA (input = high) */
 static BYTE oldpb;              /* the actual output on PB (input = high) */

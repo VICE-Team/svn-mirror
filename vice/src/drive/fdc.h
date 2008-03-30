@@ -32,7 +32,9 @@
 #define	FDC_RESET0	1
 #define	FDC_RESET1	2
 #define	FDC_RESET2	3
-#define	FDC_RUN		10
+#define	FDC_RUN		4
+
+#define	FDC_LAST_STATE	4
 
 /* fdc error codes to return to drive CPU */
 #define	FDC_ERR_OK	1
@@ -52,9 +54,13 @@
 #include "vice.h"
 #include "log.h"
 #include "alarm.h"
+#include "snapshot.h"
 
 void fdc_init(int fnum, BYTE *buffer_memory, BYTE *ipromp);
 void fdc_reset(int fnum, int enabled);
+
+int fdc_read_snapshot_module(snapshot_t *s, int drv);
+int fdc_write_snapshot_module(snapshot_t *s, int drv);
 
 #endif
 

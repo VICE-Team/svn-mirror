@@ -137,9 +137,9 @@ _TPI_FUNC void undump_pa(BYTE byte)
         parallel_cpu_set_eoi( 0 );
     }
     if (ieee_is_dev) {
-        parallel_cpu_set_atn( 0 );
+        parallel_cpu_restore_atn( 0 );
     } else {
-        parallel_cpu_set_atn( tmp & 0x08 );
+        parallel_cpu_restore_atn( tmp & 0x08 );
     }
 }
 

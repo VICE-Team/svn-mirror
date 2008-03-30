@@ -102,14 +102,14 @@ inline static void store_pra(BYTE byte, BYTE oldpa, ADDRESS addr)
 static void undump_prb(BYTE byte)
 {
     parallel_cpu_set_nrfd(!(byte & 0x02));
-    parallel_cpu_set_atn(!(byte & 0x04));
+    parallel_cpu_restore_atn(!(byte & 0x04));
 }
 
 inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 {
-	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
-	    log_warning(via_log,"PET: Killer POKE! might kill a real PET!\n");
-	}
+    if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
+        log_warning(via_log,"PET: Killer POKE! might kill a real PET!\n");
+    }
     parallel_cpu_set_nrfd(!(byte & 0x02));
     parallel_cpu_set_atn(!(byte & 0x04));
 }

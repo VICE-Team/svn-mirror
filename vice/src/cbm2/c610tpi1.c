@@ -114,14 +114,14 @@ _TPI_FUNC void undump_pa(BYTE byte)
     if (byte & 2) {
 	parallel_cpu_set_ndac(0);
 	parallel_cpu_set_nrfd(0);
-        parallel_cpu_set_atn( tmp & 0x08 );
+        parallel_cpu_restore_atn( tmp & 0x08 );
         parallel_cpu_set_dav( tmp & 0x10 );
         parallel_cpu_set_eoi( tmp & 0x20 );
     } else {
 	/* order is important */
         parallel_cpu_set_nrfd( tmp & 0x80 );
         parallel_cpu_set_ndac( tmp & 0x40 );
-	parallel_cpu_set_atn(0);
+	parallel_cpu_restore_atn(0);
 	parallel_cpu_set_dav(0);
 	parallel_cpu_set_eoi(0);
     }

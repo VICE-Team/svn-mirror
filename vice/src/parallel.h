@@ -63,6 +63,7 @@ extern void parallel_set_ndac( char mask);
 extern void parallel_set_nrfd( char mask);
 extern void parallel_set_dav( char mask);
 extern void parallel_set_atn( char mask);
+extern void parallel_restore_set_atn( char mask);
 
 /* methods to set handshake lines inactive for the devices */
 extern void parallel_clr_eoi( char mask);
@@ -70,16 +71,27 @@ extern void parallel_clr_ndac( char mask);
 extern void parallel_clr_nrfd( char mask);
 extern void parallel_clr_dav( char mask);
 extern void parallel_clr_atn( char mask);
+extern void parallel_restore_clr_atn( char mask);
 
 
 /* methods to set output lines for the computer */
-#define	PARALLEL_SET_LINE(line,dev,mask)						\
-    static inline void parallel_##dev##_set_##line##( char val ) 		\
+#define	PARALLEL_SET_LINE(line,dev,mask)				\
+    static inline void parallel_##dev##_set_##line##( char val ) 	\
     {									\
     	if (val) {							\
-	    parallel_set_##line##(PARALLEL_##mask##);				\
+	    parallel_set_##line##(PARALLEL_##mask##);			\
         } else {							\
-	    parallel_clr_##line##(~PARALLEL_##mask##);				\
+	    parallel_clr_##line##(~PARALLEL_##mask##);			\
+    	}								\
+    }
+
+#define	PARALLEL_RESTORE_LINE(line,dev,mask)				\
+    static inline void parallel_##dev##_restore_##line##( char val ) 	\
+    {									\
+    	if (val) {							\
+	    parallel_restore_set_##line##(PARALLEL_##mask##);		\
+        } else {							\
+	    parallel_restore_clr_##line##(~PARALLEL_##mask##);		\
     	}								\
     }
 
@@ -88,7 +100,6 @@ PARALLEL_SET_LINE(eoi,emu,EMU)
 PARALLEL_SET_LINE(dav,emu,EMU)
 PARALLEL_SET_LINE(nrfd,emu,EMU)
 PARALLEL_SET_LINE(ndac,emu,EMU)
-PARALLEL_SET_LINE(atn,emu,EMU)
 
 void parallel_emu_set_bus( BYTE);
 
@@ -98,6 +109,7 @@ PARALLEL_SET_LINE(dav,cpu,CPU)
 PARALLEL_SET_LINE(nrfd,cpu,CPU)
 PARALLEL_SET_LINE(ndac,cpu,CPU)
 PARALLEL_SET_LINE(atn,cpu,CPU)
+PARALLEL_RESTORE_LINE(atn,cpu,CPU)
 
 void parallel_cpu_set_bus( BYTE);
 
@@ -106,7 +118,6 @@ PARALLEL_SET_LINE(eoi,drv0,DRV0)
 PARALLEL_SET_LINE(dav,drv0,DRV0)
 PARALLEL_SET_LINE(nrfd,drv0,DRV0)
 PARALLEL_SET_LINE(ndac,drv0,DRV0)
-PARALLEL_SET_LINE(atn,drv0,DRV0)
 
 void parallel_drv0_set_bus( BYTE);
 
@@ -115,7 +126,6 @@ PARALLEL_SET_LINE(eoi,drv1,DRV1)
 PARALLEL_SET_LINE(dav,drv1,DRV1)
 PARALLEL_SET_LINE(nrfd,drv1,DRV1)
 PARALLEL_SET_LINE(ndac,drv1,DRV1)
-PARALLEL_SET_LINE(atn,drv1,DRV1)
 
 void parallel_drv1_set_bus( BYTE);
 

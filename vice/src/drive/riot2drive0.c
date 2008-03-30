@@ -154,7 +154,6 @@ _RIOT_FUNC void riot_reset(void)
 {
     atn_active = 0;
 
-    parallel_drv0_set_atn(0);
     parallel_drv0_set_dav(0);
     parallel_drv0_set_eoi(0);
 

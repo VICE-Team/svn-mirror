@@ -78,6 +78,7 @@
 #include "viad.h"
 #include "wd1770.h"
 #include "sysfile.h"
+#include "fdc.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -1553,7 +1554,9 @@ int drive_attach_floppy(DRIVE *floppy)
         drive[dnr].attach_detach_clk = drive_clk[dnr];
     drive[dnr].ask_extend_disk_image = 1;
 
-    if (floppy->ImageFormat != 1581) {
+    if (floppy->ImageFormat != 1581
+	&& floppy->ImageFormat != 8050
+	&& floppy->ImageFormat != 8250) {
         if (drive[dnr].drive_floppy->GCR_Header != 0) {
             if (!drive_read_image_gcr(dnr))
                 return -1;
@@ -2364,7 +2367,8 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         }
 	if (drive[0].type == DRIVE_TYPE_1001) {
 	    if (riot1d0_write_snapshot_module(s) < 0
-		|| riot2d0_write_snapshot_module(s) < 0)
+		|| riot2d0_write_snapshot_module(s) < 0
+		|| fdc_write_snapshot_module(s, 0) < 0)
 		return -1;
 	}
     }
@@ -2390,7 +2394,8 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
         }
 	if (drive[1].type == DRIVE_TYPE_1001) {
 	    if (riot1d1_write_snapshot_module(s) < 0
-		|| riot2d1_write_snapshot_module(s) < 0)
+		|| riot2d1_write_snapshot_module(s) < 0
+		|| fdc_write_snapshot_module(s, 1) < 0)
 		return -1;
 	}
     }
@@ -2601,8 +2606,9 @@ int drive_read_snapshot_module(snapshot_t *s)
                 return -1;
         }
 	if (drive[0].type == DRIVE_TYPE_1001) {
-	    if (riot1d1_read_snapshot_module(s) < 0
-		|| riot2d1_read_snapshot_module(s) < 0)
+	    if (riot1d0_read_snapshot_module(s) < 0
+		|| riot2d0_read_snapshot_module(s) < 0
+		|| fdc_read_snapshot_module(s, 0) < 0)
 		return -1;
 	}
     }
@@ -2629,7 +2635,8 @@ int drive_read_snapshot_module(snapshot_t *s)
         }
 	if (drive[1].type == DRIVE_TYPE_1001) {
 	    if (riot1d1_read_snapshot_module(s) < 0
-		|| riot2d1_read_snapshot_module(s) < 0)
+		|| riot2d1_read_snapshot_module(s) < 0
+		|| fdc_read_snapshot_module(s, 1) < 0)
 		return -1;
 	}
     }
