@@ -36,7 +36,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* Information about the last opcode executed by the CPU.  */
-extern int last_opcode_info;
+extern DWORD last_opcode_info;
 
 /* The lowest 8 bits are the opcode number.  */
 #define OPINFO_NUMBER_MASK	       	(last_opcode_info & 0xff)

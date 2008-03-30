@@ -91,7 +91,7 @@ int rmw_flag = 0;
    number of write cycles in the last executed opcode and to delay interrupts
    by one more cycle if necessary, as happens with conditional branch opcodes
    when the branch is taken.  */
-int last_opcode_info;
+DWORD last_opcode_info;
 
 /* Number of write cycles for each 6510 opcode.  */
 CLOCK _maincpu_opcode_write_cycles[] = {
