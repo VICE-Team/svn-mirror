@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/via2drive1.c
- * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via2drive1.def,
+ * ../../../src/drive/via2drive1.c
+ * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via2drive1.def,
  * Do not edit!
  */
 /*
@@ -152,6 +152,16 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 inline static void update_via2d1irq(void)
 {
+#if 0
+    static int irq = 0;
+    if(irq && !(via2d1ifr & via2d1ier & 0x7f)) {
+       printf("via2d1: clk=%d, IRQ off\n", clk);
+    }
+    if(!irq && (via2d1ifr & via2d1ier & 0x7f)) {
+       printf("via2d1: clk=%d, IRQ on\n", clk);
+    }
+    irq = (via2d1ifr & via2d1ier & 0x7f);
+#endif
     drive1_set_irq(I_VIA2D1FL, (via2d1ifr & via2d1ier & 0x7f) ? IK_IRQ : 0);
 }
 
@@ -286,7 +296,7 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 #ifdef VIA2D1_TIMER_DEBUG
-    if ((addr < 10 && addr > 3) || (addr == VIA_ACR) || app_resources.debugFlag)
+    if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
 	printf("store via2d1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 	       (int) addr, (int) byte, drive1_rmw_flag, drive_clk[1], rclk);
 #endif
@@ -396,7 +406,7 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
         update_via2d1tbl();
         via2d1tbu = rclk + via2d1tbl + 3;
         via2d1tbi = rclk + via2d1tbl + 2;
-        drive1_set_alarm(A_VIA2D1T2, via2d1tbi);
+        drive1_set_alarm_clk(A_VIA2D1T2, via2d1tbi);
 
         /* Clear T2 interrupt */
         via2d1ifr &= ~VIA_IM_T2;
@@ -685,6 +695,7 @@ int int_via2d1t2(long offset)
 	printf("VIA2D1 timer B interrupt\n");
 #endif
     drive1_unset_alarm(A_VIA2D1T2);	/*int_clk[I_VIA2D1T2] = 0; */
+    via2d1tbi = 0;
 
     via2d1ifr |= VIA_IM_T2;
     update_via2d1irq();
@@ -735,38 +746,44 @@ void via2d1_prevent_clk_overflow(CLOCK sub)
  *
  */
 
+/* FIXME!!!  Error check.  */
 
 int via2d1_write_snapshot_module(FILE * p)
 {
+    snapshot_module_t *m;
 
     if (via2d1tai && (via2d1tai <= drive_clk[1]))
         int_via2d1t1(drive_clk[1] - via2d1tai);
     if (via2d1tbi && (via2d1tbi <= drive_clk[1]))
         int_via2d1t2(drive_clk[1] - via2d1tbi);
 
-    snapshot_write_module_header(p, "VIA2D1",
-                        VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, "VIA2D1",
+                               VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
 
-    snapshot_write_byte(p, via2d1[VIA_PRA]);
-    snapshot_write_byte(p, via2d1[VIA_DDRA]);
-    snapshot_write_byte(p, via2d1[VIA_PRB]);
-    snapshot_write_byte(p, via2d1[VIA_DDRB]);
+    snapshot_module_write_byte(m, via2d1[VIA_PRA]);
+    snapshot_module_write_byte(m, via2d1[VIA_DDRA]);
+    snapshot_module_write_byte(m, via2d1[VIA_PRB]);
+    snapshot_module_write_byte(m, via2d1[VIA_DDRB]);
 
-    snapshot_write_word(p, via2d1tal);
-    snapshot_write_word(p, via2d1ta());
-    snapshot_write_byte(p, via2d1tbl);
-    snapshot_write_word(p, via2d1tb());
+    snapshot_module_write_word(m, via2d1tal);
+    snapshot_module_write_word(m, via2d1ta());
+    snapshot_module_write_byte(m, via2d1tbl);
+    snapshot_module_write_word(m, via2d1tb());
 
-    snapshot_write_byte(p, via2d1[VIA_SR]);
-    snapshot_write_byte(p, via2d1[VIA_ACR]);
-    snapshot_write_byte(p, via2d1[VIA_PCR]);
+    snapshot_module_write_byte(m, via2d1[VIA_SR]);
+    snapshot_module_write_byte(m, via2d1[VIA_ACR]);
+    snapshot_module_write_byte(m, via2d1[VIA_PCR]);
 
-    snapshot_write_byte(p, via2d1ifr);
-    snapshot_write_byte(p, via2d1ier);
+    snapshot_module_write_byte(m, via2d1ifr);
+    snapshot_module_write_byte(m, via2d1ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0));
-    snapshot_write_byte(p, 0);			/* SRHBITS */
+    snapshot_module_write_byte(m, (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0));
+    snapshot_module_write_byte(m, 0);			/* SRHBITS */
+
+    snapshot_module_close(m);
 
     return 0;
 }
@@ -780,15 +797,21 @@ int via2d1_read_snapshot_module(FILE * p)
     /* DWORD dword; */
     ADDRESS addr;
     CLOCK rclk = clk;
+    snapshot_module_t *m;
 
-    snapshot_read_module_header(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
 
-    if(strcmp(name, "VIA2D1") || vmajor != VIA_DUMP_VER_MAJOR) return -1;
+    if (strcmp(name, "VIA2D1") || vmajor != VIA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
-    snapshot_read_byte(p, &via2d1[VIA_PRA]);
-    snapshot_read_byte(p, &via2d1[VIA_DDRA]);
-    snapshot_read_byte(p, &via2d1[VIA_PRB]);
-    snapshot_read_byte(p, &via2d1[VIA_DDRB]);
+    snapshot_module_read_byte(m, &via2d1[VIA_PRA]);
+    snapshot_module_read_byte(m, &via2d1[VIA_DDRA]);
+    snapshot_module_read_byte(m, &via2d1[VIA_PRB]);
+    snapshot_module_read_byte(m, &via2d1[VIA_DDRB]);
     {
         addr = VIA_DDRA;
 	byte = via2d1[VIA_PRA] | ~via2d1[VIA_DDRA];
@@ -804,28 +827,28 @@ int via2d1_read_snapshot_module(FILE * p)
 	oldpb = byte;
     }
 
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2d1tal = word;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2d1tau = rclk + word + 1 /* 3 */ + TAUOFFSET;
     via2d1tai = rclk + word /* + 2 */;
     drive1_set_alarm_clk(A_VIA2D1T1, via2d1tai);
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2d1tbl = byte;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2d1tbu = rclk + word + 1 /* 3 */;
     via2d1tbi = rclk + word /* + 2 */;
-    drive1_set_alarm(A_VIA2D1T2, via2d1tbi);
+    drive1_set_alarm_clk(A_VIA2D1T2, via2d1tbi);
 
-    snapshot_read_byte(p, &via2d1[VIA_SR]);
+    snapshot_module_read_byte(m, &via2d1[VIA_SR]);
     {
 	addr = via2d1[VIA_SR];
 	byte = via2d1[addr];
 	
     }
-    snapshot_read_byte(p, &via2d1[VIA_ACR]);
-    snapshot_read_byte(p, &via2d1[VIA_PCR]);
+    snapshot_module_read_byte(m, &via2d1[VIA_ACR]);
+    snapshot_module_read_byte(m, &via2d1[VIA_PCR]);
     {
 	addr = via2d1[VIA_PCR];
 	byte = via2d1[addr];
@@ -847,19 +870,19 @@ int via2d1_read_snapshot_module(FILE * p)
         }
     }
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2d1ifr = byte;
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2d1ier = byte;
     update_via2d1irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2d1pb7 = byte ? 1 : 0;
     via2d1pb7x = 0;
     via2d1pb7o = 0;
-    snapshot_read_byte(p, &byte);		/* SRHBITS */
+    snapshot_module_read_byte(m, &byte);		/* SRHBITS */
 
-    return 0;
+    return snapshot_module_close(m);
 }
 
 

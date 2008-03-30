@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/cia1581drive0.c
- * This file is generated from ../../src/cia-tmpl.c and ../../src/drive/cia1581drive0.def,
+ * ../../../src/drive/cia1581drive0.c
+ * This file is generated from ../../../src/cia-tmpl.c and ../../../src/drive/cia1581drive0.def,
  * Do not edit!
  */
 /*
@@ -1328,52 +1328,61 @@ void cia1581d0_prevent_clk_overflow(CLOCK sub)
  *
  */
 
+/* FIXME!!!  Error check.  */
 int cia1581d0_write_snapshot_module(FILE * p)
 {
+    snapshot_module_t *m;
     int byte;
 
-    snapshot_write_module_header(p, "CIA1581D0",
-			CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, "CIA1581D0",
+                               CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
 
     update_cia1581d0(drive_clk[0]);
 
-    snapshot_write_byte(p, cia1581d0[CIA_PRA]);
-    snapshot_write_byte(p, cia1581d0[CIA_PRB]);
-    snapshot_write_byte(p, cia1581d0[CIA_DDRA]);
-    snapshot_write_byte(p, cia1581d0[CIA_DDRB]);
-    snapshot_write_word(p, cia1581d0_tac);
-    snapshot_write_word(p, cia1581d0_tbc);
-    snapshot_write_byte(p, cia1581d0[CIA_TOD_TEN]);
-    snapshot_write_byte(p, cia1581d0[CIA_TOD_SEC]);
-    snapshot_write_byte(p, cia1581d0[CIA_TOD_MIN]);
-    snapshot_write_byte(p, cia1581d0[CIA_TOD_HR]);
-    snapshot_write_byte(p, cia1581d0[CIA_SDR]);
-    snapshot_write_byte(p, cia1581d0[CIA_ICR]);
-    snapshot_write_byte(p, cia1581d0[CIA_CRA]);
-    snapshot_write_byte(p, cia1581d0[CIA_CRB]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_PRA]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_PRB]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_DDRA]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_DDRB]);
+    snapshot_module_write_word(m, cia1581d0_tac);
+    snapshot_module_write_word(m, cia1581d0_tbc);
+    snapshot_module_write_byte(m, cia1581d0[CIA_TOD_TEN]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_TOD_SEC]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_TOD_MIN]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_TOD_HR]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_SDR]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_ICR]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_CRA]);
+    snapshot_module_write_byte(m, cia1581d0[CIA_CRB]);
 
-    snapshot_write_word(p, cia1581d0_tal);
-    snapshot_write_word(p, cia1581d0_tbl);
-    snapshot_write_byte(p, peek_cia1581d0(CIA_ICR));
-    snapshot_write_byte(p, (cia1581d0_tat ? 0x40 : 0) | (cia1581d0_tbt ? 0x80 : 0));
-    snapshot_write_byte(p, cia1581d0sr_bits);
-    snapshot_write_byte(p, cia1581d0todalarm[0]);
-    snapshot_write_byte(p, cia1581d0todalarm[1]);
-    snapshot_write_byte(p, cia1581d0todalarm[2]);
-    snapshot_write_byte(p, cia1581d0todalarm[3]);
+    snapshot_module_write_word(m, cia1581d0_tal);
+    snapshot_module_write_word(m, cia1581d0_tbl);
+    snapshot_module_write_byte(m, peek_cia1581d0(CIA_ICR));
+    snapshot_module_write_byte(m, ((cia1581d0_tat ? 0x40 : 0)
+                                   | (cia1581d0_tbt ? 0x80 : 0)));
+    snapshot_module_write_byte(m, cia1581d0sr_bits);
+    snapshot_module_write_byte(m, cia1581d0todalarm[0]);
+    snapshot_module_write_byte(m, cia1581d0todalarm[1]);
+    snapshot_module_write_byte(m, cia1581d0todalarm[2]);
+    snapshot_module_write_byte(m, cia1581d0todalarm[3]);
 
     byte = cia1581d0rdi ? drive_clk[0] - cia1581d0rdi : 0;
-    if(byte > 128 || byte < -16) byte = 0;
-    snapshot_write_byte(p, byte);
+    if (byte > 128 || byte < -16)
+        byte = 0;
+    snapshot_module_write_byte(m, byte);
 
-    snapshot_write_byte(p,
-		(cia1581d0todlatched ? 1 : 0) | (cia1581d0todstopped ? 2 : 0));
-    snapshot_write_byte(p, cia1581d0todlatch[0]);
-    snapshot_write_byte(p, cia1581d0todlatch[1]);
-    snapshot_write_byte(p, cia1581d0todlatch[2]);
-    snapshot_write_byte(p, cia1581d0todlatch[3]);
+    snapshot_module_write_byte(m, ((cia1581d0todlatched ? 1 : 0)
+                                   | (cia1581d0todstopped ? 2 : 0)));
+    snapshot_module_write_byte(m, cia1581d0todlatch[0]);
+    snapshot_module_write_byte(m, cia1581d0todlatch[1]);
+    snapshot_module_write_byte(m, cia1581d0todlatch[2]);
+    snapshot_module_write_byte(m, cia1581d0todlatch[3]);
 
-    snapshot_write_dword(p, drive0_int_status.alarm_clk[A_CIA1581D0TOD] - drive_clk[0]);
+    snapshot_module_write_dword(m, (drive0_int_status.alarm_clk[A_CIA1581D0TOD]
+                                    - drive_clk[0]));
+
+    snapshot_module_close(m);
 
     return 0;
 }
@@ -1387,28 +1396,27 @@ int cia1581d0_read_snapshot_module(FILE * p)
     DWORD dword;
     ADDRESS addr;
     CLOCK rclk = drive_clk[0];
+    snapshot_module_t *m;
 
-    snapshot_read_module_header(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
 
-    if(strcmp(name, "CIA1581D0") || vmajor != CIA_DUMP_VER_MAJOR) return -1;
+    if (strcmp(name, "CIA1581D0") || vmajor != CIA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
     /* Argh.  This is ugly.  */
     {
-#if 0
-        /* Aaargh!  This is a big kludge.  It makes sure the VIC-II does not
-           think the CPU is actually writing anything, and thus does not
-           remove any cycles.  */
-        rmw_flag = -1;
-#endif
-
-        snapshot_read_byte(p, &byte);
+        snapshot_module_read_byte(m, &byte);
         addr = CIA_PRA;
         oldpa = byte ^ 0xff;
 
     drive[0].led_status = byte & 0x40;
         oldpa = byte;
 
-        snapshot_read_byte(p, &byte);
+        snapshot_module_read_byte(m, &byte);
         addr = CIA_PRB;
         oldpa = byte ^ 0xff;
 
@@ -1429,14 +1437,14 @@ int cia1581d0_read_snapshot_module(FILE * p)
     }
         oldpa = byte;
 
-        snapshot_read_byte(p, &byte);
+        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
         oldpa = byte ^ 0xff;
 
     drive[0].led_status = byte & 0x40;
         oldpa = byte;
 
-        snapshot_read_byte(p, &byte);
+        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
         oldpa = byte ^ 0xff;
 
@@ -1456,67 +1464,63 @@ int cia1581d0_read_snapshot_module(FILE * p)
         }
     }
         oldpa = byte;
-
-#if 0
-        rmw_flag = 0;
-#endif
     }
 
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     cia1581d0_tac = word;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     cia1581d0_tbc = word;
-    snapshot_read_byte(p, &cia1581d0[CIA_TOD_TEN]);
-    snapshot_read_byte(p, &cia1581d0[CIA_TOD_SEC]);
-    snapshot_read_byte(p, &cia1581d0[CIA_TOD_MIN]);
-    snapshot_read_byte(p, &cia1581d0[CIA_TOD_HR]);
-    snapshot_read_byte(p, &cia1581d0[CIA_SDR]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_TOD_TEN]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_TOD_SEC]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_TOD_MIN]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_TOD_HR]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_SDR]);
     {
 
     iec_fast_drive_write(cia1581d0[CIA_SDR]);
     }
-    snapshot_read_byte(p, &cia1581d0[CIA_ICR]);
-    snapshot_read_byte(p, &cia1581d0[CIA_CRA]);
-    snapshot_read_byte(p, &cia1581d0[CIA_CRB]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_ICR]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_CRA]);
+    snapshot_module_read_byte(m, &cia1581d0[CIA_CRB]);
 
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     cia1581d0_tal = word;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     cia1581d0_tbl = word;
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     cia1581d0int = byte;
 
     /* my_set_int(I_CIA1581D0FL, IK_IRQ, drive_clk[0]); */
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     cia1581d0_tat = (byte & 0x40) ? 1 : 0;
     cia1581d0_tbt = (byte & 0x80) ? 1 : 0;
     cia1581d0_tap = (byte & 0x04) ? 1 : 0;
     cia1581d0_tbp = (byte & 0x08) ? 1 : 0;
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     cia1581d0sr_bits = byte;
 
-    snapshot_read_byte(p, &cia1581d0todalarm[0]);
-    snapshot_read_byte(p, &cia1581d0todalarm[1]);
-    snapshot_read_byte(p, &cia1581d0todalarm[2]);
-    snapshot_read_byte(p, &cia1581d0todalarm[3]);
+    snapshot_module_read_byte(m, &cia1581d0todalarm[0]);
+    snapshot_module_read_byte(m, &cia1581d0todalarm[1]);
+    snapshot_module_read_byte(m, &cia1581d0todalarm[2]);
+    snapshot_module_read_byte(m, &cia1581d0todalarm[3]);
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     if(byte) {
 	cia1581d0rdi = drive_clk[0] + byte;
     }
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     cia1581d0todlatched = byte & 1;
     cia1581d0todstopped = byte & 2;
-    snapshot_read_byte(p, &cia1581d0todlatch[0]);
-    snapshot_read_byte(p, &cia1581d0todlatch[1]);
-    snapshot_read_byte(p, &cia1581d0todlatch[2]);
-    snapshot_read_byte(p, &cia1581d0todlatch[3]);
+    snapshot_module_read_byte(m, &cia1581d0todlatch[0]);
+    snapshot_module_read_byte(m, &cia1581d0todlatch[1]);
+    snapshot_module_read_byte(m, &cia1581d0todlatch[2]);
+    snapshot_module_read_byte(m, &cia1581d0todlatch[3]);
 
-    snapshot_read_dword(p, &dword);
+    snapshot_module_read_dword(m, &dword);
     drive0_set_alarm(A_CIA1581D0TOD, dword);
 
     cia1581d0_tau = drive_clk[0] + cia1581d0_tac;
@@ -1526,7 +1530,11 @@ int cia1581d0_read_snapshot_module(FILE * p)
 
     cia1581d0_tas = (cia1581d0[CIA_CRA] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
     cia1581d0_tbs = (cia1581d0[CIA_CRB] & 1) ? CIAT_RUNNING : CIAT_STOPPED;
-    if((cia1581d0[CIA_CRB] & 0x41) == 0x41) cia1581d0_tbs = CIAT_COUNTTA;
+    if ((cia1581d0[CIA_CRB] & 0x41) == 0x41)
+        cia1581d0_tbs = CIAT_COUNTTA;
+
+    if (snapshot_module_close(m) < 0)
+        return -1;
 
     return 0;
 }
