@@ -17,6 +17,32 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
+
+Printer resources
+.................
+
+`PrDevice1'
+`PrDevice2'
+`PrDevice3'
+     Strings specifying the printer devices (*note Printer settings::.).
+
+`Printer4'
+     Boolean specifying if the IEC printer (device 4) is being emulated.
+
+`Printer4Dev'
+     Integer (ranging from 0 to 2, for device 1-3) specifying what
+     printer device (*note Printer settings::.) the IEC printer is
+     using.
+
+`PrUser'
+     Boolean specifying if the user-port printer is being emulated.
+
+`PrUserDev'
+     Integer (ranging from 0 to 2, for device 1-3) specifying what
+     printer device the user-port printer is using.
+
+
 File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
 
 Printer command-line options
@@ -1473,30 +1499,4 @@ emulator, or even in other emulators.
 * VIC20 memory module::
 * PET memory module::
 * CBM-II memory module::
-
-
-File: vice.info,  Node: Module Terminology,  Next: Module framework,  Prev: Module formats,  Up: Module formats
-
-Terminology
-...........
-
-   In this section we use certain abbreviations to define the types of
-the data saved in the snapshot.
-
-`BYTE'
-     8 bit integer.
-
-`WORD'
-     16 bit integer.  Saved with low-byte first, high-byte last.
-
-`DWORD'
-     32 bit integer.  Saved with low-word first, then high-word.  Each
-     word saved with its low-byte first.
-
-`ARRAY'
-     Array of BYTE values.  Length depends on the description.
-
-   The tables for the single modules state the type, name and
-description of the data saved in the modules.  The data is saved in the
-order it is in the tables, so no offset is given.
 

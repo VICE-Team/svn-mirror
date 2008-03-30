@@ -99,7 +99,7 @@ CLOCK clk_guard_prevent_overflow (clk_guard_t *guard)
         CLOCK sub;
 
         /* Make sure we have at least 0xfffff cycles for doing our jobs.  */
-        sub = guard->clk_max_value & ~((CLOCK) 0xfffff);
+        sub = guard->clk_max_value - 0xfffff;
 
         /* Make sure we subtract a multiple of the `clk_base'.  */
         if (guard->clk_base)

@@ -764,6 +764,7 @@ VICE, and how to resolve them.
 * Sound problems::
 * Shared memory problems::
 * Printer problems::
+* PET keyboard problems::
 
 
 File: vice.info,  Node: Sound problems,  Next: Shared memory problems,  Prev: Common problems,  Up: Common problems
@@ -821,7 +822,7 @@ run it once with `+mitshm' and then choose "Save settings" from the
 right-button menu.
 
 
-File: vice.info,  Node: Printer problems,  Prev: Shared memory problems,  Up: Common problems
+File: vice.info,  Node: Printer problems,  Next: PET keyboard problems,  Prev: Shared memory problems,  Up: Common problems
 
 Printer problems
 ----------------
@@ -838,6 +839,24 @@ should work as well.
 
    The printing services have not been extensively tested but apart
 from the problem mentioned above it should work fine now.
+
+
+File: vice.info,  Node: PET keyboard problems,  Prev: Printer problems,  Up: Common problems
+
+PET keyboard problems
+---------------------
+
+   If you find that the German keyboard mapping (plus German charset)
+does not print uppercase umlauts, then you are right.  The umlauts
+replace the [,\ and ] characters in the charset. The keys that make
+these characters do not have a different entry in the PET editor ROM
+tables when shifted.  Thus it is not possible to get the uppercase
+umlauts in the editor.  Nevertheless other programs are reported to
+change the keyboard mapping table and thus allow the use of the shifted
+(uppercase) umlauts.
+
+   Anyway, the VICE keyboard mappings are far from being perfect and we
+are open to any suggestions.
 
 
 File: vice.info,  Node: Usage,  Next: System files,  Prev: Preface,  Up: Top
@@ -1044,31 +1063,49 @@ with a parallel IEEE488 interface:
 
    * `dos2031', the 2031 drive ROM (16 Kbytes)
 
-   The PET emulator uses a rather different setup: the Basic and Kernal
-ROMS are packed into a single file and only three kernal files are
-provided; one for each Basic revision.  To handle the different screen
-sizes and keyboards, different so-called "editor-ROMs" for the memory
-range $E000-$E800 are provided.  The kernal files already contain an
-editor ROM for use with 40 columns and the graphics keyboard.  The PET
-ROMs have the following names:
+   The PET emulator uses an expanded setup, because there are three
+major versions of the Basic and the Kernal, and many versions of the
+Editor ROM. In addition there are cartridge ROM sockets.
 
-   * `pet2001', the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+   The Kernal files contain the memory from range $F000-$FFFF, the Basic
+ROMs either the range $C000-$DFFF or $B000-$DFFF.  To handle the
+different screen sizes and keyboards, different so-called "editor-ROMs"
+for the memory range $E000-$E800 are provided.  The PET ROMs have the
+following names:
 
-   * `pet3032', the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+   * `kernal1', the PET2001 Kernal ROM (4 KBytes)
 
-   * `pet4032', the PET4032/8032 Basic 4 + Kernal ROM (20 KBytes)
+   * `kernal2', the PET3032 Kernal ROM (4 KBytes)
 
-   * `edit2.b', the PET3032 editor for business keyboard (2 KBytes)
+   * `kernal4', the PET4032/8032 Kernal ROM (4 KBytes)
 
-   * `edit4.b40', the PET4032 editor for business keyboard (2 KBytes)
+   * `basic1', the PET2001 Basic 1 ROM (8 KBytes)
 
-   * `edit4.b80', the PET8032 editor for 80 columns and business
-     keyboard (2 KBytes)
+   * `basic2', the PET3032 Basic 2 ROM (8 KBytes)
 
-   * `chargen', the character generator ROM (2k).  It has two sets with
+   * `basic4', the PET4032/8032 Basic 4 ROM (12 KBytes)
+
+   * `edit1g', the PET2001 editor for graphics keyboards (2 KBytes)
+
+   * `edit2b', the PET3032 editor for business keyboards (2 KBytes)
+
+   * `edit2g', the PET3032 editor for graphics keyboards (2 KBytes)
+
+   * `edit4g40', the PET4032 editor for graphics keyboards (2 KBytes)
+
+   * `edit4b40', the PET4032 editor for business keyboards (2 KBytes)
+
+   * `edit4b80', the PET8032 editor for business keyboards (2 KBytes)
+
+   *   * `chargen', the character generator ROM (2k).  It has two sets with
      128 chars each.  The second (inverted) half of each set is
      computed from the first half by inverting it.  This is a PET
      hardware feature.
+
+   * `chargen.de', the character generator ROM (2k). This version is a
+     patched German charset, with the characters [, \ and ] replaced by
+     umlauts.  It has been provided by U. Guettich and he reports that
+     it is supported by some programs.
 
    The PETs also have sockets for extension ROMs for the addresses
 $9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and

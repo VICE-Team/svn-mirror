@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 April 1999 -->
+     from ../vice.texi on 9 April 1999 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC38" HREF="vice_toc.html#TOC38">6  Settings and resources</A></H1>
+<H1><A NAME="SEC39" HREF="vice_toc.html#TOC39">6  Settings and resources</A></H1>
 
 <P>
 In the VICE emulators, all the settings are stored in entities known as
@@ -54,7 +54,7 @@ using command-line options.
 
 
 
-<H2><A NAME="SEC39" HREF="vice_toc.html#TOC39">6.1  Format of resource files</A></H2>
+<H2><A NAME="SEC40" HREF="vice_toc.html#TOC40">6.1  Format of resource files</A></H2>
 
 <P>
 A resource file is made up of several sections; sections have the
@@ -112,7 +112,7 @@ emulator only modifies its own section, leaving the others unchanged.
 </P>
 
 
-<H2><A NAME="SEC40" HREF="vice_toc.html#TOC40">6.2  Using command-line options to change resources</A></H2>
+<H2><A NAME="SEC41" HREF="vice_toc.html#TOC41">6.2  Using command-line options to change resources</A></H2>
 
 <P>
 Resources can also be changed via command-line options.
@@ -146,7 +146,7 @@ disables it.
 
 
 
-<H2><A NAME="SEC41" HREF="vice_toc.html#TOC41">6.3  Performance settings</A></H2>
+<H2><A NAME="SEC42" HREF="vice_toc.html#TOC42">6.3  Performance settings</A></H2>
 
 <P>
 <A NAME="IDX16"></A>
@@ -188,7 +188,7 @@ possible speed.
 
 
 
-<H3><A NAME="SEC42" HREF="vice_toc.html#TOC42">6.3.1  Performance resources</A></H3>
+<H3><A NAME="SEC43" HREF="vice_toc.html#TOC43">6.3.1  Performance resources</A></H3>
 
 <DL COMPACT>
 
@@ -215,7 +215,7 @@ Booolean specifying whether "warp mode" is turned on or not.
 
 
 
-<H3><A NAME="SEC43" HREF="vice_toc.html#TOC43">6.3.2  Performance command-line options</A></H3>
+<H3><A NAME="SEC44" HREF="vice_toc.html#TOC44">6.3.2  Performance command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -244,7 +244,7 @@ Enables/disables warp mode (<CODE>WarpMode=1</CODE>, <CODE>WarpMode=1</CODE>).
 
 
 
-<H2><A NAME="SEC44" HREF="vice_toc.html#TOC44">6.4  Video settings</A></H2>
+<H2><A NAME="SEC45" HREF="vice_toc.html#TOC45">6.4  Video settings</A></H2>
 
 <P>
 The following right-button menu items control the video output:
@@ -294,7 +294,7 @@ resources that it becomes impossible for the user to interact with it.
 
 
 
-<H3><A NAME="SEC45" HREF="vice_toc.html#TOC45">6.4.1  Video resources</A></H3>
+<H3><A NAME="SEC46" HREF="vice_toc.html#TOC46">6.4.1  Video resources</A></H3>
 
 <P>
 The following resources affect the screen emulation:
@@ -354,7 +354,7 @@ Integer specifying the depth of the host display.  The value <SAMP>`0'</SAMP>
 
 
 
-<H3><A NAME="SEC46" HREF="vice_toc.html#TOC46">6.4.2  Video command-line options</A></H3>
+<H3><A NAME="SEC47" HREF="vice_toc.html#TOC47">6.4.2  Video command-line options</A></H3>
 
 <DL COMPACT>
 
@@ -420,7 +420,7 @@ Specify the display depth (<CODE>DisplayDepth</CODE>).
 
 
 
-<H2><A NAME="SEC47" HREF="vice_toc.html#TOC47">6.5  Keyboard settings</A></H2>
+<H2><A NAME="SEC48" HREF="vice_toc.html#TOC48">6.5  Keyboard settings</A></H2>
 
 <P>
 It is possible to specify whether the "positional" or "symbolic"
@@ -447,7 +447,7 @@ file").
 
 
 
-<H3><A NAME="SEC48" HREF="vice_toc.html#TOC48">6.5.1  Keyboard resources</A></H3>
+<H3><A NAME="SEC49" HREF="vice_toc.html#TOC49">6.5.1  Keyboard resources</A></H3>
 
 <DL COMPACT>
 
@@ -490,33 +490,42 @@ String specifying the name of the keymap file for the symbolic and
 positional mapping for the graphics keyboard
 (see section <A HREF="vice_2.html#SEC11">2.6  The keyboard emulation</A>, PET only).
 
+<A NAME="IDX50"></A>
+<P><DT><CODE>KeymapBusinessDESymFile</CODE>
+<DD>
+<DT><CODE>KeymapBusinessDEPosFile</CODE>
+<DD>
+String specifying the name of the keymap file for the symbolic 
+and positional mapping for the German business keyboard.
+(see section <A HREF="vice_2.html#SEC11">2.6  The keyboard emulation</A>, PET only).
+
 </DL>
 
 
 
-<H3><A NAME="SEC49" HREF="vice_toc.html#TOC49">6.5.2  Keyboard command-line options</A></H3>
+<H3><A NAME="SEC50" HREF="vice_toc.html#TOC50">6.5.2  Keyboard command-line options</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>-keymap N</CODE>
 <DD>
-<A NAME="IDX50"></A>
+<A NAME="IDX51"></A>
  
 Specifies which keymap is being used; <CODE>0</CODE> indicates symbolic
 mapping, <CODE>1</CODE> positional mapping (as for the <CODE>KeymapIndex</CODE>
 resource).
 
-<A NAME="IDX51"></A>
+<A NAME="IDX52"></A>
 <P><DT><CODE>-symkeymap NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the symbolic keymap file (<CODE>KeymapSymFile</CODE>).
 
-<A NAME="IDX52"></A>
+<A NAME="IDX53"></A>
 <P><DT><CODE>-poskeymap NAME</CODE>
 <DD>
 Specify <TT>`NAME'</TT> as the positional keymap file (<CODE>KeymapPosFile</CODE>).
 
-<A NAME="IDX53"></A>
+<A NAME="IDX54"></A>
 <P><DT><CODE>-buksymkeymap NAME</CODE>
 <DD>
 <DT><CODE>-bukposkeymap NAME</CODE>
@@ -525,7 +534,7 @@ Specify <TT>`NAME'</TT> as the symbolic/positional keymap file for the
 UK business keyboard
 (<CODE>KeymapBusinessUKSymFile</CODE>, <CODE>KeymapBusinessUKPosFile</CODE>, PET and CBM-II).
 
-<A NAME="IDX54"></A>
+<A NAME="IDX55"></A>
 <P><DT><CODE>-grsymkeymap NAME</CODE>
 <DD>
 <DT><CODE>-grposkeymap NAME</CODE>
@@ -534,11 +543,20 @@ Specify <TT>`NAME'</TT> as the symbolic/positional keymap file for the
 graphics keyboard
 (<CODE>KeymapGraphicsSymFile</CODE>, <CODE>KeymapGraphicsPosFile</CODE>, PET only).
 
+<A NAME="IDX56"></A>
+<P><DT><CODE>-bdesymkeymap NAME</CODE>
+<DD>
+<DT><CODE>-bdeposkeymap NAME</CODE>
+<DD>
+Specify <TT>`NAME'</TT> as the symbolic/positional keymap file for the
+German business keyboard
+(<CODE>KeymapBusinessDESymFile</CODE>, <CODE>KeymapBusinessDEPosFile</CODE>, PET only).
+
 </DL>
 
 
 
-<H2><A NAME="SEC50" HREF="vice_toc.html#TOC50">6.6  Sound settings</A></H2>
+<H2><A NAME="SEC51" HREF="vice_toc.html#TOC51">6.6  Sound settings</A></H2>
 
 <P>
 The following menu items control sound output:
@@ -549,12 +567,12 @@ The following menu items control sound output:
 
 <P> <LI>
 
-<A NAME="IDX55"></A>
+<A NAME="IDX57"></A>
  
 "Enable sound playback" turns sound emulation on and off.
 
-<A NAME="IDX56"></A>
-<A NAME="IDX57"></A>
+<A NAME="IDX58"></A>
+<A NAME="IDX59"></A>
 <P> <LI>
 
 "Sound synchronization" specifies the method for syncronizing the
@@ -579,29 +597,29 @@ ratio; to compensate the tolerances in speed, some extra frames will be
 skipped or added.
 </UL> </P>
 
-<A NAME="IDX58"></A>
+<A NAME="IDX60"></A>
 <P> <LI>
 
 "Sample rate" specifies the sampling frequency, ranging from 8000 to
 48000 Hz (not all the sound cards and/or sound drivers can support all
 the frequencies, so actually the nearest candidate will be chosen).
 
-<A NAME="IDX59"></A>
-<A NAME="IDX60"></A>
+<A NAME="IDX61"></A>
+<A NAME="IDX62"></A>
 <P> <LI>
 
 "Buffer size" specifies the size of the audio buffer; the bigger the
 buffer, the longer the delay with which sounds are played.  You should
 pick the smallest value your machine can handle without problems.
 
-<A NAME="IDX61"></A>
+<A NAME="IDX63"></A>
 <P> <LI>
 
 "Sound suspend time", will cause the audio playback to pause for the
 specified number of seconds whenever some clicking happens.  If "Keep
 going" is selected, no pausing is done.
 
-<A NAME="IDX62"></A>
+<A NAME="IDX64"></A>
 <P> <LI>
 
 "Oversample" specifies an oversampling factor, from 1 to 8 times
@@ -611,17 +629,17 @@ going" is selected, no pausing is done.
 
 
 
-<H3><A NAME="SEC51" HREF="vice_toc.html#TOC51">6.6.1  Sound resources</A></H3>
+<H3><A NAME="SEC52" HREF="vice_toc.html#TOC52">6.6.1  Sound resources</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>Sound</CODE>
 <DD>
-<A NAME="IDX63"></A>
+<A NAME="IDX65"></A>
  
 Boolean specifying whether audio emulation is turned on.
 
-<A NAME="IDX64"></A>
+<A NAME="IDX66"></A>
 <P><DT><CODE>SoundSpeedAdjustment</CODE>
 <DD>
 Integer specifying what speed adjustment method the audio renderer should
@@ -639,31 +657,31 @@ use.  Possible values are:
 <CODE>2</CODE>: "exact"
 </UL> </P>
 
-<A NAME="IDX65"></A>
+<A NAME="IDX67"></A>
 <P><DT><CODE>SoundSampleRate</CODE>
 <DD>
 Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
 (not all the sound cards and/or sound drivers can support all the
 frequencies, so actually the nearest candidate will be chosen).
 
-<A NAME="IDX66"></A>
+<A NAME="IDX68"></A>
 <P><DT><CODE>SoundBufferSize</CODE>
 <DD>
 Integer specifying the size of the audio buffer, in milliseconds.
 
-<A NAME="IDX67"></A>
+<A NAME="IDX69"></A>
 <P><DT><CODE>SoundSuspendTime</CODE>
 <DD>
 Integer specifying the pause interval when audio underflows ("clicks")
 happen.  <CODE>0</CODE> means no pause is done.
 
-<A NAME="IDX68"></A>
+<A NAME="IDX70"></A>
 <P><DT><CODE>SoundOversample</CODE>
 <DD>
 Integer specifying the oversampling factor, ranging from <CODE>0</CODE> (no
 oversampling) to <CODE>3</CODE> (8 times oversampling).
 
-<A NAME="IDX69"></A>
+<A NAME="IDX71"></A>
 <P><DT><CODE>SoundDeviceName</CODE>
 <DD>
 String specifying the audio driver.
@@ -718,7 +736,7 @@ used to evaluate the speed of the sample generator);
 These drivers will actually be present only if the VICE configuration
 script detected the corresponding devices at the time of compilation.
 
-<A NAME="IDX70"></A>
+<A NAME="IDX72"></A>
 <P><DT><CODE>SoundDeviceArg</CODE>
 <DD>
 String specifying an additional parameter for the audio driver (see
@@ -728,41 +746,41 @@ String specifying an additional parameter for the audio driver (see
 
 
 
-<H3><A NAME="SEC52" HREF="vice_toc.html#TOC52">6.6.2  Sound command-line options</A></H3>
+<H3><A NAME="SEC53" HREF="vice_toc.html#TOC53">6.6.2  Sound command-line options</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>-sound</CODE>
 <DD>
-<A NAME="IDX71"></A>
+<A NAME="IDX73"></A>
  
 <DT><CODE>+sound</CODE>
 <DD>
 Turns sound emulation on (<CODE>Sound=1</CODE>) and off (<CODE>Sound=0</CODE>).
 
-<A NAME="IDX72"></A>
+<A NAME="IDX74"></A>
 <P><DT><CODE>-soundsync N</CODE>
 <DD>
 Specify <CODE>N</CODE> as the sound speed adjustment method
 (<CODE>SoundSpeedAdjustment</CODE>).
 
-<A NAME="IDX73"></A>
+<A NAME="IDX75"></A>
 <P><DT><CODE>-soundrate RATE</CODE>
 <DD>
 Specifies the sound playback sample rate (<CODE>SoundSampleRate</CODE>).
 
-<A NAME="IDX74"></A>
+<A NAME="IDX76"></A>
 <P><DT><CODE>-soundbufsize SIZE</CODE>
 <DD>
 Specifies the size of the audio buffer in milliseconds
 (<CODE>SoundBufferSize</CODE>).
 
-<A NAME="IDX75"></A>
+<A NAME="IDX77"></A>
 <P><DT><CODE>-sounddev NAME</CODE>
 <DD>
 Specifies the name of the audio device (<CODE>SoundDeviceName</CODE>).
 
-<A NAME="IDX76"></A>
+<A NAME="IDX78"></A>
 <P><DT><CODE>-soundarg ARG</CODE>
 <DD>
 Specifies an additional parameter for the audio device
@@ -772,7 +790,7 @@ Specifies an additional parameter for the audio device
 
 
 
-<H2><A NAME="SEC53" HREF="vice_toc.html#TOC53">6.7  Drive settings</A></H2>
+<H2><A NAME="SEC54" HREF="vice_toc.html#TOC54">6.7  Drive settings</A></H2>
 
 <P>
 These settings are used to control the hardware-level emulation of the
@@ -904,18 +922,18 @@ needs it, without prompting the user.
 
 
 
-<H3><A NAME="SEC54" HREF="vice_toc.html#TOC54">6.7.1  Drive resources</A></H3>
+<H3><A NAME="SEC55" HREF="vice_toc.html#TOC55">6.7.1  Drive resources</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>DriveTrueEmulation</CODE>
 <DD>
-<A NAME="IDX77"></A>
+<A NAME="IDX79"></A>
  
 Boolean controlling whether the "true" drive emulation is turned on.
 
-<A NAME="IDX78"></A>
-<A NAME="IDX79"></A>
+<A NAME="IDX80"></A>
+<A NAME="IDX81"></A>
 <P><DT><CODE>Drive8Type</CODE>
 <DD>
 <DT><CODE>Drive9Type</CODE>
@@ -923,51 +941,51 @@ Boolean controlling whether the "true" drive emulation is turned on.
 Integers specifying the model number for drives 8 and 9.  Possible values 
 are <CODE>1541</CODE>, <CODE>1571</CODE>, <CODE>1581</CODE> and <CODE>2031</CODE>.
 
-<A NAME="IDX80"></A>
+<A NAME="IDX82"></A>
 <P><DT><CODE>Drive8ParallelCable</CODE>
 <DD>
-<A NAME="IDX81"></A>
+<A NAME="IDX83"></A>
 <DT><CODE>Drive9ParallelCable</CODE>
 <DD>
 Booleans controlling whether the SpeedDOS-compatible cable is emulated or
 not for drives 8 and 9.
 
-<A NAME="IDX82"></A>
+<A NAME="IDX84"></A>
 <P><DT><CODE>Drive8ExtendImagePolicy</CODE>
 <DD>
-<A NAME="IDX83"></A>
+<A NAME="IDX85"></A>
 <DT><CODE>Drive9ExtendImagePolicy</CODE>
 <DD>
 Integer specifying the policy for 40-track support for drives 8 and 9.
 Possible values are <CODE>0</CODE> (never extend), <CODE>1</CODE> (ask on extend),
 <CODE>2</CODE> (extend on access).
 
-<A NAME="IDX84"></A>
+<A NAME="IDX86"></A>
 <P><DT><CODE>Drive8IdleMethod</CODE>
 <DD>
-<A NAME="IDX85"></A>
+<A NAME="IDX87"></A>
 <DT><CODE>Drive9IdleMethod</CODE>
 <DD>
 Integers specifying the idling method for the drive CPU.  Possible values
 are <CODE>0</CODE> (none), <CODE>1</CODE> (skip cycles), <CODE>2</CODE> (trap idle).
-See section <A HREF="vice_6.html#SEC53">6.7  Drive settings</A>.
+See section <A HREF="vice_6.html#SEC54">6.7  Drive settings</A>.
 
-<A NAME="IDX86"></A>
+<A NAME="IDX88"></A>
 <P><DT><CODE>DriveSyncFactor</CODE>
 <DD>
-Integer specifying the drive's clock sync factor (see section <A HREF="vice_6.html#SEC53">6.7  Drive settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
+Integer specifying the drive's clock sync factor (see section <A HREF="vice_6.html#SEC54">6.7  Drive settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
 respectively.
 
-<A NAME="IDX87"></A>
+<A NAME="IDX89"></A>
 <P><DT><CODE>DosName1541</CODE>
 <DD>
-<A NAME="IDX88"></A>
+<A NAME="IDX90"></A>
 <DT><CODE>DosName1571</CODE>
 <DD>
-<A NAME="IDX89"></A>
+<A NAME="IDX91"></A>
 <DT><CODE>DosName1581</CODE>
 <DD>
-<A NAME="IDX90"></A>
+<A NAME="IDX92"></A>
 <DT><CODE>DosName2031</CODE>
 <DD>
 Strings specifying the names of the ROM images for the drive emulation.
@@ -976,20 +994,20 @@ Strings specifying the names of the ROM images for the drive emulation.
 
 
 
-<H3><A NAME="SEC55" HREF="vice_toc.html#TOC55">6.7.2  Drive command-line options</A></H3>
+<H3><A NAME="SEC56" HREF="vice_toc.html#TOC56">6.7.2  Drive command-line options</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>-truedrive</CODE>
 <DD>
-<A NAME="IDX91"></A>
+<A NAME="IDX93"></A>
  
 <DT><CODE>+truedrive</CODE>
 <DD>
 Turns true drive emulation on (<CODE>DriveTrueEmulation=1</CODE>) and off
 (<CODE>DriveTrueEmulation=0</CODE>), respectively.
 
-<A NAME="IDX92"></A>
+<A NAME="IDX94"></A>
 <P><DT><CODE>-drive8type TYPE</CODE>
 <DD>
 <DT><CODE>-drive9type TYPE</CODE>
@@ -998,12 +1016,12 @@ Specifies the drive types for units 8 and 9, respectively.  Possible
 values for <CODE>TYPE</CODE> are <CODE>1541</CODE>, <CODE>1571</CODE>, <CODE>1581</CODE> and
 <CODE>2031</CODE>.
 
-<A NAME="IDX93"></A>
+<A NAME="IDX95"></A>
 <P><DT><CODE>-parallel</CODE>
 <DD>
 <DT><CODE>+parallel</CODE>
 <DD>
-<A NAME="IDX94"></A>
+<A NAME="IDX96"></A>
 <DT><CODE>-parallel</CODE>
 <DD>
 <DT><CODE>+parallel</CODE>
@@ -1012,7 +1030,7 @@ Turns emulation of the SpeedDOS-compatible parallel cable on
 (<CODE>DriveXParallelCable=1</CODE>) and off (<CODE>DriveXParallelCable=0</CODE>),
 respectively.
 
-<A NAME="IDX95"></A>
+<A NAME="IDX97"></A>
 <P><DT><CODE>-drive8idle NUM</CODE>
 <DD>
 <DT><CODE>-drive9idle NUM</CODE>
@@ -1020,28 +1038,28 @@ respectively.
 Specifies <CODE>NUM</CODE> as the idling method in drives 8 and 9, respectively
 (<CODE>Drive8IdleMethod</CODE>, <CODE>Drive9IdleMethod</CODE>).
 
-<A NAME="IDX96"></A>
+<A NAME="IDX98"></A>
 <P><DT><CODE>-paldrive</CODE>
 <DD>
 Specifies a PAL sync factor for the drive emulation
 (<CODE>DriveSyncFactor=-1</CODE>).
 
-<A NAME="IDX97"></A>
+<A NAME="IDX99"></A>
 <P><DT><CODE>-ntscdrive</CODE>
 <DD>
 Specifies an NTSC sync factor for the drive emulation
 (<CODE>DriveSyncFactor=-2</CODE>).
 
-<A NAME="IDX98"></A>
+<A NAME="IDX100"></A>
 <P><DT><CODE>-drivesync NUM</CODE>
 <DD>
 Specifies a generic sync factor for the drive emulation
 (<CODE>True1541SyncFactor</CODE>).
 
-<A NAME="IDX99"></A>
-<A NAME="IDX100"></A>
 <A NAME="IDX101"></A>
 <A NAME="IDX102"></A>
+<A NAME="IDX103"></A>
+<A NAME="IDX104"></A>
 <P><DT><CODE>-dos1541</CODE>
 <DD>
 <DT><CODE>-dos1571</CODE>
@@ -1057,7 +1075,7 @@ respectively.
 
 
 
-<H2><A NAME="SEC56" HREF="vice_toc.html#TOC56">6.8  Peripheral settings</A></H2>
+<H2><A NAME="SEC57" HREF="vice_toc.html#TOC57">6.8  Peripheral settings</A></H2>
 
 <P>
 VICE is able to support some special peripherals:
@@ -1082,7 +1100,7 @@ custom-made C routines.
 
 
 
-<H3><A NAME="SEC57" HREF="vice_toc.html#TOC57">6.8.1  Settings for file system devices</A></H3>
+<H3><A NAME="SEC58" HREF="vice_toc.html#TOC58">6.8.1  Settings for file system devices</A></H3>
 
 <P>
 These settings deal with the drive-like peripherals connected to the bus
@@ -1120,66 +1138,66 @@ while drive 11 creates Unix files.
 
 
 
-<H4><A NAME="SEC58" HREF="vice_toc.html#TOC58">6.8.1.1  Resources for file system devices</A></H4>
+<H4><A NAME="SEC59" HREF="vice_toc.html#TOC59">6.8.1.1  Resources for file system devices</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>FSDevice8ConvertP00</CODE>
 <DD>
-<A NAME="IDX103"></A>
+<A NAME="IDX105"></A>
  
-<A NAME="IDX104"></A>
+<A NAME="IDX106"></A>
 <DT><CODE>FSDevice9ConvertP00</CODE>
 <DD>
-<A NAME="IDX105"></A>
+<A NAME="IDX107"></A>
 <DT><CODE>FSDevice10ConvertP00</CODE>
 <DD>
-<A NAME="IDX106"></A>
+<A NAME="IDX108"></A>
 <DT><CODE>FSDevice11ConvertP00</CODE>
 <DD>
 Booleans specifying whether on-read support for P00 files is enabled on
 drives 8, 9, 10 and 11 respectively (on by default).
 
-<A NAME="IDX107"></A>
+<A NAME="IDX109"></A>
 <P><DT><CODE>FSDevice8SaveP00</CODE>
 <DD>
-<A NAME="IDX108"></A>
+<A NAME="IDX110"></A>
 <DT><CODE>FSDevice9SaveP00</CODE>
 <DD>
-<A NAME="IDX109"></A>
+<A NAME="IDX111"></A>
 <DT><CODE>FSDevice10SaveP00</CODE>
 <DD>
-<A NAME="IDX110"></A>
+<A NAME="IDX112"></A>
 <DT><CODE>FSDevice11SaveP00</CODE>
 <DD>
 Booleans specifying whether the drives should create P00 files instead
 of plain CBM ones (on by default for drives 8-10, off for 11).
 
-<A NAME="IDX111"></A>
+<A NAME="IDX113"></A>
 <P><DT><CODE>FSDevice8HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX112"></A>
+<A NAME="IDX114"></A>
 <DT><CODE>FSDevice9HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX113"></A>
+<A NAME="IDX115"></A>
 <DT><CODE>FSDevice10HideCBMFiles</CODE>
 <DD>
-<A NAME="IDX114"></A>
+<A NAME="IDX116"></A>
 <DT><CODE>FSDevice11HideCBMFiles</CODE>
 <DD>
 Booleans specifying whether non-P00 files should be invisible to
 programs running in the emulator (do not hide by default).
 
-<A NAME="IDX115"></A>
+<A NAME="IDX117"></A>
 <P><DT><CODE>FSDevice8Dir</CODE>
 <DD>
-<A NAME="IDX116"></A>
+<A NAME="IDX118"></A>
 <DT><CODE>FSDevice9Dir</CODE>
 <DD>
-<A NAME="IDX117"></A>
+<A NAME="IDX119"></A>
 <DT><CODE>FSDevice10Dir</CODE>
 <DD>
-<A NAME="IDX118"></A>
+<A NAME="IDX120"></A>
 <DT><CODE>FSDevice11Dir</CODE>
 <DD>
 Strings specifying the directories to which drives 8, 9, 10 and 11
@@ -1189,21 +1207,21 @@ have access.
 
 
 
-<H4><A NAME="SEC59" HREF="vice_toc.html#TOC59">6.8.1.2  Command-line options for file system devices</A></H4>
+<H4><A NAME="SEC60" HREF="vice_toc.html#TOC60">6.8.1.2  Command-line options for file system devices</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>-fs8 PATH</CODE>
 <DD>
-<A NAME="IDX119"></A>
+<A NAME="IDX121"></A>
  
-<A NAME="IDX120"></A>
+<A NAME="IDX122"></A>
 <DT><CODE>-fs9 PATH</CODE>
 <DD>
-<A NAME="IDX121"></A>
+<A NAME="IDX123"></A>
 <DT><CODE>-fs10 PATH</CODE>
 <DD>
-<A NAME="IDX122"></A>
+<A NAME="IDX124"></A>
 <DT><CODE>-fs11 PATH</CODE>
 <DD>
 Specify the paths for the file system access on drives 8, 9, 10 and 11,
@@ -1214,7 +1232,7 @@ respectively (<CODE>FSDevice8Dir</CODE>, <CODE>FSDevice9Dir</CODE>,
 
 
 
-<H3><A NAME="SEC60" HREF="vice_toc.html#TOC60">6.8.2  Printer settings</A></H3>
+<H3><A NAME="SEC61" HREF="vice_toc.html#TOC61">6.8.2  Printer settings</A></H3>
 
 <P>
 The VICE emulators can emulate printers connected to either the IEC
@@ -1263,39 +1281,39 @@ output from the Commodore printer code) and then to the printer via
 
 
 
-<H4><A NAME="SEC61" HREF="vice_toc.html#TOC61">6.8.2.1  Printer resources</A></H4>
+<H4><A NAME="SEC62" HREF="vice_toc.html#TOC62">6.8.2.1  Printer resources</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>PrDevice1</CODE>
 <DD>
-<A NAME="IDX123"></A>
+<A NAME="IDX125"></A>
  
-<A NAME="IDX124"></A>
+<A NAME="IDX126"></A>
 <DT><CODE>PrDevice2</CODE>
 <DD>
-<A NAME="IDX125"></A>
+<A NAME="IDX127"></A>
 <DT><CODE>PrDevice3</CODE>
 <DD>
-Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC60">6.8.2  Printer settings</A>).
+Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC61">6.8.2  Printer settings</A>).
 
-<A NAME="IDX126"></A>
+<A NAME="IDX128"></A>
 <P><DT><CODE>Printer4</CODE>
 <DD>
 Boolean specifying if the IEC printer (device 4) is being emulated.
 
-<A NAME="IDX127"></A>
+<A NAME="IDX129"></A>
 <P><DT><CODE>Printer4Dev</CODE>
 <DD>
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer device 
-(see section <A HREF="vice_6.html#SEC60">6.8.2  Printer settings</A>) the IEC printer is using.
+(see section <A HREF="vice_6.html#SEC61">6.8.2  Printer settings</A>) the IEC printer is using.
 
-<A NAME="IDX128"></A>
+<A NAME="IDX130"></A>
 <P><DT><CODE>PrUser</CODE>
 <DD>
 Boolean specifying if the user-port printer is being emulated.
 
-<A NAME="IDX129"></A>
+<A NAME="IDX131"></A>
 <P><DT><CODE>PrUserDev</CODE>
 <DD>
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer 
@@ -1305,24 +1323,24 @@ device the user-port printer is using.
 
 
 
-<H4><A NAME="SEC62" HREF="vice_toc.html#TOC62">6.8.2.2  Printer command-line options</A></H4>
+<H4><A NAME="SEC63" HREF="vice_toc.html#TOC63">6.8.2.2  Printer command-line options</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>-prdev1 NAME</CODE>
 <DD>
-<A NAME="IDX130"></A>
+<A NAME="IDX132"></A>
  
-<A NAME="IDX131"></A>
+<A NAME="IDX133"></A>
 <DT><CODE>-prdev2 NAME</CODE>
 <DD>
-<A NAME="IDX132"></A>
+<A NAME="IDX134"></A>
 <DT><CODE>-prdev3 NAME</CODE>
 <DD>
 Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 (<CODE>PrDevice1</CODE>, <CODE>PrDevice2</CODE> and <CODE>PrDevice3</CODE>).
 
-<A NAME="IDX133"></A>
+<A NAME="IDX135"></A>
 <P><DT><CODE>-printer4</CODE>
 <DD>
 <DT><CODE>+printer4</CODE>
@@ -1330,12 +1348,12 @@ Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
 Enable/disable emulation of the IEC printer (<CODE>Printer4=1</CODE>,
 <CODE>Printer4=0</CODE>).
 
-<A NAME="IDX134"></A>
+<A NAME="IDX136"></A>
 <P><DT><CODE>-pr4dev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 
-<A NAME="IDX135"></A>
+<A NAME="IDX137"></A>
 <P><DT><CODE>-pruser</CODE>
 <DD>
 <DT><CODE>+pruser</CODE>
@@ -1343,7 +1361,7 @@ Specify device for the IEC printer (<CODE>Printer4Dev</CODE>).
 Enable/disable emulation of the IEC printer (<CODE>PrUser=1</CODE>,
 <CODE>PrUser=0</CODE>).
 
-<A NAME="IDX136"></A>
+<A NAME="IDX138"></A>
 <P><DT><CODE>-pruserdev DEV</CODE>
 <DD>
 Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
@@ -1352,7 +1370,7 @@ Specify device for the IEC printer (<CODE>PrUserDev</CODE>).
 
 
 
-<H3><A NAME="SEC63" HREF="vice_toc.html#TOC63">6.8.3  Disabling kernal traps</A></H3>
+<H3><A NAME="SEC64" HREF="vice_toc.html#TOC64">6.8.3  Disabling kernal traps</A></H3>
 
 <P>
 If you have compatibility problems, you can completely disable Kernal
@@ -1365,13 +1383,13 @@ to be able to read or write disk images) and tape support.
 
 
 
-<H4><A NAME="SEC64" HREF="vice_toc.html#TOC64">6.8.3.1  Resources to control Kernal traps</A></H4>
+<H4><A NAME="SEC65" HREF="vice_toc.html#TOC65">6.8.3.1  Resources to control Kernal traps</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>NoTraps</CODE>
 <DD>
-<A NAME="IDX137"></A>
+<A NAME="IDX139"></A>
  
 Boolean specifying whether all the Kernal trap should be disabled.
 
@@ -1379,13 +1397,13 @@ Boolean specifying whether all the Kernal trap should be disabled.
 
 
 
-<H4><A NAME="SEC65" HREF="vice_toc.html#TOC65">6.8.3.2  Command-line options to control Kernal traps</A></H4>
+<H4><A NAME="SEC66" HREF="vice_toc.html#TOC66">6.8.3.2  Command-line options to control Kernal traps</A></H4>
 
 <DL COMPACT>
 
 <P><DT><CODE>-traps</CODE>
 <DD>
-<A NAME="IDX138"></A>
+<A NAME="IDX140"></A>
  
 <DT><CODE>+traps</CODE>
 <DD>
@@ -1395,7 +1413,7 @@ Enable (<CODE>NoTraps=0</CODE>) or disable (<CODE>NoTraps=1</CODE>) kernal traps
 
 
 
-<H2><A NAME="SEC66" HREF="vice_toc.html#TOC66">6.9  RS232 settings</A></H2>
+<H2><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.9  RS232 settings</A></H2>
 
 <P>
 The VICE emulators can emulate the RS232 device most of the machines
@@ -1491,66 +1509,66 @@ actually expects).
 
 
 
-<H3><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.9.1  RS232 resources</A></H3>
+<H3><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.9.1  RS232 resources</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>RsDevice1</CODE>
 <DD>
-<A NAME="IDX139"></A>
+<A NAME="IDX141"></A>
  
-<A NAME="IDX140"></A>
+<A NAME="IDX142"></A>
 <DT><CODE>RsDevice2</CODE>
 <DD>
-<A NAME="IDX141"></A>
+<A NAME="IDX143"></A>
 <DT><CODE>RsDevice3</CODE>
 <DD>
-<A NAME="IDX142"></A>
+<A NAME="IDX144"></A>
 <DT><CODE>RsDevice4</CODE>
 <DD>
-Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC66">6.9  RS232 settings</A>).
+Strings specifying the RS232 devices (see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>).
 
-<A NAME="IDX143"></A>
+<A NAME="IDX145"></A>
 <P><DT><CODE>RsDevice1Baud</CODE>
 <DD>
-<A NAME="IDX144"></A>
+<A NAME="IDX146"></A>
 <DT><CODE>RsDevice2Baud</CODE>
 <DD>
-<A NAME="IDX145"></A>
+<A NAME="IDX147"></A>
 <DT><CODE>RsDevice3Baud</CODE>
 <DD>
-<A NAME="IDX146"></A>
+<A NAME="IDX148"></A>
 <DT><CODE>RsDevice4Baud</CODE>
 <DD>
 Integer specifying the RS232 baudrate devices if the device file points
-to a special device (like <TT>`/dev/ttyS0'</TT>; see section <A HREF="vice_6.html#SEC66">6.9  RS232 settings</A>).
+to a special device (like <TT>`/dev/ttyS0'</TT>; see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>).
 
-<A NAME="IDX147"></A>
+<A NAME="IDX149"></A>
 <P><DT><CODE>AciaDE</CODE>
 <DD>
 Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
 I/O 1, at <CODE>$de**</CODE>.
 
-<A NAME="IDX148"></A>
+<A NAME="IDX150"></A>
 <P><DT><CODE>Acia1Dev</CODE>
 <DD>
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
-(see section <A HREF="vice_6.html#SEC66">6.9  RS232 settings</A>) the ACIA is using (all except VIC20).
+(see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>) the ACIA is using (all except VIC20).
 
-<A NAME="IDX149"></A>
+<A NAME="IDX151"></A>
 <P><DT><CODE>Acia1Irq</CODE>
 <DD>
 Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI 
 (C64 and C128 only)
 
-<A NAME="IDX150"></A>
+<A NAME="IDX152"></A>
 <P><DT><CODE>RsUser</CODE>
 <DD>
 Integer specifying if the user-port RS232 interface is being emulated and 
 at which baudrate it should have for the emulator. 0 = off; &#62; 0 specifies the
 baudrate (C64, C128 and VIC20).
 
-<A NAME="IDX151"></A>
+<A NAME="IDX153"></A>
 <P><DT><CODE>RsUserDev</CODE>
 <DD>
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
@@ -1560,56 +1578,56 @@ the user-port interface is using (C64, C128 and VIC20).
 
 
 
-<H3><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.9.2  RS232 command-line options</A></H3>
+<H3><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.9.2  RS232 command-line options</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>-rsdev1 NAME</CODE>
 <DD>
-<A NAME="IDX152"></A>
+<A NAME="IDX154"></A>
  
-<A NAME="IDX153"></A>
+<A NAME="IDX155"></A>
 <DT><CODE>-rsdev2 NAME</CODE>
 <DD>
-<A NAME="IDX154"></A>
+<A NAME="IDX156"></A>
 <DT><CODE>-rsdev3 NAME</CODE>
 <DD>
-<A NAME="IDX155"></A>
+<A NAME="IDX157"></A>
 <DT><CODE>-rsdev4 NAME</CODE>
 <DD>
 Specify <CODE>NAME</CODE> as RS232 devices 1, 2, 3 and 4, respectively
 (<CODE>RsDevice1</CODE>, <CODE>RsDevice2</CODE> <CODE>RsDevice3</CODE> and <CODE>RsDevice4</CODE>).
 
-<A NAME="IDX156"></A>
+<A NAME="IDX158"></A>
 <P><DT><CODE>-rsdev1 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX157"></A>
+<A NAME="IDX159"></A>
 <DT><CODE>-rsdev2 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX158"></A>
+<A NAME="IDX160"></A>
 <DT><CODE>-rsdev3 BAUDRATE</CODE>
 <DD>
-<A NAME="IDX159"></A>
+<A NAME="IDX161"></A>
 <DT><CODE>-rsdev4 BAUDRATE</CODE>
 <DD>
 Specify <CODE>BAUDRATE</CODE> as baudrate for the RS232 devices if the device name
 specifies a special device (like <TT>`/dev/ttyS0'</TT> for example, 
-see section <A HREF="vice_6.html#SEC66">6.9  RS232 settings</A>;
+see section <A HREF="vice_6.html#SEC67">6.9  RS232 settings</A>;
 <CODE>RsDevice1Baud</CODE>, <CODE>RsDevice2Baud</CODE> <CODE>RsDevice3Baud</CODE> and 
 <CODE>RsDevice4Baud</CODE>).
 
-<A NAME="IDX160"></A>
+<A NAME="IDX162"></A>
 <P><DT><CODE>-acia1dev</CODE>
 <DD>
 Specify device for the ACIA (<CODE>Acia1Dev</CODE>).
 
-<A NAME="IDX161"></A>
+<A NAME="IDX163"></A>
 <P><DT><CODE>-rsuser BAUDRATE</CODE>
 <DD>
 Enable (BAUDRATE not 0) or disable (BAUDRATE = 0) emulation of the 
 userport RS232 emulation (<CODE>RsUser</CODE>; C64, C128 and VIC20)
 
-<A NAME="IDX162"></A>
+<A NAME="IDX164"></A>
 <P><DT><CODE>-rsuserdev DEV</CODE>
 <DD>
 Specify device for the userport RS232 emulation (<CODE>RsUserDev</CODE>; 
@@ -1619,7 +1637,7 @@ C64, C128 and VIC20).
 
 
 
-<H3><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.9.3  RS232 usage example</A></H3>
+<H3><A NAME="SEC70" HREF="vice_toc.html#TOC70">6.9.3  RS232 usage example</A></H3>
 
 <P>
 Here we give you a simple example how to set up an emulated C64 using
@@ -1667,7 +1685,7 @@ If it is able to detect an
 
 
 
-<H2><A NAME="SEC70" HREF="vice_toc.html#TOC70">6.10  Miscellaneous settings</A></H2>
+<H2><A NAME="SEC71" HREF="vice_toc.html#TOC71">6.10  Miscellaneous settings</A></H2>
 
 <P>
 This section lists generic resources that do not fit in the other
@@ -1677,13 +1695,13 @@ categories.
 
 
 
-<H3><A NAME="SEC71" HREF="vice_toc.html#TOC71">6.10.1  Miscellaneous resources</A></H3>
+<H3><A NAME="SEC72" HREF="vice_toc.html#TOC72">6.10.1  Miscellaneous resources</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>Directory</CODE>
 <DD>
-<A NAME="IDX163"></A>
+<A NAME="IDX165"></A>
  
 String specifying the search path for system files.  It is defined as a
 sequence of directory names, separated by colons (<SAMP>`:'</SAMP>), just like
@@ -1724,10 +1742,10 @@ Notice that the middle entry points to a default location in
 the user's home directory. Here private ROM versions (e.g. 
 speeddos or JiffyDos) can be stored for example.
 
-See section <A HREF="vice_4.html#SEC22">4  System files</A> for a description of the method used to load the
+See section <A HREF="vice_4.html#SEC23">4  System files</A> for a description of the method used to load the
 emulator's system files.
 
-<A NAME="IDX164"></A>
+<A NAME="IDX166"></A>
 <P><DT><CODE>HTMLBrowserCommand</CODE>
 <DD>
 String specifying the command to run the help browser.  The help browser
@@ -1735,14 +1753,14 @@ can be any HTML browser, and every <SAMP>`%s'</SAMP> in the string is replaced
 with the name of the toplevel file of the VICE documentation.  For
 example, the default value <SAMP>`netscape %s'</SAMP> runs Netscape Navigator.
 
-<A NAME="IDX165"></A>
+<A NAME="IDX167"></A>
 <P><DT><CODE>SaveResourcesOnExit</CODE>
 <DD>
 Boolean specifying whether the emulator should save changed settings
 before exiting.  If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
-<A NAME="IDX166"></A>
+<A NAME="IDX168"></A>
 <P><DT><CODE>DoCoreDump</CODE>
 <DD>
 Boolean specifying whether the emulator should dump core when it gets a
@@ -1752,28 +1770,28 @@ signal.
 
 
 
-<H3><A NAME="SEC72" HREF="vice_toc.html#TOC72">6.10.2  Miscellaneous command-line options</A></H3>
+<H3><A NAME="SEC73" HREF="vice_toc.html#TOC73">6.10.2  Miscellaneous command-line options</A></H3>
 
 <DL COMPACT>
 
 <P><DT><CODE>-directory SEARCHPATH</CODE>
 <DD>
-<A NAME="IDX167"></A>
+<A NAME="IDX169"></A>
  
 Specify the system file search path (<CODE>Directory</CODE>).
-<A NAME="IDX168"></A>
+<A NAME="IDX170"></A>
 <P><DT><CODE>-htmlbrowser COMMAND</CODE>
 <DD>
 Specify the command to run the HTML browser for the on-line help
 (<CODE>HTMLBrowserCommand</CODE>).
-<A NAME="IDX169"></A>
+<A NAME="IDX171"></A>
 <P><DT><CODE>-saveres</CODE>
 <DD>
 <DT><CODE>+saveres</CODE>
 <DD>
 Enable/disable automatic saving of settings on exit
 (<CODE>SaveResourcesOnExit=1</CODE>, <CODE>SaveResourcesOnExit=0</CODE>).
-<A NAME="IDX170"></A>
+<A NAME="IDX172"></A>
 <P><DT><CODE>-core</CODE>
 <DD>
 <DT><CODE>+core</CODE>

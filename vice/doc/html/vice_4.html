@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 2 April 1999 -->
+     from ../vice.texi on 9 April 1999 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -10,7 +10,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <
 <P><HR><P>
 
 
-<H1><A NAME="SEC22" HREF="vice_toc.html#TOC22">4  System files</A></H1>
+<H1><A NAME="SEC23" HREF="vice_toc.html#TOC23">4  System files</A></H1>
 
 <P>
 In order to work properly, the emulators need to load a few system
@@ -102,13 +102,13 @@ System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
 you specify <TT>`./kernal'</TT> as the kernal image name, the kernal image
 will be loaded from the current directory.  This can be done by using
-command-line options or by modifying resource values (see section <A HREF="vice_6.html#SEC39">6.1  Format of resource files</A>).
+command-line options or by modifying resource values (see section <A HREF="vice_6.html#SEC40">6.1  Format of resource files</A>).
 
 </P>
 
 
 
-<H2><A NAME="SEC23" HREF="vice_toc.html#TOC23">4.1  ROM files</A></H2>
+<H2><A NAME="SEC24" HREF="vice_toc.html#TOC24">4.1  ROM files</A></H2>
 
 <P>
 Every emulator requires its own ROM set.  For the VIC20 and the C64, the
@@ -196,13 +196,18 @@ VC1541 with a parallel IEEE488 interface:
 </UL> </P>
 
 <P>
-The PET emulator uses a rather different setup: the Basic and Kernal
-ROMS are packed into a single file and only three kernal files are
-provided; one for each Basic revision.  To handle the different screen
+The PET emulator uses an expanded setup, because there are three major 
+versions of the Basic and the Kernal, and many versions of the 
+Editor ROM. In addition there are cartridge ROM sockets.
+
+</P>
+<P>
+The Kernal files contain the memory from range $F000-$FFFF, the Basic
+ROMs either the range $C000-$DFFF or $B000-$DFFF.
+To handle the different screen
 sizes and keyboards, different so-called "editor-ROMs" for the memory
-range $E000-$E800 are provided.  The kernal files already contain an
-editor ROM for use with 40 columns and the graphics keyboard.  The PET
-ROMs have the following names:
+range $E000-$E800 are provided. 
+The PET ROMs have the following names:
 
 </P>
 
@@ -210,38 +215,55 @@ ROMs have the following names:
 
 <P> <LI>
 
-<TT>`pet2001'</TT>, the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+<TT>`kernal1'</TT>, the PET2001 Kernal ROM (4 KBytes)
+<P> <LI>
+
+<TT>`kernal2'</TT>, the PET3032 Kernal ROM (4 KBytes)
+<P> <LI>
+
+<TT>`kernal4'</TT>, the PET4032/8032 Kernal ROM (4 KBytes)
 
 <P> <LI>
 
-<TT>`pet3032'</TT>, the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+<TT>`basic1'</TT>, the PET2001 Basic 1 ROM (8 KBytes)
+<P> <LI>
+
+<TT>`basic2'</TT>, the PET3032 Basic 2 ROM (8 KBytes)
+<P> <LI>
+
+<TT>`basic4'</TT>, the PET4032/8032 Basic 4 ROM (12 KBytes)
 
 <P> <LI>
 
-<TT>`pet4032'</TT>, the PET4032/8032 Basic 4 + Kernal ROM (20
-KBytes)
-
+<TT>`edit1g'</TT>, the PET2001 editor for graphics keyboards (2 KBytes)
 <P> <LI>
 
-<TT>`edit2.b'</TT>, the PET3032 editor for business keyboard (2
-KBytes)
-
+<TT>`edit2b'</TT>, the PET3032 editor for business keyboards (2 KBytes)
 <P> <LI>
 
-<TT>`edit4.b40'</TT>, the PET4032 editor for business keyboard
-(2 KBytes)
-
+<TT>`edit2g'</TT>, the PET3032 editor for graphics keyboards (2 KBytes)
 <P> <LI>
 
-<TT>`edit4.b80'</TT>, the PET8032 editor for 80 columns and
-business keyboard (2 KBytes)
+<TT>`edit4g40'</TT>, the PET4032 editor for graphics keyboards (2 KBytes)
+<P> <LI>
+
+<TT>`edit4b40'</TT>, the PET4032 editor for business keyboards (2 KBytes)
+<P> <LI>
+
+<TT>`edit4b80'</TT>, the PET8032 editor for business keyboards (2 KBytes)
+<P> <LI>
 
 <P> <LI>
 
 <TT>`chargen'</TT>, the character generator ROM (2k).  It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
+<P> <LI>
 
+<TT>`chargen.de'</TT>, the character generator ROM (2k). This version is a 
+patched German charset, with the characters [, \ and ] replaced by umlauts.
+It has been provided by U. Guettich and he reports that it is supported
+by some programs.
 </UL> </P>
 
 <P>
@@ -309,7 +331,7 @@ full (256 char) character set is computed by inverting.
 
 
 
-<H2><A NAME="SEC24" HREF="vice_toc.html#TOC24">4.2  Keymap files</A></H2>
+<H2><A NAME="SEC25" HREF="vice_toc.html#TOC25">4.2  Keymap files</A></H2>
 
 <P>
 <EM>Keymap files</EM> are used to define the keyboard layout, defining which
@@ -445,7 +467,7 @@ mapping.
 
 
 
-<H2><A NAME="SEC25" HREF="vice_toc.html#TOC25">4.3  Palette files</A></H2>
+<H2><A NAME="SEC26" HREF="vice_toc.html#TOC26">4.3  Palette files</A></H2>
 
 <P>
 <EM>Palette files</EM> are used to specify the colors used in the
@@ -500,7 +522,7 @@ background and 1 for foreground), looks like the following:
 
 
 
-<H2><A NAME="SEC26" HREF="vice_toc.html#TOC26">4.4  Romset files</A></H2>
+<H2><A NAME="SEC27" HREF="vice_toc.html#TOC27">4.4  Romset files</A></H2>
 
 <P>
 The Romset files are not used by default on all emulators. 

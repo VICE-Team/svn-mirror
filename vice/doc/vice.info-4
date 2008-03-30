@@ -17,6 +17,32 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Module Terminology,  Next: Module framework,  Prev: Module formats,  Up: Module formats
+
+Terminology
+...........
+
+   In this section we use certain abbreviations to define the types of
+the data saved in the snapshot.
+
+`BYTE'
+     8 bit integer.
+
+`WORD'
+     16 bit integer.  Saved with low-byte first, high-byte last.
+
+`DWORD'
+     32 bit integer.  Saved with low-word first, then high-word.  Each
+     word saved with its low-byte first.
+
+`ARRAY'
+     Array of BYTE values.  Length depends on the description.
+
+   The tables for the single modules state the type, name and
+description of the data saved in the modules.  The data is saved in the
+order it is in the tables, so no offset is given.
+
+
 File: vice.info,  Node: Module framework,  Next: CPU 6502 module,  Prev: Module Terminology,  Up: Module formats
 
 Module framework
@@ -463,7 +489,7 @@ BYTE    CONFIG                        Configuration value. Bits 0-3: 0=
                                       8296. Bit 6: 1= RAM at $9***. Bit    
                                       7: 1= RAM at $A***.                  
 BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=    
-                                      Graphics                             
+                                      Graphics; 2= German business         
 BYTE    MEMSIZE                       memory size of low 32k in k          
                                       (possible values 4, 8, 16, 32)       
 BYTE    CONF8X96                      Value of the 8x96 configuration      
@@ -1138,35 +1164,4 @@ prepend it with an exclamation mark (`!').  For example,
 
    will execute the command `ls -la', which will show you all the files
 in the current directory.
-
-
-File: vice.info,  Node: File formats,  Next: Acknowledgments,  Prev: c1541,  Up: Top
-
-The emulator file formats
-*************************
-
-   This chapter gives a technical description of the various files
-supported by the emulators.
-
-* Menu:
-
-* T64::                         The tape image format
-* G64::                         The GCR-encoded disk image format
-
-
-File: vice.info,  Node: T64,  Next: G64,  Prev: File formats,  Up: File formats
-
-The T64 tape image format
-=========================
-
-   (This section was taken from the C64S distribution.)
-
-   The `T64' File Structure was developed by Miha Peternel for use in
-the C64S emulator.  It is easy to use and allows future extensions.
-
-* Menu:
-
-* T64 file structure::
-* T64 tape record::
-* T64 file record::
 

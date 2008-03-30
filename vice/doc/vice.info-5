@@ -17,6 +17,37 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: File formats,  Next: Acknowledgments,  Prev: c1541,  Up: Top
+
+The emulator file formats
+*************************
+
+   This chapter gives a technical description of the various files
+supported by the emulators.
+
+* Menu:
+
+* T64::                         The tape image format
+* G64::                         The GCR-encoded disk image format
+
+
+File: vice.info,  Node: T64,  Next: G64,  Prev: File formats,  Up: File formats
+
+The T64 tape image format
+=========================
+
+   (This section was taken from the C64S distribution.)
+
+   The `T64' File Structure was developed by Miha Peternel for use in
+the C64S emulator.  It is easy to use and allows future extensions.
+
+* Menu:
+
+* T64 file structure::
+* T64 tape record::
+* T64 file record::
+
+
 File: vice.info,  Node: T64 file structure,  Next: T64 tape record,  Prev: T64,  Up: T64
 
 T64 File structure
@@ -768,6 +799,7 @@ Concept Index
 * -basic <1>:                            CBM-II commandline options.
 * -basic <2>:                            VIC20 system ROM options.
 * -basic:                                C64/128 system ROM options.
+* -bdesymkeymap -bdeposkeymap:           Keyboard options.
 * -buksymkeymap -bukposkeymap:           Keyboard options.
 * -cart2:                                CBM-II commandline options.
 * -cart4:                                CBM-II commandline options.
@@ -980,6 +1012,7 @@ Index of Resources
 * FSDevice9SaveP00:                      File system device resources.
 * HTMLBrowserCommand:                    Misc resources.
 * IEEE488:                               C64 I/O extension resources.
+* KeymapBusinessDESymFile KeymapBusinessDEPosFile: Keyboard resources.
 * KeymapBusinessUKSymFile KeymapBusinessUKPosFile: Keyboard resources.
 * KeymapGraphicsSymFile KeymapGraphicsPosFile: Keyboard resources.
 * KeymapIndex:                           Keyboard resources.

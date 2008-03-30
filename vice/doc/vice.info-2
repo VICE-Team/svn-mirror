@@ -835,6 +835,12 @@ Keyboard resources
      positional mapping for the graphics keyboard (*note Keyboard
      emulation::., PET only).
 
+`KeymapBusinessDESymFile'
+`KeymapBusinessDEPosFile'
+     String specifying the name of the keymap file for the symbolic and
+     positional mapping for the German business keyboard.  (*note
+     Keyboard emulation::., PET only).
+
 
 File: vice.info,  Node: Keyboard options,  Prev: Keyboard resources,  Up: Keyboard settings
 
@@ -863,6 +869,12 @@ Keyboard command-line options
      Specify `NAME' as the symbolic/positional keymap file for the
      graphics keyboard (`KeymapGraphicsSymFile',
      `KeymapGraphicsPosFile', PET only).
+
+`-bdesymkeymap NAME'
+`-bdeposkeymap NAME'
+     Specify `NAME' as the symbolic/positional keymap file for the
+     German business keyboard (`KeymapBusinessDESymFile',
+     `KeymapBusinessDEPosFile', PET only).
 
 
 File: vice.info,  Node: Sound settings,  Next: Drive settings,  Prev: Keyboard settings,  Up: Settings and resources
@@ -1352,30 +1364,4 @@ code) and then to the printer via `lpr'.
 
 * Printer resources::
 * Printer options::
-
-
-File: vice.info,  Node: Printer resources,  Next: Printer options,  Prev: Printer settings,  Up: Printer settings
-
-Printer resources
-.................
-
-`PrDevice1'
-`PrDevice2'
-`PrDevice3'
-     Strings specifying the printer devices (*note Printer settings::.).
-
-`Printer4'
-     Boolean specifying if the IEC printer (device 4) is being emulated.
-
-`Printer4Dev'
-     Integer (ranging from 0 to 2, for device 1-3) specifying what
-     printer device (*note Printer settings::.) the IEC printer is
-     using.
-
-`PrUser'
-     Boolean specifying if the user-port printer is being emulated.
-
-`PrUserDev'
-     Integer (ranging from 0 to 2, for device 1-3) specifying what
-     printer device the user-port printer is using.
 
