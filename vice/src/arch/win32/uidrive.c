@@ -380,7 +380,7 @@ void ui_drive_settings_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG);
         psp[i].pszIcon = NULL;
 #else
@@ -402,7 +402,7 @@ void ui_drive_settings_dialog(HWND hwnd)
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Drive Settings";
     psh.nPages = 2;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;

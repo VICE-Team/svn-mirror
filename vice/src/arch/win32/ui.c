@@ -49,6 +49,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"

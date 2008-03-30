@@ -137,7 +137,7 @@ HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
 //        log_debug("Red mask:    %04x",desc->ddpfPixelFormat.dwRBitMask);
 //        log_debug("Blue mask:   %04x",desc->ddpfPixelFormat.dwBBitMask);
 //        log_debug("Green mask:  %04x",desc->ddpfPixelFormat.dwGBitMask);
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         new_mode->bitdepth = desc->ddpfPixelFormat.dwRGBBitCount;
 #else
         new_mode->bitdepth = desc->ddpfPixelFormat.u1.dwRGBBitCount;
@@ -145,7 +145,7 @@ HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
     }
     if (desc->dwFlags & (DDSD_REFRESHRATE)) {
 //        log_debug("Refreshrate: %d", desc->dwRefreshRate);
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         new_mode->refreshrate = desc->dwRefreshRate;
 #else
         new_mode->refreshrate = desc->u2.dwRefreshRate;
@@ -686,7 +686,7 @@ void SwitchToFullscreenMode(HWND hwnd)
     ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2,&desc2);
     old_width = desc2.dwWidth;
     old_height = desc2.dwHeight;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     old_bitdepth = desc2.ddpfPixelFormat.dwRGBBitCount;;
 #else
     old_bitdepth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;;

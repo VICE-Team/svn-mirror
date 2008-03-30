@@ -318,7 +318,7 @@ void ui_attach_dialog(HWND hwnd)
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PRINTDEVICE_DIALOG);
     psp[0].pszIcon = NULL;
 #else
@@ -333,7 +333,7 @@ void ui_attach_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[i].pszIcon = NULL;
 #else
@@ -361,7 +361,7 @@ void ui_attach_dialog(HWND hwnd)
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Device manager";
     psh.nPages = no_of_drives;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;

@@ -37,7 +37,7 @@
 
 #define inline                  _inline
 
-#define HAVE_UNNAMED_UNIONS     1
+#define _ANONYMOUS_UNION
 
 #define S_ISDIR(m)              ((m) & _S_IFDIR)
 

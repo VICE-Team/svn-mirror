@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "log.h"
 #include "mouse.h"

@@ -118,9 +118,9 @@ int axis =  (int)v;
 }
 
 #define DEFINE_SET_KEYSET(num)                                     \
-    static int set_keyset##num##(resource_value_t v, void *param)  \
+    static int set_keyset##num(resource_value_t v, void *param)  \
     {                                                              \
-        keyset##num##[(int)param] = (int) v;                       \
+        keyset##num[(int)param] = (int) v;                       \
                                                                    \
         return 0;                                                  \
     }

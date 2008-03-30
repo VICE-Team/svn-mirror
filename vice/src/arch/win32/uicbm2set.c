@@ -218,7 +218,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         psp[i].pszIcon = NULL;
 #else
         psp[i].u2.pszIcon = NULL;
@@ -232,7 +232,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psp[1].pfnDlgProc = dialog_proc;
     psp[1].pszTitle = "Memory";
 
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
 #else
@@ -246,7 +246,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psh.hInstance = winmain_instance;
     psh.pszCaption = "CBM2 settings";
     psh.nPages = 2;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;

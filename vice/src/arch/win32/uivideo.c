@@ -289,7 +289,7 @@ int                 i;
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         psp[i].pszIcon = NULL;
 #else
         psp[i].u2.pszIcon = NULL;
@@ -307,7 +307,7 @@ int                 i;
 	    psp[2].pfnDlgProc = dialog_advanced_proc;
 	    psp[2].pszTitle = "Advanced";
 
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
 	    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 	    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
 	    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
@@ -323,7 +323,7 @@ int                 i;
 	    psp[0].pfnDlgProc = dialog_fullscreen_proc;
 	    psp[0].pszTitle = "Fullscreen";
 
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
 	    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
 #else
 	    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
@@ -336,7 +336,7 @@ int                 i;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = "Video settings";
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
     psh.ppsp = psp;
