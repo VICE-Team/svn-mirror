@@ -38,12 +38,14 @@
 #include "machine.h"
 #include "machine-video.h"
 #include "resources.h"
+#include "uiattach.h"
 #include "uicommands.h"
 #include "uicrtc.h"
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uidrivepetcbm2.h"
 #include "uijoystick2.h"
+#include "uikeyboard.h"
 #include "uiperipheralieee.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
@@ -418,9 +420,9 @@ int cbm2ui_init(void)
     ui_set_application_icon(cbm2_icon_data);
     cbm2ui_dynamic_menu_create();
     ui_set_left_menu(ui_menu_create("LeftMenu",
-                                    ui_disk_commands_menu,
+                                    uiattach_disk_menu,
                                     ui_menu_separator,
-                                    ui_tape_commands_menu,
+                                    uiattach_tape_menu,
                                     ui_datasette_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
@@ -441,7 +443,7 @@ int cbm2ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_keyboard_settings_menu,
+                                     uikeyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drivepetcbm2_settings_menu,
                                      ui_peripheralieee_settings_menu,
@@ -457,18 +459,18 @@ int cbm2ui_init(void)
                                      NULL));
 
     ui_set_tape_menu(ui_menu_create("TapeMenu",
-                                    ui_tape_commands_menu,
+                                    uiattach_tape_menu,
                                     ui_menu_separator,
                                     datasette_control_submenu,
                                     NULL));
     ui_set_topmenu("TopLevelMenu",
                    _("File"),
                    ui_menu_create("File",
-                                  ui_smart_attach_commands_menu,
+                                  uiattach_smart_attach_menu,
                                   ui_menu_separator,
-                                  ui_disk_commands_menu,
+                                  uiattach_disk_menu,
                                   ui_menu_separator,
-                                  ui_tape_commands_menu,
+                                  uiattach_tape_menu,
                                   ui_datasette_commands_menu,
                                   ui_menu_separator,
                                   ui_directory_commands_menu,
@@ -498,7 +500,7 @@ int cbm2ui_init(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-				  ui_keyboard_settings_menu,
+				  uikeyboard_settings_menu,
 				  ui_sound_settings_menu,
 				  ui_drivepetcbm2_settings_menu,
 				  ui_peripheralieee_settings_menu,

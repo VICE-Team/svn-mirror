@@ -47,6 +47,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
+	uiattach.c \
+	uiattach.h \
 	uic64cart.c \
 	uic64cart.h \
 	uicartridge.h \
@@ -77,6 +79,8 @@ libarch_a_SOURCES = \
 	uiide64.h \
 	uijoystick2.c \
 	uijoystick2.h \
+	uikeyboard.c \
+	uikeyboard.h \
 	uimenu.h \
 	uimon.c \
 	uipalemu.c \
