@@ -1,3 +1,87 @@
+2000-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.25.
+
+	* monitor/mon.c (mon_check_icount): Only skip JSR/RTS if
+	skipping suboutines is enabled.
+
+	* palette.c: (palette_load): If line length is zero do not
+	touch the buffer.  Check all return values.
+
+	* sysfile.c, sysfile.h, palette.c, arch/unix/x11/kbd.c,
+	romset.c (sysfile_open): Open mode is specified now.
+
+	* c64/reu.c, c64/reu.h (reu_deactivate): New function.
+
+	* c128/c128mem.c, c64/c64mem.c (set_reu_enabled): Disable REU
+	if REU support is switched off.
+
+	* vdrive/vdrive-rel.c, vdrive/vdrive-rel.h: New files
+
+	* attach.c (file_system_init): Clear side sector buffer.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_close): Close relative
+	files.
+
+	* vdrive/vdrive-command.c (vdrive_command_position): New
+	function.
+
+	* info.c: Updated.
+
+2000-01-21  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/ui.c (archdep_ui_init): Do nothing in
+	console mode.
+
+	* arch/unix/x11/xaw/ui.c (archdep_ui_init): Do nothing in
+	console mode.
+
+	* arch/unix/x11/video.c (canvas_resize): Do nothing in
+	console and vsid modes.
+
+	* datasette.c (datasette_set_motor): Skip UI stuff in console and
+	vsid modes.
+
+	* drive/drive.c (drive_update_ui_status): Do nothing in console
+	and vsid modes.
+
+	* main.c (main): Moved check for -console and -vsid to the
+	start. Disabled emulation of drive 8, which is enabled by default.
+
+	* sid/sid.c (sid_store): Commented out PSID register (digital
+	samples) warning.
+
+	* sounddrv/sounduss.c (uss_bufferstatus): Changed comment on
+	GETOSPACE warning.
+
+2000-01-20  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/msdos/menudefs.c: new datasette settins menu, updated
+	datasette control menu
+
+	* arch/msdos/statusbar.h: new colors for the statusbar
+
+	* arch/msdos/ui.c: new function (ui_draw_drive_status) to 
+	display status of drives in the statusbar
+	(ui_enable_drive_status),(ui_display_drive_track),
+	(ui_display_drive_led) update the statusbar
+	(ui_draw_tape_status),(ui_display_speed): minor changes in 
+	design
+	
+	* arch/msdos/video.c(canvas_set_palette): new statusbar color 
+	are created
+
+	* arch/win32/ui.c(handle_wm_command): datasette counter resets
+	via (datasette_control)
+
+	* datasette.c(datasette_control): handles even
+	DATASETTE_CONTROL_RESET_COUNTER to simplify the datasette controls
+	for the ports
+	
+	* datasette.h: new define DATASETTE_CONTROL_RESET_COUNTER
+
+	* info.c: updated contributions
+
 2000-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.24.
