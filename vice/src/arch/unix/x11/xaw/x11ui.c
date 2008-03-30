@@ -357,7 +357,7 @@ static String fallback_resources[] = {
 /* ------------------------------------------------------------------------- */
 
 static unsigned int wm_command_size;
-static unsigned char *wm_command_data;
+static unsigned char *wm_command_data = NULL;
 static Atom wm_command_atom;
 static Atom wm_command_type_atom;
 
@@ -428,7 +428,14 @@ int ui_init(int *argc, char **argv)
 
 void ui_shutdown(void)
 {
+    unsigned int i;
+
     ui_hotkey_shutdown();
+
+    for (i = 0; i < num_app_shells; i++)
+        lib_free(app_shells[i].title);
+
+    lib_free(wm_command_data);
 }
 
 typedef struct {
