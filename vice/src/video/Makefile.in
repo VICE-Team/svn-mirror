@@ -246,8 +246,9 @@ libvideo_a_SOURCES = \
 	video-cmdline-options.h \
 	video-color.c \
 	video-color.h \
+	video-render-1x2.c \
+	video-render-2x2.c \
 	video-render-pal.c \
-	video-render-pal.h \
 	video-render.c \
 	video-render.h \
 	video-resources-pal.c \
@@ -267,7 +268,8 @@ am_libvideo_a_OBJECTS = render1x1.$(OBJEXT) render1x1pal.$(OBJEXT) \
 	render1x2.$(OBJEXT) render2x2.$(OBJEXT) render2x2pal.$(OBJEXT) \
 	renderscale2x.$(OBJEXT) renderyuv.$(OBJEXT) \
 	video-canvas.$(OBJEXT) video-cmdline-options.$(OBJEXT) \
-	video-color.$(OBJEXT) video-render-pal.$(OBJEXT) \
+	video-color.$(OBJEXT) video-render-1x2.$(OBJEXT) \
+	video-render-2x2.$(OBJEXT) video-render-pal.$(OBJEXT) \
 	video-render.$(OBJEXT) video-resources-pal.$(OBJEXT) \
 	video-resources.$(OBJEXT) video-viewport.$(OBJEXT)
 libvideo_a_OBJECTS = $(am_libvideo_a_OBJECTS)
@@ -284,6 +286,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/video-canvas.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video-color.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/video-render-1x2.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/video-render-2x2.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video-render-pal.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video-render.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video-resources-pal.Po \
@@ -330,6 +334,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-canvas.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-color.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-render-1x2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-render-2x2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-render-pal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-render.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video-resources-pal.Po@am__quote@

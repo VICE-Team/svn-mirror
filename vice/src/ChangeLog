@@ -1,3 +1,72 @@
+2003-12-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.43.
+
+	* arch/msdos/uiperipherial.c, arch/msdos/uiperipherial.h,
+	arch/msdos/uiprinter.c, arch/msdos/uiprinter.h,
+	arch/msdos/uisound.c, arch/msdos/uisound.h,
+	arch/msdos/uijoystick.c, arch/msdos/uijoystick.h,
+	arch/msdos/uidrive.c, arch/msdos/uidrive.h,
+	arch/msdos/uic64cart.c, arch/msdos/uic64cart.h: New files.
+
+	* arch/msdos/Makefile.am: Updated.
+
+	* arch/msdos/menudefs.c: Moved peripherial and sound code to
+	separate file.  Added drive #10 and #11 reset.
+
+	* arch/msdos/c64ui.c, arch/msdos/c128ui.c: Moved C64 cart code
+	to separate file.
+
+	* uicmdline.h, arch/unix/uicmdline.c (ui_cmdline_show_help):
+	Changed first parameter to `unsigned int'.
+
+	* zfile.c, arch/unix/joy.c: Made some variables static.
+
+	* pet/petvia.c, pet/petsound.h, pet/petsound.c, pet/pet.c:
+	pet/petmem.c, pet/petmem.h, pet/petrom.c, pet/petrom.h,
+	pet/petmemsnapshot.c: Fixed some names.
+
+	* cbmdos.c, cbmdos.h (cbmdos_filetype_get): New function.
+
+	* vdrive/vdrive-dir.c, imagecontents/diskcontents-block.c,
+	vdrive/vdrive.c: Use cbmdos file type function.
+
+	* petcat.c: Removed cruft.
+
+	* machine.c, machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/pet.c, plus4/plus4.c, cbm2/cbm2.c (machine_specific_init):
+	New function.
+
+	* machine.c, machine-video.h, c64/c64video.c,
+	c128/c128video.c, vic20/vic20video.c, pet/petvideo.c,
+	plus4/plus4video.c, cbm2/cbm2video.c (machine_video_init): New
+	function.
+
+	* video/video-render-pal.c, video.h (video_render_pal_init):
+	New function.
+
+	* video/video-render.c, video/video-render.h
+	(video_render_1x2func_set, video_render_2x2func_set,
+	video_render_palfunc_set): New functions.
+	(video_render_main): Use function pointer.
+
+	* video/video-render-1x2.c, video-render-2x2.c: New files.
+
+	* video/video-render-pal.h: Removed.
+
+	* video/Makefile.am, arch/win32/video.dsp: Updated.
+
+2003-12-28  David Hansel  <hansel@reactive-systems.com>
+
+	* serial/serial-iec-device.c, printerdrv/drv-nl10.c:  Fixed
+	warnings
+
+2003-12-26  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/archdep.c: fixed archdep_stat()
+
+	* arch/riscos/spritedrv.c: adapted to gfxoutput changes
+
 2003-12-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.42.

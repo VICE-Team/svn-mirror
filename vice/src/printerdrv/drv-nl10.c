@@ -339,7 +339,7 @@ static void linefeed(nl10_t *nl10, unsigned int prnr)
         
         /* output topmost row */
         for(c=0; c<MAX_COL; c++)
-          output_select_putc(prnr, nl10->line[0][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE);
+          output_select_putc(prnr, (BYTE)(nl10->line[0][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
         output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
         
         /* move everything else one row up */
@@ -374,7 +374,7 @@ static void output_buf(nl10_t *nl10, unsigned int prnr)
   for(r=0; r<BUF_ROW; r++)
     {
       for(c=0; c<MAX_COL; c++)
-        output_select_putc(prnr, drv_nl10[prnr].line[r][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE);
+        output_select_putc(prnr, (BYTE)(drv_nl10[prnr].line[r][c] ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
       output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
     }
 

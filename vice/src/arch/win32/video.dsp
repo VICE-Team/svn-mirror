@@ -122,6 +122,14 @@ SOURCE="..\..\video\video-color.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\video\video-render-1x2.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\video\video-render-2x2.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\video\video-render-pal.c"
 # End Source File
 # Begin Source File

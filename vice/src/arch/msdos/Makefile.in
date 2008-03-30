@@ -278,14 +278,26 @@ libarch_a_SOURCES = \
 	ui.h \
 	uiattach.h \
 	uiattach.c \
+	uic64cart.c \
+	uic64cart.h \
 	uicmdline.c \
+	uidrive.c \
+	uidrive.h \
+	uijoystick.c \
+	uijoystick.h \
 	uimon.c \
+	uiperipherial.c \
+	uiperipherial.h \
+	uiprinter.c \
+	uiprinter.h \
 	uireu.c \
 	uireu.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \
 	uisnapshot.h \
+	uisound.c \
+	uisound.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \
@@ -314,8 +326,10 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	tui.$(OBJEXT) tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
 	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
 	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
-	uicmdline.$(OBJEXT) uimon.$(OBJEXT) uireu.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) vic20ui.$(OBJEXT) \
+	uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) uidrive.$(OBJEXT) \
+	uijoystick.$(OBJEXT) uimon.$(OBJEXT) uiperipherial.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uireu.$(OBJEXT) uisid.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) vic20ui.$(OBJEXT) \
 	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
@@ -335,9 +349,12 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/tuiimagebrowser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uisid.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/vic20ui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uic64cart.Po ./$(DEPDIR)/uicmdline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uidrive.Po ./$(DEPDIR)/uijoystick.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipherial.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uireu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uisound.Po ./$(DEPDIR)/vic20ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
@@ -395,11 +412,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuiview.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uic64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipherial.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vsidui.Po@am__quote@

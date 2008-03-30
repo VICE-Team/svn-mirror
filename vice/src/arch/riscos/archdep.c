@@ -322,7 +322,7 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     int objType;
     int catInfo[4];
 
-    if ((objType = ReadCatalogueInfo(buf, catInfo)) == 0)
+    if ((objType = ReadCatalogueInfo(file_name, catInfo)) == 0)
         return -1;
 
     *len = catInfo[2];
