@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.17\n"
-"POT-Creation-Date: 2005-11-19 15:37+0100\n"
+"POT-Creation-Date: 2005-11-27 18:10+0100\n"
 "PO-Revision-Date: 2005-10-09 10:04+0200\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -95,7 +95,7 @@ msgstr "Régler la taille du tampon à <valeur> ms"
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:238 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:239 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -772,23 +772,23 @@ msgstr "<taille en KO>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Taille de l'unité d'expansion GEORAM"
 
-#: src/c64/plus60k.c:234
+#: src/c64/plus60k.c:235
 msgid "Enable the +60K RAM expansion"
 msgstr "Activer l'expansion RAM +60K"
 
-#: src/c64/plus60k.c:236
+#: src/c64/plus60k.c:237
 msgid "Disable the +60K RAM expansion"
 msgstr "Désactiver l'expansion RAM +60K"
 
-#: src/c64/plus60k.c:238
+#: src/c64/plus60k.c:239
 msgid "Specify name of +60K image"
 msgstr "Spécifier le nom de l'image +60K"
 
-#: src/c64/plus60k.c:240 src/sid/sid-cmdline-options.c:109
+#: src/c64/plus60k.c:241 src/sid/sid-cmdline-options.c:109
 msgid "<base address>"
 msgstr "<adresse de base>"
 
-#: src/c64/plus60k.c:240
+#: src/c64/plus60k.c:241
 #, fuzzy
 msgid "Base address of the +60K expansion"
 msgstr "Désactiver l'expansion RAM +60K"
@@ -5088,7 +5088,7 @@ msgstr "Détecté extensions MITSHM version %d.%d."
 msgid "Cannot release shared memory!"
 msgstr "Impossible de relâcher la mémoire partagée!"
 
-#: src/arch/unix/x11/vidmode.c:75
+#: src/arch/unix/x11/vidmode.c:76
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr "Erreur de lecture du mode vidéo - désactivation de l'extension vidmode"
 

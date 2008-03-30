@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-19 15:37+0100\n"
+"POT-Creation-Date: 2005-11-27 18:10+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:238 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:239 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -745,23 +745,23 @@ msgstr "<storlek i KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/plus60k.c:234
+#: src/c64/plus60k.c:235
 msgid "Enable the +60K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:236
+#: src/c64/plus60k.c:237
 msgid "Disable the +60K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:238
+#: src/c64/plus60k.c:239
 msgid "Specify name of +60K image"
 msgstr "Ange namn på +60K-avbildning"
 
-#: src/c64/plus60k.c:240 src/sid/sid-cmdline-options.c:109
+#: src/c64/plus60k.c:241 src/sid/sid-cmdline-options.c:109
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/plus60k.c:240
+#: src/c64/plus60k.c:241
 #, fuzzy
 msgid "Base address of the +60K expansion"
 msgstr "Inaktivera +60K RAM-expansion"
@@ -5059,7 +5059,7 @@ msgstr "MITSHM-utökningar version %d.%d hittades."
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
-#: src/arch/unix/x11/vidmode.c:75
+#: src/arch/unix/x11/vidmode.c:76
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar vidmode-utökning."
