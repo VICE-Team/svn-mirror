@@ -1264,7 +1264,8 @@ void ui_exit(void)
 
 	/* remove fontpath, Don't care about result */
 	system("xset fp- " PREFIX "/lib/vice/fonts");
-	
+
+        lib_free(s);	
 	exit(0);
     }
     lib_free(s);

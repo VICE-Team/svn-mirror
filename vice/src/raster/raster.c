@@ -496,10 +496,6 @@ void raster_free(raster_t *raster)
     if (raster->canvas)
         raster_draw_buffer_free(raster->canvas);
 
-    video_canvas_destroy(raster->canvas);
-
-    palette_free(raster->palette);
-
     if (raster->cache) {
         raster_destroy_cache(raster, raster->geometry->screen_size.height);
         lib_free(raster->cache);
@@ -517,6 +513,9 @@ void raster_free(raster_t *raster)
     }
 
     lib_free(raster->fake_draw_buffer_line);
-    /* FIXME: there may be more stuff to be freed */
+
+    video_canvas_destroy(raster->canvas);
+
+    palette_free(raster->palette);
 }
 

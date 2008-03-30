@@ -1021,6 +1021,7 @@ void ui_exit(void)
 #ifdef USE_XF86_EXTENSIONS
         fullscreen_suspend(0);
 #endif
+        lib_free(s);
         exit(0);
     }
 
