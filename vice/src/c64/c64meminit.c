@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
+#include "c64cart.h"
 #include "c64cia.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -41,6 +44,29 @@ const int c64meminit_io_config[32] = { 0, 0, 0, 0, 0, 1, 1, 1,
                                        1, 1, 1, 1, 1, 1, 1, 1,
                                        0, 0, 0, 0, 0, 1, 1, 1 };
 
+/* ROML is enabled at memory configs 11, 15, 27, 31 and Ultimax.  */
+static const int c64meminit_roml_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
+                                                0, 0, 0, 1, 0, 0, 0, 1,
+                                                1, 1, 1, 1, 1, 1, 1, 1,
+                                                0, 0, 0, 1, 0, 0, 0, 1 };
+
+/* ROMH is enabled at memory configs 10, 11, 14, 15, 26, 27, 30, 31
+   and Ultimax.  */
+static const int c64meminit_romh_config[32] = { 0, 0, 0, 0, 0, 0, 0, 0,
+                                                0, 0, 0, 0, 0, 0, 0, 0,
+                                                1, 1, 1, 1, 1, 1, 1, 1,
+                                                0, 0, 1, 1, 0, 0, 1, 1 };
+
+/* ROMH is mapped to $A000-$BFFF at memory configs 10, 11, 14, 15, 26,
+   27, 30, 31.  If Ultimax is enabled it is mapped to $E000-$FFFF.  */
+static const int c64meminit_romh_mapping[32] = { 0x00, 0x00, 0x00, 0x00,
+                                                 0x00, 0x00, 0x00, 0x00,
+                                                 0x00, 0x00, 0x00, 0x00,
+                                                 0x00, 0x00, 0x00, 0x00,
+                                                 0xe0, 0xe0, 0xe0, 0xe0,
+                                                 0xe0, 0xe0, 0xe0, 0xe0,
+                                                 0x00, 0x00, 0xa0, 0xa0,
+                                                 0x00, 0x00, 0xa0, 0xa0 };
 
 void c64meminit(unsigned int base)
 {
@@ -124,6 +150,49 @@ void c64meminit(unsigned int base)
                           mem_kernal64_trap_rom + ((i & 0x1f) << 8));
         mem_read_base_set(base+31, i,
                           mem_kernal64_trap_rom + ((i & 0x1f) << 8));
+    }
+
+    /* Setup ROML at $8000-$9FFF.  */
+    for (j = 0; j < 32; j++) {
+        if (c64meminit_roml_config[j]) {
+            for (i = 0x80; i <= 0x9f; i++) {
+                mem_read_tab_set(base+j, i, roml_read);
+                mem_read_base_set(base+j, i, NULL);
+            }
+        }
+    }
+
+    /* Setup ROMH at $A000-$BFFF and $E000-$FFFF.  */
+    for (j = 0; j < 32; j++) {
+        if (c64meminit_romh_config[j]) {
+            for (i = c64meminit_romh_mapping[j];
+                i <= c64meminit_romh_mapping[j] + 0x1f; i++) {
+                mem_read_tab_set(base+j, i, romh_read);
+                mem_read_base_set(base+j, i, NULL);
+            }
+        }
+    }
+
+    /* Setup Ultimax configuration.  */
+    for (j = 16; j < 24; j++) {
+        for (i = 0x10; i <= 0x7f; i++) {
+            mem_read_tab_set(base+j, i, ultimax_1000_7fff_read);
+            mem_set_write_hook(base+j, i, ultimax_1000_7fff_store);
+            mem_read_base_set(base+j, i, NULL);
+        }
+        for (i = 0x80; i <= 0x9f; i++) {
+            mem_set_write_hook(base+j, i, roml_store);
+        }
+        for (i = 0xa0; i <= 0xbf; i++) {
+            mem_read_tab_set(base+j, i, ultimax_a000_bfff_read);
+            mem_set_write_hook(base+j, i, ultimax_a000_bfff_store);
+            mem_read_base_set(base+j, i, NULL);
+        }
+        for (i = 0xc0; i <= 0xcf; i++) {
+            mem_read_tab_set(base+j, i, ultimax_c000_cfff_read);
+            mem_set_write_hook(base+j, i, ultimax_c000_cfff_store);
+            mem_read_base_set(base+j, i, NULL);
+        }
     }
 }
 
