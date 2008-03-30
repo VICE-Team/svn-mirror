@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii.h
+ * hardsid.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,16 +24,16 @@
  *
  */
 
-#ifndef _CATWEASELMKIII_H
-#define _CATWEASELMKIII_H
+#ifndef _HARDSID_H
+#define _HARDSID_H
 
 #include "types.h"
 
-extern int catweaselmkiii_open(void);
-extern int catweaselmkiii_close(void);
-extern int catweaselmkiii_read(WORD addr, int chipno);
-extern void catweaselmkiii_store(WORD addr, BYTE val, int chipno);
-extern void catweaselmkiii_set_machine_parameter(long cycles_per_sec);
+extern int hardsid_open(void);
+extern int hardsid_close(void);
+extern int hardsid_read(WORD addr, int chipno);
+extern void hardsid_store(WORD addr, BYTE val, int chipno);
+extern void hardsid_set_machine_parameter(long cycles_per_sec);
 
 #endif
 

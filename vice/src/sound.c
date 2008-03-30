@@ -35,10 +35,12 @@
 #include <time.h>
 
 #include "archdep.h"
+#include "catweaselmkiii.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
 #include "fixpoint.h"
+#include "hardsid.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -49,10 +51,6 @@
 #include "ui.h"
 #include "utils.h"
 #include "vsync.h"
-
-#ifdef HAVE_CATWEASELMKIII
-#include "catweaselmkiii.h"
-#endif
 
 
 static log_t sound_log = LOG_ERR;
@@ -998,6 +996,9 @@ void sound_set_machine_parameter(long clock_rate, long ticks_per_frame)
 
 #ifdef HAVE_CATWEASELMKIII
     catweaselmkiii_set_machine_parameter(clock_rate);
+#endif
+#ifdef HAVE_HARDSID
+    hardsid_set_machine_parameter(clock_rate);
 #endif
 }
 

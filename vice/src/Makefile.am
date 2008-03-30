@@ -74,6 +74,7 @@ noinst_HEADERS = \
 	fullscreen.h \
 	gcr.h \
 	gfxoutput.h \
+	hardsid.h \
 	iecdrive.h \
 	imagecontents.h \
 	info.h \
