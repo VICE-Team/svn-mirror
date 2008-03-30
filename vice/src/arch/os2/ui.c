@@ -80,7 +80,7 @@ static int set_use_leds(resource_value_t v, void *param)
 static resource_t resources[] = {
     { "UseLeds", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &use_leds, set_use_leds, NULL },
-{ NULL }
+    NULL
 };
 
 int ui_init_resources(void)
@@ -93,7 +93,7 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable usage of PC keyboard LEDs" },
     { "+leds", SET_RESOURCE, 0, NULL, NULL, "UseLeds", (resource_value_t) 0,
       NULL, "Disable usage of PC keyboard LEDs" },
-    { NULL },
+    NULL,
 };
 
 int ui_init_cmdline_options(void)

@@ -126,7 +126,7 @@ static resource_t resources[] = {
     { "KeymapBusinessDEPosFile", RES_STRING, (resource_value_t) "bde_pos.vkm",
       (resource_value_t *) &keymap_file_list[5],
       set_keymap_bde_pos_file, NULL },
-    { NULL }
+    NULL
 };
 
 int pet_kbd_resources_init(void)
@@ -159,7 +159,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-bdeposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessDEPosFile",
         NULL, "<name>",
         "Specify name of German business keyboard positional keymap file" },
-    { NULL }
+    NULL
 };
 
 int pet_kbd_cmdline_options_init(void)

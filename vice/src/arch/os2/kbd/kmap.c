@@ -86,7 +86,7 @@ static resource_t resources[] = {
     { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
       (resource_value_t *) &keymap_file_list[1],
       set_keymap_pos_file, NULL },
-    { NULL }
+    NULL
 };
 
 int kbd_resources_init(void)
@@ -105,7 +105,7 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of symbolic keymap file" },
      { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
       "<name>", "Specify name of positional keymap file" },
-    { NULL }
+    NULL
 };
 
 int kbd_cmdline_options_init(void)

@@ -29,7 +29,7 @@
 
 struct cmdline_option_s;
 
-extern void ui_cmdline_show_help(int num_options,
+extern void ui_cmdline_show_help(unsigned int num_options,
                                  struct cmdline_option_s *options,
                                  void *arg);
 

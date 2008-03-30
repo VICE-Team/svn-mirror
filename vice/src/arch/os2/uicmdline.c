@@ -38,28 +38,28 @@
 #include "dialogs.h"
 #include "utils.h"
 
-void ui_cmdline_show_help(int num_options, cmdline_option_t *opt, void *arg)
+void ui_cmdline_show_help(unsigned int num_options, cmdline_option_t *opt, void *arg)
 {
-    int   i, j, jmax;
-    int   chars;   // maximum area could be shown
-    char  format[13];
+    int chars;   // maximum area could be shown
+    char format[13];
+    unsigned int i;
 
     HWND hwnd;
 
     //
     // calculate maximum width of text
     //
-    jmax = 0;
+    size_t jmax = 0;
     for (i=0; i<num_options; i++)
     {
-        j     =strlen(opt[i].name)+1;
+        size_t j = strlen(opt[i].name)+1;
 
-        j    +=strlen((opt[i].need_arg && opt[i].param_name)?
-                      opt[i].param_name:"")+1;
+        j +=strlen((opt[i].need_arg && opt[i].param_name)?
+                   opt[i].param_name:"")+1;
 
-        jmax  = j>jmax ? j : jmax;
+        jmax = j>jmax ? j : jmax;
 
-        j    += strlen(opt[i].description)+1;
+        j += strlen(opt[i].description)+1;
 
         chars = j>chars ? j : chars;
     }

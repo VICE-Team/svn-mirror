@@ -113,14 +113,101 @@ static char *next_nonspace(const char *p)
     return (char *)p;
 }
 
-int palette_load(const char *file_name, palette_t *palette_return)
+static int palette_load_core(FILE *f, const char *file_name,
+                             palette_t *tmp_palette,
+                             palette_t *palette_return)
 {
     char buf[1024];
-    unsigned int line_num, entry_num;
-    int line_len, err = -1;
+
+    unsigned int line_num  = 0;
+    unsigned int entry_num = 0;
+
+    while (1) {
+        int i;
+        BYTE values[4];
+        const char *p1;
+
+        int line_len = util_get_line(buf, 1024, f);
+
+        if (line_len<0)
+            break;
+
+        line_num++;
+
+        if (*buf == '#')
+            continue;
+
+        p1 = next_nonspace(buf);
+
+        if (*p1 == '\0') /* empty line */
+            continue;
+
+        for (i = 0; i < 4; i++) {
+            long result;
+            const char *p2;
+
+            if (util_string_to_long(p1, &p2, 16, &result) < 0) {
+                log_error(palette_log, "%s, %d: number expected.",
+                          file_name, line_num);
+                return -1;
+            }
+            if (result < 0
+                || (i == 3 && result > 0xf)
+                || result > 0xff
+                || result < 0) {
+                log_error(palette_log, "%s, %d: invalid value %xh.",
+                          file_name, line_num, result);
+                return -1;
+            }
+            values[i] = (BYTE)result;
+            p1 = p2;
+        }
+
+        p1 = next_nonspace(p1);
+        if (*p1 != '\0') {
+            log_error(palette_log,
+                      "%s, %d: garbage at end of line.",
+                      file_name, line_num);
+            return -1;
+        }
+        if (entry_num >= palette_return->num_entries) {
+            log_error(palette_log,
+                      "%s: too many entries, %d expected.", file_name,
+                      palette_return->num_entries);
+            return -1;
+        }
+        if (palette_set_entry(tmp_palette, entry_num,
+                              values[0], values[1], values[2], values[3]) < 0) {
+            log_error(palette_log, "Failed to set palette entry.");
+            return -1;
+        }
+        entry_num++;
+    }
+
+    if (line_num==0) {
+        log_error(palette_log, "Could not read from palette file.");
+        return -1;
+    }
+
+    if (entry_num < palette_return->num_entries) {
+        log_error(palette_log, "%s: too few entries, %d found, %d expected.",
+                  file_name, entry_num, palette_return->num_entries);
+        return -1;
+    }
+
+    if (palette_copy(palette_return, tmp_palette) < 0) {
+        log_error(palette_log, "Failed to copy palette.");
+        return -1;
+    }
+
+    return 0;
+}
+int palette_load(const char *file_name, palette_t *palette_return)
+{
     palette_t *tmp_palette;
     char *complete_path;
     FILE *f;
+    int rc;
 
     f = sysfile_open(file_name, &complete_path, MODE_READ_TEXT);
     if (f == NULL) {
@@ -139,85 +226,12 @@ int palette_load(const char *file_name, palette_t *palette_return)
 
     tmp_palette = palette_create(palette_return->num_entries, NULL);
 
-    line_num = entry_num = 0;
-    line_len = util_get_line(buf, 1024, f);
+    rc = palette_load_core(f, file_name, tmp_palette, palette_return);
 
-    if (line_len < 0) {
-        log_error(palette_log, "Could not read from palette file.");
-        goto return_err;
-    }
-
-    while (line_len >= 0) {
-        line_num++;
-        if (line_len > 0 && *buf != '#') {
-            int i;
-            BYTE values[4];
-            const char *p1 = next_nonspace(buf);
-
-            for (i = 0; i < 4; i++) {
-                long result;
-                const char *p2;
-
-                if (i == 0 && *p1 == '\0') /* empty line */
-                    break;
-                if (util_string_to_long(p1, &p2, 16, &result) < 0) {
-                    log_error(palette_log, "%s, %d: number expected.",
-                              file_name, line_num);
-                    goto return_err;
-                }
-                if (result < 0
-                    || (i == 3 && result > 0xf)
-                    || result > 0xff
-                    || result < 0) {
-                    log_error(palette_log, "%s, %d: invalid value.",
-                              file_name, line_num);
-                    goto return_err;
-                }
-                values[i] = (BYTE)result;
-                p1 = p2;
-            }
-
-            if (i > 0) {
-                p1 = next_nonspace(p1);
-                if (*p1 != '\0') {
-                    log_error(palette_log,
-                              "%s, %d: garbage at end of line.",
-                              file_name, line_num);
-                    goto return_err;
-                }
-                if (entry_num >= palette_return->num_entries) {
-                    log_error(palette_log,
-                              "%s: too many entries.", file_name);
-                    goto return_err;
-                }
-                if (palette_set_entry(tmp_palette, entry_num,
-                    values[0], values[1], values[2], values[3]) < 0) {
-                    log_error(palette_log, "Failed to set palette entry.");
-                    goto return_err;
-                }
-                entry_num++;
-            }
-        }
-        line_len = util_get_line(buf, 1024, f);
-    }
-
-    if (entry_num < palette_return->num_entries) {
-        log_error(palette_log, "%s: too few entries.", file_name);
-        goto return_err;
-    }
-
-    if (palette_copy(palette_return, tmp_palette) < 0) {
-        log_error(palette_log, "Failed to copy palette.");
-        goto return_err;
-    }
-
-    err = 0;
-
-return_err:
     fclose(f);
     palette_free(tmp_palette);
 
-    return err;
+    return rc;
 }
 
 int palette_save(const char *file_name, const palette_t *palette)

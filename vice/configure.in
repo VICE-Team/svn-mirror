@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.7.42)
+AM_INIT_AUTOMAKE(vice, 1.7.43)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -51,10 +51,10 @@ else
 fi
 
 if test x"$enable_gnomeui" = "xyes" ; then
-  AC_DEFINE(GNOMEUI,1)
   AC_DEFINE(USE_GNOMEUI)
-  AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 fi
+
+AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 
 if test x"$enable_textfield" != "xno"; then
   AC_DEFINE(ENABLE_TEXTFIELD)
@@ -63,6 +63,9 @@ else
   echo "using ugly Athena text widget."
 fi
 
+user_cflags=$CFLAGS
+AC_PROG_CC
+
 dnl Setup DJGPP crosscompiling.
 
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
@@ -70,7 +73,6 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   dnl Some GCC cross-compilers are installed with a different name
   dnl instead of using the GCC architecture targeting features.
   dnl Check for the most common ones.
-  AC_PROG_CC
 
   if test "x$CC" = "xgcc" -a "x$host_vendor" != "xmsdos"; then
     CFLAGS="$CFLAGS -b i386-go32"
@@ -103,7 +105,6 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 
   dnl This is used by subsequent tests.
-  AC_PROG_CC
   ac_cv_prog_gcc=yes
   GCC=yes
 
@@ -121,7 +122,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xmingw32"; then
 elif test x"$host_vendor" = "xbeos"; then
 
   dnl This is used by subsequent tests.
-  AC_PROG_CC
   ac_cv_prog_gcc=yes
   GCC=yes
 
@@ -133,11 +133,9 @@ elif test x"$host_vendor" = "xbeos"; then
 
 else
 
-  if test -z "$CFLAGS" ; then
+  if test -z "$user_cflags" ; then
 
     dnl Check for the type of compiler first.
-    AC_PROG_CC
-
     if test x"$GCC" = "xyes" ; then
 
       if test x"$enable_gnomeui" != "xyes" ; then
@@ -180,11 +178,6 @@ else
     fi
 
     dnl (If not on GCC, just keep the defaults, which are very conservative).
-
-  else
-
-    dnl The user has specified some `CFLAGS', just keep them.
-    AC_PROG_CC
 
   fi
 
@@ -399,11 +392,12 @@ else
     if test "$GXX" = yes; then
       CXXFLAGS="$CFLAGS -fno-exceptions"
       AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
-      AC_TRY_COMPILER([main(){return(0);}], ac_cv_prog_cxx_works, ac_cv_prog_cxx_cross)
-      AC_MSG_RESULT($ac_cv_prog_cxx_works)
-      if test $ac_cv_prog_cxx_works = no; then
-        CXXFLAGS="$CFLAGS"
-      fi
+      AC_TRY_COMPILE([],
+                     [ int test; ],
+                     [ AC_MSG_RESULT(yes) ],
+                     [ AC_MSG_RESULT(no)
+                       CXXFLAGS="$CFLAGS"
+                       ])
     else
       CXXFLAGS="$CFLAGS"
     fi
@@ -620,12 +614,12 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes";
     unset ac_cv_lib_readline_readline
     AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline $LIBS"],
-               [ ],,)
+               [],,)
     if test "$ac_cv_lib_readline_readline" = "no"; then
       unset ac_cv_lib_readline_readline
       AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline -lncurses $LIBS"],
-               [ ], "-lncurses",)
+               [], "-lncurses",)
       if test "$ac_cv_lib_readline_readline" = "no"; then
         unset ac_cv_lib_readline_readline
         AC_CHECK_LIB(readline, readline,

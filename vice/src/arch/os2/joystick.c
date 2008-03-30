@@ -180,7 +180,7 @@ static resource_t resources[] = {
     DEFINE_RES_SET_KEYDATA("KeySet2West",      1, KEYSET_W),
     DEFINE_RES_SET_KEYDATA("KeySet2Fire",      1, KEYSET_FIRE),
 
-    { NULL }
+    NULL
 };
 
 int joystick_init_resources(void)
@@ -199,7 +199,7 @@ static cmdline_option_t cmdline_options[] = {
       NULL, 0, NULL, "Start auto calibration for PC joystick #1" },
     { "-joy2cal", CALL_FUNCTION, 0, &set_joyB_autoCal, (void *) TRUE,
       NULL, 0, NULL, "Start auto calibration for PC joystick #2" },
-    { NULL }
+    NULL
 };
 
 int joystick_init_cmdline_options(void)

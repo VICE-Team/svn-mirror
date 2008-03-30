@@ -33,8 +33,9 @@
 
 int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf)
 {
-    unsigned char trk, sec, len, rep, repnum, chra;
-    int i, j, count, t1, t2;
+    char trk, sec, len, rep, repnum, chra;
+    int i, j, count;
+    size_t t1, t2;
 
     t1 = fread(&trk, 1, 1, zip_fd);
     t2 = fread(&sec, 1, 1, zip_fd);

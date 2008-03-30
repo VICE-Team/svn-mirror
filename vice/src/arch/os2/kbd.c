@@ -66,7 +66,7 @@ static int set_keymap_file(resource_value_t v, void *param)
 static resource_t resources[] = {
     { "KeymapFile", RES_STRING, (resource_value_t)"os2.vkm",
       (resource_value_t *) &keymapfile, set_keymap_file, NULL },
-    { NULL }
+    NULL
 };
 
 int kbd_resources_init(void)
@@ -77,7 +77,7 @@ int kbd_resources_init(void)
 static cmdline_option_t cmdline_options[] = {
      { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapFile", NULL,
       "<name>", "Specify name of keymap file" },
-    { NULL },
+     NULL,
 };
 
 int kbd_cmdline_options_init(void)

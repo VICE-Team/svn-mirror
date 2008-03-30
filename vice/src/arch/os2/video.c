@@ -473,7 +473,7 @@ static resource_t resources1[] = {
 static resource_t resources2[] = {
     { "Logwin", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &logwin, set_logging, NULL },
-      { NULL }
+    NULL
 };
 
 int video_arch_init_resources(void)
@@ -499,7 +499,7 @@ static cmdline_option_t cmdline_options1[] = {
     { "+status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 0,
       NULL, "Disable Status Bar" },
 */
-    { NULL }
+    NULL
 };
 
 static cmdline_option_t cmdline_options2[] = {
@@ -507,7 +507,7 @@ static cmdline_option_t cmdline_options2[] = {
       NULL, "Enable Logging Window" },
     { "+logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 0,
       NULL, "Disable Logging Window" },
-    { NULL }
+    NULL
 };
 
 int video_init_cmdline_options(void)
@@ -626,14 +626,24 @@ int video_init(void) // initialize Dive
                 divecaps.ulVerticalResolution,
                 divecaps.ulDepth,
                 rc, rc>>8, rc>>16, rc>>24);
+    log_message(vidlog, "%d Planes, %dkB VRAM%s%s",
+                divecaps.ulPlaneCount,
+                divecaps.ulApertureSize/1024,
+                divecaps.fScreenDirect?", Direct access supported":"",
+                divecaps.fBankSwitched?", Bank switch required":"");
 
+    //
+    // Init Keyboard Led handling
+    //
     KbdOpenMutex();
+    KbdInit();
 
     return 0;
 }
 
 void video_close(void)
 {
+    KbdDestroy();
 }
 
 /* ------------------------------------------------------------------------ */
