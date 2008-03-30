@@ -41,7 +41,6 @@ struct palette_s;
 extern int x11ui_open_canvas_window(struct video_canvas_s *c,
                                     const char *title, int width,
                                     int height, int no_autorepeat,
-                                    ui_exposure_handler_t exposure_proc,
                                     const struct palette_s *p);
 
 extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width);
