@@ -330,8 +330,7 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h ../../src/parallel.h ../../src/ram.h \
 	../../src/c64/reu.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
 	../../src/c64/c64acia.h

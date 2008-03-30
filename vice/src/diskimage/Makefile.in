@@ -137,7 +137,7 @@ noinst_LIBRARIES = libdiskimage.a
 EXTRA_libdiskimage_a_SOURCES =  	rawimage.c 	rawimage.h         realimage.c         realimage.h
 
 
-libdiskimage_a_SOURCES =  	createdisk.c 	createdisk.h 	diskimage.c 	fsimage-gcr.c 	fsimage-gcr.h 	fsimage-probe.c 	fsimage-probe.h 	fsimage.c 	fsimage.h 	x64.h
+libdiskimage_a_SOURCES =  	diskimage.c 	fsimage-create.c 	fsimage-create.h 	fsimage-gcr.c 	fsimage-gcr.h 	fsimage-probe.c 	fsimage-probe.h 	fsimage.c 	fsimage.h 	x64.h
 
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_TRUE@libdiskimage_a_DEPENDENCIES = rawimage.o realimage.o
 @HAVE_RAWDRIVE_TRUE@@HAVE_REALDEVICE_FALSE@libdiskimage_a_DEPENDENCIES = rawimage.o
@@ -159,7 +159,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libdiskimage_a_OBJECTS =  createdisk.o diskimage.o fsimage-gcr.o \
+libdiskimage_a_OBJECTS =  diskimage.o fsimage-create.o fsimage-gcr.o \
 fsimage-probe.o fsimage.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -266,20 +266,27 @@ distdir: $(DISTFILES)
 createdisk.o: createdisk.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h ../../src/gcr.h ../../src/log.h \
-	../../src/utils.h x64.h ../../src/tap.h
+	../../src/arch/unix/types.h fsimage.h ../../src/gcr.h \
+	../../src/log.h ../../src/utils.h x64.h ../../src/tap.h
 diskimage.o: diskimage.c ../../src/vice.h ../../src/config.h \
-	createdisk.h ../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \
-	../../src/log.h rawimage.h realimage.h ../../src/utils.h
+	../../src/diskconstants.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h fsimage-create.h fsimage-gcr.h \
+	fsimage.h ../../src/log.h rawimage.h realimage.h \
+	../../src/utils.h
+fsimage-create.o: fsimage-create.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/diskconstants.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h fsimage-create.h fsimage.h \
+	../../src/gcr.h ../../src/log.h ../../src/utils.h x64.h \
+	../../src/tap.h
 fsimage-gcr.o: fsimage-gcr.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h fsimage-gcr.h ../../src/gcr.h \
-	../../src/log.h ../../src/utils.h
+	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \
+	../../src/gcr.h ../../src/log.h ../../src/utils.h
 fsimage-probe.o: fsimage-probe.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h fsimage-gcr.h ../../src/log.h \
-	../../src/utils.h x64.h
+	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \
+	../../src/log.h ../../src/utils.h x64.h
 fsimage.o: fsimage.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h fsimage-gcr.h \

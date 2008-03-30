@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libimagecontents.a
 
-libimagecontents_a_SOURCES =  	diskcontents.c 	imagecontents.c 	tapecontents.c
+libimagecontents_a_SOURCES =  	diskcontents.c 	diskcontents.h 	imagecontents.c 	tapecontents.c 	tapecontents.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -257,10 +257,10 @@ diskcontents.o: diskcontents.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
 	../../src/imagecontents.h ../../src/utils.h \
 	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive-dir.h \
-	../../src/vdrive/vdrive.h
+	../../src/vdrive/vdrive-internal.h ../../src/vdrive/vdrive.h
 imagecontents.o: imagecontents.c ../../src/vice.h ../../src/config.h \
-	../../src/charset.h ../../src/arch/unix/types.h \
-	../../src/imagecontents.h ../../src/utils.h
+	../../src/charset.h ../../src/arch/unix/types.h diskcontents.h \
+	../../src/imagecontents.h tapecontents.h ../../src/utils.h
 tapecontents.o: tapecontents.c ../../src/vice.h ../../src/config.h \
 	../../src/imagecontents.h ../../src/arch/unix/types.h \
 	../../src/tape.h ../../src/utils.h

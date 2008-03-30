@@ -358,7 +358,8 @@ uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/uiapi.h uiarch.h \
 	../../../../../src/arch/unix/uiedisk.h \
-	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h
+	../../../../../src/utils.h \
+	../../../../../src/vdrive/vdrive-internal.h
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm \
 	../../../../../src/arch/unix/fullscreenarch.h \
