@@ -318,7 +318,7 @@ cbm2cpu.o: cbm2cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 cbm2datasette.o: cbm2datasette.c ../../src/vice.h ../../src/config.h \
 	cbm2cia.h ../../src/arch/unix/types.h cbm2tpi.h
 cbm2drive.o: cbm2drive.c ../../src/vice.h ../../src/config.h \
-	../../src/machine-drive.h
+	../../src/drive/ieee.h ../../src/machine-drive.h
 cbm2iec.o: cbm2iec.c ../../src/vice.h ../../src/config.h cbm2iec.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/iecdrive.h

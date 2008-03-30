@@ -301,8 +301,8 @@ plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h \
 plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
 	plus4mem.h ../../src/arch/unix/types.h
 plus4drive.o: plus4drive.c ../../src/vice.h ../../src/config.h \
-	../../src/machine-drive.h ../../src/drive/tcbm.h \
-	../../src/arch/unix/types.h
+	../../src/drive/iec.h ../../src/machine-drive.h \
+	../../src/drive/tcbm.h ../../src/arch/unix/types.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \
@@ -330,10 +330,6 @@ plus4tcbm.o: plus4tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/maincpu.h plus4tcbm.h ../../src/drive/tcbm.h
-tcbm.o: tcbm.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/maincpu.h tcbm.h ../../src/drive/tia1551.h
 ted-badline.o: ted-badline.c ../../src/vice.h ../../src/config.h \
 	../../src/dma.h ../../src/arch/unix/types.h ../../src/maincpu.h \
 	../../src/mem.h ted-badline.h ted-fetch.h tedtypes.h \

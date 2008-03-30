@@ -258,10 +258,11 @@ glue1551.o: glue1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/mos6510.h glue1551.h ../../../src/interrupt.h
 mem1551.o: mem1551.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drivemem.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
-	../../../src/alarm.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/mos6510.h glue1551.h mem1551.h tia1551.h
+	../../../src/alarm.h ../../../src/drive/drive.h \
+	../../../src/log.h ../../../src/mos6510.h glue1551.h mem1551.h \
+	tia1551.h
 tcbm.o: tcbm.c ../../../src/vice.h ../../../src/config.h mem1551.h \
 	glue1551.h ../../../src/arch/unix/types.h \
 	../../../src/drive/tcbm.h tia1551.h

@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -129,35 +129,27 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive
 
 
-noinst_LIBRARIES = libserial.a
+noinst_LIBRARIES = libdriveiec.a
 
-EXTRA_libserial_a_SOURCES =          realdevice.c         realdevice.h
+libdriveiec_a_SOURCES =  	iec.c 	memiec.c 	memiec.h 	cia1571d.c 	cia1581d.c
 
-
-libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iecbus.c 	iecbus.h 	serial-device.c 	serial-device.h 	serial-iec-lib.c 	serial-iec-lib.h 	serial-iec.c 	serial-iec.h 	serial-realdevice.c 	serial-realdevice.h 	serial-trap.c 	serial-trap.h 	serial.c
-
-@HAVE_REALDEVICE_TRUE@libserial_a_DEPENDENCIES = realdevice.o
-@HAVE_REALDEVICE_FALSE@libserial_a_DEPENDENCIES = 
-@HAVE_REALDEVICE_TRUE@libserial_a_LIBADD = realdevice.o
-@HAVE_REALDEVICE_FALSE@libserial_a_LIBADD = 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libserial_a_OBJECTS =  fsdrive.o iecbus.o serial-device.o \
-serial-iec-lib.o serial-iec.o serial-realdevice.o serial-trap.o \
-serial.o
+libdriveiec_a_LIBADD = 
+libdriveiec_a_OBJECTS =  iec.o memiec.o cia1571d.o cia1581d.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -169,14 +161,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libserial_a_SOURCES) $(EXTRA_libserial_a_SOURCES)
-OBJECTS = $(libserial_a_OBJECTS)
+SOURCES = $(libdriveiec_a_SOURCES)
+OBJECTS = $(libdriveiec_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/serial/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/drive/iec/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -211,10 +203,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libserial.a: $(libserial_a_OBJECTS) $(libserial_a_DEPENDENCIES)
-	-rm -f libserial.a
-	$(AR) cru libserial.a $(libserial_a_OBJECTS) $(libserial_a_LIBADD)
-	$(RANLIB) libserial.a
+libdriveiec.a: $(libdriveiec_a_OBJECTS) $(libdriveiec_a_DEPENDENCIES)
+	-rm -f libdriveiec.a
+	$(AR) cru libdriveiec.a $(libdriveiec_a_OBJECTS) $(libdriveiec_a_LIBADD)
+	$(RANLIB) libdriveiec.a
 
 tags: TAGS
 
@@ -247,7 +239,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/serial
+subdir = src/drive/iec
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -260,34 +252,37 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-fsdrive.o: fsdrive.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h fsdrive.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/serial.h ../../src/vdrive/vdrive.h
-iecbus.o: iecbus.c ../../src/vice.h ../../src/config.h fsdrive.h \
-	../../src/arch/unix/types.h iecbus.h realdevice.h \
-	../../src/serial.h
-realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h realdevice.h ../../src/arch/unix/types.h \
-	../../src/serial.h ../../src/vsync.h
-serial-device.o: serial-device.c ../../src/vice.h ../../src/config.h \
-	serial-device.h ../../src/serial.h ../../src/arch/unix/types.h
-serial-iec-lib.o: serial-iec-lib.c ../../src/vice.h ../../src/config.h \
-	serial-iec.h ../../src/arch/unix/types.h ../../src/utils.h
-serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h iecbus.h \
-	../../src/arch/unix/types.h serial-iec.h ../../src/utils.h
-serial-realdevice.o: serial-realdevice.c ../../src/vice.h \
-	../../src/config.h realdevice.h ../../src/arch/unix/types.h
-serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h \
-	iecbus.h ../../src/arch/unix/types.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/mos6510.h serial-trap.h \
-	../../src/serial.h
-serial.o: serial.c ../../src/vice.h ../../src/config.h \
-	../../src/attach.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h iecbus.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/mos6510.h ../../src/parallel.h \
-	../../src/printer.h realdevice.h serial-trap.h \
-	../../src/serial.h ../../src/traps.h ../../src/utils.h \
-	../../src/vdrive/vdrive.h
+cia1571d.o: cia1571d.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/ciacore.h ../../../src/cia.h ../../../src/log.h \
+	../../../src/arch/unix/types.h ../../../src/drive/ciad.h \
+	../../../src/clkguard.h ../../../src/drive/drive.h \
+	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/alarm.h \
+	../../../src/mos6510.h ../../../src/iecdrive.h \
+	../../../src/interrupt.h ../../../src/utils.h \
+	../../../src/ciacore.c ../../../src/snapshot.h
+cia1581d.o: cia1581d.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/ciacore.h ../../../src/cia.h ../../../src/log.h \
+	../../../src/arch/unix/types.h ../../../src/drive/ciad.h \
+	../../../src/drive/drive.h ../../../src/drive/drivecpu.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/alarm.h ../../../src/mos6510.h \
+	../../../src/iecdrive.h ../../../src/interrupt.h \
+	../../../src/ciacore.c ../../../src/clkguard.h \
+	../../../src/snapshot.h ../../../src/utils.h
+iec.o: iec.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/alarm.h ../../../src/drive/drive.h \
+	../../../src/log.h ../../../src/mos6510.h \
+	../../../src/drive/iec.h memiec.h ../../../src/drive/viad.h
+memiec.o: memiec.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/ciad.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drivemem.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/alarm.h \
+	../../../src/drive/drive.h ../../../src/log.h \
+	../../../src/mos6510.h memiec.h ../../../src/utils.h \
+	../../../src/drive/wd1770.h
 
 info-am:
 info: info-am

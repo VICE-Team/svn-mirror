@@ -129,7 +129,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS =  	tcbm
+SUBDIRS =  	iec 	ieee 	tcbm
 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor
@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdrive.a
 
-libdrive_a_SOURCES =  	cia1571d.c 	cia1581d.c 	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	fdc.h 	fdc.c 	riot1d.c 	riot2d.c 	riotd.h 	tcbm.h 	via1d.c 	via2d.c 	viad.h 	wd1770.c 	wd1770.h
+libdrive_a_SOURCES =  	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	fdc.h 	fdc.c 	iec.h 	ieee.h 	tcbm.h 	via1d.c 	via2d.c 	viad.h 	wd1770.c 	wd1770.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -152,10 +152,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
-libdrive_a_OBJECTS =  cia1571d.o cia1581d.o drive-cmdline-options.o \
-drive-resources.o drive-snapshot.o drive.o drivecpu.o drivemem.o \
-driveimage.o driverom.o drivesync.o fdc.o riot1d.o riot2d.o via1d.o \
-via2d.o wd1770.o
+libdrive_a_OBJECTS =  drive-cmdline-options.o drive-resources.o \
+drive-snapshot.o drive.o drivecpu.o drivemem.o driveimage.o driverom.o \
+drivesync.o fdc.o via1d.o via2d.o wd1770.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -351,43 +350,43 @@ drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/utils.h ../../src/vdrive/vdrive-bam.h
 drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/attach.h ciad.h ../../src/arch/unix/types.h \
-	../../src/diskconstants.h ../../src/diskimage.h drive.h \
+	../../src/attach.h ../../src/diskconstants.h \
+	../../src/diskimage.h ../../src/arch/unix/types.h drive.h \
 	../../src/log.h drivecpu.h drivemem.h driverom.h fdc.h \
-	../../src/gcr.h ../../src/iecdrive.h ../../src/resources.h \
-	riotd.h ../../src/snapshot.h ../../src/utils.h \
+	../../src/gcr.h ../../src/iecdrive.h ../../src/machine-drive.h \
+	../../src/resources.h ../../src/snapshot.h ../../src/utils.h \
 	../../src/vdrive/vdrive-bam.h \
 	../../src/vdrive/vdrive-snapshot.h viad.h wd1770.h \
 	../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	ciad.h ../../src/arch/unix/types.h ../../src/clkguard.h \
+	../../src/clkguard.h ../../src/arch/unix/types.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
 	../../src/log.h drivecpu.h driveimage.h drivesync.h driverom.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/mos6510.h fdc.h ../../src/gcr.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/machine.h ../../src/parallel.h \
-	../../src/resources.h riotd.h ../../src/serial.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
-	viad.h wd1770.h
+	../../src/interrupt.h ../../src/machine-drive.h \
+	../../src/machine.h ../../src/parallel.h ../../src/resources.h \
+	../../src/serial.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/utils.h viad.h wd1770.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ciad.h ../../src/clkguard.h \
+	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/debug.h drive.h ../../src/log.h drivecpu.h drivemem.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h fdc.h \
 	../../src/interrupt.h ../../src/machine-drive.h \
 	../../src/machine.h ../../src/mem.h ../../src/monitor/mon.h \
-	riotd.h ../../src/snapshot.h ../../src/utils.h viad.h wd1770.h \
+	../../src/snapshot.h ../../src/utils.h viad.h wd1770.h \
 	../../src/6510core.c
 driveimage.o: driveimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h drive.h ../../src/log.h \
 	driveimage.h ../../src/gcr.h
-drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h ciad.h \
-	../../src/arch/unix/types.h drive.h ../../src/log.h driverom.h \
+drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h drive.h \
+	../../src/log.h ../../src/arch/unix/types.h driverom.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/mos6510.h fdc.h ../../src/machine-drive.h \
-	../../src/mem.h ../../src/monitor/mon.h riotd.h \
-	../../src/utils.h viad.h wd1770.h
+	../../src/mem.h ../../src/monitor/mon.h ../../src/utils.h \
+	viad.h wd1770.h
 driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h driverom.h \
 	../../src/resources.h ../../src/sysfile.h
@@ -401,10 +400,6 @@ fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h fdc.h \
 	../../src/interrupt.h ../../src/snapshot.h \
 	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h
-glue1551.o: glue1551.c ../../src/vice.h ../../src/config.h \
-	../../src/alarm.h ../../src/arch/unix/types.h drive.h \
-	../../src/log.h drivetypes.h ../../src/ciatimer.h \
-	../../src/mos6510.h glue1551.h ../../src/interrupt.h
 riot1d.o: riot1d.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/riot.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
@@ -419,10 +414,6 @@ riot2d.o: riot2d.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/parallel.h \
 	riotd.h ../../src/riotcore.c ../../src/snapshot.h \
 	../../src/utils.h
-tia1551.o: tia1551.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/log.h ../../src/arch/unix/types.h drivetypes.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
-	../../src/iecdrive.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
 	../../src/log.h drivecpu.h drivesync.h drivetypes.h \
@@ -519,8 +510,12 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-.PHONY: libdrivetcbm
+.PHONY: libdriveiec libdriveieee libdrivetcbm
 
+libdriveiec:
+	(cd iec; $(MAKE))
+libdriveieee:
+	(cd ieee; $(MAKE))
 libdrivetcbm:
 	(cd tcbm; $(MAKE))
 
