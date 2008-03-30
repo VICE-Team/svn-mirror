@@ -163,7 +163,7 @@ EXTRA_libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h
 
-EXTRA_DIST = c64.dsp c64c128.dsp
+EXTRA_DIST =
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
@@ -360,8 +360,6 @@ c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/interrupt.h ../../src/aciacore.c ../../src/vice.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/machine.h \
 	../../src/rs232.h ../../src/acia.h
-c64cart.o: c64cart.c ../../src/vice.h ../../src/config.h c64mem.h \
-	../../src/types.h ../../src/mem.h ../../src/snapshot.h
 c64cartmem.o: c64cartmem.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/types.h c64mem.h ../../src/mem.h ../../src/snapshot.h \
 	../../src/cartridge.h ../../src/interrupt.h \

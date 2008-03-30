@@ -41,7 +41,7 @@
 #define mycpu_alarm_context drive0_alarm_context
 #define mycpu_clk_guard drive0_clk_guard
 
-#define reset_myvia reset_via2d0
+#define myvia_reset via2d0_reset
 #define store_myvia store_via2d0
 #define read_myvia read_via2d0
 #define peek_myvia peek_via2d0

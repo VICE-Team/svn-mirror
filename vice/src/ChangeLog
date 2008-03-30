@@ -1,6 +1,160 @@
+1999-04-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.3.
+
+	* c128/c128mem.c (initialize_memory): Fixed IO banking.
+
+	* drive/drive.c: Changed default name of 1541-II ROM.
+
+	* drive/drivecpucore.c (reset): Changed name of the reset
+	function.
+	* drive/viad.h, via1drive0.c, via1drive1.c, via2drive0.c,
+	via2drive1.c, vic20/vic20via.h, vic20/vic20via1.c,
+	vic20/vic20via2.c, pet/petvia.c, pet/petvia.h, c64/c64cia1.c,
+	c64/c64cia2.c, c64/c64cia.h, ciacore.c, drive/ciad.h,
+	drive/cia1571drive0.c, drive/cia1571drive1.c,
+	drive/cia1581drive0.c, drive/cia1581drive1.c, c128/c128cia1.c,
+	cbm2/c610cia.h, cbm2/c610cia1.c, drive/wd1770.h, drive/wd1770.c,
+	drive/riotd.h, drive/riot1drive0.c, drive/riot2drive0.c,
+	riotcore.c, drive/drivecpu0.c, drive/drivecpu1.c, c64/c64.c,
+	c128/c128.c, vic20/vic20.c, pet/pet.c, cbm2/c610.c: Likewise.
+
+1998-04-28  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: add some explanation to the drive emulation
+	cmdline options -parallel8/9 fixed
+	added -drive8extend and -drive9extend options
+	added -dos1001 option
+	added -joydev1, -joydev2 options
+
+	* arch/unix/joystick.c (cmdline_options): change "0-5" to "0-6"
+	for the available joystick devices.
+
+	* drive/drive.c (cmdline_options): add -drive8extend and -drive9extend
+	options
+
+1998-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/Makefile.am: add fdc.h, fdc0.c, fdc1.c, fdccore.h, and
+	fdccore.c
+
+	* drive/drivecpu0.c: include fdc.h
+	(myfdc_reset, myfdc_init): new defines
+	* drive/drivecpu1.c: likewise
+
+	* drive/drivecpucore.c (mydrive_read_1001buffer_ram,
+	mydrive_store_1001buffer_ram): fix address computation
+	(reset): call myfdc_reset
+	(mydrive_cpu_early_init): call myfdc_init
+
+	* drive/fdc.h, drive/fdc0.c, drive/fdc1.c, drive/fdccore.c,
+	drive/fdccore.h: new files to handle FDC emulation
+	for the two drives.
+
+1998-04-27  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/xaw/Makefile.am: add uiedisk.h, uiedisk.c
+
+	* arch/unix/xaw/uicommands.c (attach_empty_disk): new callback
+	(attach_empty_disk_image_submenu). new submenu to attach
+	an empty disk
+	(ui_disk_commands_menu): call attach_empty_disk_image_submenu
+
+	* arch/unix/xaw/uiedisk.c: new file, derived from uisnapshot.c
+
+	* arch/unix/xaw/uiedisk.h: new file, derived from uisnapshot.h
+
+	* arch/unix/xaw/uisnapshot.c (browse_callback, cancel_callback,
+	save_callback): make static
+
+1998-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/c64mem.c (mem_romset_resources): fix list (add 1541ii, 1001)
+	* c128/c128mem.c: likewise
+	* vic20/vic20mem.c: likewise
+	* pet/petmem.c: likewise
+	* cbm2/c610mem.c: likewise
+
+1998-04-26  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/DRIVES/Makefile.am: add dos1001
+
+	* arch/unix/xaw/uisettings.c (set_drive0_type_submenu,
+	set_drive1_type_submenu): add SFD1001 entry
+
+	* drive/Makefile.am: add riotd.h
+
+	* drive/drive.c: include riotd.h
+	(drive_load_1001, dos_rom_name_1001, set_dos_rom_name_1001,
+	drive_rom1001, rom1001_loaded): new function/variable
+	(set_drive0_type, set_drive1_type, drive_init,  
+	drive_set_active_led_color, drive_set_disk_drive_type,
+	drive_load_rom_images, drive_setup_rom_image, drive_check_image_format,
+	drive_match_bus, drive_write_snapshot_module,
+	drive_read_snapshot_module): handle new SFD1001 case
+	(resources, commandline_options): new "DosName1001" and "-dos1001"
+	entries
+
+	* drive/drive.h (DRIVE_ROM1001_SIZE, DRIVE_TYPE_1001): new defs.
+
+	* drive/drivecpu0.c: include riotd.h
+	(reset_myriot1, reset_myriot2, read_myriot1, read_myriot2,
+	store_myriot1, store_myriot2, myriot1_init, myriot2_init): new defs
+	* drive/drivecpu1.c: likewise
+
+	* drive/drivecpucore.c (read_func, store_func, read_func_watch,
+	store_func_watch, read_func_nowatch, store_func_nowatch):
+	increase size from 65 to 257, using each entry for 256 byte instead
+	of 1024
+	(LOAD, STORE): adjust to new table format
+	(mydrive_read_1001_io, mydrive_store_1001_io, 
+	mydrive_read_1001zero_ram, mydrive_store_1001zero_ram, 
+	mydrive_read_1001buffer_ram, mydrive_store_1001buffer_ram): 
+	new functions to handle 1001/8050/8250 memory access
+	(JUMP): do not use bank_base optimization for SFD1001 :-(
+	(pageone): made variable to be able to set it to drive_ram 
+	or (drive_ram + 0x100)
+	(mydrive_read, mydrive_store, drive_bank_read, drive_bank_peek,
+	drive_bank_store): adjust to new table format
+	(reset): reset RIOTs as well
+	(mydrive_mem_init): adjust to new memory table format, also handle
+	new SFD1001 case
+	(mydrive_toggle_watchpoints): adjust to new mem table size
+	(mydrive_cpu_early_init): init RIOTs as well
+	(drive_jam): handle new 1001 case
+	(mydrive_cpu_write_snapshot_module): adjust RAM size to save for 1001
+	(mydrive_cpu_read_snapshot_module): reset RIOTs as well
+	adjust RAM size to read for SFD1001
+
+	* drive/riotd.h: new file with RIOT1/2 definitions for drive 0/1
+
+1998-04-25  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* Makefile.am: add riot.h, riotcore.h and riotcore.c
+
+	* drive/Makefile.am: add riot1drive0.c, riot2drive0.c
+
+	* drive/drive.c (drive1_riot_set_atn): dummy 
+	(drive0_parallel_set_atn, drive1_parallel_set_atn): replace
+	functions in the VIA code. Call VIA _and_ RIOT functions to 
+	set ATN flags
+
+	* drive/riot1drive0.c, drive/riot2drive0.c: new files
+
+	* drive/riotd.h (riot1d0_signal, riot2d0_signal, riot1d1_signal, 
+	riot2d1_signal): new prototypes
+	remove empty redefines for the two drive 0 RIOTs
+
+	* drive/via1drive0.c (drive0_via_set_atn): renamed from 
+	drive0_parallel_set_atn
+	* drive/via1drive1.c: likewise
+
+	* riot.h, riotcore.c, riotcore.h: new files to emulate the 
+	RIOT 6532 and the 6530.
+
 1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.0.0.2.
+	* Version 1.0.2.
 
 	* fsdevice.c (read_fs) [Directory]: Corrected off by one error in
 	directory listing.
@@ -46,7 +200,7 @@
 
 1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.0.0.1.
+	* Version 1.0.1.
 
 	* Makefile.am, arch/unix/Makefile.am, arch/unix/xaw/Makefile.am,
 	arch/win32/Makefile.am, arch/msdos/Makefile.am,

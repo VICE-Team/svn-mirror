@@ -234,7 +234,7 @@ int machine_init(void)
 void machine_reset(void)
 {
     reset_acia1();
-    reset_cia1();
+    cia1_reset();
     reset_tpi1();
     reset_tpi2();
 

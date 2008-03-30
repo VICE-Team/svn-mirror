@@ -150,7 +150,7 @@ libsounddrv_a_DEPENDENCIES = \
 libsounddrv_a_LIBADD = \
 	@SOUND_DRIVERS@
 
-EXTRA_DIST = sounddrv.dsp
+EXTRA_DIST =
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 

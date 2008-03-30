@@ -45,7 +45,9 @@
 #include "types.h"
 #include "ui.h"
 #include "viad.h"
+#include "riotd.h"
 #include "wd1770.h"
+#include "fdc.h"
 
 #include "drivecpu.h"
 
@@ -99,11 +101,13 @@ int drive1_traceflg;
 #define mymonspace e_disk9_space
 #define IDENTIFICATION_STRING "DRIVE#9"
 
-#define reset_myvia1 reset_via1d1
-#define reset_myvia2 reset_via2d1
-#define reset_mycia1571 reset_cia1571d1
-#define reset_mycia1581 reset_cia1581d1
-#define reset_mywd1770 reset_wd1770d1
+#define myvia1_reset via1d1_reset
+#define myvia2_reset via2d1_reset
+#define mycia1571_reset cia1571d1_reset
+#define mycia1581_reset cia1581d1_reset
+#define mywd1770_reset wd1770d1_reset
+#define myriot1_reset riot1d1_reset
+#define myriot2_reset riot2d1_reset
 
 #define read_myvia1 read_via1d1
 #define store_myvia1 store_via1d1
@@ -115,12 +119,21 @@ int drive1_traceflg;
 #define store_mycia1581 store_cia1581d1
 #define read_mywd1770 read_wd1770d1
 #define store_mywd1770 store_wd1770d1
+#define read_myriot1 read_riot1d1
+#define store_myriot1 store_riot1d1
+#define read_myriot2 read_riot2d1
+#define store_myriot2 store_riot2d1
 
 #define myvia1_init via1d1_init
 #define myvia2_init via2d1_init
 #define mycia1571_init cia1571d1_init
 #define mycia1581_init cia1581d1_init
 #define mywd1770_init wd1770d1_init
+#define myriot1_init riot1d1_init
+#define myriot2_init riot2d1_init
+
+#define myfdc_reset fdc1_reset
+#define myfdc_init fdc1_init
 
 #include "drivecpucore.c"
 

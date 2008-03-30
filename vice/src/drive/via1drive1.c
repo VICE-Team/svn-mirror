@@ -41,7 +41,7 @@
 #define mycpu_alarm_context drive1_alarm_context
 #define mycpu_clk_guard drive1_clk_guard
 
-#define reset_myvia reset_via1d1
+#define myvia_reset via1d1_reset
 #define store_myvia store_via1d1
 #define read_myvia read_via1d1
 #define peek_myvia peek_via1d1
@@ -73,7 +73,7 @@ static char snap_module_name[] = "VIA1D1";
 
 static int parieee_is_out = 1;    /* 0= listener, 1= talker */
 
-void drive1_parallel_set_atn(int state)
+void drive1_via_set_atn(int state)
 {
     if (drive[1].type == DRIVE_TYPE_2031) {
         via1d1_signal(VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);

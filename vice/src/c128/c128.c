@@ -319,8 +319,8 @@ void machine_reset(void)
 {
     initialize_memory();
 
-    reset_cia1();
-    reset_cia2();
+    cia1_reset();
+    cia2_reset();
     sid_reset();
     reset_tpi();
 

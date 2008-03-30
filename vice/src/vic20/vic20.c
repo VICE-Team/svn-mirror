@@ -287,8 +287,8 @@ int machine_init(void)
 /* Reset.  */
 void machine_reset(void)
 {
-    reset_via1();
-    reset_via2();
+    via1_reset();
+    via2_reset();
 
     reset_vic();
 

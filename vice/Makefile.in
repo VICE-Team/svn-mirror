@@ -111,7 +111,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUBDIRS = src data man doc
 
-EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec vice.dsp vice.dsw
+EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./src/config.h

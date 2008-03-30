@@ -1,6 +1,6 @@
 /*
  * drivecpucore.c - Template file of the 6502 processor in the Commodore 1541,
- * 1541-II, 1571, 1581 and 2031 floppy disk drive.
+ * 1541-II, 1571, 1581, 2031 and 1001 floppy disk drive.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -69,20 +69,56 @@ static mos6510_regs_t drive_cpu_regs;
 typedef BYTE REGPARM1 mydrive_read_func_t(ADDRESS);
 typedef void REGPARM2 mydrive_store_func_t(ADDRESS, BYTE);
 
-static mydrive_read_func_t *read_func[0x41];
-static mydrive_store_func_t *store_func[0x41];
-static mydrive_read_func_t *read_func_watch[0x41];
-static mydrive_store_func_t *store_func_watch[0x41];
-static mydrive_read_func_t *read_func_nowatch[0x41];
-static mydrive_store_func_t *store_func_nowatch[0x41];
+static mydrive_read_func_t *read_func[0x101];
+static mydrive_store_func_t *store_func[0x101];
+static mydrive_read_func_t *read_func_watch[0x101];
+static mydrive_store_func_t *store_func_watch[0x101];
+static mydrive_read_func_t *read_func_nowatch[0x101];
+static mydrive_store_func_t *store_func_nowatch[0x101];
 
-#define LOAD(a)		  (read_func[(a) >> 10]((ADDRESS)(a)))
+#define LOAD(a)		  (read_func[(a) >> 8]((ADDRESS)(a)))
 #define LOAD_ZERO(a)	  (drive_ram[(a) & 0xff])
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)	  (store_func[(a) >> 10]((ADDRESS)(a), (BYTE)(b)))
+#define STORE(a, b)	  (store_func[(a) >> 8]((ADDRESS)(a), (BYTE)(b)))
 #define STORE_ZERO(a, b)  (drive_ram[(a) & 0xff] = (b))
 
+static BYTE REGPARM1 mydrive_read_1001_io(ADDRESS address)
+{
+    if (address & 0x80) {
+	return read_myriot2(address);
+    } 
+    return read_myriot1(address);
+}
+
+static void REGPARM2 mydrive_store_1001_io(ADDRESS address, BYTE byte)
+{
+    if (address & 0x80) {
+	store_myriot2(address, byte);
+    } else {
+        store_myriot1(address, byte);
+    }
+}
+
+static BYTE REGPARM1 mydrive_read_1001zero_ram(ADDRESS address)
+{
+    return drive_ram[address & 0xff];
+}
+
+static void REGPARM2 mydrive_store_1001zero_ram(ADDRESS address, BYTE byte)
+{
+    drive_ram[address & 0xff] = byte;
+}
+
+static BYTE REGPARM1 mydrive_read_1001buffer_ram(ADDRESS address)
+{
+    return drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff)) - 0x300];
+}
+
+static void REGPARM2 mydrive_store_1001buffer_ram(ADDRESS address, BYTE byte)
+{
+    drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff)) - 0x300] = byte;
+}
 
 static BYTE REGPARM1 mydrive_read_ram(ADDRESS address)
 {
@@ -125,10 +161,15 @@ static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
     store_func_nowatch[address>>10](address, value);
 }
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
+/* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
+   We should use tables like in maincpu instead (AF) */
 #define JUMP(addr)                                    \
     do {                                              \
         reg_pc = (addr);                              \
-        if (reg_pc < 0x2000) {                        \
+	if (drive[mynumber].type == 1001) {	      \
+	    bank_base = NULL;			      \
+	    bank_limit = -1; 			      \
+	} else if (reg_pc < 0x2000) {                 \
             bank_base = drive_ram;                    \
             bank_limit = 0x07fd;                      \
         } else if (reg_pc >= 0x8000) {                \
@@ -141,7 +182,7 @@ static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
     } while (0)
 
 #define pagezero	(drive_ram)
-#define pageone		(drive_ram + 0x100)
+static BYTE *pageone = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -149,30 +190,30 @@ static void REGPARM2 mydrive_store_watch(ADDRESS address, BYTE value)
 
 BYTE REGPARM1 mydrive_read(ADDRESS address)
 {
-    return read_func[address >> 10](address);
+    return read_func[address >> 8](address);
 }
 
 void REGPARM2 mydrive_store(ADDRESS address, BYTE value)
 {
-    store_func[address >> 10](address, value);
+    store_func[address >> 8](address, value);
 }
 
 /* This is the external interface for banked memory access.  */
 
 static BYTE drive_bank_read(int bank, ADDRESS address)
 {
-    return read_func[address >> 10](address);
+    return read_func[address >> 8](address);
 }
 
 /* FIXME: use peek in IO area */
 static BYTE drive_bank_peek(int bank, ADDRESS address)
 {
-    return read_func[address >> 10](address);
+    return read_func[address >> 8](address);
 }
 
 static void drive_bank_store(int bank, ADDRESS address, BYTE value)
 {
-    store_func[address >> 10](address, value);
+    store_func[address >> 8](address, value);
 }
 
 /* Monitor interface.  */
@@ -253,11 +294,15 @@ static void reset(void)
                         &drive_last_opcode_info);
 
     drive_clk[mynumber] = 6;
-    reset_myvia1();
-    reset_myvia2();
-    reset_mycia1571();
-    reset_mycia1581();
-    reset_mywd1770();
+    myvia1_reset();
+    myvia2_reset();
+    mycia1571_reset();
+    mycia1581_reset();
+    mywd1770_reset();
+    myriot1_reset();
+    myriot2_reset();
+    myfdc_reset(drive[mynumber].type == DRIVE_TYPE_1001);
+
     if (preserve_monitor)
 	monitor_trap_on(&mydrive_int_status);
 }
@@ -266,76 +311,123 @@ void mydrive_mem_init(int type)
 {
     int i;
 
-    for (i = 0; i < 0x41; i++) {
+    for (i = 0; i < 0x101; i++) {
 	read_func_watch[i] = mydrive_read_watch;
 	store_func_watch[i] = mydrive_store_watch;
 	read_func_nowatch[i] = mydrive_read_free;
 	store_func_nowatch[i] = mydrive_store_free;
     }
 
+    /* FIXME: ROM mirrors! */
     /* Setup firmware ROM.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II ||
-        type == DRIVE_TYPE_2031)
-        for (i = 0x30; i < 0x40; i++)
+        type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001)
+        for (i = 0xC0; i < 0x100; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
     if (type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_1581)
-        for (i = 0x20; i < 0x40; i++)
+        for (i = 0x80; i < 0x100; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
-    /* Setup drive RAM.  */
-    read_func_nowatch[0x0] = read_func_nowatch[0x1] = mydrive_read_ram;
-    store_func_nowatch[0x0] = store_func_nowatch[0x1] = mydrive_store_ram;
-    read_func_nowatch[0x40] = mydrive_read_ram;
-    store_func_nowatch[0x40] = mydrive_store_ram;
+    if (type != DRIVE_TYPE_1001) {
+	pageone = drive_ram + 0x100;
 
-    if (type == DRIVE_TYPE_1581)
-        for (i = 0x0; i < 0x8; i++) {
+        /* Setup drive RAM.  */
+	for (i = 0x00; i < 0x08; i++) {
             read_func_nowatch[i] = mydrive_read_ram;
             store_func_nowatch[i] = mydrive_store_ram;
-        }
+	}
+        if (type == DRIVE_TYPE_1581)
+            for (i = 0x08; i < 0x20; i++) {
+                read_func_nowatch[i] = mydrive_read_ram;
+                store_func_nowatch[i] = mydrive_store_ram;
+            }
+    } else {
+	/* The 1001/8050/8250 have 256 byte at $00xx, mirrored at 
+	   $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
+	   (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
+	   the gaps, x00-7f the first and x80-ff the second, at 
+	   $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx). 
+	   Then we have 4k of buffers, at $1000-13ff, 2000-23ff, 3000-33ff
+	   and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff, 
+	   and $xc00-$xfff. 
+	
+	   Here we set zeropage, stack and buffer RAM as well as I/O */
+
+	pageone = drive_ram;
+
+	for (i = 0; i <= 0x10; i += 4) {
+	   read_func_nowatch[i] = mydrive_read_1001zero_ram;
+	   store_func_nowatch[i] = mydrive_store_1001zero_ram;
+	   read_func_nowatch[i + 1] = mydrive_read_1001zero_ram;
+	   store_func_nowatch[i + 1] = mydrive_store_1001zero_ram;
+	   read_func_nowatch[i + 2] = mydrive_read_1001_io;
+	   store_func_nowatch[i + 2] = mydrive_store_1001_io;
+	   read_func_nowatch[i + 3] = mydrive_read_1001_io;
+	   store_func_nowatch[i + 3] = mydrive_store_1001_io;
+	}
+	for (i = 0x10; i <= 0x50; i ++) {
+	   read_func_nowatch[i] = mydrive_read_1001buffer_ram;
+	   store_func_nowatch[i] = mydrive_store_1001buffer_ram;
+	}
+    }
 
     /* Setup 1541, 1541-II and 1571 VIAs.  */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1571 || type == DRIVE_TYPE_2031) {
-        read_func_nowatch[0x6] = read_myvia1;
-        store_func_nowatch[0x6] = store_myvia1;
-        read_func_nowatch[0x7] = read_myvia2;
-        store_func_nowatch[0x7] = store_myvia2;
+	for (i = 0x18; i < 0x1C; i++) {
+            read_func_nowatch[i] = read_myvia1;
+            store_func_nowatch[i] = store_myvia1;
+	}
+	for (i = 0x1C; i < 0x20; i++) {
+            read_func_nowatch[i] = read_myvia2;
+            store_func_nowatch[i] = store_myvia2;
+	}
     }
 
     /* Setup 1571 CIA.  */
     if (type == DRIVE_TYPE_1571) {
-        read_func_nowatch[0x10] = read_mycia1571;
-        store_func_nowatch[0x10] = store_mycia1571;
-        read_func_nowatch[0x8] = read_mywd1770;
-        store_func_nowatch[0x8] = store_mywd1770;
+	for (i = 0x40; i < 0x44; i++) {
+            read_func_nowatch[i] = read_mycia1571;
+            store_func_nowatch[i] = store_mycia1571;
+	}
+	for (i = 0x20; i < 0x24; i++) {
+            read_func_nowatch[i] = read_mywd1770;
+            store_func_nowatch[i] = store_mywd1770;
+	}
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
-        read_func_nowatch[0x10] = read_mycia1581;
-        store_func_nowatch[0x10] = store_mycia1581;
-        read_func_nowatch[0x18] = read_mywd1770;
-        store_func_nowatch[0x18] = store_mywd1770;
+	for (i = 0x40; i < 0x44; i++) {
+            read_func_nowatch[i] = read_mycia1581;
+            store_func_nowatch[i] = store_mycia1581;
+	}
+	for (i = 0x60; i < 0x64; i++) {
+            read_func_nowatch[i] = read_mywd1770;
+            store_func_nowatch[i] = store_mywd1770;
+	}
     }
 
-    memcpy(read_func, read_func_nowatch, sizeof(mydrive_read_func_t *) * 0x41);
-    memcpy(store_func, store_func_nowatch, sizeof(mydrive_store_func_t *) * 0x41);
+    read_func_nowatch[0x100] = read_func_nowatch[0];
+    store_func_nowatch[0x100] = store_func_nowatch[0];
+
+    memcpy(read_func, read_func_nowatch, sizeof(mydrive_read_func_t *) * 0x101);
+    memcpy(store_func, store_func_nowatch, sizeof(mydrive_store_func_t *) * 0x101);
 }
 
 void mydrive_toggle_watchpoints(int flag)
 {
     if (flag) {
         memcpy(read_func, read_func_watch,
-               sizeof(mydrive_read_func_t *) * 0x41);
+               sizeof(mydrive_read_func_t *) * 0x101);
         memcpy(store_func, store_func_watch,
-               sizeof(mydrive_store_func_t *) * 0x41);
+               sizeof(mydrive_store_func_t *) * 0x101);
     } else {
         memcpy(read_func, read_func_nowatch,
-               sizeof(mydrive_read_func_t *) * 0x41);
+               sizeof(mydrive_read_func_t *) * 0x101);
         memcpy(store_func, store_func_nowatch,
-               sizeof(mydrive_store_func_t *) * 0x41);
+               sizeof(mydrive_store_func_t *) * 0x101);
     }
 }
 
@@ -376,6 +468,9 @@ void mydrive_cpu_early_init(void)
     mycia1571_init();
     mycia1581_init();
     mywd1770_init();
+    myriot1_init();
+    myriot2_init();
+    myfdc_init(drive_ram + 0x100);
 }
 
 void mydrive_cpu_init(int type)
@@ -569,6 +664,9 @@ static void drive_jam(void)
       case DRIVE_TYPE_2031:
         dname = "  2031";
         break;
+      case DRIVE_TYPE_1001:
+        dname = "  1001";
+        break;
     }
 
     tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, reg_pc);
@@ -637,6 +735,10 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
         if (snapshot_module_write_byte_array(m, drive_ram, 0x2000) < 0)
             goto fail;
     }
+    if (drive[mynumber].type == DRIVE_TYPE_1001) {
+        if (snapshot_module_write_byte_array(m, drive_ram, 0x1100) < 0)
+            goto fail;
+    }
 
     return snapshot_module_close(m);
 
@@ -690,11 +792,13 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
     cpu_int_status_init(&mydrive_int_status, DRIVE_NUMOFINT,
                         &drive_last_opcode_info);
 
-    reset_myvia1();
-    reset_myvia2();
-    reset_mycia1571();
-    reset_mycia1581();
-    reset_mywd1770();
+    myvia1_reset();
+    myvia2_reset();
+    mycia1571_reset();
+    mycia1581_reset();
+    mywd1770_reset();
+    myriot1_reset();
+    myriot2_reset();
 
     if (interrupt_read_snapshot(&mydrive_int_status, m) < 0)
         goto fail;
@@ -709,6 +813,11 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
 
     if (drive[mynumber].type == DRIVE_TYPE_1581) {
         if (snapshot_module_read_byte_array(m, drive_ram, 0x2000) < 0)
+            goto fail;
+    }
+
+    if (drive[mynumber].type == DRIVE_TYPE_1001) {
+        if (snapshot_module_read_byte_array(m, drive_ram, 0x1100) < 0)
             goto fail;
     }
 

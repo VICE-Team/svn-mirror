@@ -33,7 +33,7 @@
 #include "snapshot.h"
 
 extern void cia1_init(void);
-extern void reset_cia1(void);
+extern void cia1_reset(void);
 extern void REGPARM2 store_cia1(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia1(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia1(ADDRESS addr);
@@ -45,7 +45,7 @@ extern int cia1_write_snapshot_module(snapshot_t *p);
 extern int cia1_read_snapshot_module(snapshot_t *p);
 
 extern void cia2_init(void);
-extern void reset_cia2(void);
+extern void cia2_reset(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 read_cia2(ADDRESS addr);
 extern BYTE REGPARM1 peek_cia2(ADDRESS addr);

@@ -246,7 +246,7 @@ void mycia_init(void)
     ciat_init(&ciatb, MYCIA_NAME "_TB", myclk, &cia_tb_alarm);
 }
 
-void reset_mycia(void)
+void mycia_reset(void)
 {
     int i;
 

@@ -220,7 +220,7 @@ void myvia_init(void)
  * according to Rockwell, all internal registers are cleared, except
  * for the Timer (1 and 2, counter and latches) and the shift register.
  */
-void reset_myvia(void)
+void myvia_reset(void)
 {
     int i;
 

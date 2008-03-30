@@ -32,7 +32,7 @@
 #include "snapshot.h"
 
 extern void via1_init(void);
-extern void reset_via1(void);
+extern void via1_reset(void);
 extern void via1_signal(int line, int edge);
 extern void REGPARM2 store_via1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via1(ADDRESS addr);
@@ -41,7 +41,7 @@ extern int via1_write_snapshot_module(snapshot_t *p);
 extern int via1_read_snapshot_module(snapshot_t *p);
 
 extern void via2_init(void);
-extern void reset_via2(void);
+extern void via2_reset(void);
 extern void via2_signal(int line, int edge);
 extern void REGPARM2 store_via2(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via2(ADDRESS addr);

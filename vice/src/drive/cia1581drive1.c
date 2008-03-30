@@ -35,7 +35,7 @@
  */
 
 #define mycia_init cia1581d1_init
-#define reset_mycia reset_cia1581d1
+#define mycia_reset cia1581d1_reset
 #define store_mycia store_cia1581d1
 #define read_mycia read_cia1581d1
 #define peek_mycia peek_cia1581d1

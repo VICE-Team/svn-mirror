@@ -135,7 +135,7 @@ libpet_a_SOURCES = \
 	petvia.c \
 	petvia.h
 
-EXTRA_DIST = pet.dsp
+EXTRA_DIST =
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 

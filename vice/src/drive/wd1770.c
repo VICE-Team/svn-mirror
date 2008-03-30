@@ -75,7 +75,7 @@ BYTE REGPARM1 read_wd1770d0(ADDRESS addr)
     return read_wd1770(addr & 3, 0);
 }
 
-void reset_wd1770d0(void)
+void wd1770d0_reset(void)
 {
     reset_wd1770(0);
 }
@@ -90,7 +90,7 @@ BYTE REGPARM1 read_wd1770d1(ADDRESS addr)
     return read_wd1770(addr & 3, 1);
 }
 
-void reset_wd1770d1(void)
+void wd1770d1_reset(void)
 {
     reset_wd1770(1);
 }

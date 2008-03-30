@@ -141,6 +141,8 @@ libxawui_a_SOURCES = \
 	ui.h \
 	uicommands.c \
 	uicommands.h \
+	uiedisk.c \
+	uiedisk.h \
 	uihotkey.c \
 	uihotkey.h \
 	uimenu.c \
@@ -166,7 +168,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uihotkey.o uimenu.o uisettings.o uisnapshot.o vic20ui.o
+uicommands.o uiedisk.o uihotkey.o uimenu.o uisettings.o uisnapshot.o \
+vic20ui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -367,6 +370,9 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/sound.h ../../../../src/warn.h \
 	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
 	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
+uiedisk.o: uiedisk.c ../../../../src/vice.h ../../../../src/config.h \
+	widgets/TextField.h uiedisk.h ../../../../src/machine.h \
+	../../../../src/types.h ui.h ../../../../src/palette.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h

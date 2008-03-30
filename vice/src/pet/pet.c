@@ -274,7 +274,7 @@ void machine_reset(void)
 {
     reset_pia1();
     reset_pia2();
-    reset_via();
+    via_reset();
     reset_acia1();
     reset_crtc();
     petsnd_reset();

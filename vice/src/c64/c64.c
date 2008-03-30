@@ -324,8 +324,8 @@ int machine_init(void)
 /* C64-specific reset sequence.  */
 void machine_reset(void)
 {
-    reset_cia1();
-    reset_cia2();
+    cia1_reset();
+    cia2_reset();
     sid_reset();
     reset_tpi();
 

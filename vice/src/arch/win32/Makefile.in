@@ -190,6 +190,26 @@ libarch_a_DEPENDENCIES = \
 EXTRA_DIST = \
 	msvc/config.h \
 	arch.dsp \
+	c128.dsp \
+	c1541.dsp \
+	c64.dsp \
+	c64c128.dsp \
+	cbm2.dsp \
+	drive.dsp \
+	pet.dsp \
+	petcat.dsp \
+	resid.dsp \
+	sid.dsp \
+	sounddrv.dsp \
+	vic20.dsp \
+	vice.dsp \
+	vicii.dsp \
+	x128.dsp \
+	x64.dsp \
+	xcbm2.dsp \
+	xpet.dsp \
+	xvic.dsp \
+	vice.dsw \
         c64.ico 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h

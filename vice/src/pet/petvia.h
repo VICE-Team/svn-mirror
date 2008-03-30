@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-void reset_via(void);
+void via_reset(void);
 void via_init(void);
 BYTE REGPARM1 read_via(ADDRESS addr);
 BYTE REGPARM1 peek_via(ADDRESS addr);

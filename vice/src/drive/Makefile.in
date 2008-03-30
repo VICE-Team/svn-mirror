@@ -128,6 +128,13 @@ libdrive_a_SOURCES = \
         drivecpu0.c \
         drivecpu1.c \
         drivecpu.h \
+        fdc.h \
+        fdc0.c \
+        fdc1.c \
+        fdccore.h \
+        riot1drive0.c \
+        riot2drive0.c \
+        riotd.h \
         viad.h \
         via1drive0.c \
         via2drive0.c \
@@ -137,8 +144,8 @@ libdrive_a_SOURCES = \
         wd1770.h
 
 EXTRA_DIST = \
-	drive.dsp \
-	drivecpucore.c
+	drivecpucore.c \
+	fdccore.c
 
 drivedir = $(top_srcdir)/src/drive
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -155,8 +162,9 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
 libdrive_a_OBJECTS =  cia1571drive0.o cia1571drive1.o cia1581drive0.o \
-cia1581drive1.o drive.o drivecpu0.o drivecpu1.o via1drive0.o \
-via2drive0.o via1drive1.o via2drive1.o wd1770.o
+cia1581drive1.o drive.o drivecpu0.o drivecpu1.o fdc0.o fdc1.o \
+riot1drive0.o riot2drive0.o via1drive0.o via2drive0.o via1drive1.o \
+via2drive1.o wd1770.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -339,7 +347,7 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	drive.h drivecpu.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/gcr.h ../../src/iecdrive.h \
-	../../src/memutils.h ../../src/arch/unix/ui.h \
+	../../src/memutils.h riotd.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
 	../../src/utils.h viad.h ../../src/via.h wd1770.h \
 	../../src/sysfile.h
@@ -351,8 +359,8 @@ drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h viad.h ../../src/via.h wd1770.h \
-	drivecpucore.c ../../src/6510core.c
+	../../src/palette.h viad.h ../../src/via.h riotd.h wd1770.h \
+	fdc.h drivecpucore.c ../../src/6510core.c
 drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h ../../src/types.h \
 	../../src/snapshot.h ../../src/alarm.h ../../src/log.h ciad.h \
@@ -361,8 +369,35 @@ drivecpu1.o: drivecpu1.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/interrupt.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h viad.h ../../src/via.h wd1770.h \
-	drivecpucore.c ../../src/6510core.c
+	../../src/palette.h viad.h ../../src/via.h riotd.h wd1770.h \
+	fdc.h drivecpucore.c ../../src/6510core.c
+fdc0.o: fdc0.c fdccore.h ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/log.h ../../src/alarm.h fdc.h \
+	drivecpu.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/interrupt.h ../../src/6510core.h fdccore.c
+fdc1.o: fdc1.c fdccore.h ../../src/vice.h ../../src/config.h \
+	../../src/types.h ../../src/log.h ../../src/alarm.h fdc.h \
+	drivecpu.h ../../src/clkguard.h ../../src/mos6510.h \
+	../../src/mon.h ../../src/mem.h ../../src/snapshot.h \
+	../../src/interrupt.h ../../src/6510core.h fdccore.c
+riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
+	../../src/config.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/clkguard.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/iecdrive.h \
+	riotd.h ../../src/parallel.h ../../src/riotcore.c
+riot2drive0.o: riot2drive0.c ../../src/riotcore.h ../../src/vice.h \
+	../../src/config.h ../../src/alarm.h ../../src/types.h \
+	../../src/log.h ../../src/clkguard.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
+	drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/iecdrive.h \
+	riotd.h ../../src/parallel.h ../../src/riot.h \
+	../../src/riotcore.c
 via1drive0.o: via1drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h ../../src/types.h \
 	../../src/log.h ../../src/clkguard.h ../../src/interrupt.h \

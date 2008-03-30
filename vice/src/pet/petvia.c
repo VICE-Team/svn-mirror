@@ -38,7 +38,7 @@
 #define	mycpu_alarm_context maincpu_alarm_context
 #define mycpu_clk_guard maincpu_clk_guard
 
-#define reset_myvia reset_via
+#define myvia_reset via_reset
 #define store_myvia store_via
 #define read_myvia read_via
 #define peek_myvia peek_via
