@@ -1,3 +1,32 @@
+2002-12-28  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.37.
+
+	* event.c, event.h: New files.
+
+	* Makefile.am: Added new files.
+
+	* init.c (init_main, init_resources, init_cmdline_options):
+	Init event handling.
+
+	* keyboard.c (keyboard_latch_matrix): Record keyboard matrix
+	event. (keyboard_event_record, keyboard_event_playback,
+	keyboard_latch_handler): New functions.
+	(keyboard_set_keyarr_and_latch): Use common code.
+
+	* machine.h, monitor/mon_parse.y, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, cbm2/cbm2.c, arch/unix/uicommands.c,
+	arch/unix/x11/gnome/uisnapshot.c, arch/win32/ui.c,
+	arch/unix/x11/xaw/uisnapshot.c, arch/win32/uisnapshot.c,
+	arch/msdos/uisnapshot.c, arch/riscos/ui.c, arch/beos/ui.cc,
+	arch/os2/dialogs/menubar.c, arch/os2/dialogs/dlg-fileio.c,
+	arch/beos/ui_file.cc, plus4/plus4.c, autostart.c
+	(machine_read_snapshot, machine_write_snapshot): Added event
+	mode.
+
+	* arch/unix/uicommands.c: Added small event recording and
+	playback UI.
+
 2002-12-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.36.
