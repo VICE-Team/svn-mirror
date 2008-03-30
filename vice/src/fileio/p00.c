@@ -161,11 +161,20 @@ static int p00_compare_wildcards(const char *name, const char *p00name)
     return 1;
 }
 
+static void p00_pad_a0(BYTE *slot)
+{
+    unsigned int index;
+
+    for (index = 0; index < CBMDOS_SLOT_NAME_LENGTH; index++)
+        if (slot[index] == 0)
+            slot[index] = 0xa0;
+}
+
 static char *p00_file_find(const char *file_name, const char *path)
 {
     struct ioutil_dir_s *ioutil_dir;
     struct rawfile_info_s *rawfile;
-    char p00_header_file_name[20]; /* FIXME */
+    char p00_header_file_name[P00_HDR_CBMNAME_LEN];
     char *name, *alloc_name = NULL;
     int rc;
 
@@ -189,10 +198,16 @@ static char *p00_file_find(const char *file_name, const char *path)
 
         rc = p00_read_header(rawfile, (BYTE *)p00_header_file_name, NULL);
 
-        p00_header_file_name[16] = '\0';
-
         if (rc >= 0) {
-            if (p00_compare_wildcards(file_name, p00_header_file_name) > 0)
+            BYTE *cname;
+            unsigned int equal;
+
+            p00_pad_a0(p00_header_file_name);
+            cname = cbmdos_dir_slot_create(file_name, strlen(file_name));
+            equal = cbmdos_parse_wildcard_compare(cname, p00_header_file_name);
+            lib_free(cname);
+
+            if (equal > 0)
                 alloc_name = lib_stralloc(name);
             else
                 rc = -1;

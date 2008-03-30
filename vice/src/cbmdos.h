@@ -27,7 +27,9 @@
 #ifndef _CBMDOS_H
 #define _CBMDOS_H
 
-/* Input Processor Error Codes.  */
+#include "types.h"
+
+/* CBM DOS Input Processor Error Codes.  */
 #define CBMDOS_IPE_OK                      0
 #define CBMDOS_IPE_DELETED                 1
 #define CBMDOS_IPE_SEL_PARTN               2   /* 1581 */
@@ -62,7 +64,7 @@
 #define CBMDOS_IPE_NOT_EMPTY               80  /* dir to remove not empty */
 #define CBMDOS_IPE_PERMISSION              81  /* permission denied */
 
-/* File Types */
+/* CBM DOS File Types */
 #define CBMDOS_FT_DEL         0
 #define CBMDOS_FT_SEQ         1
 #define CBMDOS_FT_PRG         2
@@ -73,10 +75,13 @@
 #define CBMDOS_FT_LOCKED      0x40
 #define CBMDOS_FT_CLOSED      0x80
 
-/* Access Control Methods */
+/* CBM DOS Access Control Methods */
 #define CBMDOS_FAM_READ   0
 #define CBMDOS_FAM_WRITE  1
 #define CBMDOS_FAM_APPEND 2
+
+/* CBM DOS directory definitions.  */
+#define CBMDOS_SLOT_NAME_LENGTH 16
 
 
 struct cbmdos_cmd_parse_s {
@@ -94,8 +99,13 @@ typedef struct cbmdos_cmd_parse_s cbmdos_cmd_parse_t;
 
 extern const char *cbmdos_errortext(unsigned int code);
 extern const char *cbmdos_filetype_get(unsigned int filetype);
+
 extern unsigned int cbmdos_parse_wildcard_check(const char *name,
                                                 unsigned int len);
+extern unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1,
+                                                  const BYTE *name2);
+extern BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len);
+
 extern unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse);
 
 #endif

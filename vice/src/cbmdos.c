@@ -120,6 +120,35 @@ unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len)
     return 0;
 }
 
+unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
+{
+    unsigned int index;
+
+    for (index = 0; index < CBMDOS_SLOT_NAME_LENGTH; index++) {
+        if (name1[index] == '*')
+            return 1;
+        if (name1[index] != '?' && name1[index] != name2[index])
+            return 0;
+    }
+
+    return 1;
+}
+
+BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
+{
+    BYTE *slot;
+
+    if (len > CBMDOS_SLOT_NAME_LENGTH)
+        len = CBMDOS_SLOT_NAME_LENGTH;
+
+    slot = lib_malloc(CBMDOS_SLOT_NAME_LENGTH);
+    memset(slot, 0xa0, CBMDOS_SLOT_NAME_LENGTH);
+
+    memcpy(slot, name, (size_t)len);
+
+    return slot;
+}
+
 /* Parse command `parsecmd', type and read/write mode from the given string
    `cmd' with `cmdlength. '@' on write must be checked elsewhere.  */
 
