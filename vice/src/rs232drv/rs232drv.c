@@ -53,25 +53,21 @@ static int set_devfile(resource_value_t v, void *param)
 
 /* ------------------------------------------------------------------------- */
 
-static const resource_t resources[] = {
-    { "RsDevice1", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV1,
-      RES_EVENT_NO, NULL,
-      (void *)&devfile[0], set_devfile, (void *)0 },
-    { "RsDevice2", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV2,
-      RES_EVENT_NO, NULL,
-      (void *)&devfile[1], set_devfile, (void *)1 },
-    { "RsDevice3", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV3,
-      RES_EVENT_NO, NULL,
-      (void *)&devfile[2], set_devfile, (void *)2 },
-    { "RsDevice4", RES_STRING, (resource_value_t)ARCHDEP_RS232_DEV4,
-      RES_EVENT_NO, NULL,
-      (void *)&devfile[3], set_devfile, (void *)3 },
+static const resource_string_t resources_string[] = {
+    { "RsDevice1", ARCHDEP_RS232_DEV1, RES_EVENT_NO, NULL,
+      &devfile[0], set_devfile, (void *)0 },
+    { "RsDevice2", ARCHDEP_RS232_DEV2, RES_EVENT_NO, NULL,
+      &devfile[1], set_devfile, (void *)1 },
+    { "RsDevice3", ARCHDEP_RS232_DEV3, RES_EVENT_NO, NULL,
+      &devfile[2], set_devfile, (void *)2 },
+    { "RsDevice4", ARCHDEP_RS232_DEV4, RES_EVENT_NO, NULL,
+      &devfile[3], set_devfile, (void *)3 },
     { NULL }
 };
 
 int rs232drv_resources_init(void)
 {
-    if (resources_register(resources) < 0)
+    if (resources_register_string(resources_string) < 0)
         return -1;
 
     return rs232_resources_init();

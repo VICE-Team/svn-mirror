@@ -150,22 +150,19 @@ static int set_up_device(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "RsUserEnable", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_STRICT, (resource_value_t)0,
-      (void *)&rsuser_enabled, set_enable, NULL },
-    { "RsUserBaud", RES_INTEGER, (resource_value_t)300,
-      RES_EVENT_NO, NULL,
-      (void *)&rsuser_baudrate, set_baudrate, NULL },
-    { "RsUserDev", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&rsuser_device, set_up_device, NULL },
+static const resource_int_t resources_int[] = {
+    { "RsUserEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &rsuser_enabled, set_enable, NULL },
+    { "RsUserBaud", 300, RES_EVENT_NO, NULL,
+      &rsuser_baudrate, set_baudrate, NULL },
+    { "RsUserDev", 0, RES_EVENT_NO, NULL,
+      &rsuser_device, set_up_device, NULL },
     { NULL }
 };
 
 int rsuser_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION

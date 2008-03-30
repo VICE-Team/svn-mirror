@@ -134,45 +134,29 @@ static int set_pal_mode(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources_pal[] =
+static const resource_int_t resources_int[] =
 {
-    { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.color_saturation,
-      set_color_saturation, NULL },
-    { "ColorContrast", RES_INTEGER, (resource_value_t)1000,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.color_contrast,
-      set_color_contrast, NULL },
-    { "ColorBrightness", RES_INTEGER, (resource_value_t)1000,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.color_brightness,
-      set_color_brightness, NULL },
-    { "ColorGamma", RES_INTEGER, (resource_value_t)880,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.color_gamma,
-      set_color_gamma, NULL },
-    { "PALEmulation", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.delayloop_emulation,
-      set_delayloop_emulation, NULL },
-    { "PALScanLineShade", RES_INTEGER, (resource_value_t)667,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.pal_scanlineshade,
-      set_pal_scanlineshade, NULL },
-    { "PALBlur", RES_INTEGER, (resource_value_t)500,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.pal_blur,
-      set_pal_blur, NULL },
-    { "PALMode", RES_INTEGER, (resource_value_t)VIDEO_RESOURCE_PAL_MODE_TRUE,
-      RES_EVENT_NO, NULL,
-      (void *)&video_resources.pal_mode,
-      set_pal_mode, NULL },
+    { "ColorSaturation", 1000, RES_EVENT_NO, NULL,
+      &video_resources.color_saturation, set_color_saturation, NULL },
+    { "ColorContrast", 1000, RES_EVENT_NO, NULL,
+      &video_resources.color_contrast, set_color_contrast, NULL },
+    { "ColorBrightness", 1000, RES_EVENT_NO, NULL,
+      &video_resources.color_brightness, set_color_brightness, NULL },
+    { "ColorGamma", 880, RES_EVENT_NO, NULL,
+      &video_resources.color_gamma, set_color_gamma, NULL },
+    { "PALEmulation", 0, RES_EVENT_NO, NULL,
+      &video_resources.delayloop_emulation, set_delayloop_emulation, NULL },
+    { "PALScanLineShade", 667, RES_EVENT_NO, NULL,
+      &video_resources.pal_scanlineshade, set_pal_scanlineshade, NULL },
+    { "PALBlur", 500, RES_EVENT_NO, NULL,
+      &video_resources.pal_blur, set_pal_blur, NULL },
+    { "PALMode", VIDEO_RESOURCE_PAL_MODE_TRUE, RES_EVENT_NO, NULL,
+      &video_resources.pal_mode, set_pal_mode, NULL },
     { NULL }
 };
 
 int video_resources_pal_init(void)
 {
-    return resources_register(resources_pal);
+    return resources_register_int(resources_int);
 }
 
