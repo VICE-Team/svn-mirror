@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include <windowsx.h>
 
 #include "petui.h"
 #include "res.h"
@@ -38,7 +37,8 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-ui_menu_toggle  pet_ui_menu_toggles[]={
+
+static const ui_menu_toggle pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
