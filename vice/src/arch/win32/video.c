@@ -284,7 +284,7 @@ int set_physical_colors(video_canvas_t *c)
     DDSURFACEDESC ddsd;
     int i;
     HRESULT result;
-    COLORREF oldcolor;
+    COLORREF oldcolor = (COLORREF)0;
     DDPIXELFORMAT format;
     DWORD mask = 0;
     int rshift = 0;
@@ -472,75 +472,80 @@ video_canvas_t *video_canvases[2];
 extern int fullscreen_active;
 extern int fullscreen_transition;
 
+video_canvas_t *video_canvas_init(void)
+{
+    video_canvas_t *canvas;
+
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
+
+    canvas->video_draw_buffer_callback = NULL;
+
+    return canvas;
+}
+
 /* Create a `video_canvas_t' with tile `win_name', of widht `*width' x `*height'
    pixels, exposure handler callback `exposure_handler' and palette
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'.  */
 #define CANVAS_ERROR ((video_canvas_t *) -1)
-video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
-                              unsigned int *height, int mapped,
-                              void_t exposure_handler,
-                              const palette_t *palette)
+int video_canvas_create(video_canvas_t *canvas, const char *title,
+                        unsigned int *width, unsigned int *height, int mapped,
+                        void_t exposure_handler,
+                        const struct palette_s *palette)
 {
     HRESULT result;
     HRESULT ddresult;
     DDSURFACEDESC desc;
     DDSURFACEDESC desc2;
-    video_canvas_t *c;
     int i;
     GUID *device_guid;
 
     fullscreen_transition = 1;
 
-    c = xmalloc(sizeof(struct video_canvas_s));
-    memset(c, 0, sizeof(struct video_canvas_s));
-
-    c->video_draw_buffer_callback = NULL;
-
-    video_render_initconfig(&c->videoconfig);
+    video_render_initconfig(&canvas->videoconfig);
 
     /* "Normal" window stuff.  */
-    c->title = stralloc(title);
-    c->width = *width;
-    c->height = *height;
-    c->exposure_handler = (canvas_redraw_t)exposure_handler;
-    c->palette = palette;
-    c->hwnd = ui_open_canvas_window(title, c->width, c->height,
-                                    exposure_handler,
-                                    IsFullscreenEnabled());
+    canvas->title = stralloc(title);
+    canvas->width = *width;
+    canvas->height = *height;
+    canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
+    canvas->palette = palette;
+    canvas->hwnd = ui_open_canvas_window(title, canvas->width, canvas->height,
+                                         exposure_handler,
+                                         IsFullscreenEnabled());
 
     /*  Create the DirectDraw object */
-//    device_guid=GetGUIDForActualDevice();
-    device_guid=NULL;
-    ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
+//    device_guid = GetGUIDForActualDevice();
+    device_guid = NULL;
+    ddresult = DirectDrawCreate(device_guid, &canvas->dd_object, NULL);
 
     if (ddresult != DD_OK)
-        return NULL;
+        return -1;
 
     {
-        ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL,
+        ddresult = IDirectDraw_SetCooperativeLevel(canvas->dd_object, NULL,
                                                    DDSCL_NORMAL);
         if (ddresult != DD_OK) {
             ui_error("Cannot set DirectDraw cooperative level:\n%s",
                      dd_error(ddresult));
-            return NULL;
+            return -1;
         }
     }
 
-    ddresult = IDirectDraw_QueryInterface(c->dd_object,
+    ddresult = IDirectDraw_QueryInterface(canvas->dd_object,
                                           (GUID *)&IID_IDirectDraw2,
-                                          (LPVOID *)&c->dd_object2);
+                                          (LPVOID *)&canvas->dd_object2);
     if (ddresult != DD_OK) {
         log_debug("Can't get DirectDraw2 interface");
     }
 
     {
-        c->client_width =* width;
-        c->client_height =* height;
+        canvas->client_width =* width;
+        canvas->client_height =* height;
         fullscreen_active = 0;
     }
 
-	c->refreshrate = video_refresh_rate(c);
+    canvas->refreshrate = video_refresh_rate(canvas);
 
     /*  Create Primary surface */
     memset(&desc, 0, sizeof(desc));
@@ -548,24 +553,26 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     desc.dwFlags = DDSD_CAPS;
     desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 
-    ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                          &c->primary_surface, NULL);
+    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                          &canvas->primary_surface, NULL);
     if (ddresult != DD_OK) {
         DEBUG(("Cannot create primary surface: %s", dd_error(ddresult)));
-        return NULL;
+        return -1;
     }
 
-    ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
+    ddresult = IDirectDraw2_CreateClipper(canvas->dd_object2, 0,
+                                          &canvas->clipper, NULL);
     if (ddresult != DD_OK) {
         ui_error("Cannot create clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return NULL;
+        return -1;
     }
-    ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
+    ddresult = IDirectDrawSurface_SetClipper(canvas->primary_surface,
+                                             canvas->clipper);
     if (ddresult != DD_OK) {
         ui_error("Cannot set clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return NULL;
+        return -1;
     }
 
     memset(&desc, 0, sizeof(desc));
@@ -575,12 +582,12 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 
     /* For now, the back surface is always NULL because we have not
        implemented the full-screen mode yet.  */
-    c->back_surface = NULL;
+    canvas->back_surface = NULL;
 
 
     memset(&desc2, 0, sizeof(desc2));
     desc2.dwSize = sizeof(desc2);
-    ddresult = IDirectDraw2_GetDisplayMode(c->dd_object2, &desc2);
+    ddresult = IDirectDraw2_GetDisplayMode(canvas->dd_object2, &desc2);
 
     /* Create the temporary surface.  */
     memset(&desc, 0, sizeof(desc));
@@ -590,15 +597,15 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
     desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
     desc.dwWidth = desc2.dwWidth;
     desc.dwHeight = desc2.dwHeight;
-    result = IDirectDraw2_CreateSurface(c->dd_object2, &desc,
-                                        &c->temporary_surface, NULL);
+    result = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc,
+                                        &canvas->temporary_surface, NULL);
     if (result != DD_OK) {
         ui_error("Cannot create temporary DirectDraw surface:\n%s",
                  dd_error(result));
         goto error;
     }
 
-    IDirectDrawSurface_GetCaps(c->temporary_surface, &desc.ddsCaps);
+    IDirectDrawSurface_GetCaps(canvas->temporary_surface, &desc.ddsCaps);
     DEBUG(("Allocated working surface in %s memory successfully.",
            (desc.ddsCaps.dwCaps & DDSCAPS_SYSTEMMEMORY
             ? "system"
@@ -608,14 +615,14 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 
     /* Find the color depth.  */
 #ifdef HAVE_UNNAMED_UNIONS
-    c->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
+    canvas->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
 #else
-    c->depth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;
+    canvas->depth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;
 #endif
 
 
     /* Create palette.  */
-    if (c->depth == 8) {
+    if (canvas->depth == 8) {
         PALETTEENTRY ape[256];
         HRESULT result;
 
@@ -628,46 +635,39 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
         }
 
         /* Overwrite first colors with the palette ones.  */
-        for (i = 0; i < c->palette->num_entries; i++) {
-            ape[i].peRed = c->palette->entries[i].red;
-            ape[i].peGreen = c->palette->entries[i].green;
-            ape[i].peBlue = c->palette->entries[i].blue;
+        for (i = 0; i < canvas->palette->num_entries; i++) {
+            ape[i].peRed = canvas->palette->entries[i].red;
+            ape[i].peGreen = canvas->palette->entries[i].green;
+            ape[i].peBlue = canvas->palette->entries[i].blue;
             ape[i].peFlags = 0;
         }
 
-        result = IDirectDraw2_CreatePalette(c->dd_object2, DDPCAPS_8BIT,
-                                            ape, &c->dd_palette, NULL);
+        result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT,
+                                            ape, &canvas->dd_palette, NULL);
         if (result != DD_OK) {
             DEBUG(("Cannot create palette: %s", dd_error(result)));
             goto error;
         }
     }
 
-    if (set_palette(c) < 0)
+    if (set_palette(canvas) < 0)
         goto error;
 
-#if 0
-    c->pixels = pixel_return;
-    for (i = 0; i < c->palette->num_entries; i++) {
-        c->pixels[i] = i;
-    }
-#endif
-
-    if (set_physical_colors(c) < 0)
+    if (set_physical_colors(canvas) < 0)
         goto error;
 
-    video_canvases[video_number_of_canvases++]=c;
+    video_canvases[video_number_of_canvases++] = canvas;
 
     if (IsFullscreenEnabled()) {
-        SwitchToFullscreenMode(c->hwnd);
+        SwitchToFullscreenMode(canvas->hwnd);
     }
     fullscreen_transition = 0;
 
-    return c;
+    return 0;
 
 error:
-    video_canvas_destroy(c);
-    return NULL;
+    video_canvas_destroy(canvas);
+    return -1;
 
 #if 0
     c = xmalloc(sizeof(struct video_canvas_s));
@@ -1416,8 +1416,8 @@ static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
                 }
             } else if (result==DDERR_SURFACEBUSY) {
             } else {
-                    ui_error("Cannot update emulation window:\n%s",
-                             dd_error(result));
+                ui_error("Cannot update emulation window:\n%s",
+                         dd_error(result));
             }
         }
     }
@@ -1433,113 +1433,110 @@ static void real_refresh(video_canvas_t *c, BYTE *draw_buffer,
 
 float video_refresh_rate(video_canvas_t *c)
 {
-	LARGE_INTEGER freq;
-	LARGE_INTEGER cnt;
-	HANDLE prc;
-	DWORD cls;
-	int priok;
-	unsigned long frq;
-	unsigned long table[TIME_MEASUREMENTS];
+    LARGE_INTEGER freq;
+    LARGE_INTEGER cnt;
+    HANDLE prc;
+    DWORD cls;
+    int priok;
+    unsigned long frq;
+    unsigned long table[TIME_MEASUREMENTS];
 
-	/* get performance counter frequency */
-	if (!QueryPerformanceFrequency(&freq)) return 0.0f;
+    /* get performance counter frequency */
+    if (!QueryPerformanceFrequency(&freq)) return 0.0f;
 #ifdef HAS_LONGLONG_INTEGER
-	frq = (unsigned long)freq.QuadPart;
+    frq = (unsigned long)freq.QuadPart;
 #else
-	frq = (unsigned long)freq.LowPart;
+    frq = (unsigned long)freq.LowPart;
 #endif
 
-	/* get current process and it's priority */
-	prc = GetCurrentProcess();
-	cls = GetPriorityClass(prc);
+    /* get current process and it's priority */
+    prc = GetCurrentProcess();
+    cls = GetPriorityClass(prc);
 
-	/* try to set realtime priority */
-	priok = SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
+    /* try to set realtime priority */
+    priok = SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
 
-	/* if failed, try to set high priority */
-	if (!priok) priok = SetPriorityClass(prc, HIGH_PRIORITY_CLASS);
+    /* if failed, try to set high priority */
+    if (!priok)
+        priok = SetPriorityClass(prc, HIGH_PRIORITY_CLASS);
 
-	/* only measure refresh rate with a high priority */
-	if (priok)
-	{
-		unsigned int i, k, m;
-		unsigned long old;
-		unsigned long now;
-		double frequency, time, mult;
-		float retval;
+    /* only measure refresh rate with a high priority */
+    if (priok) {
+        unsigned int i, k, m;
+        unsigned long old;
+        unsigned long now;
+        double frequency, time, mult;
+        float retval;
 
-		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
-		QueryPerformanceCounter(&cnt);
+        IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN,
+                                          0);
+        QueryPerformanceCounter(&cnt);
 #ifdef HAS_LONGLONG_INTEGER
-		now = (unsigned long)cnt.QuadPart;
+        now = (unsigned long)cnt.QuadPart;
 #else
-		now = (unsigned long)cnt.LowPart;
+        now = (unsigned long)cnt.LowPart;
 #endif
 
-		for (i=0;i<TIME_MEASUREMENTS;i++)
-		{
-			old = now;
-			IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
-			QueryPerformanceCounter(&cnt);
+        for (i = 0; i < TIME_MEASUREMENTS; i++) {
+            old = now;
+            IDirectDraw2_WaitForVerticalBlank(c->dd_object2,
+                                              DDWAITVB_BLOCKBEGIN, 0);
+            QueryPerformanceCounter(&cnt);
 #ifdef HAS_LONGLONG_INTEGER
-			now = (unsigned long)cnt.QuadPart;
+            now = (unsigned long)cnt.QuadPart;
 #else
-			now = (unsigned long)cnt.LowPart;
+            now = (unsigned long)cnt.LowPart;
 #endif
-			table[i] = now-old;
-		}
+            table[i] = now-old;
+        }
 
-		/* turn back to old priority */
-		SetPriorityClass(prc, cls);
+        /* turn back to old priority */
+        SetPriorityClass(prc, cls);
 
-		for (i=0;i<(TIME_MEASUREMENTS / 4);i++)
-		{
-			old = 0;
-			m = 0;
-			for (k=0;k<TIME_MEASUREMENTS;k++)
-			{
-				if ((old < table[k]) && (table[k] != 0))
-				{
-					old = table[k];
-					m = k;
-				}
-			}
-			table[m] = 0;
+        for (i = 0; i < (TIME_MEASUREMENTS / 4); i++) {
+            old = 0;
+            m = 0;
+            for (k = 0; k < TIME_MEASUREMENTS; k++) {
+                if ((old < table[k]) && (table[k] != 0)) {
+                    old = table[k];
+                    m = k;
+                }
+            }
+            table[m] = 0;
 
-			old = 0x7FFFFFFF;
-			m = 0;
-			for (k=0;k<TIME_MEASUREMENTS;k++)
-			{
-				if ((old > table[k]) && (table[k] != 0))
-				{
-					old = table[k];
-					m = k;
-				}
-			}
-			table[m] = 0;
-		}
+            old = 0x7FFFFFFF;
+            m = 0;
+            for (k = 0; k < TIME_MEASUREMENTS; k++) {
+                if ((old > table[k]) && (table[k] != 0)) {
+                    old = table[k];
+                    m = k;
+                }
+            }
+            table[m] = 0;
+        }
 
-		old = 0;
-		m = 0;
-		for (i=0;i<TIME_MEASUREMENTS;i++)
-		{
-			if (table[i] != 0)
-			{
-				old += table[i] + 1;
-				m++;
-			}
-		}
-		if (m == 0) return 0.0f;
+        old = 0;
+        m = 0;
+        for (i = 0; i < TIME_MEASUREMENTS; i++) {
+            if (table[i] != 0) {
+                old += table[i] + 1;
+                m++;
+            }
+        }
+        if (m == 0)
+            return 0.0f;
 
-		frequency = (double) frq;
-		time = (double) old;
-		mult = (double) m;
+        frequency = (double) frq;
+        time = (double)old;
+        mult = (double)m;
 
-		retval = (float)((frequency*mult)/time);
+        retval = (float)((frequency * mult) / time);
 
-		log_debug("Refresh rate: %08X / %.2f = %.3f", frq, (float)(time/mult), retval);
+        log_debug("Refresh rate: %08lX / %.2f = %.3f", frq,
+                   (float)(time / mult), retval);
 
-		return retval;
-	}
-	return 0.0f;
+        return retval;
+    }
+    return 0.0f;
 }
+
