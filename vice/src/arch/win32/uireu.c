@@ -98,7 +98,7 @@ static void init_reu_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, reu_leftgroup);
     uilib_move_group(hwnd, reu_rightgroup, xsize + 30);
 
-    resources_get_value("REU", (void *)&res_value);
+    resources_get_int("REU", &res_value);
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
         res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -110,7 +110,7 @@ static void init_reu_dialog(HWND hwnd)
         _tcscat(st, translate_text(IDS_SPACE_KB));
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
-    resources_get_value("REUsize", (void *)&res_value);
+    resources_get_int("REUsize", &res_value);
     active_value = 0;
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
@@ -119,7 +119,7 @@ static void init_reu_dialog(HWND hwnd)
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-    resources_get_value("REUfilename", (void *)&reufile);
+    resources_get_string("REUfilename", &reufile);
     st_reufile = system_mbstowcs_alloc(reufile);
     SetDlgItemText(hwnd, IDC_REU_FILE,
                    reufile != NULL ? st_reufile : TEXT(""));
@@ -133,17 +133,14 @@ static void end_reu_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_value("REU", (resource_value_t)
-                        (IsDlgButtonChecked
-                        (hwnd, IDC_REU_ENABLE) == BST_CHECKED ?
-                        1 : 0 ));
-    resources_set_value("REUsize",(resource_value_t)
-                        ui_reu_size[SendMessage(GetDlgItem(
-                        hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
+    resources_set_int("REU", (IsDlgButtonChecked(hwnd,
+                      IDC_REU_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("REUsize", ui_reu_size[SendMessage(GetDlgItem(
+                      hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_REU_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("REUfilename", (resource_value_t)s);
+    resources_set_string("REUfilename", s);
 }
 
 static void browse_reu_file(HWND hwnd)
