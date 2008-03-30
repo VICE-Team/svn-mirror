@@ -60,7 +60,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* #define DEBUG_ZFILE */
+#define DEBUG_ZFILE
 
 #ifdef DEBUG_ZFILE
 #define ZDEBUG(a)  log_debug a
@@ -133,41 +133,6 @@ static void zfile_list_add(const char *tmp_name,
     struct zfile *new_zfile = (struct zfile *)xmalloc(sizeof(struct zfile));
 
     /* Make sure we have the complete path of the file.  */
-
-#if 0 	/* moved to archdep_expand_path() */
-    
-#ifdef __MSDOS__
-    /* MS-DOS version.  */
-    new_zfile->orig_name = _truename(orig_name, NULL);
-    if (new_zfile->orig_name == NULL) {
-	log_error(zlog,
-                  "zfile_list_add: warning, illegal file name `%s'.",
-                  orig_name);
-	new_zfile->orig_name = stralloc(orig_name);
-    }
-#else
-#ifdef __riscos
-    /* Always treat it as the full pathname... */
-    new_zfile->orig_name = (char*)malloc(strlen(orig_name) + 1);
-    strcpy(new_zfile->orig_name, orig_name);
-#elif defined WIN32
-    /*  Win32 version   */
-    new_zfile->orig_name = stralloc(orig_name);
-#else
-    /* Unix version.  */
-    if (*orig_name == '/') {
-	new_zfile->orig_name = stralloc(orig_name);
-    } else {
-	static char *cwd;
-
-	cwd = get_current_dir();
-	new_zfile->orig_name = concat(cwd, "/", orig_name, NULL);
-	free(cwd);
-    }
-#endif
-#endif
-#endif 	/* 0 */
-
     archdep_expand_path(&new_zfile->orig_name, orig_name);
 
     /* The new zfile becomes first on the list.  */
@@ -287,13 +252,21 @@ static int is_zipcode_name(char *name)
 
 /* Extensions we know about */
 static const char *extensions[] = {
-#ifdef __riscos
-    "/d64", "/d71", "/d81", "/g64", "/g41", "/x64", "/dsk", "/t64", "/p00",
-    "/prg", "/lnx", NULL
-#else
-    ".d64", ".d71", ".d81", ".g64", ".g41", ".x64", ".dsk", ".t64", ".p00",
-    ".prg", ".lnx", NULL
-#endif
+    FSDEV_EXT_SEP_STR "d64",
+    FSDEV_EXT_SEP_STR "d71",
+    FSDEV_EXT_SEP_STR "d80",
+    FSDEV_EXT_SEP_STR "d81",
+    FSDEV_EXT_SEP_STR "d82",
+    FSDEV_EXT_SEP_STR "g64",
+    FSDEV_EXT_SEP_STR "g41",
+    FSDEV_EXT_SEP_STR "x64",
+    FSDEV_EXT_SEP_STR "dsk",
+    FSDEV_EXT_SEP_STR "t64",
+    FSDEV_EXT_SEP_STR "p00",
+    FSDEV_EXT_SEP_STR "prg",
+    FSDEV_EXT_SEP_STR "lnx",
+    FSDEV_EXT_SEP_STR "tap",
+    NULL
 };
 
 static int is_valid_extension(char *end, int l, int nameoffset)
@@ -348,7 +321,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     argv[2] = stralloc(name);
     argv[3] = NULL;
 
-    ZDEBUG(("try_uncompress_archive: spawning `%d %s %s'",
+    ZDEBUG(("try_uncompress_archive: spawning `%s %s %s'",
 	    program, listopts, name));
     tmpnam(tmp_name);
     exit_status = archdep_spawn(program, argv, tmp_name, NULL);
@@ -625,18 +598,21 @@ static struct {
     const char	*search;
 } valid_archives[] = {
 #if (!defined(__MSDOS__) && !defined(__riscos))
-    { "unzip",	"-l",	"-p",		".zip",		"Name" },
-    { "lha",	"lv",	"pq",		".lzh",		NULL },
-    { "lha",	"lv",	"pq",		".lha",		NULL },
+    { "unzip",   "-l",   "-p",    ".zip",    "Name" },
+    { "lha",     "lv",   "pq",    ".lzh",    NULL },
+    { "lha",     "lv",   "pq",    ".lha",    NULL },
     /* Hmmm.  Did non-gnu tar have a -O -option?  */
-    { "gtar",	"-tf",	"-xOf",		".tar",		NULL },
-    { "tar",	"-tf",	"-xOf",		".tar",		NULL },
-    { "gtar",	"-ztf",	"-zxOf",	".tar.gz",	NULL },
-    { "tar",	"-ztf",	"-zxOf",	".tar.gz",	NULL },
-    { "gtar",	"-ztf",	"-zxOf",	".tgz",		NULL },
-    { "tar",	"-ztf",	"-zxOf",	".tgz",		NULL },
+    { "gtar",    "-tf",  "-xOf",  ".tar",    NULL },
+    { "tar",     "-tf",  "-xOf",  ".tar",    NULL },
+    { "gtar",    "-ztf", "-zxOf", ".tar.gz", NULL },
+    { "tar",     "-ztf", "-zxOf", ".tar.gz", NULL },
+    { "gtar",    "-ztf", "-zxOf", ".tgz",    NULL },
+    { "tar",     "-ztf", "-zxOf", ".tgz",    NULL },
     /* this might be overkill, but adding this was sooo easy...  */
-    { "zoo",	"lf1q",	"xpq",		".zoo",		NULL },
+    { "zoo",     "lf1q", "xpq",	  ".zoo",    NULL },
+#endif
+#if defined __MSDOS__ || defined WIN32
+    { "pkunzip", "-v",   " ",     ".zip",    "Name" },
 #endif
     { NULL }
 };
