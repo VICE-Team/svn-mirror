@@ -52,12 +52,13 @@ struct mps_s
     int  tab;
     char tabc[3];
     int  mode;
-    BYTE charset[256][7];
 };
 typedef struct mps_s mps_t;
 
+static BYTE charset[256][7];
+
 /* We will make this dynamic later.  */
-static mps_t drv_mps803;
+static mps_t drv_mps803[3];
 
 #define MPS_REVERSE 0x01
 #define MPS_CRSRUP  0x02
@@ -94,7 +95,7 @@ static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
 
     reverse = is_mode(mps, MPS_REVERSE);
 
-    result = mps->charset[nr][row] & (1 << (7 - col)) ? !reverse : reverse;
+    result = charset[nr][row] & (1 << (7 - col)) ? !reverse : reverse;
 
     return result;
 }
@@ -294,7 +295,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(mps_t *mps, const char *name)
+static int init_charset(BYTE charset[][], const char *name)
 {
     BYTE romimage[MPS803_ROM_SIZE];
 
@@ -303,7 +304,7 @@ static int init_charset(mps_t *mps, const char *name)
         return -1;
     }
 
-    memcpy(mps->charset, &romimage[MPS803_ROM_FONT_OFFSET], 256 * 7);
+    memcpy(charset, &romimage[MPS803_ROM_FONT_OFFSET], 256 * 7);
 
     return 0;
 }
@@ -323,7 +324,7 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
-    print_char(&drv_mps803, prnr, b);
+    print_char(&drv_mps803[prnr], prnr, b);
     return 0;
 }
 
@@ -357,6 +358,6 @@ void drv_mps803_init(void)
 {
     drv803_log = log_open("MPS803");
 
-    init_charset(&drv_mps803, "mps803");
+    init_charset(charset, "mps803");
 }
 
