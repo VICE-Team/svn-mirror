@@ -44,15 +44,14 @@ extern void keyboard_init(void);
 extern void keyboard_set_keyarr(int row, int col, int value);
 extern void keyboard_clear_keymatrix(void);
 
-/*
-enum {
+enum joystick_bits_s {
     CBM_NORTH = 0x1,
     CBM_SOUTH = 0x2,
     CBM_WEST  = 0x4,
     CBM_EAST  = 0x8,
     CBM_FIRE  = 0x10
-} joystick_bits_t;
-*/
+};
+typedef enum joystick_bits_s joystick_bits_t;
 
 extern void joystick_set_value_absolute(unsigned int joyport, BYTE value);
 extern void joystick_set_value_or(unsigned int joyport, BYTE value);

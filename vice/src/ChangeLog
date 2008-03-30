@@ -1,3 +1,153 @@
+2000-08-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.10.
+
+	* arch/unix/x11/xaw/uicartridge.c,
+	arch/unix/x11/xaw/uiedisk.c, arch/unix/x11/xaw/uiscreenshot.c,
+	arch/unix/x11/xaw/uisnapshot.c: Added write protect stub.
+
+	* keyboard.h: Fixed `joystick_bits_t' enumeration.
+
+	* vicii/viciitypes.h: Adjusted NTSC sprite fetch cycle.
+
+2000-08-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: new file ui_device.cc,ui_device.h
+	which implement the device settings dialog
+
+	* arch/beos/joystick.cc: rewritten; now dual joysticks
+	(Y-plug) should work; uses new resource extra parameter
+
+	* arch/beos/print.c: fixes line end characters
+
+	* arch/beos/statusbar.cc/h: support for a joystick ui that
+	displays the state of the joystick ports
+
+	* arch/beos/ui.cc: new interface between joystick module
+	and statusbar ui
+
+	* arch/beos/ui_device.cc/h: new files that implement the
+	device settings ui
+
+	* arch/beos/ui_drive.cc,ui_joystick.cc: use the
+	resource-sprintf functions; new joystick option that enables
+	the statusbar ui
+
+	* arch/beos/vicemenu.cc: updated menus to current state of
+	implementation; removed wrong option for C128-NTSCOLD
+
+	* src/c128/c128.c,src/c128/c128.h: removed definitions and
+	use of C128 NTSCOLD mode
+
+2000-08-23  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: minor changes in spawn
+
+	* arch/os2/dialogs/dialogs.c: changed toggle function
+ 
+	* arch/os2/dialogs/dialogs.[c,h,rc]: added new resources and 
+	hardware dialog
+   
+	* arch/os2/dialogs/dlg-drive.c: changed resource handling
+	functions, added memory extension handling, path handling
+     
+	* arch/os2/dialogs/dlg-emulator.c: added snapshot feature
+ 
+	* arch/os2/dialogs/dlg-hardware.c: added
+ 
+	* arch/os2/dialogs/dlg-snapshot.c: added
+ 
+	* arch/os2/dialogs/Makefile.am: added dlg-snapshot, dlg-hardware
+ 
+	* arch/os2/doc/Vice_for_OS2.txt: changed
+ 
+	* arch/os2/joystick.c: fixed a bug in set_cbm_joystick
+ 
+	* arch/os2/kbd/proc.c: added snapshot feature, hardware dialog
+ 
+	* arch/os2/ui.c: added empty ui_display_tape_current_image
+ 
+	* arch/os2/vac++/incl/dialogs.icc: dlg-snapshot, 
+	dlg-screenshot, dlg-hardware added
+
+	* arch/os2/video.c: exchanged wmvrn with DiveSetup in canvas_refresh
+
+	* arch/os2/vsidui.c: added setting of "dart2"
+ 
+	* autostart.c: fixed a small bug in disk/tape autostart functions
+
+	* sound.[hc]: enabled dart2 support
+ 
+2000-08-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/ui.c (ui_select_file): Updated to new
+	ui_select_file interface.
+
+	* arch/unix/x11/gnome/ui.c (ui_select_file): Added support for
+	write protect attach.
+	(build_file_selector): Added checkbox widget for write protect
+	attach.
+
+	* arch/unix/vsidui.c
+	(psid_load): Updated to new ui_select_file interface.
+
+	* arch/unix/vic20ui.c
+	(attach_cartridge): Updated to new ui_select_file interface.
+
+	* arch/unix/uisettings.c:
+	(select_user_keymap): Updated to new ui_select_file interface.
+	(ui_load_palette): ditto.
+	(ui_load_romset): ditto.
+	(ui_load_rom_file): ditto.
+	(set_rs232_device_file): ditto.
+	(set_printer_dump_file): ditto.
+
+	* arch/unix/uicommands.c:
+	(attach_disk): Added support for write protect attach.
+	(attach_tape): Updated to new ui_select_file interface.
+	(smart_attach): ditto.
+	(load_snapshot_trap): ditto.
+	(ui_update_flip_menus): Added menu entry for write protection.
+	New menu toggle definitions: AttachDevice{8,9}ReadOnly.
+
+	* arch/unix/ui.h: Changed prototype for ui_select_file.
+
+	* arch/unix/c64ui.c: Updated to new ui_select_file interface.
+
+2000-08-20  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/ui.c (ui_set_topmenu): Adjusted topmenu to new
+	prototype. 
+
+	* arch/unix/x11/x11menu.c (make_menu_label): Take care about the
+	`NO_TRANS' tag coming from ui.h.
+
+	* arch/unix/x11/gnome/uimenu.c: 
+	(all): Removed dead code for GNOME_MENUS. Removed storing the
+	allocated widgets in static array `submenus[]'. There's no static
+	limit for submenus now.	
+
+	* arch/unix/x11/gnome/ui.c (ui_set_topmenu): Rewritten. Allows to
+	redefine the toplevel menu now by just calling the function
+	again. It takes care of releasing the associated resources from
+	the old menu, if one has been there.
+
+	* arch/unix/uicommands.{c,h}, arch/unix/uisettings.{c,h}: Added a
+	few menu declarations for toplevel menus.
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Added provision
+	to save filename menu entries from translation by prefixing the
+	string with a special tag defined by NO_TRANS coming from ui.h.
+
+	* arch/unix/ui.h: Changed prototype to `ui_set_topmenu()' to
+	accept toplevel menu description.
+
+	* arch/unix/c128ui.c: Introduced new toplevel menu.
+	* arch/unix/c64ui.c: ditto.
+	* arch/unix/petui.c: ditto.
+	* arch/unix/c610ui.c: ditto.
+	* arch/unix/vic20ui.c: ditto.
+
 2000-08-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.9.

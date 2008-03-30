@@ -143,8 +143,8 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 /* Cycle # at which sprite DMA is set.  */
 #define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
-#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      56
-#define VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE   55
+#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      55
+#define VIC_II_NTSCOLD_SPRITE_FETCH_CYCLE   54
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
