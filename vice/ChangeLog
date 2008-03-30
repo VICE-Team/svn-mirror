@@ -1,3 +1,10 @@
+2003-11-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.15.
+
+	* configure.in: Link with `libavcodec' and `libavformat' if
+	ffmpeg support is enabled.
+
 2003-11-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.14.

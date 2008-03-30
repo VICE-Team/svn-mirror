@@ -76,6 +76,8 @@ static int ffmpegaudio_write(SWORD *pbuf, size_t nr)
 static void ffmpegaudio_close(void)
 {
     ffmpeg_audio_in = NULL;
+    /* movie recording may still run */
+    screenshot_stop_recording();
 }
 
 static sound_device_t ffmpegaudio_device =
