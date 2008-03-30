@@ -47,7 +47,25 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_ABS_INDIRECT,
     ASM_ADDR_MODE_INDIRECT_X,
     ASM_ADDR_MODE_INDIRECT_Y,
-    ASM_ADDR_MODE_RELATIVE
+    ASM_ADDR_MODE_RELATIVE,
+    ASM_ADDR_MODE_ABSOLUTE_A,
+    ASM_ADDR_MODE_ABS_INDIRECT_ZP,
+    ASM_ADDR_MODE_IMMEDIATE_16,
+    ASM_ADDR_MODE_REG_B,
+    ASM_ADDR_MODE_REG_C,
+    ASM_ADDR_MODE_REG_D,
+    ASM_ADDR_MODE_REG_E,
+    ASM_ADDR_MODE_REG_H,
+    ASM_ADDR_MODE_REG_L,
+    ASM_ADDR_MODE_REG_AF,
+    ASM_ADDR_MODE_REG_BC,
+    ASM_ADDR_MODE_REG_DE,
+    ASM_ADDR_MODE_REG_HL,
+    ASM_ADDR_MODE_REG_SP,
+    ASM_ADDR_MODE_REG_IND_BC,
+    ASM_ADDR_MODE_REG_IND_DE,
+    ASM_ADDR_MODE_REG_IND_HL,
+    ASM_ADDR_MODE_REG_IND_SP,
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 
@@ -57,8 +75,10 @@ struct asm_opcode_info {
 };
 typedef struct asm_opcode_info asm_opcode_info_t;
 
-extern asm_opcode_info_t *asm_opcode_info_get(BYTE number);
-extern unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode);
+extern asm_opcode_info_t *asm_opcode_info_get_6502(BYTE number);
+extern unsigned int asm_addr_mode_get_size_6502(asm_addr_mode_t mode);
+extern asm_opcode_info_t *asm_opcode_info_get_z80(BYTE number);
+extern unsigned int asm_addr_mode_get_size_z80(asm_addr_mode_t mode);
 
 #endif  /* _ASM_H */
 
