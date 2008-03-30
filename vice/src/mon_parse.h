@@ -103,8 +103,9 @@ typedef union {
 #define	COMPARE_OP	350
 #define	RADIX_TYPE	351
 #define	INPUT_SPEC	352
-#define	CMD_CHECKPT_ONOFF	353
-#define	TOGGLE	354
+#define	CMD_CHECKPT_ON	353
+#define	CMD_CHECKPT_OFF	354
+#define	TOGGLE	355
 
 
 extern YYSTYPE yylval;

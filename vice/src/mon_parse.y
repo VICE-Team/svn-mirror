@@ -102,7 +102,7 @@ extern int cur_len, last_len;
 %token<reg> REGISTER
 %left<cond_op> COMPARE_OP
 %token<rt> RADIX_TYPE INPUT_SPEC
-%token<action> CMD_CHECKPT_ONOFF TOGGLE
+%token<action> CMD_CHECKPT_ON CMD_CHECKPT_OFF TOGGLE
 
 %type<a> address opt_address
 %type<cond_node> cond_expr compare_operand
@@ -210,7 +210,8 @@ checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2,
                 ;
 
 
-checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { mon_switch_checkpoint($1, $2); }
+checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd 	 { mon_switch_checkpoint(e_ON, $2); }
+                        | CMD_CHECKPT_OFF breakpt_num end_cmd 	 { mon_switch_checkpoint(e_OFF, $2); }
                         | CMD_IGNORE breakpt_num opt_count end_cmd 	 { mon_set_ignore_count($2, $3); }
                         | CMD_DELETE breakpt_num end_cmd 		 { mon_delete_checkpoint($2); }
                         | CMD_DELETE end_cmd				 { mon_delete_checkpoint(-1); }
@@ -371,8 +372,8 @@ value: number { $$ = $1; }
      ;
 
 d_number: D_NUMBER { $$ = $1; }
-        | B_NUMBER_GUESS { $$ = strtol($1, NULL, 2); }
-        | O_NUMBER_GUESS { $$ = strtol($1, NULL, 8); }
+        | B_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
+        | O_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
         | D_NUMBER_GUESS { $$ = strtol($1, NULL, 10); }
         ;
 
