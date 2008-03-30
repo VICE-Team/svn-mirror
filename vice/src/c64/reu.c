@@ -40,6 +40,7 @@
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
@@ -293,6 +294,8 @@ void reu_shutdown(void)
     reu_deactivate();
 }
 
+/* ------------------------------------------------------------------------- */
+
 BYTE REGPARM1 reu_read(ADDRESS addr)
 {
     BYTE retval;
@@ -308,7 +311,6 @@ BYTE REGPARM1 reu_read(ADDRESS addr)
         break;
 
       case 0x6:
-        /* wrong address of bank register corrected - RH */
         retval = reu[6] | 0xf8;
         break;
 
@@ -345,7 +347,7 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
         reu[addr] = byte;
 
 #ifdef REU_DEBUG
-    log_message(reu_log, "store [$%02X] <= $%02X.", addr, (int) byte);
+    log_message(reu_log, "store [$%02X] <= $%02X.", addr, (int)byte);
 #endif
 
     /* write REC command register
@@ -354,161 +356,11 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
         reu_dma(byte & 0x10);
 }
 
-/* This function is called when write to REC command register or memory
- * location FF00 is detected.
- *
- * If host address exceeds ffff transfer contiues at 0000.
- * If reu address exceeds 7ffff transfer continues at 00000.
- * If address is fixed the same value is used during the whole transfer.
- */
-/* Added correct handling of fixed addresses with transfer length 1  - RH */
-/* Added fixed address support - [EP] */
+/* ------------------------------------------------------------------------- */
 
-void reu_dma(int immed)
+static void reu_dma_update_regs(ADDRESS host_addr, unsigned int reu_addr,
+                                int len)
 {
-    static int delay = 0;
-    int len;
-    int reu_step, host_step;
-    ADDRESS host_addr;
-    unsigned int reu_addr, reu6_mask;
-    BYTE c;
-
-    if (!reu_enabled)
-        return;
-
-    if (!immed) {
-        delay = 1;
-        return;
-    } else {
-        if (!delay && (immed < 0))
-            return;
-        delay = 0;
-    }
-
-    reu6_mask = (reu_size >> 16) - 1;
-
-    /* wrong address of bank register & calculations corrected  - RH */
-    host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
-    reu_addr  = ((unsigned int)reu[4] | ((unsigned int)reu[5] << 8)
-                 | (((unsigned int)reu[6] & reu6_mask) << 16));
-
-    len = (int)(reu[7]) | ((int)(reu[8]) << 8);
-
-    if (len == 0)
-        len = 0x10000;
-
-    /* Fixed addresses implemented -- [EP] 04-16-97. */
-    host_step = (reu[0xA] & 0x80) ? 0 : 1;
-    reu_step = (reu[0xA] & 0x40) ? 0 : 1;
-
-    switch (reu[1] & 0x03) {
-      case 0: /* C64 -> REU */
-#ifdef REU_DEBUG
-        log_message(reu_log,
-                    "copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.",
-                    reu_addr, reu_step ? "" : "(fixed) ", host_addr,
-                    host_step ? "" : " (fixed)", len, len);
-#endif
-        for (; len--; host_addr = (host_addr + host_step) & 0xffff,
-            reu_addr += reu_step) {
-            BYTE value;
-            value = mem_read(host_addr);
-#ifdef REU_DEBUG
-            log_message(reu_log,
-                        "Transferring byte: %x from main $%04X to ext $%05X.",
-                        value, host_addr, reu_addr);
-#endif
-            reu_ram[reu_addr % reu_size] = value;
-        }
-        len = 0x1;
-        reu[0] |= 0x40;
-        break;
-
-      case 1: /* REU -> C64 */
-#ifdef REU_DEBUG
-        log_message(reu_log,
-                    "copy ext $%05X %s=> main $%04X%s, $%04X (%d) bytes.",
-                    reu_addr, reu_step ? "" : "(fixed) ", host_addr,
-                    host_step ? "" : " (fixed)", len, len);
-#endif
-        for (; len--; host_addr += host_step, reu_addr += reu_step ) {
-#ifdef REU_DEBUG
-            log_message(reu_log,
-                        "Transferring byte: %x from ext $%05X to main $%04X.",
-                        reu_ram[reu_addr % reu_size], reu_addr, host_addr);
-#endif
-            mem_store((ADDRESS)(host_addr & 0xffff),
-                      reu_ram[reu_addr % reu_size]);
-        }
-        len = 1;
-        reu[0] |= 0x40;
-        break;
-
-      case 2: /* swap */
-#ifdef REU_DEBUG
-        log_message(reu_log,
-                    "swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
-                    reu_addr, reu_step ? "" : "(fixed) ", host_addr,
-                    host_step ? "" : " (fixed)", len, len);
-#endif
-        for (; len--; host_addr += host_step, reu_addr += reu_step ) {
-            c = reu_ram[reu_addr % reu_size];
-            reu_ram[reu_addr % reu_size]
-                = mem_read((ADDRESS)(host_addr & 0xffff));
-            mem_store((ADDRESS)(host_addr & 0xffff), c);
-        }
-        len = 1;
-        reu[0] |= 0x40;
-        break;
-
-      case 3: /* compare */
-#ifdef REU_DEBUG
-        log_message(reu_log,
-                    "compare ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
-                    reu_addr, reu_step ? "" : "(fixed) ", host_addr,
-                    host_step ? "" : " (fixed)", len, len);
-#endif
-
-        reu[0] &= ~0x60;
-
-        while (len--) {
-            if (reu_ram[reu_addr % reu_size]
-                != mem_read((ADDRESS)(host_addr & 0xffff))) {
-
-                host_addr += host_step;
-                reu_addr += reu_step;
-
-                reu[0] |=  0x20; /* FAULT */
-
-                /* Bit 7: interrupt enable
-                   Bit 5: interrupt on verify error */
-                if (reu[9] & 0xa0) {
-                    reu[0] |= 0x80;
-                    maincpu_set_irq(I_REU, 1);
-                }
-                break;
-            }
-            host_addr += host_step;
-            reu_addr += reu_step;
-        }
-
-        if (len < 0) {
-            /* all bytes are equal, mark End Of Block */
-            reu[0] |= 0x40;
-            len = 1;
-        }
-
-        /*
-        FIXME: [SRT] this should be done for all 4 operations,
-        but 17xxTester gets an error when the length is set
-        with low byte != 0 after copying HOST -> REU.
-        */
-        reu[7] = len & 0xff;
-        reu[8] = (len >> 8) & 0xff;
-
-        break;
-    }
-
     if (!(reu[1] & 0x20)) {
         /* not autoload
          * incr. of addr. disabled, as already pointing to correct addr.
@@ -538,6 +390,201 @@ void reu_dma(int immed)
         reu[7] = len & 0xff;
         reu[8] = (len >> 8) & 0xff;
 */
+    }
+}
+
+static void reu_dma_host_to_reu(ADDRESS host_addr, unsigned int reu_addr, 
+                                int host_step, int reu_step, int len)
+{
+    BYTE value;
+#ifdef REU_DEBUG
+    log_message(reu_log,
+                "copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.",
+                reu_addr, reu_step ? "" : "(fixed) ", host_addr,
+                host_step ? "" : " (fixed)", len, len);
+#endif
+
+    for (; len--; reu_addr += reu_step) {
+        clk++;
+        machine_handle_pending_alarms(0);
+        value = mem_read(host_addr);
+
+#ifdef REU_DEBUG
+        log_message(reu_log,
+                    "Transferring byte: %x from main $%04X to ext $%05X.",
+                    value, host_addr, reu_addr);
+#endif
+
+        reu_ram[reu_addr % reu_size] = value;
+        host_addr = (host_addr + host_step) & 0xffff;
+    }
+    len = 0x1;
+    reu[0] |= 0x40;
+    reu_dma_update_regs(host_addr, reu_addr, len);
+}
+
+static void reu_dma_reu_to_host(ADDRESS host_addr, unsigned int reu_addr,
+                                int host_step, int reu_step, int len)
+{
+#ifdef REU_DEBUG
+    log_message(reu_log,
+                "copy ext $%05X %s=> main $%04X%s, $%04X (%d) bytes.",
+                reu_addr, reu_step ? "" : "(fixed) ", host_addr,
+                host_step ? "" : " (fixed)", len, len);
+#endif
+
+    for (; len--; reu_addr += reu_step) {
+#ifdef REU_DEBUG
+        log_message(reu_log,
+                    "Transferring byte: %x from ext $%05X to main $%04X.",
+                    reu_ram[reu_addr % reu_size], reu_addr, host_addr);
+#endif
+        clk++;
+        mem_store(host_addr, reu_ram[reu_addr % reu_size]);
+        machine_handle_pending_alarms(0);
+        host_addr = (host_addr + host_step) & 0xffff;
+    }
+    len = 1;
+    reu[0] |= 0x40;
+    reu_dma_update_regs(host_addr, reu_addr, len);
+}
+
+static void reu_dma_swap(ADDRESS host_addr, unsigned int reu_addr,
+                         int host_step, int reu_step, int len)
+{
+    BYTE c;
+#ifdef REU_DEBUG
+    log_message(reu_log,
+                "swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
+                reu_addr, reu_step ? "" : "(fixed) ", host_addr,
+                host_step ? "" : " (fixed)", len, len);
+#endif
+
+    for (; len--; reu_addr += reu_step ) {
+        c = reu_ram[reu_addr % reu_size];
+        clk++;
+        machine_handle_pending_alarms(0);
+        reu_ram[reu_addr % reu_size] = mem_read(host_addr);
+        mem_store(host_addr, c);
+        clk++;
+        machine_handle_pending_alarms(0);
+        host_addr = (host_addr + host_step) & 0xffff;
+    }
+    len = 1;
+    reu[0] |= 0x40;
+    reu_dma_update_regs(host_addr, reu_addr, len);
+}
+
+static void reu_dma_compare(ADDRESS host_addr, unsigned int reu_addr,
+                            int host_step, int reu_step, int len)
+{
+#ifdef REU_DEBUG
+    log_message(reu_log,
+                "compare ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
+                reu_addr, reu_step ? "" : "(fixed) ", host_addr,
+                host_step ? "" : " (fixed)", len, len);
+#endif
+
+    reu[0] &= ~0x60;
+
+    while (len--) {
+        clk++;
+        machine_handle_pending_alarms(0);
+        if (reu_ram[reu_addr % reu_size] != mem_read(host_addr)) {
+            host_addr = (host_addr + host_step) & 0xffff;
+            reu_addr += reu_step;
+
+            reu[0] |=  0x20; /* FAULT */
+
+            /* Bit 7: interrupt enable
+               Bit 5: interrupt on verify error */
+            if (reu[9] & 0xa0) {
+                reu[0] |= 0x80;
+                maincpu_set_irq(I_REU, 1);
+            }
+            break;
+        }
+        host_addr = (host_addr + host_step) & 0xffff;;
+        reu_addr += reu_step;
+    }
+
+    if (len < 0) {
+        /* all bytes are equal, mark End Of Block */
+        reu[0] |= 0x40;
+        len = 1;
+    }
+
+    /*
+    FIXME: [SRT] this should be done for all 4 operations,
+    but 17xxTester gets an error when the length is set
+    with low byte != 0 after copying HOST -> REU.
+    */
+    reu[7] = len & 0xff;
+    reu[8] = (len >> 8) & 0xff;
+    reu_dma_update_regs(host_addr, reu_addr, len);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* This function is called when write to REC command register or memory
+ * location FF00 is detected.
+ *
+ * If host address exceeds ffff transfer contiues at 0000.
+ * If reu address exceeds 7ffff transfer continues at 00000.
+ * If address is fixed the same value is used during the whole transfer.
+ */
+/* Added correct handling of fixed addresses with transfer length 1  - RH */
+/* Added fixed address support - [EP] */
+
+void reu_dma(int immed)
+{
+    static int delay = 0;
+    int len;
+    int reu_step, host_step;
+    ADDRESS host_addr;
+    unsigned int reu_addr, reu6_mask;
+
+    if (!reu_enabled)
+        return;
+
+    if (!immed) {
+        delay = 1;
+        return;
+    } else {
+        if (!delay && immed < 0)
+            return;
+        delay = 0;
+    }
+
+    reu6_mask = (reu_size >> 16) - 1;
+
+    /* wrong address of bank register & calculations corrected  - RH */
+    host_addr = (ADDRESS)reu[2] | ((ADDRESS)reu[3] << 8);
+    reu_addr  = ((unsigned int)reu[4] | ((unsigned int)reu[5] << 8)
+                 | (((unsigned int)reu[6] & reu6_mask) << 16));
+
+    len = (int)(reu[7]) | ((int)(reu[8]) << 8);
+
+    if (len == 0)
+        len = 0x10000;
+
+    /* Fixed addresses implemented -- [EP] 04-16-97. */
+    host_step = (reu[0xA] & 0x80) ? 0 : 1;
+    reu_step = (reu[0xA] & 0x40) ? 0 : 1;
+
+    switch (reu[1] & 0x03) {
+      case 0:
+        reu_dma_host_to_reu(host_addr, reu_addr, host_step, reu_step, len);
+        break;
+      case 1:
+        reu_dma_reu_to_host(host_addr, reu_addr, host_step, reu_step, len);
+        break;
+      case 2:
+        reu_dma_swap(host_addr, reu_addr, host_step, reu_step, len);
+        break;
+      case 3:
+        reu_dma_compare(host_addr, reu_addr, host_step, reu_step, len);
+        break;
     }
 
     reu[1] &= 0x7f;
