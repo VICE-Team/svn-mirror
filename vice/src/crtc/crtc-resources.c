@@ -42,99 +42,99 @@ crtc_resources_t crtc_resources;
 
 static int set_palette_file_name (resource_value_t v, void *param)
 {
-  util_string_set (&crtc_resources.palette_file_name, (char *)v);
-  if (crtc.initialized)
-    return crtc_load_palette (crtc_resources.palette_file_name);
+    util_string_set(&crtc_resources.palette_file_name, (char *)v);
+    if (crtc.initialized)
+        return crtc_load_palette(crtc_resources.palette_file_name);
 
-  return 0;
+    return 0;
 }
 
 static int set_video_cache_enabled (resource_value_t v, void *param)
 {
-  crtc_resources.video_cache_enabled = (int) v;
-  return 0;
+    crtc_resources.video_cache_enabled = (int)v;
+    return 0;
 }
 
 #ifdef CRTC_NEED_2X
 static int set_double_size_enabled (resource_value_t v, void *param)
 {
-  crtc_resources.double_size_enabled = (int) v;
+    crtc_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
-  if (! fullscreen_is_enabled)
+    if (!fullscreen_is_enabled)
 #endif
-  crtc_resize ();
-  return 0;
+    crtc_resize();
+    return 0;
 }
 #endif
 
 #if defined CRTC_NEED_2X || defined __MSDOS__
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
-  crtc_resources.double_scan_enabled = (int) v;
+    crtc_resources.double_scan_enabled = (int) v;
 #ifdef USE_XF86_EXTENSIONS
-  if (crtc.initialized && ! fullscreen_is_enabled)
-#else 
-  if (crtc.initialized)
+    if (crtc.initialized && ! fullscreen_is_enabled)
+#else
+    if (crtc.initialized)
 #endif
     {
-      raster_enable_double_scan (&crtc.raster, 
-				 crtc_resources.double_scan_enabled);
-      crtc_resize ();
+        raster_enable_double_scan(&crtc.raster,
+                                  crtc_resources.double_scan_enabled);
+        crtc_resize();
     }
-  return 0;
+    return 0;
 }
 #endif
 
 #ifdef USE_XF86_EXTENSIONS
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
-  crtc_resources.fullscreen_double_size_enabled = (int) v;
-  if (fullscreen_is_enabled)
-    crtc_resize ();
-  return 0;
+    crtc_resources.fullscreen_double_size_enabled = (int)v;
+    if (fullscreen_is_enabled)
+        crtc_resize();
+    return 0;
 }
 
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
-  crtc_resources.fullscreen_double_scan_enabled = (int) v;
-  if (crtc.initialized && fullscreen_is_enabled)
-    raster_enable_double_scan (&crtc.raster, 
-					crtc_resources.double_scan_enabled);
-  return 0;
+    crtc_resources.fullscreen_double_scan_enabled = (int)v;
+    if (crtc.initialized && fullscreen_is_enabled)
+        raster_enable_double_scan(&crtc.raster,
+                                  crtc_resources.double_scan_enabled);
+    return 0;
 }
 #endif
 
 static resource_t resources[] =
 {
-  { "CrtcPaletteFile", RES_STRING, (resource_value_t) "green",
-    (resource_value_t *) &crtc_resources.palette_file_name,
+  { "CrtcPaletteFile", RES_STRING, (resource_value_t)"green",
+    (resource_value_t *)&crtc_resources.palette_file_name,
     set_palette_file_name, NULL },
 #ifdef CRTC_NEED_2X
-  { "CrtcDoubleSize", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) &crtc_resources.double_size_enabled,
+  { "CrtcDoubleSize", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.double_size_enabled,
     set_double_size_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
-  { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) &crtc_resources.fullscreen_double_size_enabled,
+  { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.fullscreen_double_size_enabled,
     set_fullscreen_double_size_enabled, NULL },
-  { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) &crtc_resources.fullscreen_double_scan_enabled,
+  { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.fullscreen_double_scan_enabled,
     set_fullscreen_double_scan_enabled, NULL },
 #endif
 #endif
 #if defined CRTC_NEED_2X || defined __MSDOS__
-  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) &crtc_resources.double_scan_enabled,
+  { "CrtcDoubleScan", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.double_scan_enabled,
     set_double_scan_enabled, NULL },
 #endif
-  { "CrtcVideoCache", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *) &crtc_resources.video_cache_enabled,
+  { "CrtcVideoCache", RES_INTEGER, (resource_value_t)0,
+    (resource_value_t *)&crtc_resources.video_cache_enabled,
     set_video_cache_enabled, NULL },
   { NULL }
 };
 
-
-int crtc_init_resources (void)
+int crtc_init_resources(void)
 {
-  return resources_register (resources);
+    return resources_register(resources);
 }
+

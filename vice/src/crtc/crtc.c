@@ -58,49 +58,49 @@
 
 /*--------------------------------------------------------------------*/
 
-#define	crtc_min(a,b)	(((a)<(b))?(a):(b))
+#define crtc_min(a,b)   (((a)<(b))?(a):(b))
 
 /*--------------------------------------------------------------------*/
 /* CRTC variables */
 
-/* the first variable is the initialized flag. We don´t want that be
+/* the first variable is the initialized flag. We don't want that be
    uninitialized... */
 crtc_t crtc = {
-	0, 		/* initialized */
+    0,              /* initialized */
 
-	340,		/* screen_width */
-	270,		/* screen_heigth */
+    340,            /* screen_width */
+    270,            /* screen_heigth */
 
-	0,		/* hw_cursor */
-	1,		/* hw_cols */
-	0,		/* hw_blank */
-	0x3ff,		/* vaddr_mask */
-	0x800,		/* vaddr_charswitch */
-	512,		/* vaddr_charoffset */
-	0x1000		/* vaddr_revswitch */
+    0,              /* hw_cursor */
+    1,              /* hw_cols */
+    0,              /* hw_blank */
+    0x3ff,          /* vaddr_mask */
+    0x800,          /* vaddr_charswitch */
+    512,            /* vaddr_charoffset */
+    0x1000          /* vaddr_revswitch */
 };
 
 /* crtc-struct access functions */
-#define	CRTC_SCREEN_ADDR() \
-		((crtc.regs[13] | (crtc.regs[12] << 8)) & 0x3fff)
+#define CRTC_SCREEN_ADDR() \
+    ((crtc.regs[13] | (crtc.regs[12] << 8)) & 0x3fff)
 
-#define	CRTC_SCREEN_TEXTCOLS() \
-		(crtc.regs[1] * crtc.hw_cols)
-#define	CRTC_SCREEN_TEXTLINES() \
-		(crtc.regs[6] & 0x7f)
+#define CRTC_SCREEN_TEXTCOLS() \
+    (crtc.regs[1] * crtc.hw_cols)
+#define CRTC_SCREEN_TEXTLINES() \
+    (crtc.regs[6] & 0x7f)
 
 
-#define	CRTC_SCREEN_YPIX() \
-		(CRTC_SCREEN_TEXTLINES() * (crtc_min(16, crtc.regs[9] + 1)))
+#define CRTC_SCREEN_YPIX() \
+    (CRTC_SCREEN_TEXTLINES() * (crtc_min(16, crtc.regs[9] + 1)))
 
 
 #define CRTC_FIRST_DISPLAYED_LINE \
-		CRTC_SCREEN_BORDERHEIGHT
+    CRTC_SCREEN_BORDERHEIGHT
 #define CRTC_LAST_DISPLAYED_LINE \
-		(crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT)
+    (crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT)
 
-#define	CRTC_CYCLES_PER_LINE() \
-		crtc.regs[0]
+#define CRTC_CYCLES_PER_LINE() \
+    crtc.regs[0]
 
 /*--------------------------------------------------------------------*/
 /* size/mode handling */
@@ -113,18 +113,18 @@ crtc_t crtc = {
  * Those are set with
  *
  *    crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
-							int vrevmask);
- * 	hwflag & 1 -> hardware cursor available
- * 	hwflag & 2 -> each CRTC character accounts for two chars on the
- *	              screen (hw_cols)
- *	vmask      -> the valid bits for the CRTC screen address (screen
- *	              buffer wraparound)
- *	vmchar     -> bit in CRTC screen address to switch to alternate
- *	              (second) charset
- *	vcoffset   -> how many chars the alternate charset of away
- *	              (CBM default: 512, because the charsets a 256 chars
- *	              for graphics/lowercase are switched elsewhere)
- *	vrevmask   -> bit in CRTC screen address to invert screen
+ *                                                      int vrevmask);
+ *      hwflag & 1 -> hardware cursor available
+ *      hwflag & 2 -> each CRTC character accounts for two chars on the
+ *                    screen (hw_cols)
+ *      vmask      -> the valid bits for the CRTC screen address (screen
+ *                    buffer wraparound)
+ *      vmchar     -> bit in CRTC screen address to switch to alternate
+ *                    (second) charset
+ *      vcoffset   -> how many chars the alternate charset of away
+ *                    (CBM default: 512, because the charsets a 256 chars
+ *                    for graphics/lowercase are switched elsewhere)
+ *      vrevmask   -> bit in CRTC screen address to invert screen
  *
  * The screen that is attached to the CRTC can have different capabilities.
  * This function sets the expected size of the pixel area that is to
@@ -132,8 +132,8 @@ crtc_t crtc = {
  * video code positions the area in the window given here.
  *
  *    crtc_set_screen_options(int num_cols, int rasterlines);
- *	num_cols   -> 40 or 80
- *	rasterlines-> number of (text data) rasterlines (25*8, 25*14)
+ *      num_cols   -> 40 or 80
+ *      rasterlines-> number of (text data) rasterlines (25*8, 25*14)
  *
  *
  * The CRTC memory and charset can be changed by the CPU. Those
@@ -141,12 +141,12 @@ crtc_t crtc = {
  * organized as 16 raster bytes per char, one char after the other.
  *
  *    crtc_set_chargen_addr(BYTE *chargen, int cmask);
- *	chargen    -> pointer to base of charset
- *	clen       -> length of charset in chars (must be power of 2)
+ *      chargen    -> pointer to base of charset
+ *      clen       -> length of charset in chars (must be power of 2)
  *    crtc_set_chargen_offset(int offset);
- *	offset     -> offset of current charset in chargen, measured in chars
+ *      offset     -> offset of current charset in chargen, measured in chars
  *    crtc_set_screen_addr(BYTE *screen);
- *	screen    -> pointer to base of screen character array
+ *      screen    -> pointer to base of screen character array
  *
  * The above functions set the appropriate fields in the CRTC struct
  * and then call crtc_update_*().
@@ -169,33 +169,32 @@ crtc_t crtc = {
 static void inline crtc_reset_screen_ptr(void)
 {
     if (!crtc.initialized)
-	return;
+        return;
 
     crtc.screen_rel = ((CRTC_SCREEN_ADDR() & crtc.vaddr_mask)
-			* crtc.hw_cols);
+                      * crtc.hw_cols);
 
     crtc.chargen_rel = (((CRTC_SCREEN_ADDR() & crtc.vaddr_charswitch)
-			    ? crtc.vaddr_charoffset : 0)
-			  | crtc.chargen_offset)
-			& crtc.chargen_mask;
+                       ? crtc.vaddr_charoffset : 0)
+                       | crtc.chargen_offset)
+                       & crtc.chargen_mask;
 
-    if ( (crtc.vaddr_revswitch & crtc.vaddr_mask)
-	|| ((crtc.vaddr_revswitch < 0)
-		&& !(CRTC_SCREEN_ADDR() & (-crtc.vaddr_revswitch)))
-	|| ((crtc.vaddr_revswitch > 0)
-		&& (CRTC_SCREEN_ADDR() & crtc.vaddr_revswitch)))
-    {
-	/* standard mode */
-	if (crtc.raster.video_mode != CRTC_STANDARD_MODE) {
-	    raster_add_int_change_foreground (&crtc.raster, 0,
-		&crtc.raster.video_mode, CRTC_STANDARD_MODE);
-	}
+    if ((crtc.vaddr_revswitch & crtc.vaddr_mask)
+        || ((crtc.vaddr_revswitch < 0)
+        && !(CRTC_SCREEN_ADDR() & (-crtc.vaddr_revswitch)))
+        || ((crtc.vaddr_revswitch > 0)
+        && (CRTC_SCREEN_ADDR() & crtc.vaddr_revswitch))) {
+        /* standard mode */
+        if (crtc.raster.video_mode != CRTC_STANDARD_MODE) {
+            raster_add_int_change_foreground (&crtc.raster, 0,
+                &crtc.raster.video_mode, CRTC_STANDARD_MODE);
+        }
     } else {
-	/* reverse mode */
-	if (crtc.raster.video_mode != CRTC_REVERSE_MODE) {
-	    raster_add_int_change_foreground (&crtc.raster, 0,
-		&crtc.raster.video_mode, CRTC_REVERSE_MODE);
-	}
+        /* reverse mode */
+        if (crtc.raster.video_mode != CRTC_REVERSE_MODE) {
+            raster_add_int_change_foreground (&crtc.raster, 0,
+                &crtc.raster.video_mode, CRTC_REVERSE_MODE);
+        }
     }
 }
 
@@ -203,18 +202,18 @@ static void inline crtc_reset_screen_ptr(void)
 static void inline crtc_update_chargen_rel(void)
 {
     if (!crtc.initialized)
-	return;
+        return;
 
     crtc.chargen_rel = ((crtc.chargen_rel & crtc.vaddr_charoffset)
-			  | crtc.chargen_offset)
-			& crtc.chargen_mask;
+                       | crtc.chargen_offset)
+                       & crtc.chargen_mask;
 }
 
 /* update disp_char after writing to register 1 */
 static void inline crtc_update_disp_char(void)
 {
     if (!crtc.initialized)
-	return;
+        return;
 
     crtc.rl_visible = crtc.regs[1];
 /*
@@ -228,14 +227,15 @@ void crtc_update_window(void)
     unsigned int width, height;
 
     if (!crtc.initialized)
-	return;
+        return;
 
     width = crtc.screen_width;
     height = crtc.screen_height;
 
 /*    crtc_resize();*/
 #ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled ? crtc_resources.fullscreen_double_size_enabled : crtc_resources.double_size_enabled)
+    if (fullscreen_is_enabled ? crtc_resources.fullscreen_double_size_enabled
+        : crtc_resources.double_size_enabled)
 #else
     if (crtc_resources.double_size_enabled)
 #endif
@@ -243,39 +243,37 @@ void crtc_update_window(void)
         unsigned int pix_w = 2, pix_h = 2;
 
         if (width > 400)
-	     pix_w = 1;
+             pix_w = 1;
 
         if (height > 350)
-	     pix_h = 1;
+             pix_h = 1;
 
         width *= pix_w;
         height *= pix_h;
-        raster_set_pixel_size (&crtc.raster, pix_w, pix_h);
+        raster_set_pixel_size(&crtc.raster, pix_w, pix_h);
     } else {
-        raster_set_pixel_size (&crtc.raster, 1, 1);
+        raster_set_pixel_size(&crtc.raster, 1, 1);
     }
 
-    raster_set_geometry (&crtc.raster,
-                       crtc.screen_width, crtc.screen_height,
-                       crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH,
-		       crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
-                       CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                       0, 0,
-                       0,
-                       CRTC_SCREEN_BORDERHEIGHT,
-                       crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
-                       0);
-
-/* printf("crtc_update_window(w=%d,h=%d)\n", crtc.screen_width,crtc.screen_height); */
+    raster_set_geometry(&crtc.raster,
+                        crtc.screen_width, crtc.screen_height,
+                        crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH,
+                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
+                        CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
+                        0, 0,
+                        0,
+                        CRTC_SCREEN_BORDERHEIGHT,
+                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
+                        0);
 
     crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_ystop = crtc.screen_height
-					- 2 * CRTC_SCREEN_BORDERHEIGHT;
+                                - 2 * CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
     crtc.raster.display_xstop = crtc.screen_width
-					- 2 * CRTC_SCREEN_BORDERWIDTH;
+                                - 2 * CRTC_SCREEN_BORDERWIDTH;
 
-    raster_resize_viewport (&crtc.raster, width, height);
+    raster_resize_viewport(&crtc.raster, width, height);
 
 }
 
@@ -305,19 +303,19 @@ void crtc_set_chargen_addr(BYTE *chargen, int cmask)
 void crtc_set_screen_options(int num_cols, int rasterlines)
 {
     crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8
-				+ 2 * CRTC_SCREEN_BORDERWIDTH;
+                        + 2 * CRTC_SCREEN_BORDERWIDTH;
     crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES
-				+ 2 * CRTC_SCREEN_BORDERHEIGHT;
+                         + 2 * CRTC_SCREEN_BORDERHEIGHT;
 
 /* printf("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
-	num_cols, rasterlines, crtc.screen_width, crtc.screen_height); */
+        num_cols, rasterlines, crtc.screen_width, crtc.screen_height); */
 
     crtc_resize();
     crtc_update_window();
 }
 
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
-								int vrevmask)
+                                                                int vrevmask)
 {
     crtc.hw_cursor = hwflag & 1;
     crtc.hw_cols = (hwflag & 2) ? 2 : 1;
@@ -368,27 +366,29 @@ raster_t *crtc_init(void)
     if (raster_init(raster, CRTC_NUM_VMODES, 0) < 0)
         return NULL;
 
-    raster_modes_set_idle_mode (raster->modes, CRTC_IDLE_MODE);
-    raster_set_exposure_handler (raster, (void*)crtc_exposure_handler);
-    raster_enable_cache (raster, crtc_resources.video_cache_enabled);
+    raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
+    raster_set_exposure_handler(raster, (void*)crtc_exposure_handler);
+    raster_enable_cache(raster, crtc_resources.video_cache_enabled);
 #ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan (raster, fullscreen_is_enabled ? crtc_resources.fullscreen_double_scan_enabled : crtc_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, fullscreen_is_enabled
+                              ? crtc_resources.fullscreen_double_scan_enabled
+                              : crtc_resources.double_scan_enabled);
 #else
-    raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, crtc_resources.double_scan_enabled);
 #endif
     raster_set_canvas_refresh(raster, 1);
 
-    if (! crtc.regs[0])
+    if (!crtc.regs[0])
         crtc.regs[0] = 49;
-    if (! crtc.regs[1])
+    if (!crtc.regs[1])
         crtc.regs[1] = 40;
-    if (! crtc.regs[2])
+    if (!crtc.regs[2])
         crtc.regs[2] = 45;
-    if (! crtc.regs[4])
+    if (!crtc.regs[4])
         crtc.regs[4] = 30;
-    if (! crtc.regs[6])
+    if (!crtc.regs[6])
         crtc.regs[6] = 25;
-    if (! crtc.regs[9])
+    if (!crtc.regs[9])
         crtc.regs[9] = 7;
 
     /* FIXME */
@@ -413,8 +413,8 @@ raster_t *crtc_init(void)
         return NULL;
     }
 
-    title = concat ("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title (raster, title);
+    title = concat("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title(raster, title);
     free(title);
 
     if (raster_realize(raster) < 0)
@@ -426,11 +426,13 @@ raster_t *crtc_init(void)
 
     crtc_draw_init ();
 #ifdef USE_XF86_EXTENSIONS
-    crtc_draw_set_double_size (fullscreen_is_enabled ? crtc_resources.fullscreen_double_size_enabled : crtc_resources.double_size_enabled);
+    crtc_draw_set_double_size(fullscreen_is_enabled
+                              ? crtc_resources.fullscreen_double_size_enabled
+                              : crtc_resources.double_size_enabled);
 #else
-    crtc_draw_set_double_size (crtc_resources.double_size_enabled);
+    crtc_draw_set_double_size(crtc_resources.double_size_enabled);
 #endif
-    crtc_reset ();
+    crtc_reset();
 /*
     raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT;
     raster->display_ystop = crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT;
@@ -446,11 +448,11 @@ struct canvas_s *crtc_get_canvas(void)
 }
 
 /* Reset the CRTC chip.  */
-void crtc_reset (void)
+void crtc_reset(void)
 {
-    raster_reset (&crtc.raster);
+    raster_reset(&crtc.raster);
 
-    alarm_set (&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
+    alarm_set(&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
 
     crtc.rl_visible = crtc.regs[1];
     crtc.rl_sync = crtc.regs[2];
@@ -469,7 +471,7 @@ void crtc_reset (void)
     crtc.current_line = 0;
     /* expected number of rasterlines for next frame */
     crtc.framelines = (crtc.regs[4] + 1) * (crtc.regs[9] + 1)
-		  + crtc.regs[5];
+                  + crtc.regs[5];
 
 }
 
@@ -480,23 +482,21 @@ void crtc_reset (void)
    calling this function directly.  */
 int crtc_load_palette (const char *name)
 {
-  static const char *color_names[CRTC_NUM_COLORS] =
-    {
+    static const char *color_names[CRTC_NUM_COLORS] = {
       "Background", "Foreground"
     };
-  palette_t *palette;
+    palette_t *palette;
 
-  palette = palette_create (CRTC_NUM_COLORS, color_names);
-  if (palette == NULL)
-    return -1;
+    palette = palette_create (CRTC_NUM_COLORS, color_names);
+    if (palette == NULL)
+        return -1;
 
-  if (palette_load (name, palette) < 0)
-    {
-      log_message (crtc.log, "Cannot load palette file `%s'.", name);
-      return -1;
+    if (palette_load(name, palette) < 0) {
+        log_message(crtc.log, "Cannot load palette file `%s'.", name);
+        return -1;
     }
 
-  return raster_set_palette (&crtc.raster, palette);
+    return raster_set_palette(&crtc.raster, palette);
 }
 
 
@@ -511,14 +511,18 @@ void crtc_resize (void)
 
 #ifdef USE_XF86_EXTENSIONS
     double_w = (crtc.screen_width <= 400)
-      ? (fullscreen_is_enabled ? crtc_resources.fullscreen_double_size_enabled : crtc_resources.double_size_enabled) : 0;
+               ? (fullscreen_is_enabled
+               ? crtc_resources.fullscreen_double_size_enabled
+               : crtc_resources.double_size_enabled) : 0;
     double_h = (crtc.screen_height <= 350)
-      ? (fullscreen_is_enabled ? crtc_resources.fullscreen_double_size_enabled : crtc_resources.double_size_enabled) : 0;
+               ? (fullscreen_is_enabled
+               ? crtc_resources.fullscreen_double_size_enabled
+               : crtc_resources.double_size_enabled) : 0;
 #else
     double_w = (crtc.screen_width <= 400)
-		? crtc_resources.double_size_enabled : 0;
+                ? crtc_resources.double_size_enabled : 0;
     double_h = (crtc.screen_height <= 350)
-		? crtc_resources.double_size_enabled : 0;
+                ? crtc_resources.double_size_enabled : 0;
 #endif
 
 
@@ -527,57 +531,57 @@ void crtc_resize (void)
 
     if (double_h) {
         if (crtc.raster.viewport.pixel_size.height == 1
-                  && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size (&crtc.raster,
-				crtc.raster.viewport.pixel_size.width, 2);
-            raster_resize_viewport (&crtc.raster,
-                                crtc.raster.viewport.width,
-                                crtc.raster.viewport.height * 2);
+            && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&crtc.raster,
+                                  crtc.raster.viewport.pixel_size.width, 2);
+            raster_resize_viewport(&crtc.raster,
+                                   crtc.raster.viewport.width,
+                                   crtc.raster.viewport.height * 2);
         } else {
-        raster_set_pixel_size (&crtc.raster,
-				crtc.raster.viewport.pixel_size.width, 2);
+            raster_set_pixel_size(&crtc.raster,
+                                  crtc.raster.viewport.pixel_size.width, 2);
         }
     } else {
         if (crtc.raster.viewport.pixel_size.height == 2
-                  && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size (&crtc.raster,
-				crtc.raster.viewport.pixel_size.width, 1);
-            raster_resize_viewport (&crtc.raster,
-                                crtc.raster.viewport.width,
-                                crtc.raster.viewport.height / 2);
+            && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&crtc.raster,
+                                  crtc.raster.viewport.pixel_size.width, 1);
+            raster_resize_viewport(&crtc.raster,
+                                   crtc.raster.viewport.width,
+                                   crtc.raster.viewport.height / 2);
         } else {
-            raster_set_pixel_size (&crtc.raster,
-				crtc.raster.viewport.pixel_size.width, 1);
+            raster_set_pixel_size(&crtc.raster,
+                                  crtc.raster.viewport.pixel_size.width, 1);
         }
     }
 
     if (double_w) {
         if (crtc.raster.viewport.pixel_size.width == 1
-                  && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size (&crtc.raster,
-				2, crtc.raster.viewport.pixel_size.height);
-            raster_resize_viewport (&crtc.raster,
-                                crtc.screen_width * 2,
-                                crtc.raster.viewport.height);
+            && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&crtc.raster,
+                                  2, crtc.raster.viewport.pixel_size.height);
+            raster_resize_viewport(&crtc.raster,
+                                 crtc.screen_width * 2,
+                                 crtc.raster.viewport.height);
         } else {
-            raster_set_pixel_size (&crtc.raster,
-				2, crtc.raster.viewport.pixel_size.height);
+            raster_set_pixel_size(&crtc.raster,
+                                  2, crtc.raster.viewport.pixel_size.height);
         }
     } else {
         if (crtc.raster.viewport.pixel_size.width == 2
-                  && crtc.raster.viewport.canvas != NULL) {
-            raster_set_pixel_size (&crtc.raster,
-				1, crtc.raster.viewport.pixel_size.height);
-            raster_resize_viewport (&crtc.raster,
-                                crtc.screen_width,
-                                crtc.raster.viewport.height);
+            && crtc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&crtc.raster,
+                                  1, crtc.raster.viewport.pixel_size.height);
+            raster_resize_viewport(&crtc.raster,
+                                   crtc.screen_width,
+                                   crtc.raster.viewport.height);
         } else {
-            raster_set_pixel_size (&crtc.raster,
-				1, crtc.raster.viewport.pixel_size.height);
+            raster_set_pixel_size(&crtc.raster,
+                                  1, crtc.raster.viewport.pixel_size.height);
         }
     }
 
-    crtc_draw_set_double_size ((double_h ? 1 : 0) | (double_w ? 2 : 0));
+    crtc_draw_set_double_size((double_h ? 1 : 0) | (double_w ? 2 : 0));
 
 }
 
@@ -600,7 +604,7 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
 
     /* first the time between two sync pulses */
     new_sync_diff = (crtc.prev_rl_len + 1 - crtc.prev_rl_sync)
-		+ crtc.rl_sync;
+                    + crtc.rl_sync;
 
     /* compute the horizontal position */
     /* the original PET displays have quite a variety of sync timings
@@ -608,31 +612,34 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
        center the part between the syncs. We assume the sync in the
        first rasterline of the screen to be the default for the next
        frame. */
+
     /* FIXME: crtc.regs[3] & 15 == 0 -> 16 */
     if (crtc.raster.current_line == 0) {
-	crtc.screen_xoffset =
-		((screen_width
-			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
-		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                        - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
+        crtc.screen_xoffset = ((screen_width
+                              - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+                              + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
+                              - ((crtc.regs[3] & 0x0f) / 2))
+                              * 8 * crtc.hw_cols);
     }
+
     /* FIXME: The 320 is the pixel width of a window with 40 cols.
        make that a define - or measure the visible line length?
        but how to do that reliably? */
     crtc.xoffset = CRTC_SCREEN_BORDERWIDTH + (CRTC_EXTRA_COLS * 4)
-		/* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols) / 2) */
-		- crtc.screen_xoffset
-		+ ((screen_width
-			- (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
-		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                        - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
+                   /* ((screen_width - crtc.rl_visible * 8 * crtc.hw_cols)
+                   / 2) */
+                   - crtc.screen_xoffset
+                   + ((screen_width
+                   - (crtc.sync_diff * 8 * crtc.hw_cols)) / 2)
+                   + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
+                   - ((crtc.regs[3] & 0x0f) / 2)) * 8 * crtc.hw_cols);
 
     /* emulate the line */
     if (crtc.raster.current_line >=
-		crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT) {
-	/* FIXFRAME: crtc.raster.current_line ++; */
+                crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT) {
+        /* FIXFRAME: crtc.raster.current_line ++; */
     } else {
-        raster_emulate_line (&crtc.raster);
+        raster_emulate_line(&crtc.raster);
     }
 
     /* now add jitter if this is out of phase (sync_diff changes) */
@@ -645,24 +652,23 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
     crtc.hjitter = (int)((double)(crtc.hjitter) * -0.5);
 /*
     if (crtc.hjitter) {
-	printf ("rl=%d, jitter=%d, sync_diff=%d, old diff=%d, \n",
-		crtc.raster.current_line, crtc.hjitter,
-		new_sync_diff, crtc.sync_diff);
+        printf("rl=%d, jitter=%d, sync_diff=%d, old diff=%d, \n",
+               crtc.raster.current_line, crtc.hjitter,
+               new_sync_diff, crtc.sync_diff);
     }
 */
     crtc.sync_diff = new_sync_diff;
 
 /*
     if (crtc.raster.current_line == 10) {
-	printf("centering=%d, sync2start=%d -> xoff=%d, jitter=%d\n",
-		((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
-		(crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-			- ((crtc.regs[3] & 0x0f) / 2)),
-		((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
-		+ ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
-                        - ((crtc.regs[3] & 0x0f) / 2)) * crtc.hw_cols * 8),
-		crtc.hjitter
-		);
+        printf("centering=%d, sync2start=%d -> xoff=%d, jitter=%d\n",
+                ((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2),
+                (crtc.prev_rl_len + 1 - crtc.prev_rl_sync
+                - ((crtc.regs[3] & 0x0f) / 2)),
+                ((screen_width - (sync_diff * crtc.hw_cols * 8)) / 2)
+                + ((crtc.prev_rl_len + 1 - crtc.prev_rl_sync
+                - ((crtc.regs[3] & 0x0f) / 2)) * crtc.hw_cols * 8),
+                crtc.hjitter);
     }
 */
 
@@ -687,79 +693,79 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
     if (crtc.framelines == crtc.screen_yoffset) {
 */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
-	raster_handle_end_of_frame(&crtc.raster);
-        raster_skip_frame (&crtc.raster,
-                           vsync_do_vsync(crtc.raster.skip_frame));
+        raster_handle_end_of_frame(&crtc.raster);
+        raster_skip_frame(&crtc.raster,
+                          vsync_do_vsync(crtc.raster.skip_frame));
     }
 
     {
-	/* FIXME: charheight */
-	if (crtc.current_charline >= crtc.regs[4] + 1) {
-	    if ((crtc.raster.ycounter + 1) >= crtc.regs[5]) {
-		long cycles;
+        /* FIXME: charheight */
+        if (crtc.current_charline >= crtc.regs[4] + 1) {
+            if ((crtc.raster.ycounter + 1) >= crtc.regs[5]) {
+                long cycles;
 
-	        /* Do vsync stuff.  */
-		/* printf("new screen at clk=%d\n",crtc.rl_start); */
-	        crtc_reset_screen_ptr();
-		crtc.raster.ycounter = 0;
-		crtc.current_charline = 0;
-		new_venable = 1;
+                /* Do vsync stuff.  */
+                /* printf("new screen at clk=%d\n",crtc.rl_start); */
+                crtc_reset_screen_ptr();
+                crtc.raster.ycounter = 0;
+                crtc.current_charline = 0;
+                new_venable = 1;
 
-		/* expected number of rasterlines for next frame */
-		crtc.framelines = crtc.current_line;
-		crtc.current_line = 0;
+                /* expected number of rasterlines for next frame */
+                crtc.framelines = crtc.current_line;
+                crtc.current_line = 0;
 
-		/* hardware cursor handling */
-    		if (crtc.crsrmode & 2) {
-		    crtc.crsrcnt --;
-		    if (!crtc.crsrcnt) {
-		        crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
-	    		crtc.crsrstate ^= 1;
-		    }
-    		}
+                /* hardware cursor handling */
+                if (crtc.crsrmode & 2) {
+                    crtc.crsrcnt --;
+                    if (!crtc.crsrcnt) {
+                        crtc.crsrcnt = (crtc.crsrmode & 1) ? 16 : 32;
+                        crtc.crsrstate ^= 1;
+                    }
+                }
 
-		/* cycles per frame, for speed adjustments */
-		cycles = crtc.rl_start - crtc.frame_start;
-		if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
-		    machine_set_cycles_per_frame(cycles);
-		    crtc.cycles_per_frame = cycles;
-		}
-		crtc.frame_start = crtc.rl_start;
+                /* cycles per frame, for speed adjustments */
+                cycles = crtc.rl_start - crtc.frame_start;
+                if (crtc.frame_start && (cycles != crtc.cycles_per_frame)) {
+                    machine_set_cycles_per_frame(cycles);
+                    crtc.cycles_per_frame = cycles;
+                }
+                crtc.frame_start = crtc.rl_start;
 
-	    } else {
-	        crtc.raster.ycounter ++;
-	    }
-	} else {
-	    if (crtc.raster.ycounter != crtc.regs[9] ) {
-	        crtc.raster.ycounter ++;
-	        crtc.raster.ycounter &= 0x1f;
-	    } else {
-	        crtc.raster.ycounter = 0;
-	        crtc.current_charline ++;
-	        crtc.current_charline &= 0x7f;
+            } else {
+                crtc.raster.ycounter ++;
+            }
+        } else {
+            if (crtc.raster.ycounter != crtc.regs[9] ) {
+                crtc.raster.ycounter ++;
+                crtc.raster.ycounter &= 0x1f;
+            } else {
+                crtc.raster.ycounter = 0;
+                crtc.current_charline ++;
+                crtc.current_charline &= 0x7f;
 
-	        if (crtc.henable) {
-	            crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
-	        }
-	        if (crtc.current_charline == crtc.regs[6]) {
-	            new_venable = 0;
-	        }
-	        if ((crtc.current_charline == crtc.regs[7])) {
-		    /* printf("hsync starts at clk=%d\n",crtc.rl_start); */
-	            new_vsync = (crtc.regs[3] >> 4) & 0x0f;
-	            if (!new_vsync)
-		        new_vsync = 16;
-	            new_vsync ++; /* compensate for the first decrease below */
-	        }
-	    }
-	    if (crtc.raster.ycounter == (crtc.regs[10] & 0x1f)) {
-	        crtc.cursor_lines = 1;
-	    } else
-	    if (crtc.raster.ycounter == ((crtc.regs[11] + 1) & 0x1f)) {
-	        crtc.cursor_lines = 0;
-	    }
+                if (crtc.henable) {
+                    crtc.screen_rel += crtc.rl_visible * crtc.hw_cols;
+                }
+                if (crtc.current_charline == crtc.regs[6]) {
+                    new_venable = 0;
+                }
+                if ((crtc.current_charline == crtc.regs[7])) {
+                    /* printf("hsync starts at clk=%d\n",crtc.rl_start); */
+                    new_vsync = (crtc.regs[3] >> 4) & 0x0f;
+                    if (!new_vsync)
+                        new_vsync = 16;
+                    new_vsync ++; /* compensate for the first decrease below */
+                }
+            }
+            if (crtc.raster.ycounter == (crtc.regs[10] & 0x1f)) {
+                crtc.cursor_lines = 1;
+            } else
+            if (crtc.raster.ycounter == ((crtc.regs[11] + 1) & 0x1f)) {
+                crtc.cursor_lines = 0;
+            }
 
-	    crtc.henable = 1;
+            crtc.henable = 1;
         }
         if (new_vsync) {
             new_vsync --;
@@ -772,81 +778,81 @@ void crtc_raster_draw_alarm_handler (CLOCK offset)
 
     if (crtc.retrace_callback) {
         if (crtc.retrace_type & 1) {
-	    if (crtc.vsync && !new_vsync) {
-	    	crtc.retrace_callback(0);
-	    } else
-	    if (new_vsync && !crtc.vsync) {
-	    	crtc.retrace_callback(1);
-	    }
+            if (crtc.vsync && !new_vsync) {
+                crtc.retrace_callback(0);
+            } else
+            if (new_vsync && !crtc.vsync) {
+                crtc.retrace_callback(1);
+            }
         } else {
-	    if (crtc.venable && !new_venable) {
-	    	crtc.retrace_callback(1);
-	    } else
-	    if (new_venable && !crtc.venable) {
-	    	crtc.retrace_callback(0);
-	    }
+            if (crtc.venable && !new_venable) {
+                crtc.retrace_callback(1);
+            } else
+            if (new_venable && !crtc.venable) {
+                crtc.retrace_callback(0);
+            }
         }
     }
 /*
     if (crtc.venable && !new_venable)
-	printf("disable ven, cl=%d, yc=%d, rl=%d\n",
-		crtc.current_charline, crtc.raster.ycounter,
-		crtc.raster.current_line);
+        printf("disable ven, cl=%d, yc=%d, rl=%d\n",
+                crtc.current_charline, crtc.raster.ycounter,
+                crtc.raster.current_line);
     if (new_venable && !crtc.venable)
-	printf("enable ven, cl=%d, yc=%d, rl=%d\n",
-		crtc.current_charline, crtc.raster.ycounter,
-		crtc.raster.current_line);
+        printf("enable ven, cl=%d, yc=%d, rl=%d\n",
+                crtc.current_charline, crtc.raster.ycounter,
+                crtc.raster.current_line);
 */
 /*
     if (crtc.vsync && !new_vsync)
-	printf("disable vsync, cl=%d, yc=%d, rl=%d\n",
-		crtc.current_charline, crtc.raster.ycounter,
-		crtc.raster.current_line);
+        printf("disable vsync, cl=%d, yc=%d, rl=%d\n",
+                crtc.current_charline, crtc.raster.ycounter,
+                crtc.raster.current_line);
     if (new_vsync && !crtc.vsync)
-	printf("enable vsync, cl=%d, yc=%d, rl=%d\n",
-		crtc.current_charline, crtc.raster.ycounter,
-		crtc.raster.current_line);
+        printf("enable vsync, cl=%d, yc=%d, rl=%d\n",
+                crtc.current_charline, crtc.raster.ycounter,
+                crtc.raster.current_line);
 */
     if (crtc.venable && !new_venable) {
-	/* visible area ends here - try to compute vertical centering */
-	/* FIXME: count actual number of rasterlines */
-	int visible_height = crtc.current_line;
-			/* crtc.regs[6] * (crtc.regs[9] + 1); */
+        /* visible area ends here - try to compute vertical centering */
+        /* FIXME: count actual number of rasterlines */
+        int visible_height = crtc.current_line;
+                        /* crtc.regs[6] * (crtc.regs[9] + 1); */
 
-	crtc.screen_yoffset = (crtc.screen_height - visible_height) / 2;
-	if (crtc.screen_yoffset < CRTC_SCREEN_BORDERHEIGHT)
-	    crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
+        crtc.screen_yoffset = (crtc.screen_height - visible_height) / 2;
+        if (crtc.screen_yoffset < CRTC_SCREEN_BORDERHEIGHT)
+            crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
 
 /* printf("visible_height=%d -> yoffset=%d\n",
-				visible_height, crtc.screen_height); */
+                                visible_height, crtc.screen_height); */
     }
 
     crtc.venable = new_venable;
     crtc.vsync = new_vsync;
 
     crtc.raster.blank_this_line = (crtc.hw_blank && crtc.blank)
-				|| !new_venable;
+                                  || !new_venable;
 
     /******************************************************************
      * set up new alarm
      */
 
-    alarm_set (&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
+    alarm_set(&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
 }
 
-void crtc_exposure_handler (unsigned int width,
-                       unsigned int height)
+void crtc_exposure_handler(unsigned int width,
+                           unsigned int height)
 {
-  raster_resize_viewport (&crtc.raster, width, height);
+    raster_resize_viewport(&crtc.raster, width, height);
 
-  /* FIXME: Needed?  Maybe this should be triggered by
-     `raster_resize_viewport()' automatically.  */
-  raster_force_repaint (&crtc.raster);
+    /* FIXME: Needed?  Maybe this should be triggered by
+       `raster_resize_viewport()' automatically.  */
+    raster_force_repaint(&crtc.raster);
 }
 
 void crtc_free(void)
 {
-  raster_free(&crtc.raster);
+    raster_free(&crtc.raster);
 }
 
 /* ------------------------------------------------------------------- */
@@ -854,13 +860,13 @@ void crtc_free(void)
 int crtc_offscreen(void)
 {
     if (crtc.retrace_type & 1) {
-	if (crtc.vsync) {
-	    return 1;
-	}
+        if (crtc.vsync) {
+            return 1;
+        }
     } else {
-	if (!crtc.venable) {
-	    return 1;
-	}
+        if (!crtc.venable) {
+            return 1;
+        }
     }
     return 0;
 }
@@ -883,10 +889,11 @@ int crtc_screenshot(screenshot_t *screenshot)
 void crtc_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-  crtc_resize ();
-  raster_enable_double_scan (&crtc.raster,
-			     fullscreen_is_enabled ?
-			     crtc_resources.fullscreen_double_scan_enabled :
-			     crtc_resources.double_scan_enabled);
+    crtc_resize();
+    raster_enable_double_scan(&crtc.raster,
+                              fullscreen_is_enabled ?
+                              crtc_resources.fullscreen_double_scan_enabled :
+                              crtc_resources.double_scan_enabled);
 #endif
 }
+
