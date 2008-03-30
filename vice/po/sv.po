@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-03-09 14:18+0100\n"
+"POT-Creation-Date: 2003-03-16 19:21+0100\n"
 "PO-Revision-Date: 2001-08-15 18:33+0100\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\\n\n"
@@ -2794,48 +2794,48 @@ msgstr "Deaktivera fullskärm"
 msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
-#: src/arch/unix/x11/video.c:178
+#: src/arch/unix/x11/video.c:180
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:181
+#: src/arch/unix/x11/video.c:183
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:184
+#: src/arch/unix/x11/video.c:186
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/video.c:187
+#: src/arch/unix/x11/video.c:189
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:191
+#: src/arch/unix/x11/video.c:193
 msgid "Use XVideo Extension (hardware scaling)"
 msgstr "Använd XVideo-utökning (maskinvaruskalning)"
 
-#: src/arch/unix/x11/video.c:194
+#: src/arch/unix/x11/video.c:196
 msgid "Use software rendering"
 msgstr "Använd programvarurendrering"
 
-#: src/arch/unix/x11/video.c:196
+#: src/arch/unix/x11/video.c:198
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/video.c:198
+#: src/arch/unix/x11/video.c:200
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/video.c:372
+#: src/arch/unix/x11/video.c:374
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MITSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:376
+#: src/arch/unix/x11/video.c:378
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:437
+#: src/arch/unix/x11/video.c:439
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 

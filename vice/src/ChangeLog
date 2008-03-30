@@ -1,3 +1,42 @@
+2003-03-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.14.
+
+	* arch/win32/winmain.c: Fixed includes.
+
+	* c128/z80mem.c: Removed `z80bios_rom_name'.
+
+	* arch/unix/x11/video.c, init.c, arch/unix/x11/vidmode.c:
+	Added patches from Michael Klein.
+
+	* maincpu.c, mem.h, c64/c64mem.c, c128/c128mem.c,
+	vic20/vic20mem.c, pet/petmem.c, plus4/plus4mem.c,
+	cbm2/cbm2mem.c: Renamed zero/page one functions.
+
+2003-03-13  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/ui.c (set_single_cpu): New function to set CPU
+	affinity on SMP systems.
+	(resource): Added "SingleCPU" resource.
+	(cmdline_options): Added "singlecpu" command line option.
+
+	* arch/win32/uilib.c (tape_hook_proc, hook_proc,
+	ui_select_file): Install CBM font only once.
+
+	* arch/win32/winmain.c (WinMain): Use system argc, argv
+	variables on MSVC compilation. Enabled heap debugging when
+	compiling debug build with MSVC.
+	(ParseCommandLine): Function removed, it is not needed
+	anymore.
+
+	* gfxoutputdrv/bmpdrv.c (bmpdrv_open, bmpdrive_write,
+	bmpdrv_close, bmpdrv_save): BMP driver saves images correctly
+	now.
+
+	* printerdrv/output-graphics.c (output_graphics_open,
+	output_graphics_putc): Added filename sequencing, new image
+	file is opened when printer crosses page boundary.
+
 2003-03-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.13.
