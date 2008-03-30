@@ -157,7 +157,7 @@ BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
 
 unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 {
-    const char *p;
+    const BYTE *p;
     char *parsecmd, *c;
     int cmdlen;
 
@@ -168,7 +168,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     if (cmd_parse->cmd == NULL || cmd_parse->cmdlength == 0)
         return CBMDOS_IPE_NO_NAME;
 
-    p = (char *)memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
+    p = (BYTE *)memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
 
     if (p) {
         p++;
@@ -184,7 +184,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         p++;
 #endif
 
-    cmdlen = cmd_parse->cmdlength - (p - cmd_parse->cmd);
+    cmdlen = cmd_parse->cmdlength - ((const char *)p - cmd_parse->cmd);
     cmd_parse->parselength = 0;
 
     /* Temporary hack.  */
@@ -234,6 +234,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
           case 'W':
             cmd_parse->readmode = CBMDOS_FAM_WRITE;
             break;
+          case 'A':
+            cmd_parse->readmode = CBMDOS_FAM_APPEND;
+            break;
           default:
             if (cmd_parse->readmode != CBMDOS_FAM_READ
                 && cmd_parse->readmode != CBMDOS_FAM_WRITE)
@@ -242,7 +245,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 
         c = (char *)memchr(p, ',', cmdlen);
         if (c) {
-            cmdlen -= (c - p);
+            cmdlen -= (c - (const char *)p);
             p = c;
         } else {
             cmdlen = 0;
