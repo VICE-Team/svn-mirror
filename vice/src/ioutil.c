@@ -25,12 +25,14 @@
  */
 
 #include "vice.h"
-#include "types.h"
 
 #include <stdio.h>
 
 #ifdef HAVE_DIRECT_H
 #include <direct.h>
+#endif
+#ifdef HAVE_DIRENT_H
+#include <dirent.h>
 #endif
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -40,9 +42,6 @@
 #endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-#ifdef HAVE_DIRECT_H
-#include <direct.h>
 #endif
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -57,6 +56,7 @@
 #include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"
+#include "types.h"
 
 
 /* Mostly POSIX compatibily */
@@ -128,5 +128,45 @@ char *ioutil_current_dir(void)
 
     return p;
 #endif
+}
+
+struct ioutil_dir_s {
+    DIR *dp;
+};
+typedef struct ioutil_dir_s ioutil_dir_t;
+
+ioutil_dir_t *ioutil_opendir(const char *path)
+{
+    DIR *dp;
+    ioutil_dir_t *ioutil_dir;
+
+    dp = opendir(path);
+
+    if (dp == NULL)
+        return NULL;
+
+    ioutil_dir = (ioutil_dir_t *)lib_malloc(sizeof(ioutil_dir_t));
+
+    ioutil_dir->dp = dp;
+
+    return ioutil_dir;
+}
+
+char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
+{
+    struct dirent *dirp;
+
+    dirp = readdir(ioutil_dir->dp);
+
+    if (dirp == NULL)
+        return NULL;
+
+    return (char *)(dirp->d_name);
+}
+
+void ioutil_closedir(ioutil_dir_t *ioutil_dir)
+{
+    closedir(ioutil_dir->dp);
+    lib_free(ioutil_dir);
 }
 
