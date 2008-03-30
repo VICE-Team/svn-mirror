@@ -256,15 +256,14 @@ distdir: $(DISTFILES)
 	done
 glue1551.o: glue1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
-	../../../src/mos6510.h glue1551.h ../../../src/interrupt.h
+	../../../src/drive/drive.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/mos6510.h glue1551.h \
+	../../../src/interrupt.h
 mem1551.o: mem1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivemem.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/drive/drive.h \
-	../../../src/log.h ../../../src/mos6510.h glue1551.h mem1551.h \
-	tia1551.h
+	../../../src/mos6510.h glue1551.h mem1551.h tia1551.h
 tcbm-cmdline-options.o: tcbm-cmdline-options.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/cmdline.h \
 	tcbm-cmdline-options.h
@@ -277,14 +276,14 @@ tcbm.o: tcbm.c ../../../src/vice.h ../../../src/config.h mem1551.h \
 	tcbm-cmdline-options.h tcbm-resources.h \
 	../../../src/drive/tcbm.h tcbmrom.h tia1551.h
 tcbmrom.o: tcbmrom.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/arch/unix/types.h ../../../src/drive/driverom.h \
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
+	../../../src/drive/driverom.h ../../../src/log.h \
 	../../../src/resources.h ../../../src/sysfile.h tcbmrom.h
 tia1551.o: tia1551.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/arch/unix/types.h ../../../src/drive/drivetypes.h \
-	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/mos6510.h ../../../src/iecdrive.h
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/alarm.h ../../../src/mos6510.h \
+	../../../src/iecdrive.h ../../../src/log.h
 
 info-am:
 info: info-am

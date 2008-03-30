@@ -455,31 +455,29 @@ uidatasette.o: uidatasette.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
 	x11/xaw/../xaw/uiarch.h ../../../src/utils.h
 uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h types.h \
-	../../../src/resources.h uidrive.h uimenu.h x11/xaw/uimenu.h \
-	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h
+	../../../src/drive/drive.h types.h ../../../src/resources.h \
+	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h
 uidrivec64c128vic20.o: uidrivec64c128vic20.c ../../../src/vice.h \
-	../../../src/config.h ../../../src/drive/drive.h \
-	../../../src/log.h types.h uidrive.h uimenu.h x11/xaw/uimenu.h \
-	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h \
-	uidriveiec.h
+	../../../src/config.h ../../../src/drive/drive.h types.h \
+	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uidrivec64c128vic20.h uidriveiec.h
 uidriveiec.o: uidriveiec.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h types.h \
-	uidriveiec.h uimenu.h x11/xaw/uimenu.h ui.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h
+	../../../src/drive/drive.h types.h uidriveiec.h uimenu.h \
+	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/../x11menu.h uihotkey.h x11/xaw/../xaw/uiarch.h
 uidrivepetcbm2.o: uidrivepetcbm2.c ../../../src/vice.h \
-	../../../src/config.h ../../../src/drive/drive.h \
-	../../../src/log.h types.h uidrive.h uimenu.h x11/xaw/uimenu.h \
-	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uidrivepetcbm2.h
+	../../../src/config.h ../../../src/drive/drive.h types.h \
+	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uidrivepetcbm2.h
 uidriveplus4.o: uidriveplus4.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h types.h \
-	../../../src/resources.h uidrive.h uimenu.h x11/xaw/uimenu.h \
-	ui.h ../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
-	uihotkey.h x11/xaw/../xaw/uiarch.h uidriveiec.h uidriveplus4.h
+	../../../src/drive/drive.h types.h ../../../src/resources.h \
+	uidrive.h uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
+	x11/xaw/../xaw/uiarch.h uidriveiec.h uidriveplus4.h
 uijoystick2.o: uijoystick2.c ../../../src/vice.h ../../../src/config.h \
 	joy.h ../../../src/resources.h uimenu.h x11/xaw/uimenu.h ui.h \
 	types.h ../../../src/uiapi.h x11/xaw/uiarch.h \

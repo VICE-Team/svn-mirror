@@ -258,9 +258,9 @@ fdc.o: fdc.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \
 	../../../src/attach.h ../../../src/clkguard.h \
 	../../../src/diskimage.h ../../../src/drive/drive.h \
-	../../../src/log.h ../../../src/drive/drivecpu.h \
-	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
-	../../../src/mos6510.h fdc.h ../../../src/interrupt.h \
+	../../../src/drive/drivecpu.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/mos6510.h fdc.h \
+	../../../src/interrupt.h ../../../src/log.h \
 	../../../src/snapshot.h
 ieee-cmdline-options.o: ieee-cmdline-options.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/cmdline.h \
@@ -272,20 +272,20 @@ ieee-resources.o: ieee-resources.c ../../../src/vice.h \
 ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/mos6510.h fdc.h ieee-cmdline-options.h \
-	ieee-resources.h ../../../src/drive/ieee.h ieeerom.h memieee.h \
-	riotd.h ../../../src/drive/viad.h
+	../../../src/drive/drive.h ../../../src/mos6510.h fdc.h \
+	ieee-cmdline-options.h ieee-resources.h \
+	../../../src/drive/ieee.h ieeerom.h memieee.h riotd.h \
+	../../../src/drive/viad.h
 ieeerom.o: ieeerom.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/arch/unix/types.h ../../../src/drive/driverom.h \
-	ieeerom.h ../../../src/resources.h ../../../src/sysfile.h
+	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
+	../../../src/drive/driverom.h ieeerom.h ../../../src/log.h \
+	../../../src/resources.h ../../../src/sysfile.h
 memieee.o: memieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivemem.h ../../../src/arch/unix/types.h \
 	../../../src/drive/driverom.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/alarm.h \
-	../../../src/drive/drive.h ../../../src/log.h \
-	../../../src/mos6510.h memieee.h riotd.h
+	../../../src/drive/drive.h ../../../src/mos6510.h memieee.h \
+	riotd.h
 riot1d.o: riot1d.c ../../../src/riotcore.h ../../../src/vice.h \
 	../../../src/config.h ../../../src/log.h ../../../src/riot.h \
 	../../../src/arch/unix/types.h ../../../src/interrupt.h \

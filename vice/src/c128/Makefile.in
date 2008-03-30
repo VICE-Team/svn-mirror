@@ -259,11 +259,10 @@ distdir: $(DISTFILES)
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
-	c128rom.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
-	../../src/c64/reu.h ../../src/sid/sid-resources.h \
-	../../src/utils.h
+	c128rom.h ../../src/drive/drive.h ../../src/arch/unix/types.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/machine.h ../../src/resources.h ../../src/c64/reu.h \
+	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
 	c128mmu.h c128rom.h ../../src/c64/c64tpi.h ../../src/log.h \
@@ -282,9 +281,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/debug.h ../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/event.h \
-	functionrom.h ../../src/iecdrive.h ../../src/interrupt.h \
-	../../src/ioutil.h ../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/drive/drivecpu.h ../../src/event.h functionrom.h \
+	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
+	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/monitor/mon.h \
 	../../src/c64/patchrom.h ../../src/printer.h \
@@ -292,7 +291,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/snapshot.h \
+	../../src/sid/sid.h ../../src/snapshot.h ../../src/sound.h \
 	../../src/tape.h ../../src/traps.h ../../src/mem.h \
 	../../src/vicii/vicii.h ../../src/video.h ../../src/viewport.h \
 	../../src/vdc/vdc.h ../../src/vsync.h z80.h z80mem.h \
@@ -315,15 +314,15 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h c128iec.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/c64/c64iec.h ../../src/drive/ciad.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/maincpu.h ../../src/drive/viad.h ../../src/via.h
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/iecdrive.h ../../src/maincpu.h ../../src/drive/viad.h \
+	../../src/via.h
 c128io.o: c128io.c ../../src/vice.h ../../src/config.h c128-resources.h \
 	c128io.h ../../src/arch/unix/types.h ../../src/c64/c64acia.h \
 	../../src/c64/c64cart.h ../../src/c64/c64tpi.h \
 	../../src/cartridge.h ../../src/emuid.h ../../src/c64/reu.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/vicii/vicii-phi1.h
+	../../src/vicii/vicii-phi1.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128io.h ../../src/arch/unix/types.h c128mem.h \
 	c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
@@ -331,8 +330,8 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64tpi.h functionrom.h ../../src/keyboard.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h ../../src/parallel.h ../../src/ram.h \
-	../../src/c64/reu.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	../../src/c64/reu.h ../../src/sid/sid.h ../../src/utils.h \
+	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \
 	../../src/c64/c64acia.h
@@ -361,9 +360,9 @@ z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128io.h \
 	../../src/arch/unix/types.h c128mem.h c128mmu.h \
 	../../src/c64/c64cia.h ../../src/cmdline.h ../../src/log.h \
 	../../src/mem.h ../../src/resources.h ../../src/sid/sid.h \
-	../../src/sound.h ../../src/sysfile.h ../../src/utils.h \
-	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
-	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h
+	../../src/sysfile.h ../../src/utils.h ../../src/vdc/vdc-mem.h \
+	../../src/vdc/vdc.h ../../src/vicii/vicii-mem.h \
+	../../src/vicii/vicii.h z80mem.h
 
 info-am:
 info: info-am

@@ -587,8 +587,8 @@ attach.o: attach.c vice.h config.h attach.h arch/unix/types.h cmdline.h \
 	vdrive/vdrive.h
 autostart.o: autostart.c vice.h config.h arch/unix/archdep.h archapi.h \
 	autostart.h arch/unix/types.h attach.h charset.h datasette.h \
-	drive/drive.h log.h fsdevice.h imagecontents.h interrupt.h \
-	kbdbuf.h machine.h mem.h p00.h resources.h serial.h snapshot.h \
+	drive/drive.h fsdevice.h imagecontents.h interrupt.h kbdbuf.h \
+	log.h machine.h mem.h p00.h resources.h serial.h snapshot.h \
 	tape.h arch/unix/ui.h uiapi.h utils.h vdrive/vdrive.h \
 	vdrive/vdrive-bam.h zfile.h
 c1541.o: c1541.c vice.h config.h arch/unix/archdep.h archapi.h charset.h \
@@ -626,9 +626,9 @@ gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
 info.o: info.c
 init.o: init.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/types.h cmdline.h console.h debug.h diskimage.h \
-	drive/drive.h log.h drive/drivecpu.h event.h fsdevice.h \
-	gfxoutput.h initcmdline.h arch/unix/joy.h joystick.h kbdbuf.h \
-	keyboard.h machine.h maincpu.h palette.h ram.h resources.h \
+	drive/drive.h drive/drivecpu.h event.h fsdevice.h gfxoutput.h \
+	initcmdline.h arch/unix/joy.h joystick.h kbdbuf.h keyboard.h \
+	log.h machine.h maincpu.h palette.h ram.h resources.h \
 	screenshot.h sysfile.h arch/unix/ui.h uiapi.h vdrive/vdrive.h
 initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	archapi.h attach.h arch/unix/types.h autostart.h charset.h \
@@ -652,10 +652,10 @@ machine.o: machine.c alarm.h arch/unix/types.h vice.h config.h \
 	autostart.h clkguard.h interrupt.h log.h machine.h maincpu.h \
 	mem.h arch/unix/ui.h uiapi.h utils.h vsync.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
-	console.h debug.h arch/unix/types.h drive/drive.h log.h \
-	fullscreen.h init.h initcmdline.h interrupt.h machine.h \
-	maincpu.h main.h resources.h sysfile.h arch/unix/ui.h uiapi.h \
-	utils.h version.h video.h viewport.h fliplist.h
+	console.h debug.h arch/unix/types.h drive/drive.h fullscreen.h \
+	init.h initcmdline.h interrupt.h log.h machine.h maincpu.h \
+	main.h resources.h sysfile.h arch/unix/ui.h uiapi.h utils.h \
+	version.h video.h viewport.h fliplist.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 	arch/unix/types.h clkguard.h debug.h interrupt.h machine.h \
 	maincpu.h mem.h monitor/mon.h mos6510.h snapshot.h traps.h \
@@ -663,8 +663,8 @@ maincpu.o: maincpu.c vice.h config.h 6510core.h alarm.h \
 p00.o: p00.c vice.h config.h p00.h arch/unix/types.h vdrive/vdrive.h
 palette.o: palette.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	palette.h arch/unix/types.h sysfile.h utils.h
-parallel.o: parallel.c vice.h config.h cmdline.h drive/drive.h log.h \
-	arch/unix/types.h drive/drivecpu.h drive/ieee.h maincpu.h \
+parallel.o: parallel.c vice.h config.h cmdline.h drive/drive.h \
+	arch/unix/types.h drive/drivecpu.h drive/ieee.h log.h maincpu.h \
 	parallel.h resources.h serial.h
 petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 ram.o: ram.c vice.h config.h cmdline.h ram.h arch/unix/types.h \

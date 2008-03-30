@@ -329,71 +329,68 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 drive-cmdline-options.o: drive-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h drive.h ../../src/log.h \
+	../../src/config.h ../../src/cmdline.h drive.h \
 	../../src/arch/unix/types.h ../../src/machine-drive.h
 drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
-	drive-resources.h drive.h ../../src/log.h \
-	../../src/arch/unix/types.h drivecpu.h driverom.h \
-	../../src/iecdrive.h ../../src/machine-drive.h \
-	../../src/resources.h ../../src/vdrive/vdrive-bam.h
+	drive-resources.h drive.h ../../src/arch/unix/types.h \
+	drivecpu.h driverom.h ../../src/iecdrive.h ../../src/log.h \
+	../../src/machine-drive.h ../../src/resources.h \
+	../../src/vdrive/vdrive-bam.h
 drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
-	../../src/log.h drivecpu.h drivemem.h driverom.h \
-	../../src/gcr.h ../../src/iecdrive.h ../../src/machine-drive.h \
+	drivecpu.h drivemem.h driverom.h ../../src/gcr.h \
+	../../src/iecdrive.h ../../src/log.h ../../src/machine-drive.h \
 	../../src/resources.h ../../src/snapshot.h ../../src/utils.h \
 	../../src/vdrive/vdrive-bam.h \
 	../../src/vdrive/vdrive-snapshot.h viad.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
-	../../src/log.h drivecpu.h driveimage.h drivesync.h driverom.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/gcr.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/parallel.h ../../src/resources.h \
-	../../src/serial.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/utils.h viad.h
+	drivecpu.h driveimage.h drivesync.h driverom.h drivetypes.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	../../src/gcr.h ../../src/iecdrive.h ../../src/interrupt.h \
+	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
+	../../src/parallel.h ../../src/resources.h ../../src/serial.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
+	viad.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
-	../../src/debug.h drive.h ../../src/log.h drivecpu.h drivemem.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h \
-	../../src/interrupt.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/mem.h ../../src/monitor/mon.h \
-	../../src/snapshot.h ../../src/utils.h viad.h \
-	../../src/6510core.c
+	../../src/debug.h drive.h drivecpu.h drivemem.h drivetypes.h \
+	../../src/ciatimer.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
+	../../src/mem.h ../../src/monitor/mon.h ../../src/snapshot.h \
+	../../src/utils.h viad.h ../../src/6510core.c
 driveimage.o: driveimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
-	../../src/arch/unix/types.h drive.h ../../src/log.h \
-	driveimage.h ../../src/gcr.h
+	../../src/arch/unix/types.h drive.h driveimage.h \
+	../../src/gcr.h ../../src/log.h
 drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/log.h ../../src/arch/unix/types.h driverom.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/machine-drive.h ../../src/mem.h \
+	../../src/arch/unix/types.h driverom.h drivetypes.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	../../src/log.h ../../src/machine-drive.h ../../src/mem.h \
 	../../src/monitor/mon.h ../../src/utils.h viad.h
 driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/log.h ../../src/arch/unix/types.h driverom.h \
+	../../src/arch/unix/types.h driverom.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/resources.h \
 	../../src/sysfile.h
 drivesync.o: drivesync.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/log.h ../../src/arch/unix/types.h drivesync.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h
+	../../src/arch/unix/types.h drivesync.h drivetypes.h \
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
-	../../src/log.h drivecpu.h drivesync.h drivetypes.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
-	../../src/iecdrive.h ../../src/interrupt.h ../../src/parallel.h \
+	drivecpu.h drivesync.h drivetypes.h ../../src/ciatimer.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/iecdrive.h \
+	../../src/interrupt.h ../../src/log.h ../../src/parallel.h \
 	../../src/utils.h ../../src/via.h viad.h ../../src/viacore.c \
 	../../src/snapshot.h
 via2d.o: via2d.c ../../src/vice.h ../../src/config.h drive.h \
-	../../src/log.h ../../src/arch/unix/types.h drivetypes.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
-	../../src/interrupt.h ../../src/via.h viad.h \
-	../../src/viacore.c ../../src/clkguard.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/arch/unix/types.h drivetypes.h ../../src/ciatimer.h \
+	../../src/alarm.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/log.h ../../src/via.h viad.h ../../src/viacore.c \
+	../../src/clkguard.h ../../src/snapshot.h ../../src/utils.h
 
 info-am:
 info: info-recursive

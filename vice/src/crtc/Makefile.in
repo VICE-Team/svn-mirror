@@ -256,40 +256,38 @@ distdir: $(DISTFILES)
 	done
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/cmdline.h crtc-cmdline-options.h \
-	crtctypes.h crtc-mem.h ../../src/arch/unix/types.h crtc.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
-	../../src/raster/raster-cmdline-options.h
+	crtctypes.h crtc.h ../../src/arch/unix/types.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h ../../src/raster/raster-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
-	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
-	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
+	crtc.h ../../src/arch/unix/types.h crtctypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h ../../src/raster/raster-modes.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h
 crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h crtc-mem.h crtc.h \
-	crtctypes.h ../../src/log.h ../../src/raster/raster.h \
+	crtctypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \
 	../../src/maincpu.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	crtc-resources.h crtctypes.h crtc-mem.h \
-	../../src/arch/unix/types.h crtc.h ../../src/log.h \
+	crtc-resources.h crtctypes.h crtc.h ../../src/arch/unix/types.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
 	../../src/viewport.h ../../src/fullscreen.h \
 	../../src/raster/raster-resources.h ../../src/resources.h \
 	../../src/utils.h ../../src/video.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
-	../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/viewport.h \
-	../../src/maincpu.h ../../src/snapshot.h
+	crtc-mem.h ../../src/arch/unix/types.h crtc.h crtctypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h ../../src/log.h ../../src/maincpu.h \
+	../../src/snapshot.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	crtc-cmdline-options.h crtc-draw.h crtc-resources.h crtc.h \
-	crtctypes.h crtc-mem.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h ../../src/palette.h ../../src/machine.h \
+	crtctypes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	../../src/log.h ../../src/palette.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/raster/raster-canvas.h \
 	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
 	../../src/raster/raster-cache.h \

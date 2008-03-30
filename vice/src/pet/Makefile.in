@@ -260,10 +260,9 @@ pet-cmdline-options.o: pet-cmdline-options.c ../../src/vice.h \
 	../../src/arch/unix/types.h
 pet-resources.o: pet-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/machine.h pet.h petmem.h petrom.h pets.h \
-	../../src/resources.h ../../src/utils.h
+	../../src/drive/drive.h ../../src/arch/unix/kbd.h \
+	../../src/keyboard.h ../../src/machine.h pet.h petmem.h \
+	petrom.h pets.h ../../src/resources.h ../../src/utils.h
 pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h pet.h \
@@ -277,9 +276,9 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/event.h \
+	../../src/drive/drivecpu.h ../../src/event.h \
 	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
-	../../src/kbdbuf.h ../../src/keyboard.h \
+	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
 	pet-cmdline-options.h pet-resources.h pet-snapshot.h pet.h \
@@ -302,8 +301,8 @@ petdrive.o: petdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ieee.h ../../src/arch/unix/types.h \
 	../../src/machine-drive.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/iecdrive.h petiec.h
+	../../src/drive/drive.h ../../src/arch/unix/types.h \
+	../../src/iecdrive.h ../../src/log.h petiec.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
@@ -314,16 +313,16 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/crtc/crtc.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/keyboard.h ../../src/maincpu.h ../../src/parallel.h \
-	pets.h petmem.h petpia.h ../../src/piacore.h \
-	../../src/resources.h ../../src/piacore.c ../../src/snapshot.h
+	../../src/drive/drive.h ../../src/drive/drivecpu.h \
+	../../src/interrupt.h ../../src/keyboard.h ../../src/maincpu.h \
+	../../src/parallel.h pets.h petmem.h petpia.h \
+	../../src/piacore.h ../../src/log.h ../../src/resources.h \
+	../../src/piacore.c ../../src/snapshot.h
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/interrupt.h ../../src/maincpu.h ../../src/parallel.h \
-	petpia.h ../../src/piacore.h ../../src/piacore.c \
+	../../src/drive/drive.h ../../src/arch/unix/types.h \
+	../../src/drive/drivecpu.h ../../src/interrupt.h \
+	../../src/maincpu.h ../../src/parallel.h petpia.h \
+	../../src/piacore.h ../../src/log.h ../../src/piacore.c \
 	../../src/snapshot.h
 petrom.o: petrom.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
@@ -334,12 +333,13 @@ petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
 	../../src/arch/unix/types.h ../../src/sound.h ../../src/utils.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
+	../../src/datasette.h ../../src/drive/drive.h \
 	../../src/drive/drivecpu.h ../../src/keyboard.h \
 	../../src/maincpu.h ../../src/parallel.h petsound.h petvia.h \
-	../../src/printer.h ../../src/viacore.h ../../src/via.h \
-	../../src/viacore.c ../../src/alarm.h ../../src/clkguard.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/utils.h
+	../../src/printer.h ../../src/viacore.h ../../src/log.h \
+	../../src/via.h ../../src/viacore.c ../../src/alarm.h \
+	../../src/clkguard.h ../../src/interrupt.h ../../src/snapshot.h \
+	../../src/utils.h
 
 info-am:
 info: info-am
