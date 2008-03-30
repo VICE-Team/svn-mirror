@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.48)
+AM_INIT_AUTOMAKE(vice, 0.14.2.49)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -43,7 +43,7 @@ else
   echo "using ugly Athena text widget."
 fi
 
-dnl Setup go32 crosscompiling.
+dnl Setup DJGPP crosscompiling.
 
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
@@ -62,6 +62,9 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   GCC=yes
 
   is_dos=yes
+
+  AM_CONDITIONAL(HAVE_RS232, false)
+  AM_CONDITIONAL(HAVE_PRINTER, true)
 
 else
 
@@ -113,7 +116,9 @@ else
 
   dnl This is only possible on Unix (for now).
   AC_DEFINE(HAVE_RS232)
+  AM_CONDITIONAL(HAVE_RS232, true)
   AC_DEFINE(HAVE_PRINTER)
+  AM_CONDITIONAL(HAVE_PRINTER, true)
 fi
 
 dnl Setup reSID compilation.  We need a C++ compiler for this.
@@ -361,7 +366,7 @@ if [[ x"$is_dos" != "xyes" ]]; then
   AC_DEFINE(HAVE_READLINE)
 else
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
-  ARCH_LIBS="\$(top_builddir)/src/arch/msdos/libarch.a \$(ARCH_LIBS)"
+  ARCH_LIBS="\$(top_builddir)/src/arch/msdos/libarch.a"
   AM_CONDITIONAL(MSDOS_COMPILE, true)
 fi
 

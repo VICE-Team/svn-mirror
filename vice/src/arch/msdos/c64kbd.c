@@ -1,5 +1,5 @@
 /*
- * c64kbd.c -- C64 keyboard.
+ * c64kbd.c -- C64 keyboard for MS-DOS.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)

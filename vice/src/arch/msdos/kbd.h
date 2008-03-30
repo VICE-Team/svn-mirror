@@ -52,8 +52,6 @@ typedef struct {
     int vshift;
 } keyconv;
 
-#ifdef _KBD_DOS_C
-
 enum doskbd_codes {
     K_NONE, K_ESC, K1, K_2, K_3, K_4, K_5, K_6, K_7, K_8, K_9, K_0, K_MINUS,
     K_EQUAL, K_BS, K_TAB, K_Q, K_W, K_E, K_R, K_T, K_Y, K_U, K_I, K_O, K_P,
@@ -78,8 +76,8 @@ static unsigned char extended_key_tab[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-#endif
-
+extern int kbd_init_resources(void);
+extern int kbd_init_cmdline_options(void);
 extern int kbd_init(keyconv *map, int sizeof_map,
 		    int shift_column, int shift_row);
 extern void kbd_install(void);

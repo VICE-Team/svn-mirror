@@ -170,8 +170,13 @@ typedef struct monitor_interface monitor_interface_t;
 
 /* Defines */
 
+#ifndef TRUE
 #define TRUE 1
+#endif
+
+#ifndef FALSE
 #define FALSE 0
+#endif
 
 #define HI16(x) ((x)&0xffff0000)
 #define LO16(x) ((x)&0xffff)
