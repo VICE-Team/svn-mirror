@@ -29,10 +29,13 @@
 
 #include "vice.h"
 
+#include "alarm.h"
 #include "c64.h"
 #include "maincpu.h"
+#include "log.h"
 #include "raster.h"
 #include "snapshot.h"
+#include "types.h"
 #include "video.h"
 
 #include "vicii-mem.h"
@@ -381,6 +384,7 @@ void vic_ii_powerup (void);
 void vic_ii_resize (void);
 void vic_ii_set_set_canvas_refresh(int enable);
 void vic_ii_change_timing(void);
+void vic_ii_reset_registers(void);
 
 int vic_ii_write_snapshot_module (snapshot_t *s);
 int vic_ii_read_snapshot_module (snapshot_t *s);

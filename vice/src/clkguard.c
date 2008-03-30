@@ -27,8 +27,8 @@
 #include "vice.h"
 
 #include "clkguard.h"
-
 #include "utils.h"
+#include "types.h"
 
 clk_guard_t *clk_guard_new (CLOCK *_clk_ptr, CLOCK _clk_max_value)
 {

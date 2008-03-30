@@ -35,10 +35,11 @@
 #include "vice.h"
 
 #include "alarm.h"
+#include "crtc-mem.h"
 #include "log.h"
 #include "raster.h"
 #include "snapshot.h"
-#include "crtc-mem.h"
+#include "types.h"
 
 
 

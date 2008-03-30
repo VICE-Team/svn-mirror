@@ -1,6 +1,6 @@
 
 /*
- * cia.h - Definitions for MOS6526 (CIA) chip emulation.
+ * c610cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
  *  Jouko Valta (jopi@stekt.oulu.fi)
@@ -29,10 +29,8 @@
 #ifndef _C610_CIA_H
 #define _C610_CIA_H
 
-#include "types.h"
-#include "cia.h"
 #include "snapshot.h"
-#include "maincpu.h"
+#include "types.h"
 
 extern void cia1_init(void);
 extern void cia1_reset(void);
@@ -48,3 +46,4 @@ extern int cia1_read_snapshot_module(snapshot_t *p);
 void cia1_set_ieee_dir(int);
 
 #endif	/* _C610_CIA_H */
+

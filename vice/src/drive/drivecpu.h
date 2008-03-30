@@ -29,11 +29,11 @@
 #ifndef _DRIVECPU_H
 #define _DRIVECPU_H
 
-#include "types.h"
-
 #include "alarm.h"
 #include "clkguard.h"
 #include "mon.h"
+#include "snapshot.h"
+#include "types.h"
 
 /* drive0, device #8.  */
 extern int drive0_traceflg;
