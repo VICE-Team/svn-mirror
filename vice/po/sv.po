@@ -5,30 +5,30 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-06-18 01:10+0200\n"
+"POT-Creation-Date: 2001-06-23 20:19+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:112
+#: src/vsync.c:113
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:114
+#: src/vsync.c:115
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:116
+#: src/vsync.c:117
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:118
+#: src/vsync.c:119
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:398
+#: src/vsync.c:397
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -297,7 +297,8 @@ msgstr "Läs manualer"
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:946 src/arch/unix/x11/gnome/ui.c:1784
+#: src/arch/unix/uicommands.c:946 src/arch/unix/uidatasette.c:49
+#: src/arch/unix/x11/gnome/ui.c:1784
 msgid "Reset"
 msgstr "Återställ"
 
@@ -321,21 +322,23 @@ msgstr "*PAL-G"
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/c128ui.c:63 src/arch/unix/vic20ui.c:406
+#: src/arch/unix/c128ui.c:63 src/arch/unix/uivicii.c:41
+#: src/arch/unix/vic20ui.c:406
 msgid "*Default"
 msgstr "*Förval"
 
-#: src/arch/unix/c128ui.c:67 src/arch/unix/vic20ui.c:408
+#: src/arch/unix/c128ui.c:67 src/arch/unix/uicrtc.c:44
+#: src/arch/unix/uivicii.c:54 src/arch/unix/vic20ui.c:408
 msgid "Load custom"
 msgstr "Ladda egen"
 
-#: src/arch/unix/c128ui.c:78 src/arch/unix/uisettings.c:1195
-#: src/arch/unix/uisettings.c:1215
+#: src/arch/unix/c128ui.c:78 src/arch/unix/uicrtc.c:58
+#: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1215
 msgid "*Double size"
 msgstr "*Dubbel storlek"
 
-#: src/arch/unix/c128ui.c:80 src/arch/unix/uisettings.c:1197
-#: src/arch/unix/uisettings.c:1217
+#: src/arch/unix/c128ui.c:80 src/arch/unix/uicrtc.c:60
+#: src/arch/unix/uisettings.c:1197 src/arch/unix/uisettings.c:1217
 msgid "*Double scan"
 msgstr "*Dubbelskanning"
 
@@ -343,7 +346,8 @@ msgstr "*Dubbelskanning"
 msgid "*64KB display memory"
 msgstr "*64KB grafikminne"
 
-#: src/arch/unix/c128ui.c:86 src/arch/unix/vic20ui.c:418
+#: src/arch/unix/c128ui.c:86 src/arch/unix/uivicii.c:74
+#: src/arch/unix/vic20ui.c:418
 msgid "Color set"
 msgstr "Färguppsättning"
 
@@ -1088,7 +1092,8 @@ msgstr "Välj RS232-enhetsfil"
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando att starta för RS232 (inled med \"|\")"
 
-#: src/arch/unix/uisettings.c:564 src/arch/unix/uisettings.c:593
+#: src/arch/unix/uiprinter.c:154 src/arch/unix/uisettings.c:564
+#: src/arch/unix/uisettings.c:593
 msgid "Command:"
 msgstr "Kommando:"
 
@@ -1392,11 +1397,11 @@ msgstr "*Aktivera"
 msgid "Resolutions"
 msgstr "Upplösningar"
 
-#: src/arch/unix/uisettings.c:1213
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:1213
 msgid "*Video cache"
 msgstr "*Grafikcache"
 
-#: src/arch/unix/uisettings.c:1219
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:1219
 msgid "*Use XSync()"
 msgstr "*Använd XSync()"
 
@@ -1463,6 +1468,197 @@ msgstr ""
 "\n"
 "Tillgängliga kommandoradsflaggor:\n"
 "\n"
+
+#: src/arch/unix/uivicii.c:45
+msgid "*CCS64"
+msgstr "*CCS64"
+
+#: src/arch/unix/uivicii.c:47
+msgid "*Frodo"
+msgstr "*Frodo"
+
+#: src/arch/unix/uivicii.c:49
+msgid "*GoDot"
+msgstr "*GoDot"
+
+#: src/arch/unix/uivicii.c:64 src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vsidui.c:164
+msgid "Video standard"
+msgstr "Grafikstandard"
+
+#: src/arch/unix/uivicii.c:68
+msgid "*Sprite-sprite collisions"
+msgstr "*Sprite-till-sprite-kollision"
+
+#: src/arch/unix/uivicii.c:70
+msgid "*Sprite-background collisions"
+msgstr "*Sprite-till-bakgrund-kollision"
+
+#: src/arch/unix/uicrtc.c:37
+msgid "*Default (Green)"
+msgstr "*Förvald (grön)"
+
+#: src/arch/unix/uicrtc.c:39
+msgid "*Amber"
+msgstr "*Amber"
+
+#: src/arch/unix/uicrtc.c:41
+msgid "*White"
+msgstr "*Vit"
+
+#: src/arch/unix/uicrtc.c:68
+msgid "Crtc Video settings"
+msgstr "Crtc-grafikinställningar"
+
+#: src/arch/unix/uireu.c:51
+#, fuzzy
+msgid "REU image name"
+msgstr "Filnamn för datadump..."
+
+#: src/arch/unix/uireu.c:65
+msgid "Name:"
+msgstr ""
+
+#: src/arch/unix/uireu.c:95
+#, fuzzy
+msgid "*Enable REU"
+msgstr "*Aktivera"
+
+#: src/arch/unix/uireu.c:97
+#, fuzzy
+msgid "REU size"
+msgstr "I/O-utrymme"
+
+#: src/arch/unix/uireu.c:99
+#, fuzzy
+msgid "REU image name..."
+msgstr "Filnamn för datadump..."
+
+#: src/arch/unix/uidatasette.c:39
+msgid "Stop"
+msgstr "Stoppa"
+
+#: src/arch/unix/uidatasette.c:41
+msgid "Play"
+msgstr "Spela"
+
+#: src/arch/unix/uidatasette.c:43
+msgid "Forward"
+msgstr "Spola framåt"
+
+#: src/arch/unix/uidatasette.c:45
+msgid "Rewind"
+msgstr "Spola bakåt"
+
+#: src/arch/unix/uidatasette.c:47
+msgid "Record"
+msgstr "Spela in"
+
+#: src/arch/unix/uidatasette.c:55
+msgid "Datassette control"
+msgstr "Datasettestyrning"
+
+#: src/arch/unix/uipalette.c:46
+msgid "Load custom palette"
+msgstr "Ladda egen palett"
+
+#: src/arch/unix/uipalette.c:55
+#, c-format
+msgid ""
+"Could not load palette file\n"
+"'%s'"
+msgstr ""
+"Kunde inte ladda palettfil\n"
+"\"%s\""
+
+#: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:84
+#: src/arch/unix/uiprinter.c:96
+msgid "*Printer 1 (file dump)"
+msgstr "*Skrivare 1 (fildump)"
+
+#: src/arch/unix/uiprinter.c:74 src/arch/unix/uiprinter.c:86
+#: src/arch/unix/uiprinter.c:98
+msgid "*Printer 2 (exec)"
+msgstr "*Skrivare 2 (kommando)"
+
+#: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:88
+#: src/arch/unix/uiprinter.c:100
+msgid "*Printer 3 (exec)"
+msgstr "*Skrivare 3 (kommando)"
+
+#: src/arch/unix/uiprinter.c:116
+msgid "Select printer dump file"
+msgstr "Välj utskriftsdumpfil"
+
+#: src/arch/unix/uiprinter.c:144
+msgid "Command to execute for printing (preceed with '|')"
+msgstr "Kommando att köra för utskrift (inled med \"|\")"
+
+#: src/arch/unix/uiprinter.c:175
+#, fuzzy
+msgid "*IEC printer #4 emulation"
+msgstr "*Skrivaremularing för IEC-enhet 4"
+
+#: src/arch/unix/uiprinter.c:177
+#, fuzzy
+msgid "IEC printer #4 driver"
+msgstr "IEC-skrivare"
+
+#: src/arch/unix/uiprinter.c:179
+#, fuzzy
+msgid "IEC printer #4 output device"
+msgstr "IEC-skrivare"
+
+#: src/arch/unix/uiprinter.c:181
+#, fuzzy
+msgid "Flush IEC printer #4 device"
+msgstr "Töm IEC-skrivarenhet"
+
+#: src/arch/unix/uiprinter.c:184
+#, fuzzy
+msgid "*IEC printer #5 emulation"
+msgstr "*Skrivaremularing för IEC-enhet 4"
+
+#: src/arch/unix/uiprinter.c:186
+#, fuzzy
+msgid "IEC printer #5 driver"
+msgstr "IEC-skrivare"
+
+#: src/arch/unix/uiprinter.c:188
+#, fuzzy
+msgid "IEC printer #5 output device"
+msgstr "IEC-skrivare"
+
+#: src/arch/unix/uiprinter.c:190
+#, fuzzy
+msgid "Flush IEC printer #5 device"
+msgstr "Töm IEC-skrivarenhet"
+
+#: src/arch/unix/uiprinter.c:193
+msgid "*Userport printer emulation"
+msgstr "*Emulering av skrivare på användarporten"
+
+#: src/arch/unix/uiprinter.c:195
+#, fuzzy
+msgid "Userport printer driver"
+msgstr "Skrivare på användarporten"
+
+#: src/arch/unix/uiprinter.c:197
+#, fuzzy
+msgid "Userport printer output device"
+msgstr "Skrivare på användarporten"
+
+#: src/arch/unix/uiprinter.c:200
+msgid "Printer device 1..."
+msgstr "Skrivare 1..."
+
+#: src/arch/unix/uiprinter.c:202
+msgid "Printer device 2..."
+msgstr "Skrivare 2..."
+
+#: src/arch/unix/uiprinter.c:204
+msgid "Printer device 3..."
+msgstr "Skrivare 3..."
 
 #: src/arch/unix/petui.c:214
 msgid "*4 kByte"
@@ -1803,10 +1999,6 @@ msgstr "Ladda PSID-fil..."
 #: src/arch/unix/vsidui.c:129
 msgid "*3.00 sec"
 msgstr "*3,00 s"
-
-#: src/arch/unix/vic20ui.c:415 src/arch/unix/vsidui.c:164
-msgid "Video standard"
-msgstr "Grafikstandard"
 
 #: src/arch/unix/vsidui.c:183
 msgid "*Default Tune"
@@ -2544,117 +2736,11 @@ msgstr "Prestanda kommer att bli dålig."
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 
-#~ msgid "*Printer 1 (file dump)"
-#~ msgstr "*Skrivare 1 (fildump)"
-
-#~ msgid "*Printer 2 (exec)"
-#~ msgstr "*Skrivare 2 (kommando)"
-
-#~ msgid "*Printer 3 (exec)"
-#~ msgstr "*Skrivare 3 (kommando)"
-
-#~ msgid "Select printer dump file"
-#~ msgstr "Välj utskriftsdumpfil"
-
-#~ msgid "Command to execute for printing (preceed with '|')"
-#~ msgstr "Kommando att köra för utskrift (inled med \"|\")"
-
-#~ msgid "*IEC device 4 printer emulation"
-#~ msgstr "*Skrivaremularing för IEC-enhet 4"
-
-#~ msgid "IEC printer device"
-#~ msgstr "IEC-skrivare"
-
-#~ msgid "Flush IEC printer device"
-#~ msgstr "Töm IEC-skrivarenhet"
-
-#~ msgid "*Userport printer emulation"
-#~ msgstr "*Emulering av skrivare på användarporten"
-
-#~ msgid "Userport printer device"
-#~ msgstr "Skrivare på användarporten"
-
-#~ msgid "Printer device 1..."
-#~ msgstr "Skrivare 1..."
-
-#~ msgid "Printer device 2..."
-#~ msgstr "Skrivare 2..."
-
-#~ msgid "Printer device 3..."
-#~ msgstr "Skrivare 3..."
-
 #~ msgid "Specify name of printer device or dump file"
 #~ msgstr "Ange namn på utskriftsenhet eller dumpfil"
 
-#~ msgid "*CCS64"
-#~ msgstr "*CCS64"
-
-#~ msgid "*Frodo"
-#~ msgstr "*Frodo"
-
-#~ msgid "*GoDot"
-#~ msgstr "*GoDot"
-
-#~ msgid "*Sprite-sprite collisions"
-#~ msgstr "*Sprite-till-sprite-kollision"
-
-#~ msgid "*Sprite-background collisions"
-#~ msgstr "*Sprite-till-bakgrund-kollision"
-
-#, fuzzy
-#~ msgid "*Enable REU"
-#~ msgstr "*Aktivera"
-
-#, fuzzy
-#~ msgid "REU size"
-#~ msgstr "I/O-utrymme"
-
-#, fuzzy
-#~ msgid "REU image name..."
-#~ msgstr "Filnamn för datadump..."
-
-#~ msgid "*Default (Green)"
-#~ msgstr "*Förvald (grön)"
-
-#~ msgid "*Amber"
-#~ msgstr "*Amber"
-
-#~ msgid "*White"
-#~ msgstr "*Vit"
-
-#~ msgid "Load custom palette"
-#~ msgstr "Ladda egen palett"
-
-#~ msgid ""
-#~ "Could not load palette file\n"
-#~ "'%s'"
-#~ msgstr ""
-#~ "Kunde inte ladda palettfil\n"
-#~ "\"%s\""
-
 #~ msgid "Screen color"
 #~ msgstr "Skärmfärg"
-
-#~ msgid "Stop"
-#~ msgstr "Stoppa"
-
-#~ msgid "Play"
-#~ msgstr "Spela"
-
-#~ msgid "Forward"
-#~ msgstr "Spola framåt"
-
-#~ msgid "Rewind"
-#~ msgstr "Spola bakåt"
-
-#~ msgid "Record"
-#~ msgstr "Spela in"
-
-#~ msgid "Datassette control"
-#~ msgstr "Datasettestyrning"
-
-#~ msgid "Crtc Video settings"
-#~ msgstr "Crtc-grafikinställningar"
 
 #~ msgid "Change to fullscreen %ix%i"
 #~ msgstr "Växla till fullskärm %ix%i"

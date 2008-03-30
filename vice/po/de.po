@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-06-18 01:10+0200\n"
+"Project-Id-Version: VICE 1.7\n"
+"POT-Creation-Date: 2001-06-23 20:19+0200\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -13,23 +13,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:112
+#: src/vsync.c:113
 msgid "Limit emulation speed to specified value"
 msgstr "Emulationsgeschwindigkeit auf Wert beschränken."
 
-#: src/vsync.c:114
+#: src/vsync.c:115
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Jedes <Wert> Bild aktualisieren (`0' für Automatik)"
 
-#: src/vsync.c:116
+#: src/vsync.c:117
 msgid "Enable warp mode"
 msgstr "*Warp Mode Aktivieren"
 
-#: src/vsync.c:118
+#: src/vsync.c:119
 msgid "Disable warp mode"
 msgstr "*Warp Mode Deaktivieren"
 
-#: src/vsync.c:398
+#: src/vsync.c:397
 msgid "Your machine is too slow for current settings!"
 msgstr "Deine Maschine ist zu langsam für aktuelle Einstellungen!"
 
@@ -294,7 +294,8 @@ msgstr "Dokumentation durchstöbern"
 msgid "About VICE..."
 msgstr "Über VICE..."
 
-#: src/arch/unix/uicommands.c:946 src/arch/unix/x11/gnome/ui.c:1784
+#: src/arch/unix/uicommands.c:946 src/arch/unix/uidatasette.c:49
+#: src/arch/unix/x11/gnome/ui.c:1784
 msgid "Reset"
 msgstr "Reset"
 
@@ -318,21 +319,23 @@ msgstr "*PAL-G"
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/unix/c128ui.c:63 src/arch/unix/vic20ui.c:406
+#: src/arch/unix/c128ui.c:63 src/arch/unix/uivicii.c:41
+#: src/arch/unix/vic20ui.c:406
 msgid "*Default"
 msgstr "*Default"
 
-#: src/arch/unix/c128ui.c:67 src/arch/unix/vic20ui.c:408
+#: src/arch/unix/c128ui.c:67 src/arch/unix/uicrtc.c:44
+#: src/arch/unix/uivicii.c:54 src/arch/unix/vic20ui.c:408
 msgid "Load custom"
 msgstr "Benutzerdefiniert..."
 
-#: src/arch/unix/c128ui.c:78 src/arch/unix/uisettings.c:1195
-#: src/arch/unix/uisettings.c:1215
+#: src/arch/unix/c128ui.c:78 src/arch/unix/uicrtc.c:58
+#: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1215
 msgid "*Double size"
 msgstr "*Doppelte Größe"
 
-#: src/arch/unix/c128ui.c:80 src/arch/unix/uisettings.c:1197
-#: src/arch/unix/uisettings.c:1217
+#: src/arch/unix/c128ui.c:80 src/arch/unix/uicrtc.c:60
+#: src/arch/unix/uisettings.c:1197 src/arch/unix/uisettings.c:1217
 msgid "*Double scan"
 msgstr "*Doppelt Scan"
 
@@ -340,7 +343,8 @@ msgstr "*Doppelt Scan"
 msgid "*64KB display memory"
 msgstr "*64KB Bildschirm Speicher"
 
-#: src/arch/unix/c128ui.c:86 src/arch/unix/vic20ui.c:418
+#: src/arch/unix/c128ui.c:86 src/arch/unix/uivicii.c:74
+#: src/arch/unix/vic20ui.c:418
 msgid "Color set"
 msgstr "Farbpallette..."
 
@@ -453,42 +457,41 @@ msgid "Joystick settings"
 msgstr "Joystick Einstellungen..."
 
 #: src/arch/unix/c128ui.c:280
-#, fuzzy
 msgid "Function ROM image"
-msgstr "Kann ROM Datei `%s' nicht laden."
+msgstr "Function ROM Image Datei"
 
 #: src/arch/unix/c128ui.c:285
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load function ROM image\n"
 "'%s'"
-msgstr "Kann ROM Datei `%s' nicht laden."
+msgstr ""
+"Kann Function ROM Datei nicht laden\n"
+"'%s'"
 
 #: src/arch/unix/c128ui.c:290
 msgid "*Enable internal Function ROM"
-msgstr ""
+msgstr "*Aktivieren des internen Function ROM"
 
 #: src/arch/unix/c128ui.c:292
 msgid "Internal Function ROM name..."
-msgstr ""
+msgstr "Name des internen Function Roms..."
 
 #: src/arch/unix/c128ui.c:296
 msgid "*Enable external Function ROM"
-msgstr ""
+msgstr "*Aktivieren des externen Function ROM"
 
 #: src/arch/unix/c128ui.c:298
 msgid "External Function ROM name..."
-msgstr ""
+msgstr "Name des externen Function ROMs..."
 
 #: src/arch/unix/c128ui.c:305
-#, fuzzy
 msgid "Function ROM"
-msgstr "Kann ROM Datei `%s' nicht laden."
+msgstr "Functino ROM"
 
 #: src/arch/unix/c128ui.c:308 src/arch/unix/c64ui.c:320
-#, fuzzy
 msgid "RAM Expansion Unit"
-msgstr "*512K RAM Speichererweiterung"
+msgstr "RAM Speichererweiterung"
 
 #: src/arch/unix/c128ui.c:310 src/arch/unix/c64ui.c:322
 #: src/arch/unix/petui.c:408 src/arch/unix/vic20ui.c:173
@@ -580,9 +583,8 @@ msgid "SID settings"
 msgstr "SID Einstellungen"
 
 #: src/arch/unix/c128ui.c:401
-#, fuzzy
 msgid "Memory and I/O extensions"
-msgstr "Speicher Erweiterungen"
+msgstr "Speicher und I/O Erweiterungen"
 
 #: src/arch/unix/c128ui.c:403 src/arch/unix/c128ui.c:417
 #: src/arch/unix/c610ui.c:418 src/arch/unix/c64ui.c:531
@@ -700,9 +702,8 @@ msgid "*Business (UK)"
 msgstr "*Business (UK)"
 
 #: src/arch/unix/c610ui.c:216
-#, fuzzy
 msgid "*Model defaults"
-msgstr "Modell Standardeinstellungen"
+msgstr "*Modell Standardeinstellungen"
 
 #: src/arch/unix/c610ui.c:219 src/arch/unix/petui.c:383
 #: src/arch/unix/vic20ui.c:159
@@ -784,14 +785,12 @@ msgid "CBM-II model settings"
 msgstr "CBM-II Modell Einstellungen"
 
 #: src/arch/unix/c610ui.c:421 src/arch/unix/petui.c:419
-#, fuzzy
 msgid "*CRTC Screen color"
-msgstr "Bildschirmfarbe"
+msgstr "*CRTC Bildschirmfarbe"
 
 #: src/arch/unix/c610ui.c:423
-#, fuzzy
 msgid "*VIC-II settings"
-msgstr "VIC-II Einstellungen"
+msgstr "*VIC-II Einstellungen"
 
 #: src/arch/unix/c610ui.c:446 src/arch/unix/c64ui.c:515
 #: src/arch/unix/petui.c:442 src/arch/unix/vic20ui.c:386
@@ -880,33 +879,35 @@ msgstr "*NTSC-M alt"
 
 #: src/arch/unix/c64ui.c:238
 msgid "*Fast"
-msgstr ""
+msgstr "*Schnell"
 
 #: src/arch/unix/c64ui.c:240
 msgid "*Interpolating"
-msgstr ""
+msgstr "*Interpolierend"
 
 #: src/arch/unix/c64ui.c:242
 msgid "*Resampling"
-msgstr ""
+msgstr "*Resampling"
 
 #: src/arch/unix/c64ui.c:259
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
+"Bitte Passband Prozentwert der gesamte Bandbreite eingeben\n"
+"(0 - 90, niedrig ist schneller, höher ist besser)"
 
 #: src/arch/unix/c64ui.c:260
 msgid "Passband percentage"
-msgstr ""
+msgstr "Passband Prozent"
 
 #: src/arch/unix/c64ui.c:287
 msgid "reSID sampling method"
-msgstr ""
+msgstr "reSID Sampling Methode"
 
 #: src/arch/unix/c64ui.c:289
 msgid "reSID resampling passband..."
-msgstr ""
+msgstr "reSID resampling Passband"
 
 #: src/arch/unix/c64ui.c:464 src/arch/unix/petui.c:306
 msgid "Load new kernal ROM"
@@ -1075,7 +1076,8 @@ msgstr "RS232 Gerät Datei selektieren"
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando zur Ausführung für RS232 Geräte ('|' voranstellen!)"
 
-#: src/arch/unix/uisettings.c:564 src/arch/unix/uisettings.c:593
+#: src/arch/unix/uiprinter.c:154 src/arch/unix/uisettings.c:564
+#: src/arch/unix/uisettings.c:593
 msgid "Command:"
 msgstr "Kommando:"
 
@@ -1270,9 +1272,8 @@ msgstr "*Dateisystem Zugriff"
 
 #: src/arch/unix/uisettings.c:1041 src/arch/unix/uisettings.c:1059
 #: src/arch/unix/uisettings.c:1077 src/arch/unix/uisettings.c:1095
-#, fuzzy
 msgid "*Read only access"
-msgstr "*Erweitern wenn nötig"
+msgstr "*Schreibgeschützter Zugriff"
 
 #: src/arch/unix/uisettings.c:1044 src/arch/unix/uisettings.c:1062
 #: src/arch/unix/uisettings.c:1080 src/arch/unix/uisettings.c:1098
@@ -1379,23 +1380,21 @@ msgstr "*Aktivieren"
 msgid "Resolutions"
 msgstr "Auflösungen"
 
-#: src/arch/unix/uisettings.c:1213
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:1213
 msgid "*Video cache"
 msgstr "*Video Cache"
 
-#: src/arch/unix/uisettings.c:1219
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:1219
 msgid "*Use XSync()"
 msgstr "*XSync() benutzen"
 
 #: src/arch/unix/uisettings.c:1225
-#, fuzzy
 msgid "VIC-II Video settings"
 msgstr "VIC-II Einstellungen"
 
 #: src/arch/unix/uisettings.c:1231
-#, fuzzy
 msgid "VIC Video settings"
-msgstr "Video Einstellungen"
+msgstr "VIC Video Einstellungen"
 
 #: src/arch/unix/uisettings.c:1241
 msgid "Maximum speed"
@@ -1450,6 +1449,181 @@ msgstr ""
 "\n"
 "Zulässige Kommandozeielen Optionen:\n"
 "\n"
+
+#: src/arch/unix/uivicii.c:45
+msgid "*CCS64"
+msgstr "*CCS64"
+
+#: src/arch/unix/uivicii.c:47
+msgid "*Frodo"
+msgstr "*Frodo"
+
+#: src/arch/unix/uivicii.c:49
+msgid "*GoDot"
+msgstr "*GoDot"
+
+#: src/arch/unix/uivicii.c:64 src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vsidui.c:164
+msgid "Video standard"
+msgstr "Video Standard"
+
+#: src/arch/unix/uivicii.c:68
+msgid "*Sprite-sprite collisions"
+msgstr "*Sprite-sprite Kollisionen"
+
+#: src/arch/unix/uivicii.c:70
+msgid "*Sprite-background collisions"
+msgstr "*Sprite-Hintergrund Kollisionen"
+
+#: src/arch/unix/uicrtc.c:37
+msgid "*Default (Green)"
+msgstr "*Default (Grün)"
+
+#: src/arch/unix/uicrtc.c:39
+msgid "*Amber"
+msgstr "*Amber"
+
+#: src/arch/unix/uicrtc.c:41
+msgid "*White"
+msgstr "*Weiß"
+
+#: src/arch/unix/uicrtc.c:68
+msgid "Crtc Video settings"
+msgstr "Crtc Video Einstellungen"
+
+#: src/arch/unix/uireu.c:51
+msgid "REU image name"
+msgstr "REU Image Name"
+
+#: src/arch/unix/uireu.c:65
+msgid "Name:"
+msgstr "Name:"
+
+#: src/arch/unix/uireu.c:95
+msgid "*Enable REU"
+msgstr "*Aktivieren der REU"
+
+#: src/arch/unix/uireu.c:97
+msgid "REU size"
+msgstr "REU Größe"
+
+#: src/arch/unix/uireu.c:99
+msgid "REU image name..."
+msgstr "REU Image Name..."
+
+#: src/arch/unix/uidatasette.c:39
+msgid "Stop"
+msgstr "Stop"
+
+#: src/arch/unix/uidatasette.c:41
+msgid "Play"
+msgstr "Play"
+
+#: src/arch/unix/uidatasette.c:43
+msgid "Forward"
+msgstr "Forward"
+
+#: src/arch/unix/uidatasette.c:45
+msgid "Rewind"
+msgstr "Rewind"
+
+#: src/arch/unix/uidatasette.c:47
+msgid "Record"
+msgstr "Record"
+
+#: src/arch/unix/uidatasette.c:55
+msgid "Datassette control"
+msgstr "Bandlaufwerk Kontrolle"
+
+#: src/arch/unix/uipalette.c:46
+msgid "Load custom palette"
+msgstr "Benutzerdefinierte Palette..."
+
+#: src/arch/unix/uipalette.c:55
+#, c-format
+msgid ""
+"Could not load palette file\n"
+"'%s'"
+msgstr "Kann Paletten Datei `%s' nicht laden."
+
+#: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:84
+#: src/arch/unix/uiprinter.c:96
+msgid "*Printer 1 (file dump)"
+msgstr "*Drucker 1 (auf Datei)"
+
+#: src/arch/unix/uiprinter.c:74 src/arch/unix/uiprinter.c:86
+#: src/arch/unix/uiprinter.c:98
+msgid "*Printer 2 (exec)"
+msgstr "*Drucker 2 (Ausführung)"
+
+#: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:88
+#: src/arch/unix/uiprinter.c:100
+msgid "*Printer 3 (exec)"
+msgstr "*Drucker 3 (Ausführung)"
+
+#: src/arch/unix/uiprinter.c:116
+msgid "Select printer dump file"
+msgstr "Drucker Ausgabedatei definieren"
+
+#: src/arch/unix/uiprinter.c:144
+msgid "Command to execute for printing (preceed with '|')"
+msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
+
+#: src/arch/unix/uiprinter.c:175
+msgid "*IEC printer #4 emulation"
+msgstr "*IEC Drucker #4 Emulation"
+
+#: src/arch/unix/uiprinter.c:177
+msgid "IEC printer #4 driver"
+msgstr "IEC Drucker #4 Treiber"
+
+#: src/arch/unix/uiprinter.c:179
+msgid "IEC printer #4 output device"
+msgstr "IEC Drucker #4 Ausgabe Gerät"
+
+#: src/arch/unix/uiprinter.c:181
+msgid "Flush IEC printer #4 device"
+msgstr "Leeren vom IEC Drucker #4 Gerät"
+
+#: src/arch/unix/uiprinter.c:184
+msgid "*IEC printer #5 emulation"
+msgstr "*IEC Drucker #5 Emulation"
+
+#: src/arch/unix/uiprinter.c:186
+msgid "IEC printer #5 driver"
+msgstr "IEC Drucker #5 Treiber"
+
+#: src/arch/unix/uiprinter.c:188
+msgid "IEC printer #5 output device"
+msgstr "IEC Drucker #5 Ausgabe Gerät"
+
+#: src/arch/unix/uiprinter.c:190
+msgid "Flush IEC printer #5 device"
+msgstr "Leeren vom IEC Drucker #5 Gerät"
+
+#: src/arch/unix/uiprinter.c:193
+msgid "*Userport printer emulation"
+msgstr "*Userport Drucker Emulation"
+
+#: src/arch/unix/uiprinter.c:195
+msgid "Userport printer driver"
+msgstr "Userport Drucker Driver"
+
+#: src/arch/unix/uiprinter.c:197
+msgid "Userport printer output device"
+msgstr "Userport Drucker Ausgabe Gerät"
+
+#: src/arch/unix/uiprinter.c:200
+msgid "Printer device 1..."
+msgstr "Drucker Gerät 1..."
+
+#: src/arch/unix/uiprinter.c:202
+msgid "Printer device 2..."
+msgstr "Drucker Gerät 2..."
+
+#: src/arch/unix/uiprinter.c:204
+msgid "Printer device 3..."
+msgstr "Drucker Gerät 3..."
 
 #: src/arch/unix/petui.c:214
 msgid "*4 kByte"
@@ -1780,10 +1954,6 @@ msgstr "PSID Datei Laden..."
 msgid "*3.00 sec"
 msgstr "*3.00 sec"
 
-#: src/arch/unix/vic20ui.c:415 src/arch/unix/vsidui.c:164
-msgid "Video standard"
-msgstr "Video Standard"
-
 #: src/arch/unix/vsidui.c:183
 msgid "*Default Tune"
 msgstr "*Default Tune"
@@ -1883,9 +2053,8 @@ msgid "Detach cartridge image(s)"
 msgstr "Erweiterungsmodul Image(s) entfernen"
 
 #: src/arch/unix/vic20ui.c:424
-#, fuzzy
 msgid "VIC settings"
-msgstr "VICE Einstellungen"
+msgstr "VIC Einstellungen"
 
 #: src/arch/unix/archdep.c:233
 #, c-format
@@ -2192,32 +2361,33 @@ msgstr "Aktuelle ROMs mitspeichern"
 #: src/arch/unix/x11/fullscreen.c:124
 #, c-format
 msgid "Attach debugger to pid %d...\n"
-msgstr ""
+msgstr "Attach debugger to pid %d...\n"
 
 #: src/arch/unix/x11/fullscreen.c:184
-#, fuzzy
 msgid "Successfully forked DGA\n"
-msgstr "`%s' erfolgreich gespeichert\n"
+msgstr "Successfully forked DGA\n"
 
 #: src/arch/unix/x11/fullscreen.c:188 src/arch/unix/x11/fullscreen.c:215
-#, fuzzy
 msgid "Unable to query video extension version - disabling fullscreen."
-msgstr "Kann Version von Video Erweiterung nicht feststellen"
+msgstr ""
+"Kann Version von Video Erweiterung nicht feststellen - deaktivier "
+"Vollbildmodus"
 
 #: src/arch/unix/x11/fullscreen.c:193 src/arch/unix/x11/fullscreen.c:220
-#, fuzzy
 msgid "Unable to query video extension information - disabling fullscreen."
-msgstr "Kann nötige Information für Video Erweiterung nicht abfragen"
+msgstr ""
+"Kann nötige Information für Video Erweiterung nicht abfragen - deaktivier "
+"Vollbildmodus"
 
 #: src/arch/unix/x11/fullscreen.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
 #: src/arch/unix/x11/fullscreen.c:203 src/arch/unix/x11/fullscreen.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
-msgstr "Minimal erforderliche Version ist %d.%d"
+msgstr "Minimal erforderliche Version ist %d.%d - deaktivier Vollbildmodus"
 
 #: src/arch/unix/x11/fullscreen.c:229
 #, c-format
@@ -2225,19 +2395,21 @@ msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
 #: src/arch/unix/x11/fullscreen.c:238
-#, fuzzy
 msgid "Error getting video mode information - disabling fullscreen."
-msgstr "Fehler beim Abfragen der Video Modus Information"
+msgstr ""
+"Fehler beim Abfragen der Video Modus Information - deaktivier Vollbildmodus"
 
 #: src/arch/unix/x11/fullscreen.c:245
 msgid ""
 "Vice is not running as root, DGA extension not possible - disabling "
 "fullscreen."
 msgstr ""
+"Vice läuft nicht mit root Privilegiern, DGA Erweiterung nicht möglich - "
+"deaktivier Vollbildmodus."
 
 #: src/arch/unix/x11/fullscreen.c:252
 msgid "Problems with DGA - disabling fullscreen."
-msgstr ""
+msgstr "Probleme mit DGA - deaktiviere Vollbildmodus"
 
 #: src/arch/unix/x11/fullscreen.c:362 src/arch/unix/x11/fullscreen.c:391
 #, c-format
@@ -2253,7 +2425,7 @@ msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i\n"
 #: src/arch/unix/x11/fullscreen.c:382
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
-msgstr ""
+msgstr "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 
 #: src/arch/unix/x11/fullscreen.c:459
 msgid "Switch to windowmode"
@@ -2520,115 +2692,11 @@ msgstr "Performance wird nicht optimal sein."
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
 
-#~ msgid "*Printer 1 (file dump)"
-#~ msgstr "*Drucker 1 (auf Datei)"
-
-#~ msgid "*Printer 2 (exec)"
-#~ msgstr "*Drucker 2 (Ausführung)"
-
-#~ msgid "*Printer 3 (exec)"
-#~ msgstr "*Drucker 3 (Ausführung)"
-
-#~ msgid "Select printer dump file"
-#~ msgstr "Drucker Ausgabedatei definieren"
-
-#~ msgid "Command to execute for printing (preceed with '|')"
-#~ msgstr "Kommand für Druckerausgabe definieren ('|' voranstellen!)"
-
-#~ msgid "*IEC device 4 printer emulation"
-#~ msgstr "*IEC Gerät 4 Drucker Emulation"
-
-#~ msgid "IEC printer device"
-#~ msgstr "IEC Drucker Gerät"
-
-#~ msgid "Flush IEC printer device"
-#~ msgstr "Leeren vom IEC Drucker Gerät"
-
-#~ msgid "*Userport printer emulation"
-#~ msgstr "*Userport Drucker Emulation"
-
-#~ msgid "Userport printer device"
-#~ msgstr "Userport Drucker Gerät"
-
-#~ msgid "Printer device 1..."
-#~ msgstr "Drucker Gerät 1..."
-
-#~ msgid "Printer device 2..."
-#~ msgstr "Drucker Gerät 2..."
-
-#~ msgid "Printer device 3..."
-#~ msgstr "Drucker Gerät 3..."
-
 #~ msgid "Specify name of printer device or dump file"
 #~ msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
-#~ msgid "*CCS64"
-#~ msgstr "*CCS64"
-
-#~ msgid "*Frodo"
-#~ msgstr "*Frodo"
-
-#~ msgid "*GoDot"
-#~ msgstr "*GoDot"
-
-#~ msgid "*Sprite-sprite collisions"
-#~ msgstr "*Sprite-sprite Kollisionen"
-
-#~ msgid "*Sprite-background collisions"
-#~ msgstr "*Sprite-Hintergrund Kollisionen"
-
-#, fuzzy
-#~ msgid "*Enable REU"
-#~ msgstr "*Aktivieren"
-
-#, fuzzy
-#~ msgid "REU size"
-#~ msgstr "I/O Größe"
-
-#, fuzzy
-#~ msgid "REU image name..."
-#~ msgstr "Dump Dateiname"
-
-#~ msgid "*Default (Green)"
-#~ msgstr "*Default (Grün)"
-
-#~ msgid "*Amber"
-#~ msgstr "*Amber"
-
-#~ msgid "*White"
-#~ msgstr "*Weiß"
-
-#~ msgid "Load custom palette"
-#~ msgstr "Benutzerdefinierte Palette..."
-
-#~ msgid ""
-#~ "Could not load palette file\n"
-#~ "'%s'"
-#~ msgstr "Kann Paletten Datei `%s' nicht laden."
-
 #~ msgid "Screen color"
 #~ msgstr "Bildschirmfarbe"
-
-#~ msgid "Stop"
-#~ msgstr "Stop"
-
-#~ msgid "Play"
-#~ msgstr "Play"
-
-#~ msgid "Forward"
-#~ msgstr "Forward"
-
-#~ msgid "Rewind"
-#~ msgstr "Rewind"
-
-#~ msgid "Record"
-#~ msgstr "Record"
-
-#~ msgid "Datassette control"
-#~ msgstr "Bandlaufwerk Kontrolle"
-
-#~ msgid "Crtc Video settings"
-#~ msgstr "Crtc Video Einstellungen"
 
 #~ msgid "Change to fullscreen %ix%i"
 #~ msgstr "Umaschalten auf Vollbild Modus %ix%i"

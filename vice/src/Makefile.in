@@ -652,8 +652,8 @@ traps.o: traps.c vice.h config.h cmdline.h resources.h interrupt.h \
 utils.o: utils.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h
 vsync.o: vsync.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
-	resources.h log.h maincpu.h 6510core.h sound.h vsync.h \
-	vsyncapi.h
+	resources.h log.h maincpu.h 6510core.h machine.h sound.h \
+	vsync.h vsyncapi.h
 zfile.o: zfile.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 	utils.h arch/unix/types.h zfile.h zipcode.h
 zipcode.o: zipcode.c vice.h config.h arch/unix/types.h zipcode.h

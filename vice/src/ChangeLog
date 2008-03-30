@@ -1,3 +1,61 @@
+2001-06-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.42.
+
+	* printerdrv/drv-mps803.c: Added support for multiple
+	instances.
+
+	* arch/unix/uiprinter.c: Use string radio button for driver
+	device selection.
+
+2001-06-21  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* screendrv/bmp.c (bmp_write_bitmap_data): Fixed variable line to
+	be `int'. 
+
+2001-06-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_file.cc: call autostart_autodetect with extra
+	parameter AUTOSTART_MODE_RUN
+
+2001-06-18  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* printerdrv/interface-serial.c: don't use return in void
+	functions.
+
+2001-06-18  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-monitor.[c,rc]: made working with new
+	monitor code
+
+	* arch/os2/dialogs/dlg-vsid.[h,c,rc]: moved speed display into
+	titlebar
+
+	* arch/os2/dialogs/menubar.[h,c,rc]: added snapshot support,
+	added new speed change keys
+
+	* arch/os2/vac++/incl/dialogs.icc: removed dlg-emulator.c
+
+	* arch/os2/video.c: added new speeddisplay
+
+	* arch/os2/videoarch.h: added hwndTitlebar
+
+	* arch/os2/vsidui.c: changed hwndEmulator to hwndVsid
+
+	* arch/os2/vsyncarch.c: added dlg-vsid.h, added new
+	speeddisplay
+
+	* pet/pet.c: replaced %f logging output
+
+	* sound.c: replaced %f logging output
+
+	* sounddrv/sounddart.c: changed logging text
+
+	* sounddrv/soundwav.c: replaced "w" by MODE_WRITE
+
+	* vsync.c: added vsid_mode, moved vsyncarch_postsync behind
+	sleep
+
 2001-06-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.41.

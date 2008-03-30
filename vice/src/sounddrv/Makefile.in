@@ -286,7 +286,8 @@ soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
 sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/sound.h ../../src/arch/unix/types.h
 soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
-	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
+	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h
 
 info-am:
 info: info-am

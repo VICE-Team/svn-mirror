@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-06-18 01:10+0200\n"
+"POT-Creation-Date: 2001-06-23 20:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: src/vsync.c:112
+#: src/vsync.c:113
 msgid "Limit emulation speed to specified value"
 msgstr ""
 
-#: src/vsync.c:114
+#: src/vsync.c:115
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr ""
 
-#: src/vsync.c:116
+#: src/vsync.c:117
 msgid "Enable warp mode"
 msgstr ""
 
-#: src/vsync.c:118
+#: src/vsync.c:119
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:398
+#: src/vsync.c:397
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -295,7 +295,8 @@ msgstr ""
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:946 src/arch/unix/x11/gnome/ui.c:1784
+#: src/arch/unix/uicommands.c:946 src/arch/unix/uidatasette.c:49
+#: src/arch/unix/x11/gnome/ui.c:1784
 msgid "Reset"
 msgstr ""
 
@@ -319,21 +320,23 @@ msgstr ""
 msgid "*NTSC-M"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:63 src/arch/unix/vic20ui.c:406
+#: src/arch/unix/c128ui.c:63 src/arch/unix/uivicii.c:41
+#: src/arch/unix/vic20ui.c:406
 msgid "*Default"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:67 src/arch/unix/vic20ui.c:408
+#: src/arch/unix/c128ui.c:67 src/arch/unix/uicrtc.c:44
+#: src/arch/unix/uivicii.c:54 src/arch/unix/vic20ui.c:408
 msgid "Load custom"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:78 src/arch/unix/uisettings.c:1195
-#: src/arch/unix/uisettings.c:1215
+#: src/arch/unix/c128ui.c:78 src/arch/unix/uicrtc.c:58
+#: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1215
 msgid "*Double size"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:80 src/arch/unix/uisettings.c:1197
-#: src/arch/unix/uisettings.c:1217
+#: src/arch/unix/c128ui.c:80 src/arch/unix/uicrtc.c:60
+#: src/arch/unix/uisettings.c:1197 src/arch/unix/uisettings.c:1217
 msgid "*Double scan"
 msgstr ""
 
@@ -341,7 +344,8 @@ msgstr ""
 msgid "*64KB display memory"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:86 src/arch/unix/vic20ui.c:418
+#: src/arch/unix/c128ui.c:86 src/arch/unix/uivicii.c:74
+#: src/arch/unix/vic20ui.c:418
 msgid "Color set"
 msgstr ""
 
@@ -1065,7 +1069,8 @@ msgstr ""
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:564 src/arch/unix/uisettings.c:593
+#: src/arch/unix/uiprinter.c:154 src/arch/unix/uisettings.c:564
+#: src/arch/unix/uisettings.c:593
 msgid "Command:"
 msgstr ""
 
@@ -1368,11 +1373,11 @@ msgstr ""
 msgid "Resolutions"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1213
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:1213
 msgid "*Video cache"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:1219
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:1219
 msgid "*Use XSync()"
 msgstr ""
 
@@ -1433,6 +1438,181 @@ msgid ""
 "\n"
 "Available command-line options:\n"
 "\n"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:45
+msgid "*CCS64"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:47
+msgid "*Frodo"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:49
+msgid "*GoDot"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:64 src/arch/unix/vic20ui.c:415
+#: src/arch/unix/vsidui.c:164
+msgid "Video standard"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:68
+msgid "*Sprite-sprite collisions"
+msgstr ""
+
+#: src/arch/unix/uivicii.c:70
+msgid "*Sprite-background collisions"
+msgstr ""
+
+#: src/arch/unix/uicrtc.c:37
+msgid "*Default (Green)"
+msgstr ""
+
+#: src/arch/unix/uicrtc.c:39
+msgid "*Amber"
+msgstr ""
+
+#: src/arch/unix/uicrtc.c:41
+msgid "*White"
+msgstr ""
+
+#: src/arch/unix/uicrtc.c:68
+msgid "Crtc Video settings"
+msgstr ""
+
+#: src/arch/unix/uireu.c:51
+msgid "REU image name"
+msgstr ""
+
+#: src/arch/unix/uireu.c:65
+msgid "Name:"
+msgstr ""
+
+#: src/arch/unix/uireu.c:95
+msgid "*Enable REU"
+msgstr ""
+
+#: src/arch/unix/uireu.c:97
+msgid "REU size"
+msgstr ""
+
+#: src/arch/unix/uireu.c:99
+msgid "REU image name..."
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:39
+msgid "Stop"
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:41
+msgid "Play"
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:43
+msgid "Forward"
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:45
+msgid "Rewind"
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:47
+msgid "Record"
+msgstr ""
+
+#: src/arch/unix/uidatasette.c:55
+msgid "Datassette control"
+msgstr ""
+
+#: src/arch/unix/uipalette.c:46
+msgid "Load custom palette"
+msgstr ""
+
+#: src/arch/unix/uipalette.c:55
+#, c-format
+msgid ""
+"Could not load palette file\n"
+"'%s'"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:84
+#: src/arch/unix/uiprinter.c:96
+msgid "*Printer 1 (file dump)"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:74 src/arch/unix/uiprinter.c:86
+#: src/arch/unix/uiprinter.c:98
+msgid "*Printer 2 (exec)"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:88
+#: src/arch/unix/uiprinter.c:100
+msgid "*Printer 3 (exec)"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:116
+msgid "Select printer dump file"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:144
+msgid "Command to execute for printing (preceed with '|')"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:175
+msgid "*IEC printer #4 emulation"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:177
+msgid "IEC printer #4 driver"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:179
+msgid "IEC printer #4 output device"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:181
+msgid "Flush IEC printer #4 device"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:184
+msgid "*IEC printer #5 emulation"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:186
+msgid "IEC printer #5 driver"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:188
+msgid "IEC printer #5 output device"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:190
+msgid "Flush IEC printer #5 device"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:193
+msgid "*Userport printer emulation"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:195
+msgid "Userport printer driver"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:197
+msgid "Userport printer output device"
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:200
+msgid "Printer device 1..."
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:202
+msgid "Printer device 2..."
+msgstr ""
+
+#: src/arch/unix/uiprinter.c:204
+msgid "Printer device 3..."
 msgstr ""
 
 #: src/arch/unix/petui.c:214
@@ -1762,10 +1942,6 @@ msgstr ""
 
 #: src/arch/unix/vsidui.c:129
 msgid "*3.00 sec"
-msgstr ""
-
-#: src/arch/unix/vic20ui.c:415 src/arch/unix/vsidui.c:164
-msgid "Video standard"
 msgstr ""
 
 #: src/arch/unix/vsidui.c:183

@@ -36,7 +36,7 @@
 #include "vsync.h"
 
 
-UI_MENU_DEFINE_RADIO(Printer4Driver)
+UI_MENU_DEFINE_STRING_RADIO(Printer4Driver)
 
 static ui_menu_entry_t pr4_driver_submenu[] = {
     { "*ASCII", (ui_callback_t)radio_Printer4Driver,
@@ -46,7 +46,7 @@ static ui_menu_entry_t pr4_driver_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(Printer5Driver)
+UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
 
 static ui_menu_entry_t pr5_driver_submenu[] = {
     { "*ASCII", (ui_callback_t)radio_Printer5Driver,
@@ -56,7 +56,7 @@ static ui_menu_entry_t pr5_driver_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(PrinterUserportDriver)
+UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 
 static ui_menu_entry_t pruser_driver_submenu[] = {
     { "*ASCII", (ui_callback_t)radio_PrinterUserportDriver,
