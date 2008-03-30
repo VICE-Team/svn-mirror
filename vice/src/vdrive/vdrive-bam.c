@@ -38,7 +38,7 @@
 
 #include <string.h>
 
-#include "serial.h"
+#include "attach.h"
 #include "vdrive-bam.h"
 #include "vdrive.h"
 
@@ -415,11 +415,9 @@ void vdrive_bam_create_empty_bam(vdrive_t *floppy, const char *name, BYTE *id)
 
 int vdrive_bam_get_disk_id(int unit, BYTE *id)
 {
-    serial_t *p;
     vdrive_t *floppy;
-    p = serial_get_device(unit);
 
-    floppy = (vdrive_t *)p->info;
+    floppy = file_system_get_vdrive(unit);
 
     if (floppy == NULL || id == NULL)
         return -1;
@@ -431,11 +429,9 @@ int vdrive_bam_get_disk_id(int unit, BYTE *id)
 
 int vdrive_bam_set_disk_id(int unit, BYTE *id)
 {
-    serial_t *p;
     vdrive_t *floppy;
-    p = serial_get_device(unit);
 
-    floppy = (vdrive_t *)p->info;
+    floppy = file_system_get_vdrive(unit);
 
     if (floppy == NULL || id == NULL)
         return -1;
@@ -501,9 +497,7 @@ int vdrive_bam_read_bam(vdrive_t *floppy)
 /* Temporary hack.  */
 int vdrive_bam_reread_bam(int unit)
 {
-    serial_t *p;
-    p = serial_get_device(unit);
-    return vdrive_bam_read_bam((vdrive_t *)p->info);
+    return vdrive_bam_read_bam((vdrive_t *)file_system_get_vdrive(unit));
 }
 
 
