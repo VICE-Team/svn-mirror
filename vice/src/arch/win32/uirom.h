@@ -29,7 +29,11 @@
 
 #include <tchar.h>
 
+#define UIROM_TYPE_MAIN  0
+#define UIROM_TYPE_DRIVE 1
+
 struct uirom_settings_s {
+    unsigned int type;
     const TCHAR *realname;
     const char *resname;
     unsigned int idc_filename;
@@ -37,7 +41,8 @@ struct uirom_settings_s {
 };
 typedef struct uirom_settings_s uirom_settings_t;
 
-extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog,
+extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
+                                  unsigned int idd_dialog_drive,
                                   const uirom_settings_t *uirom_settings);
 
 #endif

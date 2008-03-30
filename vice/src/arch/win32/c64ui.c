@@ -59,15 +59,34 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { TEXT("Kernal"), "KernalName",
+    { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
       IDC_C64ROM_KERNAL_FILE, IDC_C64ROM_KERNAL_BROWSE },
-    { TEXT("Basic"), "BasicName",
+    { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
       IDC_C64ROM_BASIC_FILE, IDC_C64ROM_BASIC_BROWSE },
-    { TEXT("Character"), "ChargenName",
+    { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
       IDC_C64ROM_CHARGEN_FILE, IDC_C64ROM_CHARGEN_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1541"), "DosName1541",
+      IDC_DRIVEROM_1541_FILE, IDC_DRIVEROM_1541_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1541-II"), "DosName1541ii",
+      IDC_DRIVEROM_1541II_FILE, IDC_DRIVEROM_1541II_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1570"), "DosName1570",
+      IDC_DRIVEROM_1570_FILE, IDC_DRIVEROM_1570_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1571"), "DosName1571",
+      IDC_DRIVEROM_1571_FILE, IDC_DRIVEROM_1571_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
+      IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
+      IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("2040"), "DosName2040",
+      IDC_DRIVEROM_2040_FILE, IDC_DRIVEROM_2040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("3040"), "DosName3040",
+      IDC_DRIVEROM_3040_FILE, IDC_DRIVEROM_3040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("4040"), "DosName4040",
+      IDC_DRIVEROM_4040_FILE, IDC_DRIVEROM_4040_BROWSE },
+    { UIROM_TYPE_DRIVE, TEXT("1001"), "DosName1001",
+      IDC_DRIVEROM_1001_FILE, IDC_DRIVEROM_1001_BROWSE },
     { NULL, NULL, 0, 0 }
 };
-
 
 static void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
@@ -88,7 +107,7 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_ROM_SETTINGS:
         uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,
-                              uirom_settings);
+                              IDD_C64DRIVEROM_SETTINGS_DIALOG, uirom_settings);
         break;
 #ifdef HAVE_TFE
       case IDM_TFE_SETTINGS:
