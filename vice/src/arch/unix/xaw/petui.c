@@ -204,6 +204,7 @@ int pet_ui_init(void)
                                      NULL));
 
     ui_update_menus();
+    ui_toggle_drive_status(0);
 
     return 0;
 }
