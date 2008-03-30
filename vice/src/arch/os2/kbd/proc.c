@@ -50,6 +50,10 @@
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 #endif
 
+extern void emulator_pause(void);
+extern void emulator_resume(void);
+extern int isEmulatorPaused(void);
+
 // -----------------------------------------------------------------
 
 static void mon_trap(ADDRESS addr, void *unused_data)
@@ -138,9 +142,6 @@ void save_screenshot(HWND hwnd)
 /* Needed prototype funtions                                        */
 /*----------------------------------------------------------------- */
 
-extern void emulator_pause(void);
-extern void emulator_resume(void);
-extern int isEmulatorPaused(void);
    /*** Virtual key values *************************************************
    #define VK_BUTTON1                 0x01
    #define VK_BUTTON2                 0x02
@@ -293,10 +294,23 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
             emulator_resume();
         }
         break;
-    case K_M: // invoke build-in monitor
+    case K_M:
+        //
+        // open monitor dialog
+        //
         monitor_dialog(hwnd);
+
+        //
+        // make sure that the build in monitor can be invoked
+        //
+        emulator_resume();
+
+        //
+        // trigger invokation of the build in monitor
+        //
         maincpu_trigger_trap(mon_trap, NULL);
         return;
+
     case K_N: // invoke build-in monitor
         maincpu_trigger_trap(save_snapshot, (void*)hwnd);
         return;

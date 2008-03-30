@@ -26,52 +26,49 @@
 
 #include "vice.h"
 
-#include "console.h"
 #include "uimon.h"
 
-#include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdarg.h>
+
+#include "utils.h"
+#include "console.h"
 
 static console_t *console_log = NULL;
 
-void arch_mon_window_close( void )
+void arch_mon_window_close()
 {
     console_close(console_log);
     console_log = NULL;
 }
 
 
-console_t *arch_mon_window_open( void )
+console_t *arch_mon_window_open()
 {
     console_log = console_open("Monitor");
     return console_log;
 }
 
-void arch_mon_window_suspend( void )
+void arch_mon_window_suspend()
 {
     arch_mon_window_close();
 }
 
-console_t *arch_mon_window_resume( void )
+console_t *arch_mon_window_resume()
 {
     return arch_mon_window_open();
 }
 
-#define MAX_OUTPUT_LENGTH 2000
-
 int arch_mon_out(const char *format, ...)
 {
     va_list ap;
-    char buffer[MAX_OUTPUT_LENGTH];
+    char *buffer;
 
-    if (console_log)
-    {
-        va_start(ap, format);
-        vsprintf(buffer, format, ap);
-        return console_out(console_log, buffer);
-    }
-    return 0;
+    if (!console_log)
+        return 0;
+
+    va_start(ap, format);
+    return console_out(console_log, xmvsprintf(format, ap));
 }
 
 char *arch_mon_in()

@@ -198,7 +198,7 @@ BEGIN
                                 SLS_RIBBONSTRIP | SLS_PRIMARYSCALE1 |
                                 STY_STD
                 // cbSize-lo, cbSizeHi, Increment1, Space1, Increment2, Space2
-                CTLDATA 12, 0, 8/*21*/, 0, 5, 5
+                CTLDATA 12, 0, 11/*8*/, 0, 5, 5
         TEXT("Frequency", 16, 125, 55, 8)
         CONTROL "8000Hz",       RB_8000HZ,  17, 115, 45, 10, STY_AUTORADIOBUTTON |
                                 WS_GROUP
@@ -352,7 +352,7 @@ END
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 265, STY_DIALOG
+    DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 260, STY_DIALOG
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
         CONTROL "OK",  DID_CLOSE, 101,  5,  38,  12, STY_CLOSEBUTTON
@@ -497,11 +497,11 @@ BEGIN
     					       FCF_SYSMENU | FCF_TASKLIST
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
-	CONTROL "Tune:", ID_NONE,            10, 75,  25,  9, STY_TEXT
-	CONTROL "0",     ID_TUNES,           35, 75,  12,  9, STY_TEXT | DT_RIGHT
-	CONTROL "of",    ID_NONE,            49, 75,  12,  9, STY_TEXT | DT_CENTER
-	CONTROL "0",     ID_TUNENO,          61, 75,  12,  9, STY_TEXT
-        CONTROL "", SPB_SETTUNE,  77, 75, 23, 12, STY_SPINBUTTON
+	CONTROL "Tune:",     ID_NONE,        10, 75,  25,  9, STY_TEXT
+	CONTROL "0",         ID_TUNENO,      35, 75,  12,  9, STY_TEXT | DT_RIGHT
+	CONTROL "of",        ID_NONE,        49, 75,  12,  9, STY_TEXT | DT_CENTER
+	CONTROL "0",         ID_TUNES,       61, 75,  12,  9, STY_TEXT
+        CONTROL "",          SPB_SETTUNE,    77, 75,  23, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 2, 0, 1, 0, 99, 0, 0, 0, 0, 0
 	CONTROL "Time:",     ID_NONE,       115, 75,  25,  9, STY_TEXT
 	CONTROL "00:00",     ID_TIME,       140, 75,  30,  9, STY_TEXT
@@ -514,3 +514,159 @@ BEGIN
     END
 END
 
+MENU IDM_MAINMENU
+BEGIN
+   SUBMENU "~File",                    IDM_FILE,         MIS_TEXT
+   BEGIN
+      SUBMENU "~Attach",               IDM_ATTACH,       MIS_TEXT
+      BEGIN
+         MENUITEM "~Tape\tAlt-0",      IDM_ATTACHTAPE,   MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "Disk ~8\tAlt-8",    IDM_ATTACH8,      MIS_TEXT
+         MENUITEM "Disk ~9\tAlt-9",    IDM_ATTACH9,      MIS_TEXT
+         MENUITEM "Disk 1~0",          IDM_ATTACH10,     MIS_TEXT
+         MENUITEM "Disk 1~1",          IDM_ATTACH11,     MIS_TEXT
+      END
+      SUBMENU "~Detach",               IDM_DETACH,       MIS_TEXT
+      BEGIN
+         MENUITEM "~Tape",             IDM_DETACHTAPE,   MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "Disk ~8\tAlt-8",    IDM_DETACH8,      MIS_TEXT
+         MENUITEM "Disk ~9\tAlt-9",    IDM_DETACH9,      MIS_TEXT
+         MENUITEM "Disk 1~0",          IDM_DETACH10,     MIS_TEXT
+         MENUITEM "Disk 1~1",          IDM_DETACH11,     MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "~All Disks",        IDM_DETACHALL,    MIS_TEXT
+      END
+      MENUITEM SEPARATOR
+      MENUITEM "~Load Config",         IDM_READCONFIG,   MIS_TEXT
+      MENUITEM "~Write Config",        IDM_WRITECONFIG,  MIS_TEXT
+/*      MENUITEM SEPARATOR
+      SUBMENU "~Snapshot",           IDM_SNAPSHOT,    MIS_TEXT
+      BEGIN
+         MENUITEM "~Load",           IDM_SNAPLOAD,    MIS_TEXT
+         MENUITEM "~Save",           IDM_SNAPSAVE,    MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "With ROMs",       IDM_WITHROMS,    MIS_TEXT
+         MENUITEM "With Disks",      IDM_WITHDISKS,   MIS_TEXT
+      END
+*/      MENUITEM SEPARATOR
+      SUBMENU "~Reset",                IDM_RESET,        MIS_TEXT
+      BEGIN
+         MENUITEM "~Soft Reset\tAlt-R", IDM_SOFTRESET,   MIS_TEXT
+         MENUITEM "~Hard Reset\tAlt-Q", IDM_HARDRESET,   MIS_TEXT
+      END
+      MENUITEM SEPARATOR
+      MENUITEM "Exit\tAlt-F4",         IDM_EXIT,         MIS_TEXT
+   END
+   SUBMENU "~View",                    IDM_VIEW,         MIS_TEXT
+   BEGIN
+      MENUITEM "~Sound Setup",              IDM_SOUNDDLG,  MIS_TEXT
+      MENUITEM "~Drive Setup\tAlt-D",       IDM_DRIVE,     MIS_TEXT
+      MENUITEM "~Joystick Setup\tAlt-J",    IDM_JOYSTICK,  MIS_TEXT
+      MENUITEM "Datasette ~Control\tAlt-C", IDM_DATASETTE, MIS_TEXT
+   END
+   SUBMENU "~Setup",                   IDM_SETUP,        MIS_TEXT
+   BEGIN
+      SUBMENU "~Sound",                IDM_SOUND,        MIS_TEXT
+      BEGIN
+      	MENUITEM "~Enabled",           IDM_SOUNDON,      MIS_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "SID ~Filter",        IDM_SIDFILTER,    MIS_TEXT
+        MENUITEM "~reSID (HiFi)",      IDM_RESID,        MIS_TEXT
+        MENUITEM SEPARATOR
+        SUBMENU "SID ~Chip",           IDM_SIDCHIP,      MIS_TEXT
+        BEGIN
+          MENUITEM "~6581",            IDM_SC6581,       MIS_TEXT
+          MENUITEM "~8680",            IDM_SC8580,       MIS_TEXT
+        END
+        SUBMENU "~Oversampling",       IDM_OVERSAMPLING, MIS_TEXT
+        BEGIN
+          MENUITEM "~2x",              IDM_OS2X,         MIS_TEXT
+          MENUITEM "~4x",              IDM_OS4X,         MIS_TEXT
+          MENUITEM "~8x",              IDM_OS8X,         MIS_TEXT
+          MENUITEM SEPARATOR
+          MENUITEM "~Off",              IDM_OSOFF,        MIS_TEXT
+        END
+        SUBMENU "~Sampling Rate",       IDM_SAMPLINGRATE, MIS_TEXT
+        BEGIN
+          MENUITEM "~8000 Hz",         IDM_SR8000,       MIS_TEXT
+          MENUITEM "~11025 Hz",        IDM_SR11025,      MIS_TEXT
+          MENUITEM "~22050 Hz",        IDM_SR22050,      MIS_TEXT
+          MENUITEM "~44100 Hz",        IDM_SR44100,      MIS_TEXT
+        END
+        SUBMENU "~Buffer Length",      IDM_BUFFER,       MIS_TEXT
+        BEGIN
+          MENUITEM "0.~10s",           IDM_BUF010,       MIS_TEXT
+          MENUITEM "0.~25s",           IDM_BUF025,       MIS_TEXT
+          MENUITEM "0.~40s",           IDM_BUF040,       MIS_TEXT
+          MENUITEM "0.~55s",           IDM_BUF055,       MIS_TEXT
+          MENUITEM "0.~70s",           IDM_BUF070,       MIS_TEXT
+          MENUITEM "0.~85s",           IDM_BUF085,       MIS_TEXT
+          MENUITEM "1.~00s",           IDM_BUF100,       MIS_TEXT
+        END
+      END
+      MENUITEM SEPARATOR
+      MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
+      SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
+      BEGIN
+         MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
+         MENUITEM "1/~2",              IDM_REFRATE2,     MIS_TEXT
+         MENUITEM "1/~3",              IDM_REFRATE3,     MIS_TEXT
+         MENUITEM "1/~4",              IDM_REFRATE4,     MIS_TEXT
+         MENUITEM "1/~5",              IDM_REFRATE5,     MIS_TEXT
+         MENUITEM "1/~6",              IDM_REFRATE6,     MIS_TEXT
+         MENUITEM "1/~7",              IDM_REFRATE7,     MIS_TEXT
+         MENUITEM "1/~8",              IDM_REFRATE8,     MIS_TEXT
+         MENUITEM "1/~9",              IDM_REFRATE9,     MIS_TEXT
+         MENUITEM "1/1~0",             IDM_REFRATE10,    MIS_TEXT
+         MENUITEM SEPARATOR
+         MENUITEM "~Auto",             IDM_REFRATEAUTO,  MIS_TEXT
+      END
+#ifndef __X128__
+      SUBMENU "DIVE Stretch ~Factor",  IDM_STRETCH,      MIS_TEXT
+      BEGIN
+         MENUITEM "~1:1",              IDM_STRETCH1,     MIS_TEXT
+         MENUITEM "~2:1",              IDM_STRETCH2,     MIS_TEXT
+         MENUITEM "~3:1",              IDM_STRETCH3,     MIS_TEXT
+      END
+#endif // __X128__      
+#ifdef __X128__
+      SUBMENU "V~DC Memory Size",      IDM_VDCMEMORY,    MIS_TEXT
+      BEGIN
+         MENUITEM "~16kB",             IDM_VDC16K,       MIS_TEXT
+         MENUITEM "~64kB",             IDM_VDC64K,       MIS_TEXT
+       END
+#endif
+#if defined __X64__ || defined __X128__
+      SUBMENU "~Video Frequency Standard", IDM_VIDEOSTD, MIS_TEXT
+      BEGIN
+         MENUITEM "~PAL-G",            IDM_PAL,          MIS_TEXT
+         MENUITEM "~NTSC-M",           IDM_NTSC,         MIS_TEXT
+#ifdef __X64__
+         MENUITEM "~old NTSC-M",       IDM_NTSCOLD,      MIS_TEXT
+#endif // __X64__
+      END
+      SUBMENU "Sprite Collision ~Detection", IDM_COLLISION, MIS_TEXT
+      BEGIN
+        MENUITEM "Sprite-~Sprite",     IDM_SSCOLL,       MIS_TEXT
+        MENUITEM "Sprite-~Background", IDM_SBCOLL,       MIS_TEXT
+      END
+#endif // __X64__ || __X128__
+      MENUITEM SEPARATOR
+#ifdef HAVE_MOUSE
+      MENUITEM "~Mouse 1531 Emulation",         IDM_MOUSE,     MIS_TEXT
+      MENUITEM "~Hide Mouse Pointer in Window", IDM_HIDEMOUSE, MIS_TEXT
+      MENUITEM SEPARATOR
+#endif // HAVE_MOUSE
+
+      MENUITEM "Emulator ~Identification",      IDM_EMUID,     MIS_TEXT
+#if defined __X64__ || defined __X128__
+      MENUITEM "R~EU - 512kB Memory Extension", IDM_REU,       MIS_TEXT
+#endif // __X64__ || __X128__
+      MENUITEM SEPARATOR
+      MENUITEM "~Pause Emulation\tAlt-P",       IDM_PAUSE,     MIS_TEXT
+   END
+   MENUITEM "~Monitor",                IDM_MONITOR,      MIS_TEXT
+   MENUITEM "~About",                  IDM_ABOUT,        MIS_TEXT|MIS_BUTTONSEPARATOR
+END

@@ -51,9 +51,12 @@
 #include "ui.h"
 #include "ui_status.h"
 #include "utils.h"
-#include "machine.h"
+#include "dialogs.h"
+#include "machine.h"      // machine_canvas_screenshot
 #include "cmdline.h"
 #include "resources.h"
+#include "screenshot.h"  // screenshot_t
+
 
 #include <dive.h>
 #ifdef __IBMC__
@@ -91,34 +94,18 @@ const int FBMULT = 0;
 
 int stretch;            // Strech factor for window (1,2,3,...)
 static int border;      // PM Border Type
-static int posx, posy;  // Position of window at startup
-static int autopos;     //
+static int menu;        // flag if menu should be enabled
 
 static int set_stretch_factor(resource_value_t v, void *param)
 {
     stretch=(int)v;
     return 0;
+
 }
 
-static int set_posx(resource_value_t v, void *param)
+static int set_menu(resource_value_t v, void *param)
 {
-    if (!autopos)
-        posx=(int)v;
-    return 0;
-}
-
-static int set_posy(resource_value_t v, void *param)
-{
-    if (!autopos)
-        posy=(int)v;
-    return 0;
-}
-
-static int set_autopos(resource_value_t v, void *param)
-{
-    autopos=(int)v;
-    if (autopos)
-        posx=posy=~0;
+    menu=(int)v;
     return 0;
 }
 
@@ -143,14 +130,10 @@ static int set_border_type(resource_value_t v, void *param)
 static resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &stretch, set_stretch_factor, NULL },
-    { "PMBorderType", RES_INTEGER, (resource_value_t) 0,
+    { "PMBorderType", RES_INTEGER, (resource_value_t) 2,
       (resource_value_t *) &border, set_border_type, NULL },
-    { "WindowPosX", RES_INTEGER, (resource_value_t) ~0,
-      (resource_value_t *) &posx, set_posx, NULL },
-    { "WindowPosY", RES_INTEGER, (resource_value_t) ~0,
-      (resource_value_t *) &posy, set_posy, NULL },
-    { "AutoWindowPos", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &autopos, set_autopos, NULL },
+    { "Menubar", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &menu, set_menu, NULL },
     { NULL }
 };
 
@@ -164,10 +147,10 @@ static cmdline_option_t cmdline_options[] = {
       "<number>", "Specify stretch factor for PM Windows (1,2,3,...)" },
     { "-border",  SET_RESOURCE, 1, NULL, NULL, "PMBorderType", NULL,
       "<number>", "Specify window border type (1=small, 2=dialog, else=no border)" },
-    { "-windowpos", SET_RESOURCE, 0, NULL, NULL, "AutoWindowPos", (resource_value_t) 1,
-      NULL, "Use window position which is stored in the configuration file (default)" },
-    { "+windowpos", SET_RESOURCE, 0, NULL, NULL, "AutoWindowPos", (resource_value_t) 0,
-      NULL, "Ignore window position which is stored in the configuration file" },
+    { "-menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 1,
+      NULL, "Enable Main Menu Bar" },
+    { "+menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 0,
+      NULL, "Disable Main Menu Bar" },
     { NULL }
 };
 
@@ -496,13 +479,57 @@ void wmVrnDisabled(HWND hwnd)
     DEBUG("WM VRN DISABLED 1");
 }
 
+void wmPaint(HWND hwnd)
+{
+    screenshot_t geom;
+
+    //
+    // get pointer to actual canvas from user data area
+    //
+    canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+
+    DEBUG("WM_PAINT 0");
+
+    //
+    // if the canvas isn't setup yet return
+    //
+    if (!c)
+        return;
+
+    DEBUG("WM_PAINT 1");
+
+    //
+    // get the frame_buffer and geometry from the machine
+    //
+    if (machine_canvas_screenshot(&geom, c) < 0)
+        return;
+
+    {
+        const int x  = geom.x_offset;
+        const int y  = geom.first_displayed_line;
+        const int cx = geom.max_width & ~3;
+        const int cy = geom.last_displayed_line - geom.first_displayed_line;
+
+        DEBUG(("WM_PAINT 2: x=%d y=%d cx=%d cy=%d", x, y, cx, cy));
+
+        //
+        // enable the visible region - it is disabled
+        //
+        wmVrnEnabled(hwnd);
+
+        //
+        // blit to canvas (canvas_refresh should be thread safe by itself)
+        //
+        canvas_refresh(c, geom.frame_buffer, x, y, 0, 0, cx, cy);
+    }
+}
+
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg)
     {
     case WM_CREATE:       wmCreate();                break;
-    // After 'make visible': VRNDISABLED, PAINT, VRNENABLED
-    //    case WM_PAINT: wmPaint(hwnd); break;
+    case WM_PAINT:        wmPaint(hwnd);             break;
     case WM_CHAR:         kbd_proc(hwnd, mp1, mp2);  break;
     case WM_CLOSE:
     case WM_DESTROY:      wmDestroy();               break;
@@ -511,18 +538,20 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_VRNENABLED:   wmVrnEnabled(hwnd);        break;
 
     case WM_TRANSLATEACCEL:
+        //
+        // let only 'Alt'ed keys pass
+        //
         if (SHORT1FROMMP(((QMSG*)mp1)->mp1)&KC_ALT)
             break;
         else
             return FALSE;
 
-    case WM_MOVE:
-        {
-            SWP swp;
-            WinQueryWindowPos(WinQueryWindow(hwnd, QW_PARENT), &swp);
-            posx=swp.x;
-            posy=swp.y;
-        }
+    case WM_COMMAND:
+        menu_action(hwnd, SHORT1FROMMP(mp1), mp2);
+        break;
+
+    case WM_MENUSELECT:
+        menu_select(HWNDFROMMP(mp2), SHORT1FROMMP(mp1));
         break;
 
 #ifdef HAVE_MOUSE
@@ -534,9 +563,14 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         mouse_button(hwnd, msg, mp1);
         break;
 #endif
-    //    case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
-    //    case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
-    //    case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
+        /*
+         case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
+         case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
+         case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
+         case WM_MOVE:
+         WinQueryWindowPos(WinQueryWindow(hwnd, QW_PARENT), &pos);
+         break;
+         */
     }
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
@@ -545,6 +579,7 @@ UINT canvas_fullheight(UINT height)
 {
     height *= stretch;
     height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+    if (menu)      height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;  // FIXME: +1 ?
     if (border==1) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYBORDER);
     if (border==2) height += 2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME);
     return height;
@@ -566,39 +601,69 @@ extern int trigger_shutdown;
 void PM_mainloop(VOID *arg)
 {
     APIRET rc;
-    HAB   hab;  // Anchor Block to PM
-    HMQ   hmq;  // Handle to Msg Queue
-    QMSG  qmsg; // Msg Queue Event
+    SWP    swp;
+    HAB    hab;  // Anchor Block to PM
+    HMQ    hmq;  // Handle to Msg Queue
+    QMSG   qmsg; // Msg Queue Event
+
     canvas_t *c=(canvas_t *)arg;
 
-    //    archdep_setup_signals(0); // signals are not shared between threads!
+    // archdep_setup_signals(0); // signals are not shared between threads!
 
     hab = WinInitialize(0);            // Initialize PM
     hmq = WinCreateMsgQueue(hab, 0);   // Create Msg Queue
 
+    //
     // 2048 Byte Memory (Used eg for the Anchor Blocks)
-    WinRegisterClass(hab, szClientClass, PM_winProc,
-                     CS_MOVENOTIFY|CS_SIZEREDRAW, 2048);
+    //  CS_MOVENOTIFY, CS_SIZEREDRAW skipped
+    //  CS_SYNCPAINT: send WM_PAINT messages
+    //
+    WinRegisterClass(hab, szClientClass, PM_winProc, CS_SYNCPAINT, 2048);
 
-    c->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_VISIBLE,
+    //
+    // display menu bar if requested
+    //
+    if (menu)
+        flFrameFlags |= FCF_MENU;
+
+    //
+    // create window on desktop, FIXME: WS_ANIMATE looks sometimes strange
+    //
+    c->hwndFrame = WinCreateStdWindow(HWND_DESKTOP, WS_ANIMATE|WS_VISIBLE,
                                       &flFrameFlags, szClientClass,
-                                      c->title, 0L, 0, 0,
+                                      c->title, 0L, 0, menu?IDM_MAINMENU:0,
                                       &(c->hwndClient));
 
-    WinSetWindowPos(c->hwndFrame, HWND_TOP, posx, posy,
+    //
+    // bring window to top, set size and position, set focus
+    // correct for window height
+    //
+    WinQueryWindowPos(c->hwndFrame, &swp);
+    WinSetWindowPos(c->hwndFrame, HWND_TOP,
+                    swp.x, swp.y+swp.cy-canvas_fullheight(c->height),
                     canvas_fullwidth (c->width),
                     canvas_fullheight(c->height),
-                    SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|
-                    (posx==-1&&posy==-1?0:SWP_MOVE));    // Make visible, resize, top window
+                    SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|SWP_MOVE);
+
+    //
+    // set user data pointer
+    //
     WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
+    //
+    // set visible region notify on, enable visible region
+    //
     WinSetVisibleRegionNotify(c->hwndClient, TRUE);
     WinSendMsg(c->hwndClient, WM_VRNENABLED, 0, 0); //c->vrenabled = TRUE;
 
-    if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
-        log_debug("video.c: Error DosSetPriority (rc=%li)", rc);
     //
     // this makes reactions faster when shutdown of main thread is triggered
+    //
+    if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
+        log_debug("video.c: Error DosSetPriority (rc=%li)", rc);
+
+    //
+    // MAINLOOP
     //
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg);
@@ -674,6 +739,7 @@ canvas_t *canvas_create(const char *title, UINT *width,
     canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;
     canvas_new->height           = *height;
+    canvas_new->stretch          =  stretch;
     canvas_new->palette          =  0;
     canvas_new->exposure_handler =  exposure_handler;
     canvas_new->vrenabled        =  FALSE;
@@ -700,30 +766,48 @@ void canvas_destroy(canvas_t *c)
 
 
 void canvas_map(canvas_t *c)
-{   /* Make `s' visible.  */
-    // WinShowWindow(c->hwndFrame, 1);
+{
+    WinShowWindow(c->hwndFrame, TRUE);
 }
 
 void canvas_unmap(canvas_t *c)
-{   /* Make `s' unvisible.  */
-    // WinShowWindow(c->hwndFrame, 0);
+{
+    WinShowWindow(c->hwndFrame, FALSE);
 }
 
 void canvas_resize(canvas_t *c, UINT width, UINT height)
 {
-    if (c->width==width && c->height==height)
+    //
+    // if this function is called from outside the main thread
+    // make sure that the visible region notify is turned off
+    // before and back on after.
+    //
+    SWP swp;
+
+    //
+    // if nothing has changed do nothing
+    //
+    if (c->width==width && c->height==height && c->stretch==stretch)
         return;
 
-    if (!WinSetWindowPos(c->hwndFrame, 0, 0, 0,
-                         canvas_fullwidth(width), canvas_fullheight(height),
-                         SWP_SIZE))
+    //
+    // make anchor left, top corner
+    //
+    WinQueryWindowPos(c->hwndFrame, &swp);
+    if (!WinSetWindowPos(c->hwndFrame, 0,
+                         swp.x, swp.y+swp.cy-canvas_fullheight(height),
+                         canvas_fullwidth (width),
+                         canvas_fullheight(height),
+                         SWP_SIZE|SWP_MOVE))
     {
         log_debug("video.c: Error resizing canvas (%ix%i).", width, height);
         return;
     }
     log_debug("video.c: canvas resized (%ix%i --> %ix%i)", c->width, c->height, width, height);
-    c->width  = width;
-    c->height = height;
+
+    c->width   = width;
+    c->height  = height;
+    c->stretch = stretch;
     c->exposure_handler(width, height); // update whole window next time!
 }
 

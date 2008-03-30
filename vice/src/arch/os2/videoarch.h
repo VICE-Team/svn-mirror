@@ -43,6 +43,7 @@ typedef struct canvas_s
     char *title;
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
+    BYTE  stretch;          // actual stretch factor of canvas
     UCHAR palette;          // number of 16-block of palette entries
     BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
     SETUP_BLITTER sb;

@@ -131,6 +131,5 @@ void vsid_ui_display_time(unsigned int sec)
     char txt[6]="--:--";
     if (sec<600)
         sprintf(txt, "%02d:%02d", (sec/60)%100, sec%60);
-    log_debug("sec: %s", txt);
     WinSetDlgItemText(hwndVsid, ID_TIME, txt);
 }

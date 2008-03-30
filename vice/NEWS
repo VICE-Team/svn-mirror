@@ -62,6 +62,12 @@ list of all the changes in the code.
 ** OS/2 changes
 ---------------
 
+- added menu bar
+
+- changed default border style
+
+- now the display is updated in paused or monitor mode, too
+
 - added the missing datasette control to the datasette dialog (Alt-C)
 
 - added a new dialog for hardware settings (Alt-H)
@@ -83,7 +89,7 @@ list of all the changes in the code.
 
 - directory path added to drive dialog
 
-- Video Standard (Pal/Ntsc) moved to hardware dialog.
+- Video Standard (PAL/NTSC) moved to hardware dialog.
 
 - added REU to hardware dialog
 

@@ -1,3 +1,42 @@
+2000-12-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.22.
+
+2000-12-02  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.[rc,h]: added resources for manubar
+
+	* arch/os2/dialogs/dlg-sound.c: added scale for volume
+ 
+	* arch/os2/dialogs/menubar.c: added
+ 
+	* arch/os2/doc/Vice_for_OS2.txt: deleted windowpos
+ 
+	* arch/os2/kbd/proc.c: added some comments
+ 
+	* arch/os2/uimon.c: small changes
+ 
+	* arch/os2/vac++/incl/dialogs.icc: added menubar.c
+ 
+	* arch/os2/vac++/incl/monitor.icc: removed asm., added asm*.c
+ 
+	* arch/os2/video.c: added wmPaint (refresh window when
+	emulation is paused), added menubar resource, removed autopos
+	resource
+   
+	* arch/os2/videoarch.h: added stretch to canvas_t
+ 
+	* arch/os2/vsidui.c: small changes
+
+	* arch/os2/vsyncarch.c: small changes
+ 
+	* monitor/mon_lex.c: make compile without warnings
+	again
+   
+	* monitor/mon_parse.c: make compile without warnings again
+ 
+	* sounddrv/sounddart.c: small changes
+ 
 2000-12-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.21.

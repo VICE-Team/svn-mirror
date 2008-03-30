@@ -32,7 +32,7 @@
 
 #else	/* ! __cplusplus */
 
-#if __STDC__
+#if __STDC__ || __IBMC__
 
 #define YY_USE_PROTOS
 #define YY_USE_CONST
@@ -2087,6 +2087,9 @@ YY_BUFFER_STATE b;
 
 #ifndef YY_ALWAYS_INTERACTIVE
 #ifndef YY_NEVER_INTERACTIVE
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 extern int isatty YY_PROTO(( int ));
 #endif
 #endif

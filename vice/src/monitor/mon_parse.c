@@ -920,10 +920,10 @@ int yydebug;			/*  nonzero means print parse trace	*/
 #endif
 
 /* Prevent warning if -Wstrict-prototypes.  */
-#ifdef __GNUC__
+#if __GNUC__ || __IBMC__
 YYPARSE_RETURN_TYPE yyparse (void);
 #endif
-
+
 #if __GNUC__ > 1		/* GNU C and GNU C++ define this.  */
 #define __yy_memcpy(TO,FROM,COUNT)	__builtin_memcpy(TO,FROM,COUNT)
 #else				/* not GNU C or C++ */

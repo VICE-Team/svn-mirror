@@ -16,10 +16,8 @@
 +mouse             Don't support mouse
 -hidemouseptr      Hide OS/2 mouse pointer in Vice-Window
 +hidemouseptr      Don't hide mouse pointer
--windowpos         Use the window position which is storted in 
-                   the cfg-file <DEFAULT>
-+windowpos         Let the system position the window at your 
-                   PM desktop
+-menu              Show menu bar <DEFAULT>
++menu              Hide menu bar
 
 
   Keys
@@ -54,7 +52,6 @@ Alt-PrtScr: Write screenshot to file (setup file-type and
 -------------------
 
  - The video cache for CRTC doesn't work yet.
- - The window isn't updated anymore when vice is paused
 
 
   Reported bugs/problems

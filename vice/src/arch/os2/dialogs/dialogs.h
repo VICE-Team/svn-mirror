@@ -344,5 +344,118 @@ extern void keyset_dialog    (HWND hwnd);
 
 extern void vsid_dialog(void);
 
+/*----------------------------------------------------------------- */
+/*                           Menubar                                */
+/*----------------------------------------------------------------- */
+
+#define IDM_MAINMENU     0x100
+
+#define IDM_FILE         0x101
+#define IDM_ATTACH       0x102
+#define IDM_DETACH       0x103
+#define IDM_SNAPSHOT     0x104
+#define IDM_RESET        0x105
+#define IDM_VIEW         0x106
+#define IDM_SOUNDDLG     0x107
+#define IDM_DRIVE        0x108
+#define IDM_JOYSTICK     0x109
+#define IDM_DATASETTE    0x10a
+
+#define IDM_SETUP        0x10b
+#define IDM_SOUND        0x10c
+#define IDM_SIDCHIP      0x10d
+#define IDM_OVERSAMPLING 0x10e
+#define IDM_SAMPLINGRATE 0x10f
+#define IDM_VDCMEMORY    0x110
+#define IDM_VIDEOSTD     0x111
+#define IDM_COLLISION    0x112
+#define IDM_REFRATE      0x113
+#define IDM_BUFFER       0x114
+#define IDM_STRETCH      0x115
+#define IDM_MONITOR      0x116
+#define IDM_ABOUT        0x117
+
+#define IDM_ATTACHTAPE   0x120
+#define IDM_ATTACH8      0x128
+#define IDM_ATTACH9      0x129
+#define IDM_ATTACH10     0x12a
+#define IDM_ATTACH11     0x12b
+
+#define IDM_DETACHTAPE   0x130
+#define IDM_DETACH8      0x138
+#define IDM_DETACH9      0x139
+#define IDM_DETACH10     0x13a
+#define IDM_DETACH11     0x13b
+#define IDM_DETACHALL    0x13f
+
+#define IDM_SNAPLOAD     0x121
+#define IDM_SNAPSAVE     0x122
+
+#define IDM_READCONFIG   0x123
+#define IDM_WRITECONFIG  0x124
+#define IDM_SOFTRESET    0x125
+#define IDM_HARDRESET    0x126
+#define IDM_EXIT         0x127
+
+#define IDM_VDC16K       0x140
+#define IDM_VDC64K       0x141
+
+#define IDM_PAL          0x142
+#define IDM_NTSC         0x143
+#define IDM_NTSCOLD      0x144
+
+#define IDM_REU          0x145
+
+#define IDM_MOUSE        0x150
+#define IDM_HIDEMOUSE    0x151
+#define IDM_EMUID        0x152
+#define IDM_VCACHE       0x153
+#define IDM_SBCOLL       0x154
+#define IDM_SSCOLL       0x155
+#define IDM_REFRATEAUTO  0x160
+#define IDM_REFRATE1     0x161
+#define IDM_REFRATE2     0x162
+#define IDM_REFRATE3     0x163
+#define IDM_REFRATE4     0x164
+#define IDM_REFRATE5     0x165
+#define IDM_REFRATE6     0x166
+#define IDM_REFRATE7     0x167
+#define IDM_REFRATE8     0x168
+#define IDM_REFRATE9     0x169
+#define IDM_REFRATE10    0x16a
+
+#define IDM_SC6581       0x170
+#define IDM_SC8580       0x171
+#define IDM_SOUNDON      0x172
+#define IDM_SIDFILTER    0x173
+#define IDM_RESID        0x174
+
+#define IDM_OSOFF        0x180
+#define IDM_OS2X         0x181
+#define IDM_OS4X         0x182
+#define IDM_OS8X         0x183
+
+#define IDM_SR8000       0x190
+#define IDM_SR11025      0x191
+#define IDM_SR22050      0x192
+#define IDM_SR44100      0x193
+
+#define IDM_BUF010       0x202
+#define IDM_BUF025       0x205
+#define IDM_BUF040       0x208
+#define IDM_BUF055       0x20b
+#define IDM_BUF070       0x20e
+#define IDM_BUF085       0x211
+#define IDM_BUF100       0x214
+
+#define IDM_STRETCH1     0x221
+#define IDM_STRETCH2     0x222
+#define IDM_STRETCH3     0x223
+
+#define IDM_PAUSE        0x224
+
+void menu_action(HWND hwnd, SHORT idm, MPARAM mp2);
+void menu_select(HWND hwnd, USHORT item);
+
 #endif
 

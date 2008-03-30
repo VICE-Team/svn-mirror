@@ -196,11 +196,11 @@ int trigger_shutdown=0;
 
 void vsyncarch_presync()
 {
-    if (trigger_shutdown)
-    {
-        log_debug("vsync: Vice shutdown triggered.");
-        vice_exit();
-    }
+    if (!trigger_shutdown)
+        return;
+
+    log_debug("vsync: Vice shutdown triggered.");
+    vice_exit();
 }
 
 void vsyncarch_postsync()

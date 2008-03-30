@@ -28,9 +28,10 @@
 #define INCL_WINDIALOGS
 #define INCL_WINSTDSPIN
 #define INCL_WINSTDSLIDER
-
 #include "vice.h"
 #include "dialogs.h"
+
+#include "log.h"
 
 #include "resources.h"
 
@@ -46,6 +47,7 @@ extern int  get_volume(void);
 static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first = TRUE;
+    static int volrange = 0;
     const int ID_ON  = 1;
     const int ID_OFF = 2;
     switch (msg)
@@ -64,12 +66,20 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (first)
             {
                 int sound;
+
                 first = FALSE;
+
                 resources_get_value("Sound", (resource_value_t*) &sound);
                 WinCheckButton   (hwnd, CB_SOUND, sound!=0);
+
+                volrange = SHORT2FROMMP(WinSendDlgItemMsg(hwnd,
+                                                          CS_VOLUME,
+                                                          SLM_QUERYSLIDERINFO,
+                                                          MPFROM2SHORT(SMA_SLIDERARMPOSITION, SMA_RANGEVALUE),
+                                                          NULL))-1;
                 WinSendDlgItemMsg(hwnd, CS_VOLUME, SLM_SETSLIDERINFO,
-                                  MPFROM2SHORT(SMA_SLIDERARMPOSITION,SMA_RANGEVALUE),
-                                  MPFROMSHORT(get_volume()));
+                                  MPFROM2SHORT(SMA_SLIDERARMPOSITION, SMA_RANGEVALUE),
+                                  MPFROMSHORT(volrange*get_volume()/100));
                 resources_get_value("SoundSampleRate", (resource_value_t*) &sound);
                 if (sound==8000 || sound==11025 || sound==22050 || sound==44100)
                     WinCheckButton(hwnd, sound, 1);
@@ -101,7 +111,7 @@ static MRESULT EXPENTRY pm_sound(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             case CS_VOLUME:
                 {
                     if (SHORT2FROMMP(mp1)==SLN_SLIDERTRACK || SHORT2FROMMP(mp1)==SLN_CHANGE)
-                        set_volume(LONGFROMMP(mp2));
+                        set_volume(100*LONGFROMMP(mp2)/volrange);
                 }
                 break;
             case RB_8000HZ:

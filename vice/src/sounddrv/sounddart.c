@@ -167,8 +167,8 @@ void set_volume(int vol)
     {
         memset(&MciSetParms, 0, sizeof(MCI_SET_PARMS));
 
-        MciSetParms.ulLevel      = vol;
-        MciSetParms.ulAudio      = MCI_SET_AUDIO_ALL;
+        MciSetParms.ulLevel = vol;
+        MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
 
         rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|
                             MCI_SET_VOLUME|MCI_SET_AUDIO,
