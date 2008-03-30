@@ -71,6 +71,7 @@ extern void (*_refresh_func) ();
 extern void (*_convert_func) (frame_buffer_t *p, int x, int y, int w, int h);
 #endif
 extern GC _video_gc;
+extern int _video_use_xsync;
 
 #if X_DISPLAY_DEPTH == 0
 #define FRAME_BUFFER_START(i)		((i).tmpframebuffer)
@@ -95,12 +96,13 @@ inline static void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 #endif
     _refresh_func(display, canvas->drawable, _video_gc,
 		   frame_buffer.x_image, xs, ys, xi, yi, w, h, False);
-    if (app_resources.useXSync)
+    if (_video_use_xsync)
 	XSync(display, False);
 }
 
 /* ------------------------------------------------------------------------- */
 
+extern int video_init_resources(void);
 extern int video_init(void);
 extern int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 			      unsigned int height);

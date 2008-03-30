@@ -79,12 +79,76 @@ static void update_sprite_collisions(void);
 #include "sprcycles.h"
 #include "sprcrunch.h"
 
-#if defined (C128)
-#include "vdc.h"
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
+
+/* ------------------------------------------------------------------------- */
+
+/* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
+static int sprite_sprite_collisions_enabled;
+
+/* Flag: Do we emulate the sprite-background collision register and IRQ?  */
+static int sprite_background_collisions_enabled;
+
+/* Flag: Do we use double size?  */
+static int double_size_enabled;
+
+/* Flag: Do we enable the video cache?  */
+static int video_cache_enabled;
+
+/* Flag: Do we copy lines in double size mode?  */
+static int double_scan_enabled;
+
+static int set_sprite_sprite_collisions_enabled(resource_value_t v)
+{
+    sprite_sprite_collisions_enabled = (int) v;
+    return 0;
+}
+
+static int set_sprite_background_collisions_enabled(resource_value_t v)
+{
+    sprite_background_collisions_enabled = (int) v;
+    return 0;
+}
+
+static int set_video_cache_enabled(resource_value_t v)
+{
+    video_cache_enabled = (int) v;
+    return 0;
+}
+
+static int set_double_size_enabled(resource_value_t v)
+{
+    double_size_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static int set_double_scan_enabled(resource_value_t v)
+{
+    double_scan_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "CheckSsColl", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &sprite_sprite_collisions_enabled, set_sprite_sprite_collisions_enabled },
+    { "CheckSbColl", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &sprite_background_collisions_enabled, set_sprite_background_collisions_enabled },
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+    { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_size_enabled, set_double_size_enabled },
+    { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+    { NULL }
+};
+
+int vic_ii_init_resources(void)
+{
+    return resources_register(resources);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -1479,7 +1543,7 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 	} else {
 	    videoint &= ~0x04;
 	}
-	if (app_resources.checkSsColl) {
+	if (sprite_sprite_collisions_enabled) {
 	    vic[addr] = ss_collmask;
 	    ss_collmask = 0;
 	    DEBUG_REGISTER(("\tSprite-sprite collision mask: $%02X\n",
@@ -1501,7 +1565,7 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 	} else {
 	    videoint &= ~0x2;
 	}
-	if (app_resources.checkSbColl) {
+	if (sprite_background_collisions_enabled) {
 	    vic[addr] = sb_collmask;
 	    sb_collmask = 0;
 	    DEBUG_REGISTER(("\tSprite-background collision mask: $%02X\n",
@@ -1665,14 +1729,16 @@ int int_rasterdraw(long offset)
     /* As explained in Christian's article, only the first collision (i.e. the
        first time the collision register becomes non-zero) actually triggers an
        interrupt.  */
-    if (app_resources.checkSsColl && cl_ss_collmask && !prev_ss_collmask) {
+    if (sprite_sprite_collisions_enabled
+        && cl_ss_collmask && !prev_ss_collmask) {
 	videoint |= 0x4;
 	if (vic[0x1a] & 0x4) {
 	    maincpu_set_irq(I_RASTER, 1);
 	    videoint |= 0x80;
 	}
     }
-    if (app_resources.checkSbColl && cl_sb_collmask && !prev_sb_collmask) {
+    if (sprite_background_collisions_enabled
+        && cl_sb_collmask && !prev_sb_collmask) {
 	videoint |= 0x2;
 	if (vic[0x1a] & 0x2) {
 	    maincpu_set_irq(I_RASTER, 1);
@@ -3377,7 +3443,7 @@ void video_resize(void)
     video_modes[VIC_II_IDLE_MODE].fill_cache = get_idle;
 
 #ifdef NEED_2x
-    if (app_resources.doubleSize) {
+    if (double_size_enabled) {
         int i;
 
         for (i = 0; i < SCREEN_NUM_VMODES; i++)
@@ -3457,7 +3523,7 @@ void video_resize(void)
 	}
     }
 
-    old_size = app_resources.doubleSize ? 2 : 1;
+    old_size = double_size_enabled ? 2 : 1;
 
     if (canvas) {
 	resize(window_width, window_height);

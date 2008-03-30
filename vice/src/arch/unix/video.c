@@ -50,6 +50,42 @@
 #define DEBUG_MITSHM(x)
 #endif
 
+/* ------------------------------------------------------------------------- */
+
+/* Flag: Do we call `XSync()' after blitting?  */
+int _video_use_xsync;
+
+/* Flag: Do we try to use the MIT shared memory extensions?  */
+static int try_mitshm;
+
+static int set_use_xsync(resource_value_t v)
+{
+    _video_use_xsync = (int) v;
+    return 0;
+}
+
+static int set_try_mitshm(resource_value_t v)
+{
+    try_mitshm = (int) v;
+    return 0;
+}
+
+/* Vsync-related resources.  */
+static resource_t resources[] = {
+    { "UseXSync", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &_video_use_xsync, set_use_xsync },
+    { "MITSHM", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &try_mitshm, set_try_mitshm },
+    { NULL }
+};
+
+int video_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* These are exported by ui_xaw.c. */
 extern Display *display;
 extern int screen;
@@ -91,7 +127,7 @@ static void convert_8to16(frame_buffer_t *p, int sx, int sy, int w, int h)
     PIXEL *src;
     PIXEL2 *dst;
     int x, y;
-    
+
     for (y = 0; y < h; y++) {
 	src = SRCPTR(p, sx, sy + y);
 	dst = DESTPTR(p, sx, sy + y, PIXEL2);
@@ -105,7 +141,7 @@ static void convert_8to32(frame_buffer_t *p, int sx, int sy, int w, int h)
     PIXEL *src;
     PIXEL4 *dst;
     int x, y;
-    
+
     for (y = 0; y < h; y++) {
 	src = SRCPTR(p, sx, sy + y);
 	dst = DESTPTR(p, sx, sy + y, PIXEL4);
@@ -121,7 +157,7 @@ static void convert_8to8(frame_buffer_t *p, int sx, int sy, int w, int h)
     PIXEL *src;
     PIXEL *dst;
     int x, y;
-    
+
     for (y = 0; y < h; y++) {
 	src = SRCPTR(p, sx, sy + y);
 	dst = DESTPTR(p, sx, sy + y, PIXEL);
@@ -181,8 +217,8 @@ int video_init(void)
 			   &gc_values);
 
 #ifdef MITSHM
-    
-    if (!app_resources.mitshm)
+
+    if (!try_mitshm)
 	use_mitshm = 0;
     else {
 	int major_version, minor_version, pixmap_flag, dummy;
@@ -201,7 +237,7 @@ int video_init(void)
 	    use_mitshm = 1;
 	}
     }
-    
+
 #else
     use_mitshm = 0;
 #endif
@@ -220,10 +256,10 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	fprintf(stderr, "Error: PIXEL2 / PIXEL4 typedefs have wrong size.\n");
 	return -1;
     }
-    
+
     /* Round up to 32-bit boundary. */
     width = (width + 3) & ~0x3;
-    
+
 #if X_DISPLAY_DEPTH == 0
     /* sizeof(PIXEL) is not always what we are using. I guess this should
        be checked from the XImage but I'm lazy... */
@@ -280,7 +316,7 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 
 	_refresh_func = (void (*)()) XPutImage;
     }
-    
+
 #if X_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
     if (depth == 8) {
