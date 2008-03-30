@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=0
+VICE_VERSION_BUILD=1
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -34,7 +34,7 @@ AC_SUBST(VERSION_RC)
 
 AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
 
-dnl AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
+AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
 is_dos=no
 is_win32=no
