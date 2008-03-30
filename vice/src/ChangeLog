@@ -1,3 +1,101 @@
+1998-11-10  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.26.
+
+1998-11-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* drive/drive.c (drive_check_image_format): New function.
+	(set_drive0_type, set_drive1_type): Check if the drive type
+	matches the disk image type.  Initialize ROM traps after the
+	firmware is loaded.  (drive_initialize_rom_traps): Install 1581
+	disk drive related traps.
+	(drive_attach_floppy): Check for correct disk image type.
+	(drive_detach_floppy): Also detach D81 disk images.
+	(drive_vsync_hook): Call `wd1770_vsync_hook'.
+
+	* drive/drivecpu-tmpl.c (mydrive_trap_handler): Also handle 1581
+	disk drive related traps.
+	(mydrive_cpu_execute): Calculate `last_exc_cycles' within the CPU
+	execution loop.
+
+	* drive/wd1770.c: #include "drive.h", #include "drivecpu.h".
+	(wd1770d0_prevent_clk_overflow, wd1770d1_prevent_clk_overflow):
+	Also handle overflow of `led_delay_clk'.  Fixed some typos.
+	(reset_wd1770): Reset `led_delay_clk' as well.
+	(wd1770_job_code_read, wd1770_job_code_write): New functions.
+	(wd1770_handle_job_code): New function to emulate 1581 job codes.
+	(wd1770_vsync_hook): New function.
+
+	* drive/wd1770.h: Added new member `led_delay_clk' to `wd1770_t'.
+
+	* vdrive.c (attach_floppy_image): Do not allow to attach disks of
+	the wrong type.
+	(get_std81_header): New function.
+	(check_header): Also check for D81 disk images.
+
+1998-11-08  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: CXXFLAGS defaults to CFLAGS. Added -fno-exceptions
+	for g++. Removed -fno-strength-reduce since -funroll-loops implies
+	-fstrength-reduce.
+
+1998-11-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c: Added missing `K_KPDIV' code to
+ 	`_kbd_extended_key_tab[]'.
+
+	* arch/msdos/tuifs.c (tui_file_selector): Now Alt + letter changes
+	drive, instead of Ctrl + letter.
+
+	* c64/vicii.c (RASTER_CHAR): Added cast to `int' to `cycle' for
+ 	safeness.
+	(RASTER_X): Likewise.
+	(store_vic): Moved effect of $D016 forward one cycle.
+
+1998-11-05  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* c128/c128.c, c64/c64.c, cbm2/c610.c, pet/pet.c,
+	vic20/vic20.c: (machine_init) Monitor support for drive 9.
+
+	* drive/drivecpu-tmpl.c: Replaced e_disk_space with mymonspace
+	which is defined in the .def files.
+
+	* mon.h: Drive 9 support.
+
+	* mon.c: Added drive 9 support. 
+	(mon_bank): Fixed memspace handling.
+	(disassemble_instr): Print out labels when disassembling.
+	(mon_save_symbols): Stop writing out "default" for the memory space.
+	(mon_symbol_table_lookup_name,mon_symbol_table_lookup_addr): Handle
+	default memspaces.
+	(mon_add_name_to_symbol_table): Don't print out message is replacing
+	a label with the same address. Allow multiple labels for an address.
+        Fix hashing bug.
+	(make_prompt): Change prompt format.
+
+	* mon_parse.y: Drive 9 support. Allow labels to be used where
+	addresses can.
+
+	* mon_lex.l: Fixed memspace handling for bank command.
+	Allow underscores in label names.
+
+	* drivecpu0.def, drivecpu1.def: Added mymonspace define.
+
+1998-11-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* 6510core.c: Use the same `JAM' macro for all opcodes causing a
+	CPU jam.
+
+	* arch/msdos/vsync.c: Only include "vmidas.h" when compiling with
+	MIDAS support.
+
+1998-11-05  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/menudefs.c: Implemented parallel cable selection and
+ 	40-track support setting for both drives.
+
+	* mon.c (mon_print_registers): Changed `AR' into `AC'.
+
 1998-11-03  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.25.

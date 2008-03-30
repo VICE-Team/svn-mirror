@@ -2789,12 +2789,12 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
 	    return (-2);
 	}
 
-	detach_floppy_image(floppy);
+        detach_floppy_image(floppy);
 
-	floppy->ImageFormat = DType;
-	floppy->ActiveFd = fd;
-	strcpy(floppy->ActiveName, name);
-	/* floppy->changed  = 0; */
+        floppy->ImageFormat = DType;
+        floppy->ActiveFd = fd;
+        strcpy(floppy->ActiveName, name);
+        /* floppy->changed  = 0; */
 
         floppy->NumTracks  = hdr.tracks;
         floppy->NumBlocks  = num_blocks (DType, hdr.tracks);
@@ -2811,6 +2811,16 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
                 set_error_data(floppy, 3);      /* clear or read error data */
 
             floppy_read_bam (floppy);
+        }
+
+        if (floppy->attach_func != NULL) {
+            if (floppy->attach_func(floppy) < 0) {
+                fprintf(stderr, "DRIVE#%i: Wrong disk type.\n", floppy->unit);
+                zclose(floppy->ActiveFd);
+                floppy->ActiveFd = -1;
+                floppy->ActiveName[0] = 0;
+                return -1;
+            }
         }
 
         if (hdr.d64)
@@ -2833,14 +2843,10 @@ int     attach_floppy_image(DRIVE *floppy, const char *name, int mode)
                     name);
 
     } else {
-	fprintf(stderr, "Couldn't open file %s\n",name);
-	return -1;
+        fprintf(stderr, "Couldn't open file %s\n",name);
+        return -1;
     }
-
-    if (floppy->attach_func != NULL)
-        floppy->attach_func(floppy);
-
-    return (0);
+    return 0;
 }
 
 
@@ -2981,6 +2987,60 @@ int get_std71_header(int fd, BYTE *header)
 
     return(0);
 }
+int get_std81_header(int fd, BYTE *header)
+{
+    int devtype = DT_1581;
+    int tracks = NUM_TRACKS_1581;
+    int blk = NUM_BLOCKS_1581-1;
+    int len, errblk;
+    char block[256];
+
+    memset(header, 0, HEADER_LENGTH);
+
+    /* Check values */
+
+    if (check_track_sector(get_diskformat (devtype), tracks, 1) < 0)
+        exit (-1);
+
+    header[HEADER_MAGIC_OFFSET + 0] = HEADER_MAGIC_1;
+    header[HEADER_MAGIC_OFFSET + 1] = HEADER_MAGIC_2;
+    header[HEADER_MAGIC_OFFSET + 2] = HEADER_MAGIC_3;
+    header[HEADER_MAGIC_OFFSET + 3] = HEADER_MAGIC_4;
+
+    header[HEADER_VERSION_OFFSET + 0] = HEADER_VERSION_MAJOR;
+    header[HEADER_VERSION_OFFSET + 1] = HEADER_VERSION_MINOR;
+
+    header[HEADER_FLAGS_OFFSET + 0] = devtype;
+    header[HEADER_FLAGS_OFFSET + 1] = tracks;
+
+    if (lseek(fd, 256*blk, SEEK_SET)<0)
+        return FD_BADIMAGE;
+    while ((len = read(fd, block, 256)) == 256) {
+        if (++blk > 3213) {
+            printf("Nice try.\n");
+            break;
+        }
+    }
+    if (blk <  NUM_BLOCKS_1581) {
+            printf("Cannot read block %d\n", blk);
+            return (FD_NOTRD);
+    }
+    switch (blk) {
+      case 3200:
+        tracks = NUM_TRACKS_1581;
+        errblk = 0;
+        break;
+      default:
+        return (FD_BADIMAGE);
+
+    }
+    header[HEADER_FLAGS_OFFSET+0] = DT_1581;
+    header[HEADER_FLAGS_OFFSET+1] = tracks;
+    header[HEADER_FLAGS_OFFSET+2] = 0;
+    header[HEADER_FLAGS_OFFSET+3] = errblk;
+
+    return(0);
+}
 
 int    check_header(int fd, hdrinfo *hdr)
 {
@@ -3015,6 +3075,10 @@ int    check_header(int fd, hdrinfo *hdr)
                 if (get_std71_header(fd, header))
                     return FD_BADIMAGE;
                 hdr->d71 = 1;
+            } else if (IS_D81_LEN(s.st_size)) {
+                if (get_std81_header(fd, header))
+                    return FD_BADIMAGE;
+                hdr->d81 = 1;
             } else {
                 if (import_GCR_image(header, hdr))
                     return FD_OK;

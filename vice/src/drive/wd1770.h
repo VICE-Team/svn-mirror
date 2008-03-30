@@ -51,6 +51,8 @@ typedef struct wd1770_s {
     BYTE data_buffer[512];
     /* Data register buffer index.  */
     int data_buffer_index;
+    /* LED delay.  */
+    CLOCK led_delay_clk;
 } wd1770_t;
 
 extern void REGPARM2 store_wd1770d0(ADDRESS addr, BYTE byte);
@@ -62,6 +64,9 @@ extern void REGPARM2 store_wd1770d1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_wd1770d1(ADDRESS addr);
 extern void reset_wd1770d1(void);
 extern void wd1770d1_prevent_clk_overflow(CLOCK sub);
+
+extern void wd1770_handle_job_code(int dnr);
+extern void wd1770_vsync_hook(void);
 
 #endif                          /* _WD1770_H */
 

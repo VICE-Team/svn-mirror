@@ -80,7 +80,7 @@ extern int cur_len, last_len;
 }
 
 %token<i> H_NUMBER D_NUMBER O_NUMBER B_NUMBER CONVERT_OP B_DATA
-%token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK CMD_SEP REG_ASGN_SEP EQUALS
+%token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK8 MEM_DISK9 CMD_SEP REG_ASGN_SEP EQUALS
 %token<i> CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token<i> CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
 %token<i> CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
@@ -297,7 +297,7 @@ opt_count: expression { $$ = $1; }
          | { $$ = -1; }
          ;
 
-breakpt_num: number { $$ = $1; }
+breakpt_num: D_NUMBER { $$ = $1; }
            | error { return ERR_EXPECT_BRKNUM; }
            ;
 
@@ -307,6 +307,11 @@ opt_address: address { $$ = $1; }
 
 address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_mode = 1; }
        | memspace memloc { $$ = new_addr($1,$2); if (opt_asm) new_cmd = asm_mode = 1; }
+       | LABEL { temp = mon_symbol_table_lookup_addr(e_default_space, $1); 
+                 if (temp >= 0)
+                    $$ = new_addr(e_default_space, temp);
+                 else
+                    printf("ERRR\n"); }
        ;
 
 opt_memspace: memspace { $$ = $1; }
@@ -314,7 +319,8 @@ opt_memspace: memspace { $$ = $1; }
             ;
 
 memspace: MEM_COMP { $$ = e_comp_space; }
-        | MEM_DISK { $$ = e_disk_space; }
+        | MEM_DISK8 { $$ = e_disk8_space; }
+        | MEM_DISK9 { $$ = e_disk9_space; }
         ;
 
 memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; }

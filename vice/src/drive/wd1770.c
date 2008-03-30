@@ -26,7 +26,7 @@
 
 /* FIXME: wd1770 support is far from being complete.  */
 
-#define WD_DEBUG
+#undef WD_DEBUG
 
 #include "vice.h"
 
@@ -34,6 +34,8 @@
 #include <stdio.h>
 #endif
 
+#include "drive.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "wd1770.h"
 
@@ -99,14 +101,18 @@ void wd1770d0_prevent_clk_overflow(CLOCK sub)
         wd1770[0].busy_clk -= sub;
     if (wd1770[0].motor_spinup_clk > (CLOCK) 0)
         wd1770[0].motor_spinup_clk -= sub;
+    if (wd1770[0].led_delay_clk > (CLOCK) 0)
+        wd1770[0].led_delay_clk -= sub;
 }
 
 void wd1770d1_prevent_clk_overflow(CLOCK sub)
 {
     if (wd1770[1].busy_clk > (CLOCK) 0)
         wd1770[1].busy_clk -= sub;
-    if (wd1770[0].motor_spinup_clk > (CLOCK) 0)
-        wd1770[0].motor_spinup_clk -= sub;
+    if (wd1770[1].motor_spinup_clk > (CLOCK) 0)
+        wd1770[1].motor_spinup_clk -= sub;
+    if (wd1770[1].led_delay_clk > (CLOCK) 0)
+        wd1770[1].led_delay_clk -= sub;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -214,6 +220,7 @@ static void reset_wd1770(int dnr)
 
     wd1770[dnr].busy_clk = (CLOCK)0;
     wd1770[dnr].motor_spinup_clk = (CLOCK)0;
+    wd1770[dnr].led_delay_clk = (CLOCK)0;
     wd1770[dnr].current_track = 20;
     wd1770[dnr].data_buffer_index = -1;
 
@@ -318,5 +325,121 @@ static void wd1770_command_readtrack(BYTE command, int dnr)
 static void wd1770_command_writetrack(BYTE command, int dnr)
 {
 
+}
+
+/*-----------------------------------------------------------------------*/
+/* WD1770 job code emulation.  */
+
+int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
+{
+    int rc, i, base;
+    BYTE sector_data[256];
+
+    rc = floppy_read_block(drive[dnr].drive_floppy->ActiveFd,
+                           drive[dnr].drive_floppy->ImageFormat,
+                           sector_data, track, sector,
+                           drive[dnr].drive_floppy->D64_Header);
+    if (rc < 0) {
+        fprintf(stderr, 
+                "DRIVE#%i: Error reading T:%d S:%d from the disk image\n",
+                dnr + 8, track, sector);
+        return 2;
+    }
+    base = (buffer << 8) + 0x300;
+    for (i = 0; i < 256; i++) {
+        if (dnr == 0)
+            drive0_store((ADDRESS) (base + i), sector_data[i]);
+        else
+            drive1_store((ADDRESS) (base + i), sector_data[i]);
+    }
+    return 0;
+}
+
+int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
+{
+    int rc, i, base;
+    BYTE sector_data[256];
+
+    base = (buffer << 8) + 0x300;
+    for (i = 0; i < 256; i++) {
+        if (dnr == 0)
+            sector_data[i] = drive0_read((ADDRESS) (base + i));
+        else
+            sector_data[i] = drive1_read((ADDRESS) (base + i));
+    }
+    rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
+                            drive[dnr].drive_floppy->ImageFormat,
+                            sector_data, track, sector,
+                            drive[dnr].drive_floppy->D64_Header);
+    if (rc < 0) {
+        fprintf(stderr,
+                "DRIVE#%i: Could not update T:%d S:%d.\n",
+                 dnr + 8, track, sector);
+        return 2;
+    }
+    return 0;
+}
+
+void wd1770_handle_job_code(int dnr)
+{
+    int buffer;
+    BYTE command, track, sector;
+    BYTE rcode = 0;
+
+    for (buffer = 0; buffer <= 8; buffer++) {
+        if (dnr == 0) {
+            command = drive0_read((ADDRESS) (0x02 + buffer));
+            track = drive0_read((ADDRESS) (0x0b + (buffer << 1)));
+            sector = drive0_read((ADDRESS) (0x0c + (buffer << 1)));
+        } else {
+            command = drive1_read((ADDRESS) (0x02 + buffer));
+            track = drive1_read((ADDRESS) (0x0b + (buffer << 1)));
+            sector = drive1_read((ADDRESS) (0x0c + (buffer << 1)));
+        }
+        if (command & 0x80) {
+#ifdef WD_DEBUG
+            printf("WD1770 Buffer:%i Command:%x T:%i S:%i\n",
+            buffer, command, track, sector);
+#endif
+            if (drive[dnr].drive_floppy != NULL
+                && drive[dnr].drive_floppy->ImageFormat == 1581) {
+                drive[dnr].current_half_track = track * 2;
+                switch (command) {
+                  case 0x80:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = wd1770_job_code_read(dnr, track, sector, buffer);
+                    break;
+                  case 0x90:
+                    wd1770[dnr].led_delay_clk = drive_clk[dnr];
+                    rcode = wd1770_job_code_write(dnr, track, sector, buffer);
+                    break;
+                  default:
+                    rcode = 0;
+                }
+            } else
+                rcode = 2;
+
+            if (dnr == 0)
+                drive0_store((ADDRESS) (2 + buffer), rcode);
+            else
+                drive1_store((ADDRESS) (2 + buffer), rcode);
+        }
+    }
+}
+
+void wd1770_vsync_hook(void)
+{
+    if (drive[0].type == DRIVE_TYPE_1581) {
+        if (wd1770[0].led_delay_clk != (CLOCK)0)
+            if (drive_clk[0] - wd1770[0].led_delay_clk > 1000000)
+                wd1770[0].led_delay_clk = (CLOCK)0;
+        drive[0].led_status = (wd1770[0].led_delay_clk == (CLOCK) 0) ? 0 : 1;
+    }
+    if (drive[1].type == DRIVE_TYPE_1581) {
+        if (wd1770[1].led_delay_clk != (CLOCK)0)
+            if (drive_clk[1] - wd1770[1].led_delay_clk > 1000000)
+                wd1770[1].led_delay_clk = (CLOCK)0;
+        drive[1].led_status = (wd1770[1].led_delay_clk == (CLOCK) 0) ? 0 : 1;
+    }
 }
 

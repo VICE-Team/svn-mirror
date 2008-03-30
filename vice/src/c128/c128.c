@@ -286,7 +286,8 @@ int machine_init(void)
 #endif
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface);
+    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
+                 &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(C128_PAL_RFSH_PER_SEC, C128_PAL_CYCLES_PER_SEC, vsync_hook);

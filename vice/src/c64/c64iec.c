@@ -251,14 +251,14 @@ iec_info_t *iec_get_drive_port(void)
 void parallel_cable_drive0_write(BYTE data, int handshake)
 {
     if (handshake)
-	cia2_set_flag();
+        cia2_set_flag();
     parallel_cable_drive0_value = data;
 }
 
 void parallel_cable_drive1_write(BYTE data, int handshake)
 {
     if (handshake)
-    cia2_set_flag();
+        cia2_set_flag();
     parallel_cable_drive1_value = data;
 }
 

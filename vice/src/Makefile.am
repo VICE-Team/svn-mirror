@@ -180,9 +180,9 @@ x64_LDADD = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
         @X_LIBS@ $(READLINE) @LEXLIB@
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(drive_lib) $(sid_lib) \
-	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	@RESID_LIBS@ $(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
-x64-all: libc64 libsounddrv libdrive libarch libsid x64
+x64-all: libc64 libsounddrv libdrive libarch libsid @RESID_DEP@ x64
 
 # x128
 x128_SOURCES = $(base_sources)
@@ -190,10 +190,11 @@ x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(drive_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @ALLOCA@ @LIBOBJS@ \
-	@ARCH_LIBS@
+	$(rs232_printer_ldadd) $(drive_lib) $(sid_lib) @RESID_LIBS@ @ALLOCA@ \
+	@LIBOBJS@ @ARCH_LIBS@
 .PHONY: x128-all
-x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid x128
+x128-all: libc128 libc64c128 libsounddrv libdrive libarch libsid @RESID_DEP@ \
+	x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -219,9 +220,10 @@ xcbm2_LDADD = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
 	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
 	@X_LIBS@ $(READLINE)
 xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
-	$(rs232_printer_ldadd) $(sid_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
+	@ARCH_LIBS@
 .PHONY: xcbm2-all
-xcbm2-all: libcbm2 libsounddrv libarch libsid libdrive xcbm2
+xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
 
 # c1541
 c1541_SOURCES = \
@@ -248,7 +250,8 @@ petcat_SOURCES = \
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch libsid
+.PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
+	libsid @RESID_DEP@
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -270,6 +273,8 @@ libarch:
 	(cd arch && $(MAKE))
 libsid:
 	(cd sid && $(MAKE))
+libresid:
+	(cd resid && $(MAKE))
 
 maincpu.c: maincpu.def $(top_srcdir)/src/cpu-tmpl.c $(top_srcdir)/src/convio
 	@( echo "Rebuilding \`maincpu.c'..."; \

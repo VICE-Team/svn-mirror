@@ -40,4 +40,4 @@
 #define MYCIA1571 CIA1571D0
 #define MYCIA1581 CIA1581D0
 #define MYIDENTIFICATION DRIVE#8
-
+#define mymonspace e_disk8_space

@@ -77,9 +77,6 @@ struct cpu_int_status drive0_int_status;
 /* Value of clk for the last time drive0_cpu_execute() was called.  */
 static CLOCK last_clk;
 
-/* Emulate drive until this clock value is reached.  */
-static CLOCK stop_clk = 0;
-
 /* Number of cycles in excess we executed last time drive0_cpu_execute()
    was called.  */
 static CLOCK last_exc_cycles;
@@ -184,13 +181,13 @@ static void REGPARM2 drive0_store_free(ADDRESS address, BYTE value)
 
 static BYTE REGPARM1 drive0_read_watch(ADDRESS address)
 {
-    mon_watch_push_load_addr(address, e_disk_space);
+    mon_watch_push_load_addr(address, e_disk8_space);
     return read_func_nowatch[address>>10](address);
 }
 
 static void REGPARM2 drive0_store_watch(ADDRESS address, BYTE value)
 {
-    mon_watch_push_store_addr(address, e_disk_space);
+    mon_watch_push_store_addr(address, e_disk8_space);
     store_func_nowatch[address>>10](address, value);
 }
 /* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
@@ -387,7 +384,7 @@ void drive0_cpu_reset(void)
 {
     int preserve_monitor;
 
-    drive_clk[0] = stop_clk = 0;
+    drive_clk[0] = 0;
     last_clk = clk;
     last_exc_cycles = 0;
 
@@ -458,10 +455,15 @@ inline static int drive0_trap_handler(void)
         MOS6510_REGS_SET_PC(&drive0_cpu_regs, 0xebff);
         if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE)
             drive_clk[0] = next_alarm_clk(&drive0_int_status);
-        } else
-            return 1;
-
-    return 0;
+        return 0;
+    }
+    if (MOS6510_REGS_GET_PC(&drive0_cpu_regs) == 0xc0be) {
+        /* 1581 job code */
+        MOS6510_REGS_SET_PC(&drive0_cpu_regs, 0xc197);
+        wd1770_handle_job_code(0);
+        return 0;
+    }
+    return 1;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -493,6 +495,7 @@ void drive0_cpu_execute(void)
         cycles = 0;
 
     while (cycles > 0) {
+        CLOCK stop_clk;
 	if (cycles > MAX_TICKS) {
 	    stop_clk = (drive_clk[0] + clk_conv_table[MAX_TICKS]
 			- last_exc_cycles);
@@ -509,9 +512,8 @@ void drive0_cpu_execute(void)
 	    cycle_accum -= 0x10000;
 	    stop_clk++;
 	}
-    }
 
-    while (drive_clk[0] < stop_clk) {
+        while (drive_clk[0] < stop_clk) {
 
 #ifdef IO_AREA_WARNING
 #warning IO_AREA_WARNING
@@ -537,7 +539,7 @@ void drive0_cpu_execute(void)
 
 #define ROM_TRAP_HANDLER() drive0_trap_handler()
 
-#define CALLER e_disk_space
+#define CALLER e_disk8_space
 
 #define _drive_set_byte_ready(value) drive[0].byte_ready = value
 
@@ -547,9 +549,10 @@ void drive0_cpu_execute(void)
 
 #include "6510core.c"
 
+        }
+    last_exc_cycles = drive_clk[0] - stop_clk;
     }
 
-    last_exc_cycles = drive_clk[0] - stop_clk;
     last_clk = clk;
     drive0_cpu_sleep();
 }

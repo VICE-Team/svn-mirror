@@ -208,7 +208,8 @@ int machine_init(void)
     drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface,  &drive0_monitor_interface);
+    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
+                 &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(cbm2_rfsh_per_sec, C610_PAL_CYCLES_PER_SEC, vsync_hook);

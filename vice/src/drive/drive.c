@@ -66,6 +66,7 @@
 #include "utils.h"
 #include "ui.h"
 #include "snapshot.h"
+#include "wd1770.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -81,6 +82,8 @@ static void drive_set_ntsc_sync_factor(void);
 static void drive_set_pal_sync_factor(void);
 static int set_drive0_idling_method(resource_value_t v);
 static int set_drive1_idling_method(resource_value_t v);
+static void drive_initialize_rom_traps(int dnr);
+static int drive_check_image_format(int format, int dnr);
 
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
@@ -149,12 +152,17 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
         drive[0].type = type;
+        if (drive[0].drive_floppy != NULL
+            && drive_check_image_format(drive[0].drive_floppy->ImageFormat,
+            0) < 0)
+            detach_floppy_image(drive[0].drive_floppy);
         if (drive_true_emulation) {
             drive[0].enable = 1;
             drive_enable(0);
             iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 0);
+        drive_initialize_rom_traps(0);
         set_drive0_idling_method((resource_value_t) drive[0].idling_method);
         return 0;
       case DRIVE_TYPE_NONE:
@@ -188,12 +196,17 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
         drive[1].type = type;
+        if (drive[1].drive_floppy != NULL
+            && drive_check_image_format(drive[1].drive_floppy->ImageFormat,
+            1) < 0)
+            detach_floppy_image(drive[1].drive_floppy);
         if (drive_true_emulation) {
             drive[1].enable = 1;
             drive_enable(1);
             iec_calculate_callback_index();
         }
         drive_set_disk_drive_type(type, 1);
+        drive_initialize_rom_traps(1);
         set_drive1_idling_method((resource_value_t) drive[1].idling_method);
         return 0;
       case DRIVE_TYPE_NONE:
@@ -540,7 +553,6 @@ inline static BYTE drive_sync_found(drive_t *dptr);
 inline static BYTE drive_write_protect_sense(drive_t *dptr);
 static int drive_load_rom_images(void);
 static void drive_setup_rom_image(int dnr);
-static void drive_initialize_rom_traps(int dnr);
 static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
@@ -1145,12 +1157,26 @@ static void drive_initialize_rom_traps(int dnr)
         drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
 
         if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-        drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
-        drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
-        drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
-        drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
-        drive[dnr].rom[0xec9b - 0x8000] = 0x00;
+            drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
+            drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
+            drive[dnr].rom[0xec9b - 0x8000] = 0x00;
         }
+    }
+
+    if (drive[dnr].type == DRIVE_TYPE_1581) {
+        /* Save the ROM check.  */
+        /*drive[dnr].rom_checksum[0] = drive[dnr].rom[0xeae4 - 0x8000];
+        drive[dnr].rom_checksum[1] = drive[dnr].rom[0xeae5 - 0x8000];
+        drive[dnr].rom_checksum[2] = drive[dnr].rom[0xeae8 - 0x8000];
+        drive[dnr].rom_checksum[3] = drive[dnr].rom[0xeae9 - 0x8000];*/
+        /* Save the idle trap.  */
+        /*drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];*/
+        drive[dnr].rom[0xaf6f - 0x8000] = 0x4c;
+        drive[dnr].rom[0xaf70 - 0x8000] = 0xca;
+        drive[dnr].rom[0xaf71 - 0x8000] = 0xaf;
+        drive[dnr].rom[0xc0be - 0x8000] = 0x00;
     }
 }
 
@@ -1248,19 +1274,42 @@ void drive_reset(void)
 }
 
 /* ------------------------------------------------------------------------- */
+/* Check if the drive type matches the disk image type.  */
+static int drive_check_image_format(int format, int dnr)
+{
+    switch (format) {
+      case 1541:
+        if (drive[dnr].type != DRIVE_TYPE_1541
+            && drive[dnr].type != DRIVE_TYPE_1571
+            && drive[dnr].type != DRIVE_TYPE_2031)
+            return -1;
+        break;
+      case 1571:
+        if (drive[dnr].type != DRIVE_TYPE_1571)
+            return -1;
+        break;
+      case 1581:
+        if (drive[dnr].type != DRIVE_TYPE_1581)
+            return -1;
+        break;
+      default:
+        return -1;
+    }
+    return 0;
+}
 
 /* Attach a disk image to the true drive emulation. */
 int drive_attach_floppy(DRIVE *floppy)
 {
     int dnr;
 
-    if (floppy->ImageFormat != 1541 && floppy->ImageFormat != 1571)
-	return -1;
-
     if (floppy->unit != 8 && floppy->unit != 9)
-	return -1;
+        return -1;
 
     dnr = floppy->unit - 8;
+
+    if (drive_check_image_format(floppy->ImageFormat, dnr) < 0)
+        return -1;
 
     drive[dnr].drive_floppy = floppy;
     drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
@@ -1268,19 +1317,21 @@ int drive_attach_floppy(DRIVE *floppy)
     drive[dnr].attach_clk = drive_clk[dnr];
     drive[dnr].ask_extend_disk_image = 1;
 
-    if (drive[dnr].drive_floppy->GCR_Header != 0) {
-        if (!drive_read_image_gcr(dnr))
-            return -1;
-    } else {
-	if (setID(dnr) >= 0) {
-	    drive_read_image_d64_d71(dnr);
-	    drive[dnr].GCR_image_loaded = 1;
-	    return 0;
-	} else {
-	    return -1;
-	}
+    if (floppy->ImageFormat != 1581) {
+        if (drive[dnr].drive_floppy->GCR_Header != 0) {
+            if (!drive_read_image_gcr(dnr))
+                return -1;
+        } else {
+            if (setID(dnr) >= 0) {
+                drive_read_image_d64_d71(dnr);
+                drive[dnr].GCR_image_loaded = 1;
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+        drive[dnr].GCR_image_loaded = 1;
     }
-    drive[dnr].GCR_image_loaded = 1;
     return 0;
 }
 
@@ -1299,11 +1350,13 @@ int drive_detach_floppy(DRIVE *floppy)
         fprintf(stderr, "Whaaat?  Attempt for bogus drive detachment!\n");
         return -1;
     } else if (drive[dnr].drive_floppy != NULL) {
-	GCR_data_writeback(dnr);
-	drive[dnr].detach_clk = drive_clk[dnr];
-	drive[dnr].drive_floppy = NULL;
-	drive[dnr].GCR_image_loaded = 0;
-	memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
+        if (floppy->ImageFormat == 1541 || floppy->ImageFormat == 1571) {
+            GCR_data_writeback(dnr);
+            memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
+        }
+        drive[dnr].detach_clk = drive_clk[dnr];
+        drive[dnr].drive_floppy = NULL;
+        drive[dnr].GCR_image_loaded = 0;
     }
     return 0;
 }
@@ -1767,11 +1820,11 @@ void drive_update_ui_status(void)
 void drive_vsync_hook(void)
 {
     drive_update_ui_status();
-
     if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[0].enable)
-	drive0_cpu_execute();
+        drive0_cpu_execute();
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
-	drive1_cpu_execute();
+        drive1_cpu_execute();
+    wd1770_vsync_hook();
 }
 
 /* ------------------------------------------------------------------------- */

@@ -141,8 +141,9 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
  /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
  /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
 
-c:              { return MEM_COMP; }
-d:              { return MEM_DISK; }
+<BNAME,INITIAL>c:              { return MEM_COMP; }
+<BNAME,INITIAL>8:              { return MEM_DISK8; }
+<BNAME,INITIAL>9:              { return MEM_DISK9; }
 
 
 <*>[ \t]*
@@ -193,7 +194,7 @@ d:              { return MEM_DISK; }
 }
 
 <ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*          { yylval.str = stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }

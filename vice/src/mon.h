@@ -76,7 +76,8 @@ typedef enum t_memory_op MEMORY_OP;
 enum t_memspace {
    e_default_space = 0,
    e_comp_space,
-   e_disk_space,
+   e_disk8_space,
+   e_disk9_space,
    e_invalid_space
 };
 typedef enum t_memspace MEMSPACE;
@@ -203,9 +204,9 @@ typedef struct monitor_interface monitor_interface_t;
 #define STATE_BNAME    4
 
 #define FIRST_SPACE e_comp_space
-#define LAST_SPACE e_disk_space
+#define LAST_SPACE e_disk9_space
 
-#define NUM_MEMSPACES 3
+#define NUM_MEMSPACES 4
 #define DEFAULT_DISASSEMBLY_SIZE 40
 
 #define check_breakpoints(mem, addr) mon_check_checkpoint(mem, addr, breakpoints[mem])
@@ -248,7 +249,8 @@ extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 /* Function declarations */
 
 extern void monitor_init(monitor_interface_t *maincpu_interface,
-                         monitor_interface_t *true1541_interface_init);
+                         monitor_interface_t *drive8_interface_init,
+                         monitor_interface_t *drive9_interface_init);
 extern bool mon_force_import(MEMSPACE mem);
 extern void mon_check_icount(ADDRESS a);
 extern void mon_check_watchpoints(ADDRESS a);
