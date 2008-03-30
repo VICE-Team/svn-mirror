@@ -84,14 +84,14 @@ void tui_init(void)
 int tui_num_lines(void)
 {
     if (text_mode_info.screenheight == 0)
-	tui_init();
+        tui_init();
     return text_mode_info.screenheight;
 }
 
 int tui_num_cols(void)
 {
     if (text_mode_info.screenwidth == 0)
-	tui_init();
+        tui_init();
     return text_mode_info.screenwidth;
 }
 
@@ -119,9 +119,9 @@ void tui_hline(int x, int y, BYTE c, int count)
 
     _farsetsel(_dos_ds);
     for (i = 0; i < count; i++) {
-	_farnspokeb(addr, c);
-	_farnspokeb(addr + 1, attr_byte);
-	addr += 2;
+        _farnspokeb(addr, c);
+        _farnspokeb(addr + 1, attr_byte);
+        addr += 2;
     }
 }
 
@@ -133,9 +133,9 @@ void tui_vline(int x, int y, BYTE c, int count)
 
     _farsetsel(_dos_ds);
     for (i = 0; i < count; i++) {
-	_farnspokeb(addr, c);
-	_farnspokeb(addr + 1, attr_byte);
-	addr += tui_num_cols();
+        _farnspokeb(addr, c);
+        _farnspokeb(addr + 1, attr_byte);
+        addr += tui_num_cols();
     }
 }
 
@@ -147,7 +147,7 @@ void tui_gotoxy(int x, int y)
 void tui_flush_keys(void)
 {
     while (kbhit())
-	getkey();
+        getkey();
 }
 
 void tui_display(int x, int y, int len, const char *format, ...)
@@ -162,7 +162,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
     buf = xmvsprintf(format, vl);
     buf_len = strlen(buf);
     if (len == 0)
-	len = buf_len;
+        len = buf_len;
     else if (buf_len > len)
         buf_len = len;
 
@@ -193,10 +193,10 @@ void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
     int i, j;
 
     if (*a == NULL) {
-	*a = xmalloc(sizeof (struct tui_area));
-	(*a)->mem = xmalloc(2 * width * height);
+        *a = xmalloc(sizeof (struct tui_area));
+        (*a)->mem = xmalloc(2 * width * height);
     } else {
-	(*a)->mem = xrealloc((*a)->mem, 2 * width * height);
+        (*a)->mem = xrealloc((*a)->mem, 2 * width * height);
     }
     (*a)->width = width;
     (*a)->height = height;
@@ -204,10 +204,10 @@ void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
     _farsetsel(_dos_ds);
 
     for (p = (*a)->mem, i = 0; i < height; i++) {
-	int addr = screen_addr(x, y + i);
+        int addr = screen_addr(x, y + i);
 
-	for (j = 0; j < 2 * width; j++)
-	    *(p++) = _farnspeekb(addr + j);
+        for (j = 0; j < 2 * width; j++)
+            *(p++) = _farnspeekb(addr + j);
     }
 }
 
@@ -219,18 +219,18 @@ void tui_area_put(tui_area_t a, int x, int y)
     _farsetsel(_dos_ds);
 
     for (i = 0; i < a->height; i++) {
-	int addr = screen_addr(x, y + i);
+        int addr = screen_addr(x, y + i);
 
-	for (j = 0; j < 2 * a->width; j++)
-	    _farnspokeb(addr + j, *(p++));
+        for (j = 0; j < 2 * a->width; j++)
+            _farnspokeb(addr + j, *(p++));
     }
 }
 
 void tui_area_free(tui_area_t a)
 {
     if (a != NULL) {
-	free(a->mem);
-	free(a);
+        free(a->mem);
+        free(a);
     }
 }
 
@@ -250,7 +250,7 @@ void tui_clear_screen(void)
 
     tui_set_attr(BACKPATTERN_FORE, BACKPATTERN_BACK, 0);
     for (i = 1; i < tui_num_lines() - 1; i++)
-	tui_hline(0, i, BACKCHAR, tui_num_cols());
+        tui_hline(0, i, BACKCHAR, tui_num_cols());
 }
 
 void tui_make_shadow(int x, int y, int width, int height)
@@ -259,23 +259,23 @@ void tui_make_shadow(int x, int y, int width, int height)
 
     _farsetsel(_dos_ds);
     for (i = 0; i < height; i++) {
-	int addr = screen_addr(x, y + i) + 1;
+        int addr = screen_addr(x, y + i) + 1;
 
-	for (j = 0; j < width; j++, addr += 2) {
-	    _farnspokeb(addr, make_attr(DARKGRAY, BLACK, 0));
-	}
+        for (j = 0; j < width; j++, addr += 2) {
+            _farnspokeb(addr, make_attr(DARKGRAY, BLACK, 0));
+        }
     }
 }
 
 void tui_display_window(int x, int y, int width, int height,
-			int foreground_color, int background_color,
-			const char *title, tui_area_t *backing_store)
+                        int foreground_color, int background_color,
+                        const char *title, tui_area_t *backing_store)
 {
     int i;
 
     if (backing_store != NULL) {
         /* 2 more chars on right, 1 more on bottom because of the "shadow".  */
-	tui_area_get(backing_store, x, y, width + 2, height + 1);
+        tui_area_get(backing_store, x, y, width + 2, height + 1);
     }
 
     tui_make_shadow(x + 2, y + 1, width, height);
@@ -288,17 +288,17 @@ void tui_display_window(int x, int y, int width, int height,
     tui_hline(x + 1, y + height - 1, 0xcd, width - 2);
     tui_put_char(x + width - 1, y + height - 1, 0xbc);
     for (i = 0; i < height - 2; i++) {
-	tui_put_char(x, y + i + 1, 0xba);
-	tui_hline(x + 1, y + i + 1, ' ', width - 2);
-	tui_put_char(x + width - 1, y + i + 1, 0xba);
+        tui_put_char(x, y + i + 1, 0xba);
+        tui_hline(x + 1, y + i + 1, ' ', width - 2);
+        tui_put_char(x + width - 1, y + i + 1, 0xba);
     }
 
-    if (title != NULL && *title != '\0') {
-	int title_x, title_length;
+    if (!util_check_null_string(title)) {
+        int title_x, title_length;
 
-	title_length = strlen(title);
-	title_x = x + (width - title_length - 4) / 2;
-	tui_display(title_x, y, 0, "\x10 %s \x11", title);
+        title_length = strlen(title);
+        title_x = x + (width - title_length - 4) / 2;
+        tui_display(title_x, y, 0, "\x10 %s \x11", title);
     }
 }
 
