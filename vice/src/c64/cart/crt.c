@@ -35,6 +35,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "cartridge.h"
+#include "comal80.h"
 #include "crt.h"
 #include "epyxfastload.h"
 #include "expert.h"
@@ -43,6 +44,8 @@
 #include "kcs.h"
 #include "magicformel.h"
 #include "resources.h"
+#include "ross.h"
+#include "stb.h"
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
@@ -185,6 +188,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         if (rc < 0)
             return -1;
         break;
+      case CARTRIDGE_COMAL80:
+        rc = comal80_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
       case CARTRIDGE_EPYX_FASTLOAD:
         rc = epyxfastload_crt_attach(fd, rawcart);
         fclose(fd);
@@ -217,6 +226,18 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         rc = magicformel_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_STRUCTURED_BASIC:
+        rc = stb_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_ROSS:
+        rc = ross_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

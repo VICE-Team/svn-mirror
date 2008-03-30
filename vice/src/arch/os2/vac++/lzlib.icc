@@ -8,7 +8,7 @@ option ProjectOptions =
    opt(inline, "yes"),
    opt(autoinline, "yes"), 
    info(cnd, "no"),
-   incl(searchpath, "..\\..\\..\\..\\..\\zlib")
+   incl(searchpath, "..\\zlib")
 {
    target "zlib.lib"
    {

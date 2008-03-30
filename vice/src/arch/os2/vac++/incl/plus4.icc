@@ -12,6 +12,7 @@ source type(c)
     "plus4iec.c",
     "plus4mem.c",
     "plus4memlimit.c",
+    "plus4memrom.c",
     "plus4memsnapshot.c",
     "plus4parallel.c",
     "plus4pio1.c",

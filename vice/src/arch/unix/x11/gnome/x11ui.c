@@ -2210,7 +2210,7 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
 static void ui_select_contents_cb(GtkWidget *w, int row, int col, 
 				  GdkEventButton *bevent, gpointer data)
 {
-    if (data)
+    if (data && bevent)
     {
 	ui_set_selected_file(row);
 	gtk_widget_grab_default(auto_start_button);

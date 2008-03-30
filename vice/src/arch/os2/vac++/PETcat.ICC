@@ -1,4 +1,4 @@
-option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
+option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     link(pmtype, "vio"),    gen(arch, "pentium"),
     link(debug, "no"),      gen(debug, "yes"),
     opt(level, "2"),        opt(tune, "pentium"),
@@ -7,10 +7,17 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
     info(ppt, "no"),        file(genobject, "Yes"),
     file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
+    incl(searchpath, "."),
     incl(searchpath, ".."),
+    incl(searchpath, "..\\lpng"),
+    incl(searchpath, "..\\zlib"),
+    incl(searchpath, "..\\dialogs"),
+    incl(searchpath, "..\\snippets"),
     incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
+    incl(searchpath, "..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\vdrive"),
     incl(searchpathfirst, "yes"),
     define("__PETCAT__", )
@@ -19,7 +26,18 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
 target type(exe) "..\\..\\..\\..\\data\\PETcat.exe"
 {
       source type(c) "petcat.c",
-                     "p00.c"
+                     "p00.c",
+                     "util.c",
+                     "lib.c",
+                     "rawfile.c",
+                     "cbmdos.c",
+                     "ioutil.c",
+                     "log.c",
+                     "archdep.c",
+                     "dlg-cmdopt.c",
+                     "pmwin2.c",
+                     "resources.c",
+                     "dirport.c"
 }
 }
 

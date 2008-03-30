@@ -7,11 +7,15 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     info(ppt, "no"),        file(genobject, "Yes"),
     file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
+    incl(searchpath, ".."),
     incl(searchpath, "..\\.."),
     incl(searchpath, "..\\..\\ui"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
+    incl(searchpath, "..\\..\\zlib"),
+    incl(searchpath, "..\\..\\lpng"),
     incl(searchpath, "..\\..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\cbm2"),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\crtc"),
@@ -34,8 +38,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
     define("__XCBM__", ),
     res_rc_options("-i ..\\..\\dialogs -x1 -d __XCBM__")
@@ -45,10 +47,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type (lib)
             "mmpm2.lib",
             "..\\..\\..\\..\\..\\data\\vice2.lib"
-        source type (dll)
-            "..\\..\\..\\..\\..\\data\\vice2.dll"
 
         source type(c)
+            "cbm2-pet-dummy.c",
             "mouse.c",
             "mousedrv.c",
             "kbd-c610.c",

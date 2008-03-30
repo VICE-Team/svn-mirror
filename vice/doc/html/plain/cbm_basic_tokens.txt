@@ -1,9 +1,9 @@
 
-PETCAT version 2.08 PL 1					08 Sep 2005
+PETCAT version 2.11 PL 1					16 Oct 2005
 
 
   Listed below are keywords and token codes for all CBM Basic versions
-  supported on petcat v2.08 PL 1. They include the following:
+  supported on petcat v2.11 PL 1. They include the following:
  
 	Basic 1.0
 	Basic 2.0
@@ -18,6 +18,10 @@ PETCAT version 2.08 PL 1					08 Sep 2005
 	Basic 2.0 with Turtle basic
 	Basic 2.0 with Mighty basic
 	Basic 2.0 with Pegasus basic 4.0
+	Basic 2.0 with Xbasic
+	Basic 2.0 with Drago basic 2.2
+	Basic 2.0 with REU-basic
+        Basic 2.0 with Basic Lightning
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 3.5
@@ -475,6 +479,72 @@ fc                                 ]       ypos        vpeek
 fd                                 hard    sound       row
 fe                                 exit    joy         joy
 
+
+
+  Xbasic            Keywords (Tokens CC - EC)
+  Drago basic 2.2   Keywords (Tokens CC - D8)
+  REU-basic         Keywords (Tokens CC - DA)
+  Basic Lightning   Keywords (Tokens CC - FE)
+
+Token  Xbasic    Drago    REU    Light
+
+cc     sprat     punkt    push   else
+cd     brdr      linia    pull   hex$
+ce     screen    rysuj    flip   deek
+cf     quit      param    rec    true
+
+d0     sprmult   kontur   stash  import
+d1     move      anim     fetch  cfn
+d2     sprite    kolor    swap   size
+d3     asprite   puwid    reu    false
+d4     dsprite   ryselip  size   ver$
+d5     sid       koguma   dir    lpx
+d6     envelope  fiut     @      lpy
+d7     gate      figura   kill   common%
+
+d8     frq       figuma   rom    crow
+d9     wave               ram    ccol
+da     vol                move   atr
+db     fcut                      inc
+dc     fmode                     num
+dd     filter                    row2
+de     frsn                      col2
+df     cset                      spn2
+
+e0     multi                     hgt
+e1     extnd                     wid
+e2     locate                    row
+e3     center                    col
+e4     hires                     spn
+e5     line                      task
+e6     hprnt                     halt
+e7     plot                      repeat
+
+e8     text                      until
+e9     clear                     while
+ea     colr                      wend
+eb     stick                     cif
+ec     btn                       celse
+ed                               cend
+ee                               label
+ef                               doke
+
+f0                               exit
+f1                               allocate
+f2                               disable
+f3                               pull
+f4                               dload
+f5                               dsave
+f6                               var
+f7                               local
+
+f8                               procend
+f9                               proc
+fa                               casend
+fb                               of
+fc                               case
+fd                               rpt
+fe                               setatr
 
 
  Simon's Basic Keywords

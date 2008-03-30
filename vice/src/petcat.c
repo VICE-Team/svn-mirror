@@ -50,7 +50,11 @@
  * support for graphics-basic extensions to c64 2.0 basic and
  * support for WS (WohnzimmerSoft) basic extensions to c64 2.0 basic and
  * support for Mighty basic extensions to vic20 2.0 basic and
- * support for Pegasus basic 4.0 extensions to c64 2.0 basic by
+ * support for Pegasus basic 4.0 extensions to c64 2.0 basic and
+ * support for X-basic extensions to c64 2.0 basic and
+ * support for Drago basic 2.2 extensions to c64 2.0 basic and
+ * support for REU-basic extensions to c64 2.0 basic and
+ * support for Basic Lightning extensions to c64 2.0 basic by
  *   Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  */
@@ -71,7 +75,7 @@
 #include "types.h"
 
 
-#define PETCATVERSION   2.08
+#define PETCATVERSION   2.11
 #define PETCATLEVEL     1
 
 #define B_1              1
@@ -94,7 +98,10 @@
 #define B_WS            16
 #define B_MIGHTY        17
 #define B_PEG           18
-
+#define B_X             19
+#define B_DRAGO         20
+#define B_REU           21
+#define B_BASL          22
 
 /* Limits */
 
@@ -120,6 +127,11 @@
 #define NUM_WSCC        51      /* WS basic (c64) */
 #define NUM_MIGHTYCC    51      /* Mighty basic (vic20) */
 #define NUM_PEGCC       33      /* Pegasus basic 4.0 (c64) */
+#define NUM_XCC         33      /* Xbasic (c64) */
+#define NUM_DRAGOCC     13      /* Drago basic 2.2 (c64) */
+#define NUM_REUCC       14      /* REU-basic (c64) */
+#define NUM_BASLCC      51      /* Basic Lightning (c64) */
+
 
 #define MAX_COMM        0xCB    /* common for all versions */
 #define MAX_SECC        0xDD    /* VIC-20 extension */
@@ -137,6 +149,10 @@
 #define MAX_WSCC        0xFE    /* WS basic (c64) */
 #define MAX_MIGHTYCC    0xFE    /* Mighty basic (vic20) */
 #define MAX_PEGCC       0xEC    /* Pegasus basic 4.0 (c64) */
+#define MAX_XCC         0xEC    /* Xbasic (c64) */
+#define MAX_DRAGOCC     0xD8    /* Drago basic 2.2 (c64) */
+#define MAX_REUCC       0xDA    /* REU-basic (c64) */
+#define MAX_BASLCC      0xFE    /* Basic Lightning (c64) */
 
 #define MAX_KWCE        0x0A
 #define MAX_V7FE        0x26
@@ -183,7 +199,7 @@ static const char *cbmkeys[] = {
     "CBM-U", "CBM-O", "SHIFT-@", "CBM-F", "CBM-C", "CBM-X", "CBM-V", "CBM-B"
 };
 
-#define NUM_VERSIONS  18
+#define NUM_VERSIONS  22
 
 const char *VersNames[] = {
     "Basic 1.0",
@@ -206,6 +222,10 @@ const char *VersNames[] = {
     "Basic 2.0 with WS basic",
     "Basic 2.0 with Mighty basic",
     "Basic 2.0 with Pegasus basic 4.0",
+    "Basic 2.0 with Xbasic",
+    "Basic 2.0 with Drago basic 2.2",
+    "Basic 2.0 with REU-basic",
+    "Basic 2.0 with Basic Lightning",
     ""
 };
 
@@ -404,6 +424,44 @@ const char *pegbasickwcc[] = {
     "turtlex(", "turtley(", "turtleang"
 };
 
+
+/* Xbasic (c64) Keywords (Tokens CC - EC) -- Marco van den Heuvel */
+
+const char *xbasickwcc[] = {
+    "sprat",  "brdr",    "screen",  "quit",  "sprmult",  "move",
+    "sprite", "asprite", "dsprite", "sid",   "envelope", "gate",
+    "frq",    "wave",    "vol",     "fcut",  "fmode",    "filter",
+    "frsn",   "cset",    "multi",   "extnd", "locate",   "center",
+    "hires",  "line",    "hprnt",   "plot",  "text",     "clear",
+    "colr",   "stick",   "btn"
+};
+
+/* Drago basic 2.2 (c64) Keywords (Tokens CC - D8) -- Marco van den Heuvel */
+
+const char *dragobasickwcc[] = {
+    "punkt", "linia",   "rysuj",  "param", "kuntur", "anim", "kolor",
+    "puwid", "ryselip", "koguma", "fiut",  "figura", "figuma"
+};
+
+/* REU-basic (c64) Keywords (Tokens CC - DA) -- Marco van den Heuvel */
+
+const char *reubasickwcc[] = {
+    "push", "pull", "flip", "rec",  "stash", "fetch", "swap", "reu",
+    "size", "dir",  "@",    "kill", "rom",   "ram",   "move"
+};
+
+/* Basic Lightning (c64) Keywords (Tokens CC - FE) -- Marco van den Heuvel */
+
+const char *baslkwcc[] = {
+    "else",  "hex$",  "deek",     "true",    "import",  "cfn",   "size",
+    "false", "ver$",  "lpx",      "lpy",     "common%", "crow",  "ccol",
+    "atr",   "inc",   "num",      "row2",    "col2",    "spn2",  "hgt",
+    "wid",   "row",   "col",      "spn",     "task",    "halt",  "repeat",
+    "until", "while", "wend",     "cif",     "celse",   "cend",  "label",
+    "doke",  "exit",  "allocate", "disable", "pull",    "dload", "dsave",
+    "var",   "local", "procend",  "proc",    "casend",  "of",    "case",
+    "rpt",   "setatr"
+};
 
 /* Simon's Basic Keywords */
 
@@ -616,6 +674,10 @@ int main(int argc, char **argv)
                 "\tgraph\tBasic v2.0 with Graphics basic (C64)\n"
                 "\tWSB\tBasic v2.0 with WS basic (C64)\n"
                 "\tPegasus\tBasic v2.0 with Pegasus basic 4.0 (C64)\n"
+                "\tXbasic\tBasic v2.0 with Xbasic (C64)\n"
+                "\tDrago\tBasic v2.0 with Drago basic 2.2 (C64)\n"
+                "\tREU\tBasic v2.0 with REU-basic (C64)\n"
+                "\tLightning\tBasic v2.0 with Basic Lightning (C64)\n"
                 "\t4 -w4e\tPET Basic v4.0 program (PET/C64)\n"
                 "\t3\tBasic v3.5 program (C16)\n"
                 "\t7\tBasic v7.0 program (C128)\n"
@@ -904,6 +966,22 @@ static int parse_version(char *str)
         version = B_PEG;
         break;
 
+      case 'X':
+        version = B_X;
+        break;
+
+      case 'D':
+        version = B_DRAGO;
+        break;
+
+      case 'R':
+        version = B_REU;
+        break;
+
+      case 'L':
+        version = B_BASL;
+        break;
+
       default:
         fprintf (stderr, "\nUnimplemented version '%s'\n", str);
         version = -1;
@@ -1009,11 +1087,30 @@ static void list_keywords(int version)
             printf("%s\t", pegbasickwcc[n] /*, n + 0xcc*/);
         break;
 
+      case B_X:
+        for (n = 0; n < NUM_XCC; n++)
+            printf("%s\t", xbasickwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_DRAGO:
+        for (n = 0; n < NUM_DRAGOCC; n++)
+            printf("%s\t", dragobasickwcc[n] /*, n + 0xcc*/);
+        break;
+
+      case B_REU:
+        for (n = 0; n < NUM_REUCC; n++)
+            printf("%s\t", reubasickwcc[n] /*, n + 0xcc*/);
+
       case B_FC3:
         for (n = 0; n < NUM_FC3CC; n++)
             printf("%s\t", fc3kw[n] /*, n + 0xcc*/);
       break;
       
+      case B_BASL:
+        for (n = 0; n < NUM_BASLCC; n++)
+            printf("%s\t", baslkwcc[n] /*, n + 0xcc*/);
+      break;
+
     }  /* switch */
 
     printf("\n\n");
@@ -1234,6 +1331,26 @@ static int p_expand(int version, int addr, int ctrls)
                   case B_PEG:
                     if (c >= 0xcc && c <= MAX_PEGCC)
                         fprintf(dest, "%s", pegbasickwcc[c - 0xcc]);
+                    break;
+
+                  case B_X:
+                    if (c >= 0xcc && c <= MAX_XCC)
+                        fprintf(dest, "%s", xbasickwcc[c - 0xcc]);
+                    break;
+
+                  case B_DRAGO:
+                    if (c >= 0xcc && c <= MAX_DRAGOCC)
+                        fprintf(dest, "%s", dragobasickwcc[c - 0xcc]);
+                    break;
+
+                  case B_REU:
+                    if (c >= 0xcc && c <= MAX_REUCC)
+                        fprintf(dest, "%s", reubasickwcc[c - 0xcc]);
+                    break;
+
+                  case B_BASL:
+                    if (c >= 0xcc && c <= MAX_BASLCC)
+                        fprintf(dest, "%s", baslkwcc[c - 0xcc]);
                     break;
 
                   case B_4:             /* PET V4.0 */
@@ -1505,6 +1622,38 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                   case B_PEG:
                     if ((c = sstrcmp(p2 , pegbasickwcc, 0, NUM_PEGCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_X:
+                    if ((c = sstrcmp(p2 , xbasickwcc, 0, NUM_XCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_DRAGO:
+                    if ((c = sstrcmp(p2 , dragobasickwcc, 0, NUM_DRAGOCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_REU:
+                    if ((c = sstrcmp(p2 , reubasickwcc, 0, NUM_REUCC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
+                  case B_BASL:
+                    if ((c = sstrcmp(p2 , baslkwcc, 0, NUM_BASLCC)) !=KW_NONE) {
                         *p1++ = c + 0xcc;
                         p2 += kwlen;
                         match++;

@@ -7,10 +7,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     info(ppt, "no"),        file(genobject, "Yes"),
     file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
+    incl(searchpath, ".."),
     incl(searchpath, "..\\.."),
     incl(searchpath, "..\\..\\ui"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
+    incl(searchpath, "..\\..\\zlib"),
+    incl(searchpath, "..\\..\\lpng"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\..\\core"),
@@ -33,8 +36,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
     define("__X64__", ),
     res_rc_options("-i ..\\..\\dialogs -d __X64__ -x1")
@@ -45,9 +46,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "mmpm2.lib", // "zlib.lib", "png.lib"
             "..\\..\\..\\..\\..\\data\\vice2.lib"/*,
             "..\\..\\..\\..\\..\\data\\ipspy.lib"*/
-        source type (dll)
-            "..\\..\\..\\..\\..\\data\\vice2.dll"/*,
-            "..\\..\\..\\..\\..\\data\\ipspy.dll"*/
 
         source type(c)
             "maincpu.c",

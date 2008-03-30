@@ -7,10 +7,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     info(ppt, "no"),        file(genobject, "Yes"),
     file(genpch, "no"),     file(usepch, "no"),
     define("HAVE_CONFIG_H", ),
+    incl(searchpath, ".."),
     incl(searchpath, "..\\.."),
     incl(searchpath, "..\\..\\ui"),
     incl(searchpath, "..\\..\\kbd"),
     incl(searchpath, "..\\..\\dialogs"),
+    incl(searchpath, "..\\..\\zlib"),
+    incl(searchpath, "..\\..\\lpng"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\crtc"),
@@ -32,8 +35,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\video"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
     define("__XPET__", ),
     res_rc_options("-i ..\\..\\dialogs -x1 -d __XPET__")
@@ -43,10 +44,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type (lib)
             "mmpm2.lib",
             "..\\..\\..\\..\\..\\data\\vice2.lib"
-        source type (dll)
-            "..\\..\\..\\..\\..\\data\\vice2.dll"
 
         source type(c)
+            "cbm2-pet-dummy.c",
             "maincpu.c",
             "kbd-pet.c",
             "video-render-1x2.c"
