@@ -184,7 +184,8 @@
 #define IDM_CART_ATTACH_16KB            40042
 #define IDM_CART_ATTACH_AR              40043
 #define IDM_CART_ATTACH_AT              40044
-#define IDM_CART_ATTACH_SS4             40045
+#define IDM_CART_ATTACH_IEEE488         40045
+#define IDM_CART_ATTACH_SS4             40046
 #define IDM_CART_SET_DEFAULT            40058
 #define IDM_CART_DETACH                 40059
 #define IDM_CART_VIC20_8KB_2000         40060
@@ -244,6 +245,7 @@
 #define IDM_FLIP_REMOVE                 40171
 #define IDM_FLIP_NEXT                   40172
 #define IDM_FLIP_PREVIOUS               40173
+#define IDM_TOGGLE_REU                  40180
 
 
 // Next default values for new objects

@@ -1,3 +1,38 @@
+1999-07-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.52.
+
+	* vdc/vdc-mem.c (store_vdc): Added debugging messages.
+	(vdc_perform_fillcopy): Check VDC RAM limit.
+	(read_vdc): Implemented auto increment.
+
+	* vdc/vdc-draw.c (get_std_bitmap): Added register 26 support.
+
+	* raster/raster-cache.h (raster_cache_data_fill_const): New
+	function.
+
+	* arch/unix/xaw/c128ui.c: New VDC settings.
+
+	* vdc/vdc.h: Removed `VDC_ADDRESS_MASK'.
+
+	* vdc/vdc-resources.c, vdc/vdc-resources.h: New resource to set
+	the VDC memory size.
+
+	* vdc/vdc-cmdline-options.c: New command line options to set the
+	VDC memory size.
+
+	* c64/c64cartmem.c (cartridge_read_io2, cartridge_store_io2,
+	cartridge_attach, cartridge_detach, cartridge_init_config): Moved
+	IEEE488 cart access here.
+
+	* arch/unix/xaw/c64ui.c: Moved IEEE488 interface to cart section.
+
+	* arch/win32/res.h, arch/win32/resc64.rc, arch/win32/c64ui.c,
+	arch/msdos/c64ui.c: Added IEEE488 controls.
+
+	* arch/win32/res.h, arch/win32/resc64.rc, arch/win32/resc128.rc,
+	arch/win32/ui.c: Added REU UI controls.
+
 1999-07-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.51.

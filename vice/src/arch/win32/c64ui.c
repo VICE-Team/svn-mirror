@@ -98,6 +98,16 @@ int     type;
                 free(s);
             }
             break;
+        case IDM_CART_ATTACH_IEEE488:
+            type = CARTRIDGE_IEEE488;
+            if ((s = ui_select_file("Attach IEEE interface cartridge image",
+                "Raw IEEE488 interface cartridge image files (*.bin)\0*.bin\0"
+                "All files (*.*)\0*.*\0", hwnd)) != NULL) {
+                if (cartridge_attach_image(type, s) < 0)
+                    ui_error("Invalid cartridge image");
+                free(s);
+            }
+            break;
         case IDM_CART_ATTACH_SS4:
             type = CARTRIDGE_SUPER_SNAPSHOT;
             if ((s = ui_select_file("Attach Super Snapshot 4 cartridge image",

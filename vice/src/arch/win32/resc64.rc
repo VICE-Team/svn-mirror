@@ -59,6 +59,7 @@ BEGIN
             MENUITEM "Generic &16KB image...",      IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay image...",     IDM_CART_ATTACH_AR
             MENUITEM "Atomic &Power image...",      IDM_CART_ATTACH_AT
+            MENUITEM "&IEEE488 interface image...", IDM_CART_ATTACH_IEEE488
             MENUITEM "&Super Snapshot 4 image...",  IDM_CART_ATTACH_SS4
             MENUITEM SEPARATOR
             MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT
@@ -144,6 +145,8 @@ BEGIN
             MENUITEM "&PAL",                        IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
         END
+        MENUITEM SEPARATOR
+        MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
     END
     POPUP "&Settings"
     BEGIN

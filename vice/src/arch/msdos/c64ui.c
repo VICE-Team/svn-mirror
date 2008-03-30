@@ -98,6 +98,10 @@ static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
       "Attach an Atomic Power cartridge image",
       attach_cartridge_callback, (void *) CARTRIDGE_ATOMIC_POWER, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Attach _IEEE488 Interface Image...",
+      "Attach an IEEE488 interface cartridge image",
+      attach_cartridge_callback, (void *) CARTRIDGE_IEEE488, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Attach _Super Snapshot 4 Image...",
       "Attach an Super Snapshot 4 cartridge image",
       attach_cartridge_callback, (void *) CARTRIDGE_SUPER_SNAPSHOT, 0,
@@ -162,7 +166,6 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(REU)
 TUI_MENU_DEFINE_TOGGLE(EmuID)
-TUI_MENU_DEFINE_TOGGLE(IEEE488)
 
 static tui_menu_item_def_t special_menu_items[] = {
     { "--" },
@@ -173,10 +176,6 @@ static tui_menu_item_def_t special_menu_items[] = {
     { "512K _RAM Expansion Unit (C1750):",
       "Emulate auxiliary 512K RAM Expansion Unit",
       toggle_REU_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_IEEE488 Interface Emulation:",
-      "Emulate external IEEE488 interface",
-      toggle_IEEE488_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Emulator Identification:",
       "Allow programs to identify the emulator they are running on",

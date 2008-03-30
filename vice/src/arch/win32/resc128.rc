@@ -131,6 +131,8 @@ BEGIN
             MENUITEM "&PAL",                        IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC",                       IDM_SYNC_FACTOR_NTSC
         END
+        MENUITEM SEPARATOR
+        MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
     END
     POPUP "&Settings"
     BEGIN
