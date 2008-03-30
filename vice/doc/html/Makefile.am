@@ -1,6 +1,22 @@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
+	images/lastsite.gif \
+	images/new.gif \
+	images/nextsite.gif \
+	images/offmem.gif \
+	images/vice-logo.jpg \
+	images/vice-sublogo.jpg \
+	index.html \
+	plain/64doc.txt \
+	plain/BUGS \
+	plain/COPYING \
+	plain/NEWS \
+	plain/PETdoc.txt \
+	plain/TODO \
+	plain/cbm_basic_tokens.txt \
+	plain/drive_info.txt \
+	plain/serial.txt \
 	vice_1.html \
 	vice_2.html \
 	vice_3.html \

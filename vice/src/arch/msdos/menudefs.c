@@ -1221,15 +1221,15 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "(unstable)",
 #endif
             "",
+            "Copyright (c) 1998-2002 Andreas Boose",
+            "Copyright (c) 1998-2002 Tibor Biczo",
+            "Copyright (c) 1999-2002 Andreas Dehmel",
+            "Copyright (c) 1999-2002 Thomas Bretz",
+            "Copyright (c) 1999-2002 Andreas Matthies",
+            "Copyright (c) 1999-2002 Martin Pottendorfer",
+            "Copyright (c) 2000-2002 Markus Brenner",
+            "Copyright (c) 2000-2002 Spiro Trikaliotis",
             "Copyright (c) 1997-2001 Daniel Sladic",
-            "Copyright (c) 1998-2001 Andreas Boose",
-            "Copyright (c) 1998-2001 Tibor Biczo",
-            "Copyright (c) 1999-2001 Andreas Dehmel",
-            "Copyright (c) 1999-2001 Thomas Bretz",
-            "Copyright (c) 1999-2001 Andreas Matthies",
-            "Copyright (c) 1999-2001 Martin Pottendorfer",
-            "Copyright (c) 2000-2001 Markus Brenner",
-            "Copyright (c) 2000-2001 Spiro Trikaliotis",
 #ifdef HAVE_RESID
             "",
             "reSID engine:"
@@ -1237,7 +1237,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
 #endif
             "",
             "Official VICE homepage:",
-            "http://www.cs.cmu.edu/~dsladic/vice/vice.html",
+            "http://viceteam.bei.t-online.de/",
 #ifdef UNSTABLE
             "",
             "WARNING: this is an *unstable* test version!",

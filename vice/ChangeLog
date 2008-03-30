@@ -1,3 +1,21 @@
+2002-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.60.
+
+	* doc/html/index.html, doc/html/plain/64doc.txt,
+	doc/html/plain/BUGS, doc/html/plain/COPYING,
+	doc/html/plain/NEWS, doc/html/plain/PETdoc.txt,
+	doc/html/plain/TODO, doc/html/plain/cbm_basic_tokens.txt,
+	doc/html/plain/drive_info.txt, doc/html/plain/serial.txt,
+	doc/html/images/vice-sublogo.jpg, doc/html/images/new.gif,
+	doc/html/images/nextsite.gif, doc/html/images/offmem.gif,
+	doc/html/images/vice-logo.jpg, doc/html/images/lastsite.gif:
+	New files taken from hoempage and moved here from other parts
+	of the emulator.
+
+	* FEEDBACK, README, vice.spec, doc/vice.texi, doc/Readme.dos:
+	Updated dates and URLs.
+
 2002-01-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.59.

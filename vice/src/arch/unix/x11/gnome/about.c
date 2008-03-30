@@ -59,23 +59,23 @@ void ui_about(gpointer data)
 #else
 	"The VICE Team",
 #endif
+        "Copyright @ 1998-2002 Andreas Boose\n",
+        "Copyright @ 1998-2002 Tibor Biczo\n",
+        "Copyright @ 1999-2002 Andreas Dehmel\n",
+        "Copyright @ 1999-2002 Thomas Bretz\n",
+        "Copyright @ 1999-2002 Andreas Matthies\n",
+        "Copyright @ 1999-2002 Martin Pottendorfer\n",
+        "Copyright @ 1998-2002 Dag Lem\n",
+        "Copyright @ 2000-2002 Markus Brenner\n",
+        "Copyright @ 2000-2002 Spiro Trikaliotis\n",
         "Copyright @ 1997-2001 Daniel Sladic\n",
-        "Copyright @ 1998-2001 Andreas Boose\n",
-        "Copyright @ 1998-2001 Tibor Biczo\n",
-        "Copyright @ 1999-2001 Andreas Dehmel\n",
-        "Copyright @ 1999-2001 Thomas Bretz\n",
-        "Copyright @ 1999-2001 Andreas Matthies\n",
-        "Copyright @ 1999-2001 Martin Pottendorfer\n",
-        "Copyright @ 1998-2001 Dag Lem\n",
-        "Copyright @ 2000-2001 Markus Brenner\n",
-        "Copyright @ 2000-2001 Spiro Trikaliotis\n",
-	"",
+        "",
 #ifdef __GNUC__
 	_("Official VICE homepage:"),
 #else
 	"Official VICE homepage:",
 #endif
-	"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
+	"http://viceteam.bei.t-online.de/",
 	NULL};
     if (!about)
     {

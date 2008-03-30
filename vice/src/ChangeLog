@@ -1,3 +1,45 @@
+2002-01-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.60.
+
+	* arch/unix/x11/gnome/about.c, arch/unix/x11/xaw/about.c,
+	c1541.c, arch/win32/res.rc, arch/msdos/menudefs.c,
+	arch/beos/ui.cc, arch/msdos/ui.c, arch/os2/install.cmd,
+	arch/os2/dialogs/dialogs.rc: Updated dates and URLs.
+
+2002-01-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: Pressing ESC while console_out()
+	returns -1
+
+	* arch/*/uimon.c: don't need a static buffer anymore (as it
+	has already been the case in the WIN32 und OS/2 versions
+
+	* monitor/mon_util.[ch]: added mon_out, which is a wrapper
+	around uimon_out() and handles a negative return value to
+	abort operations which last long
+
+	* monitor/mon_*.[cy]: use mon_out() instead of uimon_out()
+
+2002-01-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_ui.c: function determine_address_of_line() 
+	changed have_label of mon_disassembly_private structure, so
+	that at next processing, it could have wrong contents. Fixed.
+
+2002-01-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/vsidui.cc (vsid_ui_init): Creates a window
+	for the vsid informations.
+
+	* arch/{beos|msdos|os2|riscos|unix|win32}/vsidui.cc:
+	New function vsid_ui_close().
+
+	* c64/c64.c (machine_shutdown): Call vsid_ui_close when
+	in vsid mode.
+
+	* vsidui.h: New prototype for vsid_ui_close.
+
 2002-01-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.59.

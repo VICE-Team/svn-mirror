@@ -574,18 +574,18 @@ void ui_dispatch_events(void)
 				char *abouttext;
 				abouttext = concat(
 					"BeVICE Version ", VERSION,"\n",
-					"(c) 1997-2001 Daniel Sladic\n",
-					"(c) 1998-2001 Andreas Boose\n",
-					"(c) 1998-2001 Dag Lem\n",
-					"(c) 1998-2001 Tibor Biczo\n",
-					"(c) 1999-2001 Andreas Dehmel\n",
-					"(c) 1999-2001 Thomas Bretz\n",
-					"(c) 1999-2001 Andreas Matthies\n",
-					"(c) 1999-2001 Martin Pottendorfer\n",
-					"(c) 2000-2001 Markus Brenner\n",
-					"(c) 2000-2001 Spiro Trikaliotis\n",
+					"(c) 1998-2002 Andreas Boose\n",
+					"(c) 1998-2002 Dag Lem\n",
+					"(c) 1998-2002 Tibor Biczo\n",
+					"(c) 1999-2002 Andreas Dehmel\n",
+					"(c) 1999-2002 Thomas Bretz\n",
+					"(c) 1999-2002 Andreas Matthies\n",
+					"(c) 1999-2002 Martin Pottendorfer\n",
+					"(c) 2000-2002 Markus Brenner\n",
+					"(c) 2000-2002 Spiro Trikaliotis\n",
+                                        "(c) 1997-2001 Daniel Sladic\n",
 					"\nOfficial VICE homepage:\n",
-					"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
+					"http://viceteam.bei.t-online.de/",
 					NULL);
 				ui_message(abouttext);
 				free(abouttext);

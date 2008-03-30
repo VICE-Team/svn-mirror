@@ -58,8 +58,22 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright (C) 1998 Ettore Perazzoli, Daniel Sladic, Andr@'e
-Fachat, Andreas Boose.
+Copyright C 1998-2002 Andreas Boose
+Copyright C 1998-2002 Dag Lem
+Copyright C 1998-2002 Tibor Biczo
+Copyright C 1999-2002 Andreas Dehmel
+Copyright C 1999-2002 Thomas Bretz
+Copyright C 1999-2002 Andreas Matthies
+Copyright C 1999-2002 Martin Pottendorfer
+Copyright C 2000-2002 Markus Brenner
+Copyright C 2000-2002 Spiro Trikaliotis
+
+Copyright C 1997-2001 Daniel Sladic
+Copyright C 1996-1999 Ettore Perazzoli
+Copyright C 1996-1999 André Fachat
+Copyright C 1993-1994, 1997-1999 Teemu Rantanen
+Copyright C 1993-1996 Jouko Valta
+Copyright C 1993-1994 Jarkko Sonninen
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -81,7 +95,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.6 of VICE, the Versatile
+This is the documentation for version 1.8 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7552,7 +7566,7 @@ You can find the latest news about VICE at the official VICE
 home page:
 
 @example
-@uref{http://www.cs.cmu.edu/~dsladic/vice/vice.html}
+@uref{http://viceteam.bei.t-online.de/}
 @end example
 
 If you are going to report a bug, please check those pages @emph{first};
@@ -7611,7 +7625,7 @@ the VICE documentation (you are reading it!);
 @item
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
-@uref{http://www.cs.cmu.edu/~dsladic/vice/vice.html});
+@uref{http://viceteam.bei.t-online.de/});
 @item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).

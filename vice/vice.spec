@@ -9,7 +9,7 @@ Release: %rel
 Copyright: GPL
 Group: X11/Applications/Emulators
 Source: ftp://ftp.funet.fi/pub/cbm/crossplatform/emulators/VICE/vice-%{version}.tar.gz
-URL: http://www.cs.cmu.edu/%7Edsladic/vice/vice.html
+URL: http://viceteam.bei.t-online.de/
 Packager: Andreas Boose <boose@linux.rz.fh-hannover.de>
 Prefix: %{prefix}
 BuildRoot: /var/tmp/vice-build-root
@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 
-%doc AUTHORS BUGS COPYING FEEDBACK INSTALL NEWS README TODO
+%doc AUTHORS FEEDBACK INSTALL README
 
 %{prefix}/bin/x64
 %{prefix}/bin/x128
